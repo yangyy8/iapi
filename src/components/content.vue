@@ -67,11 +67,6 @@
 <script>
 export default {
   data() {
-     const item = {
-       date: '2016-05-02',
-       name: '王小虎',
-       address: '上海市普陀区金沙江路 1518 弄'
-     };
      return {
        sideWidth:'295px',
        isCollapse: false,
@@ -87,111 +82,44 @@ export default {
              {
                id:1,
                text:"名单比对报警",
-               name:"listAlarm"
+               name:"ProcessMDBJ"
              },
              {
                id:2,
-               text:"二次查控报警"
+               text:"二次查控报警",
+               name:"ProcessECBDBJ"
              },
              {
                id:3,
                text:"重点关注人员预报警"
+               name:"ProcessZDGZRY"
              },
 
            ]
          },
          {
            id:2,
-           text:"指令变更",
+           text:"常规业务处理",
            list:[
              {
                id:1,
-               text:"名单比对报警"
-             },
-             {
-               id:2,
-               text:"名单比对报警"
-             },
-             {
-               id:3,
-               text:"名单比对报警"
+               text:"指令变更",
+               name:"ProcessZLBG"
              },
 
            ]
          },
          {
            id:3,
-           text:"状态更新",
+           text:"备降航班处理",
            list:[
              {
                id:1,
-               text:"名单比对报警"
+               text:"航班状态变更",
+               name:"ProcessHBZT"
              },
-             {
-               id:2,
-               text:"名单比对报警"
-             },
-             {
-               id:3,
-               text:"名单比对报警"
-             },
-
            ]
          },
-         {
-           id:4,
-           text:"咨询处理",
-           list:[
-             {
-               id:1,
-               text:"名单比对报警"
-             },
-             {
-               id:2,
-               text:"名单比对报警"
-             },
-             {
-               id:3,
-               text:"名单比对报警"
-             },
-
-           ]
-         },
-         {
-           id:5,
-           text:"信息收发",
-           list:[
-             {
-               id:1,
-               text:"名单比对报警"
-             },
-             {
-               id:2,
-               text:"名单比对报警"
-             },
-             {
-               id:3,
-               text:"名单比对报警"
-             },
-
-           ]
-         },
-         {
-           id:6,
-           text:"人员查控",
-           list:[
-             {
-               id:1,
-               text:"名单比对报警"
-             },
-             {
-               id:2,
-               text:"名单比对报警"
-             },
-             {
-               id:3,
-               text:"名单比对报警"
-             },
 
            ]
          }
@@ -203,103 +131,43 @@ export default {
            list:[
              {
                id:1,
-               text:"基础信息查询",
-               name:"basicInformation"
+               text:"人员信息查询",
+               name:"QueryRYXX"
              },
              {
                id:2,
                text:"业务事件查询",
-               name:"BusinessEvents"
+               name:"QueryYWSJ"
              },
              {
                id:3,
-               text:"关联人员查询",
-               name:"associatedPersonnel"
+               text:"航班信息查询",
+               name:"QueryHBXX"
              },
              {
                id:4,
-               text:"航班座位查询"
+               text:"命中人员查询",
+               name:"QueryMZRY"
              },
              {
                id:5,
-               text:"信息综合查询"
+               text:"关联人员查询",
+               name:"QueryGLRY"
+             },
+             {
+               id:6,
+               text:"业务规则查询",
+               name:"QueryYWGZ"
+             },
+             {
+               id:7,
+               text:"校验比对结果查询",
+               name:"QueryJYBDJG"
              },
 
            ]
          },
-         {
-           id:2,
-           text:"可疑人员筛查",
-           list:[
-             {
-               id:1,
-               text:"名单比对报警"
-             },
-             {
-               id:2,
-               text:"名单比对报警"
-             },
-             {
-               id:3,
-               text:"名单比对报警"
-             },
-
-           ]
-         },
-         {
-           id:3,
-           text:"专题数据统计",
-           list:[
-             {
-               id:1,
-               text:"名单比对报警"
-             },
-             {
-               id:2,
-               text:"名单比对报警"
-             },
-             {
-               id:3,
-               text:"名单比对报警"
-             },
-
-           ]
-         },
-         {
-           id:4,
-           text:"预估质量评估",
-           list:[
-             {
-               id:1,
-               text:"名单比对报警"
-             },
-             {
-               id:2,
-               text:"名单比对报警"
-             },
-             {
-               id:3,
-               text:"名单比对报警"
-             },
-
-           ]
-         },
-         {
-           id:5,
-           text:"风险评估",
-           list:[
-             {
-               id:1,
-               text:"名单比对报警"
-             },
-             {
-               id:2,
-               text:"名单比对报警"
-             },
-             {
-               id:3,
-               text:"名单比对报警"
-             },
+       }
 
            ]
          }
@@ -312,23 +180,23 @@ export default {
              {
                id:1,
                text:"名单数据分析",
-               name:"listAnalysis"
+               name:"ListMDSJFX"
              },
              {
                id:2,
                text:"白名单管理",
-               name:"whitelist"
+               name:"ListBMD"
 
              },
              {
                id:3,
                text:"临控名单管理",
-               name:"ControlList"
+               name:"ListLKMD"
              },
              {
                id:4,
                text:"重点关注人员",
-               name:"FocusList"
+               name:"LIstZDGZRYMD"
              },
 
            ]
@@ -339,17 +207,183 @@ export default {
            list:[
              {
                id:1,
-               text:"名单比对报警"
+               text:"数据项校验规则管理",
+               name:"ListSJXJYGZ"
              },
              {
                id:2,
-               text:"名单比对报警"
+               text:"一般性规则管理",
+               name:"ListYBXGZ"
              },
              {
                id:3,
-               text:"名单比对报警"
+               text:"免签规则管理",
+               name:"ListMQGZ"
              },
 
+           ]
+         },
+
+       ],
+       nav1List4:[
+         {
+           id:1,
+           text:"全国监控",
+           list:[
+             {
+               id:1,
+               text:"全国航班实时监控",
+               name:"NationalHBSSJK"
+             },
+
+
+           ]
+         },
+
+
+       ],
+       nav1List5:[
+         {
+           id:1,
+           text:"机构管理",
+           list:[
+             {
+               id:1,
+               text:"部门管理",
+               name:"ManageBM"
+             },
+             {
+               id:2,
+               text:"用户管理",
+               name:"ManageYH"
+
+             },
+
+
+           ]
+         },
+         {
+           id:2,
+           text:"权限管理",
+           list:[
+             {
+               id:1,
+               text:"角色管理",
+               name:"ManageJS"
+             },
+             {
+               id:2,
+               text:"集中用户管理",
+               name:"ManageJZYH"
+             },
+             {
+               id:3,
+               text:"用户认证与登录",
+               name:"ManageDL"
+             },
+
+           ]
+         },
+
+       ],
+       nav1List6:[
+         {
+           id:1,
+           text:"运行状态监控",
+           list:[
+             {
+               id:1,
+               text:"服务器监控",
+               name:"MonitorFWQ"
+             },
+             {
+               id:2,
+               text:"数据库监控",
+               name:"MonitorSJK"
+
+             },
+             {
+               id:3,
+               text:"应用程序监控",
+               name:"MonitorYYCX"
+             },
+             {
+               id:4,
+               text:"接口服务监控",
+               name:"MonitorJKFW"
+             },
+             {
+               id:5,
+               text:"Redis监控",
+               name:"MonitorRedis"
+             },
+             {
+               id:6,
+               text:"MQ监控",
+               name:"MonitorMQ"
+             },
+             {
+               id:7,
+               text:"边界交换平台监控",
+               name:"MonitorBJJHPT"
+             },
+
+           ]
+         },
+         {
+           id:2,
+           text:"数据监控",
+           list:[
+             {
+               id:1,
+               text:"数据一致性监控",
+               name:"MonitorSJYZX"
+             },
+             {
+               id:2,
+               text:"技术网关监控",
+               name:"MonitorJSWG"
+             },
+             {
+               id:3,
+               text:"整合分发监控",
+               name:"MonitorZHFF"
+             },
+             {
+               id:4,
+               text:"数据定位",
+               name:"MonitorSJDW"
+             },
+
+           ]
+         },
+         {
+           id:3,
+           text:"日志监控",
+           list:[
+             {
+               id:1,
+               text:"日志监控",
+               name:"MonitorRZJK"
+             },
+
+           ]
+         },
+         {
+           id:4,
+           text:"性能监控",
+           list:[
+             {
+               id:1,
+               text:"校验比对性能监控",
+               name:"MonitorJYBDXN"
+             },
+             {
+               id:2,
+               text:"整合分发性能监控",
+               name:"MonitorZHFFXN"
+             },
+             
            ]
          },
 

@@ -13,5 +13,6 @@ export default {
 </script>
 
 <style>
-@import "assets/css/common.css"
+@import "assets/css/common.css";
+@import "assets/css/commony.css"
 </style>
