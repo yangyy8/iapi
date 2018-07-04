@@ -209,12 +209,12 @@ export default {
              {
                id:2,
                text:"业务事件查询",
-               name:"businessEvents"
-
+               name:"BusinessEvents"
              },
              {
                id:3,
-               text:"关联人员查询"
+               text:"关联人员查询",
+               name:"associatedPersonnel"
              },
              {
                id:4,

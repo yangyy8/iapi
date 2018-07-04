@@ -46,6 +46,21 @@ export default new Router({
           component:resolve =>require(['@/components/BusinessApplications/InformationInquiry/basicInformation'],resolve),
 
         },
+        // 关联人员查询---------------------------------------------------------------------------------------------------
+        {
+          path:"associatedPersonnel",
+          name:"associatedPersonnel",
+          component:resolve =>require(['@/components/BusinessApplications/InformationInquiry/associatedPersonnel'],resolve),
+
+        },
+
+        // 关联人员查询---------------------------------------------------------------------------------------------------
+        {
+          path:"businessEvents",
+          name:"BusinessEvents",
+          component:resolve =>require(['@/components/BusinessApplications/InformationInquiry/businessEvents'],resolve),
+
+        },
 
 
 // 业务管理===================================================================================================================================
