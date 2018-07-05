@@ -3,17 +3,17 @@
     <div class="middle-top mb-2">
 
       <el-row type="flex" class="middle">
-        <el-col :span="20" class="br">
+        <el-col :span="20" class="br pr-20">
           <div class="title-green">
             查询条件
           </div>
-          <el-row align="center" type="flex"  :gutter="2">
-            <el-col :sm="24" :md="2"></el-col>
-            <el-col  :sm="24" :md="7"  class="input-item">
+          <el-row align="center" type="flex"  :gutter="2" >
+
+            <el-col  :sm="24" :md="8"  class="input-item">
               <span class="input-text">航班号：</span>
               <el-input placeholder="请输入内容" size="small" v-model="pd.HBH"  class="input-input"></el-input>
             </el-col>
-            <el-col  :sm="24" :md="7"  class="input-item">
+            <el-col  :sm="24" :md="8"  class="input-item">
               <span class="input-text">航班日期：</span>
               <el-date-picker
                  v-model="HBRQ"
@@ -27,7 +27,7 @@
                  :picker-options="pickerOptions2" size="small">
                </el-date-picker>
             </el-col>
-            <el-col  :sm="24" :md="7"  class="input-item">
+            <el-col  :sm="24" :md="8"  class="input-item">
               <span class="input-text">所属航空公司：</span>
               <el-select v-model="sex" placeholder="请选择" size="small" class="input-input">
                  <el-option
@@ -41,9 +41,7 @@
           </el-row>
 
           <el-row align="center"  type="flex"  :gutter="2">
-            <el-col :sm="24" :md="2"></el-col>
-
-            <el-col  :sm="24" :md="7"  class="input-item">
+            <el-col  :sm="24" :md="8"  class="input-item">
               <span class="input-text">实际出发口岸：</span>
               <el-select v-model="sex" placeholder="请选择" size="small" class="input-input">
                  <el-option
@@ -56,9 +54,9 @@
 
             </el-col>
 
-            <el-col  :sm="24" :md="7"  class="input-item">
+            <el-col  :sm="24" :md="8"  class="input-item">
               <span class="input-text">计划到达口岸：</span>
-              <el-select v-model="state" placeholder="请选择"   size="small" class="input-input">
+              <el-select v-model="JHDDKA" placeholder="请选择"   size="small" class="input-input">
                  <el-option
                    v-for="item in options"
                    :key="item.value"
@@ -70,7 +68,7 @@
             </el-col>
           </el-row>
         </el-col>
-        <el-col :span="4" class="down-btn-area">
+        <el-col :span="4" class="down-btn-area" >
           <el-button type="success" size="small" @click="getList(CurrentPage,pageSize,pd)">查询</el-button>
 
         </el-col>
@@ -399,7 +397,7 @@ export default {
         label: 'SHA - 上海虹桥国际机场'
       }],
       sex: '',
-state:'',
+      JHDDKA: '',
       pickerOptions2: {
         shortcuts: [{
           text: '最近一周',

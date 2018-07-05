@@ -7,10 +7,10 @@
           <div class="title-green ">
             查询条件
           </div>
-          <el-row type="flex" justify="center" class="mb-6">
-            <el-col :span="5" class="input-item">
-              <span class="inpt-text">国籍：</span>
-              <el-select v-model="pd.NATIONALITY" @visible-change="queryNationality" multiple placeholder="请选择"  size="small">
+        <el-row align="center" type="flex"  :gutter="2" >
+          <el-col  :sm="24" :md="6"  class="input-item">
+              <span class="input-text">国籍：</span>
+              <el-select v-model="pd.NATIONALITY"  class="input-input" @visible-change="queryNationality" multiple placeholder="请选择"  size="small">
                 <el-option
                   v-for="item in nation"
                   :key="item.CODE"
@@ -19,40 +19,40 @@
                 </el-option>
               </el-select>
             </el-col>
-            <el-col :span="6" class="input-item">
-              <span class="inpt-text">证件号码：</span>
-              <el-input placeholder="请输入内容" size="small" v-model="pd.CARDNO"></el-input>
+            <el-col  :sm="24" :md="6"  class="input-item">
+              <span class="input-text">证件号码：</span>
+              <el-input placeholder="请输入内容" size="small" v-model="pd.CARDNO" class="input-input"></el-input>
             </el-col>
 
-            <el-col :span="6" class="input-item">
-              <span class="inpt-text">航班号：</span>
-              <el-input placeholder="请输入内容" size="small" v-model="pd.CARDNO"></el-input>
+          <el-col  :sm="24" :md="6"  class="input-item">
+              <span class="input-text">航班号：</span>
+              <el-input placeholder="请输入内容" size="small" v-model="pd.CARDNO" class="input-input"></el-input>
             </el-col>
-            <el-col :span="6" class="yy-input-item">
-              <span class="inpt-text">航班日期：</span>
+              <el-col  :sm="24" :md="6"  class="input-item">
+              <span class="input-text">航班日期：</span>
               <el-date-picker
                  v-model="HBRQ"
                  type="daterange"
                  align="right"
                  unlink-panels
-                 range-separator="至"
+                 range-separator="-"
                  start-placeholder="开始日期"
                  end-placeholder="结束日期"
-                 class="yy-flightDate"
+                  class="input-input block"
                  :picker-options="pickerOptions2" size="small">
                </el-date-picker>
             </el-col>
           </el-row>
 
-          <el-row type="flex" justify="center">
-            <el-col :span="5" class="input-item">
-              <span class="inpt-text">姓名：</span>
-              <el-input placeholder="请输入内容" size="small" v-model="pd.FAMILYNAME"></el-input>
+          <el-row align="center" type="flex"  :gutter="2" >
+            <el-col  :sm="24" :md="6"  class="input-item">
+              <span class="input-text">姓名：</span>
+              <el-input placeholder="请输入内容" size="small" v-model="pd.FAMILYNAME"   class="input-input"></el-input>
 
             </el-col>
-            <el-col :span="6" class="input-item">
-              <span class="inpt-text">性别：</span>
-              <el-select v-model="sex" placeholder="请选择" size="small">
+                      <el-col  :sm="24" :md="6"  class="input-item">
+              <span class="input-text">性别：</span>
+              <el-select v-model="sex" placeholder="请选择" size="small" class="input-input">
                  <el-option
                    v-for="item in options"
                    :key="item.value"
@@ -62,24 +62,24 @@
                </el-select>
 
             </el-col>
-            <el-col :span="6" class="yy-input-item">
-              <span class="inpt-text">出生日期：</span>
+              <el-col  :sm="24" :md="6"  class="input-item">
+              <span class="input-text">出生日期：</span>
 
                 <el-date-picker
                    v-model="CSRQ"
                    type="daterange"
                    align="right"
                    unlink-panels
-                   range-separator="至"
+                   range-separator="-"
                    start-placeholder="开始日期"
                    end-placeholder="结束日期"
-                   class="yy-flightDate"
+                  class="input-input block"
                    :picker-options="pickerOptions2" size="small">
                  </el-date-picker>
             </el-col>
-            <el-col :span="6" class="input-item">
-              <span class="inpt-text">反馈状态：</span>
-              <el-select v-model="state" placeholder="请选择"   size="small">
+              <el-col  :sm="24" :md="6"  class="input-item">
+              <span class="input-text">反馈状态：</span>
+              <el-select v-model="state" placeholder="请选择"   size="small" class="input-input">
                  <el-option
                    v-for="item in options"
                    :key="item.value"
@@ -209,28 +209,28 @@
       <el-form :model="form" ref="addForm">
         <el-row type="flex"  class="mb-6">
           <el-col :span="8" class="input-item">
-            <span class="inpt-text">国籍：</span>
+            <span class="input-text">国籍：</span>
             <el-input placeholder="请输入内容" size="small" v-model="form.NATIONALITY"></el-input>
 
           </el-col>
           <el-col :span="8" class="input-item">
-            <span class="inpt-text">证件种类：</span>
+            <span class="input-text">证件种类：</span>
             <el-input placeholder="请输入内容" size="small" v-model="form.CARDTYPE"></el-input>
           </el-col>
 
           <el-col :span="8" class="input-item">
-            <span class="inpt-text">证件号码：</span>
+            <span class="input-text">证件号码：</span>
             <el-input placeholder="请输入内容" size="small" v-model="form.CARDNO"></el-input>
           </el-col>
         </el-row>
         <el-row type="flex"  class="mb-6">
           <el-col :span="8" class="input-item">
-            <span class="inpt-text">姓名：</span>
+            <span class="input-text">姓名：</span>
             <el-input placeholder="请输入内容" size="small" v-model="form.FAMILYNAME"></el-input>
 
           </el-col>
           <el-col :span="8" class="input-item">
-            <span class="inpt-text">性别：</span>
+            <span class="input-text">性别：</span>
             <div class="el-input">
               <el-radio v-model="form.GENDER" label="M">男</el-radio>
               <el-radio v-model="form.GENDER" label="F">女</el-radio>
@@ -239,46 +239,46 @@
           </el-col>
 
           <el-col :span="8" class="input-item">
-            <span class="inpt-text">出生日期：</span>
+            <span class="input-text">出生日期：</span>
             <el-input placeholder="请输入内容" size="small" v-model="form.BIRTHDATE"></el-input>
           </el-col>
         </el-row>
         <el-row type="flex"  class="mb-6">
           <el-col :span="8" class="input-item">
-            <span class="inpt-text">航班号：</span>
+            <span class="input-text">航班号：</span>
             <el-input placeholder="请输入内容" size="small" v-model="form.NATIONALITY"></el-input>
 
           </el-col>
           <el-col :span="8" class="input-item">
-            <span class="inpt-text">入境口岸：</span>
+            <span class="input-text">入境口岸：</span>
             <el-input placeholder="请输入内容" size="small" v-model="form.WHITE_PORT"></el-input>
           </el-col>
 
           <el-col :span="8" class="input-item">
-            <span class="inpt-text">出境口岸：</span>
+            <span class="input-text">出境口岸：</span>
             <el-input placeholder="请输入内容" size="small" v-model="form.NATIONALITY"></el-input>
           </el-col>
         </el-row>
         <el-row type="flex" class="mb-6">
           <el-col :span="8" class="input-item">
-            <span class="inpt-text">起始日期：</span>
+            <span class="input-text">起始日期：</span>
             <el-input placeholder="请输入内容" size="small" v-model="form.CTL_BEGINDATE"></el-input>
 
           </el-col>
           <el-col :span="8" class="input-item">
-            <span class="inpt-text">终止日期：</span>
+            <span class="input-text">终止日期：</span>
             <el-input placeholder="请输入内容" size="small" v-model="form.CTL_EXPIREDATE"></el-input>
           </el-col>
         </el-row>
         <el-row type="flex" class="mb-6" >
           <el-col :span="23" class="input-item">
-            <span class="inpt-text">处理依据：</span>
+            <span class="input-text">处理依据：</span>
             <el-input placeholder="请输入内容" size="small" class="long-input" v-model="form.CTL_REASON"></el-input>
           </el-col>
         </el-row>
         <el-row type="flex">
           <el-col :span="23" class="input-item">
-            <span class="inpt-text">批准机关：</span>
+            <span class="input-text">批准机关：</span>
             <el-input placeholder="请输入内容" size="small" class="long-input" v-model="form.SUBORG_NAME"></el-input>
           </el-col>
         </el-row>
