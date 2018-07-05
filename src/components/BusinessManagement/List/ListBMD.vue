@@ -137,7 +137,7 @@
         <el-button type="warning" size="small" @click="releaseDialogVisible=true">生效发布</el-button>
         <el-button type="danger" size="small">历史资料</el-button>
       </el-row>
-      <el-table
+      <!-- <el-table
         :data="tableData"
         border
         style="max-width: 100%;"
@@ -193,7 +193,7 @@
             </div>
          </template>
         </el-table-column>
-      </el-table>
+      </el-table> -->
       <div class="middle-foot">
         <div class="page-msg">
           <div class="">

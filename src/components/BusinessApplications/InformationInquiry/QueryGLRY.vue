@@ -3,56 +3,53 @@
     <div class="middle-top mb-2">
 
       <el-row type="flex" class="middle">
-        <el-col :span="20" class="br">
+        <el-col :span="20" class="br pr-20">
           <div class="title-green ">
             查询条件
           </div>
-          <el-row type="flex" justify="center" class="mb-6">
-            <el-col :span="7" class="input-item name">
-              <span class="inpt-text">姓名：</span>
-              <el-input placeholder="请输入" size="small"></el-input>
+          <el-row align="center" :gutter="2">
+            <el-col :sm="24" :md="12" :lg="8" class="input-item">
+              <span class="input-text">姓名：</span>
+              <el-input  placeholder="请输入" size="small" class="input-input"></el-input>
             </el-col>
-            <el-col :span="7" class="input-item">
-              <span class="inpt-text">性别：</span>
-              <div class="el-input">
-                <el-radio v-model="radio" label="1">男</el-radio>
-                <el-radio v-model="radio" label="2">女</el-radio>
-              </div>
+            <el-col :sm="24" :md="12" :lg="8" class="input-item">
+              <span class="input-text">性别：</span>
+              <el-select  placeholder="请选择"  size="small"  class="input-input">
+                <el-option label="男" value="M"></el-option>
+                <el-option label="女" value="F"></el-option>
+                <el-option label="未知" value="U"></el-option>
+              </el-select>
             </el-col>
-            <el-col :span="9" class="input-item">
-              <span class="inpt-text">出生日期：</span>
+            <el-col :sm="24" :md="12" :lg="8" class="input-item">
+              <span class="input-text">出生日期：</span>
               <el-date-picker
                 v-model="value1"
                 type="date"
                 placeholder="选择日期"
-                size="small">
+                size="small"
+                class="input-input">
               </el-date-picker>
             </el-col>
-
-          </el-row>
-          <el-row type="flex" justify="center" class="mb-6">
-            <el-col :span="7" class="input-item">
-              <span class="inpt-text">国籍：</span>
-              <el-select v-model="value" placeholder="请选择"  size="small">
+            <el-col :sm="24" :md="12" :lg="8" class="input-item">
+              <span class="input-text">国籍：</span>
+              <el-select v-model="value" placeholder="请选择"  size="small" class="input-input">
                 <el-option>
                 </el-option>
               </el-select>
             </el-col>
-            <el-col :span="7" class="input-item">
-              <span class="inpt-text">证件号码：</span>
-            <el-input placeholder="请输入内容" size="small"></el-input>
+            <el-col :sm="24" :md="12" :lg="8" class="input-item">
+              <span class="input-text">证件号码：</span>
+            <el-input placeholder="请输入内容" size="small" class="input-input"></el-input>
             </el-col>
 
-            <el-col :span="9" class="input-item">
-              <span class="inpt-text">关联人员类别：</span>
-              <el-input placeholder="请输入内容" size="small"></el-input>
+            <el-col :sm="24" :md="12" :lg="8" class="input-item">
+              <span class="input-text">关联人员类别：</span>
+              <el-input placeholder="请输入内容" size="small" class="input-input"></el-input>
             </el-col>
 
-          </el-row>
-          <el-row type="flex" justify="left">
-            <el-col :span="12" class="input-item timeIntervalBetween">
-              <span class="inpt-text" style="padding-right:3px">同值机间隔时间:</span>
-              <el-input placeholder="请输入内容" size="small"></el-input>
+            <el-col :sm="24" :md="12" :lg="8" class="input-item">
+              <span class="input-text">同值机间隔时间:</span>
+              <el-input placeholder="请输入内容" size="small" class="input-input"></el-input>
             </el-col>
           </el-row>
         </el-col>
