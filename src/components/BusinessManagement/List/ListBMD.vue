@@ -144,7 +144,7 @@
         @selection-change="handleSelectionChange">
         <el-table-column
          type="selection"
-         width="40">
+         >
         </el-table-column>
         <el-table-column
           prop="RECORDNUMBER"

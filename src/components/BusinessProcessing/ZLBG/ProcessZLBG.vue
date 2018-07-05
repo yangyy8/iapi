@@ -110,66 +110,67 @@
          width="40">
         </el-table-column>
 
-        <el-table-column
-          prop="NATIONALITY"
-          label="国籍"
-          width="100">
 
-        </el-table-column>
-        <el-table-column
-          prop="CARDTYPE"
-          label="证件种类"
-          width="130">
-        </el-table-column>
-        <el-table-column
-          prop="CARDNO"
-          label="证件号码"
-          width="175">
-        </el-table-column>
-        <el-table-column
-          prop="FAMILYNAME"
-          label="姓名"
-          width="135">
-        </el-table-column>
-        <el-table-column
-          prop="GENDER"
-          label="性别"
-          width="70">
-        </el-table-column>
-        <el-table-column
-          prop="BIRTHdate"
-          label="出生日期"
-          width="140">
-        </el-table-column>
-        <el-table-column
-          prop="RECORDNUMBER"
-          label="航班号"
-          width="190">
-        </el-table-column>
-        <el-table-column
-          prop="cardEXPIREDATE"
-          label="航班日期"
-          width="120">
-        </el-table-column>
-        <el-table-column
-          prop="cardEXPIREDATE"
-          label="航班状态"
-          width="110">
-        </el-table-column>
-        <el-table-column
-          prop="cardEXPIREDATE"
-          label="直接状态"
-          width="110">
-        </el-table-column>
-        <el-table-column
-          label="操作">
-          <template slot-scope="scope">
-            <div class="flex-r">
+                <el-table-column
+                  prop="NATIONALITY"
+                  label="国籍"
+                  width="100">
 
-              <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row.SERIAL)">详情</el-button>
-            </div>
-         </template>
-        </el-table-column>
+                </el-table-column>
+                <el-table-column
+                  prop="CARDTYPE"
+                  label="证件种类"
+                  width="130">
+                </el-table-column>
+                <el-table-column
+                  prop="CARDNO"
+                  label="证件号码"
+                  width="175">
+                </el-table-column>
+                <el-table-column
+                  prop="FAMILYNAME"
+                  label="姓名"
+                  width="135">
+                </el-table-column>
+                <el-table-column
+                  prop="GENDER"
+                  label="性别"
+                  width="70">
+                </el-table-column>
+                <el-table-column
+                  prop="BIRTHdate"
+                  label="出生日期"
+                  width="140">
+                </el-table-column>
+                <el-table-column
+                  prop="RECORDNUMBER"
+                  label="航班号"
+                  width="190">
+                </el-table-column>
+                <el-table-column
+                  prop="cardEXPIREDATE"
+                  label="航班日期"
+                  width="120">
+                </el-table-column>
+                <el-table-column
+                  prop="cardEXPIREDATE"
+                  label="航班状态"
+                  width="110">
+                </el-table-column>
+                <el-table-column
+                  prop="cardEXPIREDATE"
+                  label="直接状态"
+                  width="110">
+                </el-table-column>
+                <el-table-column
+                  label="操作">
+                  <template slot-scope="scope">
+                    <div class="flex-r">
+
+                      <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row.SERIAL)">详情</el-button>
+                    </div>
+                 </template>
+                </el-table-column>
       </el-table>
       <div class="middle-foot">
         <div class="page-msg">
@@ -440,6 +441,7 @@ export default {
         label: '女'
       }],
       sex: '',
+
       pickerOptions2: {
         shortcuts: [{
           text: '最近一周',
