@@ -35,8 +35,6 @@
           <img src="../assets/img/spread_nor.png" alt="">
         </div>
       </el-aside>
-
-
       <el-main class="right-main">
         <ul class="tabList">
           <li class="tabList-item hand" :class="{'tabList-checked':nav2Id==i.id}" v-for="(i, index) in tabList">
@@ -51,14 +49,6 @@
         <div class="tab-content">
           <router-view></router-view>
         </div>
-        <!-- <el-table :data="tableData">
-          <el-table-column prop="date" label="日期" width="140">
-          </el-table-column>
-          <el-table-column prop="name" label="姓名" width="120">
-          </el-table-column>
-          <el-table-column prop="address" label="地址">
-          </el-table-column>
-        </el-table> -->
       </el-main>
     </el-container>
   </el-container>
@@ -480,6 +470,8 @@ export default {
   background-color: rgba(27, 92, 168, 0.502);
   border-radius: 8px;
   min-height: 830px;
+  display: flex;
+
 }
 .el-header {
     /* background-color: #B3C0D1; */
@@ -579,6 +571,7 @@ export default {
 
 
 .right-main{
+  min-width: 748px;
   padding: 0;
   position: relative;
   overflow: inherit !important;
@@ -589,7 +582,6 @@ export default {
   justify-content: flex-start;
   align-items: center;
   height: 36px;
-
   position: absolute;
   top:-36px;
 }

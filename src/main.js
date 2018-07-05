@@ -15,7 +15,7 @@ import router from './router'
 Vue.config.productionTip = false
 Vue.use(ElementUI);
 Vue.prototype.$api = api;
-// 
+//
 // router.beforeEach((to, from, next) => {
 //   console.log("to:",to);
 //   console.log("from:",from);

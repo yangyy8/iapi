@@ -6,6 +6,15 @@ ul,li,ol{
 .hand{
   cursor: pointer;
 }
+html,body{
+  width: 100%;
+}
+.el-table__body{
+    table-layout:auto !important;
+}
+.el-table{
+  overflow-x: auto;
+}
 thead tr,thead th{
   background-color: #858585 !important;
   color: #fff !important;
@@ -78,6 +87,10 @@ button{
   line-height: 32px;
   white-space: nowrap;
 }
+.input-text2{
+  line-height: 32px;
+
+}
 .input-input{
   width: 70%!important;
 }
@@ -91,15 +104,7 @@ button{
 .width-105{
   width: 105px;
 }
-/* .input-item input,.inpt-radio{
-  width: 210px !important;
-}
-.long-input{
-  width: 100% !important;
-}
-.long-input input{
-  width: 100% !important;
-} */
+
 .el-checkbox__input.is-checked .el-checkbox__inner, .el-checkbox__input.is-indeterminate .el-checkbox__inner {
   background-color: #44d83a!important;
   border-color: #44d83a!important;
@@ -141,19 +146,9 @@ button{
   text-align: center!important;
   background: #f7f7f7;
 }
-/* .long-input{
-  width: 100%;
-} */
-/* input{
-  height: 32px !important;
-  line-height: 32px !important;
+.redx{
+  color: red;
 }
-.el-input__suffix{
-  top:3px!important;
-}
-.el-input__prefix{
-  top:-3px!important;
-} */
 .mb-0{
   margin-bottom: 0!important;
 }
@@ -211,6 +206,11 @@ button{
   background: #fff;
   padding: 16px;
   line-height: 32px;
+  /* width:100%; */
+}
+.middle{
+  width: 100%;
+  box-sizing: border-box!important;
 }
 .middle-top{
   border-top: 3px rgb(75, 195, 160) solid;
