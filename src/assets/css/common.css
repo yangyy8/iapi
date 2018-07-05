@@ -199,11 +199,13 @@ button{
 .flex-r{
   display: flex;
   justify-content: space-around;
+  align-items: center;
 }
 .flex-c{
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  align-items: center;
 }
 .top,.middle,.down{
   background: #fff;
