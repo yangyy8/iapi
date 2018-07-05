@@ -7,13 +7,13 @@
           <div class="title-green">
             查询条件
           </div>
-          <el-row align="center" type="flex"  :gutter="2" >
+          <el-row align="center"   :gutter="2" >
 
-            <el-col  :sm="24" :md="8"  class="input-item">
+            <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">航班号：</span>
               <el-input placeholder="请输入内容" size="small" v-model="pd.HBH"  class="input-input"></el-input>
             </el-col>
-            <el-col  :sm="24" :md="8"  class="input-item">
+            <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">航班日期：</span>
               <el-date-picker
                  v-model="HBRQ"
@@ -27,7 +27,7 @@
                  :picker-options="pickerOptions2" size="small">
                </el-date-picker>
             </el-col>
-            <el-col  :sm="24" :md="8"  class="input-item">
+            <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">所属航空公司：</span>
               <el-select v-model="sex" placeholder="请选择" size="small" class="input-input">
                  <el-option
@@ -38,10 +38,8 @@
                  </el-option>
                </el-select>
             </el-col>
-          </el-row>
 
-          <el-row align="center"  type="flex"  :gutter="2">
-            <el-col  :sm="24" :md="8"  class="input-item">
+            <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">实际出发口岸：</span>
               <el-select v-model="sex" placeholder="请选择" size="small" class="input-input">
                  <el-option
@@ -51,10 +49,9 @@
                    :value="item.value" >
                  </el-option>
                </el-select>
-
             </el-col>
 
-            <el-col  :sm="24" :md="8"  class="input-item">
+            <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">计划到达口岸：</span>
               <el-select v-model="JHDDKA" placeholder="请选择"   size="small" class="input-input">
                  <el-option
