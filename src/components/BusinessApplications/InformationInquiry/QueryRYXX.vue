@@ -374,96 +374,101 @@
 
 <script>
 export default {
-  data(){
-    return{
-      akCheckId:1,
+  data() {
+    return {
+      akCheckId: 1,
       checkList: ['性别'],
-      value:1,
-      tableData: [
-        {
-          "eventserial": "ba754edc095a45b5b73",
-    			"lastmatchtype": "1",
-    			"flighttype": 1514563200000,
-    			"numb": 1546099200000,
-    			"name": "1",
-    			"nationality": 1,
-    			"fltno": "1",
-          "createtime": "1",
-			    "saveflag": "1",
-        }
-      ],
-      multipleSelection:[]
+      value: 1,
+      tableData: [{
+        "eventserial": "ba754edc095a45b5b73",
+        "lastmatchtype": "1",
+        "flighttype": 1514563200000,
+        "numb": 1546099200000,
+        "name": "1",
+        "nationality": 1,
+        "fltno": "1",
+        "createtime": "1",
+        "saveflag": "1",
+      }],
+      multipleSelection: []
     }
   },
-  methods:{
+  methods: {
     handleSelectionChange(val) {
-       this.multipleSelection = val;
-     }
+      this.multipleSelection = val;
+    }
   }
 }
 </script>
 
 <style scoped>
-  .ak-tab{
+.ak-tab {}
 
-  }
-  .ak-tabs{
-    display: flex;
+.ak-tabs {
+  display: flex;
 
-  }
-  .ak-tab-item{
-    background: #399bfe;
-    color: #fff;
-    font-size: 14px;
-    margin-right: 6px;
-    border-radius: 5px 5px 0 0;
-    padding: 0 16px;
-  }
-  .ak-checked{
-    background: #fff;
-    color: #399bfe;
-    border: 1px #399bfe solid;
-    border-bottom: 1px #fff solid;
-    margin-bottom: -1px;
-  }
-  .ak-tab-pane{
-    border: 1px #399bfe solid;
-    height: 148px;
-    padding: 20px;
-    border-radius: 0 5px 5px 5px;
-  }
-  .akcheck2top{
-    background: #f6f7fb;
-    /* height: 28px; */
-    padding: 6px;
-  }
-  .middle-btn-g{
-    display: flex;
-    justify-content: center;
-  }
-  .middle-btn-g button{
-    height: 32px;
-    width:107px;
-    border: none;
-    border-radius: 5px;
-    background: none;
-    background: linear-gradient( 360deg, rgb(9,171,236) 0%, rgb(0,121,228) 100%);
-    color:#fff;
-  }
-  .akUl{
-    height: 103px;
-    overflow-y: auto;
-  }
-  .akUl img{
-    height: 15px;
-    width: 21px;
-    margin-right: 8px;
-  }
-  .ak-li{
-    height: 58px;
-    align-items: center;
-    padding: 0 30px;
+}
 
-  }
+.ak-tab-item {
+  background: #399bfe;
+  color: #fff;
+  font-size: 14px;
+  margin-right: 6px;
+  border-radius: 5px 5px 0 0;
+  padding: 0 16px;
+}
 
+.ak-checked {
+  background: #fff;
+  color: #399bfe;
+  border: 1px #399bfe solid;
+  border-bottom: 1px #fff solid;
+  margin-bottom: -1px;
+}
+
+.ak-tab-pane {
+  border: 1px #399bfe solid;
+  height: 148px;
+  padding: 20px;
+  border-radius: 0 5px 5px 5px;
+}
+
+.akcheck2top {
+  background: #f6f7fb;
+  /* height: 28px; */
+  padding: 6px;
+}
+
+.middle-btn-g {
+  display: flex;
+  justify-content: center;
+}
+
+.middle-btn-g button {
+  height: 32px;
+  width: 107px;
+  border: none;
+  border-radius: 5px;
+  background: none;
+  background: linear-gradient( 360deg, rgb(9, 171, 236) 0%, rgb(0, 121, 228) 100%);
+  color: #fff;
+}
+
+.akUl {
+  height: 103px;
+  overflow-y: auto;
+}
+
+.akUl img {
+  height: 15px;
+  width: 21px;
+  margin-right: 8px;
+}
+
+.ak-li {
+  height: 58px;
+  align-items: center;
+  padding: 0 30px;
+
+}
 </style>

@@ -70,7 +70,6 @@ export default {
      return {
        sideWidth:'295px',
        isCollapse: false,
-       tableData: Array(6).fill(item),
        nav2Show:true,
        nav2HideBar:true,
        nav1Id:1,

@@ -47,10 +47,10 @@
     <el-tag><router-link :to="{ name: 'Content', query: {navId:2} }">业务应用</router-link></el-tag>
     <el-tag><router-link :to="{ name: 'Content', query: {navId:3} }">业务管理</router-link></el-tag>
     <!-- <el-tag><router-link to="/foo">业务管理</router-link></el-tag> -->
-    <el-tag><router-link to="/foo">日常工作</router-link></el-tag>
-    <el-tag><router-link to="/foo">系统管理</router-link></el-tag>
-    <el-tag><router-link to="/foo">系统监控</router-link></el-tag>
-    <el-tag><router-link to="/foo">自定义设置</router-link></el-tag>
+    <el-tag><router-link :to="{ name: 'Content', query: {navId:4} }">业务监控</router-link></el-tag>
+    <el-tag><router-link :to="{ name: 'Content', query: {navId:5} }">系统管理</router-link></el-tag>
+    <el-tag><router-link :to="{ name: 'Content', query: {navId:6} }">系统监控</router-link></el-tag>
+    <!-- <el-tag><router-link :to="{ name: 'Content', query: {navId:1} }">自定义设置</router-link></el-tag> -->
 
   </div>
 </template>
@@ -61,7 +61,7 @@ import axios from 'axios'
 export default {
   name: 'HelloWorld',
   created(){
-    this.fn1()
+    // this.fn1()
   },
   data () {
     return {
