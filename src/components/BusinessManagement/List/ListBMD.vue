@@ -7,10 +7,10 @@
           <div class="title-green ">
             查询条件
           </div>
-          <el-row type="flex" justify="center" class="mb-6">
-            <el-col :span="6" class="input-item">
-              <span class="inpt-text">国籍：</span>
-              <el-select v-model="pd.NATIONALITY" @visible-change="queryNationality" placeholder="请选择"  size="small">
+          <el-row align="center" :gutter="2">
+            <el-col  :sm="12" :md="6"  class="input-item">
+              <span class="input-text">国籍：</span>
+              <el-select v-model="pd.NATIONALITY" filterable @visible-change="queryNationality" placeholder="请选择"  size="small" class="input-input">
                 <el-option
                   v-for="item in nation"
                   :key="item.CODE"
@@ -19,120 +19,108 @@
                 </el-option>
               </el-select>
             </el-col>
-            <el-col :span="6" class="input-item">
-              <span class="inpt-text">证件种类：</span>
-              <el-select v-model="pd.CARDTYPE" placeholder="请选择"  size="small">
+            <el-col :sm="12" :md="6" class="input-item">
+              <span class="input-text">证件种类：</span>
+              <el-select v-model="pd.CARDTYPE" placeholder="请选择"  size="small"  class="input-input">
                 <el-option label="身份证" value="1"></el-option>
                 <el-option label="护照" value="2"></el-option>
-                <!-- <el-option label="" value="1"></el-option> -->
-
               </el-select>
             </el-col>
 
-            <el-col :span="6" class="input-item">
-              <span class="inpt-text">证件号码：</span>
-              <el-input placeholder="请输入内容" size="small" v-model="pd.CARDNO"></el-input>
+            <el-col :sm="12" :md="6" class="input-item">
+              <span class="input-text">证件号码：</span>
+              <el-input placeholder="请输入内容" size="small" v-model="pd.CARDNO"  class="input-input"></el-input>
             </el-col>
-            <el-col :span="6" class="input-item">
-              <span class="inpt-text">名单状态：</span>
-              <el-select v-model="pd.CARDTYPE" placeholder="请选择"  size="small">
+            <el-col :sm="12" :md="6" class="input-item">
+              <span class="input-text">名单状态：</span>
+              <el-select v-model="pd.CARDTYPE" placeholder="请选择"  size="small"  class="input-input">
                 <el-option label="已发布" value="1"></el-option>
                 <el-option label="未发布" value="0"></el-option>
                 <!-- <el-option label="" value="1"></el-option> -->
               </el-select>
             </el-col>
           </el-row>
-          <el-row type="flex" justify="center" class="mb-6">
-            <el-col :span="6" class="input-item">
-              <span class="inpt-text">姓名：</span>
-              <el-input placeholder="请输入内容" size="small" v-model="pd.FAMILYNAME" ></el-input>
+
+          <el-row align="center" :gutter="2">
+            <el-col :sm="12" :md="6" class="input-item">
+              <span class="input-text">姓名：</span>
+              <el-input placeholder="请输入内容" size="small" v-model="pd.CARDNO"  class="input-input"></el-input>
 
             </el-col>
-            <el-col :span="6" class="input-item">
-              <span class="inpt-text">性别：</span>
-              <div class="long-input">
-                <el-radio v-model="pd.GENDER" label="M">男</el-radio>
-                <el-radio v-model="pd.GENDER" label="F">女</el-radio>
-                <!-- <el-radio v-model="pd.GENDER" label="U">未知</el-radio> -->
+            <el-col :sm="12" :md="6" class="input-item">
+              <span class="input-text">性別：</span>
+              <el-select v-model="pd.CARDTYPE" placeholder="请选择"  size="small"  class="input-input">
+                <el-option label="男" value="M"></el-option>
+                <el-option label="女" value="F"></el-option>
+                <el-option label="未知" value="U"></el-option>
 
-              </div>
-
+              </el-select>
             </el-col>
 
-            <el-col :span="6" class="input-item">
-              <span class="inpt-text">出生日期：</span>
-              <div class="block">
-                <!-- <el-date-picker
-                  class="o-date-box1"
-                  size="small"
-                  v-model="pd.BIRTHDATE"
-                  type="daterange"
-                  range-separator="-"
-                  start-placeholder="开始日期"
-                  end-placeholder="结束日期">
-                </el-date-picker> -->
-                <el-date-picker
-                  size="small"
-                  v-model="pd.BIRTHDATE"
-                  type="date"
-                  placeholder="选择日期">
-                </el-date-picker>
-              </div>
+            <el-col :sm="12" :md="6" class="input-item">
+              <span class="input-text">出生日期：</span>
+              <el-date-picker
+                size="small"
+                v-model="value6"
+                type="daterange"
+                range-separator="-"
+                start-placeholder="开始日期"
+                end-placeholder="结束日期"
+                class="input-input block">
+              </el-date-picker>
+              <!-- <el-input placeholder="请输入内容" size="small" v-model="pd.CARDNO"  class="input-input"></el-input> -->
             </el-col>
-            <el-col :span="6" class="input-item">
-              <span class="inpt-text">出入境类型：</span>
-              <el-select v-model="pd.CARDTYPE" placeholder="请选择"  size="small">
+            <el-col :sm="12" :md="6" class="input-item">
+              <span class="input-text">出入境类型：</span>
+              <el-select v-model="pd.CARDTYPE" placeholder="请选择"  size="small"  class="block input-input">
                 <el-option label="出境" value="1"></el-option>
-                <el-option label="入境" value="2"></el-option>
-                <!-- <el-option label="" value="1"></el-option> -->
+                <el-option label="入境" value="0"></el-option>
               </el-select>
-            </el-col>
-
-          </el-row>
-          <el-row type="flex" justify="center" >
-            <el-col :span="6" class="input-item">
-              <span class="inpt-text">入境口岸：</span>
-              <el-select v-model="pd.CARDTYPE" placeholder="请选择"  size="small">
-                <el-option label="北京首都国际机场" value="1"></el-option>
-                <el-option label="护照" value="2"></el-option>
-                <!-- <el-option label="" value="1"></el-option> -->
-              </el-select>
-            </el-col>
-            <el-col :span="6" class="input-item">
-              <span class="inpt-text">出境口岸：</span>
-              <el-select v-model="pd.CARDTYPE" placeholder="请选择"  size="small">
-                <el-option label="北京首都国际机场" value="1"></el-option>
-                <el-option label="护照" value="2"></el-option>
-                <!-- <el-option label="" value="1"></el-option> -->
-              </el-select>
-            </el-col>
-
-            <el-col :span="6" class="input-item">
-              <span class="inpt-text">操作时间：</span>
-              <div class="block">
-                <el-date-picker
-                  size="small"
-                  v-model="pd.BIRTHDATE"
-                  type="date"
-                  placeholder="选择日期">
-                </el-date-picker>
-              </div>
-              <!-- <el-input placeholder="请输入内容" size="small"></el-input> -->
-            </el-col>
-            <el-col :span="6" class="input-item">
-              <span class="inpt-text">生效时间：</span>
-              <div class="block">
-                <el-date-picker
-                  size="small"
-                  v-model="pd.BIRTHDATE"
-                  type="date"
-                  placeholder="选择日期">
-                </el-date-picker>
-              </div>
-              <!-- <el-input placeholder="请输入内容" size="small"></el-input> -->
             </el-col>
           </el-row>
+          <el-row align="center" :gutter="2">
+            <el-col :sm="12" :md="6" class="input-item">
+              <span class="input-text">入境口岸：</span>
+              <el-select v-model="pd.CARDTYPE" placeholder="请选择"  size="small"  class="input-input">
+                <el-option label="北京首都机场" value="1"></el-option>
+                <el-option label="上海虹桥机场" value="0"></el-option>
+              </el-select>
 
+            </el-col>
+            <el-col :sm="12" :md="6" class="input-item">
+              <span class="input-text">出境口岸：</span>
+              <el-select v-model="pd.CARDTYPE" placeholder="请选择"  size="small"  class="input-input">
+                <el-option label="北京首都机场" value="1"></el-option>
+                <el-option label="上海虹桥机场" value="0"></el-option>
+              </el-select>
+            </el-col>
+
+            <el-col :sm="12" :md="6" class="input-item">
+              <span class="input-text">操作时间：</span>
+              <el-date-picker
+                size="small"
+                v-model="value6"
+                type="datetimerange"
+                range-separator="-"
+                start-placeholder="开始日期"
+                end-placeholder="结束日期"
+                class="input-input block">
+              </el-date-picker>
+              <!-- <el-input placeholder="请输入内容" size="small" v-model="pd.CARDNO"  class="input-input"></el-input> -->
+            </el-col>
+            <el-col :sm="12" :md="6" class="input-item">
+              <span class="input-text">生效时间：</span>
+              <el-date-picker
+                size="small"
+                v-model="value6"
+                type="datetimerange"
+                range-separator="-"
+                start-placeholder="开始日期"
+                end-placeholder="结束日期"
+                class="input-input block">
+              </el-date-picker>
+            </el-col>
+          </el-row>
         </el-col>
         <el-col :span="3" class="down-btn-area">
           <el-button type="success" size="small" @click="getList(CurrentPage,pageSize,pd)">查询</el-button>
@@ -152,7 +140,7 @@
       <el-table
         :data="tableData"
         border
-        style="width: 100%;"
+        style="max-width: 100%;"
         @selection-change="handleSelectionChange">
         <el-table-column
          type="selection"
@@ -161,46 +149,38 @@
         <el-table-column
           prop="RECORDNUMBER"
           label="档号"
-          sortable
-          width="190">
+          sortable>
         </el-table-column>
         <el-table-column
           prop="NATIONALITY"
           sortable
-          label="国籍"
-          width="100">
+          label="国籍">
 
         </el-table-column>
         <el-table-column
           prop="CARDTYPE"
-          label="证件种类"
-          width="130">
+          label="证件种类">
         </el-table-column>
         <el-table-column
           prop="CARDNO"
           sortable
-          label="证件号码"
-          width="175">
+          label="证件号码">
         </el-table-column>
         <el-table-column
           prop="FAMILYNAME"
-          label="姓名"
-          width="135">
+          label="姓名">
         </el-table-column>
         <el-table-column
           prop="GENDER"
-          label="性别"
-          width="70">
+          label="性别">
         </el-table-column>
         <el-table-column
           prop="BIRTHdate"
-          label="出生日期"
-          width="140">
+          label="出生日期">
         </el-table-column>
         <el-table-column
           prop="cardEXPIREDATE"
-          label="失效日期"
-          width="135">
+          label="失效日期">
         </el-table-column>
 
         <el-table-column
@@ -251,28 +231,28 @@
       <el-form :model="form" ref="addForm">
         <el-row type="flex"  class="mb-6">
           <el-col :span="8" class="input-item">
-            <span class="inpt-text">国籍：</span>
+            <span class="input-text">国籍：</span>
             <el-input placeholder="请输入内容" size="small" v-model="form.NATIONALITY"></el-input>
 
           </el-col>
           <el-col :span="8" class="input-item">
-            <span class="inpt-text">证件种类：</span>
+            <span class="input-text">证件种类：</span>
             <el-input placeholder="请输入内容" size="small" v-model="form.CARDTYPE"></el-input>
           </el-col>
 
           <el-col :span="8" class="input-item">
-            <span class="inpt-text">证件号码：</span>
+            <span class="input-text">证件号码：</span>
             <el-input placeholder="请输入内容" size="small" v-model="form.CARDNO"></el-input>
           </el-col>
         </el-row>
         <el-row type="flex"  class="mb-6">
           <el-col :span="8" class="input-item">
-            <span class="inpt-text">姓名：</span>
+            <span class="input-text">姓名：</span>
             <el-input placeholder="请输入内容" size="small" v-model="form.FAMILYNAME"></el-input>
 
           </el-col>
           <el-col :span="8" class="input-item">
-            <span class="inpt-text">性别：</span>
+            <span class="input-text">性别：</span>
             <div class="el-input">
               <el-radio v-model="form.GENDER" label="M">男</el-radio>
               <el-radio v-model="form.GENDER" label="F">女</el-radio>
@@ -281,46 +261,46 @@
           </el-col>
 
           <el-col :span="8" class="input-item">
-            <span class="inpt-text">出生日期：</span>
+            <span class="input-text">出生日期：</span>
             <el-input placeholder="请输入内容" size="small" v-model="form.BIRTHDATE"></el-input>
           </el-col>
         </el-row>
         <el-row type="flex"  class="mb-6">
           <el-col :span="8" class="input-item">
-            <span class="inpt-text">航班号：</span>
+            <span class="input-text">航班号：</span>
             <el-input placeholder="请输入内容" size="small" v-model="form.NATIONALITY"></el-input>
 
           </el-col>
           <el-col :span="8" class="input-item">
-            <span class="inpt-text">入境口岸：</span>
+            <span class="input-text">入境口岸：</span>
             <el-input placeholder="请输入内容" size="small" v-model="form.WHITE_PORT"></el-input>
           </el-col>
 
           <el-col :span="8" class="input-item">
-            <span class="inpt-text">出境口岸：</span>
+            <span class="input-text">出境口岸：</span>
             <el-input placeholder="请输入内容" size="small" v-model="form.NATIONALITY"></el-input>
           </el-col>
         </el-row>
         <el-row type="flex" class="mb-6">
           <el-col :span="8" class="input-item">
-            <span class="inpt-text">起始日期：</span>
+            <span class="input-text">起始日期：</span>
             <el-input placeholder="请输入内容" size="small" v-model="form.CTL_BEGINDATE"></el-input>
 
           </el-col>
           <el-col :span="8" class="input-item">
-            <span class="inpt-text">终止日期：</span>
+            <span class="input-text">终止日期：</span>
             <el-input placeholder="请输入内容" size="small" v-model="form.CTL_EXPIREDATE"></el-input>
           </el-col>
         </el-row>
         <el-row type="flex" class="mb-6" >
           <el-col :span="23" class="input-item">
-            <span class="inpt-text">处理依据：</span>
+            <span class="input-text">处理依据：</span>
             <el-input placeholder="请输入内容" size="small" class="long-input" v-model="form.CTL_REASON"></el-input>
           </el-col>
         </el-row>
         <el-row type="flex">
           <el-col :span="23" class="input-item">
-            <span class="inpt-text">批准机关：</span>
+            <span class="input-text">批准机关：</span>
             <el-input placeholder="请输入内容" size="small" class="long-input" v-model="form.SUBORG_NAME"></el-input>
           </el-col>
         </el-row>
@@ -444,7 +424,7 @@
       <el-form :model="releaseform" ref="releaseForm">
         <el-row type="flex"  class="mb-9" justify="center">
           <!-- <el-col :span="8" class="input-item"> -->
-            <span class="inpt-text">用户名：</span>
+            <span class="input-text">用户名：</span>
             <el-input placeholder="请输入内容" size="small" v-model="releaseform.user"></el-input>
 
           <!-- </el-col> -->
@@ -452,7 +432,7 @@
         </el-row>
         <el-row type="flex"  class="mb-6" justify="center">
           <!-- <el-col :span="8" class="input-item"> -->
-            <span class="inpt-text">口令： </span>
+            <span class="input-text">口令： </span>
             <el-input placeholder="请输入内容" size="small" v-model="releaseform.pwd" type="password"></el-input>
           <!-- </el-col> -->
         </el-row>

@@ -55,21 +55,31 @@ button{
     background-color: #fbd1ab!important;
     border-color: #fbd1ab!important;
 }
-.el-input{
-  width:auto!important;
+.o-form-g{
+  display:flex;
+  flex-wrap: wrap;
 }
+.o-form-g .el-form-item{
+  width: 25%;
+}
+/* .el-input{
+  width:auto!important;
+} */
 .input-item{
   display: flex;
-  justify-content: flex-start;
-  line-height: 32px;
+  margin-bottom: 6px;
+  /* justify-content: flex-start; */
 }
-.inpt-text{
+.input-text{
   display: inline-block;
-  width: 105px;
+  width: 30%;
   font-size: 14px;
   text-align: right;
   line-height: 32px;
   white-space: nowrap;
+}
+.input-input{
+  width: 70%!important;
 }
 .long-input-text{
   /* width: 83px;
@@ -81,17 +91,15 @@ button{
 .width-105{
   width: 105px;
 }
-.input-item input,.inpt-radio{
+/* .input-item input,.inpt-radio{
   width: 210px !important;
 }
 .long-input{
   width: 100% !important;
-  /* padding: 0 20px 0 0; */
 }
 .long-input input{
   width: 100% !important;
-
-}
+} */
 .el-checkbox__input.is-checked .el-checkbox__inner, .el-checkbox__input.is-indeterminate .el-checkbox__inner {
   background-color: #44d83a!important;
   border-color: #44d83a!important;
