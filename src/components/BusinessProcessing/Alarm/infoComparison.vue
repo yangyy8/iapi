@@ -40,64 +40,64 @@
           </div>
           <el-row type="flex" class="mb-9">
             <el-col :span="8" class="input-item">
-              <span class="inpt-text">姓名：</span>
-              <el-input placeholder="请输入内容" size="small" :disabled="true"></el-input>
+              <span class="input-text">姓名：</span>
+              <el-input placeholder="请输入内容" size="small" :disabled="true" class="input-input"></el-input>
             </el-col>
             <el-col :span="8" class="input-item">
-              <span class="inpt-text">等级编号：</span>
-              <el-input placeholder="请输入内容" size="small" :disabled="true"></el-input>
+              <span class="input-text">等级编号：</span>
+              <el-input placeholder="请输入内容" size="small" :disabled="true" class="input-input"></el-input>
             </el-col>
             <el-col :span="8" class="input-item">
-              <span class="inpt-text">职业身份：</span>
-              <el-input placeholder="请输入内容" size="small" :disabled="true"></el-input>
-            </el-col>
-          </el-row>
-          <el-row type="flex" class="mb-9">
-            <el-col :span="8" class="input-item">
-              <span class="inpt-text">处理结果：</span>
-              <el-input placeholder="请输入内容" size="small" :disabled="true"></el-input>
-            </el-col>
-            <el-col :span="8" class="input-item">
-              <span class="inpt-text">等级编号：</span>
-              <el-input placeholder="请输入内容" size="small" :disabled="true"></el-input>
-            </el-col>
-            <el-col :span="8" class="input-item">
-              <span class="inpt-text">职业身份：</span>
-              <el-input placeholder="请输入内容" size="small" :disabled="true"></el-input>
+              <span class="input-text">职业身份：</span>
+              <el-input placeholder="请输入内容" size="small" :disabled="true" class="input-input"></el-input>
             </el-col>
           </el-row>
           <el-row type="flex" class="mb-9">
             <el-col :span="8" class="input-item">
-              <span class="inpt-text">处理结果：</span>
-              <el-input placeholder="请输入内容" size="small" :disabled="true"></el-input>
+              <span class="input-text">处理结果：</span>
+              <el-input placeholder="请输入内容" size="small" :disabled="true" class="input-input"></el-input>
             </el-col>
             <el-col :span="8" class="input-item">
-              <span class="inpt-text">等级编号：</span>
-              <el-input placeholder="请输入内容" size="small" :disabled="true"></el-input>
+              <span class="input-text">等级编号：</span>
+              <el-input placeholder="请输入内容" size="small" :disabled="true" class="input-input"></el-input>
             </el-col>
             <el-col :span="8" class="input-item">
-              <span class="inpt-text">职业身份：</span>
-              <el-input placeholder="请输入内容" size="small" :disabled="true"></el-input>
+              <span class="input-text">职业身份：</span>
+              <el-input placeholder="请输入内容" size="small" :disabled="true" class="input-input"></el-input>
             </el-col>
           </el-row>
           <el-row type="flex" class="mb-9">
             <el-col :span="8" class="input-item">
-              <span class="inpt-text">处理结果：</span>
-              <el-input placeholder="请输入内容" size="small" :disabled="true"></el-input>
+              <span class="input-text">处理结果：</span>
+              <el-input placeholder="请输入内容" size="small" :disabled="true" class="input-input"></el-input>
             </el-col>
             <el-col :span="8" class="input-item">
-              <span class="inpt-text">等级编号：</span>
-              <el-input placeholder="请输入内容" size="small" :disabled="true"></el-input>
+              <span class="input-text">等级编号：</span>
+              <el-input placeholder="请输入内容" size="small" :disabled="true" class="input-input"></el-input>
             </el-col>
             <el-col :span="8" class="input-item">
-              <span class="inpt-text">职业身份：</span>
-              <el-input placeholder="请输入内容" size="small" :disabled="true"></el-input>
+              <span class="input-text">职业身份：</span>
+              <el-input placeholder="请输入内容" size="small" :disabled="true" class="input-input"></el-input>
+            </el-col>
+          </el-row>
+          <el-row type="flex" class="mb-9">
+            <el-col :span="8" class="input-item">
+              <span class="input-text">处理结果：</span>
+              <el-input placeholder="请输入内容" size="small" :disabled="true" class="input-input"></el-input>
+            </el-col>
+            <el-col :span="8" class="input-item">
+              <span class="input-text">等级编号：</span>
+              <el-input placeholder="请输入内容" size="small" :disabled="true" class="input-input"></el-input>
+            </el-col>
+            <el-col :span="8" class="input-item">
+              <span class="input-text">职业身份：</span>
+              <el-input placeholder="请输入内容" size="small" :disabled="true" class="input-input"></el-input>
             </el-col>
           </el-row>
           <el-row type="flex">
             <el-col :span="24" class="input-item">
-              <span class="inpt-text long-input-text">备注：</span>
-              <el-input placeholder="请输入内容" size="small" :disabled="true" class="long-input"></el-input>
+              <span class="input-text2">备注：</span>
+              <el-input placeholder="请输入内容" size="small" :disabled="true" class="input-input2"></el-input>
             </el-col>
           </el-row>
         </div>
@@ -106,7 +106,7 @@
             判断结果
           </div>
           <el-row type="flex" class="mb-15">
-            <el-col :span="5">
+            <el-col :span="4">
               <div class="radio-g">
                 <el-radio-group v-model="radio1" class="radio-g-area">
                   <el-radio :label="3">备选项</el-radio>
@@ -115,9 +115,9 @@
                 </el-radio-group>
               </div>
             </el-col>
-            <el-col :span="16">
+            <el-col :span="17">
               <div class="textarea-g">
-                <div class="textarea-text">甄选说明</div>
+                <div class="textarea-text">甄选说明:</div>
                 <el-input
                   type="textarea"
                   :autosize="{ minRows: 5, maxRows: 5}"
@@ -129,7 +129,7 @@
 
             </el-col>
             <el-col :span="3" class="down-btn-area">
-              <el-button type="primary" size="small">确定</el-button>
+              <el-button type="primary" size="small" class="mb-15">确定</el-button>
               <el-button type="warning" size="small">取消</el-button>
             </el-col>
           </el-row>
@@ -275,9 +275,10 @@ export default {
 </script>
 
 <style scoped>
+
 .radio-g-area{
   height: 75px;
-  width: 120px;
+  width: 100px;
   border: 1px solid #dcdfe6;
   border-radius: 4px;
   display: flex;
@@ -344,7 +345,7 @@ export default {
   width: 280px;
 }
 .res-height{
-  height: 50px;
+  height: 80px;
 }
 .res-item1{
   height: 100%;

@@ -12,9 +12,7 @@ html,body{
 .el-table__body{
     table-layout:auto !important;
 }
-.el-table{
-  overflow-x: auto;
-}
+
 thead tr,thead th{
   background-color: #858585 !important;
   color: #fff !important;
@@ -89,10 +87,16 @@ button{
 }
 .input-text2{
   line-height: 32px;
-
+  font-size: 14px;
+  width: 10%;
+  text-align: right;
 }
 .input-input{
   width: 70%!important;
+}
+.input-input2{
+  width: 90%;
+
 }
 .long-input-text{
   /* width: 83px;
@@ -208,10 +212,7 @@ button{
   line-height: 32px;
   /* width:100%; */
 }
-.middle{
-  width: 100%;
-  box-sizing: border-box!important;
-}
+
 .middle-top{
   border-top: 3px rgb(75, 195, 160) solid;
 

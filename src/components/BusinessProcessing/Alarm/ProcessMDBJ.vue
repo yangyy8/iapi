@@ -6,7 +6,7 @@
           <el-button type="primary"  icon="el-icon-refresh" size="small">刷新</el-button>
         </el-col>
         <el-col :span="12" class="top-right">
-          报警类型
+          报警类型:
           <el-select v-model="value" placeholder="请选择"  size="small">
            <el-option
              v-for="item in options"
@@ -15,7 +15,7 @@
              :value="item.value">
            </el-option>
          </el-select>
-         出入境类别
+         出入境类别:
          <el-select v-model="value" placeholder="请选择"  size="small">
           <el-option
             v-for="item in options"
@@ -183,6 +183,7 @@ export default {
 
   .top-right{
     text-align: right;
+    font-size: 14px;
   }
   .middle{
     border-top: 3px rgb(75, 195, 160) solid;

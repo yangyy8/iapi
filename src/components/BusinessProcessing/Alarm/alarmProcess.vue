@@ -357,20 +357,20 @@
         </el-col>
       </el-row>
       <el-row type="flex">
-        <el-col :span="6">
-          <span class="inpt-text">处理结果：</span>
-          <el-select v-model="value" placeholder="请选择"  size="small">
+        <el-col :span="6" class="input-item">
+          <span >处理结果：</span>
+          <el-select v-model="value" placeholder="请选择"  size="small" class="input-input">
             <el-option>
             </el-option>
           </el-select>
         </el-col>
         <el-col :span="6" class="input-item">
-          <span class="inpt-text">处理人：</span>
-          <el-input placeholder="请输入内容" size="small"></el-input>
+          <span >处理人：</span>
+          <el-input placeholder="请输入内容" size="small" class="input-input"></el-input>
         </el-col>
         <el-col :span="6" class="input-item">
-          <span class="inpt-text">审批人：</span>
-          <el-input placeholder="请输入内容" size="small"></el-input>
+          <span >审批人：</span>
+          <el-input placeholder="请输入内容" size="small" class="input-input"></el-input>
         </el-col>
 
       </el-row>
