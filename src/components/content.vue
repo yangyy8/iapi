@@ -91,7 +91,7 @@ export default {
              },
              {
                id:3,
-               text:"重点关注人员预报警"
+               text:"重点关注人员预报警",
                name:"ProcessZDGZRY"
              },
 
@@ -117,10 +117,7 @@ export default {
                id:1,
                text:"航班状态变更",
                name:"ProcessHBZT"
-             },
-           ]
-         },
-
+             }
            ]
          }
        ],
@@ -163,12 +160,7 @@ export default {
                id:7,
                text:"校验比对结果查询",
                name:"QueryJYBDJG"
-             },
-
-           ]
-         },
-       }
-
+             }
            ]
          }
        ],
@@ -238,9 +230,7 @@ export default {
 
 
            ]
-         },
-
-
+         }
        ],
        nav1List5:[
          {
@@ -383,7 +373,7 @@ export default {
                text:"整合分发性能监控",
                name:"MonitorZHFFXN"
              },
-             
+
            ]
          },
 
@@ -402,6 +392,15 @@ export default {
        this.nav1List=this.nav1List2
      }else if(this.navId==3){
        this.nav1List=this.nav1List3
+     }else if(this.navId==4){
+       this.nav1List=this.nav1List4
+
+     }else if(this.navId==5){
+       this.nav1List=this.nav1List5
+
+     }else if(this.navId==6){
+       this.nav1List=this.nav1List6
+
      }
      this.nav1to2(1,this.nav1List[0].list)
 
