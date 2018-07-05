@@ -9,7 +9,8 @@
           </div>
           <el-row align="center" :gutter="2">
             <el-col  :sm="12" :md="6"  class="input-item">
-              <span class="input-text">国籍：</span>
+              <QueryNationality   :nationality="pd.NATIONALITY"></QueryNationality>
+              <!-- <span class="input-text">国籍：</span>
               <el-select v-model="pd.NATIONALITY" filterable @visible-change="queryNationality" placeholder="请选择"  size="small" class="input-input">
                 <el-option
                   v-for="item in nation"
@@ -17,7 +18,7 @@
                   :label="item.CNAME"
                   :value="item.CODE">
                 </el-option>
-              </el-select>
+              </el-select> -->
             </el-col>
             <el-col :sm="12" :md="6" class="input-item">
               <span class="input-text">证件种类：</span>
@@ -449,7 +450,9 @@
 </template>
 
 <script>
+import QueryNationality from '../../other/queryNationality'
 export default {
+  components: {QueryNationality},
   data(){
     return{
       CurrentPage:1,
