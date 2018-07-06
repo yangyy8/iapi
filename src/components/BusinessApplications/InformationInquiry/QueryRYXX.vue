@@ -15,20 +15,22 @@
         </div>
         <div class="ak-tab-pane" >
           <el-row type="flex" style="height:100%" v-show="akCheckId==1">
-            <el-col :span="22" class="br flex-c">
+            <el-col :span="22" class="br flex-c pr-20">
               <el-row align="center" :gutter="2">
                 <el-col :sm="24" :md="12" :lg="6" class="input-item">
                   <span class="input-text">国籍：</span>
-                  <el-select v-model="value" placeholder="请选择"  size="small" class="input-input">
-                    <el-option>
-                    </el-option>
+                  <el-select placeholder="请选择"  size="small"  class="input-input">
+                    <el-option label="中国" value="1"></el-option>
+                    <el-option label="美国" value="2"></el-option>
                   </el-select>
                 </el-col>
                 <el-col :sm="24" :md="12" :lg="6" class="input-item">
                   <span class="input-text">证件种类：</span>
-                  <el-input placeholder="请输入内容" size="small" class="input-input"></el-input>
+                  <el-select placeholder="请选择"  size="small"  class="input-input">
+                    <el-option label="身份证" value="1"></el-option>
+                    <el-option label="护照" value="2"></el-option>
+                  </el-select>
                 </el-col>
-
                 <el-col :sm="24" :md="12" :lg="6" class="input-item">
                   <span class="input-text">证件号码：</span>
                   <el-input placeholder="请输入内容" size="small" class="input-input"></el-input>
@@ -47,16 +49,35 @@
                 </el-col>
                 <el-col :sm="24" :md="12" :lg="6" class="input-item">
                   <span class="input-text">性别：</span>
-                  <el-input placeholder="请输入内容" size="small" class="input-input"></el-input>
+                  <el-select placeholder="请选择"  size="small"  class="input-input">
+                    <el-option label="身份证" value="1"></el-option>
+                    <el-option label="护照" value="2"></el-option>
+                  </el-select>
                 </el-col>
 
                 <el-col :sm="24" :md="12" :lg="6" class="input-item">
                   <span class="input-text">出生日期：</span>
-                  <el-input placeholder="请输入内容" size="small" class="input-input"></el-input>
+                  <el-date-picker
+                    size="small"
+                    v-model="value6"
+                    type="daterange"
+                    range-separator="-"
+                    start-placeholder="开始日期"
+                    end-placeholder="结束日期"
+                    class="input-input block">
+                  </el-date-picker>
                 </el-col>
                 <el-col :sm="24" :md="12" :lg="6" class="input-item">
                   <span class="input-text">航班日期：</span>
-                  <el-input placeholder="请输入内容" size="small" class="input-input"></el-input>
+                  <el-date-picker
+                    size="small"
+                    v-model="value6"
+                    type="daterange"
+                    range-separator="-"
+                    start-placeholder="开始日期"
+                    end-placeholder="结束日期"
+                    class="input-input block">
+                  </el-date-picker>
                 </el-col>
 
                 <el-col :sm="24" :md="12" :lg="6" class="input-item">
@@ -67,8 +88,16 @@
                   </el-select>
                 </el-col>
                 <el-col :sm="24" :md="12" :lg="6" class="input-item">
-                  <span class="input-text ">起飞时间：</span>
-                  <el-input placeholder="请输入内容" size="small" class="input-input"></el-input>
+                  <span class="input-text ">预计起飞时间：</span>
+                  <el-date-picker
+                    size="small"
+                    v-model="value6"
+                    type="daterange"
+                    range-separator="-"
+                    start-placeholder="开始日期"
+                    end-placeholder="结束日期"
+                    class="input-input block">
+                  </el-date-picker>
                 </el-col>
 
                 <el-col :sm="24" :md="12" :lg="6" class="input-item">
@@ -76,19 +105,27 @@
                   <el-input placeholder="请输入内容" size="small" class="input-input"></el-input>
                 </el-col>
                 <el-col :sm="24" :md="12" :lg="6" class="input-item">
-                  <span class="input-text">降落时间：</span>
-                  <el-input placeholder="请输入内容" size="small" class="input-input"></el-input>
+                  <span class="input-text">预计降落时间：</span>
+                  <el-date-picker
+                    size="small"
+                    v-model="value6"
+                    type="daterange"
+                    range-separator="-"
+                    start-placeholder="开始日期"
+                    end-placeholder="结束日期"
+                    class="input-input block">
+                  </el-date-picker>
                 </el-col>
 
                 <el-col :sm="24" :md="12" :lg="6" class="input-item">
-                  <span class="input-text">处理结果：</span>
+                  <span class="input-text">出入境：</span>
                   <el-select v-model="value" placeholder="请选择"  size="small" class="input-input">
                     <el-option>
                     </el-option>
                   </el-select>
                 </el-col>
                 <el-col :sm="24" :md="12" :lg="6" class="input-item">
-                  <span class="input-text">处理人：</span>
+                  <span class="input-text">最终预检结果：</span>
                   <el-input placeholder="请输入内容" size="small" class="input-input"></el-input>
                 </el-col>
               </el-row>
@@ -105,58 +142,40 @@
                 <el-button type="primary" plain size="mini">下载模板</el-button>
               </div>
               <div class="akUl">
-                <el-row type="flex" class="ak-li boder1">
+                <el-row type="flex" class="ak-li boder1" align="center">
                   <img src="../../../assets/img/hook.png" alt="">
 
-                  <el-col :span="7">
+                  <el-col :span="7" class="input-item mr-20">
                     <span class="input-text">处理结果：</span>
                     <el-select v-model="value" placeholder="请选择"  size="small" class="input-input">
                       <el-option>
                       </el-option>
                     </el-select>
                   </el-col>
-                  <span class="mr-20">+</span>
-                  <el-col :sm="24" :md="12" :lg="6" class="input-item">
+                  <span> +</span>
+                  <el-col :sm="24" :md="12" :lg="6" class="input-item mr-15">
                     <span class="input-text">处理人：</span>
                     <el-input placeholder="请输入内容" size="small" class="input-input"></el-input>
                   </el-col>
-                  <el-button type="primary" plain size="mini" >添加</el-button>
+                  <el-button type="primary" plain size="small" >添加</el-button>
 
                 </el-row>
-                <el-row type="flex" class="ak-li boder1">
+                <el-row type="flex" class="ak-li boder1" align="center">
                   <img src="../../../assets/img/hook.png" alt="">
 
-                  <el-col :span="7">
+                  <el-col :span="7" class="input-item mr-20">
                     <span class="input-text">处理结果：</span>
                     <el-select v-model="value" placeholder="请选择"  size="small" class="input-input">
                       <el-option>
                       </el-option>
                     </el-select>
                   </el-col>
-                  <span class="mr-20">+</span>
-                  <el-col :sm="24" :md="12" :lg="6" class="input-item">
+                  <span> +</span>
+                  <el-col :sm="24" :md="12" :lg="6" class="input-item mr-15">
                     <span class="input-text">处理人：</span>
                     <el-input placeholder="请输入内容" size="small" class="input-input"></el-input>
                   </el-col>
-                  <el-button type="warning" plain size="mini" >删除</el-button>
-
-                </el-row>
-                <el-row type="flex" class="ak-li boder1">
-                  <img src="../../../assets/img/hook.png" alt="">
-
-                  <el-col :span="7">
-                    <span class="input-text">处理结果：</span>
-                    <el-select v-model="value" placeholder="请选择"  size="small">
-                      <el-option>
-                      </el-option>
-                    </el-select>
-                  </el-col>
-                  <span class="mr-20">+</span>
-                  <el-col :sm="24" :md="12" :lg="6" class="input-item">
-                    <span class="input-text">处理人：</span>
-                    <el-input placeholder="请输入内容" size="small"></el-input>
-                  </el-col>
-                  <el-button type="warning" plain size="mini" >删除</el-button>
+                  <el-button type="primary" plain size="small" >添加</el-button>
 
                 </el-row>
               </div>
@@ -302,8 +321,8 @@
      </el-checkbox-group>
     </div>
     <div class="middle">
-      <el-button type="primary" plain class="mb-9" size="small">关联人员查询</el-button>
-      <!-- <el-table
+      <el-button  plain class="table-btn mb-9" size="small">显示窗位图</el-button>
+      <el-table
         ref="multipleTable"
         :data="tableData"
         border
@@ -360,7 +379,7 @@
             <el-button class="table-btn" size="mini" plain @click="$router.push({name:'alarmProcess'})">报警处理</el-button>
          </template>
         </el-table-column>
-      </el-table> -->
+      </el-table>
     </div>
   </div>
 
@@ -462,6 +481,7 @@ export default {
   height: 58px;
   align-items: center;
   padding: 0 30px;
+  /* line-height: 32px; */
 
 }
 </style>

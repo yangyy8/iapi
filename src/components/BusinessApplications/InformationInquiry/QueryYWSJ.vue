@@ -109,7 +109,7 @@
     </div>
 
     <div class="middle">
-      <!-- <el-table
+      <el-table
         ref="multipleTable"
         :data="tableData"
         border
@@ -174,7 +174,7 @@
             <el-button class="table-btn" size="mini" plain @click="detailsDialogVisible=true">详情</el-button>
          </template>
         </el-table-column>
-      </el-table> -->
+      </el-table>
     </div>
     <el-dialog
       title="详情"
@@ -359,4 +359,9 @@ export default {
 .t-input-item .flightDate input{
   width: 42%!important;
 }
+
+.el-table__body{
+    table-layout:auto !important;
+}
+
 </style>

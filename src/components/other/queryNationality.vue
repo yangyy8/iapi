@@ -1,7 +1,7 @@
 <template lang="html">
 <div class="queryNationality">
   <span class="input-text">国籍：</span>
-  <el-select v-model="NATIONALITY" filterable @visible-change="queryNationality" placeholder="请选择"  size="small" class="input-input">
+  <el-select v-model="nationality" filterable @visible-change="queryNationality" placeholder="请选择"  size="small" class="input-input">
     <el-option
       v-for="item in nation"
       :key="item.CODE"
@@ -18,7 +18,7 @@ export default {
   props: {
       nationality: {
           type: String,
-          default: 'ccc'
+          default: ''
       }
   },
   data(){
@@ -31,8 +31,8 @@ export default {
       this.$api.post('/eamp/codeTable/queryNationality',{},
        r => {
          console.log(r);
-         if(r.Success){
-           this.nation=r.Data;
+         if(r.success){
+           this.nation=r.data;
          }
       })
       // this.nation=[

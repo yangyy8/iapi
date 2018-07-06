@@ -25,7 +25,7 @@
             </el-col>
             <el-col :sm="24" :md="12"  :lg="6" class="input-item">
               <span class="input-text">名单状态：</span>
-              <el-select v-model="pd.CARDTYPE" placeholder="请选择"  size="small"  class="input-input">
+              <el-select  placeholder="请选择"  size="small"  class="input-input">
                 <el-option label="已发布" value="1"></el-option>
                 <el-option label="未发布" value="0"></el-option>
                 <!-- <el-option label="" value="1"></el-option> -->
@@ -34,12 +34,12 @@
 
             <el-col :sm="24" :md="12"  :lg="6" class="input-item">
               <span class="input-text">姓名：</span>
-              <el-input placeholder="请输入内容" size="small" v-model="pd.CARDNO"  class="input-input"></el-input>
+              <el-input placeholder="请输入内容" size="small" v-model="pd.FAMILYNAME"  class="input-input"></el-input>
 
             </el-col>
             <el-col :sm="24" :md="12"  :lg="6" class="input-item">
               <span class="input-text">性別：</span>
-              <el-select v-model="pd.CARDTYPE" placeholder="请选择"  size="small"  class="input-input">
+              <el-select v-model="pd.GENDER" placeholder="请选择"  size="small"  class="input-input">
                 <el-option label="男" value="M"></el-option>
                 <el-option label="女" value="F"></el-option>
                 <el-option label="未知" value="U"></el-option>
@@ -51,7 +51,7 @@
               <span class="input-text">出生日期：</span>
               <el-date-picker
                 size="small"
-                v-model="value6"
+                v-model="pd.BIRTHDATE"
                 type="daterange"
                 range-separator="-"
                 start-placeholder="开始日期"
@@ -62,14 +62,14 @@
             </el-col>
             <el-col :sm="24" :md="12"  :lg="6" class="input-item">
               <span class="input-text">出入境类型：</span>
-              <el-select v-model="pd.CARDTYPE" placeholder="请选择"  size="small"  class="block input-input">
+              <el-select  placeholder="请选择"  size="small"  class="block input-input">
                 <el-option label="出境" value="1"></el-option>
                 <el-option label="入境" value="0"></el-option>
               </el-select>
             </el-col>
             <el-col :sm="24" :md="12"  :lg="6" class="input-item">
               <span class="input-text">入境口岸：</span>
-              <el-select v-model="pd.CARDTYPE" placeholder="请选择"  size="small"  class="input-input">
+              <el-select placeholder="请选择"  size="small"  class="input-input">
                 <el-option label="北京首都机场" value="1"></el-option>
                 <el-option label="上海虹桥机场" value="0"></el-option>
               </el-select>
@@ -77,7 +77,7 @@
             </el-col>
             <el-col :sm="24" :md="12"  :lg="6" class="input-item">
               <span class="input-text">出境口岸：</span>
-              <el-select v-model="pd.CARDTYPE" placeholder="请选择"  size="small"  class="input-input">
+              <el-select  placeholder="请选择"  size="small"  class="input-input">
                 <el-option label="北京首都机场" value="1"></el-option>
                 <el-option label="上海虹桥机场" value="0"></el-option>
               </el-select>
@@ -87,7 +87,6 @@
               <span class="input-text">操作时间：</span>
               <el-date-picker
                 size="small"
-                v-model="value6"
                 type="datetimerange"
                 range-separator="-"
                 start-placeholder="开始日期"
@@ -100,7 +99,6 @@
               <span class="input-text">生效时间：</span>
               <el-date-picker
                 size="small"
-                v-model="value6"
                 type="datetimerange"
                 range-separator="-"
                 start-placeholder="开始日期"
@@ -138,7 +136,8 @@
         </el-table-column>
         <el-table-column
           type="index"
-          label="序号">
+          label="序号"
+          width="60">
         </el-table-column>
         <el-table-column
           prop="RECORDNUMBER"
@@ -225,19 +224,18 @@
       <el-form :model="form" ref="addForm">
         <el-row  class="mb-6" align="center">
           <el-col :sm="24" :md="12" :lg="8"  class="input-item">
-            <span class="input-text"><span class="redx">*</span>国籍：</span>
-            <el-input placeholder="请输入内容" size="small" v-model="form.NATIONALITY"  class="input-input"></el-input>
+            <QueryNationality   :nationality="form.NATIONALITY"></QueryNationality>
           </el-col>
           <el-col :sm="24" :md="12" :lg="8"  class="input-item">
             <span class="input-text"><span class="redx">*</span>证件种类：</span>
-            <el-select v-model="pd.CARDTYPE" placeholder="请选择"  size="small"  class="input-input">
+            <el-select v-model="form.CARDTYPE" placeholder="请选择"  size="small"  class="input-input">
               <el-option label="身份证" value="1"></el-option>
               <el-option label="护照" value="2"></el-option>
             </el-select>
           </el-col>
           <el-col :sm="24" :md="12" :lg="8"  class="input-item">
             <span class="input-text"><span class="redx">*</span>证件号码：</span>
-            <el-input placeholder="请输入内容" size="small" v-model="pd.CARDNO"  class="input-input"></el-input>
+            <el-input placeholder="请输入内容" size="small" v-model="form.CARDNO"  class="input-input"></el-input>
 
           </el-col>
           <el-col :sm="24" :md="12" :lg="8"  class="input-item">
@@ -246,7 +244,7 @@
           </el-col>
           <el-col :sm="24" :md="12" :lg="8"  class="input-item">
             <span class="input-text"><span class="redx">*</span>性别：</span>
-            <el-select v-model="pd.CARDTYPE" placeholder="请选择"  size="small"  class="input-input">
+            <el-select v-model="form.CARDTYPE" placeholder="请选择"  size="small"  class="input-input">
               <el-option label="男" value="M"></el-option>
               <el-option label="女" value="F"></el-option>
               <el-option label="未知" value="U"></el-option>
@@ -258,7 +256,7 @@
             <span class="input-text"><span class="redx">*</span>出生日期：</span>
             <el-date-picker
               size="small"
-              v-model="value6"
+              v-model="form.BIRTHDATE"
               type="daterange"
               range-separator="-"
               start-placeholder="开始日期"
@@ -302,7 +300,7 @@
           </el-col>
           <el-col :sm="24" :md="12" :lg="8"  class="input-item">
             <span class="input-text">入境口岸：</span>
-            <el-select v-model="pd.CARDTYPE" placeholder="请选择"  size="small"  class="input-input">
+            <el-select v-model="form.white_port" placeholder="请选择"  size="small"  class="input-input">
               <el-option label="北京首都机场" value="1"></el-option>
               <el-option label="上海虹桥机场" value="0"></el-option>
             </el-select>
@@ -310,19 +308,19 @@
 
           <el-col :sm="24" :md="12" :lg="8"  class="input-item">
             <span class="input-text">出境口岸：</span>
-            <el-select v-model="pd.CARDTYPE" placeholder="请选择"  size="small"  class="input-input">
+            <el-select v-model="form.cj" placeholder="请选择"  size="small"  class="input-input">
               <el-option label="北京首都机场" value="1"></el-option>
               <el-option label="上海虹桥机场" value="0"></el-option>
             </el-select>
           </el-col>
           <el-col :sm="24" :md="12" :lg="8"  class="input-item">
             <span class="input-text">航班号：</span>
-            <el-input placeholder="请输入内容" size="small" v-model="form.NATIONALITY" class="input-input"></el-input>
+            <el-input placeholder="请输入内容" size="small" v-model="form.hbh" class="input-input"></el-input>
 
           </el-col>
           <el-col :sm="24" :md="12" :lg="8" class="input-item">
             <span class="input-text">批准机关：</span>
-            <el-select v-model="pd.CARDTYPE" placeholder="请选择"  size="small"  class="input-input">
+            <el-select v-model="form.pzjg" placeholder="请选择"  size="small"  class="input-input">
               <el-option label="北京首都机场" value="1"></el-option>
               <el-option label="上海虹桥机场" value="0"></el-option>
             </el-select>
@@ -338,7 +336,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="addItem('addForm')" size="small">保存</el-button>
-        <el-button type="warning" @click="addDialogVisible = false" size="small">保存并转发</el-button>
+        <el-button type="warning" @click="releaseDialogVisible=true" size="small">保存并发布</el-button>
         <el-button @click="addDialogVisible = false" size="small">取 消</el-button>
 
       </div>
@@ -488,7 +486,7 @@ export default {
       CurrentPage:1,
       pageSize:10,
       TotalResult:0,
-      pd:{},
+      pd:{"LIST_TYPE":"1"},
       nation:[],
       value:'',
       value1:"",
@@ -539,17 +537,7 @@ export default {
       ],
       multipleSelection: [],
       form: {
-        "NATIONALITY":"CHN",
-        "CARDTYPE":"1",
-        "CARDNO":"11000",
-        "FAMILYNAME":"张三丰",
-        "GENDER":"M",
-        "BIRTHDATE":"20100110",
-        "WHITE_PORT":"首都机场",
-        "CTL_BEGINDATE":"20180505",
-        "CTL_EXPIREDATE":"20180626",
-        "CTL_REASON": "白名单",
-        "SUBORG_NAME": "批准机关",
+
         "synStatus":"0",
     	  "LIST_TYPE":"1",
     	  "IN_OUT":"0"
@@ -570,12 +558,11 @@ export default {
       console.log(val)
     },
     pageSizeChange(val) {
-        this.getList(this.CurrentPage,val,this.pd);
+      this.getList(this.CurrentPage,val,this.pd);
       console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
       this.getList(val,this.pageSize,this.pd);
-
       console.log(`当前页: ${val}`);
     },
     getList(currentPage,showCount,pd){
@@ -587,17 +574,8 @@ export default {
       this.$api.post('/eamp/nameList/getNameListPage',p,
        r => {
          console.log(r);
-         this.tableData=r.Data.ResultList;
-         this.TotalResult=r.Data.TotalResult;
-      })
-    },
-    queryNationality(){
-      this.$api.post('/eamp/codeTable/queryNationality',{},
-       r => {
-         console.log(r);
-         if(r.Success){
-           this.nation=r.Data;
-         }
+         this.tableData=r.data.resultList;
+         this.TotalResult=r.data.totalResult;
       })
     },
     addItem(formName){
@@ -613,13 +591,13 @@ export default {
       this.$api.post('/eamp/nameList/addNameList',this.form,
        r => {
          console.log(r);
-         if(r.Success){
+         if(r.success){
            this.$message({
              message: '恭喜你，添加成功！',
              type: 'success'
            });
          }else{
-           this.$message.error(r.Message);
+           this.$message.error(r.message);
          }
         this.$refs[formName].resetFields();
         this.addDialogVisible=false;
@@ -629,6 +607,9 @@ export default {
         this.$message.error('失败了');
       })
     },
+    // add2(formName){
+    //
+    // },
     details(i){
       this.detailsDialogVisible=true;
       console.log(i);
