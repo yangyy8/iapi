@@ -140,11 +140,11 @@ export default {
                text:"关联人员查询",
                name:"QueryGLRY"
              },
-             {
-               id:16,
-               text:"业务规则查询",
-               name:"QueryYWGZ"
-             },
+             // {
+             //   id:16,
+             //   text:"业务规则查询",
+             //   name:"QueryYWGZ"
+             // },
              {
                id:17,
                text:"校验比对结果查询",
@@ -301,11 +301,11 @@ export default {
                text:"MQ监控",
                name:"MonitorMQ"
              },
-             {
-               id:17,
-               text:"边界交换平台监控",
-               name:"MonitorBJJHPT"
-             },
+             // {
+             //   id:17,
+             //   text:"边界交换平台监控",
+             //   name:"MonitorBJJHPT"
+             // },
 
            ]
          },
@@ -318,21 +318,21 @@ export default {
                text:"数据一致性监控",
                name:"MonitorSJYZX"
              },
-             {
-               id:22,
-               text:"技术网关监控",
-               name:"MonitorJSWG"
-             },
-             {
-               id:23,
-               text:"整合分发监控",
-               name:"MonitorZHFF"
-             },
-             {
-               id:24,
-               text:"数据定位",
-               name:"MonitorSJDW"
-             },
+             // {
+             //   id:22,
+             //   text:"技术网关监控",
+             //   name:"MonitorJSWG"
+             // },
+             // {
+             //   id:23,
+             //   text:"整合分发监控",
+             //   name:"MonitorZHFF"
+             // },
+             // {
+             //   id:24,
+             //   text:"数据定位",
+             //   name:"MonitorSJDW"
+             // },
 
            ]
          },
@@ -460,7 +460,7 @@ export default {
 
 }
 .content{
-  background: url(../assets/img/bg.png) no-repeat;
+  background: url(./../assets/img/bg.png) no-repeat;
   background-size: 100% 100%;
   padding-bottom: 115px;
 }
