@@ -69,17 +69,17 @@ export default {
            text:"报警处理",
            list:[
              {
-               id:1,
+               id:11,
                text:"名单比对报警",
                name:"ProcessMDBJ"
              },
              {
-               id:2,
+               id:12,
                text:"二次查控报警",
                name:"ProcessECBDBJ"
              },
              {
-               id:3,
+               id:13,
                text:"重点关注人员预报警",
                name:"ProcessZDGZRY"
              },
@@ -91,7 +91,7 @@ export default {
            text:"常规业务处理",
            list:[
              {
-               id:1,
+               id:21,
                text:"指令变更",
                name:"ProcessZLBG"
              },
@@ -103,7 +103,7 @@ export default {
            text:"备降航班处理",
            list:[
              {
-               id:1,
+               id:31,
                text:"航班状态变更",
                name:"ProcessHBZT"
              }
@@ -116,37 +116,37 @@ export default {
            text:"信息查询",
            list:[
              {
-               id:1,
+               id:11,
                text:"人员信息查询",
                name:"QueryRYXX"
              },
              {
-               id:2,
+               id:12,
                text:"业务事件查询",
                name:"QueryYWSJ"
              },
              {
-               id:3,
+               id:13,
                text:"航班信息查询",
                name:"QueryHBXX"
              },
              {
-               id:4,
+               id:14,
                text:"命中人员查询",
                name:"QueryMZRY"
              },
              {
-               id:5,
+               id:15,
                text:"关联人员查询",
                name:"QueryGLRY"
              },
              {
-               id:6,
+               id:16,
                text:"业务规则查询",
                name:"QueryYWGZ"
              },
              {
-               id:7,
+               id:17,
                text:"校验比对结果查询",
                name:"QueryJYBDJG"
              }
@@ -159,23 +159,23 @@ export default {
            text:"名单管理",
            list:[
              {
-               id:1,
+               id:11,
                text:"名单数据分析",
                name:"ListMDSJFX"
              },
              {
-               id:2,
+               id:12,
                text:"白名单管理",
                name:"ListBMD"
 
              },
              {
-               id:3,
+               id:13,
                text:"临控名单管理",
                name:"ListLKMD"
              },
              {
-               id:4,
+               id:14,
                text:"重点关注人员",
                name:"LIstZDGZRYMD"
              },
@@ -187,17 +187,17 @@ export default {
            text:"业务规则管理",
            list:[
              {
-               id:1,
+               id:21,
                text:"数据项校验规则管理",
                name:"ListSJXJYGZ"
              },
              {
-               id:2,
+               id:22,
                text:"一般性规则管理",
                name:"ListYBXGZ"
              },
              {
-               id:3,
+               id:23,
                text:"免签规则管理",
                name:"ListMQGZ"
              },
@@ -212,7 +212,7 @@ export default {
            text:"全国监控",
            list:[
              {
-               id:1,
+               id:11,
                text:"全国航班实时监控",
                name:"NationalHBSSJK"
              },
@@ -227,12 +227,12 @@ export default {
            text:"机构管理",
            list:[
              {
-               id:1,
+               id:11,
                text:"部门管理",
                name:"ManageBM"
              },
              {
-               id:2,
+               id:12,
                text:"用户管理",
                name:"ManageYH"
 
@@ -246,17 +246,17 @@ export default {
            text:"权限管理",
            list:[
              {
-               id:1,
+               id:21,
                text:"角色管理",
                name:"ManageJS"
              },
              {
-               id:2,
+               id:22,
                text:"集中用户管理",
                name:"ManageJZYH"
              },
              {
-               id:3,
+               id:23,
                text:"用户认证与登录",
                name:"ManageDL"
              },
@@ -271,38 +271,38 @@ export default {
            text:"运行状态监控",
            list:[
              {
-               id:1,
+               id:11,
                text:"服务器监控",
                name:"MonitorFWQ"
              },
              {
-               id:2,
+               id:12,
                text:"数据库监控",
                name:"MonitorSJK"
 
              },
              {
-               id:3,
+               id:13,
                text:"应用程序监控",
                name:"MonitorYYCX"
              },
              {
-               id:4,
+               id:14,
                text:"接口服务监控",
                name:"MonitorJKFW"
              },
              {
-               id:5,
+               id:15,
                text:"Redis监控",
                name:"MonitorRedis"
              },
              {
-               id:6,
+               id:16,
                text:"MQ监控",
                name:"MonitorMQ"
              },
              {
-               id:7,
+               id:17,
                text:"边界交换平台监控",
                name:"MonitorBJJHPT"
              },
@@ -314,22 +314,22 @@ export default {
            text:"数据监控",
            list:[
              {
-               id:1,
+               id:21,
                text:"数据一致性监控",
                name:"MonitorSJYZX"
              },
              {
-               id:2,
+               id:22,
                text:"技术网关监控",
                name:"MonitorJSWG"
              },
              {
-               id:3,
+               id:23,
                text:"整合分发监控",
                name:"MonitorZHFF"
              },
              {
-               id:4,
+               id:24,
                text:"数据定位",
                name:"MonitorSJDW"
              },
@@ -341,7 +341,7 @@ export default {
            text:"日志监控",
            list:[
              {
-               id:1,
+               id:31,
                text:"日志监控",
                name:"MonitorRZJK"
              },
@@ -353,12 +353,12 @@ export default {
            text:"性能监控",
            list:[
              {
-               id:1,
+               id:41,
                text:"校验比对性能监控",
                name:"MonitorJYBDXN"
              },
              {
-               id:2,
+               id:42,
                text:"整合分发性能监控",
                name:"MonitorZHFFXN"
              },
@@ -406,12 +406,12 @@ export default {
      nav1to2(id,list){
        this.isNav2Show();
        this.nav1Id=id;
-       this.nav2Id=1;
+       // this.nav2Id=11;
        this.nav2List=list
      },
      nav2(item){
        this.nav2Id=item.id;
-       console.log(item)
+       console.log(item,item.id)
        new Set(this.tabList)
 
        this.tabList.push(item)

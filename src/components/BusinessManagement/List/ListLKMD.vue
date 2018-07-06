@@ -463,7 +463,7 @@ export default {
       CurrentPage:1,
       pageSize:10,
       TotalResult:0,
-      pd:{},
+      pd:{"LIST_TYPE":"2",},
       nation:[],
       value:'',
       value1:"",
@@ -487,19 +487,8 @@ export default {
       tableData: [],
       multipleSelection: [],
       form: {
-        "NATIONALITY":"CHN",
-        "CARDTYPE":"1",
-        "CARDNO":"11000",
-        "FAMILYNAME":"张三丰",
-        "GENDER":"M",
-        "BIRTHDATE":"20100110",
-        "WHITE_PORT":"首都机场",
-        "CTL_BEGINDATE":"20180505",
-        "CTL_EXPIREDATE":"20180626",
-        "CTL_REASON": "白名单",
-        "SUBORG_NAME": "批准机关",
         "synStatus":"0",
-    	  "LIST_TYPE":"1",
+    	  "LIST_TYPE":"2",
     	  "IN_OUT":"0"
         },
       releaseform:{
@@ -535,8 +524,8 @@ export default {
       this.$api.post('/eamp/nameList/getNameListPage',p,
        r => {
          console.log(r);
-         this.tableData=r.Data.ResultList;
-         this.TotalResult=r.Data.TotalResult;
+         this.tableData=r.data.resultList;
+         this.TotalResult=r.data.totalResult;
       })
     },
     queryNationality(){

@@ -11,6 +11,8 @@ import api from './api/index.js'
 // import 'lib-flexible/flexible'
 import App from './App'
 import router from './router'
+import echarts from 'echarts'
+Vue.prototype.$echarts = echarts
 
 Vue.config.productionTip = false
 Vue.use(ElementUI);
