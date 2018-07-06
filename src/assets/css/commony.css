@@ -1,12 +1,11 @@
-.yy-input-item{
-  display: flex;
-  justify-content: flex-start;
-  line-height: 32px;
+
+
+.yy-th-data tr td:first-child{
+  background-color: #78a4d1 !important;
+  color:#fff !important;
+
 }
-.yy-flightDate{
-  width:211px!important;
-  height:32px!important;
-}
-.yy-input-item .yy-flightDate .el-range-input{
-  width: 42%!important;
+.yy-th-data thead tr:last-child th{
+  background-color: #858585 !important;
+  color: #ffffff !important;
 }

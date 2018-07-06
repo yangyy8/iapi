@@ -122,6 +122,7 @@
 
               <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row.SERIAL)">处理</el-button>
             </div>
+
          </template>
         </el-table-column>
       </el-table>
