@@ -76,7 +76,7 @@
     </div>
     <div class="middle">
 
-      <!-- <el-table
+      <el-table
         :data="tableData"
         border
         fit
@@ -144,7 +144,7 @@
             <el-button class="table-btn" size="mini" plain @click="detailsDialogVisible=true">详情</el-button>
          </template>
         </el-table-column>
-      </el-table> -->
+      </el-table>
       <div class="middle-foot">
         <div class="page-msg">
           <div class="">

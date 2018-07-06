@@ -303,7 +303,7 @@
     </div>
     <div class="middle">
       <el-button type="primary" plain class="mb-9" size="small">关联人员查询</el-button>
-      <!-- <el-table
+      <el-table
         ref="multipleTable"
         :data="tableData"
         border
@@ -355,12 +355,13 @@
           label="当前状态">
         </el-table-column>
         <el-table-column
-          label="操作">
+          label="操作"
+          width="160">
           <template slot-scope="scope">
             <el-button class="table-btn" size="mini" plain @click="$router.push({name:'alarmProcess'})">报警处理</el-button>
          </template>
         </el-table-column>
-      </el-table> -->
+      </el-table>
     </div>
   </div>
 
