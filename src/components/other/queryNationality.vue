@@ -33,6 +33,7 @@ export default {
          console.log(r);
          if(r.success){
            this.nation=r.data;
+           this.$emit('transNation',this.nationality)
          }
       })
       // this.nation=[

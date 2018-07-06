@@ -9,7 +9,7 @@
           </div>
           <el-row align="center" :gutter="2">
             <el-col  :sm="24" :md="12" :lg="6"  class="input-item">
-              <QueryNationality   :nationality="pd.NATIONALITY"></QueryNationality>
+              <QueryNationality   :nationality="pd.NATIONALITY" @transNation="getNation"></QueryNationality>
             </el-col>
             <el-col :sm="24" :md="12" :lg="6" class="input-item">
               <span class="input-text">证件种类：</span>
@@ -277,7 +277,7 @@
             <span class="input-text"><span class="redx">*</span>生效日期：</span>
             <el-date-picker
               size="small"
-              v-model="value6"
+
               type="datetimerange"
               range-separator="-"
               start-placeholder="开始日期"
@@ -290,7 +290,7 @@
             <span class="input-text"><span class="redx">*</span>失效日期：</span>
             <el-date-picker
               size="small"
-              v-model="value6"
+
               type="datetimerange"
               range-separator="-"
               start-placeholder="开始日期"
@@ -488,8 +488,6 @@ export default {
       TotalResult:0,
       pd:{"LIST_TYPE":"1"},
       nation:[],
-      value:'',
-      value1:"",
       addDialogVisible:false,
       detailsDialogVisible:false,
       releaseDialogVisible:false,
@@ -565,12 +563,16 @@ export default {
       this.getList(val,this.pageSize,this.pd);
       console.log(`当前页: ${val}`);
     },
+    getNation(msg){
+      this.pd.NATIONALITY=msg;
+    },
     getList(currentPage,showCount,pd){
       let p={
       	"currentPage":currentPage,
       	"showCount":showCount,
       	"pd":pd
       };
+      console.log(pd)
       this.$api.post('/eamp/nameList/getNameListPage',p,
        r => {
          console.log(r);
