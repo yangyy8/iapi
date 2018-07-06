@@ -72,6 +72,7 @@
                    :label="item.label"
                    :value="item.value" >
                  </el-option>
+
                </el-select>
 
             </el-col>
@@ -338,6 +339,7 @@
           <el-col :span="8">
             <span>航班号</span>
             张某某
+
 
           </el-col>
           <el-col :span="8">
