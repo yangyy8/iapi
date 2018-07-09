@@ -237,8 +237,6 @@ export default {
                name:"ManageYH"
 
              },
-
-
            ]
          },
          {
@@ -272,25 +270,30 @@ export default {
            list:[
              {
                id:11,
+               text:"网络综合监控",
+               name:"MonitorBJJHPT"
+             },
+             {
+               id:12,
                text:"服务器监控",
                name:"MonitorFWQ"
              },
              {
-               id:12,
+               id:13,
+               text:"接口服务监控",
+               name:"MonitorJKFW"
+             },
+             {
+               id:14,
                text:"数据库监控",
                name:"MonitorSJK"
 
              },
-             {
-               id:13,
-               text:"应用程序监控",
-               name:"MonitorYYCX"
-             },
-             {
-               id:14,
-               text:"接口服务监控",
-               name:"MonitorJKFW"
-             },
+             // {
+             //   id:13,
+             //   text:"应用程序监控",
+             //   name:"MonitorYYCX"
+             // },
              {
                id:15,
                text:"Redis监控",
@@ -301,11 +304,6 @@ export default {
                text:"MQ监控",
                name:"MonitorMQ"
              },
-             // {
-             //   id:17,
-             //   text:"边界交换平台监控",
-             //   name:"MonitorBJJHPT"
-             // },
 
            ]
          },

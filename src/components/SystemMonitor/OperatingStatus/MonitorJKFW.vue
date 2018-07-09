@@ -11,19 +11,19 @@
             <el-row align="center" type="flex" justify="center"   :gutter="2" class="pr-20">
               <el-col  :span="8"  class="input-item">
                 <span class="input-text">监控区域：</span>
-                <el-select v-model="dd"  class="input-input" @visible-change="queryNationality" multiple placeholder="请选择"  size="small">
-                  <el-option
-                    v-for="item in nation"
-                    :key="item.CODE"
-                    :label="item.CNAME"
-                    :value="item.CODE">
+                <el-select v-model="pd.zone"  class="input-input"  placeholder="请选择"  size="small">
+                  <el-option value=""  label="全部">
+                  </el-option>
+                  <el-option value="1"  label="DMZ区">
+                  </el-option>
+                  <el-option value="2"  label="整合分发区">
                   </el-option>
                 </el-select>
               </el-col>
             </el-row>
           </el-col>
           <el-col :span="4" class="down-btn-area" style="margin-top:25px;">
-            <el-button type="success" size="small" @click="getList(CurrentPage,pageSize,pd)">查询</el-button>
+            <el-button type="success" size="small" @click="getList(pd)">查询</el-button>
 
           </el-col>
         </el-row>
@@ -33,35 +33,32 @@
       <el-table
         :data="tableData"
         border
-        style="width: 100%;"
-        @selection-change="handleSelectionChange">
+        style="width: 100%;">
+        <el-table-column
+          label="区域"
+        >
+          <template slot-scope="scope">
+            <div class="">
+              {{scope.row.zone | fifter1}}
+            </div>
+          </template>
 
-                <el-table-column
-                  prop="area"
-                  label="区域"
-                >
-                </el-table-column>
-                <el-table-column
-                  prop="adress"
-                  label="服务器地址"
-                >
-                </el-table-column>
-                <el-table-column
-                  prop="state"
-                  label="节点状态"
-                >
-                </el-table-column>
-                <el-table-column
-                  prop="mqstate"
-                  label="队列状态"
-                >
-                </el-table-column>
-                <el-table-column
-                  prop="mqsd"
-                  label="队列深度"
-                >
-                </el-table-column>
-
+        </el-table-column>
+        <el-table-column
+          prop="url"
+          label="URL"
+        >
+        </el-table-column>
+        <el-table-column
+          prop="name"
+          label="服务名称"
+        >
+        </el-table-column>
+        <el-table-column
+          prop="status"
+          label="服务状态"
+        >
+        </el-table-column>
       </el-table>
 
     </div>
@@ -73,27 +70,36 @@
 export default {
   data() {
     return {
-      tableData: [{
-        area: 'DMZ区',
-        adress: '192.168.10.1',
-        state: 'UP',
-        mqstate: 'UP',
-        mqsd: '10000'
-      }, {
-        area: 'DMZ区',
-        adress: '192.168.10.1',
-        state: 'UP',
-        mqstate: 'UP',
-        mqsd: '10000'
-      }, {
-        area: '整合分发区',
-        adress: '10.1.6.10',
-        state: 'DWON',
-        mqstate: 'DWON',
-        mqsd: '556600'
-      }]
+      pd: {zone:''},
+      tableData:[]
     }
   },
+  created() {
+    this.getList(this.pd);
+
+  },
+  methods: {
+
+    getList(pd) {
+      this.$api.post('/eamp/monitorSpring/queryMonitorSpring', pd,
+        r => {
+          console.log(r);
+
+          this.tableData = r.data;
+        })
+    },
+  },
+  filters:{
+
+    fifter1(val){
+      if(val==0){
+        return "DMZ区"
+      }else{
+        return "整合分发区"
+      }
+      // return val*2
+    }
+  }
 
 }
 </script>

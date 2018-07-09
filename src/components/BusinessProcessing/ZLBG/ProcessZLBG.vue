@@ -10,7 +10,7 @@
         <el-row align="center"   :gutter="2" class="pr-20">
           <el-col  :sm="24" :md="12" :lg="6"  class="input-item">
               <span class="input-text">国籍：</span>
-              <el-select v-model="pd.NATIONALITY"  class="input-input" @visible-change="queryNationality" multiple placeholder="请选择"  size="small">
+              <el-select v-model="pd.NATIONALITY"  class="input-input" @visible-change="queryNationality"  placeholder="请选择"  size="small">
                 <el-option
                   v-for="item in nation"
                   :key="item.CODE"
@@ -21,36 +21,34 @@
             </el-col>
             <el-col  :sm="24" :md="12" :lg="6"   class="input-item">
               <span class="input-text">证件号码：</span>
-              <el-input placeholder="请输入内容" size="small" v-model="pd.CARDNO" class="input-input"></el-input>
+              <el-input placeholder="请输入内容" size="small" v-model="pd.PASSPORTNO" class="input-input"></el-input>
             </el-col>
 
           <el-col  :sm="24" :md="12" :lg="6"   class="input-item">
               <span class="input-text">航班号：</span>
-              <el-input placeholder="请输入内容" size="small" v-model="pd.CARDNO" class="input-input"></el-input>
+              <el-input placeholder="请输入内容" size="small" v-model="pd.FLTNO" class="input-input"></el-input>
             </el-col>
               <el-col  :sm="24" :md="12" :lg="6"   class="input-item">
               <span class="input-text">航班日期：</span>
-              <el-date-picker
-                 v-model="HBRQ"
-                 type="daterange"
-                 align="right"
-                 unlink-panels
-                 range-separator="-"
-                 start-placeholder="开始日期"
-                 end-placeholder="结束日期"
-                  class="input-input block"
-                 :picker-options="pickerOptions2" size="small">
-               </el-date-picker>
+                 <el-date-picker
+                 v-model="pd.STARTTIME"
+                 type="date" size="small"
+                 placeholder="选择日期">
+               </el-date-picker>-
+               <el-date-picker
+                  v-model="pd.ENDTIME"
+                  type="date" size="small"
+                  placeholder="选择日期" clearable="false">
+              </el-date-picker>
             </el-col>
-
             <el-col  :sm="24" :md="12" :lg="6"   class="input-item">
               <span class="input-text">姓名：</span>
-              <el-input placeholder="请输入内容" size="small" v-model="pd.FAMILYNAME"   class="input-input"></el-input>
-
+              <el-input placeholder="请输入内容" size="small" v-model="pd.NAME"   class="input-input"></el-input>
+              &nbsp;<el-checkbox v-model="pd.ISBLURRED">模糊查询</el-checkbox>
             </el-col>
-                      <el-col  :sm="24" :md="12" :lg="6"   class="input-item">
+                  <el-col  :sm="24" :md="12" :lg="6"   class="input-item">
               <span class="input-text">性别：</span>
-              <el-select v-model="sex" placeholder="请选择" size="small" class="input-input">
+              <el-select v-model="pd.GENDER" placeholder="请选择" size="small" class="input-input">
                  <el-option
                    v-for="item in options"
                    :key="item.value"
@@ -58,25 +56,23 @@
                    :value="item.value" >
                  </el-option>
                </el-select>
-
             </el-col>
               <el-col  :sm="24" :md="12" :lg="6"   class="input-item">
               <span class="input-text">出生日期：</span>
-                <el-date-picker
-                   v-model="CSRQ"
-                   type="daterange"
-                   align="right"
-                   unlink-panels
-                   range-separator="-"
-                   start-placeholder="开始日期"
-                   end-placeholder="结束日期"
-                  class="input-input block"
-                   :picker-options="pickerOptions2" size="small">
-                 </el-date-picker>
+              <el-date-picker
+              v-model="pd.STARTBIRTH"
+              type="date" size="small"
+              placeholder="选择日期">
+            </el-date-picker>-
+            <el-date-picker
+               v-model="pd.ENDBIRTH"
+               type="date" size="small"
+               placeholder="选择日期" clearable="false">
+           </el-date-picker>
             </el-col>
               <el-col  :sm="24" :md="12" :lg="6"   class="input-item">
               <span class="input-text">反馈状态：</span>
-              <el-select v-model="state" placeholder="请选择"   size="small" class="input-input">
+              <el-select v-model="pd.CHECKRESULT" placeholder="请选择"   size="small" class="input-input">
                  <el-option
                    v-for="item in options"
                    :key="item.value"
@@ -90,7 +86,6 @@
         </el-col>
         <el-col :span="2" class="down-btn-area">
           <el-button type="success" size="small" @click="getList(CurrentPage,pageSize,pd)">查询</el-button>
-
         </el-col>
 
       </el-row>
@@ -117,12 +112,12 @@
                 >
                 </el-table-column>
                 <el-table-column
-                  prop="CARDNO"
+                  prop="PASSPORTNO"
                   label="证件号码"
                 >
                 </el-table-column>
                 <el-table-column
-                  prop="FAMILYNAME"
+                  prop="NAME"
                   label="姓名"
                 >
                 </el-table-column>
@@ -132,28 +127,28 @@
                 >
                 </el-table-column>
                 <el-table-column
-                  prop="BIRTHdate"
+                  prop="DATEOFBIRTH"
                   label="出生日期"
                   >
                 </el-table-column>
                 <el-table-column
-                  prop="RECORDNUMBER"
+                  prop="FLTNO"
                   label="航班号"
                 >
                 </el-table-column>
                 <el-table-column
-                  prop="cardEXPIREDATE"
+                  prop="SCHEDULEDEPARTURETIME"
                   label="航班日期"
                   >
                 </el-table-column>
                 <el-table-column
-                  prop="cardEXPIREDATE"
+                  prop="FLIGHTSTATUS"
                   label="航班状态"
                   >
                 </el-table-column>
                 <el-table-column
-                  prop="cardEXPIREDATE"
-                  label="直接状态"
+                  prop="CHECKRESULT"
+                  label="值机状态"
                   >
                 </el-table-column>
                 <el-table-column
@@ -282,113 +277,7 @@
       </div>
     </el-dialog>
 
-    <el-dialog
-      title="详情"
-      :visible.sync="detailsDialogVisible"
-      width="950px">
-      <div class="detail-msg-text">
-        <el-row type="flex" class="detail-msg-row">
-          <el-col :span="8">
-            <span>姓名</span>
-            张某某
 
-          </el-col>
-          <el-col :span="8">
-            <span>性别</span>
-            男
-
-          </el-col>
-          <el-col :span="8">
-            <span>出生日期</span>
-            2000年10月10日
-
-          </el-col>
-        </el-row>
-        <el-row type="flex" class="detail-msg-row">
-          <el-col :span="8">
-            <span>国籍</span>/
-            张某某
-
-          </el-col>
-          <el-col :span="8">
-            <span>证件号码</span>
-            张某某
-
-          </el-col>
-          <el-col :span="8">
-            <span>签证号码</span>
-            张某某
-
-          </el-col>
-        </el-row>
-        <el-row type="flex" class="detail-msg-row">
-          <el-col :span="8">
-            <span>出入标识</span>
-            张某某
-
-          </el-col>
-          <el-col :span="8">
-            <span>第二证号</span>
-            张某某
-
-          </el-col>
-          <el-col :span="8">
-            <span>第二国籍</span>
-            张某某
-
-          </el-col>
-        </el-row>
-        <el-row type="flex" class="detail-msg-row">
-          <el-col :span="8">
-            <span>航班号</span>
-            张某某
-
-          </el-col>
-          <el-col :span="8">
-            <span>出发地</span>
-            张某某
-
-          </el-col>
-          <el-col :span="8">
-            <span>目的地</span>
-            张某某
-
-          </el-col>
-        </el-row>
-        <el-row type="flex" class="detail-msg-row mb-20">
-          <el-col :span="8">
-            <span>报警类型</span>
-            张某某
-
-          </el-col>
-          <el-col :span="8">
-            <span>报警时间</span>
-            张某某
-
-          </el-col>
-        </el-row>
-        <el-row type="flex" class="detail-msg-row">
-          <el-col :span="5">
-            <span>操作人</span>
-            张某某
-
-          </el-col>
-          <el-col :span="5">
-            <span>审批人</span>
-            张某某
-
-          </el-col>
-          <el-col :span="6">
-            <span>操作时间</span>
-            张某某
-
-          </el-col>
-        </el-row>
-      </div>
-      <span slot="footer" class="dialog-footer">
-        <el-button type="warning" @click="detailsDialogVisible = false" size="small">关闭页面</el-button>
-      </span>
-    </el-dialog>
   </div>
 
 </template>
@@ -421,50 +310,7 @@ export default {
       ],
       tableData: [],
       multipleSelection: [],
-      options: [{
-        value: '0',
-        label: '未知'
-      }, {
-        value: '1',
-        label: '男'
-      }, {
-        value: '2',
-        label: '女'
-      }],
-      sex: '',
-
-      pickerOptions2: {
-        shortcuts: [{
-          text: '最近一周',
-          onClick(picker) {
-            const end = new Date();
-            const start = new Date();
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
-            picker.$emit('pick', [start, end]);
-          }
-        }, {
-          text: '最近一个月',
-          onClick(picker) {
-            const end = new Date();
-            const start = new Date();
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
-            picker.$emit('pick', [start, end]);
-          }
-        }, {
-          text: '最近三个月',
-          onClick(picker) {
-            const end = new Date();
-            const start = new Date();
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
-            picker.$emit('pick', [start, end]);
-          }
-        }]
-      },
-      HBRQ: '',
-      CSRQ: '',
-
-
-      form: {
+            form: {
         "NATIONALITY": "CHN",
         "CARDTYPE": "1",
         "CARDNO": "11000",
@@ -505,11 +351,11 @@ export default {
         "showCount": showCount,
         "pd": pd
       };
-      this.$api.post('/eamp/nameList/getNameListPage', p,
+      this.$api.post('/eamp/iapiUnscolicited/search', p,
         r => {
           console.log(r);
-          this.tableData = r.Data.ResultList;
-          this.TotalResult = r.Data.TotalResult;
+          this.tableData = r.data.pdList;
+          this.TotalResult = r.data.totalResult;
         })
     },
     queryNationality() {
@@ -521,44 +367,7 @@ export default {
           }
         })
     },
-    addItem(formName) {
-      // this.$refs[formName].validate((valid) => {
-      //     if (valid) {
-      //       console.log(valid)
-      //       alert('submit!');
-      //     } else {
-      //       console.log('error submit!!');
-      //       return false;
-      //     }
-      //   });
-      this.$api.post('/eamp/nameList/addNameList', this.form,
-        r => {
-          console.log(r);
-          if (r.Success) {
-            this.$message({
-              message: '恭喜你，添加成功！',
-              type: 'success'
-            });
-          } else {
-            this.$message.error(r.Message);
-          }
-          this.$refs[formName].resetFields();
-          this.addDialogVisible = false;
-          this.getList();
-          // this.tableData=r.Data.ResultList;
-        }, e => {
-          this.$message.error('失败了');
-        })
-    },
-    details(i) {
-      this.detailsDialogVisible = true;
-      console.log(i);
-      this.$api.post('/eamp/nameList/getNameListData', i,
-        r => {
-          console.log(r);
-          // this.tableData=r.Data.ResultList;
-        })
-    },
+
 
   }
 }
