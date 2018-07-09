@@ -4,7 +4,7 @@
 
       <el-row type="flex" class="middle">
         <el-col :span="21" class="br pr-20">
-          <div class="title-green ">
+          <div class="title-green">
             查询条件
           </div>
           <el-row align="center" :gutter="2">
