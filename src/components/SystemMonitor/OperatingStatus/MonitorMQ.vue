@@ -7,30 +7,30 @@
         :data="tableData"
         border
         style="width: 100%;"
-        @selection-change="handleSelectionChange">
+        >
 
                 <el-table-column
-                  prop="area"
+                  prop="zone"
                   label="区域"
                 >
                 </el-table-column>
                 <el-table-column
-                  prop="adress"
+                  prop="ipAddress"
                   label="服务器地址"
                 >
                 </el-table-column>
                 <el-table-column
-                  prop="state"
+                  prop="nodeStatus"
                   label="节点状态"
                 >
                 </el-table-column>
                 <el-table-column
-                  prop="mqstate"
+                  prop="queueStatus"
                   label="队列状态"
                 >
                 </el-table-column>
                 <el-table-column
-                  prop="mqsd"
+                  prop="queueNum"
                   label="队列深度"
                 >
                 </el-table-column>
@@ -44,27 +44,22 @@
 
 <script>
 export default {
+  created(){
+  this.getList({});
+  },
+  methods:{
+    getList(pd){
+      this.$api.post('/eamp/monitorMQ/queryMonitorMQ',pd,
+       r => {
+         console.log(r);
+         this.tableData=r.data;
+
+      })
+    },
+  },
   data() {
     return {
-      tableData: [{
-             area: 'DMZ区',
-             adress: '192.168.10.1',
-             state: 'UP',
-             mqstate:'UP',
-             mqsd:'10000'
-           }, {
-             area: 'DMZ区',
-             adress: '192.168.10.1',
-             state: 'UP',
-             mqstate:'UP',
-             mqsd:'10000'
-           }, {
-             area: '整合分发区',
-             adress: '10.1.6.10',
-             state: 'DWON',
-             mqstate:'DWON',
-             mqsd:'556600'
-           }]
+
     }
   },
 
