@@ -18,17 +18,36 @@
             <el-col :span="22" class="br flex-c pr-20">
               <el-row align="center" :gutter="2">
                 <el-col :sm="24" :md="12" :lg="6" class="input-item">
+                  <span class="input-text">洲：</span>
+                  <el-select placeholder="请选择" v-model="pd.continentsCodeEqual" filterable @visible-change="chau" @change="nationality(pd.continentsCodeEqual)" size="small"  class="input-input">
+                    <el-option
+                      v-for="item in chauName"
+                      :key="item.code"
+                      :value="item.code"
+                      :label="item.name"
+                    ></el-option>
+                  </el-select>
+                </el-col>
+                <el-col :sm="24" :md="12" :lg="6" class="input-item">
                   <span class="input-text">国籍：</span>
-                  <el-select placeholder="请选择"  size="small"  class="input-input">
-                    <el-option label="中国" value="1"></el-option>
-                    <el-option label="美国" value="2"></el-option>
+                  <el-select placeholder="请选择" v-model="pd.nationalityEqual" filterable  size="small"  class="input-input">
+                    <el-option
+                      v-for="item in selection"
+                      :key="item.code"
+                      :value="item.code"
+                      :label="item.name"
+                    ></el-option>
                   </el-select>
                 </el-col>
                 <el-col :sm="24" :md="12" :lg="6" class="input-item">
                   <span class="input-text">证件种类：</span>
-                  <el-select placeholder="请选择"  size="small"  class="input-input">
-                    <el-option label="身份证" value="1"></el-option>
-                    <el-option label="护照" value="2"></el-option>
+                  <el-select placeholder="请选择" v-model="pd.passporttypeEqual" filterable @visible-change="idType"  size="small"  class="input-input">
+                    <el-option
+                      v-for="item in idName"
+                      :key="item.CODE"
+                      :value="item.CODE"
+                      :label="item.NAME"
+                    ></el-option>
                   </el-select>
                 </el-col>
                 <el-col :sm="24" :md="12" :lg="6" class="input-item">
@@ -42,16 +61,14 @@
 
                 <el-col :sm="24" :md="12" :lg="6" class="input-item">
                   <span class="input-text">姓名：</span>
-                  <el-select v-model="value" placeholder="请选择"  size="small" class="input-input">
-                    <el-option>
-                    </el-option>
-                  </el-select>
+                  <el-input placeholder="请输入内容" size="small" class="input-input"></el-input>
                 </el-col>
                 <el-col :sm="24" :md="12" :lg="6" class="input-item">
                   <span class="input-text">性别：</span>
-                  <el-select placeholder="请选择"  size="small"  class="input-input">
-                    <el-option label="身份证" value="1"></el-option>
-                    <el-option label="护照" value="2"></el-option>
+                  <el-select placeholder="请选择" v-model="pd.genderEqual" size="small"  class="input-input">
+                    <el-option label="男" value="M"></el-option>
+                    <el-option label="女" value="F"></el-option>
+                    <el-option label="未知" value="U"></el-option>
                   </el-select>
                 </el-col>
 
@@ -82,8 +99,12 @@
 
                 <el-col :sm="24" :md="12" :lg="6" class="input-item">
                   <span class="input-text">起飞机场：</span>
-                  <el-select v-model="value" placeholder="请选择"  size="small" class="input-input">
-                    <el-option>
+                  <el-select placeholder="请选择" v-model="pd.cityfromEqual" filterable @visible-change="takeOff" size="small" class="input-input">
+                    <el-option
+                    v-for="item in takeOffName"
+                    :key="item.AIRPORT_CODE"
+                    :value="item.AIRPORT_CODE"
+                    :label="item.AIRPORT_NAME">
                     </el-option>
                   </el-select>
                 </el-col>
@@ -102,7 +123,14 @@
 
                 <el-col :sm="24" :md="12" :lg="6" class="input-item">
                   <span class="input-text">到达机场：</span>
-                  <el-input placeholder="请输入内容" size="small" class="input-input"></el-input>
+                  <el-select placeholder="请选择" v-model="pd.citytoEqual" filterable @visible-change="landing" size="small" class="input-input">
+                    <el-option
+                    v-for="item in landingName"
+                    :key="item.AIRPORT_CODE"
+                    :value="item.AIRPORT_CODE"
+                    :label="item.AIRPORT_NAME">
+                    </el-option>
+                  </el-select>
                 </el-col>
                 <el-col :sm="24" :md="12" :lg="6" class="input-item">
                   <span class="input-text">预计降落时间：</span>
@@ -119,9 +147,9 @@
 
                 <el-col :sm="24" :md="12" :lg="6" class="input-item">
                   <span class="input-text">出入境：</span>
-                  <el-select v-model="value" placeholder="请选择"  size="small" class="input-input">
-                    <el-option>
-                    </el-option>
+                  <el-select v-model="pd.flighttypeEqual" placeholder="请选择"  size="small" class="input-input">
+                    <el-option label="入境" value="I"></el-option>
+                    <el-option label="出境" value="O"></el-option>
                   </el-select>
                 </el-col>
                 <el-col :sm="24" :md="12" :lg="6" class="input-item">
@@ -392,6 +420,14 @@ export default {
       akCheckId: 1,
       checkList: ['性别'],
       value: 1,
+      value6:'',
+      chauName:[],
+      selection:[],
+      idName:[],
+      takeOffName:[],
+      landingName:[],
+      nationalityName:[],
+      pd:{},
       tableData: [{
         "eventserial": "ba754edc095a45b5b73",
         "lastmatchtype": "1",
@@ -409,8 +445,63 @@ export default {
   methods: {
     handleSelectionChange(val) {
       this.multipleSelection = val;
-    }
-  }
+    },
+    nationality(data){
+      console.log("data:",data)
+      let arr=this.chauName;
+      console.log(arr)
+      let that=this;
+      for(var i=0;i<arr.length;i++){
+        if(arr[i].code == data){
+          that.selection=arr[i].countryList;
+          console.log(that.selection)
+        }
+      }
+
+    },
+    chau(){
+      this.$api.post('/eamp/codeTable/queryContinentsCountry',{},
+       r => {
+         if(r.success){
+           this.chauName = r.data;
+         };
+       })
+    },
+    idType(){
+      this.$api.post('/eamp/codeTable/queryDocCode',{},
+       r =>{
+         if(r.success){
+           this.idName = r.data;
+         }
+       })
+    },
+    takeOff(){
+      this.$api.post('/eamp/codeTable/queryAirport',{},
+       r =>{
+         if(r.success){
+           this.takeOffName = r.data;
+         }
+       })
+    },
+    landing(){
+      this.$api.post('/eamp/codeTable/queryAirport',{},
+       r =>{
+         if(r.success){
+           this.landingName = r.data;
+         }
+       })
+    },
+    // nationality(){
+    //   this.$api.post('/eamp/codeTable/queryContinentsCountry',{},
+    //    r => {
+    //      console.log(r);
+    //      if(r.success){
+    //        this.nationalityName = r.data
+    //      }
+    //    })
+    // }
+  },
+
 }
 </script>
 
