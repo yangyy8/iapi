@@ -52,16 +52,16 @@
                 </el-col>
                 <el-col :sm="24" :md="12" :lg="6" class="input-item">
                   <span class="input-text">证件号码：</span>
-                  <el-input placeholder="请输入内容" size="small" class="input-input"></el-input>
+                  <el-input placeholder="请输入内容" v-model="pd.passportnoEqual" size="small" class="input-input"></el-input>
                 </el-col>
                 <el-col :sm="24" :md="12" :lg="6" class="input-item">
                   <span class="input-text">航班号：</span>
-                  <el-input placeholder="请输入内容" size="small" class="input-input"></el-input>
+                  <el-input placeholder="请输入内容" v-model="pd.fltnoEqual" size="small" class="input-input"></el-input>
                 </el-col>
 
                 <el-col :sm="24" :md="12" :lg="6" class="input-item">
                   <span class="input-text">姓名：</span>
-                  <el-input placeholder="请输入内容" size="small" class="input-input"></el-input>
+                  <el-input placeholder="请输入内容" v-model="pd.familyname" size="small" class="input-input"></el-input>
                 </el-col>
                 <el-col :sm="24" :md="12" :lg="6" class="input-item">
                   <span class="input-text">性别：</span>
@@ -74,15 +74,19 @@
 
                 <el-col :sm="24" :md="12" :lg="6" class="input-item">
                   <span class="input-text">出生日期：</span>
-                  <el-date-picker
-                    size="small"
-                    v-model="value6"
-                    type="daterange"
-                    range-separator="-"
-                    start-placeholder="开始日期"
-                    end-placeholder="结束日期"
-                    class="input-input block">
+                  <div class="input-input t-flex t-date">
+                    <el-date-picker
+                    v-model="pd.STARTTIME"
+                    type="date" size="small"
+                    placeholder="选择日期">
                   </el-date-picker>
+                  <span class="septum">-</span>
+                  <el-date-picker
+                     v-model="pd.ENDTIME"
+                     type="date" size="small"
+                     placeholder="选择日期" clearable="false">
+                 </el-date-picker>
+                  </div>
                 </el-col>
                 <el-col :sm="24" :md="12" :lg="6" class="input-item">
                   <span class="input-text">航班日期：</span>
@@ -154,7 +158,12 @@
                 </el-col>
                 <el-col :sm="24" :md="12" :lg="6" class="input-item">
                   <span class="input-text">最终预检结果：</span>
-                  <el-input placeholder="请输入内容" size="small" class="input-input"></el-input>
+                  <el-select v-model="pd.lastcheckresult" placeholder="请选择"  size="small" class="input-input">
+                    <el-option label="允许登机" value="0Z"></el-option>
+                    <el-option label="禁止登记" value="1Z"></el-option>
+                    <el-option label="再次核对" value="2Z"></el-option>
+                    <el-option label="数据错误" value="3Z"></el-option>
+                  </el-select>
                 </el-col>
               </el-row>
             </el-col>
@@ -457,7 +466,6 @@ export default {
           console.log(that.selection)
         }
       }
-
     },
     chau(){
       this.$api.post('/eamp/codeTable/queryContinentsCountry',{},
