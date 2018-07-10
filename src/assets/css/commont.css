@@ -68,3 +68,8 @@
     display: flex;
     justify-content: space-between;
   }
+
+  /* 模糊查询 */
+ .t-fuzzy .el-input{
+   width: 59%!important;
+ }

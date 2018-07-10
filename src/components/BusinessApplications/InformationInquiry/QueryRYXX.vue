@@ -61,7 +61,10 @@
 
                 <el-col :sm="24" :md="12" :lg="6" class="input-item">
                   <span class="input-text">姓名：</span>
-                  <el-input placeholder="请输入内容" v-model="pd.familyname" size="small" class="input-input"></el-input>
+                  <div class="input-input t-fuzzy t-flex">
+                    <el-input placeholder="请输入内容" v-model="pd.familyname" size="small"></el-input>
+                    <el-checkbox v-model="checked">模糊查询</el-checkbox>
+                  </div>
                 </el-col>
                 <el-col :sm="24" :md="12" :lg="6" class="input-item">
                   <span class="input-text">性别：</span>
@@ -75,17 +78,17 @@
                 <el-col :sm="24" :md="12" :lg="6" class="input-item">
                   <span class="input-text">出生日期：</span>
                   <div class="input-input t-flex t-date">
+                      <el-date-picker
+                      v-model="pd.STARTTIME"
+                      type="date" size="small"
+                      placeholder="选择日期">
+                    </el-date-picker>
+                    <span class="septum">-</span>
                     <el-date-picker
-                    v-model="pd.STARTTIME"
-                    type="date" size="small"
-                    placeholder="选择日期">
-                  </el-date-picker>
-                  <span class="septum">-</span>
-                  <el-date-picker
-                     v-model="pd.ENDTIME"
-                     type="date" size="small"
-                     placeholder="选择日期" clearable="false">
-                 </el-date-picker>
+                       v-model="pd.ENDTIME"
+                       type="date" size="small"
+                       placeholder="选择日期" clearable="false">
+                   </el-date-picker>
                   </div>
                 </el-col>
                 <el-col :sm="24" :md="12" :lg="6" class="input-item">
