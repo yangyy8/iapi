@@ -28,26 +28,37 @@
           </li>
 
         </ul>
-        <div class="fold-bar" @click="isNav2Hide" v-if="nav2HideBar">
-          <img src="../assets/img/elasticbar_nor.png" alt="">
+        <div class="fold-bar" @click="isNav2Hide" v-if="nav2HideBar" @mouseover="navh=1" @mouseout="navh=0">
+          <el-tooltip class="item" effect="light" content="收起菜单" placement="right">
+            <img :src='"../assets/img/elasticbar_"+navh+".png"' >
+          </el-tooltip>
         </div>
-        <div class="fold-bar" @click="isNav2Show" v-else>
-          <img src="../assets/img/spread_nor.png" alt="">
+        <div class="fold-bar" @click="isNav2Show" v-else  @mouseover="navh=1" @mouseout="navh=0">
+          <el-tooltip class="item" effect="light" content="展开菜单" placement="left">
+              <img :src='"../assets/img/spread_"+navh+".png"' >
+          </el-tooltip>
+
+
         </div>
       </el-aside>
       <el-main class="right-main">
         <ul class="tabList">
           <li class="tabList-item hand" :class="{'tabList-checked':nav2Id==i.id}" v-for="(i, index) in tabList">
-            <span  @click="nav2(i)">{{i.text}}</span>
-            <img src="../assets/img/tab-close1.png" alt="" @click="tabList.splice(index, 1)" class="hand" v-if="nav2Id==i.id">
+            <el-tooltip class="item" effect="dark" :content="i.text" placement="top">
+              <span  @click="nav2(i)">{{i.text}}</span>
+            </el-tooltip>
+
+            <img src="../assets/img/tab-close1.png" alt="guanbi" @click="tabList.splice(index, 1)" class="hand" v-if="nav2Id==i.id">
             <img src="../assets/img/tab-close2.png" alt="" @click="tabList.splice(index, 1)" class="hand" v-else>
           </li>
-          <li class="tabList-item">
+          <!-- <li class="tabList-item">
             <img src="../assets/img/add_tab.png" class="hand">
-          </li>
+          </li> -->
         </ul>
         <div class="tab-content">
-          <router-view></router-view>
+          <!-- <transition name="el-zoom-in-top"> -->
+            <router-view></router-view>
+          <!-- </transition> -->
         </div>
       </el-main>
     </el-container>
@@ -63,6 +74,7 @@ export default {
        nav2Show:true,
        nav2HideBar:true,
        nav1Id:1,
+       navh:0,
        nav1List:[
          {
            id:1,
@@ -73,11 +85,11 @@ export default {
                text:"名单比对报警",
                name:"ProcessMDBJ"
              },
-             {
-               id:12,
-               text:"二次查控报警",
-               name:"ProcessECBDBJ"
-             },
+             // {
+             //   id:12,
+             //   text:"二次查控报警",
+             //   name:"ProcessECBDBJ"
+             // },
              {
                id:13,
                text:"重点关注人员预报警",
@@ -426,7 +438,7 @@ export default {
 
      },
      nextList(){
-      if(this.nav1End==this.nav1List.length){
+      if(this.nav1End>=this.nav1List.length){
         return;
       }
        this.nav1Star++;
@@ -585,19 +597,25 @@ export default {
 }
 .tabList-item{
   margin-right: 5px;
-  /* width: 130px; */
+  width: 120px;
   padding: 0 18px;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.2);
   border-radius: 6px 6px 0 0;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
   font-size: 14px;
   color: #fff;
+
 }
 .tabList-item span{
-  margin-right: 10px;
+  /* margin-right: 10px; */
+  width: 105px;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap
+
 }
 .tabList-checked{
   background: #def0fc;
