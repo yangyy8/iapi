@@ -9,3 +9,19 @@
   background-color: #858585 !important;
   color: #ffffff !important;
 }
+
+.yy-title {
+  line-height: 50px;
+  font-size: 16px;
+  color: #4CC4A1;
+  font-family: 微软雅黑;
+}
+.yy-input-text{
+  display: inline-block;
+  width: 40%;
+  font-size: 14px;
+  text-align: right;
+  line-height: 32px;
+  white-space: nowrap;
+}
+.yy-input-input{width: 58%!important; text-align: left!important; }

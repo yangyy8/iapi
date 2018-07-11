@@ -14,9 +14,9 @@
                 <el-select v-model="pd.zone"  class="input-input"  placeholder="请选择"  size="small">
                   <el-option value=""  label="全部">
                   </el-option>
-                  <el-option value="1"  label="DMZ区">
+                  <el-option value="0"  label="DMZ区">
                   </el-option>
-                  <el-option value="2"  label="整合分发区">
+                  <el-option value="1"  label="整合分发区">
                   </el-option>
                 </el-select>
               </el-col>
@@ -24,7 +24,6 @@
           </el-col>
           <el-col :span="4" class="down-btn-area" style="margin-top:25px;">
             <el-button type="success" size="small" @click="getList(pd)">查询</el-button>
-
           </el-col>
         </el-row>
   </div>
@@ -84,7 +83,6 @@ export default {
       this.$api.post('/eamp/monitorSpring/queryMonitorSpring', pd,
         r => {
           console.log(r);
-
           this.tableData = r.data;
         })
     },
