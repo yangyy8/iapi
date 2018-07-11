@@ -6,7 +6,7 @@
           <div class="title-green">
             信息比对
           </div>
-          <el-table
+          <!-- <el-table
             class="o-th1"
             :data="tableData"
             border
@@ -31,8 +31,45 @@
               prop="address"
               label="比对结果">
             </el-table-column>
-
-          </el-table>
+          </el-table> -->
+          <table class="o-th1" cellspacing="0">
+            <tr class="thead">
+              <th>类别</th>
+              <th>旅客信息</th>
+              <th>名单信息</th>
+              <th>比对结果</th>
+            </tr>
+            <tr>
+              <td>姓名</td>
+              <td>张某某</td>
+              <td>张某某</td>
+              <td>张某某</td>
+            </tr>
+            <tr>
+              <td>性别</td>
+              <td>张某某</td>
+              <td>张某某</td>
+              <td>张某某</td>
+            </tr>
+            <tr>
+              <td>出生日期</td>
+              <td>张某某</td>
+              <td>张某某</td>
+              <td>张某某</td>
+            </tr>
+            <tr>
+              <td>证件号码</td>
+              <td>张某某</td>
+              <td>张某某</td>
+              <td>张某某</td>
+            </tr>
+            <tr>
+              <td>国籍</td>
+              <td>张某某</td>
+              <td>张某某</td>
+              <td>张某某</td>
+            </tr>
+          </table>
         </div>
         <div class="middle mb-6">
           <div class="title-green">
@@ -367,5 +404,21 @@ export default {
 .res-item2 span{
   margin: 0 12px;
   color: #ff8f47;
+}
+.o-th1{
+  width: 100%;
+  border: 1px #eee solid;
+
+}
+.o-th1 th,.o-th1 td{
+  border: 1px #eee solid;
+  height: 32px!important;
+  padding: 0!important;
+
+}
+.o-th1 th{
+  color: #fff;
+  font-size: 16px;
+  background-color: #858585;
 }
 </style>

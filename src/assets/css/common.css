@@ -22,7 +22,7 @@ table td,thead th{
   padding: 3px 0 !important;
   text-align: center!important;
 }
-.o-th1 thead th:first-child{
+.o-th1 th:first-child{
   background-color: #4874a1 !important;
 
 }
@@ -177,6 +177,9 @@ button{
 .mr-20{
   margin-right: 20px!important;
 }
+.mr-30{
+  margin-right: 30px!important;
+}
 .mr-15{
   margin-right: 15px!important;
 }
@@ -266,4 +269,7 @@ button{
 .textarea-input textarea{
   width: 554px!important;
   height: 68px!important;
+}
+.tan-right .el-radio{
+  color: #fff!important;
 }

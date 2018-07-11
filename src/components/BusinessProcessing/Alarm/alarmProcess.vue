@@ -2,11 +2,11 @@
   <div class="alarmProcess">
     <div class="top mb-6">
       <el-row type="flex" class="row-bg">
-        事件编号
+        事件编号：
         <el-input
           placeholder="请输入内容"
           size="small"
-          v-model="input1"
+          v-model="eventserial"
           :disabled="true"
           class="apInput">
         </el-input>
@@ -18,7 +18,7 @@
         <div class="middle-tab-item hand" :class="{'middle-checked':tabIsShow==false}" @click="tabIsShow=false">
           基本信息
         </div>
-        <div class="middle-tab-item hand" :class="{'middle-checked':tabIsShow==true}" @click="tabIsShow=true">
+        <div class="middle-tab-item hand" :class="{'middle-checked':tabIsShow==true}" @click="tabIsShow=true;documentInfo()">
           事件文档
         </div>
       </div>
@@ -29,49 +29,49 @@
               <el-row type="flex" class="middle-msg-row">
                 <el-col :span="5">
                   <span>姓名</span>
-                  张某某
+                  {{iapiMap.name}}
 
                 </el-col>
                 <el-col :span="5">
                   <span>性别</span>
-                  男
+                  {{iapiMap.gender}}
 
                 </el-col>
                 <el-col :span="5">
                   <span>出生日期</span>
-                  2000年10月10日
+                  {{iapiMap.dateofbirth}}
 
                 </el-col>
                 <el-col :span="5">
                   <span>证件号码</span>
-                  M123456
+                  {{iapiMap.passportno}}
 
                 </el-col>
                 <el-col :span="4">
                   <span>国籍</span>
-                  张某某
+                  {{iapiMap.nationality}}
 
                 </el-col>
               </el-row>
               <el-row type="flex" class="middle-msg-row">
                 <el-col :span="5">
                   <span>签证号码</span>
-                  张某某
+                  {{iapiMap.visano}}
 
                 </el-col>
                 <el-col :span="5">
                   <span>出入类型</span>
-                  张某某
+                  {{iapiMap.flightType}}
 
                 </el-col>
                 <el-col :span="5">
                   <span>第二证号</span>
-                  张某某
+                  {{iapiMap.otherNo}}
 
                 </el-col>
                 <el-col :span="5">
                   <span>第二国籍</span>
-                  张某某
+                  {{iapiMap.otherNationality}}
 
                 </el-col>
 
@@ -79,22 +79,22 @@
               <el-row type="flex" class="middle-msg-row">
                 <el-col :span="5">
                   <span>航班号</span>
-                  张某某
+                  {{iapiMap.fltno}}
 
                 </el-col>
                 <el-col :span="5">
                   <span>出发地</span>
-                  张某某
+                  {{iapiMap.origin}}
 
                 </el-col>
                 <el-col :span="5">
                   <span>目的地</span>
-                  张某某
+                  {{iapiMap.destination}}
 
                 </el-col>
                 <el-col :span="5">
                   <span>报警时间</span>
-                  张某某
+                  {{iapiMap.destination}}
 
                 </el-col>
 
@@ -111,11 +111,11 @@
             甄别信息列表
           </div>
           <el-table
-            :data="tableData"
+            :data="listMap"
             border
             style="width: 100%;">
             <el-table-column
-              prop="date"
+              prop="dh"
               label="档号"
               width="180">
             </el-table-column>
@@ -125,27 +125,27 @@
               width="160">
             </el-table-column>
             <el-table-column
-              prop="address"
+              prop="gender"
               label="性别">
             </el-table-column>
             <el-table-column
-              prop="address"
+              prop="dateofbirth"
               label="出生日期">
             </el-table-column>
             <el-table-column
-              prop="address"
+              prop="passportno"
               label="证件号码">
             </el-table-column>
             <el-table-column
-              prop="address"
+              prop="nationality"
               label="国籍">
             </el-table-column>
             <el-table-column
-              prop="address"
+              prop="visaType"
               label="证件种类">
             </el-table-column>
             <el-table-column
-              prop="address"
+              prop="visano"
               label="签证号码">
             </el-table-column>
             <el-table-column
@@ -348,29 +348,31 @@
             type="textarea"
             :autosize="{ minRows: 3, maxRows: 4}"
             placeholder="请输入内容"
-            v-model="textarea3">
+            v-model="pd.CHANGE_RESON">
           </el-input>
         </el-col>
         <el-col :span="4" class="down-btn-area">
-          <el-button type="primary" class="mb-15" size="small">确定</el-button>
+          <el-button type="primary" class="mb-15" size="small" @click="upDate">确定</el-button>
           <el-button type="warning" size="small">取消</el-button>
         </el-col>
       </el-row>
       <el-row type="flex">
         <el-col :span="6" class="input-item">
           <span >处理结果：</span>
-          <el-select v-model="value" placeholder="请选择"  size="small" class="input-input">
-            <el-option>
-            </el-option>
+          <el-select v-model="pd.DEALRESULT" placeholder="请选择"  size="small" class="input-input">
+            <el-option label="不做变更处理" value.int="0"></el-option>
+            <el-option label="变更处理" value="1"></el-option>
+            <el-option label="数据推送" value="2"></el-option>
+
           </el-select>
         </el-col>
         <el-col :span="6" class="input-item">
           <span >处理人：</span>
-          <el-input placeholder="请输入内容" size="small" class="input-input"></el-input>
+          <el-input placeholder="请输入内容" size="small" class="input-input" v-model="pd.USERID"></el-input>
         </el-col>
         <el-col :span="6" class="input-item">
           <span >审批人：</span>
-          <el-input placeholder="请输入内容" size="small" class="input-input"></el-input>
+          <el-input placeholder="请输入内容" size="small" class="input-input" v-model="pd.APPROVALUSER"></el-input>
         </el-col>
 
       </el-row>
@@ -382,28 +384,81 @@
 export default {
   data() {
    return {
+     eventserial:"ddddddd",
      tabIsShow:false,
-     input1: '223333333333',
-     tableData: [{
-       date: '2016-05-02',
-       name: '王小虎',
-       address: '上海市'
-     }, {
-       date: '2016-05-04',
-       name: '王小虎',
-       address: 'ff'
-     }, {
-       date: '2016-05-01',
-       name: '王小虎',
-       address: '上海市普陀区金'
-     }, {
-       date: '2016-05-03',
-       name: '王小虎',
-       address: '上海市'
-     }],
+     iapiMap:{},
+     listMap:[],
+     pd:{},
      textarea3:"",
      value:""
    }
+ },
+ mounted(){
+   this.eventserial=this.$route.query.eventserial;
+   this.getList();
+ },
+ methods:{
+   getList(){
+     let p={
+       "currentPage":0,
+       "showCount":3,
+       "pd":{
+          eventserial:this.eventserial
+       }
+     };
+
+     this.$api.post('/eamp/alarmEvents/getListAlarmEventsInfo',p,
+      r => {
+        console.log(r);
+        this.iapiMap=r.data.iapiMap
+        this.listMap=r.data.listMap;
+     })
+   },
+   upDate(){
+     this.pd.eventserial=this.eventserial;
+     let p={
+       "currentPage":0,
+       "showCount":3,
+       pd:this.pd
+     };
+     if(this.pd.DEALRESULT==0){
+       this.$api.post('/eamp/alarmEvents/getUpdateResult',p,
+        r => {
+          console.log(r);
+          if(r.success){
+            this.$message({
+              message: '恭喜你，操作成功！',
+              type: 'success'
+            });
+          }else{
+            this.$message.error(r.message);
+          }
+       })
+     }
+
+   },
+   documentInfo(){
+     let p={
+       "currentPage":0,
+       "showCount":3,
+       "pd":{
+          eventserial:this.eventserial
+       }
+     };
+     this.$api.post('/eamp/alarmEvents/getEventDocumentInfo',p,
+      r => {
+        console.log(r);
+        // if(r.success){
+        //   this.$message({
+        //     message: '恭喜你，操作成功！',
+        //     type: 'success'
+        //   });
+        // }else{
+        //   this.$message.error(r.message);
+        // }
+     })
+   },
+
  }
 }
 </script>
