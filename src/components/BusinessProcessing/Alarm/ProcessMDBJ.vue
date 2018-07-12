@@ -123,7 +123,11 @@ export default {
       currentPage:1,
       pageSize:10,
       TotalResult:0,
-      pd:{},
+      pd:{
+        lastmatchType:"",
+        flighttype:""
+
+      },
       options:[
         {
           value:10,
@@ -140,27 +144,27 @@ export default {
       ],
       options1: [
         {
-          value: 0,
+          value: "0",
           label: '白名单'
         },
         {
-          value: 1,
+          value: "1",
           label: '临控名单'
         },
         {
-          value: 2,
+          value: "2",
           label: '不准入境黑名单'
         },
         {
-          value: 3,
+          value: "3",
           label: '入境失效证件'
         },
         {
-          value: 4,
+          value: "4",
           label: '失效签证'
         },
         {
-          value: 5,
+          value: "5",
           label: '不准出境名单'
         },
 
@@ -189,7 +193,11 @@ export default {
     refreshFn(){
       this.currentPage=1;
       this.pageSize=10;
-      this.pd={};
+      this.pd={
+        lastmatchType:"",
+        flighttype:""
+
+      },
       this.getList(this.currentPage,this.pageSize,this.pd);
     },
     getList(currentPage,showCount,pd){
