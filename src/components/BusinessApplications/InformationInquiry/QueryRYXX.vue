@@ -1,4 +1,4 @@
-<template lang="html">
+currentPage<template lang="html">
   <div class="basicInfo">
     <div class="middle">
       <div class="ak-tab mb-20">
@@ -6,10 +6,10 @@
           <div class="ak-tab-item hand" :class="{'ak-checked':page==0}" @click="based">
             基础查询
           </div>
-          <div class="ak-tab-item hand" :class="{'ak-checked':page==1}" @click="page=1;">
+          <div class="ak-tab-item hand" :class="{'ak-checked':page==1}" @click="page=1;checkList = batchQuery;">
             批量查询
           </div>
-          <div class="ak-tab-item hand" :class="{'ak-checked':page==2}" @click="page=2;">
+          <div class="ak-tab-item hand" :class="{'ak-checked':page==2}" @click="page=2;checkList = selfQuery;">
             自定义查询
           </div>
         </div>
@@ -17,7 +17,7 @@
           <el-row type="flex" style="height:100%" v-show="page==0">
             <el-col :span="22" class="br flex-c pr-20">
               <div style="display:flex;justify-content: flex-end;width:100%;margin-bottom:15px">
-                <button type="button" name="button" @click="openList=!openList">收起</button>
+                <el-button type="primary" plain name="button" @click="openList=!openList" size="mini">收起</el-button>
               </div>
               <el-row align="center" :gutter="2">
                 <el-col :sm="24" :md="12" :lg="6" class="input-item">
@@ -239,7 +239,7 @@
 
             </el-col>
             <el-col :span="2" class="down-btn-area">
-              <el-button type="success" class="mb-15" size="small" @click="q">查询</el-button>
+              <el-button type="success" class="mb-15" size="small" @click="getList(currentPage,showCount,cdt)">查询</el-button>
               <el-button type="primary" plain size="small">重置</el-button>
             </el-col>
           </el-row>
@@ -722,7 +722,7 @@
     <div class="middle middle-top mb-2">
       <div class="title-green">
         <span style="float:left">结果显示项</span>
-        <button style="float:right" @click="openCheckbox = !openCheckbox">收起</button>
+        <el-button style="float:right" type="primary" plain @click="openCheckbox = !openCheckbox" size="mini">收起</el-button>
         <div style="clear:both"></div>
       </div>
        <el-checkbox-group v-model="checkList" class="o-checkbox-g" @change="fn" v-show="openCheckbox">
@@ -997,9 +997,9 @@ export default {
       successDialogVisible:false,
       openList:true,
       openCheckbox:true,
-      currentpage:1,//当前页数
+      currentPage:1,//当前页数
       pageSize:10, //每页显示个数选择器的选项设置
-      showCount:'',//每页条数
+      showCount:0,//每页显示的记录数
       totalResult:0,//总条数
       totalpage:1,//总页数
       page: 0,
@@ -1007,10 +1007,9 @@ export default {
       selfRows:[0],
       count:0,
       selfCount:0,
-      basedQuery:[],
-      batchQuery:[],
-      selfQuery:[],
-      reCheckList:['I_NAME','I_34','I_76','I_37','I_39','I_12','filghtDate','I_13','I_65','I_59'],
+      basedQuery:['I_NAME','I_34','I_76','I_37','I_39','I_12','filghtDate','I_13','I_65','I_59'],
+      batchQuery:['I_NAME','I_34','I_76','I_37','I_39','I_12','filghtDate','I_13','I_65','I_59'],
+      selfQuery:['I_NAME','I_34','I_76','I_37','I_39','I_12','filghtDate','I_13','I_65','I_59'],
       checkList: ['I_NAME','I_34','I_76','I_37','I_39','I_12','filghtDate','I_13','I_65','I_59'],
       checkItem:[
         {
@@ -1157,22 +1156,13 @@ export default {
       ],
       formLabelWidth:'120px',
       tableData: [{
-        "I_NAME": "",
-        "I_34": "",
-        "I_76": "",
-        "I_37": "",
-        "I_39": "",
-        "I_12": "",
-        "filghtDate": "",
-        "createtime": "",
-        "saveflag": "",
-        "I_73":'',
+
       }],
       showConfiglist:[],
     }
   },
   mounted(){
-    this.getList(this.currentpage,this.pageSize,this.cdt);
+    this.getList(this.currentPage,this.showCount,this.cdt);
   },
   methods: {
     handleCurrentChange(val) {
@@ -1180,11 +1170,11 @@ export default {
        console.log(val);
      },
     pageSizeChange(val) {
-      this.getList(this.currentpage,val,this.cdt);
+      this.getList(this.currentPage,val,this.cdt);
       console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
-      this.getList(val,this.pageSize,this.cdt);
+      this.getList(val,this.showCount,this.cdt);
       console.log(`当前页: ${val}`);
     },
     checkss(item){
@@ -1195,16 +1185,16 @@ export default {
       console.log(row,event)
       this.radio=row.I_SERIAL
     },
-    getList(currentpage,showCount,cdt){
+    getList(currentPage,showCount,cdt){
       let p={
-      	"currentpage":currentpage,
-      	"showCount":showCount,
-      	"cdt":cdt
+      	"currentPage":this.currentPage,
+      	"showCount":this.showCount,
+      	"cdt":this.cdt
       };
-      console.log(cdt);
+
       this.$api.post('/eamp/iapi/queryListpage',p,
        r => {
-         console.log(r);
+
          this.tableData=r.data.resultList;//表格数据
          this.totalResult=r.data.totalResult;//总条数
          this.totalpage = r.data.totalpage;//总页数
@@ -1343,8 +1333,8 @@ export default {
       this.rows.splice(i,1);
     },
     based(){
-      page = 0;
-      this.checkList = this.reCheckList;
+      this.page = 0;
+      this.checkList = this.basedQuery;
     },
     q(){
       // console.log(this.cdt);
@@ -1361,8 +1351,13 @@ export default {
       // console.log(this.cdt.passportnoEqual);
     },
     fn(){
-      console.log(this.checkList.indexOf(this.checkItem[0].ITEMNAME)>-1)
-
+      if(this.page==0){
+        this.basedQuery = this.checkList;
+      }else if(this.page==1){
+        this.batchQuery = this.checkList;
+      }else if(this.page==2){
+        this.selfQuery = this.checkList;
+      }
       // let checkItem=this.checkItem;
       // let that=this;
       // var arr = this.checkList;
