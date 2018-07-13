@@ -1,13 +1,6 @@
 // 配置API接口地址
-<<<<<<< HEAD
 // var root = 'http://192.168.99.242:8082'
-var root = 'http://192.168.99.245:8081'
-=======
-
-// var root = 'http://192.168.99.242:8082'
-var root = 'http://192.168.99.245:8081'
-
->>>>>>> e048d8bf79179aefd4a56eb4ba87678984eaad01
+var root = 'http://192.168.99.245:8080'
 
 // 引用axios
 var axios = require('axios')
