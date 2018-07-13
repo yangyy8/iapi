@@ -11,49 +11,57 @@
 
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">航班号：</span>
-              <el-input placeholder="请输入内容" size="small" v-model="pd.HBH"  class="input-input"></el-input>
+              <el-input placeholder="请输入内容" size="small" v-model="pd.fltno"  class="input-input"></el-input>
             </el-col>
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">航班日期：</span>
-              <el-date-picker
-                 v-model="HBRQ"
-                 type="daterange"
-                 align="right"
-                 unlink-panels
-                 range-separator="-"
-                 start-placeholder="开始日期"
-                 end-placeholder="结束日期"
-                 class="input-input block"
-                 :picker-options="pickerOptions2" size="small">
-               </el-date-picker>
+              <div class="input-input t-flex t-date">
+               <el-date-picker
+               v-model="pd.scheduledeparturetime"
+               type="datetime" size="small"
+               placeholder="开始时间"  :picker-options="pickerOptions1">
+             </el-date-picker>
+               <span class="septum">-</span>
+             <el-date-picker
+                v-model="pd.schedulearrivetime"
+                type="datetime" size="small"
+                placeholder="结束时间" :picker-options="pickerOptions1">
+            </el-date-picker>
+          </div>
             </el-col>
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">出入标识：</span>
-              <el-select v-model="sex" placeholder="请选择" size="small" class="input-input">
-                 <el-option
-                   v-for="item in options"
-                   :key="item.value"
-                   :label="item.label"
-                   :value="item.value" >
+              <el-select v-model="pd.flighttype" placeholder="请选择" size="small" class="input-input">
+                 <el-option value="" label="全部">
+                 </el-option>
+                 <el-option value="I" label="入境">
+                 </el-option>
+                 <el-option value="O" label="出境">
                  </el-option>
                </el-select>
             </el-col>
 
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">航班状态：</span>
-              <el-select v-model="sex" placeholder="请选择" size="small" class="input-input">
-                 <el-option
-                   v-for="item in options"
-                   :key="item.value"
-                   :label="item.label"
-                   :value="item.value" >
+              <el-select v-model="pd.status" placeholder="请选择" size="small" class="input-input">
+                 <el-option value="" label="全部">
+                 </el-option>
+                 <el-option value="0" label="计划">
+                 </el-option>
+                 <el-option value="1" label="正在预检">
+                 </el-option>
+                 <el-option value="2" label="完成预检">
+                 </el-option>
+                 <el-option value="3" label="已起飞">
+                 </el-option>
+                 <el-option value="4" label="已办理入境">
                  </el-option>
                </el-select>
             </el-col>
 
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">航空公司三位码：</span>
-              <el-select v-model="JHDDKA" placeholder="请选择"   size="small" class="input-input">
+              <el-select v-model="pd.airlineCompanyIdEqual" placeholder="请选择"   size="small" class="input-input">
                  <el-option
                    v-for="item in options"
                    :key="item.value"
@@ -78,67 +86,64 @@
         :data="tableData"
         border
         style="width: 100%;"
-        @selection-change="handleSelectionChange">
-      
-
-
+      >
         <el-table-column
-          prop="NATIONALITY"
+          prop="fltno"
           label="航班号">
 
         </el-table-column>
         <el-table-column
-          prop="CARDTYPE"
+          prop="departuretime"
           label="航班日期"
           >
         </el-table-column>
         <el-table-column
-          prop="CARDNO"
+          prop="flighttype"
           label="出入标识">
         </el-table-column>
         <el-table-column
-          prop="FAMILYNAME"
+          prop="flightTime"
           label="计划起飞时间"
           >
         </el-table-column>
         <el-table-column
-          prop="GENDER"
+          prop="SCHEDULEARRIVETIME"
           label="计划到达时间"
         >
         </el-table-column>
         <el-table-column
-          prop="BIRTHdate"
+          prop="stationfromName"
           label="出发航站"
   >
         </el-table-column>
         <el-table-column
-          prop="BIRTHdate"
+          prop="stationtoName"
           label="到达航站"
   >
         </el-table-column>
         <el-table-column
-          prop="BIRTHdate"
+          prop="airlineCompanyIdEqual"
           label="航空公司"
   >
         </el-table-column>
         <el-table-column
-          prop="BIRTHdate"
+          prop="status"
           label="航班状态"
   >
         </el-table-column>
 
-        <el-table-column
+        <!-- <el-table-column
           prop="BIRTHdate"
           label="值机状态"
   >
-        </el-table-column>
+        </el-table-column> -->
 
         <el-table-column
           label="操作">
           <template slot-scope="scope">
             <div class="flex-r">
 
-              <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row.SERIAL)">处理</el-button>
+              <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row.SERIAL)">详情</el-button>
             </div>
 
          </template>
@@ -486,11 +491,11 @@ export default {
         "showCount": showCount,
         "pd": pd
       };
-      this.$api.post('/eamp/nameList/getNameListPage', p,
+      this.$api.post('/eamp/statusUpdate/flight/queryListPages', p,
         r => {
           console.log(r);
-          this.tableData = r.Data.ResultList;
-          this.TotalResult = r.Data.TotalResult;
+          this.tableData = r.data.resultList;
+          this.TotalResult = r.data.totalPage;
         })
     },
     queryNationality() {

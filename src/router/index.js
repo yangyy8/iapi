@@ -199,14 +199,15 @@ export default new Router({
           component: resolve => require(['@/components/SystemManage/Institutional/ManageYH'], resolve),
 
         },
-        //权限管理------------------
         //角色管理
         {
           path: "ManageJS",
           name: "ManageJS",
-          component: resolve => require(['@/components/SystemManage/Permission/ManageJS'], resolve),
+          component: resolve => require(['@/components/SystemManage/Institutional/ManageJS'], resolve),
 
         },
+        //权限管理------------------
+
         //用户管理
         {
           path: "ManageJZYH",

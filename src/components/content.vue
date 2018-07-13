@@ -234,7 +234,7 @@ export default {
        nav1List5:[
          {
            id:1,
-           text:"机构管理",
+           text:"权限管理",
            list:[
              {
                id:11,
@@ -245,29 +245,29 @@ export default {
                id:12,
                text:"用户管理",
                name:"ManageYH"
-
+             },
+             {
+               id:13,
+               text:"角色管理",
+               name:"ManageJS"
              },
            ]
          },
          {
            id:2,
-           text:"权限管理",
+           text:"配置管理",
            list:[
-             {
-               id:21,
-               text:"角色管理",
-               name:"ManageJS"
-             },
-             {
-               id:22,
-               text:"集中用户管理",
-               name:"ManageJZYH"
-             },
-             {
-               id:23,
-               text:"用户认证与登录",
-               name:"ManageDL"
-             },
+
+             // {
+             //   id:22,
+             //   text:"集中用户管理",
+             //   name:"ManageJZYH"
+             // },
+             // {
+             //   id:23,
+             //   text:"用户认证与登录",
+             //   name:"ManageDL"
+             // },
 
            ]
          },
