@@ -147,7 +147,7 @@
                 </el-table-column>
                 <el-table-column
                   prop="cardEXPIREDATE"
-                  label="直接状态"
+                  label="值机状态"
                   width="110">
                 </el-table-column>
                 <el-table-column

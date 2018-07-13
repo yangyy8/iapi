@@ -9,11 +9,11 @@
           <el-row align="center" :gutter="2">
             <el-col :sm="24" :md="12" :lg="8" class="input-item">
               <span class="input-text">姓名：</span>
-              <el-input  placeholder="请输入" size="small" class="input-input"></el-input>
+              <el-input  placeholder="请输入" size="small" v-model="pd.familyname" class="input-input"></el-input>
             </el-col>
             <el-col :sm="24" :md="12" :lg="8" class="input-item">
               <span class="input-text">性别：</span>
-              <el-select  placeholder="请选择"  size="small"  class="input-input">
+              <el-select  placeholder="请选择"  size="small" v-model="pd.genderEqual"  class="input-input">
                 <el-option label="男" value="M"></el-option>
                 <el-option label="女" value="F"></el-option>
                 <el-option label="未知" value="U"></el-option>
@@ -21,56 +21,77 @@
             </el-col>
             <el-col :sm="24" :md="12" :lg="8" class="input-item">
               <span class="input-text">出生日期：</span>
-              <el-date-picker
-                v-model="value1"
-                type="date"
-                placeholder="选择日期"
-                size="small"
-                class="input-input">
-              </el-date-picker>
+              <div class="input-input t-flex t-date">
+               <el-date-picker
+               v-model="pd.startDateofbirth"
+               type="date" size="small"
+               placeholder="开始时间" align="right" :picker-options="pickerOptions1">
+             </el-date-picker>
+               <span class="septum">-</span>
+             <el-date-picker
+                v-model="pd.endDateofbirth"
+                type="date" size="small" align="right"
+                placeholder="结束时间"  :picker-options="pickerOptions1">
+            </el-date-picker>
+          </div>
             </el-col>
             <el-col :sm="24" :md="12" :lg="8" class="input-item">
-              <span class="input-text">国籍：</span>
-              <el-select v-model="value" placeholder="请选择"  size="small" class="input-input">
-                <el-option>
-                </el-option>
-              </el-select>
+
+                <QueryNationality  :nationality="pd.nationalityEqual" @transNation="getNation"></QueryNationality>
             </el-col>
             <el-col :sm="24" :md="12" :lg="8" class="input-item">
               <span class="input-text">证件号码：</span>
-            <el-input placeholder="请输入内容" size="small" class="input-input"></el-input>
+            <el-input placeholder="请输入内容" size="small" v-model="pd.passportnoEqual" class="input-input"></el-input>
             </el-col>
 
             <el-col :sm="24" :md="12" :lg="8" class="input-item">
               <span class="input-text">航班号：</span>
-              <el-input placeholder="请输入内容" size="small" class="input-input"></el-input>
+              <el-input placeholder="请输入内容" size="small" v-model="pd.fltnoEqual" class="input-input"></el-input>
             </el-col>
 
             <el-col :sm="24" :md="12" :lg="8" class="input-item">
               <span class="input-text">航班日期:</span>
-              <el-date-picker
-                v-model="valueFlightTime"
-                type="date"
-                placeholder="选择日期"
-                size="small"
-                class="input-input">
-              </el-date-picker>
+              <div class="input-input t-flex t-date">
+               <el-date-picker
+               v-model="pd.startFlightDepartdate"
+               type="date" size="small"
+               placeholder="开始时间" align="right" :picker-options="pickerOptions1">
+             </el-date-picker>
+               <span class="septum">-</span>
+             <el-date-picker
+                v-model="pd.endFlightDepartdate"
+                type="date" size="small" align="right"
+                placeholder="结束时间"  :picker-options="pickerOptions1">
+            </el-date-picker>
+          </div>
             </el-col>
 
             <el-col :sm="24" :md="12" :lg="8" class="input-item">
               <span class="input-text">出入标识：</span>
-              <el-input placeholder="请输入内容" size="small" class="input-input"></el-input>
+              <el-select v-model='pd.flighttypeEqual' placeholder="请选择" size="small" class="input-input">
+                <el-option value="" label="全部"></el-option>
+                  <el-option value="I" label="入境"></el-option>
+                    <el-option value="O" label="出境"></el-option>
+                    <el-option value="G" label="过境"></el-option>
+              </el-select>
             </el-col>
 
             <el-col :sm="24" :md="12" :lg="8" class="input-item">
               <span class="input-text">命中人员类别：</span>
-              <el-input placeholder="请输入内容" size="small" class="input-input"></el-input>
+              <el-select v-model='pd.eventtype' placeholder="请选择" size="small" class="input-input">
+                <el-option value="" label="全部"></el-option>
+                  <el-option value="0" label="黑名单"></el-option>
+                    <el-option value="1" label="白名单"></el-option>
+                    <el-option value="2" label="临控名单"></el-option>
+                    <el-option value="3" label="重点关注人员"></el-option>
+                    <el-option value="3" label="二次查控"></el-option>
+              </el-select>
             </el-col>
           </el-row>
 
         </el-col>
         <el-col :span="3" class="down-btn-area">
-          <el-button type="success" size="small" @click="queryDialogVisible=true">查询</el-button>
+          <el-button type="success" size="small" @click="getList(CurrentPage,pageSize,pd)">查询</el-button>
         </el-col>
       </el-row>
     </div>
@@ -81,78 +102,76 @@
         border
         fit
         style="width: 100%;"
-        @selection-change="handleSelectionChange">
+      >
         <el-table-column
-          prop="name"
+          prop="NAME"
           label="姓名"
           >
         </el-table-column>
         <el-table-column
-          prop="gender"
+          prop="GENDERNAME"
           label="性别"
 
           >
 
         </el-table-column>
         <el-table-column
-          prop="birthDate"
+          prop="BIRTHDAY"
           label="出生日期"
           >
         </el-table-column>
         <el-table-column
-          prop="nationality"
+          prop="NATIONALITY"
           label="国籍"
           >
         </el-table-column>
         <el-table-column
-          prop="idCard"
+          prop="PASSPORTNO"
           label="证件号码"
           >
         </el-table-column>
         <el-table-column
-          prop="FlightNo"
+          prop="FLTNO"
           label="航班号"
           >
         </el-table-column>
         <el-table-column
-          prop="flightDate"
+          prop="DEPARTDATESTRING"
           label="航班日期"
           >
         </el-table-column>
         <el-table-column
-          prop="accessToIdentify"
+          prop="FLIGHTTYPE"
           label="出入标识">
         </el-table-column>
         <el-table-column
-          prop="feedbackTheResult"
+          prop="NSTRUCT_NEW"
           label="反馈结果">
         </el-table-column>
         <el-table-column
-          prop="hitPeopleCategory"
-          label="命中人员类别">
+          prop="TYPE"
+          label="最终命中人员类别" width="150">
         </el-table-column>
-        <el-table-column
-          prop="validity"
-          label="是否有效"
-          >
-        </el-table-column>
+
         <el-table-column
         fixed="right"
           label="操作"
           >
           <template slot-scope="scope">
-            <el-button class="table-btn" size="mini" plain @click="detailsDialogVisible=true">详情</el-button>
+            <el-button class="table-btn" size="mini" plain @click="queryDialogVisible=true">详情</el-button>
          </template>
         </el-table-column>
       </el-table>
+
+
       <div class="middle-foot">
         <div class="page-msg">
           <div class="">
-            共10页
+            共{{Math.ceil(TotalResult/pageSize)}}页
           </div>
           <div class="">
             每页
-            <el-select v-model="value2" placeholder="10" size="mini" class="page-select">
+            <el-select v-model="pageSize" @change="pageSizeChange(pageSize)" placeholder="10" size="mini" class="page-select">
               <el-option
                 v-for="item in options"
                 :key="item.value"
@@ -163,16 +182,15 @@
             条
           </div>
           <div class="">
-            共18条
+            共{{TotalResult}}条
           </div>
         </div>
         <el-pagination
           background
-          @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
-          :page-size="100"
+          :page-size="pageSize"
           layout="prev, pager, next"
-          :total="1000">
+          :total="TotalResult">
         </el-pagination>
       </div>
     </div>
@@ -201,66 +219,94 @@
 </template>
 
 <script>
+import QueryNationality from '../../other/queryNationality'
 export default {
+  components: {
+    QueryNationality
+  },
   data(){
     return{
-      value:'',
-      value1: '',
-      value2:"",
-      valueFlightTime:"",
-      radio:"1",
-      radio1:"；列表",
-      queryDialogVisible:false,
-      options:[
+      CurrentPage: 1,
+      pageSize: 10,
+      TotalResult: 0,
+      pd: {},
+      queryDialogVisible: false,
+      options: [{
+          value: 10,
+          label: "10"
+        },
         {
-          value:1,
-          label:"ddd"
+          value: 20,
+          label: "20"
+        },
+        {
+          value: 30,
+          label: "30"
         }
       ],
-      tableData: [
-        {
-          "eventserial": "ba754edc095a45b5b73",
-          "lastmatchtype": "1",
-          "flighttype": 1514563200000,
-          "numb": 1546099200000,
-          "name": "1",
-          "nationality": 1,
-          "fltno": "1",
-          "createtime": "1",
-          "saveflag": "1",
-        }
-      ],
-      gridData:[{
+      tableData: [],
+      multipleSelection: [],
+      pickerOptions1: {
+        shortcuts: [{
+          text: '今天',
+          onClick(picker) {
+            picker.$emit('pick', new Date());
+          }
+        }, {
+          text: '昨天',
+          onClick(picker) {
+            const date = new Date();
+            date.setTime(date.getTime() - 3600 * 1000 * 24);
+            picker.$emit('pick', date);
+          }
+        }, {
+          text: '一周前',
+          onClick(picker) {
+            const date = new Date();
+            date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
+            picker.$emit('pick', date);
+          }
+        }]
+      },
+      form: {},
 
-      }],
-      multipleSelection: []
     }
   },
-  mounted(){
-    this.getList();
+  mounted() {
+    this.getList(this.CurrentPage, this.pageSize, this.pd);
   },
-  methods:{
+  methods: {
     handleSelectionChange(val) {
       this.multipleSelection = val;
     },
-    handleSizeChange(val) {
+    getNation(msg){
+      this.pd.NATIONALITY=msg;
+    },
+    pageSizeChange(val) {
+      this.getList(this.CurrentPage, val, this.pd);
       console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
+      this.getList(val, this.pageSize, this.pd);
+
       console.log(`当前页: ${val}`);
     },
-    getList(){
-      let p={
-      	"currentPage":1,
-      	"showCount":10,
-      	"pd":{}
+    getList(currentPage, showCount, pd) {
+      let p = {
+        "currentPage": currentPage,
+        "showCount": showCount,
+        "saveflag":1,
+        "instructNew":"1Z",
+        "cdt": pd
       };
-      this.$api.post('/eamp/nameList/getNameListPage',p,
-       r => {
-         console.log(r);
-         this.tableData=r.Data.ResultList
-      })
-    }
+      this.$api.post('/eamp/event/queryEventHisListPage', p,
+        r => {
+          console.log(r);
+          this.tableData = r.data.resultList;
+          this.TotalResult = r.data.totalResult;
+        })
+    },
+
   }
 }
 </script>
