@@ -5,7 +5,7 @@
     <el-option
       v-for="item in nation"
       :key="item.CODE"
-      :label="item.CNAME"
+      :label="item.CODE+' - '+item.CNAME"
       :value="item.CODE">
     </el-option>
   </el-select>

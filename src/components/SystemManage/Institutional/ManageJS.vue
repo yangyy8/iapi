@@ -8,28 +8,14 @@
             查询条件
           </div>
           <el-row align="center"   :gutter="2" >
+
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
-              <span class="input-text">警号：</span>
-              <el-input placeholder="请输入内容" size="small" v-model="pd.fltnoEqual"  class="input-input"></el-input>
-            </el-col>
-            <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
-              <span class="input-text">民警姓名：</span>
+              <span class="input-text">角色：</span>
               <el-input placeholder="请输入内容" size="small" v-model="pd.fltnoEqual"  class="input-input"></el-input>
             </el-col>
 
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">部门：</span>
-              <el-select v-model="pd.airlineCompanyIdEqual" filterable @visible-change="queryNationality" placeholder="请选择" size="small" class="input-input">
-                 <el-option
-                   v-for="item in company"
-                   :key="item.AIRLINE_CODE"
-                   :label="item.AIRLINE_CHN_NAME"
-                   :value="item.AIRLINE_CODE" >
-                 </el-option>
-               </el-select>
-            </el-col>
-            <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
-              <span class="input-text">角色：</span>
               <el-select v-model="pd.airlineCompanyIdEqual" filterable @visible-change="queryNationality" placeholder="请选择" size="small" class="input-input">
                  <el-option
                    v-for="item in company"
@@ -54,7 +40,7 @@
 
           </el-row>
         </el-col>
-        <el-col :span="2" class="down-btn-area">
+        <el-col :span="2" class="down-btn-area" style="padding-top:30px;">
           <el-button type="success" size="small" @click="getList(CurrentPage,pageSize,pd)">查询</el-button>
         </el-col>
       </el-row>
@@ -71,45 +57,31 @@
         >
         <el-table-column
           prop="fltno"
-          label="警号">
+          label="角色名">
         </el-table-column>
         <el-table-column
           prop="flightTime"
-          label="民警姓名"
+          label="部门"
           >
         </el-table-column>
         <el-table-column
           prop="airlineCompanyId"
-          label="用户名">
+          label="备注">
         </el-table-column>
         <el-table-column
           prop="stationfromName"
-          label="身份证"
+          label="状态"
           >
         </el-table-column>
-        <el-table-column
-          prop="stationtoName"
-          label="性别"
-        >
-        </el-table-column>
-        <el-table-column
-          prop="stationtoName"
-          label="联系方式"
-        >
-        </el-table-column>
 
-        <el-table-column
-          prop="stationtoName"
-          label="状态"
-        >
-        </el-table-column>
         <el-table-column
           label="操作">
           <template slot-scope="scope">
             <div class="flex-r">
               <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row)">详情</el-button>
-                  <el-button class="table-btn" size="mini" plain icon="el-icon-edit" @click="details(scope.row)">编辑</el-button>
-                    <el-button class="table-btn" size="mini" plain icon="el-icon-delete" @click="details(scope.row)">编辑</el-button>
+              <el-button class="table-btn" size="mini" plain icon="el-icon-edit" @click="details(scope.row)">编辑</el-button>
+              <el-button class="table-btn" size="mini" plain icon="el-icon-warning" @click="details(scope.row)">菜单权限</el-button>
+              <el-button class="table-btn" size="mini" plain icon="el-icon-delete" @click="details(scope.row)">编辑</el-button>
             </div>
          </template>
         </el-table-column>
@@ -263,7 +235,7 @@ export default {
         }]
       },
       form: {},
-      Airport:[],
+      Airport: [],
     }
   },
   mounted() {
@@ -288,7 +260,7 @@ export default {
         "showCount": showCount,
         "cdt": pd
       };
-      this.$api.post('/eamp/statusUpdate/flight/queryListPage', p,
+      this.$api.post('/eamp/roleSys/select', p,
         r => {
           console.log(r);
           this.tableData = r.data.resultList;
@@ -306,13 +278,13 @@ export default {
     },
     queryAirport() {
 
-      if(this.Airport.length!=0){
+      if (this.Airport.length != 0) {
         return;
       };
       this.$api.post('/eamp/codeTable/queryAirport', {},
         r => {
-  console.log(r);
-            this.Airport = r.data;
+          console.log(r);
+          this.Airport = r.data;
 
         })
     },
@@ -361,5 +333,4 @@ export default {
   display: inline-block;
   width: 60px;
 }
-
 </style>

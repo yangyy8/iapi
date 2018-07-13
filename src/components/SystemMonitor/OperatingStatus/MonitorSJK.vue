@@ -10,19 +10,19 @@
             <el-row align="center" type="flex" justify="center"   :gutter="2" class="pr-20">
               <el-col  :span="8"  class="input-item">
                 <span class="input-text">监控区域：</span>
-                <el-select v-model="dd"  class="input-input" @visible-change="queryNationality" multiple placeholder="请选择"  size="small">
-                  <el-option
-                    v-for="item in nation"
-                    :key="item.CODE"
-                    :label="item.CNAME"
-                    :value="item.CODE">
+                <el-select v-model="pd.zone"  class="input-input"  placeholder="请选择"  size="small">
+                  <el-option value=""  label="全部">
+                  </el-option>
+                  <el-option value="0"  label="DMZ区">
+                  </el-option>
+                  <el-option value="1"  label="整合分发区">
                   </el-option>
                 </el-select>
               </el-col>
             </el-row>
           </el-col>
           <el-col :span="4" class="down-btn-area" style="margin-top:25px;">
-            <el-button type="success" size="small" @click="getList(CurrentPage,pageSize,pd)">查询</el-button>
+            <el-button type="success" size="small" @click="getList(pd)">查询</el-button>
 
           </el-col>
         </el-row>
@@ -30,40 +30,47 @@
   <div class="middle">
     <el-row>
  <el-col :span="12" class="left">
-
+    <div class="yy-title">实例状态监控</div>
    <el-table
      :data="tableData"
      border
      style="width: 100%;"
-     @selection-change="handleSelectionChange">
-
+    >
              <el-table-column
-               prop="instanceNumber"
-               label="区域"
-             >
+               label="区域">
+               <template slot-scope="scope">
+                 <div class="">
+                   {{scope.row.zone | fifter1}}
+                 </div>
+               </template>
              </el-table-column>
              <el-table-column
                prop="instanceName"
-               label="实例名称"
-             >
+               label="实例名称">
              </el-table-column>
              <el-table-column
                prop="status"
-               label="状态"
-             >
+               label="状态">
              </el-table-column>
 
 
    </el-table>
+
+     <div class="yy-title">异常数据库对象监控</div>
    <el-table
-     :data="tableData"
+     :data="tableData1"
      border
      style="width: 100%;"
-     @selection-change="handleSelectionChange">
+  >
              <el-table-column
-               prop="area"
+
                label="区域"
              >
+             <template slot-scope="scope">
+               <div class="">
+                 {{scope.row.zone | fifter1}}
+               </div>
+             </template>
              </el-table-column>
              <el-table-column
                prop="adress"
@@ -96,28 +103,33 @@
 
  </el-col>
  <el-col :span="12" class="right">
+      <div class="yy-title">表空间监控</div>
    <el-table
-     :data="tableData"
+     :data="tableData2"
      border
      style="width: 100%;"
-     @selection-change="handleSelectionChange">
+    >
              <el-table-column
-               prop="area"
                label="区域"
              >
+             <template slot-scope="scope">
+               <div class="">
+                 {{scope.row.zone | fifter1}}
+               </div>
+             </template>
              </el-table-column>
              <el-table-column
-               prop="adress"
+               prop="tablespaceName"
                label="表空间名称"
              >
              </el-table-column>
              <el-table-column
-               prop="state"
+               prop="total"
                label="总量"
              >
              </el-table-column>
              <el-table-column
-               prop="mqstate"
+               prop="free"
                label="使用量"
              >
              </el-table-column>
@@ -127,7 +139,7 @@
              >
              </el-table-column>
              <el-table-column
-               prop="mqsd"
+               prop="percent"
                label="使用率"
              >
              </el-table-column>
@@ -141,33 +153,59 @@
 </template>
 <script>
 export default {
-  created(){
-    this.getlist({});
-  },
-  methods:{
-    getlist(pd){
-      this.$api.post('/eamp/monitorDB/queryMonitorDB',pd,
-       r => {
-         console.log(r);
-         console.log(r.data.instance,"r.data.instance");
-
-          this.tableData=r.data.instance;
-         // this.TotalResult=r.data.totalResult;
-      })
-    }
-
-  },
   data() {
     return {
-
-
+      pd: {
+        zone: ""
+      },
+      tableData: [],
+      tableData1: [],
+      tableData2: []
     }
   },
+  created() {
+    this.getlist({});
+  },
+  methods: {
+    getlist(pd) {
+      this.$api.post('/eamp/monitorDB/queryMonitorDB', pd,
+        r => {
+          console.log(r);
+          console.log(r.data.instance, "r.data.instance");
+
+          this.tableData = r.data.instance;
+          this.tableData2 = r.data.tablespace;
+        })
+    }
+
+  },
+  filters: {
+
+    fifter1(val) {
+      if (val == 0) {
+        return "DMZ区"
+      } else if (val == 1) {
+        return "整合分发区"
+      } else if (val == 2) {
+        return "业务平台区"
+      } else {
+        return ""
+      }
+      // return val*2
+    }
+  }
 
 }
 </script>
 
 <style scoped>
-.right{border-left:2px  solid #DFF1FD; height: 100%; padding-left: 10px;}
-.left{padding-right:  10px;}
+.right {
+  border-left: 2px solid #DFF1FD;
+  height: 100%;
+  padding-left: 10px;
+}
+
+.left {
+  padding-right: 10px;
+}
 </style>

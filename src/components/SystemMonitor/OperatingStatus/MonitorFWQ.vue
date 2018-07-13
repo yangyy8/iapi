@@ -6,15 +6,13 @@
     </div>
 
 <div class="middle">
-  <div class="title">DMZ区</div>
+  <div class="yy-title">DMZ区</div>
   <el-table
     :data="tableData"
     border
-    style="width: 100%;"
-  >
-
+    style="width: 100%;">
             <el-table-column
-              prop="index"
+              type="index"
               label="序号"
               width="50"
             >
@@ -70,12 +68,11 @@
   </el-table>
 </div>
  <div class="middle">
-   <div class="title">业务平台区</div>
+   <div class="yy-title">业务平台区</div>
    <el-table
      :data="tableData1"
      border
-     style="width: 100%;"
-  >
+     style="width: 100%;">
 
              <el-table-column
                prop="index"
@@ -90,7 +87,7 @@
              >
              </el-table-column>
              <el-table-column
-               prop="type"
+               prop="zone"
                label="模块"
                  width="120"
              >
@@ -139,37 +136,35 @@
 
 <script>
 export default {
-  created(){
+  data() {
+    return {
+      pd: {},
+      tableData: [],
+      tableData1: []
+    }
+  },
+  created() {
     this.getList({});
 
   },
-methods:{
+  methods: {
 
-  getList(pd){
+    getList(pd) {
 
-    this.$api.post('/eamp/monitorServer/queryMonitorServer',pd,
-     r => {
-       console.log(r);
-       this.tableData=r.data.dmz;
-
-    })
+      this.$api.post('/eamp/monitorServer/queryMonitorServer', pd,
+        r => {
+          console.log(r);
+          this.tableData = r.data.dmz;
+          this.tableData1 = r.data.business;
+        })
+    },
   },
-},
 
-  data() {
-    return {
 
-    }
-  },
 
 }
 </script>
 
 <style scoped>
-.title {
-  line-height: 50px;
-  font-size: 18px;
-  color: #4CC4A1;
-  font-family: 微软雅黑;
-}
+
 </style>

@@ -1,910 +1,914 @@
 <template>
-  <div class="echarts">
-    <div :class="className" :id="id" :style="{height:height,width:width}" ref="myEchart"></div>
-    <!-- <Title :title="title"></Title>
-    <Search :placeholder="placeholder" :find="find" @listenSearch="searchItem" @listenAdd="addNew" @listenLeadIng="leadingItem"></Search> -->
-    <!-- <div id="provinceChart" class="charts" ref="myEchart1" style="height:400px;"></div> -->
+<div class="nationlHBSSJK">
+  <div class="map-top">
+    <h3 class="map-title">公安部出入境旅客检测体系</h3>
+    <ul class="map-tabul">
+      <li class="map-tabli mr-30 hand" :class="{'check-tab':tabId==1}" @click="tabId=1">
+        <img src="../../../assets/img/qgjk/tab1_1.png" alt="" v-if="tabId==1">
+        <img src="../../../assets/img/qgjk/tab1_0.png" alt="" v-else>
+
+        <span>口岸监控</span>
+      </li>
+      <li class="map-tabli mr-30 hand" :class="{'check-tab':tabId==2}" @click="tabId=2">
+        <img src="../../../assets/img/qgjk/tab2_1.png" alt="" v-if="tabId==2">
+        <img src="../../../assets/img/qgjk/tab2_0.png" alt="" v-else>
+        <span>航班监控</span>
+      </li>
+      <li class="map-tabli hand" :class="{'check-tab':tabId==3}" @click="tabId=3">
+        <img src="../../../assets/img/qgjk/tab3_1.png" alt="" v-if="tabId==3">
+        <img src="../../../assets/img/qgjk/tab3_0.png" alt="" v-else>
+        <span>人员监控</span>
+      </li>
+    </ul>
   </div>
+  <transition name="el-zoom-in-left">
+    <div class="left-list" v-if="showLeft">
+      <img src="../../../assets/img/qgjk/list1.png" alt="" @click="showLeft=false">
+    </div>
+  </transition>
+  <transition name="el-zoom-in-left">
+    <div class="left-box" v-if="!showLeft">
+      <div class="left-box1 mb-6">
+        <div class="box-title">
+          <div class="title-top"></div>
+          <div class="title-text">
+            全国航班统计
+          </div>
+          <div class="title-down" @click="showLeft=true">
+            收起
+          </div>
+        </div>
+        <div class="box-content">
+          <div class="content-top mb-6">
+            当日航班数量统计
+          </div>
+          <div class="content-middle">
+            <ul class="middleUl">
+              <li class="middleLi content-middle-head">
+                <div class="td1">
+
+                </div>
+                <div class="td2">
+                  入境
+                </div>
+                <div class="td3">
+                  出境
+                </div>
+              </li>
+              <li class="middleLi">
+                <div class="td1">
+                  计划
+                </div>
+                <div class="td2">
+                  2880
+                </div>
+                <div class="td3">
+                  2880
+                </div>
+              </li>
+              <li class="middleLi">
+                <div class="td1">
+                  预检
+                </div>
+                <div class="td2">
+                  2880
+                </div>
+                <div class="td3">
+                  2880
+                </div>
+              </li>
+              <li class="middleLi">
+                <div class="td1">
+                  取消
+                </div>
+                <div class="td2">
+                  2880
+                </div>
+                <div class="td3">
+                  2880
+                </div>
+              </li>
+              <li class="middleLi">
+                <div class="td1">
+                  重点
+                </div>
+                <div class="td2">
+                  2880
+                </div>
+                <div class="td3">
+                  2880
+                </div>
+              </li>
+              <li class="middleLi">
+                <div class="td1">
+                  延误
+                </div>
+                <div class="td2">
+                  2880
+                </div>
+                <div class="td3">
+                  2880
+                </div>
+              </li>
+              <li class="middleLi">
+                <div class="td1">
+                  实际
+                </div>
+                <div class="td2">
+                  2880
+                </div>
+                <div class="td3">
+                  2880
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="left-box1">
+          <div class="box-title">
+            <div class="title-top o-title"></div>
+            <div class="title-text">
+              口岸航班统计
+            </div>
+            <div class="title-down" @click="showLeft=true">
+              收起
+            </div>
+          </div>
+          <div class="box-content">
+            <div class="content-middle">
+              <ul class="middleUl">
+                <li class="middleLi2 content-middle-head2">
+                  <div class="td1">
+
+                  </div>
+                  <div class="td2">
+                    入境
+                  </div>
+                  <div class="td2">
+                    出境
+                  </div>
+                  <div class="td2">
+                    入境
+                  </div>
+                  <div class="td2">
+                    出境
+                  </div>
+                  <div class="td2">
+                    入境
+                  </div>
+                  <div class="td2">
+                    出境
+                  </div>
+                </li>
+                <li class="middleLi2">
+                  <div class="td1">
+                    北京
+                  </div>
+                  <div class="td2">
+                    4000
+                  </div>
+                  <div class="td2">
+                    4000
+                  </div>
+                  <div class="td2">
+                    4000
+                  </div>
+                  <div class="td2">
+                    4000
+                  </div>
+                  <div class="td2">
+                    4000
+                  </div>
+                  <div class="td2">
+                    4000
+                  </div>
+                </li>
+                <li class="middleLi2">
+                  <div class="td1">
+                    北京
+                  </div>
+                  <div class="td2">
+                    4000
+                  </div>
+                  <div class="td2">
+                    4000
+                  </div>
+                  <div class="td2">
+                    4000
+                  </div>
+                  <div class="td2">
+                    4000
+                  </div>
+                  <div class="td2">
+                    4000
+                  </div>
+                  <div class="td2">
+                    4000
+                  </div>
+                </li>
+                <li class="middleLi2">
+                  <div class="td1">
+                    北京
+                  </div>
+                  <div class="td2">
+                    4000
+                  </div>
+                  <div class="td2">
+                    4000
+                  </div>
+                  <div class="td2">
+                    4000
+                  </div>
+                  <div class="td2">
+                    4000
+                  </div>
+                  <div class="td2">
+                    4000
+                  </div>
+                  <div class="td2">
+                    4000
+                  </div>
+                </li>
+                <li class="middleLi2">
+                  <div class="td1">
+                    北京
+                  </div>
+                  <div class="td2">
+                    4000
+                  </div>
+                  <div class="td2">
+                    4000
+                  </div>
+                  <div class="td2">
+                    4000
+                  </div>
+                  <div class="td2">
+                    4000
+                  </div>
+                  <div class="td2">
+                    4000
+                  </div>
+                  <div class="td2">
+                    4000
+                  </div>
+                </li>
+                <li class="middleLi2">
+                  <div class="td1">
+                    北京
+                  </div>
+                  <div class="td2">
+                    4000
+                  </div>
+                  <div class="td2">
+                    4000
+                  </div>
+                  <div class="td2">
+                    4000
+                  </div>
+                  <div class="td2">
+                    4000
+                  </div>
+                  <div class="td2">
+                    4000
+                  </div>
+                  <div class="td2">
+                    4000
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+      </div>
+    </div>
+  </transition>
+  <transition name="el-zoom-in-right">
+    <div class="right-list" v-show="showRight">
+      <img src="../../../assets/img/qgjk/list2.png" alt="" @click="showRight=false">
+    </div>
+  </transition>
+  <transition name="el-zoom-in-right">
+    <div class="right-box" v-show="!showRight">
+      <div class="left-box1 mb-6">
+        <div class="box-title">
+          <div class="title-top b-title"></div>
+          <div class="title-text">
+            全国人员统计
+          </div>
+          <div class="title-down" @click="showRight=true">
+            收起
+          </div>
+        </div>
+        <div class="box-content">
+          <div class="content-top mb-6">
+            当日人员概况
+          </div>
+          <div class="content-middle">
+            <ul class="middleUl">
+              <li class="middleLi3 content-middle-head3">
+                <div class="td1">
+
+                </div>
+                <div class="td2">
+                  入境
+                </div>
+                <div class="td2">
+                  出境
+                </div>
+                <div class="td2">
+                  过境
+                </div>
+              </li>
+              <li class="middleLi3">
+                <div class="td1">
+                  计划
+                </div>
+                <div class="td2">
+                  2880
+                </div>
+                <div class="td2">
+                  2880
+                </div>
+                <div class="td2">
+                  2880
+                </div>
+              </li>
+              <li class="middleLi3">
+                <div class="td1">
+                  预检
+                </div>
+                <div class="td2">
+                  2880
+                </div>
+                <div class="td2">
+                  2880
+                </div>
+                <div class="td2">
+                  2880
+                </div>
+              </li>
+              <li class="middleLi3">
+                <div class="td1">
+                  取消
+                </div>
+                <div class="td2">
+                  2880
+                </div>
+                <div class="td2">
+                  2880
+                </div>
+                <div class="td2">
+                  2880
+                </div>
+              </li>
+
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="left-box1">
+          <div class="box-title">
+            <div class="title-top g-title"></div>
+            <div class="title-text">
+              口岸人员统计
+            </div>
+            <div class="title-down" @click="showRight=true">
+              收起
+            </div>
+          </div>
+          <div class="box-content">
+            <div class="content-middle">
+              <ul class="middleUl">
+                <li class="middleLi4 content-middle-head4">
+                  <div class="td1">
+
+                  </div>
+                  <div class="td2">
+                    内地
+                  </div>
+                  <div class="td2">
+                    港澳台
+                  </div>
+                  <div class="td2">
+                    外国人
+                  </div>
+                  <div class="td2">
+                    合计
+                  </div>
+                  <div class="td2">
+                    命中
+                  </div>
+                </li>
+                <li class="middleLi4">
+                  <div class="td1">
+                    北京
+                  </div>
+                  <div class="td2">
+                    4000
+                  </div>
+                  <div class="td2">
+                    4000
+                  </div>
+                  <div class="td2">
+                    4000
+                  </div>
+                  <div class="td2">
+                    4000
+                  </div>
+                  <div class="td2">
+                    4000
+                  </div>
+                </li>
+                <li class="middleLi4">
+                  <div class="td1">
+                    北京
+                  </div>
+                  <div class="td2">
+                    4000
+                  </div>
+                  <div class="td2">
+                    4000
+                  </div>
+                  <div class="td2">
+                    4000
+                  </div>
+                  <div class="td2">
+                    4000
+                  </div>
+                  <div class="td2">
+                    4000
+                  </div>
+
+                </li>
+                <li class="middleLi4">
+                  <div class="td1">
+                    北京
+                  </div>
+                  <div class="td2">
+                    4000
+                  </div>
+                  <div class="td2">
+                    4000
+                  </div>
+                  <div class="td2">
+                    4000
+                  </div>
+                  <div class="td2">
+                    4000
+                  </div>
+                  <div class="td2">
+                    4000
+                  </div>
+                </li>
+                <li class="middleLi4">
+                  <div class="td1">
+                    北京
+                  </div>
+                  <div class="td2">
+                    4000
+                  </div>
+                  <div class="td2">
+                    4000
+                  </div>
+                  <div class="td2">
+                    4000
+                  </div>
+                  <div class="td2">
+                    4000
+                  </div>
+                  <div class="td2">
+                    4000
+                  </div>
+                </li>
+                <li class="middleLi4">
+                  <div class="td1">
+                    北京
+                  </div>
+                  <div class="td2">
+                    4000
+                  </div>
+                  <div class="td2">
+                    4000
+                  </div>
+                  <div class="td2">
+                    4000
+                  </div>
+                  <div class="td2">
+                    4000
+                  </div>
+                  <div class="td2">
+                    4000
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+      </div>
+    </div>
+  </transition>
+
+  <div class="tan-box" v-show="tabId==1">
+    <span class="top-left"></span>
+    <span class="top-right"></span>
+    <span class="down-left"></span>
+    <span class="down-right"></span>
+
+    <div class="tan-row1 mb-20">
+      <div class="tan-row-text mr-20">
+        出入类型
+      </div>
+      <div class="tan-right">
+        <el-radio v-model="crType" label="0" class="mr-15">全部</el-radio>
+        <el-radio v-model="crType" label="1" class="mr-15">入境</el-radio>
+        <el-radio v-model="crType" label="2">出境</el-radio>
+      </div>
+    </div>
+    <div class="tan-row2 mb-20">
+      <div class="tan-row-text">
+        境内口岸
+      </div>
+      <div class="tan-content">
+
+      </div>
+    </div>
+    <div class="tan-row2">
+      <div class="tan-row-text">
+        境外口岸
+      </div>
+    </div>
+  </div>
+  <div class="tan-box" v-show="tabId==2">
+    <span class="top-left"></span>
+    <span class="top-right"></span>
+    <span class="down-left"></span>
+    <span class="down-right"></span>
+    <div class="tan-row2 mb-20">
+      <div class="tan-row-text">
+
+      </div>
+      <div class="tan-content">
+
+      </div>
+    </div>
+    <div class="tan-row2">
+      <div class="tan-row-text">
+        境外口岸
+      </div>
+    </div>
+  </div>
+  <div :class="className" :id="id" :style="{height:height,width:width}" ref="myEchart" class="canvas"></div>
+</div>
 </template>
 <script>
-  import echarts from "echarts";
-  require('../../../assets/js/world')
-  // import '../../../assets/js/world.js'
-  // import '../../node_modules/echarts/map/js/china.js' // 引入中国地图数据
+import echarts from 'echarts/lib/echarts';
+import 'echarts/map/js/world.js';
 
-  // import Title from './title'
-  // import Search from './search'
-  export default {
-    name: "echarts",
-    props: {
-      className: {
-        type: String,
-        default: "yourClassName"
+export default {
+  name: "echarts",
+  props: {
+    className: {
+      type: String,
+      default: "yourClassName"
+    },
+    id: {
+      type: String,
+      default: "yourID"
+    },
+    width: {
+      type: String,
+      default: "100%"
+    },
+    height: {
+      type: String,
+      default: "700px"
+    }
+  },
+  data() {
+    return {
+      tabId:1,
+      crType:"0",
+      title: "图表",
+      placeholder: "用户名/电话",
+      showLeft:true,
+      showRight:true,
+      find: "2", //1显示新增按钮，2显示导入按钮，若不显示这两个按钮可以写0或者不写值
+      chart: null,
+      geoCoordMap: {
+        '南宁': [108.479, 23.1152],
+        '广州': [113.5107, 23.2196],
+        '重庆': [107.7539, 30.1904],
+        '芬兰': [24.909912, 60.169095],
+        '美国': [-100.696295, 33.679979],
+        '日本': [139.710164, 35.706962],
+        '韩国': [126.979208, 37.53875],
+        '瑞士': [7.445147, 46.956241],
+        '东南亚': [117.53244, 5.300343],
+        '澳大利亚': [135.193845, -25.304039],
+        '德国': [13.402393, 52.518569],
+        '英国': [-0.126608, 51.208425],
+        '加拿大': [-102.646409, 59.994255]
       },
-      id: {
-        type: String,
-        default: "yourID"
-      },
-      width: {
-        type: String,
-        default: "100%"
-      },
-      height: {
-        type: String,
-        default: "400px"
+      // 重庆
+      CQData: [
+        [{
+          name: '重庆'
+        }, {
+          name: "芬兰",
+          value: 30
+        }],
+        [{
+          name: '重庆'
+        }, {
+          name: "德国",
+          value: 90
+        }],
+        [{
+          name: '重庆'
+        }, {
+          name: "英国",
+          value: 30
+        }],
+        [{
+          name: '重庆'
+        }, {
+          name: "韩国",
+          value: 30
+        }]
+      ],
+
+      // 广州
+      GZData: [
+        [{
+          name: '广州'
+        }, {
+          name: "日本",
+          value: 30
+        }],
+        [{
+          name: '广州'
+        }, {
+          name: "东南亚",
+          value: 30
+        }]
+      ],
+
+      // 南宁
+      NNData: [
+        [{
+          name: '南宁'
+        }, {
+          name: "加拿大",
+          value: 30
+        }],
+        [{
+          name: '南宁'
+        }, {
+          name: "美国",
+          value: 100
+        }],
+        [{
+          name: '南宁'
+        }, {
+          name: "澳大利亚",
+          value: 95
+        }],
+        [{
+          name: '南宁'
+        }, {
+          name: "瑞士",
+          value: 30
+        }]
+      ],
+      planePath: 'path://M1705.06,1318.313v-89.254l-319.9-221.799l0.073-208.063c0.521-84.662-26.629-121.796-63.961-121.491c-37.332-0.305-64.482,36.829-63.961,121.491l0.073,208.063l-319.9,221.799v89.254l330.343-157.288l12.238,241.308l-134.449,92.931l0.531,42.034l175.125-42.917l175.125,42.917l0.531-42.034l-134.449-92.931l12.238-241.308L1705.06,1318.313z',
+      color: ['#10fb46', '#dcbf71'], // 自定义图中要用到的颜色
+      series:[], // 用来存储地图数据
+    };
+  },
+
+  mounted() {
+    this.fn();
+    // this.chinaConfigure();
+  },
+  beforeDestroy() {
+    if (!this.chart) {
+      return;
+    }
+    this.chart.dispose();
+    this.chart = null;
+  },
+  methods: {
+    ff(){
+      alert(this.showLeft)
+    },
+    //搜索回调
+    searchItem(val) {
+      console.log(val)
+    },
+    //新增回调
+    addNew(val) {
+      console.log(val)
+    },
+    //导入
+    leadingItem(val) {
+      console.log(val)
+    },
+    // 获取地图中起点和终点的坐标，以数组形式保存下来
+    convertData(data) {
+      var res = [];
+      for (var i = 0; i < data.length; i++) {
+        var dataItem = data[i];
+        var fromCoord = this.geoCoordMap[dataItem[1].name];
+        var toCoord = this.geoCoordMap[dataItem[0].name];
+        if (fromCoord && toCoord) {
+          res.push([{
+            coord: fromCoord // 起点坐标
+          }, {
+            coord: toCoord // 终点坐标
+          }])
+        }
       }
+      return res;
     },
-    data() {
-      return {
-        title: "图表",
-        placeholder: "用户名/电话",
-        find: "2", //1显示新增按钮，2显示导入按钮，若不显示这两个按钮可以写0或者不写值
-        chart: null
-      };
-    },
-    // components: {
-    //   Title,
-    //   Search
-    // },
-    mounted() {
-      this.initChart();
-      // this.chinaConfigure();
-    },
-    beforeDestroy() {
-      if (!this.chart) {
-        return;
-      }
-      this.chart.dispose();
-      this.chart = null;
-    },
-    methods: {
-      chinaConfigure() {
-        let myChart = echarts.init(this.$refs.myEchart1); //这里是为了获得容器所在位置
-        myChart.setOption({ // 进行相关配置
-          backgroundColor: "#02AFDB",
-          tooltip: {}, // 鼠标移到图里面的浮动提示框
-          dataRange: {
-            show: false,
-            min: 0,
-            max: 1000000,
-            text: ['High', 'Low'],
-            realtime: true,
-            calculable: true,
-            color: ['orangered', 'yellow', 'lightskyblue']
+    fn(){
+      /*
+      图中一共用到三种效果，分别为航线特效图、飞机航线图以及城市图标涟漪图。
+      要用到setOption中的series属性，并且对每个城市都要进行三次设置。
+  */
+    let that=this;
+      [
+        ['重庆',this.CQData],
+        ['广州', this.GZData],
+        ['南宁', this.NNData]
+      ].forEach(function(item, i) {
+        that.series.push({
+          // 白色航线特效图
+          type: 'lines',
+          zlevel: 1, // 用于分层，z-index的效果
+          effect: {
+            show: true, // 动效是否显示
+            period: 6, // 特效动画时间
+            trailLength: 0.7, // 特效尾迹的长度
+            color: '#fff', // 特效颜色
+            symbolSize: 3 // 特效大小
           },
-          geo: { // 这个是重点配置区
-            map: 'china', // 表示中国地图
-            roam: true,
-            label: {
-              normal: {
-                show: true, // 是否显示对应地名
-                textStyle: {
-                  color: 'rgba(0,0,0,0.4)'
-                }
-              }
-            },
-            itemStyle: {
-              normal: {
-                borderColor: 'rgba(0, 0, 0, 0.2)'
-              },
-              emphasis: {
-                areaColor: null,
-                shadowOffsetX: 0,
-                shadowOffsetY: 0,
-                shadowBlur: 20,
-                borderWidth: 0,
-                shadowColor: 'rgba(0, 0, 0, 0.5)'
-              }
+          lineStyle: {
+            normal: { // 正常情况下的线条样式
+              color: that.color[0],
+              width: 0, // 因为是叠加效果，要是有宽度，线条会变粗，白色航线特效不明显
+              curveness: -0.2 // 线条曲度
             }
           },
-          series: [{
-              type: 'scatter',
-              coordinateSystem: 'geo' // 对应上方配置
-            },
-            {
-              name: '启动次数', // 浮动框的标题
-              type: 'map',
-              geoIndex: 0,
-              data: [{
-                name: '广东',
-                value: 1324
-              }] // 这里就是数据，即数组可以单独放在外面也可以直接写
-            }
-          ]
-        })
-      },
-      //搜索回调
-      searchItem(val) {
-        console.log(val)
-      },
-      //新增回调
-      addNew(val) {
-        console.log(val)
-      },
-      //导入
-      leadingItem(val) {
-        console.log(val)
-      },
-      initChart() {
-        this.chart = echarts.init(this.$refs.myEchart);
-        window.onresize = echarts.init(this.$refs.myEchart).resize;
-        // 把配置和数据放这里
-        this.chart.setOption({
-          backgroundColor: "#02AFDB",
-          title: {
-            // text: '在线设备分布',
-            left: '40%',
-            top: '0px',
-            textStyle: {
-              color: '#fff',
-              opacity: 0.7
+          data: that.convertData(item[1]) // 特效的起始、终点位置
+        }, { // 小飞机航线效果
+          type: 'lines',
+          zlevel: 2,
+          //symbol: ['none', 'arrow'],   // 用于设置箭头
+          symbolSize: 10,
+          effect: {
+            show: true,
+            period: 6,
+            trailLength: 0,
+            symbol: that.planePath, // 特效形状，可以用其他svg pathdata路径代替
+            symbolSize: 15
+          },
+          lineStyle: {
+            normal: {
+              color: that.color[0],
+              width: 1,
+              opacity: 0.6,
+              curveness: -0.2
             }
           },
-          dataRange: {
-            show: false,
-            min: 0,
-            max: 1000000,
-            text: ['High', 'Low'],
-            realtime: true,
-            calculable: true,
-            color: ['orangered', 'yellow', 'lightskyblue']
+          data: that.convertData(item[1]) // 特效的起始、终点位置，一个二维数组，相当于coords: convertData(item[1])
+        }, { // 散点效果
+          type: 'effectScatter',
+          coordinateSystem: 'geo', // 表示使用的坐标系为地理坐标系
+          zlevel: 3,
+          rippleEffect: {
+            brushType: 'stroke' // 波纹绘制效果
           },
-          tooltip: {
-            trigger: 'item'
-          },
-          geo: {
-            map: 'world',
-            label: {
-              emphasis: {
-                show: false
-              }
-            },
-            roam: false,
-            silent: true,
-            itemStyle: {
-              normal: {
-                areaColor: '#37376e',
-                borderColor: '#000'
-              },
-              emphasis: {
-                areaColor: '#2a333d'
-              }
+          label: {
+            normal: { // 默认的文本标签显示样式
+              show: true,
+              position: 'left', // 标签显示的位置
+              formatter: '{b}' // 标签内容格式器
             }
           },
-          series: [{
-            type: 'map',
-            mapType: 'world',
-            // zoom: 1.2,
-            mapLocation: {
-              y: 100
-            },
-            data: [{
-                name: 'Afghanistan',
-                value: 28397.812
-              },
-              {
-                name: 'Angola',
-                value: 19549.124
-              },
-              {
-                name: 'Albania',
-                value: 3150.143
-              },
-              {
-                name: 'United Arab Emirates',
-                value: 8441.537
-              },
-              {
-                name: 'Argentina',
-                value: 40374.224
-              },
-              {
-                name: 'Armenia',
-                value: 2963.496
-              },
-              {
-                name: 'French Southern and Antarctic Lands',
-                value: 268.065
-              },
-              {
-                name: 'Australia',
-                value: 22404.488
-              },
-              {
-                name: 'Austria',
-                value: 8401.924
-              },
-              {
-                name: 'Azerbaijan',
-                value: 9094.718
-              },
-              {
-                name: 'Burundi',
-                value: 9232.753
-              },
-              {
-                name: 'Belgium',
-                value: 10941.288
-              },
-              {
-                name: 'Benin',
-                value: 9509.798
-              },
-              {
-                name: 'Burkina Faso',
-                value: 15540.284
-              },
-              {
-                name: 'Bangladesh',
-                value: 151125.475
-              },
-              {
-                name: 'Bulgaria',
-                value: 7389.175
-              },
-              {
-                name: 'The Bahamas',
-                value: 66402.316
-              },
-              {
-                name: 'Bosnia and Herzegovina',
-                value: 3845.929
-              },
-              {
-                name: 'Belarus',
-                value: 9491.07
-              },
-              {
-                name: 'Belize',
-                value: 308.595
-              },
-              {
-                name: 'Bermuda',
-                value: 64.951
-              },
-              {
-                name: 'Bolivia',
-                value: 716.939
-              },
-              {
-                name: 'Brazil',
-                value: 195210.154
-              },
-              {
-                name: 'Brunei',
-                value: 27.223
-              },
-              {
-                name: 'Bhutan',
-                value: 716.939
-              },
-              {
-                name: 'Botswana',
-                value: 1969.341
-              },
-              {
-                name: 'Central African Republic',
-                value: 4349.921
-              },
-              {
-                name: 'Canada',
-                value: 34126.24
-              },
-              {
-                name: 'Switzerland',
-                value: 7830.534
-              },
-              {
-                name: 'Chile',
-                value: 17150.76
-              },
-              {
-                name: 'China',
-                value: 1359821.465
-              },
-              {
-                name: 'Ivory Coast',
-                value: 60508.978
-              },
-              {
-                name: 'Cameroon',
-                value: 20624.343
-              },
-              {
-                name: 'Democratic Republic of the Congo',
-                value: 62191.161
-              },
-              {
-                name: 'Republic of the Congo',
-                value: 3573.024
-              },
-              {
-                name: 'Colombia',
-                value: 46444.798
-              },
-              {
-                name: 'Costa Rica',
-                value: 4669.685
-              },
-              {
-                name: 'Cuba',
-                value: 11281.768
-              },
-              {
-                name: 'Northern Cyprus',
-                value: 1.468
-              },
-              {
-                name: 'Cyprus',
-                value: 1103.685
-              },
-              {
-                name: 'Czech Republic',
-                value: 10553.701
-              },
-              {
-                name: 'Germany',
-                value: 83017.404
-              },
-              {
-                name: 'Djibouti',
-                value: 834.036
-              },
-              {
-                name: 'Denmark',
-                value: 5550.959
-              },
-              {
-                name: 'Dominican Republic',
-                value: 10016.797
-              },
-              {
-                name: 'Algeria',
-                value: 37062.82
-              },
-              {
-                name: 'Ecuador',
-                value: 15001.072
-              },
-              {
-                name: 'Egypt',
-                value: 78075.705
-              },
-              {
-                name: 'Eritrea',
-                value: 5741.159
-              },
-              {
-                name: 'Spain',
-                value: 46182.038
-              },
-              {
-                name: 'Estonia',
-                value: 1298.533
-              },
-              {
-                name: 'Ethiopia',
-                value: 87095.281
-              },
-              {
-                name: 'Finland',
-                value: 5367.693
-              },
-              {
-                name: 'Fiji',
-                value: 860.559
-              },
-              {
-                name: 'Falkland Islands',
-                value: 49.581
-              },
-              {
-                name: 'France',
-                value: 63230.866
-              },
-              {
-                name: 'Gabon',
-                value: 1556.222
-              },
-              {
-                name: 'United Kingdom',
-                value: 62066.35
-              },
-              {
-                name: 'Georgia',
-                value: 4388.674
-              },
-              {
-                name: 'Ghana',
-                value: 24262.901
-              },
-              {
-                name: 'Guinea',
-                value: 10876.033
-              },
-              {
-                name: 'Gambia',
-                value: 1680.64
-              },
-              {
-                name: 'Guinea Bissau',
-                value: 10876.033
-              },
-              {
-                name: 'Equatorial Guinea',
-                value: 696.167
-              },
-              {
-                name: 'Greece',
-                value: 11109.999
-              },
-              {
-                name: 'Greenland',
-                value: 56.546
-              },
-              {
-                name: 'Guatemala',
-                value: 14341.576
-              },
-              {
-                name: 'French Guiana',
-                value: 231.169
-              },
-              {
-                name: 'Guyana',
-                value: 786.126
-              },
-              {
-                name: 'Honduras',
-                value: 7621.204
-              },
-              {
-                name: 'Croatia',
-                value: 4338.027
-              },
-              {
-                name: 'Haiti',
-                value: 9896.4
-              },
-              {
-                name: 'Hungary',
-                value: 10014.633
-              },
-              {
-                name: 'Indonesia',
-                value: 240676.485
-              },
-              {
-                name: 'India',
-                value: 12054.648
-              },
-              {
-                name: 'Ireland',
-                value: 4467.561
-              },
-              {
-                name: 'Iran',
-                value: 240676.485
-              },
-              {
-                name: 'Iraq',
-                value: 30962.38
-              },
-              {
-                name: 'Iceland',
-                value: 318.042
-              },
-              {
-                name: 'Israel',
-                value: 7420.368
-              },
-              {
-                name: 'Italy',
-                value: 60508.978
-              },
-              {
-                name: 'Jamaica',
-                value: 2741.485
-              },
-              {
-                name: 'Jordan',
-                value: 6454.554
-              },
-              {
-                name: 'Japan',
-                value: 127352.833
-              },
-              {
-                name: 'Kazakhstan',
-                value: 15921.127
-              },
-              {
-                name: 'Kenya',
-                value: 40909.194
-              },
-              {
-                name: 'Kyrgyzstan',
-                value: 5334.223
-              },
-              {
-                name: 'Cambodia',
-                value: 14364.931
-              },
-              {
-                name: 'South Korea',
-                value: 51452.352
-              },
-              {
-                name: 'Kosovo',
-                value: 97.743
-              },
-              {
-                name: 'Kuwait',
-                value: 2991.58
-              },
-              {
-                name: 'Laos',
-                value: 6395.713
-              },
-              {
-                name: 'Lebanon',
-                value: 4341.092
-              },
-              {
-                name: 'Liberia',
-                value: 3957.99
-              },
-              {
-                name: 'Libya',
-                value: 6040.612
-              },
-              {
-                name: 'Sri Lanka',
-                value: 20758.779
-              },
-              {
-                name: 'Lesotho',
-                value: 2008.921
-              },
-              {
-                name: 'Lithuania',
-                value: 3068.457
-              },
-              {
-                name: 'Luxembourg',
-                value: 507.885
-              },
-              {
-                name: 'Latvia',
-                value: 2090.519
-              },
-              {
-                name: 'Morocco',
-                value: 31642.36
-              },
-              {
-                name: 'Moldova',
-                value: 103.619
-              },
-              {
-                name: 'Madagascar',
-                value: 21079.532
-              },
-              {
-                name: 'Mexico',
-                value: 117886.404
-              },
-              {
-                name: 'Macedonia',
-                value: 507.885
-              },
-              {
-                name: 'Mali',
-                value: 13985.961
-              },
-              {
-                name: 'Myanmar',
-                value: 51931.231
-              },
-              {
-                name: 'Montenegro',
-                value: 620.078
-              },
-              {
-                name: 'Mongolia',
-                value: 2712.738
-              },
-              {
-                name: 'Mozambique',
-                value: 23967.265
-              },
-              {
-                name: 'Mauritania',
-                value: 3609.42
-              },
-              {
-                name: 'Malawi',
-                value: 15013.694
-              },
-              {
-                name: 'Malaysia',
-                value: 28275.835
-              },
-              {
-                name: 'Namibia',
-                value: 2178.967
-              },
-              {
-                name: 'New Caledonia',
-                value: 246.379
-              },
-              {
-                name: 'Niger',
-                value: 15893.746
-              },
-              {
-                name: 'Nigeria',
-                value: 159707.78
-              },
-              {
-                name: 'Nicaragua',
-                value: 5822.209
-              },
-              {
-                name: 'Netherlands',
-                value: 16615.243
-              },
-              {
-                name: 'Norway',
-                value: 4891.251
-              },
-              {
-                name: 'Nepal',
-                value: 26846.016
-              },
-              {
-                name: 'New Zealand',
-                value: 4368.136
-              },
-              {
-                name: 'Oman',
-                value: 2802.768
-              },
-              {
-                name: 'Pakistan',
-                value: 173149.306
-              },
-              {
-                name: 'Panama',
-                value: 3678.128
-              },
-              {
-                name: 'Peru',
-                value: 29262.83
-              },
-              {
-                name: 'Philippines',
-                value: 93444.322
-              },
-              {
-                name: 'Papua New Guinea',
-                value: 6858.945
-              },
-              {
-                name: 'Poland',
-                value: 38198.754
-              },
-              {
-                name: 'Puerto Rico',
-                value: 3709.671
-              },
-              {
-                name: 'North Korea',
-                value: 1.468
-              },
-              {
-                name: 'Portugal',
-                value: 10589.792
-              },
-              {
-                name: 'Paraguay',
-                value: 6459.721
-              },
-              {
-                name: 'Qatar',
-                value: 1749.713
-              },
-              {
-                name: 'Romania',
-                value: 21861.476
-              },
-              {
-                name: 'Russia',
-                value: 21861.476
-              },
-              {
-                name: 'Rwanda',
-                value: 10836.732
-              },
-              {
-                name: 'Western Sahara',
-                value: 514.648
-              },
-              {
-                name: 'Saudi Arabia',
-                value: 27258.387
-              },
-              {
-                name: 'Sudan',
-                value: 35652.002
-              },
-              {
-                name: 'South Sudan',
-                value: 9940.929
-              },
-              {
-                name: 'Senegal',
-                value: 12950.564
-              },
-              {
-                name: 'Solomon Islands',
-                value: 526.447
-              },
-              {
-                name: 'Sierra Leone',
-                value: 5751.976
-              },
-              {
-                name: 'El Salvador',
-                value: 6218.195
-              },
-              {
-                name: 'Somaliland',
-                value: 9636.173
-              },
-              {
-                name: 'Somalia',
-                value: 9636.173
-              },
-              {
-                name: 'Republic of Serbia',
-                value: 3573.024
-              },
-              {
-                name: 'Suriname',
-                value: 524.96
-              },
-              {
-                name: 'Slovakia',
-                value: 5433.437
-              },
-              {
-                name: 'Slovenia',
-                value: 2054.232
-              },
-              {
-                name: 'Sweden',
-                value: 9382.297
-              },
-              {
-                name: 'Swaziland',
-                value: 1193.148
-              },
-              {
-                name: 'Syria',
-                value: 7830.534
-              },
-              {
-                name: 'Chad',
-                value: 11720.781
-              },
-              {
-                name: 'Togo',
-                value: 6306.014
-              },
-              {
-                name: 'Thailand',
-                value: 66402.316
-              },
-              {
-                name: 'Tajikistan',
-                value: 7627.326
-              },
-              {
-                name: 'Turkmenistan',
-                value: 5041.995
-              },
-              {
-                name: 'East Timor',
-                value: 10016.797
-              },
-              {
-                name: 'Trinidad and Tobago',
-                value: 1328.095
-              },
-              {
-                name: 'Tunisia',
-                value: 10631.83
-              },
-              {
-                name: 'Turkey',
-                value: 72137.546
-              },
-              {
-                name: 'United Republic of Tanzania',
-                value: 44973.33
-              },
-              {
-                name: 'Uganda',
-                value: 33987.213
-              },
-              {
-                name: 'Ukraine',
-                value: 46050.22
-              },
-              {
-                name: 'Uruguay',
-                value: 3371.982
-              },
-              {
-                name: 'United States of America',
-                value: 312247.116
-              },
-              {
-                name: 'Uzbekistan',
-                value: 27769.27
-              },
-              {
-                name: 'Venezuela',
-                value: 236.299
-              },
-              {
-                name: 'Vietnam',
-                value: 89047.397
-              },
-              {
-                name: 'Vanuatu',
-                value: 236.299
-              },
-              {
-                name: 'West Bank',
-                value: 13.565
-              },
-              {
-                name: 'Yemen',
-                value: 22763.008
-              },
-              {
-                name: 'South Africa',
-                value: 51452.352
-              },
-              {
-                name: 'Zambia',
-                value: 13216.985
-              },
-              {
-                name: 'Zimbabwe',
-                value: 13076.978
-              }
-            ],
-            symbolSize: 12,
-            label: {
-              normal: {
-                show: false
-              },
-              emphasis: {
-                show: false
-              }
-            },
-            itemStyle: {
-              emphasis: {
-                borderColor: '#fff',
-                borderWidth: 1
-              }
+          itemStyle: {
+            normal: {
+              color: '#ffffff'
             }
-          }],
+          },
+          data: item[1].map(function(dataItem) {
+            return {
+              name: dataItem[1].name,
+              value: that.geoCoordMap[dataItem[1].name], // 起点的位置
+              symbolSize: dataItem[1].value / 8, // 散点的大小，通过之前设置的权重来计算，val的值来自data返回的value
+            };
+          })
         });
-      }
+      });
+
+      // 显示终点位置,类似于上面最后一个效果，放在外面写，是为了防止被循环执行多次
+      that.series.push({
+        type: 'effectScatter',
+        coordinateSystem: 'geo',
+        zlevel: 3,
+        rippleEffect: {
+          brushType: 'stroke'
+        },
+        label: {
+          normal: {
+            show: true,
+            position: 'left',
+            formatter: '{b}'
+          }
+        },
+        symbolSize: function(val) {
+          return val[2] / 8;
+        },
+        itemStyle: {
+          normal: {
+            color: that.color[1]
+          }
+        },
+        data: [{
+          // 这里面的数据，由于一开始就知道终点位置是什么，所以直接写死，如果通过ajax来获取数据的话，还要进行相应的处理
+          name: "重庆",
+          value: [107.7539, 30.1904, 30],
+          label: {
+            normal: {
+              position: 'top'
+            }
+          }
+        }, {
+          name: '广州',
+          value: [113.5107, 23.2196, 30],
+          label: {
+            normal: {
+              position: 'right'
+            }
+          }
+        }, {
+          name: '南宁',
+          value: [108.479, 23.1152, 30]
+        }]
+      });
+      console.log(that.series)
+      this.initChart(that.series)
+    },
+    initChart(series) {
+
+      this.chart = echarts.init(this.$refs.myEchart);
+      window.onresize = echarts.init(this.$refs.myEchart).resize;
+      // 把配置和数据放这里
+      this.chart.setOption({
+        // backgroundColor: "#040c21",
+
+       //  title: {
+       //     text: '全国主要城市空气质量',
+       //     subtext: 'data from PM25.in',
+       //     sublink: 'http://www.pm25.in',
+       //     left: 'center',
+       //     textStyle: {
+       //         color: '#fff'
+       //     }
+       // },
+        geo: {
+          map: 'world', // 与引用进来的地图js名字一致
+          roam: true, // 禁止缩放平移
+          itemStyle: { // 每个区域的样式
+            normal: {
+              areaColor: '#02b0d2'
+            },
+            emphasis: {
+              areaColor: '#3dbb7a'
+            }
+          },
+          regions: [{ // 选中的区域
+            name: 'China',
+            selected: true,
+            itemStyle: { // 高亮时候的样式
+              emphasis: {
+                areaColor: '#3dbb7a'
+              }
+            },
+            label: { // 高亮的时候不显示标签
+              emphasis: {
+                show: false
+              }
+            }
+          }]
+        },
+        series:series,   // 将之前处理的数据放到这里
+        textStyle: {
+            fontSize: 12
+        }
+      });
     }
   }
+}
 </script>
+<style scoped>
+ @import 'nationalHBSSJK.css';
+</style>
