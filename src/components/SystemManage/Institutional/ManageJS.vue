@@ -11,12 +11,12 @@
 
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">角色：</span>
-              <el-input placeholder="请输入内容" size="small" v-model="pd.fltnoEqual"  class="input-input"></el-input>
+              <el-input placeholder="请输入内容" size="small" v-model="pd.rolename"  class="input-input"></el-input>
             </el-col>
 
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">部门：</span>
-              <el-select v-model="pd.airlineCompanyIdEqual" filterable @visible-change="queryNationality" placeholder="请选择" size="small" class="input-input">
+              <el-select v-model="pd.deptId" filterable @visible-change="queryNationality" placeholder="请选择" size="small" class="input-input">
                  <el-option
                    v-for="item in company"
                    :key="item.AIRLINE_CODE"
@@ -27,7 +27,7 @@
             </el-col>
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">状态：</span>
-              <el-select v-model="pd.stationfromEqual" filterable @visible-change="queryAirport" placeholder="请选择" size="small" class="input-input">
+              <el-select v-model="pd.status" filterable @visible-change="queryAirport" placeholder="请选择" size="small" class="input-input">
                  <el-option
                    v-for="item in Airport"
                    :key="item.AIRPORT_CODE"
@@ -56,7 +56,7 @@
         style="width: 100%;"
         >
         <el-table-column
-          prop="fltno"
+          prop="roleName"
           label="角色名">
         </el-table-column>
         <el-table-column
@@ -65,17 +65,19 @@
           >
         </el-table-column>
         <el-table-column
-          prop="airlineCompanyId"
+          prop="remarks"
           label="备注">
         </el-table-column>
         <el-table-column
-          prop="stationfromName"
-          label="状态"
-          >
+          label="状态">
+          <template slot-scope="scope">
+            <div class="">
+              {{scope.row.status | fifterstatus}}
+            </div>
+          </template>
         </el-table-column>
-
         <el-table-column
-          label="操作">
+          label="操作" width="350">
           <template slot-scope="scope">
             <div class="flex-r">
               <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row)">详情</el-button>
@@ -262,9 +264,9 @@ export default {
       };
       this.$api.post('/eamp/roleSys/select', p,
         r => {
-          console.log(r);
-          this.tableData = r.data.resultList;
-          this.TotalResult = r.data.totalResult;
+          console.log("----"+r);
+          this.tableData = r.data.roleList;
+          // this.TotalResult = r.data.totalResult;
         })
     },
     queryNationality() {
@@ -312,6 +314,18 @@ export default {
       this.addDialogVisible = true;
       console.log(i);
       this.form = i;
+    },
+    filters: {
+
+      fifterstatus(val) {
+        if (val == 1) {
+          return "停用"
+
+        }else {
+            return "启用"
+        }
+        // return val*2
+      }
     },
 
   }

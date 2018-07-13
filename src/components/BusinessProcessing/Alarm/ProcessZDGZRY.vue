@@ -7,7 +7,7 @@
         </el-col>
         <el-col :span="12" class="top-right">
           报警类型:
-          <el-select v-model="pd.lastmatchType" placeholder="请选择"  size="small">
+          <el-select v-model="pd.lastmatchType" placeholder="请选择" size="small">
            <el-option
              v-for="item in options1"
              :key="item.value"
@@ -16,10 +16,9 @@
            </el-option>
          </el-select>
          出入境类别:
-         <el-select v-model="pd.flighttype" placeholder="请选择"  size="small">
+         <el-select v-model="pd.flighttype" placeholder="请选择" size="small">
            <el-option label="入境" value="I"></el-option>
            <el-option label="出境" value="O"></el-option>
-
          </el-select>
         <el-button type="warning" icon="el-icon-zoom-in" size="small" @click="getList(currentPage,pageSize,pd)">筛选</el-button>
         </el-col>
