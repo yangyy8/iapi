@@ -6,7 +6,6 @@
       <li class="map-tabli mr-30 hand" :class="{'check-tab':tabId==1}" @click="tabId=1">
         <img src="../../../assets/img/qgjk/tab1_1.png" alt="" v-if="tabId==1">
         <img src="../../../assets/img/qgjk/tab1_0.png" alt="" v-else>
-
         <span>口岸监控</span>
       </li>
       <li class="map-tabli mr-30 hand" :class="{'check-tab':tabId==2}" @click="tabId=2">
@@ -506,8 +505,8 @@
       </div>
     </div>
   </transition>
-
-  <div class="tan-box" v-show="tabId==1">
+  <transition name="el-zoom-in-top">
+    <div class="tan-box" v-show="tabId==1">
     <span class="top-left"></span>
     <span class="top-right"></span>
     <span class="down-left"></span>
@@ -528,7 +527,9 @@
         境内口岸
       </div>
       <div class="tan-content">
+        <el-row >
 
+        </el-row>
       </div>
     </div>
     <div class="tan-row2">
@@ -537,25 +538,34 @@
       </div>
     </div>
   </div>
-  <div class="tan-box" v-show="tabId==2">
+  </transition>
+  <transition name="el-zoom-in-top">
+    <div class="tan-box" v-show="tabId==2">
     <span class="top-left"></span>
     <span class="top-right"></span>
     <span class="down-left"></span>
     <span class="down-right"></span>
-    <div class="tan-row2 mb-20">
-      <div class="tan-row-text">
-
-      </div>
-      <div class="tan-content">
-
-      </div>
-    </div>
     <div class="tan-row2">
       <div class="tan-row-text">
         境外口岸
       </div>
     </div>
   </div>
+  </transition>
+
+  <transition name="el-zoom-in-top">
+    <div class="tan-box" v-show="tabId==3">
+    <span class="top-left"></span>
+    <span class="top-right"></span>
+    <span class="down-left"></span>
+    <span class="down-right"></span>
+    <div class="tan-row2">
+      <div class="tan-row-text">
+        航班筛选条件
+      </div>
+    </div>
+  </div>
+  </transition>
   <div :class="className" :id="id" :style="{height:height,width:width}" ref="myEchart" class="canvas"></div>
 </div>
 </template>
@@ -585,7 +595,7 @@ export default {
   },
   data() {
     return {
-      tabId:1,
+      tabId:0,
       crType:"0",
       title: "图表",
       placeholder: "用户名/电话",

@@ -1,8 +1,23 @@
 // 配置API接口地址
+<<<<<<< HEAD
 
 
 //var root = 'http://192.168.99.248:8181'
 var root = 'http://192.168.99.251:8080'
+=======
+
+
+// var root = 'http://192.168.99.242:8082'
+
+
+//var root = 'http://192.168.99.248:8181'
+//var root = 'http://192.168.99.228:8080'
+// var root = 'http://192.168.99.242:8082'
+// var root = 'http://192.168.99.245:8081'
+//var root="http://192.168.99.250:8080"//甄别-----刘洋
+var root="http://192.168.99.247:8080"    //报警
+
+>>>>>>> ca00cf4551af8de76e1b0a59a40ce361dfd6e803
 
 // 引用axios
 var axios = require('axios')
