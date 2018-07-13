@@ -6,33 +6,10 @@
           <div class="title-green">
             信息比对
           </div>
-          <!-- <el-table
-            class="o-th1"
-            :data="tableData"
-            border
-            style="width: 100%;">
-            <el-table-column
 
-              label="类别"
-              width="180">
-
-            </el-table-column>
-            <el-table-column
-              prop="name"
-              label="旅客信息"
-              width="320">
-            </el-table-column>
-            <el-table-column
-              prop="address"
-              label="名单信息"
-              width="310">
-            </el-table-column>
-            <el-table-column
-              prop="address"
-              label="比对结果">
-            </el-table-column>
-          </el-table> -->
-          <table class="o-th1" cellspacing="0">
+<!-- // 0不准入境名单查询 1失效证件 2失效签证 3白名单 4临空名单 5重点关注
+// BZRJyfbywtList   invalidCardList  invalidVisaList WnameListList  LKNameListList -->
+          <table class="o-th1" cellspacing="0" v-if="$route.query.NameListType==0">
             <tr class="thead">
               <th>类别</th>
               <th>旅客信息</th>
@@ -41,33 +18,197 @@
             </tr>
             <tr>
               <td>姓名</td>
-              <td>张某某</td>
-              <td>张某某</td>
-              <td>张某某</td>
+              <td>{{travellerInfo.pname}}</td>
+              <td>{{tableData.BZRJyfbywtList.XM}}</td>
+              <td>{{compareResult.pname}}</td>
             </tr>
             <tr>
               <td>性别</td>
-              <td>张某某</td>
-              <td>张某某</td>
-              <td>张某某</td>
+              <td>{{travellerInfo.sex}}</td>
+              <td>{{tableData.BZRJyfbywtList.XBDM}}</td>
+              <td>{{compareResult.sex}}</td>
             </tr>
             <tr>
               <td>出生日期</td>
-              <td>张某某</td>
-              <td>张某某</td>
-              <td>张某某</td>
+              <td>{{travellerInfo.birthday}}</td>
+              <td>{{tableData.BZRJyfbywtList.CSRQ}}</td>
+              <td>{{compareResult.birthday}}</td>
             </tr>
             <tr>
               <td>证件号码</td>
-              <td>张某某</td>
-              <td>张某某</td>
-              <td>张某某</td>
+              <td>{{travellerInfo.cnum}}</td>
+              <td>{{tableData.BZRJyfbywtList.ZJHM}}</td>
+              <td>{{compareResult.cnum}}</td>
             </tr>
             <tr>
               <td>国籍</td>
-              <td>张某某</td>
-              <td>张某某</td>
-              <td>张某某</td>
+              <td>{{travellerInfo.nationality}}</td>
+              <td>{{tableData.BZRJyfbywtList.GJDQDM}}</td>
+              <td>{{compareResult.nationality}}</td>
+            </tr>
+          </table>
+          <table class="o-th1" cellspacing="0" v-if="$route.query.NameListType==1">
+            <tr class="thead">
+              <th>类别</th>
+              <th>旅客信息</th>
+              <th>名单信息</th>
+              <th>比对结果</th>
+            </tr>
+            <tr>
+              <td>姓名</td>
+              <td>{{travellerInfo.pname}}</td>
+              <td>{{tableData.invalidCardList.NAME}}</td>
+              <td>{{compareResult.pname}}</td>
+            </tr>
+            <tr>
+              <td>性别</td>
+              <td>{{travellerInfo.sex}}</td>
+              <td>{{tableData.invalidCardList.GENDER}}</td>
+              <td>{{compareResult.sex}}</td>
+            </tr>
+            <tr>
+              <td>出生日期</td>
+              <td>{{travellerInfo.birthday}}</td>
+              <td>{{tableData.invalidCardList.DATEOFBIRTH}}</td>
+              <td>{{compareResult.birthday}}</td>
+            </tr>
+            <tr>
+              <td>证件号码</td>
+              <td>{{travellerInfo.cnum}}</td>
+              <td>{{tableData.invalidCardList.CARDNUM}}</td>
+              <td>{{compareResult.cnum}}</td>
+            </tr>
+            <tr>
+              <td>国籍</td>
+              <td>{{travellerInfo.nationality}}</td>
+              <td>{{tableData.invalidCardList.NATIONALITY}}</td>
+              <td>{{compareResult.nationality}}</td>
+            </tr>
+          </table>
+          <table class="o-th1" cellspacing="0" v-if="$route.query.NameListType==2">
+            <tr class="thead">
+              <th>类别</th>
+              <th>旅客信息</th>
+              <th>名单信息</th>
+              <th>比对结果</th>
+            </tr>
+            <tr>
+              <td>签证号码</td>
+              <td>{{travellerInfo.cnum}}</td>
+              <td>{{tableData.invalidVisaList.CARDNUM}}</td>
+              <td>{{compareResult.cnum}}</td>
+            </tr>
+            <tr>
+              <td>签证类型</td>
+              <td>{{travellerInfo.cnum}}</td>
+              <td>{{tableData.invalidVisaList.CARDNUM}}</td>
+              <td>{{compareResult.cnum}}</td>
+            </tr>
+            <tr>
+              <td>证件号码</td>
+              <td>{{travellerInfo.cnum}}</td>
+              <td>{{tableData.invalidVisaList.CARDNUM}}</td>
+              <td>{{compareResult.cnum}}</td>
+            </tr>
+            <tr>
+              <td>姓名</td>
+              <td>{{travellerInfo.pname}}</td>
+              <td>{{tableData.invalidVisaList.NAME}}</td>
+              <td>{{compareResult.pname}}</td>
+            </tr>
+            <tr>
+              <td>性别</td>
+              <td>{{travellerInfo.sex}}</td>
+              <td>{{tableData.invalidVisaList.GENDER}}</td>
+              <td>{{compareResult.sex}}</td>
+            </tr>
+            <tr>
+              <td>出生日期</td>
+              <td>{{travellerInfo.birthday}}</td>
+              <td>{{tableData.invalidVisaList.DATEOFBIRTH}}</td>
+              <td>{{compareResult.birthday}}</td>
+            </tr>
+            <tr>
+              <td>国籍</td>
+              <td>{{travellerInfo.nationality}}</td>
+              <td>{{tableData.invalidVisaList.NATIONALITY}}</td>
+              <td>{{compareResult.nationality}}</td>
+            </tr>
+          </table>
+          <table class="o-th1" cellspacing="0" v-if="$route.query.NameListType==3">
+            <tr class="thead">
+              <th>类别</th>
+              <th>旅客信息</th>
+              <th>名单信息</th>
+              <th>比对结果</th>
+            </tr>
+            <tr>
+              <td>姓名</td>
+              <td>{{travellerInfo.pname}}</td>
+              <td>{{tableData.WnameListList.NAME}}</td>
+              <td>{{compareResult.pname}}</td>
+            </tr>
+            <tr>
+              <td>性别</td>
+              <td>{{travellerInfo.sex}}</td>
+              <td>{{tableData.WnameListList.GENDER}}</td>
+              <td>{{compareResult.sex}}</td>
+            </tr>
+            <tr>
+              <td>出生日期</td>
+              <td>{{travellerInfo.birthday}}</td>
+              <td>{{tableData.WnameListList.DATEOFBIRTH}}</td>
+              <td>{{compareResult.birthday}}</td>
+            </tr>
+            <tr>
+              <td>证件号码</td>
+              <td>{{travellerInfo.cnum}}</td>
+              <td>{{tableData.WnameListList.CARDNUM}}</td>
+              <td>{{compareResult.cnum}}</td>
+            </tr>
+            <tr>
+              <td>国籍</td>
+              <td>{{travellerInfo.nationality}}</td>
+              <td>{{tableData.WnameListList.NATIONALITY}}</td>
+              <td>{{compareResult.nationality}}</td>
+            </tr>
+          </table>
+          <table class="o-th1" cellspacing="0" v-if="$route.query.NameListType==4">
+            <tr class="thead">
+              <th>类别</th>
+              <th>旅客信息</th>
+              <th>名单信息</th>
+              <th>比对结果</th>
+            </tr>
+            <tr>
+              <td>姓名</td>
+              <td>{{travellerInfo.pname}}</td>
+              <td>{{tableData.LKNameListList.NAME}}</td>
+              <td>{{compareResult.pname}}</td>
+            </tr>
+            <tr>
+              <td>性别</td>
+              <td>{{travellerInfo.sex}}</td>
+              <td>{{tableData.LKNameListList.GENDER}}</td>
+              <td>{{compareResult.sex}}</td>
+            </tr>
+            <tr>
+              <td>出生日期</td>
+              <td>{{travellerInfo.birthday}}</td>
+              <td>{{tableData.LKNameListList.DATEOFBIRTH}}</td>
+              <td>{{compareResult.birthday}}</td>
+            </tr>
+            <tr>
+              <td>证件号码</td>
+              <td>{{travellerInfo.cnum}}</td>
+              <td>{{tableData.LKNameListList.CARDNUM}}</td>
+              <td>{{compareResult.cnum}}</td>
+            </tr>
+            <tr>
+              <td>国籍</td>
+              <td>{{travellerInfo.nationality}}</td>
+              <td>{{tableData.LKNameListList.NATIONALITY}}</td>
+              <td>{{compareResult.nationality}}</td>
             </tr>
           </table>
         </div>
@@ -75,68 +216,71 @@
           <div class="title-green">
             名单补充信息
           </div>
-          <el-row type="flex" class="mb-9">
-            <el-col :span="8" class="input-item">
-              <span class="input-text">姓名：</span>
-              <el-input placeholder="请输入内容" size="small" :disabled="true" class="input-input"></el-input>
-            </el-col>
-            <el-col :span="8" class="input-item">
-              <span class="input-text">等级编号：</span>
-              <el-input placeholder="请输入内容" size="small" :disabled="true" class="input-input"></el-input>
-            </el-col>
-            <el-col :span="8" class="input-item">
-              <span class="input-text">职业身份：</span>
-              <el-input placeholder="请输入内容" size="small" :disabled="true" class="input-input"></el-input>
-            </el-col>
-          </el-row>
-          <el-row type="flex" class="mb-9">
-            <el-col :span="8" class="input-item">
-              <span class="input-text">处理结果：</span>
-              <el-input placeholder="请输入内容" size="small" :disabled="true" class="input-input"></el-input>
-            </el-col>
-            <el-col :span="8" class="input-item">
-              <span class="input-text">等级编号：</span>
-              <el-input placeholder="请输入内容" size="small" :disabled="true" class="input-input"></el-input>
-            </el-col>
-            <el-col :span="8" class="input-item">
-              <span class="input-text">职业身份：</span>
-              <el-input placeholder="请输入内容" size="small" :disabled="true" class="input-input"></el-input>
-            </el-col>
-          </el-row>
-          <el-row type="flex" class="mb-9">
-            <el-col :span="8" class="input-item">
-              <span class="input-text">处理结果：</span>
-              <el-input placeholder="请输入内容" size="small" :disabled="true" class="input-input"></el-input>
-            </el-col>
-            <el-col :span="8" class="input-item">
-              <span class="input-text">等级编号：</span>
-              <el-input placeholder="请输入内容" size="small" :disabled="true" class="input-input"></el-input>
-            </el-col>
-            <el-col :span="8" class="input-item">
-              <span class="input-text">职业身份：</span>
-              <el-input placeholder="请输入内容" size="small" :disabled="true" class="input-input"></el-input>
-            </el-col>
-          </el-row>
-          <el-row type="flex" class="mb-9">
-            <el-col :span="8" class="input-item">
-              <span class="input-text">处理结果：</span>
-              <el-input placeholder="请输入内容" size="small" :disabled="true" class="input-input"></el-input>
-            </el-col>
-            <el-col :span="8" class="input-item">
-              <span class="input-text">等级编号：</span>
-              <el-input placeholder="请输入内容" size="small" :disabled="true" class="input-input"></el-input>
-            </el-col>
-            <el-col :span="8" class="input-item">
-              <span class="input-text">职业身份：</span>
-              <el-input placeholder="请输入内容" size="small" :disabled="true" class="input-input"></el-input>
-            </el-col>
-          </el-row>
-          <el-row type="flex">
-            <el-col :span="24" class="input-item">
-              <span class="input-text2">备注：</span>
-              <el-input placeholder="请输入内容" size="small" :disabled="true" class="input-input2"></el-input>
-            </el-col>
-          </el-row>
+          <div class=""  v-if="$route.query.NameListType==0">
+            <el-row type="flex" class="mb-9">
+              <el-col :span="8" class="input-item">
+                <span class="input-text">在控性质：</span>
+                <el-input placeholder="请输入内容" size="small" :disabled="true" class="input-input"></el-input>
+              </el-col>
+              <el-col :span="8" class="input-item">
+                <span class="input-text">登记编号：</span>
+                <el-input placeholder="请输入内容" size="small" :disabled="true" class="input-input"></el-input>
+              </el-col>
+              <el-col :span="8" class="input-item">
+                <span class="input-text">职业身份：</span>
+                <el-input placeholder="请输入内容" size="small" :disabled="true" class="input-input"></el-input>
+              </el-col>
+            </el-row>
+            <el-row type="flex" class="mb-9">
+              <el-col :span="8" class="input-item">
+                <span class="input-text">体貌特征：</span>
+                <el-input placeholder="请输入内容" size="small" :disabled="true" class="input-input"></el-input>
+              </el-col>
+              <el-col :span="8" class="input-item">
+                <span class="input-text">法律依据：</span>
+                <el-input placeholder="请输入内容" size="small" :disabled="true" class="input-input"></el-input>
+              </el-col>
+              <el-col :span="8" class="input-item">
+                <span class="input-text">主要问题：</span>
+                <el-input placeholder="请输入内容" size="small" :disabled="true" class="input-input"></el-input>
+              </el-col>
+            </el-row>
+            <el-row type="flex" class="mb-9">
+              <el-col :span="8" class="input-item">
+                <span class="input-text">境内住址：</span>
+                <el-input placeholder="请输入内容" size="small" :disabled="true" class="input-input"></el-input>
+              </el-col>
+              <el-col :span="8" class="input-item">
+                <span class="input-text">境外住址：</span>
+                <el-input placeholder="请输入内容" size="small" :disabled="true" class="input-input"></el-input>
+              </el-col>
+              <el-col :span="8" class="input-item">
+                <span class="input-text">起控日期：</span>
+                <el-input placeholder="请输入内容" size="small" :disabled="true" class="input-input"></el-input>
+              </el-col>
+            </el-row>
+            <el-row type="flex" class="mb-9">
+              <el-col :span="8" class="input-item">
+                <span class="input-text">交控单位：</span>
+                <el-input placeholder="请输入内容" size="small" :disabled="true" class="input-input"></el-input>
+              </el-col>
+              <el-col :span="8" class="input-item">
+                <span class="input-text">联系办法：</span>
+                <el-input placeholder="请输入内容" size="small" :disabled="true" class="input-input"></el-input>
+              </el-col>
+              <el-col :span="8" class="input-item">
+                <span class="input-text">止控日期：</span>
+                <el-input placeholder="请输入内容" size="small" :disabled="true" class="input-input"></el-input>
+              </el-col>
+            </el-row>
+            <el-row type="flex">
+              <el-col :span="24" class="input-item">
+                <span class="input-text2">备注：</span>
+                <el-input placeholder="请输入内容" size="small" :disabled="true" class="input-input2"></el-input>
+              </el-col>
+            </el-row>
+          </div>
+
         </div>
         <div class="down">
           <div class="title-grey">
@@ -145,10 +289,10 @@
           <el-row type="flex" class="mb-15">
             <el-col :span="4">
               <div class="radio-g">
-                <el-radio-group v-model="radio1" class="radio-g-area">
-                  <el-radio :label="3">备选项</el-radio>
-                  <el-radio :label="6">备选项</el-radio>
-                  <el-radio :label="9">备选项</el-radio>
+                <el-radio-group v-model="distinguishResult" class="radio-g-area">
+                  <el-radio :label="1">是名单人员</el-radio>
+                  <el-radio :label="2">不是名单人员</el-radio>
+                  <el-radio :label="3">不确定</el-radio>
                 </el-radio-group>
               </div>
             </el-col>
@@ -159,14 +303,14 @@
                   type="textarea"
                   :autosize="{ minRows: 5, maxRows: 5}"
                   placeholder="请输入内容"
-                  v-model="textarea3"
+                  v-model="distinguishNote"
                   class="textarea-input">
                 </el-input>
               </div>
 
             </el-col>
             <el-col :span="3" class="down-btn-area">
-              <el-button type="primary" size="small" class="mb-15">确定</el-button>
+              <el-button type="primary" size="small" class="mb-15" @click="queding">确定</el-button>
               <el-button type="warning" size="small">取消</el-button>
             </el-col>
           </el-row>
@@ -288,24 +432,79 @@ export default {
      value: '223333333333',
      checkedImg:1,
      checkedImg2:1,
-     tableData: [{
-       date: '2016-05-02',
-       name: '王小虎',
-       address: '上海市'
-     }, {
-       date: '2016-05-04',
-       name: '王小虎',
-       address: 'ff'
-     }, {
-       date: '2016-05-01',
-       name: '王小虎',
-       address: '陀区金'
-     }, {
-       date: '2016-05-03',
-       name: '王小虎',
-       address: '上海市'
-     }],
-     radio1:3
+     pd1:{},
+     tableData:{
+       BZRJyfbywtList:{},
+       invalidCardList:{},
+       invalidVisaList:{},
+       WnameListList:{},
+       LKNameListList:{}
+     },
+     travellerInfo:{},
+     compareList:{},
+     compareResult:{},
+     distinguishInfo:"",
+     distinguishResult:1,
+     distinguishNote:"",
+
+   }
+ },
+
+ mounted(){
+   this.pd1.NameListType=parseInt(this.$route.query.NameListType);
+   this.pd1.eventserial=this.$route.query.eventserial;
+   this.pd1.iapiSerial=this.$route.query.iapiSerial;
+   this.pd1.nationAndPass=this.$route.query.nationAndPass;
+   this.pd1.visaNo=this.$route.query.visaNo;
+   // this.pd1.inOut=this.$route.query.inOut;
+     console.log(this.pd1.NameListType)
+
+   this.getData();
+ },
+ methods:{
+   getData(){
+     let p={
+    	"currentPage":0,
+    	"showCount":10,
+    	"pd":this.pd1
+    }
+
+     this.$api.post('/eamp/alarmEvents/nameListDistinguish',p,
+      r => {
+        console.log(r);
+        this.tableData=r.data;
+        this.travellerInfo=r.data.travellerInfo;
+        this.compareResult=r.data.compareResult;
+        this.distinguishInfo=r.data.distinguishInfo
+     })
+   },
+   queding(){
+
+     let p={
+       "currentPage":0,
+       "showCount":3,
+       "pd":{
+          "NameListType":this.pd1.NameListType,
+          "eventserial":this.pd1.eventserial,
+          "distinguishNote":this.distinguishNote,
+          "distinguishResult":this.distinguishResult,
+          "distinguishInfo":this.distinguishInfo
+
+        }
+     };
+     this.$api.post('/eamp/alarmEvents/getSaveNameToIdentify',p,
+      r => {
+        console.log(r);
+        if(r.success){
+          this.$message({
+            message: '甄别完毕！',
+            type: 'success'
+          });
+        }else{
+          this.$message.error(r.message);
+        }
+     })
+
    }
  }
 }

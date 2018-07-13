@@ -56,9 +56,11 @@
           </li> -->
         </ul>
         <div class="tab-content">
-          <!-- <transition name="el-zoom-in-top"> -->
-            <router-view></router-view>
-          <!-- </transition> -->
+            <router-view>
+              <transition name="el-zoom-in-top">
+              </transition>
+
+            </router-view>
         </div>
       </el-main>
     </el-container>
