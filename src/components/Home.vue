@@ -28,19 +28,19 @@
           <path class="cls-1" d="M126.47,279.75A130.32,130.32,0,0,1,107,212H0A236.89,236.89,0,0,0,35.81,336.6Z" fill="#032552" transform="translate(0 -0.2)"/>
           <path class="cls-1" d="M178,327.48a131.56,131.56,0,0,1-50.47-46L36.87,338.29a239,239,0,0,0,91.82,84.17Z" fill="#032552" transform="translate(0 -0.2)"/>
         </svg>
-        <router-link :to="{ name: 'Content', query: {navId:1} }" class="nav-item1 nav-item">
+        <router-link :to="{ name: 'Content', params: {navId:1} }" class="nav-item1 nav-item">
           <img src="../assets/img/home/nav1.png" alt="">
           <span>业务处理</span>
         </router-link>
-        <router-link :to="{ name: 'Content', query: {navId:2} }" class="nav-item2 nav-item">
+        <router-link :to="{ name: 'Content', params: {navId:2} }" class="nav-item2 nav-item">
           <img src="../assets/img/home/nav2.png" alt="">
           <span>业务应用</span>
         </router-link>
-        <router-link :to="{ name: 'Content', query: {navId:3} }" class="nav-item3 nav-item">
+        <router-link :to="{ name: 'Content', params: {navId:4} }" class="nav-item3 nav-item">
           <img src="../assets/img/home/nav3.png" alt="">
           <span>业务监控</span>
         </router-link>
-        <router-link :to="{ name: 'Content', query: {navId:4} }" class="nav-item4 nav-item">
+        <router-link :to="{ name: 'Content', params: {navId:3} }" class="nav-item4 nav-item">
           <img src="../assets/img/home/nav4.png" alt="">
           <span>业务管理</span>
         </router-link>
@@ -52,19 +52,19 @@
           <path class="cls-1" d="M51.53,279.75A130.32,130.32,0,0,0,71,212H178a236.89,236.89,0,0,1-35.81,124.6Z" transform="translate(0 -0.2)" fill="#032552"/>
           <path class="cls-1" d="M0,327.48a131.56,131.56,0,0,0,50.47-46l90.66,56.84a239,239,0,0,1-91.82,84.17Z" transform="translate(0 -0.2)" fill="#032552"/>
         </svg>
-        <router-link :to="{ name: 'Content', query: {navId:1} }" class="nav-item5 nav-item">
+        <router-link :to="{ name: 'Content', params: {navId:1} }" class="nav-item5 nav-item">
           <img src="../assets/img/home/nav5.png" alt="">
           <span>日常工作</span>
         </router-link>
-        <router-link :to="{ name: 'Content', query: {navId:5} }" class="nav-item6 nav-item">
+        <router-link :to="{ name: 'Content', params: {navId:5} }" class="nav-item6 nav-item">
           <img src="../assets/img/home/nav6.png" alt="">
           <span>系统管理</span>
         </router-link>
-        <router-link :to="{ name: 'Content', query: {navId:6} }" class="nav-item7 nav-item">
+        <router-link :to="{ name: 'Content', params: {navId:6} }" class="nav-item7 nav-item">
           <img src="../assets/img/home/nav7.png" alt="">
           <span>系统监控</span>
         </router-link>
-        <router-link :to="{ name: 'Content', query: {navId:4} }" class="nav-item8 nav-item">
+        <router-link :to="{ name: 'Content', params: {navId:4} }" class="nav-item8 nav-item">
           <img src="../assets/img/home/nav8.png" alt="">
           <span>常用菜单</span>
         </router-link>
@@ -73,7 +73,7 @@
         <div class="login-item ">
           <el-input
             placeholder="用户名">
-            <i slot="prefix" class="el-input__icon"><img src="../assets/img/home/login_03.png"></i>
+            <i slot="prefix" class="el-input__icon"><img src="../assets/img/home/login_06.png"></i>
           </el-input>
         </div>
         <div class="login-item ">
@@ -522,7 +522,7 @@ export default {
 .svg-nav{
   width: 175px;
 }
-.cls-0:hover{
+.nav-item:hover+.cls-1{
   fill:red;
   stroke:#032552;
   stroke-width:4;
