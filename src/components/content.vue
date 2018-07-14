@@ -48,7 +48,7 @@
               <span  @click="nav2(i)">{{i.text}}</span>
             </el-tooltip>
 
-            <img src="../assets/img/tab-close1.png" alt="guanbi" @click="tabList.splice(index, 1)" class="hand" v-if="nav2Id==i.id">
+            <img src="../assets/img/tab-close1.png" alt="guanbi" @click="close1(index)" class="hand" v-if="nav2Id==i.id">
             <img src="../assets/img/tab-close2.png" alt="" @click="tabList.splice(index, 1)" class="hand" v-else>
           </li>
           <!-- <li class="tabList-item">
@@ -383,7 +383,7 @@ export default {
      }
    },
    mounted(){
-     this.navId=this.$route.query.navId;
+     this.navId=this.$route.params.navId;
      console.log(this.navId)
      if(this.navId==2){
        this.nav1List=this.nav1List2
@@ -421,7 +421,6 @@ export default {
        this.nav2Id=item.id;
        console.log(item,item.id)
        new Set(this.tabList)
-
        this.tabList.push(item)
        this.tabList = Array.from(new Set(this.tabList));
        this.$router.push({name:item.name})
@@ -452,6 +451,14 @@ export default {
        this.sideWidth='295px';
        this.nav2Show=true;
        this.nav2HideBar=true;
+     },
+     close1(index){
+       this.tabList.splice(index, 1);
+      console.log(index)
+      if(index>0){
+        this.nav2Id=this.tabList[index-1].id
+
+      }
      }
    }
 }
