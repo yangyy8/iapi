@@ -125,159 +125,159 @@
         </div>
       </div>
       <div class="left-box1">
-          <div class="box-title">
-            <div class="title-top o-title"></div>
-            <div class="title-text">
-              口岸航班统计
-            </div>
-            <div class="title-down" @click="showLeft=true">
-              收起
-            </div>
+        <div class="box-title">
+          <div class="title-top o-title"></div>
+          <div class="title-text">
+            口岸航班统计
           </div>
-          <div class="box-content">
-            <div class="content-middle">
-              <ul class="middleUl">
-                <li class="middleLi2 content-middle-head2">
-                  <div class="td1">
+          <div class="title-down" @click="showLeft=true">
+            收起
+          </div>
+        </div>
+        <div class="box-content">
+          <div class="content-middle">
+            <ul class="middleUl">
+              <li class="middleLi2 content-middle-head2">
+                <div class="td1">
 
-                  </div>
-                  <div class="td2">
-                    入境
-                  </div>
-                  <div class="td2">
-                    出境
-                  </div>
-                  <div class="td2">
-                    入境
-                  </div>
-                  <div class="td2">
-                    出境
-                  </div>
-                  <div class="td2">
-                    入境
-                  </div>
-                  <div class="td2">
-                    出境
-                  </div>
-                </li>
-                <li class="middleLi2">
-                  <div class="td1">
-                    北京
-                  </div>
-                  <div class="td2">
-                    4000
-                  </div>
-                  <div class="td2">
-                    4000
-                  </div>
-                  <div class="td2">
-                    4000
-                  </div>
-                  <div class="td2">
-                    4000
-                  </div>
-                  <div class="td2">
-                    4000
-                  </div>
-                  <div class="td2">
-                    4000
-                  </div>
-                </li>
-                <li class="middleLi2">
-                  <div class="td1">
-                    北京
-                  </div>
-                  <div class="td2">
-                    4000
-                  </div>
-                  <div class="td2">
-                    4000
-                  </div>
-                  <div class="td2">
-                    4000
-                  </div>
-                  <div class="td2">
-                    4000
-                  </div>
-                  <div class="td2">
-                    4000
-                  </div>
-                  <div class="td2">
-                    4000
-                  </div>
-                </li>
-                <li class="middleLi2">
-                  <div class="td1">
-                    北京
-                  </div>
-                  <div class="td2">
-                    4000
-                  </div>
-                  <div class="td2">
-                    4000
-                  </div>
-                  <div class="td2">
-                    4000
-                  </div>
-                  <div class="td2">
-                    4000
-                  </div>
-                  <div class="td2">
-                    4000
-                  </div>
-                  <div class="td2">
-                    4000
-                  </div>
-                </li>
-                <li class="middleLi2">
-                  <div class="td1">
-                    北京
-                  </div>
-                  <div class="td2">
-                    4000
-                  </div>
-                  <div class="td2">
-                    4000
-                  </div>
-                  <div class="td2">
-                    4000
-                  </div>
-                  <div class="td2">
-                    4000
-                  </div>
-                  <div class="td2">
-                    4000
-                  </div>
-                  <div class="td2">
-                    4000
-                  </div>
-                </li>
-                <li class="middleLi2">
-                  <div class="td1">
-                    北京
-                  </div>
-                  <div class="td2">
-                    4000
-                  </div>
-                  <div class="td2">
-                    4000
-                  </div>
-                  <div class="td2">
-                    4000
-                  </div>
-                  <div class="td2">
-                    4000
-                  </div>
-                  <div class="td2">
-                    4000
-                  </div>
-                  <div class="td2">
-                    4000
-                  </div>
-                </li>
-              </ul>
-            </div>
+                </div>
+                <div class="td2">
+                  入境
+                </div>
+                <div class="td2">
+                  出境
+                </div>
+                <div class="td2">
+                  入境
+                </div>
+                <div class="td2">
+                  出境
+                </div>
+                <div class="td2">
+                  入境
+                </div>
+                <div class="td2">
+                  出境
+                </div>
+              </li>
+              <li class="middleLi2">
+                <div class="td1">
+                  北京
+                </div>
+                <div class="td2">
+                  4000
+                </div>
+                <div class="td2">
+                  4000
+                </div>
+                <div class="td2">
+                  4000
+                </div>
+                <div class="td2">
+                  4000
+                </div>
+                <div class="td2">
+                  4000
+                </div>
+                <div class="td2">
+                  4000
+                </div>
+              </li>
+              <li class="middleLi2">
+                <div class="td1">
+                  北京
+                </div>
+                <div class="td2">
+                  4000
+                </div>
+                <div class="td2">
+                  4000
+                </div>
+                <div class="td2">
+                  4000
+                </div>
+                <div class="td2">
+                  4000
+                </div>
+                <div class="td2">
+                  4000
+                </div>
+                <div class="td2">
+                  4000
+                </div>
+              </li>
+              <li class="middleLi2">
+                <div class="td1">
+                  北京
+                </div>
+                <div class="td2">
+                  4000
+                </div>
+                <div class="td2">
+                  4000
+                </div>
+                <div class="td2">
+                  4000
+                </div>
+                <div class="td2">
+                  4000
+                </div>
+                <div class="td2">
+                  4000
+                </div>
+                <div class="td2">
+                  4000
+                </div>
+              </li>
+              <li class="middleLi2">
+                <div class="td1">
+                  北京
+                </div>
+                <div class="td2">
+                  4000
+                </div>
+                <div class="td2">
+                  4000
+                </div>
+                <div class="td2">
+                  4000
+                </div>
+                <div class="td2">
+                  4000
+                </div>
+                <div class="td2">
+                  4000
+                </div>
+                <div class="td2">
+                  4000
+                </div>
+              </li>
+              <li class="middleLi2">
+                <div class="td1">
+                  北京
+                </div>
+                <div class="td2">
+                  4000
+                </div>
+                <div class="td2">
+                  4000
+                </div>
+                <div class="td2">
+                  4000
+                </div>
+                <div class="td2">
+                  4000
+                </div>
+                <div class="td2">
+                  4000
+                </div>
+                <div class="td2">
+                  4000
+                </div>
+              </li>
+            </ul>
           </div>
+        </div>
       </div>
     </div>
   </transition>
@@ -366,205 +366,205 @@
         </div>
       </div>
       <div class="left-box1">
-          <div class="box-title">
-            <div class="title-top g-title"></div>
-            <div class="title-text">
-              口岸人员统计
-            </div>
-            <div class="title-down" @click="showRight=true">
-              收起
-            </div>
+        <div class="box-title">
+          <div class="title-top g-title"></div>
+          <div class="title-text">
+            口岸人员统计
           </div>
-          <div class="box-content">
-            <div class="content-middle">
-              <ul class="middleUl">
-                <li class="middleLi4 content-middle-head4">
-                  <div class="td1">
-
-                  </div>
-                  <div class="td2">
-                    内地
-                  </div>
-                  <div class="td2">
-                    港澳台
-                  </div>
-                  <div class="td2">
-                    外国人
-                  </div>
-                  <div class="td2">
-                    合计
-                  </div>
-                  <div class="td2">
-                    命中
-                  </div>
-                </li>
-                <li class="middleLi4">
-                  <div class="td1">
-                    北京
-                  </div>
-                  <div class="td2">
-                    4000
-                  </div>
-                  <div class="td2">
-                    4000
-                  </div>
-                  <div class="td2">
-                    4000
-                  </div>
-                  <div class="td2">
-                    4000
-                  </div>
-                  <div class="td2">
-                    4000
-                  </div>
-                </li>
-                <li class="middleLi4">
-                  <div class="td1">
-                    北京
-                  </div>
-                  <div class="td2">
-                    4000
-                  </div>
-                  <div class="td2">
-                    4000
-                  </div>
-                  <div class="td2">
-                    4000
-                  </div>
-                  <div class="td2">
-                    4000
-                  </div>
-                  <div class="td2">
-                    4000
-                  </div>
-
-                </li>
-                <li class="middleLi4">
-                  <div class="td1">
-                    北京
-                  </div>
-                  <div class="td2">
-                    4000
-                  </div>
-                  <div class="td2">
-                    4000
-                  </div>
-                  <div class="td2">
-                    4000
-                  </div>
-                  <div class="td2">
-                    4000
-                  </div>
-                  <div class="td2">
-                    4000
-                  </div>
-                </li>
-                <li class="middleLi4">
-                  <div class="td1">
-                    北京
-                  </div>
-                  <div class="td2">
-                    4000
-                  </div>
-                  <div class="td2">
-                    4000
-                  </div>
-                  <div class="td2">
-                    4000
-                  </div>
-                  <div class="td2">
-                    4000
-                  </div>
-                  <div class="td2">
-                    4000
-                  </div>
-                </li>
-                <li class="middleLi4">
-                  <div class="td1">
-                    北京
-                  </div>
-                  <div class="td2">
-                    4000
-                  </div>
-                  <div class="td2">
-                    4000
-                  </div>
-                  <div class="td2">
-                    4000
-                  </div>
-                  <div class="td2">
-                    4000
-                  </div>
-                  <div class="td2">
-                    4000
-                  </div>
-                </li>
-              </ul>
-            </div>
+          <div class="title-down" @click="showRight=true">
+            收起
           </div>
+        </div>
+        <div class="box-content">
+          <div class="content-middle">
+            <ul class="middleUl">
+              <li class="middleLi4 content-middle-head4">
+                <div class="td1">
+
+                </div>
+                <div class="td2">
+                  内地
+                </div>
+                <div class="td2">
+                  港澳台
+                </div>
+                <div class="td2">
+                  外国人
+                </div>
+                <div class="td2">
+                  合计
+                </div>
+                <div class="td2">
+                  命中
+                </div>
+              </li>
+              <li class="middleLi4">
+                <div class="td1">
+                  北京
+                </div>
+                <div class="td2">
+                  4000
+                </div>
+                <div class="td2">
+                  4000
+                </div>
+                <div class="td2">
+                  4000
+                </div>
+                <div class="td2">
+                  4000
+                </div>
+                <div class="td2">
+                  4000
+                </div>
+              </li>
+              <li class="middleLi4">
+                <div class="td1">
+                  北京
+                </div>
+                <div class="td2">
+                  4000
+                </div>
+                <div class="td2">
+                  4000
+                </div>
+                <div class="td2">
+                  4000
+                </div>
+                <div class="td2">
+                  4000
+                </div>
+                <div class="td2">
+                  4000
+                </div>
+
+              </li>
+              <li class="middleLi4">
+                <div class="td1">
+                  北京
+                </div>
+                <div class="td2">
+                  4000
+                </div>
+                <div class="td2">
+                  4000
+                </div>
+                <div class="td2">
+                  4000
+                </div>
+                <div class="td2">
+                  4000
+                </div>
+                <div class="td2">
+                  4000
+                </div>
+              </li>
+              <li class="middleLi4">
+                <div class="td1">
+                  北京
+                </div>
+                <div class="td2">
+                  4000
+                </div>
+                <div class="td2">
+                  4000
+                </div>
+                <div class="td2">
+                  4000
+                </div>
+                <div class="td2">
+                  4000
+                </div>
+                <div class="td2">
+                  4000
+                </div>
+              </li>
+              <li class="middleLi4">
+                <div class="td1">
+                  北京
+                </div>
+                <div class="td2">
+                  4000
+                </div>
+                <div class="td2">
+                  4000
+                </div>
+                <div class="td2">
+                  4000
+                </div>
+                <div class="td2">
+                  4000
+                </div>
+                <div class="td2">
+                  4000
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
       </div>
     </div>
   </transition>
   <transition name="el-zoom-in-top">
     <div class="tan-box" v-show="tabId==1">
-    <span class="top-left"></span>
-    <span class="top-right"></span>
-    <span class="down-left"></span>
-    <span class="down-right"></span>
+      <span class="top-left"></span>
+      <span class="top-right"></span>
+      <span class="down-left"></span>
+      <span class="down-right"></span>
 
-    <div class="tan-row1 mb-20">
-      <div class="tan-row-text mr-20">
-        出入类型
+      <div class="tan-row1 mb-20">
+        <div class="tan-row-text mr-20">
+          出入类型
+        </div>
+        <div class="tan-right">
+          <el-radio v-model="crType" label="0" class="mr-15">全部</el-radio>
+          <el-radio v-model="crType" label="1" class="mr-15">入境</el-radio>
+          <el-radio v-model="crType" label="2">出境</el-radio>
+        </div>
       </div>
-      <div class="tan-right">
-        <el-radio v-model="crType" label="0" class="mr-15">全部</el-radio>
-        <el-radio v-model="crType" label="1" class="mr-15">入境</el-radio>
-        <el-radio v-model="crType" label="2">出境</el-radio>
-      </div>
-    </div>
-    <div class="tan-row2 mb-20">
-      <div class="tan-row-text">
-        境内口岸
-      </div>
-      <div class="tan-content">
-        <el-row >
+      <div class="tan-row2 mb-20">
+        <div class="tan-row-text">
+          境内口岸
+        </div>
+        <div class="tan-content">
+          <el-row>
 
-        </el-row>
+          </el-row>
+        </div>
+      </div>
+      <div class="tan-row2">
+        <div class="tan-row-text">
+          境外口岸
+        </div>
       </div>
     </div>
-    <div class="tan-row2">
-      <div class="tan-row-text">
-        境外口岸
-      </div>
-    </div>
-  </div>
   </transition>
   <transition name="el-zoom-in-top">
     <div class="tan-box" v-show="tabId==2">
-    <span class="top-left"></span>
-    <span class="top-right"></span>
-    <span class="down-left"></span>
-    <span class="down-right"></span>
-    <div class="tan-row2">
-      <div class="tan-row-text">
-        境外口岸
+      <span class="top-left"></span>
+      <span class="top-right"></span>
+      <span class="down-left"></span>
+      <span class="down-right"></span>
+      <div class="tan-row2">
+        <div class="tan-row-text">
+          境外口岸
+        </div>
       </div>
     </div>
-  </div>
   </transition>
 
   <transition name="el-zoom-in-top">
     <div class="tan-box" v-show="tabId==3">
-    <span class="top-left"></span>
-    <span class="top-right"></span>
-    <span class="down-left"></span>
-    <span class="down-right"></span>
-    <div class="tan-row2">
-      <div class="tan-row-text">
-        航班筛选条件
+      <span class="top-left"></span>
+      <span class="top-right"></span>
+      <span class="down-left"></span>
+      <span class="down-right"></span>
+      <div class="tan-row2">
+        <div class="tan-row-text">
+          航班筛选条件
+        </div>
       </div>
     </div>
-  </div>
   </transition>
   <div :class="className" :id="id" :style="{height:height,width:width}" ref="myEchart" class="canvas"></div>
 </div>
@@ -595,12 +595,12 @@ export default {
   },
   data() {
     return {
-      tabId:0,
-      crType:"0",
+      tabId: 0,
+      crType: "0",
       title: "图表",
       placeholder: "用户名/电话",
-      showLeft:true,
-      showRight:true,
+      showLeft: true,
+      showRight: true,
       find: "2", //1显示新增按钮，2显示导入按钮，若不显示这两个按钮可以写0或者不写值
       chart: null,
       geoCoordMap: {
@@ -691,7 +691,7 @@ export default {
       ],
       planePath: 'path://M1705.06,1318.313v-89.254l-319.9-221.799l0.073-208.063c0.521-84.662-26.629-121.796-63.961-121.491c-37.332-0.305-64.482,36.829-63.961,121.491l0.073,208.063l-319.9,221.799v89.254l330.343-157.288l12.238,241.308l-134.449,92.931l0.531,42.034l175.125-42.917l175.125,42.917l0.531-42.034l-134.449-92.931l12.238-241.308L1705.06,1318.313z',
       color: ['#10fb46', '#dcbf71'], // 自定义图中要用到的颜色
-      series:[], // 用来存储地图数据
+      series: [], // 用来存储地图数据
     };
   },
 
@@ -707,9 +707,7 @@ export default {
     this.chart = null;
   },
   methods: {
-    ff(){
-      alert(this.showLeft)
-    },
+
     //搜索回调
     searchItem(val) {
       console.log(val)
@@ -739,14 +737,14 @@ export default {
       }
       return res;
     },
-    fn(){
-      /*
-      图中一共用到三种效果，分别为航线特效图、飞机航线图以及城市图标涟漪图。
-      要用到setOption中的series属性，并且对每个城市都要进行三次设置。
-  */
-    let that=this;
+    fn() {
+        /*
+          图中一共用到三种效果，分别为航线特效图、飞机航线图以及城市图标涟漪图。
+          要用到setOption中的series属性，并且对每个城市都要进行三次设置。
+      */
+      let that = this;
       [
-        ['重庆',this.CQData],
+        ['重庆', this.CQData],
         ['广州', this.GZData],
         ['南宁', this.NNData]
       ].forEach(function(item, i) {
@@ -875,15 +873,15 @@ export default {
       this.chart.setOption({
         // backgroundColor: "#040c21",
 
-       //  title: {
-       //     text: '全国主要城市空气质量',
-       //     subtext: 'data from PM25.in',
-       //     sublink: 'http://www.pm25.in',
-       //     left: 'center',
-       //     textStyle: {
-       //         color: '#fff'
-       //     }
-       // },
+        //  title: {
+        //     text: '全国主要城市空气质量',
+        //     subtext: 'data from PM25.in',
+        //     sublink: 'http://www.pm25.in',
+        //     left: 'center',
+        //     textStyle: {
+        //         color: '#fff'
+        //     }
+        // },
         geo: {
           map: 'world', // 与引用进来的地图js名字一致
           roam: true, // 禁止缩放平移
@@ -910,9 +908,9 @@ export default {
             }
           }]
         },
-        series:series,   // 将之前处理的数据放到这里
+        series: series, // 将之前处理的数据放到这里
         textStyle: {
-            fontSize: 12
+          fontSize: 12
         }
       });
     }
@@ -920,5 +918,5 @@ export default {
 }
 </script>
 <style scoped>
- @import 'nationalHBSSJK.css';
+@import 'nationalHBSSJK.css';
 </style>

@@ -11,7 +11,7 @@ export default new Router({
       component: Home
     },
     {
-      path: '/content',
+      path: '/content/:navId',
       name: 'Content',
       component: resolve => require(['@/components/content'], resolve),
 
