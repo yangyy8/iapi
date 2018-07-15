@@ -575,44 +575,107 @@ currentPage<template lang="html">
                          </el-select>
                        </el-col>
                        <el-col :sm="24" :md="12" :lg="4" class="input-item">
-                         <el-input placeholder="请输入内容" v-model="selfCdtList.type" size="mini"></el-input>
+                         <!-- 输入框 -->
+                         <el-input placeholder="请输入内容" v-model="selfCdtList.type" size="mini" v-show="selfType==0"></el-input>
+                         <!-- 性别 -->
+                         <el-select placeholder="请选择" v-model="selfCdtList.type" filterable  size="mini" v-show="selfType==1">
+                           <el-option label="男" value="M"></el-option>
+                           <el-option label="女" value="F"></el-option>
+                           <el-option label="未知" value="U"></el-option>
+                         </el-select>
+                         <!-- 起飞机场 -->
+                         <el-select placeholder="请选择" v-model="selfCdtList.type" filterable @visible-change="takeOff" size="small" class="input-input" v-show="selfType==2">
+                           <el-option
+                           v-for="item in takeOffName"
+                           :key="item.AIRPORT_CODE"
+                           :value="item.AIRPORT_CODE"
+                           :label="item.AIRPORT_NAME">
+                           </el-option>
+                         </el-select>
+                         <!-- 日期 精确到天 -->
+                         <el-date-picker
+                         v-model="selfCdtList.type"
+                         v-show="selfType==3"
+                         type="date" size="mini"
+                         placeholder="选择日期"
+                         class="input-inp"
+                         value-format="yyyy-MM-dd">
+                        </el-date-picker>
+                       <!-- 日期 精确到秒 -->
+                         <el-date-picker
+                         v-model="selfCdtList.type"
+                         v-show="selfType==4"
+                         type="datetime" size="mini"
+                         placeholder="选择日期"
+                         value-format="yyyy-MM-dd HH-mm">
+                        </el-date-picker>
+
                        </el-col>
                      </el-row>
 
                      <el-row type="flex" align="center" :gutter="10" style="width:100%" v-for="self in selfRows">
                       <el-col :sm="24" :md="12" :lg="6" class="input-item">
                         <span class="input-text">属性：</span>
-                        <el-select placeholder="请选择" v-model="cdt.nationalityEqual" filterable  size="mini">
+                        <el-select placeholder="请选择" v-model="self.attribute" @visible-change="attribute" @change="attributeOperator(self.attribute)" filterable  size="mini">
                           <el-option
-                            v-for="item in selection"
-                            :key="item.code"
-                            :value="item.code"
+                            v-for="item in selfNature"
+                            :key="item.name"
+                            :value="item.name"
                             :label="item.name"
                           ></el-option>
                         </el-select>
                       </el-col>
                       <el-col :sm="24" :md="12" :lg="4" class="input-item">
-                        <el-select placeholder="请选择" v-model="cdt.nationalityEqual" filterable  size="mini">
+                        <el-select placeholder="请选择" v-model="self.operator" filterable  size="mini">
                           <el-option
-                            v-for="item in selection"
-                            :key="item.code"
-                            :value="item.code"
-                            :label="item.name"
+                            v-for="item in operator"
+                            :key="item"
+                            :value="item"
+                            :label="item"
                           ></el-option>
                         </el-select>
                       </el-col>
                       <el-col :sm="24" :md="12" :lg="4" class="input-item">
-                        <el-input placeholder="请输入内容" v-model="cdt.fltnoEqual" size="mini"></el-input>
+                        <!-- 输入框 -->
+                        <el-input placeholder="请输入内容" v-model="self.type" size="mini" v-show="selfType==0"></el-input>
+                        <!-- 性别 -->
+                        <el-select placeholder="请选择" v-model="self.type" filterable  size="mini" v-show="selfType==1">
+                          <el-option label="男" value="M"></el-option>
+                          <el-option label="女" value="F"></el-option>
+                          <el-option label="未知" value="U"></el-option>
+                        </el-select>
+                        <!-- 起飞机场 -->
+                        <el-select placeholder="请选择" v-model="self.type" filterable @visible-change="takeOff" size="small" class="input-input" v-show="selfType==2">
+                          <el-option
+                          v-for="item in takeOffName"
+                          :key="item.AIRPORT_CODE"
+                          :value="item.AIRPORT_CODE"
+                          :label="item.AIRPORT_NAME">
+                          </el-option>
+                        </el-select>
+                        <!-- 日期 精确到天 -->
+                        <el-date-picker
+                        v-model="self.type"
+                        v-show="selfType==3"
+                        type="date" size="mini"
+                        placeholder="选择日期"
+                        class="input-inp"
+                        value-format="yyyy-MM-dd">
+                       </el-date-picker>
+                      <!-- 日期 精确到秒 -->
+                        <el-date-picker
+                        v-model="self.type"
+                        v-show="selfType==4"
+                        type="datetime" size="mini"
+                        placeholder="选择日期"
+                        value-format="yyyy-MM-dd HH-mm">
+                       </el-date-picker>
                       </el-col>
                       <el-col :sm="24" :md="12" :lg="7" class="input-item">
                         <span class="input-text">逻辑关系：</span>
-                        <el-select placeholder="请选择" v-model="cdt.nationalityEqual" filterable  size="mini" class="input-input" style="margin-left:10%">
-                          <el-option
-                            v-for="item in selection"
-                            :key="item.code"
-                            :value="item.code"
-                            :label="item.name"
-                          ></el-option>
+                        <el-select placeholder="请选择" v-model="self.relation" filterable  size="mini" class="input-input" style="margin-left:10%">
+                          <el-option label="AND" value="AND"></el-option>
+                          <el-option label="OR" value="OR"></el-option>
                         </el-select>
                       </el-col>
                       <el-col :sm="24" :md="12" :lg="2" class="selfButton">
@@ -638,6 +701,9 @@ currentPage<template lang="html">
 
                   <!-- 右边表达式 -->
                   <el-col :lg="10" class="queryRight">
+                    <el-row type="flex" align="center" :gutter="10" style="width:100%">
+                      <el-button type="primary" plain size="mini" @click="join" class="selfAdd">生成表达式</el-button>
+                    </el-row>
                     <el-row type="flex" align="center" :gutter="10" style="width:100%">
                       <span class="input-text expression-text">表达式：</span>
                       <el-input type="textarea" class="expression" v-model="selfCdt.AAAAA"></el-input>
@@ -1019,9 +1085,18 @@ export default {
       },
       selfRows:[
         {
-
+            id:1,
+            attribute:'',
+            operator:'',
+            type:''
         }
       ],
+      selfModelrow:{
+        id:0,
+        attribute:'',
+        operator:'',
+        type:''
+      },
       count:1,
       selfCount:0,
       basedQuery:['I_NAME','I_34','I_76','I_37','I_39','I_12','filghtDate','I_13','I_65','I_59'],
@@ -1156,7 +1231,7 @@ export default {
       nationalityName:[],
       cdt:{},
       cdtList:{version:0},//批量查询的第一行
-      selfCdtList:{},//自定义查询的第一行
+      selfCdtList:{id:0},//自定义查询的第一行
       selfNature:[],
       operator:[],
       item:{},
@@ -1186,8 +1261,9 @@ export default {
       batchTableData:[],
       selfTableData:[],
       showConfiglist:[],//展示项数组
-      selfCdt:{},//自定义查询表达式信息
-      lazyQuery:''//模糊查询
+      selfCdt:{AAAAA:''},//自定义查询表达式信息
+      lazyQuery:'',//模糊查询
+      selfType:0
     }
   },
   mounted(){
@@ -1216,7 +1292,7 @@ export default {
       }else if(this.page==2){
         this.selfQueryList(this.currentPage,val,this.selfCdt);
       }
-      console.log(`每页 ${val} 条`);
+      // console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {//显示当前页，调用
       // let cdtArr = [];
@@ -1229,11 +1305,11 @@ export default {
       }else if(this.page==2){
         this.selfQueryList(val,this.showCount,this.selfCdt);
       }
-      console.log(`当前页: ${val}`);
+      // console.log(`当前页: ${val}`);
     },
     //----------------------------分页end------------------------------
     checkRow(row,event){//列表单选操作
-      console.log(row,event)
+      // console.log(row,event)
       this.radio=row.I_SERIAL
     },
     //----------------------------基础查询start------------------------------
@@ -1292,21 +1368,18 @@ export default {
       }
       this.$api.post('/eamp/queryShow/queryNameList',sn,
        r =>{
-         console.log(r);
          if(r.success){
            this.saveName = r.data;
          }
        })
     },
     planQuery(){//基础查询 方案渲染
-        console.log(this.sss);
         let pq = {
           page : this.page,
           name : this.sss
         }
         this.$api.post('/eamp/queryShow/queryConfigInfo',pq,
         r =>{
-          console.log(r);
           if(r.success){
             this.cdt = r.data.config;
             this.showConfiglist = r.data.showConfigList;
@@ -1403,7 +1476,6 @@ export default {
       }
       this.$api.post('/eamp/queryShow/queryNameList',bsp,
        r =>{
-         console.log(r);
          if(r.success){
            this.batchSaveName = r.data;
          }
@@ -1417,7 +1489,6 @@ export default {
       }
       this.$api.post('/eamp/queryShow/queryConfigInfo',bpq,
       r =>{
-        console.log(r);
         if(r.success){
           // let cdtArr = [];
           // cdtArr.push(this.cdtList);
@@ -1500,7 +1571,6 @@ export default {
       }
       this.$api.post('/eamp/queryShow/queryNameList',ssp,
       r =>{
-        console.log(r);
         if(r.success){
           this.selfSaveName = r.data;
         }
@@ -1522,13 +1592,14 @@ export default {
     },
     selfAddRow(){//自定义查询 添加操作
       this.selfCount++;
-      this.selfRows.push(this.selfCount);
+      this.selfModelrow.id=this.selfCount;
+      this.selfRows.push(this.selfModelrow);
     },
     selfDeleteRow(id){//自定义查询 删除操作
       let self = this.selfRows.indexOf(id);
       this.selfRows.splice(self,1);
     },
-    attribute(data){
+    attribute(){//属性
       this.$api.post('/eamp/iapi/getCustomQueryConfig',{},
       r =>{
         if(r.success){
@@ -1536,8 +1607,44 @@ export default {
         }
       })
     },
-    attributeOperator(data){
-      console.log(data);
+    attributeOperator(data){//属性联动
+      let arr = this.selfNature;
+      let that = this;
+      for(var i=0;i<arr.length;i++){
+        if(arr[i].name == data){
+          that.operator = arr[i].operator;
+          that.selfType = arr[i].type;
+        }
+      }
+    },
+    join(){//拼接表达式
+      let arr = this.selfRows;
+      let switchOperator = '';
+      if(this.selfCdtList.operator=='等于'){
+        switchOperator='='
+      }else if(this.selfCdtList.operator=='小于'){
+        switchOperator='<'
+      }else if(this.selfCdtList.operator=='大于'){
+        switchOperator='>'
+      }
+      let str ='('+this.selfCdtList.attribute+switchOperator+this.selfCdtList.type+')';
+      for(var i=0;i<arr.length;i++){
+        if(arr[i].operator=='等于'){
+          switchOperator='='
+        }else if(arr[i].operator=='小于'){
+          switchOperator='<'
+        }else if(arr[i].operator=='大于'){
+          switchOperator='>'
+        }
+        if(arr[i].relation=='undefined'||arr[i].attribute=='undefined'||arr[i].operator=='undefined'||arr[i].type=='undefined'||arr[i].relation==''||arr[i].attribute==''||arr[i].operator==''||arr[i].type==''){
+          str+="";
+        }else{
+          str += arr[i].relation+'('+arr[i].attribute+switchOperator+arr[i].type+')';
+        }
+
+      };
+      this.selfCdt.AAAAA=str;
+      console.log(this.selfCdt.AAAAA);
     },
     //----------------------------自定义查询end------------------------------
 
@@ -1551,14 +1658,11 @@ export default {
        })
     },
     nationality(data){//基础查询国籍与洲二级联动
-      console.log("data:",data)
       let arr=this.chauName;
-      console.log(arr)
       let that=this;
       for(var i=0;i<arr.length;i++){
         if(arr[i].code == data){
           that.selection=arr[i].countryList;
-          console.log(that.selection)
         }
       }
     },
@@ -1630,55 +1734,16 @@ export default {
           // console.log(obj);
           if(arr[j]==checkItem[i].ITEMNAME){
             obj.isCheck=1;
-            console.log(obj);
+            // console.log(obj);
           }else{
             obj.isCheck=0;
           }
         }
         that.showConfiglist.push(obj)
       }
-      console.log(this.showConfiglist);
-      // let queryItem = this.cdt;
-      // let that=this;
-      // for(var m in queryItem){
-      //   var objQuery = {}
-      //   objQuery.ITEMVALUE = queryItem[m];
-      //   that.CONFIGLIST.push(objQuery);
-      // }
-      // console.log(this.CONFIGLIST);
-      // console.log(this.cdt.passportnoEqual);
-    },
-
-      // let checkItem=this.checkItem;
-      // let that=this;
-      // var arr = this.checkList;
-      // for(var i in checkItem){
-      //   var obj={}
-      //   obj.ITEMNAME=checkItem[i].ITEMNAME;
-      //
-      //   for(var j=0;j<arr.length;j++){
-      //     console.log(arr[j],checkItem[i].ITEMNAME)
-      //     if(arr[j]==checkItem[i].ITEMNAME ){
-      //       obj.ISCHECK=1;
-      //     }else{
-      //       obj.ISCHECK=0;
-      //     }
-      //   }
-      //   that.showConfiglist.push(obj)
-      // }
       // console.log(this.showConfiglist);
-
+    },
     }
-    // nationality(){
-    //   this.$api.post('/eamp/codeTable/queryContinentsCountry',{},
-    //    r => {
-    //      console.log(r);
-    //      if(r.success){
-    //        this.nationalityName = r.data
-    //      }
-    //    })
-    // }
-
 }
 </script>
 
