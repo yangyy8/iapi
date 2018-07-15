@@ -1,7 +1,8 @@
 // 配置API接口地址
 // var root = 'http://192.168.99.242:8082'
-var root = 'http://192.168.99.245:8080'
-
+// var root = 'http://192.168.99.250:8080'
+// 全国监控
+var root='http://192.168.99.201:9080'
 // 引用axios
 var axios = require('axios')
 

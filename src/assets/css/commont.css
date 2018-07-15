@@ -36,6 +36,10 @@
 .transfer-middle{
   padding: 0px 16px 16px 32px;
 }
+.hb-item .el-input__inner{
+  background-color:#0f253a!important;
+  border: none!important;
+}
 .pd-0{
   padding-bottom: 0px!important;
 }
