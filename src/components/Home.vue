@@ -70,7 +70,7 @@
           <img src="../assets/img/home/nav7.png" alt="">
           <span>系统监控</span>
         </router-link>
-        <router-link :to="{ name: 'Content', params: {navId:4} }" class="nav-item8 nav-item">
+        <router-link :to="{ name: 'Content', params: {navId:7} }" class="nav-item8 nav-item">
           <img src="../assets/img/home/nav8.png" alt="">
           <span>常用菜单</span>
         </router-link>

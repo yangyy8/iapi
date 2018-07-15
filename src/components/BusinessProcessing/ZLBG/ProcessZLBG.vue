@@ -25,13 +25,13 @@
                 <div class="input-input t-flex t-date">
                  <el-date-picker
                  v-model="pd.STARTTIME"
-                 type="datetime" size="small"
+                 type="date" size="small"
                  placeholder="开始时间"  :picker-options="pickerOptions1">
                </el-date-picker>
                  <span class="septum">-</span>
                <el-date-picker
                   v-model="pd.ENDTIME"
-                  type="datetime" size="small"
+                  type="date" size="small"
                   placeholder="结束时间" :picker-options="pickerOptions1">
               </el-date-picker>
             </div>

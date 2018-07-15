@@ -103,11 +103,11 @@ export default new Router({
 
         },
 
-        // 业务规则查询---------------------------------------------------------------------------------------------------
+        // 航班座位查询---------------------------------------------------------------------------------------------------
         {
-          path: "QueryYWGZ",
-          name: "QueryYWGZ",
-          component: resolve => require(['@/components/BusinessApplications/InformationInquiry/QueryYWGZ'], resolve),
+          path: "QueryHBZW",
+          name: "QueryHBZW",
+          component: resolve => require(['@/components/BusinessApplications/InformationInquiry/QueryHBZW'], resolve),
 
         },
         // 校验比对结果查询---------------------------------------------------------------------------------------------------
@@ -115,6 +115,29 @@ export default new Router({
           path: "QueryJYBDJG",
           name: "QueryJYBDJG",
           component: resolve => require(['@/components/BusinessApplications/InformationInquiry/QueryJYBDJG'], resolve),
+
+        },
+
+        // 校验比对结果---------------------------------------------------------------------------------------------------
+        //数据项校验结果查询
+        {
+          path: "DataItem",
+          name: "DataItem",
+          component: resolve => require(['@/components/BusinessApplications/CheckResult/DataItem'], resolve),
+
+        },
+        //业务规则校验结果查询
+        {
+          path: "Rules",
+          name: "Rules",
+          component: resolve => require(['@/components/BusinessApplications/CheckResult/Rules'], resolve),
+
+        },
+        //名单比对结果查询
+        {
+          path: "ListComparison",
+          name: "ListComparison",
+          component: resolve => require(['@/components/BusinessApplications/CheckResult/ListComparison'], resolve),
 
         },
 
@@ -325,6 +348,19 @@ export default new Router({
           name: "MonitorZHFFXN",
           component: resolve => require(['@/components/SystemMonitor/Performance/MonitorZHFFXN'], resolve),
 
+        },
+        //监控报警
+        {
+          path: "MonitorJKBJ",
+          name: "MonitorJKBJ",
+          component: resolve => require(['@/components/SystemMonitor/MonitorAlarm/MonitorJKBJ'], resolve),
+
+        },
+        //菜单设置
+        {
+          path: "Menu",
+          name: "Menu",
+          component: resolve => require(['@/components/SysMenu/Menu'], resolve),
         },
 
 
