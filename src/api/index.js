@@ -1,7 +1,17 @@
 // 配置API接口地址
+<<<<<<< HEAD
 
 var root="http://192.168.99.228:8080"    //报警
 
+=======
+
+
+var root="http://192.168.99.228:8080"    //报警
+
+
+
+
+>>>>>>> 3f84ac12f0ca823831314f8c2cf4d8e775af464b
 // 引用axios
 var axios = require('axios')
 
