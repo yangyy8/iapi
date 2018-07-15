@@ -21,29 +21,35 @@
       </div>
       <div :class="className" :id="id" :style="{height:height,width:width}" ref="myEchart" class="canvas"></div>
 
-      <div class="nav-left">
+      <div class="nav-left" >
         <svg class="svg-nav" data-name="d" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 178 422.26" >
           <path class="cls-1" d="M126.5,142.19a131.62,131.62,0,0,1,50.24-47L127.43.2A239.16,239.16,0,0,0,35,86.68Z" fill="#032552" transform="translate(0 -0.2)"/>
           <path class="cls-1" d="M0,210H107a130.43,130.43,0,0,1,18.46-66.1L34,88.39A236.89,236.89,0,0,0,0,210Z" fill="#032552" transform="translate(0 -0.2)"/>
           <path class="cls-1" d="M126.47,279.75A130.32,130.32,0,0,1,107,212H0A236.89,236.89,0,0,0,35.81,336.6Z" fill="#032552" transform="translate(0 -0.2)"/>
           <path class="cls-1" d="M178,327.48a131.56,131.56,0,0,1-50.47-46L36.87,338.29a239,239,0,0,0,91.82,84.17Z" fill="#032552" transform="translate(0 -0.2)"/>
         </svg>
-        <router-link :to="{ name: 'Content', params: {navId:1} }" class="nav-item1 nav-item">
+        <router-link :to="{ name: 'Content', params: {navId:1} }" class="nav-item1 nav-item" @mouseover="leftOver(1)">
           <img src="../assets/img/home/nav1.png" alt="">
           <span>业务处理</span>
         </router-link>
-        <router-link :to="{ name: 'Content', params: {navId:2} }" class="nav-item2 nav-item">
+        <router-link :to="{ name: 'Content', params: {navId:2} }" class="nav-item2 nav-item" @mouseover="leftOver(2)">
           <img src="../assets/img/home/nav2.png" alt="">
           <span>业务应用</span>
         </router-link>
-        <router-link :to="{ name: 'Content', params: {navId:4} }" class="nav-item3 nav-item">
+        <router-link :to="{ name: 'Content', params: {navId:4} }" class="nav-item3 nav-item" @mouseover="leftOver(3)">
           <img src="../assets/img/home/nav3.png" alt="">
           <span>业务监控</span>
         </router-link>
-        <router-link :to="{ name: 'Content', params: {navId:3} }" class="nav-item4 nav-item">
+        <router-link :to="{ name: 'Content', params: {navId:3} }" class="nav-item4 nav-item" @mouseover="leftOver(4)">
           <img src="../assets/img/home/nav4.png" alt="">
           <span>业务管理</span>
         </router-link>
+      </div>
+      <div class="nav-left-0">
+        <img :src='"../assets/img/home/left_"+left+".png"'>
+      </div>
+      <div class="nav-right-0">
+        <img :src='"../assets/img/home/right_"+right+".png"'>
       </div>
       <div class="nav-right">
         <svg xmlns="http://www.w3.org/2000/svg" class="svg-nav" data-name="d" viewBox="0 0 178 422.26">
@@ -140,6 +146,8 @@ export default {
       crType:"0",
       showLeft:true,
       showRight:true,
+      left:1,
+      right:1,
       find: "2", //1显示新增按钮，2显示导入按钮，若不显示这两个按钮可以写0或者不写值
       chart: null,
       geoCoordMap: {
@@ -246,6 +254,10 @@ export default {
     this.chart = null;
   },
   methods: {
+    leftOver(i){
+      console.log(i)
+      this.left=i
+    },
     login(){
       this.isLogin=false;
     },
@@ -415,17 +427,7 @@ export default {
       window.onresize = echarts.init(this.$refs.myEchart).resize;
       // 把配置和数据放这里
       this.chart.setOption({
-        // backgroundColor: "#040c21",
 
-       //  title: {
-       //     text: '全国主要城市空气质量',
-       //     subtext: 'data from PM25.in',
-       //     sublink: 'http://www.pm25.in',
-       //     left: 'center',
-       //     textStyle: {
-       //         color: '#fff'
-       //     }
-       // },
         geo: {
           map: 'world', // 与引用进来的地图js名字一致
           roam: false, // 禁止缩放平移
@@ -512,12 +514,22 @@ export default {
 .nav-left{
   position: absolute;
   top:180px;
-  left: 400px;
+  left: 20%;
+}
+.nav-left-0{
+  position: absolute;
+  top:330px;
+  left:16%;
+}
+.nav-right-0{
+  position: absolute;
+  top:330px;
+  right:16%;
 }
 .nav-right{
   position: absolute;
   top:180px;
-  right: 400px;
+  right: 20%;
 }
 .svg-nav{
   width: 175px;
