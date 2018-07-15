@@ -236,6 +236,7 @@ export default {
       TotalResult: 0,
       pd: {},
       company: [],
+      sertail:"",
       addDialogVisible: false,
       detailsDialogVisible: false,
       menuDialogVisible: false,
@@ -404,8 +405,8 @@ export default {
     },
     menus(i) {
       this.menuDialogVisible = true;
+      this.sertail=i.SERIAL;
       let p = {
-
         "SERIAL": i.SERIAL
       };
       this.$api.post('/eamp/roleSys/goEditJuri', p,
@@ -414,7 +415,7 @@ export default {
           if (r.success) {
             this.menudata = r.data.userTreeOne;
             let arr=r.data.userTreeOne,that=this;
-          this.defaultChecked=r.data.checked;
+          this.defaultChecked=r.data.checkList;
           }
         })
 
@@ -425,6 +426,7 @@ menuItem(){
   let checkList=this.$refs.tree.getCheckedNodes();
   let p={
     // menuList:this.menudata,
+   "ROLE_ID":this.sertail,
     checkList:checkList
   }
   this.$api.post('/eamp/roleSys/editJuri', p,
@@ -435,6 +437,9 @@ menuItem(){
           type: 'success',
           message: '保存成功'
         });
+      }else{
+
+  this.$message.error('保存失败');
       }
     })
         this.menuDialogVisible = false;
