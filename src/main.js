@@ -18,8 +18,6 @@ Vue.prototype.$api = api;
 //
 // router.beforeEach((to, from, next) => {
 //   console.log("to:",to);
-//   console.log("from:",from);
-//   console.log("next:",next);
 //
 // })
 // router.afterEach((from)=>{
