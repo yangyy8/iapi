@@ -4,7 +4,31 @@
     <el-header height="150px">
       <img src="../assets/img/logoo.png" alt="">
       <div class="top-right">
-        <el-button @click="$router.push('/')">返回主菜单</el-button>
+        <div class="top-nav">
+          <ul class="top-nav-ul" v-if="navUlShow">
+            <li class="top-nav-li hand" @click="$router.push('/')">
+              首页
+            </li>
+            <li class="top-nav-li hand" v-for="i in muneListOne" :class="{'topCheckLi':navId==i.SERIAL}" @click="$router.push({ name: 'Content', params: {navId:i.SERIAL} });getNav(i.SERIAL)">
+              {{i.name}}
+            </li>
+
+          </ul>
+          <div class="nav-btn mr-30 hand" :class="{'openNav':navUlShow}" @click="openNav" >
+            <img src="../assets/img/nav_icon.png" alt="" v-if="!navUlShow">
+            <i class="el-icon-arrow-left" style="color:#fff"  v-if="navUlShow"></i>
+            导航
+          </div>
+        </div>
+
+        <div class="top-right-1">
+          <span>欢迎您！管理员</span>
+          <!-- <div class="top-list-down">
+            <a> 报警</a>
+            <a> 设置</a>
+            <a> 退出</a>
+          </div> -->
+        </div>
       </div>
     </el-header>
     <el-container class="main">
@@ -13,9 +37,11 @@
           <li class="nav1bar-up" @click="preList">
             <img src="../assets/img/navbar-up.png" alt="">
           </li>
-          <li class="nav1-item " :class="{'nav1-checked':nav1Id==i.id}" v-for="(i,index ) in nav1List.slice(nav1Star, nav1End)" @click="nav1to2(i.id,i.list)">
-            <img src="../assets/img/nav1.png" alt="" class="nav1-icon">
-            <span class="nav1-text">{{i.text}}</span>
+          <li class="nav1-item " :class="{'nav1-checked':nav1Id==i.SERIAL}" v-for="(i,index) in nav1List.slice(nav1Star, nav1End)" @click="nav1to2(i.SERIAL,i.menuList)">
+            <img :src='"../assets/img/navIcon/"+i.MENU_ICON+"_0.png"' alt="" class="nav1-icon" v-if="nav1Id!=i.SERIAL">
+            <img :src='"../assets/img/navIcon/"+i.MENU_ICON+"_1.png"' alt="" class="nav1-icon"  v-if="nav1Id==i.SERIAL">
+
+            <span class="nav1-text" :class="{'text-checked':nav1Id==i.SERIAL}">{{i.name}}</span>
           </li>
 
           <li class="nav1bar-down" @click="nextList">
@@ -23,8 +49,8 @@
           </li>
         </ul>
         <ul class="nav2" v-show="nav2Show">
-          <li class="nav2-item hand" :class="{'nav2-checked':nav2Id==x.id}" v-for="x in nav2List" @click="nav2(x)">
-            {{x.text}}
+          <li class="nav2-item hand" :class="{'nav2-checked':nav2Id==x.SERIAL}" v-for="x in nav2List" @click="nav2(x)">
+            {{x.name}}
           </li>
 
         </ul>
@@ -43,12 +69,12 @@
       </el-aside>
       <el-main class="right-main">
         <ul class="tabList">
-          <li class="tabList-item hand" :class="{'tabList-checked':nav2Id==i.id}" v-for="(i, index) in tabList">
-            <el-tooltip class="item" effect="dark" :content="i.text" placement="top">
-              <span  @click="nav2(i)">{{i.text}}</span>
+          <li class="tabList-item hand" :class="{'tabList-checked':nav2Id==i.SERIAL}" v-for="(i, index) in tabList">
+            <el-tooltip class="item" effect="dark" :content="i.name" placement="top">
+              <span  @click="nav2(i)">{{i.name}}</span>
             </el-tooltip>
 
-            <img src="../assets/img/tab-close1.png" alt="guanbi" @click="close1(index)" class="hand" v-if="nav2Id==i.id">
+            <img src="../assets/img/tab-close1.png" alt="guanbi" @click="close1(index)" class="hand" v-if="nav2Id==i.SERIAL">
             <img src="../assets/img/tab-close2.png" alt="" @click="tabList.splice(index, 1)" class="hand" v-else>
           </li>
           <!-- <li class="tabList-item">
@@ -67,325 +93,15 @@
 export default {
   data() {
     return {
+      navUlShow:false,
+      muneListOne:[],
       sideWidth: '295px',
       isCollapse: false,
       nav2Show: true,
       nav2HideBar: true,
       nav1Id: 1,
       navh: 0,
-      nav1List: [{
-          id: 1,
-          text: "报警处理",
-          list: [{
-              id: 11,
-              text: "名单比对报警",
-              name: "ProcessMDBJ"
-            },
-            // {
-            //   id:12,
-            //   text:"二次查控报警",
-            //   name:"ProcessECBDBJ"
-            // },
-            {
-              id: 13,
-              text: "重点关注人员预报警",
-              name: "ProcessZDGZRY"
-            },
-
-          ]
-        },
-        {
-          id: 2,
-          text: "常规业务处理",
-          list: [{
-              id: 21,
-              text: "指令变更",
-              name: "ProcessZLBG"
-            },
-
-          ]
-        },
-        {
-          id: 3,
-          text: "备降航班处理",
-          list: [{
-            id: 31,
-            text: "航班状态变更",
-            name: "ProcessHBZT"
-          }]
-        }
-      ],
-      nav1List2: [{
-          id: 1,
-          text: "信息查询",
-          list: [{
-              id: 11,
-              text: "人员信息查询",
-              name: "QueryRYXX"
-            },
-            {
-              id: 12,
-              text: "业务事件查询",
-              name: "QueryYWSJ"
-            },
-            {
-              id: 13,
-              text: "航班信息查询",
-              name: "QueryHBXX"
-            },
-            {
-              id: 14,
-              text: "命中人员查询",
-              name: "QueryMZRY"
-            },
-            {
-              id: 15,
-              text: "关联人员查询",
-              name: "QueryGLRY"
-            },
-            {
-              id:16,
-              text:"航班座位查询",
-              name:"QueryHBZW"
-            },
-
-          ]
-        },
-        {
-          id: 2,
-          text: "校验比对结果",
-          list: [{
-              id: 21,
-              text: "数据项校验结果查询",
-              name: "DataItem"
-            },
-            {
-              id: 22,
-              text: "业务规则校验结果查询",
-              name: "Rules"
-            },
-            {
-              id: 23,
-              text: "名单比对结果查询",
-              name: "ListComparison"
-            },
-          ]
-        }
-      ],
-      nav1List3: [{
-          id: 1,
-          text: "名单管理",
-          list: [{
-              id: 11,
-              text: "名单数据分析",
-              name: "ListMDSJFX"
-            },
-            {
-              id: 12,
-              text: "白名单管理",
-              name: "ListBMD"
-
-            },
-            {
-              id: 13,
-              text: "临控名单管理",
-              name: "ListLKMD"
-            },
-            {
-              id: 14,
-              text: "重点关注人员",
-              name: "LIstZDGZRYMD"
-            },
-
-          ]
-        },
-        {
-          id: 2,
-          text: "业务规则管理",
-          list: [{
-              id: 21,
-              text: "数据项校验规则管理",
-              name: "ListSJXJYGZ"
-            },
-            {
-              id: 22,
-              text: "一般性规则管理",
-              name: "ListYBXGZ"
-            },
-            {
-              id: 23,
-              text: "免签规则管理",
-              name: "ListMQGZ"
-            },
-
-          ]
-        },
-
-      ],
-      nav1List4: [{
-        id: 1,
-        text: "全国监控",
-        list: [{
-            id: 11,
-            text: "全国航班实时监控",
-            name: "NationalHBSSJK"
-          },
-
-
-        ]
-      }],
-      nav1List5: [{
-          id: 1,
-          text: "权限管理",
-          list: [{
-              id: 11,
-              text: "部门管理",
-              name: "ManageBM"
-            },
-            {
-              id: 12,
-              text: "用户管理",
-              name: "ManageYH"
-            },
-            {
-              id: 13,
-              text: "角色管理",
-              name: "ManageJS"
-            },
-          ]
-        },
-        {
-          id: 2,
-          text: "配置管理",
-          list: [
-
-            // {
-            //   id:22,
-            //   text:"集中用户管理",
-            //   name:"ManageJZYH"
-            // },
-            // {
-            //   id:23,
-            //   text:"用户认证与登录",
-            //   name:"ManageDL"
-            // },
-
-          ]
-        },
-      ],
-      nav1List6: [{
-          id: 1,
-          text: "运行状态监控",
-          list: [{
-              id: 11,
-              text: "网络综合监控",
-              name: "MonitorBJJHPT"
-            },
-            {
-              id: 12,
-              text: "服务器监控",
-              name: "MonitorFWQ"
-            },
-            {
-              id: 13,
-              text: "接口服务监控",
-              name: "MonitorJKFW"
-            },
-            {
-              id: 14,
-              text: "数据库监控",
-              name: "MonitorSJK"
-
-            },
-            // {
-            //   id:13,
-            //   text:"应用程序监控",
-            //   name:"MonitorYYCX"
-            // },
-            {
-              id: 15,
-              text: "Redis监控",
-              name: "MonitorRedis"
-            },
-            {
-              id: 16,
-              text: "MQ监控",
-              name: "MonitorMQ"
-            },
-
-          ]
-        },
-        {
-          id: 2,
-          text: "数据监控",
-          list: [{
-              id: 21,
-              text: "数据一致性监控",
-              name: "MonitorSJYZX"
-            },
-            // {
-            //   id:22,
-            //   text:"技术网关监控",
-            //   name:"MonitorJSWG"
-            // },
-            // {
-            //   id:23,
-            //   text:"整合分发监控",
-            //   name:"MonitorZHFF"
-            // },
-            // {
-            //   id:24,
-            //   text:"数据定位",
-            //   name:"MonitorSJDW"
-            // },
-          ]
-        },
-        {
-          id: 3,
-          text: "日志监控",
-          list: [{
-              id: 31,
-              text: "日志监控",
-              name: "MonitorRZJK"
-            },
-          ]
-        },
-        {
-          id: 4,
-          text: "性能监控",
-          list: [{
-              id: 41,
-              text: "校验比对性能监控",
-              name: "MonitorJYBDXN"
-            },
-            {
-              id: 42,
-              text: "整合分发性能监控",
-              name: "MonitorZHFFXN"
-            },
-          ]
-        },
-        {
-          id: 5,
-          text: "监控报警",
-          list: [{
-              id: 51,
-              text: "监控报警",
-              name: "MonitorJKBJ"
-            },
-          ]
-        },
-      ],
-      nav1List7: [{
-          id: 1,
-          text: "菜单设置",
-          list: [{
-              id: 11,
-              text: "常用菜单设置",
-              name: "Menu"
-           },
-        ]
-      }],
+      nav1List:[],
       nav2List: [],
       nav2Id: 1,
       nav1Star: 0,
@@ -396,46 +112,48 @@ export default {
   mounted() {
     this.navId = this.$route.params.navId;
     console.log(this.navId)
-    if (this.navId == 2) {
-      this.nav1List = this.nav1List2
-    } else if (this.navId == 3) {
-      this.nav1List = this.nav1List3
-    } else if (this.navId == 4) {
-      this.nav1List = this.nav1List4
 
-    } else if (this.navId == 5) {
-      this.nav1List = this.nav1List5
-    } else if (this.navId == 6) {
-      this.nav1List = this.nav1List6
-    }
-    else if (this.navId == 7) {
-      this.nav1List = this.nav1List7
-    }
-    this.nav1to2(1, this.nav1List[0].list)
+    this.getNav(this.navId)
   },
   methods: {
-    nav0() {
-      let p = {};
-      this.$api.post('/', p,
+    getNav(navId){
+      this.navId=navId;
+
+      this.$api.post('/eamp/muneSys/menuChild', {SERIAL:navId},
         r => {
           console.log(r);
-          this.nav1List = r.Data.DataChecks;
+          this.nav1List=r.data.menuChild;
+          console.log(this.nav1List[0].SERIAL)
+          this.nav1to2(this.nav1List[0].SERIAL, this.nav1List[0].menuList)
+
+      })
+
+    },
+    openNav(){
+      this.navUlShow=!this.navUlShow
+      if(this.navUlShow){
+        this.$api.post('/eamp/muneSys/selectMenuOne',{},
+         r => {
+           console.log(r);
+           this.muneListOne=r.data.muneListOne
         })
+      }
     },
     nav1to2(id, list) {
       this.isNav2Show();
+      console.log(id)
       this.nav1Id = id;
       // this.nav2Id=11;
       this.nav2List = list
     },
     nav2(item) {
-      this.nav2Id = item.id;
-      console.log(item, item.id)
+      this.nav2Id = item.SERIAL;
+      console.log(item, item.SERIAL)
       new Set(this.tabList)
       this.tabList.push(item)
       this.tabList = Array.from(new Set(this.tabList));
       this.$router.push({
-        name: item.name
+        name: item.url
       })
     },
     preList() {
@@ -467,7 +185,7 @@ export default {
       this.tabList.splice(index, 1);
       console.log(index)
       if (index > 0) {
-        this.nav2Id = this.tabList[index - 1].id
+        this.nav2Id = this.tabList[index - 1].SERIAL
       }
     }
   }
@@ -475,6 +193,62 @@ export default {
 </script>
 
 <style scoped>
+.top-right{
+  display: flex;
+  align-items: center;
+}
+.top-right-1{
+  width: 116px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: #fff;
+  font-size: 14px;
+  line-height: 20px;
+}
+.top-right-1 a{
+  color: #fff;
+}
+.top-nav{
+  display: flex;
+  align-items: center;
+}
+.top-nav-ul{
+  height: 40px;
+  display: flex;
+  background: rgba(27,92,168,0.50);
+  color: #fff;
+  line-height: 40px;
+  border-radius:6px 0 0 6px;
+
+}
+.top-nav-li{
+  width: 94px;
+  text-align: center;
+}
+.top-nav-li:hover,.topCheckLi{
+  border-radius:6px;
+  color: #4a90e2;
+  background: #ddeffd;
+}
+
+.nav-btn{
+  width: 86px;
+  height: 40px;
+  text-align: center;
+  line-height: 40px;
+  background: rgba(27,92,168,0.50);
+  color: #fff;
+  border-radius:6px;
+}
+.openNav{
+  border-radius:0 6px 6px 0;
+
+}
+.text-checked{
+  color: #0781e5!important;
+  font-weight: bold;
+}
 .el-header {
   padding: 0 88px;
   display: flex;
@@ -570,6 +344,7 @@ export default {
 .nav1-text {
   color: #2ad9f4;
   font-size: 15px;
+
 }
 
 .nav2 {
