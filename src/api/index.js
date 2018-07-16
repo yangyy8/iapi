@@ -5,7 +5,6 @@ var root="http://192.168.99.228:8080"    //报警
 
 
 
-
 // 引用axios
 var axios = require('axios')
 
