@@ -29,27 +29,27 @@
           <path class="cls-1" :class="{'clss':left==4}" d="M178,327.48a131.56,131.56,0,0,1-50.47-46L36.87,338.29a239,239,0,0,0,91.82,84.17Z" fill="#032552" transform="translate(0 -0.2)" @mouseover="leftOver(4)"/>
         </svg>
 
-        <router-link :to="{ name: 'Content', params: {navId:val.SERIAL} }" class="nav-item" :class='"nav-item"+ind' v-for="(val,ind) in muneListOne" v-if="ind<4">
+        <router-link :to="{ name: 'Content', params: {navId:val.SERIAL} }" class="nav-item" :class='"nav-item"+ind' v-for="(val,ind) in sortarr" :key="val.SERIAL" v-if="ind<4">
           <img :src='"../assets/img/navIcon/"+val.MENU_ICON+".png"' alt="">
           <span>{{val.name}}</span>
         </router-link>
 
-        <!-- <router-link :to="{ name: 'Content', params: {navId:1} }" class="nav-item0 nav-item">
-          <img src="../assets/img/navIcon/1.png" alt="">
+        <router-link :to="{ name: 'Content', params: {navId:1} }" class="nav-item0 nav-item" v-if="bynav">
+          <img src="../assets/img/home/nav1.png" alt="">
           <span>业务处理</span>
         </router-link>
-        <router-link :to="{ name: 'Content', params: {navId:2} }" class="nav-item1 nav-item" >
-          <img src="../assets/img/navIcon/2.png" alt="">
+        <router-link :to="{ name: 'Content', params: {navId:2} }" class="nav-item1 nav-item" v-if="bynav">
+          <img src="../assets/img/home/nav2.png" alt="">
           <span>业务应用</span>
         </router-link>
-        <router-link :to="{ name: 'Content', params: {navId:4} }" class="nav-item2 nav-item" >
-          <img src="../assets/img/navIcon/3.png" alt="">
+        <router-link :to="{ name: 'Content', params: {navId:4} }" class="nav-item2 nav-item" v-if="bynav">
+          <img src="../assets/img/home/nav3.png" alt="">
           <span>业务监控</span>
         </router-link>
-        <router-link :to="{ name: 'Content', params: {navId:3} }" class="nav-item3 nav-item" >
-          <img src="../assets/img/navIcon/4.png" alt="">
+        <router-link :to="{ name: 'Content', params: {navId:3} }" class="nav-item3 nav-item" v-if="bynav">
+          <img src="../assets/img/home/nav4.png" alt="">
           <span>业务管理</span>
-        </router-link> -->
+        </router-link>
       </div>
       <div class="nav-left-0">
         <img :src='"../assets/img/home/left_"+left+".png"'>
@@ -65,26 +65,46 @@
           <path class="cls-1" :class="{'clss':right==4}" d="M0,327.48a131.56,131.56,0,0,0,50.47-46l90.66,56.84a239,239,0,0,1-91.82,84.17Z" transform="translate(0 -0.2)" fill="#032552" @mouseover="rightOver(4)"/>
         </svg>
 
-        <router-link :to="{ name: 'Content', params: {navId:1} }" class="nav-item4 nav-item">
+        <!-- <router-link :to="{ name: 'Content', params: {navId:1} }" class="nav-item4 nav-item"> -->
+        <a @click="rcgz" class="nav-item4 nav-item">
           <img src="../assets/img/navIcon/iconRG.png" alt="">
           <span>日常工作</span>
-        </router-link>
-        <router-link :to="{ name: 'Content', params: {navId:val.SERIAL} }" class="nav-item" :class='"nav-item"+parseInt(ind+1)' v-for="(val,ind) in muneListOne" v-if="ind>3">
+        </a>
+        <!-- </router-link> -->
+        <router-link :to="{ name: 'Content', params: {navId:val.SERIAL} }" class="nav-item" :class='"nav-item"+parseInt(ind+1)' v-for="(val,ind) in sortarr" v-if="ind>3">
           <img :src='"../assets/img/navIcon/"+val.MENU_ICON+".png"' alt="">
           <span>{{val.name}}</span>
         </router-link>
-        <!-- <router-link :to="{ name: 'Content', params: {navId:5} }" class="nav-item5 nav-item">
-          <img src="../assets/img/navIcon/6.png" alt="">
+
+        <router-link :to="{ name: 'Content', params: {navId:5} }" class="nav-item5 nav-item" v-if="bynav">
+          <img src="../assets/img/home/nav6.png" alt="">
           <span>系统管理</span>
         </router-link>
-        <router-link :to="{ name: 'Content', params: {navId:6} }" class="nav-item6 nav-item">
-          <img src="../assets/img/navIcon/7.png" alt="">
+        <router-link :to="{ name: 'Content', params: {navId:6} }" class="nav-item6 nav-item" v-if="bynav">
+          <img src="../assets/img/home/nav7.png" alt="">
           <span>系统监控</span>
-        </router-link> -->
-        <router-link :to="{ name: 'Content', params: {navId:7} }" class="nav-item7 nav-item">
+        </router-link>
+
+        <a class="nav-item7 nav-item" @click="cyccShow=true">
           <img src="../assets/img/navIcon/iconCC.png" alt="">
           <span>常用菜单</span>
-        </router-link>
+        </a>
+      </div>
+      <div class="cycc-box" v-if="cyccShow">
+        <div class="cycc-top">
+          <div class="cycc-title">
+            常用菜单
+          </div>
+          <i class="el-icon-close" @click="cyccShow=false"></i>
+        </div>
+        <div class="cycc-content">
+
+        </div>
+        <div class="cycc-down">
+          <router-link :to="{ name: 'Content', params: {navId:'cc'} }">
+            <i class="el-icon-setting"></i>菜单设置
+          </router-link>
+        </div>
       </div>
       <div class="login-box" v-if="isLogin">
         <div class="login-item ">
@@ -152,6 +172,7 @@ export default {
   },
   data() {
     return {
+      bynav:true,
       isLogin:false,
       tabId:0,
       crType:"0",
@@ -159,6 +180,7 @@ export default {
       showRight:true,
       left:1,
       right:1,
+      cyccShow:false,
       muneListOne:[],
       find: "2", //1显示新增按钮，2显示导入按钮，若不显示这两个按钮可以写0或者不写值
       chart: null,
@@ -257,7 +279,6 @@ export default {
   mounted() {
     this.fn();
     this.getNav0();
-    // this.chinaConfigure();
   },
   beforeDestroy() {
     if (!this.chart) {
@@ -265,6 +286,11 @@ export default {
     }
     this.chart.dispose();
     this.chart = null;
+  },
+  computed:{
+    sortarr:function(){
+      return this.sortByKey(this.muneListOne,'SERIAL')
+    }
   },
   methods: {
     leftOver(i){
@@ -279,11 +305,24 @@ export default {
     getNav0(){
       this.$api.post('/eamp/muneSys/selectMenuOne',{},
        r => {
+         this.bynav=false;
          console.log(r);
          this.muneListOne=r.data.muneListOne
       })
     },
-
+    rcgz(){
+      this.$message({
+          message: '开发中...敬请期待',
+          type: 'warning'
+        });
+    },
+    sortByKey(array,key){
+      return array.sort(function(a,b){
+        var x=a[key];
+        var y=b[key];
+        return ((x<y)?-1:((x>y)?1:0));
+      });
+    },
     // 获取地图中起点和终点的坐标，以数组形式保存下来
     convertData(data) {
       var res = [];
@@ -309,7 +348,6 @@ export default {
     let that=this;
       [
         ['重庆',this.CQData],
-        ['广州', this.GZData],
         ['南宁', this.NNData]
       ].forEach(function(item, i) {
         that.series.push({
@@ -341,7 +379,8 @@ export default {
             period: 6,
             trailLength: 0,
             symbol: that.planePath, // 特效形状，可以用其他svg pathdata路径代替
-            symbolSize: 15
+            symbolSize: 15,
+            color:'#ffffff'
           },
           lineStyle: {
             normal: {
@@ -441,10 +480,18 @@ export default {
           roam: false, // 禁止缩放平移
           itemStyle: { // 每个区域的样式
             normal: {
-              areaColor: '#022d61'
+              areaColor: '#022d61',
+              borderColor:'#022d61',
+              borderWidth:1
             },
             emphasis: {
               areaColor: '#022d61'
+            },
+
+          },
+          label: { // 高亮的时候不显示标签
+            emphasis: {
+              show: false
             }
           },
           regions: [{ // 选中的区域
@@ -603,6 +650,38 @@ export default {
   position:absolute;
   top:308px;
   right:80px;
+}
+.cycc-box{
+  width: 656px;
+  height: 300px;
+  position: fixed;
+  top:50%;
+  left: 50%;
+  margin-left: -338px;
+  margin-top: -150px;
+  background: #032552;
+  border-radius: 6px;
+  padding: 0 20px;
+}
+.cycc-top{
+  height: 50px;
+  display: flex;
+  justify-content: space-between;
+
+  color: #0eb5c7;
+  align-items: center;
+}
+.cycc-content{
+  height: 200px;
+}
+.cycc-down{
+ height: 50px;
+ line-height: 50px;
+ text-align: right;
+}
+.cycc-down a{
+  color: #fff;
+
 }
 .login-box{
   width: 466px;
