@@ -8,6 +8,18 @@
               查询条件
             </div>
               <el-row align="center"   :gutter="2" >
+                <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+                  <span class="input-text">监控区域：</span>
+                  <el-select v-model="pd.airlineCompanyIdEqual"  placeholder="请选择" size="small" class="input-input">
+                     <el-option
+                       v-for="item in company"
+                       :key="item.AIRLINE_CODE"
+                       :label="item.AIRLINE_CHN_NAME"
+                       :value="item.AIRLINE_CODE" >
+                     </el-option>
+                   </el-select>
+
+                </el-col>
               <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                 <span class="input-text">监控对象：</span>
                 <el-select v-model="pd.MCLASS"  placeholder="请选择" size="small" class="input-input">
@@ -42,6 +54,22 @@
                      :value="item.AIRLINE_CODE" >
                    </el-option>
                  </el-select>
+              </el-col>
+              <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+                <span class="input-text">报警时间：</span>
+                <div class="input-input t-flex t-date">
+                 <el-date-picker
+                 v-model="pd.STARTTIME"
+                 type="date" size="small" value-format="yyyyMMdd"
+                 placeholder="开始时间"  :picker-options="pickerOptions1">
+               </el-date-picker>
+                 <span class="septum">-</span>
+               <el-date-picker
+                  v-model="pd.ENDTIME"
+                  type="date" size="small" value-format="yyyyMMdd"
+                  placeholder="结束时间" :picker-options="pickerOptions1">
+              </el-date-picker>
+            </div>
               </el-col>
             </el-row>
           </el-col>

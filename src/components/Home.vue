@@ -278,7 +278,7 @@ export default {
 
   mounted() {
     this.fn();
-    this.getNav0();
+    // this.getNav0();
   },
   beforeDestroy() {
     if (!this.chart) {

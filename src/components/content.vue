@@ -502,10 +502,12 @@ export default {
   mounted() {
     this.navId = this.$route.params.navId;
     console.log(this.navId)
+
     if (this.navId == 'cc') {
       this.nav1List = this.nav1List7;
       this.nav1to2(this.nav1List[0].SERIAL, this.nav1List[0].menuList)
-    }else {
+
+    }  else {
       this.getNav(this.navId)
     }
 
@@ -513,31 +515,32 @@ export default {
   methods: {
     getNav(navId) {
       this.navId = navId;
-
+      console.log(this.navId)
       this.$api.post('/eamp/muneSys/menuChild', {
           SERIAL: navId
         },
         r => {
           console.log(r);
-
-          if(r.success){
+          let ss=r.success;
+          ss=false;
+          if(ss){
             this.nav1List = r.data.menuChild;
             console.log(this.nav1List[0].SERIAL)
             this.nav1to2(this.nav1List[0].SERIAL, this.nav1List[0].menuList)
           }else{
-            if(this.navId=2){
+            if(this.navId==2){
               this.nav1List = this.nav1List2;
 
-            }else if(this.navId=3){
+            }else if(this.navId==3){
               this.nav1List = this.nav1List3;
 
-            }else if(this.navId=4){
+            }else if(this.navId==4){
               this.nav1List = this.nav1List4;
 
-            }else if(this.navId=5){
+            }else if(this.navId==5){
               this.nav1List = this.nav1List5;
 
-            }else if(this.navId=6){
+            }else if(this.navId==6){
               this.nav1List = this.nav1List6;
             }
             this.nav1to2(this.nav1List[0].SERIAL, this.nav1List[0].menuList)
