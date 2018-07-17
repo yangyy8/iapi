@@ -4,7 +4,7 @@
     <el-main class="home-main">
       <div class="home-top">
         <div class="home-top-left">
-          总站 <span>[切换]</span> 07月13日 周五 多云 16℃~36℃
+         {{dateData.mm+dateData.dd+' '+dateData.xx}}
         </div>
         <div class="home-top-right hand" @click="isLogin=true">
           <img src="../assets/img/home/p.png" alt="">
@@ -85,7 +85,7 @@
           <span>系统监控</span>
         </router-link>
 
-        <a class="nav-item7 nav-item" @click="cyccShow=true">
+        <a class="nav-item7 nav-item" @click="getcc">
           <img src="../assets/img/navIcon/iconCC.png" alt="">
           <span>常用菜单</span>
         </a>
@@ -98,7 +98,12 @@
           <i class="el-icon-close" @click="cyccShow=false"></i>
         </div>
         <div class="cycc-content">
-
+          <ul class="cycc-ul">
+            <li v-for="i in ccList" class="cycc-li" @click="$router.push('/content/'+i.parentId+'/'+i.url)">
+              <img src="../assets/img/home/micon.png" alt="">
+              <span>{{i.name}}</span>
+            </li>
+          </ul>
         </div>
         <div class="cycc-down">
           <router-link :to="{ name: 'Content', params: {navId:'cc'} }">
@@ -115,12 +120,13 @@
         </div>
         <div class="login-item ">
           <el-input
-            placeholder="密码">
+            placeholder="密码"
+            type="password">
             <i slot="prefix" class="el-input__icon"><img src="../assets/img/home/login_03.png"></i>
           </el-input>
         </div>
         <div class="login-item2">
-          <el-radio label="1">记住密码</el-radio>
+          <el-radio label="1" v-model="jzmm">记住密码</el-radio>
           <a class="login-a">忘记密码</a>
         </div>
         <button class="login-btn" @click="login">登录</button>
@@ -131,9 +137,9 @@
           全国出入境人员数量统计
         </div>
         <div class="foot2">
-          2018年
-          <span>5</span><span>0</span><span>0</span><span>0</span>
-          万人
+          {{dateData.year}}年
+          <span v-for="i in rcList">{{i}}</span>
+          万人次
         </div>
         <div class="foot3">
           Copyright © 2018 中国移民局边防检查机关 ALL Right Reserved <span> 技术支持:太极计算机股份有限公司</span>
@@ -172,6 +178,13 @@ export default {
   },
   data() {
     return {
+      dateData:{
+        year:'',
+        mm:"",
+        dd:"",
+        xx:""
+      },
+      jzmm:0,
       bynav:true,
       isLogin:false,
       tabId:0,
@@ -181,6 +194,8 @@ export default {
       left:1,
       right:1,
       cyccShow:false,
+      ccList:[],
+      rcList:[],
       muneListOne:[],
       find: "2", //1显示新增按钮，2显示导入按钮，若不显示这两个按钮可以写0或者不写值
       chart: null,
@@ -197,7 +212,9 @@ export default {
         '澳大利亚': [135.193845, -25.304039],
         '德国': [13.402393, 52.518569],
         '英国': [-0.126608, 51.208425],
-        '加拿大': [-102.646409, 59.994255]
+        '加拿大': [-102.646409, 59.994255],
+        '阿根廷':[-58.30000,-34.200000],
+        '俄罗斯':[93.470000,63.270000]
       },
       // 重庆
       CQData: [
@@ -205,80 +222,56 @@ export default {
           name: '重庆'
         }, {
           name: "芬兰",
-          value: 30
+          value: 60
         }],
         [{
           name: '重庆'
         }, {
-          name: "德国",
-          value: 90
+          name: "澳大利亚",
+          value: 60
         }],
         [{
           name: '重庆'
         }, {
           name: "英国",
-          value: 30
+          value: 60
         }],
         [{
           name: '重庆'
         }, {
           name: "韩国",
-          value: 30
-        }]
-      ],
-
-      // 广州
-      GZData: [
-        [{
-          name: '广州'
-        }, {
-          name: "日本",
-          value: 30
+          value: 60
         }],
         [{
-          name: '广州'
-        }, {
-          name: "东南亚",
-          value: 30
-        }]
-      ],
-
-      // 南宁
-      NNData: [
-        [{
-          name: '南宁'
+          name: '重庆'
         }, {
           name: "加拿大",
-          value: 30
+          value: 60
         }],
         [{
-          name: '南宁'
+          name: '重庆'
         }, {
-          name: "美国",
-          value: 100
+          name: "阿根廷",
+          value: 60
         }],
         [{
-          name: '南宁'
+          name: '重庆'
         }, {
-          name: "澳大利亚",
-          value: 95
+          name: "俄罗斯",
+          value: 60
         }],
-        [{
-          name: '南宁'
-        }, {
-          name: "瑞士",
-          value: 30
-        }]
       ],
+
       planePath: 'path://M1705.06,1318.313v-89.254l-319.9-221.799l0.073-208.063c0.521-84.662-26.629-121.796-63.961-121.491c-37.332-0.305-64.482,36.829-63.961,121.491l0.073,208.063l-319.9,221.799v89.254l330.343-157.288l12.238,241.308l-134.449,92.931l0.531,42.034l175.125-42.917l175.125,42.917l0.531-42.034l-134.449-92.931l12.238-241.308L1705.06,1318.313z',
-      color: ['#10fb46', '#dcbf71'], // 自定义图中要用到的颜色
+      color: ['#11fb44', '#dcbf71'], // 自定义图中要用到的颜色
       series:[], // 用来存储地图数据
     };
   },
 
   mounted() {
     this.fn();
-    this.getNav0();
+    // this.getNav0();
+    this.getTime();
   },
   beforeDestroy() {
     if (!this.chart) {
@@ -293,6 +286,24 @@ export default {
     }
   },
   methods: {
+    getTime(){
+      let myDate = new Date();
+      let a = new Array("日", "一", "二", "三", "四", "五", "六");
+      this.dateData.year=myDate.getFullYear();
+      this.dateData.mm=parseInt(myDate.getMonth()+1)+'月';
+      this.dateData.dd=myDate.getDate()+'日';
+
+      let week = myDate.getDay();
+      this.dateData.xx = '星期'+a[week];
+
+      this.$api.post('/eamp/homePage/iapiSize',{},
+       r => {
+        console.log(r)
+        this.rcList=r.data.number.toString().split('')
+        console.log(this.rcList)
+      })
+
+    },
     leftOver(i){
       this.left=i
     },
@@ -309,6 +320,14 @@ export default {
          console.log(r);
          this.muneListOne=r.data.muneListOne
       })
+    },
+    getcc(){
+      this.cyccShow=true,
+      this.$api.post('/eamp/roleSys/selectmenuSet', {},
+        r => {
+          console.log(r);
+          this.ccList=r.data.menuSetChoose
+        })
     },
     rcgz(){
       this.$message({
@@ -348,7 +367,7 @@ export default {
     let that=this;
       [
         ['重庆',this.CQData],
-        ['南宁', this.NNData]
+
       ].forEach(function(item, i) {
         that.series.push({
           // 白色航线特效图
@@ -356,7 +375,7 @@ export default {
           zlevel: 1, // 用于分层，z-index的效果
           effect: {
             show: true, // 动效是否显示
-            period: 6, // 特效动画时间
+            period: 12, // 特效动画时间
             trailLength: 0.7, // 特效尾迹的长度
             color: '#fff', // 特效颜色
             symbolSize: 3 // 特效大小
@@ -364,7 +383,7 @@ export default {
           lineStyle: {
             normal: { // 正常情况下的线条样式
               color: that.color[0],
-              width: 0, // 因为是叠加效果，要是有宽度，线条会变粗，白色航线特效不明显
+              width: 0.5, // 因为是叠加效果，要是有宽度，线条会变粗，白色航线特效不明显
               curveness: -0.2 // 线条曲度
             }
           },
@@ -376,7 +395,7 @@ export default {
           symbolSize: 10,
           effect: {
             show: true,
-            period: 6,
+            period: 12,
             trailLength: 0,
             symbol: that.planePath, // 特效形状，可以用其他svg pathdata路径代替
             symbolSize: 15,
@@ -436,11 +455,11 @@ export default {
           }
         },
         symbolSize: function(val) {
-          return val[2] / 8;
+          return val[2] / 3;
         },
         itemStyle: {
           normal: {
-            color: that.color[1]
+            color: that.color[0]
           }
         },
         data: [{
@@ -452,17 +471,6 @@ export default {
               position: 'top'
             }
           }
-        }, {
-          name: '广州',
-          value: [113.5107, 23.2196, 30],
-          label: {
-            normal: {
-              position: 'right'
-            }
-          }
-        }, {
-          name: '南宁',
-          value: [108.479, 23.1152, 30]
         }]
       });
       console.log(that.series)
@@ -481,8 +489,8 @@ export default {
           itemStyle: { // 每个区域的样式
             normal: {
               areaColor: '#022d61',
-              borderColor:'#022d61',
-              borderWidth:1
+              borderColor:'#2fadf1',
+              borderWidth:0.3
             },
             emphasis: {
               areaColor: '#022d61'
@@ -499,7 +507,7 @@ export default {
             selected: true,
             itemStyle: { // 高亮时候的样式
               emphasis: {
-                areaColor: '#022d61'
+                areaColor: '#1161da'
               }
             },
             label: { // 高亮的时候不显示标签
@@ -590,6 +598,7 @@ export default {
 }
 .svg-nav{
   width: 175px;
+  height: 100%;
 }
 .nav-item:hover+.cls-1{
   fill:red;
@@ -652,32 +661,59 @@ export default {
   right:80px;
 }
 .cycc-box{
-  width: 656px;
+  width: 612px;
   height: 300px;
   position: fixed;
   top:50%;
   left: 50%;
-  margin-left: -338px;
+  margin-left: -306px;
   margin-top: -150px;
   background: #032552;
   border-radius: 6px;
-  padding: 0 20px;
+  padding: 0 0 0 20px;
 }
 .cycc-top{
   height: 50px;
   display: flex;
   justify-content: space-between;
-
+  padding-right: 20px;
   color: #0eb5c7;
   align-items: center;
 }
 .cycc-content{
   height: 200px;
 }
+.cycc-ul{
+  display: flex;
+  flex-wrap: wrap;
+}
+.cycc-li{
+  padding: 6px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #29d8f3;
+  color: #032552;
+  width: 90px;
+  border-radius: 6px;
+  font-size:14px;
+  margin-right: 20px;
+  margin-bottom: 15px;
+}
+.cycc-li:last-child{
+  margin-right: 0;
+}
+.cycc-li span{
+  margin-top:6px;
+  text-align: center;
+  /* width: 36px;
+  height: 36px; */
+}
 .cycc-down{
  height: 50px;
  line-height: 50px;
  text-align: right;
+ padding-right: 20px;
 }
 .cycc-down a{
   color: #fff;
@@ -701,6 +737,7 @@ export default {
 .login-item{
   margin-top: 10px;
   width: 60%;
+  color: #fff;
 }
 
 .el-input__icon img{
