@@ -13,6 +13,7 @@ a{
 html,body{
   width: 100%;
   height: 100%;
+  font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
 }
 #app{
   height: 100%;
@@ -23,6 +24,7 @@ html,body{
 .login-item .el-input .el-input__inner{
   background-color: #0a3162!important;
   border: 1px #2975aa solid!important;
+  color: #fff!important;
 }
 .login-item input::-webkit-input-placeholder{
    color:#27d9f3!important;
