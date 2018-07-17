@@ -62,13 +62,13 @@
                 <span class="input-text">出生日期：</span>
                 <div class="input-input t-flex t-date">
                  <el-date-picker
-                 v-model="pd.startScheduledeparturetime"
+                 v-model="pd.startDateofbirth"
                  type="date" size="small" value-format="yyyyMMdd"
                  placeholder="开始时间" align="right" :picker-options="pickerOptions1">
                </el-date-picker>
                  <span class="septum">-</span>
                <el-date-picker
-                  v-model="pd.endScheduledeparturetime"
+                  v-model="pd.endDateofbirth"
                   type="date" size="small" align="right" value-format="yyyyMMdd"
                   placeholder="结束时间"  :picker-options="pickerOptions1">
               </el-date-picker>
@@ -120,15 +120,20 @@
 
               <el-col :sm="24" :md="12" :lg="6" class="input-item">
                 <span class="input-text">业务事件编号：</span>
-                <el-input placeholder="请输入内容" size="small" v-model='pd.ywsjbh' class="input-input"></el-input>
+                <el-input placeholder="请输入内容" size="small" v-model='pd.recordnum' class="input-input"></el-input>
               </el-col>
 
               <el-col :sm="24" :md="12" :lg="6" class="input-item">
                 <span class="input-text">反馈状态：</span>
-                <el-select v-model="pd.srtate" placeholder="请选择"  size="small" class="input-input">
+                <el-select v-model="pd.saveflag" placeholder="请选择"  size="small" class="input-input">
                   <el-option value="" label="全部">
                   </el-option>
-
+                  <el-option value="0" label="未处理">
+                  </el-option>
+                  <el-option value="1" label="已处理">
+                  </el-option>
+                  <el-option value="2" label="处理中">
+                  </el-option>
                 </el-select>
               </el-col>
 
@@ -146,7 +151,7 @@
         border
         style="width: 100%;">
         <el-table-column
-          prop="TYPE"
+          prop="type"
           label="业务事件类型">
         </el-table-column>
         <el-table-column
@@ -187,7 +192,7 @@
           label="航班日期">
         </el-table-column>
         <el-table-column
-          prop="eventNumber"
+          prop="cardnum"
           label="业务事件编号"
           width="130">
         </el-table-column>
@@ -198,7 +203,7 @@
         <el-table-column
           label="操作">
           <template slot-scope="scope">
-            <el-button class="table-btn" size="mini" plain @click="detailsDialogVisible=true">详情</el-button>
+              <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row)">详情</el-button>
          </template>
         </el-table-column>
       </el-table>
@@ -241,32 +246,31 @@
       :visible.sync="detailsDialogVisible"
       width="600px"
       >
-      <div class="add-dialog">
-        <ul class="nameUi">
-          <li>口岸:</li>
-          <li>航班号:</li>
-          <li>航班日期:</li>
-          <li>出入标识:</li>
-          <li>事件类型:</li>
-          <li>处理结果:</li>
-          <li>处理内容:</li>
-        </ul>
-        <ul class="dataUi">
-          <li>北京</li>
-          <li>CH123456</li>
-          <li>20180303</li>
-          <li>入境</li>
-          <li>报警事件</li>
-          <li>已处理</li>
-          <li>同意解除黑名单</li>
-        </ul>
-        <div style="clear:both">
+        <el-form :model="dform" ref="detailsForm">
+      <el-row type="flex"  class="mb-15">
+        <el-col :span="12">口岸：{{dform.port}}</el-col>
+        <el-col :span="12">航班号：{{dform.fltno}}</el-col>
+      </el-row>
+      <el-row type="flex"  class="mb-15">
+        <el-col :span="12">航班日期：{{dform.SCHEDULEDEPARTURETIME}}</el-col>
+          <el-col :span="12">出入标识：{{dform.FLIGHTTYPE}}</el-col>
 
-        </div>
+
+      </el-row>
+      <el-row type="flex"  class="mb-15">
+
+        <el-col :span="12">事件类型：{{dform.type}}</el-col>
+        <el-col :span="12">处理结果：{{dform.lastcheckresult}}</el-col>
+      </el-row>
+      <el-row type="flex"  class="mb-15">
+        <el-col :span="24">处理内容：{{dform.reason}}</el-col>
+      </el-row>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+
+        <el-button @click="detailsDialogVisible = false" size="small">取消</el-button>
+
       </div>
-      <span slot="footer" class="dialog-footer">
-        <el-button  @click="detailsDialogVisible = false" size="small" style="background-color:#f7f7f7">取消</el-button>
-      </span>
     </el-dialog>
   </div>
 
@@ -286,6 +290,7 @@ export default {
       pageSize: 10,
       TotalResult: 0,
       pd: {type:"0"},
+      dform:{},
       detailsDialogVisible:false,
       options: [{
           value: 10,
@@ -357,6 +362,12 @@ export default {
           this.tableData = r.data.resultList;
           this.TotalResult = r.data.totalResult;
         })
+    },
+    details(i){
+      this.detailsDialogVisible = true;
+      console.log(i);
+      this.dform = i;
+
     },
 
 

@@ -11,7 +11,7 @@
 
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">监控区域：</span>
-              <el-select v-model="pd.syn_flag" placeholder="请选择" size="small" class="input-input">
+              <el-select v-model="pd.synflag" placeholder="请选择" size="small" class="input-input">
                 <el-option value="1" label="DMZ区" >
                 </el-option>
                  <el-option value="" label="业务平台区" >
@@ -21,7 +21,7 @@
             </el-col>
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">日志类型：</span>
-              <el-select v-model="pd.type" placeholder="请选择" size="small" class="input-input">
+              <el-select v-model="pd.rzlx" placeholder="请选择" size="small" class="input-input">
                 <el-option value="0" label="系统日志" >
                 </el-option>
                 <el-option value="1" label="错误日志" >
@@ -65,21 +65,21 @@
 
 
         <el-table-column
-          prop="SYN_FLAG"
+          prop="synFlag"
           label="监控区域">
 
         </el-table-column>
         <el-table-column
-          prop="LOGGER_NAME"
+          prop="rzlx"
           label="日志类型"
           >
         </el-table-column>
         <el-table-column
-          prop="TIMESTMP"
+          prop="timestmp"
           label="生成时间">
         </el-table-column>
         <el-table-column
-          prop="LEVEL_STRING"
+          prop="levelString"
           label="日志内容"
           >
         </el-table-column>
@@ -89,7 +89,7 @@
           <template slot-scope="scope">
             <div class="flex-r">
 
-              <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row.SERIAL)">详情</el-button>
+              <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row)">详情</el-button>
             </div>
 
          </template>
@@ -130,108 +130,19 @@
     <el-dialog
       title="详情"
       :visible.sync="detailsDialogVisible"
-      width="950px">
-      <div class="detail-msg-text">
-        <el-row type="flex" class="detail-msg-row">
-          <el-col :span="8">
-            <span>姓名</span>
-            张某某
+      width="600px">
 
-          </el-col>
-          <el-col :span="8">
-            <span>性别</span>
-            男
-
-          </el-col>
-          <el-col :span="8">
-            <span>出生日期</span>
-            2000年10月10日
-
+      <el-form :model="form">
+     <div class="titile">监控消息</div>
+        <el-row type="flex" class="mb-15">
+          <el-col :span="24" class="titlecontent">
+            {{form.formattedMessage}}
           </el-col>
         </el-row>
-        <el-row type="flex" class="detail-msg-row">
-          <el-col :span="8">
-            <span>国籍</span>/
-            张某某
+      </el-form>
 
-          </el-col>
-          <el-col :span="8">
-            <span>证件号码</span>
-            张某某
-
-          </el-col>
-          <el-col :span="8">
-            <span>签证号码</span>
-            张某某
-
-          </el-col>
-        </el-row>
-        <el-row type="flex" class="detail-msg-row">
-          <el-col :span="8">
-            <span>出入标识</span>
-            张某某
-
-          </el-col>
-          <el-col :span="8">
-            <span>第二证号</span>
-            张某某
-
-          </el-col>
-          <el-col :span="8">
-            <span>第二国籍</span>
-            张某某
-
-          </el-col>
-        </el-row>
-        <el-row type="flex" class="detail-msg-row">
-          <el-col :span="8">
-            <span>航班号</span>
-            张某某
-
-          </el-col>
-          <el-col :span="8">
-            <span>出发地</span>
-            张某某
-
-          </el-col>
-          <el-col :span="8">
-            <span>目的地</span>
-            张某某
-
-          </el-col>
-        </el-row>
-        <el-row type="flex" class="detail-msg-row mb-20">
-          <el-col :span="8">
-            <span>报警类型</span>
-            张某某
-
-          </el-col>
-          <el-col :span="8">
-            <span>报警时间</span>
-            张某某
-
-          </el-col>
-        </el-row>
-        <el-row type="flex" class="detail-msg-row">
-          <el-col :span="5">
-            <span>操作人</span>
-            张某某
-
-          </el-col>
-          <el-col :span="5">
-            <span>审批人</span>
-            张某某
-
-          </el-col>
-          <el-col :span="6">
-            <span>操作时间</span>
-            张某某
-
-          </el-col>
-        </el-row>
-      </div>
       <span slot="footer" class="dialog-footer">
-        <el-button type="warning" @click="detailsDialogVisible = false" size="small">关闭页面</el-button>
+        <el-button  @click="detailsDialogVisible = false" size="small">取消</el-button>
       </span>
     </el-dialog>
   </div>
@@ -245,7 +156,7 @@ export default {
       CurrentPage: 1,
       pageSize: 10,
       TotalResult: 0,
-      pd: {},
+      pd: {rzlx:""},
       nation: [],
       value: '',
       value1: "",
@@ -327,18 +238,14 @@ export default {
       this.$api.post(url, p,
         r => {
           console.log(r);
-          this.tableData = r.Data.ResultList;
-          this.TotalResult = r.Data.TotalResult;
+          this.tableData = r.data.resultList;
+          this.TotalResult = r.data.totalResult;
         })
     },
     details(i) {
       this.detailsDialogVisible = true;
       console.log(i);
-      this.$api.post('/eamp/nameList/getNameListData', i,
-        r => {
-          console.log(r);
-          // this.tableData=r.Data.ResultList;
-        })
+    this.form=i;
     },
 
   }
@@ -360,4 +267,6 @@ export default {
   display: inline-block;
   width: 60px;
 }
+.titile{font-size: 18px; line-height: 40px;border-bottom: 1px solid #368ECD; margin-bottom: 10px;}
+.titlecontent{font-size: 16px;}
 </style>
