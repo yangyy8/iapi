@@ -18,13 +18,13 @@
               <div class="input-input t-flex t-date">
                <el-date-picker
                v-model="pd.startScheduledeparturetime"
-               type="datetime" size="small"
+               type="date" size="small" value-format="yyyyMMdd"
                placeholder="开始时间" align="right" :picker-options="pickerOptions1">
              </el-date-picker>
                <span class="septum">-</span>
              <el-date-picker
                 v-model="pd.endScheduledeparturetime"
-                type="datetime" size="small" align="right"
+                type="date" size="small" align="right" value-format="yyyyMMdd"
                 placeholder="结束时间"  :picker-options="pickerOptions1">
             </el-date-picker>
           </div>
@@ -212,6 +212,7 @@
 </template>
 
 <script>
+// import {formatDate} from '@/assets/js/date.js'
 export default {
   data() {
     return {
@@ -283,6 +284,13 @@ export default {
       console.log(`当前页: ${val}`);
     },
     getList(currentPage, showCount, pd) {
+
+  // if(pd.startScheduledeparturetime!= undefined){
+  //   pd.startScheduledeparturetime= formatDate(pd.startScheduledeparturetime, "yyyy-MM-dd");
+  // }
+  // if(pd.endScheduledeparturetime!= undefined){
+  //   pd.endScheduledeparturetime= formatDate(pd.endScheduledeparturetime, "yyyy-MM-dd");
+  // }
       let p = {
         "currentPage": currentPage,
         "showCount": showCount,

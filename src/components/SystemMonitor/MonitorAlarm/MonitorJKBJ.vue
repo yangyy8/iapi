@@ -8,20 +8,34 @@
               查询条件
             </div>
               <el-row align="center"   :gutter="2" >
+                <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+                  <span class="input-text">监控区域：</span>
+                  <el-select v-model="pd.airlineCompanyIdEqual"  placeholder="请选择" size="small" class="input-input">
+                     <el-option
+                       v-for="item in company"
+                       :key="item.AIRLINE_CODE"
+                       :label="item.AIRLINE_CHN_NAME"
+                       :value="item.AIRLINE_CODE" >
+                     </el-option>
+                   </el-select>
+
+                </el-col>
               <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                 <span class="input-text">监控对象：</span>
-                <el-select v-model="pd.airlineCompanyIdEqual" filterable @visible-change="queryNationality" placeholder="请选择" size="small" class="input-input">
-                   <el-option
-                     v-for="item in company"
-                     :key="item.AIRLINE_CODE"
-                     :label="item.AIRLINE_CHN_NAME"
-                     :value="item.AIRLINE_CODE" >
+                <el-select v-model="pd.MCLASS"  placeholder="请选择" size="small" class="input-input">
+                   <el-option value="SYS" label="系统监控" >
+                   </el-option>
+                   <el-option value="DAT" label="数据监控" >
+                   </el-option>
+                   <el-option value="LOG" label="日志监控" >
+                   </el-option>
+                   <el-option value="PER" label="性能监控" >
                    </el-option>
                  </el-select>
               </el-col>
               <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                 <span class="input-text">报警类型：</span>
-                <el-select v-model="pd.airlineCompanyIdEqual" filterable @visible-change="queryNationality" placeholder="请选择" size="small" class="input-input">
+                <el-select v-model="pd.airlineCompanyIdEqual"  placeholder="请选择" size="small" class="input-input">
                    <el-option
                      v-for="item in company"
                      :key="item.AIRLINE_CODE"
@@ -32,7 +46,7 @@
               </el-col>
               <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                 <span class="input-text">处理状态：</span>
-                <el-select v-model="pd.airlineCompanyIdEqual" filterable @visible-change="queryNationality" placeholder="请选择" size="small" class="input-input">
+                <el-select v-model="pd.airlineCompanyIdEqual"  placeholder="请选择" size="small" class="input-input">
                    <el-option
                      v-for="item in company"
                      :key="item.AIRLINE_CODE"
@@ -41,11 +55,26 @@
                    </el-option>
                  </el-select>
               </el-col>
+              <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+                <span class="input-text">报警时间：</span>
+                <div class="input-input t-flex t-date">
+                 <el-date-picker
+                 v-model="pd.STARTTIME"
+                 type="date" size="small" value-format="yyyyMMdd"
+                 placeholder="开始时间"  :picker-options="pickerOptions1">
+               </el-date-picker>
+                 <span class="septum">-</span>
+               <el-date-picker
+                  v-model="pd.ENDTIME"
+                  type="date" size="small" value-format="yyyyMMdd"
+                  placeholder="结束时间" :picker-options="pickerOptions1">
+              </el-date-picker>
+            </div>
+              </el-col>
             </el-row>
           </el-col>
           <el-col :span="4" class="down-btn-area" style="margin-top:25px;">
-            <el-button type="success" size="small" @click="getList(pd)">查询</el-button>
-
+            <el-button type="success" size="small" @click="getlist(pd)">查询</el-button>
           </el-col>
         </el-row>
        </div>
@@ -69,15 +98,15 @@
                </template>
              </el-table-column>
              <el-table-column
-               prop="instanceName"
+               prop="MTYPE"
                label="报警类型">
              </el-table-column>
              <el-table-column
-               prop="instanceName"
+               prop="createtime"
                label="报警时间">
              </el-table-column>
              <el-table-column
-               prop="instanceName"
+               prop="CONTENT"
                label="报警内容">
              </el-table-column>
              <el-table-column
@@ -109,26 +138,23 @@
 export default {
   data() {
     return {
-      pd: {
-        zone: ""
-      },
+      pd: {},
       tableData: [],
       tableData1: [],
       tableData2: []
     }
   },
-  created() {
-    this.getlist({});
+  mounted() {
+    this.getlist(this.pd);
   },
   methods: {
     getlist(pd) {
-      this.$api.post('/eamp/monitorDB/queryMonitorDB', pd,
+console.log("==="+pd);
+      this.$api.post('/eamp/monitorAlarm/queryAlarm', pd,
         r => {
           console.log(r);
           console.log(r.data.instance, "r.data.instance");
-
-          this.tableData = r.data.instance;
-          this.tableData2 = r.data.tablespace;
+          this.tableData = r.data.pdList;
         })
     }
 

@@ -22,7 +22,7 @@
   </div>
   <transition name="el-zoom-in-left">
     <div class="left-list" v-if="showLeft">
-      <img src="../../../assets/img/qgjk/list1.png" alt="" @click="showLeft=false">
+      <img src="../../../assets/img/qgjk/list1.png" alt="" @click="getLeftData">
     </div>
   </transition>
   <transition name="el-zoom-in-left">
@@ -59,10 +59,10 @@
                   计划
                 </div>
                 <div class="td2">
-                  2880
+                  {{hbsl.inScheduleCount}}
                 </div>
                 <div class="td3">
-                  2880
+                  {{hbsl.outScheduleCount}}
                 </div>
               </li>
               <li class="middleLi">
@@ -70,10 +70,10 @@
                   预检
                 </div>
                 <div class="td2">
-                  2880
+                  {{hbsl.inCheckCount}}
                 </div>
                 <div class="td3">
-                  2880
+                  {{hbsl.outCheckCount}}
                 </div>
               </li>
               <li class="middleLi">
@@ -81,10 +81,10 @@
                   取消
                 </div>
                 <div class="td2">
-                  2880
+                  {{hbsl.inCancelCount}}
                 </div>
                 <div class="td3">
-                  2880
+                  {{hbsl.outCancelCount}}
                 </div>
               </li>
               <li class="middleLi">
@@ -92,10 +92,10 @@
                   重点
                 </div>
                 <div class="td2">
-                  2880
+                  {{hbsl.inFocusCount}}
                 </div>
                 <div class="td3">
-                  2880
+                  {{hbsl.outFocusCount}}
                 </div>
               </li>
               <li class="middleLi">
@@ -103,10 +103,10 @@
                   延误
                 </div>
                 <div class="td2">
-                  2880
+                  {{hbsl.inDelayCount}}
                 </div>
                 <div class="td3">
-                  2880
+                  {{hbsl.outDelayCount}}
                 </div>
               </li>
               <li class="middleLi">
@@ -114,10 +114,10 @@
                   实际
                 </div>
                 <div class="td2">
-                  2880
+                  {{hbsl.inRealCount}}
                 </div>
                 <div class="td3">
-                  2880
+                  {{hbsl.outRealCount}}
                 </div>
               </li>
             </ul>
@@ -148,133 +148,42 @@
                   出境
                 </div>
                 <div class="td2">
-                  入境
+                  预检
                 </div>
                 <div class="td2">
-                  出境
+                  重点
                 </div>
                 <div class="td2">
-                  入境
+                  取消
                 </div>
                 <div class="td2">
-                  出境
+                  延误
                 </div>
               </li>
-              <li class="middleLi2">
+              <li class="middleLi2" v-for="i in kahb">
                 <div class="td1">
-                  北京
+                  {{i.portName}}
                 </div>
                 <div class="td2">
-                  4000
+                  {{i.inScheduleCount}}
                 </div>
                 <div class="td2">
-                  4000
+                  {{i.outScheduleCount}}
                 </div>
                 <div class="td2">
-                  4000
+                  {{i.inCheckCount+i.outCheckCount}}
                 </div>
                 <div class="td2">
-                  4000
+                  {{i.inFocusCount+i.outFocusCount}}
                 </div>
                 <div class="td2">
-                  4000
+                  {{i.inCancelCount+i.outCancelCount}}
                 </div>
                 <div class="td2">
-                  4000
+                  {{i.inDelayCount+i.outDelayCount}}
                 </div>
               </li>
-              <li class="middleLi2">
-                <div class="td1">
-                  北京
-                </div>
-                <div class="td2">
-                  4000
-                </div>
-                <div class="td2">
-                  4000
-                </div>
-                <div class="td2">
-                  4000
-                </div>
-                <div class="td2">
-                  4000
-                </div>
-                <div class="td2">
-                  4000
-                </div>
-                <div class="td2">
-                  4000
-                </div>
-              </li>
-              <li class="middleLi2">
-                <div class="td1">
-                  北京
-                </div>
-                <div class="td2">
-                  4000
-                </div>
-                <div class="td2">
-                  4000
-                </div>
-                <div class="td2">
-                  4000
-                </div>
-                <div class="td2">
-                  4000
-                </div>
-                <div class="td2">
-                  4000
-                </div>
-                <div class="td2">
-                  4000
-                </div>
-              </li>
-              <li class="middleLi2">
-                <div class="td1">
-                  北京
-                </div>
-                <div class="td2">
-                  4000
-                </div>
-                <div class="td2">
-                  4000
-                </div>
-                <div class="td2">
-                  4000
-                </div>
-                <div class="td2">
-                  4000
-                </div>
-                <div class="td2">
-                  4000
-                </div>
-                <div class="td2">
-                  4000
-                </div>
-              </li>
-              <li class="middleLi2">
-                <div class="td1">
-                  北京
-                </div>
-                <div class="td2">
-                  4000
-                </div>
-                <div class="td2">
-                  4000
-                </div>
-                <div class="td2">
-                  4000
-                </div>
-                <div class="td2">
-                  4000
-                </div>
-                <div class="td2">
-                  4000
-                </div>
-                <div class="td2">
-                  4000
-                </div>
-              </li>
+
             </ul>
           </div>
         </div>
@@ -283,7 +192,7 @@
   </transition>
   <transition name="el-zoom-in-right">
     <div class="right-list" v-show="showRight">
-      <img src="../../../assets/img/qgjk/list2.png" alt="" @click="showRight=false">
+      <img src="../../../assets/img/qgjk/list2.png" alt="" @click="getRightData">
     </div>
   </transition>
   <transition name="el-zoom-in-right">
@@ -348,7 +257,7 @@
               </li>
               <li class="middleLi3">
                 <div class="td1">
-                  取消
+                  登记
                 </div>
                 <div class="td2">
                   2880
@@ -360,7 +269,20 @@
                   2880
                 </div>
               </li>
-
+              <li class="middleLi3">
+                <div class="td1">
+                  实际
+                </div>
+                <div class="td2">
+                  2880
+                </div>
+                <div class="td2">
+                  2880
+                </div>
+                <div class="td2">
+                  2880
+                </div>
+              </li>
             </ul>
           </div>
         </div>
@@ -540,28 +462,300 @@
     </div>
   </transition>
   <transition name="el-zoom-in-top">
-    <div class="tan-box" v-show="tabId==2">
+    <div class="tan-box width2" v-show="tabId==2">
       <span class="top-left"></span>
       <span class="top-right"></span>
       <span class="down-left"></span>
       <span class="down-right"></span>
       <div class="tan-row2">
         <div class="tan-row-text">
-          境外口岸
+          航班筛选条件：
+        </div>
+        <el-row :gutter="10" class="bb">
+          <el-col :sm="24" :md="12" :lg="8" class="hb-item">
+            <span class="item-text">航站/口岸：</span>
+            <el-select placeholder="请选择"  filterable @visible-change="" @change="" size="mini"  class="item-input">
+              <el-option
+                v-for="item in chauName"
+                :key="item.code"
+                :value="item.code"
+                :label="item.name">
+
+                </el-option>
+            </el-select>
+          </el-col>
+          <el-col :sm="24" :md="12" :lg="8" class="hb-item">
+            <span class="item-text">航班号：</span>
+            <el-select placeholder="请选择"  filterable  size="mini"  class="item-input">
+              <el-option
+                v-for="item in selection"
+                :key="item.code"
+                :value="item.code"
+                :label="item.name"
+              ></el-option>
+            </el-select>
+          </el-col>
+          <el-col :sm="24" :md="12" :lg="8" class="hb-item">
+            <span class="item-text">航空公司：</span>
+            <el-select placeholder="请选择"  filterable @visible-change=""  size="mini"  class="item-input">
+              <el-option
+                v-for="item in idName"
+                :key="item.CODE"
+                :value="item.CODE"
+                :label="item.NAME"
+              ></el-option>
+            </el-select>
+          </el-col>
+
+          <el-col :sm="24" :md="12" :lg="8" class="hb-item">
+            <span class="item-text">航班日期：</span>
+            <el-select placeholder="请选择" size="mini"  class="item-input">
+              <el-option label="男" value="M"></el-option>
+              <el-option label="女" value="F"></el-option>
+              <el-option label="未知" value="U"></el-option>
+            </el-select>
+          </el-col>
+          <el-col :sm="24" :md="12" :lg="8" class="hb-item">
+            <span class="item-text">出发时间：</span>
+            <el-select placeholder="请选择" size="mini"  class="item-input">
+              <el-option label="男" value="M"></el-option>
+              <el-option label="女" value="F"></el-option>
+              <el-option label="未知" value="U"></el-option>
+            </el-select>
+          </el-col>
+          <el-col :sm="24" :md="12" :lg="8" class="hb-item">
+            <span class="item-text">到达时间：</span>
+            <el-select placeholder="请选择" size="mini"  class="item-input">
+              <el-option label="男" value="M"></el-option>
+              <el-option label="女" value="F"></el-option>
+              <el-option label="未知" value="U"></el-option>
+            </el-select>
+          </el-col>
+          <el-col :sm="24" :md="12" :lg="8" class="hb-item">
+            <span class="item-text">出入标识：</span>
+            <el-select placeholder="请选择" size="mini"  class="item-input">
+              <el-option label="男" value="M"></el-option>
+              <el-option label="女" value="F"></el-option>
+              <el-option label="未知" value="U"></el-option>
+            </el-select>
+          </el-col>
+        </el-row>
+        <div class="tan-btn-g">
+          <el-button type="primary" size="small" class="mr-10">清空</el-button>
+          <el-button type="success" size="small" class="mr-10">取消</el-button>
+          <el-button type="info" size="small">确定</el-button>
+        </div>
+        <div class="tan-row-text">
+          航班监控表：
+        </div>
+        <el-table
+          :data="tableData"
+          border
+          style="width: 100%">
+          <el-table-column
+            prop="date"
+            label="预计起飞">
+          </el-table-column>
+          <el-table-column
+            prop="name"
+            label="预计抵达">
+          </el-table-column>
+          <el-table-column
+            prop="address"
+            label="航班日期">
+          </el-table-column>
+          <el-table-column
+            prop="date"
+            label="航班号">
+          </el-table-column>
+          <el-table-column
+            prop="date"
+            label="航空公司">
+          </el-table-column>
+          <el-table-column
+            prop="date"
+            label="出发地">
+          </el-table-column>
+          <el-table-column
+            prop="date"
+            label="到达地">
+          </el-table-column>
+          <el-table-column
+            prop="date"
+            label="清关城市">
+          </el-table-column>
+          <el-table-column
+            label="操作">
+          </el-table-column>
+        </el-table>
+        <div class="tan-btn-g">
+          <el-button type="info" size="small"  @click="tabId=0">关闭</el-button>
         </div>
       </div>
     </div>
   </transition>
 
   <transition name="el-zoom-in-top">
-    <div class="tan-box" v-show="tabId==3">
+    <div class="tan-box width3" v-show="tabId==3">
       <span class="top-left"></span>
       <span class="top-right"></span>
       <span class="down-left"></span>
       <span class="down-right"></span>
       <div class="tan-row2">
         <div class="tan-row-text">
-          航班筛选条件
+          航班筛选条件：
+        </div>
+        <el-row :gutter="10" class="bb">
+          <el-col :sm="24" :md="12" :lg="6" class="hb-item">
+            <span class="item-text">航站/口岸：</span>
+            <el-select placeholder="请选择"  filterable @visible-change="" @change="" size="mini"  class="item-input">
+              <el-option
+                v-for="item in chauName"
+                :key="item.code"
+                :value="item.code"
+                :label="item.name">
+
+                </el-option>
+            </el-select>
+          </el-col>
+          <el-col :sm="24" :md="12" :lg="6" class="hb-item">
+            <span class="item-text">证件号码：</span>
+            <el-select placeholder="请选择"  filterable  size="mini"  class="item-input">
+              <el-option
+                v-for="item in selection"
+                :key="item.code"
+                :value="item.code"
+                :label="item.name"
+              ></el-option>
+            </el-select>
+          </el-col>
+          <el-col :sm="24" :md="12" :lg="6" class="hb-item">
+            <span class="item-text">国籍：</span>
+            <el-select placeholder="请选择"  filterable @visible-change=""  size="mini"  class="item-input">
+              <el-option
+                v-for="item in idName"
+                :key="item.CODE"
+                :value="item.CODE"
+                :label="item.NAME"
+              ></el-option>
+            </el-select>
+          </el-col>
+
+          <el-col :sm="24" :md="12" :lg="6" class="hb-item">
+            <span class="item-text">姓名：</span>
+            <el-select placeholder="请选择" size="mini"  class="item-input">
+              <el-option label="男" value="M"></el-option>
+              <el-option label="女" value="F"></el-option>
+              <el-option label="未知" value="U"></el-option>
+            </el-select>
+          </el-col>
+          <el-col :sm="24" :md="12" :lg="6" class="hb-item">
+            <span class="item-text">性别：</span>
+            <el-select placeholder="请选择" size="mini"  class="item-input">
+              <el-option label="男" value="M"></el-option>
+              <el-option label="女" value="F"></el-option>
+              <el-option label="未知" value="U"></el-option>
+            </el-select>
+          </el-col>
+          <el-col :sm="24" :md="12" :lg="6" class="hb-item">
+            <span class="item-text">出生日期：</span>
+            <el-select placeholder="请选择" size="mini"  class="item-input">
+              <el-option label="男" value="M"></el-option>
+              <el-option label="女" value="F"></el-option>
+              <el-option label="未知" value="U"></el-option>
+            </el-select>
+          </el-col>
+          <el-col :sm="24" :md="12" :lg="6" class="hb-item">
+            <span class="item-text">出入标识：</span>
+            <el-select placeholder="请选择" size="mini"  class="item-input">
+              <el-option label="男" value="M"></el-option>
+              <el-option label="女" value="F"></el-option>
+              <el-option label="未知" value="U"></el-option>
+            </el-select>
+          </el-col>
+          <el-col :sm="24" :md="12" :lg="6" class="hb-item">
+            <span class="item-text">航班号：</span>
+            <el-select placeholder="请选择" size="mini"  class="item-input">
+              <el-option label="男" value="M"></el-option>
+              <el-option label="女" value="F"></el-option>
+              <el-option label="未知" value="U"></el-option>
+            </el-select>
+          </el-col>
+          <el-col :sm="24" :md="12" :lg="6" class="hb-item">
+            <span class="item-text">航班日期：</span>
+            <el-select placeholder="请选择" size="mini"  class="item-input">
+              <el-option label="男" value="M"></el-option>
+              <el-option label="女" value="F"></el-option>
+              <el-option label="未知" value="U"></el-option>
+            </el-select>
+          </el-col>
+          <el-col :sm="24" :md="12" :lg="6" class="hb-item">
+            <span class="item-text">出发时间：</span>
+            <el-select placeholder="请选择" size="mini"  class="item-input">
+              <el-option label="男" value="M"></el-option>
+              <el-option label="女" value="F"></el-option>
+              <el-option label="未知" value="U"></el-option>
+            </el-select>
+          </el-col>
+          <el-col :sm="24" :md="12" :lg="6" class="hb-item">
+            <span class="item-text">到达时间：</span>
+            <el-select placeholder="请选择" size="mini"  class="item-input">
+              <el-option label="男" value="M"></el-option>
+              <el-option label="女" value="F"></el-option>
+              <el-option label="未知" value="U"></el-option>
+            </el-select>
+          </el-col>
+        </el-row>
+        <div class="tan-btn-g">
+          <el-button type="primary" size="small" class="mr-10">清空</el-button>
+          <el-button type="success" size="small" class="mr-10">取消</el-button>
+          <el-button type="info" size="small">查询</el-button>
+        </div>
+        <div class="tan-row-text">
+          人员监控表：
+        </div>
+        <el-table
+          :data="tableData"
+          border
+          style="width: 100%">
+          <el-table-column
+            prop="date"
+            label="预计起飞">
+          </el-table-column>
+          <el-table-column
+            prop="name"
+            label="预计抵达">
+          </el-table-column>
+          <el-table-column
+            prop="address"
+            label="航班日期">
+          </el-table-column>
+          <el-table-column
+            prop="date"
+            label="航班号">
+          </el-table-column>
+          <el-table-column
+            prop="date"
+            label="证件号码">
+          </el-table-column>
+          <el-table-column
+            prop="date"
+            label="国籍">
+          </el-table-column>
+          <el-table-column
+            prop="date"
+            label="姓名">
+          </el-table-column>
+          <el-table-column
+            prop="date"
+            label="出生日期">
+          </el-table-column>
+          <el-table-column
+            label="操作">
+          </el-table-column>
+        </el-table>
+        <div class="tan-btn-g">
+          <el-button type="info" size="small" @click="tabId=0">关闭</el-button>
         </div>
       </div>
     </div>
@@ -596,13 +790,25 @@ export default {
   data() {
     return {
       tabId: 0,
-      crType: "0",
-      title: "图表",
-      placeholder: "用户名/电话",
+      crType:0,
+      newHbData:{},
+      hbsl:{},
+      kahb:{},
+      rygk:{},
+      kary:{},
+      newHbData:[],
       showLeft: true,
       showRight: true,
-      find: "2", //1显示新增按钮，2显示导入按钮，若不显示这两个按钮可以写0或者不写值
       chart: null,
+      tableData: [{
+         date: '2016',
+         name: '王小虎',
+         address: '1518'
+       }, {
+         date: '2016',
+         name: '王小虎',
+         address: '1517'
+       }],
       geoCoordMap: {
         '南宁': [108.479, 23.1152],
         '广州': [113.5107, 23.2196],
@@ -618,85 +824,52 @@ export default {
         '英国': [-0.126608, 51.208425],
         '加拿大': [-102.646409, 59.994255]
       },
-      // 重庆
-      CQData: [
-        [{
-          name: '重庆'
-        }, {
-          name: "芬兰",
-          value: 30
-        }],
-        [{
-          name: '重庆'
-        }, {
-          name: "德国",
-          value: 90
-        }],
-        [{
-          name: '重庆'
-        }, {
-          name: "英国",
-          value: 30
-        }],
-        [{
-          name: '重庆'
-        }, {
-          name: "韩国",
-          value: 30
-        }]
-      ],
-
-      // 广州
-      GZData: [
-        [{
-          name: '广州'
-        }, {
-          name: "日本",
-          value: 30
-        }],
-        [{
-          name: '广州'
-        }, {
-          name: "东南亚",
-          value: 30
-        }]
-      ],
-
-      // 南宁
-      NNData: [
-        [{
-          name: '南宁'
-        }, {
-          name: "加拿大",
-          value: 30
-        }],
-        [{
-          name: '南宁'
-        }, {
-          name: "美国",
-          value: 100
-        }],
-        [{
-          name: '南宁'
-        }, {
-          name: "澳大利亚",
-          value: 95
-        }],
-        [{
-          name: '南宁'
-        }, {
-          name: "瑞士",
-          value: 30
-        }]
-      ],
       planePath: 'path://M1705.06,1318.313v-89.254l-319.9-221.799l0.073-208.063c0.521-84.662-26.629-121.796-63.961-121.491c-37.332-0.305-64.482,36.829-63.961,121.491l0.073,208.063l-319.9,221.799v89.254l330.343-157.288l12.238,241.308l-134.449,92.931l0.531,42.034l175.125-42.917l175.125,42.917l0.531-42.034l-134.449-92.931l12.238-241.308L1705.06,1318.313z',
-      color: ['#10fb46', '#dcbf71'], // 自定义图中要用到的颜色
-      series: [], // 用来存储地图数据
+
+      series: [
+        {
+          type: 'effectScatter',
+          coordinateSystem: 'geo',
+          zlevel: 3,
+          rippleEffect: {
+            brushType: 'stroke'
+          },
+          symbolSize: function(val) {
+            return val[2] / 6;
+          },
+          data: [{
+            // 这里面的数据，由于一开始就知道终点位置是什么，所以直接写死，如果通过ajax来获取数据的话，还要进行相应的处理
+            name: "重庆",
+            value: [107.7539, 30.1904, 30],
+            label: {
+              normal: {
+                position: 'top'
+              }
+            }
+          }, {
+            name: '广州',
+            value: [113.5107, 23.2196, 30],
+            label: {
+              normal: {
+                position: 'right'
+              }
+            }
+          }, {
+            name: '南宁',
+            value: [108.479, 23.1152, 30]
+          }],
+          itemStyle: {
+            normal: {
+              color: '#10fb46'
+            }
+          },
+        }
+      ], // 用来存储地图数据
     };
   },
 
   mounted() {
-    this.fn();
+    this.initChart(this.series);
     // this.chinaConfigure();
   },
   beforeDestroy() {
@@ -707,190 +880,86 @@ export default {
     this.chart = null;
   },
   methods: {
-
-    //搜索回调
-    searchItem(val) {
-      console.log(val)
-    },
-    //新增回调
-    addNew(val) {
-      console.log(val)
-    },
-    //导入
-    leadingItem(val) {
-      console.log(val)
-    },
-    // 获取地图中起点和终点的坐标，以数组形式保存下来
-    convertData(data) {
-      var res = [];
-      for (var i = 0; i < data.length; i++) {
-        var dataItem = data[i];
-        var fromCoord = this.geoCoordMap[dataItem[1].name];
-        var toCoord = this.geoCoordMap[dataItem[0].name];
-        if (fromCoord && toCoord) {
-          res.push([{
-            coord: fromCoord // 起点坐标
-          }, {
-            coord: toCoord // 终点坐标
-          }])
-        }
-      }
-      return res;
-    },
-    fn() {
-        /*
-          图中一共用到三种效果，分别为航线特效图、飞机航线图以及城市图标涟漪图。
-          要用到setOption中的series属性，并且对每个城市都要进行三次设置。
-      */
-      let that = this;
-      [
-        ['重庆', this.CQData],
-        ['广州', this.GZData],
-        ['南宁', this.NNData]
-      ].forEach(function(item, i) {
-        that.series.push({
-          // 白色航线特效图
-          type: 'lines',
-          zlevel: 1, // 用于分层，z-index的效果
-          effect: {
-            show: true, // 动效是否显示
-            period: 6, // 特效动画时间
-            trailLength: 0.7, // 特效尾迹的长度
-            color: '#fff', // 特效颜色
-            symbolSize: 3 // 特效大小
-          },
-          lineStyle: {
-            normal: { // 正常情况下的线条样式
-              color: that.color[0],
-              width: 0, // 因为是叠加效果，要是有宽度，线条会变粗，白色航线特效不明显
-              curveness: -0.2 // 线条曲度
-            }
-          },
-          data: that.convertData(item[1]) // 特效的起始、终点位置
-        }, { // 小飞机航线效果
-          type: 'lines',
-          zlevel: 2,
-          //symbol: ['none', 'arrow'],   // 用于设置箭头
-          symbolSize: 10,
-          effect: {
-            show: true,
-            period: 6,
-            trailLength: 0,
-            symbol: that.planePath, // 特效形状，可以用其他svg pathdata路径代替
-            symbolSize: 15
-          },
-          lineStyle: {
-            normal: {
-              color: that.color[0],
-              width: 1,
-              opacity: 0.6,
-              curveness: -0.2
-            }
-          },
-          data: that.convertData(item[1]) // 特效的起始、终点位置，一个二维数组，相当于coords: convertData(item[1])
-        }, { // 散点效果
-          type: 'effectScatter',
-          coordinateSystem: 'geo', // 表示使用的坐标系为地理坐标系
-          zlevel: 3,
-          rippleEffect: {
-            brushType: 'stroke' // 波纹绘制效果
-          },
-          label: {
-            normal: { // 默认的文本标签显示样式
-              show: true,
-              position: 'left', // 标签显示的位置
-              formatter: '{b}' // 标签内容格式器
-            }
-          },
-          itemStyle: {
-            normal: {
-              color: '#ffffff'
-            }
-          },
-          data: item[1].map(function(dataItem) {
-            return {
-              name: dataItem[1].name,
-              value: that.geoCoordMap[dataItem[1].name], // 起点的位置
-              symbolSize: dataItem[1].value / 8, // 散点的大小，通过之前设置的权重来计算，val的值来自data返回的value
-            };
-          })
-        });
+    getLeftData(){
+      this.showLeft=false;
+      this.$api.post('/eamp/nationwide/getFlightCountToday',{},
+       r => {
+         console.log(r);
+         this.hbsl=r.data;
       });
-
-      // 显示终点位置,类似于上面最后一个效果，放在外面写，是为了防止被循环执行多次
-      that.series.push({
-        type: 'effectScatter',
-        coordinateSystem: 'geo',
-        zlevel: 3,
-        rippleEffect: {
-          brushType: 'stroke'
-        },
-        label: {
-          normal: {
-            show: true,
-            position: 'left',
-            formatter: '{b}'
-          }
-        },
-        symbolSize: function(val) {
-          return val[2] / 8;
-        },
-        itemStyle: {
-          normal: {
-            color: that.color[1]
-          }
-        },
-        data: [{
-          // 这里面的数据，由于一开始就知道终点位置是什么，所以直接写死，如果通过ajax来获取数据的话，还要进行相应的处理
-          name: "重庆",
-          value: [107.7539, 30.1904, 30],
-          label: {
-            normal: {
-              position: 'top'
-            }
-          }
-        }, {
-          name: '广州',
-          value: [113.5107, 23.2196, 30],
-          label: {
-            normal: {
-              position: 'right'
-            }
-          }
-        }, {
-          name: '南宁',
-          value: [108.479, 23.1152, 30]
-        }]
-      });
-      console.log(that.series)
-      this.initChart(that.series)
+      this.$api.post('/eamp/nationwide/getFlightPortCountToday',{},
+       r => {
+         console.log(r);
+         this.kahb=r.data;
+      })
     },
+    getRightData(){
+      this.showRight=false;
+      this.$api.post('/eamp/nationwide/getTravelerCountToday',{},
+       r => {
+         console.log(r);
+         this.rygk=r.data;
+      });
+      this.$api.post('/eamp/nationwide/getTravelerPortCountToday',{},
+       r => {
+         console.log(r);
+         this.kary=r.data;
+      })
+    },
+    // 最新航班监控信息取得
+    getNewData(){
+      this.$api.post('/eamp/nationwide/getFlightMonitorInfo',{},
+       r => {
+         console.log(r);
+         this.newHbData=r.data;
+      })
+    },
+    // 航班详细信息取得
+    getXqHb(fk){
+      // ?fk=CZ3221806162230
+      this.$api.post('/eamp/nationwide/getFlightDetail',{fk:fk},
+       r => {
+         console.log(r);
+         this.newHbData=r.data;
+      })
+    },
+    //口岸详细信息取得
+    getXqKa(port){
+      // ?fk=CZ3221806162230
+      this.$api.post('/eamp/nationwide/getPortDetail',{port:port},
+       r => {
+         console.log(r);
+         this.newHbData=r.data;
+      })
+    },
+
+
+
     initChart(series) {
 
       this.chart = echarts.init(this.$refs.myEchart);
       window.onresize = echarts.init(this.$refs.myEchart).resize;
       // 把配置和数据放这里
       this.chart.setOption({
-        // backgroundColor: "#040c21",
-
-        //  title: {
-        //     text: '全国主要城市空气质量',
-        //     subtext: 'data from PM25.in',
-        //     sublink: 'http://www.pm25.in',
-        //     left: 'center',
-        //     textStyle: {
-        //         color: '#fff'
-        //     }
-        // },
         geo: {
           map: 'world', // 与引用进来的地图js名字一致
           roam: true, // 禁止缩放平移
+          nameMap:{
+            // 'China':'中国'
+          },
+          label:{
+            // show:true,
+            emphasis: {
+              show: false
+            }
+          },
           itemStyle: { // 每个区域的样式
+            borderWidth:10,
             normal: {
               areaColor: '#02b0d2'
             },
             emphasis: {
-              areaColor: '#3dbb7a'
+              areaColor: '#02b0d2'
             }
           },
           regions: [{ // 选中的区域
@@ -907,11 +976,19 @@ export default {
               }
             }
           }]
-        },
-        series: series, // 将之前处理的数据放到这里
-        textStyle: {
-          fontSize: 12
-        }
+          },
+          tooltip : {
+               trigger: 'item',
+               formatter: '{b}<br/>{c}',
+               backgroundColor:'#143652',
+               padding:10,
+               borderColor:'#028bd0',
+               borderWidth:1
+           },
+          series: series, // 将之前处理的数据放到这里
+          textStyle: {
+            fontSize: 12
+          }
       });
     }
   }

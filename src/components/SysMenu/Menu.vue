@@ -3,10 +3,10 @@
       <div class="middle">
           <div class="ak-tab">
             <div class="ak-tabs">
-              <div class="ak-tab-item hand" :class="{'ak-checked':page==0}" @click="based">
-                业务处理
+              <div class="ak-tab-item hand" :class="{'ak-checked':page==i.SERIAL}" @click="based(i)" v-for="i in menuList">
+                {{i.name}}
               </div>
-              <div class="ak-tab-item hand" :class="{'ak-checked':page==1}" @click="page=1;">
+              <!-- <div class="ak-tab-item hand" :class="{'ak-checked':page==1}" @click="page=1;">
                 业务应用
               </div>
               <div class="ak-tab-item hand" :class="{'ak-checked':page==2}" @click="page=2;">
@@ -20,56 +20,43 @@
               </div>
               <div class="ak-tab-item hand" :class="{'ak-checked':page==5}" @click="page=5;">
                 系统监控
-              </div>
+              </div> -->
             </div>
           </div>
+          <div class="ak-tab-pane" >
+            <el-row type="flex" style="height:100%" v-for="x in menuList2">
+              <el-col :span="24" >
+                <span style="color:#BBBBBB; font-weight: bold">{{x.name}}</span>
+                <ul  class="checkmenu-ul">
+                    <li v-for='i in x.menuList' @click="checkmm(i)" class="checkmenu mr-30 hand">
 
-              <div class="ak-tab-pane" >
-                <el-row type="flex" style="height:100%" v-show="page==0">
-                  <el-col :span="24" style="color:#BBBBBB; font-weight: bold">
-                    <span>名单管理</span>
-                    <ul  class="checkmenu-ul">
-                        <li v-for='i in nav1List3[0].list' @click="checkmm(i)" @mouseover="checkmm()" class="checkmenu mr-30 hand">
+                      <img src="../../assets/img/menu/menu1.png" alt="" v-if="!i.choose">
+                      <!-- <img src="../../assets/img/menu/menu2.png" alt="" > -->
+                      <img src="../../assets/img/menu/menu3.png" alt="" v-if="i.choose">
 
-                          <img src="../../assets/img/menu/menu1.png" alt="" v-if="i.incy==0">
-                          <!-- <img src="../../assets/img/menu/menu2.png" alt="" > -->
-                          <img src="../../assets/img/menu/menu3.png" alt="" v-if="i.incy==1">
+                      <span :class="{'ckeckNav':i.choose}">{{i.name}}</span>
+                    </li>
+                </ul>
 
-                          <span>{{i.text}}</span>
-                        </li>
-                    </ul>
+              </el-col>
+            </el-row>
+          </div>
 
-                  </el-col>
-                </el-row>
-                <el-row type="flex" style="height:100%" v-show="page==1">
-                  <el-col :span="24" >adsfsdf</el-col>
-                </el-row>
-                <el-row type="flex" style="height:100%" v-show="page==2">
-                  <el-col :span="24" >adsfsdf</el-col>
-                </el-row>
-                <el-row type="flex" style="height:100%" v-show="page==3">
-                  <el-col :span="24" >adsfsdf</el-col>
-                </el-row>
-                <el-row type="flex" style="height:100%" v-show="page==4">
-                  <el-col :span="24" >adsfsdf</el-col>
-                </el-row>
-                <el-row type="flex" style="height:100%" v-show="page==5">
-                  <el-col :span="24" >adsfsdf</el-col>
-                </el-row>
-              </div>
-
-                <div  class="checktitle">已添加</div>
-                <div class="ak-tab-pane1" >
-                  <ul  class="checkmenu-ul">
-                      <li v-for='i in nav1List' class="checkmenu mr-30 hand">
+          <div  class="checktitle">
+            <span>已添加</span>
+            <el-button type="primary" plain size='small' @click="update">保存</el-button>
+          </div>
+          <div class="ak-tab-pane1" >
+            <ul  class="checkmenu-ul">
+                <li v-for='i in nav1List' class="checkmenu mr-30 hand">
 
 
-                        <img src="../../assets/img/menu/menu2.png">
+                  <img src="../../assets/img/menu/menu2.png">
 
-                        <span>{{i.text}}</span>
-                      </li>
-                  </ul>
-                </div>
+                  <span class="ckeckNav">{{i.name}}</span>
+                </li>
+            </ul>
+          </div>
       </div>
   </div>
 </template>
@@ -78,83 +65,70 @@
 export default {
   data() {
     return {
-        page: 0,
-        nav1List:[],
-        nav1List3: [{
-            id: 1,
-            text: "名单管理",
-            list: [{
-                id: 11,
-                text: "名单数据分析",
-                name: "ListMDSJFX",
-                incy:0
-              },
-              {
-                id: 12,
-                text: "白名单管理",
-                name: "ListBMD",
-                incy:0
-              },
-              {
-                id: 13,
-                text: "临控名单管理",
-                name: "ListLKMD",
-                incy:0
-              },
-              {
-                id: 14,
-                text: "重点关注人员",
-                name: "LIstZDGZRYMD",
-                incy:0
-              },
-
-            ]
-          },
-          {
-            id: 2,
-            text: "业务规则管理",
-            list: [{
-                id: 21,
-                text: "数据项校验规则管理",
-                name: "ListSJXJYGZ"
-              },
-              {
-                id: 22,
-                text: "一般性规则管理",
-                name: "ListYBXGZ"
-              },
-              {
-                id: 23,
-                text: "免签规则管理",
-                name: "ListMQGZ"
-              },
-
-            ]
-          },
-
-        ],
+      page: 0,
+      menuList: [],
+      menuList2:[],
+      nav1List: [],
     }
   },
-    methods: {
-      based(){
-        this.page = 0;
-      },
-      checkmm(i){
+  mounted() {
+    this.openCYCC();
+    this.getcc();
+  },
+  methods: {
+    based(i) {
+      console.log(i)
+      this.page = i.SERIAL;
+      this.menuList2=i.menuList;
+    },
+    openCYCC() {
+      this.cyccShow = true;
+      this.$api.post('/eamp/roleSys/menuSet', {},
+        r => {
+          console.log(r);
+          this.menuList = r.data.menuSet
+          this.based(this.menuList[0])
+        })
+    },
+    getcc(){
+      this.$api.post('/eamp/roleSys/selectmenuSet', {},
+        r => {
+          console.log(r);
+          this.nav1List=r.data.menuSetChoose
+        })
+    },
+    checkmm(i) {
 
-        i.incy=!i.incy
-        if(i.incy){
-          this.nav1List.push(i)
-        }else{
-          this.nav1List.splice(this.nav1List.indexOf(i),1)
+      i.choose = !i.choose
+      if (i.choose) {
+        this.nav1List.push(i)
+      } else {
+        this.nav1List.splice(this.nav1List.indexOf(i), 1)
 
-        }
-      },
+      }
+    },
+    update(){
+      this.$api.post('/eamp/roleSys/menuSetUpdate', this.nav1List,
+        r => {
+          console.log(r);
+          if(r.success){
+            this.$message({
+              message: '恭喜你，保存成功！',
+              type: 'success'
+            });
+            this.getcc()
+          }else{
+            this.$message.error(r.message);
+          }
+        })
     }
+  }
 }
 </script>
 
 <style scoped>
 .ak-tab {}
+
 .ak-tabs {
   display: flex;
 }
@@ -198,12 +172,14 @@ export default {
   display: flex;
   justify-content: center;
 }
-.t-save{
+
+.t-save {
   display: flex;
-  justify-content: flex-end!important;
-  width:100%;
+  justify-content: flex-end !important;
+  width: 100%;
 }
-.t-save button{
+
+.t-save button {
   font-size: 14px;
   height: 27px;
   width: 80px;
@@ -213,6 +189,7 @@ export default {
   color: #fff;
   margin-top: 2px;
 }
+
 .middle-btn-g button {
   height: 32px;
   width: 107px;
@@ -241,33 +218,58 @@ export default {
   align-items: center;
   /* padding: 0 30px; */
   /* line-height: 32px; */
+}
 
-}
-.t-ak-li{
+.t-ak-li {
   margin-top: 6px;
-  height: 45px!important;
+  height: 45px !important;
 }
-.queryLeft{
+
+.queryLeft {
   height: 107px;
   overflow-y: auto;
   border-right: 1px solid #ccc;
 }
-.queryRight{
-  height:107px;
+
+.queryRight {
+  height: 107px;
 
 }
-.expression-text{
-  width: 15%!important;
+
+.expression-text {
+  width: 15% !important;
 }
-.checkmenu-ul{
+
+.checkmenu-ul {
   display: flex;
   margin: 10px 0px;
 }
+.checkmenu-ul span{
+  margin-top: 5px;
+  display: inline-block;
+  height: 40px;
+  line-height: 20px;
+  text-align: center;
+  color: #bbb;
+}
+.ckeckNav{
+  color: #333!important;
+}
 .checkmenu{
+  width: 112px;
+  height: 100px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
-.checktitle{margin-top: 20px;color:#417FC8; font-weight:bold;}
+
+.checktitle {
+  margin-top: 20px;
+  color: #417FC8;
+  font-weight: bold;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5px;
+}
 </style>

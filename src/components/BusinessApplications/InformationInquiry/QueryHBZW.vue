@@ -369,7 +369,7 @@ export default {
         "showCount": showCount,
         "pd": pd
       };
-      this.$api.post('/eamp/nameList/getNameListPage', p,
+      this.$api.post('/eamp/statusUpdate/seat/queryListPages', p,
         r => {
           console.log(r);
           this.tableData = r.Data.ResultList;

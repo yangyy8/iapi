@@ -11,39 +11,40 @@
 
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">监控区域：</span>
-              <el-select v-model="sex" placeholder="请选择" size="small" class="input-input">
-                 <el-option
-                   v-for="item in options"
-                   :key="item.value"
-                   :label="item.label"
-                   :value="item.value" >
+              <el-select v-model="pd.synflag" placeholder="请选择" size="small" class="input-input">
+                <el-option value="1" label="DMZ区" >
+                </el-option>
+                 <el-option value="" label="业务平台区" >
                  </el-option>
+
                </el-select>
             </el-col>
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">日志类型：</span>
-              <el-select v-model="sex" placeholder="请选择" size="small" class="input-input">
-                 <el-option
-                   v-for="item in options"
-                   :key="item.value"
-                   :label="item.label"
-                   :value="item.value" >
-                 </el-option>
+              <el-select v-model="pd.rzlx" placeholder="请选择" size="small" class="input-input">
+                <el-option value="0" label="系统日志" >
+                </el-option>
+                <el-option value="1" label="错误日志" >
+                </el-option>
+                <el-option value="2" label="操作日志" >
+                </el-option>
                </el-select>
             </el-col>
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">生成时间：</span>
-              <el-date-picker
-                 v-model="HBRQ"
-                 type="daterange"
-                 align="right"
-                 unlink-panels
-                 range-separator="-"
-                 start-placeholder="开始日期"
-                 end-placeholder="结束日期"
-                 class="input-input block"
-                 :picker-options="pickerOptions2" size="small">
-               </el-date-picker>
+              <div class="input-input t-flex t-date">
+               <el-date-picker
+               v-model="pd.begin"
+               type="date" size="small" value-format="yyyyMMdd"
+               placeholder="开始时间"  :picker-options="pickerOptions1">
+             </el-date-picker>
+               <span class="septum">-</span>
+             <el-date-picker
+                v-model="pd.end"
+                type="date" size="small" value-format="yyyyMMdd"
+                placeholder="结束时间" :picker-options="pickerOptions1">
+            </el-date-picker>
+          </div>
             </el-col>
 
           </el-row>
@@ -60,26 +61,25 @@
       <el-table
         :data="tableData"
         border
-        style="width: 100%;"
-        @selection-change="handleSelectionChange">
+        style="width: 100%;">
 
 
         <el-table-column
-          prop="NATIONALITY"
+          prop="synFlag"
           label="监控区域">
 
         </el-table-column>
         <el-table-column
-          prop="CARDTYPE"
+          prop="rzlx"
           label="日志类型"
           >
         </el-table-column>
         <el-table-column
-          prop="CARDNO"
+          prop="timestmp"
           label="生成时间">
         </el-table-column>
         <el-table-column
-          prop="FAMILYNAME"
+          prop="levelString"
           label="日志内容"
           >
         </el-table-column>
@@ -89,7 +89,7 @@
           <template slot-scope="scope">
             <div class="flex-r">
 
-              <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row.SERIAL)">详情</el-button>
+              <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row)">详情</el-button>
             </div>
 
          </template>
@@ -127,198 +127,22 @@
     </div>
 
 
-
-    <el-dialog title="新增" :visible.sync="addDialogVisible">
-      <el-form :model="form" ref="addForm">
-        <el-row type="flex"  class="mb-6">
-          <el-col :span="8" class="input-item">
-            <span class="input-text">国籍：</span>
-            <el-input placeholder="请输入内容" size="small" v-model="form.NATIONALITY"></el-input>
-
-          </el-col>
-          <el-col :span="8" class="input-item">
-            <span class="input-text">证件种类：</span>
-            <el-input placeholder="请输入内容" size="small" v-model="form.CARDTYPE"></el-input>
-          </el-col>
-
-          <el-col :span="8" class="input-item">
-            <span class="input-text">证件号码：</span>
-            <el-input placeholder="请输入内容" size="small" v-model="form.CARDNO"></el-input>
-          </el-col>
-        </el-row>
-        <el-row type="flex"  class="mb-6">
-          <el-col :span="8" class="input-item">
-            <span class="input-text">姓名：</span>
-            <el-input placeholder="请输入内容" size="small" v-model="form.FAMILYNAME"></el-input>
-
-          </el-col>
-          <el-col :span="8" class="input-item">
-            <span class="input-text">性别：</span>
-            <div class="el-input">
-              <el-radio v-model="form.GENDER" label="M">男</el-radio>
-              <el-radio v-model="form.GENDER" label="F">女</el-radio>
-              <el-radio v-model="form.GENDER" label="U">未知</el-radio>
-            </div>
-          </el-col>
-
-          <el-col :span="8" class="input-item">
-            <span class="input-text">出生日期：</span>
-            <el-input placeholder="请输入内容" size="small" v-model="form.BIRTHDATE"></el-input>
-          </el-col>
-        </el-row>
-        <el-row type="flex"  class="mb-6">
-          <el-col :span="8" class="input-item">
-            <span class="input-text">航班号：</span>
-            <el-input placeholder="请输入内容" size="small" v-model="form.NATIONALITY"></el-input>
-
-          </el-col>
-          <el-col :span="8" class="input-item">
-            <span class="input-text">入境口岸：</span>
-            <el-input placeholder="请输入内容" size="small" v-model="form.WHITE_PORT"></el-input>
-          </el-col>
-
-          <el-col :span="8" class="input-item">
-            <span class="input-text">出境口岸：</span>
-            <el-input placeholder="请输入内容" size="small" v-model="form.NATIONALITY"></el-input>
-          </el-col>
-        </el-row>
-        <el-row type="flex" class="mb-6">
-          <el-col :span="8" class="input-item">
-            <span class="input-text">起始日期：</span>
-            <el-input placeholder="请输入内容" size="small" v-model="form.CTL_BEGINDATE"></el-input>
-
-          </el-col>
-          <el-col :span="8" class="input-item">
-            <span class="input-text">终止日期：</span>
-            <el-input placeholder="请输入内容" size="small" v-model="form.CTL_EXPIREDATE"></el-input>
-          </el-col>
-        </el-row>
-        <el-row type="flex" class="mb-6" >
-          <el-col :span="23" class="input-item">
-            <span class="input-text">处理依据：</span>
-            <el-input placeholder="请输入内容" size="small" class="long-input" v-model="form.CTL_REASON"></el-input>
-          </el-col>
-        </el-row>
-        <el-row type="flex">
-          <el-col :span="23" class="input-item">
-            <span class="input-text">批准机关：</span>
-            <el-input placeholder="请输入内容" size="small" class="long-input" v-model="form.SUBORG_NAME"></el-input>
-          </el-col>
-        </el-row>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="addItem('addForm')" size="small">保存</el-button>
-        <el-button type="warning" @click="addDialogVisible = false" size="small">保存并转发</el-button>
-        <el-button @click="addDialogVisible = false" size="small">取 消</el-button>
-
-      </div>
-    </el-dialog>
-
     <el-dialog
       title="详情"
       :visible.sync="detailsDialogVisible"
-      width="950px">
-      <div class="detail-msg-text">
-        <el-row type="flex" class="detail-msg-row">
-          <el-col :span="8">
-            <span>姓名</span>
-            张某某
+      width="600px">
 
-          </el-col>
-          <el-col :span="8">
-            <span>性别</span>
-            男
-
-          </el-col>
-          <el-col :span="8">
-            <span>出生日期</span>
-            2000年10月10日
-
+      <el-form :model="form">
+     <div class="titile">监控消息</div>
+        <el-row type="flex" class="mb-15">
+          <el-col :span="24" class="titlecontent">
+            {{form.formattedMessage}}
           </el-col>
         </el-row>
-        <el-row type="flex" class="detail-msg-row">
-          <el-col :span="8">
-            <span>国籍</span>/
-            张某某
+      </el-form>
 
-          </el-col>
-          <el-col :span="8">
-            <span>证件号码</span>
-            张某某
-
-          </el-col>
-          <el-col :span="8">
-            <span>签证号码</span>
-            张某某
-
-          </el-col>
-        </el-row>
-        <el-row type="flex" class="detail-msg-row">
-          <el-col :span="8">
-            <span>出入标识</span>
-            张某某
-
-          </el-col>
-          <el-col :span="8">
-            <span>第二证号</span>
-            张某某
-
-          </el-col>
-          <el-col :span="8">
-            <span>第二国籍</span>
-            张某某
-
-          </el-col>
-        </el-row>
-        <el-row type="flex" class="detail-msg-row">
-          <el-col :span="8">
-            <span>航班号</span>
-            张某某
-
-          </el-col>
-          <el-col :span="8">
-            <span>出发地</span>
-            张某某
-
-          </el-col>
-          <el-col :span="8">
-            <span>目的地</span>
-            张某某
-
-          </el-col>
-        </el-row>
-        <el-row type="flex" class="detail-msg-row mb-20">
-          <el-col :span="8">
-            <span>报警类型</span>
-            张某某
-
-          </el-col>
-          <el-col :span="8">
-            <span>报警时间</span>
-            张某某
-
-          </el-col>
-        </el-row>
-        <el-row type="flex" class="detail-msg-row">
-          <el-col :span="5">
-            <span>操作人</span>
-            张某某
-
-          </el-col>
-          <el-col :span="5">
-            <span>审批人</span>
-            张某某
-
-          </el-col>
-          <el-col :span="6">
-            <span>操作时间</span>
-            张某某
-
-          </el-col>
-        </el-row>
-      </div>
       <span slot="footer" class="dialog-footer">
-        <el-button type="warning" @click="detailsDialogVisible = false" size="small">关闭页面</el-button>
+        <el-button  @click="detailsDialogVisible = false" size="small">取消</el-button>
       </span>
     </el-dialog>
   </div>
@@ -332,7 +156,7 @@ export default {
       CurrentPage: 1,
       pageSize: 10,
       TotalResult: 0,
-      pd: {},
+      pd: {rzlx:""},
       nation: [],
       value: '',
       value1: "",
@@ -353,18 +177,7 @@ export default {
       ],
       tableData: [],
       multipleSelection: [],
-      options: [{
-        value: '0',
-        label: '未知'
-      }, {
-        value: 'PEK - 北京首都国际机场',
-        label: 'PEK - 北京首都国际机场'
-      }, {
-        value: 'SHA - 上海虹桥国际机场',
-        label: 'SHA - 上海虹桥国际机场'
-      }],
-      sex: '',
-      JHDDKA: '',
+
       pickerOptions2: {
         shortcuts: [{
           text: '最近一周',
@@ -392,27 +205,8 @@ export default {
           }
         }]
       },
-      HBRQ: '',
-      CSRQ: '',
+          form: {},
 
-
-      form: {
-        "NATIONALITY": "CHN",
-        "CARDTYPE": "1",
-        "CARDNO": "11000",
-        "FAMILYNAME": "张三丰",
-        "GENDER": "M",
-        "BIRTHDATE": "20100110",
-        "WHITE_PORT": "首都机场",
-        "CTL_BEGINDATE": "20180505",
-        "CTL_EXPIREDATE": "20180626",
-        "CTL_REASON": "白名单",
-        "SUBORG_NAME": "批准机关",
-        "synStatus": "0",
-        "LIST_TYPE": "1",
-        "IN_OUT": "0"
-      },
-      formLabelWidth: '120px'
     }
   },
   mounted() {
@@ -437,59 +231,21 @@ export default {
         "showCount": showCount,
         "pd": pd
       };
-      this.$api.post('/eamp/nameList/getNameListPage', p,
+      var url="eamp/log_event/queryListPage";
+      if(pd.type=="1"){
+        url="eamp/log_event/querylistPageExpretion";
+      }
+      this.$api.post(url, p,
         r => {
           console.log(r);
-          this.tableData = r.Data.ResultList;
-          this.TotalResult = r.Data.TotalResult;
-        })
-    },
-    queryNationality() {
-      this.$api.post('/eamp/codeTable/queryNationality', {},
-        r => {
-          console.log(r);
-          if (r.Success) {
-            this.nation = r.Data;
-          }
-        })
-    },
-    addItem(formName) {
-      // this.$refs[formName].validate((valid) => {
-      //     if (valid) {
-      //       console.log(valid)
-      //       alert('submit!');
-      //     } else {
-      //       console.log('error submit!!');
-      //       return false;
-      //     }
-      //   });
-      this.$api.post('/eamp/nameList/addNameList', this.form,
-        r => {
-          console.log(r);
-          if (r.Success) {
-            this.$message({
-              message: '恭喜你，添加成功！',
-              type: 'success'
-            });
-          } else {
-            this.$message.error(r.Message);
-          }
-          this.$refs[formName].resetFields();
-          this.addDialogVisible = false;
-          this.getList();
-          // this.tableData=r.Data.ResultList;
-        }, e => {
-          this.$message.error('失败了');
+          this.tableData = r.data.resultList;
+          this.TotalResult = r.data.totalResult;
         })
     },
     details(i) {
       this.detailsDialogVisible = true;
       console.log(i);
-      this.$api.post('/eamp/nameList/getNameListData', i,
-        r => {
-          console.log(r);
-          // this.tableData=r.Data.ResultList;
-        })
+    this.form=i;
     },
 
   }
@@ -511,4 +267,6 @@ export default {
   display: inline-block;
   width: 60px;
 }
+.titile{font-size: 18px; line-height: 40px;border-bottom: 1px solid #368ECD; margin-bottom: 10px;}
+.titlecontent{font-size: 16px;}
 </style>

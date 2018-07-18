@@ -36,8 +36,7 @@
           </div>
             </el-col>
             <el-col :sm="24" :md="12" :lg="8" class="input-item">
-
-                <QueryNationality  :nationality="pd.nationalityEqual" @transNation="getNation"></QueryNationality>
+                <QueryNationality  :nationality="pd.nationalityEqual"  @transNation="getNation"></QueryNationality>
             </el-col>
             <el-col :sm="24" :md="12" :lg="8" class="input-item">
               <span class="input-text">证件号码：</span>
@@ -280,7 +279,8 @@ export default {
       this.multipleSelection = val;
     },
     getNation(msg){
-      this.pd.NATIONALITY=msg;
+      this.pd.nationalityEqual=msg;
+      console.log("============",this.pd.nationalityEqual)
     },
     pageSizeChange(val) {
       this.getList(this.CurrentPage, val, this.pd);
@@ -292,11 +292,11 @@ export default {
       console.log(`当前页: ${val}`);
     },
     getList(currentPage, showCount, pd) {
+      pd.saveflag=1;
+      pd.instructNew="1Z";
       let p = {
         "currentPage": currentPage,
         "showCount": showCount,
-        "saveflag":1,
-        "instructNew":"1Z",
         "cdt": pd
       };
       this.$api.post('/eamp/event/queryEventHisListPage', p,
