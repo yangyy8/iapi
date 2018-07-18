@@ -67,19 +67,27 @@ table td,thead th{
 .hb-item .el-input__inner{
   background-color:#0f253a!important;
   border: none!important;
+  color: #fff!important;
 }
 .tan-row2 table td,.tan-row2 thead th{
   height: 32px !important;
   padding: 2px 0 !important;
   text-align: center!important;
+  border:1px #143652 solid!important;
+
 }
+
 .tan-row2 th{
     background-color: #156995 !important;
     color: #51ffff!important;
 }
 .tan-row2 td{
     background-color: #154f75 !important;
-    color: #fff!important
+    color: #fff!important;
+}
+.tan-row2 table{
+  /* border:1px #143652 solid!important; */
+
 }
 button{
   /* min-width: 96px; */
