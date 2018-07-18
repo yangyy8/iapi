@@ -179,7 +179,7 @@
         <el-row type="flex" class="mb-6" >
           <el-col :span="8" class="input-item">
             <span class="yy-input-text">现计划到达口岸：</span>
-            <el-select v-model="form.portCode" filterable  @visible-change="queryAirport" placeholder="请选择" size="small" class="yy-input-input">
+            <el-select v-model="form.changeport" filterable  @visible-change="queryAirport" placeholder="请选择" size="small" class="yy-input-input">
                <el-option
                  v-for="item in Airport"
                  :key="item.AIRPORT_CODE"

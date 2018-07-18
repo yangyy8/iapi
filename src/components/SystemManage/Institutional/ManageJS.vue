@@ -30,9 +30,9 @@
               <el-select v-model="pd.STATUS"  placeholder="请选择" size="small" class="input-input">
                  <el-option value="" label="全部">
                  </el-option>
-                 <el-option value="0" label="启用">
+                 <el-option value="1" label="启用">
                  </el-option>
-                 <el-option value="1" label="停用">
+                 <el-option value="0" label="停用">
                  </el-option>
                </el-select>
             </el-col>
@@ -120,7 +120,7 @@
     </div>
 
 
-    <el-dialog title="新增" :visible.sync="addDialogVisible" width="500px" >
+    <el-dialog title="新增/编辑" :visible.sync="addDialogVisible" width="500px" >
       <el-form :model="form" ref="addForm">
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
@@ -451,7 +451,7 @@ menuItem(){
   filters: {
 
     fifterstatus(val) {
-      if (val == 1) {
+      if (val == 0) {
         return "停用"
 
       } else {

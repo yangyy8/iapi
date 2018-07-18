@@ -521,13 +521,11 @@ export default {
         },
         r => {
           console.log(r);
-          let ss=r.success;
-          ss=false;
-          if(ss){
+          if(r.success){
             this.nav1List = r.data.menuChild;
             console.log(this.nav1List[0].SERIAL)
-            this.nav1to2(this.nav1List[0].SERIAL, this.nav1List[0].menuList)
           }
+
         },e=>{
           console.log(e)
         })
@@ -550,6 +548,7 @@ export default {
         this.nav1List = this.nav1List6;
       }
       this.nav1to2(this.nav1List[0].SERIAL, this.nav1List[0].menuList)
+
     },
     openNav() {
       this.navUlShow = !this.navUlShow

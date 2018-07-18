@@ -10,13 +10,13 @@
         <el-row align="center"   :gutter="2" class="pr-20">
           <el-col  :sm="24" :md="12" :lg="6"   class="input-item">
             <span class="input-text">航班号：</span>
-            <el-input placeholder="请输入内容" size="small" v-model="pd.FAMILYNAME"   class="input-input"></el-input>
+            <el-input placeholder="请输入内容" size="small" v-model="pd.flightNo"   class="input-input"></el-input>
           </el-col>
           <el-col  :sm="24" :md="12" :lg="6"   class="input-item">
           <span class="input-text">航班日期：</span>
           <div class="input-input t-flex t-date">
                <el-date-picker
-               v-model="pd.STARTTIME"
+               v-model="pd.planFlyTime"
                type="date" size="small"
                placeholder="开始时间"  :picker-options="pickerOptions1">
              </el-date-picker>
@@ -31,7 +31,7 @@
 
             <el-col  :sm="24" :md="12" :lg="6"   class="input-item">
                 <span class="input-text">起飞机场：</span>
-                  <el-select v-model="sex" placeholder="请选择" size="small" class="input-input">
+                  <el-select v-model="pd.cityFrom" placeholder="请选择" size="small" class="input-input">
                   <el-option
                       v-for="item in options"
                       :key="item.value"
@@ -45,13 +45,13 @@
             <span class="input-text">预计起飞时间：</span>
             <div class="input-input t-flex t-date">
                  <el-date-picker
-                 v-model="pd.STARTTIME"
+                 v-model="pd.planFlyBeginTime"
                  type="datetime" size="small"
                  placeholder="开始时间"  :picker-options="pickerOptions1">
                </el-date-picker>
                  <span class="septum">-</span>
                <el-date-picker
-                  v-model="pd.ENDTIME"
+                  v-model="pd.planFlyEndTime"
                   type="datetime" size="small"
                   placeholder="结束时间" :picker-options="pickerOptions1">
                </el-date-picker>
@@ -60,7 +60,7 @@
 
           <el-col  :sm="24" :md="12" :lg="6"  class="input-item">
               <span class="input-text">到达机场：</span>
-              <el-select v-model="pd.NATIONALITY"  class="input-input" @visible-change="queryNationality"  placeholder="请选择"  size="small">
+              <el-select v-model="pd.cityTo"  class="input-input" @visible-change="queryNationality"  placeholder="请选择"  size="small">
                 <el-option
                   v-for="item in nation"
                   :key="item.CODE"
@@ -74,13 +74,13 @@
             <span class="input-text">预计到达时间：</span>
             <div class="input-input t-flex t-date">
                  <el-date-picker
-                 v-model="pd.STARTTIME"
+                 v-model="pd.planReachBeginTime"
                  type="datetime" size="small"
                  placeholder="开始时间"  :picker-options="pickerOptions1">
                </el-date-picker>
                  <span class="septum">-</span>
                <el-date-picker
-                  v-model="pd.ENDTIME"
+                  v-model="pd.planReachEndTime"
                   type="datetime" size="small"
                   placeholder="结束时间" :picker-options="pickerOptions1">
                </el-date-picker>
@@ -426,11 +426,11 @@ export default {
         "showCount": showCount,
         "pd": pd
       };
-      this.$api.post('/eamp/nameList/getNameListPage', p,
+      this.$api.post('/eamp/compareReuslt/dataCheck/query', p,
         r => {
           console.log(r);
-          this.tableData = r.Data.ResultList;
-          this.TotalResult = r.Data.TotalResult;
+          this.tableData = r.data.resultList;
+          this.TotalResult = r.data.totalResult;
         })
     },
     queryNationality() {

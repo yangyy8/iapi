@@ -10,48 +10,53 @@
               <el-row align="center"   :gutter="2" >
                 <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                   <span class="input-text">监控区域：</span>
-                  <el-select v-model="pd.airlineCompanyIdEqual"  placeholder="请选择" size="small" class="input-input">
-                     <el-option
-                       v-for="item in company"
-                       :key="item.AIRLINE_CODE"
-                       :label="item.AIRLINE_CHN_NAME"
-                       :value="item.AIRLINE_CODE" >
+                  <el-select v-model="pd.ZONE"  placeholder="请选择" size="small" class="input-input">
+                     <el-option value="" label="全部">
+                     </el-option>
+                     <el-option value="0" label="DMZ区">
+                     </el-option>
+                     <el-option value="1" label="业务平台区">
+                     </el-option>
+                     <el-option value="2" label="整合分发区">
+                     </el-option>
+                     <el-option value="3" label="风险评估区">
                      </el-option>
                    </el-select>
 
                 </el-col>
+                <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+                  <span class="input-text">报警类型：</span>
+                  <el-select v-model="pd.MTYPE"  placeholder="请选择" size="small" class="input-input" @change="monitor(pd.MTYPE)">
+                    <el-option value="SYS" label="系统监控" >
+                    </el-option>
+                    <el-option value="DAT" label="数据监控" >
+                    </el-option>
+                    <el-option value="LOG" label="日志监控" >
+                    </el-option>
+                    <el-option value="PER" label="性能监控" >
+                    </el-option>
+                   </el-select>
+                </el-col>
               <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                 <span class="input-text">监控对象：</span>
                 <el-select v-model="pd.MCLASS"  placeholder="请选择" size="small" class="input-input">
-                   <el-option value="SYS" label="系统监控" >
-                   </el-option>
-                   <el-option value="DAT" label="数据监控" >
-                   </el-option>
-                   <el-option value="LOG" label="日志监控" >
-                   </el-option>
-                   <el-option value="PER" label="性能监控" >
-                   </el-option>
+                  <el-option
+                    v-for="(value, key) in object"
+                    :key="key"
+                    :value="key"
+                    :label="value"
+                  ></el-option>
                  </el-select>
               </el-col>
-              <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
-                <span class="input-text">报警类型：</span>
-                <el-select v-model="pd.airlineCompanyIdEqual"  placeholder="请选择" size="small" class="input-input">
-                   <el-option
-                     v-for="item in company"
-                     :key="item.AIRLINE_CODE"
-                     :label="item.AIRLINE_CHN_NAME"
-                     :value="item.AIRLINE_CODE" >
-                   </el-option>
-                 </el-select>
-              </el-col>
+
               <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                 <span class="input-text">处理状态：</span>
-                <el-select v-model="pd.airlineCompanyIdEqual"  placeholder="请选择" size="small" class="input-input">
-                   <el-option
-                     v-for="item in company"
-                     :key="item.AIRLINE_CODE"
-                     :label="item.AIRLINE_CHN_NAME"
-                     :value="item.AIRLINE_CODE" >
+                <el-select v-model="pd.STATUS"  placeholder="请选择" size="small" class="input-input">
+                   <el-option value="" label="全部">
+                   </el-option>
+                   <el-option value="1" label="未处理">
+                   </el-option>
+                   <el-option value="0" label="已处理">
                    </el-option>
                  </el-select>
               </el-col>
@@ -121,15 +126,12 @@
                label="操作">
                <template slot-scope="scope">
                  <div class="flex-r">
+                      <el-button class="table-btn" size="mini" plain icon="el-icon-edit" @click="pross(scope.row)">处理</el-button>
                    <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row)">详情</el-button>
                  </div>
               </template>
              </el-table-column>
-
-
    </el-table>
-
-
 
   </div>
   </div>
@@ -149,14 +151,36 @@ export default {
   },
   methods: {
     getlist(pd) {
-console.log("==="+pd);
+
       this.$api.post('/eamp/monitorAlarm/queryAlarm', pd,
         r => {
           console.log(r);
-          console.log(r.data.instance, "r.data.instance");
+
           this.tableData = r.data.pdList;
         })
-    }
+    },
+    monitor(data) { //监控对象联动
+      // let arr = this.chauName;
+      // let that = this;
+      // for (var i = 0; i < arr.length; i++) {
+      //   if (arr[i].code == data) {
+      //     that.object = arr[i].countryList;
+      //   }
+      // }
+
+      let p = {
+          "VALUE": data
+        }
+
+      this.$api.post('/eamp/monitorAlarm/queryCondition', p,
+          r => {
+            console.log(r);
+            this.object = r.data;
+          })
+
+
+
+    },
 
   },
   filters: {
