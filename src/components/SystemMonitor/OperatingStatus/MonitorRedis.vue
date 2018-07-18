@@ -6,28 +6,34 @@
       <el-table
         :data="tableData"
         border
-        style="width: 100%;"
-        @selection-change="handleSelectionChange">
+        style="width: 100%;">
 
                 <el-table-column
-                  prop="area"
                   label="区域"
                 >
+                <template slot-scope="scope">
+                    {{scope.row.synFlag | fifter1 }}
+                </template>
                 </el-table-column>
                 <el-table-column
-                  prop="type"
+
                   label="节点类型"
                 >
+                <template slot-scope="scope">
+                    {{scope.row.type | fifter2 }}
+                </template>
                 </el-table-column>
                 <el-table-column
-                  prop="state"
+                  prop="hostaddress"
                   label="节点地址"
                 >
                 </el-table-column>
                 <el-table-column
-                  prop="mqstate"
                   label="节点状态"
                 >
+                <template slot-scope="scope">
+                    {{scope.row.status | fifter3 }}
+                </template>
                 </el-table-column>
 
 
@@ -42,24 +48,49 @@
 export default {
   data() {
     return {
-      tableData: [{
-             area: 'DMZ区',
-             type: '主节点',
-             state: '192.168.10.1',
-             mqstate:'UP'
-           }, {
-             area: 'DMZ区',
-             type: '主节点',
-             state: '192.168.10.1',
-             mqstate:'UP'
-           }, {
-             area: 'DMZ区',
-             type: '主节点',
-             state: '192.168.10.1',
-             mqstate:'DWON'
-           }]
+      tableData: [],
+      pd: {},
     }
   },
+  created() {
+    this.getList({});
+  },
+  methods: {
+    getList(pd) {
+      this.$api.post('/eamp/monitorRedis/queryMonitorRedis', pd,
+        r => {
+          console.log(r);
+          this.tableData = r.data;
+
+        })
+    },
+  },
+  filters: {
+
+    fifter1(val) {
+      if (val == 0) {
+        return "DMZ区"
+      } else if (val == 1) {
+        return "整合分发区"
+      } else if (val == 2) {
+        return "业务平台区"
+      } else {
+        return "DMZ区"
+      }
+      // return val*2
+    },
+    fifter2(val) {
+      return "主节点"
+    },
+    fifter3(val) {
+      if (val == 0) {
+        return "UP";
+      } else {
+        return "DOWN";
+      }
+    
+  }
+}
 
 }
 </script>

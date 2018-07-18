@@ -499,6 +499,20 @@
     </div>
   </el-dialog>
 
+  <el-dialog  title="操作授权" :visible.sync="AuthDialogVisible" width="300px;">
+    <el-row  type="flex"  class="mb-15">
+          <el-col :span="24">
+          <span class="yy-input-text">授权账号：</span>
+          <el-input placeholder="请输入内容" size="small" v-model="form.INSTRUCTC" class="yy-input-input"></el-input></el-col>
+    </el-row>
+    <el-row  type="flex"  class="mb-15">
+          <el-col :span="24">
+            <span class="yy-input-text">授权密码：</span>
+            <el-input placeholder="请输入内容" size="small" v-model="form.INSTRUCTC" class="yy-input-input"></el-input></el-col>
+
+    </el-row>
+  </el-dialog>
+
   </div>
 
 </template>
@@ -623,21 +637,26 @@ export default {
       this.form = i;
     },
     handlesItem(n, formName) {
-      // if (this.form.INSTRUCT != "") {
-      //   this.$message.error('变更后值机状态不能为空！');
-      //   return
-      // }
+      this.AuthDialogVisible=true;
 
-      this.$api.post('/eamp/iapiUnscolicited/instructChangeTab', this.form,
+      let p = {
+        "IAPISERIAL": this.form.SERIAL,
+        "CREATEUSER": "杨小",
+        "APPROVALUSER": "杨小小",
+        "INSTRUCT":this.form.INSTRUCT,
+        "CHANGERESON":this.form.CHANGERESON
+      };
+
+      this.$api.post('/eamp/iapiUnscolicited/instructChangeTab',  p,
         r => {
           console.log(r);
-          if (r.success) {
+          if (r.data.success) {
             this.$message({
               message: '变更成功！',
               type: 'success'
             });
           } else {
-            this.$message.error(r.Message);
+            this.$message.error(r.data.msg);
           }
           this.$refs[formName].resetFields();
           if (n == 1) {
@@ -656,8 +675,10 @@ export default {
       console.log(i);
       this.dform = i;
       let p = {
-        "PASSPORTNO": this.dform.PASSPORTNO,
-        "NATIONALITY": this.dform.NATIONALITY
+
+        "currentPage": 0,
+        "showCount": 10,
+        "pd": this.dform
       };
       this.$api.post('/eamp/iapiUnscolicited/queryHistory', p,
         r => {
