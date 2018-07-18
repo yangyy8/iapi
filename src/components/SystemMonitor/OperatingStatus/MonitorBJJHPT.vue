@@ -225,7 +225,7 @@
   <image xlink:href="../../../assets/img/zhjk/firewall.png" class="firewallRight" x="340" y="130" width="3%"/>
   <image xlink:href="../../../assets/img/zhjk/balance.png" class="balanceLeft" x="125" y="160" width="5%"/>
   <image xlink:href="../../../assets/img/zhjk/balance.png" class="balanceRight" x="225" y="160" width="5%"/>
-  <image xlink:href="../../../assets/img/zhjk/exchange.png" class="billionExchangeLeft" x="40" y="207" width="5%"/>
+
   <image xlink:href="../../../assets/img/zhjk/exchange.png" class="billionExchangeRight" x="340" y="207" width="5%"/>
   <image xlink:href="../../../assets/img/zhjk/exchange.png" class="thousandExchangeLeft" x="147" y="235" width="5%"/>
   <image xlink:href="../../../assets/img/zhjk/exchange.png" class="thousandExchangeRight" x="212" y="235" width="5%"/>
@@ -310,6 +310,7 @@
   <path class="st2" d="M830.4,169.6c0-3.7,3-6.6,6.6-6.6h81.6c3.7,0,6.6,3,6.6,6.6v97.8c0,3.7-3,6.6-6.6,6.6H837
     c-3.7,0-6.6-3-6.6-6.6V169.6z"/>
   <polyline class="st0" points="83.3,222.8 14,222.8 14,68.5 471.4,68.5 471.4,104.2 		"/>
+  <image xlink:href="../../../assets/img/zhjk/exchange.png" class="billionExchangeLeft" x="40" y="207" width="5%"/>
   <path class="st1" d="M742.9,263.8v2.4c0,2.1-0.4,3.6-1.3,4.6c-0.2-0.2-0.4-0.4-0.6-0.6c0.7-0.9,1.1-2.2,1.1-3.9v-3.1h3.3v-2h0.8
     v0.8h4v0.6h-4v0.6h4.5l-0.1,1.6c-0.3,0-0.5,0-0.7,0l0.1-0.9H742.9z M742.7,269.8h2.5v-2.9h0.8v2.9h1.2v-2.9h0.8v2.9h2.8v0.7h-8.1
     V269.8z M743.1,264.8l2.2-0.1V264h0.7v0.6l3-0.2l0,0.6l-3,0.2v0.3c0,0.3,0.2,0.4,0.6,0.4h2c0.4,0,0.7-0.2,0.8-0.5
@@ -367,7 +368,17 @@
   <polyline class="st0" points="471.9,105.1 546.2,105.1 546.2,105.2 629.4,105.2 		"/>
   <polyline class="st0" points="630.2,105.3 630.2,69.6 785.7,69.6 785.7,70 		"/>
   <!-- 千兆变换机 -->
-  <image xlink:href="../../../assets/img/zhjk/converter.png" class="thousandConverter" x="700" y="80" width="7%"/>
+  <image xlink:href="../../../assets/img/zhjk/converter.png" class="thousandConverter" x="730" y="70" width="9%"/>
+  <!-- 万兆网-->
+  <image xlink:href="../../../assets/img/zhjk/converter.png" class="billonConverter" x="830" y="70" width="9%"/>
+  <!--虚拟化平台-->
+  <image xlink:href="../../../assets/img/zhjk/virtualization.png" class="virtualization" x="730" y="165" width="7%"/>
+  <!--数据库集群-->
+  <image xlink:href="../../../assets/img/zhjk/database-cluster.png" class="databaseCluster" x="845" y="165" width="7%"/>
+  <!--san交换机-->
+  <image xlink:href="../../../assets/img/zhjk/san.png" class="sanLeft" x="730" y="315" width="7%"/>
+  <!--san交换机-->
+  <image xlink:href="../../../assets/img/zhjk/san.png" class="sanRight" x="845" y="315" width="7%"/>
   <line class="st0" x1="456.9" y1="212.8" x2="608.4" y2="211.4"/>
   <!-- 电信专线 -->
   <image xlink:href="../../../assets/img/zhjk/special-line.png" class="specialLineTl" x="455" y="80" width="3%"/>
@@ -677,6 +688,8 @@
   <line class="st0" x1="877.8" y1="274" x2="878.1" y2="306.2"/>
   <polyline class="st0" points="764.8,357.5 764.8,384.1 863.8,384.1 		"/>
   <polyline class="st0" points="880.3,358.2 880.3,384.1 863.8,384.1 		"/>
+  <!--存储系统-->
+  <image xlink:href="../../../assets/img/zhjk/storage.png" class="storageBottom" x="780" y="365" width="9%"/>
   <line class="st8" x1="493" y1="38.7" x2="493" y2="486.7"/>
   <line class="st9" x1="629.5" y1="62.8" x2="629.5" y2="517.5"/>
   <!-- 边界交换平台 -->
