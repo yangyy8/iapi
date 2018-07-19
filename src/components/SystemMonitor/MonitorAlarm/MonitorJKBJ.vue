@@ -79,7 +79,7 @@
             </el-row>
           </el-col>
           <el-col :span="4" class="down-btn-area" style="margin-top:25px;">
-            <el-button type="success" size="small" @click="getlist(pd)">查询</el-button>
+            <el-button type="success" size="small" @click="getList(CurrentPage,pageSize,pd)">查询</el-button>
           </el-col>
         </el-row>
        </div>
@@ -90,15 +90,12 @@
      border
      style="width: 100%;"
     >
-    <el-table-column
-      prop="instanceName"
-      label="监控对象">
-    </el-table-column>
+
              <el-table-column
                label="监控区域">
                <template slot-scope="scope">
                  <div class="">
-                   {{scope.row.zone | fifter1}}
+                   {{scope.row.ZONE | fifter1}}
                  </div>
                </template>
              </el-table-column>
@@ -107,7 +104,17 @@
                label="报警类型">
              </el-table-column>
              <el-table-column
-               prop="createtime"
+
+               label="监控对象">
+               <template slot-scope="scope">
+                 <div class="">
+                   {{scope.row.MCLASS | fifter2 }}
+                 </div>
+               </template>
+             </el-table-column>
+
+             <el-table-column
+               prop="CREATETIME"
                label="报警时间">
              </el-table-column>
              <el-table-column
@@ -115,11 +122,11 @@
                label="报警内容">
              </el-table-column>
              <el-table-column
-               prop="instanceName"
+               prop="DEALUSER"
                label="处理人">
              </el-table-column>
              <el-table-column
-               prop="instanceName"
+               prop="DEALTIME"
                label="处理时间">
              </el-table-column>
              <el-table-column
@@ -132,7 +139,35 @@
               </template>
              </el-table-column>
    </el-table>
-
+   <div class="middle-foot">
+     <div class="page-msg">
+       <div class="">
+         共{{Math.ceil(TotalResult/pageSize)}}页
+       </div>
+       <div class="">
+         每页
+         <el-select v-model="pageSize" @change="pageSizeChange(pageSize)" placeholder="10" size="mini" class="page-select">
+           <el-option
+             v-for="item in options"
+             :key="item.value"
+             :label="item.label"
+             :value="item.value">
+           </el-option>
+         </el-select>
+         条
+       </div>
+       <div class="">
+         共{{TotalResult}}条
+       </div>
+     </div>
+     <el-pagination
+       background
+       @current-change="handleCurrentChange"
+       :page-size="pageSize"
+       layout="prev, pager, next"
+       :total="TotalResult">
+     </el-pagination>
+   </div>
   </div>
   </div>
 </template>
@@ -140,43 +175,53 @@
 export default {
   data() {
     return {
+      CurrentPage: 1,
+      pageSize: 10,
+      TotalResult: 0,
+
       pd: {},
       tableData: [],
-      tableData1: [],
-      tableData2: []
+
     }
   },
   mounted() {
-    this.getlist(this.pd);
+    this.getList(this.CurrentPage, this.pageSize, this.pd);
   },
   methods: {
-    getlist(pd) {
+    pageSizeChange(val) {
+      this.getList(this.CurrentPage, val, this.pd);
+      console.log(`每页 ${val} 条`);
+    },
+    handleCurrentChange(val) {
+      this.getList(val, this.pageSize, this.pd);
 
-      this.$api.post('/eamp/monitorAlarm/queryAlarm', pd,
+      console.log(`当前页: ${val}`);
+    },
+    getList(currentPage, showCount, pd) {
+        console.log("---------------");
+      let p = {
+        "currentPage": currentPage,
+        "showCount": showCount,
+        "cdt": pd
+      };
+      this.$api.post('/eamp/monitorAlarm/queryAlarm', p,
         r => {
-          console.log(r);
 
           this.tableData = r.data.pdList;
+          this.TotalResult=r.data.totalResult;
         })
     },
     monitor(data) { //监控对象联动
-      // let arr = this.chauName;
-      // let that = this;
-      // for (var i = 0; i < arr.length; i++) {
-      //   if (arr[i].code == data) {
-      //     that.object = arr[i].countryList;
-      //   }
-      // }
 
       let p = {
-          "VALUE": data
-        }
+        "VALUE": data
+      }
 
       this.$api.post('/eamp/monitorAlarm/queryCondition', p,
-          r => {
-            console.log(r);
-            this.object = r.data;
-          })
+        r => {
+          console.log(r);
+          this.object = r.data;
+        })
 
 
 
@@ -193,10 +238,21 @@ export default {
       } else if (val == 2) {
         return "业务平台区"
       } else {
-        return ""
+        return "风险评估区"
       }
-      // return val*2
-    }
+    },
+      fifter2(val) {
+        if (val == "SYS") {
+          return "系统监控"
+        } else if (val == "DAT") {
+          return "数据监控"
+        } else if (val == "LOG") {
+          return "日志监控"
+        } else {
+          return "性能监控"
+        }
+      },
+
   }
 
 }

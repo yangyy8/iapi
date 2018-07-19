@@ -35,7 +35,7 @@
                  <el-option
                    v-for="item in company"
                    :key="item.AIRLINE_CODE"
-                   :label="item.AIRLINE_CHN_NAME"
+                   :label="item.AIRLINE_CODE+' - '+item.AIRLINE_CHN_NAME"
                    :value="item.AIRLINE_CODE" >
                  </el-option>
                </el-select>
@@ -46,7 +46,7 @@
                  <el-option
                    v-for="item in Airport"
                    :key="item.AIRPORT_CODE"
-                   :label="item.AIRPORT_NAME"
+                   :label="item.AIRPORT_CODE+' - '+item.AIRPORT_NAME"
                    :value="item.AIRPORT_CODE" >
                  </el-option>
                </el-select>
@@ -58,7 +58,7 @@
                  <el-option
                    v-for="item in Airport"
                    :key="item.AIRPORT_CODE"
-                   :label="item.AIRPORT_NAME"
+                   :label="item.AIRPORT_CODE+' - '+item.AIRPORT_NAME"
                    :value="item.AIRPORT_CODE">
                  </el-option>
                </el-select>
@@ -149,41 +149,46 @@
     <el-dialog title="航班处理" :visible.sync="addDialogVisible">
       <el-form :model="form" ref="addForm">
         <el-row type="flex"  class="mb-6">
-          <el-col :span="8" class="input-item">
+          <el-col :span="12" class="input-item">
             <span class="yy-input-text">航班号：</span>
             <el-input placeholder="请输入内容" size="small"  :disabled="true" v-model="form.fltno" class="yy-input-input" ></el-input>
 
           </el-col>
-          <el-col :span="8" class="input-item">
+          <el-col :span="12" class="input-item">
             <span class="yy-input-text">所属航空公司：</span>
             <el-input placeholder="请输入内容" size="small"  :disabled="true" v-model="form.airlineCompanyId" class="yy-input-input"></el-input>
           </el-col>
 
-          <el-col :span="8" class="input-item">
+
+        </el-row>
+        <el-row type="flex"  class="mb-6">
+          <el-col :span="12" class="input-item">
             <span class="yy-input-text">航班日期：</span>
             <el-input placeholder="请输入内容" size="small"   :disabled="true" v-model="form.flightTime" class="yy-input-input"></el-input>
           </el-col>
-        </el-row>
-        <el-row type="flex"  class="mb-6">
-          <el-col :span="8" class="input-item">
+          <el-col :span="12" class="input-item">
             <span class="yy-input-text">实际出发口岸：</span>
-            <el-input placeholder="请输入内容" size="small" v-model="form.stationfromName" :disabled="true" class="yy-input-input"></el-input>
+            <el-input placeholder="请输入内容" size="small" v-model="form.stationfrom+' - '+form.stationfromName" :disabled="true" class="yy-input-input"></el-input>
 
           </el-col>
-          <el-col :span="8" class="input-item">
-            <span class="yy-input-text">原计划到达口岸：</span>
-              <el-input placeholder="请输入内容" size="small" v-model="form.stationtoName" :disabled="true" class="yy-input-input"></el-input>
-          </el-col>
+
         </el-row>
 
         <el-row type="flex" class="mb-6" >
-          <el-col :span="8" class="input-item">
-            <span class="yy-input-text">现计划到达口岸：</span>
-            <el-select v-model="form.changeport" filterable  @visible-change="queryAirport" placeholder="请选择" size="small" class="yy-input-input">
+          <el-col :span="12" class="input-item">
+            <span class="yy-input-text">原计划到达口岸：</span>
+              <el-input placeholder="请输入内容" size="small" v-model="form.stationto+' - '+form.stationtoName" :disabled="true" class="yy-input-input"></el-input>
+          </el-col>
+        </el-row>
+  <hr/>
+        <el-row type="flex" class="mb-6" >
+          <el-col :span="24" class="input-item">
+            <span class="yy-input-text" style="width:15%">现计划到达口岸：</span>
+            <el-select v-model="form.changeport" filterable  @visible-change="queryAirport" placeholder="请选择" size="small" style="width:80%;">
                <el-option
                  v-for="item in Airport"
                  :key="item.AIRPORT_CODE"
-                 :label="item.AIRPORT_NAME"
+                 :label="item.AIRPORT_CODE+' - '+item.AIRPORT_NAME"
                  :value="item.AIRPORT_CODE" >
                </el-option>
              </el-select>
@@ -191,12 +196,9 @@
         </el-row>
 
         <el-row type="flex" class="mb-6" >
-          <el-col :span="8" class="input-item">
-            <span class="yy-input-text">事件描述：</span>
-
-          </el-col>
-          <el-col :span="14" style="margin-left:-20%">
-           <el-input type="textarea" placeholder="请输入内容" :autosize="{ minRows: 3, maxRows: 6}" v-model="form.desc"></el-input>
+          <el-col :span="24" class="input-item">
+            <span class="yy-input-text" style="width:15%">事件描述：</span>
+           <el-input type="textarea" placeholder="请输入内容" :autosize="{ minRows: 3, maxRows: 6}" v-model="form.desc" style="width:80%;"></el-input>
           </el-col>
         </el-row>
 
@@ -369,5 +371,10 @@ export default {
   display: inline-block;
   width: 60px;
 }
-
+.yy-input-text{width:30%;}
+hr {
+  height: 2px;
+  border: none;
+  border-top: 1px solid #73BFF2;
+}
 </style>
