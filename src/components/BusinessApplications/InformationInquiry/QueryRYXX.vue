@@ -3,13 +3,13 @@ currentPage<template lang="html">
     <div class="middle">
       <div class="ak-tab mb-20">
         <div class="ak-tabs">
-          <div class="ak-tab-item hand" :class="{'ak-checked':page==0}" @click="based">
+          <div class="ak-tab-item hand" :class="{'ak-checked':page==0}" @click="base">
             基础查询
           </div>
-          <div class="ak-tab-item hand" :class="{'ak-checked':page==1}" @click="page=1;checkList = batchQuery;tableData = batchTableData">
+          <div class="ak-tab-item hand" :class="{'ak-checked':page==1}" @click="batch">
             批量查询
           </div>
-          <div class="ak-tab-item hand" :class="{'ak-checked':page==2}" @click="page=2;checkList = selfQuery;tableData = selfTableData">
+          <div class="ak-tab-item hand" :class="{'ak-checked':page==2}" @click="self">
             自定义查询
           </div>
         </div>
@@ -17,7 +17,7 @@ currentPage<template lang="html">
           <el-row type="flex" style="height:100%" v-show="page==0">
             <el-col :span="22" class="br flex-c pr-20">
               <div style="display:flex;justify-content: flex-end;width:100%;margin-bottom:15px">
-                <el-button type="primary" plain name="button" @click="openList=!openList" size="mini">收起</el-button>
+                <el-button type="primary" plain name="button" @click="openL" size="mini">{{listText}}</el-button>
               </div>
               <el-row align="center" :gutter="2">
                 <el-col :sm="24" :md="12" :lg="6" class="input-item">
@@ -33,7 +33,7 @@ currentPage<template lang="html">
                 </el-col>
                 <el-col :sm="24" :md="12" :lg="6" class="input-item">
                   <span class="input-text">国籍：</span>
-                  <el-select placeholder="请选择" v-model="cdt.nationalityEqual" filterable  size="small"  class="input-input">
+                  <el-select placeholder="请选择" v-model="cdt.nationalityEqual" filterable clearable size="small"  class="input-input">
                     <el-option
                       v-for="item in selection"
                       :key="item.code"
@@ -189,7 +189,7 @@ currentPage<template lang="html">
                   <span class="input-text">最终预检结果：</span>
                   <el-select v-model="cdt.lastcheckresult" placeholder="请选择"  size="small" class="input-input">
                     <el-option label="允许登机" value="0Z"></el-option>
-                    <el-option label="禁止登记" value="1Z"></el-option>
+                    <el-option label="禁止登机" value="1Z"></el-option>
                     <el-option label="再次核对" value="2Z"></el-option>
                     <el-option label="数据错误" value="3Z"></el-option>
                   </el-select>
@@ -198,7 +198,7 @@ currentPage<template lang="html">
               </el-row>
               <!-- 保存方案 -->
               <div class="t-save">
-                <el-select  filterable v-model="sss"  @visible-change="savePlanShow" @change="planQuery" placeholder="方案选择" size="small" class="mr-15">
+                <el-select  filterable v-model="ssss"  @visible-change="savePlanShow" @change="planQuery" placeholder="方案选择" size="small" class="mr-15">
                   <el-option
                     v-for="item in saveName"
                     :label="item"
@@ -504,7 +504,7 @@ currentPage<template lang="html">
               <el-col :span="22" style="margin-top: 15px;">
                 <!-- 保存方案 -->
                 <div class="t-save">
-                  <el-select  filterable v-model="ppp"  @visible-change="batchSavePlanShow" @change="batchPlanQuery" placeholder="方案选择" size="small" class="mr-15">
+                  <el-select  filterable v-model="pppp"  @visible-change="batchSavePlanShow" @change="batchPlanQuery" placeholder="方案选择" size="small" class="mr-15">
                     <el-option
                       v-for="item in batchSaveName"
                       :label="item"
@@ -566,7 +566,7 @@ currentPage<template lang="html">
                            ></el-option>
                          </el-select>
                        </el-col>
-                       <el-col :sm="24" :md="12" :lg="4" class="input-item">
+                       <el-col :sm="24" :md="12" :lg="3" class="input-item t-operator">
                          <el-select placeholder="请选择" v-model="selfCdtList.operator" filterable @visible-change="attribute2(selfNature,selfCdtList)" size="mini">
                            <el-option
                              v-for="item in operator"
@@ -576,7 +576,7 @@ currentPage<template lang="html">
                            ></el-option>
                          </el-select>
                        </el-col>
-                       <el-col :sm="24" :md="12" :lg="4" class="input-item">
+                       <el-col :sm="24" :md="12" :lg="5" class="input-item">
                          <!-- 输入框 -->
                          <el-input placeholder="请输入内容" v-model="selfCdtList.atype" size="mini" v-show="selfCdtList.type==0"></el-input>
                          <!-- 性别 -->
@@ -600,7 +600,7 @@ currentPage<template lang="html">
                          v-show="selfCdtList.type==3"
                          type="date" size="mini"
                          placeholder="选择日期"
-                         class="input-inp"
+                         class="t-width100"
                          value-format="yyyyMMdd">
                         </el-date-picker>
                        <!-- 日期 精确到秒 -->
@@ -609,6 +609,7 @@ currentPage<template lang="html">
                          v-show="selfCdtList.type==4"
                          type="datetime" size="mini"
                          placeholder="选择日期"
+                         class="t-width100"
                          value-format="yyyyMMdd HHmm">
                         </el-date-picker>
 
@@ -627,7 +628,7 @@ currentPage<template lang="html">
                           ></el-option>
                         </el-select>
                       </el-col>
-                      <el-col :sm="24" :md="12" :lg="4" class="input-item">
+                      <el-col :sm="24" :md="12" :lg="3" class="input-item t-operator">
                         <el-select placeholder="请选择" v-model="self.operator" filterable @visible-change="attribute2(selfNature,self)" size="mini">
                           <el-option
                             v-for="item in operator"
@@ -637,7 +638,7 @@ currentPage<template lang="html">
                           ></el-option>
                         </el-select>
                       </el-col>
-                      <el-col :sm="24" :md="12" :lg="4" class="input-item">
+                      <el-col :sm="24" :md="12" :lg="5" class="input-item">
                         <!-- 输入框 -->
                         <el-input placeholder="请输入内容" v-model="self.atype" size="mini" v-show="self.type==0"></el-input>
                         <!-- 性别 -->
@@ -715,7 +716,7 @@ currentPage<template lang="html">
               <el-row type="flex" style="margin-top:15px">
                   <!-- 保存方案 -->
                   <div class="t-save">
-                    <el-select  filterable v-model="fff"  @visible-change="selfSavePlanShow" @change="selfPlanQuery" placeholder="方案选择" size="small" class="mr-15">
+                    <el-select  filterable v-model="ffff"  @visible-change="selfSavePlanShow" @change="selfPlanQuery" placeholder="方案选择" size="small" class="mr-15">
                       <el-option
                         v-for="item in selfSaveName"
                         :label="item"
@@ -772,7 +773,7 @@ currentPage<template lang="html">
     <div class="middle middle-top mb-2">
       <div class="title-green">
         <span style="float:left">结果显示项</span>
-        <el-button style="float:right" type="primary" plain @click="openCheckbox = !openCheckbox" size="mini">收起</el-button>
+        <el-button style="float:right" type="primary" plain @click="openCheck" size="mini">{{text}}</el-button>
         <div style="clear:both"></div>
       </div>
        <el-checkbox-group v-model="checkList" class="o-checkbox-g" @change="fn" v-show="openCheckbox">
@@ -1056,6 +1057,8 @@ export default {
       totalResult:0,//总条数
       totalPage:1,//总页数
       page: 0,
+      text:'收起',
+      listText:'收起',
       rows:[
         {
           version:1,
@@ -1243,8 +1246,11 @@ export default {
       operator:[],
       item:{},
       sss:'',//基础查询
+      ssss:'',
       ppp:'',//批量查询
+      pppp:'',
       fff:'',//自定义查询
+      ffff:'',
 
       name:'',
       radio:'',
@@ -1274,17 +1280,7 @@ export default {
     }
   },
   mounted(){
-    // let cdtArr = [];
-    // cdtArr.push(this.cdtList);
-    // let cdtList = cdtArr.concat(this.rows);
-    // console.log(cdtList);
-    if(this.page==0){
-      this.getList(this.currentPage,this.showCount,this.cdt);
-    }else if(this.page==1){
-      this.batchQueryList(this.currentPage,this.showCount,this.rows);
-    }else if(this.page==2){
-      this.selfQueryList(this.currentPage,this.showCount,this.selfCdt);
-    }
+    this.getList(this.currentPage,this.showCount,this.cdt);
   },
   computed:{
     aaa:{
@@ -1361,6 +1357,7 @@ export default {
       };
       this.$api.post('/eamp/iapi/queryListPage',p,
        r => {
+         this.based();
          this.tableData=r.data.resultList;//表格数据
          this.totalResult=r.data.totalResult;//总条数
          this.totalPage = r.data.totalPage;//总页数
@@ -1447,6 +1444,7 @@ export default {
     },
     //----------------------------批量查询start------------------------------
     batchQueryList(currentPage,showCount,rows){//批量查询列表
+
       let cdtArr = [];
       cdtArr.push(this.cdtList);
       let cdtList = cdtArr.concat(rows);
@@ -1458,6 +1456,7 @@ export default {
       this.$api.post('/eamp/iapi/queryIapiBatch',bql,
       r =>{
         if(r.success){
+          this.based();
           this.tableData=r.data.resultList;//表格数据
           this.totalResult=r.data.totalResult;//总条数
           this.totalPage = r.data.totalPage;//总页数
@@ -1591,14 +1590,16 @@ export default {
 
     //----------------------------自定义查询start------------------------------
     selfQueryList(currentPage,showCount,selfCdt){//自定义查询列表
+      console.log(selfCdt.AAAAA);
       let sql = {
         "currentPage":currentPage,
       	"showCount":showCount,
-      	"cdt":selfCdt
+      	"cdt":selfCdt.AAAAA
       }
       this.$api.post('/eamp/iapi/customIapiQuery',sql,
        r =>{
          if(r.success){
+           this.based();
            this.tableData=r.data.resultList;//表格数据   (待定)
            this.totalResult=r.data.totalResult;//总条数
            this.totalPage = r.data.totalPage;//总页数
@@ -1672,7 +1673,7 @@ export default {
       r =>{
         if(r.success){
           console.log(r.data.config.AAAAA);
-          this.aaa2 = r.data.config.AAAAA; //渲染问题
+          this.aaa2 = r.data.config.AAAAA; //渲染
           let arr = r.data.showConfigList;
           let arr1=[];
           for(var i=0;i<arr.length;i++){
@@ -1804,13 +1805,18 @@ export default {
        })
     },
     nationality(data){//基础查询国籍与洲二级联动
+      this.xx(this.cdt.nationalityEqual)
       let arr=this.chauName;
       let that=this;
       for(var i=0;i<arr.length;i++){
         if(arr[i].code == data){
+          // that.cdt.nationalityEqual = '';
           that.selection=arr[i].countryList;
         }
       }
+    },
+    xx(xx){
+      xx=null;
     },
     chau(){//调用洲
       this.$api.post('/eamp/codeTable/queryContinentsCountry',{},
@@ -1859,11 +1865,26 @@ export default {
         this.selfTableData = this.tableData;
       }
     },
-
+    // 表格分页初始化
     based(){
-      this.page = 0;
+      this.tableData = [];
+      this.totalResult = 0;
+      this.totalPage = 1;
+    },
+    base(){
+      this.page=0;
       this.checkList = this.basedQuery;
-      this.tableData = this.basedTableData;
+      this.getList(this.currentPage,this.showCount,this.cdt);
+    },
+    batch(){
+      this.page=1;
+      this.checkList = this.batchQuery;
+      this.batchQueryList(this.currentPage,this.showCount,this.rows);
+    },
+    self(){
+      this.page=2;
+      this.checkList = this.selfQuery;
+      this.selfQueryList(this.currentPage,this.showCount,this.selfCdt);
     },
     //----------------------------复用end---------------------------------------
 
@@ -1884,6 +1905,24 @@ export default {
         that.showConfiglist.push(obj);
       }
     },
+    openCheck(){
+      this.openCheckbox = !this.openCheckbox
+      if(this.openCheckbox == true){
+        this.text = '收起';
+      }else {
+        this.text = '展开';
+      }
+    },
+    openL(){
+      this.openList = !this.openList;
+
+      if(this.openList == true){
+        this.listText = '收起';
+      }else if(this.openList == false){
+        console.log(this.openList);
+        this.listText = '展开';
+      }
+    }
     }
 }
 </script>
@@ -2026,5 +2065,11 @@ export default {
  }
  .selfButton{
    padding-left: 10px!important;
+ }
+ .t-width100{
+   width: 100%!important;
+ }
+ .t-operator .el-input--suffix .el-input__inner{
+   padding-right: 22px!important;
  }
 </style>

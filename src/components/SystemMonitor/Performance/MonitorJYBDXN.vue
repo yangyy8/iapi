@@ -7,7 +7,7 @@
               <div class="control-item hand" :class="{'control-checked':controlChecked==1}" @click="controlChecked=1">
                   实时监控
               </div>
-              <div class="control-item hand" :class="{'control-checked':controlChecked==2}" @click="controlChecked=2">
+              <div class="control-item hand" :class="{'control-checked':controlChecked==2}" @click="history">
                   性能分析
               </div>
               <div style='clear:both'></div>
@@ -23,11 +23,44 @@
               <div class="co-tab-item hand" :class="{'co-checked':coCheckId==2}" @click="coCheckId=2">
                 列表
               </div>
+              <div class="" style="margin-bottom: -6px;" v-show="controlChecked==2">
+                <el-row align="center" :gutter="2">
+                  <el-col :sm="24" :md="12"  :lg="12" class="input-item">
+                    <span class="input-text">分析日期：</span>
+                    <div class="input-input t-flex t-date">
+                        <el-date-picker
+                        v-model="cdt.begin"
+                        type="date" size="mini"
+                        placeholder="开始日期"
+                        value-format="yyyyMMdd">
+                      </el-date-picker>
+                      <span class="septum">-</span>
+                      <el-date-picker
+                         v-model="cdt.end"
+                         type="date" size="mini"
+                         placeholder="结束日期"
+                         value-format="yyyyMMdd">
+                     </el-date-picker>
+                    </div>
+                  </el-col>
+                  <el-col :sm="24" :md="12"  :lg="12" class="input-item">
+                    <span class="input-text">分析维度：</span>
+                    <el-select  placeholder="请选择"  size="mini"  class="input-input" v-model="cdt.type">
+                      <el-option label="按小时分析" value="0"></el-option>
+                      <el-option label="按天分析" value="1"></el-option>
+                      <el-option label="按周分析" value="2"></el-option>
+                      <el-option label="按月分析" value="3"></el-option>
+                      <el-option label="按季度分析" value="4"></el-option>
+                    </el-select>
+                  </el-col>
+                </el-row>
+              </div>
+
             </div>
             <div class="co-tab-pane" >
               <el-row type="flex" style="height:100%" v-show="(controlChecked==1) && (coCheckId==1)">
                 <div class = "chart" style="width:100%">
-                  <div id = "echarts" style = "width: 90%;height: 400px"></div>
+                  <div id = "echarts" style = "width: 100%;height: 400px"></div>
                 </div>
               </el-row>
               <div v-show="(controlChecked==1) && (coCheckId==2)">
@@ -45,45 +78,45 @@
                       label="序号">
                     </el-table-column>
                     <el-table-column
-                      prop="nationality"
+                      prop="BIRTHCOUNTRY"
                       label="国籍">
                     </el-table-column>
                     <el-table-column
-                      prop="numb"
+                      prop="PASSPORTNO"
                       label="证件号码"
                       width="130">
                     </el-table-column>
                     <el-table-column
-                      prop="name"
+                      prop="Familyname"
                       label="姓名">
                     </el-table-column>
                     <el-table-column
-                      prop="gender"
+                      prop="GENDER"
                       label="性别">
                     </el-table-column>
                     <el-table-column
-                      prop="birthDate"
+                      prop="birthday"
                       label="出生日期">
                     </el-table-column>
                     <el-table-column
-                      prop="fltno"
+                      prop="FLIGHT_RECORDNUM "
                       label="航班号">
                     </el-table-column>
                     <el-table-column
-                      prop="receiveTime"
+                      prop="Cmpbegintime "
                       label="报文接收时间">
                     </el-table-column>
                     <el-table-column
-                      prop="endTime"
+                      prop="cmpendtime"
                       label="校验比对结束时间"
                       width='140'>
                     </el-table-column>
                     <el-table-column
-                      prop="timeConsuming"
+                      prop="Cmpbegintime-Cmpbegintime"
                       label="耗时">
                     </el-table-column>
                     <el-table-column
-                      prop="monitorTime"
+                      prop="createtime"
                       label="监控时间">
                     </el-table-column>
                   </el-table>
@@ -118,37 +151,15 @@
                   </div>
 
               </div>
-              <el-row type="flex" style="height:100%" v-show="(controlChecked==2) && (coCheckId==1)">
-                <div class = "barChart" style="width:1500px">
-                  <div id = "barEcharts" style = "width:1500px;height: 400px"></div>
+              <el-row type="flex" style="height:100%" v-if="(controlChecked==2) && (coCheckId==1)">
+                <div class = "barChart" style="width:100%;overflow:hidden">
+                  <div id = "barEcharts" style = "width:100%;height: 400px"></div>
                 </div>
               </el-row>
 
               <div v-show="(controlChecked==2) && (coCheckId==2)">
-                <el-row align="center" :gutter="2">
-                  <el-col :sm="24" :md="12"  :lg="6" class="input-item">
-                    <span class="input-text">分析日期：</span>
-                    <el-date-picker
-                      size="small"
-                      type="datetimerange"
-                      range-separator="-"
-                      start-placeholder="开始日期"
-                      end-placeholder="结束日期"
-                      class="input-input block">
-                    </el-date-picker>
-                  </el-col>
-                  <el-col :sm="24" :md="12"  :lg="6" class="input-item">
-                    <span class="input-text">分析维度：</span>
-                    <el-select  placeholder="请选择"  size="small"  class="input-input">
-                      <el-option label="按日分析" value="1"></el-option>
-                      <el-option label="按周分析" value="0"></el-option>
-                      <el-option label="按月分析" value="0"></el-option>
-                    </el-select>
-                  </el-col>
-                </el-row>
-
                   <el-table
-                    :data="tableData"
+                    :data="htableData"
                     border
                     style="width: 100%;"
                     @selection-change="handleSelectionChange">
@@ -161,29 +172,29 @@
                       label="年份">
                     </el-table-column>
                     <el-table-column
-                      prop="statisticalDate"
+                      prop="createtime"
                       label="统计日期"
                       width="130">
                     </el-table-column>
                     <el-table-column
-                      prop="StatisticsNumber"
+                      prop="tcount"
                       label="统计条数">
                     </el-table-column>
                     <el-table-column
-                      prop="averageTime"
+                      prop="consumetime"
                       label="平均耗时">
                     </el-table-column>
                   </el-table>
                   <div class="middle-foot">
                     <div class="page-msg">
                       <div class="">
-                        共{{Math.ceil(TotalResult/pageSize)}}页
+                        共{{Math.ceil(hTotalResult/hpageSize)}}页
                       </div>
                       <div class="">
                         每页
-                        <el-select v-model="pageSize" @change="pageSizeChange(pageSize)" placeholder="10" size="mini" class="page-select">
+                        <el-select v-model="hpageSize" @change="pageSizeChange(hpageSize)" placeholder="10" size="mini" class="page-select">
                           <el-option
-                            v-for="item in options"
+                            v-for="item in hoptions"
                             :key="item.value"
                             :label="item.label"
                             :value="item.value">
@@ -192,15 +203,15 @@
                         条
                       </div>
                       <div class="">
-                        共{{TotalResult}}条
+                        共{{hTotalResult}}条
                       </div>
                     </div>
                     <el-pagination
                       background
-                      @current-change="handleCurrentChange"
-                      :page-size="pageSize"
+                      @current-change="hhandleCurrentChange"
+                      :page-size="hpageSize"
                       layout="prev, pager, next"
-                      :total="TotalResult">
+                      :total="hTotalResult">
                     </el-pagination>
                   </div>
 
@@ -219,15 +230,21 @@ import echarts from 'echarts'
 export default {
   data(){
     return{
+      // 实时分页
       CurrentPage:1,
       pageSize:10,
       TotalResult:0,
-      pd:{"LIST_TYPE":"1"},
+      // 历史分页
+      hCurrentPage:1,
+      hpageSize:10,
+      hTotalResult:0,
+
       value:1,
       controlChecked:1,
       coCheckId:1,
       detailsDialogVisible:false,
       checked:true,
+      // 实时显示条数
       options:[
         {
           value:10,
@@ -242,6 +259,22 @@ export default {
           label:"30"
         }
       ],
+      // 历史显示条数
+      hoptions:[
+        {
+          value:10,
+          label:"10"
+        },
+        {
+          value:20,
+          label:"20"
+        },
+        {
+          value:30,
+          label:"30"
+        }
+      ],
+      // 实时表格
       tableData:[{
         'number':'1',
         'nationality':'1',
@@ -253,18 +286,32 @@ export default {
         'endTime':'1',
         'timeConsuming':'1',
         'monitorTime':'1',
-      }]
+      }],
+      // 历史表格
+      htableData:[{
+
+      }],
+      //历史监控传参
+      cdt:{},
+      // 实时空信息
+      pd:{},
+      lineX:[],
+      lineY:[],
+      barX:[],
+      barY:[]
     }
   },
   mounted() {
-      this.drawBar();
+      this.checkRealTime();
       this.drawLine();
       this.getList(this.CurrentPage,this.pageSize,this.pd);
+
   },
 
   methods:{
     handleSelectionChange(val) {
     },
+    // 实时监控分页
     pageSizeChange(val) {
       this.getList(this.CurrentPage,val,this.pd);
       console.log(`每页 ${val} 条`);
@@ -273,11 +320,22 @@ export default {
       this.getList(val,this.pageSize,this.pd);
       console.log(`当前页: ${val}`);
     },
+    // 历史监控分页
+    hpageSizeChange(val) {
+      this.hgetList(this.hCurrentPage,val,this.cdt);
+      console.log(`每页 ${val} 条`);
+    },
+
+    hhandleCurrentChange(val) {
+      this.hgetList(val,this.hpageSize,this.cdt);
+      console.log(`当前页: ${val}`);
+    },
+    // 实时监控表格/分页
     getList(currentPage,showCount,pd){
       let p={
         "currentPage":currentPage,
         "showCount":showCount,
-        "pd":pd
+        "cdt":pd
       };
       this.$api.post('/eamp/nameList/getNameListPage',p,
        r => {
@@ -286,12 +344,31 @@ export default {
          this.TotalResult=r.data.totalResult;
       })
     },
+    //历史监控表格/分页
+    hgetList(hcurrentPage,hshowCount,cdt){
+      let p={
+        "currentPage":hcurrentPage,
+        "showCount":hshowCount,
+        "cdt":cdt
+      }
+      this.$api.post('/eamp/nameList/getNameListPage',p,
+       r => {
+         console.log(r);
+         this.htableData=r.data.resultList;
+         this.hTotalResult=r.data.totalResult;
+      })
+    },
     drawLine() {
            let myChart = echarts.init(document.getElementById('echarts'));
+           let that = this;
+           // 折线图初始化
            myChart.setOption({
              tooltip:{
                trigger:'axis',
-               // formatter:'报文数量：2300',
+               formatter:{
+                 "报文数量":2300,
+                 "平均性能":2000
+               },
                axisPointer:{
                  type:'line',
                  lineStyle:{
@@ -304,7 +381,7 @@ export default {
                type : 'category',
                boundaryGap : false,
                splitArea : {show : true},
-               data:['08:00','08:10','08:20','08:30','08:40','08:50','09:00','09:10','09:20','09:30','09:40','09:50','10:00'],
+               data:this.lineX,
                axisLine:{
                  lineStyle:{
                    color:'#169BD5',
@@ -350,26 +427,45 @@ export default {
                coordinateSystem:'cartesian2d',
                symbol:'emptyCircle',
                symbolSize:10,
-               data:[1000,1500,1700,1900,2000,1750,1900,2100,2250,1900,2100,2700,2500]
+               data:this.lineY
              }]
            })
-
+           // 点击折点渲染表格
+           myChart.on('click', function (params) {
+             // 让表格出现
+             that.controlChecked=1;
+             that.coCheckId=2;
+             // 表格数据渲染
+             this.getList(this.CurrentPage,this.pageSize,this.pd);
+           });
            //图标根据窗口大小自动缩放
            // window.addEventListener("resize", this.myChart.resize);
          },
+
     drawBar(){
       let myBarChart = echarts.init(document.getElementById('barEcharts'));
-      let chartBox=document.getElementsByClassName('barChart')[0];
-      function resizeCharts() {//为调整图标尺寸的方法
-        myBarChart.style.width=chartBox.style.width+'px'
-        myBarChart.style.height=chartBox.style.height+'px'
-      }
+      // let chartBox=document.getElementsByClassName('barChart')[0];
+      // function resizeCharts() {//为调整图标尺寸的方法
+      //   myBarChart.style.width=chartBox.style.width+'px'
+      //   myBarChart.style.height=chartBox.style.height+'px'
+      // }
+      let that = this;
+      //初始化柱状图
       myBarChart.setOption({
+        tooltip:{
+          trigger:'axis',
+          // formatter:'报文数量：2300',
+          axisPointer:{
+            type:'line',
+            lineStyle:{
+              color:'#169BD5',
+              width:3
+            }
+          }
+        },
         xAxis:[{
           type : 'category',
-          // boundaryGap : false,
-          // splitArea : {show : true},
-          data:['20180601','20180603','20180605','20180607','20180609','20180611','20180613'],
+          data:this.barX,
           axisLine:{
             lineStyle:{
               color:'#169BD5',
@@ -398,8 +494,8 @@ export default {
         }],
         series:[{
           type:'bar',
-          barWidth: '60%',
-          data:[1000,1500,1700,1900,2000,1750,1900],
+          barWidth: '30%',
+          data:this.barY,
           itemStyle:{
               normal:{
                   color:'#D3C9E7'
@@ -407,9 +503,51 @@ export default {
           },
         }]
       })
-
+      //点击柱状图渲染表格
+      myBarChart.on('click',function(params){
+        // 让表格出现
+        that.controlChecked=2;
+        that.coCheckId=2;
+        // 表格数据渲染
+        this.hgetList(this.hCurrentPage,this.hpageSize,this.cdt);
+      })
       // window.addEventListener("resize", this.myBarChart.resize);
+    },
+    // 校验比对实时监控折线图
+    checkRealTime(){
+      let p={
+        "currentPage":1,
+	      "showCount":10,
+        "cdt":this.pd
+      }
+      this.$api.post('/eamp/match/queryListPage',p,
+      r =>{
+        this.lineX = r.data.pd.X;
+        this.lineY = r.data.pd.Y;
+        this.drawLine()
+      })
+    },
+    //校验比对历史监控柱状图
+    checkHistoryTime(){
+      let t={
+        "currentPage":1,
+        "showCount":10,
+        "cdt":this.cdt
+      }
+      this.$api.post('/eamp/match/queryListPage',t,
+      r =>{
+        this.barX = r.data.pd.X;
+        this.barY = r.data.pd.Y;
+        this.drawBar();
+      })
+    },
+    history(){
+      this.controlChecked=2;
+      this.checkHistoryTime();
+      this.drawBar();
+      this.hgetList(this.hCurrentPage,this.hpageSize,this.cdt);
     }
+    // 列表展示
 
   },
 

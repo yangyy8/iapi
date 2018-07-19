@@ -46,7 +46,7 @@
 
               <el-col :sm="24" :md="12" :lg="6" class="input-item">
                 <span class="input-text">性别：</span>
-                <el-select v-model="pd.flighttype" placeholder="请选择"  size="small" class="input-input">
+                <el-select v-model="pd.gender" placeholder="请选择"  size="small" class="input-input">
                   <el-option value="" label="全部">
                   </el-option>
                   <el-option value="U" label="未知">
