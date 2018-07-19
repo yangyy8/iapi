@@ -84,7 +84,7 @@ export default {
        }, {
          left: '数据项校验',
 
-         date: '',
+         date: '11',
 
        }, {
          left: '业务规则',
@@ -93,6 +93,21 @@ export default {
 
        }]
      }
+   },
+   mounted() {
+     this.getList();
+
+   },
+   methods: {
+     getList() {
+
+       this.$api.post('/eamp/monitorAlarm/queryAlarmCount', {},
+         r => {
+           console.log(r);
+           this.tableData = r.data.resultList;
+
+         })
+     },
    }
 
 }

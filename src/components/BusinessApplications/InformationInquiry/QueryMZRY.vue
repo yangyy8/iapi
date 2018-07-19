@@ -25,13 +25,15 @@
                <el-date-picker
                v-model="pd.startDateofbirth"
                type="date" size="small"
-               placeholder="开始时间" align="right" :picker-options="pickerOptions1">
+               placeholder="开始时间" align="right" :picker-options="pickerOptions1"
+               value-format="yyyyMMdd">
              </el-date-picker>
                <span class="septum">-</span>
              <el-date-picker
                 v-model="pd.endDateofbirth"
                 type="date" size="small" align="right"
-                placeholder="结束时间"  :picker-options="pickerOptions1">
+                placeholder="结束时间"  :picker-options="pickerOptions1"
+                value-format="yyyyMMdd">
             </el-date-picker>
           </div>
             </el-col>
@@ -53,14 +55,16 @@
               <div class="input-input t-flex t-date">
                <el-date-picker
                v-model="pd.startFlightDepartdate"
-               type="date" size="small"
-               placeholder="开始时间" align="right" :picker-options="pickerOptions1">
+               type="datetime" size="small"
+               placeholder="开始时间" align="right" :picker-options="pickerOptions1"
+               value-format="yyyyMMdd HHmm">
              </el-date-picker>
                <span class="septum">-</span>
              <el-date-picker
                 v-model="pd.endFlightDepartdate"
-                type="date" size="small" align="right"
-                placeholder="结束时间"  :picker-options="pickerOptions1">
+                type="datetime" size="small" align="right"
+                placeholder="结束时间"  :picker-options="pickerOptions1"
+                value-format="yyyyMMdd HHmm">
             </el-date-picker>
           </div>
             </el-col>
@@ -101,8 +105,10 @@
         border
         fit
         style="width: 100%;"
+        @sort-change="ccc()"
       >
         <el-table-column
+          sortable="custom"
           prop="NAME"
           label="姓名"
           >
@@ -110,52 +116,55 @@
         <el-table-column
           prop="GENDERNAME"
           label="性别"
-
+          sortable="custom"
           >
 
         </el-table-column>
         <el-table-column
           prop="BIRTHDAY"
           label="出生日期"
-          >
+          sortable="custom">
         </el-table-column>
         <el-table-column
           prop="NATIONALITY"
           label="国籍"
-          >
+          sortable="custom">
         </el-table-column>
         <el-table-column
           prop="PASSPORTNO"
           label="证件号码"
-          >
+          sortable="custom">
         </el-table-column>
         <el-table-column
           prop="FLTNO"
           label="航班号"
-          >
+          sortable="custom">
         </el-table-column>
         <el-table-column
           prop="DEPARTDATESTRING"
           label="航班日期"
-          >
+          sortable="custom">
         </el-table-column>
         <el-table-column
           prop="FLIGHTTYPE"
-          label="出入标识">
+          label="出入标识"
+          sortable="custom">
         </el-table-column>
         <el-table-column
           prop="NSTRUCT_NEW"
-          label="反馈结果">
+          label="反馈结果"
+          sortable="custom">
         </el-table-column>
         <el-table-column
           prop="TYPE"
-          label="最终命中人员类别" width="150">
+          label="最终命中人员类别" width="150"
+          sortable="custom">
         </el-table-column>
 
         <el-table-column
-        fixed="right"
+          fixed="right"
           label="操作"
-          >
+          sortable="custom">
           <template slot-scope="scope">
             <el-button class="table-btn" size="mini" plain @click="queryDialogVisible=true">详情</el-button>
          </template>
@@ -194,7 +203,7 @@
       </div>
     </div>
 
-    <el-dialog
+    <!-- <el-dialog
       title="查询结果"
       :visible.sync="queryDialogVisible"
       width="1110px"
@@ -212,7 +221,7 @@
       <span slot="footer" class="dialog-footer">
         <el-button type="primary" @click="queryDialogVisible = false" size="small">确定</el-button>
       </span>
-    </el-dialog>
+    </el-dialog> -->
   </div>
 
 </template>

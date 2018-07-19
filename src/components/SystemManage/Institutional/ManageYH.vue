@@ -393,7 +393,7 @@ export default {
     },
 
     queryNationality() {
-      this.$api.post('/eamp/roleSys/selectDept', {},
+      this.$api.post('/eamp/userSys/goAdd', {},
         r => {
           console.log(r);
           if (r.success) {
