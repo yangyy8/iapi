@@ -8,12 +8,12 @@
         <img src="../../../assets/img/qgjk/tab1_0.png" alt="" v-else>
         <span>口岸监控</span>
       </li>
-      <li class="map-tabli mr-30 hand" :class="{'check-tab':tabId==2}" @click="tabId=2">
+      <li class="map-tabli mr-30 hand" :class="{'check-tab':tabId==2}" @click="tabId=2;getJkHb()">
         <img src="../../../assets/img/qgjk/tab2_1.png" alt="" v-if="tabId==2">
         <img src="../../../assets/img/qgjk/tab2_0.png" alt="" v-else>
         <span>航班监控</span>
       </li>
-      <li class="map-tabli hand" :class="{'check-tab':tabId==3}" @click="tabId=3">
+      <li class="map-tabli hand" :class="{'check-tab':tabId==3}" @click="tabId=3;getRy()">
         <img src="../../../assets/img/qgjk/tab3_1.png" alt="" v-if="tabId==3">
         <img src="../../../assets/img/qgjk/tab3_0.png" alt="" v-else>
         <span>人员监控</span>
@@ -474,98 +474,94 @@
         <el-row :gutter="10" class="bb">
           <el-col :sm="24" :md="12" :lg="8" class="hb-item">
             <span class="item-text">航站/口岸：</span>
-            <el-select placeholder="请选择"  filterable @visible-change="" @change="" size="mini"  class="item-input">
+            <el-select placeholder="请选择"  filterable @visible-change="getHz" v-model="p1.port" size="mini"  class="item-input">
               <el-option
-                v-for="item in chauName"
-                :key="item.code"
-                :value="item.code"
-                :label="item.name">
+                v-for="item in HzList"
+                :key="item.KADM"
+                :value="item.KADM"
+                :label="item.KADM+' - '+item.KAMC">
 
                 </el-option>
             </el-select>
           </el-col>
           <el-col :sm="24" :md="12" :lg="8" class="hb-item">
             <span class="item-text">航班号：</span>
-            <el-select placeholder="请选择"  filterable  size="mini"  class="item-input">
-              <el-option
-                v-for="item in selection"
-                :key="item.code"
-                :value="item.code"
-                :label="item.name"
-              ></el-option>
-            </el-select>
+            <el-input v-model="p1.fltNo" placeholder="请输入内容" size="mini"  class="item-input"></el-input>
           </el-col>
           <el-col :sm="24" :md="12" :lg="8" class="hb-item">
             <span class="item-text">航空公司：</span>
-            <el-select placeholder="请选择"  filterable @visible-change=""  size="mini"  class="item-input">
+            <el-select placeholder="请选择"  filterable @visible-change="getHkGs" v-model="p1.fltCompany" size="mini"  class="item-input">
               <el-option
-                v-for="item in idName"
-                :key="item.CODE"
-                :value="item.CODE"
-                :label="item.NAME"
+                v-for="item in HgList"
+                :key="item.AIRLINE_CODE"
+                :value="item.AIRLINE_CODE"
+                :label="item.AIRLINE_CODE+' - '+item.AIRLINE_CHN_NAME"
               ></el-option>
             </el-select>
           </el-col>
 
           <el-col :sm="24" :md="12" :lg="8" class="hb-item">
             <span class="item-text">航班日期：</span>
-            <el-select placeholder="请选择" size="mini"  class="item-input">
-              <el-option label="男" value="M"></el-option>
-              <el-option label="女" value="F"></el-option>
-              <el-option label="未知" value="U"></el-option>
-            </el-select>
+            <el-date-picker
+              class="item-input"
+              v-model="p1.fltDate"
+              type="date" size="mini" value-format="yyyyMMdd"
+              placeholder="选择时间"  :picker-options="pickerOptions1">
+            </el-date-picker>
+
           </el-col>
           <el-col :sm="24" :md="12" :lg="8" class="hb-item">
             <span class="item-text">出发时间：</span>
-            <el-select placeholder="请选择" size="mini"  class="item-input">
-              <el-option label="男" value="M"></el-option>
-              <el-option label="女" value="F"></el-option>
-              <el-option label="未知" value="U"></el-option>
-            </el-select>
+            <el-date-picker
+              class="item-input"
+              v-model="p1.departTime"
+              type="date" size="mini" value-format="yyyyMMddHHmm"
+              placeholder="选择时间"  :picker-options="pickerOptions1">
+            </el-date-picker>
           </el-col>
           <el-col :sm="24" :md="12" :lg="8" class="hb-item">
             <span class="item-text">到达时间：</span>
-            <el-select placeholder="请选择" size="mini"  class="item-input">
-              <el-option label="男" value="M"></el-option>
-              <el-option label="女" value="F"></el-option>
-              <el-option label="未知" value="U"></el-option>
-            </el-select>
+            <el-date-picker
+              class="item-input"
+              v-model="p1.arriveTime"
+              type="date" size="mini" value-format="yyyyMMddHHmm"
+              placeholder="选择时间"  :picker-options="pickerOptions1">
+            </el-date-picker>
           </el-col>
           <el-col :sm="24" :md="12" :lg="8" class="hb-item">
             <span class="item-text">出入标识：</span>
-            <el-select placeholder="请选择" size="mini"  class="item-input">
-              <el-option label="男" value="M"></el-option>
-              <el-option label="女" value="F"></el-option>
-              <el-option label="未知" value="U"></el-option>
+            <el-select placeholder="请选择" size="mini" v-model="p1.iOType" class="item-input">
+              <el-option label="入境" value="I"></el-option>
+              <el-option label="出境" value="O"></el-option>
             </el-select>
           </el-col>
         </el-row>
         <div class="tan-btn-g">
-          <el-button type="primary" size="small" class="mr-10">清空</el-button>
-          <el-button type="success" size="small" class="mr-10">取消</el-button>
-          <el-button type="info" size="small">确定</el-button>
+          <el-button type="primary" size="small" class="mr-10" @click="cleartab2">清空</el-button>
+          <!-- <el-button type="success" size="small" class="mr-10">取消</el-button> -->
+          <el-button type="info" size="small" @click="getJkHb">确定</el-button>
         </div>
         <div class="tan-row-text">
           航班监控表：
         </div>
         <el-table
-          :data="tableData"
+          :data="HBList"
           border
           style="width: 100%">
           <el-table-column
-            prop="date"
+            prop="preDepartTime"
             label="预计起飞">
           </el-table-column>
           <el-table-column
-            prop="name"
+            prop="preArriveTime"
             label="预计抵达">
           </el-table-column>
           <el-table-column
-            prop="address"
+            prop="fltDate"
             label="航班日期">
           </el-table-column>
           <el-table-column
-            prop="date"
+            prop="fltno"
             label="航班号">
           </el-table-column>
           <el-table-column
@@ -573,11 +569,11 @@
             label="航空公司">
           </el-table-column>
           <el-table-column
-            prop="date"
+            prop="from"
             label="出发地">
           </el-table-column>
           <el-table-column
-            prop="date"
+            prop="to"
             label="到达地">
           </el-table-column>
           <el-table-column
@@ -586,6 +582,11 @@
           </el-table-column>
           <el-table-column
             label="操作">
+            <template slot-scope="scope">
+              <div class="flex-r">
+                <div class="ta-btn hand" @click="delJkHb(scope.row.fltKey)">删除</div>
+              </div>
+           </template>
           </el-table-column>
         </el-table>
         <div class="tan-btn-g">
@@ -608,50 +609,42 @@
         <el-row :gutter="10" class="bb">
           <el-col :sm="24" :md="12" :lg="6" class="hb-item">
             <span class="item-text">航站/口岸：</span>
-            <el-select placeholder="请选择"  filterable @visible-change="" @change="" size="mini"  class="item-input">
+            <el-select placeholder="请选择"  filterable @visible-change="getHz" v-model="p2.port" size="mini"  class="item-input">
               <el-option
-                v-for="item in chauName"
-                :key="item.code"
-                :value="item.code"
-                :label="item.name">
+                v-for="item in HzList"
+                :key="item.KADM"
+                :value="item.KADM"
+                :label="item.KADM+' - '+item.KAMC">
 
                 </el-option>
             </el-select>
           </el-col>
           <el-col :sm="24" :md="12" :lg="6" class="hb-item">
             <span class="item-text">证件号码：</span>
-            <el-select placeholder="请选择"  filterable  size="mini"  class="item-input">
-              <el-option
-                v-for="item in selection"
-                :key="item.code"
-                :value="item.code"
-                :label="item.name"
-              ></el-option>
-            </el-select>
+            <el-input v-model="p2.passport" placeholder="请输入内容" size="mini"  class="item-input"></el-input>
+
           </el-col>
           <el-col :sm="24" :md="12" :lg="6" class="hb-item">
             <span class="item-text">国籍：</span>
-            <el-select placeholder="请选择"  filterable @visible-change=""  size="mini"  class="item-input">
+            <el-select placeholder="请选择"  filterable @visible-change="getGj" v-model="p2.NATIONALITY" size="mini"  class="item-input">
               <el-option
-                v-for="item in idName"
+                v-for="item in GjList"
                 :key="item.CODE"
                 :value="item.CODE"
-                :label="item.NAME"
-              ></el-option>
+                :label="item.CODE+' - '+item.CNAME">
+
+                </el-option>
             </el-select>
           </el-col>
 
           <el-col :sm="24" :md="12" :lg="6" class="hb-item">
             <span class="item-text">姓名：</span>
-            <el-select placeholder="请选择" size="mini"  class="item-input">
-              <el-option label="男" value="M"></el-option>
-              <el-option label="女" value="F"></el-option>
-              <el-option label="未知" value="U"></el-option>
-            </el-select>
+            <el-input v-model="p2.name" placeholder="请输入内容" size="mini"  class="item-input"></el-input>
+
           </el-col>
           <el-col :sm="24" :md="12" :lg="6" class="hb-item">
             <span class="item-text">性别：</span>
-            <el-select placeholder="请选择" size="mini"  class="item-input">
+            <el-select placeholder="请选择" size="mini" v-model="p2.GENDER" class="item-input">
               <el-option label="男" value="M"></el-option>
               <el-option label="女" value="F"></el-option>
               <el-option label="未知" value="U"></el-option>
@@ -659,99 +652,104 @@
           </el-col>
           <el-col :sm="24" :md="12" :lg="6" class="hb-item">
             <span class="item-text">出生日期：</span>
-            <el-select placeholder="请选择" size="mini"  class="item-input">
-              <el-option label="男" value="M"></el-option>
-              <el-option label="女" value="F"></el-option>
-              <el-option label="未知" value="U"></el-option>
-            </el-select>
+            <el-date-picker
+              class="item-input"
+              v-model="p2.birthday"
+              type="date" size="mini" value-format="yyyyMMdd"
+              placeholder="选择时间"  :picker-options="pickerOptions1">
+            </el-date-picker>
           </el-col>
           <el-col :sm="24" :md="12" :lg="6" class="hb-item">
             <span class="item-text">出入标识：</span>
-            <el-select placeholder="请选择" size="mini"  class="item-input">
-              <el-option label="男" value="M"></el-option>
-              <el-option label="女" value="F"></el-option>
-              <el-option label="未知" value="U"></el-option>
+            <el-select placeholder="请选择" size="mini" v-model="p2.iOType" class="item-input">
+              <el-option label="入境" value="I"></el-option>
+              <el-option label="出境" value="O"></el-option>
             </el-select>
           </el-col>
           <el-col :sm="24" :md="12" :lg="6" class="hb-item">
             <span class="item-text">航班号：</span>
-            <el-select placeholder="请选择" size="mini"  class="item-input">
-              <el-option label="男" value="M"></el-option>
-              <el-option label="女" value="F"></el-option>
-              <el-option label="未知" value="U"></el-option>
-            </el-select>
+            <el-input v-model="p2.fltNo" placeholder="请输入内容" size="mini"  class="item-input"></el-input>
+
           </el-col>
           <el-col :sm="24" :md="12" :lg="6" class="hb-item">
             <span class="item-text">航班日期：</span>
-            <el-select placeholder="请选择" size="mini"  class="item-input">
-              <el-option label="男" value="M"></el-option>
-              <el-option label="女" value="F"></el-option>
-              <el-option label="未知" value="U"></el-option>
-            </el-select>
+            <el-date-picker
+              class="item-input"
+              v-model="p2.fltDate"
+              type="date" size="mini" value-format="yyyyMMdd"
+              placeholder="选择时间"  :picker-options="pickerOptions1">
+            </el-date-picker>
           </el-col>
           <el-col :sm="24" :md="12" :lg="6" class="hb-item">
             <span class="item-text">出发时间：</span>
-            <el-select placeholder="请选择" size="mini"  class="item-input">
-              <el-option label="男" value="M"></el-option>
-              <el-option label="女" value="F"></el-option>
-              <el-option label="未知" value="U"></el-option>
-            </el-select>
+            <el-date-picker
+              class="item-input"
+              v-model="p2.departTime"
+              type="date" size="mini" value-format="yyyyMMddHHmm"
+              placeholder="选择时间"  :picker-options="pickerOptions1">
+            </el-date-picker>
           </el-col>
           <el-col :sm="24" :md="12" :lg="6" class="hb-item">
             <span class="item-text">到达时间：</span>
-            <el-select placeholder="请选择" size="mini"  class="item-input">
-              <el-option label="男" value="M"></el-option>
-              <el-option label="女" value="F"></el-option>
-              <el-option label="未知" value="U"></el-option>
-            </el-select>
+            <el-date-picker
+              class="item-input"
+              v-model="p2.arriveTime"
+              type="date" size="mini" value-format="yyyyMMddHHmm"
+              placeholder="选择时间"  :picker-options="pickerOptions1">
+            </el-date-picker>
           </el-col>
         </el-row>
         <div class="tan-btn-g">
-          <el-button type="primary" size="small" class="mr-10">清空</el-button>
-          <el-button type="success" size="small" class="mr-10">取消</el-button>
-          <el-button type="info" size="small">查询</el-button>
+          <el-button type="primary" size="small" class="mr-10" @click="cleartab3">清空</el-button>
+          <!-- <el-button type="success" size="small" class="mr-10">取消</el-button> -->
+          <el-button type="info" size="small" @click="getRy">查询</el-button>
         </div>
         <div class="tan-row-text">
           人员监控表：
         </div>
         <el-table
-          :data="tableData"
+          :data="RyList"
           border
           style="width: 100%">
           <el-table-column
-            prop="date"
+            prop="preDepartTime"
             label="预计起飞">
           </el-table-column>
           <el-table-column
-            prop="name"
+            prop="preArriveTime"
             label="预计抵达">
           </el-table-column>
           <el-table-column
-            prop="address"
+            prop="fltDate"
             label="航班日期">
           </el-table-column>
           <el-table-column
-            prop="date"
+            prop="fltno"
             label="航班号">
           </el-table-column>
           <el-table-column
-            prop="date"
+            prop="passportNo"
             label="证件号码">
           </el-table-column>
           <el-table-column
-            prop="date"
+            prop="nationalityName"
             label="国籍">
           </el-table-column>
           <el-table-column
-            prop="date"
+            prop="name"
             label="姓名">
           </el-table-column>
           <el-table-column
-            prop="date"
+            prop="birthDay"
             label="出生日期">
           </el-table-column>
           <el-table-column
             label="操作">
+            <template slot-scope="scope">
+              <div class="flex-r">
+                <div class="ta-btn hand" @click="delRy(scope.row.trvKey)">删除</div>
+              </div>
+           </template>
           </el-table-column>
         </el-table>
         <div class="tan-btn-g">
@@ -768,7 +766,6 @@ import echarts from 'echarts/lib/echarts';
 import 'echarts/map/js/world.js';
 
 export default {
-  name: "echarts",
   props: {
     className: {
       type: String,
@@ -799,6 +796,22 @@ export default {
       newHbData:[],
       showLeft: true,
       showRight: true,
+      HzList:[],
+      HgList:[],
+      GjList:[],
+
+      HBList:[],
+      RyList:[],
+      p1:{
+        showCount:5,
+        currentResult:0,
+        currentPage:1
+      },
+      p2:{
+        showCount:5,
+        currentResult:0,
+        currentPage:1
+      },
       chart: null,
       tableData: [{
          date: '2016',
@@ -906,6 +919,39 @@ export default {
          this.kary=r.data;
       })
     },
+    // 获取口岸航站
+    getHz(){
+      if(this.HzList.length==0){
+        this.$api.post('/eamp/codeTable/queryAirportMatch',{},
+          r => {
+            console.log(r)
+            this.HzList=r.data
+          })
+      }
+
+    },
+    // 获取航空公司
+    getHkGs(){
+      if(this.HgList.length==0){
+        this.$api.post('/eamp/codeTable/queryAircompanyList',{},
+          r => {
+            console.log(r)
+            this.HgList=r.data
+          })
+      }
+
+    },
+    // 获取国籍
+    getGj(){
+      if(this.HgList.length==0){
+        this.$api.post('/eamp/codeTable/queryNationality',{},
+          r => {
+            console.log(r)
+            this.GjList=r.data
+          })
+      }
+
+    },
     // 最新航班监控信息取得
     getNewData(){
       this.$api.post('/eamp/nationwide/getFlightMonitorInfo',{},
@@ -920,7 +966,6 @@ export default {
       this.$api.post('/eamp/nationwide/getFlightDetail',{fk:fk},
        r => {
          console.log(r);
-         this.newHbData=r.data;
       })
     },
     //口岸详细信息取得
@@ -929,11 +974,145 @@ export default {
       this.$api.post('/eamp/nationwide/getPortDetail',{port:port},
        r => {
          console.log(r);
-         this.newHbData=r.data;
+      })
+    },
+    // 当前监控口岸取得
+    getJkKa(){
+      this.$api.post('/eamp/portMonitor/getMonitorPortInfo',{},
+       r => {
+         console.log(r);
+      })
+    },
+    // 更新监控口岸
+    updateJkKa(){
+      let p={};
+      this.$api.post('/eamp/portMonitor/updateMonitorPortInfo',p,
+       r => {
+         console.log(r);
+      })
+    },
+    // 境内省列表取得
+    getSList(){
+      this.$api.post('/eamp/portMonitor/getInProvinceList',{},
+       r => {
+         console.log(r);
+      })
+    },
+    // 境内口岸列表取得
+    getKaList(){
+      this.$api.post('/eamp/portMonitor/getInPortList',{},
+       r => {
+         console.log(r);
+      })
+    },
+    // 境外国家列表取得
+    getGjList(){
+      this.$api.post('/eamp/portMonitor/getOutNationalityList',{},
+       r => {
+         console.log(r);
+      })
+    },
+    // 境外口岸列表取得
+    getJwKaList(){
+      this.$api.post('/eamp/portMonitor/getOutPortList',{},
+       r => {
+         console.log(r);
       })
     },
 
+    // 清空航班查询
+    cleartab2(){
+        this.p1={
+          showCount:5,
+          currentResult:0,
+          currentPage:1
+        }
+    },
+    // 清空人员查询
+    cleartab3(){
+        this.p2={
+          showCount:5,
+          currentResult:0,
+          currentPage:1
+        }
+    },
+    // 航班监控查询
+    getJkHb(){
+      this.$api.post('/eamp/flightMonitor/queryFlightPage',this.p1,
+       r => {
+         console.log(r);
+         this.HBList=r.data.pdList
+      })
+    },
+    // 添加监控航班
+    addJkHb(){
+      this.$api.post('/eamp/flightMonitor/getMonitorFlights',{},
+       r => {
+         console.log(r);
+      })
+    },
+    // 删除监控航班delMonitorFlight
+    delJkHb(fk){
+      this.$api.post('/eamp/flightMonitor/delMonitorFlight',{fltKey:fk},
+       r => {
+         console.log(r);
+         if(r.success){
+           this.$message({
+             message: '恭喜你，删除成功！',
+             type: 'success'
+           });
+           this.getJkHb()
+         }else{
+           this.$message.error(r.message);
+         }
+      })
+    },
+    // 当前监控航班取得
+    getDqJkHb(fk){
+      this.$api.post('/eamp/flightMonitor/addMonitorFlight',{fltKey:fk},
+       r => {
+         console.log(r);
+      })
+    },
 
+    // 人员监控查询
+    getRy(){
+      this.$api.post('/eamp/travelerMonitor/queryTravelerPage',this.p2,
+       r => {
+         console.log(r);
+         this.RyList=r.data.pdList;
+      })
+    },
+    // 添加监控人员
+    addRy(){
+      this.$api.post('/eamp/travelerMonitor/addMonitorTraveler',{},
+       r => {
+         console.log(r);
+      })
+    },
+    // 删除监控人员
+    delRy(tk){
+      this.$api.post('/eamp/travelerMonitor/delMonitorTraveler',{trvKey:tk},
+       r => {
+         console.log(r);
+         if(r.success){
+           this.$message({
+             message: '恭喜你，删除成功！',
+             type: 'success'
+           });
+           this.getRy()
+         }else{
+           this.$message.error(r.message);
+         }
+      })
+    },
+    // 当前监控人员取得
+    getDqRy(tk){
+      this.$api.post('/eamp/travelerMonitor/getMonitorTravelers',{trvKey:tk},
+       r => {
+         console.log(r);
+      })
+    },
 
     initChart(series) {
 

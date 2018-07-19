@@ -8,45 +8,36 @@
             查询条件
           </div>
           <el-row align="center"   :gutter="2" >
-            <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
-              <span class="input-text">警号：</span>
-              <el-input placeholder="请输入内容" size="small" v-model="pd.fltnoEqual"  class="input-input"></el-input>
+
+            <el-col  :sm="24" :md="12" :lg="6"  class="input-item">
+              <span class="input-text">姓名：</span>
+              <el-input placeholder="请输入内容" size="small" v-model="pd.NAME"  class="input-input"></el-input>
             </el-col>
-            <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
-              <span class="input-text">民警姓名：</span>
-              <el-input placeholder="请输入内容" size="small" v-model="pd.fltnoEqual"  class="input-input"></el-input>
+            <el-col  :sm="24" :md="12" :lg="6"  class="input-item">
+              <span class="input-text">用户名：</span>
+              <el-input placeholder="请输入内容" size="small" v-model="pd.USERNAME"  class="input-input"></el-input>
             </el-col>
 
-            <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
-              <span class="input-text">部门：</span>
-              <el-select v-model="pd.airlineCompanyIdEqual" filterable @visible-change="queryNationality" placeholder="请选择" size="small" class="input-input">
+            <el-col  :sm="24" :md="12" :lg="6"  class="input-item">
+              <span class="input-text">单位：</span>
+              <el-select v-model="pd.DEPT_ID"  @visible-change="queryNationality" placeholder="请选择" size="small" class="input-input">
                  <el-option
                    v-for="item in company"
-                   :key="item.AIRLINE_CODE"
-                   :label="item.AIRLINE_CHN_NAME"
-                   :value="item.AIRLINE_CODE" >
+                   :key="item.SERIAL"
+                   :label="item.DEPT_QC"
+                   :value="item.SERIAL">
                  </el-option>
                </el-select>
             </el-col>
-            <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
-              <span class="input-text">角色：</span>
-              <el-select v-model="pd.airlineCompanyIdEqual" filterable @visible-change="queryNationality" placeholder="请选择" size="small" class="input-input">
-                 <el-option
-                   v-for="item in company"
-                   :key="item.AIRLINE_CODE"
-                   :label="item.AIRLINE_CHN_NAME"
-                   :value="item.AIRLINE_CODE" >
-                 </el-option>
-               </el-select>
-            </el-col>
-            <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+
+            <el-col  :sm="24" :md="12" :lg="6"  class="input-item">
               <span class="input-text">状态：</span>
-              <el-select v-model="pd.stationfromEqual" filterable @visible-change="queryAirport" placeholder="请选择" size="small" class="input-input">
-                 <el-option
-                   v-for="item in Airport"
-                   :key="item.AIRPORT_CODE"
-                   :label="item.AIRPORT_NAME"
-                   :value="item.AIRPORT_CODE" >
+              <el-select v-model="pd.STATUS"  placeholder="请选择" size="small" class="input-input">
+                 <el-option value="" label="全部">
+                 </el-option>
+                 <el-option value="1" label="启用">
+                 </el-option>
+                 <el-option value="0" label="停用">
                  </el-option>
                </el-select>
             </el-col>
@@ -54,7 +45,7 @@
 
           </el-row>
         </el-col>
-        <el-col :span="2" class="down-btn-area">
+        <el-col :span="2" class="down-btn-area" style="margin-top:30px;">
           <el-button type="success" size="small" @click="getList(CurrentPage,pageSize,pd)">查询</el-button>
         </el-col>
       </el-row>
@@ -62,7 +53,7 @@
     <div class="middle">
       <el-row class="mb-15">
 
-        <el-button type="primary" size="small" @click="adds">新增</el-button>
+        <el-button type="primary" size="small" @click="adds(0,null)">新增</el-button>
         </el-row>
       <el-table
         :data="tableData"
@@ -70,46 +61,54 @@
         style="width: 100%;"
         >
         <el-table-column
-          prop="fltno"
+          prop="EMPLOYEE_CARD"
           label="警号">
         </el-table-column>
         <el-table-column
-          prop="flightTime"
+          prop="NAME"
           label="民警姓名"
           >
         </el-table-column>
         <el-table-column
-          prop="airlineCompanyId"
+          prop="USERNAME"
           label="用户名">
         </el-table-column>
         <el-table-column
-          prop="stationfromName"
+          prop="CERTIFICATE_NO"
           label="身份证"
           >
         </el-table-column>
         <el-table-column
-          prop="stationtoName"
+
           label="性别"
         >
+        <template slot-scope="scope">
+          {{scope.row.SEX | fiftersex}}
+
+        </template>
         </el-table-column>
         <el-table-column
-          prop="stationtoName"
+          prop="PHONE"
           label="联系方式"
         >
         </el-table-column>
 
         <el-table-column
-          prop="stationtoName"
+
           label="状态"
         >
+        <template slot-scope="scope">
+          {{scope.row.STATUS | fifterstatus}}
+
+        </template>
         </el-table-column>
         <el-table-column
           label="操作" width="250">
           <template slot-scope="scope">
             <div class="flex-r">
               <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row)">详情</el-button>
-                  <el-button class="table-btn" size="mini" plain icon="el-icon-edit" @click="details(scope.row)">编辑</el-button>
-                    <el-button class="table-btn" size="mini" plain icon="el-icon-delete" @click="details(scope.row)">编辑</el-button>
+              <el-button class="table-btn" size="mini" plain icon="el-icon-edit" @click="adds(1,scope.row)">编辑</el-button>
+              <el-button class="table-btn" size="mini" plain icon="el-icon-delete" @click="deletes(scope.row)">删除</el-button>
             </div>
          </template>
         </el-table-column>
@@ -146,67 +145,164 @@
     </div>
 
 
-    <el-dialog title="航班处理" :visible.sync="addDialogVisible">
+    <el-dialog title="新增/编辑" :visible.sync="addDialogVisible" width="700px" >
       <el-form :model="form" ref="addForm">
         <el-row type="flex"  class="mb-6">
-          <el-col :span="8" class="input-item">
-            <span class="yy-input-text">航班号：</span>
-            <el-input placeholder="请输入内容" size="small"  :disabled="true" v-model="form.fltno" class="yy-input-input" ></el-input>
+          <el-col :span="12" class="input-item">
+            <span class="yy-input-text">姓名：</span>
+            <el-input placeholder="请输入内容" size="small"  v-model="form.NAME" class="yy-input-input" ></el-input>
 
           </el-col>
-          <el-col :span="8" class="input-item">
-            <span class="yy-input-text">所属航空公司：</span>
-            <el-input placeholder="请输入内容" size="small"  :disabled="true" v-model="form.airlineCompanyId" class="yy-input-input"></el-input>
-          </el-col>
+          <el-col :span="12" class="input-item">
+            <span class="yy-input-text">用户名：</span>
+            <el-input placeholder="请输入内容" size="small"  v-model="form.USERNAME" class="yy-input-input" ></el-input>
 
-          <el-col :span="8" class="input-item">
-            <span class="yy-input-text">航班日期：</span>
-            <el-input placeholder="请输入内容" size="small"   :disabled="true" v-model="form.flightTime" class="yy-input-input"></el-input>
           </el-col>
         </el-row>
         <el-row type="flex"  class="mb-6">
-          <el-col :span="8" class="input-item">
-            <span class="yy-input-text">实际出发口岸：</span>
-            <el-input placeholder="请输入内容" size="small" v-model="form.stationfromName" :disabled="true" class="yy-input-input"></el-input>
+          <el-col :span="12" class="input-item">
+            <span class="yy-input-text">警号：</span>
+            <el-input placeholder="请输入内容" size="small"  v-model="form.EMPLOYEE_CARD" class="yy-input-input" ></el-input>
 
           </el-col>
-          <el-col :span="8" class="input-item">
-            <span class="yy-input-text">原计划到达口岸：</span>
-              <el-input placeholder="请输入内容" size="small" v-model="form.stationtoName" :disabled="true" class="yy-input-input"></el-input>
+          <el-col :span="12" class="input-item">
+            <span class="yy-input-text">状态：</span>
+            <el-select v-model="form.STATUS"   placeholder="请选择" size="small" class="yy-input-input">
+              <el-option value="" label="全部">
+              </el-option>
+              <el-option value="1" label="启用">
+              </el-option>
+              <el-option value="0" label="停用">
+              </el-option>
+             </el-select>
+
           </el-col>
         </el-row>
 
         <el-row type="flex" class="mb-6" >
-          <el-col :span="8" class="input-item">
-            <span class="yy-input-text">现计划到达口岸：</span>
-            <el-select v-model="form.portCode" filterable  @visible-change="queryAirport" placeholder="请选择" size="small" class="yy-input-input">
+          <el-col :span="12" class="input-item">
+            <span class="yy-input-text">性别：</span>
+            <el-select v-model="form.SEX"   placeholder="请选择" size="small" class="yy-input-input">
+              <el-option value="" label="全部">
+              </el-option>
+              <el-option value="1" label="男">
+              </el-option>
+              <el-option value="0" label="女">
+              </el-option>
+             </el-select>
+
+          </el-col>
+          <el-col :span="12" class="input-item">
+            <span class="yy-input-text">部门：</span>
+            <el-select v-model="form.DEPT_ID"  @visible-change="queryNationality" placeholder="请选择" size="small" class="yy-input-input">
                <el-option
-                 v-for="item in Airport"
-                 :key="item.AIRPORT_CODE"
-                 :label="item.AIRPORT_NAME"
-                 :value="item.AIRPORT_CODE" >
+                 v-for="item in company"
+                 :key="item.SERIAL"
+                 :label="item.DEPT_QC"
+                 :value="item.SERIAL" >
                </el-option>
              </el-select>
           </el-col>
         </el-row>
-
-        <el-row type="flex" class="mb-6" >
-          <el-col :span="8" class="input-item">
-            <span class="yy-input-text">事件描述：</span>
+        <el-row type="flex"  class="mb-6">
+          <el-col :span="12" class="input-item">
+            <span class="yy-input-text">联系方式：</span>
+            <el-input placeholder="请输入内容" size="small"  v-model="form.PHONE" class="yy-input-input" ></el-input>
 
           </el-col>
-          <el-col :span="14" style="margin-left:-20%">
-           <el-input type="textarea" placeholder="请输入内容" :autosize="{ minRows: 3, maxRows: 6}" v-model="form.desc"></el-input>
+          <el-col :span="12" class="input-item">
+            <span class="yy-input-text">身份证号：</span>
+            <el-input placeholder="请输入内容" size="small"  v-model="form.CERTIFICATE_NO" class="yy-input-input" ></el-input>
+
+          </el-col>
+        </el-row>
+        <el-row type="flex" class="mb-6" style="margin-left:-80px;">
+          <el-col :span="24" class="input-item">
+            <span class="yy-input-text">角色：</span>
+            <el-select v-model="form.roleList" multiple  @visible-change="queryrole" placeholder="请选择" size="small" style="width:76%;">
+               <el-option
+                 v-for="item in role"
+                 :key="item.SERIAL"
+                 :label="item.ROLE_NAME"
+                 :value="item.SERIAL" >
+               </el-option>
+             </el-select>
+          </el-col>
+        </el-row>
+        <el-row type="flex" class="mb-6" style="margin-left:-80px;">
+          <el-col :span="24" class="input-item">
+            <span class="yy-input-text">备注：</span>
+            <el-input type="textarea"  placeholder="请输入内容" :autosize="{ minRows: 3, maxRows: 6}" v-model="form.REMARKS" style="width:76%;"></el-input>
+          </el-col>
+        </el-row>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="addItem('addForm')" size="small">确 定</el-button>
+        <el-button @click="addDialogVisible = false" size="small">取 消</el-button>
+      </div>
+    </el-dialog>
+
+    <el-dialog title="详情" :visible.sync="detailsDialogVisible" width="700px" >
+      <el-form :model="map" ref="mapForm">
+        <el-row type="flex"  class="mb-6">
+          <el-col :span="12" class="input-item">
+            <span class="yy-input-text">姓名：</span>
+          <span class="yy-input-input">  {{mapForm.NAME}}</span>
+            </el-col>
+
+            <el-col :span="12" class="input-item">
+              <span class="yy-input-text">用户名：</span>
+            <span class="yy-input-input">  {{mapForm.USERNAME}}</span>
+              </el-col>
+        </el-row>
+
+        <el-row type="flex" class="mb-6" >
+          <el-col :span="12" class="input-item">
+            <span class="yy-input-text">性别：</span>
+            <span class="yy-input-input">  {{mapForm.SEX=="0"?"女":mapForm.SEX=="1"?"男":"未知"}}</span>
+          </el-col>
+          <el-col :span="12" class="input-item">
+            <span class="yy-input-text">上级单位：</span>
+          <span class="yy-input-input">  {{mapForm.DEPT_JC}}</span>
           </el-col>
         </el-row>
 
+        <el-row type="flex" class="mb-6" >
+          <el-col :span="12" class="input-item">
+            <span class="yy-input-text">状态：</span>
+          <span class="yy-input-input">  {{mapForm.STATUS=="0"?"停用":"启用"}}</span>
+          </el-col>
+
+          <el-col :span="12" class="input-item">
+            <span class="yy-input-text">联系方式：</span>
+          <span class="yy-input-input">  {{mapForm.PHON}}</span>
+          </el-col>
+        </el-row>
+        <el-row type="flex" class="mb-6" >
+          <el-col :span="12" class="input-item">
+          <span class="yy-input-text">角色：</span>
+          <span class="yy-input-input">  {{mapForm.roleList}}</span>
+          </el-col>
+          <el-col :span="12" class="input-item">
+            <span class="yy-input-text">身份证号：</span>
+          <span class="yy-input-input">  {{mapForm.CERTIFICATE_NO}}</span>
+          </el-col>
+
+
+        </el-row>
+        <el-row type="flex" class="mb-6" style="margin-left:-80px;">
+          <el-col :span="24" class="input-item">
+            <span class="yy-input-text">备注：</span>
+          <span class="yy-input-input">  {{mapForm.REMARKS}}</span>
+          </el-col>
+        </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="addItem('addForm')" size="small">变更</el-button>
-        <el-button @click="addDialogVisible = false" size="small">取 消</el-button>
-
+        <el-button @click="detailsDialogVisible = false" size="small">取 消</el-button>
       </div>
     </el-dialog>
+
+
   </div>
   </div>
 </template>
@@ -219,10 +315,9 @@ export default {
       pageSize: 10,
       TotalResult: 0,
       pd: {},
-      nation: [],
       company: [],
-      value: '',
-      value1: "",
+      role:[],
+      tp: 0,
       addDialogVisible: false,
       detailsDialogVisible: false,
       options: [{
@@ -263,7 +358,8 @@ export default {
         }]
       },
       form: {},
-      Airport:[],
+      mapForm:{},
+
     }
   },
   mounted() {
@@ -286,48 +382,61 @@ export default {
       let p = {
         "currentPage": currentPage,
         "showCount": showCount,
-        "cdt": pd
+        "pd": pd
       };
-      this.$api.post('/eamp/statusUpdate/flight/queryListPage', p,
+      this.$api.post('/eamp/userSys/selectAll', p,
         r => {
           console.log(r);
-          this.tableData = r.data.resultList;
-          this.TotalResult = r.data.totalResult;
+          this.tableData = r.data.userList.pdList;
+          this.TotalResult = r.data.userList.totalResult;
         })
     },
+
     queryNationality() {
-      this.$api.post('/eamp/codeTable/queryAircompanyList', {},
+      this.$api.post('/eamp/userSys/goAdd', {},
         r => {
           console.log(r);
           if (r.success) {
-            this.company = r.data;
+            this.company = r.data.deptList;
           }
         })
     },
-    queryAirport() {
-
-      if(this.Airport.length!=0){
-        return;
-      };
-      this.$api.post('/eamp/codeTable/queryAirport', {},
+    queryrole() {
+      this.$api.post('/eamp/userSys/roleList', {},
         r => {
-  console.log(r);
-            this.Airport = r.data;
-
+          console.log(r);
+          if (r.success) {
+            this.role = r.data.roleList;
+          }
         })
     },
+    adds(n, i) {
+      this.addDialogVisible = true;
+
+      if (n != 0) {
+        this.tp = 1;
+        this.form = i;
+      }
+
+    },
     addItem(formName) {
-      this.$api.post('/eamp/statusUpdate/flight/saveChangePort', this.form,
+      var url = "/eamp/userSys/save";
+
+      if (this.tp == 1) {
+        url = "/eamp/userSys/goEdit";
+      }
+      this.$api.post(url, this.form,
         r => {
           console.log(r);
           if (r.success) {
             this.$message({
-              message: '变更成功！',
+              message: '保存成功！',
               type: 'success'
             });
           } else {
             this.$message.error(r.Message);
           }
+
           this.$refs[formName].resetFields();
           this.addDialogVisible = false;
           this.getList();
@@ -337,12 +446,69 @@ export default {
         })
     },
     details(i) {
-      this.addDialogVisible = true;
+      this.detailsDialogVisible = true;
       console.log(i);
-      this.form = i;
+      this.mapForm = i;
+    },
+    deletes(i) {
+      let p = {
+        "SERIAL": i.SERIAL
+      };
+      this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+
+        this.$api.post('/eamp/userSys/delete', p,
+          r => {
+            console.log("===" + r);
+            if (r.success) {
+              this.$message({
+                message: '删除成功！',
+                type: 'success'
+              });
+              this.getList();
+            } else {
+              this.$message.error(r.Message);
+            }
+          }, e => {
+            this.$message.error('失败了');
+
+          });
+
+
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        });
+      });
+
     },
 
-  }
+  },
+  filters: {
+
+    fifterstatus(val) {
+      if (val == 0) {
+        return "停用"
+
+      } else {
+        return "启用"
+      }
+    },
+    fiftersex(val) {
+      if (val == 0) {
+        return "女"
+
+      } else if (val == 1) {
+        return "男"
+      } else {
+        return "未知";
+      }
+    }
+  },
 }
 </script>
 
@@ -361,5 +527,11 @@ export default {
   display: inline-block;
   width: 60px;
 }
-
+.yy-input-text {
+  width: 20% !important;
+}
+.yy-input-input {
+  width: 70% !important;
+  font-weight: bold;
+}
 </style>

@@ -262,9 +262,12 @@
 }
 .item-text{
   display: inline-block!important;
-  width: 90px!important;
+  width: 32%!important;
   height: 28px!important;
   line-height: 28px!important;
+}
+.item-input{
+  width: 65%
 }
 .bb{
   border-bottom: 1px #329ca9 solid;
@@ -273,4 +276,8 @@
   display: flex;
   justify-content: center;
   padding: 10px ;
+}
+.ta-btn{
+  font-size: 14px;
+  color: #fb7c4f!important;
 }

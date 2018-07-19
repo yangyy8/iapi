@@ -47,11 +47,11 @@
                   <el-col  :sm="24" :md="12" :lg="6"   class="input-item">
               <span class="input-text">性别：</span>
               <el-select v-model="pd.GENDER" placeholder="请选择" size="small" class="input-input">
-                 <el-option value="U" label="未知">
+                 <el-option value="U" label="U - 未知">
                  </el-option>
-                 <el-option value="M" label="男">
+                 <el-option value="F" label="F - 男">
                  </el-option>
-                 <el-option value="F" label="女">
+                 <el-option value="M" label="M - 女">
                  </el-option>
                </el-select>
             </el-col>
@@ -75,13 +75,13 @@
               <span class="input-text">反馈状态：</span>
               <el-select v-model="pd.CHECKRESULT" class="input-input" placeholder="请选择"   size="small" >
 
-                <el-option value="0Z" label="0Z-允许打印登机牌">
+                <el-option value="0Z" label="0Z - 允许打印登机牌">
                 </el-option>
-                <el-option value="1Z" label="1Z-禁止打印登机牌">
+                <el-option value="1Z" label="1Z - 禁止打印登机牌">
                 </el-option>
-                <el-option value="2Z" label="2Z-请再次核对">
+                <el-option value="2Z" label="2Z - 请再次核对">
                 </el-option>
-                <el-option value="4Z" label="4Z-数据错误">
+                <el-option value="4Z" label="4Z - 数据错误">
                 </el-option>
                </el-select>
 
@@ -96,7 +96,6 @@
     </div>
     <div class="middle">
       <el-row class="mb-15">
-
         <el-button type="info" size="small" @click="batchs">批量变更</el-button>
         </el-row>
       <el-table
@@ -114,9 +113,12 @@
                 >
                 </el-table-column>
                 <el-table-column
-                  prop="CARDTYPE"
                   label="证件种类"
                 >
+                <template slot-scope="scope">
+                    {{scope.row.INTG_CARDTYPE | fiftertype}}
+                  </template>
+
                 </el-table-column>
                 <el-table-column
                   prop="PASSPORTNO"
@@ -129,10 +131,18 @@
                 >
                 </el-table-column>
                 <el-table-column
-                  prop="GENDER"
+                  prop="INTG_CHNNAME"
+                  label="中文姓名"
+                >
+                </el-table-column>
+                <el-table-column
+
                   label="性别"
                   width="50"
                 >
+                <template slot-scope="scope">
+                  {{scope.row.GENDER | fiftersex}}
+                </template>
                 </el-table-column>
                 <el-table-column
                   prop="DATEOFBIRTH"
@@ -151,9 +161,11 @@
                 </el-table-column>
 
                 <el-table-column
-                  prop="PASSENGERSTATUS"
                   label="值机状态"
                   >
+                  <template slot-scope="scope">
+                    {{scope.row.PASSENGERSTATUS | fifterstate}}
+                  </template>
                 </el-table-column>
                 <el-table-column
                   label="操作" width="180">
@@ -209,10 +221,12 @@
                     >
                     </el-table-column>
                     <el-table-column
-                      prop="GENDER"
                       label="性别"
                       width="50"
                     >
+                    <template slot-scope="scope">
+                      {{scope.row.GENDER | fiftersex}}
+                    </template>
                     </el-table-column>
                     <el-table-column
                       prop="DATEOFBIRTH"
@@ -230,9 +244,12 @@
                     >
                     </el-table-column>
                     <el-table-column
-                      prop="CARDTYPE"
                       label="证件种类"
                     >
+                    <template slot-scope="scope">
+                        {{scope.row.INTG_CARDTYPE | fiftertype}}
+                      </template>
+
                     </el-table-column>
                     <el-table-column
                       prop="PASSPORTNO"
@@ -240,9 +257,11 @@
                     >
                     </el-table-column>
                     <el-table-column
-                      prop="CHECKRESULT"
                       label="当前值机状态"
                     >
+                    <template slot-scope="scope">
+                      {{scope.row.CHECKRESULT | fiftecr}}
+                    </template>
                     </el-table-column>
                     <el-table-column
                       prop="CHECKRESULT"
@@ -253,16 +272,16 @@
         </el-row>
         <hr/>
         <el-row type="flex" class="mb-6">
-          <el-col :span="10" class="input-item">
-            <span class="yy-input-text">变更后值机状态：</span>
-            <el-select v-model="form.INSTRUCT"  placeholder="请选择"   size="small" class="yy-input-input">
-              <el-option value="0Z" label="0Z">
+          <el-col :span="24" class="input-item">
+            <span class="yy-input-text" style="width:15%">变更后值机状态：</span>
+            <el-select v-model="map.INSTRUCT"  placeholder="请选择"   size="small" style="width:80%">
+              <el-option value="0Z" label="0Z - 允许打印登机牌">
               </el-option>
-              <el-option value="1Z" label="1Z">
+              <el-option value="1Z" label="1Z - 禁止打印登机牌">
               </el-option>
-              <el-option value="2Z" label="2Z">
+              <el-option value="2Z" label="2Z - 请再次核对">
               </el-option>
-              <el-option value="4Z" label="4Z">
+              <el-option value="4Z" label="4Z - 数据错误">
               </el-option>
              </el-select>
 
@@ -270,32 +289,28 @@
           </el-col>
         </el-row>
         <el-row type="flex" class="mb-6">
-          <el-col :span="10" class="input-item">
-            <span class="yy-input-text">变更后值机状态说明：</span>
-            <el-input placeholder="请输入内容" size="small" v-model="form.INSTRUCTC" class="yy-input-input"></el-input>
+          <el-col :span="24" class="input-item">
+            <span class="yy-input-text" style="width:15%">变更后值机状态说明：</span>
+            <el-input placeholder="请输入内容" size="small" v-model="map.INSTRUCTC" style="width:80%"></el-input>
           </el-col>
         </el-row>
 
         <el-row type="flex" class="mb-6">
-          <el-col :span="10" class="input-item">
-            <span class="yy-input-text">变更说明：</span>
-
-          </el-col>
-          <el-col :span="14" style="margin-left:-25%;">
-
-           <el-input type="textarea" placeholder="请输入内容" :autosize="{ minRows: 3, maxRows: 6}" v-model="form.CHANGERESON"></el-input>
+          <el-col :span="24" class="input-item">
+            <span class="yy-input-text" style="width:15%">变更说明：</span>
+           <el-input type="textarea" placeholder="请输入内容" :autosize="{ minRows: 3, maxRows: 6}" style="width:80%" v-model="map.CHANGERESON"></el-input>
           </el-col>
         </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="handlesItem(0,'handlesForm')" size="small">变更</el-button>
+        <el-button type="primary" @click="handlesItem('batchmap')" size="small">变更</el-button>
         <el-button @click="batchDialogVisible = false" size="small">取消</el-button>
 
       </div>
     </el-dialog>
 
 
-    <el-dialog title="指令变更" :visible.sync="handlesDialogVisible">
+    <el-dialog title="指令变更" :visible.sync="handlesDialogVisible" width="900px">
       <el-form :model="form" ref="handlesForm">
         <el-row type="flex"  class="mb-6">
           <el-col :span="8" class="input-item">
@@ -305,7 +320,7 @@
           </el-col>
           <el-col :span="8" class="input-item">
             <span class="yy-input-text">性别：</span>
-              <el-input placeholder="请输入内容" size="small" v-model="form.GENDER" class="yy-input-input" :disabled="true"></el-input>
+              <el-input placeholder="请输入内容" size="small" v-model="form.GENDER=='U'?'未知':form.GENDER=='M'?'男':'女'" class="yy-input-input" :disabled="true"></el-input>
           </el-col>
 
           <el-col :span="8" class="input-item">
@@ -316,7 +331,7 @@
         <el-row type="flex"  class="mb-6">
           <el-col :span="8" class="input-item">
             <span class="yy-input-text">国籍：</span>
-            <el-input placeholder="请输入内容" size="small" v-model="form.NATIONALITY" class="yy-input-input" :disabled="true"></el-input>
+            <el-input placeholder="请输入内容" size="small" v-model="form.NATIONALITYC" class="yy-input-input" :disabled="true"></el-input>
 
           </el-col>
           <el-col :span="8" class="input-item">
@@ -333,8 +348,17 @@
         <el-row type="flex"  class="mb-6">
           <el-col :span="8" class="input-item">
             <span class="yy-input-text">当前值机状态：</span>
-            <el-input placeholder="请输入内容" size="small" v-model="form.CHECKRESULT" class="yy-input-input" :disabled="true"></el-input>
 
+            <el-select v-model="form.CHECKRESULT"  placeholder="请选择"   size="small" class="yy-input-input" :disabled="true">
+              <el-option value="0Z" label="0Z - 允许打印登机牌">
+              </el-option>
+              <el-option value="1Z" label="1Z - 禁止打印登机牌">
+              </el-option>
+              <el-option value="2Z" label="2Z - 请再次核对">
+              </el-option>
+              <el-option value="4Z" label="4Z - 数据错误">
+              </el-option>
+             </el-select>
           </el-col>
           <el-col :span="8" class="input-item">
             <span class="yy-input-text">值机状态说明：</span>
@@ -345,89 +369,166 @@
         </el-row>
         <hr/>
         <el-row type="flex" class="mb-6">
-          <el-col :span="10" class="input-item">
-            <span class="yy-input-text">变更后值机状态：</span>
-            <el-select v-model="form.INSTRUCT"  placeholder="请选择"   size="small" class="yy-input-input">
-              <el-option value="0Z" label="0Z">
+          <el-col :span="24" class="input-item">
+            <span class="yy-input-text" style="width:18%">变更后值机状态：</span>
+            <el-select v-model="form.INSTRUCT"  placeholder="请选择"   size="small" style="width:82%">
+              <el-option value="0Z" label="0Z - 允许打印登机牌">
               </el-option>
-              <el-option value="1Z" label="1Z">
+              <el-option value="1Z" label="1Z - 禁止打印登机牌">
               </el-option>
-              <el-option value="2Z" label="2Z">
+              <el-option value="2Z" label="2Z - 请再次核对">
               </el-option>
-              <el-option value="4Z" label="4Z">
+              <el-option value="4Z" label="4Z - 数据错误">
               </el-option>
              </el-select>
-
           </el-col>
           </el-col>
         </el-row>
         <el-row type="flex" class="mb-6">
-          <el-col :span="10" class="input-item">
-            <span class="yy-input-text">变更后值机状态说明：</span>
-            <el-input placeholder="请输入内容" size="small" v-model="form.INSTRUCTC" class="yy-input-input"></el-input>
+          <el-col :span="24" class="input-item">
+            <span class="yy-input-text" style="width:18%">变更后值机状态说明：</span>
+            <el-input placeholder="请输入内容" size="small" v-model="form.INSTRUCTC" style="width:82%"></el-input>
           </el-col>
         </el-row>
 
         <el-row type="flex" class="mb-6">
-          <el-col :span="10" class="input-item">
-            <span class="yy-input-text">变更说明：</span>
-
-          </el-col>
-          <el-col :span="14" style="margin-left:-25%;">
-
-           <el-input type="textarea" placeholder="请输入内容" :autosize="{ minRows: 3, maxRows: 6}" v-model="form.CHANGERESON"></el-input>
+          <el-col :span="24" class="input-item">
+            <span class="yy-input-text" style="width:18%">变更说明：</span>
+           <el-input type="textarea" v-model="form.CHANGERESON"  placeholder="请输入内容" :autosize="{ minRows: 3, maxRows: 6}" style="width:82%;" ></el-input>
           </el-col>
         </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="handlesItem(1,'handlesForm')" size="small">变更</el-button>
+        <el-button type="primary" @click="handlesItem1('handlesForm')" size="small">变更</el-button>
         <el-button @click="handlesDialogVisible = false" size="small">取消</el-button>
 
       </div>
     </el-dialog>
+
+    <el-dialog  title="操作授权" :visible.sync="AuthDialogVisible"   append-to-body width="500px">
+
+      <el-row  type="flex"  class="mb-15">
+            <el-col :span="20">
+            <span class="yy-input-text">授权账号：</span>
+            <el-input placeholder="请输入内容" size="small" v-model="form.INSTRUCTC" class="yy-input-input"></el-input></el-col>
+      </el-row>
+      <el-row  type="flex"  class="mb-15">
+            <el-col :span="20">
+              <span class="yy-input-text">授权密码：</span>
+              <el-input placeholder="请输入内容" type="password" size="small" v-model="form.INST2C" class="yy-input-input"></el-input></el-col>
+
+      </el-row>
+      <div slot="footer" class="dialog-footer">
+       <el-button type="primary" @click="Authorization('atuorForm')" size="small">确认授权</el-button>
+        <el-button @click="AuthDialogVisible = false" size="small">取消</el-button>
+
+      </div>
+
+    </el-dialog>
+
+
 
   <el-dialog title="查看详情" :visible.sync="detailsDialogVisible">
     <el-form :model="dform" ref="detailsForm">
       <div class="hrtitle">基本信息</div>
       <el-row type="flex"  class="mb-6">
         <el-col :span="6">姓名：{{dform.NAME}}</el-col>
-        <el-col :span="6">性别：{{dform.NAME}}</el-col>
-        <el-col :span="6">出生日期：{{dform.NAME}}</el-col>
-        <el-col :span="6">国籍：{{dform.NAME}}</el-col>
+        <el-col :span="6">性别：{{dform.GENDER=="F"?"男":dform.GENDER=="F"?"女":"未知"}}</el-col>
+        <el-col :span="6">出生日期：{{dform.DATEOFBIRTH}}</el-col>
+        <el-col :span="6">国籍：{{dform.NATIONALITYC}}</el-col>
       </el-row>
       <el-row type="flex"  class="mb-6">
-        <el-col :span="6">姓名：{{dform.NAME}}</el-col>
-        <el-col :span="6">性别：{{dform.NAME}}</el-col>
-        <el-col :span="6">出生日期：{{dform.NAME}}</el-col>
-        <el-col :span="6">国籍：{{dform.NAME}}</el-col>
+        <el-col :span="6">证件号码：{{dform.NAME}}</el-col>
+        <el-col :span="6">出入标识：{{dform.FLIGHTTYPE=="I"?"入境":"出境"}}</el-col>
+        <el-col :span="6">居住国：{{dform.RESIDENCEC}}</el-col>
+        <el-col :span="6">出生国：{{dform.NATIONALITYC}}</el-col>
+      </el-row>
+      <el-row type="flex"  class="mb-6">
+        <el-col :span="6">护照号码：{{dform.PASSPORTNO}}</el-col>
+        <el-col :span="6">护照有效期：{{dform.PASSPORTEXPIREDATE}}</el-col>
+        <el-col :span="6">护照颁发国：{{dform.PASSPORTISSUECOUNTRYC}}</el-col>
+        <el-col :span="6">护照签发日期：{{dform.PASSPORTISSUEDATE}}</el-col>
       </el-row>
       <div class="hrtitle">航班信息</div>
       <el-row type="flex"  class="mb-6">
-        <el-col :span="6">姓名：{{dform.NAME}}</el-col>
-        <el-col :span="6">性别：{{dform.NAME}}</el-col>
-        <el-col :span="6">出生日期：{{dform.NAME}}</el-col>
-        <el-col :span="6">国籍：{{dform.NAME}}</el-col>
+        <el-col :span="6">航班号：{{dform.NAME}}</el-col>
+        <el-col :span="6">航班日期：{{dform.NAME}}</el-col>
+        <el-col :span="6">起飞机场：{{dform.CITYFROMC}}</el-col>
+        <el-col :span="6">预计起飞时间：{{dform.SCHEDULEDEPARTURETIME}}</el-col>
       </el-row>
       <el-row type="flex"  class="mb-6">
-        <el-col :span="6">姓名：{{dform.NAME}}</el-col>
-        <el-col :span="6">性别：{{dform.NAME}}</el-col>
-        <el-col :span="6">出生日期：{{dform.NAME}}</el-col>
-        <el-col :span="6">国籍：{{dform.NAME}}</el-col>
+        <el-col :span="6">到达机场：{{dform.CITYTOC}}</el-col>
+        <el-col :span="6">预计到达时间：{{dform.SCHEDULEARRIVETIME}}</el-col>
+        <el-col :span="6">原预检结果：{{dform.NAME}}</el-col>
+        <el-col :span="6">最终预检结果：{{dform.NAME}}</el-col>
+      </el-row>
+      <el-row type="flex"  class="mb-6">
+        <el-col :span="6">是否有效：{{dform.NAME}}</el-col>
+        <el-col :span="6">航班状态：{{dform.FLIGHTSTATUS==0?"取消":"起飞"}}</el-col>
+        <el-col :span="6">登机/航班取消时间：{{dform.NAME}}</el-col>
+        <el-col :span="6">口岸：{{dform.PORTC}}</el-col>
+      </el-row>
+      <el-row type="flex"  class="mb-6">
+        <el-col :span="6">备降口岸：{{dform.CHANGEPORTC}}</el-col>
+        <el-col :span="6">航空公司联系电话：{{dform.AIRLINEPHONE}}</el-col>
       </el-row>
       <div class="hrtitle">其他信息</div>
       <el-row type="flex"  class="mb-6">
-        <el-col :span="6">姓名：{{dform.NAME}}</el-col>
-        <el-col :span="6">性别：{{dform.NAME}}</el-col>
-        <el-col :span="6">出生日期：{{dform.NAME}}</el-col>
-        <el-col :span="6">国籍：{{dform.NATIONALITY}}</el-col>
+        <el-col :span="8">航空公司传真：{{dform.AIRLINEFAX}}</el-col>
+        <el-col :span="8">航信发送报文时间：{{dform.GAPP_SENDTIME}}</el-col>
+        <el-col :span="8">航信接受报文时间：{{dform.GAPP_RECEIVETIME}}</el-col>
       </el-row>
       <el-row type="flex"  class="mb-6">
-        <el-col :span="6">姓名：{{dform.NAME}}</el-col>
-        <el-col :span="6">性别：{{dform.NAME}}</el-col>
-        <el-col :span="6">出生日期：{{dform.NATIONALITY}}</el-col>
-        <el-col :span="6">国籍：{{dform.PASSPORTNO}}</el-col>
+        <el-col :span="9">流水号：{{dform.TID}}</el-col>
+        <el-col :span="8">ICS记录编号：{{dform.RECORDLOCATER}}</el-col>
+        <el-col :span="7">旅客中间名：{{dform.MIDDLENAME}}</el-col>
+      </el-row>
+      <el-row type="flex"  class="mb-6">
+        <el-col :span="8">旅客类型：{{dform.Passengertype=="FL"?"普通旅客":"中转旅客"}}</el-col>
+        <el-col :span="8">旅客值机方式：{{dform.NAME}}</el-col>
+        <el-col :span="8">旅客状态：{{dform.PASSENGERSTATUS==0?"已值机":dform.PASSENGERSTATUS==1?"已登机":"未登机"}}</el-col>
+      </el-row>
+      <el-row type="flex"  class="mb-6">
+        <el-col :span="8">是否报警：{{dform.STATUS}}</el-col>
+        <el-col :span="8">ABO唯一标识：{{dform.ABONO}}</el-col>
+        <el-col :span="8">其他证件号码：{{dform.Other_NO}}</el-col>
+      </el-row>
+      <el-row type="flex"  class="mb-6">
+        <el-col :span="8">其他证件有效期：{{dform.Other_EXPIREDATE}}</el-col>
+        <el-col :span="8">其他证件颁发国：{{dform.Other_ISSUECOUNTRYC}}</el-col>
+        <el-col :span="8">其他证件签发日期：{{dform.OTHERDOCUMENTISSUEDATE}}</el-col>
+      </el-row>
+      <el-row type="flex"  class="mb-6">
+        <el-col :span="8">签证号码：{{dform.VISANO}}</el-col>
+        <el-col :span="8">签证有效期：{{dform.VISAEXPIREDATE}}</el-col>
+        <el-col :span="8">签证国家：{{dform.VISAISSUECOUNTRYC}}</el-col>
+      </el-row>
+      <el-row type="flex"  class="mb-6">
+        <el-col :span="8">签证签发日期：{{dform.VISAISSUEDATE}}</el-col>
+        <el-col :span="8">起飞城市：{{dform.ORIGINC}}</el-col>
+        <el-col :span="8">目的地地址：{{dform.DESTADDRESS}}</el-col>
+      </el-row>
+      <el-row type="flex"  class="mb-6">
+        <el-col :span="8">目的地城市：{{dform.DESTCITYC}}</el-col>
+        <el-col :span="8">目的的所在省：{{dform.DESTSTATEC}}</el-col>
+        <el-col :span="8">目的地国家：{{dform.DESTCOUNTRYC}}</el-col>
+      </el-row>
+      <el-row type="flex"  class="mb-6">
+        <el-col :span="8">目的地邮编：{{dform.DESTPOSTALCODE}}</el-col>
+        <el-col :span="8">边检接收时间：{{dform.IAPI_RECEIVETIME}}</el-col>
+        <el-col :span="8">边检回复时间：{{dform.IAPI_RESPONSETIME}}</el-col>
       </el-row>
 
+    <div class="hrtitle">预检详情</div>
+
+    <el-row type="flex"  class="mb-6">
+
+      <el-col :span="24" v-for="item in xingq"> &diams; {{item.DATACHECKDETAIL}}</el-col>
+
+    </el-row>
+
+
+        <div class="hrt">列表信息</div>
       <el-table
         :data="detailstableData"
         border
@@ -438,10 +539,12 @@
                 >
                 </el-table-column>
                 <el-table-column
-                  prop="GENDER"
                   label="性别"
                   width="50"
                 >
+                <template slot-scope="scope">
+                  {{scope.row.GENDER | fiftersex}}
+                </template>
                 </el-table-column>
                 <el-table-column
                   prop="DATEOFBIRTH"
@@ -472,32 +575,71 @@
                 </el-table-column>
 
                 <el-table-column
-                  prop="CHECKRESULT"
                   label="原预检结果"
                     width="120"
                   >
+                  <template slot-scope="scope">
+                    {{scope.row.CHECKRESULT | fiftecr}}
+                  </template>
                 </el-table-column>
                 <el-table-column
-                  prop="LASTCHECKRESULT"
                   label="最终预检结果"
                   width="120"
                   >
+                  <template slot-scope="scope">
+                    {{scope.row.LASTCHECKRESULT | fiftecr}}
+                  </template>
                 </el-table-column>
                 <el-table-column
-                  prop="STATUS"
                   label="是否报警"
                   >
+                  <template slot-scope="scope">
+                    {{scope.row.STATUS | fifterbj}}
+                  </template>
                 </el-table-column>
 
       </el-table>
-
+      <div class="middle-foot">
+        <div class="page-msg">
+          <div class="">
+            共{{Math.ceil(TotalResult1/pageSize1)}}页
+          </div>
+          <div class="">
+            每页
+            <el-select v-model="pageSize1" @change="pageSizeChange1(pageSize1)" placeholder="10" size="mini" class="page-select">
+              <el-option
+                v-for="item in options"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
+            条
+          </div>
+          <div class="">
+            共{{TotalResult1}}条
+          </div>
+        </div>
+        <el-pagination
+          background
+          @current-change="handleCurrentChange1"
+          :page-size="pageSize1"
+          layout="prev, pager, next"
+          :total="TotalResult1">
+        </el-pagination>
+      </div>
     </el-form>
     <div slot="footer" class="dialog-footer">
 
       <el-button @click="detailsDialogVisible = false" size="small">取消</el-button>
 
     </div>
+
+
+
   </el-dialog>
+
+
 
   </div>
 
@@ -514,6 +656,11 @@ export default {
       CurrentPage: 1,
       pageSize: 10,
       TotalResult: 0,
+
+      CurrentPage1: 1,
+      pageSize1: 10,
+      TotalResult1: 0,
+
       pd: {},
       nation: [],
       value: '',
@@ -541,6 +688,7 @@ export default {
       multipleSelection: [],
       form: {},
       map: {},
+      xingq: "无",
       dform: {},
       pickerOptions1: {
         shortcuts: [{
@@ -568,16 +716,16 @@ export default {
 
     }
   },
-  mounted() {
-    this.getList(this.CurrentPage, this.pageSize, this.pd);
-  },
+  // mounted() {
+  //   this.getList(this.CurrentPage, this.pageSize, this.pd);
+  // },
   methods: {
     handleSelectionChange(val) {
       this.multipleSelection = val;
       console.log(val)
     },
-    getNation(msg){
-      this.pd.NATIONALITY=msg;
+    getNation(msg) {
+      this.pd.NATIONALITY = msg;
     },
     batchs() {
 
@@ -604,6 +752,15 @@ export default {
 
       console.log(`当前页: ${val}`);
     },
+    pageSizeChange1(val) {
+      this.detailgetlist(this.CurrentPage1, val, this.dfrom);
+      console.log(`每页 ${val} 条`);
+    },
+    handleCurrentChange1(val) {
+      this.detailgetlist(val, this.pageSize1, this.dfrom);
+
+      console.log(`当前页: ${val}`);
+    },
     getList(currentPage, showCount, pd) {
       let p = {
         "currentPage": currentPage,
@@ -622,29 +779,63 @@ export default {
       console.log(i);
       this.form = i;
     },
-    handlesItem(n, formName) {
-      // if (this.form.INSTRUCT != "") {
-      //   this.$message.error('变更后值机状态不能为空！');
-      //   return
-      // }
+    handlesItem(formName) {
 
-      this.$api.post('/eamp/iapiUnscolicited/instructChangeTab', this.form,
+        let IAPISERIAL=[];
+        let arr=this.multipleSelection;
+        for(var i in arr){
+          IAPISERIAL.push(arr[i].SERIAL)
+        }
+
+        let p = {
+          "IAPISERIAL": IAPISERIAL,
+          "CREATEUSER": "杨小",
+          "APPROVALUSER": "杨小小",
+          "INSTRUCT": this.map.INSTRUCT,
+          "CHANGERESON": this.map.CHANGERESON
+        };
+
+        this.$api.post('/eamp/iapiUnscolicited/instructChangeTab', p,
+          r => {
+            console.log(r);
+            if (r.data.success) {
+              this.$message({
+                message: '变更成功！',
+                type: 'success'
+              });
+            } else {
+              this.$message.error(r.data.msg);
+            }
+            this.$refs[formName].resetFields();
+            this.batchDialogVisible = false;
+            this.getList();
+          }, e => {
+            this.$message.error('失败了');
+          })
+      },
+    handlesItem1(formName) {
+      this.AuthDialogVisible = true;
+      let p = {
+        "IAPISERIAL": [this.form.SERIAL],
+        "CREATEUSER": "杨小",
+        "APPROVALUSER": "杨小小",
+        "INSTRUCT": this.form.INSTRUCT,
+        "CHANGERESON": this.form.CHANGERESON
+      };
+
+      this.$api.post('/eamp/iapiUnscolicited/instructChangeTab', p,
         r => {
           console.log(r);
-          if (r.success) {
+          if (r.data.success) {
             this.$message({
               message: '变更成功！',
               type: 'success'
             });
           } else {
-            this.$message.error(r.Message);
+            this.$message.error(r.data.msg);
           }
           this.$refs[formName].resetFields();
-          if (n == 1) {
-            this.handlesDialogVisible = false;
-          } else {
-            this.batchDialogVisible = false;
-          }
+          this.handlesDialogVisible = false;
           this.getList();
         }, e => {
           this.$message.error('失败了');
@@ -655,16 +846,82 @@ export default {
       this.detailsDialogVisible = true;
       console.log(i);
       this.dform = i;
+
+      this.detailgetlist(0, 10, this.dform);
+
+      let L = {
+        "IAPISERIAL": this.dform.SERIAL
+      };
+      this.$api.post('/eamp/iapiUnscolicited/queryPretestDetails', L,
+        s => {
+
+          this.xingq = s.data;
+        });
+    },
+    detailgetlist(currentPage, showCount, r) {
       let p = {
-        "PASSPORTNO": this.dform.PASSPORTNO,
-        "NATIONALITY": this.dform.NATIONALITY
+        "currentPage": currentPage,
+        "showCount": showCount,
+        "pd": r
       };
       this.$api.post('/eamp/iapiUnscolicited/queryHistory', p,
         r => {
           console.log(r);
           this.detailstableData = r.data.pdList;
-        })
+          this.TotalResult1 = r.data.totalResult;
+        });
 
+    }
+  },
+
+  filters: {
+
+    fiftersex(val) {
+      if (val == "F") {
+        return "女"
+
+      } else if (val == "M") {
+        return "男"
+      } else {
+        return "未知"
+      }
+
+    },
+    fifterstate(val) {
+      if (val == "") {
+        return "已值机";
+      } else {
+        return "未值机";
+      }
+    },
+    fiftecr(val) {
+      if (val == "0Z") {
+        return "允许打印登机牌";
+      } else if (val == "1Z") {
+        return "禁止打印登机牌";
+      } else if (val == "2Z") {
+        return "请再次核对";
+      } else {
+        return "数据错误";
+      }
+    },
+    fifterbj(val) {
+      if (val == "1") {
+        return "产生报警";
+      } else {
+        return "未产生报警";
+      }
+    },
+    fiftertype(val){
+      if (val == "11") {
+        return "外交护照";
+      } else if (val == "12"){
+        return "公务护照";
+      }else if(val=="13") {
+           return "因公普通护照";
+      }else {
+        return "普通护照";
+      }
     },
 
   }
@@ -702,6 +959,13 @@ hr {
   font-weight: bold;
   border-bottom: 1px solid #3F96F2;
 }
+.hrt{  height: 35px;
+  line-height: 35px;
+  border: none;
+  color: #3F96F2;
+  font-size: 16px;
+  font-weight: bold;
+  border-top: 1px solid #3F96F2;}
 
 .mb-6 {
   line-height: 20px;
