@@ -9,7 +9,7 @@
             <li class="top-nav-li hand" @click="$router.push('/')">
               首页
             </li>
-            <li class="top-nav-li hand" v-for="i in muneListOne" :class="{'topCheckLi':navId==i.SERIAL}" @click="$router.push({ name: 'Content', params: {navId:i.SERIAL} });getNav(i.SERIAL)">
+            <li class="top-nav-li hand" v-for="i in muneListOne" :class="{'topCheckLi':navId==i.SERIAL}" @click="topNavTo(i.SERIAL)">
               {{i.name}}
             </li>
 
@@ -37,7 +37,7 @@
           <li class="nav1bar-up" @click="preList">
             <img src="../assets/img/navbar-up.png" alt="">
           </li>
-          <li class="nav1-item " :class="{'nav1-checked':nav1Id==i.SERIAL}" v-for="(i,index) in nav1List.slice(nav1Star, nav1End)" @click="nav1to2(i.SERIAL,i.menuList)">
+          <li class="nav1-item " :class="{'nav1-checked':nav1Id==i.SERIAL}" v-for="(i,index) in nav1List.slice(nav1Star, nav1End)" @click="nav1to2(i)">
 
             <img src="../assets/img/navIcon/i_qg_1.png" alt="" class="nav1-icon"  v-if="navId=='cc'">
             <img :src='"../assets/img/navIcon/"+i.MENU_ICON+"_0.png"' alt="" class="nav1-icon" v-if="nav1Id!=i.SERIAL&&navId!='cc'">
@@ -50,12 +50,13 @@
             <img src="../assets/img/navbar-down.png" alt="">
           </li>
         </ul>
-        <ul class="nav2" v-show="nav2Show">
-          <li class="nav2-item hand" :class="{'nav2-checked':nav2Id==x.SERIAL}" v-for="x in nav2List" @click="nav2(x)">
+        <transition  name="bounce">
+        <ul class="nav2" v-if="nav2Show">
+          <li class="nav2-item hand" :class="{'nav2-checked':nav2Id==x.url}" v-for="x in nav2List" @click="nav2(x)">
             {{x.name}}
           </li>
-
         </ul>
+        </transition>
         <div class="fold-bar" @click="isNav2Hide" v-if="nav2HideBar" @mouseover="navh=1" @mouseout="navh=0">
           <el-tooltip class="item" effect="light" content="收起菜单" placement="right">
             <img :src='"../assets/img/elasticbar_"+navh+".png"' >
@@ -71,12 +72,12 @@
       </el-aside>
       <el-main class="right-main">
         <ul class="tabList">
-          <li class="tabList-item hand" :class="{'tabList-checked':nav2Id==i.SERIAL}" v-for="(i, index) in tabList">
+          <li class="tabList-item hand" :class="{'tabList-checked':nav2Id==i.url}" v-for="(i, index) in tabList">
             <el-tooltip class="item" effect="dark" :content="i.name" placement="top">
               <span  @click="nav2(i)">{{i.name}}</span>
             </el-tooltip>
 
-            <img src="../assets/img/tab-close1.png" alt="guanbi" @click="close1(index)" class="hand" v-if="nav2Id==i.SERIAL">
+            <img src="../assets/img/tab-close1.png" alt="guanbi" @click="close1(index)" class="hand" v-if="nav2Id==i.url">
             <img src="../assets/img/tab-close2.png" alt="" @click="tabList.splice(index, 1)" class="hand" v-else>
           </li>
           <!-- <li class="tabList-item">
@@ -84,7 +85,9 @@
           </li> -->
         </ul>
         <div class="tab-content">
-            <router-view></router-view>
+            <transition name="fade">
+              <router-view></router-view>
+            </transition>
         </div>
       </el-main>
     </el-container>
@@ -157,10 +160,12 @@ export default {
       isCollapse: false,
       nav2Show: true,
       nav2HideBar: true,
+      navId:0,
       nav1Id: 1,
       navh: 0,
       nav2List: [],
-      nav1List: [
+      nav1List: [],
+      nav1List1: [
         {
           SERIAL: 1,
           name: "报警处理",
@@ -501,16 +506,16 @@ export default {
   },
   mounted() {
     this.navId = this.$route.params.navId;
-    console.log(this.navId)
+    console.log("youmeiyou",this.navId)
 
     if (this.navId == 'cc') {
       this.nav1List = this.nav1List7;
-      this.nav1to2(this.nav1List[0].SERIAL, this.nav1List[0].menuList)
+      this.nav1to2(this.nav1List[0])
     }else {
-      // this.getNav(this.navId)
-      this.getpp();
+      this.getNav(this.navId)
+      // this.getpp();
     }
-
+    console.log("route",this.$route)
   },
   methods: {
     getNav(navId) {
@@ -523,16 +528,29 @@ export default {
           console.log(r);
           if(r.success){
             this.nav1List = r.data.menuChild;
-            console.log(this.nav1List[0].SERIAL)
+            let arr=r.data.menuChild
+            let nav1Id =this.$route.query.nav1Id;
+            console.log(nav1Id)
+            if(nav1Id){
+              for(var i in arr){
+                if(arr[i].SERIAL==nav1Id){
+                  this.nav1to2(arr[i])
+                }
+              }
+            }else{
+              this.nav1to2(this.nav1List[0])
+            }
           }
-
         },e=>{
           console.log(e)
         })
 
     },
     getpp(){
-      if(this.navId==2){
+      if(this.navId==1){
+        this.nav1List = this.nav1List1;
+
+      }else if(this.navId==2){
         this.nav1List = this.nav1List2;
 
       }else if(this.navId==3){
@@ -547,7 +565,7 @@ export default {
       }else if(this.navId==6){
         this.nav1List = this.nav1List6;
       }
-      this.nav1to2(this.nav1List[0].SERIAL, this.nav1List[0].menuList)
+      // this.nav1to2(this.nav1List[0])
 
     },
     openNav() {
@@ -563,22 +581,56 @@ export default {
           })
       }
     },
-    nav1to2(id, list) {
+    topNavTo(SERIAL){
+      this.$router.push({ name: 'Content', params: {navId:SERIAL} });
+      this.getNav(SERIAL);
+      console.log(this.tabList)
+      this.tabList=[];
+    },
+    nav1to2(nav1Itme) {
+      console.log(nav1Itme)
       this.isNav2Show();
-      console.log(id)
-      this.nav1Id = id;
+      this.$router.push({query:{nav1Id:nav1Itme.SERIAL}})
+      this.nav1Id = nav1Itme.SERIAL;
       // this.nav2Id=11;
-      this.nav2List = list
+      this.nav2List = nav1Itme.menuList;
+      console.log("this.nav2List",this.nav2List)
+      let that=this;
+      let flag=0
+      for(var i in nav1Itme.menuList){
+        if(nav1Itme.menuList[i].url==that.$route.name){
+          that.nav2(nav1Itme.menuList[i])
+          flag=1
+        }else {
+          flag=0
+        }
+      }
+     if(flag==0){
+        this.nav2(nav1Itme.menuList[0])
+      }
+
+
     },
     nav2(item) {
-      this.nav2Id = item.SERIAL;
-      console.log(item, item.SERIAL)
+      this.nav2Id = item.url;
+      console.log(item, item.url)
       new Set(this.tabList)
       this.tabList.push(item)
       this.tabList = Array.from(new Set(this.tabList));
-      this.$router.push({
-        name: item.url
-      })
+      console.log(item.url)
+      this.$router.push({name: item.url,query:{nav1Id:item.parentId}})
+    },
+    nav2Top(item){
+      // this.nav2Id = item.url;
+      // this.nav1Id=item.parentId
+      // this.nav2List = nav1Itme.menuList;
+      // console.log(item, item.url)
+      // new Set(this.tabList)
+      // this.tabList.push(item)
+      // this.tabList = Array.from(new Set(this.tabList));
+      // console.log(item.url)
+      // this.$router.push({name: item.url,query:{nav1Id:item.parentId}})
+
     },
     preList() {
       if (this.nav1Star == 0) {
@@ -609,7 +661,8 @@ export default {
       this.tabList.splice(index, 1);
       console.log(index)
       if (index > 0) {
-        this.nav2Id = this.tabList[index - 1].SERIAL
+        this.nav2Id = this.tabList[index - 1].url
+        this.$router.push({name: this.nav2Id,query:{nav1Id:this.nav1Id}})
       }
     }
   }
@@ -732,6 +785,7 @@ export default {
 .nav1 {
   width: 110px;
   position: relative;
+  margin-right: 9px;
 }
 
 
@@ -788,7 +842,7 @@ export default {
 .nav2 {
   width: 176px;
   background: #e8f3fc;
-  margin-left: 9px;
+  /* margin-left: 9px; */
   padding: 49px 0px;
   display: flex;
   flex-direction: column;
@@ -861,5 +915,47 @@ export default {
 
 .tab-content {
   padding: 20px;
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition: all  0.3s;
+}
+.fade-enter-active {
+    transition-delay: 0.3s;
+}
+.fade-enter, .fade-leave-to {
+  opacity: 0;
+}
+
+.slide-left-enter-active, .slide-left-leave-active {
+    transition: transform .5s;
+    transform-origin: left;
+}
+.slide-left-enter-active {
+    transition-delay: .5s;
+}
+.slide-left-enter, .slide-left-leave-active {
+    transform: scale(0,1);
+}
+.bounce-enter-active {
+  animation: bounce-in .5s;
+  transform-origin: left;
+}
+.bounce-enter-active {
+  animation-delay: .5s;
+}
+.bounce-leave-active {
+  animation: bounce-in .5s reverse;
+}
+@keyframes bounce-in {
+  0% {
+    transform: scaleX(0);
+  }
+  50% {
+    transform: scaleX(0.5);
+  }
+  100% {
+    transform: scaleX(1);
+  }
 }
 </style>

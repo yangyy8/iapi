@@ -72,8 +72,12 @@
           label="报警时间">
         </el-table-column>
         <el-table-column
-          prop="status"
           label="当前状态">
+          <template slot-scope="scope">
+            <span v-if="scope.row.status==0">未甄别</span>
+            <span v-if="scope.row.status==1">已归档</span>
+            <span v-if="scope.row.status==2">处理中</span>
+          </template>
         </el-table-column>
         <el-table-column
           label="操作">
@@ -170,19 +174,7 @@ export default {
 
       ],
       value: '',
-      tableData: [
-        {
-          "eventserial": "ba754edc095a45b5b73",
-    			"lastmatchType": "1",
-    			"flighttype": 1514563200000,
-    			"numb": 1546099200000,
-    			"name": "1",
-    			"nationality": 1,
-    			"fltno": "1",
-          "createtime": "1",
-			    "saveflag": "1",
-        }
-      ]
+      tableData: []
     }
 
   },

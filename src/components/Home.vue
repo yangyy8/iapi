@@ -29,7 +29,7 @@
           <path class="cls-1" :class="{'clss':left==4}" d="M178,327.48a131.56,131.56,0,0,1-50.47-46L36.87,338.29a239,239,0,0,0,91.82,84.17Z" fill="#032552" transform="translate(0 -0.2)" @mouseover="leftOver(4)"/>
         </svg>
 
-        <router-link :to="{ name: 'Content', params: {navId:val.SERIAL} }" class="nav-item" :class='"nav-item"+ind' v-for="(val,ind) in sortarr" :key="val.SERIAL" v-if="ind<4">
+        <router-link :to="{ name: 'Content', params: {navId:val.SERIAL} }" class="nav-item" :class='"nav-item"+ind' v-for="(val,ind) in muneListOne" :key="val.SERIAL" v-if="ind<4">
           <img :src='"../assets/img/navIcon/"+val.MENU_ICON+".png"' alt="">
           <span>{{val.name}}</span>
         </router-link>
@@ -71,7 +71,7 @@
           <span>日常工作</span>
         </a>
         <!-- </router-link> -->
-        <router-link :to="{ name: 'Content', params: {navId:val.SERIAL} }" class="nav-item" :class='"nav-item"+parseInt(ind+1)' v-for="(val,ind) in sortarr" v-if="ind>3">
+        <router-link :to="{ name: 'Content', params: {navId:val.SERIAL} }" class="nav-item" :class='"nav-item"+parseInt(ind+1)' v-for="(val,ind) in muneListOne" v-if="ind>3">
           <img :src='"../assets/img/navIcon/"+val.MENU_ICON+".png"' alt="">
           <span>{{val.name}}</span>
         </router-link>
@@ -99,7 +99,7 @@
         </div>
         <div class="cycc-content">
           <ul class="cycc-ul">
-            <li v-for="i in ccList" class="cycc-li" @click="$router.push('/content/'+i.parentId+'/'+i.url)">
+            <li v-for="i in ccList" class="cycc-li" @click="$router.push('/content/'+i.rootId+'/'+i.url+'?nav1Id='+i.parentId)">
               <img src="../assets/img/home/micon.png" alt="">
               <span>{{i.name}}</span>
             </li>
@@ -126,8 +126,8 @@
           </el-input>
         </div>
         <div class="login-item2">
-          <el-radio label="1" v-model="jzmm">记住密码</el-radio>
-          <a class="login-a">忘记密码</a>
+          <el-checkbox v-model="jzmm">记住密码</el-checkbox>
+          <!-- <a class="login-a">忘记密码</a> -->
         </div>
         <button class="login-btn" @click="login">登录</button>
 
@@ -184,7 +184,7 @@ export default {
         dd:"",
         xx:""
       },
-      jzmm:0,
+      jzmm:false,
       bynav:true,
       isLogin:false,
       tabId:0,
@@ -270,7 +270,7 @@ export default {
 
   mounted() {
     this.fn();
-    // this.getNav0();
+    this.getNav0();
     this.getTime();
   },
   beforeDestroy() {

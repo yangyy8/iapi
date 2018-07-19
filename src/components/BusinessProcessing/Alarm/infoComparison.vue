@@ -456,27 +456,39 @@ export default {
    this.pd1.iapiSerial=this.$route.query.iapiSerial;
    this.pd1.nationAndPass=this.$route.query.nationAndPass;
    this.pd1.visaNo=this.$route.query.visaNo;
-   // this.pd1.inOut=this.$route.query.inOut;
-     console.log(this.pd1.NameListType)
+   this.pd1.personCode=this.$route.query.nationAndPass;
 
    this.getData();
  },
  methods:{
    getData(){
+
      let p={
     	"currentPage":0,
     	"showCount":10,
     	"pd":this.pd1
     }
+    if(this.$route.query.isZDGZ){
+      this.$api.post('/eamp/pnrAlarmEvent/attentionFocusDistinguish',p,
+       r => {
+         console.log(r);
+         this.tableData=r.data;
+         this.travellerInfo=r.data.travellerInfo;
+         this.compareResult=r.data.compareResult;
+         this.distinguishInfo=r.data.distinguishInfo
+      })
+    }else{
+      this.$api.post('/eamp/alarmEvents/nameListDistinguish',p,
+       r => {
+         console.log(r);
+         this.tableData=r.data;
+         this.travellerInfo=r.data.travellerInfo;
+         this.compareResult=r.data.compareResult;
+         this.distinguishInfo=r.data.distinguishInfo
+      })
+    }
 
-     this.$api.post('/eamp/alarmEvents/nameListDistinguish',p,
-      r => {
-        console.log(r);
-        this.tableData=r.data;
-        this.travellerInfo=r.data.travellerInfo;
-        this.compareResult=r.data.compareResult;
-        this.distinguishInfo=r.data.distinguishInfo
-     })
+
    },
    queding(){
 
@@ -487,23 +499,39 @@ export default {
           "NameListType":this.pd1.NameListType,
           "eventserial":this.pd1.eventserial,
           "distinguishNote":this.distinguishNote,
-          "distinguishResult":this.distinguishResult,
+          "distinguishResult":this.distinguishResult.toString(),
           "distinguishInfo":this.distinguishInfo
 
         }
      };
-     this.$api.post('/eamp/alarmEvents/getSaveNameToIdentify',p,
-      r => {
-        console.log(r);
-        if(r.success){
-          this.$message({
-            message: '甄别完毕！',
-            type: 'success'
-          });
-        }else{
-          this.$message.error(r.message);
-        }
-     })
+     if(this.$route.query.isZDGZ){
+       this.$api.post('/eamp/pnrAlarmEvent/saveNameListAttentionFocus',p,
+        r => {
+          console.log(r);
+          if(r.success){
+            this.$message({
+              message: '甄别完毕！',
+              type: 'success'
+            });
+          }else{
+            this.$message.error(r.message);
+          }
+       })
+     }else{
+       this.$api.post('/eamp/alarmEvents/getSaveNameToIdentify',p,
+        r => {
+          console.log(r);
+          if(r.success){
+            this.$message({
+              message: '甄别完毕！',
+              type: 'success'
+            });
+          }else{
+            this.$message.error(r.message);
+          }
+       })
+     }
+
 
    }
  }

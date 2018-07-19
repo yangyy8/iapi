@@ -172,8 +172,8 @@
             <el-table-column
               label="操作">
               <template slot-scope="scope">
-                <el-button v-if="scope.row.status==1" class="table-btn" size="mini" plain @click="$router.push({name:'infoComparison'})">查看</el-button>
-                <el-button v-else class="table-btn" size="mini" plain @click="$router.push({name:'infoComparison',query:{NameListType:scope.row.alarmTypeNum,eventserial:scope.row.eventSerial,iapiSerial:iapiMap.iapiSerial,nationAndPass:scope.row.nationalityCode+scope.row.passportno,visaNo:scope.row.visaNo,inOut:iapiMap.flightType}})">名单甄别</el-button>
+                <el-button v-if="scope.row.status==1" class="table-btn" size="mini" plain @click="$router.push({name:'infoComparison',query:{isZDGZ:$route.query.isZDGZ,NameListType:scope.row.alarmTypeNum,eventserial:eventserial,iapiSerial:iapiMap.iapiSerial,nationAndPass:scope.row.nationalityCode+scope.row.passportno,visaNo:scope.row.visaNo,inOut:iapiMap.flightType}})">查看</el-button>
+                <el-button v-else class="table-btn" size="mini" plain @click="$router.push({name:'infoComparison',query:{isZDGZ:$route.query.isZDGZ,NameListType:scope.row.alarmTypeNum,eventserial:eventserial,iapiSerial:iapiMap.iapiSerial,nationAndPass:scope.row.nationalityCode+scope.row.passportno,visaNo:scope.row.visaNo,inOut:iapiMap.flightType}})">名单甄别</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -432,21 +432,36 @@ export default {
           eventserial:this.eventserial
        }
      };
+     if(this.$route.query.isZDGZ){
+       this.$api.post('/eamp/pnrAlarmEvent/queryPnrAlarmPassInfo',p,
+        r => {
+          console.log(r);
+          this.iapiMap=r.data.iapiMap
+          this.listMap=r.data.listMap;
+          var arr=this.listMap
+          var thar=this;
+          this.pd.CHANGE_RESON="";
+          for(var i in arr){
+            console.log(arr[i].compareDesc)
+            that.pd.CHANGE_RESON+=parseInt(i+1)+"."+arr[i].compareDesc
+          }
+       })
+     }else {
+       this.$api.post('/eamp/alarmEvents/getListAlarmEventsInfo',p,
+        r => {
+          console.log(r);
+          this.iapiMap=r.data.iapiMap
+          this.listMap=r.data.listMap;
+          var arr=this.listMap
+          var thar=this;
+          this.pd.CHANGE_RESON="";
+          for(var i in arr){
+            console.log(arr[i].compareDesc)
+            that.pd.CHANGE_RESON+=parseInt(i+1)+"."+arr[i].compareDesc
+          }
+       })
+     }
 
-     this.$api.post('/eamp/alarmEvents/getListAlarmEventsInfo',p,
-      r => {
-        console.log(r);
-        this.iapiMap=r.data.iapiMap
-        this.listMap=r.data.listMap;
-        var arr=this.listMap
-        var thar=this;
-        this.pd.CHANGE_RESON="";
-        for(var i in arr){
-          console.log(arr[i].compareDesc)
-          that.pd.CHANGE_RESON+=parseInt(i+1)+"."+arr[i].compareDesc
-        }
-        // compareDesc
-     })
    },
    xinxi(){
      this.tabIsShow=false;
@@ -513,10 +528,13 @@ export default {
      })
    },
    documentInfo(){
+     let sjwd;
+     this.$route.query.isZDGZ? sjwd=1:sjwd=0;
      let p={
        "currentPage":0,
        "showCount":3,
        "pd":{
+          sjwd:sjwd,
           eventserial:this.eventserial
        }
      };

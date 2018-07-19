@@ -6,19 +6,12 @@
           <el-button type="primary"  icon="el-icon-refresh" size="small" @click="refreshFn">刷新</el-button>
         </el-col>
         <el-col :span="12" class="top-right">
-          报警类型:
-          <el-select v-model="pd.lastmatchType" placeholder="请选择" size="small">
-           <el-option
-             v-for="item in options1"
-             :key="item.value"
-             :label="item.label"
-             :value="item.value">
-           </el-option>
-         </el-select>
+
          出入境类别:
-         <el-select v-model="pd.flighttype" placeholder="请选择" size="small">
+         <el-select v-model="pd.flighttype" placeholder="请选择"  size="small">
            <el-option label="入境" value="I"></el-option>
            <el-option label="出境" value="O"></el-option>
+
          </el-select>
         <el-button type="warning" icon="el-icon-zoom-in" size="small" @click="getList(currentPage,pageSize,pd)">筛选</el-button>
         </el-col>
@@ -49,6 +42,10 @@
           prop="flightType"
           label="出入类别"
           width="130">
+          <template slot-scope="scope">
+            <span v-if="scope.row.flightType=='O'">出境</span>
+            <span v-if="scope.row.flightType=='I'">入境</span>
+          </template>
         </el-table-column>
         <el-table-column
           prop="passportno"
@@ -71,13 +68,17 @@
           label="报警时间">
         </el-table-column>
         <el-table-column
-          prop="status"
           label="当前状态">
+          <template slot-scope="scope">
+            <span v-if="scope.row.status==0">未甄别</span>
+            <span v-if="scope.row.status==1">已归档</span>
+            <span v-if="scope.row.status==2">处理中</span>
+          </template>
         </el-table-column>
         <el-table-column
           label="操作">
           <template slot-scope="scope">
-            <el-button class="table-btn" size="mini" plain @click="$router.push({name:'alarmProcess',query:{eventserial:scope.row.eventSerial}})">报警处理</el-button>
+            <el-button class="table-btn" size="mini" plain @click="$router.push({name:'alarmProcess',query:{eventserial:scope.row.eventSerial,isZDGZ:1}})">报警处理</el-button>
          </template>
         </el-table-column>
       </el-table>
@@ -123,9 +124,7 @@ export default {
       pageSize:10,
       TotalResult:0,
       pd:{
-        lastmatchType:"",
         flighttype:""
-
       },
       options:[
         {
@@ -192,7 +191,9 @@ export default {
     refreshFn(){
       this.currentPage=1;
       this.pageSize=10;
-      this.pd={};
+      this.pd={
+        flighttype:""
+      },
       this.getList(this.currentPage,this.pageSize,this.pd);
     },
     getList(currentPage,showCount,pd){

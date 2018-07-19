@@ -85,7 +85,8 @@ table td,thead th{
     background-color: #154f75 !important;
     color: #fff!important;
 }
-.tan-row2 table{
+.tan-row2 .el-table .cell{
+  padding: 0px 4px!important;
   /* border:1px #143652 solid!important; */
 
 }
@@ -168,6 +169,13 @@ button{
 }
 .el-checkbox__input.is-checked+.el-checkbox__label {
   color: #44d83a!important;
+}
+.login-item2 .el-checkbox__input.is-checked .el-checkbox__inner,.login-item2 .el-checkbox__input.is-indeterminate .el-checkbox__inner {
+  background-color: #409EFF!important;
+  border-color: #409EFF!important;
+}
+.login-item2 .el-checkbox__input.is-checked+.el-checkbox__label{
+  color: #409EFF!important;
 }
 .o-checkbox-g .el-checkbox {
   margin-left: 0!important;
