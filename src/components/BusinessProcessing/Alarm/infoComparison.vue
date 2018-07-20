@@ -20,31 +20,46 @@
               <td>姓名</td>
               <td>{{travellerInfo.pname}}</td>
               <td>{{tableData.BZRJyfbywtList.XM}}</td>
-              <td>{{compareResult.pname}}</td>
+              <td>
+                <img v-if="compareResult.pname==1" src="../../../assets/img/hook.png" alt="">
+                <img v-if="compareResult.pname==0"src="../../../assets/img/cross.png" alt="">
+              </td>
             </tr>
             <tr>
               <td>性别</td>
               <td>{{travellerInfo.sex}}</td>
               <td>{{tableData.BZRJyfbywtList.XBDM}}</td>
-              <td>{{compareResult.sex}}</td>
+              <td>
+                <img v-if="compareResult.sex==1" src="../../../assets/img/hook.png" alt="">
+                <img v-if="compareResult.sex==0"src="../../../assets/img/cross.png" alt="">
+              </td>
             </tr>
             <tr>
               <td>出生日期</td>
               <td>{{travellerInfo.birthday}}</td>
               <td>{{tableData.BZRJyfbywtList.CSRQ}}</td>
-              <td>{{compareResult.birthday}}</td>
+              <td>
+                <img v-if="compareResult.birthday==1" src="../../../assets/img/hook.png" alt="">
+                <img v-if="compareResult.birthday==0"src="../../../assets/img/cross.png" alt="">
+              </td>
             </tr>
             <tr>
               <td>证件号码</td>
               <td>{{travellerInfo.cnum}}</td>
               <td>{{tableData.BZRJyfbywtList.ZJHM}}</td>
-              <td>{{compareResult.cnum}}</td>
+              <td>
+                <img v-if="compareResult.cnum==1" src="../../../assets/img/hook.png" alt="">
+                <img v-if="compareResult.cnum==0"src="../../../assets/img/cross.png" alt="">
+              </td>
             </tr>
             <tr>
               <td>国籍</td>
               <td>{{travellerInfo.nationality}}</td>
-              <td>{{tableData.BZRJyfbywtList.GJDQDM}}</td>
-              <td>{{compareResult.nationality}}</td>
+              <td>{{tableData.BZRJyfbywtList.GJDQDMDESC}}</td>
+              <td>
+                <img v-if="compareResult.nationality==1" src="../../../assets/img/hook.png" alt="">
+                <img v-if="compareResult.nationality==0"src="../../../assets/img/cross.png" alt="">
+              </td>
             </tr>
           </table>
           <table class="o-th1" cellspacing="0" v-if="$route.query.NameListType==1">
@@ -58,31 +73,46 @@
               <td>姓名</td>
               <td>{{travellerInfo.pname}}</td>
               <td>{{tableData.invalidCardList.NAME}}</td>
-              <td>{{compareResult.pname}}</td>
+              <td>
+                <img v-if="compareResult.pname==1" src="../../../assets/img/hook.png" alt="">
+                <img v-if="compareResult.pname==0"src="../../../assets/img/cross.png" alt="">
+              </td>
             </tr>
             <tr>
               <td>性别</td>
               <td>{{travellerInfo.sex}}</td>
               <td>{{tableData.invalidCardList.GENDER}}</td>
-              <td>{{compareResult.sex}}</td>
+              <td>
+                <img v-if="compareResult.sex==1" src="../../../assets/img/hook.png" alt="">
+                <img v-if="compareResult.sex==0"src="../../../assets/img/cross.png" alt="">
+              </td>
             </tr>
             <tr>
               <td>出生日期</td>
               <td>{{travellerInfo.birthday}}</td>
-              <td>{{tableData.invalidCardList.DATEOFBIRTH}}</td>
-              <td>{{compareResult.birthday}}</td>
+              <td>{{tableData.invalidCardList.dateOfBirthDesc}}</td>
+              <td>
+                <img v-if="compareResult.birthday==1" src="../../../assets/img/hook.png" alt="">
+                <img v-if="compareResult.birthday==0"src="../../../assets/img/cross.png" alt="">
+              </td>
             </tr>
             <tr>
               <td>证件号码</td>
               <td>{{travellerInfo.cnum}}</td>
               <td>{{tableData.invalidCardList.CARDNUM}}</td>
-              <td>{{compareResult.cnum}}</td>
+              <td>
+                <img v-if="compareResult.cnum==1" src="../../../assets/img/hook.png" alt="">
+                <img v-if="compareResult.cnum==0"src="../../../assets/img/cross.png" alt="">
+              </td>
             </tr>
             <tr>
               <td>国籍</td>
               <td>{{travellerInfo.nationality}}</td>
-              <td>{{tableData.invalidCardList.NATIONALITY}}</td>
-              <td>{{compareResult.nationality}}</td>
+              <td>{{tableData.invalidCardList.GJDQDMDESC}}</td>
+              <td>
+                <img v-if="compareResult.nationality==1" src="../../../assets/img/hook.png" alt="">
+                <img v-if="compareResult.nationality==0"src="../../../assets/img/cross.png" alt="">
+              </td>
             </tr>
           </table>
           <table class="o-th1" cellspacing="0" v-if="$route.query.NameListType==2">
@@ -96,43 +126,64 @@
               <td>签证号码</td>
               <td>{{travellerInfo.cnum}}</td>
               <td>{{tableData.invalidVisaList.CARDNUM}}</td>
-              <td>{{compareResult.cnum}}</td>
+              <td>
+                <img v-if="compareResult.cnum==1" src="../../../assets/img/hook.png" alt="">
+                <img v-if="compareResult.cnum==0"src="../../../assets/img/cross.png" alt="">
+              </td>
             </tr>
             <tr>
               <td>签证类型</td>
               <td>{{travellerInfo.cnum}}</td>
               <td>{{tableData.invalidVisaList.CARDNUM}}</td>
-              <td>{{compareResult.cnum}}</td>
+              <td>
+                <img v-if="compareResult.cnum==1" src="../../../assets/img/hook.png" alt="">
+                <img v-if="compareResult.cnum==0"src="../../../assets/img/cross.png" alt="">
+              </td>
             </tr>
             <tr>
               <td>证件号码</td>
               <td>{{travellerInfo.cnum}}</td>
               <td>{{tableData.invalidVisaList.CARDNUM}}</td>
-              <td>{{compareResult.cnum}}</td>
+              <td>
+                <img v-if="compareResult.cnum==1" src="../../../assets/img/hook.png" alt="">
+                <img v-if="compareResult.cnum==0"src="../../../assets/img/cross.png" alt="">
+              </td>
             </tr>
             <tr>
               <td>姓名</td>
               <td>{{travellerInfo.pname}}</td>
               <td>{{tableData.invalidVisaList.NAME}}</td>
-              <td>{{compareResult.pname}}</td>
+              <td>
+                <img v-if="compareResult.pname==1" src="../../../assets/img/hook.png" alt="">
+                <img v-if="compareResult.pname==0"src="../../../assets/img/cross.png" alt="">
+              </td>
             </tr>
             <tr>
               <td>性别</td>
               <td>{{travellerInfo.sex}}</td>
               <td>{{tableData.invalidVisaList.GENDER}}</td>
-              <td>{{compareResult.sex}}</td>
+              <td>
+                <img v-if="compareResult.sex==1" src="../../../assets/img/hook.png" alt="">
+                <img v-if="compareResult.sex==0"src="../../../assets/img/cross.png" alt="">
+              </td>
             </tr>
             <tr>
               <td>出生日期</td>
               <td>{{travellerInfo.birthday}}</td>
-              <td>{{tableData.invalidVisaList.DATEOFBIRTH}}</td>
-              <td>{{compareResult.birthday}}</td>
+              <td>{{tableData.invalidVisaList.dateOfBirthDesc}}</td>
+              <td>
+                <img v-if="compareResult.birthday==1" src="../../../assets/img/hook.png" alt="">
+                <img v-if="compareResult.birthday==0"src="../../../assets/img/cross.png" alt="">
+              </td>
             </tr>
             <tr>
               <td>国籍</td>
               <td>{{travellerInfo.nationality}}</td>
-              <td>{{tableData.invalidVisaList.NATIONALITY}}</td>
-              <td>{{compareResult.nationality}}</td>
+              <td>{{tableData.invalidVisaList.GJDQDMDESC}}</td>
+              <td>
+                <img v-if="compareResult.nationality==1" src="../../../assets/img/hook.png" alt="">
+                <img v-if="compareResult.nationality==0"src="../../../assets/img/cross.png" alt="">
+              </td>
             </tr>
           </table>
           <table class="o-th1" cellspacing="0" v-if="$route.query.NameListType==3">
@@ -146,31 +197,46 @@
               <td>姓名</td>
               <td>{{travellerInfo.pname}}</td>
               <td>{{tableData.WnameListList.NAME}}</td>
-              <td>{{compareResult.pname}}</td>
+              <td>
+                <img v-if="compareResult.pname==1" src="../../../assets/img/hook.png" alt="">
+                <img v-if="compareResult.pname==0"src="../../../assets/img/cross.png" alt="">
+              </td>
             </tr>
             <tr>
               <td>性别</td>
               <td>{{travellerInfo.sex}}</td>
               <td>{{tableData.WnameListList.GENDER}}</td>
-              <td>{{compareResult.sex}}</td>
+              <td>
+                <img v-if="compareResult.sex==1" src="../../../assets/img/hook.png" alt="">
+                <img v-if="compareResult.sex==0"src="../../../assets/img/cross.png" alt="">
+              </td>
             </tr>
             <tr>
               <td>出生日期</td>
               <td>{{travellerInfo.birthday}}</td>
-              <td>{{tableData.WnameListList.DATEOFBIRTH}}</td>
-              <td>{{compareResult.birthday}}</td>
+              <td>{{tableData.WnameListList.dateOfBirthDesc}}</td>
+              <td>
+                <img v-if="compareResult.birthday==1" src="../../../assets/img/hook.png" alt="">
+                <img v-if="compareResult.birthday==0"src="../../../assets/img/cross.png" alt="">
+              </td>
             </tr>
             <tr>
               <td>证件号码</td>
               <td>{{travellerInfo.cnum}}</td>
               <td>{{tableData.WnameListList.CARDNUM}}</td>
-              <td>{{compareResult.cnum}}</td>
+              <td>
+                <img v-if="compareResult.cnum==1" src="../../../assets/img/hook.png" alt="">
+                <img v-if="compareResult.cnum==0"src="../../../assets/img/cross.png" alt="">
+              </td>
             </tr>
             <tr>
               <td>国籍</td>
               <td>{{travellerInfo.nationality}}</td>
-              <td>{{tableData.WnameListList.NATIONALITY}}</td>
-              <td>{{compareResult.nationality}}</td>
+              <td>{{tableData.WnameListList.GJDQDMDESC}}</td>
+              <td>
+                <img v-if="compareResult.nationality==1" src="../../../assets/img/hook.png" alt="">
+                <img v-if="compareResult.nationality==0"src="../../../assets/img/cross.png" alt="">
+              </td>
             </tr>
           </table>
           <table class="o-th1" cellspacing="0" v-if="$route.query.NameListType==4">
@@ -184,31 +250,108 @@
               <td>姓名</td>
               <td>{{travellerInfo.pname}}</td>
               <td>{{tableData.LKNameListList.NAME}}</td>
-              <td>{{compareResult.pname}}</td>
+              <td>
+                <img v-if="compareResult.pname==1" src="../../../assets/img/hook.png" alt="">
+                <img v-if="compareResult.pname==0"src="../../../assets/img/cross.png" alt="">
+              </td>
             </tr>
             <tr>
               <td>性别</td>
               <td>{{travellerInfo.sex}}</td>
               <td>{{tableData.LKNameListList.GENDER}}</td>
-              <td>{{compareResult.sex}}</td>
+              <td>
+                <img v-if="compareResult.sex==1" src="../../../assets/img/hook.png" alt="">
+                <img v-if="compareResult.sex==0"src="../../../assets/img/cross.png" alt="">
+              </td>
             </tr>
             <tr>
               <td>出生日期</td>
               <td>{{travellerInfo.birthday}}</td>
-              <td>{{tableData.LKNameListList.DATEOFBIRTH}}</td>
-              <td>{{compareResult.birthday}}</td>
+              <td>{{tableData.LKNameListList.dateOfBirthDesc}}</td>
+              <td>
+                <img v-if="compareResult.birthday==1" src="../../../assets/img/hook.png" alt="">
+                <img v-if="compareResult.birthday==0"src="../../../assets/img/cross.png" alt="">
+              </td>
             </tr>
             <tr>
               <td>证件号码</td>
               <td>{{travellerInfo.cnum}}</td>
               <td>{{tableData.LKNameListList.CARDNUM}}</td>
-              <td>{{compareResult.cnum}}</td>
+              <td>
+                <img v-if="compareResult.cnum==1" src="../../../assets/img/hook.png" alt="">
+                <img v-if="compareResult.cnum==0"src="../../../assets/img/cross.png" alt="">
+              </td>
             </tr>
             <tr>
               <td>国籍</td>
               <td>{{travellerInfo.nationality}}</td>
-              <td>{{tableData.LKNameListList.NATIONALITY}}</td>
-              <td>{{compareResult.nationality}}</td>
+              <td>{{tableData.LKNameListList.GJDQDMDESC}}</td>
+              <td>
+                <img v-if="compareResult.nationality==1" src="../../../assets/img/hook.png" alt="">
+                <img v-if="compareResult.nationality==0"src="../../../assets/img/cross.png" alt="">
+              </td>
+            </tr>
+          </table>
+          <table class="o-th1" cellspacing="0" v-if="$route.query.isZDGZ">
+            <tr class="thead">
+              <th>类别</th>
+              <th>旅客信息</th>
+              <th>名单信息</th>
+              <th>比对结果</th>
+            </tr>
+            <tr>
+              <td>姓名</td>
+              <td>{{travellerInfo.pname}}</td>
+              <td>{{tableData.NameListFocusEntity.NAME}}</td>
+              <td>
+                <img v-if="compareResult.pname==1" src="../../../assets/img/hook.png" alt="">
+                <img v-if="compareResult.pname==0"src="../../../assets/img/cross.png" alt="">
+              </td>
+            </tr>
+            <tr>
+              <td>性别</td>
+              <td>{{travellerInfo.sex}}</td>
+              <td>{{tableData.NameListFocusEntity.GENDER}}</td>
+              <td>
+                <img v-if="compareResult.sex==1" src="../../../assets/img/hook.png" alt="">
+                <img v-if="compareResult.sex==0"src="../../../assets/img/cross.png" alt="">
+              </td>
+            </tr>
+            <tr>
+              <td>出生日期</td>
+              <td>{{travellerInfo.birthday}}</td>
+              <td>{{tableData.NameListFocusEntity.dateOfBirthDesc}}</td>
+              <td>
+                <img v-if="compareResult.birthday==1" src="../../../assets/img/hook.png" alt="">
+                <img v-if="compareResult.birthday==0"src="../../../assets/img/cross.png" alt="">
+              </td>
+            </tr>
+            <tr>
+              <td>国籍</td>
+              <td>{{travellerInfo.nationality}}</td>
+              <td>{{tableData.NameListFocusEntity.GJDQDMDESC}}</td>
+              <td>
+                <img v-if="compareResult.nationality==1" src="../../../assets/img/hook.png" alt="">
+                <img v-if="compareResult.nationality==0"src="../../../assets/img/cross.png" alt="">
+              </td>
+            </tr>
+            <tr>
+              <td>证件号码</td>
+              <td>{{travellerInfo.cnum}}</td>
+              <td>{{tableData.NameListFocusEntity.CARDNUM}}</td>
+              <td>
+                <img v-if="compareResult.cnum==1" src="../../../assets/img/hook.png" alt="">
+                <img v-if="compareResult.cnum==0"src="../../../assets/img/cross.png" alt="">
+              </td>
+            </tr>
+            <tr>
+              <td>签证号码</td>
+              <td>{{travellerInfo.cnum}}</td>
+              <td>{{tableData.NameListFocusEntity.CARDNUM}}</td>
+              <td>
+                <img v-if="compareResult.cnum==1" src="../../../assets/img/hook.png" alt="">
+                <img v-if="compareResult.cnum==0"src="../../../assets/img/cross.png" alt="">
+              </td>
             </tr>
           </table>
         </div>
@@ -217,103 +360,288 @@
             名单补充信息
           </div>
           <div class=""  v-if="$route.query.NameListType==0">
-            <el-row type="flex" class="mb-9">
-              <el-col :span="8" class="input-item">
+            <el-row  class="mb-9">
+              <el-col :span="8" class="input-item mb-9">
                 <span class="input-text">在控性质：</span>
-                <el-input placeholder="请输入内容" size="small" :disabled="true" class="input-input"></el-input>
+                <el-input placeholder="请输入内容" v-model="tableData.BZRJyfbywtList.DXLBDM" size="small" :disabled="true" class="input-input"></el-input>
               </el-col>
-              <el-col :span="8" class="input-item">
+              <el-col :span="8" class="input-item mb-9">
                 <span class="input-text">登记编号：</span>
-                <el-input placeholder="请输入内容" size="small" :disabled="true" class="input-input"></el-input>
+                <el-input placeholder="请输入内容" v-model="tableData.BZRJyfbywtList.JKDWDH" size="small" :disabled="true" class="input-input"></el-input>
               </el-col>
-              <el-col :span="8" class="input-item">
+              <el-col :span="8" class="input-item mb-9">
                 <span class="input-text">职业身份：</span>
-                <el-input placeholder="请输入内容" size="small" :disabled="true" class="input-input"></el-input>
+                <el-input placeholder="请输入内容" v-model="tableData.BZRJyfbywtList.SF" size="small" :disabled="true" class="input-input"></el-input>
               </el-col>
-            </el-row>
-            <el-row type="flex" class="mb-9">
-              <el-col :span="8" class="input-item">
+              <el-col :span="8" class="input-item  mb-9">
                 <span class="input-text">体貌特征：</span>
-                <el-input placeholder="请输入内容" size="small" :disabled="true" class="input-input"></el-input>
+                <el-input placeholder="请输入内容" v-model="tableData.BZRJyfbywtList.TMTZ" size="small" :disabled="true" class="input-input"></el-input>
               </el-col>
-              <el-col :span="8" class="input-item">
+              <el-col :span="8" class="input-item  mb-9">
                 <span class="input-text">法律依据：</span>
-                <el-input placeholder="请输入内容" size="small" :disabled="true" class="input-input"></el-input>
+                <el-input placeholder="请输入内容" v-model="tableData.BZRJyfbywtList.FLYJ" size="small" :disabled="true" class="input-input"></el-input>
               </el-col>
-              <el-col :span="8" class="input-item">
+              <el-col :span="8" class="input-item  mb-9">
                 <span class="input-text">主要问题：</span>
-                <el-input placeholder="请输入内容" size="small" :disabled="true" class="input-input"></el-input>
+                <el-input placeholder="请输入内容" v-model="tableData.BZRJyfbywtList.ZYWT" size="small" :disabled="true" class="input-input"></el-input>
               </el-col>
-            </el-row>
-            <el-row type="flex" class="mb-9">
-              <el-col :span="8" class="input-item">
+              <el-col :span="8" class="input-item  mb-9">
                 <span class="input-text">境内住址：</span>
-                <el-input placeholder="请输入内容" size="small" :disabled="true" class="input-input"></el-input>
+                <el-input placeholder="请输入内容" v-model="tableData.BZRJyfbywtList.JNZZ" size="small" :disabled="true" class="input-input"></el-input>
               </el-col>
-              <el-col :span="8" class="input-item">
+              <el-col :span="8" class="input-item  mb-9">
                 <span class="input-text">境外住址：</span>
-                <el-input placeholder="请输入内容" size="small" :disabled="true" class="input-input"></el-input>
+                <el-input placeholder="请输入内容" v-model="tableData.BZRJyfbywtList.JWZZ" size="small" :disabled="true" class="input-input"></el-input>
               </el-col>
-              <el-col :span="8" class="input-item">
+              <el-col :span="8" class="input-item mb-9">
                 <span class="input-text">起控日期：</span>
-                <el-input placeholder="请输入内容" size="small" :disabled="true" class="input-input"></el-input>
+                <el-input placeholder="请输入内容" v-model="tableData.BZRJyfbywtList.QSKZRQ" size="small" :disabled="true" class="input-input"></el-input>
               </el-col>
-            </el-row>
-            <el-row type="flex" class="mb-9">
-              <el-col :span="8" class="input-item">
+              <el-col :span="8" class="input-item mb-9">
                 <span class="input-text">交控单位：</span>
-                <el-input placeholder="请输入内容" size="small" :disabled="true" class="input-input"></el-input>
+                <el-input placeholder="请输入内容" v-model="tableData.BZRJyfbywtList.JKDWMC" size="small" :disabled="true" class="input-input"></el-input>
               </el-col>
-              <el-col :span="8" class="input-item">
+              <el-col :span="8" class="input-item mb-9">
                 <span class="input-text">联系办法：</span>
-                <el-input placeholder="请输入内容" size="small" :disabled="true" class="input-input"></el-input>
+                <el-input placeholder="请输入内容" v-model="tableData.BZRJyfbywtList.LXBF" size="small" :disabled="true" class="input-input"></el-input>
               </el-col>
-              <el-col :span="8" class="input-item">
+              <el-col :span="8" class="input-item mb-9">
                 <span class="input-text">止控日期：</span>
-                <el-input placeholder="请输入内容" size="small" :disabled="true" class="input-input"></el-input>
+                <el-input placeholder="请输入内容" v-model="tableData.BZRJyfbywtList.ZZKZRQ" size="small" :disabled="true" class="input-input"></el-input>
               </el-col>
-            </el-row>
-            <el-row type="flex">
-              <el-col :span="24" class="input-item">
+              <el-col :span="24" class="input-item mb-9">
                 <span class="input-text2">备注：</span>
-                <el-input placeholder="请输入内容" size="small" :disabled="true" class="input-input2"></el-input>
+                <el-input placeholder="请输入内容" v-model="tableData.BZRJyfbywtList.BZ" size="small" :disabled="true" class="input-input2"></el-input>
               </el-col>
             </el-row>
           </div>
-
+          <div class=""  v-if="$route.query.NameListType==1">
+            <el-row class="mb-9">
+              <el-col :span="8" class="input-item mb-9">
+                <span class="input-text">发证日期：</span>
+                <el-input placeholder="请输入内容" v-model="tableData.invalidCardList.CARDISSUEDATE" size="small" :disabled="true" class="input-input"></el-input>
+              </el-col>
+              <el-col :span="8" class="input-item mb-9">
+                <span class="input-text">失效日期：</span>
+                <el-input placeholder="请输入内容"  v-model="tableData.invalidCardList.CARDEXPIREDATE" size="small" :disabled="true" class="input-input"></el-input>
+              </el-col>
+              <!-- <el-col :span="8" class="input-item mb-9">
+                <span class="input-text">撤销日期：</span>
+                <el-input placeholder="请输入内容" v-model="tableData.invalidCardList.CARDEXPIREDATE" size="small" :disabled="true" class="input-input"></el-input>
+              </el-col> -->
+              <el-col :span="8" class="input-item mb-9">
+                <span class="input-text">失效原因：</span>
+                <el-input placeholder="请输入内容" v-model="tableData.invalidCardList.REASON" size="small" :disabled="true" class="input-input"></el-input>
+              </el-col>
+              <el-col :span="8" class="input-item mb-9">
+                <span class="input-text">宣布机关：</span>
+                <el-input placeholder="请输入内容" v-model="tableData.invalidCardList.DEALUNIT" size="small" :disabled="true" class="input-input"></el-input>
+              </el-col>
+              <el-col :span="8" class="input-item mb-9">
+                <span class="input-text">交控档号：</span>
+                <el-input placeholder="请输入内容" v-model="tableData.invalidCardList.RECORDNUM" size="small" :disabled="true" class="input-input"></el-input>
+              </el-col>
+              <!-- <el-col :span="24" class="input-item mb-9">
+                <span class="input-text2">遗失地点：</span>
+                <el-input placeholder="请输入内容" v-model="{{tableData.invalidCardList.cardEXPIREDATE}}" size="small" :disabled="true" class="input-input2"></el-input>
+              </el-col> -->
+              <el-col :span="24" class="input-item mb-9">
+                <span class="input-text2">备注：</span>
+                <el-input placeholder="请输入内容" v-model="tableData.invalidCardList.CONENT" size="small" :disabled="true" class="input-input2"></el-input>
+              </el-col>
+            </el-row>
+          </div>
+          <div class=""  v-if="$route.query.NameListType==2">
+            <el-row class="mb-9">
+              <el-col :span="8" class="input-item mb-9">
+                <span class="input-text">发证日期：</span>
+                <el-input placeholder="请输入内容" v-model="tableData.invalidVisaList.CARDISSUEDATE" size="small" :disabled="true" class="input-input"></el-input>
+              </el-col>
+              <el-col :span="8" class="input-item mb-9">
+                <span class="input-text">失效日期：</span>
+                <el-input placeholder="请输入内容" v-model="tableData.invalidVisaList.CARDEXPIREDATE" size="small" :disabled="true" class="input-input"></el-input>
+              </el-col>
+              <!-- <el-col :span="8" class="input-item mb-9">
+                <span class="input-text">撤销日期：</span>
+                <el-input placeholder="请输入内容" size="small" :disabled="true" class="input-input"></el-input>
+              </el-col> -->
+              <el-col :span="8" class="input-item mb-9">
+                <span class="input-text">失效原因：</span>
+                <el-input placeholder="请输入内容" v-model="tableData.invalidVisaList.REASON" size="small" :disabled="true" class="input-input"></el-input>
+              </el-col>
+              <el-col :span="8" class="input-item mb-9">
+                <span class="input-text">宣布机关：</span>
+                <el-input placeholder="请输入内容" v-model="tableData.invalidVisaList.DEALUNIT" size="small" :disabled="true" class="input-input"></el-input>
+              </el-col>
+              <el-col :span="8" class="input-item mb-9">
+                <span class="input-text">交控档号：</span>
+                <el-input placeholder="请输入内容" v-model="tableData.invalidVisaList.RECORDNUM" size="small" :disabled="true" class="input-input"></el-input>
+              </el-col>
+              <el-col :span="24" class="input-item mb-9">
+                <span class="input-text2">备注：</span>
+                <el-input placeholder="请输入内容" v-model="tableData.invalidVisaList.CONENT" size="small" :disabled="true" class="input-input2"></el-input>
+              </el-col>
+            </el-row>
+          </div>
+          <div class=""  v-if="$route.query.NameListType==3">
+            <el-row class="mb-9">
+              <el-col :span="8" class="input-item mb-9">
+                <span class="input-text">入境口岸：</span>
+                <el-input placeholder="请输入内容" v-model="tableData.WnameListList.WHITE_PORT_IN" size="small" :disabled="true" class="input-input"></el-input>
+              </el-col>
+              <el-col :span="8" class="input-item mb-9">
+                <span class="input-text">出境口岸：</span>
+                <el-input placeholder="请输入内容" v-model="tableData.WnameListList.WHITE_PORT_OUT" size="small" :disabled="true" class="input-input"></el-input>
+              </el-col>
+              <el-col :span="8" class="input-item mb-9">
+                <span class="input-text">批准机关：</span>
+                <el-input placeholder="请输入内容" v-model="tableData.WnameListList.SUBORG_NAME" size="small" :disabled="true" class="input-input"></el-input>
+              </el-col>
+            </el-row>
+            <el-row class="mb-9" type="flex" justify="space-between">
+              <el-col :span="14" class="input-item mb-9" v-if="travellerInfo.flightType=='I'">
+                <span class="input-text">有效日期：</span>
+                <el-input placeholder="请输入内容" v-model="tableData.WnameListList.CTL_BEGINDATE_IN" size="small" :disabled="true" class="input-input"></el-input>
+                <span style="margin:0 5px">至</span>
+                <el-input placeholder="请输入内容" v-model="tableData.WnameListList.CTL_EXPIREDATE_IN" size="small" :disabled="true" class="input-input"></el-input>
+              </el-col>
+              <el-col :span="14" class="input-item mb-9" v-if="travellerInfo.flightType=='O'">
+                <span class="input-text">有效日期：</span>
+                <el-input placeholder="请输入内容" v-model="tableData.WnameListList.CTL_BEGINDATE_OUT" size="small" :disabled="true" class="input-input"></el-input>
+                <span style="margin:0 5px">至</span>
+                <el-input placeholder="请输入内容" v-model="tableData.WnameListList.CTL_EXPIREDATE_OUT" size="small" :disabled="true" class="input-input"></el-input>
+              </el-col>
+              <el-col :span="8" class="input-item mb-9">
+                <span class="input-text">处理依据：</span>
+                <el-input placeholder="请输入内容" v-model="tableData.WnameListList.CTL_REASON" size="small" :disabled="true" class="input-input"></el-input>
+              </el-col>
+            </el-row>
+            <el-row class="mb-9">
+              <el-col :span="24" class="input-item mb-9">
+                <span class="input-text2">登记编号：</span>
+                <el-input placeholder="请输入内容" v-model="tableData.WnameListList.RECORDNUM" size="small" :disabled="true" class="input-input2"></el-input>
+              </el-col>
+            </el-row>
+          </div>
+          <div class=""  v-if="$route.query.NameListType==4">
+            <el-row class="mb-9">
+              <el-col :span="8" class="input-item mb-9">
+                <span class="input-text">发证日期：</span>
+                <el-input placeholder="请输入内容" v-model="tableData.LKNameListList.CARDISSUEDATE" size="small" :disabled="true" class="input-input"></el-input>
+              </el-col>
+              <el-col :span="8" class="input-item mb-9">
+                <span class="input-text">失效日期：</span>
+                <el-input placeholder="请输入内容" v-model="tableData.LKNameListList.CARDEXPIREDATE" size="small" :disabled="true" class="input-input"></el-input>
+              </el-col>
+              <!-- <el-col :span="8" class="input-item mb-9">
+                <span class="input-text">撤销日期：</span>
+                <el-input placeholder="请输入内容" size="small" :disabled="true" class="input-input"></el-input>
+              </el-col> -->
+              <el-col :span="8" class="input-item mb-9">
+                <span class="input-text">失效原因：</span>
+                <el-input placeholder="请输入内容" v-model="tableData.LKNameListList.REASON" size="small" :disabled="true" class="input-input"></el-input>
+              </el-col>
+              <el-col :span="8" class="input-item mb-9">
+                <span class="input-text">宣布机关：</span>
+                <el-input placeholder="请输入内容" v-model="tableData.LKNameListList.DEALUNIT" size="small" :disabled="true" class="input-input"></el-input>
+              </el-col>
+              <el-col :span="8" class="input-item mb-9">
+                <span class="input-text">交控档号：</span>
+                <el-input placeholder="请输入内容" v-model="tableData.LKNameListList.RECORDNUM" size="small" :disabled="true" class="input-input"></el-input>
+              </el-col>
+              <!-- <el-col :span="24" class="input-item mb-9">
+                <span class="input-text2">遗失地点：</span>
+                <el-input placeholder="请输入内容" size="small" :disabled="true" class="input-input2"></el-input>
+              </el-col> -->
+              <el-col :span="24" class="input-item mb-9">
+                <span class="input-text2">备注：</span>
+                <el-input placeholder="请输入内容" v-model="tableData.LKNameListList.CONENT" size="small" :disabled="true" class="input-input2"></el-input>
+              </el-col>
+            </el-row>
+          </div>
+          <div class=""  v-if="$route.query.isZDGZ">
+            <el-row class="mb-9">
+              <el-col :span="8" class="input-item mb-9">
+                <span class="input-text">人员编号：</span>
+                <el-input placeholder="请输入内容" v-model="tableData.NameListFocusEntity.recordnum" size="small" :disabled="true" class="input-input"></el-input>
+              </el-col>
+              <el-col :span="8" class="input-item mb-9">
+                <span class="input-text">关注类别：</span>
+                <el-input placeholder="请输入内容" v-model="tableData.NameListFocusEntity.type" size="small" :disabled="true" class="input-input"></el-input>
+              </el-col>
+              <el-col :span="8" class="input-item mb-9">
+                <span class="input-text">有效日期：</span>
+                <el-input placeholder="请输入内容" v-model="tableData.NameListFocusEntity.enddate" size="small" :disabled="true" class="input-input"></el-input>
+              </el-col>
+              <el-col :span="8" class="input-item mb-9">
+                <span class="input-text">报警范围：</span>
+                <el-input placeholder="请输入内容" v-model="tableData.NameListFocusEntity.DEALUNIT" size="small" :disabled="true" class="input-input"></el-input>
+              </el-col>
+              <el-col :span="8" class="input-item mb-9">
+                <span class="input-text">关注范围：</span>
+                <el-input placeholder="请输入内容" v-model="tableData.NameListFocusEntity.scope" size="small" :disabled="true" class="input-input"></el-input>
+              </el-col>
+              <el-col :span="24" class="input-item mb-9">
+                <span class="input-text2">处理要求：</span>
+                <el-input placeholder="请输入内容" v-model="tableData.NameListFocusEntity.dealtype" size="small" :disabled="true" class="input-input2"></el-input>
+              </el-col>
+              <el-col :span="24" class="input-item mb-9">
+                <span class="input-text2">报列单位：</span>
+                <el-input placeholder="请输入内容" v-model="tableData.NameListFocusEntity.reportunit" size="small" :disabled="true" class="input-input2"></el-input>
+              </el-col>
+              <el-col :span="24" class="input-item mb-9">
+                <span class="input-text2">联系方式：</span>
+                <el-input placeholder="请输入内容" v-model="tableData.NameListFocusEntity.tel" size="small" :disabled="true" class="input-input2"></el-input>
+              </el-col>
+              <el-col :span="24" class="input-item mb-9">
+                <span class="input-text2">关注内容：</span>
+                <el-input placeholder="请输入内容" v-model="tableData.LKNameListList.content" size="small" :disabled="true" class="input-input2"></el-input>
+              </el-col>
+            </el-row>
+          </div>
         </div>
         <div class="down">
-          <div class="title-grey">
-            判断结果
+          <div class="down1">
+            <div class="title-grey">
+              判断结果
+            </div>
+            <div class="radio-g">
+              <el-radio-group v-model="distinguishResult" class="radio-g-area">
+                <el-radio :label="1">是名单人员</el-radio>
+                <el-radio :label="2">不是名单人员</el-radio>
+                <el-radio :label="3">不确定</el-radio>
+              </el-radio-group>
+            </div>
           </div>
-          <el-row type="flex" class="mb-15">
-            <el-col :span="4">
-              <div class="radio-g">
-                <el-radio-group v-model="distinguishResult" class="radio-g-area">
-                  <el-radio :label="1">是名单人员</el-radio>
-                  <el-radio :label="2">不是名单人员</el-radio>
-                  <el-radio :label="3">不确定</el-radio>
-                </el-radio-group>
-              </div>
-            </el-col>
-            <el-col :span="17">
-              <div class="textarea-g">
-                <div class="textarea-text">甄选说明:</div>
-                <el-input
-                  type="textarea"
-                  :autosize="{ minRows: 5, maxRows: 5}"
-                  placeholder="请输入内容"
-                  v-model="distinguishNote"
-                  class="textarea-input">
-                </el-input>
-              </div>
+          <div class="down1" v-if="$route.query.NameListType==3">
+            <div class="title-grey">
+              是否符合口岸条件
+            </div>
+            <div class="radio-g">
+              <el-radio-group v-model="martchPort" class="radio-g-area">
+                <el-radio :label="0">是</el-radio>
+                <el-radio :label="1">否</el-radio>
+              </el-radio-group>
+            </div>
+          </div>
+          <div class="down2">
+            <div class="title-grey"></div>
+            <div class="textarea-g">
+              <div class="textarea-text">甄选说明:</div>
+              <el-input
+                type="textarea"
+                :autosize="{ minRows: 5, maxRows: 5}"
+                placeholder="请输入内容"
+                v-model="distinguishNote"
+                class="textarea-input">
+              </el-input>
+            </div>
+          </div>
+          <div  class="down-btn-area down3">
+            <el-button type="primary" size="small" class="mb-15" @click="queding" :disabled="isdisabled">确定</el-button>
+            <el-button type="warning" size="small">取消</el-button>
+          </div>
 
-            </el-col>
-            <el-col :span="3" class="down-btn-area">
-              <el-button type="primary" size="small" class="mb-15" @click="queding">确定</el-button>
-              <el-button type="warning" size="small">取消</el-button>
-            </el-col>
-          </el-row>
         </div>
       </el-col>
       <el-col :span="8">
@@ -446,7 +774,7 @@ export default {
      distinguishInfo:"",
      distinguishResult:1,
      distinguishNote:"",
-
+     isdisabled:false,
    }
  },
 
@@ -497,11 +825,11 @@ export default {
        "showCount":3,
        "pd":{
           "NameListType":this.pd1.NameListType,
-          "eventserial":this.pd1.eventserial,
+          "eventSerial":this.pd1.eventserial,
           "distinguishNote":this.distinguishNote,
           "distinguishResult":this.distinguishResult.toString(),
-          "distinguishInfo":this.distinguishInfo
-
+          "distinguishInfo":this.distinguishInfo,
+          "martchPort":this.martchPort
         }
      };
      if(this.$route.query.isZDGZ){
@@ -513,6 +841,7 @@ export default {
               message: '甄别完毕！',
               type: 'success'
             });
+            this.isdisabled=true;
           }else{
             this.$message.error(r.message);
           }
@@ -526,6 +855,8 @@ export default {
               message: '甄别完毕！',
               type: 'success'
             });
+            this.isdisabled=true;
+
           }else{
             this.$message.error(r.message);
           }
@@ -557,7 +888,7 @@ export default {
   font-size: 14px;
 }
 .textarea-text{
-  width: 70px;
+  width: 72px;
 }
 .l-m-title{
   color: #7f7f7f;
@@ -647,5 +978,21 @@ export default {
   color: #fff;
   font-size: 16px;
   background-color: #858585;
+}
+.down{
+  display: flex;
+  justify-content: space-between;
+  align-items:flex-end;
+}
+.down1{
+  width: 22%;
+}
+.down2{
+  width: 60%;
+}
+.down3{
+  height: 100%;
+  width: 16%;
+  padding-bottom: 40px;
 }
 </style>

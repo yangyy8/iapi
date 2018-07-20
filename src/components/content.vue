@@ -74,7 +74,7 @@
         <ul class="tabList">
           <li class="tabList-item hand" :class="{'tabList-checked':nav2Id==i.url}" v-for="(i, index) in tabList">
             <el-tooltip class="item" effect="dark" :content="i.name" placement="top">
-              <span  @click="nav2(i)">{{i.name}}</span>
+              <span  @click="nav2(i,index)">{{i.name}}</span>
             </el-tooltip>
 
             <img src="../assets/img/tab-close1.png" alt="guanbi" @click="close1(index)" class="hand" v-if="nav2Id==i.url">
@@ -611,10 +611,26 @@ export default {
 
 
     },
-    nav2(item) {
+    nav2(item,index) {
+      // console.log(index)
+      if(this.tabList.length>8){
+        this.$confirm('您打开过多标签窗口，请关闭一些窗口后再操作', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          return
+        }).catch(() => {
+          return
+        });
+        return
+      }
+
       this.nav2Id = item.url;
       console.log(item, item.url)
       new Set(this.tabList)
+      console.log(this.tabList)
+
       this.tabList.push(item)
       this.tabList = Array.from(new Set(this.tabList));
       console.log(item.url)
@@ -663,6 +679,18 @@ export default {
       if (index > 0) {
         this.nav2Id = this.tabList[index - 1].url
         this.$router.push({name: this.nav2Id,query:{nav1Id:this.nav1Id}})
+      }if(index==0){
+        // console.log(this.tabList[index])
+        if(this.tabList.length!=0){
+          this.nav2Id = this.tabList[index].url
+          this.$router.push({name: this.nav2Id,query:{nav1Id:this.nav1Id}})
+        }else {
+          this.nav2Id=null;
+          this.$router.push({name: 'Content',query:{nav1Id:this.nav1Id}})
+
+        }
+
+
       }
     }
   }

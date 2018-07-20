@@ -506,7 +506,7 @@
               class="item-input"
               v-model="p1.fltDate"
               type="date" size="mini" value-format="yyyyMMdd"
-              placeholder="选择时间"  :picker-options="pickerOptions1">
+              placeholder="选择时间"  >
             </el-date-picker>
 
           </el-col>
@@ -516,7 +516,7 @@
               class="item-input"
               v-model="p1.departTime"
               type="date" size="mini" value-format="yyyyMMddHHmm"
-              placeholder="选择时间"  :picker-options="pickerOptions1">
+              placeholder="选择时间"  >
             </el-date-picker>
           </el-col>
           <el-col :sm="24" :md="12" :lg="8" class="hb-item">
@@ -525,7 +525,7 @@
               class="item-input"
               v-model="p1.arriveTime"
               type="date" size="mini" value-format="yyyyMMddHHmm"
-              placeholder="选择时间"  :picker-options="pickerOptions1">
+              placeholder="选择时间"  >
             </el-date-picker>
           </el-col>
           <el-col :sm="24" :md="12" :lg="8" class="hb-item">
@@ -656,7 +656,7 @@
               class="item-input"
               v-model="p2.birthday"
               type="date" size="mini" value-format="yyyyMMdd"
-              placeholder="选择时间"  :picker-options="pickerOptions1">
+              placeholder="选择时间"  >
             </el-date-picker>
           </el-col>
           <el-col :sm="24" :md="12" :lg="6" class="hb-item">
@@ -669,7 +669,6 @@
           <el-col :sm="24" :md="12" :lg="6" class="hb-item">
             <span class="item-text">航班号：</span>
             <el-input v-model="p2.fltNo" placeholder="请输入内容" size="mini"  class="item-input"></el-input>
-
           </el-col>
           <el-col :sm="24" :md="12" :lg="6" class="hb-item">
             <span class="item-text">航班日期：</span>
@@ -677,7 +676,7 @@
               class="item-input"
               v-model="p2.fltDate"
               type="date" size="mini" value-format="yyyyMMdd"
-              placeholder="选择时间"  :picker-options="pickerOptions1">
+              placeholder="选择时间"  >
             </el-date-picker>
           </el-col>
           <el-col :sm="24" :md="12" :lg="6" class="hb-item">
@@ -686,7 +685,7 @@
               class="item-input"
               v-model="p2.departTime"
               type="date" size="mini" value-format="yyyyMMddHHmm"
-              placeholder="选择时间"  :picker-options="pickerOptions1">
+              placeholder="选择时间"  >
             </el-date-picker>
           </el-col>
           <el-col :sm="24" :md="12" :lg="6" class="hb-item">
@@ -695,7 +694,7 @@
               class="item-input"
               v-model="p2.arriveTime"
               type="date" size="mini" value-format="yyyyMMddHHmm"
-              placeholder="选择时间"  :picker-options="pickerOptions1">
+              placeholder="选择时间"  >
             </el-date-picker>
           </el-col>
         </el-row>

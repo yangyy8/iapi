@@ -15,6 +15,10 @@ html,body{
   height: 100%;
   font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
 }
+body{
+  padding-right:0 !important;
+  overflow: auto!important;
+}
 #app{
   height: 100%;
 }
@@ -334,6 +338,9 @@ button{
 .textarea-input textarea{
   width: 554px!important;
   height: 68px!important;
+}
+.down2 .textarea-input textarea{
+  width:inherit!important;
 }
 .tan-right .el-radio{
   color: #fff!important;

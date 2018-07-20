@@ -60,8 +60,12 @@
           label="人员姓名">
         </el-table-column>
         <el-table-column
+          prop="intgchnname"
+          label="中文姓名">
+        </el-table-column>
+        <el-table-column
           prop="nationality"
-          label="国籍">
+          label="国籍/地区">
         </el-table-column>
         <el-table-column
           prop="fltno"

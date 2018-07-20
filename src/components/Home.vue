@@ -138,8 +138,8 @@
         </div>
         <div class="foot2">
           {{dateData.year}}年
-          <span v-for="i in rcList">{{i}}</span>
-          万人次
+          <span class="rs" v-for="i in rcList">{{i}}</span>
+          <span v-if="isWan">万</span><span style="font-size:14px">人次</span>
         </div>
         <div class="foot3">
           Copyright © 2018 中国移民局边防检查机关 ALL Right Reserved <span> 技术支持:太极计算机股份有限公司</span>
@@ -199,6 +199,7 @@ export default {
       muneListOne:[],
       find: "2", //1显示新增按钮，2显示导入按钮，若不显示这两个按钮可以写0或者不写值
       chart: null,
+      isWan:false,
       geoCoordMap: {
         '南宁': [108.479, 23.1152],
         '广州': [113.5107, 23.2196],
@@ -299,6 +300,7 @@ export default {
       this.$api.post('/eamp/homePage/iapiSize',{},
        r => {
         console.log(r)
+        this.isWan=r.data.isShow;
         this.rcList=r.data.number.toString().split('')
         console.log(this.rcList)
       })
@@ -682,6 +684,7 @@ export default {
 }
 .cycc-content{
   height: 200px;
+  overflow-y: auto;
 }
 .cycc-ul{
   display: flex;
@@ -780,7 +783,7 @@ export default {
   font-size: 18px;
   margin-bottom: 27px;
 }
-.foot2 span{
+.foot2 .rs{
   font-size: 20px;
   background: #0e6eba;
   padding: 4px 7px;
