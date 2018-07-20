@@ -1,6 +1,5 @@
 // 配置API接口地址
 //var root="http://192.168.99.247:8080"     //报警
-//var root="http://192.168.99.250:8080"     //刘洋报警
 
 //var root="http://192.168.99.228:8080"     //菜单
 
@@ -17,9 +16,6 @@
 
 var root="http://192.168.99.206:8080"   //服务器电脑
 //var root="http://192.168.99.201:9080"    //全国监控
-
-// var root = 'http://192.168.99.206:8080'
-//var root = 'http://192.168.99.245:8080'
 
 
 //var root="http://192.168.99.250:8080"    //刘洋的电脑
@@ -54,7 +50,7 @@ function filterNull(o) {
 
 function apiAxios(method, url, params, success, failure) {
   console.log(Loading)
-  let loadingInstance1 = Loading.service({ fullscreen: true });
+  // let loadingInstance1 = Loading.service({ fullscreen: true });
   if (params) {
     // params=addParams(params);
     // params = filterNull(params);
@@ -73,7 +69,7 @@ function apiAxios(method, url, params, success, failure) {
         if (success) {
           console.log(res.data)
           success(res.data)
-          loadingInstance1.close();
+          // loadingInstance1.close();
         }
       } else {
         if (failure) {
