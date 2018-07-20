@@ -24,7 +24,7 @@
                  <el-option
                    v-for="item in company"
                    :key="item.SERIAL"
-                   :label="item.DEPT_QC"
+                   :label="item.DEPT_JC"
                    :value="item.SERIAL">
                  </el-option>
                </el-select>
@@ -106,8 +106,8 @@
           label="操作" width="250">
           <template slot-scope="scope">
             <div class="flex-r">
-              <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row)">详情</el-button>
-              <el-button class="table-btn" size="mini" plain icon="el-icon-edit" @click="adds(1,scope.row)">编辑</el-button>
+              <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row.SERIAL)">详情</el-button>
+              <el-button class="table-btn" size="mini" plain icon="el-icon-edit" @click="adds(1,scope.row.SERIAL)">编辑</el-button>
               <el-button class="table-btn" size="mini" plain icon="el-icon-delete" @click="deletes(scope.row)">删除</el-button>
             </div>
          </template>
@@ -198,7 +198,7 @@
                <el-option
                  v-for="item in company"
                  :key="item.SERIAL"
-                 :label="item.DEPT_QC"
+                 :label="item.DEPT_JC"
                  :value="item.SERIAL" >
                </el-option>
              </el-select>
@@ -275,7 +275,7 @@
 
           <el-col :span="12" class="input-item">
             <span class="yy-input-text">联系方式：</span>
-          <span class="yy-input-input">  {{mapForm.PHON}}</span>
+          <span class="yy-input-input">  {{mapForm.PHONE}}</span>
           </el-col>
         </el-row>
         <el-row type="flex" class="mb-6" >
@@ -393,7 +393,7 @@ export default {
     },
 
     queryNationality() {
-      this.$api.post('/eamp/userSys/goAdd', {},
+      this.$api.post('/eamp/userSys/deptList', {},
         r => {
           console.log(r);
           if (r.success) {
@@ -415,7 +415,23 @@ export default {
 
       if (n != 0) {
         this.tp = 1;
-        this.form = i;
+        let p={
+          "SERIAL":i
+        };
+         this.$api.post('/eamp/userSys/goEdit', p,
+           r => {
+             console.log(r);
+             if (r.success) {
+               this.form = r.data;
+
+               let lists=[];
+               let arr=r.data.chooseRoleList;
+               for(var i in arr){
+                 lists.push(arr[i].SERIAL)
+               }
+               this.form.roleList=lists;
+             }
+           })
       }
 
     },
@@ -423,7 +439,7 @@ export default {
       var url = "/eamp/userSys/save";
 
       if (this.tp == 1) {
-        url = "/eamp/userSys/goEdit";
+        url = "/eamp/userSys/edit";
       }
       this.$api.post(url, this.form,
         r => {
@@ -447,8 +463,17 @@ export default {
     },
     details(i) {
       this.detailsDialogVisible = true;
-      console.log(i);
-      this.mapForm = i;
+
+      let p={
+        "SERIAL":i
+      };
+       this.$api.post('/eamp/userSys/showDetai', p,
+         r => {
+           console.log(r);
+           if (r.success) {
+             this.mapForm = r.data;
+           }
+         })
     },
     deletes(i) {
       let p = {

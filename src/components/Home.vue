@@ -29,7 +29,7 @@
           <path class="cls-1" :class="{'clss':left==4}" d="M178,327.48a131.56,131.56,0,0,1-50.47-46L36.87,338.29a239,239,0,0,0,91.82,84.17Z" fill="#032552" transform="translate(0 -0.2)" @mouseover="leftOver(4)"/>
         </svg>
 
-        <router-link :to="{ name: 'Content', params: {navId:val.SERIAL} }" class="nav-item" :class='"nav-item"+ind' v-for="(val,ind) in sortarr" :key="val.SERIAL" v-if="ind<4">
+        <router-link :to="{ name: 'Content', params: {navId:val.SERIAL} }" class="nav-item" :class='"nav-item"+ind' v-for="(val,ind) in muneListOne" :key="val.SERIAL" v-if="ind<4">
           <img :src='"../assets/img/navIcon/"+val.MENU_ICON+".png"' alt="">
           <span>{{val.name}}</span>
         </router-link>
@@ -71,7 +71,7 @@
           <span>日常工作</span>
         </a>
         <!-- </router-link> -->
-        <router-link :to="{ name: 'Content', params: {navId:val.SERIAL} }" class="nav-item" :class='"nav-item"+parseInt(ind+1)' v-for="(val,ind) in sortarr" v-if="ind>3">
+        <router-link :to="{ name: 'Content', params: {navId:val.SERIAL} }" class="nav-item" :class='"nav-item"+parseInt(ind+1)' v-for="(val,ind) in muneListOne" v-if="ind>3">
           <img :src='"../assets/img/navIcon/"+val.MENU_ICON+".png"' alt="">
           <span>{{val.name}}</span>
         </router-link>
@@ -99,7 +99,7 @@
         </div>
         <div class="cycc-content">
           <ul class="cycc-ul">
-            <li v-for="i in ccList" class="cycc-li" @click="$router.push('/content/'+i.parentId+'/'+i.url)">
+            <li v-for="i in ccList" class="cycc-li" @click="$router.push('/content/'+i.rootId+'/'+i.url+'?nav1Id='+i.parentId)">
               <img src="../assets/img/home/micon.png" alt="">
               <span>{{i.name}}</span>
             </li>
@@ -126,8 +126,8 @@
           </el-input>
         </div>
         <div class="login-item2">
-          <el-radio label="1" v-model="jzmm">记住密码</el-radio>
-          <a class="login-a">忘记密码</a>
+          <el-checkbox v-model="jzmm">记住密码</el-checkbox>
+          <!-- <a class="login-a">忘记密码</a> -->
         </div>
         <button class="login-btn" @click="login">登录</button>
 
@@ -138,8 +138,8 @@
         </div>
         <div class="foot2">
           {{dateData.year}}年
-          <span v-for="i in rcList">{{i}}</span>
-          万人次
+          <span class="rs" v-for="i in rcList">{{i}}</span>
+          <span v-if="isWan">万</span><span style="font-size:14px">人次</span>
         </div>
         <div class="foot3">
           Copyright © 2018 中国移民局边防检查机关 ALL Right Reserved <span> 技术支持:太极计算机股份有限公司</span>
@@ -184,7 +184,7 @@ export default {
         dd:"",
         xx:""
       },
-      jzmm:0,
+      jzmm:false,
       bynav:true,
       isLogin:false,
       tabId:0,
@@ -199,6 +199,7 @@ export default {
       muneListOne:[],
       find: "2", //1显示新增按钮，2显示导入按钮，若不显示这两个按钮可以写0或者不写值
       chart: null,
+      isWan:false,
       geoCoordMap: {
         '南宁': [108.479, 23.1152],
         '广州': [113.5107, 23.2196],
@@ -270,7 +271,7 @@ export default {
 
   mounted() {
     this.fn();
-    // this.getNav0();
+    this.getNav0();
     this.getTime();
   },
   beforeDestroy() {
@@ -299,6 +300,7 @@ export default {
       this.$api.post('/eamp/homePage/iapiSize',{},
        r => {
         console.log(r)
+        this.isWan=r.data.isShow;
         this.rcList=r.data.number.toString().split('')
         console.log(this.rcList)
       })
@@ -682,6 +684,7 @@ export default {
 }
 .cycc-content{
   height: 200px;
+  overflow-y: auto;
 }
 .cycc-ul{
   display: flex;
@@ -780,7 +783,7 @@ export default {
   font-size: 18px;
   margin-bottom: 27px;
 }
-.foot2 span{
+.foot2 .rs{
   font-size: 20px;
   background: #0e6eba;
   padding: 4px 7px;

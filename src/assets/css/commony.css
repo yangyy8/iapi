@@ -25,3 +25,8 @@
   white-space: nowrap;
 }
 .yy-input-input{width: 58%!important; text-align: left!important;line-height: 32px; }
+hr {
+  height: 2px;
+  border: none;
+  border-top: 1px solid #73BFF2;
+}
