@@ -9,7 +9,12 @@
           <el-row align="center" :gutter="2">
             <el-col :sm="24" :md="12" :lg="8" class="input-item">
               <span class="input-text">姓名：</span>
-              <el-input  placeholder="请输入" size="small" v-model="pd.familyname" class="input-input"></el-input>
+              <div class="input-input t-fuzzy t-flex">
+                <el-input placeholder="请输入内容" v-model="pd.familyname" size="small"></el-input>
+                <el-checkbox v-model="lazyQuery">模糊查询</el-checkbox>
+              </div>
+              <!-- <span class="input-text">姓名：</span>
+              <el-input  placeholder="请输入" size="small" v-model="pd.familyname" class="input-input"></el-input> -->
             </el-col>
             <el-col :sm="24" :md="12" :lg="8" class="input-item">
               <span class="input-text">性别：</span>
@@ -157,7 +162,7 @@
         </el-table-column>
         <el-table-column
           prop="TYPE"
-          label="最终命中人员类别" width="150"
+          label="最终命中人员类别" width="170"
           sortable="custom">
         </el-table-column>
 
@@ -254,6 +259,7 @@ export default {
       ],
       tableData: [],
       multipleSelection: [],
+      lazyQuery:'',
       pickerOptions1: {
         shortcuts: [{
           text: '今天',
