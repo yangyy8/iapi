@@ -183,6 +183,8 @@ currentPage<template lang="html">
                   <el-select v-model="cdt.flighttypeEqual" placeholder="请选择"  size="small" class="input-input">
                     <el-option label="入境" value="I"></el-option>
                     <el-option label="出境" value="O"></el-option>
+                    <el-option label="过境" value="G"></el-option>
+                    <el-option label="全部" value=""></el-option>
                   </el-select>
                 </el-col>
                 <el-col :sm="24" :md="12" :lg="6" class="input-item">
@@ -616,7 +618,7 @@ currentPage<template lang="html">
                        </el-col>
                      </el-row>
 
-                     <el-row type="flex" align="center" :gutter="10" style="width:100%" v-for="self in selfRows" :key="self.id">
+                     <el-row type="flex" align="center" :gutter="10" style="width:100%" v-for="self in selfRows">
                       <el-col :sm="24" :md="12" :lg="6" class="input-item">
                         <span class="input-text">属性：</span>
                         <el-select placeholder="请选择" v-model="self.attribute" @visible-change="attribute" @change="attributeOperator(selfNature)" filterable  size="mini">
@@ -1073,6 +1075,7 @@ export default {
           startDepartdate:'',
           citytoEqual:'',
           endArrivdate:''
+
         }
       ],
       modelrow:{
@@ -1239,8 +1242,10 @@ export default {
       takeOffName:[],
       landingName:[],
       nationalityName:[],
-      cdt:{},
-      cdtList:{version:0},//批量查询的第一行
+      cdt:{
+        flighttypeEqual:''
+      },
+      cdtList:{version:0,flag:''},//批量查询的第一行
       selfCdtList:{id:0,type:0,attribute:'',atype:''},//自定义查询的第一行
       selfNature:[],
       operator:[],
@@ -1424,7 +1429,7 @@ export default {
     planQuery(){//基础查询 方案渲染
         let pq = {
           page : this.page,
-          name : this.sss
+          name : this.ssss
         }
         this.$api.post('/eamp/queryShow/queryConfigInfo',pq,
         r =>{
@@ -1550,7 +1555,7 @@ export default {
     batchPlanQuery(){//批量查询 方案渲染
       let bpq = {
         page : this.page,
-        name : this.ppp
+        name : this.pppp
       }
       this.$api.post('/eamp/queryShow/queryConfigInfo',bpq,
       r =>{
@@ -1667,7 +1672,7 @@ export default {
     selfPlanQuery(){//自定义查询 方案渲染
       let spq = {
         page : this.page,
-        name : this.fff
+        name : this.ffff
       }
       this.$api.post('/eamp/queryShow/queryConfigInfo',spq,
       r =>{
