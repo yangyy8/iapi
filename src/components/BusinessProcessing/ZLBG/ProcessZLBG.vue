@@ -303,7 +303,7 @@
         </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="handlesItem('batchmap')" size="small">变更</el-button>
+        <el-button type="primary" @click="handlessys(0)" size="small">变更</el-button>
         <el-button @click="batchDialogVisible = false" size="small">取消</el-button>
 
       </div>
@@ -336,19 +336,18 @@
           </el-col>
           <el-col :span="8" class="input-item">
             <span class="yy-input-text">证件号码：</span>
-            <el-input placeholder="请输入内容" size="small" v-model="form.CARDTYPE" class="yy-input-input" :disabled="true"> </el-input>
+            <el-input placeholder="请输入内容" size="small" v-model="form.PASSPORTNO" class="yy-input-input" :disabled="true"> </el-input>
           </el-col>
 
           <el-col :span="8" class="input-item">
             <span class="yy-input-text">签证号码：</span>
-            <el-input placeholder="请输入内容" size="small" v-model="form.CARDNO" class="yy-input-input" :disabled="true"></el-input>
+            <el-input placeholder="请输入内容" size="small" v-model="form.INTG_VISANO" class="yy-input-input" :disabled="true"></el-input>
           </el-col>
         </el-row>
 
         <el-row type="flex"  class="mb-6">
           <el-col :span="8" class="input-item">
             <span class="yy-input-text">当前值机状态：</span>
-
             <el-select v-model="form.CHECKRESULT"  placeholder="请选择"   size="small" class="yy-input-input" :disabled="true">
               <el-option value="0Z" label="0Z - 允许打印登机牌">
               </el-option>
@@ -364,8 +363,6 @@
             <span class="yy-input-text">值机状态说明：</span>
             <el-input placeholder="请输入内容" size="small" v-model="form.CHECKRESULTS" class="yy-input-input" :disabled="true"></el-input>
           </el-col>
-
-
         </el-row>
         <hr/>
         <el-row type="flex" class="mb-6">
@@ -399,34 +396,35 @@
         </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="handlesItem1('handlesForm')" size="small">变更</el-button>
+        <!-- <el-button type="primary" @click="handlesItem1('handlesForm')" size="small">变更</el-button> -->
+        <el-button type="primary" @click="handlessys(1)" size="small">变更</el-button>
         <el-button @click="handlesDialogVisible = false" size="small">取消</el-button>
 
       </div>
+
+
     </el-dialog>
 
-    <el-dialog  title="操作授权" :visible.sync="AuthDialogVisible"   append-to-body width="500px">
+
+    <el-dialog  title="操作授权" :visible.sync="AuthDialogVisible"  append-to-body width="500px">
 
       <el-row  type="flex"  class="mb-15">
             <el-col :span="20">
             <span class="yy-input-text">授权账号：</span>
-            <el-input placeholder="请输入内容" size="small" v-model="form.INSTRUCTC" class="yy-input-input"></el-input></el-col>
+            <el-input placeholder="请输入内容" size="small" v-model="ap.APPROVALUSER" class="yy-input-input"></el-input></el-col>
       </el-row>
       <el-row  type="flex"  class="mb-15">
             <el-col :span="20">
               <span class="yy-input-text">授权密码：</span>
-              <el-input placeholder="请输入内容" type="password" size="small" v-model="form.INST2C" class="yy-input-input"></el-input></el-col>
+              <el-input placeholder="请输入内容" type="password" size="small" v-model="ap.APPROVALPW" class="yy-input-input"></el-input></el-col>
 
       </el-row>
       <div slot="footer" class="dialog-footer">
-       <el-button type="primary" @click="Authorization('atuorForm')" size="small">确认授权</el-button>
+       <el-button type="primary" @click="Authorization(ap)" size="small">确认授权</el-button>
         <el-button @click="AuthDialogVisible = false" size="small">取消</el-button>
 
       </div>
-
     </el-dialog>
-
-
 
   <el-dialog title="查看详情" :visible.sync="detailsDialogVisible">
     <el-form :model="dform" ref="detailsForm">
@@ -635,8 +633,6 @@
 
     </div>
 
-
-
   </el-dialog>
 
 
@@ -660,14 +656,16 @@ export default {
       CurrentPage1: 1,
       pageSize1: 10,
       TotalResult1: 0,
-
+      ap: {},
       pd: {},
+      tp:0,
       nation: [],
       value: '',
       value1: "",
       handlesDialogVisible: false,
       detailsDialogVisible: false,
       batchDialogVisible: false,
+      AuthDialogVisible: false,
       options: [{
           value: 10,
           label: "10"
@@ -779,46 +777,68 @@ export default {
       console.log(i);
       this.form = i;
     },
-    handlesItem(formName) {
+    handlessys(i)
+    {
+       this.AuthDialogVisible=true;
+       this.tp=i;
+    },
+    Authorization(ap)
+    {
 
-        let IAPISERIAL=[];
-        let arr=this.multipleSelection;
-        for(var i in arr){
-          IAPISERIAL.push(arr[i].SERIAL)
-        }
+       if(this.tp==0){
+        this.handlesItem("batchmap",ap);
 
-        let p = {
-          "IAPISERIAL": IAPISERIAL,
-          "CREATEUSER": "杨小",
-          "APPROVALUSER": "杨小小",
-          "INSTRUCT": this.map.INSTRUCT,
-          "CHANGERESON": this.map.CHANGERESON
-        };
+      }else {
+         this.handlesItem1("handlesForm",ap);
+       }
 
-        this.$api.post('/eamp/iapiUnscolicited/instructChangeTab', p,
-          r => {
-            console.log(r);
-            if (r.data.success) {
-              this.$message({
-                message: '变更成功！',
-                type: 'success'
-              });
-            } else {
-              this.$message.error(r.data.msg);
-            }
-            this.$refs[formName].resetFields();
-            this.batchDialogVisible = false;
-            this.getList();
-          }, e => {
-            this.$message.error('失败了');
-          })
-      },
-    handlesItem1(formName) {
-      this.AuthDialogVisible = true;
+    },
+    handlesItem(formName,ap) {
+
+      let IAPISERIAL = [];
+      let arr = this.multipleSelection;
+
+      for (var i in arr) {
+        IAPISERIAL.push(arr[i].SERIAL)
+      }
+
+      let p = {
+        "IAPISERIAL": IAPISERIAL,
+        "CREATEUSER": "杨小",
+        "APPROVALUSER": ap.APPROVALUSER,
+        "APPROVALPW":ap.APPROVALPW,
+        "INSTRUCT": this.map.INSTRUCT,
+        "CHANGERESON": this.map.CHANGERESON
+      };
+
+      this.$api.post('/eamp/iapiUnscolicited/instructChangeTab', p,
+        r => {
+          console.log(r);
+          if (r.success) {
+            this.$message({
+              message: '变更成功！',
+              type: 'success'
+            });
+          } else {
+            this.$message.error('变更失败');
+          }
+          this.$refs[formName].resetFields();
+          this.batchDialogVisible = false;
+          this.AuthDialogVisible = false;
+          this.getList();
+        }, e => {
+          this.$message.error('失败了');
+        })
+    },
+    handlesItem1(formName,ap) {
+
+
+
       let p = {
         "IAPISERIAL": [this.form.SERIAL],
         "CREATEUSER": "杨小",
-        "APPROVALUSER": "杨小小",
+        "APPROVALUSER": ap.APPROVALUSER,
+        "APPROVALPW":ap.APPROVALPW,
         "INSTRUCT": this.form.INSTRUCT,
         "CHANGERESON": this.form.CHANGERESON
       };
@@ -836,6 +856,7 @@ export default {
           }
           this.$refs[formName].resetFields();
           this.handlesDialogVisible = false;
+          this.AuthDialogVisible = false;
           this.getList();
         }, e => {
           this.$message.error('失败了');
@@ -912,14 +933,14 @@ export default {
         return "未产生报警";
       }
     },
-    fiftertype(val){
+    fiftertype(val) {
       if (val == "11") {
         return "外交护照";
-      } else if (val == "12"){
+      } else if (val == "12") {
         return "公务护照";
-      }else if(val=="13") {
-           return "因公普通护照";
-      }else {
+      } else if (val == "13") {
+        return "因公普通护照";
+      } else {
         return "普通护照";
       }
     },
@@ -959,13 +980,16 @@ hr {
   font-weight: bold;
   border-bottom: 1px solid #3F96F2;
 }
-.hrt{  height: 35px;
+
+.hrt {
+  height: 35px;
   line-height: 35px;
   border: none;
   color: #3F96F2;
   font-size: 16px;
   font-weight: bold;
-  border-top: 1px solid #3F96F2;}
+  border-top: 1px solid #3F96F2;
+}
 
 .mb-6 {
   line-height: 20px;

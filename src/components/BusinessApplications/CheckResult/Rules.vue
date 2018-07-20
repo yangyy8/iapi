@@ -182,7 +182,7 @@
         </el-table-column>
 
                 <el-table-column
-                  prop="cardEXPIREDATE"
+                  prop="ruleName"
                   label="比中规则">
                 </el-table-column>
                 <el-table-column

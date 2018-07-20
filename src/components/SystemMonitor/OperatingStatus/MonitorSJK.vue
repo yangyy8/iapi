@@ -168,7 +168,7 @@ export default {
   },
   methods: {
     getlist(pd) {
-      this.$api.post('/eamp/monitorDB/queryMonitorDB', pd,
+      this.$api.post('/eamp/monitorData/queryMonitorDB', pd,
         r => {
           console.log(r);
           console.log(r.data.instance, "r.data.instance");
