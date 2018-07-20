@@ -50,13 +50,13 @@
             <img src="../assets/img/navbar-down.png" alt="">
           </li>
         </ul>
-        <transition  name="bounce">
+        <!-- <transition  name="bounce"> -->
         <ul class="nav2" v-if="nav2Show">
           <li class="nav2-item hand" :class="{'nav2-checked':nav2Id==x.url}" v-for="x in nav2List" @click="nav2(x)">
             {{x.name}}
           </li>
         </ul>
-        </transition>
+        <!-- </transition> -->
         <div class="fold-bar" @click="isNav2Hide" v-if="nav2HideBar" @mouseover="navh=1" @mouseout="navh=0">
           <el-tooltip class="item" effect="light" content="收起菜单" placement="right">
             <img :src='"../assets/img/elasticbar_"+navh+".png"' >
