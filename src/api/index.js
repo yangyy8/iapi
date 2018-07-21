@@ -8,7 +8,7 @@
 
 // var root="http://192.168.99.251:8080"    //时达的电脑
 
-// var root="http://192.168.99.242:8081"    //石飞的电脑
+//var root="http://192.168.99.242:8081"    //石飞的电脑
 
 // var root = "http://192.168.99.251:8080"    //性能监控
 //var root="http://192.168.99.228:8080"    //丁勇的电脑
@@ -54,7 +54,7 @@ function filterNull(o) {
 
 function apiAxios(method, url, params, success, failure) {
   console.log(Loading)
-  let loadingInstance1 = Loading.service({ fullscreen: true });
+  // let loadingInstance1 = Loading.service({ fullscreen: true });
   if (params) {
     // params=addParams(params);
     // params = filterNull(params);
@@ -73,7 +73,7 @@ function apiAxios(method, url, params, success, failure) {
         if (success) {
           console.log(res.data)
           success(res.data)
-          loadingInstance1.close();
+          // loadingInstance1.close();
         }
       } else {
         if (failure) {
@@ -83,6 +83,7 @@ function apiAxios(method, url, params, success, failure) {
           console.log('error: ' + JSON.stringify(res.data));
 
         }
+        // loadingInstance1.close();
       }
     })
     .catch(function(err) {
