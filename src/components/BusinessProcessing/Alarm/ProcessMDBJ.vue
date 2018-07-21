@@ -7,19 +7,18 @@
         </el-col>
         <el-col :span="12" class="top-right">
           报警类型:
-          <el-select v-model="pd.lastmatchType" placeholder="请选择"  size="small">
+          <el-select v-model="pd.lastmatchType" placeholder="请选择" clearable filterable size="small">
            <el-option
              v-for="item in options1"
              :key="item.value"
-             :label="item.label"
+             :label="item.value+' - '+item.label"
              :value="item.value">
            </el-option>
          </el-select>
          出入境类别:
-         <el-select v-model="pd.flighttype" placeholder="请选择"  size="small">
-           <el-option label="入境" value="I"></el-option>
-           <el-option label="出境" value="O"></el-option>
-
+         <el-select v-model="pd.flighttype" placeholder="请选择" clearable filterable size="small">
+           <el-option label="I - 入境" value="I"></el-option>
+           <el-option label="O - 出境" value="O"></el-option>
          </el-select>
         <el-button type="warning" icon="el-icon-zoom-in" size="small" @click="getList(currentPage,pageSize,pd)">筛选</el-button>
         </el-col>
@@ -161,20 +160,16 @@ export default {
         },
         {
           value: "2",
-          label: '不准入境黑名单'
+          label: '黑名单 - 不准入境'
         },
         {
           value: "3",
-          label: '入境失效证件'
+          label: '黑名单 - 失效证件'
         },
         {
           value: "4",
-          label: '失效签证'
-        },
-        {
-          value: "5",
-          label: '不准出境名单'
-        },
+          label: '黑名单 - 失效签证'
+        }
 
       ],
       value: '',
