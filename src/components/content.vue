@@ -37,7 +37,7 @@
           <li class="nav1bar-up" @click="preList">
             <img src="../assets/img/navbar-up.png" alt="">
           </li>
-          <li class="nav1-item " :class="{'nav1-checked':nav1Id==i.SERIAL}" v-for="(i,index) in nav1List.slice(nav1Star, nav1End)" @click="nav1to2(i)">
+          <li class="nav1-item " :class="{'nav1-checked':nav1Id==i.SERIAL}" v-for="(i,index) in nav1List.slice(nav1Star, nav1End)" @click="nav1to2(i,1)">
 
             <img src="../assets/img/navIcon/i_qg_1.png" alt="" class="nav1-icon"  v-if="navId=='cc'">
             <img :src='"../assets/img/navIcon/"+i.MENU_ICON+"_0.png"' alt="" class="nav1-icon" v-if="nav1Id!=i.SERIAL&&navId!='cc'">
@@ -538,7 +538,7 @@ export default {
                 }
               }
             }else{
-              this.nav1to2(this.nav1List[0])
+              this.nav1to2(this.nav1List[0],1)
             }
           }
         },e=>{
@@ -587,7 +587,7 @@ export default {
       console.log(this.tabList)
       this.tabList=[];
     },
-    nav1to2(nav1Itme) {
+    nav1to2(nav1Itme,click) {
       console.log(nav1Itme)
       this.isNav2Show();
       this.$router.push({query:{nav1Id:nav1Itme.SERIAL}})
@@ -596,18 +596,18 @@ export default {
       this.nav2List = nav1Itme.menuList;
       console.log("this.nav2List",this.nav2List)
       let that=this;
-      let flag=0
-      for(var i in nav1Itme.menuList){
-        if(nav1Itme.menuList[i].url==that.$route.name){
-          that.nav2(nav1Itme.menuList[i])
-          flag=1
-        }else {
-          flag=0
+      // let flag=0
+      if(click==1){
+        this.nav2(nav1Itme.menuList[0])
+      }else{
+        for(var i in nav1Itme.menuList){
+          if(nav1Itme.menuList[i].url==that.$route.name){
+            that.nav2(nav1Itme.menuList[i])
+          }
         }
       }
-     if(flag==0){
-        this.nav2(nav1Itme.menuList[0])
-      }
+
+
 
 
     },
