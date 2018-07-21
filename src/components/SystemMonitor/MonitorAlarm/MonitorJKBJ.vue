@@ -123,7 +123,7 @@
              </el-table-column>
              <el-table-column
                prop="DEALUSER"
-               label="处理人">
+               label="处理人" >
              </el-table-column>
              <el-table-column
                prop="DEALTIME"
@@ -169,19 +169,107 @@
      </el-pagination>
    </div>
   </div>
+
+
+  <el-dialog
+    title="处理"
+    :visible.sync="addDialogVisible"
+    width="800px"
+    >
+      <el-form :model="form" ref="addForm">
+     <el-row type="flex"  class="mb-15">
+         <el-col :span="12"><span class="input-text">监控区域：</span>{{form.ZONE | fifter1}}</el-col>
+          <el-col :span="12"><span class="input-text">报警类型：</span>{{form.MTYPE}}</el-col>
+
+     </el-row>
+     <el-row type="flex"  class="mb-15">
+          <el-col :span="12"><span class="input-text">监控对象：</span>{{form.MCLASS | fifter2 }}</el-col>
+         <el-col :span="12"><span class="input-text">创建时间：</span>{{form.CREATETIME}}</el-col>
+     </el-row>
+       <hr/>
+    <el-row type="flex"  class="mb-15">
+      <el-col :span="12"><span class="input-text">处理人：</span>{{form.DEALUSER}}</el-col>
+        <el-col :span="12"><span class="input-text">处理时间：</span>{{form.DEALTIME | fifter4}}</el-col>
+    </el-row>
+
+    <el-row type="flex"  class="mb-15">
+     <el-col :span="24"><span class="input-text" style="width:15%;">处理详情：</span>
+     <el-input type="textarea" v-model="form.DEALCONTENT"  placeholder="请输入内容" :autosize="{ minRows: 3, maxRows: 6}" style="width:80%;" ></el-input>
+     </el-col>
+    </el-row>
+
+    </el-form>
+    <div slot="footer" class="dialog-footer">
+<el-button type="primary" @click="adds('addForm')" size="small">处理</el-button>
+      <el-button @click="addDialogVisible = false" size="small">取消</el-button>
+
+    </div>
+  </el-dialog>
+
+  <el-dialog
+    title="详情"
+    :visible.sync="detailsDialogVisible"
+    width="800px"
+    >
+      <el-form :model="dform" ref="detailsForm">
+     <el-row type="flex"  class="mb-15">
+         <el-col :span="8"><span class="yy-input-text">监控区域：</span>{{dform.ZONE | fifter1}}
+         </el-col>
+          <el-col :span="8"><span class="yy-input-text">报警类型：</span>{{dform.MTYPE}}</el-col>
+           <el-col :span="8"><span class="yy-input-text">监控对象：</span>{{dform.MCLASS | fifter2 }}</el-col>
+     </el-row>
+     <el-row type="flex"  class="mb-15">
+         <el-col :span="8"><span class="yy-input-text">创建时间：</span>{{dform.CREATETIME}}</el-col>
+          <el-col :span="8"><span class="yy-input-text">IP地址：</span>{{dform.IPADDRESS}}</el-col>
+           <el-col :span="8"><span class="yy-input-text">类型描述：</span>{{dform.MDESC | fifter2 }}</el-col>
+     </el-row>
+
+    <el-row type="flex"  class="mb-15">
+        <el-col :span="8"><span class="yy-input-text">处理人：</span>{{dform.DEALUSER}}</el-col>
+         <el-col :span="8"><span class="yy-input-text">处理时间：</span>{{dform.DEALTIME}}</el-col>
+    </el-row>
+    <el-row type="flex"  class="mb-15">
+      <el-col :span="24"><span class="yy-input-text" style="width:13%;">报警内容：</span>{{dform.CONTENT}}</el-col>
+    </el-row>
+    </el-form>
+    <div slot="footer" class="dialog-footer">
+
+      <el-button @click="detailsDialogVisible = false" size="small">取消</el-button>
+
+    </div>
+  </el-dialog>
+
   </div>
 </template>
 <script>
+import {
+  formatDate
+} from '@/assets/js/date.js'
 export default {
   data() {
     return {
       CurrentPage: 1,
       pageSize: 10,
       TotalResult: 0,
-
+      addDialogVisible: false,
+      detailsDialogVisible: false,
+      dform: {},
+      form: {},
       pd: {},
       tableData: [],
-
+      options: [{
+          value: 10,
+          label: "10"
+        },
+        {
+          value: 20,
+          label: "20"
+        },
+        {
+          value: 30,
+          label: "30"
+        }
+      ],
     }
   },
   mounted() {
@@ -198,7 +286,7 @@ export default {
       console.log(`当前页: ${val}`);
     },
     getList(currentPage, showCount, pd) {
-        console.log("---------------");
+
       let p = {
         "currentPage": currentPage,
         "showCount": showCount,
@@ -208,7 +296,7 @@ export default {
         r => {
 
           this.tableData = r.data.pdList;
-          this.TotalResult=r.data.totalResult;
+          this.TotalResult = r.data.totalResult;
         })
     },
     monitor(data) { //监控对象联动
@@ -226,8 +314,45 @@ export default {
 
 
     },
+    details(i) {
+      this.detailsDialogVisible = true;
 
+      this.dform = i;
+    },
+    pross(i) {
+      this.addDialogVisible = true;
+      this.form = i;
+      this.form.DEALUSER = "admin";
+    },
+    adds(formName) {
+
+
+      let p = {
+        "DEALCONTENT": this.form.DEALCONTENT,
+        "DEALUSER": this.form.DEALUSER ,
+        "SERIAL": this.form.SERIAL
+      }
+      this.$api.post('/eamp/monitorAlarm/updateAlarmStatus', p,
+        r => {
+          console.log(r);
+          if (r.success) {
+            this.$message({
+              message: '处理成功！',
+              type: 'success'
+            });
+          } else {
+            this.$message.error('处理失败');
+          }
+          this.$refs[formName].resetFields();
+          this.addDialogVisible = false;
+          this.getList();
+        }, e => {
+          this.$message.error('处理失败');
+
+        })
+    },
   },
+
   filters: {
 
     fifter1(val) {
@@ -241,17 +366,23 @@ export default {
         return "风险评估区"
       }
     },
-      fifter2(val) {
-        if (val == "SYS") {
-          return "系统监控"
-        } else if (val == "DAT") {
-          return "数据监控"
-        } else if (val == "LOG") {
-          return "日志监控"
-        } else {
-          return "性能监控"
-        }
-      },
+    fifter2(val) {
+      if (val == "SYS") {
+        return "系统监控"
+      } else if (val == "DAT") {
+        return "数据监控"
+      } else if (val == "LOG") {
+        return "日志监控"
+      } else {
+        return "性能监控"
+      }
+    },
+
+    fifter4(val) {
+
+      return formatDate(new Date(), "yyyy-MM-dd hh:mm:ss");
+
+    },
 
   }
 
@@ -267,5 +398,13 @@ export default {
 
 .left {
   padding-right: 10px;
+}
+
+.yy-input-text {
+  font-weight: 300;
+}
+
+.input-text {
+  font-weight: 300;
 }
 </style>

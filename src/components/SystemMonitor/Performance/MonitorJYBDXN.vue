@@ -287,25 +287,22 @@ export default {
         'timeConsuming':'1',
         'monitorTime':'1',
       }],
-      // 历史表格
-      htableData:[{
 
-      }],
-      //历史监控传参
-      cdt:{},
-      // 实时空信息
-      pd:{},
+      htableData:[{}],// 历史表格
+      cdt:{},  //历史监控传参
+      pd:{},// 实时空信息
+      pdc:{},//实时表格传折线处信息
       lineX:[],
       lineY:[],
       barX:[],
-      barY:[]
+      barY:[],
+      realX:''
     }
   },
   mounted() {
       this.checkRealTime();
       this.drawLine();
       this.getList(this.CurrentPage,this.pageSize,this.pd);
-
   },
 
   methods:{
@@ -337,7 +334,7 @@ export default {
         "showCount":showCount,
         "cdt":pd
       };
-      this.$api.post('/eamp/nameList/getNameListPage',p,
+      this.$api.post('/eamp/match/queryListPageReal',p,
        r => {
          console.log(r);
          this.tableData=r.data.resultList;
@@ -433,10 +430,11 @@ export default {
            // 点击折点渲染表格
            myChart.on('click', function (params) {
              // 让表格出现
+             that.pdc.realX = params.name
              that.controlChecked=1;
              that.coCheckId=2;
              // 表格数据渲染
-             this.getList(this.CurrentPage,this.pageSize,this.pd);
+             that.getList(this.CurrentPage,this.pageSize,this.pdc);
            });
            //图标根据窗口大小自动缩放
            // window.addEventListener("resize", this.myChart.resize);
@@ -504,13 +502,13 @@ export default {
         }]
       })
       //点击柱状图渲染表格
-      myBarChart.on('click',function(params){
-        // 让表格出现
-        that.controlChecked=2;
-        that.coCheckId=2;
-        // 表格数据渲染
-        this.hgetList(this.hCurrentPage,this.hpageSize,this.cdt);
-      })
+      // myBarChart.on('click',function(params){
+      //   // 让表格出现
+      //   that.controlChecked=2;
+      //   that.coCheckId=2;
+      //   // 表格数据渲染
+      //   this.hgetList(this.hCurrentPage,this.hpageSize,this.cdt);
+      // })
       // window.addEventListener("resize", this.myBarChart.resize);
     },
     // 校验比对实时监控折线图
@@ -518,7 +516,7 @@ export default {
       let p={
         "currentPage":1,
 	      "showCount":10,
-        "cdt":this.pd
+        "cdt":this.pd //空数据
       }
       this.$api.post('/eamp/match/queryListPage',p,
       r =>{
