@@ -1,5 +1,5 @@
 <template>
-<div class="nationlHBSSJK">
+<div class="nationlHBSSJK" :class="{'qgjk-zdh':zdh}">
   <div class="map-top">
     <h3 class="map-title">公安部出入境旅客检测体系</h3>
     <ul class="map-tabul">
@@ -19,6 +19,7 @@
         <span>人员监控</span>
       </li>
     </ul>
+    <img src="../../../assets/img/qgjk/big.png" alt="" class="zdh" @click="zdh=!zdh">
   </div>
   <transition name="el-zoom-in-left">
     <div class="left-list" v-if="showLeft">
@@ -785,6 +786,7 @@ export default {
   },
   data() {
     return {
+      zdh:false,
       tabId: 0,
       crType:0,
       newHbData:{},

@@ -106,11 +106,13 @@
             </el-col>
           </el-row>
         </div>
-        <div class="middle-content1">
+        <div class="middle-content1 position">
           <div class="title-green">
             甄别信息列表
           </div>
-
+          <div class="middle-msg" v-if="msgData>0">
+            当前有<span>{{msgData}}</span>条档号未完成甄别
+          </div>
           <el-table
             :data="listMap"
             border
@@ -374,9 +376,8 @@
           </el-input>
         </el-col>
         <el-col :span="4" class="down-btn-area">
-          <el-button type="primary" class="mb-15" size="small" @click="upDate" v-show="isUpdate">确定</el-button>
-          <el-button type="info" class="mb-15" size="small" @click="archive" v-show="!isUpdate">归档</el-button>
-
+          <el-button type="primary" class="mb-15" size="small" @click="upDate" v-show="isUpdate&&iapiMap.instructNew==null" :disabled="msgData==0">确定</el-button>
+          <el-button type="info" class="mb-15" size="small" @click="archive" v-show="!isUpdate||iapiMap.instructNew">归档</el-button>
           <el-button type="warning" size="small">取消</el-button>
         </el-col>
       </el-row>
@@ -386,17 +387,17 @@
           <el-select v-model="pd.DEALRESULT" placeholder="请选择"  size="small" class="input-input">
             <el-option label="不做变更处理" value="0"></el-option>
             <el-option label="变更处理" value="1"></el-option>
-            <el-option label="数据推送" value="2"></el-option>
+            <!-- <el-option label="数据推送" value="2"></el-option> -->
 
           </el-select>
         </el-col>
         <el-col :span="6" class="input-item">
           <span >处理人：</span>
-          <el-input placeholder="请输入内容" size="small" class="input-input" v-model="pd.USERID"></el-input>
+          <el-input placeholder="请输入内容" size="small" class="input-input" v-model="pd.USERID" disabled></el-input>
         </el-col>
         <el-col :span="6" class="input-item">
           <span >审批人：</span>
-          <el-input placeholder="请输入内容" size="small" class="input-input" v-model="pd.APPROVALUSER"></el-input>
+          <el-input placeholder="请输入内容" size="small" class="input-input" v-model="pd.APPROVALUSER" disabled></el-input>
         </el-col>
 
       </el-row>
@@ -416,7 +417,8 @@ export default {
      listMap2:[{}],
      pd:{},
      isUpdate:true,
-     tableData:[]
+     tableData:[],
+     msgData:0
    }
  },
  mounted(){
@@ -442,8 +444,13 @@ export default {
           var thar=this;
           this.pd.CHANGE_RESON="";
           for(var i in arr){
-            console.log(arr[i].compareDesc)
-            that.pd.CHANGE_RESON+=parseInt(i+1)+"."+arr[i].compareDesc
+            if(arr[i].status==0){
+              console.log(arr[i].status)
+              this.msgData++;
+            }
+            if(arr[i].compareDesc){
+              this.pd.CHANGE_RESON += parseInt(i+1)+"."+arr[i].compareDesc+"\n";
+            }
           }
        })
      }else {
@@ -456,8 +463,15 @@ export default {
           var thar=this;
           this.pd.CHANGE_RESON="";
           for(var i in arr){
-            console.log(arr[i].compareDesc)
-            that.pd.CHANGE_RESON+=parseInt(i+1)+"."+arr[i].compareDesc
+            console.log(arr[i])
+            if(arr[i].status==0){
+              console.log(arr[i].status)
+              this.msgData++;
+            }
+            if(arr[i].compareDesc){
+              this.pd.CHANGE_RESON += parseInt(i+1)+"."+arr[i].compareDesc+"\n";
+            }
+
           }
        })
      }
@@ -473,6 +487,9 @@ export default {
    },
    upDate(){
      this.pd.eventserial=this.eventserial;
+     if(this.pd.DEALRESULT==0){
+       this.pd.INSTRUCT_OLD=this.iapiMap.instructOld;
+     }
      console.log(".....")
      let p={
        "currentPage":0,
@@ -517,8 +534,10 @@ export default {
           var arr=this.listMap;
           this.pd.CHANGE_RESON="";
           for(var i in arr){
-            console.log(arr[i].compareDesc)
-            that.pd.CHANGE_RESON+=parseInt(i+1)+"."+arr[i].compareDesc
+            if(!arr[i].compareDesc){
+              this.pd.CHANGE_RESON += parseInt(i+1)+"."+arr[i].compareDesc+"\n";
+              console.log(this.pd.CHANGE_RESON)
+            }
           }
 
         }else{
@@ -586,6 +605,22 @@ export default {
 .middle-content1{
   background: #fff;
   padding:15px 20px 5px 20px;
+}
+.position{
+  position: relative;
+}
+.middle-msg{
+  position: absolute;
+  left: 130px;
+  top:15px;
+  background: #fdddde;
+  border: 1px #fea9ac solid;
+  padding: 0 15px;
+}
+.middle-msg span{
+  color: #fd5457;
+  font-size: 18px;
+  font-weight: bold;
 }
 .middle-msg-left{
   padding-right: 60px;
