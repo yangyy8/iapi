@@ -56,7 +56,7 @@
         <tr>
           <td colspan="2" class="th3">临控名单</td>
           <td class="tc1">{{tableData.EFFECTIVE_TCTLNAMELIST}}</td>
-          <td class="tc2">{{tableData.EFFECTIVE_TCTLNAMELIST}}</td>
+          <td class="tc2">{{tableData.INVALID_TCTLNAMELIST}}</td>
           <td class="tc1">-</td>
           <td class="tc2">-</td>
         </tr>

@@ -118,7 +118,7 @@
                label="报警时间">
              </el-table-column>
              <el-table-column
-               prop="CONTENT"
+               prop="MDESC"
                label="报警内容">
              </el-table-column>
              <el-table-column
@@ -229,7 +229,7 @@
          <el-col :span="8"><span class="yy-input-text">处理时间：</span>{{dform.DEALTIME}}</el-col>
     </el-row>
     <el-row type="flex"  class="mb-15">
-      <el-col :span="24"><span class="yy-input-text" style="width:13%;">报警内容：</span>{{dform.CONTENT}}</el-col>
+      <el-col :span="24"><span class="yy-input-text" style="width:13%;">报警内容：</span>{{dform.MDESC}}</el-col>
     </el-row>
     </el-form>
     <div slot="footer" class="dialog-footer">
@@ -290,7 +290,7 @@ export default {
       let p = {
         "currentPage": currentPage,
         "showCount": showCount,
-        "cdt": pd
+        "pd": pd
       };
       this.$api.post('/eamp/monitorAlarm/queryAlarm', p,
         r => {
@@ -320,16 +320,23 @@ export default {
       this.dform = i;
     },
     pross(i) {
-      this.addDialogVisible = true;
-      this.form = i;
-      this.form.DEALUSER = "admin";
+      if (i.STATUS == "0") {
+
+        this.$alert('该条信息已处理！', '提示', {
+          confirmButtonText: '确定',
+          type: 'warning'
+        });
+        return;
+      } else {
+        this.addDialogVisible = true;
+        this.form = i;
+        this.form.DEALUSER = "admin";
+      }
     },
     adds(formName) {
-
-
       let p = {
         "DEALCONTENT": this.form.DEALCONTENT,
-        "DEALUSER": this.form.DEALUSER ,
+        "DEALUSER": this.form.DEALUSER,
         "SERIAL": this.form.SERIAL
       }
       this.$api.post('/eamp/monitorAlarm/updateAlarmStatus', p,

@@ -9,7 +9,7 @@
             <el-row align="center" :gutter="2">
 
               <el-col :sm="24" :md="12" :lg="6" class="input-item">
-                <span class="input-text">业务事件类型：</span>
+                <span class="input-text">事件类型：</span>
                 <el-select v-model="pd.type" placeholder="请选择"  size="small" class="input-input">
                   <el-option value="" label="全部">
                   </el-option>
@@ -19,20 +19,21 @@
                   </el-option>
                   <el-option value="2" label="业务规则修改">
                   </el-option>
+                  <el-option value="4" label="报警事件"></el-option>
                 </el-select>
               </el-col>
 
               <el-col :sm="24" :md="12" :lg="6" class="input-item">
-                <span class="input-text">创建日期：</span>
+                <span class="input-text">事件产生时间：</span>
                 <div class="input-input t-flex t-date">
                  <el-date-picker
-                 v-model="pd.begin1"
+                 v-model="pd.startCreatetime"
                  type="date" size="small" value-format="yyyyMMdd"
                  placeholder="开始时间" align="right" :picker-options="pickerOptions1">
                </el-date-picker>
                  <span class="septum">-</span>
                <el-date-picker
-                  v-model="pd.end1"
+                  v-model="pd.endCreatetime"
                   type="date" size="small" align="right" value-format="yyyyMMdd"
                   placeholder="结束时间"  :picker-options="pickerOptions1">
               </el-date-picker>
@@ -40,106 +41,31 @@
               </el-col>
 
               <el-col :sm="24" :md="12" :lg="6" class="input-item">
-                <span class="input-text">姓名：</span>
-                <el-input placeholder="请输入内容" v-model="pd.name" size="small" class="input-input"></el-input>
+                <span class="input-text">处理人：</span>
+                <el-input placeholder="请输入内容" v-model="pd.dealuser" size="small" class="input-input"></el-input>
               </el-col>
 
-              <el-col :sm="24" :md="12" :lg="6" class="input-item">
-                <span class="input-text">性别：</span>
-                <el-select v-model="pd.gender" placeholder="请选择"  size="small" class="input-input">
-                  <el-option value="" label="全部">
-                  </el-option>
-                  <el-option value="U" label="未知">
-                  </el-option>
-                  <el-option value="M" label="男">
-                  </el-option>
-                  <el-option value="F" label="女">
-                  </el-option>
-                </el-select>
-              </el-col>
 
               <el-col :sm="24" :md="12" :lg="6" class="input-item">
-                <span class="input-text">出生日期：</span>
+                <span class="input-text">处理时间：</span>
                 <div class="input-input t-flex t-date">
                  <el-date-picker
-                 v-model="pd.startDateofbirth"
+                 v-model="pd.startDealtime"
                  type="date" size="small" value-format="yyyyMMdd"
                  placeholder="开始时间" align="right" :picker-options="pickerOptions1">
                </el-date-picker>
                  <span class="septum">-</span>
                <el-date-picker
-                  v-model="pd.endDateofbirth"
+                  v-model="pd.endDealtime"
                   type="date" size="small" align="right" value-format="yyyyMMdd"
                   placeholder="结束时间"  :picker-options="pickerOptions1">
               </el-date-picker>
             </div>
-              </el-col>
-
-              <el-col :sm="24" :md="12" :lg="6" class="input-item">
-                <QueryNationality  :nationality="pd.nationality" @transNation="getNation"></QueryNationality>
-              </el-col>
-
-              <el-col :sm="24" :md="12" :lg="6" class="input-item">
-                <span class="input-text">证件号码：</span>
-                <el-input placeholder="请输入内容" v-model="pd.cardnum" size="small" class="input-input"></el-input>
-              </el-col>
-
-              <el-col :sm="24" :md="12" :lg="6" class="input-item">
-                <span class="input-text">出入标识：</span>
-                <el-select v-model="pd.flighttype" placeholder="请选择"  size="small" class="input-input">
-                  <el-option value="" label="全部">
-                  </el-option>
-                  <el-option value="I" label="入境">
-                  </el-option>
-                  <el-option value="O" label="出境">
-                  </el-option>
-                </el-select>
-              </el-col>
-
-              <el-col :sm="24" :md="12" :lg="6" class="input-item">
-                <span class="input-text">航班号：</span>
-                <el-input placeholder="请输入内容" v-model="pd.fltno" size="small" class="input-input"></el-input>
-              </el-col>
-
-              <el-col :sm="24" :md="12" :lg="6" class="input-item">
-                <span class="input-text">航班日期：</span>
-                <div class="input-input t-flex t-date">
-                 <el-date-picker
-                 v-model="pd.begin2"
-                 type="date" size="small" value-format="yyyyMMdd"
-                 placeholder="开始时间" align="right" :picker-options="pickerOptions1">
-               </el-date-picker>
-                 <span class="septum">-</span>
-               <el-date-picker
-                  v-model="pd.end2"
-                  type="date" size="small" align="right" value-format="yyyyMMdd"
-                  placeholder="结束时间"  :picker-options="pickerOptions1">
-              </el-date-picker>
-            </div>
-              </el-col>
-
-              <el-col :sm="24" :md="12" :lg="6" class="input-item">
-                <span class="input-text">业务事件编号：</span>
-                <el-input placeholder="请输入内容" size="small" v-model='pd.recordnum' class="input-input"></el-input>
-              </el-col>
-
-              <el-col :sm="24" :md="12" :lg="6" class="input-item">
-                <span class="input-text">反馈状态：</span>
-                <el-select v-model="pd.saveflag" placeholder="请选择"  size="small" class="input-input">
-                  <el-option value="" label="全部">
-                  </el-option>
-                  <el-option value="0" label="未处理">
-                  </el-option>
-                  <el-option value="1" label="已处理">
-                  </el-option>
-                  <el-option value="2" label="处理中">
-                  </el-option>
-                </el-select>
               </el-col>
 
             </el-row>
           </el-col>
-          <el-col :span="2" class="down-btn-area">
+          <el-col :span="2" class="down-btn-area" style="margin-top:35px;">
             <el-button type="success" class="mb-15" size="small"  @click="getList(CurrentPage,pageSize,pd)">查询</el-button>
           </el-col>
         </el-row>
@@ -151,55 +77,27 @@
         border
         style="width: 100%;">
         <el-table-column
-          prop="type"
-          label="业务事件类型">
+          prop="typeStr"
+          label="事件类型">
         </el-table-column>
         <el-table-column
-          prop="creationDate"
-          label="创建日期">
+          prop="createtimeStr"
+          label="事件产生时间">
 
         </el-table-column>
         <el-table-column
-          prop="name"
-          label="姓名">
+          prop="username"
+          label="处理人">
         </el-table-column>
         <el-table-column
-          prop="gender"
-          label="性别">
+          prop="dealtimeStr"
+          label="处理时间">
         </el-table-column>
         <el-table-column
-          prop="dateofbirth"
-          label="出生日期">
+          prop="content"
+          label="事件描述">
         </el-table-column>
-        <el-table-column
-          prop="NATIONALITY"
-          label="国籍">
-        </el-table-column>
-        <el-table-column
-          prop="cardnum"
-          label="证件号码">
-        </el-table-column>
-        <el-table-column
-          prop="flighttype"
-          label="出入标识">
-        </el-table-column>
-        <el-table-column
-          prop="fltno"
-          label="航班号">
-        </el-table-column>
-        <el-table-column
-          prop="flightDate"
-          label="航班日期">
-        </el-table-column>
-        <el-table-column
-          prop="cardnum"
-          label="业务事件编号"
-          width="130">
-        </el-table-column>
-        <el-table-column
-          prop="stateFeedback"
-          label="反馈状态">
-        </el-table-column>
+
         <el-table-column
           label="操作">
           <template slot-scope="scope">
@@ -242,33 +140,183 @@
 
 
     <el-dialog
-      title="详情"
-      :visible.sync="detailsDialogVisible"
-      width="600px"
+      title="指令变更详情"
+      :visible.sync="zlbgDialogVisible"
       >
-        <el-form :model="dform" ref="detailsForm">
-      <el-row type="flex"  class="mb-15">
-        <el-col :span="12">口岸：{{dform.port}}</el-col>
-        <el-col :span="12">航班号：{{dform.fltno}}</el-col>
-      </el-row>
-      <el-row type="flex"  class="mb-15">
-        <el-col :span="12">航班日期：{{dform.SCHEDULEDEPARTURETIME}}</el-col>
-          <el-col :span="12">出入标识：{{dform.FLIGHTTYPE}}</el-col>
+        <el-form :model="zform" ref="zlbgForm">
+          <el-row type="flex"  class="mb-6">
+            <el-col :span="8" class="input-item">
+              <span class="yy-input-text">姓名：</span>
+              <el-input placeholder="请输入内容" size="small"  :disabled="true" v-model="zform.CNAME" class="yy-input-input" ></el-input>
 
+            </el-col>
+            <el-col :span="8" class="input-item">
+              <span class="yy-input-text">性别：</span>
+              <el-input placeholder="请输入内容" size="small"  :disabled="true" v-model="zform.GENDERNAME" class="yy-input-input"></el-input>
+            </el-col>
+            <el-col :span="8" class="input-item">
+              <span class="yy-input-text">出生日期：</span>
+              <el-input placeholder="请输入内容" size="small"  :disabled="true" v-model="zform.BIRTHDAYSTR" class="yy-input-input"></el-input>
+            </el-col>
 
-      </el-row>
-      <el-row type="flex"  class="mb-15">
+          </el-row>
+          <el-row type="flex"  class="mb-6">
+            <el-col :span="8" class="input-item">
+              <span class="yy-input-text">国籍：</span>
+              <el-input placeholder="请输入内容" size="small"  :disabled="true" v-model="zform.NATIONALITYNAME" class="yy-input-input" ></el-input>
 
-        <el-col :span="12">事件类型：{{dform.type}}</el-col>
-        <el-col :span="12">处理结果：{{dform.lastcheckresult}}</el-col>
-      </el-row>
-      <el-row type="flex"  class="mb-15">
-        <el-col :span="24">处理内容：{{dform.reason}}</el-col>
-      </el-row>
+            </el-col>
+            <el-col :span="8" class="input-item">
+              <span class="yy-input-text">证件号码：</span>
+              <el-input placeholder="请输入内容" size="small"  :disabled="true" v-model="zform.PASSPORTNO" class="yy-input-input"></el-input>
+            </el-col>
+            <el-col :span="8" class="input-item">
+              <span class="yy-input-text">出入标识：</span>
+              <el-input placeholder="请输入内容" size="small"  :disabled="true" v-model="zform.FLIGHTINOUT" class="yy-input-input"></el-input>
+            </el-col>
+
+          </el-row>
+          <el-row type="flex"  class="mb-6">
+            <el-col :span="8" class="input-item">
+              <span class="yy-input-text">出生国：</span>
+              <el-input placeholder="请输入内容" size="small"  :disabled="true" v-model="zform.BIRTHCOUNTRYNAME" class="yy-input-input" ></el-input>
+
+            </el-col>
+            <el-col :span="8" class="input-item">
+              <span class="yy-input-text">居住国：</span>
+              <el-input placeholder="请输入内容" size="small"  :disabled="true" v-model="zform.RESIDENCENAME" class="yy-input-input"></el-input>
+            </el-col>
+            <el-col :span="8" class="input-item">
+              <span class="yy-input-text">护照有效期：</span>
+              <el-input placeholder="请输入内容" size="small"  :disabled="true" v-model="zform.PASSPORTEXPIREDATESTR" class="yy-input-input"></el-input>
+            </el-col>
+            </el-row>
+            <el-row type="flex"  class="mb-6">
+              <el-col :span="8" class="input-item">
+                <span class="yy-input-text">护照颁发国：</span>
+                <el-input placeholder="请输入内容" size="small"  :disabled="true" v-model="zform.PASSPORTISSUECOUNTRYNAME" class="yy-input-input" ></el-input>
+
+              </el-col>
+              <el-col :span="8" class="input-item">
+                <span class="yy-input-text">护照签发日期：</span>
+                <el-input placeholder="请输入内容" size="small"  :disabled="true" v-model="zform.PASSPORTISSUEDATESTR" class="yy-input-input"></el-input>
+              </el-col>
+              <el-col :span="8" class="input-item">
+                <span class="yy-input-text">航班号：</span>
+                <el-input placeholder="请输入内容" size="small"  :disabled="true" v-model="zform.FLTNO" class="yy-input-input"></el-input>
+              </el-col>
+              </el-row>
+              <el-row type="flex"  class="mb-6">
+                <el-col :span="8" class="input-item">
+                  <span class="yy-input-text">航班日期：</span>
+                  <el-input placeholder="请输入内容" size="small"  :disabled="true" v-model="zform.FLIGHTDATESTR" class="yy-input-input" ></el-input>
+
+                </el-col>
+                <el-col :span="8" class="input-item">
+                  <span class="yy-input-text">起飞机场：</span>
+                  <el-input placeholder="请输入内容" size="small"  :disabled="true" v-model="zform.CITYFROMNAME" class="yy-input-input"></el-input>
+                </el-col>
+                <el-col :span="8" class="input-item">
+                  <span class="yy-input-text">预计起飞时间：</span>
+                  <el-input placeholder="请输入内容" size="small"  :disabled="true" v-model="zform.DEPARTDATESTR" class="yy-input-input"></el-input>
+                </el-col>
+                </el-row>
+                <el-row type="flex"  class="mb-6">
+                  <el-col :span="8" class="input-item">
+                    <span class="yy-input-text">到达机场：</span>
+                    <el-input placeholder="请输入内容" size="small"  :disabled="true" v-model="zform.CITYTONAME" class="yy-input-input" ></el-input>
+
+                  </el-col>
+                  <el-col :span="8" class="input-item">
+                    <span class="yy-input-text">预计降落时间：</span>
+                    <el-input placeholder="请输入内容" size="small"  :disabled="true" v-model="zform.ARRIVDATESTR" class="yy-input-input"></el-input>
+                  </el-col>
+                  <el-col :span="8" class="input-item">
+                    <span class="yy-input-text">原预检结果：</span>
+                    <el-input placeholder="请输入内容" size="small"  :disabled="true" v-model="zform.INSTRUCT_OLD" class="yy-input-input"></el-input>
+                  </el-col>
+                  </el-row>
+                  <el-row type="flex"  class="mb-6">
+                    <el-col :span="8" class="input-item">
+                      <span class="yy-input-text">最终预检结果：</span>
+                      <el-input placeholder="请输入内容" size="small"  :disabled="true" v-model="zform.INSTRUCT_NEW" class="yy-input-input" ></el-input>
+
+                    </el-col>
+                    <el-col :span="8" class="input-item">
+                      <span class="yy-input-text">变更原因：</span>
+                      <el-input placeholder="请输入内容" size="small"  :disabled="true" v-model="zform.CHANGE_RESON" class="yy-input-input"></el-input>
+                    </el-col>
+
+                    </el-row>
+                    <el-row type="flex"  class="mb-6">
+                      <el-col :span="8" class="input-item">
+                        <span class="yy-input-text">审批时间：</span>
+                        <el-input placeholder="请输入内容" size="small"  :disabled="true" v-model="zform.APPROVALTIME" class="yy-input-input" ></el-input>
+
+                      </el-col>
+                      <el-col :span="8" class="input-item">
+                        <span class="yy-input-text">审批人名字：</span>
+                        <el-input placeholder="请输入内容" size="small"  :disabled="true" v-model="zform.USERNAME" class="yy-input-input"></el-input>
+                      </el-col>
+
+                      </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
 
-        <el-button @click="detailsDialogVisible = false" size="small">取消</el-button>
+        <el-button @click="zlbgDialogVisible = false" size="small">取消</el-button>
+
+      </div>
+    </el-dialog>
+
+    <el-dialog title="航班备降详情" :visible.sync="hbbjDialogVisible">
+      <el-form :model="hform" ref="hbbjForm">
+        <el-row type="flex"  class="mb-6">
+          <el-col :span="12" class="input-item">
+            <span class="yy-input-text">航班号：</span>
+            <el-input placeholder="请输入内容" size="small"  :disabled="true" v-model="hform.fltno" class="yy-input-input" ></el-input>
+
+          </el-col>
+          <el-col :span="12" class="input-item">
+            <span class="yy-input-text">所属航空公司：</span>
+            <el-input placeholder="请输入内容" size="small"  :disabled="true" v-model="hform.applicationSender" class="yy-input-input"></el-input>
+          </el-col>
+
+
+        </el-row>
+        <el-row type="flex"  class="mb-6">
+          <el-col :span="12" class="input-item">
+            <span class="yy-input-text">航班日期：</span>
+            <el-input placeholder="请输入内容" size="small"   :disabled="true" v-model="hform.flightTime" class="yy-input-input"></el-input>
+          </el-col>
+          <el-col :span="12" class="input-item">
+            <span class="yy-input-text">实际出发口岸：</span>
+            <el-input placeholder="请输入内容" size="small" v-model="hform.stationfrom+' - '+hform.stationfromName" :disabled="true" class="yy-input-input"></el-input>
+
+          </el-col>
+        </el-row>
+        <el-row type="flex" class="mb-6" >
+          <el-col :span="12" class="input-item">
+            <span class="yy-input-text">原计划到达口岸：</span>
+              <el-input placeholder="请输入内容" size="small" v-model="hform.stationto+' - '+hform.stationtoName" :disabled="true" class="yy-input-input"></el-input>
+          </el-col>
+
+          <el-col :span="12" class="input-item">
+            <span class="yy-input-text" style="width:15%">现计划到达口岸：</span>
+              <el-input placeholder="请输入内容" size="small" v-model="hform.stationto+' - '+hform.stationtoName" :disabled="true" class="yy-input-input"></el-input>
+          </el-col>
+        </el-row>
+
+        <el-row type="flex" class="mb-6" >
+          <el-col :span="24" class="input-item">
+            <span class="yy-input-text" style="width:15%">事件描述：</span>
+           <el-input type="textarea" placeholder="请输入内容" :autosize="{ minRows: 3, maxRows: 6}" v-model="hform.desc" style="width:80%;" :disabled="true" ></el-input>
+          </el-col>
+        </el-row>
+
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+
+        <el-button @click="hbbjDialogVisible = false" size="small">取 消</el-button>
 
       </div>
     </el-dialog>
@@ -289,9 +337,13 @@ export default {
       CurrentPage: 1,
       pageSize: 10,
       TotalResult: 0,
-      pd: {type:"0"},
+      pd: {},
       dform:{},
+      hform:{},
+      zform:{},
       detailsDialogVisible:false,
+      hbbjDialogVisible:false,
+      zlbgDialogVisible:false,
       options: [{
           value: 10,
           label: "10"
@@ -356,7 +408,7 @@ export default {
         "showCount": showCount,
         "cdt": pd
       };
-      this.$api.post('/eamp/event/queryInstructionChangePage', p,
+      this.$api.post('/eamp/eventManagement/queryListPage', p,
         r => {
           console.log(r);
           this.tableData = r.data.resultList;
@@ -364,13 +416,30 @@ export default {
         })
     },
     details(i){
+     console.log("----"+i.refserial);
+    if(i.type=="1"){
+      this.hbbjDialogVisible=true;
+
+      this.$api.post('/eamp/eventManagement/queryFlightInfo', {"refserial":i.refserial},
+        r => {
+          this.hform = r.data;
+        });
+    }else if(i.type=="0"){
+      this.zlbgDialogVisible=true;
+      this.$api.post('/eamp/eventManagement/queryIapiChangeInfo', {"refserial":i.refserial},
+        r => {
+          this.zform = r.data;
+        });
+    }
+
+    else{
+
       this.detailsDialogVisible = true;
-      console.log(i);
+
       this.dform = i;
+    }
 
     },
-
-
   }
 }
 </script>

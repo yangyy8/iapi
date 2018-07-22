@@ -349,6 +349,13 @@ export default new Router({
           component: resolve => require(['@/components/SystemMonitor/Performance/MonitorZHFFXN'], resolve),
 
         },
+        //口岸分发性能监控
+        {
+          path: "MonitorKAFF",
+          name: "MonitorKAFF",
+          component: resolve => require(['@/components/SystemMonitor/Performance/MonitorKAFF'], resolve),
+
+        },
         //监控报警
         {
           path: "MonitorJKBJ",
