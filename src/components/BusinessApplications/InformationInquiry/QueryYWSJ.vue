@@ -10,16 +10,16 @@
 
               <el-col :sm="24" :md="12" :lg="6" class="input-item">
                 <span class="input-text">事件类型：</span>
-                <el-select v-model="pd.type" placeholder="请选择"  size="small" class="input-input">
+                <el-select v-model="pd.type" placeholder="请选择"  filterable clearable  size="small" class="input-input">
                   <el-option value="" label="全部">
                   </el-option>
-                  <el-option value="0" label="指令变更">
+                  <el-option value="0" label="0 - 指令变更">
                   </el-option>
-                  <el-option value="1" label="航班备降">
+                  <el-option value="1" label="1 - 航班备降">
                   </el-option>
-                  <el-option value="2" label="业务规则修改">
+                  <el-option value="2" label="2 - 业务规则修改">
                   </el-option>
-                  <el-option value="4" label="报警事件"></el-option>
+                  <el-option value="4" label="4 - 报警事件"></el-option>
                 </el-select>
               </el-col>
 
@@ -44,8 +44,6 @@
                 <span class="input-text">处理人：</span>
                 <el-input placeholder="请输入内容" v-model="pd.dealuser" size="small" class="input-input"></el-input>
               </el-col>
-
-
               <el-col :sm="24" :md="12" :lg="6" class="input-item">
                 <span class="input-text">处理时间：</span>
                 <div class="input-input t-flex t-date">
@@ -262,9 +260,7 @@
                       </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
-
         <el-button @click="zlbgDialogVisible = false" size="small">取消</el-button>
-
       </div>
     </el-dialog>
 
@@ -274,14 +270,11 @@
           <el-col :span="12" class="input-item">
             <span class="yy-input-text">航班号：</span>
             <el-input placeholder="请输入内容" size="small"  :disabled="true" v-model="hform.fltno" class="yy-input-input" ></el-input>
-
           </el-col>
           <el-col :span="12" class="input-item">
             <span class="yy-input-text">所属航空公司：</span>
             <el-input placeholder="请输入内容" size="small"  :disabled="true" v-model="hform.applicationSender" class="yy-input-input"></el-input>
           </el-col>
-
-
         </el-row>
         <el-row type="flex"  class="mb-6">
           <el-col :span="12" class="input-item">
@@ -320,7 +313,238 @@
 
       </div>
     </el-dialog>
+
+    <el-dialog title="一般性规则修改详情" :visible.sync="ybxgzDialogVisible">
+
+        <el-table
+          :data="tableDatay"
+          border
+          style="width: 100%;">
+          <el-table-column
+            prop="IODIRSTR"
+            label="出入境方向">
+          </el-table-column>
+          <el-table-column
+            prop="PERSONNELTYPESTR"
+            label="人员类别">
+
+          </el-table-column>
+          <el-table-column
+            prop="RULEDESCFATHER"
+            label="规则名称">
+          </el-table-column>
+          <el-table-column
+            prop="FIELDNAME"
+            label="字段名称">
+          </el-table-column>
+          <el-table-column
+            prop="OPERATORCHARACTERSTR"
+            label="运算符">
+          </el-table-column>
+          <el-table-column
+            prop="VALUE"
+            label="取值">
+          </el-table-column>
+          <el-table-column
+            prop="CHECKRESULTFATHER"
+            label="反馈结果">
+          </el-table-column>
+          <el-table-column
+            prop="RESPONSERESULTFATHER"
+            label="反馈结果描述">
+          </el-table-column>
+          <el-table-column
+            prop="STATUSFATHERSTR"
+            label="状态">
+          </el-table-column>
+          <el-table-column
+            prop="CREATETIMESTR"
+            label="修改时间">
+          </el-table-column>
+          <el-table-column
+            prop="UPDATEDESC"
+            label="修改描述">
+          </el-table-column>
+        </el-table>
+
+    </el-dialog>
+
+    <el-dialog title="数据项校验规则详情" :visible.sync="sjxjyDialogVisible">
+        <el-table
+          :data="tableDatas"
+          border
+          style="width: 100%;">
+          <el-table-column
+            prop="IODIRSTR"
+            label="出入境方向">
+          </el-table-column>
+          <el-table-column
+            prop="PERSONNELTYPESTR"
+            label="人员类别">
+          </el-table-column>
+
+          <el-table-column
+            prop="FIELDDES"
+            label="字段名称">
+          </el-table-column>
+          <el-table-column
+            prop="MAXLENGTH"
+            label="最大长度">
+          </el-table-column>
+          <el-table-column
+            prop="MINLENGTH"
+            label="最小长度">
+          </el-table-column>
+          <el-table-column
+            prop="CHECKRESULT"
+            label="反馈结果">
+          </el-table-column>
+          <el-table-column
+            prop="CHECKREMARK"
+            label="反馈结果描述">
+          </el-table-column>
+          <el-table-column
+            prop="INPUTSTR"
+            label="限制性">
+          </el-table-column>
+          <el-table-column
+            prop="CREATETIMESTR"
+            label="修改时间">
+          </el-table-column>
+          <el-table-column
+            prop="CHANGETYPESTR"
+            label="修改描述">
+          </el-table-column>
+        </el-table>
+
+    </el-dialog>
+
+
+    <el-dialog title="免签规则证件有效期详情" :visible.sync="mqgzDialogVisible">
+        <el-table
+          :data="tableDatam"
+          border
+          style="width: 100%;">
+          <el-table-column
+            prop="IODIRSTR"
+            label="出入境方向">
+          </el-table-column>
+          <el-table-column
+            prop="PERSONNELTYPESTR"
+            label="人员类别">
+          </el-table-column>
+
+          <el-table-column
+            prop="RULEDESCFATHER"
+            label="规则名称">
+          </el-table-column>
+          <el-table-column
+            prop="FIELDNAME"
+            label="字段名称">
+          </el-table-column>
+
+          <el-table-column
+            prop="OPERATORCHARACTERSTR"
+            label="运算符">
+          </el-table-column>
+
+          <el-table-column
+            prop="VALUE"
+            label="取值">
+          </el-table-column>
+          <el-table-column
+            prop="CHECKRESULTFATHER"
+            label="反馈结果">
+          </el-table-column>
+          <el-table-column
+            prop="RESPONSERESULTFATHER"
+            label="反馈结果描述">
+          </el-table-column>
+          <el-table-column
+            prop="STATUSFATHERSTR"
+            label="状态">
+          </el-table-column>
+          <el-table-column
+            prop="CREATETIMESTR"
+            label="修改时间">
+          </el-table-column>
+          <el-table-column
+            prop="UPDATEDESC"
+            label="修改描述">
+          </el-table-column>
+        </el-table>
+
+    </el-dialog>
+
+    <el-dialog title="免签国家详情" :visible.sync="mqgjDialogVisible">
+        <el-table
+          :data="tableDataq"
+          border
+          style="width: 100%;">
+          <el-table-column
+            prop="RULETBLIST"
+            label="已加入国家">
+          </el-table-column>
+          <el-table-column
+            prop="STATUSSTR"
+            label="状态">
+          </el-table-column>
+          <el-table-column
+            prop="CHECKRESULT"
+            label="反馈结果">
+          </el-table-column>
+          <el-table-column
+            prop="RESPONSERESULT"
+            label="反馈结果描述">
+          </el-table-column>
+          <el-table-column
+            prop="CREATETIMESTR"
+            label="修改时间">
+          </el-table-column>
+          <el-table-column
+            prop="UPDATEDESC"
+            label="修改描述">
+          </el-table-column>
+        </el-table>
+
+    </el-dialog>
+
+
+    <el-dialog title="免签口岸详情" :visible.sync="mqkaDialogVisible">
+        <el-table
+          :data="tableDatak"
+          border
+          style="width: 100%;">
+          <el-table-column
+            prop="RULETBLIST"
+            label="已加入口岸">
+          </el-table-column>
+          <el-table-column
+            prop="STATUSSTR"
+            label="状态">
+          </el-table-column>
+          <el-table-column
+            prop="CHECKRESULT"
+            label="反馈结果">
+          </el-table-column>
+          <el-table-column
+            prop="RESPONSERESULT"
+            label="反馈结果描述">
+          </el-table-column>
+          <el-table-column
+            prop="CREATETIMESTR"
+            label="修改时间">
+          </el-table-column>
+          <el-table-column
+            prop="UPDATEDESC"
+            label="修改描述">
+          </el-table-column>
+        </el-table>
+
+    </el-dialog>
+
   </div>
+
 
 
 
@@ -358,6 +582,7 @@ export default {
         }
       ],
       tableData:[],
+      tableDatay:[],
       pickerOptions1: {
         shortcuts: [{
           text: '今天',
@@ -416,26 +641,60 @@ export default {
         })
     },
     details(i){
-     console.log("----"+i.refserial);
-    if(i.type=="1"){
+     console.log("----"+i.type);
+    if(i.type=="1"){ //航班备降
       this.hbbjDialogVisible=true;
 
       this.$api.post('/eamp/eventManagement/queryFlightInfo', {"refserial":i.refserial},
         r => {
           this.hform = r.data;
         });
-    }else if(i.type=="0"){
+    }else if(i.type=="0"){ //指令变更
       this.zlbgDialogVisible=true;
       this.$api.post('/eamp/eventManagement/queryIapiChangeInfo', {"refserial":i.refserial},
         r => {
           this.zform = r.data;
         });
     }
+    else if(i.type=="2"){ //一般性规则修改
+      this.ybxgzDialogVisible=true;
+      this.$api.post('/eamp/eventManagement/queryRuleOneInfo', {"refserial":i.refserial},
+        r => {
+          this.tableDatay = r.data;
+        });
+    }
+    else if(i.type=="5"){ //数据项校验规则
+      this.sjxjyDialogVisible=true;
+      this.$api.post('/eamp/eventManagement/queryRuleCheckInfo', {"refserial":i.refserial},
+        r => {
+          this.tableDatas = r.data;
+        });
+    }
+    else if(i.type=="6"){ //免签规则证件有效期
+      this.mqgzDialogVisible=true;
+      this.$api.post('/eamp/eventManagement/queryPassDateInfo', {"refserial":i.refserial},
+        r => {
+          this.tableDatam = r.data;
+        });
+    }
+    else if(i.type=="7"){ //免签国家修改
+      this.mqgjDialogVisible=true;
+      this.$api.post('/eamp/eventManagement/queryNationalityInfo', {"refserial":i.refserial},
+        r => {
+          this.tableDataq = r.data;
+        });
+    }
+    else if(i.type=="8"){ //免签口岸
+      this.mqkaDialogVisible=true;
+      this.$api.post('/eamp/eventManagement/queryNationalityOrPortInfo', {"refserial":i.refserial},
+        r => {
+          this.tableDatak = r.data;
+        });
+    }
 
     else{
 
       this.detailsDialogVisible = true;
-
       this.dform = i;
     }
 

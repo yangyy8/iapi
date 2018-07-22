@@ -31,14 +31,14 @@
 
             <el-col  :sm="24" :md="12" :lg="6"   class="input-item">
                 <span class="input-text">起飞机场：</span>
-                  <el-select v-model="pd.cityFrom" placeholder="请选择" size="small" class="input-input">
-                  <el-option
-                      v-for="item in options"
-                      :key="item.value"
-                      :label="item.label"
-                      :value="item.value" >
-                  </el-option>
-                  </el-select>
+                  <el-select v-model="pd.cityFrom" filterable clearable @visible-change="queryAirport" placeholder="请选择" size="small" class="input-input">
+                 <el-option
+                   v-for="item in Airport"
+                   :key="item.AIRPORT_CODE"
+                   :label="item.AIRPORT_CODE+' - '+item.AIRPORT_NAME"
+                   :value="item.AIRPORT_CODE" >
+                 </el-option>
+               </el-select>
             </el-col>
 
             <el-col  :sm="24" :md="12" :lg="6"   class="input-item">
@@ -60,14 +60,14 @@
 
           <el-col  :sm="24" :md="12" :lg="6"  class="input-item">
               <span class="input-text">到达机场：</span>
-              <el-select v-model="pd.cityTo"  class="input-input" @visible-change="queryNationality"  placeholder="请选择"  size="small">
-                <el-option
-                  v-for="item in nation"
-                  :key="item.CODE"
-                  :label="item.CNAME"
-                  :value="item.CODE">
-                </el-option>
-              </el-select>
+              <el-select v-model="pd.cityTo" filterable clearable @visible-change="queryAirport" placeholder="请选择" size="small" class="input-input">
+             <el-option
+               v-for="item in Airport"
+               :key="item.AIRPORT_CODE"
+               :label="item.AIRPORT_CODE+' - '+item.AIRPORT_NAME"
+               :value="item.AIRPORT_CODE" >
+             </el-option>
+           </el-select>
             </el-col>
 
             <el-col  :sm="24" :md="12" :lg="6"   class="input-item">
@@ -88,27 +88,27 @@
             </el-col>
             <el-col  :sm="24" :md="12" :lg="6"  class="input-item">
                 <span class="input-text">出入标识：</span>
-                <el-select v-model="pd.flightType"  class="input-input"  placeholder="请选择"  size="small">
+                <el-select v-model="pd.flightType"  filterable clearable  class="input-input"  placeholder="请选择"  size="small">
                   <el-option value="" label="全部">
                   </el-option>
-                  <el-option value="I" label="入境">
+                  <el-option value="I" label="I - 入境">
                   </el-option>
-                  <el-option value="O" label="出境">
+                  <el-option value="O" label="O - 出境">
                   </el-option>
-                  <el-option value="G" label="过境">
+                  <el-option value="G" label="G - 过境">
                   </el-option>
                 </el-select>
               </el-col>
             <el-col  :sm="24" :md="12" :lg="6"  class="input-item">
                 <span class="input-text">不通过原因：</span>
-                <el-select v-model="pd.thanType"  class="input-input"  placeholder="请选择"  size="small">
+                <el-select v-model="pd.thanType"  class="input-input" filterable clearable   placeholder="请选择"  size="small">
                   <el-option value=""  label="全部">
                   </el-option>
-                  <el-option value="1"  label="必录项缺失">
+                  <el-option value="1"  label="1 - 必录项缺失">
                   </el-option>
-                  <el-option value="2"  label="长度不符合">
+                  <el-option value="2"  label="2 - 长度不符合">
                   </el-option>
-                  <el-option value="3"  label="格式错误">
+                  <el-option value="3"  label="3 - 格式错误">
                   </el-option>
                 </el-select>
               </el-col>
@@ -286,10 +286,11 @@ export default {
       CurrentPage: 1,
       pageSize: 10,
       TotalResult: 0,
-      sum:"0",
-      num:"0",
+      sum: "0",
+      num: "0",
       pd: {},
       nation: [],
+      Airport:[],
       value: '',
       value1: "",
       addDialogVisible: false,
@@ -332,12 +333,13 @@ export default {
         }]
       },
       form: {},
-      dform:{},
+      dform: {},
     }
   },
   mounted() {
     this.getList(this.CurrentPage, this.pageSize, this.pd);
-this.getsum(); this.getnum();
+    this.getsum();
+    this.getnum();
   },
   methods: {
     handleSelectionChange(val) {
@@ -352,7 +354,7 @@ this.getsum(); this.getnum();
 
       console.log(`当前页: ${val}`);
     },
-    getsum(){
+    getsum() {
 
       this.$api.post('/eamp/compareReuslt/businessRule/counter', {},
         r => {
@@ -361,10 +363,12 @@ this.getsum(); this.getnum();
 
         })
     },
-    getnum(){
+    getnum() {
 
       let p = {
-        "cdt": {"notPass":"0"}
+        "cdt": {
+          "notPass": "0"
+        }
       };
       this.$api.post('/eamp/compareReuslt/businessRule/counter', p,
         r => {
@@ -386,20 +390,22 @@ this.getsum(); this.getnum();
           this.TotalResult = r.data.totalResult;
         })
     },
-    queryNationality() {
-      this.$api.post('/eamp/codeTable/queryNationality', {},
+    queryAirport() {
+      if (this.Airport.length != 0) {
+        return;
+      };
+      this.$api.post('/eamp/codeTable/queryAirport', {},
         r => {
           console.log(r);
-          if (r.Success) {
-            this.nation = r.Data;
-          }
+          this.Airport = r.data;
+
         })
     },
 
     details(i) {
       this.detailsDialogVisible = true;
       console.log(i);
-      this.dform=i;
+      this.dform = i;
     },
 
   }
@@ -421,7 +427,21 @@ this.getsum(); this.getnum();
   display: inline-block;
   width: 60px;
 }
-.datacenter{text-align: center;}
-.dataleft{float: left; font-size: 22px;}
-.dataline{ width: 2px; background: #cccccc; margin-left: 20px; margin-right: 20px; height: 60px;}
+
+.datacenter {
+  text-align: center;
+}
+
+.dataleft {
+  float: left;
+  font-size: 22px;
+}
+
+.dataline {
+  width: 2px;
+  background: #cccccc;
+  margin-left: 20px;
+  margin-right: 20px;
+  height: 60px;
+}
 </style>
