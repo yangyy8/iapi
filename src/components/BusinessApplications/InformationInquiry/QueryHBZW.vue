@@ -175,23 +175,19 @@
 
 <div id="div2">
   <el-row align="center"  type="flex">
-    <el-col  :span="6" style="border-right:1px solid #cccccc; margin-right:30px;">
+    <el-col  :span="5" style="border-right:1px solid #cccccc; margin-right:30px;">
         <img src="../../../assets/img/port.png">
     </el-col>
-    <el-col  :span="18" style="padding-top:50px;">
+    <el-col  :span="190" style="padding-top:50px;">
       <ul class="planUL">
         <li class="planLifirst">
           <div  v-for="i in list1">
             {{i}}
           </div>
         </li>
-        <li v-for="i in 23" class="planLi">
-          <div class=""></div>
-          <div class=""></div>
-          <div class=""></div>
-          <div class=""></div>
-          <div class=""></div>
-          <div class=""></div>
+        <li v-for="i in list2" class="planLi">
+
+          <div class="" > </div>
           <div class="">{{i}}</div>
         </li>
       </ul>
@@ -327,8 +323,8 @@ export default {
       pageSize: 10,
       TotalResult: 0,
       pd: {},
-      list1:["A","B","D","E","F","G"],
-      list2:[1,2,3,4,6,7,8,9],
+      list1:[],
+      list2:[],
       list3:["1E","3F","4G"],
       nation: [],
       value: '',
@@ -428,8 +424,8 @@ export default {
       this.$api.post('/eamp/statusUpdate/seat/queryListPagesSeat', p,
         r => {
           console.log(r);
-          this.tableData = r.data.resultList;
-          this.TotalResult = r.data.totalResult;
+          this.list1 = r.data.list123;
+          this.list2 = r.data.listabc;
         })
     },
 
@@ -478,8 +474,8 @@ export default {
 .planLi div{
   width: 20px;
   height: 20px;
-  border: 1px red solid;
-  background: green;
+  border: 1px #105D93 solid;
+  background: #70BDEB; text-align: center;
 }
 .planLifirst{
   display: flex;
@@ -489,10 +485,11 @@ export default {
 .planLifirst div{
   width: 20px;
   height: 20px;
+  text-align: center;
 
 }
 .planLi div:last-child{
   border: none;
-  background: none;
+  background: none;text-align: center;
 }
 </style>

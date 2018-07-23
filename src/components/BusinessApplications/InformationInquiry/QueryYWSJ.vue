@@ -367,6 +367,11 @@
           </el-table-column>
         </el-table>
 
+        <div slot="footer" class="dialog-footer">
+
+          <el-button @click="ybxgzDialogVisible = false" size="small">取 消</el-button>
+
+        </div>
     </el-dialog>
 
     <el-dialog title="数据项校验规则详情" :visible.sync="sjxjyDialogVisible">
@@ -416,7 +421,11 @@
             label="修改描述">
           </el-table-column>
         </el-table>
+        <div slot="footer" class="dialog-footer">
 
+          <el-button @click="sjxjyDialogVisible = false" size="small">取 消</el-button>
+
+        </div>
     </el-dialog>
 
 
@@ -473,7 +482,11 @@
             label="修改描述">
           </el-table-column>
         </el-table>
+        <div slot="footer" class="dialog-footer">
 
+          <el-button @click="mqgzDialogVisible = false" size="small">取 消</el-button>
+
+        </div>
     </el-dialog>
 
     <el-dialog title="免签国家详情" :visible.sync="mqgjDialogVisible">
@@ -506,7 +519,11 @@
             label="修改描述">
           </el-table-column>
         </el-table>
+        <div slot="footer" class="dialog-footer">
 
+          <el-button @click="mqgjDialogVisible = false" size="small">取 消</el-button>
+
+        </div>
     </el-dialog>
 
 
@@ -540,7 +557,11 @@
             label="修改描述">
           </el-table-column>
         </el-table>
+        <div slot="footer" class="dialog-footer">
 
+          <el-button @click="mqkaDialogVisible = false" size="small">取 消</el-button>
+
+        </div>
     </el-dialog>
 
   </div>
@@ -556,18 +577,23 @@ export default {
   components: {
     QueryNationality
   },
-  data(){
-    return{
+  data() {
+    return {
       CurrentPage: 1,
       pageSize: 10,
       TotalResult: 0,
       pd: {},
-      dform:{},
-      hform:{},
-      zform:{},
-      detailsDialogVisible:false,
-      hbbjDialogVisible:false,
-      zlbgDialogVisible:false,
+      dform: {},
+      hform: {},
+      zform: {},
+      detailsDialogVisible: false,
+      hbbjDialogVisible: false,
+      zlbgDialogVisible: false,
+      ybxgzDialogVisible: false,
+      sjxjyDialogVisible: false,
+      mqgzDialogVisible: false,
+      mqgjDialogVisible: false,
+      mqkaDialogVisible: false,
       options: [{
           value: 10,
           label: "10"
@@ -581,8 +607,8 @@ export default {
           label: "30"
         }
       ],
-      tableData:[],
-      tableDatay:[],
+      tableData: [],
+      tableDatay: [],
       pickerOptions1: {
         shortcuts: [{
           text: '今天',
@@ -611,12 +637,12 @@ export default {
   mounted() {
     this.getList(this.CurrentPage, this.pageSize, this.pd);
   },
-  methods:{
+  methods: {
     handleSelectionChange(val) {
       this.multipleSelection = val;
     },
-    getNation(msg){
-      this.pd.NATIONALITY=msg;
+    getNation(msg) {
+      this.pd.NATIONALITY = msg;
     },
     pageSizeChange(val) {
       this.getList(this.CurrentPage, val, this.pd);
@@ -636,67 +662,90 @@ export default {
       this.$api.post('/eamp/eventManagement/queryListPage', p,
         r => {
           console.log(r);
-          this.tableData = r.data.resultList;
-          this.TotalResult = r.data.totalResult;
+          if (r.success) {
+            this.tableData = r.data.resultList;
+            this.TotalResult = r.data.totalResult;
+          }
         })
     },
-    details(i){
-     console.log("----"+i.type);
-    if(i.type=="1"){ //航班备降
-      this.hbbjDialogVisible=true;
+    details(i) {
 
-      this.$api.post('/eamp/eventManagement/queryFlightInfo', {"refserial":i.refserial},
-        r => {
-          this.hform = r.data;
-        });
-    }else if(i.type=="0"){ //指令变更
-      this.zlbgDialogVisible=true;
-      this.$api.post('/eamp/eventManagement/queryIapiChangeInfo', {"refserial":i.refserial},
-        r => {
-          this.zform = r.data;
-        });
-    }
-    else if(i.type=="2"){ //一般性规则修改
-      this.ybxgzDialogVisible=true;
-      this.$api.post('/eamp/eventManagement/queryRuleOneInfo', {"refserial":i.refserial},
-        r => {
-          this.tableDatay = r.data;
-        });
-    }
-    else if(i.type=="5"){ //数据项校验规则
-      this.sjxjyDialogVisible=true;
-      this.$api.post('/eamp/eventManagement/queryRuleCheckInfo', {"refserial":i.refserial},
-        r => {
-          this.tableDatas = r.data;
-        });
-    }
-    else if(i.type=="6"){ //免签规则证件有效期
-      this.mqgzDialogVisible=true;
-      this.$api.post('/eamp/eventManagement/queryPassDateInfo', {"refserial":i.refserial},
-        r => {
-          this.tableDatam = r.data;
-        });
-    }
-    else if(i.type=="7"){ //免签国家修改
-      this.mqgjDialogVisible=true;
-      this.$api.post('/eamp/eventManagement/queryNationalityInfo', {"refserial":i.refserial},
-        r => {
-          this.tableDataq = r.data;
-        });
-    }
-    else if(i.type=="8"){ //免签口岸
-      this.mqkaDialogVisible=true;
-      this.$api.post('/eamp/eventManagement/queryNationalityOrPortInfo', {"refserial":i.refserial},
-        r => {
-          this.tableDatak = r.data;
-        });
-    }
+      if (i.type == "1") { //航班备降
+        this.hbbjDialogVisible = true;
 
-    else{
+        this.$api.post('/eamp/eventManagement/queryFlightInfo', {
+            "refserial": i.refserial
+          },
+          r => {
+            if (r.success) {
+              this.hform = r.data;
+            }
+          });
+      } else if (i.type == "0") { //指令变更
+        this.zlbgDialogVisible = true;
+        this.$api.post('/eamp/eventManagement/queryIapiChangeInfo', {
+            "refserial": i.refserial
+          },
+          r => {
+            if (r.success) {
+              this.zform = r.data;
+            }
+          });
+      } else if (i.type == "2") { //一般性规则修改
+        this.ybxgzDialogVisible = true;
+        this.$api.post('/eamp/eventManagement/queryRuleOneInfo', {
+            "refserial": i.refserial
+          },
+          r => {
+            if (r.success) {
+              this.tableDatay = r.data;
+            }
+          });
+      } else if (i.type == "5") { //数据项校验规则
+        this.sjxjyDialogVisible = true;
+        this.$api.post('/eamp/eventManagement/queryRuleCheckInfo', {
+            "refserial": i.refserial
+          },
+          r => {
+            if (r.success) {
+              this.tableDatas = r.data;
+            }
+          });
+      } else if (i.type == "6") { //免签规则证件有效期
+        this.mqgzDialogVisible = true;
+        this.$api.post('/eamp/eventManagement/queryPassDateInfo', {
+            "refserial": i.refserial
+          },
+          r => {
+            if (r.success) {
+              this.tableDatam = r.data;
+            }
+          });
+      } else if (i.type == "7") { //免签国家修改
+        this.mqgjDialogVisible = true;
+        this.$api.post('/eamp/eventManagement/queryNationalityInfo', {
+            "refserial": i.refserial
+          },
+          r => {
+            if (r.success) {
+              this.tableDataq = r.data;
+            }
+          });
+      } else if (i.type == "8") { //免签口岸
+        this.mqkaDialogVisible = true;
+        this.$api.post('/eamp/eventManagement/queryNationalityOrPortInfo', {
+            "refserial": i.refserial
+          },
+          r => {
+            if (r.success) {
+              this.tableDatak = r.data;
+            }
+          });
+      } else {
 
-      this.detailsDialogVisible = true;
-      this.dform = i;
-    }
+        this.detailsDialogVisible = true;
+        this.dform = i;
+      }
 
     },
   }
@@ -704,96 +753,109 @@ export default {
 </script>
 
 <style scoped>
-  .ak-tab{
+.ak-tab {}
 
-  }
-  .ak-tabs{
-    display: flex;
+.ak-tabs {
+  display: flex;
 
-  }
-  .ak-tab-item{
-    background: #399bfe;
-    color: #fff;
-    font-size: 14px;
-    margin-right: 6px;
-    border-radius: 5px 5px 0 0;
-    padding: 0 16px;
-  }
-  .ak-checked{
-    background: #fff;
-    color: #399bfe;
-    border: 1px #399bfe solid;
-    border-bottom: 1px #fff solid;
-    margin-bottom: -1px;
-  }
-  .ak-tab-pane{
-    border: 1px #399bfe solid;
-    height: 148px;
-    padding: 20px;
-    border-radius: 0 5px 5px 5px;
-  }
-  .akcheck2top{
-    background: #f6f7fb;
-    /* height: 28px; */
-    padding: 6px;
-  }
-  .middle-btn-g{
-    display: flex;
-    justify-content: center;
-  }
-  .middle-btn-g button{
-    height: 32px;
-    width:107px;
-    border: none;
-    border-radius: 5px;
-    background: none;
-    background: linear-gradient( 360deg, rgb(9,171,236) 0%, rgb(0,121,228) 100%);
-    color:#fff;
-  }
-  .akUl{
-    height: 103px;
-    overflow-y: auto;
-  }
-  .akUl img{
-    height: 15px;
-    width: 21px;
-    margin-right: 8px;
-  }
-  .ak-li{
-    height: 58px;
-    align-items: center;
-    padding: 0 30px;
+}
 
-  }
-.nameUi,.dataUi{
+.ak-tab-item {
+  background: #399bfe;
+  color: #fff;
+  font-size: 14px;
+  margin-right: 6px;
+  border-radius: 5px 5px 0 0;
+  padding: 0 16px;
+}
+
+.ak-checked {
+  background: #fff;
+  color: #399bfe;
+  border: 1px #399bfe solid;
+  border-bottom: 1px #fff solid;
+  margin-bottom: -1px;
+}
+
+.ak-tab-pane {
+  border: 1px #399bfe solid;
+  height: 148px;
+  padding: 20px;
+  border-radius: 0 5px 5px 5px;
+}
+
+.akcheck2top {
+  background: #f6f7fb;
+  /* height: 28px; */
+  padding: 6px;
+}
+
+.middle-btn-g {
+  display: flex;
+  justify-content: center;
+}
+
+.middle-btn-g button {
+  height: 32px;
+  width: 107px;
+  border: none;
+  border-radius: 5px;
+  background: none;
+  background: linear-gradient( 360deg, rgb(9, 171, 236) 0%, rgb(0, 121, 228) 100%);
+  color: #fff;
+}
+
+.akUl {
+  height: 103px;
+  overflow-y: auto;
+}
+
+.akUl img {
+  height: 15px;
+  width: 21px;
+  margin-right: 8px;
+}
+
+.ak-li {
+  height: 58px;
+  align-items: center;
+  padding: 0 30px;
+
+}
+
+.nameUi,
+.dataUi {
   float: left;
   margin-left: 20px;
 }
-.nameUi li,.dataUi li{
+
+.nameUi li,
+.dataUi li {
   padding: 5px 10px 10px 0px;
   font-weight: bold;
 }
-.dataUi{
+
+.dataUi {
   float: left;
 }
-.t-input-item{
+
+.t-input-item {
   display: flex;
   justify-content: flex-start;
   line-height: 32px;
 }
-.flightDate{
-  width:211px;
-  height:32px
-}
 
+.flightDate {
+  width: 211px;
+  height: 32px
+}
 </style>
 <style media="screen">
-.t-input-item .flightDate input{
-  width: 42%!important;
+.t-input-item .flightDate input {
+  width: 42% !important;
 }
 
-.el-table__body{
-    table-layout:auto !important;
+.el-table__body {
+  table-layout: auto !important;
 }
-
 </style>
