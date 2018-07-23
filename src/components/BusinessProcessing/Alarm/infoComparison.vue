@@ -829,7 +829,8 @@ export default {
           "distinguishNote":this.distinguishNote,
           "distinguishResult":this.distinguishResult.toString(),
           "distinguishInfo":this.distinguishInfo,
-          "martchPort":this.martchPort
+          "martchPort":this.martchPort,
+          "recordNum":this.$route.query.dh
         }
      };
      if(this.$route.query.isZDGZ){
