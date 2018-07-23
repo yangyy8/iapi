@@ -4,10 +4,10 @@
         <el-row type="flex" justify="center" class="middle">
           <el-col :span="6">
             <div>
-              <div class="control-item hand" :class="{'control-checked':controlChecked==1}" @click="controlChecked=1">
+              <div class="control-item hand" :class="{'control-checked':controlChecked==1}" @click="real">
                   实时监控
               </div>
-              <div class="control-item hand" :class="{'control-checked':controlChecked==2}" @click="history">
+              <div class="control-item hand" :class="{'control-checked':controlChecked==2}" @click="historyq">
                   性能分析
               </div>
               <div style='clear:both'></div>
@@ -17,41 +17,47 @@
         <div class="middle">
           <div class="co-tab mb-20">
             <div class="co-tabs">
-              <div class="co-tab-item hand" :class="{'co-checked':coCheckId==1}" @click="coCheckId=1">
+              <div class="co-tab-item hand" :class="{'co-checked':coCheckId==1}" @click="judgeChart">
                 图形
               </div>
-              <div class="co-tab-item hand" :class="{'co-checked':coCheckId==2}" @click="coCheckId=2">
+              <div class="co-tab-item hand" :class="{'co-checked':coCheckId==2}" @click="judgeList">
                 列表
               </div>
               <div class="" style="margin-bottom: -6px;" v-show="controlChecked==2">
                 <el-row align="center" :gutter="2">
-                  <el-col :sm="24" :md="12"  :lg="12" class="input-item">
+                  <el-col :sm="24" :md="12"  :lg="15" class="input-item">
                     <span class="input-text">分析日期：</span>
                     <div class="input-input t-flex t-date">
                         <el-date-picker
                         v-model="cdt.begin"
-                        type="date" size="mini"
+                        type="datetime" size="mini"
                         placeholder="开始日期"
-                        value-format="yyyyMMdd">
+                        value-format="yyyyMMdd HHmmss"
+                        >
                       </el-date-picker>
                       <span class="septum">-</span>
                       <el-date-picker
                          v-model="cdt.end"
-                         type="date" size="mini"
+                         type="datetime" size="mini"
                          placeholder="结束日期"
-                         value-format="yyyyMMdd">
+                         value-format="yyyyMMdd HHmmss"
+                         >
                      </el-date-picker>
                     </div>
                   </el-col>
-                  <el-col :sm="24" :md="12"  :lg="12" class="input-item">
+                  <el-col :sm="24" :md="12"  :lg="7" class="input-item">
                     <span class="input-text">分析维度：</span>
-                    <el-select  placeholder="请选择"  size="mini"  class="input-input" v-model="cdt.type">
+                    <el-select  placeholder="请选择"  size="mini"  class="input-input" v-model="cdt.type" filterable clearable>
                       <el-option label="按小时分析" value="0"></el-option>
                       <el-option label="按天分析" value="1"></el-option>
                       <el-option label="按周分析" value="2"></el-option>
                       <el-option label="按月分析" value="3"></el-option>
                       <el-option label="按季度分析" value="4"></el-option>
+                      <el-option label="按5分钟分析" value="5"></el-option>
                     </el-select>
+                  </el-col>
+                  <el-col :sm="24" :md="12"  :lg="2" class="input-item">
+                    <el-button type="success" size="mini" class="ml-10" @click="search">查询</el-button>
                   </el-col>
                 </el-row>
               </div>
@@ -75,7 +81,9 @@
                     @selection-change="handleSelectionChange">
                     <el-table-column
                       prop="number"
-                      label="序号">
+                      type="index"
+                      label="序号"
+                      width="70">
                     </el-table-column>
                     <el-table-column
                       prop="BIRTHCOUNTRY"
@@ -112,7 +120,7 @@
                       width='140'>
                     </el-table-column>
                     <el-table-column
-                      prop="Cmpbegintime-Cmpbegintime"
+                      prop="average"
                       label="耗时">
                     </el-table-column>
                     <el-table-column
@@ -164,8 +172,10 @@
                     style="width: 100%;"
                     @selection-change="handleSelectionChange">
                     <el-table-column
+                    type="index"
                       prop="number"
-                      label="序号">
+                      label="序号"
+                      width="70">
                     </el-table-column>
                     <el-table-column
                       prop="year"
@@ -227,6 +237,7 @@
 
 <script>
 import echarts from 'echarts'
+import {formatDate} from '@/assets/js/date.js'
 export default {
   data(){
     return{
@@ -287,9 +298,19 @@ export default {
         'timeConsuming':'1',
         'monitorTime':'1',
       }],
-
-      htableData:[{}],// 历史表格
-      cdt:{},  //历史监控传参
+      // 历史表格
+      htableData:[{
+        'number':'1',
+        'year':'1',
+        'createtime':'1',
+        'tcount':'1',
+        'consumetime':'1',
+      }],
+      cdt:{
+        type:'5',
+        begin:'',
+        end:''
+      },  //历史监控传参
       pd:{},// 实时空信息
       pdc:{},//实时表格传折线处信息
       lineX:[],
@@ -300,8 +321,13 @@ export default {
     }
   },
   mounted() {
+      let begin=new Date();
+      let  end=new Date();
+      let aaaa = new Date(begin.setMonth((new Date().getMonth()-1)));
+      let bbbb = new Date();
+      this.cdt.begin=formatDate(aaaa,'yyyyMMdd hhmmss');
+      this.cdt.end=formatDate(bbbb,'yyyyMMdd hhmmss');
       this.checkRealTime();
-      this.drawLine();
       this.getList(this.CurrentPage,this.pageSize,this.pd);
   },
 
@@ -343,15 +369,16 @@ export default {
     },
     //历史监控表格/分页
     hgetList(hcurrentPage,hshowCount,cdt){
+
       let p={
         "currentPage":hcurrentPage,
         "showCount":hshowCount,
         "cdt":cdt
       }
-      this.$api.post('/eamp/nameList/getNameListPage',p,
+      this.$api.post('/eamp/match/queryMatchListPageHisOther',p,
        r => {
          console.log(r);
-         this.htableData=r.data.resultList;
+         this.htableData=r.data.pd.resultList;
          this.hTotalResult=r.data.totalResult;
       })
     },
@@ -377,7 +404,6 @@ export default {
              xAxis:[{
                type : 'category',
                boundaryGap : false,
-               splitArea : {show : true},
                data:this.lineX,
                axisLine:{
                  lineStyle:{
@@ -434,7 +460,7 @@ export default {
              that.controlChecked=1;
              that.coCheckId=2;
              // 表格数据渲染
-             that.getList(this.CurrentPage,this.pageSize,this.pdc);
+             that.getList(that.CurrentPage,that.pageSize,that.pdc);
            });
            //图标根据窗口大小自动缩放
            // window.addEventListener("resize", this.myChart.resize);
@@ -532,21 +558,54 @@ export default {
         "showCount":10,
         "cdt":this.cdt
       }
-      this.$api.post('/eamp/match/queryListPage',t,
+      this.$api.post('/eamp/match/queryListPageHisMin',t,
       r =>{
         this.barX = r.data.pd.X;
         this.barY = r.data.pd.Y;
         this.drawBar();
       })
     },
-    history(){
+    real(){//重新点回实时监控时
+      this.controlChecked=1;
+      if(this.coCheckId == 1){//如果当前显示图表
+        this.checkRealTime();
+      }else if(this.coCheckId == 2){//如果当前显示列表
+        this.getList(this.CurrentPage,this.pageSize,this.pd);
+      }
+    },
+    historyq(){//重新点回性能分析时
       this.controlChecked=2;
-      this.checkHistoryTime();
-      this.drawBar();
-      this.hgetList(this.hCurrentPage,this.hpageSize,this.cdt);
+      if(this.coCheckId == 1){//如果当前显示图表
+        this.checkHistoryTime();
+      }else if(this.coCheckId == 2){//如果当前显示列表
+        this.hgetList(this.hCurrentPage,this.hpageSize,this.cdt);
+      }
+    },
+    judgeChart(){
+      this.coCheckId=1;
+      if(this.controlChecked == 1){//判断实时图
+        this.checkRealTime();
+        // this.getList(this.CurrentPage,this.pageSize,this.pd);
+      }else if(this.controlChecked == 2){//判断历史表
+        this.checkHistoryTime();
+        // this.hgetList(this.hCurrentPage,this.hpageSize,this.cdt);
+      }
+    },
+    judgeList(){
+      this.coCheckId=2;
+      if(this.controlChecked == 1){//判断实时图
+        this.getList(this.CurrentPage,this.pageSize,this.pd);
+      }else if(this.controlChecked == 2){//判断历史图
+        this.hgetList(this.hCurrentPage,this.hpageSize,this.cdt);
+      }
+    },
+    search(){
+      if(this.coCheckId==1){
+        this.checkHistoryTime();
+      }else if(this.coCheckId==2){
+        this.hgetList(this.hCurrentPage,this.hpageSize,this.cdt);
+      }
     }
-    // 列表展示
-
   },
 
 }

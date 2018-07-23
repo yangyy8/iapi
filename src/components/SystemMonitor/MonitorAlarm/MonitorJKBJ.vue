@@ -10,36 +10,36 @@
               <el-row align="center"   :gutter="2" >
                 <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                   <span class="input-text">监控区域：</span>
-                  <el-select v-model="pd.ZONE"  placeholder="请选择" size="small" class="input-input">
+                  <el-select v-model="pd.ZONE"  placeholder="请选择"  filterable clearable size="small" class="input-input">
                      <el-option value="" label="全部">
                      </el-option>
-                     <el-option value="0" label="DMZ区">
+                     <el-option value="0" label="0 - DMZ区">
                      </el-option>
-                     <el-option value="1" label="业务平台区">
+                     <el-option value="1" label="1 - 业务平台区">
                      </el-option>
-                     <el-option value="2" label="整合分发区">
+                     <el-option value="2" label="2 - 整合分发区">
                      </el-option>
-                     <el-option value="3" label="风险评估区">
+                     <el-option value="3" label="3 - 风险评估区">
                      </el-option>
                    </el-select>
 
                 </el-col>
                 <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                   <span class="input-text">报警类型：</span>
-                  <el-select v-model="pd.MTYPE"  placeholder="请选择" size="small" class="input-input" @change="monitor(pd.MTYPE)">
-                    <el-option value="SYS" label="系统监控" >
+                  <el-select v-model="pd.MTYPE"  placeholder="请选择"  filterable clearable size="small" class="input-input" @change="monitor(pd.MTYPE)">
+                    <el-option value="SYS" label="SYS - 系统监控" >
                     </el-option>
-                    <el-option value="DAT" label="数据监控" >
+                    <el-option value="DAT" label="DAT - 数据监控" >
                     </el-option>
-                    <el-option value="LOG" label="日志监控" >
+                    <el-option value="LOG" label="LOG - 日志监控" >
                     </el-option>
-                    <el-option value="PER" label="性能监控" >
+                    <el-option value="PER" label="PER - 性能监控" >
                     </el-option>
                    </el-select>
                 </el-col>
               <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                 <span class="input-text">监控对象：</span>
-                <el-select v-model="pd.MCLASS"  placeholder="请选择" size="small" class="input-input">
+                <el-select v-model="pd.MCLASS"  placeholder="请选择"  filterable clearable size="small" class="input-input">
                   <el-option
                     v-for="(value, key) in object"
                     :key="key"
@@ -51,16 +51,18 @@
 
               <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                 <span class="input-text">处理状态：</span>
-                <el-select v-model="pd.STATUS"  placeholder="请选择" size="small" class="input-input">
+                <el-select v-model="pd.STATUS"  placeholder="请选择"  filterable clearable size="small" class="input-input">
                    <el-option value="" label="全部">
                    </el-option>
-                   <el-option value="1" label="未处理">
+                   <el-option value="0" label="0 - 已处理">
                    </el-option>
-                   <el-option value="0" label="已处理">
+                   <el-option value="1" label="1 - 未处理">
                    </el-option>
+
                  </el-select>
               </el-col>
               <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+
                 <span class="input-text">报警时间：</span>
                 <div class="input-input t-flex t-date">
                  <el-date-picker
@@ -118,7 +120,7 @@
                label="报警时间">
              </el-table-column>
              <el-table-column
-               prop="CONTENT"
+               prop="MDESC"
                label="报警内容">
              </el-table-column>
              <el-table-column
@@ -229,7 +231,7 @@
          <el-col :span="8"><span class="yy-input-text">处理时间：</span>{{dform.DEALTIME}}</el-col>
     </el-row>
     <el-row type="flex"  class="mb-15">
-      <el-col :span="24"><span class="yy-input-text" style="width:13%;">报警内容：</span>{{dform.CONTENT}}</el-col>
+      <el-col :span="24"><span class="yy-input-text" style="width:13%;">报警内容：</span>{{dform.MDESC}}</el-col>
     </el-row>
     </el-form>
     <div slot="footer" class="dialog-footer">
@@ -290,7 +292,7 @@ export default {
       let p = {
         "currentPage": currentPage,
         "showCount": showCount,
-        "cdt": pd
+        "pd": pd
       };
       this.$api.post('/eamp/monitorAlarm/queryAlarm', p,
         r => {
@@ -320,16 +322,23 @@ export default {
       this.dform = i;
     },
     pross(i) {
-      this.addDialogVisible = true;
-      this.form = i;
-      this.form.DEALUSER = "admin";
+      if (i.STATUS == "0") {
+
+        this.$alert('该条信息已处理！', '提示', {
+          confirmButtonText: '确定',
+          type: 'warning'
+        });
+        return;
+      } else {
+        this.addDialogVisible = true;
+        this.form = i;
+        this.form.DEALUSER = "admin";
+      }
     },
     adds(formName) {
-
-
       let p = {
         "DEALCONTENT": this.form.DEALCONTENT,
-        "DEALUSER": this.form.DEALUSER ,
+        "DEALUSER": this.form.DEALUSER,
         "SERIAL": this.form.SERIAL
       }
       this.$api.post('/eamp/monitorAlarm/updateAlarmStatus', p,

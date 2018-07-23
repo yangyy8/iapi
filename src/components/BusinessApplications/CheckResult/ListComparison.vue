@@ -8,11 +8,11 @@
             查询条件
           </div>
         <el-row align="center"   :gutter="2" class="pr-20">
-          <el-col  :sm="24" :md="12" :lg="6"   class="input-item">
+          <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
             <span class="input-text">航班号：</span>
             <el-input placeholder="请输入内容" size="small" v-model="pd.flightNo"   class="input-input"></el-input>
           </el-col>
-          <el-col  :sm="24" :md="12" :lg="6"   class="input-item">
+          <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
           <span class="input-text">航班日期：</span>
           <div class="input-input t-flex t-date">
                <el-date-picker
@@ -29,19 +29,20 @@
              </div>
           </el-col>
 
-            <el-col  :sm="24" :md="12" :lg="6"   class="input-item">
+            <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
                 <span class="input-text">起飞机场：</span>
-                  <el-select v-model="pd.cityFrom" placeholder="请选择" size="small" class="input-input">
-                  <el-option
-                      v-for="item in options"
-                      :key="item.value"
-                      :label="item.label"
-                      :value="item.value" >
-                  </el-option>
-                  </el-select>
+
+                  <el-select v-model="pd.cityFrom" filterable clearable @visible-change="queryAirport" placeholder="请选择" size="small" class="input-input">
+                 <el-option
+                   v-for="item in Airport"
+                   :key="item.AIRPORT_CODE"
+                   :label="item.AIRPORT_CODE+' - '+item.AIRPORT_NAME"
+                   :value="item.AIRPORT_CODE" >
+                 </el-option>
+               </el-select>
             </el-col>
 
-            <el-col  :sm="24" :md="12" :lg="6"   class="input-item">
+            <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
             <span class="input-text">预计起飞时间：</span>
             <div class="input-input t-flex t-date">
                  <el-date-picker
@@ -58,19 +59,19 @@
                </div>
             </el-col>
 
-          <el-col  :sm="24" :md="12" :lg="6"  class="input-item">
+          <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">到达机场：</span>
-              <el-select v-model="pd.cityTo"  class="input-input" @visible-change="queryNationality"  placeholder="请选择"  size="small">
+              <el-select v-model="pd.cityTo"  class="input-input" filterable clearable @visible-change="queryAirport"  placeholder="请选择"  size="small">
                 <el-option
-                  v-for="item in nation"
-                  :key="item.CODE"
-                  :label="item.CNAME"
-                  :value="item.CODE">
+                  v-for="item in Airport"
+                  :key="item.AIRPORT_CODE"
+                  :label="item.AIRPORT_CODE+' - '+item.AIRPORT_NAME"
+                  :value="item.AIRPORT_CODE" >
                 </el-option>
               </el-select>
             </el-col>
 
-            <el-col  :sm="24" :md="12" :lg="6"   class="input-item">
+            <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
             <span class="input-text">预计到达时间：</span>
             <div class="input-input t-flex t-date">
                  <el-date-picker
@@ -86,9 +87,9 @@
                </el-date-picker>
                </div>
             </el-col>
-            <el-col  :sm="24" :md="12" :lg="6"  class="input-item">
+            <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                 <span class="input-text">出入标识：</span>
-                <el-select v-model="pd.flightType"  class="input-input"  placeholder="请选择"  size="small">
+                <el-select v-model="pd.flightType"  class="input-input"  filterable clearable  placeholder="请选择"  size="small">
                   <el-option value="" label="全部">
                   </el-option>
                   <el-option value="I" label="I - 入境">
@@ -99,14 +100,20 @@
                   </el-option>
                 </el-select>
               </el-col>
-            <el-col  :sm="24" :md="12" :lg="6"  class="input-item">
-                <span class="input-text">比中类型</span>
-                <el-select v-model="pd.thanType"  class="input-input" @visible-change="queryNationality"  placeholder="请选择"  size="small">
-                  <el-option
-                    v-for="item in nation"
-                    :key="item.CODE"
-                    :label="item.CNAME"
-                    :value="item.CODE">
+            <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+                <span class="input-text">比中类型：</span>
+                <el-select v-model="pd.checkResultType"  filterable clearable  class="input-input" filterable  clearable   placeholder="请选择"  size="small">
+                  <el-option value="" label="全部">
+                  </el-option>
+                  <el-option value="0" label="0 - 黑名单-不准入境">
+                  </el-option>
+                  <el-option value="1" label="1 - 黑名单-失效证件">
+                  </el-option>
+                  <el-option value="2" label="2 - 黑名单-失效签证">
+                  </el-option>
+                  <el-option value="3" label="3 - 白名单">
+                  </el-option>
+                  <el-option value="4" label="4 - 临控名单">
                   </el-option>
                 </el-select>
               </el-col>
@@ -179,11 +186,11 @@
                   label="航班号">
                 </el-table-column>
                 <el-table-column
-                  prop="thanFieldName"
+                  prop="checkResultTypeDesc"
                   label="比中类型">
                 </el-table-column>
                 <el-table-column
-                  prop="cardEXPIREDATE"
+                  prop="confirmResultDesc"
                   label="最终确认结果">
                 </el-table-column>
                 <el-table-column
@@ -191,7 +198,7 @@
                   label="反馈结果">
                 </el-table-column>
                 <el-table-column
-                  prop="thanTypeDesc"
+                  prop="compareDesc"
                   label="反馈描述">
                 </el-table-column>
                 <el-table-column
@@ -289,6 +296,7 @@ export default {
       nation: [],
       value: '',
       value1: "",
+      Airport:[],
       addDialogVisible: false,
       detailsDialogVisible: false,
       options: [{
@@ -383,14 +391,16 @@ this.getsum(); this.getnum();
           this.TotalResult = r.data.totalResult;
         })
     },
-    queryNationality() {
-      this.$api.post('/eamp/codeTable/queryNationality', {},
-        r => {
+      queryAirport() {
+        if(this.Airport.length!=0){
+      return;
+    };
+    this.$api.post('/eamp/codeTable/queryAirport', {},
+      r => {
           console.log(r);
-          if (r.Success) {
-            this.nation = r.Data;
-          }
-        })
+          this.Airport = r.data;
+
+      })
     },
 
     details(i) {

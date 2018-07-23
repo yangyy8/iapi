@@ -10,20 +10,20 @@
         <el-row align="center"   :gutter="2" class="pr-20">
           <el-col  :sm="24" :md="12" :lg="6"   class="input-item">
             <span class="input-text">航班号：</span>
-            <el-input placeholder="请输入内容" size="small" v-model="pd.FAMILYNAME"   class="input-input"></el-input>
+            <el-input placeholder="请输入内容" size="small" v-model="pd.flightNumber"   class="input-input"></el-input>
           </el-col>
           <el-col  :sm="24" :md="12" :lg="6"   class="input-item">
           <span class="input-text">航班日期：</span>
           <div class="input-input t-flex t-date">
                <el-date-picker
-               v-model="pd.STARTTIME"
-               type="date" size="small"
+               v-model="pd.departdateBegin"
+               type="datetime" size="small"
                placeholder="开始时间"  :picker-options="pickerOptions1">
              </el-date-picker>
                <span class="septum">-</span>
              <el-date-picker
-                v-model="pd.ENDTIME"
-                type="date" size="small"
+                v-model="pd.departdateEnd"
+                type="datetime" size="small" format="yyymmdd hhmm"
                 placeholder="结束时间" :picker-options="pickerOptions1">
              </el-date-picker>
              </div>
@@ -33,22 +33,22 @@
           </el-col>
           <el-col  :sm="24" :md="12" :lg="6"   class="input-item">
             <span class="input-text">证件号码：</span>
-            <el-input placeholder="请输入内容" size="small" v-model="pd.FAMILYNAME"   class="input-input"></el-input>
+            <el-input placeholder="请输入内容" size="small" v-model="pd.cardnum"   class="input-input"></el-input>
           </el-col>
           <el-col  :sm="24" :md="12" :lg="6"   class="input-item">
             <span class="input-text">姓名：</span>
-            <el-input placeholder="请输入内容" size="small" v-model="pd.FAMILYNAME"   class="input-input"></el-input>
+            <el-input placeholder="请输入内容" size="small" v-model="pd.travellerSurname"   class="input-input"></el-input>
           </el-col>
           <el-col  :sm="24" :md="12" :lg="6"  class="input-item">
               <span class="input-text">性别：</span>
-              <el-select v-model="pd.sex"  class="input-input"  placeholder="请选择"  size="small">
+              <el-select v-model="pd.gender"  class="input-input"   placeholder="请选择"  size="small">
                 <el-option value="" label="全部">
                 </el-option>
-                <el-option value="U" label="未知">
+                <el-option value="U" label="U - 未知">
                 </el-option>
-                <el-option value="W" label="男">
+                <el-option value="W" label="W - 男">
                 </el-option>
-                <el-option value="F" label="女">
+                <el-option value="F" label="F - 女">
                 </el-option>
               </el-select>
             </el-col>
@@ -57,13 +57,13 @@
             <span class="input-text">出生日期：</span>
             <div class="input-input t-flex t-date">
                  <el-date-picker
-                 v-model="pd.STARTTIME"
+                 v-model="pd.birthdateBegin"
                  type="date" size="small"
                  placeholder="开始时间"  :picker-options="pickerOptions1">
                </el-date-picker>
                  <span class="septum">-</span>
                <el-date-picker
-                  v-model="pd.ENDTIME"
+                  v-model="pd.birthdateEnd"
                   type="date" size="small"
                   placeholder="结束时间" :picker-options="pickerOptions1">
                </el-date-picker>
@@ -85,49 +85,51 @@
 
     <div class="middle">
         <span style="width:100px; padding:6px 15px; background:#56A8FE; border:1px solid #56A8FE; color:#ffffff;">列表</span><span style="width:100px; padding:6px 15px;  border:1px solid #56A8FE; ">图表</span>
+
+   <div id="div1">
       <el-table
         :data="tableData"
         border
         style="width: 100%;">
                 <el-table-column
-                  prop="FAMILYNAME"
+                  prop="tsname"
                   label="姓名">
                 </el-table-column>
                 <el-table-column
-                  prop="GENDER"
+                  prop="gender"
                   label="性别">
                 </el-table-column>
                 <el-table-column
-                  prop="BIRTHdate"
+                  prop="birthdate"
                   label="出生日期">
                 </el-table-column>
                 <el-table-column
-                  prop="NATIONALITY"
+                  prop="nationality"
                   label="国籍">
                 </el-table-column>
                 <el-table-column
-                  prop="CARDNO"
+                  prop="cardnum"
                   label="证件号码">
                 </el-table-column>
 
                 <el-table-column
-                  prop="cardEXPIREDATE"
+                  prop="flightNumber"
                   label="航班号">
                 </el-table-column>
                 <el-table-column
-                  prop="cardEXPIREDATE"
+                  prop="departdate"
                   label="航班日期">
                 </el-table-column>
                 <el-table-column
-                  prop="cardEXPIREDATE"
+                  prop="boardingsequence"
                   label="登记序号">
                 </el-table-column>
                 <el-table-column
-                  prop="cardEXPIREDATE"
+                  prop="specifigseat"
                   label="座位号">
                 </el-table-column>
                 <el-table-column
-                  prop="cardEXPIREDATE"
+                  prop="status"
                   label="状态">
                 </el-table-column>
                 <el-table-column
@@ -169,9 +171,31 @@
           :total="TotalResult">
         </el-pagination>
       </div>
+</div>
+
+<div id="div2">
+  <el-row align="center"  type="flex">
+    <el-col  :span="5" style="border-right:1px solid #cccccc; margin-right:30px;">
+        <img src="../../../assets/img/port.png">
+    </el-col>
+    <el-col  :span="190" style="padding-top:50px;">
+      <ul class="planUL">
+        <li class="planLifirst">
+          <div  v-for="i in list1">
+            {{i}}
+          </div>
+        </li>
+        <li v-for="i in list2" class="planLi">
+          <div class="" > </div>
+          <div class="">{{i}}</div>
+        </li>
+      </ul>
+    </el-col>
+  </el-row>
+
+</div>
+
     </div>
-
-
 
     <el-dialog
       title="详情"
@@ -298,6 +322,9 @@ export default {
       pageSize: 10,
       TotalResult: 0,
       pd: {},
+      list1:[],
+      list2:[],
+      list3:["1E","3F","4G"],
       nation: [],
       value: '',
       value1: "",
@@ -346,6 +373,7 @@ export default {
   },
   mounted() {
     this.getList(this.CurrentPage, this.pageSize, this.pd);
+    this.getimgtable(this.CurrentPage, this.pageSize, this.pd);
   },
   methods: {
     handleSelectionChange(val) {
@@ -372,8 +400,8 @@ export default {
       this.$api.post('/eamp/statusUpdate/seat/queryListPages', p,
         r => {
           console.log(r);
-          this.tableData = r.Data.ResultList;
-          this.TotalResult = r.Data.TotalResult;
+          this.tableData = r.data.resultList;
+          this.TotalResult = r.data.totalResult;
         })
     },
     queryNationality() {
@@ -385,35 +413,21 @@ export default {
           }
         })
     },
-    addItem(formName) {
-      // this.$refs[formName].validate((valid) => {
-      //     if (valid) {
-      //       console.log(valid)
-      //       alert('submit!');
-      //     } else {
-      //       console.log('error submit!!');
-      //       return false;
-      //     }
-      //   });
-      this.$api.post('/eamp/nameList/addNameList', this.form,
+
+    getimgtable(currentPage, showCount, pd){
+      let p = {
+        "currentPage": currentPage,
+        "showCount": showCount,
+        "pd": pd
+      };
+      this.$api.post('/eamp/statusUpdate/seat/queryListPagesSeat', p,
         r => {
           console.log(r);
-          if (r.Success) {
-            this.$message({
-              message: '恭喜你，添加成功！',
-              type: 'success'
-            });
-          } else {
-            this.$message.error(r.Message);
-          }
-          this.$refs[formName].resetFields();
-          this.addDialogVisible = false;
-          this.getList();
-          // this.tableData=r.Data.ResultList;
-        }, e => {
-          this.$message.error('失败了');
+          this.list1 = r.data.list123;
+          this.list2 = r.data.listabc;
         })
     },
+
     details(i) {
       this.detailsDialogVisible = true;
       console.log(i);
@@ -443,5 +457,38 @@ export default {
   display: inline-block;
   width: 60px;
 }
+.planUL{
+  display: flex;
+  /* flex-direction:column; */
+}
+.planLi{
+  display: flex;
+  margin: 5px;
+  flex-direction: column;
+}
+/* .planLi:first-child div{
+  border: none;
+  background: none
+} */
+.planLi div{
+  width: 20px;
+  height: 20px;
+  border: 1px #105D93 solid;
+  background: #70BDEB; text-align: center;
+}
+.planLifirst{
+  display: flex;
+  margin: 5px;
+  flex-direction: column;
+}
+.planLifirst div{
+  width: 20px;
+  height: 20px;
+  text-align: center;
 
+}
+.planLi div:last-child{
+  border: none;
+  background: none;text-align: center;
+}
 </style>
