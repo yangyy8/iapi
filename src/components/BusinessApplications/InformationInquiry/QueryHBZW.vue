@@ -186,7 +186,6 @@
           </div>
         </li>
         <li v-for="i in list2" class="planLi">
-
           <div class="" > </div>
           <div class="">{{i}}</div>
         </li>
