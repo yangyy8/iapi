@@ -10,12 +10,12 @@
             <el-row align="center" type="flex" justify="center"   :gutter="2" class="pr-20">
               <el-col  :span="8"  class="input-item">
                 <span class="input-text">监控区域：</span>
-                <el-select v-model="pd.zone"  class="input-input"  placeholder="请选择"  size="small">
+                <el-select v-model="pd.zone"  class="input-input"  filterable clearable  placeholder="请选择"  size="small">
                   <el-option value=""  label="全部">
                   </el-option>
-                  <el-option value="0"  label="DMZ区">
+                  <el-option value="0"  label="0 - DMZ区">
                   </el-option>
-                  <el-option value="1"  label="整合分发区">
+                  <el-option value="2"  label="2 - 整合分发区">
                   </el-option>
                 </el-select>
               </el-col>
@@ -37,7 +37,7 @@
      style="width: 100%;"
     >
              <el-table-column
-               label="区域">
+               label="区域" sortable>
                <template slot-scope="scope">
                  <div class="">
                    {{scope.row.zone | fifter1}}
@@ -46,11 +46,11 @@
              </el-table-column>
              <el-table-column
                prop="instanceName"
-               label="实例名称">
+               label="实例名称" sortable>
              </el-table-column>
              <el-table-column
                prop="status"
-               label="状态">
+               label="状态" sortable>
              </el-table-column>
 
 
@@ -64,7 +64,7 @@
   >
              <el-table-column
 
-               label="区域"
+               label="区域" sortable
              >
              <template slot-scope="scope">
                <div class="">
@@ -74,16 +74,16 @@
              </el-table-column>
              <el-table-column
                prop="type"
-               label="类型"
+               label="类型" sortable
              >
              </el-table-column>
              <el-table-column
                prop="name"
-               label="名称"
+               label="名称" sortable
              >
              </el-table-column>
              <el-table-column
-               label="状态"
+               label="状态" sortable
              >
              <template slot-scope="scope">
               {{scope.row.status | fifterstate}}
@@ -91,12 +91,12 @@
              </el-table-column>
              <el-table-column
                prop="createtime"
-               label="创建时间"
+               label="创建时间" sortable
              >
              </el-table-column>
              <el-table-column
                prop="lastupdatetime"
-               label="最后编译时间"
+               label="最后编译时间" sortable
              >
              </el-table-column>
 
@@ -112,7 +112,7 @@
      style="width: 100%;"
     >
              <el-table-column
-               label="区域"
+               label="区域" sortable
              >
              <template slot-scope="scope">
                <div class="">
@@ -122,27 +122,27 @@
              </el-table-column>
              <el-table-column
                prop="tablespaceName"
-               label="表空间名称"
+               label="表空间名称" sortable
              >
              </el-table-column>
              <el-table-column
                prop="total"
-               label="总量"
+               label="总量" sortable
              >
              </el-table-column>
              <el-table-column
                prop="free"
-               label="使用量"
+               label="使用量" sortable
              >
              </el-table-column>
              <el-table-column
                prop="used"
-               label="剩余量"
+               label="剩余量" sortable
              >
              </el-table-column>
              <el-table-column
                prop="percent"
-               label="使用率"
+               label="使用率" sortable
              >
              </el-table-column>
 

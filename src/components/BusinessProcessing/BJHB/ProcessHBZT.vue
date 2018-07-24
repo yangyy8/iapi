@@ -79,30 +79,30 @@
         >
         <el-table-column
           prop="fltno"
-          label="航班号">
+          label="航班号" sortable>
         </el-table-column>
         <el-table-column
           prop="flightTime"
-          label="航班日期"
+          label="航班日期" sortable
           >
         </el-table-column>
         <el-table-column
           prop="airlineCompanyId"
-          label="航空公司代码">
+          label="航空公司代码" sortable>
         </el-table-column>
         <el-table-column
           prop="stationfromName"
-          label="实际出发口岸"
+          label="实际出发口岸" sortable
           >
         </el-table-column>
         <el-table-column
           prop="stationtoName"
-          label="计划到达口岸"
+          label="计划到达口岸" sortable
         >
         </el-table-column>
         <el-table-column
           prop="boardingcount"
-          label="载运旅客数量"
+          label="载运旅客数量" sortable
   >
         </el-table-column>
         <el-table-column

@@ -68,21 +68,21 @@
 
         <el-table-column
           prop="synFlag"
-          label="监控区域">
+          label="监控区域"  sortable>
 
         </el-table-column>
         <el-table-column
           prop="rzlx"
-          label="日志类型"
+          label="日志类型"  sortable
           >
         </el-table-column>
         <el-table-column
           prop="timestmp"
-          label="生成时间">
+          label="生成时间" sortable>
         </el-table-column>
         <el-table-column
           prop="levelString"
-          label="日志内容"
+          label="日志内容" sortable
           >
         </el-table-column>
 

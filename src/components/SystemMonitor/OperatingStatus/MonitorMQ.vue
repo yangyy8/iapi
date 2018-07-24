@@ -10,7 +10,7 @@
         >
 
                 <el-table-column
-                  label="区域"
+                  label="区域" sortable
                 >
                 <template slot-scope="scope">
                   <div class="">
@@ -20,22 +20,22 @@
                 </el-table-column>
                 <el-table-column
                   prop="ipAddress"
-                  label="服务器地址"
+                  label="服务器地址" sortable
                 >
                 </el-table-column>
                 <el-table-column
                   prop="nodeStatus"
-                  label="节点状态"
+                  label="节点状态" sortable
                 >
                 </el-table-column>
                 <el-table-column
                   prop="queueStatus"
-                  label="队列状态"
+                  label="队列状态" sortable
                 >
                 </el-table-column>
                 <el-table-column
                   prop="queueNum"
-                  label="队列深度"
+                  label="队列深度" sortable
                 >
                 </el-table-column>
 
