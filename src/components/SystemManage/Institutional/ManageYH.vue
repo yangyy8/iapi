@@ -384,7 +384,7 @@ export default {
         "showCount": showCount,
         "pd": pd
       };
-      this.$api.post('/eamp/userSys/selectAll', p,
+      this.$api.post('/manage-platform/userSys/selectAll', p,
         r => {
           console.log(r);
           this.tableData = r.data.userList.pdList;
@@ -393,7 +393,7 @@ export default {
     },
 
     queryNationality() {
-      this.$api.post('/eamp/userSys/deptList', {},
+      this.$api.post('/manage-platform/userSys/deptList', {},
         r => {
           console.log(r);
           if (r.success) {
@@ -402,7 +402,7 @@ export default {
         })
     },
     queryrole() {
-      this.$api.post('/eamp/userSys/roleList', {},
+      this.$api.post('/manage-platform/userSys/roleList', {},
         r => {
           console.log(r);
           if (r.success) {
@@ -418,7 +418,7 @@ export default {
         let p={
           "SERIAL":i
         };
-         this.$api.post('/eamp/userSys/goEdit', p,
+         this.$api.post('/manage-platform/userSys/goEdit', p,
            r => {
              console.log(r);
              if (r.success) {
@@ -436,10 +436,10 @@ export default {
 
     },
     addItem(formName) {
-      var url = "/eamp/userSys/save";
+      var url = "/manage-platform/userSys/save";
 
       if (this.tp == 1) {
-        url = "/eamp/userSys/edit";
+        url = "/manage-platform/userSys/edit";
       }
       this.$api.post(url, this.form,
         r => {
@@ -467,7 +467,7 @@ export default {
       let p={
         "SERIAL":i
       };
-       this.$api.post('/eamp/userSys/showDetai', p,
+       this.$api.post('/manage-platform/userSys/showDetai', p,
          r => {
            console.log(r);
            if (r.success) {
@@ -485,7 +485,7 @@ export default {
         type: 'warning'
       }).then(() => {
 
-        this.$api.post('/eamp/userSys/delete', p,
+        this.$api.post('/manage-platform/userSys/delete', p,
           r => {
             console.log("===" + r);
             if (r.success) {

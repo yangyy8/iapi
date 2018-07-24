@@ -25,7 +25,7 @@ export default {
   },
   methods: {
     queryAirport(){
-      this.$api.post('/eamp/codeTable/queryAirport',{},
+      this.$api.post('/manage-platform/codeTable/queryAirport',{},
        r => {
          console.log(r);
          if(r.success){

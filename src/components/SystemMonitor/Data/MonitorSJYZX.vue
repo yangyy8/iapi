@@ -247,7 +247,7 @@ export default {
         "VALUE": i
       };
 
-      this.$api.post('/eamp/monitorData/dataConsistency', p,
+      this.$api.post('/manage-platform/monitorData/dataConsistency', p,
         r => {
           switch (i) {
             case "1":

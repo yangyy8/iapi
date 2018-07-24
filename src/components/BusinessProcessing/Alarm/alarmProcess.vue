@@ -438,7 +438,7 @@ export default {
        }
      };
      if(this.$route.query.isZDGZ){
-       this.$api.post('/eamp/pnrAlarmEvent/queryPnrAlarmPassInfo',p,
+       this.$api.post('/manage-platform/pnrAlarmEvent/queryPnrAlarmPassInfo',p,
         r => {
           console.log(r);
           this.iapiMap=r.data.iapiMap
@@ -457,7 +457,7 @@ export default {
           }
        })
      }else {
-       this.$api.post('/eamp/alarmEvents/getListAlarmEventsInfo',p,
+       this.$api.post('/manage-platform/alarmEvents/getListAlarmEventsInfo',p,
         r => {
           console.log(r);
           this.iapiMap=r.data.iapiMap
@@ -500,7 +500,7 @@ export default {
        pd:this.pd
      };
      if(this.pd.DEALRESULT==0){
-       this.$api.post('/eamp/alarmEvents/getUpdateResult',p,
+       this.$api.post('/manage-platform/alarmEvents/getUpdateResult',p,
         r => {
           console.log(r);
           if(r.success){
@@ -523,7 +523,7 @@ export default {
        }
      };
 
-     this.$api.post('/eamp/alarmEvents/archiveDocument',p,
+     this.$api.post('/manage-platform/alarmEvents/archiveDocument',p,
       r => {
         console.log(r);
         if(r.success){
@@ -558,7 +558,7 @@ export default {
           eventserial:this.eventserial
        }
      };
-     this.$api.post('/eamp/alarmEvents/getEventDocumentInfo',p,
+     this.$api.post('/manage-platform/alarmEvents/getEventDocumentInfo',p,
       r => {
         console.log(r);
         this.warnMap=r.data.warnMap

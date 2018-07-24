@@ -302,7 +302,7 @@ export default {
       let week = myDate.getDay();
       this.dateData.xx = '星期'+a[week];
 
-      this.$api.post('/eamp/homePage/iapiSize',{},
+      this.$api.post('/manage-platform/homePage/iapiSize',{},
        r => {
         console.log(r)
         this.isWan=r.data.isShow;
@@ -320,7 +320,7 @@ export default {
     login(){
 
 
-      this.$api.post('/eamp/landing',this.user,
+      this.$api.post('/manage-platform/landing',this.user,
        r => {
         console.log(r)
         if(r.success){
@@ -338,7 +338,7 @@ export default {
       })
     },
     getNav0(){
-      this.$api.post('/eamp/muneSys/selectMenuOne',{},
+      this.$api.post('/manage-platform/muneSys/selectMenuOne',{},
        r => {
          this.bynav=false;
          console.log(r);
@@ -347,7 +347,7 @@ export default {
     },
     getcc(){
       this.cyccShow=true,
-      this.$api.post('/eamp/roleSys/selectmenuSet', {},
+      this.$api.post('/manage-platform/roleSys/selectmenuSet', {},
         r => {
           console.log(r);
           this.ccList=r.data.menuSetChoose

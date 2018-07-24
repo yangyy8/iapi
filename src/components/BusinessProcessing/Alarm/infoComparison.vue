@@ -797,7 +797,7 @@ export default {
     	"pd":this.pd1
     }
     if(this.$route.query.isZDGZ){
-      this.$api.post('/eamp/pnrAlarmEvent/attentionFocusDistinguish',p,
+      this.$api.post('/manage-platform/pnrAlarmEvent/attentionFocusDistinguish',p,
        r => {
          console.log(r);
          this.tableData=r.data;
@@ -806,7 +806,7 @@ export default {
          this.distinguishInfo=r.data.distinguishInfo
       })
     }else{
-      this.$api.post('/eamp/alarmEvents/nameListDistinguish',p,
+      this.$api.post('/manage-platform/alarmEvents/nameListDistinguish',p,
        r => {
          console.log(r);
          this.tableData=r.data;
@@ -834,7 +834,7 @@ export default {
         }
      };
      if(this.$route.query.isZDGZ){
-       this.$api.post('/eamp/pnrAlarmEvent/saveNameListAttentionFocus',p,
+       this.$api.post('/manage-platform/pnrAlarmEvent/saveNameListAttentionFocus',p,
         r => {
           console.log(r);
           if(r.success){
@@ -848,7 +848,7 @@ export default {
           }
        })
      }else{
-       this.$api.post('/eamp/alarmEvents/getSaveNameToIdentify',p,
+       this.$api.post('/manage-platform/alarmEvents/getSaveNameToIdentify',p,
         r => {
           console.log(r);
           if(r.success){

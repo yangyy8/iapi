@@ -11,7 +11,7 @@
 
 // var root = "http://192.168.99.251:8080"    //性能监控
 
-// var root="http://192.168.99.206:8080"   //服务器电脑
+var root="http://192.168.99.206:8080"   //服务器电脑
 
 
 
@@ -23,7 +23,7 @@
 //var root="http://192.168.99.228:8080"    //丁勇的电脑
 
 //var root="http://192.168.99.206:8080"   //服务器电脑
-var root="http://192.168.99.201:8080"    //全国监控
+//var root="http://192.168.99.201:8080"    //全国监控
 
 
 //var root="http://192.168.99.250:8080"    //刘洋的电脑
@@ -71,7 +71,7 @@ function apiAxios(method, url, params, success, failure) {
       data: method === 'POST' || method === 'PUT' ? params : null,
       params: method === 'GET' || method === 'DELETE' ? params : null,
       baseURL: root,
-      withCredentials: true
+      withCredentials: false
     })
     .then(function(res) {
       console.log(res)

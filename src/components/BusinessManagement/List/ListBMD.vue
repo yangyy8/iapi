@@ -669,7 +669,7 @@ export default {
       	"pd":pd
       };
       console.log(pd)
-      this.$api.post('/eamp/nameList/getNameListPage',p,
+      this.$api.post('/manage-platform/nameList/getNameListPage',p,
        r => {
          console.log(r);
          this.tableData=r.data.resultList;
@@ -684,7 +684,7 @@ export default {
         "pd":pd
       };
       console.log(pd)
-      this.$api.post('/eamp/nameListHis/getNameListHisPage',p,
+      this.$api.post('/manage-platform/nameListHis/getNameListHisPage',p,
        r => {
          console.log(r);
          this.tableData=r.data.resultList;
@@ -702,7 +702,7 @@ export default {
     details(i){
       this.detailsDialogVisible=true;
       console.log(i);
-      this.$api.post('/eamp/nameList/getNameListData',{serial:i},
+      this.$api.post('/manage-platform/nameList/getNameListData',{serial:i},
        r => {
          console.log(r);
          this.detailsData=r.data;
@@ -715,7 +715,7 @@ export default {
       this.delId=id;
       },
       queryDocCode(){
-        this.$api.post('/eamp/codeTable/queryDocCode',{},
+        this.$api.post('/manage-platform/codeTable/queryDocCode',{},
          r => {
            console.log(r);
            if(r.success){
@@ -736,7 +736,7 @@ export default {
         //   });
         if(synStatus==0){
           this.dialogType=="add";
-          this.$api.post('/eamp/nameList/addNameList',this.form,
+          this.$api.post('/manage-platform/nameList/addNameList',this.form,
            r => {
              console.log(r);
              if(r.success){
@@ -758,7 +758,7 @@ export default {
             this.form.synStatus=synStatus;
             this.form.AUTHORIZEDUSER=this.releaseform.user;
             this.form.AUTHORIZEDPASSWORD=this.releaseform.pwd;
-            this.$api.post('/eamp/nameList/addNameList',this.form,
+            this.$api.post('/manage-platform/nameList/addNameList',this.form,
              r => {
                console.log(r);
                if(r.success){
@@ -775,7 +775,7 @@ export default {
             this.form.synStatus=synStatus;
             this.form.AUTHORIZEDUSER=this.releaseform.user;
             this.form.AUTHORIZEDPASSWORD=this.releaseform.pwd;
-            this.$api.post('/eamp/nameList/updateNameList',this.form,
+            this.$api.post('/manage-platform/nameList/updateNameList',this.form,
              r => {
                console.log(r);
                if(r.success){
@@ -797,7 +797,7 @@ export default {
                 AUTHORIZEDUSER:this.releaseform.user,
                 AUTHORIZEDPASSWORD:this.releaseform.pwd
               }
-              this.$api.post('/eamp/nameList/deleteNameList',p,
+              this.$api.post('/manage-platform/nameList/deleteNameList',p,
                r => {
                  if(r.success){
                    this.$message({
@@ -825,7 +825,7 @@ export default {
               cdtList:arr1
 
             }
-            this.$api.post('/eamp/nameList/deleteNameListAll',p,
+            this.$api.post('/manage-platform/nameList/deleteNameListAll',p,
              r => {
                if(r.success){
                  this.$message({

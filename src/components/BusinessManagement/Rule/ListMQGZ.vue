@@ -395,7 +395,7 @@ export default {
       }
     },
     nation(){ //国籍搜索
-      this.$api.post('/eamp/codeTable/queryNationality',{},
+      this.$api.post('/manage-platform/codeTable/queryNationality',{},
        r => {
          if(r.success){
            this.nationName = r.data;
@@ -403,7 +403,7 @@ export default {
        })
     },
     entrySearch(){//入境口岸搜索
-      this.$api.post('/eamp/codeTable/queryAirport',{},
+      this.$api.post('/manage-platform/codeTable/queryAirport',{},
        r => {
          if(r.success){
            console.log(r);
@@ -412,7 +412,7 @@ export default {
        })
     },
     getDate(){
-      this.$api.post('/eamp/visaRule/queryVisaRule',{},
+      this.$api.post('/manage-platform/visaRule/queryVisaRule',{},
       r =>{
         if(r.success){
           this.data = r.data;
@@ -424,7 +424,7 @@ export default {
     },
     save(){
 
-      this.$api.post('/eamp/visaRule/saveVisaRule',this.data,
+      this.$api.post('/manage-platform/visaRule/saveVisaRule',this.data,
       r =>{
         if(r.success){
 

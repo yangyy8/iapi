@@ -83,7 +83,7 @@ export default {
     },
     openCYCC() {
       this.cyccShow = true;
-      this.$api.post('/eamp/roleSys/menuSet', {},
+      this.$api.post('/manage-platform/roleSys/menuSet', {},
         r => {
           console.log(r);
           this.menuList = r.data.menuSet
@@ -91,7 +91,7 @@ export default {
         })
     },
     getcc(){
-      this.$api.post('/eamp/roleSys/selectmenuSet', {},
+      this.$api.post('/manage-platform/roleSys/selectmenuSet', {},
         r => {
           console.log(r);
           this.nav1List=r.data.menuSetChoose
@@ -108,7 +108,7 @@ export default {
       }
     },
     update(){
-      this.$api.post('/eamp/roleSys/menuSetUpdate', this.nav1List,
+      this.$api.post('/manage-platform/roleSys/menuSetUpdate', this.nav1List,
         r => {
           console.log(r);
           if(r.success){

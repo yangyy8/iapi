@@ -28,7 +28,7 @@ export default {
   },
   methods: {
     queryNationality(){
-      this.$api.post('/eamp/codeTable/queryNationality',{},
+      this.$api.post('/manage-platform/codeTable/queryNationality',{},
        r => {
          console.log(r);
          if(r.success){

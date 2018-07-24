@@ -314,7 +314,7 @@ export default {
         "showCount": showCount,
         "cdt": pd
       };
-      this.$api.post('/eamp/event/queryEventHisListPage', p,
+      this.$api.post('/manage-platform/event/queryEventHisListPage', p,
         r => {
           console.log(r);
           this.tableData = r.data.resultList;

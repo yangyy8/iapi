@@ -1839,7 +1839,7 @@ export default {
       	"showCount":showCount,
       	"cdt":cdt
       };
-      this.$api.post('/eamp/iapi/queryListPage',p,
+      this.$api.post('/manage-platform/iapi/queryListPage',p,
        r => {
          this.based();
          this.tableData=r.data.resultList;//表格数据
@@ -1853,7 +1853,7 @@ export default {
       	"showCount":hshowCount,
       	"cdt":historyCdt
       }
-      this.$api.post('/eamp/iapi/queryIapiHistory',gh,
+      this.$api.post('/manage-platform/iapi/queryIapiHistory',gh,
       r =>{
         this.historyData = r.data.resultList;
         this.htotalResult = r.data.totalResult;
@@ -1871,7 +1871,7 @@ export default {
         name : this.sss,
         page : this.page
       }
-      this.$api.post('/eamp/queryShow/isExistName',t,
+      this.$api.post('/manage-platform/queryShow/isExistName',t,
         r =>{
           if(r.success){
             if(r.data == false){
@@ -1897,7 +1897,7 @@ export default {
             //查询项
         	"config": this.cdt
         }
-        this.$api.post('/eamp/queryShow/save',s,
+        this.$api.post('/manage-platform/queryShow/save',s,
          r =>{
            if(r.success){
              this.$message({
@@ -1911,7 +1911,7 @@ export default {
       let sn = {
         page : this.page
       }
-      this.$api.post('/eamp/queryShow/queryNameList',sn,
+      this.$api.post('/manage-platform/queryShow/queryNameList',sn,
        r =>{
          if(r.success){
            this.saveName = r.data;
@@ -1923,7 +1923,7 @@ export default {
           page : this.page,
           name : this.ssss
         }
-        this.$api.post('/eamp/queryShow/queryConfigInfo',pq,
+        this.$api.post('/manage-platform/queryShow/queryConfigInfo',pq,
         r =>{
           if(r.success){
             this.cdt = r.data.config;
@@ -1950,7 +1950,7 @@ export default {
       	"showCount":showCount,
       	"cdtList":cdtList
       }
-      this.$api.post('/eamp/iapi/queryIapiBatch',bql,
+      this.$api.post('/manage-platform/iapi/queryIapiBatch',bql,
       r =>{
         if(r.success){
           this.based();
@@ -1971,7 +1971,7 @@ export default {
         name : this.ppp,
         page : this.page
       }
-      this.$api.post('/eamp/queryShow/isExistName',batch,
+      this.$api.post('/manage-platform/queryShow/isExistName',batch,
        r =>{
          if(r.success){
            if(r.data == false){
@@ -2021,7 +2021,7 @@ export default {
         "showConfigList":this.showConfiglist,
         "configList":configList
       }
-      this.$api.post('/eamp/queryShow/save',batchS,
+      this.$api.post('/manage-platform/queryShow/save',batchS,
        r =>{
          if(r.success){
            this.$message({
@@ -2036,7 +2036,7 @@ export default {
       let bsp = {
         page : this.page
       }
-      this.$api.post('/eamp/queryShow/queryNameList',bsp,
+      this.$api.post('/manage-platform/queryShow/queryNameList',bsp,
        r =>{
          if(r.success){
            this.batchSaveName = r.data;
@@ -2049,7 +2049,7 @@ export default {
         page : this.page,
         name : this.pppp
       }
-      this.$api.post('/eamp/queryShow/queryConfigInfo',bpq,
+      this.$api.post('/manage-platform/queryShow/queryConfigInfo',bpq,
       r =>{
         if(r.success){
           // 查询项渲染
@@ -2094,7 +2094,7 @@ export default {
       	"showCount":showCount,
       	"cdt":selfCdt.AAAAA
       }
-      this.$api.post('/eamp/iapi/customIapiQuery',sql,
+      this.$api.post('/manage-platform/iapi/customIapiQuery',sql,
        r =>{
          if(r.success){
            this.based();
@@ -2115,7 +2115,7 @@ export default {
         name : this.fff,
         page : this.page
       }
-      this.$api.post('/eamp/queryShow/isExistName',self,
+      this.$api.post('/manage-platform/queryShow/isExistName',self,
        r =>{
          if(r.success){
            if(r.data == false){
@@ -2138,7 +2138,7 @@ export default {
         "showConfigList":this.showConfiglist,
         "config":this.selfCdt
       }
-      this.$api.post('/eamp/queryShow/save',selfS,
+      this.$api.post('/manage-platform/queryShow/save',selfS,
       r =>{
         if(r.success){
           if(r.success){
@@ -2154,7 +2154,7 @@ export default {
       let ssp = {
         page : this.page
       }
-      this.$api.post('/eamp/queryShow/queryNameList',ssp,
+      this.$api.post('/manage-platform/queryShow/queryNameList',ssp,
       r =>{
         if(r.success){
           this.selfSaveName = r.data;
@@ -2167,7 +2167,7 @@ export default {
         page : this.page,
         name : this.ffff
       }
-      this.$api.post('/eamp/queryShow/queryConfigInfo',spq,
+      this.$api.post('/manage-platform/queryShow/queryConfigInfo',spq,
       r =>{
         if(r.success){
           console.log(r.data.config.AAAAA);
@@ -2199,7 +2199,7 @@ export default {
       this.selfRows.splice(self,1);
     },
     attribute(){//属性
-      this.$api.post('/eamp/iapi/getCustomQueryConfig',{},
+      this.$api.post('/manage-platform/iapi/getCustomQueryConfig',{},
       r =>{
         if(r.success){
           this.selfNature = r.data;
@@ -2299,7 +2299,7 @@ export default {
 
     //----------------------------代表码接口查询start------------------------------
     nation(){ //批量查询国籍
-      this.$api.post('/eamp/codeTable/queryNationality',{},
+      this.$api.post('/manage-platform/codeTable/queryNationality',{},
        r => {
          if(r.success){
            this.nationName = r.data;
@@ -2321,7 +2321,7 @@ export default {
       xx=null;
     },
     chau(){//调用洲
-      this.$api.post('/eamp/codeTable/queryContinentsCountry',{},
+      this.$api.post('/manage-platform/codeTable/queryContinentsCountry',{},
        r => {
          if(r.success){
            this.chauName = r.data;
@@ -2329,7 +2329,7 @@ export default {
        })
     },
     idType(){//调用证件
-      this.$api.post('/eamp/codeTable/queryDocCode',{},
+      this.$api.post('/manage-platform/codeTable/queryDocCode',{},
        r =>{
          if(r.success){
            this.idName = r.data;
@@ -2337,7 +2337,7 @@ export default {
        })
     },
     takeOff(){//调用起飞机场
-      this.$api.post('/eamp/codeTable/queryAirport',{},
+      this.$api.post('/manage-platform/codeTable/queryAirport',{},
        r =>{
          if(r.success){
            this.takeOffName = r.data;
@@ -2345,7 +2345,7 @@ export default {
        })
     },
     landing(){//调用降落机场
-      this.$api.post('/eamp/codeTable/queryAirport',{},
+      this.$api.post('/manage-platform/codeTable/queryAirport',{},
        r =>{
          if(r.success){
            this.landingName = r.data;
@@ -2427,7 +2427,7 @@ export default {
     },
     details(serial){
       this.detailsDialogVisible = true;
-      this.$api.post('/eamp/iapi/queryIapiInfo',{serial},
+      this.$api.post('/manage-platform/iapi/queryIapiInfo',{serial},
        r =>{
          if(r.success){
            this.dform = r.data.IAPI;
@@ -2459,7 +2459,7 @@ export default {
       let ss={
         "event":this.eve
       }
-      this.$api.post('/eamp/eventManagement/isFinishEventHandle',ss,
+      this.$api.post('/manage-platform/eventManagement/isFinishEventHandle',ss,
        r =>{
          if(r.data== true){
             this.$router.push({name:'alarmProcess',query:{eventserial:this.eve,type:0}})
@@ -2505,7 +2505,7 @@ export default {
       //   "template":'three',
       //   "excel":formData
       // }
-      this.$api.post('/eamp/iapi/readExcel',aaaa,
+      this.$api.post('/manage-platform/iapi/readExcel',aaaa,
        r =>{
          if(r.success){
            this.batchDialog = false;

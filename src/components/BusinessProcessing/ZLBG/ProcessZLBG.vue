@@ -770,7 +770,7 @@ export default {
         "showCount": showCount,
         "pd": pd
       };
-      this.$api.post('/eamp/iapiUnscolicited/search', p,
+      this.$api.post('/manage-platform/iapiUnscolicited/search', p,
         r => {
           console.log(r);
           this.tableData = r.data.pdList;
@@ -816,7 +816,7 @@ export default {
         "CHANGERESON": this.map.CHANGERESON
       };
 
-      this.$api.post('/eamp/iapiUnscolicited/instructChangeTab', p,
+      this.$api.post('/manage-platform/iapiUnscolicited/instructChangeTab', p,
         r => {
           console.log(r);
           if (r.success) {
@@ -848,7 +848,7 @@ export default {
         "CHANGERESON": this.form.CHANGERESON
       };
 
-      this.$api.post('/eamp/iapiUnscolicited/instructChangeTab', p,
+      this.$api.post('/manage-platform/iapiUnscolicited/instructChangeTab', p,
         r => {
           console.log(r);
           if (r.data.success) {
@@ -878,7 +878,7 @@ export default {
       let L = {
         "IAPISERIAL": this.dform.SERIAL
       };
-      this.$api.post('/eamp/iapiUnscolicited/queryPretestDetails', L,
+      this.$api.post('/manage-platform/iapiUnscolicited/queryPretestDetails', L,
         s => {
 
           this.xingq = s.data;
@@ -890,7 +890,7 @@ export default {
         "showCount": showCount,
         "pd": r
       };
-      this.$api.post('/eamp/iapiUnscolicited/queryHistory', p,
+      this.$api.post('/manage-platform/iapiUnscolicited/queryHistory', p,
         r => {
           console.log(r);
           this.detailstableData = r.data.pdList;

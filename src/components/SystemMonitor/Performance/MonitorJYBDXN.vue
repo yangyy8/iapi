@@ -360,7 +360,7 @@ export default {
         "showCount":showCount,
         "cdt":pd
       };
-      this.$api.post('/eamp/match/queryListPageReal',p,
+      this.$api.post('/manage-platform/match/queryListPageReal',p,
        r => {
          console.log(r);
          this.tableData=r.data.resultList;
@@ -375,7 +375,7 @@ export default {
         "showCount":hshowCount,
         "cdt":cdt
       }
-      this.$api.post('/eamp/match/queryMatchListPageHisOther',p,
+      this.$api.post('/manage-platform/match/queryMatchListPageHisOther',p,
        r => {
          console.log(r);
          this.htableData=r.data.pd.resultList;
@@ -544,7 +544,7 @@ export default {
 	      "showCount":10,
         "cdt":this.pd //空数据
       }
-      this.$api.post('/eamp/match/queryListPage',p,
+      this.$api.post('/manage-platform/match/queryListPage',p,
       r =>{
         this.lineX = r.data.pd.X;
         this.lineY = r.data.pd.Y;
@@ -558,7 +558,7 @@ export default {
         "showCount":10,
         "cdt":this.cdt
       }
-      this.$api.post('/eamp/match/queryListPageHisMin',t,
+      this.$api.post('/manage-platform/match/queryListPageHisMin',t,
       r =>{
         this.barX = r.data.pd.X;
         this.barY = r.data.pd.Y;

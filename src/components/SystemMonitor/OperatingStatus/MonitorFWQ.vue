@@ -169,7 +169,7 @@ export default {
 
     getList(pd) {
 
-      this.$api.post('/eamp/monitorServer/queryMonitorServer', pd,
+      this.$api.post('/manage-platform/monitorServer/queryMonitorServer', pd,
         r => {
           console.log(r);
           this.tableData = r.data.dmz;

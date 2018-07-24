@@ -322,7 +322,7 @@ export default {
         "showCount": showCount,
         "cdt": pd
       };
-      this.$api.post('/eamp/deptSys/selectAll', p,
+      this.$api.post('/manage-platform/deptSys/selectAll', p,
         r => {
           console.log(r);
           this.tableData = r.data.deptList.pdList;
@@ -339,7 +339,7 @@ export default {
 
     },
     queryNationality() {
-      this.$api.post('/eamp/userSys/deptList', {},
+      this.$api.post('/manage-platform/userSys/deptList', {},
         r => {
           console.log(r);
           if (r.success) {
@@ -350,9 +350,9 @@ export default {
 
     addItem(formName) {
 
-      var url = "/eamp/deptSys/save";
+      var url = "/manage-platform/deptSys/save";
       if (this.tp == 1) {
-        url = "/eamp/deptSys/edit";
+        url = "/manage-platform/deptSys/edit";
 
       }
 
@@ -390,7 +390,7 @@ export default {
           type: 'warning'
         }).then(() => {
 
-          this.$api.post('/eamp/deptSys/delete', p,
+          this.$api.post('/manage-platform/deptSys/delete', p,
             r => {
 
               if (r.success) {

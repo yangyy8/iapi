@@ -266,7 +266,7 @@ export default {
        	"pd":pd
        };
        console.log(pd)
-       this.$api.post('/eamp/ruleConfig/getRuleConfigPage',p,
+       this.$api.post('/manage-platform/ruleConfig/getRuleConfigPage',p,
         r => {
           console.log(r);
           this.tableData=r.data.resultList;
@@ -295,7 +295,7 @@ export default {
      },
      save(){
        let p = this.tableData;
-       this.$api.post('/eamp/ruleConfig/addRuleConfigAll',p,
+       this.$api.post('/manage-platform/ruleConfig/addRuleConfigAll',p,
         r => {
           console.log(r);
           if(r.success == false){
@@ -311,7 +311,7 @@ export default {
      },
      codeName(name){//字段名称的接口
        console.log(name);
-       this.$api.post('/eamp/ruleConfig/getRuleConfigFieldNameList',{},
+       this.$api.post('/manage-platform/ruleConfig/getRuleConfigFieldNameList',{},
         r => {
           console.log(r);
           if(r.success){
