@@ -73,27 +73,27 @@
              </template>
              </el-table-column>
              <el-table-column
-               prop="adress"
+               prop="type"
                label="类型"
              >
              </el-table-column>
              <el-table-column
-               prop="state"
+               prop="name"
                label="名称"
              >
              </el-table-column>
              <el-table-column
-               prop="mqstate"
+               prop="status"
                label="状态"
              >
              </el-table-column>
              <el-table-column
-               prop="mqsd"
+               prop="createtime"
                label="创建时间"
              >
              </el-table-column>
              <el-table-column
-               prop="mqsd"
+               prop="lastupdatetime"
                label="最后编译时间"
              >
              </el-table-column>
@@ -174,6 +174,7 @@ export default {
           console.log(r.data.instance, "r.data.instance");
 
           this.tableData = r.data.instance;
+          this.tableData1 = r.data.abnormal;
           this.tableData2 = r.data.tablespace;
         })
     }
@@ -188,9 +189,7 @@ export default {
         return "整合分发区"
       } else if (val == 2) {
         return "业务平台区"
-      } else {
-        return ""
-      }
+      } 
       // return val*2
     }
   }

@@ -39,12 +39,12 @@
                 </el-col>
               <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                 <span class="input-text">监控对象：</span>
-                <el-select v-model="pd.MCLASS"  placeholder="请选择"  filterable clearable size="small" class="input-input">
+                <el-select v-model="pd.MCLASS"  placeholder="请选择"  filterable clearable  size="small" class="input-input">
                   <el-option
                     v-for="(value, key) in object"
                     :key="key"
                     :value="key"
-                    :label="value"
+                    :label="key+' - '+value"
                   ></el-option>
                  </el-select>
               </el-col>
@@ -258,6 +258,7 @@ export default {
       dform: {},
       form: {},
       pd: {},
+      object:{},
       tableData: [],
       options: [{
           value: 10,
@@ -302,15 +303,17 @@ export default {
         })
     },
     monitor(data) { //监控对象联动
-
+console.log("---------------"+data);
       let p = {
         "VALUE": data
       }
 
       this.$api.post('/eamp/monitorAlarm/queryCondition', p,
         r => {
+          if(r.success){
           console.log(r);
           this.object = r.data;
+        }
         })
 
 
@@ -371,7 +374,7 @@ export default {
         return "整合分发区"
       } else if (val == 2) {
         return "业务平台区"
-      } else {
+      } else if (val == 3){
         return "风险评估区"
       }
     },
@@ -382,7 +385,7 @@ export default {
         return "数据监控"
       } else if (val == "LOG") {
         return "日志监控"
-      } else {
+      } else if(val == "PER"){
         return "性能监控"
       }
     },
