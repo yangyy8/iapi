@@ -914,10 +914,12 @@ export default {
 
     },
     fifterstate(val) {
-      if (val == "") {
+      if (val == "1") {
+        return "已登机";
+      }else if (val == "2") {
+        return "未登机";
+      }  else {
         return "已值机";
-      } else {
-        return "未值机";
       }
     },
     fiftecr(val) {

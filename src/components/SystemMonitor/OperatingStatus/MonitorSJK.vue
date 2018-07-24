@@ -83,9 +83,11 @@
              >
              </el-table-column>
              <el-table-column
-               prop="status"
                label="状态"
              >
+             <template slot-scope="scope">
+              {{scope.row.status | fifterstate}}
+             </template>
              </el-table-column>
              <el-table-column
                prop="createtime"
@@ -134,7 +136,7 @@
              >
              </el-table-column>
              <el-table-column
-               prop="mqsd"
+               prop="used"
                label="剩余量"
              >
              </el-table-column>
@@ -185,13 +187,20 @@ export default {
     fifter1(val) {
       if (val == 0) {
         return "DMZ区"
-      } else if (val == 1) {
-        return "整合分发区"
       } else if (val == 2) {
+        return "整合分发区"
+      } else if (val == 1) {
         return "业务平台区"
-      } 
+      }
       // return val*2
+    },
+    fifterstate(val){
+
+      if (val == "Y") {
+        return "异常"
+      }
     }
+
   }
 
 }

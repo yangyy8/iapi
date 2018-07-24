@@ -11,7 +11,7 @@
 
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">监控区域：</span>
-              <el-select v-model="pd.synflag" placeholder="请选择" size="small" class="input-input">
+              <el-select v-model="pd.synflag" placeholder="请选择" size="small"  filterable clearable class="input-input">
                 <el-option value="1" label="DMZ区" >
                 </el-option>
                  <el-option value="" label="业务平台区" >
@@ -21,12 +21,14 @@
             </el-col>
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">日志类型：</span>
-              <el-select v-model="pd.rzlx" placeholder="请选择" size="small" class="input-input">
-                <el-option value="0" label="系统日志" >
+              <el-select v-model="pd.rzlx" placeholder="请选择"  filterable clearable size="small" class="input-input">
+                <el-option value="" label="全部" >
                 </el-option>
-                <el-option value="1" label="错误日志" >
+                <el-option value="0" label="0 - 系统日志" >
                 </el-option>
-                <el-option value="2" label="操作日志" >
+                <el-option value="1" label="1 - 错误日志" >
+                </el-option>
+                <el-option value="2" label="2 - 操作日志" >
                 </el-option>
                </el-select>
             </el-col>
