@@ -42,7 +42,9 @@
 
               <el-col :sm="24" :md="12" :lg="6" class="input-item">
                 <span class="input-text">处理人：</span>
-                <el-input placeholder="请输入内容" v-model="pd.dealuser" size="small" class="input-input"></el-input>
+                <el-select v-model="pd.dealuser" placeholder="请选择"  filterable clearable  size="small" class="input-input" @visible-change="handler">
+                  <el-option v-for="(item,key) in dealer" :value="key" :label="item" :key="key"></el-option>
+                </el-select>
               </el-col>
               <el-col :sm="24" :md="12" :lg="6" class="input-item">
                 <span class="input-text">处理时间：</span>
@@ -145,7 +147,7 @@
           <el-row type="flex"  class="mb-6">
             <el-col :span="8" class="input-item">
               <span class="yy-input-text">姓名：</span>
-              <el-input placeholder="请输入内容" size="small"  :disabled="true" v-model="zform.CNAME" class="yy-input-input" ></el-input>
+              <el-input placeholder="请输入内容" size="small"  :disabled="true" v-model="zform.CNAME" class="yy-input-input"></el-input>
 
             </el-col>
             <el-col :span="8" class="input-item">
@@ -582,6 +584,7 @@ export default {
       CurrentPage: 1,
       pageSize: 10,
       TotalResult: 0,
+      dealer:{},
       pd: {},
       dform: {},
       hform: {},
@@ -609,6 +612,10 @@ export default {
       ],
       tableData: [],
       tableDatay: [],
+      tableDatas:[],
+      tableDatak:[],
+      tableDataq:[],
+      tableDatam:[],
       pickerOptions1: {
         shortcuts: [{
           text: '今天',
@@ -741,13 +748,34 @@ export default {
               this.tableDatak = r.data;
             }
           });
-      } else {
+      } else if(i.type == "4"){
+
+        let ss={
+          "event":i.refserial
+        }
+        this.$api.post('/manage-platform/eventManagement/isFinishEventHandle',ss,
+         r =>{
+           if(r.data== true){
+              this.$router.push({name:'alarmProcess',query:{eventserial:i.refserial,type:0}})
+           }else if(r.data == false){
+             this.$router.push({name:'alarmProcess',query:{eventserial:i.refserial,type:1}})
+           }
+         })
+      }
+      else {
 
         this.detailsDialogVisible = true;
         this.dform = i;
       }
-
     },
+    handler(){
+      this.$api.post('/eamp/eventManagement/queryEventUser',{},
+      r =>{
+        if(r.success){
+          this.dealer = r.data
+        }
+      })
+    }
   }
 }
 </script>
