@@ -124,7 +124,7 @@
                       label="耗时">
                     </el-table-column>
                     <el-table-column
-                      prop="createtime"
+                      prop="createtimeStr"
                       label="监控时间">
                     </el-table-column>
                   </el-table>
@@ -182,7 +182,7 @@
                       label="年份">
                     </el-table-column>
                     <el-table-column
-                      prop="createtime"
+                      prop="createtimeStr"
                       label="统计日期"
                       width="130">
                     </el-table-column>
@@ -302,7 +302,7 @@ export default {
       htableData:[{
         'number':'1',
         'year':'1',
-        'createtime':'1',
+        'createtimeStr':'1',
         'tcount':'1',
         'consumetime':'1',
       }],
