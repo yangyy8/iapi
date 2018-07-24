@@ -1168,12 +1168,12 @@
             </span>
           </el-col>
         </el-row>
-
+    </form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="batchImport($event)">导 入</el-button>
         <el-button type="primary" @click="batchDialog = false">取 消</el-button>
       </span>
-</form>
+
     </el-dialog>
 
 
@@ -2494,8 +2494,8 @@ export default {
       let formData = new FormData();
       console.log(this.file);
       formData.file = this.file;
-      let aaaa = JSON.stringify(formData);
-      console.log(aaaa);
+      // formData.append("file", this.file);
+      console.log(formData);
       // let config = {
       //   headers: {
       //       'Content-Type': 'multipart/form-data'  //之前说的以表单传数据的格式来传递fromdata
@@ -2505,7 +2505,7 @@ export default {
       //   "template":'three',
       //   "excel":formData
       // }
-      this.$api.post('/eamp/iapi/readExcel',aaaa,
+      this.$api.post('/eamp/iapi/readExcel',formData,
        r =>{
          if(r.success){
            this.batchDialog = false;
