@@ -3,7 +3,7 @@
   <div class="map-top">
     <h3 class="map-title">公安部出入境旅客检测体系</h3>
     <ul class="map-tabul">
-      <li class="map-tabli mr-30 hand" :class="{'check-tab':tabId==1}" @click="tabId=1;getJkKa()">
+      <li class="map-tabli mr-30 hand" :class="{'check-tab':tabId==1}" @click="tabId=1;">
         <img src="../../../assets/img/qgjk/tab1_1.png" alt="" v-if="tabId==1">
         <img src="../../../assets/img/qgjk/tab1_0.png" alt="" v-else>
         <span>口岸监控</span>
@@ -791,7 +791,7 @@
         <el-row :gutter="10" class="bb">
           <el-col :sm="24" :md="12" :lg="6" class="hb-item">
             <span class="item-text">航站/口岸：</span>
-            <el-select placeholder="请选择"  filterable @visible-change="getHz" v-model="p2.port" size="mini"  class="item-input">
+            <el-select placeholder="请选择"  filterable @visible-change="getHz" clearable v-model="p2.port" size="mini"  class="item-input">
               <el-option
                 v-for="item in HzList"
                 :key="item.KADM"
@@ -1138,7 +1138,7 @@ export default {
 
   mounted() {
     this.initChart(this.series);
-    // this.chinaConfigure();
+    this.getNewData();
   },
   beforeDestroy() {
     if (!this.chart) {
@@ -1218,12 +1218,12 @@ export default {
     },
     getLeftData(){
       this.showLeft=false;
-      this.$api.post('/eamp/nationwide/getFlightCountToday',{},
+      this.$api.post('/manage-platform/nationwide/getFlightCountToday',{},
        r => {
          console.log(r);
          this.hbsl=r.data;
       });
-      this.$api.post('/eamp/nationwide/getFlightPortCountToday',{},
+      this.$api.post('/manage-platform/nationwide/getFlightPortCountToday',{},
        r => {
          console.log(r);
          this.kahb=r.data;
@@ -1231,12 +1231,12 @@ export default {
     },
     getRightData(){
       this.showRight=false;
-      this.$api.post('/eamp/nationwide/getTravelerCountToday',{},
+      this.$api.post('/manage-platform/nationwide/getTravelerCountToday',{},
        r => {
          console.log(r);
          this.rygk=r.data;
       });
-      this.$api.post('/eamp/nationwide/getTravelerPortCountToday',{},
+      this.$api.post('/manage-platform/nationwide/getTravelerPortCountToday',{},
        r => {
          console.log(r);
          this.kary=r.data;
@@ -1245,7 +1245,7 @@ export default {
     // 获取口岸航站
     getHz(){
       if(this.HzList.length==0){
-        this.$api.post('/eamp/codeTable/queryAirportMatch',{},
+        this.$api.post('/manage-platform/codeTable/queryAirportMatch',{},
         r => {
           console.log(r);
           this.HzList=r.data
@@ -1255,7 +1255,7 @@ export default {
     // 获取航空公司
     getHkGs(){
       if(this.HgList.length==0){
-        this.$api.post('/eamp/codeTable/queryAircompanyList',{},
+        this.$api.post('/manage-platform/codeTable/queryAircompanyList',{},
         r => {
           console.log(r);
           this.HgList=r.data
@@ -1266,7 +1266,7 @@ export default {
     // 获取国籍
     getGj(){
       if(this.HgList.length==0){
-        this.$api.post('/eamp/codeTable/queryNationality',{},
+        this.$api.post('/manage-platform/codeTable/queryNationality',{},
           r => {
             console.log(r)
             this.GjList=r.data
@@ -1276,7 +1276,7 @@ export default {
     },
     // 最新航班监控信息取得
     getNewData(){
-      this.$api.post('/eamp/nationwide/getFlightMonitorInfo',{},
+      this.$api.post('/manage-platform/nationwide/getFlightMonitorInfo',{},
        r => {
          console.log(r);
          this.newHbData=r.data;
@@ -1285,7 +1285,7 @@ export default {
     // 航班详细信息取得
     getXqHb(fk){
       // ?fk=CZ3221806162230
-      this.$api.post('/eamp/nationwide/getFlightDetail',{fk:fk},
+      this.$api.post('/manage-platform/nationwide/getFlightDetail',{fk:fk},
        r => {
          console.log(r);
       })
@@ -1293,14 +1293,14 @@ export default {
     //口岸详细信息取得
     getXqKa(port){
       // ?fk=CZ3221806162230
-      this.$api.post('/eamp/nationwide/getPortDetail',{port:port},
+      this.$api.post('/manage-platform/nationwide/getPortDetail',{port:port},
        r => {
          console.log(r);
       })
     },
     // 当前监控口岸取得
     getJkKa(){
-      this.$api.post('/eamp/portMonitor/getMonitorPortInfo',{},
+      this.$api.post('/manage-platform/portMonitor/getMonitorPortInfo',{},
        r => {
          console.log(r);
       })
@@ -1336,16 +1336,18 @@ export default {
         }),		// 境外口岸 选中
 
       };
-      this.$api.post('/eamp/portMonitor/updateMonitorPortInfo',p,
+      this.$api.post('/manage-platform/portMonitor/updateMonitorPortInfo',p,
        r => {
          console.log(r);
+         this.getJkKa()
+         this.getNewData();
       })
     },
     // 境内省列表取得
     getSList(){
       this.checkShow=true;
 
-      this.$api.post('/eamp/portMonitor/getInProvinceList',{},
+      this.$api.post('/manage-platform/portMonitor/getInProvinceList',{},
        r => {
          this.locationData=r.data;
          let obj1=r.data;
@@ -1363,7 +1365,7 @@ export default {
     // 境内口岸列表取得
     getKaList(){
       this.checkShow2=true;
-      this.$api.post('/eamp/portMonitor/getInPortList',{},
+      this.$api.post('/manage-platform/portMonitor/getInPortList',{},
        r => {
          console.log(r);
          this.locationData2=r.data;
@@ -1380,7 +1382,7 @@ export default {
     // 境外国家列表取得
     getGjList(){
       this.checkShow3=true;
-      this.$api.post('/eamp/portMonitor/getOutNationalityList',{},
+      this.$api.post('/manage-platform/portMonitor/getOutNationalityList',{},
        r => {
          console.log(r);
          this.locationData3=r.data;
@@ -1397,7 +1399,7 @@ export default {
     // 境外口岸列表取得
     getJwKaList(){
       this.checkShow4=true;
-      this.$api.post('/eamp/portMonitor/getOutPortList',{},
+      this.$api.post('/manage-platform/portMonitor/getOutPortList',{},
        r => {
          console.log(r);
          this.locationData4=r.data;
@@ -1431,22 +1433,23 @@ export default {
     },
     // 航班监控查询
     getJkHb(){
-      this.$api.post('/eamp/flightMonitor/queryFlightPage',this.p1,
+      this.$api.post('/manage-platform/flightMonitor/queryFlightPage',this.p1,
        r => {
          console.log(r);
          this.HBList=r.data.pdList
+         // this.getDqJkHb('CZ322180616223');
       })
     },
-    // 添加监控航班
+    // 添加监控航班addMonitorFlight
     addJkHb(){
-      this.$api.post('/eamp/flightMonitor/getMonitorFlights',{},
+      this.$api.post('/manage-platform/flightMonitor/addMonitorFlight',{},
        r => {
          console.log(r);
       })
     },
     // 删除监控航班delMonitorFlight
     delJkHb(fk){
-      this.$api.post('/eamp/flightMonitor/delMonitorFlight',{fltKey:fk},
+      this.$api.post('/manage-platform/flightMonitor/delMonitorFlight',{fltKey:fk},
        r => {
          console.log(r);
          if(r.success){
@@ -1462,7 +1465,7 @@ export default {
     },
     // 当前监控航班取得
     getDqJkHb(fk){
-      this.$api.post('/eamp/flightMonitor/addMonitorFlight',{fltKey:fk},
+      this.$api.post('/manage-platform/flightMonitor/getMonitorFlights',{fltKey:fk},
        r => {
          console.log(r);
       })
@@ -1470,7 +1473,7 @@ export default {
 
     // 人员监控查询
     getRy(){
-      this.$api.post('/eamp/travelerMonitor/queryTravelerPage',this.p2,
+      this.$api.post('/manage-platform/travelerMonitor/queryTravelerPage',this.p2,
        r => {
          console.log(r);
          this.RyList=r.data.pdList;
@@ -1478,14 +1481,14 @@ export default {
     },
     // 添加监控人员
     addRy(){
-      this.$api.post('/eamp/travelerMonitor/addMonitorTraveler',{},
+      this.$api.post('/manage-platform/travelerMonitor/addMonitorTraveler',{},
        r => {
          console.log(r);
       })
     },
     // 删除监控人员
     delRy(tk){
-      this.$api.post('/eamp/travelerMonitor/delMonitorTraveler',{trvKey:tk},
+      this.$api.post('/manage-platform/travelerMonitor/delMonitorTraveler',{trvKey:tk},
        r => {
          console.log(r);
          if(r.success){
@@ -1501,7 +1504,7 @@ export default {
     },
     // 当前监控人员取得
     getDqRy(tk){
-      this.$api.post('/eamp/travelerMonitor/getMonitorTravelers',{trvKey:tk},
+      this.$api.post('/manage-platform/travelerMonitor/getMonitorTravelers',{trvKey:tk},
        r => {
          console.log(r);
       })
@@ -1515,7 +1518,7 @@ export default {
       this.chart.setOption({
         geo: {
           map: 'world', // 与引用进来的地图js名字一致
-          roam: true, // 禁止缩放平移
+          roam: false, // 禁止缩放平移
           nameMap:{
             // 'China':'中国'
           },

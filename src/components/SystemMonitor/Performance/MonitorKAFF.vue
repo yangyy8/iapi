@@ -388,7 +388,7 @@ export default {
         "showCount":showCount,
         "cdt":pd
       };
-      this.$api.post('/eamp/disPerLog/queryListPageReal',p,
+      this.$api.post('/manage-platform/disPerLog/queryListPageReal',p,
        r => {
          console.log(r);
          this.tableData=r.data.resultList;
@@ -403,7 +403,7 @@ export default {
         "showCount":hshowCount,
         "cdt":cdt
       }
-      this.$api.post('/eamp/disPerLog/queryMatchListPageHisOther',p,
+      this.$api.post('/manage-platform/disPerLog/queryMatchListPageHisOther',p,
        r => {
          console.log(r);
          this.htableData=r.data.pd.resultList;
@@ -572,7 +572,7 @@ export default {
 	      "showCount":10,
         "cdt":this.pd //空数据
       }
-      this.$api.post('/eamp/disPerLog/queryListPage',p,
+      this.$api.post('/manage-platform/disPerLog/queryListPage',p,
       r =>{
         this.lineX = r.data.pd.X;
         this.lineY = r.data.pd.Y;
@@ -586,7 +586,7 @@ export default {
         "showCount":10,
         "cdt":this.cdt
       }
-      this.$api.post('/eamp/disPerLog/queryListPageHisMin',t,
+      this.$api.post('/manage-platform/disPerLog/queryListPageHisMin',t,
       r =>{
         this.barX = r.data.pd.X;
         this.barY = r.data.pd.Y;
@@ -635,7 +635,7 @@ export default {
       }
     },
     portMethod(){
-      this.$api.post('/eamp/codeTable/queryAirport',{},
+      this.$api.post('/manage-platform/codeTable/queryAirport',{},
       r =>{
         if(r.success){
           this.portName = r.data

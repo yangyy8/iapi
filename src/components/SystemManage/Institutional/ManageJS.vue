@@ -310,7 +310,7 @@ export default {
         "showCount": showCount,
         "cdt": pd
       };
-      this.$api.post('/eamp/roleSys/selectPara', p,
+      this.$api.post('/manage-platform/roleSys/selectPara', p,
         r => {
           console.log("----" + r);
           this.tableData = r.data.roleList;
@@ -318,7 +318,7 @@ export default {
         })
     },
     queryNationality() {
-      this.$api.post('/eamp/userSys/goAdd', {},
+      this.$api.post('/manage-platform/userSys/goAdd', {},
         r => {
           console.log(r);
           if (r.success) {
@@ -337,10 +337,10 @@ export default {
 
     },
     addItem(formName) {
-      var url = "/eamp/roleSys/save";
+      var url = "/manage-platform/roleSys/save";
 
       if (this.tp == 1) {
-        url = "/eamp/roleSys/edit";
+        url = "/manage-platform/roleSys/edit";
       }
       this.$api.post(url, this.form,
         r => {
@@ -377,7 +377,7 @@ export default {
         type: 'warning'
       }).then(() => {
 
-        this.$api.post('/eamp/roleSys/delete', p,
+        this.$api.post('/manage-platform/roleSys/delete', p,
           r => {
             console.log("===" + r);
             if (r.success) {
@@ -409,7 +409,7 @@ export default {
       let p = {
         "SERIAL": i.SERIAL
       };
-      this.$api.post('/eamp/roleSys/goEditJuri', p,
+      this.$api.post('/manage-platform/roleSys/goEditJuri', p,
         r => {
           console.log(r);
           if (r.success) {
@@ -429,7 +429,7 @@ menuItem(){
    "ROLE_ID":this.sertail,
     checkList:checkList
   }
-  this.$api.post('/eamp/roleSys/editJuri', p,
+  this.$api.post('/manage-platform/roleSys/editJuri', p,
     r => {
       console.log(r);
       if (r.success) {

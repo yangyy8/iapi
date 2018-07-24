@@ -198,7 +198,7 @@ export default {
         "pd":pd
       };
 
-      this.$api.post('/eamp/alarmEvents/getEventsInfo',p,
+      this.$api.post('/manage-platform/alarmEvents/getEventsInfo',p,
        r => {
          console.log(r);
          this.tableData=r.data.resultList;

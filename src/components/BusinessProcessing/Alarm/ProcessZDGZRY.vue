@@ -203,7 +203,7 @@ export default {
         "pd":pd
       };
 
-      this.$api.post('/eamp/pnrAlarmEvent/getPnrAlarmEventPassInfo',p,
+      this.$api.post('/manage-platform/pnrAlarmEvent/getPnrAlarmEventPassInfo',p,
        r => {
          console.log(r);
          this.tableData=r.data.resultList;

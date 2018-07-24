@@ -257,7 +257,7 @@ export default {
        	"pd":pd
        };
        console.log(pd)
-       this.$api.post('/eamp/dataCheck/getDataCheckPage',p,
+       this.$api.post('/manage-platform/dataCheck/getDataCheckPage',p,
         r => {
           console.log(r);
           this.tableData=r.data.resultList;
@@ -286,7 +286,7 @@ export default {
      },
      save(){
        let p = this.tableData;
-       this.$api.post('/eamp/dataCheck/addDataCheck',p,
+       this.$api.post('/manage-platform/dataCheck/addDataCheck',p,
         r => {
           console.log(r);
           if(r.success == false){
@@ -302,7 +302,7 @@ export default {
      },
      codeName(name){//字段名称的接口
        console.log(name);
-       this.$api.post('/eamp/dataCheck/getDataCheckFieldNameList',{},
+       this.$api.post('/manage-platform/dataCheck/getDataCheckFieldNameList',{},
         r => {
           console.log(r);
           if(r.success){

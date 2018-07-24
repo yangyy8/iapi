@@ -521,7 +521,7 @@ export default {
     getNav(navId) {
       this.navId = navId;
       this.getpp();
-      this.$api.post('/eamp/muneSys/menuChild', {
+      this.$api.post('/manage-platform/muneSys/menuChild', {
           SERIAL: navId
         },
         r => {
@@ -571,7 +571,7 @@ export default {
     openNav() {
       this.navUlShow = !this.navUlShow
       if (this.navUlShow) {
-        this.$api.post('/eamp/muneSys/selectMenuOne', {},
+        this.$api.post('/manage-platform/muneSys/selectMenuOne', {},
           r => {
             console.log(r);
             if(r.success){

@@ -216,7 +216,7 @@ export default {
       	"showCount":10,
       	"pd":{}
       };
-      this.$api.post('/eamp/nameList/getNameListPage',p,
+      this.$api.post('/manage-platform/nameList/getNameListPage',p,
        r => {
          console.log(r);
          this.tableData=r.Data.ResultList

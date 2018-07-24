@@ -354,7 +354,7 @@ export default {
     },
     getsum() {
 
-      this.$api.post('/eamp/compareReuslt/dataCheck/counter', {},
+      this.$api.post('/manage-platform/compareReuslt/dataCheck/counter', {},
         r => {
           console.log(r);
           this.sum = r.data.crCounter;
@@ -368,7 +368,7 @@ export default {
           "notPass": "0"
         }
       };
-      this.$api.post('/eamp/compareReuslt/dataCheck/counter', p,
+      this.$api.post('/manage-platform/compareReuslt/dataCheck/counter', p,
         r => {
           console.log(r);
           this.num = r.data.crCounter;
@@ -381,7 +381,7 @@ export default {
         "showCount": showCount,
         "cdt": pd
       };
-      this.$api.post('/eamp/compareReuslt/dataCheck/query', p,
+      this.$api.post('/manage-platform/compareReuslt/dataCheck/query', p,
         r => {
           console.log(r);
           this.tableData = r.data.resultList;
@@ -392,7 +392,7 @@ export default {
       if (this.Airport.length != 0) {
         return;
       };
-      this.$api.post('/eamp/codeTable/queryAirport', {},
+      this.$api.post('/manage-platform/codeTable/queryAirport', {},
         r => {
           console.log(r);
           this.Airport = r.data;

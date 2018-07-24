@@ -80,7 +80,7 @@ export default {
   methods: {
 
     getList(pd) {
-      this.$api.post('/eamp/monitorSpring/queryMonitorSpring', pd,
+      this.$api.post('/manage-platform/monitorSpring/queryMonitorSpring', pd,
         r => {
           console.log(r);
           this.tableData = r.data;

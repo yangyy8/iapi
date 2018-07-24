@@ -659,7 +659,7 @@ export default {
         "showCount": showCount,
         "cdt": pd
       };
-      this.$api.post('/eamp/eventManagement/queryListPage', p,
+      this.$api.post('/manage-platform/eventManagement/queryListPage', p,
         r => {
           console.log(r);
           if (r.success) {
@@ -673,7 +673,7 @@ export default {
       if (i.type == "1") { //航班备降
         this.hbbjDialogVisible = true;
 
-        this.$api.post('/eamp/eventManagement/queryFlightInfo', {
+        this.$api.post('/manage-platform/eventManagement/queryFlightInfo', {
             "refserial": i.refserial
           },
           r => {
@@ -683,7 +683,7 @@ export default {
           });
       } else if (i.type == "0") { //指令变更
         this.zlbgDialogVisible = true;
-        this.$api.post('/eamp/eventManagement/queryIapiChangeInfo', {
+        this.$api.post('/manage-platform/eventManagement/queryIapiChangeInfo', {
             "refserial": i.refserial
           },
           r => {
@@ -693,7 +693,7 @@ export default {
           });
       } else if (i.type == "2") { //一般性规则修改
         this.ybxgzDialogVisible = true;
-        this.$api.post('/eamp/eventManagement/queryRuleOneInfo', {
+        this.$api.post('/manage-platform/eventManagement/queryRuleOneInfo', {
             "refserial": i.refserial
           },
           r => {
@@ -703,7 +703,7 @@ export default {
           });
       } else if (i.type == "5") { //数据项校验规则
         this.sjxjyDialogVisible = true;
-        this.$api.post('/eamp/eventManagement/queryRuleCheckInfo', {
+        this.$api.post('/manage-platform/eventManagement/queryRuleCheckInfo', {
             "refserial": i.refserial
           },
           r => {
@@ -713,7 +713,7 @@ export default {
           });
       } else if (i.type == "6") { //免签规则证件有效期
         this.mqgzDialogVisible = true;
-        this.$api.post('/eamp/eventManagement/queryPassDateInfo', {
+        this.$api.post('/manage-platform/eventManagement/queryPassDateInfo', {
             "refserial": i.refserial
           },
           r => {
@@ -723,7 +723,7 @@ export default {
           });
       } else if (i.type == "7") { //免签国家修改
         this.mqgjDialogVisible = true;
-        this.$api.post('/eamp/eventManagement/queryNationalityInfo', {
+        this.$api.post('/manage-platform/eventManagement/queryNationalityInfo', {
             "refserial": i.refserial
           },
           r => {
@@ -733,7 +733,7 @@ export default {
           });
       } else if (i.type == "8") { //免签口岸
         this.mqkaDialogVisible = true;
-        this.$api.post('/eamp/eventManagement/queryNationalityOrPortInfo', {
+        this.$api.post('/manage-platform/eventManagement/queryNationalityOrPortInfo', {
             "refserial": i.refserial
           },
           r => {

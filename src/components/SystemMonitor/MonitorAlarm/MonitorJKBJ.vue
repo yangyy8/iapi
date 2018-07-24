@@ -294,7 +294,7 @@ export default {
         "showCount": showCount,
         "pd": pd
       };
-      this.$api.post('/eamp/monitorAlarm/queryAlarm', p,
+      this.$api.post('/manage-platform/monitorAlarm/queryAlarm', p,
         r => {
 
           this.tableData = r.data.pdList;
@@ -307,7 +307,7 @@ console.log("---------------"+data);
         "VALUE": data
       }
 
-      this.$api.post('/eamp/monitorAlarm/queryCondition', p,
+      this.$api.post('/manage-platform/monitorAlarm/queryCondition', p,
         r => {
           if(r.success){
           console.log(r);
@@ -343,7 +343,7 @@ console.log("---------------"+data);
         "DEALUSER": this.form.DEALUSER,
         "SERIAL": this.form.SERIAL
       }
-      this.$api.post('/eamp/monitorAlarm/updateAlarmStatus', p,
+      this.$api.post('/manage-platform/monitorAlarm/updateAlarmStatus', p,
         r => {
           console.log(r);
           if (r.success) {

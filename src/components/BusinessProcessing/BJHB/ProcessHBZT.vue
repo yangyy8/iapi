@@ -298,7 +298,7 @@ export default {
         "showCount": showCount,
         "cdt": pd
       };
-      this.$api.post('/eamp/statusUpdate/flight/queryListPage', p,
+      this.$api.post('/manage-platform/statusUpdate/flight/queryListPage', p,
         r => {
           console.log(r);
           this.tableData = r.data.resultList;
@@ -306,7 +306,7 @@ export default {
         })
     },
     queryNationality() {
-      this.$api.post('/eamp/codeTable/queryAircompanyList', {},
+      this.$api.post('/manage-platform/codeTable/queryAircompanyList', {},
         r => {
           console.log(r);
           if (r.success) {
@@ -319,7 +319,7 @@ export default {
       if(this.Airport.length!=0){
         return;
       };
-      this.$api.post('/eamp/codeTable/queryAirport', {},
+      this.$api.post('/manage-platform/codeTable/queryAirport', {},
         r => {
   console.log(r);
             this.Airport = r.data;
@@ -327,7 +327,7 @@ export default {
         })
     },
     addItem(formName) {
-      this.$api.post('/eamp/statusUpdate/flight/saveChangePort', this.form,
+      this.$api.post('/manage-platform/statusUpdate/flight/saveChangePort', this.form,
         r => {
           console.log(r);
           if (r.success) {

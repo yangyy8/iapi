@@ -91,7 +91,7 @@ export default {
    },
    methods:{
      getData(){
-       this.$api.post('/eamp/nameList/getNameListDataAnalysis',{},
+       this.$api.post('/manage-platform/nameList/getNameListDataAnalysis',{},
         r => {
           console.log(r);
           this.tableData=r.data;

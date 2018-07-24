@@ -573,7 +573,7 @@ export default {
       	"pd":pd
       };
       console.log(pd)
-      this.$api.post('/eamp/nameList/getNameListPage',p,
+      this.$api.post('/manage-platform/nameList/getNameListPage',p,
        r => {
          console.log(r);
          this.tableData=r.data.resultList;
@@ -590,7 +590,7 @@ export default {
       //       return false;
       //     }
       //   });
-      this.$api.post('/eamp/nameList/addNameList',this.form,
+      this.$api.post('/manage-platform/nameList/addNameList',this.form,
        r => {
          console.log(r);
          if(r.success){
@@ -615,7 +615,7 @@ export default {
     details(i){
       this.detailsDialogVisible=true;
       console.log(i);
-      this.$api.post('/eamp/nameList/getNameListData',i,
+      this.$api.post('/manage-platform/nameList/getNameListData',i,
        r => {
          console.log(r);
          // this.tableData=r.Data.ResultList;

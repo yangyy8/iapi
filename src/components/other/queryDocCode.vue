@@ -25,7 +25,7 @@ export default {
   },
   methods: {
     queryDocCode(){
-      this.$api.post('/eamp/codeTable/queryDocCode',{},
+      this.$api.post('/manage-platform/codeTable/queryDocCode',{},
        r => {
          console.log(r);
          if(r.success){

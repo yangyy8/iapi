@@ -397,7 +397,7 @@ export default {
         "showCount": showCount,
         "pd": pd
       };
-      this.$api.post('/eamp/statusUpdate/seat/queryListPages', p,
+      this.$api.post('/manage-platform/statusUpdate/seat/queryListPages', p,
         r => {
           console.log(r);
           this.tableData = r.data.resultList;
@@ -405,7 +405,7 @@ export default {
         })
     },
     queryNationality() {
-      this.$api.post('/eamp/codeTable/queryNationality', {},
+      this.$api.post('/manage-platform/codeTable/queryNationality', {},
         r => {
           console.log(r);
           if (r.Success) {
@@ -420,7 +420,7 @@ export default {
         "showCount": showCount,
         "pd": pd
       };
-      this.$api.post('/eamp/statusUpdate/seat/queryListPagesSeat', p,
+      this.$api.post('/manage-platform/statusUpdate/seat/queryListPagesSeat', p,
         r => {
           console.log(r);
           this.list1 = r.data.list123;
@@ -431,7 +431,7 @@ export default {
     details(i) {
       this.detailsDialogVisible = true;
       console.log(i);
-      this.$api.post('/eamp/nameList/getNameListData', i,
+      this.$api.post('/manage-platform/nameList/getNameListData', i,
         r => {
           console.log(r);
           // this.tableData=r.Data.ResultList;
