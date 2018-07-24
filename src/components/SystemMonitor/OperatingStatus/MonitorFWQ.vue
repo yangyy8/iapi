@@ -207,7 +207,7 @@ export default {
   },
   created() {
     this.getList({});
-  
+
 
   },
   // computed:{
@@ -246,6 +246,7 @@ export default {
 <style scoped>
 .filesystems{
   width: 600px;
+
   display: flex;
   flex-direction: column;}
 .filesystems ul{list-style: none;}
