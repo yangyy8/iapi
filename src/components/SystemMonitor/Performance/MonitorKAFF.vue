@@ -23,10 +23,25 @@
               <div class="co-tab-item hand" :class="{'co-checked':coCheckId==2}" @click="judgeList">
                 列表
               </div>
-              <div class="" style="margin-bottom: -6px;" v-show="controlChecked==2">
+              <div class="" style="margin-bottom: -6px;width:80%" v-show="controlChecked==1">
                 <el-row align="center" :gutter="2">
-                  <el-col :sm="24" :md="12"  :lg="15" class="input-item">
-                    <span class="input-text">分析日期：</span>
+                  <el-col :sm="24" :md="12"  :lg="6" class="input-item">
+                    <span class="input-text">分发口岸：</span>
+                    <el-select  placeholder="请选择"  size="mini"  class="input-input" v-model="port" filterable clearable @visible-change="portMethod">
+                      <el-option
+                      v-for="item in portName"
+                      :key="item.AIRPORT_CODE"
+                      :value="item.AIRPORT_CODE"
+                      :label="item.AIRPORT_DESC"
+                      ></el-option>
+                    </el-select>
+                  </el-col>
+                </el-row>
+              </div>
+              <div class="" style="margin-bottom: -6px;width:80%" v-show="controlChecked==2">
+                <el-row align="center" :gutter="2">
+                  <el-col :sm="24" :md="12"  :lg="10" class="input-item">
+                    <span class="input-text t-width">分析日期：</span>
                     <div class="input-input t-flex t-date">
                         <el-date-picker
                         v-model="cdt.begin"
@@ -45,7 +60,7 @@
                      </el-date-picker>
                     </div>
                   </el-col>
-                  <el-col :sm="24" :md="12"  :lg="7" class="input-item">
+                  <el-col :sm="24" :md="12"  :lg="6" class="input-item">
                     <span class="input-text">分析维度：</span>
                     <el-select  placeholder="请选择"  size="mini"  class="input-input" v-model="cdt.type" filterable clearable>
                       <el-option label="按小时分析" value="0"></el-option>
@@ -54,6 +69,18 @@
                       <el-option label="按月分析" value="3"></el-option>
                       <el-option label="按季度分析" value="4"></el-option>
                       <el-option label="按5分钟分析" value="5"></el-option>
+                    </el-select>
+                  </el-col>
+
+                  <el-col :sm="24" :md="12"  :lg="6" class="input-item">
+                    <span class="input-text">分发口岸：</span>
+                    <el-select  placeholder="请选择"  size="mini"  class="input-input" v-model="port" filterable clearable @visible-change="portMethod">
+                      <el-option
+                      v-for="item in portName"
+                      :key="item.AIRPORT_CODE"
+                      :value="item.AIRPORT_CODE"
+                      :label="item.AIRPORT_DESC"
+                      ></el-option>
                     </el-select>
                   </el-col>
                   <el-col :sm="24" :md="12"  :lg="2" class="input-item">
@@ -317,7 +344,8 @@ export default {
       lineY:[],
       barX:[],
       barY:[],
-      realX:''
+      realX:'',
+      portName:[]
     }
   },
   mounted() {
@@ -360,7 +388,7 @@ export default {
         "showCount":showCount,
         "cdt":pd
       };
-      this.$api.post('/eamp/match/queryListPageReal',p,
+      this.$api.post('/eamp/disPerLog/queryListPageReal',p,
        r => {
          console.log(r);
          this.tableData=r.data.resultList;
@@ -375,7 +403,7 @@ export default {
         "showCount":hshowCount,
         "cdt":cdt
       }
-      this.$api.post('/eamp/match/queryMatchListPageHisOther',p,
+      this.$api.post('/eamp/disPerLog/queryMatchListPageHisOther',p,
        r => {
          console.log(r);
          this.htableData=r.data.pd.resultList;
@@ -544,7 +572,7 @@ export default {
 	      "showCount":10,
         "cdt":this.pd //空数据
       }
-      this.$api.post('/eamp/match/queryListPage',p,
+      this.$api.post('/eamp/disPerLog/queryListPage',p,
       r =>{
         this.lineX = r.data.pd.X;
         this.lineY = r.data.pd.Y;
@@ -558,7 +586,7 @@ export default {
         "showCount":10,
         "cdt":this.cdt
       }
-      this.$api.post('/eamp/match/queryListPageHisMin',t,
+      this.$api.post('/eamp/disPerLog/queryListPageHisMin',t,
       r =>{
         this.barX = r.data.pd.X;
         this.barY = r.data.pd.Y;
@@ -605,8 +633,17 @@ export default {
       }else if(this.coCheckId==2){
         this.hgetList(this.hCurrentPage,this.hpageSize,this.cdt);
       }
+    },
+    portMethod(){
+      this.$api.post('/eamp/codeTable/queryAirport',{},
+      r =>{
+        if(r.success){
+          this.portName = r.data
+        }
+      })
     }
   },
+
 
 }
 </script>
@@ -666,5 +703,8 @@ export default {
 }
 .el-checkbox__input.is-checked+.el-checkbox__label{
   color: #409EFF!important;
+}
+.t-width{
+  width: 25%!important;
 }
 </style>

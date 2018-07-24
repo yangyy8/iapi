@@ -3,7 +3,7 @@
     <div class="middle-top mb-2">
 
       <el-row type="flex" class="middle">
-        <el-col :span="20" class="br pr-20">
+        <el-col :span="22" class="br pr-20">
           <div class="title-green">
             查询条件
           </div>
@@ -73,7 +73,7 @@
             </el-col>
           </el-row>
         </el-col>
-        <el-col :span="4" class="down-btn-area" >
+        <el-col :span="2" class="down-btn-area" >
           <el-button type="success" size="small" @click="getList(CurrentPage,pageSize,pd)">查询</el-button>
 
         </el-col>
