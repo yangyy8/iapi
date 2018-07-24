@@ -214,9 +214,9 @@
   margin-left: -29%;
 }
 .tan-box span{
-  display: inline-block;
+  /* display: inline-block;
   width: 5px;
-  height: 5px;
+  height: 5px; */
 }
 .top-left{
   border-left: 1px #51ffff solid;
@@ -292,4 +292,97 @@
   position: absolute;
   top:20px;
   right: 20px;
+}
+.check-row{
+  display: flex;
+}
+.check-col{
+  width: 33%;
+  display: flex;
+  align-items: center;
+}
+.check-text{
+  display: inline-block;
+  margin-right: 8px;
+  color: #fff;
+  width: 13%;
+}
+.check-box{
+  width: 70%;
+  height: 32px;
+  background: #112b42;
+  position: relative;
+  /* padding: 10px; */
+
+}
+.check-box-nei{
+  width: 100%;
+  height: 12px;
+  background: #112b42;
+  padding: 10px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  display: flex;
+  flex-wrap: wrap;
+}
+.check-div{
+  position: absolute;
+  top: 32px;
+  left: 0;
+  min-height: 50px;
+  width: 430px;
+  background: #09679d;
+  padding: 20px 15px 15px;
+  color: #fff;
+  z-index: 99;
+
+}
+.close{
+  position: absolute;
+  top:5px;
+  right: 5px;
+}
+.classify{
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px #5495bb solid;
+}
+.classify-a{
+  display: inline-block;
+  height: 20px;
+}
+.check-a{
+  border-bottom: 1px #42d83b solid;
+  color: #42d83b;
+}
+.checkbox-input{
+  display: none;
+}
+.site-name{
+  max-height: 500px;
+  overflow-y: auto;
+}
+.list-div{
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+.list-pre{
+  margin-right: 20px;
+  color: #31aafb;
+}
+.checkbox-item{
+  display: block;
+  text-align: left;
+  width: 61px;
+  height: 24px;
+  line-height: 24px;
+  margin-right: 5px;
+}
+.schecked{
+  background: url(../../../assets/img/qgjk/check.png)
+}
+.list-dd{
+  display: flex;
+  flex-wrap: wrap;
 }

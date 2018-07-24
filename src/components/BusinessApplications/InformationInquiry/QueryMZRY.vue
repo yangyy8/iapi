@@ -2,7 +2,7 @@
   <div class="whitelist">
     <div class="middle-top mb-2">
       <el-row type="flex" class="middle">
-        <el-col :span="21" class="br pr-20">
+        <el-col :span="22" class="br pr-20">
           <div class="title-green ">
             查询条件
           </div>
@@ -18,10 +18,10 @@
             </el-col>
             <el-col :sm="24" :md="12" :lg="8" class="input-item">
               <span class="input-text">性别：</span>
-              <el-select  placeholder="请选择"  size="small" v-model="pd.genderEqual"  class="input-input">
-                <el-option label="男" value="M"></el-option>
-                <el-option label="女" value="F"></el-option>
-                <el-option label="未知" value="U"></el-option>
+              <el-select  placeholder="请选择"  size="small" filterable clearable v-model="pd.genderEqual"  class="input-input">
+                <el-option label="M - 男" value="M"></el-option>
+                <el-option label="F - 女" value="F"></el-option>
+                <el-option label="U - 未知" value="U"></el-option>
               </el-select>
             </el-col>
             <el-col :sm="24" :md="12" :lg="8" class="input-item">
@@ -62,25 +62,25 @@
                v-model="pd.startFlightDepartdate"
                type="datetime" size="small"
                placeholder="开始时间" align="right" :picker-options="pickerOptions1"
-               value-format="yyyyMMdd HHmm">
+               value-format="yyyyMMdd HHmmss">
              </el-date-picker>
                <span class="septum">-</span>
              <el-date-picker
                 v-model="pd.endFlightDepartdate"
                 type="datetime" size="small" align="right"
                 placeholder="结束时间"  :picker-options="pickerOptions1"
-                value-format="yyyyMMdd HHmm">
+                value-format="yyyyMMdd HHmmss">
             </el-date-picker>
           </div>
             </el-col>
 
             <el-col :sm="24" :md="12" :lg="8" class="input-item">
               <span class="input-text">出入标识：</span>
-              <el-select v-model='pd.flighttypeEqual' placeholder="请选择" size="small" class="input-input">
+              <el-select v-model='pd.flighttypeEqual' placeholder="请选择" filterable clearable size="small" class="input-input">
                 <el-option value="" label="全部"></el-option>
-                  <el-option value="I" label="入境"></el-option>
-                    <el-option value="O" label="出境"></el-option>
-                    <el-option value="G" label="过境"></el-option>
+                  <el-option value="I" label="I - 入境"></el-option>
+                    <el-option value="O" label="O - 出境"></el-option>
+                    <el-option value="G" label="G - 过境"></el-option>
               </el-select>
             </el-col>
 
@@ -88,17 +88,17 @@
               <span class="input-text">命中人员类别：</span>
               <el-select v-model='pd.eventtype' placeholder="请选择" size="small" class="input-input">
                 <el-option value="" label="全部"></el-option>
-                  <el-option value="0" label="黑名单"></el-option>
-                    <el-option value="1" label="白名单"></el-option>
-                    <el-option value="2" label="临控名单"></el-option>
-                    <el-option value="3" label="重点关注人员"></el-option>
-                    <el-option value="3" label="二次查控"></el-option>
+                  <el-option value="0" label="0 - 黑名单"></el-option>
+                    <el-option value="1" label="1 - 白名单"></el-option>
+                    <el-option value="2" label="2 - 临控名单"></el-option>
+                    <el-option value="3" label="3 - 重点关注人员"></el-option>
+                    <el-option value="4" label="4 - 二次查控"></el-option>
               </el-select>
             </el-col>
           </el-row>
 
         </el-col>
-        <el-col :span="3" class="down-btn-area">
+        <el-col :span="2" class="down-btn-area">
           <el-button type="success" size="small" @click="getList(CurrentPage,pageSize,pd)">查询</el-button>
         </el-col>
       </el-row>

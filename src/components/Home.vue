@@ -6,7 +6,7 @@
         <div class="home-top-left">
          {{dateData.mm+dateData.dd+' '+dateData.xx}}
         </div>
-        <div class="home-top-right hand" @click="isLogin=true">
+        <div class="home-top-right hand" @click="isLogin=false" v-if="!isLogin">
           <img src="../assets/img/home/p.png" alt="">
           登录
         </div>
@@ -21,7 +21,7 @@
       </div>
       <div :class="className" :id="id" :style="{height:height,width:width}" ref="myEchart" class="canvas"></div>
 
-      <div class="nav-left" >
+      <div class="nav-left" v-if="isLogin">
         <svg class="svg-nav" data-name="d" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 178 422.26" >
           <path class="cls-1" :class="{'clss':left==1}" d="M126.5,142.19a131.62,131.62,0,0,1,50.24-47L127.43.2A239.16,239.16,0,0,0,35,86.68Z" fill="#032552" transform="translate(0 -0.2)" @mouseover="leftOver(1)"/>
           <path class="cls-1" :class="{'clss':left==2}" d="M0,210H107a130.43,130.43,0,0,1,18.46-66.1L34,88.39A236.89,236.89,0,0,0,0,210Z" fill="#032552" transform="translate(0 -0.2)" @mouseover="leftOver(2)"/>
@@ -51,13 +51,13 @@
           <span>业务管理</span>
         </router-link>
       </div>
-      <div class="nav-left-0">
+      <div class="nav-left-0" v-if="isLogin">
         <img :src='"../assets/img/home/left_"+left+".png"'>
       </div>
-      <div class="nav-right-0">
+      <div class="nav-right-0" v-if="isLogin">
         <img :src='"../assets/img/home/right_"+right+".png"'>
       </div>
-      <div class="nav-right">
+      <div class="nav-right" v-if="isLogin">
         <svg xmlns="http://www.w3.org/2000/svg" class="svg-nav" data-name="d" viewBox="0 0 178 422.26">
           <path class="cls-1" :class="{'clss':right==1}" d="M51.5,142.19a131.62,131.62,0,0,0-50.24-47L50.57.2A239.16,239.16,0,0,1,143,86.68Z" transform="translate(0 -0.2)" fill="#032552" @mouseover="rightOver(1)"/>
           <path class="cls-1" :class="{'clss':right==2}" d="M178,210H71a130.43,130.43,0,0,0-18.46-66.1L144,88.39A236.89,236.89,0,0,1,178,210Z" transform="translate(0 -0.2)" fill="#032552" @mouseover="rightOver(2)"/>
@@ -111,17 +111,17 @@
           </router-link>
         </div>
       </div>
-      <div class="login-box" v-if="isLogin">
+      <div class="login-box" v-if="!isLogin">
         <div class="login-item ">
           <el-input
-            placeholder="用户名">
+            placeholder="用户名" v-model="user.userName">
             <i slot="prefix" class="el-input__icon"><img src="../assets/img/home/login_06.png"></i>
           </el-input>
         </div>
         <div class="login-item ">
           <el-input
             placeholder="密码"
-            type="password">
+            type="password" v-model="user.password">
             <i slot="prefix" class="el-input__icon"><img src="../assets/img/home/login_03.png"></i>
           </el-input>
         </div>
@@ -197,6 +197,7 @@ export default {
       ccList:[],
       rcList:[],
       muneListOne:[],
+      user:{},
       find: "2", //1显示新增按钮，2显示导入按钮，若不显示这两个按钮可以写0或者不写值
       chart: null,
       isWan:false,
@@ -273,6 +274,9 @@ export default {
     this.fn();
     this.getNav0();
     this.getTime();
+    if(localStorage.getItem('login')){
+      this.isLogin=true;
+    }
   },
   beforeDestroy() {
     if (!this.chart) {
@@ -287,6 +291,7 @@ export default {
     }
   },
   methods: {
+
     getTime(){
       let myDate = new Date();
       let a = new Array("日", "一", "二", "三", "四", "五", "六");
@@ -313,7 +318,24 @@ export default {
       this.right=i
     },
     login(){
-      this.isLogin=false;
+
+
+      this.$api.post('/eamp/landing',this.user,
+       r => {
+        console.log(r)
+        if(r.success){
+
+          this.$message({
+            message: '登录成功',
+            type: 'success'
+          });
+          let _this=this;
+          setTimeout(function(){
+              _this.isLogin=true;
+          },1000)
+          localStorage.setItem('login',1)
+        }
+      })
     },
     getNav0(){
       this.$api.post('/eamp/muneSys/selectMenuOne',{},
