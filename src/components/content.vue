@@ -22,12 +22,8 @@
         </div>
 
         <div class="top-right-1">
-          <span>欢迎您！管理员</span>
-          <!-- <div class="top-list-down">
-            <a> 报警</a>
-            <a> 设置</a>
-            <a> 退出</a>
-          </div> -->
+          <span class="mb-6">欢迎您！管理员</span>
+          <span @click="logOut"><img src="../assets/img/logout.png" style="width:20px;height:20px;vertical-align:bottom;margin-right:5px;"alt="">退出</span>
         </div>
       </div>
     </el-header>
@@ -518,6 +514,14 @@ export default {
     console.log("route",this.$route)
   },
   methods: {
+    logOut(){
+      localStorage.removeItem('login')
+      this.$message({
+        message: '退出成功',
+        type: 'success'
+      });
+      this.$router.push('/')
+    },
     getNav(navId) {
       this.navId = navId;
       this.getpp();
