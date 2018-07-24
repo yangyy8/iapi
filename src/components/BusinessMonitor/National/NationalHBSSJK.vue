@@ -3,7 +3,7 @@
   <div class="map-top">
     <h3 class="map-title">公安部出入境旅客检测体系</h3>
     <ul class="map-tabul">
-      <li class="map-tabli mr-30 hand" :class="{'check-tab':tabId==1}" @click="tabId=1">
+      <li class="map-tabli mr-30 hand" :class="{'check-tab':tabId==1}" @click="tabId=1;getJkKa()">
         <img src="../../../assets/img/qgjk/tab1_1.png" alt="" v-if="tabId==1">
         <img src="../../../assets/img/qgjk/tab1_0.png" alt="" v-else>
         <span>口岸监控</span>
@@ -440,9 +440,12 @@
           出入类型
         </div>
         <div class="tan-right">
-          <el-radio v-model="crType" label="0" class="mr-15">全部</el-radio>
-          <el-radio v-model="crType" label="1" class="mr-15">入境</el-radio>
-          <el-radio v-model="crType" label="2">出境</el-radio>
+          <el-radio-group v-model="crType">
+            <el-radio label="A" class="mr-15">全部</el-radio>
+            <el-radio label="I" class="mr-15">入境</el-radio>
+            <el-radio label="O">出境</el-radio>
+          </el-radio-group>
+
         </div>
       </div>
       <div class="tan-row2 mb-20">
@@ -466,9 +469,9 @@
                   <i class="el-icon-close close" @click="checkShow=false"></i>
                   <header>
                     <ul class="classify">
-                      <el-checkbox v-model="checkAll" @change="checkAllFn">全选</el-checkbox>
+                      <el-checkbox v-model="checkAll" @change="checkAllFn" true-label="1" false-label="0">全选</el-checkbox>
                       <li  v-for="(arr,key,index) in locationName" :key="index" @click="isClassify=key">
-                        <span class="classify-a hand">{{key}}</span>
+                        <span class="classify-a hand"  :class="{'check-a':isClassify==key}">{{key}}</span>
                       </li>
                     </ul>
                   </header>
@@ -478,7 +481,7 @@
                       <div class="list-dd">
                         <div v-for="(val,index) in locationName[isClassify][value]" :key="index" class="dd">
                           <label  class="checkbox-item" :class="{'schecked':checkList.indexOf(val)>-1}">
-                            <input type="checkbox" :value="val" v-model="checkList" class="checkbox-input" @change="ss()">
+                            <input type="checkbox" :value="val" v-model="checkList" class="checkbox-input">
                             <span class="list-a" >{{val.name}}</span>
                           </label>
                         </div>
@@ -504,9 +507,9 @@
                   <i class="el-icon-close close" @click="checkShow2=false"></i>
                   <header>
                     <ul class="classify">
-                      <el-checkbox v-model="checkAll2" @change="checkAllFn2">全选</el-checkbox>
+                      <el-checkbox v-model="checkAll2" @change="checkAllFn2" true-label="1" false-label="0">全选</el-checkbox>
                       <li  v-for="(arr,key,index) in locationName2" :key="index" @click="isClassify2=key">
-                        <span class="classify-a hand">{{key}}</span>
+                        <span class="classify-a hand" :class="{'check-a':isClassify2==key}">{{key}}</span>
                       </li>
                     </ul>
                   </header>
@@ -530,12 +533,34 @@
           </div>
         </div>
       </div>
-      <div class="tan-row2">
+      <div class="tan-row2 pb-20 bb">
         <div class="tan-row-text">
           境外口岸
         </div>
         <div class="tan-content">
           <div class="check-row">
+            <div class="check-col mr-5">
+              <span class="check-text">洲</span>
+              <div class="check-box">
+                <div class="check-box-nei" @click.self="checkShow5=true">
+                  <div class="mr-5 mb-9" v-for="(x, ind) in checkList5">
+                    <span>{{x.name}}</span>
+                    <i class="el-icon-circle-close" @click="checkList5.splice(ind,1)"></i>
+                  </div>
+                </div>
+
+                <div class="check-div" v-if="checkShow5">
+                  <i class="el-icon-close close" @click="checkShow5=false"></i>
+                  <div class="site-name">
+                    <el-checkbox v-model="checkAll5" @change="checkAllFn5" true-label="1" false-label="0">全选</el-checkbox>
+                    <el-checkbox-group v-model="checkList5" @change="checkedZhou">
+                      <el-checkbox v-for="x in locationName5" :label="x" >{{x.name}}</el-checkbox>
+                    </el-checkbox-group>
+                  </div>
+                </div>
+              </div>
+
+            </div>
             <div class="check-col mr-5">
               <span class="check-text">国家</span>
               <div class="check-box">
@@ -550,9 +575,9 @@
                   <i class="el-icon-close close" @click="checkShow3=false"></i>
                   <header>
                     <ul class="classify">
-                      <el-checkbox v-model="checkAll3" @change="checkAllFn3">全选</el-checkbox>
+                      <el-checkbox v-model="checkAll3" @change="checkAllFn3" true-label="1" false-label="0">全选</el-checkbox>
                       <li  v-for="(arr,key,index) in locationName3" :key="index" @click="isClassify3=key">
-                        <span class="classify-a hand">{{key}}</span>
+                        <span class="classify-a hand" :class="{'check-a':isClassify3==key}">{{key}}</span>
                       </li>
                     </ul>
                   </header>
@@ -560,7 +585,7 @@
                     <div v-for="value of isClassify3" class="list-div">
                       <div class="list-pre">{{value}}</div>
                       <div class="list-dd">
-                        <div v-for="(val,index) in locationName3[isClassify][value]" :key="index" class="dd">
+                        <div v-for="(val,index) in locationName3[isClassify3][value]" :key="index" class="dd">
                           <label  class="checkbox-item" :class="{'schecked':checkList3.indexOf(val)>-1}">
                             <input type="checkbox" :value="val" v-model="checkList3" class="checkbox-input">
                             <span class="list-a" >{{val.name}}</span>
@@ -587,9 +612,9 @@
                   <i class="el-icon-close close" @click="checkShow4=false"></i>
                   <header>
                     <ul class="classify">
-                      <el-checkbox v-model="checkAll4" @change="checkAllFn4">全选</el-checkbox>
+                      <el-checkbox v-model="checkAll4" @change="checkAllFn4" true-label="1" false-label="0">全选</el-checkbox>
                       <li  v-for="(arr,key,index) in locationName4" :key="index" @click="isClassify4=key">
-                        <span class="classify-a hand">{{key}}</span>
+                        <span class="classify-a hand" :class="{'check-a':isClassify4==key}">{{key}}</span>
                       </li>
                     </ul>
                   </header>
@@ -597,7 +622,7 @@
                     <div v-for="value of isClassify4" class="list-div">
                       <div class="list-pre">{{value}}</div>
                       <div class="list-dd">
-                        <div v-for="(val,index) in locationName4[isClassify][value]" :key="index" class="dd">
+                        <div v-for="(val,index) in locationName4[isClassify4][value]" :key="index" class="dd">
                           <label  class="checkbox-item" :class="{'schecked':checkList4.indexOf(val)>-1}">
                             <input type="checkbox" :value="val" v-model="checkList4" class="checkbox-input">
                             <span class="list-a" >{{val.name}}</span>
@@ -611,8 +636,10 @@
 
             </div>
           </div>
-
         </div>
+      </div>
+      <div class="tan-btn-g">
+        <el-button type="info" size="small" @click="updateJkKa">确定</el-button>
       </div>
     </div>
   </transition>
@@ -943,7 +970,7 @@ export default {
       sscheced:null,
       zdh:false,
       tabId: 0,
-      crType:0,
+      crType:"A",
       newHbData:{},
       hbsl:{},
       kahb:{},
@@ -977,7 +1004,7 @@ export default {
       },
       isClassify:"ABCDE",
       checkShow:false,
-      checkAll:false,
+      checkAll:'0',
       checkList:[],
       locationData:{},
 
@@ -990,7 +1017,7 @@ export default {
       },
       isClassify2:"ABCDE",
       checkShow2:false,
-      checkAll2:false,
+      checkAll2:'0',
       checkList2:[],
       locationData2:{},
 
@@ -1003,7 +1030,7 @@ export default {
       },
       isClassify3:"ABCDE",
       checkShow3:false,
-      checkAll3:false,
+      checkAll3:'0',
       checkList3:[],
       locationData3:{},
 
@@ -1016,9 +1043,39 @@ export default {
       },
       isClassify4:"ABCDE",
       checkShow4:false,
-      checkAll4:false,
+      checkAll4:'0',
       checkList4:[],
       locationData4:{},
+
+      checkList5:[],
+      checkShow5:false,
+      checkAll5:'0',
+      locationName5:[
+        {
+          code:1,
+          name:"亚洲"
+        },
+        {
+          code:2,
+          name:"非洲"
+        },
+        {
+          code:3,
+          name:"欧洲"
+        },
+        {
+          code:4,
+          name:"大洋洲"
+        },
+        {
+          code:5,
+          name:"北美洲"
+        },
+        {
+          code:6,
+          name:"南美洲"
+        }
+      ],
       chart: null,
       geoCoordMap: {
         '南宁': [108.479, 23.1152],
@@ -1092,11 +1149,10 @@ export default {
   },
   methods: {
     checkAllFn(){
-      console.log(this.locationData)
-      if(this.checkAll){
+      console.log(this.checkAll);
+      if(this.checkAll==1){
         for(var i in this.locationData){
           this.locationData[i].forEach(function (val) {
-              console.log(val)
               this.checkList.push(val)
           }, this)
         }
@@ -1106,10 +1162,11 @@ export default {
     },
     checkAllFn2(){
       console.log(this.locationData2)
-      if(this.checkAll2){
+
+
+      if(this.checkAll2==1){
         for(var i in this.locationData2){
           this.locationData2[i].forEach(function (val) {
-              console.log(val)
               this.checkList2.push(val)
           }, this)
         }
@@ -1119,7 +1176,7 @@ export default {
     },
     checkAllFn3(){
       console.log(this.locationData3)
-      if(this.checkAll3){
+      if(this.checkAll3==1){
         for(var i in this.locationData3){
           this.locationData3[i].forEach(function (val) {
               console.log(val)
@@ -1132,7 +1189,7 @@ export default {
     },
     checkAllFn4(){
       console.log(this.locationData4)
-      if(this.checkAll4){
+      if(this.checkAll4==1){
         for(var i in this.locationData4){
           this.locationData4[i].forEach(function (val) {
               console.log(val)
@@ -1143,8 +1200,17 @@ export default {
         this.checkList4=[]
       }
     },
-    ss(data){
-      console.log(this.checkList)
+    checkAllFn5(){
+      if(this.checkAll5==1){
+        this.locationName5.forEach(function(val){
+          this.checkList5.push(val);
+        },this)
+      }else{
+        this.checkList5=[];
+      }
+    },
+    checkedZhou(){
+      console.log(this.checkList5)
     },
     zdhFn(){
       this.zdh=true;
@@ -1180,21 +1246,20 @@ export default {
     getHz(){
       if(this.HzList.length==0){
         this.$api.post('/eamp/codeTable/queryAirportMatch',{},
-          r => {
-            console.log(r)
-            this.HzList=r.data
-          })
+        r => {
+          console.log(r);
+          this.HzList=r.data
+        })
       }
-
     },
     // 获取航空公司
     getHkGs(){
       if(this.HgList.length==0){
         this.$api.post('/eamp/codeTable/queryAircompanyList',{},
-          r => {
-            console.log(r)
-            this.HgList=r.data
-          })
+        r => {
+          console.log(r);
+          this.HgList=r.data
+        })
       }
 
     },
@@ -1242,7 +1307,35 @@ export default {
     },
     // 更新监控口岸
     updateJkKa(){
-      let p={};
+
+      let p={
+        "iPortAll": this.checkAll2, // 境内口岸 0：未全选  1：全选
+        "iPortLst": this.checkList2.map(function(val){
+          return val.code
+        },this), 	// 境内口岸 选中
+
+        "iProvAll": this.checkAll,// 境内省 是否全选 0：未全选  1：全选
+        "iProvLst": this.checkList.map(function(val){
+          return val.code
+        }),	// 境内省 选中
+
+        "ioType": this.crType,	// 出入类型  I:入境，O:出境,A:全部
+        "oContAll": this.checkAll5,	// 境外洲 0：未全选  1：全选
+        "oContLst": this.checkList5.map(function(val){
+          return val.code
+        }),// 境外洲 选中
+
+        "oCounAll": this.checkAll3,	// 境外国 0：未全选  1：全选
+        "oCounLst": this.checkList3.map(function(val){
+          return val.code
+        }),
+
+        "oPortAll": this.checkAll4,	// 境外口岸 0：未全选  1：全选
+        "oPortLst": this.checkList4.map(function(val){
+          return val.code
+        }),		// 境外口岸 选中
+
+      };
       this.$api.post('/eamp/portMonitor/updateMonitorPortInfo',p,
        r => {
          console.log(r);
@@ -1254,18 +1347,17 @@ export default {
 
       this.$api.post('/eamp/portMonitor/getInProvinceList',{},
        r => {
-         console.log(r);
          this.locationData=r.data;
          let obj1=r.data;
+
          for(var i in obj1){
            for(var j in this.locationName){
              if(j.indexOf(i)>-1){
-               console.log(obj1[i])
-               this.locationName[j][i]=obj1[i]
+               this.$set(this.locationName[j],i,obj1[i]);
              }
            }
          }
-           this.isClassify="ABCDE"
+         console.log(this.locationName)
       })
     },
     // 境内口岸列表取得
@@ -1279,12 +1371,10 @@ export default {
          for(var i in obj1){
            for(var j in this.locationName){
              if(j.indexOf(i)>-1){
-               console.log(obj1[i])
-               this.locationName2[j][i]=obj1[i]
+               this.$set(this.locationName2[j],i,obj1[i]);
              }
            }
          }
-         this.isClassify2="ABCDE"
       })
     },
     // 境外国家列表取得
@@ -1298,12 +1388,10 @@ export default {
          for(var i in obj1){
            for(var j in this.locationName3){
              if(j.indexOf(i)>-1){
-               console.log(obj1[i])
-               this.locationName3[j][i]=obj1[i]
+               this.$set(this.locationName3[j],i,obj1[i]);
              }
            }
          }
-         this.isClassify3="ABCDE"
       })
     },
     // 境外口岸列表取得
@@ -1317,12 +1405,11 @@ export default {
          for(var i in obj1){
            for(var j in this.locationName4){
              if(j.indexOf(i)>-1){
-               console.log(obj1[i])
-               this.locationName4[j][i]=obj1[i]
+               this.$set(this.locationName4[j],i,obj1[i]);
+
              }
            }
          }
-         this.isClassify4="ABCDE"
       })
     },
 

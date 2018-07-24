@@ -424,6 +424,9 @@ export default {
  mounted(){
    this.eventserial=this.$route.query.eventserial;
    this.getList();
+   if(this.$route.query.type==0){
+     this.shijian();
+   }
  },
  methods:{
    getList(){
@@ -506,8 +509,6 @@ export default {
               type: 'success'
             });
             this.isUpdate=false;
-          }else{
-            this.$message.error(r.message);
           }
        })
      }

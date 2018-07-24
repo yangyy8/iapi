@@ -766,14 +766,10 @@ export default {
                    message: '恭喜你，添加成功！',
                    type: 'success'
                  });
-               }else{
-                 this.$message.error(r.message);
                }
               this.$refs[formName].resetFields();
               this.addDialogVisible=false;
               this.getList(this.CurrentPage,this.pageSize,this.pd);
-            },e=>{
-              this.$message.error('失败了');
             })
           }else if(this.dialogType=="update"){
             this.form.synStatus=synStatus;
@@ -787,8 +783,6 @@ export default {
                    message: '恭喜你，添加成功！',
                    type: 'success'
                  });
-               }else{
-                 this.$message.error(r.message);
                }
               this.$refs[formName].resetFields();
               this.addDialogVisible=false;
@@ -814,8 +808,6 @@ export default {
                    this.getList(this.CurrentPage,this.pageSize,this.pd);
 
 
-                 }else{
-                   this.$message.error(r.message);
                  }
               })
           }else if(this.dialogType=="dels"){
@@ -843,8 +835,6 @@ export default {
                  this.releaseDialogVisible=false;
                  this.getList(this.CurrentPage,this.pageSize,this.pd);
 
-               }else{
-                 this.$message.error(r.message);
                }
             })
           }

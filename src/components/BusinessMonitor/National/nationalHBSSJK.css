@@ -350,7 +350,10 @@
 .classify-a{
   display: inline-block;
   height: 20px;
+}
+.check-a{
   border-bottom: 1px #42d83b solid;
+  color: #42d83b;
 }
 .checkbox-input{
   display: none;

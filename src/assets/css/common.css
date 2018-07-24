@@ -286,6 +286,9 @@ button{
 .pr-20{
   padding-right: 20px !important;
 }
+.pb-20{
+  padding-bottom: 20px!important;
+}
 .bd0{
   border: 1px #d1d1d1 solid;
 }
