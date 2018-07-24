@@ -26,7 +26,7 @@
                 </el-col>
                 <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                   <span class="input-text">报警类型：</span>
-                  <el-select v-model="pd.MTYPE"  placeholder="请选择"  filterable clearable size="small" class="input-input" @change="monitor(pd.MTYPE)">
+                  <el-select v-model="pd.MCLASS"  placeholder="请选择"  filterable clearable size="small" class="input-input" @change="monitor(pd.MCLASS)">
                     <el-option value="SYS" label="SYS - 系统监控" >
                     </el-option>
                     <el-option value="DAT" label="DAT - 数据监控" >
@@ -39,12 +39,12 @@
                 </el-col>
               <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                 <span class="input-text">监控对象：</span>
-                <el-select v-model="pd.MCLASS"  placeholder="请选择"  filterable clearable size="small" class="input-input">
+                <el-select v-model="pd.MTYPE"  placeholder="请选择"  filterable clearable  size="small" class="input-input">
                   <el-option
                     v-for="(value, key) in object"
                     :key="key"
                     :value="key"
-                    :label="value"
+                    :label="key+' - '+value"
                   ></el-option>
                  </el-select>
               </el-col>
@@ -102,17 +102,17 @@
                </template>
              </el-table-column>
              <el-table-column
-               prop="MTYPE"
                label="报警类型">
-             </el-table-column>
-             <el-table-column
-
-               label="监控对象">
                <template slot-scope="scope">
                  <div class="">
                    {{scope.row.MCLASS | fifter2 }}
                  </div>
                </template>
+             </el-table-column>
+             <el-table-column
+                prop="MTYPE"
+               label="监控对象">
+
              </el-table-column>
 
              <el-table-column
@@ -181,11 +181,10 @@
       <el-form :model="form" ref="addForm">
      <el-row type="flex"  class="mb-15">
          <el-col :span="12"><span class="input-text">监控区域：</span>{{form.ZONE | fifter1}}</el-col>
-          <el-col :span="12"><span class="input-text">报警类型：</span>{{form.MTYPE}}</el-col>
-
+          <el-col :span="12"><span class="input-text">报警类型：</span>{{form.MCLASS | fifter2 }}</el-col>
      </el-row>
      <el-row type="flex"  class="mb-15">
-          <el-col :span="12"><span class="input-text">监控对象：</span>{{form.MCLASS | fifter2 }}</el-col>
+          <el-col :span="12"><span class="input-text">监控对象：</span>{{form.MTYPE}}</el-col>
          <el-col :span="12"><span class="input-text">创建时间：</span>{{form.CREATETIME}}</el-col>
      </el-row>
        <hr/>
@@ -258,6 +257,7 @@ export default {
       dform: {},
       form: {},
       pd: {},
+      object:{},
       tableData: [],
       options: [{
           value: 10,
@@ -302,15 +302,17 @@ export default {
         })
     },
     monitor(data) { //监控对象联动
-
+console.log("---------------"+data);
       let p = {
         "VALUE": data
       }
 
       this.$api.post('/eamp/monitorAlarm/queryCondition', p,
         r => {
+          if(r.success){
           console.log(r);
           this.object = r.data;
+        }
         })
 
 
@@ -367,11 +369,11 @@ export default {
     fifter1(val) {
       if (val == 0) {
         return "DMZ区"
-      } else if (val == 1) {
-        return "整合分发区"
       } else if (val == 2) {
+        return "整合分发区"
+      } else if (val == 1) {
         return "业务平台区"
-      } else {
+      } else if (val == 3){
         return "风险评估区"
       }
     },
@@ -382,7 +384,7 @@ export default {
         return "数据监控"
       } else if (val == "LOG") {
         return "日志监控"
-      } else {
+      } else if(val == "PER"){
         return "性能监控"
       }
     },

@@ -1,4 +1,4 @@
-currentPage<template lang="html">
+<template lang="html">
   <div class="basicInfo">
     <div class="middle">
       <div class="ak-tab mb-20">
@@ -22,12 +22,12 @@ currentPage<template lang="html">
               <el-row align="center" :gutter="2">
                 <el-col :sm="24" :md="12" :lg="6" class="input-item">
                   <span class="input-text">洲：</span>
-                  <el-select placeholder="请选择" v-model="cdt.continentsCodeEqual" filterable @visible-change="chau" @change="nationality(cdt.continentsCodeEqual)" size="small"  class="input-input">
+                  <el-select placeholder="请选择" v-model="cdt.continentsCodeEqual" filterable clearable @visible-change="chau" @change="nationality(cdt.continentsCodeEqual)" size="small"  class="input-input">
                     <el-option
                       v-for="item in chauName"
                       :key="item.code"
                       :value="item.code"
-                      :label="item.name"
+                      :label="item.code+' - '+item.name"
                     ></el-option>
                   </el-select>
                 </el-col>
@@ -38,24 +38,24 @@ currentPage<template lang="html">
                       v-for="item in selection"
                       :key="item.code"
                       :value="item.code"
-                      :label="item.name"
+                      :label="item.code+' - '+item.name"
                     ></el-option>
                   </el-select>
                 </el-col>
                 <el-col :sm="24" :md="12" :lg="6" class="input-item">
                   <span class="input-text">证件种类：</span>
-                  <el-select placeholder="请选择" v-model="cdt.passporttypeEqual" filterable @visible-change="idType"  size="small"  class="input-input">
+                  <el-select placeholder="请选择" v-model="cdt.passporttypeEqual" filterable clearable @visible-change="idType"  size="small"  class="input-input">
                     <el-option
                       v-for="item in idName"
                       :key="item.CODE"
                       :value="item.CODE"
-                      :label="item.NAME"
+                      :label="item.CODE+' - '+item.NAME"
                     ></el-option>
                   </el-select>
                 </el-col>
                 <el-col :sm="24" :md="12" :lg="6" class="input-item">
                   <span class="input-text">证件号码：</span>
-                  <el-input placeholder="请输入内容" v-model="cdt.passportnoEqual" size="small" class="input-input" @change="f"></el-input>
+                  <el-input placeholder="请输入内容" v-model="cdt.passportnoEqual" size="small" class="input-input"></el-input>
                 </el-col>
                 <el-col :sm="24" :md="12" :lg="6" class="input-item">
                   <span class="input-text">航班号：</span>
@@ -71,10 +71,10 @@ currentPage<template lang="html">
                 </el-col>
                 <el-col :sm="24" :md="12" :lg="6" class="input-item">
                   <span class="input-text">性别：</span>
-                  <el-select placeholder="请选择" v-model="cdt.genderEqual" size="small"  class="input-input">
-                    <el-option label="男" value="M"></el-option>
-                    <el-option label="女" value="F"></el-option>
-                    <el-option label="未知" value="U"></el-option>
+                  <el-select placeholder="请选择" v-model="cdt.genderEqual" size="small" filterable clearable class="input-input">
+                    <el-option label="M - 男" value="M"></el-option>
+                    <el-option label="F - 女" value="F"></el-option>
+                    <el-option label="U - 未知" value="U"></el-option>
                   </el-select>
                 </el-col>
 
@@ -96,9 +96,8 @@ currentPage<template lang="html">
                    </el-date-picker>
                   </div>
                 </el-col>
+                <!-- 展开收起项 -->
                 <div class="" v-show="openList">
-
-
                 <el-col :sm="24" :md="12" :lg="6" class="input-item">
                   <span class="input-text">航班日期：</span>
                   <div class="input-input t-flex t-date">
@@ -120,12 +119,12 @@ currentPage<template lang="html">
 
                 <el-col :sm="24" :md="12" :lg="6" class="input-item">
                   <span class="input-text">起飞机场：</span>
-                  <el-select placeholder="请选择" v-model="cdt.cityfromEqual" filterable @visible-change="takeOff" size="small" class="input-input">
+                  <el-select placeholder="请选择" v-model="cdt.cityfromEqual" filterable clearable @visible-change="takeOff" size="small" class="input-input">
                     <el-option
                     v-for="item in takeOffName"
                     :key="item.AIRPORT_CODE"
                     :value="item.AIRPORT_CODE"
-                    :label="item.AIRPORT_NAME">
+                    :label="item.AIRPORT_CODE+' - '+item.AIRPORT_NAME">
                     </el-option>
                   </el-select>
                 </el-col>
@@ -136,26 +135,26 @@ currentPage<template lang="html">
                       v-model="cdt.startDepartdate"
                       type="datetime" size="small"
                       placeholder="开始日期"
-                      value-format="yyyyMMdd HHmm">
+                      value-format="yyyyMMdd HHmmss">
                     </el-date-picker>
                     <span class="septum">-</span>
                     <el-date-picker
                        v-model="cdt.endDepartdate"
                        type="datetime" size="small"
                        placeholder="结束日期"
-                       value-format="yyyyMMdd HHmm">
+                       value-format="yyyyMMdd HHmmss">
                    </el-date-picker>
                   </div>
                 </el-col>
 
                 <el-col :sm="24" :md="12" :lg="6" class="input-item">
                   <span class="input-text">到达机场：</span>
-                  <el-select placeholder="请选择" v-model="cdt.citytoEqual" filterable @visible-change="landing" size="small" class="input-input">
+                  <el-select placeholder="请选择" v-model="cdt.citytoEqual" filterable clearable @visible-change="landing" size="small" class="input-input">
                     <el-option
                     v-for="item in landingName"
                     :key="item.AIRPORT_CODE"
                     :value="item.AIRPORT_CODE"
-                    :label="item.AIRPORT_NAME">
+                    :label="item.AIRPORT_CODE+' - '+item.AIRPORT_NAME">
                     </el-option>
                   </el-select>
                 </el-col>
@@ -166,44 +165,44 @@ currentPage<template lang="html">
                       v-model="cdt.startArrivdate"
                       type="datetime" size="small"
                       placeholder="开始日期"
-                      value-format="yyyyMMdd HHmm">
+                      value-format="yyyyMMdd HHmmss">
                     </el-date-picker>
                     <span class="septum">-</span>
                     <el-date-picker
                        v-model="cdt.endArrivdate"
                        type="datetime" size="small"
                        placeholder="结束日期"
-                       value-format="yyyyMMdd HHmm">
+                       value-format="yyyyMMdd HHmmss">
                    </el-date-picker>
                   </div>
                 </el-col>
 
                 <el-col :sm="24" :md="12" :lg="6" class="input-item">
                   <span class="input-text">出入境：</span>
-                  <el-select v-model="cdt.flighttypeEqual" placeholder="请选择"  size="small" class="input-input">
-                    <el-option label="入境" value="I"></el-option>
-                    <el-option label="出境" value="O"></el-option>
-                    <el-option label="过境" value="G"></el-option>
+                  <el-select v-model="cdt.flighttypeEqual" placeholder="请选择" filterable clearable size="small" class="input-input">
+                    <el-option label="I - 入境" value="I"></el-option>
+                    <el-option label="O - 出境" value="O"></el-option>
+                    <el-option label="G - 过境" value="G"></el-option>
                     <el-option label="全部" value=""></el-option>
                   </el-select>
                 </el-col>
                 <el-col :sm="24" :md="12" :lg="6" class="input-item">
                   <span class="input-text">最终预检结果：</span>
-                  <el-select v-model="cdt.lastcheckresult" placeholder="请选择"  size="small" class="input-input">
-                    <el-option label="允许登机" value="0Z"></el-option>
-                    <el-option label="禁止登机" value="1Z"></el-option>
-                    <el-option label="再次核对" value="2Z"></el-option>
-                    <el-option label="数据错误" value="3Z"></el-option>
+                  <el-select v-model="cdt.lastcheckresult" placeholder="请选择" filterable clearable size="small" class="input-input">
+                    <el-option label="0Z - 允许登机" value="0Z"></el-option>
+                    <el-option label="1Z - 禁止登机" value="1Z"></el-option>
+                    <el-option label="2Z - 再次核对" value="2Z"></el-option>
+                    <el-option label="3Z - 数据错误" value="3Z"></el-option>
                   </el-select>
                 </el-col>
                 </div>
               </el-row>
               <!-- 保存方案 -->
               <div class="t-save">
-                <el-select  filterable v-model="ssss"  @visible-change="savePlanShow" @change="planQuery" placeholder="方案选择" size="small" class="mr-15">
+                <el-select  filterable v-model="ssss"  @visible-change="savePlanShow" @change="planQuery" placeholder="方案选择" size="small" class="mr-15" filterable clearable>
                   <el-option
                     v-for="item in saveName"
-                    :label="item"
+                    :label="item+' - '+item"
                     :value="item"
                     :key="item"
                     >
@@ -246,7 +245,7 @@ currentPage<template lang="html">
             <el-row type="flex" style="height:100%">
               <el-col :span="22" class="bd0">
                 <div class="akcheck2top boder1">
-                  <el-button type="primary" plain size="mini" >批量导入</el-button>
+                  <el-button type="primary" plain size="mini" @click="batchDialog = true">批量导入</el-button>
                   <el-button type="primary" plain size="mini">下载模板</el-button>
                   <el-button type="primary" plain size="mini" @click="addRow">添加</el-button>
                 </div>
@@ -268,18 +267,18 @@ currentPage<template lang="html">
                     </el-col> -->
                     <el-col :sm="24" :md="12" :lg="3" class="input-item">
                       <span class="input-text t-input-text">国籍：</span>
-                      <el-select placeholder="请选择" v-model="cdtList.nationalityEqual" filterable  size="mini"  class="input-inp" @visible-change="nation">
+                      <el-select placeholder="请选择" v-model="cdtList.nationalityEqual" filterable clearable size="mini"  class="input-inp" @visible-change="nation">
                         <el-option
                           v-for="item in nationName"
                           :key="item.CODE"
                           :value="item.CODE"
-                          :label="item.CNAME"
+                          :label="item.CODE+' - '+item.CNAME"
                         ></el-option>
                       </el-select>
                     </el-col>
                     <el-col :sm="24" :md="12" :lg="3" class="input-item">
                       <span class="input-text t-input-text">证件号码：</span>
-                      <el-input placeholder="请输入内容" v-model="cdtList.passportnoEqual" size="mini" class="input-inp" @change="f"></el-input>
+                      <el-input placeholder="请输入内容" v-model="cdtList.passportnoEqual" size="mini" class="input-inp"></el-input>
                     </el-col>
                     <el-col :sm="24" :md="12" :lg="3" class="input-item">
                       <span class="input-text t-input-text">航班号：</span>
@@ -298,10 +297,10 @@ currentPage<template lang="html">
                     </el-col>
                     <el-col :sm="24" :md="12" :lg="3" class="input-item">
                       <span class="input-text t-input-text">性别：</span>
-                      <el-select placeholder="请选择" v-model="cdtList.genderEqual" size="mini"  class="input-inp">
-                        <el-option label="男" value="M"></el-option>
-                        <el-option label="女" value="F"></el-option>
-                        <el-option label="未知" value="U"></el-option>
+                      <el-select placeholder="请选择" v-model="cdtList.genderEqual" size="mini"  class="input-inp" filterable clearable>
+                        <el-option label="M - 男" value="M"></el-option>
+                        <el-option label="F - 女" value="F"></el-option>
+                        <el-option label="U - 未知" value="U"></el-option>
                       </el-select>
                     </el-col>
 
@@ -328,12 +327,12 @@ currentPage<template lang="html">
 
                     <el-col :sm="24" :md="12" :lg="3" class="input-item">
                       <span class="input-text t-input-text">起飞机场：</span>
-                      <el-select placeholder="请选择" v-model="cdtList.cityfromEqual" filterable @visible-change="takeOff" size="mini" class="input-inp">
+                      <el-select placeholder="请选择" v-model="cdtList.cityfromEqual" filterable clearable @visible-change="takeOff" size="mini" class="input-inp">
                         <el-option
                         v-for="item in takeOffName"
                         :key="item.AIRPORT_CODE"
                         :value="item.AIRPORT_CODE"
-                        :label="item.AIRPORT_NAME">
+                        :label="item.AIRPORT_CODE+' - '+item.AIRPORT_NAME">
                         </el-option>
                       </el-select>
                     </el-col>
@@ -350,12 +349,12 @@ currentPage<template lang="html">
 
                     <el-col :sm="24" :md="12" :lg="3" class="input-item">
                       <span class="input-text t-input-text">到达机场：</span>
-                      <el-select placeholder="请选择" v-model="cdtList.citytoEqual" filterable @visible-change="landing" size="mini" class="input-inp">
+                      <el-select placeholder="请选择" v-model="cdtList.citytoEqual" filterable clearable @visible-change="landing" size="mini" class="input-inp">
                         <el-option
                         v-for="item in landingName"
                         :key="item.AIRPORT_CODE"
                         :value="item.AIRPORT_CODE"
-                        :label="item.AIRPORT_NAME">
+                        :label="item.AIRPORT_CODE+' - '+item.AIRPORT_NAME">
                         </el-option>
                       </el-select>
                     </el-col>
@@ -366,7 +365,7 @@ currentPage<template lang="html">
                       type="datetime" size="mini"
                       placeholder="选择日期"
                       class="input-inp"
-                      value-format="yyyyMMdd HHmm">
+                      value-format="yyyyMMdd HHmmss">
                     </el-date-picker>
                     </el-col>
                     <el-col :sm="24" :md="12" :lg="2" class="input-item">
@@ -390,18 +389,18 @@ currentPage<template lang="html">
                     </el-col> -->
                     <el-col :sm="24" :md="12" :lg="3" class="input-item">
                       <span class="input-text t-input-text">国籍：</span>
-                      <el-select placeholder="请选择" v-model="i.nationalityEqual" filterable  size="mini"  class="input-inp" @visible-change="nation">
+                      <el-select placeholder="请选择" v-model="i.nationalityEqual" filterable clearable size="mini"  class="input-inp" @visible-change="nation">
                         <el-option
                           v-for="item in nationName"
                           :key="item.CODE"
                           :value="item.CODE"
-                          :label="item.CNAME"
+                          :label="item.CODE+' - '+item.CNAME"
                         ></el-option>
                       </el-select>
                     </el-col>
                     <el-col :sm="24" :md="12" :lg="3" class="input-item">
                       <span class="input-text t-input-text">证件号码：</span>
-                      <el-input placeholder="请输入内容" v-model="i.passportnoEqual" size="mini" class="input-inp" @change="f"></el-input>
+                      <el-input placeholder="请输入内容" v-model="i.passportnoEqual" size="mini" class="input-inp"></el-input>
                     </el-col>
                     <el-col :sm="24" :md="12" :lg="3" class="input-item">
                       <span class="input-text t-input-text">航班号：</span>
@@ -420,10 +419,10 @@ currentPage<template lang="html">
                     </el-col>
                     <el-col :sm="24" :md="12" :lg="3" class="input-item">
                       <span class="input-text t-input-text">性别：</span>
-                      <el-select placeholder="请选择" v-model="i.genderEqual" size="mini"  class="input-inp">
-                        <el-option label="男" value="M"></el-option>
-                        <el-option label="女" value="F"></el-option>
-                        <el-option label="未知" value="U"></el-option>
+                      <el-select placeholder="请选择" v-model="i.genderEqual" size="mini" filterable clearable class="input-inp">
+                        <el-option label="M - 男" value="M"></el-option>
+                        <el-option label="F - 女" value="F"></el-option>
+                        <el-option label="U - 未知" value="U"></el-option>
                       </el-select>
                     </el-col>
 
@@ -450,12 +449,12 @@ currentPage<template lang="html">
 
                     <el-col :sm="24" :md="12" :lg="3" class="input-item">
                       <span class="input-text t-input-text">起飞机场：</span>
-                      <el-select placeholder="请选择" v-model="i.cityfromEqual" filterable @visible-change="takeOff" size="mini" class="input-inp">
+                      <el-select placeholder="请选择" v-model="i.cityfromEqual" filterable clearable @visible-change="takeOff" size="mini" class="input-inp">
                         <el-option
                         v-for="item in takeOffName"
                         :key="item.AIRPORT_CODE"
                         :value="item.AIRPORT_CODE"
-                        :label="item.AIRPORT_NAME">
+                        :label="item.AIRPORT_CODE+' - '+item.AIRPORT_NAME">
                         </el-option>
                       </el-select>
                     </el-col>
@@ -466,18 +465,18 @@ currentPage<template lang="html">
                       type="datetime" size="mini"
                       placeholder="选择日期"
                       class="input-inp"
-                      value-format="yyyyMMdd HHmm">
+                      value-format="yyyyMMdd HHmmss">
                     </el-date-picker>
                     </el-col>
 
                     <el-col :sm="24" :md="12" :lg="3" class="input-item">
                       <span class="input-text t-input-text">到达机场：</span>
-                      <el-select placeholder="请选择" v-model="i.citytoEqual" filterable @visible-change="landing" size="mini" class="input-inp">
+                      <el-select placeholder="请选择" v-model="i.citytoEqual" filterable clearable @visible-change="landing" size="mini" class="input-inp">
                         <el-option
                         v-for="item in landingName"
                         :key="item.AIRPORT_CODE"
                         :value="item.AIRPORT_CODE"
-                        :label="item.AIRPORT_NAME">
+                        :label="item.AIRPORT_CODE+' - '+item.AIRPORT_NAME">
                         </el-option>
                       </el-select>
                     </el-col>
@@ -488,7 +487,7 @@ currentPage<template lang="html">
                       type="datetime" size="mini"
                       placeholder="选择日期"
                       class="input-inp"
-                      value-format="yyyyMMdd HHmm">
+                      value-format="yyyyMMdd HHmmss">
                     </el-date-picker>
                     </el-col>
                     <el-col :sm="24" :md="12" :lg="2" class="input-item">
@@ -506,7 +505,7 @@ currentPage<template lang="html">
               <el-col :span="22" style="margin-top: 15px;">
                 <!-- 保存方案 -->
                 <div class="t-save">
-                  <el-select  filterable v-model="pppp"  @visible-change="batchSavePlanShow" @change="batchPlanQuery" placeholder="方案选择" size="small" class="mr-15">
+                  <el-select  filterable clearable v-model="pppp"  @visible-change="batchSavePlanShow" @change="batchPlanQuery" placeholder="方案选择" size="small" class="mr-15">
                     <el-option
                       v-for="item in batchSaveName"
                       :label="item"
@@ -559,7 +558,7 @@ currentPage<template lang="html">
                      <el-row type="flex" align="center" :gutter="10" style="width:100%">
                        <el-col :sm="24" :md="12" :lg="6" class="input-item">
                          <span class="input-text">属性：</span>
-                         <el-select placeholder="请选择" v-model="selfCdtList.attribute" filterable @visible-change="attribute" @change="attributeOperator(selfCdtList)" size="mini">
+                         <el-select placeholder="请选择" v-model="selfCdtList.attribute" filterable clearable @visible-change="attribute" @change="attributeOperator(selfCdtList)" size="mini">
                            <el-option
                              v-for="item in selfNature"
                              :key="item.name"
@@ -569,7 +568,7 @@ currentPage<template lang="html">
                          </el-select>
                        </el-col>
                        <el-col :sm="24" :md="12" :lg="3" class="input-item t-operator">
-                         <el-select placeholder="请选择" v-model="selfCdtList.operator" filterable @visible-change="attribute2(selfNature,selfCdtList)" size="mini">
+                         <el-select placeholder="请选择" v-model="selfCdtList.operator" filterable clearable @visible-change="attribute2(selfNature,selfCdtList)" size="mini">
                            <el-option
                              v-for="item in operator"
                              :key="item"
@@ -582,18 +581,18 @@ currentPage<template lang="html">
                          <!-- 输入框 -->
                          <el-input placeholder="请输入内容" v-model="selfCdtList.atype" size="mini" v-show="selfCdtList.type==0"></el-input>
                          <!-- 性别 -->
-                         <el-select placeholder="请选择" v-model="selfCdtList.atype" filterable  size="mini" v-show="selfCdtList.type==1">
-                           <el-option label="男" value="M"></el-option>
-                           <el-option label="女" value="F"></el-option>
-                           <el-option label="未知" value="U"></el-option>
+                         <el-select placeholder="请选择" v-model="selfCdtList.atype" filterable clearable size="mini" v-show="selfCdtList.type==1">
+                           <el-option label="M - 男" value="M"></el-option>
+                           <el-option label="F - 女" value="F"></el-option>
+                           <el-option label="U - 未知" value="U"></el-option>
                          </el-select>
                          <!-- 起飞机场 -->
-                         <el-select placeholder="请选择" v-model="selfCdtList.atype" filterable @visible-change="takeOff" size="small" class="input-input" v-show="selfCdtList.type==2">
+                         <el-select placeholder="请选择" v-model="selfCdtList.atype" filterable @visible-change="takeOff" size="mini" class="input-input t-width100" v-show="selfCdtList.type==2">
                            <el-option
                            v-for="item in takeOffName"
                            :key="item.AIRPORT_CODE"
                            :value="item.AIRPORT_CODE"
-                           :label="item.AIRPORT_NAME">
+                           :label="item.AIRPORT_CODE+' - '+item.AIRPORT_NAME">
                            </el-option>
                          </el-select>
                          <!-- 日期 精确到天 -->
@@ -612,7 +611,7 @@ currentPage<template lang="html">
                          type="datetime" size="mini"
                          placeholder="选择日期"
                          class="t-width100"
-                         value-format="yyyyMMdd HHmm">
+                         value-format="yyyyMMdd HHmmss">
                         </el-date-picker>
 
                        </el-col>
@@ -621,7 +620,7 @@ currentPage<template lang="html">
                      <el-row type="flex" align="center" :gutter="10" style="width:100%" v-for="self in selfRows">
                       <el-col :sm="24" :md="12" :lg="6" class="input-item">
                         <span class="input-text">属性：</span>
-                        <el-select placeholder="请选择" v-model="self.attribute" @visible-change="attribute" @change="attributeOperator(selfNature)" filterable  size="mini">
+                        <el-select placeholder="请选择" v-model="self.attribute" @visible-change="attribute" @change="attributeOperator(selfNature)" filterable clearable size="mini">
                           <el-option
                             v-for="item in selfNature"
                             :key="item.name"
@@ -631,7 +630,7 @@ currentPage<template lang="html">
                         </el-select>
                       </el-col>
                       <el-col :sm="24" :md="12" :lg="3" class="input-item t-operator">
-                        <el-select placeholder="请选择" v-model="self.operator" filterable @visible-change="attribute2(selfNature,self)" size="mini">
+                        <el-select placeholder="请选择" v-model="self.operator" filterable clearable @visible-change="attribute2(selfNature,self)" size="mini">
                           <el-option
                             v-for="item in operator"
                             :key="item"
@@ -644,18 +643,18 @@ currentPage<template lang="html">
                         <!-- 输入框 -->
                         <el-input placeholder="请输入内容" v-model="self.atype" size="mini" v-show="self.type==0"></el-input>
                         <!-- 性别 -->
-                        <el-select placeholder="请选择" v-model="self.atype" filterable  size="mini" v-show="self.type==1">
-                          <el-option label="男" value="M"></el-option>
-                          <el-option label="女" value="F"></el-option>
-                          <el-option label="未知" value="U"></el-option>
+                        <el-select placeholder="请选择" v-model="self.atype" filterable clearable size="mini" v-show="self.type==1">
+                          <el-option label="M - 男" value="M"></el-option>
+                          <el-option label="F - 女" value="F"></el-option>
+                          <el-option label="U - 未知" value="U"></el-option>
                         </el-select>
                         <!-- 起飞机场 -->
-                        <el-select placeholder="请选择" v-model="self.atype" filterable @visible-change="takeOff" size="small" class="input-input" v-show="self.type==2">
+                        <el-select placeholder="请选择" v-model="self.atype" filterable clearable @visible-change="takeOff" size="mini" class="input-input t-width100" v-show="self.type==2">
                           <el-option
                           v-for="item in takeOffName"
                           :key="item.AIRPORT_CODE"
                           :value="item.AIRPORT_CODE"
-                          :label="item.AIRPORT_NAME">
+                          :label="item.AIRPORT_CODE+' - '+item.AIRPORT_NAME">
                           </el-option>
                         </el-select>
                         <!-- 日期 精确到天 -->
@@ -664,7 +663,8 @@ currentPage<template lang="html">
                         v-show="self.type==3"
                         type="date" size="mini"
                         placeholder="选择日期"
-                        class="input-inp"
+
+                        class="t-width100"
                         value-format="yyyyMMdd">
                        </el-date-picker>
                       <!-- 日期 精确到秒 -->
@@ -673,12 +673,13 @@ currentPage<template lang="html">
                         v-show="self.type==4"
                         type="datetime" size="mini"
                         placeholder="选择日期"
-                        value-format="yyyyMMdd HHmm">
+                        class="t-width100"
+                        value-format="yyyyMMdd HHmmss">
                        </el-date-picker>
                       </el-col>
                       <el-col :sm="24" :md="12" :lg="7" class="input-item">
                         <span class="input-text">逻辑关系：</span>
-                        <el-select placeholder="请选择" v-model="self.relation" filterable  size="mini" class="input-input" style="margin-left:10%">
+                        <el-select placeholder="请选择" v-model="self.relation" filterable clearable size="mini" class="input-input" style="margin-left:10%">
                           <el-option label="and" value="and"></el-option>
                           <el-option label="or" value="or"></el-option>
                         </el-select>
@@ -691,12 +692,12 @@ currentPage<template lang="html">
                      <el-row type="flex" justify="start" align="center" :gutter="10" style="width:100%">
                      <el-col :sm="24" :md="12" :lg="8" class="input-item">
                        <span class="input-text">数据排序：</span>
-                       <el-select placeholder="请选择" v-model="cdt.nationalityEqual" filterable  size="mini">
+                       <el-select placeholder="请选择" v-model="cdt.nationalityEqual" filterable clearable size="mini">
                          <el-option
                            v-for="item in selection"
                            :key="item.code"
                            :value="item.code"
-                           :label="item.name"
+                           :label="item.code+' - '+item.name"
                          ></el-option>
                        </el-select>
                      </el-col>
@@ -782,6 +783,399 @@ currentPage<template lang="html">
          <el-checkbox v-for="item in checkItem" :label="item.ITEMNAME" :key="item.ITEMNAME">{{item.LABEL}}</el-checkbox>
        </el-checkbox-group>
     </div>
+    <el-dialog title="查看详情" :visible.sync="detailsDialogVisible">
+      <el-form :model="dform" ref="detailsForm">
+        <div class="hrtitle">基本信息</div>
+        <el-row type="flex"  class="mb-6">
+          <el-col :span="6">姓名：{{dform.CNAME}}</el-col>
+          <el-col :span="6">性别：{{dform.GENDERNAME=="F"?"男":dform.GENDER=="F"?"女":"未知"}}</el-col>
+          <el-col :span="6">出生日期：{{dform.BIRTHDAYSTR}}</el-col>
+          <el-col :span="6">国籍：{{dform.NATIONALITYNAME}}</el-col>
+        </el-row>
+        <el-row type="flex"  class="mb-6">
+          <el-col :span="6">证件号码：{{dform.PASSPORTNO}}</el-col>
+          <el-col :span="6">出入境类型：{{dform.FLIGHTINOUT}}</el-col>
+          <el-col :span="6">出生国：{{dform.BIRTHCOUNTRYNAME}}</el-col>
+          <el-col :span="6">居住国：{{dform.RESIDENCENAME}}</el-col>
+
+        </el-row>
+        <el-row type="flex"  class="mb-6">
+          <el-col :span="6">护照有效期：{{dform.PASSPORTEXPIREDATESTR}}</el-col>
+          <el-col :span="6">护照颁发国：{{dform.PASSPORTISSUECOUNTRYNAME}}</el-col>
+          <el-col :span="6">护照签发期：{{dform.PASSPORTISSUEDATESTR}}</el-col>
+        </el-row>
+        <div class="hrtitle">航班信息</div>
+        <el-row type="flex"  class="mb-6">
+          <el-col :span="8">航班号：{{dform.FLTNO}}</el-col>
+          <el-col :span="8">航班日期：{{dform.FLIGHTDATESTR}}</el-col>
+          <el-col :span="8">起飞机场：{{dform.CITYFROMNAME}}</el-col>
+
+        </el-row>
+        <el-row type="flex"  class="mb-6">
+          <el-col :span="8">预计起飞时间：{{dform.DEPARTDATESTR}}</el-col>
+          <el-col :span="8">到达机场：{{dform.CITYTONAME}}</el-col>
+          <el-col :span="8">预计到达时间：{{dform.ARRIVDATESTR}}</el-col>
+
+        </el-row>
+        <el-row type="flex"  class="mb-6">
+          <el-col :span="8">原预检结果：{{dform.CHECKRESULTNAME}}</el-col>
+          <el-col :span="8">最终预检结果：{{dform.LASTCHECKRESULTSTR}}</el-col>
+          <el-col :span="8">是否有效：{{dform.PASSENGERSTATUSSTR==0?"无效":"有效"}}</el-col>
+
+        </el-row>
+        <el-row type="flex"  class="mb-6">
+          <el-col :span="8">航班状态：{{dform.FLIGHTSTATUSSTR==0?"取消":"起飞"}}</el-col>
+          <el-col :span="8">登机/航班取消时间：{{dform.LASTUPDATETIMESTR}}</el-col>
+          <el-col :span="8">口岸：{{dform.PORTSTR}}</el-col>
+        </el-row>
+        <el-row type="flex"  class="mb-6">
+          <el-col :span="8">备降口岸：{{dform.CHANGEPORTSTR}}</el-col>
+          <el-col :span="8">航空公司联系电话：{{dform.AIRLINEPHONESTR}}</el-col>
+        </el-row>
+        <div class="hrtitle">其他信息</div>
+        <el-row type="flex"  class="mb-6">
+          <el-col :span="8">航空公司传真：{{dform.AIRLINEFAX}}</el-col>
+          <el-col :span="8">航信发送报文时间：{{dform.GAPP_RECEIVETIMESTR}}</el-col>
+          <el-col :span="8">航信接受报文时间：{{dform.GAPP_SENDTIMESTR}}</el-col>
+        </el-row>
+        <el-row type="flex"  class="mb-6">
+          <el-col :span="9">流水号：{{dform.TID}}</el-col>
+          <el-col :span="8">ICS记录编号：{{dform.RECORDLOCATER}}</el-col>
+          <el-col :span="7">旅客中间名：{{dform.MIDDLENAME}}</el-col>
+        </el-row>
+        <el-row type="flex"  class="mb-6">
+          <el-col :span="8">旅客类型：{{dform.PASSENGERTYPESTR=="FL"?"普通旅客":"中转旅客"}}</el-col>
+          <el-col :span="8">旅客值机方式：{{dform.VIDSTR}}</el-col>
+          <el-col :span="8">旅客状态：{{dform.PASSENGERSTATUSSTR==0?"已值机":dform.PASSENGERSTATUS==1?"已登机":"未登机"}}</el-col>
+        </el-row>
+        <el-row type="flex"  class="mb-6">
+          <el-col :span="8">是否报警：{{dform.ISEVENT}}</el-col>
+          <el-col :span="8">ABO唯一标识：{{dform.ABONO}}</el-col>
+          <el-col :span="8">其他证件号码：{{dform.OTHER_NO}}</el-col>
+        </el-row>
+        <el-row type="flex"  class="mb-6">
+          <el-col :span="8">其他证件有效期：{{dform.OTHER_EXPIREDATESTR}}</el-col>
+          <el-col :span="8">其他证件颁发国：{{dform.OTHER_ISSUECOUNTRYSTR}}</el-col>
+          <el-col :span="8">其他证件签发日期：{{dform.OTHERDOCUMENTISSUEDATESTR}}</el-col>
+        </el-row>
+        <el-row type="flex"  class="mb-6">
+          <el-col :span="8">签证号码：{{dform.VISANO}}</el-col>
+          <el-col :span="8">签证有效期：{{dform.VISAEXPIREDATESTR}}</el-col>
+          <el-col :span="8">签证国家：{{dform.VISAISSUECOUNTRYSTR}}</el-col>
+        </el-row>
+        <el-row type="flex"  class="mb-6">
+          <el-col :span="8">签证签发日期：{{dform.VISAISSUEDATESTR}}</el-col>
+          <el-col :span="8">起飞城市：{{dform.ORIGINSTR}}</el-col>
+          <el-col :span="8">目的地地址：{{dform.DESTADDRESS}}</el-col>
+        </el-row>
+        <el-row type="flex"  class="mb-6">
+          <el-col :span="8">目的地城市：{{dform.DESTCITY}}</el-col>
+          <el-col :span="8">目的的所在省：{{dform.DESTSTATEC}}</el-col>
+          <el-col :span="8">目的地国家：{{dform.DESTCOUNTRYSTR}}</el-col>
+        </el-row>
+        <el-row type="flex"  class="mb-6">
+          <el-col :span="8">目的地邮编：{{dform.DESTPOSTALCODE}}</el-col>
+          <el-col :span="8">边检接收时间：{{dform.IAPI_RECEIVETIMESTR}}</el-col>
+          <el-col :span="8">边检回复时间：{{dform.IAPI_RESPONSETIMESTR}}</el-col>
+        </el-row>
+        <!-- 数据有效性 -->
+        <div class="" v-show="isCheck">
+          <div class="hrtitle">数据有效性</div>
+          <el-row type="flex"  class="mb-6">
+            <el-col :span="6">属性名：{{check.FIELDNAME}}</el-col>
+            <el-col :span="6">属性值：{{check.FIELDVALUES}}</el-col>
+            <el-col :span="6">是否必填：{{check.INPUT}}</el-col>
+            <el-col :span="6">最小长度：{{check.MINLENGTH}}</el-col>
+          </el-row>
+
+          <el-row type="flex"  class="mb-6">
+            <el-col :span="6">最大长度：{{check.MAXLENGTH}}</el-col>
+            <el-col :span="6">正则表达式：{{check.REGULAR}}</el-col>
+            <el-col :span="12">错误描述：{{check.DETAIL}}</el-col>
+          </el-row>
+        </div>
+
+        <!-- 名单比中详情 -->
+        <div class="" v-show="isName">
+          <div class="hrtitle">名单比中详情</div>
+          <el-row type="flex"  class="mb-6">
+            <el-col :span="6">
+              <el-button type="primary" plain name="button"  size="mini" @click="reviewDetail">查看评价详情</el-button>
+            </el-col>
+          </el-row>
+        </div>
+        <!-- 业务规则校验不通过 -->
+        <div class="" v-show="isRules">
+          <div class="hrtitle">业务规则校验不通过</div>
+          <el-row type="flex"  class="mb-6">
+            <el-col :span="6">规则名称：{{rules.MATCHRRULE}}</el-col>
+            <el-col :span="6">返回状态：{{rules.STATUS}}</el-col>
+            <el-col :span="12">错误详情：{{rules.CHECKREMARK}}</el-col>
+          </el-row>
+        </div>
+
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+
+        <el-button @click="detailsDialogVisible = false" size="small">取消</el-button>
+
+      </div>
+
+    </el-dialog>
+
+    <el-dialog title="查看信息" :visible.sync="reviewDialogTable">
+      <el-table :data="historyData">
+        <el-table-column
+          prop="I_NAME"
+          label="姓名"
+          sortable
+          width="100"
+          v-if="checkList.indexOf(checkItem[0].ITEMNAME)>-1"
+          >
+        </el-table-column>
+        <el-table-column
+          prop="I_34"
+          label="性别"
+          sortable
+          v-if="checkList.indexOf(checkItem[1].ITEMNAME)>-1">
+        </el-table-column>
+        <el-table-column
+          prop="I_76"
+          label="出生日期"
+          width="130"
+          sortable
+          v-if="checkList.indexOf(checkItem[2].ITEMNAME)>-1">
+        </el-table-column>
+        <el-table-column
+          prop="I_37"
+          label="国籍"
+          sortable
+          v-if="checkList.indexOf(checkItem[3].ITEMNAME)>-1">
+        </el-table-column>
+        <el-table-column
+          prop="I_39"
+          label="证件号码"
+          width="130"
+          sortable
+          v-if="checkList.indexOf(checkItem[4].ITEMNAME)>-1">
+        </el-table-column>
+        <el-table-column
+          prop="I_12"
+          label="航班号"
+          width="130"
+          sortable
+          v-if="checkList.indexOf(checkItem[5].ITEMNAME)>-1">
+        </el-table-column>
+        <el-table-column
+          prop="filghtDate"
+          label="航班日期"
+          width="130"
+          sortable
+          v-if="checkList.indexOf(checkItem[6].ITEMNAME)>-1">
+        </el-table-column>
+        <el-table-column
+          prop="I_13"
+          label="出入境"
+          width="130"
+          sortable
+          v-if="checkList.indexOf(checkItem[7].ITEMNAME)>-1">
+        </el-table-column>
+        <el-table-column
+          prop="I_65"
+          label="值机状态"
+          width="130"
+          sortable
+          v-if="checkList.indexOf(checkItem[8].ITEMNAME)>-1">
+        </el-table-column>
+        <el-table-column
+          prop="I_74"
+          label="预计起飞时间"
+          width="130"
+          sortable
+          v-if="checkList.indexOf(checkItem[9].ITEMNAME)>-1">
+        </el-table-column>
+
+        <el-table-column
+          prop="I_16"
+          label="到达机场"
+          width="130"
+          sortable
+          v-if="checkList.indexOf(checkItem[10].ITEMNAME)>-1">
+        </el-table-column>
+        <el-table-column
+          prop="I_75"
+          label="预计降落时间"
+          width="130"
+          sortable
+          v-if="checkList.indexOf(checkItem[11].ITEMNAME)>-1">
+        </el-table-column>
+        <el-table-column
+          prop="I_59"
+          label="原预检结果"
+          width="130"
+          sortable
+          v-if="checkList.indexOf(checkItem[12].ITEMNAME)>-1">
+        </el-table-column>
+        <el-table-column
+          prop="I_10"
+          label="航空公司联系电话"
+          width="130"
+          sortable
+          v-if="checkList.indexOf(checkItem[13].ITEMNAME)>-1">
+        </el-table-column>
+        <el-table-column
+          prop="I_45"
+          label="其他证件颁发国家"
+          width="130"
+          sortable
+          v-if="checkList.indexOf(checkItem[14].ITEMNAME)>-1">
+        </el-table-column>
+        <el-table-column
+          prop="I_46"
+          label="其他证件签发日期"
+          width="130"
+          sortable
+          v-if="checkList.indexOf(checkItem[15].ITEMNAME)>-1">
+        </el-table-column>
+        <el-table-column
+          prop="I_48"
+          label="签证号码"
+          width="130"
+          sortable
+          v-if="checkList.indexOf(checkItem[16].ITEMNAME)>-1">
+        </el-table-column>
+        <el-table-column
+          prop="I_49"
+          label="签证有效期"
+          width="130"
+          sortable
+          v-if="checkList.indexOf(checkItem[17].ITEMNAME)>-1">
+        </el-table-column>
+        <el-table-column
+          prop="E_EVENTSERIAL"
+          label="是否报警"
+          width="130"
+          sortable
+          v-if="checkList.indexOf(checkItem[18].ITEMNAME)>-1">
+        </el-table-column>
+        <el-table-column
+          prop="I_40"
+          label="护照有效期"
+          width="130"
+          sortable
+          v-if="checkList.indexOf(checkItem[19].ITEMNAME)>-1">
+        </el-table-column>
+        <el-table-column
+          prop="I_42"
+          label="护照签发日期"
+          width="130"
+          sortable
+          v-if="checkList.indexOf(checkItem[20].ITEMNAME)>-1">
+        </el-table-column>
+        <el-table-column
+          prop="I_27"
+          label="ABO唯一标识"
+          width="130"
+          sortable
+          v-if="checkList.indexOf(checkItem[21].ITEMNAME)>-1">
+        </el-table-column>
+        <el-table-column
+          prop="I_43"
+          label="其他证件号码"
+          width="130"
+          sortable
+          v-if="checkList.indexOf(checkItem[22].ITEMNAME)>-1">
+        </el-table-column>
+        <el-table-column
+          prop="I_44"
+          label="其他证件有效期"
+          width="130"
+          sortable
+          v-if="checkList.indexOf(checkItem[23].ITEMNAME)>-1">
+        </el-table-column>
+        <el-table-column
+          prop="I_63"
+          label="边检回复时间"
+          width="130"
+          sortable
+          v-if="checkList.indexOf(checkItem[24].ITEMNAME)>-1">
+        </el-table-column>
+        <el-table-column
+          prop="I_64"
+          label="航班状态"
+          width="130"
+          sortable
+          v-if="checkList.indexOf(checkItem[25].ITEMNAME)>-1">
+        </el-table-column>
+        <el-table-column
+          prop="I_41"
+          label="护照颁发国家"
+          width="130"
+          sortable
+          v-if="checkList.indexOf(checkItem[26].ITEMNAME)>-1">
+        </el-table-column>
+        <el-table-column
+          prop="I_73"
+          label="座位号"
+          width="130"
+          sortable
+          v-if="checkList.indexOf(checkItem[27].ITEMNAME)>-1">
+        </el-table-column>
+      </el-table>
+
+      <div class="middle-foot">
+        <div class="page-msg">
+          <div class="">
+            共{{htotalPage}}页
+          </div>
+          <div class="">
+            每页
+            <el-select v-model="hshowCount" @change="hpageSizeChange(hshowCount)" placeholder="10" size="mini" class="page-select">
+              <el-option
+                v-for="item in options"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
+            条
+          </div>
+          <div class="">
+            共{{htotalResult}}条
+          </div>
+        </div>
+        <el-pagination
+          background
+          @current-change="hhandleCurrentChange"
+          :page-size="hshowCount"
+          layout="prev, pager, next"
+          :total="htotalResult">
+        </el-pagination>
+      </div>
+    </el-dialog>
+
+    <el-dialog title="批量导入" :visible.sync="batchDialog">
+      <form>
+        <el-row type="flex" justify="center" :gutter="10">
+          <el-col :span="15" class="input-item">
+            <span class="input-text">文件名称：</span>
+            <el-input v-model="fileName"></el-input>
+          </el-col>
+          <el-col :span="5">
+            <span class="fileinput-button">
+                <span>选择文件</span>
+                <input type="file" id="myfile" @change="choose($event)">
+            </span>
+          </el-col>
+        </el-row>
+
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="batchImport($event)">导 入</el-button>
+        <el-button type="primary" @click="batchDialog = false">取 消</el-button>
+      </span>
+</form>
+    </el-dialog>
+
 
     <div class="middle">
       <el-button  plain class="table-btn mb-9" size="small">显示窗位图</el-button>
@@ -795,6 +1189,7 @@ currentPage<template lang="html">
         style="width: 100%;"
         highlight-current-row
         @row-click="checkRow"
+        @cell-click="getMore"
         >
         <el-table-column
            label="单选">
@@ -802,72 +1197,82 @@ currentPage<template lang="html">
             <el-radio v-model="radio" class="radio" :label="scope.row.I_SERIAL">&nbsp;</el-radio>
           </template>
         </el-table-column>
+        <!-- <el-table-column
+          prop="I_N"
+          label="姓名111"
+          sortable
+          width="100"
+
+          >
+        </el-table-column> -->
         <el-table-column
           prop="I_NAME"
           label="姓名"
           sortable
-          v-if="checkList.indexOf(this.checkItem[0].ITEMNAME)>-1">
+          width="100"
+          v-if="checkList.indexOf(checkItem[0].ITEMNAME)>-1"
+          >
         </el-table-column>
         <el-table-column
           prop="I_34"
           label="性别"
           sortable
-          v-if="checkList.indexOf(this.checkItem[1].ITEMNAME)>-1">
+          v-if="checkList.indexOf(checkItem[1].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
           prop="I_76"
           label="出生日期"
           width="130"
           sortable
-          v-if="checkList.indexOf(this.checkItem[2].ITEMNAME)>-1">
+          v-if="checkList.indexOf(checkItem[2].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
           prop="I_37"
           label="国籍"
           sortable
-          v-if="checkList.indexOf(this.checkItem[3].ITEMNAME)>-1">
+          v-if="checkList.indexOf(checkItem[3].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
           prop="I_39"
           label="证件号码"
           width="130"
           sortable
-          v-if="checkList.indexOf(this.checkItem[4].ITEMNAME)>-1">
+          v-if="checkList.indexOf(checkItem[4].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
           prop="I_12"
           label="航班号"
           width="130"
           sortable
-          v-if="checkList.indexOf(this.checkItem[5].ITEMNAME)>-1">
+          v-if="checkList.indexOf(checkItem[5].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
           prop="filghtDate"
           label="航班日期"
           width="130"
           sortable
-          v-if="checkList.indexOf(this.checkItem[6].ITEMNAME)>-1">
+          v-if="checkList.indexOf(checkItem[6].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
           prop="I_13"
           label="出入境"
           width="130"
           sortable
-          v-if="checkList.indexOf(this.checkItem[7].ITEMNAME)>-1">
+          v-if="checkList.indexOf(checkItem[7].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
           prop="I_65"
           label="值机状态"
           width="130"
           sortable
-          v-if="checkList.indexOf(this.checkItem[8].ITEMNAME)>-1">
+          v-if="checkList.indexOf(checkItem[8].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
           prop="I_74"
           label="预计起飞时间"
           width="130"
           sortable
-          v-if="checkList.indexOf(this.checkItem[9].ITEMNAME)>-1">
+          v-if="checkList.indexOf(checkItem[9].ITEMNAME)>-1">
         </el-table-column>
 
         <el-table-column
@@ -875,132 +1280,132 @@ currentPage<template lang="html">
           label="到达机场"
           width="130"
           sortable
-          v-if="checkList.indexOf(this.checkItem[10].ITEMNAME)>-1">
+          v-if="checkList.indexOf(checkItem[10].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
           prop="I_75"
           label="预计降落时间"
           width="130"
           sortable
-          v-if="checkList.indexOf(this.checkItem[11].ITEMNAME)>-1">
+          v-if="checkList.indexOf(checkItem[11].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
           prop="I_59"
           label="原预检结果"
           width="130"
           sortable
-          v-if="checkList.indexOf(this.checkItem[12].ITEMNAME)>-1">
+          v-if="checkList.indexOf(checkItem[12].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
           prop="I_10"
           label="航空公司联系电话"
           width="130"
           sortable
-          v-if="checkList.indexOf(this.checkItem[13].ITEMNAME)>-1">
+          v-if="checkList.indexOf(checkItem[13].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
           prop="I_45"
           label="其他证件颁发国家"
           width="130"
           sortable
-          v-if="checkList.indexOf(this.checkItem[14].ITEMNAME)>-1">
+          v-if="checkList.indexOf(checkItem[14].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
           prop="I_46"
           label="其他证件签发日期"
           width="130"
           sortable
-          v-if="checkList.indexOf(this.checkItem[15].ITEMNAME)>-1">
+          v-if="checkList.indexOf(checkItem[15].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
           prop="I_48"
           label="签证号码"
           width="130"
           sortable
-          v-if="checkList.indexOf(this.checkItem[16].ITEMNAME)>-1">
+          v-if="checkList.indexOf(checkItem[16].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
           prop="I_49"
           label="签证有效期"
           width="130"
           sortable
-          v-if="checkList.indexOf(this.checkItem[17].ITEMNAME)>-1">
+          v-if="checkList.indexOf(checkItem[17].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
           prop="E_EVENTSERIAL"
           label="是否报警"
           width="130"
           sortable
-          v-if="checkList.indexOf(this.checkItem[18].ITEMNAME)>-1">
+          v-if="checkList.indexOf(checkItem[18].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
           prop="I_40"
           label="护照有效期"
           width="130"
           sortable
-          v-if="checkList.indexOf(this.checkItem[19].ITEMNAME)>-1">
+          v-if="checkList.indexOf(checkItem[19].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
           prop="I_42"
           label="护照签发日期"
           width="130"
           sortable
-          v-if="checkList.indexOf(this.checkItem[20].ITEMNAME)>-1">
+          v-if="checkList.indexOf(checkItem[20].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
           prop="I_27"
           label="ABO唯一标识"
           width="130"
           sortable
-          v-if="checkList.indexOf(this.checkItem[21].ITEMNAME)>-1">
+          v-if="checkList.indexOf(checkItem[21].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
           prop="I_43"
           label="其他证件号码"
           width="130"
           sortable
-          v-if="checkList.indexOf(this.checkItem[22].ITEMNAME)>-1">
+          v-if="checkList.indexOf(checkItem[22].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
           prop="I_44"
           label="其他证件有效期"
           width="130"
           sortable
-          v-if="checkList.indexOf(this.checkItem[23].ITEMNAME)>-1">
+          v-if="checkList.indexOf(checkItem[23].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
           prop="I_63"
           label="边检回复时间"
           width="130"
           sortable
-          v-if="checkList.indexOf(this.checkItem[24].ITEMNAME)>-1">
+          v-if="checkList.indexOf(checkItem[24].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
           prop="I_64"
           label="航班状态"
           width="130"
           sortable
-          v-if="checkList.indexOf(this.checkItem[25].ITEMNAME)>-1">
+          v-if="checkList.indexOf(checkItem[25].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
           prop="I_41"
           label="护照颁发国家"
           width="130"
           sortable
-          v-if="checkList.indexOf(this.checkItem[26].ITEMNAME)>-1">
+          v-if="checkList.indexOf(checkItem[26].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
           prop="I_73"
           label="座位号"
           width="130"
           sortable
-          v-if="checkList.indexOf(this.checkItem[27].ITEMNAME)>-1">
+          v-if="checkList.indexOf(checkItem[27].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
           label="操作"
           width="100">
           <template slot-scope="scope">
-            <el-button class="table-btn" size="mini" plain @click="$router.push({name:'alarmProcess'})">详情</el-button>
+            <el-button class="table-btn" size="mini" plain @click="details(scope.row.I_SERIAL)">详情</el-button>
          </template>
         </el-table-column>
       </el-table>
@@ -1037,6 +1442,7 @@ currentPage<template lang="html">
     </div>
 
     </div>
+
   </div>
 
 </template>
@@ -1048,9 +1454,9 @@ export default {
       dialogVisible: false,//基础查询写入方案名称
       batchDialogVisible:false,//批量查询写入方案名称
       selfDialogVisible:false,//自定义查询写入方案名称
-      // promptDialogVisible:false,//基础查询 提示Dialog
-      // batchPromptDialogVisible:false,//批量查询 提示Dialog
-      // selfPromptDialogVisible:false,//自定义查询 提示Dialog
+      detailsDialogVisible:false,//查看详情模态框
+      reviewDialogTable:false,//查看历次信息模态框
+
       openList:true,
       openCheckbox:true,
       currentPage:1,//当前页数
@@ -1058,9 +1464,25 @@ export default {
       showCount:10,//每页显示的记录数
       totalResult:0,//总条数
       totalPage:1,//总页数
+
+      hcurrentPage:1,//当前页数
+      hpageSize:10, //每页显示个数选择器的选项设置
+      hshowCount:10,//每页显示的记录数
+      htotalResult:0,//总条数
+      htotalPage:1,//总页数
+
+      batchDialog:false,
+      fileName:'',
+
       page: 0,
       text:'收起',
       listText:'收起',
+      dform:{},
+      rules:{},
+      check:{},
+      isCheck:false,
+      isName:true,
+      isRules:true,
       rows:[
         {
           version:1,
@@ -1092,6 +1514,20 @@ export default {
         citytoEqual:'',
         endArrivdate:''
       },
+      cleanRow:{
+        version:0,
+        nationalityEqual:'',
+        passportnoEqual:'',
+        fltnoEqual:'',
+        familyname:'',
+        genderEqual:'',
+        startDateofbirth:'',
+        startFlightDepartdate:'',
+        cityfromEqual:'',
+        startDepartdate:'',
+        citytoEqual:'',
+        endArrivdate:''
+      },
       selfRows:[
         {
             id:1,
@@ -1103,6 +1539,14 @@ export default {
         }
       ],
       selfModelrow:{
+        id:0,
+        attribute:'',
+        operator:'',
+        type:0,
+        relation:'',
+        atype:''
+      },
+      selfCleanRow:{
         id:0,
         attribute:'',
         operator:'',
@@ -1235,6 +1679,8 @@ export default {
       chauName:[],
       selection:[],
       nationName:[],
+      detailstableData: [],//详情里面的列表
+      xingq: "无",
       idName:[],
       saveName:[],//基础查询方案保存
       batchSaveName:[],//批量查询方案保存
@@ -1244,6 +1690,10 @@ export default {
       nationalityName:[],
       cdt:{
         flighttypeEqual:''
+      },
+      historyCdt:{
+        "nationalityEqual":'',
+        "passportnoEqual":''
       },
       cdtList:{version:0,flag:''},//批量查询的第一行
       selfCdtList:{id:0,type:0,attribute:'',atype:''},//自定义查询的第一行
@@ -1256,7 +1706,9 @@ export default {
       pppp:'',
       fff:'',//自定义查询
       ffff:'',
-
+      eve:'',
+      str:'',
+      // aaa:'',
       name:'',
       radio:'',
       options:[
@@ -1278,45 +1730,63 @@ export default {
       basedTableData:[],
       batchTableData:[],
       selfTableData:[],
+      historyData:[],
       showConfiglist:[],//展示项数组
       selfCdt:{AAAAA:''},//自定义查询表达式信息
       lazyQuery:'',//模糊查询
-      selfType:0
+      selfType:0,
+      file:''
     }
   },
   mounted(){
+    console.log(this.selfRows.length);
     this.getList(this.currentPage,this.showCount,this.cdt);
   },
   computed:{
     aaa:{
       get:function(){
         let switchOperator='';
+        let switchArr='';
         let arr = this.selfRows;
-        if(this.selfCdtList.operator=='等于'){
-          switchOperator='='
-          console.log('('+this.selfCdtList.attribute+switchOperator+this.selfCdtList.atype+')');
-        }else if(this.selfCdtList.operator=='小于'){
-          switchOperator='<'
-        }else if(this.selfCdtList.operator=='大于'){
-          switchOperator='>'
-        }
-        let str  =  '('+this.selfCdtList.attribute+switchOperator+this.selfCdtList.atype+')';
-        for(var i=0;i<arr.length;i++){
-          if(arr[i].operator=='等于'){
+        console.log(this.str);
+        if(this.selfCdtList.attribute!=""){
+          if(this.selfCdtList.operator=='等于'){
             switchOperator='='
-          }else if(arr[i].operator=='小于'){
+            console.log('('+this.selfCdtList.attribute+switchOperator+this.selfCdtList.atype+')');
+          }else if(this.selfCdtList.operator=='小于'){
             switchOperator='<'
-          }else if(arr[i].operator=='大于'){
+          }else if(this.selfCdtList.operator=='大于'){
             switchOperator='>'
           }
-          str += arr[i].relation+'('+arr[i].attribute+switchOperator+arr[i].atype+')';
-        };
-        this.selfCdt.AAAAA = str;
+          if(this.selfCdtList.attribute==''&&this.selfCdtList.atype==''&&this.selfCdtList.operator==undefined){
+            this.str = '';
+          }else{
+            this.str = '('+this.selfCdtList.attribute+switchOperator+this.selfCdtList.atype+')';
+          }
+
+          for(var i=0;i<arr.length;i++){
+            if(arr[i].operator=='等于'){
+              switchArr='='
+            }else if(arr[i].operator=='小于'){
+              switchArr='<'
+            }else if(arr[i].operator=='大于'){
+              switchArr='>'
+            }
+            if(arr[i].attribute==''&&arr[i].atype==''&&arr[i].operator==''){
+              this.str+='';
+            }else{
+              this.str += arr[i].relation+'('+arr[i].attribute+switchArr+arr[i].atype+')';
+            }
+
+          };
+        }
+
+        this.selfCdt.AAAAA = this.str;
         console.log(this.selfCdt.AAAAA);
-        return  str;
+        return  this.str;
       },
       set:function(newVal){
-        this.aaa2 = newVal
+        this.aaa2 = newVal;
       }
     }
   },
@@ -1333,7 +1803,12 @@ export default {
       }else if(this.page==2){
         this.selfQueryList(this.currentPage,val,this.selfCdt);
       }
+
+
       // console.log(`每页 ${val} 条`);
+    },
+    hpageSizeChange(val){
+        this.getHistoryList(this.hcurrentPage,val,this.historyCdt);
     },
     handleCurrentChange(val) {//显示当前页，调用
       // let cdtArr = [];
@@ -1346,7 +1821,11 @@ export default {
       }else if(this.page==2){
         this.selfQueryList(val,this.showCount,this.selfCdt);
       }
+
       // console.log(`当前页: ${val}`);
+    },
+    hhandleCurrentChange(val){
+      this.getHistoryList(val,this.hshowCount,this.historyCdt);
     },
     //----------------------------分页end------------------------------
     checkRow(row,event){//列表单选操作
@@ -1366,6 +1845,19 @@ export default {
          this.tableData=r.data.resultList;//表格数据
          this.totalResult=r.data.totalResult;//总条数
          this.totalPage = r.data.totalPage;//总页数
+      })
+    },
+    getHistoryList(hcurrentPage,hshowCount,historyCdt){
+      let gh = {
+        "currentPage":hcurrentPage,
+      	"showCount":hshowCount,
+      	"cdt":historyCdt
+      }
+      this.$api.post('/eamp/iapi/queryIapiHistory',gh,
+      r =>{
+        this.historyData = r.data.resultList;
+        this.htotalResult = r.data.totalResult;
+        this.htotalPage = r.data.totalPage;
       })
     },
     planSave(){//基础查询 方案保存是否重名
@@ -1585,6 +2077,7 @@ export default {
       this.count++;
       this.modelrow.version=this.count;
       this.rows.push(this.modelrow);
+      this.modelrow = this.cleanRow;
     },
     deleteRow(item){//批量查询 删除操作
       let i=this.rows.indexOf(item)
@@ -1678,7 +2171,10 @@ export default {
       r =>{
         if(r.success){
           console.log(r.data.config.AAAAA);
-          this.aaa2 = r.data.config.AAAAA; //渲染
+          this.selfCdtList = {id:0,type:0,attribute:'',atype:''};
+          this.selfRows=[{id:1,attribute:'',operator:'',type:0,relation:'',atype:''}];
+          this.str = r.data.config.AAAAA; //渲染
+          // this.aaa.set(r.data.config.AAAAA);
           let arr = r.data.showConfigList;
           let arr1=[];
           for(var i=0;i<arr.length;i++){
@@ -1696,6 +2192,7 @@ export default {
       this.selfCount++;
       this.selfModelrow.id=this.selfCount;
       this.selfRows.push(this.selfModelrow);
+      this.selfModelrow = this.selfCleanRow;
     },
     selfDeleteRow(id){//自定义查询 删除操作
       let self = this.selfRows.indexOf(id);
@@ -1895,21 +2392,21 @@ export default {
 
 
     //----------------------------调试start-------------------------------------
-    f(){
-      let checkItem=this.checkItem;
-      let that=this;
-      var arr = this.checkList;
-      for(var i in checkItem){
-        let obj={isCheck:0}
-        obj.itemName=checkItem[i].ITEMNAME;
-        for(var j=0;j<arr.length;j++){
-          if(arr[j]==checkItem[i].ITEMNAME){
-            obj.isCheck=1;
-          }
-        }
-        that.showConfiglist.push(obj);
-      }
-    },
+    // f(){
+    //   let checkItem=this.checkItem;
+    //   let that=this;
+    //   var arr = this.checkList;
+    //   for(var i in checkItem){
+    //     let obj={isCheck:0}
+    //     obj.itemName=checkItem[i].ITEMNAME;
+    //     for(var j=0;j<arr.length;j++){
+    //       if(arr[j]==checkItem[i].ITEMNAME){
+    //         obj.isCheck=1;
+    //       }
+    //     }
+    //     that.showConfiglist.push(obj);
+    //   }
+    // },
     openCheck(){
       this.openCheckbox = !this.openCheckbox
       if(this.openCheckbox == true){
@@ -1927,6 +2424,94 @@ export default {
         console.log(this.openList);
         this.listText = '展开';
       }
+    },
+    details(serial){
+      this.detailsDialogVisible = true;
+      this.$api.post('/eamp/iapi/queryIapiInfo',{serial},
+       r =>{
+         if(r.success){
+           this.dform = r.data.IAPI;
+           if(r.data.hasOwnProperty('CHECKDATA') == false){
+             this.isCheck = false;
+           }else{
+             this.isCheck = true;
+             this.check = r.data.CHECKDATA;
+           }
+
+           if(r.data.hasOwnProperty('RULELIST') == false){
+             this.isRules = false;
+           }else{
+             this.isRules = true;
+             this.rules = r.data.RULELIST;
+           }
+
+           if(r.data.hasOwnProperty('EVENT') == false){
+             this.isName = false;
+           }else{
+             this.isName = true;
+             this.eve = r.data.EVENT;
+           }
+         }
+       })
+    },
+    reviewDetail(){
+
+      let ss={
+        "event":this.eve
+      }
+      this.$api.post('/eamp/eventManagement/isFinishEventHandle',ss,
+       r =>{
+         if(r.data== true){
+            this.$router.push({name:'alarmProcess',query:{eventserial:this.eve,type:0}})
+         }else if(r.data == false){
+           this.$router.push({name:'alarmProcess',query:{eventserial:this.eve,type:1}})
+         }
+       })
+    },
+    getMore(row,cell){
+      console.log(row);
+      if(cell.property =='I_NAME'){
+        this.reviewDialogTable = true;
+        this.historyCdt.nationalityEqual = row.I_37CODE;
+        this.historyCdt.passportnoEqual = row.I_39;
+        this.getHistoryList(this.hcurrentPage,this.hshowCount,this.historyCdt);
+      }
+    },
+    choose(event){
+        // var myflie=document.getElementById('myfile');
+        // console.log(myflie);
+
+      this.file = event.target.files[0];
+      // this.file = myflie.files[0];
+      console.log(this.file);
+
+
+      // console.log(myflie.files[0].name);
+      this.fileName = event.target.files[0].name;
+    },
+    batchImport(event){
+      event.preventDefault();//取消默认行为
+      let formData = new FormData();
+      console.log(this.file);
+      formData.file = this.file;
+      let aaaa = JSON.stringify(formData);
+      console.log(aaaa);
+      // let config = {
+      //   headers: {
+      //       'Content-Type': 'multipart/form-data'  //之前说的以表单传数据的格式来传递fromdata
+      //   }
+      // };
+      // let bi = {
+      //   "template":'three',
+      //   "excel":formData
+      // }
+      this.$api.post('/eamp/iapi/readExcel',aaaa,
+       r =>{
+         if(r.success){
+           this.batchDialog = false;
+           this.rows = r.data.feildAndValueList;
+         }
+       })
     }
     }
 }
@@ -2077,4 +2662,47 @@ export default {
  .t-operator .el-input--suffix .el-input__inner{
    padding-right: 22px!important;
  }
+ .hrtitle {
+   height: 35px;
+   line-height: 35px;
+   border: none;
+   color: #3F96F2;
+   font-size: 16px;
+   font-weight: bold;
+   border-bottom: 1px solid #3F96F2;
+ },
+ .hrt {
+   height: 35px;
+   line-height: 35px;
+   border: none;
+   color: #3F96F2;
+   font-size: 16px;
+   font-weight: bold;
+   border-top: 1px solid #3F96F2;
+ }
+ .mb-6 {
+   line-height: 20px;
+   margin-top: 10px;
+ }
+ .fileinput-button {
+    width: 100px;
+    height:39px;
+    line-height: 39px;
+    text-align: center;
+    background-color: #34ADFE;
+    color: #fff;
+    position: relative;
+    display: inline-block;
+    overflow: hidden;
+    border-radius: 4px;
+}
+
+.fileinput-button input{
+    position:absolute;
+    right: 0px;
+    top: 0px;
+    opacity: 0;
+    -ms-filter: 'alpha(opacity=0)';
+    font-size: 200px;
+}
 </style>

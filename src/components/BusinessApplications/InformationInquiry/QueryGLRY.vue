@@ -3,7 +3,7 @@
     <div class="middle-top mb-2">
 
       <el-row type="flex" class="middle">
-        <el-col :span="20" class="br pr-20">
+        <el-col :span="22" class="br pr-20">
           <div class="title-green ">
             查询条件
           </div>
@@ -14,10 +14,10 @@
             </el-col>
             <el-col :sm="24" :md="12" :lg="8" class="input-item">
               <span class="input-text">性别：</span>
-              <el-select  placeholder="请选择"  size="small"  class="input-input">
-                <el-option label="男" value="M"></el-option>
-                <el-option label="女" value="F"></el-option>
-                <el-option label="未知" value="U"></el-option>
+              <el-select  placeholder="请选择"  size="small" filterable clearable class="input-input">
+                <el-option label="M - 男" value="M"></el-option>
+                <el-option label="F - 女" value="F"></el-option>
+                <el-option label="U - 未知" value="U"></el-option>
               </el-select>
             </el-col>
             <el-col :sm="24" :md="12" :lg="8" class="input-item">
@@ -27,12 +27,13 @@
                 type="date"
                 placeholder="选择日期"
                 size="small"
-                class="input-input">
+                class="input-input"
+                value-format="yyyyMMdd">
               </el-date-picker>
             </el-col>
             <el-col :sm="24" :md="12" :lg="8" class="input-item">
               <span class="input-text">国籍：</span>
-              <el-select v-model="value" placeholder="请选择"  size="small" class="input-input">
+              <el-select v-model="value" placeholder="请选择" filterable clearable size="small" class="input-input">
                 <el-option>
                 </el-option>
               </el-select>
@@ -53,7 +54,7 @@
             </el-col>
           </el-row>
         </el-col>
-        <el-col :span="4" class="down-btn-area">
+        <el-col :span="2" class="down-btn-area">
           <el-button type="success" size="small" @click="queryDialogVisible=true">查询</el-button>
 
         </el-col>
