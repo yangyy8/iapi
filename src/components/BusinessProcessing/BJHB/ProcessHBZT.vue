@@ -31,7 +31,7 @@
             </el-col>
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">所属航空公司：</span>
-              <el-select v-model="pd.airlineCompanyIdEqual" filterable @visible-change="queryNationality" placeholder="请选择" size="small" class="input-input">
+              <el-select v-model="pd.airlineCompanyIdEqual" filterable clearable @visible-change="queryNationality" placeholder="请选择" size="small" class="input-input">
                  <el-option
                    v-for="item in company"
                    :key="item.AIRLINE_CODE"
@@ -42,7 +42,7 @@
             </el-col>
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">实际出发口岸：</span>
-              <el-select v-model="pd.stationfromEqual" filterable @visible-change="queryAirport" placeholder="请选择" size="small" class="input-input">
+              <el-select v-model="pd.stationfromEqual" filterable clearable @visible-change="queryAirport" placeholder="请选择" size="small" class="input-input">
                  <el-option
                    v-for="item in Airport"
                    :key="item.AIRPORT_CODE"
@@ -54,7 +54,7 @@
 
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">计划到达口岸：</span>
-              <el-select v-model="pd.stationtoEqual" filterable @visible-change="queryAirport" placeholder="请选择"   size="small" class="input-input">
+              <el-select v-model="pd.stationtoEqual" filterable clearable @visible-change="queryAirport" placeholder="请选择"   size="small" class="input-input">
                  <el-option
                    v-for="item in Airport"
                    :key="item.AIRPORT_CODE"
