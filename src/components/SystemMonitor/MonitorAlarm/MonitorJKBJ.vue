@@ -94,7 +94,7 @@
     >
 
              <el-table-column
-               label="监控区域">
+               label="监控区域" sortable>
                <template slot-scope="scope">
                  <div class="">
                    {{scope.row.ZONE | fifter1}}
@@ -102,7 +102,7 @@
                </template>
              </el-table-column>
              <el-table-column
-               label="报警类型">
+               label="报警类型" sortable>
                <template slot-scope="scope">
                  <div class="">
                    {{scope.row.MCLASS | fifter2 }}
@@ -111,13 +111,13 @@
              </el-table-column>
              <el-table-column
                 prop="MTYPE"
-               label="监控对象">
+               label="监控对象" sortable>
 
              </el-table-column>
 
              <el-table-column
                prop="CREATETIME"
-               label="报警时间">
+               label="报警时间" sortable>
              </el-table-column>
              <el-table-column
                prop="MDESC"
@@ -125,11 +125,11 @@
              </el-table-column>
              <el-table-column
                prop="DEALUSER"
-               label="处理人" >
+               label="处理人" sortable>
              </el-table-column>
              <el-table-column
                prop="DEALTIME"
-               label="处理时间">
+               label="处理时间" sortable>
              </el-table-column>
              <el-table-column
                label="操作">

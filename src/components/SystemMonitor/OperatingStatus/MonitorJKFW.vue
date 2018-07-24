@@ -11,12 +11,12 @@
             <el-row align="center" type="flex" justify="center"   :gutter="2" class="pr-20">
               <el-col  :span="8"  class="input-item">
                 <span class="input-text">监控区域：</span>
-                <el-select v-model="pd.zone"  class="input-input"  placeholder="请选择"  size="small">
+                <el-select v-model="pd.zone"  class="input-input"  filterable clearable  placeholder="请选择"  size="small">
                   <el-option value=""  label="全部">
                   </el-option>
-                  <el-option value="0"  label="DMZ区">
+                  <el-option value="0"  label="0 - DMZ区">
                   </el-option>
-                  <el-option value="1"  label="整合分发区">
+                  <el-option value="2"  label="2 - 整合分发区">
                   </el-option>
                 </el-select>
               </el-col>
@@ -34,7 +34,7 @@
         border
         style="width: 100%;">
         <el-table-column
-          label="区域"
+          label="区域" sortable
         >
           <template slot-scope="scope">
             <div class="">
@@ -45,17 +45,17 @@
         </el-table-column>
         <el-table-column
           prop="url"
-          label="URL"
+          label="URL" sortable
         >
         </el-table-column>
         <el-table-column
           prop="name"
-          label="服务名称"
+          label="服务名称" sortable
         >
         </el-table-column>
         <el-table-column
           prop="status"
-          label="服务状态"
+          label="服务状态" sortable
         >
         </el-table-column>
       </el-table>

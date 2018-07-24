@@ -19,49 +19,51 @@
                <el-date-picker
                v-model="pd.scheduledeparturetime"
                type="datetime" size="small"
-               placeholder="开始时间"  :picker-options="pickerOptions1">
+               placeholder="开始时间"  :picker-options="pickerOptions1"
+               value-format="yyyyMMdd">
              </el-date-picker>
                <span class="septum">-</span>
              <el-date-picker
                 v-model="pd.schedulearrivetime"
                 type="datetime" size="small"
-                placeholder="结束时间" :picker-options="pickerOptions1">
+                placeholder="结束时间" :picker-options="pickerOptions1"
+                value-format="yyyyMMdd">
             </el-date-picker>
           </div>
             </el-col>
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">出入标识：</span>
-              <el-select v-model="pd.flighttype" placeholder="请选择" size="small" class="input-input">
+              <el-select v-model="pd.flighttype" placeholder="请选择" filterable clearable size="small" class="input-input">
                  <el-option value="" label="全部">
                  </el-option>
-                 <el-option value="I" label="入境">
+                 <el-option value="I" label="I - 入境">
                  </el-option>
-                 <el-option value="O" label="出境">
+                 <el-option value="O" label="O - 出境">
                  </el-option>
                </el-select>
             </el-col>
 
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">航班状态：</span>
-              <el-select v-model="pd.status" placeholder="请选择" size="small" class="input-input">
+              <el-select v-model="pd.status" placeholder="请选择" filterable clearable size="small" class="input-input">
                  <el-option value="" label="全部">
                  </el-option>
-                 <el-option value="0" label="计划">
+                 <el-option value="0" label="0 - 计划">
                  </el-option>
-                 <el-option value="1" label="正在预检">
+                 <el-option value="1" label="1 - 正在预检">
                  </el-option>
-                 <el-option value="2" label="完成预检">
+                 <el-option value="2" label="2 - 完成预检">
                  </el-option>
-                 <el-option value="3" label="已起飞">
+                 <el-option value="3" label="3 - 已起飞">
                  </el-option>
-                 <el-option value="4" label="已办理入境">
+                 <el-option value="4" label="4 - 已办理入境">
                  </el-option>
                </el-select>
             </el-col>
 
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">航空公司三位码：</span>
-              <el-select v-model="pd.airlineCompanyIdEqual" placeholder="请选择"   size="small" class="input-input">
+              <el-select v-model="pd.airlineCompanyIdEqual" placeholder="请选择" filterable clearable size="small" class="input-input">
                  <el-option
                    v-for="item in options"
                    :key="item.value"

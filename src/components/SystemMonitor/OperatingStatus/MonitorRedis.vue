@@ -9,7 +9,7 @@
         style="width: 100%;">
 
                 <el-table-column
-                  label="区域"
+                  label="区域" sortable
                 >
                 <template slot-scope="scope">
                     {{scope.row.synFlag | fifter1 }}
@@ -17,7 +17,7 @@
                 </el-table-column>
                 <el-table-column
 
-                  label="节点类型"
+                  label="节点类型" sortable
                 >
                 <template slot-scope="scope">
                     {{scope.row.type | fifter2 }}
@@ -25,11 +25,11 @@
                 </el-table-column>
                 <el-table-column
                   prop="hostaddress"
-                  label="节点地址"
+                  label="节点地址" sortable
                 >
                 </el-table-column>
                 <el-table-column
-                  label="节点状态"
+                  label="节点状态" sortable
                 >
                 <template slot-scope="scope">
                     {{scope.row.status | fifter3 }}
@@ -88,7 +88,7 @@ export default {
       } else {
         return "DOWN";
       }
-    
+
   }
 }
 

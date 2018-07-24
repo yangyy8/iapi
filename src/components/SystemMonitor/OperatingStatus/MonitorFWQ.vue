@@ -10,69 +10,101 @@
   <el-table
     :data="tableData"
     border
-    style="width: 100%;"
-    @cell-click="qqqq">
+    style="width: 100%;">
             <el-table-column
               type="index"
               label="序号"
               width="50"
+
             >
             </el-table-column>
             <el-table-column
               prop="zone"
               label="类型"
-
+              sortable
             >
             </el-table-column>
 
             <el-table-column
               prop="HOSTADDRESS"
               label="IP地址"
-
+              sortable
             >
             </el-table-column>
             <el-table-column
               prop="CPU"
               label="CPU使用率"
-
+              sortable
             >
             </el-table-column>
             <el-table-column
               prop="mPercent"
               label="应用内存使用率"
-
+              sortable
             >
             </el-table-column>
             <el-table-column
               prop="diskPercent"
               label="磁盘使用率"
-
+              sortable
             >
             </el-table-column>
             <el-table-column
               prop="netIn"
               label="网络流量（入）"
-
+            sortable
             >
             </el-table-column>
             <el-table-column
               prop="netOut"
               label="网络流量（出）"
-
+              sortable
             >
             </el-table-column>
             <el-table-column
               label="文件系统"
+              width="630"
             >
             <template slot-scope="scope">
-                <el-row v-for='i in scope.row.FILESYSTEM'>
-                <el-col>{{i.avail}}</el-col>
-                <el-col>{{i.fileSystem}}</el-col>
-                <el-col>{{i.mount}}</el-col>
-                <el-col>{{i.size}}</el-col>
-                <el-col>{{i.used}}</el-col>
-                <el-col>{{i.usedPer}}</el-col>
+
+              <el-row   v-if="scope.row.fileSysArr!=null">
+              <el-col :span="4">avail</el-col>
+              <el-col :span="4">fileSystem</el-col>
+              <el-col :span="4">mount</el-col>
+              <el-col :span="4">size</el-col>
+              <el-col :span="4">used</el-col>
+              <el-col :span="4">usedPer</el-col>
+             </el-row>
+              <el-row v-for='i in scope.row.fileSysArr'>
+                <el-col :span="4">{{i.avail}}</el-col>
+                <el-col :span="4">{{i.fileSystem}}</el-col>
+                <el-col :span="4">{{i.mount}}</el-col>
+                <el-col :span="4">{{i.size}}</el-col>
+                <el-col :span="4">{{i.used}}</el-col>
+                <el-col :span="4">{{i.usedPer}}</el-col>
               </el-row>
+
+              <!-- <div class="filesystems"  v-if="scope.row.fileSysArr!=null">
+                 <ul>
+                   <li>avail</li>
+                   <li>fileSystem</li>
+                   <li>mount</li>
+                   <li>size</li>
+                   <li>used</li>
+                   <li>usedPer</li>
+                 </ul>
+              </div>
+              <div  class="filesystems"  v-for='i in scope.row.fileSysArr'>
+                 <ul>
+                   <li>{{i.avail}}</li>
+                   <li>{{i.fileSystem}}</li>
+                   <li>{{i.mount}}</li>
+                   <li>{{i.size}}</li>
+                   <li>{{i.used}}</li>
+                   <li>{{i.usedPer}}</li>
+                 </ul>
+              </div> -->
+
             </template>
             </el-table-column>
   </el-table>
@@ -93,49 +125,67 @@
              <el-table-column
                prop="type"
                label="类型"
-                 width="120"
+               sortable
              >
              </el-table-column>
              <el-table-column
                prop="zone"
                label="模块"
-                 width="120"
+              sortable
              >
              </el-table-column>
              <el-table-column
                prop="userate"
                label="CPU使用率"
-                 width="90"
+              sortable
              >
              </el-table-column>
              <el-table-column
                prop="apprate"
                label="应用内存使用率"
-                 width="130"
+                sortable
              >
              </el-table-column>
              <el-table-column
                prop="cprate"
                label="磁盘使用率"
-                 width="100"
+              sortable
              >
              </el-table-column>
              <el-table-column
                prop="networkin"
                label="网络流量（入）"
-                 width="130"
+              sortable
              >
              </el-table-column>
              <el-table-column
                prop="networkout"
                label="网络流量（出）"
-                 width="130"
+              sortable
              >
              </el-table-column>
              <el-table-column
-               prop="filesystem"
                label="文件系统"
              >
+             <template slot-scope="scope">
+
+               <el-row  v-if="scope.row.fileSysArr!=null">
+               <el-col :span="4">avail</el-col>
+               <el-col :span="4">fileSystem</el-col>
+               <el-col :span="4">mount</el-col>
+               <el-col :span="4">size</el-col>
+               <el-col :span="4">used</el-col>
+               <el-col :span="4">usedPer</el-col>
+              </el-row>
+               <el-row v-for='i in scope.row.fileSysArr'>
+                 <el-col :span="4">{{i.avail}}</el-col>
+                 <el-col :span="4">{{i.fileSystem}}</el-col>
+                 <el-col :span="4">{{i.mount}}</el-col>
+                 <el-col :span="4">{{i.size}}</el-col>
+                 <el-col :span="4">{{i.used}}</el-col>
+                 <el-col :span="4">{{i.usedPer}}</el-col>
+               </el-row>
+               </template>
              </el-table-column>
    </el-table>
 
@@ -157,6 +207,7 @@ export default {
   },
   created() {
     this.getList({});
+
 
   },
   // computed:{
@@ -181,21 +232,29 @@ export default {
           // console.log(this.tableTitle)
         })
     },
-    qqqq(row){
-      console.log(row.FILESYSTEM);
-    },
-    ss(val){
-      let a=JSON.parse(val)
-      console.log(a)
-      return a
-    }
+
+
   },
 
 
 
+
 }
+
 </script>
 
 <style scoped>
+.filesystems{
+  width: 600px;
 
+  display: flex;
+  flex-direction: column;}
+.filesystems ul{list-style: none;}
+.filesystems ul li{ float: left;width: 100px; }
+
+</style>
+<style media="screen">
+  .el-table_1_column_9 .cell{
+    display: block!important;
+  }
 </style>

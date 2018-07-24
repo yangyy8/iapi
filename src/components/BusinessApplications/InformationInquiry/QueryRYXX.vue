@@ -1155,7 +1155,6 @@
     </el-dialog>
 
     <el-dialog title="批量导入" :visible.sync="batchDialog">
-      <form>
         <el-row type="flex" justify="center" :gutter="10">
           <el-col :span="15" class="input-item">
             <span class="input-text">文件名称：</span>
@@ -1168,12 +1167,11 @@
             </span>
           </el-col>
         </el-row>
-
       <span slot="footer" class="dialog-footer">
         <el-button @click="batchImport($event)">导 入</el-button>
         <el-button type="primary" @click="batchDialog = false">取 消</el-button>
       </span>
-</form>
+
     </el-dialog>
 
 
@@ -1197,14 +1195,6 @@
             <el-radio v-model="radio" class="radio" :label="scope.row.I_SERIAL">&nbsp;</el-radio>
           </template>
         </el-table-column>
-        <!-- <el-table-column
-          prop="I_N"
-          label="姓名111"
-          sortable
-          width="100"
-
-          >
-        </el-table-column> -->
         <el-table-column
           prop="I_NAME"
           label="姓名"
@@ -1433,6 +1423,7 @@
         </div>
         <el-pagination
           background
+          :current-page.sync = "cp"
           @current-change="handleCurrentChange"
           :page-size="showCount"
           layout="prev, pager, next"
@@ -1740,6 +1731,7 @@ export default {
   },
   mounted(){
     console.log(this.selfRows.length);
+    this.currentPage = 1;
     this.getList(this.currentPage,this.showCount,this.cdt);
   },
   computed:{
@@ -1845,6 +1837,7 @@ export default {
          this.tableData=r.data.resultList;//表格数据
          this.totalResult=r.data.totalResult;//总条数
          this.totalPage = r.data.totalPage;//总页数
+         this.currentPage = r.data.currentPage;
       })
     },
     getHistoryList(hcurrentPage,hshowCount,historyCdt){
@@ -1957,6 +1950,7 @@ export default {
           this.tableData=r.data.resultList;//表格数据
           this.totalResult=r.data.totalResult;//总条数
           this.totalPage = r.data.totalPage;//总页数
+          this.currentPage = r.data.currentPage;
         }
       })
     },
@@ -2088,6 +2082,7 @@ export default {
 
     //----------------------------自定义查询start------------------------------
     selfQueryList(currentPage,showCount,selfCdt){//自定义查询列表
+      this.currentPage = 1;
       console.log(selfCdt.AAAAA);
       let sql = {
         "currentPage":currentPage,
@@ -2101,6 +2096,7 @@ export default {
            this.tableData=r.data.resultList;//表格数据   (待定)
            this.totalResult=r.data.totalResult;//总条数
            this.totalPage = r.data.totalPage;//总页数
+           this.currentPage = r.data.currentPage;
          }
        })
     },
@@ -2372,20 +2368,24 @@ export default {
       this.tableData = [];
       this.totalResult = 0;
       this.totalPage = 1;
+      this.currentPage = 1;
     },
     base(){
       this.page=0;
       this.checkList = this.basedQuery;
+      // this.currentPage = 1;
       this.getList(this.currentPage,this.showCount,this.cdt);
     },
     batch(){
       this.page=1;
       this.checkList = this.batchQuery;
+      // this.currentPage = 1;
       this.batchQueryList(this.currentPage,this.showCount,this.rows);
     },
     self(){
       this.page=2;
       this.checkList = this.selfQuery;
+      // this.currentPage = 1;
       this.selfQueryList(this.currentPage,this.showCount,this.selfCdt);
     },
     //----------------------------复用end---------------------------------------
@@ -2478,34 +2478,25 @@ export default {
       }
     },
     choose(event){
-        // var myflie=document.getElementById('myfile');
-        // console.log(myflie);
-
+      console
       this.file = event.target.files[0];
-      // this.file = myflie.files[0];
-      console.log(this.file);
-
-
-      // console.log(myflie.files[0].name);
       this.fileName = event.target.files[0].name;
     },
     batchImport(event){
-      event.preventDefault();//取消默认行为
+      // event.preventDefault();//取消默认行为
       let formData = new FormData();
-      console.log(this.file);
       formData.file = this.file;
-      let aaaa = JSON.stringify(formData);
-      console.log(aaaa);
+      // formData.append("file", this.file);
       // let config = {
       //   headers: {
       //       'Content-Type': 'multipart/form-data'  //之前说的以表单传数据的格式来传递fromdata
       //   }
       // };
       // let bi = {
-      //   "template":'three',
-      //   "excel":formData
+        // "template":'three',
+        // "excel":formData
       // }
-      this.$api.post('/manage-platform/iapi/readExcel',aaaa,
+      this.$api.post('/manage-platform/iapi/readExcel',formData,
        r =>{
          if(r.success){
            this.batchDialog = false;
