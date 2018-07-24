@@ -1155,24 +1155,25 @@
     </el-dialog>
 
     <el-dialog title="批量导入" :visible.sync="batchDialog">
-      <el-row type="flex" justify="center" :gutter="10">
-        <el-col :span="15" class="input-item">
-          <span class="input-text">文件名称：</span>
-          <el-input v-model="fileName"></el-input>
-        </el-col>
-        <el-col :span="5">
-          <span class="fileinput-button">
-              <span @click="choose">选择文件</span>
-              <input type="file" id="myfile">
-          </span>
-        </el-col>
-      </el-row>
+      <form>
+        <el-row type="flex" justify="center" :gutter="10">
+          <el-col :span="15" class="input-item">
+            <span class="input-text">文件名称：</span>
+            <el-input v-model="fileName"></el-input>
+          </el-col>
+          <el-col :span="5">
+            <span class="fileinput-button">
+                <span>选择文件</span>
+                <input type="file" id="myfile" @change="choose($event)">
+            </span>
+          </el-col>
+        </el-row>
 
       <span slot="footer" class="dialog-footer">
-        <el-button @click="batchImport">导 入</el-button>
+        <el-button @click="batchImport($event)">导 入</el-button>
         <el-button type="primary" @click="batchDialog = false">取 消</el-button>
       </span>
-
+</form>
     </el-dialog>
 
 
@@ -1733,7 +1734,8 @@ export default {
       showConfiglist:[],//展示项数组
       selfCdt:{AAAAA:''},//自定义查询表达式信息
       lazyQuery:'',//模糊查询
-      selfType:0
+      selfType:0,
+      file:''
     }
   },
   mounted(){
@@ -2475,20 +2477,35 @@ export default {
         this.getHistoryList(this.hcurrentPage,this.hshowCount,this.historyCdt);
       }
     },
-    choose(){
-      var myflie=document.getElementById('myfile');
-      console.log(myflie.files[0].name);
-      this.fileName = myflie.files[0].name;
+    choose(event){
+        // var myflie=document.getElementById('myfile');
+        // console.log(myflie);
+
+      this.file = event.target.files[0];
+      // this.file = myflie.files[0];
+      console.log(this.file);
+
+
+      // console.log(myflie.files[0].name);
+      this.fileName = event.target.files[0].name;
     },
-    batchImport(){
-      var myflie=document.getElementById('myfile');
-      console.log(myflie.files[0].name);
-      this.fileName = myflie.files[0].name;
-      let bi = {
-        "template":'three',
-        "excel":this.fileName
-      }
-      this.$api.post('/eamp/iapi/readExcel',bi,
+    batchImport(event){
+      event.preventDefault();//取消默认行为
+      let formData = new FormData();
+      console.log(this.file);
+      formData.file = this.file;
+      let aaaa = JSON.stringify(formData);
+      console.log(aaaa);
+      // let config = {
+      //   headers: {
+      //       'Content-Type': 'multipart/form-data'  //之前说的以表单传数据的格式来传递fromdata
+      //   }
+      // };
+      // let bi = {
+      //   "template":'three',
+      //   "excel":formData
+      // }
+      this.$api.post('/eamp/iapi/readExcel',aaaa,
        r =>{
          if(r.success){
            this.batchDialog = false;
