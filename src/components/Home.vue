@@ -10,13 +10,17 @@
           <img src="../assets/img/home/p.png" alt="">
           登录
         </div>
+        <div class="home-top-right hand" v-if="isLogin">
+          <span class="mb-9">欢迎您！管理员</span>
+          <span @click="logOut"><img src="../assets/img/logout.png" style="width:20px;height:20px;vertical-align:bottom;margin-right:5px;"alt="">退出</span>
+        </div>
       </div>
       <div class="home-title1">
-        公安部出入境旅客预报预检系统
+        国家移民局旅客预报预检系统
       </div>
       <div class="home-title2-box">
         <span class="home-title2">
-          IMMIGRATION OFFICE PASSENGER FORECAST PRETEST SYSTEM
+          National Immigration Administration iAPI and PNR System
         </span>
       </div>
       <div :class="className" :id="id" :style="{height:height,width:width}" ref="myEchart" class="canvas"></div>
@@ -204,7 +208,7 @@ export default {
       geoCoordMap: {
         '南宁': [108.479, 23.1152],
         '广州': [113.5107, 23.2196],
-        '重庆': [107.7539, 30.1904],
+        '北京': [116.5810964525, 39.7399177259],
         '芬兰': [24.909912, 60.169095],
         '美国': [-100.696295, 33.679979],
         '日本': [139.710164, 35.706962],
@@ -218,46 +222,46 @@ export default {
         '阿根廷':[-58.30000,-34.200000],
         '俄罗斯':[93.470000,63.270000]
       },
-      // 重庆
+      // 北京
       CQData: [
         [{
-          name: '重庆'
+          name: '北京'
         }, {
           name: "芬兰",
           value: 60
         }],
         [{
-          name: '重庆'
+          name: '北京'
         }, {
           name: "澳大利亚",
           value: 60
         }],
         [{
-          name: '重庆'
+          name: '北京'
         }, {
           name: "英国",
           value: 60
         }],
         [{
-          name: '重庆'
+          name: '北京'
         }, {
           name: "韩国",
           value: 60
         }],
         [{
-          name: '重庆'
+          name: '北京'
         }, {
           name: "加拿大",
           value: 60
         }],
         [{
-          name: '重庆'
+          name: '北京'
         }, {
           name: "阿根廷",
           value: 60
         }],
         [{
-          name: '重庆'
+          name: '北京'
         }, {
           name: "俄罗斯",
           value: 60
@@ -319,7 +323,6 @@ export default {
     },
     login(){
 
-
       this.$api.post('/manage-platform/landing',this.user,
        r => {
         console.log(r)
@@ -336,6 +339,14 @@ export default {
           localStorage.setItem('login',1)
         }
       })
+    },
+    logOut(){
+      localStorage.removeItem('login')
+      this.$message({
+        message: '退出成功',
+        type: 'success'
+      });
+      this.$router.go(0)
     },
     getNav0(){
       this.$api.post('/manage-platform/muneSys/selectMenuOne',{},
@@ -381,6 +392,7 @@ export default {
           }])
         }
       }
+      console.log(res)
       return res;
     },
     fn(){
@@ -390,9 +402,10 @@ export default {
   */
     let that=this;
       [
-        ['重庆',this.CQData],
+        ['北京',this.CQData],
 
       ].forEach(function(item, i) {
+        console.log(item[1]);
         that.series.push({
           // 白色航线特效图
           type: 'lines',
@@ -411,6 +424,7 @@ export default {
               curveness: -0.2 // 线条曲度
             }
           },
+
           data: that.convertData(item[1]) // 特效的起始、终点位置
         }, { // 小飞机航线效果
           type: 'lines',
@@ -488,8 +502,8 @@ export default {
         },
         data: [{
           // 这里面的数据，由于一开始就知道终点位置是什么，所以直接写死，如果通过ajax来获取数据的话，还要进行相应的处理
-          name: "重庆",
-          value: [107.7539, 30.1904, 30],
+          name: "北京",
+          value: [116.5810964525, 39.7399177259, 30],
           label: {
             normal: {
               position: 'top'

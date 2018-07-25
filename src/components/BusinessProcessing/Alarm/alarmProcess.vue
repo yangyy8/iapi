@@ -94,7 +94,7 @@
                 </el-col>
                 <el-col :span="5">
                   <span>报警时间</span>
-                  {{iapiMap.createime}}
+                  {{iapiMap.createtime}}
 
                 </el-col>
 

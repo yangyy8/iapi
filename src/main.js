@@ -16,10 +16,13 @@ Vue.config.productionTip = false
 Vue.use(ElementUI);
 Vue.prototype.$api = api;
 //
-// router.beforeEach((to, from, next) => {
-//   console.log("to:",to);
-//
-// })
+console.log(router)
+router.beforeResolve((to, from, next) => {
+
+  next();
+  // console.log("to:",to);
+
+})
 // router.afterEach((from)=>{
 //   // console.log(from)
 //   window.scrollTo(0,0);
