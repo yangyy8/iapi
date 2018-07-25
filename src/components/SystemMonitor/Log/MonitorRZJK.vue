@@ -82,7 +82,7 @@
         </el-table-column>
         <el-table-column
           prop="levelString"
-          label="日志内容" sortable
+          label="日志内容类型" sortable
           >
         </el-table-column>
 

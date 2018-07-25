@@ -292,7 +292,7 @@
               </td>
             </tr>
           </table>
-          <table class="o-th1" cellspacing="0" v-if="$route.query.isZDGZ">
+          <table class="o-th1" cellspacing="0" v-if="$route.query.isZDGZ==1">
             <tr class="thead">
               <th>类别</th>
               <th>旅客信息</th>
@@ -559,7 +559,7 @@
               </el-col>
             </el-row>
           </div>
-          <div class=""  v-if="$route.query.isZDGZ">
+          <div class=""  v-if="$route.query.isZDGZ==1">
             <el-row class="mb-9">
               <el-col :span="8" class="input-item mb-9">
                 <span class="input-text">人员编号：</span>

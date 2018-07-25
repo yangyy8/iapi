@@ -94,8 +94,7 @@
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                 <span class="input-text">出入标识：</span>
                 <el-select v-model="pd.flightType"  filterable clearable  class="input-input"  placeholder="请选择"  size="small">
-                  <el-option value="" label="全部">
-                  </el-option>
+                
                   <el-option value="I" label="I - 入境">
                   </el-option>
                   <el-option value="O" label="O - 出境">

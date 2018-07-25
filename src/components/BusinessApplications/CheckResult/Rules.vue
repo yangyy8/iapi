@@ -91,21 +91,18 @@
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                 <span class="input-text">出入标识：</span>
                 <el-select v-model="pd.flightType"  filterable clearable  class="input-input"  placeholder="请选择"  size="small">
-                  <el-option value="" label="全部">
-                  </el-option>
+
                   <el-option value="I" label="I - 入境">
                   </el-option>
                   <el-option value="O" label="O - 出境">
                   </el-option>
-                  <el-option value="G" label="G - 过境">
-                  </el-option>
+
                 </el-select>
               </el-col>
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                 <span class="input-text">不通过原因：</span>
                 <el-select v-model="pd.thanType"  class="input-input" filterable clearable   placeholder="请选择"  size="small">
-                  <el-option value=""  label="全部">
-                  </el-option>
+                
                   <el-option value="1"  label="1 - 必录项缺失">
                   </el-option>
                   <el-option value="2"  label="2 - 长度不符合">

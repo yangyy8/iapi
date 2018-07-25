@@ -33,31 +33,31 @@
             </el-table-column>
             <el-table-column
               prop="CPU"
-              label="CPU使用率"
+              label="CPU使用率(%)"
               sortable
             >
             </el-table-column>
             <el-table-column
               prop="mPercent"
-              label="内存使用率"
+              label="内存使用率(%)"
               sortable
             >
             </el-table-column>
             <el-table-column
               prop="diskPercent"
-              label="磁盘使用率"
+              label="磁盘使用率(%)"
               sortable
             >
             </el-table-column>
             <el-table-column
               prop="netIn"
-              label="网络流量（入）"
+              label="网络流量（入）(%)"
             sortable
             >
             </el-table-column>
             <el-table-column
               prop="netOut"
-              label="网络流量（出）"
+              label="网络流量（出）(%)"
               sortable
             >
             </el-table-column>
@@ -116,31 +116,31 @@
              </el-table-column>
              <el-table-column
                prop="userate"
-               label="CPU使用率"
+               label="CPU使用率(%)"
               sortable
              >
              </el-table-column>
              <el-table-column
                prop="apprate"
-               label="内存使用率"
+               label="内存使用率(%)"
                 sortable
              >
              </el-table-column>
              <el-table-column
                prop="cprate"
-               label="磁盘使用率"
+               label="磁盘使用率(%)"
               sortable
              >
              </el-table-column>
              <el-table-column
                prop="networkin"
-               label="网络流量（入）"
+               label="网络流量（入）(%)"
               sortable
              >
              </el-table-column>
              <el-table-column
                prop="networkout"
-               label="网络流量（出）"
+               label="网络流量（出）(%)"
               sortable
              >
              </el-table-column>

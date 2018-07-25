@@ -168,6 +168,13 @@
                   </template>
                 </el-table-column>
                 <el-table-column
+                  label="航班状态" sortable
+                  >
+                  <template slot-scope="scope">
+                    {{scope.row.LASTCHECKRESULT | fiftecr}}
+                  </template>
+                </el-table-column>
+                <el-table-column
                   label="操作" width="180">
                   <template slot-scope="scope">
                     <div class="flex-r">

@@ -18,13 +18,13 @@
               <div class="input-input t-flex t-date">
                <el-date-picker
                v-model="pd.startScheduledeparturetime"
-               type="date" size="small" value-format="yyyyMMdd"
+               type="datetime" size="small" value-format="yyyymmddhhmmss"
                placeholder="开始时间" align="right" :picker-options="pickerOptions1">
              </el-date-picker>
                <span class="septum">-</span>
              <el-date-picker
                 v-model="pd.endScheduledeparturetime"
-                type="date" size="small" align="right" value-format="yyyyMMdd"
+                type="datetime" size="small" align="right" value-format="yyyymmddhhmmss"
                 placeholder="结束时间"  :picker-options="pickerOptions1">
             </el-date-picker>
           </div>
@@ -88,7 +88,7 @@
         </el-table-column>
         <el-table-column
           prop="airlineCompanyId"
-          label="航空公司代码" sortable>
+          label="所属航空公司" sortable>
         </el-table-column>
         <el-table-column
           prop="stationfromName"
@@ -103,6 +103,11 @@
         <el-table-column
           prop="boardingcount"
           label="载运旅客数量" sortable
+  >
+        </el-table-column>
+        <el-table-column
+          prop="changeport"
+          label="备降口岸" sortable
   >
         </el-table-column>
         <el-table-column

@@ -11,8 +11,7 @@
               <el-col :sm="24" :md="12" :lg="6" class="input-item">
                 <span class="input-text">事件类型：</span>
                 <el-select v-model="pd.type" placeholder="请选择"  filterable clearable  size="small" class="input-input">
-                  <el-option value="" label="全部">
-                  </el-option>
+
                   <el-option value="0" label="0 - 指令变更">
                   </el-option>
                   <el-option value="1" label="1 - 航班备降">
