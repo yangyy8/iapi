@@ -6,9 +6,18 @@
           <el-button type="primary"  icon="el-icon-refresh" size="small" @click="refreshFn">刷新</el-button>
         </el-col>
         <el-col :span="12" class="top-right">
-
-         出入境类别:
-         <el-select v-model="pd.flighttype" placeholder="请选择" clearable filterable size="small">
+          报警类型:
+          <el-select v-model="pd.pnrType" placeholder="请选择" filterable clearable size="small">
+           <el-option value="" label="全部">
+           </el-option>
+           <el-option value="1" label="1 - 风险评估人员报警">
+           </el-option>
+           <el-option value="2" label="2 - 特殊关注对象报警">
+           </el-option>
+          </el-select>
+         &nbsp;&nbsp;&nbsp; 出入境类别:
+         <el-select v-model="pd.flighttype" placeholder="请选择" filterable clearable size="small">
+           <el-option label="全部" value=""></el-option>
            <el-option label="I - 入境" value="I"></el-option>
            <el-option label="O - 出境" value="O"></el-option>
 

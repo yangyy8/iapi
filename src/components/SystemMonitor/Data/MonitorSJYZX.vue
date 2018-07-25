@@ -8,7 +8,7 @@
           <th align="center"></th>
           <th align="center">内存数据</th>
           <th align="center">业务平台</th>
-          <th align="center">同步时间</th>
+          <th align="center">查询同步时间</th>
           <th align="center" width="100">是否一致</th>
           <th align="center" width="100">操作</th>
         </tr>

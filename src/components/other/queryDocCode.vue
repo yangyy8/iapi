@@ -1,6 +1,6 @@
 <!--证件种类封装-->
 <template lang="html">
-  <el-select v-model="docCodeModel" filterable @visible-change="queryDocCode" placeholder="请选择"  size="small" class="input-input">
+  <el-select v-model="docCodeModel"  filterable clearable @visible-change="queryDocCode" placeholder="请选择"  size="small" class="input-input">
     <el-option
       v-for="item in docCode"
       :key="item.CODE"
