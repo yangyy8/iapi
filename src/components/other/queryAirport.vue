@@ -13,14 +13,15 @@
 <script>
 export default {
   props: {
-      airportModel: {
-          type: String,
-          default: ''
-      }
+      // airportModel: {
+      //     type: String,
+      //     default: ''
+      // }
   },
   data(){
     return{
-      airport:[]
+      airport:[],
+      airportModel:''
     }
   },
   methods: {

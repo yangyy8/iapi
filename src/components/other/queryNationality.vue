@@ -16,14 +16,15 @@
 export default {
   name:"queryNationality",
   props: {
-      nationality: {
-          type: String,
-          default: ''
-      }
+      // nationality: {
+      //     type: String,
+      //     default: ''
+      // }
   },
   data(){
     return{
-      nation:[]
+      nation:[],
+      nationality:''
     }
   },
   methods: {

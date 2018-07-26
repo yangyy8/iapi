@@ -380,7 +380,8 @@
   margin-right: 5px;
 }
 .schecked{
-  background: url(../../../assets/img/qgjk/check.png)
+  /* background: url(../../../assets/img/qgjk/check.png) */
+  background: 
 }
 .list-dd{
   display: flex;
