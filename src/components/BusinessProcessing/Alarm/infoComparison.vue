@@ -362,24 +362,36 @@
           <div class=""  v-if="$route.query.NameListType==0">
             <el-row  class="mb-9">
               <el-col :span="8" class="input-item mb-9">
+                <span class="input-text">档号：</span>
+                <el-input placeholder="请输入内容" v-model="tableData.BZRJyfbywtList.JKDWDH" size="small" :disabled="true" class="input-input"></el-input>
+              </el-col>
+              <el-col :span="8" class="input-item mb-9">
+                <span class="input-text">起控日期：</span>
+                <el-input placeholder="请输入内容" v-model="tableData.BZRJyfbywtList.QSKZRQ" size="small" :disabled="true" class="input-input"></el-input>
+              </el-col>
+              <el-col :span="8" class="input-item mb-9">
+                <span class="input-text">止控日期：</span>
+                <el-input placeholder="请输入内容" v-model="tableData.BZRJyfbywtList.ZZKZRQ" size="small" :disabled="true" class="input-input"></el-input>
+              </el-col>
+              <el-col :span="8" class="input-item mb-9">
+                <span class="input-text">交控单位：</span>
+                <el-input placeholder="请输入内容" v-model="tableData.BZRJyfbywtList.JKDWMC" size="small" :disabled="true" class="input-input"></el-input>
+              </el-col>
+              <el-col :span="8" class="input-item mb-9">
                 <span class="input-text">在控性质：</span>
                 <el-input placeholder="请输入内容" v-model="tableData.BZRJyfbywtList.DXLBDM" size="small" :disabled="true" class="input-input"></el-input>
               </el-col>
-              <el-col :span="8" class="input-item mb-9">
-                <span class="input-text">登记编号：</span>
-                <el-input placeholder="请输入内容" v-model="tableData.BZRJyfbywtList.JKDWDH" size="small" :disabled="true" class="input-input"></el-input>
+              <el-col :span="8" class="input-item  mb-9">
+                <span class="input-text">法律依据：</span>
+                <el-input placeholder="请输入内容" v-model="tableData.BZRJyfbywtList.FLYJ" size="small" :disabled="true" class="input-input"></el-input>
               </el-col>
               <el-col :span="8" class="input-item mb-9">
                 <span class="input-text">职业身份：</span>
                 <el-input placeholder="请输入内容" v-model="tableData.BZRJyfbywtList.SF" size="small" :disabled="true" class="input-input"></el-input>
               </el-col>
-              <el-col :span="8" class="input-item  mb-9">
-                <span class="input-text">体貌特征：</span>
-                <el-input placeholder="请输入内容" v-model="tableData.BZRJyfbywtList.TMTZ" size="small" :disabled="true" class="input-input"></el-input>
-              </el-col>
-              <el-col :span="8" class="input-item  mb-9">
-                <span class="input-text">法律依据：</span>
-                <el-input placeholder="请输入内容" v-model="tableData.BZRJyfbywtList.FLYJ" size="small" :disabled="true" class="input-input"></el-input>
+              <el-col :span="8" class="input-item mb-9">
+                <span class="input-text">联系办法：</span>
+                <el-input placeholder="请输入内容" v-model="tableData.BZRJyfbywtList.LXBF" size="small" :disabled="true" class="input-input"></el-input>
               </el-col>
               <el-col :span="8" class="input-item  mb-9">
                 <span class="input-text">主要问题：</span>
@@ -393,21 +405,9 @@
                 <span class="input-text">境外住址：</span>
                 <el-input placeholder="请输入内容" v-model="tableData.BZRJyfbywtList.JWZZ" size="small" :disabled="true" class="input-input"></el-input>
               </el-col>
-              <el-col :span="8" class="input-item mb-9">
-                <span class="input-text">起控日期：</span>
-                <el-input placeholder="请输入内容" v-model="tableData.BZRJyfbywtList.QSKZRQ" size="small" :disabled="true" class="input-input"></el-input>
-              </el-col>
-              <el-col :span="8" class="input-item mb-9">
-                <span class="input-text">交控单位：</span>
-                <el-input placeholder="请输入内容" v-model="tableData.BZRJyfbywtList.JKDWMC" size="small" :disabled="true" class="input-input"></el-input>
-              </el-col>
-              <el-col :span="8" class="input-item mb-9">
-                <span class="input-text">联系办法：</span>
-                <el-input placeholder="请输入内容" v-model="tableData.BZRJyfbywtList.LXBF" size="small" :disabled="true" class="input-input"></el-input>
-              </el-col>
-              <el-col :span="8" class="input-item mb-9">
-                <span class="input-text">止控日期：</span>
-                <el-input placeholder="请输入内容" v-model="tableData.BZRJyfbywtList.ZZKZRQ" size="small" :disabled="true" class="input-input"></el-input>
+              <el-col :span="8" class="input-item  mb-9">
+                <span class="input-text">体貌特征：</span>
+                <el-input placeholder="请输入内容" v-model="tableData.BZRJyfbywtList.TMTZ" size="small" :disabled="true" class="input-input"></el-input>
               </el-col>
               <el-col :span="24" class="input-item mb-9">
                 <span class="input-text2">备注：</span>
@@ -627,7 +627,7 @@
           <div class="down2">
             <div class="title-grey"></div>
             <div class="textarea-g">
-              <div class="textarea-text">甄选说明:</div>
+              <div class="textarea-text">甄别说明:</div>
               <el-input
                 type="textarea"
                 :autosize="{ minRows: 5, maxRows: 5}"
