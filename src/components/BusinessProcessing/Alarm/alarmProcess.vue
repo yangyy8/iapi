@@ -15,7 +15,7 @@
     </div>
     <div class="middle mb-6">
       <div class="middle-tab">
-        <div class="middle-tab-item hand" :class="{'middle-checked':tabIsShow==false}" @click="xinxi">
+        <div class="middle-tab-item hand" style="height: 40px;line-height: 40px;" :class="{'middle-checked':tabIsShow==false}" @click="xinxi">
           基本信息
         </div>
         <div class="middle-tab-item hand" :class="{'middle-checked':tabIsShow==true}" @click="shijian">
@@ -92,7 +92,7 @@
                   {{iapiMap.destination}}
 
                 </el-col>
-                <el-col :span="5">
+                <el-col :span="8">
                   <span>报警时间</span>
                   {{iapiMap.createtime}}
 

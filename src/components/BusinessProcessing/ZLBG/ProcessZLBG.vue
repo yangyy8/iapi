@@ -436,99 +436,93 @@
   <el-dialog title="查看详情" :visible.sync="detailsDialogVisible">
     <el-form :model="dform" ref="detailsForm">
       <div class="hrtitle">基本信息</div>
-      <el-row type="flex"  class="mb-6">
-        <el-col :span="6">姓名：{{dform.CNAME}}</el-col>
-        <el-col :span="6">性别：{{dform.GENDERNAME=="F"?"男":dform.GENDER=="F"?"女":"未知"}}</el-col>
-        <el-col :span="6">出生日期：{{dform.BIRTHDAYSTR}}</el-col>
-        <el-col :span="6">国籍：{{dform.NATIONALITYNAME}}</el-col>
-      </el-row>
-      <el-row type="flex"  class="mb-6">
-        <el-col :span="6">证件号码：{{dform.PASSPORTNO}}</el-col>
-        <el-col :span="6">出入境类型：{{dform.FLIGHTINOUT}}</el-col>
-        <el-col :span="6">出生国：{{dform.BIRTHCOUNTRYNAME}}</el-col>
-        <el-col :span="6">居住国：{{dform.RESIDENCENAME}}</el-col>
-
-      </el-row>
-      <el-row type="flex"  class="mb-6">
-        <el-col :span="6">护照有效期：{{dform.PASSPORTEXPIREDATESTR}}</el-col>
-        <el-col :span="6">护照颁发国：{{dform.PASSPORTISSUECOUNTRYNAME}}</el-col>
-        <el-col :span="6">护照签发期：{{dform.PASSPORTISSUEDATESTR}}</el-col>
-      </el-row>
-      <div class="hrtitle">航班信息</div>
-      <el-row type="flex"  class="mb-6">
-        <el-col :span="8">航班号：{{dform.FLTNO}}</el-col>
-        <el-col :span="8">航班日期：{{dform.FLIGHTDATESTR}}</el-col>
-        <el-col :span="8">起飞机场：{{dform.CITYFROMNAME}}</el-col>
-
-      </el-row>
-      <el-row type="flex"  class="mb-6">
-        <el-col :span="8">预计起飞时间：{{dform.DEPARTDATESTR}}</el-col>
-        <el-col :span="8">到达机场：{{dform.CITYTONAME}}</el-col>
-        <el-col :span="8">预计到达时间：{{dform.ARRIVDATESTR}}</el-col>
-
-      </el-row>
-      <el-row type="flex"  class="mb-6">
-        <el-col :span="8">原预检结果：{{dform.CHECKRESULTNAME}}</el-col>
-        <el-col :span="8">最终预检结果：{{dform.LASTCHECKRESULTSTR}}</el-col>
-        <el-col :span="8">是否有效：{{dform.PASSENGERSTATUSSTR==0?"无效":"有效"}}</el-col>
-
-      </el-row>
-      <el-row type="flex"  class="mb-6">
-        <el-col :span="8">航班状态：{{dform.FLIGHTSTATUSSTR==0?"取消":"起飞"}}</el-col>
-        <el-col :span="8">登机/航班取消时间：{{dform.LASTUPDATETIMESTR}}</el-col>
-        <el-col :span="8">口岸：{{dform.PORTSTR}}</el-col>
-      </el-row>
-      <el-row type="flex"  class="mb-6">
-        <el-col :span="8">备降口岸：{{dform.CHANGEPORTSTR}}</el-col>
-        <el-col :span="8">航空公司联系电话：{{dform.AIRLINEPHONESTR}}</el-col>
-      </el-row>
-      <div class="hrtitle">其他信息</div>
-      <el-row type="flex"  class="mb-6">
-        <el-col :span="8">航空公司传真：{{dform.AIRLINEFAX}}</el-col>
-        <el-col :span="8">航信发送报文时间：{{dform.GAPP_RECEIVETIMESTR}}</el-col>
-        <el-col :span="8">航信接受报文时间：{{dform.GAPP_SENDTIMESTR}}</el-col>
-      </el-row>
-      <el-row type="flex"  class="mb-6">
-        <el-col :span="9">流水号：{{dform.TID}}</el-col>
-        <el-col :span="8">ICS记录编号：{{dform.RECORDLOCATER}}</el-col>
-        <el-col :span="7">旅客中间名：{{dform.MIDDLENAME}}</el-col>
-      </el-row>
-      <el-row type="flex"  class="mb-6">
-        <el-col :span="8">旅客类型：{{dform.PASSENGERTYPESTR=="FL"?"普通旅客":"中转旅客"}}</el-col>
-        <el-col :span="8">旅客值机方式：{{dform.VIDSTR}}</el-col>
-        <el-col :span="8">旅客状态：{{dform.PASSENGERSTATUSSTR==0?"已值机":dform.PASSENGERSTATUS==1?"已登机":"未登机"}}</el-col>
-      </el-row>
-      <el-row type="flex"  class="mb-6">
-        <el-col :span="8">是否报警：{{dform.ISEVENT}}</el-col>
-        <el-col :span="8">ABO唯一标识：{{dform.ABONO}}</el-col>
-        <el-col :span="8">其他证件号码：{{dform.OTHER_NO}}</el-col>
-      </el-row>
-      <el-row type="flex"  class="mb-6">
-        <el-col :span="8">其他证件有效期：{{dform.OTHER_EXPIREDATESTR}}</el-col>
-        <el-col :span="8">其他证件颁发国：{{dform.OTHER_ISSUECOUNTRYSTR}}</el-col>
-        <el-col :span="8">其他证件签发日期：{{dform.OTHERDOCUMENTISSUEDATESTR}}</el-col>
-      </el-row>
-      <el-row type="flex"  class="mb-6">
-        <el-col :span="8">签证号码：{{dform.VISANO}}</el-col>
-        <el-col :span="8">签证有效期：{{dform.VISAEXPIREDATESTR}}</el-col>
-        <el-col :span="8">签证国家：{{dform.VISAISSUECOUNTRYSTR}}</el-col>
-      </el-row>
-      <el-row type="flex"  class="mb-6">
-        <el-col :span="8">签证签发日期：{{dform.VISAISSUEDATESTR}}</el-col>
-        <el-col :span="8">起飞城市：{{dform.ORIGINSTR}}</el-col>
-        <el-col :span="8">目的地地址：{{dform.DESTADDRESS}}</el-col>
-      </el-row>
-      <el-row type="flex"  class="mb-6">
-        <el-col :span="8">目的地城市：{{dform.DESTCITY}}</el-col>
-        <el-col :span="8">目的的所在省：{{dform.DESTSTATEC}}</el-col>
-        <el-col :span="8">目的地国家：{{dform.DESTCOUNTRYSTR}}</el-col>
-      </el-row>
-      <el-row type="flex"  class="mb-6">
-        <el-col :span="8">目的地邮编：{{dform.DESTPOSTALCODE}}</el-col>
-        <el-col :span="8">边检接收时间：{{dform.IAPI_RECEIVETIMESTR}}</el-col>
-        <el-col :span="8">边检回复时间：{{dform.IAPI_RESPONSETIMESTR}}</el-col>
-      </el-row>
-
+       <el-row type="flex"  class="mb-6">
+         <el-col :span="6">姓名：{{dform.NAME}}</el-col>
+         <el-col :span="6">性别：{{dform.GENDER=="F"?"男":dform.GENDER=="F"?"女":"未知"}}</el-col>
+         <el-col :span="6">出生日期：{{dform.DATEOFBIRTH}}</el-col>
+         <el-col :span="6">国籍：{{dform.NATIONALITYC}}</el-col>
+       </el-row>
+       <el-row type="flex"  class="mb-6">
+         <el-col :span="6">证件号码：{{dform.NAME}}</el-col>
+         <el-col :span="6">出入标识：{{dform.FLIGHTTYPE=="I"?"入境":"出境"}}</el-col>
+         <el-col :span="6">居住国：{{dform.RESIDENCEC}}</el-col>
+         <el-col :span="6">出生国：{{dform.NATIONALITYC}}</el-col>
+       </el-row>
+       <el-row type="flex"  class="mb-6">
+         <el-col :span="6">护照号码：{{dform.PASSPORTNO}}</el-col>
+         <el-col :span="6">护照有效期：{{dform.PASSPORTEXPIREDATE}}</el-col>
+         <el-col :span="6">护照颁发国：{{dform.PASSPORTISSUECOUNTRYC}}</el-col>
+         <el-col :span="6">护照签发日期：{{dform.PASSPORTISSUEDATE}}</el-col>
+       </el-row>
+       <div class="hrtitle">航班信息</div>
+       <el-row type="flex"  class="mb-6">
+         <el-col :span="6">航班号：{{dform.NAME}}</el-col>
+         <el-col :span="6">航班日期：{{dform.NAME}}</el-col>
+         <el-col :span="6">起飞机场：{{dform.CITYFROMC}}</el-col>
+         <el-col :span="6">预计起飞时间：{{dform.SCHEDULEDEPARTURETIME}}</el-col>
+       </el-row>
+       <el-row type="flex"  class="mb-6">
+         <el-col :span="6">到达机场：{{dform.CITYTOC}}</el-col>
+         <el-col :span="6">预计到达时间：{{dform.SCHEDULEARRIVETIME}}</el-col>
+         <el-col :span="6">原预检结果：{{dform.NAME}}</el-col>
+         <el-col :span="6">最终预检结果：{{dform.NAME}}</el-col>
+       </el-row>
+       <el-row type="flex"  class="mb-6">
+         <el-col :span="6">是否有效：{{dform.NAME}}</el-col>
+         <el-col :span="6">航班状态：{{dform.FLIGHTSTATUS==0?"取消":"起飞"}}</el-col>
+         <el-col :span="6">登机/航班取消时间：{{dform.NAME}}</el-col>
+         <el-col :span="6">口岸：{{dform.PORTC}}</el-col>
+       </el-row>
+       <el-row type="flex"  class="mb-6">
+         <el-col :span="6">备降口岸：{{dform.CHANGEPORTC}}</el-col>
+         <el-col :span="6">航空公司联系电话：{{dform.AIRLINEPHONE}}</el-col>
+       </el-row>
+       <div class="hrtitle">其他信息</div>
+       <el-row type="flex"  class="mb-6">
+         <el-col :span="8">航空公司传真：{{dform.AIRLINEFAX}}</el-col>
+         <el-col :span="8">航信发送报文时间：{{dform.GAPP_SENDTIME}}</el-col>
+         <el-col :span="8">航信接受报文时间：{{dform.GAPP_RECEIVETIME}}</el-col>
+       </el-row>
+       <el-row type="flex"  class="mb-6">
+         <el-col :span="9">流水号：{{dform.TID}}</el-col>
+         <el-col :span="8">ICS记录编号：{{dform.RECORDLOCATER}}</el-col>
+         <el-col :span="7">旅客中间名：{{dform.MIDDLENAME}}</el-col>
+       </el-row>
+       <el-row type="flex"  class="mb-6">
+         <el-col :span="8">旅客类型：{{dform.Passengertype=="FL"?"普通旅客":"中转旅客"}}</el-col>
+         <el-col :span="8">旅客值机方式：{{dform.NAME}}</el-col>
+         <el-col :span="8">旅客状态：{{dform.PASSENGERSTATUS==0?"已值机":dform.PASSENGERSTATUS==1?"已登机":"未登机"}}</el-col>
+       </el-row>
+       <el-row type="flex"  class="mb-6">
+         <el-col :span="8">是否报警：{{dform.STATUS}}</el-col>
+         <el-col :span="8">ABO唯一标识：{{dform.ABONO}}</el-col>
+         <el-col :span="8">其他证件号码：{{dform.Other_NO}}</el-col>
+       </el-row>
+       <el-row type="flex"  class="mb-6">
+         <el-col :span="8">其他证件有效期：{{dform.Other_EXPIREDATE}}</el-col>
+         <el-col :span="8">其他证件颁发国：{{dform.Other_ISSUECOUNTRYC}}</el-col>
+         <el-col :span="8">其他证件签发日期：{{dform.OTHERDOCUMENTISSUEDATE}}</el-col>
+       </el-row>
+       <el-row type="flex"  class="mb-6">
+         <el-col :span="8">签证号码：{{dform.VISANO}}</el-col>
+         <el-col :span="8">签证有效期：{{dform.VISAEXPIREDATE}}</el-col>
+         <el-col :span="8">签证国家：{{dform.VISAISSUECOUNTRYC}}</el-col>
+       </el-row>
+       <el-row type="flex"  class="mb-6">
+         <el-col :span="8">签证签发日期：{{dform.VISAISSUEDATE}}</el-col>
+         <el-col :span="8">起飞城市：{{dform.ORIGINC}}</el-col>
+         <el-col :span="8">目的地地址：{{dform.DESTADDRESS}}</el-col>
+       </el-row>
+       <el-row type="flex"  class="mb-6">
+         <el-col :span="8">目的地城市：{{dform.DESTCITYC}}</el-col>
+         <el-col :span="8">目的的所在省：{{dform.DESTSTATEC}}</el-col>
+         <el-col :span="8">目的地国家：{{dform.DESTCOUNTRYC}}</el-col>
+       </el-row>
+       <el-row type="flex"  class="mb-6">
+         <el-col :span="8">目的地邮编：{{dform.DESTPOSTALCODE}}</el-col>
+         <el-col :span="8">边检接收时间：{{dform.IAPI_RECEIVETIME}}</el-col>
+         <el-col :span="8">边检回复时间：{{dform.IAPI_RESPONSETIME}}</el-col>
+       </el-row>
     <div class="hrtitle">预检详情</div>
 
     <el-row type="flex"  class="mb-6">
