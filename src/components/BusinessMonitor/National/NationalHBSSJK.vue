@@ -1093,10 +1093,8 @@ export default {
         '加拿大': [-102.646409, 59.994255]
       },
       planePath: 'path://M1705.06,1318.313v-89.254l-319.9-221.799l0.073-208.063c0.521-84.662-26.629-121.796-63.961-121.491c-37.332-0.305-64.482,36.829-63.961,121.491l0.073,208.063l-319.9,221.799v89.254l330.343-157.288l12.238,241.308l-134.449,92.931l0.531,42.034l175.125-42.917l175.125,42.917l0.531-42.034l-134.449-92.931l12.238-241.308L1705.06,1318.313z',
-
-      series: [
-
-      ]
+      XqKa:{},
+      series: []
 
     };
   },
@@ -1241,49 +1239,59 @@ export default {
     },
     // 最新航班监控信息取得
     getNewData(){
-      let arr=[{
-        fp:"重庆",
-        fj:107.7539,
-        fw:30.1904,
-        tp:"日本",
-        tj:139.710164,
-        tw:35.706962,
-        pe:0.8,
-        ob:0
-      },{
-        fp:"南宁",
-        fj:108.479,
-        fw:23.1152,
-        tp:"瑞士",
-        tj:7.445147,
-        tw:46.956241,
-        pe:0.8,
-        ob:0
-      }]
-
-      this.createM(arr)
+      // let arr=[{
+      //   fp:"重庆",
+      //   fj:107.7539,
+      //   fw:30.1904,
+      //   tp:"日本",
+      //   tj:139.710164,
+      //   tw:35.706962,
+      //   pe:0.8,
+      //   ob:0
+      // },{
+      //   fp:"南宁",
+      //   fj:108.479,
+      //   fw:23.1152,
+      //   tp:"瑞士",
+      //   tj:7.445147,
+      //   tw:46.956241,
+      //   pe:0.8,
+      //   ob:0
+      // }]
+      //
+      // this.createM(arr)
       this.$api.post('/eamp/nationwide/getFlightMonitorInfo',{},
        r => {
          console.log(r);
          this.newHbData=r.data;
-
+         this.createM( this.newHbData)
       })
     },
-    // 目的地
+    // 动画
     createM(data){
+      this.series=[];
+      let _this=this;
        let x=  {
           type: 'lines',
+          // coordinateSystem: 'lines',
           zlevel: 4,
           //symbol: ['none', 'arrow'],   // 用于设置箭头
           symbolSize: 10,
           effect: {
             show: true,
-            period: 12,
+            period: 80,
             trailLength: 0,
             symbol:this.planePath,
             symbolSize: 15,
-            color:'#ffffff'
+            color:'#ffffff',
+            loop:false
           },
+          // markPoint:{
+          //   symbol:'circle',
+          //   symbolSize:15,
+          //   symbolOffset:[0,'20%'],
+          //   color:'#000000'
+          // },
           lineStyle: {
             normal: {
               color: '#fff',
@@ -1292,7 +1300,36 @@ export default {
               curveness: -0.2
             }
           },
-          data: []// 特效的起始、终点位置
+          data: [],// 特效的起始、终点位置
+          tooltip:{
+            trigger: 'item',
+            // formatter: '{b}<br/>{c}',
+            backgroundColor:'#143652',
+            padding:10,
+            borderColor:'#028bd0',
+            borderWidth:1,
+            // triggerOn:'click',
+            formatter: function (params, ticket, callback) {
+              console.log(params)
+                let p={
+                  dt:params.data.fk,
+                  dtLst:[]
+                }
+                _this.$api.post('/eamp/nationwide/getFlightDetail',p,
+                 r => {
+                   console.log(r);
+                   // let data=r.data.flights[0];
+                   // let html='<div class="katooltip">\
+                   //            <span style="color:#31aafb">航班号：</span>'+data.fltno+' <span style="color:#31aafb">航班日期：</span>'+data.fltDate+'<span style="color:#31aafb">起飞地：</span>'+data.from+'<br>'+'\
+                   //            <span style="color:#31aafb">到达地：</span>'+data.to+' <span style="color:#31aafb">起飞时间：</span>'+data.departTime+'<br>'+'\
+                   //            <span style="color:#31aafb">预计到达时间：</span>'+data.to+' <span style="color:#31aafb">起飞时间：</span>'+data.departTime+'<br>'+'\
+                   //            <span style="color:#31aafb">机组数：</span>'+data.checkNum+' <span style="color:#31aafb">不准入境人员：</span>'+data.forbiddenNum+'<br>'+'\
+                   //           </div>'
+                   // callback(ticket, html);
+                })
+                return 'Loading';
+            },
+          },
         };
 
       let f={
@@ -1307,6 +1344,31 @@ export default {
             color: '#ffffff'
           }
         },
+        tooltip:{
+          trigger: 'item',
+          // formatter: '{b}<br/>{c}',
+          backgroundColor:'#143652',
+          padding:10,
+          borderColor:'#028bd0',
+          borderWidth:1,
+          // triggerOn:'click',
+          formatter: function (params, ticket, callback) {
+              _this.$api.get('/eamp/nationwide/getPortDetail',{port:params.data.value[2]},
+               r => {
+                 console.log(r);
+                 let data=r.data.flights[0];
+                 let html='<div class="katooltip">\
+                            <span style="color:#31aafb">航班号：</span>'+data.fltno+' <span style="color:#31aafb">航班日期：</span>'+data.fltDate+'<span style="color:#31aafb">起飞地：</span>'+data.from+'<br>'+'\
+                            <span style="color:#31aafb">到达地：</span>'+data.to+' <span style="color:#31aafb">起飞时间：</span>'+data.departTime+'<br>'+'\
+                            <span style="color:#31aafb">预计到达时间：</span>'+data.to+' <span style="color:#31aafb">起飞时间：</span>'+data.departTime+'<br>'+'\
+                            <span style="color:#31aafb">机组数：</span>'+data.checkNum+' <span style="color:#31aafb">不准入境人员：</span>'+data.forbiddenNum+'<br>'+'\
+                           </div>'
+                 callback(ticket, html);
+              })
+              return 'Loading';
+          },
+        },
+
         symbolSize: 10,
         data: [],
       }
@@ -1324,17 +1386,43 @@ export default {
         },
         symbolSize: 10,
         data: [],
+        tooltip:{
+          trigger: 'item',
+          // formatter: '{b}<br/>{c}',
+          backgroundColor:'#143652',
+          padding:10,
+          borderColor:'#028bd0',
+          borderWidth:1,
+          // triggerOn:'click',
+          formatter: function (params, ticket, callback) {
+              _this.$api.get('/eamp/nationwide/getPortDetail',{port:params.data.value[2]},
+               r => {
+                 console.log(r);
+                 let data=r.data.flights[0];
+                 let html='<div class="katooltip">\
+                            <span style="color:#31aafb">航班号：</span>'+data.fltno+' <span style="color:#31aafb">航班日期：</span>'+data.fltDate+'<span style="color:#31aafb">起飞地：</span>'+data.from+'<br>'+'\
+                            <span style="color:#31aafb">到达地：</span>'+data.to+' <span style="color:#31aafb">起飞时间：</span>'+data.departTime+'<br>'+'\
+                            <span style="color:#31aafb">预计到达时间：</span>'+data.to+' <span style="color:#31aafb">起飞时间：</span>'+data.departTime+'<br>'+'\
+                            <span style="color:#31aafb">机组数：</span>'+data.checkNum+' <span style="color:#31aafb">不准入境人员：</span>'+data.forbiddenNum+'<br>'+'\
+                           </div>'
+                 callback(ticket, html);
+              })
+              return 'Loading';
+          },
+        },
+
       }
       data.forEach(function(val,index,arr){
         let a={
           name:val.fp,
-          value:[val.fj,val.fw]
+          value:[val.fj,val.fw,val.fc]
         }
         let b={
           name:val.tp,
-          value:[val.tj,val.tw]
+          value:[val.tj,val.tw,val.tc]
         }
         let c={
+          fk:val.fk,
           coords:[[val.fj,val.fw],[val.tj,val.tw]]
         }
         f.data.push(a)
@@ -1350,12 +1438,12 @@ export default {
       this.initChart(this.series);
 
     },
-    // 航线
+
 
     // 航班详细信息取得
     getXqHb(fk){
       // ?fk=CZ3221806162230
-      this.$api.post('/eamp/nationwide/getFlightDetail',{fk:fk},
+      this.$api.get('/eamp/nationwide/getFlightDetail',{fk:fk},
        r => {
          console.log(r);
       })
@@ -1363,9 +1451,11 @@ export default {
     //口岸详细信息取得
     getXqKa(port){
       // ?fk=CZ3221806162230
-      this.$api.post('/eamp/nationwide/getPortDetail',{port:port},
+      this.$api.get('/eamp/nationwide/getPortDetail',{port:port},
        r => {
          console.log(r);
+         this.XqKa=r.data.flights[0]
+         console.log(this.XqKa.aircompanyName)
       })
     },
     // 当前监控口岸取得
@@ -1435,7 +1525,10 @@ export default {
     // 境内口岸列表取得
     getKaList(){
       this.checkShow2=true;
-      this.$api.post('/eamp/portMonitor/getInPortList',{},
+      let p=this.checkList.map(function(val){
+        return val.code
+      })
+      this.$api.post('/eamp/portMonitor/getInPortList',{dtLst:p},
        r => {
          console.log(r);
          this.locationData2=r.data;
@@ -1452,7 +1545,10 @@ export default {
     // 境外国家列表取得
     getGjList(){
       this.checkShow3=true;
-      this.$api.post('/eamp/portMonitor/getOutNationalityList',{},
+      let p=this.checkList5.map(function(val){
+        return val.code
+      })
+      this.$api.post('/eamp/portMonitor/getOutNationalityList',{dtLst:p},
        r => {
          console.log(r);
          this.locationData3=r.data;
@@ -1469,7 +1565,10 @@ export default {
     // 境外口岸列表取得
     getJwKaList(){
       this.checkShow4=true;
-      this.$api.post('/eamp/portMonitor/getOutPortList',{},
+      let p=this.checkList3.map(function(val){
+        return val.code
+      })
+      this.$api.post('/eamp/portMonitor/getOutPortList',{dtLst:p},
        r => {
          console.log(r);
          this.locationData4=r.data;
@@ -1624,11 +1723,12 @@ export default {
           },
           tooltip : {
                trigger: 'item',
-               formatter: '{b}<br/>{c}',
+               // formatter: '{b}<br/>{c}',
                backgroundColor:'#143652',
                padding:10,
                borderColor:'#028bd0',
-               borderWidth:1
+               borderWidth:1,
+               // triggerOn:'click'
            },
           series: series, // 将之前处理的数据放到这里
           textStyle: {
