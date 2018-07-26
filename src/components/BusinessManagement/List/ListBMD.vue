@@ -612,10 +612,6 @@
     </el-dialog>
     <el-dialog title="上传模板" :visible.sync="uploadDialogVisible"   width="640px">
       <el-form :model="releaseform" ref="releaseForm">
-        <el-input
-          placeholder="浏览"
-          :disabled="true">
-        </el-input>
         <el-upload
           class="upload-demo"
           ref="upload"
@@ -623,7 +619,7 @@
           :file-list="fileList"
           multiple
 
-          :limit="1"
+          :limit="5"
           :auto-upload="false">
           <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
           <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">上传到服务器</el-button>
