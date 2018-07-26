@@ -320,9 +320,7 @@ export default {
     rightOver(i){
       this.right=i
     },
-<<<<<<< HEAD
 
-=======
     getSatus(){
       this.$api.post('/manage-platform/isLanding',{},
        r => {
@@ -330,7 +328,7 @@ export default {
          this.isLogin=r.data
       })
     },
->>>>>>> 74810a3d317daf6b02f5314badc1799854268adf
+
     login(){
 
       this.$api.post('/manage-platform/landing',this.user,
