@@ -15,7 +15,7 @@
              :value="item.value">
            </el-option>
          </el-select>
-         &nbsp;&nbsp;&nbsp; 出入境类别:
+         &nbsp;&nbsp;&nbsp; 出入标识:
          <el-select v-model="pd.flighttype" placeholder="请选择" filterable clearable size="small">
            <el-option label="I - 入境" value="I"></el-option>
            <el-option label="O - 出境" value="O"></el-option>
@@ -45,15 +45,6 @@
 
         </el-table-column>
         <el-table-column
-          prop="flightType"
-          label="出入类别"
-          width="130">
-        </el-table-column>
-        <el-table-column
-          prop="passportno"
-          label="证件号码">
-        </el-table-column>
-        <el-table-column
           prop="name"
           label="人员姓名">
         </el-table-column>
@@ -63,7 +54,16 @@
         </el-table-column>
         <el-table-column
           prop="nationality"
-          label="国籍/地区">
+          label="国籍">
+        </el-table-column>
+        <el-table-column
+          prop="passportno"
+          label="证件号码">
+        </el-table-column>
+        <el-table-column
+          prop="flightType"
+          label="出入标识"
+          width="130">
         </el-table-column>
         <el-table-column
           prop="fltno"

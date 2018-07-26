@@ -8,16 +8,14 @@
         <el-col :span="12" class="top-right">
           报警类型:
           <el-select v-model="pd.pnrType" placeholder="请选择" filterable clearable size="small">
-           <el-option value="" label="全部">
-           </el-option>
+      
            <el-option value="1" label="1 - 风险评估人员报警">
            </el-option>
            <el-option value="2" label="2 - 特殊关注对象报警">
            </el-option>
           </el-select>
-         &nbsp;&nbsp;&nbsp; 出入境类别:
+         &nbsp;&nbsp;&nbsp; 出入标识:
          <el-select v-model="pd.flighttype" placeholder="请选择" filterable clearable size="small">
-           <el-option label="全部" value=""></el-option>
            <el-option label="I - 入境" value="I"></el-option>
            <el-option label="O - 出境" value="O"></el-option>
 
@@ -45,28 +43,31 @@
           prop="alarmType"
           label="报警类别"
           width="160">
-
-        </el-table-column>
-        <el-table-column
-          prop="flightType"
-          label="出入类别"
-          width="130">
-          <template slot-scope="scope">
-            <span v-if="scope.row.flightType=='O'">出境</span>
-            <span v-if="scope.row.flightType=='I'">入境</span>
-          </template>
-        </el-table-column>
-        <el-table-column
-          prop="passportno"
-          label="证件号码">
         </el-table-column>
         <el-table-column
           prop="name"
           label="人员姓名">
         </el-table-column>
         <el-table-column
+          prop="intgchnname"
+          label="中文姓名">
+        </el-table-column>
+        <el-table-column
           prop="nationality"
           label="国籍">
+        </el-table-column>
+        <el-table-column
+          prop="passportno"
+          label="证件号码">
+        </el-table-column>
+        <el-table-column
+          prop="flightType"
+          label="出入标识"
+          width="130">
+          <template slot-scope="scope">
+            <span v-if="scope.row.flightType=='O'">出境</span>
+            <span v-if="scope.row.flightType=='I'">入境</span>
+          </template>
         </el-table-column>
         <el-table-column
           prop="fltno"

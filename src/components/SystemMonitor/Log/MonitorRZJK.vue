@@ -1,3 +1,4 @@
+
 <template lang="html">
   <div class="zlbg">
     <div class="middle-top mb-2">
@@ -30,6 +31,8 @@
                 </el-option>
                 <el-option value="2" label="2 - 操作日志" >
                 </el-option>
+              
+
                </el-select>
             </el-col>
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
@@ -233,14 +236,16 @@ export default {
         "showCount": showCount,
         "pd": pd
       };
-      var url="eamp/log_event/queryListPage";
-      if(pd.type=="1"){
-        url="eamp/log_event/querylistPageExpretion";
-      }
-      this.$api.post(url, p,
+      // var url="eamp/log_event/queryListPage";
+      // if(pd.type=="1"){
+      //   url="eamp/log_event/querylistPageExpretion";
+      // }
+      this.$api.post("/manage-platform/log_event/queryListPageAll", p,
         r => {
           console.log(r);
-          this.tableData = r.data.resultList;
+          this.tableData = r.data.resultList;() => {
+
+          }
           this.TotalResult = r.data.totalResult;
         })
     },
