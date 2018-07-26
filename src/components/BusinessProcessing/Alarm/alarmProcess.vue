@@ -520,7 +520,7 @@ export default {
      this.pd.bguserName=ap.userName;
      this.pd.bgpassword=ap.password;
      this.pd.bgverifyType="bjcl";
-     if(this.pd.DEALRESULT==0){
+     if(this.pd.DEALRESULT==1){
        this.pd.INSTRUCT_OLD=this.iapiMap.instructOld;
      }
      console.log(".....")
@@ -529,7 +529,7 @@ export default {
        "showCount":3,
        pd:this.pd
      };
-     if(this.pd.DEALRESULT==0){
+     if(this.pd.DEALRESULT==1){
        this.$api.post('/manage-platform/alarmEvents/getUpdateResult',p,
         r => {
           console.log(r);
@@ -547,12 +547,15 @@ export default {
 
    },
    archive(){
+
+    this.pd.eventserial=this.eventserial;
+     this.pd.userid=this.userMap.userId;
+     this.pd.approvaluser=this.ap.userName;
+     this.pd.savecontent=this.pd.CHANGE_RESON;
      let p={
        "currentPage":0,
        "showCount":3,
-       "pd":{
-          eventserial:this.eventserial
-       }
+       "pd":this.pd
      };
 
      this.$api.post('/manage-platform/alarmEvents/archiveDocument',p,
@@ -576,6 +579,8 @@ export default {
         }else{
           this.$message.error(r.message);
         }
+
+        this.$router.go(-1);
 
      })
    },
