@@ -515,12 +515,23 @@ export default {
   },
   methods: {
     logOut(){
-      localStorage.removeItem('login')
-      this.$message({
-        message: '退出成功',
-        type: 'success'
-      });
-      this.$router.push('/')
+      // localStorage.removeItem('login')
+      // this.$message({
+      //   message: '退出成功',
+      //   type: 'success'
+      // });
+      this.$api.post('/manage-platform/landout',{},
+       r => {
+        console.log(r)
+        if(r.success){
+          this.$message({
+            message: '退出成功',
+            type: 'success'
+          });
+        }
+        this.$router.push('/')
+        
+      })
     },
     getNav(navId) {
       this.navId = navId;
