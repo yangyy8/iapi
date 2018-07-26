@@ -86,20 +86,20 @@
                       width="70">
                     </el-table-column>
                     <el-table-column
-                      prop="BIRTHCOUNTRY"
+                      prop="birthcountry"
                       label="国籍">
                     </el-table-column>
                     <el-table-column
-                      prop="PASSPORTNO"
+                      prop="passportno"
                       label="证件号码"
                       width="130">
                     </el-table-column>
                     <el-table-column
-                      prop="Familyname"
+                      prop="familyname"
                       label="姓名">
                     </el-table-column>
                     <el-table-column
-                      prop="GENDER"
+                      prop="gender"
                       label="性别">
                     </el-table-column>
                     <el-table-column
@@ -107,24 +107,26 @@
                       label="出生日期">
                     </el-table-column>
                     <el-table-column
-                      prop="FLIGHT_RECORDNUM "
+                      prop="flightRecordnum "
                       label="航班号">
                     </el-table-column>
                     <el-table-column
-                      prop="Cmpbegintime "
+                      prop="begintime "
                       label="报文接收时间">
                     </el-table-column>
                     <el-table-column
-                      prop="cmpendtime"
                       label="校验比对结束时间"
-                      width='140'>
+                      width='200'>
+                      <template  slot-scope="scope">
+                        <span>{{scope.row.endtime|discount}}</span>
+                      </template>
                     </el-table-column>
                     <el-table-column
                       prop="average"
                       label="耗时">
                     </el-table-column>
                     <el-table-column
-                      prop="createtimeStr"
+                      prop="createtime"
                       label="监控时间">
                     </el-table-column>
                   </el-table>
@@ -184,7 +186,7 @@
                     <el-table-column
                       prop="createtimeStr"
                       label="统计日期"
-                      width="130">
+                      width="180">
                     </el-table-column>
                     <el-table-column
                       prop="tcount"
@@ -330,7 +332,11 @@ export default {
       this.checkRealTime();
       this.getList(this.CurrentPage,this.pageSize,this.pd);
   },
-
+  filters: {
+    discount: function(value) {
+      return value.substring(0,19) ;
+    }
+  },
   methods:{
     handleSelectionChange(val) {
     },

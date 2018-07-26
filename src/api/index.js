@@ -3,7 +3,7 @@
 
 //var root="http://192.168.99.228:8080"     //菜单
 
-//var root="http://192.168.99.248:8181"    //李志鹏的电脑
+// var root="http://192.168.99.248:8181"    //李志鹏的电脑
 
 //var root="http://192.168.99.251:8080"    //时达的电脑
 
@@ -13,15 +13,21 @@
 
 //var root="http://192.168.99.206:8080"   //服务器电脑
 
-
 // var root = 'http://192.168.99.245:8080'
-
+//var root=""
 //var root="http://192.168.99.206:8080"   //服务器电脑
 // var root = 'http://192.168.99.206:8080'
+
 
 var root = 'http://192.168.99.247:8080'
 
 // var root = 'http://192.168.99.245:8080'
+
+
+// var root = 'http://192.168.99.245:8080'
+
+// var root = 'http://192.168.99.245:8080'
+
 
 //var root="http://192.168.99.228:8080"    //丁勇的电脑
 //var root="http://192.168.99.206:8080"   //服务器电脑
@@ -74,6 +80,7 @@ function apiAxios(method, url, params, success, failure) {
       params: method === 'GET' || method === 'DELETE' ? params : null,
       baseURL: root,
       withCredentials: false
+
     })
     .then(function(res) {
       console.log(res)

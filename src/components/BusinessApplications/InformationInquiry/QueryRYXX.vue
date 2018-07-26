@@ -719,7 +719,7 @@
               <el-row type="flex" style="margin-top:15px">
                   <!-- 保存方案 -->
                   <div class="t-save">
-                    <el-select  filterable v-model="ffff"  @visible-change="selfSavePlanShow" @change="selfPlanQuery" placeholder="方案选择" size="small" class="mr-15">
+                    <el-select  filterable v-model="ffff"  @visible-change="selfSavePlanShow" filterable clearable @change="selfPlanQuery" placeholder="方案选择" size="small" class="mr-15">
                       <el-option
                         v-for="item in selfSaveName"
                         :label="item"
@@ -1182,7 +1182,7 @@
             </span>
           </el-col>
         </el-row> -->
-        <el-upload
+        <!-- <el-upload
           class="upload-demo"
           name="excel"
           action="http://192.168.99.206:8080/manage-platform/iapi/readExcel"
@@ -1194,7 +1194,7 @@
           :on-exceed="handleExceed"
           :file-list="fileList">
           <el-button size="small" type="primary">点击上传</el-button>
-        </el-upload>
+        </el-upload> -->
 
         <span slot="footer" class="dialog-footer">
           <el-button @click="batchImport($event)">导 入</el-button>
@@ -1225,12 +1225,15 @@
           </template>
         </el-table-column>
         <el-table-column
-          prop="I_NAME"
+
           label="姓名"
           sortable
           width="100"
           v-if="checkList.indexOf(checkItem[0].ITEMNAME)>-1"
           >
+          <template slot-scope="scope">
+              <span style="color:#0494E8">{{scope.row.I_NAME}}</span>
+          </template>
         </el-table-column>
         <el-table-column
           prop="I_34"
@@ -1955,7 +1958,7 @@ export default {
     },
     getMore(row,cell){//历次
       console.log(row);
-      if(cell.property =='I_NAME'){
+      if(cell.label =='姓名'){
         this.reviewDialogTable = true;
         this.historyCdt.nationalityEqual = row.I_37CODE;
         this.historyCdt.passportnoEqual = row.I_39;
@@ -2035,12 +2038,16 @@ export default {
             this.cdt = r.data.config;
             let arr = r.data.showConfigList;
             let arr1=[];
-            for(var i=0;i<arr.length;i++){
-              if(arr[i].isCheck == '1'){
-                arr1.push(arr[i].itemName);
+            if(arr.length == 0){
+              this.checkList = ['I_NAME','I_34','I_76','I_37','I_39','I_12','filghtDate','I_13','I_65','I_59'];
+            }else{
+              for(var i=0;i<arr.length;i++){
+                if(arr[i].isCheck == '1'){
+                  arr1.push(arr[i].itemName);
+                }
               }
+              this.checkList = arr1;
             }
-            this.checkList = arr1;
             this.basedQuery = this.checkList;
           }
         })
@@ -2188,19 +2195,41 @@ export default {
         if(r.success){
           // 查询项渲染
           let arrConfig = r.data.configList;
-          for(var i=0;i<arrConfig.length;i++){
-            this.cdtList = arrConfig[0];
-          }
-          this.rows = arrConfig.slice(1);
-          //展示项渲染
           let arr = r.data.showConfigList;
           let arr1 = [];
-          for(var i=0;i<arr.length;i++){
-            if(arr[i].isCheck == '1'){
-              arr1.push(arr[i].itemName);
+          if(arrConfig.length == 0){
+            this.cdtList = {version:0,flag:''};
+            this.rows=[{
+              version:1,
+              nationalityEqual:'',
+              passportnoEqual:'',
+              fltnoEqual:'',
+              familyname:'',
+              genderEqual:'',
+              startDateofbirth:'',
+              startFlightDepartdate:'',
+              cityfromEqual:'',
+              startDepartdate:'',
+              citytoEqual:'',
+              endArrivdate:''
+            }]
+          }else{
+            for(var i=0;i<arrConfig.length;i++){
+              this.cdtList = arrConfig[0];
             }
+            this.rows = arrConfig.slice(1);
           }
-          this.checkList = arr1;
+          //展示项渲染
+          if(arr.length == 0){
+            this.checkList = ['I_NAME','I_34','I_76','I_37','I_39','I_12','filghtDate','I_13','I_65','I_59'];
+          }else{
+            for(var i=0;i<arr.length;i++){
+              if(arr[i].isCheck == '1'){
+                arr1.push(arr[i].itemName);
+              }
+            }
+            this.checkList = arr1;
+          }
           this.batchQuery = this.checkList;
         }
       })
@@ -2339,12 +2368,16 @@ export default {
           // this.aaa.set(r.data.config.AAAAA);
           let arr = r.data.showConfigList;
           let arr1=[];
-          for(var i=0;i<arr.length;i++){
-            if(arr[i].isCheck == '1'){
-              arr1.push(arr[i].itemName);
+          if(arr.length == 0){
+            this.checkList = ['I_NAME','I_34','I_76','I_37','I_39','I_12','filghtDate','I_13','I_65','I_59'];
+          }else{
+            for(var i=0;i<arr.length;i++){
+              if(arr[i].isCheck == '1'){
+                arr1.push(arr[i].itemName);
+              }
             }
+            this.checkList = arr1;
           }
-          this.checkList = arr1;
           this.selfQuery = this.checkList;
           // this.showConfigList  = r.data.showConfigList;
         }
