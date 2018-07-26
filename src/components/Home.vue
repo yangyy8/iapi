@@ -190,7 +190,7 @@ export default {
       },
       jzmm:false,
       bynav:true,
-      isLogin:true,
+      isLogin:false,
       tabId:0,
       crType:"0",
       showLeft:true,
@@ -321,7 +321,7 @@ export default {
     rightOver(i){
       this.right=i
     },
-    
+
     login(){
 
       this.$api.post('/manage-platform/landing',this.user,
