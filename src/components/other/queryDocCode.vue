@@ -13,14 +13,15 @@
 <script>
 export default {
   props: {
-      docCodeModel: {
-          type: String,
-          default: ''
-      }
+      // docCodeModel: {
+      //     type: String,
+      //     default: ''
+      // }
   },
   data(){
     return{
-      docCode:[]
+      docCode:[],
+      docCodeModel:''
     }
   },
   methods: {
