@@ -1225,12 +1225,15 @@
           </template>
         </el-table-column>
         <el-table-column
-          prop="I_NAME"
+
           label="姓名"
           sortable
           width="100"
           v-if="checkList.indexOf(checkItem[0].ITEMNAME)>-1"
           >
+          <template slot-scope="scope">
+              <span style="color:#0494E8">{{scope.row.I_NAME}}</span>
+          </template>
         </el-table-column>
         <el-table-column
           prop="I_34"
@@ -1955,7 +1958,7 @@ export default {
     },
     getMore(row,cell){//历次
       console.log(row);
-      if(cell.property =='I_NAME'){
+      if(cell.label =='姓名'){
         this.reviewDialogTable = true;
         this.historyCdt.nationalityEqual = row.I_37CODE;
         this.historyCdt.passportnoEqual = row.I_39;
