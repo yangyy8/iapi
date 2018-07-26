@@ -32,7 +32,7 @@
                       v-for="item in portName"
                       :key="item.AIRPORT_CODE"
                       :value="item.AIRPORT_CODE"
-                      :label="item.AIRPORT_DESC"
+                      :label="item.AIRPORT_NAME"
                       ></el-option>
                     </el-select>
                   </el-col>
@@ -79,7 +79,7 @@
                       v-for="item in portName"
                       :key="item.AIRPORT_CODE"
                       :value="item.AIRPORT_CODE"
-                      :label="item.AIRPORT_DESC"
+                      :label="item.AIRPORT_NAME"
                       ></el-option>
                     </el-select>
                   </el-col>
@@ -113,46 +113,56 @@
                       width="70">
                     </el-table-column>
                     <el-table-column
-                      prop="BIRTHCOUNTRY"
-                      label="国籍">
+                      prop="port"
+                      label="口岸">
                     </el-table-column>
                     <el-table-column
-                      prop="PASSPORTNO"
-                      label="证件号码"
+                      prop="tbiapi"
+                      label="原始报文数量"
                       width="130">
                     </el-table-column>
                     <el-table-column
-                      prop="Familyname"
-                      label="姓名">
+                      prop="tbfclose"
+                      label="关闭报文数量">
                     </el-table-column>
                     <el-table-column
-                      prop="GENDER"
-                      label="性别">
+                      prop="tbfcancel"
+                      label="取消报文数量">
                     </el-table-column>
                     <el-table-column
-                      prop="birthday"
-                      label="出生日期">
+                      prop="tbchange"
+                      label="变更报文数量">
                     </el-table-column>
                     <el-table-column
-                      prop="FLIGHT_RECORDNUM "
-                      label="航班号">
+                      prop="tbintg"
+                      label="整合报文数量">
                     </el-table-column>
                     <el-table-column
-                      prop="Cmpbegintime "
-                      label="报文接收时间">
+                      label="分发开始时间"
+                      width='200'>
+                      <template  slot-scope="scope">
+                        <span>{{scope.row.begintime|discount}}</span>
+                      </template>
                     </el-table-column>
                     <el-table-column
-                      prop="cmpendtime"
-                      label="校验比对结束时间"
-                      width='140'>
+
+                      label="分发终止时间"
+                      width='200'>
+                      <template  slot-scope="scope">
+                        <span>{{scope.row.endtime|discount}}</span>
+                      </template>
+                    </el-table-column>
+                    <el-table-column
+                    
+                      label="监控时间"
+                      width='200'>
+                      <template  slot-scope="scope">
+                        <span>{{scope.row.endtime|discount}}</span>
+                      </template>
                     </el-table-column>
                     <el-table-column
                       prop="average"
                       label="耗时">
-                    </el-table-column>
-                    <el-table-column
-                      prop="createtimeStr"
-                      label="监控时间">
                     </el-table-column>
                   </el-table>
                   <div class="middle-foot">
@@ -211,7 +221,7 @@
                     <el-table-column
                       prop="createtimeStr"
                       label="统计日期"
-                      width="130">
+                      width="180">
                     </el-table-column>
                     <el-table-column
                       prop="tcount"
@@ -358,7 +368,11 @@ export default {
       this.checkRealTime();
       this.getList(this.CurrentPage,this.pageSize,this.pd);
   },
-
+  filters: {
+    discount: function(value) {
+      return value.substring(0,19);
+    }
+  },
   methods:{
     handleSelectionChange(val) {
     },
