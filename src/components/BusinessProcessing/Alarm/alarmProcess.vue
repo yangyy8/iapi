@@ -378,7 +378,7 @@
           </el-input>
         </el-col>
         <el-col :span="4" class="down-btn-area">
-          <el-button type="primary" class="mb-15" size="small" @click="upDate" v-show="isUpdate&&iapiMap.instructNew==null" :disabled="msgData==1">确定</el-button>
+          <el-button type="primary" class="mb-15" size="small" @click="AuthDialogVisible=true" v-show="isUpdate&&iapiMap.instructNew==null" :disabled="msgData==1">确定</el-button>
           <el-button type="info" class="mb-15" size="small" @click="archive" v-show="!isUpdate||iapiMap.instructNew">归档</el-button>
           <el-button type="warning" size="small">取消</el-button>
         </el-col>
@@ -395,7 +395,7 @@
         </el-col>
         <el-col :span="6" class="input-item">
           <span >处理人：</span>
-          <el-input placeholder="请输入内容" size="small" class="input-input" v-model="pd.USERID" disabled></el-input>
+          <el-input placeholder="请输入内容" size="small" class="input-input" v-model="userMap.userName" disabled></el-input>
         </el-col>
         <el-col :span="6" class="input-item">
           <span >审批人：</span>
@@ -404,6 +404,25 @@
 
       </el-row>
     </div>
+    <el-dialog  title="操作授权" :visible.sync="AuthDialogVisible"  append-to-body width="500px">
+
+      <el-row  type="flex"  class="mb-15">
+            <el-col :span="20">
+            <span class="yy-input-text">授权账号：</span>
+            <el-input placeholder="请输入内容" size="small" v-model="ap.userName" class="yy-input-input"></el-input></el-col>
+      </el-row>
+      <el-row  type="flex"  class="mb-15">
+            <el-col :span="20">
+              <span class="yy-input-text">授权密码：</span>
+              <el-input placeholder="请输入内容" type="password" size="small" v-model="ap.password" class="yy-input-input"></el-input></el-col>
+
+      </el-row>
+      <div slot="footer" class="dialog-footer">
+       <el-button type="primary" @click="Authorization(ap)" size="small">确认授权</el-button>
+        <el-button @click="AuthDialogVisible = false" size="small">取消</el-button>
+
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -415,10 +434,13 @@ export default {
      tabIsShow:false,
      iapiMap:{},
      listMap:[{}],
+     userMap:{},
      warnMap:{},
      listMap2:[{}],
+     ap:{},
      pd:{},
      isUpdate:true,
+     AuthDialogVisible:false,
      tableData:[],
      msgData:0
    }
@@ -464,7 +486,8 @@ export default {
           console.log(r);
           this.iapiMap=r.data.iapiMap
           this.listMap=r.data.listMap;
-          var arr=this.listMap
+          this.userMap=r.data.userMap;
+          var arr=this.listMap;
           var thar=this;
           this.pd.CHANGE_RESON="";
           for(var i in arr){
@@ -490,8 +513,13 @@ export default {
      this.tabIsShow=true;
      this.documentInfo()
    },
-   upDate(){
+   upDate(ap){
+     console.log("------------"+this.pd.DEALRESULT);
+
      this.pd.eventserial=this.eventserial;
+     this.pd.bguserName=ap.userName;
+     this.pd.bgpassword=ap.password;
+     this.pd.bgverifyType="bjcl";
      if(this.pd.DEALRESULT==0){
        this.pd.INSTRUCT_OLD=this.iapiMap.instructOld;
      }
@@ -509,8 +537,10 @@ export default {
             this.$message({
               message: '恭喜你，操作成功！',
               type: 'success'
+
             });
             this.isUpdate=false;
+            this.AuthDialogVisible=false;
           }
        })
      }
@@ -575,6 +605,10 @@ export default {
         // }
      })
    },
+   Authorization(ap)
+   {
+this.upDate(ap);
+   }
 
  }
 }
