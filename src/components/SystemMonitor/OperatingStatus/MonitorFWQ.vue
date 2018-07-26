@@ -33,41 +33,40 @@
             </el-table-column>
             <el-table-column
               prop="CPU"
-              label="CPU使用率"
+              label="CPU使用率(%)"
               sortable
             >
             </el-table-column>
             <el-table-column
               prop="mPercent"
-              label="应用内存使用率"
+              label="内存使用率(%)"
               sortable
             >
             </el-table-column>
             <el-table-column
               prop="diskPercent"
-              label="磁盘使用率"
+              label="磁盘使用率(%)"
               sortable
             >
             </el-table-column>
             <el-table-column
               prop="netIn"
-              label="网络流量（入）"
+              label="网络流量（入）(%)"
             sortable
             >
             </el-table-column>
             <el-table-column
               prop="netOut"
-              label="网络流量（出）"
+              label="网络流量（出）(%)"
               sortable
             >
             </el-table-column>
             <el-table-column
               label="文件系统"
-              width="630"
             >
             <template slot-scope="scope">
-
-              <el-row   v-if="scope.row.fileSysArr!=null">
+           <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row.fileSysArr)">详情</el-button>
+              <!-- <el-row   v-if="scope.row.fileSysArr!=null">
               <el-col :span="4">avail</el-col>
               <el-col :span="4">fileSystem</el-col>
               <el-col :span="4">mount</el-col>
@@ -82,30 +81,11 @@
                 <el-col :span="4">{{i.size}}</el-col>
                 <el-col :span="4">{{i.used}}</el-col>
                 <el-col :span="4">{{i.usedPer}}</el-col>
-              </el-row>
+              </el-row> -->
 
-              <!-- <div class="filesystems"  v-if="scope.row.fileSysArr!=null">
-                 <ul>
-                   <li>avail</li>
-                   <li>fileSystem</li>
-                   <li>mount</li>
-                   <li>size</li>
-                   <li>used</li>
-                   <li>usedPer</li>
-                 </ul>
-              </div>
-              <div  class="filesystems"  v-for='i in scope.row.fileSysArr'>
-                 <ul>
-                   <li>{{i.avail}}</li>
-                   <li>{{i.fileSystem}}</li>
-                   <li>{{i.mount}}</li>
-                   <li>{{i.size}}</li>
-                   <li>{{i.used}}</li>
-                   <li>{{i.usedPer}}</li>
-                 </ul>
-              </div> -->
 
-            </template>
+
+             </template>
             </el-table-column>
   </el-table>
 </div>
@@ -136,31 +116,31 @@
              </el-table-column>
              <el-table-column
                prop="userate"
-               label="CPU使用率"
+               label="CPU使用率(%)"
               sortable
              >
              </el-table-column>
              <el-table-column
                prop="apprate"
-               label="应用内存使用率"
+               label="内存使用率(%)"
                 sortable
              >
              </el-table-column>
              <el-table-column
                prop="cprate"
-               label="磁盘使用率"
+               label="磁盘使用率(%)"
               sortable
              >
              </el-table-column>
              <el-table-column
                prop="networkin"
-               label="网络流量（入）"
+               label="网络流量（入）(%)"
               sortable
              >
              </el-table-column>
              <el-table-column
                prop="networkout"
-               label="网络流量（出）"
+               label="网络流量（出）(%)"
               sortable
              >
              </el-table-column>
@@ -168,7 +148,8 @@
                label="文件系统"
              >
              <template slot-scope="scope">
-
+                  <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row.fileSysArr)">详情</el-button>
+<!--
                <el-row  v-if="scope.row.fileSysArr!=null">
                <el-col :span="4">avail</el-col>
                <el-col :span="4">fileSystem</el-col>
@@ -184,12 +165,46 @@
                  <el-col :span="4">{{i.size}}</el-col>
                  <el-col :span="4">{{i.used}}</el-col>
                  <el-col :span="4">{{i.usedPer}}</el-col>
-               </el-row>
+               </el-row> -->
+
+
                </template>
              </el-table-column>
    </el-table>
 
     </div>
+
+    <el-dialog
+      title="详情"
+      :visible.sync="detailsDialogVisible"
+      >
+
+      <el-row  v-if="filesytem!=null" class="filearr">
+      <el-col :span="4" class="fileline">avail</el-col>
+      <el-col :span="4" class="fileline">fileSystem</el-col>
+      <el-col :span="4" class="fileline">mount</el-col>
+      <el-col :span="4" class="fileline">size</el-col>
+      <el-col :span="4" class="fileline">used</el-col>
+      <el-col :span="4">usedPer</el-col>
+     </el-row>
+     <el-row v-else class="filearrk">
+     <el-col :span="24">暂无数据</el-col>
+    </el-row>
+      <el-row v-for='i in filesytem' class="filearr1">
+        <el-col :span="4" >{{i.avail}}</el-col>
+        <el-col :span="4" >{{i.fileSystem}}</el-col>
+        <el-col :span="4" >{{i.mount}}</el-col>
+        <el-col :span="4" >{{i.size}}</el-col>
+        <el-col :span="4" >{{i.used}}</el-col>
+        <el-col :span="4">{{i.usedPer}}</el-col>
+      </el-row>
+
+      <div slot="footer" class="dialog-footer">
+
+        <el-button @click="detailsDialogVisible = false" size="small">取消</el-button>
+
+      </div>
+    </el-dialog>
   </div>
 
 </template>
@@ -201,13 +216,15 @@ export default {
       pd: {},
       tableData: [],
       tableData1: [],
-      title:[],
-      tableTitle:[]
+      filesytem: "",
+      title: [],
+      tableTitle: [],
+      detailsDialogVisible:false,
     }
   },
   created() {
     this.getList({});
-  
+
 
   },
   // computed:{
@@ -232,6 +249,10 @@ export default {
           // console.log(this.tableTitle)
         })
     },
+    details(i) {
+      this.detailsDialogVisible = true;
+      this.filesytem = i;
+    },
 
 
   },
@@ -240,20 +261,31 @@ export default {
 
 
 }
-
 </script>
 
 <style scoped>
-.filesystems{
+.filesystems {
   width: 600px;
-  display: flex;
-  flex-direction: column;}
-.filesystems ul{list-style: none;}
-.filesystems ul li{ float: left;width: 100px; }
 
+  display: flex;
+  flex-direction: column;
+}
+
+.filesystems ul {
+  list-style: none;
+}
+
+.filesystems ul li {
+  float: left;
+  width: 100px;
+}
+.filearr{background:#858585; height:35px; line-height:35px;text-align:center;color: #ffffff;}
+.filearr1{text-align:center;line-height: 30px;}
+.filearrk{text-align: center; color: red; line-height: 50px; font-size: 18px; }
+.fileline{border-right: 1px solid #ffffff;}
 </style>
 <style media="screen">
-  .el-table_1_column_9 .cell{
-    display: block!important;
-  }
+.el-table_1_column_9 .cell {
+  display: block !important;
+}
 </style>

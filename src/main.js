@@ -16,10 +16,20 @@ Vue.config.productionTip = false
 Vue.use(ElementUI);
 Vue.prototype.$api = api;
 //
-// router.beforeEach((to, from, next) => {
-//   console.log("to:",to);
-//
-// })
+console.log(router)
+router.beforeResolve((to, from, next) => {
+
+  next();
+  // console.log("to:",to);
+
+})
+function getSatus(){
+  api.post('/manage-platform/muneSys/sLanding',{},
+   r => {
+     console.log(r);
+  })
+}
+getSatus()
 // router.afterEach((from)=>{
 //   // console.log(from)
 //   window.scrollTo(0,0);

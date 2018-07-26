@@ -135,7 +135,9 @@
                label="操作">
                <template slot-scope="scope">
                  <div class="flex-r">
-                      <el-button class="table-btn" size="mini" plain icon="el-icon-edit" @click="pross(scope.row)">处理</el-button>
+                   <span v-if="scope.row.STATUS!='0'">
+                   <el-button class="table-btn" size="mini"plain icon="el-icon-edit" @click="pross(scope.row)">处理</el-button>
+                   </span>
                    <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row)">详情</el-button>
                  </div>
               </template>
@@ -185,7 +187,7 @@
      </el-row>
      <el-row type="flex"  class="mb-15">
           <el-col :span="12"><span class="input-text">监控对象：</span>{{form.MTYPE}}</el-col>
-         <el-col :span="12"><span class="input-text">创建时间：</span>{{form.CREATETIME}}</el-col>
+         <el-col :span="12"><span class="input-text">报警时间：</span>{{form.CREATETIME}}</el-col>
      </el-row>
        <hr/>
     <el-row type="flex"  class="mb-15">
@@ -201,7 +203,7 @@
 
     </el-form>
     <div slot="footer" class="dialog-footer">
-<el-button type="primary" @click="adds('addForm')" size="small">处理</el-button>
+<el-button type="primary" @click="adds('addForm')" size="small">提交</el-button>
       <el-button @click="addDialogVisible = false" size="small">取消</el-button>
 
     </div>
@@ -220,18 +222,18 @@
            <el-col :span="8"><span class="yy-input-text">监控对象：</span>{{dform.MCLASS | fifter2 }}</el-col>
      </el-row>
      <el-row type="flex"  class="mb-15">
-         <el-col :span="8"><span class="yy-input-text">创建时间：</span>{{dform.CREATETIME}}</el-col>
+         <el-col :span="8"><span class="yy-input-text">报警时间：</span>{{dform.CREATETIME}}</el-col>
           <el-col :span="8"><span class="yy-input-text">IP地址：</span>{{dform.IPADDRESS}}</el-col>
-           <el-col :span="8"><span class="yy-input-text">类型描述：</span>{{dform.MDESC | fifter2 }}</el-col>
+           <el-col :span="8"><span class="yy-input-text">处理状态：</span>{{dform.STATUS | fifter5 }}</el-col>
      </el-row>
-
+     <el-row type="flex"  class="mb-15">
+       <el-col :span="24"><span class="yy-input-text" style="width:13%;">报警内容：</span>{{dform.MDESC}}</el-col>
+     </el-row>
     <el-row type="flex"  class="mb-15">
         <el-col :span="8"><span class="yy-input-text">处理人：</span>{{dform.DEALUSER}}</el-col>
          <el-col :span="8"><span class="yy-input-text">处理时间：</span>{{dform.DEALTIME}}</el-col>
     </el-row>
-    <el-row type="flex"  class="mb-15">
-      <el-col :span="24"><span class="yy-input-text" style="width:13%;">报警内容：</span>{{dform.MDESC}}</el-col>
-    </el-row>
+
     </el-form>
     <div slot="footer" class="dialog-footer">
 
@@ -302,7 +304,8 @@ export default {
         })
     },
     monitor(data) { //监控对象联动
-console.log("---------------"+data);
+
+      this.$set(this.pd, 'MTYPE','')
       let p = {
         "VALUE": data
       }
@@ -314,8 +317,6 @@ console.log("---------------"+data);
           this.object = r.data;
         }
         })
-
-
 
     },
     details(i) {
@@ -334,7 +335,7 @@ console.log("---------------"+data);
       } else {
         this.addDialogVisible = true;
         this.form = i;
-        this.form.DEALUSER = "admin";
+        // this.form.DEALUSER = "admin";
       }
     },
     adds(formName) {
@@ -394,6 +395,10 @@ console.log("---------------"+data);
       return formatDate(new Date(), "yyyy-MM-dd hh:mm:ss");
 
     },
+    fifter5(val){
+    if(val=="0"){return "已处理";}else if(val=="1"){return "未处理";}
+
+    }
 
   }
 

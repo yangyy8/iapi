@@ -22,12 +22,8 @@
         </div>
 
         <div class="top-right-1">
-          <span>欢迎您！管理员</span>
-          <!-- <div class="top-list-down">
-            <a> 报警</a>
-            <a> 设置</a>
-            <a> 退出</a>
-          </div> -->
+          <span class="mb-6">欢迎您！管理员</span>
+          <span @click="logOut"><img src="../assets/img/logout.png" style="width:20px;height:20px;vertical-align:bottom;margin-right:5px;"alt="">退出</span>
         </div>
       </div>
     </el-header>
@@ -100,60 +96,60 @@ export default {
     return {
       navUlShow: false,
       muneListOne: [
-        {
-            "MENU_ICON":"iconYC",
-            "SERIAL":"1",
-            "choose":true,
-            "name":"业务处理",
-            "parentId":"0",
-            "type":"1",
-            "url":"#"
-        },
-        {
-            "MENU_ICON":"iconYY",
-            "SERIAL":"2",
-            "choose":true,
-            "name":"业务应用",
-            "parentId":"0",
-            "type":"1",
-            "url":"#"
-        },
-        {
-            "MENU_ICON":"iconYK",
-            "SERIAL":"3",
-            "choose":true,
-            "name":"业务监控",
-            "parentId":"0",
-            "type":"1",
-            "url":"#"
-        },
-        {
-            "MENU_ICON":"iconYG",
-            "SERIAL":"4",
-            "choose":true,
-            "name":"业务管理",
-            "parentId":"0",
-            "type":"1",
-            "url":"#"
-        },
-        {
-            "MENU_ICON":"iconXG",
-            "SERIAL":"5",
-            "choose":true,
-            "name":"系统管理",
-            "parentId":"0",
-            "type":"1",
-            "url":"#"
-        },
-        {
-            "MENU_ICON":"iconXK",
-            "SERIAL":"6",
-            "choose":true,
-            "name":"系统监控",
-            "parentId":"0",
-            "type":"1",
-            "url":"#"
-        }
+        // {
+        //     "MENU_ICON":"iconYC",
+        //     "SERIAL":"1",
+        //     "choose":true,
+        //     "name":"业务处理",
+        //     "parentId":"0",
+        //     "type":"1",
+        //     "url":"#"
+        // },
+        // {
+        //     "MENU_ICON":"iconYY",
+        //     "SERIAL":"2",
+        //     "choose":true,
+        //     "name":"业务应用",
+        //     "parentId":"0",
+        //     "type":"1",
+        //     "url":"#"
+        // },
+        // {
+        //     "MENU_ICON":"iconYK",
+        //     "SERIAL":"3",
+        //     "choose":true,
+        //     "name":"业务监控",
+        //     "parentId":"0",
+        //     "type":"1",
+        //     "url":"#"
+        // },
+        // {
+        //     "MENU_ICON":"iconYG",
+        //     "SERIAL":"4",
+        //     "choose":true,
+        //     "name":"业务管理",
+        //     "parentId":"0",
+        //     "type":"1",
+        //     "url":"#"
+        // },
+        // {
+        //     "MENU_ICON":"iconXG",
+        //     "SERIAL":"5",
+        //     "choose":true,
+        //     "name":"系统管理",
+        //     "parentId":"0",
+        //     "type":"1",
+        //     "url":"#"
+        // },
+        // {
+        //     "MENU_ICON":"iconXK",
+        //     "SERIAL":"6",
+        //     "choose":true,
+        //     "name":"系统监控",
+        //     "parentId":"0",
+        //     "type":"1",
+        //     "url":"#"
+        // }
       ],
 
       sideWidth: '295px',
@@ -518,9 +514,17 @@ export default {
     console.log("route",this.$route)
   },
   methods: {
+    logOut(){
+      localStorage.removeItem('login')
+      this.$message({
+        message: '退出成功',
+        type: 'success'
+      });
+      this.$router.push('/')
+    },
     getNav(navId) {
       this.navId = navId;
-      this.getpp();
+      // this.getpp();
       this.$api.post('/manage-platform/muneSys/menuChild', {
           SERIAL: navId
         },

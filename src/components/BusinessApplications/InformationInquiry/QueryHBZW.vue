@@ -29,7 +29,7 @@
              </div>
           </el-col>
           <el-col  :sm="24" :md="12" :lg="6"   class="input-item">
-            <QueryNationality  :nationality="pd.NATIONALITY" @transNation="getNation"></QueryNationality>
+            <QueryNationality  filterable clearable :nationality="pd.NATIONALITY"  @transNation="getNation"></QueryNationality>
           </el-col>
           <el-col  :sm="24" :md="12" :lg="6"   class="input-item">
             <span class="input-text">证件号码：</span>
@@ -41,9 +41,8 @@
           </el-col>
           <el-col  :sm="24" :md="12" :lg="6"  class="input-item">
               <span class="input-text">性别：</span>
-              <el-select v-model="pd.gender"  class="input-input"   placeholder="请选择"  size="small">
-                <el-option value="" label="全部">
-                </el-option>
+              <el-select v-model="pd.gender"  class="input-input"   filterable clearable  placeholder="请选择"  size="small">
+            
                 <el-option value="U" label="U - 未知">
                 </el-option>
                 <el-option value="W" label="W - 男">
@@ -69,74 +68,64 @@
                </el-date-picker>
                </div>
             </el-col>
-
-
           </el-row>
         </el-col>
         <el-col :span="2" class="down-btn-area">
           <el-button type="success" size="small" @click="getList(CurrentPage,pageSize,pd)">查询</el-button>
-
         </el-col>
-
       </el-row>
     </div>
-
-
-
     <div class="middle">
-        <span style="width:100px; padding:6px 15px; background:#56A8FE; border:1px solid #56A8FE; color:#ffffff;">列表</span><span style="width:100px; padding:6px 15px;  border:1px solid #56A8FE; ">图表</span>
-
-   <div id="div1">
+        <span class="libie">列表</span><span class="tubiao">图表</span>
+    <div id="div1">
       <el-table
         :data="tableData"
         border
         style="width: 100%;">
                 <el-table-column
                   prop="tsname"
-                  label="姓名">
+                  label="姓名" sortable>
                 </el-table-column>
                 <el-table-column
                   prop="gender"
-                  label="性别">
+                  label="性别" sortable>
                 </el-table-column>
                 <el-table-column
                   prop="birthdate"
-                  label="出生日期">
+                  label="出生日期" sortable>
                 </el-table-column>
                 <el-table-column
                   prop="nationality"
-                  label="国籍">
+                  label="国籍" sortable>
                 </el-table-column>
                 <el-table-column
                   prop="cardnum"
-                  label="证件号码">
+                  label="证件号码" sortable>
                 </el-table-column>
-
                 <el-table-column
                   prop="flightNumber"
-                  label="航班号">
+                  label="航班号" sortable>
                 </el-table-column>
                 <el-table-column
                   prop="departdate"
-                  label="航班日期">
+                  label="航班日期" sortable>
                 </el-table-column>
                 <el-table-column
                   prop="boardingsequence"
-                  label="登记序号">
+                  label="登记序号" sortable>
                 </el-table-column>
                 <el-table-column
                   prop="specifigseat"
-                  label="座位号">
+                  label="座位号" sortable>
                 </el-table-column>
                 <el-table-column
                   prop="status"
-                  label="状态">
+                  label="状态" sortable>
                 </el-table-column>
                 <el-table-column
                   label="操作">
                   <template slot-scope="scope">
                     <div class="flex-r">
-
                       <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row)">详情</el-button>
                     </div>
                  </template>
@@ -172,8 +161,7 @@
         </el-pagination>
       </div>
 </div>
-
-<div id="div2">
+<div id="div2" style="display:none">
   <el-row align="center"  type="flex">
     <el-col  :span="5" style="border-right:1px solid #cccccc; margin-right:30px;">
         <img src="../../../assets/img/port.png">
@@ -192,120 +180,8 @@
       </ul>
     </el-col>
   </el-row>
-
 </div>
-
     </div>
-
-    <el-dialog
-      title="详情"
-      :visible.sync="detailsDialogVisible"
-      width="950px">
-      <div class="detail-msg-text">
-        <el-row type="flex" class="detail-msg-row">
-          <el-col :span="8">
-            <span>姓名</span>
-            张某某
-
-          </el-col>
-          <el-col :span="8">
-            <span>性别</span>
-            男
-
-          </el-col>
-          <el-col :span="8">
-            <span>出生日期</span>
-            2000年10月10日
-
-          </el-col>
-        </el-row>
-        <el-row type="flex" class="detail-msg-row">
-          <el-col :span="8">
-            <span>国籍</span>/
-            张某某
-
-          </el-col>
-          <el-col :span="8">
-            <span>证件号码</span>
-            张某某
-
-          </el-col>
-          <el-col :span="8">
-            <span>签证号码</span>
-            张某某
-
-          </el-col>
-        </el-row>
-        <el-row type="flex" class="detail-msg-row">
-          <el-col :span="8">
-            <span>出入标识</span>
-            张某某
-
-          </el-col>
-          <el-col :span="8">
-            <span>第二证号</span>
-            张某某
-
-          </el-col>
-          <el-col :span="8">
-            <span>第二国籍</span>
-            张某某
-
-          </el-col>
-        </el-row>
-        <el-row type="flex" class="detail-msg-row">
-          <el-col :span="8">
-            <span>航班号</span>
-            张某某
-
-
-          </el-col>
-          <el-col :span="8">
-            <span>出发地</span>
-            张某某
-
-          </el-col>
-          <el-col :span="8">
-            <span>目的地</span>
-            张某某
-
-          </el-col>
-        </el-row>
-        <el-row type="flex" class="detail-msg-row mb-20">
-          <el-col :span="8">
-            <span>报警类型</span>
-            张某某
-
-          </el-col>
-          <el-col :span="8">
-            <span>报警时间</span>
-            张某某
-
-          </el-col>
-        </el-row>
-        <el-row type="flex" class="detail-msg-row">
-          <el-col :span="5">
-            <span>操作人</span>
-            张某某
-
-          </el-col>
-          <el-col :span="5">
-            <span>审批人</span>
-            张某某
-
-          </el-col>
-          <el-col :span="6">
-            <span>操作时间</span>
-            张某某
-
-          </el-col>
-        </el-row>
-      </div>
-      <span slot="footer" class="dialog-footer">
-        <el-button type="warning" @click="detailsDialogVisible = false" size="small">关闭页面</el-button>
-      </span>
-    </el-dialog>
-
   </div>
 
 </template>
@@ -366,7 +242,6 @@ export default {
             picker.$emit('pick', date);
           }
         }]
-
       },
       form: {},
     }
@@ -377,7 +252,7 @@ export default {
   },
   methods: {
     handleSelectionChange(val) {
-      this.multipleSelection = val;
+    this.multipleSelection = val;
     },
     getNation(msg){
       this.pd.NATIONALITY=msg;
@@ -437,7 +312,6 @@ export default {
           // this.tableData=r.Data.ResultList;
         })
     },
-
   }
 }
 </script>
@@ -446,12 +320,10 @@ export default {
 .add-dialog {
   /* padding-left:40px; */
 }
-
 .detail-msg-row {
   color: #999;
   line-height: 32px;
 }
-
 .detail-msg-row span {
   color: #333;
   display: inline-block;
@@ -490,5 +362,12 @@ export default {
 .planLi div:last-child{
   border: none;
   background: none;text-align: center;
+}
+
+.libie{
+  width:100px; padding:6px 15px; background:#56A8FE; border:1px solid #56A8FE; color:#ffffff;cursor: pointer;
+}
+.tubiao{
+width:100px; padding:6px 15px;  border:1px solid #56A8FE;cursor: pointer;
 }
 </style>
