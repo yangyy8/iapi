@@ -11,7 +11,7 @@
               <span class="input-text">姓名：</span>
               <div class="input-input t-fuzzy t-flex">
                 <el-input placeholder="请输入内容" v-model="pd.familyname" size="small"></el-input>
-                <el-checkbox v-model="lazyQuery">模糊查询</el-checkbox>
+                <el-checkbox v-model="pd.isBlurred">模糊查询</el-checkbox>
               </div>
               <!-- <span class="input-text">姓名：</span>
               <el-input  placeholder="请输入" size="small" v-model="pd.familyname" class="input-input"></el-input> -->

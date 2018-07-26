@@ -66,7 +66,7 @@
                   <span class="input-text">姓名：</span>
                   <div class="input-input t-fuzzy t-flex">
                     <el-input placeholder="请输入内容" v-model="cdt.familyname" size="small"></el-input>
-                    <el-checkbox v-model="lazyQuery">模糊查询</el-checkbox>
+                    <el-checkbox v-model="cdt.isBlurred">模糊查询</el-checkbox>
                   </div>
                 </el-col>
                 <el-col :sm="24" :md="12" :lg="6" class="input-item">
@@ -202,7 +202,7 @@
                 <el-select  filterable v-model="ssss"  @visible-change="savePlanShow" @change="planQuery" placeholder="方案选择" size="small" class="mr-15" filterable clearable>
                   <el-option
                     v-for="item in saveName"
-                    :label="item+' - '+item"
+                    :label="item"
                     :value="item"
                     :key="item"
                     >
@@ -237,8 +237,8 @@
               </el-dialog> -->
             </el-col>
             <el-col :span="2" class="down-btn-area">
-              <el-button type="success" class="mb-15" size="small" @click="getList(currentPage,showCount,cdt)">查询</el-button>
-              <el-button type="primary" plain size="small">重置</el-button>
+              <el-button type="success" class="mb-15" size="small" @click="query">查询</el-button>
+              <el-button type="primary" plain size="small" @click="reset">重置</el-button>
             </el-col>
           </el-row>
           <div class="" v-show="page==1">
@@ -497,8 +497,8 @@
                 </div>
               </el-col>
               <el-col :span="2" class="down-btn-area">
-                <el-button type="success" class="mb-15" size="small" @click="batchQueryList(currentPage,showCount,rows)">查询</el-button>
-                <el-button type="primary" plain size="small">重置</el-button>
+                <el-button type="success" class="mb-15" size="small" @click="batchS">查询</el-button>
+                <el-button type="primary" plain size="small" @click="batchReset">重置</el-button>
               </el-col>
             </el-row>
             <el-row type="flex" style="height:100%">
@@ -759,16 +759,16 @@
                     </el-row>
             </el-col>
             <el-col :span="2" class="down-btn-area">
-              <el-button type="success" class="mb-15" size="small" @click="selfQueryList(currentPage,showCount,selfCdt.AAAAA)">查询</el-button>
-              <el-button type="primary" plain size="small">重置</el-button>
+              <el-button type="success" class="mb-15" size="small" @click="selfS">查询</el-button>
+              <el-button type="primary" plain size="small" @click="selfReset">重置</el-button>
             </el-col>
           </el-row>
 
         </div>
       </div>
       <div class="middle-btn-g">
-        <button type="button" name="button" class="mr-15">IAPI数据</button>
-        <button type="button" name="button">PNR数据</button>
+        <button type="button" name="button" class="mr-15" @click="iapi">IAPI数据</button>
+        <button type="button" name="button" @click="pnr">PNR数据</button>
       </div>
 
     </div>
@@ -911,6 +911,16 @@
             <el-col :span="6">规则名称：{{rules.MATCHRRULE}}</el-col>
             <el-col :span="6">返回状态：{{rules.STATUS}}</el-col>
             <el-col :span="12">错误详情：{{rules.CHECKREMARK}}</el-col>
+          </el-row>
+        </div>
+
+        <!-- PNR预报警 -->
+        <div class="" v-show="isCall">
+          <div class="hrtitle">PNR预报警</div>
+          <el-row type="flex"  class="mb-6">
+            <el-col :span="6">
+              <el-button type="primary" plain name="button"  size="mini" @click="reviewCallDetail">查看PNR预报警详情</el-button>
+            </el-col>
           </el-row>
         </div>
 
@@ -1155,7 +1165,12 @@
     </el-dialog>
 
     <el-dialog title="批量导入" :visible.sync="batchDialog">
-        <el-row type="flex" justify="center" :gutter="10">
+      <!-- <form action="http://192.168.99.206:8080/manage-platform/iapi/readExcel" method="post" enctype="multipart/form-data">
+             <input type="file" name="excel" value="选择jar包"/>
+             <input id="submit_form" type="submit" class="btn btn-success save" value="保存"/>
+      </form> -->
+
+        <!-- <el-row type="flex" justify="center" :gutter="10">
           <el-col :span="15" class="input-item">
             <span class="input-text">文件名称：</span>
             <el-input v-model="fileName"></el-input>
@@ -1166,11 +1181,25 @@
                 <input type="file" id="myfile" @change="choose($event)">
             </span>
           </el-col>
-        </el-row>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="batchImport($event)">导 入</el-button>
-        <el-button type="primary" @click="batchDialog = false">取 消</el-button>
-      </span>
+        </el-row> -->
+        <el-upload
+          class="upload-demo"
+          name="excel"
+          action="http://192.168.99.206:8080/manage-platform/iapi/readExcel"
+          :on-preview="handlePreview"
+          :on-remove="handleRemove"
+          :before-remove="beforeRemove"
+          multiple
+          :limit="3"
+          :on-exceed="handleExceed"
+          :file-list="fileList">
+          <el-button size="small" type="primary">点击上传</el-button>
+        </el-upload>
+
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="batchImport($event)">导 入</el-button>
+          <el-button type="primary" @click="batchDialog = false">取 消</el-button>
+        </span>
 
     </el-dialog>
 
@@ -1474,6 +1503,7 @@ export default {
       isCheck:false,
       isName:true,
       isRules:true,
+      isCall:false,
       rows:[
         {
           version:1,
@@ -1546,6 +1576,7 @@ export default {
         atype:''
       },
       count:1,
+      formData:{'file':''},
       selfCount:0,
       basedQuery:['I_NAME','I_34','I_76','I_37','I_39','I_12','filghtDate','I_13','I_65','I_59'],
       batchQuery:['I_NAME','I_34','I_76','I_37','I_39','I_12','filghtDate','I_13','I_65','I_59'],
@@ -1698,6 +1729,7 @@ export default {
       fff:'',//自定义查询
       ffff:'',
       eve:'',
+      pnrEve:'',
       str:'',
       // aaa:'',
       name:'',
@@ -1724,13 +1756,13 @@ export default {
       historyData:[],
       showConfiglist:[],//展示项数组
       selfCdt:{AAAAA:''},//自定义查询表达式信息
-      lazyQuery:'',//模糊查询
       selfType:0,
-      file:''
+      file:'',
+      bigBase:0
     }
   },
   mounted(){
-    console.log(this.selfRows.length);
+    console.log(this.bigBase);
     this.currentPage = 1;
     this.getList(this.currentPage,this.showCount,this.cdt);
   },
@@ -1785,38 +1817,47 @@ export default {
   methods: {
     //----------------------------分页start------------------------------
     pageSizeChange(val) {//显示条数，调用
-      // let cdtArr = [];
-      // cdtArr.push(this.cdtList);
-      // let cdtList = cdtArr.concat(this.rows);
-      if(this.page==0){
-        this.getList(this.currentPage,val,this.cdt);
-      }else if(this.page==1){
-        this.batchQueryList(this.currentPage,val,this.rows);
-      }else if(this.page==2){
-        this.selfQueryList(this.currentPage,val,this.selfCdt);
+      if(this.bigBase == 0){
+        if(this.page==0){
+          this.getList(this.currentPage,val,this.cdt);
+        }else if(this.page==1){
+          this.batchQueryList(this.currentPage,val,this.rows);
+        }else if(this.page==2){
+          this.selfQueryList(this.currentPage,val,this.selfCdt);
+        }
+      }else if(this.bigBase == 1){
+        if(this.page==0){
+          this.getListPnr(this.currentPage,val,this.cdt);
+        }else if(this.page==1){
+          this.batchQueryListPnr(this.currentPage,val,this.rows);
+        }else if(this.page==2){
+          this.selfQueryListPnr(this.currentPage,val,this.selfCdt);
+        }
       }
-
-
-      // console.log(`每页 ${val} 条`);
     },
-    hpageSizeChange(val){
-        this.getHistoryList(this.hcurrentPage,val,this.historyCdt);
+    hpageSizeChange(val){//历次数据
+      this.getHistoryList(this.hcurrentPage,val,this.historyCdt);
     },
     handleCurrentChange(val) {//显示当前页，调用
-      // let cdtArr = [];
-      // cdtArr.push(this.cdtList);
-      // let cdtList = cdtArr.concat(this.rows);
-      if(this.page==0){
-        this.getList(val,this.showCount,this.cdt);
-      }else if(this.page==1){
-        this.batchQueryList(val,this.showCount,this.rows);
-      }else if(this.page==2){
-        this.selfQueryList(val,this.showCount,this.selfCdt);
+      if(this.bigBase == 0){
+        if(this.page==0){
+          this.getList(val,this.showCount,this.cdt);
+        }else if(this.page==1){
+          this.batchQueryList(val,this.showCount,this.rows);
+        }else if(this.page==2){
+          this.selfQueryList(val,this.showCount,this.selfCdt);
+        }
+      }else if(this.bigBase == 1){
+        if(this.page==0){
+          this.getListPnr(val,this.showCount,this.cdt);
+        }else if(this.page==1){
+          this.batchQueryListPnr(val,this.showCount,this.rows);
+        }else if(this.page==2){
+          this.selfQueryListPnr(val,this.showCount,this.selfCdt);
+        }
       }
-
-      // console.log(`当前页: ${val}`);
     },
-    hhandleCurrentChange(val){
+    hhandleCurrentChange(val){ //历次数据
       this.getHistoryList(val,this.hshowCount,this.historyCdt);
     },
     //----------------------------分页end------------------------------
@@ -1825,6 +1866,21 @@ export default {
       this.radio=row.I_SERIAL
     },
     //----------------------------基础查询start------------------------------
+    getListPnr(currentPage,showCount,cdt){//基础查询 pnr
+      let ppnr = {
+        "currentPage":currentPage,
+      	"showCount":showCount,
+      	"cdt":cdt
+      };
+      this.$api.post('/manage-platform/pnr/queryListPage',ppnr,
+       r =>{
+         this.based();
+         this.tableData=r.data.resultList;//表格数据
+         this.totalResult=r.data.totalResult;//总条数
+         this.totalPage = r.data.totalPage;//总页数
+         this.currentPage = r.data.currentPage;
+       })
+    },
     getList(currentPage,showCount,cdt){//基础查询 查询调用
       let p={
       	"currentPage":currentPage,
@@ -1840,18 +1896,75 @@ export default {
          this.currentPage = r.data.currentPage;
       })
     },
+    iapi(){
+      this.bigBase = 0;
+      if(this.page == 0){
+        this.getList(this.currentPage,this.showCount,this.cdt);
+      }else if(this.page == 1){
+        this.batchQueryList(this.currentPage,this.showCount,this.rows);
+      }else if(this.page == 2){
+        this.selfQueryList(this.currentPage,this.showCount,this.selfCdt);
+      }
+
+    },
+    pnr(){
+      this.bigBase = 1;
+      if(this.page == 0){
+        this.getListPnr(this.currentPage,this.showCount,this.cdt);
+      }else if(this.page == 1){
+        this.batchQueryListPnr(this.currentPage,this.showCount,this.rows);
+      }else if(this.page == 2){
+        this.selfQueryListPnr(this.currentPage,this.showCount,this.selfCdt);
+      }
+
+    },
+    query(){//基础查询判断
+      if(this.bigBase == 0){
+        this.getList(this.currentPage,this.showCount,this.cdt);
+      }else if(this.bigBase == 1){
+        this.getListPnr(this.currentPage,this.showCount,this.cdt);
+      }
+    },
     getHistoryList(hcurrentPage,hshowCount,historyCdt){
       let gh = {
         "currentPage":hcurrentPage,
       	"showCount":hshowCount,
       	"cdt":historyCdt
-      }
+      };
+      this.historyBased();
       this.$api.post('/manage-platform/iapi/queryIapiHistory',gh,
       r =>{
         this.historyData = r.data.resultList;
         this.htotalResult = r.data.totalResult;
         this.htotalPage = r.data.totalPage;
       })
+    },
+    getHistoryListPnr(hcurrentPage,hshowCount,historyCdt){
+      let gh = {
+        "currentPage":hcurrentPage,
+      	"showCount":hshowCount,
+      	"cdt":historyCdt
+      };
+      this.historyBased();
+      this.$api.post('/manage-platform/pnr/queryPnrHistory',gh,
+      r =>{
+        this.historyData = r.data.resultList;
+        this.htotalResult = r.data.totalResult;
+        this.htotalPage = r.data.totalPage;
+      })
+    },
+    getMore(row,cell){//历次
+      console.log(row);
+      if(cell.property =='I_NAME'){
+        this.reviewDialogTable = true;
+        this.historyCdt.nationalityEqual = row.I_37CODE;
+        this.historyCdt.passportnoEqual = row.I_39;
+        if(this.bigBase == 0){
+          this.getHistoryList(this.hcurrentPage,this.hshowCount,this.historyCdt);
+        }else if(this.bigBase == 1){
+          this.getHistoryListPnr(this.hcurrentPage,this.hshowCount,this.historyCdt);
+        }
+      }
     },
     planSave(){//基础查询 方案保存是否重名
       if(this.sss==''){
@@ -1953,6 +2066,33 @@ export default {
           this.currentPage = r.data.currentPage;
         }
       })
+    },
+    batchQueryListPnr(currentPage,showCount,rows){//批量查询pnr
+      let cdtArr = [];
+      cdtArr.push(this.cdtList);
+      let cdtList = cdtArr.concat(rows);
+      let bql = {
+        "currentPage":currentPage,
+      	"showCount":showCount,
+      	"cdtList":cdtList
+      }
+      this.$api.post('/manage-platform/pnr/queryPnrBatch',bql,
+      r =>{
+        if(r.success){
+          this.based();
+          this.tableData=r.data.resultList;//表格数据
+          this.totalResult=r.data.totalResult;//总条数
+          this.totalPage = r.data.totalPage;//总页数
+          this.currentPage = r.data.currentPage;
+        }
+      })
+    },
+    batchS(){
+      if(this.bigBase == 0){
+        this.batchQueryList(this.currentPage,this.showCount,this.rows);
+      }else if(this.bigBase == 1){
+        this.batchQueryListPnr(this.currentPage,this.showCount,this.rows);
+      }
     },
     batchPlanSave(){//批量 方案保存是否重名
       if(this.ppp==''){
@@ -2100,6 +2240,32 @@ export default {
          }
        })
     },
+    selfQueryListPnr(currentPage,showCount,selfCdt){
+      this.currentPage = 1;
+      console.log(selfCdt.AAAAA);
+      let sql = {
+        "currentPage":currentPage,
+      	"showCount":showCount,
+      	"cdt":selfCdt.AAAAA
+      }
+      this.$api.post('/manage-platform/pnr/customPnrQuery',sql,
+       r =>{
+         if(r.success){
+           this.based();
+           this.tableData=r.data.resultList;//表格数据   (待定)
+           this.totalResult=r.data.totalResult;//总条数
+           this.totalPage = r.data.totalPage;//总页数
+           this.currentPage = r.data.currentPage;
+         }
+       })
+    },
+    selfS(){
+      if(this.bigBase == 0){
+        this.selfQueryList(this.currentPage,this.showCount,this.selfCdt);
+      }else if(this.bigBase == 1){
+        this.selfQueryListPnr(this.currentPage,this.showCount,this.selfCdt);
+      }
+    },
     selfPlanSave(){//自定义 方案保存是否重名
       if(this.fff==''){
         this.$alert('方案名称不能为空', '提示', {
@@ -2195,15 +2361,16 @@ export default {
       this.selfRows.splice(self,1);
     },
     attribute(){//属性
+      this.$set(this.selfCdtList,'operator','');
       this.$api.post('/manage-platform/iapi/getCustomQueryConfig',{},
       r =>{
         if(r.success){
           this.selfNature = r.data;
-
         }
       })
     },
     attribute2(arr,val){
+
       for(var i in arr){
         if(arr[i].name==val.attribute){
             this.operator=arr[i].operator;
@@ -2222,75 +2389,6 @@ export default {
       // }
       // console.log(this.selfType);
     },
-    join(){//拼接表达式
-      console.log(this.selfCdtList.attribute);
-      let str = '';
-      let arr = this.selfRows;
-      let switchOperator = '';
-      if(this.selfCdtList.operator=='等于'){
-        switchOperator='='
-      }else if(this.selfCdtList.operator=='小于'){
-        switchOperator='<'
-      }else if(this.selfCdtList.operator=='大于'){
-        switchOperator='>'
-      }
-      if(this.selfCdtList.attribute==undefined){
-        this.$message({
-          message: '请填写属性1111！',
-          type: 'success'
-        });
-        return false
-      }else if(this.selfCdtList.operator==undefined){
-        this.$message({
-          message: '请填写比较逻辑1！',
-          type: 'success'
-        });
-        return false
-      }else if(this.selfCdtList.atype==undefined){
-        this.$message({
-          message: '请填写属性内容1！',
-          type: 'success'
-        });
-        return false
-      }else{
-        str ='('+this.selfCdtList.attribute+switchOperator+this.selfCdtList.atype+')';
-      }
-
-      for(var i=0;i<arr.length;i++){
-        if(arr[i].operator=='等于'){
-          switchOperator='='
-        }else if(arr[i].operator=='小于'){
-          switchOperator='<'
-        }else if(arr[i].operator=='大于'){
-          switchOperator='>'
-        }
-        if(arr[i].attribute==''){
-          this.$message({
-            message: '请填写属性！',
-            type: 'success'
-          });
-        }else if(arr[i].operator==''){
-          this.$message({
-            message: '请填写比较逻辑！',
-            type: 'success'
-          });
-        }else if(arr[i].atype==''){
-          this.$message({
-            message: '请填写属性内容！',
-            type: 'success'
-          });
-        }else if(arr[i].relation==''){
-          this.$message({
-            message: '请填写逻辑关系！',
-            type: 'success'
-          });
-        }else{
-          str += arr[i].relation+'('+arr[i].attribute+switchOperator+arr[i].atype+')';
-        }
-      };
-      this.selfCdt.AAAAA=str;
-      console.log(this.selfCdt.AAAAA);
-    },
     //----------------------------自定义查询end------------------------------
 
     //----------------------------代表码接口查询start------------------------------
@@ -2303,19 +2401,16 @@ export default {
        })
     },
     nationality(data){//基础查询国籍与洲二级联动
-      this.xx(this.cdt.nationalityEqual)
+      this.$set(this.cdt,'nationalityEqual','');
       let arr=this.chauName;
       let that=this;
       for(var i=0;i<arr.length;i++){
         if(arr[i].code == data){
-          // that.cdt.nationalityEqual = '';
           that.selection=arr[i].countryList;
         }
       }
     },
-    xx(xx){
-      xx=null;
-    },
+
     chau(){//调用洲
       this.$api.post('/manage-platform/codeTable/queryContinentsCountry',{},
        r => {
@@ -2370,6 +2465,12 @@ export default {
       this.totalPage = 1;
       this.currentPage = 1;
     },
+    historyBased(){
+      this.historyData = [];
+      this.htotalResult = 0;
+      this.htotalPage = 1;
+      this.hcurrentPage = 1;
+    },
     base(){
       this.page=0;
       this.checkList = this.basedQuery;
@@ -2392,21 +2493,6 @@ export default {
 
 
     //----------------------------调试start-------------------------------------
-    // f(){
-    //   let checkItem=this.checkItem;
-    //   let that=this;
-    //   var arr = this.checkList;
-    //   for(var i in checkItem){
-    //     let obj={isCheck:0}
-    //     obj.itemName=checkItem[i].ITEMNAME;
-    //     for(var j=0;j<arr.length;j++){
-    //       if(arr[j]==checkItem[i].ITEMNAME){
-    //         obj.isCheck=1;
-    //       }
-    //     }
-    //     that.showConfiglist.push(obj);
-    //   }
-    // },
     openCheck(){
       this.openCheckbox = !this.openCheckbox
       if(this.openCheckbox == true){
@@ -2425,36 +2511,73 @@ export default {
         this.listText = '展开';
       }
     },
-    details(serial){
+    details(serial){//基础查询点击详情查看
       this.detailsDialogVisible = true;
-      this.$api.post('/manage-platform/iapi/queryIapiInfo',{serial},
-       r =>{
-         if(r.success){
-           this.dform = r.data.IAPI;
-           if(r.data.hasOwnProperty('CHECKDATA') == false){
-             this.isCheck = false;
-           }else{
-             this.isCheck = true;
-             this.check = r.data.CHECKDATA;
-           }
+      if(this.bigBase == 0){
+        this.$api.post('/manage-platform/iapi/queryIapiInfo',{serial},
+         r =>{
+           if(r.success){
+             this.dform = r.data.IAPI;
+             if(r.data.hasOwnProperty('CHECKDATA') == false){
+               this.isCheck = false;
+             }else{
+               this.isCheck = true;
+               this.check = r.data.CHECKDATA;
+             }
 
-           if(r.data.hasOwnProperty('RULELIST') == false){
-             this.isRules = false;
-           }else{
-             this.isRules = true;
-             this.rules = r.data.RULELIST;
-           }
+             if(r.data.hasOwnProperty('RULELIST') == false){
+               this.isRules = false;
+             }else{
+               this.isRules = true;
+               this.rules = r.data.RULELIST;
+             }
 
-           if(r.data.hasOwnProperty('EVENT') == false){
-             this.isName = false;
-           }else{
-             this.isName = true;
-             this.eve = r.data.EVENT;
+             if(r.data.hasOwnProperty('EVENT') == false){
+               this.isName = false;
+             }else{
+               this.isName = true;
+               this.eve = r.data.EVENT;
+             }
            }
-         }
-       })
+         })
+      }else if(this.bigBase == 1){
+        this.$api.post('/manage-platform/pnr/queryPnrInfo',{serial},
+         r =>{
+           if(r.success){
+             this.dform = r.data.IAPI;
+             if(r.data.hasOwnProperty('CHECKDATA') == false){
+               this.isCheck = false;
+             }else{
+               this.isCheck = true;
+               this.check = r.data.CHECKDATA;
+             }
+
+             if(r.data.hasOwnProperty('RULELIST') == false){
+               this.isRules = false;
+             }else{
+               this.isRules = true;
+               this.rules = r.data.RULELIST;
+             }
+
+             if(r.data.hasOwnProperty('EVENT') == false){
+               this.isName = false;
+             }else{
+               this.isName = true;
+               this.eve = r.data.EVENT;
+             }
+
+             if(r.data.hasOwnProperty('PNREVENT') == false){
+               this.isCall = false;
+             }else{
+               this.isCall = true;
+               this.pnrEve = r.data.PNREVENT;
+             }
+           }
+         })
+      }
+
     },
-    reviewDetail(){
+    reviewDetail(){//详情里的查看详情信息
 
       let ss={
         "event":this.eve
@@ -2468,42 +2591,88 @@ export default {
          }
        })
     },
-    getMore(row,cell){
-      console.log(row);
-      if(cell.property =='I_NAME'){
-        this.reviewDialogTable = true;
-        this.historyCdt.nationalityEqual = row.I_37CODE;
-        this.historyCdt.passportnoEqual = row.I_39;
-        this.getHistoryList(this.hcurrentPage,this.hshowCount,this.historyCdt);
+    reviewCallDetail(){//查看PNR预报警详情
+      let cc={
+        "event":this.pnrEve
       }
-    },
-    choose(event){
-      console
-      this.file = event.target.files[0];
-      this.fileName = event.target.files[0].name;
-    },
-    batchImport(event){
-      // event.preventDefault();//取消默认行为
-      let formData = new FormData();
-      formData.file = this.file;
-      // formData.append("file", this.file);
-      // let config = {
-      //   headers: {
-      //       'Content-Type': 'multipart/form-data'  //之前说的以表单传数据的格式来传递fromdata
-      //   }
-      // };
-      // let bi = {
-        // "template":'three',
-        // "excel":formData
-      // }
-      this.$api.post('/manage-platform/iapi/readExcel',formData,
+      this.$api.post('/manage-platform/eventManagement/isFinishEventHandle',ss,
        r =>{
-         if(r.success){
-           this.batchDialog = false;
-           this.rows = r.data.feildAndValueList;
+         if(r.data== true){
+            this.$router.push({name:'alarmProcess',query:{eventserial:this.eve,type:0,isZDGZ:1}})
+         }else if(r.data == false){
+           this.$router.push({name:'alarmProcess',query:{eventserial:this.eve,type:1,isZDGZ:1}})
          }
        })
-    }
+    },
+    reset(){
+      this.cdt={};
+      this.getList(this.currentPage,this.showCount,this.cdt);
+      if(this.bigBase == 0){
+        this.getList(this.currentPage,this.showCount,this.cdt);
+      }else if(this.bigBase == 1){
+        this.getListPnr(this.currentPage,this.showCount,this.cdt);
+      }
+    },
+    batchReset(){
+      this.rows = [{
+        version:1,
+        nationalityEqual:'',
+        passportnoEqual:'',
+        fltnoEqual:'',
+        familyname:'',
+        genderEqual:'',
+        startDateofbirth:'',
+        startFlightDepartdate:'',
+        cityfromEqual:'',
+        startDepartdate:'',
+        citytoEqual:'',
+        endArrivdate:''
+      }];
+      this.cdtList = {version:0,flag:''};
+      if(this.bigBase == 0){
+        this.batchQueryList(this.currentPage,this.showCount,this.rows);
+      }else if(this.bigBase == 1){
+        this.batchQueryListPnr(this.currentPage,this.showCount,this.rows);
+      }
+    },
+    selfReset(){
+      this.selfCdtList = {id:0,type:0,attribute:'',atype:''};
+      this.selfRows=[{id:1,attribute:'',operator:'',type:0,relation:'',atype:''}];
+      this.str = '';
+      if(this.bigBase == 0){
+        this.selfQueryList(this.currentPage,this.showCount,this.selfCdt);
+      }else if(this.bigBase == 1){
+        this.selfQueryListPnr(this.currentPage,this.showCount,this.selfCdt);
+      }
+    },
+    // choose(event){//批量导入
+    //   this.file = event.target.files[0];
+    //   this.fileName = event.target.files[0].name;
+    // },
+    // batchImport(event){
+    //   // event.preventDefault();//取消默认行为
+    //   this.formData = new FormData();
+    //   this.$set(this.formData,'file',this.file);
+    //   console.log(this.formData);
+    //   // formData.append("file", this.file);
+    //   // let config = {
+    //   //   headers: {
+    //   //       'Content-Type': 'multipart/form-data'  //之前说的以表单传数据的格式来传递fromdata
+    //   //   }
+    //   // };
+    //   // let bi = {
+    //     // "template":'three',
+    //     // "excel":formData
+    //   // }
+    //   this.$api.post('/manage-platform/iapi/readExcel',this.formData,
+    //    r =>{
+    //      if(r.success){
+    //        this.batchDialog = false;
+    //        this.rows = r.data.feildAndValueList;
+    //      }
+    //    })
+    // }
+
     }
 }
 </script>

@@ -386,3 +386,6 @@
   display: flex;
   flex-wrap: wrap;
 }
+.katooltip span{
+  color: #31aafb;
+}

@@ -96,60 +96,60 @@ export default {
     return {
       navUlShow: false,
       muneListOne: [
-        {
-            "MENU_ICON":"iconYC",
-            "SERIAL":"1",
-            "choose":true,
-            "name":"业务处理",
-            "parentId":"0",
-            "type":"1",
-            "url":"#"
-        },
-        {
-            "MENU_ICON":"iconYY",
-            "SERIAL":"2",
-            "choose":true,
-            "name":"业务应用",
-            "parentId":"0",
-            "type":"1",
-            "url":"#"
-        },
-        {
-            "MENU_ICON":"iconYK",
-            "SERIAL":"3",
-            "choose":true,
-            "name":"业务监控",
-            "parentId":"0",
-            "type":"1",
-            "url":"#"
-        },
-        {
-            "MENU_ICON":"iconYG",
-            "SERIAL":"4",
-            "choose":true,
-            "name":"业务管理",
-            "parentId":"0",
-            "type":"1",
-            "url":"#"
-        },
-        {
-            "MENU_ICON":"iconXG",
-            "SERIAL":"5",
-            "choose":true,
-            "name":"系统管理",
-            "parentId":"0",
-            "type":"1",
-            "url":"#"
-        },
-        {
-            "MENU_ICON":"iconXK",
-            "SERIAL":"6",
-            "choose":true,
-            "name":"系统监控",
-            "parentId":"0",
-            "type":"1",
-            "url":"#"
-        }
+        // {
+        //     "MENU_ICON":"iconYC",
+        //     "SERIAL":"1",
+        //     "choose":true,
+        //     "name":"业务处理",
+        //     "parentId":"0",
+        //     "type":"1",
+        //     "url":"#"
+        // },
+        // {
+        //     "MENU_ICON":"iconYY",
+        //     "SERIAL":"2",
+        //     "choose":true,
+        //     "name":"业务应用",
+        //     "parentId":"0",
+        //     "type":"1",
+        //     "url":"#"
+        // },
+        // {
+        //     "MENU_ICON":"iconYK",
+        //     "SERIAL":"3",
+        //     "choose":true,
+        //     "name":"业务监控",
+        //     "parentId":"0",
+        //     "type":"1",
+        //     "url":"#"
+        // },
+        // {
+        //     "MENU_ICON":"iconYG",
+        //     "SERIAL":"4",
+        //     "choose":true,
+        //     "name":"业务管理",
+        //     "parentId":"0",
+        //     "type":"1",
+        //     "url":"#"
+        // },
+        // {
+        //     "MENU_ICON":"iconXG",
+        //     "SERIAL":"5",
+        //     "choose":true,
+        //     "name":"系统管理",
+        //     "parentId":"0",
+        //     "type":"1",
+        //     "url":"#"
+        // },
+        // {
+        //     "MENU_ICON":"iconXK",
+        //     "SERIAL":"6",
+        //     "choose":true,
+        //     "name":"系统监控",
+        //     "parentId":"0",
+        //     "type":"1",
+        //     "url":"#"
+        // }
       ],
 
       sideWidth: '295px',
@@ -524,7 +524,7 @@ export default {
     },
     getNav(navId) {
       this.navId = navId;
-      this.getpp();
+      // this.getpp();
       this.$api.post('/manage-platform/muneSys/menuChild', {
           SERIAL: navId
         },

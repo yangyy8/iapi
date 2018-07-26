@@ -768,7 +768,7 @@ export default {
       }
     },
     handler(){
-      this.$api.post('/eamp/eventManagement/queryEventUser',{},
+      this.$api.post('/manage-platform/eventManagement/queryEventUser',{},
       r =>{
         if(r.success){
           this.dealer = r.data

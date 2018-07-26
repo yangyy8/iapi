@@ -38,7 +38,7 @@
           <span>{{val.name}}</span>
         </router-link>
 
-        <router-link :to="{ name: 'Content', params: {navId:1} }" class="nav-item0 nav-item" v-if="bynav">
+        <!-- <router-link :to="{ name: 'Content', params: {navId:1} }" class="nav-item0 nav-item" v-if="bynav">
           <img src="../assets/img/home/nav1.png" alt="">
           <span>业务处理</span>
         </router-link>
@@ -53,7 +53,7 @@
         <router-link :to="{ name: 'Content', params: {navId:3} }" class="nav-item3 nav-item" v-if="bynav">
           <img src="../assets/img/home/nav4.png" alt="">
           <span>业务管理</span>
-        </router-link>
+        </router-link> -->
       </div>
       <div class="nav-left-0" v-if="isLogin">
         <img :src='"../assets/img/home/left_"+left+".png"'>
@@ -80,14 +80,14 @@
           <span>{{val.name}}</span>
         </router-link>
 
-        <router-link :to="{ name: 'Content', params: {navId:5} }" class="nav-item5 nav-item" v-if="bynav">
+        <!-- <router-link :to="{ name: 'Content', params: {navId:5} }" class="nav-item5 nav-item" v-if="bynav">
           <img src="../assets/img/home/nav6.png" alt="">
           <span>系统管理</span>
         </router-link>
         <router-link :to="{ name: 'Content', params: {navId:6} }" class="nav-item6 nav-item" v-if="bynav">
           <img src="../assets/img/home/nav7.png" alt="">
           <span>系统监控</span>
-        </router-link>
+        </router-link> -->
 
         <a class="nav-item7 nav-item" @click="getcc">
           <img src="../assets/img/navIcon/iconCC.png" alt="">
@@ -321,6 +321,7 @@ export default {
     rightOver(i){
       this.right=i
     },
+    
     login(){
 
       this.$api.post('/manage-platform/landing',this.user,
