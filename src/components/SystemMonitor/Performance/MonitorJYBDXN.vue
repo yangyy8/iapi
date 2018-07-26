@@ -95,7 +95,7 @@
                       width="130">
                     </el-table-column>
                     <el-table-column
-                      prop="Familyname"
+                      prop="familyname"
                       label="姓名">
                     </el-table-column>
                     <el-table-column
@@ -104,7 +104,8 @@
                     </el-table-column>
                     <el-table-column
                       prop="birthday"
-                      label="出生日期">
+                      label="出生日期"
+                      width='150'>
                     </el-table-column>
                     <el-table-column
                       prop="FLIGHT_RECORDNUM "
@@ -115,17 +116,20 @@
                       label="报文接收时间">
                     </el-table-column>
                     <el-table-column
-                      prop="cmpendtime"
                       label="校验比对结束时间"
-                      width='140'>
+                      width='200'>
+                      <template  slot-scope="scope">
+                        <span>{{scope.row.cmpendtime|discount}}</span>
+                      </template>
                     </el-table-column>
                     <el-table-column
                       prop="average"
                       label="耗时">
                     </el-table-column>
                     <el-table-column
-                      prop="createtimeStr"
-                      label="监控时间">
+                      prop="createtime"
+                      label="监控时间"
+                      width="200">
                     </el-table-column>
                   </el-table>
                   <div class="middle-foot">
@@ -184,7 +188,7 @@
                     <el-table-column
                       prop="createtimeStr"
                       label="统计日期"
-                      width="130">
+                      width="180">
                     </el-table-column>
                     <el-table-column
                       prop="tcount"
@@ -347,6 +351,11 @@ export default {
     this.barChart.dispose();
     this.lineChart = null;
     this.barChart = null;
+  },
+  filters: {
+    discount: function(value) {
+      return value.substring(0,19) ;
+    }
   },
   methods:{
     handleSelectionChange(val) {
