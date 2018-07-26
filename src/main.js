@@ -23,13 +23,8 @@ router.beforeResolve((to, from, next) => {
   // console.log("to:",to);
 
 })
-function getSatus(){
-  api.post('/manage-platform/muneSys/sLanding',{},
-   r => {
-     console.log(r);
-  })
-}
-getSatus()
+
+// getSatus()
 // router.afterEach((from)=>{
 //   // console.log(from)
 //   window.scrollTo(0,0);
