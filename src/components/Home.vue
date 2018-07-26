@@ -329,6 +329,7 @@ export default {
     rightOver(i){
       this.right=i
     },
+
     getSatus(){
       this.$api.post('/manage-platform/isLanding',{},
        r => {
@@ -336,6 +337,7 @@ export default {
          this.isLogin=r.data
       })
     },
+
     login(){
 
       this.$api.post('/manage-platform/landing',this.user,
