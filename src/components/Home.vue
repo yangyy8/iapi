@@ -190,7 +190,7 @@ export default {
       },
       jzmm:false,
       bynav:true,
-      isLogin:true,
+      isLogin:false,
       tabId:0,
       crType:"0",
       showLeft:true,
@@ -276,11 +276,18 @@ export default {
 
   mounted() {
     this.fn();
-    this.getNav0();
-    this.getTime();
+    // this.getSatus()
     if(localStorage.getItem('login')){
       this.isLogin=true;
+        this.getNav0()
+    }else{
+      this.isLogin=false;
+
     }
+    console.log(this.isLogin)
+    // this.getNav0();
+    this.getTime();
+
   },
   beforeDestroy() {
     if (!this.chart) {
@@ -288,6 +295,7 @@ export default {
     }
     this.chart.dispose();
     this.chart = null;
+
   },
   computed:{
     sortarr:function(){
@@ -321,23 +329,31 @@ export default {
     rightOver(i){
       this.right=i
     },
-    
+
+    getSatus(){
+      this.$api.post('/manage-platform/isLanding',{},
+       r => {
+         console.log(r);
+         this.isLogin=r.data
+      })
+    },
+
     login(){
 
       this.$api.post('/manage-platform/landing',this.user,
        r => {
         console.log(r)
         if(r.success){
-
           this.$message({
             message: '登录成功',
             type: 'success'
           });
+          localStorage.setItem('login',1);
+          this.getNav0()
           let _this=this;
           setTimeout(function(){
               _this.isLogin=true;
           },1000)
-          localStorage.setItem('login',1)
         }
       })
     },
@@ -347,6 +363,17 @@ export default {
         message: '退出成功',
         type: 'success'
       });
+      // this.$api.post('/manage-platform/landout',{},
+      //  r => {
+      //   console.log(r)
+      //   if(r.success){
+      //     this.$message({
+      //       message: '退出成功',
+      //       type: 'success'
+      //     });
+      //   }
+      // })
+
       this.$router.go(0)
     },
     getNav0(){

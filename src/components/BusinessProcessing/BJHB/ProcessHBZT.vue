@@ -106,7 +106,7 @@
   >
         </el-table-column>
         <el-table-column
-          prop="changeport"
+          prop="changeportName"
           label="备降口岸" sortable
   >
         </el-table-column>
@@ -326,7 +326,7 @@ export default {
       };
       this.$api.post('/manage-platform/codeTable/queryAirport', {},
         r => {
-  console.log(r);
+
             this.Airport = r.data;
 
         })
@@ -341,7 +341,9 @@ export default {
               type: 'success'
             });
           } else {
+            this.addDialogVisible = false;
             this.$message.error(r.Message);
+
           }
           this.$refs[formName].resetFields();
           this.addDialogVisible = false;

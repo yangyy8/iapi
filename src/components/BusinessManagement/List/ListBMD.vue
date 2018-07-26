@@ -64,13 +64,13 @@
                    <el-date-picker
                      v-model="pd.BIRTHDATESTART"
                      type="date" size="small" value-format="yyyyMMdd"
-                     placeholder="开始时间" align="right" :picker-options="pickerOptions1">
+                     placeholder="开始时间" align="right" >
                    </el-date-picker>
                    <span class="septum">-</span>
                    <el-date-picker
                       v-model="pd.BIRTHDATESTARTEND"
                       type="date" size="small" align="right" value-format="yyyyMMdd"
-                      placeholder="结束时间"  :picker-options="pickerOptions1">
+                      placeholder="结束时间" >
                   </el-date-picker>
               </div>
             </el-col>
@@ -130,13 +130,13 @@
                  <el-date-picker
                    v-model="pd.CREATETIMESTART"
                    type="date" size="small" value-format="yyyyMMdd"
-                   placeholder="开始时间" align="right" :picker-options="pickerOptions1">
+                   placeholder="开始时间" align="right" >
                  </el-date-picker>
                  <span class="septum">-</span>
                  <el-date-picker
                     v-model="pd.CREATETIMEEND"
                     type="date" size="small" align="right" value-format="yyyyMMdd"
-                    placeholder="结束时间"  :picker-options="pickerOptions1">
+                    placeholder="结束时间"  >
                 </el-date-picker>
             </div>
             <!--
@@ -157,13 +157,13 @@
                  <el-date-picker
                    v-model="pd.CTL_BEGINDATE"
                    type="date" size="small" value-format="yyyyMMdd"
-                   placeholder="开始时间" align="right" :picker-options="pickerOptions1">
+                   placeholder="开始时间" align="right" >
                  </el-date-picker>
                  <span class="septum">-</span>
                  <el-date-picker
                     v-model="pd.CTL_EXPIREDATE"
                     type="date" size="small" align="right" value-format="yyyyMMdd"
-                    placeholder="结束时间"  :picker-options="pickerOptions1">
+                    placeholder="结束时间" >
                 </el-date-picker>
             </div>
               <!--
@@ -188,10 +188,23 @@
     </div>
     <div class="middle">
       <el-row class="mb-15" v-if="getHis">
-        <el-button type="primary" size="small" @click="addDialogVisible=true;dialogText='新增'">新增</el-button>
-        <el-button type="success" size="small" :disabled="isdisable">批量导入</el-button>
-        <el-button type="info" size="small" @click="dialogType='dels';releaseDialogVisible=true" :disabled="isdisable">批量删除</el-button>
-        <el-button type="warning" size="small" @click="releaseDialogVisible=true">生效发布</el-button>
+        <el-button type="primary" size="small" @click="addDialogVisible=true;dialogText='新增';dialogType='add';form={}">新增</el-button>
+        <el-button type="success" size="small" @click="uploadDialogVisible=true">批量导入</el-button>
+        <!-- <el-upload
+          class="upload-demo"
+          name="file"
+          action="http://localhost:8080/manage-platform/nameList/readExcel"
+          :on-preview="handlePreview"
+          :on-remove="handleRemove"
+          :before-remove="beforeRemove"
+          multiple
+          :limit="3"
+          :on-exceed="handleExceed"
+          :file-list="fileList">
+          <el-button size="small" type="primary">批量导入</el-button> -->
+        </el-upload>
+        <el-button type="info" size="small" @click="dialogType='dels';releaseDialogVisible=true">批量删除</el-button>
+        <el-button type="warning" size="small" @click="releaseDialogVisible=true;dialogType='syn'">生效发布</el-button>
         <el-button type="danger" size="small" @click="getHisFn(currentPage,pageSize,pd)">历史资料</el-button>
         <el-button type="success" size="small">模板下载</el-button>
       </el-row>
@@ -242,6 +255,10 @@
           prop="BIRTHDATE"
           label="出生日期">
         </el-table-column>
+        <!-- <el-table-column
+          prop="CTL_BEGINDATE"
+          label="开始日期">
+        </el-table-column> -->
         <el-table-column
           prop="CTL_EXPIREDATE"
           label="失效日期">
@@ -253,7 +270,7 @@
           <template slot-scope="scope">
             <div class="flex-r">
               <el-button class="table-btn" size="mini" plain icon="el-icon-edit" @click="update(scope.row)" v-if="scope.row.SYN_STATUS==0&&getHis">编辑</el-button>
-              <el-button class="table-btn" size="mini" plain icon="el-icon-delete" @click="deleteItem(scope.row.SERIAL)" v-if="getHis">删除</el-button>
+              <el-button class="table-btn" size="mini" plain icon="el-icon-delete" @click="deleteItem(scope.row.SERIAL,scope.row.SYN_STATUS)" v-if="getHis">删除</el-button>
               <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row.SERIAL)">详情</el-button>
             </div>
          </template>
@@ -295,26 +312,51 @@
       <el-form :model="form" ref="addForm">
         <el-row  class="mb-6" align="center">
           <el-col :sm="24" :md="12" :lg="8"  class="input-item">
-              <QueryNationality   :nationality="form.NATIONALITY" @transNation="getNationForm"></QueryNationality>
+            <span class="input-text"><span class="redx">*</span>国籍：</span>
+            <el-select v-model="form.NATIONALITY" filterable @visible-change="queryNationalityAlone" placeholder="请选择"  size="small" class="input-input">
+              <el-option
+                v-for="item in nationAlone"
+                :key="item.CODE"
+                :label="item.CODE+' - '+item.CNAME"
+                :value="item.CODE">
+              </el-option>
+            </el-select>
           </el-col>
           <el-col :sm="24" :md="12" :lg="8"  class="input-item">
             <span class="input-text"><span class="redx">*</span>证件种类：</span>
-            <!--
-            <el-select v-model="form.CARDTYPE" placeholder="请选择"  size="small"  class="input-input">
-              <el-option label="身份证" value="1"></el-option>
-              <el-option label="护照" value="2"></el-option>
-            </el-select>
-            -->
             <QueryDocCode  :docCodeModel="form.CARDTYPE" @transDocCode="getDocCodeForm"></QueryDocCode>
           </el-col>
+
+          <el-col :sm="24" :md="12" :lg="8"  class="input-item">
+            <span class="input-text"><span class="redx">*</span>控制类型：</span>
+            <el-select v-model="form.PERSON_TYPE" placeholder="请选择"  size="small"  class="input-input">
+              <el-option label="外国人" value="0"></el-option>
+              <el-option label="中国人" value="1"></el-option>
+            </el-select>
+          </el-col>
+
           <el-col :sm="24" :md="12" :lg="8"  class="input-item">
             <span class="input-text"><span class="redx">*</span>证件号码：</span>
             <el-input placeholder="请输入内容" size="small" v-model="form.CARDNO"  class="input-input"></el-input>
           </el-col>
+
+          <el-col :sm="24" :md="12" :lg="8"  class="input-item">
+            <span class="input-text"><span class="redx">*</span>证件有效期：</span>
+            <el-date-picker
+              size="small" value-format="yyyyMMdd"
+              v-model="form.CARDEXPIREDATE"
+              type="date"
+              range-separator="-"
+              start-placeholder="开始日期"
+              class="input-input block">
+            </el-date-picker>
+          </el-col>
+
           <el-col :sm="24" :md="12" :lg="8"  class="input-item">
             <span class="input-text"><span class="redx">*</span>姓名：</span>
             <el-input placeholder="请输入内容" size="small" v-model="form.FAMILYNAME"  class="input-input"></el-input>
           </el-col>
+
           <el-col :sm="24" :md="12" :lg="8"  class="input-item">
             <span class="input-text"><span class="redx">*</span>性别：</span>
             <el-select v-model="form.GENDER" placeholder="请选择"  size="small"  class="input-input">
@@ -337,13 +379,24 @@
           </el-col>
 
           <el-col :sm="24" :md="12" :lg="8"  class="input-item">
+            <span class="input-text"><span class="redx">*</span>原因严重性：</span>
+            <el-select v-model="form.CTL_REASONLEVEL" placeholder="请选择"  size="small"  class="input-input">
+              <el-option label="1" value="1"></el-option>
+              <el-option label="2" value="2"></el-option>
+              <el-option label="3" value="3"></el-option>
+              <el-option label="4" value="4"></el-option>
+              <el-option label="5" value="5"></el-option>
+            </el-select>
+          </el-col>
+
+          <el-col :sm="24" :md="12" :lg="8"  class="input-item">
             <span class="input-text"><span class="redx">*</span>出入境类型：</span>
             <el-select v-model="form.IN_OUT" placeholder="请选择"  size="small"  class="input-input">
               <el-option label="出境" value="1"></el-option>
               <el-option label="入境" value="0"></el-option>
             </el-select>
-
           </el-col>
+
           <el-col :sm="24" :md="12" :lg="8"  class="input-item">
             <span class="input-text"><span class="redx">*</span>生效日期：</span>
             <el-date-picker
@@ -354,8 +407,8 @@
               start-placeholder="开始日期"
               class="input-input block">
             </el-date-picker>
-
           </el-col>
+
           <el-col :sm="24" :md="12" :lg="8"  class="input-item">
             <span class="input-text"><span class="redx">*</span>失效日期：</span>
             <el-date-picker
@@ -367,6 +420,7 @@
               class="input-input block">
             </el-date-picker>
           </el-col>
+
           <el-col :sm="24" :md="12" :lg="8"  class="input-item">
             <span class="input-text">入境口岸：</span>
             <QueryAirport  :airportModel="form.WHITE_PORT_IN" @transAirport="getInAirportForm"></QueryAirport>
@@ -376,18 +430,27 @@
             <span class="input-text">出境口岸：</span>
             <QueryAirport  :airportModel="form.WHITE_PORT_OUT" @transAirport="getOutAirportForm"></QueryAirport>
           </el-col>
+
           <el-col :sm="24" :md="12" :lg="8"  class="input-item">
             <span class="input-text">航班号：</span>
             <el-input placeholder="请输入内容" size="small" v-model="form.FLTNO" class="input-input"></el-input>
           </el-col>
+
           <el-col :sm="24" :md="12" :lg="8" class="input-item">
-            <span class="input-text">批准机关：</span>
-            <QueryAirport  :airportModel="form.SUBORG_CODE" @change="changeForm(this)" @transAirport="getOutAirportForm"></QueryAirport>
+            <span class="input-text">交控单位：</span>
+            <QueryAirport  :airportModel="form.SUBORG_CODE" @change="changeForm(this)" @transAirport="getSuborgCodeForm"></QueryAirport>
           </el-col>
+
+          <el-col :sm="24" :md="12" :lg="8"  class="input-item">
+            <span class="input-text">联系方式：</span>
+            <el-input placeholder="请输入内容" size="small" v-model="form.SUBORG_CONN" class="input-input"></el-input>
+          </el-col>
+
           <el-col :sm="24" :md="12" :lg="8" class="input-item">
             <span class="input-text">处理依据：</span>
             <el-input placeholder="请输入内容" size="small" class="input-input" v-model="form.CTL_REASON"></el-input>
           </el-col>
+
         </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -413,92 +476,107 @@
             <span>性别</span>
             <a v-if="detailsData.GENDER=='M'">男</a>
             <a v-if="detailsData.GENDER=='F'">女</a>
-
+            <a v-if="detailsData.GENDER=='U'">未知</a>
 
           </el-col>
           <el-col :sm="24" :md="12" :lg="8" >
             <span>出生日期</span>
-            2000年10月10日
+            {{detailsData.BIRTHDATE}}
 
           </el-col>
         </el-row>
         <el-row type="flex" class="detail-msg-row">
           <el-col :sm="24" :md="12" :lg="8" >
-            <span>国籍</span>/
-            张某某
+            <span>国籍</span>
+          {{detailsData.NATIONALITY}}
 
           </el-col>
           <el-col :sm="24" :md="12" :lg="8" >
             <span>证件号码</span>
-            张某某
+            {{detailsData.CARDNO}}
 
           </el-col>
           <el-col :sm="24" :md="12" :lg="8" >
-            <span>签证号码</span>
-            张某某
+            <span>原因严重性</span>
+            {{detailsData.CTL_REASONLEVEL}} <span>级</span>
 
           </el-col>
         </el-row>
         <el-row type="flex" class="detail-msg-row">
           <el-col :sm="24" :md="12" :lg="8" >
             <span>出入标识</span>
-            张某某
+            <a v-if="detailsData.IN_OUT=='1'">入境</a>
+            <a v-if="detailsData.IN_OUT=='0'">出境</a>
 
           </el-col>
           <el-col :sm="24" :md="12" :lg="8" >
-            <span>第二证号</span>
-            张某某
+            <span>起始控制日期</span>
+            {{detailsData.CTL_BEGINDATE}}
 
           </el-col>
           <el-col :sm="24" :md="12" :lg="8" >
-            <span>第二国籍</span>
-            张某某
+            <span>终止控制日期</span>
+            {{detailsData.CTL_EXPIREDATE}}
+
+          </el-col>
+
+        </el-row>
+        <el-row type="flex" class="detail-msg-row">
+          <el-col :sm="24" :md="12" :lg="8" >
+            <span>航班号</span>
+          {{detailsData.FLTNO}}
+
+          </el-col>
+          <el-col :sm="24" :md="12" :lg="8" >
+            <span>入境口岸</span>
+            {{detailsData.WHITE_PORT_IN}}
+
+          </el-col>
+          <el-col :sm="24" :md="12" :lg="8" >
+            <span>出境口岸</span>
+            {{detailsData.WHITE_PORT_OUT}}
 
           </el-col>
         </el-row>
         <el-row type="flex" class="detail-msg-row">
           <el-col :sm="24" :md="12" :lg="8" >
-            <span>航班号</span>
-            张某某
+            <span>交控单位</span>
+            {{detailsData.SUBORG_CODE}}
 
           </el-col>
           <el-col :sm="24" :md="12" :lg="8" >
-            <span>出发地</span>
-            张某某
+            <span>联系电话</span>
+            {{detailsData.SUBORG_CONN}}
 
           </el-col>
           <el-col :sm="24" :md="12" :lg="8" >
-            <span>目的地</span>
-            张某某
+            <span>控制类型</span>
+            <a v-if="detailsData.PERSON_TYPE=='0'">外国人</a>
+            <a v-if="detailsData.PERSON_TYPE=='1'">中国人</a>
 
           </el-col>
         </el-row>
         <el-row type="flex" class="detail-msg-row mb-20">
-          <el-col :sm="24" :md="12" :lg="8" >
-            <span>报警类型</span>
-            张某某
-
-          </el-col>
-          <el-col :sm="24" :md="12" :lg="8" >
-            <span>报警时间</span>
-            张某某
+          <el-col :sm="24" :md="12" :lg="16" >
+            <span>处理依据</span>
+          {{detailsData.CTL_REASON}}
 
           </el-col>
         </el-row>
         <el-row type="flex" class="detail-msg-row">
           <el-col :span="5">
             <span>操作人</span>
-            张某某
+            {{detailsData.CREATEUSER}}
 
           </el-col>
           <el-col :span="5">
             <span>审批人</span>
-            张某某
+            {{detailsData.APPRVOUSER}}
 
           </el-col>
           <el-col :span="6">
             <span>操作时间</span>
-            张某某
+            {{detailsData.CREATETIME}}
 
           </el-col>
         </el-row>
@@ -507,6 +585,7 @@
         <el-button type="warning" @click="detailsDialogVisible = false" size="small">关闭页面</el-button>
       </span>
     </el-dialog>
+
     <el-dialog title="生效发布" :visible.sync="releaseDialogVisible"   width="640px">
       <el-form :model="releaseform" ref="releaseForm">
         <el-row type="flex"  class="mb-9" justify="center">
@@ -531,6 +610,32 @@
 
       </div>
     </el-dialog>
+    <el-dialog title="上传模板" :visible.sync="uploadDialogVisible"   width="640px">
+      <el-form :model="releaseform" ref="releaseForm">
+        <el-input
+          placeholder="浏览"
+          :disabled="true">
+        </el-input>
+        <el-upload
+          class="upload-demo"
+          ref="upload"
+          action="http://192.168.99.242:8080/manage-platform/nameList/readExcel/1"
+          :file-list="fileList"
+          multiple
+
+          :limit="1"
+          :auto-upload="false">
+          <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
+          <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">上传到服务器</el-button>
+          <!-- <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div> -->
+        </el-upload>
+
+      </el-form>
+      <!-- <div slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="addItem('releaseForm','1')" size="small">授权确认</el-button>
+        <el-button type="warning" @click="uploadDialogVisible = false" size="small">重置</el-button>
+      </div> -->
+    </el-dialog>
   </div>
 
 </template>
@@ -543,9 +648,10 @@ export default {
   components: {QueryNationality,QueryAirport,QueryDocCode},
   data(){
     return{
+      nationAlone:[],
       getHis:true,
       CurrentPage:1,
-      pageSize:2,
+      pageSize:10,
       TotalResult:0,
       isdisable:true,
       detailsData:{},
@@ -558,6 +664,7 @@ export default {
       addDialogVisible:false,
       detailsDialogVisible:false,
       releaseDialogVisible:false,
+      uploadDialogVisible:false,
       options:[
         {
           value:10,
@@ -574,30 +681,6 @@ export default {
       ],
       tableData: [
         {
-          "CREATETIME": 1514566800000,
-    			"CREATEUSER": "1",
-    			"CTL_BEGINDATE": 1514563200000,
-    			"CTL_EXPIREDATE": 1546099200000,
-    			"CTL_REASON": "1",
-    			"CTL_REASONLEVEL": 1,
-    			"FAMILYNAME": "1",
-    			"FIRSTNAME": "1",
-    			"GENDER": "1",
-    			"IMPSERIAL": "1",
-    			"IN_OUT": 1,
-    			"LIST_TYPE": 1,
-    			"MIDDLENAME": "1",
-    			"NATIONALITY": "1",
-    			"PERSONCODE": "1",
-    			"PERSON_TYPE": 1,
-    			"RECORDNUMBER": "1",
-    			"SERIAL": "1001",
-    			"SOURCE": 1,
-    			"SUBORG_CODE": "1",
-    			"SUBORG_CONN": "1",
-    			"SUBORG_NAME": "1",
-    			"VALIDSTATUS": 1,
-    			"WHITE_PORT": "1"
         }
       ],
       multipleSelection: [],
@@ -609,7 +692,8 @@ export default {
         user:"",
         pwd:""
       },
-      formLabelWidth: '120px'
+      formLabelWidth: '120px',
+      fileList:[]
     }
   },
   mounted(){
@@ -659,6 +743,9 @@ export default {
     getOutAirportForm(msg){
       this.form.WHITE_PORT_OUT=msg;
     },
+    getSuborgCodeForm(msg){
+      this.form.SUBORG_CODE=msg;
+    },
     getDocCodeForm(msg){
       this.form.CARDTYPE=msg;
     },
@@ -676,7 +763,19 @@ export default {
          this.TotalResult=r.data.totalResult;
       })
     },
+    queryNationalityAlone(){
+      this.$api.post('/manage-platform/codeTable/queryNationality',{},
+       r => {
+         console.log(r);
+         if(r.success){
+           this.nationAlone=r.data;
+           this.$emit('transNationAlone',this.NATIONALITY)
+         }
+      })
+    },
     getHisFn(currentPage,showCount,pd){
+      this.tableData={};
+      this.TotalResult=0;
       this.getHis=false;
       let p={
         "currentPage":currentPage,
@@ -709,10 +808,30 @@ export default {
          // this.tableData=r.Data.ResultList;
       })
     },
-    deleteItem(id) {
+    deleteItem(id,synStatus) {
       this.dialogType="del";
-      this.releaseDialogVisible=true;
       this.delId=id;
+      if (synStatus=="1") {
+        this.releaseDialogVisible=true;
+      }else {
+          let p={
+            SERIAL:this.delId,
+            synStatus:synStatus
+          }
+          this.$api.post('/manage-platform/nameList/deleteNameList',p,
+           r => {
+             if(r.success){
+               this.$message({
+                 message: '删除成功',
+                 type: 'success'
+               });
+               this.releaseDialogVisible=false;
+               this.getList(this.CurrentPage,this.pageSize,this.pd);
+             }else{
+               this.$message.error(r.message);
+             }
+          })
+      }
       },
       queryDocCode(){
         this.$api.post('/manage-platform/codeTable/queryDocCode',{},
@@ -734,8 +853,9 @@ export default {
         //       return false;
         //     }
         //   });
-        if(synStatus==0){
-          this.dialogType=="add";
+        if(synStatus==0 && this.dialogType=="add"){
+          this.form.synStatus=synStatus;
+          this.form.LIST_TYPE='1';
           this.$api.post('/manage-platform/nameList/addNameList',this.form,
            r => {
              console.log(r);
@@ -756,6 +876,7 @@ export default {
         }else {
           if(this.dialogType=="add"){
             this.form.synStatus=synStatus;
+            this.form.LIST_TYPE='1';
             this.form.AUTHORIZEDUSER=this.releaseform.user;
             this.form.AUTHORIZEDPASSWORD=this.releaseform.pwd;
             this.$api.post('/manage-platform/nameList/addNameList',this.form,
@@ -766,12 +887,17 @@ export default {
                    message: '恭喜你，添加成功！',
                    type: 'success'
                  });
+               }else{
+                 this.$message.error(r.message);
                }
               this.$refs[formName].resetFields();
               this.addDialogVisible=false;
               this.getList(this.CurrentPage,this.pageSize,this.pd);
+            },e=>{
+              this.$message.error('失败了');
             })
           }else if(this.dialogType=="update"){
+            this.form.LIST_TYPE='1';
             this.form.synStatus=synStatus;
             this.form.AUTHORIZEDUSER=this.releaseform.user;
             this.form.AUTHORIZEDPASSWORD=this.releaseform.pwd;
@@ -783,9 +909,12 @@ export default {
                    message: '恭喜你，添加成功！',
                    type: 'success'
                  });
+               }else{
+                 this.$message.error(r.message);
                }
               this.$refs[formName].resetFields();
               this.addDialogVisible=false;
+              this.releaseDialogVisible=false;
               this.getList(this.CurrentPage,this.pageSize,this.pd);
             },e=>{
               this.$message.error('失败了');
@@ -795,7 +924,8 @@ export default {
                 LIST_TYPE : "1",
                 SERIAL:this.delId,
                 AUTHORIZEDUSER:this.releaseform.user,
-                AUTHORIZEDPASSWORD:this.releaseform.pwd
+                AUTHORIZEDPASSWORD:this.releaseform.pwd,
+                synStatus:synStatus
               }
               this.$api.post('/manage-platform/nameList/deleteNameList',p,
                r => {
@@ -808,6 +938,8 @@ export default {
                    this.getList(this.CurrentPage,this.pageSize,this.pd);
 
 
+                 }else{
+                   this.$message.error(r.message);
                  }
               })
           }else if(this.dialogType=="dels"){
@@ -835,13 +967,45 @@ export default {
                  this.releaseDialogVisible=false;
                  this.getList(this.CurrentPage,this.pageSize,this.pd);
 
+               }else{
+                 this.$message.error(r.message);
                }
+            })
+          }else if(this.dialogType=="syn"){
+            let arr= this.multipleSelection;
+            let arr1=[];
+            for(var i in arr){
+              arr1.push(arr[i].SERIAL)
+            }
+            let p={
+              pd:{
+                AUTHORIZEDUSER:this.releaseform.user,
+                AUTHORIZEDPASSWORD:this.releaseform.pwd,
+                LIST_TYPE : "1"
+              },
+              cdtList:arr1
+            }
+            this.$api.post('/manage-platform/nameList/synNameListAll',p,
+             r => {
+               if(r.success){
+                 this.$message({
+                   message: '生效发布成功',
+                   type: 'success'
+                 });
+                 this.getList(this.CurrentPage,this.pageSize,this.pd);
+               }else{
+                 this.$message.error(r.message);
+               }
+                this.releaseDialogVisible=false;
             })
           }
         }
 
 
       },
+      submitUpload() {
+       this.$refs.upload.submit();
+     },
 
   }
 }
