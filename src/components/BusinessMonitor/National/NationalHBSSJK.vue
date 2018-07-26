@@ -1286,12 +1286,12 @@ export default {
             color:'#ffffff',
             loop:false
           },
-          // markPoint:{
-          //   symbol:'circle',
-          //   symbolSize:15,
-          //   symbolOffset:[0,'20%'],
-          //   color:'#000000'
-          // },
+          markPoint:{
+            symbol:'circle',
+            symbolSize:15,
+            symbolOffset:[0,'20%'],
+            color:'#000000'
+          },
           lineStyle: {
             normal: {
               color: '#fff',
@@ -1318,14 +1318,13 @@ export default {
                 _this.$api.post('/eamp/nationwide/getFlightDetail',p,
                  r => {
                    console.log(r);
-                   // let data=r.data.flights[0];
-                   // let html='<div class="katooltip">\
-                   //            <span style="color:#31aafb">航班号：</span>'+data.fltno+' <span style="color:#31aafb">航班日期：</span>'+data.fltDate+'<span style="color:#31aafb">起飞地：</span>'+data.from+'<br>'+'\
-                   //            <span style="color:#31aafb">到达地：</span>'+data.to+' <span style="color:#31aafb">起飞时间：</span>'+data.departTime+'<br>'+'\
-                   //            <span style="color:#31aafb">预计到达时间：</span>'+data.to+' <span style="color:#31aafb">起飞时间：</span>'+data.departTime+'<br>'+'\
-                   //            <span style="color:#31aafb">机组数：</span>'+data.checkNum+' <span style="color:#31aafb">不准入境人员：</span>'+data.forbiddenNum+'<br>'+'\
-                   //           </div>'
-                   // callback(ticket, html);
+                   let data=r.data;
+                   let html='<div class="katooltip">\
+                              <span style="color:#31aafb">航班号：</span>'+data.fltno+' <span style="color:#31aafb">航班日期：</span>'+data.fltDate+'<span style="color:#31aafb">起飞地：</span>'+data.from+'<br>'+'\
+                              <span style="color:#31aafb">到达地：</span>'+data.to+' <span style="color:#31aafb">起飞时间：</span>'+data.departTime+'<br>'+'\
+                              <span style="color:#31aafb">预计到达时间：</span>'+data.preArriveTime+'\
+                             </div>'
+                   callback(ticket, html);
                 })
                 return 'Loading';
             },
@@ -1360,7 +1359,7 @@ export default {
                  let html='<div class="katooltip">\
                             <span style="color:#31aafb">航班号：</span>'+data.fltno+' <span style="color:#31aafb">航班日期：</span>'+data.fltDate+'<span style="color:#31aafb">起飞地：</span>'+data.from+'<br>'+'\
                             <span style="color:#31aafb">到达地：</span>'+data.to+' <span style="color:#31aafb">起飞时间：</span>'+data.departTime+'<br>'+'\
-                            <span style="color:#31aafb">预计到达时间：</span>'+data.to+' <span style="color:#31aafb">起飞时间：</span>'+data.departTime+'<br>'+'\
+                            <span style="color:#31aafb">预计到达时间：</span>'+data.preArriveTime+' <span style="color:#31aafb">载运旅客数：</span>'+data.boardingNum+'<br>'+'\
                             <span style="color:#31aafb">机组数：</span>'+data.checkNum+' <span style="color:#31aafb">不准入境人员：</span>'+data.forbiddenNum+'<br>'+'\
                            </div>'
                  callback(ticket, html);
@@ -1402,7 +1401,7 @@ export default {
                  let html='<div class="katooltip">\
                             <span style="color:#31aafb">航班号：</span>'+data.fltno+' <span style="color:#31aafb">航班日期：</span>'+data.fltDate+'<span style="color:#31aafb">起飞地：</span>'+data.from+'<br>'+'\
                             <span style="color:#31aafb">到达地：</span>'+data.to+' <span style="color:#31aafb">起飞时间：</span>'+data.departTime+'<br>'+'\
-                            <span style="color:#31aafb">预计到达时间：</span>'+data.to+' <span style="color:#31aafb">起飞时间：</span>'+data.departTime+'<br>'+'\
+                            <span style="color:#31aafb">预计到达时间：</span>'+data.preArriveTime+' <span style="color:#31aafb">载运旅客数：</span>'+data.boardingNum+'<br>'+'\
                             <span style="color:#31aafb">机组数：</span>'+data.checkNum+' <span style="color:#31aafb">不准入境人员：</span>'+data.forbiddenNum+'<br>'+'\
                            </div>'
                  callback(ticket, html);
@@ -1501,6 +1500,7 @@ export default {
          console.log(r);
          this.getJkKa()
          this.getNewData();
+         this.tabId=0;
       })
     },
     // 境内省列表取得
@@ -1618,7 +1618,7 @@ export default {
     },
     // 删除监控航班delMonitorFlight
     delJkHb(fk){
-      this.$api.post('/eamp/flightMonitor/delMonitorFlight',{fltKey:fk},
+      this.$api.get('/eamp/flightMonitor/delMonitorFlight',{fltKey:fk},
        r => {
          console.log(r);
          if(r.success){
@@ -1626,7 +1626,7 @@ export default {
              message: '恭喜你，删除成功！',
              type: 'success'
            });
-           this.getJkHb()
+           this.getDqJkHb()
          }else{
            this.$message.error(r.message);
          }
@@ -1634,7 +1634,7 @@ export default {
     },
     // 当前监控航班取得
     getDqJkHb(fk){
-      this.$api.post('/eamp/flightMonitor/getMonitorFlights',{fltKey:fk},
+      this.$api.get('/eamp/flightMonitor/getMonitorFlights',{fltKey:fk},
        r => {
          console.log(r);
       })
@@ -1657,7 +1657,7 @@ export default {
     },
     // 删除监控人员
     delRy(tk){
-      this.$api.post('/eamp/travelerMonitor/delMonitorTraveler',{trvKey:tk},
+      this.$api.get('/eamp/travelerMonitor/delMonitorTraveler',{trvKey:tk},
        r => {
          console.log(r);
          if(r.success){
@@ -1673,7 +1673,7 @@ export default {
     },
     // 当前监控人员取得
     getDqRy(tk){
-      this.$api.post('/eamp/travelerMonitor/getMonitorTravelers',{trvKey:tk},
+      this.$api.get('/eamp/travelerMonitor/getMonitorTravelers',{trvKey:tk},
        r => {
          console.log(r);
       })
