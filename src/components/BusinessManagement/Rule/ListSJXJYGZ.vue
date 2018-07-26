@@ -10,28 +10,28 @@
 
               <el-col :sm="24" :md="12" :lg="8" class="input-item">
                 <span class="input-text">出入境方向：</span>
-                <el-select v-model="pd.IODIR" placeholder="请选择"  size="small" class="input-input">
-                  <el-option label="出境" value="0"></el-option>
-                  <el-option label="入境" value="1"></el-option>
-                  <el-option label="全部" value="2"></el-option>
+                <el-select v-model="pd.IODIR" placeholder="请选择" filterable clearable size="small" class="input-input">
+                  <el-option label="0 - 出境" value="0"></el-option>
+                  <el-option label="1 - 入境" value="1"></el-option>
+                  <el-option label="2 - 全部" value="2"></el-option>
                 </el-select>
               </el-col>
 
               <el-col :sm="24" :md="12" :lg="8" class="input-item">
                 <span class="input-text">状态：</span>
-                <el-select v-model="pd.STATUS" placeholder="请选择"  size="small" class="input-input">
-                  <el-option label="停用" value="0"></el-option>
-                  <el-option label="启用" value="1"></el-option>
+                <el-select v-model="pd.STATUS" placeholder="请选择" filterable clearable  size="small" class="input-input">
+                  <el-option label="0 - 停用" value="0"></el-option>
+                  <el-option label="1 - 启用" value="1"></el-option>
                 </el-select>
               </el-col>
 
               <el-col :sm="24" :md="12" :lg="8" class="input-item">
                 <span class="input-text">人员类别：</span>
-                <el-select v-model="pd.PERSONNELTYPE" placeholder="请选择"  size="small" class="input-input">
-                  <el-option label="中国内地人" value="0"></el-option>
-                  <el-option label="中国港澳台" value="1"></el-option>
-                  <el-option label="外国人" value="2"></el-option>
-                  <el-option label="全部" value="3"></el-option>
+                <el-select v-model="pd.PERSONNELTYPE" placeholder="请选择" filterable clearable size="small" class="input-input">
+                  <el-option label="0 - 中国内地人" value="0"></el-option>
+                  <el-option label="1 - 中国港澳台" value="1"></el-option>
+                  <el-option label="2 - 外国人" value="2"></el-option>
+                  <el-option label="3 - 全部" value="3"></el-option>
                 </el-select>
               </el-col>
 
@@ -58,10 +58,10 @@
           label="出入境方向"
           width="180">
           <template slot-scope="scope">
-            <el-select v-model="scope.row.IODIR" placeholder="请选择"  size="mini" class="table-select">
-              <el-option label="出境" value="0"></el-option>
-              <el-option label="入境" value="1"></el-option>
-              <el-option label="全部" value="2"></el-option>
+            <el-select v-model="scope.row.IODIR" placeholder="请选择" filterable clearable size="mini" class="table-select">
+              <el-option label="0 - 出境" value="0"></el-option>
+              <el-option label="1 - 入境" value="1"></el-option>
+              <el-option label="2 - 全部" value="2"></el-option>
             </el-select>
          </template>
         </el-table-column>
@@ -69,11 +69,11 @@
           label="人员类别"
           width="160">
           <template slot-scope="scope">
-            <el-select v-model="scope.row.PERSONNELTYPE" placeholder="请选择"  size="mini" class="table-select">
-              <el-option label="中国内地人" value="0"></el-option>
-              <el-option label="中国港澳台" value="1"></el-option>
-              <el-option label="外国人" value="2"></el-option>
-              <el-option label="全部" value="3"></el-option>
+            <el-select v-model="scope.row.PERSONNELTYPE" placeholder="请选择" filterable clearable size="mini" class="table-select">
+              <el-option label="0 - 中国内地人" value="0"></el-option>
+              <el-option label="1 - 中国港澳台" value="1"></el-option>
+              <el-option label="2 - 外国人" value="2"></el-option>
+              <el-option label="3 - 全部" value="3"></el-option>
             </el-select>
          </template>
         </el-table-column>
@@ -121,18 +121,18 @@
         <el-table-column
           label="限制性">
           <template slot-scope="scope">
-            <el-select v-model="scope.row.INPUT" placeholder="请选择"  size="mini" class="table-select">
-              <el-option label="必填" value="0"></el-option>
-              <el-option label="选录项" value="1"></el-option>
+            <el-select v-model="scope.row.INPUT" placeholder="请选择" filterable clearable  size="mini" class="table-select">
+              <el-option label="0 - 必填" value="0"></el-option>
+              <el-option label="1 - 选录项" value="1"></el-option>
             </el-select>
          </template>
         </el-table-column>
         <el-table-column
           label="状态">
           <template slot-scope="scope">
-            <el-select v-model="scope.row.STATUS" placeholder="请选择"  size="mini" class="table-select">
-              <el-option label="停用" value="0"></el-option>
-              <el-option label="启用" value="1"></el-option>
+            <el-select v-model="scope.row.STATUS" placeholder="请选择" filterable clearable size="mini" class="table-select">
+              <el-option label="0 - 停用" value="0"></el-option>
+              <el-option label="1 - 启用" value="1"></el-option>
             </el-select>
          </template>
         </el-table-column>
@@ -231,6 +231,17 @@ export default {
         "INPUT": "",
         "STATUS":'',
       },
+      cleanTable:{
+        "IODIR": "",
+        "PERSONNELTYPE": "",
+        "FIELDNAME": "",
+        "MAXLENGTH":'-1',
+        "MINLENGTH":'-1',
+        "CHECKRESULT": "",
+        "CHECKREMARK": '',
+        "INPUT": "",
+        "STATUS":'',
+      },
       multipleSelection:[],
       code:[]
     }
@@ -266,6 +277,7 @@ export default {
      },
      addTableList(){//新增
        this.tableData.push(this.modelTable);
+       this.modelTable = this.cleanTable;
      },
      deleteTableList(id){//删除本行
        this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
