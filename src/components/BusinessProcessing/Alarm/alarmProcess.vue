@@ -148,13 +148,14 @@
               label="国籍">
             </el-table-column>
             <el-table-column
+              prop="visaType"
+              label="证件种类">
+            </el-table-column>
+            <el-table-column
               prop="passportno"
               label="证件号码">
             </el-table-column>
-            <el-table-column
-              prop="visaType"
-              label="签证种类">
-            </el-table-column>
+
             <el-table-column
               prop="visano"
               label="签证号码">
@@ -314,13 +315,14 @@
               label="国籍">
             </el-table-column>
             <el-table-column
+              prop="visatype"
+              label="证件种类">
+            </el-table-column>
+            <el-table-column
               prop="namelistPassportno"
               label="证件号码">
             </el-table-column>
-            <el-table-column
-              prop="visatype"
-              label="签证种类">
-            </el-table-column>
+
             <el-table-column
               prop="visano"
               label="签证号码">
@@ -376,7 +378,7 @@
           </el-input>
         </el-col>
         <el-col :span="4" class="down-btn-area">
-          <el-button type="primary" class="mb-15" size="small" @click="upDate" v-show="isUpdate&&iapiMap.instructNew==null" :disabled="msgData==0">确定</el-button>
+          <el-button type="primary" class="mb-15" size="small" @click="upDate" v-show="isUpdate&&iapiMap.instructNew==null" :disabled="msgData==1">确定</el-button>
           <el-button type="info" class="mb-15" size="small" @click="archive" v-show="!isUpdate||iapiMap.instructNew">归档</el-button>
           <el-button type="warning" size="small">取消</el-button>
         </el-col>

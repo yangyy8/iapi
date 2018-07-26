@@ -18,13 +18,13 @@
               <div class="input-input t-flex t-date">
                <el-date-picker
                v-model="pd.startScheduledeparturetime"
-               type="date" size="small" value-format="yyyyMMdd"
+               type="datetime" size="small" value-format="yyyymmddhhmmss"
                placeholder="开始时间" align="right" :picker-options="pickerOptions1">
              </el-date-picker>
                <span class="septum">-</span>
              <el-date-picker
                 v-model="pd.endScheduledeparturetime"
-                type="date" size="small" align="right" value-format="yyyyMMdd"
+                type="datetime" size="small" align="right" value-format="yyyymmddhhmmss"
                 placeholder="结束时间"  :picker-options="pickerOptions1">
             </el-date-picker>
           </div>
@@ -88,7 +88,7 @@
         </el-table-column>
         <el-table-column
           prop="airlineCompanyId"
-          label="航空公司代码" sortable>
+          label="所属航空公司" sortable>
         </el-table-column>
         <el-table-column
           prop="stationfromName"
@@ -103,6 +103,11 @@
         <el-table-column
           prop="boardingcount"
           label="载运旅客数量" sortable
+  >
+        </el-table-column>
+        <el-table-column
+          prop="changeport"
+          label="备降口岸" sortable
   >
         </el-table-column>
         <el-table-column
@@ -183,8 +188,8 @@
   <hr/>
         <el-row type="flex" class="mb-6" >
           <el-col :span="24" class="input-item">
-            <span class="yy-input-text" style="width:15%">现计划到达口岸：</span>
-            <el-select v-model="form.changeport" filterable  @visible-change="queryAirport" placeholder="请选择" size="small" style="width:80%;">
+            <span class="yy-input-text" style="width:15%">备降口岸：</span>
+            <el-select v-model="form.changeport"  filterable clearable  @visible-change="queryAirport" placeholder="请选择" size="small" style="width:80%;">
                <el-option
                  v-for="item in Airport"
                  :key="item.AIRPORT_CODE"
@@ -204,7 +209,7 @@
 
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="addItem('addForm')" size="small">变更</el-button>
+        <el-button type="primary" @click="addItem('addForm')" size="small">提 交</el-button>
         <el-button @click="addDialogVisible = false" size="small">取 消</el-button>
 
       </div>

@@ -17,13 +17,13 @@
           <div class="input-input t-flex t-date">
                <el-date-picker
                v-model="pd.planFlyBeginDate"
-               type="date" size="small"
+               type="datetime" size="small" value-format="yyyymmddhhmmss"
                placeholder="开始时间"  :picker-options="pickerOptions1">
              </el-date-picker>
                <span class="septum">-</span>
              <el-date-picker
                 v-model="pd.planFlyEndDate"
-                type="date" size="small"
+                type="datetime" size="small" value-format="yyyymmddhhmmss"
                 placeholder="结束时间" :picker-options="pickerOptions1">
              </el-date-picker>
              </div>
@@ -32,14 +32,15 @@
             <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
                 <span class="input-text">起飞机场：</span>
 
-                  <el-select v-model="pd.cityFrom" filterable clearable @visible-change="queryAirport" placeholder="请选择" size="small" class="input-input">
+                  <!-- <el-select v-model="pd.cityFrom" filterable clearable @visible-change="queryAirport" placeholder="请选择" size="small" class="input-input">
                  <el-option
                    v-for="item in Airport"
                    :key="item.AIRPORT_CODE"
                    :label="item.AIRPORT_CODE+' - '+item.AIRPORT_NAME"
                    :value="item.AIRPORT_CODE" >
                  </el-option>
-               </el-select>
+               </el-select> -->
+               <QueryAirport  :airportModel="pd.cityFrom" @transAirport="getInAirport"></QueryAirport>
             </el-col>
 
             <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
@@ -47,13 +48,13 @@
             <div class="input-input t-flex t-date">
                  <el-date-picker
                  v-model="pd.planFlyBeginTime"
-                 type="datetime" size="small"
+                 type="datetime" size="small" value-format="yyyymmddhhmmss"
                  placeholder="开始时间"  :picker-options="pickerOptions1">
                </el-date-picker>
                  <span class="septum">-</span>
                <el-date-picker
                   v-model="pd.planFlyEndTime"
-                  type="datetime" size="small"
+                  type="datetime" size="small" value-format="yyyymmddhhmmss"
                   placeholder="结束时间" :picker-options="pickerOptions1">
                </el-date-picker>
                </div>
@@ -61,14 +62,15 @@
 
           <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">到达机场：</span>
-              <el-select v-model="pd.cityTo"  class="input-input" filterable clearable @visible-change="queryAirport"  placeholder="请选择"  size="small">
+              <!-- <el-select v-model="pd.cityTo"  class="input-input" filterable clearable @visible-change="queryAirport"  placeholder="请选择"  size="small">
                 <el-option
                   v-for="item in Airport"
                   :key="item.AIRPORT_CODE"
                   :label="item.AIRPORT_CODE+' - '+item.AIRPORT_NAME"
                   :value="item.AIRPORT_CODE" >
                 </el-option>
-              </el-select>
+              </el-select> -->
+              <QueryAirport  :airportModel="pd.cityTo" @transAirport="getOutAirport"></QueryAirport>
             </el-col>
 
             <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
@@ -76,13 +78,13 @@
             <div class="input-input t-flex t-date">
                  <el-date-picker
                  v-model="pd.planReachBeginTime"
-                 type="datetime" size="small"
+                 type="datetime" size="small" value-format="yyyymmddhhmmss"
                  placeholder="开始时间"  :picker-options="pickerOptions1">
                </el-date-picker>
                  <span class="septum">-</span>
                <el-date-picker
                   v-model="pd.planReachEndTime"
-                  type="datetime" size="small"
+                  type="datetime" size="small" value-format="yyyymmddhhmmss"
                   placeholder="结束时间" :picker-options="pickerOptions1">
                </el-date-picker>
                </div>
@@ -90,14 +92,12 @@
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                 <span class="input-text">出入标识：</span>
                 <el-select v-model="pd.flightType"  class="input-input"  filterable clearable  placeholder="请选择"  size="small">
-                  <el-option value="" label="全部">
-                  </el-option>
+
                   <el-option value="I" label="I - 入境">
                   </el-option>
                   <el-option value="O" label="O - 出境">
                   </el-option>
-                  <el-option value="G" label="G - 过境">
-                  </el-option>
+              
                 </el-select>
               </el-col>
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
@@ -135,7 +135,7 @@
       <div class="datacenter">
         <div class="dataleft"><font style="font-size:30px;color:#B2CB65;">{{this.sum}}</font><br>预报总量</div>
           <div class="dataleft dataline">&nbsp;</div>
-          <div class="dataleft"><font style="font-size:30px;color:#FF667D;">{{this.num}}</font><br>校验不通过的数量</div>
+          <div class="dataleft"><font style="font-size:30px;color:#FF667D;">{{this.num}}</font><br>名单比中数量</div>
       </div>
 </el-col>
   <el-col :span="9"></el-col>
@@ -150,56 +150,56 @@
 
                 <el-table-column
                   prop="nationalityDesc"
-                  label="国籍">
+                  label="国籍" sortable>
                 </el-table-column>
 
                 <el-table-column
                   prop="passportNo"
-                  label="证件号码">
+                  label="证件号码" sortable>
                 </el-table-column>
                 <el-table-column
                   prop="passportExpireDate"
-                  label="证件有效期">
+                  label="证件有效期" sortable>
                 </el-table-column>
                 <el-table-column
                   prop="travellerName"
-                  label="姓名">
+                  label="姓名" sortable>
                 </el-table-column>
                 <el-table-column
                   prop="genderDesc"
-                  label="性别">
+                  label="性别" sortable>
                 </el-table-column>
                 <el-table-column
                   prop="birthday"
-                  label="出生日期">
+                  label="出生日期" sortable>
                 </el-table-column>
                 <el-table-column
                   prop="personGrade"
-                  label="人员类别">
+                  label="人员类别" sortable>
                 </el-table-column>
                 <el-table-column
                   prop="visaNo"
-                  label="签证号码">
+                  label="签证号码" sortable>
                 </el-table-column>
                 <el-table-column
                   prop="flightNo"
-                  label="航班号">
+                  label="航班号" sortable>
                 </el-table-column>
                 <el-table-column
                   prop="checkResultTypeDesc"
-                  label="比中类型">
+                  label="比中类型" sortable>
                 </el-table-column>
                 <el-table-column
                   prop="confirmResultDesc"
-                  label="最终确认结果">
+                  label="最终确认结果" sortable>
                 </el-table-column>
                 <el-table-column
                   prop="checkResultDesc"
-                  label="反馈结果">
+                  label="反馈结果" sortable>
                 </el-table-column>
                 <el-table-column
                   prop="compareDesc"
-                  label="反馈描述">
+                  label="反馈描述" sortable>
                 </el-table-column>
                 <el-table-column
                   label="操作">
@@ -262,8 +262,8 @@
       </el-row>
       <el-row type="flex"  class="mb-15">
         <el-col :span="8">航班号：{{dform.flightNo}}</el-col>
-        <el-col :span="8">错误校验项：{{dform.thanFieldName}}</el-col>
-        <el-col :span="8">不通过原因：{{dform.thanTypeDesc}}</el-col>
+        <el-col :span="8">比中类型：{{dform.checkResultTypeDesc}}</el-col>
+        <el-col :span="8">最终确认结果：{{dform.confirmResultDesc}}</el-col>
       </el-row>
       <el-row type="flex"  class="mb-15">
         <el-col :span="8">反馈结果：{{dform.checkResultDesc}}</el-col>
@@ -284,7 +284,9 @@
 </template>
 
 <script>
+import QueryAirport from '../../other/queryAirport'
 export default {
+    components: {QueryAirport},
   data() {
     return {
       CurrentPage: 1,
@@ -348,6 +350,12 @@ this.getsum(); this.getnum();
     handleSelectionChange(val) {
       this.multipleSelection = val;
     },
+    getInAirport(msg){
+      this.pd.cityFrom=msg;
+    },
+    getOutAirport(msg){
+      this.pd.cityTo=msg;
+    },
     pageSizeChange(val) {
       this.getList(this.CurrentPage, val, this.pd);
       console.log(`每页 ${val} 条`);
@@ -391,17 +399,17 @@ this.getsum(); this.getnum();
           this.TotalResult = r.data.totalResult;
         })
     },
-      queryAirport() {
-        if(this.Airport.length!=0){
-      return;
-    };
-    this.$api.post('/manage-platform/codeTable/queryAirport', {},
-      r => {
-          console.log(r);
-          this.Airport = r.data;
-
-      })
-    },
+    //   queryAirport() {
+    //     if(this.Airport.length!=0){
+    //   return;
+    // };
+    // this.$api.post('/manage-platform/codeTable/queryAirport', {},
+    //   r => {
+    //       console.log(r);
+    //       this.Airport = r.data;
+    //
+    //   })
+    // },
 
     details(i) {
       this.detailsDialogVisible = true;

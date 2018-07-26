@@ -12,8 +12,7 @@
               <el-col  :span="8"  class="input-item">
                 <span class="input-text">监控区域：</span>
                 <el-select v-model="pd.zone"  class="input-input"  filterable clearable  placeholder="请选择"  size="small">
-                  <el-option value=""  label="全部">
-                  </el-option>
+
                   <el-option value="0"  label="0 - DMZ区">
                   </el-option>
                   <el-option value="2"  label="2 - 整合分发区">
@@ -90,9 +89,9 @@ export default {
   filters:{
 
     fifter1(val){
-      if(val==0){
+      if(val=="0"){
         return "DMZ区"
-      }else{
+      }else if(val=="2"){
         return "整合分发区"
       }
       // return val*2

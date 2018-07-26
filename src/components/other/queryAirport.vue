@@ -1,6 +1,6 @@
 <!--机场、口岸封装-->
 <template lang="html">
-  <el-select v-model="airportModel" filterable @visible-change="queryAirport" placeholder="请选择"  size="small" class="input-input">
+  <el-select v-model="airportModel"  filterable clearable @visible-change="queryAirport" placeholder="请选择"  size="small" class="input-input">
     <el-option
       v-for="item in airport"
       :key="item.AIRPORT_CODE"

@@ -138,7 +138,7 @@
                 <el-table-column
 
                   label="性别" sortable
-                  width="50"
+                  width="100"
                 >
                 <template slot-scope="scope">
                   {{scope.row.GENDER | fiftersex}}
@@ -165,6 +165,13 @@
                   >
                   <template slot-scope="scope">
                     {{scope.row.PASSENGERSTATUS | fifterstate}}
+                  </template>
+                </el-table-column>
+                <el-table-column
+                  label="航班状态" sortable
+                  >
+                  <template slot-scope="scope">
+                    {{scope.row.LASTCHECKRESULT | fiftecr}}
                   </template>
                 </el-table-column>
                 <el-table-column
@@ -222,7 +229,7 @@
                     </el-table-column>
                     <el-table-column
                       label="性别" sortable
-                      width="50"
+                      width="100"
                     >
                     <template slot-scope="scope">
                       {{scope.row.GENDER | fiftersex}}
@@ -902,11 +909,11 @@ export default {
 
     fiftersex(val) {
       if (val == "F") {
-        return "女"
+        return "男"
 
       } else if (val == "M") {
-        return "男"
-      } else {
+        return "女"
+      } else if (val == "U") {
         return "未知"
       }
 

@@ -42,8 +42,7 @@
           <el-col  :sm="24" :md="12" :lg="6"  class="input-item">
               <span class="input-text">性别：</span>
               <el-select v-model="pd.gender"  class="input-input"   filterable clearable  placeholder="请选择"  size="small">
-                <el-option value="" label="全部">
-                </el-option>
+            
                 <el-option value="U" label="U - 未知">
                 </el-option>
                 <el-option value="W" label="W - 男">
