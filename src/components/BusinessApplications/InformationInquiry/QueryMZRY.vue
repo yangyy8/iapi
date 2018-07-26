@@ -114,10 +114,13 @@
         @cell-click="getMore"
       >
         <el-table-column
+
           sortable="custom"
-          prop="NAME"
           label="姓名"
           >
+          <template slot-scope="scope">
+              <span style="color:#0494E8">{{scope.row.NAME}}</span>
+          </template>
         </el-table-column>
         <el-table-column
           prop="GENDERNAME"
@@ -478,8 +481,8 @@ export default {
       }else if(i.EVENTTYPE == '4'){}
     },
     getMore(row,cell){
-      console.log(row);
-      if(cell.property =='NAME'){
+      console.log(cell);
+      if(cell.label =='姓名'){
         this.detailsDialogVisible = true;
         let gm = {
           "serial":row.REFSERIAL
@@ -532,5 +535,29 @@ export default {
 <style scoped>
 .add-dialog{
   /* padding-left:40px; */
+}
+</style>
+<style media="screen">
+.hrtitle {
+  height: 35px;
+  line-height: 35px;
+  border: none;
+  color: #3F96F2;
+  font-size: 16px;
+  font-weight: bold;
+  border-bottom: 1px solid #3F96F2;
+},
+.hrt {
+  height: 35px;
+  line-height: 35px;
+  border: none;
+  color: #3F96F2;
+  font-size: 16px;
+  font-weight: bold;
+  border-top: 1px solid #3F96F2;
+}
+.mb-6 {
+  line-height: 20px;
+  margin-top: 10px;
 }
 </style>
