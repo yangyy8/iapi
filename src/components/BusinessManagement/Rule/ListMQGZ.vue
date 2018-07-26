@@ -14,9 +14,9 @@
                   v-model="data.visaStatus"
                   active-color="#13ce66"
                   inactive-color="#ff4949"
-                  active-value = 'true'
-                  inactive-value = 'false'
-                  @change="cardState">
+                  active-value = '1'
+                  inactive-value = '0'
+                  @change="cardState(data.visaStatus)">
                 </el-switch>
               </div>
             </div>
@@ -31,8 +31,8 @@
               <el-col :sm="24" :md="12" :lg="4" class="input-item t-input-operator">
                 <el-select placeholder="请选择" v-model="data.visaOperator" filterable  size="mini" :disabled="isActive">
                   <el-option label=">" value="1"></el-option>
-                  <!-- <el-option label="<" value="F"></el-option>
-                  <el-option label="=" value="U"></el-option> -->
+                  <el-option label="<" value="2"></el-option>
+                  <!-- <el-option label="=" value="3"></el-option> -->
                 </el-select>
               </el-col>
               <el-col :sm="24" :md="12" :lg="4" class="input-item t-input">
@@ -47,7 +47,7 @@
                 </el-select>
               </el-col>
               <el-col :sm="24" :md="12" :lg="3" class="selfButton">
-                <el-button type="primary" size="mini" @click="addList(data.visaTime)" :disabled="isActive">添加</el-button>
+                <el-button type="primary" size="mini" @click="addList(data.visaTime,data.visaOperator)" :disabled="isActive">修改</el-button>
               </el-col>
             </div>
           </el-row>
@@ -89,9 +89,9 @@
                   v-model="data.nationalityStatus"
                   active-color="#13ce66"
                   inactive-color="#ff4949"
-                  active-value="true"
-                  inactive-value="false"
-                  @change="state">
+                  active-value="1"
+                  inactive-value="0"
+                  @change="state(data.nationalityStatus)">
                 </el-switch>
               </div>
 
@@ -159,9 +159,9 @@
                   v-model="data.airportStatus"
                   active-color="#13ce66"
                   inactive-color="#ff4949"
-                  active-value="true"
-                  inactive-value="false"
-                  @change="entryState">
+                  active-value="1"
+                  inactive-value="0"
+                  @change="entryState(data.airportStatus)">
                 </el-switch>
               </div>
             </div>
@@ -235,17 +235,17 @@ export default {
         visaOperator:'>',
         visaTime:'',//证件有效期
         visaCheckResult:'2Z',//证件校验结果
-        visaStatus:'true',//证件开关
+        visaStatus:'1',//证件开关
         visaResponseresult:'',//证件规则描述
 
         nationalityRuleSerial:'',//国家规则id
-        nationalityStatus:'true',//国家开关
+        nationalityStatus:'1',//国家开关
         nationalityMapList:[],//已加入的国家代码集合
         nationalityCheckResult:'2Z',//国家规则校验结果
         nationalityResponseresult:'',//国家规则反馈结果
 
         airportRuleSerial:'',//口岸规则id
-        airportStatus:'true',//入境口岸开关
+        airportStatus:'1',//入境口岸开关
         airportMapList:[],//已加入的口岸代码集合
         airportCheckResult:'2Z',//口岸规则校验结果
         airportResponseresult:''//口岸规则反馈结果
@@ -273,13 +273,10 @@ export default {
   },
   mounted(){
     this.getDate();
-    this.addList(item);
-    console.log(this.data.visaTime);
-
-
+    this.addList(this.data.visaTime,this.data.visaOperator);
   },
   methods:{
-    addList(item){
+    addList(item,oper){
       let itemLabel = '';
       if(item == 'sysdate'){
         itemLabel = '当前系统时间'
@@ -296,6 +293,13 @@ export default {
       }else if(item == 'sysdate+360'){
         itemLabel = '一年'
       }
+
+      let operLabel = '';
+      if(oper == '1'){
+        operLabel = '>'
+      }else if(oper == '2'){
+        operLabel = '<'
+      }
       if(this.data.visaTime == ''){
         this.$message({
           message: '请填写完整信息！',
@@ -304,7 +308,7 @@ export default {
       }else{
         this.show = true;
         let str = "";
-        str = this.card + '  ' +this.data.visaOperator + '  ' +itemLabel;
+        str = this.card + '  ' +operLabel + '  ' +itemLabel;
         this.listText = str;
       }
     },
@@ -364,32 +368,32 @@ export default {
       let entry = this.data.airportMapList.indexOf(it);
       this.data.airportMapList.splice(entry,1);
     },
-    state(){
-      if(this.data.nationalityStatus == 'true'){
+    state(item){
+      if(item == '1'){
         this.countryInactive = "启用";
         this.countryIsActive = false;
-      }else if(this.data.nationalityStatus == 'false'){
+      }else if(item == '0'){
         this.countryInactive = "禁用";
         this.countryIsActive = true;
       }
     },
-    cardState(){
+    cardState(item){
       console.log(this.data.visaStatus);
-      if(this.data.visaStatus == 'true'){
+      if(item == '1'){
         console.log(1);
         this.inactive = "启用";
         this.isActive = false;
-      }else if(this.data.visaStatus == 'false'){
+      }else if(item == '0'){
         console.log(2);
         this.inactive = "禁用";
         this.isActive = true;
       }
     },
-    entryState(){
-      if(this.data.airportStatus == 'true'){
+    entryState(item){
+      if(item == '1'){
         this.entryInactive = "启用";
         this.entryIsActive = false;
-      }else if(this.data.airportStatus == 'false'){
+      }else if(item == '0'){
         this.entryInactive = "禁用";
         this.entryIsActive = true;
       }
@@ -417,17 +421,22 @@ export default {
         if(r.success){
           this.data = r.data;
           if(this.data.visaTime != ''){
-            this.addList(this.data.visaTime);
+            this.addList(this.data.visaTime,this.data.visaOperator);
           }
+          this.state(this.data.nationalityStatus);
+          this.cardState(this.data.visaStatus);
+          this.entryState(this.data.airportStatus);
         }
       })
     },
     save(){
-
       this.$api.post('/manage-platform/visaRule/saveVisaRule',this.data,
       r =>{
         if(r.success){
-
+          this.$message({
+            type: 'success',
+            message: '操作成功!'
+          });
         }
       })
     }

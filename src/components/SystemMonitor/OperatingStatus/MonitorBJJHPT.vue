@@ -691,7 +691,7 @@
   <!--存储系统-->
   <image xlink:href="../../../assets/img/zhjk/storage.png" class="storageBottom" x="780" y="365" width="9%"/>
   <line class="st8" x1="493" y1="38.7" x2="493" y2="486.7"/>
-  <line class="st9" x1="629.5" y1="62.8" x2="629.5" y2="517.5"/>
+  <line class="st9" x1="629.5" y1="38.7" x2="629.5" y2="486.7"/>
   <!-- 边界交换平台 -->
   <image xlink:href="../../../assets/img/zhjk/exchange.png" class="exchangePlatTop" x="550" y="90" width="5%"/>
   <image xlink:href="../../../assets/img/zhjk/border.png" class="borderTop" x="605" y="90" width="5%"/>

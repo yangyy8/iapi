@@ -317,20 +317,37 @@ export default {
       lineY:[],
       barX:[],
       barY:[],
-      realX:''
+      realX:'',
+      lineChart:null,
+      barChart:null
     }
   },
   mounted() {
+      console.log(this.controlChecked);
+      console.log(this.coCheckId);
+      // if(this.controlChecked == 1){
+          this.checkRealTime();
+      // }
       let begin=new Date();
       let  end=new Date();
       let aaaa = new Date(begin.setMonth((new Date().getMonth()-1)));
       let bbbb = new Date();
       this.cdt.begin=formatDate(aaaa,'yyyyMMdd hhmmss');
       this.cdt.end=formatDate(bbbb,'yyyyMMdd hhmmss');
-      this.checkRealTime();
-      this.getList(this.CurrentPage,this.pageSize,this.pd);
+      // this.getList(this.CurrentPage,this.pageSize,this.pd);
   },
-
+  beforeDestroy() {
+    if (!this.lineChart) {
+      return;
+    }
+    if(!this.barChart){
+      return;
+    }
+    this.lineChart.dispose();
+    this.barChart.dispose();
+    this.lineChart = null;
+    this.barChart = null;
+  },
   methods:{
     handleSelectionChange(val) {
     },
@@ -384,6 +401,7 @@ export default {
     },
     drawLine() {
            let myChart = echarts.init(document.getElementById('echarts'));
+           this.lineChart = myChart;
            let that = this;
            // 折线图初始化
            myChart.setOption({
@@ -468,6 +486,7 @@ export default {
 
     drawBar(){
       let myBarChart = echarts.init(document.getElementById('barEcharts'));
+      this.barChart = myBarChart;
       // let chartBox=document.getElementsByClassName('barChart')[0];
       // function resizeCharts() {//为调整图标尺寸的方法
       //   myBarChart.style.width=chartBox.style.width+'px'
@@ -546,9 +565,11 @@ export default {
       }
       this.$api.post('/manage-platform/match/queryListPage',p,
       r =>{
-        this.lineX = r.data.pd.X;
-        this.lineY = r.data.pd.Y;
-        this.drawLine()
+        if(r.success){
+          this.lineX = r.data.pd.X;
+          this.lineY = r.data.pd.Y;
+          this.drawLine()
+        }
       })
     },
     //校验比对历史监控柱状图
