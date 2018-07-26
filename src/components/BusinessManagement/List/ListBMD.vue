@@ -787,6 +787,7 @@ export default {
       })
     },
     update(item){
+      console.log(item)
       this.addDialogVisible=true;
       this.form=item;
       this.dialogType="update";
