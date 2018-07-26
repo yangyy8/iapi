@@ -719,7 +719,7 @@
               <el-row type="flex" style="margin-top:15px">
                   <!-- 保存方案 -->
                   <div class="t-save">
-                    <el-select  filterable v-model="ffff"  @visible-change="selfSavePlanShow" @change="selfPlanQuery" placeholder="方案选择" size="small" class="mr-15">
+                    <el-select  filterable v-model="ffff"  @visible-change="selfSavePlanShow" filterable clearable @change="selfPlanQuery" placeholder="方案选择" size="small" class="mr-15">
                       <el-option
                         v-for="item in selfSaveName"
                         :label="item"
