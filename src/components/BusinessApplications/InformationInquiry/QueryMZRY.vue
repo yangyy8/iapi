@@ -386,7 +386,7 @@ export default {
       pageSize: 10,
       TotalResult: 0,
 
-      pd: {},
+      pd: {"isBlurred":false},
       queryDialogVisible: false,
       options: [{
           value: 10,
