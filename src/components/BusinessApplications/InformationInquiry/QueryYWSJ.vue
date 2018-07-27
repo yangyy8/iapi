@@ -84,7 +84,7 @@
           label="事件产生时间">
         </el-table-column>
         <el-table-column
-          prop="username"
+          prop="dealuser"
           label="处理人">
         </el-table-column>
         <el-table-column
