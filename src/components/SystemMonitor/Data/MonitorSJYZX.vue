@@ -12,7 +12,7 @@
           <th align="center" width="100">是否一致</th>
           <th align="center" width="100">操作</th>
         </tr>
-
+        
         <tr>
           <td class="th3">入境黑名单</td>
           <td class="tc1">{{tableData1.blackinredis}}</td>

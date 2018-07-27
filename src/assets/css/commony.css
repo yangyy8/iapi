@@ -30,3 +30,5 @@ hr {
   border: none;
   border-top: 1px solid #73BFF2;
 }
+
+.detailinput{width: 60%!important; border: 1px solid #eeeeee; background: #F5F7FA; border-radius: 3px; padding-left: 10px; color: #999999;}

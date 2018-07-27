@@ -53,9 +53,14 @@
         >
         </el-table-column>
         <el-table-column
-          prop="status"
+
           label="服务状态" sortable
         >
+        <template slot-scope="scope">
+
+            {{scope.row.status | fifter2}}
+
+        </template>
         </el-table-column>
       </el-table>
 
@@ -95,6 +100,13 @@ export default {
         return "整合分发区"
       }
       // return val*2
+    },
+    fifter2(val){
+      if(val=="UP"){
+        return  "正常";
+      }else {
+      return   "异常";
+      }
     }
   }
 

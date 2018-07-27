@@ -19,10 +19,12 @@
             >
             </el-table-column>
             <el-table-column
-              prop="zone"
               label="类型"
               sortable
             >
+            <template slot-scope="scope">
+                {{scope.row.HOSTADDRESS | fifter2}}
+            </template>
             </el-table-column>
 
             <el-table-column
@@ -219,13 +221,11 @@ export default {
       filesytem: "",
       title: [],
       tableTitle: [],
-      detailsDialogVisible:false,
+      detailsDialogVisible: false,
     }
   },
   created() {
     this.getList({});
-
-
   },
   // computed:{
   //   ss:function(val){
@@ -258,7 +258,23 @@ export default {
   },
 
 
+  filters: {
 
+    fifter2(val) {
+      if (val == "172.16.1.101" || val == "172.16.1.102" || val == "172.16.1.103" || val == "172.16.1.104") {
+        return "docker服务器"
+      } else if (val == "172.16.1.111" || val == "172.16.1.112") {
+        return "MQ"
+      } else if (val == "172.16.1.116") {
+        return "管理服务器"
+      } else if (val == "172.16.1.117") {
+        return "redis服务器"
+      } else if (val == "172.16.1.121" || val == "172.16.1.122") {
+        return "数据库服务器"
+      }
+    },
+
+  }
 
 }
 </script>
@@ -279,10 +295,30 @@ export default {
   float: left;
   width: 100px;
 }
-.filearr{background:#858585; height:35px; line-height:35px;text-align:center;color: #ffffff;}
-.filearr1{text-align:center;line-height: 30px;}
-.filearrk{text-align: center; color: red; line-height: 50px; font-size: 18px; }
-.fileline{border-right: 1px solid #ffffff;}
+
+.filearr {
+  background: #858585;
+  height: 35px;
+  line-height: 35px;
+  text-align: center;
+  color: #ffffff;
+}
+
+.filearr1 {
+  text-align: center;
+  line-height: 30px;
+}
+
+.filearrk {
+  text-align: center;
+  color: red;
+  line-height: 50px;
+  font-size: 18px;
+}
+
+.fileline {
+  border-right: 1px solid #ffffff;
+}
 </style>
 <style media="screen">
 .el-table_1_column_9 .cell {

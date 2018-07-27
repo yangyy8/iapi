@@ -20,7 +20,7 @@
 
             <el-col  :sm="24" :md="12" :lg="6"  class="input-item">
               <span class="input-text">单位：</span>
-              <el-select v-model="pd.DEPT_ID"  @visible-change="queryNationality" placeholder="请选择" size="small" class="input-input">
+              <el-select v-model="pd.DEPT_ID"  filterable clearable  placeholder="请选择" size="small" class="input-input">
                  <el-option
                    v-for="item in company"
                    :key="item.SERIAL"
@@ -33,7 +33,7 @@
             <el-col  :sm="24" :md="12" :lg="6"  class="input-item">
               <span class="input-text">状态：</span>
               <el-select v-model="pd.STATUS"  placeholder="请选择" size="small" class="input-input">
-              
+
                  <el-option value="1" label="启用">
                  </el-option>
                  <el-option value="0" label="停用">
@@ -167,9 +167,7 @@
           <el-col :span="12" class="input-item">
             <span class="yy-input-text">状态：</span>
             <el-select v-model="form.STATUS"   placeholder="请选择" size="small" class="yy-input-input">
-              <el-option value="" label="全部">
-              </el-option>
-              <el-option value="1" label="启用">
+            <el-option value="1" label="启用">
               </el-option>
               <el-option value="0" label="停用">
               </el-option>
@@ -193,7 +191,7 @@
           </el-col>
           <el-col :span="12" class="input-item">
             <span class="yy-input-text">部门：</span>
-            <el-select v-model="form.DEPT_ID"  @visible-change="queryNationality" placeholder="请选择" size="small" class="yy-input-input">
+            <el-select v-model="form.DEPT_ID"  filterable clearable placeholder="请选择" size="small" class="yy-input-input">
                <el-option
                  v-for="item in company"
                  :key="item.SERIAL"
@@ -363,6 +361,8 @@ export default {
   },
   mounted() {
     this.getList(this.CurrentPage, this.pageSize, this.pd);
+    this.queryNationality();
+
   },
   methods: {
     handleSelectionChange(val) {
@@ -411,7 +411,6 @@ export default {
     },
     adds(n, i) {
       this.addDialogVisible = true;
-
       if (n != 0) {
         this.tp = 1;
         let p={
@@ -422,7 +421,6 @@ export default {
              console.log(r);
              if (r.success) {
                this.form = r.data;
-
                let lists=[];
                let arr=r.data.chooseRoleList;
                for(var i in arr){
@@ -432,7 +430,6 @@ export default {
              }
            })
       }
-
     },
     addItem(formName) {
       var url = "/manage-platform/userSys/save";
@@ -454,11 +451,11 @@ export default {
 
           this.$refs[formName].resetFields();
           this.addDialogVisible = false;
-          this.getList();
-          // this.tableData=r.Data.ResultList;
+          this.getList(this.CurrentPage, this.pageSize, this.pd);
         }, e => {
           this.$message.error('失败了');
         })
+
     },
     details(i) {
       this.detailsDialogVisible = true;

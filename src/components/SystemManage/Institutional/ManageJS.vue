@@ -333,6 +333,8 @@ export default {
       if (n != 0) {
         this.tp = 1;
         this.form = i;
+      }else {
+        this.form="";
       }
 
     },

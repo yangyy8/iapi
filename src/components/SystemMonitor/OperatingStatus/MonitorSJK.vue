@@ -11,7 +11,7 @@
               <el-col  :span="8"  class="input-item">
                 <span class="input-text">监控区域：</span>
                 <el-select v-model="pd.zone"  class="input-input"  filterable clearable  placeholder="请选择"  size="small">
-              
+
                   <el-option value="0"  label="0 - DMZ区">
                   </el-option>
                   <el-option value="2"  label="2 - 整合分发区">
@@ -48,8 +48,12 @@
                label="实例名称" sortable>
              </el-table-column>
              <el-table-column
-               prop="status"
                label="状态" sortable>
+               <template slot-scope="scope">
+
+                   {{scope.row.status | fifter2}}
+
+               </template>
              </el-table-column>
 
 
@@ -198,8 +202,14 @@ export default {
       if (val == "Y") {
         return "异常"
       }
+    },
+    fifter2(val){
+      if(val=="OPEN"){
+        return  "正常";
+      }else {
+      return   "异常";
+      }
     }
-
   }
 
 }
