@@ -15,10 +15,9 @@
 //var root=""
 
 // var root = 'http://192.168.99.245:8080'
-//var root=""
+// var root=""
 //var root="http://192.168.99.206:8080"   //服务器电脑
 // var root = 'http://192.168.99.206:8080'
-
 
 //var root = 'http://192.168.99.247:8080'
 

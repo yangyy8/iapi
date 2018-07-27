@@ -245,7 +245,7 @@
             <el-row type="flex" style="height:100%">
               <el-col :span="22" class="bd0">
                 <div class="akcheck2top boder1">
-                  <el-button type="primary" plain size="mini" @click="batchDialog = true">批量导入</el-button>
+                  <el-button type="primary" plain size="mini" @click="uploadDialogVisible = true">批量导入</el-button>
                   <el-button type="primary" plain size="mini">下载模板</el-button>
                   <el-button type="primary" plain size="mini" @click="addRow">添加</el-button>
                 </div>
@@ -1163,45 +1163,31 @@
         </el-pagination>
       </div>
     </el-dialog>
+        <el-dialog title="上传模板" :visible.sync="uploadDialogVisible"   width="640px">
+          <el-form :model="releaseform" ref="releaseForm">
+            <el-upload
+              class="upload-demo"
+              ref="upload"
+              name="excel"
+              action="http://192.168.99.245:8080/manage-platform/iapi/readExcel"
+              :file-list="fileList"
+              multiple
+              :on-success="uploadSuccess"
+              :limit="5"
+              :auto-upload="false">
+              <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
+              <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">上传到服务器</el-button>
+              <!-- <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div> -->
+            </el-upload>
+          </el-form>
+        </el-dialog>
 
-    <el-dialog title="批量导入" :visible.sync="batchDialog">
-      <!-- <form action="http://192.168.99.206:8080/manage-platform/iapi/readExcel" method="post" enctype="multipart/form-data">
-             <input type="file" name="excel" value="选择jar包"/>
-             <input id="submit_form" type="submit" class="btn btn-success save" value="保存"/>
-      </form> -->
-
-        <!-- <el-row type="flex" justify="center" :gutter="10">
-          <el-col :span="15" class="input-item">
-            <span class="input-text">文件名称：</span>
-            <el-input v-model="fileName"></el-input>
-          </el-col>
-          <el-col :span="5">
-            <span class="fileinput-button">
-                <span>选择文件</span>
-                <input type="file" id="myfile" @change="choose($event)">
-            </span>
-          </el-col>
-        </el-row> -->
-        <!-- <el-upload
-          class="upload-demo"
-          name="excel"
-          action="http://192.168.99.206:8080/manage-platform/iapi/readExcel"
-          :on-preview="handlePreview"
-          :on-remove="handleRemove"
-          :before-remove="beforeRemove"
-          multiple
-          :limit="3"
-          :on-exceed="handleExceed"
-          :file-list="fileList">
-          <el-button size="small" type="primary">点击上传</el-button>
-        </el-upload> -->
-
-        <span slot="footer" class="dialog-footer">
+        <!-- <span slot="footer" class="dialog-footer">
           <el-button @click="batchImport($event)">导 入</el-button>
           <el-button type="primary" @click="batchDialog = false">取 消</el-button>
-        </span>
+        </span> -->
 
-    </el-dialog>
+    <!-- </el-dialog> -->
 
 
     <div class="middle">
@@ -1479,6 +1465,7 @@ export default {
       selfDialogVisible:false,//自定义查询写入方案名称
       detailsDialogVisible:false,//查看详情模态框
       reviewDialogTable:false,//查看历次信息模态框
+      uploadDialogVisible:false,
 
       openList:true,
       openCheckbox:true,
@@ -1766,6 +1753,8 @@ export default {
   },
   mounted(){
     console.log(this.bigBase);
+    this.takeOff();
+    this.landing();
     this.currentPage = 1;
     this.getList(this.currentPage,this.showCount,this.cdt);
   },
@@ -2678,34 +2667,18 @@ export default {
         this.selfQueryListPnr(this.currentPage,this.showCount,this.selfCdt);
       }
     },
-    // choose(event){//批量导入
-    //   this.file = event.target.files[0];
-    //   this.fileName = event.target.files[0].name;
-    // },
-    // batchImport(event){
-    //   // event.preventDefault();//取消默认行为
-    //   this.formData = new FormData();
-    //   this.$set(this.formData,'file',this.file);
-    //   console.log(this.formData);
-    //   // formData.append("file", this.file);
-    //   // let config = {
-    //   //   headers: {
-    //   //       'Content-Type': 'multipart/form-data'  //之前说的以表单传数据的格式来传递fromdata
-    //   //   }
-    //   // };
-    //   // let bi = {
-    //     // "template":'three',
-    //     // "excel":formData
-    //   // }
-    //   this.$api.post('/manage-platform/iapi/readExcel',this.formData,
-    //    r =>{
-    //      if(r.success){
-    //        this.batchDialog = false;
-    //        this.rows = r.data.feildAndValueList;
-    //      }
-    //    })
-    // }
-
+    submitUpload() {
+     this.$refs.upload.submit();
+     this.uploadDialogVisible=false;
+    },
+   uploadSuccess(response, file, fileList){
+     console.log(response.data.feildAndValueList);
+     let arrConfig = response.data.feildAndValueList;
+     for(var i=0;i<arrConfig.length;i++){
+       this.cdtList = arrConfig[0];
+     }
+     this.rows = arrConfig.slice(1);
+   }
     }
 }
 </script>
