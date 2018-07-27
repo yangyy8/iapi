@@ -542,7 +542,7 @@
             <div class="check-col mr-5">
               <span class="check-text">洲</span>
               <div class="check-box">
-                <div class="check-box-nei" @click.self="checkShow5=true">
+                <div class="check-box-nei" @click.self="checkShow5=true;checkShow2=false;checkShow3=false;checkShow4=false;checkShow=false;">
                   <div class="mr-5 mb-9" v-for="(x, ind) in checkList5">
                     <span>{{x.name}}</span>
                     <i class="el-icon-circle-close" @click="checkList5.splice(ind,1)"></i>
@@ -729,6 +729,7 @@
         <el-table
           :data="HBList"
           border
+          max-height="150"
           style="width: 100%">
           <el-table-column
             prop="preDepartTime"
@@ -747,7 +748,57 @@
             label="航班号">
           </el-table-column>
           <el-table-column
+            prop="aircompanyName"
+            label="航空公司">
+          </el-table-column>
+          <el-table-column
+            prop="from"
+            label="出发地">
+          </el-table-column>
+          <el-table-column
+            prop="to"
+            label="到达地">
+          </el-table-column>
+          <!-- <el-table-column
             prop="date"
+            label="清关城市">
+          </el-table-column> -->
+          <el-table-column
+            label="操作"
+            width="45">
+            <template slot-scope="scope">
+              <div class="flex-r">
+                <div class="ta-btn hand" @click="addJkHb(scope.row.fltKey)">添加</div>
+              </div>
+           </template>
+          </el-table-column>
+        </el-table>
+        <div class="tan-row-text">
+          当前航班情况：
+        </div>
+        <el-table
+          :data="DqJkHb"
+          border
+          max-height="150"
+          style="width: 100%">
+          <el-table-column
+            prop="preDepartTime"
+            label="预计起飞">
+          </el-table-column>
+          <el-table-column
+            prop="preArriveTime"
+            label="预计抵达">
+          </el-table-column>
+          <el-table-column
+            prop="fltDate"
+            label="航班日期">
+          </el-table-column>
+          <el-table-column
+            prop="fltno"
+            label="航班号">
+          </el-table-column>
+          <el-table-column
+            prop="aircompanyName"
             label="航空公司">
           </el-table-column>
           <el-table-column
@@ -759,16 +810,13 @@
             label="到达地">
           </el-table-column>
           <el-table-column
-            prop="date"
-            label="清关城市">
-          </el-table-column>
-          <el-table-column
-            label="操作">
-            <template slot-scope="scope">
-              <div class="flex-r">
-                <div class="ta-btn hand" @click="delJkHb(scope.row.fltKey)">删除</div>
-              </div>
-           </template>
+            label="操作"
+            width="45">
+              <template slot-scope="scope">
+                <div class="flex-r">
+                  <div class="ta-btn hand" @click="delJkHb(scope.row.fltKey)">删除</div>
+                </div>
+             </template>
           </el-table-column>
         </el-table>
         <div class="tan-btn-g">
@@ -891,6 +939,7 @@
         <el-table
           :data="RyList"
           border
+          max-height="150"
           style="width: 100%">
           <el-table-column
             prop="preDepartTime"
@@ -925,7 +974,58 @@
             label="出生日期">
           </el-table-column>
           <el-table-column
-            label="操作">
+            label="操作"
+            width="45">
+            <template slot-scope="scope">
+              <div class="flex-r">
+                <div class="ta-btn hand" @click="addRy(scope.row.trvKey)">添加</div>
+              </div>
+           </template>
+          </el-table-column>
+        </el-table>
+        <div class="tan-row-text">
+          当前人员情况：
+        </div>
+        <el-table
+          :data="DqRy"
+          border
+          max-height="150"
+          style="width: 100%">
+          <el-table-column
+            prop="preDepartTime"
+            label="预计起飞">
+          </el-table-column>
+          <el-table-column
+            prop="preArriveTime"
+            label="预计抵达">
+          </el-table-column>
+          <el-table-column
+            prop="fltDate"
+            label="航班日期">
+          </el-table-column>
+          <el-table-column
+            prop="fltno"
+            label="航班号">
+          </el-table-column>
+          <el-table-column
+            prop="passportNo"
+            label="证件号码">
+          </el-table-column>
+          <el-table-column
+            prop="nationalityName"
+            label="国籍">
+          </el-table-column>
+          <el-table-column
+            prop="name"
+            label="姓名">
+          </el-table-column>
+          <el-table-column
+            prop="birthDay"
+            label="出生日期">
+          </el-table-column>
+          <el-table-column
+            label="操作"
+            width="45">
             <template slot-scope="scope">
               <div class="flex-r">
                 <div class="ta-btn hand" @click="delRy(scope.row.trvKey)">删除</div>
@@ -985,16 +1085,14 @@ export default {
 
       HBList:[],
       RyList:[],
+      DqJkHb:[],
+      DqRy:[],
       p1:{
         showCount:5,
         currentResult:0,
         currentPage:1
       },
-      p2:{
-        showCount:5,
-        currentResult:0,
-        currentPage:1
-      },
+      p2:{},
       locationName:{
         ABCDE:{},
         FGHJ:{},
@@ -1439,7 +1537,7 @@ export default {
     },
 
 
-    // 航班详细信息取得
+    // 航班详细信息取得=========================================================================================
     getXqHb(fk){
       // ?fk=CZ3221806162230
       this.$api.get('/eamp/nationwide/getFlightDetail',{fk:fk},
@@ -1506,6 +1604,7 @@ export default {
     // 境内省列表取得
     getSList(){
       this.checkShow=true;
+      this.checkShow2=false;this.checkShow3=false;this.checkShow4=false;this.checkShow5=false;
 
       this.$api.post('/eamp/portMonitor/getInProvinceList',{},
        r => {
@@ -1525,6 +1624,8 @@ export default {
     // 境内口岸列表取得
     getKaList(){
       this.checkShow2=true;
+      this.checkShow=false;this.checkShow3=false;this.checkShow4=false;this.checkShow5=false;
+
       let p=this.checkList.map(function(val){
         return val.code
       })
@@ -1545,6 +1646,8 @@ export default {
     // 境外国家列表取得
     getGjList(){
       this.checkShow3=true;
+      this.checkShow2=false;this.checkShow=false;this.checkShow4=false;this.checkShow5=false;
+
       let p=this.checkList5.map(function(val){
         return val.code
       })
@@ -1565,6 +1668,8 @@ export default {
     // 境外口岸列表取得
     getJwKaList(){
       this.checkShow4=true;
+      this.checkShow2=false;this.checkShow3=false;this.checkShow=false;this.checkShow5=false;
+
       let p=this.checkList3.map(function(val){
         return val.code
       })
@@ -1584,7 +1689,7 @@ export default {
       })
     },
 
-    // 清空航班查询
+    // 清空航班查询====================================================================================================
     cleartab2(){
         this.p1={
           showCount:5,
@@ -1606,14 +1711,21 @@ export default {
        r => {
          console.log(r);
          this.HBList=r.data.pdList
-         // this.getDqJkHb('CZ322180616223');
+         this.getDqJkHb();
       })
     },
     // 添加监控航班addMonitorFlight
-    addJkHb(){
-      this.$api.post('/eamp/flightMonitor/addMonitorFlight',{},
+    addJkHb(fk){
+      this.$api.get('/eamp/flightMonitor/addMonitorFlight',{fltKey:fk},
        r => {
          console.log(r);
+         if(r.success){
+           this.$message({
+             message: '恭喜你，添加成功！',
+             type: 'success'
+           });
+           this.getDqJkHb()
+         }
       })
     },
     // 删除监控航班delMonitorFlight
@@ -1627,20 +1739,20 @@ export default {
              type: 'success'
            });
            this.getDqJkHb()
-         }else{
-           this.$message.error(r.message);
          }
       })
     },
     // 当前监控航班取得
-    getDqJkHb(fk){
-      this.$api.get('/eamp/flightMonitor/getMonitorFlights',{fltKey:fk},
+    getDqJkHb(){
+      this.$api.get('/eamp/flightMonitor/getMonitorFlights',{},
        r => {
          console.log(r);
+         this.DqJkHb=r.data;
+         this.getDqRy()
       })
     },
 
-    // 人员监控查询
+    // 人员监控查询=========================================================================================
     getRy(){
       this.$api.post('/eamp/travelerMonitor/queryTravelerPage',this.p2,
        r => {
@@ -1649,10 +1761,17 @@ export default {
       })
     },
     // 添加监控人员
-    addRy(){
-      this.$api.post('/eamp/travelerMonitor/addMonitorTraveler',{},
+    addRy(tk){
+      this.$api.get('/eamp/travelerMonitor/addMonitorTraveler',{trvKey:tk},
        r => {
          console.log(r);
+         if(r.success){
+           this.$message({
+             message: '恭喜你，添加成功！',
+             type: 'success'
+           });
+           this.getDqRy()
+         }
       })
     },
     // 删除监控人员
@@ -1665,17 +1784,18 @@ export default {
              message: '恭喜你，删除成功！',
              type: 'success'
            });
-           this.getRy()
-         }else{
-           this.$message.error(r.message);
+           this.getDqRy()
          }
       })
     },
     // 当前监控人员取得
-    getDqRy(tk){
-      this.$api.get('/eamp/travelerMonitor/getMonitorTravelers',{trvKey:tk},
+    getDqRy(){
+      this.$api.post('/eamp/travelerMonitor/getMonitorTravelers',{},
        r => {
          console.log(r);
+         this.DqRy=r.data;
+         this.getNewData()
+
       })
     },
 

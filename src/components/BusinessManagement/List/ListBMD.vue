@@ -9,11 +9,28 @@
           </div>
           <el-row align="center" :gutter="2">
             <el-col  :sm="24" :md="12" :lg="6"  class="input-item">
-              <QueryNationality   :nationality="pd.NATIONALITY" @transNation="getNation"></QueryNationality>
+              <span class="input-text">国籍：</span>
+              <el-select v-model="pd.NATIONALITY" filterable placeholder="请选择"  size="small" class="input-input">
+                <el-option
+                  v-for="item in nationAlone"
+                  :key="item.CODE"
+                  :label="item.CODE+' - '+item.CNAME"
+                  :value="item.CODE">
+                </el-option>
+              </el-select>
+              <!-- <QueryNationality   :nationality="pd.NATIONALITY" @transNation="getNation"></QueryNationality> -->
             </el-col>
             <el-col :sm="24" :md="12" :lg="6" class="input-item">
               <span class="input-text">证件种类：</span>
-              <QueryDocCode  :docCodeModel="pd.CARDTYPE" @transDocCode="getDocCode"></QueryDocCode>
+              <el-select v-model="pd.CARDTYPE"  filterable clearable  placeholder="请选择"  size="small" class="input-input">
+                <el-option
+                  v-for="item in docCode"
+                  :key="item.CODE"
+                  :label="item.CODE+' - '+item.NAME"
+                  :value="item.CODE">
+                </el-option>
+              </el-select>
+              <!-- <QueryDocCode  :docCodeModel="pd.CARDTYPE" @transDocCode="getDocCode"></QueryDocCode> -->
             </el-col>
 
             <el-col :sm="24" :md="12"  :lg="6" class="input-item">
@@ -111,17 +128,27 @@
           -->
             <el-col  :sm="24" :md="12" :lg="6"  class="input-item">
               <span class="input-text">入境口岸：</span>
-              <QueryAirport  :airportModel="pd.WHITE_PORT_IN" @transAirport="getInAirport"></QueryAirport>
+              <el-select v-model="form.WHITE_PORT_IN" filterable clearable placeholder="请选择"  size="small" class="input-input">
+                <el-option
+                  v-for="item in airport"
+                  :key="item.AIRPORT_CODE"
+                  :label="item.AIRPORT_CODE+' - '+item.AIRPORT_NAME"
+                  :value="item.AIRPORT_CODE">
+                </el-option>
+              </el-select>
+              <!-- <QueryAirport  :airportModel="pd.WHITE_PORT_IN" @transAirport="getInAirport"></QueryAirport> -->
             </el-col>
             <el-col :sm="24" :md="12"  :lg="6" class="input-item">
               <span class="input-text">出境口岸：</span>
-              <!--
-              <el-select  placeholder="请选择"  size="small"  class="input-input">
-                <el-option label="北京首都机场" value="1"></el-option>
-                <el-option label="上海虹桥机场" value="0"></el-option>
+              <el-select v-model="pd.WHITE_PORT_OUT" filterable clearable placeholder="请选择"  size="small" class="input-input">
+                <el-option
+                  v-for="item in airport"
+                  :key="item.AIRPORT_CODE"
+                  :label="item.AIRPORT_CODE+' - '+item.AIRPORT_NAME"
+                  :value="item.AIRPORT_CODE">
+                </el-option>
               </el-select>
-              -->
-              <QueryAirport  :airportModel="pd.WHITE_PORT_OUT" @transAirport="getOutAirport"></QueryAirport>
+              <!-- <QueryAirport  :airportModel="pd.WHITE_PORT_OUT" @transAirport="getOutAirport"></QueryAirport> -->
             </el-col>
 
             <el-col :sm="24" :md="12"  :lg="6" class="input-item">
@@ -180,8 +207,8 @@
           </el-row>
         </el-col>
         <el-col :span="3" class="down-btn-area">
-          <el-button type="success" size="small" @click="getList(CurrentPage,pageSize,pd)">查询</el-button>
-
+          <el-button type="success" class="mb-15" size="small" @click="getList(CurrentPage,pageSize,pd)">查询</el-button>
+          <el-button type="primary" plain size="small" @click="reset">重置</el-button>
         </el-col>
 
       </el-row>
@@ -312,7 +339,7 @@
         <el-row  class="mb-6" align="center">
           <el-col :sm="24" :md="12" :lg="8"  class="input-item">
             <span class="input-text"><span class="redx">*</span>国籍：</span>
-            <el-select v-model="form.NATIONALITY" filterable @visible-change="queryNationalityAlone" placeholder="请选择"  size="small" class="input-input">
+            <el-select v-model="form.NATIONALITY" filterable placeholder="请选择"  size="small" class="input-input">
               <el-option
                 v-for="item in nationAlone"
                 :key="item.CODE"
@@ -320,18 +347,26 @@
                 :value="item.CODE">
               </el-option>
             </el-select>
-          
+
           </el-col>
           <el-col :sm="24" :md="12" :lg="8"  class="input-item">
             <span class="input-text"><span class="redx">*</span>证件种类：</span>
-            <QueryDocCode  :docCodeModel="form.CARDTYPE" @transDocCode="getDocCodeForm"></QueryDocCode>
+            <el-select v-model="form.CARDTYPE"  filterable clearable  placeholder="请选择"  size="small" class="input-input">
+              <el-option
+                v-for="item in docCode"
+                :key="item.CODE"
+                :label="item.CODE+' - '+item.NAME"
+                :value="item.CODE">
+              </el-option>
+            </el-select>
+            <!-- <QueryDocCode  :docCodeModel="form.CARDTYPE" @transDocCode="getDocCodeForm"></QueryDocCode> -->
           </el-col>
 
           <el-col :sm="24" :md="12" :lg="8"  class="input-item">
             <span class="input-text"><span class="redx">*</span>控制类型：</span>
             <el-select v-model="form.PERSON_TYPE" placeholder="请选择"  size="small"  class="input-input">
-              <el-option label="外国人" value="0"></el-option>
-              <el-option label="中国人" value="1"></el-option>
+              <el-option label="0 - 外国人" value="0"></el-option>
+              <el-option label="1 - 中国人" value="1"></el-option>
             </el-select>
           </el-col>
 
@@ -360,9 +395,9 @@
           <el-col :sm="24" :md="12" :lg="8"  class="input-item">
             <span class="input-text"><span class="redx">*</span>性别：</span>
             <el-select v-model="form.GENDER" placeholder="请选择"  size="small"  class="input-input">
-              <el-option label="男" value="M"></el-option>
-              <el-option label="女" value="F"></el-option>
-              <el-option label="未知" value="U"></el-option>
+              <el-option label="M - 男" value="M"></el-option>
+              <el-option label="F - 女" value="F"></el-option>
+              <el-option label="U - 未知" value="U"></el-option>
             </el-select>
           </el-col>
 
@@ -392,8 +427,8 @@
           <el-col :sm="24" :md="12" :lg="8"  class="input-item">
             <span class="input-text"><span class="redx">*</span>出入境类型：</span>
             <el-select v-model="form.IN_OUT" placeholder="请选择"  size="small"  class="input-input">
-              <el-option label="出境" value="1"></el-option>
-              <el-option label="入境" value="0"></el-option>
+              <el-option label="1 - 出境" value="1"></el-option>
+              <el-option label="0 - 入境" value="0"></el-option>
             </el-select>
           </el-col>
 
@@ -423,12 +458,28 @@
 
           <el-col :sm="24" :md="12" :lg="8"  class="input-item">
             <span class="input-text">入境口岸：</span>
-            <QueryAirport  :airportModel="form.WHITE_PORT_IN" @transAirport="getInAirportForm"></QueryAirport>
+            <el-select v-model="form.WHITE_PORT_IN" filterable clearable placeholder="请选择"  size="small" class="input-input">
+              <el-option
+                v-for="item in airport"
+                :key="item.AIRPORT_CODE"
+                :label="item.AIRPORT_CODE+' - '+item.AIRPORT_NAME"
+                :value="item.AIRPORT_CODE">
+              </el-option>
+            </el-select>
+            <!-- <QueryAirport  :airportModel="form.WHITE_PORT_IN" @transAirport="getInAirportForm"></QueryAirport> -->
           </el-col>
 
           <el-col :sm="24" :md="12" :lg="8"  class="input-item">
             <span class="input-text">出境口岸：</span>
-            <QueryAirport  :airportModel="form.WHITE_PORT_OUT" @transAirport="getOutAirportForm"></QueryAirport>
+            <el-select v-model="form.WHITE_PORT_OUT" filterable clearable placeholder="请选择"  size="small" class="input-input">
+              <el-option
+                v-for="item in airport"
+                :key="item.AIRPORT_CODE"
+                :label="item.AIRPORT_CODE+' - '+item.AIRPORT_NAME"
+                :value="item.AIRPORT_CODE">
+              </el-option>
+            </el-select>
+            <!-- <QueryAirport  :airportModel="form.WHITE_PORT_OUT" @transAirport="getOutAirportForm"></QueryAirport> -->
           </el-col>
 
           <el-col :sm="24" :md="12" :lg="8"  class="input-item">
@@ -438,7 +489,9 @@
 
           <el-col :sm="24" :md="12" :lg="8" class="input-item">
             <span class="input-text">交控单位：</span>
-            <QueryAirport  :airportModel="form.SUBORG_CODE" @change="changeForm(this)" @transAirport="getSuborgCodeForm"></QueryAirport>
+            <el-input placeholder="请输入内容" size="small" v-model="form.SUBORG_NAME" class="input-input"></el-input>
+
+            <!-- <QueryAirport  :airportModel="form.SUBORG_CODE" @change="changeForm(this)" @transAirport="getSuborgCodeForm"></QueryAirport> -->
           </el-col>
 
           <el-col :sm="24" :md="12" :lg="8"  class="input-item">
@@ -488,7 +541,7 @@
         <el-row type="flex" class="detail-msg-row">
           <el-col :sm="24" :md="12" :lg="8" >
             <span>国籍</span>
-          {{detailsData.NATIONALITY}}
+          {{detailsData.NATIONALITYNAME}}
 
           </el-col>
           <el-col :sm="24" :md="12" :lg="8" >
@@ -529,19 +582,20 @@
           </el-col>
           <el-col :sm="24" :md="12" :lg="8" >
             <span>入境口岸</span>
-            {{detailsData.WHITE_PORT_IN}}
+            {{detailsData.WHITE_PORT_IN_NAME
+}}
 
           </el-col>
           <el-col :sm="24" :md="12" :lg="8" >
             <span>出境口岸</span>
-            {{detailsData.WHITE_PORT_OUT}}
+            {{detailsData.WHITE_PORT_OUT_NAME}}
 
           </el-col>
         </el-row>
         <el-row type="flex" class="detail-msg-row">
           <el-col :sm="24" :md="12" :lg="8" >
             <span>交控单位</span>
-            {{detailsData.SUBORG_CODE}}
+            {{detailsData.SUBORG_NAME}}
 
           </el-col>
           <el-col :sm="24" :md="12" :lg="8" >
@@ -610,15 +664,15 @@
 
       </div>
     </el-dialog>
-    <el-dialog title="上传模板" :visible.sync="uploadDialogVisible"   width="640px">
+    <el-dialog title="上传模板" :visible.sync="uploadDialogVisible"  width="640px">
       <el-form :model="releaseform" ref="releaseForm">
         <el-upload
           class="upload-demo"
           ref="upload"
-          action="http://192.168.99.242:8080/manage-platform/nameList/readExcel/1"
+          action="http://192.168.99.206:8080/manage-platform/nameList/readExcel/1"
           :file-list="fileList"
           multiple
-
+          :on-success="upSuccess"
           :limit="5"
           :auto-upload="false">
           <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
@@ -645,6 +699,8 @@ export default {
   data(){
     return{
       nationAlone:[],
+      airport:[],
+      docCode:[],
       getHis:true,
       CurrentPage:1,
       pageSize:10,
@@ -683,8 +739,7 @@ export default {
       form: {
         "synStatus":"0",
     	  "LIST_TYPE":"1",
-        NATIONALITY:""
-        },
+      },
       releaseform:{
         user:"",
         pwd:""
@@ -695,14 +750,19 @@ export default {
   },
   mounted(){
     this.getList(this.CurrentPage,this.pageSize,this.pd);
-    this.queryNationalityAlone()
-  },
-  computed:{
-    NATIONALITYcode(){
-      return this.form.NATIONALITY.split('-')[0]
-    }
+    this.queryNationalityAlone();
+    this.queryAirport();
+    this.queryDocCode();
   },
   methods:{
+    reset(){
+      this.CurrentPage=1;
+      this.pageSize=10;
+      this.pd={"LIST_TYPE":"1"};
+      // console.log(this.pd)
+      this.getList(this.CurrentPage,this.pageSize,this.pd);
+
+    },
     handleSelectionChange(val) {
       this.multipleSelection = val;
       if(this.multipleSelection.length==0){
@@ -727,31 +787,7 @@ export default {
     getInAirport(msg){
       this.pd.WHITE_PORT_IN=msg;
     },
-    getNationForm(msg){
-      this.form.NATIONALITY=msg;
-    },
-    getInAirportForm(msg){
-      this.form.WHITE_PORT_IN=msg;
-    },
-    changeForm(item){
-      this.form.aaa=item.label;
-      this.form.bbbb=item.value;
-    },
-    getOutAirport(msg){
-      this.pd.WHITE_PORT_OUT=msg;
-    },
-    getDocCode(msg){
-      this.pd.CARDTYPE=msg;
-    },
-    getOutAirportForm(msg){
-      this.form.WHITE_PORT_OUT=msg;
-    },
-    getSuborgCodeForm(msg){
-      this.form.SUBORG_CODE=msg;
-    },
-    getDocCodeForm(msg){
-      this.form.CARDTYPE=msg;
-    },
+
     getList(currentPage,showCount,pd){
       let p={
       	"currentPage":currentPage,
@@ -772,7 +808,25 @@ export default {
          console.log(r);
          if(r.success){
            this.nationAlone=r.data;
-           this.$emit('transNationAlone',this.NATIONALITY)
+         }
+      })
+    },
+    queryAirport(){
+      this.$api.post('/manage-platform/codeTable/queryAirport',{},
+       r => {
+         console.log(r);
+         if(r.success){
+           this.airport=r.data;
+           // this.$emit('transAirport',this.airportModel)
+         }
+      })
+    },
+    queryDocCode(){
+      this.$api.post('/manage-platform/codeTable/queryDocCode',{},
+       r => {
+         console.log(r);
+         if(r.success){
+           this.docCode=r.data;
          }
       })
     },
@@ -868,14 +922,10 @@ export default {
                  message: '恭喜你，添加成功！',
                  type: 'success'
                });
-             }else{
-               this.$message.error(r.message);
              }
             this.$refs[formName].resetFields();
             this.addDialogVisible=false;
             this.getList(this.CurrentPage,this.pageSize,this.pd);
-          },e=>{
-            this.$message.error('失败了');
           })
         }else {
           if(this.dialogType=="add"){
@@ -891,14 +941,10 @@ export default {
                    message: '恭喜你，添加成功！',
                    type: 'success'
                  });
-               }else{
-                 this.$message.error(r.message);
                }
               this.$refs[formName].resetFields();
               this.addDialogVisible=false;
               this.getList(this.CurrentPage,this.pageSize,this.pd);
-            },e=>{
-              this.$message.error('失败了');
             })
           }else if(this.dialogType=="update"){
             this.form.LIST_TYPE='1';
@@ -913,15 +959,11 @@ export default {
                    message: '恭喜你，添加成功！',
                    type: 'success'
                  });
-               }else{
-                 this.$message.error(r.message);
                }
               this.$refs[formName].resetFields();
               this.addDialogVisible=false;
               this.releaseDialogVisible=false;
               this.getList(this.CurrentPage,this.pageSize,this.pd);
-            },e=>{
-              this.$message.error('失败了');
             })
           }else if(this.dialogType=="del"){
               let p={
@@ -942,8 +984,6 @@ export default {
                    this.getList(this.CurrentPage,this.pageSize,this.pd);
 
 
-                 }else{
-                   this.$message.error(r.message);
                  }
               })
           }else if(this.dialogType=="dels"){
@@ -971,8 +1011,6 @@ export default {
                  this.releaseDialogVisible=false;
                  this.getList(this.CurrentPage,this.pageSize,this.pd);
 
-               }else{
-                 this.$message.error(r.message);
                }
             })
           }else if(this.dialogType=="syn"){
@@ -997,8 +1035,6 @@ export default {
                    type: 'success'
                  });
                  this.getList(this.CurrentPage,this.pageSize,this.pd);
-               }else{
-                 this.$message.error(r.message);
                }
                 this.releaseDialogVisible=false;
             })
@@ -1007,10 +1043,20 @@ export default {
 
 
       },
-      submitUpload() {
+     submitUpload() {
        this.$refs.upload.submit();
      },
-
+     upSuccess(r){
+       console.log(r);
+       if(r.success){
+         this.$message({
+           message: r.data.retMsg,
+           type: 'success'
+         });
+        this.uploadDialogVisible=false ;
+        this.getList(this.CurrentPage,this.pageSize,this.pd);
+       }
+     }
   }
 }
 </script>
@@ -1026,6 +1072,6 @@ export default {
 .detail-msg-row span{
   color: #333;
   display: inline-block;
-  width: 60px;
+  width: 91px;
 }
 </style>
