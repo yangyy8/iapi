@@ -18,59 +18,59 @@
         <div class="middle-tab-item hand" style="height: 40px;line-height: 40px;" :class="{'middle-checked':tabIsShow==false}" @click="xinxi">
           基本信息
         </div>
-        <div class="middle-tab-item hand" :class="{'middle-checked':tabIsShow==true}" @click="shijian">
+        <div class="middle-tab-item hand" style="height: 40px;line-height: 40px;" :class="{'middle-checked':tabIsShow==true}" @click="shijian">
           事件文档
         </div>
       </div>
       <div class="middle-tab-content" v-show="!tabIsShow">
         <div class="middle-content1">
-          <el-row type="flex" >
+          <el-row type="flex" style="font-size:15px;">
             <el-col :span="20" class="middle-msg-left">
               <el-row type="flex" class="middle-msg-row">
                 <el-col :span="5">
-                  <span>姓名</span>
+                  <span>姓名：</span>
                   {{iapiMap.name}}
 
                 </el-col>
                 <el-col :span="5">
-                  <span>性别</span>
+                  <span>性别：</span>
                   {{iapiMap.gender}}
 
                 </el-col>
                 <el-col :span="5">
-                  <span>出生日期</span>
+                  <span>出生日期：</span>
                   {{iapiMap.dateofbirth}}
 
                 </el-col>
                 <el-col :span="5">
-                  <span>证件号码</span>
+                  <span>证件号码：</span>
                   {{iapiMap.passportno}}
 
                 </el-col>
                 <el-col :span="4">
-                  <span>国籍</span>
+                  <span>国籍：</span>
                   {{iapiMap.nationality}}
 
                 </el-col>
               </el-row>
               <el-row type="flex" class="middle-msg-row">
                 <el-col :span="5">
-                  <span>签证号码</span>
+                  <span>签证号码：</span>
                   {{iapiMap.visano}}
 
                 </el-col>
                 <el-col :span="5">
-                  <span>出入类型</span>
+                  <span>出入类型：</span>
                   {{iapiMap.flightType}}
 
                 </el-col>
                 <el-col :span="5">
-                  <span>第二证号</span>
+                  <span>第二证号：</span>
                   {{iapiMap.otherNo}}
 
                 </el-col>
                 <el-col :span="5">
-                  <span>第二国籍</span>
+                  <span>第二国籍：</span>
                   {{iapiMap.otherNationality}}
 
                 </el-col>
@@ -78,22 +78,22 @@
               </el-row>
               <el-row type="flex" class="middle-msg-row">
                 <el-col :span="5">
-                  <span>航班号</span>
+                  <span>航班号：</span>
                   {{iapiMap.fltno}}
 
                 </el-col>
                 <el-col :span="5">
-                  <span>出发地</span>
+                  <span>出发地：</span>
                   {{iapiMap.origin}}
 
                 </el-col>
                 <el-col :span="5">
-                  <span>目的地</span>
+                  <span>目的地：</span>
                   {{iapiMap.destination}}
 
                 </el-col>
                 <el-col :span="8">
-                  <span>报警时间</span>
+                  <span>报警时间：</span>
                   {{iapiMap.createtime}}
 
                 </el-col>
@@ -378,17 +378,17 @@
           </el-input>
         </el-col>
         <el-col :span="4" class="down-btn-area">
-          <el-button type="primary" class="mb-15" size="small" @click="AuthDialogVisible=true" v-show="isUpdate&&iapiMap.instructNew==null" :disabled="msgData==1">确定</el-button>
+          <el-button type="primary" class="mb-15" size="small" @click="handlesDialogVisible=true" v-show="isUpdate&&iapiMap.instructNew==null" :disabled="msgData==1">确定</el-button>
           <el-button type="info" class="mb-15" size="small" @click="archive" v-show="!isUpdate||iapiMap.instructNew">归档</el-button>
-          <el-button type="warning" size="small">取消</el-button>
+          <el-button type="warning" size="small" onclick="window.history.go(-1);">取消</el-button>
         </el-col>
       </el-row>
       <el-row type="flex">
         <el-col :span="6" class="input-item">
           <span >处理结果：</span>
-          <el-select v-model="pd.DEALRESULT" placeholder="请选择"  size="small" class="input-input">
-            <el-option label="不做变更处理" value="0"></el-option>
-            <el-option label="变更处理" value="1"></el-option>
+          <el-select v-model="pd.DEALRESULT" placeholder="请选择" filterable clearable  size="small" class="input-input">
+            <el-option label="0 - 不做变更处理" value="0"></el-option>
+            <el-option label="1 - 变更处理" value="1"></el-option>
             <!-- <el-option label="数据推送" value="2"></el-option> -->
 
           </el-select>
@@ -399,13 +399,106 @@
         </el-col>
         <el-col :span="6" class="input-item">
           <span >审批人：</span>
-          <el-input placeholder="请输入内容" size="small" class="input-input" v-model="pd.APPROVALUSER" disabled></el-input>
+          <el-input placeholder="请输入内容" size="small" class="input-input" v-model="ap.userName" disabled></el-input>
         </el-col>
 
       </el-row>
     </div>
-    <el-dialog  title="操作授权" :visible.sync="AuthDialogVisible"  append-to-body width="500px">
 
+    <el-dialog title="指令变更" :visible.sync="handlesDialogVisible" width="900px">
+      <el-form :model="form" ref="handlesForm">
+        <el-row type="flex"  class="mb-6">
+          <el-col :span="8" class="input-item">
+            <span class="yy-input-text">姓名：</span>
+            <el-input placeholder="请输入内容" size="small" v-model="iapiMap.name" class="yy-input-input" :disabled="true"></el-input>
+
+          </el-col>
+          <el-col :span="8" class="input-item">
+            <span class="yy-input-text">性别：</span>
+              <el-input placeholder="请输入内容" size="small" v-model="iapiMap.gender=='U'?'未知':form.GENDER=='M'?'男':'女'" class="yy-input-input" :disabled="true"></el-input>
+          </el-col>
+
+          <el-col :span="8" class="input-item">
+            <span class="yy-input-text">出生日期：</span>
+            <el-input placeholder="请输入内容" size="small" v-model="iapiMap.dateofbirth"  class="yy-input-input" :disabled="true"></el-input>
+          </el-col>
+        </el-row>
+        <el-row type="flex"  class="mb-6">
+          <el-col :span="8" class="input-item">
+            <span class="yy-input-text">国籍：</span>
+            <el-input placeholder="请输入内容" size="small" v-model="iapiMap.nationality" class="yy-input-input" :disabled="true"></el-input>
+
+          </el-col>
+          <el-col :span="8" class="input-item">
+            <span class="yy-input-text">证件号码：</span>
+            <el-input placeholder="请输入内容" size="small" v-model="iapiMap.passportno" class="yy-input-input" :disabled="true"> </el-input>
+          </el-col>
+
+          <el-col :span="8" class="input-item">
+            <span class="yy-input-text">签证号码：</span>
+            <el-input placeholder="请输入内容" size="small" v-model="iapiMap.visano" class="yy-input-input" :disabled="true"></el-input>
+          </el-col>
+        </el-row>
+
+        <el-row type="flex"  class="mb-6">
+          <el-col :span="8" class="input-item">
+            <span class="yy-input-text">当前值机状态：</span>
+            <el-select v-model="iapiMap.instructOld"  placeholder="请选择"    size="small" class="yy-input-input" :disabled="true">
+              <el-option value="0Z" label="0Z - 允许打印登机牌">
+              </el-option>
+              <el-option value="1Z" label="1Z - 禁止打印登机牌">
+              </el-option>
+              <el-option value="2Z" label="2Z - 请再次核对">
+              </el-option>
+              <el-option value="4Z" label="4Z - 数据错误">
+              </el-option>
+             </el-select>
+          </el-col>
+          <el-col :span="8" class="input-item">
+            <span class="yy-input-text">值机状态说明：</span>
+            <el-input placeholder="请输入内容" size="small"  v-model="form.CHECKRESULTS" class="yy-input-input" :disabled="true"></el-input>
+          </el-col>
+        </el-row>
+        <hr/>
+        <el-row type="flex" class="mb-6">
+          <el-col :span="24" class="input-item">
+            <span class="yy-input-text" style="width:18%">变更后值机状态：</span>
+            <el-select v-model="ap.INSTRUCT"  placeholder="请选择"  filterable clearable   size="small" style="width:82%">
+              <el-option value="0Z" label="0Z - 允许打印登机牌">
+              </el-option>
+              <el-option value="1Z" label="1Z - 禁止打印登机牌">
+              </el-option>
+              <el-option value="2Z" label="2Z - 请再次核对">
+              </el-option>
+              <el-option value="4Z" label="4Z - 数据错误">
+              </el-option>
+             </el-select>
+          </el-col>
+          </el-col>
+        </el-row>
+        <el-row type="flex" class="mb-6">
+          <el-col :span="24" class="input-item">
+            <span class="yy-input-text" style="width:18%">变更后值机状态说明：</span>
+            <el-input placeholder="请输入内容" size="small" v-model="ap.INSTRUCTC" style="width:82%"></el-input>
+          </el-col>
+        </el-row>
+
+        <el-row type="flex" class="mb-6">
+          <el-col :span="24" class="input-item">
+            <span class="yy-input-text" style="width:18%">变更说明：</span>
+           <el-input type="textarea" v-model="ap.CHANGERESON"  placeholder="请输入内容" :autosize="{ minRows: 3, maxRows: 6}" style="width:82%;" ></el-input>
+          </el-col>
+        </el-row>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <!-- <el-button type="primary" @click="handlesItem1('handlesForm')" size="small">变更</el-button> -->
+        <el-button type="primary" @click="AuthDialogVisible=true" size="small">变更</el-button>
+        <el-button @click="handlesDialogVisible = false" size="small">取消</el-button>
+      </div>
+    </el-dialog>
+
+
+    <el-dialog  title="操作授权" :visible.sync="AuthDialogVisible"  append-to-body width="500px">
       <el-row  type="flex"  class="mb-15">
             <el-col :span="20">
             <span class="yy-input-text">授权账号：</span>
@@ -420,7 +513,6 @@
       <div slot="footer" class="dialog-footer">
        <el-button type="primary" @click="Authorization(ap)" size="small">确认授权</el-button>
         <el-button @click="AuthDialogVisible = false" size="small">取消</el-button>
-
       </div>
     </el-dialog>
   </div>
@@ -437,10 +529,12 @@ export default {
      userMap:{},
      warnMap:{},
      listMap2:[{}],
+     form:{},
      ap:{},
      pd:{},
      isUpdate:true,
      AuthDialogVisible:false,
+     handlesDialogVisible:false,
      tableData:[],
      msgData:0
    }
@@ -514,23 +608,31 @@ export default {
      this.documentInfo()
    },
    upDate(ap){
-     console.log("------------"+this.pd.DEALRESULT);
 
-     this.pd.eventserial=this.eventserial;
-     this.pd.bguserName=ap.userName;
-     this.pd.bgpassword=ap.password;
-     this.pd.bgverifyType="bjcl";
-     if(this.pd.DEALRESULT==1){
-       this.pd.INSTRUCT_OLD=this.iapiMap.instructOld;
-     }
-     console.log(".....")
+
+     // this.pd.eventserial=this.eventserial;
+     // this.pd.bguserName=ap.userName;
+     // this.pd.bgpassword=ap.password;
+     // this.pd.bgverifyType="bjcl";
+     // if(this.pd.DEALRESULT==1){
+     //   this.pd.INSTRUCT_OLD=this.iapiMap.instructOld;
+     // }
+     // let p={
+     //   "currentPage":0,
+     //   "showCount":3,
+     //    pd:this.pd
+     // };
      let p={
-       "currentPage":0,
-       "showCount":3,
-       pd:this.pd
+       "IAPISERIAL": this.eventserial,
+       "CREATEUSER": this.userMap.userId,
+       "APPROVALUSER": ap.userName,
+       "APPROVALPW":ap.password,
+       "INSTRUCT": ap.INSTRUCT,
+       "CHANGERESON": ap.CHANGERESON
      };
      if(this.pd.DEALRESULT==1){
-       this.$api.post('/manage-platform/alarmEvents/getUpdateResult',p,
+      // this.$api.post('/manage-platform/alarmEvents/getUpdateResult',p,
+       this.$api.post('/manage-platform/iapiUnscolicited/eventAlarmTab',p,
         r => {
           console.log(r);
           if(r.success){
@@ -548,7 +650,7 @@ export default {
    },
    archive(){
 
-    this.pd.eventserial=this.eventserial;
+     this.pd.eventserial=this.eventserial;
      this.pd.userid=this.userMap.userId;
      this.pd.approvaluser=this.ap.userName;
      this.pd.savecontent=this.pd.CHANGE_RESON;
@@ -580,7 +682,7 @@ export default {
           this.$message.error(r.message);
         }
 
-        this.$router.go(-1);
+        window.history.go(-1);
 
      })
    },
@@ -612,8 +714,9 @@ export default {
    },
    Authorization(ap)
    {
-this.upDate(ap);
+       this.upDate(ap);
    }
+
 
  }
 }
