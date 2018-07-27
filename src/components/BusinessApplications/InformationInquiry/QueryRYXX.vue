@@ -103,16 +103,16 @@
                   <div class="input-input t-flex t-date">
                       <el-date-picker
                       v-model="cdt.startFlightDepartdate"
-                      type="date" size="small"
+                      type="datetime" size="small"
                       placeholder="开始日期"
-                      value-format="yyyyMMdd">
+                      value-format="yyyyMMddHHmmss">
                     </el-date-picker>
                     <span class="septum">-</span>
                     <el-date-picker
                        v-model="cdt.endFlightDepartdate"
-                       type="date" size="small"
+                       type="datetime" size="small"
                        placeholder="结束日期"
-                       value-format="yyyyMMdd">
+                       value-format="yyyyMMddHHmmss">
                    </el-date-picker>
                   </div>
                 </el-col>
@@ -165,14 +165,14 @@
                       v-model="cdt.startArrivdate"
                       type="datetime" size="small"
                       placeholder="开始日期"
-                      value-format="yyyyMMdd HHmmss">
+                      value-format="yyyyMMddHHmmss">
                     </el-date-picker>
                     <span class="septum">-</span>
                     <el-date-picker
                        v-model="cdt.endArrivdate"
                        type="datetime" size="small"
                        placeholder="结束日期"
-                       value-format="yyyyMMdd HHmmss">
+                       value-format="yyyyMMddHHmmss">
                    </el-date-picker>
                   </div>
                 </el-col>
@@ -192,7 +192,7 @@
                     <el-option label="0Z - 允许登机" value="0Z"></el-option>
                     <el-option label="1Z - 禁止登机" value="1Z"></el-option>
                     <el-option label="2Z - 再次核对" value="2Z"></el-option>
-                    <el-option label="3Z - 数据错误" value="3Z"></el-option>
+                    <el-option label="4Z - 数据错误" value="4Z"></el-option>
                   </el-select>
                 </el-col>
                 </div>
@@ -225,16 +225,6 @@
                   <el-button type="primary" @click="planSave">保存</el-button>
                 </span>
               </el-dialog>
-              <!-- 提示，方案已存在 -->
-              <!-- <el-dialog
-                title="提示"
-                :visible.sync="promptDialogVisible"
-                width="30%">
-                <span>方案名称已存在，请重新命名</span>
-                <span slot="footer" class="dialog-footer">
-                  <el-button type="primary" @click="promptDialogVisible = false">确 定</el-button>
-                </span>
-              </el-dialog> -->
             </el-col>
             <el-col :span="2" class="down-btn-area">
               <el-button type="success" class="mb-15" size="small" @click="query">查询</el-button>
@@ -251,20 +241,6 @@
                 </div>
                 <div class="akUl">
                   <el-row type="flex" class="ak-li boder1 t-ak-li" align="center">
-                    <!-- <img src="../../../assets/img/hook.png" alt="">
-
-                    <el-col :span="7" class="input-item mr-20">
-                      <span class="input-text">处理结果：</span>
-                      <el-select v-model="value" placeholder="请选择"  size="small" class="input-input">
-                        <el-option>
-                        </el-option>
-                      </el-select>
-                    </el-col>
-                    <span> +</span>
-                    <el-col :sm="24" :md="12" :lg="6" class="input-item mr-15">
-                      <span class="input-text">处理人：</span>
-                      <el-input placeholder="请输入内容" size="small" class="input-input"></el-input>
-                    </el-col> -->
                     <el-col :sm="24" :md="12" :lg="3" class="input-item">
                       <span class="input-text t-input-text">国籍：</span>
                       <el-select placeholder="请选择" v-model="cdtList.nationalityEqual" filterable clearable size="mini"  class="input-inp" @visible-change="nation">
@@ -288,12 +264,6 @@
                     <el-col :sm="24" :md="12" :lg="3" class="input-item">
                       <span class="input-text t-input-text">姓名：</span>
                       <el-input placeholder="请输入内容" v-model="cdtList.familyname" size="mini" class="input-inp"></el-input>
-                      <!-- <span class="input-text">姓名：</span>
-                      <div class="input-input t-fuzzy t-flex">
-                        <el-input placeholder="请输入内容" v-model="cdt.familyname" size="small"></el-input>
-                        <el-checkbox v-model="lazyQuery">模糊查询</el-checkbox>
-                      </div> -->
-
                     </el-col>
                     <el-col :sm="24" :md="12" :lg="3" class="input-item">
                       <span class="input-text t-input-text">性别：</span>
@@ -307,7 +277,7 @@
                     <el-col :sm="24" :md="12" :lg="3" class="input-item">
                       <span class="input-text t-input-text">出生日期：</span>
                         <el-date-picker
-                        v-model="cdtList.startDateofbirth"
+                        v-model="cdtList.dateofbirth"
                         type="date" size="mini"
                         placeholder="选择日期"
                         class="input-inp"
@@ -317,11 +287,11 @@
                     <el-col :sm="24" :md="12" :lg="3" class="input-item">
                       <span class="input-text t-input-text">航班日期：</span>
                       <el-date-picker
-                      v-model="cdtList.startFlightDepartdate"
-                      type="date" size="mini"
+                      v-model="cdtList.flightDepartdate"
+                      type="datetime" size="mini"
                       placeholder="选择日期"
                       class="input-inp"
-                      value-format="yyyyMMdd">
+                      value-format="yyyyMMddHHmmss">
                     </el-date-picker>
                     </el-col>
 
@@ -339,11 +309,11 @@
                     <el-col :sm="24" :md="12" :lg="3" class="input-item" style="margin-left:10px">
                       <span class="input-text t-input-text">预计起飞时间：</span>
                       <el-date-picker
-                      v-model="cdtList.startDepartdate"
+                      v-model="cdtList.departdate"
                       type="datetime" size="mini"
                       placeholder="选择日期"
                       class="input-inp"
-                      value-format="yyyyMMdd HHmm">
+                      value-format="yyyyMMddHHmmss">
                     </el-date-picker>
                     </el-col>
 
@@ -361,32 +331,15 @@
                     <el-col :sm="24" :md="12" :lg="3" class="input-item" style="margin-left:10px">
                       <span class="input-text t-input-text">预计降落时间：</span>
                       <el-date-picker
-                      v-model="cdtList.endArrivdate"
+                      v-model="cdtList.arrivdate"
                       type="datetime" size="mini"
                       placeholder="选择日期"
                       class="input-inp"
-                      value-format="yyyyMMdd HHmmss">
+                      value-format="yyyyMMddHHmmss">
                     </el-date-picker>
-                    </el-col>
-                    <el-col :sm="24" :md="12" :lg="2" class="input-item">
-                      <!-- <el-button type="primary" plain size="mini" @click="addRow">添加</el-button> -->
                     </el-col>
                   </el-row>
                   <el-row type="flex" class="ak-li boder1 t-ak-li" align="center"  v-for="i in rows" :key="i.version">
-                    <!-- <img src="../../../assets/img/hook.png" alt="">
-
-                    <el-col :span="7" class="input-item mr-20">
-                      <span class="input-text">处理结果：</span>
-                      <el-select v-model="value" placeholder="请选择"  size="small" class="input-input">
-                        <el-option>
-                        </el-option>
-                      </el-select>
-                    </el-col>
-                    <span> +</span>
-                    <el-col :sm="24" :md="12" :lg="6" class="input-item mr-15">
-                      <span class="input-text">处理人：</span>
-                      <el-input placeholder="请输入内容" size="small" class="input-input"></el-input>
-                    </el-col> -->
                     <el-col :sm="24" :md="12" :lg="3" class="input-item">
                       <span class="input-text t-input-text">国籍：</span>
                       <el-select placeholder="请选择" v-model="i.nationalityEqual" filterable clearable size="mini"  class="input-inp" @visible-change="nation">
@@ -410,12 +363,6 @@
                     <el-col :sm="24" :md="12" :lg="3" class="input-item">
                       <span class="input-text t-input-text">姓名：</span>
                       <el-input placeholder="请输入内容" v-model="i.familyname" size="mini" class="input-inp"></el-input>
-                      <!-- <span class="input-text">姓名：</span>
-                      <div class="input-input t-fuzzy t-flex">
-                        <el-input placeholder="请输入内容" v-model="cdt.familyname" size="small"></el-input>
-                        <el-checkbox v-model="lazyQuery">模糊查询</el-checkbox>
-                      </div> -->
-
                     </el-col>
                     <el-col :sm="24" :md="12" :lg="3" class="input-item">
                       <span class="input-text t-input-text">性别：</span>
@@ -429,7 +376,7 @@
                     <el-col :sm="24" :md="12" :lg="3" class="input-item">
                       <span class="input-text t-input-text">出生日期：</span>
                         <el-date-picker
-                        v-model="i.startDateofbirth"
+                        v-model="i.dateofbirth"
                         type="date" size="mini"
                         placeholder="选择日期"
                         class="input-inp"
@@ -439,11 +386,11 @@
                     <el-col :sm="24" :md="12" :lg="3" class="input-item">
                       <span class="input-text t-input-text">航班日期：</span>
                       <el-date-picker
-                      v-model="i.startFlightDepartdate"
-                      type="date" size="mini"
+                      v-model="i.flightDepartdate"
+                      type="datetime" size="mini"
                       placeholder="选择日期"
                       class="input-inp"
-                      value-format="yyyyMMdd">
+                      value-format="yyyyMMddHHmmss">
                     </el-date-picker>
                     </el-col>
 
@@ -461,11 +408,11 @@
                     <el-col :sm="24" :md="12" :lg="3" class="input-item" style="margin-left:10px">
                       <span class="input-text t-input-text">预计起飞时间：</span>
                       <el-date-picker
-                      v-model="i.startDepartdate"
+                      v-model="i.departdate"
                       type="datetime" size="mini"
                       placeholder="选择日期"
                       class="input-inp"
-                      value-format="yyyyMMdd HHmmss">
+                      value-format="yyyyMMddHHmmss">
                     </el-date-picker>
                     </el-col>
 
@@ -483,11 +430,11 @@
                     <el-col :sm="24" :md="12" :lg="3" class="input-item" style="margin-left:10px">
                       <span class="input-text t-input-text">预计降落时间：</span>
                       <el-date-picker
-                      v-model="i.endArrivdate"
+                      v-model="i.arrivdate"
                       type="datetime" size="mini"
                       placeholder="选择日期"
                       class="input-inp"
-                      value-format="yyyyMMdd HHmmss">
+                      value-format="yyyyMMddHHmmss">
                     </el-date-picker>
                     </el-col>
                     <el-col :sm="24" :md="12" :lg="2" class="input-item">
@@ -530,16 +477,6 @@
                     <el-button type="primary" @click="batchPlanSave">保存</el-button>
                   </span>
                 </el-dialog>
-                <!-- 方案名称提示语（已存在） -->
-                <!-- <el-dialog
-                  title="提示"
-                  :visible.sync="batchPromptDialogVisible"
-                  width="30%">
-                  <span>方案名称已存在，请重新命名</span>
-                  <span slot="footer" class="dialog-footer">
-                    <el-button type="primary" @click="batchPromptDialogVisible = false">确 定</el-button>
-                  </span>
-                </el-dialog> -->
               </el-col>
             </el-row>
           </div>
@@ -553,12 +490,11 @@
               </el-row>
               <el-row align="center" :gutter="2">
                  <!-- 左边查询条件 -->
-                 <!-- <div class="queryLeftWrapper"> -->
                    <el-col :sm="24" :lg="14" class="queryLeft">
                      <el-row type="flex" align="center" :gutter="10" style="width:100%">
                        <el-col :sm="24" :md="12" :lg="6" class="input-item">
                          <span class="input-text">属性：</span>
-                         <el-select placeholder="请选择" v-model="selfCdtList.attribute" filterable clearable @visible-change="attribute" @change="attributeOperator(selfCdtList)" size="mini">
+                         <el-select placeholder="请选择" v-model="selfCdtList.attribute" filterable clearable @visible-change="attribute(selfCdtList)" @change="attributeOperator(selfCdtList)" size="mini">
                            <el-option
                              v-for="item in selfNature"
                              :key="item.name"
@@ -611,7 +547,7 @@
                          type="datetime" size="mini"
                          placeholder="选择日期"
                          class="t-width100"
-                         value-format="yyyyMMdd HHmmss">
+                         value-format="yyyyMMddHHmmss">
                         </el-date-picker>
 
                        </el-col>
@@ -620,7 +556,7 @@
                      <el-row type="flex" align="center" :gutter="10" style="width:100%" v-for="self in selfRows">
                       <el-col :sm="24" :md="12" :lg="6" class="input-item">
                         <span class="input-text">属性：</span>
-                        <el-select placeholder="请选择" v-model="self.attribute" @visible-change="attribute" @change="attributeOperator(selfNature)" filterable clearable size="mini">
+                        <el-select placeholder="请选择" v-model="self.attribute" @visible-change="attribute(self)" @change="attributeOperator(selfNature)" filterable clearable size="mini">
                           <el-option
                             v-for="item in selfNature"
                             :key="item.name"
@@ -661,11 +597,10 @@
                         <el-date-picker
                         v-model="self.atype"
                         v-show="self.type==3"
-                        type="date" size="mini"
+                        type="datetime" size="mini"
                         placeholder="选择日期"
-
                         class="t-width100"
-                        value-format="yyyyMMdd">
+                        value-format="yyyyMMddHHmmss">
                        </el-date-picker>
                       <!-- 日期 精确到秒 -->
                         <el-date-picker
@@ -674,7 +609,7 @@
                         type="datetime" size="mini"
                         placeholder="选择日期"
                         class="t-width100"
-                        value-format="yyyyMMdd HHmmss">
+                        value-format="yyyyMMddHHmmss">
                        </el-date-picker>
                       </el-col>
                       <el-col :sm="24" :md="12" :lg="7" class="input-item">
@@ -703,13 +638,10 @@
                      </el-col>
                      </el-row>
                    </el-col>
-                 <!-- </div> -->
+
 
                   <!-- 右边表达式 -->
                   <el-col :lg="10" class="queryRight">
-                    <!-- <el-row type="flex" align="center" :gutter="10" style="width:100%">
-                      <el-button type="primary" plain size="mini" @click="join" class="selfAdd">生成表达式</el-button>
-                    </el-row> -->
                     <el-row type="flex" align="center" :gutter="10" style="width:100%">
                       <span class="input-text expression-text">表达式：</span>
                       <el-input type="textarea" class="expression" v-model="aaa"></el-input>
@@ -745,18 +677,7 @@
                       <el-button type="primary" @click="selfPlanSave">保存</el-button>
                     </span>
                   </el-dialog>
-
-                  <!-- <el-dialog
-                    title="提示"
-                    :visible.sync="selfPromptDialogVisible"
-                    width="30%">
-                    <span>方案名称已存在，请重新命名</span>
-                    <span slot="footer" class="dialog-footer">
-                      <el-button type="primary" @click="selfPromptDialogVisible = false">确 定</el-button>
-                    </span>
-                  </el-dialog> -->
-                    <!-- </el-col> -->
-                    </el-row>
+                  </el-row>
             </el-col>
             <el-col :span="2" class="down-btn-area">
               <el-button type="success" class="mb-15" size="small" @click="selfS">查询</el-button>
@@ -926,11 +847,8 @@
 
       </el-form>
       <div slot="footer" class="dialog-footer">
-
         <el-button @click="detailsDialogVisible = false" size="small">取消</el-button>
-
       </div>
-
     </el-dialog>
 
     <el-dialog title="查看信息" :visible.sync="reviewDialogTable">
@@ -1170,14 +1088,12 @@
               ref="upload"
               name="excel"
               action="http://192.168.99.245:8080/manage-platform/iapi/readExcel"
-              :file-list="fileList"
               multiple
               :on-success="uploadSuccess"
               :limit="5"
               :auto-upload="false">
               <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
               <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">上传到服务器</el-button>
-              <!-- <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div> -->
             </el-upload>
           </el-form>
         </el-dialog>
@@ -1441,7 +1357,7 @@
         </div>
         <el-pagination
           background
-          :current-page.sync = "cp"
+
           @current-change="handleCurrentChange"
           :page-size="showCount"
           layout="prev, pager, next"
@@ -1457,6 +1373,7 @@
 </template>
 
 <script>
+import {formatDate} from '@/assets/js/date.js'
 export default {
   data() {
     return {
@@ -1474,6 +1391,8 @@ export default {
       showCount:10,//每页显示的记录数
       totalResult:0,//总条数
       totalPage:1,//总页数
+      releaseform:{},
+
 
       hcurrentPage:1,//当前页数
       hpageSize:10, //每页显示个数选择器的选项设置
@@ -1804,6 +1723,11 @@ export default {
       set:function(newVal){
         this.aaa2 = newVal;
       }
+    }
+  },
+  filters: {
+    discount: function(value) {
+      return value.substring(0,16);
     }
   },
   methods: {
@@ -2382,8 +2306,11 @@ export default {
       let self = this.selfRows.indexOf(id);
       this.selfRows.splice(self,1);
     },
-    attribute(){//属性
-      this.$set(this.selfCdtList,'operator','');
+    attribute(self){//属性
+      this.$set(self,'operator','');
+      this.$set(self,'atype','');
+      this.$set(self,'operator','');
+      this.$set(self,'atype','');
       this.$api.post('/manage-platform/iapi/getCustomQueryConfig',{},
       r =>{
         if(r.success){
@@ -2671,11 +2598,25 @@ export default {
      this.$refs.upload.submit();
      this.uploadDialogVisible=false;
     },
+    dataChange(item){
+      let s = item;
+      s = s.replace(/-/g,"/");
+      s = s.replace(/(\.\d+)?/g,"");
+      return new Date(item);
+    },
    uploadSuccess(response, file, fileList){
      console.log(response.data.feildAndValueList);
      let arrConfig = response.data.feildAndValueList;
      for(var i=0;i<arrConfig.length;i++){
        this.cdtList = arrConfig[0];
+       let datearrivdate = this.dataChange(this.cdtList.arrivdate);
+       let datadateofbirth = this.dataChange(this.cdtList.dateofbirth);
+       let dataflightDepartdate = this.dataChange(this.cdtList.flightDepartdate);
+       let datadepartdate = this.dataChange(this.cdtList.departdate);
+       this.cdtList.arrivdate=formatDate(datearrivdate,'yyyyMMddhhmmss');
+       this.cdtList.departdate=formatDate(datadepartdate,'yyyyMMddhhmmss');
+       this.cdtList.dateofbirth=formatDate(datadateofbirth,'yyyyMMdd');
+       this.cdtList.flightDepartdate=formatDate(dataflightDepartdate,'yyyyMMddhhmmss');
      }
      this.rows = arrConfig.slice(1);
    }

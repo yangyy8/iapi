@@ -1,6 +1,6 @@
 <template lang="html">
 <div class="queryNationality">
-  <span class="input-text">国籍：</span>
+  <span class="input-text">国籍/地区：</span>
   <el-select v-model="nationality" filterable clearable @visible-change="queryNationality" placeholder="请选择"  size="small" class="input-input">
     <el-option
       v-for="item in nation"

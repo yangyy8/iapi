@@ -27,13 +27,13 @@
                 <div class="input-input t-flex t-date">
                  <el-date-picker
                  v-model="pd.startCreatetime"
-                 type="date" size="small" value-format="yyyyMMdd"
+                 type="datetime" size="small" value-format="yyyyMMddHHmmss"
                  placeholder="开始时间" align="right" :picker-options="pickerOptions1">
                </el-date-picker>
                  <span class="septum">-</span>
                <el-date-picker
                   v-model="pd.endCreatetime"
-                  type="date" size="small" align="right" value-format="yyyyMMdd"
+                  type="datetime" size="small" align="right" value-format="yyyyMMddHHmmss"
                   placeholder="结束时间"  :picker-options="pickerOptions1">
               </el-date-picker>
             </div>
@@ -82,7 +82,6 @@
         <el-table-column
           prop="createtimeStr"
           label="事件产生时间">
-
         </el-table-column>
         <el-table-column
           prop="username"
@@ -295,7 +294,7 @@
           </el-col>
 
           <el-col :span="12" class="input-item">
-            <span class="yy-input-text" style="width:15%">现计划到达口岸：</span>
+            <span class="yy-input-text">现计划到达口岸：</span>
               <el-input placeholder="请输入内容" size="small" v-model="hform.stationto+' - '+hform.stationtoName" :disabled="true" class="yy-input-input"></el-input>
           </el-col>
         </el-row>

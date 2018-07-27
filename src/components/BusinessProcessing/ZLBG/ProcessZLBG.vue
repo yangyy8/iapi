@@ -25,13 +25,13 @@
                 <div class="input-input t-flex t-date">
                  <el-date-picker
                  v-model="pd.STARTTIME"
-                 type="date" size="small" value-format="yyyyMMdd"
+                 type="datetime" size="small" value-format="yyyyMMddHHssmm"
                  placeholder="开始时间"  :picker-options="pickerOptions1">
                </el-date-picker>
                  <span class="septum">-</span>
                <el-date-picker
                   v-model="pd.ENDTIME"
-                  type="date" size="small" value-format="yyyyMMdd"
+                  type="datetime" size="small" value-format="yyyyMMddHHssmm"
                   placeholder="结束时间" :picker-options="pickerOptions1">
               </el-date-picker>
             </div>
@@ -60,13 +60,13 @@
                   <div class="input-input t-flex t-date">
               <el-date-picker
               v-model="pd.STARTBIRTH"
-              type="date" size="small" value-format="yyyyMMdd"
+              type="datetime" size="small" value-format="yyyyMMddHHssmm"
               placeholder="开始时间" :picker-options="pickerOptions1">
             </el-date-picker>
                <span class="septum">-</span>
             <el-date-picker
                v-model="pd.ENDBIRTH"
-               type="date" size="small" value-format="yyyyMMdd"
+               type="datetime" size="small" value-format="yyyyMMddHHssmm"
                placeholder="结束时间"  :picker-options="pickerOptions1">
            </el-date-picker>
          </div>
@@ -368,22 +368,30 @@
           </el-col>
           <el-col :span="8" class="input-item">
             <span class="yy-input-text">值机状态说明：</span>
-            <el-input placeholder="请输入内容" size="small"  v-model="form.CHECKRESULTS" class="yy-input-input" :disabled="true"></el-input>
+            <el-input placeholder="" size="small"  v-model="form.CHECKRESULTS" class="yy-input-input" :disabled="true"></el-input>
           </el-col>
         </el-row>
         <hr/>
         <el-row type="flex" class="mb-6">
           <el-col :span="24" class="input-item">
             <span class="yy-input-text" style="width:18%">变更后值机状态：</span>
-            <el-select v-model="form.INSTRUCT"  placeholder="请选择"  filterable clearable   size="small" style="width:82%">
+            <el-select v-model="form.INSTRUCT"  placeholder="请选择"  filterable clearable  @change="inschange(form.INSTRUCT)"  size="small" style="width:82%">
+              <span v-if="form.CHECKRESULT!='0Z'">
               <el-option value="0Z" label="0Z - 允许打印登机牌">
               </el-option>
+             </span>
+              <span v-if="form.CHECKRESULT!='1Z'">
               <el-option value="1Z" label="1Z - 禁止打印登机牌">
               </el-option>
+            </span>
+            <span v-if="form.CHECKRESULT!='2Z'">
               <el-option value="2Z" label="2Z - 请再次核对">
               </el-option>
+                </span>
+              <span v-if="form.CHECKRESULT!='4Z'">
               <el-option value="4Z" label="4Z - 数据错误">
               </el-option>
+                </span>
              </el-select>
           </el-col>
           </el-col>
@@ -403,15 +411,12 @@
         </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <!-- <el-button type="primary" @click="handlesItem1('handlesForm')" size="small">变更</el-button> -->
         <el-button type="primary" @click="handlessys(1)" size="small">变更</el-button>
         <el-button @click="handlesDialogVisible = false" size="small">取消</el-button>
 
       </div>
 
-
     </el-dialog>
-
 
     <el-dialog  title="操作授权" :visible.sync="AuthDialogVisible"  append-to-body width="500px">
 
@@ -656,7 +661,6 @@ export default {
       CurrentPage: 1,
       pageSize: 10,
       TotalResult: 0,
-
       CurrentPage1: 1,
       pageSize1: 10,
       TotalResult1: 0,
@@ -896,7 +900,22 @@ export default {
           this.TotalResult1 = r.data.totalResult;
         });
 
+    },
+    inschange(n)
+    {
+      var content="";
+      if (n == "0Z") {
+        content= "允许打印登机牌";
+      } else if (n == "1Z") {
+        content= "禁止打印登机牌";
+      } else if (n == "2Z") {
+        content= "请再次核对";
+      } else if (n == "4Z"){
+        content= "数据错误";
+      }
+   this.form.INSTRUCTC=content;
     }
+
   },
 
   filters: {

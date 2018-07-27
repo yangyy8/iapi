@@ -31,15 +31,15 @@
 
             <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
                 <span class="input-text">起飞机场：</span>
-                <!-- <el-select v-model="pd.cityFrom" filterable clearable @visible-change="queryAirport" placeholder="请选择" size="small" class="input-input">
+                <el-select v-model="pd.cityFrom" filterable clearable  placeholder="请选择" size="small" class="input-input">
                      <el-option
                        v-for="item in Airport"
                        :key="item.AIRPORT_CODE"
                        :label="item.AIRPORT_CODE+' - '+item.AIRPORT_NAME"
                        :value="item.AIRPORT_CODE" >
                      </el-option>
-                   </el-select> -->
-  <QueryAirport  :airportModel="pd.cityFrom" @transAirport="getInAirport"></QueryAirport>
+                   </el-select>
+  <!-- <QueryAirport  :airportModel="pd.cityFrom" @transAirport="getInAirport"></QueryAirport> -->
 
             </el-col>
 
@@ -63,16 +63,16 @@
           <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">到达机场：</span>
 
-              <!-- <el-select v-model="pd.cityTo" filterable clearable @visible-change="queryAirport" placeholder="请选择" size="small" class="input-input">
+              <el-select v-model="pd.cityTo" filterable clearable  placeholder="请选择" size="small" class="input-input">
                    <el-option
                      v-for="item in Airport"
                      :key="item.AIRPORT_CODE"
                      :label="item.AIRPORT_CODE+' - '+item.AIRPORT_NAME"
                      :value="item.AIRPORT_CODE" >
                    </el-option>
-                 </el-select> -->
+                 </el-select>
 
-                 <QueryAirport  :airportModel="pd.cityTo" @transAirport="getOutAirport"></QueryAirport>
+                 <!-- <QueryAirport  :airportModel="pd.cityTo" @transAirport="getOutAirport"></QueryAirport> -->
             </el-col>
 
             <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
@@ -105,7 +105,7 @@
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                 <span class="input-text">不通过原因：</span>
                 <el-select v-model="pd.thanType"  filterable clearable  class="input-input"  placeholder="请选择"  size="small">
-              
+
                   <el-option value="1"  label="1 - 必录项缺失">
                   </el-option>
                   <el-option value="2"  label="2 - 长度不符合">
@@ -280,9 +280,9 @@
 </template>
 
 <script>
-import QueryAirport from '../../other/queryAirport'
+// import QueryAirport from '../../other/queryAirport'
 export default {
-    components: {QueryAirport},
+    // components: {QueryAirport},
   data() {
     return {
       CurrentPage: 1,
@@ -342,17 +342,19 @@ export default {
     this.getList(this.CurrentPage, this.pageSize, this.pd);
     this.getsum();
     this.getnum();
+    this.queryAirport();
+
   },
   methods: {
     handleSelectionChange(val) {
       this.multipleSelection = val;
     },
-    getInAirport(msg){
-      this.pd.cityFrom=msg;
-    },
-    getOutAirport(msg){
-      this.pd.cityTo=msg;
-    },
+    // getInAirport(msg){
+    //   this.pd.cityFrom=msg;
+    // },
+    // getOutAirport(msg){
+    //   this.pd.cityTo=msg;
+    // },
     pageSizeChange(val) {
       this.getList(this.CurrentPage, val, this.pd);
       console.log(`每页 ${val} 条`);
@@ -398,18 +400,18 @@ export default {
           this.TotalResult = r.data.totalResult;
         })
     },
-    // queryAirport() {
-    //   if (this.Airport.length != 0) {
-    //     return;
-    //   };
-    //   this.$api.post('/manage-platform/codeTable/queryAirport', {},
-    //     r => {
-    //       console.log(r);
-    //       this.Airport = r.data;
-    //
-    //     })
-    //
-    // },
+    queryAirport() {
+      if (this.Airport.length != 0) {
+        return;
+      };
+      this.$api.post('/manage-platform/codeTable/queryAirport', {},
+        r => {
+          console.log(r);
+          this.Airport = r.data;
+
+        })
+
+    },
 
     details(i) {
       this.detailsDialogVisible = true;

@@ -72,7 +72,7 @@
               <el-option label="2Z - 再次核对" value="2Z"></el-option>
               <!-- <el-option label="4Z - 数据错误" value="4Z"></el-option> -->
             </el-select>
-            <el-input type="textarea" v-model="data.visaRuleDesc" class="t-width100" placeholder="请输入描述" autosize :disabled="isActive"></el-input>
+            <el-input type="textarea" v-model="data.visaResponseresult" class="t-width100" placeholder="请输入描述"  :autosize="{ minRows: 3, maxRows: 3}" :disabled="isActive"></el-input>
           </el-row>
         </div>
       </el-col>
@@ -140,7 +140,7 @@
                 <el-option label="2Z - 再次核对" value="2Z"></el-option>
                 <!-- <el-option label="4Z - 数据错误" value="4Z"></el-option> -->
               </el-select>
-              <el-input type="textarea" v-model="data.nationalityResponseresult" class="t-width100" placeholder="请输入描述" autosize :disabled="countryIsActive"></el-input>
+              <el-input type="textarea" v-model="data.nationalityResponseresult" class="t-width100" placeholder="请输入描述" :autosize="{ minRows: 3, maxRows: 3}" :disabled="countryIsActive"></el-input>
             </el-row>
           <!-- </div> -->
 
@@ -207,7 +207,7 @@
               <el-option label="2Z - 再次核对" value="2Z"></el-option>
               <!-- <el-option label="4Z - 数据错误" value="4Z"></el-option> -->
             </el-select>
-            <el-input type="textarea" v-model="data.airportResponseresult" class="t-width100" placeholder="请输入描述" autosize :disabled="entryIsActive"></el-input>
+            <el-input type="textarea" v-model="data.airportResponseresult" class="t-width100" placeholder="请输入描述" :autosize="{ minRows: 3, maxRows: 3}" :disabled="entryIsActive"></el-input>
           </el-row>
         </div>
       </el-col>
@@ -296,9 +296,9 @@ export default {
 
       let operLabel = '';
       if(oper == '1'){
-        operLabel = '>'
+        operLabel = '大于'
       }else if(oper == '2'){
-        operLabel = '<'
+        operLabel = '小于'
       }
       if(this.data.visaTime == ''){
         this.$message({

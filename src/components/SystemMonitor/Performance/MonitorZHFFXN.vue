@@ -32,7 +32,7 @@
                         v-model="cdt.begin"
                         type="datetime" size="mini"
                         placeholder="开始日期"
-                        value-format="yyyyMMdd HHmmss"
+                        value-format="yyyyMMddHHmmss"
                         >
                       </el-date-picker>
                       <span class="septum">-</span>
@@ -40,7 +40,7 @@
                          v-model="cdt.end"
                          type="datetime" size="mini"
                          placeholder="结束日期"
-                         value-format="yyyyMMdd HHmmss"
+                         value-format="yyyyMMddHHmmss"
                          >
                      </el-date-picker>
                     </div>
