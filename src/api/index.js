@@ -7,11 +7,12 @@
 
 //var root="http://192.168.99.251:8080"    //时达的电脑
 
-//var root="http://192.168.99.242:8080"    //石飞的电脑
+
 
 // var root = "http://192.168.99.251:8080"    //性能监控
 
 //var root="http://192.168.99.206:8080"   //服务器电脑
+//var root=""
 
 // var root = 'http://192.168.99.245:8080'
 //var root=""
@@ -78,7 +79,7 @@ function apiAxios(method, url, params, success, failure) {
       data: method === 'POST' || method === 'PUT' ? params : null,
       params: method === 'GET' || method === 'DELETE' ? params : null,
       baseURL: root,
-      withCredentials: false
+      withCredentials: true
 
     })
     .then(function(res) {
