@@ -33,8 +33,7 @@
             <el-col  :sm="24" :md="12" :lg="6"  class="input-item">
               <span class="input-text">状态：</span>
               <el-select v-model="pd.STATUS"  placeholder="请选择" size="small" class="input-input">
-                 <el-option value="" label="全部">
-                 </el-option>
+              
                  <el-option value="1" label="启用">
                  </el-option>
                  <el-option value="0" label="停用">

@@ -277,6 +277,7 @@ export default {
   mounted() {
     this.getList(this.CurrentPage, this.pageSize, this.pd);
       this.queryAirport();
+      
   },
   methods: {
     handleSelectionChange(val) {
