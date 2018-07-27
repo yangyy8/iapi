@@ -16,7 +16,7 @@
 
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">上级部门：</span>
-              <el-select v-model="pd.DEPT_ID" filterable @visible-change="queryNationality" placeholder="请选择" size="small" class="input-input">
+              <el-select v-model="pd.DEPT_ID" filterable clearable placeholder="请选择" size="small" class="input-input">
                 <el-option
                   v-for="item in company"
                   :key="item.SERIAL"
@@ -27,9 +27,7 @@
             </el-col>
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">状态：</span>
-              <el-select v-model="pd.STATUS" filterable @visible-change="queryAirport" placeholder="请选择" size="small" class="input-input">
-                 <el-option  value="" label="全部">
-                 </el-option>
+              <el-select v-model="pd.STATUS" filterable clearable placeholder="请选择" size="small" class="input-input">
                  <el-option  value="1" label="启用">
                  </el-option>
                  <el-option  value="0" label="停用">
@@ -130,7 +128,7 @@
         <el-row type="flex"  class="mb-6">
           <el-col :span="12" class="input-item">
             <span class="yy-input-text">上级部门：</span>
-            <el-select v-model="form.PARENT_ID" filterable @visible-change="queryNationality" placeholder="请选择" size="small" class="yy-input-input">
+            <el-select v-model="form.PARENT_ID" filterable clearable placeholder="请选择" size="small" class="yy-input-input">
               <el-option
                 v-for="item in company"
                 :key="item.SERIAL"
@@ -166,8 +164,6 @@
           <el-col :span="12" class="input-item">
             <span class="yy-input-text">状态：</span>
             <el-select v-model="form.STATUS"  placeholder="请选择" size="small" class="yy-input-input">
-               <el-option  value="" label="全部">
-               </el-option>
                <el-option  value="1" label="启用">
                </el-option>
                <el-option  value="0" label="停用">
@@ -197,37 +193,38 @@
         <el-row type="flex"  class="mb-6">
           <el-col :span="12" class="input-item">
             <span class="yy-input-text">上级部门：</span>
-          <span class="yy-input-input">   {{dform.PARENT_JC }}</span>
+
+          <span class="yy-input-input detailinput">   {{dform.PARENT_JC }}</span>
 
           </el-col>
 
           <el-col :span="12" class="input-item">
             <span class="yy-input-text">部门名称：</span>
-            <span class="yy-input-input"> {{dform.DEPT_QC }}</span>
+            <span class="yy-input-input detailinput"> {{dform.DEPT_QC }}</span>
           </el-col>
 
         </el-row>
         <el-row type="flex"  class="mb-6">
           <el-col :span="12" class="input-item">
             <span class="yy-input-text">部门简称：</span>
-            <span class="yy-input-input"> {{dform.DEPT_JC }}</span>
+            <span class="yy-input-input detailinput"> {{dform.DEPT_JC }}</span>
           </el-col>
 
           <el-col :span="12" class="input-item">
             <span class="yy-input-text">部门编码：</span>
-          <span class="yy-input-input">   {{dform.DEPT_CODE }}</span>
+          <span class="yy-input-input detailinput">   {{dform.DEPT_CODE }}</span>
           </el-col>
 
         </el-row>
         <el-row type="flex"  class="mb-6">
           <el-col :span="12" class="input-item">
             <span class="yy-input-text">状态：</span>
-              <span class="yy-input-input">  {{dform.STATUS | fiftertype}}</span>
+              <span class="yy-input-input detailinput">  {{dform.STATUS | fiftertype}}</span>
           </el-col>
 
           <el-col :span="12" class="input-item">
             <span class="yy-input-text">排列序号：</span>
-            <span class="yy-input-input">   {{dform.DEPT_ORDER}}</span>
+            <span class="yy-input-input detailinput">   {{dform.DEPT_ORDER}}</span>
           </el-col>
 
         </el-row>
@@ -302,6 +299,7 @@ export default {
   },
   mounted() {
     this.getList(this.CurrentPage, this.pageSize, this.pd);
+    this.queryNationality();
   },
   methods: {
     handleSelectionChange(val) {
@@ -335,6 +333,8 @@ export default {
       if (i == 1) {
         this.tp = 1;
         this.form = n;
+      }else {
+        this.form="";
       }
 
     },
@@ -425,11 +425,8 @@ export default {
       } else {
         return "启用";
       }
-
     },
-
   }
-
 }
 </script>
 

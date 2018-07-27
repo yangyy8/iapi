@@ -32,15 +32,15 @@
             <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
                 <span class="input-text">起飞机场：</span>
 
-                  <!-- <el-select v-model="pd.cityFrom" filterable clearable @visible-change="queryAirport" placeholder="请选择" size="small" class="input-input">
+                  <el-select v-model="pd.cityFrom" filterable clearable  placeholder="请选择" size="small" class="input-input">
                  <el-option
                    v-for="item in Airport"
                    :key="item.AIRPORT_CODE"
                    :label="item.AIRPORT_CODE+' - '+item.AIRPORT_NAME"
                    :value="item.AIRPORT_CODE" >
                  </el-option>
-               </el-select> -->
-               <QueryAirport  :airportModel="pd.cityFrom" @transAirport="getInAirport"></QueryAirport>
+               </el-select>
+               <!-- <QueryAirport  :airportModel="pd.cityFrom" @transAirport="getInAirport"></QueryAirport> -->
             </el-col>
 
             <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
@@ -62,15 +62,15 @@
 
           <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">到达机场：</span>
-              <!-- <el-select v-model="pd.cityTo"  class="input-input" filterable clearable @visible-change="queryAirport"  placeholder="请选择"  size="small">
+              <el-select v-model="pd.cityTo"  class="input-input" filterable clearable   placeholder="请选择"  size="small">
                 <el-option
                   v-for="item in Airport"
                   :key="item.AIRPORT_CODE"
                   :label="item.AIRPORT_CODE+' - '+item.AIRPORT_NAME"
                   :value="item.AIRPORT_CODE" >
                 </el-option>
-              </el-select> -->
-              <QueryAirport  :airportModel="pd.cityTo" @transAirport="getOutAirport"></QueryAirport>
+              </el-select>
+              <!-- <QueryAirport  :airportModel="pd.cityTo" @transAirport="getOutAirport"></QueryAirport> -->
             </el-col>
 
             <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
@@ -103,7 +103,7 @@
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                 <span class="input-text">比中类型：</span>
                 <el-select v-model="pd.checkResultType"  filterable clearable  class="input-input" filterable  clearable   placeholder="请选择"  size="small">
-              
+
                   <el-option value="0" label="0 - 黑名单-不准入境">
                   </el-option>
                   <el-option value="1" label="1 - 黑名单-失效证件">
@@ -283,21 +283,21 @@
 </template>
 
 <script>
-import QueryAirport from '../../other/queryAirport'
+// import QueryAirport from '../../other/queryAirport'
 export default {
-    components: {QueryAirport},
+  // components: {QueryAirport},
   data() {
     return {
       CurrentPage: 1,
       pageSize: 10,
       TotalResult: 0,
-      sum:"0",
-      num:"0",
+      sum: "0",
+      num: "0",
       pd: {},
       nation: [],
       value: '',
       value1: "",
-      Airport:[],
+      Airport: [],
       addDialogVisible: false,
       detailsDialogVisible: false,
       options: [{
@@ -338,23 +338,25 @@ export default {
         }]
       },
       form: {},
-      dform:{},
+      dform: {},
     }
   },
   mounted() {
     this.getList(this.CurrentPage, this.pageSize, this.pd);
-this.getsum(); this.getnum();
+    this.getsum();
+    this.getnum();
+    this.queryAirport();
   },
   methods: {
     handleSelectionChange(val) {
       this.multipleSelection = val;
     },
-    getInAirport(msg){
-      this.pd.cityFrom=msg;
-    },
-    getOutAirport(msg){
-      this.pd.cityTo=msg;
-    },
+    // getInAirport(msg){
+    //   this.pd.cityFrom=msg;
+    // },
+    // getOutAirport(msg){
+    //   this.pd.cityTo=msg;
+    // },
     pageSizeChange(val) {
       this.getList(this.CurrentPage, val, this.pd);
       console.log(`每页 ${val} 条`);
@@ -364,7 +366,7 @@ this.getsum(); this.getnum();
 
       console.log(`当前页: ${val}`);
     },
-    getsum(){
+    getsum() {
 
       this.$api.post('/manage-platform/compareReuslt/nameList/totalCounter', {},
         r => {
@@ -373,10 +375,12 @@ this.getsum(); this.getnum();
 
         })
     },
-    getnum(){
+    getnum() {
 
       let p = {
-        "cdt": {"notPass":"0"}
+        "cdt": {
+          "notPass": "0"
+        }
       };
       this.$api.post('/manage-platform/compareReuslt/nameList/counter', p,
         r => {
@@ -398,22 +402,22 @@ this.getsum(); this.getnum();
           this.TotalResult = r.data.totalResult;
         })
     },
-    //   queryAirport() {
-    //     if(this.Airport.length!=0){
-    //   return;
-    // };
-    // this.$api.post('/manage-platform/codeTable/queryAirport', {},
-    //   r => {
-    //       console.log(r);
-    //       this.Airport = r.data;
-    //
-    //   })
-    // },
+    queryAirport() {
+      if (this.Airport.length != 0) {
+        return;
+      };
+      this.$api.post('/manage-platform/codeTable/queryAirport', {},
+        r => {
+          console.log(r);
+          this.Airport = r.data;
+
+        })
+    },
 
     details(i) {
       this.detailsDialogVisible = true;
       console.log(i);
-      this.dform=i;
+      this.dform = i;
     },
 
   }
@@ -435,7 +439,21 @@ this.getsum(); this.getnum();
   display: inline-block;
   width: 60px;
 }
-.datacenter{text-align: center;}
-.dataleft{float: left; font-size: 22px;}
-.dataline{ width: 2px; background: #cccccc; margin-left: 20px; margin-right: 20px; height: 60px;}
+
+.datacenter {
+  text-align: center;
+}
+
+.dataleft {
+  float: left;
+  font-size: 22px;
+}
+
+.dataline {
+  width: 2px;
+  background: #cccccc;
+  margin-left: 20px;
+  margin-right: 20px;
+  height: 60px;
+}
 </style>

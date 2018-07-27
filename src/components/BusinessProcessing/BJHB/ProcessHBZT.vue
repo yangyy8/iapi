@@ -18,20 +18,20 @@
               <div class="input-input t-flex t-date">
                <el-date-picker
                v-model="pd.startScheduledeparturetime"
-               type="datetime" size="small" value-format="yyyymmddhhmmss"
+               type="datetime" size="small" value-format="yyyyMMddHHssmm"
                placeholder="开始时间" align="right" :picker-options="pickerOptions1">
              </el-date-picker>
                <span class="septum">-</span>
              <el-date-picker
                 v-model="pd.endScheduledeparturetime"
-                type="datetime" size="small" align="right" value-format="yyyymmddhhmmss"
+                type="datetime" size="small" align="right" value-format="yyyyMMddHHssmm"
                 placeholder="结束时间"  :picker-options="pickerOptions1">
             </el-date-picker>
           </div>
             </el-col>
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">所属航空公司：</span>
-              <el-select v-model="pd.airlineCompanyIdEqual" filterable clearable @visible-change="queryNationality" placeholder="请选择" size="small" class="input-input">
+              <el-select v-model="pd.airlineCompanyIdEqual" filterable clearable  placeholder="请选择" size="small" class="input-input">
                  <el-option
                    v-for="item in company"
                    :key="item.AIRLINE_CODE"
@@ -42,7 +42,7 @@
             </el-col>
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">实际出发口岸：</span>
-              <el-select v-model="pd.stationfromEqual" filterable clearable @visible-change="queryAirport" placeholder="请选择" size="small" class="input-input">
+              <el-select v-model="pd.stationfromEqual" filterable clearable  placeholder="请选择" size="small" class="input-input">
                  <el-option
                    v-for="item in Airport"
                    :key="item.AIRPORT_CODE"
@@ -54,7 +54,7 @@
 
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">计划到达口岸：</span>
-              <el-select v-model="pd.stationtoEqual" filterable clearable @visible-change="queryAirport" placeholder="请选择"   size="small" class="input-input">
+              <el-select v-model="pd.stationtoEqual" filterable clearable  placeholder="请选择"   size="small" class="input-input">
                  <el-option
                    v-for="item in Airport"
                    :key="item.AIRPORT_CODE"
@@ -156,15 +156,14 @@
         <el-row type="flex"  class="mb-6">
           <el-col :span="12" class="input-item">
             <span class="yy-input-text">航班号：</span>
-            <el-input placeholder="请输入内容" size="small"  :disabled="true" v-model="form.fltno" class="yy-input-input" ></el-input>
+            <el-input placeholder="请输入内容" size="small" :disabled="true" v-model="form.fltno" class="yy-input-input" ></el-input>
 
           </el-col>
           <el-col :span="12" class="input-item">
             <span class="yy-input-text">所属航空公司：</span>
             <el-input placeholder="请输入内容" size="small"  :disabled="true" v-model="form.airlineCompanyId" class="yy-input-input"></el-input>
           </el-col>
-
-
+          
         </el-row>
         <el-row type="flex"  class="mb-6">
           <el-col :span="12" class="input-item">
@@ -276,8 +275,9 @@ export default {
   },
   mounted() {
     this.getList(this.CurrentPage, this.pageSize, this.pd);
+    this.queryNationality();
       this.queryAirport();
-      
+
   },
   methods: {
     handleSelectionChange(val) {

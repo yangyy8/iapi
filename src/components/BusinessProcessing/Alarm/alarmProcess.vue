@@ -378,7 +378,7 @@
           </el-input>
         </el-col>
         <el-col :span="4" class="down-btn-area">
-          <el-button type="primary" class="mb-15" size="small" @click="handeles()" v-show="isUpdate&&iapiMap.instructNew==null" :disabled="msgData==1">确定</el-button>
+          <el-button type="primary" class="mb-15" size="small" @click="handeles()" v-show="isUpdate&&iapiMap.instructNew==null" :disabled="msgData>0">确定</el-button>
           <el-button type="info" class="mb-15" size="small" @click="archive" v-show="!isUpdate||iapiMap.instructNew">归档</el-button>
           <el-button type="warning" size="small" onclick="window.history.go(-1);">取消</el-button>
         </el-col>
@@ -464,14 +464,22 @@
           <el-col :span="24" class="input-item">
             <span class="yy-input-text" style="width:18%">变更后值机状态：</span>
             <el-select v-model="ap.INSTRUCT"  placeholder="请选择"  filterable clearable   size="small" style="width:82%">
-              <el-option value="0Z" label="0Z - 允许打印登机牌">
+            <span v-if="iapiMap.instructOld!='0Z'">
+            <el-option value="0Z" label="0Z - 允许打印登机牌">
               </el-option>
+            </span>
+            <span v-if="iapiMap.instructOld!='1Z'">
               <el-option value="1Z" label="1Z - 禁止打印登机牌">
               </el-option>
+              </span>
+              <span v-if="iapiMap.instructOld!='2Z'">
               <el-option value="2Z" label="2Z - 请再次核对">
               </el-option>
+              </span>
+              <span v-if="iapiMap.instructOld!='4Z'">
               <el-option value="4Z" label="4Z - 数据错误">
               </el-option>
+              </span>
              </el-select>
           </el-col>
           </el-col>
@@ -561,6 +569,7 @@ export default {
             console.log(r);
             this.iapiMap = r.data.iapiMap
             this.listMap = r.data.listMap;
+            this.userMap = r.data.userMap;
             var arr = this.listMap
             var thar = this;
             this.pd.CHANGE_RESON = "";
@@ -621,16 +630,20 @@ export default {
       //   "showCount":3,
       //    pd:this.pd
       // };
-      let p = {
-        "IAPISERIAL": this.iapiMap.iapiSerial,
-        "EVENTSERIAL":this.eventserial,
-        "CREATEUSER": this.userMap.userId,
-        "APPROVALUSER": ap.userName,
-        "APPROVALPW": ap.password,
-        "INSTRUCT": ap.INSTRUCT,
-        "CHANGERESON": ap.CHANGERESON
-      };
+
       if (this.pd.DEALRESULT == 1) {
+        if(this.pd.DEALRESULT==1){
+          this.pd.INSTRUCT_OLD=this.iapiMap.instructOld;
+        }
+        let p = {
+          "IAPISERIAL": this.iapiMap.iapiSerial,
+          "EVENTSERIAL":this.eventserial,
+          "CREATEUSER": this.userMap.userId,
+          "APPROVALUSER": ap.userName,
+          "APPROVALPW": ap.password,
+          "INSTRUCT": ap.INSTRUCT,
+          "CHANGERESON": ap.CHANGERESON
+        };
         // this.$api.post('/manage-platform/alarmEvents/getUpdateResult',p,
         this.$api.post('/manage-platform/iapiUnscolicited/eventAlarmTab', p,
           r => {
@@ -645,8 +658,37 @@ export default {
                 this.handlesDialogVisible = false;
             }
           })
+      }else{
+
+
+        this.pd.eventserial=this.eventserial;
+        this.pd.bguserName=ap.userName;
+        this.pd.bgpassword=ap.password;
+        this.pd.bgverifyType="bjcl";
+
+        let p={
+          "currentPage":0,
+          "showCount":3,
+           pd:this.pd
+        };
+
+         this.$api.post('/manage-platform/alarmEvents/getUpdateResult',p,
+          r => {
+            console.log(r);
+            if (r.success) {
+              this.$message({
+                message: '恭喜你，操作成功！',
+                type: 'success'
+              });
+              this.isUpdate = false;
+
+            }
+          })
       }
+
+
     },
+
     archive() {
 
       this.pd.eventserial = this.eventserial;
@@ -717,6 +759,8 @@ export default {
     handeles() {
       if (this.pd.DEALRESULT == 1) {
         this.handlesDialogVisible = true;
+      }else {
+        this.upDate(this.ap);
       }
 
     }

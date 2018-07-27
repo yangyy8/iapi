@@ -35,13 +35,9 @@
                     {{scope.row.status | fifter3 }}
                 </template>
                 </el-table-column>
-
-
       </el-table>
-
     </div>
   </div>
-
 </template>
 
 <script>
@@ -61,7 +57,6 @@ export default {
         r => {
           console.log(r);
           this.tableData = r.data;
-
         })
     },
   },

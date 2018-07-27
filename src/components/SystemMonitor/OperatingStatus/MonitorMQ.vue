@@ -24,19 +24,26 @@
                 >
                 </el-table-column>
                 <el-table-column
-                  prop="nodeStatus"
                   label="节点状态" sortable
                 >
+                <template slot-scope="scope">
+
+                    {{scope.row.nodeStatus | fifter2}}
+
+                </template>
                 </el-table-column>
                 <el-table-column
-                  prop="queueStatus"
                   label="队列状态" sortable
                 >
+                <template slot-scope="scope">
+                    {{scope.row.queueStatus | fifter2}}
+                </template>
                 </el-table-column>
                 <el-table-column
                   prop="queueNum"
                   label="队列深度" sortable
                 >
+
                 </el-table-column>
 
       </el-table>
@@ -80,6 +87,13 @@ export default {
           return "DMZ区"
       }
       // return val*2
+    },
+    fifter2(val){
+      if(val=="true"){
+        return  "正常";
+      }else {
+      return   "异常";
+      }
     }
   }
 
