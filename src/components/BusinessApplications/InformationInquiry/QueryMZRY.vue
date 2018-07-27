@@ -62,14 +62,14 @@
                v-model="pd.startFlightDepartdate"
                type="datetime" size="small"
                placeholder="开始时间" align="right" :picker-options="pickerOptions1"
-               value-format="yyyyMMdd HHmmss">
+               value-format="yyyyMMddHHmmss">
              </el-date-picker>
                <span class="septum">-</span>
              <el-date-picker
                 v-model="pd.endFlightDepartdate"
                 type="datetime" size="small" align="right"
                 placeholder="结束时间"  :picker-options="pickerOptions1"
-                value-format="yyyyMMdd HHmmss">
+                value-format="yyyyMMddHHmmss">
             </el-date-picker>
           </div>
             </el-col>

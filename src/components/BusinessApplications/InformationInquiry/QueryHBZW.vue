@@ -18,12 +18,14 @@
                <el-date-picker
                v-model="pd.departdateBegin"
                type="datetime" size="small"
-               placeholder="开始时间"  :picker-options="pickerOptions1">
+               placeholder="开始时间"  :picker-options="pickerOptions1"
+               value-format="yyyyMMddHHmmss">
              </el-date-picker>
                <span class="septum">-</span>
              <el-date-picker
                 v-model="pd.departdateEnd"
-                type="datetime" size="small" format="yyymmdd hhmm"
+                type="datetime" size="small"
+                value-format="yyyyMMddHHmmss"
                 placeholder="结束时间" :picker-options="pickerOptions1">
              </el-date-picker>
              </div>
@@ -42,7 +44,7 @@
           <el-col  :sm="24" :md="12" :lg="6"  class="input-item">
               <span class="input-text">性别：</span>
               <el-select v-model="pd.gender"  class="input-input"   filterable clearable  placeholder="请选择"  size="small">
-            
+
                 <el-option value="U" label="U - 未知">
                 </el-option>
                 <el-option value="W" label="W - 男">
