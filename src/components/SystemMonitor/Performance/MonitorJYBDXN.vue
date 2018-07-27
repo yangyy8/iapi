@@ -64,12 +64,12 @@
 
             </div>
             <div class="co-tab-pane" >
-              <el-row type="flex" style="height:100%" v-show="(controlChecked==1) && (coCheckId==1)">
+              <el-row type="flex" style="height:100%" v-if="(controlChecked==1) && (coCheckId==1)">
                 <div class = "chart" style="width:100%">
                   <div id = "echarts" style = "width: 100%;height: 400px"></div>
                 </div>
               </el-row>
-              <div v-show="(controlChecked==1) && (coCheckId==2)">
+              <div v-if="(controlChecked==1) && (coCheckId==2)">
                 <el-row type="flex" justify="end">
                   <el-checkbox v-model="checked">自动刷新</el-checkbox>
                 </el-row>
@@ -169,7 +169,7 @@
                 </div>
               </el-row>
 
-              <div v-show="(controlChecked==2) && (coCheckId==2)">
+              <div v-if="(controlChecked==2) && (coCheckId==2)">
                   <el-table
                     :data="htableData"
                     border
@@ -243,6 +243,7 @@
 import echarts from 'echarts'
 import {formatDate} from '@/assets/js/date.js'
 export default {
+  inject:['reload'],
   data(){
     return{
       // 实时分页
@@ -327,18 +328,13 @@ export default {
     }
   },
   mounted() {
-      console.log(this.controlChecked);
-      console.log(this.coCheckId);
-      // if(this.controlChecked == 1){
-          this.checkRealTime();
-      // }
+      this.checkRealTime();
       let begin=new Date();
       let  end=new Date();
       let aaaa = new Date(begin.setMonth((new Date().getMonth()-1)));
       let bbbb = new Date();
-      this.cdt.begin=formatDate(aaaa,'yyyyMMdd hhmmss');
-      this.cdt.end=formatDate(bbbb,'yyyyMMdd hhmmss');
-      // this.getList(this.CurrentPage,this.pageSize,this.pd);
+      this.cdt.begin=formatDate(aaaa,'yyyyMMddhhmmss');
+      this.cdt.end=formatDate(bbbb,'yyyyMMddhhmmss');
   },
   beforeDestroy() {
     if (!this.lineChart) {
@@ -409,16 +405,16 @@ export default {
       })
     },
     drawLine() {
-           let myChart = echarts.init(document.getElementById('echarts'));
-           this.lineChart = myChart;
+           this.lineChart = echarts.init(document.getElementById('echarts'));
+           window.onresize = echarts.init(document.getElementById('echarts')).resize;
            let that = this;
            // 折线图初始化
-           myChart.setOption({
+           this.lineChart.setOption({
              tooltip:{
                trigger:'axis',
-               formatter:{
-                 "报文数量":2300,
-                 "平均性能":2000
+               formatter:function(params){
+                 console.log(params);
+                 return "报文数量:"+"111"+"</br>"+"平均性能:"+params.value
                },
                axisPointer:{
                  type:'line',
@@ -481,7 +477,7 @@ export default {
              }]
            })
            // 点击折点渲染表格
-           myChart.on('click', function (params) {
+           this.lineChart.on('click', function (params) {
              // 让表格出现
              that.pdc.realX = params.name
              that.controlChecked=1;
@@ -489,21 +485,14 @@ export default {
              // 表格数据渲染
              that.getList(that.CurrentPage,that.pageSize,that.pdc);
            });
-           //图标根据窗口大小自动缩放
-           // window.addEventListener("resize", this.myChart.resize);
          },
 
     drawBar(){
-      let myBarChart = echarts.init(document.getElementById('barEcharts'));
-      this.barChart = myBarChart;
-      // let chartBox=document.getElementsByClassName('barChart')[0];
-      // function resizeCharts() {//为调整图标尺寸的方法
-      //   myBarChart.style.width=chartBox.style.width+'px'
-      //   myBarChart.style.height=chartBox.style.height+'px'
-      // }
+      this.barChart = echarts.init(document.getElementById('barEcharts'));
+      window.onresize = echarts.init(document.getElementById('barEcharts')).resize;
       let that = this;
       //初始化柱状图
-      myBarChart.setOption({
+      this.barChart.setOption({
         tooltip:{
           trigger:'axis',
           // formatter:'报文数量：2300',
@@ -542,17 +531,18 @@ export default {
              textStyle: {
                  color: '#000'
              }
-           }
+           },
         }],
         series:[{
           type:'bar',
-          barWidth: '30%',
+          barWidth: '30',
           data:this.barY,
           itemStyle:{
               normal:{
                   color:'#D3C9E7'
               }
           },
+          BarcategoryGap:'1%'
         }]
       })
       //点击柱状图渲染表格
@@ -563,7 +553,6 @@ export default {
       //   // 表格数据渲染
       //   this.hgetList(this.hCurrentPage,this.hpageSize,this.cdt);
       // })
-      // window.addEventListener("resize", this.myBarChart.resize);
     },
     // 校验比对实时监控折线图
     checkRealTime(){
@@ -615,10 +604,8 @@ export default {
       this.coCheckId=1;
       if(this.controlChecked == 1){//判断实时图
         this.checkRealTime();
-        // this.getList(this.CurrentPage,this.pageSize,this.pd);
       }else if(this.controlChecked == 2){//判断历史表
         this.checkHistoryTime();
-        // this.hgetList(this.hCurrentPage,this.hpageSize,this.cdt);
       }
     },
     judgeList(){

@@ -166,7 +166,7 @@
         </el-table-column>
         <el-table-column
           prop="TYPE"
-          label="最终命中人员类别" width="170"
+          label="命中人员类别" width="170"
           sortable="custom">
         </el-table-column>
 
@@ -175,7 +175,8 @@
           label="操作"
           sortable="custom">
           <template slot-scope="scope">
-            <el-button class="table-btn" size="mini" plain @click="details(scope.row)">详情</el-button>
+            <el-button class="table-btn" size="mini" plain @click="details(scope.row)">事件文档</el-button>
+            <el-button class="table-btn" size="mini" plain @click="">详情</el-button>
          </template>
         </el-table-column>
       </el-table>

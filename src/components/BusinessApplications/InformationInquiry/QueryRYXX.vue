@@ -243,7 +243,7 @@
                   <el-row type="flex" class="ak-li boder1 t-ak-li" align="center">
                     <el-col :sm="24" :md="12" :lg="3" class="input-item">
                       <span class="input-text t-input-text">国籍：</span>
-                      <el-select placeholder="请选择" v-model="cdtList.nationalityEqual" filterable clearable size="mini"  class="input-inp" @visible-change="nation">
+                      <el-select placeholder="请选择" v-model="cdtList.nationalityEqual" filterable clearable size="mini"  class="input-inp" @visible-change="">
                         <el-option
                           v-for="item in nationName"
                           :key="item.CODE"
@@ -342,7 +342,7 @@
                   <el-row type="flex" class="ak-li boder1 t-ak-li" align="center"  v-for="i in rows" :key="i.version">
                     <el-col :sm="24" :md="12" :lg="3" class="input-item">
                       <span class="input-text t-input-text">国籍：</span>
-                      <el-select placeholder="请选择" v-model="i.nationalityEqual" filterable clearable size="mini"  class="input-inp" @visible-change="nation">
+                      <el-select placeholder="请选择" v-model="i.nationalityEqual" filterable clearable size="mini"  class="input-inp" @visible-change="">
                         <el-option
                           v-for="item in nationName"
                           :key="item.CODE"
@@ -1088,7 +1088,6 @@
               ref="upload"
               name="excel"
               action="http://192.168.99.245:8080/manage-platform/iapi/readExcel"
-              multiple
               :on-success="uploadSuccess"
               :limit="5"
               :auto-upload="false">
@@ -1417,6 +1416,7 @@ export default {
         {
           version:1,
           nationalityEqual:'',
+          nationalityNameEqual:'',
           passportnoEqual:'',
           fltnoEqual:'',
           familyname:'',
@@ -1674,6 +1674,7 @@ export default {
     console.log(this.bigBase);
     this.takeOff();
     this.landing();
+    this.nation();
     this.currentPage = 1;
     this.getList(this.currentPage,this.showCount,this.cdt);
   },
@@ -2605,18 +2606,10 @@ export default {
       return new Date(item);
     },
    uploadSuccess(response, file, fileList){
-     console.log(response.data.feildAndValueList);
-     let arrConfig = response.data.feildAndValueList;
+     console.log(response.data.cdtList);
+     let arrConfig = response.data.cdtList;
      for(var i=0;i<arrConfig.length;i++){
        this.cdtList = arrConfig[0];
-       let datearrivdate = this.dataChange(this.cdtList.arrivdate);
-       let datadateofbirth = this.dataChange(this.cdtList.dateofbirth);
-       let dataflightDepartdate = this.dataChange(this.cdtList.flightDepartdate);
-       let datadepartdate = this.dataChange(this.cdtList.departdate);
-       this.cdtList.arrivdate=formatDate(datearrivdate,'yyyyMMddhhmmss');
-       this.cdtList.departdate=formatDate(datadepartdate,'yyyyMMddhhmmss');
-       this.cdtList.dateofbirth=formatDate(datadateofbirth,'yyyyMMdd');
-       this.cdtList.flightDepartdate=formatDate(dataflightDepartdate,'yyyyMMddhhmmss');
      }
      this.rows = arrConfig.slice(1);
    }
