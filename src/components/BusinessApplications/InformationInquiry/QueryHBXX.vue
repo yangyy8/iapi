@@ -20,22 +20,21 @@
                v-model="pd.scheduledeparturetime"
                type="datetime" size="small"
                placeholder="开始时间"  :picker-options="pickerOptions1"
-               value-format="yyyyMMdd">
+               value-format="yyyyMMddHHssmm">
              </el-date-picker>
                <span class="septum">-</span>
              <el-date-picker
                 v-model="pd.schedulearrivetime"
                 type="datetime" size="small"
                 placeholder="结束时间" :picker-options="pickerOptions1"
-                value-format="yyyyMMdd">
+                value-format="yyyyMMddHHssmm">
             </el-date-picker>
           </div>
             </el-col>
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">出入标识：</span>
               <el-select v-model="pd.flighttype" placeholder="请选择" filterable clearable size="small" class="input-input">
-                 <el-option value="" label="全部">
-                 </el-option>
+
                  <el-option value="I" label="I - 入境">
                  </el-option>
                  <el-option value="O" label="O - 出境">
@@ -46,8 +45,7 @@
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">航班状态：</span>
               <el-select v-model="pd.status" placeholder="请选择" filterable clearable size="small" class="input-input">
-                 <el-option value="" label="全部">
-                 </el-option>
+
                  <el-option value="0" label="0 - 计划">
                  </el-option>
                  <el-option value="1" label="1 - 正在预检">
@@ -104,27 +102,27 @@
           label="出入标识">
         </el-table-column>
         <el-table-column
-          prop="flightTime"
+          prop="departuretime"
           label="计划起飞时间"
           >
         </el-table-column>
         <el-table-column
-          prop="SCHEDULEARRIVETIME"
+          prop="arrivetime"
           label="计划到达时间"
         >
         </el-table-column>
         <el-table-column
-          prop="stationfromName"
+          prop="stationfrom"
           label="出发航站"
   >
         </el-table-column>
         <el-table-column
-          prop="stationtoName"
+          prop="stationto"
           label="到达航站"
   >
         </el-table-column>
         <el-table-column
-          prop="airlineCompanyIdEqual"
+          prop="airlineCompanyId"
           label="航空公司"
   >
         </el-table-column>
@@ -145,7 +143,7 @@
           <template slot-scope="scope">
             <div class="flex-r">
 
-              <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row.SERIAL)">详情</el-button>
+              <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row)">详情</el-button>
             </div>
 
          </template>
@@ -184,197 +182,35 @@
 
 
 
-    <el-dialog title="新增" :visible.sync="addDialogVisible">
-      <el-form :model="form" ref="addForm">
-        <el-row type="flex"  class="mb-6">
-          <el-col :span="8" class="input-item">
-            <span class="input-text">国籍：</span>
-            <el-input placeholder="请输入内容" size="small" v-model="form.NATIONALITY"></el-input>
-
-          </el-col>
-          <el-col :span="8" class="input-item">
-            <span class="input-text">证件种类：</span>
-            <el-input placeholder="请输入内容" size="small" v-model="form.CARDTYPE"></el-input>
-          </el-col>
-
-          <el-col :span="8" class="input-item">
-            <span class="input-text">证件号码：</span>
-            <el-input placeholder="请输入内容" size="small" v-model="form.CARDNO"></el-input>
-          </el-col>
-        </el-row>
-        <el-row type="flex"  class="mb-6">
-          <el-col :span="8" class="input-item">
-            <span class="input-text">姓名：</span>
-            <el-input placeholder="请输入内容" size="small" v-model="form.FAMILYNAME"></el-input>
-
-          </el-col>
-          <el-col :span="8" class="input-item">
-            <span class="input-text">性别：</span>
-            <div class="el-input">
-              <el-radio v-model="form.GENDER" label="M">男</el-radio>
-              <el-radio v-model="form.GENDER" label="F">女</el-radio>
-              <el-radio v-model="form.GENDER" label="U">未知</el-radio>
-            </div>
-          </el-col>
-
-          <el-col :span="8" class="input-item">
-            <span class="input-text">出生日期：</span>
-            <el-input placeholder="请输入内容" size="small" v-model="form.BIRTHDATE"></el-input>
-          </el-col>
-        </el-row>
-        <el-row type="flex"  class="mb-6">
-          <el-col :span="8" class="input-item">
-            <span class="input-text">航班号：</span>
-            <el-input placeholder="请输入内容" size="small" v-model="form.NATIONALITY"></el-input>
-
-          </el-col>
-          <el-col :span="8" class="input-item">
-            <span class="input-text">入境口岸：</span>
-            <el-input placeholder="请输入内容" size="small" v-model="form.WHITE_PORT"></el-input>
-          </el-col>
-
-          <el-col :span="8" class="input-item">
-            <span class="input-text">出境口岸：</span>
-            <el-input placeholder="请输入内容" size="small" v-model="form.NATIONALITY"></el-input>
-          </el-col>
-        </el-row>
-        <el-row type="flex" class="mb-6">
-          <el-col :span="8" class="input-item">
-            <span class="input-text">起始日期：</span>
-            <el-input placeholder="请输入内容" size="small" v-model="form.CTL_BEGINDATE"></el-input>
-
-          </el-col>
-          <el-col :span="8" class="input-item">
-            <span class="input-text">终止日期：</span>
-            <el-input placeholder="请输入内容" size="small" v-model="form.CTL_EXPIREDATE"></el-input>
-          </el-col>
-        </el-row>
-        <el-row type="flex" class="mb-6" >
-          <el-col :span="23" class="input-item">
-            <span class="input-text">处理依据：</span>
-            <el-input placeholder="请输入内容" size="small" class="long-input" v-model="form.CTL_REASON"></el-input>
-          </el-col>
-        </el-row>
-        <el-row type="flex">
-          <el-col :span="23" class="input-item">
-            <span class="input-text">批准机关：</span>
-            <el-input placeholder="请输入内容" size="small" class="long-input" v-model="form.SUBORG_NAME"></el-input>
-          </el-col>
-        </el-row>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="addItem('addForm')" size="small">保存</el-button>
-        <el-button type="warning" @click="addDialogVisible = false" size="small">保存并转发</el-button>
-        <el-button @click="addDialogVisible = false" size="small">取 消</el-button>
-
-      </div>
-    </el-dialog>
 
     <el-dialog
       title="详情"
       :visible.sync="detailsDialogVisible"
       width="950px">
       <div class="detail-msg-text">
+      <el-form :model="form" ref="addForm">
         <el-row type="flex" class="detail-msg-row">
           <el-col :span="8">
-            <span>姓名</span>
-            张某某
+            <span>航班号:</span>
+            {{form.fltno}}
 
           </el-col>
           <el-col :span="8">
-            <span>性别</span>
-            男
+            <span>航班日期</span>
+              {{form.departuretime}}
 
           </el-col>
           <el-col :span="8">
-            <span>出生日期</span>
-            2000年10月10日
+            <span>出入标识：</span>
+            {{form.flighttype}}
 
           </el-col>
         </el-row>
-        <el-row type="flex" class="detail-msg-row">
-          <el-col :span="8">
-            <span>国籍</span>/
-            张某某
 
-          </el-col>
-          <el-col :span="8">
-            <span>证件号码</span>
-            张某某
-
-          </el-col>
-          <el-col :span="8">
-            <span>签证号码</span>
-            张某某
-
-          </el-col>
-        </el-row>
-        <el-row type="flex" class="detail-msg-row">
-          <el-col :span="8">
-            <span>出入标识</span>
-            张某某
-
-          </el-col>
-          <el-col :span="8">
-            <span>第二证号</span>
-            张某某
-
-          </el-col>
-          <el-col :span="8">
-            <span>第二国籍</span>
-            张某某
-
-          </el-col>
-        </el-row>
-        <el-row type="flex" class="detail-msg-row">
-          <el-col :span="8">
-            <span>航班号</span>
-            张某某
-
-          </el-col>
-          <el-col :span="8">
-            <span>出发地</span>
-            张某某
-
-          </el-col>
-          <el-col :span="8">
-            <span>目的地</span>
-            张某某
-
-          </el-col>
-        </el-row>
-        <el-row type="flex" class="detail-msg-row mb-20">
-          <el-col :span="8">
-            <span>报警类型</span>
-            张某某
-
-          </el-col>
-          <el-col :span="8">
-            <span>报警时间</span>
-            张某某
-
-          </el-col>
-        </el-row>
-        <el-row type="flex" class="detail-msg-row">
-          <el-col :span="5">
-            <span>操作人</span>
-            张某某
-
-          </el-col>
-          <el-col :span="5">
-            <span>审批人</span>
-            张某某
-
-          </el-col>
-          <el-col :span="6">
-            <span>操作时间</span>
-            张某某
-
-          </el-col>
-        </el-row>
+      </el-form>
       </div>
       <span slot="footer" class="dialog-footer">
-        <el-button type="warning" @click="detailsDialogVisible = false" size="small">关闭页面</el-button>
+        <el-button type="warning" @click="detailsDialogVisible = false" size="small">取消</el-button>
       </span>
     </el-dialog>
   </div>
@@ -390,8 +226,6 @@ export default {
       TotalResult: 0,
       pd: {},
       nation: [],
-      value: '',
-      value1: "",
       addDialogVisible: false,
       detailsDialogVisible: false,
       options: [{
@@ -409,18 +243,6 @@ export default {
       ],
       tableData: [],
       multipleSelection: [],
-      options: [{
-        value: '0',
-        label: '未知'
-      }, {
-        value: 'PEK - 北京首都国际机场',
-        label: 'PEK - 北京首都国际机场'
-      }, {
-        value: 'SHA - 上海虹桥国际机场',
-        label: 'SHA - 上海虹桥国际机场'
-      }],
-      sex: '',
-      JHDDKA: '',
       pickerOptions2: {
         shortcuts: [{
           text: '最近一周',
@@ -448,27 +270,7 @@ export default {
           }
         }]
       },
-      HBRQ: '',
-      CSRQ: '',
-
-
-      form: {
-        "NATIONALITY": "CHN",
-        "CARDTYPE": "1",
-        "CARDNO": "11000",
-        "FAMILYNAME": "张三丰",
-        "GENDER": "M",
-        "BIRTHDATE": "20100110",
-        "WHITE_PORT": "首都机场",
-        "CTL_BEGINDATE": "20180505",
-        "CTL_EXPIREDATE": "20180626",
-        "CTL_REASON": "白名单",
-        "SUBORG_NAME": "批准机关",
-        "synStatus": "0",
-        "LIST_TYPE": "1",
-        "IN_OUT": "0"
-      },
-      formLabelWidth: '120px'
+      form: { },
     }
   },
   mounted() {
@@ -541,11 +343,8 @@ export default {
     details(i) {
       this.detailsDialogVisible = true;
       console.log(i);
-      this.$api.post('/manage-platform/nameList/getNameListData', i,
-        r => {
-          console.log(r);
-          // this.tableData=r.Data.ResultList;
-        })
+      this.form=i;
+
     },
 
   }

@@ -378,7 +378,7 @@
           </el-input>
         </el-col>
         <el-col :span="4" class="down-btn-area">
-          <el-button type="primary" class="mb-15" size="small" @click="handlesDialogVisible=true" v-show="isUpdate&&iapiMap.instructNew==null" :disabled="msgData==1">确定</el-button>
+          <el-button type="primary" class="mb-15" size="small" @click="handeles()" v-show="isUpdate&&iapiMap.instructNew==null" :disabled="msgData==1">确定</el-button>
           <el-button type="info" class="mb-15" size="small" @click="archive" v-show="!isUpdate||iapiMap.instructNew">归档</el-button>
           <el-button type="warning" size="small" onclick="window.history.go(-1);">取消</el-button>
         </el-col>
@@ -521,294 +521,312 @@
 <script>
 export default {
   data() {
-   return {
-     eventserial:"ddddddd",
-     tabIsShow:false,
-     iapiMap:{},
-     listMap:[{}],
-     userMap:{},
-     warnMap:{},
-     listMap2:[{}],
-     form:{},
-     ap:{},
-     pd:{},
-     isUpdate:true,
-     AuthDialogVisible:false,
-     handlesDialogVisible:false,
-     tableData:[],
-     msgData:0
-   }
- },
- mounted(){
-   this.eventserial=this.$route.query.eventserial;
-   this.getList();
-   if(this.$route.query.type==0){
-     this.shijian();
-   }
- },
- methods:{
-   getList(){
-     let p={
-       "currentPage":0,
-       "showCount":3,
-       "pd":{
-          eventserial:this.eventserial
-       }
-     };
-     if(this.$route.query.isZDGZ){
-       this.$api.post('/manage-platform/pnrAlarmEvent/queryPnrAlarmPassInfo',p,
-        r => {
-          console.log(r);
-          this.iapiMap=r.data.iapiMap
-          this.listMap=r.data.listMap;
-          var arr=this.listMap
-          var thar=this;
-          this.pd.CHANGE_RESON="";
-          for(var i in arr){
-            if(arr[i].status==0){
-              console.log(arr[i].status)
-              this.msgData++;
-            }
-            if(arr[i].compareDesc){
-              this.pd.CHANGE_RESON += parseInt(i+1)+"."+arr[i].compareDesc+"\n";
-            }
-          }
-       })
-     }else {
-       this.$api.post('/manage-platform/alarmEvents/getListAlarmEventsInfo',p,
-        r => {
-          console.log(r);
-          this.iapiMap=r.data.iapiMap
-          this.listMap=r.data.listMap;
-          this.userMap=r.data.userMap;
-          var arr=this.listMap;
-          var thar=this;
-          this.pd.CHANGE_RESON="";
-          for(var i in arr){
-            console.log(arr[i])
-            if(arr[i].status==0){
-              console.log(arr[i].status)
-              this.msgData++;
-            }
-            if(arr[i].compareDesc){
-              this.pd.CHANGE_RESON += parseInt(i+1)+"."+arr[i].compareDesc+"\n";
-            }
-
-          }
-       })
-     }
-
-   },
-   xinxi(){
-     this.tabIsShow=false;
-     console.log(this.tabIsShow)
-   },
-   shijian(){
-     this.tabIsShow=true;
-     this.documentInfo()
-   },
-   upDate(ap){
-
-
-     // this.pd.eventserial=this.eventserial;
-     // this.pd.bguserName=ap.userName;
-     // this.pd.bgpassword=ap.password;
-     // this.pd.bgverifyType="bjcl";
-     // if(this.pd.DEALRESULT==1){
-     //   this.pd.INSTRUCT_OLD=this.iapiMap.instructOld;
-     // }
-     // let p={
-     //   "currentPage":0,
-     //   "showCount":3,
-     //    pd:this.pd
-     // };
-     let p={
-       "IAPISERIAL": this.eventserial,
-       "CREATEUSER": this.userMap.userId,
-       "APPROVALUSER": ap.userName,
-       "APPROVALPW":ap.password,
-       "INSTRUCT": ap.INSTRUCT,
-       "CHANGERESON": ap.CHANGERESON
-     };
-     if(this.pd.DEALRESULT==1){
-      // this.$api.post('/manage-platform/alarmEvents/getUpdateResult',p,
-       this.$api.post('/manage-platform/iapiUnscolicited/eventAlarmTab',p,
-        r => {
-          console.log(r);
-          if(r.success){
-            this.$message({
-              message: '恭喜你，操作成功！',
-              type: 'success'
-
-            });
-            this.isUpdate=false;
-            this.AuthDialogVisible=false;
-          }
-       })
-     }
-
-   },
-   archive(){
-
-     this.pd.eventserial=this.eventserial;
-     this.pd.userid=this.userMap.userId;
-     this.pd.approvaluser=this.ap.userName;
-     this.pd.savecontent=this.pd.CHANGE_RESON;
-     let p={
-       "currentPage":0,
-       "showCount":3,
-       "pd":this.pd
-     };
-
-     this.$api.post('/manage-platform/alarmEvents/archiveDocument',p,
-      r => {
-        console.log(r);
-        if(r.success){
-          this.$message({
-            message: '归档完毕！',
-            type: 'success'
-          });
-          this.isUpdate=true;
-          var arr=this.listMap;
-          this.pd.CHANGE_RESON="";
-          for(var i in arr){
-            if(!arr[i].compareDesc){
-              this.pd.CHANGE_RESON += parseInt(i+1)+"."+arr[i].compareDesc+"\n";
-              console.log(this.pd.CHANGE_RESON)
-            }
-          }
-
-        }else{
-          this.$message.error(r.message);
+    return {
+      eventserial: "ddddddd",
+      tabIsShow: false,
+      iapiMap: {},
+      listMap: [{}],
+      userMap: {},
+      warnMap: {},
+      listMap2: [{}],
+      form: {},
+      ap: {},
+      pd: {},
+      isUpdate: true,
+      AuthDialogVisible: false,
+      handlesDialogVisible: false,
+      tableData: [],
+      msgData: 0
+    }
+  },
+  mounted() {
+    this.eventserial = this.$route.query.eventserial;
+    this.getList();
+    if (this.$route.query.type == 0) {
+      this.shijian();
+    }
+  },
+  methods: {
+    getList() {
+      let p = {
+        "currentPage": 0,
+        "showCount": 3,
+        "pd": {
+          eventserial: this.eventserial
         }
+      };
+      if (this.$route.query.isZDGZ) {
+        this.$api.post('/manage-platform/pnrAlarmEvent/queryPnrAlarmPassInfo', p,
+          r => {
+            console.log(r);
+            this.iapiMap = r.data.iapiMap
+            this.listMap = r.data.listMap;
+            var arr = this.listMap
+            var thar = this;
+            this.pd.CHANGE_RESON = "";
+            for (var i in arr) {
+              if (arr[i].status == 0) {
+                console.log(arr[i].status)
+                this.msgData++;
+              }
+              if (arr[i].compareDesc) {
+                this.pd.CHANGE_RESON += parseInt(i + 1) + "." + arr[i].compareDesc + "\n";
+              }
+            }
+          })
+      } else {
+        this.$api.post('/manage-platform/alarmEvents/getListAlarmEventsInfo', p,
+          r => {
+            console.log(r);
+            this.iapiMap = r.data.iapiMap
+            this.listMap = r.data.listMap;
+            this.userMap = r.data.userMap;
+            var arr = this.listMap;
+            var thar = this;
+            this.pd.CHANGE_RESON = "";
+            for (var i in arr) {
+              console.log(arr[i])
+              if (arr[i].status == 0) {
+                console.log(arr[i].status)
+                this.msgData++;
+              }
+              if (arr[i].compareDesc) {
+                this.pd.CHANGE_RESON += parseInt(i + 1) + "." + arr[i].compareDesc + "\n";
+              }
 
-        window.history.go(-1);
+            }
+          })
+      }
 
-     })
-   },
-   documentInfo(){
-     let sjwd;
-     this.$route.query.isZDGZ? sjwd=1:sjwd=0;
-     let p={
-       "currentPage":0,
-       "showCount":3,
-       "pd":{
-          sjwd:sjwd,
-          eventserial:this.eventserial
-       }
-     };
-     this.$api.post('/manage-platform/alarmEvents/getEventDocumentInfo',p,
-      r => {
-        console.log(r);
-        this.warnMap=r.data.warnMap
-        this.listMap2=r.data.listMap;
-        // if(r.success){
-        //   this.$message({
-        //     message: '恭喜你，操作成功！',
-        //     type: 'success'
-        //   });
-        // }else{
-        //   this.$message.error(r.message);
-        // }
-     })
-   },
-   Authorization(ap)
-   {
-       this.upDate(ap);
-   }
+    },
+    xinxi() {
+      this.tabIsShow = false;
+      console.log(this.tabIsShow)
+    },
+    shijian() {
+      this.tabIsShow = true;
+      this.documentInfo()
+    },
+    upDate(ap) {
+    console.log("============="+this.iapiMap.iapiSerial+"---"+this.eventserial);
+      // this.pd.eventserial=this.eventserial;
+      // this.pd.bguserName=ap.userName;
+      // this.pd.bgpassword=ap.password;
+      // this.pd.bgverifyType="bjcl";
+      // if(this.pd.DEALRESULT==1){
+      //   this.pd.INSTRUCT_OLD=this.iapiMap.instructOld;
+      // }
+      // let p={
+      //   "currentPage":0,
+      //   "showCount":3,
+      //    pd:this.pd
+      // };
+      let p = {
+        "IAPISERIAL": this.iapiMap.iapiSerial,
+        "EVENTSERIAL":this.eventserial,
+        "CREATEUSER": this.userMap.userId,
+        "APPROVALUSER": ap.userName,
+        "APPROVALPW": ap.password,
+        "INSTRUCT": ap.INSTRUCT,
+        "CHANGERESON": ap.CHANGERESON
+      };
+      if (this.pd.DEALRESULT == 1) {
+        // this.$api.post('/manage-platform/alarmEvents/getUpdateResult',p,
+        this.$api.post('/manage-platform/iapiUnscolicited/eventAlarmTab', p,
+          r => {
+            console.log(r);
+            if (r.success) {
+              this.$message({
+                message: '恭喜你，操作成功！',
+                type: 'success'
+              });
+              this.isUpdate = false;
+              this.AuthDialogVisible = false;
+                this.handlesDialogVisible = false;
+            }
+          })
+      }
+    },
+    archive() {
 
+      this.pd.eventserial = this.eventserial;
+      this.pd.userid = this.userMap.userId;
+      this.pd.approvaluser = this.ap.userName;
+      this.pd.savecontent = this.pd.CHANGE_RESON;
+      let p = {
+        "currentPage": 0,
+        "showCount": 3,
+        "pd": this.pd
+      };
 
- }
+      this.$api.post('/manage-platform/alarmEvents/archiveDocument', p,
+        r => {
+          console.log(r);
+          if (r.success) {
+            this.$message({
+              message: '归档完毕！',
+              type: 'success'
+            });
+            this.isUpdate = true;
+            var arr = this.listMap;
+            this.pd.CHANGE_RESON = "";
+            for (var i in arr) {
+              if (!arr[i].compareDesc) {
+                this.pd.CHANGE_RESON += parseInt(i + 1) + "." + arr[i].compareDesc + "\n";
+                console.log(this.pd.CHANGE_RESON)
+              }
+            }
+
+          } else {
+            this.$message.error(r.message);
+          }
+
+          window.history.go(-1);
+
+        })
+    },
+    documentInfo() {
+      let sjwd;
+      this.$route.query.isZDGZ ? sjwd = 1 : sjwd = 0;
+      let p = {
+        "currentPage": 0,
+        "showCount": 3,
+        "pd": {
+          sjwd: sjwd,
+          eventserial: this.eventserial
+        }
+      };
+      this.$api.post('/manage-platform/alarmEvents/getEventDocumentInfo', p,
+        r => {
+          console.log(r);
+          this.warnMap = r.data.warnMap
+          this.listMap2 = r.data.listMap;
+          // if(r.success){
+          //   this.$message({
+          //     message: '恭喜你，操作成功！',
+          //     type: 'success'
+          //   });
+          // }else{
+          //   this.$message.error(r.message);
+          // }
+        })
+    },
+    Authorization(ap) {
+      this.upDate(ap);
+    },
+    handeles() {
+      if (this.pd.DEALRESULT == 1) {
+        this.handlesDialogVisible = true;
+      }
+
+    }
+
+  }
 }
 </script>
 
 <style scoped>
-.apInput{
+.apInput {
   width: 330px;
 
 }
-.middle{
+
+.middle {
   background: none;
   padding: 0;
 }
-.middle-tab{
+
+.middle-tab {
   width: 252px;
-  background:#fff;
+  background: #fff;
   display: flex;
 
 }
-.middle-tab-item{
+
+.middle-tab-item {
   width: 50%;
   text-align: center;
   background: #a2ddd7;
   color: #4bc3a0;
 }
-.middle-checked{
+
+.middle-checked {
   background: #fff;
   border-top: 3px #4bc3a0 solid;
 }
-.middle-content1{
+
+.middle-content1 {
   background: #fff;
-  padding:15px 20px 5px 20px;
+  padding: 15px 20px 5px 20px;
 }
-.position{
+
+.position {
   position: relative;
 }
-.middle-msg{
+
+.middle-msg {
   position: absolute;
   left: 130px;
-  top:15px;
+  top: 15px;
   background: #fdddde;
   border: 1px #fea9ac solid;
   padding: 0 15px;
 }
-.middle-msg span{
+
+.middle-msg span {
   color: #fd5457;
   font-size: 18px;
   font-weight: bold;
 }
-.middle-msg-left{
+
+.middle-msg-left {
   padding-right: 60px;
   border-right: 1px #eee solid;
 }
-.middle-msg-img{
+
+.middle-msg-img {
   width: 130px;
   margin-right: 60px;
 }
-.middle-msg-row{
+
+.middle-msg-row {
   border-bottom: 1px #eee solid;
-  color:#666;
+  color: #666;
   height: 38px;
   line-height: 38px;
 }
-.middle-msg-row:last-child{
+
+.middle-msg-row:last-child {
   border: none;
 }
-.middle-msg-row span{
+
+.middle-msg-row span {
   display: inline-block;
   width: 80px;
   color: #333;
 }
-.middle-msg-row2 span{
+
+.middle-msg-row2 span {
   display: inline-block;
   width: 75px;
   color: #333;
   font-weight: bold;
 }
-.middle-msg-right{
+
+.middle-msg-right {
   display: flex;
   justify-content: center;
   align-items: center;
 }
-.middle-text-g span{
+
+.middle-text-g span {
   font-weight: bold;
 }
-.middle-btn-g{
+
+.middle-btn-g {
   display: flex;
   justify-content: center;
   align-items: center;
   padding-bottom: 15px;
 }
-
-
 </style>

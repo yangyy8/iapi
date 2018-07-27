@@ -17,13 +17,13 @@
           <div class="input-input t-flex t-date">
                <el-date-picker
                v-model="pd.planFlyBeginDate"
-               type="datetime" size="small" value-format="yyyymmddhhmmss"
+               type="datetime" size="small" value-format="yyyyMMddHHssmm"
                placeholder="开始时间"  :picker-options="pickerOptions1">
              </el-date-picker>
                <span class="septum">-</span>
              <el-date-picker
                 v-model="pd.planFlyEndDate"
-                type="datetime" size="small" value-format="yyyymmddhhmmss"
+                type="datetime" size="small" value-format="yyyyMMddHHssmm"
                 placeholder="结束时间" :picker-options="pickerOptions1">
              </el-date-picker>
              </div>
@@ -48,13 +48,13 @@
                  <el-date-picker
                  v-model="pd.planFlyBeginTime"
                  type="datetime" size="small"
-                 placeholder="开始时间" value-format="yyyymmddhhmmss"  :picker-options="pickerOptions1">
+                 placeholder="开始时间" value-format="yyyyMMddHHssmm"  :picker-options="pickerOptions1">
                </el-date-picker>
                  <span class="septum">-</span>
                <el-date-picker
                   v-model="pd.planFlyEndTime"
                   type="datetime" size="small"
-                  placeholder="结束时间" value-format="yyyymmddhhmmss" :picker-options="pickerOptions1">
+                  placeholder="结束时间" value-format="yyyyMMddHHssmm" :picker-options="pickerOptions1">
                </el-date-picker>
                </div>
             </el-col>
@@ -77,13 +77,13 @@
             <div class="input-input t-flex t-date">
                  <el-date-picker
                  v-model="pd.planReachBeginTime"
-                 type="datetime" size="small"  value-format="yyyymmddhhmmss"
+                 type="datetime" size="small"  value-format="yyyyMMddHHssmm"
                  placeholder="开始时间"  :picker-options="pickerOptions1">
                </el-date-picker>
                  <span class="septum">-</span>
                <el-date-picker
                   v-model="pd.planReachEndTime"
-                  type="datetime" size="small" value-format="yyyymmddhhmmss"
+                  type="datetime" size="small" value-format="yyyyMMddHHssmm"
                   placeholder="结束时间" :picker-options="pickerOptions1">
                </el-date-picker>
                </div>
@@ -102,7 +102,7 @@
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                 <span class="input-text">不通过原因：</span>
                 <el-select v-model="pd.thanType"  class="input-input" filterable clearable   placeholder="请选择"  size="small">
-                
+
                   <el-option value="1"  label="1 - 必录项缺失">
                   </el-option>
                   <el-option value="2"  label="2 - 长度不符合">
@@ -363,7 +363,7 @@ export default {
     },
     getsum() {
 
-      this.$api.post('/manage-platform/compareReuslt/businessRule/counter', {},
+      this.$api.post('/manage-platform/compareReuslt/businessRule/totalCounter', {},
         r => {
           console.log(r);
           this.sum = r.data.crCounter;
