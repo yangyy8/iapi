@@ -190,7 +190,7 @@ export default {
       },
       jzmm:false,
       bynav:true,
-      isLogin:false,
+      isLogin:true,
       tabId:0,
       crType:"0",
       showLeft:true,

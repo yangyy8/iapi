@@ -229,7 +229,7 @@
           sortable>
         </el-table-column>
         <el-table-column
-          prop="NATIONALITY"
+          prop="NATIONALITYNAME"
           sortable
           label="国籍">
 
@@ -276,7 +276,6 @@
          </template>
         </el-table-column>
       </el-table>
-
       <div class="middle-foot">
         <div class="page-msg">
           <div class="">
@@ -321,6 +320,7 @@
                 :value="item.CODE">
               </el-option>
             </el-select>
+          
           </el-col>
           <el-col :sm="24" :md="12" :lg="8"  class="input-item">
             <span class="input-text"><span class="redx">*</span>证件种类：</span>
@@ -683,6 +683,7 @@ export default {
       form: {
         "synStatus":"0",
     	  "LIST_TYPE":"1",
+        NATIONALITY:""
         },
       releaseform:{
         user:"",
@@ -694,6 +695,12 @@ export default {
   },
   mounted(){
     this.getList(this.CurrentPage,this.pageSize,this.pd);
+    this.queryNationalityAlone()
+  },
+  computed:{
+    NATIONALITYcode(){
+      return this.form.NATIONALITY.split('-')[0]
+    }
   },
   methods:{
     handleSelectionChange(val) {
