@@ -374,14 +374,15 @@
 .checkbox-item{
   display: block;
   text-align: left;
-  width: 61px;
+  /* width: 61px; */
+  padding: 0 10px;
   height: 24px;
   line-height: 24px;
-  margin-right: 5px;
+  margin:0 10px 10px 0;
 }
 .schecked{
   /* background: url(../../../assets/img/qgjk/check.png) */
-  background: 
+  background: #112b42;
 }
 .list-dd{
   display: flex;
