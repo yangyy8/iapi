@@ -302,7 +302,9 @@
             <tr>
               <td>姓名</td>
               <td>{{travellerInfo.pname}}</td>
-              <td>{{tableData.NameListFocusEntity.NAME}}</td>
+              <td>{{travellerInfo.pname}}</td>
+
+              <!-- <td>{{tableData.NameListFocusEntity.NAME}}</td> -->
               <td>
                 <img v-if="compareResult.pname==1" src="../../../assets/img/hook.png" alt="">
                 <img v-if="compareResult.pname==0"src="../../../assets/img/cross.png" alt="">
@@ -311,7 +313,7 @@
             <tr>
               <td>性别</td>
               <td>{{travellerInfo.sex}}</td>
-              <td>{{tableData.NameListFocusEntity.GENDER}}</td>
+              <td>{{tableData.NameListFocusEntity.gender}}</td>
               <td>
                 <img v-if="compareResult.sex==1" src="../../../assets/img/hook.png" alt="">
                 <img v-if="compareResult.sex==0"src="../../../assets/img/cross.png" alt="">
@@ -328,8 +330,8 @@
             </tr>
             <tr>
               <td>国籍</td>
-              <td>{{travellerInfo.nationality}}</td>
-              <td>{{tableData.NameListFocusEntity.GJDQDMDESC}}</td>
+              <td>{{travellerInfo.nationalityDesc}}</td>
+              <td>{{tableData.NameListFocusEntity.nationalityDesc}}</td>
               <td>
                 <img v-if="compareResult.nationality==1" src="../../../assets/img/hook.png" alt="">
                 <img v-if="compareResult.nationality==0"src="../../../assets/img/cross.png" alt="">
@@ -338,7 +340,7 @@
             <tr>
               <td>证件号码</td>
               <td>{{travellerInfo.cnum}}</td>
-              <td>{{tableData.NameListFocusEntity.CARDNUM}}</td>
+              <td>{{tableData.NameListFocusEntity.cardno}}</td>
               <td>
                 <img v-if="compareResult.cnum==1" src="../../../assets/img/hook.png" alt="">
                 <img v-if="compareResult.cnum==0"src="../../../assets/img/cross.png" alt="">
@@ -447,7 +449,7 @@
               </el-col> -->
               <el-col :span="24" class="input-item mb-9">
                 <span class="input-text2">备注：</span>
-                <el-input placeholder="请输入内容" v-model="tableData.invalidCardList.CONENT" size="small" :disabled="true" class="input-input2"></el-input>
+                <el-input placeholder="请输入内容" v-model="tableData.invalidCardList.CONTENT" size="small" :disabled="true" class="input-input2"></el-input>
               </el-col>
             </el-row>
           </div>
@@ -595,7 +597,7 @@
               </el-col>
               <el-col :span="24" class="input-item mb-9">
                 <span class="input-text2">关注内容：</span>
-                <el-input placeholder="请输入内容" v-model="tableData.LKNameListList.content" size="small" :disabled="true" class="input-input2"></el-input>
+                <el-input placeholder="请输入内容" v-model="tableData.NameListFocusEntity.content" size="small" :disabled="true" class="input-input2"></el-input>
               </el-col>
             </el-row>
           </div>
@@ -639,7 +641,7 @@
           </div>
           <div  class="down-btn-area down3">
             <el-button type="primary" size="small" class="mb-15" @click="queding" :disabled="isdisabled">确定</el-button>
-            <el-button type="warning" size="small">取消</el-button>
+            <el-button type="warning" size="small" @click="$router.go(-1)">取消</el-button>
           </div>
 
         </div>
@@ -760,6 +762,7 @@ export default {
      value: '223333333333',
      checkedImg:1,
      checkedImg2:1,
+     martchPort:null,
      pd1:{},
      tableData:{
        BZRJyfbywtList:{},
@@ -804,6 +807,10 @@ export default {
          this.travellerInfo=r.data.travellerInfo;
          this.compareResult=r.data.compareResult;
          this.distinguishInfo=r.data.distinguishInfo
+         this.distinguishResult=r.data.distinguishResult;
+         this.distinguishNote=r.data.distinguishNote;
+         // this.martchPort=r.data.martchPort
+
       })
     }else{
       this.$api.post('/manage-platform/alarmEvents/nameListDistinguish',p,
@@ -812,7 +819,11 @@ export default {
          this.tableData=r.data;
          this.travellerInfo=r.data.travellerInfo;
          this.compareResult=r.data.compareResult;
-         this.distinguishInfo=r.data.distinguishInfo
+         this.distinguishInfo=r.data.distinguishInfo;
+         this.distinguishResult=r.data.distinguishResult;
+         this.distinguishNote=r.data.distinguishNote;
+         this.martchPort=r.data.martchPort;
+
       })
     }
 
