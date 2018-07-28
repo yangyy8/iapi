@@ -600,6 +600,9 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .clss{
+  fill:#0977b6;
+  stroke:#0977b6;
+  stroke-width:3; 
   /* transform: scale(1.1); */
 }
 .home{

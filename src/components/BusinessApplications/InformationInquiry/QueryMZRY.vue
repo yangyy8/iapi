@@ -88,11 +88,14 @@
               <span class="input-text">命中人员类别：</span>
               <el-select v-model='pd.eventtype' placeholder="请选择" size="small" filterable clearable class="input-input">
                 <el-option value="" label="全部"></el-option>
-                  <el-option value="0" label="0 - 黑名单"></el-option>
-                    <el-option value="1" label="1 - 白名单"></el-option>
-                    <el-option value="2" label="2 - 临控名单"></el-option>
-                    <el-option value="3" label="3 - 重点关注人员"></el-option>
-                    <el-option value="4" label="4 - 二次查控"></el-option>
+                  <el-option value="0" label="0 - 白名单"></el-option>
+                    <el-option value="1" label="1 - 临控名单"></el-option>
+                    <el-option value="2" label="2 - 黑名单 - 不准入境"></el-option>
+                    <el-option value="3" label="3 - 黑名单 - 失效证件"></el-option>
+                    <el-option value="4" label="4 - 黑名单 - 失效签证"></el-option>
+                    <el-option value="5" label="5 - 风险评估人员"></el-option>
+                    <el-option value="6" label="6 - 特殊关注对象"></el-option>
+                    <el-option value="7" label="7 - 二次查控对象"></el-option>
               </el-select>
             </el-col>
           </el-row>
@@ -111,16 +114,11 @@
         fit
         style="width: 100%;"
         @sort-change="ccc()"
-        @cell-click="getMore"
       >
         <el-table-column
-
+          prop="NAME"
           sortable="custom"
-          label="姓名"
-          >
-          <template slot-scope="scope">
-              <span style="color:#0494E8">{{scope.row.NAME}}</span>
-          </template>
+          label="姓名">
         </el-table-column>
         <el-table-column
           prop="GENDERNAME"
@@ -160,22 +158,24 @@
           sortable="custom">
         </el-table-column>
         <el-table-column
-          prop="NSTRUCT_NEW"
+          prop="INSTRUCT_NEW"
           label="反馈结果"
           sortable="custom">
         </el-table-column>
         <el-table-column
           prop="TYPE"
-          label="最终命中人员类别" width="170"
+          label="命中人员类别" width="170"
           sortable="custom">
         </el-table-column>
 
         <el-table-column
           fixed="right"
           label="操作"
-          sortable="custom">
+          sortable="custom"
+          width="200">
           <template slot-scope="scope">
-            <el-button class="table-btn" size="mini" plain @click="details(scope.row)">详情</el-button>
+            <el-button class="table-btn" size="mini" plain @click="details(scope.row)">事件文档</el-button>
+            <el-button class="table-btn" size="mini" plain @click="getMore(scope.row.EVENTSERIAL)">详情</el-button>
          </template>
         </el-table-column>
       </el-table>
@@ -480,14 +480,13 @@ export default {
         this.$router.push({name:'alarmProcess',query:{eventserial:i.EVENTSERIAL,type:0}})
       }else if(i.EVENTTYPE == '4'){}
     },
-    getMore(row,cell){
-      console.log(cell);
-      if(cell.label =='姓名'){
+    getMore(item){
+
         this.detailsDialogVisible = true;
         let gm = {
-          "serial":row.REFSERIAL
+          "serial":item
         }
-        this.$api.post('/manage-platform/iapi/queryIapiInfo',gm,
+        this.$api.post('/manage-platform/event/queryEventInfo',gm,
          r =>{
            if(r.success){
              this.dform = r.data.IAPI;
@@ -513,7 +512,7 @@ export default {
              }
            }
          })
-      }
+
     },
     reviewDetail(){
       let ss={

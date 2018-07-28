@@ -123,19 +123,23 @@
                     </el-table-column>
                     <el-table-column
                       prop="tbfclose"
-                      label="关闭报文数量">
+                      label="关闭报文数量"
+                      width="130">
                     </el-table-column>
                     <el-table-column
                       prop="tbfcancel"
-                      label="取消报文数量">
+                      label="取消报文数量"
+                      width="130">
                     </el-table-column>
                     <el-table-column
                       prop="tbchange"
-                      label="变更报文数量">
+                      label="变更报文数量"
+                      width="130">
                     </el-table-column>
                     <el-table-column
                       prop="tbintg"
-                      label="整合报文数量">
+                      label="整合报文数量"
+                      width="130">
                     </el-table-column>
                     <el-table-column
                       label="分发开始时间"
@@ -286,7 +290,7 @@ export default {
       hCurrentPage:1,
       hpageSize:10,
       hTotalResult:0,
-
+      port:'',
       value:1,
       controlChecked:1,
       coCheckId:1,
@@ -359,13 +363,14 @@ export default {
     }
   },
   mounted() {
+      this.checkRealTime();
       let begin=new Date();
       let  end=new Date();
       let aaaa = new Date(begin.setMonth((new Date().getMonth()-1)));
       let bbbb = new Date();
-      this.cdt.begin=formatDate(aaaa,'yyyyMMdd hhmmss');
-      this.cdt.end=formatDate(bbbb,'yyyyMMdd hhmmss');
-      this.checkRealTime();
+      this.cdt.begin=formatDate(aaaa,'yyyyMMddhhmmss');
+      this.cdt.end=formatDate(bbbb,'yyyyMMddhhmmss');
+
       this.getList(this.CurrentPage,this.pageSize,this.pd);
   },
   filters: {
@@ -426,14 +431,16 @@ export default {
     },
     drawLine() {
            let myChart = echarts.init(document.getElementById('echarts'));
+           window.onresize = echarts.init(document.getElementById('echarts')).resize;
            let that = this;
            // 折线图初始化
            myChart.setOption({
              tooltip:{
                trigger:'axis',
-               formatter:{
-                 "报文数量":2300,
-                 "平均性能":2000
+               formatter:function(params){
+                 for(var i=0;i<params.length;i++){
+                   return "报文数量:" + "2300"+"</br>"+"平均性能:" + params[i].data
+                 }
                },
                axisPointer:{
                  type:'line',
@@ -474,6 +481,7 @@ export default {
                 }
              }],
              legend: {
+               selectedMode:false,//取消图例上的点击事件
                data: ['时效平均值']//要与series中的name一致
              },
              series:[{
@@ -510,11 +518,7 @@ export default {
 
     drawBar(){
       let myBarChart = echarts.init(document.getElementById('barEcharts'));
-      // let chartBox=document.getElementsByClassName('barChart')[0];
-      // function resizeCharts() {//为调整图标尺寸的方法
-      //   myBarChart.style.width=chartBox.style.width+'px'
-      //   myBarChart.style.height=chartBox.style.height+'px'
-      // }
+      window.onresize = echarts.init(document.getElementById('barEcharts')).resize;
       let that = this;
       //初始化柱状图
       myBarChart.setOption({
