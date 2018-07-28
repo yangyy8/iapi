@@ -12,38 +12,40 @@
           <th align="center" width="100">是否一致</th>
           <th align="center" width="100">操作</th>
         </tr>
-        
+
         <tr>
           <td class="th3">入境黑名单</td>
           <td class="tc1">{{tableData1.blackinredis}}</td>
           <td class="tc2">{{tableData1.blackindb}}</td>
+
+
           <td class="tc1">{{tableData1.SYNCTIME}}</td>
           <td class="tc2">
-            <img v-if="tableData1.isequal" src="../../../assets/img/hook.png"/>
-            <img v-else-if="!tableData1.isequal" src="../../../assets/img/cross.png"/>
+            <img v-if="tableData10.isequal==0" src="../../../assets/img/hook.png"/>
+            <img v-else-if="tableData10.isequal==1 || tableData10.isequal==2" src="../../../assets/img/cross.png"/>
             <i v-else class="el-icon-loading"></i>
-
           </td>
           <td class="tc1">
-            <el-button v-if="tableData1.isequal" @click=""  plain size="mini" class="btn">同步</el-button>
-             <el-button  v-else type="primary" plain size="mini">同步</el-button>
+
+              <el-button v-if="tableData11.isequal==1" @click="getTB()"  plain size="mini" class="btn">同步</el-button>
+          <el-button  v-else  size="mini" :disabled="true">同步</el-button>
 
           </td>
         </tr>
+
         <tr>
           <td class="th3">出境黑名单</td>
           <td class="tc1">{{tableData2.blackoutredis}}</td>
           <td class="tc2">{{tableData2.blackoutdb}}</td>
           <td class="tc1">{{tableData2.SYNCTIME}}</td>
           <td class="tc2">
-            <img v-if="tableData2.isequal" src="../../../assets/img/hook.png"/>
-            <img v-else-if="!tableData2.isequal" src="../../../assets/img/cross.png"/>
+            <img v-if="tableData10.isequal==0" src="../../../assets/img/hook.png"/>
+            <img v-else-if="tableData10.isequal==1 || tableData10.isequal==2" src="../../../assets/img/cross.png"/>
             <i v-else class="el-icon-loading"></i>
           </td>
           <td class="tc1">
-            <el-button v-if="tableData2.isequal" @click=""  plain size="mini" class="btn">同步</el-button>
-             <el-button  v-else type="primary" plain size="mini">同步</el-button>
-
+          <el-button v-if="tableData11.isequal==1" @click="getTB()"  plain size="mini" class="btn">同步</el-button>
+          <el-button  v-else  size="mini" :disabled="true">同步</el-button>
           </td>
         </tr>
         <tr>
@@ -52,13 +54,13 @@
           <td class="tc2">{{tableData3.invaliddb}}</td>
           <td class="tc1">{{tableData3.SYNCTIME}}</td>
           <td class="tc2">
-            <img v-if="tableData3.isequal" src="../../../assets/img/hook.png"/>
-            <img v-else-if="!tableData3.isequal" src="../../../assets/img/cross.png"/>
+            <img v-if="tableData10.isequal==0" src="../../../assets/img/hook.png"/>
+            <img v-else-if="tableData10.isequal==1 || tableData10.isequal==2" src="../../../assets/img/cross.png"/>
             <i v-else class="el-icon-loading"></i>
           </td>
           <td class="tc1">
-            <el-button v-if="tableData3.isequal" @click=""  plain size="mini" class="btn">同步</el-button>
-             <el-button  v-else type="primary" plain size="mini">同步</el-button>
+            <el-button v-if="tableData11.isequal==1" @click="getTB()"  plain size="mini" class="btn">同步</el-button>
+          <el-button  v-else  size="mini" :disabled="true">同步</el-button>
 
           </td>
         </tr>
@@ -69,13 +71,13 @@
           <td class="tc2">{{tableData4.whiteindb}}</td>
           <td class="tc1">{{tableData4.SYNCTIME}}</td>
           <td class="tc2">
-            <img v-if="tableData4.isequal" src="../../../assets/img/hook.png"/>
-            <img v-else-if="!tableData4.isequal" src="../../../assets/img/cross.png"/>
+            <img v-if="tableData10.isequal==0" src="../../../assets/img/hook.png"/>
+            <img v-else-if="tableData10.isequal==1 || tableData10.isequal==2" src="../../../assets/img/cross.png"/>
             <i v-else class="el-icon-loading"></i>
           </td>
           <td class="tc1">
-            <el-button v-if="tableData4.isequal" @click=""  plain size="mini" class="btn">同步</el-button>
-             <el-button  v-else type="primary" plain size="mini">同步</el-button>
+            <el-button v-if="tableData11.isequal==1" @click="getTB()"  plain size="mini" class="btn">同步</el-button>
+          <el-button  v-else  size="mini" :disabled="true">同步</el-button>
 
           </td>
         </tr>
@@ -85,13 +87,13 @@
           <td class="tc2">{{tableData5.whiteoutdb}}</td>
           <td class="tc1">{{tableData5.SYNCTIME}}</td>
           <td class="tc2">
-            <img v-if="tableData5.isequal" src="../../../assets/img/hook.png"/>
-            <img v-else-if="!tableData5.isequal" src="../../../assets/img/cross.png"/>
+            <img v-if="tableData10.isequal==0" src="../../../assets/img/hook.png"/>
+            <img v-else-if="tableData10.isequal==1 || tableData10.isequal==2" src="../../../assets/img/cross.png"/>
             <i v-else class="el-icon-loading"></i>
           </td>
           <td class="tc1">
-            <el-button v-if="tableData5.isequal" @click=""  plain size="mini" class="btn">同步</el-button>
-             <el-button  v-else type="primary" plain size="mini">同步</el-button>
+            <el-button v-if="tableData11.isequal==1" @click="getTB()"  plain size="mini" class="btn">同步</el-button>
+          <el-button  v-else  size="mini" :disabled="true">同步</el-button>
 
           </td>
         </tr>
@@ -101,13 +103,13 @@
           <td class="tc2">{{tableData6.ctlindb}}</td>
           <td class="tc1">{{tableData6.SYNCTIME}}</td>
           <td class="tc2">
-            <img v-if="tableData6.isequal" src="../../../assets/img/hook.png"/>
-            <img v-else-if="!tableData6.isequal" src="../../../assets/img/cross.png"/>
+            <img v-if="tableData10.isequal==0" src="../../../assets/img/hook.png"/>
+            <img v-else-if="tableData10.isequal==1 || tableData10.isequal==2" src="../../../assets/img/cross.png"/>
             <i v-else class="el-icon-loading"></i>
           </td>
           <td class="tc1">
-            <el-button v-if="tableData6.isequal" @click=""  plain size="mini" class="btn">同步</el-button>
-             <el-button  v-else type="primary" plain size="mini">同步</el-button>
+            <el-button v-if="tableData11.isequal==1" @click="getTB()"  plain size="mini" class="btn">同步</el-button>
+          <el-button  v-else  size="mini" :disabled="true">同步</el-button>
 
           </td>
         </tr>
@@ -117,13 +119,13 @@
           <td class="tc2">{{tableData7.ctloutdb}}</td>
           <td class="tc1">{{tableData7.SYNCTIME}}</td>
           <td class="tc2">
-            <img v-if="tableData7.isequal" src="../../../assets/img/hook.png"/>
-            <img v-else-if="!tableData7.isequal" src="../../../assets/img/cross.png"/>
+            <img v-if="tableData10.isequal==0" src="../../../assets/img/hook.png"/>
+            <img v-else-if="tableData10.isequal==1 || tableData10.isequal==2" src="../../../assets/img/cross.png"/>
             <i v-else class="el-icon-loading"></i>
           </td>
           <td class="tc1">
-            <el-button v-if="tableData7.isequal" @click=""  plain size="mini" class="btn">同步</el-button>
-             <el-button  v-else type="primary" plain size="mini">同步</el-button>
+            <el-button v-if="tableData11.isequal==1" @click="getTB()"  plain size="mini" class="btn">同步</el-button>
+          <el-button  v-else  size="mini" :disabled="true">同步</el-button>
 
           </td>
         </tr>
@@ -133,13 +135,13 @@
           <td class="tc2">{{tableData8.dataruledb}}</td>
           <td class="tc1">{{tableData8.SYNCTIME}}</td>
           <td class="tc2">
-            <img v-if="tableData8.isequal" src="../../../assets/img/hook.png"/>
-            <img v-else-if="!tableData8.isequal" src="../../../assets/img/cross.png"/>
+            <img v-if="tableData10.isequal==0" src="../../../assets/img/hook.png"/>
+            <img v-else-if="tableData10.isequal==1 || tableData10.isequal==2" src="../../../assets/img/cross.png"/>
             <i v-else class="el-icon-loading"></i>
           </td>
           <td class="tc1">
-            <el-button v-if="tableData8.isequal" @click=""  plain size="mini" class="btn">同步</el-button>
-             <el-button  v-else type="primary" plain size="mini">同步</el-button>
+            <el-button v-if="tableData11.isequal==1" @click="getTB()"  plain size="mini" class="btn">同步</el-button>
+          <el-button  v-else  size="mini" :disabled="true">同步</el-button>
 
           </td>
         </tr>
@@ -149,14 +151,13 @@
           <td class="tc2">{{tableData9.busruledb}}</td>
           <td class="tc1">{{tableData9.SYNCTIME}}</td>
           <td class="tc2">
-            <img v-if="tableData9.isequal" src="../../../assets/img/hook.png"/>
-            <img v-else-if="!tableData9.isequal" src="../../../assets/img/cross.png"/>
+            <img v-if="tableData10.isequal==0" src="../../../assets/img/hook.png"/>
+            <img v-else-if="tableData10.isequal==1 || tableData10.isequal==2" src="../../../assets/img/cross.png"/>
             <i v-else class="el-icon-loading"></i>
-
           </td>
           <td class="tc1">
-            <el-button v-if="tableData9.isequal" @click=""  plain size="mini" class="btn">同步</el-button>
-            <el-button v-else type="primary" plain size="mini">同步</el-button>
+            <el-button v-if="tableData11.isequal==1" @click="getTB()"  plain size="mini" class="btn">同步</el-button>
+          <el-button  v-else  size="mini" :disabled="true">同步</el-button>
 
           </td>
         </tr>
@@ -166,13 +167,13 @@
           <td class="tc2">{{tableData10.invalidindb}}</td>
           <td class="tc1">{{tableData10.SYNCTIME}}</td>
           <td class="tc2">
-            <img v-if="tableData10.isequal" src="../../../assets/img/hook.png"/>
-            <img v-else-if="!tableData10.isequal" src="../../../assets/img/cross.png"/>
+            <img v-if="tableData10.isequal==0" src="../../../assets/img/hook.png"/>
+            <img v-else-if="tableData10.isequal==1 || tableData10.isequal==2" src="../../../assets/img/cross.png"/>
             <i v-else class="el-icon-loading"></i>
           </td>
           <td class="tc1">
-            <el-button v-if="tableData10.isequal" @click=""  plain size="mini" class="btn">同步</el-button>
-             <el-button  v-else type="primary" plain size="mini">同步</el-button>
+            <el-button v-if="tableData10.isequal==1" @click="getTB()"  plain size="mini" class="btn">同步</el-button>
+          <el-button  v-else  size="mini" :disabled="true">同步</el-button>
 
           </td>
         </tr>
@@ -183,19 +184,33 @@
           <td class="tc2">{{tableData11.invalidoutdb}}</td>
           <td class="tc1">{{tableData11.SYNCTIME}}</td>
           <td class="tc2">
-            <img v-if="tableData11.isequal" src="../../../assets/img/hook.png"/>
-            <img v-else-if="!tableData11.isequal" src="../../../assets/img/cross.png"/>
+            <img v-if="tableData10.isequal==0" src="../../../assets/img/hook.png"/>
+            <img v-else-if="tableData10.isequal==1 || tableData10.isequal==2" src="../../../assets/img/cross.png"/>
             <i v-else class="el-icon-loading"></i>
           </td>
           <td class="tc1">
-            <el-button v-if="tableData11.isequal" @click=""  plain size="mini" class="btn">同步</el-button>
-             <el-button  v-else type="primary" plain size="mini">同步</el-button>
+            <el-button v-if="tableData11.isequal==1" @click="getTB()"  plain size="mini" class="btn">同步</el-button>
+          <el-button  v-else  size="mini" :disabled="true">同步</el-button>
 
           </td>
         </tr>
 
       </table>
     </div>
+
+
+    <el-dialog
+      title="提示"
+      :visible.sync="centerDialogVisible"
+      width="30%"
+      >
+      <span style="font-size:20px;">该数据同步时间较长，请等待...</span>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="centerDialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="centerDialogVisible = false">确 定</el-button>
+      </span>
+    </el-dialog>
+
   </div>
 </template>
 
@@ -214,6 +229,7 @@ export default {
       tableData9: {},
       tableData10: {},
       tableData11: {},
+      centerDialogVisible:false
     }
   },
   mounted() {
@@ -291,6 +307,12 @@ export default {
         })
     },
 
+    getTB(n)
+    {
+this.centerDialogVisible=true;
+
+    }
+
   },
 }
 </script>
@@ -339,5 +361,5 @@ th {
 .tc2 {
   color: #fb6d55
 }
-.btn{background: #999999; color: #FFFFFF; border: 1px  #666666 solid;}
+.btn{background: #78A4D1; color: #FFFFFF; border: 1px  #78A4D1 solid;}
 </style>

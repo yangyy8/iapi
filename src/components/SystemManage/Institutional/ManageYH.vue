@@ -158,6 +158,7 @@
 
           </el-col>
         </el-row>
+
         <el-row type="flex"  class="mb-6">
           <el-col :span="12" class="input-item">
             <span class="yy-input-text">警号：</span>
@@ -216,7 +217,7 @@
         <el-row type="flex" class="mb-6" style="margin-left:-80px;">
           <el-col :span="24" class="input-item">
             <span class="yy-input-text">角色：</span>
-            <el-select v-model="form.roleList" multiple  @visible-change="queryrole" placeholder="请选择" size="small" style="width:76%;">
+            <el-select v-model="form.roleList" multiple   placeholder="请选择" size="small" style="width:76%;">
                <el-option
                  v-for="item in role"
                  :key="item.SERIAL"
@@ -244,35 +245,36 @@
         <el-row type="flex"  class="mb-6">
           <el-col :span="12" class="input-item">
             <span class="yy-input-text">姓名：</span>
-          <span class="yy-input-input">  {{mapForm.NAME}}</span>
+          <span class="yy-input-input detailinput">  {{mapForm.NAME}}</span>
             </el-col>
 
             <el-col :span="12" class="input-item">
               <span class="yy-input-text">用户名：</span>
-            <span class="yy-input-input">  {{mapForm.USERNAME}}</span>
+            <span class="yy-input-input detailinput">  {{mapForm.USERNAME}}</span>
               </el-col>
         </el-row>
+
 
         <el-row type="flex" class="mb-6" >
           <el-col :span="12" class="input-item">
             <span class="yy-input-text">性别：</span>
-            <span class="yy-input-input">  {{mapForm.SEX=="0"?"女":mapForm.SEX=="1"?"男":"未知"}}</span>
+            <span class="yy-input-input detailinput">  {{mapForm.SEX=="0"?"女":mapForm.SEX=="1"?"男":"未知"}}</span>
           </el-col>
           <el-col :span="12" class="input-item">
             <span class="yy-input-text">上级单位：</span>
-          <span class="yy-input-input">  {{mapForm.DEPT_JC}}</span>
+          <span class="yy-input-input detailinput">  {{mapForm.DEPT_JC}}</span>
           </el-col>
         </el-row>
 
         <el-row type="flex" class="mb-6" >
           <el-col :span="12" class="input-item">
             <span class="yy-input-text">状态：</span>
-          <span class="yy-input-input">  {{mapForm.STATUS=="0"?"停用":"启用"}}</span>
+          <span class="yy-input-input detailinput">  {{mapForm.STATUS=="0"?"停用":"启用"}}</span>
           </el-col>
 
           <el-col :span="12" class="input-item">
             <span class="yy-input-text">联系方式：</span>
-          <span class="yy-input-input">  {{mapForm.PHONE}}</span>
+          <span class="yy-input-input detailinput">  {{mapForm.PHONE}}</span>
           </el-col>
         </el-row>
         <el-row type="flex" class="mb-6" >
@@ -282,15 +284,13 @@
           </el-col>
           <el-col :span="12" class="input-item">
             <span class="yy-input-text">身份证号：</span>
-          <span class="yy-input-input">  {{mapForm.CERTIFICATE_NO}}</span>
+          <span class="yy-input-input detailinput">  {{mapForm.CERTIFICATE_NO}}</span>
           </el-col>
-
-
         </el-row>
         <el-row type="flex" class="mb-6" style="margin-left:-80px;">
           <el-col :span="24" class="input-item">
             <span class="yy-input-text">备注：</span>
-          <span class="yy-input-input">  {{mapForm.REMARKS}}</span>
+          <span class="yy-input-input detailinput">  {{mapForm.REMARKS}}</span>
           </el-col>
         </el-row>
       </el-form>
@@ -362,6 +362,7 @@ export default {
   mounted() {
     this.getList(this.CurrentPage, this.pageSize, this.pd);
     this.queryNationality();
+    this.queryrole();
 
   },
   methods: {

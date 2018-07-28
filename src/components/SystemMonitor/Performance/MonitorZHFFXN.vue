@@ -323,7 +323,6 @@ export default {
     }
   },
   mounted() {
-      // this.$router.go(0);
       let begin=new Date();
       let  end=new Date();
       let aaaa = new Date(begin.setMonth((new Date().getMonth()-1)));
@@ -391,6 +390,7 @@ export default {
     },
     drawLine() {
            let myChart = echarts.init(document.getElementById('echarts'));
+           window.onresize = echarts.init(document.getElementById('echarts')).resize;
            let that = this;
            // 折线图初始化
            myChart.setOption({
@@ -439,6 +439,7 @@ export default {
                 }
              }],
              legend: {
+               selectedMode:false,//取消图例上的点击事件
                data: ['时效平均值']//要与series中的name一致
              },
              series:[{
@@ -475,17 +476,17 @@ export default {
 
     drawBar(){
       let myBarChart = echarts.init(document.getElementById('barEcharts'));
-      // let chartBox=document.getElementsByClassName('barChart')[0];
-      // function resizeCharts() {//为调整图标尺寸的方法
-      //   myBarChart.style.width=chartBox.style.width+'px'
-      //   myBarChart.style.height=chartBox.style.height+'px'
-      // }
+      window.onresize = echarts.init(document.getElementById('barEcharts')).resize;
       let that = this;
       //初始化柱状图
       myBarChart.setOption({
         tooltip:{
           trigger:'axis',
-          // formatter:'报文数量：2300',
+          formatter:function(params){
+            for(var i=0;i<params.length;i++){
+              return "报文数量:" + "2300"+"</br>"+"平均性能:" + params[i].data
+            }
+          },
           axisPointer:{
             type:'line',
             lineStyle:{

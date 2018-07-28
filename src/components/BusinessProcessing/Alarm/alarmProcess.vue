@@ -659,12 +659,9 @@ export default {
             }
           })
       }else{
-
-
+        this.pd.INSTRUCT_OLD=this.iapiMap.instructOld;
         this.pd.eventserial=this.eventserial;
-        this.pd.bguserName=ap.userName;
-        this.pd.bgpassword=ap.password;
-        this.pd.bgverifyType="bjcl";
+        this.pd.USERID=this.userMap.userId;
 
         let p={
           "currentPage":0,

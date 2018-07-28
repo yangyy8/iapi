@@ -162,38 +162,38 @@
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
             <span class="yy-input-text">角色名：</span>
-          <span class="yy-input-input">  {{mapForm.ROLE_NAME}}</span>
+          <span class="yy-input-input detailinput">  {{mapForm.ROLE_NAME}}</span>
             </el-col>
         </el-row>
 
         <el-row type="flex" class="mb-6" >
           <el-col :span="24" class="input-item">
             <span class="yy-input-text">所属部门：</span>
-            <span class="yy-input-input">  {{mapForm.DEPT_QC}}</span>
+            <span class="yy-input-input detailinput">  {{mapForm.DEPT_QC}}</span>
           </el-col>
         </el-row>
         <el-row type="flex" class="mb-6" >
           <el-col :span="24" class="input-item">
             <span class="yy-input-text">上级单位：</span>
-          <span class="yy-input-input">  {{mapForm.DEPT_QC}}</span>
+          <span class="yy-input-input detailinput">  {{mapForm.DEPT_QC}}</span>
           </el-col>
         </el-row>
         <el-row type="flex" class="mb-6" >
           <el-col :span="24" class="input-item">
             <span class="yy-input-text">状态：</span>
-          <span class="yy-input-input">  {{mapForm.STATUS=="1"?"停用":"启用"}}</span>
+          <span class="yy-input-input detailinput">  {{mapForm.STATUS=="1"?"停用":"启用"}}</span>
           </el-col>
         </el-row>
         <el-row type="flex" class="mb-6" >
           <el-col :span="24" class="input-item">
             <span class="yy-input-text">创建时间：</span>
-          <span class="yy-input-input">  {{mapForm.CREATE_TIME}}</span>
+          <span class="yy-input-input detailinput">  {{mapForm.CREATE_TIME}}</span>
           </el-col>
         </el-row>
         <el-row type="flex" class="mb-6" >
           <el-col :span="24" class="input-item">
             <span class="yy-input-text">备注：</span>
-          <span class="yy-input-input">  {{mapForm.REMARKS}}</span>
+          <span class="yy-input-input detailinput">  {{mapForm.REMARKS}}</span>
           </el-col>
         </el-row>
       </el-form>
