@@ -48,7 +48,7 @@
     <div class="middle">
       <el-row class="mb-15">
 
-        <el-button type="primary" size="small" @click="adds(0,null)">新增</el-button>
+        <el-button type="primary" size="small" @click="adds(0,'');form={};">新增</el-button>
         </el-row>
       <el-table
         :data="tableData"
@@ -60,7 +60,7 @@
           label="角色名">
         </el-table-column>
         <el-table-column
-          prop="DEPT_QC"
+          prop="DEPT_JC"
           label="部门"
           >
         </el-table-column>
@@ -333,8 +333,6 @@ export default {
       if (n != 0) {
         this.tp = 1;
         this.form = i;
-      }else {
-        this.form="";
       }
 
     },

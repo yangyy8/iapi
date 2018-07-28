@@ -45,7 +45,6 @@
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">航班状态：</span>
               <el-select v-model="pd.status" placeholder="请选择" filterable clearable size="small" class="input-input">
-
                  <el-option value="0" label="0 - 计划">
                  </el-option>
                  <el-option value="1" label="1 - 正在预检">
@@ -60,14 +59,14 @@
             </el-col>
 
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
-              <span class="input-text">航空公司三位码：</span>
-              <el-select v-model="pd.airlineCompanyIdEqual" placeholder="请选择" filterable clearable size="small" class="input-input">
-                 <el-option
-                   v-for="item in options"
-                   :key="item.value"
-                   :label="item.label"
-                   :value="item.value">
-                 </el-option>
+              <span class="input-text">所属航空公司：</span>
+              <el-select v-model="pd.airlineCompanyId" placeholder="请选择" filterable clearable size="small" class="input-input">
+                <el-option
+                  v-for="item in company"
+                  :key="item.AIRLINE_CODE"
+                  :label="item.AIRLINE_CODE+' - '+item.AIRLINE_CHN_NAME"
+                  :value="item.AIRLINE_CODE" >
+                </el-option>
                </el-select>
 
             </el-col>
@@ -98,8 +97,11 @@
           >
         </el-table-column>
         <el-table-column
-          prop="flighttype"
           label="出入标识">
+          <template slot-scope="scope">
+              {{scope.row.flighttype | fifter1}}
+            </template>
+
         </el-table-column>
         <el-table-column
           prop="departuretime"
@@ -127,9 +129,10 @@
   >
         </el-table-column>
         <el-table-column
-          prop="status"
           label="航班状态"
-  >
+  >  <template slot-scope="scope">
+        {{scope.row.status | fifter2}}
+      </template>
         </el-table-column>
 
         <!-- <el-table-column
@@ -143,7 +146,7 @@
           <template slot-scope="scope">
             <div class="flex-r">
 
-              <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row)">详情</el-button>
+              <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row.flightRecordnum)">详情</el-button>
             </div>
 
          </template>
@@ -191,19 +194,45 @@
       <el-form :model="form" ref="addForm">
         <el-row type="flex" class="detail-msg-row">
           <el-col :span="8">
-            <span>航班号:</span>
-            {{form.fltno}}
-
+            <span class="yy-input-text">姓名：</span>
+          <span class="yy-input-input detailinput">  {{form.familyname}}</span>
           </el-col>
           <el-col :span="8">
-            <span>航班日期</span>
-              {{form.departuretime}}
-
+            <span class="yy-input-text">性别：</span>
+          <span class="yy-input-input detailinput">  {{form.gender=='F'?"男":form.gender=='M'?"女":"未知"}}</span>
           </el-col>
           <el-col :span="8">
-            <span>出入标识：</span>
-            {{form.flighttype}}
+            <span class="yy-input-text">出生日期：</span>
+          <span class="yy-input-input detailinput">  {{form.birthday}}</span>
+          </el-col>
+        </el-row>
 
+        <el-row type="flex" class="detail-msg-row">
+          <el-col :span="8">
+            <span class="yy-input-text">国籍：</span>
+          <span class="yy-input-input detailinput">  {{form.birthcountry}}</span>
+          </el-col>
+          <el-col :span="8">
+            <span class="yy-input-text">证件号码：</span>
+          <span class="yy-input-input detailinput">  {{form.passportno}}</span>
+          </el-col>
+          <el-col :span="8">
+            <span class="yy-input-text">出入标识：</span>
+          <span class="yy-input-input detailinput">  {{form.flighttype | fifter1}}</span>
+          </el-col>
+        </el-row>
+        <el-row type="flex" class="detail-msg-row">
+          <el-col :span="8">
+            <span class="yy-input-text">航班号：</span>
+          <span class="yy-input-input detailinput">  {{form.fltno}}</span>
+          </el-col>
+          <el-col :span="8">
+            <span class="yy-input-text">航班日期：</span>
+          <span class="yy-input-input detailinput">  {{form.scheduledeparturetime}}</span>
+          </el-col>
+          <el-col :span="8">
+            <span class="yy-input-text">事件类型：</span>
+        
           </el-col>
         </el-row>
 
@@ -226,6 +255,7 @@ export default {
       TotalResult: 0,
       pd: {},
       nation: [],
+      company:[],
       addDialogVisible: false,
       detailsDialogVisible: false,
       options: [{
@@ -275,6 +305,7 @@ export default {
   },
   mounted() {
     this.getList(this.CurrentPage, this.pageSize, this.pd);
+    this.queryNationality();
   },
   methods: {
     handleSelectionChange(val) {
@@ -303,11 +334,11 @@ export default {
         })
     },
     queryNationality() {
-      this.$api.post('/manage-platform/codeTable/queryNationality', {},
+      this.$api.post('/manage-platform/codeTable/queryAircompanyList', {},
         r => {
           console.log(r);
-          if (r.Success) {
-            this.nation = r.Data;
+          if (r.success) {
+            this.company = r.data;
           }
         })
     },
@@ -342,12 +373,53 @@ export default {
     },
     details(i) {
       this.detailsDialogVisible = true;
-      console.log(i);
-      this.form=i;
+      let p = {
+        "flightRecordnum": i,
+
+      };
+      this.$api.post('/manage-platform/statusUpdate/flight/queryTbFlightEntityById', p,
+        r => {
+          console.log(r);
+          this.form = r.data;
+        })
 
     },
 
-  }
+  },
+
+    filters: {
+
+      fifter1(val) {
+        if (val == "I") {
+          return "入境";
+        } else if(val == "O"){
+          return "出境";
+        }
+      },
+      fifter2(val) {
+        if (val == "0") {
+          return "计划";
+        } else if(val == "1"){
+          return "正在预检";
+        }
+        else if(val == "2"){
+          return "完成预检";
+        }
+        else if(val == "3"){
+          return "已起飞";
+        }
+        else if(val == "4"){
+          return "已办理入境";
+        }
+        else if(val == "5"){
+          return "取消";
+        }
+        else if(val == "6"){
+          return "已到达";
+        }
+      },
+
+    }
 }
 </script>
 
