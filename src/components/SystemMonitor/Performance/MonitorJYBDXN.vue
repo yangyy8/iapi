@@ -328,13 +328,14 @@ export default {
     }
   },
   mounted() {
-      this.checkRealTime();
+      setTimeout(this.checkRealTime(),500);
       let begin=new Date();
       let  end=new Date();
       let aaaa = new Date(begin.setMonth((new Date().getMonth()-1)));
       let bbbb = new Date();
       this.cdt.begin=formatDate(aaaa,'yyyyMMddhhmmss');
       this.cdt.end=formatDate(bbbb,'yyyyMMddhhmmss');
+      this.checkRealTime();
   },
   beforeDestroy() {
     if (!this.lineChart) {
@@ -413,8 +414,9 @@ export default {
              tooltip:{
                trigger:'axis',
                formatter:function(params){
-                 console.log(params);
-                 return "报文数量:"+"111"+"</br>"+"平均性能:"+params.value
+                 for(var i=0;i<params.length;i++){
+                   return "报文数量:" + "2300"+"</br>"+"平均性能:" + params[i].data
+                 }
                },
                axisPointer:{
                  type:'line',
@@ -455,6 +457,7 @@ export default {
                 }
              }],
              legend: {
+               selectedMode:false,//取消图例上的点击事件
                data: ['时效平均值']//要与series中的name一致
              },
              series:[{
