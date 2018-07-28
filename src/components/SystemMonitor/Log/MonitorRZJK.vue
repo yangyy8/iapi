@@ -12,7 +12,7 @@
 
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">监控区域：</span>
-              <el-select v-model="pd.synflag" placeholder="请选择" size="small"  filterable clearable class="input-input">
+              <el-select v-model="pd.synFlag" placeholder="请选择" size="small"  filterable clearable class="input-input">
                 <el-option value="1" label="DMZ区" >
                 </el-option>
                  <el-option value="" label="业务平台区" >
@@ -23,15 +23,14 @@
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">日志类型：</span>
               <el-select v-model="pd.rzlx" placeholder="请选择"  filterable clearable size="small" class="input-input">
-                <el-option value="" label="全部" >
-                </el-option>
+
                 <el-option value="0" label="0 - 系统日志" >
                 </el-option>
                 <el-option value="1" label="1 - 错误日志" >
                 </el-option>
                 <el-option value="2" label="2 - 操作日志" >
                 </el-option>
-              
+
 
                </el-select>
             </el-col>
@@ -40,13 +39,13 @@
               <div class="input-input t-flex t-date">
                <el-date-picker
                v-model="pd.begin"
-               type="date" size="small" value-format="yyyyMMdd"
+               type="datetime" size="small" value-format="yyyyMMddHHssmm"
                placeholder="开始时间"  :picker-options="pickerOptions1">
              </el-date-picker>
                <span class="septum">-</span>
              <el-date-picker
                 v-model="pd.end"
-                type="date" size="small" value-format="yyyyMMdd"
+                type="datetime" size="small" value-format="yyyyMMddHHssmm"
                 placeholder="结束时间" :picker-options="pickerOptions1">
             </el-date-picker>
           </div>
@@ -56,9 +55,7 @@
         </el-col>
         <el-col :span="4" class="down-btn-area" style="margin-top:25px;">
           <el-button type="success" size="small" @click="getList(CurrentPage,pageSize,pd)">查询</el-button>
-
         </el-col>
-
       </el-row>
     </div>
     <div class="middle">
@@ -161,7 +158,7 @@ export default {
       CurrentPage: 1,
       pageSize: 10,
       TotalResult: 0,
-      pd: {rzlx:""},
+      pd: {},
       nation: [],
       value: '',
       value1: "",
@@ -183,30 +180,25 @@ export default {
       tableData: [],
       multipleSelection: [],
 
-      pickerOptions2: {
+      pickerOptions1: {
         shortcuts: [{
-          text: '最近一周',
+          text: '今天',
           onClick(picker) {
-            const end = new Date();
-            const start = new Date();
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
-            picker.$emit('pick', [start, end]);
+            picker.$emit('pick', new Date());
           }
         }, {
-          text: '最近一个月',
+          text: '昨天',
           onClick(picker) {
-            const end = new Date();
-            const start = new Date();
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
-            picker.$emit('pick', [start, end]);
+            const date = new Date();
+            date.setTime(date.getTime() - 3600 * 1000 * 24);
+            picker.$emit('pick', date);
           }
         }, {
-          text: '最近三个月',
+          text: '一周前',
           onClick(picker) {
-            const end = new Date();
-            const start = new Date();
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
-            picker.$emit('pick', [start, end]);
+            const date = new Date();
+            date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
+            picker.$emit('pick', date);
           }
         }]
       },
@@ -234,7 +226,7 @@ export default {
       let p = {
         "currentPage": currentPage,
         "showCount": showCount,
-        "pd": pd
+        "cdt": pd
       };
       // var url="eamp/log_event/queryListPage";
       // if(pd.type=="1"){
@@ -243,9 +235,7 @@ export default {
       this.$api.post("/manage-platform/log_event/queryListPageAll", p,
         r => {
           console.log(r);
-          this.tableData = r.data.resultList;() => {
-
-          }
+          this.tableData = r.data.pd.resultList;
           this.TotalResult = r.data.totalResult;
         })
     },
