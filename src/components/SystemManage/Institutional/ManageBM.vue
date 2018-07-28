@@ -46,7 +46,7 @@
     <div class="middle">
       <el-row class="mb-15">
 
-        <el-button type="primary" size="small" @click="adds('','')">新增</el-button>
+        <el-button type="primary" size="small" @click="adds('','');form={};">新增</el-button>
         </el-row>
       <el-table
         :data="tableData"
@@ -123,7 +123,7 @@
     </div>
 
 
-    <el-dialog title="新增/编辑"  :visible.sync="addDialogVisible" width="400px;">
+    <el-dialog :title="dialogText"  :visible.sync="addDialogVisible" width="400px;">
       <el-form :model="form" ref="addForm">
         <el-row type="flex"  class="mb-6">
           <el-col :span="12" class="input-item">
@@ -254,6 +254,7 @@ export default {
       tp: 0,
       value: '',
       value1: "",
+      dialogText:"新增",
       addDialogVisible: false,
       detailsDialogVisible: false,
       options: [{
@@ -333,8 +334,9 @@ export default {
       if (i == 1) {
         this.tp = 1;
         this.form = n;
+        this.dialogText="编辑";
       }else {
-        this.form="";
+          this.dialogText="新增";
       }
 
     },
@@ -367,6 +369,7 @@ export default {
           } else {
             this.$message.error('保存失败！');
           }
+
           this.$refs[formName].resetFields();
           this.addDialogVisible = false;
           this.getList();

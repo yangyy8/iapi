@@ -102,7 +102,7 @@
 
             </el-col>
             <el-col :span="4" class="middle-msg-right">
-              <el-button type="warning" size="small">远程查询</el-button>
+              <el-button type="warning" size="small" @click="rcgz">远程查询</el-button>
             </el-col>
           </el-row>
         </div>
@@ -175,8 +175,8 @@
             <el-table-column
               label="操作">
               <template slot-scope="scope">
-                <el-button v-if="scope.row.status==1" class="table-btn" size="mini" plain @click="$router.push({name:'infoComparison',query:{dh:scope.row.dh,isZDGZ:$route.query.isZDGZ,NameListType:scope.row.alarmTypeNum,eventserial:eventserial,iapiSerial:iapiMap.iapiSerial,nationAndPass:scope.row.nationalityCode+scope.row.passportno,visaNo:scope.row.visaNo,inOut:iapiMap.flightType}})">查看</el-button>
-                <el-button v-else class="table-btn" size="mini" plain @click="$router.push({name:'infoComparison',query:{dh:scope.row.dh,isZDGZ:$route.query.isZDGZ,NameListType:scope.row.alarmTypeNum,eventserial:eventserial,iapiSerial:iapiMap.iapiSerial,nationAndPass:scope.row.nationalityCode+scope.row.passportno,visaNo:scope.row.visaNo,inOut:iapiMap.flightType}})">名单甄别</el-button>
+                <el-button v-if="scope.row.status==1" class="table-btn" size="mini" plain @click="$router.push({name:'infoComparison',query:{dh:scope.row.dh,isZDGZ:$route.query.isZDGZ,NameListType:scope.row.alarmTypeNum,eventserial:eventserial,iapiSerial:iapiMap.iapiSerial,visaNo:scope.row.visano,inOut:iapiMap.flightType,nationAndPass:scope.row.nationalityCode+scope.row.passportno}})">查看</el-button>
+                <el-button v-else class="table-btn" size="mini" plain @click="$router.push({name:'infoComparison',query:{dh:scope.row.dh,isZDGZ:$route.query.isZDGZ,NameListType:scope.row.alarmTypeNum,eventserial:eventserial,iapiSerial:iapiMap.iapiSerial,visaNo:scope.row.visano,inOut:iapiMap.flightType,nationAndPass:scope.row.nationalityCode+scope.row.passportno}})">名单甄别</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -380,7 +380,7 @@
         <el-col :span="4" class="down-btn-area">
           <el-button type="primary" class="mb-15" size="small" @click="handeles()" v-show="isUpdate&&iapiMap.instructNew==null" :disabled="msgData>0">确定</el-button>
           <el-button type="info" class="mb-15" size="small" @click="archive" v-show="!isUpdate||iapiMap.instructNew">归档</el-button>
-          <el-button type="warning" size="small" onclick="window.history.go(-1);">取消</el-button>
+          <el-button type="warning" size="small" @click="$router.go(-1);">返回</el-button>
         </el-col>
       </el-row>
       <el-row type="flex">
@@ -390,7 +390,6 @@
             <el-option label="0 - 不做变更处理" value="0"></el-option>
             <el-option label="1 - 变更处理" value="1"></el-option>
             <!-- <el-option label="数据推送" value="2"></el-option> -->
-
           </el-select>
         </el-col>
         <el-col :span="6" class="input-item">
@@ -536,10 +535,10 @@ export default {
       listMap: [{}],
       userMap: {},
       warnMap: {},
-      listMap2: [{}],
+      listMap2: [],
       form: {},
       ap: {},
-      pd: {},
+      pd: {DEALRESULT:"0"},
       isUpdate: true,
       AuthDialogVisible: false,
       handlesDialogVisible: false,
@@ -579,7 +578,7 @@ export default {
                 this.msgData++;
               }
               if (arr[i].compareDesc) {
-                this.pd.CHANGE_RESON += parseInt(i + 1) + "." + arr[i].compareDesc + "\n";
+                this.pd.CHANGE_RESON += parseInt(i)+ 1 + "." + arr[i].compareDesc + "\n";
               }
             }
           })
@@ -600,7 +599,7 @@ export default {
                 this.msgData++;
               }
               if (arr[i].compareDesc) {
-                this.pd.CHANGE_RESON += parseInt(i + 1) + "." + arr[i].compareDesc + "\n";
+                this.pd.CHANGE_RESON += parseInt(i)+ 1 + "." + arr[i].compareDesc + "\n";
               }
 
             }
@@ -655,16 +654,13 @@ export default {
               });
               this.isUpdate = false;
               this.AuthDialogVisible = false;
-                this.handlesDialogVisible = false;
+              this.handlesDialogVisible = false;
             }
           })
       }else{
-
-
+        this.pd.INSTRUCT_OLD=this.iapiMap.instructOld;
         this.pd.eventserial=this.eventserial;
-        this.pd.bguserName=ap.userName;
-        this.pd.bgpassword=ap.password;
-        this.pd.bgverifyType="bjcl";
+        this.pd.USERID=this.userMap.userId;
 
         let p={
           "currentPage":0,
@@ -676,11 +672,16 @@ export default {
           r => {
             console.log(r);
             if (r.success) {
-              this.$message({
-                message: '恭喜你，操作成功！',
-                type: 'success'
-              });
-              this.isUpdate = false;
+              this.$confirm('甄别完毕, 是否返回上一页?', '提示', {
+                 confirmButtonText: '确定',
+                 cancelButtonText: '取消',
+                 type: 'warning'
+               }).then(() => {
+                 this.$router.go(-1);
+               }).catch(() => {
+                 this.isUpdate = false;
+                 this.getList();
+               });
 
             }
           })
@@ -763,7 +764,13 @@ export default {
         this.upDate(this.ap);
       }
 
-    }
+    },
+    rcgz(){
+      this.$message({
+          message: '开发中...敬请期待',
+          type: 'warning'
+        });
+    },
 
   }
 }

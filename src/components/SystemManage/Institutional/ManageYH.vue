@@ -52,7 +52,7 @@
     <div class="middle">
       <el-row class="mb-15">
 
-        <el-button type="primary" size="small" @click="adds(0,null)">新增</el-button>
+        <el-button type="primary" size="small" @click="adds(0,'');">新增</el-button>
         </el-row>
       <el-table
         :data="tableData"
@@ -144,7 +144,7 @@
     </div>
 
 
-    <el-dialog title="新增/编辑" :visible.sync="addDialogVisible" width="700px" >
+    <el-dialog :title="dialogText" :visible.sync="addDialogVisible" width="700px" >
       <el-form :model="form" ref="addForm">
         <el-row type="flex"  class="mb-6">
           <el-col :span="12" class="input-item">
@@ -158,6 +158,17 @@
 
           </el-col>
         </el-row>
+        <el-row type="flex"  class="mb-6">
+          <el-col :span="12" class="input-item">
+            <span class="yy-input-text">密码：</span>
+            <el-input placeholder="请输入内容" type="password" size="small"  v-model="form.PASSWORD" class="yy-input-input" ></el-input>
+          </el-col>
+          <el-col :span="12" class="input-item">
+            <span class="yy-input-text">确认密码：</span>
+            <el-input placeholder="请输入内容" size="small" type="password"  v-model="form.UNPASSWORD" class="yy-input-input" ></el-input>
+          </el-col>
+        </el-row>
+
         <el-row type="flex"  class="mb-6">
           <el-col :span="12" class="input-item">
             <span class="yy-input-text">警号：</span>
@@ -180,8 +191,6 @@
           <el-col :span="12" class="input-item">
             <span class="yy-input-text">性别：</span>
             <el-select v-model="form.SEX"   placeholder="请选择" size="small" class="yy-input-input">
-              <el-option value="" label="全部">
-              </el-option>
               <el-option value="1" label="男">
               </el-option>
               <el-option value="0" label="女">
@@ -216,7 +225,7 @@
         <el-row type="flex" class="mb-6" style="margin-left:-80px;">
           <el-col :span="24" class="input-item">
             <span class="yy-input-text">角色：</span>
-            <el-select v-model="form.roleList" multiple  @visible-change="queryrole" placeholder="请选择" size="small" style="width:76%;">
+            <el-select v-model="form.roleList" multiple   placeholder="请选择" size="small" style="width:76%;">
                <el-option
                  v-for="item in role"
                  :key="item.SERIAL"
@@ -235,7 +244,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="addItem('addForm')" size="small">确 定</el-button>
-        <el-button @click="addDialogVisible = false" size="small">取 消</el-button>
+        <el-button @click="addDialogVisible=false" size="small">取 消</el-button>
       </div>
     </el-dialog>
 
@@ -244,53 +253,51 @@
         <el-row type="flex"  class="mb-6">
           <el-col :span="12" class="input-item">
             <span class="yy-input-text">姓名：</span>
-          <span class="yy-input-input">  {{mapForm.NAME}}</span>
+          <span class="yy-input-input detailinput">  {{map.NAME}}</span>
             </el-col>
-
             <el-col :span="12" class="input-item">
               <span class="yy-input-text">用户名：</span>
-            <span class="yy-input-input">  {{mapForm.USERNAME}}</span>
+            <span class="yy-input-input detailinput">  {{map.USERNAME}}</span>
               </el-col>
         </el-row>
+
 
         <el-row type="flex" class="mb-6" >
           <el-col :span="12" class="input-item">
             <span class="yy-input-text">性别：</span>
-            <span class="yy-input-input">  {{mapForm.SEX=="0"?"女":mapForm.SEX=="1"?"男":"未知"}}</span>
+            <span class="yy-input-input detailinput">  {{map.SEX=="0"?"女":map.SEX=="1"?"男":"未知"}}</span>
           </el-col>
           <el-col :span="12" class="input-item">
             <span class="yy-input-text">上级单位：</span>
-          <span class="yy-input-input">  {{mapForm.DEPT_JC}}</span>
+          <span class="yy-input-input detailinput">  {{map.DEPT_JC}}</span>
           </el-col>
         </el-row>
 
         <el-row type="flex" class="mb-6" >
           <el-col :span="12" class="input-item">
             <span class="yy-input-text">状态：</span>
-          <span class="yy-input-input">  {{mapForm.STATUS=="0"?"停用":"启用"}}</span>
+          <span class="yy-input-input detailinput">  {{map.STATUS=="0"?"停用":"启用"}}</span>
           </el-col>
 
           <el-col :span="12" class="input-item">
             <span class="yy-input-text">联系方式：</span>
-          <span class="yy-input-input">  {{mapForm.PHONE}}</span>
+          <span class="yy-input-input detailinput">  {{map.PHONE}}</span>
           </el-col>
         </el-row>
         <el-row type="flex" class="mb-6" >
           <el-col :span="12" class="input-item">
           <span class="yy-input-text">角色：</span>
-          <span class="yy-input-input">  {{mapForm.roleList}}</span>
+          <span class="yy-input-input detailinput">  {{map.roleList}}</span>
           </el-col>
           <el-col :span="12" class="input-item">
             <span class="yy-input-text">身份证号：</span>
-          <span class="yy-input-input">  {{mapForm.CERTIFICATE_NO}}</span>
+          <span class="yy-input-input detailinput">  {{map.CERTIFICATE_NO}}</span>
           </el-col>
-
-
         </el-row>
         <el-row type="flex" class="mb-6" style="margin-left:-80px;">
           <el-col :span="24" class="input-item">
             <span class="yy-input-text">备注：</span>
-          <span class="yy-input-input">  {{mapForm.REMARKS}}</span>
+          <span class="yy-input-input detailinput">  {{map.REMARKS}}</span>
           </el-col>
         </el-row>
       </el-form>
@@ -314,6 +321,8 @@ export default {
       pd: {},
       company: [],
       role:[],
+      map:{},
+      dialogText:"新增",
       tp: 0,
       addDialogVisible: false,
       detailsDialogVisible: false,
@@ -354,14 +363,15 @@ export default {
           }
         }]
       },
-      form: {},
-      mapForm:{},
 
+  form: {},
     }
   },
   mounted() {
     this.getList(this.CurrentPage, this.pageSize, this.pd);
+    this.queryrole();
     this.queryNationality();
+
 
   },
   methods: {
@@ -410,8 +420,10 @@ export default {
         })
     },
     adds(n, i) {
+
       this.addDialogVisible = true;
       if (n != 0) {
+        this.dialogText="编辑";
         this.tp = 1;
         let p={
           "SERIAL":i
@@ -429,11 +441,15 @@ export default {
                this.form.roleList=lists;
              }
            })
+      }else {
+        this.form={};
+        this.$set(this.form,'roleList',[]);
+        this.dialogText="新增";
       }
+
     },
     addItem(formName) {
       var url = "/manage-platform/userSys/save";
-
       if (this.tp == 1) {
         url = "/manage-platform/userSys/edit";
       }
@@ -448,9 +464,8 @@ export default {
           } else {
             this.$message.error(r.Message);
           }
-
-          this.$refs[formName].resetFields();
           this.addDialogVisible = false;
+          this.$refs[formName].resetFields();
           this.getList(this.CurrentPage, this.pageSize, this.pd);
         }, e => {
           this.$message.error('失败了');
@@ -467,7 +482,7 @@ export default {
          r => {
            console.log(r);
            if (r.success) {
-             this.mapForm = r.data;
+             this.map = r.data;
            }
          })
     },
@@ -507,6 +522,7 @@ export default {
       });
 
     },
+
 
   },
   filters: {
