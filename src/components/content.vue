@@ -68,13 +68,13 @@
       </el-aside>
       <el-main class="right-main">
         <ul class="tabList">
-          <li class="tabList-item hand" :class="{'tabList-checked':nav2Id==i.url}" v-for="(i, index) in tabList">
+          <li class="tabList-item hand" :style="{width:tabliwidth}" :class="{'tabList-checked':nav2Id==i.url}" v-for="(i, index) in tabList">
             <el-tooltip class="item" effect="dark" :content="i.name" placement="top">
               <span  @click="nav2(i,index)">{{i.name}}</span>
             </el-tooltip>
 
-            <img src="../assets/img/tab-close1.png" alt="guanbi" @click="close1(index)" class="hand" v-if="nav2Id==i.url">
-            <img src="../assets/img/tab-close2.png" alt="" @click="tabList.splice(index, 1)" class="hand" v-else>
+            <img src="../assets/img/tab-close1.png" alt="guanbi" @click="close1(index)" class="hand" style="padding:8px" v-if="nav2Id==i.url">
+            <img src="../assets/img/tab-close2.png" alt="" @click="tabList.splice(index, 1)" style="padding:8px" class="hand" v-else>
           </li>
           <!-- <li class="tabList-item">
             <img src="../assets/img/add_tab.png" class="hand">
@@ -95,6 +95,7 @@ export default {
   data() {
     return {
       navUlShow: false,
+      tabliwidth:'120px',
       muneListOne: [
         // {
         //     "MENU_ICON":"iconYC",
@@ -530,7 +531,7 @@ export default {
           });
         }
         this.$router.push('/')
-        
+
       })
     },
     getNav(navId) {
@@ -629,16 +630,18 @@ export default {
     nav2(item,index) {
       // console.log(index)
       if(this.tabList.length>8){
-        this.$confirm('您打开过多标签窗口，请关闭一些窗口后再操作', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          return
-        }).catch(() => {
-          return
-        });
-        return
+        console.log(this.tabList.length)
+        this.tabliwidth=100/(this.tabList.length+1)+'%'
+        // this.$confirm('您打开过多标签窗口，请关闭一些窗口后再操作', '提示', {
+        //   confirmButtonText: '确定',
+        //   cancelButtonText: '取消',
+        //   type: 'warning'
+        // }).then(() => {
+        //   return
+        // }).catch(() => {
+        //   return
+        // });
+        // return
       }
 
       this.nav2Id = item.url;
@@ -823,6 +826,7 @@ export default {
   right: 0;
   top: 50%;
   margin-top: -22px;
+  padding: 0 0 0 5px;
 }
 
 .nav1 {
@@ -926,11 +930,12 @@ export default {
   height: 36px;
   position: absolute;
   top: -36px;
+  flex-wrap: nowrap;
 }
 
 .tabList-item {
   margin-right: 5px;
-  width: 120px;
+  /* width: 120px; */
   padding: 0 18px;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.2);
@@ -945,7 +950,7 @@ export default {
 
 .tabList-item span {
   /* margin-right: 10px; */
-  width: 105px;
+  /* width: 80%; */
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap

@@ -302,9 +302,8 @@
             <tr>
               <td>姓名</td>
               <td>{{travellerInfo.pname}}</td>
-              <td>{{travellerInfo.pname}}</td>
 
-              <!-- <td>{{tableData.NameListFocusEntity.NAME}}</td> -->
+              <td>{{tableData.NameListFocusEntity.NAME}}</td>
               <td>
                 <img v-if="compareResult.pname==1" src="../../../assets/img/hook.png" alt="">
                 <img v-if="compareResult.pname==0"src="../../../assets/img/cross.png" alt="">
@@ -313,7 +312,7 @@
             <tr>
               <td>性别</td>
               <td>{{travellerInfo.sex}}</td>
-              <!-- <td>{{tableData.NameListFocusEntity.gender}}</td> -->
+              <td>{{tableData.NameListFocusEntity.gender}}</td>
               <td>
                 <img v-if="compareResult.sex==1" src="../../../assets/img/hook.png" alt="">
                 <img v-if="compareResult.sex==0"src="../../../assets/img/cross.png" alt="">
@@ -322,7 +321,7 @@
             <tr>
               <td>出生日期</td>
               <td>{{travellerInfo.birthday}}</td>
-              <!-- <td>{{tableData.NameListFocusEntity.dateOfBirthDesc}}</td> -->
+              <td>{{tableData.NameListFocusEntity.dateOfBirthDesc}}</td>
               <td>
                 <img v-if="compareResult.birthday==1" src="../../../assets/img/hook.png" alt="">
                 <img v-if="compareResult.birthday==0"src="../../../assets/img/cross.png" alt="">
@@ -331,7 +330,7 @@
             <tr>
               <td>国籍</td>
               <td>{{travellerInfo.nationalityDesc}}</td>
-              <!-- <td>{{tableData.NameListFocusEntity.nationalityDesc}}</td> -->
+              <td>{{tableData.NameListFocusEntity.nationalityDesc}}</td>
               <td>
                 <img v-if="compareResult.nationality==1" src="../../../assets/img/hook.png" alt="">
                 <img v-if="compareResult.nationality==0"src="../../../assets/img/cross.png" alt="">
@@ -340,7 +339,7 @@
             <tr>
               <td>证件号码</td>
               <td>{{travellerInfo.cnum}}</td>
-              <!-- <td>{{tableData.NameListFocusEntity.cardno}}</td> -->
+              <td>{{tableData.NameListFocusEntity.cardno}}</td>
               <td>
                 <img v-if="compareResult.cnum==1" src="../../../assets/img/hook.png" alt="">
                 <img v-if="compareResult.cnum==0"src="../../../assets/img/cross.png" alt="">
@@ -349,7 +348,7 @@
             <tr>
               <td>签证号码</td>
               <td>{{travellerInfo.cnum}}</td>
-              <!-- <td>{{tableData.NameListFocusEntity.CARDNUM}}</td> -->
+              <td>{{tableData.NameListFocusEntity.CARDNUM}}</td>
               <td>
                 <img v-if="compareResult.cnum==1" src="../../../assets/img/hook.png" alt="">
                 <img v-if="compareResult.cnum==0"src="../../../assets/img/cross.png" alt="">
@@ -481,7 +480,7 @@
               </el-col>
               <el-col :span="24" class="input-item mb-9">
                 <span class="input-text2">备注：</span>
-                <el-input placeholder="请输入内容" v-model="tableData.invalidVisaList.CONENT" size="small" :disabled="true" class="input-input2"></el-input>
+                <el-input placeholder="请输入内容" v-model="tableData.invalidVisaList.CONTENT" size="small" :disabled="true" class="input-input2"></el-input>
               </el-col>
             </el-row>
           </div>
@@ -496,32 +495,39 @@
                 <el-input placeholder="请输入内容" v-model="tableData.WnameListList.WHITE_PORT_OUT" size="small" :disabled="true" class="input-input"></el-input>
               </el-col>
               <el-col :span="8" class="input-item mb-9">
-                <span class="input-text">批准机关：</span>
-                <el-input placeholder="请输入内容" v-model="tableData.WnameListList.SUBORG_NAME" size="small" :disabled="true" class="input-input"></el-input>
+                <span class="input-text">出入境标识：</span>
+                <el-input placeholder="请输入内容" v-model="tableData.WnameListList.IN_OUT" size="small" :disabled="true" class="input-input"></el-input>
               </el-col>
-            </el-row>
-            <el-row class="mb-9" type="flex" justify="space-between">
-              <el-col :span="14" class="input-item mb-9" v-if="travellerInfo.flightType=='I'">
-                <span class="input-text">有效日期：</span>
+
+              <el-col :span="8" class="input-item mb-9" v-if="travellerInfo.flightType=='I'">
+                <span class="input-text">生效日期：</span>
                 <el-input placeholder="请输入内容" v-model="tableData.WnameListList.CTL_BEGINDATE_IN" size="small" :disabled="true" class="input-input"></el-input>
-                <span style="margin:0 5px">至</span>
+              </el-col>
+              <el-col :span="8" class="input-item mb-9" v-if="travellerInfo.flightType=='I'">
+                <span class="input-text">失效日期：</span>
                 <el-input placeholder="请输入内容" v-model="tableData.WnameListList.CTL_EXPIREDATE_IN" size="small" :disabled="true" class="input-input"></el-input>
               </el-col>
-              <el-col :span="14" class="input-item mb-9" v-if="travellerInfo.flightType=='O'">
+              <el-col :span="8" class="input-item mb-9" v-if="travellerInfo.flightType=='O'">
                 <span class="input-text">有效日期：</span>
                 <el-input placeholder="请输入内容" v-model="tableData.WnameListList.CTL_BEGINDATE_OUT" size="small" :disabled="true" class="input-input"></el-input>
-                <span style="margin:0 5px">至</span>
+              </el-col>
+              <el-col :span="8" class="input-item mb-9" v-if="travellerInfo.flightType=='O'">
+                <span class="input-text">失效日期</span>
                 <el-input placeholder="请输入内容" v-model="tableData.WnameListList.CTL_EXPIREDATE_OUT" size="small" :disabled="true" class="input-input"></el-input>
               </el-col>
               <el-col :span="8" class="input-item mb-9">
-                <span class="input-text">处理依据：</span>
+                <span class="input-text">批准机关：</span>
+                <el-input placeholder="请输入内容" v-model="tableData.WnameListList.SUBORG_NAME" size="small" :disabled="true" class="input-input"></el-input>
+              </el-col>
+
+              <el-col :span="24" class="input-item mb-9">
+                <span class="input-text">原因描述：</span>
                 <el-input placeholder="请输入内容" v-model="tableData.WnameListList.CTL_REASON" size="small" :disabled="true" class="input-input"></el-input>
               </el-col>
-            </el-row>
-            <el-row class="mb-9">
+
               <el-col :span="24" class="input-item mb-9">
-                <span class="input-text2">登记编号：</span>
-                <el-input placeholder="请输入内容" v-model="tableData.WnameListList.RECORDNUM" size="small" :disabled="true" class="input-input2"></el-input>
+                <span class="input-text2">备注：</span>
+                <el-input placeholder="请输入内容" v-model="tableData.WnameListList. CONENT" size="small" :disabled="true" class="input-input2"></el-input>
               </el-col>
             </el-row>
           </div>
@@ -565,7 +571,7 @@
             <el-row class="mb-9">
               <el-col :span="8" class="input-item mb-9">
                 <span class="input-text">人员编号：</span>
-                <!-- <el-input placeholder="请输入内容" v-model="tableData.NameListFocusEntity.recordnum" size="small" :disabled="true" class="input-input"></el-input> -->
+                <el-input placeholder="请输入内容" v-model="tableData.NameListFocusEntity.recordnum" size="small" :disabled="true" class="input-input"></el-input>
               </el-col>
               <el-col :span="8" class="input-item mb-9">
                 <span class="input-text">关注类别：</span>
