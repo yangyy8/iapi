@@ -313,7 +313,7 @@
             <tr>
               <td>性别</td>
               <td>{{travellerInfo.sex}}</td>
-              <td>{{tableData.NameListFocusEntity.gender}}</td>
+              <!-- <td>{{tableData.NameListFocusEntity.gender}}</td> -->
               <td>
                 <img v-if="compareResult.sex==1" src="../../../assets/img/hook.png" alt="">
                 <img v-if="compareResult.sex==0"src="../../../assets/img/cross.png" alt="">
@@ -322,7 +322,7 @@
             <tr>
               <td>出生日期</td>
               <td>{{travellerInfo.birthday}}</td>
-              <td>{{tableData.NameListFocusEntity.dateOfBirthDesc}}</td>
+              <!-- <td>{{tableData.NameListFocusEntity.dateOfBirthDesc}}</td> -->
               <td>
                 <img v-if="compareResult.birthday==1" src="../../../assets/img/hook.png" alt="">
                 <img v-if="compareResult.birthday==0"src="../../../assets/img/cross.png" alt="">
@@ -331,7 +331,7 @@
             <tr>
               <td>国籍</td>
               <td>{{travellerInfo.nationalityDesc}}</td>
-              <td>{{tableData.NameListFocusEntity.nationalityDesc}}</td>
+              <!-- <td>{{tableData.NameListFocusEntity.nationalityDesc}}</td> -->
               <td>
                 <img v-if="compareResult.nationality==1" src="../../../assets/img/hook.png" alt="">
                 <img v-if="compareResult.nationality==0"src="../../../assets/img/cross.png" alt="">
@@ -340,7 +340,7 @@
             <tr>
               <td>证件号码</td>
               <td>{{travellerInfo.cnum}}</td>
-              <td>{{tableData.NameListFocusEntity.cardno}}</td>
+              <!-- <td>{{tableData.NameListFocusEntity.cardno}}</td> -->
               <td>
                 <img v-if="compareResult.cnum==1" src="../../../assets/img/hook.png" alt="">
                 <img v-if="compareResult.cnum==0"src="../../../assets/img/cross.png" alt="">
@@ -349,7 +349,7 @@
             <tr>
               <td>签证号码</td>
               <td>{{travellerInfo.cnum}}</td>
-              <td>{{tableData.NameListFocusEntity.CARDNUM}}</td>
+              <!-- <td>{{tableData.NameListFocusEntity.CARDNUM}}</td> -->
               <td>
                 <img v-if="compareResult.cnum==1" src="../../../assets/img/hook.png" alt="">
                 <img v-if="compareResult.cnum==0"src="../../../assets/img/cross.png" alt="">
@@ -565,7 +565,7 @@
             <el-row class="mb-9">
               <el-col :span="8" class="input-item mb-9">
                 <span class="input-text">人员编号：</span>
-                <el-input placeholder="请输入内容" v-model="tableData.NameListFocusEntity.recordnum" size="small" :disabled="true" class="input-input"></el-input>
+                <!-- <el-input placeholder="请输入内容" v-model="tableData.NameListFocusEntity.recordnum" size="small" :disabled="true" class="input-input"></el-input> -->
               </el-col>
               <el-col :span="8" class="input-item mb-9">
                 <span class="input-text">关注类别：</span>
