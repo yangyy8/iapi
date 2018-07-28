@@ -50,13 +50,13 @@
                 <div class="input-input t-flex t-date">
                  <el-date-picker
                  v-model="pd.startDealtime"
-                 type="date" size="small" value-format="yyyyMMdd"
+                 type="datetime" size="small" value-format="yyyyMMddHHmmss"
                  placeholder="开始时间" align="right" :picker-options="pickerOptions1">
                </el-date-picker>
                  <span class="septum">-</span>
                <el-date-picker
                   v-model="pd.endDealtime"
-                  type="date" size="small" align="right" value-format="yyyyMMdd"
+                  type="datetime" size="small" align="right" value-format="yyyyMMddHHmmss"
                   placeholder="结束时间"  :picker-options="pickerOptions1">
               </el-date-picker>
             </div>
