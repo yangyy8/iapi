@@ -515,6 +515,12 @@ export default {
     console.log("route",this.$route)
   },
   methods: {
+    msg(){
+      this.$api.post('/manage-platform/alarmEvents/getUntreatedNum',{},
+       r => {
+        console.log(r)
+      })
+    },
     logOut(){
       // localStorage.removeItem('login')
       // this.$message({

@@ -521,8 +521,8 @@
               </el-col>
 
               <el-col :span="24" class="input-item mb-9">
-                <span class="input-text">原因描述：</span>
-                <el-input placeholder="请输入内容" v-model="tableData.WnameListList.CTL_REASON" size="small" :disabled="true" class="input-input"></el-input>
+                <span class="input-text2">原因描述：</span>
+                <el-input placeholder="请输入内容" v-model="tableData.WnameListList.CTL_REASON" size="small" :disabled="true" class="input-input2"></el-input>
               </el-col>
 
               <el-col :span="24" class="input-item mb-9">
@@ -646,8 +646,8 @@
             </div>
           </div>
           <div  class="down-btn-area down3">
-            <el-button type="primary" size="small" class="mb-15" @click="queding" :disabled="isdisabled">确定</el-button>
-            <el-button type="warning" size="small" @click="$router.go(-1)">取消</el-button>
+            <el-button   v-if="!distinguishNote" type="primary" size="small" class="mb-15" @click="queding" :disabled="isdisabled">确定</el-button>
+            <el-button type="warning" size="small" @click="$router.go(-1)">返回</el-button>
           </div>
 
         </div>
@@ -742,11 +742,11 @@
             <el-col :span="12" class="res-item2">
               <div class="">
                 顺序比重数：
-                <span>10</span>枚
+                <span>-</span>枚
               </div>
               <div class="">
                 顺序比重数：
-                <span>10</span>枚
+                <span>-</span>枚
               </div>
             </el-col>
 
@@ -768,7 +768,7 @@ export default {
      value: '223333333333',
      checkedImg:1,
      checkedImg2:1,
-     martchPort:null,
+     martchPort:0,
      pd1:{},
      tableData:{
        BZRJyfbywtList:{},
@@ -855,13 +855,17 @@ export default {
         r => {
           console.log(r);
           if(r.success){
-            this.$message({
-              message: '甄别完毕！',
-              type: 'success'
-            });
-            this.isdisabled=true;
-          }else{
-            this.$message.error(r.message);
+            this.$confirm('甄别完毕, 是否返回上一页?', '提示', {
+               confirmButtonText: '确定',
+               cancelButtonText: '取消',
+               type: 'warning'
+             }).then(() => {
+               this.$router.go(-1);
+             }).catch(() => {
+               this.isdisabled=true;
+
+               this.getData();
+             });
           }
        })
      }else{
@@ -869,14 +873,18 @@ export default {
         r => {
           console.log(r);
           if(r.success){
-            this.$message({
-              message: '甄别完毕！',
-              type: 'success'
-            });
-            this.isdisabled=true;
+            this.$confirm('甄别完毕, 是否返回上一页?', '提示', {
+               confirmButtonText: '确定',
+               cancelButtonText: '取消',
+               type: 'warning'
+             }).then(() => {
+               this.$router.go(-1);
+             }).catch(() => {
+               this.isdisabled=true;
 
-          }else{
-            this.$message.error(r.message);
+               this.getData();
+             });
+
           }
        })
      }
