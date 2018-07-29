@@ -30,8 +30,8 @@
               </el-col>
               <el-col :sm="24" :md="12" :lg="4" class="input-item t-input-operator">
                 <el-select placeholder="请选择" v-model="data.visaOperator" filterable  size="mini" :disabled="isActive">
-                  <el-option label=">" value="1"></el-option>
-                  <el-option label="<" value="2"></el-option>
+                  <el-option label="大于" value="1"></el-option>
+                  <el-option label="小于" value="2"></el-option>
                   <!-- <el-option label="=" value="3"></el-option> -->
                 </el-select>
               </el-col>
@@ -300,17 +300,17 @@ export default {
       }else if(oper == '2'){
         operLabel = '小于'
       }
-      if(this.data.visaTime == ''){
-        this.$message({
-          message: '请填写完整信息！',
-          type: 'warning'
-        });
-      }else{
+      // if(this.data.visaTime == ''){
+      //   this.$message({
+      //     message: '请填写完整信息！',
+      //     type: 'warning'
+      //   });
+      // }else{
         this.show = true;
         let str = "";
         str = this.card + '  ' +operLabel + '  ' +itemLabel;
         this.listText = str;
-      }
+      // }
     },
     deleteList(item){
       this.show = false;

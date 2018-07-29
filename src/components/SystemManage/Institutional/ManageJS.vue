@@ -10,12 +10,12 @@
           <el-row align="center"   :gutter="2" >
 
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
-              <span class="input-text">角色：</span>
+              <span class="input-text"><font class="yy-color">*</font> 角色：</span>
               <el-input placeholder="请输入内容" size="small" v-model="pd.ROLE_NAME"  class="input-input"></el-input>
             </el-col>
 
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
-              <span class="input-text">部门：</span>
+              <span class="input-text"><font class="yy-color">*</font> 部门：</span>
               <el-select v-model="pd.DEPT_ID"  @visible-change="queryNationality" placeholder="请选择" size="small" class="input-input">
                  <el-option
                    v-for="item in company"
@@ -48,7 +48,7 @@
     <div class="middle">
       <el-row class="mb-15">
 
-        <el-button type="primary" size="small" @click="adds(0,null)">新增</el-button>
+        <el-button type="primary" size="small" @click="adds(0,'');form={};">新增</el-button>
         </el-row>
       <el-table
         :data="tableData"
@@ -60,7 +60,7 @@
           label="角色名">
         </el-table-column>
         <el-table-column
-          prop="DEPT_QC"
+          prop="DEPT_JC"
           label="部门"
           >
         </el-table-column>
@@ -174,7 +174,7 @@
         </el-row>
         <el-row type="flex" class="mb-6" >
           <el-col :span="24" class="input-item">
-            <span class="yy-input-text">上级单位：</span>
+            <span class="yy-input-text">单位：</span>
           <span class="yy-input-input detailinput">  {{mapForm.DEPT_QC}}</span>
           </el-col>
         </el-row>
@@ -333,8 +333,6 @@ export default {
       if (n != 0) {
         this.tp = 1;
         this.form = i;
-      }else {
-        this.form="";
       }
 
     },

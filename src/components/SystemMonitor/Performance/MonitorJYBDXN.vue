@@ -52,7 +52,7 @@
                       <el-option label="按天分析" value="1"></el-option>
                       <el-option label="按周分析" value="2"></el-option>
                       <el-option label="按月分析" value="3"></el-option>
-                      <el-option label="按季度分析" value="4"></el-option>
+                      <!-- <el-option label="按季度分析" value="4"></el-option> -->
                       <el-option label="按5分钟分析" value="5"></el-option>
                     </el-select>
                   </el-col>
@@ -96,16 +96,19 @@
                     </el-table-column>
                     <el-table-column
                       prop="familyname"
-                      label="姓名">
+                      label="姓名"
+                      width="120">
                     </el-table-column>
                     <el-table-column
                       prop="GENDER"
                       label="性别">
                     </el-table-column>
                     <el-table-column
-                      prop="birthday"
                       label="出生日期"
                       width='150'>
+                      <template  slot-scope="scope">
+                        <span>{{scope.row.birthday|disday}}</span>
+                      </template>
                     </el-table-column>
                     <el-table-column
                       prop="FLIGHT_RECORDNUM "
@@ -113,7 +116,8 @@
                     </el-table-column>
                     <el-table-column
                       prop="Cmpbegintime "
-                      label="报文接收时间">
+                      label="报文接收时间"
+                      width="150">
                     </el-table-column>
                     <el-table-column
                       label="校验比对结束时间"
@@ -352,6 +356,9 @@ export default {
   filters: {
     discount: function(value) {
       return value.substring(0,19) ;
+    },
+    disday(value){
+      return value.substring(0,11);
     }
   },
   methods:{
@@ -510,6 +517,7 @@ export default {
         xAxis:[{
           type : 'category',
           data:this.barX,
+          boundaryGap : false,
           axisLine:{
             lineStyle:{
               color:'#169BD5',

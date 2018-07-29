@@ -67,7 +67,7 @@
                       <el-option label="按天分析" value="1"></el-option>
                       <el-option label="按周分析" value="2"></el-option>
                       <el-option label="按月分析" value="3"></el-option>
-                      <el-option label="按季度分析" value="4"></el-option>
+                      <!-- <el-option label="按季度分析" value="4"></el-option> -->
                       <el-option label="按5分钟分析" value="5"></el-option>
                     </el-select>
                   </el-col>
@@ -536,6 +536,7 @@ export default {
         xAxis:[{
           type : 'category',
           data:this.barX,
+          boundaryGap : false,
           axisLine:{
             lineStyle:{
               color:'#169BD5',
@@ -564,7 +565,7 @@ export default {
         }],
         series:[{
           type:'bar',
-          barWidth: '30%',
+          barWidth: '30',
           data:this.barY,
           itemStyle:{
               normal:{

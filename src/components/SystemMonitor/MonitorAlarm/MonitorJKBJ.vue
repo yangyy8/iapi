@@ -11,7 +11,7 @@
                 <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                   <span class="input-text">监控区域：</span>
                   <el-select v-model="pd.ZONE"  placeholder="请选择"  filterable clearable size="small" class="input-input">
-                    
+
                      <el-option value="0" label="0 - DMZ区">
                      </el-option>
                      <el-option value="1" label="1 - 业务平台区">
@@ -216,8 +216,8 @@
      <el-row type="flex"  class="mb-15">
          <el-col :span="8"><span class="yy-input-text">监控区域：</span>{{dform.ZONE | fifter1}}
          </el-col>
-          <el-col :span="8"><span class="yy-input-text">报警类型：</span>{{dform.MTYPE}}</el-col>
-           <el-col :span="8"><span class="yy-input-text">监控对象：</span>{{dform.MCLASS | fifter2 }}</el-col>
+          <el-col :span="8"><span class="yy-input-text">报警类型：</span>{{dform.MCLASS | fifter2 }}</el-col>
+           <el-col :span="8"><span class="yy-input-text">监控对象：</span>{{dform.MTYPE }}</el-col>
      </el-row>
      <el-row type="flex"  class="mb-15">
          <el-col :span="8"><span class="yy-input-text">报警时间：</span>{{dform.CREATETIME}}</el-col>
