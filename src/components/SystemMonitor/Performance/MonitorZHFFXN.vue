@@ -498,7 +498,7 @@ export default {
         xAxis:[{
           type : 'category',
           data:this.barX,
-          boundaryGap : false,
+          boundaryGap : true,
           axisLine:{
             lineStyle:{
               color:'#169BD5',

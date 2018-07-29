@@ -355,10 +355,14 @@ export default {
   },
   filters: {
     discount: function(value) {
-      return value.substring(0,19) ;
+      if(value != null){
+          return value.substring(0,19) ;
+      }
     },
     disday(value){
-      return value.substring(0,11);
+      if(value != null){
+        return value.substring(0,11);
+      }
     }
   },
   methods:{
@@ -517,7 +521,7 @@ export default {
         xAxis:[{
           type : 'category',
           data:this.barX,
-          boundaryGap : false,
+          boundaryGap : true,
           axisLine:{
             lineStyle:{
               color:'#169BD5',
@@ -553,7 +557,7 @@ export default {
                   color:'#D3C9E7'
               }
           },
-          BarcategoryGap:'1%'
+          // BarcategoryGap:'1%'
         }]
       })
       //点击柱状图渲染表格
