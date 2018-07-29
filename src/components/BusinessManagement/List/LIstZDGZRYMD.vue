@@ -111,7 +111,8 @@
         </el-col>
         <el-col :span="3" class="down-btn-area">
           <el-button type="success" size="small" class="mb-15" @click="getList(CurrentPage,pageSize,pd)">查询</el-button>
-          <el-button type="primary" plain size="small" @click="reset">重置</el-button>
+          <el-button type="primary" class="mb-15" plain size="small" @click="reset">重置</el-button>
+          <el-button type="warning" size="small" @click="$router.go(0);backShow=false" v-if="backShow">返回</el-button>
 
         </el-col>
 
@@ -124,7 +125,7 @@
         <el-button type="info" size="small" @click="deleteItems()">批量删除</el-button>
         <!-- <el-button type="warning" size="small" @click="releaseDialogVisible=true">生效发布</el-button> -->
         <el-button type="danger" size="small" @click="getHisFn(currentPage,pageSize,pd)">历史资料</el-button>
-        <el-button type="success" size="small">模板下载</el-button>
+        <el-button type="success" size="small" @click="download">模板下载</el-button>
       </el-row>
       <el-table
         :data="tableData"
@@ -246,7 +247,7 @@
           <el-col :sm="24" :md="12" :lg="8"  class="input-item">
             <span class="input-text"><span class="redx">*</span>出生日期：</span>
             <el-date-picker
-              size="small" value-format="yyyyMMdd"
+              size="small" value-format="yyyy-MM-dd"
               v-model="form.DATEOFBIRTH"
               type="date"
               range-separator="-"
@@ -303,7 +304,7 @@
             <span class="input-text"><span class="redx">*</span>关注开始时间：</span>
             <el-date-picker
               size="small"
-              v-model="form.BEGINDATE" value-format="yyyyMMdd"
+              v-model="form.BEGINDATE" value-format="yyyy-MM-dd"
               type="date"
               range-separator="-"
               start-placeholder="开始日期"
@@ -315,7 +316,7 @@
             <span class="input-text"><span class="redx">*</span>关注终止时间：</span>
             <el-date-picker
               size="small"
-              v-model="form.ENDDATE" value-format="yyyyMMdd"
+              v-model="form.ENDDATE" value-format="yyyy-MM-dd"
               type="date"
               range-separator="-"
               start-placeholder="开始日期"
@@ -330,16 +331,19 @@
 
           <el-col :sm="24" :md="12" :lg="8"  class="input-item">
             <span class="input-text"><span class="redx">*</span>出入事由：</span>
-            <el-select v-model="form.REASON" placeholder="请选择" clearable filterable size="small"  class="input-input">
-              <el-option label="0 - 探亲" value="0"></el-option>
-              <el-option label="1 - 旅游" value="1"></el-option>
-              <el-option label="2 - 全部" value="2"></el-option>
+            <el-select v-model="form.REASON"  filterable clearable  placeholder="请选择"  size="small" class="input-input">
+              <el-option
+                v-for="item in inOutReason"
+                :key="item.CODE"
+                :label="item.CODE+' - '+item.NAME"
+                :value="item.CODE">
+              </el-option>
             </el-select>
           </el-col>
 
           <el-col :sm="24" :md="12" :lg="8" class="input-item">
             <span class="input-text">报列单位：</span>
-            <QueryAirport  :airportModel="form.REPORTUNIT" @change="changeForm(this)" @transAirport="getOutAirportForm"></QueryAirport>
+            <el-input placeholder="请输入内容" size="small" class="input-input" v-model="form.REPORTUNITNAME"></el-input>
           </el-col>
 
           <el-col :sm="24" :md="12" :lg="8" class="input-item">
@@ -348,7 +352,7 @@
           </el-col>
 
           <el-col :sm="24" :md="12" :lg="8"  class="input-item">
-            <span class="input-text"><span class="redx">*</span>关注类别：</span>
+            <span class="input-text">关注类别：</span>
             <el-select v-model="form.TYPE" clearable filterable placeholder="请选择"  size="small"  class="input-input">
               <el-option label="1 - 风评高风险人员" value="1"></el-option>
               <el-option label="2 - 特殊关注对象" value="2"></el-option>
@@ -356,20 +360,15 @@
           </el-col>
 
           <el-col :sm="24" :md="12" :lg="8"  class="input-item">
-            <span class="input-text"><span class="redx">*</span>关注范围：</span>
-            <el-select v-model="form.SCOPE" placeholder="请选择" clearable filterable size="small"  class="input-input">
-              <el-option label="0 - 重点1" value="0"></el-option>
-              <el-option label="1 - 重点2" value="1"></el-option>
-              <el-option label="2 - 重点3" value="2"></el-option>
-            </el-select>
+            <span class="input-text">关注范围：</span>
+            <QueryAirport  :airportModel="form.SCOPE" @change="changeForm(this)" @transAirport="getOutAirportForm"></QueryAirport>
           </el-col>
 
           <el-col :sm="24" :md="12" :lg="8" class="input-item">
-            <span class="input-text"><span class="redx">*</span>处理依据：</span>
+            <span class="input-text">处理依据：</span>
             <el-select v-model="form.DEALTYPE" placeholder="请选择" clearable filterable size="small"  class="input-input">
-              <el-option label="0 - 处理1" value="0"></el-option>
-              <el-option label="1 - 处理2" value="1"></el-option>
-              <el-option label="2 - 处理3" value="2"></el-option>
+              <el-option label="1 - 允许登机" value="1"></el-option>
+              <el-option label="2 - 不准登机" value="2"></el-option>
             </el-select>
           </el-col>
 
@@ -469,7 +468,7 @@
         <el-row type="flex" class="detail-msg-row">
           <el-col :sm="24" :md="12" :lg="8" >
             <span>报列单位</span>
-            {{detailsData.REPORTUNIT}}
+            {{detailsData.REPORTUNITNAME}}
 
           </el-col>
           <el-col :sm="24" :md="12" :lg="8" >
@@ -575,6 +574,7 @@ export default {
   components: {QueryNationality,QueryAirport,QueryDocCode},
   data(){
     return{
+      backShow:false,
       fileList:[],
       getHis:true,
       CurrentPage:1,
@@ -588,6 +588,7 @@ export default {
       delId:0,
       nation:[],
       docCode:[],
+      inOutReason:[],
       nationAlone:[],
       addDialogVisible:false,
       detailsDialogVisible:false,
@@ -626,8 +627,12 @@ export default {
     this.getList(this.CurrentPage,this.pageSize,this.pd);
     this.queryNationalityAlone();
     this.queryDocCode();
+    this.queryInOutReason();
   },
   methods:{
+    download(){
+      window.location.href='http://192.168.99.242:8080/manage-platform/templateFile/nameListDataFile.xlsx'
+    },
     reset(){
       this.CurrentPage=1;
       this.pageSize=10;
@@ -676,9 +681,9 @@ export default {
     getDocCode(msg){
       this.pd.CARDTYPE=msg;
     },
-    getOutAirportForm(msg){
-      this.form.REPORTUNIT=msg;
-    },
+    // getOutAirportForm(msg){
+    //   this.form.REPORTUNIT=msg;
+    // },
     getDocCodeForm(msg){
       this.form.CARDTYPE=msg;
     },
@@ -717,6 +722,7 @@ export default {
       this.$api.post('/manage-platform/nameListHis/getNameListFocusListHisPage',p,
        r => {
          console.log(r);
+         this.backShow=true;
          this.tableData=r.data.resultList;
          this.TotalResult=r.data.totalResult;
       })
@@ -750,10 +756,6 @@ export default {
            });
            this.releaseDialogVisible=false;
            this.getList(this.CurrentPage,this.pageSize,this.pd);
-
-
-         }else{
-           this.$message.error(r.message);
          }
       })
       },
@@ -778,8 +780,6 @@ export default {
                this.releaseDialogVisible=false;
                this.getList(this.CurrentPage,this.pageSize,this.pd);
 
-             }else{
-               this.$message.error(r.message);
              }
           })
       },
@@ -789,6 +789,16 @@ export default {
            console.log(r);
            if(r.success){
              this.docCode=r.data;
+           }
+        })
+      },
+
+      queryInOutReason(){
+        this.$api.post('/manage-platform/codeTable/queryInOutReason',{},
+         r => {
+           console.log(r);
+           if(r.success){
+             this.inOutReason=r.data;
            }
         })
       },
@@ -812,14 +822,11 @@ export default {
                  message: '恭喜你，添加成功！',
                  type: 'success'
                });
-             }else{
-               this.$message.error(r.message);
              }
-            this.$refs[formName].resetFields();
             this.addDialogVisible=false;
             this.getList(this.CurrentPage,this.pageSize,this.pd);
-          },e=>{
-            this.$message.error('失败了');
+            this.$refs[formName].resetFields();
+
           })
         }else if(this.dialogType=="update"){
           this.$api.post('/manage-platform/nameListFocusList/updateNameListFocusList',this.form,
@@ -830,14 +837,12 @@ export default {
                  message: '恭喜你，修改成功！',
                  type: 'success'
                });
-             }else{
-               this.$message.error(r.message);
+
              }
-            this.$refs[formName].resetFields();
             this.addDialogVisible=false;
             this.getList(this.CurrentPage,this.pageSize,this.pd);
-          },e=>{
-            this.$message.error('失败了');
+            this.$refs[formName].resetFields();
+
           })
         }
     },
