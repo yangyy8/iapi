@@ -146,7 +146,7 @@
           <template slot-scope="scope">
             <div class="flex-r">
 
-              <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row.flightRecordnum)">详情</el-button>
+              <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row)">详情</el-button>
             </div>
 
          </template>
@@ -186,7 +186,7 @@
 
 
 
-    <el-dialog
+    <!-- <el-dialog
       title="详情"
       :visible.sync="detailsDialogVisible"
       width="950px">
@@ -241,7 +241,7 @@
       <span slot="footer" class="dialog-footer">
         <el-button type="warning" @click="detailsDialogVisible = false" size="small">取消</el-button>
       </span>
-    </el-dialog>
+    </el-dialog> -->
   </div>
 
 </template>
@@ -330,7 +330,7 @@ export default {
         r => {
           console.log(r);
           this.tableData = r.data.resultList;
-          this.TotalResult = r.data.totalPage;
+          this.TotalResult = r.data.totalResult;
         })
     },
     queryNationality() {
@@ -372,16 +372,18 @@ export default {
         })
     },
     details(i) {
-      this.detailsDialogVisible = true;
-      let p = {
-        "flightRecordnum": i,
+      // this.detailsDialogVisible = true;
+      // let p = {
+      //   "flightRecordnum": i,
+      //
+      // };
+      // this.$api.post('/manage-platform/statusUpdate/flight/queryTbFlightEntityById', p,
+      //   r => {
+      //     console.log(r);
+      //     this.form = r.data;
+      //   })
 
-      };
-      this.$api.post('/manage-platform/statusUpdate/flight/queryTbFlightEntityById', p,
-        r => {
-          console.log(r);
-          this.form = r.data;
-        })
+      this.$router.push({name:'QueryHBZW',query:{flightNumber:i.fltno,departdateBegin:i.departuretime,departdateEnd:i.departuretime}})
 
     },
 
