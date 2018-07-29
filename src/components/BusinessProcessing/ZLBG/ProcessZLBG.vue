@@ -49,9 +49,9 @@
               <el-select v-model="pd.GENDER" placeholder="请选择"  filterable clearable size="small" class="input-input">
                  <el-option value="U" label="U - 未知">
                  </el-option>
-                 <el-option value="F" label="F - 男">
+                 <el-option value="M" label="M - 男">
                  </el-option>
-                 <el-option value="M" label="M - 女">
+                 <el-option value="F" label="F - 女">
                  </el-option>
                </el-select>
             </el-col>
@@ -922,10 +922,10 @@ export default {
 
     fiftersex(val) {
       if (val == "F") {
-        return "男"
+        return "女"
 
       } else if (val == "M") {
-        return "女"
+        return "男"
       } else if (val == "U") {
         return "未知"
       }

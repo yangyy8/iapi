@@ -127,7 +127,7 @@
       <el-form :model="form" ref="addForm">
         <el-row type="flex"  class="mb-6">
           <el-col :span="12" class="input-item">
-            <span class="yy-input-text">上级部门：</span>
+            <span class="yy-input-text"><font class="yy-color">*</font> 上级部门：</span>
             <el-select v-model="form.PARENT_ID" filterable clearable placeholder="请选择" size="small" class="yy-input-input">
               <el-option
                 v-for="item in company"
@@ -140,7 +140,7 @@
           </el-col>
 
           <el-col :span="12" class="input-item">
-            <span class="yy-input-text">部门名称：</span>
+            <span class="yy-input-text"><font class="yy-color">*</font> 部门名称：</span>
             <el-input placeholder="请输入内容" size="small"  v-model="form.DEPT_QC" class="yy-input-input" ></el-input>
 
           </el-col>
@@ -148,13 +148,13 @@
         </el-row>
         <el-row type="flex"  class="mb-6">
           <el-col :span="12" class="input-item">
-            <span class="yy-input-text">部门简称：</span>
+            <span class="yy-input-text"><font class="yy-color">*</font> 部门简称：</span>
             <el-input placeholder="请输入内容" size="small"   v-model="form.DEPT_JC" class="yy-input-input" ></el-input>
 
           </el-col>
 
           <el-col :span="12" class="input-item">
-            <span class="yy-input-text">部门编码：</span>
+            <span class="yy-input-text"><font class="yy-color">*</font> 部门编码：</span>
             <el-input placeholder="请输入内容" size="small"  v-model="form.DEPT_CODE" class="yy-input-input" ></el-input>
 
           </el-col>
@@ -162,7 +162,7 @@
         </el-row>
         <el-row type="flex"  class="mb-6">
           <el-col :span="12" class="input-item">
-            <span class="yy-input-text">状态：</span>
+            <span class="yy-input-text"><font class="yy-color">*</font> 状态：</span>
             <el-select v-model="form.STATUS"  placeholder="请选择" size="small" class="yy-input-input">
                <el-option  value="1" label="启用">
                </el-option>
@@ -172,7 +172,7 @@
           </el-col>
 
           <el-col :span="12" class="input-item">
-            <span class="yy-input-text">排列序号：</span>
+            <span class="yy-input-text"><font class="yy-color">*</font> 排列序号：</span>
             <el-input placeholder="请输入内容" size="small"   v-model="form.DEPT_ORDER" class="yy-input-input" ></el-input>
 
           </el-col>

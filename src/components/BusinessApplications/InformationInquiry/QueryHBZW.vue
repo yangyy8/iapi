@@ -47,7 +47,7 @@
 
                 <el-option value="U" label="U - 未知">
                 </el-option>
-                <el-option value="W" label="W - 男">
+                <el-option value="M" label="M - 男">
                 </el-option>
                 <el-option value="F" label="F - 女">
                 </el-option>
@@ -272,7 +272,7 @@ export default {
       let p = {
         "currentPage": currentPage,
         "showCount": showCount,
-        "pd": pd
+        "cdt": pd
       };
       this.$api.post('/manage-platform/statusUpdate/seat/queryListPages', p,
         r => {
@@ -295,7 +295,7 @@ export default {
       let p = {
         "currentPage": currentPage,
         "showCount": showCount,
-        "pd": pd
+        "cdt": pd
       };
       this.$api.post('/manage-platform/statusUpdate/seat/queryListPagesSeat', p,
         r => {
@@ -304,7 +304,6 @@ export default {
           this.list2 = r.data.listabc;
         })
     },
-
     details(i) {
       this.detailsDialogVisible = true;
       console.log(i);

@@ -199,7 +199,7 @@
           </el-col>
           <el-col :span="8">
             <span class="yy-input-text">性别：</span>
-          <span class="yy-input-input detailinput">  {{form.gender=='F'?"男":form.gender=='M'?"女":"未知"}}</span>
+          <span class="yy-input-input detailinput">  {{form.gender=='F'?"女":form.gender=='M'?"男":"未知"}}</span>
           </el-col>
           <el-col :span="8">
             <span class="yy-input-text">出生日期：</span>
@@ -218,7 +218,7 @@
           </el-col>
           <el-col :span="8">
             <span class="yy-input-text">出入标识：</span>
-          <span class="yy-input-input detailinput">  {{form.flighttype | fifter1}}</span>
+          <span class="yy-input-input detailinput">  {{form.flighttype}}</span>
           </el-col>
         </el-row>
         <el-row type="flex" class="detail-msg-row">
@@ -232,7 +232,7 @@
           </el-col>
           <el-col :span="8">
             <span class="yy-input-text">事件类型：</span>
-        
+
           </el-col>
         </el-row>
 
@@ -324,7 +324,7 @@ export default {
       let p = {
         "currentPage": currentPage,
         "showCount": showCount,
-        "pd": pd
+        "cdt": pd
       };
       this.$api.post('/manage-platform/statusUpdate/flight/queryListPages', p,
         r => {

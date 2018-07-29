@@ -144,39 +144,39 @@
     </div>
 
 
-    <el-dialog :title="dialogText" :visible.sync="addDialogVisible" width="700px" >
+    <el-dialog :title="dialogText" :visible.sync="addDialogVisible" width="800px" >
       <el-form :model="form" ref="addForm">
         <el-row type="flex"  class="mb-6">
           <el-col :span="12" class="input-item">
-            <span class="yy-input-text">姓名：</span>
+            <span class="yy-input-text"><font class="yy-color">*</font> 姓名：</span>
             <el-input placeholder="请输入内容" size="small"  v-model="form.NAME" class="yy-input-input" ></el-input>
 
           </el-col>
           <el-col :span="12" class="input-item">
-            <span class="yy-input-text">用户名：</span>
+            <span class="yy-input-text"><font class="yy-color">*</font> 用户名：</span>
             <el-input placeholder="请输入内容" size="small"  v-model="form.USERNAME" class="yy-input-input" ></el-input>
 
           </el-col>
         </el-row>
         <el-row type="flex"  class="mb-6">
           <el-col :span="12" class="input-item">
-            <span class="yy-input-text">密码：</span>
+            <span class="yy-input-text"><font class="yy-color">*</font> 密码：</span>
             <el-input placeholder="请输入内容" type="password" size="small"  v-model="form.PASSWORD" class="yy-input-input" ></el-input>
           </el-col>
           <el-col :span="12" class="input-item">
-            <span class="yy-input-text">确认密码：</span>
+            <span class="yy-input-text"><font class="yy-color">*</font> 确认密码：</span>
             <el-input placeholder="请输入内容" size="small" type="password"  v-model="form.UNPASSWORD" class="yy-input-input" ></el-input>
           </el-col>
         </el-row>
 
         <el-row type="flex"  class="mb-6">
           <el-col :span="12" class="input-item">
-            <span class="yy-input-text">警号：</span>
+            <span class="yy-input-text"><font class="yy-color">*</font> 警号：</span>
             <el-input placeholder="请输入内容" size="small"  v-model="form.EMPLOYEE_CARD" class="yy-input-input" ></el-input>
 
           </el-col>
           <el-col :span="12" class="input-item">
-            <span class="yy-input-text">状态：</span>
+            <span class="yy-input-text"><font class="yy-color">*</font> 状态：</span>
             <el-select v-model="form.STATUS"   placeholder="请选择" size="small" class="yy-input-input">
             <el-option value="1" label="启用">
               </el-option>
@@ -199,7 +199,7 @@
 
           </el-col>
           <el-col :span="12" class="input-item">
-            <span class="yy-input-text">部门：</span>
+            <span class="yy-input-text"><font class="yy-color">*</font> 部门：</span>
             <el-select v-model="form.DEPT_ID"  filterable clearable placeholder="请选择" size="small" class="yy-input-input">
                <el-option
                  v-for="item in company"
@@ -212,7 +212,7 @@
         </el-row>
         <el-row type="flex"  class="mb-6">
           <el-col :span="12" class="input-item">
-            <span class="yy-input-text">联系方式：</span>
+            <span class="yy-input-text"><font class="yy-color">*</font> 联系方式：</span>
             <el-input placeholder="请输入内容" size="small"  v-model="form.PHONE" class="yy-input-input" ></el-input>
 
           </el-col>
@@ -224,7 +224,7 @@
         </el-row>
         <el-row type="flex" class="mb-6" style="margin-left:-80px;">
           <el-col :span="24" class="input-item">
-            <span class="yy-input-text">角色：</span>
+            <span class="yy-input-text"><font class="yy-color">*</font> 角色：</span>
             <el-select v-model="form.roleList" multiple   placeholder="请选择" size="small" style="width:76%;">
                <el-option
                  v-for="item in role"

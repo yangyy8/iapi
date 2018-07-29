@@ -87,7 +87,7 @@
           >
         </el-table-column>
         <el-table-column
-          prop="airlineCompanyId"
+          prop="airlineCompanyName"
           label="所属航空公司" sortable>
         </el-table-column>
         <el-table-column
@@ -163,7 +163,7 @@
             <span class="yy-input-text">所属航空公司：</span>
             <el-input placeholder="请输入内容" size="small"  :disabled="true" v-model="form.airlineCompanyId" class="yy-input-input"></el-input>
           </el-col>
-          
+
         </el-row>
         <el-row type="flex"  class="mb-6">
           <el-col :span="12" class="input-item">
