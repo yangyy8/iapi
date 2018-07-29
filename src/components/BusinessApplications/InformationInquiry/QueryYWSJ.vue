@@ -145,116 +145,116 @@
           <el-row type="flex"  class="mb-6">
             <el-col :span="8" class="input-item">
               <span class="yy-input-text">姓名：</span>
-              <el-input placeholder="请输入内容" size="small"  :disabled="true" v-model="zform.CNAME" class="yy-input-input"></el-input>
+              <el-input size="small"  :disabled="true" v-model="zform.CNAME" class="yy-input-input"></el-input>
 
             </el-col>
             <el-col :span="8" class="input-item">
               <span class="yy-input-text">性别：</span>
-              <el-input placeholder="请输入内容" size="small"  :disabled="true" v-model="zform.GENDERNAME" class="yy-input-input"></el-input>
+              <el-input size="small"  :disabled="true" v-model="zform.GENDERNAME" class="yy-input-input"></el-input>
             </el-col>
             <el-col :span="8" class="input-item">
               <span class="yy-input-text">出生日期：</span>
-              <el-input placeholder="请输入内容" size="small"  :disabled="true" v-model="zform.BIRTHDAYSTR" class="yy-input-input"></el-input>
+              <el-input size="small"  :disabled="true" v-model="zform.BIRTHDAYSTR" class="yy-input-input"></el-input>
             </el-col>
 
           </el-row>
           <el-row type="flex"  class="mb-6">
             <el-col :span="8" class="input-item">
               <span class="yy-input-text">国籍：</span>
-              <el-input placeholder="请输入内容" size="small"  :disabled="true" v-model="zform.NATIONALITYNAME" class="yy-input-input" ></el-input>
+              <el-input size="small"  :disabled="true" v-model="zform.NATIONALITYNAME" class="yy-input-input" ></el-input>
 
             </el-col>
             <el-col :span="8" class="input-item">
               <span class="yy-input-text">证件号码：</span>
-              <el-input placeholder="请输入内容" size="small"  :disabled="true" v-model="zform.PASSPORTNO" class="yy-input-input"></el-input>
+              <el-input size="small"  :disabled="true" v-model="zform.PASSPORTNO" class="yy-input-input"></el-input>
             </el-col>
             <el-col :span="8" class="input-item">
               <span class="yy-input-text">出入标识：</span>
-              <el-input placeholder="请输入内容" size="small"  :disabled="true" v-model="zform.FLIGHTINOUT" class="yy-input-input"></el-input>
+              <el-input size="small"  :disabled="true" v-model="zform.FLIGHTINOUT" class="yy-input-input"></el-input>
             </el-col>
 
           </el-row>
           <el-row type="flex"  class="mb-6">
             <el-col :span="8" class="input-item">
               <span class="yy-input-text">出生国：</span>
-              <el-input placeholder="请输入内容" size="small"  :disabled="true" v-model="zform.BIRTHCOUNTRYNAME" class="yy-input-input" ></el-input>
+              <el-input size="small"  :disabled="true" v-model="zform.BIRTHCOUNTRYNAME" class="yy-input-input" ></el-input>
 
             </el-col>
             <el-col :span="8" class="input-item">
               <span class="yy-input-text">居住国：</span>
-              <el-input placeholder="请输入内容" size="small"  :disabled="true" v-model="zform.RESIDENCENAME" class="yy-input-input"></el-input>
+              <el-input size="small"  :disabled="true" v-model="zform.RESIDENCENAME" class="yy-input-input"></el-input>
             </el-col>
             <el-col :span="8" class="input-item">
               <span class="yy-input-text">护照有效期：</span>
-              <el-input placeholder="请输入内容" size="small"  :disabled="true" v-model="zform.PASSPORTEXPIREDATESTR" class="yy-input-input"></el-input>
+              <el-input size="small"  :disabled="true" v-model="zform.PASSPORTEXPIREDATESTR" class="yy-input-input"></el-input>
             </el-col>
             </el-row>
             <el-row type="flex"  class="mb-6">
               <el-col :span="8" class="input-item">
                 <span class="yy-input-text">护照颁发国：</span>
-                <el-input placeholder="请输入内容" size="small"  :disabled="true" v-model="zform.PASSPORTISSUECOUNTRYNAME" class="yy-input-input" ></el-input>
+                <el-input size="small"  :disabled="true" v-model="zform.PASSPORTISSUECOUNTRYNAME" class="yy-input-input" ></el-input>
 
               </el-col>
               <el-col :span="8" class="input-item">
                 <span class="yy-input-text">护照签发日期：</span>
-                <el-input placeholder="请输入内容" size="small"  :disabled="true" v-model="zform.PASSPORTISSUEDATESTR" class="yy-input-input"></el-input>
+                <el-input size="small"  :disabled="true" v-model="zform.PASSPORTISSUEDATESTR" class="yy-input-input"></el-input>
               </el-col>
               <el-col :span="8" class="input-item">
                 <span class="yy-input-text">航班号：</span>
-                <el-input placeholder="请输入内容" size="small"  :disabled="true" v-model="zform.FLTNO" class="yy-input-input"></el-input>
+                <el-input size="small"  :disabled="true" v-model="zform.FLTNO" class="yy-input-input"></el-input>
               </el-col>
               </el-row>
               <el-row type="flex"  class="mb-6">
                 <el-col :span="8" class="input-item">
                   <span class="yy-input-text">航班日期：</span>
-                  <el-input placeholder="请输入内容" size="small"  :disabled="true" v-model="zform.FLIGHTDATESTR" class="yy-input-input" ></el-input>
+                  <el-input size="small"  :disabled="true" v-model="zform.FLIGHTDATESTR" class="yy-input-input" ></el-input>
 
                 </el-col>
                 <el-col :span="8" class="input-item">
                   <span class="yy-input-text">起飞机场：</span>
-                  <el-input placeholder="请输入内容" size="small"  :disabled="true" v-model="zform.CITYFROMNAME" class="yy-input-input"></el-input>
+                  <el-input size="small"  :disabled="true" v-model="zform.CITYFROMNAME" class="yy-input-input"></el-input>
                 </el-col>
                 <el-col :span="8" class="input-item">
                   <span class="yy-input-text">预计起飞时间：</span>
-                  <el-input placeholder="请输入内容" size="small"  :disabled="true" v-model="zform.DEPARTDATESTR" class="yy-input-input"></el-input>
+                  <el-input size="small"  :disabled="true" v-model="zform.DEPARTDATESTR" class="yy-input-input"></el-input>
                 </el-col>
                 </el-row>
                 <el-row type="flex"  class="mb-6">
                   <el-col :span="8" class="input-item">
                     <span class="yy-input-text">到达机场：</span>
-                    <el-input placeholder="请输入内容" size="small"  :disabled="true" v-model="zform.CITYTONAME" class="yy-input-input" ></el-input>
+                    <el-input size="small"  :disabled="true" v-model="zform.CITYTONAME" class="yy-input-input" ></el-input>
 
                   </el-col>
                   <el-col :span="8" class="input-item">
                     <span class="yy-input-text">预计降落时间：</span>
-                    <el-input placeholder="请输入内容" size="small"  :disabled="true" v-model="zform.ARRIVDATESTR" class="yy-input-input"></el-input>
+                    <el-input size="small"  :disabled="true" v-model="zform.ARRIVDATESTR" class="yy-input-input"></el-input>
                   </el-col>
                   <el-col :span="8" class="input-item">
                     <span class="yy-input-text">原预检结果：</span>
-                    <el-input placeholder="请输入内容" size="small"  :disabled="true" v-model="zform.INSTRUCT_OLD" class="yy-input-input"></el-input>
+                    <el-input size="small"  :disabled="true" v-model="zform.INSTRUCT_OLD" class="yy-input-input"></el-input>
                   </el-col>
                   </el-row>
                   <el-row type="flex"  class="mb-6">
                     <el-col :span="8" class="input-item">
                       <span class="yy-input-text">最终预检结果：</span>
-                      <el-input placeholder="请输入内容" size="small"  :disabled="true" v-model="zform.INSTRUCT_NEW" class="yy-input-input" ></el-input>
+                      <el-input size="small"  :disabled="true" v-model="zform.INSTRUCT_NEW" class="yy-input-input" ></el-input>
 
                     </el-col>
                     <el-col :span="8" class="input-item">
                       <span class="yy-input-text">变更原因：</span>
-                      <el-input placeholder="请输入内容" size="small"  :disabled="true" v-model="zform.CHANGE_RESON" class="yy-input-input"></el-input>
+                      <el-input size="small"  :disabled="true" v-model="zform.CHANGE_RESON" class="yy-input-input"></el-input>
                     </el-col>
 
                     </el-row>
                     <el-row type="flex"  class="mb-6">
                       <el-col :span="8" class="input-item">
                         <span class="yy-input-text">审批时间：</span>
-                        <el-input placeholder="请输入内容" size="small"  :disabled="true" v-model="zform.APPROVALTIME" class="yy-input-input" ></el-input>
+                        <el-input size="small"  :disabled="true" v-model="zform.APPROVALTIME" class="yy-input-input" ></el-input>
 
                       </el-col>
                       <el-col :span="8" class="input-item">
                         <span class="yy-input-text">审批人名字：</span>
-                        <el-input placeholder="请输入内容" size="small"  :disabled="true" v-model="zform.USERNAME" class="yy-input-input"></el-input>
+                        <el-input size="small"  :disabled="true" v-model="zform.USERNAME" class="yy-input-input"></el-input>
                       </el-col>
 
                       </el-row>
@@ -283,19 +283,19 @@
           </el-col>
           <el-col :span="12" class="input-item">
             <span class="yy-input-text">实际出发口岸：</span>
-            <el-input placeholder="请输入内容" size="small" v-model="hform.stationfrom+' - '+hform.stationfromName" :disabled="true" class="yy-input-input"></el-input>
+            <el-input placeholder="请输入内容" size="small" v-model="hform.portfrom+' - '+hform.stationfromName" :disabled="true" class="yy-input-input"></el-input>
 
           </el-col>
         </el-row>
         <el-row type="flex" class="mb-6" >
           <el-col :span="12" class="input-item">
             <span class="yy-input-text">原计划到达口岸：</span>
-              <el-input placeholder="请输入内容" size="small" v-model="hform.stationto+' - '+hform.stationtoName" :disabled="true" class="yy-input-input"></el-input>
+              <el-input placeholder="请输入内容" size="small" v-model="hform.portto+' - '+hform.stationtoName" :disabled="true" class="yy-input-input"></el-input>
           </el-col>
 
           <el-col :span="12" class="input-item">
             <span class="yy-input-text">现计划到达口岸：</span>
-              <el-input placeholder="请输入内容" size="small" v-model="hform.stationto+' - '+hform.stationtoName" :disabled="true" class="yy-input-input"></el-input>
+              <el-input placeholder="请输入内容" size="small" v-model="hform.changeport+' - '+hform.changeportName" :disabled="true" class="yy-input-input"></el-input>
           </el-col>
         </el-row>
 
