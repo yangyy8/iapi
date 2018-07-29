@@ -207,7 +207,9 @@
         </el-col>
         <el-col :span="3" class="down-btn-area">
           <el-button type="success" class="mb-15" size="small" @click="getList(CurrentPage,pageSize,pd)">查询</el-button>
-          <el-button type="primary" plain size="small" @click="reset">重置</el-button>
+          <el-button type="primary" class="mb-15" plain size="small" @click="reset">重置</el-button>
+          <el-button type="warning" class="mb-15" size="small" @click="$router.go(0);backShow=false" v-if="backShow">返回</el-button>
+
 
         </el-col>
 
@@ -233,7 +235,7 @@
         <el-button type="info" size="small" @click="dialogType='dels';releaseDialogVisible=true">批量删除</el-button>
         <el-button type="warning" size="small" @click="releaseDialogVisible=true;dialogType='syn'">生效发布</el-button>
         <el-button type="danger" size="small" @click="getHisFn(currentPage,pageSize,pd)">历史资料</el-button>
-        <el-button type="success" size="small">模板下载</el-button>
+        <el-button type="success" size="small" @click="download">模板下载</el-button>
       </el-row>
       <el-table
         :data="tableData"
@@ -378,7 +380,7 @@
           <el-col :sm="24" :md="12" :lg="8"  class="input-item">
             <span class="input-text"><span class="redx">*</span>证件有效期：</span>
             <el-date-picker
-              size="small" value-format="yyyyMMdd"
+              size="small" value-format="yyyy-MM-dd"
               v-model="form.CARDEXPIREDATE"
               type="date"
               range-separator="-"
@@ -404,7 +406,7 @@
           <el-col :sm="24" :md="12" :lg="8"  class="input-item">
             <span class="input-text"><span class="redx">*</span>出生日期：</span>
             <el-date-picker
-              size="small" value-format="yyyyMMdd"
+              size="small" value-format="yyyy-MM-dd"
               v-model="form.BIRTHDATE"
               type="date"
               range-separator="-"
@@ -436,7 +438,7 @@
             <span class="input-text"><span class="redx">*</span>生效日期：</span>
             <el-date-picker
               size="small"
-              v-model="form.CTL_BEGINDATE" value-format="yyyyMMdd"
+              v-model="form.CTL_BEGINDATE" value-format="yyyy-MM-dd"
               type="date"
               range-separator="-"
               start-placeholder="开始日期"
@@ -448,7 +450,7 @@
             <span class="input-text"><span class="redx">*</span>失效日期：</span>
             <el-date-picker
               size="small"
-              v-model="form.CTL_EXPIREDATE" value-format="yyyyMMdd"
+              v-model="form.CTL_EXPIREDATE" value-format="yyyy-MM-dd"
               type="date"
               range-separator="-"
               start-placeholder="开始日期"
@@ -698,6 +700,7 @@ export default {
   components: {QueryNationality,QueryAirport,QueryDocCode},
   data(){
     return{
+      backShow:false,
       nationAlone:[],
       airport:[],
       docCode:[],
@@ -755,6 +758,9 @@ export default {
     this.queryDocCode();
   },
   methods:{
+    download(){
+      window.location.href='http://192.168.99.242:8080/manage-platform/templateFile/nameListDataFile.xlsx'
+    },
     reset(){
       this.CurrentPage=1;
       this.pageSize=10;
@@ -789,18 +795,22 @@ export default {
     },
 
     getList(currentPage,showCount,pd){
-      let p={
-      	"currentPage":currentPage,
-      	"showCount":showCount,
-      	"pd":pd
-      };
-      console.log(pd)
-      this.$api.post('/manage-platform/nameList/getNameListPage',p,
-       r => {
-         console.log(r);
-         this.tableData=r.data.resultList;
-         this.TotalResult=r.data.totalResult;
-      })
+      if (this.dialogType=="his") {
+        this.getHisFn(currentPage,showCount,pd);
+      }else {
+        let p={
+        	"currentPage":currentPage,
+        	"showCount":showCount,
+        	"pd":pd
+        };
+        console.log(pd)
+        this.$api.post('/manage-platform/nameList/getNameListPage',p,
+         r => {
+           console.log(r);
+           this.tableData=r.data.resultList;
+           this.TotalResult=r.data.totalResult;
+        })
+      }
     },
     queryNationalityAlone(){
       this.$api.post('/manage-platform/codeTable/queryNationality',{},
@@ -831,6 +841,7 @@ export default {
       })
     },
     getHisFn(currentPage,showCount,pd){
+      this.dialogType="his";
       this.tableData={};
       this.TotalResult=0;
       this.getHis=false;
@@ -845,6 +856,8 @@ export default {
          console.log(r);
          this.tableData=r.data.resultList;
          this.TotalResult=r.data.totalResult;
+         this.backShow=true;
+
       })
     },
     update(item){
@@ -923,9 +936,10 @@ export default {
                  type: 'success'
                });
              }
-            this.$refs[formName].resetFields();
             this.addDialogVisible=false;
             this.getList(this.CurrentPage,this.pageSize,this.pd);
+            this.$refs[formName].resetFields();
+
           })
         }else {
           if(this.dialogType=="add"){
@@ -942,9 +956,10 @@ export default {
                    type: 'success'
                  });
                }
-              this.$refs[formName].resetFields();
               this.addDialogVisible=false;
               this.getList(this.CurrentPage,this.pageSize,this.pd);
+              this.$refs[formName].resetFields();
+
             })
           }else if(this.dialogType=="update"){
             this.form.LIST_TYPE='2';
@@ -960,10 +975,11 @@ export default {
                    type: 'success'
                  });
                }
-              this.$refs[formName].resetFields();
               this.addDialogVisible=false;
               this.releaseDialogVisible=false;
               this.getList(this.CurrentPage,this.pageSize,this.pd);
+              this.$refs[formName].resetFields();
+
             })
           }else if(this.dialogType=="del"){
               let p={
