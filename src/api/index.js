@@ -51,7 +51,7 @@ function filterNull(o) {
 // 添加默认参数
 
 function apiAxios(method, url, params, success, failure) {
-  // let loadingInstance1 = Loading.service({ fullscreen: true });
+  let loadingInstance1 = Loading.service({ fullscreen: true,background:'rgba(90,90,90,0.3)'});
 
   if (params) {
     // params=addParams(params);
@@ -61,7 +61,16 @@ function apiAxios(method, url, params, success, failure) {
    r => {
      console.log(r);
      if(!r.data){
-       return
+       $confirm('登录已失效，请重新登录?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          window.location.href = root+"/"
+        }).catch(() => {
+
+        });
+       // return
      }
   })
 
@@ -79,11 +88,14 @@ function apiAxios(method, url, params, success, failure) {
       if (res.status == 200) {
         if (success) {
           console.log(res.data);
-          if(!res.data.success){
-            Message.error(res.data.message);
-          }
-          success(res.data)
-          // loadingInstance1.close();
+
+          setTimeout(function(){
+            loadingInstance1.close();
+            if(!res.data.success){
+              Message.error(res.data.message);
+            }
+            success(res.data)
+          },1000)
         }
       } else {
         if (failure) {
@@ -93,7 +105,7 @@ function apiAxios(method, url, params, success, failure) {
           console.log('error: ' + JSON.stringify(res.data));
 
         }
-        // loadingInstance1.close();
+        loadingInstance1.close();
       }
     })
     .catch(function(err) {
@@ -101,6 +113,8 @@ function apiAxios(method, url, params, success, failure) {
       if (err) {
         // console.log('api error, HTTP CODE: ' + res.status)
       }
+      loadingInstance1.close();
+
     })
 }
 
