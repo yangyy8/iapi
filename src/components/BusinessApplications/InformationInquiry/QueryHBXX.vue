@@ -380,6 +380,7 @@ export default {
       // this.$api.post('/manage-platform/statusUpdate/flight/queryTbFlightEntityById', p,
       //   r => {
       //     console.log(r);
+      
       //     this.form = r.data;
       //   })
 

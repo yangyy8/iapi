@@ -493,7 +493,7 @@ export default {
           SERIAL: 11,
           name: "常用菜单设置",
           url: "Menu"
-        }, ]
+        }]
       }],
       nav2Id: 1,
       nav1Star: 0,

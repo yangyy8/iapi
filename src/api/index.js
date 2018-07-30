@@ -8,7 +8,6 @@
 
 // var root="http://192.168.99.251:8080"    //时达的电脑
 
-
 //var root="http://192.168.99.242:8080"    //石飞的电脑
 
 // var root = "http://192.168.99.251:8080"    //性能监控
@@ -104,7 +103,6 @@ function apiAxios(method, url, params, success, failure) {
       }
     })
 }
-
 
 // 返回在vue模板中的调用接口
 export default {

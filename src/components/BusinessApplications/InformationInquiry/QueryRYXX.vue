@@ -1087,7 +1087,9 @@
               class="upload-demo"
               ref="upload"
               name="excel"
-              action="http://192.168.99.245:8080/manage-platform/iapi/readExcel"
+              :multiple="false"
+              accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+              action="http://192.168.99.206:8080/manage-platform/iapi/readExcel"
               :on-success="uploadSuccess"
               :limit="5"
               :auto-upload="false">
@@ -1427,7 +1429,6 @@ export default {
           startDepartdate:'',
           citytoEqual:'',
           endArrivdate:''
-
         }
       ],
       modelrow:{
@@ -1620,7 +1621,8 @@ export default {
       landingName:[],
       nationalityName:[],
       cdt:{
-        flighttypeEqual:''
+        flighttypeEqual:'',
+        isBlurred:false
       },
       historyCdt:{
         "nationalityEqual":'',
@@ -2555,7 +2557,7 @@ export default {
        })
     },
     reset(){
-      this.cdt={};
+      this.cdt={isBlurred:false};
       this.getList(this.currentPage,this.showCount,this.cdt);
       if(this.bigBase == 0){
         this.getList(this.currentPage,this.showCount,this.cdt);
@@ -2606,7 +2608,7 @@ export default {
       return new Date(item);
     },
    uploadSuccess(response, file, fileList){
-     console.log(response.data.cdtList);
+     console.log(response);
      let arrConfig = response.data.cdtList;
      for(var i=0;i<arrConfig.length;i++){
        this.cdtList = arrConfig[0];

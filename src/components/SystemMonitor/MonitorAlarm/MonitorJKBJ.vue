@@ -78,7 +78,7 @@
               </el-col>
             </el-row>
           </el-col>
-          <el-col :span="4" class="down-btn-area" style="margin-top:25px;">
+          <el-col :span="2" class="down-btn-area" style="margin-top:25px;">
             <el-button type="success" size="small" @click="getList(CurrentPage,pageSize,pd)">查询</el-button>
           </el-col>
         </el-row>
@@ -189,7 +189,7 @@
      </el-row>
        <hr/>
     <el-row type="flex"  class="mb-15">
-      <el-col :span="12"><span class="input-text">处理人：</span>{{form.DEALUSER}}</el-col>
+      <el-col :span="12"><span class="input-text">处理人：</span>{{this.username}}</el-col>
         <el-col :span="12"><span class="input-text">处理时间：</span>{{form.DEALTIME | fifter4}}</el-col>
     </el-row>
 
@@ -256,6 +256,8 @@ export default {
       detailsDialogVisible: false,
       dform: {},
       form: {},
+      userid:"",
+      username:"",
       pd: {},
       object:{},
       tableData: [],
@@ -299,6 +301,8 @@ export default {
 
           this.tableData = r.data.pdList;
           this.TotalResult = r.data.totalResult;
+          this.userid=r.data.userid;
+          this.username=r.data.username;
         })
     },
     monitor(data) { //监控对象联动
@@ -337,9 +341,10 @@ export default {
       }
     },
     adds(formName) {
+
       let p = {
         "DEALCONTENT": this.form.DEALCONTENT,
-        "DEALUSER": this.form.DEALUSER,
+        "DEALUSER": this.userid,
         "SERIAL": this.form.SERIAL
       }
       this.$api.post('/manage-platform/monitorAlarm/updateAlarmStatus', p,

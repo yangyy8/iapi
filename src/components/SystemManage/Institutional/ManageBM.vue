@@ -1,19 +1,16 @@
 <template lang="html">
   <div class="zlbg">
     <div class="middle-top mb-2">
-
       <el-row type="flex" class="middle">
         <el-col :span="22" class="br pr-20">
           <div class="title-green">
             查询条件
           </div>
           <el-row align="center"   :gutter="2" >
-
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">部门简称：</span>
               <el-input placeholder="请输入内容" size="small" v-model="pd.DEPT_JC"  class="input-input"></el-input>
             </el-col>
-
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">上级部门：</span>
               <el-select v-model="pd.DEPT_ID" filterable clearable placeholder="请选择" size="small" class="input-input">
@@ -34,8 +31,6 @@
                  </el-option>
                </el-select>
             </el-col>
-
-
           </el-row>
         </el-col>
         <el-col :span="2" class="down-btn-area" style="padding-top:30px;">
@@ -121,8 +116,6 @@
         </el-pagination>
       </div>
     </div>
-
-
     <el-dialog :title="dialogText"  :visible.sync="addDialogVisible" width="400px;">
       <el-form :model="form" ref="addForm">
         <el-row type="flex"  class="mb-6">
@@ -136,29 +129,21 @@
                 :value="item.SERIAL">
               </el-option>
              </el-select>
-
           </el-col>
-
           <el-col :span="12" class="input-item">
             <span class="yy-input-text"><font class="yy-color">*</font> 部门名称：</span>
             <el-input placeholder="请输入内容" size="small"  v-model="form.DEPT_QC" class="yy-input-input" ></el-input>
-
           </el-col>
-
         </el-row>
         <el-row type="flex"  class="mb-6">
           <el-col :span="12" class="input-item">
             <span class="yy-input-text"><font class="yy-color">*</font> 部门简称：</span>
             <el-input placeholder="请输入内容" size="small"   v-model="form.DEPT_JC" class="yy-input-input" ></el-input>
-
           </el-col>
-
           <el-col :span="12" class="input-item">
             <span class="yy-input-text"><font class="yy-color">*</font> 部门编码：</span>
             <el-input placeholder="请输入内容" size="small"  v-model="form.DEPT_CODE" class="yy-input-input" ></el-input>
-
           </el-col>
-
         </el-row>
         <el-row type="flex"  class="mb-6">
           <el-col :span="12" class="input-item">
@@ -170,75 +155,55 @@
                </el-option>
              </el-select>
           </el-col>
-
           <el-col :span="12" class="input-item">
             <span class="yy-input-text"><font class="yy-color">*</font> 排列序号：</span>
             <el-input placeholder="请输入内容" size="small"   v-model="form.DEPT_ORDER" class="yy-input-input" ></el-input>
-
           </el-col>
-
         </el-row>
-
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="addItem('addForm')" size="small">保 存</el-button>
         <el-button @click="addDialogVisible = false" size="small">取 消</el-button>
-
       </div>
     </el-dialog>
-
-
     <el-dialog title="详情"  :visible.sync="detailsDialogVisible" width="400px;">
       <el-form :model="dform" ref="detailsForm">
         <el-row type="flex"  class="mb-6">
           <el-col :span="12" class="input-item">
             <span class="yy-input-text">上级部门：</span>
-
           <span class="yy-input-input detailinput">   {{dform.PARENT_JC }}</span>
-
           </el-col>
-
           <el-col :span="12" class="input-item">
             <span class="yy-input-text">部门名称：</span>
             <span class="yy-input-input detailinput"> {{dform.DEPT_QC }}</span>
           </el-col>
-
         </el-row>
         <el-row type="flex"  class="mb-6">
           <el-col :span="12" class="input-item">
             <span class="yy-input-text">部门简称：</span>
             <span class="yy-input-input detailinput"> {{dform.DEPT_JC }}</span>
           </el-col>
-
           <el-col :span="12" class="input-item">
             <span class="yy-input-text">部门编码：</span>
           <span class="yy-input-input detailinput">   {{dform.DEPT_CODE }}</span>
           </el-col>
-
         </el-row>
         <el-row type="flex"  class="mb-6">
           <el-col :span="12" class="input-item">
             <span class="yy-input-text">状态：</span>
               <span class="yy-input-input detailinput">  {{dform.STATUS | fiftertype}}</span>
           </el-col>
-
           <el-col :span="12" class="input-item">
             <span class="yy-input-text">排列序号：</span>
             <span class="yy-input-input detailinput">   {{dform.DEPT_ORDER}}</span>
           </el-col>
-
         </el-row>
-
-
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="detailsDialogVisible = false" size="small">取 消</el-button>
       </div>
     </el-dialog>
-
-
   </div>
-
 </template>
 
 <script>
@@ -338,7 +303,6 @@ export default {
       }else {
           this.dialogText="新增";
       }
-
     },
     queryNationality() {
       this.$api.post('/manage-platform/userSys/deptList', {},
@@ -437,18 +401,15 @@ export default {
 .add-dialog {
   /* padding-left:40px; */
 }
-
 .detail-msg-row {
   color: #999;
   line-height: 32px;
 }
-
 .detail-msg-row span {
   color: #333;
   display: inline-block;
   width: 60px;
 }
-
 .yy-input-text {
   width: 25% !important;
 }
