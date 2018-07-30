@@ -110,7 +110,9 @@
           </el-row>
         </el-col>
         <el-col :span="3" class="down-btn-area">
-          <el-button type="success" size="small" class="mb-15" @click="getList(CurrentPage,pageSize,pd)">查询</el-button>
+          <el-button type="success" size="small" v-if="!backShow" class="mb-15" @click="getList(CurrentPage,pageSize,pd)">查询</el-button>
+
+          <el-button type="success" size="small" v-if="backShow" class="mb-15" @click="getHisFn(CurrentPage,pageSize,pd)">查询</el-button>
           <el-button type="primary" class="mb-15" plain size="small" @click="reset">重置</el-button>
           <el-button type="warning" size="small" @click="$router.go(0);backShow=false" v-if="backShow">返回</el-button>
 
@@ -124,7 +126,7 @@
         <el-button type="success" size="small" @click="uploadDialogVisible=true">批量导入</el-button>
         <el-button type="info" size="small" @click="deleteItems()">批量删除</el-button>
         <!-- <el-button type="warning" size="small" @click="releaseDialogVisible=true">生效发布</el-button> -->
-        <el-button type="danger" size="small" @click="getHisFn(currentPage,pageSize,pd)">历史资料</el-button>
+        <el-button type="danger" size="small" @click="getHisFn(CurrentPage,pageSize,pd)">历史资料</el-button>
         <el-button type="success" size="small" @click="download">模板下载</el-button>
       </el-row>
       <el-table
@@ -631,7 +633,7 @@ export default {
   },
   methods:{
     download(){
-      window.location.href='http://192.168.99.242:8080/manage-platform/templateFile/nameListDataFile.xlsx'
+      window.location.href='http://192.168.99.242:8080/manage-platform/templateFile/nameListFocusListFile.xlsx'
     },
     reset(){
       this.CurrentPage=1;
@@ -652,11 +654,21 @@ export default {
       console.log(val)
     },
     pageSizeChange(val) {
-      this.getList(this.CurrentPage,val,this.pd);
+      if(this.backShow){
+        this.getHisFn(this.CurrentPage,val,this.pd);
+
+      }else{
+        this.getList(this.CurrentPage,val,this.pd);
+      }
       console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
-      this.getList(val,this.pageSize,this.pd);
+      if(this.backShow){
+        this.getHisFn(val,this.pageSize,this.pd);
+      }else{
+        this.getList(val,this.pageSize,this.pd);
+
+      }
       console.log(`当前页: ${val}`);
     },
     getNation(msg){
@@ -694,24 +706,16 @@ export default {
       	"pd":pd
       };
       console.log(pd)
-      if (this.dialogType=="getNameListFocusListHis") {
-        this.$api.post('/manage-platform/nameListHis/getNameListFocusListHisPage',p,
-         r => {
-           console.log(r);
-           this.tableData=r.data.resultList;
-           this.TotalResult=r.data.totalResult;
-        })
-      }else {
+
         this.$api.post('/manage-platform/nameListFocusList/getNameListFocusListPage',p,
          r => {
            console.log(r);
            this.tableData=r.data.resultList;
            this.TotalResult=r.data.totalResult;
         })
-      }
+
     },
     getHisFn(currentPage,showCount,pd){
-      this.dialogType="getNameListFocusListHis"
       this.getHis=false;
       let p={
         "currentPage":currentPage,

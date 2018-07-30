@@ -206,7 +206,9 @@
           </el-row>
         </el-col>
         <el-col :span="3" class="down-btn-area">
-          <el-button type="success" class="mb-15" size="small" @click="getList(CurrentPage,pageSize,pd)">查询</el-button>
+          <el-button type="success" class="mb-15" v-if="!backShow" size="small" @click="getList(CurrentPage,pageSize,pd)">查询</el-button>
+          <el-button type="success" class="mb-15" v-if="backShow" size="small" @click="getHisFn(CurrentPage,pageSize,pd)">查询</el-button>
+
           <el-button type="primary" class="mb-15" plain size="small" @click="reset">重置</el-button>
           <el-button type="warning" class="mb-15" size="small" @click="$router.go(0);backShow=false" v-if="backShow">返回</el-button>
 
@@ -234,7 +236,7 @@
         </el-upload>
         <el-button type="info" size="small" @click="dialogType='dels';releaseDialogVisible=true">批量删除</el-button>
         <el-button type="warning" size="small" @click="releaseDialogVisible=true;dialogType='syn'">生效发布</el-button>
-        <el-button type="danger" size="small" @click="getHisFn(currentPage,pageSize,pd)">历史资料</el-button>
+        <el-button type="danger" size="small" @click="getHisFn(CurrentPage,pageSize,pd)">历史资料</el-button>
         <el-button type="success" size="small" @click="download">模板下载</el-button>
       </el-row>
       <el-table
@@ -584,8 +586,7 @@
           </el-col>
           <el-col :sm="24" :md="12" :lg="8" >
             <span>入境口岸</span>
-            {{detailsData.WHITE_PORT_IN_NAME
-}}
+            {{detailsData.WHITE_PORT_IN_NAME}}
 
           </el-col>
           <el-col :sm="24" :md="12" :lg="8" >
@@ -780,11 +781,21 @@ export default {
       console.log(val)
     },
     pageSizeChange(val) {
-      this.getList(this.CurrentPage,val,this.pd);
+      if(this.backShow){
+        this.getHisFn(this.CurrentPage,val,this.pd);
+
+      }else{
+        this.getList(this.CurrentPage,val,this.pd);
+      }
       console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
-      this.getList(val,this.pageSize,this.pd);
+      if(this.backShow){
+        this.getHisFn(val,this.pageSize,this.pd);
+      }else{
+        this.getList(val,this.pageSize,this.pd);
+
+      }
       console.log(`当前页: ${val}`);
     },
     getNation(msg){
@@ -795,9 +806,7 @@ export default {
     },
 
     getList(currentPage,showCount,pd){
-      if (this.dialogType=="his") {
-        this.getHisFn(currentPage,showCount,pd);
-      }else {
+
         let p={
         	"currentPage":currentPage,
         	"showCount":showCount,
@@ -810,7 +819,7 @@ export default {
            this.tableData=r.data.resultList;
            this.TotalResult=r.data.totalResult;
         })
-      }
+
     },
     queryNationalityAlone(){
       this.$api.post('/manage-platform/codeTable/queryNationality',{},
@@ -841,9 +850,6 @@ export default {
       })
     },
     getHisFn(currentPage,showCount,pd){
-      this.dialogType="his";
-      this.tableData={};
-      this.TotalResult=0;
       this.getHis=false;
       let p={
         "currentPage":currentPage,

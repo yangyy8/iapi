@@ -210,7 +210,9 @@
           </el-row>
         </el-col>
         <el-col :span="3" class="down-btn-area">
-          <el-button type="success" class="mb-15" size="small" @click="getList(CurrentPage,pageSize,pd)">查询</el-button>
+          <el-button type="success" class="mb-15" size="small" v-if="!backShow" @click="getList(CurrentPage,pageSize,pd)">查询</el-button>
+          <el-button type="success" class="mb-15" size="small" v-if="backShow" @click="getHisFn(CurrentPage,pageSize,pd)">查询</el-button>
+
           <el-button type="primary" class="mb-15" plain size="small" @click="reset">重置</el-button>
           <el-button type="warning" size="small" @click="$router.go(0);backShow=false" v-if="backShow">返回</el-button>
         </el-col>
@@ -235,7 +237,7 @@
         </el-upload>
         <el-button type="info" size="small" @click="dialogType='dels';releaseDialogVisible=true">批量删除</el-button>
         <el-button type="warning" size="small" @click="releaseDialogVisible=true;dialogType='syn'">生效发布</el-button>
-        <el-button type="danger" size="small" @click="getHisFn(currentPage,pageSize,pd)">历史资料</el-button>
+        <el-button type="danger" size="small" @click="getHisFn(CurrentPage,pageSize,pd)">历史资料</el-button>
         <el-button type="success" size="small" @click="download">模板下载</el-button>
       </el-row>
       <el-table
@@ -256,11 +258,11 @@
         <el-table-column
           prop="RECORDNUM"
           label="档号"
-          sortable>
+          >
         </el-table-column>
         <el-table-column
           prop="NATIONALITYNAME"
-          sortable
+
           label="国籍">
 
         </el-table-column>
@@ -270,7 +272,7 @@
         </el-table-column>
         <el-table-column
           prop="CARDNO"
-          sortable
+
           label="证件号码">
         </el-table-column>
         <el-table-column
@@ -285,15 +287,19 @@
           prop="BIRTHDATE"
           label="出生日期">
         </el-table-column>
-        <!-- <el-table-column
-          prop="CTL_BEGINDATE"
-          label="开始日期">
-        </el-table-column> -->
         <el-table-column
           prop="CTL_EXPIREDATE"
           label="失效日期">
         </el-table-column>
+        <el-table-column
+          prop="SYN_STATUS"
+          label="名单状态">
+          <template slot-scope="scope">
+            <span v-if="scope.row.SYN_STATUS==0">未发布</span>
+            <span v-if="scope.row.SYN_STATUS==1">已发布</span>
 
+          </template>
+        </el-table-column>
         <el-table-column
           label="操作"
           width="240">
@@ -585,8 +591,7 @@
           </el-col>
           <el-col :sm="24" :md="12" :lg="8" >
             <span>入境口岸</span>
-            {{detailsData.WHITE_PORT_IN_NAME
-}}
+            {{detailsData.WHITE_PORT_IN_NAME}}
 
           </el-col>
           <el-col :sm="24" :md="12" :lg="8" >
@@ -805,9 +810,9 @@ export default {
     },
 
     getList(currentPage,showCount,pd){
-      if (this.dialogType=="his") {
-        this.getHisFn(currentPage,showCount,pd);
-      }else {
+      // if (this.dialogType=="his") {
+      //   this.getHisFn(currentPage,showCount,pd);
+      // }else {
         let p={
         	"currentPage":currentPage,
         	"showCount":showCount,
@@ -820,7 +825,7 @@ export default {
            this.tableData=r.data.resultList;
            this.TotalResult=r.data.totalResult;
         })
-      }
+      // }
     },
     queryNationalityAlone(){
       this.$api.post('/manage-platform/codeTable/queryNationality',{},
@@ -851,9 +856,6 @@ export default {
       })
     },
     getHisFn(currentPage,showCount,pd){
-      this.dialogType="his";
-      this.tableData={};
-      this.TotalResult=0;
       this.getHis=false;
       let p={
         "currentPage":currentPage,
