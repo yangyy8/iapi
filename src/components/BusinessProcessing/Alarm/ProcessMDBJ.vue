@@ -84,7 +84,7 @@
         <el-table-column
           label="操作">
           <template slot-scope="scope">
-            <el-button class="table-btn" size="mini" plain @click="$router.push({name:'alarmProcess',query:{eventserial:scope.row.eventSerial}})">报警处理</el-button>
+            <el-button class="table-btn" size="mini" plain @click="$router.push({name:'alarmProcess',query:{eventserial:scope.row.eventSerial,AlarmType:scope.row.alarmTypeNum}})">报警处理</el-button>
          </template>
         </el-table-column>
       </el-table>

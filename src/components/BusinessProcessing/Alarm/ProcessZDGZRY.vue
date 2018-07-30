@@ -8,7 +8,7 @@
         <el-col :span="12" class="top-right">
           报警类型:
           <el-select v-model="pd.pnrType" placeholder="请选择" filterable clearable size="small">
-      
+
            <el-option value="1" label="1 - 风险评估人员报警">
            </el-option>
            <el-option value="2" label="2 - 特殊关注对象报警">
@@ -49,7 +49,7 @@
           label="人员姓名">
         </el-table-column>
         <el-table-column
-          prop="intgchnname"
+          prop="cname"
           label="中文姓名">
         </el-table-column>
         <el-table-column

@@ -195,8 +195,8 @@ export default {
       crType:"0",
       showLeft:true,
       showRight:true,
-      left:1,
-      right:1,
+      left:0,
+      right:0,
       cyccShow:false,
       ccList:[],
       rcList:[],
@@ -324,10 +324,14 @@ export default {
 
     },
     leftOver(i){
-      this.left=i
+      this.left=i;
+      this.right=0;
+
     },
     rightOver(i){
-      this.right=i
+      this.right=i;
+      this.left=0;
+
     },
 
     getSatus(){
@@ -602,7 +606,7 @@ export default {
 .clss{
   fill:#0977b6;
   stroke:#0977b6;
-  stroke-width:3; 
+  stroke-width:3;
   /* transform: scale(1.1); */
 }
 .home{

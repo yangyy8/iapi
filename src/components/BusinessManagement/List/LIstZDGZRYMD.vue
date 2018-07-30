@@ -38,8 +38,10 @@
 
             <el-col :sm="24" :md="12"  :lg="6" class="input-item">
               <span class="input-text">姓名：</span>
+              <div class="input-input t-fuzzy t-flex">
               <el-input placeholder="请输入内容" size="small" v-model="pd.FAMILYNAME" clearable class="input-input"></el-input>
-
+              <el-checkbox v-model="pd.NAMELIKE" true-label="1" false-label="0">模糊查询</el-checkbox>
+              </div>
             </el-col>
             <el-col :sm="24" :md="12"  :lg="6" class="input-item">
               <span class="input-text">性別：</span>
@@ -156,7 +158,7 @@
 
         </el-table-column>
         <el-table-column
-          prop="CARDTYPE"
+          prop="CARDTYPENAME"
           label="证件种类">
         </el-table-column>
         <el-table-column
@@ -171,6 +173,11 @@
         <el-table-column
           prop="GENDER"
           label="性别">
+          <template slot-scope="scope">
+            <span v-if="scope.row.GENDER=='M'">男</span>
+            <span v-if="scope.row.GENDER=='F'">女</span>
+            <span v-if="scope.row.GENDER=='U'">未知</span>
+          </template>
         </el-table-column>
         <el-table-column
           prop="DATEOFBIRTH"
@@ -584,7 +591,7 @@ export default {
       TotalResult:0,
       isdisable:true,
       detailsData:{},
-      pd:{},
+      pd:{NAMELIKE:'0'},
       dialogText:"新增",
       dialogType:"add",
       delId:0,
