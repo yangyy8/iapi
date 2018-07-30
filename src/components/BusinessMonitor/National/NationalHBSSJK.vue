@@ -1392,7 +1392,7 @@ export default {
           },
           lineStyle: {
             normal: {
-              color: '#fff',
+              color: '#11fa46',
               width: 1.5,
               opacity: 0.6,
               curveness: -0.2

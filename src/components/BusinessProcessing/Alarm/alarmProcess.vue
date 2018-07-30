@@ -532,7 +532,7 @@ export default {
       eventserial: "ddddddd",
       tabIsShow: false,
       iapiMap: {},
-      listMap: [{}],
+      listMap: [],
       userMap: {},
       warnMap: {},
       listMap2: [],

@@ -291,7 +291,6 @@
               <el-option value="4Z" label="4Z - 数据错误">
               </el-option>
              </el-select>
-
           </el-col>
           </el-col>
         </el-row>
@@ -301,7 +300,6 @@
             <el-input placeholder="请输入内容" size="small" v-model="map.INSTRUCTC" style="width:80%"></el-input>
           </el-col>
         </el-row>
-
         <el-row type="flex" class="mb-6">
           <el-col :span="24" class="input-item">
             <span class="yy-input-text" style="width:15%">变更说明：</span>
@@ -438,26 +436,28 @@
       </div>
     </el-dialog>
 
-  <el-dialog title="查看详情" :visible.sync="detailsDialogVisible">
+  <el-dialog title="详情" :visible.sync="detailsDialogVisible">
     <el-form :model="dform" ref="detailsForm">
       <div class="hrtitle">基本信息</div>
        <el-row type="flex"  class="mb-6">
          <el-col :span="6">姓名：{{dform.NAME}}</el-col>
          <el-col :span="6">性别：{{dform.GENDER=="F"?"男":dform.GENDER=="F"?"女":"未知"}}</el-col>
          <el-col :span="6">出生日期：{{dform.DATEOFBIRTH}}</el-col>
+          <el-col :span="6">出入标识：{{dform.FLIGHTTYPE=="I"?"入境":"出境"}}</el-col>
+
+       </el-row>
+       <el-row type="flex"  class="mb-6">
          <el-col :span="6">国籍：{{dform.NATIONALITYC}}</el-col>
+         <el-col :span="6">证件号码：{{dform.PASSPORTNO}}</el-col>
+         <el-col :span="6">证件有效期：{{dform.PASSPORTEXPIREDATE}}</el-col>
+         <el-col :span="6">证件颁发国：{{dform.PASSPORTISSUECOUNTRYC}}</el-col>
+
+
        </el-row>
        <el-row type="flex"  class="mb-6">
-         <el-col :span="6">证件号码：{{dform.NAME}}</el-col>
-         <el-col :span="6">出入标识：{{dform.FLIGHTTYPE=="I"?"入境":"出境"}}</el-col>
-         <el-col :span="6">居住国：{{dform.RESIDENCEC}}</el-col>
          <el-col :span="6">出生国：{{dform.NATIONALITYC}}</el-col>
-       </el-row>
-       <el-row type="flex"  class="mb-6">
-         <el-col :span="6">护照号码：{{dform.PASSPORTNO}}</el-col>
-         <el-col :span="6">护照有效期：{{dform.PASSPORTEXPIREDATE}}</el-col>
-         <el-col :span="6">护照颁发国：{{dform.PASSPORTISSUECOUNTRYC}}</el-col>
-         <el-col :span="6">护照签发日期：{{dform.PASSPORTISSUEDATE}}</el-col>
+         <el-col :span="6">居住国：{{dform.RESIDENCEC}}</el-col>
+         <el-col :span="6">证件签发日期：{{dform.PASSPORTISSUEDATE}}</el-col>
        </el-row>
        <div class="hrtitle">航班信息</div>
        <el-row type="flex"  class="mb-6">
@@ -473,10 +473,11 @@
          <el-col :span="6">最终预检结果：{{dform.NAME}}</el-col>
        </el-row>
        <el-row type="flex"  class="mb-6">
-         <el-col :span="6">是否有效：{{dform.NAME}}</el-col>
+         <!-- <el-col :span="6">是否有效：{{dform.NAME}}</el-col> -->
          <el-col :span="6">航班状态：{{dform.FLIGHTSTATUS==0?"取消":"起飞"}}</el-col>
-         <el-col :span="6">登机/航班取消时间：{{dform.NAME}}</el-col>
-         <el-col :span="6">口岸：{{dform.PORTC}}</el-col>
+          <el-col :span="6">航班起飞时间：{{dform.NAME}}</el-col>
+         <el-col :span="6">航班取消时间：{{dform.NAME}}</el-col>
+         <el-col :span="6">降落口岸：{{dform.PORTC}}</el-col>
        </el-row>
        <el-row type="flex"  class="mb-6">
          <el-col :span="6">备降口岸：{{dform.CHANGEPORTC}}</el-col>
@@ -537,7 +538,7 @@
     </el-row>
 
 
-        <div class="hrt">列表信息</div>
+        <div class="hrt">历史值机信息</div>
       <el-table
         :data="detailstableData"
         border
@@ -584,23 +585,23 @@
                 </el-table-column>
 
                 <el-table-column
-                  label="原预检结果" sortable
+                  label="预检结果" sortable
                     width="120"
                   >
                   <template slot-scope="scope">
                     {{scope.row.CHECKRESULT | fiftecr}}
                   </template>
                 </el-table-column>
-                <el-table-column
+                <!-- <el-table-column
                   label="最终预检结果" sortable
                   width="120"
                   >
                   <template slot-scope="scope">
                     {{scope.row.LASTCHECKRESULT | fiftecr}}
                   </template>
-                </el-table-column>
+                </el-table-column> -->
                 <el-table-column
-                  label="是否报警" sortable
+                  label="报警信息" sortable
                   >
                   <template slot-scope="scope">
                     {{scope.row.STATUS | fifterbj}}

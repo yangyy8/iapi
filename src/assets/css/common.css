@@ -300,7 +300,7 @@ button{
 }
 .flex-r{
   display: flex;
-  /* justify-content: space-around; */
+  justify-content: flex-end!important;
   align-items: center;
 }
 .flex-c{
