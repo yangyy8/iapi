@@ -370,6 +370,20 @@ export default new Router({
           component: resolve => require(['@/components/SysMenu/Menu'], resolve),
         },
 
+        //个人中心
+        {
+          path: "ManageCenter",
+          name: "ManageCenter",
+          component: resolve => require(['@/components/SysMenu/ManageCenter'], resolve),
+        },
+
+        //修改密码
+        {
+          path: "UpdatePass",
+          name: "UpdatePass",
+          component: resolve => require(['@/components/SysMenu/UpdatePass'], resolve),
+        },
+
 
       ]
     }

@@ -569,6 +569,6 @@ export default {
 }
 .yy-input-input {
   width: 70% !important;
-  font-weight: bold;
+
 }
 </style>
