@@ -930,6 +930,7 @@ export default {
 }
 
 .tabList {
+  width: 74%;
   display: flex;
   justify-content: flex-start;
   align-items: center;
