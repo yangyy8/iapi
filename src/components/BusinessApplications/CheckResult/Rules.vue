@@ -61,7 +61,7 @@
 
           <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">到达机场：</span>
-              <el-select v-model="pd.cityTo" filterable clearable ] placeholder="请选择" size="small" class="input-input">
+              <el-select v-model="pd.cityTo" filterable clearable  placeholder="请选择" size="small" class="input-input">
              <el-option
                v-for="item in Airport"
                :key="item.AIRPORT_CODE"
@@ -292,8 +292,6 @@ export default {
       pd: {},
       nation: [],
       Airport:[],
-      value: '',
-      value1: "",
       addDialogVisible: false,
       detailsDialogVisible: false,
       options: [{

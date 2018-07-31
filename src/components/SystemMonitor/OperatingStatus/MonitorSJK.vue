@@ -21,7 +21,7 @@
             </el-row>
           </el-col>
           <el-col :span="4" class="down-btn-area" style="margin-top:25px;">
-            <el-button type="success" size="small" @click="getList(pd)">查询</el-button>
+            <el-button type="success" size="small" @click="getlist(pd)">查询</el-button>
 
           </el-col>
         </el-row>

@@ -1,27 +1,16 @@
 // 配置API接口地址
 //var root="http://192.168.99.247:8080"     //报警
-
 //var root="http://192.168.99.228:8080"     //菜单
-
 //var root="http://192.168.99.248:8181"    //李志鹏的电脑
-
-
 // var root="http://192.168.99.251:8080"    //时达的电脑
-
 //var root="http://192.168.99.242:8080"    //石飞的电脑
-
 // var root = "http://192.168.99.251:8080"    //性能监控
-
 var root="http://192.168.99.206:8080"   //服务器电脑
-//var root=""
-
+//var root="http://172.16.18.100:8080"
 // var root = 'http://192.168.99.245:8080'
-
 //var root="http://192.168.99.228:8080"    //丁勇的电脑
-
 //var root="http://192.168.99.201:8080"    //全国监控
 //var root="http://192.168.99.250:8080"    //刘洋的电脑
-
 // 引用axios
 var axios = require('axios')
 import { Loading } from 'element-ui';
@@ -47,12 +36,9 @@ function filterNull(o) {
   }
   return o
 }
-
 // 添加默认参数
-
 function apiAxios(method, url, params, success, failure) {
   // let loadingInstance1 = Loading.service({ fullscreen: true });
-
   if (params) {
     // params=addParams(params);
     // params = filterNull(params);
@@ -64,7 +50,6 @@ function apiAxios(method, url, params, success, failure) {
        return
      }
   })
-
   axios({
       method: method,
       url: url,
