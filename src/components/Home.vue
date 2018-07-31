@@ -104,7 +104,7 @@
         <div class="cycc-content">
           <ul class="cycc-ul">
             <li v-for="i in ccList" class="cycc-li" @click="$router.push('/content/'+i.rootId+'/'+i.url+'?nav1Id='+i.parentId)">
-              <img src="../assets/img/home/micon.png" alt="">
+              <img src="../assets/img/home/micon2.png" alt="">
               <span>{{i.name}}</span>
             </li>
           </ul>
