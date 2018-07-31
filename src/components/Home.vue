@@ -103,7 +103,7 @@
         </div>
         <div class="cycc-content">
           <ul class="cycc-ul">
-            <li v-for="i in ccList" class="cycc-li" @click="$router.push('/content/'+i.rootId+'/'+i.url+'?nav1Id='+i.parentId)">
+            <li v-for="i in ccList" class="cycc-li" :class="{'cd':ccd==i.SERIAL}" @click="$router.push('/content/'+i.rootId+'/'+i.url+'?nav1Id='+i.parentId)" @mouseover="cdHover(i.SERIAL)" @mouseout="cdOut()">
               <img src="../assets/img/home/micon2.png" alt="">
               <span>{{i.name}}</span>
             </li>
@@ -197,6 +197,7 @@ export default {
       showRight:true,
       left:0,
       right:0,
+      ccd:'0',
       cyccShow:false,
       ccList:[],
       rcList:[],
@@ -334,6 +335,12 @@ export default {
 
     },
 
+    cdHover(i){
+      this.ccd=i;
+    },
+    cdOut(){
+      this.ccd = "0"
+    },
     getSatus(){
       this.$api.post('/manage-platform/isLanding',{},
        r => {
@@ -777,6 +784,9 @@ export default {
   font-size:14px;
   margin-right: 20px;
   margin-bottom: 15px;
+}
+.cd{
+  background: #c6dee2!important;
 }
 .cycc-li:last-child{
   margin-right: 0;

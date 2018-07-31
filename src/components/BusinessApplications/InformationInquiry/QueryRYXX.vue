@@ -844,7 +844,6 @@
             </el-col>
           </el-row>
         </div>
-
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="detailsDialogVisible = false" size="small">取消</el-button>
