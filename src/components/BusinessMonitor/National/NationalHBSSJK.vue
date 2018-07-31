@@ -233,13 +233,15 @@
                   计划
                 </div>
                 <div class="td2">
-                  2880
+                  {{rygk.boardIn}}
                 </div>
                 <div class="td2">
-                  2880
+                  {{rygk.boardIn}}
+
                 </div>
                 <div class="td2">
-                  2880
+                  {{rygk.boardIn}}
+
                 </div>
               </li>
               <li class="middleLi3">
@@ -247,13 +249,16 @@
                   预检
                 </div>
                 <div class="td2">
-                  2880
+                  {{rygk.boardIn}}
+
                 </div>
                 <div class="td2">
-                  2880
+                  {{rygk.boardIn}}
+
                 </div>
                 <div class="td2">
-                  2880
+                  {{rygk.boardIn}}
+
                 </div>
               </li>
               <li class="middleLi3">
@@ -261,13 +266,16 @@
                   登记
                 </div>
                 <div class="td2">
-                  2880
+                  {{rygk.boardIn}}
+
                 </div>
                 <div class="td2">
-                  2880
+                  {{rygk.boardIn}}
+
                 </div>
                 <div class="td2">
-                  2880
+                  {{rygk.boardIn}}
+
                 </div>
               </li>
               <li class="middleLi3">
@@ -275,13 +283,16 @@
                   实际
                 </div>
                 <div class="td2">
-                  2880
+                  {{rygk.boardIn}}
+
                 </div>
                 <div class="td2">
-                  2880
+                  {{rygk.boardIn}}
+
                 </div>
                 <div class="td2">
-                  2880
+                  {{rygk.boardIn}}
+
                 </div>
               </li>
             </ul>
@@ -321,105 +332,25 @@
                   命中
                 </div>
               </li>
-              <li class="middleLi4">
+              <li class="middleLi4" v-for="i in kary">
                 <div class="td1">
-                  北京
-                </div>
-                <div class="td2">
-                  4000
-                </div>
-                <div class="td2">
-                  4000
-                </div>
-                <div class="td2">
-                  4000
-                </div>
-                <div class="td2">
-                  4000
-                </div>
-                <div class="td2">
-                  4000
-                </div>
-              </li>
-              <li class="middleLi4">
-                <div class="td1">
-                  北京
-                </div>
-                <div class="td2">
-                  4000
-                </div>
-                <div class="td2">
-                  4000
-                </div>
-                <div class="td2">
-                  4000
-                </div>
-                <div class="td2">
-                  4000
-                </div>
-                <div class="td2">
-                  4000
-                </div>
+                  {{i.portName}}
 
-              </li>
-              <li class="middleLi4">
-                <div class="td1">
-                  北京
                 </div>
                 <div class="td2">
-                  4000
+                  {{i.inLand}}
                 </div>
                 <div class="td2">
-                  4000
+                  {{i.outCheckCount}}
+
                 </div>
                 <div class="td2">
-                  4000
+                  {{i.outRealCount}}
+
                 </div>
                 <div class="td2">
-                  4000
-                </div>
-                <div class="td2">
-                  4000
-                </div>
-              </li>
-              <li class="middleLi4">
-                <div class="td1">
-                  北京
-                </div>
-                <div class="td2">
-                  4000
-                </div>
-                <div class="td2">
-                  4000
-                </div>
-                <div class="td2">
-                  4000
-                </div>
-                <div class="td2">
-                  4000
-                </div>
-                <div class="td2">
-                  4000
-                </div>
-              </li>
-              <li class="middleLi4">
-                <div class="td1">
-                  北京
-                </div>
-                <div class="td2">
-                  4000
-                </div>
-                <div class="td2">
-                  4000
-                </div>
-                <div class="td2">
-                  4000
-                </div>
-                <div class="td2">
-                  4000
-                </div>
-                <div class="td2">
-                  4000
+                  {{i.passCheckCount}}
+
                 </div>
               </li>
             </ul>
@@ -1279,12 +1210,12 @@ export default {
     },
     getLeftData(){
       this.showLeft=false;
-      this.$api.post('/eamp/nationwide/getFlightCountToday',{},
+      this.$api.post('/manage-platform/nationwide/getFlightCountToday',{},
        r => {
          console.log(r);
          this.hbsl=r.data;
       });
-      this.$api.post('/eamp/nationwide/getFlightPortCountToday',{},
+      this.$api.post('/manage-platform/nationwide/getFlightPortCountToday',{},
        r => {
          console.log(r);
          this.kahb=r.data;
@@ -1292,12 +1223,12 @@ export default {
     },
     getRightData(){
       this.showRight=false;
-      this.$api.post('/eamp/nationwide/getTravelerCountToday',{},
+      this.$api.post('/manage-platform/nationwide/getTravelerCountToday',{},
        r => {
          console.log(r);
          this.rygk=r.data;
       });
-      this.$api.post('/eamp/nationwide/getTravelerPortCountToday',{},
+      this.$api.post('/manage-platform/nationwide/getTravelerPortCountToday',{},
        r => {
          console.log(r);
          this.kary=r.data;
@@ -1306,7 +1237,7 @@ export default {
     // 获取口岸航站
     getHz(){
       if(this.HzList.length==0){
-        this.$api.post('/eamp/codeTable/queryAirportMatch',{},
+        this.$api.post('/manage-platform/codeTable/queryAirportMatch',{},
         r => {
           console.log(r);
           this.HzList=r.data
@@ -1316,7 +1247,7 @@ export default {
     // 获取航空公司
     getHkGs(){
       if(this.HgList.length==0){
-        this.$api.post('/eamp/codeTable/queryAircompanyList',{},
+        this.$api.post('/manage-platform/codeTable/queryAircompanyList',{},
         r => {
           console.log(r);
           this.HgList=r.data
@@ -1327,7 +1258,7 @@ export default {
     // 获取国籍
     getGj(){
       if(this.HgList.length==0){
-        this.$api.post('/eamp/codeTable/queryNationality',{},
+        this.$api.post('/manage-platform/codeTable/queryNationality',{},
           r => {
             console.log(r)
             this.GjList=r.data
@@ -1358,7 +1289,7 @@ export default {
       // }]
       //
       // this.createM(arr)
-      this.$api.post('/eamp/nationwide/getFlightMonitorInfo',{},
+      this.$api.post('/manage-platform/nationwide/getFlightMonitorInfo',{},
        r => {
          console.log(r);
          this.newHbData=r.data;
@@ -1411,17 +1342,31 @@ export default {
               console.log(params)
                 let p={
                   dt:params.data.fk,
-                  dtLst:[]
+                  dtLst:params.data.dtLst
                 }
-                _this.$api.post('/eamp/nationwide/getFlightDetail',p,
+                _this.$api.post('/manage-platform/nationwide/getFlightDetail',p,
                  r => {
                    console.log(r);
                    let data=r.data;
                    let html='<div class="katooltip">\
                               <span style="color:#31aafb">航班号：</span>'+data.fltno+' <span style="color:#31aafb">航班日期：</span>'+data.fltDate+'<span style="color:#31aafb">起飞地：</span>'+data.from+'<br>'+'\
                               <span style="color:#31aafb">到达地：</span>'+data.to+' <span style="color:#31aafb">起飞时间：</span>'+data.departTime+'<br>'+'\
-                              <span style="color:#31aafb">预计到达时间：</span>'+data.preArriveTime+'\
-                             </div>'
+                              <span style="color:#31aafb">预计到达时间：</span>'+data.preArriveTime+'<br>'+'\
+                              <table cellspacing="0" style="background:#09679d; width:100%">\
+                                <tr>\
+                                  <td>姓名</td><td>性别</td><td>国籍</td><td>出生日期</td>\
+                                </tr>'
+                  let table='';
+                  for(var i in r.data.travelers){
+                    console.log("i",r.data.travelers[i])
+                    table+='<tr style="background:#112b42">\
+                              <td style="border:1px #143652 solid;height:32px">'+r.data.travelers[i].name+'</td>\
+                              <td style="border:1px #143652 solid;height:32px">'+r.data.travelers[i].nationalityName+'</td>\
+                              <td style="border:1px #143652 solid;height:32px">'+r.data.travelers[i].birthDay+'</td>\
+                              <td style="border:1px #143652 solid;height:32px">'+r.data.travelers[i].birthDay+'</td>\
+                           </tr>'
+                  }
+                  html+=table+'</table></div>'
                    callback(ticket, html);
                 })
                 return 'Loading';
@@ -1450,7 +1395,7 @@ export default {
           borderWidth:1,
           // triggerOn:'click',
           formatter: function (params, ticket, callback) {
-              _this.$api.get('/eamp/nationwide/getPortDetail',{port:params.data.value[2]},
+              _this.$api.get('/manage-platform/nationwide/getPortDetail',{port:params.data.value[2]},
                r => {
                  console.log(r);
                  let data=r.data.flights[0];
@@ -1492,7 +1437,7 @@ export default {
           borderWidth:1,
           // triggerOn:'click',
           formatter: function (params, ticket, callback) {
-              _this.$api.get('/eamp/nationwide/getPortDetail',{port:params.data.value[2]},
+              _this.$api.get('/manage-platform/nationwide/getPortDetail',{port:params.data.value[2]},
                r => {
                  console.log(r);
                  let data=r.data.flights[0];
@@ -1520,6 +1465,7 @@ export default {
         }
         let c={
           fk:val.fk,
+          dtLst:val.tks,
           coords:[[val.fj,val.fw],[val.tj,val.tw]]
         }
         f.data.push(a)
@@ -1540,7 +1486,7 @@ export default {
     // 航班详细信息取得=========================================================================================
     getXqHb(fk){
       // ?fk=CZ3221806162230
-      this.$api.get('/eamp/nationwide/getFlightDetail',{fk:fk},
+      this.$api.get('/manage-platform/nationwide/getFlightDetail',{fk:fk},
        r => {
          console.log(r);
       })
@@ -1548,7 +1494,7 @@ export default {
     //口岸详细信息取得
     getXqKa(port){
       // ?fk=CZ3221806162230
-      this.$api.get('/eamp/nationwide/getPortDetail',{port:port},
+      this.$api.get('/manage-platform/nationwide/getPortDetail',{port:port},
        r => {
          console.log(r);
          this.XqKa=r.data.flights[0]
@@ -1557,7 +1503,7 @@ export default {
     },
     // 当前监控口岸取得
     getJkKa(){
-      this.$api.post('/eamp/portMonitor/getMonitorPortInfo',{},
+      this.$api.post('/manage-platform/portMonitor/getMonitorPortInfo',{},
        r => {
          console.log(r);
       })
@@ -1593,7 +1539,7 @@ export default {
         }),		// 境外口岸 选中
 
       };
-      this.$api.post('/eamp/portMonitor/updateMonitorPortInfo',p,
+      this.$api.post('/manage-platform/portMonitor/updateMonitorPortInfo',p,
        r => {
          console.log(r);
          this.getJkKa()
@@ -1606,7 +1552,7 @@ export default {
       this.checkShow=true;
       this.checkShow2=false;this.checkShow3=false;this.checkShow4=false;this.checkShow5=false;
 
-      this.$api.post('/eamp/portMonitor/getInProvinceList',{},
+      this.$api.post('/manage-platform/portMonitor/getInProvinceList',{},
        r => {
          this.locationData=r.data;
          let obj1=r.data;
@@ -1629,7 +1575,7 @@ export default {
       let p=this.checkList.map(function(val){
         return val.code
       })
-      this.$api.post('/eamp/portMonitor/getInPortList',{dtLst:p},
+      this.$api.post('/manage-platform/portMonitor/getInPortList',{dtLst:p},
        r => {
          console.log(r);
          this.locationData2=r.data;
@@ -1651,7 +1597,7 @@ export default {
       let p=this.checkList5.map(function(val){
         return val.code
       })
-      this.$api.post('/eamp/portMonitor/getOutNationalityList',{dtLst:p},
+      this.$api.post('/manage-platform/portMonitor/getOutNationalityList',{dtLst:p},
        r => {
          console.log(r);
          this.locationData3=r.data;
@@ -1673,7 +1619,7 @@ export default {
       let p=this.checkList3.map(function(val){
         return val.code
       })
-      this.$api.post('/eamp/portMonitor/getOutPortList',{dtLst:p},
+      this.$api.post('/manage-platform/portMonitor/getOutPortList',{dtLst:p},
        r => {
          console.log(r);
          this.locationData4=r.data;
@@ -1707,7 +1653,7 @@ export default {
     },
     // 航班监控查询
     getJkHb(){
-      this.$api.post('/eamp/flightMonitor/queryFlightPage',this.p1,
+      this.$api.post('/manage-platform/flightMonitor/queryFlightPage',this.p1,
        r => {
          console.log(r);
          this.HBList=r.data.pdList
@@ -1716,7 +1662,7 @@ export default {
     },
     // 添加监控航班addMonitorFlight
     addJkHb(fk){
-      this.$api.get('/eamp/flightMonitor/addMonitorFlight',{fltKey:fk},
+      this.$api.get('/manage-platform/flightMonitor/addMonitorFlight',{fltKey:fk},
        r => {
          console.log(r);
          if(r.success){
@@ -1730,7 +1676,7 @@ export default {
     },
     // 删除监控航班delMonitorFlight
     delJkHb(fk){
-      this.$api.get('/eamp/flightMonitor/delMonitorFlight',{fltKey:fk},
+      this.$api.get('/manage-platform/flightMonitor/delMonitorFlight',{fltKey:fk},
        r => {
          console.log(r);
          if(r.success){
@@ -1744,25 +1690,28 @@ export default {
     },
     // 当前监控航班取得
     getDqJkHb(){
-      this.$api.get('/eamp/flightMonitor/getMonitorFlights',{},
+      this.$api.get('/manage-platform/flightMonitor/getMonitorFlights',{},
        r => {
          console.log(r);
          this.DqJkHb=r.data;
-         this.getDqRy()
+         this.getNewData()
+
       })
     },
 
     // 人员监控查询=========================================================================================
     getRy(){
-      this.$api.post('/eamp/travelerMonitor/queryTravelerPage',this.p2,
+      this.$api.post('/manage-platform/travelerMonitor/queryTravelerPage',this.p2,
        r => {
          console.log(r);
          this.RyList=r.data.pdList;
+         this.getDqRy()
+
       })
     },
     // 添加监控人员
     addRy(tk){
-      this.$api.get('/eamp/travelerMonitor/addMonitorTraveler',{trvKey:tk},
+      this.$api.get('/manage-platform/travelerMonitor/addMonitorTraveler',{trvKey:tk},
        r => {
          console.log(r);
          if(r.success){
@@ -1776,7 +1725,7 @@ export default {
     },
     // 删除监控人员
     delRy(tk){
-      this.$api.get('/eamp/travelerMonitor/delMonitorTraveler',{trvKey:tk},
+      this.$api.get('/manage-platform/travelerMonitor/delMonitorTraveler',{trvKey:tk},
        r => {
          console.log(r);
          if(r.success){
@@ -1790,7 +1739,7 @@ export default {
     },
     // 当前监控人员取得
     getDqRy(){
-      this.$api.post('/eamp/travelerMonitor/getMonitorTravelers',{},
+      this.$api.post('/manage-platform/travelerMonitor/getMonitorTravelers',{},
        r => {
          console.log(r);
          this.DqRy=r.data;

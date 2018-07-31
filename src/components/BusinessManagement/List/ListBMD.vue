@@ -266,8 +266,12 @@
           label="国籍">
 
         </el-table-column>
-        <el-table-column
+        <!-- <el-table-column
           prop="CARDTYPE"
+          label="证件种类">
+        </el-table-column> -->
+        <el-table-column
+          prop="CARDTYPENAME"
           label="证件种类">
         </el-table-column>
         <el-table-column
@@ -282,6 +286,11 @@
         <el-table-column
           prop="GENDER"
           label="性别">
+          <template slot-scope="scope">
+            <span v-if="scope.row.GENDER=='M'">男</span>
+            <span v-if="scope.row.GENDER=='F'">女</span>
+            <span v-if="scope.row.GENDER=='U'">未知</span>
+          </template>
         </el-table-column>
         <el-table-column
           prop="BIRTHDATE"

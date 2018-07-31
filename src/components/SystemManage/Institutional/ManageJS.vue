@@ -10,12 +10,12 @@
           <el-row align="center"   :gutter="2" >
 
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
-              <span class="input-text"><font class="yy-color">*</font> 角色：</span>
+              <span class="input-text">角色：</span>
               <el-input placeholder="请输入内容" size="small" v-model="pd.ROLE_NAME"  class="input-input"></el-input>
             </el-col>
 
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
-              <span class="input-text"><font class="yy-color">*</font> 部门：</span>
+              <span class="input-text"> 部门：</span>
               <el-select v-model="pd.DEPT_ID"  @visible-change="queryNationality" placeholder="请选择" size="small" class="input-input">
                  <el-option
                    v-for="item in company"
@@ -28,8 +28,6 @@
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">状态：</span>
               <el-select v-model="pd.STATUS"  placeholder="请选择" size="small" class="input-input">
-                 <el-option value="" label="全部">
-                 </el-option>
                  <el-option value="1" label="启用">
                  </el-option>
                  <el-option value="0" label="停用">
@@ -124,7 +122,7 @@
       <el-form :model="form" ref="addForm">
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
-            <span class="yy-input-text">角色名：</span>
+            <span class="yy-input-text"><font class="yy-color">*</font>角色名：</span>
             <el-input placeholder="请输入内容" size="small"  v-model="form.ROLE_NAME" class="yy-input-input" ></el-input>
 
           </el-col>
@@ -132,7 +130,7 @@
 
         <el-row type="flex" class="mb-6" >
           <el-col :span="24" class="input-item">
-            <span class="yy-input-text">所属部门：</span>
+            <span class="yy-input-text"><font class="yy-color">*</font>所属部门：</span>
             <el-select v-model="form.DEPT_ID"  @visible-change="queryNationality" placeholder="请选择" size="small" class="yy-input-input">
                <el-option
                  v-for="item in company"
@@ -485,6 +483,6 @@ menuItem(){
 
 .yy-input-input {
   width: 70% !important;
-  font-weight: bold;
+
 }
 </style>

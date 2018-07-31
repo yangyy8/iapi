@@ -124,8 +124,8 @@
             </tr>
             <tr>
               <td>签证号码</td>
-              <td>{{travellerInfo.cnum}}</td>
-              <td>{{tableData.invalidVisaList.CARDNUM}}</td>
+              <td>{{travellerInfo.visaNo}}</td>
+              <td>{{tableData.invalidVisaList.VISANO}}</td>
               <td>
                 <img v-if="compareResult.cnum==1" src="../../../assets/img/hook.png" alt="">
                 <img v-if="compareResult.cnum==0"src="../../../assets/img/cross.png" alt="">
@@ -133,8 +133,8 @@
             </tr>
             <tr>
               <td>签证类型</td>
-              <td>{{travellerInfo.cnum}}</td>
-              <td>{{tableData.invalidVisaList.CARDNUM}}</td>
+              <td>{{travellerInfo.visaType}}</td>
+              <td>{{tableData.invalidVisaList.VISATYPE}}</td>
               <td>
                 <img v-if="compareResult.cnum==1" src="../../../assets/img/hook.png" alt="">
                 <img v-if="compareResult.cnum==0"src="../../../assets/img/cross.png" alt="">
@@ -345,7 +345,7 @@
                 <img v-if="compareResult.cnum==0"src="../../../assets/img/cross.png" alt="">
               </td>
             </tr>
-            <tr>
+            <!-- <tr>
               <td>签证号码</td>
               <td>{{travellerInfo.cnum}}</td>
               <td>{{tableData.NameListFocusEntity.CARDNUM}}</td>
@@ -353,7 +353,7 @@
                 <img v-if="compareResult.cnum==1" src="../../../assets/img/hook.png" alt="">
                 <img v-if="compareResult.cnum==0"src="../../../assets/img/cross.png" alt="">
               </td>
-            </tr>
+            </tr> -->
           </table>
         </div>
         <div class="middle mb-6">
@@ -499,19 +499,19 @@
                 <el-input placeholder="请输入内容" v-model="tableData.WnameListList.IN_OUT" size="small" :disabled="true" class="input-input"></el-input>
               </el-col>
 
-              <el-col :span="8" class="input-item mb-9" v-if="travellerInfo.flightType=='I'">
+              <el-col :span="8" class="input-item mb-9" v-if="travellerInfo.flightType=='入境'">
                 <span class="input-text">生效日期：</span>
                 <el-input placeholder="请输入内容" v-model="tableData.WnameListList.CTL_BEGINDATE_IN" size="small" :disabled="true" class="input-input"></el-input>
               </el-col>
-              <el-col :span="8" class="input-item mb-9" v-if="travellerInfo.flightType=='I'">
+              <el-col :span="8" class="input-item mb-9" v-if="travellerInfo.flightType=='入境'">
                 <span class="input-text">失效日期：</span>
                 <el-input placeholder="请输入内容" v-model="tableData.WnameListList.CTL_EXPIREDATE_IN" size="small" :disabled="true" class="input-input"></el-input>
               </el-col>
-              <el-col :span="8" class="input-item mb-9" v-if="travellerInfo.flightType=='O'">
+              <el-col :span="8" class="input-item mb-9" v-if="travellerInfo.flightType=='出境'">
                 <span class="input-text">有效日期：</span>
                 <el-input placeholder="请输入内容" v-model="tableData.WnameListList.CTL_BEGINDATE_OUT" size="small" :disabled="true" class="input-input"></el-input>
               </el-col>
-              <el-col :span="8" class="input-item mb-9" v-if="travellerInfo.flightType=='O'">
+              <el-col :span="8" class="input-item mb-9" v-if="travellerInfo.flightType=='出境'">
                 <span class="input-text">失效日期：</span>
                 <el-input placeholder="请输入内容" v-model="tableData.WnameListList.CTL_EXPIREDATE_OUT" size="small" :disabled="true" class="input-input"></el-input>
               </el-col>
@@ -534,36 +534,47 @@
           <div class=""  v-if="$route.query.NameListType==4">
             <el-row class="mb-9">
               <el-col :span="8" class="input-item mb-9">
-                <span class="input-text">发证日期：</span>
-                <el-input placeholder="请输入内容" v-model="tableData.LKNameListList.CARDISSUEDATE" size="small" :disabled="true" class="input-input"></el-input>
+                <span class="input-text">入境口岸：</span>
+                <el-input placeholder="请输入内容" v-model="tableData.LKNameListList.WHITE_PORT_IN" size="small" :disabled="true" class="input-input"></el-input>
               </el-col>
               <el-col :span="8" class="input-item mb-9">
+                <span class="input-text">出境口岸：</span>
+                <el-input placeholder="请输入内容" v-model="tableData.LKNameListList.WHITE_PORT_OUT" size="small" :disabled="true" class="input-input"></el-input>
+              </el-col>
+              <el-col :span="8" class="input-item mb-9">
+                <span class="input-text">出入境标识：</span>
+                <el-input placeholder="请输入内容" v-model="tableData.LKNameListList.IN_OUT" size="small" :disabled="true" class="input-input"></el-input>
+              </el-col>
+
+              <el-col :span="8" class="input-item mb-9" v-if="travellerInfo.flightType=='入境'">
+                <span class="input-text">生效日期：</span>
+                <el-input placeholder="请输入内容" v-model="tableData.LKNameListList.CTL_BEGINDATE_IN" size="small" :disabled="true" class="input-input"></el-input>
+              </el-col>
+              <el-col :span="8" class="input-item mb-9" v-if="travellerInfo.flightType=='入境'">
                 <span class="input-text">失效日期：</span>
-                <el-input placeholder="请输入内容" v-model="tableData.LKNameListList.CARDEXPIREDATE" size="small" :disabled="true" class="input-input"></el-input>
+                <el-input placeholder="请输入内容" v-model="tableData.LKNameListList.CTL_EXPIREDATE_IN" size="small" :disabled="true" class="input-input"></el-input>
               </el-col>
-              <!-- <el-col :span="8" class="input-item mb-9">
-                <span class="input-text">撤销日期：</span>
-                <el-input placeholder="请输入内容" size="small" :disabled="true" class="input-input"></el-input>
-              </el-col> -->
-              <el-col :span="8" class="input-item mb-9">
-                <span class="input-text">失效原因：</span>
-                <el-input placeholder="请输入内容" v-model="tableData.LKNameListList.REASON" size="small" :disabled="true" class="input-input"></el-input>
+              <el-col :span="8" class="input-item mb-9" v-if="travellerInfo.flightType=='出境'">
+                <span class="input-text">有效日期：</span>
+                <el-input placeholder="请输入内容" v-model="tableData.LKNameListList.CTL_BEGINDATE_OUT" size="small" :disabled="true" class="input-input"></el-input>
               </el-col>
-              <el-col :span="8" class="input-item mb-9">
-                <span class="input-text">宣布机关：</span>
-                <el-input placeholder="请输入内容" v-model="tableData.LKNameListList.DEALUNIT" size="small" :disabled="true" class="input-input"></el-input>
+              <el-col :span="8" class="input-item mb-9" v-if="travellerInfo.flightType=='出境'">
+                <span class="input-text">失效日期：</span>
+                <el-input placeholder="请输入内容" v-model="tableData.LKNameListList.CTL_EXPIREDATE_OUT" size="small" :disabled="true" class="input-input"></el-input>
               </el-col>
               <el-col :span="8" class="input-item mb-9">
-                <span class="input-text">交控档号：</span>
-                <el-input placeholder="请输入内容" v-model="tableData.LKNameListList.RECORDNUM" size="small" :disabled="true" class="input-input"></el-input>
+                <span class="input-text">批准机关：</span>
+                <el-input placeholder="请输入内容" v-model="tableData.LKNameListList.SUBORG_NAME" size="small" :disabled="true" class="input-input"></el-input>
               </el-col>
-              <!-- <el-col :span="24" class="input-item mb-9">
-                <span class="input-text2">遗失地点：</span>
-                <el-input placeholder="请输入内容" size="small" :disabled="true" class="input-input2"></el-input>
-              </el-col> -->
+
+              <el-col :span="24" class="input-item mb-9">
+                <span class="input-text2">原因描述：</span>
+                <el-input placeholder="请输入内容" v-model="tableData.LKNameListList.CTL_REASON" size="small" :disabled="true" class="input-input2"></el-input>
+              </el-col>
+
               <el-col :span="24" class="input-item mb-9">
                 <span class="input-text2">备注：</span>
-                <el-input placeholder="请输入内容" v-model="tableData.LKNameListList.CONENT" size="small" :disabled="true" class="input-input2"></el-input>
+                <el-input placeholder="请输入内容" v-model="tableData.LKNameListList. CONENT" size="small" :disabled="true" class="input-input2"></el-input>
               </el-col>
             </el-row>
           </div>
@@ -646,7 +657,7 @@
             </div>
           </div>
           <div  class="down-btn-area down3">
-            <el-button   v-if="!distinguishNote" type="primary" size="small" class="mb-15" @click="queding" :disabled="isdisabled">确定</el-button>
+            <el-button   v-if="$route.query.status==0" type="primary" size="small" class="mb-15" @click="queding" :disabled="isdisabled">确定</el-button>
             <el-button type="warning" size="small" @click="$router.go(-1)">返回</el-button>
           </div>
 
@@ -794,7 +805,8 @@ export default {
    this.pd1.nationAndPass=this.$route.query.nationAndPass;
    this.pd1.visaNo=this.$route.query.visaNo;
    this.pd1.personCode=this.$route.query.nationAndPass;
-
+   this.pd1.recordNum=this.$route.query.dh;
+   this.pd1.AlarmType=this.$route.query.AlarmType;
    this.getData();
  },
  methods:{
