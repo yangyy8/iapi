@@ -356,7 +356,7 @@
             </tr> -->
           </table>
         </div>
-        <div class="middle mb-6">
+        <div class="middle height2 mb-6">
           <div class="title-green">
             名单补充信息
           </div>
@@ -585,33 +585,40 @@
                 <el-input placeholder="请输入内容" v-model="tableData.NameListFocusEntity.recordnum" size="small" :disabled="true" class="input-input"></el-input>
               </el-col>
               <el-col :span="8" class="input-item mb-9">
-                <span class="input-text">关注类别：</span>
-                <el-input placeholder="请输入内容" v-model="tableData.NameListFocusEntity.type" size="small" :disabled="true" class="input-input"></el-input>
+                <span class="input-text">联系方式：</span>
+                <el-input placeholder="请输入内容" v-model="tableData.NameListFocusEntity.tel" size="small" :disabled="true" class="input-input"></el-input>
               </el-col>
               <el-col :span="8" class="input-item mb-9">
-                <span class="input-text">有效日期：</span>
+                <span class="input-text">出入事由：</span>
+                <el-input placeholder="请输入内容" v-model="tableData.NameListFocusEntity.reason" size="small" :disabled="true" class="input-input"></el-input>
+              </el-col>
+              <el-col :span="8" class="input-item mb-9">
+                <span class="input-text">生效时间：</span>
+                <el-input placeholder="请输入内容" v-model="tableData.NameListFocusEntity.begindate" size="small" :disabled="true" class="input-input"></el-input>
+              </el-col>
+              <el-col :span="8" class="input-item mb-9">
+                <span class="input-text">失效时间：</span>
                 <el-input placeholder="请输入内容" v-model="tableData.NameListFocusEntity.enddate" size="small" :disabled="true" class="input-input"></el-input>
               </el-col>
               <el-col :span="8" class="input-item mb-9">
-                <span class="input-text">报警范围：</span>
-                <el-input placeholder="请输入内容" v-model="tableData.NameListFocusEntity.DEALUNIT" size="small" :disabled="true" class="input-input"></el-input>
+                <span class="input-text">关注类别：</span>
+                <el-input placeholder="请输入内容" v-model="tableData.NameListFocusEntity.type" size="small" :disabled="true" class="input-input"></el-input>
+              </el-col>
+
+              <el-col :span="8" class="input-item mb-9">
+                <span class="input-text">处理要求：</span>
+                <el-input placeholder="请输入内容" v-model="tableData.NameListFocusEntity.dealtype" size="small" :disabled="true" class="input-input"></el-input>
               </el-col>
               <el-col :span="8" class="input-item mb-9">
                 <span class="input-text">关注范围：</span>
                 <el-input placeholder="请输入内容" v-model="tableData.NameListFocusEntity.scope" size="small" :disabled="true" class="input-input"></el-input>
               </el-col>
-              <el-col :span="24" class="input-item mb-9">
-                <span class="input-text2">处理要求：</span>
-                <el-input placeholder="请输入内容" v-model="tableData.NameListFocusEntity.dealtype" size="small" :disabled="true" class="input-input2"></el-input>
+
+              <el-col :span="8" class="input-item mb-9">
+                <span class="input-text">报列单位：</span>
+                <el-input placeholder="请输入内容" v-model="tableData.NameListFocusEntity.reportunit" size="small" :disabled="true" class="input-input"></el-input>
               </el-col>
-              <el-col :span="24" class="input-item mb-9">
-                <span class="input-text2">报列单位：</span>
-                <el-input placeholder="请输入内容" v-model="tableData.NameListFocusEntity.reportunit" size="small" :disabled="true" class="input-input2"></el-input>
-              </el-col>
-              <el-col :span="24" class="input-item mb-9">
-                <span class="input-text2">联系方式：</span>
-                <el-input placeholder="请输入内容" v-model="tableData.NameListFocusEntity.tel" size="small" :disabled="true" class="input-input2"></el-input>
-              </el-col>
+
               <el-col :span="24" class="input-item mb-9">
                 <span class="input-text2">关注内容：</span>
                 <el-input placeholder="请输入内容" v-model="tableData.NameListFocusEntity.content" size="small" :disabled="true" class="input-input2"></el-input>
@@ -978,7 +985,7 @@ export default {
   width: 280px;
 }
 .res-height{
-  height: 80px;
+  height: 94px;
 }
 .res-item1{
   height: 100%;
@@ -1032,5 +1039,11 @@ export default {
   height: 100%;
   width: 16%;
   padding-bottom: 40px;
+}
+.middle-top{
+  min-height: 314px;
+}
+.height2{
+  height: 237px;
 }
 </style>
