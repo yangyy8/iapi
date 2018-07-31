@@ -507,7 +507,7 @@ export default {
 
     if (this.navId == 'cc') {
       this.nav1List = this.nav1List7;
-      this.nav1to2(this.nav1List[0])
+      this.nav1to2(this.nav1List[0],1)
     }else {
       this.getNav(this.navId)
       // this.getpp();
