@@ -293,7 +293,7 @@ export default {
       port:'',
       value:1,
       controlChecked:1,
-      coCheckId:1,
+      coCheckId:2,
       detailsDialogVisible:false,
       checked:true,
       // 实时显示条数
@@ -359,26 +359,44 @@ export default {
       barX:[],
       barY:[],
       realX:'',
-      portName:[]
+      portName:[],
+      lineChart:null,
+      barChart:null
     }
   },
   mounted() {
+      this.drawLine();
       this.checkRealTime();
+      // window.addEventListener('resize', throttle(this.resize, 100));
       let begin=new Date();
       let  end=new Date();
       let aaaa = new Date(begin.setMonth((new Date().getMonth()-1)));
       let bbbb = new Date();
       this.cdt.begin=formatDate(aaaa,'yyyyMMddhhmmss');
       this.cdt.end=formatDate(bbbb,'yyyyMMddhhmmss');
-
       this.getList(this.CurrentPage,this.pageSize,this.pd);
+  },
+  beforeDestroy() {
+    this.dispose();
   },
   filters: {
     discount: function(value) {
-      return value.substring(0,19);
+      if(value != null){
+        return value.substring(0,19);
+      }
     }
   },
   methods:{
+    dispose() {
+       if (!this.lineChart) {
+          return;
+       }
+       this.lineChart.dispose();
+       this.lineChart = null;
+    },
+    resize() {
+      this.lineChart && this.lineChart.resize();
+    },
     handleSelectionChange(val) {
     },
     // 实时监控分页
@@ -430,11 +448,12 @@ export default {
       })
     },
     drawLine() {
-           let myChart = echarts.init(document.getElementById('echarts'));
+           this.lineChart = echarts.init(document.getElementById('echarts'));
            window.onresize = echarts.init(document.getElementById('echarts')).resize;
            let that = this;
            // 折线图初始化
-           myChart.setOption({
+           // this.lineChart.clear();
+           this.lineChart.setOption({
              tooltip:{
                trigger:'axis',
                formatter:function(params){
@@ -502,9 +521,9 @@ export default {
                symbolSize:10,
                data:this.lineY
              }]
-           })
+           },true)
            // 点击折点渲染表格
-           myChart.on('click', function (params) {
+           this.lineChart.on('click', function (params) {
              // 让表格出现
              that.pdc.realX = params.name
              that.controlChecked=1;
@@ -512,16 +531,14 @@ export default {
              // 表格数据渲染
              that.getList(that.CurrentPage,that.pageSize,that.pdc);
            });
-           //图标根据窗口大小自动缩放
-           // window.addEventListener("resize", this.myChart.resize);
          },
 
     drawBar(){
-      let myBarChart = echarts.init(document.getElementById('barEcharts'));
+      this.barChart = echarts.init(document.getElementById('barEcharts'));
       window.onresize = echarts.init(document.getElementById('barEcharts')).resize;
       let that = this;
       //初始化柱状图
-      myBarChart.setOption({
+      this.barChart.setOption({
         tooltip:{
           trigger:'axis',
           // formatter:'报文数量：2300',
@@ -582,7 +599,6 @@ export default {
       //   // 表格数据渲染
       //   this.hgetList(this.hCurrentPage,this.hpageSize,this.cdt);
       // })
-      // window.addEventListener("resize", this.myBarChart.resize);
     },
     // 校验比对实时监控折线图
     checkRealTime(){

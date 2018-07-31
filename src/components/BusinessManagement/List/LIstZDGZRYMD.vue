@@ -617,10 +617,7 @@ export default {
           label:"30"
         }
       ],
-      tableData: [
-        {
-        }
-      ],
+      tableData: [],
       multipleSelection: [],
       form: {
         "synStatus":"0",
