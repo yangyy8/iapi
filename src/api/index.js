@@ -39,7 +39,7 @@ function filterNull(o) {
 // 添加默认参数
 function apiAxios(method, url, params, success, failure) {
 
-  let loadingInstance1 = Loading.service({ fullscreen: true,background:'rgba(90,90,90,0.3)'});
+  // let loadingInstance1 = Loading.service({ fullscreen: true,background:'rgba(90,90,90,0.3)'});
 
 
   if (params) {
@@ -77,13 +77,13 @@ function apiAxios(method, url, params, success, failure) {
         if (success) {
           console.log(res.data);
 
-          setTimeout(function(){
-            loadingInstance1.close();
+          // setTimeout(function(){
+            // loadingInstance1.close();
             if(!res.data.success){
               Message.error(res.data.message);
             }
             success(res.data)
-          },1000)
+          // },1000)
         }
       } else {
         if (failure) {
@@ -93,7 +93,7 @@ function apiAxios(method, url, params, success, failure) {
           console.log('error: ' + JSON.stringify(res.data));
 
         }
-        loadingInstance1.close();
+        // loadingInstance1.close();
       }
     })
     .catch(function(err) {
@@ -101,7 +101,7 @@ function apiAxios(method, url, params, success, failure) {
       if (err) {
         // console.log('api error, HTTP CODE: ' + res.status)
       }
-      loadingInstance1.close();
+      // loadingInstance1.close();
 
     })
 }
