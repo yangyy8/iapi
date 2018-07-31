@@ -1612,7 +1612,6 @@ export default {
       selection:[],
       nationName:[],
       detailstableData: [],//详情里面的列表
-      xingq: "无",
       idName:[],
       saveName:[],//基础查询方案保存
       batchSaveName:[],//批量查询方案保存
@@ -2609,11 +2608,18 @@ export default {
     },
    uploadSuccess(response, file, fileList){
      console.log(response);
-     let arrConfig = response.data.cdtList;
-     for(var i=0;i<arrConfig.length;i++){
-       this.cdtList = arrConfig[0];
+     if(response.success){
+       let arrConfig = response.data.cdtList;
+       for(var i=0;i<arrConfig.length;i++){
+         this.cdtList = arrConfig[0];
+       }
+       this.rows = arrConfig.slice(1);
+       this.$message({
+         duration:3000,
+         message: '恭喜你，导入成功！',
+         type: 'success'
+       });
      }
-     this.rows = arrConfig.slice(1);
    }
     }
 }

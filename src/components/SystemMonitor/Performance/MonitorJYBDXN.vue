@@ -261,7 +261,7 @@ export default {
 
       value:1,
       controlChecked:1,
-      coCheckId:1,
+      coCheckId:2,
       detailsDialogVisible:false,
       checked:true,
       // 实时显示条数
@@ -332,14 +332,14 @@ export default {
     }
   },
   mounted() {
-      setTimeout(this.checkRealTime(),500);
+      this.checkRealTime();
       let begin=new Date();
       let  end=new Date();
       let aaaa = new Date(begin.setMonth((new Date().getMonth()-1)));
       let bbbb = new Date();
       this.cdt.begin=formatDate(aaaa,'yyyyMMddhhmmss');
       this.cdt.end=formatDate(bbbb,'yyyyMMddhhmmss');
-      this.checkRealTime();
+      this.getList(this.CurrentPage,this.pageSize,this.pd);
   },
   beforeDestroy() {
     if (!this.lineChart) {
