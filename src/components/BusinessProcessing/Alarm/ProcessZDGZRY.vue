@@ -9,9 +9,9 @@
           报警类型:
           <el-select v-model="pd.pnrType" placeholder="请选择" filterable clearable size="small">
 
-           <el-option value="1" label="1 - 风险评估人员报警">
+           <el-option value="1" label="1 - 风险评估人员">
            </el-option>
-           <el-option value="2" label="2 - 特殊关注对象报警">
+           <el-option value="2" label="2 - 特殊关注对象">
            </el-option>
           </el-select>
          &nbsp;&nbsp;&nbsp; 出入标识:
@@ -41,7 +41,7 @@
         </el-table-column>
         <el-table-column
           prop="alarmType"
-          label="报警类别"
+          label="报警类型"
           width="160">
         </el-table-column>
         <el-table-column

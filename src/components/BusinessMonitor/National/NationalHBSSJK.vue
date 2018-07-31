@@ -19,7 +19,8 @@
         <span>人员监控</span>
       </li>
     </ul>
-    <img src="../../../assets/img/qgjk/big.png" alt="" class="zdh" @click="zdhFn">
+    <img src="../../../assets/img/qgjk/big.png" alt="" class="zdh" v-if="zdh" @click="zdh=false">
+    <img src="../../../assets/img/qgjk/big.png" alt="" class="zdh" v-if="!zdh" @click="zdhFn">
   </div>
   <transition name="el-zoom-in-left">
     <div class="left-list" v-if="showLeft">
@@ -1756,7 +1757,7 @@ export default {
       this.chart.setOption({
         geo: {
           map: 'world', // 与引用进来的地图js名字一致
-          roam: false, // 禁止缩放平移
+          roam: true, // 禁止缩放平移
           nameMap:{
             // 'China':'中国'
           },
