@@ -178,19 +178,7 @@ export default {
 
       ],
       value: '',
-      tableData: [
-        {
-          "eventserial": "ba754edc095a45b5b73",
-    			"lastmatchType": "1",
-    			"flighttype": 1514563200000,
-    			"numb": 1546099200000,
-    			"name": "1",
-    			"nationality": 1,
-    			"fltno": "1",
-          "createtime": "1",
-			    "saveflag": "1",
-        }
-      ]
+      tableData: []
     }
 
   },
