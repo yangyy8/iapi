@@ -38,12 +38,12 @@ function filterNull(o) {
 }
 // 添加默认参数
 function apiAxios(method, url, params, success, failure) {
-<<<<<<< HEAD
+
   // let loadingInstance1 = Loading.service({ fullscreen: true });
-=======
+
   let loadingInstance1 = Loading.service({ fullscreen: true,background:'rgba(90,90,90,0.3)'});
 
->>>>>>> c0565778edc6fbdff6a69d7fbc3af531f9e2acbe
+
   if (params) {
     // params=addParams(params);
     // params = filterNull(params);
