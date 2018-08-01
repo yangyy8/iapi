@@ -28,7 +28,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer" style="text-align:center;">
         <el-button type="primary" @click="addItem('addForm')" size="small">确 定</el-button>
-        <el-button @click="" size="small">重 置</el-button>
+        <el-button @click="form={}" size="small">重 置</el-button>
       </div>
     </div>
     </div>
