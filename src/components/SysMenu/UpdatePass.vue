@@ -9,22 +9,20 @@
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
             <span class="yy-input-text"><font class="yy-color">*</font> 旧密码：</span>
-            <el-input placeholder="请输入内容" size="small"  v-model="form.NAME" class="yy-input-input" ></el-input>
-
+            <el-input placeholder="请输入内容" size="small" type="password" v-model="form.PASSWORD" class="yy-input-input" ></el-input>
           </el-col>
-
         </el-row>
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
             <span class="yy-input-text"><font class="yy-color">*</font> 新密码：</span>
-            <el-input placeholder="请输入内容" size="small"  v-model="form.USERNAME" class="yy-input-input" ></el-input>
+            <el-input placeholder="请输入内容" size="small" type="password"  v-model="form.PASSWORDNEW1" class="yy-input-input" ></el-input>
           </el-col>
         </el-row>
 
         <el-row type="flex" class="mb-6" >
           <el-col :span="24" class="input-item">
             <span class="yy-input-text"><font class="yy-color">*</font> 确认密码：</span>
-            <el-input placeholder="请输入内容" size="small"  v-model="form.USERNAME" class="yy-input-input" ></el-input>
+            <el-input placeholder="请输入内容" size="small" type="password"  v-model="form.PASSWORDNEW2" class="yy-input-input" ></el-input>
           </el-col>
         </el-row>
       </el-form>
@@ -43,7 +41,28 @@ export default {
     return {
       form:{}
     }
-  }
+  },
+    methods: {
+       addItem(i)
+       {
+         let p = {
+           "PASSWORD": i.PASSWORD,
+           "PASSWORDNEW1": i.PASSWORDNEW1,
+           "PASSWORDNEW2": i.PASSWORDNEW2
+         };
+         this.$api.post('/manage-platform/userSys/updatePwd', p,
+           r => {
+                if(r.success){
+                  this.$message({
+                    message: '修改成功！',
+                    type: 'success'
+                  });
+
+                }
+           })
+
+       }
+    },
 }
 </script>
 

@@ -110,9 +110,7 @@
              <el-table-column
                 prop="MTYPE"
                label="监控对象" sortable>
-
              </el-table-column>
-
              <el-table-column
                prop="CREATETIME"
                label="报警时间" sortable>
@@ -133,9 +131,9 @@
                label="操作">
                <template slot-scope="scope">
                  <div class="flex-r">
-                   <span v-if="scope.row.STATUS!='0'">
-                   <el-button class="table-btn" size="mini"plain icon="el-icon-edit" @click="pross(scope.row)">处理</el-button>
-                   </span>
+                
+                   <el-button  v-if="scope.row.STATUS!='0'" class="table-btn" size="mini"plain icon="el-icon-edit" @click="pross(scope.row)">处理</el-button>
+
                    <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row)">详情</el-button>
                  </div>
               </template>
@@ -195,7 +193,7 @@
 
     <el-row type="flex"  class="mb-15">
      <el-col :span="24"><span class="input-text" style="width:15%;">处理详情：</span>
-     <el-input type="textarea" v-model="form.DEALCONTENT"  placeholder="请输入内容" :autosize="{ minRows: 3, maxRows: 6}" style="width:80%;" ></el-input>
+     <el-input type="textarea" v-model="form.DEALCONTENT==null?'':form.DEALCONTENT"  placeholder="请输入内容" :autosize="{ minRows: 3, maxRows: 6}" style="width:80%;" ></el-input>
      </el-col>
     </el-row>
 
@@ -234,9 +232,7 @@
 
     </el-form>
     <div slot="footer" class="dialog-footer">
-
       <el-button @click="detailsDialogVisible = false" size="small">取消</el-button>
-
     </div>
   </el-dialog>
 

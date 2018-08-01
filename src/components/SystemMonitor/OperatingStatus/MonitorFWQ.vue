@@ -84,9 +84,6 @@
                 <el-col :span="4">{{i.used}}</el-col>
                 <el-col :span="4">{{i.usedPer}}</el-col>
               </el-row> -->
-
-
-
              </template>
             </el-table-column>
   </el-table>
@@ -182,11 +179,11 @@
       >
 
       <el-row  v-if="filesytem!=null" class="filearr">
-      <el-col :span="4" class="fileline">avail</el-col>
-      <el-col :span="4" class="fileline">fileSystem</el-col>
-      <el-col :span="4" class="fileline">mount</el-col>
-      <el-col :span="4" class="fileline">size</el-col>
-      <el-col :span="4" class="fileline">used</el-col>
+      <el-col :span="4" class="fileline">剩余可用空间</el-col>
+      <el-col :span="4" class="fileline">文件系统名称</el-col>
+      <el-col :span="4" class="fileline">挂载位置</el-col>
+      <el-col :span="4" class="fileline">该系统空间大小</el-col>
+      <el-col :span="4" class="fileline">已经使用的空间</el-col>
       <el-col :span="4">usedPer</el-col>
      </el-row>
      <el-row v-else class="filearrk">

@@ -12,6 +12,8 @@
         </div>
         <div class="home-top-right hand" v-if="isLogin">
           <span class="mb-9">欢迎您！管理员</span>
+          <span style="color:#2AD9F4;" @click="$router.push('/content/cc/ManageCenter')">个人中心</span>
+          <span style="color:#2AD9F4;" @click="$router.push('/content/cc/UpdatePass')">修改密码</span>
           <span @click="logOut"><img src="../assets/img/logout.png" style="width:20px;height:20px;vertical-align:bottom;margin-right:5px;"alt="">退出</span>
         </div>
       </div>
@@ -110,7 +112,7 @@
           </ul>
         </div>
         <div class="cycc-down">
-          <router-link :to="{ name: 'Content', params: {navId:'cc'} }">
+          <router-link :to="{ name: 'Content', params: {navId:'cc',tiao:'1'} }">
             <i class="el-icon-setting"></i>菜单设置
           </router-link>
         </div>
@@ -304,7 +306,13 @@ export default {
     }
   },
   methods: {
+    // getCenter(){
+    //   this.$router.push({name:'ManageCenter'});
+    // },
+    UpdatePwd(){
+      this.$router.push({name:'UpdatePass'});
 
+    },
     getTime(){
       let myDate = new Date();
       let a = new Array("日", "一", "二", "三", "四", "五", "六");
