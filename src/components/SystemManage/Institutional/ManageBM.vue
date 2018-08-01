@@ -121,7 +121,8 @@
         <el-row type="flex"  class="mb-6">
           <el-col :span="12" class="input-item">
             <span class="yy-input-text"><font class="yy-color">*</font> 上级部门：</span>
-            <el-select v-model="form.PARENT_ID" filterable clearable placeholder="请选择" size="small" class="yy-input-input">
+
+            <el-select v-model="form.PARENT_ID" v-if='tp==0' filterable clearable placeholder="请选择" size="small" class="yy-input-input">
               <el-option
                 v-for="item in company"
                 :key="item.SERIAL"
@@ -129,6 +130,16 @@
                 :value="item.SERIAL">
               </el-option>
              </el-select>
+
+             <el-select v-else v-model="form.PARENT_ID"  :disabled="true" filterable clearable placeholder="请选择" size="small" class="yy-input-input">
+               <el-option
+                 v-for="item in company"
+                 :key="item.SERIAL"
+                 :label="item.DEPT_JC"
+                 :value="item.SERIAL">
+               </el-option>
+              </el-select>
+
           </el-col>
           <el-col :span="12" class="input-item">
             <span class="yy-input-text"><font class="yy-color">*</font> 部门名称：</span>
@@ -301,7 +312,7 @@ export default {
         this.form = n;
         this.dialogText="编辑";
       }else {
-          this.dialogText="新增";
+          this.dialogText="新增";this.tp=0;
       }
     },
     queryNationality() {

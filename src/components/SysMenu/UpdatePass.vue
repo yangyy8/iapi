@@ -45,10 +45,11 @@ export default {
     methods: {
        addItem(i)
        {
+         console.log("-----"+this.form.PASSWORD);
          let p = {
-           "PASSWORD": i.PASSWORD,
-           "PASSWORDNEW1": i.PASSWORDNEW1,
-           "PASSWORDNEW2": i.PASSWORDNEW2
+           "PASSWORD": this.form.PASSWORD,
+           "PASSWORDNEW1": this.form.PASSWORDNEW1,
+           "PASSWORDNEW2": this.form.PASSWORDNEW2
          };
          this.$api.post('/manage-platform/userSys/updatePwd', p,
            r => {
@@ -59,6 +60,7 @@ export default {
                   });
 
                 }
+              this.form={};
            })
 
        }
