@@ -924,7 +924,7 @@ export default {
 }
 
 .tabList {
-  width: 74%;
+  width: 68%;
   display: flex;
   justify-content: flex-start;
   align-items: center;

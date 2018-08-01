@@ -240,7 +240,7 @@
                   <el-button type="primary" plain size="mini" @click="addRow">添加</el-button>
                 </div>
                 <div class="akUl">
-                  <el-row type="flex" class="ak-li boder1 t-ak-li" align="center">
+                  <el-row type="flex" class="ak-li boder1 t-ak-li" align="center" justify="start">
                     <el-col :sm="24" :md="12" :lg="3" class="input-item">
                       <span class="input-text t-input-text">国籍：</span>
                       <el-select placeholder="请选择" v-model="cdtList.nationalityEqual" filterable clearable size="mini"  class="input-inp" @visible-change="">
@@ -338,8 +338,11 @@
                       value-format="yyyyMMddHHmmss">
                     </el-date-picker>
                     </el-col>
+                    <el-col :sm="24" :md="12" :lg="2" class="input-item">
+                      <!-- <el-button type="warning" plain size="mini" @click="deleteRow(i)">删除</el-button> -->
+                    </el-col>
                   </el-row>
-                  <el-row type="flex" class="ak-li boder1 t-ak-li" align="center"  v-for="i in rows" :key="i.version">
+                  <el-row type="flex" class="ak-li boder1 t-ak-li" align="center"  v-for="i in rows" :key="i.version" justify="start">
                     <el-col :sm="24" :md="12" :lg="3" class="input-item">
                       <span class="input-text t-input-text">国籍：</span>
                       <el-select placeholder="请选择" v-model="i.nationalityEqual" filterable clearable size="mini"  class="input-inp" @visible-change="">
@@ -688,8 +691,8 @@
         </div>
       </div>
       <div class="middle-btn-g">
-        <button type="button" name="button" class="mr-15" @click="iapi">IAPI数据</button>
-        <button type="button" name="button" @click="pnr">PNR数据</button>
+        <button type="button" name="button" class="mr-15" :class="{'pitchOn':bigBase==0}" @click="iapi">IAPI数据</button>
+        <button type="button" name="button" :class="{'pitchOn':bigBase==1}"  @click="pnr">PNR数据</button>
       </div>
 
     </div>
@@ -709,7 +712,7 @@
         <div class="hrtitle">基本信息</div>
         <el-row type="flex"  class="mb-6">
           <el-col :span="6">姓名：{{dform.CNAME}}</el-col>
-          <el-col :span="6">性别：{{dform.GENDERNAME=="F"?"男":dform.GENDER=="F"?"女":"未知"}}</el-col>
+          <el-col :span="6">性别：{{dform.GENDERNAME=="F"?"男":dform.GENDERNAME=="F"?"女":"未知"}}</el-col>
           <el-col :span="6">出生日期：{{dform.BIRTHDAYSTR}}</el-col>
           <el-col :span="6">国籍：{{dform.NATIONALITYNAME}}</el-col>
         </el-row>
@@ -751,7 +754,7 @@
         </el-row>
         <el-row type="flex"  class="mb-6">
           <el-col :span="8">备降口岸：{{dform.CHANGEPORTSTR}}</el-col>
-          <el-col :span="8">航空公司联系电话：{{dform.AIRLINEPHONESTR}}</el-col>
+          <el-col :span="8">航空公司联系电话：{{dform.AIRLINEPHONE}}</el-col>
         </el-row>
         <div class="hrtitle">其他信息</div>
         <el-row type="flex"  class="mb-6">
@@ -791,7 +794,7 @@
         </el-row>
         <el-row type="flex"  class="mb-6">
           <el-col :span="8">目的地城市：{{dform.DESTCITY}}</el-col>
-          <el-col :span="8">目的的所在省：{{dform.DESTSTATEC}}</el-col>
+          <el-col :span="8">目的的所在省：{{dform.DESTSTATESTR}}</el-col>
           <el-col :span="8">目的地国家：{{dform.DESTCOUNTRYSTR}}</el-col>
         </el-row>
         <el-row type="flex"  class="mb-6">
@@ -844,13 +847,115 @@
             </el-col>
           </el-row>
         </div>
+
+        <div class="hrtitle" style="margin-bottom:10px">历史值机信息</div>
+        <el-table
+          :data="detailstableData"
+          border
+          style="width: 100%;">
+          <el-table-column
+            prop="NAME"
+            label="姓名" sortable
+          >
+          </el-table-column>
+          <el-table-column
+
+            label="性别" sortable
+            width="80"
+          >
+          <template slot-scope="scope">
+            {{scope.row.GENDER | fiftersex}}
+          </template>
+          </el-table-column>
+          <el-table-column
+            prop="DATEOFBIRTH"
+            label="出生日期" sortable
+            >
+          </el-table-column>
+          <el-table-column
+            prop="NATIONALITYC"
+            label="国籍" sortable
+          >
+          </el-table-column>
+
+          <el-table-column
+            prop="PASSPORTNO"
+            label="证件号码" sortable
+          >
+          </el-table-column>
+
+          <el-table-column
+            prop="FLTNO"
+            label="航班号" sortable
+          >
+          </el-table-column>
+          <el-table-column
+            prop="SCHEDULEDEPARTURETIME"
+            label="航班日期" sortable
+            >
+          </el-table-column>
+
+          <el-table-column
+            label="预检结果" sortable
+              width="120"
+            >
+            <template slot-scope="scope">
+              {{scope.row.CHECKRESULT | fiftecr}}
+            </template>
+          </el-table-column>
+          <!-- <el-table-column
+            label="最终预检结果" sortable
+            width="120"
+            >
+            <template slot-scope="scope">
+              {{scope.row.LASTCHECKRESULT | fiftecr}}
+            </template>
+          </el-table-column> -->
+          <el-table-column
+            label="报警信息" sortable
+            >
+            <template slot-scope="scope">
+              {{scope.row.STATUS | fifterbj}}
+            </template>
+          </el-table-column>
+
+        </el-table>
+        <div class="middle-foot">
+          <div class="page-msg">
+            <div class="">
+              共{{htotalPage}}页
+            </div>
+            <div class="">
+              每页
+              <el-select v-model="hshowCount" @change="hpageSizeChange(hshowCount)" placeholder="10" size="mini" class="page-select">
+                <el-option
+                  v-for="item in options"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value">
+                </el-option>
+              </el-select>
+              条
+            </div>
+            <div class="">
+              共{{htotalResult}}条
+            </div>
+          </div>
+          <el-pagination
+            background
+            @current-change="hhandleCurrentChange"
+            :page-size="hshowCount"
+            layout="prev, pager, next"
+            :total="htotalResult">
+          </el-pagination>
+        </div>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="detailsDialogVisible = false" size="small">取消</el-button>
       </div>
     </el-dialog>
 
-    <el-dialog title="查看信息" :visible.sync="reviewDialogTable">
+    <!-- <el-dialog title="查看信息" :visible.sync="reviewDialogTable">
       <el-table :data="historyData">
         <el-table-column
           prop="I_NAME"
@@ -1079,7 +1184,7 @@
           :total="htotalResult">
         </el-pagination>
       </div>
-    </el-dialog>
+    </el-dialog> -->
         <el-dialog title="上传模板" :visible.sync="uploadDialogVisible"   width="640px">
           <el-form :model="releaseform" ref="releaseForm">
             <el-upload
@@ -1127,15 +1232,15 @@
           </template>
         </el-table-column>
         <el-table-column
-
+          prop="I_NAME"
           label="姓名"
           sortable
           width="100"
           v-if="checkList.indexOf(checkItem[0].ITEMNAME)>-1"
           >
-          <template slot-scope="scope">
+          <!-- <template slot-scope="scope">
               <span style="color:#0494E8">{{scope.row.I_NAME}}</span>
-          </template>
+          </template> -->
         </el-table-column>
         <el-table-column
           prop="I_34"
@@ -1329,7 +1434,7 @@
           label="操作"
           width="100">
           <template slot-scope="scope">
-            <el-button class="table-btn" size="mini" plain @click="details(scope.row.I_SERIAL)">详情</el-button>
+            <el-button class="table-btn" size="mini" plain @click="details(scope.row)">详情</el-button>
          </template>
         </el-table-column>
       </el-table>
@@ -1622,10 +1727,7 @@ export default {
         flighttypeEqual:'',
         isBlurred:false
       },
-      historyCdt:{
-        "nationalityEqual":'',
-        "passportnoEqual":''
-      },
+      historyCdt:{},
       cdtList:{version:0,flag:''},//批量查询的第一行
       selfCdtList:{id:0,type:0,attribute:'',atype:''},//自定义查询的第一行
       selfNature:[],
@@ -1729,7 +1831,34 @@ export default {
   filters: {
     discount: function(value) {
       return value.substring(0,16);
-    }
+    },
+    fiftersex(val) {
+      if (val == "F") {
+        return "女"
+      } else if (val == "M") {
+        return "男"
+      } else if (val == "U") {
+        return "未知"
+      }
+    },
+    fiftecr(val) {
+      if (val == "0Z") {
+        return "允许打印登机牌";
+      } else if (val == "1Z") {
+        return "禁止打印登机牌";
+      } else if (val == "2Z") {
+        return "请再次核对";
+      } else {
+        return "数据错误";
+      }
+    },
+    fifterbj(val) {
+      if (val == "1") {
+        return "产生报警";
+      } else {
+        return "未产生报警";
+      }
+    },
   },
   methods: {
     //----------------------------分页start------------------------------
@@ -1846,12 +1975,12 @@ export default {
       let gh = {
         "currentPage":hcurrentPage,
       	"showCount":hshowCount,
-      	"cdt":historyCdt
+      	"pd":historyCdt
       };
-      this.historyBased();
-      this.$api.post('/manage-platform/iapi/queryIapiHistory',gh,
+      // this.historyBased();
+      this.$api.post('/manage-platform/iapiUnscolicited/queryHistory',gh,
       r =>{
-        this.historyData = r.data.resultList;
+        this.detailstableData = r.data.pdList;
         this.htotalResult = r.data.totalResult;
         this.htotalPage = r.data.totalPage;
       })
@@ -1860,29 +1989,29 @@ export default {
       let gh = {
         "currentPage":hcurrentPage,
       	"showCount":hshowCount,
-      	"cdt":historyCdt
+      	"pd":historyCdt
       };
-      this.historyBased();
-      this.$api.post('/manage-platform/pnr/queryPnrHistory',gh,
+      // this.historyBased();
+      this.$api.post('/manage-platform/iapiUnscolicited/queryHistory',gh,
       r =>{
-        this.historyData = r.data.resultList;
+        this.detailstableData = r.data.pdList;
         this.htotalResult = r.data.totalResult;
         this.htotalPage = r.data.totalPage;
       })
     },
-    getMore(row,cell){//历次
-      console.log(row);
-      if(cell.label =='姓名'){
-        this.reviewDialogTable = true;
-        this.historyCdt.nationalityEqual = row.I_37CODE;
-        this.historyCdt.passportnoEqual = row.I_39;
-        if(this.bigBase == 0){
-          this.getHistoryList(this.hcurrentPage,this.hshowCount,this.historyCdt);
-        }else if(this.bigBase == 1){
-          this.getHistoryListPnr(this.hcurrentPage,this.hshowCount,this.historyCdt);
-        }
-      }
-    },
+    // getMore(row,cell){//历次
+    //   console.log(row);
+    //   if(cell.label =='姓名'){
+    //     this.reviewDialogTable = true;
+    //     this.historyCdt.nationalityEqual = row.I_37CODE;
+    //     this.historyCdt.passportnoEqual = row.I_39;
+    //     if(this.bigBase == 0){
+    //       this.getHistoryList(this.hcurrentPage,this.hshowCount,this.historyCdt);
+    //     }else if(this.bigBase == 1){
+    //       this.getHistoryListPnr(this.hcurrentPage,this.hshowCount,this.historyCdt);
+    //     }
+    //   }
+    // },
     planSave(){//基础查询 方案保存是否重名
       if(this.sss==''){
         this.$alert('方案名称不能为空', '提示', {
@@ -2461,10 +2590,13 @@ export default {
         this.listText = '展开';
       }
     },
-    details(serial){//基础查询点击详情查看
+    details(i){//基础查询点击详情查看
       this.detailsDialogVisible = true;
+      this.historyCdt.NATIONALITY = i.I_37CODE;
+      this.historyCdt.PASSPORTNO = i.I_39;
       if(this.bigBase == 0){
-        this.$api.post('/manage-platform/iapi/queryIapiInfo',{serial},
+        this.getHistoryList(this.hcurrentPage,this.hshowCount,this.historyCdt);
+        this.$api.post('/manage-platform/iapi/queryIapiInfo',{serial:i.I_SERIAL},
          r =>{
            if(r.success){
              this.dform = r.data.IAPI;
@@ -2491,7 +2623,8 @@ export default {
            }
          })
       }else if(this.bigBase == 1){
-        this.$api.post('/manage-platform/pnr/queryPnrInfo',{serial},
+        this.getHistoryListPnr(this.hcurrentPage,this.hshowCount,this.historyCdt);
+        this.$api.post('/manage-platform/pnr/queryPnrInfo',{serial:i.I_SERIAL},
          r =>{
            if(r.success){
              this.dform = r.data.IAPI;
@@ -2620,6 +2753,20 @@ export default {
        });
      }
    }
+   // detailgetlist(currentPage, showCount, r) {
+   //   let p = {
+   //     "currentPage": currentPage,
+   //     "showCount": showCount,
+   //     "pd": r
+   //   };
+   //   this.$api.post('/manage-platform/iapiUnscolicited/queryHistory', p,
+   //     r => {
+   //       console.log(r);
+   //       this.detailstableData = r.data.pdList;
+   //       this.TotalResult1 = r.data.totalResult;
+   //     });
+   //
+   // },
     }
 }
 </script>
@@ -2686,10 +2833,12 @@ export default {
   border: none;
   border-radius: 5px;
   background: none;
-  background: linear-gradient( 360deg, rgb(9, 171, 236) 0%, rgb(0, 121, 228) 100%);
+  background: linear-gradient( 360deg, rgb(58, 190, 243) 0%, rgb(34, 149, 251) 100%);
   color: #fff;
 }
-
+.pitchOn{
+  background: linear-gradient( 360deg, rgb(8, 108, 148) 1%, rgb(0, 121, 228) 100%)!important;
+}
 .akUl {
   height: 110px;
   overflow-y: auto;
@@ -2812,4 +2961,5 @@ export default {
     -ms-filter: 'alpha(opacity=0)';
     font-size: 200px;
 }
+
 </style>
