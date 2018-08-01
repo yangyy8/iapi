@@ -353,7 +353,7 @@
           <div class="hrtitle">名单比中详情</div>
           <el-row type="flex"  class="mb-6">
             <el-col :span="6">
-              <el-button type="primary" plain name="button"  size="mini" @click="reviewDetail">查看评价详情</el-button>
+              <el-button type="primary" plain name="button"  size="mini" @click="reviewDetail">查看</el-button>
             </el-col>
           </el-row>
         </div>
