@@ -392,3 +392,7 @@
 .katooltip span{
   color: #31aafb;
 }
+.ulover{
+  max-width: 270px;
+  overflow-y: auto;
+}
