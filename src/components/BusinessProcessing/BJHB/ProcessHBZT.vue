@@ -102,7 +102,7 @@
         </el-table-column>
         <el-table-column
           prop="boardingcount"
-          label="载运旅客数量" sortable
+          label="载运旅客数量" width="130" sortable
   >
         </el-table-column>
         <el-table-column
@@ -161,7 +161,7 @@
           </el-col>
           <el-col :span="12" class="input-item">
             <span class="yy-input-text">所属航空公司：</span>
-            <el-input placeholder="请输入内容" size="small"  :disabled="true" v-model="form.airlineCompanyId" class="yy-input-input"></el-input>
+            <el-input placeholder="请输入内容" size="small"  :disabled="true" v-model="form.airlineCompanyName" class="yy-input-input"></el-input>
           </el-col>
 
         </el-row>
@@ -274,9 +274,9 @@ export default {
     }
   },
   mounted() {
-    this.getList(this.CurrentPage, this.pageSize, this.pd);
+  //  this.getList(this.CurrentPage, this.pageSize, this.pd);
     this.queryNationality();
-      this.queryAirport();
+    this.queryAirport();
 
   },
   methods: {

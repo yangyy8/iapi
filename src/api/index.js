@@ -6,7 +6,7 @@
 //var root="http://192.168.99.242:8080"    //石飞的电脑
 // var root = "http://192.168.99.251:8080"    //性能监控
 var root="http://192.168.99.206:8080"   //服务器电脑
-//var root="http://172.16.18.100:8080"
+//var root=""
 // var root = 'http://192.168.99.245:8080'
 //var root="http://192.168.99.228:8080"    //丁勇的电脑
 //var root="http://192.168.99.201:8080"    //全国监控
@@ -38,8 +38,8 @@ function filterNull(o) {
 }
 // 添加默认参数
 function apiAxios(method, url, params, success, failure) {
-  // let loadingInstance1 = Loading.service({ fullscreen: true });
-  let loadingInstance1 = Loading.service({ fullscreen: true,background:'rgba(90,90,90,0.3)'});
+
+  // let loadingInstance1 = Loading.service({ fullscreen: true,background:'rgba(90,90,90,0.3)'});
 
   if (params) {
     // params=addParams(params);
@@ -76,13 +76,13 @@ function apiAxios(method, url, params, success, failure) {
         if (success) {
           console.log(res.data);
 
-          setTimeout(function(){
-            loadingInstance1.close();
+          // setTimeout(function(){
+            // loadingInstance1.close();
             if(!res.data.success){
               Message.error(res.data.message);
             }
             success(res.data)
-          },1000)
+          // },1000)
         }
       } else {
         if (failure) {
@@ -92,7 +92,7 @@ function apiAxios(method, url, params, success, failure) {
           console.log('error: ' + JSON.stringify(res.data));
 
         }
-        loadingInstance1.close();
+        // loadingInstance1.close();
       }
     })
     .catch(function(err) {
@@ -100,7 +100,7 @@ function apiAxios(method, url, params, success, failure) {
       if (err) {
         // console.log('api error, HTTP CODE: ' + res.status)
       }
-      loadingInstance1.close();
+      // loadingInstance1.close();
 
     })
 }
@@ -118,5 +118,6 @@ export default {
   },
   delete: function(url, params, success, failure) {
     return apiAxios('DELETE', url, params, success, failure)
-  }
+  },
+  rootUrl:root
 }

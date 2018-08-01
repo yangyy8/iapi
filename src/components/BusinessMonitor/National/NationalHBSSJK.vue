@@ -571,6 +571,7 @@
         </div>
       </div>
       <div class="tan-btn-g">
+        <el-button type="primary" size="small" class="mr-10" @click="clear0">清空</el-button>
         <el-button type="info" size="small" @click="updateJkKa">确定</el-button>
       </div>
     </div>
@@ -1314,7 +1315,7 @@ export default {
             symbol:this.planePath,
             symbolSize: 15,
             color:'#ffffff',
-            loop:false
+            loop:true
           },
           markPoint:{
             symbol:'circle',
@@ -1635,7 +1636,18 @@ export default {
          }
       })
     },
-
+    clear0(){
+      this.checkAll=0;
+      this.checkAll2=0;
+      this.checkAll3=0;
+      this.checkAll4=0;
+      this.checkAll5=0;
+      this.checkList=[];
+      this.checkList2=[];
+      this.checkList3=[];
+      this.checkList4=[];
+      this.checkList5=[];
+    },
     // 清空航班查询====================================================================================================
     cleartab2(){
         this.p1={

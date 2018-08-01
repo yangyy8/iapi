@@ -134,6 +134,7 @@
       <el-table
         :data="tableData"
         border
+        class="caozuo"
         style="width:100%;"
         @selection-change="handleSelectionChange">
         <el-table-column
@@ -194,13 +195,13 @@
 
         <el-table-column
           label="操作"
-          width="240">
+          width="250">
           <template slot-scope="scope">
-            <div class="flex-r">
+            <!-- <div class="flex-r"> -->
               <el-button class="table-btn" size="mini" plain icon="el-icon-edit" @click="update(scope.row)" v-if="getHis">编辑</el-button>
               <el-button class="table-btn" size="mini" plain icon="el-icon-delete" @click="deleteItem(scope.row.SERIAL)" v-if="getHis">删除</el-button>
               <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row)">详情</el-button>
-            </div>
+            <!-- </div> -->
          </template>
         </el-table-column>
       </el-table>
@@ -554,7 +555,7 @@
         <el-upload
           class="upload-demo"
           ref="upload"
-          action="http://192.168.99.206:8080/manage-platform/nameListFocusList/readExcel"
+          :action='$api.rootUrl+"/manage-platform/nameListFocusList/readExcel"'
           :file-list="fileList"
           multiple
           :on-success="upSuccess"
@@ -637,7 +638,7 @@ export default {
   },
   methods:{
     download(){
-      window.location.href='http://192.168.99.242:8080/manage-platform/templateFile/nameListFocusListFile.xlsx'
+      window.location.href=this.$api.rootUrl+'/manage-platform/templateFile/nameListFocusListFile.xlsx'
     },
     reset(){
       this.CurrentPage=1;
@@ -861,7 +862,7 @@ export default {
       console.log(r);
       if(r.success){
         this.$message({
-          message: r.data.retMsg,
+          message: r.data,
           type: 'success'
         });
        this.uploadDialogVisible=false ;

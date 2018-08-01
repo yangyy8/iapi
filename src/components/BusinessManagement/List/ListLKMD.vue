@@ -245,6 +245,7 @@
       <el-table
         :data="tableData"
         border
+        class="caozuo"
         style="width:100%;"
         @selection-change="handleSelectionChange">
         <el-table-column
@@ -314,13 +315,13 @@
 
         <el-table-column
           label="操作"
-          width="240">
+          width="250">
           <template slot-scope="scope">
-            <div class="flex-r">
+            <!-- <div class="flex-r"> -->
               <el-button class="table-btn" size="mini" plain icon="el-icon-edit" @click="update(scope.row)" v-if="scope.row.SYN_STATUS==0&&getHis">编辑</el-button>
               <el-button class="table-btn" size="mini" plain icon="el-icon-delete" @click="deleteItem(scope.row.SERIAL,scope.row.SYN_STATUS)" v-if="getHis">删除</el-button>
               <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row.SERIAL)">详情</el-button>
-            </div>
+            <!-- </div> -->
          </template>
         </el-table-column>
       </el-table>
@@ -450,6 +451,8 @@
             <el-select v-model="form.IN_OUT" placeholder="请选择"  size="small"  class="input-input">
               <el-option label="1 - 出境" value="1"></el-option>
               <el-option label="0 - 入境" value="0"></el-option>
+              <el-option label="2 - 全部" value="2"></el-option>
+              
             </el-select>
           </el-col>
 
@@ -689,7 +692,7 @@
         <el-upload
           class="upload-demo"
           ref="upload"
-          action="http://192.168.99.206:8080/manage-platform/nameList/readExcel/2"
+          :action='$api.rootUrl+"/manage-platform/nameList/readExcel/2"'
           :file-list="fileList"
           multiple
           :on-success="upSuccess"
@@ -777,7 +780,7 @@ export default {
   },
   methods:{
     download(){
-      window.location.href='http://192.168.99.242:8080/manage-platform/templateFile/nameListDataFile.xlsx'
+      window.location.href=this.$api.rootUrl+'/manage-platform/templateFile/nameListDataFile.xlsx'
     },
     reset(){
       this.CurrentPage=1;
@@ -1089,7 +1092,7 @@ export default {
        console.log(r);
        if(r.success){
          this.$message({
-           message: r.data.retMsg,
+           message: r.data,
            type: 'success'
          });
         this.uploadDialogVisible=false ;

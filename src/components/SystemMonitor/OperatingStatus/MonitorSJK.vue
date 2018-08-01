@@ -11,7 +11,6 @@
               <el-col  :span="8"  class="input-item">
                 <span class="input-text">监控区域：</span>
                 <el-select v-model="pd.zone"  class="input-input"  filterable clearable  placeholder="请选择"  size="small">
-
                   <el-option value="0"  label="0 - DMZ区">
                   </el-option>
                   <el-option value="2"  label="2 - 整合分发区">
@@ -22,7 +21,6 @@
           </el-col>
           <el-col :span="4" class="down-btn-area" style="margin-top:25px;">
             <el-button type="success" size="small" @click="getlist(pd)">查询</el-button>
-
           </el-col>
         </el-row>
        </div>
@@ -134,12 +132,12 @@
              >
              </el-table-column>
              <el-table-column
-               prop="free"
+               prop="used"
                label="使用量" sortable
              >
              </el-table-column>
              <el-table-column
-               prop="used"
+               prop="free"
                label="剩余量" sortable
              >
              </el-table-column>

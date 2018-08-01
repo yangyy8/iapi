@@ -77,6 +77,9 @@ table td,thead th{
   padding: 3px 0 !important;
   text-align: center!important;
 }
+.caozuo tr td:last-child{
+  text-align: right!important;
+}
 .o-th1 th:first-child{
   background-color: #4874a1 !important;
 
@@ -298,11 +301,7 @@ button{
 .br{
   border-right: 1px #e0e4e7 solid;
 }
-.flex-r{
-  display: flex;
-  justify-content: flex-end!important;
-  align-items: center;
-}
+
 .flex-c{
   display: flex;
   flex-direction: column;
@@ -315,7 +314,11 @@ button{
   line-height: 32px;
   /* width:100%; */
 }
-
+.flex-r{
+  display: flex;
+  justify-content: flex-end!important;
+  align-items: center;
+}
 .middle-top{
   border-top: 3px rgb(75, 195, 160) solid;
 
