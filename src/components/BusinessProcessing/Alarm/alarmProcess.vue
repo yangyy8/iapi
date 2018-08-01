@@ -108,10 +108,10 @@
         </div>
         <div class="middle-content1 position">
           <div class="title-green">
-            甄别信息列表
+            待甄别信息列表
           </div>
           <div class="middle-msg" v-if="msgData>0">
-            当前有<span>{{msgData}}</span>条档号未完成甄别
+            当前有<span>{{msgData}}</span>个名单未完成甄别
           </div>
           <el-table
             :data="listMap"
@@ -176,7 +176,7 @@
               label="操作">
               <template slot-scope="scope">
                 <el-button v-if="scope.row.status==1" class="table-btn" size="mini" plain @click="$router.push({name:'infoComparison',query:{status:scope.row.status,AlarmType:$route.query.AlarmType,dh:scope.row.dh,isZDGZ:$route.query.isZDGZ,NameListType:scope.row.alarmTypeNum,eventserial:eventserial,iapiSerial:iapiMap.iapiSerial,visaNo:scope.row.visano,inOut:iapiMap.flightType,nationAndPass:scope.row.nationalityCode+scope.row.passportno}})">查看</el-button>
-                <el-button v-else class="table-btn" size="mini" plain @click="$router.push({name:'infoComparison',query:{status:scope.row.status,AlarmType:$route.query.AlarmType,dh:scope.row.dh,isZDGZ:$route.query.isZDGZ,NameListType:scope.row.alarmTypeNum,eventserial:eventserial,iapiSerial:iapiMap.iapiSerial,visaNo:scope.row.visano,inOut:iapiMap.flightType,nationAndPass:scope.row.nationalityCode+scope.row.passportno}})">名单甄别</el-button>
+                <el-button v-else class="table-btn" size="mini" plain @click="$router.push({name:'infoComparison',query:{status:scope.row.status,AlarmType:$route.query.AlarmType,dh:scope.row.dh,isZDGZ:$route.query.isZDGZ,NameListType:scope.row.alarmTypeNum,eventserial:eventserial,iapiSerial:iapiMap.iapiSerial,visaNo:scope.row.visano,inOut:iapiMap.flightType,nationAndPass:scope.row.nationalityCode+scope.row.passportno}})">甄别</el-button>
               </template>
             </el-table-column>
           </el-table>
