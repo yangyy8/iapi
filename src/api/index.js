@@ -119,5 +119,6 @@ export default {
   },
   delete: function(url, params, success, failure) {
     return apiAxios('DELETE', url, params, success, failure)
-  }
+  },
+  rootUrl:root
 }
