@@ -712,7 +712,7 @@
         <div class="hrtitle">基本信息</div>
         <el-row type="flex"  class="mb-6">
           <el-col :span="6">姓名：{{dform.CNAME}}</el-col>
-          <el-col :span="6">性别：{{dform.GENDERNAME=="F"?"男":dform.GENDER=="F"?"女":"未知"}}</el-col>
+          <el-col :span="6">性别：{{dform.GENDERNAME=="F"?"男":dform.GENDERNAME=="F"?"女":"未知"}}</el-col>
           <el-col :span="6">出生日期：{{dform.BIRTHDAYSTR}}</el-col>
           <el-col :span="6">国籍：{{dform.NATIONALITYNAME}}</el-col>
         </el-row>
@@ -754,7 +754,7 @@
         </el-row>
         <el-row type="flex"  class="mb-6">
           <el-col :span="8">备降口岸：{{dform.CHANGEPORTSTR}}</el-col>
-          <el-col :span="8">航空公司联系电话：{{dform.AIRLINEPHONESTR}}</el-col>
+          <el-col :span="8">航空公司联系电话：{{dform.AIRLINEPHONE}}</el-col>
         </el-row>
         <div class="hrtitle">其他信息</div>
         <el-row type="flex"  class="mb-6">
@@ -794,7 +794,7 @@
         </el-row>
         <el-row type="flex"  class="mb-6">
           <el-col :span="8">目的地城市：{{dform.DESTCITY}}</el-col>
-          <el-col :span="8">目的的所在省：{{dform.DESTSTATEC}}</el-col>
+          <el-col :span="8">目的的所在省：{{dform.DESTSTATESTR}}</el-col>
           <el-col :span="8">目的地国家：{{dform.DESTCOUNTRYSTR}}</el-col>
         </el-row>
         <el-row type="flex"  class="mb-6">
