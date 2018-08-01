@@ -43,7 +43,7 @@ function filterNull(o) {
 }
 // 添加默认参数
 function apiAxios(method, url, params, success, failure) {
-
+ console.log(window.location.host)
   // let loadingInstance1 = Loading.service({ fullscreen: true,background:'rgba(90,90,90,0.3)'});
 
   if (params) {
@@ -124,5 +124,5 @@ export default {
   delete: function(url, params, success, failure) {
     return apiAxios('DELETE', url, params, success, failure)
   },
-  rootUrl:root
+  rootUrl:"http://"+window.location.host
 }

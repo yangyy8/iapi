@@ -687,7 +687,7 @@
         <div class="tan-btn-g">
           <el-button type="primary" size="small" class="mr-10" @click="cleartab2">清空</el-button>
           <!-- <el-button type="success" size="small" class="mr-10">取消</el-button> -->
-          <el-button type="info" size="small" @click="getJkHb">确定</el-button>
+          <el-button type="info" size="small" @click="getJkHb">查询</el-button>
         </div>
         <div class="tan-row-text">
           航班监控表：
@@ -822,7 +822,7 @@
           </el-col>
           <el-col :sm="24" :md="12" :lg="6" class="hb-item">
             <span class="item-text">国籍：</span>
-            <el-select placeholder="请选择"  filterable @visible-change="getGj" v-model="p2.NATIONALITY" size="mini"  class="item-input">
+            <el-select placeholder="请选择"  filterable @visible-change="getGj" v-model="p2.nationality" size="mini"  class="item-input">
               <el-option
                 v-for="item in GjList"
                 :key="item.CODE"
@@ -840,7 +840,7 @@
           </el-col>
           <el-col :sm="24" :md="12" :lg="6" class="hb-item">
             <span class="item-text">性别：</span>
-            <el-select placeholder="请选择" size="mini" v-model="p2.GENDER" class="item-input">
+            <el-select placeholder="请选择" size="mini" v-model="p2.gender" class="item-input">
               <el-option label="男" value="M"></el-option>
               <el-option label="女" value="F"></el-option>
               <el-option label="未知" value="U"></el-option>
