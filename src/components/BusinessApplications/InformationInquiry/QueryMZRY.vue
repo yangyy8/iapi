@@ -116,6 +116,11 @@
         @sort-change="ccc()"
       >
         <el-table-column
+          prop="INTG_CHNNAME"
+          sortable="custom"
+          label="人员姓名">
+        </el-table-column>
+        <el-table-column
           prop="NAME"
           sortable="custom"
           label="姓名">
@@ -133,7 +138,7 @@
           sortable="custom">
         </el-table-column>
         <el-table-column
-          prop="NATIONALITY"
+          prop="NATIONALITYNAME"
           label="国籍"
           sortable="custom">
         </el-table-column>
@@ -175,7 +180,7 @@
           width="200">
           <template slot-scope="scope">
             <el-button class="table-btn" size="mini" plain @click="details(scope.row)">事件文档</el-button>
-            <el-button class="table-btn" size="mini" plain @click="getMore(scope.row.EVENTSERIAL)">详情</el-button>
+            <el-button class="table-btn" size="mini" plain @click="getMore(scope.row)">详情</el-button>
          </template>
         </el-table-column>
       </el-table>
@@ -362,6 +367,119 @@
           </el-row>
         </div>
 
+        <!-- PNR预报警 -->
+        <div class="" v-show="isCall">
+          <div class="hrtitle">PNR预报警</div>
+          <el-row type="flex"  class="mb-6">
+            <el-col :span="6">
+              <el-button type="primary" plain name="button"  size="mini" @click="reviewCallDetail">查看PNR预报警详情</el-button>
+            </el-col>
+          </el-row>
+        </div>
+
+        <div class="hrtitle" style="margin-bottom:10px">历史值机信息</div>
+        <el-table
+          :data="detailstableData"
+          border
+          style="width: 100%;">
+          <el-table-column
+            prop="NAME"
+            label="姓名" sortable
+          >
+          </el-table-column>
+          <el-table-column
+
+            label="性别" sortable
+            width="80"
+          >
+          <template slot-scope="scope">
+            {{scope.row.GENDER | fiftersex}}
+          </template>
+          </el-table-column>
+          <el-table-column
+            prop="DATEOFBIRTH"
+            label="出生日期" sortable
+            >
+          </el-table-column>
+          <el-table-column
+            prop="NATIONALITYC"
+            label="国籍" sortable
+          >
+          </el-table-column>
+
+          <el-table-column
+            prop="PASSPORTNO"
+            label="证件号码" sortable
+          >
+          </el-table-column>
+
+          <el-table-column
+            prop="FLTNO"
+            label="航班号" sortable
+          >
+          </el-table-column>
+          <el-table-column
+            prop="SCHEDULEDEPARTURETIME"
+            label="航班日期" sortable
+            >
+          </el-table-column>
+
+          <el-table-column
+            label="预检结果" sortable
+              width="120"
+            >
+            <template slot-scope="scope">
+              {{scope.row.CHECKRESULT | fiftecr}}
+            </template>
+          </el-table-column>
+          <!-- <el-table-column
+            label="最终预检结果" sortable
+            width="120"
+            >
+            <template slot-scope="scope">
+              {{scope.row.LASTCHECKRESULT | fiftecr}}
+            </template>
+          </el-table-column> -->
+          <el-table-column
+            label="报警信息" sortable
+            >
+            <template slot-scope="scope">
+              {{scope.row.STATUS | fifterbj}}
+            </template>
+          </el-table-column>
+
+        </el-table>
+        <div class="middle-foot">
+          <div class="page-msg">
+            <div class="">
+              共{{htotalPage}}页
+            </div>
+            <div class="">
+              每页
+              <el-select v-model="hshowCount" @change="hpageSizeChange(hshowCount)" placeholder="10" size="mini" class="page-select">
+                <el-option
+                  v-for="item in options"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value">
+                </el-option>
+              </el-select>
+              条
+            </div>
+            <div class="">
+              共{{htotalResult}}条
+            </div>
+          </div>
+          <el-pagination
+            background
+            @current-change="hhandleCurrentChange"
+            :page-size="hshowCount"
+            layout="prev, pager, next"
+            :total="htotalResult">
+          </el-pagination>
+        </div>
+
+
       </el-form>
       <div slot="footer" class="dialog-footer">
 
@@ -386,6 +504,13 @@ export default {
       pageSize: 10,
       TotalResult: 0,
 
+      hcurrentPage:1,//当前页数
+      hpageSize:10, //每页显示个数选择器的选项设置
+      hshowCount:10,//每页显示的记录数
+      htotalResult:0,//总条数
+      htotalPage:1,//总页数
+      pnrEve:'',
+
       pd: {"isBlurred":false},
       queryDialogVisible: false,
       options: [{
@@ -406,9 +531,12 @@ export default {
       dform:{},
       rules:{},
       check:{},
+      historyCdt:{},
       isCheck:false,
-      isName:true,
-      isRules:true,
+      isName:false,
+      isRules:false,
+      isCall:false,
+      detailstableData: [],
       multipleSelection: [],
       detailsDialogVisible:false,
       lazyQuery:'',
@@ -441,9 +569,44 @@ export default {
   mounted() {
     this.getList(this.CurrentPage, this.pageSize, this.pd);
   },
+  filters: {
+    discount: function(value) {
+      return value.substring(0,16);
+    },
+    fiftersex(val) {
+      if (val == "F") {
+        return "女"
+      } else if (val == "M") {
+        return "男"
+      } else if (val == "U") {
+        return "未知"
+      }
+    },
+    fiftecr(val) {
+      if (val == "0Z") {
+        return "允许打印登机牌";
+      } else if (val == "1Z") {
+        return "禁止打印登机牌";
+      } else if (val == "2Z") {
+        return "请再次核对";
+      } else {
+        return "数据错误";
+      }
+    },
+    fifterbj(val) {
+      if (val == "1") {
+        return "产生报警";
+      } else {
+        return "未产生报警";
+      }
+    },
+  },
   methods: {
     handleSelectionChange(val) {
       this.multipleSelection = val;
+    },
+    hpageSizeChange(val){//历次数据
+      this.getHistoryList(this.hcurrentPage,val,this.historyCdt);
     },
     getNation(msg){
       this.pd.nationalityEqual=msg;
@@ -452,6 +615,9 @@ export default {
     pageSizeChange(val) {
       this.getList(this.CurrentPage, val, this.pd);
       console.log(`每页 ${val} 条`);
+    },
+    hhandleCurrentChange(val){ //历次数据
+      this.getHistoryList(val,this.hshowCount,this.historyCdt);
     },
     handleCurrentChange(val) {
       this.getList(val, this.pageSize, this.pd);
@@ -473,6 +639,19 @@ export default {
           this.TotalResult = r.data.totalResult;
         })
     },
+    getHistoryList(hcurrentPage,hshowCount,historyCdt){
+      let gh = {
+        "currentPage":hcurrentPage,
+      	"showCount":hshowCount,
+      	"pd":historyCdt
+      };
+      this.$api.post('/manage-platform/iapiUnscolicited/queryHistory',gh,
+      r =>{
+        this.detailstableData = r.data.pdList;
+        this.htotalResult = r.data.totalResult;
+        this.htotalPage = r.data.totalPage;
+      })
+    },
     details(i){
       if(i.EVENTTYPE == '0'){
         this.$router.push({name:'alarmProcess',query:{eventserial:i.EVENTSERIAL,type:0}})
@@ -481,12 +660,15 @@ export default {
       }else if(i.EVENTTYPE == '4'){}
     },
     getMore(item){
-
+        console.log(item);
         this.detailsDialogVisible = true;
-        let gm = {
-          "serial":item
-        }
-        this.$api.post('/manage-platform/event/queryEventInfo',gm,
+        this.historyCdt.NATIONALITY = item.NATIONALITY;
+        this.historyCdt.PASSPORTNO = item.PASSPORTNO;
+        this.getHistoryList(this.hcurrentPage,this.hshowCount,this.historyCdt);
+        // let gm = {
+        //   "serial":item
+        // }
+        this.$api.post('/manage-platform/event/queryEventInfo',{serial:item.REFSERIAL},
          r =>{
            if(r.success){
              this.dform = r.data.IAPI;
@@ -510,6 +692,13 @@ export default {
                this.isName = true;
                this.eve = r.data.EVENT;
              }
+
+             if(r.data.hasOwnProperty('PNREVENT') == false){
+               this.isCall = false;
+             }else{
+               this.isCall = true;
+               this.pnrEve = r.data.PNREVENT;
+             }
            }
          })
 
@@ -524,6 +713,20 @@ export default {
             this.$router.push({name:'alarmProcess',query:{eventserial:this.eve,type:0}})
          }else if(r.data == false){
            this.$router.push({name:'alarmProcess',query:{eventserial:this.eve,type:1}})
+         }
+       })
+    },
+
+    reviewCallDetail(){//查看PNR预报警详情
+      let cc={
+        "event":this.pnrEve
+      }
+      this.$api.post('/manage-platform/eventManagement/isFinishEventHandle',ss,
+       r =>{
+         if(r.data== true){
+            this.$router.push({name:'alarmProcess',query:{eventserial:this.eve,type:0,isZDGZ:1}})
+         }else if(r.data == false){
+           this.$router.push({name:'alarmProcess',query:{eventserial:this.eve,type:1,isZDGZ:1}})
          }
        })
     },

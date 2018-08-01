@@ -41,7 +41,7 @@
 
               <el-col :sm="24" :md="12" :lg="6" class="input-item">
                 <span class="input-text">处理人：</span>
-                <el-select v-model="pd.dealuser" placeholder="请选择"  filterable clearable  size="small" class="input-input" @visible-change="handler">
+                <el-select v-model="pd.username" placeholder="请选择"  filterable clearable  size="small" class="input-input" @visible-change="handler">
                   <el-option v-for="(item,key) in dealer" :value="key" :label="item" :key="key"></el-option>
                 </el-select>
               </el-col>
@@ -84,7 +84,7 @@
           label="事件产生时间">
         </el-table-column>
         <el-table-column
-          prop="dealuser"
+          prop="username"
           label="处理人">
         </el-table-column>
         <el-table-column
