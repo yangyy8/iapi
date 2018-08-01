@@ -127,8 +127,8 @@
               <td>{{travellerInfo.visaNo}}</td>
               <td>{{tableData.invalidVisaList.VISANO}}</td>
               <td>
-                <img v-if="compareResult.cnum==1" src="../../../assets/img/hook.png" alt="">
-                <img v-if="compareResult.cnum==0"src="../../../assets/img/cross.png" alt="">
+                <img v-if="compareResult.visaNo==1" src="../../../assets/img/hook.png" alt="">
+                <img v-if="compareResult.visaNo==0"src="../../../assets/img/cross.png" alt="">
               </td>
             </tr>
             <tr>
@@ -136,8 +136,8 @@
               <td>{{travellerInfo.visaType}}</td>
               <td>{{tableData.invalidVisaList.VISATYPE}}</td>
               <td>
-                <img v-if="compareResult.cnum==1" src="../../../assets/img/hook.png" alt="">
-                <img v-if="compareResult.cnum==0"src="../../../assets/img/cross.png" alt="">
+                <img v-if="compareResult.visaType==1" src="../../../assets/img/hook.png" alt="">
+                <img v-if="compareResult.visaType==0"src="../../../assets/img/cross.png" alt="">
               </td>
             </tr>
             <tr>

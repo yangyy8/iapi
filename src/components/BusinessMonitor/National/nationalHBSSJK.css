@@ -87,6 +87,7 @@
   height: 46px;
   align-items: center;
   border-bottom: 1px #fff dashed;
+  font-size: 12px;
 }
 .content-middle-head,.content-middle-head2,.content-middle-head3,.content-middle-head4{
   background-color: rgba(255, 255, 255, 0.102);
@@ -130,10 +131,10 @@
   font-size: 16px;
 }
 .middleLi4 .td1{
-  width: 10%;
+  width: 15%;
 }
 .middleLi4 .td2{
-  width: 18%;
+  width: 17%;
   color: #3dbb7a;
 }
 .map-top{

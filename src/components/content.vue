@@ -514,7 +514,7 @@ export default {
   mounted() {
     this.navId = this.$route.params.navId;
     console.log("youmeiyou",this.navId)
-
+    this.msg();
     if (this.navId == 'cc') {
       this.nav1List = this.nav1List7;
       if(this.$route.params.tiao){
