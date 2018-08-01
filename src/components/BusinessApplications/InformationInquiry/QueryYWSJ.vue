@@ -41,7 +41,7 @@
 
               <el-col :sm="24" :md="12" :lg="6" class="input-item">
                 <span class="input-text">处理人：</span>
-                <el-select v-model="pd.dealuser" placeholder="请选择"  filterable clearable  size="small" class="input-input" @visible-change="handler">
+                <el-select v-model="pd.username" placeholder="请选择"  filterable clearable  size="small" class="input-input" @visible-change="handler">
                   <el-option v-for="(item,key) in dealer" :value="key" :label="item" :key="key"></el-option>
                 </el-select>
               </el-col>
@@ -84,7 +84,7 @@
           label="事件产生时间">
         </el-table-column>
         <el-table-column
-          prop="dealuser"
+          prop="username"
           label="处理人">
         </el-table-column>
         <el-table-column
@@ -254,7 +254,7 @@
                       </el-col>
                       <el-col :span="8" class="input-item">
                         <span class="yy-input-text">审批人名字：</span>
-                        <el-input size="small"  :disabled="true" v-model="zform.USERNAME" class="yy-input-input"></el-input>
+                        <el-input size="small"  :disabled="true" v-model="zform.APPROVALUSER" class="yy-input-input"></el-input>
                       </el-col>
 
                       </el-row>
@@ -495,8 +495,13 @@
           border
           style="width: 100%;">
           <el-table-column
-            prop="RULETBLIST"
+            width="200"
             label="已加入国家">
+            <template slot-scope="scope">
+              <el-row v-for='i in scope.row.RULETBSTRLIST'>
+                <el-col :span="24">{{i}}</el-col>
+              </el-row>
+            </template>
           </el-table-column>
           <el-table-column
             prop="STATUSSTR"
@@ -512,6 +517,7 @@
           </el-table-column>
           <el-table-column
             prop="CREATETIMESTR"
+            width="200"
             label="修改时间">
           </el-table-column>
           <el-table-column
@@ -533,8 +539,13 @@
           border
           style="width: 100%;">
           <el-table-column
-            prop="RULETBLIST"
+            width="200"
             label="已加入口岸">
+            <template slot-scope="scope">
+              <el-row v-for='i in scope.row.RULETBSTRLIST'>
+                <el-col :span="24">{{i}}</el-col>
+              </el-row>
+            </template>
           </el-table-column>
           <el-table-column
             prop="STATUSSTR"
@@ -550,6 +561,7 @@
           </el-table-column>
           <el-table-column
             prop="CREATETIMESTR"
+            width="200"
             label="修改时间">
           </el-table-column>
           <el-table-column
@@ -728,7 +740,7 @@ export default {
           });
       } else if (i.type == "7") { //免签国家修改
         this.mqgjDialogVisible = true;
-        this.$api.post('/manage-platform/eventManagement/queryNationalityInfo', {
+        this.$api.post('/manage-platform/eventManagement/queryNationalityOrPortInfo', {
             "refserial": i.refserial
           },
           r => {

@@ -58,7 +58,7 @@
               <div slot="header" class="clearfix">
                 <span>已加入</span>
               </div>
-              <div class="t-list">
+              <div class="t-list" v-show="show">
                 <span>{{listText}}</span>
                 <el-button icon="el-icon-delete" style="border:none" @click="deleteList(i)"></el-button>
               </div>
@@ -232,7 +232,7 @@ export default {
       card:'签证有效期',
       data:{
         visaRuleSerial:'',//证件规则id
-        visaOperator:'>',
+        visaOperator:'1',
         visaTime:'',//证件有效期
         visaCheckResult:'2Z',//证件校验结果
         visaStatus:'1',//证件开关
@@ -300,17 +300,14 @@ export default {
       }else if(oper == '2'){
         operLabel = '小于'
       }
-      // if(this.data.visaTime == ''){
-      //   this.$message({
-      //     message: '请填写完整信息！',
-      //     type: 'warning'
-      //   });
-      // }else{
+      if(this.data.visaTime == ''){
+        this.show = false;
+      }else{
         this.show = true;
         let str = "";
         str = this.card + '  ' +operLabel + '  ' +itemLabel;
         this.listText = str;
-      // }
+      }
     },
     deleteList(item){
       this.show = false;
