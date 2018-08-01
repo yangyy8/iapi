@@ -311,8 +311,8 @@ export default {
       this.$api.post('/manage-platform/roleSys/selectPara', p,
         r => {
           console.log("----" + r);
-          this.tableData = r.data.roleList;
-          // this.TotalResult = r.data.totalResult;
+          this.tableData = r.data.roleList.pdList;
+          this.TotalResult = r.data.roleList.totalResult;
         })
     },
     queryNationality() {
