@@ -80,6 +80,10 @@ table td,thead th{
 .caozuo tr td:last-child{
   text-align: right!important;
 }
+.caozuo tr .cell:last-child{
+  /* text-align: right!important; */
+  justify-content: flex-end!important;
+}
 .o-th1 th:first-child{
   background-color: #4874a1 !important;
 

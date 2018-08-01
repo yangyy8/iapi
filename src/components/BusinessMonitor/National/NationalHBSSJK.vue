@@ -200,15 +200,6 @@
   <transition name="el-zoom-in-right">
     <div class="right-box" v-show="!showRight">
       <div class="left-box1 mb-6">
-        <div class="box-title">
-          <div class="title-top b-title"></div>
-          <div class="title-text">
-            全国人员统计
-          </div>
-          <div class="title-down" @click="showRight=true">
-            收起
-          </div>
-        </div>
         <div class="box-content">
           <div class="content-top mb-6">
             当日人员概况
@@ -234,14 +225,14 @@
                   计划
                 </div>
                 <div class="td2">
-                  {{rygk.boardIn}}
+                  {{rygk.inOrderCount}}
                 </div>
                 <div class="td2">
-                  {{rygk.boardIn}}
+                  {{rygk.outOrderCount}}
 
                 </div>
                 <div class="td2">
-                  {{rygk.boardIn}}
+                  {{rygk.passOrderCount}}
 
                 </div>
               </li>
@@ -250,15 +241,15 @@
                   预检
                 </div>
                 <div class="td2">
-                  {{rygk.boardIn}}
+                  {{rygk.inCheckCount}}
 
                 </div>
                 <div class="td2">
-                  {{rygk.boardIn}}
+                  {{rygk.outCheckCount}}
 
                 </div>
                 <div class="td2">
-                  {{rygk.boardIn}}
+                  {{rygk.passCheckCount}}
 
                 </div>
               </li>
@@ -268,15 +259,12 @@
                 </div>
                 <div class="td2">
                   {{rygk.boardIn}}
-
                 </div>
                 <div class="td2">
-                  {{rygk.boardIn}}
-
+                  {{rygk.boardOut}}
                 </div>
                 <div class="td2">
-                  {{rygk.boardIn}}
-
+                  {{rygk.boardPass}}
                 </div>
               </li>
               <li class="middleLi3">
@@ -284,32 +272,33 @@
                   实际
                 </div>
                 <div class="td2">
-                  {{rygk.boardIn}}
+                  {{rygk.inRealCount}}
 
                 </div>
                 <div class="td2">
-                  {{rygk.boardIn}}
+                  {{rygk.outRealCount}}
 
                 </div>
                 <div class="td2">
-                  {{rygk.boardIn}}
+                  {{rygk.passRealCount}}
 
                 </div>
               </li>
             </ul>
           </div>
         </div>
-      </div>
-      <div class="left-box1">
         <div class="box-title">
-          <div class="title-top g-title"></div>
+          <div class="title-top b-title"></div>
           <div class="title-text">
-            口岸人员统计
+            全国人员统计
           </div>
           <div class="title-down" @click="showRight=true">
             收起
           </div>
         </div>
+      </div>
+      <div class="left-box1">
+
         <div class="box-content">
           <div class="content-middle">
             <ul class="middleUl">
@@ -327,34 +316,81 @@
                   外国人
                 </div>
                 <div class="td2">
-                  合计
-                </div>
-                <div class="td2">
                   命中
                 </div>
+                <div class="td2">
+                  合计
+                </div>
+
               </li>
               <li class="middleLi4" v-for="i in kary">
                 <div class="td1">
                   {{i.portName}}
 
                 </div>
+
                 <div class="td2">
-                  {{i.inLand}}
+                  <el-popover
+                    placement="left"
+                    width="200"
+                    trigger="click"
+                    :content="'入境：'+i.inLand + ' 出境：'+i.outLand">
+                    <span slot="reference">{{i.inLand+i.outLand}}</span>
+
+                  </el-popover>
                 </div>
+
                 <div class="td2">
-                  {{i.outCheckCount}}
+                  <el-popover
+                    placement="left"
+                    width="200"
+                    trigger="click"
+                    :content="'入境：'+i.inGat + ' 出境：'+i.inGat">
+                    <span slot="reference">{{i.inGat+i.inGat}}</span>
+
+                  </el-popover>
+                  <!-- {{i.inGat+i.outGat}} -->
 
                 </div>
                 <div class="td2">
-                  {{i.outRealCount}}
+                  <el-popover
+                    placement="left"
+                    width="200"
+                    trigger="click"
+                    :content="'入境：'+i.inFrn + ' 出境：'+i.inFrn">
+                    <span slot="reference">{{i.inFrn+i.inFrn}}</span>
+
+                  </el-popover>
+                  <!-- {{i.inFrn+i.outFrn}} -->
 
                 </div>
                 <div class="td2">
-                  {{i.passCheckCount}}
+                  <el-popover
+                    placement="left"
+                    width="200"
+                    trigger="click"
+                    :content="'入境：'+i.matchIn + ' 出境：'+i.matchIn">
+                    <span slot="reference">{{i.matchIn+i.matchIn}}</span>
+
+                  </el-popover>
+                  <!-- {{i.matchIn+i.matchOut}} -->
+
+                </div>
+                <div class="td2">
+                  {{i.inLand+i.outLand+i.inGat+i.outGat+i.inFrn+i.outFrn+i.matchIn+i.matchOut}}
 
                 </div>
               </li>
             </ul>
+          </div>
+        </div>
+        <div class="box-title">
+          <div class="title-top g-title"></div>
+          <div class="title-text">
+            口岸人员统计
+          </div>
+          <div class="title-down" @click="showRight=true">
+            收起
           </div>
         </div>
       </div>
@@ -1770,6 +1806,10 @@ export default {
         geo: {
           map: 'world', // 与引用进来的地图js名字一致
           roam: true, // 禁止缩放平移
+          scaleLimit:{
+            min:0.8,
+            max:3
+          },
           nameMap:{
             // 'China':'中国'
           },
