@@ -490,10 +490,20 @@ export default {
         name: "菜单设置",
         MENU_ICON:'i_cdss',
         menuList: [{
-          SERIAL: 11,
+          SERIAL: 'cycd',
           name: "常用菜单设置",
           url: "Menu"
-        }]
+        },{
+          SERIAL: 'grzx',
+          name: "个人中心",
+          url: "ManageCenter"
+        },{
+          SERIAL: 'pwd',
+          name: "修改密码",
+          url: "UpdatePass"
+        }
+
+      ]
       }],
       nav2Id: 1,
       nav1Star: 0,
@@ -507,7 +517,12 @@ export default {
 
     if (this.navId == 'cc') {
       this.nav1List = this.nav1List7;
-      this.nav1to2(this.nav1List[0],1)
+      if(this.$route.params.tiao){
+        this.nav1to2(this.nav1List[0],1)
+      }else{
+        this.nav1to2(this.nav1List[0])
+
+      }
     }else {
       this.getNav(this.navId)
       // this.getpp();
@@ -568,28 +583,7 @@ export default {
         })
 
     },
-    getpp(){
-      if(this.navId==1){
-        this.nav1List = this.nav1List1;
 
-      }else if(this.navId==2){
-        this.nav1List = this.nav1List2;
-
-      }else if(this.navId==3){
-        this.nav1List = this.nav1List3;
-
-      }else if(this.navId==4){
-        this.nav1List = this.nav1List4;
-
-      }else if(this.navId==5){
-        this.nav1List = this.nav1List5;
-
-      }else if(this.navId==6){
-        this.nav1List = this.nav1List6;
-      }
-      // this.nav1to2(this.nav1List[0])
-
-    },
     openNav() {
       this.navUlShow = !this.navUlShow
       if (this.navUlShow) {

@@ -48,7 +48,7 @@
 
                 </el-col>
                 <el-col :span="4">
-                  <span>国籍：</span>
+                  <span>国籍/地区：</span>
                   {{iapiMap.nationality}}
 
                 </el-col>
@@ -145,7 +145,7 @@
             </el-table-column>
             <el-table-column
               prop="nationality"
-              label="国籍">
+              label="国籍/地区">
             </el-table-column>
             <el-table-column
               prop="visaType"

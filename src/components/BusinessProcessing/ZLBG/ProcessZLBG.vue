@@ -735,7 +735,6 @@ export default {
       this.pd.NATIONALITY = msg;
     },
     batchs() {
-
       if (this.multipleSelection.length == 0) {
         this.open();
         return;
