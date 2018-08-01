@@ -712,7 +712,7 @@
         <div class="hrtitle">基本信息</div>
         <el-row type="flex"  class="mb-6">
           <el-col :span="6">姓名：{{dform.CNAME}}</el-col>
-          <el-col :span="6">性别：{{dform.GENDERNAME=="F"?"男":dform.GENDERNAME=="F"?"女":"未知"}}</el-col>
+          <el-col :span="6">性别：{{dform.GENDERNAME}}</el-col>
           <el-col :span="6">出生日期：{{dform.BIRTHDAYSTR}}</el-col>
           <el-col :span="6">国籍：{{dform.NATIONALITYNAME}}</el-col>
         </el-row>
@@ -1213,7 +1213,7 @@
 
     <div class="middle">
       <el-button  plain class="table-btn mb-9" size="small">显示窗位图</el-button>
-      <el-button  plain class="table-btn mb-9" size="small" @click="$router.push({name:'QueryGLRY'})">关联人员查询</el-button>
+      <!-- <el-button  plain class="table-btn mb-9" size="small" @click="$router.push({name:'QueryGLRY'})">关联人员查询</el-button> -->
       <el-button  plain class="table-btn mb-9" size="small">导出列表信息</el-button>
       <el-button  plain class="table-btn mb-9" size="small">打印</el-button>
       <el-table

@@ -441,7 +441,7 @@
       <div class="hrtitle">基本信息</div>
       <el-row type="flex"  class="mb-6">
         <el-col :span="6">姓名：{{dform.CNAME}}</el-col>
-        <el-col :span="6">性别：{{dform.GENDERNAME=="F"?"男":dform. GENDERNAME=="F"?"女":"未知"}}</el-col>
+        <el-col :span="6">性别：{{dform.GENDERNAME}}</el-col>
         <el-col :span="6">出生日期：{{dform.BIRTHDAYSTR}}</el-col>
         <el-col :span="6">国籍：{{dform.NATIONALITYNAME}}</el-col>
       </el-row>
