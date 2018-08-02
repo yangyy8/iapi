@@ -258,16 +258,20 @@ export default {
   filters: {
 
     fifter2(val) {
-      if (val == "172.16.1.101" || val == "172.16.1.102" || val == "172.16.1.103" || val == "172.16.1.104") {
-        return "docker服务器"
+      if (val == "172.16.1.101" || val == "172.16.1.102" || val == "172.16.1.103") {
+        return "网站应用服务器"
+      } else if (val == "172.16.1.104" || val == "172.16.1.105") {
+        return "负载均衡服务器"
+      } else if (val == "172.16.1.106") {
+        return "后台任务服务器"
+      } else if (val == "172.16.1.107") {
+        return "监控运维服务器"
+      } else if (val == "172.16.1.108" || val == "172.16.1.109" || val == "172.16.1.110") {
+        return "整合分发服务器"
       } else if (val == "172.16.1.111" || val == "172.16.1.112") {
-        return "MQ"
-      } else if (val == "172.16.1.116") {
-        return "管理服务器"
-      } else if (val == "172.16.1.117") {
-        return "redis服务器"
-      } else if (val == "172.16.1.121" || val == "172.16.1.122") {
-        return "数据库服务器"
+        return "队列服务器"
+      }else {
+          return "其他服务器"
       }
     },
 

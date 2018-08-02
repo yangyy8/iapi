@@ -132,9 +132,9 @@
       <el-col :span="9"></el-col>
     <el-col :span="6">
       <div class="datacenter">
-        <div class="dataleft"><font style="font-size:30px;color:#B2CB65;">{{this.sum}}</font><br>预报总量</div>
+        <div class="dataleft"><font style="font-size:30px;color:#B2CB65;">{{this.sum}}</font><br><span class="yy-font">预报总量</span></div>
           <div class="dataleft dataline">&nbsp;</div>
-          <div class="dataleft"><font style="font-size:30px;color:#FF667D;">{{this.num}}</font><br>名单比中数量</div>
+          <div class="dataleft"><font style="font-size:30px;color:#FF667D;">{{this.num}}</font><br><span class="yy-font">名单比中数量</span></div>
       </div>
 </el-col>
   <el-col :span="9"></el-col>
@@ -146,67 +146,66 @@
         :data="tableData"
         border
         style="width: 100%;">
-
+        <el-table-column
+          prop="travellerName"
+          label="姓名" >
+        </el-table-column>
+        <el-table-column
+          prop="genderDesc"
+          label="性别" >
+        </el-table-column>
+        <el-table-column
+          prop="birthday"
+          label="出生日期" >
+        </el-table-column>
                 <el-table-column
                   prop="nationalityDesc"
-                  label="国籍" sortable>
+                  label="国籍" >
                 </el-table-column>
 
                 <el-table-column
                   prop="passportNo"
-                  label="证件号码" sortable>
+                  label="证件号码" >
                 </el-table-column>
                 <el-table-column
                   prop="passportExpireDate"
-                  label="证件有效期" sortable>
+                  label="证件有效期" >
                 </el-table-column>
-                <el-table-column
-                  prop="travellerName"
-                  label="姓名" sortable>
-                </el-table-column>
-                <el-table-column
-                  prop="genderDesc"
-                  label="性别" sortable>
-                </el-table-column>
-                <el-table-column
-                  prop="birthday"
-                  label="出生日期" sortable>
-                </el-table-column>
+
                 <el-table-column
                   prop="personGrade"
-                  label="人员类别" sortable>
+                  label="人员类别" >
                 </el-table-column>
                 <el-table-column
                   prop="visaNo"
-                  label="签证号码" sortable>
+                  label="签证号码" >
                 </el-table-column>
                 <el-table-column
                   prop="flightNo"
-                  label="航班号" sortable>
+                  label="航班号" >
                 </el-table-column>
                 <el-table-column
                   prop="checkResultTypeDesc"
-                  label="比中类型" sortable>
+                  label="比中类型" >
                 </el-table-column>
                 <el-table-column
                   prop="confirmResultDesc"
-                  label="最终确认结果" sortable>
+                  label="最终确认结果" >
                 </el-table-column>
                 <el-table-column
                   prop="checkResultDesc"
-                  label="反馈结果" sortable>
+                  label="反馈结果" >
                 </el-table-column>
                 <el-table-column
                   prop="compareDesc"
-                  label="反馈描述" sortable>
+                  label="反馈描述" >
                 </el-table-column>
                 <el-table-column
                   label="操作">
                   <template slot-scope="scope">
-                    <div class="flex-r">
 
                       <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row)">详情</el-button>
-                    </div>
+                
                  </template>
                 </el-table-column>
       </el-table>
@@ -390,7 +389,7 @@ export default {
         })
     },
     getList(currentPage, showCount, pd) {
-  
+
       let p = {
         "currentPage": currentPage,
         "showCount": showCount,

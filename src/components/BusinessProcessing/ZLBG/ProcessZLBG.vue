@@ -177,10 +177,8 @@
                 <el-table-column
                   label="操作" width="180">
                   <template slot-scope="scope">
-                    <div class="flex-r">
                       <el-button class="table-btn" size="mini" plain icon="el-icon-edit" @click="handles(scope.row)">变更</el-button>
                       <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row)">详情</el-button>
-                    </div>
                  </template>
                 </el-table-column>
       </el-table>
@@ -441,7 +439,7 @@
       <div class="hrtitle">基本信息</div>
       <el-row type="flex"  class="mb-6">
         <el-col :span="6">姓名：{{dform.CNAME}}</el-col>
-        <el-col :span="6">性别：{{dform.GENDERNAME}}</el-col>
+        <el-col :span="6">性别：{{dform.GENDERNAME=="F"?"男":dform. GENDERNAME=="F"?"女":"未知"}}</el-col>
         <el-col :span="6">出生日期：{{dform.BIRTHDAYSTR}}</el-col>
         <el-col :span="6">国籍：{{dform.NATIONALITYNAME}}</el-col>
       </el-row>
@@ -553,7 +551,7 @@
         <div class="hrtitle">名单比中详情</div>
         <el-row type="flex"  class="mb-6">
           <el-col :span="6">
-            <el-button type="primary" plain name="button"  size="mini" @click="reviewDetail">查看</el-button>
+            <el-button type="primary" plain name="button"  size="mini" @click="reviewDetail">查看评价详情</el-button>
           </el-col>
         </el-row>
       </div>
@@ -770,7 +768,7 @@ export default {
     }
   },
   mounted() {
-    this.getList(this.CurrentPage, this.pageSize, this.pd);
+    //this.getList(this.CurrentPage, this.pageSize, this.pd);
   },
   methods: {
     handleSelectionChange(val) {
@@ -954,6 +952,33 @@ export default {
          }
        })
 
+    },
+    reviewDetail(){//详情里的查看详情信息
+
+      let ss={
+        "event":this.eve
+      }
+      this.$api.post('/manage-platform/eventManagement/isFinishEventHandle',ss,
+       r =>{
+         if(r.data== true){
+            this.$router.push({name:'alarmProcess',query:{eventserial:this.eve,type:0}})
+         }else if(r.data == false){
+           this.$router.push({name:'alarmProcess',query:{eventserial:this.eve,type:1}})
+         }
+       })
+    },
+    reviewCallDetail(){//查看PNR预报警详情
+      let cc={
+        "event":this.pnrEve
+      }
+      this.$api.post('/manage-platform/eventManagement/isFinishEventHandle',cc,
+       r =>{
+         if(r.data== true){
+            this.$router.push({name:'alarmProcess',query:{eventserial:this.eve,type:0,isZDGZ:1}})
+         }else if(r.data == false){
+           this.$router.push({name:'alarmProcess',query:{eventserial:this.eve,type:1,isZDGZ:1}})
+         }
+       })
     },
     detailgetlist(currentPage, showCount, r) {
       let p = {
