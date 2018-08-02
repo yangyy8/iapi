@@ -16,7 +16,7 @@
 
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text"> 部门：</span>
-              <el-select v-model="pd.DEPT_ID"  @visible-change="queryNationality" placeholder="请选择" size="small" class="input-input">
+              <el-select v-model="pd.DEPT_ID"  filterable clearable  placeholder="请选择" size="small" class="input-input">
                  <el-option
                    v-for="item in company"
                    :key="item.SERIAL"
@@ -131,7 +131,7 @@
         <el-row type="flex" class="mb-6" >
           <el-col :span="24" class="input-item">
             <span class="yy-input-text"><font class="yy-color">*</font>所属部门：</span>
-            <el-select v-model="form.DEPT_ID"  @visible-change="queryNationality" placeholder="请选择" size="small" class="yy-input-input">
+            <el-select v-model="form.DEPT_ID"  filterable clearable placeholder="请选择" size="small" class="yy-input-input">
                <el-option
                  v-for="item in company"
                  :key="item.SERIAL"
@@ -288,6 +288,7 @@ export default {
   },
   mounted() {
     this.getList(this.CurrentPage, this.pageSize, this.pd);
+    this.queryNationality();
   },
   methods: {
     handleSelectionChange(val) {
@@ -299,7 +300,6 @@ export default {
     },
     handleCurrentChange(val) {
       this.getList(val, this.pageSize, this.pd);
-
       console.log(`当前页: ${val}`);
     },
     getList(currentPage, showCount, pd) {
