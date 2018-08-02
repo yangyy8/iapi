@@ -9,7 +9,7 @@
           报警类型:
           <el-select v-model="pd.pnrType" placeholder="请选择" filterable clearable size="small">
 
-           <el-option value="1" label="1 - 风险评估人员">
+           <el-option value="1" label="1 - 风评高风险人员">
            </el-option>
            <el-option value="2" label="2 - 特殊关注对象">
            </el-option>

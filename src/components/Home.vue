@@ -11,10 +11,16 @@
           登录
         </div>
         <div class="home-top-right hand" v-if="isLogin">
-          <span class="mb-9">欢迎您！管理员</span>
-          <span style="color:#2AD9F4;" @click="$router.push('/content/cc/ManageCenter')">个人中心</span>
-          <span style="color:#2AD9F4;" @click="$router.push('/content/cc/UpdatePass')">修改密码</span>
-          <span @click="logOut"><img src="../assets/img/logout.png" style="width:20px;height:20px;vertical-align:bottom;margin-right:5px;"alt="">退出</span>
+          <el-dropdown trigger="click">
+             <span class="el-dropdown-link" style="color:#fff">
+               欢迎您！{{userName}}<i class="el-icon-arrow-down el-icon--right"></i>
+             </span>
+             <el-dropdown-menu slot="dropdown">
+               <el-dropdown-item><span style="display:block;width:100%;height:100%" @click="$router.push('/content/cc/ManageCenter')">个人中心</span></el-dropdown-item>
+               <el-dropdown-item><span @click="$router.push('/content/cc/UpdatePass')">修改密码</span></el-dropdown-item>
+               <el-dropdown-item><span style="display:block;width:100%;height:100%" @click="logOut">退出</span></el-dropdown-item>
+             </el-dropdown-menu>
+          </el-dropdown>
         </div>
       </div>
       <div class="home-title1">
@@ -190,6 +196,7 @@ export default {
         dd:"",
         xx:""
       },
+      userName:"",
       jzmm:false,
       bynav:true,
       isLogin:true,
@@ -360,7 +367,13 @@ export default {
 
       })
     },
-
+    getUers(){
+      this.$api.post('/manage-platform/homePage/userInfo',{},
+       r => {
+         this.userName=r.data.userName;
+         console.log(r);
+      })
+    },
     login(){
 
       this.$api.post('/manage-platform/landing',this.user,
@@ -372,7 +385,8 @@ export default {
             type: 'success'
           });
           // localStorage.setItem('login',1);
-          this.getNav0()
+          this.getNav0();
+          this.getUers();
           let _this=this;
           setTimeout(function(){
               _this.isLogin=true;

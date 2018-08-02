@@ -138,7 +138,7 @@
         </div>
         <div class="box-content">
           <div class="content-middle">
-            <ul class="middleUl ulover">
+            <ul class="middleUl ulover"  v-if="kahb.length">
               <li class="middleLi2 content-middle-head2">
                 <div class="td1">
 
@@ -162,9 +162,12 @@
                   延误
                 </div>
               </li>
-              <li class="middleLi2" v-for="i in kahb">
+              <div v-if="">
+
+              </div>
+              <li class="middleLi2" v-for="(i, index ) in kahb" :key="index">
                 <div class="td1">
-                  {{i.portName}}
+                  {{i.portName||'xx'}}
                 </div>
                 <div class="td2">
                   {{i.inScheduleCount||0}}
@@ -301,7 +304,7 @@
 
         <div class="box-content">
           <div class="content-middle">
-            <ul class="middleUl ulover">
+            <ul class="middleUl ulover"  v-show="kary.length!=0">
               <li class="middleLi4 content-middle-head4">
                 <div class="td1">
 
@@ -1039,7 +1042,7 @@ export default {
       crType:"A",
       newHbData:{},
       hbsl:{},
-      kahb:{},
+      kahb:[],
       rygk:{},
       kary:{},
       newHbData:[],
@@ -1252,8 +1255,11 @@ export default {
       });
       this.$api.post('/manage-platform/nationwide/getFlightPortCountToday',{},
        r => {
-         console.log(r);
-         this.kahb=r.data;
+
+           this.kahb=r.data
+
+         console.log(this.kahb.length);
+
       })
     },
     getRightData(){
