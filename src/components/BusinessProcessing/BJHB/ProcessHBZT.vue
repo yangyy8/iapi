@@ -111,11 +111,10 @@
   >
         </el-table-column>
         <el-table-column
+          width="180"
           label="操作">
           <template slot-scope="scope">
-            <div class="flex-r">
               <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row)">处理</el-button>
-            </div>
          </template>
         </el-table-column>
       </el-table>
