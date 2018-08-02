@@ -22,8 +22,16 @@
         </div>
 
         <div class="top-right-1">
-          <span class="mb-6">欢迎您！管理员</span>
-          <span @click="logOut"><img src="../assets/img/logout.png" style="width:20px;height:20px;vertical-align:bottom;margin-right:5px;"alt="">退出</span>
+          <el-dropdown trigger="click">
+             <span class="el-dropdown-link" style="color:#fff">
+               欢迎您！{{userName}}<i class="el-icon-arrow-down el-icon--right"></i>
+             </span>
+             <el-dropdown-menu slot="dropdown">
+               <!-- <el-dropdown-item><span style="display:block;width:100%;height:100%" @click="$router.push('/content/cc/ManageCenter')">个人中心</span></el-dropdown-item> -->
+               <!-- <el-dropdown-item><span @click="$router.push('/content/cc/UpdatePass')">修改密码</span></el-dropdown-item> -->
+               <el-dropdown-item><span style="display:block;width:100%;height:100%" @click="logOut">退出</span></el-dropdown-item>
+             </el-dropdown-menu>
+          </el-dropdown>
         </div>
       </div>
     </el-header>
@@ -94,6 +102,7 @@
 export default {
   data() {
     return {
+      userName:'',
       navUlShow: false,
       tabliwidth:'120px',
       muneListOne: [
@@ -514,7 +523,7 @@ export default {
   mounted() {
     this.navId = this.$route.params.navId;
     console.log("youmeiyou",this.navId)
-    this.msg();
+    this.getUers();
     if (this.navId == 'cc') {
       this.nav1List = this.nav1List7;
       if(this.$route.params.tiao){
@@ -530,6 +539,13 @@ export default {
     console.log("route",this.$route)
   },
   methods: {
+    getUers(){
+      this.$api.post('/manage-platform/homePage/userInfo',{},
+       r => {
+         this.userName=r.data.userName;
+         console.log(r);
+      })
+    },
     msg(){
       this.$api.post('/manage-platform/alarmEvents/getUntreatedNum',{},
        r => {

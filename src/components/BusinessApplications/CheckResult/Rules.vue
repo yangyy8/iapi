@@ -102,12 +102,9 @@
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                 <span class="input-text">不通过原因：</span>
                 <el-select v-model="pd.thanType"  class="input-input" filterable clearable   placeholder="请选择"  size="small">
-
-                  <el-option value="1"  label="1 - 必录项缺失">
+                  <el-option value="0"  label="0 - 一般性规则">
                   </el-option>
-                  <el-option value="2"  label="2 - 长度不符合">
-                  </el-option>
-                  <el-option value="3"  label="3 - 格式错误">
+                  <el-option value="1"  label="1 - 免签规则">
                   </el-option>
                 </el-select>
               </el-col>
@@ -127,9 +124,9 @@
       <el-col :span="9"></el-col>
     <el-col :span="6">
       <div class="datacenter">
-        <div class="dataleft"><font style="font-size:30px;color:#B2CB65;">{{this.sum}}</font><br>预报总量</div>
+        <div class="dataleft"><font style="font-size:30px;color:#B2CB65;">{{this.sum}}</font><br><span class="yy-font">预报总量</span></div>
           <div class="dataleft dataline">&nbsp;</div>
-          <div class="dataleft"><font style="font-size:30px;color:#FF667D;">{{this.num}}</font><br>校验不通过的数量</div>
+          <div class="dataleft"><font style="font-size:30px;color:#FF667D;">{{this.num}}</font><br><span class="yy-font">校验不通过的数量</span></div>
       </div>
 </el-col>
   <el-col :span="9"></el-col>
@@ -141,56 +138,56 @@
         :data="tableData"
         border
         style="width: 100%;">
-
+        <el-table-column
+          prop="travellerName"
+          label="姓名" >
+        </el-table-column>
+        <el-table-column
+          prop="genderDesc"
+          label="性别" >
+        </el-table-column>
+        <el-table-column
+          prop="birthday"
+          label="出生日期" >
+        </el-table-column>
         <el-table-column
           prop="nationalityDesc"
-          label="国籍" sortable>
+          label="国籍" >
         </el-table-column>
 
         <el-table-column
           prop="passportNo"
-          label="证件号码" sortable>
+          label="证件号码" >
         </el-table-column>
         <el-table-column
           prop="passportExpireDate"
-          label="证件有效期" sortable>
+          label="证件有效期" >
         </el-table-column>
-        <el-table-column
-          prop="travellerName"
-          label="姓名" sortable>
-        </el-table-column>
-        <el-table-column
-          prop="genderDesc"
-          label="性别" sortable>
-        </el-table-column>
-        <el-table-column
-          prop="birthday"
-          label="出生日期" sortable>
-        </el-table-column>
+
         <el-table-column
           prop="personGrade"
-          label="人员类别" sortable>
+          label="人员类别" >
         </el-table-column>
         <el-table-column
           prop="visaNo"
-          label="签证号码" sortable>
+          label="签证号码" >
         </el-table-column>
         <el-table-column
           prop="flightNo"
-          label="航班号" sortable>
+          label="航班号" >
         </el-table-column>
 
                 <el-table-column
                   prop="ruleName"
-                  label="比中规则" sortable>
+                  label="比中规则" >
                 </el-table-column>
                 <el-table-column
                   prop="thanTypeDesc"
-                  label="不通过原因" sortable>
+                  label="不通过原因" >
                 </el-table-column>
                 <el-table-column
                   prop="checkResultDesc"
-                  label="反馈结果" sortable>
+                  label="反馈结果" >
                 </el-table-column>
                 <el-table-column
                   prop="thanTypeDesc"
@@ -199,10 +196,7 @@
                 <el-table-column
                   label="操作">
                   <template slot-scope="scope">
-                    <div class="flex-r">
-
                       <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row)">详情</el-button>
-                    </div>
                  </template>
                 </el-table-column>
       </el-table>

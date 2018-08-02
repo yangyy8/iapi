@@ -439,7 +439,7 @@
       <div class="hrtitle">基本信息</div>
       <el-row type="flex"  class="mb-6">
         <el-col :span="6">姓名：{{dform.CNAME}}</el-col>
-        <el-col :span="6">性别：{{dform.GENDERNAME}}</el-col>
+        <el-col :span="6">性别：{{dform.GENDERNAME=="F"?"男":dform. GENDERNAME=="F"?"女":"未知"}}</el-col>
         <el-col :span="6">出生日期：{{dform.BIRTHDAYSTR}}</el-col>
         <el-col :span="6">国籍：{{dform.NATIONALITYNAME}}</el-col>
       </el-row>
@@ -551,7 +551,7 @@
         <div class="hrtitle">名单比中详情</div>
         <el-row type="flex"  class="mb-6">
           <el-col :span="6">
-            <el-button type="primary" plain name="button"  size="mini" @click="reviewDetail">查看</el-button>
+            <el-button type="primary" plain name="button"  size="mini" @click="reviewDetail">查看评价详情</el-button>
           </el-col>
         </el-row>
       </div>
@@ -768,7 +768,7 @@ export default {
     }
   },
   mounted() {
-    this.getList(this.CurrentPage, this.pageSize, this.pd);
+    //this.getList(this.CurrentPage, this.pageSize, this.pd);
   },
   methods: {
     handleSelectionChange(val) {

@@ -1,7 +1,7 @@
 <template>
 <div class="nationlHBSSJK" :class="{'qgjk-zdh':zdh}">
   <div class="map-top">
-    <h3 class="map-title">公安部出入境旅客检测体系</h3>
+    <h3 class="map-title">国家移民局旅客预报预检系统</h3>
     <ul class="map-tabul">
       <li class="map-tabli mr-30 hand" :class="{'check-tab':tabId==1}" @click="tabId=1;">
         <img src="../../../assets/img/qgjk/tab1_1.png" alt="" v-if="tabId==1">
@@ -61,10 +61,10 @@
                   计划
                 </div>
                 <div class="td2">
-                  {{hbsl.inScheduleCount}}
+                  {{hbsl.inScheduleCount||0}}
                 </div>
                 <div class="td3">
-                  {{hbsl.outScheduleCount}}
+                  {{hbsl.outScheduleCount||0}}
                 </div>
               </li>
               <li class="middleLi">
@@ -72,10 +72,10 @@
                   预检
                 </div>
                 <div class="td2">
-                  {{hbsl.inCheckCount}}
+                  {{hbsl.inCheckCount||0}}
                 </div>
                 <div class="td3">
-                  {{hbsl.outCheckCount}}
+                  {{hbsl.outCheckCount||0}}
                 </div>
               </li>
               <li class="middleLi">
@@ -83,10 +83,10 @@
                   取消
                 </div>
                 <div class="td2">
-                  {{hbsl.inCancelCount}}
+                  {{hbsl.inCancelCount||0}}
                 </div>
                 <div class="td3">
-                  {{hbsl.outCancelCount}}
+                  {{hbsl.outCancelCount||0}}
                 </div>
               </li>
               <li class="middleLi">
@@ -94,10 +94,10 @@
                   重点
                 </div>
                 <div class="td2">
-                  {{hbsl.inFocusCount}}
+                  {{hbsl.inFocusCount||0}}
                 </div>
                 <div class="td3">
-                  {{hbsl.outFocusCount}}
+                  {{hbsl.outFocusCount||0}}
                 </div>
               </li>
               <li class="middleLi">
@@ -105,10 +105,10 @@
                   延误
                 </div>
                 <div class="td2">
-                  {{hbsl.inDelayCount}}
+                  {{hbsl.inDelayCount||0}}
                 </div>
                 <div class="td3">
-                  {{hbsl.outDelayCount}}
+                  {{hbsl.outDelayCount||0}}
                 </div>
               </li>
               <li class="middleLi">
@@ -116,10 +116,10 @@
                   实际
                 </div>
                 <div class="td2">
-                  {{hbsl.inRealCount}}
+                  {{hbsl.inRealCount||0}}
                 </div>
                 <div class="td3">
-                  {{hbsl.outRealCount}}
+                  {{hbsl.outRealCount||0}}
                 </div>
               </li>
             </ul>
@@ -138,7 +138,7 @@
         </div>
         <div class="box-content">
           <div class="content-middle">
-            <ul class="middleUl">
+            <ul class="middleUl ulover"  v-if="kahb.length">
               <li class="middleLi2 content-middle-head2">
                 <div class="td1">
 
@@ -162,27 +162,30 @@
                   延误
                 </div>
               </li>
-              <li class="middleLi2" v-for="i in kahb">
+              <div v-if="">
+
+              </div>
+              <li class="middleLi2" v-for="(i, index ) in kahb" :key="index">
                 <div class="td1">
-                  {{i.portName}}
+                  {{i.portName||'xx'}}
                 </div>
                 <div class="td2">
-                  {{i.inScheduleCount}}
+                  {{i.inScheduleCount||0}}
                 </div>
                 <div class="td2">
-                  {{i.outScheduleCount}}
+                  {{i.outScheduleCount||0}}
                 </div>
                 <div class="td2">
-                  {{i.inCheckCount+i.outCheckCount}}
+                  {{i.inCheckCount+i.outCheckCount||0}}
                 </div>
                 <div class="td2">
-                  {{i.inFocusCount+i.outFocusCount}}
+                  {{i.inFocusCount+i.outFocusCount||0}}
                 </div>
                 <div class="td2">
-                  {{i.inCancelCount+i.outCancelCount}}
+                  {{i.inCancelCount+i.outCancelCount||0}}
                 </div>
                 <div class="td2">
-                  {{i.inDelayCount+i.outDelayCount}}
+                  {{i.inDelayCount+i.outDelayCount||0}}
                 </div>
               </li>
 
@@ -225,14 +228,14 @@
                   计划
                 </div>
                 <div class="td2">
-                  {{rygk.inOrderCount}}
+                  {{rygk.inOrderCount||0}}
                 </div>
                 <div class="td2">
-                  {{rygk.outOrderCount}}
+                  {{rygk.outOrderCount||0}}
 
                 </div>
                 <div class="td2">
-                  {{rygk.passOrderCount}}
+                  {{rygk.passOrderCount||0}}
 
                 </div>
               </li>
@@ -241,15 +244,15 @@
                   预检
                 </div>
                 <div class="td2">
-                  {{rygk.inCheckCount}}
+                  {{rygk.inCheckCount||0}}
 
                 </div>
                 <div class="td2">
-                  {{rygk.outCheckCount}}
+                  {{rygk.outCheckCount||0}}
 
                 </div>
                 <div class="td2">
-                  {{rygk.passCheckCount}}
+                  {{rygk.passCheckCount||0}}
 
                 </div>
               </li>
@@ -258,13 +261,13 @@
                   登记
                 </div>
                 <div class="td2">
-                  {{rygk.boardIn}}
+                  {{rygk.boardIn||0}}
                 </div>
                 <div class="td2">
-                  {{rygk.boardOut}}
+                  {{rygk.boardOut||0}}
                 </div>
                 <div class="td2">
-                  {{rygk.boardPass}}
+                  {{rygk.boardPass||0}}
                 </div>
               </li>
               <li class="middleLi3">
@@ -272,15 +275,15 @@
                   实际
                 </div>
                 <div class="td2">
-                  {{rygk.inRealCount}}
+                  {{rygk.inRealCount||0}}
 
                 </div>
                 <div class="td2">
-                  {{rygk.outRealCount}}
+                  {{rygk.outRealCount||0}}
 
                 </div>
                 <div class="td2">
-                  {{rygk.passRealCount}}
+                  {{rygk.passRealCount||0}}
 
                 </div>
               </li>
@@ -301,7 +304,7 @@
 
         <div class="box-content">
           <div class="content-middle">
-            <ul class="middleUl">
+            <ul class="middleUl ulover"  v-show="kary.length!=0">
               <li class="middleLi4 content-middle-head4">
                 <div class="td1">
 
@@ -325,7 +328,7 @@
               </li>
               <li class="middleLi4" v-for="i in kary">
                 <div class="td1">
-                  {{i.portName}}
+                  {{i.portName||0}}
 
                 </div>
 
@@ -335,7 +338,7 @@
                     width="200"
                     trigger="click"
                     :content="'入境：'+i.inLand + ' 出境：'+i.outLand">
-                    <span slot="reference">{{i.inLand+i.outLand}}</span>
+                    <span slot="reference">{{i.inLand+i.outLand||0}}</span>
 
                   </el-popover>
                 </div>
@@ -346,11 +349,8 @@
                     width="200"
                     trigger="click"
                     :content="'入境：'+i.inGat + ' 出境：'+i.inGat">
-                    <span slot="reference">{{i.inGat+i.inGat}}</span>
-
+                    <span slot="reference">{{i.inGat+i.inGat||0}}</span>
                   </el-popover>
-                  <!-- {{i.inGat+i.outGat}} -->
-
                 </div>
                 <div class="td2">
                   <el-popover
@@ -358,7 +358,7 @@
                     width="200"
                     trigger="click"
                     :content="'入境：'+i.inFrn + ' 出境：'+i.inFrn">
-                    <span slot="reference">{{i.inFrn+i.inFrn}}</span>
+                    <span slot="reference">{{i.inFrn+i.inFrn||0}}</span>
 
                   </el-popover>
                   <!-- {{i.inFrn+i.outFrn}} -->
@@ -370,14 +370,14 @@
                     width="200"
                     trigger="click"
                     :content="'入境：'+i.matchIn + ' 出境：'+i.matchIn">
-                    <span slot="reference">{{i.matchIn+i.matchIn}}</span>
+                    <span slot="reference">{{i.matchIn+i.matchIn||0}}</span>
 
                   </el-popover>
                   <!-- {{i.matchIn+i.matchOut}} -->
 
                 </div>
                 <div class="td2">
-                  {{i.inLand+i.outLand+i.inGat+i.outGat+i.inFrn+i.outFrn+i.matchIn+i.matchOut}}
+                  {{i.inLand+i.outLand+i.inGat+i.outGat+i.inFrn+i.outFrn+i.matchIn+i.matchOut||0}}
 
                 </div>
               </li>
@@ -690,7 +690,7 @@
         <div class="tan-btn-g">
           <el-button type="primary" size="small" class="mr-10" @click="cleartab2">清空</el-button>
           <!-- <el-button type="success" size="small" class="mr-10">取消</el-button> -->
-          <el-button type="info" size="small" @click="getJkHb">确定</el-button>
+          <el-button type="info" size="small" @click="getJkHb">查询</el-button>
         </div>
         <div class="tan-row-text">
           航班监控表：
@@ -825,7 +825,7 @@
           </el-col>
           <el-col :sm="24" :md="12" :lg="6" class="hb-item">
             <span class="item-text">国籍：</span>
-            <el-select placeholder="请选择"  filterable @visible-change="getGj" v-model="p2.NATIONALITY" size="mini"  class="item-input">
+            <el-select placeholder="请选择"  filterable @visible-change="getGj" v-model="p2.nationality" size="mini"  class="item-input">
               <el-option
                 v-for="item in GjList"
                 :key="item.CODE"
@@ -843,7 +843,7 @@
           </el-col>
           <el-col :sm="24" :md="12" :lg="6" class="hb-item">
             <span class="item-text">性别：</span>
-            <el-select placeholder="请选择" size="mini" v-model="p2.GENDER" class="item-input">
+            <el-select placeholder="请选择" size="mini" v-model="p2.gender" class="item-input">
               <el-option label="男" value="M"></el-option>
               <el-option label="女" value="F"></el-option>
               <el-option label="未知" value="U"></el-option>
@@ -1042,7 +1042,7 @@ export default {
       crType:"A",
       newHbData:{},
       hbsl:{},
-      kahb:{},
+      kahb:[],
       rygk:{},
       kary:{},
       newHbData:[],
@@ -1255,8 +1255,11 @@ export default {
       });
       this.$api.post('/manage-platform/nationwide/getFlightPortCountToday',{},
        r => {
-         console.log(r);
-         this.kahb=r.data;
+
+           this.kahb=r.data
+
+         console.log(this.kahb.length);
+
       })
     },
     getRightData(){

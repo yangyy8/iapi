@@ -5,17 +5,21 @@
 // var root="http://192.168.99.251:8080"    //时达的电脑
 //var root="http://192.168.99.242:8080"    //石飞的电脑
 // var root = "http://192.168.99.251:8080"    //性能监控
+<<<<<<< HEAD
 var root="http://192.168.99.206:8080"   //服务器电脑
 //var root=""
 
+=======
+//var root="http://192.168.99.206:8080"   //服务器电脑
+//var root=""
+>>>>>>> 0d9c269aa20b5ccb5729608bd769e674ce805e6c
 // var root = 'http://192.168.99.245:8080'
 //var root="http://192.168.99.228:8080"    //丁勇的电脑
 
 //var root = 'http://192.168.99.245:8080'
-//var root="http://192.168.99.228:8080"    //丁勇的电脑
-
+//var root="http://192.168.99.228:8080"    //丁勇的电
 //var root="http://192.168.99.201:8080"    //全国监控
-//var root="http://192.168.99.250:8080"    //刘洋的电脑
+var root="http://192.168.99.250:8080"    //刘洋的电脑
 // 引用axios
 var axios = require('axios')
 import { Loading } from 'element-ui';
@@ -43,7 +47,7 @@ function filterNull(o) {
 }
 // 添加默认参数
 function apiAxios(method, url, params, success, failure) {
-
+ console.log(window.location.host)
   // let loadingInstance1 = Loading.service({ fullscreen: true,background:'rgba(90,90,90,0.3)'});
 
   if (params) {
@@ -124,5 +128,5 @@ export default {
   delete: function(url, params, success, failure) {
     return apiAxios('DELETE', url, params, success, failure)
   },
-  rootUrl:root
+  rootUrl:"http://"+window.location.host
 }

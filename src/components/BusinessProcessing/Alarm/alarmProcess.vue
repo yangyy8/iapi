@@ -15,7 +15,7 @@
     </div>
     <div class="middle mb-6">
       <div class="middle-tab">
-        <div class="middle-tab-item hand" style="height: 40px;line-height: 40px;" :class="{'middle-checked':tabIsShow==false}" @click="xinxi">
+        <div v-if="$route.query.type!=0" class="middle-tab-item hand" style="height: 40px;line-height: 40px;" :class="{'middle-checked':tabIsShow==false}" @click="xinxi">
           基本信息
         </div>
         <div class="middle-tab-item hand" style="height: 40px;line-height: 40px;" :class="{'middle-checked':tabIsShow==true}" @click="shijian">
@@ -548,7 +548,7 @@ export default {
   mounted() {
     this.eventserial = this.$route.query.eventserial;
     this.getList();
-    if (this.$route.query.type == 0) {
+    if (this.$route.query.type==0) {
       this.shijian();
     }
   },
@@ -788,7 +788,7 @@ export default {
 
 .middle-tab {
   width: 252px;
-  background: #fff;
+  /* background: #fff; */
   display: flex;
 
 }
