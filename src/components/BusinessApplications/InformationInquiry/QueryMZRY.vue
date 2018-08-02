@@ -116,14 +116,14 @@
         @sort-change="ccc()"
       >
         <el-table-column
-          prop="INTG_CHNNAME"
-          sortable="custom"
-          label="人员姓名">
-        </el-table-column>
-        <el-table-column
           prop="NAME"
           sortable="custom"
           label="姓名">
+        </el-table-column>
+        <el-table-column
+          prop="INTG_CHNNAME"
+          sortable="custom"
+          label="中文姓名">
         </el-table-column>
         <el-table-column
           prop="GENDERNAME"
@@ -241,21 +241,20 @@
         <div class="hrtitle">基本信息</div>
         <el-row type="flex"  class="mb-6">
           <el-col :span="6">姓名：{{dform.CNAME}}</el-col>
-          <el-col :span="6">性别：{{dform.GENDERNAME}}</el-col>
+          <el-col :span="6">性别：{{dform.GENDERNAME=="F"?"男":dform. GENDERNAME=="F"?"女":"未知"}}</el-col>
           <el-col :span="6">出生日期：{{dform.BIRTHDAYSTR}}</el-col>
-          <el-col :span="6">国籍：{{dform.NATIONALITYNAME}}</el-col>
+          <el-col :span="6">出入境类型：{{dform.FLIGHTINOUT}}</el-col>
         </el-row>
         <el-row type="flex"  class="mb-6">
+          <el-col :span="6">国籍：{{dform.NATIONALITYNAME}}</el-col>
           <el-col :span="6">证件号码：{{dform.PASSPORTNO}}</el-col>
-          <el-col :span="6">出入境类型：{{dform.FLIGHTINOUT}}</el-col>
+          <el-col :span="6">证件颁发国：{{dform.PASSPORTISSUECOUNTRYNAME}}</el-col>
+          <el-col :span="6">证件有效期：{{dform.PASSPORTEXPIREDATESTR}}</el-col>
+        </el-row>
+        <el-row type="flex"  class="mb-6">
+          <el-col :span="6">证件签发日期：{{dform.PASSPORTISSUEDATESTR}}</el-col>
           <el-col :span="6">出生国：{{dform.BIRTHCOUNTRYNAME}}</el-col>
           <el-col :span="6">居住国：{{dform.RESIDENCENAME}}</el-col>
-
-        </el-row>
-        <el-row type="flex"  class="mb-6">
-          <el-col :span="6">护照有效期：{{dform.PASSPORTEXPIREDATESTR}}</el-col>
-          <el-col :span="6">护照颁发国：{{dform.PASSPORTISSUECOUNTRYNAME}}</el-col>
-          <el-col :span="6">护照签发期：{{dform.PASSPORTISSUEDATESTR}}</el-col>
         </el-row>
         <div class="hrtitle">航班信息</div>
         <el-row type="flex"  class="mb-6">
@@ -273,13 +272,13 @@
         <el-row type="flex"  class="mb-6">
           <el-col :span="8">原预检结果：{{dform.CHECKRESULTNAME}}</el-col>
           <el-col :span="8">最终预检结果：{{dform.LASTCHECKRESULTSTR}}</el-col>
-          <el-col :span="8">是否有效：{{dform.PASSENGERSTATUSSTR==0?"无效":"有效"}}</el-col>
-
+          <!-- <el-col :span="8">是否有效：{{dform.PASSENGERSTATUSSTR==0?"无效":"有效"}}</el-col> -->
+          <el-col :span="8">航班状态：{{dform.FLIGHTSTATUSSTR==0?"取消":"起飞"}}</el-col>
         </el-row>
         <el-row type="flex"  class="mb-6">
-          <el-col :span="8">航班状态：{{dform.FLIGHTSTATUSSTR==0?"取消":"起飞"}}</el-col>
-          <el-col :span="8">登机/航班取消时间：{{dform.LASTUPDATETIMESTR}}</el-col>
-          <el-col :span="8">口岸：{{dform.PORTSTR}}</el-col>
+          <el-col :span="8">航班起飞时间：{{dform.LASTUPDATETIMEUPSTR}}</el-col>
+          <el-col :span="8">航班取消时间：{{dform.LASTUPDATETIMEDOWNSTR}}</el-col>
+          <el-col :span="8">降落口岸：{{dform.PORTSTR}}</el-col>
         </el-row>
         <el-row type="flex"  class="mb-6">
           <el-col :span="8">备降口岸：{{dform.CHANGEPORTSTR}}</el-col>

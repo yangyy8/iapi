@@ -137,7 +137,8 @@
                 </el-table-column>
                 <el-table-column
 
-                  label="性别" sortable
+                  label="性别"
+                  sortable
                   width="100"
                 >
                 <template slot-scope="scope">
@@ -168,7 +169,7 @@
                   </template>
                 </el-table-column>
                 <el-table-column
-                  label="航班状态" sortable
+                  label="反馈状态" sortable
                   >
                   <template slot-scope="scope">
                     {{scope.row.LASTCHECKRESULT | fiftecr}}
@@ -294,13 +295,13 @@
         </el-row>
         <el-row type="flex" class="mb-6">
           <el-col :span="24" class="input-item">
-            <span class="yy-input-text" style="width:15%">变更后值机状态说明：</span>
+            <span class="yy-input-text" style="width:15%">变更值机说明：</span>
             <el-input placeholder="请输入内容" size="small" v-model="map.INSTRUCTC" style="width:80%"></el-input>
           </el-col>
         </el-row>
         <el-row type="flex" class="mb-6">
           <el-col :span="24" class="input-item">
-            <span class="yy-input-text" style="width:15%">变更说明：</span>
+            <span class="yy-input-text" style="width:15%">变更描述：</span>
            <el-input type="textarea" placeholder="请输入内容" :autosize="{ minRows: 3, maxRows: 6}" style="width:80%" v-model="map.CHANGERESON"></el-input>
           </el-col>
         </el-row>
@@ -394,14 +395,14 @@
         </el-row>
         <el-row type="flex" class="mb-6">
           <el-col :span="24" class="input-item">
-            <span class="yy-input-text" style="width:18%">变更后值机状态说明：</span>
+            <span class="yy-input-text" style="width:18%">变更值机说明：</span>
             <el-input placeholder="请输入内容" size="small" v-model="form.INSTRUCTC" style="width:82%"></el-input>
           </el-col>
         </el-row>
 
         <el-row type="flex" class="mb-6">
           <el-col :span="24" class="input-item">
-            <span class="yy-input-text" style="width:18%">变更说明：</span>
+            <span class="yy-input-text" style="width:18%">变更描述：</span>
            <el-input type="textarea" v-model="form.CHANGERESON"  placeholder="请输入内容" :autosize="{ minRows: 3, maxRows: 6}" style="width:82%;" ></el-input>
           </el-col>
         </el-row>
@@ -441,19 +442,18 @@
         <el-col :span="6">姓名：{{dform.CNAME}}</el-col>
         <el-col :span="6">性别：{{dform.GENDERNAME=="F"?"男":dform. GENDERNAME=="F"?"女":"未知"}}</el-col>
         <el-col :span="6">出生日期：{{dform.BIRTHDAYSTR}}</el-col>
-        <el-col :span="6">国籍：{{dform.NATIONALITYNAME}}</el-col>
+        <el-col :span="6">出入境类型：{{dform.FLIGHTINOUT}}</el-col>
       </el-row>
       <el-row type="flex"  class="mb-6">
+        <el-col :span="6">国籍：{{dform.NATIONALITYNAME}}</el-col>
         <el-col :span="6">证件号码：{{dform.PASSPORTNO}}</el-col>
-        <el-col :span="6">出入境类型：{{dform.FLIGHTINOUT}}</el-col>
+        <el-col :span="6">证件颁发国：{{dform.PASSPORTISSUECOUNTRYNAME}}</el-col>
+        <el-col :span="6">证件有效期：{{dform.PASSPORTEXPIREDATESTR}}</el-col>
+      </el-row>
+      <el-row type="flex"  class="mb-6">
+        <el-col :span="6">证件签发日期：{{dform.PASSPORTISSUEDATESTR}}</el-col>
         <el-col :span="6">出生国：{{dform.BIRTHCOUNTRYNAME}}</el-col>
         <el-col :span="6">居住国：{{dform.RESIDENCENAME}}</el-col>
-
-      </el-row>
-      <el-row type="flex"  class="mb-6">
-        <el-col :span="6">护照有效期：{{dform.PASSPORTEXPIREDATESTR}}</el-col>
-        <el-col :span="6">护照颁发国：{{dform.PASSPORTISSUECOUNTRYNAME}}</el-col>
-        <el-col :span="6">护照签发期：{{dform.PASSPORTISSUEDATESTR}}</el-col>
       </el-row>
       <div class="hrtitle">航班信息</div>
       <el-row type="flex"  class="mb-6">
@@ -471,13 +471,13 @@
       <el-row type="flex"  class="mb-6">
         <el-col :span="8">原预检结果：{{dform.CHECKRESULTNAME}}</el-col>
         <el-col :span="8">最终预检结果：{{dform.LASTCHECKRESULTSTR}}</el-col>
-        <el-col :span="8">是否有效：{{dform.PASSENGERSTATUSSTR==0?"无效":"有效"}}</el-col>
-
+        <!-- <el-col :span="8">是否有效：{{dform.PASSENGERSTATUSSTR==0?"无效":"有效"}}</el-col> -->
+        <el-col :span="8">航班状态：{{dform.FLIGHTSTATUSSTR==0?"取消":"起飞"}}</el-col>
       </el-row>
       <el-row type="flex"  class="mb-6">
-        <el-col :span="8">航班状态：{{dform.FLIGHTSTATUSSTR==0?"取消":"起飞"}}</el-col>
-        <el-col :span="8">登机/航班取消时间：{{dform.LASTUPDATETIMESTR}}</el-col>
-        <el-col :span="8">口岸：{{dform.PORTSTR}}</el-col>
+        <el-col :span="8">航班起飞时间：{{dform.LASTUPDATETIMEUPSTR}}</el-col>
+        <el-col :span="8">航班取消时间：{{dform.LASTUPDATETIMEDOWNSTR}}</el-col>
+        <el-col :span="8">降落口岸：{{dform.PORTSTR}}</el-col>
       </el-row>
       <el-row type="flex"  class="mb-6">
         <el-col :span="8">备降口岸：{{dform.CHANGEPORTSTR}}</el-col>
@@ -587,7 +587,7 @@
           </el-table-column>
           <el-table-column
             label="性别" sortable
-            width="50"
+            width="80"
           >
           <template slot-scope="scope">
             {{scope.row.GENDER | fiftersex}}
@@ -918,7 +918,8 @@ export default {
       this.detailsDialogVisible = true;
       this.dform = i;
       this.detailgetlist(0, 10, this.dform);
-      this.$api.post('/manage-platform/event/queryEventInfo',{serial:i.REFSERIAL},
+      console.log(i);
+      this.$api.post('/manage-platform/iapi/queryIapiInfo',{serial:i.SERIAL},
        r =>{
          if(r.success){
            this.dform = r.data.IAPI;
