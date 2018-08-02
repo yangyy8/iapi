@@ -497,7 +497,7 @@
                      <el-row type="flex" align="center" :gutter="10" style="width:100%">
                        <el-col :sm="24" :md="12" :lg="6" class="input-item">
                          <span class="input-text">属性：</span>
-                         <el-select placeholder="请选择" v-model="selfCdtList.attribute" filterable clearable @visible-change="attribute(selfCdtList)" @change="attributeOperator(selfCdtList)" size="mini">
+                         <el-select placeholder="请选择" v-model="selfCdtList.attribute" filterable clearable @visible-change="attribute(selfCdtList)" @change="attributeOperator(selfCdtList)" size="mini" @clear="cl(selfCdtList.attribute)">
                            <el-option
                              v-for="item in selfNature"
                              :key="item.name"
@@ -541,7 +541,8 @@
                          type="date" size="mini"
                          placeholder="选择日期"
                          class="t-width100"
-                         value-format="yyyyMMdd">
+                         value-format="yyyyMMdd"
+                         >
                         </el-date-picker>
                        <!-- 日期 精确到秒 -->
                          <el-date-picker
@@ -1432,9 +1433,9 @@
         </el-table-column>
         <el-table-column
           label="操作"
-          width="100">
+          width="180">
           <template slot-scope="scope">
-            <el-button class="table-btn" size="mini" plain @click="details(scope.row)">详情</el-button>
+            <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row)">详情</el-button>
          </template>
         </el-table-column>
       </el-table>
@@ -1778,7 +1779,7 @@ export default {
     this.landing();
     this.nation();
     this.currentPage = 1;
-    this.getList(this.currentPage,this.showCount,this.cdt);
+    // this.getList(this.currentPage,this.showCount,this.cdt);
   },
   computed:{
     aaa:{
@@ -1799,6 +1800,7 @@ export default {
           if(this.selfCdtList.attribute==''&&this.selfCdtList.atype==''&&this.selfCdtList.operator==undefined){
             this.str = '';
           }else{
+            this.clearTime();
             this.str = '('+this.selfCdtList.attribute+switchOperator+this.selfCdtList.atype+')';
           }
 
@@ -1813,6 +1815,9 @@ export default {
             if(arr[i].attribute==''&&arr[i].atype==''&&arr[i].operator==''){
               this.str+='';
             }else{
+              if(arr[i].atype == null){
+                arr[i].atype ='';
+              }
               this.str += arr[i].relation+'('+arr[i].attribute+switchArr+arr[i].atype+')';
             }
 
@@ -1999,19 +2004,19 @@ export default {
         this.htotalPage = r.data.totalPage;
       })
     },
-    // getMore(row,cell){//历次
-    //   console.log(row);
-    //   if(cell.label =='姓名'){
-    //     this.reviewDialogTable = true;
-    //     this.historyCdt.nationalityEqual = row.I_37CODE;
-    //     this.historyCdt.passportnoEqual = row.I_39;
-    //     if(this.bigBase == 0){
-    //       this.getHistoryList(this.hcurrentPage,this.hshowCount,this.historyCdt);
-    //     }else if(this.bigBase == 1){
-    //       this.getHistoryListPnr(this.hcurrentPage,this.hshowCount,this.historyCdt);
-    //     }
-    //   }
-    // },
+    getMore(row,cell){//历次
+      // console.log(row);
+      // if(cell.label =='姓名'){
+      //   this.reviewDialogTable = true;
+      //   this.historyCdt.nationalityEqual = row.I_37CODE;
+      //   this.historyCdt.passportnoEqual = row.I_39;
+      //   if(this.bigBase == 0){
+      //     this.getHistoryList(this.hcurrentPage,this.hshowCount,this.historyCdt);
+      //   }else if(this.bigBase == 1){
+      //     this.getHistoryListPnr(this.hcurrentPage,this.hshowCount,this.historyCdt);
+      //   }
+      // }
+    },
     planSave(){//基础查询 方案保存是否重名
       if(this.sss==''){
         this.$alert('方案名称不能为空', '提示', {
@@ -2553,20 +2558,23 @@ export default {
     base(){
       this.page=0;
       this.checkList = this.basedQuery;
+      this.based();
       // this.currentPage = 1;
-      this.getList(this.currentPage,this.showCount,this.cdt);
+      // this.getList(this.currentPage,this.showCount,this.cdt);
     },
     batch(){
       this.page=1;
       this.checkList = this.batchQuery;
+      this.based();
       // this.currentPage = 1;
-      this.batchQueryList(this.currentPage,this.showCount,this.rows);
+      // this.batchQueryList(this.currentPage,this.showCount,this.rows);
     },
     self(){
       this.page=2;
       this.checkList = this.selfQuery;
+      this.based();
       // this.currentPage = 1;
-      this.selfQueryList(this.currentPage,this.showCount,this.selfCdt);
+      // this.selfQueryList(this.currentPage,this.showCount,this.selfCdt);
     },
     //----------------------------复用end---------------------------------------
 
@@ -2678,7 +2686,7 @@ export default {
       let cc={
         "event":this.pnrEve
       }
-      this.$api.post('/manage-platform/eventManagement/isFinishEventHandle',ss,
+      this.$api.post('/manage-platform/eventManagement/isFinishEventHandle',cc,
        r =>{
          if(r.data== true){
             this.$router.push({name:'alarmProcess',query:{eventserial:this.eve,type:0,isZDGZ:1}})
@@ -2752,6 +2760,16 @@ export default {
          type: 'success'
        });
      }
+   },
+   cl(i){
+     this.str="";
+   },
+   clearTime(){
+     console.log(this.selfCdtList.atype);
+     if(this.selfCdtList.atype == null){
+       this.selfCdtList.atype=''
+     }
+     console.log(this.selfCdtList.atype);
    }
    // detailgetlist(currentPage, showCount, r) {
    //   let p = {

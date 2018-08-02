@@ -177,10 +177,10 @@
           fixed="right"
           label="操作"
           sortable="custom"
-          width="200">
+          width="180">
           <template slot-scope="scope">
-            <el-button class="table-btn" size="mini" plain @click="details(scope.row)">事件文档</el-button>
-            <el-button class="table-btn" size="mini" plain @click="getMore(scope.row)">详情</el-button>
+            <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row)">报表</el-button>
+            <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="getMore(scope.row)">详情</el-button>
          </template>
         </el-table-column>
       </el-table>
