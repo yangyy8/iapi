@@ -30,6 +30,9 @@
     left: 2px;
     color: #fff;
 }
+.el-input.is-disabled .el-input__inner{
+  color:#747b88!important;
+}
 .el-transfer__button.is-disabled, .el-transfer__button.is-disabled:hover{
   background-color: #C5C5C5;
 }
@@ -79,4 +82,12 @@
   /* 模糊查询 */
  .t-fuzzy .el-input{
    width: 59%!important;
+ }
+
+ .el-dialog__wrapper{
+   overflow: visible!important;
+ }
+ .el-dialog__body{
+   max-height: 600px;
+   overflow-y: scroll;
  }
