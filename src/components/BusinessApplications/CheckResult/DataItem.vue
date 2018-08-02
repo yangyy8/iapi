@@ -130,9 +130,9 @@
       <el-col :span="9"></el-col>
     <el-col :span="6">
       <div class="datacenter">
-        <div class="dataleft"><font style="font-size:30px;color:#B2CB65;"> {{this.sum}}</font><br>预报总量</div>
+        <div class="dataleft"><font style="font-size:30px;color:#B2CB65;"> {{this.sum}}</font><br><span class="yy-font">预报总量</span></div>
           <div class="dataleft dataline">&nbsp;</div>
-          <div class="dataleft"><font style="font-size:30px;color:#FF667D;">{{this.num}}</font><br>校验不通过的数量</div>
+          <div class="dataleft"><font style="font-size:30px;color:#FF667D;">{{this.num}}</font><br><span class="yy-font">校验不通过的数量</span></div>
       </div>
 </el-col>
   <el-col :span="9"></el-col>
@@ -144,7 +144,18 @@
         :data="tableData"
         border
         style="width: 100%;">
-
+        <el-table-column
+          prop="travellerName"
+          label="姓名">
+        </el-table-column>
+        <el-table-column
+          prop="genderDesc"
+          label="性别">
+        </el-table-column>
+        <el-table-column
+          prop="birthday"
+          label="出生日期">
+        </el-table-column>
                 <el-table-column
                   prop="nationalityDesc"
                   label="国籍">
@@ -158,18 +169,7 @@
                   prop="passportExpireDate"
                   label="证件有效期">
                 </el-table-column>
-                <el-table-column
-                  prop="travellerName"
-                  label="姓名">
-                </el-table-column>
-                <el-table-column
-                  prop="genderDesc"
-                  label="性别">
-                </el-table-column>
-                <el-table-column
-                  prop="birthday"
-                  label="出生日期">
-                </el-table-column>
+
                 <el-table-column
                   prop="personGrade"
                   label="人员类别">
@@ -201,9 +201,9 @@
                 <el-table-column
                   label="操作">
                   <template slot-scope="scope">
-                    <div class="flex-r">
+
                       <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row)">详情</el-button>
-                    </div>
+              
                  </template>
                 </el-table-column>
       </el-table>
@@ -455,4 +455,5 @@ export default {
   margin-right: 20px;
   height: 60px;
 }
+
 </style>
