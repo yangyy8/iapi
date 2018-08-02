@@ -127,9 +127,7 @@
                 <el-table-column
                   label="操作">
                   <template slot-scope="scope">
-                    <div class="flex-r">
-                      <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row)">详情</el-button>
-                    </div>
+                    <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row)">详情</el-button>
                  </template>
                 </el-table-column>
       </el-table>

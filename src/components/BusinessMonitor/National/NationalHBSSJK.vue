@@ -19,7 +19,7 @@
         <span>人员监控</span>
       </li>
     </ul>
-    <img src="../../../assets/img/qgjk/big.png" alt="" class="zdh" v-if="zdh" @click="zdh=false">
+    <img src="../../../assets/img/qgjk/zxh.png" alt="" class="zdh" v-if="zdh" @click="zxhFn">
     <img src="../../../assets/img/qgjk/big.png" alt="" class="zdh" v-if="!zdh" @click="zdhFn">
   </div>
   <transition name="el-zoom-in-left">
@@ -1243,8 +1243,22 @@ export default {
       console.log(this.checkList5)
     },
     zdhFn(){
+      this.chart.dispose();
+      this.chart = null;
       this.zdh=true;
-      this.initChart(this.series);
+      let that = this;
+      setTimeout(function(){
+        that.initChart(that.series);
+      },500)
+    },
+    zxhFn(){
+      this.chart.dispose();
+      this.chart = null;
+      this.zdh=false;
+      let that = this;
+      setTimeout(function(){
+        that.initChart(that.series);
+      },500)
     },
     getLeftData(){
       this.showLeft=false;
@@ -1255,11 +1269,8 @@ export default {
       });
       this.$api.post('/manage-platform/nationwide/getFlightPortCountToday',{},
        r => {
-
-           this.kahb=r.data
-
+         this.kahb=r.data
          console.log(this.kahb.length);
-
       })
     },
     getRightData(){

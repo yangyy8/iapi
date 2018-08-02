@@ -362,7 +362,9 @@ export default {
          console.log(r);
          this.isLogin=r.data;
          if(this.isLogin){
-           this.getNav0()
+           this.getNav0();
+           this.getUers();
+           
          }
 
       })
@@ -386,7 +388,6 @@ export default {
           });
           // localStorage.setItem('login',1);
           this.getNav0();
-          this.getUers();
           let _this=this;
           setTimeout(function(){
               _this.isLogin=true;

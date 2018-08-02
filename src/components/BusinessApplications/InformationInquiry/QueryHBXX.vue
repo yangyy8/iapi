@@ -144,11 +144,7 @@
         <el-table-column
           label="操作">
           <template slot-scope="scope">
-            <div class="flex-r">
-
               <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row)">详情</el-button>
-            </div>
-
          </template>
         </el-table-column>
       </el-table>
@@ -380,7 +376,7 @@ export default {
       // this.$api.post('/manage-platform/statusUpdate/flight/queryTbFlightEntityById', p,
       //   r => {
       //     console.log(r);
-      
+
       //     this.form = r.data;
       //   })
 

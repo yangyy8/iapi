@@ -177,10 +177,8 @@
                 <el-table-column
                   label="操作" width="180">
                   <template slot-scope="scope">
-                    <div class="flex-r">
                       <el-button class="table-btn" size="mini" plain icon="el-icon-edit" @click="handles(scope.row)">变更</el-button>
                       <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row)">详情</el-button>
-                    </div>
                  </template>
                 </el-table-column>
       </el-table>
@@ -954,6 +952,33 @@ export default {
          }
        })
 
+    },
+    reviewDetail(){//详情里的查看详情信息
+
+      let ss={
+        "event":this.eve
+      }
+      this.$api.post('/manage-platform/eventManagement/isFinishEventHandle',ss,
+       r =>{
+         if(r.data== true){
+            this.$router.push({name:'alarmProcess',query:{eventserial:this.eve,type:0}})
+         }else if(r.data == false){
+           this.$router.push({name:'alarmProcess',query:{eventserial:this.eve,type:1}})
+         }
+       })
+    },
+    reviewCallDetail(){//查看PNR预报警详情
+      let cc={
+        "event":this.pnrEve
+      }
+      this.$api.post('/manage-platform/eventManagement/isFinishEventHandle',cc,
+       r =>{
+         if(r.data== true){
+            this.$router.push({name:'alarmProcess',query:{eventserial:this.eve,type:0,isZDGZ:1}})
+         }else if(r.data == false){
+           this.$router.push({name:'alarmProcess',query:{eventserial:this.eve,type:1,isZDGZ:1}})
+         }
+       })
     },
     detailgetlist(currentPage, showCount, r) {
       let p = {

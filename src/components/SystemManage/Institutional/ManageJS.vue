@@ -77,12 +77,10 @@
         <el-table-column
           label="操作" width="350">
           <template slot-scope="scope">
-            <div class="flex-r">
               <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row)">详情</el-button>
               <el-button class="table-btn" size="mini" plain icon="el-icon-edit" @click="adds(1,scope.row)">编辑</el-button>
               <el-button class="table-btn" size="mini" plain icon="el-icon-warning" @click="menus(scope.row)">菜单权限</el-button>
               <el-button class="table-btn" size="mini" plain icon="el-icon-delete" @click="deletes(scope.row)">删除</el-button>
-            </div>
          </template>
         </el-table-column>
       </el-table>

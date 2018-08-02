@@ -128,14 +128,11 @@
                label="处理时间" sortable>
              </el-table-column>
              <el-table-column
-               label="操作">
+               label="操作"
+               width="180">
                <template slot-scope="scope">
-                 <div class="flex-r">
-                
                    <el-button  v-if="scope.row.STATUS!='0'" class="table-btn" size="mini"plain icon="el-icon-edit" @click="pross(scope.row)">处理</el-button>
-
                    <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row)">详情</el-button>
-                 </div>
               </template>
              </el-table-column>
    </el-table>
