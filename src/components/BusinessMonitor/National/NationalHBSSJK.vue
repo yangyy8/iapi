@@ -30,13 +30,13 @@
   <transition name="el-zoom-in-left">
     <div class="left-box" v-if="!showLeft">
       <div class="left-box1 mb-6">
-        <div class="box-title">
+        <div class="box-title"  @click="showLeft=true">
           <div class="title-top"></div>
           <div class="title-text">
             全国航班统计
           </div>
-          <div class="title-down" @click="showLeft=true">
-            收起
+          <div class="title-down">
+            <img style="width:18px;height:18px" src="../../../assets/img/qgjk/sq_l.png" alt="">
           </div>
         </div>
         <div class="box-content">
@@ -127,13 +127,13 @@
         </div>
       </div>
       <div class="left-box1">
-        <div class="box-title">
+        <div class="box-title"  @click="showLeft=true">
           <div class="title-top o-title"></div>
           <div class="title-text">
             口岸航班统计
           </div>
-          <div class="title-down" @click="showLeft=true">
-            收起
+          <div class="title-down">
+            <img style="width:18px;height:18px" src="../../../assets/img/qgjk/sq_l.png" alt="">
           </div>
         </div>
         <div class="box-content">
@@ -290,13 +290,13 @@
             </ul>
           </div>
         </div>
-        <div class="box-title">
+        <div class="box-title" @click="showRight=true">
           <div class="title-top b-title"></div>
           <div class="title-text">
             全国人员统计
           </div>
-          <div class="title-down" @click="showRight=true">
-            收起
+          <div class="title-down">
+            <img style="width:18px;height:18px" src="../../../assets/img/qgjk/sq_r.png" alt="">
           </div>
         </div>
       </div>
@@ -384,13 +384,14 @@
             </ul>
           </div>
         </div>
-        <div class="box-title">
+        <div class="box-title" @click="showRight=true">
           <div class="title-top g-title"></div>
           <div class="title-text">
             口岸人员统计
           </div>
-          <div class="title-down" @click="showRight=true">
-            收起
+          <div class="title-down">
+            <img style="width:18px;height:18px" src="../../../assets/img/qgjk/sq_r.png" alt="">
+
           </div>
         </div>
       </div>
@@ -666,7 +667,7 @@
             <el-date-picker
               class="item-input"
               v-model="p1.departTime"
-              type="date" size="mini" value-format="yyyyMMddHHmm"
+              type="datetime" size="mini" value-format="yyyyMMddHHmm"
               placeholder="选择时间"  >
             </el-date-picker>
           </el-col>
@@ -675,7 +676,7 @@
             <el-date-picker
               class="item-input"
               v-model="p1.arriveTime"
-              type="date" size="mini" value-format="yyyyMMddHHmm"
+              type="datetime" size="mini" value-format="yyyyMMddHHmm"
               placeholder="选择时间"  >
             </el-date-picker>
           </el-col>
@@ -883,7 +884,7 @@
             <el-date-picker
               class="item-input"
               v-model="p2.departTime"
-              type="date" size="mini" value-format="yyyyMMddHHmm"
+              type="datetime" size="mini" value-format="yyyyMMddHHmmss"
               placeholder="选择时间"  >
             </el-date-picker>
           </el-col>
@@ -892,7 +893,7 @@
             <el-date-picker
               class="item-input"
               v-model="p2.arriveTime"
-              type="date" size="mini" value-format="yyyyMMddHHmm"
+              type="datetime" size="mini" value-format="yyyyMMddHHmmss"
               placeholder="选择时间"  >
             </el-date-picker>
           </el-col>
@@ -1183,7 +1184,9 @@ export default {
       if(this.checkAll==1){
         for(var i in this.locationData){
           this.locationData[i].forEach(function (val) {
-              this.checkList.push(val)
+              if(this.checkList.indexOf(val)==-1){
+                this.checkList.push(val)
+              }
           }, this)
         }
       }else{
@@ -1192,12 +1195,12 @@ export default {
     },
     checkAllFn2(){
       console.log(this.locationData2)
-
-
       if(this.checkAll2==1){
         for(var i in this.locationData2){
           this.locationData2[i].forEach(function (val) {
+            if(this.checkList2.indexOf(val)==-1){
               this.checkList2.push(val)
+            }
           }, this)
         }
       }else{
@@ -1209,8 +1212,9 @@ export default {
       if(this.checkAll3==1){
         for(var i in this.locationData3){
           this.locationData3[i].forEach(function (val) {
-              console.log(val)
+            if(this.checkList3.indexOf(val)==-1){
               this.checkList3.push(val)
+            }
           }, this)
         }
       }else{
@@ -1222,8 +1226,9 @@ export default {
       if(this.checkAll4==1){
         for(var i in this.locationData4){
           this.locationData4[i].forEach(function (val) {
-              console.log(val)
+            if(this.checkList4.indexOf(val)==-1){
               this.checkList4.push(val)
+            }
           }, this)
         }
       }else{
@@ -1233,7 +1238,9 @@ export default {
     checkAllFn5(){
       if(this.checkAll5==1){
         this.locationName5.forEach(function(val){
-          this.checkList5.push(val);
+          if(this.checkList5.indexOf(val)==-1){
+            this.checkList5.push(val)
+          }
         },this)
       }else{
         this.checkList5=[];

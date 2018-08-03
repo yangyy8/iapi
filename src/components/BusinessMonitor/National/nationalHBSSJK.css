@@ -45,6 +45,7 @@
 .left-box1{
   display: flex;
   color: #fff;
+  min-height: 225px;
 }
 
 .box-title{
@@ -336,7 +337,7 @@
   padding: 20px 15px 15px;
   color: #fff;
   z-index: 99;
-
+  /* margin: 50% 40%; */
 }
 .close{
   position: absolute;
