@@ -17,7 +17,6 @@
                 </el-option>
                  <el-option value="" label="业务平台区" >
                  </el-option>
-
                </el-select>
             </el-col>
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
@@ -30,8 +29,6 @@
                 </el-option>
                 <el-option value="2" label="2 - 操作日志" >
                 </el-option>
-
-
                </el-select>
             </el-col>
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
@@ -39,14 +36,14 @@
               <div class="input-input t-flex t-date">
                <el-date-picker
                v-model="pd.begin"
-               type="datetime" size="small" value-format="yyyyMMddHHssmm"
-               placeholder="开始时间"  :picker-options="pickerOptions1">
+               type="datetime" size="small"
+               placeholder="开始时间"  :picker-options="pickerOptions" >
              </el-date-picker>
                <span class="septum">-</span>
              <el-date-picker
                 v-model="pd.end"
-                type="datetime" size="small" value-format="yyyyMMddHHssmm"
-                placeholder="结束时间" :picker-options="pickerOptions1">
+                type="datetime" size="small"
+                placeholder="结束时间" :picker-options="pickerOptions1" >
             </el-date-picker>
           </div>
             </el-col>
@@ -149,13 +146,14 @@
 </template>
 
 <script>
+import {formatDate} from '@/assets/js/date.js'
 export default {
   data() {
     return {
       CurrentPage: 1,
       pageSize: 10,
       TotalResult: 0,
-      pd: {},
+      pd: {begin:'',end:''},
       nation: [],
       value: '',
       value1: "",
@@ -176,8 +174,13 @@ export default {
       ],
       tableData: [],
       multipleSelection: [],
-
-      pickerOptions1: {
+      pickerOptions: {
+        disabledDate: (time) => {
+            if (this.pd.end != "") {
+              console.log(time.getTime(),this.pd.end)
+                return time.getTime() > this.pd.end;
+            }
+        },
         shortcuts: [{
           text: '今天',
           onClick(picker) {
@@ -197,7 +200,36 @@ export default {
             date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
             picker.$emit('pick', date);
           }
-        }]
+        }],
+
+      },
+      pickerOptions1: {
+        disabledDate: (time) => {
+            if (this.pd.begin != "") {
+                return time.getTime() < this.pd.begin;
+            }
+        },
+        shortcuts: [{
+          text: '今天',
+          onClick(picker) {
+            picker.$emit('pick', new Date());
+          }
+        }, {
+          text: '昨天',
+          onClick(picker) {
+            const date = new Date();
+            date.setTime(date.getTime() - 3600 * 1000 * 24);
+            picker.$emit('pick', date);
+          }
+        }, {
+          text: '一周前',
+          onClick(picker) {
+            const date = new Date();
+            date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
+            picker.$emit('pick', date);
+          }
+        }],
+
       },
           form: {},
 
@@ -220,6 +252,8 @@ export default {
       console.log(`当前页: ${val}`);
     },
     getList(currentPage, showCount, pd) {
+      this.pd.begin=formatDate(this.pd.begin,"yyyyMMddhhssmm");
+      this.pd.end=formatDate(this.pd.end,"yyyyMMddhhssmm");
       let p = {
         "currentPage": currentPage,
         "showCount": showCount,
@@ -241,6 +275,8 @@ export default {
       console.log(i);
     this.form=i;
     },
+
+
 
   }
 }
