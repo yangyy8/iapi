@@ -116,7 +116,7 @@
                   label="证件种类" sortable
                 >
                 <template slot-scope="scope">
-                    {{scope.row.INTG_CARDTYPE | fiftertype}}
+                    {{scope.row.PASSPORTTYPE | fiftertype}}
                   </template>
 
                 </el-table-column>
@@ -253,7 +253,7 @@
                       label="证件种类" sortable
                     >
                     <template slot-scope="scope">
-                        {{scope.row.INTG_CARDTYPE | fiftertype}}
+                        {{scope.row.PASSPORTTYPE | fiftertype}}
                       </template>
 
                     </el-table-column>
@@ -1053,14 +1053,20 @@ export default {
       }
     },
     fiftertype(val) {
-      if (val == "11") {
-        return "外交护照";
-      } else if (val == "12") {
-        return "公务护照";
-      } else if (val == "13") {
-        return "因公普通护照";
-      } else {
-        return "普通护照";
+      // if (val == "11") {
+      //   return "外交护照";
+      // } else if (val == "12") {
+      //   return "公务护照";
+      // } else if (val == "13") {
+      //   return "因公普通护照";
+      // } else {
+      //   return "普通护照";
+      // }
+
+      if(val=="T"){
+          return "区域证件";
+      }else if(val=="P"){
+          return "护照";
       }
     },
 

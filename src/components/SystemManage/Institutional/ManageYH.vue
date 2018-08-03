@@ -400,7 +400,7 @@ export default {
     },
 
     queryNationality() {
-      this.$api.post('/manage-platform/userSys/deptList', {},
+      this.$api.post('/manage-platform/userSys/deptListSmall', {},
         r => {
           console.log(r);
           if (r.success) {
@@ -408,6 +408,7 @@ export default {
           }
         })
     },
+
     queryrole() {
       this.$api.post('/manage-platform/userSys/roleList', {},
         r => {

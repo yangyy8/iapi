@@ -74,7 +74,7 @@
         <el-row type="flex" class="mb-6" style="margin-left:-90px;">
           <el-col :span="24" class="input-item">
             <span class="yy-input-text"><font class="yy-color">*</font> 角色：</span>
-            <el-select v-model="form.roleList" multiple   placeholder="请选择" size="small" style="width:85%;">
+            <el-select v-model="form.roleList" multiple :disabled="true"  placeholder="请选择" size="small" style="width:85%;">
                <el-option
                  v-for="item in role"
                  :key="item.SERIAL"
@@ -118,8 +118,44 @@ export default {
   },
   methods: {
     getList(){
+      this.$api.post('/manage-platform/userSys/userMessage', {},
+        r => {
+          console.log(r);
+          if (r.success) {
+            this.form = r.data;
 
+              let lists=[];
+              let arr=r.data.chooseRoleList;
+              for(var i in arr){
+                lists.push(arr[i].SERIAL)
+              }
+              this.form.roleList=lists;
+
+          }
+        })
     },
+     addItem(formName) {
+
+
+
+        this.$api.post("/manage-platform/userSys/edit", this.form,
+          r => {
+            console.log(r);
+            if (r.success) {
+              this.$message({
+                message: '保存成功！',
+                type: 'success'
+              });
+            } else {
+              this.$message.error(r.Message);
+            }
+            // this.$refs[formName].resetFields();
+            this.getList();
+          }, e => {
+            this.$message.error('失败了');
+          })
+
+      },
     queryNationality() {
       this.$api.post('/manage-platform/userSys/deptList', {},
         r => {
