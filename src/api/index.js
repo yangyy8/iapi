@@ -7,22 +7,16 @@
 // var root = "http://192.168.99.251:8080"    //性能监控
 var root="http://192.168.99.206:8080"   //服务器电脑
 //var root=""
-<<<<<<< HEAD
 //var root="http://192.168.99.206:8080"   //服务器电脑
 //var root=""
-=======
->>>>>>> d9a1d59f80be3865fd958e00131029648c15cd06
 // var root = 'http://192.168.99.245:8080'
 //var root="http://192.168.99.228:8080"    //丁勇的电脑
 
 //var root = 'http://192.168.99.245:8080'
 //var root="http://192.168.99.228:8080"    //丁勇的电
 //var root="http://192.168.99.201:8080"    //全国监控
-<<<<<<< HEAD
 // var root="http://192.168.99.250:8080"    //刘洋的电脑
-=======
 //var root="http://192.168.99.250:8080"    //刘洋的电脑
->>>>>>> d9a1d59f80be3865fd958e00131029648c15cd06
 // 引用axios
 var axios = require('axios')
 import { Loading } from 'element-ui';
