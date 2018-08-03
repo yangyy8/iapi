@@ -667,7 +667,7 @@ export default {
         // let gm = {
         //   "serial":item
         // }
-        this.$api.post('/manage-platform/event/queryEventInfo',{serial:item.REFSERIAL},
+        this.$api.post('/manage-platform/iapi/queryIapiInfo',{serial:item.REFSERIAL},
          r =>{
            if(r.success){
              this.dform = r.data.IAPI;
