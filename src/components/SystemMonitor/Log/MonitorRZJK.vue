@@ -36,13 +36,13 @@
               <div class="input-input t-flex t-date">
                <el-date-picker
                v-model="pd.begin"
-               type="datetime" size="small" value-format="yyyyMMddHHmmss"
+               type="datetime" size="small"
                placeholder="开始时间"  :picker-options="pickerOptions" >
              </el-date-picker>
                <span class="septum">-</span>
              <el-date-picker
                 v-model="pd.end"
-                type="datetime" size="small" value-format="yyyyMMddHHmmss"
+                type="datetime" size="small"
                 placeholder="结束时间" :picker-options="pickerOptions1" >
             </el-date-picker>
           </div>
@@ -146,6 +146,7 @@
 </template>
 
 <script>
+import {formatDate} from '@/assets/js/date.js'
 export default {
   data() {
     return {
@@ -251,6 +252,8 @@ export default {
       console.log(`当前页: ${val}`);
     },
     getList(currentPage, showCount, pd) {
+      this.pd.begin=formatDate(this.pd.begin,"yyyyMMddhhssmm");
+      this.pd.end=formatDate(this.pd.end,"yyyyMMddhhssmm");
       let p = {
         "currentPage": currentPage,
         "showCount": showCount,

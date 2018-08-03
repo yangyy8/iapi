@@ -79,7 +79,7 @@
         >
         <el-table-column
           prop="fltno"
-          label="航班号" sortable>
+          label="航班号" width="100" sortable>
         </el-table-column>
         <el-table-column
           prop="flightTime"
@@ -100,18 +100,19 @@
           label="计划到达口岸" sortable
         >
         </el-table-column>
-        <el-table-column
-          prop="boardingcount"
-          label="载运旅客数量" width="130" sortable
-  >
-        </el-table-column>
+
         <el-table-column
           prop="changeportName"
           label="备降口岸" sortable
   >
         </el-table-column>
         <el-table-column
-          width="180"
+          prop="boardingcount"
+          label="载运旅客数量" width="130" sortable
+  >
+        </el-table-column>
+        <el-table-column
+          width="150"
           label="操作">
           <template slot-scope="scope">
               <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row)">处理</el-button>
@@ -321,15 +322,12 @@ export default {
         })
     },
     queryAirport() {
-
       if(this.Airport.length!=0){
         return;
       };
       this.$api.post('/manage-platform/codeTable/queryAirport', {},
         r => {
-
             this.Airport = r.data;
-
         })
     },
     addItem(formName) {
@@ -344,7 +342,6 @@ export default {
           } else {
             this.addDialogVisible = false;
             this.$message.error(r.Message);
-
           }
           this.$refs[formName].resetFields();
           this.addDialogVisible = false;
@@ -359,7 +356,6 @@ export default {
       console.log(i);
       this.form = i;
     },
-
   }
 }
 </script>

@@ -121,7 +121,7 @@
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
             <span class="yy-input-text"><font class="yy-color">*</font>角色名：</span>
-            <el-input placeholder="请输入内容" size="small"  v-model="form.ROLE_NAME" class="yy-input-input" ></el-input>
+            <el-input placeholder="请输入内容" size="small" maxlength="30"  v-model="form.ROLE_NAME" class="yy-input-input" ></el-input>
 
           </el-col>
         </el-row>
@@ -143,7 +143,7 @@
         <el-row type="flex" class="mb-6" >
           <el-col :span="24" class="input-item">
             <span class="yy-input-text">备注：</span>
-           <el-input type="textarea" placeholder="请输入内容" :autosize="{ minRows: 3, maxRows: 6}" v-model="form.REMARKS" class="yy-input-input"></el-input>
+           <el-input type="textarea" placeholder="请输入内容" maxlength="250" :autosize="{ minRows: 3, maxRows: 6}" v-model="form.REMARKS" class="yy-input-input"></el-input>
           </el-col>
         </el-row>
       </el-form>
@@ -197,9 +197,7 @@
         <el-button @click="detailsDialogVisible = false" size="small">取 消</el-button>
       </div>
     </el-dialog>
-
 <el-dialog title="权限" :visible.sync="menuDialogVisible" width="500px">
-
   <el-tree
     :data="menudata"
     show-checkbox

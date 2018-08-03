@@ -5,26 +5,17 @@
 // var root="http://192.168.99.251:8080"    //时达的电脑
 //var root="http://192.168.99.242:8080"    //石飞的电脑
 // var root = "http://192.168.99.251:8080"    //性能监控
-var root="http://192.168.99.206:8080"   //服务器电脑
-<<<<<<< HEAD
-
-//var root=""
-
-=======
-//var root=""
 //var root="http://192.168.99.206:8080"   //服务器电脑
+
+var root="http://192.168.99.206:8080"   //服务器电脑
 //var root=""
->>>>>>> a4c9d7667509df5f12d5bc1995e2843f0751b608
+
 // var root = 'http://192.168.99.245:8080'
 //var root="http://192.168.99.228:8080"    //丁勇的电脑
-
 //var root = 'http://192.168.99.245:8080'
 //var root="http://192.168.99.228:8080"    //丁勇的电
 //var root="http://192.168.99.201:8080"    //全国监控
-<<<<<<< HEAD
 
-=======
->>>>>>> a4c9d7667509df5f12d5bc1995e2843f0751b608
 // 引用axios
 var axios = require('axios')
 import { Loading } from 'element-ui';

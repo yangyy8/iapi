@@ -190,7 +190,7 @@
 
     <el-row type="flex"  class="mb-15">
      <el-col :span="24"><span class="input-text" style="width:15%;">处理详情：</span>
-     <el-input type="textarea" v-model="form.DEALCONTENT==null?'':form.DEALCONTENT"  placeholder="请输入内容" :autosize="{ minRows: 3, maxRows: 6}" style="width:80%;" ></el-input>
+     <el-input type="textarea" v-model="form.DEALCONTENT==null?'':form.DEALCONTENT" maxlength="250"  placeholder="请输入内容" :autosize="{ minRows: 3, maxRows: 6}" style="width:80%;" ></el-input>
      </el-col>
     </el-row>
 
