@@ -23,7 +23,7 @@
 
         <div class="top-right-1">
           <el-dropdown trigger="click">
-             <span class="el-dropdown-link" style="color:#fff">
+             <span class="el-dropdown-link hand" style="color:#fff">
                欢迎您！{{userName}}<i class="el-icon-arrow-down el-icon--right"></i>
              </span>
              <el-dropdown-menu slot="dropdown">

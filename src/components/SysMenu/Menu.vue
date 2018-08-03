@@ -28,7 +28,7 @@
               <el-col :span="24" >
                 <span style="color:#BBBBBB; font-weight: bold">{{x.name}}</span>
                 <ul  class="checkmenu-ul">
-                    <li v-for='i in x.menuList' @click="checkmm(i)" class="checkmenu mr-30 hand">
+                    <li v-for='i in x.menuList' @click="update(i)" class="checkmenu mr-30 hand">
 
                       <img src="../../assets/img/menu/menu1.png" alt="" v-if="!i.choose">
                       <!-- <img src="../../assets/img/menu/menu2.png" alt="" > -->
@@ -44,7 +44,7 @@
 
           <div  class="checktitle">
             <span>已添加</span>
-            <el-button type="primary" plain size='small' @click="update">保存</el-button>
+            <!-- <el-button type="primary" plain size='small' @click="update">保存</el-button> -->
           </div>
           <div class="ak-tab-pane1" >
             <ul  class="checkmenu-ul">
@@ -107,7 +107,8 @@ export default {
 
       }
     },
-    update(){
+    update(i){
+      this.checkmm(i);
       this.$api.post('/manage-platform/roleSys/menuSetUpdate', this.nav1List,
         r => {
           console.log(r);
@@ -242,6 +243,7 @@ export default {
 
 .checkmenu-ul {
   display: flex;
+  flex-wrap: wrap;
   margin: 10px 0px;
 }
 .checkmenu-ul span{
@@ -256,7 +258,7 @@ export default {
   color: #333!important;
 }
 .checkmenu{
-  width: 112px;
+  width: 118px;
   height: 100px;
   display: flex;
   flex-direction: column;

@@ -452,7 +452,7 @@
               <el-option label="1 - 出境" value="1"></el-option>
               <el-option label="0 - 入境" value="0"></el-option>
               <el-option label="2 - 全部" value="2"></el-option>
-              
+
             </el-select>
           </el-col>
 
@@ -982,6 +982,7 @@ export default {
                    type: 'success'
                  });
                }
+              this.releaseDialogVisible=false;
               this.addDialogVisible=false;
               this.getList(this.CurrentPage,this.pageSize,this.pd);
               this.$refs[formName].resetFields();
@@ -1001,8 +1002,8 @@ export default {
                    type: 'success'
                  });
                }
-              this.addDialogVisible=false;
               this.releaseDialogVisible=false;
+              this.addDialogVisible=false;
               this.getList(this.CurrentPage,this.pageSize,this.pd);
               this.$refs[formName].resetFields();
 
