@@ -961,6 +961,7 @@ export default {
                });
              }
             this.addDialogVisible=false;
+            // this.releaseDialogVisible=false;
             this.getList(this.CurrentPage,this.pageSize,this.pd);
             this.$refs[formName].resetFields();
 
@@ -980,6 +981,7 @@ export default {
                    type: 'success'
                  });
                }
+              this.releaseDialogVisible=false;
               this.addDialogVisible=false;
               this.getList(this.CurrentPage,this.pageSize,this.pd);
               this.$refs[formName].resetFields();

@@ -193,78 +193,78 @@
             </el-col>
             <el-col class="middle-msg-text">
               <el-row type="flex" class="middle-msg-row2">
-                <el-col :span="5">
+                <el-col :span="6">
                   <span>姓名</span>
                   {{warnMap.name}}
                 </el-col>
-                <el-col :span="5">
+                <el-col :span="6">
                   <span>性别</span>
                   {{warnMap.gender}}
                 </el-col>
-                <el-col :span="5">
+                <el-col :span="6">
                   <span>出生日期</span>
                   {{warnMap.birthday}}
 
                 </el-col>
               </el-row>
               <el-row type="flex" class="middle-msg-row2">
-                <el-col :span="5">
+                <el-col :span="6">
                   <span>国籍</span>
                   {{warnMap.nationality}}
 
                 </el-col>
-                <el-col :span="5">
+                <el-col :span="6">
                   <span>证件号码</span>
                   {{warnMap.passportno}}
 
                 </el-col>
-                <el-col :span="5">
+                <el-col :span="6">
                   <span>签证号码</span>
                   {{warnMap.visano}}
 
                 </el-col>
               </el-row>
               <el-row type="flex" class="middle-msg-row2">
-                <el-col :span="5">
+                <el-col :span="6">
                   <span>出入标识</span>
                   {{warnMap.flightType}}
 
                 </el-col>
-                <el-col :span="5">
+                <el-col :span="6">
                   <span>第二证号</span>
                   {{warnMap.otherNo}}
 
                 </el-col>
-                <el-col :span="5">
+                <el-col :span="6">
                   <span>第二国籍</span>
                   {{warnMap.otherIssuecountry}}
 
                 </el-col>
               </el-row>
               <el-row type="flex" class="middle-msg-row2">
-                <el-col :span="5">
+                <el-col :span="6">
                   <span>航班号</span>
                   {{warnMap.fltno}}
 
                 </el-col>
-                <el-col :span="5">
+                <el-col :span="6">
                   <span>出发地</span>
                   {{warnMap.cityFrom}}
 
                 </el-col>
-                <el-col :span="5">
+                <el-col :span="6">
                   <span>目的地</span>
                   {{warnMap.cityto}}
 
                 </el-col>
               </el-row>
               <el-row type="flex" class="middle-msg-row2">
-                <el-col :span="5">
+                <el-col :span="6">
                   <span>报警类型</span>
                   {{warnMap.alarmtype}}
 
                 </el-col>
-                <el-col :span="5">
+                <el-col :span="6">
                   <span>报警时间</span>
                   {{warnMap.alarmtime}}
 
@@ -385,7 +385,11 @@
       <el-row type="flex">
         <el-col :span="6" class="input-item">
           <span >处理结果：</span>
-          <el-select v-model="pd.DEALRESULT" placeholder="请选择" filterable clearable  size="small" class="input-input">
+          <el-select v-model="pd.DEALRESULT" placeholder="请选择" filterable size="small" class="input-input" v-if="$route.query.isZDGZ==1">
+            <el-option label="0 - 不做变更处理" value="0"></el-option>
+            <!-- <el-option label="数据推送" value="2"></el-option> -->
+          </el-select>
+          <el-select v-model="pd.DEALRESULT" placeholder="请选择" filterable size="small" class="input-input" v-else>
             <el-option label="0 - 不做变更处理" value="0"></el-option>
             <el-option label="1 - 变更处理" value="1"></el-option>
             <!-- <el-option label="数据推送" value="2"></el-option> -->
@@ -461,37 +465,32 @@
         <el-row type="flex" class="mb-6">
           <el-col :span="24" class="input-item">
             <span class="yy-input-text" style="width:18%">变更后值机状态：</span>
-            <el-select v-model="ap.INSTRUCT"  placeholder="请选择"  filterable clearable   size="small" style="width:82%">
-            <span v-if="iapiMap.instructOld!='0Z'">
-            <el-option value="0Z" label="0Z - 允许打印登机牌">
-              </el-option>
-            </span>
-            <span v-if="iapiMap.instructOld!='1Z'">
-              <el-option value="1Z" label="1Z - 禁止打印登机牌">
-              </el-option>
+            <el-select v-model="ap.INSTRUCT"  placeholder="请选择" filterable clearable  @change="zhiling"  size="small" style="width:82%">
+              <span v-if="iapiMap.instructOld!='0Z'">
+                <el-option value="0Z" label="0Z - 允许打印登机牌"></el-option>
+              </span>
+              <span v-if="iapiMap.instructOld!='1Z'">
+                <el-option value="1Z" label="1Z - 禁止打印登机牌"></el-option>
               </span>
               <span v-if="iapiMap.instructOld!='2Z'">
-              <el-option value="2Z" label="2Z - 请再次核对">
-              </el-option>
+                <el-option value="2Z" label="2Z - 请再次核对"></el-option>
               </span>
               <span v-if="iapiMap.instructOld!='4Z'">
-              <el-option value="4Z" label="4Z - 数据错误">
-              </el-option>
+                <el-option value="4Z" label="4Z - 数据错误"></el-option>
               </span>
              </el-select>
           </el-col>
-          </el-col>
         </el-row>
-        <el-row type="flex" class="mb-6">
+        <!-- <el-row type="flex" class="mb-6">
           <el-col :span="24" class="input-item">
-            <span class="yy-input-text" style="width:18%">变更后值机状态说明：</span>
+            <span class="yy-input-text" style="width:18%">变更状态说明(FreeText)：</span>
             <el-input placeholder="请输入内容" size="small" v-model="ap.INSTRUCTC" style="width:82%"></el-input>
           </el-col>
-        </el-row>
+        </el-row> -->
 
         <el-row type="flex" class="mb-6">
           <el-col :span="24" class="input-item">
-            <span class="yy-input-text" style="width:18%">变更说明：</span>
+            <span class="yy-input-text" style="width:18%">变更描述：</span>
            <el-input type="textarea" v-model="ap.CHANGERESON"  placeholder="请输入内容" :autosize="{ minRows: 3, maxRows: 6}" style="width:82%;" ></el-input>
           </el-col>
         </el-row>
@@ -615,7 +614,6 @@ export default {
       this.documentInfo()
     },
     upDate(ap) {
-    console.log("============="+this.iapiMap.iapiSerial+"---"+this.eventserial);
       // this.pd.eventserial=this.eventserial;
       // this.pd.bguserName=ap.userName;
       // this.pd.bgpassword=ap.password;
@@ -640,6 +638,7 @@ export default {
           "APPROVALUSER": ap.userName,
           "APPROVALPW": ap.password,
           "INSTRUCT": ap.INSTRUCT,
+          // "INSTRUCTC":ap.INSTRUCTC,
           "CHANGERESON": ap.CHANGERESON
         };
         // this.$api.post('/manage-platform/alarmEvents/getUpdateResult',p,
@@ -766,10 +765,14 @@ export default {
     },
     rcgz(){
       this.$message({
-          message: '开发中...敬请期待',
+          message: '功能开发中！',
           type: 'warning'
         });
     },
+    zhiling(){
+      console.log(this.ap.INSTRUCT);
+      // this.ap.INSTRUCTC=this.ap.INSTRUCT.split('-')[1]
+    }
 
   }
 }
@@ -855,7 +858,9 @@ export default {
   width: 80px;
   color: #333;
 }
-
+.middle-msg-row2{
+  line-height: 32px;
+}
 .middle-msg-row2 span {
   display: inline-block;
   width: 75px;

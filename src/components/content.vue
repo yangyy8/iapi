@@ -23,7 +23,7 @@
 
         <div class="top-right-1">
           <el-dropdown trigger="click">
-             <span class="el-dropdown-link" style="color:#fff">
+             <span class="el-dropdown-link hand" style="color:#fff">
                欢迎您！{{userName}}<i class="el-icon-arrow-down el-icon--right"></i>
              </span>
              <el-dropdown-menu slot="dropdown">
@@ -77,9 +77,9 @@
       <el-main class="right-main">
         <ul class="tabList">
           <li class="tabList-item hand" :style="{width:tabliwidth}" :class="{'tabList-checked':nav2Id==i.url}" v-for="(i, index) in tabList">
-            <el-tooltip class="item" effect="dark" :content="i.name" placement="top">
+            <!-- <el-tooltip class="item" effect="dark" :content="i.name" placement="top"> -->
               <span  @click="nav2(i,index)">{{i.name}}</span>
-            </el-tooltip>
+            <!-- </el-tooltip> -->
 
             <img src="../assets/img/tab-close1.png" alt="guanbi" @click="close1(index)" class="hand" style="padding:8px" v-if="nav2Id==i.url">
             <img src="../assets/img/tab-close2.png" alt="" @click="tabList.splice(index, 1)" style="padding:8px" class="hand" v-else>
@@ -618,6 +618,9 @@ export default {
       this.getNav(SERIAL);
       console.log(this.tabList)
       this.tabList=[];
+    },
+    closeRight(){
+      alert("杀杀杀")
     },
     nav1to2(nav1Itme,click) {
       console.log(nav1Itme)

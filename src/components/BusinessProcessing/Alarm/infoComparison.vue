@@ -632,7 +632,7 @@
               判断结果
             </div>
             <div class="radio-g">
-              <el-radio-group v-model="distinguishResult" class="radio-g-area">
+              <el-radio-group v-model="distinguishResult" class="radio-g-area" :disabled="isdisabled||$route.query.status==1">
                 <el-radio :label="1">是名单人员</el-radio>
                 <el-radio :label="2">不是名单人员</el-radio>
                 <el-radio :label="3">不确定</el-radio>
@@ -644,9 +644,9 @@
               是否符合口岸条件
             </div>
             <div class="radio-g">
-              <el-radio-group v-model="martchPort" class="radio-g-area">
-                <el-radio :label="0">是</el-radio>
-                <el-radio :label="1">否</el-radio>
+              <el-radio-group v-model="martchPort" class="radio-g-area" :disabled="isdisabled||$route.query.status==1">
+                <el-radio :label="0">否</el-radio>
+                <el-radio :label="1">是</el-radio>
               </el-radio-group>
             </div>
           </div>
@@ -656,6 +656,7 @@
               <div class="textarea-text">甄别说明:</div>
               <el-input
                 type="textarea"
+                :disabled="isdisabled||$route.query.status==1"
                 :autosize="{ minRows: 5, maxRows: 5}"
                 placeholder="请输入内容"
                 v-model="distinguishNote"
@@ -664,7 +665,7 @@
             </div>
           </div>
           <div  class="down-btn-area down3">
-            <el-button   v-if="$route.query.status==0" type="primary" size="small" class="mb-15" @click="queding" :disabled="isdisabled">确定</el-button>
+            <el-button   v-if="$route.query.status==0&&!isdisabled" type="primary" size="small" class="mb-15" @click="queding" >确定</el-button>
             <el-button type="warning" size="small" @click="$router.go(-1)">返回</el-button>
           </div>
 
@@ -832,7 +833,7 @@ export default {
          this.travellerInfo=r.data.travellerInfo;
          this.compareResult=r.data.compareResult;
          this.distinguishInfo=r.data.distinguishInfo
-         this.distinguishResult=r.data.distinguishResult;
+         this.distinguishResult=r.data.distinguishResult||1;
          this.distinguishNote=r.data.distinguishNote;
          // this.martchPort=r.data.martchPort
 
@@ -845,9 +846,9 @@ export default {
          this.travellerInfo=r.data.travellerInfo;
          this.compareResult=r.data.compareResult;
          this.distinguishInfo=r.data.distinguishInfo;
-         this.distinguishResult=r.data.distinguishResult;
+         this.distinguishResult=r.data.distinguishResult||1;
          this.distinguishNote=r.data.distinguishNote;
-         this.martchPort=r.data.martchPort;
+         this.martchPort=r.data.martchPort||0;
 
       })
     }
@@ -882,7 +883,6 @@ export default {
                this.$router.go(-1);
              }).catch(() => {
                this.isdisabled=true;
-
                this.getData();
              });
           }
