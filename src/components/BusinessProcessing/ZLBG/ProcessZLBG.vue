@@ -877,7 +877,7 @@ export default {
           this.$refs[formName].resetFields();
           this.batchDialogVisible = false;
           this.AuthDialogVisible = false;
-          this.getList();
+        this.getList(this.CurrentPage, this.pageSize, this.pd);
         }, e => {
           this.$message.error('失败了');
         })
@@ -909,7 +909,7 @@ export default {
           this.$refs[formName].resetFields();
           this.handlesDialogVisible = false;
           this.AuthDialogVisible = false;
-          this.getList();
+          this.getList(this.CurrentPage, this.pageSize, this.pd);
         }, e => {
           this.$message.error('失败了');
         })
