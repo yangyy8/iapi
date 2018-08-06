@@ -1764,6 +1764,11 @@ export default {
       basedTableData:[],
       batchTableData:[],
       selfTableData:[],
+
+      basedTableDataPnr:[],
+      batchTableDataPnr:[],
+      selfTableDataPnr:[],
+
       historyData:[],
       showConfiglist:[],//展示项数组
       selfCdt:{AAAAA:''},//自定义查询表达式信息
@@ -1929,6 +1934,7 @@ export default {
          this.totalResult=r.data.totalResult;//总条数
          this.totalPage = r.data.totalPage;//总页数
          this.currentPage = r.data.currentPage;
+         this.basedTableDataPnr = this.tableData;
        })
     },
     getList(currentPage,showCount,cdt){//基础查询 查询调用
@@ -1944,6 +1950,7 @@ export default {
          this.totalResult=r.data.totalResult;//总条数
          this.totalPage = r.data.totalPage;//总页数
          this.currentPage = r.data.currentPage;
+         this.basedTableData = this.tableData;
       })
     },
     iapi(){
@@ -2118,6 +2125,7 @@ export default {
           this.totalResult=r.data.totalResult;//总条数
           this.totalPage = r.data.totalPage;//总页数
           this.currentPage = r.data.currentPage;
+          this.batchTableData = this.tableData;
         }
       })
     },
@@ -2138,6 +2146,7 @@ export default {
           this.totalResult=r.data.totalResult;//总条数
           this.totalPage = r.data.totalPage;//总页数
           this.currentPage = r.data.currentPage;
+          this.batchTableDataPnr = this.tableData;
         }
       })
     },
@@ -2313,6 +2322,7 @@ export default {
            this.totalResult=r.data.totalResult;//总条数
            this.totalPage = r.data.totalPage;//总页数
            this.currentPage = r.data.currentPage;
+           this.selfTableData = this.tableData;
          }
        })
     },
@@ -2332,6 +2342,7 @@ export default {
            this.totalResult=r.data.totalResult;//总条数
            this.totalPage = r.data.totalPage;//总页数
            this.currentPage = r.data.currentPage;
+           this.selfTableDataPnr = this.tableData;
          }
        })
     },
@@ -2558,22 +2569,42 @@ export default {
       this.page=0;
       this.checkList = this.basedQuery;
       this.based();
-      // this.currentPage = 1;
-      // this.getList(this.currentPage,this.showCount,this.cdt);
+      if(this.bigBase == 0){
+        this.tableData = this.basedTableData;
+      }else if(this.bigBase == 1){
+        this.tableData = this.basedTableDataPnr;
+      }
+
+      if(this.tableData.length!=0){
+        this.handleCurrentChange(this.currentPage)
+      }
     },
     batch(){
       this.page=1;
       this.checkList = this.batchQuery;
       this.based();
-      // this.currentPage = 1;
-      // this.batchQueryList(this.currentPage,this.showCount,this.rows);
+      if(this.bigBase == 0){
+        this.tableData = this.batchTableData;
+      }else if(this.bigBase == 1){
+        this.tableData = this.batchTableDataPnr;
+      }
+      if(this.tableData.length!=0){
+        this.handleCurrentChange(this.currentPage)
+      }
     },
     self(){
       this.page=2;
       this.checkList = this.selfQuery;
       this.based();
-      // this.currentPage = 1;
-      // this.selfQueryList(this.currentPage,this.showCount,this.selfCdt);
+      if(this.bigBase == 0){
+        this.tableData = this.selfTableData;
+      }else if(this.bigBase == 1){
+        this.tableData = this.selfTableDataPnr;
+      }
+
+      if(this.tableData.length!=0){
+        this.handleCurrentChange(this.currentPage)
+      }
     },
     //----------------------------复用end---------------------------------------
 

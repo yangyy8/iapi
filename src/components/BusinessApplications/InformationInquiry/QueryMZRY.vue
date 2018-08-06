@@ -57,18 +57,18 @@
             </el-col>
 
             <el-col :sm="24" :md="12" :lg="8" class="input-item">
-              <span class="input-text">航班日期:</span>
+              <span class="input-text">航班日期：</span>
               <div class="input-input t-flex t-date">
                <el-date-picker
                v-model="pd.startFlightDepartdate"
                type="datetime" size="small"
-               placeholder="开始时间" align="right" :picker-options="pickerOptions1"
+               placeholder="开始时间"  :picker-options="pickerOptions1"
                value-format="yyyyMMddHHmmss">
              </el-date-picker>
                <span class="septum">-</span>
              <el-date-picker
                 v-model="pd.endFlightDepartdate"
-                type="datetime" size="small" align="right"
+                type="datetime" size="small"
                 placeholder="结束时间"  :picker-options="pickerOptions1"
                 value-format="yyyyMMddHHmmss">
             </el-date-picker>
