@@ -1,5 +1,6 @@
 <template>
-<div class="nationlHBSSJK" :class="{'qgjk-zdh':zdh}">
+<div class="nationlHBSSJK" :class="{'qgjk-zdh':zdh}" >
+  <div class="mask" v-if="checkShow||checkShow2||checkShow3||checkShow4||checkShow5" @click.capture="closeBox"></div>
   <div class="map-top">
     <h3 class="map-title">国家移民局旅客预报预检系统</h3>
     <ul class="map-tabul">
@@ -1179,6 +1180,11 @@ export default {
     this.chart = null;
   },
   methods: {
+    closeBox(){
+      console.log("hhhhhhhhhh")
+      this.checkShow=false;this.checkShow2=false;this.checkShow3=false;this.checkShow4=false;this.checkShow5=false;
+
+    },
     checkAllFn(){
       console.log(this.checkAll);
       if(this.checkAll==1){
@@ -1250,6 +1256,30 @@ export default {
       console.log(this.checkList5)
     },
     zdhFn(){
+      let element=document.documentElement;
+      if(element.requestFullscreen){
+
+      element.requestFullscreen();
+
+      }
+
+      else if(element.mozRequestFullScreen){
+
+      element.mozRequestFullScreen();
+
+      }
+
+      else if(element.msRequestFullscreen){
+
+      element.msRequestFullscreen();
+
+      }
+
+      else if(element.webkitRequestFullscreen){
+
+      element.webkitRequestFullScreen();
+
+      }
       this.chart.dispose();
       this.chart = null;
       this.zdh=true;
@@ -1259,6 +1289,29 @@ export default {
       },500)
     },
     zxhFn(){
+      if(document.exitFullscreen){
+
+      document.exitFullscreen();
+
+      }
+
+      else if(document.mozCancelFullScreen){
+
+      document.mozCancelFullScreen();
+
+      }
+
+      else if(document.msExitFullscreen){
+
+      document.msExiFullscreen();
+
+      }
+
+      else if(document.webkitCancelFullScreen){
+
+      document.webkitCancelFullScreen();
+
+      }
       this.chart.dispose();
       this.chart = null;
       this.zdh=false;
