@@ -41,31 +41,52 @@ function filterNull(o) {
   }
   return o
 }
+// function isLanding(){
+  // axios.post(root+'/manage-platform/isLanding',{},
+  //  r => {
+  //    alert(r.data);
+  //    if(!r.data){
+  //      $confirm('登录已失效，请重新登录?', '提示', {
+  //         confirmButtonText: '确定',
+  //         cancelButtonText: '取消',
+  //         type: 'warning'
+  //       }).then(() => {
+  //         window.location.href = root+"/"
+  //       }).catch(() => {
+  //
+  //       });
+  //      // return
+  //    }
+  // })
+// }
+
 // 添加默认参数
 function apiAxios(method, url, params, success, failure) {
- console.log(window.location.host)
+ // console.log(window.location.host)
   // let loadingInstance1 = Loading.service({ fullscreen: true,background:'rgba(90,90,90,0.3)'});
 
   if (params) {
     // params=addParams(params);
     // params = filterNull(params);
   }
-  axios.post(root+'/manage-platform/isLanding',{},
-   r => {
-     console.log(r);
-     if(!r.data){
-       $confirm('登录已失效，请重新登录?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          window.location.href = root+"/"
-        }).catch(() => {
+  if(url!='/manage-platform/isLanding'&&url!='/manage-platform/homePage/iapiSize'){
+    axios.post(root+'/manage-platform/isLanding',{})
+    .then( r => {
+      // console.log(r)
+       if(!r.data.data){
+         MessageBox.alert('登录已失效，请重新登录?', '提示', {
+            confirmButtonText: '确定',
+            type: 'warning'
+          }).then(() => {
+            console.log("ffffff")
+            window.location.href ="/"
+          }).catch(() => {
 
-        });
-       // return
-     }
-  })
+          });
+         // return
+       }
+    })
+  }
   axios({
       method: method,
       url: url,
