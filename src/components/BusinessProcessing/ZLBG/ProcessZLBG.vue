@@ -800,11 +800,11 @@ export default {
       console.log(`当前页: ${val}`);
     },
     pageSizeChange1(val) {
-      this.detailgetlist(this.CurrentPage1, val, this.dfrom);
+      this.detailgetlist(this.CurrentPage1, val, this.dform);
       console.log(`每页 ${val} 条`);
     },
     handleCurrentChange1(val) {
-      this.detailgetlist(val, this.pageSize1, this.dfrom);
+      this.detailgetlist(val, this.pageSize1, this.dform);
 
       console.log(`当前页: ${val}`);
     },
@@ -978,9 +978,9 @@ export default {
     },
     detailgetlist(currentPage, showCount, r) {
       let p = {
-        "currentPage": currentPage,
-        "showCount": showCount,
-        "pd": r
+         "currentPage": currentPage,
+         "showCount": showCount,
+         "pd": r
       };
       this.$api.post('/manage-platform/iapiUnscolicited/queryHistory', p,
         r => {
