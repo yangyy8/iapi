@@ -350,7 +350,7 @@
         <el-row type="flex"  class="mb-6">
           <el-col :span="8" class="input-item">
             <span class="yy-input-text">当前值机状态：</span>
-            <el-select v-model="form.CHECKRESULT"  placeholder="请选择"    size="small" class="yy-input-input" :disabled="true">
+            <el-select v-model="form.LASTCHECKRESULT"  placeholder="请选择"    size="small" class="yy-input-input" :disabled="true">
               <el-option value="0Z" label="0Z - 允许打印登机牌">
               </el-option>
               <el-option value="1Z" label="1Z - 禁止打印登机牌">
@@ -363,7 +363,7 @@
           </el-col>
           <el-col :span="8" class="input-item">
             <span class="yy-input-text">值机状态说明：</span>
-            <el-input placeholder="" size="small"  v-model="form.CHECKRESULTS" class="yy-input-input" :disabled="true"></el-input>
+            <el-input placeholder="" size="small"  v-model="form.LASTCHECKRESULTC" class="yy-input-input" :disabled="true"></el-input>
           </el-col>
         </el-row>
         <hr/>
@@ -823,6 +823,7 @@ export default {
     },
     handles(i) {
       this.handlesDialogVisible = true;
+      i.LASTCHECKRESULTC=this.fiftezjsm(i.LASTCHECKRESULT);
       console.log(i);
       this.form = i;
     },
@@ -1002,7 +1003,18 @@ export default {
         content= "数据错误";
       }
    this.form.INSTRUCTC=content;
-    }
+ },
+ fiftezjsm(val) {
+   if (val == "0Z") {
+     return "允许打印登机牌";
+   } else if (val == "1Z") {
+     return "禁止打印登机牌";
+   } else if (val == "2Z") {
+     return "请再次核对";
+   } else {
+     return "数据错误";
+   }
+ },
 
   },
 
