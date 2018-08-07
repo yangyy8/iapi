@@ -141,7 +141,7 @@
           width="100">
           <template slot-scope="scope">
             <div class="flex-r">
-              <el-button class="table-btn" size="mini" plain icon="el-icon-delete" @click="deleteTableList(scope.$index)">删除</el-button>
+              <el-button class="table-btn" size="mini" plain icon="el-icon-delete" @click="deleteTableList(scope.$index,scope.row)">删除</el-button>
             </div>
          </template>
         </el-table-column>
@@ -218,6 +218,7 @@ export default {
     			"CHECKREMARK": '',
     			"INPUT": "",
           "STATUS":'',
+          "ctltype":'U'
         }
       ],
       modelTable:{
@@ -230,6 +231,7 @@ export default {
         "CHECKREMARK": '',
         "INPUT": "",
         "STATUS":'',
+        "ctltype":'U'
       },
       cleanTable:{
         "IODIR": "",
@@ -241,6 +243,7 @@ export default {
         "CHECKREMARK": '',
         "INPUT": "",
         "STATUS":'',
+        "ctltype":'U'
       },
       multipleSelection:[],
       code:[]
@@ -276,17 +279,19 @@ export default {
        })
      },
      addTableList(){//新增
+       this.modelTable.ctltype='I'
        this.tableData.push(this.modelTable);
        this.modelTable = this.cleanTable;
      },
-     deleteTableList(id){//删除本行
-       this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+     deleteTableList(id,item){//删除本行
+       this.$confirm('此操作将删除该文件, 是否继续?', '提示', {
          confirmButtonText: '确定',
          cancelButtonText: '取消',
          type: 'warning'
        }).then(() => {
          this.tableData.splice(id,1);
-         this.save();
+         item.ctltype='D'
+         // this.save();
 
        }).catch(() => {
          this.$message({
