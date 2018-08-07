@@ -1,12 +1,12 @@
 // 配置API接口地址
-var root="http://192.168.99.247:8080"     //报警
+//var root="http://192.168.99.247:8080"     //报警
 //var root="http://192.168.99.228:8080"     //菜单
 //var root="http://192.168.99.248:8181"    //李志鹏的电脑
 // var root="http://192.168.99.251:8080"    //时达的电脑
 // var root="http://192.168.99.242:8080"    //石飞的电脑
 // var root = "http://192.168.99.251:8080"    //性能监控
 
-//var root="http://192.168.99.206:8080"   //服务器电脑
+var root="http://192.168.99.206:8080"   //服务器电脑
 //var root=""
 // var root = 'http://192.168.99.245:8080'
 //var root="http://192.168.99.228:8080"    //丁勇的电脑
@@ -41,31 +41,52 @@ function filterNull(o) {
   }
   return o
 }
+// function isLanding(){
+  // axios.post(root+'/manage-platform/isLanding',{},
+  //  r => {
+  //    alert(r.data);
+  //    if(!r.data){
+  //      $confirm('登录已失效，请重新登录?', '提示', {
+  //         confirmButtonText: '确定',
+  //         cancelButtonText: '取消',
+  //         type: 'warning'
+  //       }).then(() => {
+  //         window.location.href = root+"/"
+  //       }).catch(() => {
+  //
+  //       });
+  //      // return
+  //    }
+  // })
+// }
+
 // 添加默认参数
 function apiAxios(method, url, params, success, failure) {
- console.log(window.location.host)
+ // console.log(window.location.host)
   // let loadingInstance1 = Loading.service({ fullscreen: true,background:'rgba(90,90,90,0.3)'});
 
   if (params) {
     // params=addParams(params);
     // params = filterNull(params);
   }
-  axios.post(root+'/manage-platform/isLanding',{},
-   r => {
-     console.log(r);
-     if(!r.data){
-       $confirm('登录已失效，请重新登录?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          window.location.href = root+"/"
-        }).catch(() => {
-
-        });
-       // return
-     }
-  })
+  // if(url!='/manage-platform/isLanding'&&url!='/manage-platform/homePage/iapiSize'&&url!='/manage-platform/homePage/userInfo'&&url!='/manage-platform/landing'){
+  //   axios.post(root+'/manage-platform/isLanding',{})
+  //   .then( r => {
+  //     // console.log(r)
+  //      if(!r.data.data){
+  //        MessageBox.alert('登录已失效，请重新登录?', '提示', {
+  //           confirmButtonText: '确定',
+  //           type: 'warning'
+  //         }).then(() => {
+  //           console.log("ffffff")
+  //           window.location.href ="/"
+  //         }).catch(() => {
+  //
+  //         });
+  //        // return
+  //      }
+  //   })
+  // }
   axios({
       method: method,
       url: url,
