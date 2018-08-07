@@ -91,3 +91,14 @@
    max-height: 600px;
    overflow-y: scroll;
  }
+ .t-el-content{
+   display: flex;
+ }
+ .t-el-text{
+   white-space: nowrap;
+ }
+ .t-el-sub{
+   width: 56%;
+   word-wrap: break-word;
+   flex-wrap: wrap;
+ }
