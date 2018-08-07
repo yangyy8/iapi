@@ -75,7 +75,15 @@
         </div>
       </el-aside>
       <el-main class="right-main">
-        <ul class="tabList">
+        <!-- <el-popover
+          ref="popover"
+          placement="bottom"
+          title="标题"
+          width="200"
+          trigger="click"
+          content="这是一段内容,这是一段内容,这是一段内容,这是一段内容。">
+        </el-popover> -->
+        <ul class="tabList" @click.right="closeRight" v-popover:popover>
           <li class="tabList-item hand" :style="{width:tabliwidth}" :class="{'tabList-checked':nav2Id==i.url}" v-for="(i, index) in tabList">
             <!-- <el-tooltip class="item" effect="dark" :content="i.name" placement="top"> -->
               <span  @click="nav2(i,index)">{{i.name}}</span>
@@ -620,7 +628,7 @@ export default {
       this.tabList=[];
     },
     closeRight(){
-      alert("杀杀杀")
+      // alert("杀杀杀")
     },
     nav1to2(nav1Itme,click) {
       console.log(nav1Itme)

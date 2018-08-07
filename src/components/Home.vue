@@ -364,7 +364,7 @@ export default {
          if(this.isLogin){
            this.getNav0();
            this.getUers();
-           
+
          }
 
       })
