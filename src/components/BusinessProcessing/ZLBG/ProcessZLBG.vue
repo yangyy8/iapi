@@ -263,16 +263,16 @@
                     >
                     </el-table-column>
                     <el-table-column
+                      prop="LASTCHECKRESULT"
                       label="当前值机状态" sortable
                     >
-                    <template slot-scope="scope">
-                      {{scope.row.CHECKRESULT | fiftecr}}
-                    </template>
                     </el-table-column>
                     <el-table-column
-                      prop="CHECKRESULT"
                       label="当前值机状态说明"
                     >
+                    <template slot-scope="scope">
+                      {{scope.row.LASTCHECKRESULT | fiftecr}}
+                    </template>
                     </el-table-column>
           </el-table>
         </el-row>
@@ -302,7 +302,7 @@
         <el-row type="flex" class="mb-6">
           <el-col :span="24" class="input-item">
             <span class="yy-input-text" style="width:15%">变更描述：</span>
-           <el-input type="textarea" placeholder="请输入内容" :autosize="{ minRows: 3, maxRows: 6}" style="width:80%" v-model="map.CHANGERESON"></el-input>
+           <el-input type="textarea" placeholder="请输入变更描述(不能超过205字)" maxlength="250" :autosize="{ minRows: 3, maxRows: 6}" style="width:80%" v-model="map.CHANGERESON"></el-input>
           </el-col>
         </el-row>
       </el-form>
@@ -312,8 +312,6 @@
 
       </div>
     </el-dialog>
-
-
     <el-dialog title="指令变更" :visible.sync="handlesDialogVisible" width="900px">
       <el-form :model="form" ref="handlesForm">
         <el-row type="flex"  class="mb-6">
@@ -403,7 +401,7 @@
         <el-row type="flex" class="mb-6">
           <el-col :span="24" class="input-item">
             <span class="yy-input-text" style="width:18%">变更描述：</span>
-           <el-input type="textarea" v-model="form.CHANGERESON"  placeholder="请输入内容" :autosize="{ minRows: 3, maxRows: 6}" style="width:82%;" ></el-input>
+           <el-input type="textarea" v-model="form.CHANGERESON"   placeholder="请输入变更描述(不能超过205字)" maxlength="250"  :autosize="{ minRows: 3, maxRows: 6}" style="width:82%;" ></el-input>
           </el-col>
         </el-row>
       </el-form>
@@ -832,6 +830,7 @@ export default {
     handlessys(i)
     {
        this.AuthDialogVisible=true;
+       this.ap={};
        this.tp=i;
     },
     Authorization(ap)
@@ -862,7 +861,6 @@ export default {
         "INSTRUCT": this.map.INSTRUCT,
         "CHANGERESON": this.map.CHANGERESON
       };
-
       this.$api.post('/manage-platform/iapiUnscolicited/instructChangeTab', p,
         r => {
           console.log(r);
@@ -883,18 +881,15 @@ export default {
         })
     },
     handlesItem1(formName,ap) {
-
-
-
       let p = {
         "IAPISERIAL": [this.form.SERIAL],
         "CREATEUSER": "杨小",
         "APPROVALUSER": ap.APPROVALUSER,
+
         "APPROVALPW":ap.APPROVALPW,
         "INSTRUCT": this.form.INSTRUCT,
         "CHANGERESON": this.form.CHANGERESON
       };
-
       this.$api.post('/manage-platform/iapiUnscolicited/instructChangeTab', p,
         r => {
           console.log(r);
