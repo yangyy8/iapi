@@ -712,110 +712,109 @@
       <el-form :model="dform" ref="detailsForm">
         <div class="hrtitle">基本信息</div>
         <el-row type="flex"  class="mb-6">
-          <el-col :span="6">姓名：{{dform.CNAME}}</el-col>
-          <el-col :span="6">性别：{{dform.GENDERNAME=="F"?"男":dform. GENDERNAME=="F"?"女":"未知"}}</el-col>
-          <el-col :span="6">出生日期：{{dform.BIRTHDAYSTR}}</el-col>
-          <el-col :span="6">出入境类型：{{dform.FLIGHTINOUT}}</el-col>
+          <el-col :span="6" class="t-el-content"><div class="t-el-text">姓名：</div><div class="t-el-sub">{{dform.CNAME}}</div></el-col>
+          <el-col :span="6" class="t-el-content"><div class="t-el-text">性别：</div><div class="t-el-sub">{{dform.GENDERNAME}}</div></el-col>
+          <el-col :span="6" class="t-el-content"><div class="t-el-text">出生日期：</div><div class="t-el-sub">{{dform.BIRTHDAYSTR}}</div></el-col>
+          <el-col :span="6" class="t-el-content"><div class="t-el-text">出入境类型：</div><div class="t-el-sub">{{dform.FLIGHTINOUT}}</div></el-col>
         </el-row>
         <el-row type="flex"  class="mb-6">
-          <el-col :span="6">国籍：{{dform.NATIONALITYNAME}}</el-col>
-          <el-col :span="6">证件号码：{{dform.PASSPORTNO}}</el-col>
-          <el-col :span="6">证件颁发国：{{dform.PASSPORTISSUECOUNTRYNAME}}</el-col>
-          <el-col :span="6">证件有效期：{{dform.PASSPORTEXPIREDATESTR}}</el-col>
+          <el-col :span="6" class="t-el-content"><div class="t-el-text">国籍：</div><div class="t-el-sub">{{dform.NATIONALITYNAME}}</div></el-col>
+          <el-col :span="6" class="t-el-content"><div class="t-el-text">证件号码：</div><div class="t-el-sub">{{dform.PASSPORTNO}}</div></el-col>
+          <el-col :span="6" class="t-el-content"><div class="t-el-text">证件颁发国：</div><div class="t-el-sub">{{dform.PASSPORTISSUECOUNTRYNAME}}</div></el-col>
+          <el-col :span="6" class="t-el-content"><div class="t-el-text">证件有效期：</div><div class="t-el-sub">{{dform.PASSPORTEXPIREDATESTR}}</div></el-col>
         </el-row>
         <el-row type="flex"  class="mb-6">
-          <el-col :span="6">证件签发日期：{{dform.PASSPORTISSUEDATESTR}}</el-col>
-          <el-col :span="6">出生国：{{dform.BIRTHCOUNTRYNAME}}</el-col>
-          <el-col :span="6">居住国：{{dform.RESIDENCENAME}}</el-col>
+          <el-col :span="6" class="t-el-content"><div class="t-el-text">证件签发日期：</div><div class="t-el-sub">{{dform.PASSPORTISSUEDATESTR}}</div></el-col>
+          <el-col :span="6" class="t-el-content"><div class="t-el-text">出生国：</div><div class="t-el-sub">{{dform.BIRTHCOUNTRYNAME}}</div></el-col>
+          <el-col :span="6" class="t-el-content"><div class="t-el-text">居住国：</div><div class="t-el-sub">{{dform.RESIDENCENAME}}</div></el-col>
         </el-row>
         <div class="hrtitle">航班信息</div>
         <el-row type="flex"  class="mb-6">
-          <el-col :span="8">航班号：{{dform.FLTNO}}</el-col>
-          <el-col :span="8">航班日期：{{dform.FLIGHTDATESTR}}</el-col>
-          <el-col :span="8">起飞机场：{{dform.CITYFROMNAME}}</el-col>
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">航班号：</div><div class="t-el-sub">{{dform.FLTNO}}</div></el-col>
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">航班日期：</div><div class="t-el-sub">{{dform.FLIGHTDATESTR}}</div></el-col>
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">起飞机场：</div><div class="t-el-sub">{{dform.CITYFROMNAME}}</div></el-col>
+        </el-row>
+        <el-row type="flex"  class="mb-6">
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">预计起飞时间：</div><div class="t-el-sub">{{dform.DEPARTDATESTR}}</div></el-col>
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">到达机场：</div><div class="t-el-sub">{{dform.CITYTONAME}}</div></el-col>
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">预计到达时间：</div><div class="t-el-sub">{{dform.ARRIVDATESTR}}</div></el-col>
 
         </el-row>
         <el-row type="flex"  class="mb-6">
-          <el-col :span="8">预计起飞时间：{{dform.DEPARTDATESTR}}</el-col>
-          <el-col :span="8">到达机场：{{dform.CITYTONAME}}</el-col>
-          <el-col :span="8">预计到达时间：{{dform.ARRIVDATESTR}}</el-col>
-
-        </el-row>
-        <el-row type="flex"  class="mb-6">
-          <el-col :span="8">原预检结果：{{dform.CHECKRESULTNAME}}</el-col>
-          <el-col :span="8">最终预检结果：{{dform.LASTCHECKRESULTSTR}}</el-col>
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">原预检结果：</div><div class="t-el-sub">{{dform.CHECKRESULTNAME}}</div></el-col>
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">最终预检结果：</div><div class="t-el-sub">{{dform.LASTCHECKRESULTSTR}}</div></el-col>
           <!-- <el-col :span="8">是否有效：{{dform.PASSENGERSTATUSSTR==0?"无效":"有效"}}</el-col> -->
-          <el-col :span="8">航班状态：{{dform.FLIGHTSTATUSSTR==0?"取消":"起飞"}}</el-col>
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">航班状态：</div><div class="t-el-sub">{{dform.FLIGHTSTATUSSTR==0?"取消":"起飞"}}</div></el-col>
         </el-row>
         <el-row type="flex"  class="mb-6">
-          <el-col :span="8">航班起飞时间：{{dform.LASTUPDATETIMEUPSTR}}</el-col>
-          <el-col :span="8">航班取消时间：{{dform.LASTUPDATETIMEDOWNSTR}}</el-col>
-          <el-col :span="8">降落口岸：{{dform.PORTSTR}}</el-col>
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">航班起飞时间：</div><div class="t-el-sub">{{dform.LASTUPDATETIMEUPSTR}}</div></el-col>
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">航班取消时间：</div><div class="t-el-sub">{{dform.LASTUPDATETIMEDOWNSTR}}</div></el-col>
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">降落口岸：</div><div class="t-el-sub">{{dform.PORTSTR}}</div></el-col>
         </el-row>
         <el-row type="flex"  class="mb-6">
-          <el-col :span="8">备降口岸：{{dform.CHANGEPORTSTR}}</el-col>
-          <el-col :span="8">航空公司联系电话：{{dform.AIRLINEPHONE}}</el-col>
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">备降口岸：</div><div class="t-el-sub">{{dform.CHANGEPORTSTR}}</div></el-col>
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">航空公司联系电话：</div><div class="t-el-sub">{{dform.AIRLINEPHONE}}</div></el-col>
         </el-row>
         <div class="hrtitle">其他信息</div>
         <el-row type="flex"  class="mb-6">
-          <el-col :span="8">航空公司传真：{{dform.AIRLINEFAX}}</el-col>
-          <el-col :span="8">航信发送报文时间：{{dform.GAPP_RECEIVETIMESTR}}</el-col>
-          <el-col :span="8">航信接受报文时间：{{dform.GAPP_SENDTIMESTR}}</el-col>
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">航空公司传真：</div><div class="t-el-sub">{{dform.AIRLINEFAX}}</div></el-col>
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">航信发送报文时间：</div><div class="t-el-sub">{{dform.GAPP_RECEIVETIMESTR}}</div></el-col>
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">航信接受报文时间：</div><div class="t-el-sub">{{dform.GAPP_SENDTIMESTR}}</div></el-col>
         </el-row>
         <el-row type="flex"  class="mb-6">
-          <el-col :span="9">流水号：{{dform.TID}}</el-col>
-          <el-col :span="8">ICS记录编号：{{dform.RECORDLOCATER}}</el-col>
-          <el-col :span="7">旅客中间名：{{dform.MIDDLENAME}}</el-col>
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">流水号：</div><div class="t-el-sub">{{dform.TID}}</div></el-col>
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">ICS记录编号：</div><div class="t-el-sub">{{dform.RECORDLOCATER}}</div></el-col>
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">旅客中间名：</div><div class="t-el-sub">{{dform.MIDDLENAME}}</div></el-col>
         </el-row>
         <el-row type="flex"  class="mb-6">
-          <el-col :span="8">旅客类型：{{dform.PASSENGERTYPESTR=="FL"?"普通旅客":"中转旅客"}}</el-col>
-          <el-col :span="8">旅客值机方式：{{dform.VIDSTR}}</el-col>
-          <el-col :span="8">旅客状态：{{dform.PASSENGERSTATUSSTR==0?"已值机":dform.PASSENGERSTATUS==1?"已登机":"未登机"}}</el-col>
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">旅客类型：</div><div class="t-el-sub">{{dform.PASSENGERTYPESTR=="FL"?"普通旅客":"中转旅客"}}</div></el-col>
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">旅客值机方式：</div><div class="t-el-sub">{{dform.VIDSTR}}</div></el-col>
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">旅客状态：</div><div class="t-el-sub">{{dform.PASSENGERSTATUSSTR==0?"已值机":dform.PASSENGERSTATUS==1?"已登机":"未登机"}}</div></el-col>
         </el-row>
         <el-row type="flex"  class="mb-6">
-          <el-col :span="8">是否报警：{{dform.ISEVENT}}</el-col>
-          <el-col :span="8">ABO唯一标识：{{dform.ABONO}}</el-col>
-          <el-col :span="8">其他证件号码：{{dform.OTHER_NO}}</el-col>
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">是否报警：</div><div class="t-el-sub">{{dform.ISEVENT}}</div></el-col>
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">ABO唯一标识：</div><div class="t-el-sub">{{dform.ABONO}}</div></el-col>
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">其他证件号码：</div><div class="t-el-sub">{{dform.OTHER_NO}}</div></el-col>
         </el-row>
         <el-row type="flex"  class="mb-6">
-          <el-col :span="8">其他证件有效期：{{dform.OTHER_EXPIREDATESTR}}</el-col>
-          <el-col :span="8">其他证件颁发国：{{dform.OTHER_ISSUECOUNTRYSTR}}</el-col>
-          <el-col :span="8">其他证件签发日期：{{dform.OTHERDOCUMENTISSUEDATESTR}}</el-col>
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">其他证件有效期：</div><div class="t-el-sub">{{dform.OTHER_EXPIREDATESTR}}</div></el-col>
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">其他证件颁发国：</div><div class="t-el-sub">{{dform.OTHER_ISSUECOUNTRYSTR}}</div></el-col>
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">其他证件签发日期：</div><div class="t-el-sub">{{dform.OTHERDOCUMENTISSUEDATESTR}}</div></el-col>
         </el-row>
         <el-row type="flex"  class="mb-6">
-          <el-col :span="8">签证号码：{{dform.VISANO}}</el-col>
-          <el-col :span="8">签证有效期：{{dform.VISAEXPIREDATESTR}}</el-col>
-          <el-col :span="8">签证国家：{{dform.VISAISSUECOUNTRYSTR}}</el-col>
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">签证号码：</div><div class="t-el-sub">{{dform.VISANO}}</div></el-col>
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">签证有效期：</div><div class="t-el-sub">{{dform.VISAEXPIREDATESTR}}</div></el-col>
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">签证国家：</div><div class="t-el-sub">{{dform.VISAISSUECOUNTRYSTR}}</div></el-col>
         </el-row>
         <el-row type="flex"  class="mb-6">
-          <el-col :span="8">签证签发日期：{{dform.VISAISSUEDATESTR}}</el-col>
-          <el-col :span="8">起飞城市：{{dform.ORIGINSTR}}</el-col>
-          <el-col :span="8">目的地地址：{{dform.DESTADDRESS}}</el-col>
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">签证签发日期：</div><div class="t-el-sub">{{dform.VISAISSUEDATESTR}}</div></el-col>
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">起飞城市：</div><div class="t-el-sub">{{dform.ORIGINSTR}}</div></el-col>
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">目的地地址：</div><div class="t-el-sub">{{dform.DESTADDRESS}}</div></el-col>
         </el-row>
         <el-row type="flex"  class="mb-6">
-          <el-col :span="8">目的地城市：{{dform.DESTCITY}}</el-col>
-          <el-col :span="8">目的的所在省：{{dform.DESTSTATESTR}}</el-col>
-          <el-col :span="8">目的地国家：{{dform.DESTCOUNTRYSTR}}</el-col>
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">目的地城市：</div><div class="t-el-sub">{{dform.DESTCITY}}</div></el-col>
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">目的的所在省：</div><div class="t-el-sub">{{dform.DESTSTATESTR}}</div></el-col>
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">目的地国家：</div><div class="t-el-sub">{{dform.DESTCOUNTRYSTR}}</div></el-col>
         </el-row>
         <el-row type="flex"  class="mb-6">
-          <el-col :span="8">目的地邮编：{{dform.DESTPOSTALCODE}}</el-col>
-          <el-col :span="8">边检接收时间：{{dform.IAPI_RECEIVETIMESTR}}</el-col>
-          <el-col :span="8">边检回复时间：{{dform.IAPI_RESPONSETIMESTR}}</el-col>
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">目的地邮编：</div><div class="t-el-sub">{{dform.DESTPOSTALCODE}}</div></el-col>
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">边检接收时间：</div><div class="t-el-sub">{{dform.IAPI_RECEIVETIMESTR}}</div></el-col>
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">边检回复时间：</div><div class="t-el-sub">{{dform.IAPI_RESPONSETIMESTR}}</div></el-col>
         </el-row>
         <!-- 数据有效性 -->
         <div class="" v-show="isCheck">
           <div class="hrtitle">数据有效性</div>
           <el-row type="flex"  class="mb-6">
-            <el-col :span="6">属性名：{{check.FIELDNAME}}</el-col>
-            <el-col :span="6">属性值：{{check.FIELDVALUES}}</el-col>
-            <el-col :span="6">是否必填：{{check.INPUT}}</el-col>
-            <el-col :span="6">最小长度：{{check.MINLENGTH}}</el-col>
+            <el-col :span="6" class="t-el-content"><div class="t-el-text">属性名：</div><div class="t-el-sub">{{check.FIELDNAME}}</div></el-col>
+            <el-col :span="6" class="t-el-content"><div class="t-el-text">属性值：</div><div class="t-el-sub">{{check.FIELDVALUES}}</div></el-col>
+            <el-col :span="6" class="t-el-content"><div class="t-el-text">是否必填：</div><div class="t-el-sub">{{check.INPUT}}</div></el-col>
+            <el-col :span="6" class="t-el-content"><div class="t-el-text">最小长度：</div><div class="t-el-sub">{{check.MINLENGTH}}</div></el-col>
           </el-row>
 
           <el-row type="flex"  class="mb-6">
-            <el-col :span="6">最大长度：{{check.MAXLENGTH}}</el-col>
-            <el-col :span="6">正则表达式：{{check.REGULAR}}</el-col>
-            <el-col :span="12">错误描述：{{check.DETAIL}}</el-col>
+            <el-col :span="6" class="t-el-content"><div class="t-el-text">最大长度：</div><div class="t-el-sub">{{check.MAXLENGTH}}</div></el-col>
+            <el-col :span="6" class="t-el-content"><div class="t-el-text">正则表达式：</div><div class="t-el-sub">{{check.REGULAR}}</div></el-col>
+            <el-col :span="12" class="t-el-content"><div class="t-el-text">错误描述：</div><div class="t-el-sub">{{check.DETAIL}}</div></el-col>
           </el-row>
         </div>
 
@@ -824,7 +823,7 @@
           <div class="hrtitle">名单比中详情</div>
           <el-row type="flex"  class="mb-6">
             <el-col :span="6">
-              <el-button type="primary" plain name="button"  size="mini" @click="reviewDetail">查看</el-button>
+              <el-button type="primary" plain name="button"  size="mini" @click="reviewDetail">查看评价详情</el-button>
             </el-col>
           </el-row>
         </div>
@@ -832,12 +831,11 @@
         <div class="" v-show="isRules">
           <div class="hrtitle">业务规则校验不通过</div>
           <el-row type="flex"  class="mb-6">
-            <el-col :span="6">规则名称：{{rules.MATCHRRULE}}</el-col>
-            <el-col :span="6">返回状态：{{rules.STATUS}}</el-col>
-            <el-col :span="12">错误详情：{{rules.CHECKREMARK}}</el-col>
+            <el-col :span="6" class="t-el-content"><div class="t-el-text">规则名称：</div><div class="t-el-sub">{{rules.MATCHRRULE}}</div></el-col>
+            <el-col :span="6" class="t-el-content"><div class="t-el-text">返回状态：</div><div class="t-el-sub">{{rules.STATUS}}</div></el-col>
+            <el-col :span="12" class="t-el-content"><div class="t-el-text">错误详情：</div><div class="t-el-sub">{{rules.CHECKREMARK}}</div></el-col>
           </el-row>
         </div>
-
         <!-- PNR预报警 -->
         <div class="" v-show="isCall">
           <div class="hrtitle">PNR预报警</div>
@@ -1764,6 +1762,11 @@ export default {
       basedTableData:[],
       batchTableData:[],
       selfTableData:[],
+
+      basedTableDataPnr:[],
+      batchTableDataPnr:[],
+      selfTableDataPnr:[],
+
       historyData:[],
       showConfiglist:[],//展示项数组
       selfCdt:{AAAAA:''},//自定义查询表达式信息
@@ -1929,6 +1932,7 @@ export default {
          this.totalResult=r.data.totalResult;//总条数
          this.totalPage = r.data.totalPage;//总页数
          this.currentPage = r.data.currentPage;
+         this.basedTableDataPnr = this.tableData;
        })
     },
     getList(currentPage,showCount,cdt){//基础查询 查询调用
@@ -1944,6 +1948,7 @@ export default {
          this.totalResult=r.data.totalResult;//总条数
          this.totalPage = r.data.totalPage;//总页数
          this.currentPage = r.data.currentPage;
+         this.basedTableData = this.tableData;
       })
     },
     iapi(){
@@ -2118,6 +2123,7 @@ export default {
           this.totalResult=r.data.totalResult;//总条数
           this.totalPage = r.data.totalPage;//总页数
           this.currentPage = r.data.currentPage;
+          this.batchTableData = this.tableData;
         }
       })
     },
@@ -2138,6 +2144,7 @@ export default {
           this.totalResult=r.data.totalResult;//总条数
           this.totalPage = r.data.totalPage;//总页数
           this.currentPage = r.data.currentPage;
+          this.batchTableDataPnr = this.tableData;
         }
       })
     },
@@ -2313,6 +2320,7 @@ export default {
            this.totalResult=r.data.totalResult;//总条数
            this.totalPage = r.data.totalPage;//总页数
            this.currentPage = r.data.currentPage;
+           this.selfTableData = this.tableData;
          }
        })
     },
@@ -2332,6 +2340,7 @@ export default {
            this.totalResult=r.data.totalResult;//总条数
            this.totalPage = r.data.totalPage;//总页数
            this.currentPage = r.data.currentPage;
+           this.selfTableDataPnr = this.tableData;
          }
        })
     },
@@ -2558,22 +2567,42 @@ export default {
       this.page=0;
       this.checkList = this.basedQuery;
       this.based();
-      // this.currentPage = 1;
-      // this.getList(this.currentPage,this.showCount,this.cdt);
+      if(this.bigBase == 0){
+        this.tableData = this.basedTableData;
+      }else if(this.bigBase == 1){
+        this.tableData = this.basedTableDataPnr;
+      }
+
+      if(this.tableData.length!=0){
+        this.handleCurrentChange(this.currentPage)
+      }
     },
     batch(){
       this.page=1;
       this.checkList = this.batchQuery;
       this.based();
-      // this.currentPage = 1;
-      // this.batchQueryList(this.currentPage,this.showCount,this.rows);
+      if(this.bigBase == 0){
+        this.tableData = this.batchTableData;
+      }else if(this.bigBase == 1){
+        this.tableData = this.batchTableDataPnr;
+      }
+      if(this.tableData.length!=0){
+        this.handleCurrentChange(this.currentPage)
+      }
     },
     self(){
       this.page=2;
       this.checkList = this.selfQuery;
       this.based();
-      // this.currentPage = 1;
-      // this.selfQueryList(this.currentPage,this.showCount,this.selfCdt);
+      if(this.bigBase == 0){
+        this.tableData = this.selfTableData;
+      }else if(this.bigBase == 1){
+        this.tableData = this.selfTableDataPnr;
+      }
+
+      if(this.tableData.length!=0){
+        this.handleCurrentChange(this.currentPage)
+      }
     },
     //----------------------------复用end---------------------------------------
 

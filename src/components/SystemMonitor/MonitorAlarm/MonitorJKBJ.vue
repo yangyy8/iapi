@@ -166,9 +166,7 @@
      </el-pagination>
    </div>
   </div>
-
-
-  <el-dialog
+<el-dialog
     title="处理"
     :visible.sync="addDialogVisible"
     width="800px"
@@ -190,7 +188,7 @@
 
     <el-row type="flex"  class="mb-15">
      <el-col :span="24"><span class="input-text" style="width:15%;">处理详情：</span>
-     <el-input type="textarea" v-model="form.DEALCONTENT==null?'':form.DEALCONTENT" maxlength="250"  placeholder="请输入内容" :autosize="{ minRows: 3, maxRows: 6}" style="width:80%;" ></el-input>
+     <el-input type="textarea" v-model="form.DEALCONTENT" maxlength="250"  placeholder="请输入处理详情(不超过250字)" :autosize="{ minRows: 3, maxRows: 6}" style="width:80%;" ></el-input>
      </el-col>
     </el-row>
 
@@ -226,7 +224,10 @@
         <el-col :span="8"><span class="yy-input-text">处理人：</span>{{dform.DEALUSER}}</el-col>
          <el-col :span="8"><span class="yy-input-text">处理时间：</span>{{dform.DEALTIME}}</el-col>
     </el-row>
-
+    <el-row type="flex"  class="mb-15">
+     <el-col :span="24"><span class="input-text" style="width:13%;">处理详情：</span>{{dform.DEALCONTENT}}
+     </el-col>
+   </el-row>
     </el-form>
     <div slot="footer" class="dialog-footer">
       <el-button @click="detailsDialogVisible = false" size="small">取消</el-button>
@@ -278,6 +279,7 @@ export default {
       console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
+
       this.getList(val, this.pageSize, this.pd);
 
       console.log(`当前页: ${val}`);
@@ -291,11 +293,11 @@ export default {
       };
       this.$api.post('/manage-platform/monitorAlarm/queryAlarm', p,
         r => {
-
           this.tableData = r.data.pdList;
           this.TotalResult = r.data.totalResult;
           this.userid=r.data.userid;
           this.username=r.data.username;
+
         })
     },
     monitor(data) { //监控对象联动
@@ -312,11 +314,9 @@ export default {
           this.object = r.data;
         }
         })
-
     },
     details(i) {
       this.detailsDialogVisible = true;
-
       this.dform = i;
     },
     pross(i) {
@@ -328,7 +328,9 @@ export default {
         });
         return;
       } else {
+
         this.addDialogVisible = true;
+        i.DEALCONTENT="";
         this.form = i;
         // this.form.DEALUSER = "admin";
       }
@@ -353,7 +355,7 @@ export default {
           }
           this.$refs[formName].resetFields();
           this.addDialogVisible = false;
-          this.getList();
+          this.getList(this.CurrentPage, this.pageSize, this.pd);
         }, e => {
           this.$message.error('处理失败');
 
@@ -385,11 +387,8 @@ export default {
         return "性能监控"
       }
     },
-
     fifter4(val) {
-
       return formatDate(new Date(), "yyyy-MM-dd hh:mm:ss");
-
     },
     fifter5(val){
     if(val=="0"){return "已处理";}else if(val=="1"){return "未处理";}
