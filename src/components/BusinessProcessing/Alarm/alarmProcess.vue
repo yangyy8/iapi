@@ -377,7 +377,7 @@
           </el-input>
         </el-col>
         <el-col :span="4" class="down-btn-area">
-          <el-button type="primary" class="mb-15" size="small" @click="handeles()" v-show="isUpdate&&iapiMap.instructNew==null" :disabled="msgData>0">确定</el-button>
+          <el-button type="primary" class="mb-15" size="small" @click="handeles()" v-show="isUpdate&&iapiMap.instructNew==null" >确定</el-button>
           <el-button type="info" class="mb-15" size="small" @click="archive" v-show="!isUpdate||iapiMap.instructNew">归档</el-button>
           <el-button type="warning" size="small" @click="$router.go(-1);">返回</el-button>
         </el-col>
@@ -575,9 +575,14 @@ export default {
                 console.log(arr[i].status)
                 this.msgData++;
               }
-              if (arr[i].compareDesc) {
-                this.pd.CHANGE_RESON += parseInt(i)+ 1 + "." + arr[i].compareDesc + "\n";
+              if(this.iapiMap.instructNew){
+                this.pd.CHANGE_RESON=this.iapiMap.change_reson;
+
+              }else if (arr[i].status == 1) {
+
+                this.pd.CHANGE_RESON += parseInt(i)+ 1 + ". 档号："+arr[i].dh+" 名单类型："+arr[i].alarmType+" 甄别结果："+arr[i].confirmResult+" 甄别说明：" + arr[i].compareDesc + "\n";
               }
+
             }
           })
       } else {
@@ -596,7 +601,10 @@ export default {
                 console.log(arr[i].status)
                 this.msgData++;
               }
-              if (arr[i].status == 1) {
+              if(this.iapiMap.instructNew){
+                this.pd.CHANGE_RESON=this.iapiMap.change_reson;
+
+              }else if (arr[i].status == 1) {
                 this.pd.CHANGE_RESON += parseInt(i)+ 1 + ". 档号："+arr[i].dh+" 名单类型："+arr[i].alarmType+" 甄别结果："+arr[i].confirmResult+" 甄别说明：" + arr[i].compareDesc + "\n";
               }
 
@@ -746,6 +754,13 @@ export default {
       this.upDate(ap);
     },
     handeles() {
+      if(this.msgData>0){
+        this.$alert('您尚有'+this.msgData+'未做甄别处理，请先完成名单甄别操作!', '提示', {
+         confirmButtonText: '确定',
+         type: 'warning'
+        });
+        return
+      }
       if (this.pd.DEALRESULT == 1) {
         this.handlesDialogVisible = true;
       }else {
