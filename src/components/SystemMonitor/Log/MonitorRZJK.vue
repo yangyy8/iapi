@@ -35,14 +35,14 @@
               <span class="input-text">生成时间：</span>
               <div class="input-input t-flex t-date">
                <el-date-picker
-               v-model="pd.begin"
-               type="datetime" size="small" value-format="yyyy-MM-dd hh:mm:ss"
+               v-model="pd.begin" value-format="yyyy-MM-dd"
+               type="datetime" size="small"
                placeholder="开始时间"  :picker-options="pickerOptions" >
              </el-date-picker>
                <span class="septum">-</span>
              <el-date-picker
-                v-model="pd.end"
-                type="datetime" size="small" value-format="yyyy-MM-dd hh:mm:ss"
+                v-model="pd.end"  value-format="yyyy-MM-dd"
+                type="datetime" size="small"
                 placeholder="结束时间" :picker-options="pickerOptions1" >
             </el-date-picker>
           </div>
@@ -175,12 +175,12 @@ export default {
       tableData: [],
       multipleSelection: [],
       pickerOptions: {
-        disabledDate: (time) => {
-            if (this.pd.end != "") {
-              console.log(time.getTime(),this.pd.end)
-                return time.getTime() > this.pd.end;
-            }
-        },
+        // disabledDate: (time) => {
+        //     if (this.pd.end != "") {
+        //       console.log(time.getTime(),this.pd.end)
+        //         return time.getTime() > this.pd.end;
+        //     }
+        // },
         shortcuts: [{
           text: '今天',
           onClick(picker) {
@@ -204,31 +204,31 @@ export default {
 
       },
       pickerOptions1: {
-        disabledDate: (time) => {
-            if (this.pd.begin != "") {
-                return time.getTime() < this.pd.begin;
-            }
-        },
-        // shortcuts: [{
-        //   text: '今天',
-        //   onClick(picker) {
-        //     picker.$emit('pick', new Date());
-        //   }
-        // }, {
-        //   text: '昨天',
-        //   onClick(picker) {
-        //     const date = new Date();
-        //     date.setTime(date.getTime() - 3600 * 1000 * 24);
-        //     picker.$emit('pick', date);
-        //   }
-        // }, {
-        //   text: '一周前',
-        //   onClick(picker) {
-        //     const date = new Date();
-        //     date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
-        //     picker.$emit('pick', date);
-        //   }
-        // }],
+        // disabledDate: (time) => {
+        //     if (this.pd.begin != "") {
+        //         return time.getTime() < this.pd.begin;
+        //     }
+        // },
+        shortcuts: [{
+          text: '今天',
+          onClick(picker) {
+            picker.$emit('pick', new Date());
+          }
+        }, {
+          text: '昨天',
+          onClick(picker) {
+            const date = new Date();
+            date.setTime(date.getTime() - 3600 * 1000 * 24);
+            picker.$emit('pick', date);
+          }
+        }, {
+          text: '一周前',
+          onClick(picker) {
+            const date = new Date();
+            date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
+            picker.$emit('pick', date);
+          }
+        }],
 
       },
           form: {},
