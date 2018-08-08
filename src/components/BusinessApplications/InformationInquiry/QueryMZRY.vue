@@ -117,66 +117,66 @@
       >
         <el-table-column
           prop="NAME"
-          sortable="custom"
+          sortable
           label="姓名">
         </el-table-column>
         <el-table-column
           prop="INTG_CHNNAME"
-          sortable="custom"
+          sortable
           label="中文姓名">
         </el-table-column>
         <el-table-column
           prop="GENDERNAME"
           label="性别"
-          sortable="custom"
+          sortable
           >
 
         </el-table-column>
         <el-table-column
           prop="BIRTHDAY"
           label="出生日期"
-          sortable="custom">
+          sortable>
         </el-table-column>
         <el-table-column
           prop="NATIONALITYNAME"
           label="国籍"
-          sortable="custom">
+          sortable>
         </el-table-column>
         <el-table-column
           prop="PASSPORTNO"
           label="证件号码"
-          sortable="custom">
+          sortable>
         </el-table-column>
         <el-table-column
           prop="FLTNO"
           label="航班号"
-          sortable="custom">
+          sortable>
         </el-table-column>
         <el-table-column
           prop="DEPARTDATESTRING"
           label="航班日期"
-          sortable="custom">
+          sortable>
         </el-table-column>
         <el-table-column
           prop="FLIGHTTYPE"
           label="出入标识"
-          sortable="custom">
+          sortable>
         </el-table-column>
         <el-table-column
           prop="INSTRUCT_NEW"
           label="反馈结果"
-          sortable="custom">
+          sortable>
         </el-table-column>
         <el-table-column
           prop="TYPE"
           label="命中人员类别" width="170"
-          sortable="custom">
+          sortable>
         </el-table-column>
 
         <el-table-column
           fixed="right"
           label="操作"
-          sortable="custom"
+          sortable
           width="180">
           <template slot-scope="scope">
             <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row)">报表</el-button>

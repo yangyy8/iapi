@@ -43,7 +43,7 @@
         </el-row>
     </div>
 
-    <div class="middle">
+    <div class="middle t-table">
       <el-row class="mb-15">
         <el-button type="primary" size="small" @click="addTableList">新增</el-button>
         <el-button type="success" size="small" @click="save">保存并发布</el-button>
@@ -52,13 +52,12 @@
         ref="multipleTable"
         :data="tableData"
         border
-        style="width: 100%;"
-        @selection-change="handleSelectionChange">
+        style="width: 100%;">
         <el-table-column
           label="出入境方向"
           width="180">
           <template slot-scope="scope">
-            <el-select v-model="scope.row.IODIR" placeholder="请选择"  size="mini" class="table-select">
+            <el-select v-model="scope.row.IODIR" placeholder="请选择"  size="mini" filterable clearable class="table-select">
               <el-option label="出境" value="0"></el-option>
               <el-option label="入境" value="1"></el-option>
               <el-option label="全部" value="2"></el-option>
@@ -69,7 +68,7 @@
           label="人员类别"
           width="160">
           <template slot-scope="scope">
-            <el-select v-model="scope.row.PERSONNELTYPE" placeholder="请选择"  size="mini" class="table-select">
+            <el-select v-model="scope.row.PERSONNELTYPE" placeholder="请选择"  size="mini" filterable clearable class="table-select">
               <el-option label="中国内地人" value="0"></el-option>
               <el-option label="中国港澳台" value="1"></el-option>
               <el-option label="外国人" value="2"></el-option>
@@ -88,7 +87,7 @@
           label="字段名称"
           width="130">
           <template slot-scope="scope">
-            <el-select v-model="scope.row.FIELDNAME" @visible-change="codeName(scope.row.FIELDNAME)" placeholder="请选择"  size="mini" class="table-select">
+            <el-select v-model="scope.row.FIELDNAME" filterable clearable @visible-change="codeName(scope.row.FIELDNAME)" @change="inputMode(scope.row.FIELDNAME,scope.row)" placeholder="请选择"  size="mini" class="table-select">
               <el-option
               v-for="item in code"
               :key="item.FIELDNAME"
@@ -101,27 +100,36 @@
         <el-table-column
           label="运算符">
           <template slot-scope="scope">
-            <el-select v-model="scope.row.OPERATORCHARACTER" placeholder="请选择"  size="mini" class="table-select">
+            <el-select v-model="scope.row.OPERATORCHARACTER" placeholder="请选择" filterable clearable size="mini" class="table-select" v-show="dateShow==1">
               <el-option label="等于" value="0"></el-option>
               <el-option label="大于" value="1"></el-option>
               <el-option label="小于" value="2"></el-option>
               <el-option label="包含" value="3"></el-option>
+            </el-select>
+            <el-select v-model="scope.row.OPERATORCHARACTER" placeholder="请选择" filterable clearable size="mini" class="table-select" v-show="dateShow==2">
+              <el-option label="等于" value="0"></el-option>
             </el-select>
          </template>
         </el-table-column>
         <el-table-column
           label="取值">
           <template slot-scope="scope">
-            <el-select v-model="scope.row.VALUE" placeholder="请选择"  size="mini" class="table-select">
-              <el-option label="当前系统时间" value="sysdate">
-              </el-option>
+            <el-select v-model="scope.row.VALUE" placeholder="请选择"  size="mini" filterable clearable class="table-select" v-show="show==1">
+              <el-option label="当前系统时间" value="sysdate"></el-option>
+              <el-option label="一个月" value="sysdate+30"></el-option>
+              <el-option label="两个月" value="sysdate+60"></el-option>
+              <el-option label="三个月" value="sysdate+90"></el-option>
+              <el-option label="六个月" value="sysdate+180"></el-option>
+              <el-option label="九个月" value="sysdate+270"></el-option>
+              <el-option label="一年" value="sysdate+360"></el-option>
             </el-select>
+            <el-input placeholder="请输入内容" size="small" class="table-select" v-model="scope.row.VALUE" v-show="show==2"></el-input>
          </template>
         </el-table-column>
         <el-table-column
           label="反馈结果">
           <template slot-scope="scope">
-            <el-select v-model="scope.row.CHECKRESULT" placeholder="请选择"  size="mini" class="table-select">
+            <el-select v-model="scope.row.CHECKRESULT" placeholder="请选择" filterable clearable size="mini" class="table-select">
               <el-option label="2Z" value="2Z">
               </el-option>
             </el-select>
@@ -136,7 +144,7 @@
         <el-table-column
           label="状态">
           <template slot-scope="scope">
-            <el-select v-model="scope.row.STATUS" placeholder="请选择"  size="mini" class="table-select">
+            <el-select v-model="scope.row.STATUS" placeholder="请选择" filterable clearable size="mini" class="table-select">
               <el-option label="停用" value="0"></el-option>
               <el-option label="启用" value="1"></el-option>
             </el-select>
@@ -147,13 +155,20 @@
           width="100">
           <template slot-scope="scope">
             <div class="flex-r">
-              <el-button class="table-btn" size="mini" plain icon="el-icon-delete" @click="deleteTableList(scope.$index)">删除</el-button>
+              <el-button class="table-btn" size="mini" plain icon="el-icon-delete" @click="deleteTableList(scope.$index,scope.row)">删除</el-button>
             </div>
          </template>
         </el-table-column>
 
       </el-table>
       <div class="middle-foot">
+        <div class="page-msg">
+          <div class="">
+            共{{count}}条数据
+          </div>
+        </div>
+      </div>
+      <!-- <div class="middle-foot">
         <div class="page-msg">
           <div class="">
             共{{Math.ceil(TotalResult/pageSize)}}页
@@ -181,7 +196,7 @@
           layout="prev, pager, next"
           :total="TotalResult">
         </el-pagination>
-      </div>
+      </div> -->
     </div>
     </div>
 
@@ -200,6 +215,7 @@ export default {
       TotalResult:0,
       detailsDialogVisible:false,
       pd:{},
+      count:0,
       options:[
         {
           value:10,
@@ -225,7 +241,8 @@ export default {
     			"CHECKRESULT": "",
           "RESPONSERESULT":'',
           "STATUS": "",
-          "FIELDTYPE":''
+          "FIELDTYPE":'',
+          "CTLTYPE":'U'
         }
       ],
       modelTable:{
@@ -238,7 +255,8 @@ export default {
         "CHECKRESULT": "",
         "RESPONSERESULT":'',
         "STATUS": "",
-        "FIELDTYPE":''
+        "FIELDTYPE":'',
+        "CTLTYPE":'U'
       },
       cleanTable:{
         "IODIR": "",
@@ -250,54 +268,76 @@ export default {
         "CHECKRESULT": "",
         "RESPONSERESULT":'',
         "STATUS": "",
-        "FIELDTYPE":''
+        "FIELDTYPE":'',
+        "CTLTYPE":'U'
       },
       multipleSelection:[],
-      code:[]
+      code:[],
+      show:1,
+      dateShow:1,
+      operatorData:[],
+      allData:[]
     }
   },
   mounted() {
-    this.getList(this.CurrentPage,this.pageSize,this.pd);
+    this.getList(this.pd);
   },
   methods:{
-    handleSelectionChange(val) {
-       this.multipleSelection = val;
-     },
-     pageSizeChange(val) {
-       this.getList(this.CurrentPage,val,this.pd);
-       console.log(`每页 ${val} 条`);
-     },
-     handleCurrentChange(val) {
-       this.getList(val,this.pageSize,this.pd);
-       console.log(`当前页: ${val}`);
-     },
-     getList(currentPage,showCount,pd){
+    // handleSelectionChange(val) {
+    //    this.multipleSelection = val;
+    //  },
+    //  pageSizeChange(val) {
+    //    this.getList(this.CurrentPage,val,this.pd);
+    //    console.log(`每页 ${val} 条`);
+    //  },
+    //  handleCurrentChange(val) {
+    //    this.getList(val,this.pageSize,this.pd);
+    //    console.log(`当前页: ${val}`);
+    //  },
+     getList(pd){
        let p={
-       	"currentPage":currentPage,
-       	"showCount":showCount,
+       	// "currentPage":currentPage,
+       	// "showCount":showCount,
        	"pd":pd
        };
-       console.log(pd)
-       this.$api.post('/manage-platform/ruleConfig/getRuleConfigPage',p,
+       this.$api.post('/manage-platform/ruleConfig/getRuleConfigList',p,
         r => {
-          console.log(r);
-          this.tableData=r.data.resultList;
-          this.TotalResult=r.data.totalResult;
+          this.tableData=r.data;
+          // this.TotalResult=r.data.totalResult;
+          this.count = this.tableData.length;
        })
      },
      addTableList(){//新增
+       this.count++;
+       this.modelTable={
+         "IODIR": "",
+         "PERSONNELTYPE": "",
+         "FIELDNAME": "",
+         "MAXLENGTH":'-1',
+         "MINLENGTH":'-1',
+         "CHECKRESULT": "",
+         "CHECKREMARK": '',
+         "INPUT": "",
+         "STATUS":'',
+         "CTLTYPE":'U'
+       }
+       this.modelTable.CTLTYPE='I';
        this.tableData.push(this.modelTable);
-       this.modelTable = this.cleanTable;
+       // this.modelTable = this.cleanTable;
+       this.allDate = this.tableData;
      },
-     deleteTableList(id){//删除本行
+     deleteTableList(id,item){//删除本行
        this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
          confirmButtonText: '确定',
          cancelButtonText: '取消',
          type: 'warning'
        }).then(() => {
+         this.count--;
+         item.CTLTYPE='D';
+         let d = item;
          this.tableData.splice(id,1);
-         this.save();
-
+         this.operatorData.push(d);
+         this.allData = this.tableData.concat(this.operatorData);
        }).catch(() => {
          this.$message({
            type: 'info',
@@ -307,13 +347,14 @@ export default {
 
      },
      save(){
-       let p = this.tableData;
+       let p = this.allData;
        this.$api.post('/manage-platform/ruleConfig/addRuleConfigAll',p,
         r => {
           console.log(r);
           if(r.success == false){
             this.$message.error(r.message);
           }else{
+            this.operatorData = [];
             this.$message({
               type: 'success',
               message: '操作成功!'
@@ -323,7 +364,7 @@ export default {
 
      },
      codeName(name){//字段名称的接口
-       console.log(name);
+
        this.$api.post('/manage-platform/ruleConfig/getRuleConfigFieldNameList',{},
         r => {
           console.log(r);
@@ -331,6 +372,18 @@ export default {
             this.code = r.data
           }
        })
+     },
+     inputMode(item,rowBase){
+       console.log(item);
+       this.$set(rowBase,'VALUE','');
+       this.$set(rowBase,'OPERATORCHARACTER','');
+       if(item=="DATEOFBIRTH"||item=="PASSPORTISSUEDATE"||item=="VISAISSUEDATE"||item=="PASSPORTEXPIREDATE"){
+         this.show=1;
+         this.dateShow=1;
+       }else{
+         this.show=2;
+         this.dateShow=2;
+       }
      }
 
   }
@@ -341,7 +394,10 @@ export default {
 
 </style>
 <style media="screen">
-
+.t-table .el-table__body-wrapper{
+  max-height: 360px;
+  overflow-y: scroll;
+}
 .el-table__body{
     table-layout:auto !important;
 }

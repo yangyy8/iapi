@@ -43,7 +43,7 @@
         </el-row>
     </div>
 
-    <div class="middle">
+    <div class="middle t-table">
       <el-row class="mb-15">
         <el-button type="primary" size="small" @click="addTableList">新增</el-button>
         <el-button type="success" size="small" @click="save">保存并发布</el-button>
@@ -52,10 +52,10 @@
         ref="multipleTable"
         :data="tableData"
         border
-        style="width: 100%;"
-        @selection-change="handleSelectionChange">
+        style="width: 100%;">
         <el-table-column
           label="出入境方向"
+          sortable
           width="180">
           <template slot-scope="scope">
             <el-select v-model="scope.row.IODIR" placeholder="请选择" filterable clearable size="mini" class="table-select">
@@ -150,6 +150,13 @@
       <div class="middle-foot">
         <div class="page-msg">
           <div class="">
+            共{{count}}条数据
+          </div>
+        </div>
+      </div>
+      <!-- <div class="middle-foot">
+        <div class="page-msg">
+          <div class="">
             共{{Math.ceil(TotalResult/pageSize)}}页
           </div>
           <div class="">
@@ -175,7 +182,7 @@
           layout="prev, pager, next"
           :total="TotalResult">
         </el-pagination>
-      </div>
+      </div> -->
     </div>
     </div>
 
@@ -218,7 +225,7 @@ export default {
     			"CHECKREMARK": '',
     			"INPUT": "",
           "STATUS":'',
-          "ctltype":'U'
+          "CTLTYPE":'U'
         }
       ],
       modelTable:{
@@ -231,7 +238,7 @@ export default {
         "CHECKREMARK": '',
         "INPUT": "",
         "STATUS":'',
-        "ctltype":'U'
+        "CTLTYPE":'U'
       },
       cleanTable:{
         "IODIR": "",
@@ -243,45 +250,61 @@ export default {
         "CHECKREMARK": '',
         "INPUT": "",
         "STATUS":'',
-        "ctltype":'U'
+        "CTLTYPE":'U'
       },
       multipleSelection:[],
-      code:[]
+      code:[],
+      operatorData:[],
+      allData:[],
+      count:0
     }
   },
   mounted() {
-    this.getList(this.CurrentPage,this.pageSize,this.pd);
+    this.getList(this.pd);
   },
   methods:{
-    handleSelectionChange(val) {
-       this.multipleSelection = val;
-     },
-     pageSizeChange(val) {
-       this.getList(this.CurrentPage,val,this.pd);
-       console.log(`每页 ${val} 条`);
-     },
-     handleCurrentChange(val) {
-       this.getList(val,this.pageSize,this.pd);
-       console.log(`当前页: ${val}`);
-     },
-     getList(currentPage,showCount,pd){
+    // handleSelectionChange(val) {
+    //    this.multipleSelection = val;
+    //  },
+    //  pageSizeChange(val) {
+    //    this.getList(this.CurrentPage,val,this.pd);
+    //    console.log(`每页 ${val} 条`);
+    //  },
+    //  handleCurrentChange(val) {
+    //    this.getList(val,this.pageSize,this.pd);
+    //    console.log(`当前页: ${val}`);
+    //  },
+     getList(pd){
        let p={
-       	"currentPage":currentPage,
-       	"showCount":showCount,
+       	// "currentPage":currentPage,
+       	// "showCount":showCount,
        	"pd":pd
        };
-       console.log(pd)
-       this.$api.post('/manage-platform/dataCheck/getDataCheckPage',p,
+       this.$api.post('/manage-platform/dataCheck/getDataCheckList',p,
         r => {
-          console.log(r);
-          this.tableData=r.data.resultList;
-          this.TotalResult=r.data.totalResult;
+          this.tableData=r.data;
+          // this.TotalResult=r.data.totalResult;
+          this.count = this.tableData.length;
        })
      },
      addTableList(){//新增
-       this.modelTable.ctltype='I'
+       this.count++;
+       this.modelTable={
+         "IODIR": "",
+         "PERSONNELTYPE": "",
+         "FIELDNAME": "",
+         "MAXLENGTH":'-1',
+         "MINLENGTH":'-1',
+         "CHECKRESULT": "",
+         "CHECKREMARK": '',
+         "INPUT": "",
+         "STATUS":'',
+         "CTLTYPE":'U'
+       };
+       this.modelTable.CTLTYPE='I';
        this.tableData.push(this.modelTable);
-       this.modelTable = this.cleanTable;
+       // this.modelTable = this.cleanTable;
+       this.allData = this.tableData;
      },
      deleteTableList(id,item){//删除本行
        this.$confirm('此操作将删除该文件, 是否继续?', '提示', {
@@ -289,10 +312,12 @@ export default {
          cancelButtonText: '取消',
          type: 'warning'
        }).then(() => {
+         this.count--;
+         item.CTLTYPE='D';
+         let d = item;
          this.tableData.splice(id,1);
-         item.ctltype='D'
-         // this.save();
-
+         this.operatorData.push(d);
+         this.allData = this.tableData.concat(this.operatorData);
        }).catch(() => {
          this.$message({
            type: 'info',
@@ -302,13 +327,14 @@ export default {
 
      },
      save(){
-       let p = this.tableData;
+       let p = this.allData;
        this.$api.post('/manage-platform/dataCheck/addDataCheck',p,
         r => {
           console.log(r);
           if(r.success == false){
             this.$message.error(r.message);
           }else{
+            this.operatorData = [];
             this.$message({
               type: 'success',
               message: '操作成功!'
@@ -326,8 +352,7 @@ export default {
             this.code = r.data
           }
        })
-     }
-
+     },
   }
 }
 </script>
@@ -336,7 +361,10 @@ export default {
 
 </style>
 <style media="screen">
-
+.t-table .el-table__body-wrapper{
+  max-height: 360px;
+  overflow-y: scroll;
+}
 .el-table__body{
     table-layout:auto !important;
 }

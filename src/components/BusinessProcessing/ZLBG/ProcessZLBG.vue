@@ -114,6 +114,7 @@
                 </el-table-column>
                 <el-table-column
                   label="证件种类" sortable
+                  width="120"
                 >
                 <template slot-scope="scope">
                     {{scope.row.PASSPORTTYPE | fiftertype}}
@@ -123,6 +124,7 @@
                 <el-table-column
                   prop="PASSPORTNO"
                   label="证件号码" sortable
+                  width="120"
                 >
                 </el-table-column>
                 <el-table-column
@@ -133,13 +135,14 @@
                 <el-table-column
                   prop="INTG_CHNNAME"
                   label="中文姓名" sortable
+                  width="120"
                 >
                 </el-table-column>
                 <el-table-column
 
                   label="性别"
                   sortable
-                  width="100"
+
                 >
                 <template slot-scope="scope">
                   {{scope.row.GENDER | fiftersex}}
@@ -148,21 +151,25 @@
                 <el-table-column
                   prop="DATEOFBIRTH"
                   label="出生日期" sortable
+                  width="120"
                   >
                 </el-table-column>
                 <el-table-column
                   prop="FLTNO"
                   label="航班号" sortable
+                  width="120"
                 >
                 </el-table-column>
                 <el-table-column
                   prop="DEPARTDATE"
                   label="航班日期" sortable
+                  width="120"
                   >
                 </el-table-column>
 
                 <el-table-column
                   label="值机状态" sortable
+                  width="120"
                   >
                   <template slot-scope="scope">
                     {{scope.row.PASSENGERSTATUS | fifterstate}}
@@ -170,6 +177,7 @@
                 </el-table-column>
                 <el-table-column
                   label="反馈状态" sortable
+                  width="120"
                   >
                   <template slot-scope="scope">
                     {{scope.row.LASTCHECKRESULT | fiftecr}}
@@ -237,11 +245,13 @@
                     <el-table-column
                       prop="DATEOFBIRTH"
                       label="出生日期" sortable
+                      width="110"
                       >
                     </el-table-column>
                     <el-table-column
                       prop="FLTNO"
                       label="航班号" sortable
+                      width="110"
                     >
                     </el-table-column>
                     <el-table-column
@@ -251,6 +261,7 @@
                     </el-table-column>
                     <el-table-column
                       label="证件种类" sortable
+                      width="110"
                     >
                     <template slot-scope="scope">
                         {{scope.row.PASSPORTTYPE | fiftertype}}
@@ -260,18 +271,22 @@
                     <el-table-column
                       prop="PASSPORTNO"
                       label="证件号码" sortable
+                      width="110"
                     >
                     </el-table-column>
                     <el-table-column
                       label="当前值机状态" sortable
+                      width="130"
                     >
                     <template slot-scope="scope">
                       {{scope.row.CHECKRESULT | fiftecr}}
                     </template>
                     </el-table-column>
                     <el-table-column
+                      sortable
                       prop="CHECKRESULT"
                       label="当前值机状态说明"
+                      width="160"
                     >
                     </el-table-column>
           </el-table>
@@ -279,7 +294,7 @@
         <hr/>
         <el-row type="flex" class="mb-6">
           <el-col :span="24" class="input-item">
-            <span class="yy-input-text" style="width:15%">变更后值机状态：</span>
+            <span class="yy-input-text" style="width:18%">变更后值机状态：</span>
             <el-select v-model="map.INSTRUCT"  placeholder="请选择"  filterable clearable   size="small" style="width:80%">
               <el-option value="0Z" label="0Z - 允许打印登机牌">
               </el-option>
@@ -295,13 +310,13 @@
         </el-row>
         <el-row type="flex" class="mb-6">
           <el-col :span="24" class="input-item">
-            <span class="yy-input-text" style="width:15%">变更值机说明：</span>
+            <span class="yy-input-text" style="width:18%">变更值机说明(FreeText)：</span>
             <el-input placeholder="请输入内容" size="small" v-model="map.INSTRUCTC" style="width:80%"></el-input>
           </el-col>
         </el-row>
         <el-row type="flex" class="mb-6">
           <el-col :span="24" class="input-item">
-            <span class="yy-input-text" style="width:15%">变更描述：</span>
+            <span class="yy-input-text" style="width:18%">变更描述：</span>
            <el-input type="textarea" placeholder="请输入内容" :autosize="{ minRows: 3, maxRows: 6}" style="width:80%" v-model="map.CHANGERESON"></el-input>
           </el-col>
         </el-row>
@@ -395,7 +410,7 @@
         </el-row>
         <el-row type="flex" class="mb-6">
           <el-col :span="24" class="input-item">
-            <span class="yy-input-text" style="width:18%">变更值机说明：</span>
+            <span class="yy-input-text" style="width:18%">变更值机说明(FreeText)：</span>
             <el-input placeholder="请输入内容" size="small" v-model="form.INSTRUCTC" style="width:82%"></el-input>
           </el-col>
         </el-row>
@@ -582,11 +597,11 @@
           <el-table-column
             prop="NAME"
             label="姓名" sortable
+
           >
           </el-table-column>
           <el-table-column
             label="性别" sortable
-            width="80"
           >
           <template slot-scope="scope">
             {{scope.row.GENDER | fiftersex}}
@@ -595,6 +610,7 @@
           <el-table-column
             prop="DATEOFBIRTH"
             label="出生日期" sortable
+            width="120"
             >
           </el-table-column>
           <el-table-column
@@ -606,17 +622,20 @@
           <el-table-column
             prop="PASSPORTNO"
             label="证件号码" sortable
+            width="120"
           >
           </el-table-column>
 
           <el-table-column
             prop="FLTNO"
             label="航班号" sortable
+            width="120"
           >
           </el-table-column>
           <el-table-column
             prop="SCHEDULEDEPARTURETIME"
             label="航班日期" sortable
+            width="120"
             >
           </el-table-column>
 
@@ -638,6 +657,7 @@
           </el-table-column> -->
           <el-table-column
             label="报警信息" sortable
+            width="120"
             >
             <template slot-scope="scope">
               {{scope.row.STATUS | fifterbj}}
