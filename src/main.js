@@ -5,7 +5,8 @@ import "babel-polyfill"
 import ElementUI from 'element-ui';
 import './assets/css/normalize.css'
 import 'element-ui/lib/theme-chalk/index.css';
-
+import Print from 'vue-print-nb'
+import htmlToPdf from '@/components/other/htmlToPdf'
 import api from './api/index.js'
 
 // import 'lib-flexible/flexible'
@@ -14,6 +15,9 @@ import router from './router'
 
 Vue.config.productionTip = false
 Vue.use(ElementUI);
+Vue.use(Print);
+Vue.use(htmlToPdf);
+
 Vue.prototype.$api = api;
 //
 console.log(router)
