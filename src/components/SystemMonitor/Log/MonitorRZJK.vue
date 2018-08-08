@@ -36,13 +36,13 @@
               <div class="input-input t-flex t-date">
                <el-date-picker
                v-model="pd.begin"
-               type="datetime" size="small"
+               type="datetime" size="small" value-format="yyyy-MM-dd hh:mm:ss"
                placeholder="开始时间"  :picker-options="pickerOptions" >
              </el-date-picker>
                <span class="septum">-</span>
              <el-date-picker
                 v-model="pd.end"
-                type="datetime" size="small"
+                type="datetime" size="small" value-format="yyyy-MM-dd hh:mm:ss"
                 placeholder="结束时间" :picker-options="pickerOptions1" >
             </el-date-picker>
           </div>
@@ -209,26 +209,26 @@ export default {
                 return time.getTime() < this.pd.begin;
             }
         },
-        shortcuts: [{
-          text: '今天',
-          onClick(picker) {
-            picker.$emit('pick', new Date());
-          }
-        }, {
-          text: '昨天',
-          onClick(picker) {
-            const date = new Date();
-            date.setTime(date.getTime() - 3600 * 1000 * 24);
-            picker.$emit('pick', date);
-          }
-        }, {
-          text: '一周前',
-          onClick(picker) {
-            const date = new Date();
-            date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
-            picker.$emit('pick', date);
-          }
-        }],
+        // shortcuts: [{
+        //   text: '今天',
+        //   onClick(picker) {
+        //     picker.$emit('pick', new Date());
+        //   }
+        // }, {
+        //   text: '昨天',
+        //   onClick(picker) {
+        //     const date = new Date();
+        //     date.setTime(date.getTime() - 3600 * 1000 * 24);
+        //     picker.$emit('pick', date);
+        //   }
+        // }, {
+        //   text: '一周前',
+        //   onClick(picker) {
+        //     const date = new Date();
+        //     date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
+        //     picker.$emit('pick', date);
+        //   }
+        // }],
 
       },
           form: {},
@@ -269,11 +269,13 @@ export default {
           this.tableData = r.data.pd.resultList;
           this.TotalResult = r.data.totalResult;
         })
+
+
     },
     details(i) {
       this.detailsDialogVisible = true;
       console.log(i);
-    this.form=i;
+      this.form=i;
     },
 
 
