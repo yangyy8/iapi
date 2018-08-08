@@ -281,11 +281,6 @@
                     >
                     </el-table-column>
                     <el-table-column
-<<<<<<< HEAD
-                      sortable
-                      prop="CHECKRESULT"
-=======
->>>>>>> 632f5feca92d22c554e75fb1d9eb01aba45fa006
                       label="当前值机状态说明"
                       width="160"
                     >
@@ -320,13 +315,8 @@
         </el-row>
         <el-row type="flex" class="mb-6">
           <el-col :span="24" class="input-item">
-<<<<<<< HEAD
-            <span class="yy-input-text" style="width:18%">变更描述：</span>
-           <el-input type="textarea" placeholder="请输入内容" :autosize="{ minRows: 3, maxRows: 6}" style="width:80%" v-model="map.CHANGERESON"></el-input>
-=======
             <span class="yy-input-text" style="width:15%">变更描述：</span>
            <el-input type="textarea" placeholder="请输入变更描述(不能超过205字)" maxlength="250" :autosize="{ minRows: 3, maxRows: 6}" style="width:80%" v-model="map.CHANGERESON"></el-input>
->>>>>>> 632f5feca92d22c554e75fb1d9eb01aba45fa006
           </el-col>
         </el-row>
       </el-form>
