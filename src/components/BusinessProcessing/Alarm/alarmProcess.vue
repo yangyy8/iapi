@@ -182,7 +182,7 @@
           </el-table>
         </div>
       </div>
-      <div class="middle-tab-content" v-show="tabIsShow">
+      <div class="middle-tab-content" v-show="tabIsShow" id="printMe">
         <div class="middle-content1 ">
           <div class="title-green">
             人员信息
@@ -358,8 +358,8 @@
           </el-row>
         </div>
         <div class="middle-content1 middle-btn-g">
-          <el-button type="primary" class="mr-22" size="small">打印</el-button>
-          <el-button type="success" class="mr-22" size="small">导出</el-button>
+          <el-button type="primary" class="mr-22" size="small" v-print="'#printMe'">打印</el-button>
+          <el-button type="success" class="mr-22" size="small" @click="getPdf()">导出</el-button>
           <el-button type="warning" size="small" @click="$router.go(-1);">返回</el-button>
 
         </div>
@@ -529,6 +529,7 @@
 export default {
   data() {
     return {
+      htmlTitle: '页面导出PDF文件名',
       eventserial: "ddddddd",
       tabIsShow: false,
       iapiMap: {},
