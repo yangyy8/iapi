@@ -15,9 +15,12 @@
     "echarts": "^4.1.0",
     "element-ui": "^2.4.1",
     "es6-promise": "^4.2.4",
+    "html2canvas": "^1.0.0-alpha.12",
+    "jspdf": "^1.4.1",
     "lib-flexible": "^0.3.2",
     "px2rem-loader": "^0.1.9",
     "vue": "^2.5.2",
+    "vue-print-nb": "^1.0.3",
     "vue-router": "^3.0.1"
   },
   "devDependencies": {
