@@ -364,7 +364,7 @@ export default {
          if(this.isLogin){
            this.getNav0();
            this.getUers();
-           
+
          }
 
       })
@@ -458,7 +458,7 @@ export default {
           }])
         }
       }
-      console.log(res)
+      // console.log(res)
       return res;
     },
     fn(){
@@ -471,7 +471,7 @@ export default {
         ['北京',this.CQData],
 
       ].forEach(function(item, i) {
-        console.log(item[1]);
+        // console.log(item[1]);
         that.series.push({
           // 白色航线特效图
           type: 'lines',
@@ -577,7 +577,7 @@ export default {
           }
         }]
       });
-      console.log(that.series)
+      // console.log(that.series)
       this.initChart(that.series)
     },
     initChart(series) {

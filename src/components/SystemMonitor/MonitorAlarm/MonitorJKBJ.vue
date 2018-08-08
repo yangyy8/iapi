@@ -188,7 +188,7 @@
 
     <el-row type="flex"  class="mb-15">
      <el-col :span="24"><span class="input-text" style="width:15%;">处理详情：</span>
-     <el-input type="textarea" v-model="form.DEALCONTENT" maxlength="250"  placeholder="请输入内容" :autosize="{ minRows: 3, maxRows: 6}" style="width:80%;" ></el-input>
+     <el-input type="textarea" v-model="form.DEALCONTENT" maxlength="250"  placeholder="请输入处理详情(不超过250字)" :autosize="{ minRows: 3, maxRows: 6}" style="width:80%;" ></el-input>
      </el-col>
     </el-row>
 
@@ -224,7 +224,10 @@
         <el-col :span="8"><span class="yy-input-text">处理人：</span>{{dform.DEALUSER}}</el-col>
          <el-col :span="8"><span class="yy-input-text">处理时间：</span>{{dform.DEALTIME}}</el-col>
     </el-row>
-
+    <el-row type="flex"  class="mb-15">
+     <el-col :span="24"><span class="input-text" style="width:13%;">处理详情：</span>{{dform.DEALCONTENT}}
+     </el-col>
+   </el-row>
     </el-form>
     <div slot="footer" class="dialog-footer">
       <el-button @click="detailsDialogVisible = false" size="small">取消</el-button>

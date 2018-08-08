@@ -108,7 +108,7 @@
         </div>
         <div class="middle-content1 position">
           <div class="title-green">
-            待甄别信息列表
+            待甄别名单列表
           </div>
           <div class="middle-msg" v-if="msgData>0">
             当前有<span>{{msgData}}</span>个名单未完成甄别
@@ -359,7 +359,9 @@
         </div>
         <div class="middle-content1 middle-btn-g">
           <el-button type="primary" class="mr-22" size="small">打印</el-button>
-          <el-button type="success" size="small">导出</el-button>
+          <el-button type="success" class="mr-22" size="small">导出</el-button>
+          <el-button type="warning" size="small" @click="$router.go(-1);">返回</el-button>
+
         </div>
       </div>
     </div>
@@ -377,7 +379,7 @@
           </el-input>
         </el-col>
         <el-col :span="4" class="down-btn-area">
-          <el-button type="primary" class="mb-15" size="small" @click="handeles()" v-show="isUpdate&&iapiMap.instructNew==null" :disabled="msgData>0">确定</el-button>
+          <el-button type="primary" class="mb-15" size="small" @click="handeles()" v-show="isUpdate&&iapiMap.instructNew==null" >确定</el-button>
           <el-button type="info" class="mb-15" size="small" @click="archive" v-show="!isUpdate||iapiMap.instructNew">归档</el-button>
           <el-button type="warning" size="small" @click="$router.go(-1);">返回</el-button>
         </el-col>
@@ -458,14 +460,14 @@
           </el-col>
           <el-col :span="8" class="input-item">
             <span class="yy-input-text">值机状态说明：</span>
-            <el-input placeholder="请输入内容" size="small"  v-model="form.CHECKRESULTS" class="yy-input-input" :disabled="true"></el-input>
+            <el-input placeholder="请输入内容" size="small"  v-model="iapiMap.INSTRUCTC" class="yy-input-input" :disabled="true"></el-input>
           </el-col>
         </el-row>
         <hr/>
         <el-row type="flex" class="mb-6">
           <el-col :span="24" class="input-item">
             <span class="yy-input-text" style="width:18%">变更后值机状态：</span>
-            <el-select v-model="ap.INSTRUCT"  placeholder="请选择" filterable clearable  @change="zhiling"  size="small" style="width:82%">
+            <el-select v-model="ap.INSTRUCT"  placeholder="请选择" filterable clearable  @change="inschange(ap.INSTRUCT)"  size="small" style="width:82%">
               <span v-if="iapiMap.instructOld!='0Z'">
                 <el-option value="0Z" label="0Z - 允许打印登机牌"></el-option>
               </span>
@@ -481,12 +483,12 @@
              </el-select>
           </el-col>
         </el-row>
-        <!-- <el-row type="flex" class="mb-6">
+        <el-row type="flex" class="mb-6">
           <el-col :span="24" class="input-item">
             <span class="yy-input-text" style="width:18%">变更状态说明(FreeText)：</span>
             <el-input placeholder="请输入内容" size="small" v-model="ap.INSTRUCTC" style="width:82%"></el-input>
           </el-col>
-        </el-row> -->
+        </el-row>
 
         <el-row type="flex" class="mb-6">
           <el-col :span="24" class="input-item">
@@ -512,8 +514,8 @@
       <el-row  type="flex"  class="mb-15">
             <el-col :span="20">
               <span class="yy-input-text">授权密码：</span>
-              <el-input placeholder="请输入内容" type="password" size="small" v-model="ap.password" class="yy-input-input"></el-input></el-col>
-
+              <el-input placeholder="请输入内容" type="password" size="small" v-model="ap.password" class="yy-input-input"></el-input>
+            </el-col>
       </el-row>
       <div slot="footer" class="dialog-footer">
        <el-button type="primary" @click="Authorization(ap)" size="small">确认授权</el-button>
@@ -575,9 +577,14 @@ export default {
                 console.log(arr[i].status)
                 this.msgData++;
               }
-              if (arr[i].compareDesc) {
-                this.pd.CHANGE_RESON += parseInt(i)+ 1 + "." + arr[i].compareDesc + "\n";
+              if(this.iapiMap.instructNew){
+                this.pd.CHANGE_RESON=this.iapiMap.change_reson;
+
+              }else if (arr[i].status == 1) {
+
+                this.pd.CHANGE_RESON += parseInt(i)+ 1 + ". 档号："+arr[i].dh+" 名单类型："+arr[i].alarmType+" 甄别结果："+arr[i].confirmResult+" 甄别说明：" + arr[i].compareDesc + "\n";
               }
+
             }
           })
       } else {
@@ -596,8 +603,11 @@ export default {
                 console.log(arr[i].status)
                 this.msgData++;
               }
-              if (arr[i].compareDesc) {
-                this.pd.CHANGE_RESON += parseInt(i)+ 1 + "." + arr[i].compareDesc + "\n";
+              if(this.iapiMap.instructNew){
+                this.pd.CHANGE_RESON=this.iapiMap.change_reson;
+
+              }else if (arr[i].status == 1) {
+                this.pd.CHANGE_RESON += parseInt(i)+ 1 + ". 档号："+arr[i].dh+" 名单类型："+arr[i].alarmType+" 甄别结果："+arr[i].confirmResult+" 甄别说明：" + arr[i].compareDesc + "\n";
               }
 
             }
@@ -614,19 +624,6 @@ export default {
       this.documentInfo()
     },
     upDate(ap) {
-      // this.pd.eventserial=this.eventserial;
-      // this.pd.bguserName=ap.userName;
-      // this.pd.bgpassword=ap.password;
-      // this.pd.bgverifyType="bjcl";
-      // if(this.pd.DEALRESULT==1){
-      //   this.pd.INSTRUCT_OLD=this.iapiMap.instructOld;
-      // }
-      // let p={
-      //   "currentPage":0,
-      //   "showCount":3,
-      //    pd:this.pd
-      // };
-
       if (this.pd.DEALRESULT == 1) {
         if(this.pd.DEALRESULT==1){
           this.pd.INSTRUCT_OLD=this.iapiMap.instructOld;
@@ -638,7 +635,7 @@ export default {
           "APPROVALUSER": ap.userName,
           "APPROVALPW": ap.password,
           "INSTRUCT": ap.INSTRUCT,
-          // "INSTRUCTC":ap.INSTRUCTC,
+          "INSTRUCTC":ap.INSTRUCTC,
           "CHANGERESON": ap.CHANGERESON
         };
         // this.$api.post('/manage-platform/alarmEvents/getUpdateResult',p,
@@ -665,24 +662,27 @@ export default {
           "showCount":3,
            pd:this.pd
         };
-
-         this.$api.post('/manage-platform/alarmEvents/getUpdateResult',p,
-          r => {
-            console.log(r);
-            if (r.success) {
-              this.$confirm('甄别完毕, 是否返回上一页?', '提示', {
-                 confirmButtonText: '确定',
-                 cancelButtonText: '取消',
-                 type: 'warning'
-               }).then(() => {
+        this.$confirm('是否确定?', '提示', {
+           confirmButtonText: '确定',
+           cancelButtonText: '取消',
+           type: 'warning'
+         }).then(() => {
+           this.$api.post('/manage-platform/alarmEvents/getUpdateResult',p,
+            r => {
+              console.log(r);
+              if (r.success) {
+                this.$message({
+                   message: '恭喜你，甄别成功！',
+                   type: 'success'
+                 });
                  this.$router.go(-1);
-               }).catch(() => {
-                 this.isUpdate = false;
-                 this.getList();
-               });
+              }
+            })
+         }).catch(() => {
+           // this.isUpdate = false;
+           // this.getList();
+         });
 
-            }
-          })
       }
 
 
@@ -756,6 +756,13 @@ export default {
       this.upDate(ap);
     },
     handeles() {
+      if(this.msgData>0){
+        this.$alert('您尚有'+this.msgData+'未做甄别处理，请先完成名单甄别操作!', '提示', {
+         confirmButtonText: '确定',
+         type: 'warning'
+        });
+        return
+      }
       if (this.pd.DEALRESULT == 1) {
         this.handlesDialogVisible = true;
       }else {
@@ -769,9 +776,18 @@ export default {
           type: 'warning'
         });
     },
-    zhiling(){
-      console.log(this.ap.INSTRUCT);
-      // this.ap.INSTRUCTC=this.ap.INSTRUCT.split('-')[1]
+    inschange(n){
+      var content="";
+      if (n == "0Z") {
+        content= "OK TO BOARD";
+      } else if (n == "1Z") {
+        content= "NO BOARD";
+      } else if (n == "2Z") {
+        content= "CHECK AGAIN";
+      } else if (n == "4Z"){
+        content= "DATA ENTRY ERROR";
+      }
+      this.ap.INSTRUCTC=content;
     }
 
   }
@@ -819,7 +835,7 @@ export default {
 
 .middle-msg {
   position: absolute;
-  left: 130px;
+  left: 140px;
   top: 15px;
   background: #fdddde;
   border: 1px #fea9ac solid;

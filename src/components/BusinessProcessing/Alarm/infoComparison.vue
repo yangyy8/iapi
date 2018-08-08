@@ -645,8 +645,8 @@
             </div>
             <div class="radio-g">
               <el-radio-group v-model="martchPort" class="radio-g-area" :disabled="isdisabled||$route.query.status==1">
-                <el-radio :label="0">否</el-radio>
                 <el-radio :label="1">是</el-radio>
+                <el-radio :label="0">否</el-radio>
               </el-radio-group>
             </div>
           </div>
@@ -787,7 +787,7 @@ export default {
      value: '223333333333',
      checkedImg:1,
      checkedImg2:1,
-     martchPort:0,
+     martchPort:1,
      pd1:{},
      tableData:{
        BZRJyfbywtList:{},
@@ -871,41 +871,54 @@ export default {
         }
      };
      if(this.$route.query.isZDGZ){
-       this.$api.post('/manage-platform/pnrAlarmEvent/saveNameListAttentionFocus',p,
-        r => {
-          console.log(r);
-          if(r.success){
-            this.$confirm('甄别完毕, 是否返回上一页?', '提示', {
-               confirmButtonText: '确定',
-               cancelButtonText: '取消',
-               type: 'warning'
-             }).then(() => {
-               this.$router.go(-1);
-             }).catch(() => {
-               this.isdisabled=true;
-               this.getData();
-             });
-          }
-       })
+       this.$confirm('是否确定?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          // this.$router.go(-1);
+          this.$api.post('/manage-platform/pnrAlarmEvent/saveNameListAttentionFocus',p,
+           r => {
+             console.log(r);
+             if(r.success){
+               this.$message({
+                  message: '恭喜你，甄别成功！',
+                  type: 'success'
+                });
+                this.$router.go(-1);
+
+             }
+          })
+        }).catch(() => {
+          // this.isdisabled=true;
+          // this.getData();
+        });
+
      }else{
-       this.$api.post('/manage-platform/alarmEvents/getSaveNameToIdentify',p,
-        r => {
-          console.log(r);
-          if(r.success){
-            this.$confirm('甄别完毕, 是否返回上一页?', '提示', {
-               confirmButtonText: '确定',
-               cancelButtonText: '取消',
-               type: 'warning'
-             }).then(() => {
-               this.$router.go(-1);
-             }).catch(() => {
-               this.isdisabled=true;
+       this.$confirm('是否确定?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.$api.post('/manage-platform/alarmEvents/getSaveNameToIdentify',p,
+           r => {
+             console.log(r);
+             if(r.success){
+               this.$message({
+                  message: '恭喜你，甄别成功！',
+                  type: 'success'
+                });
+                this.$router.go(-1);
 
-               this.getData();
-             });
+             }
+          })
 
-          }
-       })
+        }).catch(() => {
+          // this.isdisabled=true;
+
+          // this.getData();
+        });
+
      }
 
 

@@ -275,19 +275,23 @@
                     >
                     </el-table-column>
                     <el-table-column
+                      prop="LASTCHECKRESULT"
                       label="当前值机状态" sortable
                       width="130"
                     >
-                    <template slot-scope="scope">
-                      {{scope.row.CHECKRESULT | fiftecr}}
-                    </template>
                     </el-table-column>
                     <el-table-column
+<<<<<<< HEAD
                       sortable
                       prop="CHECKRESULT"
+=======
+>>>>>>> 632f5feca92d22c554e75fb1d9eb01aba45fa006
                       label="当前值机状态说明"
                       width="160"
                     >
+                    <template slot-scope="scope">
+                      {{scope.row.LASTCHECKRESULT | fiftecr}}
+                    </template>
                     </el-table-column>
           </el-table>
         </el-row>
@@ -316,8 +320,13 @@
         </el-row>
         <el-row type="flex" class="mb-6">
           <el-col :span="24" class="input-item">
+<<<<<<< HEAD
             <span class="yy-input-text" style="width:18%">变更描述：</span>
            <el-input type="textarea" placeholder="请输入内容" :autosize="{ minRows: 3, maxRows: 6}" style="width:80%" v-model="map.CHANGERESON"></el-input>
+=======
+            <span class="yy-input-text" style="width:15%">变更描述：</span>
+           <el-input type="textarea" placeholder="请输入变更描述(不能超过205字)" maxlength="250" :autosize="{ minRows: 3, maxRows: 6}" style="width:80%" v-model="map.CHANGERESON"></el-input>
+>>>>>>> 632f5feca92d22c554e75fb1d9eb01aba45fa006
           </el-col>
         </el-row>
       </el-form>
@@ -327,8 +336,6 @@
 
       </div>
     </el-dialog>
-
-
     <el-dialog title="指令变更" :visible.sync="handlesDialogVisible" width="900px">
       <el-form :model="form" ref="handlesForm">
         <el-row type="flex"  class="mb-6">
@@ -367,7 +374,7 @@
         <el-row type="flex"  class="mb-6">
           <el-col :span="8" class="input-item">
             <span class="yy-input-text">当前值机状态：</span>
-            <el-select v-model="form.CHECKRESULT"  placeholder="请选择"    size="small" class="yy-input-input" :disabled="true">
+            <el-select v-model="form.LASTCHECKRESULT"  placeholder="请选择"    size="small" class="yy-input-input" :disabled="true">
               <el-option value="0Z" label="0Z - 允许打印登机牌">
               </el-option>
               <el-option value="1Z" label="1Z - 禁止打印登机牌">
@@ -380,7 +387,7 @@
           </el-col>
           <el-col :span="8" class="input-item">
             <span class="yy-input-text">值机状态说明：</span>
-            <el-input placeholder="" size="small"  v-model="form.CHECKRESULTS" class="yy-input-input" :disabled="true"></el-input>
+            <el-input placeholder="" size="small"  v-model="form.LASTCHECKRESULTC" class="yy-input-input" :disabled="true"></el-input>
           </el-col>
         </el-row>
         <hr/>
@@ -418,7 +425,7 @@
         <el-row type="flex" class="mb-6">
           <el-col :span="24" class="input-item">
             <span class="yy-input-text" style="width:18%">变更描述：</span>
-           <el-input type="textarea" v-model="form.CHANGERESON"  placeholder="请输入内容" :autosize="{ minRows: 3, maxRows: 6}" style="width:82%;" ></el-input>
+           <el-input type="textarea" v-model="form.CHANGERESON"   placeholder="请输入变更描述(不能超过205字)" maxlength="250"  :autosize="{ minRows: 3, maxRows: 6}" style="width:82%;" ></el-input>
           </el-col>
         </el-row>
       </el-form>
@@ -822,11 +829,11 @@ export default {
       console.log(`当前页: ${val}`);
     },
     pageSizeChange1(val) {
-      this.detailgetlist(this.CurrentPage1, val, this.dfrom);
+      this.detailgetlist(this.CurrentPage1, val, this.dform);
       console.log(`每页 ${val} 条`);
     },
     handleCurrentChange1(val) {
-      this.detailgetlist(val, this.pageSize1, this.dfrom);
+      this.detailgetlist(val, this.pageSize1, this.dform);
 
       console.log(`当前页: ${val}`);
     },
@@ -845,12 +852,14 @@ export default {
     },
     handles(i) {
       this.handlesDialogVisible = true;
+      i.LASTCHECKRESULTC=this.fiftezjsm(i.LASTCHECKRESULT);
       console.log(i);
       this.form = i;
     },
     handlessys(i)
     {
        this.AuthDialogVisible=true;
+       this.ap={};
        this.tp=i;
     },
     Authorization(ap)
@@ -881,7 +890,6 @@ export default {
         "INSTRUCT": this.map.INSTRUCT,
         "CHANGERESON": this.map.CHANGERESON
       };
-
       this.$api.post('/manage-platform/iapiUnscolicited/instructChangeTab', p,
         r => {
           console.log(r);
@@ -902,18 +910,15 @@ export default {
         })
     },
     handlesItem1(formName,ap) {
-
-
-
       let p = {
         "IAPISERIAL": [this.form.SERIAL],
         "CREATEUSER": "杨小",
         "APPROVALUSER": ap.APPROVALUSER,
+
         "APPROVALPW":ap.APPROVALPW,
         "INSTRUCT": this.form.INSTRUCT,
         "CHANGERESON": this.form.CHANGERESON
       };
-
       this.$api.post('/manage-platform/iapiUnscolicited/instructChangeTab', p,
         r => {
           console.log(r);
@@ -1002,9 +1007,9 @@ export default {
     },
     detailgetlist(currentPage, showCount, r) {
       let p = {
-        "currentPage": currentPage,
-        "showCount": showCount,
-        "pd": r
+         "currentPage": currentPage,
+         "showCount": showCount,
+         "pd": r
       };
       this.$api.post('/manage-platform/iapiUnscolicited/queryHistory', p,
         r => {
@@ -1027,7 +1032,18 @@ export default {
         content= "数据错误";
       }
    this.form.INSTRUCTC=content;
-    }
+ },
+ fiftezjsm(val) {
+   if (val == "0Z") {
+     return "允许打印登机牌";
+   } else if (val == "1Z") {
+     return "禁止打印登机牌";
+   } else if (val == "2Z") {
+     return "请再次核对";
+   } else {
+     return "数据错误";
+   }
+ },
 
   },
 

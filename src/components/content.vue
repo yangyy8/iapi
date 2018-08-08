@@ -74,8 +74,8 @@
 
         </div>
       </el-aside>
-      <el-main class="right-main">
-        <ul class="tabList">
+      <el-main class="right-main" :class="{'nobg':tabList.length==0}">
+        <ul class="tabList" @click.right="closeRight" v-popover:popover>
           <li class="tabList-item hand" :style="{width:tabliwidth}" :class="{'tabList-checked':nav2Id==i.url}" v-for="(i, index) in tabList">
             <!-- <el-tooltip class="item" effect="dark" :content="i.name" placement="top"> -->
               <span  @click="nav2(i,index)">{{i.name}}</span>
@@ -105,63 +105,7 @@ export default {
       userName:'',
       navUlShow: false,
       tabliwidth:'120px',
-      muneListOne: [
-        // {
-        //     "MENU_ICON":"iconYC",
-        //     "SERIAL":"1",
-        //     "choose":true,
-        //     "name":"业务处理",
-        //     "parentId":"0",
-        //     "type":"1",
-        //     "url":"#"
-        // },
-        // {
-        //     "MENU_ICON":"iconYY",
-        //     "SERIAL":"2",
-        //     "choose":true,
-        //     "name":"业务应用",
-        //     "parentId":"0",
-        //     "type":"1",
-        //     "url":"#"
-        // },
-        // {
-        //     "MENU_ICON":"iconYK",
-        //     "SERIAL":"3",
-        //     "choose":true,
-        //     "name":"业务监控",
-        //     "parentId":"0",
-        //     "type":"1",
-        //     "url":"#"
-        // },
-        // {
-        //     "MENU_ICON":"iconYG",
-        //     "SERIAL":"4",
-        //     "choose":true,
-        //     "name":"业务管理",
-        //     "parentId":"0",
-        //     "type":"1",
-        //     "url":"#"
-        // },
-        // {
-        //     "MENU_ICON":"iconXG",
-        //     "SERIAL":"5",
-        //     "choose":true,
-        //     "name":"系统管理",
-        //     "parentId":"0",
-        //     "type":"1",
-        //     "url":"#"
-        // },
-        // {
-        //     "MENU_ICON":"iconXK",
-        //     "SERIAL":"6",
-        //     "choose":true,
-        //     "name":"系统监控",
-        //     "parentId":"0",
-        //     "type":"1",
-        //     "url":"#"
-        // }
-      ],
-
+      muneListOne: [],
       sideWidth: '295px',
       isCollapse: false,
       nav2Show: true,
@@ -171,329 +115,6 @@ export default {
       navh: 0,
       nav2List: [],
       nav1List: [],
-      nav1List1: [
-        {
-          SERIAL: 1,
-          name: "报警处理",
-          MENU_ICON:'i_bj',
-          menuList: [
-            {
-              SERIAL: 11,
-              name: "名单比对报警",
-              url: "ProcessMDBJ"
-            },
-            // {
-            //   SERIAL:12,
-            //   text:"二次查控报警",
-            //   name:"ProcessECBDBJ"
-            // },
-            {
-              SERIAL: 13,
-              name: "重点关注人员预报警",
-              url: "ProcessZDGZRY"
-            },
-
-          ]
-        },
-        {
-          SERIAL: 2,
-          name: "常规业务处理",
-          MENU_ICON:'i_cgyw',
-          menuList: [
-            {
-              SERIAL: 21,
-              name: "指令变更",
-              url: "ProcessZLBG"
-            },
-
-          ]
-        },
-        {
-          SERIAL: 3,
-          name: "备降航班处理",
-          MENU_ICON:'i_bjhb',
-          menuList: [{
-            SERIAL: 31,
-            name: "航班状态变更",
-            url: "ProcessHBZT"
-          }]
-        }
-      ],
-      nav1List2: [
-        {
-          SERIAL: 1,
-          name: "信息查询",
-          MENU_ICON:'i_xx',
-          menuList: [{
-              SERIAL: 11,
-              name: "人员信息查询",
-              url: "QueryRYXX"
-            },
-            {
-              SERIAL: 12,
-              name: "业务事件查询",
-              url: "QueryYWSJ"
-            },
-            {
-              SERIAL: 13,
-              name: "航班信息查询",
-              url: "QueryHBXX"
-            },
-            {
-              SERIAL: 14,
-              name: "命中人员查询",
-              url: "QueryMZRY"
-            },
-            {
-              SERIAL: 15,
-              name: "关联人员查询",
-              url: "QueryGLRY"
-            },
-            {
-              SERIAL: 16,
-              name: "航班座位查询",
-              url: "QueryHBZW"
-            },
-
-          ]
-        },
-        {
-          SERIAL: 2,
-          name: "校验比对结果",
-          MENU_ICON:'i_xybd',
-          menuList: [{
-              SERIAL: 21,
-              name: "数据项校验结果查询",
-              url: "DataItem"
-            },
-            {
-              SERIAL: 22,
-              name: "业务规则校验结果查询",
-              url: "Rules"
-            },
-            {
-              SERIAL: 23,
-              name: "名单比对结果查询",
-              url: "ListComparison"
-            },
-          ]
-        }
-      ],
-      nav1List3: [
-        {
-          SERIAL: 1,
-          name: "名单管理",
-          MENU_ICON:'i_md',
-          menuList: [{
-              SERIAL: 11,
-              name: "名单数据分析",
-              url: "ListMDSJFX"
-            },
-            {
-              SERIAL: 12,
-              name: "白名单管理",
-              url: "ListBMD"
-
-            },
-            {
-              SERIAL: 13,
-              name: "临控名单管理",
-              url: "ListLKMD"
-            },
-            {
-              SERIAL: 14,
-              name: "重点关注人员",
-              url: "LIstZDGZRYMD"
-            },
-
-          ]
-        },
-        {
-          SERIAL: 2,
-          name: "业务规则管理",
-          MENU_ICON:'i_ywgz',
-          menuList: [{
-              SERIAL: 21,
-              name: "数据项校验规则管理",
-              url: "ListSJXJYGZ"
-            },
-            {
-              SERIAL: 22,
-              name: "一般性规则管理",
-              url: "ListYBXGZ"
-            },
-            {
-              SERIAL: 23,
-              name: "免签规则管理",
-              url: "ListMQGZ"
-            },
-
-          ]
-        },
-
-      ],
-      nav1List4: [{
-        SERIAL: 1,
-        name: "全国监控",
-        MENU_ICON:'i_qg',
-        menuList: [{
-            SERIAL: 11,
-            name: "全国航班实时监控",
-            url: "NationalHBSSJK"
-          },
-
-
-        ]
-      }],
-      nav1List5: [
-        {
-          SERIAL: 1,
-          name: "权限管理",
-          MENU_ICON:'i_qx',
-          menuList: [{
-              SERIAL: 11,
-              name: "部门管理",
-              url: "ManageBM"
-            },
-            {
-              SERIAL: 12,
-              name: "用户管理",
-              url: "ManageYH"
-            },
-            {
-              SERIAL: 13,
-              name: "角色管理",
-              url: "ManageJS"
-            },
-          ]
-        },
-        {
-          SERIAL: 2,
-          name: "配置管理",
-          MENU_ICON:'i_pz',
-          menuList: [
-
-            // {
-            //   id:22,
-            //   text:"集中用户管理",
-            //   name:"ManageJZYH"
-            // },
-            // {
-            //   id:23,
-            //   text:"用户认证与登录",
-            //   name:"ManageDL"
-            // },
-
-          ]
-        },
-      ],
-      nav1List6: [
-        {
-          SERIAL: 1,
-          name: "运行状态监控",
-          MENU_ICON:'i_yxzt',
-          menuList: [{
-              SERIAL: 11,
-              name: "网络综合监控",
-              url: "MonitorBJJHPT"
-            },
-            {
-              SERIAL: 12,
-              name: "服务器监控",
-              url: "MonitorFWQ"
-            },
-            {
-              SERIAL: 13,
-              name: "接口服务监控",
-              url: "MonitorJKFW"
-            },
-            {
-              SERIAL: 14,
-              name: "数据库监控",
-              url: "MonitorSJK"
-
-            },
-            // {
-            //   id:13,
-            //   name:"应用程序监控",
-            //   name:"MonitorYYCX"
-            // },
-            {
-              SERIAL: 15,
-              name: "Redis监控",
-              url: "MonitorRedis"
-            },
-            {
-              SERIAL: 16,
-              name: "MQ监控",
-              url: "MonitorMQ"
-            },
-
-          ]
-        },
-        {
-          SERIAL: 2,
-          name: "数据监控",
-          MENU_ICON:'i_sj',
-          menuList: [{
-              SERIAL: 21,
-              name: "数据一致性监控",
-              url: "MonitorSJYZX"
-            },
-            // {
-            //   id:22,
-            //   name:"技术网关监控",
-            //   name:"MonitorJSWG"
-            // },
-            // {
-            //   id:23,
-            //   name:"整合分发监控",
-            //   name:"MonitorZHFF"
-            // },
-            // {
-            //   id:24,
-            //   name:"数据定位",
-            //   name:"MonitorSJDW"
-            // },
-          ]
-        },
-        {
-          SERIAL: 3,
-          name: "日志监控",
-          MENU_ICON:'i_rz',
-          menuList: [{
-            SERIAL: 31,
-            name: "日志监控",
-            url: "MonitorRZJK"
-          }, ]
-        },
-        {
-          SERIAL: 4,
-          name: "性能监控",
-          MENU_ICON:'i_xn',
-          menuList: [{
-              SERIAL: 41,
-              name: "校验比对性能监控",
-              url: "MonitorJYBDXN"
-            },
-            {
-              SERIAL: 42,
-              name: "整合分发性能监控",
-              url: "MonitorZHFFXN"
-            },
-          ]
-        },
-        {
-          SERIAL: 5,
-          name: "监控报警",
-          MENU_ICON:'i_zkbj',
-          menuList: [{
-            SERIAL: 51,
-            name: "监控报警",
-            url: "MonitorJKBJ"
-          }, ]
-        },
-      ],
       nav1List7: [{
         SERIAL: 1,
         name: "菜单设置",
@@ -534,16 +155,13 @@ export default {
       }
     }else {
       this.getNav(this.navId)
-      // this.getpp();
     }
-    console.log("route",this.$route)
   },
   methods: {
     getUers(){
       this.$api.post('/manage-platform/homePage/userInfo',{},
        r => {
          this.userName=r.data.userName;
-         console.log(r);
       })
     },
     msg(){
@@ -553,11 +171,6 @@ export default {
       })
     },
     logOut(){
-      // localStorage.removeItem('login')
-      // this.$message({
-      //   message: '退出成功',
-      //   type: 'success'
-      // });
       this.$api.post('/manage-platform/landout',{},
        r => {
         console.log(r)
@@ -608,7 +221,6 @@ export default {
             console.log(r);
             if(r.success){
               this.muneListOne = r.data.muneListOne
-
             }
           })
       }
@@ -620,7 +232,7 @@ export default {
       this.tabList=[];
     },
     closeRight(){
-      alert("杀杀杀")
+      // alert("杀杀杀")
     },
     nav1to2(nav1Itme,click) {
       console.log(nav1Itme)
@@ -629,7 +241,7 @@ export default {
       this.nav1Id = nav1Itme.SERIAL;
       // this.nav2Id=11;
       this.nav2List = nav1Itme.menuList;
-      console.log("this.nav2List",this.nav2List)
+      // console.log("this.nav2List",this.nav2List)
       let that=this;
       // let flag=0
       if(click==1){
@@ -662,8 +274,15 @@ export default {
         // });
         // return
       }
-
+      console.log(this.nav1List)
       this.nav2Id = item.url;
+      this.nav1Id=item.parentId;
+      this.nav1List.map(function(a,b){
+        if(a.SERIAL==item.parentId){
+          this.nav2List = a.menuList;
+        }
+        console.log(a,b)
+      },this)
       console.log(item, item.url)
       new Set(this.tabList)
       console.log(this.tabList)
@@ -741,7 +360,7 @@ export default {
 }
 
 .top-right-1 {
-  width: 116px;
+  /* width: 116px; */
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -811,8 +430,8 @@ export default {
 .el-header img {}
 
 .content {
-  background: url(./../assets/img/bg.png) no-repeat;
-  background-size: 100% 100%;
+  background: url(./../assets/img/bg.png) ;
+  background-size:  100% 100%;
   padding-bottom: 115px;
 }
 
@@ -941,7 +560,9 @@ export default {
   overflow: inherit !important;
   background: #def0fc;
 }
-
+.nobg{
+  background: none!important;
+}
 .tabList {
   width: 68%;
   display: flex;

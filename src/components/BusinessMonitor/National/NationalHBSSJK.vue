@@ -171,10 +171,10 @@
                   {{i.portName||'xx'}}
                 </div>
                 <div class="td2">
-                  {{i.inScheduleCount||0}}
+                  {{i.inRealCount||0}}
                 </div>
                 <div class="td2">
-                  {{i.outScheduleCount||0}}
+                  {{i.outRealCount||0}}
                 </div>
                 <div class="td2">
                   {{i.inCheckCount+i.outCheckCount||0}}
@@ -1043,9 +1043,35 @@ export default {
       tabId: 0,
       crType:"A",
       newHbData:{},
-      hbsl:{},
+      hbsl:{
+        inScheduleCount:0,
+        outScheduleCount:0,
+        inCheckCount:0,
+        outCheckCount:0,
+        inCancelCount:0,
+        outCancelCount:0,
+        inFocusCount:0,
+        outFocusCount:0,
+        inDelayCount:0,
+        outDelayCount:0,
+        inRealCount:0,
+        outRealCount:0
+      },
       kahb:[],
-      rygk:{},
+      rygk:{
+        inOrderCount:0,
+        outOrderCount:0,
+        passOrderCount:0,
+        inCheckCount:0,
+        outCheckCount:0,
+        passCheckCount:0,
+        boardIn:0,
+        boardOut:0,
+        boardPass:0,
+        inRealCount:0,
+        outRealCount:0,
+        passRealCount:0
+      },
       kary:{},
       newHbData:[],
       showLeft: true,
@@ -1258,31 +1284,21 @@ export default {
     zdhFn(){
       let element=document.documentElement;
       if(element.requestFullscreen){
-
-      element.requestFullscreen();
-
+        element.requestFullscreen();
       }
-
       else if(element.mozRequestFullScreen){
-
-      element.mozRequestFullScreen();
-
+        element.mozRequestFullScreen();
       }
-
       else if(element.msRequestFullscreen){
-
-      element.msRequestFullscreen();
-
+        element.msRequestFullscreen();
       }
-
       else if(element.webkitRequestFullscreen){
-
-      element.webkitRequestFullScreen();
-
+        element.webkitRequestFullScreen();
       }
       this.chart.dispose();
       this.chart = null;
       this.zdh=true;
+      this.height='1000px'
       let that = this;
       setTimeout(function(){
         that.initChart(that.series);
@@ -1315,6 +1331,7 @@ export default {
       this.chart.dispose();
       this.chart = null;
       this.zdh=false;
+      this.height='700px'
       let that = this;
       setTimeout(function(){
         that.initChart(that.series);
@@ -1325,7 +1342,9 @@ export default {
       this.$api.post('/manage-platform/nationwide/getFlightCountToday',{},
        r => {
          console.log(r);
-         this.hbsl=r.data;
+         if(this.hbsl.data!=null){
+           this.hbsl=r.data;
+         }
       });
       this.$api.post('/manage-platform/nationwide/getFlightPortCountToday',{},
        r => {
@@ -1338,7 +1357,10 @@ export default {
       this.$api.post('/manage-platform/nationwide/getTravelerCountToday',{},
        r => {
          console.log(r);
-         this.rygk=r.data;
+         if(this.hbsl.data!=null){
+            this.rygk=r.data;
+         }
+
       });
       this.$api.post('/manage-platform/nationwide/getTravelerPortCountToday',{},
        r => {
@@ -1380,27 +1402,6 @@ export default {
     },
     // 最新航班监控信息取得
     getNewData(){
-      // let arr=[{
-      //   fp:"重庆",
-      //   fj:107.7539,
-      //   fw:30.1904,
-      //   tp:"日本",
-      //   tj:139.710164,
-      //   tw:35.706962,
-      //   pe:0.8,
-      //   ob:0
-      // },{
-      //   fp:"南宁",
-      //   fj:108.479,
-      //   fw:23.1152,
-      //   tp:"瑞士",
-      //   tj:7.445147,
-      //   tw:46.956241,
-      //   pe:0.8,
-      //   ob:0
-      // }]
-      //
-      // this.createM(arr)
       this.$api.post('/manage-platform/nationwide/getFlightMonitorInfo',{},
        r => {
          console.log(r);

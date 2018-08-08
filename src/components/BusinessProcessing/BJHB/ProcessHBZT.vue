@@ -198,14 +198,12 @@
              </el-select>
           </el-col>
         </el-row>
-
         <el-row type="flex" class="mb-6" >
           <el-col :span="24" class="input-item">
             <span class="yy-input-text" style="width:15%">事件描述：</span>
-           <el-input type="textarea" placeholder="请输入内容" :autosize="{ minRows: 3, maxRows: 6}" v-model="form.desc" style="width:80%;"></el-input>
+           <el-input type="textarea" maxlength="250" placeholder="请输入备降事件描述(不能超过250个字)" :autosize="{ minRows: 3, maxRows: 6}" v-model="form.desc" style="width:80%;"></el-input>
           </el-col>
         </el-row>
-
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="addItem('addForm')" size="small">提 交</el-button>
