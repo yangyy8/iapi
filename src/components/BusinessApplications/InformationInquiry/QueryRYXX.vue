@@ -1936,12 +1936,12 @@ export default {
        })
     },
     getList(currentPage,showCount,cdt){//基础查询 查询调用
-      let p={
+      let pl={
       	"currentPage":currentPage,
       	"showCount":showCount,
       	"cdt":cdt
       };
-      this.$api.post('/manage-platform/iapi/queryListPage',p,
+      this.$api.post('/manage-platform/iapi/queryListPage',pl,
        r => {
          this.based();
          this.tableData=r.data.resultList;//表格数据
@@ -1995,20 +1995,20 @@ export default {
       })
     },
     getHistoryListPnr(hcurrentPage,hshowCount,historyCdt){
-      let gh = {
+      let ghl = {
         "currentPage":hcurrentPage,
       	"showCount":hshowCount,
       	"pd":historyCdt
       };
       // this.historyBased();
-      this.$api.post('/manage-platform/iapiUnscolicited/queryHistory',gh,
+      this.$api.post('/manage-platform/iapiUnscolicited/queryHistory',ghl,
       r =>{
         this.detailstableData = r.data.pdList;
         this.htotalResult = r.data.totalResult;
         this.htotalPage = r.data.totalPage;
       })
     },
-    getMore(row,cell){//历次
+    getMore(){//历次
       // console.log(row);
       // if(cell.label =='姓名'){
       //   this.reviewDialogTable = true;
@@ -2028,17 +2028,15 @@ export default {
         });
         return false
       }
-      let t = {
+      let tps = {
         name : this.sss,
         page : this.page
       }
-      this.$api.post('/manage-platform/queryShow/isExistName',t,
+      this.$api.post('/manage-platform/queryShow/isExistName',tps,
         r =>{
           if(r.success){
             if(r.data == false){
-                console.log(1111);
               this.$options.methods.savePlan.bind(this)();
-
               this.dialogVisible = false;
             }else{
               // this.promptDialogVisible = true;
@@ -2051,14 +2049,14 @@ export default {
     },
     savePlan(){//基础查询 保存方案
         this.$options.methods.showConfiglistArr.bind(this)();
-        let s = {
+        let sp = {
         	"name": this.sss,
         	"page":  this.page,
         	"showConfigList": this.showConfiglist,
             //查询项
         	"config": this.cdt
         }
-        this.$api.post('/manage-platform/queryShow/save',s,
+        this.$api.post('/manage-platform/queryShow/save',sp,
          r =>{
            if(r.success){
              this.$message({
@@ -2131,12 +2129,12 @@ export default {
       let cdtArr = [];
       cdtArr.push(this.cdtList);
       let cdtList = cdtArr.concat(rows);
-      let bql = {
+      let bqlp = {
         "currentPage":currentPage,
       	"showCount":showCount,
       	"cdtList":cdtList
       }
-      this.$api.post('/manage-platform/pnr/queryPnrBatch',bql,
+      this.$api.post('/manage-platform/pnr/queryPnrBatch',bqlp,
       r =>{
         if(r.success){
           this.based();
@@ -2210,13 +2208,13 @@ export default {
       cdtArr.push(this.cdtList);
       let configList = cdtArr.concat(this.rows);
       // this.rows.unshift(this.cdtList);//压进去第一行的数据
-      let batchS = {
+      let batchSP = {
         "name" : this.ppp,
         "page" : this.page,
         "showConfigList":this.showConfiglist,
         "configList":configList
       }
-      this.$api.post('/manage-platform/queryShow/save',batchS,
+      this.$api.post('/manage-platform/queryShow/save',batchSP,
        r =>{
          if(r.success){
            this.$message({
@@ -2327,12 +2325,12 @@ export default {
     selfQueryListPnr(currentPage,showCount,selfCdt){
       this.currentPage = 1;
       console.log(selfCdt.AAAAA);
-      let sql = {
+      let sqlp = {
         "currentPage":currentPage,
       	"showCount":showCount,
       	"cdt":selfCdt.AAAAA
       }
-      this.$api.post('/manage-platform/pnr/customPnrQuery',sql,
+      this.$api.post('/manage-platform/pnr/customPnrQuery',sqlp,
        r =>{
          if(r.success){
            this.based();
@@ -2358,11 +2356,11 @@ export default {
         });
         return false
       }
-      let self = {
+      let selfPS = {
         name : this.fff,
         page : this.page
       }
-      this.$api.post('/manage-platform/queryShow/isExistName',self,
+      this.$api.post('/manage-platform/queryShow/isExistName',selfPS,
        r =>{
          if(r.success){
            if(r.data == false){
@@ -2379,13 +2377,13 @@ export default {
     },
     selfSavePlan(){//自定义查询 保存方案
       this.$options.methods.showConfiglistArr.bind(this)();//展示项数组
-      let selfS = {
+      let selfSP = {
         "name" : this.fff,
         "page" : this.page,
         "showConfigList":this.showConfiglist,
         "config":this.selfCdt
       }
-      this.$api.post('/manage-platform/queryShow/save',selfS,
+      this.$api.post('/manage-platform/queryShow/save',selfSP,
       r =>{
         if(r.success){
           if(r.success){
