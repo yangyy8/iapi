@@ -786,7 +786,6 @@ export default {
       this.pd={"LIST_TYPE":"1"};
       // console.log(this.pd)
       this.getList(this.CurrentPage,this.pageSize,this.pd);
-
     },
     handleSelectionChange(val) {
       this.multipleSelection = val;

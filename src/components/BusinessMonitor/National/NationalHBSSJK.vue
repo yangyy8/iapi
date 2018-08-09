@@ -37,7 +37,7 @@
             全国航班统计
           </div>
           <div class="title-down">
-            <img style="width:18px;height:18px" src="../../../assets/img/qgjk/sq_l.png" alt="">
+            <img style="width:18px;height:18px" src="../../../assets/img/qgjk/sq.png" alt="">
           </div>
         </div>
         <div class="box-content">
@@ -134,7 +134,7 @@
             口岸航班统计
           </div>
           <div class="title-down">
-            <img style="width:18px;height:18px" src="../../../assets/img/qgjk/sq_l.png" alt="">
+            <img style="width:18px;height:18px" src="../../../assets/img/qgjk/sq.png" alt="">
           </div>
         </div>
         <div class="box-content">
@@ -297,7 +297,7 @@
             全国人员统计
           </div>
           <div class="title-down">
-            <img style="width:18px;height:18px" src="../../../assets/img/qgjk/sq_r.png" alt="">
+            <img style="width:18px;height:18px" src="../../../assets/img/qgjk/sq.png" alt="">
           </div>
         </div>
       </div>
@@ -391,7 +391,7 @@
             口岸人员统计
           </div>
           <div class="title-down">
-            <img style="width:18px;height:18px" src="../../../assets/img/qgjk/sq_r.png" alt="">
+            <img style="width:18px;height:18px" src="../../../assets/img/qgjk/sq.png" alt="">
 
           </div>
         </div>
