@@ -237,14 +237,15 @@
                 <div class="akcheck2top boder1">
                   <el-button type="primary" plain size="mini" @click="addRow">添加</el-button>
                   <el-button type="primary" plain size="mini" @click="uploadDialogVisible = true">批量导入</el-button>
-                  <el-button type="primary" plain size="mini">下载模板</el-button>
+                  <el-button type="primary" plain size="mini" @click="download">下载模板</el-button>
                 </div>
                 <div class="akUl">
                   <el-table
                     ref="multipleTable"
                     :data="rows"
                     border
-                    style="width: 100%;">
+                    style="width: 100%;"
+                    id="out-table">
                     <el-table-column
                       label="国籍"
                       width="200">
@@ -910,10 +911,10 @@
     </el-dialog>
 
     <div class="middle">
-      <el-button  plain class="table-btn mb-9" size="small">显示窗位图</el-button>
+      <el-button  plain class="table-btn mb-9" size="small" @click="$router.push({'name':'QueryHBZW'})">显示窗位图</el-button>
       <!-- <el-button  plain class="table-btn mb-9" size="small" @click="$router.push({name:'QueryGLRY'})">关联人员查询</el-button> -->
-      <el-button  plain class="table-btn mb-9" size="small">导出列表信息</el-button>
-      <el-button  plain class="table-btn mb-9" size="small">打印</el-button>
+      <el-button  plain class="table-btn mb-9" size="small" @click="getPdf()">导出列表信息</el-button>
+      <el-button  plain class="table-btn mb-9" size="small" v-print="'#printMe'">打印</el-button>
       <el-table
         ref="singleTable"
         :data="tableData"
@@ -923,9 +924,10 @@
         highlight-current-row
         @row-click="checkRow"
         @cell-click="getMore"
+        id="printMe"
         >
         <el-table-column
-
+          width="100"
            label="单选">
           <template slot-scope="scope">
             <el-radio v-model="radio" class="radio" :label="scope.row.I_SERIAL">&nbsp;</el-radio>
@@ -1131,7 +1133,7 @@
         </el-table-column>
         <el-table-column
           label="操作"
-          width="130">
+        >
           <template slot-scope="scope">
             <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row)">详情</el-button>
          </template>
@@ -1178,6 +1180,8 @@
 
 <script>
 import {formatDate} from '@/assets/js/date.js'
+import FileSaver from 'file-saver'
+import XLSX from 'xlsx'
 export default {
   data() {
     return {
@@ -1187,6 +1191,7 @@ export default {
       detailsDialogVisible:false,//查看详情模态框
       reviewDialogTable:false,//查看历次信息模态框
       uploadDialogVisible:false,
+      htmlTitle: '页面导出PDF文件名',
 
       openList:true,
       openCheckbox:true,
@@ -2478,11 +2483,7 @@ export default {
    uploadSuccess(response, file, fileList){
      console.log(response);
      if(response.success){
-       let arrConfig = response.data.cdtList;
-       for(var i=0;i<arrConfig.length;i++){
-         this.cdtList = arrConfig[0];
-       }
-       this.rows = arrConfig.slice(1);
+       this.rows = response.data.cdtList;
        this.$message({
          duration:3000,
          message: '恭喜你，导入成功！',
@@ -2499,6 +2500,23 @@ export default {
        this.selfCdtList.atype=''
      }
      console.log(this.selfCdtList.atype);
+   },
+   download(){
+        // let wb = XLSX.utils.table_to_book(document.querySelector('#out-table'))
+        // let wbout = XLSX.write(wb, { bookType: 'xlsx', bookSST: true, type: 'array' })
+        // try {
+        //     FileSaver.saveAs(new Blob([wbout], { type: 'application/octet-stream' }), 'sheetjs.xlsx')
+        // } catch (e) { if (typeof console !== 'undefined') console.log(e, wbout) }
+        // return wbout
+        let dl={
+          "cdtList":this.rows
+        }
+        this.$api.post('/manage-platform/iapi/exportFileUrl/three',dl,
+        r =>{
+          console.log(this.$api.rootUrl);
+          console.log(this.$api.rootUrl+'/manage-platform/'+r.data)
+          // window.location.href=this.$api.rootUrl+'/manage-platform/'+r.data
+        })
    }
    // detailgetlist(currentPage, showCount, r) {
    //   let p = {

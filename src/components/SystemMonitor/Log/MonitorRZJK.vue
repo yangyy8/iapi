@@ -35,18 +35,19 @@
               <span class="input-text">生成时间：</span>
               <div class="input-input t-flex t-date">
                <el-date-picker
-               v-model="pd.begin" value-format="yyyy-MM-dd"
+               v-model="pd.begin"
                type="datetime" size="small"
                placeholder="开始时间"  :picker-options="pickerOptions" >
              </el-date-picker>
                <span class="septum">-</span>
              <el-date-picker
-                v-model="pd.end"  value-format="yyyy-MM-dd"
+                v-model="pd.end"
                 type="datetime" size="small"
                 placeholder="结束时间" :picker-options="pickerOptions1" >
             </el-date-picker>
           </div>
             </el-col>
+
 
           </el-row>
         </el-col>
@@ -175,12 +176,12 @@ export default {
       tableData: [],
       multipleSelection: [],
       pickerOptions: {
-        // disabledDate: (time) => {
-        //     if (this.pd.end != "") {
-        //       console.log(time.getTime(),this.pd.end)
-        //         return time.getTime() > this.pd.end;
-        //     }
-        // },
+        disabledDate: (time) => {
+            if (this.pd.end != "") {
+              console.log(time.getTime(),this.pd.end)
+                return time.getTime() > this.pd.end;
+            }
+        },
         shortcuts: [{
           text: '今天',
           onClick(picker) {
@@ -204,11 +205,11 @@ export default {
 
       },
       pickerOptions1: {
-        // disabledDate: (time) => {
-        //     if (this.pd.begin != "") {
-        //         return time.getTime() < this.pd.begin;
-        //     }
-        // },
+        disabledDate: (time) => {
+            if (this.pd.begin != "") {
+                return time.getTime() < this.pd.begin;
+            }
+        },
         shortcuts: [{
           text: '今天',
           onClick(picker) {
@@ -269,17 +270,12 @@ export default {
           this.tableData = r.data.pd.resultList;
           this.TotalResult = r.data.totalResult;
         })
-
-
     },
     details(i) {
       this.detailsDialogVisible = true;
       console.log(i);
       this.form=i;
     },
-
-
-
   }
 }
 </script>
