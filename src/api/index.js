@@ -92,7 +92,7 @@ function apiAxios(method, url, params, success, failure) {
                      type: 'warning'
                    }).then(() => {
                      // console.log("ffffff")
-                     window.location.href ="/"
+                     window.location.href ="#/";
                    })
               }else{
                 Message.error(res.data.message);
