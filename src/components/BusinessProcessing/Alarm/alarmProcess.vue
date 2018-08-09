@@ -182,181 +182,184 @@
           </el-table>
         </div>
       </div>
-      <div class="middle-tab-content" v-show="tabIsShow" id="printMe">
-        <div class="middle-content1 ">
-          <div class="title-green">
-            人员信息
+      <div class="middle-tab-content" v-show="tabIsShow">
+        <div id="printMe">
+          <div class="middle-content1 ">
+            <div class="title-green">
+              人员信息
+            </div>
+            <el-row type="flex" >
+              <el-col class="middle-msg-img">
+                <img src="../../../assets/img/bp_ap/ph_s.png" alt="">
+              </el-col>
+              <el-col class="middle-msg-text">
+                <el-row type="flex" class="middle-msg-row2">
+                  <el-col :span="6">
+                    <span>姓名</span>
+                    {{warnMap.name}}
+                  </el-col>
+                  <el-col :span="6">
+                    <span>性别</span>
+                    {{warnMap.gender}}
+                  </el-col>
+                  <el-col :span="6">
+                    <span>出生日期</span>
+                    {{warnMap.birthday}}
+
+                  </el-col>
+                </el-row>
+                <el-row type="flex" class="middle-msg-row2">
+                  <el-col :span="6">
+                    <span>国籍</span>
+                    {{warnMap.nationality}}
+
+                  </el-col>
+                  <el-col :span="6">
+                    <span>证件号码</span>
+                    {{warnMap.passportno}}
+
+                  </el-col>
+                  <el-col :span="6">
+                    <span>签证号码</span>
+                    {{warnMap.visano}}
+
+                  </el-col>
+                </el-row>
+                <el-row type="flex" class="middle-msg-row2">
+                  <el-col :span="6">
+                    <span>出入标识</span>
+                    {{warnMap.flightType}}
+
+                  </el-col>
+                  <el-col :span="6">
+                    <span>第二证号</span>
+                    {{warnMap.otherNo}}
+
+                  </el-col>
+                  <el-col :span="6">
+                    <span>第二国籍</span>
+                    {{warnMap.otherIssuecountry}}
+
+                  </el-col>
+                </el-row>
+                <el-row type="flex" class="middle-msg-row2">
+                  <el-col :span="6">
+                    <span>航班号</span>
+                    {{warnMap.fltno}}
+
+                  </el-col>
+                  <el-col :span="6">
+                    <span>出发地</span>
+                    {{warnMap.cityFrom}}
+
+                  </el-col>
+                  <el-col :span="6">
+                    <span>目的地</span>
+                    {{warnMap.cityto}}
+
+                  </el-col>
+                </el-row>
+                <el-row type="flex" class="middle-msg-row2">
+                  <el-col :span="6">
+                    <span>报警类型</span>
+                    {{warnMap.alarmtype}}
+
+                  </el-col>
+                  <el-col :span="6">
+                    <span>报警时间</span>
+                    {{warnMap.alarmtime}}
+
+                  </el-col>
+
+                </el-row>
+
+              </el-col>
+
+            </el-row>
           </div>
-          <el-row type="flex" >
-            <el-col class="middle-msg-img">
-              <img src="../../../assets/img/bp_ap/photo.png" alt="">
-            </el-col>
-            <el-col class="middle-msg-text">
-              <el-row type="flex" class="middle-msg-row2">
-                <el-col :span="6">
-                  <span>姓名</span>
-                  {{warnMap.name}}
-                </el-col>
-                <el-col :span="6">
-                  <span>性别</span>
-                  {{warnMap.gender}}
-                </el-col>
-                <el-col :span="6">
-                  <span>出生日期</span>
-                  {{warnMap.birthday}}
+          <div class="middle-content1 ">
+            <div class="title-green">
+              甄别信息
+            </div>
+            <el-table
+              :data="listMap2"
+              border
+              style="width: 100%">
+              <el-table-column
+                type="index"
+                label="序号"
+                width="50">
+              </el-table-column>
+              <el-table-column
+                prop="dh"
+                label="档号">
+              </el-table-column>
+              <el-table-column
+                prop="namelistType"
+                label="名单类型">
+              </el-table-column>
+              <el-table-column
+                prop="namelistName"
+                label="姓名">
+              </el-table-column>
+              <el-table-column
+                prop="namelistGendor"
+                label="性别">
+              </el-table-column>
+              <el-table-column
+                prop="namelistBirthday"
+                label="出生日期">
+              </el-table-column>
+              <el-table-column
+                prop="namelistNationalityDesc"
+                label="国籍">
+              </el-table-column>
+              <el-table-column
+                prop="visatype"
+                label="证件种类">
+              </el-table-column>
+              <el-table-column
+                prop="namelistPassportno"
+                label="证件号码">
+              </el-table-column>
 
-                </el-col>
-              </el-row>
-              <el-row type="flex" class="middle-msg-row2">
-                <el-col :span="6">
-                  <span>国籍</span>
-                  {{warnMap.nationality}}
+              <el-table-column
+                prop="visano"
+                label="签证号码">
+              </el-table-column>
+              <el-table-column
+                prop="confirmResult"
+                label="甄别结果">
+              </el-table-column>
+              <el-table-column
+                prop="compareDesc"
+                label="甄别说明">
+              </el-table-column>
+            </el-table>
 
-                </el-col>
-                <el-col :span="6">
-                  <span>证件号码</span>
-                  {{warnMap.passportno}}
-
-                </el-col>
-                <el-col :span="6">
-                  <span>签证号码</span>
-                  {{warnMap.visano}}
-
-                </el-col>
-              </el-row>
-              <el-row type="flex" class="middle-msg-row2">
-                <el-col :span="6">
-                  <span>出入标识</span>
-                  {{warnMap.flightType}}
-
-                </el-col>
-                <el-col :span="6">
-                  <span>第二证号</span>
-                  {{warnMap.otherNo}}
-
-                </el-col>
-                <el-col :span="6">
-                  <span>第二国籍</span>
-                  {{warnMap.otherIssuecountry}}
-
-                </el-col>
-              </el-row>
-              <el-row type="flex" class="middle-msg-row2">
-                <el-col :span="6">
-                  <span>航班号</span>
-                  {{warnMap.fltno}}
-
-                </el-col>
-                <el-col :span="6">
-                  <span>出发地</span>
-                  {{warnMap.cityFrom}}
-
-                </el-col>
-                <el-col :span="6">
-                  <span>目的地</span>
-                  {{warnMap.cityto}}
-
-                </el-col>
-              </el-row>
-              <el-row type="flex" class="middle-msg-row2">
-                <el-col :span="6">
-                  <span>报警类型</span>
-                  {{warnMap.alarmtype}}
-
-                </el-col>
-                <el-col :span="6">
-                  <span>报警时间</span>
-                  {{warnMap.alarmtime}}
-
-                </el-col>
-
-              </el-row>
-
-            </el-col>
-
-          </el-row>
-        </div>
-        <div class="middle-content1 ">
-          <div class="title-green">
-            甄别信息
           </div>
-          <el-table
-            :data="listMap2"
-            border
-            style="width: 100%">
-            <el-table-column
-              type="index"
-              label="序号"
-              width="50">
-            </el-table-column>
-            <el-table-column
-              prop="dh"
-              label="档号">
-            </el-table-column>
-            <el-table-column
-              prop="namelistType"
-              label="名单类型">
-            </el-table-column>
-            <el-table-column
-              prop="namelistName"
-              label="姓名">
-            </el-table-column>
-            <el-table-column
-              prop="namelistGendor"
-              label="性别">
-            </el-table-column>
-            <el-table-column
-              prop="namelistBirthday"
-              label="出生日期">
-            </el-table-column>
-            <el-table-column
-              prop="namelistNationalityDesc"
-              label="国籍">
-            </el-table-column>
-            <el-table-column
-              prop="visatype"
-              label="证件种类">
-            </el-table-column>
-            <el-table-column
-              prop="namelistPassportno"
-              label="证件号码">
-            </el-table-column>
+          <div class="middle-content1 mb-2">
+            <div class="title-grey">
+              处理结果
+            </div>
+            <el-row type="flex" class="middle-text-g">
+              <el-col :span="4">
+                <span>处理结果：</span>
+                {{warnMap.distinguishResult}}
+              </el-col>
+              <el-col :span="4">
+                <span>处理人：</span>
+                {{warnMap.solver}}
+              </el-col>
+              <el-col :span="4">
+                <span>审批人：</span>
+                {{warnMap.approver}}
+              </el-col>
 
-            <el-table-column
-              prop="visano"
-              label="签证号码">
-            </el-table-column>
-            <el-table-column
-              prop="confirmResult"
-              label="甄别结果">
-            </el-table-column>
-            <el-table-column
-              prop="compareDesc"
-              label="甄别说明">
-            </el-table-column>
-          </el-table>
-
-        </div>
-        <div class="middle-content1 mb-2">
-          <div class="title-grey">
-            处理结果
+            </el-row>
           </div>
-          <el-row type="flex" class="middle-text-g">
-            <el-col :span="4">
-              <span>处理结果：</span>
-              {{warnMap.distinguishResult}}
-            </el-col>
-            <el-col :span="4">
-              <span>处理人：</span>
-              {{warnMap.solver}}
-            </el-col>
-            <el-col :span="4">
-              <span>审批人：</span>
-              {{warnMap.approver}}
-            </el-col>
-
-          </el-row>
         </div>
+
         <div class="middle-content1 middle-btn-g">
           <el-button type="primary" class="mr-22" size="small" v-print="'#printMe'">打印</el-button>
           <el-button type="success" class="mr-22" size="small" @click="getPdf()">导出</el-button>
@@ -758,7 +761,7 @@ export default {
     },
     handeles() {
       if(this.msgData>0){
-        this.$alert('您尚有'+this.msgData+'未做甄别处理，请先完成名单甄别操作!', '提示', {
+        this.$alert('您尚有'+this.msgData+'条名单未做甄别处理，请先完成名单甄别操作!', '提示', {
          confirmButtonText: '确定',
          type: 'warning'
         });
