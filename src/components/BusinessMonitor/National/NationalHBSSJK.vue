@@ -524,7 +524,7 @@
                   <div class="site-name">
                     <el-checkbox v-model="checkAll5" @change="checkAllFn5" true-label="1" false-label="0">全选</el-checkbox>
                     <el-checkbox-group v-model="checkList5" @change="checkedZhou">
-                      <el-checkbox v-for="x in locationName5" :label="x" >{{x.name}}</el-checkbox>
+                      <el-checkbox v-for="x in locationName5" :key="index" :label="x" >{{x.name}}</el-checkbox>
                     </el-checkbox-group>
                   </div>
                 </div>
