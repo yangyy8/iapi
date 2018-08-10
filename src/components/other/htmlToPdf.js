@@ -3,7 +3,7 @@ import html2Canvas from 'html2canvas'
 import JsPDF from 'jspdf'
 export default{
   install (Vue, options) {
-    Vue.prototype.getPdf = function () {
+    Vue.prototype.getPdf = function (type) {
       var title = this.htmlTitle
       html2Canvas(document.querySelector('#printMe'), {
         allowTaint: true
@@ -29,7 +29,18 @@ export default{
             }
           }
         }
-        PDF.save(title + '.pdf')
+        console.log(PDF)
+        if(type==0){
+          var string = PDF.output('datauristring');
+          var iframe = "<iframe width='100%' height='100%' src='" + string + "'></iframe>"
+          var x = window.open();
+          console.log(x)
+          x.document.open();
+          x.document.write(iframe);
+          x.document.close();
+        }else if(type==1){
+          PDF.save(title + '.pdf')
+        }
       }
       )
     }

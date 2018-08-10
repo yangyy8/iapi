@@ -684,18 +684,10 @@
           <div class="img-checkbox1 mb-15">
             <div >
               <label for="p1" class="img-checkbox-item">
-                <img src="../../../assets/img/bp_ap/photo.png" alt="" :class="{'ch-img':checkedImg==1}">
+                <img src="../../../assets/img/bp_ap/ph_s.png" alt="" :class="{'ch-img':checkedImg==1}">
                 <i class="el-icon-circle-check " :class="{'cheched-img':checkedImg==1}"></i>
               </label>
-              <input type="radio" name="pPhoto" value="1"  v-model="checkedImg" id="p1" class="img-checkbox-input">
-
-            </div>
-            <div>
-              <label for="p2" class="img-checkbox-item">
-                <img src="../../../assets/img/bp_ap/photo.png" alt="" :class="{'ch-img':checkedImg==2}">
-                <i class="el-icon-circle-check" :class="{'cheched-img':checkedImg==2}"></i>
-              </label>
-              <input type="radio" name="pPhoto" value="2" v-model="checkedImg" id="p2" class="img-checkbox-input">
+              <input type="radio" name="pPhoto" value="1"  v-model="checkedImg" id="p1" class="img-checkbox-input" >
 
             </div>
 
@@ -706,34 +698,10 @@
           <div class="img-checkbox1">
             <div >
               <label for="b1" class="img-checkbox-item">
-                <img src="../../../assets/img/bp_ap/photo2.png" alt="" :class="{'ch-img':checkedImg2==1}">
+                <img src="../../../assets/img/bp_ap/ph_s.png" alt="" :class="{'ch-img':checkedImg2==1}">
                 <i class="el-icon-circle-check " :class="{'cheched-img':checkedImg2==1}"></i>
               </label>
               <input type="radio" name="pPhoto" value="1"  v-model="checkedImg2" id="b1" class="img-checkbox-input">
-
-            </div>
-            <div>
-              <label for="b2" class="img-checkbox-item">
-                <img src="../../../assets/img/bp_ap/photo2.png" alt="" :class="{'ch-img':checkedImg2==2}">
-                <i class="el-icon-circle-check" :class="{'cheched-img':checkedImg2==2}"></i>
-              </label>
-              <input type="radio" name="pPhoto" value="2" v-model="checkedImg2" id="b2" class="img-checkbox-input">
-
-            </div>
-            <div>
-              <label for="b3" class="img-checkbox-item">
-                <img src="../../../assets/img/bp_ap/photo2.png" alt="" :class="{'ch-img':checkedImg2==3}">
-                <i class="el-icon-circle-check" :class="{'cheched-img':checkedImg2==3}"></i>
-              </label>
-              <input type="radio" name="pPhoto" value="3" v-model="checkedImg2" id="b3" class="img-checkbox-input">
-
-            </div>
-            <div>
-              <label for="b4" class="img-checkbox-item">
-                <img src="../../../assets/img/bp_ap/photo2.png" alt="" :class="{'ch-img':checkedImg2==4}">
-                <i class="el-icon-circle-check" :class="{'cheched-img':checkedImg2==4}"></i>
-              </label>
-              <input type="radio" name="pPhoto" value="4" v-model="checkedImg2" id="b4" class="img-checkbox-input">
 
             </div>
 
@@ -741,8 +709,8 @@
         </div>
         <div class="middle mb-2">
           <div class="img-box mb-15">
-            <img src="../../../assets/img/bp_ap/photo.png" alt="" class="mr-20">
-            <img src="../../../assets/img/bp_ap/photo2.png" alt="">
+            <img src="../../../assets/img/bp_ap/ph_l.png" alt="" class="mr-20">
+            <img src="../../../assets/img/bp_ap/ph_l.png" alt="">
 
           </div>
           <div class="btn-succ-box">
@@ -761,11 +729,11 @@
             <el-col :span="12" class="res-item2">
               <div class="">
                 顺序比重数：
-                <span>-</span>枚
+                <b>--</b>枚
               </div>
               <div class="">
-                顺序比重数：
-                <span>-</span>枚
+                交叉比重数：
+                <b>--</b>枚
               </div>
             </el-col>
 
@@ -1017,7 +985,7 @@ export default {
   justify-content: space-around;
   align-items: center;
 }
-.res-item2 span{
+.res-item2 b{
   margin: 0 12px;
   color: #ff8f47;
 }

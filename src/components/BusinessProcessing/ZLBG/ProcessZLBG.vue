@@ -8,43 +8,31 @@
             查询条件
           </div>
         <el-row align="center"   :gutter="2" class="pr-20">
-          <el-col  :sm="24" :md="12" :lg="6"  class="input-item">
+          <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                 <QueryNationality  :nationality="pd.NATIONALITY" @transNation="getNation"></QueryNationality>
             </el-col>
-            <el-col  :sm="24" :md="12" :lg="6"   class="input-item">
+            <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
+        <span class="input-text">证件种类：</span>
+        <el-select v-model="pd.PASSPORTTYPE" placeholder="请选择"  filterable clearable size="small" class="input-input">
+           <el-option value="T" label="T - 区域证件">
+           </el-option>
+           <el-option value="P" label="P - 护照">
+           </el-option>
+
+         </el-select>
+      </el-col>
+            <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
               <span class="input-text">证件号码：</span>
               <el-input placeholder="请输入内容" size="small" v-model="pd.PASSPORTNO" class="input-input"></el-input>
             </el-col>
-
-          <el-col  :sm="24" :md="12" :lg="6"   class="input-item">
-              <span class="input-text">航班号：</span>
-              <el-input placeholder="请输入内容" size="small" v-model="pd.FLTNO" class="input-input"></el-input>
-            </el-col>
-              <el-col  :sm="24" :md="12" :lg="6"   class="input-item">
-              <span class="input-text">航班日期：</span>
-                <div class="input-input t-flex t-date">
-                 <el-date-picker
-                 v-model="pd.STARTTIME"
-                 type="datetime" size="small" value-format="yyyyMMddHHssmm"
-                 placeholder="开始时间"  :picker-options="pickerOptions1">
-               </el-date-picker>
-                 <span class="septum">-</span>
-               <el-date-picker
-                  v-model="pd.ENDTIME"
-                  type="datetime" size="small" value-format="yyyyMMddHHssmm"
-                  placeholder="结束时间" :picker-options="pickerOptions1">
-              </el-date-picker>
-            </div>
-            </el-col>
-            <el-col  :sm="24" :md="12" :lg="6"   class="input-item">
-
+            <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
               <span class="input-text">姓名：</span>
                 <div class="input-input t-fuzzy t-flex">
               <el-input placeholder="请输入内容" size="small" v-model="pd.NAME"   class="input-input"></el-input>
               &nbsp;<el-checkbox v-model="pd.ISBLURRED">模糊查询</el-checkbox>
             </div>
             </el-col>
-                  <el-col  :sm="24" :md="12" :lg="6"   class="input-item">
+                  <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
               <span class="input-text">性别：</span>
               <el-select v-model="pd.GENDER" placeholder="请选择"  filterable clearable size="small" class="input-input">
                  <el-option value="U" label="U - 未知">
@@ -55,7 +43,7 @@
                  </el-option>
                </el-select>
             </el-col>
-              <el-col  :sm="24" :md="12" :lg="6"   class="input-item">
+              <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
               <span class="input-text">出生日期：</span>
                   <div class="input-input t-flex t-date">
               <el-date-picker
@@ -71,21 +59,42 @@
            </el-date-picker>
          </div>
             </el-col>
-              <el-col  :sm="24" :md="12" :lg="6"   class="input-item">
-              <span class="input-text">反馈状态：</span>
-              <el-select v-model="pd.CHECKRESULT" class="input-input"  filterable clearable placeholder="请选择"   size="small" >
+            <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
+                <span class="input-text">航班号：</span>
+                <el-input placeholder="请输入内容" size="small" v-model="pd.FLTNO" class="input-input"></el-input>
+              </el-col>
+                <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
+                <span class="input-text">航班日期：</span>
+                  <div class="input-input t-flex t-date">
+                   <el-date-picker
+                   v-model="pd.STARTTIME"
+                   type="datetime" size="small" value-format="yyyyMMddHHssmm"
+                   placeholder="开始时间"  :picker-options="pickerOptions1">
+                 </el-date-picker>
+                   <span class="septum">-</span>
+                 <el-date-picker
+                    v-model="pd.ENDTIME"
+                    type="datetime" size="small" value-format="yyyyMMddHHssmm"
+                    placeholder="结束时间" :picker-options="pickerOptions1">
+                </el-date-picker>
+              </div>
+              </el-col>
 
-                <el-option value="0Z" label="0Z - 允许打印登机牌">
-                </el-option>
-                <el-option value="1Z" label="1Z - 禁止打印登机牌">
-                </el-option>
-                <el-option value="2Z" label="2Z - 请再次核对">
-                </el-option>
-                <el-option value="4Z" label="4Z - 数据错误">
-                </el-option>
-               </el-select>
+                <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
+                <span class="input-text">反馈状态：</span>
+                <el-select v-model="pd.CHECKRESULT" class="input-input"  filterable clearable placeholder="请选择"   size="small" >
 
-            </el-col>
+                  <el-option value="0Z" label="0Z - 允许打印登机牌">
+                  </el-option>
+                  <el-option value="1Z" label="1Z - 禁止打印登机牌">
+                  </el-option>
+                  <el-option value="2Z" label="2Z - 请再次核对">
+                  </el-option>
+                  <el-option value="4Z" label="4Z - 数据错误">
+                  </el-option>
+                 </el-select>
+
+              </el-col>
           </el-row>
         </el-col>
         <el-col :span="2" class="down-btn-area">
@@ -309,7 +318,7 @@
         </el-row>
         <el-row type="flex" class="mb-6">
           <el-col :span="24" class="input-item">
-            <span class="yy-input-text" style="width:18%">变更值机说明(FreeText)：</span>
+            <span class="yy-input-text" style="width:18%">变更状态说明(FreeText)：</span>
             <el-input placeholder="请输入内容" size="small" v-model="map.INSTRUCTC" style="width:80%"></el-input>
           </el-col>
         </el-row>
@@ -407,7 +416,7 @@
         </el-row>
         <el-row type="flex" class="mb-6">
           <el-col :span="24" class="input-item">
-            <span class="yy-input-text" style="width:18%">变更值机说明(FreeText)：</span>
+            <span class="yy-input-text" style="width:18%">变更状态说明(FreeText)：</span>
             <el-input placeholder="请输入内容" size="small" v-model="form.INSTRUCTC" style="width:82%"></el-input>
           </el-col>
         </el-row>
@@ -1013,13 +1022,13 @@ export default {
     {
       var content="";
       if (n == "0Z") {
-        content= "允许打印登机牌";
+        content= "OK TO BOARD";
       } else if (n == "1Z") {
-        content= "禁止打印登机牌";
+        content= "NO BOARD";
       } else if (n == "2Z") {
-        content= "请再次核对";
+        content= "CHECK AGAIN";
       } else if (n == "4Z"){
-        content= "数据错误";
+        content= "DATA ENTRY ERROR";
       }
    this.form.INSTRUCTC=content;
  },

@@ -190,7 +190,7 @@
             </div>
             <el-row type="flex" >
               <el-col class="middle-msg-img">
-                <img src="../../../assets/img/bp_ap/photo.png" alt="">
+                <img src="../../../assets/img/bp_ap/ph_s.png" alt="">
               </el-col>
               <el-col class="middle-msg-text">
                 <el-row type="flex" class="middle-msg-row2">
@@ -361,8 +361,8 @@
         </div>
 
         <div class="middle-content1 middle-btn-g">
-          <el-button type="primary" class="mr-22" size="small" v-print="'#printMe'">打印</el-button>
-          <el-button type="success" class="mr-22" size="small" @click="getPdf()">导出</el-button>
+          <el-button type="primary" class="mr-22" size="small" @click="getPdf(0)">打印</el-button>
+          <el-button type="success" class="mr-22" size="small" @click="getPdf(1)">导出</el-button>
           <el-button type="warning" size="small" @click="$router.go(-1);">返回</el-button>
 
         </div>
@@ -551,6 +551,7 @@ export default {
     }
   },
   mounted() {
+    // this.msgData=0;
     this.eventserial = this.$route.query.eventserial;
     this.getList();
     if (this.$route.query.type==0) {

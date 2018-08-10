@@ -24,11 +24,11 @@
             </div>
           </div>
           <div class="ak-tab-pane" >
-            <el-row type="flex" style="height:100%" v-for="x in menuList2">
+            <el-row type="flex" style="height:100%" v-for="x in menuList2" :key="index">
               <el-col :span="24" >
                 <span style="color:#BBBBBB; font-weight: bold">{{x.name}}</span>
                 <ul  class="checkmenu-ul">
-                    <li v-for='i in x.menuList' @click="update(i)" class="checkmenu mr-30 hand">
+                    <li v-for='i in x.menuList'  :key="index" @click="update(i)" class="checkmenu mr-30 hand">
 
                       <img src="../../assets/img/menu/menu1.png" alt="" v-if="!i.choose">
                       <!-- <img src="../../assets/img/menu/menu2.png" alt="" > -->
@@ -48,7 +48,7 @@
           </div>
           <div class="ak-tab-pane1" >
             <ul  class="checkmenu-ul">
-                <li v-for='i in nav1List' class="checkmenu mr-30 hand">
+                <li v-for='i in nav1List'  :key="index" class="checkmenu mr-30 hand">
 
 
                   <img src="../../assets/img/menu/menu2.png">

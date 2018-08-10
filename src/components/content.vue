@@ -29,6 +29,8 @@
              <el-dropdown-menu slot="dropdown">
                <!-- <el-dropdown-item><span style="display:block;width:100%;height:100%" @click="$router.push('/content/cc/ManageCenter')">个人中心</span></el-dropdown-item> -->
                <!-- <el-dropdown-item><span @click="$router.push('/content/cc/UpdatePass')">修改密码</span></el-dropdown-item> -->
+               <!-- <el-dropdown-item><span @click="window.print()">打印</span></el-dropdown-item> -->
+
                <el-dropdown-item><span style="display:block;width:100%;height:100%" @click="logOut">退出</span></el-dropdown-item>
              </el-dropdown-menu>
           </el-dropdown>
@@ -78,7 +80,7 @@
         <ul class="tabList" @click.right="closeRight" v-popover:popover>
           <li class="tabList-item hand" :style="{width:tabliwidth}" :class="{'tabList-checked':nav2Id==i.url}" v-for="(i, index) in tabList">
             <!-- <el-tooltip class="item" effect="dark" :content="i.name" placement="top"> -->
-              <span  @click="nav2(i,index)">{{i.name}}</span>
+              <span  @click="nav2(i)">{{i.name}}</span>
             <!-- </el-tooltip> -->
 
             <img src="../assets/img/tab-close1.png" alt="guanbi" @click="close1(index)" class="hand" style="padding:8px" v-if="nav2Id==i.url">
@@ -90,7 +92,9 @@
         </ul>
         <div class="tab-content">
             <transition name="fade">
+              <!-- <keep-alive> -->
               <router-view></router-view>
+              <!-- </keep-alive> -->
             </transition>
         </div>
       </el-main>
@@ -293,11 +297,20 @@ export default {
       this.$router.push({name: item.url,query:{nav1Id:item.parentId}})
     },
     nav2Top(item){
-      // this.nav2Id = item.url;
-      // this.nav1Id=item.parentId
-      // this.nav2List = nav1Itme.menuList;
+      console.log(item)
+      this.nav2Id = item.url;
+      console.log(this.nav2Id )
+
+      this.nav1Id=item.parentId;
+      this.nav1List.map(function(a,b){
+        if(a.SERIAL==item.parentId){
+          this.nav2List = a.menuList;
+        }
+      },this)
       // console.log(item, item.url)
       // new Set(this.tabList)
+      // console.log(this.tabList)
+
       // this.tabList.push(item)
       // this.tabList = Array.from(new Set(this.tabList));
       // console.log(item.url)
