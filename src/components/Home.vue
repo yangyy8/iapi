@@ -83,7 +83,7 @@
           <span>日常工作</span>
         </a>
         <!-- </router-link> -->
-        <router-link :to="{ name: 'Content', params: {navId:val.SERIAL} }" class="nav-item" :class='"nav-item"+parseInt(ind+1)' v-for="(val,ind) in muneListOne" v-if="ind>3">
+        <router-link :to="{ name: 'Content', params: {navId:val.SERIAL} }" class="nav-item" :class='"nav-item"+parseInt(ind+1)' v-for="(val,ind) in muneListOne" :key="val.SERIAL" v-if="ind>3">
           <img :src='"../assets/img/navIcon/"+val.MENU_ICON+".png"' alt="">
           <span>{{val.name}}</span>
         </router-link>
@@ -390,7 +390,7 @@ export default {
           // localStorage.setItem('login',1);
           this.getNav0();
           this.getUers();
-          
+
           let _this=this;
           setTimeout(function(){
               _this.isLogin=true;
@@ -586,7 +586,7 @@ export default {
     initChart(series) {
 
       this.chart = echarts.init(this.$refs.myEchart);
-      window.onresize = echarts.init(this.$refs.myEchart).resize;
+      // window.onresize = echarts.init(this.$refs.myEchart).resize;
       // 把配置和数据放这里
       this.chart.setOption({
 

@@ -1875,7 +1875,7 @@ export default {
     initChart(series) {
 
       this.chart = echarts.init(this.$refs.myEchart);
-      window.onresize = echarts.init(this.$refs.myEchart).resize;
+      // window.onresize = echarts.init(this.$refs.myEchart).resize;
       // 把配置和数据放这里
       this.chart.setOption({
         geo: {
