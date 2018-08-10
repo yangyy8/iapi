@@ -44,7 +44,16 @@
           </div>
             </el-col>
             <el-col :sm="24" :md="12" :lg="8" class="input-item">
-                <QueryNationality  :nationality="pd.nationalityEqual"  @transNation="getNation"></QueryNationality>
+                <!-- <QueryNationality  :nationality="pd.nationalityEqual"  @transNation="getNation"></QueryNationality> -->
+                <span class="input-text">国籍/地区：</span>
+                <el-select v-model="pd.nationalityEqual" filterable clearable @visible-change="queryNationality" placeholder="请选择"  size="small" class="input-input">
+                  <el-option
+                    v-for="item in nation"
+                    :key="item.CODE"
+                    :label="item.CODE+' - '+item.CNAME"
+                    :value="item.CODE">
+                  </el-option>
+                </el-select>
             </el-col>
             <el-col :sm="24" :md="12" :lg="8" class="input-item">
               <span class="input-text">证件号码：</span>
@@ -139,7 +148,7 @@
         </el-table-column>
         <el-table-column
           prop="NATIONALITYNAME"
-          label="国籍"
+          label="国籍/地区"
           sortable>
         </el-table-column>
         <el-table-column
@@ -501,6 +510,7 @@ export default {
       CurrentPage: 1,
       pageSize: 10,
       TotalResult: 0,
+      nation:[],
 
       hcurrentPage:1,//当前页数
       hpageSize:10, //每页显示个数选择器的选项设置
@@ -727,6 +737,21 @@ export default {
            this.$router.push({name:'alarmProcess',query:{eventserial:this.eve,type:1,isZDGZ:1}})
          }
        })
+    },
+    queryNationality(){
+      this.$api.post('/manage-platform/codeTable/queryNationality',{},
+       r => {
+         console.log(r);
+         if(r.success){
+           this.nation=r.data;
+         }
+      })
+      // this.nation=[
+      //   {
+      //     CNAME:"中国",
+      //     CODE:"SNH"
+      //   }
+      // ]
     },
   }
 }

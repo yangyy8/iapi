@@ -18,7 +18,7 @@
               </el-col>
 
               <el-col :sm="24" :md="12" :lg="8" class="input-item">
-                <span class="input-text">状态：</span>
+                <span class="input-text">规则状态：</span>
                 <el-select v-model="pd.STATUS" placeholder="请选择" filterable clearable  size="small" class="input-input">
                   <el-option label="0 - 停用" value="0"></el-option>
                   <el-option label="1 - 启用" value="1"></el-option>
@@ -38,7 +38,7 @@
             </el-row>
           </el-col>
           <el-col :span="2" class="down-btn-area">
-            <el-button type="success" class="mt-26" size="small" @click="getList(CurrentPage,pageSize,pd)">查询</el-button>
+            <el-button type="success" class="mt-26" size="small" @click="getList(pd)">查询</el-button>
           </el-col>
         </el-row>
     </div>
@@ -56,7 +56,7 @@
         <el-table-column
           label="出入境方向"
           sortable
-          width="180">
+          width="130">
           <template slot-scope="scope">
             <el-select v-model="scope.row.IODIR" placeholder="请选择" filterable clearable size="mini" class="table-select">
               <el-option label="0 - 出境" value="0"></el-option>
@@ -67,7 +67,7 @@
         </el-table-column>
         <el-table-column
           label="人员类别"
-          width="160">
+          width="180">
           <template slot-scope="scope">
             <el-select v-model="scope.row.PERSONNELTYPE" placeholder="请选择" filterable clearable size="mini" class="table-select">
               <el-option label="0 - 中国内地人" value="0"></el-option>
@@ -79,7 +79,7 @@
         </el-table-column>
         <el-table-column
           label="字段名称"
-          width="130">
+          width="180">
           <template slot-scope="scope">
             <el-select v-model="scope.row.FIELDNAME" @visible-change="codeName(scope.row.FIELDNAME)" placeholder="请选择"  size="mini" class="table-select">
               <el-option
@@ -92,19 +92,22 @@
          </template>
         </el-table-column>
         <el-table-column
-          label="最大长度">
+          label="最大长度"
+          width="100">
           <template slot-scope="scope">
-            <el-input v-model="scope.row.MAXLENGTH" placeholder="请输入最大长度" size="small" class="table-select"></el-input>
+            <el-input v-model="scope.row.MAXLENGTH"  size="small" class="table-select"></el-input>
          </template>
         </el-table-column>
         <el-table-column
-          label="最小长度">
+          label="最小长度"
+          width="100">
           <template slot-scope="scope">
-            <el-input v-model="scope.row.MINLENGTH" placeholder="请输入最小长度" size="small" class="table-select"></el-input>
+            <el-input v-model="scope.row.MINLENGTH" size="small" class="table-select"></el-input>
          </template>
         </el-table-column>
         <el-table-column
-          label="反馈结果">
+          label="反馈结果"
+          width="100">
           <template slot-scope="scope">
             <el-select v-model="scope.row.CHECKRESULT" placeholder="请选择"  size="mini" class="table-select">
               <el-option label="2Z" value="2Z">
@@ -113,13 +116,15 @@
          </template>
         </el-table-column>
         <el-table-column
-          label="反馈结果描述">
+          label="反馈结果描述"
+          width="200">
           <template slot-scope="scope">
             <el-input placeholder="请输入内容" size="small" class="table-select" v-model="scope.row.CHECKREMARK"></el-input>
          </template>
         </el-table-column>
         <el-table-column
-          label="限制性">
+          label="限制性"
+          width="150">
           <template slot-scope="scope">
             <el-select v-model="scope.row.INPUT" placeholder="请选择" filterable clearable  size="mini" class="table-select">
               <el-option label="0 - 必填" value="0"></el-option>
@@ -128,7 +133,8 @@
          </template>
         </el-table-column>
         <el-table-column
-          label="状态">
+          label="规则状态"
+          width="140">
           <template slot-scope="scope">
             <el-select v-model="scope.row.STATUS" placeholder="请选择" filterable clearable size="mini" class="table-select">
               <el-option label="0 - 停用" value="0"></el-option>
@@ -215,18 +221,7 @@ export default {
         }
       ],
       tableData: [
-        {
-          "IODIR": "",
-    			"PERSONNELTYPE": "",
-    			"FIELDNAME": "",
-          "MAXLENGTH":'-1',
-          "MINLENGTH":'-1',
-    			"CHECKRESULT": "",
-    			"CHECKREMARK": '',
-    			"INPUT": "",
-          "STATUS":'',
-          "CTLTYPE":'U'
-        }
+
       ],
       modelTable:{
         "IODIR": "",
@@ -283,6 +278,7 @@ export default {
        this.$api.post('/manage-platform/dataCheck/getDataCheckList',p,
         r => {
           this.tableData=r.data;
+          this.allData=this.tableData;
           // this.TotalResult=r.data.totalResult;
           this.count = this.tableData.length;
        })

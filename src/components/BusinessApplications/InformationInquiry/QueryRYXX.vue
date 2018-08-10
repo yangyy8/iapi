@@ -20,7 +20,7 @@
                 <el-button type="primary" plain name="button" @click="openL" size="mini">{{listText}}</el-button>
               </div>
               <el-row align="center" :gutter="2">
-                <el-col :sm="24" :md="12" :lg="6" class="input-item">
+                <el-col :sm="24" :md="12" :lg="8" class="input-item">
                   <span class="input-text">洲：</span>
                   <el-select placeholder="请选择" v-model="cdt.continentsCodeEqual" filterable clearable @visible-change="chau" @change="nationality(cdt.continentsCodeEqual)" size="small"  class="input-input">
                     <el-option
@@ -31,8 +31,8 @@
                     ></el-option>
                   </el-select>
                 </el-col>
-                <el-col :sm="24" :md="12" :lg="6" class="input-item">
-                  <span class="input-text">国籍：</span>
+                <el-col :sm="24" :md="12" :lg="8" class="input-item">
+                  <span class="input-text">国籍/地区：</span>
                   <el-select placeholder="请选择" v-model="cdt.nationalityEqual" filterable clearable size="small"  class="input-input">
                     <el-option
                       v-for="item in selection"
@@ -42,34 +42,19 @@
                     ></el-option>
                   </el-select>
                 </el-col>
-                <el-col :sm="24" :md="12" :lg="6" class="input-item">
-                  <span class="input-text">证件种类：</span>
-                  <el-select placeholder="请选择" v-model="cdt.passporttypeEqual" filterable clearable @visible-change="idType"  size="small"  class="input-input">
-                    <el-option
-                      v-for="item in idName"
-                      :key="item.CODE"
-                      :value="item.CODE"
-                      :label="item.CODE+' - '+item.NAME"
-                    ></el-option>
-                  </el-select>
-                </el-col>
-                <el-col :sm="24" :md="12" :lg="6" class="input-item">
+                <el-col :sm="24" :md="12" :lg="8" class="input-item">
                   <span class="input-text">证件号码：</span>
                   <el-input placeholder="请输入内容" v-model="cdt.passportnoEqual" size="small" class="input-input"></el-input>
                 </el-col>
-                <el-col :sm="24" :md="12" :lg="6" class="input-item">
-                  <span class="input-text">航班号：</span>
-                  <el-input placeholder="请输入内容" v-model="cdt.fltnoEqual" size="small" class="input-input"></el-input>
-                </el-col>
 
-                <el-col :sm="24" :md="12" :lg="6" class="input-item">
+                <el-col :sm="24" :md="12" :lg="8" class="input-item">
                   <span class="input-text">姓名：</span>
                   <div class="input-input t-fuzzy t-flex">
                     <el-input placeholder="请输入内容" v-model="cdt.familyname" size="small"></el-input>
                     <el-checkbox v-model="cdt.isBlurred">模糊查询</el-checkbox>
                   </div>
                 </el-col>
-                <el-col :sm="24" :md="12" :lg="6" class="input-item">
+                <el-col :sm="24" :md="12" :lg="8" class="input-item">
                   <span class="input-text">性别：</span>
                   <el-select placeholder="请选择" v-model="cdt.genderEqual" size="small" filterable clearable class="input-input">
                     <el-option label="M - 男" value="M"></el-option>
@@ -78,7 +63,7 @@
                   </el-select>
                 </el-col>
 
-                <el-col :sm="24" :md="12" :lg="6" class="input-item">
+                <el-col :sm="24" :md="12" :lg="8" class="input-item">
                   <span class="input-text">出生日期：</span>
                   <div class="input-input t-flex t-date">
                       <el-date-picker
@@ -96,9 +81,8 @@
                    </el-date-picker>
                   </div>
                 </el-col>
-                <!-- 展开收起项 -->
-                <div class="" v-show="openList">
-                <el-col :sm="24" :md="12" :lg="6" class="input-item">
+
+                <el-col :sm="24" :md="12" :lg="8" class="input-item">
                   <span class="input-text">航班日期：</span>
                   <div class="input-input t-flex t-date">
                       <el-date-picker
@@ -116,8 +100,22 @@
                    </el-date-picker>
                   </div>
                 </el-col>
-
-                <el-col :sm="24" :md="12" :lg="6" class="input-item">
+                <el-col :sm="24" :md="12" :lg="8" class="input-item">
+                  <span class="input-text">航班号：</span>
+                  <el-input placeholder="请输入内容" v-model="cdt.fltnoEqual" size="small" class="input-input"></el-input>
+                </el-col>
+                <el-col :sm="24" :md="12" :lg="8" class="input-item">
+                  <span class="input-text">出入境：</span>
+                  <el-select v-model="cdt.flighttypeEqual" placeholder="请选择" filterable clearable size="small" class="input-input">
+                    <el-option label="I - 入境" value="I"></el-option>
+                    <el-option label="O - 出境" value="O"></el-option>
+                    <!-- <el-option label="G - 过境" value="G"></el-option>
+                    <el-option label="全部" value=""></el-option> -->
+                  </el-select>
+                </el-col>
+                <!-- 展开收起项 -->
+                <div class="" v-show="openList">
+                <el-col :sm="24" :md="12" :lg="8" class="input-item">
                   <span class="input-text">起飞机场：</span>
                   <el-select placeholder="请选择" v-model="cdt.cityfromEqual" filterable clearable @visible-change="takeOff" size="small" class="input-input">
                     <el-option
@@ -128,7 +126,7 @@
                     </el-option>
                   </el-select>
                 </el-col>
-                <el-col :sm="24" :md="12" :lg="6" class="input-item">
+                <el-col :sm="24" :md="12" :lg="8" class="input-item">
                   <span class="input-text ">预计起飞时间：</span>
                   <div class="input-input t-flex t-date">
                       <el-date-picker
@@ -146,8 +144,19 @@
                    </el-date-picker>
                   </div>
                 </el-col>
+                <el-col :sm="24" :md="12" :lg="8" class="input-item">
+                  <span class="input-text">证件种类：</span>
+                  <el-select placeholder="请选择" v-model="cdt.passporttypeEqual" filterable clearable @visible-change="idType"  size="small"  class="input-input">
+                    <el-option
+                      v-for="item in idName"
+                      :key="item.CODE"
+                      :value="item.CODE"
+                      :label="item.CODE+' - '+item.NAME"
+                    ></el-option>
+                  </el-select>
+                </el-col>
 
-                <el-col :sm="24" :md="12" :lg="6" class="input-item">
+                <el-col :sm="24" :md="12" :lg="8" class="input-item">
                   <span class="input-text">到达机场：</span>
                   <el-select placeholder="请选择" v-model="cdt.citytoEqual" filterable clearable @visible-change="landing" size="small" class="input-input">
                     <el-option
@@ -158,7 +167,7 @@
                     </el-option>
                   </el-select>
                 </el-col>
-                <el-col :sm="24" :md="12" :lg="6" class="input-item">
+                <el-col :sm="24" :md="12" :lg="8" class="input-item">
                   <span class="input-text">预计降落时间：</span>
                   <div class="input-input t-flex t-date">
                       <el-date-picker
@@ -176,17 +185,7 @@
                    </el-date-picker>
                   </div>
                 </el-col>
-
-                <el-col :sm="24" :md="12" :lg="6" class="input-item">
-                  <span class="input-text">出入境：</span>
-                  <el-select v-model="cdt.flighttypeEqual" placeholder="请选择" filterable clearable size="small" class="input-input">
-                    <el-option label="I - 入境" value="I"></el-option>
-                    <el-option label="O - 出境" value="O"></el-option>
-                    <!-- <el-option label="G - 过境" value="G"></el-option>
-                    <el-option label="全部" value=""></el-option> -->
-                  </el-select>
-                </el-col>
-                <el-col :sm="24" :md="12" :lg="6" class="input-item">
+                <el-col :sm="24" :md="12" :lg="8" class="input-item">
                   <span class="input-text">最终预检结果：</span>
                   <el-select v-model="cdt.lastcheckresult" placeholder="请选择" filterable clearable size="small" class="input-input">
                     <el-option label="0Z - 允许登机" value="0Z"></el-option>
@@ -2431,6 +2430,7 @@ export default {
     },
     reset(){
       this.cdt={isBlurred:false};
+      this.ssss='';
       this.getList(this.currentPage,this.showCount,this.cdt);
       if(this.bigBase == 0){
         this.getList(this.currentPage,this.showCount,this.cdt);
@@ -2453,6 +2453,7 @@ export default {
         citytoEqual:'',
         endArrivdate:''
       }];
+      this.pppp='';
       this.cdtList = {version:0,flag:''};
       if(this.bigBase == 0){
         this.batchQueryList(this.currentPage,this.showCount,this.rows);
@@ -2464,6 +2465,7 @@ export default {
       this.selfCdtList = {id:0,type:0,attribute:'',atype:''};
       this.selfRows=[{id:1,attribute:'',operator:'',type:0,relation:'',atype:''}];
       this.str = '';
+      this.ffff='';
       if(this.bigBase == 0){
         this.selfQueryList(this.currentPage,this.showCount,this.selfCdt);
       }else if(this.bigBase == 1){

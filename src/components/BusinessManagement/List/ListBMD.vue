@@ -10,7 +10,7 @@
           <el-row align="center" :gutter="2">
             <el-col  :sm="24" :md="12" :lg="6"  class="input-item">
               <span class="input-text">国籍：</span>
-              <el-select v-model="pd.NATIONALITY" filterable placeholder="请选择"  size="small" class="input-input">
+              <el-select v-model="pd.NATIONALITY" filterable clearable placeholder="请选择"  size="small" class="input-input">
                 <el-option
                   v-for="item in nationAlone"
                   :key="item.CODE"
