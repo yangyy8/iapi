@@ -88,30 +88,39 @@
       >
         <el-table-column
           prop="fltno"
-          label="航班号">
+          label="航班号" width="80px">
 
         </el-table-column>
         <el-table-column
-          prop="departuretime"
           label="航班日期"
           >
+          <template slot-scope="scope">
+              {{scope.row.departuretime | fifter1}}
+            </template>
         </el-table-column>
         <el-table-column
-          label="出入标识">
+          label="出入标识" width="100px">
           <template slot-scope="scope">
               {{scope.row.flighttype | fifter1}}
             </template>
 
         </el-table-column>
         <el-table-column
-          prop="departuretime"
+
           label="计划起飞时间"
           >
+
+          <template slot-scope="scope">
+              {{scope.row.departuretime | filterdate}}
+            </template>
         </el-table-column>
         <el-table-column
-          prop="arrivetime"
+
           label="计划到达时间"
         >
+        <template slot-scope="scope">
+            {{scope.row.arrivetime | filterdate}}
+          </template>
         </el-table-column>
         <el-table-column
           prop="stationfrom"
@@ -129,7 +138,7 @@
   >
         </el-table-column>
         <el-table-column
-          label="航班状态"
+          label="航班状态"  width="100px"
   >  <template slot-scope="scope">
         {{scope.row.status | fifter2}}
       </template>
@@ -417,6 +426,15 @@ export default {
           return "已到达";
         }
       },
+      filterdate(n)
+      {
+        if(n=="" || n==null){
+          return n;
+        }else {
+            return n.substring(0,n.length-3);
+        }
+
+      }
 
     }
 }
