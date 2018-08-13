@@ -19,16 +19,26 @@ Vue.use(Print);
 Vue.use(htmlToPdf);
 
 Vue.prototype.$api = api;
-//
-console.log(router)
-router.beforeResolve((to, from, next) => {
 
-  next();
-  // console.log("to:",to);
+
+router.beforeResolve((to, from, next) => {
+  let state=false;
+  api.post('/manage-platform/isLanding',{},
+   r => {
+     state=r.data;
+     if(state!=true&&to.matched.some(function (item) {
+       return item.meta.logined;
+     })){
+       next({
+         path: '/',
+       })
+     }else{
+       next();
+     }
+  })
 
 })
 
-// getSatus()
 // router.afterEach((from)=>{
 //   // console.log(from)
 //   window.scrollTo(0,0);

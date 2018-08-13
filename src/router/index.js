@@ -13,6 +13,7 @@ export default new Router({
     {
       path: '/content/:navId',
       name: 'Content',
+      meta: {logined:true},
       component: resolve => require(['@/components/content'], resolve),
 
       children: [
