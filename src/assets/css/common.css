@@ -17,7 +17,7 @@ html,body{
 }
 body{
   padding-right:0 !important;
-  overflow: auto!important;
+  /* overflow: auto!important; */
 }
 ::-webkit-scrollbar
 {
@@ -78,11 +78,9 @@ table td,thead th{
   text-align: center!important;
 }
 .caozuo tr td:last-child{
+  /* display: flex; */
   text-align: right!important;
-}
-.caozuo tr .cell:last-child{
-  /* text-align: right!important; */
-  justify-content: flex-end!important;
+  /* justify-content: flex-end!important; */
 }
 .o-th1 th:first-child{
   background-color: #4874a1 !important;
