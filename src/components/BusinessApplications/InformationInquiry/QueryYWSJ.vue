@@ -8,7 +8,7 @@
             </div>
             <el-row align="center" :gutter="2">
 
-              <el-col :sm="24" :md="12" :lg="6" class="input-item">
+              <el-col :sm="24" :md="12" :lg="8" class="input-item">
                 <span class="input-text">事件类型：</span>
                 <el-select v-model="pd.type" placeholder="请选择"  filterable clearable  size="small" class="input-input">
 
@@ -22,7 +22,7 @@
                 </el-select>
               </el-col>
 
-              <el-col :sm="24" :md="12" :lg="6" class="input-item">
+              <el-col :sm="24" :md="12" :lg="8" class="input-item">
                 <span class="input-text">事件产生时间：</span>
                 <div class="input-input t-flex t-date">
                  <el-date-picker
@@ -39,13 +39,13 @@
             </div>
               </el-col>
 
-              <el-col :sm="24" :md="12" :lg="6" class="input-item">
+              <el-col :sm="24" :md="12" :lg="8" class="input-item">
                 <span class="input-text">处理人：</span>
                 <el-select v-model="pd.dealuser" placeholder="请选择"  filterable clearable  size="small" class="input-input" @visible-change="handler">
                   <el-option v-for="(item,key) in dealer" :value="key" :label="item" :key="key"></el-option>
                 </el-select>
               </el-col>
-              <el-col :sm="24" :md="12" :lg="6" class="input-item">
+              <el-col :sm="24" :md="12" :lg="8" class="input-item">
                 <span class="input-text">处理时间：</span>
                 <div class="input-input t-flex t-date">
                  <el-date-picker
@@ -77,28 +77,34 @@
         style="width: 100%;">
         <el-table-column
           prop="typeStr"
+          sortable
           label="事件类型">
         </el-table-column>
         <el-table-column
           prop="createtimeStr"
-          label="事件产生时间">
+          label="事件产生时间"
+          sortable>
         </el-table-column>
         <el-table-column
           prop="username"
-          label="处理人">
+          label="处理人"
+          sortable>
         </el-table-column>
         <el-table-column
           prop="dealtimeStr"
-          label="处理时间">
+          label="处理时间"
+          sortable>
         </el-table-column>
         <el-table-column
           prop="content"
-          label="事件描述">
+          label="事件描述"
+          sortable>
         </el-table-column>
 
         <el-table-column
           width="180"
-          label="操作">
+          label="操作"
+          sortable>
           <template slot-scope="scope">
               <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row)">详情</el-button>
          </template>
@@ -245,7 +251,10 @@
                       <span class="yy-input-text">变更原因：</span>
                       <el-input size="small"  :disabled="true" v-model="zform.CHANGE_RESON" class="yy-input-input"></el-input>
                     </el-col>
-
+                    <el-col :span="8" class="input-item">
+                      <span class="yy-input-text">审批人：</span>
+                      <el-input size="small"  :disabled="true" v-model="zform.APPROVALUSER" class="yy-input-input"></el-input>
+                    </el-col>
                     </el-row>
                     <el-row type="flex"  class="mb-6">
                       <el-col :span="8" class="input-item">
@@ -254,10 +263,15 @@
 
                       </el-col>
                       <el-col :span="8" class="input-item">
-                        <span class="yy-input-text">审批人名字：</span>
-                        <el-input size="small"  :disabled="true" v-model="zform.APPROVALUSER" class="yy-input-input"></el-input>
-                      </el-col>
+                        <span class="yy-input-text">操作人：</span>
+                        <el-input size="small"  :disabled="true" v-model="zform.USERNAME" class="yy-input-input" ></el-input>
 
+                      </el-col>
+                      <el-col :span="8" class="input-item">
+                        <span class="yy-input-text">操作时间：</span>
+                        <el-input size="small"  :disabled="true" v-model="zform.CREATETIMESTR" class="yy-input-input" ></el-input>
+
+                      </el-col>
                       </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -653,7 +667,7 @@ export default {
     }
   },
   mounted() {
-    this.getList(this.CurrentPage, this.pageSize, this.pd);
+    // this.getList(this.CurrentPage, this.pageSize, this.pd);
   },
   methods: {
     handleSelectionChange(val) {

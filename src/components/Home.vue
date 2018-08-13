@@ -313,13 +313,6 @@ export default {
     }
   },
   methods: {
-    // getCenter(){
-    //   this.$router.push({name:'ManageCenter'});
-    // },
-    UpdatePwd(){
-      this.$router.push({name:'UpdatePass'});
-
-    },
     getTime(){
       let myDate = new Date();
       let a = new Array("日", "一", "二", "三", "四", "五", "六");
@@ -332,7 +325,6 @@ export default {
 
       this.$api.post('/manage-platform/homePage/iapiSize',{},
        r => {
-        console.log(r)
         this.isWan=r.data.isShow;
         this.rcList=r.data.number.toString().split('')
         console.log(this.rcList)
@@ -359,7 +351,6 @@ export default {
     getSatus(){
       this.$api.post('/manage-platform/isLanding',{},
        r => {
-         console.log(r);
          this.isLogin=r.data;
          if(this.isLogin){
            this.getUers();
@@ -374,20 +365,17 @@ export default {
       this.$api.post('/manage-platform/homePage/userInfo',{},
        r => {
          this.userName=r.data.userName;
-         console.log(r);
       })
     },
     login(){
 
       this.$api.post('/manage-platform/landing',this.user,
        r => {
-        console.log(r)
         if(r.success){
           this.$message({
             message: '登录成功',
             type: 'success'
           });
-          // localStorage.setItem('login',1);
           this.getNav0();
           this.getUers();
 
@@ -399,14 +387,8 @@ export default {
       })
     },
     logOut(){
-      // localStorage.removeItem('login')
-      // this.$message({
-      //   message: '退出成功',
-      //   type: 'success'
-      // });
       this.$api.post('/manage-platform/landout',{},
        r => {
-        console.log(r)
         if(r.success){
           this.$message({
             message: '退出成功',
@@ -421,7 +403,6 @@ export default {
       this.$api.post('/manage-platform/muneSys/selectMenuOne',{},
        r => {
          this.bynav=false;
-         console.log(r);
          this.muneListOne=r.data.muneListOne
       })
     },
@@ -429,7 +410,6 @@ export default {
       this.cyccShow=true,
       this.$api.post('/manage-platform/roleSys/selectmenuSet', {},
         r => {
-          console.log(r);
           this.ccList=r.data.menuSetChoose
         })
     },
@@ -461,14 +441,9 @@ export default {
           }])
         }
       }
-      // console.log(res)
       return res;
     },
     fn(){
-      /*
-      图中一共用到三种效果，分别为航线特效图、飞机航线图以及城市图标涟漪图。
-      要用到setOption中的series属性，并且对每个城市都要进行三次设置。
-  */
     let that=this;
       [
         ['北京',this.CQData],
@@ -580,7 +555,6 @@ export default {
           }
         }]
       });
-      // console.log(that.series)
       this.initChart(that.series)
     },
     initChart(series) {

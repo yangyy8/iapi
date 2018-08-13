@@ -399,7 +399,7 @@
     </div>
   </transition>
   <transition name="el-zoom-in-top">
-    <div class="tan-box" v-show="tabId==1">
+    <div class="tan-box" v-show="tabId==1" @click.self="closeBox">
       <span class="top-left"></span>
       <span class="top-right"></span>
       <span class="down-left"></span>
@@ -435,7 +435,7 @@
 
                 </div>
 
-                <div class="check-div" v-if="checkShow">
+                <div class="check-div" v-if="checkShow" @click.stop>
                   <i class="el-icon-close close" @click="checkShow=false"></i>
                   <header>
                     <ul class="classify">
