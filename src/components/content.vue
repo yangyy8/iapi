@@ -1,8 +1,7 @@
 <template lang="html">
   <el-container class="content">
-
     <el-header height="150px">
-      <img src="../assets/img/logoo.png" alt="">
+      <img src="../assets/img/logoo.png" alt=""  @click="rightShow=null">
       <div class="top-right">
         <div class="top-nav">
           <ul class="top-nav-ul" v-if="navUlShow">
@@ -77,15 +76,22 @@
         </div>
       </el-aside>
       <el-main class="right-main" :class="{'nobg':tabList.length==0}">
-        <ul class="tabList" @click.right="closeRight" v-popover:popover>
-          <li class="tabList-item hand" :style="{width:tabliwidth}" :class="{'tabList-checked':nav2Id==i.url}" v-for="(i, index) in tabList">
+        <ul class="tabList">
+          <li class="tabList-item hand" :style="{width:tabliwidth}" :class="{'tabList-checked':nav2Id==i.url}" @click.right="closeRight(index)"  v-for="(i, index) in tabList">
             <!-- <el-tooltip class="item" effect="dark" :content="i.name" placement="top"> -->
               <span  @click="nav2(i)">{{i.name}}</span>
             <!-- </el-tooltip> -->
-
             <img src="../assets/img/tab-close1.png" alt="guanbi" @click="close1(index)" class="hand" style="padding:8px" v-if="nav2Id==i.url">
             <img src="../assets/img/tab-close2.png" alt="" @click="tabList.splice(index, 1)" style="padding:8px" class="hand" v-else>
+            <!-- <div class="rightClick" v-if="rightShow==index" @click="rightShow=null">
+              <ul>
+                <li>关闭全部页面</li>
+                <li>关闭全部页面</li>
+                <li>关闭全部页面</li>
+              </ul>
+            </div> -->
           </li>
+
           <!-- <li class="tabList-item">
             <img src="../assets/img/add_tab.png" class="hand">
           </li> -->
@@ -106,6 +112,7 @@
 export default {
   data() {
     return {
+      rightShow:null,
       userName:'',
       navUlShow: false,
       tabliwidth:'120px',
@@ -177,7 +184,6 @@ export default {
     logOut(){
       this.$api.post('/manage-platform/landout',{},
        r => {
-        console.log(r)
         if(r.success){
           this.$message({
             message: '退出成功',
@@ -190,17 +196,14 @@ export default {
     },
     getNav(navId) {
       this.navId = navId;
-      // this.getpp();
       this.$api.post('/manage-platform/muneSys/menuChild', {
           SERIAL: navId
         },
         r => {
-          console.log(r);
           if(r.success){
             this.nav1List = r.data.menuChild;
             let arr=r.data.menuChild
             let nav1Id =this.$route.query.nav1Id;
-            console.log(nav1Id)
             if(nav1Id){
               for(var i in arr){
                 if(arr[i].SERIAL==nav1Id){
@@ -211,8 +214,6 @@ export default {
               this.nav1to2(this.nav1List[0],1)
             }
           }
-        },e=>{
-          console.log(e)
         })
 
     },
@@ -222,7 +223,6 @@ export default {
       if (this.navUlShow) {
         this.$api.post('/manage-platform/muneSys/selectMenuOne', {},
           r => {
-            console.log(r);
             if(r.success){
               this.muneListOne = r.data.muneListOne
             }
@@ -232,22 +232,21 @@ export default {
     topNavTo(SERIAL){
       this.$router.push({ name: 'Content', params: {navId:SERIAL} });
       this.getNav(SERIAL);
-      console.log(this.tabList)
       this.tabList=[];
     },
-    closeRight(){
+    closeRight(index){
       // alert("杀杀杀")
+      this.rightShow=index;
+      document.oncontextmenu=function(){
+          return false;
+      }
     },
     nav1to2(nav1Itme,click) {
-      console.log(nav1Itme)
       this.isNav2Show();
       this.$router.push({query:{nav1Id:nav1Itme.SERIAL}})
       this.nav1Id = nav1Itme.SERIAL;
-      // this.nav2Id=11;
       this.nav2List = nav1Itme.menuList;
-      // console.log("this.nav2List",this.nav2List)
       let that=this;
-      // let flag=0
       if(click==1){
         this.nav2(nav1Itme.menuList[0])
       }else{
@@ -258,12 +257,8 @@ export default {
         }
       }
 
-
-
-
     },
     nav2(item,index) {
-      // console.log(index)
       if(this.tabList.length>8){
         console.log(this.tabList.length)
         this.tabliwidth=100/(this.tabList.length+1)+'%'
@@ -278,29 +273,22 @@ export default {
         // });
         // return
       }
-      console.log(this.nav1List)
       this.nav2Id = item.url;
       this.nav1Id=item.parentId;
       this.nav1List.map(function(a,b){
         if(a.SERIAL==item.parentId){
           this.nav2List = a.menuList;
         }
-        console.log(a,b)
       },this)
       console.log(item, item.url)
       new Set(this.tabList)
-      console.log(this.tabList)
-
       this.tabList.push(item)
       this.tabList = Array.from(new Set(this.tabList));
-      console.log(item.url)
       this.$router.push({name: item.url,query:{nav1Id:item.parentId}})
     },
     nav2Top(item){
       console.log(item)
       this.nav2Id = item.url;
-      console.log(this.nav2Id )
-
       this.nav1Id=item.parentId;
       this.nav1List.map(function(a,b){
         if(a.SERIAL==item.parentId){
@@ -330,7 +318,6 @@ export default {
       }
       this.nav1Star++;
       this.nav1End++;
-      console.log(this.nav1Star, this.nav1End)
     },
     isNav2Hide() {
       this.sideWidth = '120px';
@@ -344,12 +331,10 @@ export default {
     },
     close1(index) {
       this.tabList.splice(index, 1);
-      console.log(index)
       if (index > 0) {
         this.nav2Id = this.tabList[index - 1].url
         this.$router.push({name: this.nav2Id,query:{nav1Id:this.nav1Id}})
       }if(index==0){
-        // console.log(this.tabList[index])
         if(this.tabList.length!=0){
           this.nav2Id = this.tabList[index].url
           this.$router.push({name: this.nav2Id,query:{nav1Id:this.nav1Id}})
@@ -444,7 +429,7 @@ export default {
 
 .content {
   background: url(./../assets/img/bg.png) ;
-  background-size:  100% 100%;
+  /* background-size:  100% 100%; */
   padding-bottom: 115px;
 }
 
@@ -475,7 +460,7 @@ export default {
 .fold-bar {
   position: absolute;
   right: 0;
-  top: 50%;
+  top: 400px;
   margin-top: -22px;
   padding: 0 0 0 5px;
 }
@@ -483,7 +468,7 @@ export default {
 .nav1 {
   width: 110px;
   position: relative;
-  margin-right: 9px;
+  margin-right: 10px;
 }
 
 
@@ -524,7 +509,7 @@ export default {
   border-radius: 6px 0 0 6px;
   background-color: #e8f3fc;
   color: #007be2;
-  border-right: 9px #e8f3fc solid;
+  border-right: 10px #e8f3fc solid;
 }
 
 .nav1-icon {
@@ -599,9 +584,18 @@ export default {
   align-items: center;
   font-size: 14px;
   color: #fff;
-
+  position: relative;
 }
-
+.rightClick{
+  position: absolute;
+  top:36px;
+  left: 0;
+  width: 150px;
+  background: #fff;
+  padding: 20px;
+  box-shadow:0 0 18px rgba(0, 204, 204, .5);
+  z-index: 6;
+}
 .tabList-item span {
   /* margin-right: 10px; */
   /* width: 80%; */

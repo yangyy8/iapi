@@ -29,7 +29,6 @@ export default{
             }
           }
         }
-        console.log(PDF)
         if(type==0){
           var string = PDF.output('datauristring');
           var iframe = "<iframe width='100%' height='100%' src='" + string + "'></iframe>"
