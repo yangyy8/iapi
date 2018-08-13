@@ -312,7 +312,7 @@
         </el-table-column>
         <el-table-column
           label="操作"
-          width="280"
+          width="250"
           align="right">
           <template slot-scope="scope">
             <!-- <div class="flex-r"> -->

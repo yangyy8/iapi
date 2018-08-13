@@ -315,7 +315,8 @@
 
         <el-table-column
           label="操作"
-          width="250">
+          width="250"
+          align="right">
           <template slot-scope="scope">
             <!-- <div class="flex-r"> -->
               <el-button class="table-btn" size="mini" plain icon="el-icon-edit" @click="update(scope.row)" v-if="scope.row.SYN_STATUS==0&&getHis">编辑</el-button>
