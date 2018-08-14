@@ -105,6 +105,7 @@
               <el-option label="大于" value="1"></el-option>
               <el-option label="小于" value="2"></el-option>
               <el-option label="包含" value="3"></el-option>
+              <el-option label="不包含" value="4"></el-option>
             </el-select>
             <el-select v-model="scope.row.OPERATORCHARACTER" placeholder="请选择" filterable clearable size="mini" class="table-select" v-show="dateShow==2">
               <el-option label="等于" value="0"></el-option>
@@ -231,19 +232,7 @@ export default {
         }
       ],
       tableData: [
-        {
-          "IODIR": "",
-    			"PERSONNELTYPE": "",
-    			"RULEDESC": '',
-    			"FIELDNAME": "",
-    			"OPERATORCHARACTER": "",
-    			"VALUE": '',
-    			"CHECKRESULT": "",
-          "RESPONSERESULT":'',
-          "STATUS": "",
-          "FIELDTYPE":'',
-          "CTLTYPE":'U'
-        }
+        
       ],
       modelTable:{
         "IODIR": "",
@@ -305,6 +294,7 @@ export default {
           this.tableData=r.data;
           // this.TotalResult=r.data.totalResult;
           this.count = this.tableData.length;
+          this.allData = this.tableData;
        })
      },
      addTableList(){//新增
@@ -359,6 +349,7 @@ export default {
               type: 'success',
               message: '操作成功!'
             });
+            this.getList(this.pd);
           }
        })
 
