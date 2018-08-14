@@ -130,7 +130,7 @@
           -->
             <el-col  :sm="24" :md="12" :lg="6"  class="input-item">
               <span class="input-text">入境口岸：</span>
-              <el-select v-model="form.WHITE_PORT_IN" filterable clearable placeholder="请选择"  size="small" class="input-input">
+              <el-select v-model="pd.WHITE_PORT_IN" filterable clearable placeholder="请选择"  size="small" class="input-input">
                 <el-option
                   v-for="item in airport"
                   :key="item.AIRPORT_CODE"
@@ -572,39 +572,50 @@
           <el-col :sm="24" :md="12" :lg="8" >
             <span>证件号码</span>
             {{detailsData.CARDNO}}
-
+          </el-col>
+          <el-col :sm="24" :md="12" :lg="8" >
+            <span>证件类型</span>
+            {{detailsData.CARDTYPENAME}}
+          </el-col>
+        </el-row>
+        <el-row type="flex" class="detail-msg-row">
+          <el-col :sm="24" :md="12" :lg="8" >
+            <span>证件有效期</span>
+            {{detailsData.CARDEXPIREDATE}}
           </el-col>
           <el-col :sm="24" :md="12" :lg="8" >
             <span>原因严重性</span>
             {{detailsData.CTL_REASONLEVEL}} <span>级</span>
 
           </el-col>
+          <el-col :sm="24" :md="12" :lg="8" >
+            <span>出入标识</span>
+            <a v-if="detailsData.IN_OUT=='0'">入境</a>
+            <a v-if="detailsData.IN_OUT=='1'">出境</a>
+
+          </el-col>
+
+
         </el-row>
         <el-row type="flex" class="detail-msg-row">
           <el-col :sm="24" :md="12" :lg="8" >
-            <span>出入标识</span>
-            <a v-if="detailsData.IN_OUT=='1'">入境</a>
-            <a v-if="detailsData.IN_OUT=='0'">出境</a>
-
-          </el-col>
-          <el-col :sm="24" :md="12" :lg="8" >
-            <span>起始控制日期</span>
+            <span>生效日期</span>
             {{detailsData.CTL_BEGINDATE}}
 
           </el-col>
           <el-col :sm="24" :md="12" :lg="8" >
-            <span>终止控制日期</span>
+            <span>失效日期</span>
             {{detailsData.CTL_EXPIREDATE}}
 
           </el-col>
-
-        </el-row>
-        <el-row type="flex" class="detail-msg-row">
           <el-col :sm="24" :md="12" :lg="8" >
             <span>航班号</span>
           {{detailsData.FLTNO}}
 
           </el-col>
+
+        </el-row>
+        <el-row type="flex" class="detail-msg-row">
           <el-col :sm="24" :md="12" :lg="8" >
             <span>入境口岸</span>
             {{detailsData.WHITE_PORT_IN_NAME}}
@@ -615,13 +626,14 @@
             {{detailsData.WHITE_PORT_OUT_NAME}}
 
           </el-col>
-        </el-row>
-        <el-row type="flex" class="detail-msg-row">
           <el-col :sm="24" :md="12" :lg="8" >
             <span>交控单位</span>
             {{detailsData.SUBORG_NAME}}
 
           </el-col>
+
+        </el-row>
+        <el-row type="flex" class="detail-msg-row mb-20">
           <el-col :sm="24" :md="12" :lg="8" >
             <span>联系电话</span>
             {{detailsData.SUBORG_CONN}}
@@ -633,9 +645,7 @@
             <a v-if="detailsData.PERSON_TYPE=='1'">中国人</a>
 
           </el-col>
-        </el-row>
-        <el-row type="flex" class="detail-msg-row mb-20">
-          <el-col :sm="24" :md="12" :lg="16" >
+          <el-col :sm="24" :md="12" :lg="8" >
             <span>处理依据</span>
           {{detailsData.CTL_REASON}}
 
@@ -891,6 +901,8 @@ export default {
       console.log(item)
       this.addDialogVisible=true;
       this.form=item;
+      this.form.PERSON_TYPE+='';
+      this.form.IN_OUT+='';
       this.dialogType="update";
       this.dialogText="编辑"
     },
@@ -916,20 +928,27 @@ export default {
             SERIAL:this.delId,
             synStatus:synStatus
           }
-          this.$api.post('/manage-platform/nameList/deleteNameList',p,
-           r => {
-             if(r.success){
-               this.$message({
-                 message: '删除成功',
-                 type: 'success'
-               });
-               this.releaseDialogVisible=false;
-               this.getList(this.CurrentPage,this.pageSize,this.pd);
-             }else{
-               this.$message.error(r.message);
-             }
-          })
-      }
+          this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              type: 'warning'
+            }).then(() => {
+              this.$api.post('/manage-platform/nameList/deleteNameList',p,
+               r => {
+                 if(r.success){
+                   this.$message({
+                     message: '删除成功',
+                     type: 'success'
+                   });
+                   this.releaseDialogVisible=false;
+                   this.getList(this.CurrentPage,this.pageSize,this.pd);
+                 }
+              })
+            }).catch(() => {
+
+            });
+
+          }
       },
       queryDocCode(){
         this.$api.post('/manage-platform/codeTable/queryDocCode',{},
@@ -941,7 +960,7 @@ export default {
            }
         })
       },
-      addItem(formName,synStatus){
+     addItem(formName,synStatus){
         // this.$refs[formName].validate((valid) => {
         //     if (valid) {
         //       console.log(valid)
