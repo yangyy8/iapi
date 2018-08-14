@@ -204,8 +204,8 @@
                     :label="item"
                     :value="item"
                     :key="item">
-                    <!-- <span style="float: left">{{item}}</span>
-                    <span style="float: right;margin-left:20px" class="el-icon-circle-close" @click="deleteItem(item)"></span> -->
+                    <span style="float: left">{{item}}</span>
+                    <span style="float: right;margin-left:20px" class="el-icon-circle-close" @click.stop="deleteItem(item)"></span>
                   </el-option>
                 </el-select>
                 <button type="button" name="button" @click="dialogVisible = true;sss=''">保存方案</button>
@@ -1844,22 +1844,36 @@ export default {
           }
         })
     },
-    // deleteItem(i){
-    //
-    //   this.$confirm('此操作将删除该文件, 是否继续?', '提示', {
-    //     confirmButtonText: '确定',
-    //     cancelButtonText: '取消',
-    //     type: 'warning'
-    //   }).then(() => {
-    //     let di = this.saveName.indexOf(i);
-    //     this.saveName.splice(di,1);
-    //   }).catch(() => {
-    //     this.$message({
-    //       type: 'info',
-    //       message: '已取消删除'
-    //     });
-    //   });
-    // },
+    deleteItem(i){
+      this.$confirm('此操作将永久删除该方法, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        // let di = this.saveName.indexOf(i);
+        // this.saveName.splice(di,1);
+        let dei = {
+          name:i,
+          page:this.page
+        };
+        this.$api.post('/manage-platform/queryShow/delete',dei,
+         r =>{
+           if(r.success){
+             this.savePlanShow();
+             this.ssss='';
+             this.$message({
+               type: 'success',
+               message: '操作成功!'
+             });
+           }
+         })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        });
+      });
+    },
     //----------------------------批量查询start------------------------------
     batchQueryList(currentPage,showCount,rows){//批量查询列表
       let bql = {
@@ -2065,12 +2079,13 @@ export default {
     //----------------------------自定义查询start------------------------------
     selfQueryList(currentPage,showCount,selfCdt,dataSort){//自定义查询列表
       this.currentPage = 1;
-      console.log(selfCdt.AAAAA);
+      let dataSelf = [];
+      dataSelf.push(dataSort);
       let sql = {
         "currentPage":currentPage,
       	"showCount":showCount,
       	"cdt":selfCdt.AAAAA,
-        "orders":dataSort
+        "orders":dataSelf
       }
       this.$api.post('/manage-platform/iapi/customIapiQuery',sql,
        r =>{

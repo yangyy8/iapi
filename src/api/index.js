@@ -41,13 +41,10 @@ function filterNull(o) {
   }
   return o
 }
-
-
 // 添加默认参数
 function apiAxios(method, url, params, success, failure) {
  // console.log(window.location.host)
   // let loadingInstance1 = Loading.service({ fullscreen: true,background:'rgba(90,90,90,0.3)'});
-
   if (params) {
     // params = filterNull(params);
   }
@@ -76,7 +73,6 @@ function apiAxios(method, url, params, success, failure) {
       params: method === 'GET' || method === 'DELETE' ? params : null,
       baseURL: root,
       withCredentials: true
-
     })
     .then(function(res) {
       console.log(res)

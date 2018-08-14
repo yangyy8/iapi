@@ -110,7 +110,7 @@
           width="100">
           <template slot-scope="scope">
             <el-select v-model="scope.row.CHECKRESULT" placeholder="请选择"  size="mini" class="table-select">
-              <el-option label="2Z" value="2Z">
+              <el-option label="4Z" value="4Z">
               </el-option>
             </el-select>
          </template>
@@ -227,25 +227,29 @@ export default {
         "IODIR": "",
         "PERSONNELTYPE": "",
         "FIELDNAME": "",
-        "MAXLENGTH":'-1',
-        "MINLENGTH":'-1',
+        "MAXLENGTH":'',
+        "MINLENGTH":'',
         "CHECKRESULT": "",
         "CHECKREMARK": '',
         "INPUT": "",
         "STATUS":'',
-        "CTLTYPE":'U'
+        "CTLTYPE":'U',
+        "REGULAR":'',
+        "VALIDTIME":''
       },
       cleanTable:{
         "IODIR": "",
         "PERSONNELTYPE": "",
         "FIELDNAME": "",
-        "MAXLENGTH":'-1',
-        "MINLENGTH":'-1',
+        "MAXLENGTH":'',
+        "MINLENGTH":'',
         "CHECKRESULT": "",
         "CHECKREMARK": '',
         "INPUT": "",
         "STATUS":'',
-        "CTLTYPE":'U'
+        "CTLTYPE":'U',
+        "REGULAR":'',
+        "VALIDTIME":''
       },
       multipleSelection:[],
       code:[],
@@ -277,6 +281,20 @@ export default {
        };
        this.$api.post('/manage-platform/dataCheck/getDataCheckList',p,
         r => {
+          for(var i=0;i<r.data.length;i++){
+            if(r.data[i].MAXLENGTH == -1){
+              r.data[i].MAXLENGTH = ''
+            }
+            if(r.data[i].MINLENGTH == -1){
+              r.data[i].MINLENGTH = ''
+            }
+            if(r.data[i].REGULAR == -1){
+              r.data.REGULAR = ''
+            }
+            if(r.data[i].VALIDTIME == -1){
+              r.data.VALIDTIME = ''
+            }
+          }
           this.tableData=r.data;
           this.allData=this.tableData;
           // this.TotalResult=r.data.totalResult;
@@ -289,13 +307,15 @@ export default {
          "IODIR": "",
          "PERSONNELTYPE": "",
          "FIELDNAME": "",
-         "MAXLENGTH":'-1',
-         "MINLENGTH":'-1',
+         "MAXLENGTH":'',
+         "MINLENGTH":'',
          "CHECKRESULT": "",
          "CHECKREMARK": '',
          "INPUT": "",
          "STATUS":'',
-         "CTLTYPE":'U'
+         "CTLTYPE":'U',
+         "REGULAR":'',
+         "VALIDTIME":''
        };
        this.modelTable.CTLTYPE='I';
        this.tableData.push(this.modelTable);
@@ -335,6 +355,7 @@ export default {
               type: 'success',
               message: '操作成功!'
             });
+            this.getList(this.pd);
           }
        })
 
