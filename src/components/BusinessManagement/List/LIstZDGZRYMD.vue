@@ -441,8 +441,8 @@
         <el-row type="flex" class="detail-msg-row">
           <el-col :sm="24" :md="12" :lg="8" >
             <span>出入标识</span>
-            <a v-if="detailsData.IN_OUT=='1'">入境</a>
-            <a v-if="detailsData.IN_OUT=='0'">出境</a>
+            <a v-if="detailsData.IN_OUT=='0'">入境</a>
+            <a v-if="detailsData.IN_OUT=='1'">出境</a>
 
           </el-col>
           <el-col :sm="24" :md="12" :lg="8" >
@@ -739,6 +739,8 @@ export default {
     update(item){
       this.addDialogVisible=true;
       this.form=item;
+      this.form.PERSON_TYPE+='';
+      this.form.IN_OUT+='';
       this.dialogType="update";
       this.dialogText="编辑"
     },
@@ -756,17 +758,26 @@ export default {
       let p={
         SERIAL:id
       }
-      this.$api.post('/manage-platform/nameListFocusList/updateCheck',p,
-       r => {
-         if(r.success){
-           this.$message({
-             message: '删除成功',
-             type: 'success'
-           });
-           this.releaseDialogVisible=false;
-           this.getList(this.CurrentPage,this.pageSize,this.pd);
-         }
-      })
+      this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.$api.post('/manage-platform/nameListFocusList/updateCheck',p,
+           r => {
+             if(r.success){
+               this.$message({
+                 message: '删除成功',
+                 type: 'success'
+               });
+               this.releaseDialogVisible=false;
+               this.getList(this.CurrentPage,this.pageSize,this.pd);
+             }
+          })
+        }).catch(() => {
+
+        });
+
       },
       deleteItems(){
           let arr= this.multipleSelection;
