@@ -96,9 +96,13 @@
         :data="tableData"
         border
         style="width: 100%;">
+         <el-table-column
+            prop="tng_chnname"
+            label="中文姓名" >
+          </el-table-column>
                 <el-table-column
                   prop="tsname"
-                  label="姓名" sortable>
+                  label="姓名" >
                 </el-table-column>
                 <el-table-column
                   prop="gender"
@@ -262,8 +266,8 @@ export default {
     }
   },
   mounted() {
-    this.getList(this.CurrentPage, this.pageSize, this.pd);
-    this.getimgtable(this.CurrentPage, this.pageSize, this.pd);
+  //  this.getList(this.CurrentPage, this.pageSize, this.pd);
+  //  this.getimgtable(this.CurrentPage, this.pageSize, this.pd);
   },
   methods: {
     handleSelectionChange(val) {
@@ -330,7 +334,12 @@ export default {
     filters: {
         filterdate(n)
         {
-        return n.substring(0,n.length-3);
+          if(n=="" || n==null){
+            return n;
+          }else {
+              return n.substring(0,n.length-3);
+          }
+
         }
 
     }

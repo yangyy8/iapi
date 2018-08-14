@@ -496,7 +496,7 @@
         <el-row type="flex" class="mb-6">
           <el-col :span="24" class="input-item">
             <span class="yy-input-text" style="width:18%">变更描述：</span>
-           <el-input type="textarea" v-model="ap.CHANGERESON"  placeholder="请输入内容" :autosize="{ minRows: 3, maxRows: 6}" style="width:82%;" ></el-input>
+           <el-input type="textarea" v-model="ap.CHANGERESON"  placeholder="请输入变更描述(不能超过250字)" max="250" :autosize="{ minRows: 3, maxRows: 6}" style="width:82%;" ></el-input>
           </el-col>
         </el-row>
       </el-form>

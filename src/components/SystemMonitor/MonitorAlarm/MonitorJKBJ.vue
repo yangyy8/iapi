@@ -412,10 +412,9 @@ export default {
 }
 
 .yy-input-text {
-  font-weight: 300;
+  font-weight: 500;
 }
-
 .input-text {
-  font-weight: 300;
+  font-weight: 500;
 }
 </style>
