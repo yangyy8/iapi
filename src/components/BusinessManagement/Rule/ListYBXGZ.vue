@@ -85,9 +85,9 @@
         </el-table-column>
         <el-table-column
           label="字段名称"
-          width="130">
+          width="150">
           <template slot-scope="scope">
-            <el-select v-model="scope.row.FIELDNAME" filterable clearable @visible-change="codeName(scope.row.FIELDNAME)" @change="inputMode(scope.row.FIELDNAME,scope.row)" placeholder="请选择"  size="mini" class="table-select">
+            <el-select v-model="scope.row.FIELDNAME" filterable clearable @visible-change="codeName(scope.row.FIELDNAME,scope.row)" @change="inputMode(scope.row.FIELDNAME,scope.row)" placeholder="请选择"  size="mini" class="table-select">
               <el-option
               v-for="item in code"
               :key="item.FIELDNAME"
@@ -98,7 +98,8 @@
          </template>
         </el-table-column>
         <el-table-column
-          label="运算符">
+          label="运算符"
+          width="130">
           <template slot-scope="scope">
             <el-select v-model="scope.row.OPERATORCHARACTER" placeholder="请选择" filterable clearable size="mini" class="table-select" v-show="dateShow==1">
               <el-option label="等于" value="0"></el-option>
@@ -113,7 +114,8 @@
          </template>
         </el-table-column>
         <el-table-column
-          label="取值">
+          label="取值"
+          width="170">
           <template slot-scope="scope">
             <el-select v-model="scope.row.VALUE" placeholder="请选择"  size="mini" filterable clearable class="table-select" v-show="show==1">
               <el-option label="当前系统时间" value="sysdate"></el-option>
@@ -128,22 +130,25 @@
          </template>
         </el-table-column>
         <el-table-column
-          label="反馈结果">
+          label="反馈结果"
+          width="100">
           <template slot-scope="scope">
             <el-select v-model="scope.row.CHECKRESULT" placeholder="请选择" filterable clearable size="mini" class="table-select">
-              <el-option label="2Z" value="2Z">
-              </el-option>
+              <el-option label="1Z" value="1Z"></el-option>
+              <el-option label="2Z" value="2Z"></el-option>
             </el-select>
          </template>
         </el-table-column>
         <el-table-column
-          label="反馈结果描述">
+          label="反馈结果描述"
+          width="300">
           <template slot-scope="scope">
-            <el-input placeholder="请输入内容" size="small" class="table-select" v-model="scope.row.RESPONSERESULT"></el-input>
+            <el-input type="textarea" :autosize="{ minRows: 1, maxRows: 2}" placeholder="请输入内容" size="small" class="table-select" v-model="scope.row.RESPONSERESULT" maxlength="100"></el-input>
          </template>
         </el-table-column>
         <el-table-column
-          label="状态">
+          label="状态"
+          width="130">
           <template slot-scope="scope">
             <el-select v-model="scope.row.STATUS" placeholder="请选择" filterable clearable size="mini" class="table-select">
               <el-option label="停用" value="0"></el-option>
@@ -153,11 +158,12 @@
         </el-table-column>
         <el-table-column
           label="操作"
-          width="100">
+          width="130"
+          fixed="right">
           <template slot-scope="scope">
             <div class="flex-r">
-              <el-button class="table-btn" size="mini" plain icon="el-icon-delete" @click="deleteTableList(scope.$index,scope.row)">删除</el-button>
-            </div>
+            <el-button class="table-btn" size="mini" plain icon="el-icon-delete" @click="deleteTableList(scope.$index,scope.row)">删除</el-button>
+          </div>
          </template>
         </el-table-column>
 
@@ -232,7 +238,7 @@ export default {
         }
       ],
       tableData: [
-        
+
       ],
       modelTable:{
         "IODIR": "",
@@ -264,11 +270,11 @@ export default {
       code:[],
       show:1,
       dateShow:1,
-      operatorData:[],
-      allData:[]
+      operatorData:[]
     }
   },
   mounted() {
+    this.codeName();
     this.getList(this.pd);
   },
   methods:{
@@ -294,7 +300,7 @@ export default {
           this.tableData=r.data;
           // this.TotalResult=r.data.totalResult;
           this.count = this.tableData.length;
-          this.allData = this.tableData;
+          // this.allData = this.tableData;
        })
      },
      addTableList(){//新增
@@ -302,19 +308,22 @@ export default {
        this.modelTable={
          "IODIR": "",
          "PERSONNELTYPE": "",
+         "RULEDESC": '',
          "FIELDNAME": "",
-         "MAXLENGTH":'-1',
-         "MINLENGTH":'-1',
+         "OPERATORCHARACTER": "",
+         "VALUE": '',
          "CHECKRESULT": "",
-         "CHECKREMARK": '',
-         "INPUT": "",
-         "STATUS":'',
+         "RESPONSERESULT":'',
+         "STATUS": "",
+         "FIELDTYPE":'',
          "CTLTYPE":'U'
        }
        this.modelTable.CTLTYPE='I';
        this.tableData.push(this.modelTable);
+       console.log(this.tableData);
        // this.modelTable = this.cleanTable;
-       this.allDate = this.tableData;
+       // this.allDate = this.tableData;
+       // console.log(this.allDate)
      },
      deleteTableList(id,item){//删除本行
        this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
@@ -327,7 +336,8 @@ export default {
          let d = item;
          this.tableData.splice(id,1);
          this.operatorData.push(d);
-         this.allData = this.tableData.concat(this.operatorData);
+         console.log(this.operatorData);
+         // this.allData = this.tableData.concat(this.operatorData);
        }).catch(() => {
          this.$message({
            type: 'info',
@@ -337,7 +347,10 @@ export default {
 
      },
      save(){
-       let p = this.allData;
+       let p = this.tableData.concat(this.operatorData);
+       // let p = this.allData;
+       console.log(p);
+       console.log(this.operatorData)
        this.$api.post('/manage-platform/ruleConfig/addRuleConfigAll',p,
         r => {
           console.log(r);
@@ -354,13 +367,18 @@ export default {
        })
 
      },
-     codeName(name){//字段名称的接口
+     codeName(name,codeRow){//字段名称的接口
 
        this.$api.post('/manage-platform/ruleConfig/getRuleConfigFieldNameList',{},
         r => {
           console.log(r);
           if(r.success){
             this.code = r.data
+            for(var i=0;i<this.code.length;i++){
+              if(this.code[i].FIELDNAME == name){
+                codeRow.FIELDTYPE = this.code[i].FIELDTYPE;
+              }
+            }
           }
        })
      },
@@ -368,13 +386,16 @@ export default {
        console.log(item);
        this.$set(rowBase,'VALUE','');
        this.$set(rowBase,'OPERATORCHARACTER','');
-       if(item=="DATEOFBIRTH"||item=="PASSPORTISSUEDATE"||item=="VISAISSUEDATE"||item=="PASSPORTEXPIREDATE"){
-         this.show=1;
-         this.dateShow=1;
-       }else{
-         this.show=2;
-         this.dateShow=2;
+       for(var i=0;i<this.code.length;i++){
+         if(this.code[i].FIELDTYPE==2){
+           this.show=1;
+           this.dateShow=1;
+         }else{
+           this.show=2;
+           this.dateShow=2;
+         }
        }
+
      }
 
   }
@@ -386,7 +407,7 @@ export default {
 </style>
 <style media="screen">
 .t-table .el-table__body-wrapper{
-  max-height: 360px;
+  max-height: 466px;
   overflow-y: scroll;
 }
 .el-table__body{

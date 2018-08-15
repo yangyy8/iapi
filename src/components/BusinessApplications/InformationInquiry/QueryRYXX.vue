@@ -33,12 +33,12 @@
                 </el-col>
                 <el-col :sm="24" :md="12" :lg="8" class="input-item">
                   <span class="input-text">国籍/地区：</span>
-                  <el-select placeholder="请选择" v-model="cdt.nationalityEqual" filterable clearable size="small"  class="input-input">
+                  <el-select placeholder="请选择" v-model="cdt.nationalityEqual" filterable clearable size="small"  class="input-input" @visible-change="baseNation">
                     <el-option
                       v-for="item in selection"
-                      :key="item.code"
-                      :value="item.code"
-                      :label="item.code+' - '+item.name"
+                      :key="item.CODE"
+                      :value="item.CODE"
+                      :label="item.CODE+' - '+item.CNAME"
                     ></el-option>
                   </el-select>
                 </el-col>
@@ -347,7 +347,7 @@
                         </el-select>
                      </template>
                     </el-table-column>
-                    <el-table-column
+                    <!-- <el-table-column
                       label="预计起飞时间"
                       width="200">
                       <template slot-scope="scope">
@@ -359,9 +359,9 @@
                         value-format="yyyyMMddHHmmss">
                       </el-date-picker>
                      </template>
-                    </el-table-column>
+                    </el-table-column> -->
 
-                    <el-table-column
+                    <!-- <el-table-column
                       label="预计降落时间"
                       width="200">
                       <template slot-scope="scope">
@@ -373,7 +373,7 @@
                         value-format="yyyyMMddHHmmss">
                       </el-date-picker>
                      </template>
-                    </el-table-column>
+                    </el-table-column> -->
                     <el-table-column
                       label="操作"
                       width="120"
@@ -403,6 +403,8 @@
                       :value="item"
                       :key="item"
                       >
+                      <span style="float: left">{{item}}</span>
+                      <span style="float: right;margin-left:20px" class="el-icon-circle-close" @click.stop="batchDeleteItem(item)"></span>
                     </el-option>
                   </el-select>
                   <button type="button" name="button" @click="batchDialogVisible = true;ppp=''">保存方案</button>
@@ -603,6 +605,8 @@
                         :value="item"
                         :key="item"
                         >
+                        <span style="float: left">{{item}}</span>
+                        <span style="float: right;margin-left:20px" class="el-icon-circle-close" @click.stop="selfDeleteItem(item)"></span>
                       </el-option>
                     </el-select>
                     <button type="button" name="button" @click="selfDialogVisible = true;fff=''">保存方案</button>
@@ -1845,7 +1849,7 @@ export default {
         })
     },
     deleteItem(i){
-      this.$confirm('此操作将永久删除该方法, 是否继续?', '提示', {
+      this.$confirm('方案删除后将无法恢复, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
@@ -1859,8 +1863,13 @@ export default {
         this.$api.post('/manage-platform/queryShow/delete',dei,
          r =>{
            if(r.success){
-             this.savePlanShow();
-             this.ssss='';
+             if(this.ssss==i){
+               this.ssss='';
+               this.cdt={isBlurred:false};
+               this.savePlanShow();
+             }else{
+               this.savePlanShow();
+             }
              this.$message({
                type: 'success',
                message: '操作成功!'
@@ -2008,32 +2017,27 @@ export default {
       r =>{
         if(r.success){
           // 查询项渲染
-          // let arrConfig = r.data.configList;
-          this.rows = r.data.configList;
           let arr = r.data.showConfigList;
           let arr1 = [];
-          // if(arrConfig.length == 0){
-          //   this.cdtList = {version:0,flag:''};
-          //   this.rows=[{
-          //     version:1,
-          //     nationalityEqual:'',
-          //     passportnoEqual:'',
-          //     fltnoEqual:'',
-          //     familyname:'',
-          //     genderEqual:'',
-          //     startDateofbirth:'',
-          //     startFlightDepartdate:'',
-          //     cityfromEqual:'',
-          //     startDepartdate:'',
-          //     citytoEqual:'',
-          //     endArrivdate:''
-          //   }]
-          // }else{
-            // for(var i=0;i<arrConfig.length;i++){
-            //   this.cdtList = arrConfig[0];
-            // }
-            // this.rows = arrConfig.slice(1);
-          // }
+          if(r.data.configList.length == 0){
+            this.rows=[{
+              version:1,
+              nationalityEqual:'',
+              nationalityNameEqual:'',
+              passportnoEqual:'',
+              fltnoEqual:'',
+              familyname:'',
+              genderEqual:'',
+              startDateofbirth:'',
+              startFlightDepartdate:'',
+              cityfromEqual:'',
+              startDepartdate:'',
+              citytoEqual:'',
+              endArrivdate:''
+            }]
+          }else{
+            this.rows = r.data.configList;
+          }
           //展示项渲染
           if(arr.length == 0){
             this.checkList = ['I_NAME','I_34','I_76','I_37','I_39','I_12','filghtDate','I_13','I_65','I_59'];
@@ -2045,11 +2049,58 @@ export default {
             }
             this.checkList = arr1;
           }
-          this.batchQuery = this.checkList;
+          // this.batchQuery = this.checkList;
         }
       })
     },
+    batchDeleteItem(i){
+      this.$confirm('方案删除后将无法恢复, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        // let di = this.saveName.indexOf(i);
+        // this.saveName.splice(di,1);
+        let dei = {
+          name:i,
+          page:this.page
+        };
+        this.$api.post('/manage-platform/queryShow/delete',dei,
+         r =>{
+           if(r.success){
+             if(this.pppp==i){
+               this.pppp='';
+               this.rows = [{
+                 version:1,
+                 nationalityEqual:'',
+                 passportnoEqual:'',
+                 fltnoEqual:'',
+                 familyname:'',
+                 genderEqual:'',
+                 startDateofbirth:'',
+                 startFlightDepartdate:'',
+                 cityfromEqual:'',
+                 startDepartdate:'',
+                 citytoEqual:'',
+                 endArrivdate:''
+               }];
 
+             }else{
+               this.batchSavePlanShow();
+             }
+             this.$message({
+               type: 'success',
+               message: '操作成功!'
+             });
+           }
+         })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        });
+      });
+    },
 
     addRow(){//批量查询 添加操作
       this.count++;
@@ -2102,11 +2153,13 @@ export default {
     selfQueryListPnr(currentPage,showCount,selfCdt,dataSort){
       this.currentPage = 1;
       console.log(selfCdt.AAAAA);
+      let dataSelfPnr = [];
+      dataSelfPnr.push(dataSort)
       let sqlp = {
         "currentPage":currentPage,
       	"showCount":showCount,
       	"cdt":selfCdt.AAAAA,
-        "orders":dataSort
+        "orders":dataSelfPnr
       }
       this.$api.post('/manage-platform/pnr/customPnrQuery',sqlp,
        r =>{
@@ -2215,6 +2268,36 @@ export default {
         }
       })
     },
+    selfDeleteItem(i){
+      this.$confirm('方案删除后将无法恢复, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        // let di = this.saveName.indexOf(i);
+        // this.saveName.splice(di,1);
+        let dei = {
+          name:i,
+          page:this.page
+        };
+        this.$api.post('/manage-platform/queryShow/delete',dei,
+         r =>{
+           if(r.success){
+             this.selfSavePlanShow();
+             this.ffff='';
+             this.$message({
+               type: 'success',
+               message: '操作成功!'
+             });
+           }
+         })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        });
+      });
+    },
     selfAddRow(){//自定义查询 添加操作
       this.selfCount++;
       this.selfModelrow.id=this.selfCount;
@@ -2267,6 +2350,16 @@ export default {
            this.nationName = r.data;
          };
        })
+    },
+    baseNation(){
+      if(this.cdt.continentsCodeEqual==undefined||this.cdt.continentsCodeEqual==''){
+        this.$api.post('/manage-platform/codeTable/queryNationality',{},
+         r => {
+           if(r.success){
+             this.selection = r.data;
+           };
+         })
+      }
     },
     nationality(data){//基础查询国籍与洲二级联动
       this.$set(this.cdt,'nationalityEqual','');
@@ -2525,7 +2618,6 @@ export default {
         endArrivdate:''
       }];
       this.pppp='';
-      this.cdtList = {version:0,flag:''};
       if(this.bigBase == 0){
         this.batchQueryList(this.currentPage,this.showCount,this.rows);
       }else if(this.bigBase == 1){

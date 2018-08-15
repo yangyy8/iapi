@@ -41,7 +41,7 @@
 
               <el-col :sm="24" :md="12" :lg="8" class="input-item">
                 <span class="input-text">处理人：</span>
-                <el-select v-model="pd.dealuser" placeholder="请选择"  filterable clearable  size="small" class="input-input" @visible-change="handler">
+                <el-select v-model="pd.name" placeholder="请选择"  filterable clearable  size="small" class="input-input" @visible-change="handler">
                   <el-option v-for="(item,key) in dealer" :value="key" :label="item" :key="key"></el-option>
                 </el-select>
               </el-col>
@@ -86,7 +86,7 @@
           sortable>
         </el-table-column>
         <el-table-column
-          prop="username"
+          prop="name"
           label="处理人"
           sortable>
         </el-table-column>
@@ -264,7 +264,7 @@
                       </el-col>
                       <el-col :span="8" class="input-item">
                         <span class="yy-input-text">操作人：</span>
-                        <el-input size="small"  :disabled="true" v-model="zform.USERNAME" class="yy-input-input" ></el-input>
+                        <el-input size="small"  :disabled="true" v-model="zform.NAME" class="yy-input-input" ></el-input>
 
                       </el-col>
                       <el-col :span="8" class="input-item">
@@ -275,7 +275,7 @@
                       </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="zlbgDialogVisible = false" size="small">取消</el-button>
+        <el-button @click="zlbgDialogVisible = false" size="small">关 闭</el-button>
       </div>
     </el-dialog>
 
@@ -290,6 +290,7 @@
             <span class="yy-input-text">所属航空公司：</span>
             <el-input placeholder="请输入内容" size="small"  :disabled="true" v-model="hform.applicationSender" class="yy-input-input"></el-input>
           </el-col>
+
         </el-row>
         <el-row type="flex"  class="mb-6">
           <el-col :span="12" class="input-item">
@@ -299,32 +300,32 @@
           <el-col :span="12" class="input-item">
             <span class="yy-input-text">实际出发口岸：</span>
             <el-input placeholder="请输入内容" size="small" v-model="hform.portfrom+' - '+hform.stationfromName" :disabled="true" class="yy-input-input"></el-input>
-
           </el-col>
+
         </el-row>
         <el-row type="flex" class="mb-6" >
           <el-col :span="12" class="input-item">
             <span class="yy-input-text">原计划到达口岸：</span>
               <el-input placeholder="请输入内容" size="small" v-model="hform.portto+' - '+hform.stationtoName" :disabled="true" class="yy-input-input"></el-input>
           </el-col>
-
           <el-col :span="12" class="input-item">
             <span class="yy-input-text">现计划到达口岸：</span>
               <el-input placeholder="请输入内容" size="small" v-model="hform.changeport+' - '+hform.changeportName" :disabled="true" class="yy-input-input"></el-input>
           </el-col>
+
         </el-row>
 
         <el-row type="flex" class="mb-6" >
           <el-col :span="24" class="input-item">
-            <span class="yy-input-text" style="width:15%">事件描述：</span>
-           <el-input type="textarea" placeholder="请输入内容" :autosize="{ minRows: 3, maxRows: 6}" v-model="hform.desc" style="width:80%;" :disabled="true" ></el-input>
+            <span class="yy-input-text" style="width: 20%;">事件描述：</span>
+           <el-input type="textarea" placeholder="请输入内容" :autosize="{ minRows: 3, maxRows: 6}" v-model="hform.desc" style="width:79%;" :disabled="true" ></el-input>
           </el-col>
         </el-row>
 
       </el-form>
       <div slot="footer" class="dialog-footer">
 
-        <el-button @click="hbbjDialogVisible = false" size="small">取 消</el-button>
+        <el-button @click="hbbjDialogVisible = false" size="small">关 闭</el-button>
 
       </div>
     </el-dialog>
@@ -384,7 +385,7 @@
 
         <div slot="footer" class="dialog-footer">
 
-          <el-button @click="ybxgzDialogVisible = false" size="small">取 消</el-button>
+          <el-button @click="ybxgzDialogVisible = false" size="small">关 闭</el-button>
 
         </div>
     </el-dialog>
@@ -438,7 +439,7 @@
         </el-table>
         <div slot="footer" class="dialog-footer">
 
-          <el-button @click="sjxjyDialogVisible = false" size="small">取 消</el-button>
+          <el-button @click="sjxjyDialogVisible = false" size="small">关 闭</el-button>
 
         </div>
     </el-dialog>
@@ -499,7 +500,7 @@
         </el-table>
         <div slot="footer" class="dialog-footer">
 
-          <el-button @click="mqgzDialogVisible = false" size="small">取 消</el-button>
+          <el-button @click="mqgzDialogVisible = false" size="small">关 闭</el-button>
 
         </div>
     </el-dialog>
@@ -542,7 +543,7 @@
         </el-table>
         <div slot="footer" class="dialog-footer">
 
-          <el-button @click="mqgjDialogVisible = false" size="small">取 消</el-button>
+          <el-button @click="mqgjDialogVisible = false" size="small">关 闭</el-button>
 
         </div>
     </el-dialog>
@@ -586,7 +587,7 @@
         </el-table>
         <div slot="footer" class="dialog-footer">
 
-          <el-button @click="mqkaDialogVisible = false" size="small">取 消</el-button>
+          <el-button @click="mqkaDialogVisible = false" size="small">关 闭</el-button>
 
         </div>
     </el-dialog>
@@ -599,11 +600,7 @@
 </template>
 
 <script>
-import QueryNationality from '../../other/queryNationality'
 export default {
-  components: {
-    QueryNationality
-  },
   data() {
     return {
       CurrentPage: 1,
@@ -703,73 +700,75 @@ export default {
     details(i) {
 
       if (i.type == "1") { //航班备降
-        this.hbbjDialogVisible = true;
+
 
         this.$api.post('/manage-platform/eventManagement/queryFlightInfo', {
             "refserial": i.refserial
           },
           r => {
             if (r.success) {
+              this.hbbjDialogVisible = true;
               this.hform = r.data;
             }
           });
       } else if (i.type == "0") { //指令变更
-        this.zlbgDialogVisible = true;
         this.$api.post('/manage-platform/eventManagement/queryIapiChangeInfo', {
             "refserial": i.refserial
           },
           r => {
             if (r.success) {
+              this.zlbgDialogVisible = true;
               this.zform = r.data;
             }
           });
       } else if (i.type == "2") { //一般性规则修改
-        this.ybxgzDialogVisible = true;
         this.$api.post('/manage-platform/eventManagement/queryRuleOneInfo', {
             "refserial": i.refserial
           },
           r => {
             if (r.success) {
+              this.ybxgzDialogVisible = true;
               this.tableDatay = r.data;
             }
           });
       } else if (i.type == "5") { //数据项校验规则
-        this.sjxjyDialogVisible = true;
+        // this.tableDatas=[];
         this.$api.post('/manage-platform/eventManagement/queryRuleCheckInfo', {
             "refserial": i.refserial
           },
           r => {
             if (r.success) {
+              this.sjxjyDialogVisible = true;
               this.tableDatas = r.data;
             }
           });
       } else if (i.type == "6") { //免签规则证件有效期
-        this.mqgzDialogVisible = true;
         this.$api.post('/manage-platform/eventManagement/queryPassDateInfo', {
             "refserial": i.refserial
           },
           r => {
             if (r.success) {
+              this.mqgzDialogVisible = true;
               this.tableDatam = r.data;
             }
           });
       } else if (i.type == "7") { //免签国家修改
-        this.mqgjDialogVisible = true;
         this.$api.post('/manage-platform/eventManagement/queryNationalityOrPortInfo', {
             "refserial": i.refserial
           },
           r => {
             if (r.success) {
+              this.mqgjDialogVisible = true;
               this.tableDataq = r.data;
             }
           });
       } else if (i.type == "8") { //免签口岸
-        this.mqkaDialogVisible = true;
         this.$api.post('/manage-platform/eventManagement/queryNationalityOrPortInfo', {
             "refserial": i.refserial
           },
           r => {
             if (r.success) {
+              this.mqkaDialogVisible = true;
               this.tableDatak = r.data;
             }
           });
@@ -788,7 +787,6 @@ export default {
          })
       }
       else {
-
         this.detailsDialogVisible = true;
         this.dform = i;
       }
