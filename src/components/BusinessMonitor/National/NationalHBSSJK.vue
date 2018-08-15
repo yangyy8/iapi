@@ -337,9 +337,9 @@
                   <el-popover
                     placement="left"
                     width="200"
-                    trigger="click"
+                    trigger="hover"
                     :content="'入境：'+i.inLand + ' 出境：'+i.outLand">
-                    <span slot="reference">{{i.inLand+i.outLand||0}}</span>
+                    <span slot="reference" class="hand">{{i.inLand+i.outLand||0}}</span>
 
                   </el-popover>
                 </div>
@@ -348,34 +348,30 @@
                   <el-popover
                     placement="left"
                     width="200"
-                    trigger="click"
+                    trigger="hover"
                     :content="'入境：'+i.inGat + ' 出境：'+i.inGat">
-                    <span slot="reference">{{i.inGat+i.inGat||0}}</span>
+                    <span slot="reference" class="hand">{{i.inGat+i.inGat||0}}</span>
                   </el-popover>
                 </div>
                 <div class="td2">
                   <el-popover
                     placement="left"
                     width="200"
-                    trigger="click"
+                    trigger="hover"
                     :content="'入境：'+i.inFrn + ' 出境：'+i.inFrn">
-                    <span slot="reference">{{i.inFrn+i.inFrn||0}}</span>
-
+                    <span slot="reference" class="hand">{{i.inFrn+i.inFrn||0}}</span>
                   </el-popover>
                   <!-- {{i.inFrn+i.outFrn}} -->
-
                 </div>
                 <div class="td2">
                   <el-popover
                     placement="left"
                     width="200"
-                    trigger="click"
+                    trigger="hover"
                     :content="'入境：'+i.matchIn + ' 出境：'+i.matchIn">
-                    <span slot="reference">{{i.matchIn+i.matchIn||0}}</span>
-
+                    <span slot="reference" class="hand">{{i.matchIn+i.matchIn||0}}</span>
                   </el-popover>
                   <!-- {{i.matchIn+i.matchOut}} -->
-
                 </div>
                 <div class="td2">
                   {{i.inLand+i.outLand+i.inGat+i.outGat+i.inFrn+i.outFrn+i.matchIn+i.matchOut||0}}

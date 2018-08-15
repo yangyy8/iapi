@@ -1,5 +1,9 @@
 <template lang="html">
   <el-container class="content">
+    <el-carousel :interval="10000" arrow="never" indicator-position="none" class="bg-carousel" height="100%">
+      <el-carousel-item v-for="item in 3" :key="item">
+      </el-carousel-item>
+    </el-carousel>
     <el-header height="150px">
       <img src="../assets/img/logoo.png" alt=""  @click="rightShow=null">
       <div class="top-right">
@@ -57,7 +61,7 @@
         </ul>
         <!-- <transition  name="bounce"> -->
         <ul class="nav2" v-if="nav2Show">
-          <li class="nav2-item hand" :class="{'nav2-checked':nav2Id==x.url}" v-for="x in nav2List" @click="nav2(x)">
+          <li class="nav2-item hand" :class="{'nav2-checked':nav2Id==x.url}" v-for="x in nav2List" @click="nav2(x,'left')">
             {{x.name}}
           </li>
         </ul>
@@ -79,7 +83,7 @@
         <ul class="tabList">
           <li class="tabList-item hand" :style="{width:tabliwidth}" :class="{'tabList-checked':nav2Id==i.url}" @click.right="closeRight(index)"  v-for="(i, index) in tabList">
             <!-- <el-tooltip class="item" effect="dark" :content="i.name" placement="top"> -->
-              <span  @click="nav2(i)">{{i.name}}</span>
+              <span  @click="nav2(i,'tab')">{{i.name}}</span>
             <!-- </el-tooltip> -->
             <img src="../assets/img/tab-close1.png" alt="guanbi" @click="close1(index)" class="hand" style="padding:8px" v-if="nav2Id==i.url">
             <img src="../assets/img/tab-close2.png" alt="" @click="tabList.splice(index, 1)" style="padding:8px" class="hand" v-else>
@@ -196,6 +200,7 @@ export default {
     },
     getNav(navId) {
       this.navId = navId;
+      console.log(navId)
       this.$api.post('/manage-platform/muneSys/menuChild', {
           SERIAL: navId
         },
@@ -205,12 +210,14 @@ export default {
             let arr=r.data.menuChild
             let nav1Id =this.$route.query.nav1Id;
             if(nav1Id){
+              console.log(1)
               for(var i in arr){
                 if(arr[i].SERIAL==nav1Id){
                   this.nav1to2(arr[i])
                 }
               }
             }else{
+              console.log(2)
               this.nav1to2(this.nav1List[0],1)
             }
           }
@@ -230,9 +237,12 @@ export default {
       }
     },
     topNavTo(SERIAL){
-      this.$router.push({ name: 'Content', params: {navId:SERIAL} });
+
+      // if(this.tabList)
+      this.$router.push({params: {navId:SERIAL} });
+
       this.getNav(SERIAL);
-      this.tabList=[];
+      // this.tabList=[];
     },
     closeRight(index){
       // alert("杀杀杀")
@@ -248,8 +258,10 @@ export default {
       this.nav2List = nav1Itme.menuList;
       let that=this;
       if(click==1){
+        console.log(3)
         this.nav2(nav1Itme.menuList[0])
       }else{
+        console.log(4)
         for(var i in nav1Itme.menuList){
           if(nav1Itme.menuList[i].url==that.$route.name){
             that.nav2(nav1Itme.menuList[i])
@@ -258,33 +270,45 @@ export default {
       }
 
     },
-    nav2(item,index) {
+    nav2(item,type) {
+      console.log(item)
       if(this.tabList.length>8){
         console.log(this.tabList.length)
         this.tabliwidth=100/(this.tabList.length+1)+'%'
-        // this.$confirm('您打开过多标签窗口，请关闭一些窗口后再操作', '提示', {
-        //   confirmButtonText: '确定',
-        //   cancelButtonText: '取消',
-        //   type: 'warning'
-        // }).then(() => {
-        //   return
-        // }).catch(() => {
-        //   return
-        // });
-        // return
       }
+      if(type=='tab'){
+        // this.navId=item.rootId||3;
+        // this.topNavTo(this.navId);
+        // console.log(this.navId)
+      }
+
       this.nav2Id = item.url;
       this.nav1Id=item.parentId;
       this.nav1List.map(function(a,b){
+        console.log(a,b)
         if(a.SERIAL==item.parentId){
           this.nav2List = a.menuList;
         }
       },this)
-      console.log(item, item.url)
-      new Set(this.tabList)
-      this.tabList.push(item)
-      this.tabList = Array.from(new Set(this.tabList));
-      this.$router.push({name: item.url,query:{nav1Id:item.parentId}})
+      let flag=true;
+      console.log(type)
+      if(!type){
+        this.tabList.map(function(a,b){
+          if(a.parentId==this.nav1Id){
+            console.log(5);
+            flag=false
+            // return false
+          }
+        },this)
+      }
+
+      if(flag){
+        new Set(this.tabList)
+        this.tabList.push(item)
+        this.tabList = Array.from(new Set(this.tabList));
+        this.$router.push({name: item.url,query:{nav1Id:item.parentId}})
+      }
+
     },
     nav2Top(item){
       console.log(item)
@@ -352,6 +376,27 @@ export default {
 </script>
 
 <style scoped>
+.bg-carousel{
+  position: absolute;
+  top:0;
+  left:0;
+  height: 100%;
+  width: 100%;
+  z-index: -1;
+}
+.el-carousel__item:nth-child(1) {
+   background: url(../assets/img/bg/bg_9.jpg)
+ }
+
+ .el-carousel__item:nth-child(2) {
+   background: url(../assets/img/bg/bg_10.jpg)
+ }
+ .el-carousel__item:nth-child(3) {
+   background: url(../assets/img/bg/bg_17.jpg)
+ }
+ /* .el-carousel__item:nth-child(4) {
+   background: url(../assets/img/bg/bg_17.jpg)
+ } */
 .top-right {
   display: flex;
   align-items: center;
@@ -428,9 +473,10 @@ export default {
 .el-header img {}
 
 .content {
-  background: url(./../assets/img/bg.png) ;
+  /* background: url(./../assets/img/bg.png) ; */
   /* background-size:  100% 100%; */
   padding-bottom: 115px;
+  position: relative;
 }
 
 .main {

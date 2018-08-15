@@ -728,11 +728,11 @@
             </el-col>
             <el-col :span="12" class="res-item2">
               <div class="">
-                顺序比重数：
+                顺序比中数：
                 <b>--</b>枚
               </div>
               <div class="">
-                交叉比重数：
+                交叉比中数：
                 <b>--</b>枚
               </div>
             </el-col>

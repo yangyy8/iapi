@@ -222,21 +222,9 @@
       <el-row class="mb-15" v-if="getHis">
         <el-button type="primary" size="small" @click="addDialogVisible=true;dialogText='新增';dialogType='add';form={}">新增</el-button>
         <el-button type="success" size="small" @click="uploadDialogVisible=true">批量导入</el-button>
-        <!-- <el-upload
-          class="upload-demo"
-          name="file"
-          action="http://localhost:8080/manage-platform/nameList/readExcel"
-          :on-preview="handlePreview"
-          :on-remove="handleRemove"
-          :before-remove="beforeRemove"
-          multiple
-          :limit="3"
-          :on-exceed="handleExceed"
-          :file-list="fileList">
-          <el-button size="small" type="primary">批量导入</el-button> -->
-        </el-upload>
-        <el-button type="info" size="small" @click="dialogType='dels';releaseDialogVisible=true">批量删除</el-button>
-        <el-button type="warning" size="small" @click="releaseDialogVisible=true;dialogType='syn'">生效发布</el-button>
+
+        <el-button type="info" size="small" @click="dialogType='dels';releaseDialogVisible=true" :disabled="isdisable">批量删除</el-button>
+        <el-button type="warning" size="small" @click="releaseDialogVisible=true;dialogType='syn'" :disabled="isdisable">生效发布</el-button>
         <el-button type="danger" size="small" @click="getHisFn(CurrentPage,pageSize,pd)">历史资料</el-button>
         <el-button type="success" size="small" @click="download">模板下载</el-button>
       </el-row>
@@ -672,31 +660,23 @@
     </el-dialog>
 
     <el-dialog title="生效发布" :visible.sync="releaseDialogVisible"   width="640px">
-      <el-form :model="releaseform" ref="releaseForm">
-        <el-row type="flex"  class="mb-9" justify="center">
-          <!-- <el-col :sm="24" :md="12" :lg="8"  class="input-item"> -->
-            <span class="input-text">用户名：</span>
-            <el-input placeholder="请输入内容" size="small" v-model="releaseform.user"></el-input>
-
-          <!-- </el-col> -->
-
-        </el-row>
-        <el-row type="flex"  class="mb-6" justify="center">
-          <!-- <el-col :sm="24" :md="12" :lg="8"  class="input-item"> -->
-            <span class="input-text">口令： </span>
-            <el-input placeholder="请输入内容" size="small" v-model="releaseform.pwd" type="password"></el-input>
-          <!-- </el-col> -->
-        </el-row>
-
+      <el-form :model="releaseform" ref="releasForm" label-width="100px" style="width:550px">
+          <el-form-item label="用户名：" prop="user">
+            <el-input placeholder="请输入内容" size="small" v-model="releaseform.user" auto-complete="off" style="display:none"></el-input>
+            <el-input placeholder="请输入内容" size="small" v-model="releaseform.user" auto-complete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="口令：" prop="pwd">
+            <el-input placeholder="请输入内容" size="small" v-model="releaseform.pwd" type="password" auto-complete="off"></el-input>
+          </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="addItem('releaseForm','1')" size="small">授权确认</el-button>
-        <el-button type="warning" @click="releaseDialogVisible = false" size="small">重置</el-button>
+        <el-button type="primary" @click="addItem('releasForm','1')" size="small">授权确认</el-button>
+        <el-button type="warning" @click="resetForm('releasForm')" size="small">重置</el-button>
 
       </div>
     </el-dialog>
     <el-dialog title="上传模板" :visible.sync="uploadDialogVisible"  width="640px">
-      <el-form :model="releaseform" ref="releaseForm">
+      <el-form >
         <el-upload
           class="upload-demo"
           ref="upload"
@@ -712,10 +692,6 @@
         </el-upload>
 
       </el-form>
-      <!-- <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="addItem('releaseForm','1')" size="small">授权确认</el-button>
-        <el-button type="warning" @click="uploadDialogVisible = false" size="small">重置</el-button>
-      </div> -->
     </el-dialog>
   </div>
 
@@ -796,6 +772,10 @@ export default {
       this.pd={"LIST_TYPE":"1"};
       // console.log(this.pd)
       this.getList(this.CurrentPage,this.pageSize,this.pd);
+    },
+    resetForm(formName) {
+      console.log(formName);
+      this.$refs[formName].resetFields();
     },
     handleSelectionChange(val) {
       this.multipleSelection = val;
@@ -999,11 +979,12 @@ export default {
                    message: '恭喜你，添加成功！',
                    type: 'success'
                  });
+                 this.releaseDialogVisible=false;
+                 this.addDialogVisible=false;
+                 this.getList(this.CurrentPage,this.pageSize,this.pd);
+                 this.$refs[formName].resetFields();
                }
-              this.releaseDialogVisible=false;
-              this.addDialogVisible=false;
-              this.getList(this.CurrentPage,this.pageSize,this.pd);
-              this.$refs[formName].resetFields();
+
 
             })
           }else if(this.dialogType=="update"){
@@ -1016,14 +997,15 @@ export default {
                console.log(r);
                if(r.success){
                  this.$message({
-                   message: '恭喜你，添加成功！',
+                   message: '恭喜你，修改成功！',
                    type: 'success'
                  });
+                 this.addDialogVisible=false;
+                 this.releaseDialogVisible=false;
+                 this.getList(this.CurrentPage,this.pageSize,this.pd);
+                 this.$refs[formName].resetFields();
                }
-              this.addDialogVisible=false;
-              this.releaseDialogVisible=false;
-              this.getList(this.CurrentPage,this.pageSize,this.pd);
-              this.$refs[formName].resetFields();
+
 
             })
           }else if(this.dialogType=="del"){
@@ -1043,8 +1025,6 @@ export default {
                    });
                    this.releaseDialogVisible=false;
                    this.getList(this.CurrentPage,this.pageSize,this.pd);
-
-
                  }
               })
           }else if(this.dialogType=="dels"){
@@ -1075,6 +1055,7 @@ export default {
                }
             })
           }else if(this.dialogType=="syn"){
+            this.resetForm('releasForm');
             let arr= this.multipleSelection;
             let arr1=[];
             for(var i in arr){
@@ -1095,9 +1076,9 @@ export default {
                    message: '生效发布成功',
                    type: 'success'
                  });
+                 this.releaseDialogVisible=false;
                  this.getList(this.CurrentPage,this.pageSize,this.pd);
                }
-                this.releaseDialogVisible=false;
             })
           }
         }
