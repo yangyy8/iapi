@@ -33,7 +33,7 @@
           <td class="tc2">{{tableData.INVALID_INVALIDCARD_BJ}}</td>
         </tr>
         <tr>
-          <td class="th4">作废签证</td>
+          <td class="th4">失效签证</td>
           <td class="tc1">{{tableData.EFFECTIVE_INVALIDVISA}}</td>
           <td class="tc2">{{tableData.INVALID_INVALIDVISA}}</td>
           <td class="tc1">{{tableData.EFFECTIVE_INVALIDVISA_BJ}}</td>
