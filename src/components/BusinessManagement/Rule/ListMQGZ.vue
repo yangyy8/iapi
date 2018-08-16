@@ -416,7 +416,9 @@ export default {
       this.$api.post('/manage-platform/visaRule/queryVisaRule',{},
       r =>{
         if(r.success){
-          this.data = r.data;
+          if(r.hasOwnProperty('data') == true){
+            this.data = r.data;
+          }
           if(this.data.visaTime != ''){
             this.addList(this.data.visaTime,this.data.visaOperator);
           }

@@ -1,13 +1,19 @@
 // 配置API接口地址
-//var root="http://192.168.99.247:8080"     //报警
+// var root="http://192.168.99.247:8080"     //报警
 //var root="http://192.168.99.228:8080"     //菜单
 //var root="http://192.168.99.248:8181"    //李志鹏的电脑
 // var root="http://192.168.99.251:8080"    //时达的电脑
 // var root="http://192.168.99.242:8080"    //石飞的电脑
 // var root = "http://192.168.99.251:8080"    //性能监控
 
+<<<<<<< HEAD
  var root="http://192.168.99.206:8080"   //服务器电脑
 //var root=""
+=======
+var root="http://192.168.99.206:8080"   //服务器电脑
+// var root = 'http://192.168.99.245:8080'
+//var root = 'http://192.168.99.245:8080'
+>>>>>>> 404df6b85b9f3956c89144564f369e50fdd17068
 //var root="http://192.168.99.228:8080"    //丁勇的电脑
 //var root = 'http://192.168.99.245:8080'
 //var root="http://192.168.99.228:8080"    //丁勇的电
@@ -46,24 +52,7 @@ function apiAxios(method, url, params, success, failure) {
   if (params) {
     // params = filterNull(params);
   }
-  // if(url!='/manage-platform/isLanding'&&url!='/manage-platform/homePage/iapiSize'&&url!='/manage-platform/homePage/userInfo'&&url!='/manage-platform/landing'){
-    // axios.post(root+'/manage-platform/isLanding',{})
-    // .then( r => {
-      // console.log(r.data.data)
-       // if(!r.data.data){
-       //   MessageBox.alert('登录已失效，请重新登录?', '提示', {
-       //      confirmButtonText: '确定',
-       //      type: 'warning'
-       //    }).then(() => {
-       //      console.log("ffffff")
-       //      window.location.href ="/"
-       //    }).catch(() => {
-       //
-       //    });
-       //   // return
-       // }
-    // })
-  // }
+
   axios({
       method: method,
       url: url,
@@ -73,10 +62,10 @@ function apiAxios(method, url, params, success, failure) {
       withCredentials: true
     })
     .then(function(res) {
-      console.log(res)
+      // console.log(res)
       if (res.status == 200) {
         if (success) {
-          console.log(res.data);
+          // console.log(res.data);
 
           // setTimeout(function(){
             // loadingInstance1.close();

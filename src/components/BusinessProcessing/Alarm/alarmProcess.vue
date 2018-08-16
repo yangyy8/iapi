@@ -449,7 +449,7 @@
 
         <el-row type="flex"  class="mb-6">
           <el-col :span="8" class="input-item">
-            <span class="yy-input-text">当前值机状态：</span>
+            <span class="yy-input-text">当前反馈状态：</span>
             <el-select v-model="iapiMap.instructOld"  placeholder="请选择"    size="small" class="yy-input-input" :disabled="true">
               <el-option value="0Z" label="0Z - 允许打印登机牌">
               </el-option>
@@ -462,14 +462,14 @@
              </el-select>
           </el-col>
           <el-col :span="8" class="input-item">
-            <span class="yy-input-text">值机状态说明：</span>
+            <span class="yy-input-text">反馈状态说明：</span>
             <el-input placeholder="请输入内容" size="small"  v-model="iapiMap.INSTRUCTC" class="yy-input-input" :disabled="true"></el-input>
           </el-col>
         </el-row>
         <hr/>
         <el-row type="flex" class="mb-6">
           <el-col :span="24" class="input-item">
-            <span class="yy-input-text" style="width:18%">变更后值机状态：</span>
+            <span class="yy-input-text" style="width:18%">变更后反馈状态：</span>
             <el-select v-model="ap.INSTRUCT"  placeholder="请选择" filterable clearable  @change="inschange(ap.INSTRUCT)"  size="small" style="width:82%">
               <span v-if="iapiMap.instructOld!='0Z'">
                 <el-option value="0Z" label="0Z - 允许打印登机牌"></el-option>
@@ -680,7 +680,9 @@ export default {
                    message: '恭喜你，甄别成功！',
                    type: 'success'
                  });
-                 this.$router.go(-1);
+                 this.isUpdate = false;
+                 this.getList();
+                 // this.$router.go(-1);
               }
             })
          }).catch(() => {

@@ -575,7 +575,7 @@ export default {
     }
   },
   mounted() {
-    this.getList(this.CurrentPage, this.pageSize, this.pd);
+    // this.getList(this.CurrentPage, this.pageSize, this.pd);
   },
   filters: {
     discount: function(value) {
@@ -746,12 +746,6 @@ export default {
            this.nation=r.data;
          }
       })
-      // this.nation=[
-      //   {
-      //     CNAME:"中国",
-      //     CODE:"SNH"
-      //   }
-      // ]
     },
   }
 }

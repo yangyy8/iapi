@@ -126,7 +126,7 @@
       <el-row class="mb-15" v-if="getHis">
         <el-button type="primary" size="small" @click="addServe()">新增</el-button>
         <el-button type="success" size="small" @click="uploadDialogVisible=true">批量导入</el-button>
-        <el-button type="info" size="small" @click="deleteItems()">批量删除</el-button>
+        <el-button type="info" size="small" @click="deleteItems()" :disabled="isdisable">批量删除</el-button>
         <!-- <el-button type="warning" size="small" @click="releaseDialogVisible=true">生效发布</el-button> -->
         <el-button type="danger" size="small" @click="getHisFn(CurrentPage,pageSize,pd)">历史资料</el-button>
         <el-button type="success" size="small" @click="download">模板下载</el-button>
@@ -778,7 +778,7 @@ export default {
 
         });
 
-      },
+    },
       deleteItems(){
           let arr= this.multipleSelection;
           let arr1=[];
@@ -790,18 +790,24 @@ export default {
             },
             cdtList:arr1
           }
-          this.$api.post('/manage-platform/nameListFocusList/updateCheckAll',p,
-           r => {
-             if(r.success){
-               this.$message({
-                 message: '删除成功',
-                 type: 'success'
-               });
-               this.releaseDialogVisible=false;
-               this.getList(this.CurrentPage,this.pageSize,this.pd);
+          this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              type: 'warning'
+            }).then(() => {
+              this.$api.post('/manage-platform/nameListFocusList/updateCheckAll',p,
+               r => {
+                 if(r.success){
+                   this.$message({
+                     message: '删除成功',
+                     type: 'success'
+                   });
+                   this.releaseDialogVisible=false;
+                   this.getList(this.CurrentPage,this.pageSize,this.pd);
+                 }
+              })
+            })
 
-             }
-          })
       },
       queryDocCode(){
         this.$api.post('/manage-platform/codeTable/queryDocCode',{},

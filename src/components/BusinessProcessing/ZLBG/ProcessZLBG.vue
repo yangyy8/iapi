@@ -9,8 +9,17 @@
           </div>
         <el-row align="center"   :gutter="2" class="pr-20">
           <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
-                <QueryNationality  :nationality="pd.NATIONALITY" @transNation="getNation"></QueryNationality>
-            </el-col>
+                <!-- <QueryNationality  :nationality="pd.NATIONALITY" @transNation="getNation"></QueryNationality> -->
+              <span class="input-text">国籍/地区：</span>
+              <el-select v-model="pd.NATIONALITY" filterable clearable @visible-change="queryNationality" placeholder="请选择"  size="small" class="input-input">
+                <el-option
+                  v-for="item in nation"
+                  :key="item.CODE"
+                  :label="item.CODE+' - '+item.CNAME"
+                  :value="item.CODE">
+                </el-option>
+              </el-select>
+          </el-col>
             <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
         <span class="input-text">证件种类：</span>
         <el-select v-model="pd.PASSPORTTYPE" placeholder="请选择"  filterable clearable size="small" class="input-input">
@@ -714,11 +723,11 @@
 </template>
 
 <script>
-import QueryNationality from '../../other/queryNationality'
+// import QueryNationality from '../../other/queryNationality'
 export default {
-  components: {
-    QueryNationality
-  },
+  // components: {
+  //   QueryNationality
+  // },
   data() {
     return {
       CurrentPage: 1,
@@ -1043,6 +1052,15 @@ export default {
      return "数据错误";
    }
  },
+ queryNationality(){
+   this.$api.post('/manage-platform/codeTable/queryNationality',{},
+    r => {
+      console.log(r);
+      if(r.success){
+        this.nation=r.data;
+      }
+   })
+ },
 
   },
 
@@ -1103,7 +1121,6 @@ export default {
           return "护照";
       }
     },
-
   }
 }
 </script>

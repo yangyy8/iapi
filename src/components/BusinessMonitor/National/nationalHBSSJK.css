@@ -403,3 +403,8 @@
   max-height: 270px;
   overflow-y: auto;
 }
+.td2 span{
+  display: inline-block;
+  width: 100%;
+  height: 100%;
+}
