@@ -95,14 +95,14 @@
           label="最大长度"
           width="100">
           <template slot-scope="scope">
-            <el-input v-model="scope.row.MAXLENGTH"  size="small" class="table-select"></el-input>
+            <el-input v-model="scope.row.MAXLENGTH"  size="small" class="table-select" @blur="max(scope.row)"></el-input>
          </template>
         </el-table-column>
         <el-table-column
           label="最小长度"
           width="100">
           <template slot-scope="scope">
-            <el-input v-model="scope.row.MINLENGTH" size="small" class="table-select"></el-input>
+            <el-input v-model="scope.row.MINLENGTH" size="small" class="table-select" @blur="min(scope.row)"></el-input>
          </template>
         </el-table-column>
         <el-table-column
@@ -117,9 +117,9 @@
         </el-table-column>
         <el-table-column
           label="反馈结果描述"
-          width="200">
+          width="300">
           <template slot-scope="scope">
-            <el-input placeholder="请输入内容" size="small" class="table-select" v-model="scope.row.CHECKREMARK"></el-input>
+            <el-input type="textarea" :autosize="{ minRows: 1, maxRows: 2}" placeholder="请输入内容" size="small" class="table-select" v-model="scope.row.CHECKREMARK" maxlength="100"></el-input>
          </template>
         </el-table-column>
         <el-table-column
@@ -143,8 +143,25 @@
          </template>
         </el-table-column>
         <el-table-column
+          label="正则"
+          width="100"
+          v-if="false">
+          <template slot-scope="scope">
+            <el-input v-model="scope.row.REGULAR" size="small" class="table-select" @blur="min(scope.row)"></el-input>
+         </template>
+        </el-table-column>
+        <el-table-column
+          label="时间"
+          width="100"
+          v-if="false">
+          <template slot-scope="scope">
+            <el-input v-model="scope.row.VALIDTIME" size="small" class="table-select" @blur="min(scope.row)"></el-input>
+         </template>
+        </el-table-column>
+        <el-table-column
           label="操作"
-          width="100">
+          width="100"
+          fixed="right">
           <template slot-scope="scope">
             <div class="flex-r">
               <el-button class="table-btn" size="mini" plain icon="el-icon-delete" @click="deleteTableList(scope.$index,scope.row)">删除</el-button>
@@ -229,10 +246,10 @@ export default {
         "FIELDNAME": "",
         "MAXLENGTH":'',
         "MINLENGTH":'',
-        "CHECKRESULT": "",
+        "CHECKRESULT": "4Z",
         "CHECKREMARK": '',
-        "INPUT": "",
-        "STATUS":'',
+        "INPUT": "0",
+        "STATUS":'1',
         "CTLTYPE":'U',
         "REGULAR":'',
         "VALIDTIME":''
@@ -243,10 +260,10 @@ export default {
         "FIELDNAME": "",
         "MAXLENGTH":'',
         "MINLENGTH":'',
-        "CHECKRESULT": "",
+        "CHECKRESULT": "4Z",
         "CHECKREMARK": '',
-        "INPUT": "",
-        "STATUS":'',
+        "INPUT": "0",
+        "STATUS":'1',
         "CTLTYPE":'U',
         "REGULAR":'',
         "VALIDTIME":''
@@ -260,6 +277,7 @@ export default {
   },
   mounted() {
     this.getList(this.pd);
+    this.codeName();
   },
   methods:{
     // handleSelectionChange(val) {
@@ -309,10 +327,10 @@ export default {
          "FIELDNAME": "",
          "MAXLENGTH":'',
          "MINLENGTH":'',
-         "CHECKRESULT": "",
+         "CHECKRESULT": "4Z",
          "CHECKREMARK": '',
-         "INPUT": "",
-         "STATUS":'',
+         "INPUT": "0",
+         "STATUS":'1',
          "CTLTYPE":'U',
          "REGULAR":'',
          "VALIDTIME":''
@@ -320,7 +338,7 @@ export default {
        this.modelTable.CTLTYPE='I';
        this.tableData.push(this.modelTable);
        // this.modelTable = this.cleanTable;
-       this.allData = this.tableData;
+       // this.allData = this.tableData;
      },
      deleteTableList(id,item){//删除本行
        this.$confirm('此操作将删除该文件, 是否继续?', '提示', {
@@ -333,7 +351,7 @@ export default {
          let d = item;
          this.tableData.splice(id,1);
          this.operatorData.push(d);
-         this.allData = this.tableData.concat(this.operatorData);
+         // this.allData = this.tableData.concat(this.operatorData);
        }).catch(() => {
          this.$message({
            type: 'info',
@@ -343,7 +361,7 @@ export default {
 
      },
      save(){
-       let p = this.allData;
+       let p = this.tableData.concat(this.operatorData);
        this.$api.post('/manage-platform/dataCheck/addDataCheck',p,
         r => {
           console.log(r);
@@ -370,6 +388,32 @@ export default {
           }
        })
      },
+     max(item){
+       for(var i=0;i<this.code.length;i++){
+         if(item.FIELDNAME == this.code[i].FIELDNAME){
+           if(this.code[i].FMAXVALUE != -1){
+             if(item.MAXLENGTH>this.code[i].FMAXVALUE){
+               this.$message({
+                 type: 'warning',
+                 message: '最大值不能大于'+this.code[i].FMAXVALUE+'!'
+               });
+             }
+           }
+         }
+       }
+     },
+     min(item){
+       for(var i=0;i<this.code.length;i++){
+         if(item.FIELDNAME == this.code[i].FIELDNAME){
+           if(this.code[i].FMINVALUE != -1){
+             this.$message({
+               type: 'warning',
+               message: '最小值不能小于'+this.code[i].FMINVALUE+'!'
+             });
+           }
+         }
+       }
+     }
   }
 }
 </script>
@@ -379,7 +423,7 @@ export default {
 </style>
 <style media="screen">
 .t-table .el-table__body-wrapper{
-  max-height: 360px;
+  max-height: 466px;
   overflow-y: scroll;
 }
 .el-table__body{

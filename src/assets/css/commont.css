@@ -102,3 +102,6 @@
    word-wrap: break-word;
    flex-wrap: wrap;
  }
+ body .el-table th.gutter{
+    display: table-cell!important;
+}

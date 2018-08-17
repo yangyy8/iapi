@@ -44,7 +44,10 @@
 
           <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
             <span class="input-text">姓名：</span>
-            <el-input placeholder="请输入内容" size="small" v-model="pd.travellerSurname"   class="input-input"></el-input>
+            <div class="input-input t-fuzzy t-flex">
+              <el-input placeholder="请输入内容" v-model="pd.travellerSurname" size="small"></el-input>
+              <el-checkbox v-model="pd.isBlurred">模糊查询</el-checkbox>
+            </div>
           </el-col>
           <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">性别：</span>
@@ -76,7 +79,15 @@
                </div>
             </el-col>
             <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
-              <QueryNationality  :nationality="pd.NATIONALITY" @transNation="getNation"></QueryNationality>
+              <span class="input-text">国籍/地区：</span>
+              <el-select v-model="pd.NATIONALITY" filterable clearable @visible-change="queryNationality" placeholder="请选择"  size="small" class="input-input">
+                <el-option
+                  v-for="item in nation"
+                  :key="item.CODE"
+                  :label="item.CODE+' - '+item.CNAME"
+                  :value="item.CODE">
+                </el-option>
+              </el-select>
             </el-col>
             <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
               <span class="input-text">证件号码：</span>
@@ -96,59 +107,59 @@
         :data="tableData"
         border
         style="width: 100%;">
-         <el-table-column
-            prop="tng_chnname"
-            label="中文姓名" >
-          </el-table-column>
-                <el-table-column
-                  prop="tsname"
-                  label="姓名" >
-                </el-table-column>
-                <el-table-column
-                  prop="gender"
-                  label="性别" sortable>
-                </el-table-column>
-                <el-table-column
-                  prop="birthdate"
-                  label="出生日期" sortable>
-                </el-table-column>
-                <el-table-column
-                  prop="nationalityStr"
-                  label="国籍" sortable>
-                </el-table-column>
-                <el-table-column
-                  prop="cardnum"
-                  label="证件号码" sortable>
-                </el-table-column>
-                <el-table-column
-                  prop="flightNumber"
-                  label="航班号" sortable>
-                </el-table-column>
-                <el-table-column
+       <el-table-column
+          prop="intgChnname"
+          label="中文姓名" >
+        </el-table-column>
+        <el-table-column
+          prop="tsname"
+          label="姓名" >
+        </el-table-column>
+        <el-table-column
+          prop="gender"
+          label="性别" sortable>
+        </el-table-column>
+        <el-table-column
+          prop="birthdate"
+          label="出生日期" sortable>
+        </el-table-column>
+        <el-table-column
+          prop="nationalityStr"
+          label="国籍/地区" sortable>
+        </el-table-column>
+        <el-table-column
+          prop="cardnum"
+          label="证件号码" sortable>
+        </el-table-column>
+        <el-table-column
+          prop="flightNumber"
+          label="航班号" sortable>
+        </el-table-column>
+        <el-table-column
 
-                  label="航班日期" sortable>
-                      <template slot-scope="scope">
-                        {{scope.row.departdate | filterdate}}
-                      </template>
-                </el-table-column>
-                <el-table-column
-                  prop="boardingsequence"
-                  label="登机序号" sortable>
-                </el-table-column>
-                <el-table-column
-                  prop="specifigseat"
-                  label="座位号" sortable>
-                </el-table-column>
-                <el-table-column
-                  prop="passengerstatus"
-                  label="人员状态" sortable>
-                </el-table-column>
-                <el-table-column
-                  label="操作">
-                  <template slot-scope="scope">
-                    <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row)">详情</el-button>
-                 </template>
-                </el-table-column>
+          label="航班日期" sortable>
+              <template slot-scope="scope">
+                {{scope.row.departdate | filterdate}}
+              </template>
+        </el-table-column>
+        <el-table-column
+          prop="boardingsequence"
+          label="登机序号" sortable>
+        </el-table-column>
+        <el-table-column
+          prop="specifigseat"
+          label="座位号" sortable>
+        </el-table-column>
+        <el-table-column
+          prop="passengerstatus"
+          label="人员状态" sortable>
+        </el-table-column>
+        <el-table-column
+          label="操作">
+          <template slot-scope="scope">
+            <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row)">详情</el-button>
+         </template>
+        </el-table-column>
       </el-table>
       <div class="middle-foot">
         <div class="page-msg">
@@ -206,17 +217,15 @@
 </template>
 
 <script>
-import QueryNationality from '../../other/queryNationality'
 export default {
-  components: {
-    QueryNationality
-  },
   data() {
     return {
       CurrentPage: 1,
       pageSize: 10,
       TotalResult: 0,
-      pd: {},
+      pd: {
+        "isBlurred":false
+      },
       list1:[],
       list2:[],
       list3:["1E","3F","4G"],
@@ -302,8 +311,8 @@ export default {
       this.$api.post('/manage-platform/codeTable/queryNationality', {},
         r => {
           console.log(r);
-          if (r.Success) {
-            this.nation = r.Data;
+          if (r.success) {
+            this.nation = r.data;
           }
         })
     },
