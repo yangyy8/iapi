@@ -21,12 +21,19 @@
               </div>
             </div>
           </el-row>
-          <div class="t-text" :class="{active:isActive}">注：有效期 ><= 时间（时间以服务器为准）</div>
+          <div class="t-text" :class="{active:isActive}">注：当前系统时间以服务器为准</div>
           <!-- 证件规则搜索框 -->
           <el-row type="flex" align="center" style="width:100%">
             <div class="t-flex">
               <el-col :sm="24" :md="12" :lg="6" class="input-item t-input">
-                <el-input v-model="card" :disabled="isActive" size="mini"></el-input>
+                <el-select placeholder="请选择" v-model="data.fileName" filterable  size="mini" :disabled="isActive" @visible-change="codeName">
+                  <el-option
+                   v-for="item in code"
+                  :key="item.FIELDNAME"
+                  :value="item.FIELDNAME"
+                  :label="item.FIELDDES">
+                  </el-option>
+                </el-select>
               </el-col>
               <el-col :sm="24" :md="12" :lg="4" class="input-item t-input-operator">
                 <el-select placeholder="请选择" v-model="data.visaOperator" filterable  size="mini" :disabled="isActive">
@@ -56,7 +63,7 @@
             <div class="card-disabled" v-show="isActive"></div>
             <el-card class="box-card t-card">
               <div slot="header" class="clearfix">
-                <span>已加入</span>
+                <span>准入规则</span>
               </div>
               <div class="t-list" v-show="show">
                 <span>{{listText}}</span>
@@ -124,7 +131,7 @@
               <div class="card-disabled" v-show="countryIsActive"></div>
               <el-card class="box-card t-card">
                 <div slot="header" class="clearfix">
-                  <span>已加入</span>
+                  <span>准入国家</span>
                 </div>
                 <div v-for="i in data.nationalityMapList" class="t-list">
                   <span>{{i.name}}</span>
@@ -191,7 +198,7 @@
             <div class="card-disabled" v-show="entryIsActive"></div>
             <el-card class="box-card t-card">
               <div slot="header" class="clearfix">
-                <span>已加入</span>
+                <span>准入口岸</span>
               </div>
               <div v-for="i in data.airportMapList" class="t-list">
                 <span>{{i.name}}</span>
@@ -231,8 +238,9 @@ export default {
     return{
       card:'签证有效期',
       data:{
+        fileName:'',
         visaRuleSerial:'',//证件规则id
-        visaOperator:'1',
+        visaOperator:'2',
         visaTime:'',//证件有效期
         visaCheckResult:'2Z',//证件校验结果
         visaStatus:'1',//证件开关
@@ -254,6 +262,7 @@ export default {
       nationName:[],//国家接口list
       entryName:[],//入境口岸接口list
       nationily:'',//国家搜索框
+      code:[],
       entry:'',//入境口岸搜索框
 
       country:"",
@@ -272,6 +281,7 @@ export default {
     }
   },
   mounted(){
+    this.codeName();
     this.getDate();
     this.addList(this.data.visaTime,this.data.visaOperator);
   },
@@ -438,7 +448,16 @@ export default {
           });
         }
       })
-    }
+    },
+    codeName(){//字段名称的接口
+      this.$api.post('/manage-platform/ruleConfig/getRuleConfigFieldNameList/1',{},
+       r => {
+         console.log(r);
+         if(r.success){
+           this.code = r.data
+         }
+      })
+    },
   }
 }
 </script>

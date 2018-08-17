@@ -105,3 +105,7 @@
  body .el-table th.gutter{
     display: table-cell!important;
 }
+.t-must{
+  color: red;
+  padding: 2px;
+}

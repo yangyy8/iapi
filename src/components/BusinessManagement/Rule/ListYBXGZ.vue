@@ -247,9 +247,9 @@ export default {
         "FIELDNAME": "",
         "OPERATORCHARACTER": "",
         "VALUE": '',
-        "CHECKRESULT": "",
+        "CHECKRESULT": "2Z",
         "RESPONSERESULT":'',
-        "STATUS": "",
+        "STATUS": "1",
         "FIELDTYPE":'',
         "CTLTYPE":'U'
       },
@@ -260,9 +260,9 @@ export default {
         "FIELDNAME": "",
         "OPERATORCHARACTER": "",
         "VALUE": '',
-        "CHECKRESULT": "",
+        "CHECKRESULT": "2Z",
         "RESPONSERESULT":'',
-        "STATUS": "",
+        "STATUS": "1",
         "FIELDTYPE":'',
         "CTLTYPE":'U'
       },
@@ -312,9 +312,9 @@ export default {
          "FIELDNAME": "",
          "OPERATORCHARACTER": "",
          "VALUE": '',
-         "CHECKRESULT": "",
+         "CHECKRESULT": "2Z",
          "RESPONSERESULT":'',
-         "STATUS": "",
+         "STATUS": "1",
          "FIELDTYPE":'',
          "CTLTYPE":'U'
        }
@@ -369,7 +369,7 @@ export default {
      },
      codeName(name,codeRow){//字段名称的接口
 
-       this.$api.post('/manage-platform/ruleConfig/getRuleConfigFieldNameList',{},
+       this.$api.post('/manage-platform/ruleConfig/getRuleConfigFieldNameList/0',{},
         r => {
           console.log(r);
           if(r.success){
@@ -387,7 +387,7 @@ export default {
        this.$set(rowBase,'VALUE','');
        this.$set(rowBase,'OPERATORCHARACTER','');
        for(var i=0;i<this.code.length;i++){
-         if(this.code[i].FIELDTYPE==2){
+         if(this.code[i].FIELDTYPE==5){
            this.show=1;
            this.dateShow=1;
          }else{
