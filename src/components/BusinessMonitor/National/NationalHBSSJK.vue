@@ -20,7 +20,7 @@
         <span>人员监控</span>
       </li>
     </ul>
-    <img src="../../../assets/img/qgjk/zxh.png" alt="" class="zdh" v-if="zdh" @click="zxhFn">
+    <img src="../../../assets/img/qgjk/zxh.png" alt="" class="zdh" v-if="zdh" @click="zxhFn"  @keyup.esc="zxhFn">
     <img src="../../../assets/img/qgjk/big.png" alt="" class="zdh" v-if="!zdh" @click="zdhFn">
   </div>
   <transition name="el-zoom-in-left">
