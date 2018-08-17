@@ -242,7 +242,7 @@ export default {
       this.$router.push({params: {navId:SERIAL} });
 
       this.getNav(SERIAL);
-      // this.tabList=[];
+      this.tabList=[];
     },
     closeRight(index){
       // alert("杀杀杀")

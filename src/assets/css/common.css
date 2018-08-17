@@ -10,6 +10,13 @@ a{
 .hand{
   cursor: pointer;
 }
+.example-error{
+  /* top:-10px; */
+  left: unset!important;
+  right:0!important;
+  color:red!important;
+  padding: 10px!important;
+}
 html,body{
   width: 100%;
   height: 100%;

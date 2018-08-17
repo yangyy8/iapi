@@ -8,9 +8,9 @@
             查询条件
           </div>
           <el-row align="center" :gutter="2">
-            <el-col  :sm="24" :md="12" :lg="6"  class="input-item">
+            <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">国籍：</span>
-              <el-select v-model="pd.NATIONALITY" filterable placeholder="请选择"  size="small" class="input-input">
+              <el-select v-model="pd.NATIONALITY" filterable clearable placeholder="请选择"  size="small" class="input-input">
                 <el-option
                   v-for="item in nationAlone"
                   :key="item.CODE"
@@ -19,7 +19,7 @@
                 </el-option>
               </el-select>
             </el-col>
-            <el-col :sm="24" :md="12" :lg="6" class="input-item">
+            <el-col :sm="24" :md="12" :lg="8" class="input-item">
               <span class="input-text">证件种类：</span>
               <el-select v-model="pd.CARDTYPE"  filterable clearable  placeholder="请选择"  size="small" class="input-input">
                 <el-option
@@ -31,19 +31,19 @@
               </el-select>
             </el-col>
 
-            <el-col :sm="24" :md="12"  :lg="6" class="input-item">
+            <el-col :sm="24" :md="12"  :lg="8" class="input-item">
               <span class="input-text">证件号码：</span>
               <el-input placeholder="请输入内容" size="small" v-model="pd.CARDNO" clearable class="input-input"></el-input>
             </el-col>
 
-            <el-col :sm="24" :md="12"  :lg="6" class="input-item">
+            <el-col :sm="24" :md="12"  :lg="8" class="input-item">
               <span class="input-text">姓名：</span>
               <div class="input-input t-fuzzy t-flex">
               <el-input placeholder="请输入内容" size="small" v-model="pd.FAMILYNAME" clearable class="input-input"></el-input>
               <el-checkbox v-model="pd.NAMELIKE" true-label="1" false-label="0">模糊查询</el-checkbox>
               </div>
             </el-col>
-            <el-col :sm="24" :md="12"  :lg="6" class="input-item">
+            <el-col :sm="24" :md="12"  :lg="8" class="input-item">
               <span class="input-text">性別：</span>
               <el-select v-model="pd.GENDER" placeholder="请选择"  size="small" clearable filterable class="input-input">
                 <el-option label="M - 男" value="M"></el-option>
@@ -52,7 +52,7 @@
 
               </el-select>
             </el-col>
-            <el-col  :sm="24" :md="12" :lg="6"  class="input-item">
+            <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                 <span class="input-text">出生日期：</span>
                 <div class="input-input t-flex t-date">
                    <el-date-picker
@@ -68,7 +68,7 @@
                   </el-date-picker>
               </div>
             </el-col>
-            <el-col :sm="24" :md="12"  :lg="6" class="input-item">
+            <el-col :sm="24" :md="12"  :lg="8" class="input-item">
               <span class="input-text">出入境类型：</span>
               <el-select  placeholder="请选择"  size="small" v-model="pd.IN_OUT" clearable filterable class="block input-input">
                 <el-option label="2 - 全部" value="2"></el-option>
@@ -76,7 +76,7 @@
                 <el-option label="0 - 入境" value="0"></el-option>
               </el-select>
             </el-col>
-            <el-col :sm="24" :md="12"  :lg="6" class="input-item">
+            <el-col :sm="24" :md="12"  :lg="8" class="input-item">
               <span class="input-text">关注时间：</span>
               <div class="input-input t-flex t-date">
                  <el-date-picker
@@ -92,7 +92,7 @@
                 </el-date-picker>
             </div>
             </el-col>
-            <el-col :sm="24" :md="12"  :lg="6" class="input-item">
+            <el-col :sm="24" :md="12"  :lg="8" class="input-item">
               <span class="input-text">操作时间：</span>
               <div class="input-input t-flex t-date">
                  <el-date-picker
@@ -243,11 +243,11 @@
 
           <el-col :sm="24" :md="12" :lg="8"  class="input-item">
             <span class="input-text"><span class="redx">*</span>姓名：</span>
-            <el-input placeholder="请输入内容" size="small" v-model="form.FAMILYNAME" clearable class="input-input"></el-input>
+            <el-input placeholder="请输入内容" size="small" v-model="form.FAMILYNAME" clearable class="input-input" v-verify.input.blur ="{regs:'required',submit:'demo2'}"></el-input>
           </el-col>
           <el-col :sm="24" :md="12" :lg="8"  class="input-item">
             <span class="input-text"><span class="redx">*</span>性别：</span>
-            <el-select v-model="form.GENDER" placeholder="请选择"  size="small" clearable filterable class="input-input">
+            <el-select v-model="form.GENDER" placeholder="请选择"  size="small" clearable filterable class="input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}">
               <el-option label="M - 男" value="M"></el-option>
               <el-option label="F - 女" value="F"></el-option>
               <el-option label="U - 未知" value="U"></el-option>
@@ -268,7 +268,7 @@
 
           <el-col :sm="24" :md="12" :lg="8"  class="input-item">
             <span class="input-text"><span class="redx">*</span>国籍：</span>
-            <el-select v-model="form.NATIONALITY" filterable clearable placeholder="请选择"  size="small" class="input-input">
+            <el-select v-model="form.NATIONALITY" filterable clearable placeholder="请选择"  size="small" class="input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}">
               <el-option
                 v-for="item in nationAlone"
                 :key="item.CODE"
@@ -280,7 +280,7 @@
 
           <el-col :sm="24" :md="12" :lg="8"  class="input-item">
             <span class="input-text"><span class="redx">*</span>证件种类：</span>
-            <el-select v-model="form.CARDTYPE"  filterable clearable  placeholder="请选择"  size="small" class="input-input">
+            <el-select v-model="form.CARDTYPE"  filterable clearable  placeholder="请选择"  size="small" class="input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}">
               <el-option
                 v-for="item in docCode"
                 :key="item.CODE"
@@ -293,17 +293,17 @@
 
           <el-col :sm="24" :md="12" :lg="8"  class="input-item">
             <span class="input-text"><span class="redx">*</span>证件号码：</span>
-            <el-input placeholder="请输入内容" size="small" v-model="form.CARDNO" clearable class="input-input"></el-input>
+            <el-input placeholder="请输入内容" size="small" max="35" v-model="form.CARDNO" clearable class="input-input" v-verify.input.blur ="{regs:'required',submit:'demo2'}"></el-input>
           </el-col>
 
           <el-col :sm="24" :md="12" :lg="8"  class="input-item">
             <span class="input-text"><span class="redx">*</span>签证号码：</span>
-            <el-input placeholder="请输入内容" size="small" v-model="form.VISANO" clearable class="input-input"></el-input>
+            <el-input placeholder="请输入内容" size="small" v-model="form.VISANO" clearable class="input-input" v-verify.input.blur ="{regs:'required',submit:'demo2'}"></el-input>
           </el-col>
 
           <el-col :sm="24" :md="12" :lg="8"  class="input-item">
             <span class="input-text"><span class="redx">*</span>出入境标识：</span>
-            <el-select v-model="form.IN_OUT" placeholder="请选择" clearable filterable size="small"  class="input-input">
+            <el-select v-model="form.IN_OUT" placeholder="请选择" clearable filterable size="small"  class="input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}">
               <el-option label="0 - 入境" value="0"></el-option>
               <el-option label="1 - 出境" value="1"></el-option>
               <el-option label="2 - 全部" value="2"></el-option>
@@ -336,12 +336,12 @@
 
           <el-col :sm="24" :md="12" :lg="8"  class="input-item">
             <span class="input-text">航班号：</span>
-            <el-input placeholder="请输入内容" size="small" clearable v-model="form.FLTNO" class="input-input"></el-input>
+            <el-input placeholder="请输入内容" size="small" clearable v-model="form.FLTNO" class="input-input" v-verify.input.blur ="{regs:'required|max:7',submit:'demo1'}"></el-input>
           </el-col>
 
           <el-col :sm="24" :md="12" :lg="8"  class="input-item">
             <span class="input-text"><span class="redx">*</span>出入事由：</span>
-            <el-select v-model="form.REASON"  filterable clearable  placeholder="请选择"  size="small" class="input-input">
+            <el-select v-model="form.REASON"  filterable clearable  placeholder="请选择"  size="small" class="input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}">
               <el-option
                 v-for="item in inOutReason"
                 :key="item.CODE"
@@ -643,7 +643,7 @@ export default {
     reset(){
       this.CurrentPage=1;
       this.pageSize=10;
-      this.pd={};
+      this.pd={NAMELIKE:'0'};
       // console.log(this.pd)
       this.getList(this.CurrentPage,this.pageSize,this.pd);
 
@@ -839,6 +839,13 @@ export default {
       })
     },
     addItem(formName){
+      const result = this.$validator.verifyAll('demo2')
+      console.log(result)
+       if (result.indexOf(false) > -1) {
+         return
+       } else {
+         // alert('填写成功')
+       }
         if(this.dialogType=="add"){
           this.$api.post('/manage-platform/nameListFocusList/addNameListFocusList',this.form,
            r => {
