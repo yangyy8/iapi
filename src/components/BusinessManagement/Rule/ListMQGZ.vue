@@ -26,7 +26,11 @@
           <el-row type="flex" align="center" style="width:100%">
             <div class="t-flex">
               <el-col :sm="24" :md="12" :lg="6" class="input-item t-input">
+<<<<<<< HEAD
                 <el-select placeholder="请选择" v-model="data.fileName" filterable  size="mini" :disabled="isActive" @visible-change="codeName">
+=======
+                <el-select placeholder="请选择" v-model="data.fieldName" filterable clearable size="mini" :disabled="isActive" @visible-change="codeName">
+>>>>>>> 09cc9f73e116c1f84db3718518bb8c1293490505
                   <el-option
                    v-for="item in code"
                   :key="item.FIELDNAME"
@@ -36,14 +40,14 @@
                 </el-select>
               </el-col>
               <el-col :sm="24" :md="12" :lg="4" class="input-item t-input-operator">
-                <el-select placeholder="请选择" v-model="data.visaOperator" filterable  size="mini" :disabled="isActive">
+                <el-select placeholder="请选择" v-model="data.visaOperator" filterable clearable  size="mini" :disabled="isActive">
                   <el-option label="大于" value="1"></el-option>
                   <el-option label="小于" value="2"></el-option>
                   <!-- <el-option label="=" value="3"></el-option> -->
                 </el-select>
               </el-col>
               <el-col :sm="24" :md="12" :lg="4" class="input-item t-input">
-                <el-select placeholder="时间选择" v-model="data.visaTime" filterable  size="mini" :disabled="isActive">
+                <el-select placeholder="时间选择" v-model="data.visaTime" filterable clearable  size="mini" :disabled="isActive">
                   <el-option label="当前系统时间" value="sysdate"></el-option>
                   <el-option label="一个月" value="sysdate+30"></el-option>
                   <el-option label="两个月" value="sysdate+60"></el-option>
@@ -54,7 +58,7 @@
                 </el-select>
               </el-col>
               <el-col :sm="24" :md="12" :lg="3" class="selfButton">
-                <el-button type="primary" size="mini" @click="addList(data.visaTime,data.visaOperator)" :disabled="isActive">修改</el-button>
+                <el-button type="primary" size="mini" @click="addList(data.fieldName,data.visaTime,data.visaOperator)" :disabled="isActive">添加</el-button>
               </el-col>
             </div>
           </el-row>
@@ -73,11 +77,11 @@
           </el-row>
           <!--证件规则 登机牌 -->
           <el-row>
-            <el-select placeholder="登机牌" v-model="data.visaCheckResult" filterable  size="mini" class="t-width100" :disabled="isActive">
-              <!-- <el-option label="0Z - 允许登机" value="0Z"></el-option>
-              <el-option label="1Z - 禁止登机" value="1Z"></el-option> -->
+            <el-select placeholder="请选择反馈结果" v-model="data.visaCheckResult" filterable clearable size="mini" class="t-width100" :disabled="isActive">
+              <!-- <el-option label="0Z - 允许登机" value="0Z"></el-option> -->
+              <el-option label="1Z - 禁止登机" value="1Z"></el-option>
               <el-option label="2Z - 再次核对" value="2Z"></el-option>
-              <!-- <el-option label="4Z - 数据错误" value="4Z"></el-option> -->
+              <el-option label="4Z - 数据错误" value="4Z"></el-option>
             </el-select>
             <el-input type="textarea" v-model="data.visaResponseresult" class="t-width100" placeholder="请输入描述"  :autosize="{ minRows: 3, maxRows: 3}" :disabled="isActive"></el-input>
           </el-row>
@@ -112,12 +116,12 @@
 
               <div class="t-flex t-width100">
                 <el-col :sm="24" :md="12" :lg="20" class="t-width100">
-                  <el-select v-model="nationily" filterable @visible-change="nation" placeholder="国家搜索"  size="small" class="t-width100" :disabled="countryIsActive">
+                  <el-select v-model="nationily" filterable clearable @visible-change="nation" placeholder="国家搜索"  size="small" class="t-width100" :disabled="countryIsActive">
                     <el-option
                       v-for="item in nationName"
                       :key="item.CODE"
                       :value="item.CODE"
-                      :label="item.CNAME"
+                      :label="item.CODE+' - '+item.CNAME"
                     ></el-option>
                   </el-select>
                 </el-col>
@@ -141,11 +145,11 @@
             </el-row>
             <!--证件规则 登机牌 -->
             <el-row>
-              <el-select placeholder="登机牌" v-model="data.nationalityCheckResult" filterable  size="mini" class="t-width100" :disabled="countryIsActive">
-                <!-- <el-option label="0Z - 允许登机" value="0Z"></el-option>
-                <el-option label="1Z - 禁止登机" value="1Z"></el-option> -->
+              <el-select placeholder="请选择反馈结果" v-model="data.nationalityCheckResult" filterable clearable size="mini" class="t-width100" :disabled="countryIsActive">
+                <!-- <el-option label="0Z - 允许登机" value="0Z"></el-option> -->
+                <el-option label="1Z - 禁止登机" value="1Z"></el-option>
                 <el-option label="2Z - 再次核对" value="2Z"></el-option>
-                <!-- <el-option label="4Z - 数据错误" value="4Z"></el-option> -->
+                <el-option label="4Z - 数据错误" value="4Z"></el-option>
               </el-select>
               <el-input type="textarea" v-model="data.nationalityResponseresult" class="t-width100" placeholder="请输入描述" :autosize="{ minRows: 3, maxRows: 3}" :disabled="countryIsActive"></el-input>
             </el-row>
@@ -179,12 +183,12 @@
 
             <div class="t-flex t-width100">
               <el-col :sm="24" :md="12" :lg="20" class="t-width100">
-                <el-select v-model="entry" filterable @visible-change="entrySearch" placeholder="入境口岸搜索"  size="small" class="t-width100" :disabled="entryIsActive">
+                <el-select v-model="entry" filterable clearable @visible-change="entrySearch" placeholder="入境口岸搜索"  size="small" class="t-width100" :disabled="entryIsActive">
                   <el-option
                     v-for="item in entryName"
                     :key="item.AIRPORT_CODE"
                     :value="item.AIRPORT_CODE"
-                    :label="item.AIRPORT_NAME"
+                    :label="item.AIRPORT_CODE+' - '+item.AIRPORT_NAME"
                   ></el-option>
                 </el-select>
               </el-col>
@@ -208,11 +212,11 @@
           </el-row>
           <!--证件规则 登机牌 -->
           <el-row>
-            <el-select placeholder="登机牌" v-model="data.airportCheckResult" filterable  size="mini" class="t-width100" :disabled="entryIsActive">
-              <!-- <el-option label="0Z - 允许登机" value="0Z"></el-option>
-              <el-option label="1Z - 禁止登机" value="1Z"></el-option> -->
+            <el-select placeholder="请选择反馈结果" v-model="data.airportCheckResult" filterable clearable size="mini" class="t-width100" :disabled="entryIsActive">
+              <!-- <el-option label="0Z - 允许登机" value="0Z"></el-option> -->
+              <el-option label="1Z - 禁止登机" value="1Z"></el-option>
               <el-option label="2Z - 再次核对" value="2Z"></el-option>
-              <!-- <el-option label="4Z - 数据错误" value="4Z"></el-option> -->
+              <el-option label="4Z - 数据错误" value="4Z"></el-option>
             </el-select>
             <el-input type="textarea" v-model="data.airportResponseresult" class="t-width100" placeholder="请输入描述" :autosize="{ minRows: 3, maxRows: 3}" :disabled="entryIsActive"></el-input>
           </el-row>
@@ -225,11 +229,6 @@
       <!-- </el-col> -->
     </el-row>
   </div>
-
-
-
-
-
 </template>
 
 <script>
@@ -238,7 +237,11 @@ export default {
     return{
       card:'签证有效期',
       data:{
+<<<<<<< HEAD
         fileName:'',
+=======
+        fieldName:'',
+>>>>>>> 09cc9f73e116c1f84db3718518bb8c1293490505
         visaRuleSerial:'',//证件规则id
         visaOperator:'2',
         visaTime:'',//证件有效期
@@ -283,10 +286,16 @@ export default {
   mounted(){
     this.codeName();
     this.getDate();
-    this.addList(this.data.visaTime,this.data.visaOperator);
+    this.addList(this.data.fieldName,this.data.visaTime,this.data.visaOperator);
   },
   methods:{
-    addList(item,oper){
+    addList(fname,item,oper){
+      let fnameLabel = '';
+      for(var i=0;i<this.code.length;i++){
+        if(fname == this.code[i].FIELDNAME){
+          fnameLabel = this.code[i].FIELDDES;
+        }
+      }
       let itemLabel = '';
       if(item == 'sysdate'){
         itemLabel = '当前系统时间'
@@ -310,12 +319,12 @@ export default {
       }else if(oper == '2'){
         operLabel = '小于'
       }
-      if(this.data.visaTime == ''){
+      if(this.data.visaTime == ''||this.data.fieldName == ''||this.data.visaTime == undefined||this.data.fieldName == undefined){
         this.show = false;
       }else{
         this.show = true;
         let str = "";
-        str = this.card + '  ' +operLabel + '  ' +itemLabel;
+        str = fnameLabel + '  ' +operLabel + '  ' +itemLabel;
         this.listText = str;
       }
     },
@@ -385,13 +394,10 @@ export default {
       }
     },
     cardState(item){
-      console.log(this.data.visaStatus);
       if(item == '1'){
-        console.log(1);
         this.inactive = "启用";
         this.isActive = false;
       }else if(item == '0'){
-        console.log(2);
         this.inactive = "禁用";
         this.isActive = true;
       }
@@ -430,7 +436,7 @@ export default {
             this.data = r.data;
           }
           if(this.data.visaTime != ''){
-            this.addList(this.data.visaTime,this.data.visaOperator);
+            this.addList(this.data.fieldName,this.data.visaTime,this.data.visaOperator);
           }
           this.state(this.data.nationalityStatus);
           this.cardState(this.data.visaStatus);
@@ -504,6 +510,7 @@ export default {
 .t-card{
   height: 400px;
   overflow-y: scroll;
+  font-size: 14px;
 }
 .t-width100{
   width: 100%;
@@ -524,6 +531,6 @@ export default {
   background:rgba(245,247,250,0.7)
 }
 .pd20{
-  padding: 40px;
+  padding: 20px 40px 40px 40px;
 }
 </style>
