@@ -294,12 +294,12 @@
                     </el-table-column>
                     <el-table-column
                       prop="LASTCHECKRESULT"
-                      label="当前值机状态" sortable
+                      label="当前反馈状态" sortable
                       width="130"
                     >
                     </el-table-column>
                     <el-table-column
-                      label="当前值机状态说明"
+                      label="当前反馈状态说明"
                       width="160"
                     >
                     <template slot-scope="scope">
@@ -311,8 +311,8 @@
         <hr/>
         <el-row type="flex" class="mb-6">
           <el-col :span="24" class="input-item">
-            <span class="yy-input-text" style="width:18%">变更后值机状态：</span>
-            <el-select v-model="map.INSTRUCT"  placeholder="请选择"  filterable clearable   size="small" style="width:80%">
+            <span class="yy-input-text" style="width:18%">变更后反馈状态：</span>
+            <el-select v-model="map.INSTRUCT"  placeholder="请选择"  filterable clearable   @change="inschange(map.INSTRUCT,1)"  size="small" style="width:80%">
               <el-option value="0Z" label="0Z - 允许打印登机牌">
               </el-option>
               <el-option value="1Z" label="1Z - 禁止打印登机牌">
@@ -333,8 +333,8 @@
         </el-row>
         <el-row type="flex" class="mb-6">
           <el-col :span="24" class="input-item">
-            <span class="yy-input-text" style="width:15%">变更描述：</span>
-           <el-input type="textarea" placeholder="请输入变更描述(不能超过205字)" maxlength="250" :autosize="{ minRows: 3, maxRows: 6}" style="width:80%" v-model="map.CHANGERESON"></el-input>
+            <span class="yy-input-text" style="width:18%">变更描述：</span>
+           <el-input type="textarea" placeholder="请输入变更描述(不能超过250字)" maxlength="250" :autosize="{ minRows: 3, maxRows: 6}" style="width:80%" v-model="map.CHANGERESON"></el-input>
           </el-col>
         </el-row>
       </el-form>
@@ -381,7 +381,7 @@
 
         <el-row type="flex"  class="mb-6">
           <el-col :span="8" class="input-item">
-            <span class="yy-input-text">当前值机状态：</span>
+            <span class="yy-input-text">当前反馈状态：</span>
             <el-select v-model="form.LASTCHECKRESULT"  placeholder="请选择"    size="small" class="yy-input-input" :disabled="true">
               <el-option value="0Z" label="0Z - 允许打印登机牌">
               </el-option>
@@ -394,15 +394,15 @@
              </el-select>
           </el-col>
           <el-col :span="8" class="input-item">
-            <span class="yy-input-text">值机状态说明：</span>
+            <span class="yy-input-text">反馈状态说明：</span>
             <el-input placeholder="" size="small"  v-model="form.LASTCHECKRESULTC" class="yy-input-input" :disabled="true"></el-input>
           </el-col>
         </el-row>
         <hr/>
         <el-row type="flex" class="mb-6">
           <el-col :span="24" class="input-item">
-            <span class="yy-input-text" style="width:18%">变更后值机状态：</span>
-            <el-select v-model="form.INSTRUCT"  placeholder="请选择"  filterable clearable  @change="inschange(form.INSTRUCT)"  size="small" style="width:82%">
+            <span class="yy-input-text" style="width:18%">变更后反馈状态：</span>
+            <el-select v-model="form.INSTRUCT"  placeholder="请选择"  filterable clearable  @change="inschange(form.INSTRUCT,0)"  size="small" style="width:82%">
               <span v-if="form.CHECKRESULT!='0Z'">
               <el-option value="0Z" label="0Z - 允许打印登机牌">
               </el-option>
@@ -433,7 +433,7 @@
         <el-row type="flex" class="mb-6">
           <el-col :span="24" class="input-item">
             <span class="yy-input-text" style="width:18%">变更描述：</span>
-           <el-input type="textarea" v-model="form.CHANGERESON"   placeholder="请输入变更描述(不能超过205字)" maxlength="250"  :autosize="{ minRows: 3, maxRows: 6}" style="width:82%;" ></el-input>
+           <el-input type="textarea" v-model="form.CHANGERESON"   placeholder="请输入变更描述(不能超过250字)" maxlength="250"  :autosize="{ minRows: 3, maxRows: 6}" style="width:82%;" ></el-input>
           </el-col>
         </el-row>
       </el-form>
@@ -738,15 +738,15 @@ export default {
       TotalResult1: 0,
       ap: {},
       pd: {},
-      tp:0,
+      tp: 0,
       nation: [],
       value: '',
       value1: "",
 
-      isCheck:false,
-      isName:false,
-      isRules:false,
-      isCall:false,
+      isCheck: false,
+      isName: false,
+      isRules: false,
+      isCall: false,
 
       handlesDialogVisible: false,
       detailsDialogVisible: false,
@@ -773,8 +773,8 @@ export default {
       form: {},
       map: {},
       dform: {},
-      rules:{},
-      check:{},
+      rules: {},
+      check: {},
       pickerOptions1: {
         shortcuts: [{
           text: '今天',
@@ -818,6 +818,7 @@ export default {
         return;
 
       }
+      this.map={};
       this.batchDialogVisible = true;
       this.batchtableData = this.multipleSelection
     },
@@ -860,28 +861,26 @@ export default {
     },
     handles(i) {
       this.handlesDialogVisible = true;
-      i.LASTCHECKRESULTC=this.fiftezjsm(i.LASTCHECKRESULT);
+      i.LASTCHECKRESULTC = this.fiftezjsm(i.LASTCHECKRESULT);
       console.log(i);
       this.form = i;
     },
-    handlessys(i)
-    {
-       this.AuthDialogVisible=true;
-       this.ap={};
-       this.tp=i;
+    handlessys(i) {
+      this.AuthDialogVisible = true;
+      this.ap = {};
+      this.tp = i;
     },
-    Authorization(ap)
-    {
+    Authorization(ap) {
 
-       if(this.tp==0){
-        this.handlesItem("batchmap",ap);
+      if (this.tp == 0) {
+        this.handlesItem("batchmap", ap);
 
-      }else {
-         this.handlesItem1("handlesForm",ap);
-       }
+      } else {
+        this.handlesItem1("handlesForm", ap);
+      }
 
     },
-    handlesItem(formName,ap) {
+    handlesItem(formName, ap) {
 
       let IAPISERIAL = [];
       let arr = this.multipleSelection;
@@ -894,7 +893,7 @@ export default {
         "IAPISERIAL": IAPISERIAL,
         "CREATEUSER": "杨小",
         "APPROVALUSER": ap.APPROVALUSER,
-        "APPROVALPW":ap.APPROVALPW,
+        "APPROVALPW": ap.APPROVALPW,
         "INSTRUCT": this.map.INSTRUCT,
         "CHANGERESON": this.map.CHANGERESON
       };
@@ -912,18 +911,18 @@ export default {
           this.$refs[formName].resetFields();
           this.batchDialogVisible = false;
           this.AuthDialogVisible = false;
-        this.getList(this.CurrentPage, this.pageSize, this.pd);
+          this.getList(this.CurrentPage, this.pageSize, this.pd);
         }, e => {
           this.$message.error('失败了');
         })
     },
-    handlesItem1(formName,ap) {
+    handlesItem1(formName, ap) {
       let p = {
         "IAPISERIAL": [this.form.SERIAL],
         "CREATEUSER": "杨小",
         "APPROVALUSER": ap.APPROVALUSER,
 
-        "APPROVALPW":ap.APPROVALPW,
+        "APPROVALPW": ap.APPROVALPW,
         "INSTRUCT": this.form.INSTRUCT,
         "CHANGERESON": this.form.CHANGERESON
       };
@@ -951,73 +950,101 @@ export default {
       this.dform = i;
       this.detailgetlist(0, 10, this.dform);
       console.log(i);
-      this.$api.post('/manage-platform/iapi/queryIapiInfo',{serial:i.SERIAL},
-       r =>{
-         if(r.success){
-           this.dform = r.data.IAPI;
-           if(r.data.hasOwnProperty('CHECKDATA') == false){
-             this.isCheck = false;
-           }else{
-             this.isCheck = true;
-             this.check = r.data.CHECKDATA;
-           }
+      this.$api.post('/manage-platform/iapi/queryIapiInfo', {
+          serial: i.SERIAL
+        },
+        r => {
+          if (r.success) {
+            this.dform = r.data.IAPI;
+            if (r.data.hasOwnProperty('CHECKDATA') == false) {
+              this.isCheck = false;
+            } else {
+              this.isCheck = true;
+              this.check = r.data.CHECKDATA;
+            }
 
-           if(r.data.hasOwnProperty('RULELIST') == false){
-             this.isRules = false;
-           }else{
-             this.isRules = true;
-             this.rules = r.data.RULELIST;
-           }
+            if (r.data.hasOwnProperty('RULELIST') == false) {
+              this.isRules = false;
+            } else {
+              this.isRules = true;
+              this.rules = r.data.RULELIST;
+            }
 
-           if(r.data.hasOwnProperty('EVENT') == false){
-             this.isName = false;
-           }else{
-             this.isName = true;
-             this.eve = r.data.EVENT;
-           }
+            if (r.data.hasOwnProperty('EVENT') == false) {
+              this.isName = false;
+            } else {
+              this.isName = true;
+              this.eve = r.data.EVENT;
+            }
 
-           if(r.data.hasOwnProperty('PNREVENT') == false){
-             this.isCall = false;
-           }else{
-             this.isCall = true;
-             this.pnrEve = r.data.PNREVENT;
-           }
-         }
-       })
+            if (r.data.hasOwnProperty('PNREVENT') == false) {
+              this.isCall = false;
+            } else {
+              this.isCall = true;
+              this.pnrEve = r.data.PNREVENT;
+            }
+          }
+        })
 
     },
-    reviewDetail(){//详情里的查看详情信息
+    reviewDetail() { //详情里的查看详情信息
 
-      let ss={
-        "event":this.eve
+      let ss = {
+        "event": this.eve
       }
-      this.$api.post('/manage-platform/eventManagement/isFinishEventHandle',ss,
-       r =>{
-         if(r.data== true){
-            this.$router.push({name:'alarmProcess',query:{eventserial:this.eve,type:0}})
-         }else if(r.data == false){
-           this.$router.push({name:'alarmProcess',query:{eventserial:this.eve,type:1}})
-         }
-       })
+      this.$api.post('/manage-platform/eventManagement/isFinishEventHandle', ss,
+        r => {
+          if (r.data == true) {
+            this.$router.push({
+              name: 'alarmProcess',
+              query: {
+                eventserial: this.eve,
+                type: 0
+              }
+            })
+          } else if (r.data == false) {
+            this.$router.push({
+              name: 'alarmProcess',
+              query: {
+                eventserial: this.eve,
+                type: 1
+              }
+            })
+          }
+        })
     },
-    reviewCallDetail(){//查看PNR预报警详情
-      let cc={
-        "event":this.pnrEve
+    reviewCallDetail() { //查看PNR预报警详情
+      let cc = {
+        "event": this.pnrEve
       }
-      this.$api.post('/manage-platform/eventManagement/isFinishEventHandle',cc,
-       r =>{
-         if(r.data== true){
-            this.$router.push({name:'alarmProcess',query:{eventserial:this.eve,type:0,isZDGZ:1}})
-         }else if(r.data == false){
-           this.$router.push({name:'alarmProcess',query:{eventserial:this.eve,type:1,isZDGZ:1}})
-         }
-       })
+      this.$api.post('/manage-platform/eventManagement/isFinishEventHandle', cc,
+        r => {
+          if (r.data == true) {
+            this.$router.push({
+              name: 'alarmProcess',
+              query: {
+                eventserial: this.eve,
+                type: 0,
+                isZDGZ: 1
+              }
+            })
+          } else if (r.data == false) {
+            this.$router.push({
+              name: 'alarmProcess',
+              query: {
+                eventserial: this.eve,
+                type: 1,
+                isZDGZ: 1
+              }
+            })
+          }
+        })
     },
     detailgetlist(currentPage, showCount, r) {
       let p = {
-         "currentPage": currentPage,
-         "showCount": showCount,
-         "pd": r
+        "currentPage": currentPage,
+        "showCount": showCount,
+        "pd": r
       };
       this.$api.post('/manage-platform/iapiUnscolicited/queryHistory', p,
         r => {
@@ -1027,40 +1054,43 @@ export default {
         });
 
     },
-    inschange(n)
-    {
-      var content="";
+    inschange(n, i) {
+      var content = "";
       if (n == "0Z") {
-        content= "OK TO BOARD";
+        content = "OK TO BOARD";
       } else if (n == "1Z") {
-        content= "NO BOARD";
+        content = "NO BOARD";
       } else if (n == "2Z") {
-        content= "CHECK AGAIN";
-      } else if (n == "4Z"){
-        content= "DATA ENTRY ERROR";
+        content = "CHECK AGAIN";
+      } else if (n == "4Z") {
+        content = "DATA ENTRY ERROR";
       }
-   this.form.INSTRUCTC=content;
- },
- fiftezjsm(val) {
-   if (val == "0Z") {
-     return "允许打印登机牌";
-   } else if (val == "1Z") {
-     return "禁止打印登机牌";
-   } else if (val == "2Z") {
-     return "请再次核对";
-   } else {
-     return "数据错误";
-   }
- },
- queryNationality(){
-   this.$api.post('/manage-platform/codeTable/queryNationality',{},
-    r => {
-      console.log(r);
-      if(r.success){
-        this.nation=r.data;
+      if (i == 0) {
+        this.form.INSTRUCTC = content;
+      } else {
+        this.map.INSTRUCTC = content;
       }
-   })
- },
+    },
+    fiftezjsm(val) {
+      if (val == "0Z") {
+        return "允许打印登机牌";
+      } else if (val == "1Z") {
+        return "禁止打印登机牌";
+      } else if (val == "2Z") {
+        return "请再次核对";
+      } else {
+        return "数据错误";
+      }
+    },
+    queryNationality() {
+      this.$api.post('/manage-platform/codeTable/queryNationality', {},
+        r => {
+          console.log(r);
+          if (r.success) {
+            this.nation = r.data;
+          }
+        })
+    },
 
   },
 
@@ -1080,9 +1110,9 @@ export default {
     fifterstate(val) {
       if (val == "1") {
         return "已登机";
-      }else if (val == "2") {
+      } else if (val == "2") {
         return "未登机";
-      }  else {
+      } else {
         return "已值机";
       }
     },
@@ -1115,10 +1145,10 @@ export default {
       //   return "普通护照";
       // }
 
-      if(val=="T"){
-          return "区域证件";
-      }else if(val=="P"){
-          return "护照";
+      if (val == "T") {
+        return "区域证件";
+      } else if (val == "P") {
+        return "护照";
       }
     },
   }
@@ -1173,7 +1203,7 @@ hr {
 }
 </style>
 <style media="screen">
-.el-dialog{
-  min-width: 730px!important;
+.el-dialog {
+  min-width: 730px !important;
 }
 </style>

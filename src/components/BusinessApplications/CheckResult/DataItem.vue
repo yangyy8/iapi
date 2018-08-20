@@ -130,9 +130,9 @@
       <el-col :span="9"></el-col>
     <el-col :span="6">
       <div class="datacenter">
-        <div class="dataleft"><font style="font-size:30px;color:#B2CB65;"> {{this.sum}}</font><br><span class="yy-font">预报总量</span></div>
+        <div class="dataleft"><font style="font-size:30px;color:#B2CB65;"> {{this.sum}}</font><br><span class="yy-font">预报量</span></div>
           <div class="dataleft dataline">&nbsp;</div>
-          <div class="dataleft"><font style="font-size:30px;color:#FF667D;">{{this.num}}</font><br><span class="yy-font">校验不通过的数量</span></div>
+          <div class="dataleft"><font style="font-size:30px;color:#FF667D;">{{this.num}}</font><br><span class="yy-font">校验不通过量</span></div>
       </div>
 </el-col>
   <el-col :span="9"></el-col>
@@ -203,7 +203,7 @@
                   <template slot-scope="scope">
 
                       <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row)">详情</el-button>
-              
+
                  </template>
                 </el-table-column>
       </el-table>
