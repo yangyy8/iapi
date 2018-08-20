@@ -30,9 +30,8 @@
                欢迎您！{{userName}}<i class="el-icon-arrow-down el-icon--right"></i>
              </span>
              <el-dropdown-menu slot="dropdown">
-               <!-- <el-dropdown-item><span style="display:block;width:100%;height:100%" @click="$router.push('/content/cc/ManageCenter')">个人中心</span></el-dropdown-item> -->
-               <!-- <el-dropdown-item><span @click="$router.push('/content/cc/UpdatePass')">修改密码</span></el-dropdown-item> -->
-               <!-- <el-dropdown-item><span @click="window.print()">打印</span></el-dropdown-item> -->
+               <el-dropdown-item><span style="display:block;width:100%;height:100%" @click="$router.push('/content/cc/ManageCenter');navId='cc';navInit()">个人中心</span></el-dropdown-item>
+               <el-dropdown-item><span @click="$router.push('/content/cc/UpdatePass');navId='cc'">修改密码</span></el-dropdown-item>
 
                <el-dropdown-item><span style="display:block;width:100%;height:100%" @click="logOut">退出</span></el-dropdown-item>
              </el-dropdown-menu>
@@ -48,9 +47,9 @@
           </li>
           <li class="nav1-item " :class="{'nav1-checked':nav1Id==i.SERIAL}" v-for="(i,index) in nav1List.slice(nav1Star, nav1End)" @click="nav1to2(i,1)">
 
-            <img src="../assets/img/navIcon/i_qg_1.png" alt="" class="nav1-icon"  v-if="navId=='cc'">
-            <img :src='"../assets/img/navIcon/"+i.MENU_ICON+"_0.png"' alt="" class="nav1-icon" v-if="nav1Id!=i.SERIAL&&navId!='cc'">
-            <img :src='"../assets/img/navIcon/"+i.MENU_ICON+"_1.png"' alt="" class="nav1-icon"  v-if="nav1Id==i.SERIAL&&navId!='cc'">
+            <!-- <img src="../assets/img/navIcon/i_cc_1.png" alt="" class="nav1-icon"  v-if="navId=='cc'"> -->
+            <img :src='"../assets/img/navIcon/"+i.MENU_ICON+"_0.png"' alt="" class="nav1-icon" v-if="nav1Id!=i.SERIAL">
+            <img :src='"../assets/img/navIcon/"+i.MENU_ICON+"_1.png"' alt="" class="nav1-icon"  v-if="nav1Id==i.SERIAL">
 
             <span class="nav1-text" :class="{'text-checked':nav1Id==i.SERIAL}">{{i.name}}</span>
           </li>
@@ -126,12 +125,12 @@ export default {
       nav2Show: true,
       nav2HideBar: true,
       navId:0,
-      nav1Id: 1,
+      nav1Id: 'cc',
       navh: 0,
       nav2List: [],
       nav1List: [],
       nav1List7: [{
-        SERIAL: 1,
+        SERIAL: "cc",
         name: "菜单设置",
         MENU_ICON:'i_cdss',
         menuList: [{
@@ -158,21 +157,36 @@ export default {
   },
   mounted() {
     this.navId = this.$route.params.navId;
-    console.log("youmeiyou",this.navId)
     this.getUers();
     if (this.navId == 'cc') {
       this.nav1List = this.nav1List7;
       if(this.$route.params.tiao){
         this.nav1to2(this.nav1List[0],1)
       }else{
+        console.log("cccc")
         this.nav1to2(this.nav1List[0])
-
       }
     }else {
       this.getNav(this.navId)
     }
+    // this.navInit();
   },
   methods: {
+    navInit(){
+      this.navId = this.$route.params.navId;
+      this.getUers();
+      if (this.navId == 'cc') {
+        this.nav1List = this.nav1List7;
+        if(this.$route.params.tiao){
+          this.nav1to2(this.nav1List[0],1)
+        }else{
+          console.log("cccc")
+          this.nav1to2(this.nav1List[0])
+        }
+      }else {
+        this.getNav(this.navId)
+      }
+    },
     getUers(){
       this.$api.post('/manage-platform/homePage/userInfo',{},
        r => {
@@ -252,9 +266,13 @@ export default {
       }
     },
     nav1to2(nav1Itme,click) {
-      this.isNav2Show();
       this.$router.push({query:{nav1Id:nav1Itme.SERIAL}})
+
+      this.isNav2Show();
+      // console.log(nav1Itme.SERIAL)
+      // this.$set(data,'nav1Id',nav1Itme.SERIAL)
       this.nav1Id = nav1Itme.SERIAL;
+      console.log(this.nav1Id)
       this.nav2List = nav1Itme.menuList;
       let that=this;
       if(click==1){
@@ -291,7 +309,6 @@ export default {
         }
       },this)
       let flag=true;
-      console.log(type)
       if(!type){
         this.tabList.map(function(a,b){
           if(a.parentId==this.nav1Id){

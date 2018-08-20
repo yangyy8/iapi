@@ -623,14 +623,14 @@
         <el-row :gutter="10" class="bb">
           <el-col :sm="24" :md="12" :lg="8" class="hb-item">
             <span class="item-text">航站/口岸：</span>
-            <el-select placeholder="请选择"  filterable @visible-change="getHz" v-model="p1.port" size="mini"  class="item-input">
+            <el-select placeholder="请选择" filterable clearable @visible-change="getHz" v-model="p1.port" size="mini"  class="item-input">
               <el-option
                 v-for="item in HzList"
                 :key="item.KADM"
                 :value="item.KADM"
                 :label="item.KADM+' - '+item.KAMC">
 
-                </el-option>
+              </el-option>
             </el-select>
           </el-col>
           <el-col :sm="24" :md="12" :lg="8" class="hb-item">

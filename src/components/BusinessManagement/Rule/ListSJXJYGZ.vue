@@ -95,14 +95,14 @@
           label="最大长度"
           width="100">
           <template slot-scope="scope">
-            <el-input v-model="scope.row.MAXLENGTH"  size="small" class="table-select" @blur="max(scope.row)"></el-input>
+            <el-input v-model="scope.row.MAXLENGTH"  size="small" class="table-select" @blur="max(scope.row)" @focus="lengthFoc(scope.row.MAXLENGTH)"></el-input>
          </template>
         </el-table-column>
         <el-table-column
           label="最小长度"
           width="100">
           <template slot-scope="scope">
-            <el-input v-model="scope.row.MINLENGTH" size="small" class="table-select" @blur="min(scope.row)"></el-input>
+            <el-input v-model="scope.row.MINLENGTH" size="small" class="table-select" @blur="min(scope.row)" @focus="lengthFoc(scope.row.MINLENGTH)"></el-input>
          </template>
         </el-table-column>
         <el-table-column
@@ -147,7 +147,7 @@
           width="100"
           v-if="false">
           <template slot-scope="scope">
-            <el-input v-model="scope.row.REGULAR" size="small" class="table-select" @blur="min(scope.row)"></el-input>
+            <el-input v-model="scope.row.REGULAR" size="small" class="table-select"></el-input>
          </template>
         </el-table-column>
         <el-table-column
@@ -155,7 +155,7 @@
           width="100"
           v-if="false">
           <template slot-scope="scope">
-            <el-input v-model="scope.row.VALIDTIME" size="small" class="table-select" @blur="min(scope.row)"></el-input>
+            <el-input v-model="scope.row.VALIDTIME" size="small" class="table-select"></el-input>
          </template>
         </el-table-column>
         <el-table-column
@@ -379,14 +379,14 @@ export default {
 
      },
      codeName(name){//字段名称的接口
-       console.log(name);
        this.$api.post('/manage-platform/dataCheck/getDataCheckFieldNameList',{},
         r => {
-          console.log(r);
           if(r.success){
             this.code = r.data
+
           }
        })
+
      },
      max(item){
        for(var i=0;i<this.code.length;i++){
@@ -412,6 +412,14 @@ export default {
              });
            }
          }
+       }
+     },
+     lengthFoc(item){
+       if(item == undefined||item == ''){
+         this.$message({
+           type: 'warning',
+           message: '空值不校验'
+         });
        }
      }
   }
