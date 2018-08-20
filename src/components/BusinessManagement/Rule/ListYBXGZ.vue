@@ -52,27 +52,28 @@
         ref="multipleTable"
         :data="tableData"
         border
-        style="width: 100%;">
+        style="width: 100%"
+        max-height="466">
         <el-table-column
           label="出入境方向"
-          width="180">
+          width="130">
           <template slot-scope="scope">
             <el-select v-model="scope.row.IODIR" placeholder="请选择"  size="mini" filterable clearable class="table-select">
-              <el-option label="出境" value="0"></el-option>
-              <el-option label="入境" value="1"></el-option>
-              <el-option label="全部" value="2"></el-option>
+              <el-option label="0 - 出境" value="0"></el-option>
+              <el-option label="1 - 入境" value="1"></el-option>
+              <el-option label="2 - 全部" value="2"></el-option>
             </el-select>
          </template>
         </el-table-column>
         <el-table-column
           label="人员类别"
-          width="160">
+          width="150">
           <template slot-scope="scope">
             <el-select v-model="scope.row.PERSONNELTYPE" placeholder="请选择"  size="mini" filterable clearable class="table-select">
-              <el-option label="中国内地人" value="0"></el-option>
-              <el-option label="中国港澳台" value="1"></el-option>
-              <el-option label="外国人" value="2"></el-option>
-              <el-option label="全部" value="3"></el-option>
+              <el-option label="0 - 中国内地人" value="0"></el-option>
+              <el-option label="1 - 中国港澳台" value="1"></el-option>
+              <el-option label="2 - 外国人" value="2"></el-option>
+              <el-option label="3 - 全部" value="3"></el-option>
             </el-select>
          </template>
         </el-table-column>
@@ -85,7 +86,7 @@
         </el-table-column>
         <el-table-column
           label="字段名称"
-          width="150">
+          width="140">
           <template slot-scope="scope">
             <el-select v-model="scope.row.FIELDNAME" filterable clearable @visible-change="codeName(scope.row.FIELDNAME,scope.row)" @change="inputMode(scope.row.FIELDNAME,scope.row)" placeholder="请选择"  size="mini" class="table-select">
               <el-option
@@ -99,7 +100,7 @@
         </el-table-column>
         <el-table-column
           label="运算符"
-          width="130">
+          width="120">
           <template slot-scope="scope">
             <el-select v-model="scope.row.OPERATORCHARACTER" placeholder="请选择" filterable clearable size="mini" class="table-select" v-show="dateShow==1">
               <el-option label="等于" value="0"></el-option>
@@ -115,7 +116,7 @@
         </el-table-column>
         <el-table-column
           label="取值"
-          width="170">
+          width="150">
           <template slot-scope="scope">
             <el-select v-model="scope.row.VALUE" placeholder="请选择"  size="mini" filterable clearable class="table-select" v-show="show==1">
               <el-option label="当前系统时间" value="sysdate"></el-option>
@@ -136,6 +137,7 @@
             <el-select v-model="scope.row.CHECKRESULT" placeholder="请选择" filterable clearable size="mini" class="table-select">
               <el-option label="1Z" value="1Z"></el-option>
               <el-option label="2Z" value="2Z"></el-option>
+              <el-option label="4Z" value="4Z"></el-option>
             </el-select>
          </template>
         </el-table-column>
@@ -151,8 +153,8 @@
           width="130">
           <template slot-scope="scope">
             <el-select v-model="scope.row.STATUS" placeholder="请选择" filterable clearable size="mini" class="table-select">
-              <el-option label="停用" value="0"></el-option>
-              <el-option label="启用" value="1"></el-option>
+              <el-option label="0 - 停用" value="0"></el-option>
+              <el-option label="1 - 启用" value="1"></el-option>
             </el-select>
          </template>
         </el-table-column>
@@ -161,9 +163,9 @@
           width="130"
           fixed="right">
           <template slot-scope="scope">
-            <div class="flex-r">
-            <el-button class="table-btn" size="mini" plain icon="el-icon-delete" @click="deleteTableList(scope.$index,scope.row)">删除</el-button>
-          </div>
+            <div>
+             <el-button class="table-btn" size="mini" plain icon="el-icon-delete" @click="deleteTableList(scope.$index,scope.row)">删除</el-button>
+           </div>
          </template>
         </el-table-column>
 
@@ -206,11 +208,6 @@
       </div> -->
     </div>
     </div>
-
-  </div>
-
-
-
 </template>
 
 <script>
@@ -326,7 +323,7 @@ export default {
        // console.log(this.allDate)
      },
      deleteTableList(id,item){//删除本行
-       this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+       this.$confirm('删除操作将同步更新至校验比对区内存数据库, 是否继续?', '提示', {
          confirmButtonText: '确定',
          cancelButtonText: '取消',
          type: 'warning'
@@ -407,8 +404,7 @@ export default {
 </style>
 <style media="screen">
 .t-table .el-table__body-wrapper{
-  max-height: 466px;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 .el-table__body{
     table-layout:auto !important;
@@ -416,5 +412,7 @@ export default {
 .mt-26{
   margin-top: 26px!important;
 }
-
+.el-message-box{
+  width:430px!important;
+}
 </style>
