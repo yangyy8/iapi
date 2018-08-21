@@ -26,11 +26,9 @@
           <el-row type="flex" align="center" style="width:100%">
             <div class="t-flex">
               <el-col :sm="24" :md="12" :lg="6" class="input-item t-input">
-<<<<<<< HEAD
-                <el-select placeholder="请选择" v-model="data.fileName" filterable  size="mini" :disabled="isActive" @visible-change="codeName">
-=======
+
                 <el-select placeholder="请选择" v-model="data.fieldName" filterable clearable size="mini" :disabled="isActive" @visible-change="codeName">
->>>>>>> 09cc9f73e116c1f84db3718518bb8c1293490505
+
                   <el-option
                    v-for="item in code"
                   :key="item.FIELDNAME"
@@ -237,11 +235,9 @@ export default {
     return{
       card:'签证有效期',
       data:{
-<<<<<<< HEAD
         fileName:'',
-=======
         fieldName:'',
->>>>>>> 09cc9f73e116c1f84db3718518bb8c1293490505
+
         visaRuleSerial:'',//证件规则id
         visaOperator:'2',
         visaTime:'',//证件有效期
