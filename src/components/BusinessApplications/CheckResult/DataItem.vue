@@ -99,7 +99,8 @@
                   </el-option>
                   <el-option value="O" label="O - 出境">
                   </el-option>
-
+                  <el-option value="A" label="A - 全部">
+                  </el-option>
                 </el-select>
               </el-col>
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
@@ -313,33 +314,33 @@ export default {
       tableData: [],
       multipleSelection: [],
       pickerOptions1: {
-        shortcuts: [{
-          text: '今天',
-          onClick(picker) {
-            picker.$emit('pick', new Date());
-          }
-        }, {
-          text: '昨天',
-          onClick(picker) {
-            const date = new Date();
-            date.setTime(date.getTime() - 3600 * 1000 * 24);
-            picker.$emit('pick', date);
-          }
-        }, {
-          text: '一周前',
-          onClick(picker) {
-            const date = new Date();
-            date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
-            picker.$emit('pick', date);
-          }
-        }]
+        // shortcuts: [{
+        //   text: '今天',
+        //   onClick(picker) {
+        //     picker.$emit('pick', new Date());
+        //   }
+        // }, {
+        //   text: '昨天',
+        //   onClick(picker) {
+        //     const date = new Date();
+        //     date.setTime(date.getTime() - 3600 * 1000 * 24);
+        //     picker.$emit('pick', date);
+        //   }
+        // }, {
+        //   text: '一周前',
+        //   onClick(picker) {
+        //     const date = new Date();
+        //     date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
+        //     picker.$emit('pick', date);
+        //   }
+        // }]
       },
       form: {},
       dform: {},
     }
   },
   mounted() {
-    this.getList(this.CurrentPage, this.pageSize, this.pd);
+  //  this.getList(this.CurrentPage, this.pageSize, this.pd);
     this.getsum();
     this.getnum();
     this.queryAirport();

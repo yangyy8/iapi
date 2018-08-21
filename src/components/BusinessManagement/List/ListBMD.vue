@@ -97,9 +97,10 @@
             <el-col :sm="24" :md="12"  :lg="8" class="input-item">
               <span class="input-text">出入境类型：</span>
               <el-select  placeholder="请选择"  size="small" v-model="pd.IN_OUT" clearable filterable class="block input-input">
-                <el-option label="2 - 全部" value="2"></el-option>
-                <el-option label="1 - 出境" value="1"></el-option>
-                <el-option label="0 - 入境" value="0"></el-option>
+                <el-option label="I - 入境" value="I"></el-option>
+                <el-option label="O - 出境" value="O"></el-option>
+                <el-option label="A - 全部" value="A"></el-option>
+
               </el-select>
             </el-col>
             <!--
@@ -221,7 +222,7 @@
     <div class="middle">
       <el-row class="mb-15" v-if="getHis">
         <el-button type="primary" size="small" @click="addDialogVisible=true;dialogText='新增';dialogType='add';form={}">新增</el-button>
-        <el-button type="success" size="small" @click="uploadDialogVisible=true">批量导入</el-button>
+        <el-button type="success" size="small" @click="showUpload">批量导入</el-button>
 
         <el-button type="info" size="small" @click="dialogType='dels';releaseDialogVisible=true" :disabled="isdisable">批量删除</el-button>
         <el-button type="warning" size="small" @click="releaseDialogVisible=true;dialogType='syn'" :disabled="isdisable">生效发布</el-button>
@@ -435,9 +436,9 @@
           <el-col :sm="24" :md="12" :lg="8"  class="input-item">
             <span class="input-text"><span class="redx">*</span>出入境类型：</span>
             <el-select v-model="form.IN_OUT" placeholder="请选择" size="small" class="input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}" >
-              <el-option label="0 - 入境" value="0"></el-option>
-              <el-option label="1 - 出境" value="1"></el-option>
-              <el-option label="2 - 全部" value="2"></el-option>
+              <el-option label="I - 入境" value="I"></el-option>
+              <el-option label="O - 出境" value="O"></el-option>
+              <el-option label="A - 全部" value="A"></el-option>
 
             </el-select>
           </el-col>
@@ -685,11 +686,14 @@
           :file-list="fileList"
           multiple
           :on-success="upSuccess"
-          :limit="5"
+          :on-preview="handlePreview"
+          :on-remove="handleRemove"
+          :before-upload="beforeAvatarUpload"
+          :limit="1"
           :auto-upload="false">
           <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
           <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">上传到服务器</el-button>
-          <!-- <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div> -->
+          <div slot="tip" class="el-upload__tip">只能上传EXCEL文件</div>
         </el-upload>
 
       </el-form>
@@ -754,7 +758,8 @@ export default {
         pwd:""
       },
       formLabelWidth: '120px',
-      fileList:[]
+      fileList:[],
+      isFile:null
     }
   },
   mounted(){
@@ -1088,7 +1093,43 @@ export default {
 
 
       },
+    handleRemove(file, fileList) {
+       console.log(file, fileList);
+     },
+     handlePreview(file) {
+       console.log(file,this.fileList);
+       this.isFile=file;
+     },
+     beforeAvatarUpload(file){
+       console.log(file.type)
+       const isEXL = file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+
+       if (!isEXL) {
+         this.$message.error('上传文件只能是 xlsl 格式!');
+       }
+
+       return isEXL ;
+     },
+     showUpload(){
+       this.uploadDialogVisible=true;
+       console.log( this.$refs.upload)
+       if( this.$refs.upload){
+         this.$refs.upload.clearFiles();
+
+       }
+     },
      submitUpload() {
+       // console.log(this.isFile)
+       console.log(this.$refs.upload)
+       // console.log(this.fileList);
+
+       if(this.$refs.upload.uploadFiles.length==0){
+         this.$message({
+          message: '请先选择文件！',
+          type: 'warning'
+        });
+         return
+       }
        this.$refs.upload.submit();
      },
      upSuccess(r){
@@ -1099,6 +1140,7 @@ export default {
            type: 'success'
          });
         this.uploadDialogVisible=false ;
+
         this.getList(this.CurrentPage,this.pageSize,this.pd);
        }
      }

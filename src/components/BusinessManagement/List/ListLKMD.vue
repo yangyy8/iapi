@@ -96,9 +96,9 @@
             <el-col :sm="24" :md="12"  :lg="8" class="input-item">
               <span class="input-text">出入境类型：</span>
               <el-select  placeholder="请选择"  size="small" v-model="pd.IN_OUT" clearable filterable class="block input-input">
-                <el-option label="2 - 全部" value="2"></el-option>
-                <el-option label="1 - 出境" value="1"></el-option>
-                <el-option label="0 - 入境" value="0"></el-option>
+                <el-option label="I - 入境" value="I"></el-option>
+                <el-option label="O - 出境" value="O"></el-option>
+                <el-option label="A - 全部" value="A"></el-option>
               </el-select>
             </el-col>
             <!--
@@ -438,9 +438,9 @@
           <el-col :sm="24" :md="12" :lg="8"  class="input-item">
             <span class="input-text"><span class="redx">*</span>出入境类型：</span>
             <el-select v-model="form.IN_OUT" placeholder="请选择" size="small" class="input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}" >
-              <el-option label="0 - 入境" value="0"></el-option>
-              <el-option label="1 - 出境" value="1"></el-option>
-              <el-option label="2 - 全部" value="2"></el-option>
+              <el-option label="I - 入境" value="I"></el-option>
+              <el-option label="O - 出境" value="O"></el-option>
+              <el-option label="A - 全部" value="A"></el-option>
 
             </el-select>
           </el-col>
