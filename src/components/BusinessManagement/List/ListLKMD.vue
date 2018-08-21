@@ -39,8 +39,8 @@
             <el-col :sm="24" :md="12"  :lg="8" class="input-item">
               <span class="input-text">名单状态：</span>
               <el-select  placeholder="请选择"  size="small" v-model="pd.SYN_STATUS" clearable filterable class="input-input">
-                <el-option label="1 - 已发布" value="1"></el-option>
                 <el-option label="0 - 未发布" value="0"></el-option>
+                <el-option label="1 - 已发布" value="1"></el-option>
                 <!-- <el-option label="" value="1"></el-option> -->
               </el-select>
             </el-col>
@@ -98,7 +98,7 @@
               <el-select  placeholder="请选择"  size="small" v-model="pd.IN_OUT" clearable filterable class="block input-input">
                 <el-option label="I - 入境" value="I"></el-option>
                 <el-option label="O - 出境" value="O"></el-option>
-                <el-option label="A - 全部" value="A"></el-option>
+                <!-- <el-option label="A - 全部" value="A"></el-option> -->
               </el-select>
             </el-col>
             <!--
@@ -223,7 +223,7 @@
     <div class="middle">
       <el-row class="mb-15" v-if="getHis">
         <el-button type="primary" size="small" @click="addDialogVisible=true;dialogText='新增';dialogType='add';form={}">新增</el-button>
-        <el-button type="success" size="small" @click="uploadDialogVisible=true">批量导入</el-button>
+        <el-button type="success" size="small" @click="showUpload">批量导入</el-button>
 
         <el-button type="info" size="small" @click="dialogType='dels';releaseDialogVisible=true" :disabled="isdisable">批量删除</el-button>
         <el-button type="warning" size="small" @click="releaseDialogVisible=true;dialogType='syn'" :disabled="isdisable">生效发布</el-button>
@@ -440,7 +440,7 @@
             <el-select v-model="form.IN_OUT" placeholder="请选择" size="small" class="input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}" >
               <el-option label="I - 入境" value="I"></el-option>
               <el-option label="O - 出境" value="O"></el-option>
-              <el-option label="A - 全部" value="A"></el-option>
+              <!-- <el-option label="A - 全部" value="A"></el-option> -->
 
             </el-select>
           </el-col>
@@ -675,7 +675,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="addItem('releaseForm','1')" size="small">授权确认</el-button>
-        <el-button type="warning" @click="resetForm('releasForm')" size="small">重置</el-button>
+        <el-button type="warning" @click="resetForm('releasForm')" size="small">取消</el-button>
 
       </div>
     </el-dialog>
@@ -688,11 +688,13 @@
           :file-list="fileList"
           multiple
           :on-success="upSuccess"
-          :limit="5"
+          :before-upload="beforeAvatarUpload"
+          :limit="1"
           :auto-upload="false">
           <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
           <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">上传到服务器</el-button>
-          <!-- <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div> -->
+          <div slot="tip" class="el-upload__tip">只能上传EXCEL文件</div>
+
         </el-upload>
 
       </el-form>
@@ -914,7 +916,7 @@ export default {
             SERIAL:this.delId,
             synStatus:synStatus
           }
-          this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+          this.$confirm('您是否确定删除该记录?', '提示', {
               confirmButtonText: '确定',
               cancelButtonText: '取消',
               type: 'warning'
@@ -1096,7 +1098,30 @@ export default {
 
 
       },
+      beforeAvatarUpload(file){
+        console.log(file.type)
+        const isEXL = file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+
+        if (!isEXL) {
+          this.$message.error('上传文件只能是 xlsl 格式!');
+        }
+        return isEXL ;
+      },
+      showUpload(){
+        this.uploadDialogVisible=true;
+        console.log( this.$refs.upload)
+        if( this.$refs.upload){
+          this.$refs.upload.clearFiles();
+        }
+      },
      submitUpload() {
+       if(this.$refs.upload.uploadFiles.length==0){
+         this.$message({
+          message: '请先选择文件！',
+          type: 'warning'
+        });
+         return
+       }
        this.$refs.upload.submit();
      },
      upSuccess(r){
