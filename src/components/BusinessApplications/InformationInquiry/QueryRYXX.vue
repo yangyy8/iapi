@@ -261,7 +261,7 @@
               <el-col :span="22" class="bd0">
                 <div class="akcheck2top boder1">
                   <el-button type="primary" plain size="mini" @click="addRow">添加</el-button>
-                  <el-button type="primary" plain size="mini" @click="uploadDialogVisible = true">批量导入</el-button>
+                  <el-button type="primary" plain size="mini" @click="batchI">批量导入</el-button>
                   <el-button type="primary" plain size="mini" @click="download">下载模板</el-button>
                 </div>
                 <div class="akUl">
@@ -934,12 +934,17 @@
           accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
           action="http://192.168.99.206:8080/manage-platform/iapi/readExcel"
           :on-success="uploadSuccess"
-          :limit="5"
+          :limit="1"
+          :on-exceed="handleExceed"
+          :before-upload="beforeUpload"
           :auto-upload="false">
           <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
           <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">上传到服务器</el-button>
         </el-upload>
       </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="cancelUpload" size="small">取 消</el-button>
+      </div>
     </el-dialog>
 
     <div class="middle">
@@ -2813,9 +2818,24 @@ export default {
         this.selfQueryListPnr(this.currentPage,this.showCount,this.selfCdt,this.dataSort);
       }
     },
+    batchI(){
+      if( this.$refs.upload){
+        this.$refs.upload.clearFiles();
+      }
+      this.uploadDialogVisible = true;
+      console.log( this.$refs.upload)
+    },
     submitUpload() {
-     this.$refs.upload.submit();
-     this.uploadDialogVisible=false;
+      console.log(this.$refs.upload);
+      if(this.$refs.upload.uploadFiles.length==0){
+         this.$message({
+          message: '请先选择文件！',
+          type: 'warning'
+        });
+         return
+       }
+      this.$refs.upload.submit();
+     // this.uploadDialogVisible=false;
     },
     dataChange(item){
       let s = item;
@@ -2823,16 +2843,38 @@ export default {
       s = s.replace(/(\.\d+)?/g,"");
       return new Date(item);
     },
+    cancelUpload(){
+      this.$refs.upload.clearFiles();
+      this.uploadDialogVisible=false;
+    },
    uploadSuccess(response, file, fileList){
      console.log(response);
      if(response.success){
+       this.uploadDialogVisible=false;
        this.rows = response.data.cdtList;
        this.$message({
          duration:3000,
          message: '恭喜你，导入成功！',
          type: 'success'
        });
+     }else{
+       this.$message({
+         duration:3000,
+         message: response.message,
+         type: 'warning'
+       });
      }
+   },
+   handleExceed(files, fileList){
+     if(files.length!=0){
+       this.$message({
+         message: '只能上传一个文件！',
+         type: 'warning'
+       });
+     }
+   },
+   beforeUpload(file){
+     console.log(file);
    },
    cl(i){
      this.str="";
@@ -2949,11 +2991,13 @@ export default {
   border: none;
   border-radius: 5px;
   background: none;
-  background: linear-gradient( 360deg, rgb(58, 190, 243) 0%, rgb(34, 149, 251) 100%);
+  /* background: linear-gradient( 360deg, rgb(58, 190, 243) 0%, rgb(34, 149, 251) 100%); */
+  background-color: #009cff;
   color: #fff;
 }
 .pitchOn{
-  background: linear-gradient( 360deg, rgb(8, 108, 148) 1%, rgb(0, 121, 228) 100%)!important;
+  /* background: linear-gradient( 360deg, rgb(8, 108, 148) 1%, rgb(0, 121, 228) 100%)!important; */
+  background-color: #0c4a93!important;
 }
 .akUl {
 

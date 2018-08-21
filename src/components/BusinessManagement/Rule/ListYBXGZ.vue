@@ -59,9 +59,9 @@
           width="130">
           <template slot-scope="scope">
             <el-select v-model="scope.row.IODIR" placeholder="请选择" v-verify.change.blur="{regs:'required',submit:'demo'}" size="mini" filterable clearable class="table-select">
-              <el-option label="0 - 出境" value="0"></el-option>
-              <el-option label="1 - 入境" value="1"></el-option>
-              <el-option label="2 - 全部" value="2"></el-option>
+              <el-option label="I - 入境" value="1"></el-option>
+              <el-option label="O - 出境" value="0"></el-option>
+              <el-option label="A - 全部" value="2"></el-option>
             </el-select>
          </template>
         </el-table-column>
@@ -132,12 +132,12 @@
         </el-table-column>
         <el-table-column
           label="反馈结果"
-          width="100">
+          width="180">
           <template slot-scope="scope">
-            <el-select v-model="scope.row.CHECKRESULT" v-verify.input.blur="{regs:'required',submit:'demo'}" placeholder="请选择" filterable clearable size="mini" class="table-select">
-              <el-option label="1Z" value="1Z"></el-option>
-              <el-option label="2Z" value="2Z"></el-option>
-              <el-option label="4Z" value="4Z"></el-option>
+            <el-select v-model="scope.row.CHECKRESULT" v-verify.input.blur="{regs:'required',submit:'demo'}" placeholder="请选择" filterable clearable size="mini" class="table-select" @change="inschange(scope.row)">
+              <el-option label="1Z - 禁止打印登机牌" value="1Z"></el-option>
+              <el-option label="2Z - 请再次核对" value="2Z"></el-option>
+              <el-option label="4Z - 数据错误" value="4Z"></el-option>
             </el-select>
          </template>
         </el-table-column>
@@ -275,6 +275,19 @@ export default {
     this.getList(this.pd);
   },
   methods:{
+    inschange(n) {
+      var content = "";
+      if (n.CHECKRESULT == "0Z") {
+        content = "OK TO BOARD";
+      } else if (n.CHECKRESULT == "1Z") {
+        content = "NO BOARD";
+      } else if (n.CHECKRESULT == "2Z") {
+        content = "CHECK AGAIN";
+      } else if (n.CHECKRESULT == "4Z") {
+        content = "DATA ENTRY ERROR";
+      }
+      n.RESPONSERESULT = content;
+    },
     // handleSelectionChange(val) {
     //    this.multipleSelection = val;
     //  },
@@ -331,12 +344,21 @@ export default {
          this.count--;
          item.CTLTYPE='D';
          let d = item;
+         let before = this.tableData.length;
          this.tableData.splice(id,1);
+         let after = this.tableData.length;
          this.operatorData.push(d);
-         this.$message({
-           type: 'success',
-           message: '更新成功!'
-         });
+         if(before > after){
+           this.$message({
+             type: 'success',
+             message: '更新成功!'
+           });
+         }else{
+           this.$message({
+             type: 'success',
+             message: '更新失败!'
+           });
+         }
        }).catch(() => {
          this.$message({
            type: 'info',
