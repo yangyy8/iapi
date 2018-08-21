@@ -518,6 +518,7 @@
 <script>
 import QueryNationality from '../../other/queryNationality'
 import {formatDate} from '@/assets/js/date.js'
+import {dayGap} from '@/assets/js/date.js'
 export default {
   components: {
     QueryNationality
@@ -629,28 +630,7 @@ export default {
     },
   },
   methods: {
-    timestampToTime(timestamp,type) {//type为0，精确到分；为1，精确到秒
-      let timeS='';
-      let year = timestamp.slice(0,4);
-      let month = timestamp.slice(4,6);
-      let day = timestamp.slice(6,8);
-      let hour = timestamp.slice(8,10);
-      let min = timestamp.slice(10,12);
-      if(type==0){
-        timeS = year +'/'+month +'/'+day+' '+hour+':'+min;
-      }else if(type == 1){
-        let seconed = timestamp.slice(12,14);
-        timeS = year +'/'+month +'/'+day+' '+hour+':'+min+':'+seconed;
-      }
-      console.log(timeS);
-      return  timeS;
-    },
-    dayGap(start,end){//相差天数
-      let startT = new Date(this.timestampToTime(start,0)).getTime();
-      let endT = new Date(this.timestampToTime(end,0)).getTime();
-      let day = parseInt((endT-startT)/(1000 * 60 * 60 * 24));
-      return day;
-    },
+
     handleSelectionChange(val) {
       this.multipleSelection = val;
     },
@@ -677,7 +657,7 @@ export default {
        if (result.indexOf(false) > -1) {
          return
        }
-      if(this.dayGap(this.pd.startCreatetime,this.pd.endCreatetime)>30){
+      if(dayGap(this.pd.startCreatetime,this.pd.endCreatetime,1)>30){
         this.$alert('查询时间间隔不能超过一个月', '提示', {
           confirmButtonText: '确定',
         });

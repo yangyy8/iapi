@@ -27,10 +27,10 @@
             </el-col>
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">状态：</span>
-              <el-select v-model="pd.STATUS"  placeholder="请选择" size="small" class="input-input">
-                 <el-option value="1" label="启用">
+              <el-select v-model="pd.STATUS" clearable placeholder="请选择" size="small" class="input-input">
+                 <el-option value="1" label="1 - 启用">
                  </el-option>
-                 <el-option value="0" label="停用">
+                 <el-option value="0" label="2 - 停用">
                  </el-option>
                </el-select>
             </el-col>
@@ -116,7 +116,7 @@
     </div>
 
 
-    <el-dialog title="新增/编辑" :visible.sync="addDialogVisible" width="500px" >
+    <el-dialog :title="dialogText" :visible.sync="addDialogVisible" width="500px" >
       <el-form :model="form" ref="addForm">
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
@@ -231,6 +231,7 @@ export default {
       pd: {},
       company: [],
       sertail:"",
+      dialogText:"新增",
       addDialogVisible: false,
       detailsDialogVisible: false,
       menuDialogVisible: false,
@@ -256,26 +257,26 @@ export default {
       defaultChecked:[],
       multipleSelection: [],
       pickerOptions1: {
-        shortcuts: [{
-          text: '今天',
-          onClick(picker) {
-            picker.$emit('pick', new Date());
-          }
-        }, {
-          text: '昨天',
-          onClick(picker) {
-            const date = new Date();
-            date.setTime(date.getTime() - 3600 * 1000 * 24);
-            picker.$emit('pick', date);
-          }
-        }, {
-          text: '一周前',
-          onClick(picker) {
-            const date = new Date();
-            date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
-            picker.$emit('pick', date);
-          }
-        }]
+        // shortcuts: [{
+        //   text: '今天',
+        //   onClick(picker) {
+        //     picker.$emit('pick', new Date());
+        //   }
+        // }, {
+        //   text: '昨天',
+        //   onClick(picker) {
+        //     const date = new Date();
+        //     date.setTime(date.getTime() - 3600 * 1000 * 24);
+        //     picker.$emit('pick', date);
+        //   }
+        // }, {
+        //   text: '一周前',
+        //   onClick(picker) {
+        //     const date = new Date();
+        //     date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
+        //     picker.$emit('pick', date);
+        //   }
+        // }]
       },
       form: {},
       mapForm: {},
@@ -327,6 +328,9 @@ export default {
       if (n != 0) {
         this.tp = 1;
         this.form = i;
+        this.dialogText="编辑";
+      }else {
+        this.dialogText="新增";
       }
 
     },

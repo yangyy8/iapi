@@ -21,3 +21,27 @@ export function formatDate(date, fmt) {
 function padLeftZero(str) {
     return ('00' + str).substr(str.length);
 }
+
+function timestampToTime(timestamp,type) {//type为0，精确到分；为1，精确到秒
+  let timeS='';
+  let year = timestamp.slice(0,4);
+  let month = timestamp.slice(4,6);
+  let day = timestamp.slice(6,8);
+  let hour = timestamp.slice(8,10);
+  let min = timestamp.slice(10,12);
+  if(type==0){
+    timeS = year +'/'+month +'/'+day+' '+hour+':'+min;
+  }else if(type == 1){
+    let seconed = timestamp.slice(12,14);
+    timeS = year +'/'+month +'/'+day+' '+hour+':'+min+':'+seconed;
+  }
+  console.log(timeS);
+  return  timeS;
+}
+export function dayGap(start,end,type){//相差天数  type =1 到分  type=0 秒
+
+  let startT = new Date(timestampToTime(start,type)).getTime();
+  let endT = new Date(timestampToTime(end,type)).getTime();
+  let day = parseInt((endT-startT)/(1000 * 60 * 60 * 24));
+  return day;
+}

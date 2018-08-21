@@ -7,7 +7,6 @@
               查询条件
             </div>
             <el-row align="center" :gutter="2">
-
               <el-col :sm="24" :md="12" :lg="8" class="input-item">
                 <span class="input-text">出入境方向：</span>
                 <el-select v-model="pd.IODIR" placeholder="请选择" filterable clearable size="small" class="input-input">
@@ -412,7 +411,7 @@ export default {
        if(item == undefined||item == ''){
          this.$message({
            type: 'warning',
-           message: '空值不校验'
+           message: '此项留空则系统不做校验处理'
          });
        }
      }
