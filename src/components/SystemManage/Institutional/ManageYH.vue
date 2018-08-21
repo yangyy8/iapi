@@ -32,11 +32,11 @@
 
             <el-col  :sm="24" :md="12" :lg="6"  class="input-item">
               <span class="input-text">状态：</span>
-              <el-select v-model="pd.STATUS"  placeholder="请选择" size="small" class="input-input">
+              <el-select v-model="pd.STATUS"  clearable   placeholder="请选择" size="small" class="input-input">
 
-                 <el-option value="1" label="启用">
+                 <el-option value="1" label="1 - 启用">
                  </el-option>
-                 <el-option value="0" label="停用">
+                 <el-option value="0" label="0 - 停用">
                  </el-option>
                </el-select>
             </el-col>
@@ -91,14 +91,11 @@
           label="联系方式"
         >
         </el-table-column>
-
         <el-table-column
-
           label="状态"
         >
         <template slot-scope="scope">
           {{scope.row.STATUS | fifterstatus}}
-
         </template>
         </el-table-column>
         <el-table-column
@@ -220,9 +217,9 @@
 
           </el-col>
         </el-row>
-        <el-row type="flex" class="mb-6" style="margin-left:-80px;">
+        <el-row type="flex" class="mb-6" style="margin-left:-120px;">
           <el-col :span="24" class="input-item">
-            <span class="yy-input-text"><font class="yy-color">*</font> 角色：</span>
+            <span class="yy-input-text"><font class="yy-color">*</font> 角色(可多选)：</span>
             <el-select v-model="form.roleList" multiple   placeholder="请选择" size="small" style="width:76%;">
                <el-option
                  v-for="item in role"
@@ -233,7 +230,7 @@
              </el-select>
           </el-col>
         </el-row>
-        <el-row type="flex" class="mb-6" style="margin-left:-80px;">
+        <el-row type="flex" class="mb-6" style="margin-left:-120px;">
           <el-col :span="24" class="input-item">
             <span class="yy-input-text">备注：</span>
             <el-input type="textarea"  placeholder="请输入内容" :autosize="{ minRows: 3, maxRows: 6}" v-model="form.REMARKS" style="width:76%;"></el-input>
@@ -290,7 +287,7 @@
           <span class="yy-input-input detailinput">  {{map.CERTIFICATE_NO}}</span>
           </el-col>
         </el-row>
-        <el-row type="flex" class="mb-6" style="margin-left:-80px;">
+        <el-row type="flex" class="mb-6" style="margin-left:-120px;">
           <el-col :span="24" class="input-item">
             <span class="yy-input-text">备注：</span>
           <span class="yy-input-input detailinput">  {{map.REMARKS}}</span>
@@ -306,7 +303,6 @@
   </div>
   </div>
 </template>
-
 <script>
 export default {
   data() {
@@ -338,26 +334,26 @@ export default {
       tableData: [],
       multipleSelection: [],
       pickerOptions1: {
-        shortcuts: [{
-          text: '今天',
-          onClick(picker) {
-            picker.$emit('pick', new Date());
-          }
-        }, {
-          text: '昨天',
-          onClick(picker) {
-            const date = new Date();
-            date.setTime(date.getTime() - 3600 * 1000 * 24);
-            picker.$emit('pick', date);
-          }
-        }, {
-          text: '一周前',
-          onClick(picker) {
-            const date = new Date();
-            date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
-            picker.$emit('pick', date);
-          }
-        }]
+        // shortcuts: [{
+        //   text: '今天',
+        //   onClick(picker) {
+        //     picker.$emit('pick', new Date());
+        //   }
+        // }, {
+        //   text: '昨天',
+        //   onClick(picker) {
+        //     const date = new Date();
+        //     date.setTime(date.getTime() - 3600 * 1000 * 24);
+        //     picker.$emit('pick', date);
+        //   }
+        // }, {
+        //   text: '一周前',
+        //   onClick(picker) {
+        //     const date = new Date();
+        //     date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
+        //     picker.$emit('pick', date);
+        //   }
+        // }]
       },
 
   form: {},
@@ -562,7 +558,7 @@ export default {
   width: 60px;
 }
 .yy-input-text {
-  width: 20% !important;
+  width: 25% !important;
 }
 .yy-input-input {
   width: 70% !important;

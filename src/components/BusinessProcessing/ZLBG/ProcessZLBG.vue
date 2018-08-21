@@ -401,7 +401,7 @@
         <hr/>
         <el-row type="flex" class="mb-6">
           <el-col :span="24" class="input-item">
-            <span class="yy-input-text" style="width:18%">变更后反馈状态：</span>
+            <span class="yy-input-text" style="width:20%">变更后反馈状态：</span>
             <el-select v-model="form.INSTRUCT"  placeholder="请选择"  filterable clearable  @change="inschange(form.INSTRUCT,0)"  size="small" style="width:82%">
               <span v-if="form.CHECKRESULT!='0Z'">
               <el-option value="0Z" label="0Z - 允许打印登机牌">
@@ -425,14 +425,15 @@
         </el-row>
         <el-row type="flex" class="mb-6">
           <el-col :span="24" class="input-item">
-            <span class="yy-input-text" style="width:18%">变更状态说明(FreeText)：</span>
+            <span class="yy-input-text" style="width:20%">变更状态说明(FreeText)：</span>
             <el-input placeholder="请输入内容" size="small" v-model="form.INSTRUCTC" style="width:82%"></el-input>
           </el-col>
         </el-row>
 
+
         <el-row type="flex" class="mb-6">
           <el-col :span="24" class="input-item">
-            <span class="yy-input-text" style="width:18%">变更描述：</span>
+            <span class="yy-input-text" style="width:20%">变更描述：</span>
            <el-input type="textarea" v-model="form.CHANGERESON"   placeholder="请输入变更描述(不能超过250字)" maxlength="250"  :autosize="{ minRows: 3, maxRows: 6}" style="width:82%;" ></el-input>
           </el-col>
         </el-row>

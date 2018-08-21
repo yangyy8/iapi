@@ -29,6 +29,18 @@
              </div>
           </el-col>
 
+          <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+              <span class="input-text">出入标识：</span>
+              <el-select v-model="pd.flightType"  class="input-input"  filterable clearable  placeholder="请选择"  size="small">
+                <el-option value="I" label="I - 入境">
+                </el-option>
+                <el-option value="O" label="O - 出境">
+                </el-option>
+                <el-option value="A" label="A - 全部">
+                </el-option>
+              </el-select>
+            </el-col>
+
             <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
                 <span class="input-text">起飞机场：</span>
 
@@ -89,18 +101,23 @@
                </el-date-picker>
                </div>
             </el-col>
-            <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
-                <span class="input-text">出入标识：</span>
-                <el-select v-model="pd.flightType"  class="input-input"  filterable clearable  placeholder="请选择"  size="small">
+            <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
+               <span class="input-text"><font style="color:red">*</font> 比中时间：</span>
+             <div class="input-input t-flex t-date">
+                 <el-date-picker
+                 v-model="pd.dataCheckBeginTime"
+                 type="datetime" size="small"  value-format="yyyyMMddHHssmm"
+                 placeholder="开始时间"  :picker-options="pickerOptions0">
+               </el-date-picker>
+                 <span class="septum">-</span>
+               <el-date-picker
+                  v-model="pd.dataCheckEndTime"
+                  type="datetime" size="small"  value-format="yyyyMMddHHssmm"
+                  placeholder="结束时间" :picker-options="pickerOptions1">
+               </el-date-picker>
+               </div>
+            </el-col>
 
-                  <el-option value="I" label="I - 入境">
-                  </el-option>
-                  <el-option value="O" label="O - 出境">
-                  </el-option>
-                  <el-option value="A" label="A - 全部">
-                  </el-option>
-                </el-select>
-              </el-col>
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                 <span class="input-text">比中类型：</span>
                 <el-select v-model="pd.checkResultType"  filterable clearable  class="input-input" filterable  clearable   placeholder="请选择"  size="small">
@@ -152,6 +169,10 @@
           label="姓名" >
         </el-table-column>
         <el-table-column
+          prop="chineseName"
+          label="中文姓名" >
+        </el-table-column>
+        <el-table-column
           prop="genderDesc"
           label="性别" >
         </el-table-column>
@@ -168,22 +189,26 @@
                   prop="passportNo"
                   label="证件号码" >
                 </el-table-column>
-                <el-table-column
+                <!-- <el-table-column
                   prop="passportExpireDate"
                   label="证件有效期" >
-                </el-table-column>
+                </el-table-column> -->
 
                 <el-table-column
                   prop="personGrade"
                   label="人员类别" >
                 </el-table-column>
-                <el-table-column
+                <!-- <el-table-column
                   prop="visaNo"
                   label="签证号码" >
-                </el-table-column>
+                </el-table-column> -->
                 <el-table-column
                   prop="flightNo"
                   label="航班号" >
+                </el-table-column>
+                <el-table-column
+                  prop="departDate"
+                  label="航班日期" >
                 </el-table-column>
                 <el-table-column
                   prop="checkResultTypeDesc"
@@ -284,6 +309,8 @@
 
 <script>
 // import QueryAirport from '../../other/queryAirport'
+import {formatDate} from '@/assets/js/date.js'
+import {dayGap} from '@/assets/js/date.js'
 export default {
   // components: {QueryAirport},
   data() {
@@ -293,7 +320,8 @@ export default {
       TotalResult: 0,
       sum: "0",
       num: "0",
-      pd: {},
+      pd: {    dataCheckBeginTime:"",
+          dataCheckEndTime:"",},
       nation: [],
       value: '',
       value1: "",
@@ -315,28 +343,22 @@ export default {
       ],
       tableData: [],
       multipleSelection: [],
-      pickerOptions1: {
-        // shortcuts: [{
-        //   text: '今天',
-        //   onClick(picker) {
-        //     picker.$emit('pick', new Date());
-        //   }
-        // }, {
-        //   text: '昨天',
-        //   onClick(picker) {
-        //     const date = new Date();
-        //     date.setTime(date.getTime() - 3600 * 1000 * 24);
-        //     picker.$emit('pick', date);
-        //   }
-        // }, {
-        //   text: '一周前',
-        //   onClick(picker) {
-        //     const date = new Date();
-        //     date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
-        //     picker.$emit('pick', date);
-        //   }
-        // }]
-      },
+      // pickerOptions0: {
+      //   disabledDate: (time) => {
+      //       if (this.pd.dataCheckEndTime != null) {
+      //         let startT = formatDate(new Date(time.getTime()),'yyyyMMddhhmmss');
+      //         return startT > this.pd.dataCheckEndTime;
+      //       }else if(this.pd.dataCheckEndTime == null){
+      //         return false
+      //       }
+      //   }
+      // },
+      // pickerOptions1: {
+      //   disabledDate: (time) => {
+      //       let endT = formatDate(new Date(time.getTime()),'yyyyMMddhhmmss');
+      //       return endT < this.pd.dataCheckBeginTime;
+      //   }
+      // },
       form: {},
       dform: {},
     }
@@ -346,6 +368,11 @@ export default {
     this.getsum();
     this.getnum();
     this.queryAirport();
+    // let time = new Date();
+    // let end = new Date();
+    // let begin =new Date(time - 1000 * 60 * 60 * 24 * 30);
+    // this.pd.dataCheckBeginTime=formatDate(begin,'yyyyMMddhhmmss');
+    // this.pd.dataCheckEndTime=formatDate(end,'yyyyMMddhhmmss');
   },
   methods: {
     handleSelectionChange(val) {
@@ -379,7 +406,7 @@ export default {
 
       let p = {
         "cdt": {
-          "notPass": "0"
+          "notPass": "1"
         }
       };
       this.$api.post('/manage-platform/compareReuslt/nameList/counter', p,
