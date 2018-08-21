@@ -17,6 +17,7 @@
               <span class="input-text"><i class="t-must">*</i>航班日期：</span>
               <div class="input-input t-flex t-date">
                <el-date-picker
+               v-verify.input.blur="{regs:'required',submit:'timeDemo'}"
                v-model="pd.scheduledeparturetime"
                type="datetime" size="small"
                placeholder="开始时间"
@@ -26,6 +27,7 @@
              </el-date-picker>
                <span class="septum">-</span>
              <el-date-picker
+                v-verify.input.blur="{regs:'required',submit:'timeDemo'}"
                 v-model="pd.schedulearrivetime"
                 type="datetime" size="small"
                 placeholder="结束时间"
@@ -308,7 +310,7 @@ export default {
   mounted() {
     let time = new Date();
     let end = new Date();
-    let begin =new Date(time.setMonth((new Date().getMonth()-1)));
+    let begin =new Date(time - 1000 * 60 * 60 * 24 * 30);
     this.pd.scheduledeparturetime=formatDate(begin,'yyyyMMddhhmm');
     this.pd.schedulearrivetime=formatDate(end,'yyyyMMddhhmm');
     this.queryNationality();
@@ -351,6 +353,10 @@ export default {
       // let startT = new Date(this.timestampToTime(this.pd.scheduledeparturetime,0)).getTime();
       // let endT = new Date(this.timestampToTime(this.pd.schedulearrivetime,0)).getTime();
       // let day = (endT-startT)/(1000 * 60 * 60 * 24)
+      const result = this.$validator.verifyAll('timeDemo')
+       if (result.indexOf(false) > -1) {
+         return
+       }
       if(this.dayGap(this.pd.scheduledeparturetime,this.pd.schedulearrivetime)>30){
         this.$alert('查询时间间隔不能超过一个月', '提示', {
           confirmButtonText: '确定',

@@ -29,7 +29,7 @@ Vue.use(vverify, {
      return /^[a-zA-Z0-9_-]+@zing\\.com$/.test(value)
    },
    noCinese:(value)=>{
-     return /[\u4E00-\u9FA5]/g.test(value)
+     return !(/[\u4E00-\u9FA5]/g.test(value))
    }
   },
   messages: { // 验证器消息提示

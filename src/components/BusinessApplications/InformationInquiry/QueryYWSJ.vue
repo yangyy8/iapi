@@ -26,6 +26,7 @@
                 <span class="input-text"><i class="t-must">*</i>事件产生时间：</span>
                 <div class="input-input t-flex t-date">
                    <el-date-picker
+                   v-verify.input.blur="{regs:'required',submit:'timeDemo'}"
                    v-model="pd.startCreatetime"
                    type="datetime"
                    size="small"
@@ -35,6 +36,7 @@
                   </el-date-picker>
                    <span class="septum">-</span>
                    <el-date-picker
+                    v-verify.input.blur="{regs:'required',submit:'timeDemo'}"
                     v-model="pd.endCreatetime"
                     type="datetime"
                     size="small"
@@ -57,12 +59,14 @@
                 <span class="input-text"><i class="t-must">*</i>处理时间：</span>
                 <div class="input-input t-flex t-date">
                  <el-date-picker
+                 v-verify.input.blur="{regs:'required',submit:'timeDemo'}"
                  v-model="pd.startDealtime"
                  type="datetime" size="small" value-format="yyyyMMddHHmmss"
                  placeholder="开始时间" align="right" :picker-options="pickerOptions2">
                </el-date-picker>
                  <span class="septum">-</span>
                <el-date-picker
+                  v-verify.input.blur="{regs:'required',submit:'timeDemo'}"
                   v-model="pd.endDealtime"
                   type="datetime" size="small" align="right" value-format="yyyyMMddHHmmss"
                   placeholder="结束时间"  :picker-options="pickerOptions3">
@@ -690,7 +694,7 @@ export default {
   mounted() {
     let time = new Date();
     let end = new Date();
-    let begin =new Date(time.setMonth((new Date().getMonth()-1)));
+    let begin =new Date(time - 1000 * 60 * 60 * 24 * 30);
     this.pd.startCreatetime=formatDate(begin,'yyyyMMddhhmmss');
     this.pd.endCreatetime=formatDate(end,'yyyyMMddhhmmss');
     this.pd.startDealtime=formatDate(begin,'yyyyMMddhhmmss');
@@ -735,6 +739,10 @@ export default {
       console.log(`当前页: ${val}`);
     },
     getList(currentPage, showCount, pd) {
+      const result = this.$validator.verifyAll('timeDemo')
+       if (result.indexOf(false) > -1) {
+         return
+       }
       if(this.dayGap(this.pd.startCreatetime,this.pd.endCreatetime)>30){
         this.$alert('事件产生时间查询时间间隔不能超过一个月', '提示', {
           confirmButtonText: '确定',

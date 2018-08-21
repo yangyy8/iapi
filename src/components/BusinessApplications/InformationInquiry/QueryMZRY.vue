@@ -85,12 +85,28 @@
             </el-col>
 
             <el-col :sm="24" :md="12" :lg="8" class="input-item">
-              <span class="input-text">出入标识：</span>
-              <el-select v-model='pd.flighttypeEqual' placeholder="请选择" filterable clearable size="small" class="input-input">
-
-                  <el-option value="I" label="I - 入境"></el-option>
-                    <el-option value="O" label="O - 出境"></el-option>
-              </el-select>
+              <span class="input-text"><i class="t-must">*</i>命中时间：</span>
+              <div class="input-input t-flex t-date">
+               <el-date-picker
+               v-verify.input.blur="{regs:'required',submit:'timeDemo'}"
+               v-model="pd.startCreatetime"
+               type="datetime"
+               size="small"
+               placeholder="开始时间"
+               :picker-options="pickerOptions"
+               value-format="yyyyMMddHHmmss">
+             </el-date-picker>
+               <span class="septum">-</span>
+             <el-date-picker
+                v-verify.input.blur="{regs:'required',submit:'timeDemo'}"
+                v-model="pd.endCreatetime"
+                type="datetime"
+                size="small"
+                placeholder="结束时间"
+                :picker-options="pickerOptions1"
+                value-format="yyyyMMddHHmmss">
+            </el-date-picker>
+          </div>
             </el-col>
 
             <el-col :sm="24" :md="12" :lg="8" class="input-item">
@@ -167,8 +183,8 @@
           sortable>
         </el-table-column>
         <el-table-column
-          prop="FLIGHTTYPE"
-          label="出入标识"
+          prop="CREATETIMESTR"
+          label="命中时间"
           sortable>
         </el-table-column>
         <el-table-column
@@ -501,6 +517,7 @@
 
 <script>
 import QueryNationality from '../../other/queryNationality'
+import {formatDate} from '@/assets/js/date.js'
 export default {
   components: {
     QueryNationality
@@ -519,7 +536,11 @@ export default {
       htotalPage:1,//总页数
       pnrEve:'',
 
-      pd: {"isBlurred":false},
+      pd: {
+        "isBlurred":false,
+        startCreatetime:'',
+        endCreatetime:''
+      },
       queryDialogVisible: false,
       options: [{
           value: 10,
@@ -548,34 +569,32 @@ export default {
       multipleSelection: [],
       detailsDialogVisible:false,
       lazyQuery:'',
+      pickerOptions: {
+        disabledDate: (time) => {
+            if (this.pd.endCreatetime != null) {
+              let startT = formatDate(new Date(time.getTime()),'yyyyMMddhhmmss');
+              return startT > this.pd.endCreatetime;
+            }else if(this.pd.endCreatetime == null){
+              return false
+            }
+        }
+      },
       pickerOptions1: {
-        shortcuts: [{
-          text: '今天',
-          onClick(picker) {
-            picker.$emit('pick', new Date());
-          }
-        }, {
-          text: '昨天',
-          onClick(picker) {
-            const date = new Date();
-            date.setTime(date.getTime() - 3600 * 1000 * 24);
-            picker.$emit('pick', date);
-          }
-        }, {
-          text: '一周前',
-          onClick(picker) {
-            const date = new Date();
-            date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
-            picker.$emit('pick', date);
-          }
-        }]
+        disabledDate: (time) => {
+            let endT = formatDate(new Date(time.getTime()),'yyyyMMddhhmmss');
+            return endT < this.pd.startCreatetime;
+        }
       },
       form: {},
 
     }
   },
   mounted() {
-    // this.getList(this.CurrentPage, this.pageSize, this.pd);
+    let time = new Date();
+    let end = new Date();
+    let begin =new Date(time - 1000 * 60 * 60 * 24 * 30);
+    this.pd.startCreatetime=formatDate(begin,'yyyyMMddhhmmss');
+    this.pd.endCreatetime=formatDate(end,'yyyyMMddhhmmss');
   },
   filters: {
     discount: function(value) {
@@ -610,6 +629,28 @@ export default {
     },
   },
   methods: {
+    timestampToTime(timestamp,type) {//type为0，精确到分；为1，精确到秒
+      let timeS='';
+      let year = timestamp.slice(0,4);
+      let month = timestamp.slice(4,6);
+      let day = timestamp.slice(6,8);
+      let hour = timestamp.slice(8,10);
+      let min = timestamp.slice(10,12);
+      if(type==0){
+        timeS = year +'/'+month +'/'+day+' '+hour+':'+min;
+      }else if(type == 1){
+        let seconed = timestamp.slice(12,14);
+        timeS = year +'/'+month +'/'+day+' '+hour+':'+min+':'+seconed;
+      }
+      console.log(timeS);
+      return  timeS;
+    },
+    dayGap(start,end){//相差天数
+      let startT = new Date(this.timestampToTime(start,0)).getTime();
+      let endT = new Date(this.timestampToTime(end,0)).getTime();
+      let day = parseInt((endT-startT)/(1000 * 60 * 60 * 24));
+      return day;
+    },
     handleSelectionChange(val) {
       this.multipleSelection = val;
     },
@@ -629,10 +670,19 @@ export default {
     },
     handleCurrentChange(val) {
       this.getList(val, this.pageSize, this.pd);
-
       console.log(`当前页: ${val}`);
     },
     getList(currentPage, showCount, pd) {
+      const result = this.$validator.verifyAll('timeDemo')
+       if (result.indexOf(false) > -1) {
+         return
+       }
+      if(this.dayGap(this.pd.startCreatetime,this.pd.endCreatetime)>30){
+        this.$alert('查询时间间隔不能超过一个月', '提示', {
+          confirmButtonText: '确定',
+        });
+        return false
+      }
       pd.saveflag=1;
       pd.instructNew="1Z";
       let p = {
