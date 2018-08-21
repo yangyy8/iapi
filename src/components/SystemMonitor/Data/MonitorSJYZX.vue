@@ -26,7 +26,7 @@
             <i v-else class="el-icon-loading"></i>
           </td>
           <td class="tc1">
-          <el-button v-if="tableData1.isequal==1" @click="getTB()"  plain size="mini" class="btn">同步</el-button>
+          <el-button v-if="tableData1.isequal==1" @click="getTB('1')"  plain size="mini" class="btn">同步</el-button>
           <el-button  v-else  size="mini" :disabled="true">同步</el-button>
 
           </td>
@@ -43,7 +43,7 @@
             <i v-else class="el-icon-loading"></i>
           </td>
           <td class="tc1">
-          <el-button v-if="tableData2.isequal==1" @click="getTB()"  plain size="mini" class="btn">同步</el-button>
+          <el-button v-if="tableData2.isequal==1" @click="getTB('2')"  plain size="mini" class="btn">同步</el-button>
           <el-button  v-else  size="mini" :disabled="true">同步</el-button>
           </td>
         </tr>
@@ -58,7 +58,7 @@
             <i v-else class="el-icon-loading"></i>
           </td>
           <td class="tc1">
-            <el-button v-if="tableData3.isequal==1" @click="getTB()"  plain size="mini" class="btn">同步</el-button>
+            <el-button v-if="tableData3.isequal==1" @click="getTB('3')"  plain size="mini" class="btn">同步</el-button>
           <el-button  v-else  size="mini" :disabled="true">同步</el-button>
 
           </td>
@@ -75,7 +75,7 @@
             <i v-else class="el-icon-loading"></i>
           </td>
           <td class="tc1">
-            <el-button v-if="tableData4.isequal==1" @click="getTB()"  plain size="mini" class="btn">同步</el-button>
+            <el-button v-if="tableData4.isequal==1" @click="getTB('4')"  plain size="mini" class="btn">同步</el-button>
           <el-button  v-else  size="mini" :disabled="true">同步</el-button>
 
           </td>
@@ -91,7 +91,7 @@
             <i v-else class="el-icon-loading"></i>
           </td>
           <td class="tc1">
-            <el-button v-if="tableData5.isequal==1" @click="getTB()"  plain size="mini" class="btn">同步</el-button>
+            <el-button v-if="tableData5.isequal==1" @click="getTB('5')"  plain size="mini" class="btn">同步</el-button>
           <el-button  v-else  size="mini" :disabled="true">同步</el-button>
 
           </td>
@@ -107,7 +107,7 @@
             <i v-else class="el-icon-loading"></i>
           </td>
           <td class="tc1">
-          <el-button v-if="tableData6.isequal==1" @click="getTB()"  plain size="mini" class="btn">同步</el-button>
+          <el-button v-if="tableData6.isequal==1" @click="getTB('6')"  plain size="mini" class="btn">同步</el-button>
           <el-button  v-else  size="mini" :disabled="true">同步</el-button>
 
           </td>
@@ -123,7 +123,7 @@
             <i v-else class="el-icon-loading"></i>
           </td>
           <td class="tc1">
-            <el-button v-if="tableData7.isequal==1" @click="getTB()"  plain size="mini" class="btn">同步</el-button>
+            <el-button v-if="tableData7.isequal==1" @click="getTB('7')"  plain size="mini" class="btn">同步</el-button>
           <el-button  v-else  size="mini" :disabled="true">同步</el-button>
 
           </td>
@@ -139,7 +139,7 @@
             <i v-else class="el-icon-loading"></i>
           </td>
           <td class="tc1">
-          <el-button v-if="tableData8.isequal==1" @click="getTB()"  plain size="mini" class="btn">同步</el-button>
+          <el-button v-if="tableData8.isequal==1" @click="getTB('8')"  plain size="mini" class="btn">同步</el-button>
           <el-button  v-else  size="mini" :disabled="true">同步</el-button>
 
           </td>
@@ -155,7 +155,7 @@
             <i v-else class="el-icon-loading"></i>
           </td>
           <td class="tc1">
-            <el-button v-if="tableData9.isequal==1" @click="getTB()"  plain size="mini" class="btn">同步</el-button>
+            <el-button v-if="tableData9.isequal==1" @click="getTB('9')"  plain size="mini" class="btn">同步</el-button>
           <el-button  v-else  size="mini" :disabled="true">同步</el-button>
 
           </td>
@@ -171,7 +171,7 @@
             <i v-else class="el-icon-loading"></i>
           </td>
           <td class="tc1">
-            <el-button v-if="tableData10.isequal==1" @click="getTB()"  plain size="mini" class="btn">同步</el-button>
+            <el-button v-if="tableData10.isequal==1" @click="getTB('10')"  plain size="mini" class="btn">同步</el-button>
           <el-button  v-else  size="mini" :disabled="true">同步</el-button>
 
           </td>
@@ -188,7 +188,7 @@
             <i v-else class="el-icon-loading"></i>
           </td>
           <td class="tc1">
-            <el-button v-if="tableData11.isequal==1" @click="getTB()"  plain size="mini" class="btn">同步</el-button>
+            <el-button v-if="tableData11.isequal==1" @click="getTB('11')"  plain size="mini" class="btn">同步</el-button>
           <el-button  v-else  size="mini" :disabled="true">同步</el-button>
 
           </td>
@@ -200,10 +200,10 @@
       :visible.sync="centerDialogVisible"
       width="30%"
       >
-      <span style="font-size:20px;">该数据同步时间较长，请等待...</span>
+      <span style="font-size:20px;">{{dtext}}</span>
       <span slot="footer" class="dialog-footer">
         <el-button @click="centerDialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="centerDialogVisible = false">确 定</el-button>
+        <el-button type="primary" @click="getsuretb()">确 定</el-button>
       </span>
     </el-dialog>
 
@@ -225,7 +225,9 @@ export default {
       tableData9: {},
       tableData10: {},
       tableData11: {},
-      centerDialogVisible:false
+      centerDialogVisible: false,
+      num: "1",
+      dtext: "该数据同步时间较长，需要等待..."
     }
   },
   mounted() {
@@ -243,13 +245,13 @@ export default {
       this.getList("7");
       this.getList("8");
       this.getList("9");
-      var that=this;
-      setTimeout(function(){
+      var that = this;
+      setTimeout(function() {
 
         that.getList("10");
         that.getList("11");
 
-      },1000);
+      }, 1000);
 
 
     },
@@ -303,11 +305,67 @@ export default {
         })
     },
 
-    getTB(n)
-    {
-this.centerDialogVisible=true;
+    getTB(n) {
+      this.num = n;
+
+      this.centerDialogVisible = true;
+
+    },
+
+    getsuretb() {
+      let p = {
+        "VALUE": this.num
+      };
+
+      this.$api.post('/manage-platform/monitorData/syncData', p,
+        r => {
+          var flag = r.data.success;
+          if (flag) {
+            if (this.num != "8" && this.num != "9") {
+              var md = "Visa";
+              if (this.num == "1") {
+                md = "Blkin";
+              } else if (this.num == "2") {
+                md = "Blkout";
+              } else if (this.num == "3") {
+                md = "Visa";
+              } else if (this.num == "4") {
+                md = "Whtin";
+              } else if (this.num == "5") {
+                md = "Whtout";
+              } else if (this.num == "6") {
+                md = "Tctlin";
+              } else if (this.num == "7") {
+                md = "Tctlout";
+              } else if (this.num == "10") {
+                md = "BlkinCard";
+              } else if (this.num == "11") {
+                md = "BlkoutCard";
+              }
+              let pp = {
+                "VALUE": md
+              };
+              this.$api.post('/manage-platform/exchange/synDataNameListBatchInfo', pp,
+                s => {
+                  if (r.success) {
+                    this.$message({
+                      message: r.data.message,
+                      type: 'success'
+                    });
+                    this.centerDialogVisible = false;
+                  }
+                });
+            } else {
+
+            }
+          } else {
+            this.$message.error(r.data.message);
+            this.centerDialogVisible = false;
+          }
+        });
 
     }
+
 
   },
 }
@@ -357,5 +415,10 @@ th {
 .tc2 {
   color: #fb6d55
 }
-.btn{background: #78A4D1; color: #FFFFFF; border: 1px  #78A4D1 solid;}
+
+.btn {
+  background: #78A4D1;
+  color: #FFFFFF;
+  border: 1px #78A4D1 solid;
+}
 </style>

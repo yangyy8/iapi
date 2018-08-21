@@ -366,7 +366,7 @@ export default {
 
       let p = {
         "cdt": {
-          "notPass": "0"
+          "notPass": "1"
         }
       };
       this.$api.post('/manage-platform/compareReuslt/businessRule/counter', p,
