@@ -406,7 +406,7 @@
         </el-col>
         <el-col :span="6" class="input-item">
           <span >审批人：</span>
-          <el-input placeholder="请输入内容" size="small" class="input-input" v-model="ap.userName" disabled></el-input>
+          <el-input placeholder="请输入内容" size="small" class="input-input" v-model="userMap.approver" disabled></el-input>
         </el-col>
 
       </el-row>
@@ -489,7 +489,7 @@
         <el-row type="flex" class="mb-6">
           <el-col :span="24" class="input-item">
             <span class="yy-input-text" style="width:18%">变更状态说明(FreeText)：</span>
-            <el-input placeholder="请输入内容" size="small" v-model="ap.INSTRUCTC" style="width:82%"></el-input>
+            <el-input placeholder="请输入内容" size="small" v-verify.input.blur ="{regs:'required|noCinese',submit:'demo2'}" v-model="ap.INSTRUCTC" style="width:82%"></el-input>
           </el-col>
         </el-row>
 

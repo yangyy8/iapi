@@ -46,22 +46,7 @@
           <span>{{val.name}}</span>
         </router-link>
 
-        <!-- <router-link :to="{ name: 'Content', params: {navId:1} }" class="nav-item0 nav-item" v-if="bynav">
-          <img src="../assets/img/home/nav1.png" alt="">
-          <span>业务处理</span>
-        </router-link>
-        <router-link :to="{ name: 'Content', params: {navId:2} }" class="nav-item1 nav-item" v-if="bynav">
-          <img src="../assets/img/home/nav2.png" alt="">
-          <span>业务应用</span>
-        </router-link>
-        <router-link :to="{ name: 'Content', params: {navId:4} }" class="nav-item2 nav-item" v-if="bynav">
-          <img src="../assets/img/home/nav3.png" alt="">
-          <span>业务监控</span>
-        </router-link>
-        <router-link :to="{ name: 'Content', params: {navId:3} }" class="nav-item3 nav-item" v-if="bynav">
-          <img src="../assets/img/home/nav4.png" alt="">
-          <span>业务管理</span>
-        </router-link> -->
+
       </div>
       <div class="nav-left-0" v-if="isLogin">
         <img :src='"../assets/img/home/left_"+left+".png"'>
@@ -77,29 +62,18 @@
           <path class="cls-1" :class="{'clss':right==4}" d="M0,327.48a131.56,131.56,0,0,0,50.47-46l90.66,56.84a239,239,0,0,1-91.82,84.17Z" transform="translate(0 -0.2)" fill="#032552" @mouseover="rightOver(4)"/>
         </svg>
 
-        <!-- <router-link :to="{ name: 'Content', params: {navId:1} }" class="nav-item4 nav-item"> -->
-        <a @click="rcgz" class="nav-item4 nav-item">
-          <img src="../assets/img/navIcon/iconRG.png" alt="">
-          <span>日常工作</span>
-        </a>
-        <!-- </router-link> -->
-        <router-link :to="{ name: 'Content', params: {navId:val.SERIAL} }" class="nav-item" :class='"nav-item"+parseInt(ind+1)' v-for="(val,ind) in muneListOne" :key="val.SERIAL" v-if="ind>3">
+
+        <router-link :to="{ name: 'Content', params: {navId:val.SERIAL} }" class="nav-item" :class='"nav-item"+parseInt(ind)' v-for="(val,ind) in muneListOne" :key="val.SERIAL" v-if="ind>3&&(val.name!='日常工作'&&val.name!='常用菜单')">
           <img :src='"../assets/img/navIcon/"+val.MENU_ICON+".png"' alt="">
           <span>{{val.name}}</span>
         </router-link>
-
-        <!-- <router-link :to="{ name: 'Content', params: {navId:5} }" class="nav-item5 nav-item" v-if="bynav">
-          <img src="../assets/img/home/nav6.png" alt="">
-          <span>系统管理</span>
-        </router-link>
-        <router-link :to="{ name: 'Content', params: {navId:6} }" class="nav-item6 nav-item" v-if="bynav">
-          <img src="../assets/img/home/nav7.png" alt="">
-          <span>系统监控</span>
-        </router-link> -->
-
-        <a class="nav-item7 nav-item" @click="getcc">
-          <img src="../assets/img/navIcon/iconCC.png" alt="">
-          <span>常用菜单</span>
+        <a @click="rcgz" class="nav-item" :class='"nav-item"+parseInt(ind)' v-for="(val,ind) in muneListOne" :key="val.SERIAL" v-if="ind>3&&val.name=='日常工作'">
+          <img :src='"../assets/img/navIcon/"+val.MENU_ICON+".png"' alt="">
+          <span>{{val.name}}</span>
+        </a>
+        <a @click="getcc(val.SERIAL)" class="nav-item" :class='"nav-item"+parseInt(ind)' v-for="(val,ind) in muneListOne" :key="val.SERIAL" v-if="ind>3&&val.name=='常用菜单'">
+          <img :src='"../assets/img/navIcon/"+val.MENU_ICON+".png"' alt="">
+          <span>{{val.name}}</span>
         </a>
       </div>
       <div class="cycc-box" v-if="cyccShow">
@@ -118,7 +92,7 @@
           </ul>
         </div>
         <div class="cycc-down">
-          <router-link :to="{ name: 'Content', params: {navId:'cc',tiao:'1'} }">
+          <router-link :to="{ name: 'Content', params: {navId:navId,tiao:'1'} }">
             <i class="el-icon-setting"></i>菜单设置
           </router-link>
         </div>
@@ -196,6 +170,7 @@ export default {
         dd:"",
         xx:""
       },
+      navId:null,
       userName:"",
       jzmm:false,
       bynav:true,
@@ -406,7 +381,8 @@ export default {
          this.muneListOne=r.data.muneListOne
       })
     },
-    getcc(){
+    getcc(navId){
+      this.navId=navId;
       this.cyccShow=true,
       this.$api.post('/manage-platform/roleSys/selectmenuSet', {},
         r => {
@@ -613,7 +589,7 @@ export default {
 .clss{
   fill:#0977b6;
   stroke:#0977b6;
-  stroke-width:3;
+  /* stroke-width:3; */
   /* transform: scale(1.1); */
 }
 .home{
@@ -687,7 +663,7 @@ export default {
 .nav-item:hover+.cls-1{
   fill:red;
   stroke:#032552;
-  stroke-width:4;
+  /* stroke-width:4; */
   /* color: red; */
   /* width: 180px */
 }

@@ -166,7 +166,7 @@
               <div v-if="">
 
               </div>
-              <li class="middleLi2" v-for="(i, index ) in kahb" :key="index">
+              <li class="middleLi2" v-for="(i, index ) in kahb" >
                 <div class="td1">
                   {{i.portName||'xx'}}
                 </div>
@@ -259,7 +259,7 @@
               </li>
               <li class="middleLi3">
                 <div class="td1">
-                  登记
+                  登机
                 </div>
                 <div class="td2">
                   {{rygk.boardIn||0}}
@@ -436,7 +436,7 @@
                   <header>
                     <ul class="classify">
                       <el-checkbox v-model="checkAll" @change="checkAllFn" true-label="1" false-label="0">全选</el-checkbox>
-                      <li  v-for="(arr,key,index) in locationName" :key="index" @click="isClassify=key">
+                      <li  v-for="(arr,key,index) in locationName"  @click="isClassify=key">
                         <span class="classify-a hand"  :class="{'check-a':isClassify==key}">{{key}}</span>
                       </li>
                     </ul>
@@ -445,7 +445,7 @@
                     <div v-for="value of isClassify" class="list-div">
                       <div class="list-pre">{{value}}</div>
                       <div class="list-dd">
-                        <div v-for="(val,index) in locationName[isClassify][value]" :key="index" class="dd">
+                        <div v-for="(val,index) in locationName[isClassify][value]"  class="dd">
                           <label  class="checkbox-item" :class="{'schecked':checkList.indexOf(val)>-1}">
                             <input type="checkbox" :value="val" v-model="checkList" class="checkbox-input">
                             <span class="list-a" >{{val.name}}</span>
@@ -474,7 +474,7 @@
                   <header>
                     <ul class="classify">
                       <el-checkbox v-model="checkAll2" @change="checkAllFn2" true-label="1" false-label="0">全选</el-checkbox>
-                      <li  v-for="(arr,key,index) in locationName2" :key="index" @click="isClassify2=key">
+                      <li  v-for="(arr,key,index) in locationName2"  @click="isClassify2=key">
                         <span class="classify-a hand" :class="{'check-a':isClassify2==key}">{{key}}</span>
                       </li>
                     </ul>
@@ -483,7 +483,7 @@
                     <div v-for="value of isClassify2" class="list-div">
                       <div class="list-pre">{{value}}</div>
                       <div class="list-dd">
-                        <div v-for="(val,index) in locationName2[isClassify2][value]" :key="index" class="dd">
+                        <div v-for="(val,index) in locationName2[isClassify2][value]"  class="dd">
                           <label  class="checkbox-item" :class="{'schecked':checkList2.indexOf(val)>-1}">
                             <input type="checkbox" :value="val" v-model="checkList2" class="checkbox-input">
                             <span class="list-a" >{{val.name}}</span>
@@ -520,7 +520,7 @@
                   <div class="site-name">
                     <el-checkbox v-model="checkAll5" @change="checkAllFn5" true-label="1" false-label="0">全选</el-checkbox>
                     <el-checkbox-group v-model="checkList5" @change="checkedZhou">
-                      <el-checkbox v-for="x in locationName5" :key="index" :label="x" >{{x.name}}</el-checkbox>
+                      <el-checkbox v-for="x in locationName5"  :label="x" >{{x.name}}</el-checkbox>
                     </el-checkbox-group>
                   </div>
                 </div>
@@ -542,7 +542,7 @@
                   <header>
                     <ul class="classify">
                       <el-checkbox v-model="checkAll3" @change="checkAllFn3" true-label="1" false-label="0">全选</el-checkbox>
-                      <li  v-for="(arr,key,index) in locationName3" :key="index" @click="isClassify3=key">
+                      <li  v-for="(arr,key,index) in locationName3"  @click="isClassify3=key">
                         <span class="classify-a hand" :class="{'check-a':isClassify3==key}">{{key}}</span>
                       </li>
                     </ul>
@@ -551,7 +551,7 @@
                     <div v-for="value of isClassify3" class="list-div">
                       <div class="list-pre">{{value}}</div>
                       <div class="list-dd">
-                        <div v-for="(val,index) in locationName3[isClassify3][value]" :key="index" class="dd">
+                        <div v-for="(val,index) in locationName3[isClassify3][value]"  class="dd">
                           <label  class="checkbox-item" :class="{'schecked':checkList3.indexOf(val)>-1}">
                             <input type="checkbox" :value="val" v-model="checkList3" class="checkbox-input">
                             <span class="list-a" >{{val.name}}</span>
@@ -579,7 +579,7 @@
                   <header>
                     <ul class="classify">
                       <el-checkbox v-model="checkAll4" @change="checkAllFn4" true-label="1" false-label="0">全选</el-checkbox>
-                      <li  v-for="(arr,key,index) in locationName4" :key="index" @click="isClassify4=key">
+                      <li  v-for="(arr,key,index) in locationName4"  @click="isClassify4=key">
                         <span class="classify-a hand" :class="{'check-a':isClassify4==key}">{{key}}</span>
                       </li>
                     </ul>
@@ -588,7 +588,7 @@
                     <div v-for="value of isClassify4" class="list-div">
                       <div class="list-pre">{{value}}</div>
                       <div class="list-dd">
-                        <div v-for="(val,index) in locationName4[isClassify4][value]" :key="index" class="dd">
+                        <div v-for="(val,index) in locationName4[isClassify4][value]"  class="dd">
                           <label  class="checkbox-item" :class="{'schecked':checkList4.indexOf(val)>-1}">
                             <input type="checkbox" :value="val" v-model="checkList4" class="checkbox-input">
                             <span class="list-a" >{{val.name}}</span>
@@ -606,7 +606,9 @@
       </div>
       <div class="tan-btn-g">
         <el-button type="primary" size="small" class="mr-10" @click="clear0">清空</el-button>
-        <el-button type="info" size="small" @click="updateJkKa">确定</el-button>
+        <el-button type="success"  class="mr-10" size="small" @click="updateJkKa">确定</el-button>
+        <el-button type="info" size="small"  @click="tabId=0">关闭</el-button>
+
       </div>
     </div>
   </transition>
@@ -639,7 +641,7 @@
           </el-col>
           <el-col :sm="24" :md="12" :lg="8" class="hb-item">
             <span class="item-text">航空公司：</span>
-            <el-select placeholder="请选择"  filterable @visible-change="getHkGs" v-model="p1.fltCompany" size="mini"  class="item-input">
+            <el-select placeholder="请选择"  filterable clearable @visible-change="getHkGs" v-model="p1.fltCompany" size="mini"  class="item-input">
               <el-option
                 v-for="item in HgList"
                 :key="item.AIRLINE_CODE"
@@ -679,7 +681,7 @@
           </el-col>
           <el-col :sm="24" :md="12" :lg="8" class="hb-item">
             <span class="item-text">出入标识：</span>
-            <el-select placeholder="请选择" size="mini" v-model="p1.iOType" class="item-input">
+            <el-select placeholder="请选择" size="mini" clearable v-model="p1.iOType" class="item-input">
               <el-option label="入境" value="I"></el-option>
               <el-option label="出境" value="O"></el-option>
             </el-select>
@@ -806,7 +808,7 @@
         <el-row :gutter="10" class="bb">
           <el-col :sm="24" :md="12" :lg="6" class="hb-item">
             <span class="item-text">航站/口岸：</span>
-            <el-select placeholder="请选择"  filterable @visible-change="getHz" clearable v-model="p2.port" size="mini"  class="item-input">
+            <el-select placeholder="请选择"  filterable clearable @visible-change="getHz" clearable v-model="p2.port" size="mini"  class="item-input">
               <el-option
                 v-for="item in HzList"
                 :key="item.KADM"
@@ -823,7 +825,7 @@
           </el-col>
           <el-col :sm="24" :md="12" :lg="6" class="hb-item">
             <span class="item-text">国籍：</span>
-            <el-select placeholder="请选择"  filterable @visible-change="getGj" v-model="p2.nationality" size="mini"  class="item-input">
+            <el-select placeholder="请选择"  filterable clearable @visible-change="getGj" v-model="p2.nationality" size="mini"  class="item-input">
               <el-option
                 v-for="item in GjList"
                 :key="item.CODE"
@@ -841,7 +843,7 @@
           </el-col>
           <el-col :sm="24" :md="12" :lg="6" class="hb-item">
             <span class="item-text">性别：</span>
-            <el-select placeholder="请选择" size="mini" v-model="p2.gender" class="item-input">
+            <el-select placeholder="请选择" size="mini" clearable v-model="p2.gender" class="item-input">
               <el-option label="男" value="M"></el-option>
               <el-option label="女" value="F"></el-option>
               <el-option label="未知" value="U"></el-option>
@@ -858,7 +860,7 @@
           </el-col>
           <el-col :sm="24" :md="12" :lg="6" class="hb-item">
             <span class="item-text">出入标识：</span>
-            <el-select placeholder="请选择" size="mini" v-model="p2.iOType" class="item-input">
+            <el-select placeholder="请选择" size="mini" clearable v-model="p2.iOType" class="item-input">
               <el-option label="入境" value="I"></el-option>
               <el-option label="出境" value="O"></el-option>
             </el-select>
@@ -1273,6 +1275,7 @@ export default {
       }else{
         this.checkList5=[];
       }
+
     },
     checkedZhou(){
       console.log(this.checkList5)
@@ -1660,7 +1663,7 @@ export default {
     getSList(){
       this.checkShow=true;
       this.checkShow2=false;this.checkShow3=false;this.checkShow4=false;this.checkShow5=false;
-
+      console.log("ddddd",this.checkList)
       this.$api.post('/manage-platform/portMonitor/getInProvinceList',{},
        r => {
          this.locationData=r.data;
@@ -1678,12 +1681,29 @@ export default {
     },
     // 境内口岸列表取得
     getKaList(){
-      this.checkShow2=true;
-      this.checkShow=false;this.checkShow3=false;this.checkShow4=false;this.checkShow5=false;
-
       let p=this.checkList.map(function(val){
         return val.code
       })
+      console.log("p",p);
+      if(p.length==0){
+        this.$message({
+         message: '请先选择省！',
+         type: 'warning'
+       });
+        return
+      }
+      this.locationName2={
+        ABCDE:{},
+        FGHJ:{},
+        KLMNP:{},
+        QRSTW:{},
+        XYZ:{}
+      },
+
+      this.checkShow2=true;
+      this.checkShow=false;this.checkShow3=false;this.checkShow4=false;this.checkShow5=false;
+
+
       this.$api.post('/manage-platform/portMonitor/getInPortList',{dtLst:p},
        r => {
          console.log(r);
@@ -1700,12 +1720,27 @@ export default {
     },
     // 境外国家列表取得
     getGjList(){
-      this.checkShow3=true;
-      this.checkShow2=false;this.checkShow=false;this.checkShow4=false;this.checkShow5=false;
-
       let p=this.checkList5.map(function(val){
         return val.code
       })
+      if(p.length==0){
+        this.$message({
+         message: '请先选择洲！',
+         type: 'warning'
+       });
+        return
+      }
+      this.locationName3={
+        ABCDE:{},
+        FGHJ:{},
+        KLMNP:{},
+        QRSTW:{},
+        XYZ:{}
+      },
+      this.checkShow3=true;
+      this.checkShow2=false;this.checkShow=false;this.checkShow4=false;this.checkShow5=false;
+
+
       this.$api.post('/manage-platform/portMonitor/getOutNationalityList',{dtLst:p},
        r => {
          console.log(r);
@@ -1722,12 +1757,27 @@ export default {
     },
     // 境外口岸列表取得
     getJwKaList(){
-      this.checkShow4=true;
-      this.checkShow2=false;this.checkShow3=false;this.checkShow=false;this.checkShow5=false;
-
       let p=this.checkList3.map(function(val){
         return val.code
       })
+      if(p.length==0){
+        this.$message({
+         message: '请先选择洲和国家！',
+         type: 'warning'
+       });
+        return
+      }
+      this.locationName4={
+        ABCDE:{},
+        FGHJ:{},
+        KLMNP:{},
+        QRSTW:{},
+        XYZ:{}
+      },
+      this.checkShow4=true;
+      this.checkShow2=false;this.checkShow3=false;this.checkShow=false;this.checkShow5=false;
+
+
       this.$api.post('/manage-platform/portMonitor/getOutPortList',{dtLst:p},
        r => {
          console.log(r);
@@ -1928,6 +1978,34 @@ export default {
             fontSize: 12
           }
       });
+    }
+  },
+  watch:{
+    checkList:function(val){
+      if(val.length==0){
+        this.checkList2=[];
+        this.checkShow2=false;
+
+      }
+    },
+    checkList5:function(val){
+      if(val.length==0){
+
+        this.checkAll5=0
+        this.checkList3=[];
+        this.checkShow3=false;
+        if(this.checkList4){
+          this.checkList4=[];
+          this.checkShow4=false;
+        }
+
+      }
+    },
+    checkList3:function(val){
+      if(val.length==0){
+        this.checkList4=[];
+        this.checkShow4=false;
+      }
     }
   }
 }

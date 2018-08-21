@@ -30,8 +30,8 @@
                欢迎您！{{userName}}<i class="el-icon-arrow-down el-icon--right"></i>
              </span>
              <el-dropdown-menu slot="dropdown">
-               <el-dropdown-item><span style="display:block;width:100%;height:100%" @click="$router.push('/content/cc/ManageCenter');navId='cc';navInit()">个人中心</span></el-dropdown-item>
-               <el-dropdown-item><span @click="$router.push('/content/cc/UpdatePass');navId='cc'">修改密码</span></el-dropdown-item>
+               <!-- <el-dropdown-item><span style="display:block;width:100%;height:100%" @click="$router.push('/content/cc/ManageCenter');navId='cc';navInit()">个人中心</span></el-dropdown-item> -->
+               <!-- <el-dropdown-item><span @click="$router.push('/content/cc/UpdatePass');navId='cc'">修改密码</span></el-dropdown-item> -->
 
                <el-dropdown-item><span style="display:block;width:100%;height:100%" @click="logOut">退出</span></el-dropdown-item>
              </el-dropdown-menu>
