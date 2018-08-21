@@ -52,11 +52,11 @@
         ref="multipleTable"
         :data="tableData"
         border
-        style="width: 100%;">
+        style="width: 100%;"
+        >
         <el-table-column
           label="出入境方向"
-          sortable
-          width="130">
+          width="120">
           <template slot-scope="scope">
             <el-select v-model="scope.row.IODIR" placeholder="请选择" filterable clearable size="mini" class="table-select">
               <el-option label="0 - 出境" value="0"></el-option>
@@ -67,7 +67,7 @@
         </el-table-column>
         <el-table-column
           label="人员类别"
-          width="180">
+          width="150">
           <template slot-scope="scope">
             <el-select v-model="scope.row.PERSONNELTYPE" placeholder="请选择" filterable clearable size="mini" class="table-select">
               <el-option label="0 - 中国内地人" value="0"></el-option>
@@ -79,9 +79,9 @@
         </el-table-column>
         <el-table-column
           label="字段名称"
-          width="180">
+          width="170">
           <template slot-scope="scope">
-            <el-select v-model="scope.row.FIELDNAME" @visible-change="codeName(scope.row.FIELDNAME)" placeholder="请选择"  size="mini" class="table-select">
+            <el-select v-model="scope.row.FIELDNAME" filterable clearable @visible-change="codeName(scope.row.FIELDNAME)" placeholder="请选择"  size="mini" class="table-select">
               <el-option
               v-for="item in code"
               :key="item.FIELDNAME"
@@ -109,32 +109,33 @@
           label="反馈结果"
           width="100">
           <template slot-scope="scope">
-            <el-select v-model="scope.row.CHECKRESULT" placeholder="请选择"  size="mini" class="table-select">
-              <el-option label="4Z" value="4Z">
-              </el-option>
+            <el-select v-model="scope.row.CHECKRESULT" filterable clearable placeholder="请选择"  size="mini" class="table-select">
+              <el-option label="1Z" value="1Z"></el-option>
+              <el-option label="2Z" value="2Z"></el-option>
+              <el-option label="4Z" value="4Z"></el-option>
             </el-select>
          </template>
         </el-table-column>
         <el-table-column
           label="反馈结果描述"
-          width="300">
+          width="280">
           <template slot-scope="scope">
             <el-input type="textarea" :autosize="{ minRows: 1, maxRows: 2}" placeholder="请输入内容" size="small" class="table-select" v-model="scope.row.CHECKREMARK" maxlength="100"></el-input>
          </template>
         </el-table-column>
         <el-table-column
           label="限制性"
-          width="150">
+          width="130">
           <template slot-scope="scope">
             <el-select v-model="scope.row.INPUT" placeholder="请选择" filterable clearable  size="mini" class="table-select">
-              <el-option label="0 - 必填" value="0"></el-option>
+              <el-option label="0 - 必填项" value="0"></el-option>
               <el-option label="1 - 选录项" value="1"></el-option>
             </el-select>
          </template>
         </el-table-column>
         <el-table-column
           label="规则状态"
-          width="140">
+          width="120">
           <template slot-scope="scope">
             <el-select v-model="scope.row.STATUS" placeholder="请选择" filterable clearable size="mini" class="table-select">
               <el-option label="0 - 停用" value="0"></el-option>
@@ -159,11 +160,9 @@
          </template>
         </el-table-column>
         <el-table-column
-          label="操作"
-          width="100"
-          fixed="right">
+          label="操作">
           <template slot-scope="scope">
-            <div class="flex-r">
+            <div>
               <el-button class="table-btn" size="mini" plain icon="el-icon-delete" @click="deleteTableList(scope.$index,scope.row)">删除</el-button>
             </div>
          </template>
@@ -207,12 +206,7 @@
         </el-pagination>
       </div> -->
     </div>
-    </div>
-
   </div>
-
-
-
 </template>
 
 <script>
@@ -341,7 +335,7 @@ export default {
        // this.allData = this.tableData;
      },
      deleteTableList(id,item){//删除本行
-       this.$confirm('此操作将删除该文件, 是否继续?', '提示', {
+       this.$confirm('删除操作将同步更新至校验比对区内存数据库, 是否继续?', '提示', {
          confirmButtonText: '确定',
          cancelButtonText: '取消',
          type: 'warning'
@@ -432,7 +426,7 @@ export default {
 <style media="screen">
 .t-table .el-table__body-wrapper{
   max-height: 466px;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 .el-table__body{
     table-layout:auto !important;

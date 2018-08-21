@@ -14,7 +14,7 @@
           </el-col>
           <el-col :span="12" class="input-item">
             <span class="yy-input-text"><font class="yy-color">*</font> 用户名：</span>
-            <el-input placeholder="请输入内容" size="small"  v-model="form.USERNAME" class="yy-input-input" ></el-input>
+            <el-input placeholder="请输入内容" size="small"  v-model="form.USERNAME" :disabled="true" class="yy-input-input" ></el-input>
 
           </el-col>
         </el-row>
@@ -26,7 +26,7 @@
           </el-col>
           <el-col :span="12" class="input-item">
             <span class="yy-input-text"><font class="yy-color">*</font> 状态：</span>
-            <el-select v-model="form.STATUS"   placeholder="请选择" size="small" class="yy-input-input">
+            <el-select v-model="form.STATUS" :disabled="true"   placeholder="请选择" size="small" class="yy-input-input">
             <el-option value="1" label="启用">
               </el-option>
               <el-option value="0" label="停用">
@@ -49,7 +49,7 @@
           </el-col>
           <el-col :span="12" class="input-item">
             <span class="yy-input-text"><font class="yy-color">*</font> 部门：</span>
-            <el-select v-model="form.DEPT_ID"  filterable clearable placeholder="请选择" size="small" class="yy-input-input">
+            <el-select v-model="form.DEPT_ID"  filterable clearable placeholder="请选择" :disabled="true" size="small" class="yy-input-input">
                <el-option
                  v-for="item in company"
                  :key="item.SERIAL"

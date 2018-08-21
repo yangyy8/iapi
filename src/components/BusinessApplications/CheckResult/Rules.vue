@@ -69,9 +69,8 @@
                :value="item.AIRPORT_CODE" >
              </el-option>
            </el-select>
-                <!-- <QueryAirport  :airportModel="pd.cityTo" @transAirport="getOutAirport"></QueryAirport> -->
+          <!-- <QueryAirport  :airportModel="pd.cityTo" @transAirport="getOutAirport"></QueryAirport> -->
             </el-col>
-
             <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
             <span class="input-text">预计到达时间：</span>
             <div class="input-input t-flex t-date">
@@ -91,12 +90,12 @@
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                 <span class="input-text">出入标识：</span>
                 <el-select v-model="pd.flightType"  filterable clearable  class="input-input"  placeholder="请选择"  size="small">
-
                   <el-option value="I" label="I - 入境">
                   </el-option>
                   <el-option value="O" label="O - 出境">
                   </el-option>
-
+                  <el-option value="A" label="A - 全部">
+                  </el-option>
                 </el-select>
               </el-col>
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
@@ -124,9 +123,9 @@
       <el-col :span="9"></el-col>
     <el-col :span="6">
       <div class="datacenter">
-        <div class="dataleft"><font style="font-size:30px;color:#B2CB65;">{{this.sum}}</font><br><span class="yy-font">预报总量</span></div>
+        <div class="dataleft"><font style="font-size:30px;color:#B2CB65;">{{this.sum}}</font><br><span class="yy-font">预报量</span></div>
           <div class="dataleft dataline">&nbsp;</div>
-          <div class="dataleft"><font style="font-size:30px;color:#FF667D;">{{this.num}}</font><br><span class="yy-font">校验不通过的数量</span></div>
+          <div class="dataleft"><font style="font-size:30px;color:#FF667D;">{{this.num}}</font><br><span class="yy-font">校验不通过量</span></div>
       </div>
 </el-col>
   <el-col :span="9"></el-col>
@@ -304,33 +303,33 @@ export default {
       tableData: [],
       multipleSelection: [],
       pickerOptions1: {
-        shortcuts: [{
-          text: '今天',
-          onClick(picker) {
-            picker.$emit('pick', new Date());
-          }
-        }, {
-          text: '昨天',
-          onClick(picker) {
-            const date = new Date();
-            date.setTime(date.getTime() - 3600 * 1000 * 24);
-            picker.$emit('pick', date);
-          }
-        }, {
-          text: '一周前',
-          onClick(picker) {
-            const date = new Date();
-            date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
-            picker.$emit('pick', date);
-          }
-        }]
+        // shortcuts: [{
+        //   text: '今天',
+        //   onClick(picker) {
+        //     picker.$emit('pick', new Date());
+        //   }
+        // }, {
+        //   text: '昨天',
+        //   onClick(picker) {
+        //     const date = new Date();
+        //     date.setTime(date.getTime() - 3600 * 1000 * 24);
+        //     picker.$emit('pick', date);
+        //   }
+        // }, {
+        //   text: '一周前',
+        //   onClick(picker) {
+        //     const date = new Date();
+        //     date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
+        //     picker.$emit('pick', date);
+        //   }
+        // }]
       },
       form: {},
       dform: {},
     }
   },
   mounted() {
-    this.getList(this.CurrentPage, this.pageSize, this.pd);
+    //this.getList(this.CurrentPage, this.pageSize, this.pd);
     this.getsum();
     this.getnum();
     this.queryAirport();

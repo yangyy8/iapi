@@ -258,15 +258,13 @@
             <span class="yy-input-input detailinput">  {{map.USERNAME}}</span>
               </el-col>
         </el-row>
-
-
         <el-row type="flex" class="mb-6" >
           <el-col :span="12" class="input-item">
             <span class="yy-input-text">性别：</span>
             <span class="yy-input-input detailinput">  {{map.SEX=="0"?"女":map.SEX=="1"?"男":"未知"}}</span>
           </el-col>
           <el-col :span="12" class="input-item">
-            <span class="yy-input-text">上级单位：</span>
+            <span class="yy-input-text">部门：</span>
           <span class="yy-input-input detailinput">  {{map.DEPT_JC}}</span>
           </el-col>
         </el-row>
