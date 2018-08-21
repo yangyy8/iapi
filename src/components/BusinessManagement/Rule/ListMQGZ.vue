@@ -23,18 +23,12 @@
           </el-row>
           <div class="t-text" :class="{active:isActive}">注：当前系统时间以服务器为准</div>
           <!-- 证件规则搜索框 -->
-<<<<<<< HEAD
-          <el-row type="flex" align="center" style="width:100%">
-            <div class="t-flex">
-              <el-col :sm="24" :md="12" :lg="6" class="input-item t-input">
 
-                <el-select placeholder="请选择" v-model="data.fieldName" filterable clearable size="mini" :disabled="isActive" @visible-change="codeName">
-
-=======
+  
           <el-row type="flex" align="center" justify="space-between" style="width:100%;margin-bottom: 5px;">
               <el-col :sm="24" :md="12" :lg="8" class="input-item">
                 <el-select placeholder="请选择" v-model="data.fieldName" filterable clearable size="mini" :disabled="isActive" @visible-change="codeName" class="t-input">
->>>>>>> f8c2368a87e2034989e64fb0dbecc0151d00ecb4
+
                   <el-option
                    v-for="item in code"
                   :key="item.FIELDNAME"
@@ -298,13 +292,7 @@ export default {
     return{
       card:'签证有效期',
       data:{
-<<<<<<< HEAD
-        fileName:'',
         fieldName:'',
-
-=======
-        fieldName:'',
->>>>>>> f8c2368a87e2034989e64fb0dbecc0151d00ecb4
         visaRuleSerial:'',//证件规则id
         visaOperator:'2',
         visaTime:'',//证件有效期
