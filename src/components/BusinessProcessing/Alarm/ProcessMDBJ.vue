@@ -19,6 +19,8 @@
          <el-select v-model="pd.flighttype" placeholder="请选择" filterable clearable size="small">
            <el-option label="I - 入境" value="I"></el-option>
            <el-option label="O - 出境" value="O"></el-option>
+           <el-option label="A - 全部" value="A"></el-option>
+
          </el-select>
         <el-button type="warning" icon="el-icon-zoom-in" size="small" @click="getList(currentPage,pageSize,pd)">筛选</el-button>
         </el-col>
