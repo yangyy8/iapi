@@ -58,7 +58,7 @@
           label="出入境方向"
           width="130">
           <template slot-scope="scope">
-            <el-select v-model="scope.row.IODIR" placeholder="请选择"  size="mini" filterable clearable class="table-select">
+            <el-select v-model="scope.row.IODIR" placeholder="请选择" v-verify.change.blur="{regs:'required',submit:'demo'}" size="mini" filterable clearable class="table-select">
               <el-option label="0 - 出境" value="0"></el-option>
               <el-option label="1 - 入境" value="1"></el-option>
               <el-option label="2 - 全部" value="2"></el-option>
@@ -69,7 +69,7 @@
           label="人员类别"
           width="150">
           <template slot-scope="scope">
-            <el-select v-model="scope.row.PERSONNELTYPE" placeholder="请选择"  size="mini" filterable clearable class="table-select">
+            <el-select v-model="scope.row.PERSONNELTYPE" placeholder="请选择" v-verify.input.blur="{regs:'required',submit:'demo'}" size="mini" filterable clearable class="table-select">
               <el-option label="0 - 中国内地人" value="0"></el-option>
               <el-option label="1 - 中国港澳台" value="1"></el-option>
               <el-option label="2 - 外国人" value="2"></el-option>
@@ -81,14 +81,14 @@
           label="规则名称"
           width="160">
           <template slot-scope="scope">
-            <el-input v-model="scope.row.RULEDESC" size="mini" class="table-select"></el-input>
+            <el-input v-model="scope.row.RULEDESC" v-verify.input.blur="{regs:'required',submit:'demo',mode:'insert'}" size="mini" class="table-select"></el-input>
          </template>
         </el-table-column>
         <el-table-column
           label="字段名称"
           width="140">
           <template slot-scope="scope">
-            <el-select v-model="scope.row.FIELDNAME" filterable clearable @visible-change="codeName(scope.row.FIELDNAME,scope.row)" @change="inputMode(scope.row.FIELDNAME,scope.row)" placeholder="请选择"  size="mini" class="table-select">
+            <el-select v-model="scope.row.FIELDNAME" v-verify.input.blur="{regs:'required',submit:'demo'}" filterable clearable @visible-change="codeName(scope.row.FIELDNAME,scope.row)" @change="inputMode(scope.row.FIELDNAME,scope.row)" placeholder="请选择"  size="mini" class="table-select">
               <el-option
               v-for="item in code"
               :key="item.FIELDNAME"
@@ -102,14 +102,14 @@
           label="运算符"
           width="120">
           <template slot-scope="scope">
-            <el-select v-model="scope.row.OPERATORCHARACTER" placeholder="请选择" filterable clearable size="mini" class="table-select" v-show="dateShow==1">
+            <el-select v-model="scope.row.OPERATORCHARACTER" v-verify.input.blur="{regs:'required',submit:'demo'}" placeholder="请选择" filterable clearable size="mini" class="table-select" v-show="dateShow==1">
               <el-option label="等于" value="0"></el-option>
               <el-option label="大于" value="1"></el-option>
               <el-option label="小于" value="2"></el-option>
               <el-option label="包含" value="3"></el-option>
               <el-option label="不包含" value="4"></el-option>
             </el-select>
-            <el-select v-model="scope.row.OPERATORCHARACTER" placeholder="请选择" filterable clearable size="mini" class="table-select" v-show="dateShow==2">
+            <el-select v-model="scope.row.OPERATORCHARACTER" v-verify.input.blur="{regs:'required',submit:'demo'}" placeholder="请选择" filterable clearable size="mini" class="table-select" v-show="dateShow==2">
               <el-option label="等于" value="0"></el-option>
             </el-select>
          </template>
@@ -118,7 +118,7 @@
           label="取值"
           width="150">
           <template slot-scope="scope">
-            <el-select v-model="scope.row.VALUE" placeholder="请选择"  size="mini" filterable clearable class="table-select" v-show="show==1">
+            <el-select v-model="scope.row.VALUE" placeholder="请选择" v-verify.input.blur="{regs:'required',submit:'demo'}" size="mini" filterable clearable class="table-select" v-show="show==1">
               <el-option label="当前系统时间" value="sysdate"></el-option>
               <el-option label="一个月" value="sysdate+30"></el-option>
               <el-option label="两个月" value="sysdate+60"></el-option>
@@ -127,14 +127,14 @@
               <el-option label="九个月" value="sysdate+270"></el-option>
               <el-option label="一年" value="sysdate+360"></el-option>
             </el-select>
-            <el-input placeholder="请输入内容" size="small" class="table-select" v-model="scope.row.VALUE" v-show="show==2"></el-input>
+            <el-input placeholder="请输入内容" size="small" class="table-select" v-verify.input.blur="{regs:'required',submit:'demo'}" v-model="scope.row.VALUE" v-show="show==2"></el-input>
          </template>
         </el-table-column>
         <el-table-column
           label="反馈结果"
           width="100">
           <template slot-scope="scope">
-            <el-select v-model="scope.row.CHECKRESULT" placeholder="请选择" filterable clearable size="mini" class="table-select">
+            <el-select v-model="scope.row.CHECKRESULT" v-verify.input.blur="{regs:'required',submit:'demo'}" placeholder="请选择" filterable clearable size="mini" class="table-select">
               <el-option label="1Z" value="1Z"></el-option>
               <el-option label="2Z" value="2Z"></el-option>
               <el-option label="4Z" value="4Z"></el-option>
@@ -145,14 +145,14 @@
           label="反馈结果描述"
           width="300">
           <template slot-scope="scope">
-            <el-input type="textarea" :autosize="{ minRows: 1, maxRows: 2}" placeholder="请输入内容" size="small" class="table-select" v-model="scope.row.RESPONSERESULT" maxlength="100"></el-input>
+            <el-input type="textarea" :autosize="{ minRows: 1, maxRows: 2}" v-verify.input.blur="{regs:'required',submit:'demo'}" placeholder="请输入内容" size="small" class="table-select" v-model="scope.row.RESPONSERESULT" maxlength="100"></el-input>
          </template>
         </el-table-column>
         <el-table-column
           label="状态"
           width="130">
           <template slot-scope="scope">
-            <el-select v-model="scope.row.STATUS" placeholder="请选择" filterable clearable size="mini" class="table-select">
+            <el-select v-model="scope.row.STATUS" v-verify.input.blur="{regs:'required',submit:'demo'}" placeholder="请选择" filterable clearable size="mini" class="table-select">
               <el-option label="0 - 停用" value="0"></el-option>
               <el-option label="1 - 启用" value="1"></el-option>
             </el-select>
@@ -333,8 +333,10 @@ export default {
          let d = item;
          this.tableData.splice(id,1);
          this.operatorData.push(d);
-         console.log(this.operatorData);
-         // this.allData = this.tableData.concat(this.operatorData);
+         this.$message({
+           type: 'success',
+           message: '更新成功!'
+         });
        }).catch(() => {
          this.$message({
            type: 'info',
@@ -344,10 +346,12 @@ export default {
 
      },
      save(){
+       const result = this.$validator.verifyAll('demo')
+       console.log(result);
+        if (result.indexOf(false) > -1) {
+          return
+        }
        let p = this.tableData.concat(this.operatorData);
-       // let p = this.allData;
-       console.log(p);
-       console.log(this.operatorData)
        this.$api.post('/manage-platform/ruleConfig/addRuleConfigAll',p,
         r => {
           console.log(r);
@@ -414,5 +418,37 @@ export default {
 }
 .el-message-box{
   width:430px!important;
+}
+/* .example-error{
+  font-size: 12px;
+    color: rgb(51, 51, 51);
+    position: absolute;
+    top: 0px!important;
+    left: 0px!important;
+    background-color: rgb(255, 255, 255);
+    padding: 2px 8px;
+    margin: 0px;
+    z-index: 99;
+    box-shadow: rgba(0, 0, 0, 0.12) 0px 2px 4px, rgba(0, 0, 0, 0.04) 0px 0px 6px;
+    border-radius: 4px;
+    left: unset!important;
+    right: -73px!important;
+    color: red!important;
+    padding: 6px!important;
+}
+.example-error b{
+    position: absolute;
+    left: -6px!important;
+    bottom: 14px!important;
+    width: 8px;
+    height: 8px;
+    display: block;
+    border-right: 1px solid rgba(0, 0, 0, 0.1);
+    transform: rotateZ(133deg)!important;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    background-color: rgb(255, 255, 255);
+} */
+.cell{
+  overflow: visible!important;
 }
 </style>

@@ -23,12 +23,18 @@
           </el-row>
           <div class="t-text" :class="{active:isActive}">注：当前系统时间以服务器为准</div>
           <!-- 证件规则搜索框 -->
+<<<<<<< HEAD
           <el-row type="flex" align="center" style="width:100%">
             <div class="t-flex">
               <el-col :sm="24" :md="12" :lg="6" class="input-item t-input">
 
                 <el-select placeholder="请选择" v-model="data.fieldName" filterable clearable size="mini" :disabled="isActive" @visible-change="codeName">
 
+=======
+          <el-row type="flex" align="center" justify="space-between" style="width:100%;margin-bottom: 5px;">
+              <el-col :sm="24" :md="12" :lg="8" class="input-item">
+                <el-select placeholder="请选择" v-model="data.fieldName" filterable clearable size="mini" :disabled="isActive" @visible-change="codeName" class="t-input">
+>>>>>>> f8c2368a87e2034989e64fb0dbecc0151d00ecb4
                   <el-option
                    v-for="item in code"
                   :key="item.FIELDNAME"
@@ -37,15 +43,15 @@
                   </el-option>
                 </el-select>
               </el-col>
-              <el-col :sm="24" :md="12" :lg="4" class="input-item t-input-operator">
-                <el-select placeholder="请选择" v-model="data.visaOperator" filterable clearable  size="mini" :disabled="isActive">
+              <el-col :sm="24" :md="12" :lg="5" class="input-item">
+                <el-select placeholder="请选择" v-model="data.visaOperator" filterable clearable  size="mini" :disabled="isActive" class="t-input">
                   <el-option label="大于" value="1"></el-option>
                   <el-option label="小于" value="2"></el-option>
                   <!-- <el-option label="=" value="3"></el-option> -->
                 </el-select>
               </el-col>
-              <el-col :sm="24" :md="12" :lg="4" class="input-item t-input">
-                <el-select placeholder="时间选择" v-model="data.visaTime" filterable clearable  size="mini" :disabled="isActive">
+              <el-col :sm="24" :md="12" :lg="8" class="input-item">
+                <el-select placeholder="时间选择" v-model="data.visaTime" filterable clearable  size="mini" :disabled="isActive" class="t-input">
                   <el-option label="当前系统时间" value="sysdate"></el-option>
                   <el-option label="一个月" value="sysdate+30"></el-option>
                   <el-option label="两个月" value="sysdate+60"></el-option>
@@ -58,7 +64,7 @@
               <el-col :sm="24" :md="12" :lg="3" class="selfButton">
                 <el-button type="primary" size="mini" @click="addList(data.fieldName,data.visaTime,data.visaOperator)" :disabled="isActive">添加</el-button>
               </el-col>
-            </div>
+            <!-- </div> -->
           </el-row>
           <!-- 卡片 -->
           <el-row style="position:relative">
@@ -75,13 +81,34 @@
           </el-row>
           <!--证件规则 登机牌 -->
           <el-row>
-            <el-select placeholder="请选择反馈结果" v-model="data.visaCheckResult" filterable clearable size="mini" class="t-width100" :disabled="isActive">
-              <!-- <el-option label="0Z - 允许登机" value="0Z"></el-option> -->
-              <el-option label="1Z - 禁止登机" value="1Z"></el-option>
-              <el-option label="2Z - 再次核对" value="2Z"></el-option>
-              <el-option label="4Z - 数据错误" value="4Z"></el-option>
-            </el-select>
-            <el-input type="textarea" v-model="data.visaResponseresult" class="t-width100" placeholder="请输入描述"  :autosize="{ minRows: 3, maxRows: 3}" :disabled="isActive"></el-input>
+            <div class="checkResultContent">
+              <div class="checkResult">
+                <div class="clearfix">
+                  <span>反馈结果</span>
+                </div>
+              </div>
+              <div class="checkResultInput">
+                <el-select placeholder="请选择反馈结果" v-model="data.visaCheckResult" filterable clearable size="mini" class="t-width100" :disabled="isActive">
+                  <!-- <el-option label="0Z - 允许登机" value="0Z"></el-option> -->
+                  <el-option label="1Z - 禁止登机" value="1Z"></el-option>
+                  <el-option label="2Z - 再次核对" value="2Z"></el-option>
+                  <el-option label="4Z - 数据错误" value="4Z"></el-option>
+                </el-select>
+              </div>
+            </div>
+          </el-row>
+          <!-- 证件规则 反馈描述 -->
+          <el-row>
+            <div class="checkResultContent">
+              <div class="checkResult">
+                <div class="clearfix">
+                  <span>反馈描述</span>
+                </div>
+              </div>
+              <div class="checkResultInput">
+                <el-input type="textarea" v-verify.input.blur="{regs:'noCinese',submit:'card'}" maxlength="100" v-model="data.visaResponseresult" class="t-width100" placeholder="请输入描述"  :autosize="{ minRows: 3, maxRows: 3}" :disabled="isActive"></el-input>
+              </div>
+             </div>
           </el-row>
         </div>
       </el-col>
@@ -110,11 +137,9 @@
 
             <div class="t-text" :class="{active:countryIsActive}">注：输入关键字搜索国家并加入</div>
             <!-- 国家搜索框 -->
-            <el-row type="flex" align="center" style="width:100%;margin-bottom: 5px;" :gutter="10">
-
-              <div class="t-flex t-width100">
-                <el-col :sm="24" :md="12" :lg="20" class="t-width100">
-                  <el-select v-model="nationily" filterable clearable @visible-change="nation" placeholder="国家搜索"  size="small" class="t-width100" :disabled="countryIsActive">
+            <el-row type="flex" align="center" justify="space-between" style="width:100%;margin-bottom: 5px;">
+                <el-col :sm="24" :md="18" :lg="21" class="input-item">
+                  <el-select v-model="nationily" filterable clearable @visible-change="nation" placeholder="国家搜索"  size="small" class="t-input" :disabled="countryIsActive">
                     <el-option
                       v-for="item in nationName"
                       :key="item.CODE"
@@ -123,10 +148,9 @@
                     ></el-option>
                   </el-select>
                 </el-col>
-                <el-col :sm="24" :md="12" :lg="3" class="selfButton">
+                <el-col :sm="24" :md="6" :lg="3" class="selfButton">
                   <el-button type="primary" size="mini" @click="countryAddList(nationily)" :disabled="countryIsActive">添加</el-button>
                 </el-col>
-              </div>
             </el-row>
             <!-- 卡片 -->
             <el-row style="position:relative">
@@ -141,15 +165,36 @@
                 </div>
               </el-card>
             </el-row>
-            <!--证件规则 登机牌 -->
+            <!--国家 登机牌 -->
             <el-row>
-              <el-select placeholder="请选择反馈结果" v-model="data.nationalityCheckResult" filterable clearable size="mini" class="t-width100" :disabled="countryIsActive">
-                <!-- <el-option label="0Z - 允许登机" value="0Z"></el-option> -->
-                <el-option label="1Z - 禁止登机" value="1Z"></el-option>
-                <el-option label="2Z - 再次核对" value="2Z"></el-option>
-                <el-option label="4Z - 数据错误" value="4Z"></el-option>
-              </el-select>
-              <el-input type="textarea" v-model="data.nationalityResponseresult" class="t-width100" placeholder="请输入描述" :autosize="{ minRows: 3, maxRows: 3}" :disabled="countryIsActive"></el-input>
+              <div class="checkResultContent">
+                <div class="checkResult">
+                  <div class="clearfix">
+                    <span>反馈结果</span>
+                  </div>
+                </div>
+                <div class="checkResultInput">
+                  <el-select placeholder="请选择反馈结果" v-model="data.nationalityCheckResult" filterable clearable size="mini" class="t-width100" :disabled="countryIsActive">
+                    <!-- <el-option label="0Z - 允许登机" value="0Z"></el-option> -->
+                    <el-option label="1Z - 禁止登机" value="1Z"></el-option>
+                    <el-option label="2Z - 再次核对" value="2Z"></el-option>
+                    <el-option label="4Z - 数据错误" value="4Z"></el-option>
+                  </el-select>
+                </div>
+              </div>
+            </el-row>
+            <!-- 国家 反馈描述 -->
+            <el-row>
+              <div class="checkResultContent">
+                <div class="checkResult">
+                  <div class="clearfix">
+                    <span>反馈描述</span>
+                  </div>
+                </div>
+                <div class="checkResultInput">
+                  <el-input type="textarea" v-verify.input.blur="{regs:'noCinese',submit:'contryCard'}" maxlength="100" v-model="data.nationalityResponseresult" class="t-width100" placeholder="请输入描述" :autosize="{ minRows: 3, maxRows: 3}" :disabled="countryIsActive"></el-input>
+                </div>
+               </div>
             </el-row>
           <!-- </div> -->
 
@@ -177,11 +222,9 @@
           </el-row>
           <div class="t-text" :class="{active:entryIsActive}">注：输入关键字搜索口岸并加入</div>
           <!-- 入境搜索框 -->
-          <el-row type="flex" align="center" style="width:100%;margin-bottom: 5px;" :gutter="10">
-
-            <div class="t-flex t-width100">
-              <el-col :sm="24" :md="12" :lg="20" class="t-width100">
-                <el-select v-model="entry" filterable clearable @visible-change="entrySearch" placeholder="入境口岸搜索"  size="small" class="t-width100" :disabled="entryIsActive">
+          <el-row type="flex" align="center" justify="space-between" style="width:100%;margin-bottom: 5px;">
+              <el-col :sm="24" :md="18" :lg="21" class="input-item">
+                <el-select v-model="entry" filterable clearable @visible-change="entrySearch" placeholder="入境口岸搜索"  size="small" class="t-input" :disabled="entryIsActive">
                   <el-option
                     v-for="item in entryName"
                     :key="item.AIRPORT_CODE"
@@ -190,10 +233,9 @@
                   ></el-option>
                 </el-select>
               </el-col>
-              <el-col :sm="24" :md="12" :lg="3" class="selfButton">
+              <el-col :sm="24" :md="6" :lg="3" class="selfButton">
                 <el-button type="primary" size="mini" @click="entryAddList(entry)" :disabled="entryIsActive">添加</el-button>
               </el-col>
-            </div>
           </el-row>
           <!-- 卡片 -->
           <el-row style="position:relative">
@@ -208,15 +250,36 @@
               </div>
             </el-card>
           </el-row>
-          <!--证件规则 登机牌 -->
+          <!--入境 登机牌 -->
           <el-row>
-            <el-select placeholder="请选择反馈结果" v-model="data.airportCheckResult" filterable clearable size="mini" class="t-width100" :disabled="entryIsActive">
-              <!-- <el-option label="0Z - 允许登机" value="0Z"></el-option> -->
-              <el-option label="1Z - 禁止登机" value="1Z"></el-option>
-              <el-option label="2Z - 再次核对" value="2Z"></el-option>
-              <el-option label="4Z - 数据错误" value="4Z"></el-option>
-            </el-select>
-            <el-input type="textarea" v-model="data.airportResponseresult" class="t-width100" placeholder="请输入描述" :autosize="{ minRows: 3, maxRows: 3}" :disabled="entryIsActive"></el-input>
+            <div class="checkResultContent">
+              <div class="checkResult">
+                <div class="clearfix">
+                  <span>反馈结果</span>
+                </div>
+              </div>
+              <div class="checkResultInput">
+                <el-select placeholder="请选择反馈结果" v-model="data.airportCheckResult" filterable clearable size="mini" class="t-width100" :disabled="entryIsActive">
+                  <!-- <el-option label="0Z - 允许登机" value="0Z"></el-option> -->
+                  <el-option label="1Z - 禁止登机" value="1Z"></el-option>
+                  <el-option label="2Z - 再次核对" value="2Z"></el-option>
+                  <el-option label="4Z - 数据错误" value="4Z"></el-option>
+                </el-select>
+              </div>
+            </div>
+          </el-row>
+          <!-- 入境 反馈描述 -->
+          <el-row>
+            <div class="checkResultContent">
+              <div class="checkResult">
+                <div class="clearfix">
+                  <span>反馈描述</span>
+                </div>
+              </div>
+              <div class="checkResultInput">
+                <el-input type="textarea" v-verify.input.blur="{regs:'noCinese',submit:'entryCard'}" maxlength="100" v-model="data.airportResponseresult" class="t-width100" placeholder="请输入描述" :autosize="{ minRows: 3, maxRows: 3}" :disabled="entryIsActive"></el-input>
+              </div>
+             </div>
           </el-row>
         </div>
       </el-col>
@@ -235,9 +298,13 @@ export default {
     return{
       card:'签证有效期',
       data:{
+<<<<<<< HEAD
         fileName:'',
         fieldName:'',
 
+=======
+        fieldName:'',
+>>>>>>> f8c2368a87e2034989e64fb0dbecc0151d00ecb4
         visaRuleSerial:'',//证件规则id
         visaOperator:'2',
         visaTime:'',//证件有效期
@@ -441,6 +508,24 @@ export default {
       })
     },
     save(){
+      if(this.data.visaStatus == '1'){
+        const result = this.$validator.verifyAll('card')
+        console.log(result);
+         if (result.indexOf(false) > -1) {
+           return
+         }
+      }else if(this.data.nationalityStatus == '1'){
+        const contryResult = this.$validator.verifyAll('contryCard')
+         if (contryResult.indexOf(false) > -1) {
+           return
+         }
+      }else if(this.data.airportStatus == '1'){
+         const entryResult = this.$validator.verifyAll('entryCard')
+         if (result.indexOf(entryResult) > -1) {
+           return
+         }
+      }
+
       this.$api.post('/manage-platform/visaRule/saveVisaRule',this.data,
       r =>{
         if(r.success){
@@ -479,17 +564,48 @@ export default {
   margin-top: 6px;
 }
 .t-input{
-  width: 30%!important;
+  width: 100%!important;
+  padding-right: 5px;
 }
-.t-input-operator{
-  width: 22%!important;
-}
+/* .t-input-operator{
+  width: 100%!important;
+  padding-right: 5px;
+} */
 .t-text{
   font-size: 12px;
   color: #F7B74E;
 }
 .el-card__header{
   padding: 2px 0px 2px 20px!important;
+  /* background-color: #d4e1f1; */
+  background-color: #F4F4F4;
+}
+.checkResult{
+  padding: 2px 0px 2px 20px!important;
+  background-color: #F4F4F4;
+  font-size: 14px;
+  border-bottom: 1px solid #ebeef5;
+  /* border: 1px solid #ebeef5; */
+  /* border-radius:4px; */
+  box-sizing: border-box;
+}
+.checkResultContent{
+    margin-top: 3px;
+    border: 1px solid #ebeef5;
+    background-color: #fff;
+    color: #303133;
+    -webkit-transition: .3s;
+    transition: .3s;
+    border-radius: 4px;
+}
+.checkResultInput .el-input__inner{
+  border: 1px solid #ebeef5;
+}
+.checkResultInput textarea{
+  border-left: 1px solid transparent;
+  border-right: 1px solid transparent;
+  border-bottom: 1px solid #ebeef5;
+  border-top: 1px solid #ebeef5;
 }
 .el-card.is-always-shadow, .el-card.is-hover-shadow:focus, .el-card.is-hover-shadow:hover{
   box-shadow: 0 0px 0px 0 rgba(0,0,0,0);
@@ -505,7 +621,7 @@ export default {
 }
 .t-card{
   height: 400px;
-  overflow-y: scroll;
+  overflow-y: auto;
   font-size: 14px;
 }
 .t-width100{
@@ -528,5 +644,9 @@ export default {
 }
 .pd20{
   padding: 20px 40px 40px 40px;
+}
+.selfButton button{
+  padding: 7px!important;
+  width: 100%;
 }
 </style>

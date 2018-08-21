@@ -83,20 +83,26 @@
                 </el-col>
 
                 <el-col :sm="24" :md="12" :lg="8" class="input-item">
-                  <span class="input-text">航班日期：</span>
+                  <span class="input-text"><i class="t-must">*</i>航班日期：</span>
                   <div class="input-input t-flex t-date">
                       <el-date-picker
+                      v-verify.input.blur="{regs:'required',submit:'timeDemo'}"
                       v-model="cdt.startFlightDepartdate"
                       type="datetime" size="small"
                       placeholder="开始日期"
-                      value-format="yyyyMMddHHmmss">
+                      format="yyyy-MM-dd HH:mm"
+                      value-format="yyyyMMddHHmm"
+                      :picker-options="pickerOptions">
                     </el-date-picker>
                     <span class="septum">-</span>
                     <el-date-picker
+                       v-verify.input.blur="{regs:'required',submit:'timeDemo'}"
                        v-model="cdt.endFlightDepartdate"
                        type="datetime" size="small"
                        placeholder="结束日期"
-                       value-format="yyyyMMddHHmmss">
+                       format="yyyy-MM-dd HH:mm"
+                       value-format="yyyyMMddHHmm"
+                       :picker-options="pickerOptions1">
                    </el-date-picker>
                   </div>
                 </el-col>
@@ -127,33 +133,46 @@
                   </el-select>
                 </el-col>
                 <el-col :sm="24" :md="12" :lg="8" class="input-item">
-                  <span class="input-text ">预计起飞时间：</span>
+                  <span class="input-text"><i class="t-must">*</i>预计起飞时间：</span>
                   <div class="input-input t-flex t-date">
                       <el-date-picker
+                      v-verify.input.blur="{regs:'required',submit:'timeDemo'}"
                       v-model="cdt.startDepartdate"
                       type="datetime" size="small"
                       placeholder="开始日期"
-                      value-format="yyyyMMdd HHmmss">
+                      format="yyyy-MM-dd HH:mm"
+                      value-format="yyyyMMddHHmm"
+                      :picker-options="pickerOptions2">
                     </el-date-picker>
                     <span class="septum">-</span>
                     <el-date-picker
+                       v-verify.input.blur="{regs:'required',submit:'timeDemo'}"
                        v-model="cdt.endDepartdate"
                        type="datetime" size="small"
                        placeholder="结束日期"
-                       value-format="yyyyMMdd HHmmss">
+                       format="yyyy-MM-dd HH:mm"
+                       value-format="yyyyMMddHHmm"
+                       :picker-options="pickerOptions3">
                    </el-date-picker>
                   </div>
                 </el-col>
                 <el-col :sm="24" :md="12" :lg="8" class="input-item">
-                  <span class="input-text">证件种类：</span>
-                  <el-select placeholder="请选择" v-model="cdt.passporttypeEqual" filterable clearable @visible-change="idType"  size="small"  class="input-input">
-                    <el-option
-                      v-for="item in idName"
-                      :key="item.CODE"
-                      :value="item.CODE"
-                      :label="item.CODE+' - '+item.NAME"
-                    ></el-option>
-                  </el-select>
+                  <span class="input-text">值机时间：</span>
+                  <div class="input-input t-flex t-date">
+                      <el-date-picker
+                      v-model="cdt.startCreatetime"
+                      type="datetime" size="small"
+                      placeholder="开始日期"
+                      value-format="yyyyMMddHHmmss">
+                    </el-date-picker>
+                    <span class="septum">-</span>
+                    <el-date-picker
+                       v-model="cdt.endCreatetime"
+                       type="datetime" size="small"
+                       placeholder="结束日期"
+                       value-format="yyyyMMddHHmmss">
+                   </el-date-picker>
+                  </div>
                 </el-col>
 
                 <el-col :sm="24" :md="12" :lg="8" class="input-item">
@@ -168,20 +187,26 @@
                   </el-select>
                 </el-col>
                 <el-col :sm="24" :md="12" :lg="8" class="input-item">
-                  <span class="input-text">预计降落时间：</span>
+                  <span class="input-text"><i class="t-must">*</i>预计降落时间：</span>
                   <div class="input-input t-flex t-date">
                       <el-date-picker
+                      v-verify.input.blur="{regs:'required',submit:'timeDemo'}"
                       v-model="cdt.startArrivdate"
                       type="datetime" size="small"
                       placeholder="开始日期"
-                      value-format="yyyyMMddHHmmss">
+                      format="yyyy-MM-dd HH:mm"
+                      value-format="yyyyMMddHHmm"
+                      :picker-options="pickerOptions4">
                     </el-date-picker>
                     <span class="septum">-</span>
                     <el-date-picker
+                       v-verify.input.blur="{regs:'required',submit:'timeDemo'}"
                        v-model="cdt.endArrivdate"
                        type="datetime" size="small"
                        placeholder="结束日期"
-                       value-format="yyyyMMddHHmmss">
+                       format="yyyy-MM-dd HH:mm"
+                       value-format="yyyyMMddHHmm"
+                       :picker-options="pickerOptions5">
                    </el-date-picker>
                   </div>
                 </el-col>
@@ -1470,7 +1495,13 @@ export default {
       landingName:[],
       nationalityName:[],
       cdt:{
-        isBlurred:false
+        isBlurred:false,
+        startFlightDepartdate:'',
+        endFlightDepartdate:'',
+        startDepartdate:'',
+        endDepartdate:'',
+        startArrivdate:'',
+        endArrivdate:''
       },
       historyCdt:{},
       cdtList:{version:0,flag:''},//批量查询的第一行
@@ -1519,16 +1550,75 @@ export default {
       selfCdt:{AAAAA:''},//自定义查询表达式信息
       selfType:0,
       file:'',
-      bigBase:0
+      bigBase:0,
+      pickerOptions: {
+        disabledDate: (time) => {
+            if (this.cdt.endFlightDepartdate != null) {
+              let startT = formatDate(new Date(time.getTime()),'yyyyMMddhhmm');
+              return startT > this.cdt.endFlightDepartdate;
+            }else if(this.cdt.endFlightDepartdate == null){
+              return false
+            }
+        }
+      },
+      pickerOptions1: {
+        disabledDate: (time) => {
+            let endT = formatDate(new Date(time.getTime()),'yyyyMMddhhmm');
+            return endT < this.cdt.startFlightDepartdate;
+        }
+      },
+
+      pickerOptions2: {
+        disabledDate: (time) => {
+            if (this.cdt.endDepartdate != null) {
+              let startT = formatDate(new Date(time.getTime()),'yyyyMMddhhmm');
+              return startT > this.cdt.endDepartdate;
+            }else if(this.cdt.endDepartdate == null){
+              return false
+            }
+        }
+      },
+      pickerOptions3: {
+        disabledDate: (time) => {
+            let endT = formatDate(new Date(time.getTime()),'yyyyMMddhhmm');
+            return endT < this.cdt.startDepartdate;
+        }
+      },
+
+      pickerOptions4: {
+        disabledDate: (time) => {
+            if (this.cdt.endArrivdate != null) {
+              let startT = formatDate(new Date(time.getTime()),'yyyyMMddhhmm');
+              return startT > this.cdt.endArrivdate;
+            }else if(this.cdt.endArrivdate == null){
+              return false
+            }
+        }
+      },
+      pickerOptions5: {
+        disabledDate: (time) => {
+            let endT = formatDate(new Date(time.getTime()),'yyyyMMddhhmm');
+            return endT < this.cdt.startArrivdate;
+        }
+      },
     }
   },
   mounted(){
-    console.log(this.bigBase);
+    let time = new Date();
+    let end = new Date();
+    let begin =new Date(time - 1000 * 60 * 60 * 24 * 30);
+    this.cdt.startFlightDepartdate=formatDate(begin,'yyyyMMddhhmm');
+    this.cdt.endFlightDepartdate=formatDate(end,'yyyyMMddhhmm');
+
+    this.cdt.startDepartdate=formatDate(begin,'yyyyMMddhhmm');
+    this.cdt.endDepartdate=formatDate(end,'yyyyMMddhhmm');
+
+    this.cdt.startArrivdate=formatDate(begin,'yyyyMMddhhmm');
+    this.cdt.endArrivdate=formatDate(end,'yyyyMMddhhmm');
     this.takeOff();
     this.landing();
     this.nation();
     this.currentPage = 1;
-
   },
   computed:{
     aaa:{
@@ -1615,6 +1705,28 @@ export default {
     },
   },
   methods: {
+    timestampToTime(timestamp,type) {//type为0，精确到分；为1，精确到秒
+      let timeS='';
+      let year = timestamp.slice(0,4);
+      let month = timestamp.slice(4,6);
+      let day = timestamp.slice(6,8);
+      let hour = timestamp.slice(8,10);
+      let min = timestamp.slice(10,12);
+      if(type==0){
+        timeS = year +'/'+month +'/'+day+' '+hour+':'+min;
+      }else if(type == 1){
+        let seconed = timestamp.slice(12,14);
+        timeS = year +'/'+month +'/'+day+' '+hour+':'+min+':'+seconed;
+      }
+      console.log(timeS);
+      return  timeS;
+    },
+    dayGap(start,end){//相差天数
+      let startT = new Date(this.timestampToTime(start,0)).getTime();
+      let endT = new Date(this.timestampToTime(end,0)).getTime();
+      let day = parseInt((endT-startT)/(1000 * 60 * 60 * 24));
+      return day;
+    },
     //----------------------------分页start------------------------------
     pageSizeChange(val) {//显示条数，调用
       if(this.bigBase == 0){
@@ -1667,6 +1779,28 @@ export default {
     },
     //----------------------------基础查询start------------------------------
     getListPnr(totalResult,currentPage,showCount,cdt){//基础查询 pnr
+      const result = this.$validator.verifyAll('timeDemo')
+       if (result.indexOf(false) > -1) {
+         return
+       }
+      if(this.dayGap(this.cdt.startFlightDepartdate,this.cdt.endFlightDepartdate)>30){
+        this.$alert('查询时间间隔不能超过一个月', '提示', {
+          confirmButtonText: '确定',
+        });
+        return false
+      }
+      if(this.dayGap(this.cdt.startDepartdate,this.cdt.endDepartdate)>30){
+        this.$alert('查询时间间隔不能超过一个月', '提示', {
+          confirmButtonText: '确定',
+        });
+        return false
+      }
+      if(this.dayGap(this.cdt.startArrivdate,this.cdt.endArrivdate)>30){
+        this.$alert('查询时间间隔不能超过一个月', '提示', {
+          confirmButtonText: '确定',
+        });
+        return false
+      }
       let basePnr = 0;
       if(totalResult == 0){
         basePnr = -1
@@ -1690,6 +1824,28 @@ export default {
        })
     },
     getList(totalResult,currentPage,showCount,cdt){//基础查询 查询调用
+      const result = this.$validator.verifyAll('timeDemo')
+       if (result.indexOf(false) > -1) {
+         return
+       }
+      if(this.dayGap(this.cdt.startFlightDepartdate,this.cdt.endFlightDepartdate)>30){
+        this.$alert('航班日期查询时间间隔不能超过一个月，如有需要请分多次查询', '提示', {
+          confirmButtonText: '确定',
+        });
+        return false
+      }
+      if(this.dayGap(this.cdt.startDepartdate,this.cdt.endDepartdate)>30){
+        this.$alert('预计起飞时间查询时间间隔不能超过一个月，如有需要请分多次查询', '提示', {
+          confirmButtonText: '确定',
+        });
+        return false
+      }
+      if(this.dayGap(this.cdt.startArrivdate,this.cdt.endArrivdate)>30){
+        this.$alert('预计降落时间查询时间间隔不能超过一个月，如有需要请分多次查询', '提示', {
+          confirmButtonText: '确定',
+        });
+        return false
+      }
       let base = 0;
       if(totalResult == 0){
         base = -1
@@ -2315,9 +2471,16 @@ export default {
     },
     selfAddRow(){//自定义查询 添加操作
       this.selfCount++;
+      this.selfModelrow = {
+        id:0,
+        attribute:'',
+        operator:'',
+        type:0,
+        relation:'',
+        atype:''
+      },
       this.selfModelrow.id=this.selfCount;
       this.selfRows.push(this.selfModelrow);
-      this.selfModelrow = this.selfCleanRow;
     },
     selfDeleteRow(id){//自定义查询 删除操作
       let self = this.selfRows.indexOf(id);
