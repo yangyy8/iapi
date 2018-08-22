@@ -36,13 +36,13 @@
               <div class="input-input t-flex t-date">
                <el-date-picker
                v-model="pd.begin"
-               type="datetime" size="small"
+               type="datetime" size="small" value-format="yyyyMMddHHmmss"
                placeholder="开始时间"  :picker-options="pickerOptions" >
              </el-date-picker>
                <span class="septum">-</span>
              <el-date-picker
                 v-model="pd.end"
-                type="datetime" size="small"
+                type="datetime" size="small" value-format="yyyyMMddHHmmss"
                 placeholder="结束时间" :picker-options="pickerOptions1" >
             </el-date-picker>
           </div>
@@ -148,6 +148,7 @@
 
 <script>
 import {formatDate} from '@/assets/js/date.js'
+import {dayGap} from '@/assets/js/date.js'
 export default {
   data() {
     return {
@@ -175,62 +176,21 @@ export default {
       ],
       tableData: [],
       multipleSelection: [],
-      pickerOptions: {
+      pickerOptions0: {
         disabledDate: (time) => {
-            if (this.pd.end != "") {
-              console.log(time.getTime(),this.pd.end)
-                return time.getTime() > this.pd.end;
+            if (this.pd.end != null) {
+              let startT = formatDate(new Date(time.getTime()),'yyyyMMddhhmmss');
+              return startT > this.pd.end;
+            }else if(this.pd.end == null){
+              return false
             }
-        },
-        shortcuts: [{
-          text: '今天',
-          onClick(picker) {
-            picker.$emit('pick', new Date());
-          }
-        }, {
-          text: '昨天',
-          onClick(picker) {
-            const date = new Date();
-            date.setTime(date.getTime() - 3600 * 1000 * 24);
-            picker.$emit('pick', date);
-          }
-        }, {
-          text: '一周前',
-          onClick(picker) {
-            const date = new Date();
-            date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
-            picker.$emit('pick', date);
-          }
-        }],
-
+        }
       },
       pickerOptions1: {
         disabledDate: (time) => {
-            if (this.pd.begin != "") {
-                return time.getTime() < this.pd.begin;
-            }
-        },
-        shortcuts: [{
-          text: '今天',
-          onClick(picker) {
-            picker.$emit('pick', new Date());
-          }
-        }, {
-          text: '昨天',
-          onClick(picker) {
-            const date = new Date();
-            date.setTime(date.getTime() - 3600 * 1000 * 24);
-            picker.$emit('pick', date);
-          }
-        }, {
-          text: '一周前',
-          onClick(picker) {
-            const date = new Date();
-            date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
-            picker.$emit('pick', date);
-          }
-        }],
-
+            let endT = formatDate(new Date(time.getTime()),'yyyyMMddhhmmss');
+            return endT < this.pd.begin;
+        }
       },
           form: {},
 
@@ -253,8 +213,8 @@ export default {
       console.log(`当前页: ${val}`);
     },
     getList(currentPage, showCount, pd) {
-      this.pd.begin=formatDate(this.pd.begin,"yyyyMMddhhssmm");
-      this.pd.end=formatDate(this.pd.end,"yyyyMMddhhssmm");
+      // this.pd.begin=formatDate(this.pd.begin,"yyyyMMddhhssmm");
+      // this.pd.end=formatDate(this.pd.end,"yyyyMMddhhssmm");
       let p = {
         "currentPage": currentPage,
         "showCount": showCount,

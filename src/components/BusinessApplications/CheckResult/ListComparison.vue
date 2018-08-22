@@ -105,13 +105,13 @@
                <span class="input-text"><font style="color:red">*</font> 比中时间：</span>
              <div class="input-input t-flex t-date">
                  <el-date-picker
-                 v-model="pd.dataCheckBeginTime"
+                 v-model="pd.compareBeginDate"
                  type="datetime" size="small"  value-format="yyyyMMddHHssmm"
                  placeholder="开始时间"  :picker-options="pickerOptions0">
                </el-date-picker>
                  <span class="septum">-</span>
                <el-date-picker
-                  v-model="pd.dataCheckEndTime"
+                  v-model="pd.compareEndDate"
                   type="datetime" size="small"  value-format="yyyyMMddHHssmm"
                   placeholder="结束时间" :picker-options="pickerOptions1">
                </el-date-picker>
@@ -178,11 +178,11 @@
         </el-table-column>
         <el-table-column
           prop="birthday"
-          label="出生日期" >
+          label="出生日期" sortable>
         </el-table-column>
                 <el-table-column
                   prop="nationalityDesc"
-                  label="国籍" >
+                  label="国籍" sortable>
                 </el-table-column>
 
                 <el-table-column
@@ -208,7 +208,7 @@
                 </el-table-column>
                 <el-table-column
                   prop="departDate"
-                  label="航班日期" >
+                  label="航班日期" sortable>
                 </el-table-column>
                 <el-table-column
                   prop="checkResultTypeDesc"
@@ -222,10 +222,10 @@
                   prop="checkResultDesc"
                   label="反馈结果" >
                 </el-table-column>
-                <el-table-column
+                <!-- <el-table-column
                   prop="compareDesc"
                   label="反馈描述" >
-                </el-table-column>
+                </el-table-column> -->
                 <el-table-column
                   label="操作">
                   <template slot-scope="scope">
@@ -320,8 +320,8 @@ export default {
       TotalResult: 0,
       sum: "0",
       num: "0",
-      pd: {    dataCheckBeginTime:"",
-          dataCheckEndTime:"",},
+      pd: {     compareBeginDate:"",
+        compareEndDate:"",},
       nation: [],
       value: '',
       value1: "",
@@ -343,36 +343,36 @@ export default {
       ],
       tableData: [],
       multipleSelection: [],
-      // pickerOptions0: {
-      //   disabledDate: (time) => {
-      //       if (this.pd.dataCheckEndTime != null) {
-      //         let startT = formatDate(new Date(time.getTime()),'yyyyMMddhhmmss');
-      //         return startT > this.pd.dataCheckEndTime;
-      //       }else if(this.pd.dataCheckEndTime == null){
-      //         return false
-      //       }
-      //   }
-      // },
-      // pickerOptions1: {
-      //   disabledDate: (time) => {
-      //       let endT = formatDate(new Date(time.getTime()),'yyyyMMddhhmmss');
-      //       return endT < this.pd.dataCheckBeginTime;
-      //   }
-      // },
+      pickerOptions0: {
+        disabledDate: (time) => {
+            if (this.pd.compareEndDate != null) {
+              let startT = formatDate(new Date(time.getTime()),'yyyyMMddhhmmss');
+              return startT > this.pd.compareEndDate;
+            }else if(this.pd.compareEndDate == null){
+              return false
+            }
+        }
+      },
+      pickerOptions1: {
+        disabledDate: (time) => {
+            let endT = formatDate(new Date(time.getTime()),'yyyyMMddhhmmss');
+            return endT < this.pd.compareBeginDate;
+        }
+      },
       form: {},
       dform: {},
     }
   },
   mounted() {
   //  this.getList(this.CurrentPage, this.pageSize, this.pd);
-    this.getsum();
-    this.getnum();
+    // this.getsum();
+    // this.getnum();
     this.queryAirport();
-    // let time = new Date();
-    // let end = new Date();
-    // let begin =new Date(time - 1000 * 60 * 60 * 24 * 30);
-    // this.pd.dataCheckBeginTime=formatDate(begin,'yyyyMMddhhmmss');
-    // this.pd.dataCheckEndTime=formatDate(end,'yyyyMMddhhmmss');
+    let time = new Date();
+    let end = new Date();
+    let begin =new Date(time - 1000 * 60 * 60 * 24 * 30);
+    this.pd.compareBeginDate=formatDate(begin,'yyyyMMddhhmmss');
+    this.pd.compareEndDate=formatDate(end,'yyyyMMddhhmmss');
   },
   methods: {
     handleSelectionChange(val) {
@@ -393,9 +393,11 @@ export default {
 
       console.log(`当前页: ${val}`);
     },
-    getsum() {
-
-      this.$api.post('/manage-platform/compareReuslt/nameList/totalCounter', {},
+    getsum(pd) {
+      let p = {
+        "cdt": pd
+      };
+      this.$api.post('/manage-platform/compareReuslt/nameList/totalCounter', p,
         r => {
           console.log(r);
           this.sum = r.data.crCounter;
@@ -417,7 +419,15 @@ export default {
         })
     },
     getList(currentPage, showCount, pd) {
+            if(dayGap(this.pd.compareBeginDate,this.pd.compareEndDate,1)>30){
+              this.$alert('查询时间间隔不能超过一个月', '提示', {
+                confirmButtonText: '确定',
+              });
+              return false
+            }
 
+      this.getsum(pd);
+      this.getnum();
       let p = {
         "currentPage": currentPage,
         "showCount": showCount,
