@@ -1198,15 +1198,15 @@ export default {
   },
   created(){
     var _self = this;
-    document.onkeydown = function(e){
-        alert(27)
-        var key = window.event.keyCode;
-          console.log(key,_self.zdh)
-        if(key==27&&_self.zdh){
-
-          _self.zxhFn();
-        }
-    }
+    // document.onkeydown = function(e){
+    //     alert(27)
+    //     var key = window.event.keyCode;
+    //       console.log(key,_self.zdh)
+    //     if(key==27&&_self.zdh){
+    //
+    //       _self.zxhFn();
+    //     }
+    // }
   },
   beforeDestroy() {
     if (!this.chart) {

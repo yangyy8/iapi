@@ -21,9 +21,12 @@
             <li class="top-nav-li hand" @click="$router.push('/')">
               首页
             </li>
-            <li class="top-nav-li hand" v-for="i in muneListOne" :class="{'topCheckLi':navId==i.SERIAL}" @click="topNavTo(i.SERIAL)">
+            <li class="top-nav-li hand" v-for="i in muneListOne" :class="{'topCheckLi':navId==i.SERIAL}" @click="topNavTo(i.SERIAL)" v-if="i.name!='日常工作'">
               {{i.name}}
             </li>
+            <!-- <li class="top-nav-li hand" v-for="i in muneListOne" :class="{'topCheckLi':navId==i.SERIAL}" @click="topNavTo(i.SERIAL)" v-if="i.name=='日常工作'">
+              {{i.name}}
+            </li> -->
 
           </ul>
           <div class="nav-btn mr-30 hand" :class="{'openNav':navUlShow}" @click="openNav" >

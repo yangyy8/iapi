@@ -949,13 +949,15 @@ export default {
         })
       },
      addItem(formName,synStatus){
-       const result = this.$validator.verifyAll('demo2')
-       console.log(result)
-        if (result.indexOf(false) > -1) {
-          return
-        } else {
-          // alert('填写成功')
-        }
+       if(this.$validator.listener.demo2){
+         const result = this.$validator.verifyAll('demo2')
+         // console.log(result)
+          if (result.indexOf(false) > -1) {
+            return
+          } else {
+            // alert('填写成功')
+          }
+       }
         if(synStatus==0 && this.dialogType=="add"){
           this.form.synStatus=synStatus;
           this.form.LIST_TYPE='2';
