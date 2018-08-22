@@ -73,7 +73,6 @@
 
           <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">到达机场：</span>
-
               <el-select v-model="pd.cityTo" filterable clearable  placeholder="请选择" size="small" class="input-input">
                    <el-option
                      v-for="item in Airport"
@@ -82,10 +81,8 @@
                      :value="item.AIRPORT_CODE" >
                    </el-option>
                  </el-select>
-
                  <!-- <QueryAirport  :airportModel="pd.cityTo" @transAirport="getOutAirport"></QueryAirport> -->
             </el-col>
-
             <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
             <span class="input-text">预计到达时间：</span>
             <div class="input-input t-flex t-date">
@@ -168,12 +165,16 @@
           label="姓名">
         </el-table-column>
         <el-table-column
+          prop="chineseName"
+          label="中文姓名" >
+        </el-table-column>
+        <el-table-column
           prop="genderDesc"
           label="性别">
         </el-table-column>
         <el-table-column
           prop="birthday"
-          label="出生日期">
+          label="出生日期" sortable>
         </el-table-column>
                 <el-table-column
                   prop="nationalityDesc"
@@ -184,39 +185,47 @@
                   prop="passportNo"
                   label="证件号码">
                 </el-table-column>
-                <el-table-column
+                <!-- <el-table-column
                   prop="passportExpireDate"
                   label="证件有效期">
-                </el-table-column>
+                </el-table-column> -->
 
                 <el-table-column
                   prop="personGrade"
                   label="人员类别">
                 </el-table-column>
-                <el-table-column
+                <!-- <el-table-column
                   prop="visaNo"
                   label="签证号码">
-                </el-table-column>
+                </el-table-column> -->
                 <el-table-column
                   prop="flightNo"
                   label="航班号">
                 </el-table-column>
                 <el-table-column
-                  prop="thanFieldName"
+                  prop="departDate"
+                  label="航班日期" sortable>
+                </el-table-column>
+                <el-table-column
+                  prop="thanFieldNameDesc"
                   label="错误校验项">
+                </el-table-column>
+                <el-table-column
+                  prop="thanFieldName"
+                  label="错误值">
                 </el-table-column>
                 <el-table-column
                   prop="thanTypeDesc"
                   label="不通过原因">
                 </el-table-column>
-                <el-table-column
+                <!-- <el-table-column
                   prop="checkResultDesc"
                   label="反馈结果">
                 </el-table-column>
                 <el-table-column
                   prop="thanTypeDesc"
                   label="反馈描述">
-                </el-table-column>
+                </el-table-column> -->
                 <el-table-column
                   label="操作">
                   <template slot-scope="scope">
@@ -359,8 +368,7 @@ export default {
   },
   mounted() {
   //  this.getList(this.CurrentPage, this.pageSize, this.pd);
-    this.getsum();
-    this.getnum();
+
     this.queryAirport();
     let time = new Date();
     let end = new Date();
@@ -388,13 +396,15 @@ export default {
 
       console.log(`当前页: ${val}`);
     },
-    getsum() {
+    getsum(pd) {
 
-      this.$api.post('/manage-platform/compareReuslt/businessRule/totalCounter', {},
+      let p = {
+        "cdt": pd
+      };
+      this.$api.post('/manage-platform/compareReuslt/businessRule/totalCounter', p,
         r => {
           console.log(r);
           this.sum = r.data.crCounter;
-
         })
     },
     getnum() {
@@ -419,7 +429,8 @@ export default {
         });
         return false
       }
-
+      this.getsum(pd);
+      this.getnum();
       let p = {
         "currentPage": currentPage,
         "showCount": showCount,
