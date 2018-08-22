@@ -190,7 +190,7 @@
             </div>
             <el-row type="flex" >
               <el-col class="middle-msg-img">
-                <img src="../../../assets/img/bp_ap/ph_s.png" alt="">
+                <img src="../../../assets/img/bp_ap/ph_s.png" alt="" style="width:100%;height:100%">
               </el-col>
               <el-col class="middle-msg-text">
                 <el-row type="flex" class="middle-msg-row2">

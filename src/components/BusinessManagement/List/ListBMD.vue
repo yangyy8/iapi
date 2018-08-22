@@ -40,8 +40,8 @@
             <el-col :sm="24" :md="12"  :lg="8" class="input-item">
               <span class="input-text">名单状态：</span>
               <el-select  placeholder="请选择"  size="small" v-model="pd.SYN_STATUS" clearable filterable class="input-input">
-                <el-option label="1 - 已发布" value="1"></el-option>
                 <el-option label="0 - 未发布" value="0"></el-option>
+                <el-option label="1 - 已发布" value="1"></el-option>
                 <!-- <el-option label="" value="1"></el-option> -->
               </el-select>
             </el-col>
@@ -99,7 +99,7 @@
               <el-select  placeholder="请选择"  size="small" v-model="pd.IN_OUT" clearable filterable class="block input-input">
                 <el-option label="I - 入境" value="I"></el-option>
                 <el-option label="O - 出境" value="O"></el-option>
-                <el-option label="A - 全部" value="A"></el-option>
+                <!-- <el-option label="A - 全部" value="A"></el-option> -->
 
               </el-select>
             </el-col>
@@ -438,7 +438,7 @@
             <el-select v-model="form.IN_OUT" placeholder="请选择" size="small" class="input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}" >
               <el-option label="I - 入境" value="I"></el-option>
               <el-option label="O - 出境" value="O"></el-option>
-              <el-option label="A - 全部" value="A"></el-option>
+              <!-- <el-option label="A - 全部" value="A"></el-option> -->
 
             </el-select>
           </el-col>
@@ -673,7 +673,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="addItem('releasForm','1')" size="small">授权确认</el-button>
-        <el-button type="warning" @click="resetForm('releasForm')" size="small">重置</el-button>
+        <el-button type="warning" @click="resetForm('releasForm')" size="small">取消</el-button>
 
       </div>
     </el-dialog>
@@ -914,7 +914,7 @@ export default {
             SERIAL:this.delId,
             synStatus:synStatus
           }
-         this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+         this.$confirm('您是否确定删除该记录?', '提示', {
              confirmButtonText: '确定',
              cancelButtonText: '取消',
              type: 'warning'
@@ -948,13 +948,15 @@ export default {
       },
       addItem(formName,synStatus){
         console.log(this.$validator)
-        const result = this.$validator.verifyAll('demo2')
-        console.log(result)
-         if (result.indexOf(false) > -1) {
-           return
-         } else {
-           // alert('填写成功')
-         }
+        if(this.$validator.listener.demo2){
+          const result = this.$validator.verifyAll('demo2')
+          // console.log(result)
+           if (result.indexOf(false) > -1) {
+             return
+           } else {
+             // alert('填写成功')
+           }
+        }
         if(synStatus==0 && this.dialogType=="add"){
 
           this.form.synStatus=synStatus;
@@ -1107,7 +1109,6 @@ export default {
        if (!isEXL) {
          this.$message.error('上传文件只能是 xlsl 格式!');
        }
-
        return isEXL ;
      },
      showUpload(){
@@ -1115,13 +1116,10 @@ export default {
        console.log( this.$refs.upload)
        if( this.$refs.upload){
          this.$refs.upload.clearFiles();
-
        }
      },
      submitUpload() {
-       // console.log(this.isFile)
        console.log(this.$refs.upload)
-       // console.log(this.fileList);
 
        if(this.$refs.upload.uploadFiles.length==0){
          this.$message({

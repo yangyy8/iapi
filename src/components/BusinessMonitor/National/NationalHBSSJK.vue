@@ -520,7 +520,7 @@
                   <div class="site-name">
                     <el-checkbox v-model="checkAll5" @change="checkAllFn5" true-label="1" false-label="0">全选</el-checkbox>
                     <el-checkbox-group v-model="checkList5" @change="checkedZhou">
-                      <el-checkbox v-for="x in locationName5"  :label="x" >{{x.name}}</el-checkbox>
+                      <el-checkbox v-for="x in locationName5" :key="x.code" :label="x" >{{x.name}}</el-checkbox>
                     </el-checkbox-group>
                   </div>
                 </div>
@@ -1196,6 +1196,18 @@ export default {
     this.initChart(this.series);
     this.getNewData();
   },
+  created(){
+    var _self = this;
+    // document.onkeydown = function(e){
+    //     alert(27)
+    //     var key = window.event.keyCode;
+    //       console.log(key,_self.zdh)
+    //     if(key==27&&_self.zdh){
+    //
+    //       _self.zxhFn();
+    //     }
+    // }
+  },
   beforeDestroy() {
     if (!this.chart) {
       return;
@@ -1661,6 +1673,7 @@ export default {
     },
     // 境内省列表取得
     getSList(){
+      if(this.checkShow)return;
       this.checkShow=true;
       this.checkShow2=false;this.checkShow3=false;this.checkShow4=false;this.checkShow5=false;
       console.log("ddddd",this.checkList)
@@ -1681,6 +1694,7 @@ export default {
     },
     // 境内口岸列表取得
     getKaList(){
+      if(this.checkShow2)return;
       let p=this.checkList.map(function(val){
         return val.code
       })
@@ -1692,13 +1706,15 @@ export default {
        });
         return
       }
+
       this.locationName2={
         ABCDE:{},
         FGHJ:{},
         KLMNP:{},
         QRSTW:{},
         XYZ:{}
-      },
+      }
+
 
       this.checkShow2=true;
       this.checkShow=false;this.checkShow3=false;this.checkShow4=false;this.checkShow5=false;
@@ -1720,6 +1736,8 @@ export default {
     },
     // 境外国家列表取得
     getGjList(){
+      if(this.checkShow3)return;
+
       let p=this.checkList5.map(function(val){
         return val.code
       })
@@ -1736,7 +1754,7 @@ export default {
         KLMNP:{},
         QRSTW:{},
         XYZ:{}
-      },
+      }
       this.checkShow3=true;
       this.checkShow2=false;this.checkShow=false;this.checkShow4=false;this.checkShow5=false;
 
@@ -1757,6 +1775,8 @@ export default {
     },
     // 境外口岸列表取得
     getJwKaList(){
+      if(this.checkShow4)return;
+
       let p=this.checkList3.map(function(val){
         return val.code
       })
@@ -1773,7 +1793,7 @@ export default {
         KLMNP:{},
         QRSTW:{},
         XYZ:{}
-      },
+      }
       this.checkShow4=true;
       this.checkShow2=false;this.checkShow3=false;this.checkShow=false;this.checkShow5=false;
 

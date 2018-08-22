@@ -99,20 +99,22 @@
       </div>
       <div class="login-box" v-if="!isLogin">
         <div class="login-item ">
-          <el-input
-            placeholder="用户名" v-model="user.userName">
+          <el-input  placeholder="用户名" v-model="user.userName" style="display:none"></el-input>
+
+          <el-input  placeholder="用户名" v-model="user.userName" @keyup.enter.native="keyLogin">
             <i slot="prefix" class="el-input__icon"><img src="../assets/img/home/login_06.png"></i>
           </el-input>
         </div>
         <div class="login-item ">
           <el-input
             placeholder="密码"
-            type="password" v-model="user.password">
+            type="password" v-model="user.password"  @keyup.enter.native="keyLogin">
             <i slot="prefix" class="el-input__icon"><img src="../assets/img/home/login_03.png"></i>
+
           </el-input>
         </div>
         <div class="login-item2">
-          <el-checkbox v-model="jzmm">记住密码</el-checkbox>
+          <el-checkbox v-model="jzmm" @change="isJzmm">记住密码</el-checkbox>
           <!-- <a class="login-a">忘记密码</a> -->
         </div>
         <button class="login-btn" @click="login">登录</button>
@@ -261,18 +263,9 @@ export default {
 
   mounted() {
     this.fn();
-    this.getSatus()
-    // if(localStorage.getItem('login')){
-    //   this.isLogin=true;
-    //     this.getNav0()
-    // }else{
-    //   this.isLogin=false;
-    //
-    // }
-    // this.getNav0();
+    this.getSatus();
     this.getTime();
-
-
+    this.initJzmm();
   },
   beforeDestroy() {
     if (!this.chart) {
@@ -288,6 +281,27 @@ export default {
     }
   },
   methods: {
+    initJzmm(){
+      if(sessionStorage.getItem('jzmm')==1){
+        this.jzmm=true;
+        this.user={
+          userName:sessionStorage.getItem('userName'),
+          password:sessionStorage.getItem('password')
+        }
+      }
+    },
+    isJzmm(){
+      console.log(this.jzmm)
+      if(this.jzmm){
+        sessionStorage.setItem('jzmm',1);
+        sessionStorage.setItem('userName',this.user.userName);
+        sessionStorage.setItem('password',this.user.password);
+      }else {
+        sessionStorage.clear();
+        // sessionStorage.setItem('jzmm',0);
+
+      }
+    },
     getTime(){
       let myDate = new Date();
       let a = new Array("日", "一", "二", "三", "四", "五", "六");
@@ -341,6 +355,12 @@ export default {
        r => {
          this.userName=r.data.userName;
       })
+    },
+    keyLogin(){
+      console.log("dddd")
+      if(this.user.userName&&this.user.password){
+        this.login();
+      }
     },
     login(){
 

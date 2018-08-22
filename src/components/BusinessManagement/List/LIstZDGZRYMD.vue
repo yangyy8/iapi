@@ -73,7 +73,7 @@
               <el-select  placeholder="请选择"  size="small" v-model="pd.IN_OUT" clearable filterable class="block input-input">
                 <el-option label="I - 入境" value="I"></el-option>
                 <el-option label="O - 出境" value="O"></el-option>
-                <el-option label="A - 全部" value="A"></el-option>
+                <!-- <el-option label="A - 全部" value="A"></el-option> -->
               </el-select>
             </el-col>
             <el-col :sm="24" :md="12"  :lg="8" class="input-item">
@@ -125,7 +125,7 @@
     <div class="middle">
       <el-row class="mb-15" v-if="getHis">
         <el-button type="primary" size="small" @click="addServe()">新增</el-button>
-        <el-button type="success" size="small" @click="uploadDialogVisible=true">批量导入</el-button>
+        <el-button type="success" size="small" @click="showUpload">批量导入</el-button>
         <el-button type="info" size="small" @click="deleteItems()" :disabled="isdisable">批量删除</el-button>
         <!-- <el-button type="warning" size="small" @click="releaseDialogVisible=true">生效发布</el-button> -->
         <el-button type="danger" size="small" @click="getHisFn(CurrentPage,pageSize,pd)">历史资料</el-button>
@@ -288,7 +288,6 @@
                 :value="item.CODE">
               </el-option>
             </el-select>
-            <!-- <QueryDocCode  :docCodeModel="form.CARDTYPE" @transDocCode="getDocCodeForm"></QueryDocCode> -->
           </el-col>
 
           <el-col :sm="24" :md="12" :lg="8"  class="input-item">
@@ -306,7 +305,7 @@
             <el-select v-model="form.IN_OUT" placeholder="请选择" clearable filterable size="small"  class="input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}">
               <el-option label="I - 入境" value="I"></el-option>
               <el-option label="O - 出境" value="O"></el-option>
-              <el-option label="A - 全部" value="A"></el-option>
+              <!-- <el-option label="A - 全部" value="A"></el-option> -->
             </el-select>
           </el-col>
 
@@ -371,7 +370,14 @@
 
           <el-col :sm="24" :md="12" :lg="8"  class="input-item">
             <span class="input-text">关注范围：</span>
-            <QueryAirport  :airportModel="form.SCOPE" @change="changeForm(this)" @transAirport="getOutAirportForm"></QueryAirport>
+            <el-select v-model="form.SCOPE"  filterable clearable  @change="changeForm(this)" placeholder="请选择"  size="small" class="input-input">
+              <el-option
+                v-for="item in airport"
+                :key="item.AIRPORT_CODE"
+                :label="item.AIRPORT_CODE+' - '+item.AIRPORT_NAME"
+                :value="item.AIRPORT_CODE">
+              </el-option>
+            </el-select>
           </el-col>
 
           <el-col :sm="24" :md="12" :lg="8" class="input-item">
@@ -559,11 +565,13 @@
           :file-list="fileList"
           multiple
           :on-success="upSuccess"
-          :limit="5"
+          :before-upload="beforeAvatarUpload"
+          :limit="1"
           :auto-upload="false">
           <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
           <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">上传到服务器</el-button>
-          <!-- <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div> -->
+          <div slot="tip" class="el-upload__tip">只能上传EXCEL文件</div>
+
         </el-upload>
 
       </el-form>
@@ -577,13 +585,10 @@
 </template>
 
 <script>
-import QueryNationality from '../../other/queryNationality'
-import QueryAirport from '../../other/queryAirport'
-import QueryDocCode from '../../other/queryDocCode'
 export default {
-  components: {QueryNationality,QueryAirport,QueryDocCode},
   data(){
     return{
+      airport:[],
       backShow:false,
       fileList:[],
       getHis:true,
@@ -635,6 +640,7 @@ export default {
     this.queryNationalityAlone();
     this.queryDocCode();
     this.queryInOutReason();
+    this.queryAirport();
   },
   methods:{
     download(){
@@ -676,34 +682,7 @@ export default {
       }
       console.log(`当前页: ${val}`);
     },
-    getNation(msg){
-      this.pd.NATIONALITY=msg;
-    },
-    getInAirport(msg){
-      this.pd.WHITE_PORT_IN=msg;
-    },
-    getNationForm(msg){
-      this.form.NATIONALITY=msg;
-    },
-    getInAirportForm(msg){
-      this.form.WHITE_PORT_IN=msg;
-    },
-    changeForm(item){
-      this.form.aaa=item.label;
-      this.form.bbbb=item.value;
-    },
-    getOutAirport(msg){
-      this.pd.WHITE_PORT_OUT=msg;
-    },
-    getDocCode(msg){
-      this.pd.CARDTYPE=msg;
-    },
-    // getOutAirportForm(msg){
-    //   this.form.REPORTUNIT=msg;
-    // },
-    getDocCodeForm(msg){
-      this.form.CARDTYPE=msg;
-    },
+
     getList(currentPage,showCount,pd){
       let p={
       	"currentPage":currentPage,
@@ -758,7 +737,7 @@ export default {
       let p={
         SERIAL:id
       }
-      this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+      this.$confirm('您是否确定删除该记录?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
@@ -778,7 +757,7 @@ export default {
 
         });
 
-    },
+      },
       deleteItems(){
           let arr= this.multipleSelection;
           let arr1=[];
@@ -790,7 +769,7 @@ export default {
             },
             cdtList:arr1
           }
-          this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+          this.$confirm('您是否确定删除该记录?', '提示', {
               confirmButtonText: '确定',
               cancelButtonText: '取消',
               type: 'warning'
@@ -838,14 +817,26 @@ export default {
          }
       })
     },
+    queryAirport(){
+      this.$api.post('/manage-platform/codeTable/queryAirport',{},
+       r => {
+         console.log(r);
+         if(r.success){
+           this.airport=r.data;
+           // this.$emit('transAirport',this.airportModel)
+         }
+      })
+    },
     addItem(formName){
-      const result = this.$validator.verifyAll('demo2')
-      console.log(result)
-       if (result.indexOf(false) > -1) {
-         return
-       } else {
-         // alert('填写成功')
-       }
+      if(this.$validator.listener.demo2){
+        const result = this.$validator.verifyAll('demo2')
+        // console.log(result)
+         if (result.indexOf(false) > -1) {
+           return
+         } else {
+           // alert('填写成功')
+         }
+      }
         if(this.dialogType=="add"){
           this.$api.post('/manage-platform/nameListFocusList/addNameListFocusList',this.form,
            r => {
@@ -879,7 +870,30 @@ export default {
           })
         }
     },
+    beforeAvatarUpload(file){
+      console.log(file.type)
+      const isEXL = file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+
+      if (!isEXL) {
+        this.$message.error('上传文件只能是 xlsl 格式!');
+      }
+      return isEXL ;
+    },
+    showUpload(){
+      this.uploadDialogVisible=true;
+      console.log( this.$refs.upload)
+      if( this.$refs.upload){
+        this.$refs.upload.clearFiles();
+      }
+    },
     submitUpload() {
+      if(this.$refs.upload.uploadFiles.length==0){
+        this.$message({
+         message: '请先选择文件！',
+         type: 'warning'
+       });
+        return
+      }
       this.$refs.upload.submit();
     },
     upSuccess(r){
