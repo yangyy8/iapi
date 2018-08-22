@@ -1,9 +1,18 @@
 <template lang="html">
   <el-container class="content">
-    <el-carousel :interval="10000" arrow="never" indicator-position="none" class="bg-carousel" height="100%">
+    <div class="bg-carousel">
+      <transition name="fade2" mode="out-in">
+        <div class="child1" v-if="bgjpg==1" key="1"></div>
+        <div class="child2" v-if="bgjpg==2" key="2"></div>
+        <div class="child3" v-if="bgjpg==3" key="3"></div>
+      </transition>
+
+    </div>
+
+    <!-- <el-carousel :interval="20000" arrow="never" indicator-position="none" class="bg-carousel" height="100%">
       <el-carousel-item v-for="item in 3" :key="item">
       </el-carousel-item>
-    </el-carousel>
+    </el-carousel> -->
     <el-header height="150px">
       <img src="../assets/img/logoo.png" alt=""  @click="rightShow=null">
       <div class="top-right">
@@ -100,7 +109,7 @@
           </li> -->
         </ul>
         <div class="tab-content">
-            <transition name="fade">
+            <transition name="fade"  mode="out-in">
               <!-- <keep-alive> -->
               <router-view></router-view>
               <!-- </keep-alive> -->
@@ -115,6 +124,7 @@
 export default {
   data() {
     return {
+      bgjpg:1,
       rightShow:null,
       userName:'',
       navUlShow: false,
@@ -158,6 +168,8 @@ export default {
   mounted() {
     this.navId = this.$route.params.navId;
     this.getUers();
+    this.msg()
+    this.bgChange();
     if (this.navId == 'cc') {
       this.nav1List = this.nav1List7;
       if(this.$route.params.tiao){
@@ -172,6 +184,15 @@ export default {
     // this.navInit();
   },
   methods: {
+    bgChange(){
+      let that=this
+      setInterval(function(){
+        that.bgjpg++;
+        if(that.bgjpg>3){
+          that.bgjpg=1
+        }
+      },20000)
+    },
     navInit(){
       this.navId = this.$route.params.navId;
       this.getUers();
@@ -194,9 +215,23 @@ export default {
       })
     },
     msg(){
-      this.$api.post('/manage-platform/alarmEvents/getUntreatedNum',{},
+      this.$api.post('/manage-platform/MessageBounced/getMessageInfo ',{type:'bjcl'},
        r => {
-        console.log(r)
+        console.log(r);
+        if(r.data.result){
+          let html='';let arr= r.data.result;
+          for (var i = 0; i <arr.length; i++) {
+            html+='<div>'+arr[i].CONTENT+'</div>'
+          }
+          this.$notify({
+            title: '未处理消息',
+            duration:0,
+            dangerouslyUseHTMLString:true,
+            message: '<strong>'+html+'</strong>',
+            position: 'bottom-right'
+          });
+        }
+
       })
     },
     logOut(){
@@ -401,14 +436,19 @@ export default {
   width: 100%;
   z-index: -1;
 }
-.el-carousel__item:nth-child(1) {
+.bg-carousel>div{
+  width: 100%;
+  height: 100%;
+}
+.el-carousel__item:nth-child(1),.child1 {
+
    background: url(../assets/img/bg/bg_9.jpg)
  }
 
- .el-carousel__item:nth-child(2) {
+ .el-carousel__item:nth-child(2),.child2{
    background: url(../assets/img/bg/bg_10.jpg)
  }
- .el-carousel__item:nth-child(3) {
+ .el-carousel__item:nth-child(3),.child3 {
    background: url(../assets/img/bg/bg_17.jpg)
  }
  /* .el-carousel__item:nth-child(4) {
@@ -680,41 +720,17 @@ export default {
   transition: all  0.3s;
 }
 .fade-enter-active {
-    transition-delay: 0.3s;
+    transition-delay:all 0.3s;
 }
 .fade-enter, .fade-leave-to {
   opacity: 0;
 }
 
-.slide-left-enter-active, .slide-left-leave-active {
-    transition: transform .5s;
-    transform-origin: left;
+
+.fade2-enter-active, .fade2-leave-active {
+  transition: opacity 0.5s;
 }
-.slide-left-enter-active {
-    transition-delay: .5s;
-}
-.slide-left-enter, .slide-left-leave-active {
-    transform: scale(0,1);
-}
-.bounce-enter-active {
-  animation: bounce-in .5s;
-  transform-origin: left;
-}
-.bounce-enter-active {
-  animation-delay: .5s;
-}
-.bounce-leave-active {
-  animation: bounce-in .5s reverse;
-}
-@keyframes bounce-in {
-  0% {
-    transform: scaleX(0);
-  }
-  50% {
-    transform: scaleX(0.5);
-  }
-  100% {
-    transform: scaleX(1);
-  }
+.fade2-enter, .fade2-leave-to{
+  opacity: 0.3;
 }
 </style>
