@@ -2,10 +2,9 @@
   <el-container class="content">
     <div class="bg-carousel">
       <transition name="fade2" mode="out-in">
-        <div class="child1" v-if="bgjpg==1"></div>
-        <div class="child2" v-else-if="bgjpg==2"></div>
-        <div class="child3" v-else></div>
-
+        <div class="child1" v-if="bgjpg==1" key="1"></div>
+        <div class="child2" v-if="bgjpg==2" key="2"></div>
+        <div class="child3" v-if="bgjpg==3" key="3"></div>
       </transition>
 
     </div>
@@ -729,9 +728,9 @@ export default {
 
 
 .fade2-enter-active, .fade2-leave-active {
-  transition: opacity 2s ease;
+  transition: opacity 0.5s;
 }
 .fade2-enter, .fade2-leave-to{
-  opacity: 0;
+  opacity: 0.3;
 }
 </style>
