@@ -33,13 +33,13 @@
 
             <el-col :sm="24" :md="12"  :lg="8" class="input-item">
               <span class="input-text">证件号码：</span>
-              <el-input placeholder="请输入内容" size="small" v-model="pd.CARDNO" clearable class="input-input"></el-input>
+              <el-input placeholder="请输入内容" size="small" v-verify.input.blur ="{regs:'required|max:35',submit:'demo'}" v-model="pd.CARDNO" clearable class="input-input"></el-input>
             </el-col>
 
             <el-col :sm="24" :md="12"  :lg="8" class="input-item">
               <span class="input-text">姓名：</span>
               <div class="input-input t-fuzzy t-flex">
-              <el-input placeholder="请输入内容" size="small" v-model="pd.FAMILYNAME" clearable class="input-input"></el-input>
+              <el-input placeholder="请输入内容" size="small" max="35" v-model="pd.FAMILYNAME" clearable class="input-input"></el-input>
               <el-checkbox v-model="pd.NAMELIKE" true-label="1" false-label="0">模糊查询</el-checkbox>
               </div>
             </el-col>
@@ -77,20 +77,22 @@
               </el-select>
             </el-col>
             <el-col :sm="24" :md="12"  :lg="8" class="input-item">
-              <span class="input-text">关注时间：</span>
-              <div class="input-input t-flex t-date">
-                 <el-date-picker
-                   v-model="pd.BEGINDATE"
-                   type="date" size="small" value-format="yyyyMMdd"
-                   placeholder="开始时间" align="right" >
-                 </el-date-picker>
-                 <span class="septum">-</span>
-                 <el-date-picker
-                    v-model="pd.ENDDATE"
-                    type="date" size="small" align="right" value-format="yyyyMMdd"
-                    placeholder="结束时间"  >
-                </el-date-picker>
-            </div>
+              <span class="input-text">关注开始时间：</span>
+              <el-date-picker
+                class="input-input"
+                v-model="pd.BEGINDATE"
+                type="date" size="small" value-format="yyyyMMdd"
+                placeholder="开始时间" align="right" >
+              </el-date-picker>
+            </el-col>
+            <el-col :sm="24" :md="12"  :lg="8" class="input-item">
+              <span class="input-text">关注结束时间：</span>
+              <el-date-picker
+                  class="input-input"
+                  v-model="pd.ENDDATE"
+                  type="date" size="small" align="right" value-format="yyyyMMdd"
+                  placeholder="结束时间"  >
+              </el-date-picker>
             </el-col>
             <el-col :sm="24" :md="12"  :lg="8" class="input-item">
               <span class="input-text">操作时间：</span>
@@ -142,11 +144,11 @@
          type="selection">
 
         </el-table-column>
-        <el-table-column
+        <!-- <el-table-column
           type="index"
           label="序号"
           width="60">
-        </el-table-column>
+        </el-table-column> -->
         <el-table-column
           prop="RECORDNUM"
           label="档号"
@@ -243,7 +245,7 @@
 
           <el-col :sm="24" :md="12" :lg="8"  class="input-item">
             <span class="input-text"><span class="redx">*</span>姓名：</span>
-            <el-input placeholder="请输入内容" size="small" v-model="form.FAMILYNAME" clearable class="input-input" v-verify.input.blur ="{regs:'required',submit:'demo2'}"></el-input>
+            <el-input placeholder="请输入内容" size="small" v-model="form.FAMILYNAME" clearable class="input-input" v-verify.input.blur ="{regs:'required|max:35',submit:'demo2'}"></el-input>
           </el-col>
           <el-col :sm="24" :md="12" :lg="8"  class="input-item">
             <span class="input-text"><span class="redx">*</span>性别：</span>
@@ -357,7 +359,7 @@
 
           <el-col :sm="24" :md="12" :lg="8" class="input-item">
             <span class="input-text">联系电话：</span>
-            <el-input placeholder="请输入内容" size="small" class="input-input" v-model="form.TEL"></el-input>
+            <el-input placeholder="请输入内容" size="small" max="25" class="input-input" v-model="form.TEL"></el-input>
           </el-col>
 
           <el-col :sm="24" :md="12" :lg="8"  class="input-item">
@@ -477,6 +479,7 @@
           </el-col>
           <el-col :sm="24" :md="12" :lg="8" >
             <span>关注范围</span>
+            
             {{detailsData.SCOPE}}
 
           </el-col>
@@ -650,8 +653,14 @@ export default {
       this.CurrentPage=1;
       this.pageSize=10;
       this.pd={NAMELIKE:'0'};
-      // console.log(this.pd)
-      this.getList(this.CurrentPage,this.pageSize,this.pd);
+      if(this.backShow){
+
+        this.getHisFn(this.CurrentPage,this.pageSize,this.pd);
+
+      }else{
+        this.getList(this.CurrentPage,this.pageSize,this.pd);
+
+      }
 
     },
     handleSelectionChange(val) {
