@@ -319,8 +319,8 @@ export default {
 
       this.$api.post('/manage-platform/monitorData/syncData', p,
         r => {
-          var flag = r.data.success;
-          if (flag) {
+      
+          if (r.data.success) {
             if (this.num != "8" && this.num != "9") {
               var md = "Visa";
               if (this.num == "1") {
@@ -347,19 +347,24 @@ export default {
               };
               this.$api.post('/manage-platform/exchange/synDataNameListBatchInfo', pp,
                 s => {
-                  if (r.success) {
+                  if (s.success) {
                     this.$message({
-                      message: r.data.message,
+                      message: s.data.message,
                       type: 'success'
                     });
                     this.centerDialogVisible = false;
                   }
                 });
             } else {
-
+              this.$message({
+                message: r.data.message,
+                type: 'success'
+              });
+              this.centerDialogVisible = false;
             }
+            this.getData();
           } else {
-            this.$message.error(r.data.message);
+            this.$message.error(r.message);
             this.centerDialogVisible = false;
           }
         });

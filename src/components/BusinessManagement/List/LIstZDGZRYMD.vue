@@ -828,13 +828,15 @@ export default {
       })
     },
     addItem(formName){
-      const result = this.$validator.verifyAll('demo2')
-      console.log(result)
-       if (result.indexOf(false) > -1) {
-         return
-       } else {
-         // alert('填写成功')
-       }
+      if(this.$validator.listener.demo2){
+        const result = this.$validator.verifyAll('demo2')
+        // console.log(result)
+         if (result.indexOf(false) > -1) {
+           return
+         } else {
+           // alert('填写成功')
+         }
+      }
         if(this.dialogType=="add"){
           this.$api.post('/manage-platform/nameListFocusList/addNameListFocusList',this.form,
            r => {

@@ -948,13 +948,15 @@ export default {
       },
       addItem(formName,synStatus){
         console.log(this.$validator)
-        const result = this.$validator.verifyAll('demo2')
-        console.log(result)
-         if (result.indexOf(false) > -1) {
-           return
-         } else {
-           // alert('填写成功')
-         }
+        if(this.$validator.listener.demo2){
+          const result = this.$validator.verifyAll('demo2')
+          // console.log(result)
+           if (result.indexOf(false) > -1) {
+             return
+           } else {
+             // alert('填写成功')
+           }
+        }
         if(synStatus==0 && this.dialogType=="add"){
 
           this.form.synStatus=synStatus;
