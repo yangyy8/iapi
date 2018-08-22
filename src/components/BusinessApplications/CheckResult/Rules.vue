@@ -205,11 +205,11 @@
                   label="比中规则" >
                 </el-table-column> -->
                 <el-table-column
-                  prop="thanTypeDesc"
+                  prop="fieldName"
                   label="比中校验项" >
                 </el-table-column>
                 <el-table-column
-                  prop="thanTypeDesc"
+                  prop="fieldValue"
                   label="比中值" >
                 </el-table-column>
                 <el-table-column

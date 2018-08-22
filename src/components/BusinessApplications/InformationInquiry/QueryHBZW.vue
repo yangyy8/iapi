@@ -9,23 +9,25 @@
           </div>
         <el-row align="center"   :gutter="2" class="pr-20">
           <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
-            <span class="input-text">航班号：</span>
+            <span class="input-text"><font style="color:red">*</font> 航班号：</span>
             <el-input placeholder="请输入内容" size="small" v-model="pd.flightNumber"   class="input-input"></el-input>
           </el-col>
           <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
-          <span class="input-text">航班日期：</span>
+          <span class="input-text"><font style="color:red">*</font> 航班日期：</span>
           <div class="input-input t-flex t-date">
                <el-date-picker
                v-model="pd.departdateBegin"
                type="datetime" size="small"
-               placeholder="开始时间"  :picker-options="pickerOptions1"
-               value-format="yyyyMMddHHmmss">
+               placeholder="开始时间"  :picker-options="pickerOptions"
+               format="yyyy-MM-dd HH:mm"
+               value-format="yyyyMMddHHmm">
              </el-date-picker>
                <span class="septum">-</span>
              <el-date-picker
                 v-model="pd.departdateEnd"
                 type="datetime" size="small"
-                value-format="yyyyMMddHHmmss"
+                format="yyyy-MM-dd HH:mm"
+                value-format="yyyyMMddHHmm"
                 placeholder="结束时间" :picker-options="pickerOptions1">
              </el-date-picker>
              </div>
@@ -37,11 +39,8 @@
                 </el-option>
                 <el-option value="O" label="O - 出境">
                 </el-option>
-
               </el-select>
             </el-col>
-
-
           <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
             <span class="input-text">姓名：</span>
             <div class="input-input t-fuzzy t-flex">
@@ -52,7 +51,6 @@
           <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">性别：</span>
               <el-select v-model="pd.gender"  class="input-input"   filterable clearable  placeholder="请选择"  size="small">
-
                 <el-option value="U" label="U - 未知">
                 </el-option>
                 <el-option value="M" label="M - 男">
@@ -68,13 +66,13 @@
                  <el-date-picker
                  v-model="pd.birthdateBegin"
                  type="date" size="small"
-                 placeholder="开始时间"  :picker-options="pickerOptions1">
+                 placeholder="开始时间"  >
                </el-date-picker>
                  <span class="septum">-</span>
                <el-date-picker
                   v-model="pd.birthdateEnd"
                   type="date" size="small"
-                  placeholder="结束时间" :picker-options="pickerOptions1">
+                  placeholder="结束时间" >
                </el-date-picker>
                </div>
             </el-col>
@@ -136,7 +134,6 @@
           label="航班号" sortable>
         </el-table-column>
         <el-table-column
-
           label="航班日期" sortable>
               <template slot-scope="scope">
                 {{scope.row.departdate | filterdate}}
@@ -213,10 +210,11 @@
 </div>
     </div>
   </div>
-
 </template>
 
 <script>
+import {formatDate} from '@/assets/js/date.js'
+import {dayGap} from '@/assets/js/date.js'
 export default {
   data() {
     return {
@@ -224,7 +222,9 @@ export default {
       pageSize: 10,
       TotalResult: 0,
       pd: {
-        "isBlurred":false
+        "isBlurred":false,
+        departdateBegin:'',
+        departdateEnd:'',
       },
       list1:[],
       list2:[],
@@ -249,34 +249,37 @@ export default {
       ],
       tableData: [],
       multipleSelection: [],
+      pickerOptions: {
+        disabledDate: (time) => {
+            if (this.pd.departdateEnd != null) {
+              let startT = formatDate(new Date(time.getTime()),'yyyyMMddhhmm');
+              return startT > this.pd.departdateEnd;
+            }else if(this.pd.departdateEnd == null){
+              return false
+            }
+        }
+      },
       pickerOptions1: {
-        shortcuts: [{
-          text: '今天',
-          onClick(picker) {
-            picker.$emit('pick', new Date());
-          }
-        }, {
-          text: '昨天',
-          onClick(picker) {
-            const date = new Date();
-            date.setTime(date.getTime() - 3600 * 1000 * 24);
-            picker.$emit('pick', date);
-          }
-        }, {
-          text: '一周前',
-          onClick(picker) {
-            const date = new Date();
-            date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
-            picker.$emit('pick', date);
-          }
-        }]
+        disabledDate: (time) => {
+            let endT = formatDate(new Date(time.getTime()),'yyyyMMddhhmm');
+            return endT < this.pd.departdateBegin;
+        }
       },
       form: {},
     }
   },
   mounted() {
+
   //  this.getList(this.CurrentPage, this.pageSize, this.pd);
   //  this.getimgtable(this.CurrentPage, this.pageSize, this.pd);
+  this.queryNationality();
+
+  let time = new Date();
+  let end = new Date();
+  let begin =new Date(time - 1000 * 60 * 60 * 24 * 30);
+  this.pd.departdateBegin=formatDate(begin,'yyyyMMddhhmm');
+  this.pd.departdateEnd=formatDate(end,'yyyyMMddhhmm');
+
   },
   methods: {
     handleSelectionChange(val) {
@@ -295,6 +298,21 @@ export default {
       console.log(`当前页: ${val}`);
     },
     getList(currentPage, showCount, pd) {
+  
+      if(this.pd.flightNumber==""||this.pd.flightNumber==undefined){
+        this.$alert('航班号不能为空！', '提示', {
+          confirmButtonText: '确定',
+        });
+        return false
+      }
+
+      if(dayGap(this.pd.departdateBegin,this.pd.departdateEnd,0)>30){
+        this.$alert('查询时间间隔不能超过一个月', '提示', {
+          confirmButtonText: '确定',
+        });
+        return false
+      }
+
       let p = {
         "currentPage": currentPage,
         "showCount": showCount,
