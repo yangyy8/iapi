@@ -924,7 +924,8 @@
       </div>
     </el-dialog>
 
-    <el-dialog title="上传模板" :visible.sync="uploadDialogVisible"   width="640px">
+    <el-dialog title="上传模板" :visible.sync="uploadDialogVisible"   width="640px"
+    :before-close="handleClose">
       <el-form :model="releaseform" ref="releaseForm">
         <el-upload
           class="upload-demo"
@@ -1232,6 +1233,7 @@
 
 <script>
 import {formatDate} from '@/assets/js/date.js'
+import axios from 'axios'
 // import FileSaver from 'file-saver'
 // import XLSX from 'xlsx'
 export default {
@@ -1350,10 +1352,10 @@ export default {
       count:1,
       formData:{'file':''},
       selfCount:0,
-      basedQuery:['I_NAME','I_34','I_76','I_37','I_39','I_12','filghtDate','I_13','I_65','I_59'],
-      batchQuery:['I_NAME','I_34','I_76','I_37','I_39','I_12','filghtDate','I_13','I_65','I_59'],
-      selfQuery:['I_NAME','I_34','I_76','I_37','I_39','I_12','filghtDate','I_13','I_65','I_59'],
-      checkList: ['I_NAME','I_34','I_76','I_37','I_39','I_12','filghtDate','I_13','I_65','I_59'],
+      basedQuery:['I_NAME','INTG_CHNNAME','I_34','I_76','I_37','I_39','I_12','filghtDate','I_13','I_65','I_59'],
+      batchQuery:['I_NAME','INTG_CHNNAME','I_34','I_76','I_37','I_39','I_12','filghtDate','I_13','I_65','I_59'],
+      selfQuery:['I_NAME','INTG_CHNNAME','I_34','I_76','I_37','I_39','I_12','filghtDate','I_13','I_65','I_59'],
+      checkList: ['I_NAME','INTG_CHNNAME','I_34','I_76','I_37','I_39','I_12','filghtDate','I_13','I_65','I_59'],
       checkItem:[
         {
           ITEMNAME:'I_NAME',
@@ -2843,6 +2845,9 @@ export default {
       s = s.replace(/(\.\d+)?/g,"");
       return new Date(item);
     },
+    handleClose(){
+      this.cancelUpload();
+    },
     cancelUpload(){
       this.$refs.upload.clearFiles();
       this.uploadDialogVisible=false;
@@ -2852,6 +2857,7 @@ export default {
      if(response.success){
        this.uploadDialogVisible=false;
        this.rows = response.data.cdtList;
+       this.$refs.upload.clearFiles();
        this.$message({
          duration:3000,
          message: '恭喜你，导入成功！',
@@ -2887,21 +2893,33 @@ export default {
      console.log(this.selfCdtList.atype);
    },
    download(){
-        // let wb = XLSX.utils.table_to_book(document.querySelector('#out-table'))
-        // let wbout = XLSX.write(wb, { bookType: 'xlsx', bookSST: true, type: 'array' })
-        // try {
-        //     FileSaver.saveAs(new Blob([wbout], { type: 'application/octet-stream' }), 'sheetjs.xlsx')
-        // } catch (e) { if (typeof console !== 'undefined') console.log(e, wbout) }
-        // return wbout
-        let dl={
+     console.log(this.$api.rootUrl+"/manage-platform/iapi/export/three");
+     axios({
+      method: 'post',
+      // url: 'http://192.168.99.245:8080/manage-platform/iapi/export/three',
+      url: this.$api.rootUrl+"/manage-platform/iapi/export/three",
+      data: {
+          "name": 'Fred',
           "cdtList":this.rows
-        }
-        this.$api.post('/manage-platform/iapi/exportFileUrl/three',dl,
-        r =>{
-          console.log(this.$api.rootUrl);
-          console.log(this.$api.rootUrl+'/manage-platform/'+r.data)
-          // window.location.href=this.$api.rootUrl+'/manage-platform/'+r.data
-        })
+      },
+      responseType: 'blob'
+      }).then(response => {
+          this.downloadM(response)
+      }).catch((error) => {
+
+      });
+   },
+   downloadM (data) {
+       if (!data) {
+           return
+       }
+       let url = window.URL.createObjectURL(new Blob([data.data],{type:"application/octet-stream"}))
+       let link = document.createElement('a')
+       link.style.display = 'none'
+       link.href = url
+       link.setAttribute('download', 'aaa.xls')
+       document.body.appendChild(link)
+       link.click()
    },
    order(){
      this.$api.post('/manage-platform/iapi/getCustomQueryOrder',{},
@@ -3000,7 +3018,6 @@ export default {
   background-color: #0c4a93!important;
 }
 .akUl {
-
   overflow-y: auto;
   overflow-x: scroll;
 }
