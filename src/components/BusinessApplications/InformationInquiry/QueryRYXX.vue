@@ -949,9 +949,9 @@
     </el-dialog>
 
     <div class="middle">
-      <el-button  plain class="table-btn mb-9" size="small" @click="$router.push({'name':'QueryHBZW'})">显示窗位图</el-button>
+      <el-button  plain class="table-btn mb-9" size="small" @click="$router.push({'name':'QueryHBZW'})">航班座位图</el-button>
       <!-- <el-button  plain class="table-btn mb-9" size="small" @click="$router.push({name:'QueryGLRY'})">关联人员查询</el-button> -->
-      <el-button  plain class="table-btn mb-9" size="small" @click="getPdf()">导出列表信息</el-button>
+      <el-button  plain class="table-btn mb-9" size="small" @click="getPdf()">导出</el-button>
       <el-button  plain class="table-btn mb-9" size="small" v-print="'#printMe'">打印</el-button>
       <el-table
         ref="singleTable"
@@ -1233,6 +1233,7 @@
 
 <script>
 import {formatDate} from '@/assets/js/date.js'
+import {dayGap} from '@/assets/js/date.js'
 import axios from 'axios'
 // import FileSaver from 'file-saver'
 // import XLSX from 'xlsx'
@@ -1712,28 +1713,6 @@ export default {
     },
   },
   methods: {
-    timestampToTime(timestamp,type) {//type为0，精确到分；为1，精确到秒
-      let timeS='';
-      let year = timestamp.slice(0,4);
-      let month = timestamp.slice(4,6);
-      let day = timestamp.slice(6,8);
-      let hour = timestamp.slice(8,10);
-      let min = timestamp.slice(10,12);
-      if(type==0){
-        timeS = year +'/'+month +'/'+day+' '+hour+':'+min;
-      }else if(type == 1){
-        let seconed = timestamp.slice(12,14);
-        timeS = year +'/'+month +'/'+day+' '+hour+':'+min+':'+seconed;
-      }
-      console.log(timeS);
-      return  timeS;
-    },
-    dayGap(start,end){//相差天数
-      let startT = new Date(this.timestampToTime(start,0)).getTime();
-      let endT = new Date(this.timestampToTime(end,0)).getTime();
-      let day = parseInt((endT-startT)/(1000 * 60 * 60 * 24));
-      return day;
-    },
     //----------------------------分页start------------------------------
     pageSizeChange(val) {//显示条数，调用
       if(this.bigBase == 0){
@@ -1790,20 +1769,20 @@ export default {
        if (result.indexOf(false) > -1) {
          return
        }
-      if(this.dayGap(this.cdt.startFlightDepartdate,this.cdt.endFlightDepartdate)>30){
-        this.$alert('查询时间间隔不能超过一个月', '提示', {
+      if(dayGap(this.cdt.startFlightDepartdate,this.cdt.endFlightDepartdate,0)>30){
+        this.$alert('航班日期查询时间间隔不能超过一个月', '提示', {
           confirmButtonText: '确定',
         });
         return false
       }
-      if(this.dayGap(this.cdt.startDepartdate,this.cdt.endDepartdate)>30){
-        this.$alert('查询时间间隔不能超过一个月', '提示', {
+      if(dayGap(this.cdt.startDepartdate,this.cdt.endDepartdate,0)>30){
+        this.$alert('预计起飞时间查询时间间隔不能超过一个月', '提示', {
           confirmButtonText: '确定',
         });
         return false
       }
-      if(this.dayGap(this.cdt.startArrivdate,this.cdt.endArrivdate)>30){
-        this.$alert('查询时间间隔不能超过一个月', '提示', {
+      if(dayGap(this.cdt.startArrivdate,this.cdt.endArrivdate,0)>30){
+        this.$alert('预计降落时间查询时间间隔不能超过一个月', '提示', {
           confirmButtonText: '确定',
         });
         return false
@@ -1835,19 +1814,19 @@ export default {
        if (result.indexOf(false) > -1) {
          return
        }
-      if(this.dayGap(this.cdt.startFlightDepartdate,this.cdt.endFlightDepartdate)>30){
+      if(dayGap(this.cdt.startFlightDepartdate,this.cdt.endFlightDepartdate,0)>30){
         this.$alert('航班日期查询时间间隔不能超过一个月，如有需要请分多次查询', '提示', {
           confirmButtonText: '确定',
         });
         return false
       }
-      if(this.dayGap(this.cdt.startDepartdate,this.cdt.endDepartdate)>30){
+      if(dayGap(this.cdt.startDepartdate,this.cdt.endDepartdate,0)>30){
         this.$alert('预计起飞时间查询时间间隔不能超过一个月，如有需要请分多次查询', '提示', {
           confirmButtonText: '确定',
         });
         return false
       }
-      if(this.dayGap(this.cdt.startArrivdate,this.cdt.endArrivdate)>30){
+      if(dayGap(this.cdt.startArrivdate,this.cdt.endArrivdate,0)>30){
         this.$alert('预计降落时间查询时间间隔不能超过一个月，如有需要请分多次查询', '提示', {
           confirmButtonText: '确定',
         });
@@ -2917,7 +2896,7 @@ export default {
        let link = document.createElement('a')
        link.style.display = 'none'
        link.href = url
-       link.setAttribute('download', 'aaa.xls')
+       link.setAttribute('download', 'template.xls')
        document.body.appendChild(link)
        link.click()
    },
