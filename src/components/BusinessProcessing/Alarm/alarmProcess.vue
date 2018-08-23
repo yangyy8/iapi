@@ -15,6 +15,7 @@
     </div>
     <div class="middle mb-6">
       <div class="middle-tab">
+
         <div v-if="$route.query.type!=0" class="middle-tab-item hand" style="height: 40px;line-height: 40px;" :class="{'middle-checked':tabIsShow==false}" @click="xinxi">
           基本信息
         </div>
@@ -530,10 +531,21 @@
 
 <script>
 export default {
+  // props:{
+  //   eventserial: {
+  //     type: String,
+  //     default: "ddddd"
+  //   },
+  //   type:{
+  //     type: Number,
+  //     default: 1
+  //   }
+  // },
   data() {
     return {
       htmlTitle: '页面导出PDF文件名',
       eventserial: "ddddddd",
+      type:1,
       tabIsShow: false,
       iapiMap: {},
       listMap: [],
@@ -550,16 +562,29 @@ export default {
       msgData: 0
     }
   },
-  mounted() {
+  created() {
     // this.msgData=0;
-    this.eventserial = this.$route.query.eventserial;
-    this.getList();
-    if (this.$route.query.type==0) {
-      this.shijian();
-    }
+
+    // if(this.$route.query.eventserial){
+    let _this=this;
+    setTimeout(function(){
+      _this.eventserial = _this.$route.query.eventserial;
+      console.log(_this.$route.query,1);
+      if(_this.$route.query.type==0) {
+        _this.shijian();
+      }else{
+        _this.getList();
+      }
+    },400)
+
+
+    // }
+
   },
+
   methods: {
     getList() {
+      this.tabIsShow=false;
       let p = {
         "currentPage": 0,
         "showCount": 3,
