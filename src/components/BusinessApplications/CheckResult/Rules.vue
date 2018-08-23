@@ -213,7 +213,7 @@
                   label="比中值" >
                 </el-table-column>
                 <el-table-column
-                  prop="thanTypeDesc"
+                  prop="ruleTypeDesc"
                   label="不通过原因" >
                 </el-table-column>
 
@@ -401,12 +401,10 @@ export default {
 
         })
     },
-    getnum() {
+    getnum(pd) {
 
       let p = {
-        "cdt": {
-          "notPass": "1"
-        }
+        "cdt": pd
       };
       this.$api.post('/manage-platform/compareReuslt/businessRule/counter', p,
         r => {
@@ -425,7 +423,7 @@ export default {
       }
 
       this.getsum(pd);
-      this.getnum();
+      this.getnum(pd);
 
       let p = {
         "currentPage": currentPage,

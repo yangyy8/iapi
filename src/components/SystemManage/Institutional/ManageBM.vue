@@ -293,7 +293,7 @@ export default {
       let p = {
         "currentPage": currentPage,
         "showCount": showCount,
-        "cdt": pd
+        "pd": pd
       };
       this.$api.post('/manage-platform/deptSys/selectAll', p,
         r => {
