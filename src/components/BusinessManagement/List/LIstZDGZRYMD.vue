@@ -33,7 +33,7 @@
 
             <el-col :sm="24" :md="12"  :lg="8" class="input-item">
               <span class="input-text">证件号码：</span>
-              <el-input placeholder="请输入内容" size="small" v-verify.input.blur ="{regs:'required|max:35',submit:'demo'}" v-model="pd.CARDNO" clearable class="input-input"></el-input>
+              <el-input placeholder="请输入内容" size="small"  v-model="pd.CARDNO" clearable class="input-input"></el-input>
             </el-col>
 
             <el-col :sm="24" :md="12"  :lg="8" class="input-item">
@@ -449,8 +449,8 @@
         <el-row type="flex" class="detail-msg-row">
           <el-col :sm="24" :md="12" :lg="8" >
             <span>出入标识</span>
-            <a v-if="detailsData.IN_OUT=='0'">入境</a>
-            <a v-if="detailsData.IN_OUT=='1'">出境</a>
+            <a v-if="detailsData.IN_OUT=='I'">入境</a>
+            <a v-if="detailsData.IN_OUT=='O'">出境</a>
 
           </el-col>
           <el-col :sm="24" :md="12" :lg="8" >
@@ -473,22 +473,17 @@
           </el-col>
           <el-col :sm="24" :md="12" :lg="8" >
             <span>出入事由</span>
-            <a v-if="detailsData.REASON=='0'">探亲</a>
-            <a v-if="detailsData.REASON=='1'">旅游</a>
-            <a v-if="detailsData.REASON=='2'">全部</a>
+            {{detailsData.REASONNAME}}
           </el-col>
           <el-col :sm="24" :md="12" :lg="8" >
             <span>关注范围</span>
-            
-            {{detailsData.SCOPE}}
-
+            {{detailsData.SCOPENAME}}
           </el-col>
         </el-row>
         <el-row type="flex" class="detail-msg-row">
           <el-col :sm="24" :md="12" :lg="8" >
             <span>报列单位</span>
             {{detailsData.REPORTUNITNAME}}
-
           </el-col>
           <el-col :sm="24" :md="12" :lg="8" >
             <span>联系电话</span>
@@ -497,7 +492,8 @@
           </el-col>
           <el-col :sm="24" :md="12" :lg="8" >
             <span>关注类别</span>
-            {{detailsData.TYPE}}
+            <a v-if="detailsData.TYPE=='1'">风评高风险人员</a>
+            <a v-if="detailsData.TYPE=='2'">特殊关注对象</a>
 
           </el-col>
         </el-row>
@@ -524,11 +520,11 @@
             {{detailsData.CREATETIME}}
 
           </el-col>
-          <el-col :span="6" :lg="30">
+          <!-- <el-col :span="6" :lg="30">
             <span>更新操作时间</span>
             {{detailsData.UPDATETIME}}
 
-          </el-col>
+          </el-col> -->
         </el-row>
       </div>
       <span slot="footer" class="dialog-footer">
@@ -735,6 +731,7 @@ export default {
     addServe(){
       this.form={};
       this.addDialogVisible=true;
+      this.dialogType="add"
       this.dialogText="新增"
     },
 
