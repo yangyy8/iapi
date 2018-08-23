@@ -455,18 +455,25 @@
 
           <el-row type="flex" style="height:100%" v-show="page==2">
             <el-col :span="22" class="br" type="flex">
-              <el-row type="flex" justify="end">
+              <el-row type="flex" justify="start">
                 <el-col :sm="24" :md="12" :lg="12" class="selfAdd">
                   <el-button type="primary" plain size="mini" @click="selfAddRow" class="selfAdd">添加</el-button>
                 </el-col>
               </el-row>
               <el-row align="center" :gutter="2">
                  <!-- 左边查询条件 -->
-                   <el-col :sm="24" :lg="14" class="queryLeft">
-                     <el-row type="flex" align="center" :gutter="10" style="width:100%">
-                       <el-col :sm="24" :md="12" :lg="6" class="input-item">
-                         <span class="input-text">属性：</span>
-                         <el-select placeholder="请选择" v-model="selfCdtList.attribute" filterable clearable @visible-change="attribute(selfCdtList)" @change="attributeOperator(selfCdtList)" size="mini" @clear="cl(selfCdtList.attribute)">
+                 <el-col :sm="24" :lg="14" class="queryLeft">
+                   <el-table
+                     ref="multipleTable"
+                     :data="selfRows"
+                     border
+                     style="width: 100%;"
+                     max-height="140">
+                     <el-table-column
+                       label="属性"
+                       width="150">
+                       <template slot-scope="scope">
+                         <el-select placeholder="请选择属性" v-model="scope.row.attribute" filterable clearable size="mini" class="input-inp" @visible-change="attribute(scope.row)" @change="attributeOperator(scope.row)">
                            <el-option
                              v-for="item in selfNature"
                              :key="item.name"
@@ -474,9 +481,13 @@
                              :label="item.name"
                            ></el-option>
                          </el-select>
-                       </el-col>
-                       <el-col :sm="24" :md="12" :lg="3" class="input-item t-operator">
-                         <el-select placeholder="请选择" v-model="selfCdtList.operator" filterable clearable @visible-change="attribute2(selfNature,selfCdtList)" size="mini">
+                      </template>
+                     </el-table-column>
+                     <el-table-column
+                       label="操作符"
+                       width="100">
+                       <template slot-scope="scope">
+                         <el-select placeholder="请选择" v-model="scope.row.operator" filterable clearable class="input-inp" @visible-change="attribute2(selfNature,scope.row)" size="mini">
                            <el-option
                              v-for="item in operator"
                              :key="item"
@@ -484,18 +495,23 @@
                              :label="item"
                            ></el-option>
                          </el-select>
-                       </el-col>
-                       <el-col :sm="24" :md="12" :lg="5" class="input-item">
+                      </template>
+                     </el-table-column>
+
+                     <el-table-column
+                       label="值"
+                       width="150">
+                       <template slot-scope="scope">
                          <!-- 输入框 -->
-                         <el-input placeholder="请输入内容" v-model="selfCdtList.atype" size="mini" v-show="selfCdtList.type==0"></el-input>
+                         <el-input placeholder="请输入值" v-model="scope.row.atype" size="mini" v-show="scope.row.type==0" class="input-inp"></el-input>
                          <!-- 性别 -->
-                         <el-select placeholder="请选择" v-model="selfCdtList.atype" filterable clearable size="mini" v-show="selfCdtList.type==1">
+                         <el-select placeholder="请选择值" v-model="scope.row.atype" filterable clearable size="mini" v-show="scope.row.type==1" class="input-inp">
                            <el-option label="M - 男" value="M"></el-option>
                            <el-option label="F - 女" value="F"></el-option>
                            <el-option label="U - 未知" value="U"></el-option>
                          </el-select>
                          <!-- 起飞机场 -->
-                         <el-select placeholder="请选择" v-model="selfCdtList.atype" filterable @visible-change="takeOff" size="mini" class="input-input t-width100" v-show="selfCdtList.type==2">
+                         <el-select placeholder="请选择" v-model="scope.row.atype" filterable clearable @visible-change="takeOff" size="mini" class="input-inp" v-show="scope.row.type==2">
                            <el-option
                            v-for="item in takeOffName"
                            :key="item.AIRPORT_CODE"
@@ -505,112 +521,58 @@
                          </el-select>
                          <!-- 日期 精确到天 -->
                          <el-date-picker
-                         v-model="selfCdtList.atype"
-                         v-show="selfCdtList.type==3"
-                         type="date" size="mini"
+                         v-model="scope.row.atype"
+                         v-show="scope.row.type==3"
+                         type="datetime" size="mini"
                          placeholder="选择日期"
-                         class="t-width100"
-                         value-format="yyyyMMdd"
-                         >
+                         value-format="yyyyMMddHHmmss"
+                         class="input-inp">
                         </el-date-picker>
                        <!-- 日期 精确到秒 -->
                          <el-date-picker
-                         v-model="selfCdtList.atype"
-                         v-show="selfCdtList.type==4"
+                         v-model="scope.row.atype"
+                         v-show="scope.row.type==4"
                          type="datetime" size="mini"
                          placeholder="选择日期"
-                         class="t-width100"
-                         value-format="yyyyMMddHHmmss">
+                         value-format="yyyyMMddHHmmss"
+                         class="input-inp">
                         </el-date-picker>
-
-                       </el-col>
-                     </el-row>
-
-                     <el-row type="flex" align="center" :gutter="10" style="width:100%" v-for="self in selfRows">
-                      <el-col :sm="24" :md="12" :lg="6" class="input-item">
-                        <span class="input-text">属性：</span>
-                        <el-select placeholder="请选择" v-model="self.attribute" @visible-change="attribute(self)" @change="attributeOperator(selfNature)" filterable clearable size="mini">
-                          <el-option
-                            v-for="item in selfNature"
-                            :key="item.name"
-                            :value="item.name"
-                            :label="item.name"
-                          ></el-option>
-                        </el-select>
-                      </el-col>
-                      <el-col :sm="24" :md="12" :lg="3" class="input-item t-operator">
-                        <el-select placeholder="请选择" v-model="self.operator" filterable clearable @visible-change="attribute2(selfNature,self)" size="mini">
-                          <el-option
-                            v-for="item in operator"
-                            :key="item"
-                            :value="item"
-                            :label="item"
-                          ></el-option>
-                        </el-select>
-                      </el-col>
-                      <el-col :sm="24" :md="12" :lg="5" class="input-item">
-                        <!-- 输入框 -->
-                        <el-input placeholder="请输入内容" v-model="self.atype" size="mini" v-show="self.type==0"></el-input>
-                        <!-- 性别 -->
-                        <el-select placeholder="请选择" v-model="self.atype" filterable clearable size="mini" v-show="self.type==1">
-                          <el-option label="M - 男" value="M"></el-option>
-                          <el-option label="F - 女" value="F"></el-option>
-                          <el-option label="U - 未知" value="U"></el-option>
-                        </el-select>
-                        <!-- 起飞机场 -->
-                        <el-select placeholder="请选择" v-model="self.atype" filterable clearable @visible-change="takeOff" size="mini" class="input-input t-width100" v-show="self.type==2">
-                          <el-option
-                          v-for="item in takeOffName"
-                          :key="item.AIRPORT_CODE"
-                          :value="item.AIRPORT_CODE"
-                          :label="item.AIRPORT_CODE+' - '+item.AIRPORT_NAME">
-                          </el-option>
-                        </el-select>
-                        <!-- 日期 精确到天 -->
-                        <el-date-picker
-                        v-model="self.atype"
-                        v-show="self.type==3"
-                        type="datetime" size="mini"
-                        placeholder="选择日期"
-                        class="t-width100"
-                        value-format="yyyyMMddHHmmss">
-                       </el-date-picker>
-                      <!-- 日期 精确到秒 -->
-                        <el-date-picker
-                        v-model="self.atype"
-                        v-show="self.type==4"
-                        type="datetime" size="mini"
-                        placeholder="选择日期"
-                        class="t-width100"
-                        value-format="yyyyMMddHHmmss">
-                       </el-date-picker>
-                      </el-col>
-                      <el-col :sm="24" :md="12" :lg="7" class="input-item">
-                        <span class="input-text">逻辑关系：</span>
-                        <el-select placeholder="请选择" v-model="self.relation" filterable clearable size="mini" class="input-input" style="margin-left:10%">
-                          <el-option label="and" value="and"></el-option>
-                          <el-option label="or" value="or"></el-option>
-                        </el-select>
-                      </el-col>
-                      <el-col :sm="24" :md="12" :lg="2" class="selfButton">
-                        <el-button type="warning" plain size="mini" @click="selfDeleteRow(self)">删除</el-button>
-                      </el-col>
-
-                     </el-row>
-                     <el-row type="flex" justify="start" align="center" :gutter="10" style="width:100%">
-                     <el-col :sm="24" :md="12" :lg="8" class="input-item">
-                       <span class="input-text">数据排序：</span>
-                       <el-select placeholder="请选择" v-model="dataSort" filterable clearable size="mini" @visible-change="order()">
-                         <el-option
-                           v-for="item in sortSet"
-                           :key="item.code"
-                           :value="item.code"
-                           :label="item.code+' - '+item.name"
-                         ></el-option>
-                       </el-select>
-                     </el-col>
-                     </el-row>
-                   </el-col>
+                      </template>
+                     </el-table-column>
+                     <el-table-column
+                       label="逻辑关系"
+                       width="100">
+                       <template slot-scope="scope">
+                         <el-select placeholder="请选择" v-model="scope.row.relation" filterable clearable size="mini" class="input-inp">
+                           <el-option label="and" value="and"></el-option>
+                           <el-option label="or" value="or"></el-option>
+                         </el-select>
+                      </template>
+                     </el-table-column>
+                     <el-table-column
+                       label="排序方式"
+                       width="150">
+                       <template slot-scope="scope">
+                         <el-select placeholder="请选择" v-model="scope.row.dataSort" filterable clearable size="mini" @visible-change="order()">
+                           <el-option
+                             v-for="item in sortSet"
+                             :key="item.code"
+                             :value="item.code"
+                             :label="item.name"
+                           ></el-option>
+                         </el-select>
+                      </template>
+                     </el-table-column>
+                     <el-table-column
+                       label="操作"
+                       width="120"
+                       fixed="right">
+                       <template slot-scope="scope">
+                          <el-button class="table-btn" plain size="mini" icon="el-icon-delete" @click="selfDeleteRow(scope.$index)">删除</el-button>
+                      </template>
+                     </el-table-column>
+                   </el-table>
+                 </el-col>
 
 
                   <!-- 右边表达式 -->
@@ -965,7 +927,7 @@
         id="printMe"
         >
         <el-table-column
-          width="100"
+
            label="单选">
           <template slot-scope="scope">
             <el-radio v-model="radio" class="radio" :label="scope.row.I_SERIAL">&nbsp;</el-radio>
@@ -1186,6 +1148,7 @@
         </el-table-column>
         <el-table-column
           label="操作"
+          width="100"
         >
           <template slot-scope="scope">
             <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row)">详情</el-button>
@@ -1249,6 +1212,7 @@ export default {
       htmlTitle: '页面导出PDF文件名',
       sortSet:[],
       dataSort:'',
+      arr:[],
 
       openList:true,
       openCheckbox:true,
@@ -1331,7 +1295,8 @@ export default {
             operator:'',
             type:0,
             relation:'',
-            atype:''
+            atype:'',
+            dataSort:''
         }
       ],
       selfModelrow:{
@@ -1340,7 +1305,8 @@ export default {
         operator:'',
         type:0,
         relation:'',
-        atype:''
+        atype:'',
+        dataSort:''
       },
       selfCleanRow:{
         id:0,
@@ -1348,7 +1314,8 @@ export default {
         operator:'',
         type:0,
         relation:'',
-        atype:''
+        atype:'',
+        dataSort:''
       },
       count:1,
       formData:{'file':''},
@@ -1632,61 +1599,39 @@ export default {
   computed:{
     aaa:{
       get:function(){
-        let switchOperator='';
         let switchArr='';
         let arr = this.selfRows;
-        console.log(this.str);
-        if(this.selfCdtList.attribute!=""){
-          if(this.selfCdtList.operator=='等于'){
-            switchOperator='='
-            console.log('('+this.selfCdtList.attribute+switchOperator+this.selfCdtList.atype+')');
-          }else if(this.selfCdtList.operator=='小于'){
-            switchOperator='<'
-          }else if(this.selfCdtList.operator=='大于'){
-            switchOperator='>'
-          }else if(this.selfCdtList.operator=='大于等于'){
-            switchOperator='>='
-          }else if(this.selfCdtList.operator=='小于等于'){
-            switchOperator='<='
-          }else if(this.selfCdtList.operator=='不包含'){
-            switchOperator='<>'
-          }
-          if(this.selfCdtList.attribute==''&&this.selfCdtList.atype==''&&this.selfCdtList.operator==undefined){
-            this.str = '';
-          }else{
-            this.clearTime();
-            this.str = '('+this.selfCdtList.attribute+switchOperator+this.selfCdtList.atype+')';
-          }
-
-          for(var i=0;i<arr.length;i++){
-            if(arr[i].operator=='等于'){
-              switchArr='='
-            }else if(arr[i].operator=='小于'){
-              switchArr='<'
-            }else if(arr[i].operator=='大于'){
-              switchArr='>'
-            }else if(arr[i].operator=='大于等于'){
-              switchArr='>='
-            }else if(arr[i].operator=='小于等于'){
-              switchArr='<='
-            }else if(arr[i].operator=='不包含'){
-              switchArr='<>'
-            }
-            if(arr[i].attribute==''&&arr[i].atype==''&&arr[i].operator==''){
-              this.str+='';
-            }else{
-              if(arr[i].atype == null){
-                arr[i].atype ='';
+        console.log(this.selfRows[0].attribute);
+        if(this.selfRows[0].attribute!=''){
+            this.str='';
+            for(var i=0;i<arr.length;i++){
+              if(arr[i].operator=='等于'){
+                switchArr='='
+              }else if(arr[i].operator=='小于'){
+                switchArr='<'
+              }else if(arr[i].operator=='大于'){
+                switchArr='>'
+              }else if(arr[i].operator=='大于等于'){
+                switchArr='>='
+              }else if(arr[i].operator=='小于等于'){
+                switchArr='<='
+              }else if(arr[i].operator=='不包含'){
+                switchArr='<>'
               }
-              this.str += arr[i].relation+'('+arr[i].attribute+switchArr+arr[i].atype+')';
-            }
-
-          };
+              if(arr[i].attribute==''){
+                 this.str+='';
+              }else{
+                if(arr[i].atype == null){
+                  arr[i].atype ='';
+                }
+                this.str += '('+arr[i].attribute+switchArr+arr[i].atype+')'+arr[i].relation;
+            };
+          }
         }
 
-        this.selfCdt.AAAAA = this.str;
-        console.log(this.selfCdt.AAAAA);
-        return  this.str;
+      this.selfCdt.AAAAA = this.str;
+      console.log(this.selfCdt.AAAAA);
+      return  this.str;
       },
       set:function(newVal){
         this.aaa2 = newVal;
@@ -1739,7 +1684,7 @@ export default {
         }else if(this.page==1){
           this.batchQueryList(this.currentPage,val,this.rows);
         }else if(this.page==2){
-          this.selfQueryList(this.currentPage,val,this.selfCdt,this.dataSort);
+          this.selfQueryList(this.currentPage,val,this.selfCdt);
         }
       }else if(this.bigBase == 1){
         if(this.page==0){
@@ -1747,7 +1692,7 @@ export default {
         }else if(this.page==1){
           this.batchQueryListPnr(this.currentPage,val,this.rows);
         }else if(this.page==2){
-          this.selfQueryListPnr(this.currentPage,val,this.selfCdt,this.dataSort);
+          this.selfQueryListPnr(this.currentPage,val,this.selfCdt);
         }
       }
     },
@@ -1761,7 +1706,7 @@ export default {
         }else if(this.page==1){
           this.batchQueryList(val,this.showCount,this.rows);
         }else if(this.page==2){
-          this.selfQueryList(val,this.showCount,this.selfCdt,this.dataSort);
+          this.selfQueryList(val,this.showCount,this.selfCdt);
         }
       }else if(this.bigBase == 1){
         if(this.page==0){
@@ -1769,7 +1714,7 @@ export default {
         }else if(this.page==1){
           this.batchQueryListPnr(val,this.showCount,this.rows);
         }else if(this.page==2){
-          this.selfQueryListPnr(val,this.showCount,this.selfCdt,this.dataSort);
+          this.selfQueryListPnr(val,this.showCount,this.selfCdt);
         }
       }
     },
@@ -1879,7 +1824,7 @@ export default {
       }else if(this.page == 1){
         this.batchQueryList(this.currentPage,this.showCount,this.rows);
       }else if(this.page == 2){
-        this.selfQueryList(this.currentPage,this.showCount,this.selfCdt,this.dataSort);
+        this.selfQueryList(this.currentPage,this.showCount,this.selfCdt);
       }
 
     },
@@ -2303,14 +2248,16 @@ export default {
 
 
     //----------------------------自定义查询start------------------------------
-    selfQueryList(currentPage,showCount,selfCdt,dataSort){//自定义查询列表
+    selfQueryList(currentPage,showCount,selfCdt){//自定义查询列表
       this.currentPage = 1;
       let dataSelf = [];
-      dataSelf.push(dataSort);
+      for(var i=0;i<this.selfRows.length;i++){
+        dataSelf.push(this.selfRows[i].dataSort);
+      }
+      console.log(dataSelf);
       let sql = {
         "currentPage":currentPage,
       	"showCount":showCount,
-
         "orders":dataSelf
       }
       if(this.typeG == 0){
@@ -2331,16 +2278,23 @@ export default {
          }
        })
     },
-    selfQueryListPnr(currentPage,showCount,selfCdt,dataSort){
+    selfQueryListPnr(currentPage,showCount,selfCdt){
       this.currentPage = 1;
       console.log(selfCdt.AAAAA);
       let dataSelfPnr = [];
-      dataSelfPnr.push(dataSort)
+      for(var i=0;i<this.selfRows.length;i++){
+        dataSelfPnr.push(this.selfRows[i].dataSort);
+      }
       let sqlp = {
         "currentPage":currentPage,
       	"showCount":showCount,
-      	"cdt":selfCdt.AAAAA,
         "orders":dataSelfPnr
+      }
+      if(this.typeG == 0){
+        sqlp.cdt = this.str
+      }else if(this.typeG == 1){
+        sqlp.cdt = this.str1
+        this.typeG = 0;
       }
       this.$api.post('/manage-platform/pnr/customPnrQuery',sqlp,
        r =>{
@@ -2356,9 +2310,9 @@ export default {
     },
     selfS(){
       if(this.bigBase == 0){
-        this.selfQueryList(this.currentPage,this.showCount,this.selfCdt,this.dataSort);
+        this.selfQueryList(this.currentPage,this.showCount,this.selfCdt);
       }else if(this.bigBase == 1){
-        this.selfQueryListPnr(this.currentPage,this.showCount,this.selfCdt,this.dataSort);
+        this.selfQueryListPnr(this.currentPage,this.showCount,this.selfCdt);
       }
     },
     selfPlanSave(){//自定义 方案保存是否重名
@@ -2428,7 +2382,6 @@ export default {
       r =>{
         if(r.success){
           console.log(r.data.config.AAAAA);
-          this.selfCdtList = {id:0,type:0,attribute:'',atype:''};
           this.selfRows=[{id:1,attribute:'',operator:'',type:0,relation:'',atype:''}];
           this.str = r.data.config.AAAAA; //渲染
           let arr = r.data.showConfigList;
@@ -2486,20 +2439,20 @@ export default {
         operator:'',
         type:0,
         relation:'',
-        atype:''
+        atype:'',
+        dataSort:''
       },
       this.selfModelrow.id=this.selfCount;
       this.selfRows.push(this.selfModelrow);
     },
     selfDeleteRow(id){//自定义查询 删除操作
-      let self = this.selfRows.indexOf(id);
-      this.selfRows.splice(self,1);
+      this.selfRows.splice(id,1);
     },
     attribute(self){//属性
       this.$set(self,'operator','');
       this.$set(self,'atype','');
       this.$set(self,'operator','');
-      this.$set(self,'atype','');
+      this.$set(self,'relation','');
       this.$api.post('/manage-platform/iapi/getCustomQueryConfig',{},
       r =>{
         if(r.success){
@@ -2516,16 +2469,13 @@ export default {
         }
       }
     },
-    attributeOperator(odj){//属性联动
-
-      // console.log(arr);
-      // console.log(val);
-      // for(var i in arr){
-      //   if(arr[i].name==val){
-      //       this.selfType=arr[i].type
-      //   }
-      // }
-      // console.log(this.selfType);
+    attributeOperator(item){//属性联动
+      if(item.attribute==''||item.attribute==undefined){
+        this.$set(item,'operator','');
+        this.$set(item,'atype','');
+        this.$set(item,'operator','');
+        this.$set(item,'relation','');
+      }
     },
     //----------------------------自定义查询end------------------------------
 
@@ -2812,14 +2762,13 @@ export default {
       }
     },
     selfReset(){
-      this.selfCdtList = {id:0,type:0,attribute:'',atype:''};
       this.selfRows=[{id:1,attribute:'',operator:'',type:0,relation:'',atype:''}];
       this.str = '';
       this.ffff='';
       if(this.bigBase == 0){
         this.selfQueryList(this.currentPage,this.showCount,this.selfCdt,this.dataSort);
       }else if(this.bigBase == 1){
-        this.selfQueryListPnr(this.currentPage,this.showCount,this.selfCdt,this.dataSort);
+        this.selfQueryListPnr(this.currentPage,this.showCount,this.selfCdt);
       }
     },
     batchI(){
@@ -2887,13 +2836,13 @@ export default {
    cl(i){
      this.str="";
    },
-   clearTime(){
-     console.log(this.selfCdtList.atype);
-     if(this.selfCdtList.atype == null){
-       this.selfCdtList.atype=''
-     }
-     console.log(this.selfCdtList.atype);
-   },
+   // clearTime(){
+   //   console.log(this.selfCdtList.atype);
+   //   if(this.selfCdtList.atype == null){
+   //     this.selfCdtList.atype=''
+   //   }
+   //   console.log(this.selfCdtList.atype);
+   // },
    download(){
      console.log(this.$api.rootUrl+"/manage-platform/iapi/export/three");
      axios({
@@ -3140,5 +3089,7 @@ export default {
     -ms-filter: 'alpha(opacity=0)';
     font-size: 200px;
 }
-
+.selfAdd{
+  margin-bottom: 5px;
+}
 </style>

@@ -226,7 +226,7 @@
         <el-button type="success" size="small" @click="showUpload">批量导入</el-button>
 
         <el-button type="info" size="small" @click="dialogType='dels';releaseDialogVisible=true" :disabled="isdisable">批量删除</el-button>
-        <el-button type="warning" size="small" @click="releaseDialogVisible=true;dialogType='syn'" :disabled="isdisable">生效发布</el-button>
+        <el-button type="warning" size="small" @click="releaseDialogVisible=true;dialogType='syn';resetForm('releasForm')" :disabled="isdisable">生效发布</el-button>
         <el-button type="danger" size="small" @click="getHisFn(CurrentPage,pageSize,pd)">历史资料</el-button>
         <el-button type="success" size="small" @click="download">模板下载</el-button>
       </el-row>
@@ -579,8 +579,8 @@
           </el-col>
           <el-col :sm="24" :md="12" :lg="8" >
             <span>出入标识</span>
-            <a v-if="detailsData.IN_OUT=='0'">入境</a>
-            <a v-if="detailsData.IN_OUT=='1'">出境</a>
+            <a v-if="detailsData.IN_OUT=='I'">入境</a>
+            <a v-if="detailsData.IN_OUT=='O'">出境</a>
 
           </el-col>
 
@@ -663,7 +663,7 @@
       </span>
     </el-dialog>
 
-    <el-dialog title="操作授权" :visible.sync="releaseDialogVisible"   width="640px">
+    <el-dialog title="操作授权" :visible.sync="releaseDialogVisible" :before-close="handleClose"  width="640px">
       <el-form :model="releaseform" ref="releasForm" label-width="100px" style="width:550px">
           <el-form-item label="用户名：" prop="user">
             <el-input placeholder="请输入内容" size="small" v-model="releaseform.user" auto-complete="off" style="display:none"></el-input>
@@ -964,6 +964,10 @@ export default {
            }
         })
       },
+      handleClose(done) {
+        this.resetForm('releasForm');
+        done();
+      },
      addItem(formName,synStatus){
        if(this.$validator.listener.demo2){
          const result = this.$validator.verifyAll('demo2')
@@ -1084,7 +1088,7 @@ export default {
                }
             })
           }else if(this.dialogType=="syn"){
-            this.resetForm('releasForm');
+            // this.resetForm('releasForm');
 
             let arr= this.multipleSelection;
             let arr1=[];

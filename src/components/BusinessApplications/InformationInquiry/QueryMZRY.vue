@@ -242,25 +242,23 @@
       </div>
     </div>
 
-    <!-- <el-dialog
-      title="查询结果"
+    <el-dialog
+      title="事件文档"
       :visible.sync="queryDialogVisible"
       width="1110px"
       >
-      <div class="add-dialog">
-        <el-table :data="gridData">
-          <el-table-column property="name" label="姓名" width="150"></el-table-column>
-          <el-table-column property="gender" label="性别" width="200"></el-table-column>
-          <el-table-column property="birthDate" label="出生日期"></el-table-column>
-          <el-table-column property="nationality" label="国籍" width="200"></el-table-column>
-          <el-table-column property="idCard" label="身份证号"></el-table-column>
-          <el-table-column property="" label="是否同值机" width="200"></el-table-column>
-        </el-table>
-      </div>
-      <span slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="queryDialogVisible = false" size="small">确定</el-button>
-      </span>
-    </el-dialog> -->
+      <AlarmProcess :eventserial="eventserial" :type="type"></AlarmProcess>
+    </el-dialog>
+
+    <el-dialog
+      title="PNR预报警详情"
+      :visible.sync="pnrDialogVisible"
+      width="1110px"
+      >
+      <AlarmProcess :eventserial="pnrEventserial" :type="pnrType" :isZDGZ="isZDGZ"></AlarmProcess>
+    </el-dialog>
+
+
     <el-dialog title="查看详情" :visible.sync="detailsDialogVisible">
       <el-form :model="dform" ref="detailsForm">
         <div class="hrtitle">基本信息</div>
@@ -516,6 +514,7 @@
 </template>
 
 <script>
+import AlarmProcess from '../../BusinessProcessing/Alarm/alarmProcess'
 import QueryNationality from '../../other/queryNationality'
 import {formatDate} from '@/assets/js/date.js'
 import {dayGap} from '@/assets/js/date.js'
@@ -523,12 +522,19 @@ export default {
   components: {
     QueryNationality
   },
+  components: {AlarmProcess},
   data(){
     return{
       CurrentPage: 1,
       pageSize: 10,
       TotalResult: 0,
       nation:[],
+      eventserial:'',
+      type:0,
+
+      pnrEventserial:'',
+      pnrType:0,
+      isZDGZ:1,
 
       hcurrentPage:1,//当前页数
       hpageSize:10, //每页显示个数选择器的选项设置
@@ -543,6 +549,7 @@ export default {
         endCreatetime:''
       },
       queryDialogVisible: false,
+      pnrDialogVisible:false,
       options: [{
           value: 10,
           label: "10"
@@ -691,10 +698,14 @@ export default {
       })
     },
     details(i){
+      this.queryDialogVisible = true;
+      this.eventserial = i.EVENTSERIAL;
       if(i.EVENTTYPE == '0'){
-        this.$router.push({name:'alarmProcess',query:{eventserial:i.EVENTSERIAL,type:0}})
+        // this.$router.push({name:'alarmProcess',query:{eventserial:i.EVENTSERIAL,type:0}})
+        this.type = 0;
       }else if(i.EVENTTYPE == '3'){
-        this.$router.push({name:'alarmProcess',query:{eventserial:i.EVENTSERIAL,type:0}})
+        // this.$router.push({name:'alarmProcess',query:{eventserial:i.EVENTSERIAL,type:0}})
+        this.type = 0;
       }else if(i.EVENTTYPE == '4'){}
     },
     getMore(item){
@@ -742,29 +753,39 @@ export default {
 
     },
     reviewDetail(){
+      this.queryDialogVisible = true;
       let ss={
         "event":this.eve
       }
       this.$api.post('/manage-platform/eventManagement/isFinishEventHandle',ss,
        r =>{
          if(r.data== true){
-            this.$router.push({name:'alarmProcess',query:{eventserial:this.eve,type:0}})
+            this.eventserial=this.eve;
+            this.type=0;
+            // this.$router.push({name:'alarmProcess',query:{eventserial:this.eve,type:0}})
          }else if(r.data == false){
-           this.$router.push({name:'alarmProcess',query:{eventserial:this.eve,type:1}})
+           this.eventserial=this.eve;
+           this.type=1;
+           // this.$router.push({name:'alarmProcess',query:{eventserial:this.eve,type:1}})
          }
        })
     },
 
     reviewCallDetail(){//查看PNR预报警详情
+      this.pnrDialogVisible = true;
       let cc={
         "event":this.pnrEve
       }
       this.$api.post('/manage-platform/eventManagement/isFinishEventHandle',ss,
        r =>{
          if(r.data== true){
-            this.$router.push({name:'alarmProcess',query:{eventserial:this.eve,type:0,isZDGZ:1}})
+           this.pnrEventserial=this.eve;
+           this.pnrType=0;
+            // this.$router.push({name:'alarmProcess',query:{eventserial:this.eve,type:0,isZDGZ:1}})
          }else if(r.data == false){
-           this.$router.push({name:'alarmProcess',query:{eventserial:this.eve,type:1,isZDGZ:1}})
+           this.pnrEventserial=this.eve;
+           this.pnrType=1;
+           // this.$router.push({name:'alarmProcess',query:{eventserial:this.eve,type:1,isZDGZ:1}})
          }
        })
     },

@@ -24,10 +24,6 @@
             <li class="top-nav-li hand" v-for="i in muneListOne" :class="{'topCheckLi':navId==i.SERIAL}" @click="topNavTo(i.SERIAL)" v-if="i.name!='日常工作'">
               {{i.name}}
             </li>
-            <!-- <li class="top-nav-li hand" v-for="i in muneListOne" :class="{'topCheckLi':navId==i.SERIAL}" @click="topNavTo(i.SERIAL)" v-if="i.name=='日常工作'">
-              {{i.name}}
-            </li> -->
-
           </ul>
           <div class="nav-btn mr-30 hand" :class="{'openNav':navUlShow}" @click="openNav" >
             <img src="../assets/img/nav_icon.png" alt="" v-if="!navUlShow">
@@ -42,8 +38,8 @@
                欢迎您！{{userName}}<i class="el-icon-arrow-down el-icon--right"></i>
              </span>
              <el-dropdown-menu slot="dropdown">
-               <!-- <el-dropdown-item><span style="display:block;width:100%;height:100%" @click="$router.push('/content/cc/ManageCenter');navId='cc';navInit()">个人中心</span></el-dropdown-item> -->
-               <!-- <el-dropdown-item><span @click="$router.push('/content/cc/UpdatePass');navId='cc'">修改密码</span></el-dropdown-item> -->
+               <el-dropdown-item><span style="display:block;width:100%;height:100%" @click="$router.push('/content/70/ManageCenter')">个人中心</span></el-dropdown-item>
+               <el-dropdown-item><span @click="$router.push('/content/70/UpdatePass');navId='cc'">修改密码</span></el-dropdown-item>
 
                <el-dropdown-item><span style="display:block;width:100%;height:100%" @click="logOut">退出</span></el-dropdown-item>
              </el-dropdown-menu>
@@ -140,8 +136,10 @@ export default {
       navId:0,
       nav1Id: 'cc',
       navh: 0,
-      nav2List: [],
+
       nav1List: [],
+      nav2List: [],
+
       nav1List7: [{
         SERIAL: "cc",
         name: "菜单设置",
@@ -173,20 +171,10 @@ export default {
     this.getUers();
     this.msg()
     this.bgChange();
-    if (this.navId == 'cc') {
-      this.nav1List = this.nav1List7;
-      if(this.$route.params.tiao){
-        this.nav1to2(this.nav1List[0],1)
-      }else{
-        console.log("cccc")
-        this.nav1to2(this.nav1List[0])
-      }
-    }else {
-      this.getNav(this.navId)
-    }
-    // this.navInit();
+    this.navInit();
   },
   methods: {
+    // 背景动画效果=====================
     bgChange(){
       let that=this
       setInterval(function(){
@@ -196,27 +184,14 @@ export default {
         }
       },20000)
     },
-    navInit(){
-      this.navId = this.$route.params.navId;
-      this.getUers();
-      if (this.navId == 'cc') {
-        this.nav1List = this.nav1List7;
-        if(this.$route.params.tiao){
-          this.nav1to2(this.nav1List[0],1)
-        }else{
-          console.log("cccc")
-          this.nav1to2(this.nav1List[0])
-        }
-      }else {
-        this.getNav(this.navId)
-      }
-    },
+    // 用户信息获取=========================
     getUers(){
       this.$api.post('/manage-platform/homePage/userInfo',{},
        r => {
          this.userName=r.data.userName;
       })
     },
+    // 弹窗信息=============================
     msg(){
       this.$api.post('/manage-platform/MessageBounced/getMessageInfo ',{type:'bjcl'},
        r => {
@@ -237,22 +212,13 @@ export default {
 
       })
     },
-    logOut(){
-      this.$api.post('/manage-platform/landout',{},
-       r => {
-        if(r.success){
-          this.$message({
-            message: '退出成功',
-            type: 'success'
-          });
-        }
-        this.$router.push('/')
-
-      })
+    // 左侧菜单初始化=====================
+    navInit(){
+      this.navId = this.$route.params.navId;
+      this.getNav(this.navId);
     },
+    // 左侧菜单获取===============================
     getNav(navId) {
-      this.navId = navId;
-      console.log(navId)
       this.$api.post('/manage-platform/muneSys/menuChild', {
           SERIAL: navId
         },
@@ -276,42 +242,34 @@ export default {
         })
 
     },
-
+    // 顶部菜单获取=================================
     openNav() {
       this.navUlShow = !this.navUlShow
       if (this.navUlShow) {
         this.$api.post('/manage-platform/muneSys/selectMenuOne', {},
           r => {
             if(r.success){
-              this.muneListOne = r.data.muneListOne
+              this.muneListOne = r.data.muneListOne;
+              console.log(this.muneListOne)
             }
           })
       }
     },
+    // 顶部菜单跳转================================
     topNavTo(SERIAL){
-
-      // if(this.tabList)
-      this.$router.push({params: {navId:SERIAL} });
-
+      console.log("顶部菜单跳转",SERIAL)
+      this.$router.push({params: {navId:SERIAL}});
       this.getNav(SERIAL);
-      this.tabList=[];
+      // this.tabList=[];
     },
-    closeRight(index){
-      // alert("杀杀杀")
-      this.rightShow=index;
-      document.oncontextmenu=function(){
-          return false;
-      }
-    },
+    // 点击一级菜单================================
     nav1to2(nav1Itme,click) {
       this.$router.push({query:{nav1Id:nav1Itme.SERIAL}})
 
       this.isNav2Show();
-      // console.log(nav1Itme.SERIAL)
-      // this.$set(data,'nav1Id',nav1Itme.SERIAL)
       this.nav1Id = nav1Itme.SERIAL;
-      console.log(this.nav1Id)
       this.nav2List = nav1Itme.menuList;
+
       let that=this;
       if(click==1){
         console.log(3)
@@ -326,8 +284,8 @@ export default {
       }
 
     },
+    // 点击二级菜单======================================
     nav2(item,type) {
-      console.log(item)
       if(this.tabList.length>8){
         console.log(this.tabList.length)
         this.tabliwidth=100/(this.tabList.length+1)+'%'
@@ -339,50 +297,68 @@ export default {
       }
 
       this.nav2Id = item.url;
-      this.nav1Id=item.parentId;
+      this.nav1Id= item.parentId;
       this.nav1List.map(function(a,b){
-        console.log(a,b)
         if(a.SERIAL==item.parentId){
           this.nav2List = a.menuList;
         }
       },this)
       let flag=true;
-      if(!type){
-        this.tabList.map(function(a,b){
-          if(a.parentId==this.nav1Id){
-            console.log(5);
-            flag=false
-            // return false
-          }
-        },this)
-      }
+      // if(!type){
+      //   this.tabList.map(function(a,b){
+      //     if(a.parentId==this.nav1Id){
+      //       console.log(5);
+      //       flag=false
+      //       // return false
+      //     }
+      //   },this)
+      // }
 
-      if(flag){
+      // if(flag){
         new Set(this.tabList)
         this.tabList.push(item)
         this.tabList = Array.from(new Set(this.tabList));
         this.$router.push({name: item.url,query:{nav1Id:item.parentId}})
-      }
+      // }
 
     },
-    nav2Top(item){
-      console.log(item)
-      this.nav2Id = item.url;
-      this.nav1Id=item.parentId;
-      this.nav1List.map(function(a,b){
-        if(a.SERIAL==item.parentId){
-          this.nav2List = a.menuList;
+    // 关闭tab页面==========================
+    close1(index) {
+      this.tabList.splice(index, 1);
+      if (index > 0) {
+        this.nav2Id = this.tabList[index - 1].url
+        this.$router.push({name: this.nav2Id,query:{nav1Id:this.nav1Id}})
+      }if(index==0){
+        if(this.tabList.length!=0){
+          this.nav2Id = this.tabList[index].url
+          this.$router.push({name: this.nav2Id,query:{nav1Id:this.nav1Id}})
+        }else {
+          this.nav2Id=null;
+          this.$router.push({name: 'Content',query:{nav1Id:this.nav1Id}})
+
         }
-      },this)
-      // console.log(item, item.url)
-      // new Set(this.tabList)
-      // console.log(this.tabList)
 
-      // this.tabList.push(item)
-      // this.tabList = Array.from(new Set(this.tabList));
-      // console.log(item.url)
-      // this.$router.push({name: item.url,query:{nav1Id:item.parentId}})
 
+      }
+    },
+    logOut(){
+      this.$api.post('/manage-platform/landout',{},
+       r => {
+        if(r.success){
+          this.$message({
+            message: '退出成功',
+            type: 'success'
+          });
+        }
+        this.$router.push('/')
+
+      })
+    },
+    closeRight(index){
+      this.rightShow=index;
+      document.oncontextmenu=function(){
+          return false;
+      }
     },
     preList() {
       if (this.nav1Star == 0) {
@@ -408,24 +384,7 @@ export default {
       this.nav2Show = true;
       this.nav2HideBar = true;
     },
-    close1(index) {
-      this.tabList.splice(index, 1);
-      if (index > 0) {
-        this.nav2Id = this.tabList[index - 1].url
-        this.$router.push({name: this.nav2Id,query:{nav1Id:this.nav1Id}})
-      }if(index==0){
-        if(this.tabList.length!=0){
-          this.nav2Id = this.tabList[index].url
-          this.$router.push({name: this.nav2Id,query:{nav1Id:this.nav1Id}})
-        }else {
-          this.nav2Id=null;
-          this.$router.push({name: 'Content',query:{nav1Id:this.nav1Id}})
 
-        }
-
-
-      }
-    }
   }
 }
 </script>
@@ -720,10 +679,10 @@ export default {
 }
 
 .fade-enter-active, .fade-leave-active {
-  transition: all  0.3s;
+  transition: all  0.2s;
 }
 .fade-enter-active {
-    transition-delay:all 0.3s;
+    transition-delay:all 0.2s;
 }
 .fade-enter, .fade-leave-to {
   opacity: 0;
