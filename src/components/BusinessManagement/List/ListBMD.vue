@@ -981,6 +981,7 @@ export default {
              // alert('填写成功')
            }
         }
+
         if(synStatus==0 && this.dialogType=="add"){
 
           this.form.synStatus=synStatus;
