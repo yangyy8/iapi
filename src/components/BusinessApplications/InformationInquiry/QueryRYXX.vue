@@ -617,7 +617,7 @@
                   <el-col :lg="10" class="queryRight">
                     <el-row type="flex" align="center" :gutter="10" style="width:100%">
                       <span class="input-text expression-text">表达式：</span>
-                      <el-input type="textarea" class="expression" v-model="aaa"></el-input>
+                      <el-input type="textarea" class="expression" v-model="aaa" @input="ii()"></el-input>
                     </el-row>
                   </el-col>
               </el-row>
@@ -1526,7 +1526,6 @@ export default {
       eve:'',
       pnrEve:'',
       str:'',
-      // aaa:'',
       name:'',
       radio:'',
       options:[
@@ -1559,6 +1558,8 @@ export default {
       selfType:0,
       file:'',
       bigBase:0,
+      typeG:0,
+      str1:'',
       pickerOptions: {
         disabledDate: (time) => {
             if (this.cdt.endFlightDepartdate != null) {
@@ -1643,6 +1644,12 @@ export default {
             switchOperator='<'
           }else if(this.selfCdtList.operator=='大于'){
             switchOperator='>'
+          }else if(this.selfCdtList.operator=='大于等于'){
+            switchOperator='>='
+          }else if(this.selfCdtList.operator=='小于等于'){
+            switchOperator='<='
+          }else if(this.selfCdtList.operator=='不包含'){
+            switchOperator='<>'
           }
           if(this.selfCdtList.attribute==''&&this.selfCdtList.atype==''&&this.selfCdtList.operator==undefined){
             this.str = '';
@@ -1658,6 +1665,12 @@ export default {
               switchArr='<'
             }else if(arr[i].operator=='大于'){
               switchArr='>'
+            }else if(arr[i].operator=='大于等于'){
+              switchArr='>='
+            }else if(arr[i].operator=='小于等于'){
+              switchArr='<='
+            }else if(arr[i].operator=='不包含'){
+              switchArr='<>'
             }
             if(arr[i].attribute==''&&arr[i].atype==''&&arr[i].operator==''){
               this.str+='';
@@ -1713,6 +1726,11 @@ export default {
     },
   },
   methods: {
+    ii(){
+      this.typeG = 1;
+      console.log("+++++++++++++");
+      this.str1 = this.aaa2;
+    },
     //----------------------------分页start------------------------------
     pageSizeChange(val) {//显示条数，调用
       if(this.bigBase == 0){
@@ -2292,8 +2310,14 @@ export default {
       let sql = {
         "currentPage":currentPage,
       	"showCount":showCount,
-      	"cdt":selfCdt.AAAAA,
+
         "orders":dataSelf
+      }
+      if(this.typeG == 0){
+        sql.cdt = this.str
+      }else if(this.typeG == 1){
+        sql.cdt = this.str1
+        this.typeG = 0;
       }
       this.$api.post('/manage-platform/iapi/customIapiQuery',sql,
        r =>{
@@ -2407,7 +2431,6 @@ export default {
           this.selfCdtList = {id:0,type:0,attribute:'',atype:''};
           this.selfRows=[{id:1,attribute:'',operator:'',type:0,relation:'',atype:''}];
           this.str = r.data.config.AAAAA; //渲染
-          // this.aaa.set(r.data.config.AAAAA);
           let arr = r.data.showConfigList;
           let arr1=[];
           if(arr.length == 0){
