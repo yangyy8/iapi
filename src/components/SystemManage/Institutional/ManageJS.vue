@@ -121,7 +121,7 @@
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
             <span class="yy-input-text"><font class="yy-color">*</font>角色名：</span>
-            <el-input placeholder="请输入内容" size="small" maxlength="30"  v-model="form.ROLE_NAME" class="yy-input-input" ></el-input>
+            <el-input placeholder="请输入内容" size="small" maxlength="30"  v-model="form.ROLE_NAME" v-verify.change.blur ="{regs:'required',submit:'demo2'}" class="yy-input-input" ></el-input>
 
           </el-col>
         </el-row>
