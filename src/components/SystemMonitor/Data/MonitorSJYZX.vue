@@ -319,7 +319,7 @@ export default {
 
       this.$api.post('/manage-platform/monitorData/syncData', p,
         r => {
-      
+console.log('---'+r.data.success);
           if (r.data.success) {
             if (this.num != "8" && this.num != "9") {
               var md = "Visa";
@@ -343,10 +343,12 @@ export default {
                 md = "BlkoutCard";
               }
               let pp = {
-                "VALUE": md
+                "nameListType": md
               };
+              console.log('===='+md);
               this.$api.post('/manage-platform/exchange/synDataNameListBatchInfo', pp,
                 s => {
+                    console.log('++++++++++++'+s.success);
                   if (s.success) {
                     this.$message({
                       message: s.data.message,
@@ -356,15 +358,17 @@ export default {
                   }
                 });
             } else {
+                console.log('ddddd');
               this.$message({
                 message: r.data.message,
                 type: 'success'
               });
               this.centerDialogVisible = false;
             }
-            this.getData();
+            this.getList(this.num);
           } else {
-            this.$message.error(r.message);
+              console.log('ffff'+r.data.message);
+            this.$message.error(r.data.message);
             this.centerDialogVisible = false;
           }
         });

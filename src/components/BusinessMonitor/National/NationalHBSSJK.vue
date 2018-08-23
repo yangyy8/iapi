@@ -329,7 +329,7 @@
               </li>
               <li class="middleLi4" v-for="i in kary">
                 <div class="td1">
-                  {{i.portName||0}}
+                  {{i.portName}}
 
                 </div>
 
@@ -431,7 +431,7 @@
 
                 </div>
 
-                <div class="check-div" v-if="checkShow" @click.stop>
+                <div class="check-div" v-show="checkShow" @click.stop>
                   <i class="el-icon-close close" @click="checkShow=false"></i>
                   <header>
                     <ul class="classify">
@@ -442,6 +442,7 @@
                     </ul>
                   </header>
                   <div class="site-name">
+
                     <div v-for="value of isClassify" class="list-div">
                       <div class="list-pre">{{value}}</div>
                       <div class="list-dd">
@@ -625,12 +626,12 @@
         <el-row :gutter="10" class="bb">
           <el-col :sm="24" :md="12" :lg="8" class="hb-item">
             <span class="item-text">航站/口岸：</span>
-            <el-select placeholder="请选择" filterable clearable @visible-change="getHz" v-model="p1.port" size="mini"  class="item-input">
+            <el-select placeholder="请选择" filterable clearable v-model="p1.port" size="mini"  class="item-input">
               <el-option
                 v-for="item in HzList"
-                :key="item.KADM"
-                :value="item.KADM"
-                :label="item.KADM+' - '+item.KAMC">
+                :key="item.AIRPORT_CODE"
+                :label="item.AIRPORT_CODE+' - '+item.AIRPORT_NAME"
+                :value="item.AIRPORT_CODE">
 
               </el-option>
             </el-select>
@@ -641,7 +642,7 @@
           </el-col>
           <el-col :sm="24" :md="12" :lg="8" class="hb-item">
             <span class="item-text">航空公司：</span>
-            <el-select placeholder="请选择"  filterable clearable @visible-change="getHkGs" v-model="p1.fltCompany" size="mini"  class="item-input">
+            <el-select placeholder="请选择"  filterable clearable v-model="p1.fltCompany" size="mini"  class="item-input">
               <el-option
                 v-for="item in HgList"
                 :key="item.AIRLINE_CODE"
@@ -808,12 +809,12 @@
         <el-row :gutter="10" class="bb">
           <el-col :sm="24" :md="12" :lg="6" class="hb-item">
             <span class="item-text">航站/口岸：</span>
-            <el-select placeholder="请选择"  filterable clearable @visible-change="getHz" clearable v-model="p2.port" size="mini"  class="item-input">
+            <el-select placeholder="请选择"  filterable clearable clearable v-model="p2.port" size="mini"  class="item-input">
               <el-option
                 v-for="item in HzList"
-                :key="item.KADM"
-                :value="item.KADM"
-                :label="item.KADM+' - '+item.KAMC">
+                :key="item.AIRPORT_CODE"
+                :label="item.AIRPORT_CODE+' - '+item.AIRPORT_NAME"
+                :value="item.AIRPORT_CODE">
 
                 </el-option>
             </el-select>
@@ -825,7 +826,7 @@
           </el-col>
           <el-col :sm="24" :md="12" :lg="6" class="hb-item">
             <span class="item-text">国籍：</span>
-            <el-select placeholder="请选择"  filterable clearable @visible-change="getGj" v-model="p2.nationality" size="mini"  class="item-input">
+            <el-select placeholder="请选择"  filterable clearable v-model="p2.nationality" size="mini"  class="item-input">
               <el-option
                 v-for="item in GjList"
                 :key="item.CODE"
@@ -1195,6 +1196,9 @@ export default {
   mounted() {
     this.initChart(this.series);
     this.getNewData();
+    this.getHz();
+    this.getGj();
+    this.getHkGs();
   },
   created(){
     var _self = this;
@@ -1353,7 +1357,7 @@ export default {
       this.$api.post('/manage-platform/nationwide/getFlightCountToday',{},
        r => {
          console.log(r);
-         if(this.hbsl.data!=null){
+         if(r.data!=null){
            this.hbsl=r.data;
          }
       });
@@ -1368,7 +1372,7 @@ export default {
       this.$api.post('/manage-platform/nationwide/getTravelerCountToday',{},
        r => {
          console.log(r);
-         if(this.hbsl.data!=null){
+         if(r.data!=null){
             this.rygk=r.data;
          }
 
@@ -1382,7 +1386,7 @@ export default {
     // 获取口岸航站
     getHz(){
       if(this.HzList.length==0){
-        this.$api.post('/manage-platform/codeTable/queryAirportMatch',{},
+        this.$api.post('/manage-platform/codeTable/queryAirport',{},
         r => {
           console.log(r);
           this.HzList=r.data

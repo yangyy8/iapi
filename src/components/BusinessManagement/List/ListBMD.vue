@@ -49,7 +49,7 @@
             <el-col :sm="24" :md="12"  :lg="8" class="input-item">
               <span class="input-text">姓名：</span>
               <div class="input-input t-fuzzy t-flex">
-                <el-input placeholder="请输入内容" v-model="pd.FAMILYNAME" size="small"></el-input>
+                <el-input placeholder="请输入内容" v-model="pd.FAMILYNAME" size="small"  max="35"></el-input>
                 <el-checkbox v-model="pd.NAMELIKE" true-label="1" false-label="0">模糊查询</el-checkbox>
               </div>
 
@@ -240,11 +240,11 @@
          type="selection">
 
         </el-table-column>
-        <el-table-column
+        <!-- <el-table-column
           type="index"
           label="序号"
           width="60">
-        </el-table-column>
+        </el-table-column> -->
         <el-table-column
           prop="RECORDNUM"
           label="档号"
@@ -381,7 +381,7 @@
 
           <el-col :sm="24" :md="12" :lg="8"  class="input-item">
             <span class="input-text"><span class="redx">*</span>证件号码：</span>
-            <el-input placeholder="请输入内容" size="small" v-model="form.CARDNO" max="35" v-verify.input.blur ="{regs:'required',submit:'demo2'}" class="input-input"></el-input>
+            <el-input placeholder="请输入内容" size="small" v-model="form.CARDNO" v-verify.input.blur ="{regs:'required|max:35',submit:'demo2'}" class="input-input"></el-input>
           </el-col>
 
           <el-col :sm="24" :md="12" :lg="8"  class="input-item">
@@ -398,7 +398,7 @@
 
           <el-col :sm="24" :md="12" :lg="8"  class="input-item">
             <span class="input-text"><span class="redx">*</span>姓名：</span>
-            <el-input placeholder="请输入内容" size="small" v-model="form.FAMILYNAME"  class="input-input" v-verify.input.blur="{regs:'required',submit:'demo2'}" ></el-input>
+            <el-input placeholder="请输入内容" size="small" v-model="form.FAMILYNAME"  class="input-input" v-verify.input.blur="{regs:'required|max:35',submit:'demo2'}" ></el-input>
           </el-col>
 
           <el-col :sm="24" :md="12" :lg="8"  class="input-item">
@@ -501,19 +501,19 @@
 
           <el-col :sm="24" :md="12" :lg="8" class="input-item">
             <span class="input-text">交控单位：</span>
-            <el-input placeholder="请输入内容" size="small" v-model="form.SUBORG_NAME" class="input-input"></el-input>
+            <el-input placeholder="请输入内容" size="small" max="50" v-model="form.SUBORG_NAME" class="input-input"></el-input>
 
             <!-- <QueryAirport  :airportModel="form.SUBORG_CODE" @change="changeForm(this)" @transAirport="getSuborgCodeForm"></QueryAirport> -->
           </el-col>
 
           <el-col :sm="24" :md="12" :lg="8"  class="input-item">
-            <span class="input-text">联系方式：</span>
-            <el-input placeholder="请输入内容" size="small" v-model="form.SUBORG_CONN" class="input-input"></el-input>
+            <span class="input-text">联系电话：</span>
+            <el-input placeholder="请输入内容" size="small" v-verify.input.blur="{regs:'required|max:35',submit:'demo'}" v-model="form.SUBORG_CONN" class="input-input"></el-input>
           </el-col>
 
           <el-col :sm="24" :md="12" :lg="8" class="input-item">
             <span class="input-text">处理依据：</span>
-            <el-input placeholder="请输入内容" size="small" class="input-input" v-model="form.CTL_REASON"></el-input>
+            <el-input placeholder="请输入内容" size="small" max="35" class="input-input" v-model="form.CTL_REASON"></el-input>
           </el-col>
 
         </el-row>
@@ -661,7 +661,7 @@
       </span>
     </el-dialog>
 
-    <el-dialog title="生效发布" :visible.sync="releaseDialogVisible"   width="640px">
+    <el-dialog title="操作授权" :visible.sync="releaseDialogVisible"   width="640px">
       <el-form :model="releaseform" ref="releasForm" label-width="100px" style="width:550px">
           <el-form-item label="用户名：" prop="user">
             <el-input placeholder="请输入内容" size="small" v-model="releaseform.user" auto-complete="off" style="display:none"></el-input>
@@ -672,7 +672,7 @@
           </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="addItem('releasForm','1')" size="small">授权确认</el-button>
+        <el-button type="primary" @click="addItem('releasForm','1')" size="small">确认授权</el-button>
         <el-button type="warning" @click="resetForm('releasForm')" size="small">取消</el-button>
 
       </div>
@@ -780,7 +780,14 @@ export default {
       this.pageSize=10;
       this.pd={"LIST_TYPE":"1","NAMELIKE":'0'};
       // console.log(this.pd)
-      this.getList(this.CurrentPage,this.pageSize,this.pd);
+      if(this.backShow){
+
+        this.getHisFn(this.CurrentPage,this.pageSize,this.pd);
+
+      }else{
+        this.getList(this.CurrentPage,this.pageSize,this.pd);
+
+      }
     },
     resetForm(formName) {
       console.log(formName);
@@ -894,14 +901,31 @@ export default {
 
 
     details(i){
-      this.detailsDialogVisible=true;
       console.log(i);
-      this.$api.post('/manage-platform/nameList/getNameListData',{serial:i},
-       r => {
-         console.log(r);
-         this.detailsData=r.data;
-         // this.tableData=r.Data.ResultList;
-      })
+      this.detailsDialogVisible=true;
+
+      if(this.backShow){
+        this.$api.post('/manage-platform/nameListHis/getNameListHisData',{serial:i},
+         r => {
+           console.log(r);
+           if(r.data){
+
+             this.detailsData=r.data;
+
+           }
+        })
+      }else{
+        this.$api.post('/manage-platform/nameList/getNameListData',{serial:i},
+         r => {
+           console.log(r);
+           if(r.data){
+
+             this.detailsData=r.data;
+
+           }
+        })
+      }
+
     },
     deleteItem(id,synStatus) {
       this.dialogType="del";
