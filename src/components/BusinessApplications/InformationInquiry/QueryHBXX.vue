@@ -101,7 +101,7 @@
           label="航班日期"
           >
           <template slot-scope="scope">
-              {{scope.row.departuretime | fifter1}}
+              {{scope.row.departuretime | filterdate}}
             </template>
         </el-table-column>
         <el-table-column

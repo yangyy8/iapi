@@ -14,7 +14,7 @@
               <el-input placeholder="请输入内容" size="small" v-model="pd.ROLE_NAME"  class="input-input"></el-input>
             </el-col>
 
-            <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+            <!-- <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text"> 部门：</span>
               <el-select v-model="pd.DEPT_ID"  filterable clearable  placeholder="请选择" size="small" class="input-input">
                  <el-option
@@ -24,13 +24,13 @@
                    :value="item.SERIAL">
                  </el-option>
                </el-select>
-            </el-col>
+            </el-col> -->
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">状态：</span>
               <el-select v-model="pd.STATUS" clearable placeholder="请选择" size="small" class="input-input">
                  <el-option value="1" label="1 - 启用">
                  </el-option>
-                 <el-option value="0" label="2 - 停用">
+                 <el-option value="0" label="0 - 停用">
                  </el-option>
                </el-select>
             </el-col>
@@ -57,15 +57,12 @@
           prop="ROLE_NAME"
           label="角色名">
         </el-table-column>
-        <el-table-column
+        <!-- <el-table-column
           prop="DEPT_JC"
           label="部门"
           >
-        </el-table-column>
-        <el-table-column
-          prop="REMARKS"
-          label="备注">
-        </el-table-column>
+        </el-table-column> -->
+
         <el-table-column
 
           label="状态">
@@ -73,6 +70,10 @@
    {{scope.row.STATUS | fifterstatus}}
 
  </template>
+        </el-table-column>
+        <el-table-column
+          prop="REMARKS"
+          label="备注">
         </el-table-column>
         <el-table-column
           label="操作" width="350">
@@ -124,7 +125,19 @@
           </el-col>
         </el-row>
 
-        <el-row type="flex" class="mb-6" >
+        <el-row type="flex"  class="mb-6">
+          <el-col :span="24" class="input-item">
+            <span class="yy-input-text"><font class="yy-color">*</font>状态：</span>
+            <el-select v-model="form.STATUS" clearable placeholder="请选择" size="small" class="input-input">
+               <el-option value="1" label="1 - 启用">
+               </el-option>
+               <el-option value="0" label="0 - 停用">
+               </el-option>
+             </el-select>
+          </el-col>
+        </el-row>
+
+        <!-- <el-row type="flex" class="mb-6" >
           <el-col :span="24" class="input-item">
             <span class="yy-input-text"><font class="yy-color">*</font>所属部门：</span>
             <el-select v-model="form.DEPT_ID"  filterable clearable placeholder="请选择" size="small" class="yy-input-input">
@@ -136,7 +149,7 @@
                </el-option>
              </el-select>
           </el-col>
-        </el-row>
+        </el-row> -->
 
         <el-row type="flex" class="mb-6" >
           <el-col :span="24" class="input-item">
@@ -160,22 +173,22 @@
             </el-col>
         </el-row>
 
-        <el-row type="flex" class="mb-6" >
+        <!-- <el-row type="flex" class="mb-6" >
           <el-col :span="24" class="input-item">
             <span class="yy-input-text">所属部门：</span>
             <span class="yy-input-input detailinput">  {{mapForm.DEPT_QC}}</span>
           </el-col>
-        </el-row>
-        <el-row type="flex" class="mb-6" >
+        </el-row> -->
+        <!-- <el-row type="flex" class="mb-6" >
           <el-col :span="24" class="input-item">
             <span class="yy-input-text">单位：</span>
           <span class="yy-input-input detailinput">  {{mapForm.DEPT_QC}}</span>
           </el-col>
-        </el-row>
+        </el-row> -->
         <el-row type="flex" class="mb-6" >
           <el-col :span="24" class="input-item">
             <span class="yy-input-text">状态：</span>
-          <span class="yy-input-input detailinput">  {{mapForm.STATUS=="1"?"停用":"启用"}}</span>
+          <span class="yy-input-input detailinput">  {{mapForm.STATUS=="1"?"启用":"停用"}}</span>
           </el-col>
         </el-row>
         <el-row type="flex" class="mb-6" >
@@ -352,7 +365,7 @@ export default {
 
           this.$refs[formName].resetFields();
           this.addDialogVisible = false;
-          this.getList();
+          this.getList(this.CurrentPage, this.pageSize, this.pd);
           // this.tableData=r.Data.ResultList;
         }, e => {
           this.$message.error('失败了');
@@ -367,7 +380,7 @@ export default {
       let p = {
         "SERIAL": i.SERIAL
       };
-      this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+      this.$confirm('您是否确认删除此角色？', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
@@ -381,7 +394,7 @@ export default {
                 message: '删除成功！',
                 type: 'success'
               });
-              this.getList();
+              this.getList(this.CurrentPage, this.pageSize, this.pd);
             } else {
               this.$message.error(r.Message);
             }
