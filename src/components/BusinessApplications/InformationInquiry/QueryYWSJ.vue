@@ -154,7 +154,13 @@
       </div>
     </div>
 
-
+    <el-dialog
+      title="事件文档"
+      :visible.sync="queryDialogVisible"
+      width="1220px"
+      >
+      <AlarmProcess></AlarmProcess>
+    </el-dialog>
 
     <el-dialog
       title="指令变更详情"
@@ -612,8 +618,11 @@
 </template>
 
 <script>
+import AlarmProcess from '../../BusinessProcessing/Alarm/alarmProcess'
 import {formatDate} from '@/assets/js/date.js'
+import {dayGap} from '@/assets/js/date.js'
 export default {
+  components: {AlarmProcess},
   data() {
     return {
       CurrentPage: 1,
@@ -637,6 +646,7 @@ export default {
       mqgzDialogVisible: false,
       mqgjDialogVisible: false,
       mqkaDialogVisible: false,
+      queryDialogVisible:false,
       options: [{
           value: 10,
           label: "10"
@@ -689,6 +699,7 @@ export default {
             return endT < this.pd.startDealtime;
         }
       },
+      nav1Id:null
     }
   },
   mounted() {
@@ -701,28 +712,6 @@ export default {
     this.pd.endDealtime=formatDate(end,'yyyyMMddhhmmss');
   },
   methods: {
-    timestampToTime(timestamp,type) {//type为0，精确到分；为1，精确到秒
-      let timeS='';
-      let year = timestamp.slice(0,4);
-      let month = timestamp.slice(4,6);
-      let day = timestamp.slice(6,8);
-      let hour = timestamp.slice(8,10);
-      let min = timestamp.slice(10,12);
-      if(type==0){
-        timeS = year +'/'+month +'/'+day+' '+hour+':'+min;
-      }else if(type == 1){
-        let seconed = timestamp.slice(12,14);
-        timeS = year +'/'+month +'/'+day+' '+hour+':'+min+':'+seconed;
-      }
-      console.log(timeS);
-      return  timeS;
-    },
-    dayGap(start,end){//相差天数
-      let startT = new Date(this.timestampToTime(start,1)).getTime();
-      let endT = new Date(this.timestampToTime(end,1)).getTime();
-      let day = (endT-startT)/(1000 * 60 * 60 * 24);
-      return day;
-    },
     handleSelectionChange(val) {
       this.multipleSelection = val;
     },
@@ -743,13 +732,13 @@ export default {
        if (result.indexOf(false) > -1) {
          return
        }
-      if(this.dayGap(this.pd.startCreatetime,this.pd.endCreatetime)>30){
+      if(dayGap(this.pd.startCreatetime,this.pd.endCreatetime,1)>30){
         this.$alert('事件产生时间查询时间间隔不能超过一个月', '提示', {
           confirmButtonText: '确定',
         });
         return false
       };
-      if(this.dayGap(this.pd.startDealtime,this.pd.endDealtime)>30){
+      if(dayGap(this.pd.startDealtime,this.pd.endDealtime,1)>30){
         this.$alert('处理时间查询时间间隔不能超过一个月', '提示', {
           confirmButtonText: '确定',
         });
@@ -845,16 +834,16 @@ export default {
             }
           });
       } else if(i.type == "4"){
-
+        this.queryDialogVisible = true;
         let ss={
           "event":i.refserial
         }
         this.$api.post('/manage-platform/eventManagement/isFinishEventHandle',ss,
          r =>{
            if(r.data== true){
-              this.$router.push({name:'alarmProcess',query:{eventserial:i.refserial,type:0}})
+              this.$router.push({query:{eventserial:i.refserial,type:0,nav1Id:this.nav1Id}})
            }else if(r.data == false){
-             this.$router.push({name:'alarmProcess',query:{eventserial:i.refserial,type:1}})
+             this.$router.push({query:{eventserial:i.refserial,type:1,nav1Id:this.nav1Id}})
            }
          })
       }
