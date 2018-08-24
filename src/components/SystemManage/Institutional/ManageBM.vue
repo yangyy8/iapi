@@ -12,7 +12,7 @@
               <el-input placeholder="请输入内容" size="small" v-model="pd.DEPT_JC"  class="input-input"></el-input>
             </el-col>
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
-              <span class="input-text">上级部门：</span>
+              <span class="input-text">部门：</span>
               <el-select v-model="pd.DEPT_ID" filterable clearable placeholder="请选择" size="small" class="input-input">
                 <el-option
                   v-for="item in company"
@@ -166,7 +166,7 @@
           </el-col>
           <el-col :span="12" class="input-item">
             <span class="yy-input-text"><font class="yy-color">*</font> 排列序号：</span>
-            <el-input placeholder="请输入内容" size="small"   v-model="form.DEPT_ORDER" class="yy-input-input" ></el-input>
+            <el-input placeholder="请输入内容" size="small"  v-model="form.DEPT_ORDER" class="yy-input-input" ></el-input>
           </el-col>
         </el-row>
       </el-form>
@@ -360,7 +360,7 @@ export default {
         let p = {
           "SERIAL": i.SERIAL
         };
-        this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+        this.$confirm('您是否确认删除此部门？', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'

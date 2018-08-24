@@ -197,6 +197,7 @@
             <span class="yy-input-text"><font class="yy-color">*</font> 部门：</span>
             <el-select v-model="form.DEPT_ID"  filterable clearable placeholder="请选择" size="small" class="yy-input-input">
                <el-option
+
                  v-for="item in company"
                  :key="item.SERIAL"
                  :label="item.DEPT_JC"
@@ -483,7 +484,7 @@ export default {
       let p = {
         "SERIAL": i.SERIAL
       };
-      this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+      this.$confirm('您是否确认删除此用户?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
