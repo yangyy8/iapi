@@ -404,12 +404,10 @@ export default {
 
         })
     },
-    getnum() {
+    getnum(pd) {
 
       let p = {
-        "cdt": {
-          "notPass": "1"
-        }
+        "cdt": pd
       };
       this.$api.post('/manage-platform/compareReuslt/nameList/counter', p,
         r => {
@@ -427,7 +425,7 @@ export default {
             }
 
       this.getsum(pd);
-      this.getnum();
+      this.getnum(pd);
       let p = {
         "currentPage": currentPage,
         "showCount": showCount,

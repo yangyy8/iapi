@@ -1479,22 +1479,23 @@ export default {
                    let html='<div class="katooltip">\
                               <span style="color:#31aafb">航班号：</span>'+data.fltno+' <span style="color:#31aafb">航班日期：</span>'+data.fltDate+'<span style="color:#31aafb">起飞地：</span>'+data.from+'<br>'+'\
                               <span style="color:#31aafb">到达地：</span>'+data.to+' <span style="color:#31aafb">起飞时间：</span>'+data.departTime+'<br>'+'\
-                              <span style="color:#31aafb">预计到达时间：</span>'+data.preArriveTime+'<br>'+'\
-                              <table cellspacing="0" style="background:#09679d; width:100%">\
-                                <tr>\
-                                  <td>姓名</td><td>性别</td><td>国籍</td><td>出生日期</td>\
-                                </tr>'
-                  let table='';
-                  for(var i in r.data.travelers){
-                    console.log("i",r.data.travelers[i])
-                    table+='<tr style="background:#112b42">\
-                              <td style="border:1px #143652 solid;height:32px">'+r.data.travelers[i].name+'</td>\
-                              <td style="border:1px #143652 solid;height:32px">'+r.data.travelers[i].nationalityName+'</td>\
-                              <td style="border:1px #143652 solid;height:32px">'+r.data.travelers[i].birthDay+'</td>\
-                              <td style="border:1px #143652 solid;height:32px">'+r.data.travelers[i].birthDay+'</td>\
-                           </tr>'
+                              <span style="color:#31aafb">预计到达时间：</span>'+data.preArriveTime+'<br>'
+                  if(r.data.travelers){
+                    let table='<table cellspacing="0" style="background:#09679d; width:100%;">\
+                                  <tr style="height:20px;">\
+                                    <td style="height:24px!important;">姓名</td><td style="height:24px!important;">性别</td><td style="height:24px!important;">国籍</td><td style="height:24px!important;">出生日期</td>\
+                                  </tr>';
+                    for(var i in r.data.travelers){
+                      console.log("i",r.data.travelers[i])
+                      table+='<tr style="background:#112b42;height:20px">\
+                                <td style="border:1px #143652 solid;height:24px!important;">'+r.data.travelers[i].name+'</td>\
+                                <td style="border:1px #143652 solid;height:24px!important;">'+r.data.travelers[i].gender+'</td>\
+                                <td style="border:1px #143652 solid;height:24px!important;">'+r.data.travelers[i].nationalityName+'</td>\
+                                <td style="border:1px #143652 solid;height:24px!important;">'+r.data.travelers[i].birthDay+'</td>\
+                             </tr>'
+                    }
+                    html+=table+'</table></div>'
                   }
-                  html+=table+'</table></div>'
                    callback(ticket, html);
                 })
                 return 'Loading';

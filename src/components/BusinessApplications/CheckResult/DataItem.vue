@@ -322,8 +322,7 @@ export default {
       num: "0",
       pd: {
         dataCheckBeginTime:"",
-        dataCheckEndTime:"",
-
+        dataCheckEndTime:""
       },
       Airport: [],
       nation: [],
@@ -407,12 +406,11 @@ export default {
           this.sum = r.data.crCounter;
         })
     },
-    getnum() {
+    getnum(pd) {
+
 
       let p = {
-        "cdt": {
-          "notPass": "1"
-        }
+        "cdt": pd
       };
       this.$api.post('/manage-platform/compareReuslt/dataCheck/counter', p,
         r => {
@@ -430,7 +428,7 @@ export default {
         return false
       }
       this.getsum(pd);
-      this.getnum();
+      this.getnum(pd);
       let p = {
         "currentPage": currentPage,
         "showCount": showCount,

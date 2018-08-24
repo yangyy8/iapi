@@ -16,8 +16,8 @@
                欢迎您！{{userName}}<i class="el-icon-arrow-down el-icon--right"></i>
              </span>
              <el-dropdown-menu slot="dropdown">
-               <el-dropdown-item><span style="display:block;width:100%;height:100%" @click="$router.push('/content/cc/ManageCenter')">个人中心</span></el-dropdown-item>
-               <el-dropdown-item><span @click="$router.push('/content/cc/UpdatePass')">修改密码</span></el-dropdown-item>
+               <el-dropdown-item><span style="display:block;width:100%;height:100%" @click="$router.push('/content/'+navIdcc+'/ManageCenter?nav1Id='+nav1IdCC)">个人中心</span></el-dropdown-item>
+               <el-dropdown-item><span @click="$router.push('/content/'+navIdcc+'/UpdatePass?nav1Id='+nav1IdCC)">修改密码</span></el-dropdown-item>
                <el-dropdown-item><span style="display:block;width:100%;height:100%" @click="logOut">退出</span></el-dropdown-item>
              </el-dropdown-menu>
           </el-dropdown>
@@ -92,7 +92,7 @@
           </ul>
         </div>
         <div class="cycc-down">
-          <router-link :to="{ name: 'Content', params: {navId:navId,tiao:'1'} }">
+          <router-link :to="{ name: 'Content', params: {navId:navIdcc,tiao:'1'} }">
             <i class="el-icon-setting"></i>菜单设置
           </router-link>
         </div>
@@ -172,7 +172,8 @@ export default {
         dd:"",
         xx:""
       },
-      navId:null,
+      navIdcc:null,
+      nav1IdCC:null,
       userName:"",
       jzmm:false,
       bynav:true,
@@ -343,9 +344,7 @@ export default {
          this.isLogin=r.data;
          if(this.isLogin){
            this.getUers();
-
            this.getNav0();
-
          }
 
       })
@@ -357,7 +356,7 @@ export default {
       })
     },
     keyLogin(){
-      console.log("dddd")
+      // console.log("dddd")
       if(this.user.userName&&this.user.password){
         this.login();
       }
@@ -399,10 +398,27 @@ export default {
        r => {
          this.bynav=false;
          this.muneListOne=r.data.muneListOne
+         this.muneListOne.map(function(a){
+           if(a.name=='常用菜单'){
+             this.navIdcc=a.SERIAL
+             this.getNavCC(this.navIdcc)
+           }
+         },this)
       })
     },
-    getcc(navId){
-      this.navId=navId;
+    getNavCC(navId){
+      this.$api.post('/manage-platform/muneSys/menuChild', {
+          SERIAL: navId
+        },
+        r => {
+          if(r.success){
+            console.log(r)
+            this.nav1IdCC=r.data.menuChild[0].SERIAL
+          }
+        })
+
+    },
+    getcc(){
       this.cyccShow=true,
       this.$api.post('/manage-platform/roleSys/selectmenuSet', {},
         r => {
@@ -440,119 +456,119 @@ export default {
       return res;
     },
     fn(){
-    let that=this;
-      [
-        ['北京',this.CQData],
+      let that=this;
+        [
+          ['北京',this.CQData],
 
-      ].forEach(function(item, i) {
-        // console.log(item[1]);
+        ].forEach(function(item, i) {
+          // console.log(item[1]);
+          that.series.push({
+            // 白色航线特效图
+            type: 'lines',
+            zlevel: 1, // 用于分层，z-index的效果
+            effect: {
+              show: true, // 动效是否显示
+              period: 12, // 特效动画时间
+              trailLength: 0.7, // 特效尾迹的长度
+              color: '#fff', // 特效颜色
+              symbolSize: 3 // 特效大小
+            },
+            lineStyle: {
+              normal: { // 正常情况下的线条样式
+                color: that.color[0],
+                width: 0.5, // 因为是叠加效果，要是有宽度，线条会变粗，白色航线特效不明显
+                curveness: -0.2 // 线条曲度
+              }
+            },
+
+            data: that.convertData(item[1]) // 特效的起始、终点位置
+          }, { // 小飞机航线效果
+            type: 'lines',
+            zlevel: 2,
+            //symbol: ['none', 'arrow'],   // 用于设置箭头
+            symbolSize: 10,
+            effect: {
+              show: true,
+              period: 12,
+              trailLength: 0,
+              symbol: that.planePath, // 特效形状，可以用其他svg pathdata路径代替
+              symbolSize: 15,
+              color:'#ffffff'
+            },
+            lineStyle: {
+              normal: {
+                color: that.color[0],
+                width: 1,
+                opacity: 0.6,
+                curveness: -0.2
+              }
+            },
+            data: that.convertData(item[1]) // 特效的起始、终点位置，一个二维数组，相当于coords: convertData(item[1])
+          }, { // 散点效果
+            type: 'effectScatter',
+            coordinateSystem: 'geo', // 表示使用的坐标系为地理坐标系
+            zlevel: 3,
+            rippleEffect: {
+              brushType: 'stroke' // 波纹绘制效果
+            },
+            label: {
+              normal: { // 默认的文本标签显示样式
+                show: false,
+                position: 'left', // 标签显示的位置
+                formatter: '{b}' // 标签内容格式器
+              }
+            },
+            itemStyle: {
+              normal: {
+                color: '#ffffff'
+              }
+            },
+            data: item[1].map(function(dataItem) {
+              return {
+                name: dataItem[1].name,
+                value: that.geoCoordMap[dataItem[1].name], // 起点的位置
+                symbolSize: dataItem[1].value / 8, // 散点的大小，通过之前设置的权重来计算，val的值来自data返回的value
+              };
+            })
+          });
+        });
+
+        //显示终点位置,类似于上面最后一个效果，放在外面写，是为了防止被循环执行多次
         that.series.push({
-          // 白色航线特效图
-          type: 'lines',
-          zlevel: 1, // 用于分层，z-index的效果
-          effect: {
-            show: true, // 动效是否显示
-            period: 12, // 特效动画时间
-            trailLength: 0.7, // 特效尾迹的长度
-            color: '#fff', // 特效颜色
-            symbolSize: 3 // 特效大小
-          },
-          lineStyle: {
-            normal: { // 正常情况下的线条样式
-              color: that.color[0],
-              width: 0.5, // 因为是叠加效果，要是有宽度，线条会变粗，白色航线特效不明显
-              curveness: -0.2 // 线条曲度
-            }
-          },
-
-          data: that.convertData(item[1]) // 特效的起始、终点位置
-        }, { // 小飞机航线效果
-          type: 'lines',
-          zlevel: 2,
-          //symbol: ['none', 'arrow'],   // 用于设置箭头
-          symbolSize: 10,
-          effect: {
-            show: true,
-            period: 12,
-            trailLength: 0,
-            symbol: that.planePath, // 特效形状，可以用其他svg pathdata路径代替
-            symbolSize: 15,
-            color:'#ffffff'
-          },
-          lineStyle: {
-            normal: {
-              color: that.color[0],
-              width: 1,
-              opacity: 0.6,
-              curveness: -0.2
-            }
-          },
-          data: that.convertData(item[1]) // 特效的起始、终点位置，一个二维数组，相当于coords: convertData(item[1])
-        }, { // 散点效果
           type: 'effectScatter',
-          coordinateSystem: 'geo', // 表示使用的坐标系为地理坐标系
+          coordinateSystem: 'geo',
           zlevel: 3,
           rippleEffect: {
-            brushType: 'stroke' // 波纹绘制效果
+            brushType: 'stroke'
           },
           label: {
-            normal: { // 默认的文本标签显示样式
+            normal: {
               show: false,
-              position: 'left', // 标签显示的位置
-              formatter: '{b}' // 标签内容格式器
+              position: 'left',
+              formatter: '{b}'
             }
+          },
+          symbolSize: function(val) {
+            return val[2] / 3;
           },
           itemStyle: {
             normal: {
-              color: '#ffffff'
+              color: that.color[0]
             }
           },
-          data: item[1].map(function(dataItem) {
-            return {
-              name: dataItem[1].name,
-              value: that.geoCoordMap[dataItem[1].name], // 起点的位置
-              symbolSize: dataItem[1].value / 8, // 散点的大小，通过之前设置的权重来计算，val的值来自data返回的value
-            };
-          })
-        });
-      });
-
-      //显示终点位置,类似于上面最后一个效果，放在外面写，是为了防止被循环执行多次
-      that.series.push({
-        type: 'effectScatter',
-        coordinateSystem: 'geo',
-        zlevel: 3,
-        rippleEffect: {
-          brushType: 'stroke'
-        },
-        label: {
-          normal: {
-            show: false,
-            position: 'left',
-            formatter: '{b}'
-          }
-        },
-        symbolSize: function(val) {
-          return val[2] / 3;
-        },
-        itemStyle: {
-          normal: {
-            color: that.color[0]
-          }
-        },
-        data: [{
-          // 这里面的数据，由于一开始就知道终点位置是什么，所以直接写死，如果通过ajax来获取数据的话，还要进行相应的处理
-          name: "北京",
-          value: [116.5810964525, 39.7399177259, 30],
-          label: {
-            normal: {
-              position: 'top'
+          data: [{
+            // 这里面的数据，由于一开始就知道终点位置是什么，所以直接写死，如果通过ajax来获取数据的话，还要进行相应的处理
+            name: "北京",
+            value: [116.5810964525, 39.7399177259, 30],
+            label: {
+              normal: {
+                position: 'top'
+              }
             }
-          }
-        }]
-      });
-      this.initChart(that.series)
-    },
+          }]
+        });
+        this.initChart(that.series)
+      },
     initChart(series) {
 
       this.chart = echarts.init(this.$refs.myEchart);

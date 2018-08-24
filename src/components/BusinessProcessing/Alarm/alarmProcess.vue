@@ -15,6 +15,7 @@
     </div>
     <div class="middle mb-6">
       <div class="middle-tab">
+
         <div v-if="$route.query.type!=0" class="middle-tab-item hand" style="height: 40px;line-height: 40px;" :class="{'middle-checked':tabIsShow==false}" @click="xinxi">
           基本信息
         </div>
@@ -469,7 +470,7 @@
         <hr/>
         <el-row type="flex" class="mb-6">
           <el-col :span="24" class="input-item">
-            <span class="yy-input-text" style="width:20%">变更后反馈状态：</span>
+            <span class="yy-input-text" style="width:18%">变更后反馈状态：</span>
             <el-select v-model="ap.INSTRUCT"  placeholder="请选择" filterable clearable  @change="inschange(ap.INSTRUCT)"  size="small" style="width:82%">
               <span v-if="iapiMap.instructOld!='0Z'">
                 <el-option value="0Z" label="0Z - 允许打印登机牌"></el-option>
@@ -488,14 +489,14 @@
         </el-row>
         <el-row type="flex" class="mb-6">
           <el-col :span="24" class="input-item">
-            <span class="yy-input-text" style="width:20%">变更状态说明(FreeText)：</span>
+            <span class="yy-input-text" style="width:18%">变更状态说明(FreeText)：</span>
             <el-input placeholder="请输入内容" size="small" v-verify.input.blur ="{regs:'required|noCinese',submit:'demo2'}" v-model="ap.INSTRUCTC" style="width:82%"></el-input>
           </el-col>
         </el-row>
 
         <el-row type="flex" class="mb-6">
           <el-col :span="24" class="input-item">
-            <span class="yy-input-text" style="width:20%">变更描述：</span>
+            <span class="yy-input-text" style="width:18%">变更描述：</span>
            <el-input type="textarea" v-model="ap.CHANGERESON"  placeholder="请输入变更描述(不能超过250字)" max="250" :autosize="{ minRows: 3, maxRows: 6}" style="width:82%;" ></el-input>
           </el-col>
         </el-row>
@@ -530,10 +531,21 @@
 
 <script>
 export default {
+  // props:{
+  //   eventserial: {
+  //     type: String,
+  //     default: "ddddd"
+  //   },
+  //   type:{
+  //     type: Number,
+  //     default: 1
+  //   }
+  // },
   data() {
     return {
       htmlTitle: '页面导出PDF文件名',
       eventserial: "ddddddd",
+      type:1,
       tabIsShow: false,
       iapiMap: {},
       listMap: [],
@@ -550,16 +562,29 @@ export default {
       msgData: 0
     }
   },
-  mounted() {
+  created() {
     // this.msgData=0;
-    this.eventserial = this.$route.query.eventserial;
-    this.getList();
-    if (this.$route.query.type==0) {
-      this.shijian();
-    }
+
+    // if(this.$route.query.eventserial){
+    let _this=this;
+    setTimeout(function(){
+      _this.eventserial = _this.$route.query.eventserial;
+      console.log(_this.$route.query,1);
+      if(_this.$route.query.type==0) {
+        _this.shijian();
+      }else{
+        _this.getList();
+      }
+    },400)
+
+
+    // }
+
   },
+
   methods: {
     getList() {
+      this.tabIsShow=false;
       let p = {
         "currentPage": 0,
         "showCount": 3,

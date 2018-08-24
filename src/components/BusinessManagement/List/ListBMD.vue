@@ -216,6 +216,16 @@
 
           <el-button type="primary" class="mb-15" plain size="small" @click="reset">重置</el-button>
           <el-button type="warning" size="small" @click="$router.go(0);backShow=false" v-if="backShow">返回</el-button>
+          <!-- <el-button type="text" @click="dialogVisible = true">点击打开 Dialog</el-button>
+
+          <el-dialog
+            title="提示"
+            :visible.sync="dialogVisible"
+            width="60%"
+            :before-close="handleClose">
+            <AlarmProcess></AlarmProcess>
+
+          </el-dialog> -->
         </el-col>
       </el-row>
     </div>
@@ -225,7 +235,7 @@
         <el-button type="success" size="small" @click="showUpload">批量导入</el-button>
 
         <el-button type="info" size="small" @click="dialogType='dels';releaseDialogVisible=true" :disabled="isdisable">批量删除</el-button>
-        <el-button type="warning" size="small" @click="releaseDialogVisible=true;dialogType='syn'" :disabled="isdisable">生效发布</el-button>
+        <el-button type="warning" size="small" @click="releaseDialogVisible=true;dialogType='syn';resetForm('releasForm')" :disabled="isdisable">生效发布</el-button>
         <el-button type="danger" size="small" @click="getHisFn(CurrentPage,pageSize,pd)">历史资料</el-button>
         <el-button type="success" size="small" @click="download">模板下载</el-button>
       </el-row>
@@ -477,7 +487,6 @@
                 :value="item.AIRPORT_CODE">
               </el-option>
             </el-select>
-            <!-- <QueryAirport  :airportModel="form.WHITE_PORT_IN" @transAirport="getInAirportForm"></QueryAirport> -->
           </el-col>
 
           <el-col :sm="24" :md="12" :lg="8"  class="input-item">
@@ -490,7 +499,6 @@
                 :value="item.AIRPORT_CODE">
               </el-option>
             </el-select>
-            <!-- <QueryAirport  :airportModel="form.WHITE_PORT_OUT" @transAirport="getOutAirportForm"></QueryAirport> -->
           </el-col>
 
           <el-col :sm="24" :md="12" :lg="8"  class="input-item">
@@ -503,7 +511,6 @@
             <span class="input-text">交控单位：</span>
             <el-input placeholder="请输入内容" size="small" max="50" v-model="form.SUBORG_NAME" class="input-input"></el-input>
 
-            <!-- <QueryAirport  :airportModel="form.SUBORG_CODE" @change="changeForm(this)" @transAirport="getSuborgCodeForm"></QueryAirport> -->
           </el-col>
 
           <el-col :sm="24" :md="12" :lg="8"  class="input-item">
@@ -577,8 +584,8 @@
           </el-col>
           <el-col :sm="24" :md="12" :lg="8" >
             <span>出入标识</span>
-            <a v-if="detailsData.IN_OUT=='0'">入境</a>
-            <a v-if="detailsData.IN_OUT=='1'">出境</a>
+            <a v-if="detailsData.IN_OUT=='I'">入境</a>
+            <a v-if="detailsData.IN_OUT=='O'">出境</a>
 
           </el-col>
 
@@ -661,7 +668,7 @@
       </span>
     </el-dialog>
 
-    <el-dialog title="操作授权" :visible.sync="releaseDialogVisible"   width="640px">
+    <el-dialog title="操作授权" :visible.sync="releaseDialogVisible" :before-close="handleClose"  width="640px">
       <el-form :model="releaseform" ref="releasForm" label-width="100px" style="width:550px">
           <el-form-item label="用户名：" prop="user">
             <el-input placeholder="请输入内容" size="small" v-model="releaseform.user" auto-complete="off" style="display:none"></el-input>
@@ -703,13 +710,11 @@
 </template>
 
 <script>
-import QueryNationality from '../../other/queryNationality'
-import QueryAirport from '../../other/queryAirport'
-import QueryDocCode from '../../other/queryDocCode'
+// import AlarmProcess from '../../BusinessProcessing/Alarm/alarmProcess'
 export default {
-  components: {QueryNationality,QueryAirport,QueryDocCode},
   data(){
     return{
+      dialogVisible:false,
       backShow:false,
       nationAlone:[],
       airport:[],
@@ -970,6 +975,10 @@ export default {
            }
         })
       },
+      handleClose(done) {
+        this.resetForm('releasForm');
+        done();
+      },
       addItem(formName,synStatus){
         console.log(this.$validator)
         if(this.$validator.listener.demo2){
@@ -1090,7 +1099,7 @@ export default {
                }
             })
           }else if(this.dialogType=="syn"){
-            this.resetForm('releasForm');
+            // this.resetForm('releasForm');
             let arr= this.multipleSelection;
             let arr1=[];
             for(var i in arr){
@@ -1104,6 +1113,7 @@ export default {
               },
               cdtList:arr1
             }
+            console.log(p)
             this.$api.post('/manage-platform/nameList/synNameListAll',p,
              r => {
                if(r.success){
