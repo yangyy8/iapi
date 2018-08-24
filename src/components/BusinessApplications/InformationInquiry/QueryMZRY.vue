@@ -247,7 +247,7 @@
       :visible.sync="queryDialogVisible"
       width="1110px"
       >
-      <AlarmProcess :eventserial="eventserial" :type="type"></AlarmProcess>
+      <AlarmProcess></AlarmProcess>
     </el-dialog>
 
     <el-dialog
@@ -255,7 +255,7 @@
       :visible.sync="pnrDialogVisible"
       width="1110px"
       >
-      <AlarmProcess :eventserial="pnrEventserial" :type="pnrType" :isZDGZ="isZDGZ"></AlarmProcess>
+      <AlarmProcess></AlarmProcess>
     </el-dialog>
 
 
@@ -594,10 +594,11 @@ export default {
         }
       },
       form: {},
-
+      nav1Id:null
     }
   },
   mounted() {
+    this.nav1Id=this.$route.query.nav1Id
     let time = new Date();
     let end = new Date();
     let begin =new Date(time - 1000 * 60 * 60 * 24 * 30);
@@ -698,13 +699,16 @@ export default {
       })
     },
     details(i){
+      console.log(i)
       this.queryDialogVisible = true;
       this.eventserial = i.EVENTSERIAL;
+      console.log(i.EVENTSERIAL)
+
       if(i.EVENTTYPE == '0'){
-        // this.$router.push({name:'alarmProcess',query:{eventserial:i.EVENTSERIAL,type:0}})
+        this.$router.push({query:{eventserial:i.EVENTSERIAL,type:0,nav1Id:this.nav1Id}})
         this.type = 0;
       }else if(i.EVENTTYPE == '3'){
-        // this.$router.push({name:'alarmProcess',query:{eventserial:i.EVENTSERIAL,type:0}})
+        this.$router.push({query:{eventserial:i.EVENTSERIAL,type:0,nav1Id:this.nav1Id}})
         this.type = 0;
       }else if(i.EVENTTYPE == '4'){}
     },
@@ -762,11 +766,11 @@ export default {
          if(r.data== true){
             this.eventserial=this.eve;
             this.type=0;
-            // this.$router.push({name:'alarmProcess',query:{eventserial:this.eve,type:0}})
+            this.$router.push({query:{eventserial:this.eve,type:0,nav1Id:this.nav1Id}})
          }else if(r.data == false){
            this.eventserial=this.eve;
            this.type=1;
-           // this.$router.push({name:'alarmProcess',query:{eventserial:this.eve,type:1}})
+           this.$router.push({query:{eventserial:this.eve,type:1,nav1Id:this.nav1Id}})
          }
        })
     },
@@ -781,11 +785,11 @@ export default {
          if(r.data== true){
            this.pnrEventserial=this.eve;
            this.pnrType=0;
-            // this.$router.push({name:'alarmProcess',query:{eventserial:this.eve,type:0,isZDGZ:1}})
+            this.$router.push({query:{eventserial:this.eve,type:0,isZDGZ:1,nav1Id:this.nav1Id}})
          }else if(r.data == false){
            this.pnrEventserial=this.eve;
            this.pnrType=1;
-           // this.$router.push({name:'alarmProcess',query:{eventserial:this.eve,type:1,isZDGZ:1}})
+           this.$router.push({query:{eventserial:this.eve,type:1,isZDGZ:1,nav1Id:this.nav1Id}})
          }
        })
     },
