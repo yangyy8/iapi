@@ -245,7 +245,7 @@
     <el-dialog
       title="事件文档"
       :visible.sync="queryDialogVisible"
-      width="1110px"
+      width="1220px"
       >
       <AlarmProcess></AlarmProcess>
     </el-dialog>
@@ -253,7 +253,7 @@
     <el-dialog
       title="PNR预报警详情"
       :visible.sync="pnrDialogVisible"
-      width="1110px"
+      width="1220px"
       >
       <AlarmProcess></AlarmProcess>
     </el-dialog>
@@ -706,10 +706,8 @@ export default {
 
       if(i.EVENTTYPE == '0'){
         this.$router.push({query:{eventserial:i.EVENTSERIAL,type:0,nav1Id:this.nav1Id}})
-        this.type = 0;
       }else if(i.EVENTTYPE == '3'){
         this.$router.push({query:{eventserial:i.EVENTSERIAL,type:0,nav1Id:this.nav1Id}})
-        this.type = 0;
       }else if(i.EVENTTYPE == '4'){}
     },
     getMore(item){
@@ -764,12 +762,8 @@ export default {
       this.$api.post('/manage-platform/eventManagement/isFinishEventHandle',ss,
        r =>{
          if(r.data== true){
-            this.eventserial=this.eve;
-            this.type=0;
             this.$router.push({query:{eventserial:this.eve,type:0,nav1Id:this.nav1Id}})
          }else if(r.data == false){
-           this.eventserial=this.eve;
-           this.type=1;
            this.$router.push({query:{eventserial:this.eve,type:1,nav1Id:this.nav1Id}})
          }
        })
@@ -783,13 +777,9 @@ export default {
       this.$api.post('/manage-platform/eventManagement/isFinishEventHandle',ss,
        r =>{
          if(r.data== true){
-           this.pnrEventserial=this.eve;
-           this.pnrType=0;
-            this.$router.push({query:{eventserial:this.eve,type:0,isZDGZ:1,nav1Id:this.nav1Id}})
+            this.$router.push({query:{eventserial:this.pnrEve,type:0,isZDGZ:1,nav1Id:this.nav1Id}})
          }else if(r.data == false){
-           this.pnrEventserial=this.eve;
-           this.pnrType=1;
-           this.$router.push({query:{eventserial:this.eve,type:1,isZDGZ:1,nav1Id:this.nav1Id}})
+           this.$router.push({query:{eventserial:this.pnrEve,type:1,isZDGZ:1,nav1Id:this.nav1Id}})
          }
        })
     },

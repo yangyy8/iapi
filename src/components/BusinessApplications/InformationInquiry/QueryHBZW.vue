@@ -99,7 +99,8 @@
       </el-row>
     </div>
     <div class="middle">
-        <span class="libie">列表</span><span class="tubiao">图表</span>
+        <span class="libie" >列表</span>
+        <span class="tubiao">图表</span>
     <div id="div1">
       <el-table
         :data="tableData"
@@ -298,7 +299,7 @@ export default {
       console.log(`当前页: ${val}`);
     },
     getList(currentPage, showCount, pd) {
-  
+
       if(this.pd.flightNumber==""||this.pd.flightNumber==undefined){
         this.$alert('航班号不能为空！', '提示', {
           confirmButtonText: '确定',

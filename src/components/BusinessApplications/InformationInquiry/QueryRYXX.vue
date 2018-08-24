@@ -543,7 +543,7 @@
                        label="逻辑关系"
                        width="100">
                        <template slot-scope="scope">
-                         <el-select placeholder="请选择" v-model="scope.row.relation" filterable clearable size="mini" class="input-inp">
+                         <el-select placeholder="请选择" v-model="scope.row.relation" filterable clearable size="mini" class="input-inp" :disabled="scope.row.isA">
                            <el-option label="and" value="and"></el-option>
                            <el-option label="or" value="or"></el-option>
                          </el-select>
@@ -1222,7 +1222,7 @@ export default {
       totalResult:0,//总条数
       totalPage:1,//总页数
       releaseform:{},
-
+      isActive:false,
 
       hcurrentPage:1,//当前页数
       hpageSize:10, //每页显示个数选择器的选项设置
@@ -1296,7 +1296,8 @@ export default {
             type:0,
             relation:'',
             atype:'',
-            dataSort:''
+            dataSort:'',
+            isA:true
         }
       ],
       selfModelrow:{
@@ -1306,7 +1307,8 @@ export default {
         type:0,
         relation:'',
         atype:'',
-        dataSort:''
+        dataSort:'',
+        isA:false,
       },
       selfCleanRow:{
         id:0,
@@ -1594,6 +1596,7 @@ export default {
     this.takeOff();
     this.landing();
     this.nation();
+    this.ss();
     this.currentPage = 1;
   },
   computed:{
@@ -1624,7 +1627,11 @@ export default {
                 if(arr[i].atype == null){
                   arr[i].atype ='';
                 }
-                this.str += '('+arr[i].attribute+switchArr+arr[i].atype+')'+arr[i].relation;
+                if(i == 0){
+                  this.str += '('+arr[i].attribute+switchArr+arr[i].atype+')'
+                }else{
+                    this.str += arr[i].relation+'('+arr[i].attribute+switchArr+arr[i].atype+')';
+                }
             };
           }
         }
@@ -1671,9 +1678,17 @@ export default {
     },
   },
   methods: {
+    ss(){
+      for(var i=0;i<this.selfRows.length;i++){
+        if(i == 0){
+          this.isActive = true
+        }else{
+          this.isActive = false
+        }
+      }
+    },
     ii(){
       this.typeG = 1;
-      console.log("+++++++++++++");
       this.str1 = this.aaa2;
     },
     //----------------------------分页start------------------------------
@@ -2382,7 +2397,7 @@ export default {
       r =>{
         if(r.success){
           console.log(r.data.config.AAAAA);
-          this.selfRows=[{id:1,attribute:'',operator:'',type:0,relation:'',atype:''}];
+          this.selfRows=[{id:1,attribute:'',operator:'',type:0,relation:'',atype:'',isA:true}];
           this.str = r.data.config.AAAAA; //渲染
           let arr = r.data.showConfigList;
           let arr1=[];
@@ -2416,8 +2431,13 @@ export default {
         this.$api.post('/manage-platform/queryShow/delete',dei,
          r =>{
            if(r.success){
-             this.selfSavePlanShow();
-             this.ffff='';
+             if(this.ffff==i){
+               this.ffff='';
+               this.str = '';
+               this.selfSavePlanShow();
+             }else{
+               this.selfSavePlanShow();
+             }
              this.$message({
                type: 'success',
                message: '操作成功!'
@@ -2440,10 +2460,12 @@ export default {
         type:0,
         relation:'',
         atype:'',
-        dataSort:''
+        dataSort:'',
+        isA:false
       },
       this.selfModelrow.id=this.selfCount;
       this.selfRows.push(this.selfModelrow);
+      this.ss();
     },
     selfDeleteRow(id){//自定义查询 删除操作
       this.selfRows.splice(id,1);
@@ -2762,7 +2784,7 @@ export default {
       }
     },
     selfReset(){
-      this.selfRows=[{id:1,attribute:'',operator:'',type:0,relation:'',atype:''}];
+      this.selfRows=[{id:1,attribute:'',operator:'',type:0,relation:'',atype:'',isA:true}];
       this.str = '';
       this.ffff='';
       if(this.bigBase == 0){
