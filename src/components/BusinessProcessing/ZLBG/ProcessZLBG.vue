@@ -57,14 +57,14 @@
                   <div class="input-input t-flex t-date">
               <el-date-picker
               v-model="pd.STARTBIRTH"
-              type="datetime" size="small" value-format="yyyyMMddHHssmm"
-              placeholder="开始时间" :picker-options="pickerOptions1">
+              type="datetime" size="small" value-format="yyyyMMddHHmmss"
+              placeholder="开始时间" >
             </el-date-picker>
                <span class="septum">-</span>
             <el-date-picker
                v-model="pd.ENDBIRTH"
-               type="datetime" size="small" value-format="yyyyMMddHHssmm"
-               placeholder="结束时间"  :picker-options="pickerOptions1">
+               type="datetime" size="small" value-format="yyyyMMddHHmmss"
+               placeholder="结束时间"  >
            </el-date-picker>
          </div>
             </el-col>
@@ -77,13 +77,15 @@
                   <div class="input-input t-flex t-date">
                    <el-date-picker
                    v-model="pd.STARTTIME"
-                   type="datetime" size="small" value-format="yyyyMMddHHssmm"
-                   placeholder="开始时间"  :picker-options="pickerOptions1">
+                   type="datetime" size="small" format="yyyy-MM-dd HH:mm"
+                    value-format="yyyyMMddHHmm"
+                   placeholder="开始时间"  :picker-options="pickerOptions">
                  </el-date-picker>
                    <span class="septum">-</span>
                  <el-date-picker
                     v-model="pd.ENDTIME"
-                    type="datetime" size="small" value-format="yyyyMMddHHssmm"
+                    type="datetime" size="small" format="yyyy-MM-dd HH:mm"
+                     value-format="yyyyMMddHHmm"
                     placeholder="结束时间" :picker-options="pickerOptions1">
                 </el-date-picker>
               </div>
@@ -719,6 +721,8 @@
 </template>
 <script>
 // import QueryNationality from '../../other/queryNationality'
+import {formatDate} from '@/assets/js/date.js'
+import {dayGap} from '@/assets/js/date.js'
 export default {
   // components: {
   //   QueryNationality
@@ -732,7 +736,10 @@ export default {
       pageSize1: 10,
       TotalResult1: 0,
       ap: {},
-      pd: {},
+      pd: {
+STARTTIME:'',
+ENDTIME:''
+      },
       tp: 0,
       nation: [],
       value: '',
@@ -770,34 +777,32 @@ export default {
       dform: {},
       rules: {},
       check: {},
+      pickerOptions: {
+        disabledDate: (time) => {
+            if (this.pd.ENDTIME != null) {
+              let startT = formatDate(new Date(time.getTime()),'yyyyMMddhhmm');
+              return startT > this.pd.ENDTIME;
+            }else if(this.pd.ENDTIME == null){
+              return false
+            }
+        }
+      },
       pickerOptions1: {
-        // shortcuts: [{
-        //   text: '今天',
-        //   onClick(picker) {
-        //     picker.$emit('pick', new Date());
-        //   }
-        // }, {
-        //   text: '昨天',
-        //   onClick(picker) {
-        //     const date = new Date();
-        //     date.setTime(date.getTime() - 3600 * 1000 * 24);
-        //     picker.$emit('pick', date);
-        //   }
-        // }, {
-        //   text: '一周前',
-        //   onClick(picker) {
-        //     const date = new Date();
-        //     date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
-        //     picker.$emit('pick', date);
-        //   }
-        // }]
-
+        disabledDate: (time) => {
+            let endT = formatDate(new Date(time.getTime()),'yyyyMMddhhmm');
+            return endT < this.pd.STARTTIME;
+        }
       },
 
     }
   },
   mounted() {
     //this.getList(this.CurrentPage, this.pageSize, this.pd);
+    let time = new Date();
+    let end = new Date();
+    let begin =new Date(time - 1000 * 60 * 60 * 24 * 14);
+    this.pd.STARTTIME=formatDate(begin,'yyyyMMddhhmm');
+    this.pd.ENDTIME=formatDate(end,'yyyyMMddhhmm');
   },
   methods: {
     handleSelectionChange(val) {
