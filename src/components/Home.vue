@@ -11,13 +11,13 @@
           登录
         </div>
         <div class="home-top-right hand" v-if="isLogin">
+          <!-- <RightMenu></RightMenu> -->
           <el-dropdown trigger="click">
              <span class="el-dropdown-link" style="color:#fff">
-               欢迎您！{{userName}}<i class="el-icon-arrow-down el-icon--right"></i>
+               欢迎您！{{userName}}<i class="el-icon-arrow-down el-icon-right"></i>
              </span>
              <el-dropdown-menu slot="dropdown">
-               <el-dropdown-item><span style="display:block;width:100%;height:100%" @click="$router.push('/content/'+navIdcc+'/ManageCenter?nav1Id='+nav1IdCC)">个人中心</span></el-dropdown-item>
-               <el-dropdown-item><span @click="$router.push('/content/'+navIdcc+'/UpdatePass?nav1Id='+nav1IdCC)">修改密码</span></el-dropdown-item>
+               <el-dropdown-item v-for="(x,index) in navIdCCdata" v-if="index!=0"><span style="display:block;width:100%;height:100%" @click="$router.push('/content/'+navIdcc+'/ManageCenter?nav1Id='+x.parentId+'&nav2Id='+x.SERIAL)">{{x.name}}</span></el-dropdown-item>
                <el-dropdown-item><span style="display:block;width:100%;height:100%" @click="logOut">退出</span></el-dropdown-item>
              </el-dropdown-menu>
           </el-dropdown>
@@ -142,10 +142,11 @@
 <script>
 import echarts from 'echarts/lib/echarts';
 import 'echarts/map/js/world.js';
-
+// import RightMenu from './other/rightMenu'
 
 export default {
   name: "echarts",
+  // components:{RightMenu},
   props: {
     className: {
       type: String,
@@ -173,7 +174,7 @@ export default {
         xx:""
       },
       navIdcc:null,
-      nav1IdCC:null,
+      navIdCCdata:null,
       userName:"",
       jzmm:false,
       bynav:true,
@@ -267,6 +268,9 @@ export default {
     this.getSatus();
     this.getTime();
     this.initJzmm();
+    if(this.$route.query.isLogin){
+      this.isLogin=this.$route.query.isLogin
+    }
   },
   beforeDestroy() {
     if (!this.chart) {
@@ -388,10 +392,13 @@ export default {
             message: '退出成功',
             type: 'success'
           });
+          this.isLogin=false;
+          // this.$router.push({path:'/',query:{isLogin:false}})
+
         }
       })
 
-      this.$router.go(0)
+      // this.$router.go(0)
     },
     getNav0(){
       this.$api.post('/manage-platform/muneSys/selectMenuOne',{},
@@ -412,8 +419,9 @@ export default {
         },
         r => {
           if(r.success){
-            console.log(r)
-            this.nav1IdCC=r.data.menuChild[0].SERIAL
+            this.navIdCCdata=r.data.menuChild[0].menuList;
+            console.log(this.navIdCCdata)
+
           }
         })
 

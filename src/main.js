@@ -52,6 +52,7 @@ router.beforeResolve((to, from, next) => {
        console.log(1)
        next({
          path: '/',
+         query:{isLogin:false}
        })
      }else{
        next();
