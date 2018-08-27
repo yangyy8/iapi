@@ -33,13 +33,15 @@
         </div>
 
         <div class="top-right-1">
-          <el-dropdown trigger="click">
-             <span class="el-dropdown-link hand" style="color:#fff">
+          <el-dropdown trigger="click" >
+             <span class="el-dropdown-link hand" style="color:#fff" @click.self="getNavData">
                欢迎您！{{userName}}<i class="el-icon-arrow-down el-icon--right"></i>
              </span>
              <el-dropdown-menu slot="dropdown">
-               <el-dropdown-item><span style="display:block;width:100%;height:100%" @click="$router.push('/content/70/ManageCenter')">个人中心</span></el-dropdown-item>
-               <el-dropdown-item><span @click="$router.push('/content/70/UpdatePass');navId='cc'">修改密码</span></el-dropdown-item>
+               <el-dropdown-item v-for="(x,index) in navIdCCdata" v-if="index!=0"><span style="display:block;width:100%;height:100%" @click="nav2(x.SERIAL)">{{x.name}}</span></el-dropdown-item>
+
+               <!-- <el-dropdown-item><span style="display:block;width:100%;height:100%" @click="$router.push('/content/70/ManageCenter?nav1Id=71&nav2Id=73')">个人中心</span></el-dropdown-item> -->
+               <!-- <el-dropdown-item><span @click="$router.push('/content/70/UpdatePass');navId='cc'">修改密码</span></el-dropdown-item> -->
 
                <el-dropdown-item><span style="display:block;width:100%;height:100%" @click="logOut">退出</span></el-dropdown-item>
              </el-dropdown-menu>
@@ -53,7 +55,7 @@
           <li class="nav1bar-up" @click="preList">
             <img src="../assets/img/navbar-up.png" alt="">
           </li>
-          <li class="nav1-item " :class="{'nav1-checked':nav1Id==i.SERIAL}" v-for="(i,index) in nav1List.slice(nav1Star, nav1End)" @click="nav1to2(i,1)">
+          <li class="nav1-item " :class="{'nav1-checked':nav1Id==i.SERIAL}" v-for="(i,index) in nav1List.slice(nav1Star, nav1End)" @click="nav1to2(i.SERIAL,1)">
 
             <!-- <img src="../assets/img/navIcon/i_cc_1.png" alt="" class="nav1-icon"  v-if="navId=='cc'"> -->
             <img :src='"../assets/img/navIcon/"+i.MENU_ICON+"_0.png"' alt="" class="nav1-icon" v-if="nav1Id!=i.SERIAL">
@@ -68,7 +70,7 @@
         </ul>
         <!-- <transition  name="bounce"> -->
         <ul class="nav2" v-if="nav2Show">
-          <li class="nav2-item hand" :class="{'nav2-checked':nav2Id==x.url}" v-for="x in nav2List" @click="nav2(x,'left')">
+          <li class="nav2-item hand" :class="{'nav2-checked':nav2Id==x.SERIAL}" v-for="x in nav2List" @click="nav2(x.SERIAL)">
             {{x.name}}
           </li>
         </ul>
@@ -88,19 +90,13 @@
       </el-aside>
       <el-main class="right-main" :class="{'nobg':tabList.length==0}">
         <ul class="tabList">
-          <li class="tabList-item hand" :style="{width:tabliwidth}" :class="{'tabList-checked':nav2Id==i.url}" @click.right="closeRight(index)"  v-for="(i, index) in tabList">
+          <li class="tabList-item hand" :style="{width:tabliwidth}" :class="{'tabList-checked':nav2Id==i.SERIAL}" @click.right="closeRight(index)"  v-for="(i, index) in tabList">
             <!-- <el-tooltip class="item" effect="dark" :content="i.name" placement="top"> -->
-              <span  @click="nav2(i,'tab')">{{i.name}}</span>
+              <span  @click="tabNav2(i)">{{i.name}}</span>
             <!-- </el-tooltip> -->
-            <img src="../assets/img/tab-close1.png" alt="guanbi" @click="close1(index)" class="hand" style="padding:8px" v-if="nav2Id==i.url">
+            <img src="../assets/img/tab-close1.png" alt="guanbi" @click="close1(index,i)" class="hand" style="padding:8px" v-if="nav2Id==i.SERIAL">
             <img src="../assets/img/tab-close2.png" alt="" @click="tabList.splice(index, 1)" style="padding:8px" class="hand" v-else>
-            <!-- <div class="rightClick" v-if="rightShow==index" @click="rightShow=null">
-              <ul>
-                <li>关闭全部页面</li>
-                <li>关闭全部页面</li>
-                <li>关闭全部页面</li>
-              </ul>
-            </div> -->
+
           </li>
 
           <!-- <li class="tabList-item">
@@ -126,52 +122,48 @@ export default {
       bgjpg:1,
       rightShow:null,
       userName:'',
+      navIdcc:null,
+      nav1IdCC:null,
       navUlShow: false,
       tabliwidth:'120px',
-      muneListOne: [],
+      muneListOne: null,
+
       sideWidth: '295px',
       isCollapse: false,
       nav2Show: true,
       nav2HideBar: true,
-      navId:0,
-      nav1Id: 'cc',
-      navh: 0,
 
+      navId:null,
+      nav1Id: null,
       nav1List: [],
+      nav2Id: 1,
       nav2List: [],
 
-      nav1List7: [{
-        SERIAL: "cc",
-        name: "菜单设置",
-        MENU_ICON:'i_cdss',
-        menuList: [{
-          SERIAL: 'cycd',
-          name: "常用菜单设置",
-          url: "Menu"
-        },{
-          SERIAL: 'grzx',
-          name: "个人中心",
-          url: "ManageCenter"
-        },{
-          SERIAL: 'pwd',
-          name: "修改密码",
-          url: "UpdatePass"
-        }
+      tabList: [],
+      checkItem:{},
 
-      ]
-      }],
-      nav2Id: 1,
+      navIdcc:null,
+      navIdCCdata:null,
+      navh: 0,
       nav1Star: 0,
       nav1End: 6,
-      tabList: []
     }
   },
   mounted() {
-    this.navId = this.$route.params.navId;
     this.getUers();
     this.msg()
     this.bgChange();
     this.navInit();
+  },
+  watch:{
+    tabList:function(val){
+      if(val.length>8){
+        console.log(this.tabList.length)
+        this.tabliwidth=Math.floor(100/(this.tabList.length+1))+'%'
+        console.log(this.tabliwidth)
+
+      }
+    }
   },
   methods: {
     // 背景动画效果=====================
@@ -223,115 +215,105 @@ export default {
           SERIAL: navId
         },
         r => {
+          // console.log(r)
           if(r.success){
             this.nav1List = r.data.menuChild;
-            let arr=r.data.menuChild
-            let nav1Id =this.$route.query.nav1Id;
-            if(nav1Id){
-              console.log(1)
-              for(var i in arr){
-                if(arr[i].SERIAL==nav1Id){
-                  this.nav1to2(arr[i])
-                }
-              }
-            }else{
-              console.log(2)
-              this.nav1to2(this.nav1List[0],1)
-            }
+            this.nav1Id=this.$route.query.nav1Id||r.data.menuChild[0].SERIAL;
+            console.log("nav1Id:",this.nav1Id);
+            console.log("nav1List",this.nav1List)
+
+            this.nav1to2(this.nav1Id);
           }
         })
 
     },
-    // 顶部菜单获取=================================
-    openNav() {
-      this.navUlShow = !this.navUlShow
-      if (this.navUlShow) {
-        this.$api.post('/manage-platform/muneSys/selectMenuOne', {},
-          r => {
-            if(r.success){
-              this.muneListOne = r.data.muneListOne;
-              console.log(this.muneListOne)
-            }
-          })
-      }
-    },
-    // 顶部菜单跳转================================
-    topNavTo(SERIAL){
-      console.log("顶部菜单跳转",SERIAL)
-      this.$router.push({params: {navId:SERIAL}});
-      this.getNav(SERIAL);
-      // this.tabList=[];
-    },
+
     // 点击一级菜单================================
-    nav1to2(nav1Itme,click) {
-      this.$router.push({query:{nav1Id:nav1Itme.SERIAL}})
+    nav1to2(nav1Id,click) {
+      this.nav1Id=nav1Id;
+      this.$router.push({query:{nav1Id:nav1Id}})
 
-      this.isNav2Show();
-      this.nav1Id = nav1Itme.SERIAL;
-      this.nav2List = nav1Itme.menuList;
-
-      let that=this;
-      if(click==1){
-        console.log(3)
-        this.nav2(nav1Itme.menuList[0])
-      }else{
-        console.log(4)
-        for(var i in nav1Itme.menuList){
-          if(nav1Itme.menuList[i].url==that.$route.name){
-            that.nav2(nav1Itme.menuList[i])
+      this.nav1List.map(function(a){
+        if(a.SERIAL==nav1Id){
+          this.nav2List=a.menuList;
+          console.log("this.$route.query.nav2Id:",this.$route.query.nav2Id);
+          if(click==1){
+            this.nav2Id=a.menuList[0].SERIAL
+          }else{
+            this.nav2Id=this.$route.query.nav2Id||a.menuList[0].SERIAL
           }
+          console.log("nav2List:",this.nav2List);
+          console.log("nav2Id1:",this.nav2Id);
+          this.nav2(this.nav2Id)
         }
-      }
+      },this)
 
     },
     // 点击二级菜单======================================
-    nav2(item,type) {
-      if(this.tabList.length>8){
-        console.log(this.tabList.length)
-        this.tabliwidth=100/(this.tabList.length+1)+'%'
-      }
-      if(type=='tab'){
-        // this.navId=item.rootId||3;
-        // this.topNavTo(this.navId);
-        // console.log(this.navId)
-      }
+    nav2(nav2Id) {
+      // console.log("nav2List:",this.nav2List);
 
-      this.nav2Id = item.url;
-      this.nav1Id= item.parentId;
-      this.nav1List.map(function(a,b){
-        if(a.SERIAL==item.parentId){
-          this.nav2List = a.menuList;
+      this.nav2Id = nav2Id;
+      for(var i in this.nav2List){
+        if(this.nav2List[i].SERIAL==nav2Id){
+          this.checkItem=this.nav2List[i];
+          console.log("nav2Id2:",this.nav2Id);
+          let _this=this;
+          setTimeout(function(){
+            _this.$router.push({name: _this.checkItem.url,query:{nav1Id:_this.checkItem.parentId,nav2Id:nav2Id}})
+
+          },500)
+
+          for(var i in this.tabList){
+            if(this.tabList[i].SERIAL==this.checkItem.SERIAL){
+              // console.log("重复")
+              return
+            }
+          }
+          this.tabList.push(this.checkItem)
         }
-      },this)
-      let flag=true;
-      // if(!type){
-      //   this.tabList.map(function(a,b){
-      //     if(a.parentId==this.nav1Id){
-      //       console.log(5);
-      //       flag=false
-      //       // return false
-      //     }
-      //   },this)
-      // }
+      }
 
-      // if(flag){
-        new Set(this.tabList)
-        this.tabList.push(item)
-        this.tabList = Array.from(new Set(this.tabList));
-        this.$router.push({name: item.url,query:{nav1Id:item.parentId}})
-      // }
+
+
+
+    },
+    tabNav2(nav2Item){
+      console.log('nav2Item:',nav2Item);
+      if(nav2Item.rootId!=this.$route.params.navId){
+        console.log(nav2Item.rootId,this.$route.params.navId)
+        let _this=this;
+        setTimeout(function(){
+          _this.$router.push({params: {navId:nav2Item.rootId}});
+
+        },500)
+
+        this.getNav(nav2Item.rootId)
+      }
+
+      this.nav1Id = nav2Item.parentId;
+      this.nav2Id = nav2Item.SERIAL;
+
+      this.nav1List.map(function(a){
+        if(a.SERIAL==this.nav1Id){
+          this.nav2List=a.menuList
+        }
+      },this);
+      console.log("nav1List",this.nav1List)
+      console.log("nav2List:",this.nav2List);
+      this.$router.push({name: nav2Item.url,query:{nav1Id:this.nav1Id,nav2Id:this.nav2Id}})
 
     },
     // 关闭tab页面==========================
-    close1(index) {
+    close1(index,item) {
       this.tabList.splice(index, 1);
       if (index > 0) {
-        this.nav2Id = this.tabList[index - 1].url
-        this.$router.push({name: this.nav2Id,query:{nav1Id:this.nav1Id}})
+        this.nav2Id = this.tabList[index - 1].SERIAL
+        this.$router.push({name: this.tabList[index - 1].url,query:{nav1Id:this.nav1Id,nav2Id:this.nav2Id}})
       }if(index==0){
         if(this.tabList.length!=0){
-          this.nav2Id = this.tabList[index].url
-          this.$router.push({name: this.nav2Id,query:{nav1Id:this.nav1Id}})
+          this.nav2Id = this.tabList[index].SERIAL
+          this.$router.push({name: this.tabList[index].url,query:{nav1Id:this.nav1Id,nav2Id:this.nav2Id}})
         }else {
           this.nav2Id=null;
           this.$router.push({name: 'Content',query:{nav1Id:this.nav1Id}})
@@ -340,6 +322,50 @@ export default {
 
 
       }
+    },
+    // 顶部菜单获取=================================
+    openNav() {
+      this.navUlShow = !this.navUlShow
+      if (this.navUlShow) {
+      this.getNavData()
+      }
+    },
+    getNavData(){
+      if(this.muneListOne)return;
+      this.$api.post('/manage-platform/muneSys/selectMenuOne', {},
+        r => {
+          if(r.success){
+            this.muneListOne = r.data.muneListOne;
+            this.muneListOne.map(function(a){
+              if(a.name=='常用菜单'){
+                this.navIdcc=a.SERIAL
+                this.getNavCC(this.navIdcc)
+              }
+            },this)
+          }
+        })
+    },
+    getNavCC(navId){
+      this.$api.post('/manage-platform/muneSys/menuChild', {
+          SERIAL: navId
+        },
+        r => {
+          if(r.success){
+            // console.log(r)
+            this.navIdCCdata=r.data.menuChild[0].menuList;
+          }
+        })
+
+    },
+    // 顶部菜单跳转================================
+    topNavTo(SERIAL){
+      // console.log(this.$route.params.navId,SERIAL)
+      if(this.$route.params.navId==SERIAL)return;
+      this.navId=SERIAL;
+      console.log("顶部菜单跳转",SERIAL)
+      this.$router.push({params: {navId:SERIAL}});
+      this.getNav(SERIAL);
+      // this.tabList=[];
     },
     logOut(){
       this.$api.post('/manage-platform/landout',{},
@@ -627,7 +653,7 @@ export default {
   background: none!important;
 }
 .tabList {
-  width: 68%;
+  width: 100%;
   display: flex;
   justify-content: flex-start;
   align-items: center;
@@ -640,6 +666,7 @@ export default {
 .tabList-item {
   margin-right: 5px;
   /* width: 120px; */
+  overflow: hidden;
   padding: 0 18px;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.2);

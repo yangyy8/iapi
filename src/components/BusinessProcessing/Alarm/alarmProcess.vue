@@ -16,7 +16,7 @@
     <div class="middle mb-6">
       <div class="middle-tab">
 
-        <div v-if="$route.query.type!=0" class="middle-tab-item hand" style="height: 40px;line-height: 40px;" :class="{'middle-checked':tabIsShow==false}" @click="xinxi">
+        <div v-if="$route.query.type!=0" class="middle-tab-item hand" style="height: 40px;line-height: 40px;" :class="{'middle-checked':tabIsShow==false}" @click="getList">
           基本信息
         </div>
         <div class="middle-tab-item hand" style="height: 40px;line-height: 40px;" :class="{'middle-checked':tabIsShow==true}" @click="shijian">
@@ -644,10 +644,6 @@ export default {
           })
       }
 
-    },
-    xinxi() {
-      this.tabIsShow = false;
-      console.log(this.tabIsShow)
     },
     shijian() {
       this.tabIsShow = true;
