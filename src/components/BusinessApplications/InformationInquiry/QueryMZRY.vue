@@ -774,7 +774,7 @@ export default {
       let cc={
         "event":this.pnrEve
       }
-      this.$api.post('/manage-platform/eventManagement/isFinishEventHandle',ss,
+      this.$api.post('/manage-platform/eventManagement/isFinishEventHandle',cc,
        r =>{
          if(r.data== true){
             this.$router.push({query:{eventserial:this.pnrEve,type:0,isZDGZ:1,nav1Id:this.nav1Id}})

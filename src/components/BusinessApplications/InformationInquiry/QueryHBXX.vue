@@ -338,16 +338,16 @@ export default {
       console.log(`当前页: ${val}`);
     },
     getList(currentPage, showCount, pd) {
-      // const result = this.$validator.verifyAll('timeDemo')
-      //  if (result.indexOf(false) > -1) {
-      //    return
-      //  }
-      // if(dayGap(this.pd.scheduledeparturetime,this.pd.schedulearrivetime,0)>30){
-      //   this.$alert('查询时间间隔不能超过一个月', '提示', {
-      //     confirmButtonText: '确定',
-      //   });
-      //   return false
-      // }
+      const result = this.$validator.verifyAll('timeDemo')
+       if (result.indexOf(false) > -1) {
+         return
+       }
+      if(dayGap(this.pd.scheduledeparturetime,this.pd.schedulearrivetime,0)>30){
+        this.$alert('查询时间间隔不能超过一个月', '提示', {
+          confirmButtonText: '确定',
+        });
+        return false
+      }
       let p = {
         "currentPage": currentPage,
         "showCount": showCount,

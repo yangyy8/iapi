@@ -886,6 +886,22 @@
       </div>
     </el-dialog>
 
+    <el-dialog
+      title="事件文档"
+      :visible.sync="queryDialogVisible"
+      width="1220px"
+      >
+      <AlarmProcess></AlarmProcess>
+    </el-dialog>
+
+    <el-dialog
+      title="PNR预报警详情"
+      :visible.sync="pnrDialogVisible"
+      width="1220px"
+      >
+      <AlarmProcess></AlarmProcess>
+    </el-dialog>
+
     <el-dialog title="上传模板" :visible.sync="uploadDialogVisible"   width="640px"
     :before-close="handleClose">
       <el-form :model="releaseform" ref="releaseForm">
@@ -1195,12 +1211,14 @@
 </template>
 
 <script>
+import AlarmProcess from '../../BusinessProcessing/Alarm/alarmProcess'
 import {formatDate} from '@/assets/js/date.js'
 import {dayGap} from '@/assets/js/date.js'
 import axios from 'axios'
 // import FileSaver from 'file-saver'
 // import XLSX from 'xlsx'
 export default {
+  components: {AlarmProcess},
   data() {
     return {
       dialogVisible: false,//基础查询写入方案名称
@@ -1209,6 +1227,10 @@ export default {
       detailsDialogVisible:false,//查看详情模态框
       reviewDialogTable:false,//查看历次信息模态框
       uploadDialogVisible:false,
+
+      queryDialogVisible: false,
+      pnrDialogVisible:false,
+
       htmlTitle: '页面导出PDF文件名',
       sortSet:[],
       dataSort:'',
@@ -1243,6 +1265,7 @@ export default {
       isName:true,
       isRules:true,
       isCall:false,
+      nav1Id:null,
       rows:[
         {
           version:1,
@@ -1582,6 +1605,7 @@ export default {
     }
   },
   mounted(){
+    this.nav1Id=this.$route.query.nav1Id
     let time = new Date();
     let end = new Date();
     let begin =new Date(time - 1000 * 60 * 60 * 24 * 30);
@@ -2712,29 +2736,30 @@ export default {
 
     },
     reviewDetail(){//详情里的查看详情信息
-
+      this.queryDialogVisible = true;
       let ss={
         "event":this.eve
       }
       this.$api.post('/manage-platform/eventManagement/isFinishEventHandle',ss,
        r =>{
          if(r.data== true){
-            this.$router.push({name:'alarmProcess',query:{eventserial:this.eve,type:0}})
+            this.$router.push({query:{eventserial:this.eve,type:0,nav1Id:this.nav1Id}})
          }else if(r.data == false){
-           this.$router.push({name:'alarmProcess',query:{eventserial:this.eve,type:1}})
+           this.$router.push({query:{eventserial:this.eve,type:1,nav1Id:this.nav1Id}})
          }
        })
     },
     reviewCallDetail(){//查看PNR预报警详情
+      this.pnrDialogVisible = true;
       let cc={
         "event":this.pnrEve
       }
       this.$api.post('/manage-platform/eventManagement/isFinishEventHandle',cc,
        r =>{
          if(r.data== true){
-            this.$router.push({name:'alarmProcess',query:{eventserial:this.eve,type:0,isZDGZ:1}})
+            this.$router.push({query:{eventserial:this.eve,type:0,isZDGZ:1,nav1Id:this.nav1Id}})
          }else if(r.data == false){
-           this.$router.push({name:'alarmProcess',query:{eventserial:this.eve,type:1,isZDGZ:1}})
+           this.$router.push({query:{eventserial:this.eve,type:1,isZDGZ:1,nav1Id:this.nav1Id}})
          }
        })
     },
