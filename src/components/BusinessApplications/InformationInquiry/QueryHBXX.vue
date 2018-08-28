@@ -101,7 +101,7 @@
           label="航班日期"
           >
           <template slot-scope="scope">
-              {{scope.row.departuretime | filterdate}}
+              {{scope.row.departuretime}}
             </template>
         </el-table-column>
         <el-table-column
@@ -117,7 +117,7 @@
           >
 
           <template slot-scope="scope">
-              {{scope.row.departuretime | filterdate}}
+              {{scope.row.departuretime}}
             </template>
         </el-table-column>
         <el-table-column
@@ -125,7 +125,7 @@
           label="计划到达时间"
         >
         <template slot-scope="scope">
-            {{scope.row.arrivetime | filterdate}}
+            {{scope.row.arrivetime}}
           </template>
         </el-table-column>
         <el-table-column
@@ -193,7 +193,13 @@
         </el-pagination>
       </div>
     </div>
-
+    <el-dialog
+      title="座位详情"
+      :visible.sync="seatDialogVisible"
+      width="1220px"
+      >
+      <Seat></Seat>
+    </el-dialog>
 
 
 
@@ -258,9 +264,11 @@
 </template>
 
 <script>
+import Seat from '../../other/seat'
 import {formatDate} from '@/assets/js/date.js'
 import {dayGap} from '@/assets/js/date.js'
 export default {
+  components: {Seat},
   data() {
     return {
       CurrentPage: 1,
@@ -274,6 +282,7 @@ export default {
       company:[],
       addDialogVisible: false,
       detailsDialogVisible: false,
+      seatDialogVisible:false,
       options: [{
           value: 10,
           label: "10"
@@ -329,16 +338,16 @@ export default {
       console.log(`当前页: ${val}`);
     },
     getList(currentPage, showCount, pd) {
-      const result = this.$validator.verifyAll('timeDemo')
-       if (result.indexOf(false) > -1) {
-         return
-       }
-      if(dayGap(this.pd.scheduledeparturetime,this.pd.schedulearrivetime,0)>30){
-        this.$alert('查询时间间隔不能超过一个月', '提示', {
-          confirmButtonText: '确定',
-        });
-        return false
-      }
+      // const result = this.$validator.verifyAll('timeDemo')
+      //  if (result.indexOf(false) > -1) {
+      //    return
+      //  }
+      // if(dayGap(this.pd.scheduledeparturetime,this.pd.schedulearrivetime,0)>30){
+      //   this.$alert('查询时间间隔不能超过一个月', '提示', {
+      //     confirmButtonText: '确定',
+      //   });
+      //   return false
+      // }
       let p = {
         "currentPage": currentPage,
         "showCount": showCount,
@@ -390,6 +399,7 @@ export default {
         })
     },
     details(i) {
+      this.seatDialogVisible=true;
       // this.detailsDialogVisible = true;
       // let p = {
       //   "flightRecordnum": i,
@@ -402,7 +412,7 @@ export default {
       //     this.form = r.data;
       //   })
 
-      this.$router.push({name:'QueryHBZW',query:{flightNumber:i.fltno,departdateBegin:i.departuretime,departdateEnd:i.departuretime}})
+      this.$router.push({query:{flightNumber:i.fltno,departdateBegin:i.departuretime}})
 
     },
 

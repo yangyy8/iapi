@@ -1695,7 +1695,7 @@ export default {
     pageSizeChange(val) {//显示条数，调用
       if(this.bigBase == 0){
         if(this.page==0){
-          this.getList(this.totalResult,this.currentPage,val,this.cdt);
+          this.getList(this.currentPage,val,this.cdt);
         }else if(this.page==1){
           this.batchQueryList(this.currentPage,val,this.rows);
         }else if(this.page==2){
@@ -1703,7 +1703,7 @@ export default {
         }
       }else if(this.bigBase == 1){
         if(this.page==0){
-          this.getListPnr(this.totalResult,this.currentPage,val,this.cdt);
+          this.getListPnr(this.currentPage,val,this.cdt);
         }else if(this.page==1){
           this.batchQueryListPnr(this.currentPage,val,this.rows);
         }else if(this.page==2){
@@ -1717,7 +1717,7 @@ export default {
     handleCurrentChange(val) {//显示当前页，调用
       if(this.bigBase == 0){
         if(this.page==0){
-          this.getList(this.totalResult,val,this.showCount,this.cdt);
+          this.getList(val,this.showCount,this.cdt);
         }else if(this.page==1){
           this.batchQueryList(val,this.showCount,this.rows);
         }else if(this.page==2){
@@ -1725,7 +1725,7 @@ export default {
         }
       }else if(this.bigBase == 1){
         if(this.page==0){
-          this.getListPnr(this.totalResult,val,this.showCount,this.cdt);
+          this.getListPnr(val,this.showCount,this.cdt);
         }else if(this.page==1){
           this.batchQueryListPnr(val,this.showCount,this.rows);
         }else if(this.page==2){
@@ -1742,7 +1742,7 @@ export default {
       this.radio=row.I_SERIAL
     },
     //----------------------------基础查询start------------------------------
-    getListPnr(totalResult,currentPage,showCount,cdt){//基础查询 pnr
+    getListPnr(currentPage,showCount,cdt){//基础查询 pnr
       const result = this.$validator.verifyAll('timeDemo')
        if (result.indexOf(false) > -1) {
          return
@@ -1765,14 +1765,7 @@ export default {
         });
         return false
       }
-      let basePnr = 0;
-      if(totalResult == 0){
-        basePnr = -1
-      }else{
-        basePnr = totalResult
-      }
       let ppnr = {
-        "totalResult":basePnr,
         "currentPage":currentPage,
       	"showCount":showCount,
       	"cdt":cdt
@@ -1787,7 +1780,7 @@ export default {
          this.basedTableDataPnr = this.tableData;
        })
     },
-    getList(totalResult,currentPage,showCount,cdt){//基础查询 查询调用
+    getList(currentPage,showCount,cdt){//基础查询 查询调用
       const result = this.$validator.verifyAll('timeDemo')
        if (result.indexOf(false) > -1) {
          return
@@ -1810,14 +1803,8 @@ export default {
         });
         return false
       }
-      let base = 0;
-      if(totalResult == 0){
-        base = -1
-      }else{
-        base = totalResult
-      }
+
       let pl={
-        "totalResult":base,
       	"currentPage":currentPage,
       	"showCount":showCount,
       	"cdt":cdt
@@ -1835,7 +1822,7 @@ export default {
     iapi(){
       this.bigBase = 0;
       if(this.page == 0){
-        this.getList(this.totalResult,this.currentPage,this.showCount,this.cdt);
+        this.getList(this.currentPage,this.showCount,this.cdt);
       }else if(this.page == 1){
         this.batchQueryList(this.currentPage,this.showCount,this.rows);
       }else if(this.page == 2){
@@ -1845,20 +1832,20 @@ export default {
     },
     pnr(){
       this.bigBase = 1;
-      // if(this.page == 0){
-      //   this.getListPnr(this.totalResult,this.currentPage,this.showCount,this.cdt);
-      // }else if(this.page == 1){
-      //   this.batchQueryListPnr(this.currentPage,this.showCount,this.rows);
-      // }else if(this.page == 2){
-      //   this.selfQueryListPnr(this.currentPage,this.showCount,this.selfCdt,this.dataSort);
-      // }
+      if(this.page == 0){
+        this.getListPnr(this.currentPage,this.showCount,this.cdt);
+      }else if(this.page == 1){
+        this.batchQueryListPnr(this.currentPage,this.showCount,this.rows);
+      }else if(this.page == 2){
+        this.selfQueryListPnr(this.currentPage,this.showCount,this.selfCdt,this.dataSort);
+      }
 
     },
     query(){//基础查询判断
       if(this.bigBase == 0){
-        this.getList(this.totalResult,this.currentPage,this.showCount,this.cdt);
+        this.getList(this.currentPage,this.showCount,this.cdt);
       }else if(this.bigBase == 1){
-        this.getListPnr(this.totalResult,this.currentPage,this.showCount,this.cdt);
+        this.getListPnr(this.currentPage,this.showCount,this.cdt);
       }
     },
     getHistoryList(hcurrentPage,hshowCount,historyCdt){
@@ -2754,11 +2741,11 @@ export default {
     reset(){
       this.cdt={isBlurred:false};
       this.ssss='';
-      this.getList(this.totalResult,this.currentPage,this.showCount,this.cdt);
+      this.getList(this.currentPage,this.showCount,this.cdt);
       if(this.bigBase == 0){
-        this.getList(this.totalResult,this.currentPage,this.showCount,this.cdt);
+        this.getList(this.currentPage,this.showCount,this.cdt);
       }else if(this.bigBase == 1){
-        this.getListPnr(this.totalResult,this.currentPage,this.showCount,this.cdt);
+        this.getListPnr(this.currentPage,this.showCount,this.cdt);
       }
     },
     batchReset(){
@@ -2869,7 +2856,7 @@ export default {
      console.log(this.$api.rootUrl+"/manage-platform/iapi/export/three");
      axios({
       method: 'post',
-      // url: 'http://192.168.99.245:8080/manage-platform/iapi/export/three',
+      // url: 'http://192.168.99.206:8080/manage-platform/iapi/export/three',
       url: this.$api.rootUrl+"/manage-platform/iapi/export/three",
       data: {
           "name": 'Fred',
@@ -2890,7 +2877,7 @@ export default {
        let link = document.createElement('a')
        link.style.display = 'none'
        link.href = url
-       link.setAttribute('download', 'template.xls')
+       link.setAttribute('download', 'template.xlsx')
        document.body.appendChild(link)
        link.click()
    },

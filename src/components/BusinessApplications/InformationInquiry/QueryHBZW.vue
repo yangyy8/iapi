@@ -99,9 +99,8 @@
       </el-row>
     </div>
     <div class="middle">
-        <span class="libie" >列表</span>
-        <span class="tubiao">图表</span>
-    <div id="div1">
+        <span class="tubiao hand" :class="{'checked':page==0}" @click="page=0;getList(CurrentPage,pageSize,pd)">列表</span><span class="tubiao hand" :class="{'checked':page==1}" @click="qq">图表</span>
+    <div id="div1" v-show="page==0">
       <el-table
         :data="tableData"
         border
@@ -189,7 +188,7 @@
         </el-pagination>
       </div>
 </div>
-<div id="div2" style="display:none">
+<div id="div2" v-show="page==1">
   <el-row align="center"  type="flex">
     <el-col  :span="5" style="border-right:1px solid #cccccc; margin-right:30px;">
         <img src="../../../assets/img/port.png">
@@ -222,6 +221,7 @@ export default {
       CurrentPage: 1,
       pageSize: 10,
       TotalResult: 0,
+      page:0,
       pd: {
         "isBlurred":false,
         departdateBegin:'',
@@ -272,7 +272,7 @@ export default {
   mounted() {
 
   //  this.getList(this.CurrentPage, this.pageSize, this.pd);
-  //  this.getimgtable(this.CurrentPage, this.pageSize, this.pd);
+  // this.getimgtable(this.CurrentPage, this.pageSize, this.pd);
   this.queryNationality();
 
   let time = new Date();
@@ -283,6 +283,10 @@ export default {
 
   },
   methods: {
+    qq(){
+      this.page=1;
+      this.getimgtable(0,10,this.pd);
+    },
     handleSelectionChange(val) {
     this.multipleSelection = val;
     },
@@ -300,12 +304,12 @@ export default {
     },
     getList(currentPage, showCount, pd) {
 
-      if(this.pd.flightNumber==""||this.pd.flightNumber==undefined){
-        this.$alert('航班号不能为空！', '提示', {
-          confirmButtonText: '确定',
-        });
-        return false
-      }
+      // if(this.pd.flightNumber==""||this.pd.flightNumber==undefined){
+      //   this.$alert('航班号不能为空！', '提示', {
+      //     confirmButtonText: '确定',
+      //   });
+      //   return false
+      // }
 
       if(dayGap(this.pd.departdateBegin,this.pd.departdateEnd,0)>30){
         this.$alert('查询时间间隔不能超过一个月', '提示', {
@@ -422,10 +426,10 @@ export default {
   background: none;text-align: center;
 }
 
-.libie{
-  width:100px; padding:6px 15px; background:#56A8FE; border:1px solid #56A8FE; color:#ffffff;cursor: pointer;
+.checked{
+  background:#56A8FE; color:#ffffff;
 }
 .tubiao{
-width:100px; padding:6px 15px;  border:1px solid #56A8FE;cursor: pointer;
+width:100px; padding:6px 15px;  border:1px solid #56A8FE;
 }
 </style>
