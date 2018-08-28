@@ -341,8 +341,8 @@
               size="small" value-format="yyyy-MM-dd"
               v-model="form.CARDEXPIREDATE"
               type="date"
-              range-separator="-"
-              start-placeholder="开始日期"
+              start-placeholder="证件有效期"
+              :picker-options="pickerOptions"
               class="input-input block">
             </el-date-picker>
           </el-col>
@@ -367,8 +367,7 @@
               size="small" value-format="yyyy-MM-dd"
               v-model="form.BIRTHDATE"
               type="date"
-              range-separator="-"
-              start-placeholder="开始日期"
+              start-placeholder="出生日期"
               class="input-input block">
             </el-date-picker>
           </el-col>
@@ -390,7 +389,6 @@
               <el-option label="I - 入境" value="I"></el-option>
               <el-option label="O - 出境" value="O"></el-option>
               <!-- <el-option label="A - 全部" value="A"></el-option> -->
-
             </el-select>
           </el-col>
 
@@ -398,11 +396,13 @@
             <span class="input-text"><span class="redx">*</span>生效日期：</span>
             <el-date-picker
               size="small"
+              @focus="dateDisabled=true;$set(form,'CTL_EXPIREDATE',null)"
+              @change="dateDisabled=false"
               v-model="form.CTL_BEGINDATE" value-format="yyyy-MM-dd"
               type="date"
-              range-separator="-"
-              start-placeholder="开始日期"
-              class="input-input block">
+              start-placeholder="生效日期"
+              class="input-input block"
+              :picker-options="pickerOptions">
             </el-date-picker>
           </el-col>
 
@@ -412,9 +412,10 @@
               size="small"
               v-model="form.CTL_EXPIREDATE" value-format="yyyy-MM-dd"
               type="date"
-              range-separator="-"
-              start-placeholder="开始日期"
-              class="input-input block">
+              :disabled="dateDisabled"
+              start-placeholder="失效日期"
+              class="input-input block"
+              :picker-options="pickerOptions1">
             </el-date-picker>
           </el-col>
 
@@ -649,7 +650,8 @@
 </template>
 
 <script>
-// import AlarmProcess from '../../BusinessProcessing/Alarm/alarmProcess'
+import {formatDate,dayGap} from '@/assets/js/date.js'
+
 export default {
   data(){
     return{
@@ -688,10 +690,7 @@ export default {
           label:"30"
         }
       ],
-      tableData: [
-        {
-        }
-      ],
+      tableData: [],
       multipleSelection: [],
       form: {
         "synStatus":"0",
@@ -703,6 +702,26 @@ export default {
       },
       formLabelWidth: '120px',
       fileList:[],
+      dateDisabled:true,
+      pickerOptions: {
+        disabledDate: (time) => {
+          // let startT = formatDate(new Date(time.getTime()),'yyyy-MM-dd');
+          // let now =formatDate(new Date(Date.now()),'yyyy-MM-dd')
+          // if (this.form.CTL_EXPIREDATE != null) {
+          //   return (startT < now)&&(startT > this.form.CTL_EXPIREDATE);
+          // }else{
+          // return startT < now
+          // }
+          return time.getTime() < (Date.now() - 3600 * 1000 * 24)
+        }
+      },
+      pickerOptions1: {
+        disabledDate: (time) => {
+
+          let endT = formatDate(new Date(time.getTime()),'yyyy-MM-dd');
+          return endT < this.form.CTL_BEGINDATE;
+        }
+      },
 
     }
   },
@@ -779,7 +798,6 @@ export default {
       }else{
         this.isdisable=false;
       }
-      console.log(val)
     },
     pageSizeChange(val) {
       if(this.backShow){
@@ -841,13 +859,58 @@ export default {
       this.form={};
     },
     piliangdel(){
-      this.dialogType='dels';
-      this.releaseDialogVisible=true
+      let arr=this.multipleSelection;
+      let _this=this;
+      for(var i=0;i<arr.length;i++){
+        if(arr[i].SYN_STATUS==1){
+          this.dialogType='dels';
+          this.releaseDialogVisible=true
+          return
+        }
+      }
+      var p = {
+        pd:{
+          LIST_TYPE : "1",
+          SYN_STATUS: "0"
+        },
+        cdtList:this.multipleSelection.map(function(val){
+          return val.SERIAL
+        },this)
+      };
+      console.log(p)
+      this.$confirm('您是否确定删除勾选的记录?', '提示', {
+         confirmButtonText: '确定',
+         cancelButtonText: '取消',
+         type: 'warning'
+       }).then(() => {
+         this.$api.post('/manage-platform/nameList/deleteNameListAll',p,
+          r => {
+            if(r.success){
+              this.$message({
+                message: '删除成功',
+                type: 'success'
+              });
+              this.getList(this.CurrentPage,this.pageSize,this.pd);
+            }
+         })
+       })
+
+
+
     },
     shengxiao(){
+      let arr=this.multipleSelection;
+      let _this=this;
+      for(var i=0;i<arr.length;i++){
+        if(arr[i].SYN_STATUS==1){
+          console.log(arr[i].SYN_STATUS)
+          _this.$message.error("勾选当中已有发布过的数据，请勾选掉重新发布。");
+          return
+        }
+      }
       this.releaseDialogVisible=true;
       this.dialogType='syn';
-      this.resetForm('releasForm')
+      // this.resetForm('releasForm')
     },
     update(item){
       console.log(item)
@@ -893,41 +956,39 @@ export default {
       if (synStatus=="1") {
         this.releaseDialogVisible=true;
       }else {
-          let p={
-            SERIAL:this.delId,
-            synStatus:synStatus
-          }
-         this.$confirm('您是否确定删除该记录?', '提示', {
-             confirmButtonText: '确定',
-             cancelButtonText: '取消',
-             type: 'warning'
-           }).then(() => {
-             this.$api.post('/manage-platform/nameList/deleteNameList',p,
-              r => {
-                if(r.success){
-                  this.$message({
-                    message: '删除成功',
-                    type: 'success'
-                  });
-                  this.releaseDialogVisible=false;
-                  this.getList(this.CurrentPage,this.pageSize,this.pd);
-                }
-             })
+        let p={
+          SERIAL:this.delId,
+          synStatus:synStatus
+        }
+        this.$confirm('您是否确定删除该记录?', '提示', {
+           confirmButtonText: '确定',
+           cancelButtonText: '取消',
+           type: 'warning'
+         }).then(() => {
+           this.$api.post('/manage-platform/nameList/deleteNameList',p,
+            r => {
+              if(r.success){
+                this.$message({
+                  message: '删除成功',
+                  type: 'success'
+                });
+                this.getList(this.CurrentPage,this.pageSize,this.pd);
+              }
            })
-
+         })
       }
-      },
+    },
 
     // 保存0  确认授权1
     addItem(formName,synStatus){
-      console.log(this.$validator)
-      if(this.$validator.listener.demo2){
-        const result = this.$validator.verifyAll('demo2')
-         if (result.indexOf(false) > -1) {
-           return
-         } else {
-         }
-      }
+      // console.log(this.$validator)
+      // if(this.$validator.listener.demo2){
+      //   const result = this.$validator.verifyAll('demo2')
+      //    if (result.indexOf(false) > -1) {
+      //      return
+      //    } else {
+      //    }
+      // }
       if(synStatus==0){
         switch (this.dialogType) {
           case "add":
@@ -1024,6 +1085,7 @@ export default {
           case "dels":
             var p = {
               pd:{
+                SYN_STATUS: synStatus,
                 AUTHORIZEDUSER:this.releaseform.user,
                 AUTHORIZEDPASSWORD:this.releaseform.pwd,
                 LIST_TYPE : "1"
