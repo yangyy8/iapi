@@ -209,8 +209,8 @@
           </el-row>
         </el-col>
         <el-col :span="3" class="down-btn-area">
-          <el-button type="success" class="mb-15" v-if="!backShow" size="small" @click="getList(CurrentPage,pageSize,pd)">查询</el-button>
-          <el-button type="success" class="mb-15" v-if="backShow" size="small" @click="getHisFn(CurrentPage,pageSize,pd)">查询</el-button>
+          <el-button type="success" class="mb-15" v-if="!backShow" size="small" @click="CurrentPage=1;getList(CurrentPage,pageSize,pd)">查询</el-button>
+          <el-button type="success" class="mb-15" v-if="backShow" size="small" @click="CurrentPage=1;getHisFn(CurrentPage,pageSize,pd)">查询</el-button>
 
           <el-button type="primary" class="mb-15" plain size="small" @click="reset">重置</el-button>
           <el-button type="warning" class="mb-15" size="small" @click="$router.go(0);backShow=false" v-if="backShow">返回</el-button>
@@ -225,9 +225,9 @@
         <el-button type="primary" size="small" @click="addDialogVisible=true;dialogText='新增';dialogType='add';form={}">新增</el-button>
         <el-button type="success" size="small" @click="showUpload">批量导入</el-button>
 
-        <el-button type="info" size="small" @click="dialogType='dels';releaseDialogVisible=true" :disabled="isdisable">批量删除</el-button>
+        <el-button type="warning" size="small" @click="dialogType='dels';releaseDialogVisible=true" :disabled="isdisable">批量删除</el-button>
         <el-button type="warning" size="small" @click="releaseDialogVisible=true;dialogType='syn';resetForm('releasForm')" :disabled="isdisable">生效发布</el-button>
-        <el-button type="danger" size="small" @click="getHisFn(CurrentPage,pageSize,pd)">历史资料</el-button>
+        <el-button type="info" size="small" @click="getHisFn(CurrentPage,pageSize,pd)">历史资料</el-button>
         <el-button type="success" size="small" @click="download">模板下载</el-button>
       </el-row>
       <el-table
@@ -338,6 +338,7 @@
         <el-pagination
           background
           @current-change="handleCurrentChange"
+          :current-page.sync ="CurrentPage"
           :page-size="pageSize"
           layout="prev, pager, next"
           :total="TotalResult">
@@ -675,7 +676,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="addItem('releaseForm','1')" size="small">确认授权</el-button>
-        <el-button type="warning" @click="resetForm('releasForm')" size="small">取消</el-button>
+        <el-button type="warning" @click="resetForm('releasForm');releaseDialogVisible=false" size="small">取消</el-button>
 
       </div>
     </el-dialog>
