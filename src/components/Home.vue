@@ -17,7 +17,7 @@
                欢迎您！{{userName}}<i class="el-icon-arrow-down el-icon-right"></i>
              </span>
              <el-dropdown-menu slot="dropdown">
-               <el-dropdown-item v-for="(x,index) in navIdCCdata" v-if="index!=0"><span style="display:block;width:100%;height:100%" @click="$router.push('/content/'+navIdcc+'/ManageCenter?nav1Id='+x.parentId+'&nav2Id='+x.SERIAL)">{{x.name}}</span></el-dropdown-item>
+               <el-dropdown-item v-for="(x,index) in navIdCCdata" v-if="index!=0" :key="index"><span style="display:block;width:100%;height:100%" @click="$router.push('/content/'+navIdcc+'/ManageCenter?nav1Id='+x.parentId+'&nav2Id='+x.SERIAL)">{{x.name}}</span></el-dropdown-item>
                <el-dropdown-item><span style="display:block;width:100%;height:100%" @click="logOut">退出</span></el-dropdown-item>
              </el-dropdown-menu>
           </el-dropdown>

@@ -84,10 +84,10 @@ table td,thead th{
   padding: 3px 0 !important;
   text-align: center!important;
 }
-.caozuo tr td:last-child{
+.caozuo tr td:last-child .cell{
   /* display: flex; */
   text-align: right!important;
-  /* justify-content: flex-end!important; */
+  justify-content: flex-end!important;
 }
 .o-th1 th:first-child{
   background-color: #4874a1 !important;

@@ -18,7 +18,6 @@
                   :value="item.CODE">
                 </el-option>
               </el-select>
-              <!-- <QueryNationality   :nationality="pd.NATIONALITY" @transNation="getNation"></QueryNationality> -->
             </el-col>
             <el-col :sm="24" :md="12" :lg="8" class="input-item">
               <span class="input-text">证件种类：</span>
@@ -30,7 +29,6 @@
                   :value="item.CODE">
                 </el-option>
               </el-select>
-              <!-- <QueryDocCode  :docCodeModel="pd.CARDTYPE" @transDocCode="getDocCode"></QueryDocCode> -->
             </el-col>
 
             <el-col :sm="24" :md="12"  :lg="8" class="input-item">
@@ -103,33 +101,7 @@
 
               </el-select>
             </el-col>
-            <!--
-            <el-col :sm="24" :md="12"  :lg="6" class="input-item">
-              <span class="input-text">入境口岸：</span>
-              <el-select placeholder="请选择"  size="small"  class="input-input">
-                <el-option label="北京首都机场" value="1"></el-option>
-                <el-option label="上海虹桥机场" value="0"></el-option>
-              </el-select>
-            </el-col>
-            -->
-            <!--
-            <el-col  :sm="24" :md="12" :lg="6"  class="input-item">
-              <QueryNationality   :nationality="pd.NATIONALITY" @transNation="getNation"></QueryNationality>
-            </el-col>
-          -->
-            <!--
-            <el-col  :sm="24" :md="12" :lg="6"  class="input-item">
-              <span class="input-text">入境口岸：</span>
-              <el-select v-model="pd.stationfromEqual" filterable @visible-change="queryAirport" placeholder="请选择" size="small" class="input-input">
-                 <el-option
-                   v-for="item in Airport"
-                   :key="item.AIRPORT_CODE"
-                   :label="item.AIRPORT_NAME"
-                   :value="item.AIRPORT_CODE" >
-                 </el-option>
-               </el-select>
-            </el-col>
-          -->
+
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">入境口岸：</span>
               <el-select v-model="pd.WHITE_PORT_IN" filterable clearable placeholder="请选择"  size="small" class="input-input">
@@ -140,7 +112,6 @@
                   :value="item.AIRPORT_CODE">
                 </el-option>
               </el-select>
-              <!-- <QueryAirport  :airportModel="pd.WHITE_PORT_IN" @transAirport="getInAirport"></QueryAirport> -->
             </el-col>
             <el-col :sm="24" :md="12"  :lg="8" class="input-item">
               <span class="input-text">出境口岸：</span>
@@ -152,7 +123,6 @@
                   :value="item.AIRPORT_CODE">
                 </el-option>
               </el-select>
-              <!-- <QueryAirport  :airportModel="pd.WHITE_PORT_OUT" @transAirport="getOutAirport"></QueryAirport> -->
             </el-col>
 
             <el-col :sm="24" :md="12"  :lg="8" class="input-item">
@@ -169,18 +139,7 @@
                     type="date" size="small" align="right" value-format="yyyyMMdd"
                     placeholder="结束时间"  >
                 </el-date-picker>
-            </div>
-            <!--
-              <el-date-picker
-                size="small"
-                type="datetimerange"
-                range-separator="-"
-                start-placeholder="开始日期"
-                end-placeholder="结束日期"
-                class="input-input block">
-              </el-date-picker>
-              -->
-              <!-- <el-input placeholder="请输入内容" size="small" v-model="pd.CARDNO"  class="input-input"></el-input> -->
+              </div>
             </el-col>
             <el-col :sm="24" :md="12"  :lg="8" class="input-item">
               <span class="input-text">生效时间：</span>
@@ -196,47 +155,28 @@
                     type="date" size="small" align="right" value-format="yyyyMMdd"
                     placeholder="结束时间" >
                 </el-date-picker>
-            </div>
-              <!--
-              <el-date-picker
-                size="small"
-                type="datetimerange"
-                range-separator="-"
-                start-placeholder="开始日期"
-                end-placeholder="结束日期"
-                class="input-input block">
-              </el-date-picker>
-              -->
+              </div>
             </el-col>
           </el-row>
         </el-col>
         <el-col :span="3" class="down-btn-area">
-          <el-button type="success" class="mb-15" size="small" v-if="!backShow" @click="getList(CurrentPage,pageSize,pd)">查询</el-button>
-          <el-button type="success" class="mb-15" size="small" v-if="backShow" @click="getHisFn(CurrentPage,pageSize,pd)">查询</el-button>
+          <el-button type="success" class="mb-15" size="small" v-if="!backShow" @click="CurrentPage=1;getList(CurrentPage,pageSize,pd)">查询</el-button>
+          <el-button type="success" class="mb-15" size="small" v-if="backShow" @click="CurrentPage=1;getHisFn(CurrentPage,pageSize,pd)">查询</el-button>
 
           <el-button type="primary" class="mb-15" plain size="small" @click="reset">重置</el-button>
           <el-button type="warning" size="small" @click="$router.go(0);backShow=false" v-if="backShow">返回</el-button>
-          <!-- <el-button type="text" @click="dialogVisible = true">点击打开 Dialog</el-button>
 
-          <el-dialog
-            title="提示"
-            :visible.sync="dialogVisible"
-            width="60%"
-            :before-close="handleClose">
-            <AlarmProcess></AlarmProcess>
-
-          </el-dialog> -->
         </el-col>
       </el-row>
     </div>
     <div class="middle">
       <el-row class="mb-15" v-if="getHis">
-        <el-button type="primary" size="small" @click="addDialogVisible=true;dialogText='新增';dialogType='add';form={}">新增</el-button>
+        <el-button type="primary" size="small" @click="xinzeng">新增</el-button>
         <el-button type="success" size="small" @click="showUpload">批量导入</el-button>
 
-        <el-button type="info" size="small" @click="dialogType='dels';releaseDialogVisible=true" :disabled="isdisable">批量删除</el-button>
-        <el-button type="warning" size="small" @click="releaseDialogVisible=true;dialogType='syn';resetForm('releasForm')" :disabled="isdisable">生效发布</el-button>
-        <el-button type="danger" size="small" @click="getHisFn(CurrentPage,pageSize,pd)">历史资料</el-button>
+        <el-button type="warning" size="small" @click="piliangdel" :disabled="isdisable">批量删除</el-button>
+        <el-button type="warning" size="small" @click="shengxiao" :disabled="isdisable">生效发布</el-button>
+        <el-button type="info" size="small" @click="getHisFn(CurrentPage,pageSize,pd)">历史资料</el-button>
         <el-button type="success" size="small" @click="download">模板下载</el-button>
       </el-row>
       <el-table
@@ -312,7 +252,7 @@
         <el-table-column
           label="操作"
           width="250"
-          align="right">
+          >
           <template slot-scope="scope">
             <!-- <div class="flex-r"> -->
               <el-button class="table-btn" size="mini" plain icon="el-icon-edit" @click="update(scope.row)" v-if="scope.row.SYN_STATUS==0&&getHis">编辑</el-button>
@@ -346,6 +286,7 @@
         <el-pagination
           background
           @current-change="handleCurrentChange"
+          :current-page.sync ="CurrentPage"
           :page-size="pageSize"
           layout="prev, pager, next"
           :total="TotalResult">
@@ -400,8 +341,8 @@
               size="small" value-format="yyyy-MM-dd"
               v-model="form.CARDEXPIREDATE"
               type="date"
-              range-separator="-"
-              start-placeholder="开始日期"
+              start-placeholder="证件有效期"
+              :picker-options="pickerOptions"
               class="input-input block">
             </el-date-picker>
           </el-col>
@@ -426,8 +367,7 @@
               size="small" value-format="yyyy-MM-dd"
               v-model="form.BIRTHDATE"
               type="date"
-              range-separator="-"
-              start-placeholder="开始日期"
+              start-placeholder="出生日期"
               class="input-input block">
             </el-date-picker>
           </el-col>
@@ -449,7 +389,6 @@
               <el-option label="I - 入境" value="I"></el-option>
               <el-option label="O - 出境" value="O"></el-option>
               <!-- <el-option label="A - 全部" value="A"></el-option> -->
-
             </el-select>
           </el-col>
 
@@ -457,11 +396,13 @@
             <span class="input-text"><span class="redx">*</span>生效日期：</span>
             <el-date-picker
               size="small"
+              @focus="dateDisabled=true;$set(form,'CTL_EXPIREDATE',null)"
+              @change="dateDisabled=false"
               v-model="form.CTL_BEGINDATE" value-format="yyyy-MM-dd"
               type="date"
-              range-separator="-"
-              start-placeholder="开始日期"
-              class="input-input block">
+              start-placeholder="生效日期"
+              class="input-input block"
+              :picker-options="pickerOptions">
             </el-date-picker>
           </el-col>
 
@@ -471,9 +412,10 @@
               size="small"
               v-model="form.CTL_EXPIREDATE" value-format="yyyy-MM-dd"
               type="date"
-              range-separator="-"
-              start-placeholder="开始日期"
-              class="input-input block">
+              :disabled="dateDisabled"
+              start-placeholder="失效日期"
+              class="input-input block"
+              :picker-options="pickerOptions1">
             </el-date-picker>
           </el-col>
 
@@ -668,7 +610,7 @@
       </span>
     </el-dialog>
 
-    <el-dialog title="操作授权" :visible.sync="releaseDialogVisible" :before-close="handleClose"  width="640px">
+    <el-dialog title="操作授权" :visible.sync="releaseDialogVisible" width="640px" :before-close="handleClose">
       <el-form :model="releaseform" ref="releasForm" label-width="100px" style="width:550px">
           <el-form-item label="用户名：" prop="user">
             <el-input placeholder="请输入内容" size="small" v-model="releaseform.user" auto-complete="off" style="display:none"></el-input>
@@ -680,7 +622,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="addItem('releasForm','1')" size="small">确认授权</el-button>
-        <el-button type="warning" @click="resetForm('releasForm')" size="small">取消</el-button>
+        <el-button type="warning" @click="resetForm('releasForm');releaseDialogVisible=false" size="small">取消</el-button>
 
       </div>
     </el-dialog>
@@ -693,8 +635,6 @@
           :file-list="fileList"
           multiple
           :on-success="upSuccess"
-          :on-preview="handlePreview"
-          :on-remove="handleRemove"
           :before-upload="beforeAvatarUpload"
           :limit="1"
           :auto-upload="false">
@@ -710,7 +650,8 @@
 </template>
 
 <script>
-// import AlarmProcess from '../../BusinessProcessing/Alarm/alarmProcess'
+import {formatDate,dayGap} from '@/assets/js/date.js'
+
 export default {
   data(){
     return{
@@ -749,10 +690,7 @@ export default {
           label:"30"
         }
       ],
-      tableData: [
-        {
-        }
-      ],
+      tableData: [],
       multipleSelection: [],
       form: {
         "synStatus":"0",
@@ -764,7 +702,27 @@ export default {
       },
       formLabelWidth: '120px',
       fileList:[],
-      isFile:null
+      dateDisabled:true,
+      pickerOptions: {
+        disabledDate: (time) => {
+          // let startT = formatDate(new Date(time.getTime()),'yyyy-MM-dd');
+          // let now =formatDate(new Date(Date.now()),'yyyy-MM-dd')
+          // if (this.form.CTL_EXPIREDATE != null) {
+          //   return (startT < now)&&(startT > this.form.CTL_EXPIREDATE);
+          // }else{
+          // return startT < now
+          // }
+          return time.getTime() < (Date.now() - 3600 * 1000 * 24)
+        }
+      },
+      pickerOptions1: {
+        disabledDate: (time) => {
+
+          let endT = formatDate(new Date(time.getTime()),'yyyy-MM-dd');
+          return endT < this.form.CTL_BEGINDATE;
+        }
+      },
+
     }
   },
   mounted(){
@@ -774,29 +732,64 @@ export default {
     this.queryDocCode();
   },
   methods:{
-    bb(){
-      console.log('触发了blur')
-    },
     download(){
       window.location.href=this.$api.rootUrl+'/manage-platform/templateFile/nameListDataFile.xlsx'
+    },
+    queryDocCode(){
+      this.$api.post('/manage-platform/codeTable/queryDocCode',{},
+       r => {
+         console.log(r);
+         if(r.success){
+           this.docCode=r.data;
+           this.$emit('transNation',this.pd.docCode)
+         }
+      })
+    },
+    queryNationalityAlone(){
+      this.$api.post('/manage-platform/codeTable/queryNationality',{},
+       r => {
+         console.log(r);
+         if(r.success){
+           this.nationAlone=r.data;
+         }
+      })
+    },
+    queryAirport(){
+      this.$api.post('/manage-platform/codeTable/queryAirport',{},
+       r => {
+         console.log(r);
+         if(r.success){
+           this.airport=r.data;
+         }
+      })
+    },
+    queryDocCode(){
+      this.$api.post('/manage-platform/codeTable/queryDocCode',{},
+       r => {
+         console.log(r);
+         if(r.success){
+           this.docCode=r.data;
+         }
+      })
     },
     reset(){
       this.CurrentPage=1;
       this.pageSize=10;
       this.pd={"LIST_TYPE":"1","NAMELIKE":'0'};
-      // console.log(this.pd)
       if(this.backShow){
-
         this.getHisFn(this.CurrentPage,this.pageSize,this.pd);
-
       }else{
+        console.log("this.CurrentPage:",this.CurrentPage)
         this.getList(this.CurrentPage,this.pageSize,this.pd);
-
       }
     },
     resetForm(formName) {
       console.log(formName);
       this.$refs[formName].resetFields();
+    },
+    handleClose(done) {
+      this.resetForm('releasForm');
+      done();
     },
     handleSelectionChange(val) {
       this.multipleSelection = val;
@@ -805,7 +798,6 @@ export default {
       }else{
         this.isdisable=false;
       }
-      console.log(val)
     },
     pageSizeChange(val) {
       if(this.backShow){
@@ -824,12 +816,6 @@ export default {
 
       }
       console.log(`当前页: ${val}`);
-    },
-    getNation(msg){
-      this.pd.NATIONALITY=msg;
-    },
-    getInAirport(msg){
-      this.pd.WHITE_PORT_IN=msg;
     },
 
     getList(currentPage,showCount,pd){
@@ -850,34 +836,6 @@ export default {
         })
       // }
     },
-    queryNationalityAlone(){
-      this.$api.post('/manage-platform/codeTable/queryNationality',{},
-       r => {
-         console.log(r);
-         if(r.success){
-           this.nationAlone=r.data;
-         }
-      })
-    },
-    queryAirport(){
-      this.$api.post('/manage-platform/codeTable/queryAirport',{},
-       r => {
-         console.log(r);
-         if(r.success){
-           this.airport=r.data;
-           // this.$emit('transAirport',this.airportModel)
-         }
-      })
-    },
-    queryDocCode(){
-      this.$api.post('/manage-platform/codeTable/queryDocCode',{},
-       r => {
-         console.log(r);
-         if(r.success){
-           this.docCode=r.data;
-         }
-      })
-    },
     getHisFn(currentPage,showCount,pd){
       this.getHis=false;
       let p={
@@ -893,6 +851,66 @@ export default {
          this.TotalResult=r.data.totalResult;
          this.backShow=true;
       })
+    },
+    xinzeng(){
+      this.addDialogVisible=true;
+      this.dialogText='新增';
+      this.dialogType='add';
+      this.form={};
+    },
+    piliangdel(){
+      let arr=this.multipleSelection;
+      let _this=this;
+      for(var i=0;i<arr.length;i++){
+        if(arr[i].SYN_STATUS==1){
+          this.dialogType='dels';
+          this.releaseDialogVisible=true
+          return
+        }
+      }
+      var p = {
+        pd:{
+          LIST_TYPE : "1",
+          SYN_STATUS: "0"
+        },
+        cdtList:this.multipleSelection.map(function(val){
+          return val.SERIAL
+        },this)
+      };
+      console.log(p)
+      this.$confirm('您是否确定删除勾选的记录?', '提示', {
+         confirmButtonText: '确定',
+         cancelButtonText: '取消',
+         type: 'warning'
+       }).then(() => {
+         this.$api.post('/manage-platform/nameList/deleteNameListAll',p,
+          r => {
+            if(r.success){
+              this.$message({
+                message: '删除成功',
+                type: 'success'
+              });
+              this.getList(this.CurrentPage,this.pageSize,this.pd);
+            }
+         })
+       })
+
+
+
+    },
+    shengxiao(){
+      let arr=this.multipleSelection;
+      let _this=this;
+      for(var i=0;i<arr.length;i++){
+        if(arr[i].SYN_STATUS==1){
+          console.log(arr[i].SYN_STATUS)
+          _this.$message.error("勾选当中已有发布过的数据，请勾选掉重新发布。");
+          return
+        }
+      }
+      this.releaseDialogVisible=true;
+      this.dialogType='syn';
+      // this.resetForm('releasForm')
     },
     update(item){
       console.log(item)
@@ -938,83 +956,76 @@ export default {
       if (synStatus=="1") {
         this.releaseDialogVisible=true;
       }else {
-
-          let p={
-            SERIAL:this.delId,
-            synStatus:synStatus
-          }
-         this.$confirm('您是否确定删除该记录?', '提示', {
-             confirmButtonText: '确定',
-             cancelButtonText: '取消',
-             type: 'warning'
-           }).then(() => {
-             this.$api.post('/manage-platform/nameList/deleteNameList',p,
-              r => {
-                if(r.success){
-                  this.$message({
-                    message: '删除成功',
-                    type: 'success'
-                  });
-                  this.releaseDialogVisible=false;
-                  this.getList(this.CurrentPage,this.pageSize,this.pd);
-                }
-             })
-           }).catch(() => {
-
-           });
-
-      }
-      },
-      queryDocCode(){
-        this.$api.post('/manage-platform/codeTable/queryDocCode',{},
-         r => {
-           console.log(r);
-           if(r.success){
-             this.docCode=r.data;
-             this.$emit('transNation',this.pd.docCode)
-           }
-        })
-      },
-      handleClose(done) {
-        this.resetForm('releasForm');
-        done();
-      },
-      addItem(formName,synStatus){
-        console.log(this.$validator)
-        if(this.$validator.listener.demo2){
-          const result = this.$validator.verifyAll('demo2')
-          // console.log(result)
-           if (result.indexOf(false) > -1) {
-             return
-           } else {
-             // alert('填写成功')
-           }
+        let p={
+          SERIAL:this.delId,
+          synStatus:synStatus
         }
+        this.$confirm('您是否确定删除该记录?', '提示', {
+           confirmButtonText: '确定',
+           cancelButtonText: '取消',
+           type: 'warning'
+         }).then(() => {
+           this.$api.post('/manage-platform/nameList/deleteNameList',p,
+            r => {
+              if(r.success){
+                this.$message({
+                  message: '删除成功',
+                  type: 'success'
+                });
+                this.getList(this.CurrentPage,this.pageSize,this.pd);
+              }
+           })
+         })
+      }
+    },
 
-        if(synStatus==0 && this.dialogType=="add"){
-
-          this.form.synStatus=synStatus;
-          this.form.LIST_TYPE='1';
-          this.$api.post('/manage-platform/nameList/addNameList',this.form,
-           r => {
-             console.log(r);
-             if(r.success){
-               this.$message({
-                 message: '恭喜你，添加成功！',
-                 type: 'success'
-               });
-               this.addDialogVisible=false;
-               // this.releaseDialogVisible=false;
-               this.getList(this.CurrentPage,this.pageSize,this.pd);
-               this.$refs[formName].resetFields();
-             }
-
-
-          })
-        }else {
-          if(this.dialogType=="add"){
+    // 保存0  确认授权1
+    addItem(formName,synStatus){
+      // console.log(this.$validator)
+      // if(this.$validator.listener.demo2){
+      //   const result = this.$validator.verifyAll('demo2')
+      //    if (result.indexOf(false) > -1) {
+      //      return
+      //    } else {
+      //    }
+      // }
+      if(synStatus==0){
+        switch (this.dialogType) {
+          case "add":
+            this.$api.post('/manage-platform/nameList/addNameList',this.form,
+             r => {
+               console.log(r);
+               if(r.success){
+                 this.$message({
+                   message: '恭喜你，添加成功！',
+                   type: 'success'
+                 });
+                 this.addDialogVisible=false;
+                 this.getList(this.CurrentPage,this.pageSize,this.pd);
+                 this.$refs[formName].resetFields();
+               }
+            })
+            break;
+          case "update":
+            this.$api.post('/manage-platform/nameList/updateNameList',this.form,
+             r => {
+               console.log(r);
+               if(r.success){
+                 this.$message({
+                   message: '恭喜你，修改成功！',
+                   type: 'success'
+                 });
+                 this.addDialogVisible=false;
+                 this.getList(this.CurrentPage,this.pageSize,this.pd);
+                 this.$refs[formName].resetFields();
+               }
+            })
+            break;
+        }
+      }else {
+        switch (this.dialogType) {
+          case "add":
             this.form.synStatus=synStatus;
-            this.form.LIST_TYPE='1';
             this.form.AUTHORIZEDUSER=this.releaseform.user;
             this.form.AUTHORIZEDPASSWORD=this.releaseform.pwd;
             this.$api.post('/manage-platform/nameList/addNameList',this.form,
@@ -1031,8 +1042,8 @@ export default {
                  this.$refs[formName].resetFields();
                }
             })
-          }else if(this.dialogType=="update"){
-            this.form.LIST_TYPE='1';
+            break;
+          case "update":
             this.form.synStatus=synStatus;
             this.form.AUTHORIZEDUSER=this.releaseform.user;
             this.form.AUTHORIZEDPASSWORD=this.releaseform.pwd;
@@ -1044,48 +1055,45 @@ export default {
                    message: '恭喜你，修改成功！',
                    type: 'success'
                  });
-                 this.addDialogVisible=false;
                  this.releaseDialogVisible=false;
+                 this.addDialogVisible=false;
                  this.getList(this.CurrentPage,this.pageSize,this.pd);
                  this.$refs[formName].resetFields();
                }
-
-
             })
-          }else if(this.dialogType=="del"){
-              let p={
-                LIST_TYPE : "1",
-                SERIAL:this.delId,
-                AUTHORIZEDUSER:this.releaseform.user,
-                AUTHORIZEDPASSWORD:this.releaseform.pwd,
-                synStatus:synStatus
-              }
-              this.$api.post('/manage-platform/nameList/deleteNameList',p,
-               r => {
-                 if(r.success){
-                   this.$message({
-                     message: '删除成功',
-                     type: 'success'
-                   });
-                   this.releaseDialogVisible=false;
-                   this.getList(this.CurrentPage,this.pageSize,this.pd);
-                 }
-              })
-          }else if(this.dialogType=="dels"){
-            let arr= this.multipleSelection;
-            let arr1=[];
-            for(var i in arr){
-              arr1.push(arr[i].SERIAL)
-            }
+            break;
+          case "del":
             let p={
+              LIST_TYPE : "1",
+              SERIAL:this.delId,
+              AUTHORIZEDUSER:this.releaseform.user,
+              AUTHORIZEDPASSWORD:this.releaseform.pwd,
+              synStatus:synStatus
+            }
+            this.$api.post('/manage-platform/nameList/deleteNameList',p,
+             r => {
+               if(r.success){
+                 this.$message({
+                   message: '删除成功',
+                   type: 'success'
+                 });
+                 this.releaseDialogVisible=false;
+                 this.getList(this.CurrentPage,this.pageSize,this.pd);
+               }
+            })
+            break;
+          case "dels":
+            var p = {
               pd:{
+                SYN_STATUS: synStatus,
                 AUTHORIZEDUSER:this.releaseform.user,
                 AUTHORIZEDPASSWORD:this.releaseform.pwd,
                 LIST_TYPE : "1"
               },
-              cdtList:arr1
-
-            }
+              cdtList:this.multipleSelection.map(function(val){
+                return val.SERIAL
+              },this)
+            };
             this.$api.post('/manage-platform/nameList/deleteNameListAll',p,
              r => {
                if(r.success){
@@ -1098,20 +1106,17 @@ export default {
 
                }
             })
-          }else if(this.dialogType=="syn"){
-            // this.resetForm('releasForm');
-            let arr= this.multipleSelection;
-            let arr1=[];
-            for(var i in arr){
-              arr1.push(arr[i].SERIAL)
-            }
-            let p={
+              break;
+          case "syn":
+            var p ={
               pd:{
                 AUTHORIZEDUSER:this.releaseform.user,
                 AUTHORIZEDPASSWORD:this.releaseform.pwd,
                 LIST_TYPE : "1"
               },
-              cdtList:arr1
+              cdtList:this.multipleSelection.map(function(val){
+                return val.SERIAL
+              },this)
             }
             console.log(p)
             this.$api.post('/manage-platform/nameList/synNameListAll',p,
@@ -1125,58 +1130,52 @@ export default {
                  this.getList(this.CurrentPage,this.pageSize,this.pd);
                }
             })
-          }
+            break;
+
         }
+      }
+    },
 
+    beforeAvatarUpload(file){
+     console.log(file.type)
+     const isEXL = file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
 
-      },
-    handleRemove(file, fileList) {
-       console.log(file, fileList);
-     },
-     handlePreview(file) {
-       console.log(file,this.fileList);
-       this.isFile=file;
-     },
-     beforeAvatarUpload(file){
-       console.log(file.type)
-       const isEXL = file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
-
-       if (!isEXL) {
-         this.$message.error('上传文件只能是 xlsl 格式!');
-       }
-       return isEXL ;
-     },
-     showUpload(){
-       this.uploadDialogVisible=true;
-       console.log( this.$refs.upload)
-       if( this.$refs.upload){
-         this.$refs.upload.clearFiles();
-       }
-     },
-     submitUpload() {
-       console.log(this.$refs.upload)
-
-       if(this.$refs.upload.uploadFiles.length==0){
-         this.$message({
-          message: '请先选择文件！',
-          type: 'warning'
-        });
-         return
-       }
-       this.$refs.upload.submit();
-     },
-     upSuccess(r){
-       console.log(r);
-       if(r.success){
-         this.$message({
-           message: r.data,
-           type: 'success'
-         });
-        this.uploadDialogVisible=false ;
-
-        this.getList(this.CurrentPage,this.pageSize,this.pd);
-       }
+     if (!isEXL) {
+       this.$message.error('上传文件只能是 xlsl 格式!');
      }
+     return isEXL ;
+    },
+    showUpload(){
+     this.uploadDialogVisible=true;
+     console.log( this.$refs.upload)
+     if( this.$refs.upload){
+       this.$refs.upload.clearFiles();
+     }
+    },
+    submitUpload() {
+     console.log(this.$refs.upload)
+
+     if(this.$refs.upload.uploadFiles.length==0){
+       this.$message({
+        message: '请先选择文件！',
+        type: 'warning'
+      });
+       return
+     }
+     this.$refs.upload.submit();
+    },
+    upSuccess(r){
+     console.log(r);
+     if(r.success){
+       this.$message({
+         message: r.data,
+         type: 'success'
+       });
+      this.uploadDialogVisible=false ;
+
+      this.getList(this.CurrentPage,this.pageSize,this.pd);
+     }
+    }
   }
 }
 </script>

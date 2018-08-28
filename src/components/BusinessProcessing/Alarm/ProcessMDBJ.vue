@@ -22,7 +22,7 @@
            <el-option label="A - 全部" value="A"></el-option>
 
          </el-select>
-        <el-button type="warning" icon="el-icon-zoom-in" size="small" @click="getList(currentPage,pageSize,pd)">筛选</el-button>
+        <el-button type="warning" icon="el-icon-zoom-in" size="small" @click="getList(CurrentPage,pageSize,pd)">筛选</el-button>
         </el-col>
       </el-row>
 
@@ -114,6 +114,7 @@
         <el-pagination
           background
           @current-change="handleCurrentChange"
+          :current-page.sync ="CurrentPage"
           :page-size="pageSize"
           layout="prev, pager, next"
           :total="TotalResult">
@@ -128,7 +129,7 @@
 export default {
   data() {
     return {
-      currentPage:1,
+      CurrentPage:1,
       pageSize:10,
       TotalResult:0,
       pd:{
@@ -179,22 +180,22 @@ export default {
 
   },
   mounted(){
-    this.getList(this.currentPage,this.pageSize,this.pd);
+    this.getList(this.CurrentPage,this.pageSize,this.pd);
   },
   methods: {
     refreshFn(){
-      this.currentPage=1;
+      this.CurrentPage=1;
       this.pageSize=10;
       this.pd={
         lastmatchType:"",
         flighttype:""
 
       },
-      this.getList(this.currentPage,this.pageSize,this.pd);
+      this.getList(this.CurrentPage,this.pageSize,this.pd);
     },
-    getList(currentPage,showCount,pd){
+    getList(CurrentPage,showCount,pd){
       let p={
-        "currentPage":currentPage,
+        "currentPage":CurrentPage,
         "showCount":showCount,
         "pd":pd
       };
@@ -207,7 +208,7 @@ export default {
       })
     },
     pageSizeChange(val) {
-      this.getList(this.currentPage,val,this.pd);
+      this.getList(this.CurrentPage,val,this.pd);
       console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {

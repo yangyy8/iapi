@@ -57,13 +57,13 @@
                   <div class="input-input t-flex t-date">
               <el-date-picker
               v-model="pd.STARTBIRTH"
-              type="datetime" size="small" value-format="yyyyMMddHHmmss"
+              type="date" size="small" value-format="yyyyMMddHHmmss"
               placeholder="开始时间" >
             </el-date-picker>
                <span class="septum">-</span>
             <el-date-picker
                v-model="pd.ENDBIRTH"
-               type="datetime" size="small" value-format="yyyyMMddHHmmss"
+               type="date" size="small" value-format="yyyyMMddHHmmss"
                placeholder="结束时间"  >
            </el-date-picker>
          </div>
@@ -109,7 +109,7 @@
           </el-row>
         </el-col>
         <el-col :span="2" class="down-btn-area">
-          <el-button type="success" size="small" @click="getList(CurrentPage,pageSize,pd)">查询</el-button>
+          <el-button type="success" size="small" @click="CurrentPage=1;getList(CurrentPage,pageSize,pd)">查询</el-button>
         </el-col>
 
       </el-row>
@@ -159,10 +159,8 @@
                 >
                 </el-table-column>
                 <el-table-column
-
                   label="性别"
                   sortable
-
                 >
                 <template slot-scope="scope">
                   {{scope.row.GENDER | fiftersex}}
@@ -206,7 +204,13 @@
                 <el-table-column
                   label="操作" width="180">
                   <template slot-scope="scope">
-                      <el-button class="table-btn" size="mini" plain icon="el-icon-edit" @click="handles(scope.row)">变更</el-button>
+  <span v-if="scope.row.FLIGHTSTATUS==0 || scope.row.FLIGHTSTATUS==1 ">
+  <el-button  size="mini" plain icon="el-icon-edit" :disabled="true">变更</el-button>
+</span>
+<span v-else>
+    <el-button class="table-btn" size="mini" plain icon="el-icon-edit" @click="handles(scope.row)">变更</el-button>
+  </span>
+
                       <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row)">详情</el-button>
                  </template>
                 </el-table-column>
@@ -235,6 +239,7 @@
         <el-pagination
           background
           @current-change="handleCurrentChange"
+          :current-page.sync ="CurrentPage"
           :page-size="pageSize"
           layout="prev, pager, next"
           :total="TotalResult">
@@ -251,12 +256,12 @@
             style="width: 100%;">
                     <el-table-column
                       prop="NAME"
-                      label="姓名" sortable
+                      label="姓名"
                     >
                     </el-table-column>
                     <el-table-column
-                      label="性别" sortable
-                      width="100"
+                      label="性别"
+                      width="50"
                     >
                     <template slot-scope="scope">
                       {{scope.row.GENDER | fiftersex}}
@@ -265,13 +270,11 @@
                     <el-table-column
                       prop="DATEOFBIRTH"
                       label="出生日期" sortable
-                      width="110"
                       >
                     </el-table-column>
                     <el-table-column
                       prop="FLTNO"
-                      label="航班号" sortable
-                      width="110"
+                      label="航班号"
                     >
                     </el-table-column>
                     <el-table-column
@@ -280,8 +283,7 @@
                     >
                     </el-table-column>
                     <el-table-column
-                      label="证件种类" sortable
-                      width="110"
+                      label="证件种类"
                     >
                     <template slot-scope="scope">
                         {{scope.row.PASSPORTTYPE | fiftertype}}
@@ -291,18 +293,15 @@
                     <el-table-column
                       prop="PASSPORTNO"
                       label="证件号码" sortable
-                      width="110"
                     >
                     </el-table-column>
                     <el-table-column
                       prop="LASTCHECKRESULT"
-                      label="当前反馈状态" sortable
-                      width="130"
+                      label="当前反馈状态"
                     >
                     </el-table-column>
                     <el-table-column
-                      label="当前反馈状态说明"
-                      width="160"
+                      label="反馈状态说明"
                     >
                     <template slot-scope="scope">
                       {{scope.row.LASTCHECKRESULT | fiftecr}}
@@ -405,19 +404,19 @@
           <el-col :span="24" class="input-item">
             <span class="yy-input-text" style="width:20%">变更后反馈状态：</span>
             <el-select v-model="form.INSTRUCT"  placeholder="请选择"  filterable clearable  @change="inschange(form.INSTRUCT,0)"  size="small" style="width:82%">
-              <span v-if="form.CHECKRESULT!='0Z'">
+              <span v-if="form.LASTCHECKRESULT!='0Z'">
               <el-option value="0Z" label="0Z - 允许打印登机牌">
               </el-option>
              </span>
-              <span v-if="form.CHECKRESULT!='1Z'">
+              <span v-if="form.LASTCHECKRESULT!='1Z'">
               <el-option value="1Z" label="1Z - 禁止打印登机牌">
               </el-option>
             </span>
-            <span v-if="form.CHECKRESULT!='2Z'">
+            <span v-if="form.LASTCHECKRESULT!='2Z'">
               <el-option value="2Z" label="2Z - 请再次核对">
               </el-option>
                 </span>
-              <span v-if="form.CHECKRESULT!='4Z'">
+              <span v-if="form.LASTCHECKRESULT!='4Z'">
               <el-option value="4Z" label="4Z - 数据错误">
               </el-option>
                 </span>
@@ -453,12 +452,12 @@
       <el-row  type="flex"  class="mb-15">
             <el-col :span="20">
             <span class="yy-input-text">授权账号：</span>
-            <el-input placeholder="请输入内容" size="small" v-model="ap.APPROVALUSER" class="yy-input-input"></el-input></el-col>
+            <el-input placeholder="请输入内容" size="small" v-model="ap.APPROVALUSER" v-verify.change.blur ="{regs:'required',submit:'demo2'}" class="yy-input-input"></el-input></el-col>
       </el-row>
       <el-row  type="flex"  class="mb-15">
             <el-col :span="20">
               <span class="yy-input-text">授权密码：</span>
-              <el-input placeholder="请输入内容" type="password" size="small" v-model="ap.APPROVALPW" class="yy-input-input"></el-input></el-col>
+              <el-input placeholder="请输入内容" type="password" size="small" v-model="ap.APPROVALPW" v-verify.change.blur ="{regs:'required',submit:'demo2'}" class="yy-input-input"></el-input></el-col>
 
       </el-row>
       <div slot="footer" class="dialog-footer">
@@ -813,8 +812,19 @@ ENDTIME:''
       this.pd.NATIONALITY = msg;
     },
     batchs() {
+
+
+      for(var i=0;i<this.multipleSelection.length;i++){
+  // console.log("----"+i+"===="+this.multipleSelection[i].FLIGHTSTATUS);
+var s=this.multipleSelection[i].FLIGHTSTATUS;
+  if(s==0 || s==1){
+    this.open("选择的第"+(i+1)+"条数据是不能变更的，请重新选择！");  return;
+  }
+      }
+
       if (this.multipleSelection.length == 0) {
-        this.open();
+
+        this.open("请选择列表内容！");
         return;
 
       }
@@ -822,8 +832,9 @@ ENDTIME:''
       this.batchDialogVisible = true;
       this.batchtableData = this.multipleSelection
     },
-    open() {
-      this.$alert('请选择列表内容！', '提示', {
+    open(content) {
+
+      this.$alert(content, '提示', {
         confirmButtonText: '确定',
         type: 'warning'
       });
@@ -847,6 +858,9 @@ ENDTIME:''
       console.log(`当前页: ${val}`);
     },
     getList(currentPage, showCount, pd) {
+        this.pd.NAME=getreplace(this.pd.NAME);
+this.pd.PASSPORTNO=getreplace(this.pd.PASSPORTNO);
+this.pd.FLTNO=getreplace(this.pd.FLTNO);
       let p = {
         "currentPage": currentPage,
         "showCount": showCount,
@@ -871,6 +885,16 @@ ENDTIME:''
       this.tp = i;
     },
     Authorization(ap) {
+
+      if(this.$validator.listener.demo2){
+        const result = this.$validator.verifyAll('demo2')
+        // console.log(result)
+         if (result.indexOf(false) > -1) {
+           return
+         } else {
+           // alert('填写成功')
+         }
+      }
 
       if (this.tp == 0) {
         this.handlesItem("batchmap", ap);
@@ -1152,6 +1176,14 @@ ENDTIME:''
       }
     },
   }
+}
+
+function getreplace(name){
+  if(name==undefined){
+    return "";
+  }else {
+  return name.replace(/(^\s*)|(\s*$)/g, "").replace(/\s/g, "");
+}
 }
 </script>
 

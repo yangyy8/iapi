@@ -608,7 +608,7 @@ export default {
                 this.msgData++;
               }
               if(this.iapiMap.instructNew){
-                this.pd.CHANGE_RESON=this.iapiMap.change_reson;
+                this.pd.CHANGE_RESON=this.iapiMap.change_reson+"\n";
 
               }else if (arr[i].status == 1) {
 
@@ -627,20 +627,31 @@ export default {
             var arr = this.listMap;
             var thar = this;
             this.pd.CHANGE_RESON = "";
-            for (var i in arr) {
-              console.log(arr[i])
+            let tt="";
+            for (var i=0;i<arr.length;i++) {
               if (arr[i].status == 0) {
                 console.log(arr[i].status)
                 this.msgData++;
               }
-              if(this.iapiMap.instructNew){
-                this.pd.CHANGE_RESON=this.iapiMap.change_reson;
+              if(arr[i].status == 1){
+                tt+= parseInt(i)+ 1 + ". 档号："+arr[i].dh+" 名单类型："+arr[i].alarmType+" 甄别结果："+arr[i].confirmResult+" 甄别说明：" + arr[i].compareDesc + "\n";
+              }
+            }
 
-              }else if (arr[i].status == 1) {
-                this.pd.CHANGE_RESON += parseInt(i)+ 1 + ". 档号："+arr[i].dh+" 名单类型："+arr[i].alarmType+" 甄别结果："+arr[i].confirmResult+" 甄别说明：" + arr[i].compareDesc + "\n";
+            if(this.iapiMap.instructNew){
+              console.log("ttttttttttttttttttttttttttttttt",tt)
+              this.pd.CHANGE_RESON=this.iapiMap.change_reson;
+              this.pd.DEALRESULT='1'
+              if(this.iapiMap.instructNew!=this.iapiMap.instructOld){
+                this.pd.CHANGE_RESON=tt+'\n 变更说明：'+this.iapiMap.change_reson;
               }
 
+            }else{
+              this.pd.DEALRESULT='0'
+              this.pd.CHANGE_RESON=tt
+
             }
+
           })
       }
 
@@ -676,6 +687,8 @@ export default {
               this.isUpdate = false;
               this.AuthDialogVisible = false;
               this.handlesDialogVisible = false;
+              this.getList();
+              
             }
           })
       }else{
@@ -703,13 +716,9 @@ export default {
                  });
                  this.isUpdate = false;
                  this.getList();
-                 // this.$router.go(-1);
               }
             })
-         }).catch(() => {
-           // this.isUpdate = false;
-           // this.getList();
-         });
+         })
 
       }
 
@@ -717,7 +726,6 @@ export default {
     },
 
     archive() {
-
       this.pd.eventserial = this.eventserial;
       this.pd.userid = this.userMap.userId;
       this.pd.approvaluser = this.ap.userName;
@@ -818,7 +826,20 @@ export default {
       this.ap.INSTRUCTC=content;
     }
 
-  }
+  },
+  // watch:{
+  //   iapiMap.instructOld:function(n){
+  //     if (n == "0Z") {
+  //       this.iapiMap.INSTRUCTC= "OK TO BOARD";
+  //     } else if (n == "1Z") {
+  //       this.iapiMap.INSTRUCTC= "NO BOARD";
+  //     } else if (n == "2Z") {
+  //       this.iapiMap.INSTRUCTC= "CHECK AGAIN";
+  //     } else if (n == "4Z"){
+  //       this.iapiMap.INSTRUCTC= "DATA ENTRY ERROR";
+  //     }
+  //   }
+  // }
 }
 </script>
 
