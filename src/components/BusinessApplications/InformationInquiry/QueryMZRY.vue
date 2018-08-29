@@ -149,7 +149,7 @@
         <el-table-column
           prop="INTG_CHNNAME"
           sortable
-          width="100"
+          width="110"
           label="中文姓名">
         </el-table-column>
         <el-table-column

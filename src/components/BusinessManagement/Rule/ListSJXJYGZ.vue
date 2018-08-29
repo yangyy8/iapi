@@ -57,7 +57,7 @@
           label="出入境方向"
           width="120">
           <template slot-scope="scope">
-            <el-select v-model="scope.row.IODIR" placeholder="请选择" filterable clearable size="mini" class="table-select">
+            <el-select v-model="scope.row.IODIR" placeholder="请选择" v-verify.input.blur="{regs:'required',submit:'demo'}" filterable clearable size="mini" class="table-select">
               <el-option label="0 - 出境" value="0"></el-option>
               <el-option label="1 - 入境" value="1"></el-option>
               <el-option label="2 - 全部" value="2"></el-option>
@@ -68,7 +68,7 @@
           label="人员类别"
           width="150">
           <template slot-scope="scope">
-            <el-select v-model="scope.row.PERSONNELTYPE" placeholder="请选择" filterable clearable size="mini" class="table-select">
+            <el-select v-model="scope.row.PERSONNELTYPE" placeholder="请选择" v-verify.input.blur="{regs:'required',submit:'demo'}" filterable clearable size="mini" class="table-select">
               <el-option label="0 - 中国内地人" value="0"></el-option>
               <el-option label="1 - 中国港澳台" value="1"></el-option>
               <el-option label="2 - 外国人" value="2"></el-option>
@@ -80,7 +80,7 @@
           label="字段名称"
           width="170">
           <template slot-scope="scope">
-            <el-select v-model="scope.row.FIELDNAME" filterable clearable @visible-change="codeName(scope.row.FIELDNAME)" placeholder="请选择"  size="mini" class="table-select">
+            <el-select v-model="scope.row.FIELDNAME" v-verify.input.blur="{regs:'required',submit:'demo'}" filterable clearable @visible-change="codeName(scope.row.FIELDNAME)" placeholder="请选择"  size="mini" class="table-select">
               <el-option
               v-for="item in code"
               :key="item.FIELDNAME"
@@ -94,7 +94,7 @@
           label="最大长度"
           width="100">
           <template slot-scope="scope">
-            <el-input v-model="scope.row.MAXLENGTH"  size="small" class="table-select" @blur="max(scope.row)" @focus="lengthFoc(scope.row.MAXLENGTH)"></el-input>
+            <el-input v-model="scope.row.MAXLENGTH" size="small" class="table-select" @blur="max(scope.row)" @focus="lengthFoc(scope.row.MAXLENGTH)"></el-input>
          </template>
         </el-table-column>
         <el-table-column
@@ -108,7 +108,7 @@
           label="反馈结果"
           width="100">
           <template slot-scope="scope">
-            <el-select v-model="scope.row.CHECKRESULT" filterable clearable placeholder="请选择"  size="mini" class="table-select">
+            <el-select v-model="scope.row.CHECKRESULT" v-verify.input.blur="{regs:'required',submit:'demo'}" filterable clearable placeholder="请选择"  size="mini" class="table-select">
               <el-option label="1Z" value="1Z"></el-option>
               <el-option label="2Z" value="2Z"></el-option>
               <el-option label="4Z" value="4Z"></el-option>
@@ -119,14 +119,14 @@
           label="反馈结果描述"
           width="280">
           <template slot-scope="scope">
-            <el-input type="textarea" :autosize="{ minRows: 1, maxRows: 2}" placeholder="请输入内容" size="small" class="table-select" v-model="scope.row.CHECKREMARK" maxlength="100"></el-input>
+            <el-input type="textarea" v-verify.input.blur="{regs:'required',submit:'demo'}" :autosize="{ minRows: 1, maxRows: 2}" placeholder="请输入内容" size="small" class="table-select" v-model="scope.row.CHECKREMARK" maxlength="100"></el-input>
          </template>
         </el-table-column>
         <el-table-column
           label="限制性"
           width="130">
           <template slot-scope="scope">
-            <el-select v-model="scope.row.INPUT" placeholder="请选择" filterable clearable  size="mini" class="table-select">
+            <el-select v-model="scope.row.INPUT" v-verify.input.blur="{regs:'required',submit:'demo'}" placeholder="请选择" filterable clearable  size="mini" class="table-select">
               <el-option label="0 - 必填项" value="0"></el-option>
               <el-option label="1 - 选录项" value="1"></el-option>
             </el-select>
@@ -136,7 +136,7 @@
           label="规则状态"
           width="120">
           <template slot-scope="scope">
-            <el-select v-model="scope.row.STATUS" placeholder="请选择" filterable clearable size="mini" class="table-select">
+            <el-select v-model="scope.row.STATUS" v-verify.input.blur="{regs:'required',submit:'demo'}" placeholder="请选择" filterable clearable size="mini" class="table-select">
               <el-option label="0 - 停用" value="0"></el-option>
               <el-option label="1 - 启用" value="1"></el-option>
             </el-select>
@@ -147,7 +147,7 @@
           width="100"
           v-if="false">
           <template slot-scope="scope">
-            <el-input v-model="scope.row.REGULAR" size="small" class="table-select"></el-input>
+            <el-input v-model="scope.row.REGULAR" v-verify.input.blur="{regs:'required',submit:'demo'}" size="small" class="table-select"></el-input>
          </template>
         </el-table-column>
         <el-table-column
@@ -155,7 +155,7 @@
           width="100"
           v-if="false">
           <template slot-scope="scope">
-            <el-input v-model="scope.row.VALIDTIME" size="small" class="table-select"></el-input>
+            <el-input v-model="scope.row.VALIDTIME" v-verify.input.blur="{regs:'required',submit:'demo'}" size="small" class="table-select"></el-input>
          </template>
         </el-table-column>
         <el-table-column
@@ -357,6 +357,11 @@ export default {
 
      },
      save(){
+       const result = this.$validator.verifyAll('demo')
+       console.log(result);
+        if (result.indexOf(false) > -1) {
+          return
+        }
        let p = this.tableData.concat(this.operatorData);
        this.$api.post('/manage-platform/dataCheck/addDataCheck',p,
         r => {
@@ -436,5 +441,10 @@ export default {
 .mt-26{
   margin-top: 26px!important;
 }
-
+.cell{
+  overflow: visible!important;
+}
+.example-error{
+  padding: 9px!important;
+}
 </style>

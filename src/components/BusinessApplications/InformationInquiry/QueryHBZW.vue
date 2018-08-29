@@ -113,7 +113,8 @@
         </el-table-column>
         <el-table-column
           prop="tsname"
-          label="姓名" sortable>
+          label="姓名" sortable
+          width="140">
         </el-table-column>
         <el-table-column
           prop="gender"
@@ -136,9 +137,10 @@
           label="航班号" sortable>
         </el-table-column>
         <el-table-column
-          label="航班日期" sortable>
+          label="航班日期" sortable
+          width="150">
               <template slot-scope="scope">
-                {{scope.row.departdate | filterdate}}
+                {{scope.row.departdate}}
               </template>
         </el-table-column>
         <el-table-column
@@ -582,7 +584,7 @@ export default {
       	"cdt":historyCdt
       };
       // this.historyBased();
-      this.$api.post('/manage-platform/iapiUnscolicited/queryHistory',ghl,
+      this.$api.post('/manage-platform/pnr/queryPnrHistory',ghl,
       r =>{
         this.detailstableData = r.data.resultList;
         this.htotalResult = r.data.totalResult;
@@ -671,8 +673,8 @@ export default {
     },
     details(i) {
       this.detailsDialogVisible = true;
-      this.historyCdt.NATIONALITY = i.nationality;
-      this.historyCdt.PASSPORTNO = i.cardnum;
+      this.historyCdt.nationalityEqual = i.nationality;
+      this.historyCdt.passportnoEqual = i.cardnum;
       console.log(i);
       this.getHistoryListPnr(this.hcurrentPage,this.hshowCount,this.historyCdt);
       this.$api.post('/manage-platform/pnr/queryPnrInfo',{serial:i.globalserial},
