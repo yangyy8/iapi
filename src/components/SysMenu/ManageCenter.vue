@@ -116,6 +116,9 @@ export default {
     this.queryrole();
     this.queryNationality();
   },
+  activated(){
+    this.getList();
+  },
   methods: {
     getList(){
       this.$api.post('/manage-platform/userSys/userMessage', {},
@@ -134,28 +137,25 @@ export default {
           }
         })
     },
-     addItem(formName) {
+    addItem(formName) {
+      this.$api.post("/manage-platform/userSys/edit", this.form,
+        r => {
+          console.log(r);
+          if (r.success) {
+            this.$message({
+              message: '保存成功！',
+              type: 'success'
+            });
+          } else {
+            this.$message.error(r.Message);
+          }
+          // this.$refs[formName].resetFields();
+          this.getList();
+        }, e => {
+          this.$message.error('失败了');
+      })
 
-
-
-        this.$api.post("/manage-platform/userSys/edit", this.form,
-          r => {
-            console.log(r);
-            if (r.success) {
-              this.$message({
-                message: '保存成功！',
-                type: 'success'
-              });
-            } else {
-              this.$message.error(r.Message);
-            }
-            // this.$refs[formName].resetFields();
-            this.getList();
-          }, e => {
-            this.$message.error('失败了');
-          })
-
-      },
+    },
     queryNationality() {
       this.$api.post('/manage-platform/userSys/deptList', {},
         r => {

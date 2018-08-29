@@ -367,6 +367,9 @@ export default {
 
 
   },
+  activated(){
+    this.getList(this.CurrentPage, this.pageSize, this.pd);
+  },
   methods: {
     handleSelectionChange(val) {
       this.multipleSelection = val;

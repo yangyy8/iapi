@@ -89,6 +89,9 @@ export default {
    mounted(){
      this.getData();
    },
+   activated(){
+     this.getData();
+   },
    methods:{
      getData(){
        this.$api.post('/manage-platform/nameList/getNameListDataAnalysis',{},
