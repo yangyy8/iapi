@@ -857,6 +857,8 @@ export default {
       this.dialogText='新增';
       this.dialogType='add';
       this.form={};
+      this.form.synStatus="0";
+      this.form.LIST_TYPE="1";
     },
     piliangdel(){
       let arr=this.multipleSelection;
@@ -918,6 +920,8 @@ export default {
       this.form=item;
       this.form.PERSON_TYPE+='';
       this.form.IN_OUT+='';
+      this.form.synStatus="0";
+      this.form.LIST_TYPE="1",
       this.dialogType="update";
       this.dialogText="编辑"
     },
@@ -992,9 +996,9 @@ export default {
       if(synStatus==0){
         switch (this.dialogType) {
           case "add":
+            console.log(this.form)
             this.$api.post('/manage-platform/nameList/addNameList',this.form,
              r => {
-               console.log(r);
                if(r.success){
                  this.$message({
                    message: '恭喜你，添加成功！',
@@ -1007,9 +1011,10 @@ export default {
             })
             break;
           case "update":
+            console.log(this.form)
+
             this.$api.post('/manage-platform/nameList/updateNameList',this.form,
              r => {
-               console.log(r);
                if(r.success){
                  this.$message({
                    message: '恭喜你，修改成功！',
