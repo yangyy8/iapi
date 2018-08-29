@@ -370,6 +370,13 @@ export default {
     this.pd.dataCheckBeginTime=formatDate(begin,'yyyyMMddhhmmss');
     this.pd.dataCheckEndTime=formatDate(end,'yyyyMMddhhmmss');
   },
+  activated(){
+    let time = new Date();
+    let end = new Date();
+    let begin =new Date(time - 1000 * 60 * 60 * 24 * 30);
+    this.pd.dataCheckBeginTime=formatDate(begin,'yyyyMMddhhmmss');
+    this.pd.dataCheckEndTime=formatDate(end,'yyyyMMddhhmmss');
+  },
   methods: {
     handleSelectionChange(val) {
       this.multipleSelection = val;

@@ -374,6 +374,13 @@ export default {
     this.pd.compareBeginDate=formatDate(begin,'yyyyMMddhhmmss');
     this.pd.compareEndDate=formatDate(end,'yyyyMMddhhmmss');
   },
+  activated(){
+    let time = new Date();
+    let end = new Date();
+    let begin =new Date(time - 1000 * 60 * 60 * 24 * 30);
+    this.pd.compareBeginDate=formatDate(begin,'yyyyMMddhhmmss');
+    this.pd.compareEndDate=formatDate(end,'yyyyMMddhhmmss');
+  },
   methods: {
     handleSelectionChange(val) {
       this.multipleSelection = val;
