@@ -570,25 +570,25 @@ export default {
 
   },
   methods: {
-    getHistoryList(hcurrentPage,hshowCount,historyCdt){
-      let gh = {
+    getHistoryListPnr(hcurrentPage,hshowCount,historyCdt){
+      let ghl = {
         "currentPage":hcurrentPage,
       	"showCount":hshowCount,
-      	"pd":historyCdt
+      	"cdt":historyCdt
       };
       // this.historyBased();
-      this.$api.post('/manage-platform/iapiUnscolicited/queryHistory',gh,
+      this.$api.post('/manage-platform/iapiUnscolicited/queryHistory',ghl,
       r =>{
-        this.detailstableData = r.data.pdList;
+        this.detailstableData = r.data.resultList;
         this.htotalResult = r.data.totalResult;
         this.htotalPage = r.data.totalPage;
       })
     },
     hpageSizeChange(val){//历次数据
-      this.getHistoryList(this.hcurrentPage,val,this.historyCdt);
+      this.getHistoryListPnr(this.hcurrentPage,val,this.historyCdt);
     },
     hhandleCurrentChange(val){ //历次数据
-      this.getHistoryList(val,this.hshowCount,this.historyCdt);
+      this.getHistoryListPnr(val,this.hshowCount,this.historyCdt);
     },
 
     qq(){
@@ -669,8 +669,8 @@ export default {
       this.historyCdt.NATIONALITY = i.nationality;
       this.historyCdt.PASSPORTNO = i.cardnum;
       console.log(i);
-      this.getHistoryList(this.hcurrentPage,this.hshowCount,this.historyCdt);
-      this.$api.post('/manage-platform/iapi/queryIapiInfo',{serial:i.globalserial},
+      this.getHistoryListPnr(this.hcurrentPage,this.hshowCount,this.historyCdt);
+      this.$api.post('/manage-platform/pnr/queryPnrInfo',{serial:i.globalserial},
        r =>{
          if(r.success){
            this.dform = r.data.IAPI;
