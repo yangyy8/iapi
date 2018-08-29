@@ -341,7 +341,7 @@ export default {
       this.cdt.end=formatDate(bbbb,'yyyyMMddhhmmss');
       this.getList(this.CurrentPage,this.pageSize,this.pd);
   },
-  actived(){
+  activated(){
     this.checkRealTime();
     let begin=new Date();
     let  end=new Date();

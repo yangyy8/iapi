@@ -334,7 +334,7 @@ export default {
       this.checkRealTime();
       this.getList(this.CurrentPage,this.pageSize,this.pd);
   },
-  actived() {
+  activated() {
       let begin=new Date();
       let  end=new Date();
       let aaaa = new Date(begin.setMonth((new Date().getMonth()-1)));
