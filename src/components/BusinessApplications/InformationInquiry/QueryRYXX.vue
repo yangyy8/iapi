@@ -1623,7 +1623,7 @@ export default {
     this.ss();
     this.currentPage = 1;
   },
-  actived(){
+  activated(){
     let time = new Date();
     let end = new Date();
     let begin =new Date(time - 1000 * 60 * 60 * 24 * 30);

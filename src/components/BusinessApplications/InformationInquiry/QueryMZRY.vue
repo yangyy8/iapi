@@ -142,12 +142,14 @@
       >
         <el-table-column
           prop="NAME"
+          width="100"
           sortable
           label="姓名">
         </el-table-column>
         <el-table-column
           prop="INTG_CHNNAME"
           sortable
+          width="100"
           label="中文姓名">
         </el-table-column>
         <el-table-column
@@ -155,46 +157,53 @@
           label="性别"
           sortable
           >
-
         </el-table-column>
         <el-table-column
           prop="BIRTHDAY"
           label="出生日期"
+          width="110"
           sortable>
         </el-table-column>
         <el-table-column
           prop="NATIONALITYNAME"
           label="国籍/地区"
+          width="110"
           sortable>
         </el-table-column>
         <el-table-column
           prop="PASSPORTNO"
           label="证件号码"
+          width="110"
           sortable>
         </el-table-column>
         <el-table-column
           prop="FLTNO"
           label="航班号"
+          width="100"
           sortable>
         </el-table-column>
         <el-table-column
           prop="DEPARTDATESTRING"
           label="航班日期"
+          width="150"
           sortable>
         </el-table-column>
         <el-table-column
           prop="CREATETIMESTR"
           label="命中时间"
+          width="160"
           sortable>
         </el-table-column>
         <el-table-column
           prop="INSTRUCT_NEW"
           label="反馈结果"
+          width="110"
           sortable>
         </el-table-column>
         <el-table-column
           prop="TYPE"
-          label="命中人员类别" width="170"
+          label="命中人员类别"
+          width="130"
           sortable>
         </el-table-column>
 
@@ -599,6 +608,13 @@ export default {
   },
   mounted() {
     this.nav1Id=this.$route.query.nav1Id
+    let time = new Date();
+    let end = new Date();
+    let begin =new Date(time - 1000 * 60 * 60 * 24 * 30);
+    this.pd.startCreatetime=formatDate(begin,'yyyyMMddhhmmss');
+    this.pd.endCreatetime=formatDate(end,'yyyyMMddhhmmss');
+  },
+  activated(){
     let time = new Date();
     let end = new Date();
     let begin =new Date(time - 1000 * 60 * 60 * 24 * 30);

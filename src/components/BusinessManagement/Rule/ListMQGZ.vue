@@ -24,7 +24,7 @@
           <div class="t-text" :class="{active:isActive}">注：当前系统时间以服务器为准</div>
           <!-- 证件规则搜索框 -->
 
-  
+
           <el-row type="flex" align="center" justify="space-between" style="width:100%;margin-bottom: 5px;">
               <el-col :sm="24" :md="12" :lg="8" class="input-item">
                 <el-select placeholder="请选择" v-model="data.fieldName" filterable clearable size="mini" :disabled="isActive" @visible-change="codeName" class="t-input">
@@ -336,6 +336,10 @@ export default {
   },
   mounted(){
     this.codeName();
+    this.getDate();
+    this.addList(this.data.fieldName,this.data.visaTime,this.data.visaOperator);
+  },
+  activated(){
     this.getDate();
     this.addList(this.data.fieldName,this.data.visaTime,this.data.visaOperator);
   },

@@ -274,6 +274,9 @@ export default {
     this.codeName();
     this.getList(this.pd);
   },
+  activated(){
+    this.getList(this.pd);
+  },
   methods:{
     inschange(n) {
       var content = "";

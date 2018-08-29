@@ -109,11 +109,11 @@
         style="width: 100%;">
        <el-table-column
           prop="intgChnname"
-          label="中文姓名" >
+          label="中文姓名" sortable>
         </el-table-column>
         <el-table-column
           prop="tsname"
-          label="姓名" >
+          label="姓名" sortable>
         </el-table-column>
         <el-table-column
           prop="gender"
@@ -558,8 +558,6 @@ export default {
   },
   mounted() {
   this.nav1Id=this.$route.query.nav1Id
-  //  this.getList(this.CurrentPage, this.pageSize, this.pd);
-  // this.getimgtable(this.CurrentPage, this.pageSize, this.pd);
   this.queryNationality();
 
   let time = new Date();
@@ -568,6 +566,13 @@ export default {
   this.pd.departdateBegin=formatDate(begin,'yyyyMMddhhmm');
   this.pd.departdateEnd=formatDate(end,'yyyyMMddhhmm');
 
+  },
+  activated(){
+    let time = new Date();
+    let end = new Date();
+    let begin =new Date(time - 1000 * 60 * 60 * 24 * 30);
+    this.pd.departdateBegin=formatDate(begin,'yyyyMMddhhmm');
+    this.pd.departdateEnd=formatDate(end,'yyyyMMddhhmm');
   },
   methods: {
     getHistoryListPnr(hcurrentPage,hshowCount,historyCdt){
