@@ -199,6 +199,9 @@ export default {
   mounted() {
     this.getList(this.CurrentPage, this.pageSize, this.pd);
   },
+  actived(){
+    this.getList(this.CurrentPage,this.pageSize,this.pd);
+  },
   methods: {
     handleSelectionChange(val) {
       this.multipleSelection = val;
