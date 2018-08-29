@@ -808,6 +808,14 @@ export default {
     this.pd.STARTTIME = formatDate(begin, 'yyyyMMddhhmm');
     this.pd.ENDTIME = formatDate(end, 'yyyyMMddhhmm');
   },
+  activated() {
+    //this.getList(this.CurrentPage, this.pageSize, this.pd);
+    let time = new Date();
+    let end = new Date();
+    let begin = new Date(time - 1000 * 60 * 60 * 24 * 14);
+    this.pd.STARTTIME = formatDate(begin, 'yyyyMMddhhmm');
+    this.pd.ENDTIME = formatDate(end, 'yyyyMMddhhmm');
+  },
   methods: {
     handleSelectionChange(val) {
       this.multipleSelection = val;

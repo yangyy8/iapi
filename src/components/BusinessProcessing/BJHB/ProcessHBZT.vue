@@ -285,6 +285,14 @@ export default {
     this.pd.startScheduledeparturetime=formatDate(begin,'yyyyMMddhhmm');
     this.pd.endScheduledeparturetime=formatDate(end,'yyyyMMddhhmm');
   },
+  activated() {
+    let time = new Date();
+    let end = new Date();
+    let begin =new Date(time - 1000 * 60 * 60 * 24 * 14);
+    this.pd.startScheduledeparturetime=formatDate(begin,'yyyyMMddhhmm');
+    this.pd.endScheduledeparturetime=formatDate(end,'yyyyMMddhhmm');
+  },
+
   methods: {
     handleSelectionChange(val) {
       this.multipleSelection = val;
