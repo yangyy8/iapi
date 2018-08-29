@@ -785,6 +785,17 @@ export default {
    this.pd1.AlarmType=this.$route.query.AlarmType;
    this.getData();
  },
+ activated(){
+   this.pd1.NameListType=parseInt(this.$route.query.NameListType);
+   this.pd1.eventserial=this.$route.query.eventserial;
+   this.pd1.iapiSerial=this.$route.query.iapiSerial;
+   this.pd1.nationAndPass=this.$route.query.nationAndPass;
+   this.pd1.visaNo=this.$route.query.visaNo;
+   this.pd1.personCode=this.$route.query.nationAndPass;
+   this.pd1.recordNum=this.$route.query.dh;
+   this.pd1.AlarmType=this.$route.query.AlarmType;
+   this.getData();
+ },
  methods:{
    getData(){
 

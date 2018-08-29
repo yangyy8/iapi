@@ -75,6 +75,10 @@ export default {
     this.openCYCC();
     this.getcc();
   },
+  activated() {
+    this.openCYCC();
+    this.getcc();
+  },
   methods: {
     based(i) {
       console.log(i)

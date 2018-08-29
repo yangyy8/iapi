@@ -1200,6 +1200,10 @@ export default {
     this.getGj();
     this.getHkGs();
   },
+  activated(){
+    this.initChart(this.series);
+    this.getNewData();
+  },
   created(){
     var _self = this;
     // document.onkeydown = function(e){

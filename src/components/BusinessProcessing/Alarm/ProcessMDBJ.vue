@@ -56,6 +56,7 @@
         </el-table-column>
         <el-table-column
           prop="nationality"
+          width="90"
           label="国籍/地区">
         </el-table-column>
         <el-table-column
@@ -74,6 +75,7 @@
         </el-table-column>
         <el-table-column
           prop="createtime"
+          width="160"
           label="报警时间">
         </el-table-column>
         <el-table-column
@@ -182,6 +184,16 @@ export default {
 
   },
   mounted(){
+    this.getList(this.CurrentPage,this.pageSize,this.pd);
+  },
+  activated(){
+    // this.CurrentPage=1,
+    // this.pageSize=10,
+    // this.TotalResult=0,
+    // this.pd={
+    //   lastmatchType:"",
+    //   flighttype:""
+    // },
     this.getList(this.CurrentPage,this.pageSize,this.pd);
   },
   methods: {

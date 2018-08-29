@@ -562,8 +562,8 @@ export default {
       msgData: 0
     }
   },
-  created() {
-    // this.msgData=0;
+  mounted() {
+    this.msgData=0;
 
     // if(this.$route.query.eventserial){
     let _this=this;
@@ -577,11 +577,21 @@ export default {
       }
     },400)
 
-
-    // }
-
   },
-
+  activated(){
+    this.msgData=0;
+    console.log(this.$route.query.eventserial,1,this.msgData);
+    let _this=this;
+    // setTimeout(function(){
+      this.eventserial = this.$route.query.eventserial;
+      console.log(this.$route.query,1);
+      if(this.$route.query.type==0) {
+        this.shijian();
+      }else{
+        this.getList();
+      }
+    // },400)
+  },
   methods: {
     getList() {
       this.tabIsShow=false;
@@ -609,9 +619,7 @@ export default {
               }
               if(this.iapiMap.instructNew){
                 this.pd.CHANGE_RESON=this.iapiMap.change_reson+"\n";
-
               }else if (arr[i].status == 1) {
-
                 this.pd.CHANGE_RESON += parseInt(i)+ 1 + ". 档号："+arr[i].dh+" 名单类型："+arr[i].alarmType+" 甄别结果："+arr[i].confirmResult+" 甄别说明：" + arr[i].compareDesc + "\n";
               }
 
@@ -688,7 +696,7 @@ export default {
               this.AuthDialogVisible = false;
               this.handlesDialogVisible = false;
               this.getList();
-              
+
             }
           })
       }else{

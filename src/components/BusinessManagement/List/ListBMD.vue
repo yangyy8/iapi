@@ -731,7 +731,7 @@ export default {
     this.queryAirport();
     this.queryDocCode();
   },
-  actived(){
+  activated(){
     this.getList(this.CurrentPage,this.pageSize,this.pd);
   },
   methods:{

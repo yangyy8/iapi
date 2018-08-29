@@ -643,6 +643,9 @@ export default {
     this.queryInOutReason();
     this.queryAirport();
   },
+  activated(){
+    this.getList(this.CurrentPage,this.pageSize,this.pd);
+  },
   methods:{
     download(){
       window.location.href=this.$api.rootUrl+'/manage-platform/templateFile/nameListFocusListFile.xlsx'

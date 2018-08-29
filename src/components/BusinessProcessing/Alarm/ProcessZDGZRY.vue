@@ -55,7 +55,8 @@
         </el-table-column>
         <el-table-column
           prop="nationality"
-          label="国籍">
+          width="90"
+          label="国籍/地区">
         </el-table-column>
         <el-table-column
           prop="passportno"
@@ -64,7 +65,7 @@
         <el-table-column
           prop="flightType"
           label="出入标识"
-          width="130">
+          width="90">
           <template slot-scope="scope">
             <span v-if="scope.row.flightType=='O'">出境</span>
             <span v-if="scope.row.flightType=='I'">入境</span>
@@ -77,6 +78,7 @@
         </el-table-column>
         <el-table-column
           prop="createtime"
+          width="160"
           label="报警时间">
         </el-table-column>
         <el-table-column
@@ -187,6 +189,9 @@ export default {
 
   },
   mounted(){
+    this.getList(this.CurrentPage,this.pageSize,this.pd);
+  },
+  activated(){
     this.getList(this.CurrentPage,this.pageSize,this.pd);
   },
   methods: {
