@@ -374,6 +374,7 @@
           <el-table-column
             prop="DATEOFBIRTH"
             label="出生日期" sortable
+            width="100"
             >
           </el-table-column>
           <el-table-column
@@ -385,6 +386,7 @@
           <el-table-column
             prop="PASSPORTNO"
             label="证件号码" sortable
+            width="100"
           >
           </el-table-column>
 
@@ -396,12 +398,13 @@
           <el-table-column
             prop="SCHEDULEDEPARTURETIME"
             label="航班日期" sortable
+            width="140"
             >
           </el-table-column>
 
           <el-table-column
             label="预检结果" sortable
-              width="120"
+              width="100"
             >
             <template slot-scope="scope">
               {{scope.row.CHECKRESULT | fiftecr}}
@@ -417,6 +420,7 @@
           </el-table-column> -->
           <el-table-column
             label="报警信息" sortable
+            width="120"
             >
             <template slot-scope="scope">
               {{scope.row.STATUS | fifterbj}}
@@ -749,7 +753,34 @@ export default {
               return n.substring(0,n.length-3);
           }
 
-        }
+        },
+        fiftersex(val) {
+          if (val == "F") {
+            return "女"
+          } else if (val == "M") {
+            return "男"
+          } else if (val == "U") {
+            return "未知"
+          }
+        },
+        fiftecr(val) {
+          if (val == "0Z") {
+            return "允许打印登机牌";
+          } else if (val == "1Z") {
+            return "禁止打印登机牌";
+          } else if (val == "2Z") {
+            return "请再次核对";
+          } else {
+            return "数据错误";
+          }
+        },
+        fifterbj(val) {
+          if (val == "1") {
+            return "产生报警";
+          } else {
+            return "未产生报警";
+          }
+        },
 
     }
 }
