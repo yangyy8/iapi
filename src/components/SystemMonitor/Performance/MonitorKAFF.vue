@@ -376,7 +376,7 @@ export default {
       this.cdt.end=formatDate(bbbb,'yyyyMMddhhmmss');
       this.getList(this.CurrentPage,this.pageSize,this.pd);
   },
-  actived() {
+  activated() {
       this.drawLine();
       this.checkRealTime();
       // window.addEventListener('resize', throttle(this.resize, 100));

@@ -17,13 +17,16 @@
               <span class="input-text"><font color="red">*</font> 航班日期：</span>
               <div class="input-input t-flex t-date">
                <el-date-picker
+               v-verify.input.blur="{regs:'required',submit:'timeDemo'}"
                v-model="pd.startScheduledeparturetime"
-               type="datetime" size="small"  format="yyyy-MM-dd HH:mm"
+               type="datetime" size="small"
+               format="yyyy-MM-dd HH:mm"
                 value-format="yyyyMMddHHmm"
                placeholder="开始时间" align="right" :picker-options="pickerOptions">
              </el-date-picker>
                <span class="septum">-</span>
              <el-date-picker
+             v-verify.input.blur="{regs:'required',submit:'timeDemo'}"
                 v-model="pd.endScheduledeparturetime"
                 type="datetime" size="small" align="right"  format="yyyy-MM-dd HH:mm"
                  value-format="yyyyMMddHHmm"
@@ -302,8 +305,16 @@ export default {
   // if(pd.endScheduledeparturetime!= undefined){
   //   pd.endScheduledeparturetime= formatDate(pd.endScheduledeparturetime, "yyyy-MM-dd");
   // }
-
-
+  const result = this.$validator.verifyAll('timeDemo')
+   if (result.indexOf(false) > -1) {
+     return
+   }
+  if(dayGap(this.pd.startScheduledeparturetime,this.pd.endScheduledeparturetime,0)>14){
+    this.$alert('查询时间间隔不能超过二周', '提示', {
+      confirmButtonText: '确定',
+    });
+    return false
+  }
 
       let p = {
         "currentPage": currentPage,

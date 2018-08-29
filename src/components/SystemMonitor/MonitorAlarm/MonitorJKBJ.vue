@@ -273,7 +273,7 @@ export default {
   mounted() {
     this.getList(this.CurrentPage, this.pageSize, this.pd);
   },
-  actived() {
+  activated() {
     this.getList(this.CurrentPage, this.pageSize, this.pd);
   },
   methods: {

@@ -73,9 +73,10 @@
                 <el-input placeholder="请输入内容" size="small" v-model="pd.FLTNO" class="input-input"></el-input>
               </el-col>
                 <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
-                <span class="input-text">航班日期：</span>
+                <span class="input-text"><font color="red">*</font> 航班日期：</span>
                   <div class="input-input t-flex t-date">
                    <el-date-picker
+                   v-verify.input.blur="{regs:'required',submit:'timeDemo'}"
                    v-model="pd.STARTTIME"
                    type="datetime" size="small" format="yyyy-MM-dd HH:mm"
                     value-format="yyyyMMddHHmm"
@@ -83,6 +84,7 @@
                  </el-date-picker>
                    <span class="septum">-</span>
                  <el-date-picker
+                 v-verify.input.blur="{regs:'required',submit:'timeDemo'}"
                     v-model="pd.ENDTIME"
                     type="datetime" size="small" format="yyyy-MM-dd HH:mm"
                      value-format="yyyyMMddHHmm"
@@ -719,8 +721,12 @@
 </template>
 <script>
 // import QueryNationality from '../../other/queryNationality'
-import {formatDate} from '@/assets/js/date.js'
-import {dayGap} from '@/assets/js/date.js'
+import {
+  formatDate
+} from '@/assets/js/date.js'
+import {
+  dayGap
+} from '@/assets/js/date.js'
 export default {
   // components: {
   //   QueryNationality
@@ -735,8 +741,8 @@ export default {
       TotalResult1: 0,
       ap: {},
       pd: {
-STARTTIME:'',
-ENDTIME:''
+        STARTTIME: '',
+        ENDTIME: ''
       },
       tp: 0,
       nation: [],
@@ -777,18 +783,18 @@ ENDTIME:''
       check: {},
       pickerOptions: {
         disabledDate: (time) => {
-            if (this.pd.ENDTIME != null) {
-              let startT = formatDate(new Date(time.getTime()),'yyyyMMddhhmm');
-              return startT > this.pd.ENDTIME;
-            }else if(this.pd.ENDTIME == null){
-              return false
-            }
+          if (this.pd.ENDTIME != null) {
+            let startT = formatDate(new Date(time.getTime()), 'yyyyMMddhhmm');
+            return startT > this.pd.ENDTIME;
+          } else if (this.pd.ENDTIME == null) {
+            return false
+          }
         }
       },
       pickerOptions1: {
         disabledDate: (time) => {
-            let endT = formatDate(new Date(time.getTime()),'yyyyMMddhhmm');
-            return endT < this.pd.STARTTIME;
+          let endT = formatDate(new Date(time.getTime()), 'yyyyMMddhhmm');
+          return endT < this.pd.STARTTIME;
         }
       },
 
@@ -798,9 +804,9 @@ ENDTIME:''
     //this.getList(this.CurrentPage, this.pageSize, this.pd);
     let time = new Date();
     let end = new Date();
-    let begin =new Date(time - 1000 * 60 * 60 * 24 * 14);
-    this.pd.STARTTIME=formatDate(begin,'yyyyMMddhhmm');
-    this.pd.ENDTIME=formatDate(end,'yyyyMMddhhmm');
+    let begin = new Date(time - 1000 * 60 * 60 * 24 * 14);
+    this.pd.STARTTIME = formatDate(begin, 'yyyyMMddhhmm');
+    this.pd.ENDTIME = formatDate(end, 'yyyyMMddhhmm');
   },
   methods: {
     handleSelectionChange(val) {
@@ -813,12 +819,13 @@ ENDTIME:''
     batchs() {
 
 
-      for(var i=0;i<this.multipleSelection.length;i++){
-  // console.log("----"+i+"===="+this.multipleSelection[i].FLIGHTSTATUS);
-var s=this.multipleSelection[i].FLIGHTSTATUS;
-  if(s==0 || s==1){
-    this.open("选择的第"+(i+1)+"条数据是不能变更的，请重新选择！");  return;
-  }
+      for (var i = 0; i < this.multipleSelection.length; i++) {
+        // console.log("----"+i+"===="+this.multipleSelection[i].FLIGHTSTATUS);
+        var s = this.multipleSelection[i].FLIGHTSTATUS;
+        if (s == 0 || s == 1) {
+          this.open("选择的第" + (i + 1) + "条数据是不能变更的，请重新选择！");
+          return;
+        }
       }
 
       if (this.multipleSelection.length == 0) {
@@ -827,7 +834,7 @@ var s=this.multipleSelection[i].FLIGHTSTATUS;
         return;
 
       }
-      this.map={};
+      this.map = {};
       this.batchDialogVisible = true;
       this.batchtableData = this.multipleSelection
     },
@@ -857,9 +864,22 @@ var s=this.multipleSelection[i].FLIGHTSTATUS;
       console.log(`当前页: ${val}`);
     },
     getList(currentPage, showCount, pd) {
-        this.pd.NAME=getreplace(this.pd.NAME);
-this.pd.PASSPORTNO=getreplace(this.pd.PASSPORTNO);
-this.pd.FLTNO=getreplace(this.pd.FLTNO);
+
+      const result = this.$validator.verifyAll('timeDemo')
+       if (result.indexOf(false) > -1) {
+         return
+       }
+
+      if(dayGap(this.pd.STARTTIME,this.pd.ENDTIME,0)>14){
+        this.$alert('查询时间间隔不能超过二周', '提示', {
+          confirmButtonText: '确定',
+        });
+        return false
+      }
+
+      this.pd.NAME = getreplace(this.pd.NAME);
+      this.pd.PASSPORTNO = getreplace(this.pd.PASSPORTNO);
+      this.pd.FLTNO = getreplace(this.pd.FLTNO);
       let p = {
         "currentPage": currentPage,
         "showCount": showCount,
@@ -885,14 +905,14 @@ this.pd.FLTNO=getreplace(this.pd.FLTNO);
     },
     Authorization(ap) {
 
-      if(this.$validator.listener.demo2){
+      if (this.$validator.listener.demo2) {
         const result = this.$validator.verifyAll('demo2')
         // console.log(result)
-         if (result.indexOf(false) > -1) {
-           return
-         } else {
-           // alert('填写成功')
-         }
+        if (result.indexOf(false) > -1) {
+          return
+        } else {
+          // alert('填写成功')
+        }
       }
 
       if (this.tp == 0) {
@@ -1177,12 +1197,12 @@ this.pd.FLTNO=getreplace(this.pd.FLTNO);
   }
 }
 
-function getreplace(name){
-  if(name==undefined){
+function getreplace(name) {
+  if (name == undefined) {
     return "";
-  }else {
-  return name.replace(/(^\s*)|(\s*$)/g, "").replace(/\s/g, "");
-}
+  } else {
+    return name.replace(/(^\s*)|(\s*$)/g, "").replace(/\s/g, "");
+  }
 }
 </script>
 
