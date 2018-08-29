@@ -943,7 +943,7 @@
         id="printMe"
         >
         <el-table-column
-
+           width="70"
            label="单选">
           <template slot-scope="scope">
             <el-radio v-model="radio" class="radio" :label="scope.row.I_SERIAL">&nbsp;</el-radio>
@@ -953,7 +953,7 @@
           prop="I_NAME"
           label="姓名"
           sortable
-          width="100"
+          width="130"
           v-if="checkList.indexOf(checkItem[0].ITEMNAME)>-1"
           >
         </el-table-column>
@@ -1003,14 +1003,14 @@
         <el-table-column
           prop="I_12"
           label="航班号"
-          width="130"
+          width="100"
           sortable
           v-if="checkList.indexOf(checkItem[7].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
           prop="filghtDate"
           label="航班日期"
-          width="130"
+          width="150"
           sortable
           v-if="checkList.indexOf(checkItem[8].ITEMNAME)>-1">
         </el-table-column>
@@ -1031,7 +1031,7 @@
         <el-table-column
           prop="I_13"
           label="出入标识"
-          width="150"
+          width="100"
           sortable
           v-if="checkList.indexOf(checkItem[11].ITEMNAME)>-1">
         </el-table-column>
@@ -1164,7 +1164,7 @@
         </el-table-column>
         <el-table-column
           label="操作"
-          width="100"
+          width="150"
         >
           <template slot-scope="scope">
             <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row)">详情</el-button>
@@ -1623,6 +1623,19 @@ export default {
     this.ss();
     this.currentPage = 1;
   },
+  activated(){
+    let time = new Date();
+    let end = new Date();
+    let begin =new Date(time - 1000 * 60 * 60 * 24 * 30);
+    this.cdt.startFlightDepartdate=formatDate(begin,'yyyyMMddhhmm');
+    this.cdt.endFlightDepartdate=formatDate(end,'yyyyMMddhhmm');
+
+    this.cdt.startDepartdate=formatDate(begin,'yyyyMMddhhmm');
+    this.cdt.endDepartdate=formatDate(end,'yyyyMMddhhmm');
+
+    this.cdt.startArrivdate=formatDate(begin,'yyyyMMddhhmm');
+    this.cdt.endArrivdate=formatDate(end,'yyyyMMddhhmm');
+  },
   computed:{
     aaa:{
       get:function(){
@@ -1736,7 +1749,11 @@ export default {
       }
     },
     hpageSizeChange(val){//历次数据
-      this.getHistoryList(this.hcurrentPage,val,this.historyCdt);
+      if(this.bigBase == 0){
+        this.getHistoryList(this.hcurrentPage,val,this.historyCdt);
+      }else if(this.bigBase == 1){
+        this.getHistoryListPnr(this.hcurrentPage,val,this.historyCdt);
+      }
     },
     handleCurrentChange(val) {//显示当前页，调用
       if(this.bigBase == 0){
@@ -1758,7 +1775,12 @@ export default {
       }
     },
     hhandleCurrentChange(val){ //历次数据
-      this.getHistoryList(val,this.hshowCount,this.historyCdt);
+      if(this.bigBase == 0){
+        this.getHistoryList(val,this.hshowCount,this.historyCdt);
+      }else if(this.bigBase == 1){
+        this.getHistoryListPnr(val,this.hshowCount,this.historyCdt);
+      }
+
     },
     //----------------------------分页end------------------------------
     checkRow(row,event){//列表单选操作
@@ -1876,7 +1898,7 @@ export default {
       let gh = {
         "currentPage":hcurrentPage,
       	"showCount":hshowCount,
-      	"pd":historyCdt
+      	"cdt":historyCdt
       };
       // this.historyBased();
       this.$api.post('/manage-platform/iapiUnscolicited/queryHistory',gh,
@@ -1890,12 +1912,12 @@ export default {
       let ghl = {
         "currentPage":hcurrentPage,
       	"showCount":hshowCount,
-      	"pd":historyCdt
+      	"cdt":historyCdt
       };
       // this.historyBased();
-      this.$api.post('/manage-platform/iapiUnscolicited/queryHistory',ghl,
+      this.$api.post('/manage-platform/pnr/queryPnrHistory',ghl,
       r =>{
-        this.detailstableData = r.data.pdList;
+        this.detailstableData = r.data.resultList;
         this.htotalResult = r.data.totalResult;
         this.htotalPage = r.data.totalPage;
       })
@@ -2669,6 +2691,8 @@ export default {
       this.detailsDialogVisible = true;
       this.historyCdt.NATIONALITY = i.I_37CODE;
       this.historyCdt.PASSPORTNO = i.I_39;
+      this.historyCdt.nationalityEqual = i.I_37CODE;
+      this.historyCdt.passportnoEqual = i.I_39;
       if(this.bigBase == 0){
         this.getHistoryList(this.hcurrentPage,this.hshowCount,this.historyCdt);
         this.$api.post('/manage-platform/iapi/queryIapiInfo',{serial:i.I_SERIAL},

@@ -109,11 +109,11 @@
         style="width: 100%;">
        <el-table-column
           prop="intgChnname"
-          label="中文姓名" >
+          label="中文姓名" sortable>
         </el-table-column>
         <el-table-column
           prop="tsname"
-          label="姓名" >
+          label="姓名" sortable>
         </el-table-column>
         <el-table-column
           prop="gender"
@@ -558,8 +558,6 @@ export default {
   },
   mounted() {
   this.nav1Id=this.$route.query.nav1Id
-  //  this.getList(this.CurrentPage, this.pageSize, this.pd);
-  // this.getimgtable(this.CurrentPage, this.pageSize, this.pd);
   this.queryNationality();
 
   let time = new Date();
@@ -569,26 +567,33 @@ export default {
   this.pd.departdateEnd=formatDate(end,'yyyyMMddhhmm');
 
   },
+  activated(){
+    let time = new Date();
+    let end = new Date();
+    let begin =new Date(time - 1000 * 60 * 60 * 24 * 30);
+    this.pd.departdateBegin=formatDate(begin,'yyyyMMddhhmm');
+    this.pd.departdateEnd=formatDate(end,'yyyyMMddhhmm');
+  },
   methods: {
-    getHistoryList(hcurrentPage,hshowCount,historyCdt){
-      let gh = {
+    getHistoryListPnr(hcurrentPage,hshowCount,historyCdt){
+      let ghl = {
         "currentPage":hcurrentPage,
       	"showCount":hshowCount,
-      	"pd":historyCdt
+      	"cdt":historyCdt
       };
       // this.historyBased();
-      this.$api.post('/manage-platform/iapiUnscolicited/queryHistory',gh,
+      this.$api.post('/manage-platform/iapiUnscolicited/queryHistory',ghl,
       r =>{
-        this.detailstableData = r.data.pdList;
+        this.detailstableData = r.data.resultList;
         this.htotalResult = r.data.totalResult;
         this.htotalPage = r.data.totalPage;
       })
     },
     hpageSizeChange(val){//历次数据
-      this.getHistoryList(this.hcurrentPage,val,this.historyCdt);
+      this.getHistoryListPnr(this.hcurrentPage,val,this.historyCdt);
     },
     hhandleCurrentChange(val){ //历次数据
-      this.getHistoryList(val,this.hshowCount,this.historyCdt);
+      this.getHistoryListPnr(val,this.hshowCount,this.historyCdt);
     },
 
     qq(){
@@ -669,8 +674,8 @@ export default {
       this.historyCdt.NATIONALITY = i.nationality;
       this.historyCdt.PASSPORTNO = i.cardnum;
       console.log(i);
-      this.getHistoryList(this.hcurrentPage,this.hshowCount,this.historyCdt);
-      this.$api.post('/manage-platform/iapi/queryIapiInfo',{serial:i.globalserial},
+      this.getHistoryListPnr(this.hcurrentPage,this.hshowCount,this.historyCdt);
+      this.$api.post('/manage-platform/pnr/queryPnrInfo',{serial:i.globalserial},
        r =>{
          if(r.success){
            this.dform = r.data.IAPI;

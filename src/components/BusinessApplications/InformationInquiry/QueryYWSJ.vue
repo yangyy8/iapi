@@ -711,6 +711,15 @@ export default {
     this.pd.startDealtime=formatDate(begin,'yyyyMMddhhmmss');
     this.pd.endDealtime=formatDate(end,'yyyyMMddhhmmss');
   },
+  activated(){
+    let time = new Date();
+    let end = new Date();
+    let begin =new Date(time - 1000 * 60 * 60 * 24 * 30);
+    this.pd.startCreatetime=formatDate(begin,'yyyyMMddhhmmss');
+    this.pd.endCreatetime=formatDate(end,'yyyyMMddhhmmss');
+    this.pd.startDealtime=formatDate(begin,'yyyyMMddhhmmss');
+    this.pd.endDealtime=formatDate(end,'yyyyMMddhhmmss');
+  },
   methods: {
     handleSelectionChange(val) {
       this.multipleSelection = val;

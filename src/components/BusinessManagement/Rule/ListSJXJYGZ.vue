@@ -272,6 +272,9 @@ export default {
     this.getList(this.pd);
     this.codeName();
   },
+  activated(){
+    this.getList(this.pd);
+  },
   methods:{
     // handleSelectionChange(val) {
     //    this.multipleSelection = val;
