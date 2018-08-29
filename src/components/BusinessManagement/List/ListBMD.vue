@@ -170,7 +170,7 @@
       </el-row>
     </div>
     <div class="middle">
-      <el-row class="mb-15" v-if="getHis">
+      <el-row class="mb-15" v-if="!backShow">
         <el-button type="primary" size="small" @click="xinzeng">新增</el-button>
         <el-button type="success" size="small" @click="showUpload">批量导入</el-button>
 
@@ -187,6 +187,7 @@
         @selection-change="handleSelectionChange">
         <el-table-column
          fixed
+         width="40"
          type="selection">
 
         </el-table-column>
@@ -225,6 +226,7 @@
         </el-table-column>
         <el-table-column
           prop="GENDER"
+          width="60"
           label="性别">
           <template slot-scope="scope">
             <span v-if="scope.row.GENDER=='M'">男</span>
@@ -255,8 +257,8 @@
           >
           <template slot-scope="scope">
             <!-- <div class="flex-r"> -->
-              <el-button class="table-btn" size="mini" plain icon="el-icon-edit" @click="update(scope.row)" v-if="scope.row.SYN_STATUS==0&&getHis">编辑</el-button>
-              <el-button class="table-btn" size="mini" plain icon="el-icon-delete" @click="deleteItem(scope.row.SERIAL,scope.row.SYN_STATUS)" v-if="getHis">删除</el-button>
+              <el-button class="table-btn" size="mini" plain icon="el-icon-edit" @click="update(scope.row)" v-if="scope.row.SYN_STATUS==0&&!backShow">编辑</el-button>
+              <el-button class="table-btn" size="mini" plain icon="el-icon-delete" @click="deleteItem(scope.row.SERIAL,scope.row.SYN_STATUS)" v-if="!backShow">删除</el-button>
               <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row.SERIAL)">详情</el-button>
             <!-- </div> -->
          </template>
@@ -396,8 +398,8 @@
             <span class="input-text"><span class="redx">*</span>生效日期：</span>
             <el-date-picker
               size="small"
-              @focus="dateDisabled=true;$set(form,'CTL_EXPIREDATE',null)"
-              @change="dateDisabled=false"
+
+              @change="dateDisabled=false;$set(form,'CTL_EXPIREDATE',null)"
               v-model="form.CTL_BEGINDATE" value-format="yyyy-MM-dd"
               type="date"
               start-placeholder="生效日期"
@@ -470,8 +472,7 @@
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="addItem('addForm','0')" size="small">保存</el-button>
         <el-button type="warning" @click="releaseDialogVisible=true" size="small">保存并发布</el-button>
-        <el-button @click="resetForm('addForm');addDialogVisible = false" size="small">取消</el-button>
-
+        <el-button @click="addDialogVisible = false" size="small">取消</el-button>
       </div>
     </el-dialog>
 
@@ -660,7 +661,6 @@ export default {
       nationAlone:[],
       airport:[],
       docCode:[],
-      getHis:true,
       CurrentPage:1,
       pageSize:10,
       TotalResult:0,
@@ -730,6 +730,9 @@ export default {
     this.queryNationalityAlone();
     this.queryAirport();
     this.queryDocCode();
+  },
+  actived(){
+    this.getList(this.CurrentPage,this.pageSize,this.pd);
   },
   methods:{
     download(){
@@ -837,7 +840,6 @@ export default {
       // }
     },
     getHisFn(currentPage,showCount,pd){
-      this.getHis=false;
       let p={
         "currentPage":currentPage,
         "showCount":showCount,
@@ -854,6 +856,8 @@ export default {
     },
     xinzeng(){
       this.addDialogVisible=true;
+      this.dateDisabled=true;
+
       this.dialogText='新增';
       this.dialogType='add';
       this.form={};
@@ -915,9 +919,10 @@ export default {
       // this.resetForm('releasForm')
     },
     update(item){
-      console.log(item)
       this.addDialogVisible=true;
+      this.dateDisabled=false;
       this.form=item;
+      console.log(item.CTL_EXPIREDATE)
       this.form.PERSON_TYPE+='';
       this.form.IN_OUT+='';
       this.form.synStatus="0";
@@ -1084,6 +1089,7 @@ export default {
                  });
                  this.releaseDialogVisible=false;
                  this.getList(this.CurrentPage,this.pageSize,this.pd);
+                 this.$refs[formName].resetFields();
                }
             })
             break;
@@ -1108,7 +1114,7 @@ export default {
                  });
                  this.releaseDialogVisible=false;
                  this.getList(this.CurrentPage,this.pageSize,this.pd);
-
+                 this.$refs[formName].resetFields();
                }
             })
               break;

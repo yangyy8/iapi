@@ -65,10 +65,11 @@
         <el-table-column
           prop="flightType"
           label="出入标识"
-          width="130">
+          width="90">
         </el-table-column>
         <el-table-column
           prop="fltno"
+          width="90"
           label="航班号">
         </el-table-column>
         <el-table-column
@@ -76,6 +77,7 @@
           label="报警时间">
         </el-table-column>
         <el-table-column
+          width="80"
           label="当前状态">
           <template slot-scope="scope">
             <span v-if="scope.row.status==0">未甄别</span>
