@@ -108,8 +108,8 @@
              >
              </el-table-column>
              <el-table-column
-               prop="zone"
-               label="模块"
+               prop="HOSTADDRESS"
+               label="IP地址"
               sortable
              >
              </el-table-column>

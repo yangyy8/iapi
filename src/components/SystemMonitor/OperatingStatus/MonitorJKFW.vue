@@ -15,7 +15,7 @@
 
                   <el-option value="0"  label="0 - DMZ区">
                   </el-option>
-                  <el-option value="2"  label="2 - 整合分发区">
+                  <el-option value="1"  label="1 - 业务平台区">
                   </el-option>
                 </el-select>
               </el-col>

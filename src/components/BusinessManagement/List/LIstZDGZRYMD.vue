@@ -125,7 +125,7 @@
       </el-row>
     </div>
     <div class="middle">
-      <el-row class="mb-15" v-if="getHis">
+      <el-row class="mb-15" v-if="!backShow">
         <el-button type="primary" size="small" @click="addServe()">新增</el-button>
         <el-button type="success" size="small" @click="showUpload">批量导入</el-button>
         <el-button type="warning" size="small" @click="deleteItems()" :disabled="isdisable">批量删除</el-button>
@@ -141,6 +141,7 @@
         @selection-change="handleSelectionChange">
         <el-table-column
          fixed
+         width="40"
          type="selection">
 
         </el-table-column>
@@ -175,6 +176,7 @@
         </el-table-column>
         <el-table-column
           prop="GENDER"
+          width="60"
           label="性别">
           <template slot-scope="scope">
             <span v-if="scope.row.GENDER=='M'">男</span>
@@ -200,8 +202,8 @@
           width="250">
           <template slot-scope="scope">
             <!-- <div class="flex-r"> -->
-              <el-button class="table-btn" size="mini" plain icon="el-icon-edit" @click="update(scope.row)" v-if="getHis">编辑</el-button>
-              <el-button class="table-btn" size="mini" plain icon="el-icon-delete" @click="deleteItem(scope.row.SERIAL)" v-if="getHis">删除</el-button>
+              <el-button class="table-btn" size="mini" plain icon="el-icon-edit" @click="update(scope.row)" v-if="!backShow">编辑</el-button>
+              <el-button class="table-btn" size="mini" plain icon="el-icon-delete" @click="deleteItem(scope.row.SERIAL)" v-if="!backShow">删除</el-button>
               <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row)">详情</el-button>
             <!-- </div> -->
          </template>
@@ -591,7 +593,6 @@ export default {
       airport:[],
       backShow:false,
       fileList:[],
-      getHis:true,
       CurrentPage:1,
       pageSize:10,
       TotalResult:0,
@@ -706,7 +707,6 @@ export default {
 
     },
     getHisFn(currentPage,showCount,pd){
-      this.getHis=false;
       let p={
         "currentPage":currentPage,
         "showCount":showCount,

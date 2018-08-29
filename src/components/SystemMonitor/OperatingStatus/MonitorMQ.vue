@@ -24,7 +24,7 @@
                 >
                 </el-table-column>
                 <el-table-column
-                  label="节点状态" sortable
+                  label="节点状态"
                 >
                 <template slot-scope="scope">
 
@@ -32,20 +32,41 @@
 
                 </template>
                 </el-table-column>
-                <el-table-column
+                <!-- <el-table-column
                   label="队列状态" sortable
                 >
                 <template slot-scope="scope">
                     {{scope.row.queueStatus | fifter2}}
                 </template>
+                </el-table-column> -->
+
+                <el-table-column
+                  prop="queueNum1"
+                  label="队列名称"
+                >
                 </el-table-column>
                 <el-table-column
-                  prop="queueNum"
-                  label="队列深度" sortable
+                 label="队列状态"
+               >
+               <template slot-scope="scope">
+                   {{scope.row.queueStatus | fifter2}}
+               </template>
+               </el-table-column>
+                <el-table-column
+                  prop="queueNum3"
+                  label="队列深度"
                 >
-
                 </el-table-column>
 
+
+
+                <el-table-column
+                  label="操作"
+                >
+                    <template slot-scope="scope">
+                       <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row)">详情</el-button>
+                    </template>
+                </el-table-column>
       </el-table>
 
     </div>

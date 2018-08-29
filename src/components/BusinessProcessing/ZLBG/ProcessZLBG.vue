@@ -133,7 +133,7 @@
                 >
                 </el-table-column>
                 <el-table-column
-                  label="证件种类" sortable
+                  label="证件种类"
                   width="120"
                 >
                 <template slot-scope="scope">
@@ -149,18 +149,17 @@
                 </el-table-column>
                 <el-table-column
                   prop="NAME"
-                  label="姓名" sortable
+                  label="姓名"
                 >
                 </el-table-column>
                 <el-table-column
                   prop="INTG_CHNNAME"
-                  label="中文姓名" sortable
+                  label="中文姓名"
                   width="120"
                 >
                 </el-table-column>
                 <el-table-column
                   label="性别"
-                  sortable
                 >
                 <template slot-scope="scope">
                   {{scope.row.GENDER | fiftersex}}
@@ -169,13 +168,13 @@
                 <el-table-column
                   prop="DATEOFBIRTH"
                   label="出生日期" sortable
-                  width="120"
+                  width="110"
                   >
                 </el-table-column>
                 <el-table-column
                   prop="FLTNO"
                   label="航班号" sortable
-                  width="120"
+                  width="100"
                 >
                 </el-table-column>
                 <el-table-column
@@ -186,7 +185,7 @@
                 </el-table-column>
 
                 <el-table-column
-                  label="值机状态" sortable
+                  label="值机状态"
                   width="120"
                   >
                   <template slot-scope="scope">
@@ -194,7 +193,7 @@
                   </template>
                 </el-table-column>
                 <el-table-column
-                  label="反馈状态" sortable
+                  label="反馈状态"
                   width="120"
                   >
                   <template slot-scope="scope">
