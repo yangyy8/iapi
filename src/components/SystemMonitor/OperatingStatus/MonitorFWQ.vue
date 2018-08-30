@@ -189,7 +189,7 @@
      <el-row v-else class="filearrk">
      <el-col :span="24">暂无数据</el-col>
     </el-row>
-      <el-row v-for='i in filesytem' class="filearr1">
+      <el-row v-for='(i,index) in filesytem' :key="index" class="filearr1">
         <el-col :span="4" >{{i.avail}}</el-col>
         <el-col :span="4" >{{i.fileSystem}}</el-col>
         <el-col :span="4" >{{i.mount}}</el-col>

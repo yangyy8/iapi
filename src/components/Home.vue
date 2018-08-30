@@ -269,6 +269,7 @@ export default {
     this.getTime();
     this.initJzmm();
     if(this.$route.query.isLogin){
+      console.log(this.$route.query.isLogin)
       this.isLogin=this.$route.query.isLogin
     }
   },
@@ -285,6 +286,7 @@ export default {
       return this.sortByKey(this.muneListOne,'SERIAL')
     }
   },
+
   methods: {
     initJzmm(){
       if(sessionStorage.getItem('jzmm')==1){

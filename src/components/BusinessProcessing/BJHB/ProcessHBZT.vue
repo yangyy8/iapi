@@ -38,8 +38,8 @@
               <span class="input-text">所属航空公司：</span>
               <el-select v-model="pd.airlineCompanyIdEqual" filterable clearable  placeholder="请选择" size="small" class="input-input">
                  <el-option
-                   v-for="item in company"
-                   :key="item.AIRLINE_CODE"
+                   v-for="(item,ind) in company"
+                   :key="ind"
                    :label="item.AIRLINE_CODE+' - '+item.AIRLINE_CHN_NAME"
                    :value="item.AIRLINE_CODE" >
                  </el-option>
