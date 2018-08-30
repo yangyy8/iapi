@@ -1159,12 +1159,14 @@ export default {
 
     },
     fifterstate(val) {
-      if (val == "1") {
-        return "已登机";
+      if (val == "0") {
+        return "已值机，未登机";
+      } else if (val == "1") {
+        return "未值机 ，已登机";
       } else if (val == "2") {
-        return "未登机";
-      } else {
-        return "已值机";
+        return "已值机，已登机";
+      }else {
+        return "已值机，未登机";
       }
     },
     fiftecr(val) {

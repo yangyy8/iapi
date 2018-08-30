@@ -149,7 +149,7 @@
         <el-table-column
           prop="INTG_CHNNAME"
           sortable
-          width="100"
+          width="110"
           label="中文姓名">
         </el-table-column>
         <el-table-column
@@ -429,6 +429,7 @@
           <el-table-column
             prop="DATEOFBIRTH"
             label="出生日期" sortable
+            width="100"
             >
           </el-table-column>
           <el-table-column
@@ -440,6 +441,7 @@
           <el-table-column
             prop="PASSPORTNO"
             label="证件号码" sortable
+            width="100"
           >
           </el-table-column>
 
@@ -451,12 +453,13 @@
           <el-table-column
             prop="SCHEDULEDEPARTURETIME"
             label="航班日期" sortable
+            width="140"
             >
           </el-table-column>
 
           <el-table-column
             label="预检结果" sortable
-              width="120"
+              width="100"
             >
             <template slot-scope="scope">
               {{scope.row.CHECKRESULT | fiftecr}}
@@ -472,6 +475,7 @@
           </el-table-column> -->
           <el-table-column
             label="报警信息" sortable
+            width="120"
             >
             <template slot-scope="scope">
               {{scope.row.STATUS | fifterbj}}

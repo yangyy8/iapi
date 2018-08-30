@@ -81,7 +81,7 @@
           label="规则名称"
           width="160">
           <template slot-scope="scope">
-            <el-input v-model="scope.row.RULEDESC" v-verify.input.blur="{regs:'required',submit:'demo',mode:'insert'}" size="mini" class="table-select"></el-input>
+            <el-input v-model="scope.row.RULEDESC" v-verify.input.blur="{regs:'required',submit:'demo'}" size="mini" class="table-select"></el-input>
          </template>
         </el-table-column>
         <el-table-column

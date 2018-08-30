@@ -36,7 +36,7 @@
           </el-col>
           <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">出入标识：</span>
-              <el-select v-model="pd.falg"  class="input-input"   filterable clearable  placeholder="请选择"  size="small">
+              <el-select v-model="pd.flighttype"  class="input-input"   filterable clearable  placeholder="请选择"  size="small">
                 <el-option value="I" label="I - 入境">
                 </el-option>
                 <el-option value="O" label="O - 出境">
@@ -68,19 +68,21 @@
                  <el-date-picker
                  v-model="pd.birthdateBegin"
                  type="date" size="small"
+                 value-format="yyyyMMdd"
                  placeholder="开始时间"  >
                </el-date-picker>
                  <span class="septum">-</span>
                <el-date-picker
                   v-model="pd.birthdateEnd"
                   type="date" size="small"
+                  value-format="yyyyMMdd"
                   placeholder="结束时间" >
                </el-date-picker>
                </div>
             </el-col>
             <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
               <span class="input-text">国籍/地区：</span>
-              <el-select v-model="pd.NATIONALITY" filterable clearable @visible-change="queryNationality" placeholder="请选择"  size="small" class="input-input">
+              <el-select v-model="pd.nationality" filterable clearable @visible-change="queryNationality" placeholder="请选择"  size="small" class="input-input">
                 <el-option
                   v-for="item in nation"
                   :key="item.CODE"
@@ -113,7 +115,8 @@
         </el-table-column>
         <el-table-column
           prop="tsname"
-          label="姓名" sortable>
+          label="姓名" sortable
+          width="140">
         </el-table-column>
         <el-table-column
           prop="gender"
@@ -136,9 +139,10 @@
           label="航班号" sortable>
         </el-table-column>
         <el-table-column
-          label="航班日期" sortable>
+          label="航班日期" sortable
+          width="150">
               <template slot-scope="scope">
-                {{scope.row.departdate | filterdate}}
+                {{scope.row.departdate}}
               </template>
         </el-table-column>
         <el-table-column
@@ -372,6 +376,7 @@
           <el-table-column
             prop="DATEOFBIRTH"
             label="出生日期" sortable
+            width="100"
             >
           </el-table-column>
           <el-table-column
@@ -383,6 +388,7 @@
           <el-table-column
             prop="PASSPORTNO"
             label="证件号码" sortable
+            width="100"
           >
           </el-table-column>
 
@@ -394,12 +400,13 @@
           <el-table-column
             prop="SCHEDULEDEPARTURETIME"
             label="航班日期" sortable
+            width="140"
             >
           </el-table-column>
 
           <el-table-column
             label="预检结果" sortable
-              width="120"
+              width="100"
             >
             <template slot-scope="scope">
               {{scope.row.CHECKRESULT | fiftecr}}
@@ -415,6 +422,7 @@
           </el-table-column> -->
           <el-table-column
             label="报警信息" sortable
+            width="120"
             >
             <template slot-scope="scope">
               {{scope.row.STATUS | fifterbj}}
@@ -582,7 +590,7 @@ export default {
       	"cdt":historyCdt
       };
       // this.historyBased();
-      this.$api.post('/manage-platform/iapiUnscolicited/queryHistory',ghl,
+      this.$api.post('/manage-platform/pnr/queryPnrHistory',ghl,
       r =>{
         this.detailstableData = r.data.resultList;
         this.htotalResult = r.data.totalResult;
@@ -671,8 +679,8 @@ export default {
     },
     details(i) {
       this.detailsDialogVisible = true;
-      this.historyCdt.NATIONALITY = i.nationality;
-      this.historyCdt.PASSPORTNO = i.cardnum;
+      this.historyCdt.nationalityEqual = i.nationality;
+      this.historyCdt.passportnoEqual = i.cardnum;
       console.log(i);
       this.getHistoryListPnr(this.hcurrentPage,this.hshowCount,this.historyCdt);
       this.$api.post('/manage-platform/pnr/queryPnrInfo',{serial:i.globalserial},
@@ -747,7 +755,34 @@ export default {
               return n.substring(0,n.length-3);
           }
 
-        }
+        },
+        fiftersex(val) {
+          if (val == "F") {
+            return "女"
+          } else if (val == "M") {
+            return "男"
+          } else if (val == "U") {
+            return "未知"
+          }
+        },
+        fiftecr(val) {
+          if (val == "0Z") {
+            return "允许打印登机牌";
+          } else if (val == "1Z") {
+            return "禁止打印登机牌";
+          } else if (val == "2Z") {
+            return "请再次核对";
+          } else {
+            return "数据错误";
+          }
+        },
+        fifterbj(val) {
+          if (val == "1") {
+            return "产生报警";
+          } else {
+            return "未产生报警";
+          }
+        },
 
     }
 }

@@ -412,10 +412,14 @@
         <el-table
           :data="tableDatas"
           border
-          style="width: 100%;">
+          fit
+          class="t-t"
+          style="width: 100%;"
+          >
           <el-table-column
             prop="IODIRSTR"
-            label="出入境方向">
+            label="出入境方向"
+            width="100">
           </el-table-column>
           <el-table-column
             prop="PERSONNELTYPESTR"
@@ -440,7 +444,8 @@
           </el-table-column>
           <el-table-column
             prop="CHECKREMARK"
-            label="反馈结果描述">
+            label="反馈结果描述"
+            width="200">
           </el-table-column>
           <el-table-column
             prop="INPUTSTR"
@@ -448,11 +453,13 @@
           </el-table-column>
           <el-table-column
             prop="CREATETIMESTR"
-            label="修改时间">
+            label="修改时间"
+            width="160">
           </el-table-column>
           <el-table-column
             prop="CHANGETYPESTR"
-            label="修改描述">
+            label="修改描述"
+            width="100">
           </el-table-column>
         </el-table>
         <div slot="footer" class="dialog-footer">
@@ -978,5 +985,9 @@ export default {
 
 .el-table__body {
   table-layout: auto !important;
+}
+.t-t .el-table__body-wrapper{
+  max-height: 500px;
+  overflow: auto;
 }
 </style>
