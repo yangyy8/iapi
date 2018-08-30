@@ -36,7 +36,7 @@
           </el-col>
           <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">出入标识：</span>
-              <el-select v-model="pd.falg"  class="input-input"   filterable clearable  placeholder="请选择"  size="small">
+              <el-select v-model="pd.flighttype"  class="input-input"   filterable clearable  placeholder="请选择"  size="small">
                 <el-option value="I" label="I - 入境">
                 </el-option>
                 <el-option value="O" label="O - 出境">
@@ -68,19 +68,21 @@
                  <el-date-picker
                  v-model="pd.birthdateBegin"
                  type="date" size="small"
+                 value-format="yyyyMMdd"
                  placeholder="开始时间"  >
                </el-date-picker>
                  <span class="septum">-</span>
                <el-date-picker
                   v-model="pd.birthdateEnd"
                   type="date" size="small"
+                  value-format="yyyyMMdd"
                   placeholder="结束时间" >
                </el-date-picker>
                </div>
             </el-col>
             <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
               <span class="input-text">国籍/地区：</span>
-              <el-select v-model="pd.NATIONALITY" filterable clearable @visible-change="queryNationality" placeholder="请选择"  size="small" class="input-input">
+              <el-select v-model="pd.nationality" filterable clearable @visible-change="queryNationality" placeholder="请选择"  size="small" class="input-input">
                 <el-option
                   v-for="item in nation"
                   :key="item.CODE"
