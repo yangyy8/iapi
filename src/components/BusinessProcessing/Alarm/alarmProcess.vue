@@ -689,14 +689,19 @@ export default {
           r => {
             console.log(r);
             if (r.success) {
-              this.$message({
-                message: '恭喜你，操作成功！',
-                type: 'success'
-              });
-              // this.isUpdate = false;
-              this.AuthDialogVisible = false;
-              this.handlesDialogVisible = false;
-              this.getList();
+              if(r.data.success){
+                this.$message({
+                  message: '恭喜你，操作成功！',
+                  type: 'success'
+                });
+                // this.isUpdate = false;
+                this.AuthDialogVisible = false;
+                this.handlesDialogVisible = false;
+                this.getList();
+              }else {
+                this.$message.error(r.data.msg);
+              }
+
 
             }
           })
