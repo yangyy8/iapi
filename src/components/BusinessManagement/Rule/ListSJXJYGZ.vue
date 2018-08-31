@@ -288,12 +288,8 @@ export default {
     //    console.log(`当前页: ${val}`);
     //  },
      getList(pd){
-       let p={
-       	// "currentPage":currentPage,
-       	// "showCount":showCount,
-       	"pd":pd
-       };
-       this.$api.post('/manage-platform/dataCheck/getDataCheckList',p,
+       
+       this.$api.post('/manage-platform/dataCheck/getDataCheckList',pd,
         r => {
           for(var i=0;i<r.data.length;i++){
             if(r.data[i].MAXLENGTH == -1){

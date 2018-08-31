@@ -383,8 +383,8 @@
           </el-input>
         </el-col>
         <el-col :span="4" class="down-btn-area">
-          <el-button type="primary" class="mb-15" size="small" @click="handeles()" v-show="isUpdate&&iapiMap.instructNew==null" >确定</el-button>
-          <el-button type="info" class="mb-15" size="small" @click="archive" v-show="!isUpdate||iapiMap.instructNew">归档</el-button>
+          <el-button type="primary" class="mb-15" size="small" @click="handeles()" v-show="iapiMap.instructNew==null" >确定</el-button>
+          <el-button type="info" class="mb-15" size="small" @click="archive" v-show="iapiMap.instructNew">归档</el-button>
           <el-button type="warning" size="small" @click="$router.go(-1);">返回</el-button>
         </el-col>
       </el-row>
@@ -555,7 +555,6 @@ export default {
       form: {},
       ap: {},
       pd: {DEALRESULT:"0"},
-      isUpdate: true,
       AuthDialogVisible: false,
       handlesDialogVisible: false,
       tableData: [],
@@ -649,9 +648,11 @@ export default {
             if(this.iapiMap.instructNew){
               console.log("ttttttttttttttttttttttttttttttt",tt)
               this.pd.CHANGE_RESON=this.iapiMap.change_reson;
-              this.pd.DEALRESULT='1'
+
               if(this.iapiMap.instructNew!=this.iapiMap.instructOld){
+                this.pd.DEALRESULT='1'
                 this.pd.CHANGE_RESON=tt+'\n 变更说明：'+this.iapiMap.change_reson;
+
               }
 
             }else{
@@ -692,7 +693,7 @@ export default {
                 message: '恭喜你，操作成功！',
                 type: 'success'
               });
-              this.isUpdate = false;
+              // this.isUpdate = false;
               this.AuthDialogVisible = false;
               this.handlesDialogVisible = false;
               this.getList();
@@ -722,7 +723,7 @@ export default {
                    message: '恭喜你，甄别成功！',
                    type: 'success'
                  });
-                 this.isUpdate = false;
+                 // this.isUpdate = false;
                  this.getList();
               }
             })
@@ -752,7 +753,7 @@ export default {
               message: '归档完毕！',
               type: 'success'
             });
-            this.isUpdate = true;
+            // this.isUpdate = true;
             var arr = this.listMap;
             this.pd.CHANGE_RESON = "";
             for (var i in arr) {

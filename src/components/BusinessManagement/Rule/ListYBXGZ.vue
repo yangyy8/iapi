@@ -303,12 +303,8 @@ export default {
     //    console.log(`当前页: ${val}`);
     //  },
      getList(pd){
-       let p={
-       	// "currentPage":currentPage,
-       	// "showCount":showCount,
-       	"pd":pd
-       };
-       this.$api.post('/manage-platform/ruleConfig/getRuleConfigList',p,
+
+       this.$api.post('/manage-platform/ruleConfig/getRuleConfigList',pd,
         r => {
           this.tableData=r.data;
           // this.TotalResult=r.data.totalResult;

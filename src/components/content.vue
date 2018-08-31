@@ -111,11 +111,27 @@
             </transition>
         </div>
       </el-main>
+      <div class="rb-msg" v-if="msgShow">
+        <div class="">
+          <div class="rb-title">
+            未处理消息
+          </div>
+          <div class="rb-closeBtn el-icon-close" @click="msgShow=false"></div>
+          <div class="rb-content">
+            <div class="rb-msg-item" v-for="(i,ind) in msgList" :key="ind">
+              <a href="javascript:void(0)" @click="msgNav(i)">{{i.CONTENT}}</a>
+
+            </div>
+          </div>
+        </div>
+
+      </div>
     </el-container>
   </el-container>
 </template>
 
 <script>
+
 export default {
   data() {
     return {
@@ -147,13 +163,20 @@ export default {
       navh: 0,
       nav1Star: 0,
       nav1End: 6,
+
+      msgList:null,
+      msgShow:false
     }
   },
   mounted() {
     this.getUers();
-    this.msg()
     this.bgChange();
     this.navInit();
+    let _this=this;
+    this.msg()
+    setInterval(function() {
+      _this.msg()
+    },180000)
   },
   watch:{
     tabList:function(val){
@@ -188,18 +211,21 @@ export default {
       this.$api.post('/manage-platform/MessageBounced/getMessageInfo ',{type:'bjcl'},
        r => {
         console.log(r);
-        if(r.data.result){
-          let html='';let arr= r.data.result;
-          for (var i = 0; i <arr.length; i++) {
-            html+='<div>'+arr[i].CONTENT+'</div>'
-          }
-          this.$notify({
-            title: '未处理消息',
-            duration:0,
-            dangerouslyUseHTMLString:true,
-            message: '<strong>'+html+'</strong>',
-            position: 'bottom-right'
-          });
+
+        if(r.data.result.length!=0){
+          this.msgList=r.data.result
+          this.msgShow=true;
+          // let html='';let arr= r.data.result;
+          // for (var i = 0; i <arr.length; i++) {
+          //   html+='<div><a href="#/content/1/ProcessMDBJ?nav1Id=8&nav2Id=22" onclick="aa()">'+arr[i].CONTENT+'</a></div>'
+          // }
+          // this.$notify({
+          //   title: '未处理消息',
+          //   duration:0,
+          //   dangerouslyUseHTMLString:true,
+          //   message: '<strong>'+html+'</strong>',
+          //   position: 'bottom-right'
+          // });
         }
 
       })
@@ -365,6 +391,11 @@ export default {
       this.$router.push({params:{navId:x.rootId},query:{nav1Id:x.parentId,nav2Id:x.SERIAL}})
       this.getNav(x.rootId);
     },
+    msgNav(x){
+      this.$router.push({params:{navId:x.ROOTID},query:{nav1Id:x.PARENTID,nav2Id:x.URLID}})
+      this.getNav(x.ROOTID);
+      this.msgShow=false;
+    },
     // 顶部菜单跳转================================
     topNavTo(SERIAL){
       // console.log(this.$route.params.navId,SERIAL)
@@ -421,9 +452,62 @@ export default {
 
   }
 }
+
 </script>
 
 <style scoped>
+.rb-msg{
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  z-index: 2000;
+  bottom: 16px;
+  right:16px;
+  width: 330px;
+  padding: 14px 26px 14px 13px;
+  border-radius: 8px;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  border: 1px solid #ebeef5;
+  position: fixed;
+  background-color: #fff;
+  -webkit-box-shadow: 0 2px 12px 0 rgba(0, 0, 0, .1);
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, .1);
+  -webkit-transition: opacity .3s, left .3s, right .3s, top .4s, bottom .3s, -webkit-transform .3s;
+  transition: opacity .3s, left .3s, right .3s, top .4s, bottom .3s, -webkit-transform .3s;
+  transition: opacity .3s, transform .3s, left .3s, right .3s, top .4s, bottom .3s;
+  transition: opacity .3s, transform .3s, left .3s, right .3s, top .4s, bottom .3s, -webkit-transform .3s;
+  overflow: hidden;
+}
+.rb-title{
+  font-weight: 700;
+  font-size: 16px;
+  color: #303133;
+  /* margin-bottom: 10px; */
+}
+.rb-closeBtn{
+  position: absolute;
+  top: 18px;
+  right: 15px;
+  cursor: pointer;
+  color: #909399;
+  font-size: 16px;
+}
+.rb-content{
+  font-size: 15px;
+  line-height: 21px;
+  margin: 6px 0 0;
+  color: #606266;
+  text-align: justify;
+}
+.rb-content a{
+  line-height: 21px;
+  font-weight: bold;
+  color: #ff8b8b;
+}
+.rb-msg-item{
+  padding: 10px;
+}
 .bg-carousel{
   position: absolute;
   top:0;
