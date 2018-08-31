@@ -14,17 +14,16 @@
             <el-table-column
               type="index"
               label="序号"
-              width="50"
-
-            >
+              width="50">
             </el-table-column>
             <el-table-column
+            prop="name"
               label="类型"
-              sortable
+
             >
-            <template slot-scope="scope">
+            <!-- <template slot-scope="scope">
                 {{scope.row.HOSTADDRESS | fifter2}}
-            </template>
+            </template> -->
             </el-table-column>
 
             <el-table-column
@@ -96,16 +95,13 @@
      style="width: 100%;">
 
              <el-table-column
-               prop="index"
+               type="index"
                label="序号"
-               width="50"
-             >
+               width="50">
              </el-table-column>
              <el-table-column
-               prop="type"
-               label="类型"
-               sortable
-             >
+               prop="name"
+               label="类型">
              </el-table-column>
              <el-table-column
                prop="HOSTADDRESS"
@@ -114,31 +110,31 @@
              >
              </el-table-column>
              <el-table-column
-               prop="userate"
+               prop="CPU"
                label="CPU使用率(%)"
               sortable
              >
              </el-table-column>
              <el-table-column
-               prop="apprate"
+               prop="mPercent"
                label="内存使用率(%)"
                 sortable
              >
              </el-table-column>
              <el-table-column
-               prop="cprate"
+               prop="diskPercent"
                label="磁盘使用率(%)"
               sortable
              >
              </el-table-column>
              <el-table-column
-               prop="networkin"
+               prop="netIn"
                label="网络流量（入）(%)"
               sortable
              >
              </el-table-column>
              <el-table-column
-               prop="networkout"
+               prop="netOut"
                label="网络流量（出）(%)"
               sortable
              >
@@ -270,7 +266,7 @@ export default {
         return "整合分发服务器"
       } else if (val == "172.16.1.111" || val == "172.16.1.112") {
         return "队列服务器"
-      }else {
+      }else if(val!=""){
           return "其他服务器"
       }
     },

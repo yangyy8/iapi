@@ -4,7 +4,7 @@
     <div class="middle-top mb-2">
 
       <el-row type="flex" class="middle">
-        <el-col :span="20" class="br pr-20">
+        <el-col :span="22" class="br pr-20">
           <div class="title-green">
             查询条件
           </div>
@@ -12,8 +12,8 @@
 
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">监控区域：</span>
-              <el-select v-model="pd.synFlag" placeholder="请选择" size="small"  filterable clearable class="input-input">
-                <el-option value="1" label="DMZ区" >
+              <el-select v-model="pd.synFlag" placeholder="请选择" filterable  size="small"   class="input-input">
+                <el-option value="0" label="DMZ区" >
                 </el-option>
                  <el-option value="" label="业务平台区" >
                  </el-option>
@@ -21,7 +21,7 @@
             </el-col>
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">日志类型：</span>
-              <el-select v-model="pd.rzlx" placeholder="请选择"  filterable clearable size="small" class="input-input">
+              <el-select v-model="pd.rzlx" placeholder="请选择"  filterable  size="small" class="input-input">
 
                 <el-option value="0" label="0 - 系统日志" >
                 </el-option>
@@ -51,7 +51,7 @@
 
           </el-row>
         </el-col>
-        <el-col :span="4" class="down-btn-area" style="margin-top:25px;">
+        <el-col :span="2" class="down-btn-area" style="margin-top:25px;">
           <el-button type="success" size="small" @click="getList(CurrentPage,pageSize,pd)">查询</el-button>
         </el-col>
       </el-row>
@@ -155,7 +155,7 @@ export default {
       CurrentPage: 1,
       pageSize: 10,
       TotalResult: 0,
-      pd: {begin:'',end:''},
+      pd: {begin:'',end:'',synFlag:'0',rzlx:'0'},
       nation: [],
       value: '',
       value1: "",
