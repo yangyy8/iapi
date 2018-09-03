@@ -436,6 +436,7 @@ export default {
 menuItem(){
 
   let checkList=this.$refs.tree.getCheckedNodes();
+  //let checkList=this.$refs.tree.getCheckedKeys();
   let p={
     // menuList:this.menudata,
    "ROLE_ID":this.sertail,
@@ -458,8 +459,6 @@ menuItem(){
 
 },
   },
-
-
   filters: {
 
     fifterstatus(val) {

@@ -83,7 +83,6 @@
           label="日志内容类型" sortable
           >
         </el-table-column>
-
         <el-table-column
           width="180"
           label="操作">
@@ -122,13 +121,10 @@
         </el-pagination>
       </div>
     </div>
-
-
     <el-dialog
       title="详情"
       :visible.sync="detailsDialogVisible"
       width="600px">
-
       <el-form :model="form">
      <div class="titile">监控消息</div>
         <el-row type="flex" class="mb-15">
@@ -143,9 +139,7 @@
       </span>
     </el-dialog>
   </div>
-
 </template>
-
 <script>
 import {formatDate} from '@/assets/js/date.js'
 import {dayGap} from '@/assets/js/date.js'
