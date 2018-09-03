@@ -873,17 +873,17 @@ export default {
     },
     getList(currentPage, showCount, pd) {
 
-      const result = this.$validator.verifyAll('timeDemo')
-       if (result.indexOf(false) > -1) {
-         return
-       }
-
-      if(dayGap(this.pd.STARTTIME,this.pd.ENDTIME,0)>14){
-        this.$alert('查询时间间隔不能超过二周', '提示', {
-          confirmButtonText: '确定',
-        });
-        return false
-      }
+      // const result = this.$validator.verifyAll('timeDemo')
+      //  if (result.indexOf(false) > -1) {
+      //    return
+      //  }
+      //
+      // if(dayGap(this.pd.STARTTIME,this.pd.ENDTIME,0)>14){
+      //   this.$alert('查询时间间隔不能超过二周', '提示', {
+      //     confirmButtonText: '确定',
+      //   });
+      //   return false
+      // }
 
       this.pd.NAME = getreplace(this.pd.NAME);
       this.pd.PASSPORTNO = getreplace(this.pd.PASSPORTNO);
@@ -1159,12 +1159,14 @@ export default {
 
     },
     fifterstate(val) {
-      if (val == "1") {
-        return "已登机";
+      if (val == "0") {
+        return "已值机，未登机";
+      } else if (val == "1") {
+        return "未值机 ，已登机";
       } else if (val == "2") {
-        return "未登机";
-      } else {
-        return "已值机";
+        return "已值机，已登机";
+      }else {
+        return "已值机，未登机";
       }
     },
     fiftecr(val) {

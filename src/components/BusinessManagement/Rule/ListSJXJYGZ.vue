@@ -10,9 +10,9 @@
               <el-col :sm="24" :md="12" :lg="8" class="input-item">
                 <span class="input-text">出入境方向：</span>
                 <el-select v-model="pd.IODIR" placeholder="请选择" filterable clearable size="small" class="input-input">
-                  <el-option label="0 - 出境" value="0"></el-option>
-                  <el-option label="1 - 入境" value="1"></el-option>
-                  <el-option label="2 - 全部" value="2"></el-option>
+                  <el-option label="I - 入境" value="I"></el-option>
+                  <el-option label="O - 出境" value="O"></el-option>
+                  <el-option label="A - 全部" value="A"></el-option>
                 </el-select>
               </el-col>
 
@@ -57,10 +57,10 @@
           label="出入境方向"
           width="120">
           <template slot-scope="scope">
-            <el-select v-model="scope.row.IODIR" placeholder="请选择" v-verify.input.blur="{regs:'required',submit:'demo'}" filterable clearable size="mini" class="table-select">
-              <el-option label="0 - 出境" value="0"></el-option>
-              <el-option label="1 - 入境" value="1"></el-option>
-              <el-option label="2 - 全部" value="2"></el-option>
+            <el-select v-model="scope.row.IODIR" placeholder="请选择" filterable clearable size="mini" class="table-select">
+              <el-option label="I - 入境" value="I"></el-option>
+              <el-option label="O - 出境" value="O"></el-option>
+              <el-option label="A - 全部" value="A"></el-option>
             </el-select>
          </template>
         </el-table-column>
@@ -288,12 +288,8 @@ export default {
     //    console.log(`当前页: ${val}`);
     //  },
      getList(pd){
-       let p={
-       	// "currentPage":currentPage,
-       	// "showCount":showCount,
-       	"pd":pd
-       };
-       this.$api.post('/manage-platform/dataCheck/getDataCheckList',p,
+       
+       this.$api.post('/manage-platform/dataCheck/getDataCheckList',pd,
         r => {
           for(var i=0;i<r.data.length;i++){
             if(r.data[i].MAXLENGTH == -1){

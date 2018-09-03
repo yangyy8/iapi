@@ -39,6 +39,9 @@ Vue.use(vverify, {
  })
 
 Vue.prototype.$api = api;
+Vue.prototype.aa=function(){
+  alert("sss")
+}
 
 
 router.beforeResolve((to, from, next) => {

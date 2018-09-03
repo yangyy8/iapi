@@ -41,11 +41,18 @@
           <path class="cls-1" :class="{'clss':left==4}" d="M178,327.48a131.56,131.56,0,0,1-50.47-46L36.87,338.29a239,239,0,0,0,91.82,84.17Z" fill="#032552" transform="translate(0 -0.2)" @mouseover="leftOver(4)"/>
         </svg>
 
-        <router-link :to="{ name: 'Content', params: {navId:val.SERIAL} }" class="nav-item" :class='"nav-item"+ind' v-for="(val,ind) in muneListOne" :key="val.SERIAL" v-if="ind<4">
+        <router-link :to="{ name: 'Content', params: {navId:val.SERIAL} }" class="nav-item" :class='"nav-item"+parseInt(ind)' v-for="(val,ind) in muneListOne" :key="val.SERIAL" v-if="ind<4&&(val.name!='日常工作'&&val.name!='常用菜单')">
           <img :src='"../assets/img/navIcon/"+val.MENU_ICON+".png"' alt="">
           <span>{{val.name}}</span>
         </router-link>
-
+        <a @click="rcgz" class="nav-item" :class='"nav-item"+parseInt(ind)' v-for="(val,ind) in muneListOne" :key="val.SERIAL" v-if="ind<4&&val.name=='日常工作'">
+          <img :src='"../assets/img/navIcon/"+val.MENU_ICON+".png"' alt="">
+          <span>{{val.name}}</span>
+        </a>
+        <a @click="getcc(val.SERIAL)" class="nav-item" :class='"nav-item"+parseInt(ind)' v-for="(val,ind) in muneListOne" :key="val.SERIAL" v-if="ind<4&&val.name=='常用菜单'">
+          <img :src='"../assets/img/navIcon/"+val.MENU_ICON+".png"' alt="">
+          <span>{{val.name}}</span>
+        </a>
 
       </div>
       <div class="nav-left-0" v-if="isLogin">
@@ -114,7 +121,7 @@
           </el-input>
         </div>
         <div class="login-item2">
-          <el-checkbox v-model="jzmm" @change="isJzmm">记住密码</el-checkbox>
+          <el-checkbox v-model="jzmm">记住密码</el-checkbox>
           <!-- <a class="login-a">忘记密码</a> -->
         </div>
         <button class="login-btn" @click="login">登录</button>
@@ -269,6 +276,7 @@ export default {
     this.getTime();
     this.initJzmm();
     if(this.$route.query.isLogin){
+      console.log(this.$route.query.isLogin)
       this.isLogin=this.$route.query.isLogin
     }
   },
@@ -285,6 +293,7 @@ export default {
       return this.sortByKey(this.muneListOne,'SERIAL')
     }
   },
+
   methods: {
     initJzmm(){
       if(sessionStorage.getItem('jzmm')==1){
@@ -304,7 +313,6 @@ export default {
       }else {
         sessionStorage.clear();
         // sessionStorage.setItem('jzmm',0);
-
       }
     },
     getTime(){
@@ -366,7 +374,7 @@ export default {
       }
     },
     login(){
-
+      this.isJzmm()
       this.$api.post('/manage-platform/landing',this.user,
        r => {
         if(r.success){
@@ -380,6 +388,10 @@ export default {
           let _this=this;
           setTimeout(function(){
               _this.isLogin=true;
+              _this.user={
+                userName:"",
+                password:""
+              }
           },1000)
         }
       })
@@ -392,9 +404,9 @@ export default {
             message: '退出成功',
             type: 'success'
           });
-          this.isLogin=false;
+          // this.isLogin=false;
           // this.$router.push({path:'/',query:{isLogin:false}})
-
+          this.$router.go(0)
         }
       })
 

@@ -312,8 +312,8 @@
 
           </el-col>
           <el-col :sm="24" :md="12" :lg="8"  class="input-item">
-            <span class="input-text"><span class="redx">*</span>证件种类：</span>
-            <el-select v-model="form.CARDTYPE"  filterable clearable  placeholder="请选择"  v-verify.change.blur ="{regs:'required',submit:'demo2'}"  size="small" class="input-input">
+            <span class="input-text">证件种类：</span>
+            <el-select v-model="form.CARDTYPE"  filterable clearable  placeholder="请选择" size="small" class="input-input">
               <el-option
                 v-for="item in docCode"
                 :key="item.CODE"
@@ -338,7 +338,7 @@
           </el-col>
 
           <el-col :sm="24" :md="12" :lg="8"  class="input-item">
-            <span class="input-text"><span class="redx">*</span>证件有效期：</span>
+            <span class="input-text">证件有效期：</span>
             <el-date-picker
               size="small" value-format="yyyy-MM-dd"
               v-model="form.CARDEXPIREDATE"
@@ -922,7 +922,7 @@ export default {
       this.addDialogVisible=true;
       this.dateDisabled=false;
       this.form=item;
-      console.log(item.CTL_EXPIREDATE)
+      console.log("form",this.form)
       this.form.PERSON_TYPE+='';
       this.form.IN_OUT+='';
       this.form.synStatus="0";
@@ -930,7 +930,6 @@ export default {
       this.dialogType="update";
       this.dialogText="编辑"
     },
-
 
     details(i){
       console.log(i);

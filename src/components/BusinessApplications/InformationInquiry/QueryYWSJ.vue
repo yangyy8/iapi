@@ -539,7 +539,7 @@
             width="200"
             label="已加入国家">
             <template slot-scope="scope">
-              <el-row v-for='i in scope.row.RULETBSTRLIST'>
+              <el-row v-for='(i,index) in scope.row.RULETBSTRLIST' :key="index">
                 <el-col :span="24">{{i}}</el-col>
               </el-row>
             </template>
@@ -583,7 +583,7 @@
             width="200"
             label="已加入口岸">
             <template slot-scope="scope">
-              <el-row v-for='i in scope.row.RULETBSTRLIST'>
+              <el-row v-for='(i,index) in scope.row.RULETBSTRLIST' :key="index">
                 <el-col :span="24">{{i}}</el-col>
               </el-row>
             </template>

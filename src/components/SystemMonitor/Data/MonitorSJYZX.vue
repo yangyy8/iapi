@@ -319,7 +319,7 @@ export default {
 
       this.$api.post('/manage-platform/monitorData/syncData', p,
         r => {
-console.log('---'+r.data.success);
+           console.log('---'+r.data.success);
           if (r.data.success) {
             if (this.num != "8" && this.num != "9") {
               var md = "Visa";
@@ -365,7 +365,9 @@ console.log('---'+r.data.success);
               });
               this.centerDialogVisible = false;
             }
-            this.getList(this.num);
+
+
+
           } else {
               console.log('ffff'+r.data.message);
             this.$message.error(r.data.message);
@@ -373,6 +375,7 @@ console.log('---'+r.data.success);
           }
         });
 
+       this.getList(this.num);
     }
 
 
