@@ -915,6 +915,7 @@
           name="excel"
           :multiple="false"
           accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+          
           :action="$api.rootUrl+'/manage-platform/iapi/readExcel'"
           :on-success="uploadSuccess"
           :limit="1"
@@ -1284,7 +1285,9 @@ export default {
           cityfromEqual:'',
           startDepartdate:'',
           citytoEqual:'',
-          endArrivdate:''
+          endArrivdate:'',
+          cityfromNameEqual:'',
+          citytoNameEqual:''
         }
       ],
       modelrow:{
@@ -2232,7 +2235,9 @@ export default {
               cityfromEqual:'',
               startDepartdate:'',
               citytoEqual:'',
-              endArrivdate:''
+              endArrivdate:'',
+              cityfromNameEqual:'',
+              citytoNameEqual:''
             }]
           }else{
             this.rows = r.data.configList;

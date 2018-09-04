@@ -329,8 +329,6 @@ export default {
        };
        this.modelTable.CTLTYPE='I';
        this.tableData.unshift(this.modelTable);
-       // this.modelTable = this.cleanTable;
-       // this.allData = this.tableData;
      },
      deleteTableList(id,item){//删除本行
        this.$confirm('删除操作将同步更新至校验比对区内存数据库, 是否继续?', '提示', {
