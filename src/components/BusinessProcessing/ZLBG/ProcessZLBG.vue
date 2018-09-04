@@ -748,12 +748,11 @@ export default {
       nation: [],
       value: '',
       value1: "",
-
+      datenow: '',
       isCheck: false,
       isName: false,
       isRules: false,
       isCall: false,
-
       handlesDialogVisible: false,
       detailsDialogVisible: false,
       batchDialogVisible: false,
@@ -806,6 +805,7 @@ export default {
     let end = new Date();
     let begin = new Date(time - 1000 * 60 * 60 * 24 * 14);
     this.pd.STARTTIME = formatDate(begin, 'yyyyMMddhhmm');
+    this.datenow = formatDate(begin, 'yyyy-MM-dd');
     this.pd.ENDTIME = formatDate(end, 'yyyyMMddhhmm');
   },
   activated() {
@@ -879,7 +879,7 @@ export default {
        }
 
       if(dayGap(this.pd.STARTTIME,this.pd.ENDTIME,0)>14){
-        this.$alert('查询时间间隔不能超过二周', '提示', {
+        this.$alert('航班日期起始查询日期不得小于'+this.datenow, '提示', {
           confirmButtonText: '确定',
         });
         return false
@@ -1165,7 +1165,7 @@ export default {
         return "未值机 ，已登机";
       } else if (val == "2") {
         return "已值机，已登机";
-      }else {
+      } else {
         return "已值机，未登机";
       }
     },

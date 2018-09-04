@@ -10,13 +10,13 @@
         <el-row align="center"   :gutter="2" class="pr-20">
           <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
             <span class="input-text"><font style="color:red">*</font> 航班号：</span>
-            <el-input placeholder="请输入内容" v-verify.input.blur="{regs:'required',submit:'timeDemo'}" size="small" v-model="pd.flightNumber"   class="input-input"></el-input>
+            <el-input placeholder="请输入内容" v-verify.input.blur="{regs:'required',submit:'HBZWDemo'}" size="small" v-model="pd.flightNumber"   class="input-input"></el-input>
           </el-col>
           <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
           <span class="input-text"><font style="color:red">*</font> 航班日期：</span>
           <div class="input-input t-flex t-date">
                <el-date-picker
-               v-verify.input.blur="{regs:'required',submit:'timeDemo'}"
+               v-verify.input.blur="{regs:'required',submit:'HBZWDemo'}"
                v-model="pd.departdateBegin"
                type="datetime" size="small"
                placeholder="开始时间"  :picker-options="pickerOptions"
@@ -25,7 +25,7 @@
              </el-date-picker>
                <span class="septum">-</span>
              <el-date-picker
-                v-verify.input.blur="{regs:'required',submit:'timeDemo'}"
+                v-verify.input.blur="{regs:'required',submit:'HBZWDemo'}"
                 v-model="pd.departdateEnd"
                 type="datetime" size="small"
                 format="yyyy-MM-dd HH:mm"
@@ -202,12 +202,19 @@
     <el-col  :span="190" style="padding-top:50px;">
       <ul class="planUL">
         <li class="planLifirst">
-          <div  v-for="i in list1">
+          <div  v-for="i in list2">
             {{i}}
           </div>
         </li>
-        <li v-for="i in list2" class="planLi">
-          <div class="" > </div>
+        <li v-for="i in list1" class="planLi">
+          <div  v-for="j in list2" >
+            <span v-if="getlight(i,j)" >
+              <div class="" ><img src="../../../assets/img/ren.png" :title="i+j"/></div>
+            </span>
+            <span v-else>
+              <div class="" :title="i+j"></div>
+            </span>
+          </div>
           <div class="">{{i}}</div>
         </li>
       </ul>
@@ -523,7 +530,7 @@ export default {
 
       list1:[],
       list2:[],
-      list3:["1E","3F","4G"],
+      light:[],
       nation: [],
       value: '',
       value1: "",
@@ -624,7 +631,7 @@ export default {
       console.log(`当前页: ${val}`);
     },
     getList(currentPage, showCount, pd) {
-      const result = this.$validator.verifyAll('timeDemo')
+      const result = this.$validator.verifyAll('HBZWDemo')
        if (result.indexOf(false) > -1) {
          return
        }
@@ -675,6 +682,7 @@ export default {
           console.log(r);
           this.list1 = r.data.list123;
           this.list2 = r.data.listabc;
+          this.light=r.data.highlight;
         })
     },
     details(i) {
@@ -745,6 +753,19 @@ export default {
          }
        })
     },
+    getlight(n,m){
+
+    var ss=this.light;
+    var se=n+m;
+    for(var i=0;i<ss.length;i++){
+
+     if(ss[i]==se){
+      return true;
+     }
+    }
+
+    return false;
+  }
   },
     filters: {
         filterdate(n)
@@ -807,7 +828,7 @@ export default {
 }
 .planLi{
   display: flex;
-  margin: 5px;
+  margin: 2px;
   flex-direction: column;
 }
 /* .planLi:first-child div{
@@ -815,20 +836,25 @@ export default {
   background: none
 } */
 .planLi div{
-  width: 20px;
-  height: 20px;
+  width: 15px;font-size: 13px;
+  height: 15px;
   border: 1px #105D93 solid;
   background: #70BDEB; text-align: center;
 }
+.planLi div img{
+vertical-align: top; padding-top: 2px;
+}
 .planLifirst{
   display: flex;
-  margin: 5px;
+  margin: 2px;font-size: 13px;
   flex-direction: column;
 }
 .planLifirst div{
   width: 20px;
-  height: 20px;
-  text-align: center;
+  height: 17px;
+  line-height: 17px;
+  vertical-align: top;
+  text-align:center;
 
 }
 .planLi div:last-child{

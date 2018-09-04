@@ -35,7 +35,6 @@ function timestampToTime(timestamp,type) {//type为0，精确到分；为1，精
     let seconed = timestamp.slice(12,14);
     timeS = year +'/'+month +'/'+day+' '+hour+':'+min+':'+seconed;
   }
-  console.log(timeS);
   return  timeS;
 }
 export function dayGap(start,end,type){//相差天数  type =1 到分  type=0 秒

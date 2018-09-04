@@ -120,7 +120,7 @@
           width="150"
           label="操作">
           <template slot-scope="scope">
-              <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row)">处理</el-button>
+              <el-button class="table-btn" :class="{'gray':scope.row.status!=3}" size="mini" plain icon="el-icon-tickets" @click="details(scope.row)">处理</el-button>
          </template>
         </el-table-column>
       </el-table>
@@ -231,6 +231,7 @@ export default {
       CurrentPage: 1,
       pageSize: 10,
       TotalResult: 0,
+      datenow:'',
       pd: {  startScheduledeparturetime:'',
         endScheduledeparturetime:'',},
       nation: [],
@@ -283,6 +284,7 @@ export default {
     let end = new Date();
     let begin =new Date(time - 1000 * 60 * 60 * 24 * 14);
     this.pd.startScheduledeparturetime=formatDate(begin,'yyyyMMddhhmm');
+    this.datenow=formatDate(begin,'yyyy-MM-dd');
     this.pd.endScheduledeparturetime=formatDate(end,'yyyyMMddhhmm');
   },
   activated() {
@@ -318,11 +320,13 @@ export default {
      return
    }
   if(dayGap(this.pd.startScheduledeparturetime,this.pd.endScheduledeparturetime,0)>14){
-    this.$alert('查询时间间隔不能超过二周', '提示', {
+    this.$alert('航班日期起始查询日期不得小于'+this.datenow, '提示', {
       confirmButtonText: '确定',
     });
     return false
   }
+
+
 
       let p = {
         "currentPage": currentPage,
@@ -376,9 +380,17 @@ export default {
         })
     },
     details(i) {
-      this.addDialogVisible = true;
-      console.log(i);
-      this.form = i;
+      if(i.status!=3){
+        this.$confirm(i.flightMessage, '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        })
+      }else{
+        this.addDialogVisible = true;
+        console.log(i);
+        this.form = i;
+      }
     },
   }
 }
@@ -404,5 +416,10 @@ hr {
   height: 2px;
   border: none;
   border-top: 1px solid #73BFF2;
+}
+.gray{
+  background-color: #F4F4F4!important;
+  border:1px solid #ccc!important;
+  color:#bbb!important;
 }
 </style>

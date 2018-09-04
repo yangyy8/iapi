@@ -120,7 +120,7 @@
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
             <span class="yy-input-text"><font class="yy-color">*</font>角色名：</span>
-            <el-input placeholder="请输入内容(不能超过20个汉字)" size="small" maxlength="20"  v-model="form.ROLE_NAME"  class="yy-input-input" ></el-input>
+            <el-input placeholder="请输入内容(不能超过20个汉字)" size="small" maxlength="20"  v-model="form.ROLE_NAME"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
 
           </el-col>
         </el-row>
@@ -128,7 +128,7 @@
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
             <span class="yy-input-text"><font class="yy-color">*</font>状态：</span>
-            <el-select v-model="form.STATUS" clearable placeholder="请选择" size="small" class="input-input">
+            <el-select v-model="form.STATUS" clearable placeholder="请选择" size="small" class="input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}">
                <el-option value="1" label="1 - 启用">
                </el-option>
                <el-option value="0" label="0 - 停用">
@@ -349,6 +349,18 @@ export default {
 
     },
     addItem(formName) {
+
+
+
+            if(this.$validator.listener.demo2){
+              const result = this.$validator.verifyAll('demo2')
+               if (result.indexOf(false) > -1) {
+                 return
+               } else {
+               }
+            }
+
+
       var url = "/manage-platform/roleSys/save";
 
       if (this.tp == 1) {
@@ -436,6 +448,7 @@ export default {
 menuItem(){
 
   let checkList=this.$refs.tree.getCheckedNodes();
+  //let checkList=this.$refs.tree.getCheckedKeys();
   let p={
     // menuList:this.menudata,
    "ROLE_ID":this.sertail,
@@ -458,8 +471,6 @@ menuItem(){
 
 },
   },
-
-
   filters: {
 
     fifterstatus(val) {

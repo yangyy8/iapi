@@ -32,6 +32,12 @@
 
                 </template>
                 </el-table-column>
+                <el-table-column
+                  prop="queueNum"
+                  label="队列数"
+                >
+                </el-table-column>
+
                 <!-- <el-table-column
                   label="队列状态" sortable
                 >
@@ -39,10 +45,49 @@
                     {{scope.row.queueStatus | fifter2}}
                 </template>
                 </el-table-column> -->
+                <!-- <el-table-column
+                 label="队列状态"
+               >
+               <template slot-scope="scope">
+                   {{scope.row.queueStatus | fifter2}}
+               </template>
+               </el-table-column>
+               <el-table-column
+                  prop="queueNum3"
+                  label="队列深度"
+                >
+                </el-table-column> -->
 
                 <el-table-column
-                  prop="queueNum1"
+                  label="操作"
+                >
+                    <template slot-scope="scope">
+                       <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row.serial)">详情</el-button>
+                    </template>
+                </el-table-column>
+      </el-table>
+
+    </div>
+    <el-dialog
+      title="详情"
+      :visible.sync="detailsDialogVisible"
+      >
+
+      <el-table
+        :data="tableData1"
+        border
+        style="width: 100%;"
+        >
+
+
+                <el-table-column
+                  prop="queueName"
                   label="队列名称"
+                >
+                </el-table-column>
+                <el-table-column
+                  prop="queueNum"
+                  label="队列数"
                 >
                 </el-table-column>
                 <el-table-column
@@ -52,24 +97,15 @@
                    {{scope.row.queueStatus | fifter2}}
                </template>
                </el-table-column>
-                <el-table-column
-                  prop="queueNum3"
-                  label="队列深度"
-                >
-                </el-table-column>
 
-
-
-                <el-table-column
-                  label="操作"
-                >
-                    <template slot-scope="scope">
-                       <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row)">详情</el-button>
-                    </template>
-                </el-table-column>
       </el-table>
 
-    </div>
+      <div slot="footer" class="dialog-footer">
+
+        <el-button @click="detailsDialogVisible = false" size="small">取消</el-button>
+
+      </div>
+    </el-dialog>
   </div>
 
 </template>
@@ -79,7 +115,9 @@ export default {
   data() {
     return {
       pd: {},
-      tableData: []
+      tableData: [],
+      mtableData1ap:[],
+      detailsDialogVisible: false,
     }
   },
   created() {
@@ -94,6 +132,20 @@ export default {
 
         })
     },
+    details(i)
+    {
+      console.log('---'+i);
+      this.detailsDialogVisible=true;
+      let p=({
+        "SERIAL":i
+      });
+      this.$api.post('/manage-platform/monitorMQ/queryQueueDetail', p,
+        r => {
+          console.log("====="+r);
+          this.tableData1 = r.data;
+
+        })
+    }
   },
   filters: {
 
@@ -110,7 +162,7 @@ export default {
       // return val*2
     },
     fifter2(val){
-      if(val=="true"){
+      if(val=="running"){
         return  "正常";
       }else {
       return   "异常";
