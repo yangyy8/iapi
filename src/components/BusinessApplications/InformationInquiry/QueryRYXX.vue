@@ -915,7 +915,7 @@
           name="excel"
           :multiple="false"
           accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-          action="http://192.168.99.206:8080/manage-platform/iapi/readExcel"
+          action="http://192.168.99.245:8080/manage-platform/iapi/readExcel"
           :on-success="uploadSuccess"
           :limit="1"
           :on-exceed="handleExceed"
@@ -1902,7 +1902,7 @@ export default {
       let gh = {
         "currentPage":hcurrentPage,
       	"showCount":hshowCount,
-      	"cdt":historyCdt
+      	"pd":historyCdt
       };
       // this.historyBased();
       this.$api.post('/manage-platform/iapiUnscolicited/queryHistory',gh,
@@ -2076,6 +2076,7 @@ export default {
     },
     batchQueryListPnr(currentPage,showCount,rows){//批量查询pnr
       let bqlp = {
+        "totalResult":totalResult,
         "currentPage":currentPage,
       	"showCount":showCount,
       	"cdtList":rows
@@ -2909,8 +2910,8 @@ export default {
      console.log(this.$api.rootUrl+"/manage-platform/iapi/export/three");
      axios({
       method: 'post',
-      // url: 'http://192.168.99.206:8080/manage-platform/iapi/export/three',
-      url: this.$api.rootUrl+"/manage-platform/iapi/export/three",
+      url: 'http://192.168.99.245:8080/manage-platform/iapi/export/three',
+      // url: this.$api.rootUrl+"/manage-platform/iapi/export/three",
       data: {
           "name": 'Fred',
           "cdtList":this.rows

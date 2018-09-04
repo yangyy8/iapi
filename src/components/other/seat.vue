@@ -1,26 +1,32 @@
 <template lang="html">
-<div id="div2">
-  <el-row align="center"  type="flex">
-    <el-col  :span="5" style="border-right:1px solid #cccccc; margin-right:30px;">
-        <img src="../../assets/img/port.png">
-    </el-col>
-    <el-col  :span="190" style="padding-top:50px;">
-      <ul class="planUL">
-        <li class="planLifirst">
-          <div  v-for="i in list1">
-            {{i}}
-          </div>
-        </li>
-        <li v-for="i in list2" class="planLi">
-          <div class="" > </div>
-          <div class="">{{i}}</div>
-        </li>
-      </ul>
-    </el-col>
-  </el-row>
-</div>
-    </div>
+  <div id="div2">
+    <el-row align="center"  type="flex">
+      <el-col  :span="5" style="border-right:1px solid #cccccc; margin-right:30px;">
+          <img src="../../assets/img/port.png">
+      </el-col>
+      <el-col  :span="190" style="padding-top:50px;">
+        <ul class="planUL">
+          <li class="planLifirst">
+            <div  v-for="i in list2">
+              {{i}}
+            </div>
+          </li>
+          <li v-for="i in list1" class="planLi">
+            <div  v-for="j in list2" >
+              <span v-if="getlight(i,j)" >
+                <div class="" ><img src="../../assets/img/ren.png" :title="i+j"/></div>
+              </span>
+              <span v-else>
+                <div class="" :title="i+j"></div>
+              </span>
+            </div>
+            <div class="">{{i}}</div>
+          </li>
+        </ul>
+      </el-col>
+    </el-row>
   </div>
+
 </template>
 
 <script>
@@ -30,6 +36,7 @@ export default {
     return {
       list1:[],
       list2:[],
+      light:[],
       form: {},
       departdateBegin:''
     }
@@ -55,9 +62,22 @@ export default {
           console.log(r);
           this.list1 = r.data.list123;
           this.list2 = r.data.listabc;
+          this.light=r.data.highlight;
         })
     },
+    getlight(n,m){
 
+    var ss=this.light;
+    var se=n+m;
+    for(var i=0;i<ss.length;i++){
+
+     if(ss[i]==se){
+      return true;
+     }
+    }
+
+    return false;
+  }
   },
 }
 </script>

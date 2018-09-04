@@ -120,7 +120,7 @@
           width="150"
           label="操作">
           <template slot-scope="scope">
-              <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row)">处理</el-button>
+              <el-button class="table-btn" :class="{'gray':scope.row.status!=3}" size="mini" plain icon="el-icon-tickets" @click="details(scope.row)">处理</el-button>
          </template>
         </el-table-column>
       </el-table>
@@ -376,9 +376,17 @@ export default {
         })
     },
     details(i) {
-      this.addDialogVisible = true;
-      console.log(i);
-      this.form = i;
+      if(i.status!=3){
+        this.$confirm(i.flightMessage, '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        })
+      }else{
+        this.addDialogVisible = true;
+        console.log(i);
+        this.form = i;
+      }
     },
   }
 }
@@ -404,5 +412,10 @@ hr {
   height: 2px;
   border: none;
   border-top: 1px solid #73BFF2;
+}
+.gray{
+  background-color: #F4F4F4!important;
+  border:1px solid #ccc!important;
+  color:#bbb!important;
 }
 </style>
