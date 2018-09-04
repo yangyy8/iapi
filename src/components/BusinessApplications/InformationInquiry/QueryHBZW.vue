@@ -10,13 +10,13 @@
         <el-row align="center"   :gutter="2" class="pr-20">
           <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
             <span class="input-text"><font style="color:red">*</font> 航班号：</span>
-            <el-input placeholder="请输入内容" v-verify.input.blur="{regs:'required',submit:'timeDemo'}" size="small" v-model="pd.flightNumber"   class="input-input"></el-input>
+            <el-input placeholder="请输入内容" v-verify.input.blur="{regs:'required',submit:'HBZWDemo'}" size="small" v-model="pd.flightNumber"   class="input-input"></el-input>
           </el-col>
           <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
           <span class="input-text"><font style="color:red">*</font> 航班日期：</span>
           <div class="input-input t-flex t-date">
                <el-date-picker
-               v-verify.input.blur="{regs:'required',submit:'timeDemo'}"
+               v-verify.input.blur="{regs:'required',submit:'HBZWDemo'}"
                v-model="pd.departdateBegin"
                type="datetime" size="small"
                placeholder="开始时间"  :picker-options="pickerOptions"
@@ -25,7 +25,7 @@
              </el-date-picker>
                <span class="septum">-</span>
              <el-date-picker
-                v-verify.input.blur="{regs:'required',submit:'timeDemo'}"
+                v-verify.input.blur="{regs:'required',submit:'HBZWDemo'}"
                 v-model="pd.departdateEnd"
                 type="datetime" size="small"
                 format="yyyy-MM-dd HH:mm"
@@ -631,23 +631,23 @@ export default {
       console.log(`当前页: ${val}`);
     },
     getList(currentPage, showCount, pd) {
-      // const result = this.$validator.verifyAll('timeDemo')
-      //  if (result.indexOf(false) > -1) {
-      //    return
-      //  }
-      // if(this.pd.flightNumber==""||this.pd.flightNumber==undefined){
-      //   this.$alert('航班号不能为空！', '提示', {
-      //     confirmButtonText: '确定',
-      //   });
-      //   return false
-      // }
-      //
-      // if(dayGap(this.pd.departdateBegin,this.pd.departdateEnd,0)>30){
-      //   this.$alert('查询时间间隔不能超过一个月', '提示', {
-      //     confirmButtonText: '确定',
-      //   });
-      //   return false
-      // }
+      const result = this.$validator.verifyAll('HBZWDemo')
+       if (result.indexOf(false) > -1) {
+         return
+       }
+      if(this.pd.flightNumber==""||this.pd.flightNumber==undefined){
+        this.$alert('航班号不能为空！', '提示', {
+          confirmButtonText: '确定',
+        });
+        return false
+      }
+
+      if(dayGap(this.pd.departdateBegin,this.pd.departdateEnd,0)>30){
+        this.$alert('查询时间间隔不能超过一个月', '提示', {
+          confirmButtonText: '确定',
+        });
+        return false
+      }
 
       let p = {
         "currentPage": currentPage,
@@ -837,7 +837,7 @@ export default {
 } */
 .planLi div{
   width: 15px;font-size: 13px;
-  height: 15px; 
+  height: 15px;
   border: 1px #105D93 solid;
   background: #70BDEB; text-align: center;
 }
