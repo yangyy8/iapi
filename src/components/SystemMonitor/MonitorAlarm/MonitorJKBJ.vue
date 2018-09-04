@@ -56,7 +56,6 @@
                    </el-option>
                    <el-option value="1" label="1 - 未处理">
                    </el-option>
-
                  </el-select>
               </el-col>
               <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
@@ -173,17 +172,17 @@
     >
       <el-form :model="form" ref="addForm">
      <el-row type="flex"  class="mb-15">
-         <el-col :span="12"><span class="input-text">监控区域：</span>{{form.ZONE | fifter1}}</el-col>
-          <el-col :span="12"><span class="input-text">报警类型：</span>{{form.MCLASS | fifter2 }}</el-col>
+      <el-col :span="12"><span class="input-text">监控区域：</span>{{form.ZONE | fifter1}}</el-col>
+      <el-col :span="12"><span class="input-text">报警类型：</span>{{form.MCLASS | fifter2 }}</el-col>
      </el-row>
      <el-row type="flex"  class="mb-15">
-          <el-col :span="12"><span class="input-text">监控对象：</span>{{form.MTYPE}}</el-col>
-         <el-col :span="12"><span class="input-text">报警时间：</span>{{form.CREATETIME}}</el-col>
+     <el-col :span="12"><span class="input-text">监控对象：</span>{{form.MTYPE}}</el-col>
+     <el-col :span="12"><span class="input-text">报警时间：</span>{{form.CREATETIME}}</el-col>
      </el-row>
        <hr/>
     <el-row type="flex"  class="mb-15">
-      <el-col :span="12"><span class="input-text">处理人：</span>{{this.username}}</el-col>
-        <el-col :span="12"><span class="input-text">处理时间：</span>{{form.DEALTIME | fifter4}}</el-col>
+      <el-col :span="12"><span class="input-text" style="margin-left:-1px;">处理人：</span>{{this.username}}</el-col>
+      <el-col :span="12"><span class="input-text">处理时间：</span>{{form.DEALTIME | fifter4}}</el-col>
     </el-row>
 
     <el-row type="flex"  class="mb-15">
@@ -220,9 +219,11 @@
      <el-row type="flex"  class="mb-15">
        <el-col :span="24"><span class="yy-input-text" style="width:13%;">报警内容：</span>{{dform.MDESC}}</el-col>
      </el-row>
+    <hr/>
     <el-row type="flex"  class="mb-15">
-        <el-col :span="8"><span class="yy-input-text">处理人：</span>{{dform.DEALUSER}}</el-col>
-         <el-col :span="8"><span class="yy-input-text">处理时间：</span>{{dform.DEALTIME}}</el-col>
+        <el-col :span="8"><span class="yy-input-text" style="margin-left:-3px;">处理人：</span>{{dform.DEALUSER}}</el-col>
+        <el-col :span="8"><span class="yy-input-text">处理时间：</span>{{dform.DEALTIME}}</el-col>
+
     </el-row>
     <el-row type="flex"  class="mb-15">
      <el-col :span="24"><span class="input-text" style="width:13%;">处理详情：</span>{{dform.DEALCONTENT}}
@@ -414,10 +415,5 @@ export default {
   padding-right: 10px;
 }
 
-.yy-input-text {
-  font-weight: 500;
-}
-.input-text {
-  font-weight: 500;
-}
+
 </style>

@@ -231,6 +231,7 @@ export default {
       CurrentPage: 1,
       pageSize: 10,
       TotalResult: 0,
+      datenow:'',
       pd: {  startScheduledeparturetime:'',
         endScheduledeparturetime:'',},
       nation: [],
@@ -283,6 +284,7 @@ export default {
     let end = new Date();
     let begin =new Date(time - 1000 * 60 * 60 * 24 * 14);
     this.pd.startScheduledeparturetime=formatDate(begin,'yyyyMMddhhmm');
+    this.datenow=formatDate(begin,'yyyy-MM-dd');
     this.pd.endScheduledeparturetime=formatDate(end,'yyyyMMddhhmm');
   },
   activated() {
@@ -318,11 +320,13 @@ export default {
      return
    }
   if(dayGap(this.pd.startScheduledeparturetime,this.pd.endScheduledeparturetime,0)>14){
-    this.$alert('查询时间间隔不能超过二周', '提示', {
+    this.$alert('航班日期起始查询日期不得小于'+this.datenow, '提示', {
       confirmButtonText: '确定',
     });
     return false
   }
+
+
 
       let p = {
         "currentPage": currentPage,
