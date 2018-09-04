@@ -171,7 +171,7 @@
         </el-table-column>
         <el-table-column
           prop="nationalityDesc"
-          label="国籍" >
+          label="国籍" sortable>
         </el-table-column>
 
         <el-table-column
@@ -185,7 +185,7 @@
 
         <el-table-column
           prop="personGrade"
-          label="人员类别" >
+          label="人员类别" sortable>
         </el-table-column>
         <!-- <el-table-column
           prop="visaNo"
@@ -193,7 +193,7 @@
         </el-table-column> -->
         <el-table-column
           prop="flightNo"
-          label="航班号" >
+          label="航班号" sortable>
         </el-table-column>
         <el-table-column
           prop="departDate"
