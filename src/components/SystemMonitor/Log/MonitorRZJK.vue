@@ -126,6 +126,18 @@
       :visible.sync="detailsDialogVisible"
       width="600px">
       <el-form :model="form">
+        <div class="titile">类别名称 </div>
+        <el-row type="flex" class="mb-15">
+          <el-col :span="24" class="titlecontent">
+            {{form.loggerName}}
+          </el-col>
+            </el-row>
+          <div class="titile">线程名称</div>
+            <el-row type="flex" class="mb-15">
+          <el-col :span="24" class="titlecontent">
+            {{form.threadName}}
+          </el-col>
+        </el-row>
      <div class="titile">监控消息</div>
         <el-row type="flex" class="mb-15">
           <el-col :span="24" class="titlecontent">

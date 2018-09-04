@@ -12,7 +12,7 @@
               <el-input placeholder="请输入内容" size="small" v-model="pd.DEPT_JC"  class="input-input"></el-input>
             </el-col>
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
-              <span class="input-text">部门：</span>
+              <span class="input-text">上级部门：</span>
               <el-select v-model="pd.DEPT_ID" filterable clearable placeholder="请选择" size="small" class="input-input">
                 <el-option
                   v-for="item in company"
@@ -120,7 +120,7 @@
           <el-col :span="12" class="input-item">
             <span class="yy-input-text"><font class="yy-color">*</font> 上级部门：</span>
 
-            <el-select v-model="form.PARENT_ID" v-if='tp==0' filterable clearable placeholder="请选择" size="small" class="yy-input-input">
+            <el-select v-model="form.PARENT_ID" v-if='tp==0' filterable clearable placeholder="请选择" size="small" class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}">
               <el-option
                 v-for="item in company"
                 :key="item.SERIAL"
@@ -129,7 +129,7 @@
               </el-option>
              </el-select>
 
-             <el-select v-else v-model="form.PARENT_ID"  :disabled="true" filterable clearable placeholder="请选择" size="small" class="yy-input-input">
+             <el-select v-else v-model="form.PARENT_ID"  :disabled="true" filterable clearable placeholder="请选择" size="small" class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}">
                <el-option
                  v-for="item in company"
                  :key="item.SERIAL"
@@ -141,23 +141,23 @@
           </el-col>
           <el-col :span="12" class="input-item">
             <span class="yy-input-text"><font class="yy-color">*</font> 部门名称：</span>
-            <el-input placeholder="请输入内容" size="small"  v-model="form.DEPT_QC" class="yy-input-input" ></el-input>
+            <el-input placeholder="请输入内容" size="small"  v-model="form.DEPT_QC" class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
           </el-col>
         </el-row>
         <el-row type="flex"  class="mb-6">
           <el-col :span="12" class="input-item">
             <span class="yy-input-text"><font class="yy-color">*</font> 部门简称：</span>
-            <el-input placeholder="请输入内容" size="small"   v-model="form.DEPT_JC" class="yy-input-input" ></el-input>
+            <el-input placeholder="请输入内容" size="small"   v-model="form.DEPT_JC" class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
           </el-col>
           <el-col :span="12" class="input-item">
             <span class="yy-input-text"><font class="yy-color">*</font> 部门编码：</span>
-            <el-input placeholder="请输入内容" size="small"  v-model="form.DEPT_CODE" class="yy-input-input" ></el-input>
+            <el-input placeholder="请输入内容" size="small"  v-model="form.DEPT_CODE" class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
           </el-col>
         </el-row>
         <el-row type="flex"  class="mb-6">
           <el-col :span="12" class="input-item">
             <span class="yy-input-text"><font class="yy-color">*</font> 状态：</span>
-            <el-select v-model="form.STATUS"  placeholder="请选择" size="small" class="yy-input-input">
+            <el-select v-model="form.STATUS"  placeholder="请选择" size="small" class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}">
                <el-option  value="1" label="启用">
                </el-option>
                <el-option  value="0" label="停用">
@@ -166,7 +166,7 @@
           </el-col>
           <el-col :span="12" class="input-item">
             <span class="yy-input-text"><font class="yy-color">*</font> 排列序号：</span>
-            <el-input placeholder="请输入内容" size="small"  v-model="form.DEPT_ORDER" class="yy-input-input" ></el-input>
+            <el-input placeholder="请输入内容" size="small"  v-model="form.DEPT_ORDER" class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
           </el-col>
         </el-row>
       </el-form>
@@ -327,6 +327,15 @@ export default {
     },
 
     addItem(formName) {
+
+            if(this.$validator.listener.demo2){
+              const result = this.$validator.verifyAll('demo2')
+               if (result.indexOf(false) > -1) {
+                 return
+               } else {
+               }
+            }
+
 
       var url = "/manage-platform/deptSys/save";
       if (this.tp == 1) {

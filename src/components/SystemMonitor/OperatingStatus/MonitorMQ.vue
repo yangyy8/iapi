@@ -162,7 +162,7 @@ export default {
       // return val*2
     },
     fifter2(val){
-      if(val=="true"){
+      if(val=="running"){
         return  "正常";
       }else {
       return   "异常";
