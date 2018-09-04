@@ -1199,7 +1199,7 @@
         </div>
         <el-pagination
           background
-
+          :current-page.sync ="currentPage"
           @current-change="handleCurrentChange"
           :page-size="showCount"
           layout="prev, pager, next"
@@ -1879,10 +1879,13 @@ export default {
     iapi(){
       this.bigBase = 0;
       if(this.page == 0){
+        this.currentPage = 1;
         this.getList(this.totalResult,this.currentPage,this.showCount,this.cdt,0);
       }else if(this.page == 1){
+        this.currentPage = 1;
         this.batchQueryList(this.totalResult,this.currentPage,this.showCount,this.rows,0);
       }else if(this.page == 2){
+        this.currentPage = 1;
         this.selfQueryList(this.totalResult,this.currentPage,this.showCount,0);
       }
 
@@ -1890,18 +1893,23 @@ export default {
     pnr(){
       this.bigBase = 1;
       if(this.page == 0){
+        this.currentPage = 1;
         this.getListPnr(this.totalResult,this.currentPage,this.showCount,this.cdt,0);
       }else if(this.page == 1){
+        this.currentPage = 1;
         this.batchQueryListPnr(this.totalResult,this.currentPage,this.showCount,this.rows,0);
       }else if(this.page == 2){
+        this.currentPage = 1;
         this.selfQueryListPnr(this.totalResult,this.currentPage,this.showCount,0);
       }
 
     },
     query(){//基础查询判断
       if(this.bigBase == 0){
+        this.currentPage = 1;
         this.getList(this.totalResult,this.currentPage,this.showCount,this.cdt,0);
       }else if(this.bigBase == 1){
+        this.currentPage = 1;
         this.getListPnr(this.totalResult,this.currentPage,this.showCount,this.cdt,0);
       }
     },
@@ -2111,8 +2119,10 @@ export default {
     },
     batchS(){
       if(this.bigBase == 0){
+        this.currentPage = 1;
         this.batchQueryList(this.totalResult,this.currentPage,this.showCount,this.rows,0);
       }else if(this.bigBase == 1){
+        this.currentPage = 1;
         this.batchQueryListPnr(this.totalResult,this.currentPage,this.showCount,this.rows,0);
       }
     },
@@ -2318,7 +2328,6 @@ export default {
 
     //----------------------------自定义查询start------------------------------
     selfQueryList(totalResult,currentPage,showCount,type){//自定义查询列表
-      this.currentPage = 1;
       let dataSelf = [];
       for(var i=0;i<this.selfRows.length;i++){
         dataSelf.push(this.selfRows[i].dataSort);
@@ -2352,7 +2361,6 @@ export default {
        })
     },
     selfQueryListPnr(totalResult,currentPage,showCount,type){
-      this.currentPage = 1;
       let dataSelfPnr = [];
       for(var i=0;i<this.selfRows.length;i++){
         dataSelfPnr.push(this.selfRows[i].dataSort);
@@ -2386,8 +2394,10 @@ export default {
     },
     selfS(){
       if(this.bigBase == 0){
+        this.currentPage = 1;
         this.selfQueryList(this.totalResult,this.currentPage,this.showCount,0);
       }else if(this.bigBase == 1){
+        this.currentPage = 1;
         this.selfQueryListPnr(this.totalResult,this.currentPage,this.showCount,0);
       }
     },
@@ -2820,8 +2830,10 @@ export default {
       this.ssss='';
       this.getList(this.totalResult,this.currentPage,this.showCount,this.cdt,0);
       if(this.bigBase == 0){
+        this.currentPage = 1;
         this.getList(this.totalResult,this.currentPage,this.showCount,this.cdt,0);
       }else if(this.bigBase == 1){
+        this.currentPage = 1;
         this.getListPnr(this.totalResult,this.currentPage,this.showCount,this.cdt,0);
       }
     },
@@ -2842,8 +2854,10 @@ export default {
       }];
       this.pppp='';
       if(this.bigBase == 0){
+        this.currentPage = 1;
         this.batchQueryList(this.totalResult,this.currentPage,this.showCount,this.rows,0);
       }else if(this.bigBase == 1){
+        this.currentPage = 1;
         this.batchQueryListPnr(this.totalResult,this.currentPage,this.showCount,this.rows,0);
       }
     },
@@ -2852,8 +2866,10 @@ export default {
       this.str = '';
       this.ffff='';
       if(this.bigBase == 0){
+        this.currentPage = 1;
         this.selfQueryList(this.totalResult,this.currentPage,this.showCount,0);
       }else if(this.bigBase == 1){
+        this.currentPage = 1;
         this.selfQueryListPnr(this.totalResult,this.currentPage,this.showCount,0);
       }
     },
