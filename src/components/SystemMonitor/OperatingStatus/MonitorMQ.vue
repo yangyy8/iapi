@@ -62,7 +62,7 @@
                   label="操作"
                 >
                     <template slot-scope="scope">
-                       <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row)">详情</el-button>
+                       <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row.serial)">详情</el-button>
                     </template>
                 </el-table-column>
       </el-table>
@@ -116,7 +116,8 @@ export default {
     return {
       pd: {},
       tableData: [],
-      mtableData1ap:[]
+      mtableData1ap:[],
+      detailsDialogVisible: false,
     }
   },
   created() {
@@ -133,13 +134,14 @@ export default {
     },
     details(i)
     {
+      console.log('---'+i);
       this.detailsDialogVisible=true;
       let p=({
         "SERIAL":i
       });
       this.$api.post('/manage-platform/monitorMQ/queryQueueDetail', p,
         r => {
-          console.log(r);
+          console.log("====="+r);
           this.tableData1 = r.data;
 
         })

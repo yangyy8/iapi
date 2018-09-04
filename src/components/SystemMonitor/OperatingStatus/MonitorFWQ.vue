@@ -175,22 +175,24 @@
       >
 
       <el-row  v-if="filesytem!=null" class="filearr">
-      <el-col :span="4" class="fileline">剩余可用空间</el-col>
+
       <el-col :span="4" class="fileline">文件系统名称</el-col>
       <el-col :span="4" class="fileline">挂载位置</el-col>
       <el-col :span="4" class="fileline">该系统空间大小</el-col>
       <el-col :span="4" class="fileline">已经使用的空间</el-col>
-      <el-col :span="4">usedPer</el-col>
+        <el-col :span="4" class="fileline">剩余可用空间</el-col>
+      <el-col :span="4">使用率</el-col>
      </el-row>
      <el-row v-else class="filearrk">
      <el-col :span="24">暂无数据</el-col>
     </el-row>
       <el-row v-for='(i,index) in filesytem' :key="index" class="filearr1">
-        <el-col :span="4" >{{i.avail}}</el-col>
+
         <el-col :span="4" >{{i.fileSystem}}</el-col>
         <el-col :span="4" >{{i.mount}}</el-col>
         <el-col :span="4" >{{i.size}}</el-col>
         <el-col :span="4" >{{i.used}}</el-col>
+          <el-col :span="4" >{{i.avail}}</el-col>
         <el-col :span="4">{{i.usedPer}}</el-col>
       </el-row>
 
