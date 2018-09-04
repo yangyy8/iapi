@@ -82,7 +82,7 @@
                 </div>
               </div>
               <div class="checkResultInput">
-                <el-select placeholder="请选择反馈结果" v-model="data.visaCheckResult" filterable clearable size="mini" class="t-width100" :disabled="isActive">
+                <el-select placeholder="请选择反馈结果" v-model="data.visaCheckResult" filterable clearable size="mini" class="t-width100" :disabled="isActive" @change="inschange(data.visaCheckResult,0)">
                   <!-- <el-option label="0Z - 允许登机" value="0Z"></el-option> -->
                   <el-option label="1Z - 禁止登机" value="1Z"></el-option>
                   <el-option label="2Z - 再次核对" value="2Z"></el-option>
@@ -168,7 +168,7 @@
                   </div>
                 </div>
                 <div class="checkResultInput">
-                  <el-select placeholder="请选择反馈结果" v-model="data.nationalityCheckResult" filterable clearable size="mini" class="t-width100" :disabled="countryIsActive">
+                  <el-select placeholder="请选择反馈结果" v-model="data.nationalityCheckResult" filterable clearable size="mini" class="t-width100" :disabled="countryIsActive" @change="inschange(data.nationalityCheckResult,1)">
                     <!-- <el-option label="0Z - 允许登机" value="0Z"></el-option> -->
                     <el-option label="1Z - 禁止登机" value="1Z"></el-option>
                     <el-option label="2Z - 再次核对" value="2Z"></el-option>
@@ -253,7 +253,7 @@
                 </div>
               </div>
               <div class="checkResultInput">
-                <el-select placeholder="请选择反馈结果" v-model="data.airportCheckResult" filterable clearable size="mini" class="t-width100" :disabled="entryIsActive">
+                <el-select placeholder="请选择反馈结果" v-model="data.airportCheckResult" filterable clearable size="mini" class="t-width100" :disabled="entryIsActive" @change="inschange(data.airportCheckResult,2)">
                   <!-- <el-option label="0Z - 允许登机" value="0Z"></el-option> -->
                   <el-option label="1Z - 禁止登机" value="1Z"></el-option>
                   <el-option label="2Z - 再次核对" value="2Z"></el-option>
@@ -344,6 +344,27 @@ export default {
     this.addList(this.data.fieldName,this.data.visaTime,this.data.visaOperator);
   },
   methods:{
+    inschange(n,type) {
+      var content = "";
+
+        if (n == "0Z") {
+          content = "OK TO BOARD";
+        } else if (n == "1Z") {
+          content = "NO BOARD";
+        } else if (n == "2Z") {
+          content = "CHECK AGAIN";
+        } else if (n == "4Z") {
+          content = "DATA ENTRY ERROR";
+        }
+        if(type == 0){
+          this.data.visaResponseresult = content;
+        }else if(type == 1){
+          this.data.nationalityResponseresult = content;
+        }else if(type == 2){
+          this.data.airportResponseresult = content;
+        }
+
+    },
     addList(fname,item,oper){
       let fnameLabel = '';
       for(var i=0;i<this.code.length;i++){

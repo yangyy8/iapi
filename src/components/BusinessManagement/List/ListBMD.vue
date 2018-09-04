@@ -97,7 +97,7 @@
               <el-select  placeholder="请选择"  size="small" v-model="pd.IN_OUT" clearable filterable class="block input-input">
                 <el-option label="I - 入境" value="I"></el-option>
                 <el-option label="O - 出境" value="O"></el-option>
-                <!-- <el-option label="A - 全部" value="A"></el-option> -->
+                <el-option label="A - 入出境" value="A"></el-option>
 
               </el-select>
             </el-col>
@@ -182,6 +182,7 @@
       <el-table
         :data="tableData"
         border
+        empty-text="经查无数据"
         class="caozuo"
         style="width:100%;"
         @selection-change="handleSelectionChange">
@@ -301,7 +302,7 @@
         <el-row  class="mb-6" align="center">
           <el-col :sm="24" :md="12" :lg="8"  class="input-item">
             <span class="input-text"><span class="redx">*</span>国籍：</span>
-            <el-select v-model="form.NATIONALITY" filterable clearable placeholder="请选择"  v-verify.change.blur ="{regs:'required',submit:'demo2'}" size="small" class="input-input">
+            <el-select v-model="form.NATIONALITY" filterable clearable placeholder="请选择" @change="aa" v-verify.change.blur ="{regs:'required',submit:'demo2'}" size="small" class="input-input">
               <el-option
                 v-for="item in nationAlone"
                 :key="item.CODE"
@@ -390,7 +391,7 @@
             <el-select v-model="form.IN_OUT" placeholder="请选择" size="small" class="input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}" >
               <el-option label="I - 入境" value="I"></el-option>
               <el-option label="O - 出境" value="O"></el-option>
-              <!-- <el-option label="A - 全部" value="A"></el-option> -->
+              <el-option label="A - 入出境" value="A"></el-option>
             </el-select>
           </el-col>
 
@@ -735,13 +736,16 @@ export default {
     this.getList(this.CurrentPage,this.pageSize,this.pd);
   },
   methods:{
+    aa(){
+      console.log("aaaaaaaa")
+    },
     download(){
       window.location.href=this.$api.rootUrl+'/manage-platform/templateFile/nameListDataFile.xlsx'
     },
     queryDocCode(){
       this.$api.post('/manage-platform/codeTable/queryDocCode',{},
        r => {
-         console.log(r);
+         //console.log(r);
          if(r.success){
            this.docCode=r.data;
            this.$emit('transNation',this.pd.docCode)
@@ -751,7 +755,7 @@ export default {
     queryNationalityAlone(){
       this.$api.post('/manage-platform/codeTable/queryNationality',{},
        r => {
-         console.log(r);
+         //console.log(r);
          if(r.success){
            this.nationAlone=r.data;
          }
@@ -760,7 +764,7 @@ export default {
     queryAirport(){
       this.$api.post('/manage-platform/codeTable/queryAirport',{},
        r => {
-         console.log(r);
+         //console.log(r);
          if(r.success){
            this.airport=r.data;
          }
@@ -769,7 +773,7 @@ export default {
     queryDocCode(){
       this.$api.post('/manage-platform/codeTable/queryDocCode',{},
        r => {
-         console.log(r);
+         //console.log(r);
          if(r.success){
            this.docCode=r.data;
          }
@@ -830,10 +834,9 @@ export default {
         	"showCount":showCount,
         	"pd":pd
         };
-        console.log(pd)
         this.$api.post('/manage-platform/nameList/getNameListPage',p,
          r => {
-           console.log(r);
+           //console.log(r);
            this.tableData=r.data.resultList;
            this.TotalResult=r.data.totalResult;
         })
@@ -848,7 +851,7 @@ export default {
       console.log(pd)
       this.$api.post('/manage-platform/nameListHis/getNameListHisPage',p,
        r => {
-         console.log(r);
+         //console.log(r);
          this.tableData=r.data.resultList;
          this.TotalResult=r.data.totalResult;
          this.backShow=true;
@@ -921,8 +924,9 @@ export default {
     update(item){
       this.addDialogVisible=true;
       this.dateDisabled=false;
+      // this.$set()
       this.form=item;
-      console.log("form",this.form)
+      console.log("item",item);
       this.form.PERSON_TYPE+='';
       this.form.IN_OUT+='';
       this.form.synStatus="0";
@@ -938,7 +942,7 @@ export default {
       if(this.backShow){
         this.$api.post('/manage-platform/nameListHis/getNameListHisData',{serial:i},
          r => {
-           console.log(r);
+           //console.log(r);
            if(r.data){
 
              this.detailsData=r.data;
@@ -948,7 +952,7 @@ export default {
       }else{
         this.$api.post('/manage-platform/nameList/getNameListData',{serial:i},
          r => {
-           console.log(r);
+           //console.log(r);
            if(r.data){
 
              this.detailsData=r.data;
@@ -1039,7 +1043,7 @@ export default {
             this.form.AUTHORIZEDPASSWORD=this.releaseform.pwd;
             this.$api.post('/manage-platform/nameList/addNameList',this.form,
              r => {
-               console.log(r);
+               //console.log(r);
                if(r.success){
                  this.$message({
                    message: '恭喜你，添加成功！',
@@ -1058,7 +1062,7 @@ export default {
             this.form.AUTHORIZEDPASSWORD=this.releaseform.pwd;
             this.$api.post('/manage-platform/nameList/updateNameList',this.form,
              r => {
-               console.log(r);
+               //console.log(r);
                if(r.success){
                  this.$message({
                    message: '恭喜你，修改成功！',
@@ -1175,7 +1179,7 @@ export default {
      this.$refs.upload.submit();
     },
     upSuccess(r){
-     console.log(r);
+     //console.log(r);
      if(r.success){
        this.$message({
          message: r.data,

@@ -328,7 +328,7 @@ export default {
          "CTLTYPE":'U'
        }
        this.modelTable.CTLTYPE='I';
-       this.tableData.push(this.modelTable);
+       this.tableData.unshift(this.modelTable);
        console.log(this.tableData);
        // this.modelTable = this.cleanTable;
        // this.allDate = this.tableData;
