@@ -288,7 +288,7 @@ export default {
     //    console.log(`当前页: ${val}`);
     //  },
      getList(pd){
-       
+
        this.$api.post('/manage-platform/dataCheck/getDataCheckList',pd,
         r => {
           for(var i=0;i<r.data.length;i++){
@@ -328,7 +328,7 @@ export default {
          "VALIDTIME":''
        };
        this.modelTable.CTLTYPE='I';
-       this.tableData.push(this.modelTable);
+       this.tableData.unshift(this.modelTable);
        // this.modelTable = this.cleanTable;
        // this.allData = this.tableData;
      },
