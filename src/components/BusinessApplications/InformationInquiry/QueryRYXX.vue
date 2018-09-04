@@ -915,7 +915,7 @@
           name="excel"
           :multiple="false"
           accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-          action="http://192.168.99.245:8080/manage-platform/iapi/readExcel"
+          :action="$api.rootUrl+'/manage-platform/iapi/readExcel'"
           :on-success="uploadSuccess"
           :limit="1"
           :on-exceed="handleExceed"
@@ -1738,7 +1738,7 @@ export default {
         if(this.page==0){
           this.getList(this.currentPage,val,this.cdt);
         }else if(this.page==1){
-          this.batchQueryList(this.currentPage,val,this.rows);
+          this.batchQueryList(this.totalResult,this.currentPage,val,this.rows);
         }else if(this.page==2){
           this.selfQueryList(this.currentPage,val,this.selfCdt);
         }
@@ -1746,7 +1746,7 @@ export default {
         if(this.page==0){
           this.getListPnr(this.currentPage,val,this.cdt);
         }else if(this.page==1){
-          this.batchQueryListPnr(this.currentPage,val,this.rows);
+          this.batchQueryListPnr(this.totalResult,this.currentPage,val,this.rows);
         }else if(this.page==2){
           this.selfQueryListPnr(this.currentPage,val,this.selfCdt);
         }
@@ -1764,7 +1764,7 @@ export default {
         if(this.page==0){
           this.getList(val,this.showCount,this.cdt);
         }else if(this.page==1){
-          this.batchQueryList(val,this.showCount,this.rows);
+          this.batchQueryList(this.totalResult,val,this.showCount,this.rows);
         }else if(this.page==2){
           this.selfQueryList(val,this.showCount,this.selfCdt);
         }
@@ -1772,7 +1772,7 @@ export default {
         if(this.page==0){
           this.getListPnr(val,this.showCount,this.cdt);
         }else if(this.page==1){
-          this.batchQueryListPnr(val,this.showCount,this.rows);
+          this.batchQueryListPnr(this.totalResult,val,this.showCount,this.rows);
         }else if(this.page==2){
           this.selfQueryListPnr(val,this.showCount,this.selfCdt);
         }
@@ -1874,7 +1874,7 @@ export default {
       if(this.page == 0){
         this.getList(this.currentPage,this.showCount,this.cdt);
       }else if(this.page == 1){
-        this.batchQueryList(this.currentPage,this.showCount,this.rows);
+        this.batchQueryList(this.totalResult,this.currentPage,this.showCount,this.rows);
       }else if(this.page == 2){
         this.selfQueryList(this.currentPage,this.showCount,this.selfCdt);
       }
@@ -1885,7 +1885,7 @@ export default {
       if(this.page == 0){
         this.getListPnr(this.currentPage,this.showCount,this.cdt);
       }else if(this.page == 1){
-        this.batchQueryListPnr(this.currentPage,this.showCount,this.rows);
+        this.batchQueryListPnr(this.totalResult,this.currentPage,this.showCount,this.rows);
       }else if(this.page == 2){
         this.selfQueryListPnr(this.currentPage,this.showCount,this.selfCdt,this.dataSort);
       }
@@ -2056,8 +2056,9 @@ export default {
       });
     },
     //----------------------------批量查询start------------------------------
-    batchQueryList(currentPage,showCount,rows){//批量查询列表
+    batchQueryList(totalResult,currentPage,showCount,rows){//批量查询列表
       let bql = {
+        "totalResult":totalResult,
         "currentPage":currentPage,
       	"showCount":showCount,
       	"cdtList":rows
@@ -2074,7 +2075,7 @@ export default {
         }
       })
     },
-    batchQueryListPnr(currentPage,showCount,rows){//批量查询pnr
+    batchQueryListPnr(totalResult,currentPage,showCount,rows){//批量查询pnr
       let bqlp = {
         "totalResult":totalResult,
         "currentPage":currentPage,
@@ -2085,19 +2086,21 @@ export default {
       r =>{
         if(r.success){
           this.based();
+          console.log(this.totalResult);
           this.tableData=r.data.resultList;//表格数据
           this.totalResult=r.data.totalResult;//总条数
           this.totalPage = r.data.totalPage;//总页数
           this.currentPage = r.data.currentPage;
           this.batchTableDataPnr = this.tableData;
+          console.log(this.totalResult);
         }
       })
     },
     batchS(){
       if(this.bigBase == 0){
-        this.batchQueryList(this.currentPage,this.showCount,this.rows);
+        this.batchQueryList(this.totalResult,this.currentPage,this.showCount,this.rows);
       }else if(this.bigBase == 1){
-        this.batchQueryListPnr(this.currentPage,this.showCount,this.rows);
+        this.batchQueryListPnr(this.totalResult,this.currentPage,this.showCount,this.rows);
       }
     },
     batchPlanSave(){//批量 方案保存是否重名
@@ -2819,9 +2822,9 @@ export default {
       }];
       this.pppp='';
       if(this.bigBase == 0){
-        this.batchQueryList(this.currentPage,this.showCount,this.rows);
+        this.batchQueryList(this.totalResult,this.currentPage,this.showCount,this.rows);
       }else if(this.bigBase == 1){
-        this.batchQueryListPnr(this.currentPage,this.showCount,this.rows);
+        this.batchQueryListPnr(this.totalResult,this.currentPage,this.showCount,this.rows);
       }
     },
     selfReset(){
@@ -2910,8 +2913,8 @@ export default {
      console.log(this.$api.rootUrl+"/manage-platform/iapi/export/three");
      axios({
       method: 'post',
-      url: 'http://192.168.99.245:8080/manage-platform/iapi/export/three',
-      // url: this.$api.rootUrl+"/manage-platform/iapi/export/three",
+      // url: 'http://192.168.99.245:8080/manage-platform/iapi/export/three',
+      url: this.$api.rootUrl+"/manage-platform/iapi/export/three",
       data: {
           "name": 'Fred',
           "cdtList":this.rows
