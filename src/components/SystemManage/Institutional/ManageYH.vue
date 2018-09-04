@@ -207,12 +207,12 @@
         <el-row type="flex"  class="mb-6">
           <el-col :span="12" class="input-item">
             <span class="yy-input-text"><font class="yy-color">*</font> 联系方式：</span>
-            <el-input placeholder="请输入内容" size="small"  v-model="form.PHONE" class="yy-input-input"  v-verify.change.blur ="{regs:'required|mobile',submit:'demo2'}"></el-input>
+            <el-input placeholder="请输入内容" size="small"  v-model="form.PHONE" class="yy-input-input"  v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
 
           </el-col>
           <el-col :span="12" class="input-item">
             <span class="yy-input-text">身份证号：</span>
-            <el-input placeholder="请输入内容" size="small"  v-model="form.CERTIFICATE_NO" class="yy-input-input"  v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
+            <el-input placeholder="请输入内容" size="small"  v-model="form.CERTIFICATE_NO" class="yy-input-input" ></el-input>
 
           </el-col>
         </el-row>
@@ -409,6 +409,7 @@ export default {
       this.$api.post('/manage-platform/userSys/roleList', {},
         r => {
           console.log(r);
+
           if (r.success) {
             this.role = r.data.roleList;
           }
@@ -418,6 +419,8 @@ export default {
 
       this.addDialogVisible = true;
       if (n != 0) {
+
+
         this.dialogText="编辑";
         this.tp = 1;
         let p={
@@ -428,6 +431,7 @@ export default {
              console.log(r);
              if (r.success) {
                this.form = r.data;
+               this.form.UNPASSWORD=this.form.PASSWORD;
                let lists=[];
                let arr=r.data.chooseRoleList;
                for(var i in arr){
@@ -436,6 +440,7 @@ export default {
                this.form.roleList=lists;
              }
            })
+
       }else {
         this.form={};
         this.$set(this.form,'roleList',[]);
@@ -444,20 +449,19 @@ export default {
 
     },
     addItem(formName) {
+      if(this.form.PASSWORD!=this.form.UNPASSWORD && this.form.UNPASSWORD!=""){
+
+        this.$message.error('两次密码输入不一致，请重新输入！');
+      }
+
 
       if(this.$validator.listener.demo2){
         const result = this.$validator.verifyAll('demo2')
          if (result.indexOf(false) > -1) {
            return
          } else {
-         }
-      }
 
-      if(this.form.PASSWORD!=this.form.UNPASSWORD){
-
-        this.$message.error('两次密码输入不一致，请重新输入！');
-      }
-
+      }}
 
       var url = "/manage-platform/userSys/save";
       if (this.tp == 1) {
