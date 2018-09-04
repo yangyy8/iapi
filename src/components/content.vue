@@ -14,7 +14,7 @@
       </el-carousel-item>
     </el-carousel> -->
     <el-header height="150px">
-      <img src="../assets/img/logoo.png" @click="rightShow=null">
+      <img src="../assets/img/logoo.png"  @click="rightShow=null">
       <div class="top-right">
         <div class="top-nav">
           <ul class="top-nav-ul" v-if="navUlShow">
