@@ -108,7 +108,7 @@
           label="反馈结果"
           width="100">
           <template slot-scope="scope">
-            <el-select v-model="scope.row.CHECKRESULT" v-verify.input.blur="{regs:'required',submit:'demo'}" filterable clearable placeholder="请选择"  size="mini" class="table-select">
+            <el-select v-model="scope.row.CHECKRESULT" v-verify.input.blur="{regs:'required',submit:'demo'}" filterable clearable placeholder="请选择"  size="mini" class="table-select" @change="inschange(scope.row)">
               <el-option label="1Z" value="1Z"></el-option>
               <el-option label="2Z" value="2Z"></el-option>
               <el-option label="4Z" value="4Z"></el-option>
@@ -287,6 +287,19 @@ export default {
     //    this.getList(val,this.pageSize,this.pd);
     //    console.log(`当前页: ${val}`);
     //  },
+    inschange(n) {
+      var content = "";
+      if (n.CHECKRESULT == "0Z") {
+        content = "OK TO BOARD";
+      } else if (n.CHECKRESULT == "1Z") {
+        content = "NO BOARD";
+      } else if (n.CHECKRESULT == "2Z") {
+        content = "CHECK AGAIN";
+      } else if (n.CHECKRESULT == "4Z") {
+        content = "DATA ENTRY ERROR";
+      }
+      n.CHECKREMARK = content;
+    },
      getList(pd){
 
        this.$api.post('/manage-platform/dataCheck/getDataCheckList',pd,

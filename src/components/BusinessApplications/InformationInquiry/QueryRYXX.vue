@@ -485,7 +485,7 @@
                      </el-table-column>
                      <el-table-column
                        label="操作符"
-                       width="100">
+                       width="120">
                        <template slot-scope="scope">
                          <el-select placeholder="请选择" v-model="scope.row.operator" filterable clearable class="input-inp" @visible-change="attribute2(selfNature,scope.row)" size="mini">
                            <el-option
@@ -500,7 +500,7 @@
 
                      <el-table-column
                        label="值"
-                       width="150">
+                       width="200">
                        <template slot-scope="scope">
                          <!-- 输入框 -->
                          <el-input placeholder="请输入值" v-model="scope.row.atype" size="mini" v-show="scope.row.type==0" class="input-inp"></el-input>
@@ -541,7 +541,7 @@
                      </el-table-column>
                      <el-table-column
                        label="逻辑关系"
-                       width="100">
+                       width="110">
                        <template slot-scope="scope">
                          <el-select placeholder="请选择" v-model="scope.row.relation" filterable clearable size="mini" class="input-inp" :disabled="scope.row.isA">
                            <el-option label="and" value="and"></el-option>
@@ -915,7 +915,7 @@
           name="excel"
           :multiple="false"
           accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-          
+
           :action="$api.rootUrl+'/manage-platform/iapi/readExcel'"
           :on-success="uploadSuccess"
           :limit="1"
@@ -934,7 +934,7 @@
     <div class="middle">
       <el-button  plain class="table-btn mb-9" size="small" @click="$router.push({'name':'QueryHBZW'})">航班座位图</el-button>
       <!-- <el-button  plain class="table-btn mb-9" size="small" @click="$router.push({name:'QueryGLRY'})">关联人员查询</el-button> -->
-      <el-button  plain class="table-btn mb-9" size="small" @click="getPdf()">导出</el-button>
+      <el-button  plain class="table-btn mb-9" size="small" @click="tableDown">导出</el-button>
       <el-button  plain class="table-btn mb-9" size="small" v-print="'#printMe'">打印</el-button>
       <el-table
         ref="singleTable"
@@ -1260,6 +1260,7 @@ export default {
       batchDialog:false,
       fileName:'',
 
+      selfD:{},
       page: 0,
       text:'收起',
       listText:'收起',
@@ -1352,10 +1353,10 @@ export default {
       count:1,
       formData:{'file':''},
       selfCount:0,
-      basedQuery:['I_NAME','INTG_CHNNAME','I_34','I_76','I_37','I_39','I_12','filghtDate','I_13','I_65','I_59'],
-      batchQuery:['I_NAME','INTG_CHNNAME','I_34','I_76','I_37','I_39','I_12','filghtDate','I_13','I_65','I_59'],
-      selfQuery:['I_NAME','INTG_CHNNAME','I_34','I_76','I_37','I_39','I_12','filghtDate','I_13','I_65','I_59'],
-      checkList: ['I_NAME','INTG_CHNNAME','I_34','I_76','I_37','I_39','I_12','filghtDate','I_13','I_65','I_59'],
+      basedQuery:['I_NAME','INTG_CHNNAME','I_34','I_76','I_37','I_39','I_12','filghtDate','I_65','I_13'],
+      batchQuery:['I_NAME','INTG_CHNNAME','I_34','I_76','I_37','I_39','I_12','filghtDate','I_65','I_13'],
+      selfQuery:['I_NAME','INTG_CHNNAME','I_34','I_76','I_37','I_39','I_12','filghtDate','I_65','I_13'],
+      checkList: ['I_NAME','INTG_CHNNAME','I_34','I_76','I_37','I_39','I_12','filghtDate','I_65','I_13'],
       checkItem:[
         {
           ITEMNAME:'I_NAME',
@@ -2345,12 +2346,14 @@ export default {
         "totalResult":totalResult,
         "currentPage":currentPage,
       	"showCount":showCount,
-        "orders":dataSelf
+        "orders":dataSelf,
       }
       if(this.typeG == 0){
-        sql.cdt = this.str
+        sql.cdt = this.str;
+        this.selfD.cdt = this.str;//导出自定义表格数据的传参
       }else if(this.typeG == 1){
-        sql.cdt = this.str1
+        sql.cdt = this.str1;
+        this.selfD.cdt = this.str1;
         this.typeG = 0;
       }
       this.$api.post('/manage-platform/iapi/customIapiQuery',sql,
@@ -2381,8 +2384,10 @@ export default {
       }
       if(this.typeG == 0){
         sqlp.cdt = this.str
+        this.selfD.cdt = this.str;//导出自定义表格数据的传参
       }else if(this.typeG == 1){
-        sqlp.cdt = this.str1
+        sqlp.cdt = this.str1;
+        this.selfD.cdt = this.str1;
         this.typeG = 0;
       }
       this.$api.post('/manage-platform/pnr/customPnrQuery',sqlp,
@@ -2986,21 +2991,86 @@ export default {
          this.sortSet = r.data;
        }
      })
+   },
+   tableDown(){
+
+     if(this.page==0&&this.bigBase==0){//导出IAPI基础信息列表
+       axios({
+        method: 'post',
+        // url: 'http://192.168.99.247:8080/manage-platform/iapi/exportFileIo/0/600',
+        url: this.$api.rootUrl+"/manage-platform/iapi/exportFileIo/0/600",
+        data: {
+            "exclTitles": this.checkList,
+            "cdt":this.cdt
+        },
+        responseType: 'blob'
+        }).then(response => {
+            this.downloadM(response)
+        });
+     }else if(this.page==0&&this.bigBase==1){//导出PNR基础信息列表
+       axios({
+        method: 'post',
+        // url: 'http://192.168.99.247:8080/manage-platform/pnr/exportFileIo/0/600',
+        url: this.$api.rootUrl+"/manage-platform/pnr/exportFileIo/0/600",
+        data: {
+            "exclTitles": this.checkList,
+            "cdt":this.cdt
+        },
+        responseType: 'blob'
+        }).then(response => {
+            this.downloadM(response)
+        });
+     }else if(this.page==1&&this.bigBase==0){//导出IAPI批量查询列表
+       axios({
+        method: 'post',
+        // url: 'http://192.168.99.247:8080/manage-platform/iapi/exportFileIo/1/600',
+        url: this.$api.rootUrl+"/manage-platform/iapi/exportFileIo/1/600",
+        data: {
+            "exclTitles": this.checkList,
+            "cdtList":this.rows
+        },
+        responseType: 'blob'
+        }).then(response => {
+            this.downloadM(response)
+        });
+     }else if(this.page==1&&this.bigBase==1){//导出PNR批量查询列表
+       axios({
+        method: 'post',
+        // url: 'http://192.168.99.247:8080/manage-platform/pnr/exportFileIo/1/600',
+        url: this.$api.rootUrl+"/manage-platform/pnr/exportFileIo/1/600",
+        data: {
+            "exclTitles": this.checkList,
+            "cdtList":this.rows
+        },
+        responseType: 'blob'
+        }).then(response => {
+            this.downloadM(response)
+        });
+     }else if(this.page==2&&this.bigBase==0){//导出IAPI自定义列表
+       this.selfD.exclTitles = this.checkList;
+       axios({
+        method: 'post',
+        // url: 'http://192.168.99.247:8080/manage-platform/iapi/exportCustomFileIo/600',
+        url: this.$api.rootUrl+"/manage-platform/iapi/exportCustomFileIo/600",
+        data: this.selfD,
+        responseType: 'blob'
+        }).then(response => {
+            this.downloadM(response)
+        });
+     }else if(this.page==2&&this.bigBase==1){//导出PNR自定义列表
+       this.selfD.exclTitles = this.checkList;
+       axios({
+        method: 'post',
+        // url: 'http://192.168.99.247:8080/manage-platform/pnr/exportCustomFileIo/600',
+        url: this.$api.rootUrl+"/manage-platform/pnr/exportCustomFileIo/600",
+        data: this.selfD,
+        responseType: 'blob'
+        }).then(response => {
+            this.downloadM(response)
+        });
+     }
    }
-   // detailgetlist(currentPage, showCount, r) {
-   //   let p = {
-   //     "currentPage": currentPage,
-   //     "showCount": showCount,
-   //     "pd": r
-   //   };
-   //   this.$api.post('/manage-platform/iapiUnscolicited/queryHistory', p,
-   //     r => {
-   //       console.log(r);
-   //       this.detailstableData = r.data.pdList;
-   //       this.TotalResult1 = r.data.totalResult;
-   //     });
-   //
-   // },
+
     }
 }
 </script>

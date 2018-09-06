@@ -86,11 +86,11 @@
                       width="70">
                     </el-table-column>
                     <el-table-column
-                      prop="BIRTHCOUNTRY"
+                      prop="birthcountry"
                       label="国籍">
                     </el-table-column>
                     <el-table-column
-                      prop="PASSPORTNO"
+                      prop="passportno"
                       label="证件号码"
                       width="130">
                     </el-table-column>
@@ -100,8 +100,10 @@
                       width="120">
                     </el-table-column>
                     <el-table-column
-                      prop="GENDER"
                       label="性别">
+                      <template slot-scope="scope">
+                        {{scope.row.gender | fiftersex}}
+                      </template>
                     </el-table-column>
                     <el-table-column
                       label="出生日期"
@@ -111,11 +113,11 @@
                       </template>
                     </el-table-column>
                     <el-table-column
-                      prop="FLIGHT_RECORDNUM "
+                      prop="flightRecordnum"
                       label="航班号">
                     </el-table-column>
                     <el-table-column
-                      prop="Cmpbegintime "
+                      prop="cmpbegintime"
                       label="报文接收时间"
                       width="150">
                     </el-table-column>
@@ -296,24 +298,11 @@ export default {
       ],
       // 实时表格
       tableData:[{
-        'number':'1',
-        'nationality':'1',
-        'numb':'1',
-        'name':'1',
-        'gender':'1',
-        'birthDate':'1',
-        'fltno':'1',
-        'endTime':'1',
-        'timeConsuming':'1',
-        'monitorTime':'1',
+
       }],
       // 历史表格
       htableData:[{
-        'number':'1',
-        'year':'1',
-        'createtimeStr':'1',
-        'tcount':'1',
-        'consumetime':'1',
+
       }],
       cdt:{
         type:'5',
@@ -373,7 +362,16 @@ export default {
       if(value != null){
         return value.substring(0,11);
       }
-    }
+    },
+    fiftersex(val) {
+      if (val == "F") {
+        return "女"
+      } else if (val == "M") {
+        return "男"
+      } else if (val == "U") {
+        return "未知"
+      }
+    },
   },
   methods:{
     handleSelectionChange(val) {
