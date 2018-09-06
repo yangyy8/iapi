@@ -35,20 +35,18 @@
               <span class="input-text">生成时间：</span>
               <div class="input-input t-flex t-date">
                <el-date-picker
-               v-model="pd.begin"
+               v-model="pd.begin" format="yyyy-MM-dd HH:mm:ss"
                type="datetime" size="small" value-format="yyyyMMddHHmmss"
                placeholder="开始时间"  :picker-options="pickerOptions" >
              </el-date-picker>
                <span class="septum">-</span>
              <el-date-picker
-                v-model="pd.end"
+                v-model="pd.end" format="yyyy-MM-dd HH:mm:ss"
                 type="datetime" size="small" value-format="yyyyMMddHHmmss"
                 placeholder="结束时间" :picker-options="pickerOptions1" >
             </el-date-picker>
           </div>
             </el-col>
-
-
           </el-row>
         </el-col>
         <el-col :span="2" class="down-btn-area" style="margin-top:25px;">
@@ -203,9 +201,20 @@ export default {
     }
   },
   mounted() {
+    let time = new Date();
+    let endz = new Date();
+    let beginz = new Date(time - 1000 * 60 * 60 * 24 * 1);
+    this.pd.begin = formatDate(beginz, 'yyyyMMddHHmmss');
+    this.pd.end = formatDate(endz, 'yyyyMMddhhmmss');
+
     this.getList(this.CurrentPage, this.pageSize, this.pd);
   },
   activated(){
+    let time = new Date();
+    let endz = new Date();
+    let beginz = new Date(time - 1000 * 60 * 60 * 24 * 1);
+    this.pd.begin = formatDate(beginz, 'yyyyMMddhhmmss');
+    this.pd.end = formatDate(endz, 'yyyyMMddhhmmss');
     this.getList(this.CurrentPage,this.pageSize,this.pd);
   },
   methods: {
@@ -224,6 +233,15 @@ export default {
     getList(currentPage, showCount, pd) {
       // this.pd.begin=formatDate(this.pd.begin,"yyyyMMddhhssmm");
       // this.pd.end=formatDate(this.pd.end,"yyyyMMddhhssmm");
+
+
+      if(dayGap(this.pd.begin,this.pd.end,0)>1){
+        this.$alert('只能查询某一天的日期', '提示', {
+          confirmButtonText: '确定',
+        });
+        return false
+      }
+
       let p = {
         "currentPage": currentPage,
         "showCount": showCount,

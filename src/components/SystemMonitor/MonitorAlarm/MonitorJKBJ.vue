@@ -170,23 +170,23 @@
     :visible.sync="addDialogVisible"
     width="800px"
     >
-      <el-form :model="form" ref="addForm">
+      <el-form :model="form" ref="addForm" >
      <el-row type="flex"  class="mb-15">
-      <el-col :span="12"><span class="input-text">监控区域：</span>{{form.ZONE | fifter1}}</el-col>
-      <el-col :span="12"><span class="input-text">报警类型：</span>{{form.MCLASS | fifter2 }}</el-col>
+      <el-col :span="12" class="ppding">监控区域：{{form.ZONE | fifter1}}</el-col>
+      <el-col :span="12" class="ppding">报警类型：{{form.MCLASS | fifter2 }}</el-col>
      </el-row>
      <el-row type="flex"  class="mb-15">
-     <el-col :span="12"><span class="input-text">监控对象：</span>{{form.MTYPE}}</el-col>
-     <el-col :span="12"><span class="input-text">报警时间：</span>{{form.CREATETIME}}</el-col>
+     <el-col :span="12" class="ppding">监控对象：{{form.MTYPE}}</el-col>
+     <el-col :span="12" class="ppding">报警时间：{{form.CREATETIME}}</el-col>
      </el-row>
        <hr/>
     <el-row type="flex"  class="mb-15">
-      <el-col :span="12"><span class="input-text" style="margin-left:-1px;">处理人：</span>{{this.username}}</el-col>
-      <el-col :span="12"><span class="input-text">处理时间：</span>{{form.DEALTIME | fifter4}}</el-col>
+      <el-col :span="12" class="ppding">处理人：{{this.username}}</el-col>
+      <el-col :span="12" class="ppding">处理时间：{{form.DEALTIME | fifter4}}</el-col>
     </el-row>
 
     <el-row type="flex"  class="mb-15">
-     <el-col :span="24"><span class="input-text" style="width:15%;">处理详情：</span>
+     <el-col :span="24" class="ppding" style="vertical-align: top">处理详情：
      <el-input type="textarea" v-model="form.DEALCONTENT" maxlength="250"  placeholder="请输入处理详情(不超过250字)" :autosize="{ minRows: 3, maxRows: 6}" style="width:80%;" ></el-input>
      </el-col>
     </el-row>
@@ -206,27 +206,27 @@
     >
       <el-form :model="dform" ref="detailsForm">
      <el-row type="flex"  class="mb-15">
-         <el-col :span="8"><span class="yy-input-text">监控区域：</span>{{dform.ZONE | fifter1}}
+         <el-col :span="8" class="ppding">监控区域：{{dform.ZONE | fifter1}}
          </el-col>
-          <el-col :span="8"><span class="yy-input-text">报警类型：</span>{{dform.MCLASS | fifter2 }}</el-col>
-           <el-col :span="8"><span class="yy-input-text">监控对象：</span>{{dform.MTYPE }}</el-col>
+          <el-col :span="8" class="ppding">报警类型：{{dform.MCLASS | fifter2 }}</el-col>
+           <el-col :span="8" class="ppding">监控对象：{{dform.MTYPE }}</el-col>
      </el-row>
      <el-row type="flex"  class="mb-15">
-         <el-col :span="8"><span class="yy-input-text">报警时间：</span>{{dform.CREATETIME}}</el-col>
-          <el-col :span="8"><span class="yy-input-text">IP地址：</span>{{dform.IPADDRESS}}</el-col>
-           <el-col :span="8"><span class="yy-input-text">处理状态：</span>{{dform.STATUS | fifter5 }}</el-col>
+         <el-col :span="8" class="ppding">报警时间：{{dform.CREATETIME}}</el-col>
+          <el-col :span="8" class="ppding">IP地址：{{dform.IPADDRESS}}</el-col>
+           <el-col :span="8" class="ppding">处理状态：{{dform.STATUS | fifter5 }}</el-col>
      </el-row>
      <el-row type="flex"  class="mb-15">
-       <el-col :span="24"><span class="yy-input-text" style="width:13%;">报警内容：</span>{{dform.MDESC}}</el-col>
+       <el-col :span="24" class="ppding">报警内容：{{dform.MDESC}}</el-col>
      </el-row>
     <hr/>
     <el-row type="flex"  class="mb-15">
-        <el-col :span="8"><span class="yy-input-text" style="margin-left:-3px;">处理人：</span>{{dform.DEALUSER}}</el-col>
-        <el-col :span="8"><span class="yy-input-text">处理时间：</span>{{dform.DEALTIME}}</el-col>
+        <el-col :span="8" class="ppding">处理人：{{dform.DEALUSER}}</el-col>
+        <el-col :span="8" class="ppding">处理时间：{{dform.DEALTIME}}</el-col>
 
     </el-row>
     <el-row type="flex"  class="mb-15">
-     <el-col :span="24"><span class="input-text" style="width:13%;">处理详情：</span>{{dform.DEALCONTENT}}
+     <el-col :span="24" class="ppding">处理详情：{{dform.DEALCONTENT}}
      </el-col>
    </el-row>
     </el-form>
@@ -414,6 +414,6 @@ export default {
 .left {
   padding-right: 10px;
 }
-
+.ppding{padding-left:15px;}
 
 </style>
