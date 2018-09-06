@@ -51,16 +51,14 @@
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">航班状态：</span>
               <el-select v-model="pd.status" placeholder="请选择" filterable clearable size="small" class="input-input">
-                 <el-option value="0" label="0 - 计划">
-                 </el-option>
-                 <el-option value="1" label="1 - 正在预检">
-                 </el-option>
-                 <el-option value="2" label="2 - 完成预检">
-                 </el-option>
-                 <el-option value="3" label="3 - 已起飞">
-                 </el-option>
-                 <el-option value="4" label="4 - 已办理入境">
-                 </el-option>
+                 <el-option value="0" label="0 - 计划"></el-option>
+                 <el-option value="1" label="1 - 正在预检"></el-option>
+                 <el-option value="2" label="2 - 完成预检"></el-option>
+                 <el-option value="3" label="3 - 已起飞"></el-option>
+                 <el-option value="4" label="4 - 已办理入境"></el-option>
+                 <el-option value="5" label="5 - 取消"></el-option>
+                 <el-option value="6" label="6 - 已到达"></el-option>
+                 <el-option value="7" label="7 - 失效"></el-option>
                </el-select>
             </el-col>
 
