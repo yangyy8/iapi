@@ -1617,7 +1617,8 @@ export default {
     let time = new Date();
     let end = new Date();
     let begin =new Date(time - 1000 * 60 * 60 * 24 * 30);
-    this.cdt.startFlightDepartdate=formatDate(begin,'yyyyMMddhhmm');
+    let flightStart = new Date(new Date().setHours(0,0,0,0));
+    this.cdt.startFlightDepartdate=formatDate(flightStart,'yyyyMMddhhmm');
     this.cdt.endFlightDepartdate=formatDate(end,'yyyyMMddhhmm');
 
     this.cdt.startDepartdate=formatDate(begin,'yyyyMMddhhmm');
@@ -1635,7 +1636,8 @@ export default {
     let time = new Date();
     let end = new Date();
     let begin =new Date(time - 1000 * 60 * 60 * 24 * 30);
-    this.cdt.startFlightDepartdate=formatDate(begin,'yyyyMMddhhmm');
+    let flightStart = new Date(new Date().setHours(0,0,0,0));
+    this.cdt.startFlightDepartdate=formatDate(flightStart,'yyyyMMddhhmm');
     this.cdt.endFlightDepartdate=formatDate(end,'yyyyMMddhhmm');
 
     this.cdt.startDepartdate=formatDate(begin,'yyyyMMddhhmm');
@@ -2993,7 +2995,7 @@ export default {
      })
    },
    tableDown(){
-
+     console.log(this.$api.rootUrl)
      if(this.page==0&&this.bigBase==0){//导出IAPI基础信息列表
        axios({
         method: 'post',

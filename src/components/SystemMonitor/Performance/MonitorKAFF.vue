@@ -96,7 +96,7 @@
                   <div id = "echarts" style = "width: 100%;height: 400px"></div>
                 </div>
               </el-row>
-              <div v-show="(controlChecked==1) && (coCheckId==2)">
+              <div v-if="(controlChecked==1) && (coCheckId==2)">
                 <el-row type="flex" justify="end">
                   <el-checkbox v-model="checked">自动刷新</el-checkbox>
                 </el-row>
@@ -219,21 +219,61 @@
                       width="70">
                     </el-table-column>
                     <el-table-column
-                      prop="year"
-                      label="年份">
+                      prop="port"
+                      label="口岸">
                     </el-table-column>
                     <el-table-column
-                      prop="createtimeStr"
-                      label="统计日期"
-                      width="180">
+                      prop="tbiapi"
+                      label="原始报文数量"
+                      width="130">
+                    </el-table-column>
+                    <el-table-column
+                      prop="tbfclose"
+                      label="关闭报文数量"
+                      width="110">
+                    </el-table-column>
+                    <el-table-column
+                      prop="tbfcancel"
+                      label="取消报文数量"
+                      width="110">
+                    </el-table-column>
+                    <el-table-column
+                      prop="tbchange"
+                      label="变更报文数量"
+                      width="110">
+                    </el-table-column>
+                    <el-table-column
+                      prop="tbintg"
+                      label="整合报文数量"
+                      width="110">
                     </el-table-column>
                     <el-table-column
                       prop="tcount"
                       label="统计条数">
                     </el-table-column>
                     <el-table-column
+                      prop="begintimeStr"
+                      label="分发开始时间"
+                      width="160">
+                    </el-table-column>
+                    <el-table-column
+                      prop="endtimeStr"
+                      label="分发结束时间"
+                      width="160">
+                    </el-table-column>
+                    <el-table-column
                       prop="consumetime"
                       label="平均耗时">
+                    </el-table-column>
+                    <el-table-column
+                      prop="createtimeStr"
+                      label="监控时间"
+                      width="160">
+                    </el-table-column>
+                    <el-table-column
+                      prop="createtimeStr"
+                      label="统计时间"
+                      width="160">
                     </el-table-column>
                   </el-table>
                   <div class="middle-foot">
@@ -293,7 +333,7 @@ export default {
       port:'',
       value:1,
       controlChecked:1,
-      coCheckId:2,
+      coCheckId:1,
       detailsDialogVisible:false,
       checked:true,
       // 实时显示条数
@@ -341,11 +381,7 @@ export default {
       }],
       // 历史表格
       htableData:[{
-        'number':'1',
-        'year':'1',
-        'createtimeStr':'1',
-        'tcount':'1',
-        'consumetime':'1',
+
       }],
       cdt:{
         type:'5',

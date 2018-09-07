@@ -64,12 +64,12 @@
 
             </div>
             <div class="co-tab-pane" >
-              <el-row type="flex" style="height:100%" v-show="(controlChecked==1) && (coCheckId==1)">
+              <el-row type="flex" style="height:100%" v-if="(controlChecked==1) && (coCheckId==1)">
                 <div class = "chart" style="width:100%">
                   <div id = "echarts" style = "width: 100%;height: 400px"></div>
                 </div>
               </el-row>
-              <div v-show="(controlChecked==1) && (coCheckId==2)">
+              <div v-if="(controlChecked==1) && (coCheckId==2)">
                 <el-row type="flex" justify="end">
                   <el-checkbox v-model="checked">自动刷新</el-checkbox>
                 </el-row>
@@ -254,7 +254,7 @@ export default {
 
       value:1,
       controlChecked:1,
-      coCheckId:2,
+      coCheckId:1,
       detailsDialogVisible:false,
       checked:true,
       // 实时显示条数

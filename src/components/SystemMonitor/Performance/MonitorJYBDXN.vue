@@ -175,7 +175,7 @@
                 </div>
               </el-row>
 
-              <div v-if="(controlChecked==2) && (coCheckId==2)">
+              <div v-show="(controlChecked==2) && (coCheckId==2)">
                   <el-table
                     :data="htableData"
                     border
@@ -263,7 +263,7 @@ export default {
 
       value:1,
       controlChecked:1,
-      coCheckId:2,
+      coCheckId:1,
       detailsDialogVisible:false,
       checked:true,
       // 实时显示条数
@@ -302,7 +302,10 @@ export default {
       }],
       // 历史表格
       htableData:[{
-
+        year:'',
+        tcount:'',
+        createtimeStr:'',
+        consumetime:''
       }],
       cdt:{
         type:'5',
