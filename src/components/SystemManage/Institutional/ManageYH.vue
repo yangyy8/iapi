@@ -451,7 +451,7 @@ export default {
     addItem(formName) {
       if(this.form.PASSWORD!=this.form.UNPASSWORD && this.form.UNPASSWORD!=""){
 
-        this.$message.error('两次密码输入不一致，请重新输入！');
+        this.$message.error('两次密码输入不一致，请重新输入！'); return;
       }
 
 

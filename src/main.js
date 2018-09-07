@@ -8,8 +8,11 @@ import 'element-ui/lib/theme-chalk/index.css';
 import Print from 'vue-print-nb'
 import htmlToPdf from '@/components/other/htmlToPdf'
 import vverify from 'v-verify'
-import api from './api/index.js';
+// import vva from './assets/js/va.js'
 
+import api from './api/index.js';
+// import VueValidator from 'vue-validator'
+// var VueValidator = require('vue-validator')
 // import 'lib-flexible/flexible'
 import App from './App'
 import router from './router'
@@ -18,6 +21,7 @@ Vue.config.productionTip = false
 Vue.use(ElementUI);
 Vue.use(Print);
 Vue.use(htmlToPdf);
+// Vue.use(VueValidator)
 Vue.use(vverify, {
   lang: 'zh_cn', // 提示语言 默认 中文
   mode: 'tip', // v-verify 提供了 tip 和 insert 两种错误展示方式
@@ -37,11 +41,8 @@ Vue.use(vverify, {
      noCinese:(filed) => `${filed}不可以輸入中文`
    }
  })
-
+// Vue.use(vva)
 Vue.prototype.$api = api;
-Vue.prototype.aa=function(){
-  alert("sss")
-}
 
 
 router.beforeResolve((to, from, next) => {

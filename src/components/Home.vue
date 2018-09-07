@@ -92,7 +92,7 @@
         </div>
         <div class="cycc-content">
           <ul class="cycc-ul">
-            <li v-for="i in ccList" class="cycc-li" :class="{'cd':ccd==i.SERIAL}" @click="$router.push('/content/'+i.rootId+'/'+i.url+'?nav1Id='+i.parentId)" @mouseover="cdHover(i.SERIAL)" @mouseout="cdOut()">
+            <li v-for="i in ccList" class="cycc-li" :class="{'cd':ccd==i.SERIAL}" @click="$router.push('/content/'+i.rootId+'/'+i.url+'?nav1Id='+i.parentId+'&nav2Id='+i.SERIAL)" @mouseover="cdHover(i.SERIAL)" @mouseout="cdOut()">
               <img src="../assets/img/home/micon2.png" alt="">
               <span>{{i.name}}</span>
             </li>

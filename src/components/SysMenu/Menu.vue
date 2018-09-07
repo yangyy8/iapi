@@ -102,13 +102,19 @@ export default {
         })
     },
     checkmm(i) {
-
+      console.log(i)
       i.choose = !i.choose
       if (i.choose) {
         this.nav1List.push(i)
       } else {
-        this.nav1List.splice(this.nav1List.indexOf(i), 1)
+        let arr=this.nav1List;
+        let _this=this;
+        for(var j=0;j<arr.length;j++){
+          if(arr[j].SERIAL==i.SERIAL){
+            this.nav1List.splice(j, 1)
 
+          }
+        }
       }
     },
     update(i){

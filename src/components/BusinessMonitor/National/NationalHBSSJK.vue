@@ -20,7 +20,7 @@
         <span>人员监控</span>
       </li>
     </ul>
-    <img src="../../../assets/img/qgjk/zxh.png" alt="" class="zdh" v-if="zdh" @click="zxhFn"  @keyup.esc="zxhFn">
+    <img src="../../../assets/img/qgjk/zxh.png" alt="" class="zdh" v-if="zdh" @click="zxhFn">
     <img src="../../../assets/img/qgjk/big.png" alt="" class="zdh" v-if="!zdh" @click="zdhFn">
   </div>
   <transition name="el-zoom-in-left">
@@ -166,7 +166,7 @@
               <div v-if="">
 
               </div>
-              <li class="middleLi2" v-for="(i, index) in kahb" :key="index">
+              <li class="middleLi2" v-for="(i, index ) in kahb">
                 <div class="td1">
                   {{i.portName||'xx'}}
                 </div>
@@ -327,7 +327,7 @@
                 </div>
 
               </li>
-              <li class="middleLi4" v-for="(i,index) in kary" :key="index">
+              <li class="middleLi4" v-for="i in kary">
                 <div class="td1">
                   {{i.portName}}
 
@@ -424,7 +424,7 @@
               <span class="check-text">省</span>
               <div class="check-box">
                 <div class="check-box-nei"  @click.self="getSList">
-                  <div class="mr-5 mb-9" v-for="(x, ind) in checkList" :key="ind">
+                  <div class="mr-5 mb-9" v-for="(x, ind) in checkList">
                     <span>{{x.name}}</span>
                     <i class="el-icon-circle-close" @click="checkList.splice(ind,1)"></i>
                   </div>
@@ -436,18 +436,18 @@
                   <header>
                     <ul class="classify">
                       <el-checkbox v-model="checkAll" @change="checkAllFn" true-label="1" false-label="0">全选</el-checkbox>
-                      <li  v-for="(arr,key,index) in locationName" :key="index" @click="isClassify=key">
+                      <li  v-for="(arr,key,index) in locationName"  @click="isClassify=key">
                         <span class="classify-a hand"  :class="{'check-a':isClassify==key}">{{key}}</span>
                       </li>
                     </ul>
                   </header>
                   <div class="site-name">
 
-                    <div v-for="(value,index) of isClassify" :key="index" class="list-div">
+                    <div v-for="value of isClassify" class="list-div">
                       <div class="list-pre">{{value}}</div>
                       <div class="list-dd">
-                        <div v-for="(val,index) in locationName[isClassify][value]" :key="index" class="dd">
-                          <label  class="checkbox-item" :class="{'schecked':checkList.indexOf(val)>-1}">
+                        <div v-for="(val,index) in locationName[isClassify][value]" class="dd">
+                          <label class="checkbox-item" :class="{'schecked':checkList.some(function(x){return x.code==val.code})}" >
                             <input type="checkbox" :value="val" v-model="checkList" class="checkbox-input">
                             <span class="list-a" >{{val.name}}</span>
                           </label>
@@ -463,7 +463,7 @@
               <span class="check-text">口岸</span>
               <div class="check-box">
                 <div class="check-box-nei"  @click.self="getKaList">
-                  <div class="mr-5 mb-9" v-for="(x, ind) in checkList2" :key="ind">
+                  <div class="mr-5 mb-9" v-for="(x, ind) in checkList2">
                     <span>{{x.name}}</span>
                     <i class="el-icon-circle-close" @click="checkList2.splice(ind,1)"></i>
                   </div>
@@ -475,17 +475,17 @@
                   <header>
                     <ul class="classify">
                       <el-checkbox v-model="checkAll2" @change="checkAllFn2" true-label="1" false-label="0">全选</el-checkbox>
-                      <li  v-for="(arr,key,index) in locationName2" :key="index" @click="isClassify2=key">
+                      <li  v-for="(arr,key,index) in locationName2"  @click="isClassify2=key">
                         <span class="classify-a hand" :class="{'check-a':isClassify2==key}">{{key}}</span>
                       </li>
                     </ul>
                   </header>
                   <div class="site-name">
-                    <div v-for="(value,index) of isClassify2" :key="index" class="list-div">
+                    <div v-for="value of isClassify2" class="list-div">
                       <div class="list-pre">{{value}}</div>
                       <div class="list-dd">
-                        <div v-for="(val,index) in locationName2[isClassify2][value]" :key="index" class="dd">
-                          <label  class="checkbox-item" :class="{'schecked':checkList2.indexOf(val)>-1}">
+                        <div v-for="(val,index) in locationName2[isClassify2][value]"  class="dd">
+                          <label  class="checkbox-item" :class="{'schecked':checkList2.some(function(x){return x.code==val.code})}">
                             <input type="checkbox" :value="val" v-model="checkList2" class="checkbox-input">
                             <span class="list-a" >{{val.name}}</span>
                           </label>
@@ -510,7 +510,7 @@
               <span class="check-text">洲</span>
               <div class="check-box">
                 <div class="check-box-nei" @click.self="checkShow5=true;checkShow2=false;checkShow3=false;checkShow4=false;checkShow=false;">
-                  <div class="mr-5 mb-9" v-for="(x, ind) in checkList5" :key="ind">
+                  <div class="mr-5 mb-9" v-for="(x, ind) in checkList5">
                     <span>{{x.name}}</span>
                     <i class="el-icon-circle-close" @click="checkList5.splice(ind,1)"></i>
                   </div>
@@ -532,7 +532,7 @@
               <span class="check-text">国家</span>
               <div class="check-box">
                 <div class="check-box-nei"  @click.self="getGjList">
-                  <div class="mr-5 mb-9" v-for="(x, ind) in checkList3" :key="ind">
+                  <div class="mr-5 mb-9" v-for="(x, ind) in checkList3">
                     <span>{{x.name}}</span>
                     <i class="el-icon-circle-close" @click="checkList3.splice(ind,1)"></i>
                   </div>
@@ -543,17 +543,17 @@
                   <header>
                     <ul class="classify">
                       <el-checkbox v-model="checkAll3" @change="checkAllFn3" true-label="1" false-label="0">全选</el-checkbox>
-                      <li  v-for="(arr,key,index) in locationName3" :key="index" @click="isClassify3=key">
+                      <li  v-for="(arr,key,index) in locationName3"  @click="isClassify3=key">
                         <span class="classify-a hand" :class="{'check-a':isClassify3==key}">{{key}}</span>
                       </li>
                     </ul>
                   </header>
                   <div class="site-name">
-                    <div v-for="(value,index) of isClassify3" :key="index" class="list-div">
+                    <div v-for="value of isClassify3" class="list-div">
                       <div class="list-pre">{{value}}</div>
                       <div class="list-dd">
-                        <div v-for="(val,index) in locationName3[isClassify3][value]" :key="index" class="dd">
-                          <label  class="checkbox-item" :class="{'schecked':checkList3.indexOf(val)>-1}">
+                        <div v-for="(val,index) in locationName3[isClassify3][value]"  class="dd">
+                          <label  class="checkbox-item" :class="{'schecked':checkList3.some(function(x){return x.code==val.code})}">
                             <input type="checkbox" :value="val" v-model="checkList3" class="checkbox-input">
                             <span class="list-a" >{{val.name}}</span>
                           </label>
@@ -569,7 +569,7 @@
               <span class="check-text">口岸</span>
               <div class="check-box">
                 <div class="check-box-nei"  @click.self="getJwKaList">
-                  <div class="mr-5 mb-9" v-for="(x, ind) in checkList4" :key="ind">
+                  <div class="mr-5 mb-9" v-for="(x, ind) in checkList4">
                     <span>{{x.name}}</span>
                     <i class="el-icon-circle-close" @click="checkList4.splice(ind,1)"></i>
                   </div>
@@ -580,17 +580,17 @@
                   <header>
                     <ul class="classify">
                       <el-checkbox v-model="checkAll4" @change="checkAllFn4" true-label="1" false-label="0">全选</el-checkbox>
-                      <li  v-for="(arr,key,index) in locationName4" :key="index" @click="isClassify4=key">
+                      <li  v-for="(arr,key,index) in locationName4"  @click="isClassify4=key">
                         <span class="classify-a hand" :class="{'check-a':isClassify4==key}">{{key}}</span>
                       </li>
                     </ul>
                   </header>
                   <div class="site-name">
-                    <div v-for="(value,index) of isClassify4" :key="index" class="list-div">
+                    <div v-for="value of isClassify4" class="list-div">
                       <div class="list-pre">{{value}}</div>
                       <div class="list-dd">
-                        <div v-for="(val,index) in locationName4[isClassify4][value]" :key="index" class="dd">
-                          <label  class="checkbox-item" :class="{'schecked':checkList4.indexOf(val)>-1}">
+                        <div v-for="(val,index) in locationName4[isClassify4][value]"  class="dd">
+                          <label  class="checkbox-item" :class="{'schecked':checkList4.some(function(x){return x.code==val.code})}">
                             <input type="checkbox" :value="val" v-model="checkList4" class="checkbox-input">
                             <span class="list-a" >{{val.name}}</span>
                           </label>
@@ -626,13 +626,12 @@
         <el-row :gutter="10" class="bb">
           <el-col :sm="24" :md="12" :lg="8" class="hb-item">
             <span class="item-text">航站/口岸：</span>
-            <el-select placeholder="请选择" filterable clearable v-model="p1.port" size="mini"  class="item-input">
+            <el-select filterable clearable v-model="p1.port" size="mini"  class="item-input" placeholder="请选择">
               <el-option
                 v-for="item in HzList"
                 :key="item.AIRPORT_CODE"
                 :label="item.AIRPORT_CODE+' - '+item.AIRPORT_NAME"
                 :value="item.AIRPORT_CODE">
-
               </el-option>
             </el-select>
           </el-col>
@@ -644,8 +643,8 @@
             <span class="item-text">航空公司：</span>
             <el-select placeholder="请选择"  filterable clearable v-model="p1.fltCompany" size="mini"  class="item-input">
               <el-option
-                v-for="(item,ind) in HgList"
-                :key="ind"
+                v-for="(item,index) in HgList"
+                :key="index"
                 :value="item.AIRLINE_CODE"
                 :label="item.AIRLINE_CODE+' - '+item.AIRLINE_CHN_NAME"
               ></el-option>
@@ -809,13 +808,12 @@
         <el-row :gutter="10" class="bb">
           <el-col :sm="24" :md="12" :lg="6" class="hb-item">
             <span class="item-text">航站/口岸：</span>
-            <el-select placeholder="请选择"  filterable clearable clearable v-model="p2.port" size="mini"  class="item-input">
+            <el-select filterable clearable v-model="p2.port" size="mini"  class="item-input"  placeholder="请选择">
               <el-option
                 v-for="item in HzList"
                 :key="item.AIRPORT_CODE"
                 :label="item.AIRPORT_CODE+' - '+item.AIRPORT_NAME"
                 :value="item.AIRPORT_CODE">
-
                 </el-option>
             </el-select>
           </el-col>

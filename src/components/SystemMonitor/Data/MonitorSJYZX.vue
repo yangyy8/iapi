@@ -247,13 +247,9 @@ export default {
       this.getList("9");
       var that = this;
       setTimeout(function() {
-
         that.getList("10");
         that.getList("11");
-
       }, 1000);
-
-
     },
     getList(i) {
 
@@ -307,9 +303,7 @@ export default {
 
     getTB(n) {
       this.num = n;
-
       this.centerDialogVisible = true;
-
     },
 
     getsuretb() {
@@ -349,7 +343,7 @@ export default {
               this.$api.post('/manage-platform/exchange/synDataNameListBatchInfo', pp,
                 s => {
                     console.log('++++++++++++'+s.success);
-                  if (s.success) {
+                  if (s.data.success) {
                     this.$message({
                       message: s.data.message,
                       type: 'success'
@@ -365,20 +359,14 @@ export default {
               });
               this.centerDialogVisible = false;
             }
-
-
-
           } else {
               console.log('ffff'+r.data.message);
             this.$message.error(r.data.message);
             this.centerDialogVisible = false;
           }
         });
-
        this.getList(this.num);
     }
-
-
   },
 }
 </script>
