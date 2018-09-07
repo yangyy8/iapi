@@ -44,10 +44,7 @@ function filterNull(o) {
       o[key] = o[key].trim()
     } else if (toType(o[key]) === 'object') {
       o[key] = filterNull(o[key])
-
-
     } else if (toType(o[key]) === 'array') {
-
       o[key] = filterNull(o[key])
     }
   }
