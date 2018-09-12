@@ -6,6 +6,7 @@
 // var root = "http://192.168.99.248:8181"    //性能监控
 
 //var root="http://192.168.99.228:8080"    //丁勇的电
+<<<<<<< HEAD
 
 
 // var root="http://192.168.99.247:8080"    //任志强的电脑
@@ -16,6 +17,21 @@ var root = 'http://192.168.99.245:8080'
 //var root = 'http://192.168.99.245:8080'
 // var root="http://192.168.99.206:8080"   //服务器电脑
 // var root='';
+=======
+// var root="http://192.168.99.247:8080"    //任志强的电脑
+// var root = 'http://192.168.99.245:8080'
+//var root="http://192.168.99.228:8080"    //丁勇的电
+
+//var root="http://192.168.99.228:8080"    //丁勇的电脑
+
+//var root = 'http://192.168.99.245:8080'
+// var root="http://192.168.99.206:8080"   //服务器电脑
+// var root='';
+
+//var root = 'http://192.168.99.245:8080'
+// var root="http://192.168.99.206:8080"   //服务器电脑
+// var root = 'http://192.168.99.245:8080'
+>>>>>>> f6875c2aafd9447b05fa3aef85699152a70d6182
 //var root="http://192.168.99.201:8080"    //全国监控
 //var root="http://192.168.99.250:8080"    //刘洋的电脑
 // 引用axios
@@ -38,10 +54,7 @@ function filterNull(o) {
       o[key] = o[key].trim()
     } else if (toType(o[key]) === 'object') {
       o[key] = filterNull(o[key])
-
-
     } else if (toType(o[key]) === 'array') {
-
       o[key] = filterNull(o[key])
     }
   }
