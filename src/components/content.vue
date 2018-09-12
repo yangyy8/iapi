@@ -305,7 +305,9 @@ export default {
 
     },
     tabNav2(nav2Item){
+      if(this.nav2Id==nav2Item.SERIAL) return;
       console.log('nav2Item:',nav2Item);
+      console.log('nav2Id',this.nav2Id)
       if(nav2Item.rootId!=this.$route.params.navId){
         this.navId=nav2Item.rootId;
         console.log(nav2Item.rootId,this.$route.params.navId)

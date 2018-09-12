@@ -349,8 +349,8 @@
                     placement="left"
                     width="200"
                     trigger="hover"
-                    :content="'入境：'+i.inGat + ' 出境：'+i.inGat">
-                    <span slot="reference" class="hand">{{i.inGat+i.inGat||0}}</span>
+                    :content="'入境：'+i.inGat + ' 出境：'+i.outGat">
+                    <span slot="reference" class="hand">{{i.inGat+i.outGat||0}}</span>
                   </el-popover>
                 </div>
                 <div class="td2">
@@ -358,8 +358,8 @@
                     placement="left"
                     width="200"
                     trigger="hover"
-                    :content="'入境：'+i.inFrn + ' 出境：'+i.inFrn">
-                    <span slot="reference" class="hand">{{i.inFrn+i.inFrn||0}}</span>
+                    :content="'入境：'+i.inFrn + ' 出境：'+i.outFrn">
+                    <span slot="reference" class="hand">{{i.inFrn+i.outFrn||0}}</span>
                   </el-popover>
                   <!-- {{i.inFrn+i.outFrn}} -->
                 </div>
@@ -368,8 +368,8 @@
                     placement="left"
                     width="200"
                     trigger="hover"
-                    :content="'入境：'+i.matchIn + ' 出境：'+i.matchIn">
-                    <span slot="reference" class="hand">{{i.matchIn+i.matchIn||0}}</span>
+                    :content="'入境：'+i.matchIn + ' 出境：'+i.matchOut">
+                    <span slot="reference" class="hand">{{i.matchIn+i.matchOut||0}}</span>
                   </el-popover>
                   <!-- {{i.matchIn+i.matchOut}} -->
                 </div>
