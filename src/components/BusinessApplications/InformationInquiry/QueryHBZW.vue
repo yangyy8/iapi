@@ -98,7 +98,7 @@
           </el-row>
         </el-col>
         <el-col :span="2" class="down-btn-area">
-          <el-button type="success" size="small" @click="getList(CurrentPage,pageSize,pd)">查询</el-button>
+          <el-button type="success" size="small" @click="querySeat">查询</el-button>
         </el-col>
       </el-row>
     </div>
@@ -590,6 +590,13 @@ export default {
     // this.pd.departdateEnd=formatDate(end,'yyyyMMddhhmm');
   },
   methods: {
+    querySeat(){
+      if(this.page==0){
+        this.getList(this.CurrentPage,this.pageSize,this.pd)
+      }else if(this.page==1){
+        this.getimgtable(0,10,this.pd);
+      }
+    },
     getHistoryListPnr(hcurrentPage,hshowCount,historyCdt){
       let ghl = {
         "currentPage":hcurrentPage,
@@ -631,16 +638,16 @@ export default {
       console.log(`当前页: ${val}`);
     },
     getList(currentPage, showCount, pd) {
-      const result = this.$validator.verifyAll('HBZWDemo')
-       if (result.indexOf(false) > -1) {
-         return
-       }
-      if(this.pd.flightNumber==""||this.pd.flightNumber==undefined){
-        this.$alert('航班号不能为空！', '提示', {
-          confirmButtonText: '确定',
-        });
-        return false
-      }
+      // const result = this.$validator.verifyAll('HBZWDemo')
+      //  if (result.indexOf(false) > -1) {
+      //    return
+      //  }
+      // if(this.pd.flightNumber==""||this.pd.flightNumber==undefined){
+      //   this.$alert('航班号不能为空！', '提示', {
+      //     confirmButtonText: '确定',
+      //   });
+      //   return false
+      // }
 
       if(dayGap(this.pd.departdateBegin,this.pd.departdateEnd,0)>30){
         this.$alert('查询时间间隔不能超过一个月', '提示', {
