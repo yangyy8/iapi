@@ -344,7 +344,7 @@ export default {
        this.tableData.unshift(this.modelTable);
      },
      deleteTableList(id,item){//删除本行
-       this.$confirm('删除操作将同步更新至校验比对区内存数据库, 是否继续?', '提示', {
+       this.$confirm('删除操作将删除本条数据,保存并发布后将同步更新至校验比对区内存数据库,是否继续?', '提示', {
          confirmButtonText: '确定',
          cancelButtonText: '取消',
          type: 'warning'

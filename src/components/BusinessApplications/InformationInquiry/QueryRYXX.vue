@@ -931,8 +931,16 @@
       </div>
     </el-dialog>
 
+    <el-dialog
+      title="座位详情"
+      :visible.sync="seatDialogVisible"
+      width="1220px"
+      >
+      <Seat></Seat>
+    </el-dialog>
+
     <div class="middle">
-      <el-button  plain class="table-btn mb-9" size="small" @click="$router.push({'name':'QueryHBZW'})">航班座位图</el-button>
+      <el-button  plain class="table-btn mb-9" size="small" @click="seat">航班座位图</el-button>
       <!-- <el-button  plain class="table-btn mb-9" size="small" @click="$router.push({name:'QueryGLRY'})">关联人员查询</el-button> -->
       <el-button  plain class="table-btn mb-9" size="small" @click="tableDown">导出</el-button>
       <el-button  plain class="table-btn mb-9" size="small" v-print="'#printMe'">打印</el-button>
@@ -1216,6 +1224,7 @@
 </template>
 
 <script>
+import Seat from '../../other/seat'
 import AlarmProcess from '../../BusinessProcessing/Alarm/alarmProcess'
 import {formatDate} from '@/assets/js/date.js'
 import {dayGap} from '@/assets/js/date.js'
@@ -1224,6 +1233,7 @@ import axios from 'axios'
 // import XLSX from 'xlsx'
 export default {
   components: {AlarmProcess},
+  components: {Seat},
   data() {
     return {
       dialogVisible: false,//基础查询写入方案名称
@@ -1232,6 +1242,7 @@ export default {
       detailsDialogVisible:false,//查看详情模态框
       reviewDialogTable:false,//查看历次信息模态框
       uploadDialogVisible:false,
+      seatDialogVisible:false,
 
       queryDialogVisible: false,
       pnrDialogVisible:false,
@@ -1610,10 +1621,12 @@ export default {
             return endT < this.cdt.startArrivdate;
         }
       },
+      nav2Id:null
     }
   },
   mounted(){
     this.nav1Id=this.$route.query.nav1Id
+    this.nav2Id=this.$route.query.nav2Id
     let time = new Date();
     let end = new Date();
     let begin =new Date(time - 1000 * 60 * 60 * 24 * 30);
@@ -1633,18 +1646,20 @@ export default {
     this.currentPage = 1;
   },
   activated(){
-    let time = new Date();
-    let end = new Date();
-    let begin =new Date(time - 1000 * 60 * 60 * 24 * 30);
-    let flightStart = new Date(new Date().setHours(0,0,0,0));
-    this.cdt.startFlightDepartdate=formatDate(flightStart,'yyyyMMddhhmm');
-    this.cdt.endFlightDepartdate=formatDate(end,'yyyyMMddhhmm');
-
-    this.cdt.startDepartdate=formatDate(begin,'yyyyMMddhhmm');
-    this.cdt.endDepartdate=formatDate(end,'yyyyMMddhhmm');
-
-    this.cdt.startArrivdate=formatDate(begin,'yyyyMMddhhmm');
-    this.cdt.endArrivdate=formatDate(end,'yyyyMMddhhmm');
+    this.nav1Id=this.$route.query.nav1Id
+    this.nav2Id=this.$route.query.nav2Id
+    // let time = new Date();
+    // let end = new Date();
+    // let begin =new Date(time - 1000 * 60 * 60 * 24 * 30);
+    // let flightStart = new Date(new Date().setHours(0,0,0,0));
+    // this.cdt.startFlightDepartdate=formatDate(flightStart,'yyyyMMddhhmm');
+    // this.cdt.endFlightDepartdate=formatDate(end,'yyyyMMddhhmm');
+    //
+    // this.cdt.startDepartdate=formatDate(begin,'yyyyMMddhhmm');
+    // this.cdt.endDepartdate=formatDate(end,'yyyyMMddhhmm');
+    //
+    // this.cdt.startArrivdate=formatDate(begin,'yyyyMMddhhmm');
+    // this.cdt.endArrivdate=formatDate(end,'yyyyMMddhhmm');
   },
   computed:{
     aaa:{
@@ -1667,6 +1682,8 @@ export default {
                 switchArr='<='
               }else if(arr[i].operator=='不包含'){
                 switchArr='<>'
+              }else if(arr[i].operator=='模糊'){
+                switchArr='like'
               }
               if(arr[i].attribute==''){
                  this.str+='';
@@ -1725,6 +1742,26 @@ export default {
     },
   },
   methods: {
+    seat(){
+      console.log(this.radio)
+      // if(this.radio == ''){
+      //   this.$message({
+      //     type: 'warning',
+      //     message: '请选择需要查看的信息'
+      //   });
+      // }
+      for(var i=0;i<this.tableData.length;i++){
+        if(this.radio == this.tableData[i].I_SERIAL){
+          this.seatDialogVisible=true;
+          this.$router.push({query:{flightNumber:this.tableData[i].I_12,departdateBegin:this.tableData[i].filghtDate}})
+        }else{
+          this.$message({
+            type: 'warning',
+            message: '请选择需要查看的信息'
+          });
+        }
+      }
+    },
     ss(){
       for(var i=0;i<this.selfRows.length;i++){
         if(i == 0){
@@ -1793,8 +1830,8 @@ export default {
 
     },
     //----------------------------分页end------------------------------
-    checkRow(row,event){//列表单选操作
-      // console.log(row,event)
+    checkRow(row){//列表单选操作
+      console.log(row);
       this.radio=row.I_SERIAL
     },
     //----------------------------基础查询start------------------------------
@@ -2817,9 +2854,13 @@ export default {
       this.$api.post('/manage-platform/eventManagement/isFinishEventHandle',ss,
        r =>{
          if(r.data== true){
-            this.$router.push({query:{eventserial:this.eve,type:0,nav1Id:this.nav1Id}})
+            this.$router.push({query:{eventserial:this.eve,type:0,nav1Id:this.nav1Id,nav2Id:this.nav2Id}})
          }else if(r.data == false){
-           this.$router.push({query:{eventserial:this.eve,type:1,nav1Id:this.nav1Id}})
+           this.$confirm('报警事件还未处理，请归档后再重试', '提示', {
+             confirmButtonText: '确定',
+             type: 'warning'
+           })
+           // this.$router.push({query:{eventserial:this.eve,type:1,nav1Id:this.nav1Id}})
          }
        })
     },
@@ -2831,9 +2872,13 @@ export default {
       this.$api.post('/manage-platform/eventManagement/isFinishEventHandle',cc,
        r =>{
          if(r.data== true){
-            this.$router.push({query:{eventserial:this.eve,type:0,isZDGZ:1,nav1Id:this.nav1Id}})
+            this.$router.push({query:{eventserial:this.eve,type:0,isZDGZ:1,nav1Id:this.nav1Id,nav2Id:this.nav2Id}})
          }else if(r.data == false){
-           this.$router.push({query:{eventserial:this.eve,type:1,isZDGZ:1,nav1Id:this.nav1Id}})
+           this.$confirm('报警事件还未处理，请归档后再重试', '提示', {
+             confirmButtonText: '确定',
+             type: 'warning'
+           })
+           // this.$router.push({query:{eventserial:this.eve,type:1,isZDGZ:1,nav1Id:this.nav1Id}})
          }
        })
     },

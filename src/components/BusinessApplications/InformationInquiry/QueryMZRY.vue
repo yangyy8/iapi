@@ -31,14 +31,14 @@
                <el-date-picker
                v-model="pd.startDateofbirth"
                type="date" size="small"
-               placeholder="开始时间" align="right" :picker-options="pickerOptions1"
+               placeholder="开始时间" align="right"
                value-format="yyyyMMdd">
              </el-date-picker>
                <span class="septum">-</span>
              <el-date-picker
                 v-model="pd.endDateofbirth"
                 type="date" size="small" align="right"
-                placeholder="结束时间"  :picker-options="pickerOptions1"
+                placeholder="结束时间"
                 value-format="yyyyMMdd">
             </el-date-picker>
           </div>
@@ -71,14 +71,14 @@
                <el-date-picker
                v-model="pd.startFlightDepartdate"
                type="datetime" size="small"
-               placeholder="开始时间"  :picker-options="pickerOptions1"
+               placeholder="开始时间"
                value-format="yyyyMMddHHmmss">
              </el-date-picker>
                <span class="septum">-</span>
              <el-date-picker
                 v-model="pd.endFlightDepartdate"
                 type="datetime" size="small"
-                placeholder="结束时间"  :picker-options="pickerOptions1"
+                placeholder="结束时间"
                 value-format="yyyyMMddHHmmss">
             </el-date-picker>
           </div>
@@ -607,11 +607,13 @@ export default {
         }
       },
       form: {},
-      nav1Id:null
+      nav1Id:null,
+      nav2Id:null
     }
   },
   mounted() {
     this.nav1Id=this.$route.query.nav1Id
+    this.nav2Id=this.$route.query.nav2Id
     let time = new Date();
     let end = new Date();
     let begin =new Date(time - 1000 * 60 * 60 * 24 * 30);
@@ -619,11 +621,13 @@ export default {
     this.pd.endCreatetime=formatDate(end,'yyyyMMddhhmmss');
   },
   activated(){
-    let time = new Date();
-    let end = new Date();
-    let begin =new Date(time - 1000 * 60 * 60 * 24 * 30);
-    this.pd.startCreatetime=formatDate(begin,'yyyyMMddhhmmss');
-    this.pd.endCreatetime=formatDate(end,'yyyyMMddhhmmss');
+    this.nav1Id=this.$route.query.nav1Id
+    this.nav2Id=this.$route.query.nav2Id
+    // let time = new Date();
+    // let end = new Date();
+    // let begin =new Date(time - 1000 * 60 * 60 * 24 * 30);
+    // this.pd.startCreatetime=formatDate(begin,'yyyyMMddhhmmss');
+    // this.pd.endCreatetime=formatDate(end,'yyyyMMddhhmmss');
   },
   filters: {
     discount: function(value) {
@@ -725,9 +729,9 @@ export default {
       console.log(i.EVENTSERIAL)
 
       if(i.EVENTTYPE == '0'){
-        this.$router.push({query:{eventserial:i.EVENTSERIAL,type:0,nav1Id:this.nav1Id}})
+        this.$router.push({query:{eventserial:i.EVENTSERIAL,type:0,nav1Id:this.nav1Id,nav2Id:this.nav2Id}})
       }else if(i.EVENTTYPE == '3'){
-        this.$router.push({query:{eventserial:i.EVENTSERIAL,type:0,nav1Id:this.nav1Id}})
+        this.$router.push({query:{eventserial:i.EVENTSERIAL,type:0,nav1Id:this.nav1Id,nav2Id:this.nav2Id}})
       }else if(i.EVENTTYPE == '4'){}
     },
     getMore(item){
@@ -774,7 +778,7 @@ export default {
          })
 
     },
-    reviewDetail(){
+    reviewDetail(){//名单比重详情
       this.queryDialogVisible = true;
       let ss={
         "event":this.eve
@@ -782,9 +786,13 @@ export default {
       this.$api.post('/manage-platform/eventManagement/isFinishEventHandle',ss,
        r =>{
          if(r.data== true){
-            this.$router.push({query:{eventserial:this.eve,type:0,nav1Id:this.nav1Id}})
+            this.$router.push({query:{eventserial:this.eve,type:0,nav1Id:this.nav1Id,nav2Id:this.nav2Id}})
          }else if(r.data == false){
-           this.$router.push({query:{eventserial:this.eve,type:1,nav1Id:this.nav1Id}})
+           this.$confirm('报警事件还未处理，请归档后再重试', '提示', {
+             confirmButtonText: '确定',
+             type: 'warning'
+           })
+           // this.$router.push({query:{eventserial:this.eve,type:1,nav1Id:this.nav1Id,nav2Id:this.nav2Id}})
          }
        })
     },
@@ -797,9 +805,13 @@ export default {
       this.$api.post('/manage-platform/eventManagement/isFinishEventHandle',cc,
        r =>{
          if(r.data== true){
-            this.$router.push({query:{eventserial:this.pnrEve,type:0,isZDGZ:1,nav1Id:this.nav1Id}})
+            this.$router.push({query:{eventserial:this.pnrEve,type:0,isZDGZ:1,nav1Id:this.nav1Id,nav2Id:this.nav2Id}})
          }else if(r.data == false){
-           this.$router.push({query:{eventserial:this.pnrEve,type:1,isZDGZ:1,nav1Id:this.nav1Id}})
+           this.$confirm('报警事件还未处理，请归档后再重试', '提示', {
+             confirmButtonText: '确定',
+             type: 'warning'
+           })
+           // this.$router.push({query:{eventserial:this.pnrEve,type:1,isZDGZ:1,nav1Id:this.nav1Id,nav2Id:this.nav2Id}})
          }
        })
     },

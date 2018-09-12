@@ -583,11 +583,11 @@ export default {
 
   },
   activated(){
-    let time = new Date();
-    let end = new Date();
-    let begin =new Date(time - 1000 * 60 * 60 * 24 * 30);
-    this.pd.departdateBegin=formatDate(begin,'yyyyMMddhhmm');
-    this.pd.departdateEnd=formatDate(end,'yyyyMMddhhmm');
+    // let time = new Date();
+    // let end = new Date();
+    // let begin =new Date(time - 1000 * 60 * 60 * 24 * 30);
+    // this.pd.departdateBegin=formatDate(begin,'yyyyMMddhhmm');
+    // this.pd.departdateEnd=formatDate(end,'yyyyMMddhhmm');
   },
   methods: {
     getHistoryListPnr(hcurrentPage,hshowCount,historyCdt){
