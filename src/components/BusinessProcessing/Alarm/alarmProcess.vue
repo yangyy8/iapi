@@ -364,7 +364,7 @@
         <div class="middle-content1 middle-btn-g">
           <el-button type="primary" class="mr-22" size="small" @click="getPdf(0)">打印</el-button>
           <el-button type="success" class="mr-22" size="small" @click="getPdf(1)">导出</el-button>
-          <el-button type="warning" size="small" @click="$router.go(-1);">返回</el-button>
+          <el-button type="warning" size="small" @click="$router.go(-1)" v-if="$route.query.type!=0">返回</el-button>
 
         </div>
       </div>

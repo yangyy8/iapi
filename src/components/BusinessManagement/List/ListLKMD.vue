@@ -632,7 +632,7 @@
         <el-upload
           class="upload-demo"
           ref="upload"
-          :action='$api.rootUrl+"/manage-platform/nameList/readExcel/1"'
+          :action='$api.rootUrl+"/manage-platform/nameList/readExcel/2"'
           :file-list="fileList"
           multiple
           :on-success="upSuccess"
