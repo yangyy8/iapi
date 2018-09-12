@@ -568,11 +568,13 @@ export default {
         }
       },
       form: {},
-      nav1Id:null
+      nav1Id:null,
+      nav2Id:null,
     }
   },
   mounted() {
   this.nav1Id=this.$route.query.nav1Id
+  this.nav2Id=this.$route.query.nav2Id
   this.queryNationality();
 
   let time = new Date();
@@ -583,6 +585,8 @@ export default {
 
   },
   activated(){
+    this.nav1Id=this.$route.query.nav1Id
+    this.nav2Id=this.$route.query.nav2Id
     // let time = new Date();
     // let end = new Date();
     // let begin =new Date(time - 1000 * 60 * 60 * 24 * 30);
@@ -740,9 +744,13 @@ export default {
       this.$api.post('/manage-platform/eventManagement/isFinishEventHandle',ss,
        r =>{
          if(r.data== true){
-            this.$router.push({query:{eventserial:this.eve,type:0,nav1Id:this.nav1Id}})
+            this.$router.push({query:{eventserial:this.eve,type:0,nav1Id:this.nav1Id,nav2Id:this.nav2Id}})
          }else if(r.data == false){
-           this.$router.push({query:{eventserial:this.eve,type:1,nav1Id:this.nav1Id}})
+           this.$confirm('报警事件还未处理，请归档后再重试', '提示', {
+             confirmButtonText: '确定',
+             type: 'warning'
+           })
+           // this.$router.push({query:{eventserial:this.eve,type:1,nav1Id:this.nav1Id}})
          }
        })
     },
@@ -754,9 +762,13 @@ export default {
       this.$api.post('/manage-platform/eventManagement/isFinishEventHandle',cc,
        r =>{
          if(r.data== true){
-            this.$router.push({query:{eventserial:this.pnrEve,type:0,isZDGZ:1,nav1Id:this.nav1Id}})
+            this.$router.push({query:{eventserial:this.pnrEve,type:0,isZDGZ:1,nav1Id:this.nav1Id,nav2Id:this.nav2Id}})
          }else if(r.data == false){
-           this.$router.push({query:{eventserial:this.pnrEve,type:1,isZDGZ:1,nav1Id:this.nav1Id}})
+           this.$confirm('报警事件还未处理，请归档后再重试', '提示', {
+             confirmButtonText: '确定',
+             type: 'warning'
+           })
+           // this.$router.push({query:{eventserial:this.pnrEve,type:1,isZDGZ:1,nav1Id:this.nav1Id}})
          }
        })
     },
