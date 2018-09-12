@@ -796,10 +796,13 @@ export default {
           return endT < this.pd.STARTTIME;
         }
       },
-
+      nav1Id:null,
+      nav2Id:null
     }
   },
   mounted() {
+    this.nav1Id=this.$route.query.nav1Id
+    this.nav2Id=this.$route.query.nav2Id
     //this.getList(this.CurrentPage, this.pageSize, this.pd);
     let time = new Date();
     let end = new Date();
@@ -809,6 +812,8 @@ export default {
     this.pd.ENDTIME = formatDate(end, 'yyyyMMddhhmm');
   },
   activated() {
+    this.nav1Id=this.$route.query.nav1Id
+    this.nav2Id=this.$route.query.nav2Id
     //this.getList(this.CurrentPage, this.pageSize, this.pd);
     // let time = new Date();
     // let end = new Date();
@@ -1047,20 +1052,26 @@ export default {
         r => {
           if (r.data == true) {
             this.$router.push({
-              name: 'alarmProcess',
               query: {
                 eventserial: this.eve,
-                type: 0
+                type: 0,
+                nav1Id:this.nav1Id,
+                nav2Id:this.nav2Id
               }
             })
           } else if (r.data == false) {
-            this.$router.push({
-              name: 'alarmProcess',
-              query: {
-                eventserial: this.eve,
-                type: 1
-              }
+            this.$confirm('报警事件还未处理，请归档后再重试', '提示', {
+              confirmButtonText: '确定',
+              type: 'warning'
             })
+            // this.$router.push({
+            //   query: {
+            //     eventserial: this.eve,
+            //     type: 1,
+            //     nav1Id:this.nav1Id,
+            //     nav2Id:this.nav2Id
+            //   }
+            // })
           }
         })
     },
@@ -1072,22 +1083,28 @@ export default {
         r => {
           if (r.data == true) {
             this.$router.push({
-              name: 'alarmProcess',
               query: {
                 eventserial: this.eve,
                 type: 0,
-                isZDGZ: 1
+                isZDGZ: 1,
+                nav1Id:this.nav1Id,
+                nav2Id:this.nav2Id
               }
             })
           } else if (r.data == false) {
-            this.$router.push({
-              name: 'alarmProcess',
-              query: {
-                eventserial: this.eve,
-                type: 1,
-                isZDGZ: 1
-              }
+            this.$confirm('报警事件还未处理，请归档后再重试', '提示', {
+              confirmButtonText: '确定',
+              type: 'warning'
             })
+            // this.$router.push({
+            //   query: {
+            //     eventserial: this.eve,
+            //     type: 1,
+            //     isZDGZ: 1,
+            //     nav1Id:this.nav1Id,
+            //     nav2Id:this.nav2Id
+            //   }
+            // })
           }
         })
     },

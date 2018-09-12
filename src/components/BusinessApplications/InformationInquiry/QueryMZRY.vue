@@ -723,11 +723,8 @@ export default {
       })
     },
     details(i){
-      console.log(i)
       this.queryDialogVisible = true;
       this.eventserial = i.EVENTSERIAL;
-      console.log(i.EVENTSERIAL)
-
       if(i.EVENTTYPE == '0'){
         this.$router.push({query:{eventserial:i.EVENTSERIAL,type:0,nav1Id:this.nav1Id,nav2Id:this.nav2Id}})
       }else if(i.EVENTTYPE == '3'){
