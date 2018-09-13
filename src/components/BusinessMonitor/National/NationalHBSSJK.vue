@@ -1897,7 +1897,16 @@ export default {
     },
 
     // 人员监控查询=========================================================================================
+    getreplace(name) {
+      if (name == undefined) {
+        return "";
+      } else {
+        return name.replace(/(^\s*)|(\s*$)/g, "").replace(/\s/g, "");
+      }
+    },
     getRy(){
+      this.p2.name=this.getreplace(this.p2.name);
+      console.log("this.p2.name",this.p2.name)
       this.$api.post('/manage-platform/travelerMonitor/queryTravelerPage',this.p2,
        r => {
          console.log(r);
@@ -2033,7 +2042,8 @@ export default {
         this.checkList4=[];
         this.checkShow4=false;
       }
-    }
+    },
+
   }
 }
 </script>
