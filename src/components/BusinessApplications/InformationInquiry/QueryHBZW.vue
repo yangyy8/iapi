@@ -98,7 +98,7 @@
           </el-row>
         </el-col>
         <el-col :span="2" class="down-btn-area">
-          <el-button type="success" size="small" @click="getList(CurrentPage,pageSize,pd)">查询</el-button>
+          <el-button type="success" size="small" @click="querySeat">查询</el-button>
         </el-col>
       </el-row>
     </div>
@@ -568,11 +568,13 @@ export default {
         }
       },
       form: {},
-      nav1Id:null
+      nav1Id:null,
+      nav2Id:null,
     }
   },
   mounted() {
   this.nav1Id=this.$route.query.nav1Id
+  this.nav2Id=this.$route.query.nav2Id
   this.queryNationality();
 
   let time = new Date();
@@ -583,6 +585,8 @@ export default {
 
   },
   activated(){
+    this.nav1Id=this.$route.query.nav1Id
+    this.nav2Id=this.$route.query.nav2Id
     // let time = new Date();
     // let end = new Date();
     // let begin =new Date(time - 1000 * 60 * 60 * 24 * 30);
@@ -590,6 +594,13 @@ export default {
     // this.pd.departdateEnd=formatDate(end,'yyyyMMddhhmm');
   },
   methods: {
+    querySeat(){
+      if(this.page==0){
+        this.getList(this.CurrentPage,this.pageSize,this.pd)
+      }else if(this.page==1){
+        this.getimgtable(0,10,this.pd);
+      }
+    },
     getHistoryListPnr(hcurrentPage,hshowCount,historyCdt){
       let ghl = {
         "currentPage":hcurrentPage,
@@ -631,16 +642,16 @@ export default {
       console.log(`当前页: ${val}`);
     },
     getList(currentPage, showCount, pd) {
-      const result = this.$validator.verifyAll('HBZWDemo')
-       if (result.indexOf(false) > -1) {
-         return
-       }
-      if(this.pd.flightNumber==""||this.pd.flightNumber==undefined){
-        this.$alert('航班号不能为空！', '提示', {
-          confirmButtonText: '确定',
-        });
-        return false
-      }
+      // const result = this.$validator.verifyAll('HBZWDemo')
+      //  if (result.indexOf(false) > -1) {
+      //    return
+      //  }
+      // if(this.pd.flightNumber==""||this.pd.flightNumber==undefined){
+      //   this.$alert('航班号不能为空！', '提示', {
+      //     confirmButtonText: '确定',
+      //   });
+      //   return false
+      // }
 
       if(dayGap(this.pd.departdateBegin,this.pd.departdateEnd,0)>30){
         this.$alert('查询时间间隔不能超过一个月', '提示', {
@@ -733,9 +744,13 @@ export default {
       this.$api.post('/manage-platform/eventManagement/isFinishEventHandle',ss,
        r =>{
          if(r.data== true){
-            this.$router.push({query:{eventserial:this.eve,type:0,nav1Id:this.nav1Id}})
+            this.$router.push({query:{eventserial:this.eve,type:0,nav1Id:this.nav1Id,nav2Id:this.nav2Id}})
          }else if(r.data == false){
-           this.$router.push({query:{eventserial:this.eve,type:1,nav1Id:this.nav1Id}})
+           this.$confirm('报警事件还未处理，请归档后再重试', '提示', {
+             confirmButtonText: '确定',
+             type: 'warning'
+           })
+           // this.$router.push({query:{eventserial:this.eve,type:1,nav1Id:this.nav1Id}})
          }
        })
     },
@@ -747,9 +762,13 @@ export default {
       this.$api.post('/manage-platform/eventManagement/isFinishEventHandle',cc,
        r =>{
          if(r.data== true){
-            this.$router.push({query:{eventserial:this.pnrEve,type:0,isZDGZ:1,nav1Id:this.nav1Id}})
+            this.$router.push({query:{eventserial:this.pnrEve,type:0,isZDGZ:1,nav1Id:this.nav1Id,nav2Id:this.nav2Id}})
          }else if(r.data == false){
-           this.$router.push({query:{eventserial:this.pnrEve,type:1,isZDGZ:1,nav1Id:this.nav1Id}})
+           this.$confirm('报警事件还未处理，请归档后再重试', '提示', {
+             confirmButtonText: '确定',
+             type: 'warning'
+           })
+           // this.$router.push({query:{eventserial:this.pnrEve,type:1,isZDGZ:1,nav1Id:this.nav1Id}})
          }
        })
     },

@@ -4,7 +4,6 @@
 
 var root = "http://192.168.99.206:8080"    //服务器电脑
 // var root = "http://192.168.99.248:8181"    //性能监控
-
 //var root="http://192.168.99.228:8080"    //丁勇的电
 
 
@@ -15,8 +14,8 @@ var root = "http://192.168.99.206:8080"    //服务器电脑
 
 //var root="http://192.168.99.201:8080"    //全国监控
 //var root="http://192.168.99.250:8080"    //刘洋的电脑
-// 引用axios
 
+// 引用axios
 var axios = require('axios')
 import { Loading } from 'element-ui';
 import { Message } from 'element-ui';
