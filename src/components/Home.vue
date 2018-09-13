@@ -106,16 +106,16 @@
       </div>
       <div class="login-box" v-if="!isLogin">
         <div class="login-item ">
-          <el-input  placeholder="用户名" v-model="user.userName" style="display:none"></el-input>
+          <el-input  placeholder="用户名" v-model="user.userName"  style="display:none"></el-input>
 
-          <el-input  placeholder="用户名" v-model="user.userName" @keyup.enter.native="keyLogin">
+          <el-input  placeholder="用户名" v-model="user.userName" v-verify.input.blur ="{regs:'required',submit:'demo2'}" @keyup.enter.native="keyLogin">
             <i slot="prefix" class="el-input__icon"><img src="../assets/img/home/login_06.png"></i>
           </el-input>
         </div>
         <div class="login-item ">
           <el-input
             placeholder="密码"
-            type="password" v-model="user.password"  @keyup.enter.native="keyLogin">
+            type="password" v-model="user.password" v-verify.input.blur ="{regs:'required',submit:'demo2'}"  @keyup.enter.native="keyLogin">
             <i slot="prefix" class="el-input__icon"><img src="../assets/img/home/login_03.png"></i>
 
           </el-input>
@@ -374,6 +374,13 @@ export default {
       }
     },
     login(){
+      if(this.$validator.listener.demo2){
+        const result = this.$validator.verifyAll('demo2')
+         if (result.indexOf(false) > -1) {
+           return
+         } else {
+         }
+      }
       this.isJzmm()
       this.$api.post('/manage-platform/landing',this.user,
        r => {
