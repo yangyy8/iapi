@@ -13,7 +13,7 @@ var root = "http://192.168.99.206:8080"    //服务器电脑
 // var root="http://192.168.99.206:8080"   //服务器电脑
 // var root='';
 //var root="http://192.168.99.201:8080"    //全国监控
-//var root="http://192.168.99.250:8080"    //刘洋的电脑
+// var root="http://192.168.99.251:8080"    //刘洋的电脑
 // 引用axios
 var axios = require('axios')
 import { Loading } from 'element-ui';

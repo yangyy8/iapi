@@ -28,7 +28,6 @@
           <el-row type="flex" align="center" justify="space-between" style="width:100%;margin-bottom: 5px;">
               <el-col :sm="24" :md="12" :lg="8" class="input-item">
                 <el-select placeholder="请选择" v-model="data.fieldName" filterable clearable size="mini" :disabled="isActive" @visible-change="codeName" class="t-input">
-
                   <el-option
                    v-for="item in code"
                   :key="item.FIELDNAME"
@@ -337,11 +336,9 @@ export default {
   mounted(){
     this.codeName();
     this.getDate();
-    this.addList(this.data.fieldName,this.data.visaTime,this.data.visaOperator);
   },
   activated(){
     this.getDate();
-    this.addList(this.data.fieldName,this.data.visaTime,this.data.visaOperator);
   },
   methods:{
     inschange(n,type) {
@@ -365,39 +362,107 @@ export default {
         }
 
     },
-    addList(fname,item,oper){
+    zhfieldName(){
       let fnameLabel = '';
       for(var i=0;i<this.code.length;i++){
-        if(fname == this.code[i].FIELDNAME){
+        if(this.data.fieldName == this.code[i].FIELDNAME){
           fnameLabel = this.code[i].FIELDDES;
         }
       }
+      return fnameLabel
+    },
+    zhvisaTime(){
       let itemLabel = '';
-      if(item == 'sysdate'){
+      if(this.data.visaTime == 'sysdate'){
         itemLabel = '当前系统时间'
-      }else if(item == 'sysdate+30'){
+      }else if(this.data.visaTime == 'sysdate+30'){
         itemLabel = '一个月'
-      }else if(item == 'sysdate+60'){
+      }else if(this.data.visaTime == 'sysdate+60'){
         itemLabel = '两个月'
-      }else if(item == 'sysdate+90'){
+      }else if(this.data.visaTime == 'sysdate+90'){
         itemLabel = '三个月'
-      }else if(item == 'sysdate+180'){
+      }else if(this.data.visaTime == 'sysdate+180'){
         itemLabel = '六个月'
-      }else if(item == 'sysdate+270'){
+      }else if(this.data.visaTime == 'sysdate+270'){
         itemLabel = '九个月'
-      }else if(item == 'sysdate+360'){
+      }else if(this.data.visaTime == 'sysdate+360'){
         itemLabel = '一年'
       }
-
+      return itemLabel
+    },
+    zhvisaOperator(){
       let operLabel = '';
-      if(oper == '1'){
+      if(this.data.visaOperator == '1'){
         operLabel = '大于'
-      }else if(oper == '2'){
+      }else if(this.data.visaOperator == '2'){
         operLabel = '小于'
       }
+      return operLabel
+    },
+    getId(){
+      let fnameLabel = this.zhfieldName();
+      let operLabel = this.zhvisaOperator();
+      let itemLabel = this.zhvisaTime();
       if(this.data.visaTime == ''||this.data.fieldName == ''||this.data.visaTime == undefined||this.data.fieldName == undefined){
         this.show = false;
       }else{
+        this.show = true;
+        let str = "";
+        str = fnameLabel + '  ' +operLabel + '  ' +itemLabel;
+        this.listText = str;
+        console.log(fnameLabel)
+      }
+    },
+    addList(fname,item,oper){
+      console.log(this.listText);
+      // let fnameLabel = '';
+      // let itemLabel = '';
+      // let operLabel = '';
+      //
+      // for(var i=0;i<this.code.length;i++){
+      //   if(fname == this.code[i].FIELDNAME){
+      //     fnameLabel = this.code[i].FIELDDES;
+      //   }
+      // }
+      //
+      // if(item == 'sysdate'){
+      //   itemLabel = '当前系统时间'
+      // }else if(item == 'sysdate+30'){
+      //   itemLabel = '一个月'
+      // }else if(item == 'sysdate+60'){
+      //   itemLabel = '两个月'
+      // }else if(item == 'sysdate+90'){
+      //   itemLabel = '三个月'
+      // }else if(item == 'sysdate+180'){
+      //   itemLabel = '六个月'
+      // }else if(item == 'sysdate+270'){
+      //   itemLabel = '九个月'
+      // }else if(item == 'sysdate+360'){
+      //   itemLabel = '一年'
+      // }
+      //
+      // if(oper == '1'){
+      //   operLabel = '大于'
+      // }else if(oper == '2'){
+      //   operLabel = '小于'
+      // }
+      let fnameLabel = this.zhfieldName();
+      let operLabel = this.zhvisaOperator();
+      let itemLabel = this.zhvisaTime();
+      if(this.data.visaTime == ''||this.data.fieldName == ''||this.data.visaTime == undefined||this.data.fieldName == undefined){
+        this.show = false;
+      }else{
+        let arr1 = this.listText.split(' ')[0];
+        let arr2 = this.listText.split(' ')[1];
+        let arr3 = this.listText.split(' ')[2];
+        console.log(arr1);
+        if(arr1 == fnameLabel){
+          this.$message({
+            message: '此证件已经加入，请重新选择！',
+            type: 'warning'
+          });
+          return false
+        }
         this.show = true;
         let str = "";
         str = fnameLabel + '  ' +operLabel + '  ' +itemLabel;
@@ -512,7 +577,9 @@ export default {
             this.data = r.data;
           }
           if(this.data.visaTime != ''){
-            this.addList(this.data.fieldName,this.data.visaTime,this.data.visaOperator);
+            // this.show = true;
+            this.getId();
+            // this.addList(this.data.fieldName,this.data.visaTime,this.data.visaOperator);
           }
           this.state(this.data.nationalityStatus);
           this.cardState(this.data.visaStatus);

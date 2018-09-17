@@ -86,7 +86,7 @@
                       width="70">
                     </el-table-column>
                     <el-table-column
-                      prop="birthcountry"
+                      prop="nationality"
                       label="国籍">
                     </el-table-column>
                     <el-table-column

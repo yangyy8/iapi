@@ -510,6 +510,12 @@
                            <el-option label="F - 女" value="F"></el-option>
                            <el-option label="U - 未知" value="U"></el-option>
                          </el-select>
+                         <!-- 值机状态 -->
+                         <el-select placeholder="请选择值" v-model="scope.row.atype" filterable clearable size="mini" v-show="scope.row.type==5" class="input-inp">
+                           <el-option label="0 - 已值机，未登机" value="0"></el-option>
+                           <el-option label="1 - 未值机，已登机" value="1"></el-option>
+                           <el-option label="2 - 已值机，已登机" value="2"></el-option>
+                         </el-select>
                          <!-- 起飞机场 -->
                          <el-select placeholder="请选择" v-model="scope.row.atype" filterable clearable @visible-change="takeOff" size="mini" class="input-inp" v-show="scope.row.type==2">
                            <el-option
@@ -3044,7 +3050,7 @@ export default {
      if(this.page==0&&this.bigBase==0){//导出IAPI基础信息列表
        axios({
         method: 'post',
-        // url: 'http://192.168.99.247:8080/manage-platform/iapi/exportFileIo/0/600',
+        // url: 'http://192.168.99.245:8080/manage-platform/iapi/exportFileIo/0/600',
         url: this.$api.rootUrl+"/manage-platform/iapi/exportFileIo/0/600",
         data: {
             "exclTitles": this.checkList,
