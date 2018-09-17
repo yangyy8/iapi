@@ -33,7 +33,7 @@
 
             <el-col :sm="24" :md="12"  :lg="8" class="input-item">
               <span class="input-text">证件号码：</span>
-              <el-input placeholder="请输入内容" size="small"  v-model="pd.CARDNO" clearable class="input-input"></el-input>
+              <el-input placeholder="请输入内容" size="small" v-verify.input.blur="{regs:'required|max:35',submit:'demo'}" v-model="pd.CARDNO" clearable class="input-input"></el-input>
             </el-col>
 
             <el-col :sm="24" :md="12"  :lg="8" class="input-item">
@@ -362,7 +362,7 @@
 
           <el-col :sm="24" :md="12" :lg="8" class="input-item">
             <span class="input-text">联系电话：</span>
-            <el-input placeholder="请输入内容" size="small" max="25" class="input-input" v-model="form.TEL"></el-input>
+            <el-input placeholder="请输入内容" size="small" max="25" class="input-input" v-verify.input.blur="{regs:'required|max:25',submit:'demo'}" v-model="form.TEL"></el-input>
           </el-col>
 
           <el-col :sm="24" :md="12" :lg="8"  class="input-item">

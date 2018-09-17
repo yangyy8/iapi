@@ -312,7 +312,7 @@
 
           </el-col>
           <el-col :sm="24" :md="12" :lg="8"  class="input-item">
-            <span class="input-text"><span class="redx">*</span>证件种类：</span>
+            <span class="input-text">证件种类：</span>
             <el-select v-model="form.CARDTYPE"  filterable clearable  placeholder="请选择"  v-verify.change.blur ="{regs:'required',submit:'demo2'}"  size="small" class="input-input">
               <el-option
                 v-for="item in docCode"
@@ -338,7 +338,7 @@
           </el-col>
 
           <el-col :sm="24" :md="12" :lg="8"  class="input-item">
-            <span class="input-text"><span class="redx">*</span>证件有效期：</span>
+            <span class="input-text">证件有效期：</span>
             <el-date-picker
               size="small" value-format="yyyy-MM-dd"
               v-model="form.CARDEXPIREDATE"
@@ -459,7 +459,7 @@
 
           <el-col :sm="24" :md="12" :lg="8"  class="input-item">
             <span class="input-text">联系电话：</span>
-            <el-input placeholder="请输入内容" size="small" v-verify.input.blur="{regs:'required|max:35',submit:'demo'}" v-model="form.SUBORG_CONN" class="input-input"></el-input>
+            <el-input placeholder="请输入内容" size="small" v-verify.input.blur="{regs:'required|max:25',submit:'demo'}" v-model="form.SUBORG_CONN" class="input-input"></el-input>
           </el-col>
 
           <el-col :sm="24" :md="12" :lg="8" class="input-item">
