@@ -182,7 +182,7 @@
       <el-table
         :data="tableData"
         border
-        empty-text="经查无数据"
+        empty-text=""
         class="caozuo"
         style="width:100%;"
         @selection-change="handleSelectionChange">
@@ -924,9 +924,8 @@ export default {
     update(item){
       this.addDialogVisible=true;
       this.dateDisabled=false;
-      // this.$set()
-      this.form=item;
-      console.log("item",item);
+      this.form=Object.assign({}, item);
+      // this.form=item;
       this.form.PERSON_TYPE+='';
       this.form.IN_OUT+='';
       this.form.synStatus="0";
