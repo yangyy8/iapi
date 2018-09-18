@@ -146,8 +146,8 @@
               </template>
         </el-table-column>
         <el-table-column
-          prop="boardingsequence"
-          label="登机序号" sortable>
+          prop="cityfrom"
+          label="起飞机场" sortable>
         </el-table-column>
         <el-table-column
           prop="specifigseat"

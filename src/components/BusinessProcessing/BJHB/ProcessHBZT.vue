@@ -367,13 +367,14 @@ export default {
               message: '变更成功！',
               type: 'success'
             });
+
           } else {
             this.addDialogVisible = false;
             this.$message.error(r.Message);
           }
           this.$refs[formName].resetFields();
           this.addDialogVisible = false;
-          this.getList();
+          this.getList(this.currentPage, this.showCount, this.pd);
           // this.tableData=r.Data.ResultList;
         }, e => {
           this.$message.error('失败了');
@@ -388,8 +389,8 @@ export default {
         })
       }else{
         this.addDialogVisible = true;
-        console.log(i);
         this.form = i;
+        this.getList(this.currentPage, this.showCount, this.pd)
       }
     },
   }

@@ -364,11 +364,12 @@ export default {
 
      },
      save(){
-       const result = this.$validator.verifyAll('demo')
-       console.log(result);
-        if (result.indexOf(false) > -1) {
-          return
-        }
+       if(this.$validator.listener.demo){
+         const result = this.$validator.verifyAll('demo')
+          if (result.indexOf(false) > -1) {
+            return
+          }
+       }
        let p = this.tableData.concat(this.operatorData);
        this.$api.post('/manage-platform/dataCheck/addDataCheck',p,
         r => {
