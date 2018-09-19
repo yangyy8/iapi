@@ -7,12 +7,13 @@
 // var root = 'http://192.168.99.245:8080'
 //var root="http://192.168.99.228:8080"    //丁勇的电
 //var root="http://192.168.99.228:8080"    //丁勇的电脑
-//var root = 'http://192.168.99.245:8080'
-var root="http://192.168.99.206:8080"   //服务器电脑
+var root = 'http://192.168.99.245:8080'
+// var root="http://192.168.99.206:8080"   //服务器电脑
 //var root='';
 //var root="http://192.168.99.201:8080"    //全国监控
 // var root="http://192.168.99.251:8080"    //刘洋的电脑
 //var root="http://192.168.99.250:8080"    //刘洋的电脑
+
 // 引用axios
 var axios = require('axios')
 import { Loading } from 'element-ui';
@@ -41,7 +42,7 @@ function filterNull(o) {
 // 添加默认参数
 function apiAxios(method, url, params, success, failure) {
  // console.log(window.location.host)
-  // let loadingInstance1 = Loading.service({ fullscreen: true,background:'rgba(90,90,90,0.3)'});
+  let loadingInstance1 = Loading.service({ fullscreen: true, spinner: 'el-icon-loading',text:'拼命加载中',background:'rgba(0,0,0,0.6)',customClass:'loadingClass'});
   if (params) {
     // params = filterNull(params);
   }
@@ -60,7 +61,7 @@ function apiAxios(method, url, params, success, failure) {
         if (success) {
           // console.log(res.data);
           // setTimeout(function(){
-            // loadingInstance1.close();
+            loadingInstance1.close();
             if(!res.data.success){
               if(res.data.message=="获取登录信息失败！"){
                   MessageBox.alert('登录已失效，请重新登录?', '提示', {
@@ -83,7 +84,7 @@ function apiAxios(method, url, params, success, failure) {
         } else {
           console.log('error: ' + JSON.stringify(res.data));
         }
-        // loadingInstance1.close();
+        loadingInstance1.close();
       }
     })
     .catch(function(err) {
@@ -91,7 +92,7 @@ function apiAxios(method, url, params, success, failure) {
       if (err) {
         // console.log('api error, HTTP CODE: ' + res.status)
       }
-      // loadingInstance1.close();
+      loadingInstance1.close();
     })
 }
 // 返回在vue模板中的调用接口
