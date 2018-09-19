@@ -1194,7 +1194,7 @@
       <div class="middle-foot">
         <div class="page-msg">
           <div class="">
-            共{{totalPage}}页
+            第{{currentPage}}页
           </div>
           <div class="">
             每页
@@ -1208,16 +1208,16 @@
             </el-select>
             条
           </div>
-          <div class="">
+          <!-- <div class="">
             共{{totalResult}}条
-          </div>
+          </div> -->
         </div>
         <el-pagination
           background
           :current-page.sync ="currentPage"
           @current-change="handleCurrentChange"
           :page-size="showCount"
-          layout="prev, pager, next"
+          layout="prev,next"
           :total="totalResult">
         </el-pagination>
       </div>
@@ -1868,7 +1868,7 @@ export default {
         totalResult = 0;
       }
       let ppnr = {
-        "totalResult":totalResult,
+        // "totalResult":totalResult,
         "currentPage":currentPage,
       	"showCount":showCount,
       	"cdt":cdt
@@ -1877,8 +1877,8 @@ export default {
        r =>{
          this.based();
          this.tableData=r.data.resultList;//表格数据
-         this.totalResult=r.data.totalResult;//总条数
-         this.totalPage = r.data.totalPage;//总页数
+         // this.totalResult=r.data.totalResult;//总条数
+         // this.totalPage = r.data.totalPage;//总页数
          this.currentPage = r.data.currentPage;
          this.basedTableDataPnr = this.tableData;
        })
@@ -3012,8 +3012,8 @@ export default {
      console.log(this.$api.rootUrl+"/manage-platform/iapi/export/three");
      axios({
       method: 'post',
-      // url: 'http://192.168.99.206:8080/manage-platform/iapi/export/three',
-      url: this.$api.rootUrl+"/manage-platform/iapi/export/three",
+      url: 'http://192.168.99.206:8080/manage-platform/iapi/export/three',
+      // url: this.$api.rootUrl+"/manage-platform/iapi/export/three",
       data: {
           "name": 'Fred',
           "cdtList":this.rows
@@ -3033,7 +3033,7 @@ export default {
        let link = document.createElement('a')
        link.style.display = 'none'
        link.href = url
-       link.setAttribute('download', formatDate(new Date(),'yyyy-MM-dd')+'.xlsx')
+       link.setAttribute('download', new Date().format("yyyy-MM-dd hh:mm:ss")+'.xlsx')
        document.body.appendChild(link)
        link.click()
    },
