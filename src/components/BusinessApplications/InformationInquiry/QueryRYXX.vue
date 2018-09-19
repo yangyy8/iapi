@@ -3012,7 +3012,7 @@ export default {
      console.log(this.$api.rootUrl+"/manage-platform/iapi/export/three");
      axios({
       method: 'post',
-      // url: 'http://192.168.99.245:8080/manage-platform/iapi/export/three',
+      // url: 'http://192.168.99.206:8080/manage-platform/iapi/export/three',
       url: this.$api.rootUrl+"/manage-platform/iapi/export/three",
       data: {
           "name": 'Fred',
@@ -3033,7 +3033,7 @@ export default {
        let link = document.createElement('a')
        link.style.display = 'none'
        link.href = url
-       link.setAttribute('download', 'template.xlsx')
+       link.setAttribute('download', formatDate(new Date(),'yyyy-MM-dd')+'.xlsx')
        document.body.appendChild(link)
        link.click()
    },
