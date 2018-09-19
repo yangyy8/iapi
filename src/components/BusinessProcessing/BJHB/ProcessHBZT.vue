@@ -315,19 +315,16 @@ export default {
   // if(pd.endScheduledeparturetime!= undefined){
   //   pd.endScheduledeparturetime= formatDate(pd.endScheduledeparturetime, "yyyy-MM-dd");
   // }
-  const result = this.$validator.verifyAll('timeDemo')
-   if (result.indexOf(false) > -1) {
-     return
-   }
-  if(dayGap(this.pd.startScheduledeparturetime,this.pd.endScheduledeparturetime,0)>14){
-    this.$alert('航班日期起始查询日期不得小于'+this.datenow, '提示', {
-      confirmButtonText: '确定',
-    });
-    return false
-  }
-
-
-
+      const result = this.$validator.verifyAll('timeDemo')
+       if (result.indexOf(false) > -1) {
+         return
+       }
+      if(dayGap(this.pd.startScheduledeparturetime,this.pd.endScheduledeparturetime,0)>14){
+        this.$alert('航班日期起始查询日期不得小于'+this.datenow, '提示', {
+          confirmButtonText: '确定',
+        });
+        return false
+      }
       let p = {
         "currentPage": currentPage,
         "showCount": showCount,
@@ -374,7 +371,7 @@ export default {
           }
           this.$refs[formName].resetFields();
           this.addDialogVisible = false;
-          this.getList(this.currentPage, this.showCount, this.pd);
+          this.getList(this.CurrentPage, this.pageSize, this.pd);
           // this.tableData=r.Data.ResultList;
         }, e => {
           this.$message.error('失败了');
@@ -390,7 +387,7 @@ export default {
       }else{
         this.addDialogVisible = true;
         this.form = i;
-        this.getList(this.currentPage, this.showCount, this.pd)
+        this.getList(this.CurrentPage, this.pageSize, this.pd)
       }
     },
   }
