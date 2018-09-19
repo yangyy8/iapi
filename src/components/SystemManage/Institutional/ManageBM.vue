@@ -312,6 +312,7 @@ export default {
         this.form=Object.assign({}, n);
         this.dialogText = "编辑";
       } else {
+       this.queryNationality();
         this.dialogText = "新增";
         this.tp = 0;
       }
@@ -333,12 +334,14 @@ export default {
           return;
         }
       }
+
       if (this.$validator.listener.demo2) {
         const result = this.$validator.verifyAll('demo2')
         if (result.indexOf(false) > -1) {
-          return
-        } else {}
+          return;
+        }
       }
+
       var url = "/manage-platform/deptSys/save";
       if (this.tp == 1) {
         url = "/manage-platform/deptSys/edit";
