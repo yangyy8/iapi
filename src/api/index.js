@@ -59,7 +59,6 @@ function apiAxios(method, url, params, success, failure) {
       if (res.status == 200) {
         if (success) {
           // console.log(res.data);
-
           // setTimeout(function(){
             // loadingInstance1.close();
             if(!res.data.success){
@@ -83,7 +82,6 @@ function apiAxios(method, url, params, success, failure) {
           failure(res.data)
         } else {
           console.log('error: ' + JSON.stringify(res.data));
-
         }
         // loadingInstance1.close();
       }
