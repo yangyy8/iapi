@@ -1,14 +1,20 @@
 // 配置API接口地址
 //var root="http://192.168.99.242:8080"    //石飞的电脑
 //var root = "http://192.168.99.248:8181"    //性能监控
+
 // var root = "http://192.168.99.248:8181"    //性能监控
 //var root="http://192.168.99.228:8080"    //丁勇的电
 // var root="http://192.168.99.247:8080"    //任志强的电脑
 // var root = 'http://192.168.99.245:8080'
 //var root="http://192.168.99.228:8080"    //丁勇的电
 //var root="http://192.168.99.228:8080"    //丁勇的电脑
+<<<<<<< HEAD
 //var root = 'http://192.168.99.245:8080'
  var root="http://192.168.99.206:8080"   //服务器电脑
+=======
+// var root = 'http://192.168.99.245:8080'
+var root="http://192.168.99.206:8080"   //服务器电脑
+>>>>>>> 28066a5c84c73a1267c3f2f887ab091bcb87450b
 //var root='';
 //var root="http://192.168.99.201:8080"    //全国监控
 // var root="http://192.168.99.251:8080"    //刘洋的电脑
@@ -40,9 +46,12 @@ function filterNull(o) {
   return o
 }
 // 添加默认参数
-function apiAxios(method, url, params, success, failure) {
- // console.log(window.location.host)
-  let loadingInstance1 = Loading.service({ fullscreen: true, spinner: 'el-icon-loading',text:'拼命加载中',background:'rgba(0,0,0,0.6)',customClass:'loadingClass'});
+function apiAxios(method, url, params, success, failure,isLoad) {
+  console.log("url",url)
+  let loadingInstance1=null;
+  if(!(url=='/manage-platform/nationwide/getPortDetail'||url=='/manage-platform/nationwide/getFlightDetail')){
+    loadingInstance1 = Loading.service({ fullscreen: true, spinner: 'el-icon-loading',text:'拼命加载中',background:'rgba(0,0,0,0.6)',customClass:'loadingClass'});
+  }
   if (params) {
     // params = filterNull(params);
   }
@@ -61,7 +70,9 @@ function apiAxios(method, url, params, success, failure) {
         if (success) {
           // console.log(res.data);
           // setTimeout(function(){
-            loadingInstance1.close();
+            if(loadingInstance1){
+              loadingInstance1.close();
+            }
             if(!res.data.success){
               if(res.data.message=="获取登录信息失败！"){
                   MessageBox.alert('登录已失效，请重新登录?', '提示', {
@@ -84,7 +95,9 @@ function apiAxios(method, url, params, success, failure) {
         } else {
           console.log('error: ' + JSON.stringify(res.data));
         }
-        loadingInstance1.close();
+        if(loadingInstance1){
+          loadingInstance1.close();
+        }
       }
     })
     .catch(function(err) {
@@ -92,7 +105,9 @@ function apiAxios(method, url, params, success, failure) {
       if (err) {
         // console.log('api error, HTTP CODE: ' + res.status)
       }
-      loadingInstance1.close();
+      if(loadingInstance1){
+        loadingInstance1.close();
+      }
     })
 }
 // 返回在vue模板中的调用接口
