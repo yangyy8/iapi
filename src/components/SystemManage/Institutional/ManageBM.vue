@@ -137,7 +137,6 @@
                  :value="item.SERIAL">
                </el-option>
               </el-select>
-
           </el-col>
           <el-col :span="12" class="input-item">
             <span class="yy-input-text"><font class="yy-color">*</font> 部门名称：</span>
@@ -309,7 +308,8 @@ export default {
       this.addDialogVisible = true;
       if (i == 1) {
         this.tp = 1;
-        this.form = n;
+        //this.form = n;
+        this.form=Object.assign({}, n);
         this.dialogText = "编辑";
       } else {
         this.dialogText = "新增";

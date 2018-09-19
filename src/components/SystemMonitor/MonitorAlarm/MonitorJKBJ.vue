@@ -335,9 +335,12 @@ export default {
 
         this.addDialogVisible = true;
         i.DEALCONTENT="";
-        this.form = i;
+        //this.form = i;
+        this.form=Object.assign({}, i);
         // this.form.DEALUSER = "admin";
       }
+
+
     },
     adds(formName) {
 
@@ -358,8 +361,9 @@ export default {
             this.$message.error('处理失败');
           }
           this.$refs[formName].resetFields();
-          this.addDialogVisible = false;
           this.getList(this.CurrentPage, this.pageSize, this.pd);
+          this.addDialogVisible = false;
+
         }, e => {
           this.$message.error('处理失败');
 
