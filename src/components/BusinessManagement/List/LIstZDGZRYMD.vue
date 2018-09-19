@@ -297,7 +297,7 @@
 
           <el-col :sm="24" :md="12" :lg="8"  class="input-item">
             <span class="input-text"><span class="redx">*</span>证件号码：</span>
-            <el-input placeholder="请输入内容" size="small" max="35" v-model="form.CARDNO" clearable class="input-input" v-verify.input.blur ="{regs:'required',submit:'demo2'}"></el-input>
+            <el-input placeholder="请输入内容" size="small" max="35" v-verify.input.blur="{regs:'required|max:35',submit:'demo2'}" v-model="form.CARDNO" clearable class="input-input"></el-input>
           </el-col>
 
           <el-col :sm="24" :md="12" :lg="8"  class="input-item">
@@ -357,7 +357,7 @@
 
           <el-col :sm="24" :md="12" :lg="8" class="input-item">
             <span class="input-text">报列单位：</span>
-            <el-input placeholder="请输入内容" size="small" class="input-input" v-model="form.REPORTUNITNAME"></el-input>
+            <el-input placeholder="请输入内容" size="small" class="input-input" v-verify.input.blur="{regs:'required|max:35',submit:'demo'}" v-model="form.REPORTUNITNAME"></el-input>
           </el-col>
 
           <el-col :sm="24" :md="12" :lg="8" class="input-item">
@@ -726,7 +726,8 @@ export default {
     },
     update(item){
       this.addDialogVisible=true;
-      this.form=item;
+      this.form=Object.assign({}, item);
+      // this.form=item;
       this.form.PERSON_TYPE+='';
       this.form.IN_OUT+='';
       this.dialogType="update";

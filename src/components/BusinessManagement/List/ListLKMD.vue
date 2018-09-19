@@ -921,8 +921,8 @@ export default {
     update(item){
       this.addDialogVisible=true;
       this.dateDisabled=false;
-      this.form=item;
-      console.log(item.CTL_EXPIREDATE)
+      this.form=Object.assign({}, item);
+      // this.form=item;
       this.form.PERSON_TYPE+='';
       this.form.IN_OUT+='';
       this.form.synStatus="0";

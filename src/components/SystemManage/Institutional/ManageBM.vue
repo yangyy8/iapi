@@ -137,7 +137,6 @@
                  :value="item.SERIAL">
                </el-option>
               </el-select>
-
           </el-col>
           <el-col :span="12" class="input-item">
             <span class="yy-input-text"><font class="yy-color">*</font> 部门名称：</span>
@@ -228,7 +227,7 @@ export default {
       tp: 0,
       value: '',
       value1: "",
-      dialogText:"新增",
+      dialogText: "新增",
       addDialogVisible: false,
       detailsDialogVisible: false,
       options: [{
@@ -269,14 +268,14 @@ export default {
         // }]
       },
       form: {},
-      dform:{},
+      dform: {},
     }
   },
   mounted() {
     this.getList(this.CurrentPage, this.pageSize, this.pd);
     this.queryNationality();
   },
-  activated(){
+  activated() {
     this.getList(this.CurrentPage, this.pageSize, this.pd);
   },
   methods: {
@@ -306,14 +305,15 @@ export default {
         })
     },
     adds(i, n) {
-
       this.addDialogVisible = true;
       if (i == 1) {
         this.tp = 1;
-        this.form = n;
-        this.dialogText="编辑";
-      }else {
-          this.dialogText="新增";this.tp=0;
+        //this.form = n;
+        this.form=Object.assign({}, n);
+        this.dialogText = "编辑";
+      } else {
+        this.dialogText = "新增";
+        this.tp = 0;
       }
     },
     queryNationality() {
@@ -327,22 +327,22 @@ export default {
     },
 
     addItem(formName) {
-
-            if(this.$validator.listener.demo2){
-              const result = this.$validator.verifyAll('demo2')
-               if (result.indexOf(false) > -1) {
-                 return
-               } else {
-               }
-            }
-
-
+      if (this.form.DEPT_ORDER != undefined && this.form.DEPT_ORDER != "") {
+        if (!checkRate(this.form.DEPT_ORDER)) {
+          this.$message.error('排列序号必须为数字，请重新输入！');
+          return;
+        }
+      }
+      if (this.$validator.listener.demo2) {
+        const result = this.$validator.verifyAll('demo2')
+        if (result.indexOf(false) > -1) {
+          return
+        } else {}
+      }
       var url = "/manage-platform/deptSys/save";
       if (this.tp == 1) {
         url = "/manage-platform/deptSys/edit";
-
       }
-
       this.$api.post(url, this.form,
         r => {
           console.log(r);
@@ -354,7 +354,6 @@ export default {
           } else {
             this.$message.error('保存失败！');
           }
-
           this.$refs[formName].resetFields();
           this.addDialogVisible = false;
           this.getList();
@@ -368,43 +367,36 @@ export default {
       console.log(i);
       this.dform = i;
     },
-     deletes(i) {
-        let p = {
-          "SERIAL": i.SERIAL
-        };
-        this.$confirm('您是否确认删除此部门？', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-
-          this.$api.post('/manage-platform/deptSys/delete', p,
-            r => {
-
-              if (r.success) {
-                this.$message({
-                  message: '删除成功！',
-                  type: 'success'
-                });
-                this.getList();
-              } else {
-                this.$message.error(r.Message);
-              }
-            }, e => {
-              this.$message.error('失败了');
-
-            });
-
-
-        }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: '已取消删除'
+    deletes(i) {
+      let p = {
+        "SERIAL": i.SERIAL
+      };
+      this.$confirm('您是否确认删除此部门？', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$api.post('/manage-platform/deptSys/delete', p,
+          r => {
+            if (r.success) {
+              this.$message({
+                message: '删除成功！',
+                type: 'success'
+              });
+              this.getList();
+            } else {
+              this.$message.error(r.Message);
+            }
+          }, e => {
+            this.$message.error('失败了');
           });
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
         });
-
-      },
-
+      });
+    },
   },
   filters: {
     fiftertype(val) {
@@ -416,21 +408,32 @@ export default {
     },
   }
 }
-</script>
 
+function checkRate(nubmer) {　　
+  var re = /^[0-9]+.?[0-9]*$/; //判断字符串是否为数字 //判断正整数 /^[1-9]+[0-9]*]*$/
+  　　　　
+  if (!re.test(nubmer)) {　　　　
+    return false;　　
+  }
+  return true;
+}
+</script>
 <style scoped>
 .add-dialog {
   /* padding-left:40px; */
 }
+
 .detail-msg-row {
   color: #999;
   line-height: 32px;
 }
+
 .detail-msg-row span {
   color: #333;
   display: inline-block;
   width: 60px;
 }
+
 .yy-input-text {
   width: 25% !important;
 }

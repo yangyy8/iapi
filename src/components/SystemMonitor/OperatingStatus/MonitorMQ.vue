@@ -164,9 +164,11 @@ export default {
     fifter2(val){
       if(val=="running"){
         return  "正常";
-      }else {
-      return   "异常";
-      }
+      }else if(val=="true"){
+      return   "正常";
+    }else {
+        return   "异常";
+    }
     }
   }
 

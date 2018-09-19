@@ -8,12 +8,10 @@
             查询条件
           </div>
           <el-row align="center"   :gutter="2" >
-
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">角色：</span>
               <el-input placeholder="请输入内容" size="small" v-model="pd.ROLE_NAME"  class="input-input"></el-input>
             </el-col>
-
             <!-- <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text"> 部门：</span>
               <el-select v-model="pd.DEPT_ID"  filterable clearable  placeholder="请选择" size="small" class="input-input">
@@ -34,8 +32,6 @@
                  </el-option>
                </el-select>
             </el-col>
-
-
           </el-row>
         </el-col>
         <el-col :span="2" class="down-btn-area" style="padding-top:30px;">
@@ -45,7 +41,6 @@
     </div>
     <div class="middle">
       <el-row class="mb-15">
-
         <el-button type="primary" size="small" @click="adds(0,'');form={};">新增</el-button>
         </el-row>
       <el-table
@@ -341,7 +336,8 @@ export default {
 
       if (n != 0) {
         this.tp = 1;
-        this.form = i;
+        // this.form = i;
+        this.form=Object.assign({}, i);
         this.dialogText="编辑";
       }else {
         this.dialogText="新增";
