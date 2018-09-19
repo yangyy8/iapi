@@ -139,33 +139,56 @@
         </div>
         <div class="box-content">
           <div class="content-middle">
-            <ul class="middleUl ulover"  v-if="kahb.length">
-              <li class="middleLi2 content-middle-head2">
-                <div class="td1">
+            <div class="middleLi2 content-middle-head2">
+              <div class="td1">
+              </div>
+              <div class="td2">
+                入境
+              </div>
+              <div class="td2">
+                出境
+              </div>
+              <div class="td2">
+                预检
+              </div>
+              <div class="td2">
+                重点
+              </div>
+              <div class="td2">
+                取消
+              </div>
+              <div class="td2">
+                延误
+              </div>
+            </div>
+            <ul class="middleUl ulover">
 
-                </div>
-                <div class="td2">
-                  入境
-                </div>
-                <div class="td2">
-                  出境
-                </div>
-                <div class="td2">
-                  预检
-                </div>
-                <div class="td2">
-                  重点
-                </div>
-                <div class="td2">
-                  取消
-                </div>
-                <div class="td2">
-                  延误
-                </div>
-              </li>
               <div v-if="">
 
               </div>
+              <!-- <li class="middleLi2" v-for="i in 10">
+                <div class="td1">
+                  西双版纳
+                </div>
+                <div class="td2">
+                  10
+                </div>
+                <div class="td2">
+                  10
+                </div>
+                <div class="td2">
+                  10
+                </div>
+                <div class="td2">
+                  10
+                </div>
+                <div class="td2">
+                  10
+                </div>
+                <div class="td2">
+                  10
+                </div>
+              </li> -->
               <li class="middleLi2" v-for="(i, index ) in kahb">
                 <div class="td1">
                   {{i.portName||'xx'}}
@@ -305,28 +328,29 @@
 
         <div class="box-content">
           <div class="content-middle">
-            <ul class="middleUl ulover"  v-show="kary.length!=0">
-              <li class="middleLi4 content-middle-head4">
-                <div class="td1">
+            <div class="middleLi4 content-middle-head4">
+              <div class="td1">
 
-                </div>
-                <div class="td2">
-                  内地
-                </div>
-                <div class="td2">
-                  港澳台
-                </div>
-                <div class="td2">
-                  外国人
-                </div>
-                <div class="td2">
-                  命中
-                </div>
-                <div class="td2">
-                  合计
-                </div>
+              </div>
+              <div class="td2">
+                内地
+              </div>
+              <div class="td2">
+                港澳台
+              </div>
+              <div class="td2">
+                外国人
+              </div>
+              <div class="td2">
+                命中
+              </div>
+              <div class="td2">
+                合计
+              </div>
 
-              </li>
+            </div>
+            <ul class="middleUl ulover">
+
               <li class="middleLi4" v-for="i in kary">
                 <div class="td1">
                   {{i.portName}}
@@ -388,7 +412,6 @@
           </div>
           <div class="title-down">
             <img style="width:18px;height:18px" src="../../../assets/img/qgjk/sq.png" alt="">
-
           </div>
         </div>
       </div>
@@ -1476,7 +1499,7 @@ export default {
                 }
                 _this.$api.post('/manage-platform/nationwide/getFlightDetail',p,
                  r => {
-                   console.log(r);
+                   // console.log(r);
                    let data=r.data;
                    let html='<div class="katooltip">\
                               <span style="color:#31aafb">航班号：</span>'+data.fltno+' <span style="color:#31aafb">航班日期：</span>'+data.fltDate+'<span style="color:#31aafb">起飞地：</span>'+data.from+'<br>'+'\
@@ -1528,14 +1551,29 @@ export default {
           formatter: function (params, ticket, callback) {
               _this.$api.get('/manage-platform/nationwide/getPortDetail',{port:params.data.value[2]},
                r => {
-                 console.log(r);
-                 let data=r.data.flights[0];
-                 let html='<div class="katooltip">\
-                            <span style="color:#31aafb">航班号：</span>'+data.fltno+' <span style="color:#31aafb">航班日期：</span>'+data.fltDate+'<span style="color:#31aafb">起飞地：</span>'+data.from+'<br>'+'\
-                            <span style="color:#31aafb">到达地：</span>'+data.to+' <span style="color:#31aafb">起飞时间：</span>'+data.departTime+'<br>'+'\
-                            <span style="color:#31aafb">预计到达时间：</span>'+data.preArriveTime+' <span style="color:#31aafb">载运旅客数：</span>'+data.boardingNum+'<br>'+'\
-                            <span style="color:#31aafb">机组数：</span>'+data.checkNum+' <span style="color:#31aafb">不准入境人员：</span>'+data.forbiddenNum+'<br>'+'\
-                           </div>'
+                 let data=r.data.flights;
+                  let html ='';
+                  let table='<table cellspacing="0" style="background:#09679d; width:100%;">\
+                                <tr style="height:20px;">\
+                                  <td style="height:24px!important;">航班号</td><td style="height:24px!important;">起飞时间</td><td style="height:24px!important;">预计到达时间</td><td style="height:24px!important;">载运旅客数</td>\
+                                </tr>';
+                  for(var i in data){
+                    table+='<tr style="background:#112b42;height:20px">\
+                              <td style="border:1px #143652 solid;height:24px!important;">'+data[i].fltno+'</td>\
+                              <td style="border:1px #143652 solid;height:24px!important;">'+data[i].departTime+'</td>\
+                              <td style="border:1px #143652 solid;height:24px!important;">'+data[i].preArriveTime+'</td>\
+                              <td style="border:1px #143652 solid;height:24px!important;">'+data[i].boardingNum+'</td>\
+                           </tr>'
+                  }
+                  html+=table+'</table></div>'
+                 // console.log(r);
+                 // let data=r.data.flights[0];
+                 // let html='<div class="katooltip">\
+                 //            <span style="color:#31aafb">航班号：</span>'+data.fltno+' <span style="color:#31aafb">航班日期：</span>'+data.fltDate+'<span style="color:#31aafb">起飞地：</span>'+data.from+'<br>'+'\
+                 //            <span style="color:#31aafb">到达地：</span>'+data.to+' <span style="color:#31aafb">起飞时间：</span>'+data.departTime+'<br>'+'\
+                 //            <span style="color:#31aafb">预计到达时间：</span>'+data.preArriveTime+' <span style="color:#31aafb">载运旅客数：</span>'+data.boardingNum+'<br>'+'\
+                 //            <span style="color:#31aafb">机组数：</span>'+data.checkNum+' <span style="color:#31aafb">不准入境人员：</span>'+data.forbiddenNum+'<br>'+'\
+                 //           </div>'
                  callback(ticket, html);
               })
               return 'Loading';
