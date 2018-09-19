@@ -209,7 +209,7 @@
   <el-button  size="mini" plain icon="el-icon-edit" :disabled="true">变更</el-button>
 </span>
 <span v-else>
-    <el-button class="table-btn" size="mini" plain icon="el-icon-edit" @click="handles(scope.row)">变更</el-button>
+    <el-button class="table-btn" size="mini" plain icon="el-icon-edit" @click="handles(scope.row);">变更</el-button>
   </span>
 
                       <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row)">详情</el-button>
@@ -570,14 +570,12 @@
           <el-col :span="6" class="t-el-content"><div class="t-el-text">是否必填：</div><div class="t-el-sub">{{check.INPUT}}</div></el-col>
           <el-col :span="6" class="t-el-content"><div class="t-el-text">最小长度：</div><div class="t-el-sub">{{check.MINLENGTH}}</div></el-col>
         </el-row>
-
         <el-row type="flex"  class="mb-6">
           <el-col :span="6" class="t-el-content"><div class="t-el-text">最大长度：</div><div class="t-el-sub">{{check.MAXLENGTH}}</div></el-col>
           <el-col :span="6" class="t-el-content"><div class="t-el-text">正则表达式：</div><div class="t-el-sub">{{check.REGULAR}}</div></el-col>
           <el-col :span="12" class="t-el-content"><div class="t-el-text">错误描述：</div><div class="t-el-sub">{{check.DETAIL}}</div></el-col>
         </el-row>
       </div>
-
       <!-- 名单比中详情 -->
       <div class="" v-show="isName">
         <div class="hrtitle">名单比中详情</div>
@@ -596,7 +594,6 @@
           <el-col :span="12" class="t-el-content"><div class="t-el-text">错误详情：</div><div class="t-el-sub">{{rules.CHECKREMARK}}</div></el-col>
         </el-row>
       </div>
-
       <!-- PNR预报警 -->
       <div class="" v-show="isCall">
         <div class="hrtitle">PNR预报警</div>
@@ -606,7 +603,6 @@
           </el-col>
         </el-row>
       </div>
-
         <div class="hrt">历史值机信息</div>
         <el-table
           :data="detailstableData"
@@ -615,7 +611,6 @@
           <el-table-column
             prop="NAME"
             label="姓名" sortable
-
           >
           </el-table-column>
           <el-table-column
@@ -907,9 +902,13 @@ export default {
     },
     handles(i) {
       this.handlesDialogVisible = true;
+      this.form.INSTRUCT="";
+      this.form.INSTRUCTC="";
+      this.form.CHANGERESON="";
       i.LASTCHECKRESULTC = this.fiftezjsm(i.LASTCHECKRESULT);
       console.log(i);
       this.form = i;
+
     },
     handlessys(i) {
       this.AuthDialogVisible = true;

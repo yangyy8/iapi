@@ -1,6 +1,7 @@
 // 配置API接口地址
 //var root="http://192.168.99.242:8080"    //石飞的电脑
 //var root = "http://192.168.99.248:8181"    //性能监控
+
 // var root = "http://192.168.99.248:8181"    //性能监控
 //var root="http://192.168.99.228:8080"    //丁勇的电
 // var root="http://192.168.99.247:8080"    //任志强的电脑
@@ -63,7 +64,6 @@ function apiAxios(method, url, params, success, failure,isLoad) {
       if (res.status == 200) {
         if (success) {
           // console.log(res.data);
-
           // setTimeout(function(){
             if(loadingInstance1){
               loadingInstance1.close();
@@ -89,7 +89,6 @@ function apiAxios(method, url, params, success, failure,isLoad) {
           failure(res.data)
         } else {
           console.log('error: ' + JSON.stringify(res.data));
-
         }
         if(loadingInstance1){
           loadingInstance1.close();
