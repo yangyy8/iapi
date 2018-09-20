@@ -1216,9 +1216,12 @@
           background
           :current-page.sync ="currentPage"
           @current-change="handleCurrentChange"
+
           :page-size="showCount"
+          prev-text="上一页"
+          next-text="下一页"
           layout="prev,next"
-          :total="totalResult">
+          >
         </el-pagination>
       </div>
     </div>
@@ -1650,6 +1653,7 @@ export default {
     this.nation();
     this.ss();
     this.currentPage = 1;
+    document.getElementsByClassName('btn-next')[0].disabled=true;
   },
   activated(){
     this.nav1Id=this.$route.query.nav1Id
@@ -1748,6 +1752,7 @@ export default {
     },
   },
   methods: {
+
     seat(){
       console.log(this.radio)
       // if(this.radio == ''){
@@ -1864,9 +1869,9 @@ export default {
         });
         return false
       }
-      if(type==0){
-        totalResult = 0;
-      }
+      // if(type==0){
+      //   totalResult = 0;
+      // }
       let ppnr = {
         // "totalResult":totalResult,
         "currentPage":currentPage,
@@ -1876,6 +1881,12 @@ export default {
       this.$api.post('/manage-platform/pnr/queryListPage',ppnr,
        r =>{
          this.based();
+         if(r.data.nextState==0){
+           console.log(document.getElementsByClassName('btn-next')[0])
+           document.getElementsByClassName('btn-next')[0].disabled=true;
+         }else{
+           document.getElementsByClassName('btn-next')[0].disabled=false;
+         }
          this.tableData=r.data.resultList;//表格数据
          // this.totalResult=r.data.totalResult;//总条数
          // this.totalPage = r.data.totalPage;//总页数
@@ -1906,11 +1917,11 @@ export default {
         });
         return false
       }
-      if(type==0){
-        totalResult = 0;
-      }
+      // if(type==0){
+      //   totalResult = 0;
+      // }
       let pl={
-        "totalResult":totalResult,
+        // "totalResult":totalResult,
       	"currentPage":currentPage,
       	"showCount":showCount,
       	"cdt":cdt
@@ -1918,9 +1929,16 @@ export default {
       this.$api.post('/manage-platform/iapi/queryListPage',pl,
        r => {
          this.based();
+         console.log(r.data.resultList.length);
+         if(r.data.nextState==0){
+           console.log(document.getElementsByClassName('btn-next')[0])
+           document.getElementsByClassName('btn-next')[0].disabled=true;
+         }else{
+           document.getElementsByClassName('btn-next')[0].disabled=false;
+         }
          this.tableData=r.data.resultList;//表格数据
-         this.totalResult=r.data.totalResult;//总条数
-         this.totalPage = r.data.totalPage;//总页数
+         // this.totalResult=r.data.totalResult;//总条数
+         // this.totalPage = r.data.totalPage;//总页数
          this.currentPage = r.data.currentPage;
          this.basedTableData = this.tableData;
       })
@@ -2121,11 +2139,11 @@ export default {
     },
     //----------------------------批量查询start------------------------------
     batchQueryList(totalResult,currentPage,showCount,rows,type){//批量查询列表
-      if(type==0){
-        totalResult = 0;
-      }
+      // if(type==0){
+      //   totalResult = 0;
+      // }
       let bql = {
-        "totalResult":totalResult,
+        // "totalResult":totalResult,
         "currentPage":currentPage,
       	"showCount":showCount,
       	"cdtList":rows
@@ -2134,20 +2152,27 @@ export default {
       r =>{
         if(r.success){
           this.based();
+          if(r.data.nextState==0){
+            console.log(document.getElementsByClassName('btn-next')[0])
+            document.getElementsByClassName('btn-next')[0].disabled=true;
+          }else{
+            document.getElementsByClassName('btn-next')[0].disabled=false;
+          }
           this.tableData=r.data.resultList;//表格数据
-          this.totalResult=r.data.totalResult;//总条数
-          this.totalPage = r.data.totalPage;//总页数
+          // this.totalResult=r.data.totalResult;//总条数
+          // this.totalPage = r.data.totalPage;//总页数
           this.currentPage = r.data.currentPage;
           this.batchTableData = this.tableData;
+
         }
       })
     },
     batchQueryListPnr(totalResult,currentPage,showCount,rows,type){//批量查询pnr
-      if(type==0){
-        totalResult = 0;
-      }
+      // if(type==0){
+      //   totalResult = 0;
+      // }
       let bqlp = {
-        "totalResult":totalResult,
+        // "totalResult":totalResult,
         "currentPage":currentPage,
       	"showCount":showCount,
       	"cdtList":rows
@@ -2157,12 +2182,18 @@ export default {
         if(r.success){
           this.based();
           console.log(this.totalResult);
+          if(r.data.nextState==0){
+            console.log(document.getElementsByClassName('btn-next')[0])
+            document.getElementsByClassName('btn-next')[0].disabled=true;
+          }else{
+            document.getElementsByClassName('btn-next')[0].disabled=false;
+          }
           this.tableData=r.data.resultList;//表格数据
-          this.totalResult=r.data.totalResult;//总条数
-          this.totalPage = r.data.totalPage;//总页数
+          // this.totalResult=r.data.totalResult;//总条数
+          // this.totalPage = r.data.totalPage;//总页数
           this.currentPage = r.data.currentPage;
           this.batchTableDataPnr = this.tableData;
-          console.log(this.totalResult);
+          // console.log(this.totalResult);
         }
       })
     },
@@ -2384,11 +2415,11 @@ export default {
         dataSelf.push(this.selfRows[i].dataSort);
       }
       console.log(dataSelf);
-      if(type==0){
-        totalResult = 0
-      }
+      // if(type==0){
+      //   totalResult = 0
+      // }
       let sql = {
-        "totalResult":totalResult,
+        // "totalResult":totalResult,
         "currentPage":currentPage,
       	"showCount":showCount,
         "orders":dataSelf,
@@ -2405,9 +2436,15 @@ export default {
        r =>{
          if(r.success){
            this.based();
-           this.tableData=r.data.resultList;//表格数据   (待定)
-           this.totalResult=r.data.totalResult;//总条数
-           this.totalPage = r.data.totalPage;//总页数
+           if(r.data.nextState==0){
+             console.log(document.getElementsByClassName('btn-next')[0])
+             document.getElementsByClassName('btn-next')[0].disabled=true;
+           }else{
+             document.getElementsByClassName('btn-next')[0].disabled=false;
+           }
+           this.tableData=r.data.resultList;//表格数据
+           // this.totalResult=r.data.totalResult;//总条数
+           // this.totalPage = r.data.totalPage;//总页数
            this.currentPage = r.data.currentPage;
            this.selfTableData = this.tableData;
          }
@@ -2418,11 +2455,11 @@ export default {
       for(var i=0;i<this.selfRows.length;i++){
         dataSelfPnr.push(this.selfRows[i].dataSort);
       }
-      if(type==0){
-        totalResult=0
-      }
+      // if(type==0){
+      //   totalResult=0
+      // }
       let sqlp = {
-        "totalResult":totalResult,
+        // "totalResult":totalResult,
         "currentPage":currentPage,
       	"showCount":showCount,
         "orders":dataSelfPnr
@@ -2439,9 +2476,15 @@ export default {
        r =>{
          if(r.success){
            this.based();
-           this.tableData=r.data.resultList;//表格数据   (待定)
-           this.totalResult=r.data.totalResult;//总条数
-           this.totalPage = r.data.totalPage;//总页数
+           if(r.data.nextState==0){
+             console.log(document.getElementsByClassName('btn-next')[0])
+             document.getElementsByClassName('btn-next')[0].disabled=true;
+           }else{
+             document.getElementsByClassName('btn-next')[0].disabled=false;
+           }
+           this.tableData=r.data.resultList;//表格数据
+           // this.totalResult=r.data.totalResult;//总条数
+           // this.totalPage = r.data.totalPage;//总页数
            this.currentPage = r.data.currentPage;
            this.selfTableDataPnr = this.tableData;
          }
