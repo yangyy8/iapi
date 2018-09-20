@@ -1531,7 +1531,7 @@ export default {
       let f={
         type: 'effectScatter',
         coordinateSystem: 'geo',
-        zlevel: 3,
+        zlevel: 6,
         rippleEffect: {
           brushType: 'stroke'
         },
@@ -1551,14 +1551,29 @@ export default {
           formatter: function (params, ticket, callback) {
               _this.$api.get('/manage-platform/nationwide/getPortDetail',{port:params.data.value[2]},
                r => {
-                 console.log(r);
-                 let data=r.data.flights[0];
-                 let html='<div class="katooltip">\
-                            <span style="color:#31aafb">航班号：</span>'+data.fltno+' <span style="color:#31aafb">航班日期：</span>'+data.fltDate+'<span style="color:#31aafb">起飞地：</span>'+data.from+'<br>'+'\
-                            <span style="color:#31aafb">到达地：</span>'+data.to+' <span style="color:#31aafb">起飞时间：</span>'+data.departTime+'<br>'+'\
-                            <span style="color:#31aafb">预计到达时间：</span>'+data.preArriveTime+' <span style="color:#31aafb">载运旅客数：</span>'+data.boardingNum+'<br>'+'\
-                            <span style="color:#31aafb">机组数：</span>'+data.checkNum+' <span style="color:#31aafb">不准入境人员：</span>'+data.forbiddenNum+'<br>'+'\
-                           </div>'
+                 let data=r.data.flights;
+                  let html ='';
+                  let table='<table cellspacing="0" style="background:#09679d; width:100%;height:360px;overflow:auto">\
+                                <tr style="height:20px;">\
+                                  <td style="height:24px!important;">航班号</td><td style="height:24px!important;">起飞时间</td><td style="height:24px!important;">预计到达时间</td><td style="height:24px!important;">载运旅客数</td>\
+                                </tr>';
+                  for(var i in data){
+                    table+='<tr style="background:#112b42;height:20px">\
+                              <td style="border:1px #143652 solid;height:24px!important;">'+data[i].fltno+'</td>\
+                              <td style="border:1px #143652 solid;height:24px!important;">'+data[i].departTime+'</td>\
+                              <td style="border:1px #143652 solid;height:24px!important;">'+data[i].preArriveTime+'</td>\
+                              <td style="border:1px #143652 solid;height:24px!important;">'+data[i].boardingNum+'</td>\
+                           </tr>'
+                  }
+                  html+=table+'</table></div>'
+                 // console.log(r);
+                 // let data=r.data.flights[0];
+                 // let html='<div class="katooltip">\
+                 //            <span style="color:#31aafb">航班号：</span>'+data.fltno+' <span style="color:#31aafb">航班日期：</span>'+data.fltDate+'<span style="color:#31aafb">起飞地：</span>'+data.from+'<br>'+'\
+                 //            <span style="color:#31aafb">到达地：</span>'+data.to+' <span style="color:#31aafb">起飞时间：</span>'+data.departTime+'<br>'+'\
+                 //            <span style="color:#31aafb">预计到达时间：</span>'+data.preArriveTime+' <span style="color:#31aafb">载运旅客数：</span>'+data.boardingNum+'<br>'+'\
+                 //            <span style="color:#31aafb">机组数：</span>'+data.checkNum+' <span style="color:#31aafb">不准入境人员：</span>'+data.forbiddenNum+'<br>'+'\
+                 //           </div>'
                  callback(ticket, html);
               })
               return 'Loading';
@@ -1571,7 +1586,7 @@ export default {
       let t={
         type: 'effectScatter',
         coordinateSystem: 'geo',
-        zlevel: 3,
+        zlevel: 6,
         rippleEffect: {
           brushType: 'stroke'
         },
@@ -1593,14 +1608,29 @@ export default {
           formatter: function (params, ticket, callback) {
               _this.$api.get('/manage-platform/nationwide/getPortDetail',{port:params.data.value[2]},
                r => {
-                 console.log(r);
-                 let data=r.data.flights[0];
-                 let html='<div class="katooltip">\
-                            <span style="color:#31aafb">航班号：</span>'+data.fltno+' <span style="color:#31aafb">航班日期：</span>'+data.fltDate+'<span style="color:#31aafb">起飞地：</span>'+data.from+'<br>'+'\
-                            <span style="color:#31aafb">到达地：</span>'+data.to+' <span style="color:#31aafb">起飞时间：</span>'+data.departTime+'<br>'+'\
-                            <span style="color:#31aafb">预计到达时间：</span>'+data.preArriveTime+' <span style="color:#31aafb">载运旅客数：</span>'+data.boardingNum+'<br>'+'\
-                            <span style="color:#31aafb">机组数：</span>'+data.checkNum+' <span style="color:#31aafb">不准入境人员：</span>'+data.forbiddenNum+'<br>'+'\
-                           </div>'
+                 let data=r.data.flights;
+                  let html ='';
+                  let table='<table cellspacing="0" style="background:#09679d; width:100%;height:360px;overflow:auto">\
+                                <tr style="height:20px;">\
+                                  <td style="height:24px!important;">航班号</td><td style="height:24px!important;">起飞时间</td><td style="height:24px!important;">预计到达时间</td><td style="height:24px!important;">载运旅客数</td>\
+                                </tr>';
+                  for(var i in data){
+                    table+='<tr style="background:#112b42;height:20px">\
+                              <td style="border:1px #143652 solid;height:24px!important;">'+data[i].fltno+'</td>\
+                              <td style="border:1px #143652 solid;height:24px!important;">'+data[i].departTime+'</td>\
+                              <td style="border:1px #143652 solid;height:24px!important;">'+data[i].preArriveTime+'</td>\
+                              <td style="border:1px #143652 solid;height:24px!important;">'+data[i].boardingNum+'</td>\
+                           </tr>'
+                  }
+                  html+=table+'</table></div>'
+                 // console.log(r);
+                 // let data=r.data.flights[0];
+                 // let html='<div class="katooltip">\
+                 //            <span style="color:#31aafb">航班号：</span>'+data.fltno+' <span style="color:#31aafb">航班日期：</span>'+data.fltDate+'<span style="color:#31aafb">起飞地：</span>'+data.from+'<br>'+'\
+                 //            <span style="color:#31aafb">到达地：</span>'+data.to+' <span style="color:#31aafb">起飞时间：</span>'+data.departTime+'<br>'+'\
+                 //            <span style="color:#31aafb">预计到达时间：</span>'+data.preArriveTime+' <span style="color:#31aafb">载运旅客数：</span>'+data.boardingNum+'<br>'+'\
+                 //            <span style="color:#31aafb">机组数：</span>'+data.checkNum+' <span style="color:#31aafb">不准入境人员：</span>'+data.forbiddenNum+'<br>'+'\
+                 //           </div>'
                  callback(ticket, html);
               })
               return 'Loading';
