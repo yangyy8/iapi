@@ -3052,11 +3052,12 @@ export default {
    //   console.log(this.selfCdtList.atype);
    // },
    download(){
+     console.log(formatDate(new Date(),'yyyy-MM-dd'));
      console.log(this.$api.rootUrl+"/manage-platform/iapi/export/three");
      axios({
       method: 'post',
-      url: 'http://192.168.99.206:8080/manage-platform/iapi/export/three',
-      // url: this.$api.rootUrl+"/manage-platform/iapi/export/three",
+      // url: 'http://192.168.99.245:8080/manage-platform/iapi/export/three',
+      url: this.$api.rootUrl+"/manage-platform/iapi/export/three",
       data: {
           "name": 'Fred',
           "cdtList":this.rows
@@ -3069,6 +3070,7 @@ export default {
       });
    },
    downloadM (data) {
+
        if (!data) {
            return
        }
@@ -3076,7 +3078,7 @@ export default {
        let link = document.createElement('a')
        link.style.display = 'none'
        link.href = url
-       link.setAttribute('download', new Date().format("yyyy-MM-dd hh:mm:ss")+'.xlsx')
+       link.setAttribute('download', formatDate(new Date(),'yyyy-MM-dd')+'.xlsx')
        document.body.appendChild(link)
        link.click()
    },
