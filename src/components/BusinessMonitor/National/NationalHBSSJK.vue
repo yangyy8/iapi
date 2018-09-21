@@ -1553,7 +1553,7 @@ export default {
                r => {
                  let data=r.data.flights;
                   let html ='';
-                  let table='<table cellspacing="0" style="background:#09679d; width:100%;height:360px;overflow:auto">\
+                  let table='<table cellspacing="0" style="background:#09679d; width:100%;max-height:360px;overflow:auto">\
                                 <tr style="height:20px;">\
                                   <td style="height:24px!important;">航班号</td><td style="height:24px!important;">起飞时间</td><td style="height:24px!important;">预计到达时间</td><td style="height:24px!important;">载运旅客数</td>\
                                 </tr>';
@@ -1610,7 +1610,7 @@ export default {
                r => {
                  let data=r.data.flights;
                   let html ='';
-                  let table='<table cellspacing="0" style="background:#09679d; width:100%;height:360px;overflow:auto">\
+                  let table='<table cellspacing="0" style="background:#09679d; width:100%;max-height:360px;overflow:auto">\
                                 <tr style="height:20px;">\
                                   <td style="height:24px!important;">航班号</td><td style="height:24px!important;">起飞时间</td><td style="height:24px!important;">预计到达时间</td><td style="height:24px!important;">载运旅客数</td>\
                                 </tr>';
