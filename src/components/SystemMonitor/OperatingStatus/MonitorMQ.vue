@@ -27,9 +27,7 @@
                   label="节点状态"
                 >
                 <template slot-scope="scope">
-
                     {{scope.row.nodeStatus | fifter2}}
-
                 </template>
                 </el-table-column>
                 <el-table-column
@@ -72,14 +70,11 @@
       title="详情"
       :visible.sync="detailsDialogVisible"
       >
-
-      <el-table
-        :data="tableData1"
-        border
-        style="width: 100%;"
-        >
-
-
+            <el-table
+              :data="tableData1"
+              border
+              style="width: 100%;"
+              >
                 <el-table-column
                   prop="queueName"
                   label="队列名称"
@@ -97,26 +92,20 @@
                    {{scope.row.queueStatus | fifter2}}
                </template>
                </el-table-column>
-
-      </el-table>
-
+            </el-table>
       <div slot="footer" class="dialog-footer">
-
         <el-button @click="detailsDialogVisible = false" size="small">取消</el-button>
-
       </div>
     </el-dialog>
   </div>
-
 </template>
-
 <script>
 export default {
   data() {
     return {
       pd: {},
       tableData: [],
-      mtableData1ap:[],
+      mtableData1ap: [],
       detailsDialogVisible: false,
     }
   },
@@ -129,26 +118,22 @@ export default {
         r => {
           console.log(r);
           this.tableData = r.data;
-
         })
     },
-    details(i)
-    {
-      console.log('---'+i);
-      this.detailsDialogVisible=true;
-      let p=({
-        "SERIAL":i
+    details(i) {
+      // console.log('---' + i);
+      this.detailsDialogVisible = true;
+      let p = ({
+        "SERIAL": i
       });
       this.$api.post('/manage-platform/monitorMQ/queryQueueDetail', p,
         r => {
-          console.log("====="+r);
+          console.log("=====" + r);
           this.tableData1 = r.data;
-
         })
     }
   },
   filters: {
-
     fifter1(val) {
       if (val == 0) {
         return "DMZ区"
@@ -156,25 +141,23 @@ export default {
         return "整合分发区"
       } else if (val == 2) {
         return "业务平台区"
-      }else {
-          return "DMZ区"
+      } else {
+        return "DMZ区"
       }
       // return val*2
     },
-    fifter2(val){
-      if(val=="running"){
-        return  "正常";
-      }else if(val=="true"){
-      return   "正常";
-    }else {
-        return   "异常";
-    }
+    fifter2(val) {
+      if (val == "running") {
+        return "正常";
+      } else if (val == "true") {
+        return "正常";
+      } else {
+        return "异常";
+      }
     }
   }
-
 }
 </script>
-
 <style scoped>
 
 </style>
