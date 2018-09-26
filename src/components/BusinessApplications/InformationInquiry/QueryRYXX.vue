@@ -1235,7 +1235,7 @@
 <script>
 import Seat from '../../other/seat'
 import AlarmProcess from '../../BusinessProcessing/Alarm/alarmProcess'
-import {formatDate} from '@/assets/js/date.js'
+import {formatDate,format} from '@/assets/js/date.js'
 import {dayGap} from '@/assets/js/date.js'
 import axios from 'axios'
 // import FileSaver from 'file-saver'
@@ -1790,18 +1790,24 @@ export default {
     pageSizeChange(val) {//显示条数，调用
       if(this.bigBase == 0){
         if(this.page==0){
+          this.currentPage=1;
           this.getList(this.totalResult,this.currentPage,val,this.cdt,1);
         }else if(this.page==1){
+          this.currentPage=1;
           this.batchQueryList(this.totalResult,this.currentPage,val,this.rows,1);
         }else if(this.page==2){
+          this.currentPage=1;
           this.selfQueryList(this.totalResult,this.currentPage,val,1);
         }
       }else if(this.bigBase == 1){
         if(this.page==0){
+          this.currentPage=1;
           this.getListPnr(this.totalResult,this.currentPage,val,this.cdt,1);
         }else if(this.page==1){
+          this.currentPage=1;
           this.batchQueryListPnr(this.totalResult,this.currentPage,val,this.rows,1);
         }else if(this.page==2){
+          this.currentPage=1;
           this.selfQueryListPnr(this.totalResult,this.currentPage,val,1);
         }
       }
@@ -3052,11 +3058,11 @@ export default {
    //   console.log(this.selfCdtList.atype);
    // },
    download(){
-     console.log(formatDate(new Date(),'yyyy-MM-dd'));
+     console.log(format(new Date(),'yyyy-MM-dd hh:mm:ss'));
      console.log(this.$api.rootUrl+"/manage-platform/iapi/export/three");
      axios({
       method: 'post',
-      // url: 'http://192.168.99.245:8080/manage-platform/iapi/export/three',
+      // url: 'http://192.168.99.206:8080/manage-platform/iapi/export/three',
       url: this.$api.rootUrl+"/manage-platform/iapi/export/three",
       data: {
           "name": 'Fred',
@@ -3064,13 +3070,12 @@ export default {
       },
       responseType: 'blob'
       }).then(response => {
-          this.downloadM(response)
+          this.downloadM(response,1)
       }).catch((error) => {
 
       });
    },
-   downloadM (data) {
-
+   downloadM (data,type) {
        if (!data) {
            return
        }
@@ -3078,7 +3083,11 @@ export default {
        let link = document.createElement('a')
        link.style.display = 'none'
        link.href = url
-       link.setAttribute('download', formatDate(new Date(),'yyyy-MM-dd')+'.xlsx')
+       if(type==1){
+         link.setAttribute('download', 'template.xlsx')
+       }else{
+         link.setAttribute('download', format(new Date(),'yyyy-MM-dd hh:mm:ss')+'.xlsx')
+       }
        document.body.appendChild(link)
        link.click()
    },
@@ -3108,7 +3117,7 @@ export default {
      }else if(this.page==0&&this.bigBase==1){//导出PNR基础信息列表
        axios({
         method: 'post',
-        // url: 'http://192.168.99.247:8080/manage-platform/pnr/exportFileIo/0/600',
+        // url: 'http://192.168.99.206:8080/manage-platform/pnr/exportFileIo/0/600',
         url: this.$api.rootUrl+"/manage-platform/pnr/exportFileIo/0/600",
         data: {
             "exclTitles": this.checkList,
