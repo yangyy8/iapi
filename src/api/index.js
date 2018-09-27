@@ -16,6 +16,7 @@ var root="http://192.168.99.206:8080"   //服务器电脑
 //var root="http://192.168.99.250:8080"    //刘洋的电脑
 // 引用axios
 var axios = require('axios')
+
 import { Loading } from 'element-ui';
 import { Message } from 'element-ui';
 import { MessageBox } from 'element-ui';
