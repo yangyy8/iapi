@@ -64,6 +64,20 @@ export default new Router({
           name: "ProcessHBZT",
           component: resolve => require(['@/components/BusinessProcessing/BJHB/ProcessHBZT'], resolve),
         },
+        // 咨询处理 Consultation----------------------------------------------------------------------------
+        // 咨询历史  ConsultingHistory
+        {
+          path: "ConsultingHistory",
+          name: "ConsultingHistory",
+          component: resolve => require(['@/components/BusinessProcessing/Consultation/ConsultingHistory'], resolve),
+        },
+        // 内部信息收发 IRNR-------------------------------------------------------------------------------
+        // 信息收发  InformationReceiving
+        {
+          path: "InformationReceiving",
+          name: "InformationReceiving",
+          component: resolve => require(['@/components/BusinessProcessing/IRNR/InformationReceiving'], resolve),
+        },
 
         // 业务应用===================================================================================================================================
         // 信息查询---------------------------------------------------------------------------------------------------
@@ -74,21 +88,21 @@ export default new Router({
           component: resolve => require(['@/components/BusinessApplications/InformationInquiry/QueryRYXX'], resolve),
 
         },
-        // 业务事件查询---------------------------------------------------------------------------------------------------
+        // 业务事件查询
         {
           path: "QueryYWSJ",
           name: "QueryYWSJ",
           component: resolve => require(['@/components/BusinessApplications/InformationInquiry/QueryYWSJ'], resolve),
 
         },
-        // 航班信息查询---------------------------------------------------------------------------------------------------
+        // 航班信息查询
         {
           path: "QueryHBXX",
           name: "QueryHBXX",
           component: resolve => require(['@/components/BusinessApplications/InformationInquiry/QueryHBXX'], resolve),
 
         },
-        // 命中人员查询---------------------------------------------------------------------------------------------------
+        // 命中人员查询
         {
           path: "QueryMZRY",
           name: "QueryMZRY",
@@ -96,7 +110,7 @@ export default new Router({
 
         },
 
-        // 关联人员查询---------------------------------------------------------------------------------------------------
+        // 关联人员查询
         {
           path: "QueryGLRY",
           name: "QueryGLRY",
@@ -104,21 +118,111 @@ export default new Router({
 
         },
 
-        // 航班座位查询---------------------------------------------------------------------------------------------------
+        // 航班座位查询
         {
           path: "QueryHBZW",
           name: "QueryHBZW",
           component: resolve => require(['@/components/BusinessApplications/InformationInquiry/QueryHBZW'], resolve),
 
         },
-        // 校验比对结果查询---------------------------------------------------------------------------------------------------
+        // 校验比对结果查询
         {
           path: "QueryJYBDJG",
           name: "QueryJYBDJG",
           component: resolve => require(['@/components/BusinessApplications/InformationInquiry/QueryJYBDJG'], resolve),
 
         },
+        // 综合查询
+        {
+          path: "QueryAll",
+          name: "QueryAll",
+          component: resolve => require(['@/components/BusinessApplications/InformationInquiry/QueryAll'], resolve),
 
+        },
+        //专题数据统计------------------------------------------------------------------------------------------------------
+        //  综合数据分析
+        {
+          path: "AnalyzeZHSJ",
+          name: "AnalyzeZHSJ",
+          component: resolve => require(['@/components/BusinessApplications/DataStatistics/AnalyzeZHSJ'], resolve),
+
+        },
+        //  航班统计分析
+        {
+          path: "AnalyzeHBTJ",
+          name: "AnalyzeHBTJ",
+          component: resolve => require(['@/components/BusinessApplications/DataStatistics/AnalyzeHBTJ'], resolve),
+
+        },
+        //  航线专题分析
+        {
+          path: "AnalyzeHXZT",
+          name: "AnalyzeHXZT",
+          component: resolve => require(['@/components/BusinessApplications/DataStatistics/AnalyzeHXZT'], resolve),
+
+        },
+        //  航空公司专题分析
+        {
+          path: "AnalyzeHKGS",
+          name: "AnalyzeHKGS",
+          component: resolve => require(['@/components/BusinessApplications/DataStatistics/AnalyzeHKGS'], resolve),
+        },
+        //  口岸/机场专题分析
+        {
+          path: "AnalyzeKAJC",
+          name: "AnalyzeKAJC",
+          component: resolve => require(['@/components/BusinessApplications/DataStatistics/AnalyzeKAJC'], resolve),
+        },
+        //   名单比对专题分析
+        {
+          path: "AnalyzeMDBD",
+          name: "AnalyzeMDBD",
+          component: resolve => require(['@/components/BusinessApplications/DataStatistics/AnalyzeMDBD'], resolve),
+        },
+        //   数据校验专题分析
+        {
+          path: "AnalyzeSJJY",
+          name: "AnalyzeSJJY",
+          component: resolve => require(['@/components/BusinessApplications/DataStatistics/AnalyzeSJJY'], resolve),
+        },
+        // 预报质量评价  QualityAssessment--------------------------------------------------------------------------------
+        // 质量综合评价pnr        AppraiseZLZH
+        {
+          path: "AppraiseZLZH",
+          name: "AppraiseZLZH",
+          component: resolve => require(['@/components/BusinessApplications/QualityAssessment/AppraiseZLZH'], resolve),
+        },
+        //  预报时效性评价          AppraiseYBSX
+        {
+          path: "AppraiseYBSX",
+          name: "AppraiseYBSX",
+          component: resolve => require(['@/components/BusinessApplications/QualityAssessment/AppraiseYBSX'], resolve),
+        },
+        // 信息准确性评价          AppraiseXXZQ
+        {
+          path: "AppraiseXXZQ",
+          name: "AppraiseXXZQ",
+          component: resolve => require(['@/components/BusinessApplications/QualityAssessment/AppraiseXXZQ'], resolve),
+        },
+        // 可疑人员筛查  ScreeningStudies----------------------------------------------------------------------------------
+        // 重复人员预警      ScreeningCFRYYJ
+        {
+          path: "ScreeningCFRYYJ",
+          name: "ScreeningCFRYYJ",
+          component: resolve => require(['@/components/BusinessApplications/ScreeningStudies/ScreeningCFRYYJ'], resolve),
+        },
+        //  失踪人员筛查      ScreeningSZRY
+        {
+          path: "ScreeningSZRY",
+          name: "ScreeningSZRY",
+          component: resolve => require(['@/components/BusinessApplications/ScreeningStudies/ScreeningSZRY'], resolve),
+        },
+        //  频次可疑人员      ScreeningPCKYRY
+        {
+          path: "ScreeningPCKYRY",
+          name: "ScreeningPCKYRY",
+          component: resolve => require(['@/components/BusinessApplications/ScreeningStudies/ScreeningPCKYRY'], resolve),
+        },
         // 校验比对结果---------------------------------------------------------------------------------------------------
         //数据项校验结果查询
         {
@@ -144,36 +248,36 @@ export default new Router({
 
 
         // 业务管理===================================================================================================================================
-        //名单管理-------------
-        // 名单数据分析------------------------------------------------------------------------------------------------
+        //名单管理-----------------------------------------------------------------------------------------------------
+        // 名单数据分析
         {
           path: "ListMDSJFX",
           name: "ListMDSJFX",
           component: resolve => require(['@/components/BusinessManagement/List/ListMDSJFX'], resolve),
 
         },
-        // 白名单管理--------------------------------------------------------------------------------------------------
+        // 白名单管理
         {
           path: "ListBMD",
           name: "ListBMD",
           component: resolve => require(['@/components/BusinessManagement/List/ListBMD'], resolve),
 
         },
-        // 临控名单管理------------------------------------------------------------------------------------------------
+        // 临控名单管理-
         {
           path: "ListLKMD",
           name: "ListLKMD",
           component: resolve => require(['@/components/BusinessManagement/List/ListLKMD'], resolve),
 
         },
-        // 重点关注名单管理-----------------------------------------------------------------------------------------------
+        // 重点关注名单管理-
         {
           path: "LIstZDGZRYMD",
           name: "LIstZDGZRYMD",
           component: resolve => require(['@/components/BusinessManagement/List/LIstZDGZRYMD'], resolve),
 
         },
-        //业务规则管理
+        //业务规则管理--------------------------------------------------------------------------------------------
         //数据项校验规则管理
         {
           path: "ListSJXJYGZ",
@@ -195,9 +299,22 @@ export default new Router({
           component: resolve => require(['@/components/BusinessManagement/Rule/ListMQGZ'], resolve),
 
         },
+        // 航班管理 FlightManagement---------------------------------------------------------------------------------------------
+        // 机场列表管理  AirportListManagement
+        {
+          path: "AirportListManagement",
+          name: "AirportListManagement",
+          component: resolve => require(['@/components/BusinessManagement/FlightManagement/AirportListManagement'], resolve),
+        },
+        // 航班列表管理  FlightListManagement
+        {
+          path: "FlightListManagement",
+          name: "FlightListManagement",
+          component: resolve => require(['@/components/BusinessManagement/FlightManagement/FlightListManagement'], resolve),
+        },
 
-
-        //全国监控
+// 业务监控===============================================================
+        //全国监控-------------------------
         //全国航班实时监控
         {
           path: "NationalHBSSJK",
@@ -205,10 +322,68 @@ export default new Router({
           component: resolve => require(['@/components/BusinessMonitor/National/NationalHBSSJK'], resolve),
 
         },
+        //航班时刻表
+        {
+          path: "NationalHBSKB",
+          name: "NationalHBSKB",
+          component: resolve => require(['@/components/BusinessMonitor/National/NationalHBSKB'], resolve),
 
+        },
+        //航班实时监控
+        {
+          path: "HBSSJK",
+          name: "HBSSJK",
+          component: resolve => require(['@/components/BusinessMonitor/National/HBSSJK'], resolve),
 
-        //系统管理========================
-        //机构管理------------------
+        },
+        //人员实时监控
+        {
+          path: "RYSSJK",
+          name: "RYSSJK",
+          component: resolve => require(['@/components/BusinessMonitor/National/RYSSJK'], resolve),
+
+        },
+        // 口岸监控--------------------------
+        // 口岸流量预测
+        {
+          path: "PredictKALL",
+          name: "PredictKALL",
+          component: resolve => require(['@/components/BusinessMonitor/Port/PredictKALL'], resolve),
+
+        },
+        // 航班监控--------------------------
+        // PNR报送状况监控
+        {
+          path: "MonitorPNRBS",
+          name: "MonitorPNRBS",
+          component: resolve => require(['@/components/BusinessMonitor/Flight/MonitorPNRBS'], resolve),
+
+        },
+        // 非法载运监控
+        {
+          path: "MonitorFFZY",
+          name: "MonitorFFZY",
+          component: resolve => require(['@/components/BusinessMonitor/Flight/MonitorFFZY'], resolve),
+
+        },
+        // 非法报送监控
+        {
+          path: "MonitorFFBS",
+          name: "MonitorFFBS",
+          component: resolve => require(['@/components/BusinessMonitor/Flight/MonitorFFBS'], resolve),
+
+        },
+        // 报警监控----------------------------------
+        // 报警情况监控
+        {
+          path: "MonitorBJQK",
+          name: "MonitorBJQK",
+          component: resolve => require(['@/components/BusinessMonitor/Alarm/MonitorBJQK'], resolve),
+
+        },
+
+        //系统管理=================================================================================================
+        //机构管理-----------------------------------------------------------------------------------
         //部门管理
         {
           path: "ManageBM",
@@ -230,8 +405,7 @@ export default new Router({
           component: resolve => require(['@/components/SystemManage/Institutional/ManageJS'], resolve),
 
         },
-        //权限管理------------------
-
+        //权限管理--------------------------------------------------------------------------------
         //用户管理
         {
           path: "ManageJZYH",
@@ -246,8 +420,16 @@ export default new Router({
           component: resolve => require(['@/components/SystemManage/Permission/ManageDL'], resolve),
 
         },
-        //系统监控===================
-        //运行状态监控-----------
+        // 监控参数配置 MPC---------------------------------------------------------------------
+        // 系统监控参数配置 ParameterConfiguration
+        {
+          path: "ParameterConfiguration",
+          name: "ParameterConfiguration",
+          component: resolve => require(['@/components/SystemManage/MPC/ParameterConfiguration'], resolve),
+
+        },
+        //系统监控==================================================================================================
+        //运行状态监控--------------------------------------------------------------------
         //服务器监控
         {
           path: "MonitorFWQ",
@@ -298,7 +480,7 @@ export default new Router({
           component: resolve => require(['@/components/SystemMonitor/OperatingStatus/MonitorBJJHPT'], resolve),
 
         },
-        //数据监控----------------------
+        //数据监控--------------------------------------------------------------------------------------
         //数据一致性监控
         {
           path: "MonitorSJYZX",
@@ -327,7 +509,7 @@ export default new Router({
           component: resolve => require(['@/components/SystemMonitor/Data/MonitorSJDW'], resolve),
 
         },
-        //日志监控------------------
+        //日志监控-------------------------------------------------------------------------------------
         //日志监控
         {
           path: "MonitorRZJK",
@@ -335,7 +517,7 @@ export default new Router({
           component: resolve => require(['@/components/SystemMonitor/Log/MonitorRZJK'], resolve),
 
         },
-        //性能监控------------------
+        //性能监控------------------------------------------------------------------------------------
         //校验比对性能监控
         {
           path: "MonitorJYBDXN",
@@ -384,8 +566,53 @@ export default new Router({
           name: "UpdatePass",
           component: resolve => require(['@/components/SysMenu/UpdatePass'], resolve),
         },
-
-
+        // 日常工作================================================================================================
+        // 值班管理 DutyManagement----------------------------------------------------------------------------
+        // 值班登记 DutyRegistration
+        {
+          path: "DutyRegistration",
+          name: "DutyRegistration",
+          component: resolve => require(['@/components/Routine/DutyManagement/DutyRegistration'], resolve),
+        },
+        // 值班统计 DutyStatistics
+        {
+          path: "DutyStatistics",
+          name: "DutyStatistics",
+          component: resolve => require(['@/components/Routine/DutyManagement/DutyStatistics'], resolve),
+        },
+        // 事件管理 EventManagement---------------------------------------------------------------------------
+        // 事件登记 EventRegistration
+        {
+          path: "EventRegistration",
+          name: "EventRegistration",
+          component: resolve => require(['@/components/Routine/EventManagement/EventRegistration'], resolve),
+        },
+        // 事件查询 EventStatistics
+        {
+          path: "EventStatistics",
+          name: "EventStatistics",
+          component: resolve => require(['@/components/Routine/EventManagement/EventStatistics'], resolve),
+        },
+        // 工作提示 WorkHints-------------------------------------------------------------------------------------
+        // 提示方式 Hint
+        {
+          path: "Hint",
+          name: "Hint",
+          component: resolve => require(['@/components/Routine/WorkHints/Hint'], resolve),
+        },
+        // 提示管理 PromptManagement
+        {
+          path: "PromptManagement",
+          name: "PromptManagement",
+          component: resolve => require(['@/components/Routine/WorkHints/PromptManagement'], resolve),
+        },
+        // 工作助手 WorkAssistant---------------------------------------------------------------------------------
+        // 工作助手 WorkAssistant
+        {
+          path: "WorkAssistant",
+          name: "WorkAssistant",
+          component: resolve => require(['@/components/Routine/WorkAssistant/WorkAssistant'], resolve),
+        },
       ]
     }
   ]

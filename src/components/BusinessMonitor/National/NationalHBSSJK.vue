@@ -1622,7 +1622,7 @@ export default {
                               <td style="border:1px #143652 solid;height:24px!important;">'+data[i].boardingNum+'</td>\
                            </tr>'
                   }
-                  html+=table+'</table></div>'
+                  html+=table+'</table></div>';
                  // console.log(r);
                  // let data=r.data.flights[0];
                  // let html='<div class="katooltip">\
@@ -1669,7 +1669,6 @@ export default {
 
     // 航班详细信息取得=========================================================================================
     getXqHb(fk){
-      // ?fk=CZ3221806162230
       this.$api.get('/manage-platform/nationwide/getFlightDetail',{fk:fk},
        r => {
          console.log(r);
@@ -1677,7 +1676,6 @@ export default {
     },
     //口岸详细信息取得
     getXqKa(port){
-      // ?fk=CZ3221806162230
       this.$api.get('/manage-platform/nationwide/getPortDetail',{port:port},
        r => {
          console.log(r);
