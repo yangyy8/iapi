@@ -1,0 +1,708 @@
+<!-- <template lang="html">
+  <div class="zlbg">
+    <div class="middle-top mb-2">
+      <el-row type="flex" class="middle">
+        <el-col :span="24" class="br pr-20">
+          <span class="title-green">
+            咨询处理
+          </span>&nbsp;|&nbsp;
+          <span>事件编号：1111111111111</span>
+          <el-row align="center" :gutter="2" type="flex" justify="center" style="margin-top:10px;padding-bottom:20px;border-bottom:1px dotted #ccc">
+            <el-button type="primary" size="small" @click="">咨询历史</el-button>
+            <el-button type="primary" size="small" @click="" style="margin-left:20px!important">查看通讯录</el-button>
+          </el-row>
+        </el-col>
+      </el-row>
+
+      <el-row type="flex" class="middle" style="padding-top:0px!important">
+        <el-col :span="24" class="br pr-20">
+          <span class="title-green">
+            咨询来源
+          </span>&nbsp;|&nbsp;
+          <span>时间：2018-05-20</span>
+          <el-row align="center" :gutter="2" type="flex" justify="center" style="margin-top:10px">
+            <el-col  :sm="24" :md="12" :lg="6"  class="input-item">
+              <span class="input-text">咨询人：</span>
+              <el-input placeholder="请输入内容" size="small" v-model="pd.DEPT_JC"  class="input-input"></el-input>
+            </el-col>
+            <el-col  :sm="24" :md="12" :lg="6"  class="input-item">
+              <span class="input-text">航站：</span>
+              <el-select v-model="pd.DEPT_ID" filterable clearable placeholder="请选择" size="small" class="input-input">
+                <el-option></el-option>
+               </el-select>
+            </el-col>
+            <el-col  :sm="24" :md="12" :lg="6"  class="input-item">
+              <span class="input-text">姓名：</span>
+              <el-input placeholder="请输入内容" size="small" v-model="pd.DEPT_JC"  class="input-input"></el-input>
+            </el-col>
+            <el-col  :sm="24" :md="12" :lg="6"  class="input-item">
+              <span class="input-text">咨询方式：</span>
+              <el-select v-model="pd.DEPT_ID" filterable clearable placeholder="请选择" size="small" class="input-input">
+                <el-option></el-option>
+               </el-select>
+            </el-col>
+          </el-row>
+          <el-row align="center" :gutter="2" type="flex" style="margin-top:10px">
+            <el-col  :sm="24" :md="12" :lg="6"  class="input-item">
+              <span class="input-text">咨询号码：</span>
+              <el-input placeholder="请输入内容" size="small" v-model="pd.DEPT_JC"  class="input-input"></el-input>
+            </el-col>
+            <el-col  :sm="24" :md="12" :lg="6"  class="input-item">
+              <span class="input-text">联系方式：</span>
+              <el-input placeholder="请输入内容" size="small" v-model="pd.DEPT_JC"  class="input-input"></el-input>
+            </el-col>
+          </el-row>
+          <el-row align="center" :gutter="2" type="flex" justify="center" style="margin-top:10px;padding-bottom:20px;border-bottom:1px dotted #ccc">
+            <el-button type="success" size="small" @click="">添加至通讯录</el-button>
+          </el-row>
+        </el-col>
+      </el-row>
+    </div>
+    <div class="middle">
+      <el-row class="mb-15">
+        <el-button type="warning" size="small" @click="added">咨询问题</el-button>
+      </el-row>
+      <el-table
+        :data="tableData"
+        border
+        style="width: 100%;"
+        >
+        <el-table-column
+          prop="DEPT_QC"
+          label="姓名">
+        </el-table-column>
+        <el-table-column
+          prop="DEPT_JC"
+          label="证件号码"
+          >
+        </el-table-column>
+        <el-table-column
+          prop="DEPT_CODE"
+          label="证件有效期">
+        </el-table-column>
+        <el-table-column
+          prop="DEPT_CODE"
+          label="国籍/地区">
+        </el-table-column>
+        <el-table-column
+          prop="DEPT_CODE"
+          label="性别">
+        </el-table-column>
+        <el-table-column
+          prop="DEPT_CODE"
+          label="出生日期">
+        </el-table-column>
+        <el-table-column
+          prop="DEPT_CODE"
+          label="出入境类型">
+        </el-table-column>
+        <el-table-column
+          prop="DEPT_CODE"
+          label="航班号">
+        </el-table-column>
+        <el-table-column
+          prop="DEPT_CODE"
+          label="计划起飞时间">
+        </el-table-column>
+        <el-table-column
+          prop="DEPT_CODE"
+          label="签证号码">
+        </el-table-column>
+        <el-table-column
+          prop="DEPT_CODE"
+          label="签证种类">
+        </el-table-column>
+        <el-table-column
+          prop="DEPT_CODE"
+          label="反馈状态">
+        </el-table-column>
+      </el-table>
+      <div class="middle-foot">
+        <div class="page-msg">
+          <div class="">
+            共{{Math.ceil(TotalResult/pageSize)}}页
+          </div>
+          <div class="">
+            每页
+            <el-select v-model="pageSize" @change="pageSizeChange(pageSize)" placeholder="10" size="mini" class="page-select">
+              <el-option
+                v-for="item in options"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
+            条
+          </div>
+          <div class="">
+            共{{TotalResult}}条
+          </div>
+        </div>
+        <el-pagination
+          background
+          @current-change="handleCurrentChange"
+          :page-size="pageSize"
+          layout="prev, pager, next"
+          :total="TotalResult">
+        </el-pagination>
+      </div>
+      <el-row align="center" :gutter="2" type="flex">
+        <el-col :span="24" class="input-item">
+          <span class="yy-input-text width-lef">问题详情：</span>
+          <el-input type="textarea"></el-input>
+        </el-col>
+      </el-row>
+      <el-row align="center" :gutter="2" type="flex" justify="center" style="margin-top:10px;padding-bottom:20px;border-bottom:1px dotted #ccc">
+        <el-button type="primary" size="small" @click="">回复</el-button>
+        <el-button type="primary" size="small" @click="" style="margin-left:20px!important">清空</el-button>
+      </el-row>
+    </div>
+
+    <el-dialog title="新增"  :visible.sync="addedDialogVisible" width="400px;">
+      <el-form :model="dform" ref="detailsForm">
+        <el-row type="flex"  class="mb-6">
+          <el-col :span="8" class="input-item">
+            <span class="yy-input-text">监控类型：</span>
+          <span class="yy-input-input detailinput">   {{dform.PARENT_JC }}</span>
+          </el-col>
+          <el-col :span="8" class="input-item">
+            <span class="yy-input-text">报警阈值：</span>
+            <span class="yy-input-input detailinput"> {{dform.DEPT_QC }}</span>
+          </el-col>
+          <el-col :span="8" class="input-item">
+            <span class="yy-input-text">阈值单位：</span>
+            <span class="yy-input-input detailinput"> {{dform.DEPT_JC }}</span>
+          </el-col>
+        </el-row>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="addedDialogVisible = false" size="small" type="warning">提交</el-button>
+      </div>
+    </el-dialog>
+  </div>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      CurrentPage: 1,
+      pageSize: 10,
+      TotalResult: 0,
+      pd: {},
+      nation: [],
+      company: [],
+
+      value: '',
+      value1: "",
+      addedDialogVisible:false,
+      addDialogVisible: false,
+      detailsDialogVisible: false,
+
+      options: [{
+          value: 10,
+          label: "10"
+        },
+        {
+          value: 20,
+          label: "20"
+        },
+        {
+          value: 30,
+          label: "30"
+        }
+      ],
+      tableData: [],
+      multipleSelection: [],
+      form: {},
+      dform: {},
+    }
+  },
+  mounted() {
+    this.getList(this.CurrentPage, this.pageSize, this.pd);
+  },
+  activated() {
+    this.getList(this.CurrentPage, this.pageSize, this.pd);
+  },
+  methods: {
+     added(){
+       this.addedDialogVisible = true;
+     },
+
+    handleSelectionChange(val) {
+      this.multipleSelection = val;
+    },
+    pageSizeChange(val) {
+      this.getList(this.CurrentPage, val, this.pd);
+      console.log(`每页 ${val} 条`);
+    },
+    handleCurrentChange(val) {
+      this.getList(val, this.pageSize, this.pd);
+
+      console.log(`当前页: ${val}`);
+    },
+    getList(currentPage, showCount, pd) {
+      let p = {
+        "currentPage": currentPage,
+        "showCount": showCount,
+        "pd": pd
+      };
+      this.$api.post('/manage-platform/deptSys/selectAll', p,
+        r => {
+          console.log(r);
+          this.tableData = r.data.deptList.pdList;
+          this.TotalResult = r.data.deptList.totalResult;
+        })
+    },
+  },
+
+}
+
+
+</script>
+<style scoped>
+.add-dialog {
+  /* padding-left:40px; */
+}
+
+.detail-msg-row {
+  color: #999;
+  line-height: 32px;
+}
+
+.detail-msg-row span {
+  color: #333;
+  display: inline-block;
+  width: 60px;
+}
+
+.yy-input-text {
+  width: 25% !important;
+}
+.width-lef{
+  width: 5%!important;
+}
+</style> -->
+
+
+<template lang="html">
+  <div class="basicInfo">
+    <div class="middle-top mb-2">
+        <el-row type="flex" class="middle">
+          <el-col :span="22" class="br pr-20">
+            <div class="title-green ">
+              查询条件
+            </div>
+            <el-row align="center" :gutter="2">
+
+              <el-col :sm="24" :md="12" :lg="8" class="input-item">
+                <span class="input-text">咨询来源：</span>
+                <el-input placeholder="请输入内容" size="small" v-model="pd.DEPT_JC"  class="input-input"></el-input>
+              </el-col>
+              <el-col :sm="24" :md="12" :lg="8" class="input-item">
+                <span class="input-text">问题类型：</span>
+                <el-input placeholder="请输入内容" size="small" v-model="pd.DEPT_JC"  class="input-input"></el-input>
+              </el-col>
+              <el-col :sm="24" :md="12" :lg="8" class="input-item">
+                <span class="input-text"><i class="t-must">*</i>咨询时间：</span>
+                <div class="input-input t-flex t-date">
+                   <el-date-picker
+                   v-verify.input.blur="{regs:'required',submit:'timeDemo'}"
+                   v-model="pd.startCreatetime"
+                   type="datetime"
+                   size="small"
+                   value-format="yyyyMMddHHmmss"
+                   placeholder="开始时间"
+                   :picker-options="pickerOptions">
+                  </el-date-picker>
+                   <span class="septum">-</span>
+                   <el-date-picker
+                    v-verify.input.blur="{regs:'required',submit:'timeDemo'}"
+                    v-model="pd.endCreatetime"
+                    type="datetime"
+                    size="small"
+                    value-format="yyyyMMddHHmmss"
+                    placeholder="结束时间"
+                    :picker-options="pickerOptions1">
+                  </el-date-picker>
+
+                </div>
+
+              </el-col>
+              <el-col :sm="24" :md="12" :lg="8" class="input-item">
+                <span class="input-text">咨询人：</span>
+                <el-input placeholder="请输入内容" size="small" v-model="pd.DEPT_JC"  class="input-input"></el-input>
+              </el-col>
+              <el-col :sm="24" :md="12" :lg="8" class="input-item">
+                <span class="input-text">航站：</span>
+                <el-input placeholder="请输入内容" size="small" v-model="pd.DEPT_JC"  class="input-input"></el-input>
+              </el-col>
+              <el-col :sm="24" :md="12" :lg="8" class="input-item">
+                <span class="input-text">咨询方式：</span>
+                <el-input placeholder="请输入内容" size="small" v-model="pd.DEPT_JC"  class="input-input"></el-input>
+              </el-col>
+
+            </el-row>
+          </el-col>
+          <el-col :span="2" class="down-btn-area" style="margin-top:35px;">
+            <el-button type="success" class="mb-15" size="small"  @click="getList(CurrentPage,pageSize,pd)">查询</el-button>
+          </el-col>
+        </el-row>
+    </div>
+
+    <div class="middle">
+      <el-table
+        :data="tableData"
+        border
+        style="width: 100%;"
+        >
+        <el-table-column
+          prop="DEPT_QC"
+          label="姓名">
+        </el-table-column>
+        <el-table-column
+          prop="DEPT_JC"
+          label="证件号码"
+          >
+        </el-table-column>
+        <el-table-column
+          prop="DEPT_CODE"
+          label="证件有效期">
+        </el-table-column>
+        <el-table-column
+          prop="DEPT_CODE"
+          label="国籍/地区">
+        </el-table-column>
+        <el-table-column
+          prop="DEPT_CODE"
+          label="性别">
+        </el-table-column>
+        <el-table-column
+          prop="DEPT_CODE"
+          label="出生日期">
+        </el-table-column>
+        <el-table-column
+          prop="DEPT_CODE"
+          label="出入境类型">
+        </el-table-column>
+        <el-table-column
+          prop="DEPT_CODE"
+          label="航班号">
+        </el-table-column>
+        <el-table-column
+          prop="DEPT_CODE"
+          label="计划起飞时间">
+        </el-table-column>
+        <el-table-column
+          prop="DEPT_CODE"
+          label="签证号码">
+        </el-table-column>
+        <el-table-column
+          prop="DEPT_CODE"
+          label="签证种类">
+        </el-table-column>
+        <el-table-column
+          prop="DEPT_CODE"
+          label="反馈状态">
+        </el-table-column>
+      </el-table>
+
+      <div class="middle-foot">
+        <div class="page-msg">
+          <div class="">
+            共{{Math.ceil(TotalResult/pageSize)}}页
+          </div>
+          <div class="">
+            每页
+            <el-select v-model="pageSize" @change="pageSizeChange(pageSize)" placeholder="10" size="mini" class="page-select">
+              <el-option
+                v-for="item in options"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
+            条
+          </div>
+          <div class="">
+            共{{TotalResult}}条
+          </div>
+        </div>
+        <el-pagination
+          background
+          @current-change="handleCurrentChange"
+          :page-size="pageSize"
+          layout="prev, pager, next"
+          :total="TotalResult">
+        </el-pagination>
+      </div>
+      <el-row align="center" :gutter="2" type="flex" justify="center">
+        <el-button type="primary" size="small" @click="">回复</el-button>
+        <el-button type="primary" size="small" @click="" style="margin-left:20px!important">清空</el-button>
+      </el-row>
+    </div>
+
+
+
+  </div>
+
+
+
+
+</template>
+
+<script>
+
+import {formatDate} from '@/assets/js/date.js'
+import {dayGap} from '@/assets/js/date.js'
+export default {
+
+  data() {
+    return {
+      CurrentPage: 1,
+      pageSize: 10,
+      TotalResult: 0,
+      dealer:{},
+      pd: {
+        startCreatetime:'',
+        endCreatetime:'',
+        startDealtime:'',
+        endDealtime:''
+      },
+      dform: {},
+      hform: {},
+      zform: {},
+
+      options: [{
+          value: 10,
+          label: "10"
+        },
+        {
+          value: 20,
+          label: "20"
+        },
+        {
+          value: 30,
+          label: "30"
+        }
+      ],
+      tableData: [],
+
+      pickerOptions: {
+        disabledDate: (time) => {
+            if (this.pd.endCreatetime != null) {
+              let startT = formatDate(new Date(time.getTime()),'yyyyMMddhhmmss');
+              return startT > this.pd.endCreatetime;
+            }else if(this.pd.endCreatetime == null){
+              return false
+            }
+        }
+      },
+      pickerOptions1: {
+        disabledDate: (time) => {
+            let endT = formatDate(new Date(time.getTime()),'yyyyMMddhhmmss');
+            return endT < this.pd.startCreatetime;
+        }
+      },
+
+      pickerOptions2: {
+        disabledDate: (time) => {
+            if (this.pd.endDealtime != null) {
+              let startT = formatDate(new Date(time.getTime()),'yyyyMMddhhmmss');
+              return startT > this.pd.endDealtime;
+            }else if(this.pd.endDealtime == null){
+              return false
+            }
+        }
+      },
+      pickerOptions3: {
+        disabledDate: (time) => {
+            let endT = formatDate(new Date(time.getTime()),'yyyyMMddhhmmss');
+            return endT < this.pd.startDealtime;
+        }
+      },
+
+    }
+  },
+  mounted() {
+
+    let time = new Date();
+    let end = new Date();
+    let begin =new Date(time - 1000 * 60 * 60 * 24 * 30);
+    this.pd.startCreatetime=formatDate(begin,'yyyyMMddhhmmss');
+    this.pd.endCreatetime=formatDate(end,'yyyyMMddhhmmss');
+    this.pd.startDealtime=formatDate(begin,'yyyyMMddhhmmss');
+    this.pd.endDealtime=formatDate(end,'yyyyMMddhhmmss');
+  },
+
+  methods: {
+    handleSelectionChange(val) {
+      this.multipleSelection = val;
+    },
+    getNation(msg) {
+      this.pd.NATIONALITY = msg;
+    },
+    pageSizeChange(val) {
+      this.getList(this.CurrentPage, val, this.pd);
+      console.log(`每页 ${val} 条`);
+    },
+    handleCurrentChange(val) {
+      this.getList(val, this.pageSize, this.pd);
+
+      console.log(`当前页: ${val}`);
+    },
+    getList(currentPage, showCount, pd) {
+      const result = this.$validator.verifyAll('timeDemo')
+       if (result.indexOf(false) > -1) {
+         return
+       }
+      if(dayGap(this.pd.startCreatetime,this.pd.endCreatetime,1)>30){
+        this.$alert('事件产生时间查询时间间隔不能超过一个月', '提示', {
+          confirmButtonText: '确定',
+        });
+        return false
+      };
+      if(dayGap(this.pd.startDealtime,this.pd.endDealtime,1)>30){
+        this.$alert('处理时间查询时间间隔不能超过一个月', '提示', {
+          confirmButtonText: '确定',
+        });
+        return false
+      };
+      let p = {
+        "currentPage": currentPage,
+        "showCount": showCount,
+        "cdt": pd
+      };
+      this.$api.post('/manage-platform/eventManagement/queryListPage', p,
+        r => {
+          console.log(r);
+          if (r.success) {
+            // this.tableData = r.data.resultList;
+            this.TotalResult = r.data.totalResult;
+          }
+        })
+    },
+
+    handler(){
+      this.$api.post('/manage-platform/eventManagement/queryEventUser',{},
+      r =>{
+        if(r.success){
+          this.dealer = r.data
+        }
+      })
+    }
+  }
+}
+</script>
+
+<style scoped>
+.ak-tab {}
+
+.ak-tabs {
+  display: flex;
+
+}
+
+.ak-tab-item {
+  background: #399bfe;
+  color: #fff;
+  font-size: 14px;
+  margin-right: 6px;
+  border-radius: 5px 5px 0 0;
+  padding: 0 16px;
+}
+
+.ak-checked {
+  background: #fff;
+  color: #399bfe;
+  border: 1px #399bfe solid;
+  border-bottom: 1px #fff solid;
+  margin-bottom: -1px;
+}
+
+.ak-tab-pane {
+  border: 1px #399bfe solid;
+  height: 148px;
+  padding: 20px;
+  border-radius: 0 5px 5px 5px;
+}
+
+.akcheck2top {
+  background: #f6f7fb;
+  /* height: 28px; */
+  padding: 6px;
+}
+
+.middle-btn-g {
+  display: flex;
+  justify-content: center;
+}
+
+.middle-btn-g button {
+  height: 32px;
+  width: 107px;
+  border: none;
+  border-radius: 5px;
+  background: none;
+  background: linear-gradient( 360deg, rgb(9, 171, 236) 0%, rgb(0, 121, 228) 100%);
+  color: #fff;
+}
+
+.akUl {
+  height: 103px;
+  overflow-y: auto;
+}
+
+.akUl img {
+  height: 15px;
+  width: 21px;
+  margin-right: 8px;
+}
+
+.ak-li {
+  height: 58px;
+  align-items: center;
+  padding: 0 30px;
+
+}
+
+.nameUi,
+.dataUi {
+  float: left;
+  margin-left: 20px;
+}
+
+.nameUi li,
+.dataUi li {
+  padding: 5px 10px 10px 0px;
+  font-weight: bold;
+}
+
+.dataUi {
+  float: left;
+}
+
+.t-input-item {
+  display: flex;
+  justify-content: flex-start;
+  line-height: 32px;
+}
+
+.flightDate {
+  width: 211px;
+  height: 32px
+}
+</style>
+<style media="screen">
+.t-input-item .flightDate input {
+  width: 42% !important;
+}
+
+.el-table__body {
+  table-layout: auto !important;
+}
+.t-t .el-table__body-wrapper{
+  max-height: 500px;
+  overflow: auto;
+}
+</style>
