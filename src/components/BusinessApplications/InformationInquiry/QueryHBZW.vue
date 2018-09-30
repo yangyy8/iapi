@@ -199,7 +199,7 @@
     <el-col  :span="5" style="border-right:1px solid #cccccc; margin-right:30px;">
         <img src="../../../assets/img/port.png">
     </el-col>
-    <el-col  :span="190" style="padding-top:50px;">
+    <el-col  :span="190" style="padding-top:50px;overflow-x: auto;width: 75%;">
       <ul class="planUL">
         <li class="planLifirst">
           <div  v-for="i in list2">
