@@ -3288,6 +3288,7 @@ export default {
   width: 15%!important;
 }
 </style>
+
 <style media="screen">
   .t-save .el-select{
     width: 127px;
