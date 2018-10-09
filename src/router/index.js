@@ -613,6 +613,13 @@ export default new Router({
           name: "WorkAssistant",
           component: resolve => require(['@/components/Routine/WorkAssistant/WorkAssistant'], resolve),
         },
+        //风险评估 RiskAssessment------------------------------------------------------------------------
+        //模型管理
+        {
+          path: "ModelManagement",
+          name: "ModelManagement",
+          component: resolve => require(['@/components/RiskAssessment/Model/ModelManagement'], resolve),
+        },
       ]
     }
   ]
