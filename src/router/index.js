@@ -313,7 +313,7 @@ export default new Router({
           component: resolve => require(['@/components/BusinessManagement/FlightManagement/FlightListManagement'], resolve),
         },
 
-// 业务监控===============================================================
+        // 业务监控===============================================================
         //全国监控-------------------------
         //全国航班实时监控
         {
