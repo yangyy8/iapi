@@ -620,6 +620,18 @@ export default new Router({
           name: "ModelManagement",
           component: resolve => require(['@/components/RiskAssessment/Management/ModelManagement'], resolve),
         },
+        //事件监控 EventMonitoring
+        {
+          path: "EventMonitoring",
+          name: "EventMonitoring",
+          component: resolve => require(['@/components/RiskAssessment/TimeManagement/EventMonitoring'], resolve),
+        },
+        //模型使用情况 ModelUse
+        {
+          path: "ModelUse",
+          name: "ModelUse",
+          component: resolve => require(['@/components/RiskAssessment/StatisticalAnalysis/ModelUse'], resolve),
+        },
       ]
     }
   ]
