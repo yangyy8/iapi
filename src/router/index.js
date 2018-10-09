@@ -618,7 +618,7 @@ export default new Router({
         {
           path: "ModelManagement",
           name: "ModelManagement",
-          component: resolve => require(['@/components/RiskAssessment/Model/ModelManagement'], resolve),
+          component: resolve => require(['@/components/RiskAssessment/Management/ModelManagement'], resolve),
         },
       ]
     }
