@@ -2,15 +2,12 @@
 <template lang="html">
   <div class="zlbg">
     <div class="middle-top mb-2">
-
       <el-row type="flex" class="middle">
         <el-col :span="22" class="br pr-20">
           <div class="title-green">
             查询条件
           </div>
-
           <el-row align="center"   :gutter="2">
-
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">时间范围：</span>
               <div class="input-input t-flex t-date">
@@ -27,9 +24,6 @@
             </el-date-picker>
           </div>
             </el-col>
-
-
-
           </el-row>
         </el-col>
         <el-col :span="2" class="down-btn-area" style="margin-top:25px;">
@@ -37,23 +31,17 @@
         </el-col>
       </el-row>
     </div>
-
     <div class="mb-2">
-
             <el-row type="flex" class="middle">
                 <el-col :span="22" class="pr-20">
-
                 <el-row align="center"   :gutter="2">
-
                   <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                     <span class="input-text">行属性：</span>
                     <el-select v-model="pd.airrow" filterable clearable  placeholder="请选择" size="small" class="input-input">
                        <el-option text="全部" value="全部" >
                        </el-option>
-
                      </el-select>
                   </el-col>
-
                                     <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                                       <span class="input-text">列属性：</span>
                                       <el-select v-model="pd.airdrow" filterable clearable  placeholder="请选择" size="small" class="input-input">
@@ -70,7 +58,6 @@
             </el-row>
     </div>
     <div class="middle">
-
       <div class="ak-tab mb-20">
       <div class="ak-tabs">
         <div class="ak-tab-item hand" :class="{'ak-checked':page==0}" @click="base">
@@ -80,7 +67,6 @@
           报表
         </div>
       </div>
-
       <div class="ak-tab-pane" >
           <div v-show="page==0" >
             <div id="myChart" style="width:500px; height:500px;"></div>
@@ -234,7 +220,6 @@ export default {
       this.lineChart = echarts.init(document.getElementById('myChart'), 'light');
       window.onresize = echarts.init(document.getElementById('myChart')).resize;
       let that = this;
-
       this.lineChart.setOption({
         tooltip: {
         trigger: 'item',
@@ -253,8 +238,6 @@ export default {
         }
     ]
         });
-
-
         },
       }
     }
@@ -262,12 +245,9 @@ export default {
 
 <style scoped>
 .ak-tab {}
-
 .ak-tabs {
   display: flex;
-
 }
-
 .ak-tab-item {
   background: #399bfe;
   color: #fff;
