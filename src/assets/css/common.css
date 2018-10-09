@@ -161,16 +161,16 @@ button{
   margin: 0!important
 }
 .el-button--success{
-  background-color: #b2cb65!important;
-  border-color: #b2cb65!important;
+  /* background-color: #b2cb65!important; */
+  /* border-color: #b2cb65!important; */
 }
 .el-button--info {
-    background-color: #4bcd83!important;
-    border-color: #4bcd83!important;
+    /* background-color: #4bcd83!important; */
+    /* border-color: #4bcd83!important; */
 }
 .el-button--danger {
-    background-color: #fbd1ab!important;
-    border-color: #fbd1ab!important;
+    /* background-color: #fbd1ab!important; */
+    /* border-color: #fbd1ab!important; */
 }
 .o-form-g{
   display:flex;
@@ -350,6 +350,15 @@ button{
 .middle-top{
   border-top: 3px rgb(75, 195, 160) solid;
 
+}
+
+.middle-tab-item:hover{
+  background: #fff!important;
+  border-top: 3px #4bc3a0 solid;
+}
+.middle-checked {
+  background: #fff!important;
+  border-top: 3px #4bc3a0 solid;
 }
 .el-pagination{
   text-align: right;
