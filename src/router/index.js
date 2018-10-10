@@ -620,6 +620,26 @@ export default new Router({
           name: "ModelManagement",
           component: resolve => require(['@/components/RiskAssessment/Management/ModelManagement'], resolve),
         },
+        //名单管理
+        {
+          path: "RosterManagement",
+          name: "RosterManagement",
+          component: resolve => require(['@/components/RiskAssessment/Management/RosterManagement'], resolve),
+        },
+        //名单类型管理
+        {
+          path: "RosterTypeManagement",
+          name: "RosterTypeManagement",
+          component: resolve => require(['@/components/RiskAssessment/Management/RosterTypeManagement'], resolve),
+        },
+
+        //人员标签管理
+        {
+          path: "LabelManagement",
+          name: "LabelManagement",
+          component: resolve => require(['@/components/RiskAssessment/Management/LabelManagement'], resolve),
+        },
+
         //事件监控 EventMonitoring
         {
           path: "EventMonitoring",
