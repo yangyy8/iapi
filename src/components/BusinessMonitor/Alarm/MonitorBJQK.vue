@@ -1,6 +1,6 @@
 <template lang="html">
   <div class="bjqk">
-    <div class="top mb-2">
+    <div class="top mb-6">
 
       <el-row :gutter="2" class="pr-20">
 

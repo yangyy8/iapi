@@ -1,17 +1,17 @@
 <template lang="html">
   <div class="ffzy">
-    <div class="middle-top mb-2">
-        <el-row type="flex" class="middle">
+    <div class="middle mb-6">
+        <el-row type="flex">
           <el-col :span="20" class="br pr-20">
-            <div class="title-green ">
+            <!-- <div class="title-green ">
               查询条件
-            </div>
+            </div> -->
             <el-row align="center" :gutter="2">
               <el-col :sm="24" :md="12" :lg="8" class="input-item">
                 <span class="input-text">航班日期：</span>
                 <el-date-picker
                   class="input-input"
-                  type="date" size="mini" value-format="yyyyMMdd"
+                  type="date" size="small" value-format="yyyyMMdd"
                   placeholder="选择时间"  >
                 </el-date-picker>
               </el-col>
@@ -68,7 +68,7 @@
         <el-table-column
           label="非法载运人数">
         </el-table-column>
-      
+
       </el-table>
 
       <div class="middle-foot">
