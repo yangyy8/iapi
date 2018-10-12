@@ -139,6 +139,7 @@ export default new Router({
           component: resolve => require(['@/components/BusinessApplications/InformationInquiry/QueryAll'], resolve),
 
         },
+
         //专题数据统计------------------------------------------------------------------------------------------------------
         //  综合数据分析
         {
@@ -245,8 +246,6 @@ export default new Router({
           component: resolve => require(['@/components/BusinessApplications/CheckResult/ListComparison'], resolve),
 
         },
-
-
         // 业务管理===================================================================================================================================
         //名单管理-----------------------------------------------------------------------------------------------------
         // 名单数据分析
@@ -403,6 +402,14 @@ export default new Router({
           path: "ManageJS",
           name: "ManageJS",
           component: resolve => require(['@/components/SystemManage/Institutional/ManageJS'], resolve),
+
+        },
+        //配置管理--------------------------------------------------------------------------------
+        //配置管理
+        {
+          path: "ConfigurationManagement",
+          name: "ConfigurationManagement",
+          component: resolve => require(['@/components/SystemManage/Configuration/ConfigurationManagement'], resolve),
 
         },
         //权限管理--------------------------------------------------------------------------------
@@ -633,6 +640,38 @@ export default new Router({
           name: "ModelManagement",
           component: resolve => require(['@/components/RiskAssessment/Management/ModelManagement'], resolve),
         },
+        //名单管理
+        {
+          path: "RosterManagement",
+          name: "RosterManagement",
+          component: resolve => require(['@/components/RiskAssessment/Management/RosterManagement'], resolve),
+        },
+        //名单类型管理
+        {
+          path: "RosterTypeManagement",
+          name: "RosterTypeManagement",
+          component: resolve => require(['@/components/RiskAssessment/Management/RosterTypeManagement'], resolve),
+        },
+        //策略管理
+        {
+          path: "TacticsManagement",
+          name: "TacticsManagement",
+          component: resolve => require(['@/components/RiskAssessment/Management/TacticsManagement'], resolve),
+        },
+        //指标管理
+        {
+          path: "KPIManagement",
+          name: "KPIManagement",
+          component: resolve => require(['@/components/RiskAssessment/Management/KPIManagement'], resolve),
+        },
+
+        //人员标签管理
+        {
+          path: "LabelManagement",
+          name: "LabelManagement",
+          component: resolve => require(['@/components/RiskAssessment/Management/LabelManagement'], resolve),
+        },
+
         //事件监控 EventMonitoring
         {
           path: "EventMonitoring",
