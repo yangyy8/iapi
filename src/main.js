@@ -2,9 +2,10 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import "babel-polyfill"
+import '../theme/index.css'
 import ElementUI from 'element-ui';
 import './assets/css/normalize.css'
-import 'element-ui/lib/theme-chalk/index.css';
+// import 'element-ui/lib/theme-chalk/index.css';
 import Print from 'vue-print-nb'
 import htmlToPdf from '@/components/other/htmlToPdf'
 import vverify from 'v-verify'

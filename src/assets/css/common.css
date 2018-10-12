@@ -35,6 +35,12 @@ a{
 .loadingClass{
   font-size: 40px;
 }
+.el-button--text{
+  padding: 0!important;
+}
+.a-btn{
+  font-size: 20px!important;
+}
 html,body{
   width: 100%;
   height: 100%;
@@ -314,8 +320,17 @@ button{
 .mr-2{
   margin-right: 2px !important;
 }
+.mt-10{
+  margin-top: 10px !important;
+}
 .pr-20{
   padding-right: 20px !important;
+}
+.pb-10{
+  padding-bottom: 10px!important;
+}
+.pb-15{
+  padding-bottom: 15px!important;
 }
 .pb-20{
   padding-bottom: 20px!important;
@@ -324,7 +339,7 @@ button{
   border: 1px #d1d1d1 solid;
 }
 .boder1{
-  border-bottom: 1px #d1d1d1 solid;
+  border-bottom: 1px #dddddd solid;
 }
 .br{
   border-right: 1px #e0e4e7 solid;
@@ -391,7 +406,8 @@ button{
 }
 .title-green{
   color: rgb(75, 195, 160);
-  margin-bottom: 8px;
+  
+  /* margin-bottom: 8px; */
   font-weight: bold;
 }
 .title-grey{
@@ -415,4 +431,35 @@ button{
 }
 .tan-right .el-radio{
   color: #fff!important;
+}
+
+.ak-tab {}
+
+.ak-tabs {
+  display: flex;
+}
+
+.ak-tab-item {
+  background: #399bfe;
+  color: #fff;
+  font-size: 14px;
+  margin-right: 6px;
+  border-radius: 3px 3px 0 0;
+  padding: 0 16px;
+}
+.ak-tab-item:hover{
+  background: #7bbaf9;
+}
+.ak-checked{
+  background: #fff;
+  color: #399bfe;
+  border: 1px #dddddd solid;
+  border-bottom: 1px #fff solid;
+  margin-bottom: -1px;
+}
+
+.ak-tab-pane {
+  border: 1px #dddddd solid;
+  padding: 12px;
+  border-radius: 0 3px 3px 3px;
 }

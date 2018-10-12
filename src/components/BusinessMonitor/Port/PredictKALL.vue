@@ -1,11 +1,11 @@
 <template lang="html">
   <div class="kall">
-    <div class="middle-top mb-6">
-        <el-row type="flex" class="middle">
+    <div class="middle mb-6">
+        <el-row type="flex">
           <el-col :span="20" class="br pr-20">
-            <div class="title-green ">
+            <!-- <div class="title-green ">
               查询条件
-            </div>
+            </div> -->
             <el-row align="center" :gutter="2">
               <el-col :sm="24" :md="12" :lg="8" class="input-item">
                 <span class="input-text">航站：</span>

@@ -613,7 +613,20 @@ export default new Router({
           name: "WorkAssistant",
           component: resolve => require(['@/components/Routine/WorkAssistant/WorkAssistant'], resolve),
         },
-        //风险评估 RiskAssessment------------------------------------------------------------------------
+  //风险评估 RiskAssessment==========================================================================
+        // 风险事件 ---------------------------------------------------------------------------------
+        // 风险报警事件
+        {
+          path: "EventBJSJ",
+          name: "EventBJSJ",
+          component: resolve => require(['@/components/RiskAssessment/RiskEvent/EventBJSJ'], resolve),
+        },
+        // 风险报警事件查看
+        {
+          path: "BJSJCK",
+          name: "BJSJCK",
+          component: resolve => require(['@/components/RiskAssessment/RiskEvent/BJSJCK'], resolve),
+        },
         //模型管理
         {
           path: "ModelManagement",

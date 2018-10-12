@@ -1,6 +1,6 @@
 <template lang="html">
   <div class="hbssjk">
-    <div class="top mb-2">
+    <div class="top mb-6">
 
       <el-row :gutter="2" class="pr-20">
         <el-col :sm="24" :md="12" :lg="8" class="input-item">
