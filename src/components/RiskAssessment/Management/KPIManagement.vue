@@ -1,104 +1,58 @@
 <template lang="html">
   <div class="zlbg">
     <div class="middle-top mb-2">
-
       <el-row type="flex" class="middle">
         <el-col :span="22" class="br pr-20">
           <div class="title-green">
             查询条件
           </div>
           <el-row align="center"   :gutter="2" >
+
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
-              <span class="input-text">姓名：</span>
-              <el-input placeholder="请输入内容" size="small" v-model="pd.FAMILYNAME"  class="input-input"></el-input>
+              <span class="input-text">指标项代码：</span>
+              <el-input placeholder="请输入内容" size="small" v-model="pd.NAME"  class="input-input"></el-input>
             </el-col>
-            <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
-        <span class="input-text">性别：</span>
-        <el-select v-model="pd.GENDER" placeholder="请选择"  filterable clearable size="small" class="input-input">
-           <el-option value="U" label="U - 未知">
-           </el-option>
-           <el-option value="M" label="M - 男">
-           </el-option>
-           <el-option value="F" label="F - 女">
-           </el-option>
-         </el-select>
-         </el-col>
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
-              <span class="input-text">出生日期：</span>
+              <span class="input-text">指标项名称：</span>
+              <el-input placeholder="请输入内容" size="small" v-model="pd.NAME1"  class="input-input"></el-input>
+            </el-col>
+            <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+              <span class="input-text">指标类型：</span>
+              <el-select v-model="pd.LABELTYPE_CODE" class="input-input"  filterable clearable placeholder="请选择"   size="small">
+                <el-option value="名单" label="名单">
+                </el-option>
+                <el-option value="姓名" label="姓名">
+                </el-option>
+                <el-option value="时间" label="时间">
+                </el-option>
+                <el-option value="民族" label="民族">
+                </el-option>
+                <el-option value="职业" label="职业">
+                </el-option>
+               </el-select>
+            </el-col>
+            <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+              <span class="input-text">指标项描述：</span>
+              <el-input placeholder="请输入内容" size="small" v-model="pd.NAME1"  class="input-input"></el-input>
+            </el-col>
+            <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+              <span class="input-text">创建时间：</span>
               <div class="input-input t-flex t-date">
                <el-date-picker
-               v-model="pd.BIRTHDATESTART" format="yyyy-MM-dd HH:mm:ss"
+               v-model="pd.BEGINDATE" format="yyyy-MM-dd HH:mm:ss"
                type="datetime" size="small" value-format="yyyyMMddHHmmss"
                placeholder="开始时间"  :picker-options="pickerOptions" >
              </el-date-picker>
                <span class="septum">-</span>
              <el-date-picker
-                v-model="pd.BIRTHDATESTARTEND" format="yyyy-MM-dd HH:mm:ss"
+                v-model="pd.EXPIREDATE" format="yyyy-MM-dd HH:mm:ss"
                 type="datetime" size="small" value-format="yyyyMMddHHmmss"
                 placeholder="结束时间" :picker-options="pickerOptions1" >
             </el-date-picker>
           </div>
             </el-col>
-            <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
-                <span class="input-text">国籍/地区：</span>
-                <el-select v-model="pd.NATIONALITY" filterable clearable @visible-change="queryNationality" placeholder="请选择"  size="small" class="input-input">
-                  <el-option
-                    v-for="item in nation"
-                    :key="item.CODE"
-                    :label="item.CODE+' - '+item.CNAME"
-                    :value="item.CODE">
-                  </el-option>
-                </el-select>
-            </el-col>
-      <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
-      <span class="input-text">证件种类：</span>
-      <el-select v-model="pd.CARDTYPE" placeholder="请选择"  filterable clearable size="small" class="input-input">
-       <el-option value="T" label="T - 区域证件">
-       </el-option>
-       <el-option value="P" label="P - 护照">
-       </el-option>
-      </el-select>
-      </el-col>
-      <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
-         <span class="input-text">证件号码：</span>
-         <el-input placeholder="请输入内容" size="small" v-model="pd.CARDNO" class="input-input"></el-input>
-      </el-col>
-      <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
-      <span class="input-text">名单类型：</span>
-      <el-select v-model="pd.TYPE" placeholder="请选择"  filterable clearable size="small" class="input-input">
-       <el-option value="重点维族人" label="重点维族人">
-       </el-option>
-       <el-option value="黑名单" label="黑名单">
-       </el-option>
-      </el-select>
-      </el-col>
-      <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
-        <span class="input-text">有效期：</span>
-        <div class="input-input t-flex t-date">
-         <el-date-picker
-         v-model="pd.BEGINDATE" format="yyyy-MM-dd HH:mm:ss"
-         type="datetime" size="small" value-format="yyyyMMddHHmmss"
-         placeholder="开始时间"  :picker-options="pickerOptions">
-       </el-date-picker>
-         <span class="septum">-</span>
-       <el-date-picker
-          v-model="pd.EXPIREDATE" format="yyyy-MM-dd HH:mm:ss"
-          type="datetime" size="small" value-format="yyyyMMddHHmmss"
-          placeholder="结束时间" :picker-options="pickerOptions1" >
-      </el-date-picker>
-    </div>
-      </el-col>
-      <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
-      <span class="input-text">有效状态：</span>
-      <el-select v-model="pd.STATUS" placeholder="请选择"  filterable clearable size="small" class="input-input">
-       <el-option value="无效" label="无效">
-       </el-option>
-       <el-option value="有效" label="有效">
-       </el-option>
-      </el-select>
-      </el-col>
-      </el-row>
-     </el-col>
+          </el-row>
+        </el-col>
         <el-col :span="2" class="down-btn-area" style="padding-top:30px;">
           <el-button type="success" size="small" @click="getList(CurrentPage,pageSize,pd)">查询</el-button>
         </el-col>
@@ -107,8 +61,6 @@
     <div class="middle">
       <el-row class="mb-15">
         <el-button type="primary" size="small" @click="adds(0,'');form={};">新增</el-button>
-        <el-button type="primary" size="small" @click="">批量导入</el-button>
-        <el-button type="primary" size="small" @click="">模板下载</el-button>
         </el-row>
       <el-table
         :data="tableData"
@@ -116,47 +68,34 @@
         style="width: 100%;"
         >
         <el-table-column
-          prop="NAME"
-          label="姓名">
+          prop="LABELTYPE_NAME"
+          label="指标项代码">
         </el-table-column>
          <el-table-column
-          prop="COUNT"
-          label="性别"
+          prop="NAME"
+          label="指标项名称"
           >
         </el-table-column>
         <el-table-column
           prop="CREATEUSER"
-          label="出生日期">
+          label="指标项描述">
         </el-table-column>
         <el-table-column
           prop="CREATETIME"
-          label="国籍">
+          label="指标类型">
         </el-table-column>
         <el-table-column
           prop="CREATETIME"
-          label="证件种类">
+          label="计算方式">
         </el-table-column>
         <el-table-column
           prop="CREATETIME"
-          label="证件号码">
+          label="方法名称">
         </el-table-column>
         <el-table-column
           prop="CREATETIME"
-          label="有效日期">
+          label="参数">
         </el-table-column>
-        <el-table-column
-          prop="CREATETIME"
-          label="有效状态">
-        </el-table-column>
-        <el-table-column
-          prop="CREATETIME"
-          label="操作人">
-        </el-table-column>
-        <el-table-column
-          prop="CREATETIME"
-          label="操作时间">
-        </el-table-column>
-
         <el-table-column
           label="操作" width="300">
           <template slot-scope="scope">
@@ -165,7 +104,6 @@
               <el-button class="table-btn" size="mini"  icon="el-icon-delete" @click="deletes(scope.row)"></el-button>
          </template>
         </el-table-column>
-
       </el-table>
       <div class="middle-foot">
         <div class="page-msg">
@@ -197,154 +135,143 @@
         </el-pagination>
       </div>
     </div>
-    <el-dialog :title="dialogText" :visible.sync="addDialogVisible" >
+    <el-dialog :title="dialogText" :visible.sync="addDialogVisible" width="500px" >
       <el-form :model="form" ref="addForm">
+
         <el-row type="flex"  class="mb-6">
-          <el-col :span="12" class="input-item">
-            <span class="yy-input-text"><font class="yy-color">*</font> 国籍/地区：</span>
-            <el-select v-model="form.NATIONALITY" filterable clearable @visible-change="queryNationality" placeholder="请选择"  size="small" class="yy-input-input">
-              <el-option
-                v-for="item in nation"
-                :key="item.CODE"
-                :label="item.CODE+' - '+item.CNAME"
-                :value="item.CODE">
+          <el-col :span="24" class="input-item">
+            <span class="yy-input-text"><font class="yy-color">*</font> 指标项代码：</span>
+            <el-input placeholder="请输入内容" size="small"   v-model="form.NAME"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
+          </el-col>
+        </el-row>
+        <el-row type="flex"  class="mb-6">
+          <el-col :span="24" class="input-item">
+            <span class="yy-input-text"><font class="yy-color">*</font> 指标项名称：</span>
+            <el-input placeholder="请输入内容" size="small"  v-model="form.NAME"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
+          </el-col>
+        </el-row>
+        <el-row type="flex" class="mb-6" >
+          <el-col :span="24" class="input-item">
+            <span class="yy-input-text">指标项描述：</span>
+           <el-input type="textarea" placeholder="请输入内容" maxlength="250" :autosize="{ minRows: 3, maxRows: 6}" v-model="form.REASON" class="yy-input-input"></el-input>
+          </el-col>
+        </el-row>
+        <el-row type="flex"  class="mb-6">
+          <el-col :span="24" class="input-item">
+            <span class="yy-input-text"><font class="yy-color">*</font> 指标类型：</span>
+            <el-select v-model="form.LABELTYPE_CODE" class="yy-input-input"  filterable clearable placeholder="请选择"   size="small">
+              <el-option value="名单" label="名单">
               </el-option>
-            </el-select>
-
-          </el-col>
-
-          <el-col :span="12" class="input-item">
-            <span class="yy-input-text"><font class="yy-color">*</font> 证件种类：</span>
-            <el-select v-model="form.CARDTYPE" placeholder="请选择"  filterable clearable size="small" class="yy-input-input">
-             <el-option value="T" label="T - 区域证件">
-             </el-option>
-             <el-option value="P" label="P - 护照">
-             </el-option>
-            </el-select>
-          </el-col>
-        </el-row>
-        <el-row type="flex" class="mb-6">
-          <el-col :span="12" class="input-item">
-            <span class="yy-input-text" style="width:18%"><font class="yy-color">*</font> 证件号码：</span>
-            <el-input placeholder="请输入内容" size="small" v-model="form.CARDNO"  class="yy-input-input"></el-input>
-          </el-col>
-
-          <el-col :span="12" class="input-item">
-            <span class="yy-input-text" style="width:18%">姓名：</span>
-            <el-input placeholder="请输入内容" size="small" v-model="form.FAMILYNAME"  class="yy-input-input"></el-input>
-          </el-col>
-        </el-row>
-        <el-row type="flex" class="mb-6">
-          <el-col :span="12" class="input-item">
-            <span class="yy-input-text" style="width:18%">性别：</span>
-            <el-select v-model="form.GENDER" placeholder="请选择"  filterable clearable size="small" class="yy-input-input">
-               <el-option value="U" label="U - 未知">
-               </el-option>
-               <el-option value="M" label="M - 男">
-               </el-option>
-               <el-option value="F" label="F - 女">
-               </el-option>
+              <el-option value="姓名" label="姓名">
+              </el-option>
+              <el-option value="时间" label="时间">
+              </el-option>
+              <el-option value="民族" label="民族">
+              </el-option>
+              <el-option value="职业" label="职业">
+              </el-option>
              </el-select>
           </el-col>
-
-          <el-col :span="12" class="input-item">
-            <span class="yy-input-text" style="width:18%">出生日期：</span>
-            <el-date-picker
-               v-model="form.DATEOFBIRTH" format="yyyy-MM-dd"
-               type="date" size="small" value-format="yyyyMMdd"
-               placeholder="出生日期" class="yy-input-input">
-           </el-date-picker>
-          </el-col>
         </el-row>
+        <el-row type="flex"  class="mb-6">
+          <el-col :span="24" class="input-item">
+            <span class="yy-input-text"><font class="yy-color">*</font> 指标来源：</span>
+            <el-select v-model="form.LABwELTYPE_CODE" class="yy-input-input"  filterable clearable placeholder="请选择"   size="small">
+              <el-option value="数据库" label="数据库">
+              </el-option>
+              <el-option value="收工录入" label="收工录入">
+              </el-option>
+              <el-option value="计算得出" label="计算得出">
+              </el-option>
 
-        <el-row type="flex" class="mb-6">
-          <el-col :span="12" class="input-item">
-            <span class="yy-input-text" style="width:18%">有效日期：</span>
-            <el-date-picker
-               v-model="form.EXPIREDATE" format="yyyy-MM-dd"
-               type="datetime" size="small" value-format="yyyyMMdd"
-               placeholder="请输入有效日期" class="yy-input-input">
-           </el-date-picker>
-          </el-col>
-
-          <el-col :span="12" class="input-item">
-            <span class="yy-input-text" style="width:18%">名单类型：</span>
-            <el-select v-model="form.TYPE_NAME" placeholder="请选择"  filterable clearable size="small" class="yy-input-input">
-               <el-option value="重点维族人" label="重点维族人">
-               </el-option>
-               <el-option value="黑名单" label="黑名单">
-               </el-option>
              </el-select>
           </el-col>
         </el-row>
 
+        <el-row type="flex"  class="mb-6">
+          <el-col :span="24" class="input-item">
+            <span class="yy-input-text"><font class="yy-color">*</font> 计算方式：</span>
+            <el-input placeholder="请输入内容" size="small"  v-model="form.NAME"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
+          </el-col>
+        </el-row>
+        <el-row type="flex"  class="mb-6">
+          <el-col :span="24" class="input-item">
+            <span class="yy-input-text"><font class="yy-color">*</font> 方法名称：</span>
+            <el-input placeholder="请输入内容" size="small" v-model="form.NAME"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
+          </el-col>
+        </el-row>
+        <el-row type="flex"  class="mb-6">
+          <el-col :span="24" class="input-item">
+            <span class="yy-input-text">参数：</span>
+            <el-input placeholder="请输入内容" size="small"   v-model="form.NAME"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
+          </el-col>
+        </el-row>
+        <el-row type="flex" class="mb-6" >
+          <el-col :span="24" class="input-item">
+            <span class="yy-input-text">脚本：</span>
+           <el-input type="textarea" placeholder="请输入内容" maxlength="250" :autosize="{ minRows: 3, maxRows: 6}" v-model="form.REASON" class="yy-input-input"></el-input>
+          </el-col>
+        </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="addItem('addForm')" size="small">确 定</el-button>
         <el-button @click="addDialogVisible = false" size="small">取 消</el-button>
       </div>
     </el-dialog>
-    <el-dialog title="详情" :visible.sync="detailsDialogVisible" >
+
+    <el-dialog title="详情" :visible.sync="detailsDialogVisible" width="500px" >
       <el-form :model="map" ref="mapForm">
         <el-row type="flex"  class="mb-6">
-          <el-col :span="12" class="input-item">
-            <span class="yy-input-text">国籍/地区：</span>
-          <span class="yy-input-input detailinput">  {{mapForm.NATIONALITY}}</span>
+          <el-col :span="24" class="input-item">
+            <span class="yy-input-text">指标项代码：</span>
+          <span class="yy-input-input detailinput">  {{mapForm.LABELTYPE_NAME}}</span>
             </el-col>
-
-          <el-col :span="12" class="input-item">
-            <span class="yy-input-text">证件种类：</span>
-          <span class="yy-input-input detailinput">  {{mapForm.CARDTYPE}}</span>
-          </el-col>
         </el-row>
-        <el-row type="flex" class="mb-6" >
-          <el-col :span="12" class="input-item">
-            <span class="yy-input-text">证件号码：</span>
-          <span class="yy-input-input detailinput">  {{mapForm.CARDNO}}</span>
-          </el-col>
-
-          <el-col :span="12" class="input-item">
-            <span class="yy-input-text">姓名：</span>
-          <span class="yy-input-input detailinput">  {{mapForm.FAMILYNAME}}</span>
-          </el-col>
-        </el-row>
-
-        <el-row type="flex" class="mb-6" >
-          <el-col :span="12" class="input-item">
-            <span class="yy-input-text">性别：</span>
-          <span class="yy-input-input detailinput">  {{mapForm.GENDER}}</span>
-          </el-col>
-
-          <el-col :span="12" class="input-item">
-            <span class="yy-input-text">出生日期：</span>
-          <span class="yy-input-input detailinput">  {{mapForm.DATEOFBIRTH}}</span>
-          </el-col>
-        </el-row>
-        <el-row type="flex" class="mb-6" >
-          <el-col :span="12" class="input-item">
-            <span class="yy-input-text">有效日期：</span>
-          <span class="yy-input-input detailinput">  {{mapForm.EXPIREDATE}}</span>
-          </el-col>
-
-          <el-col :span="12" class="input-item">
-            <span class="yy-input-text">名单类型：</span>
-          <span class="yy-input-input detailinput">  {{mapForm.TYPE_NAME}}</span>
-          </el-col>
-        </el-row>
-
         <el-row type="flex" class="mb-6" >
           <el-col :span="24" class="input-item">
-            <span class="input-text" style="width:12.5%;">事件描述：</span>
-          <span class="" style="width:85%;border: 1px solid #eeeeee; background: #F5F7FA;">  {{mapForm.EVENTCOUNT}}</span>
+            <span class="yy-input-text">指标项名称：</span>
+          <span class="yy-input-input detailinput">  {{mapForm.NAME}}</span>
           </el-col>
         </el-row>
         <el-row type="flex" class="mb-6" >
-          <el-col :span="12" class="input-item">
-            <span class="yy-input-text">操作人：</span>
+          <el-col :span="24" class="input-item">
+            <span class="yy-input-text">指标项描述：</span>
+          <span class="yy-input-input detailinput">  {{mapForm.REASON}}</span>
+          </el-col>
+        </el-row>
+        <el-row type="flex" class="mb-6" >
+          <el-col :span="24" class="input-item">
+            <span class="yy-input-text">指标类型：</span>
           <span class="yy-input-input detailinput">  {{mapForm.CREATEUSER}}</span>
           </el-col>
-          <el-col :span="12" class="input-item">
-            <span class="yy-input-text">操作时间：</span>
+        </el-row>
+        <el-row type="flex" class="mb-6" >
+          <el-col :span="24" class="input-item">
+            <span class="yy-input-text">指标来源：</span>
+          <span class="yy-input-input detailinput">  {{mapForm.CREATETIME}}</span>
+          </el-col>
+        </el-row>
+        <el-row type="flex" class="mb-6" >
+          <el-col :span="24" class="input-item">
+            <span class="yy-input-text">计算方式：</span>
+          <span class="yy-input-input detailinput">  {{mapForm.CREATETIME}}</span>
+          </el-col>
+        </el-row>
+        <el-row type="flex" class="mb-6" >
+          <el-col :span="24" class="input-item">
+            <span class="yy-input-text">方法名称：</span>
+          <span class="yy-input-input detailinput">  {{mapForm.CREATETIME}}</span>
+          </el-col>
+        </el-row>
+        <el-row type="flex" class="mb-6" >
+          <el-col :span="24" class="input-item">
+            <span class="yy-input-text">参数：</span>
+          <span class="yy-input-input detailinput">  {{mapForm.CREATETIME}}</span>
+          </el-col>
+        </el-row>
+        <el-row type="flex" class="mb-6" >
+          <el-col :span="24" class="input-item">
+            <span class="yy-input-text">脚本：</span>
           <span class="yy-input-input detailinput">  {{mapForm.CREATETIME}}</span>
           </el-col>
         </el-row>
@@ -353,6 +280,7 @@
         <el-button @click="detailsDialogVisible = false" size="small">取 消</el-button>
       </div>
     </el-dialog>
+
   </div>
   </div>
 </template>
@@ -391,7 +319,6 @@ export default {
         label: 'name'
       },
       defaultChecked:[],
-      nation:[],
       multipleSelection: [],
       pickerOptions1: {
         // shortcuts: [{
@@ -447,17 +374,16 @@ export default {
       };
       this.$api.post('/manage-platform/roleSys/selectPara', p,
         r => {
-          console.log("----" + r);
           this.tableData = r.data.roleList.pdList;
           this.TotalResult = r.data.roleList.totalResult;
         })
     },
     queryNationality() {
-      this.$api.post('/manage-platform/codeTable/queryNationality', {},
+      this.$api.post('/manage-platform/userSys/goAdd', {},
         r => {
           console.log(r);
           if (r.success) {
-            this.nation = r.data;
+            this.company = r.data.deptList;
           }
         })
     },
@@ -519,7 +445,6 @@ export default {
       }).then(() => {
         this.$api.post('/manage-platform/roleSys/delete', p,
           r => {
-            console.log("===" + r);
             if (r.success) {
               this.$message({
                 message: '删除成功！',
@@ -572,7 +497,6 @@ menuItem(){
           message: '保存成功'
         });
       }else{
-
   this.$message.error('保存失败');
       }
     })
@@ -580,7 +504,14 @@ menuItem(){
 },
   },
   filters: {
-
+    fifterstatus(val) {
+      if (val == 0) {
+        return "停用"
+      } else {
+        return "启用"
+      }
+      // return val*2
+    }
   },
 }
 </script>
