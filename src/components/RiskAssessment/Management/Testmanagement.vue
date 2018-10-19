@@ -1,7 +1,6 @@
 <template lang="html">
   <div class="zlbg">
     <div class="middle-top mb-2">
-
       <el-row type="flex" class="middle">
         <el-col :span="22" class="br pr-20">
           <div class="title-green">
@@ -10,36 +9,20 @@
           <el-row align="center"   :gutter="2" >
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">模型名称：</span>
-              <el-input placeholder="请输入内容" size="small" v-model="pd.LABELNAME"  class="input-input"></el-input>
+              <el-input placeholder="请输入内容" size="small" v-model="pd.NAME"  class="input-input"></el-input>
             </el-col>
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
-              <span class="input-text">是否启用：</span>
-              <el-select v-model="pd.LABELTYPE_CODE" class="input-input"  filterable clearable placeholder="请选择"   size="small" >
-
-                <el-option value="是" label="是">
+              <span class="input-text">所属口岸：</span>
+              <el-select v-model="pd.LABELTYPE_CODE" class="input-input"  filterable clearable placeholder="请选择"   size="small">
+                <el-option value="北京" label="北京">
                 </el-option>
-                <el-option value="否" label="否">
+                <el-option value="上海" label="上海">
                 </el-option>
-
-               </el-select>
-            </el-col>
-            <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
-              <span class="input-text">模型状态：</span>
-              <el-select v-model="pd.LABELTYPE_CODE" class="input-input"  filterable clearable placeholder="请选择"   size="small" >
-                <el-option value="新增" label="新增">
-                </el-option>
-                <el-option value="测试中" label="测试中">
-                </el-option>
-                <el-option value="测试完成" label="测试完成">
-                </el-option>
-                <el-option value="待审核" label="待审核">
-                </el-option>
-                <el-option value="审核通过" label="审核通过">
-                </el-option>
-                <el-option value="审核不通过" label="审核不通过">
+                <el-option value="广东" label="广东">
                 </el-option>
                </el-select>
             </el-col>
+
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">最后更新时间：</span>
               <div class="input-input t-flex t-date">
@@ -56,15 +39,6 @@
             </el-date-picker>
           </div>
             </el-col>
-            <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
-              <span class="input-text">发布状态：</span>
-              <el-select v-model="pd.LABELTYPE_CODE" class="input-input"  filterable clearable placeholder="请选择"   size="small" >
-                <el-option value="未发布" label="未发布">
-                </el-option>
-                <el-option value="已发布" label="已发布">
-                </el-option>
-               </el-select>
-            </el-col>
           </el-row>
         </el-col>
         <el-col :span="2" class="down-btn-area" style="padding-top:30px;">
@@ -73,71 +47,50 @@
       </el-row>
     </div>
     <div class="middle">
-      <el-row class="mb-15">
-        <el-button type="primary" size="small" @click="adds(0,'');form={};">新增模型</el-button>
-        </el-row>
+
       <el-table
         :data="tableData"
         border
         style="width: 100%;"
         >
         <el-table-column
-          type="Index"
-          label="序号" width="60">
+        type="Index"
+        label="序号">
         </el-table-column>
         <el-table-column
           prop="LABELTYPE_NAME"
           label="模型名称">
         </el-table-column>
          <el-table-column
-          prop="LABELNAME"
+          prop="NAME"
           label="模型简称"
           >
         </el-table-column>
         <el-table-column
-          prop="LABELREASON"
+          prop="CREATEUSER"
           label="模型描述">
         </el-table-column>
         <el-table-column
-          prop="CREATEUSER"
+          prop="CREATETIME"
           label="创建人">
         </el-table-column>
         <el-table-column
           prop="CREATETIME"
-          label="创建口岸">
+          label="所属口岸">
         </el-table-column>
         <el-table-column
-          prop="UPDATEUSER"
-          label="使用口岸">
+          prop="CREATETIME"
+          label="最后更新日期">
         </el-table-column>
         <el-table-column
-          prop="UPDATETIME"
-          label="最后更新日期" width="130">
-        </el-table-column>
-        <el-table-column
-          prop="UPDATETIME"
-          label="有效日期">
-        </el-table-column>
-        <el-table-column
-          prop="UPDATETIME"
-          label="是否启用">
-        </el-table-column>
-        <el-table-column
-          prop="UPDATETIME"
-          label="模型状态">
-        </el-table-column>
-        <el-table-column
-          prop="UPDATETIME"
-          label="发布状态">
-        </el-table-column>
-      <el-table-column
-          label="操作" width="480">
+          label="操作" width="550">
           <template slot-scope="scope">
-            <el-button class="table-btn" size="mini" plain icon="el-icon-edit" @click="adds(1,scope.row)">编辑</el-button>
-            <el-button class="table-btn" size="mini" plain icon="el-icon-delete" @click="deletes(scope.row)">删除</el-button>
-            <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row)">版本查看</el-button>
-            <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row)">关联问题</el-button>
-            <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row)">推送测试</el-button>
+
+              <el-button class="table-btn" size="mini" plain icon="el-icon-edit" @click="adds(1,scope.row)">编辑</el-button>
+              <el-button class="table-btn" size="mini" plain icon="el-icon-delete" @click="deletes(scope.row)">删除</el-button>
+              <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row)">导入测试数据</el-button>
+              <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row)">查看测试结果</el-button>
+              <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row)">测试完成</el-button>
          </template>
         </el-table-column>
       </el-table>
@@ -171,145 +124,37 @@
         </el-pagination>
       </div>
     </div>
-    <el-dialog :title="dialogText" :visible.sync="addDialogVisible">
+    <el-dialog :title="dialogText" :visible.sync="addDialogVisible" width="500px" >
       <el-form :model="form" ref="addForm">
-
         <el-row type="flex"  class="mb-6">
-          <el-col :span="12" class="input-item">
-            <span class="yy-input-text"><font class="yy-color">*</font> 模型名称：</span>
-            <el-input placeholder="请输入内容" size="small"   v-model="form.LABELNAME"  class="yy-input-input" ></el-input>
-
-          </el-col>
-          <el-col :span="12" class="input-item">
-            <span class="yy-input-text"><font class="yy-color">*</font> 是否启用：</span>
-            <el-select v-model="form.LABELTYPE_C1ODE" class="input-input"  filterable clearable placeholder="请选择"   size="small" >
-              <el-option value="是" label="是">
+          <el-col :span="24" class="input-item">
+            <span class="yy-input-text"><font class="yy-color">*</font> 类型：</span>
+            <el-select v-model="form.LABELTYPE_CODE" class="yy-input-input"  filterable clearable placeholder="请选择" size="small">
+              <el-option value="涉恐类" label="涉恐类">
               </el-option>
-              <el-option value="否" label="否">
+              <el-option value="偷渡类" label="偷渡类">
+              </el-option>
+              <el-option value="三非类" label="三非类">
+              </el-option>
+              <el-option value="变换身份类" label="变换身份类">
+              </el-option>
+              <el-option value="其他" label="其他">
               </el-option>
              </el-select>
           </el-col>
+        </el-row>
+        <el-row type="flex"  class="mb-6">
+          <el-col :span="24" class="input-item">
+            <span class="yy-input-text"><font class="yy-color">*</font> 问题名称：</span>
+            <el-input placeholder="请输入内容(不能超过20个汉字)" size="small" maxlength="20"  v-model="form.NAME"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
           </el-col>
         </el-row>
         <el-row type="flex" class="mb-6" >
           <el-col :span="24" class="input-item">
-            <span class="input-text memol">适用口岸范围：</span>
-           <el-input type="textarea" placeholder="请输入内容" maxlength="250" :autosize="{ minRows: 3, maxRows: 6}" v-model="form.LABELREASON"  class="memor"></el-input>
+            <span class="yy-input-text">问题描述：</span>
+           <el-input type="textarea" placeholder="请输入内容" maxlength="250" :autosize="{ minRows: 3, maxRows: 6}" v-model="form.REASON" class="yy-input-input"></el-input>
           </el-col>
         </el-row>
-        <el-row type="flex" class="mb-6" >
-          <el-col :span="24" class="input-item">
-            <span class="input-text memol">模型描述：</span>
-           <el-input type="textarea" placeholder="请输入内容" maxlength="250" :autosize="{ minRows: 3, maxRows: 6}" v-model="form.LABELREASON" class="memor"></el-input>
-          </el-col>
-        </el-row>
-        <el-row type="flex" class="mb-6" >
-          <el-col :span="24" class="input-item" >
-            <span class="input-text memol">核查策略：</span>
-           <el-input type="textarea" placeholder="请输入内容" maxlength="250" :autosize="{ minRows: 3, maxRows: 6}" v-model="form.LABELREASON" class="memor"></el-input>
-          </el-col>
-        </el-row>
-        <el-row type="flex" class="mb-6" >
-          <el-col :span="24" class="input-item" >
-            <span class="input-text memol">案例描述：</span>
-
-           <el-input type="textarea" placeholder="请输入内容" maxlength="250" :autosize="{ minRows: 3, maxRows: 6}" v-model="form.LABELREASON" class="memor"></el-input>
-          </el-col>
-        </el-row>
-        <el-row type="flex" class="mb-6" >
-          <el-col :span="24" class="tiaojian">进入条件</el-col>
-        </el-row>
-        <el-row type="flex" class="mb-6" >
-          <el-col :span="24" class="title">指标项
-<div style="float:right;padding-right:10px;">  <el-button @click="addDialogVisible = false" size="small">添 加</el-button></div>
-          </el-col>
-        </el-row>
-        <el-row type="flex">
-          <el-col :span="3" class="tjcon tjconr" >C1：  </el-col>
-            <el-col :span="5" class="tjcon">
-               <el-select v-model="form.LABELTdYPE_CODE"  class="memoa" filterable clearable placeholder="请选择"   size="small" >
-                <el-option value="是" label="是">
-                </el-option>
-                <el-option value="否" label="否">
-                </el-option>
-               </el-select>
-             </el-col>
-               <el-col :span="5" class="tjcon">
-                 <el-select v-model="form.LABELTYPEd_CODE" class="memoa"  filterable clearable placeholder="请选择"   size="small" >
-                  <el-option value="是" label="是">
-                  </el-option>
-                  <el-option value="否" label="否">
-                  </el-option>
-                 </el-select>
-                </el-col>
-                <el-col :span="11" class="tjcon">
-                   <el-input placeholder="请输入内容" size="small" style="width:96%"   v-model="form.LABELNAME" ></el-input>
-                </el-col>
-        </el-row>
-        <el-row type="flex" >
-          <el-col :span="3" class="tjcon"  style="text-align:right">
-进入规则：
-          </el-col>
-          <el-col :span="21" class="tjcon">
-            <el-input type="textarea" placeholder="请输入内容" maxlength="250" :autosize="{ minRows: 3, maxRows: 3}" v-model="form.LABELREASON"  class="memoa"></el-input>
-
-          </el-col>
-        </el-row>
-        <el-row type="flex" >
-          <el-col :span="3" class="tjcon"  style="text-align:right">
-过滤规则：
-          </el-col>
-          <el-col :span="21" class="tjcon">
-            <el-input type="textarea" placeholder="请输入内容" maxlength="250" :autosize="{ minRows: 3, maxRows: 3}" v-model="form.LABELREASON"  class="memoa"></el-input>
-
-          </el-col>
-        </el-row>
-
-        <el-row type="flex" class="mb-6" >
-          <el-col :span="24" class="title">预警触发条件
-<div style="float:right;padding-right:10px;">  <el-button @click="addDialogVisible = false" size="small">添 加</el-button></div>
-          </el-col>
-        </el-row>
-    <el-row type="flex" >
-      <el-col :span="3" class="tjcon tjconr" >
-规则名称：
-      </el-col>
-      <el-col :span="9" class="tjcon">
-        <el-input type="text" placeholder="请输入内容" size="small"  v-model="form.LABELREASON"  class="memoa"></el-input>
-
-      </el-col>
-      <el-col :span="3" class="tjcon tjconr">
-触发条件：
-      </el-col>
-      <el-col :span="9" class="tjcon">
-        <el-input type="text" placeholder="请输入内容" size="small"  v-model="form.LABELREASON"  class="memoa"></el-input>
-
-      </el-col>
-    </el-row>
-    <el-row type="flex" >
-      <el-col :span="3" class="tjcon tjconr" >
-风险等级：
-      </el-col>
-      <el-col :span="9" class="tjcon">
-        <el-select v-model="form.LABELTdYPE_CODE"  class="memoa" filterable clearable placeholder="请选择"   size="small" >
-         <el-option value="高" label="高">
-         </el-option>
-         <el-option value="中" label="中">
-         </el-option>
-         <el-option value="低" label="低">
-         </el-option>
-        </el-select>
-      </el-col>
-      <el-col :span="3" class="tjcon tjconr">
-规则描述：
-      </el-col>
-      <el-col :span="9" class="tjcon">
-        <el-input type="text" placeholder="请输入内容" size="small"  v-model="form.LABELREASON"  class="memoa"></el-input>
-
-      </el-col>
-    </el-row>
-
-
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="addItem('addForm')" size="small">确 定</el-button>
@@ -317,11 +162,38 @@
       </div>
     </el-dialog>
 
-    <el-dialog title="详情" :visible.sync="detailsDialogVisible">
+    <el-dialog title="详情" :visible.sync="detailsDialogVisible" width="500px" >
       <el-form :model="map" ref="mapForm">
-    <el-tabs :tab-position="tabPosition" style="height: 200px;">
-    <el-
-   </el-tabs>
+        <el-row type="flex"  class="mb-6">
+          <el-col :span="24" class="input-item">
+            <span class="yy-input-text">类型：</span>
+          <span class="yy-input-input detailinput">  {{mapForm.LABELTYPE_NAME}}</span>
+            </el-col>
+        </el-row>
+        <el-row type="flex" class="mb-6" >
+          <el-col :span="24" class="input-item">
+            <span class="yy-input-text">问题名称：</span>
+          <span class="yy-input-input detailinput">  {{mapForm.NAME}}</span>
+          </el-col>
+        </el-row>
+        <el-row type="flex" class="mb-6" >
+          <el-col :span="24" class="input-item">
+            <span class="yy-input-text">问题描述：</span>
+          <span class="yy-input-input detailinput">  {{mapForm.REASON}}</span>
+          </el-col>
+        </el-row>
+        <el-row type="flex" class="mb-6" >
+          <el-col :span="24" class="input-item">
+            <span class="yy-input-text">创建人：</span>
+          <span class="yy-input-input detailinput">  {{mapForm.CREATEUSER}}</span>
+          </el-col>
+        </el-row>
+        <el-row type="flex" class="mb-6" >
+          <el-col :span="24" class="input-item">
+            <span class="yy-input-text">创建时间：</span>
+          <span class="yy-input-input detailinput">  {{mapForm.CREATETIME}}</span>
+          </el-col>
+        </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="detailsDialogVisible = false" size="small">取 消</el-button>
@@ -331,7 +203,6 @@
   </div>
   </div>
 </template>
-
 <script>
 export default {
   data() {
@@ -344,7 +215,6 @@ export default {
       company: [],
       sertail:"",
       dialogText:"新增",
-      tabPosition: 'left',
       addDialogVisible: false,
       detailsDialogVisible: false,
       menuDialogVisible: false,
@@ -423,7 +293,6 @@ export default {
       };
       this.$api.post('/manage-platform/roleSys/selectPara', p,
         r => {
-          console.log("----" + r);
           this.tableData = r.data.roleList.pdList;
           this.TotalResult = r.data.roleList.totalResult;
         })
@@ -437,10 +306,8 @@ export default {
           }
         })
     },
-
     adds(n, i) {
       this.addDialogVisible = true;
-
       if (n != 0) {
         this.tp = 1;
         // this.form = i;
@@ -449,7 +316,6 @@ export default {
       }else {
         this.dialogText="新增";
       }
-
     },
     addItem(formName) {
             if(this.$validator.listener.demo2){
@@ -460,7 +326,6 @@ export default {
                }
             }
       var url = "/manage-platform/roleSys/save";
-
       if (this.tp == 1) {
         url = "/manage-platform/roleSys/edit";
       }
@@ -475,7 +340,6 @@ export default {
           } else {
             this.$message.error(r.Message);
           }
-
           this.$refs[formName].resetFields();
           this.addDialogVisible = false;
           this.getList(this.CurrentPage, this.pageSize, this.pd);
@@ -498,10 +362,8 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-
         this.$api.post('/manage-platform/roleSys/delete', p,
           r => {
-            console.log("===" + r);
             if (r.success) {
               this.$message({
                 message: '删除成功！',
@@ -513,17 +375,13 @@ export default {
             }
           }, e => {
             this.$message.error('失败了');
-
           });
-
-
       }).catch(() => {
         this.$message({
           type: 'info',
           message: '已取消删除'
         });
       });
-
     },
     menus(i) {
       this.menuDialogVisible = true;
@@ -540,11 +398,8 @@ export default {
           this.defaultChecked=r.data.checkList;
           }
         })
-
-
     },
 menuItem(){
-
   let checkList=this.$refs.tree.getCheckedNodes();
   //let checkList=this.$refs.tree.getCheckedKeys();
   let p={
@@ -561,20 +416,16 @@ menuItem(){
           message: '保存成功'
         });
       }else{
-
   this.$message.error('保存失败');
       }
     })
         this.menuDialogVisible = false;
-
 },
   },
   filters: {
-
     fifterstatus(val) {
       if (val == 0) {
         return "停用"
-
       } else {
         return "启用"
       }
@@ -588,32 +439,19 @@ menuItem(){
 .add-dialog {
   /* padding-left:40px; */
 }
-
 .detail-msg-row {
   color: #999;
   line-height: 32px;
 }
-
 .detail-msg-row span {
   color: #333;
   display: inline-block;
   width: 60px;
 }
-
 .yy-input-text {
   width: 25% !important;
 }
-
 .yy-input-input {
   width: 68% !important;
-
 }
-
-.memol{width:12.5%!important;}
-.memor{width:85%!important;}
-.memoa{width: 98%;}
-.tiaojian{color: #2084F4; border-bottom: 1px solid #5EA7F6; line-height: 35px; font-size: 16px; font-weight: bold;}
-.title{background: #D4E8FF; font-weight: bold;color: #666; height: 40px; line-height: 40px; padding-left: 10px;}
-.tjcon{background: #FBFCFF;padding: 5px 0px;}
-.tjconr{text-align:right;line-height:30px;}
 </style>
