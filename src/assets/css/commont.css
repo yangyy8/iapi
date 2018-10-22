@@ -73,6 +73,7 @@
   .septum{
     display: inline-block;
     width: 4%;
+    text-align: center;
   }
   .t-flex{
     display: flex;
@@ -128,4 +129,7 @@
 .review-span{
   display: inline-block;
   line-height: 32px;
+}
+.mt-15{
+  margin-top: 15px!important;
 }

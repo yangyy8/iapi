@@ -695,6 +695,18 @@ export default new Router({
           name: "LabelManagement",
           component: resolve => require(['@/components/RiskAssessment/Management/LabelManagement'], resolve),
         },
+        //模型测试管理
+        {
+          path: "Testmanagement",
+          name: "Testmanagement",
+          component: resolve => require(['@/components/RiskAssessment/Management/Testmanagement'], resolve),
+        },
+        //模型审批管理
+        {
+          path: "AuditManagement",
+          name: "AuditManagement",
+          component: resolve => require(['@/components/RiskAssessment/Management/AuditManagement'], resolve),
+        },
 
         //事件监控 EventMonitoring
         {
