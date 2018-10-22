@@ -15587,7 +15587,7 @@
   .el-table--scrollable-y .el-table__body-wrapper {
     overflow-y: auto; }
   .el-table thead {
-    color: #909399;
+    color: #ffffff;
     font-weight: 500; }
     .el-table thead.is-group th {
       background: #f5f7fa; }
@@ -15636,7 +15636,7 @@
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-    background-color: #fff; }
+    background-color: #858585; }
     .el-table th div {
       display: inline-block;
       padding-left: 10px;
