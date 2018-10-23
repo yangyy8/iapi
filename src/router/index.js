@@ -628,11 +628,35 @@ export default new Router({
           name: "EventBJSJ",
           component: resolve => require(['@/components/RiskAssessment/RiskEvent/EventBJSJ'], resolve),
         },
+        // 已归档风险报警事件
+        {
+          path: "EventBJSJYGD",
+          name: "EventBJSJYGD",
+          component: resolve => require(['@/components/RiskAssessment/RiskEvent/EventBJSJYGD'], resolve),
+        },
         // 风险报警事件查看
         {
           path: "BJSJCK",
           name: "BJSJCK",
           component: resolve => require(['@/components/RiskAssessment/RiskEvent/BJSJCK'], resolve),
+        },
+        // 电子档案查询
+        {
+          path: "FileDZDACX",
+          name: "FileDZDACX",
+          component: resolve => require(['@/components/RiskAssessment/RiskEvent/FileDZDACX'], resolve),
+        },
+        // 电子档案
+        {
+          path: "DZDA",
+          name: "DZDA",
+          component: resolve => require(['@/components/RiskAssessment/RiskEvent/DZDA'], resolve),
+        },
+        // 电子档案
+        {
+          path: "BJCLCX",
+          name: "BJCLCX",
+          component: resolve => require(['@/components/RiskAssessment/RiskEvent/BJCLCX'], resolve),
         },
         //模型管理
         {
