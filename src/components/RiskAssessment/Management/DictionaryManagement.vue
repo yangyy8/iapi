@@ -8,23 +8,12 @@
           </div>
           <el-row align="center"   :gutter="2" >
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
-              <span class="input-text">模型名称：</span>
+              <span class="input-text">字典名称：</span>
               <el-input placeholder="请输入内容" size="small" v-model="pd.NAME"  class="input-input"></el-input>
-            </el-col>
-            <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
-              <span class="input-text">所属口岸：</span>
-              <el-select v-model="pd.LABELTYPE_CODE" class="input-input"  filterable clearable placeholder="请选择"   size="small">
-                <el-option value="北京" label="北京">
-                </el-option>
-                <el-option value="上海" label="上海">
-                </el-option>
-                <el-option value="广东" label="广东">
-                </el-option>
-               </el-select>
             </el-col>
 
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
-              <span class="input-text">最后更新时间：</span>
+              <span class="input-text">创建时间：</span>
               <div class="input-input t-flex t-date">
                <el-date-picker
                v-model="pd.BEGINDATE" format="yyyy-MM-dd HH:mm:ss"
@@ -39,6 +28,11 @@
             </el-date-picker>
           </div>
             </el-col>
+            <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+              <span style="width:10%"></span>
+              <el-input placeholder="请输入代码项及代码中文描述" size="small" v-model="pd.NAME" ></el-input>
+            </el-col>
+
           </el-row>
         </el-col>
         <el-col :span="2" class="down-btn-area" style="padding-top:30px;">
@@ -47,28 +41,26 @@
       </el-row>
     </div>
     <div class="middle">
-
+      <el-row class="mb-15">
+        <el-button type="primary" size="small" @click="adds(0,'');form={};">新增</el-button>
+        </el-row>
       <el-table
         :data="tableData"
         border
         style="width: 100%;"
         >
         <el-table-column
-        type="Index"
-        label="序号">
-        </el-table-column>
-        <el-table-column
           prop="LABELTYPE_NAME"
-          label="模型名称">
+          label="字典名称">
         </el-table-column>
          <el-table-column
           prop="NAME"
-          label="模型简称"
+          label="代码项"
           >
         </el-table-column>
         <el-table-column
           prop="CREATEUSER"
-          label="模型描述">
+          label="代码中文描述">
         </el-table-column>
         <el-table-column
           prop="CREATETIME"
@@ -76,21 +68,14 @@
         </el-table-column>
         <el-table-column
           prop="CREATETIME"
-          label="所属口岸">
+          label="创建时间">
         </el-table-column>
         <el-table-column
-          prop="CREATETIME"
-          label="最后更新日期">
-        </el-table-column>
-        <el-table-column
-          label="操作" width="550">
+          label="操作" width="300">
           <template slot-scope="scope">
-
-              <el-button class="table-btn" size="mini" plain icon="el-icon-edit" @click="adds1(1,scope.row)">编辑</el-button>
-              <el-button class="table-btn" size="mini" plain icon="el-icon-delete" @click="deletes1(scope.row)">删除</el-button>
-              <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="deletes1(scope.row)">导入测试数据</el-button>
-              <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row)">查看测试结果</el-button>
-              <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="deletes1(scope.row)">测试完成</el-button>
+              <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row)">详情</el-button>
+              <el-button class="table-btn" size="mini" plain icon="el-icon-edit" @click="adds(1,scope.row)">编辑</el-button>
+              <el-button class="table-btn" size="mini" plain icon="el-icon-delete" @click="deletes(scope.row)">删除</el-button>
          </template>
         </el-table-column>
       </el-table>
@@ -128,30 +113,39 @@
       <el-form :model="form" ref="addForm">
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
-            <span class="yy-input-text"><font class="yy-color">*</font> 类型：</span>
+            <span class="yy-input-text"><font class="yy-color">*</font> 字典项类型：</span>
             <el-select v-model="form.LABELTYPE_CODE" class="yy-input-input"  filterable clearable placeholder="请选择" size="small">
-              <el-option value="涉恐类" label="涉恐类">
+              <el-option value="机场" label="机场">
               </el-option>
-              <el-option value="偷渡类" label="偷渡类">
+              <el-option value="国家" label="国家">
               </el-option>
-              <el-option value="三非类" label="三非类">
+              <el-option value="其它" label="其它">
               </el-option>
-              <el-option value="变换身份类" label="变换身份类">
-              </el-option>
-              <el-option value="其他" label="其他">
-              </el-option>
+
              </el-select>
           </el-col>
         </el-row>
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
-            <span class="yy-input-text"><font class="yy-color">*</font> 问题名称：</span>
-            <el-input placeholder="请输入内容(不能超过20个汉字)" size="small" maxlength="20"  v-model="form.NAME"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
+            <span class="yy-input-text"><font class="yy-color">*</font> 字典名称：</span>
+            <el-input placeholder="请输入内容" size="small"   v-model="form.NAME"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
+          </el-col>
+        </el-row>
+        <el-row type="flex"  class="mb-6">
+          <el-col :span="24" class="input-item">
+            <span class="yy-input-text"> 代码项：</span>
+            <el-input placeholder="请输入内容" size="small"   v-model="form.NAME"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
+          </el-col>
+        </el-row>
+        <el-row type="flex"  class="mb-6">
+          <el-col :span="24" class="input-item">
+            <span class="yy-input-text"> 代码中文描述：</span>
+            <el-input placeholder="请输入内容" size="small"   v-model="form.NAME"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
           </el-col>
         </el-row>
         <el-row type="flex" class="mb-6" >
           <el-col :span="24" class="input-item">
-            <span class="yy-input-text">问题描述：</span>
+            <span class="yy-input-text">字典项描述：</span>
            <el-input type="textarea" placeholder="请输入内容" maxlength="250" :autosize="{ minRows: 3, maxRows: 6}" v-model="form.REASON" class="yy-input-input"></el-input>
           </el-col>
         </el-row>
@@ -162,166 +156,44 @@
       </div>
     </el-dialog>
 
-    <el-dialog title="查看测试结果" :visible.sync="detailsDialogVisible">
+    <el-dialog title="详情" :visible.sync="detailsDialogVisible" width="500px" >
       <el-form :model="map" ref="mapForm">
-        <div class="hrt">模型名称：XXX</div>
-        <el-table
-          :data="detailstableData"
-          border
-          style="width: 100%;">
-          <el-table-column
-            type="Index"
-            label="序号"
-          >
-          </el-table-column>
-
-          <el-table-column
-            prop="DATEOFBIRTH"
-            label="版本"
-            width="120"
-            >
-          </el-table-column>
-          <el-table-column
-            prop="NATIONALITYC"
-            label="命中率"
-          >
-          </el-table-column>
-
-          <el-table-column
-            prop="PASSPORTNO"
-            label="命中人数"
-          >
-          </el-table-column>
-
-          <el-table-column
-            prop="FLTNO"
-            label="测试人数"
-          >
-          </el-table-column>
-          <el-table-column
-            prop="SCHEDULEDEPARTURETIME"
-            label="测试时间"
-            >
-          </el-table-column>
-
-
-
-        </el-table>
-
-    <hr/>
-
-
-    <el-row type="flex" class="middle">
-      <el-col :span="22" class="br pr-20">
-
-        <el-row align="center"   :gutter="2" >
-
-          <el-col  :sm="24" :md="12" :lg="12"  class="input-item">
-            <span class="input-text">国 籍：</span>
-            <el-select v-model="pd.LABELTYPE_CODE" class="input-input"  filterable clearable placeholder="请选择"   size="small">
-              <el-option value="北京" label="北京">
-              </el-option>
-              <el-option value="上海" label="上海">
-              </el-option>
-              <el-option value="广东" label="广东">
-              </el-option>
-             </el-select>
-          </el-col>
-          <el-col  :sm="24" :md="12" :lg="12"  class="input-item">
-            <span class="input-text">地  区：</span>
-            <el-select v-model="pd.LABELTYPE_CODE" class="input-input"  filterable clearable placeholder="请选择"   size="small">
-              <el-option value="北京" label="北京">
-              </el-option>
-              <el-option value="上海" label="上海">
-              </el-option>
-              <el-option value="广东" label="广东">
-              </el-option>
-             </el-select>
-          </el-col>
-          <el-col  :sm="24" :md="12" :lg="12"  class="input-item">
-            <span class="input-text">姓  名：</span>
-            <el-input placeholder="请输入内容" size="small" v-model="pd.NAME"  class="input-input"></el-input>
-          </el-col>
-          <el-col  :sm="24" :md="12" :lg="12"  class="input-item">
-            <span class="input-text">证件号码：</span>
-            <el-input placeholder="请输入内容" size="small" v-model="pd.NAME"  class="input-input"></el-input>
-          </el-col>
-          <el-col  :sm="24" :md="12" :lg="12"  class="input-item">
-            <span class="input-text">是否命中：</span>
-            <el-select v-model="pd.LABELTYPE_CODE" class="input-input"  filterable clearable placeholder="请选择"   size="small">
-              <el-option value="北京" label="北京">
-              </el-option>
-              <el-option value="上海" label="上海">
-              </el-option>
-              <el-option value="广东" label="广东">
-              </el-option>
-             </el-select>
-          </el-col>
-          <el-col  :sm="24" :md="12" :lg="12"  class="input-item">
-            <span class="input-text">测试版本：</span>
-            <el-select v-model="pd.LABELTYPE_CODE" class="input-input"  filterable clearable placeholder="请选择"   size="small">
-              <el-option value="北京" label="北京">
-              </el-option>
-              <el-option value="上海" label="上海">
-              </el-option>
-              <el-option value="广东" label="广东">
-              </el-option>
-             </el-select>
+        <el-row type="flex"  class="mb-6">
+          <el-col :span="24" class="input-item">
+            <span class="yy-input-text">字典名称：</span>
+          <span class="yy-input-input detailinput">  {{mapForm.LABELTYPE_NAME}}</span>
+            </el-col>
+        </el-row>
+        <el-row type="flex" class="mb-6" >
+          <el-col :span="24" class="input-item">
+            <span class="yy-input-text">代码项：</span>
+          <span class="yy-input-input detailinput">  {{mapForm.NAME}}</span>
           </el-col>
         </el-row>
-      </el-col>
-      <el-col :span="2" class="down-btn-area" style="padding-top:30px;">
-        <el-button type="success" size="small" @click="getList(CurrentPage,pageSize,pd)">查询</el-button>
-      </el-col>
-    </el-row>
-    <el-table
-      :data="detailstableData"
-      border
-      style="width: 100%;">
-      <el-table-column
-        type="Index"
-        label="序号"
-      >
-      </el-table-column>
-
-      <el-table-column
-        prop="DATEOFBIRTH"
-        label="姓名"
-        >
-      </el-table-column>
-      <el-table-column
-        prop="NATIONALITYC"
-        label="证件号码"
-      >
-      </el-table-column>
-
-      <el-table-column
-        prop="PASSPORTNO"
-        label="国籍"
-      >
-      </el-table-column>
-
-      <el-table-column
-        prop="FLTNO"
-        label="地区"
-      >
-      </el-table-column>
-     <el-table-column
-        prop="FLTNO"
-        label="是否命中"
-      >
-      </el-table-column>
-      <el-table-column
-        prop="SCHEDULEDEPARTURETIME"
-        label="测试版本"
-        >
-      </el-table-column>
-      <el-table-column
-        prop="FLTNO"
-        label="详情细息"
-        >
-      </el-table-column>
-    </el-table>
+        <el-row type="flex" class="mb-6" >
+          <el-col :span="24" class="input-item">
+            <span class="yy-input-text">代码中文描述：</span>
+          <span class="yy-input-input detailinput">  {{mapForm.REASON}}</span>
+          </el-col>
+        </el-row>
+        <el-row type="flex" class="mb-6" >
+          <el-col :span="24" class="input-item">
+            <span class="yy-input-text">字典描述：</span>
+          <span class="yy-input-input detailinput">  {{mapForm.REASON}}</span>
+          </el-col>
+        </el-row>
+        <el-row type="flex" class="mb-6" >
+          <el-col :span="24" class="input-item">
+            <span class="yy-input-text">创建人：</span>
+          <span class="yy-input-input detailinput">  {{mapForm.CREATEUSER}}</span>
+          </el-col>
+        </el-row>
+        <el-row type="flex" class="mb-6" >
+          <el-col :span="24" class="input-item">
+            <span class="yy-input-text">创建时间：</span>
+          <span class="yy-input-input detailinput">  {{mapForm.CREATETIME}}</span>
+          </el-col>
+        </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="detailsDialogVisible = false" size="small">取 消</el-button>
@@ -341,8 +213,8 @@ export default {
       TotalResult: 0,
       pd: {},
       company: [],
-      sertail: "",
-      dialogText: "新增",
+      sertail:"",
+      dialogText:"新增",
       addDialogVisible: false,
       detailsDialogVisible: false,
       menuDialogVisible: false,
@@ -365,7 +237,7 @@ export default {
         children: 'menuList',
         label: 'name'
       },
-      defaultChecked: [],
+      defaultChecked:[],
       multipleSelection: [],
       pickerOptions1: {
         // shortcuts: [{
@@ -398,7 +270,7 @@ export default {
     this.getList(this.CurrentPage, this.pageSize, this.pd);
     this.queryNationality();
   },
-  activated() {
+  activated(){
     this.getList(this.CurrentPage, this.pageSize, this.pd);
   },
   methods: {
@@ -439,19 +311,20 @@ export default {
       if (n != 0) {
         this.tp = 1;
         // this.form = i;
-        this.form = Object.assign({}, i);
-        this.dialogText = "编辑";
-      } else {
-        this.dialogText = "新增";
+        this.form=Object.assign({}, i);
+        this.dialogText="编辑";
+      }else {
+        this.dialogText="新增";
       }
     },
     addItem(formName) {
-      if (this.$validator.listener.demo2) {
-        const result = this.$validator.verifyAll('demo2')
-        if (result.indexOf(false) > -1) {
-          return
-        } else {}
-      }
+            if(this.$validator.listener.demo2){
+              const result = this.$validator.verifyAll('demo2')
+               if (result.indexOf(false) > -1) {
+                 return
+               } else {
+               }
+            }
       var url = "/manage-platform/roleSys/save";
       if (this.tp == 1) {
         url = "/manage-platform/roleSys/edit";
@@ -477,7 +350,6 @@ export default {
     },
     details(i) {
       this.detailsDialogVisible = true;
-
       console.log(i);
       this.mapForm = i;
     },
@@ -513,7 +385,7 @@ export default {
     },
     menus(i) {
       this.menuDialogVisible = true;
-      this.sertail = i.SERIAL;
+      this.sertail=i.SERIAL;
       let p = {
         "SERIAL": i.SERIAL
       };
@@ -522,34 +394,33 @@ export default {
           console.log(r);
           if (r.success) {
             this.menudata = r.data.userTreeOne;
-            let arr = r.data.userTreeOne,
-              that = this;
-            this.defaultChecked = r.data.checkList;
+            let arr=r.data.userTreeOne,that=this;
+          this.defaultChecked=r.data.checkList;
           }
         })
     },
-    menuItem() {
-      let checkList = this.$refs.tree.getCheckedNodes();
-      //let checkList=this.$refs.tree.getCheckedKeys();
-      let p = {
-        // menuList:this.menudata,
-        "ROLE_ID": this.sertail,
-        checkList: checkList
+menuItem(){
+  let checkList=this.$refs.tree.getCheckedNodes();
+  //let checkList=this.$refs.tree.getCheckedKeys();
+  let p={
+    // menuList:this.menudata,
+   "ROLE_ID":this.sertail,
+    checkList:checkList
+  }
+  this.$api.post('/manage-platform/roleSys/editJuri', p,
+    r => {
+      console.log(r);
+      if (r.success) {
+        this.$message({
+          type: 'success',
+          message: '保存成功'
+        });
+      }else{
+  this.$message.error('保存失败');
       }
-      this.$api.post('/manage-platform/roleSys/editJuri', p,
-        r => {
-          console.log(r);
-          if (r.success) {
-            this.$message({
-              type: 'success',
-              message: '保存成功'
-            });
-          } else {
-            this.$message.error('保存失败');
-          }
-        })
-      this.menuDialogVisible = false;
-    },
+    })
+        this.menuDialogVisible = false;
+},
   },
   filters: {
     fifterstatus(val) {
@@ -568,33 +439,19 @@ export default {
 .add-dialog {
   /* padding-left:40px; */
 }
-
 .detail-msg-row {
   color: #999;
   line-height: 32px;
 }
-
 .detail-msg-row span {
   color: #333;
   display: inline-block;
   width: 60px;
 }
-
 .yy-input-text {
   width: 25% !important;
 }
-
 .yy-input-input {
   width: 68% !important;
-}
-
-.hrt {
-  font-size: 16px;
-  line-height: 35px;
-  font-weight: bold;
-}
-
-hr {
-  border-top: 1px solid #cccccc !important;
 }
 </style>
