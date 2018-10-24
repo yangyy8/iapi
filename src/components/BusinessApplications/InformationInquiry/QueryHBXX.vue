@@ -72,7 +72,30 @@
                   :value="item.AIRLINE_CODE" >
                 </el-option>
                </el-select>
+            </el-col>
 
+            <el-col :sm="24" :md="12" :lg="8" class="input-item">
+              <span class="input-text">起飞机场：</span>
+              <el-select placeholder="请选择" v-model="pd.stationfrom" filterable clearable @visible-change="takeOff" size="small" class="input-input">
+                <el-option
+                v-for="item in takeOffName"
+                :key="item.AIRPORT_CODE"
+                :value="item.AIRPORT_CODE"
+                :label="item.AIRPORT_CODE+' - '+item.AIRPORT_NAME">
+                </el-option>
+              </el-select>
+            </el-col>
+
+            <el-col :sm="24" :md="12" :lg="8" class="input-item">
+              <span class="input-text">到达机场：</span>
+              <el-select placeholder="请选择" v-model="pd.stationto" filterable clearable @visible-change="landing" size="small" class="input-input">
+                <el-option
+                v-for="item in landingName"
+                :key="item.AIRPORT_CODE"
+                :value="item.AIRPORT_CODE"
+                :label="item.AIRPORT_CODE+' - '+item.AIRPORT_NAME">
+                </el-option>
+              </el-select>
             </el-col>
           </el-row>
         </el-col>
@@ -91,11 +114,13 @@
         style="width: 100%;"
       >
         <el-table-column
+          sortable
           prop="fltno"
-          label="航班号" width="80px">
-
+          label="航班号"
+          width="100px">
         </el-table-column>
         <el-table-column
+          sortable
           label="航班日期"
           >
           <template slot-scope="scope">
@@ -110,7 +135,7 @@
 
         </el-table-column>
         <el-table-column
-
+          sortable
           label="计划起飞时间"
           >
 
@@ -119,7 +144,7 @@
             </template>
         </el-table-column>
         <el-table-column
-
+          sortable
           label="计划到达时间"
         >
         <template slot-scope="scope">
@@ -136,13 +161,11 @@
           label="到达航站"
   >
         </el-table-column>
+
         <el-table-column
-          prop="airlineCompanyId"
-          label="航空公司"
-  >
-        </el-table-column>
-        <el-table-column
-          label="航班状态"  width="100px"
+          sortable
+          label="航班状态"
+          width="120px"
   >  <template slot-scope="scope">
         {{scope.row.status | fifter2}}
       </template>
@@ -278,6 +301,8 @@ export default {
       },
       nation: [],
       company:[],
+      takeOffName:[],
+      landingName:[],
       addDialogVisible: false,
       detailsDialogVisible: false,
       seatDialogVisible:false,
@@ -419,6 +444,22 @@ export default {
 
       this.$router.push({query:{flightNumber:i.fltno,departdateBegin:i.departuretime}})
 
+    },
+    takeOff(){//调用起飞机场
+      this.$api.post('/manage-platform/codeTable/queryAirport',{},
+       r =>{
+         if(r.success){
+           this.takeOffName = r.data;
+         }
+       })
+    },
+    landing(){//调用降落机场
+      this.$api.post('/manage-platform/codeTable/queryAirport',{},
+       r =>{
+         if(r.success){
+           this.landingName = r.data;
+         }
+       })
     },
 
   },

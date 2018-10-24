@@ -12,6 +12,7 @@
   "dependencies": {
     "axios": "^0.18.0",
     "babel-polyfill": "^6.26.0",
+    "cascader-multi": "^2.0.3",
     "echarts": "^4.1.0",
     "element-ui": "^2.4.1",
     "es6-promise": "^4.2.4",
@@ -19,6 +20,7 @@
     "html2canvas": "^1.0.0-alpha.12",
     "jspdf": "^1.4.1",
     "lib-flexible": "^0.3.2",
+    "multi-cascader": "^1.1.0",
     "px2rem-loader": "^0.1.9",
     "v-verify": "^1.1.1",
     "vue": "^2.5.2",
