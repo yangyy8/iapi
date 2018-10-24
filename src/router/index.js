@@ -628,11 +628,35 @@ export default new Router({
           name: "EventBJSJ",
           component: resolve => require(['@/components/RiskAssessment/RiskEvent/EventBJSJ'], resolve),
         },
+        // 已归档风险报警事件
+        {
+          path: "EventBJSJYGD",
+          name: "EventBJSJYGD",
+          component: resolve => require(['@/components/RiskAssessment/RiskEvent/EventBJSJYGD'], resolve),
+        },
         // 风险报警事件查看
         {
           path: "BJSJCK",
           name: "BJSJCK",
           component: resolve => require(['@/components/RiskAssessment/RiskEvent/BJSJCK'], resolve),
+        },
+        // 电子档案查询
+        {
+          path: "FileDZDACX",
+          name: "FileDZDACX",
+          component: resolve => require(['@/components/RiskAssessment/RiskEvent/FileDZDACX'], resolve),
+        },
+        // 电子档案
+        {
+          path: "DZDA",
+          name: "DZDA",
+          component: resolve => require(['@/components/RiskAssessment/RiskEvent/DZDA'], resolve),
+        },
+        // 电子档案
+        {
+          path: "BJCLCX",
+          name: "BJCLCX",
+          component: resolve => require(['@/components/RiskAssessment/RiskEvent/BJCLCX'], resolve),
         },
         //模型管理
         {
@@ -670,6 +694,50 @@ export default new Router({
           path: "LabelManagement",
           name: "LabelManagement",
           component: resolve => require(['@/components/RiskAssessment/Management/LabelManagement'], resolve),
+        },
+        //模型测试管理
+        {
+          path: "Testmanagement",
+          name: "Testmanagement",
+          component: resolve => require(['@/components/RiskAssessment/Management/Testmanagement'], resolve),
+        },
+        //模型审批管理
+        {
+          path: "AuditManagement",
+          name: "AuditManagement",
+          component: resolve => require(['@/components/RiskAssessment/Management/AuditManagement'], resolve),
+        },
+        //名单字典项管理
+        {
+          path: "DictionaryManagement",
+          name: "DictionaryManagement",
+          component: resolve => require(['@/components/RiskAssessment/Management/DictionaryManagement'], resolve),
+        },
+
+        //交流讨论管理
+        //排行榜
+        {
+          path: "Ranklist",
+          name: "Ranklist",
+          component: resolve => require(['@/components/RiskAssessment/Management/Forum/Ranklist'], resolve),
+        },
+        //讨论区
+        {
+          path: "Discussion",
+          name: "Discussion",
+          component: resolve => require(['@/components/RiskAssessment/Management/Forum/Discussion'], resolve),
+        },
+        //发起帖子
+        {
+          path: "Sponsor",
+          name: "Sponsor",
+          component: resolve => require(['@/components/RiskAssessment/Management/Forum/Sponsor'], resolve),
+        },
+        //阅读帖子
+        {
+          path: "ReadTopics",
+          name: "ReadTopics",
+          component: resolve => require(['@/components/RiskAssessment/Management/Forum/ReadTopics'], resolve),
         },
 
         //事件监控 EventMonitoring
