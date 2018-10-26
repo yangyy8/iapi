@@ -12,13 +12,10 @@
           <th align="center" width="100">是否一致</th>
           <th align="center" width="100">操作</th>
         </tr>
-
         <tr>
           <td class="th3">入境黑名单</td>
           <td class="tc1">{{tableData1.blackinredis}}</td>
           <td class="tc2">{{tableData1.blackindb}}</td>
-
-
           <td class="tc1">{{tableData1.SYNCTIME}}</td>
           <td class="tc2">
             <img v-if="tableData1.isequal==0" src="../../../assets/img/hook.png"/>
@@ -28,10 +25,8 @@
           <td class="tc1">
           <el-button v-if="tableData1.isequal==1" @click="getTB('1')"  plain size="mini" class="btn">同步</el-button>
           <el-button  v-else  size="mini" :disabled="true">同步</el-button>
-
           </td>
         </tr>
-
         <tr>
           <td class="th3">出境黑名单</td>
           <td class="tc1">{{tableData2.blackoutredis}}</td>

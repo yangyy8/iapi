@@ -10,35 +10,43 @@
           </div>
 
           <el-row align="center"   :gutter="2">
-            <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
+            <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">时间范围：</span>
               <div class="input-input t-flex t-date">
                <el-date-picker
-               v-model="pd.begin" format="yyyy-MM-dd HH:mm:ss"
-               type="datetime" size="small" value-format="yyyyMMddHHmmss"
+               v-model="pd.begintime" format="yyyy-MM-dd"
+               type="date" size="small" value-format="yyyyMMdd"
                placeholder="开始时间"  :picker-options="pickerOptions" >
              </el-date-picker>
                <span class="septum">-</span>
              <el-date-picker
-                v-model="pd.end" format="yyyy-MM-dd HH:mm:ss"
-                type="datetime" size="small" value-format="yyyyMMddHHmmss"
+                v-model="pd.endtime" format="yyyy-MM-dd"
+                type="date" size="small" value-format="yyyyMMdd"
                 placeholder="结束时间" :picker-options="pickerOptions1" >
             </el-date-picker>
           </div>
             </el-col>
-            <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
-                <span class="input-text">目的地：</span>
-                <el-select v-model="pd.NATIONS" filterable clearable @visible-change="queryNationality" placeholder="请选择"  size="small" class="input-input">
-                  <el-option
-                    v-for="item in nation"
-                    :key="item.CODE"
-                    :label="item.CODE+' - '+item.CNAME"
-                    :value="item.CODE">
+            <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+                <span class="input-text">出发地/目的地：</span>
+                <el-select v-model="type" filterable clearable placeholder="请选择"  size="small" class="input-input">
+                  <el-option value="1" label="出发地相同目的地不同">
+                  </el-option>
+                  <el-option value="2" label="出发地不同目的地相同">
+                  </el-option>
+                  <el-option value="3" label="出发地目的地均不同">
+                  </el-option>
+
+                </el-select>
+            </el-col>
+            <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+                <span class="input-text">判断条件：</span>
+                <el-select v-model="flag" filterable clearable  placeholder="请选择"  size="small" class="input-input">
+                  <el-option value="1" label="国籍+证件号码">
+                  </el-option>
+                  <el-option value="2" label="姓名+性别+出生日期">
                   </el-option>
                 </el-select>
             </el-col>
-
-
           </el-row>
         </el-col>
         <el-col :span="2" class="down-btn-area" style="margin-top:25px;">
@@ -66,45 +74,45 @@
               border
               style="width: 100%;">
               <el-table-column
-                prop="port"
+                prop="nationality"
                 label="国籍">
               </el-table-column>
               <el-table-column
-                prop="tbiapi"
+                prop="passportnopassportno"
                 label="证件号码">
               </el-table-column>
               <el-table-column
-                prop="tbfclose"
+                prop="name"
                 label="姓名">
               </el-table-column>
               <el-table-column
-                prop="tbfcancel"
+                prop="gender"
                 label="性别">
               </el-table-column>
               <el-table-column
-                prop="tbchange"
+                prop="birthday"
                 label="出生日期">
               </el-table-column>
               <el-table-column
-                prop="tbintg"
+                prop="fltdate"
                 label="航班日期">
               </el-table-column>
 
               <el-table-column
-                prop="average"
+                prop="fltno"
                 label="航班号">
               </el-table-column>
 
               <el-table-column
-                prop="average"
+                prop="cityfrom"
                 label="出发地">
               </el-table-column>
               <el-table-column
-                prop="average"
+                prop="cityto"
                 label="到达地">
               </el-table-column>
               <el-table-column
-                prop="average"
+                prop="port"
                 label="口岸">
               </el-table-column>
               <el-table-column
@@ -145,51 +153,50 @@
         </div>
         <div v-show="page==1">
 
-
                       <el-table
-                        :data="tableData"
+                        :data="tableData1"
                         border
                         style="width: 100%;">
                         <el-table-column
-                          prop="port"
+                          prop="nationality"
                           label="国籍">
                         </el-table-column>
                         <el-table-column
-                          prop="tbiapi"
+                          prop="passportnopassportno"
                           label="证件号码">
                         </el-table-column>
                         <el-table-column
-                          prop="tbfclose"
+                          prop="name"
                           label="姓名">
                         </el-table-column>
                         <el-table-column
-                          prop="tbfcancel"
+                          prop="gender"
                           label="性别">
                         </el-table-column>
                         <el-table-column
-                          prop="tbchange"
+                          prop="birthday"
                           label="出生日期">
                         </el-table-column>
                         <el-table-column
-                          prop="tbintg"
+                          prop="fltdate"
                           label="航班日期">
                         </el-table-column>
 
                         <el-table-column
-                          prop="average"
+                          prop="fltno"
                           label="航班号">
                         </el-table-column>
 
                         <el-table-column
-                          prop="average"
+                          prop="cityfrom"
                           label="出发地">
                         </el-table-column>
                         <el-table-column
-                          prop="average"
+                          prop="cityto"
                           label="到达地">
                         </el-table-column>
                         <el-table-column
-                          prop="average"
+                          prop="port"
                           label="口岸">
                         </el-table-column>
                         <el-table-column
@@ -200,11 +207,11 @@
                       <div class="middle-foot">
                         <div class="page-msg">
                           <div class="">
-                            共{{Math.ceil(TotalResult/pageSize)}}页
+                            共{{Math.ceil(TotalResult1/pageSize1)}}页
                           </div>
                           <div class="">
                             每页
-                            <el-select v-model="pageSize" @change="pageSizeChange(pageSize)" placeholder="10" size="mini" class="page-select">
+                            <el-select v-model="pageSize1" @change="pageSizeChange1(pageSize1)" placeholder="10" size="mini" class="page-select">
                               <el-option
                                 v-for="item in options"
                                 :key="item.value"
@@ -215,15 +222,15 @@
                             条
                           </div>
                           <div class="">
-                            共{{TotalResult}}条
+                            共{{TotalResult1}}条
                           </div>
                         </div>
                         <el-pagination
                           background
-                          @current-change="handleCurrentChange"
-                          :page-size="pageSize"
+                          @current-change="handleCurrentChange1"
+                          :page-size="pageSize1"
                           layout="prev, pager, next"
-                          :total="TotalResult">
+                          :total="TotalResult1">
                         </el-pagination>
                       </div>
         </div>
@@ -242,8 +249,12 @@ export default {
       CurrentPage: 1,
       pageSize: 10,
       TotalResult: 0,
-      pd: {begin:'',end:'',synFlag:'0',rzlx:'0'},
-      nation: [],
+      CurrentPage1: 1,
+      pageSize1: 10,
+      TotalResult1: 0,
+      pd: {begintime:'',endtime:''},
+      type:"1",
+      flag:"1",
       company: [],
       page:0,
       addDialogVisible: false,
@@ -265,18 +276,18 @@ export default {
       multipleSelection: [],
       pickerOptions0: {
         disabledDate: (time) => {
-            if (this.pd.end != null) {
-              let startT = formatDate(new Date(time.getTime()),'yyyyMMddhhmmss');
-              return startT > this.pd.end;
-            }else if(this.pd.end == null){
+            if (this.pd.endtime != null) {
+              let startT = formatDate(new Date(time.getTime()),'yyyyMMdd');
+              return startT > this.pd.endtime;
+            }else if(this.pd.endtime == null){
               return false
             }
         }
       },
       pickerOptions1: {
         disabledDate: (time) => {
-            let endT = formatDate(new Date(time.getTime()),'yyyyMMddhhmmss');
-            return endT < this.pd.begin;
+            let endT = formatDate(new Date(time.getTime()),'yyyyMMdd');
+            return endT < this.pd.begintime;
         }
       },
           form: {},
@@ -284,27 +295,27 @@ export default {
     }
   },
   mounted() {
-    this.queryNationality();
+
     let time = new Date();
     let endz = new Date();
     let beginz = new Date(time - 1000 * 60 * 60 * 24 * 1);
-    this.pd.begin = formatDate(beginz, 'yyyyMMddHHmmss');
-    this.pd.end = formatDate(endz, 'yyyyMMddhhmmss');
+    this.pd.begintime = formatDate(beginz, 'yyyyMMdd');
+    this.pd.endtime = formatDate(endz, 'yyyyMMdd');
     this.getList(this.CurrentPage, this.pageSize, this.pd);
   },
   activated(){
-      this.queryNationality();
+
     let time = new Date();
     let endz = new Date();
     let beginz = new Date(time - 1000 * 60 * 60 * 24 * 1);
-    this.pd.begin = formatDate(beginz, 'yyyyMMddhhmmss');
-    this.pd.end = formatDate(endz, 'yyyyMMddhhmmss');
+    this.pd.begintime = formatDate(beginz, 'yyyyMMdd');
+    this.pd.endtime = formatDate(endz, 'yyyyMMdd');
     this.getList(this.CurrentPage,this.pageSize,this.pd);
   },
   methods: {
 
     base(){
-      this.page=0;
+    this.page=0;
     },
     batch()
     {
@@ -318,43 +329,98 @@ export default {
       this.getList(this.CurrentPage, val, this.pd);
       console.log(`每页 ${val} 条`);
     },
+    pageSizeChange1(val) {
+      this.getList1(this.CurrentPage1, val, this.pd);
+      console.log(`每页 ${val} 条`);
+    },
     handleCurrentChange(val) {
       this.getList(val, this.pageSize, this.pd);
 
       console.log(`当前页: ${val}`);
     },
-    getList(currentPage, showCount, pd) {
-      // this.pd.begin=formatDate(this.pd.begin,"yyyyMMddhhssmm");
-      // this.pd.end=formatDate(this.pd.end,"yyyyMMddhhssmm");
-      if(dayGap(this.pd.begin,this.pd.end,0)>1){
-        this.$alert('只能查询某一天的日期', '提示', {
-          confirmButtonText: '确定',
-        });
-        return false
-      }
+    handleCurrentChange1(val) {
+      this.getList1(val, this.pageSize1, this.pd);
 
+      console.log(`当前页: ${val}`);
+    },
+    getList(currentPage, showCount, pd) {
+
+      // if(dayGap(this.pd.begin,this.pd.end,0)>1){
+      //   this.$alert('只能查询某一天的日期', '提示', {
+      //     confirmButtonText: '确定',
+      //   });
+      //   return false
+      // }
+console.log("-----------:"+this.type+"==="+this.flag+"==="+this.page);
       let p = {
         "currentPage": currentPage,
         "showCount": showCount,
         "cdt": pd
       };
+      var url="/manage-platform/SuspectPerson/getduppsnbycard_offdes";
 
-      this.$api.post("/manage-platform/log_event/queryListPageAll", p,
+      if(this.type=="1" && this.flag=="1" ){
+       url="/manage-platform/SuspectPerson/getduppsnbycard_offdes";
+      }else if(this.type=="2" && this.flag=="1" ){
+       url="/manage-platform/SuspectPerson/getduppsnbycard_offsrc";
+      }
+      else if(this.type=="3" && this.flag=="1"){
+       url="/manage-platform/SuspectPerson/getduppsnbycard_both";
+      }
+      else if(this.type=="1" && this.flag=="2"){
+       url="/manage-platform/SuspectPerson/getduppsnbyname_offdes";
+      }
+      else if(this.type=="2" && this.flag=="2" ){
+       url="/manage-platform/SuspectPerson/getduppsnbyname_offsrc";
+      }
+      else if(this.type=="3" && this.flag=="2" ){
+       url="/manage-platform/SuspectPerson/getduppsnbyname_both";
+      }
+      this.$api.post(url, p,
         r => {
           console.log(r);
           this.tableData = r.data.pd.resultList;
           this.TotalResult = r.data.totalResult;
         })
+
+        this.getList1(this.currentPage1,this.showCount1,this.pd);
     },
-    queryNationality() {
-      this.$api.post('/manage-platform/codeTable/queryNationality', {},
+
+    getList1(currentPage1, showCount1, pd) {
+
+
+      let pp = {
+        "currentPage": currentPage1,
+        "showCount": showCount1,
+        "cdt": pd
+      };
+      var url="/manage-platform/SuspectPerson/getduppsnbycard_offdes";
+
+      if(this.type=="1" && this.flag=="1"){
+       url="/manage-platform/SuspectPerson/getduppsnpnrbycard_offdes";
+      }else if(this.type=="2" && this.flag=="1"){
+       url="/manage-platform/SuspectPerson/getduppsnpnrbycard_offsrc";
+      }
+      else if(this.type=="3" && this.flag=="1"){
+       url="/manage-platform/SuspectPerson/getduppsnpnrbycard_both";
+      }
+      else if(this.type=="1" && this.flag=="2"){
+       url="/manage-platform/SuspectPerson/getduppsnpnrbyname_offdes";
+      }
+      else if(this.type=="2" && this.flag=="2" ){
+       url="/manage-platform/SuspectPerson/getduppsnpnrbyname_offsrc";
+      }
+      else if(this.type=="3" && this.flag=="2" ){
+       url="/manage-platform/SuspectPerson/getduppsnpnrbyname_both";
+      }
+      this.$api.post(url, pp,
         r => {
           console.log(r);
-          if (r.success) {
-            this.nation = r.data;
-          }
+          this.tableData1 = r.data.pd.resultList;
+          this.TotalResult1 = r.data.totalResult;
         })
     },
+
     details(i) {
       this.detailsDialogVisible = true;
       console.log(i);
