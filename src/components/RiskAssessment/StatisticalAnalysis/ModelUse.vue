@@ -34,9 +34,9 @@
                   :value="item.ID">
                 </el-option>
               </el-select> -->
-              <!-- <multiCascader size="small" class="input-input" :options="configOptions" @on-selected="getSelected" :inputValue="configTips"></multiCascader> -->
+              <multiCascader width="240px" height="220px" size="small" class="input-input"></multiCascader>
 
-              <cascaderMulti v-model="end_code" placeholder="状态码" :data="end_codes"></cascaderMulti>
+              <!-- <cascaderMulti v-model="end_code" placeholder="状态码" :data="end_codes"></cascaderMulti> -->
 
             </el-col>
 

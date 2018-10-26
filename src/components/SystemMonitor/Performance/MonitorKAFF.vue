@@ -27,12 +27,12 @@
                 <el-row align="center" :gutter="2">
                   <el-col :sm="24" :md="12"  :lg="6" class="input-item">
                     <span class="input-text">分发口岸：</span>
-                    <el-select  placeholder="请选择"  size="mini"  class="input-input" v-model="port" filterable clearable @visible-change="portMethod">
+                    <el-select  placeholder="请选择"  size="mini"  class="input-input" v-model="cdt.port" filterable clearable @visible-change="portMethod">
                       <el-option
                       v-for="item in portName"
-                      :key="item.AIRPORT_CODE"
-                      :value="item.AIRPORT_CODE"
-                      :label="item.AIRPORT_NAME"
+                      :key="item.KADM"
+                      :value="item.KADM"
+                      :label="item.KAMC"
                       ></el-option>
                     </el-select>
                   </el-col>
@@ -69,18 +69,18 @@
                       <el-option label="按周分析" value="2"></el-option>
                       <el-option label="按月分析" value="3"></el-option>
                       <!-- <el-option label="按季度分析" value="4"></el-option> -->
-                      
+
                     </el-select>
                   </el-col>
 
                   <el-col :sm="24" :md="12"  :lg="6" class="input-item">
                     <span class="input-text">分发口岸：</span>
-                    <el-select  placeholder="请选择"  size="mini"  class="input-input" v-model="port" filterable clearable @visible-change="portMethod">
+                    <el-select  placeholder="请选择"  size="mini"  class="input-input" v-model="cdt.port" filterable clearable @visible-change="portMethod">
                       <el-option
                       v-for="item in portName"
-                      :key="item.AIRPORT_CODE"
-                      :value="item.AIRPORT_CODE"
-                      :label="item.AIRPORT_NAME"
+                      :key="item.KADM"
+                      :value="item.KADM"
+                      :label="item.KAMC"
                       ></el-option>
                     </el-select>
                   </el-col>
@@ -331,7 +331,6 @@ export default {
       hCurrentPage:1,
       hpageSize:10,
       hTotalResult:0,
-      port:'',
       value:1,
       controlChecked:1,
       coCheckId:1,
@@ -387,7 +386,8 @@ export default {
       cdt:{
         type:'5',
         begin:'',
-        end:''
+        end:'',
+        port:''
       },  //历史监控传参
       pd:{},// 实时空信息
       pdc:{},//实时表格传折线处信息
@@ -536,6 +536,11 @@ export default {
 
              }],
              yAxis:[{
+               name:'ms',
+               nameTextStyle:{
+                 color:'#000',
+                 fontSize:15
+               },
                axisLine:{
                  lineStyle:{
                    color:'#169BD5',
@@ -617,6 +622,11 @@ export default {
 
         }],
         yAxis:[{
+          name:'ms',
+          nameTextStyle:{
+            color:'#000',
+            fontSize:15
+          },
           axisLine:{
             lineStyle:{
               color:'#169BD5',
@@ -719,7 +729,7 @@ export default {
       }
     },
     portMethod(){
-      this.$api.post('/manage-platform/codeTable/queryAirport',{},
+      this.$api.post('/manage-platform/codeTable/queryAirportMatch',{},
       r =>{
         if(r.success){
           this.portName = r.data
