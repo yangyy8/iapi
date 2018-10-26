@@ -25,7 +25,6 @@
       </el-col>
     </el-row>
 
-
      <div id="editorElem" style="text-align:left; margin-bottom:10px;"></div>
      <el-row class="mb-15">
     <el-button type="success" size="small" @click="adds(0,'');form={};">发送</el-button>

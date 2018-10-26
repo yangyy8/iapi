@@ -13,21 +13,21 @@
               <span class="input-text">时间范围：</span>
               <div class="input-input t-flex t-date">
                <el-date-picker
-               v-model="pd.begin" format="yyyy-MM-dd HH:mm:ss"
-               type="datetime" size="small" value-format="yyyyMMddHHmmss"
+               v-model="pd.begintime" format="yyyy-MM-dd"
+               type="date" size="small" value-format="yyyyMMdd"
                placeholder="开始时间"  :picker-options="pickerOptions" >
              </el-date-picker>
                <span class="septum">-</span>
              <el-date-picker
-                v-model="pd.end" format="yyyy-MM-dd HH:mm:ss"
-                type="datetime" size="small" value-format="yyyyMMddHHmmss"
+                v-model="pd.endtime" format="yyyy-MM-dd"
+                type="date" size="small" value-format="yyyyMMdd"
                 placeholder="结束时间" :picker-options="pickerOptions1" >
             </el-date-picker>
           </div>
             </el-col>
             <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
               <span class="input-text">航空公司名称：</span>
-              <el-select v-model="pd.airlineCompanyIdEqual" filterable clearable  placeholder="请选择" size="small" class="input-input">
+              <el-select v-model="pd.airline_company_id" filterable clearable  placeholder="请选择" size="small" class="input-input">
                  <el-option
                    v-for="(item,ind) in company"
                    :key="ind"
@@ -41,7 +41,7 @@
               <span class="input-text">航班日期：</span>
               <div class="input-input t-flex t-date">
                <el-date-picker
-               v-model="pd.begin" format="yyyy-MM-dd HH:mm:ss"
+               v-model="pd.fltdate" format="yyyy-MM-dd HH:mm:ss"
                type="datetime" size="small" value-format="yyyyMMddHHmmss"
                placeholder="开始时间"  :picker-options="pickerOptions" >
              </el-date-picker>
@@ -55,33 +55,22 @@
             </el-col>
             <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
               <span class="input-text">航班号：</span>
-                <el-input placeholder="请输入内容" size="small" v-model="pd.PASSPORTNO" class="input-input"></el-input>
+                <el-input placeholder="请输入内容" size="small" v-model="pd.fltno" class="input-input"></el-input>
             </el-col>
           </el-row>
-        </el-col>
-        <el-col :span="2" class="down-btn-area" style="margin-top:25px;">
-          <el-button type="success" size="small" @click="getList(CurrentPage,pageSize,pd)">查询</el-button>
-        </el-col>
-      </el-row>
-    </div>
-  <div class="mb-2">
-
-          <el-row type="flex" class="middle">
-              <el-col :span="22" class="pr-20">
-
-              <el-row align="center"   :gutter="2">
+          <el-row type="flex"  style="border-top:2px solid #DEF0FC; padding-top:10px; margin-top:10px;">
 
                 <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
                   <span class="input-text">行属性：</span>
-                  <el-select v-model="pd.airrow" filterable clearable  placeholder="请选择" size="small" class="input-input">
-                     <el-option text="航空公司名称" value="航空公司名称" >
+                  <el-select v-model="typerow" filterable clearable  placeholder="请选择" size="small" class="input-input">
+                      <el-option value="1" label="航空公司名称" >
                      </el-option>
-                     <el-option text="航班号" value="航班号" >
+                     <el-option  value="2" label="航班号">
                      </el-option>
                    </el-select>
                 </el-col>
 
-                <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
+                <!-- <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
                   <span class="input-text">列属性：</span>
                   <el-select v-model="pd.aircol" filterable clearable  placeholder="请选择" size="small" class="input-input">
                      <el-option text="关闭报文准时预报数量" value="关闭报文准时预报数量">
@@ -97,19 +86,23 @@
                      <el-option text="值机报文晚报数量" value="值机报文晚报数量">
                      </el-option>
                    </el-select>
-                </el-col>
+                </el-col> -->
 
-              </el-row>
-            </el-col>
-            <el-col :span="2" class="down-btn-area">
-            </el-col>
+
           </el-row>
-  </div>
+
+        </el-col>
+        <el-col :span="2" class="down-btn-area" style="margin-top:25px;">
+          <el-button type="success" size="small" @click="getList(CurrentPage,pageSize,pd)">查询</el-button>
+        </el-col>
+      </el-row>
+    </div>
+
 
 
     <div class="middle">
-      <el-row class="mb-15">
-        <el-button type="info" size="small" @click="batchs">Excel导出</el-button>
+      <el-row class="mb-15 yr">
+        <el-button type="primary" size="small" @click="batchs">Excel导出</el-button>
         </el-row>
       <el-table
         :data="tableData"
@@ -118,20 +111,53 @@
 
 
         <el-table-column
-          prop="synFlag"
+          prop="airline_company_id"
           label="航空公司名称">
 
         </el-table-column>
         <el-table-column
-          prop="rzlx"
-          label="航班号"  sortable
+          prop="fltno"
+          label="航班号"
           >
         </el-table-column>
+
         <el-table-column
-          prop="timestmp"
-          label="航班日期" sortable>
+          prop="flttype"
+          label="航班类型" >
         </el-table-column>
         <el-table-column
+          prop="nationality"
+          label="国籍" >
+        </el-table-column>
+        <el-table-column
+          prop="passportno"
+          label="证件号码" >
+        </el-table-column>
+        <el-table-column
+          prop="noreport"
+          label="关闭报-未报数量" >
+        </el-table-column>
+        <el-table-column
+          prop="ontime"
+          label="关闭报-及时报数量" >
+        </el-table-column>
+        <el-table-column
+          prop="later"
+          label="关闭报-晚报数量" >
+        </el-table-column>
+        <el-table-column
+          prop="msg_ontime"
+          label="值机报-及时报数量" >
+        </el-table-column>
+        <el-table-column
+          prop="msg_noreport"
+          label="值机报-未报数量" >
+        </el-table-column>
+        <el-table-column
+          prop="msg_later"
+          label="值机报-晚报数量" >
+        </el-table-column>
+        <!-- <el-table-column
           prop="levelString"
           label="起飞地"
           >
@@ -143,12 +169,12 @@
         </el-table-column>
         <el-table-column
           prop="levelString"
-          label="预计出发日期" sortable
+          label="预计出发日期"
           >
         </el-table-column>
         <el-table-column
           prop="levelString"
-          label="预计抵达日期" sortable
+          label="预计抵达日期"
           >
         </el-table-column>
         <el-table-column
@@ -165,7 +191,7 @@
           prop="levelString"
           label="晚报时间" sortable
           >
-        </el-table-column>
+        </el-table-column> -->
         <!-- <el-table-column
           width="180"
           label="操作">
@@ -174,7 +200,7 @@
          </template>
         </el-table-column> -->
       </el-table>
-      <div class="middle-foot">
+      <!-- <div class="middle-foot">
         <div class="page-msg">
           <div class="">
             共{{Math.ceil(TotalResult/pageSize)}}页
@@ -202,7 +228,7 @@
           layout="prev, pager, next"
           :total="TotalResult">
         </el-pagination>
-      </div>
+      </div> -->
     </div>
     <el-dialog
       title="详情"
@@ -244,7 +270,7 @@ export default {
       CurrentPage: 1,
       pageSize: 10,
       TotalResult: 0,
-      pd: {begin:'',end:'',synFlag:'0',rzlx:'0'},
+      pd: {},
       nation: [],
       company: [],
       addDialogVisible: false,
@@ -264,43 +290,44 @@ export default {
       ],
       tableData: [],
       multipleSelection: [],
-      pickerOptions0: {
-        disabledDate: (time) => {
-            if (this.pd.end != null) {
-              let startT = formatDate(new Date(time.getTime()),'yyyyMMddhhmmss');
-              return startT > this.pd.end;
-            }else if(this.pd.end == null){
-              return false
-            }
-        }
-      },
-      pickerOptions1: {
-        disabledDate: (time) => {
-            let endT = formatDate(new Date(time.getTime()),'yyyyMMddhhmmss');
-            return endT < this.pd.begin;
-        }
-      },
+      // pickerOptions0: {
+      //   disabledDate: (time) => {
+      //       if (this.pd.end != null) {
+      //         let startT = formatDate(new Date(time.getTime()),'yyyyMMddhhmmss');
+      //         return startT > this.pd.end;
+      //       }else if(this.pd.end == null){
+      //         return false
+      //       }
+      //   }
+      // },
+      // pickerOptions1: {
+      //   disabledDate: (time) => {
+      //       let endT = formatDate(new Date(time.getTime()),'yyyyMMddhhmmss');
+      //       return endT < this.pd.begin;
+      //   }
+      // },
           form: {},
+          typerow:'1',
 
     }
   },
   mounted() {
     this.queryNationality();
-    let time = new Date();
-    let endz = new Date();
-    let beginz = new Date(time - 1000 * 60 * 60 * 24 * 1);
-    this.pd.begin = formatDate(beginz, 'yyyyMMddHHmmss');
-    this.pd.end = formatDate(endz, 'yyyyMMddhhmmss');
-    this.getList(this.CurrentPage, this.pageSize, this.pd);
+    // let time = new Date();
+    // let endz = new Date();
+    // let beginz = new Date(time - 1000 * 60 * 60 * 24 * 1);
+    // this.pd.begin = formatDate(beginz, 'yyyyMMddHHmmss');
+    // this.pd.end = formatDate(endz, 'yyyyMMddhhmmss');
+    // this.getList(this.CurrentPage, this.pageSize, this.pd);
   },
   activated(){
       this.queryNationality();
-    let time = new Date();
-    let endz = new Date();
-    let beginz = new Date(time - 1000 * 60 * 60 * 24 * 1);
-    this.pd.begin = formatDate(beginz, 'yyyyMMddhhmmss');
-    this.pd.end = formatDate(endz, 'yyyyMMddhhmmss');
-    this.getList(this.CurrentPage,this.pageSize,this.pd);
+    // let time = new Date();
+    // let endz = new Date();
+    // let beginz = new Date(time - 1000 * 60 * 60 * 24 * 1);
+    // this.pd.begin = formatDate(beginz, 'yyyyMMddhhmmss');
+    // this.pd.end = formatDate(endz, 'yyyyMMddhhmmss');
+    // this.getList(this.CurrentPage,this.pageSize,this.pd);
   },
   methods: {
     handleSelectionChange(val) {
@@ -319,27 +346,27 @@ export default {
       // this.pd.begin=formatDate(this.pd.begin,"yyyyMMddhhssmm");
       // this.pd.end=formatDate(this.pd.end,"yyyyMMddhhssmm");
 
-
-      if(dayGap(this.pd.begin,this.pd.end,0)>1){
-        this.$alert('只能查询某一天的日期', '提示', {
-          confirmButtonText: '确定',
-        });
-        return false
-      }
+      //
+      // if(dayGap(this.pd.begin,this.pd.end,0)>1){
+      //   this.$alert('只能查询某一天的日期', '提示', {
+      //     confirmButtonText: '确定',
+      //   });
+      //   return false
+      // }
 
       let p = {
         "currentPage": currentPage,
         "showCount": showCount,
         "cdt": pd
       };
-      // var url="eamp/log_event/queryListPage";
-      // if(pd.type=="1"){
-      //   url="eamp/log_event/querylistPageExpretion";
-      // }
-      this.$api.post("/manage-platform/log_event/queryListPageAll", p,
+      var url="/manage-platform/forecastEva/get_fctime_bycompanyid";
+      if(this.typerow=="2"){
+        url="/manage-platform/forecastEva/get_fctime_byfltno";
+      }
+      this.$api.post(url, p,
         r => {
           console.log(r);
-          this.tableData = r.data.pd.resultList;
+          this.tableData = r.data;
           this.TotalResult = r.data.totalResult;
         })
     },
