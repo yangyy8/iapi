@@ -11,7 +11,7 @@
 //var root = 'http://192.168.99.245:8080'
  var root="http://192.168.99.206:8080"   //服务器电脑
 //var root="http://192.168.99.228:8080
-//var root = 'http://192.168.99.245:8080'
+// var root = 'http://192.168.99.201:8080'
 
 
 // 引用axios
@@ -42,7 +42,7 @@ function filterNull(o) {
 }
 // 添加默认参数
 function apiAxios(method, url, params, success, failure,isLoad) {
-  console.log("url",url)
+  // console.log("url",url)
   let loadingInstance1=null;
   if(!(url=='/manage-platform/nationwide/getPortDetail'||url=='/manage-platform/nationwide/getFlightDetail')){
     loadingInstance1 = Loading.service({ fullscreen: true, spinner: 'el-icon-loading',text:'拼命加载中',background:'rgba(0,0,0,0.6)',customClass:'loadingClass'});
