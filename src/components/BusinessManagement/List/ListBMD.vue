@@ -1197,13 +1197,5 @@ export default {
 .add-dialog{
   /* padding-left:40px; */
 }
-.detail-msg-row{
-  color: #999;
-  line-height: 32px;
-}
-.detail-msg-row span{
-  color: #333;
-  display: inline-block;
-  width: 91px;
-}
+
 </style>
