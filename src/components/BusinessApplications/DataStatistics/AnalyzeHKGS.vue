@@ -12,72 +12,64 @@
           <el-row align="center"   :gutter="2">
 
             <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
-              <span class="input-text">时间范围：</span>
+              <span class="input-text"><font color="red">*</font> 时间范围：</span>
               <div class="input-input t-flex t-date">
-               <el-date-picker
-               v-model="pd.begin" format="yyyy-MM-dd HH:mm:ss"
-               type="datetime" size="small" value-format="yyyyMMddHHmmss"
-               placeholder="开始时间"  :picker-options="pickerOptions" >
+                <el-date-picker
+                v-model="pd.begintime" format="yyyy-MM-dd"
+               v-verify.input.blur="{regs:'required',submit:'timeDemo'}"
+                type="date" size="small" value-format="yyyyMMdd"
+                placeholder="开始时间"  :picker-options="pickerOptions0" >
+              </el-date-picker>
+                <span class="septum">-</span>
+              <el-date-picker
+                 v-model="pd.endtime" format="yyyy-MM-dd"
+                 v-verify.input.blur="{regs:'required',submit:'timeDemo'}"
+                 type="date" size="small" value-format="yyyyMMdd"
+                 placeholder="结束时间" :picker-options="pickerOptions1" >
              </el-date-picker>
-               <span class="septum">-</span>
-             <el-date-picker
-                v-model="pd.end" format="yyyy-MM-dd HH:mm:ss"
-                type="datetime" size="small" value-format="yyyyMMddHHmmss"
-                placeholder="结束时间" :picker-options="pickerOptions1" >
-            </el-date-picker>
           </div>
             </el-col>
             <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
               <span class="input-text">航空公司名称：</span>
-              <el-select v-model="pd.airlineCompanyIdEqual" filterable clearable  placeholder="请选择" size="small" class="input-input">
+              <el-select v-model="pd.airline_company_id" filterable clearable  placeholder="请选择" size="small" class="input-input">
                  <el-option
                    v-for="(item,ind) in company"
                    :key="ind"
-                   :label="item.AIRLINE_CODE+' - '+item.AIRLINE_CHN_NAME"
-                   :value="item.AIRLINE_CODE" >
+                   :label="item.CODE+' - '+item.CNAME"
+                   :value="item.CODE" >
                  </el-option>
                </el-select>
             </el-col>
 
 
           </el-row>
+          <el-row align="center"   :gutter="2" class="yy-line">
+
+                <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
+                  <span class="input-text">行属性：</span>
+                  <el-select v-model="typerow" placeholder="请选择" size="small" class="input-input">
+                     <el-option  label="航空公司名称" value="1" >
+                     </el-option>
+
+                   </el-select>
+                </el-col>
+                <!-- <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
+                  <span class="input-text">列属性：</span>
+                  <el-select v-model="pd.aircol" filterable clearable  placeholder="请选择" size="small" class="input-input">
+                     <el-option text="航线数量" value="航线数量" >
+                     </el-option>
+                     <el-option text="载运人员构成" value="载运人员构成" >
+                     </el-option>
+                   </el-select>
+                </el-col> -->
+              </el-row>
         </el-col>
         <el-col :span="2" class="down-btn-area" style="margin-top:25px;">
-          <el-button type="success" size="small" @click="getList(CurrentPage,pageSize,pd)">查询</el-button>
+          <el-button type="success" size="small" @click="getList(CurrentPage,pageSize,pd)">统计</el-button>
         </el-col>
       </el-row>
     </div>
 
-    <div class="mb-2">
-
-            <el-row type="flex" class="middle">
-                <el-col :span="22" class="pr-20">
-
-                <el-row align="center"   :gutter="2">
-
-                  <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
-                    <span class="input-text">行属性：</span>
-                    <el-select v-model="pd.airrow" filterable clearable  placeholder="请选择" size="small" class="input-input">
-                       <el-option text="航空公司名称" value="航空公司名称" >
-                       </el-option>
-
-                     </el-select>
-                  </el-col>
-                  <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
-                    <span class="input-text">列属性：</span>
-                    <el-select v-model="pd.aircol" filterable clearable  placeholder="请选择" size="small" class="input-input">
-                       <el-option text="航线数量" value="航线数量" >
-                       </el-option>
-                       <el-option text="载运人员构成" value="载运人员构成" >
-                       </el-option>
-                     </el-select>
-                  </el-col>
-                </el-row>
-              </el-col>
-              <el-col :span="2" class="down-btn-area">
-              </el-col>
-            </el-row>
-    </div>
     <div class="middle">
 
       <div class="ak-tab mb-20">
@@ -92,9 +84,66 @@
 
       <div class="ak-tab-pane" >
           <div v-show="page==0" >
-            <div id="myChart" style="width:500px; height:500px;"></div>
+            <div id="myChart" class="ppie"></div>
+            <div id="myChart2" class="ppie"></div>
+            <div id="myChart3" class="ppie"></div>
+            <div style="clear:both"></div>
           </div>
-          <div v-show="page==1">ds
+          <div v-show="page==1">
+                       <el-table
+                             :data="tableData"
+                             :summary-method="getSummaries"
+                             show-summary
+                             border
+                             >
+                             <el-table-column
+                               prop="airline_company_id"
+                               label="航空公司名称" width="200">
+                             </el-table-column>
+                             <el-table-column
+                               prop="linecount"
+                               label="航线数量">
+                             </el-table-column>
+                             <el-table-column
+                               prop="fltcount"
+                               label="预报航班数量">
+                             </el-table-column>
+                             <el-table-column
+                               prop="boardingcount"
+                               label="载运人员数量">
+                             </el-table-column>
+                             <el-table-column
+                               prop="chk_1z"
+                               label="不准登机人员数量">
+                             </el-table-column>
+                                 <el-table-column label="性别构成">
+                                   <el-table-column
+                                     prop="chk_gender_m"
+                                     label="男">
+                                   </el-table-column>
+                                   <el-table-column
+                                     prop="chk_gender_f"
+                                     label="女">
+                                   </el-table-column>
+                              </el-table-column>
+                                 <el-table-column label="国籍构成">
+                                     <el-table-column
+                                       prop="foreign"
+                                       label="外国人">
+                                     </el-table-column>
+                                     <el-table-column
+                                       prop="inland"
+                                       label="内地居民">
+                                     </el-table-column>
+                                     <el-table-column
+                                       prop="inland"
+                                       label="港澳台">
+                                     </el-table-column>
+                                </el-table-column>
+
+
+                           </el-table>
+
           </div>
         </div>
     </div>
@@ -143,44 +192,45 @@ export default {
       multipleSelection: [],
       pickerOptions0: {
         disabledDate: (time) => {
-          if (this.pd.end != null) {
-            let startT = formatDate(new Date(time.getTime()), 'yyyyMMddhhmmss');
-            return startT > this.pd.end;
-          } else if (this.pd.end == null) {
+          if (this.pd.endtime != null) {
+            let startT = formatDate(new Date(time.getTime()), 'yyyyMMdd');
+            return startT > this.pd.endtime;
+          } else if (this.pd.endtime == null) {
             return false
           }
         }
       },
       pickerOptions1: {
         disabledDate: (time) => {
-          let endT = formatDate(new Date(time.getTime()), 'yyyyMMddhhmmss');
-          return endT < this.pd.begin;
+          let endT = formatDate(new Date(time.getTime()), 'yyyyMMdd');
+          return endT < this.pd.begintime;
         }
       },
       form: {},
+      typerow:'1',
       lineChart: null,
-
+      sData1:[],
+      sData2:[],
+      sData3:[],
     }
   },
   mounted() {
     this.queryNationality();
-    this.drawLine();
     let time = new Date();
     let endz = new Date();
-    let beginz = new Date(time - 1000 * 60 * 60 * 24 * 1);
-    this.pd.begin = formatDate(beginz, 'yyyyMMddHHmmss');
-    this.pd.end = formatDate(endz, 'yyyyMMddhhmmss');
-    this.getList(this.CurrentPage, this.pageSize, this.pd);
+    let beginz = new Date(time - 1000 * 60 * 60 * 24 * 30);
+    this.pd.begintime = formatDate(beginz, 'yyyyMMddhhssmm');
+    this.pd.endtime = formatDate(endz, 'yyyyMMddhhssmm');
+
   },
   activated() {
     this.queryNationality();
-      this.drawLine();
     let time = new Date();
     let endz = new Date();
-    let beginz = new Date(time - 1000 * 60 * 60 * 24 * 1);
-    this.pd.begin = formatDate(beginz, 'yyyyMMddhhmmss');
-    this.pd.end = formatDate(endz, 'yyyyMMddhhmmss');
-    this.getList(this.CurrentPage, this.pageSize, this.pd);
+    let beginz = new Date(time - 1000 * 60 * 60 * 24 * 30);
+    this.pd.begintime = formatDate(beginz, 'yyyyMMddhhssmm');
+    this.pd.endtime = formatDate(endz, 'yyyyMMddhhssmm');
+
   },
   methods: {
     base() {
@@ -201,27 +251,68 @@ export default {
 
       console.log(`当前页: ${val}`);
     },
+    getSummaries(param) {
+        console.log("合计-------------");
+         const { columns, data } = param;
+         const sums = [];
+         columns.forEach((column, index) => {
+           if (index === 0) {
+             sums[index] = '合计';
+             return;
+           }
+           const values = data.map(item => Number(item[column.property]));
+           if (!values.every(value => isNaN(value))) {
+             sums[index] = values.reduce((prev, curr) => {
+               const value = Number(curr);
+               if (!isNaN(value)) {
+                 return prev + curr;
+               } else {
+                 return prev;
+               }
+             }, 0);
+             sums[index] += '';
+           } else {
+             sums[index] = '';
+           }
+         });
+
+         return sums;
+       },
     getList(currentPage, showCount, pd) {
       // this.pd.begin=formatDate(this.pd.begin,"yyyyMMddhhssmm");
       // this.pd.end=formatDate(this.pd.end,"yyyyMMddhhssmm");
-      if (dayGap(this.pd.begin, this.pd.end, 0) > 1) {
-        this.$alert('只能查询某一天的日期', '提示', {
-          confirmButtonText: '确定',
-        });
-        return false
-      }
+      // const result = this.$validator.verifyAll('timeDemo')
+      //  if (result.indexOf(false) > -1) {
+      //    return
+      //  }
 
       let p = {
-        "currentPage": currentPage,
-        "showCount": showCount,
-        "cdt": pd
+        "begintime": pd.begintime,
+        "endtime": pd.endtime,
+        "airline_company_id": pd.airline_company_id,
       };
 
-      this.$api.post("/manage-platform/log_event/queryListPageAll", p,
+      this.$api.post("/manage-platform/dataStatistics/get_flightCompany", p,
         r => {
           console.log(r);
-          this.tableData = r.data.pd.resultList;
-          this.TotalResult = r.data.totalResult;
+          this.tableData = r.data;
+          let arr=this.tableData;
+          var sum1=0,sum01=0;
+          var sum2=0,sum02=0;
+          var sum3=0,sum03=0,sum003=0;
+          for(var i=0;i<arr.length;i++){
+            sum1+=parseInt(arr[i].boardingcount);
+            sum01+=parseInt(arr[i].chk_1z);
+            sum2+=parseInt(arr[i].chk_gender_m);
+            sum02+=parseInt(arr[i].chk_gender_f);
+            sum3+=parseInt(arr[i].foreign);
+            sum03+=parseInt(arr[i].inland);
+            sum03+=parseInt(arr[i].gat);
+          }
+          this.sData1=[{value:sum1, name:'载运人员总数'},{value:sum01, name:'不准登机人员数量'}];
+          this.sData2=[{value:sum2, name:'男'},{value:sum02, name:'女'}];
+          this.sData3=[{value:sum3, name:'外国人'},{value:sum03, name:'内地居民'},{value:sum003, name:'港澳台'}];
+          this.drawLine();this.drawLine2();this.drawLine3();
         })
     },
     queryNationality() {
@@ -229,7 +320,7 @@ export default {
         r => {
           console.log(r);
           if (r.success) {
-            this.nation = r.data;
+            this.company = r.data;
           }
         })
     },
@@ -239,32 +330,65 @@ export default {
       this.form = i;
     },
     drawLine() {
-
       this.lineChart = echarts.init(document.getElementById('myChart'), 'light');
       window.onresize = echarts.init(document.getElementById('myChart')).resize;
-      let that = this;
-
-      this.lineChart.setOption({
-        tooltip: {
-        trigger: 'item',
-        formatter: "{a} <br/>{b}: {c} ({d}%)"
-    },
-    series: [
-        {
-            name:'总数、不准登机人员数量',
-            type:'pie',
-            radius: ['30%', '50%'],
-            center: ['50%', '30%'],   //调整位置
-            data:[
-                {value:535, name:'总数'},
-                {value:310, name:'不准登机人员数量'},
-            ]
-        }
-    ]
-        });
-
-
+        let that = this;
+        this.lineChart.setOption({
+          tooltip: {
+          trigger: 'item',
+          formatter: "{a} <br/>{b}: {c} ({d}%)"
         },
+          series: [
+                {
+                  name:'载运人员总数、不准登机人员数量',
+                  type:'pie',
+                  radius: ['30%', '50%'],
+                  center: ['50%', '30%'],   //调整位置
+                  data:this.sData1
+                 }
+                ]
+          });
+    },
+    drawLine2() {
+      this.lineChart = echarts.init(document.getElementById('myChart2'), 'light');
+      window.onresize = echarts.init(document.getElementById('myChart2')).resize;
+        let that = this;
+        this.lineChart.setOption({
+          tooltip: {
+          trigger: 'item',
+          formatter: "{a} <br/>{b}: {c} ({d}%)"
+        },
+          series: [
+                {
+                  name:'性别构成',
+                  type:'pie',
+                  radius: ['30%', '50%'],
+                  center: ['50%', '30%'],   //调整位置
+                  data:this.sData2
+                 }
+                ]
+          });
+    },
+    drawLine3() {
+      this.lineChart = echarts.init(document.getElementById('myChart3'), 'light');
+      window.onresize = echarts.init(document.getElementById('myChart3')).resize;
+        let that = this;
+        this.lineChart.setOption({
+          tooltip: {
+          trigger: 'item',
+          formatter: "{a} <br/>{b}: {c} ({d}%)"
+        },
+          series: [
+                {
+                  name:'国籍构成',
+                  type:'pie',
+                  radius: ['30%', '50%'],
+                  center: ['50%', '30%'],   //调整位置
+                  data:this.sData3
+                 }
+                ]
+          });
+    },
       }
     }
 </script>
@@ -299,4 +423,6 @@ export default {
   padding: 20px;
   border-radius: 0 5px 5px 5px;
 }
+.ppie{width:420px; height:400px; float:left}
+
 </style>

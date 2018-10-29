@@ -13,17 +13,19 @@
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">时间范围：</span>
               <div class="input-input t-flex t-date">
-               <el-date-picker
-               v-model="pd.begin" format="yyyy-MM-dd HH:mm:ss"
-               type="datetime" size="small" value-format="yyyyMMddHHmmss"
-               placeholder="开始时间"  :picker-options="pickerOptions" >
+                <el-date-picker
+                v-model="pd.begintime" format="yyyy-MM-dd"
+               v-verify.input.blur="{regs:'required',submit:'timeDemo'}"
+                type="date" size="small" value-format="yyyyMMdd"
+                placeholder="开始时间"  :picker-options="pickerOptions0" >
+              </el-date-picker>
+                <span class="septum">-</span>
+              <el-date-picker
+                 v-model="pd.endtime" format="yyyy-MM-dd"
+                 v-verify.input.blur="{regs:'required',submit:'timeDemo'}"
+                 type="date" size="small" value-format="yyyyMMdd"
+                 placeholder="结束时间" :picker-options="pickerOptions1" >
              </el-date-picker>
-               <span class="septum">-</span>
-             <el-date-picker
-                v-model="pd.end" format="yyyy-MM-dd HH:mm:ss"
-                type="datetime" size="small" value-format="yyyyMMddHHmmss"
-                placeholder="结束时间" :picker-options="pickerOptions1" >
-            </el-date-picker>
           </div>
             </el-col>
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
@@ -38,61 +40,45 @@
                 </el-select>
             </el-col>
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
-                <span class="input-text">国内</span>
-                <el-select v-model="pd.NATIONS" filterable clearable @visible-change="queryNationality" placeholder="请选择"  size="small" class="input-input">
-                  <el-option
-                    v-for="item in nation"
-                    :key="item.CODE"
-                    :label="item.CODE+' - '+item.CNAME"
-                    :value="item.CODE">
-                  </el-option>
-                </el-select>
+                <span class="input-text">国内：</span>
+                <el-select v-model="pd.airrow" filterable clearable  placeholder="请选择" size="small" class="input-input">
+                   <el-option label="到达城市" value="洲" >
+                   </el-option>
+                   <el-option label="到达口岸" value="国" >
+                   </el-option>
+                 </el-select>
+            </el-col>
+          </el-row>
+          <el-row align="center"   :gutter="2" class="yy-line">
+
+            <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+              <span class="input-text">行属性：</span>
+              <el-select v-model="pd.airrow" filterable clearable  placeholder="请选择" size="small" class="input-input">
+                 <el-option text="洲" value="洲" >
+                 </el-option>
+                 <el-option text="国" value="国" >
+                 </el-option>
+               </el-select>
             </el-col>
 
-
-
-
-
+                              <!-- <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+                                <span class="input-text">列属性：</span>
+                                <el-select v-model="pd.aircol" filterable clearable  placeholder="请选择" size="small" class="input-input">
+                                   <el-option text="航班数量" value="航班数量" >
+                                   </el-option>
+                                   <el-option text="预报航班数量" value="预报航班数量" >
+                                   </el-option>
+                                 </el-select>
+                              </el-col> -->
           </el-row>
         </el-col>
         <el-col :span="2" class="down-btn-area" style="margin-top:25px;">
-          <el-button type="success" size="small" @click="getList(CurrentPage,pageSize,pd)">查询</el-button>
+          <el-button type="success" size="small" @click="getList(CurrentPage,pageSize,pd)">统计</el-button>
         </el-col>
       </el-row>
     </div>
 
-    <div class="mb-2">
 
-            <el-row type="flex" class="middle">
-                <el-col :span="22" class="pr-20">
-
-                <el-row align="center"   :gutter="2">
-
-                  <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
-                    <span class="input-text">行属性：</span>
-                    <el-select v-model="pd.airrow" filterable clearable  placeholder="请选择" size="small" class="input-input">
-                       <el-option text="洲" value="洲" >
-                       </el-option>
-                       <el-option text="国" value="国" >
-                       </el-option>
-                     </el-select>
-                  </el-col>
-
-                                    <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
-                                      <span class="input-text">列属性：</span>
-                                      <el-select v-model="pd.aircol" filterable clearable  placeholder="请选择" size="small" class="input-input">
-                                         <el-option text="航班数量" value="航班数量" >
-                                         </el-option>
-                                         <el-option text="预报航班数量" value="预报航班数量" >
-                                         </el-option>
-                                       </el-select>
-                                    </el-col>
-                </el-row>
-              </el-col>
-              <el-col :span="2" class="down-btn-area">
-              </el-col>
-            </el-row>
-    </div>
     <div class="middle">
 
       <div class="ak-tab mb-20">
@@ -109,7 +95,48 @@
           <div v-show="page==0" >
             <div id="myChart" style="width:500px; height:500px;"></div>
           </div>
-          <div v-show="page==1">ds
+          <div v-show="page==1">
+
+            <el-table
+                  :data="tableData"
+                  :summary-method="getSummaries"
+                  show-summary
+                  border
+                  >
+                  <el-table-column
+                    prop=""
+                    label="" >
+                  </el-table-column>
+                  <el-table-column
+                    prop="continent"
+                    label="洲" >
+                  </el-table-column>
+                  <el-table-column
+                    prop="country"
+                    label="国家">
+                  </el-table-column>
+
+                      <el-table-column label="问题类型">
+                        <el-table-column
+                          prop="rst_1"
+                          label="缺失">
+                        </el-table-column>
+                        <el-table-column
+                          prop="rst_2"
+                          label="长度不符合">
+                        </el-table-column>
+                        <el-table-column
+                          prop="rst_3"
+                          label="格式错误">
+                        </el-table-column>
+                        <el-table-column
+                          prop="rst_4"
+                          label="不符合当前时间">
+                        </el-table-column>
+                   </el-table-column>
+
+
+                </el-table>
           </div>
         </div>
     </div>

@@ -11,57 +11,40 @@
 
           <el-row align="center"   :gutter="2">
 
-            <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
-              <span class="input-text">时间范围：</span>
+            <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
+              <span class="input-text"><font color="red">*</font>  时间范围：</span>
               <div class="input-input t-flex t-date">
                <el-date-picker
-               v-model="pd.begintime" format="yyyy-MM-dd HH:mm:ss"
-               type="datetime" size="small" value-format="yyyyMMddHHmmss"
-               placeholder="开始时间"  :picker-options="pickerOptions" >
+               v-model="pd.begintime" format="yyyy-MM-dd"
+              v-verify.input.blur="{regs:'required',submit:'timeDemo'}"
+               type="date" size="small" value-format="yyyyMMdd"
+               placeholder="开始时间"  :picker-options="pickerOptions0" >
              </el-date-picker>
                <span class="septum">-</span>
              <el-date-picker
-                v-model="pd.endtime" format="yyyy-MM-dd HH:mm:ss"
-                type="datetime" size="small" value-format="yyyyMMddHHmmss"
+                v-model="pd.endtime" format="yyyy-MM-dd"
+                v-verify.input.blur="{regs:'required',submit:'timeDemo'}"
+                type="date" size="small" value-format="yyyyMMdd"
                 placeholder="结束时间" :picker-options="pickerOptions1" >
             </el-date-picker>
           </div>
             </el-col>
-            <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+            <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
               <span class="input-text">航班号：</span>
                 <el-input placeholder="请输入内容" size="small" v-model="pd.fltno" class="input-input"></el-input>
             </el-col>
-            <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
-              <span class="input-text">航班日期：</span>
-              <div class="input-input t-flex t-date">
-               <el-date-picker
-               v-model="pd.begin" format="yyyy-MM-dd HH:mm:ss"
-               type="datetime" size="small" value-format="yyyyMMddHHmmss"
-               placeholder="开始时间"  :picker-options="pickerOptions" >
-             </el-date-picker>
-               <span class="septum">-</span>
-             <el-date-picker
-                v-model="pd.end" format="yyyy-MM-dd HH:mm:ss"
-                type="datetime" size="small" value-format="yyyyMMddHHmmss"
-                placeholder="结束时间" :picker-options="pickerOptions1" >
-            </el-date-picker>
-          </div>
-            </el-col>
-
-
-
           </el-row>
 
           <el-row type="flex" class="yy-line">
-              <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+              <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
                   <span class="input-text">行属性：</span>
-                  <el-select v-model="typerow" filterable clearable  placeholder="请选择" size="small" class="input-input">
+                  <el-select v-model="typerow"   placeholder="请选择" size="small" class="input-input">
 
-                     <el-option text="航班号" value="航班号" >
+                     <el-option  value="1" label="航班号" >
                      </el-option>
                    </el-select>
                 </el-col>
-                <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+                <!-- <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
                   <span class="input-text">列属性：</span>
                   <el-select v-model="typecol" filterable clearable  placeholder="请选择" size="small" class="input-input">
 
@@ -78,12 +61,12 @@
                      <el-option text="值机渠道构成" value="值机渠道构成" >
                      </el-option>
                    </el-select>
-                </el-col>
+                </el-col> -->
               </el-row>
 
         </el-col>
         <el-col :span="2" class="down-btn-area" style="margin-top:25px;">
-          <el-button type="success" size="small" @click="getList(CurrentPage,pageSize,pd)">查询</el-button>
+          <el-button type="success" size="small" @click="getList(CurrentPage,pageSize,pd)">统计</el-button>
         </el-col>
       </el-row>
     </div>
@@ -103,7 +86,12 @@
 
       <div class="ak-tab-pane" >
           <div v-show="page==0" >
-            <div id="myChart" style="width:500px; height:500px;"></div>
+            <div id="myChart" class="ppie"></div>
+            <div id="myChart2" class="ppie"></div>
+            <div id="myChart3" class="ppie"></div>
+            <div id="myChart4" class="ppie"></div>
+            <div id="myChart5" class="ppie"></div>
+            <div style="clear:both;"></div>
           </div>
           <div v-show="page==1">
 <!--
@@ -137,7 +125,7 @@
 
            <el-table
                  :data="tableData"
-                 :span-method="objectSpanMethod"
+
                  :summary-method="getSummaries"
                  show-summary
                  border
@@ -236,10 +224,8 @@ export default {
       CurrentPage: 1,
       pageSize: 10,
       TotalResult: 0,
-      pd: {
-
-      },
-      typerow:'',
+      pd: {begintime:'',endtime:''},
+      typerow:'1',
       typecol:'',
 
       addDialogVisible: false,
@@ -258,24 +244,28 @@ export default {
         }
       ],
       page: 0,
-sData1:[{value:535, name:'总数'},{value:310, name:'不准登机人员数量'}],
+      sData1:[],
+      sData2:[],
+      sData3:[],
+      sData4:[],
+      sData5:[],
       multipleSelection: [],
-      // pickerOptions0: {
-      //   disabledDate: (time) => {
-      //     if (this.pd.end != null) {
-      //       let startT = formatDate(new Date(time.getTime()), 'yyyyMMddhhmmss');
-      //       return startT > this.pd.end;
-      //     } else if (this.pd.end == null) {
-      //       return false
-      //     }
-      //   }
-      // },
-      // pickerOptions1: {
-      //   disabledDate: (time) => {
-      //     let endT = formatDate(new Date(time.getTime()), 'yyyyMMddhhmmss');
-      //     return endT < this.pd.begin;
-      //   }
-      // },
+      pickerOptions0: {
+        disabledDate: (time) => {
+          if (this.pd.endtime != null) {
+            let startT = formatDate(new Date(time.getTime()), 'yyyyMMdd');
+            return startT > this.pd.endtime;
+          } else if (this.pd.endtime == null) {
+            return false
+          }
+        }
+      },
+      pickerOptions1: {
+        disabledDate: (time) => {
+          let endT = formatDate(new Date(time.getTime()), 'yyyyMMdd');
+          return endT < this.pd.begintime;
+        }
+      },
       form: {},
       lineChart: null,
       // tables: [{
@@ -319,55 +309,57 @@ sData1:[{value:535, name:'总数'},{value:310, name:'不准登机人员数量'}]
       //   dataItem: 'shangban',
       //   dataName: '上班'
       // }]
-      tableData:[{
-   fltno:'AE15',
-   checkincount:110,
-   chk_ptype_fl:20,
-   chk_ptype_ddu:250,
-   chk_gender_m:200,
-   chk_gender_f:102,
-   foreign:510,
-   inland:600,
-   gat:141,
-   chk_s:12,
-   chk_c:231,
-   chk_0z:120,
-   chk_1z:21,
-   chk_2z:10,
-   datacheckcount:5
-      },{
-        fltno:'AE15',
-        checkincount:101,
-        chk_ptype_fl:20,
-        chk_ptype_ddu:250,
-        chk_gender_m:200,
-        chk_gender_f:102,
-        foreign:510,
-        inland:600,
-        gat:141,
-        chk_s:12,
-        chk_c:231,
-        chk_0z:120,
-        chk_1z:21,
-        chk_2z:10,
-        datacheckcount:5
-      },{
-        fltno:'EBD32',
-        checkincount:330,
-        chk_ptype_fl:20,
-        chk_ptype_ddu:250,
-        chk_gender_m:200,
-        chk_gender_f:102,
-        foreign:510,
-        inland:600,
-        gat:141,
-        chk_s:12,
-        chk_c:231,
-        chk_0z:120,
-        chk_1z:21,
-        chk_2z:10,
-        datacheckcount:5
-      }],
+       tableData:[
+   //{
+   // fltno:'AE15',
+   // checkincount:110,
+   // chk_ptype_fl:20,
+   // chk_ptype_ddu:250,
+   // chk_gender_m:200,
+   // chk_gender_f:102,
+   // foreign:510,
+   // inland:600,
+   // gat:141,
+   // chk_s:12,
+   // chk_c:231,
+   // chk_0z:120,
+   // chk_1z:21,
+   // chk_2z:10,
+   // datacheckcount:5
+   //    },{
+   //      fltno:'AE15',
+   //      checkincount:101,
+   //      chk_ptype_fl:20,
+   //      chk_ptype_ddu:250,
+   //      chk_gender_m:200,
+   //      chk_gender_f:102,
+   //      foreign:510,
+   //      inland:600,
+   //      gat:141,
+   //      chk_s:12,
+   //      chk_c:231,
+   //      chk_0z:120,
+   //      chk_1z:21,
+   //      chk_2z:10,
+   //      datacheckcount:5
+   //    },{
+   //      fltno:'EBD32',
+   //      checkincount:330,
+   //      chk_ptype_fl:20,
+   //      chk_ptype_ddu:250,
+   //      chk_gender_m:200,
+   //      chk_gender_f:102,
+   //      foreign:510,
+   //      inland:600,
+   //      gat:141,
+   //      chk_s:12,
+   //      chk_c:231,
+   //      chk_0z:120,
+   //      chk_1z:21,
+   //      chk_2z:10,
+   //      datacheckcount:5
+   //    }
+        ],
       arr1:[],
 
 
@@ -375,25 +367,25 @@ sData1:[{value:535, name:'总数'},{value:310, name:'不准登机人员数量'}]
   },
   mounted() {
   //  this.queryNationality();
-this.setdates(this.tableData);
+  //this.setdates(this.tableData);
 
-    // this.drawLine();
-    // let time = new Date();
-    // let endz = new Date();
-    // let beginz = new Date(time - 1000 * 60 * 60 * 24 * 1);
-    // this.pd.begin = formatDate(beginz, 'yyyyMMddHHmmss');
-    // this.pd.end = formatDate(endz, 'yyyyMMddhhmmss');
-    // this.getList(this.CurrentPage, this.pageSize, this.pd);
+  //  this.drawLine();
+    let time = new Date();
+    let endz = new Date();
+    let beginz = new Date(time - 1000 * 60 * 60 * 24 * 30);
+    this.pd.begintime = formatDate(beginz, 'yyyyMMddhhssmm');
+    this.pd.endtime = formatDate(endz, 'yyyyMMddhhssmm');
+  //  this.getList(this.CurrentPage, this.pageSize, this.pd);
   },
   activated() {
     //this.queryNationality();
-      this.drawLine();
-    // let time = new Date();
-    // let endz = new Date();
-    // let beginz = new Date(time - 1000 * 60 * 60 * 24 * 1);
-    // this.pd.begin = formatDate(beginz, 'yyyyMMddhhmmss');
-    // this.pd.end = formatDate(endz, 'yyyyMMddhhmmss');
-    // this.getList(this.CurrentPage, this.pageSize, this.pd);
+  //  this.drawLine();
+    let time = new Date();
+    let endz = new Date();
+    let beginz = new Date(time - 1000 * 60 * 60 * 24 * 30);
+    this.pd.begintime = formatDate(beginz, 'yyyyMMddhhssmm');
+    this.pd.endtime = formatDate(endz, 'yyyyMMddhhssmm');
+    //this.getList(this.CurrentPage, this.pageSize, this.pd);
   },
   methods: {
     // 获取表格选中时的数据
@@ -445,10 +437,10 @@ this.setdates(this.tableData);
 
           }
 
-          console.log("======"+this.arr1+"+==="+arr.length);
+
       },
     objectSpanMethod({ row, column, rowIndex, columnIndex }) {
-      console.log("1-------------"+this.arr1[rowIndex]+"--"+rowIndex);
+
       if (columnIndex === 0) {
          if ( this.arr1[rowIndex] > 1) {
            return {
@@ -467,19 +459,7 @@ this.setdates(this.tableData);
            };
          }
        }
-    // if (columnIndex === 0) {
-    //   if (rowIndex % 2 === 0) {
-    //     return {
-    //       rowspan: 2,
-    //       colspan: 1
-    //     };
-    //   } else {
-    //     return {
-    //       rowspan: 0,
-    //       colspan: 0
-    //     };
-    //   }
-    // }
+
   },
   getSummaries(param) {
       console.log("合计-------------");
@@ -505,84 +485,172 @@ this.setdates(this.tableData);
            sums[index] = '';
          }
        });
-        console.log("合计-------------"+sums);
+
        return sums;
      },
 
     getList(currentPage, showCount, pd) {
-      // this.pd.begin=formatDate(this.pd.begin,"yyyyMMddhhssmm");
-      // this.pd.end=formatDate(this.pd.end,"yyyyMMddhhssmm");
-      // if (dayGap(this.pd.begin, this.pd.end, 0) > 1) {
-      //   this.$alert('只能查询某一天的日期', '提示', {
-      //     confirmButtonText: '确定',
-      //   });
-      //   return false
-      // }
+      const result = this.$validator.verifyAll('timeDemo')
+       if (result.indexOf(false) > -1) {
+         return
+       }
 
       let p = {
-        "currentPage": currentPage,
-        "showCount": showCount,
-        "cdt": pd
+        "begintime": pd.begintime,
+        "endtime": pd.endtime,
+        "fltno": pd.fltno,
       };
 
       this.$api.post("/manage-platform/dataStatistics/get_flt", p,
         r => {
-          console.log("2-----"+r);
-          //this.tableData = r.data;
-          //this.TotalResult = r.data.totalResult;
-          this.sData1="[{value:535, name:'总数'},{value:310, name:'不准登机人员数量'}]";
-          console.log(this.sData1+"------------");
-          this.drawLine();
+
+          this.tableData = r.data;
+          let arr=this.tableData;
+          var sum1=0,sum01=0;
+          var sum2=0,sum02=0;
+          var sum3=0,sum03=0;
+          var sum4=0,sum04=0;
+          var sum5=0,sum05=0,sum005=0;
+          for(var i=0;i<arr.length;i++){
+            sum1+=parseInt(arr[i].checkincount);
+            sum01+=parseInt(arr[i].chk_1z);
+            sum2+=parseInt(arr[i].chk_ptype_fl);
+            sum02+=parseInt(arr[i].chk_ptype_ddu);
+            sum3+=parseInt(arr[i].chk_gender_m);
+            sum03+=parseInt(arr[i].chk_gender_f);
+            sum4+=parseInt(arr[i].chk_s);
+            sum04+=parseInt(arr[i].chk_c);
+            sum5+=parseInt(arr[i].foreign);
+            sum05+=parseInt(arr[i].inland);
+            sum005+=parseInt(arr[i].gat);
+
+          }
+          this.sData1=[{value:sum1, name:'总数'},{value:sum01, name:'不准登机人员数量'}];
+          this.sData2=[{value:sum2, name:'普通旅客'},{value:sum02, name:'中转旅客'}];
+          this.sData3=[{value:sum3, name:'男'},{value:sum03, name:'女'}];
+          this.sData4=[{value:sum4, name:'自助'},{value:sum04, name:'柜台'}];
+          this.sData5=[{value:sum5, name:'外国人'},{value:sum05, name:'内地居民'},{value:sum005, name:'港澳台'}];
+        //  console.log(this.sData1+"------------"+sum0+"==="+sum00);
+          this.drawLine();this.drawLine2();this.drawLine3();this.drawLine4();this.drawLine5();
         })
     },
-    // queryNationality() {
-    //   this.$api.post('/manage-platform/codeTable/queryNationality', {},
-    //     r => {
-    //       console.log(r);
-    //       if (r.success) {
-    //         this.nation = r.data;
-    //       }
-    //     })
-    // },
+
     details(i) {
       this.detailsDialogVisible = true;
       console.log(i);
       this.form = i;
     },
     drawLine() {
-
       this.lineChart = echarts.init(document.getElementById('myChart'), 'light');
       window.onresize = echarts.init(document.getElementById('myChart')).resize;
-      let that = this;
-     console.log("走没走----");
-      this.lineChart.setOption({
-        tooltip: {
-        trigger: 'item',
-        formatter: "{a} <br/>{b}: {c} ({d}%)"
-    },
-    series: [
-          {
-            name:'总数、不准登机人员数量',
-            type:'pie',
-            radius: ['30%', '50%'],
-            center: ['50%', '30%'],   //调整位置
-            data:this.sData1
-           }
-          ]
-        });
+        let that = this;
+        this.lineChart.setOption({
+          tooltip: {
+          trigger: 'item',
+          formatter: "{a} <br/>{b}: {c} ({d}%)"
         },
+          series: [
+                {
+                  name:'总数、不准登机人员数量',
+                  type:'pie',
+                  radius: ['30%', '50%'],
+                  center: ['50%', '50%'],   //调整位置
+                  data:this.sData1
+                 }
+                ]
+          });
+    },
+    drawLine2() {
+      this.lineChart = echarts.init(document.getElementById('myChart2'), 'light');
+      window.onresize = echarts.init(document.getElementById('myChart2')).resize;
+        let that = this;
+        this.lineChart.setOption({
+          tooltip: {
+          trigger: 'item',
+          formatter: "{a} <br/>{b}: {c} ({d}%)"
+        },
+          series: [
+                {
+                  name:'旅客类型构成',
+                  type:'pie',
+                  radius: ['30%', '50%'],
+                  center: ['50%', '50%'],   //调整位置
+                  data:this.sData2
+                 }
+                ]
+          });
+    },
+    drawLine3() {
+      this.lineChart = echarts.init(document.getElementById('myChart3'), 'light');
+      window.onresize = echarts.init(document.getElementById('myChart3')).resize;
+        let that = this;
+        this.lineChart.setOption({
+          tooltip: {
+          trigger: 'item',
+          formatter: "{a} <br/>{b}: {c} ({d}%)"
+        },
+          series: [
+                {
+                  name:'性别构成',
+                  type:'pie',
+                  radius: ['30%', '50%'],
+                  center: ['50%', '50%'],   //调整位置
+                  data:this.sData3
+                 }
+                ]
+          });
+    },
+
+    drawLine4() {
+      this.lineChart = echarts.init(document.getElementById('myChart4'), 'light');
+      window.onresize = echarts.init(document.getElementById('myChart4')).resize;
+        let that = this;
+        this.lineChart.setOption({
+          tooltip: {
+          trigger: 'item',
+          formatter: "{a} <br/>{b}: {c} ({d}%)"
+        },
+          series: [
+                {
+                  name:'值机渠道',
+                  type:'pie',
+                  radius: ['30%', '50%'],
+                  center: ['50%', '50%'],   //调整位置
+                  data:this.sData4
+                 }
+                ]
+          });
+    },
+    drawLine5() {
+      this.lineChart = echarts.init(document.getElementById('myChart5'), 'light');
+      window.onresize = echarts.init(document.getElementById('myChart5')).resize;
+        let that = this;
+        this.lineChart.setOption({
+          tooltip: {
+          trigger: 'item',
+          formatter: "{a} <br/>{b}: {c} ({d}%)"
+        },
+          series: [
+                {
+                  name:'国家构成',
+                  type:'pie',
+                  radius: ['30%', '50%'],
+                  center: ['50%', '50%'],   //调整位置
+                  data:this.sData5
+                 }
+                ]
+          });
+    },
+
       }
     }
 </script>
 
 <style scoped>
 .ak-tab {}
-
 .ak-tabs {
   display: flex;
-
 }
-
 .ak-tab-item {
   background: #399bfe;
   color: #fff;
@@ -605,6 +673,7 @@ this.setdates(this.tableData);
   padding: 20px;
   border-radius: 0 5px 5px 5px;
 }
+.ppie{width:420px; height:300px; float:left; }
 
 
 </style>
