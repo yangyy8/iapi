@@ -17,11 +17,11 @@ import api from './api/index.js';
 // import 'lib-flexible/flexible'
 import App from './App'
 import router from './router'
-// import multiCascader from "multi-cascader";
+import multiCascader from "multi-cascader";
 import cascaderMulti from "cascader-multi";
 
 Vue.config.productionTip = false
-// Vue.use(multiCascader);
+Vue.use(multiCascader);
 Vue.use(cascaderMulti);
 Vue.use(ElementUI);
 Vue.use(Print);

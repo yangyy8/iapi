@@ -107,6 +107,8 @@ body{
 .ak-table2 thead th{
   background-color: #529edc !important;
 }
+.el-table thead.is-group th {
+  background: #858585!important; }
 table td,thead th{
   height: 40px !important;
   padding: 3px 0 !important;
@@ -286,6 +288,9 @@ button{
 .tc-o{
   color: #e89e6f;
 }
+.tc-b{
+  color: #409EFF;
+}
 .tc-333{
   color: #333333;
 }
@@ -446,6 +451,9 @@ button{
 .el-table{
   margin:0 0 15px 0;
 }
+.el-select .el-tag {
+  background-color: #d2d3d4!important;
+}
 .el-radio+.el-radio{
   margin-left: 0 !important;
 }
@@ -460,7 +468,7 @@ button{
   color: #fff!important;
 }
 
-.ak-tab {}
+.ak-tab {line-height: 32px;}
 
 .ak-tabs {
   display: flex;
@@ -489,4 +497,13 @@ button{
   border: 1px #dddddd solid;
   padding: 12px;
   border-radius: 0 3px 3px 3px;
+}
+.detail-msg-row{
+  color: #999;
+  line-height: 32px;
+}
+.detail-msg-row span{
+  color: #333;
+  display: inline-block;
+  /* width: 91px; */
 }
