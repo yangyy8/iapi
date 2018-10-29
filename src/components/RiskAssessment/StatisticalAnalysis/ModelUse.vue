@@ -12,13 +12,13 @@
                 <span class="input-text">时间：</span>
                 <div class="input-input t-flex t-date">
                    <el-date-picker
-                     v-model="pd.DATEOFBIRTHSTART"
+                     v-model="pd.startCreatetime"
                      type="date" size="small" value-format="yyyyMMdd"
                      placeholder="开始时间" align="right" >
                    </el-date-picker>
                    <span class="septum">-</span>
                    <el-date-picker
-                      v-model="pd.DATEOFBIRTHEND"
+                      v-model="pd.endCreatetime"
                       type="date" size="small" align="right" value-format="yyyyMMdd"
                       placeholder="结束时间"  >
                   </el-date-picker>
@@ -26,34 +26,38 @@
             </el-col>
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">中心/口岸：</span>
-              <el-select v-model="pd.NATIONALITY" filterable clearable multiple placeholder="请选择"  size="small" class="input-input">
+              <!-- <el-select v-model="pd.NATIONALITY" filterable clearable multiple placeholder="请选择"  size="small" class="input-input" @visible-change="queryAirport">
                 <el-option
-                  v-for="item in nationAlone"
-                  :key="item.CODE"
-                  :label="item.CODE+' - '+item.CNAME"
-                  :value="item.CODE">
+                  v-for="item in airport"
+                  :key="item.ID"
+                  :label="item.ID+' - '+item.CNAME"
+                  :value="item.ID">
                 </el-option>
-              </el-select>
+              </el-select> -->
+              <multiCascader width="240px" height="220px" size="small" class="input-input"></multiCascader>
+
+              <!-- <cascaderMulti v-model="end_code" placeholder="状态码" :data="end_codes"></cascaderMulti> -->
+
             </el-col>
 
             <el-col :sm="24" :md="12"  :lg="8" class="input-item">
               <span class="input-text">模型：</span>
-              <el-input placeholder="请输入内容" size="small" multiple v-verify.input.blur="{regs:'required|max:35',submit:'demo'}" v-model="pd.CARDNO" clearable class="input-input"></el-input>
+              <el-input placeholder="请输入内容" size="small" multiple v-verify.input.blur="{regs:'required|max:35',submit:'demo'}" v-model="pd.type" clearable class="input-input"></el-input>
             </el-col>
 
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">类型：</span>
               <div class="input-input t-flex t-date">
-                <el-select v-model="pd.NATIONALITY" filterable clearable placeholder="请选择"  size="small" class="tt-input">
-                  <el-option
-                    v-for="item in nationAlone"
-                    :key="item.CODE"
-                    :label="item.CODE+' - '+item.CNAME"
-                    :value="item.CODE">
-                  </el-option>
+                <el-select v-model="pd.type" filterable clearable placeholder="请选择"  size="small" class="tt-input">
+                  <el-option label="模型" value="0"></el-option>
+                  <el-option label="国籍" value="1"></el-option>
+                  <el-option label="航线" value="2"></el-option>
+                  <el-option label="签证种类" value="3"></el-option>
+                  <el-option label="证件类别" value="4"></el-option>
+                  <el-option label="年龄段" value="5"></el-option>
                 </el-select>
                 <span class="septum" v-if="isActive">-</span>
-                <el-select v-if="isActive" v-model="pd.NATIONALITY" filterable clearable placeholder="请选择"  size="small" class="tt-input">
+                <el-select v-if="isActive" v-model="pd.typeValue" filterable clearable placeholder="请选择"  size="small" class="tt-input">
                   <el-option
                     v-for="item in nationAlone"
                     :key="item.CODE"
@@ -66,21 +70,21 @@
 
             <el-col :sm="24" :md="12"  :lg="8" class="input-item" style="position:relative">
               <span class="input-text">量选择：</span>
-              <el-select  placeholder="请选择"  size="small" v-model="pd.IN_OUT" multiple clearable filterable class="block input-input">
-                <el-option label="I - 入境" value="I"></el-option>
-                <el-option label="O - 出境" value="O"></el-option>
-                <el-option label="A - 入出境" value="A"></el-option>
+              <el-select  placeholder="请选择"  size="small" v-model="pd.number" multiple clearable filterable class="block input-input">
+                <el-option label="使用量" value="0"></el-option>
+                <el-option label="报警量" value="1"></el-option>
+                <el-option label="命中量" value="2"></el-option>
               </el-select>
-              <span class="el-icon-info t-tip"></span>
+              <span class="el-icon-warning t-tip" @click="warnOpen"></span>
             </el-col>
             <el-col :sm="24" :md="12"  :lg="8" class="input-item" style="position:relative">
               <span class="input-text">率选择：</span>
-              <el-select  placeholder="请选择"  size="small" v-model="pd.IN_OUT" multiple clearable filterable class="block input-input">
-                <el-option label="I - 入境" value="I"></el-option>
-                <el-option label="O - 出境" value="O"></el-option>
-                <el-option label="A - 入出境" value="A"></el-option>
+              <el-select  placeholder="请选择"  size="small" v-model="pd.percent" multiple clearable filterable class="block input-input">
+                <el-option label="报警率" value="3"></el-option>
+                <el-option label="模型命中率" value="4"></el-option>
+                <el-option label="报警命中率" value="5"></el-option>
               </el-select>
-              <span class="el-icon-info t-tip"></span>
+              <span class="el-icon-warning t-tip" @click="warnOpenLv"></span>
             </el-col>
           </el-row>
         </el-col>
@@ -95,8 +99,9 @@
       <div class="map-title">北京首都国际机场</div>
       <span class="tubiao hand borderL" :class="{'checked':page==0}" @click="page=0">量</span><span class="tubiao hand borderR" :class="{'checked':page==1}" @click="qq">率</span>
       <div class="" v-show="page==0">
-        <div class = "liangChart" style="width:100%;overflow:hidden">
+        <div class = "liangChart" style="position:relative;width:100%;overflow:hidden;">
           <div id = "liangEcharts" style = "width:100%;height: 400px"></div>
+          <el-button class="table-btn dz-btn" plain>定制</el-button>
         </div>
         <el-table
           :data="tableData"
@@ -146,6 +151,49 @@ export default {
         ["a","b","c","4"],
         [4,5,6,7]
       ],
+      end_code:[
+        {
+          value: 1000,
+          label: "接通",
+          children: [{
+            label: "已报价",
+            value: 1100,
+            children: [],
+            multiple: true //可忽略项，当为true时该项为多选
+          }]
+        }
+      ],
+      end_codes: [
+        {
+          value: 1000,
+          label: "接通",
+          children: [{
+            label: "已报价",
+            value: 1100,
+            children: [],
+            multiple: true //可忽略项，当为true时该项为多选
+          }]
+        }
+      ],
+      // configOptions: [{
+      //   value: "1",
+      //   label: "一级菜单",
+      //   checked: false,
+      //   children: [
+      //     {
+      //       value: "11",
+      //       checked: false,
+      //       label: "二级菜单"
+      //     },
+      //     {
+      //       value: "12",
+      //       checked: false,
+      //       label: "二级菜单"
+      //     }
+      //   ]
+      // }],
+      // selectGroups:'1',
+      // configTips:'1',
       isActive:true,
       page:0,
       airport:[],
@@ -183,6 +231,10 @@ export default {
     // this.getList(this.CurrentPage,this.pageSize,this.pd);
   },
   methods:{
+    // getSelected(val) {
+    //     this.selectGroups = val;
+    //     this.configTips = '已选择'+val.length+'个分组';
+    // },
     qq(){
       this.page=1;
       this.drawLv();
@@ -222,12 +274,11 @@ export default {
       })
     },
     queryAirport(){
-      this.$api.post('/manage-platform/codeTable/queryAirport',{},
+      this.$api.post('/manage-platform/census/queryPort',{},
        r => {
          console.log(r);
          if(r.success){
            this.airport=r.data;
-           // this.$emit('transAirport',this.airportModel)
          }
       })
     },
@@ -410,11 +461,20 @@ export default {
             }
         ]
       })
+    },
+    warnOpen(){
+      this.$alert('使用量：模型比对一次算一次</br>报警量：模型比中</br>命中量：事件处理中确认该模型非误报', '提示', {
+        dangerouslyUseHTMLString: true
+      });
+    },
+    warnOpenLv(){
+      this.$alert('报警率：报警量/使用量</br>模型命中率：命中量/使用量</br>报警命中率：命中量/报警量', '提示', {
+        dangerouslyUseHTMLString: true
+      });
     }
   }
 }
 </script>
-
 <style scoped>
 .add-dialog{
   /* padding-left:40px; */
@@ -466,5 +526,14 @@ export default {
   position:absolute;
   right: -18px;
   top: 7px;
+  z-index: 999;
+}
+.dz-btn{
+  position: absolute;
+  right: 140px;
+  top: 0px;
+  width: 20px!important;
+  height: 20px;
+  line-height: 3px;
 }
 </style>

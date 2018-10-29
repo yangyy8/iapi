@@ -707,6 +707,38 @@ export default new Router({
           name: "AuditManagement",
           component: resolve => require(['@/components/RiskAssessment/Management/AuditManagement'], resolve),
         },
+        //名单字典项管理
+        {
+          path: "DictionaryManagement",
+          name: "DictionaryManagement",
+          component: resolve => require(['@/components/RiskAssessment/Management/DictionaryManagement'], resolve),
+        },
+
+        //交流讨论管理
+        //排行榜
+        {
+          path: "Ranklist",
+          name: "Ranklist",
+          component: resolve => require(['@/components/RiskAssessment/Management/Forum/Ranklist'], resolve),
+        },
+        //讨论区
+        {
+          path: "Discussion",
+          name: "Discussion",
+          component: resolve => require(['@/components/RiskAssessment/Management/Forum/Discussion'], resolve),
+        },
+        //发起帖子
+        {
+          path: "Sponsor",
+          name: "Sponsor",
+          component: resolve => require(['@/components/RiskAssessment/Management/Forum/Sponsor'], resolve),
+        },
+        //阅读帖子
+        {
+          path: "ReadTopics",
+          name: "ReadTopics",
+          component: resolve => require(['@/components/RiskAssessment/Management/Forum/ReadTopics'], resolve),
+        },
 
         //事件监控 EventMonitoring
         {
