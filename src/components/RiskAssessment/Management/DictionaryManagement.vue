@@ -7,12 +7,12 @@
             查询条件
           </div>
           <el-row align="center"   :gutter="2" >
-            <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+            <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
               <span class="input-text">字典名称：</span>
               <el-input placeholder="请输入内容" size="small" v-model="pd.NAME"  class="input-input"></el-input>
             </el-col>
 
-            <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+            <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
               <span class="input-text">创建时间：</span>
               <div class="input-input t-flex t-date">
                <el-date-picker
@@ -28,10 +28,7 @@
             </el-date-picker>
           </div>
             </el-col>
-            <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
-              <span style="width:10%"></span>
-              <el-input placeholder="请输入代码项及代码中文描述" size="small" v-model="pd.NAME" ></el-input>
-            </el-col>
+
 
           </el-row>
         </el-col>
@@ -55,12 +52,12 @@
         </el-table-column>
          <el-table-column
           prop="NAME"
-          label="代码项"
+          label="字典描述"
           >
         </el-table-column>
         <el-table-column
           prop="CREATEUSER"
-          label="代码中文描述">
+          label="指标数量">
         </el-table-column>
         <el-table-column
           prop="CREATETIME"
@@ -73,8 +70,10 @@
         <el-table-column
           label="操作" width="300">
           <template slot-scope="scope">
-              <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row)">详情</el-button>
+
               <el-button class="table-btn" size="mini" plain icon="el-icon-edit" @click="adds(1,scope.row)">编辑</el-button>
+              <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row)">导入</el-button>
+                            <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row)">导出</el-button>
               <el-button class="table-btn" size="mini" plain icon="el-icon-delete" @click="deletes(scope.row)">删除</el-button>
          </template>
         </el-table-column>
@@ -111,7 +110,7 @@
     </div>
     <el-dialog :title="dialogText" :visible.sync="addDialogVisible" width="500px" >
       <el-form :model="form" ref="addForm">
-        <el-row type="flex"  class="mb-6">
+        <!-- <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
             <span class="yy-input-text"><font class="yy-color">*</font> 字典项类型：</span>
             <el-select v-model="form.LABELTYPE_CODE" class="yy-input-input"  filterable clearable placeholder="请选择" size="small">
@@ -124,14 +123,14 @@
 
              </el-select>
           </el-col>
-        </el-row>
+        </el-row> -->
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
             <span class="yy-input-text"><font class="yy-color">*</font> 字典名称：</span>
             <el-input placeholder="请输入内容" size="small"   v-model="form.NAME"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
           </el-col>
         </el-row>
-        <el-row type="flex"  class="mb-6">
+        <!-- <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
             <span class="yy-input-text"> 代码项：</span>
             <el-input placeholder="请输入内容" size="small"   v-model="form.NAME"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
@@ -142,7 +141,7 @@
             <span class="yy-input-text"> 代码中文描述：</span>
             <el-input placeholder="请输入内容" size="small"   v-model="form.NAME"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
           </el-col>
-        </el-row>
+        </el-row> -->
         <el-row type="flex" class="mb-6" >
           <el-col :span="24" class="input-item">
             <span class="yy-input-text">字典项描述：</span>
@@ -156,7 +155,7 @@
       </div>
     </el-dialog>
 
-    <el-dialog title="详情" :visible.sync="detailsDialogVisible" width="500px" >
+    <!-- <el-dialog title="详情" :visible.sync="detailsDialogVisible" width="500px" >
       <el-form :model="map" ref="mapForm">
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
@@ -198,7 +197,7 @@
       <div slot="footer" class="dialog-footer">
         <el-button @click="detailsDialogVisible = false" size="small">取 消</el-button>
       </div>
-    </el-dialog>
+    </el-dialog> -->
 
   </div>
   </div>
