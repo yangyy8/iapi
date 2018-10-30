@@ -109,8 +109,8 @@
           style="width: 100%;"
           >
           <el-table-column
-            :label="data" v-for="(data,key) in header">
-            <template scope="scope">
+            :label="data" v-for="(data,key) in header" :key="key">
+            <template slot-scope="scope">
                 {{tableData[scope.$index][key]}}
             </template>
           </el-table-column>
@@ -126,8 +126,8 @@
           style="width: 100%;"
           >
           <el-table-column
-            :label="data" v-for="(data,key) in Lheader">
-            <template scope="scope">
+            :label="data" v-for="(data,key) in Lheader" :key="key">
+            <template slot-scope="scope">
                 {{LtableData[scope.$index][key]}}
             </template>
           </el-table-column>

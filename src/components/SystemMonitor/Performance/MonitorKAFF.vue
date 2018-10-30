@@ -23,11 +23,31 @@
               <div class="co-tab-item hand" :class="{'co-checked':coCheckId==2}" @click="judgeList">
                 列表
               </div>
-              <div class="" style="margin-bottom: -6px;width:80%" v-show="controlChecked==1">
+              <div class="" style="margin-bottom: -6px;width:60%" v-show="controlChecked==1">
                 <el-row align="center" :gutter="2">
-                  <el-col :sm="24" :md="12"  :lg="6" class="input-item">
+                  <el-col :sm="24" :md="12"  :lg="13" class="input-item">
+                    <span class="input-text">分析日期：</span>
+                    <div class="input-input t-flex t-date">
+                        <el-date-picker
+                        v-model="cdt1.begin"
+                        type="datetime" size="mini"
+                        placeholder="开始日期"
+                        value-format="yyyyMMddHHmmss"
+                        >
+                      </el-date-picker>
+                      <span class="septum">-</span>
+                      <el-date-picker
+                         v-model="cdt1.end"
+                         type="datetime" size="mini"
+                         placeholder="结束日期"
+                         value-format="yyyyMMddHHmmss"
+                         >
+                     </el-date-picker>
+                    </div>
+                  </el-col>
+                  <el-col :sm="24" :md="12"  :lg="9" class="input-item">
                     <span class="input-text">分发口岸：</span>
-                    <el-select  placeholder="请选择"  size="mini"  class="input-input" v-model="cdt.port" filterable clearable @visible-change="portMethod">
+                    <el-select  placeholder="请选择"  size="mini"  class="input-input" v-model="cdt1.port" filterable clearable @visible-change="portMethod">
                       <el-option
                       v-for="item in portName"
                       :key="item.KADM"
@@ -35,6 +55,9 @@
                       :label="item.KAMC"
                       ></el-option>
                     </el-select>
+                  </el-col>
+                  <el-col :sm="24" :md="12"  :lg="2" class="input-item">
+                    <el-button type="success" size="mini" class="ml-10" @click="searchReal">查询</el-button>
                   </el-col>
                 </el-row>
               </div>
@@ -146,23 +169,14 @@
                       label="分发开始时间"
                       width='200'>
                       <template  slot-scope="scope">
-                        <span>{{scope.row.begintime|discount}}</span>
+                        <span>{{scope.row.begintime}}</span>
                       </template>
                     </el-table-column>
                     <el-table-column
-
                       label="分发终止时间"
                       width='200'>
                       <template  slot-scope="scope">
-                        <span>{{scope.row.endtime|discount}}</span>
-                      </template>
-                    </el-table-column>
-                    <el-table-column
-
-                      label="监控时间"
-                      width='200'>
-                      <template  slot-scope="scope">
-                        <span>{{scope.row.endtime|discount}}</span>
+                        <span>{{scope.row.endtime}}</span>
                       </template>
                     </el-table-column>
                     <el-table-column
@@ -335,7 +349,7 @@ export default {
       controlChecked:1,
       coCheckId:1,
       detailsDialogVisible:false,
-      checked:true,
+      checked:false,
       // 实时显示条数
       options:[
         {
@@ -383,12 +397,16 @@ export default {
       htableData:[{
 
       }],
-      cdt:{
+      cdt:{//历史监控传参
         type:'5',
         begin:'',
         end:'',
         port:''
-      },  //历史监控传参
+      },
+      cdt1:{
+        begin:'',
+        end:'',
+      },
       pd:{},// 实时空信息
       pdc:{},//实时表格传折线处信息
       lineX:[],
@@ -404,26 +422,34 @@ export default {
   mounted() {
       this.drawLine();
       this.checkRealTime();
-      // window.addEventListener('resize', throttle(this.resize, 100));
       let begin=new Date();
-      let  end=new Date();
+      let beginOne=new Date();
       let aaaa = new Date(begin.setMonth((new Date().getMonth()-1)));
+      let cccc = new Date(beginOne.getTime()-6*60*60*1000);
       let bbbb = new Date();
       this.cdt.begin=formatDate(aaaa,'yyyyMMddhhmmss');
       this.cdt.end=formatDate(bbbb,'yyyyMMddhhmmss');
-      this.getList(this.CurrentPage,this.pageSize,this.pd);
+      this.cdt1.begin=formatDate(cccc,'yyyyMMddhhmmss');
+      this.cdt1.end=formatDate(bbbb,'yyyyMMddhhmmss');
+      // this.getList(this.CurrentPage,this.pageSize,this.cdt1);
   },
   activated() {
       this.drawLine();
       this.checkRealTime();
-      // window.addEventListener('resize', throttle(this.resize, 100));
-      // let begin=new Date();
-      // let  end=new Date();
-      // let aaaa = new Date(begin.setMonth((new Date().getMonth()-1)));
-      // let bbbb = new Date();
-      // this.cdt.begin=formatDate(aaaa,'yyyyMMddhhmmss');
-      // this.cdt.end=formatDate(bbbb,'yyyyMMddhhmmss');
-      this.getList(this.CurrentPage,this.pageSize,this.pd);
+      // this.getList(this.CurrentPage,this.pageSize,this.cdt1);
+  },
+  watch:{
+    checked:function(val){
+      console.log(val)
+      if(val){
+        let that=this;
+        this.timer=setInterval(function(){
+          that.getList(that.CurrentPage,that.pageSize,that.cdt1);
+        },300000)
+      }else{
+        clearInterval(this.timer);
+      }
+    }
   },
   beforeDestroy() {
     this.dispose();
@@ -450,11 +476,11 @@ export default {
     },
     // 实时监控分页
     pageSizeChange(val) {
-      this.getList(this.CurrentPage,val,this.pd);
+      this.getList(this.CurrentPage,val,this.cdt1);
       console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
-      this.getList(val,this.pageSize,this.pd);
+      this.getList(val,this.pageSize,this.cdt1);
       console.log(`当前页: ${val}`);
     },
     // 历史监控分页
@@ -474,7 +500,7 @@ export default {
         "showCount":showCount,
         "cdt":pd
       };
-      this.$api.post('/manage-platform/disPerLog/queryListPageReal',p,
+      this.$api.post('/manage-platform/disPerLog/queryListPage',p,
        r => {
          console.log(r);
          this.tableData=r.data.resultList;
@@ -489,7 +515,7 @@ export default {
         "showCount":hshowCount,
         "cdt":cdt
       }
-      this.$api.post('/manage-platform/disPerLog/queryMatchListPageHisOther',p,
+      this.$api.post('/manage-platform/disPerLog/queryListPageReal',p,
        r => {
          console.log(r);
          this.htableData=r.data.pd.resultList;
@@ -663,8 +689,8 @@ export default {
     checkRealTime(){
       let p={
         "currentPage":1,
-	      "showCount":10,
-        "cdt":this.pd //空数据
+	      "showCount":60,
+        "cdt":this.cdt1 //空数据
       }
       this.$api.post('/manage-platform/disPerLog/queryListPage',p,
       r =>{
@@ -692,7 +718,7 @@ export default {
       if(this.coCheckId == 1){//如果当前显示图表
         this.checkRealTime();
       }else if(this.coCheckId == 2){//如果当前显示列表
-        this.getList(this.CurrentPage,this.pageSize,this.pd);
+        this.getList(this.CurrentPage,this.pageSize,this.cdt1);
       }
     },
     historyq(){//重新点回性能分析时
@@ -716,7 +742,7 @@ export default {
     judgeList(){
       this.coCheckId=2;
       if(this.controlChecked == 1){//判断实时图
-        this.getList(this.CurrentPage,this.pageSize,this.pd);
+        this.getList(this.CurrentPage,this.pageSize,this.cdt1);
       }else if(this.controlChecked == 2){//判断历史图
         this.hgetList(this.hCurrentPage,this.hpageSize,this.cdt);
       }
@@ -726,6 +752,13 @@ export default {
         this.checkHistoryTime();
       }else if(this.coCheckId==2){
         this.hgetList(this.hCurrentPage,this.hpageSize,this.cdt);
+      }
+    },
+    searchReal(){  //实时监控的查询
+      if(this.coCheckId==1){
+        this.checkRealTime();
+      }else if(this.coCheckId==2){
+        this.getList(this.CurrentPage,this.pageSize,this.cdt1);
       }
     },
     portMethod(){

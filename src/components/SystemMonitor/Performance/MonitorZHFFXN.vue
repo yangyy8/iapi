@@ -23,9 +23,9 @@
               <div class="co-tab-item hand" :class="{'co-checked':coCheckId==2}" @click="judgeList">
                 列表
               </div>
-              <div class="" style="margin-bottom: -6px;" v-show="controlChecked==1">
+              <div class="" style="margin-bottom: -6px;width: 80%;" v-show="controlChecked==1">
                 <el-row align="center" :gutter="2">
-                  <el-col :sm="24" :md="12"  :lg="22" class="input-item">
+                  <el-col :sm="24" :md="12" :lg="10" class="input-item">
                     <span class="input-text">查询时间：</span>
                     <div class="input-input t-flex t-date">
                         <el-date-picker
@@ -44,6 +44,21 @@
                          >
                      </el-date-picker>
                     </div>
+                  </el-col>
+                  <el-col :sm="24" :md="12" :lg="6" class="input-item" v-show="coCheckId==2">
+                    <span class="input-text">国籍/地区：</span>
+                    <el-select placeholder="请选择" v-model="cdt1.nationality" filterable clearable size="small"  class="input-input" @visible-change="baseNation">
+                      <el-option
+                        v-for="item in selection"
+                        :key="item.CODE"
+                        :value="item.CODE"
+                        :label="item.CODE+' - '+item.CNAME"
+                      ></el-option>
+                    </el-select>
+                  </el-col>
+                  <el-col :sm="24" :md="12" :lg="6" class="input-item" v-show="coCheckId==2">
+                    <span class="input-text">证件号码：</span>
+                    <el-input placeholder="请输入内容" v-model="cdt1.passportno" size="small" class="input-input"></el-input>
                   </el-col>
                   <el-col :sm="24" :md="12"  :lg="2" class="input-item">
                     <el-button type="success" size="mini" class="ml-10" @click="searchReal">查询</el-button>
@@ -114,7 +129,7 @@
                       width="70">
                     </el-table-column>
                     <el-table-column
-                      prop="birthcountry"
+                      prop="nationality"
                       label="国籍">
                     </el-table-column>
                     <el-table-column
@@ -150,12 +165,16 @@
                       </template>
                     </el-table-column>
                     <el-table-column
-                      prop="average"
-                      label="耗时">
+                      prop="begintime "
+                      label="整合开始时间">
                     </el-table-column>
                     <el-table-column
-                      prop="createtime"
-                      label="监控时间">
+                      prop="endtime"
+                      label="整合结束时间">
+                    </el-table-column>
+                    <el-table-column
+                      prop="average"
+                      label="耗时">
                     </el-table-column>
                   </el-table>
                   <div class="middle-foot">
@@ -224,6 +243,14 @@
                       prop="consumetime"
                       label="平均耗时">
                     </el-table-column>
+                    <el-table-column
+                      prop="begintimeStr"
+                      label="区间开始时间">
+                    </el-table-column>
+                    <el-table-column
+                      prop="endtimeStr"
+                      label="区间结束时间">
+                    </el-table-column>
                   </el-table>
                   <div class="middle-foot">
                     <div class="page-msg">
@@ -283,8 +310,9 @@ export default {
       value:1,
       controlChecked:1,
       coCheckId:1,
+      selection:[],
       detailsDialogVisible:false,
-      checked:true,
+      checked:false,
       // 实时显示条数
       options:[
         {
@@ -341,9 +369,9 @@ export default {
         begin:'',
         end:''
       },
-      cdt1:{//实时监控传参
+      cdt1:{//实时监控传参列表
         begin:'',
-        end:''
+        end:'',
       },
       pd:{},// 实时空信息
       pdc:{},//实时表格传折线处信息
@@ -372,6 +400,19 @@ export default {
   activated() {
       this.checkRealTime();
       this.getList(this.CurrentPage,this.pageSize,this.cdt1);
+  },
+  watch:{
+    checked:function(val){
+      console.log(val)
+      if(val){
+        let that=this;
+        this.timer=setInterval(function(){
+          that.getList(that.CurrentPage,that.pageSize,that.cdt1);
+        },300000)
+      }else{
+        clearInterval(this.timer);
+      }
+    }
   },
   beforeDestroy() {
     if (!this.lineChart) {
@@ -610,10 +651,14 @@ export default {
     },
     // 校验比对实时监控折线图
     checkRealTime(){
+      if(this.coCheckId==1){
+        delete this.cdt1.nationality;
+        delete this.cdt1.passportno;
+      }
       let p={
         "currentPage":1,
-	      "showCount":10,
-        "cdt":this.cdt1 //空数据
+	      "showCount":240,
+        "cdt":this.cdt1
       }
       this.$api.post('/manage-platform/conformity/queryListPage',p,
       r =>{
@@ -626,7 +671,7 @@ export default {
     checkHistoryTime(){
       let t={
         "currentPage":1,
-        "showCount":10,
+        "showCount":240,
         "cdt":this.cdt
       }
       this.$api.post('/manage-platform/conformity/queryListPageHisMin',t,
@@ -681,7 +726,15 @@ export default {
       }else if(this.coCheckId==2){
         this.getList(this.CurrentPage,this.pageSize,this.cdt1);
       }
-    }
+    },
+    baseNation(){
+      this.$api.post('/manage-platform/codeTable/queryNationality',{},
+       r => {
+         if(r.success){
+           this.selection = r.data;
+         };
+       })
+    },
   },
 
 }
