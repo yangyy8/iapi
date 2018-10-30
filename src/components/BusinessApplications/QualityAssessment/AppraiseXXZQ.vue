@@ -59,7 +59,7 @@
             </el-col>
           </el-row>
 
-          <el-row type="flex"  style="border-top:2px solid #DEF0FC; padding-top:10px; margin-top:10px;">
+          <el-row type="flex"  class="yy-line">
 
                 <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
                   <span class="input-text">行属性：</span>

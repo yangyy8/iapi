@@ -1,6 +1,6 @@
 // 配置API接口地址
 //var root="http://192.168.99.242:8080"    //石飞的电脑
-var root = "http://192.168.99.251:8080"    //性能监控
+// var root = "http://192.168.99.251:8080"    //性能监控
 
 // var root = "http://192.168.99.248:8181"    //性能监控
 //var root="http://192.168.99.228:8080"    //丁勇的电
@@ -9,9 +9,15 @@ var root = "http://192.168.99.251:8080"    //性能监控
 //var root="http://192.168.99.228:8080"    //丁勇的电
 //var root="http://192.168.99.228:8080"    //丁勇的电脑
 // var root = 'http://192.168.99.245:8080'
+<<<<<<< HEAD
  // var root="http://192.168.99.206:8080"   //服务器电脑
 //var root="http://192.168.99.213:8080"
 //var root = 'http://192.168.99.245:8080'
+=======
+ var root="http://192.168.99.213:8080"   //服务器电脑
+//var root="http://192.168.99.228:8080
+// var root = 'http://192.168.99.201:8080'
+>>>>>>> 4378364c2baa6cef97cdfb52e719af07d4830649
 
 
 // 引用axios
@@ -42,7 +48,7 @@ function filterNull(o) {
 }
 // 添加默认参数
 function apiAxios(method, url, params, success, failure,isLoad) {
-  console.log("url",url)
+  // console.log("url",url)
   let loadingInstance1=null;
   if(!(url=='/manage-platform/nationwide/getPortDetail'||url=='/manage-platform/nationwide/getFlightDetail')){
     loadingInstance1 = Loading.service({ fullscreen: true, spinner: 'el-icon-loading',text:'拼命加载中',background:'rgba(0,0,0,0.6)',customClass:'loadingClass'});

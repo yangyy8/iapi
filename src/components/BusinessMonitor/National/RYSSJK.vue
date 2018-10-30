@@ -4,12 +4,12 @@
       <el-row :gutter="2" class="pr-20">
         <el-col :sm="24" :md="12" :lg="8" class="input-item">
           <span class="input-text">航班号：</span>
-          <el-input placeholder="请输入内容" size="small" clearable class="input-input"></el-input>
+          <el-input v-model="pd.fltNo" @blur="getList(CurrentPage,pageSize,pd)" placeholder="请输入内容" size="small" clearable class="input-input"></el-input>
         </el-col>
 
         <el-col :sm="24" :md="12"  :lg="8" class="input-item">
           <span class="input-text">出入标识：</span>
-          <el-select  placeholder="请选择"  size="small" clearable filterable class="block input-input">
+          <el-select v-model="pd.iOType"  @change="getList(CurrentPage,pageSize,pd)" placeholder="请选择"  size="small" clearable filterable class="block input-input">
             <el-option label="I - 入境" value="I"></el-option>
             <el-option label="O - 出境" value="O"></el-option>
             <el-option label="A - 入出境" value="A"></el-option>
@@ -19,13 +19,13 @@
     </div>
     <div class="middle mb-6">
       <div class="middle-tab">
-        <div class="middle-tab-item hand" :class="{'middle-checked':tabId==1}" >
+        <div class="middle-tab-item hand" :class="{'middle-checked':pd.type==0}" @click="pd.type=0;getList(CurrentPage,pageSize,pd)">
           预检人员
         </div>
-        <div class="middle-tab-item hand" :class="{'middle-checked':tabId==2}">
+        <div class="middle-tab-item hand" :class="{'middle-checked':pd.type==1}" @click="pd.type=1;getList(CurrentPage,pageSize,pd)">
           不准登机人员
         </div>
-        <div class="middle-tab-item hand" :class="{'middle-checked':tabId==3}">
+        <div class="middle-tab-item hand" :class="{'middle-checked':pd.type==2}" @click="pd.type=2;getList(CurrentPage,pageSize,pd)">
           重点人员
         </div>
       </div>
@@ -39,53 +39,77 @@
           style="width: 100%;">
           <el-table-column
             label="姓名"
+            prop="name"
             width="110">
           </el-table-column>
           <el-table-column
             label="性别"
+            prop="gender"
             width="80">
           </el-table-column>
           <el-table-column
             label="出生日期"
+            prop="birthDay"
             width="80">
           </el-table-column>
           <el-table-column
             label="国籍"
+            prop="nationalityName"
             width="80">
           </el-table-column>
           <el-table-column
             label="出入境类别"
+            prop="ioType"
             width="110">
           </el-table-column>
-          <el-table-column
+          <!-- <el-table-column
             label="旅客类别"
+            prop="name"
             width="80">
           </el-table-column>
           <el-table-column
             label="值机状态"
+            prop="name"
             width="120">
           </el-table-column>
           <el-table-column
             label="值机时间"
+            prop="name"
             width="120">
-          </el-table-column>
+          </el-table-column> -->
           <el-table-column
             label="证件种类"
+            prop="cardTypeName"
             width="110">
           </el-table-column>
           <el-table-column
             label="证件号码"
+            prop="passportNo"
             width="110">
           </el-table-column>
           <el-table-column
-            label="签证类别">
+            label="签证类别"
+            prop="visaTypeName">
           </el-table-column>
           <el-table-column
-            label="航班号">
+            label="航班号"
+            prop="fltno">
           </el-table-column>
           <el-table-column
+            label="航班时间"
+            prop="fltDate">
+          </el-table-column>
+          <el-table-column
+            label="是否非法载运人员"
+            prop="illegalMan">
+          </el-table-column>
+          <el-table-column
+            label="是否重点关注人员"
+            prop="focusMan">
+          </el-table-column>
+          <!-- <el-table-column
             label="操作">
-          </el-table-column>
+          </el-table-column> -->
         </el-table>
 
         <div class="middle-foot">
@@ -126,33 +150,54 @@
       </div>
       <el-table
         :data="tableData2"
-        style="width: 391px"
+        style="width: 451px"
         class="table2"
         border>
         <el-table-column
           label="姓名"
+          prop="name"
           width="110">
         </el-table-column>
         <el-table-column
           label="证件号码"
-          width="120">
+          prop="passno"
+          width="200">
         </el-table-column>
         <el-table-column
           label="国籍"
+          prop="nationality"
           width="80">
         </el-table-column>
         <el-table-column
           label="操作"
-          width="80">
+          width="60">
           <template slot-scope="scope">
-            <el-button type="primary" size="mini" plain icon="el-icon-delete"></el-button>
+            <el-button type="text" class="a-btn" icon="el-icon-delete"  title="删除" @click="delMonitorPerson(scope.row.serial)"></el-button>
           </template>
-
         </el-table-column>
       </el-table>
-      <el-button type="success" size="mini" class="addbtn">添加</el-button>
+      <el-button type="success" size="mini" class="addbtn" @click="addDialogVisible=true">添加</el-button>
 
     </div>
+    <el-dialog title="列表追加" :visible.sync="addDialogVisible" width="640px" :before-close="handleClose">
+      <el-form :model="addform" ref="addForm" label-width="100px" style="width:520px">
+          <el-form-item label="姓名：" prop="name">
+            <el-input placeholder="请输入内容" size="small" v-model="addform.name" auto-complete="off" style="display:none"></el-input>
+            <el-input placeholder="请输入内容" size="small" v-model="addform.name" auto-complete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="证件号码：" prop="passno">
+            <el-input placeholder="请输入内容" size="small" v-model="addform.passno" auto-complete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="国籍：" prop="nationality">
+            <el-input placeholder="请输入内容" size="small" v-model="addform.nationality" auto-complete="off"></el-input>
+          </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="addMonitorPerson" size="small">确认</el-button>
+        <el-button type="warning" @click="cancelAdd" size="small">取消</el-button>
+
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -165,7 +210,7 @@ export default {
       CurrentPage:1,
       pageSize:10,
       TotalResult:0,
-      pd:null,
+      pd:{type:0},
       airport:null,
       options:[
         {
@@ -182,18 +227,25 @@ export default {
         }
       ],
       checked:false,
-      tabId:1
+      addDialogVisible:false,
+      addform:{}
     }
   },
   mounted(){
     // this.getList(this.CurrentPage,this.pageSize,this.pd);
     this.queryAirport();
   },
+  activated(){
+    this.getList(this.CurrentPage,this.pageSize,this.pd);
+    this.getList2();
+  },
   methods:{
     pageSizeChange(val) {
+      this.getList(this.CurrentPage,val,this.pd);
       console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
+      this.getList(val,this.pageSize,this.pd);
       console.log(`当前页: ${val}`);
     },
     queryAirport(){
@@ -203,6 +255,73 @@ export default {
            this.airport=r.data;
          }
       })
+    },
+    cancelAdd(){
+      this.$refs['addForm'].resetFields();
+      this.addDialogVisible=false;
+    },
+    handleClose(done) {
+      this.$refs['addForm'].resetFields();
+      done();
+    },
+    getList(CurrentPage,showCount,pd){
+      let p={
+        "showCount": showCount,
+        "currentPage": CurrentPage,
+        "totalResult": this.TotalResult,
+        "pd": pd
+      }
+      this.$api.post('/manage-platform/travelerRealTime/queryRealTimePage',p,
+       r => {
+         console.log(r)
+         this.tableData=r.data.pdList;
+         this.TotalResult=r.data.totalResult;
+      })
+    },
+    getList2(){
+      this.$api.post('/manage-platform/travelerRealTime/queryMonitorPerson',{},
+       r => {
+         this.tableData2=r.data;
+      })
+    },
+    addMonitorPerson(){
+      this.$api.post('/manage-platform/travelerRealTime/addMonitorPerson',this.addform,
+       r => {
+         if(r.success){
+           this.$message({
+             type: 'success',
+             message: '添加成功!'
+           });
+           this.$refs['addForm'].resetFields();
+           this.addDialogVisible=false;
+           this.getList2();
+         }
+      })
+    },
+    delMonitorPerson(serial){
+      this.$confirm('确定删除吗?', '提示', {
+         confirmButtonText: '确定',
+         cancelButtonText: '取消',
+         type: 'warning'
+       }).then(() => {
+         this.$api.post('/manage-platform/travelerRealTime/delMonitorPerson',{	"serial": serial},
+          r => {
+            if(r.success){
+              this.$message({
+                type: 'success',
+                message: '删除成功!'
+              });
+              this.getList2();
+            }
+         })
+
+       }).catch(() => {
+         this.$message({
+           type: 'info',
+           message: '已取消删除'
+         });
+       });
+
     },
   }
 }
@@ -219,6 +338,7 @@ export default {
 }
 .middle-tab-item {
   /* width: 33.3%; */
+  box-sizing: border-box;
   height: 40px;
   line-height: 40px;
   text-align: center;
@@ -235,7 +355,7 @@ export default {
 }
 .addbtn{
   position: absolute;
-  left:423px;
+  left:475px;
   top:63px
 }
 </style>
