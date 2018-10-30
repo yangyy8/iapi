@@ -71,6 +71,24 @@ export default new Router({
           name: "ConsultingHistory",
           component: resolve => require(['@/components/BusinessProcessing/Consultation/ConsultingHistory'], resolve),
         },
+        // 咨询登记  ConsultationZXDJ
+        {
+          path: "ConsultationZXDJ",
+          name: "ConsultationZXDJ",
+          component: resolve => require(['@/components/BusinessProcessing/Consultation/ConsultationZXDJ'], resolve),
+        },
+        // 查看通讯录  ConsultationCKTXL
+        {
+          path: "ConsultationCKTXL",
+          name: "ConsultationCKTXL",
+          component: resolve => require(['@/components/BusinessProcessing/Consultation/ConsultationCKTXL'], resolve),
+        },
+        // 咨询回顾  ConsultationZXHG
+        {
+          path: "ConsultationZXHG",
+          name: "ConsultationZXHG",
+          component: resolve => require(['@/components/BusinessProcessing/Consultation/ConsultationZXHG'], resolve),
+        },
         // 内部信息收发 IRNR-------------------------------------------------------------------------------
         // 信息收发  InformationReceiving
         {

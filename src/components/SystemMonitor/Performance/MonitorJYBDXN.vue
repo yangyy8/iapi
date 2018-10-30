@@ -23,9 +23,9 @@
               <div class="co-tab-item hand" :class="{'co-checked':coCheckId==2}" @click="judgeList">
                 列表
               </div>
-              <div class="" style="margin-bottom: -6px;" v-show="controlChecked==1">
-                <el-row align="center" :gutter="2">
-                  <el-col :sm="24" :md="12"  :lg="22" class="input-item">
+              <div class="" style="margin-bottom: -6px;width: 60%;" v-show="controlChecked==1">
+                <el-row :gutter="2">
+                  <el-col :sm="24" :md="12"  :lg="13" class="input-item">
                     <span class="input-text">查询时间：</span>
                     <div class="input-input t-flex t-date">
                         <el-date-picker
@@ -44,6 +44,13 @@
                          >
                      </el-date-picker>
                     </div>
+                  </el-col>
+                  <el-col :sm="24" :md="12"  :lg="9" class="input-item" v-show="coCheckId==2">
+                    <span class="input-text">筛选状态：</span>
+                    <el-select  placeholder="请选择"  size="mini"  class="input-input" @change="screen" v-model="cdt1.average" filterable clearable>
+                      <el-option label="正常" value="2"></el-option>
+                      <el-option label="异常" value="1"></el-option>
+                    </el-select>
                   </el-col>
                   <el-col :sm="24" :md="12"  :lg="2" class="input-item">
                     <el-button type="success" size="mini" class="ml-10" @click="searchReal">查询</el-button>
@@ -99,24 +106,14 @@
                 </div>
               </el-row>
               <div v-if="(controlChecked==1) && (coCheckId==2)">
-                <el-row type="flex" justify="space-between">
-                  <el-col :sm="24" :md="12"  :lg="7" class="input-item">
-                    <span class="input-text">筛选状态：</span>
-                    <el-select  placeholder="请选择"  size="mini"  class="input-input" v-model="state" filterable clearable>
-                      <el-option label="正常" value="normal"></el-option>
-                      <el-option label="异常" value="abnormal"></el-option>
-                    </el-select>
-                  </el-col>
-                  <el-col :sm="24" :md="12"  :lg="2" class="input-item">
-                    <el-checkbox v-model="checked">自动刷新</el-checkbox>
-                  </el-col>
+                <el-row type="flex" justify="end">
+                  <el-checkbox v-model="checked">自动刷新</el-checkbox>
                 </el-row>
 
                   <el-table
                     :data="tableData"
                     border
-                    style="width: 100%;"
-                    @selection-change="handleSelectionChange">
+                    style="width: 100%;">
                     <el-table-column
                       prop="number"
                       type="index"
@@ -147,13 +144,22 @@
                       </template>
                     </el-table-column>
                     <el-table-column
-                      prop="average"
                       label="耗时">
+                      <template  slot-scope="scope">
+                        <span>{{scope.row.average}}</span>
+                      </template>
                     </el-table-column>
                     <el-table-column
                       prop="createtime"
                       label="监控时间"
                       width="200">
+                    </el-table-column>
+                    <el-table-column
+                      label="监控状态"
+                      width="200">
+                      <template  slot-scope="scope">
+                        <span :class="{'color':scope.row.average>1000}">{{scope.row.status|statusDis}}</span>
+                      </template>
                     </el-table-column>
                   </el-table>
                   <div class="middle-foot">
@@ -197,8 +203,7 @@
                   <el-table
                     :data="htableData"
                     border
-                    style="width: 100%;"
-                    @selection-change="handleSelectionChange">
+                    style="width: 100%;">
                     <el-table-column
                     type="index"
                       prop="number"
@@ -221,6 +226,14 @@
                     <el-table-column
                       prop="consumetime"
                       label="平均耗时">
+                    </el-table-column>
+                    <el-table-column
+                      prop="begintimeStr"
+                      label="区间开始时间">
+                    </el-table-column>
+                    <el-table-column
+                      prop="endtimeStr"
+                      label="区间结束时间">
                     </el-table-column>
                   </el-table>
                   <div class="middle-foot">
@@ -343,7 +356,8 @@ export default {
       barY:[],
       realX:'',
       lineChart:null,
-      barChart:null
+      barChart:null,
+      timer:null
     }
   },
   mounted() {
@@ -358,13 +372,35 @@ export default {
       this.cdt.end=formatDate(bbbb,'yyyyMMddhhmmss');
       this.cdt1.begin=formatDate(cccc,'yyyyMMddhhmmss');
       this.cdt1.end=formatDate(bbbb,'yyyyMMddhhmmss');
-      // this.getList(this.CurrentPage,this.pageSize,this.pd);
+
   },
   activated(){
     this.checkRealTime();
-    // this.getList(this.CurrentPage,this.pageSize,this.pd);
+    if(this.checked==true){
+      let that = this;
+      that.timer=setInterval(function(){
+        that.getList(that.CurrentPage,that.pageSize,that.cdt1);
+      },300000)
+    }
+  },
+  watch:{
+    checked:function(val){
+      console.log(val)
+      if(val){
+        let that=this;
+        that.timer=setInterval(function(){
+          that.getList(that.CurrentPage,that.pageSize,that.cdt1);
+        },300000)
+      }else{
+        clearInterval(this.timer);
+      }
+    }
+  },
+  deactivated(){
+    clearInterval(this.timer);
   },
   beforeDestroy() {
+    clearInterval(this.timer);
     if (!this.lineChart) {
       return;
     }
@@ -396,9 +432,26 @@ export default {
         return "未知"
       }
     },
+    statusDis(val){
+      if(val == 0){
+        return "正常"
+      }else if(val == 1){
+        return "异常"
+      }
+    }
   },
   methods:{
-    handleSelectionChange(val) {
+    aa(){
+      var arr=[];
+      for(var i=0;i<this.tableData.length;i++){
+        console.log(this.tableData[i]);
+
+        arr.push(this.tableData[i].average);
+      }
+      console.log(arr);
+    },
+    screen(){
+      this.aa();
     },
     // 实时监控分页
     pageSizeChange(val) {
@@ -458,7 +511,7 @@ export default {
                trigger:'axis',
                formatter:function(params){
                  for(var i=0;i<params.length;i++){
-                   return "报文数量:" + "2300"+"</br>"+"平均性能:" + params[i].data
+                   return "监控时间:" + params[i].name+"</br>"+"平均耗时:" + params[i].data
                  }
                },
                axisPointer:{
@@ -529,8 +582,9 @@ export default {
            })
            // 点击折点渲染表格
            this.lineChart.on('click', function (params) {
+             that.checked=false;
              // 让表格出现
-             that.pdc.realX = params.name
+             that.pdc.realX = params.name.split(':').join('');
              that.controlChecked=1;
              that.coCheckId=2;
              // 表格数据渲染
@@ -546,7 +600,11 @@ export default {
       this.barChart.setOption({
         tooltip:{
           trigger:'axis',
-          // formatter:'报文数量：2300',
+          formatter:function(params){
+            for(var i=0;i<params.length;i++){
+              return "监控时间:" + params[i].name+"</br>"+"平均耗时:" + params[i].data
+            }
+          },
           axisPointer:{
             type:'line',
             lineStyle:{
@@ -613,9 +671,12 @@ export default {
     },
     // 校验比对实时监控折线图
     checkRealTime(){
+      if(this.coCheckId==1){
+        delete this.cdt1.average;
+      }
       let p={
         "currentPage":1,
-	      "showCount":10,
+	      "showCount":60,
         "cdt":this.cdt1 //空数据
       }
       this.$api.post('/manage-platform/match/queryListPage',p,
@@ -738,7 +799,9 @@ export default {
   padding: 20px;
   border-radius: 0 5px 5px 5px;
 }
-
+.color{
+  color: red;
+}
 </style>
 <style media="screen">
 .el-checkbox__input.is-checked .el-checkbox__inner, .el-checkbox__input.is-indeterminate .el-checkbox__inner {
