@@ -150,11 +150,11 @@
                       label="出生日期">
                     </el-table-column>
                     <el-table-column
-                      prop="flightRecordnum "
+                      prop="flightRecordnum"
                       label="航班号">
                     </el-table-column>
                     <el-table-column
-                      prop="begintime "
+                      prop="begintime"
                       label="报文接收时间">
                     </el-table-column>
                     <el-table-column
@@ -165,7 +165,7 @@
                       </template>
                     </el-table-column>
                     <el-table-column
-                      prop="begintime "
+                      prop="begintime"
                       label="整合开始时间">
                     </el-table-column>
                     <el-table-column
@@ -312,7 +312,7 @@ export default {
       coCheckId:1,
       selection:[],
       detailsDialogVisible:false,
-      checked:false,
+      checked:true,
       // 实时显示条数
       options:[
         {
@@ -381,7 +381,8 @@ export default {
       barY:[],
       realX:'',
       lineChart:null,
-      barChart:null
+      barChart:null,
+      timer:null
     }
   },
   mounted() {
@@ -395,26 +396,37 @@ export default {
       this.cdt1.begin=formatDate(cccc,'yyyyMMddhhmmss');
       this.cdt1.end=formatDate(bbbb,'yyyyMMddhhmmss');
       this.checkRealTime();
+
       // this.getList(this.CurrentPage,this.pageSize,this.cdt1);
   },
   activated() {
       this.checkRealTime();
-      this.getList(this.CurrentPage,this.pageSize,this.cdt1);
+      if(this.checked==true){
+        let that = this;
+        that.timer=setInterval(function(){
+          that.getList(that.CurrentPage,that.pageSize,that.cdt1);
+        },300000)
+      }
+  },
+  deactivated(){
+    clearInterval(this.timer);
   },
   watch:{
     checked:function(val){
       console.log(val)
       if(val){
         let that=this;
-        this.timer=setInterval(function(){
+        that.timer=setInterval(function(){
           that.getList(that.CurrentPage,that.pageSize,that.cdt1);
         },300000)
       }else{
+
         clearInterval(this.timer);
       }
     }
   },
   beforeDestroy() {
+    clearInterval(this.timer);
     if (!this.lineChart) {
       return;
     }
@@ -492,9 +504,10 @@ export default {
            this.lineChart.setOption({
              tooltip:{
                trigger:'axis',
-               formatter:{
-                 "报文数量":2300,
-                 "平均性能":2000
+               formatter:function(params){
+                 for(var i=0;i<params.length;i++){
+                   return "监控时间:" + params[i].name+"</br>"+"平均耗时:" + params[i].data
+                 }
                },
                axisPointer:{
                  type:'line',
@@ -564,8 +577,9 @@ export default {
            })
            // 点击折点渲染表格
            this.lineChart.on('click', function (params) {
+             that.checked=false;
              // 让表格出现
-             that.pdc.realX = params.name
+             that.pdc.realX = params.name.split(':').join('');
              that.controlChecked=1;
              that.coCheckId=2;
              // 表格数据渲染
@@ -583,7 +597,7 @@ export default {
           trigger:'axis',
           formatter:function(params){
             for(var i=0;i<params.length;i++){
-              return "报文数量:" + "2300"+"</br>"+"平均性能:" + params[i].data
+              return "监控时间:" + params[i].name+"</br>"+"平均耗时:" + params[i].data
             }
           },
           axisPointer:{

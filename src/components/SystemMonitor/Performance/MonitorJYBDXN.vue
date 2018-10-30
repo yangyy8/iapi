@@ -297,7 +297,7 @@ export default {
       controlChecked:1,
       coCheckId:1,
       detailsDialogVisible:false,
-      checked:false,
+      checked:true,
       // 实时显示条数
       options:[
         {
@@ -376,17 +376,19 @@ export default {
   },
   activated(){
     this.checkRealTime();
-    // let that = this;
-    // this.timer=setInterval(function(){
-    //   that.getList(that.CurrentPage,that.pageSize,that.cdt1);
-    // },2000)
+    if(this.checked==true){
+      let that = this;
+      that.timer=setInterval(function(){
+        that.getList(that.CurrentPage,that.pageSize,that.cdt1);
+      },300000)
+    }
   },
   watch:{
     checked:function(val){
       console.log(val)
       if(val){
         let that=this;
-        this.timer=setInterval(function(){
+        that.timer=setInterval(function(){
           that.getList(that.CurrentPage,that.pageSize,that.cdt1);
         },300000)
       }else{
@@ -394,7 +396,11 @@ export default {
       }
     }
   },
+  deactivated(){
+    clearInterval(this.timer);
+  },
   beforeDestroy() {
+    clearInterval(this.timer);
     if (!this.lineChart) {
       return;
     }
@@ -435,16 +441,6 @@ export default {
     }
   },
   methods:{
-    // handleChange(){
-    //      var timer;
-    //      console.log(2222);
-    //      setInterval(this.qqqq(),1000)
-    // },
-    // qqqq(){
-    //   if(this.checked==true){
-    //     console.log(1);
-    //   }
-    // },
     aa(){
       var arr=[];
       for(var i=0;i<this.tableData.length;i++){
@@ -515,7 +511,7 @@ export default {
                trigger:'axis',
                formatter:function(params){
                  for(var i=0;i<params.length;i++){
-                   return "报文数量:" + "2300"+"</br>"+"平均性能:" + params[i].data
+                   return "监控时间:" + params[i].name+"</br>"+"平均耗时:" + params[i].data
                  }
                },
                axisPointer:{
@@ -586,8 +582,9 @@ export default {
            })
            // 点击折点渲染表格
            this.lineChart.on('click', function (params) {
+             that.checked=false;
              // 让表格出现
-             that.pdc.realX = params.name
+             that.pdc.realX = params.name.split(':').join('');
              that.controlChecked=1;
              that.coCheckId=2;
              // 表格数据渲染
@@ -603,7 +600,11 @@ export default {
       this.barChart.setOption({
         tooltip:{
           trigger:'axis',
-          // formatter:'报文数量：2300',
+          formatter:function(params){
+            for(var i=0;i<params.length;i++){
+              return "监控时间:" + params[i].name+"</br>"+"平均耗时:" + params[i].data
+            }
+          },
           axisPointer:{
             type:'line',
             lineStyle:{

@@ -349,7 +349,7 @@ export default {
       controlChecked:1,
       coCheckId:1,
       detailsDialogVisible:false,
-      checked:false,
+      checked:true,
       // 实时显示条数
       options:[
         {
@@ -436,14 +436,23 @@ export default {
   activated() {
       this.drawLine();
       this.checkRealTime();
-      // this.getList(this.CurrentPage,this.pageSize,this.cdt1);
+      if(this.checked==true){
+        let that = this;
+        that.timer=setInterval(function(){
+          that.getList(that.CurrentPage,that.pageSize,that.cdt1);
+        },300000)
+      }
+  },
+
+  deactivated(){
+    clearInterval(this.timer);
   },
   watch:{
     checked:function(val){
       console.log(val)
       if(val){
         let that=this;
-        this.timer=setInterval(function(){
+        that.timer=setInterval(function(){
           that.getList(that.CurrentPage,that.pageSize,that.cdt1);
         },300000)
       }else{
@@ -452,6 +461,7 @@ export default {
     }
   },
   beforeDestroy() {
+    clearInterval(this.timer);
     this.dispose();
   },
   filters: {
@@ -468,9 +478,6 @@ export default {
        }
        this.lineChart.dispose();
        this.lineChart = null;
-    },
-    resize() {
-      this.lineChart && this.lineChart.resize();
     },
     handleSelectionChange(val) {
     },
@@ -500,7 +507,7 @@ export default {
         "showCount":showCount,
         "cdt":pd
       };
-      this.$api.post('/manage-platform/disPerLog/queryListPage',p,
+      this.$api.post('/manage-platform/disPerLog/queryListPageReal',p,
        r => {
          console.log(r);
          this.tableData=r.data.resultList;
@@ -515,7 +522,7 @@ export default {
         "showCount":hshowCount,
         "cdt":cdt
       }
-      this.$api.post('/manage-platform/disPerLog/queryListPageReal',p,
+      this.$api.post('/manage-platform/disPerLog/queryMatchListPageHisOther',p,
        r => {
          console.log(r);
          this.htableData=r.data.pd.resultList;
@@ -533,7 +540,7 @@ export default {
                trigger:'axis',
                formatter:function(params){
                  for(var i=0;i<params.length;i++){
-                   return "报文数量:" + "2300"+"</br>"+"平均性能:" + params[i].data
+                   return "监控时间:" + params[i].name+"</br>"+"平均耗时:" + params[i].data
                  }
                },
                axisPointer:{
@@ -601,11 +608,12 @@ export default {
                symbolSize:10,
                data:this.lineY
              }]
-           },true)
+           })
            // 点击折点渲染表格
            this.lineChart.on('click', function (params) {
+             that.checked=false;
              // 让表格出现
-             that.pdc.realX = params.name
+             that.pdc.realX = params.name.split(':').join('');
              that.controlChecked=1;
              that.coCheckId=2;
              // 表格数据渲染
@@ -621,7 +629,11 @@ export default {
       this.barChart.setOption({
         tooltip:{
           trigger:'axis',
-          // formatter:'报文数量：2300',
+          formatter:function(params){
+            for(var i=0;i<params.length;i++){
+              return "监控时间:" + params[i].name+"</br>"+"平均耗时:" + params[i].data
+            }
+          },
           axisPointer:{
             type:'line',
             lineStyle:{
