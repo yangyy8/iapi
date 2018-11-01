@@ -672,7 +672,6 @@ export default {
       dialogType:"add",
       delId:0,
       nation:[],
-      docCode:[],
       addDialogVisible:false,
       detailsDialogVisible:false,
       releaseDialogVisible:false,
@@ -742,16 +741,7 @@ export default {
     download(){
       window.location.href=this.$api.rootUrl+'/manage-platform/templateFile/nameListDataFile.xlsx'
     },
-    queryDocCode(){
-      this.$api.post('/manage-platform/codeTable/queryDocCode',{},
-       r => {
-         //console.log(r);
-         if(r.success){
-           this.docCode=r.data;
-           this.$emit('transNation',this.pd.docCode)
-         }
-      })
-    },
+
     queryNationalityAlone(){
       this.$api.post('/manage-platform/codeTable/queryNationality',{},
        r => {

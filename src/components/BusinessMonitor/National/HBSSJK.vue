@@ -12,9 +12,10 @@
           <el-select  v-model="pd.port" @change="getList(CurrentPage,pageSize,pd)" placeholder="请选择" filterable clearable size="small" class="input-input">
             <el-option
               v-for="item in airport"
-              :key="item.AIRPORT_CODE"
-              :label="item.AIRPORT_CODE+' - '+item.AIRPORT_NAME"
-              :value="item.AIRPORT_CODE">
+              v-if="item.JCDM"
+              :key="item.JCDM"
+              :label="item.JCDM+' - '+item.KAMC"
+              :value="item.JCDM">
             </el-option>
           </el-select>
         </el-col>
@@ -26,14 +27,17 @@
             <el-option label="A - 入出境" value="A"></el-option>
           </el-select>
         </el-col>
+        <!--   0:计划 1:值机 3:已起飞 4:已办理入境 5:取消 6:已到达 7:已失效-->
         <el-col :sm="24" :md="12"  :lg="8" class="input-item">
           <span class="input-text">航班状态：</span>
           <el-select v-model="pd.status" @change="getList(CurrentPage,pageSize,pd)" placeholder="请选择"  size="small" clearable filterable class="block input-input">
-            <el-option label="1 - 计划" value="1"></el-option>
-            <el-option label="2 - 值机" value="2"></el-option>
+            <el-option label="0 - 计划" value="0"></el-option>
+            <el-option label="1 - 值机" value="1"></el-option>
             <el-option label="3 - 已起飞" value="3"></el-option>
-            <el-option label="4 - 已到达" value="4"></el-option>
-            <el-option label="5 - 已入境" value="5"></el-option>
+            <el-option label="4 - 已办理入境" value="4"></el-option>
+            <el-option label="5 - 取消" value="5"></el-option>
+            <el-option label="6 - 已到达" value="6"></el-option>
+            <el-option label="7 - 已失效" value="7"></el-option>
           </el-select>
         </el-col>
         <el-col :sm="24" :md="12"  :lg="8" class="input-item">
@@ -60,6 +64,8 @@
           <div class="input-input t-flex t-date">
             <el-date-picker
              type="date" size="small"
+             :editable="false"
+             :clearable="false"
              @change="getList(CurrentPage,pageSize,pd)"
              v-model="pd.fltDateFr"
              value-format="yyyyMMdd"
@@ -68,6 +74,8 @@
             <span class="septum">-</span>
             <el-date-picker
               type="date" size="small"
+              :editable="false"
+              :clearable="false"
               @change="getList(CurrentPage,pageSize,pd)"
               v-model="pd.fltDateTo"
               value-format="yyyyMMdd"
@@ -110,8 +118,14 @@
         </el-table-column>
         <el-table-column
           label="出入标识"
-          prop="ioType"
           width="80">
+          <template slot-scope="scope">
+            <div>
+              <span v-if="scope.row.ioType=='I'">入境</span>
+              <span v-if="scope.row.ioType=='O'">出境</span>
+            </div>
+          </template>
+
         </el-table-column>
         <el-table-column
           label="航班日期"
@@ -120,8 +134,19 @@
         </el-table-column>
         <el-table-column
           label="航班状态"
-          prop="status"
           width="80">
+          <template slot-scope="scope">
+            <div>
+              <span v-if="scope.row.status==0">计划</span>
+              <span v-if="scope.row.status==1">值机</span>
+              <span v-if="scope.row.status==3">已起飞</span>
+              <span v-if="scope.row.status==4">已办理入境</span>
+              <span v-if="scope.row.status==5">取消</span>
+              <span v-if="scope.row.status==6">已到达</span>
+              <span v-if="scope.row.status==7">已失效</span>
+            </div>
+          </template>
+
         </el-table-column>
         <el-table-column
           label="名单报警"
@@ -266,7 +291,14 @@
           </el-col>
           <el-col :sm="24" :md="12" :lg="8" >
             <span>航班状态</span>
-            {{detailsData.status}}
+            <!-- {{detailsData.status}} -->
+            <a v-if="detailsData.status==0">计划</a>
+            <a v-if="detailsData.status==1">值机</a>
+            <a v-if="detailsData.status==3">已起飞</a>
+            <a v-if="detailsData.status==4">已办理入境</a>
+            <a v-if="detailsData.status==5">取消</a>
+            <a v-if="detailsData.status==6">已到达</a>
+            <a v-if="detailsData.status==7">已失效</a>
           </el-col>
           <el-col :sm="24" :md="12" :lg="8" >
             <span>实际起飞时间</span>
@@ -380,10 +412,18 @@ export default {
     let begin = new Date(end - 24*60*60*1000);
     this.pd.fltDateFr= formatDate(begin, 'yyyyMMdd');
     this.pd.fltDateTo= formatDate(end, 'yyyyMMdd');
-    let that=this;
-    this.timer=setInterval(function(){
-      that.getList(that.CurrentPage,that.pageSize,that.pd);
-    },2000)
+    this.getList(this.CurrentPage,this.pageSize,this.pd);
+
+    if(this.checked){
+      let that=this;
+      this.timer=setInterval(function(){
+        that.getList(that.CurrentPage,that.pageSize,that.pd);
+      },6000)
+    }
+
+  },
+  deactivated(){
+　　clearInterval(this.timer)
   },
   watch:{
     checked:function(val){
@@ -392,7 +432,7 @@ export default {
         let that=this;
         this.timer=setInterval(function(){
           that.getList(that.CurrentPage,that.pageSize,that.pd);
-        },2000)
+        },6000)
       }else{
         clearInterval(this.timer);
       }
@@ -408,7 +448,7 @@ export default {
       console.log(`当前页: ${val}`);
     },
     queryAirport(){
-      this.$api.post('/manage-platform/codeTable/queryAirport',{},
+      this.$api.post('/manage-platform/codeTable/queryAirportMatch',{},
        r => {
          if(r.success){
            this.airport=r.data;

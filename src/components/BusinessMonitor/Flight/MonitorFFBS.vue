@@ -44,6 +44,8 @@
                 <el-date-picker
                   class="input-input"
                   v-model="pd1.fltDate"
+                  :editable="false"
+                  :clearable="false"
                   type="date" size="mini" value-format="yyyyMMdd"
                   placeholder="选择时间"  >
                 </el-date-picker>
@@ -54,9 +56,10 @@
                 <el-select v-model="pd1.port" placeholder="请选择"  size="small" clearable filterable class="block input-input">
                   <el-option
                     v-for="item in airport"
-                    :key="item.AIRPORT_CODE"
-                    :label="item.AIRPORT_CODE+' - '+item.AIRPORT_NAME"
-                    :value="item.AIRPORT_CODE">
+                    v-if="item.JCDM"
+                    :key="item.JCDM"
+                    :label="item.JCDM+' - '+item.KAMC"
+                    :value="item.JCDM">
                   </el-option>
                 </el-select>
               </el-col>
@@ -86,6 +89,12 @@
           <el-table-column
             label="出入标识"
             prop="iOType">
+            <template slot-scope="scope">
+              <div>
+                <span v-if="scope.row.ioType=='I'">入境</span>
+                <span v-if="scope.row.ioType=='O'">出境</span>
+              </div>
+            </template>
           </el-table-column>
           <el-table-column
             label="计划起飞时间"
@@ -108,8 +117,18 @@
             prop="aircompanyName">
           </el-table-column>
           <el-table-column
-            label="航班状态"
-            prop="status">
+            label="航班状态">
+            <template slot-scope="scope">
+              <div>
+                <span v-if="scope.row.status==0">计划</span>
+                <span v-if="scope.row.status==1">值机</span>
+                <span v-if="scope.row.status==3">已起飞</span>
+                <span v-if="scope.row.status==4">已办理入境</span>
+                <span v-if="scope.row.status==5">取消</span>
+                <span v-if="scope.row.status==6">已到达</span>
+                <span v-if="scope.row.status==7">已失效</span>
+              </div>
+            </template>
           </el-table-column>
           <el-table-column
             label="航班关闭报文异常"
@@ -121,6 +140,9 @@
     </div>
 
     <div class="middle-top middle mb-2">
+      <div class="title-green ">
+        报送实时查询
+      </div>
       <el-row >
         <el-col :span="20" class="pr-20">
           <el-row align="center" :gutter="2">
@@ -128,6 +150,8 @@
               <span class="input-text">航班日期：</span>
               <el-date-picker
                 class="input-input"
+                :editable="false"
+                :clearable="false"
                 @change="getList2(CurrentPage,pageSize,pd2)"
                 v-model="pd2.fltDate"
                 type="date" size="mini" value-format="yyyyMMdd"
@@ -140,9 +164,10 @@
               <el-select v-model="pd2.port" @change="getList2(CurrentPage,pageSize,pd2)" placeholder="请选择"  size="small" clearable filterable class="block input-input">
                 <el-option
                   v-for="item in airport"
-                  :key="item.AIRPORT_CODE"
-                  :label="item.AIRPORT_CODE+' - '+item.AIRPORT_NAME"
-                  :value="item.AIRPORT_CODE">
+                  v-if="item.JCDM"
+                  :key="item.JCDM"
+                  :label="item.JCDM+' - '+item.KAMC"
+                  :value="item.JCDM">
                 </el-option>
               </el-select>
             </el-col>
@@ -168,6 +193,12 @@
         <el-table-column
           label="出入标识"
           prop="iOType">
+          <template slot-scope="scope">
+            <div>
+              <span v-if="scope.row.ioType=='I'">入境</span>
+              <span v-if="scope.row.ioType=='O'">出境</span>
+            </div>
+          </template>
         </el-table-column>
         <el-table-column
           label="计划起飞时间"
@@ -190,8 +221,18 @@
           prop="aircompanyName">
         </el-table-column>
         <el-table-column
-          label="航班状态"
-          prop="status">
+          label="航班状态">
+          <template slot-scope="scope">
+            <div>
+              <span v-if="scope.row.status==0">计划</span>
+              <span v-if="scope.row.status==1">值机</span>
+              <span v-if="scope.row.status==3">已起飞</span>
+              <span v-if="scope.row.status==4">已办理入境</span>
+              <span v-if="scope.row.status==5">取消</span>
+              <span v-if="scope.row.status==6">已到达</span>
+              <span v-if="scope.row.status==7">已失效</span>
+            </div>
+          </template>
         </el-table-column>
         <el-table-column
           label="航班关闭报文次数">
@@ -223,7 +264,7 @@
         </el-table-column>
       </el-table>
 
-      <div class="middle-foot">
+      <!-- <div class="middle-foot">
         <div class="page-msg">
           <div class="">
             共{{Math.ceil(TotalResult/pageSize)}}页
@@ -251,12 +292,14 @@
           layout="prev, pager, next"
           :total="TotalResult">
         </el-pagination>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
 
 <script>
+import { formatDate } from '@/assets/js/date.js'
+
 export default {
   data(){
     return{
@@ -267,8 +310,8 @@ export default {
       CurrentPage:1,
       pageSize:10,
       TotalResult:0,
-      pd1:{},
-      pd2:{},
+      pd1:{fltDate:''},
+      pd2:{fltDate:''},
       airport:null,
       options:[
         {
@@ -284,7 +327,7 @@ export default {
           label:"30"
         }
       ],
-      checked:false,
+      checked:true,
     }
   },
   mounted(){
@@ -292,9 +335,36 @@ export default {
     this.queryAirport();
   },
   activated(){
-    this.getList();
-    this.getList2(this.CurrentPage,this.pageSize,this.pd2);
+    let end = new Date();
+    this.pd1.fltDate= formatDate(end, 'yyyyMMdd');
+    this.pd2.fltDate= formatDate(end, 'yyyyMMdd');
 
+    this.getList();
+    this.getList2(this.CurrentPage,this.pageSize,this.pd);
+
+    if(this.checked){
+      let that=this;
+      this.timer=setInterval(function(){
+        that.getList2(that.CurrentPage,that.pageSize,that.pd);
+      },10000)
+    }
+
+  },
+  deactivated(){
+　　clearInterval(this.timer)
+  },
+  watch:{
+    checked:function(val){
+      console.log(val)
+      if(val){
+        let that=this;
+        this.timer=setInterval(function(){
+          that.getList2(that.CurrentPage,that.pageSize,that.pd);
+        },6000)
+      }else{
+        clearInterval(this.timer);
+      }
+    }
   },
   methods:{
     pageSizeChange(val) {
@@ -306,7 +376,7 @@ export default {
       console.log(`当前页: ${val}`);
     },
     queryAirport(){
-      this.$api.post('/manage-platform/codeTable/queryAirport',{},
+      this.$api.post('/manage-platform/codeTable/queryAirportMatch',{},
        r => {
          if(r.success){
            this.airport=r.data;
