@@ -559,8 +559,20 @@ export default {
     }
   },
   activated(){
-    this.box2=true;
+    this.getRiskEvent();
+    console.log("ffff")
   },
+  methods:{
+    getRiskEvent(){
+      let p={
+        "serial": this.$route.query.serial
+      }
+      this.$api.post('/manage-platform/riskEventController/getRiskEventEntityInfo',p,
+       r => {
+         console.log(r)
+      })
+    },
+  }
 }
 </script>
 

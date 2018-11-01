@@ -173,10 +173,10 @@ export default {
     this.bgChange();
     this.navInit();
     let _this=this;
-    this.msg()
-    setInterval(function() {
-      _this.msg()
-    },180000)
+    // this.msg()
+    // setInterval(function() {
+    //   _this.msg()
+    // },180000)
   },
   watch:{
     tabList:function(val){

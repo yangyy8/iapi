@@ -58,9 +58,14 @@
             width="80">
           </el-table-column>
           <el-table-column
-            label="出入境类别"
-            prop="ioType"
+            label="出入标识"
             width="110">
+            <template slot-scope="scope">
+              <div>
+                <span v-if="scope.row.ioType=='I'">入境</span>
+                <span v-if="scope.row.ioType=='O'">出境</span>
+              </div>
+            </template>
           </el-table-column>
           <!-- <el-table-column
             label="旅客类别"
@@ -226,18 +231,43 @@ export default {
           label:"30"
         }
       ],
-      checked:false,
+      checked:true,
       addDialogVisible:false,
       addform:{}
     }
   },
   mounted(){
     // this.getList(this.CurrentPage,this.pageSize,this.pd);
-    this.queryAirport();
+    // this.queryAirport();
   },
   activated(){
-    this.getList(this.CurrentPage,this.pageSize,this.pd);
+
     this.getList2();
+    this.getList(this.CurrentPage,this.pageSize,this.pd);
+
+    if(this.checked){
+      let that=this;
+      this.timer=setInterval(function(){
+        that.getList(that.CurrentPage,that.pageSize,that.pd);
+      },10000)
+    }
+
+  },
+  deactivated(){
+　　clearInterval(this.timer)
+  },
+  watch:{
+    checked:function(val){
+      console.log(val)
+      if(val){
+        let that=this;
+        this.timer=setInterval(function(){
+          that.getList(that.CurrentPage,that.pageSize,that.pd);
+        },10000)
+      }else{
+        clearInterval(this.timer);
+      }
+    }
   },
   methods:{
     pageSizeChange(val) {
@@ -249,7 +279,7 @@ export default {
       console.log(`当前页: ${val}`);
     },
     queryAirport(){
-      this.$api.post('/manage-platform/codeTable/queryAirport',{},
+      this.$api.post('/manage-platform/codeTable/queryAirportMatch',{},
        r => {
          if(r.success){
            this.airport=r.data;

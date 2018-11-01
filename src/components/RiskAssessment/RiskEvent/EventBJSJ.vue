@@ -6,18 +6,21 @@
             <el-row align="center" :gutter="2">
               <el-col :sm="24" :md="12" :lg="8" class="input-item">
                 <span class="input-text">证件号：</span>
-                <el-input placeholder="请输入内容" size="small" clearable class="input-input"></el-input>
+                <el-input v-model="pd.passportno" placeholder="请输入内容" size="small" clearable class="input-input"></el-input>
               </el-col>
               <el-col :sm="24" :md="12" :lg="8" class="input-item">
                 <span class="input-text">航班号：</span>
-                <el-input placeholder="请输入内容" size="small" clearable class="input-input"></el-input>
+                <el-input v-model="pd.fltno" placeholder="请输入内容" size="small" clearable class="input-input"></el-input>
               </el-col>
               <el-col :sm="24" :md="12"  :lg="8" class="input-item">
                 <span class="input-text">国籍：</span>
-                <el-select  placeholder="请选择"  size="small" clearable filterable class="block input-input">
-                  <el-option label="I - 入境" value="I"></el-option>
-                  <el-option label="O - 出境" value="O"></el-option>
-                  <el-option label="A - 入出境" value="A"></el-option>
+                <el-select v-model="pd.nationality" placeholder="请选择"  size="small" clearable filterable class="block input-input">
+                  <el-option
+                    v-for="item in nationAlone"
+                    :key="item.CODE"
+                    :label="item.CODE+' - '+item.CNAME"
+                    :value="item.CODE">
+                  </el-option>
                 </el-select>
               </el-col>
             </el-row>
@@ -25,20 +28,22 @@
             <el-row align="center" :gutter="2" v-if="moreShow">
               <el-col :sm="24" :md="12" :lg="8" class="input-item">
                 <span class="input-text">姓名：</span>
-                <el-input placeholder="请输入内容" size="small" clearable class="input-input"></el-input>
+                <el-input v-model="pd.name" placeholder="请输入内容" size="small" clearable class="input-input"></el-input>
               </el-col>
               <el-col :sm="24" :md="12" :lg="8" class="input-item">
                 <span class="input-text">出生日期：</span>
                 <div class="input-input t-flex t-date">
                   <el-date-picker
-                   type="datetime" size="small" format="yyyy-MM-dd HH:mm"
-                   value-format="yyyyMMddHHmm"
+                   type="date" size="small" format="yyyy-MM-dd"
+                   v-model="pd.birthday_start"
+                   value-format="yyyyMMdd"
                    placeholder="开始时间" >
                   </el-date-picker>
                   <span class="septum">-</span>
                   <el-date-picker
-                    type="datetime" size="small" format="yyyy-MM-dd HH:mm"
-                    value-format="yyyyMMddHHmm"
+                    type="date" size="small" format="yyyy-MM-dd"
+                    v-model="pd.birthday_end"
+                    value-format="yyyyMMdd"
                     placeholder="结束时间">
                   </el-date-picker>
                 </div>
@@ -47,37 +52,42 @@
                 <span class="input-text">航班日期：</span>
                 <div class="input-input t-flex t-date">
                   <el-date-picker
-                   type="datetime" size="small" format="yyyy-MM-dd HH:mm"
-                   value-format="yyyyMMddHHmm"
+                   type="date" size="small" format="yyyy-MM-dd"
+                   v-model="pd.fltnoDate_start"
+                   value-format="yyyyMMdd"
                    placeholder="开始时间" >
                   </el-date-picker>
                   <span class="septum">-</span>
                   <el-date-picker
-                    type="datetime" size="small" format="yyyy-MM-dd HH:mm"
-                    value-format="yyyyMMddHHmm"
+                    type="date" size="small" format="yyyy-MM-dd"
+                    v-model="pd.fltnoDate_end"
+                    value-format="yyyyMMdd"
                     placeholder="结束时间">
                   </el-date-picker>
                 </div>
               </el-col>
               <el-col :sm="24" :md="12"  :lg="8" class="input-item">
                 <span class="input-text">证件类型：</span>
-                <el-select  placeholder="请选择"  size="small" clearable filterable class="block input-input">
-                  <el-option label="I - 入境" value="I"></el-option>
-                  <el-option label="O - 出境" value="O"></el-option>
-                  <el-option label="A - 入出境" value="A"></el-option>
+                <el-select v-model="pd.passportType" placeholder="请选择"  size="small" clearable filterable class="block input-input">
+                  <el-option
+                    v-for="item in docCode"
+                    :key="item.CODE"
+                    :label="item.CODE+' - '+item.NAME"
+                    :value="item.CODE">
+                  </el-option>
                 </el-select>
               </el-col>
               <el-col :sm="24" :md="12" :lg="8" class="input-item">
                 <span class="input-text">历次风评：</span>
                 <div class="input-input t-flex t-date">
-                  <el-input-number size="small"></el-input-number>
+                  <el-input-number size="small" v-model="pd.eachEvent_start"></el-input-number>
                   <span class="septum">-</span>
-                  <el-input-number size="small"></el-input-number>
+                  <el-input-number size="small" v-model="pd.eachEvent_start"></el-input-number>
                 </div>
               </el-col>
               <el-col :sm="24" :md="12"  :lg="8" class="input-item">
                 <span class="input-text">命中模型：</span>
-                <el-select  placeholder="请选择"  size="small" clearable filterable class="block input-input">
+                <el-select v-model="pd.hit_mode" placeholder="请选择"  size="small" clearable filterable class="block input-input">
                   <el-option label="I - 入境" value="I"></el-option>
                   <el-option label="O - 出境" value="O"></el-option>
                   <el-option label="A - 入出境" value="A"></el-option>
@@ -85,7 +95,7 @@
               </el-col>
               <el-col :sm="24" :md="12"  :lg="8" class="input-item">
                 <span class="input-text">出入标识：</span>
-                <el-select  placeholder="请选择"  size="small" clearable filterable class="block input-input">
+                <el-select v-model="pd.flightType" placeholder="请选择"  size="small" clearable filterable class="block input-input">
                   <el-option label="I - 入境" value="I"></el-option>
                   <el-option label="O - 出境" value="O"></el-option>
                   <el-option label="A - 入出境" value="A"></el-option>
@@ -93,31 +103,36 @@
               </el-col>
               <el-col :sm="24" :md="12"  :lg="8" class="input-item">
                 <span class="input-text">中心/口岸事件：</span>
-                <el-select  placeholder="请选择"  size="small" clearable filterable class="block input-input">
-                  <el-option label="I - 入境" value="I"></el-option>
-                  <el-option label="O - 出境" value="O"></el-option>
-                  <el-option label="A - 入出境" value="A"></el-option>
+                <el-select v-model="pd.centre_port" placeholder="请选择"  size="small" clearable filterable class="block input-input">
+                  <el-option
+                    v-for="item in airport"
+                    :key="item.AIRPORT_CODE"
+                    :label="item.AIRPORT_CODE+' - '+item.AIRPORT_NAME"
+                    :value="item.AIRPORT_CODE">
+                  </el-option>
                 </el-select>
               </el-col>
               <el-col :sm="24" :md="12"  :lg="8" class="input-item">
                 <span class="input-text">当前状态：</span>
-                <el-select  placeholder="请选择"  size="small" clearable filterable class="block input-input">
-                  <el-option label="I - 入境" value="I"></el-option>
-                  <el-option label="O - 出境" value="O"></el-option>
-                  <el-option label="A - 入出境" value="A"></el-option>
+                <el-select v-model="pd.status" placeholder="请选择"  size="small" clearable filterable class="block input-input">
+                  <el-option label="0 - 全部" value="0"></el-option>
+                  <el-option label="1 - 未核查" value="1"></el-option>
+                  <el-option label="2 - 已核查" value="2"></el-option>
+                  <el-option label="3 - 已流转" value="3"></el-option>
+                  <el-option label="4 - 已归档" value="4"></el-option>
                 </el-select>
               </el-col>
               <el-col :sm="24" :md="12" :lg="8" class="input-item">
                 <span class="input-text">推送人：</span>
-                <el-input placeholder="请输入内容" size="small" clearable class="input-input"></el-input>
+                <el-input v-model="pd.change_people" placeholder="请输入内容" size="small" clearable class="input-input"></el-input>
               </el-col>
               <el-col :sm="24" :md="12" :lg="8" class="input-item">
                 <span class="input-text">处理人：</span>
-                <el-input placeholder="请输入内容" size="small" clearable class="input-input"></el-input>
+                <el-input v-model="pd.processor_people" placeholder="请输入内容" size="small" clearable class="input-input"></el-input>
               </el-col>
               <el-col :sm="24" :md="12" :lg="8" class="input-item">
                 <span class="input-text">本事件核查次数：</span>
-                <el-input placeholder="请输入内容" size="small" clearable class="input-input"></el-input>
+                <el-input v-model="pd.checkNumber" placeholder="请输入内容" size="small" clearable class="input-input"></el-input>
               </el-col>
             </el-row>
             </el-collapse-transition>
@@ -127,7 +142,7 @@
             <el-button type="text" size="small" @click="moreShow=false" v-if="moreShow">收起<</el-button>
           </el-col>
           <el-col :span="2" class="down-btn-area">
-            <el-button type="success" size="small" >查询</el-button>
+            <el-button type="success" size="small" @click="getList(CurrentPage,pageSize,pd)">查询</el-button>
             <!-- <el-button type="primary" plain size="small" >重置</el-button> -->
           </el-col>
         </el-row>
@@ -135,33 +150,34 @@
     <div class="middle t-table">
       <div class="ak-tab">
         <div class="ak-tabs">
-          <div class="ak-tab-item hand" :class="{'ak-checked':page==0}" @click="page=0">
+          <div class="ak-tab-item hand" :class="{'ak-checked':pd.type==0}" @click="pd.type=0">
             全部
           </div>
-          <div class="ak-tab-item hand" :class="{'ak-checked':page==1}" @click="page=1;">
+          <div class="ak-tab-item hand" :class="{'ak-checked':pd.type==1}" @click="pd.type=1;">
             未核查
           </div>
-          <div class="ak-tab-item hand" :class="{'ak-checked':page==2}" @click="page=2;">
+          <div class="ak-tab-item hand" :class="{'ak-checked':pd.type==2}" @click="pd.type=2;">
             已核查
           </div>
-          <div class="ak-tab-item hand" :class="{'ak-checked':page==3}" @click="page=3;">
+          <div class="ak-tab-item hand" :class="{'ak-checked':pd.type==3}" @click="pd.type=3;">
             已流转
           </div>
-          <div class="ak-tab-item hand" :class="{'ak-checked':page==4}" @click="page=4;">
+          <div class="ak-tab-item hand" :class="{'ak-checked':pd.type==4}" @click="pd.type=4;">
             已归档
           </div>
 
         </div>
       </div>
       <div class="ak-tab-pane" >
-        <el-button type="primary" class="mr-5" plain size="small" >批量归档</el-button>
-        <el-button type="primary" plain size="small" >批量事件处理</el-button>
+        <el-button type="primary" class="mr-5" plain size="small" @click="openGdTc" :disabled="isdisable">批量归档</el-button>
+        <el-button type="primary" plain size="small" @click="openCzTc" :disabled="isdisable">批量事件处理</el-button>
 
         <el-table
           class="mt-10"
           ref="multipleTable"
           :data="tableData"
           border
+          cell-class-name="cellClass"
           @selection-change="handleSelectionChange"
           style="width: 100%;">
           <el-table-column
@@ -170,70 +186,109 @@
            type="selection">
           </el-table-column>
           <el-table-column
-            label="事件编号">
+            label="事件编号"
+            prop="serial">
           </el-table-column>
           <el-table-column
-            label="姓名">
+            label="姓名"
+            prop="name">
           </el-table-column>
           <el-table-column
-            label="出入标识">
+            label="出入标识"
+            prop="flightTypeName">
           </el-table-column>
           <el-table-column
-            label="性别">
+            label="性别"
+            prop="genderName">
           </el-table-column>
           <el-table-column
-            label="出生日期">
+            label="出生日期"
+            prop="birthday"
+            width="80">
           </el-table-column>
           <el-table-column
-            label="国籍">
+            label="国籍"
+            prop="nationalityName">
           </el-table-column>
           <el-table-column
-            label="证件类型">
+            label="证件类型"
+            prop="passporttype">
           </el-table-column>
           <el-table-column
-            label="证件号">
+            label="证件号"
+            prop="passportno">
           </el-table-column>
           <el-table-column
-            label="航班号">
+            label="航班号"
+            prop="fltno">
           </el-table-column>
           <el-table-column
-            label="航班日期">
+            label="航班日期"
+            prop="fltnoDate">
           </el-table-column>
           <el-table-column
-            label="命中模型">
+            label="命中模型"
+            prop="hit_mode">
           </el-table-column>
           <el-table-column
-            label="命中规则">
+            label="命中规则"
+            prop="hit_rule_name">
           </el-table-column>
           <el-table-column
             label="中心/口岸"
-            width="100">
+            width="100"
+            prop="centre_port">
           </el-table-column>
           <el-table-column
-            label="风险等级">
+            label="风险等级"
+            width="150">
+            <template slot-scope="scope">
+              <el-rate :value="scope.row.grade" size="mini" disabled class="mb-9"></el-rate>
+            </template>
+
           </el-table-column>
           <el-table-column
-            label="处理人">
+            label="处理人"
+            prop="processor_peopleName">
           </el-table-column>
           <el-table-column
-            label="当前状态">
+            label="当前状态"
+            prop="statusName">
           </el-table-column>
           <el-table-column
-            label="核查次数">
+            label="核查次数"
+            prop="checknumber">
           </el-table-column>
           <el-table-column
             label="最新核查结果"
-            width="120">
+            width="120"
+            prop="newcheckresult">
           </el-table-column>
           <el-table-column
             label="历次风评">
+            <template slot-scope="scope">
+              <el-popover
+                placement="top"
+                width="400"
+                trigger="click">
+                <ul>
+                  <li v-for="i in eachData">
+                    <span>  创建时间：{{i.CREATETIME}}</span>
+                    <span>  口岸名称：{{i.PORT_NAME}}</span>
+                    <span>  处理结果：{{i.PROCESSORRESULT}}</span>
+                  </li>
+                </ul>
+                <div class="tc-b hand" title="查看详情" slot="reference" @click="queryEach(scope.row.serial,scope.row.nationality,scope.row.passportno)">{{scope.row.eachevent}}</div>
+              </el-popover>
+
+            </template>
           </el-table-column>
           <el-table-column
             label="操作"
             width="120">
             <template slot-scope="scope">
-              <el-button type="text" class="a-btn" icon="el-icon-view" title="查看" @click="$router.push({name:'BJSJCK'})"></el-button>
-              <el-button type="text" class="a-btn" icon="el-icon-edit-outline"  title="处理"></el-button>
+              <el-button type="text" class="a-btn" icon="el-icon-view" title="查看" @click="$router.push({name:'BJSJCK',query:{serial:scope.row.serial,page:0}})"></el-button>
+              <el-button type="text" class="a-btn" icon="el-icon-edit-outline"  title="处理" @click="$router.push({name:'BJSJCK',query:{serial:scope.row.serial,page:1}})"></el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -268,8 +323,95 @@
           </el-pagination>
         </div>
       </div>
-
     </div>
+    <el-dialog title="批量事件处理" :visible.sync="czDialogVisible" width="640px" :before-close="handleClose">
+      <el-form :model="czform" ref="czForm">
+        <div class=" boder1 mb-15">
+          <div class="f-bold mb-9">
+            处理结果描述
+          </div>
+          <el-input
+            class="mb-9"
+            type="textarea"
+            v-model="czform.processor_desc"
+            :rows="3"
+            placeholder="请输入描述意见">
+          </el-input>
+        </div>
+
+        <div class="f-bold mb-9">
+          处理结果
+        </div>
+        <el-row align="center" :gutter="2">
+          <el-col  :sm="24" :md="12" :lg="12"  class="input-item">
+            <span class="mr-5">处理结果 </span>
+            <el-select v-model="czform.processorResult" filterable clearable placeholder="请选择"  size="small" class="input-input">
+              <el-option label="1 - 排除嫌疑" value="1"></el-option>
+              <el-option label="2 -  未能排除嫌疑，待进一步核查" value="2"></el-option>
+
+            </el-select>
+          </el-col>
+          <el-col  :sm="24" :md="12" :lg="12"  class="input-item">
+            <span  class="mr-5">扭转至 </span>
+            <el-select v-model="czform.change_port" filterable clearable placeholder="请选择"  size="small" class="input-input">
+              <el-option
+                v-for="item in airport"
+                :key="item.AIRPORT_CODE"
+                :label="item.AIRPORT_CODE+' - '+item.AIRPORT_NAME"
+                :value="item.AIRPORT_CODE">
+              </el-option>
+            </el-select>
+          </el-col>
+
+        </el-row>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="czSave" size="small">确认</el-button>
+        <el-button type="warning" @click="czDialogVisible=false" size="small">取消</el-button>
+
+      </div>
+    </el-dialog>
+    <el-dialog title="批量归档" :visible.sync="gdDialogVisible" width="640px" :before-close="handleClose">
+      <el-form :model="gdform" ref="gdForm">
+        <div class="mb-15">
+          <div class="f-bold mb-9">
+            归档描述
+          </div>
+          <el-input
+            class="mb-9"
+            type="textarea"
+            v-model="gdform.describe"
+            :rows="3"
+            placeholder="请输入描述意见">
+          </el-input>
+        </div>
+        <div class="boder1 ">
+          <div class="f-bold mb-9">
+            处理结果
+          </div>
+          <el-row align="center" :gutter="2">
+            <el-col  :sm="24" :md="12" :lg="12"  class="input-item">
+              <span class="mr-5">添加标签 </span>
+              <el-cascader
+                expand-trigger="hover"
+                class="input-input"
+                :options="options2"
+                v-model="gdform.processorResult"
+                @change="handleChange">
+              </el-cascader>
+            </el-col>
+          </el-row>
+        </div>
+        <div class="">
+
+        </div>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="gdSave" size="small">确认</el-button>
+        <el-button type="warning" @click="gdDialogVisible=false" size="small">取消</el-button>
+
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -280,12 +422,16 @@ export default {
       moreShow:false,
       page: 0,
       multipleSelection:null,
-      tableData:[{}],
+      tableData:[],
+      eachData:[],
       CurrentPage:1,
       pageSize:10,
       TotalResult:0,
-      pd:null,
+      pd:{type:'0',status:'0'},
       airport:null,
+      docCode:null,
+      nationAlone:null,
+      isdisable:true,
       options:[
         {
           value:10,
@@ -300,26 +446,286 @@ export default {
           label:"30"
         }
       ],
+      options2:[
+        {
+          value: '1',
+          label: '入境',
+          children:[
+            {
+              value: '1',
+              label: '允许入境',
+              children:[
+                {
+                  value: '1',
+                  label: '排除嫌疑，允许入境',
+                },
+                {
+                  value: '2',
+                  label: '暂未排除嫌疑，允许入境',
+                },
+                {
+                  value: '8',
+                  label: '移交相关单位',
+                }
+              ]
+            },
+            {
+              value: '2',
+              label: '阻止入境',
+              children:[
+                {
+                  value: '7',
+                  label: '参考梅沙',
+                }
+              ]
+            }
+          ]
+        },
+        {
+          value: '2',
+          label: '出境',
+          children:[
+            {
+              value: '3',
+              label: '允许出境',
+              children:[
+                {
+                  value: '3',
+                  label: '排除嫌疑，允许出境',
+                },
+                {
+                  value: '4',
+                  label: '暂未排除嫌疑，允许出境',
+                },
+
+              ]
+            },
+            {
+              value: '4',
+              label: '阻止出境',
+              children:[
+                {
+                  value: '7',
+                  label: '参考梅沙',
+                },
+                {
+                  value: '8',
+                  label: '移交相关单位',
+                }
+              ]
+            }
+          ]
+        },
+        {
+          value: '3',
+          label: '过境',
+          children:[
+            {
+              value: '5',
+              label: '允许过境',
+              children:[
+                {
+                  value: '5',
+                  label: '排除嫌疑，允许过境',
+                },
+                {
+                  value: '6',
+                  label: '暂未排除嫌疑，允许过境',
+                },
+                {
+                  value: '8',
+                  label: '移交相关单位',
+                }
+              ]
+            },
+            {
+              value: '6',
+              label: '阻止过境',
+              children:[
+                {
+                  value: '7',
+                  label: '参考梅沙',
+                },
+
+              ]
+            }
+          ]
+        }
+
+      ],
+      czDialogVisible:false,
+      czform:{},
+      gdDialogVisible:false,
+      gdform:{},
     }
   },
   mounted(){
-    // this.getList(this.CurrentPage,this.pageSize,this.pd);
+    this.queryAirport();
+    this.queryNationalityAlone();
+    this.queryDocCode();
+  },
+  activated(){
+    this.getList(this.CurrentPage,this.pageSize,this.pd);
   },
   methods:{
+    handleSelectionChange(val) {
+      this.multipleSelection = val;
+      if(this.multipleSelection.length==0){
+        this.isdisable=true;
+      }else{
+        this.isdisable=false;
+      }
+    },
     pageSizeChange(val) {
+      this.getList(this.CurrentPage,val,this.pd);
       console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
+      this.getList(val,this.pageSize,this.pd);
       console.log(`当前页: ${val}`);
     },
-    handleSelectionChange(val) {
-      this.multipleSelection = val;
+    queryAirport(){
+      this.$api.post('/manage-platform/codeTable/queryAirport',{},
+       r => {
+         if(r.success){
+           this.airport=r.data;
+         }
+      })
+    },
+    handleClose(done) {
+      // this.czform={};
+      done();
+    },
+    queryNationalityAlone(){
+      this.$api.post('/manage-platform/codeTable/queryNationality',{},
+       r => {
+         if(r.success){
+           this.nationAlone=r.data;
+         }
+      })
+    },
+    queryDocCode(){
+      this.$api.post('/manage-platform/codeTable/queryDocCode',{},
+       r => {
+         if(r.success){
+           this.docCode=r.data;
+         }
+      })
+    },
+    getList(CurrentPage,showCount,pd){
+      let p={
+        "showCount": showCount,
+        "currentPage": CurrentPage,
+        "pd": pd
+      }
+      this.$api.post('/manage-platform/riskEventController/queryRiskEventInfo',p,
+       r => {
+         console.log(r)
+         this.tableData=r.data.resultList;
+         this.TotalResult=r.data.totalResult;
+      })
+    },
+    queryEach(serial,nationality,passportno){
+      let p={
+        "pd": {
+          "serial":serial,
+      		"nationality":nationality,
+      		"passportno":passportno
+        }
+      }
+      this.$api.post('/manage-platform/riskEventController/queryEachRiskEventInfo',p,
+       r => {
+         this.eachData=r.data
+      })
+    },
+    openCzTc(){
+      this.czform={};
+      this.czDialogVisible=true
+    },
+    czSave(){
+      let arr1=this.multipleSelection;
+      let p={
+        list:[]
+      };
+      let that=this;
+      for(var i=0;i<arr1.length;i++){
+        let a={
+          "processorResult":that.czform.processorResult,
+    			"change_port":that.czform.change_port,
+    			"processor_desc":that.czform.processor_desc,
+        	"processor_people":arr1[i].processor_people,
+    			"serial":arr1[i].serial
+        }
+        p.list.push(a)
+      }
+
+      this.$api.post('/manage-platform/riskEventController/updateBatchDisposeEventInfo',p,
+       r => {
+         if(r.data.success=="success"){
+           this.$message({
+             message: '恭喜你，操作成功！',
+             type: 'success'
+           });
+           this.czDialogVisible=false;
+         }
+      })
+    },
+    handleChange(value) {
+        console.log(value);
+        console.log(this.gdform.processorResult)
+    },
+    openGdTc(){
+      this.gdform={};
+      this.gdDialogVisible=true
+    },
+    gdSave(){
+      let arr1=this.multipleSelection;
+      let p={
+        list:[]
+      };
+      let that=this;
+      for(var i=0;i<arr1.length;i++){
+        let a={
+          "eventSerial":arr1[i].serial,
+    			"newcheckresult":arr1[i].newcheckresult,
+    			"archive_pepole":arr1[i].archive_pepole,
+    			"describe":that.gdform.describe,
+    			"type":"1",
+    			"IOType":that.gdform.processorResult[0],
+    			"firstType":that.gdform.processorResult[1],
+    			"secondType":that.gdform.processorResult[2],
+    			"tag_type":"1",
+    			"tag_code":"111",
+    			"tag_name":"111",
+    			"tag_remar":"111",
+    			"userId":"111",
+    			"operation_type":"1",
+    			"add_remark":"111",
+    			"add_tagtype":"1"
+        }
+        p.list.push(a)
+      }
+
+      this.$api.post('/manage-platform/riskEventController/saveBatchEventArchiveInfo',p,
+       r => {
+         if(r.data.success=="success"){
+           this.$message({
+             message: '恭喜你，操作成功！',
+             type: 'success'
+           });
+           this.gdDialogVisible=false;
+         }
+      })
     },
   }
 }
 </script>
 
 <style scoped>
-
-
+.cellClass{
+  height: 32px;
+  white-space:nowrap;
+  text-overflow:ellipsis;
+  overflow: hidden;
+}
 </style>
