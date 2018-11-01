@@ -273,8 +273,11 @@ export default {
       typerow: '1',
       sData1:[],
       sData2:[],
-      sData3:[]
-
+      sData3:[],
+      showz:true,
+      showg:true,
+      showk:true,
+      showc:true,
     }
   },
   mounted() {
@@ -345,12 +348,29 @@ export default {
       };
 
       var url = "/manage-platform/dataStatistics/get_fltline_bycontinent";
+      this.showz=true;
+      this.showg=false;
+      this.showc=false;
+      this.showk=false;
       if (this.typerow == "2") {
+
         url="/manage-platform/dataStatistics/get_fltline_bycountry";
+        this.showz=false;
+        this.showg=true;
+        this.showc=false;
+        this.showk=false;
       } else if (this.typerow == "3") {
         url="/manage-platform/dataStatistics/get_fltline_bycity";
+        this.showz=false;
+        this.showg=false;
+        this.showc=true;
+        this.showk=false;
       } else if (this.typerow == "4") {
         url="/manage-platform/dataStatistics/get_fltline_byport";
+        this.showz=false;
+        this.showg=false;
+        this.showc=false;
+        this.showk=true;
       }
 
       this.$api.post(url, p,
@@ -369,7 +389,7 @@ export default {
             sum02+=parseInt(arr[i].chk_gender_f);
             sum3+=parseInt(arr[i].foreign);
             sum03+=parseInt(arr[i].inland);
-            sum03+=parseInt(arr[i].gat);
+            sum003+=parseInt(arr[i].gat);
           }
           this.sData1=[{value:sum1, name:'总数'},{value:sum01, name:'不准登机人员数量'}];
           this.sData2=[{value:sum2, name:'男'},{value:sum02, name:'女'}];
@@ -474,7 +494,7 @@ export default {
               type: 'pie',
               radius: ['30%', '50%'],
               center: ['50%', '50%'], //调整位置
-              data: this.sData4,
+              data: this.sData3,
 
             }]
           });
