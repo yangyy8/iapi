@@ -89,8 +89,8 @@
                 <span class="tag0"></span>失效标签
               </div>
               <div class="">
-                <el-tag type="warning" size="small" class="mr-5" v-for="x in box1Data" v-if="x.OPERATION_TYPE==1">{{x.TAG_NAME}}</el-tag>
-                <el-tag type="info" size="small" class="mr-5" v-for="x in box1Data" v-if="x.OPERATION_TYPE==2">{{x.TAG_NAME}}</el-tag>
+                <el-tag type="warning" size="small" class="mr-5" v-for="(x,ind) in box1Data" :key="ind" v-if="x.OPERATION_TYPE==1">{{x.TAG_NAME}}</el-tag>
+                <el-tag type="info" size="small" class="mr-5" v-for="(x,ind) in box1Data" :key="ind" v-if="x.OPERATION_TYPE==2">{{x.TAG_NAME}}</el-tag>
 
                 <el-button type="text" size="small" @click="moreShow=true" v-if="!moreShow">查看更多 ></el-button>
                 <el-button type="text" size="small" @click="moreShow=false" v-if="moreShow">收起<</el-button>
@@ -204,7 +204,7 @@
                 命中模型信息 <i class="el-icon-d-caret"></i>
               </div>
               <div v-if="box2">
-                <div class="box2-content mb-9" v-for="b in box2Data">
+                <div class="box2-content mb-9" v-for="b in box2Data" >
                   <div class="box2-t-box">
                     <span>{{b.modelName}}</span>
                     <el-button type="primary" plain size="small">模型相关案例</el-button>
@@ -239,7 +239,7 @@
                     <span>自动计算信息</span>
                   </div>
                   <el-row class="middle-msg-row2" :gutter="2">
-                    <el-col :span="6" v-for="c1 in box3Data.autoTargetInfo" :class="{'redx':c1.ISHIT==1}">
+                    <el-col :span="6" v-for="(c1,ind) in box3Data.autoTargetInfo" :key="ind" :class="{'redx':c1.ISHIT==1}">
                       <span>{{c1.TARGET_NAME}}：</span>
                       {{c1.TARGET_VALUE}}
                     </el-col>
@@ -258,8 +258,8 @@
                     <span>手动计算信息</span>
                   </div>
                   <el-row class="middle-msg-row2" :gutter="2">
-                    <el-col :span="6" v-for="c1 in box3Data.manualTargetInfo" :class="{'redx':c1.ISHIT==1}">
-                      <span>{{c1.TARGET_NAME}}：</span>
+                    <el-col :span="6" v-for="(c2,ind) in box3Data.manualTargetInfo" :key="ind" :class="{'redx':c1.ISHIT==1}">
+                      <span>{{c2.TARGET_NAME}}：</span>
                       {{c1.TARGET_VALUE}}
                     </el-col>
                     <el-col :span="6" class="tc-999">
