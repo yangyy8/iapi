@@ -12,6 +12,8 @@
                 <el-date-picker
                   class="input-input"
                   v-model="pd.fltDate"
+                  :editable="false"
+                  :clearable="false"
                   type="date" size="small" value-format="yyyyMMdd"
                   placeholder="选择时间"  >
                 </el-date-picker>
@@ -50,6 +52,12 @@
         <el-table-column
           label="出入标识"
           prop="iOType">
+          <template slot-scope="scope">
+            <div>
+              <span v-if="scope.row.ioType=='I'">入境</span>
+              <span v-if="scope.row.ioType=='O'">出境</span>
+            </div>
+          </template>
         </el-table-column>
         <el-table-column
           label="计划起飞时间"
@@ -72,8 +80,18 @@
           prop="aircompanyName">
         </el-table-column>
         <el-table-column
-          label="航班状态"
-          prop="status">
+          label="航班状态">
+          <template slot-scope="scope">
+            <div>
+              <span v-if="scope.row.status==0">计划</span>
+              <span v-if="scope.row.status==1">值机</span>
+              <span v-if="scope.row.status==3">已起飞</span>
+              <span v-if="scope.row.status==4">已办理入境</span>
+              <span v-if="scope.row.status==5">取消</span>
+              <span v-if="scope.row.status==6">已到达</span>
+              <span v-if="scope.row.status==7">已失效</span>
+            </div>
+          </template>
         </el-table-column>
         <el-table-column
           label="非法载运人数">
@@ -149,6 +167,7 @@
 </template>
 
 <script>
+import { formatDate } from '@/assets/js/date.js'
 export default {
   data(){
     return{
@@ -157,7 +176,7 @@ export default {
       CurrentPage:1,
       pageSize:10,
       TotalResult:0,
-      pd:{},
+      pd:{fltDate:''},
       airport:null,
       options:[
         {
@@ -180,6 +199,8 @@ export default {
   },
   activated(){
     this.getList(this.CurrentPage,this.pageSize,this.pd);
+    let end = new Date();
+    this.pd.fltDate= formatDate(end, 'yyyyMMdd');
   },
   methods:{
     pageSizeChange(val) {
@@ -194,6 +215,7 @@ export default {
       let p={
         "showCount": showCount,
         "currentPage": CurrentPage,
+        "totalResult": this.TotalResult,
         "pd": pd
       }
       this.$api.post('/manage-platform/flightMonitor/queryIllegalCarryPage',p,

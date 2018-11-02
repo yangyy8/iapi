@@ -12,6 +12,8 @@
                 <el-date-picker
                   class="input-input"
                   v-model="pd.fltDate"
+                  :editable="false"
+                  :clearable="false"
                   type="date" size="small" value-format="yyyyMMdd"
                   placeholder="选择时间"  >
                 </el-date-picker>
@@ -49,6 +51,12 @@
         <el-table-column
           label="出入标识"
           prop="iOType">
+          <template slot-scope="scope">
+            <div>
+              <span v-if="scope.row.ioType=='I'">入境</span>
+              <span v-if="scope.row.ioType=='O'">出境</span>
+            </div>
+          </template>
         </el-table-column>
         <el-table-column
           label="计划起飞时间"
@@ -141,6 +149,7 @@
 </template>
 
 <script>
+import { formatDate } from '@/assets/js/date.js'
 export default {
   data(){
     return{
@@ -148,7 +157,7 @@ export default {
       CurrentPage:1,
       pageSize:10,
       TotalResult:0,
-      pd:{},
+      pd:{fltDate:''},
       airport:null,
       options:[
         {
@@ -171,6 +180,8 @@ export default {
   },
   activated(){
     this.getList(this.CurrentPage,this.pageSize,this.pd);
+    let end = new Date();
+    this.pd.fltDate= formatDate(end, 'yyyyMMdd');
   },
   methods:{
     pageSizeChange(val) {
@@ -185,6 +196,7 @@ export default {
       let p={
         "showCount": showCount,
         "currentPage": CurrentPage,
+        "totalResult": this.TotalResult,
         "pd": pd
       }
       this.$api.post('/manage-platform/flightMonitor/queryPnrMessageCountPage',p,

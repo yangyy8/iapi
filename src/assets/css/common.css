@@ -197,6 +197,7 @@ button{
 .input-item{
   display: flex;
   margin-bottom: 6px;
+  align-items: center;
   /* justify-content: flex-start; */
 }
 .input-text{
@@ -282,9 +283,19 @@ button{
   text-align: center!important;
   background: #f7f7f7;
 }
+.cellClass{
+  height: 32px;
+  white-space:nowrap!important;
+  text-overflow:ellipsis;
+  overflow: hidden;
+}
+.f-bold{
+  font-weight: bold;
+}
 .f-14{
   font-size: 14px;
 }
+
 .tc-o{
   color: #e89e6f;
 }

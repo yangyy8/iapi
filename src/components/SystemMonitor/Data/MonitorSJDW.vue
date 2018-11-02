@@ -11,32 +11,26 @@
           <el-row align="center"   :gutter="2">
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">航班号：</span>
-                <el-input placeholder="请输入内容" size="small" v-model="pd.PASSPORTNO" class="input-input"></el-input>
+                <el-input placeholder="请输入内容" size="small" v-model="pd.fltno" class="input-input"></el-input>
             </el-col>
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">航班日期：</span>
-              <div class="input-input t-flex t-date">
+
                <el-date-picker
-               v-model="pd.begin" format="yyyy-MM-dd HH:mm:ss"
-               type="datetime" size="small" value-format="yyyyMMddHHmmss"
-               placeholder="开始时间"  :picker-options="pickerOptions" >
+               v-model="pd.fltdate" format="yyyy-MM-dd" class="input-input"
+               type="date" size="small" value-format="yyyyMMdd"
+               placeholder="开始时间">
              </el-date-picker>
-               <span class="septum">-</span>
-             <el-date-picker
-                v-model="pd.end" format="yyyy-MM-dd HH:mm:ss"
-                type="datetime" size="small" value-format="yyyyMMddHHmmss"
-                placeholder="结束时间" :picker-options="pickerOptions1" >
-            </el-date-picker>
-          </div>
+
             </el-col>
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">证件号码：</span>
-                <el-input placeholder="请输入内容" size="small" v-model="pd.PASSPORTNO" class="input-input"></el-input>
+                <el-input placeholder="请输入内容" size="small" v-model="pd.cardnum" class="input-input"></el-input>
             </el-col>
 
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                 <span class="input-text">国籍/地区：</span>
-                <el-select v-model="pd.NATIONALITY" filterable clearable @visible-change="queryNationality" placeholder="请选择"  size="small" class="input-input">
+                <el-select v-model="pd.nationality" filterable clearable @visible-change="queryNationality" placeholder="请选择"  size="small" class="input-input">
                   <el-option
                     v-for="item in nation"
                     :key="item.CODE"
@@ -48,26 +42,20 @@
             <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
               <span class="input-text">姓名：</span>
                 <div class="input-input t-fuzzy t-flex">
-              <el-input placeholder="请输入内容" size="small" v-model="pd.NAME"   class="input-input"></el-input>
+              <el-input placeholder="请输入内容" size="small" v-model="pd.name"   class="input-input"></el-input>
               &nbsp;<el-checkbox v-model="pd.ISBLURRED">模糊查询</el-checkbox>
             </div>
             </el-col>
 
               <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
               <span class="input-text">出生日期：</span>
-                  <div class="input-input t-flex t-date">
+
               <el-date-picker
-              v-model="pd.STARTBIRTH"
-              type="date" size="small" value-format="yyyyMMddHHmmss"
+              v-model="pd.birthday"
+              type="date" size="small" value-format="yyyyMMdd" class="input-input"
               placeholder="开始时间" >
             </el-date-picker>
-               <span class="septum">-</span>
-            <el-date-picker
-               v-model="pd.ENDBIRTH"
-               type="date" size="small" value-format="yyyyMMddHHmmss"
-               placeholder="结束时间"  >
-            </el-date-picker>
-            </div>
+
             </el-col>
 
           </el-row>
@@ -202,21 +190,21 @@ export default {
   },
   mounted() {
     this.queryNationality();
-    let time = new Date();
-    let endz = new Date();
-    let beginz = new Date(time - 1000 * 60 * 60 * 24 * 1);
-    this.pd.begin = formatDate(beginz, 'yyyyMMddHHmmss');
-    this.pd.end = formatDate(endz, 'yyyyMMddhhmmss');
-    this.getList(this.CurrentPage, this.pageSize, this.pd);
+    // let time = new Date();
+    // let endz = new Date();
+    // let beginz = new Date(time - 1000 * 60 * 60 * 24 * 1);
+    // this.pd.begin = formatDate(beginz, 'yyyyMMddHHmmss');
+    // this.pd.end = formatDate(endz, 'yyyyMMddhhmmss');
+  //  this.getList(this.CurrentPage, this.pageSize, this.pd);
   },
   activated() {
     this.queryNationality();
-    let time = new Date();
-    let endz = new Date();
-    let beginz = new Date(time - 1000 * 60 * 60 * 24 * 1);
-    this.pd.begin = formatDate(beginz, 'yyyyMMddhhmmss');
-    this.pd.end = formatDate(endz, 'yyyyMMddhhmmss');
-    this.getList(this.CurrentPage, this.pageSize, this.pd);
+    // let time = new Date();
+    // let endz = new Date();
+    // let beginz = new Date(time - 1000 * 60 * 60 * 24 * 1);
+    // this.pd.begin = formatDate(beginz, 'yyyyMMddhhmmss');
+    // this.pd.end = formatDate(endz, 'yyyyMMddhhmmss');
+    // this.getList(this.CurrentPage, this.pageSize, this.pd);
   },
   methods: {
     handleSelectionChange(val) {
@@ -232,26 +220,26 @@ export default {
       console.log(`当前页: ${val}`);
     },
     getList(currentPage, showCount, pd) {
-      // this.pd.begin=formatDate(this.pd.begin,"yyyyMMddhhssmm");
-      // this.pd.end=formatDate(this.pd.end,"yyyyMMddhhssmm");
-      if (dayGap(this.pd.begin, this.pd.end, 0) > 1) {
-        this.$alert('只能查询某一天的日期', '提示', {
-          confirmButtonText: '确定',
-        });
-        return false
-      }
+
 
       let p = {
-        "currentPage": currentPage,
-        "showCount": showCount,
-        "cdt": pd
+        // "currentPage": currentPage,
+        // "showCount": showCount,
+        // "cdt": pd
+        "fltno":pd.fltno,
+        "fltdate":pd.fltdate,
+        "nationality":pd.nationality,
+        "cardnum":pd.cardnum,
+        "name":pd.name,
+        "birthday":pd.birthday
+
       };
 
-      this.$api.post("/manage-platform/log_event/queryListPageAll", p,
+      this.$api.post("/manage-platform/PersonLocation/get_person_location", p,
         r => {
           console.log(r);
-          this.tableData = r.data.pd.resultList;
-          this.TotalResult = r.data.totalResult;
+          this.tableData = r.data;
+
         })
     },
     queryNationality() {

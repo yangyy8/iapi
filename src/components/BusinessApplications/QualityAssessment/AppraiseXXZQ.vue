@@ -37,7 +37,7 @@
                </el-select>
             </el-col>
 
-            <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
+            <!-- <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
               <span class="input-text">航班日期：</span>
               <div class="input-input t-flex t-date">
                <el-date-picker
@@ -52,7 +52,7 @@
                 placeholder="结束时间" :picker-options="pickerOptions1" >
             </el-date-picker>
           </div>
-            </el-col>
+            </el-col> -->
             <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
               <span class="input-text">航班号：</span>
                 <el-input placeholder="请输入内容" size="small" v-model="pd.fltno" class="input-input"></el-input>
@@ -102,7 +102,7 @@
 
     <div class="middle">
       <el-row class="mb-15 yr">
-        <el-button type="info" size="small" @click="batchs">Excel导出</el-button>
+        <el-button type="info" size="small" @click="">Excel导出</el-button>
         </el-row>
       <el-table
         :data="tableData"
@@ -110,11 +110,11 @@
         style="width: 100%;">
         <el-table-column
           prop="airline_company_id"
-          label="航空公司ID" >
+          label="航空公司名称" width="250" v-if='showm'>
         </el-table-column>
         <el-table-column
           prop="fltno"
-          label="航班号"
+          label="航班号" v-if='showh'
           >
         </el-table-column>
 
@@ -152,7 +152,7 @@
          </template>
         </el-table-column> -->
       </el-table>
-      <div class="middle-foot">
+      <!-- <div class="middle-foot">
         <div class="page-msg">
           <div class="">
             共{{Math.ceil(TotalResult/pageSize)}}页
@@ -180,7 +180,7 @@
           layout="prev, pager, next"
           :total="TotalResult">
         </el-pagination>
-      </div>
+      </div> -->
     </div>
     <el-dialog
       title="详情"
@@ -240,6 +240,8 @@ export default {
           label: "30"
         }
       ],
+      showm:true,
+      showh:true,
       tableData: [],
       multipleSelection: [],
       // pickerOptions0: {
@@ -307,13 +309,23 @@ export default {
       // }
 
       let p = {
-        "currentPage": currentPage,
-        "showCount": showCount,
-        "cdt": pd
+        // "currentPage": currentPage,
+        // "showCount": showCount,
+        // "cdt": pd
+
+        "begintime":pd.begintime,
+        "endtime":pd.endtime,
+        "fltno":pd.fltno,
+        "airline_company_id":pd.airline_company_id
       };
-      var url="/manage-platform/forecastEva/get_fccrt_bycompanyid";
-      if(pd.type=="2"){
+       var url="/manage-platform/forecastEva/get_fccrt_bycompanyid";
+      if(this.typerow=="2"){
         url="/manage-platform/forecastEva/get_fccrt_byfltno";
+        this.showh=true;
+        this.showm=false;
+      }else {
+        this.showh=false;
+        this.showm=true;
       }
       this.$api.post(url, p,
         r => {

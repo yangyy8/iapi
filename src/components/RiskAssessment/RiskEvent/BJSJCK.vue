@@ -1,7 +1,7 @@
 <template lang="html">
   <div class="bjsjck">
     <div class="top mb-2">
-      事件编号：349082340982342348(客户提供唯一编码业务或方法)
+      事件编号：{{serial}}(客户提供唯一编码业务或方法)
     </div>
     <div class="middle">
       <el-row :gutter="10">
@@ -35,51 +35,51 @@
               <el-row class="middle-msg-row" :gutter="4">
                 <el-col :span="6">
                   <span>姓名：</span>
-                  张某某
+                  {{page0Data.name}}
                 </el-col>
                 <el-col :span="6">
                   <span>国籍/地区：</span>
-                  张某某
+                  {{page0Data.nationalityName}}
                 </el-col>
                 <el-col :span="6">
                   <span>出入类型：</span>
-                  张某某
+                  {{page0Data.flightTypeName}}
                 </el-col>
                 <el-col :span="6">
                   <span>出发地：</span>
-                  张某某
+                  {{page0Data.origin}}
                 </el-col>
                 <el-col :span="6">
                   <span>性别：</span>
-                  张某某
+                  {{page0Data.genderName}}
                 </el-col>
                 <el-col :span="6">
                   <span>证件类型：</span>
-                  张某某
+                  {{page0Data.passportType}}
                 </el-col>
                 <el-col :span="6">
                   <span>航班号：</span>
-                  张某某
+                  {{page0Data.fltno}}
                 </el-col>
                 <el-col :span="6">
                   <span>目的地：</span>
-                  张某某
+                  {{page0Data.destination}}
                 </el-col>
                 <el-col :span="6">
                   <span>出生日期：</span>
-                  张某某
+                  {{page0Data.birthday}}
                 </el-col>
                 <el-col :span="6">
                   <span>证件号码：</span>
-                  张某某
+                  {{page0Data.passportno}}
                 </el-col>
                 <el-col :span="6">
                   <span>航班日期：</span>
-                  张某某
+                  {{page0Data.fltnoDate}}
                 </el-col>
                 <el-col :span="6">
                   <span>报警时间：</span>
-                  2018-07-09 13:23:22
+                  {{page0Data.createTime}}
                 </el-col>
 
               </el-row>
@@ -89,19 +89,9 @@
                 <span class="tag0"></span>失效标签
               </div>
               <div class="">
-                <el-tag type="warning" size="small">标签四</el-tag>
-                <el-tag type="warning" size="small">标签四</el-tag>
-                <el-tag type="warning" size="small">标签四</el-tag>
-                <el-tag type="warning" size="small">标签四</el-tag>
-                <el-tag type="warning" size="small">标签四</el-tag>
-                <el-tag type="warning" size="small">标签四</el-tag>
-                <el-tag type="warning" size="small">标签四</el-tag>
-                <el-tag type="info" size="small">标签三</el-tag>
-                <el-tag type="info" size="small">标签三</el-tag>
-                <el-tag type="info" size="small">标签三</el-tag>
-                <el-tag type="info" size="small">标签三</el-tag>
-                <el-tag type="info" size="small">标签三</el-tag>
-                <el-tag type="info" size="small">标签三</el-tag>
+                <el-tag type="warning" size="small" class="mr-5" v-for="(x,ind) in box1Data" :key="ind" v-if="x.OPERATION_TYPE==1">{{x.TAG_NAME}}</el-tag>
+                <el-tag type="info" size="small" class="mr-5" v-for="(x,ind) in box1Data" :key="ind" v-if="x.OPERATION_TYPE==2">{{x.TAG_NAME}}</el-tag>
+
                 <el-button type="text" size="small" @click="moreShow=true" v-if="!moreShow">查看更多 ></el-button>
                 <el-button type="text" size="small" @click="moreShow=false" v-if="moreShow">收起<</el-button>
               </div>
@@ -214,46 +204,26 @@
                 命中模型信息 <i class="el-icon-d-caret"></i>
               </div>
               <div v-if="box2">
-                <div class="box2-content mb-9">
+                <div class="box2-content mb-9" v-for="b in box2Data" >
                   <div class="box2-t-box">
-                    <span>外籍涉疆重点人员</span>
+                    <span>{{b.modelName}}</span>
                     <el-button type="primary" plain size="small">模型相关案例</el-button>
                   </div>
                   <div class="gc-box">
-                    <span>风险等级：</span> <el-rate :value="3" disabled class="mt-5"></el-rate>
+                    <span>风险等级：</span> <el-rate :value="b.grade" disabled class="mt-5"></el-rate>
                   </div>
 
                   <div class="gc-box">
-                    <span>模型描述：</span>外籍畲江重点关注人员外籍畲江重点关注人员外籍畲江重点关注人员外籍畲江重点关注人员外籍畲江重点关注人员
+                    <span>模型描述：</span>{{b.modelDesc}}
                   </div>
                   <div class="gc-box">
                     <span>指标描述：</span>
                     <div class="">
-                      外籍畲江重点关注人员外籍畲江重点关注人员外籍畲江重点关注人员外籍畲江重点关注人员外籍畲江重点关注人员<br/>
-                      外籍畲江重点关注人员外籍畲江重点关注人员外籍畲江重点关注人员外籍畲江重点关注人员外籍畲江重点关注人员<br/>
+                      {{b.targetDesc}}
                     </div>
                   </div>
                 </div>
-                <div class="box2-content mb-9">
-                  <div class="box2-t-box">
-                    <span>外籍涉疆重点人员</span>
-                    <el-button type="primary" plain size="small">模型相关案例</el-button>
-                  </div>
-                  <div class="gc-box">
-                    <span>风险等级：</span> <el-rate :value="3" disabled class="mt-5"></el-rate>
-                  </div>
 
-                  <div class="gc-box">
-                    <span>模型描述：</span>外籍畲江重点关注人员外籍畲江重点关注人员外籍畲江重点关注人员外籍畲江重点关注人员外籍畲江重点关注人员
-                  </div>
-                  <div class="gc-box">
-                    <span>指标描述：</span>
-                    <div class="">
-                      外籍畲江重点关注人员外籍畲江重点关注人员外籍畲江重点关注人员外籍畲江重点关注人员外籍畲江重点关注人员<br/>
-                      外籍畲江重点关注人员外籍畲江重点关注人员外籍畲江重点关注人员外籍畲江重点关注人员外籍畲江重点关注人员<br/>
-                    </div>
-                  </div>
-                </div>
                 <div class="box1-more">
                   <el-button type="text">展开更多 ﹀</el-button>
                 </div>
@@ -269,65 +239,9 @@
                     <span>自动计算信息</span>
                   </div>
                   <el-row class="middle-msg-row2" :gutter="2">
-                    <el-col :span="6">
-                      <span>中文姓名：</span>
-                      张某某
-                    </el-col>
-                    <el-col :span="6">
-                      <span>英文姓名：</span>
-                      张某某
-                    </el-col>
-                    <el-col :span="6">
-                      <span>姓：</span>
-                      张
-                    </el-col>
-                    <el-col :span="6">
-                      <span>中间名：</span>
-                      某某
-                    </el-col>
-                    <el-col :span="6">
-                      <span>名：</span>
-                      某某
-                    </el-col>
-                    <el-col :span="6">
-                      <span>性别：</span>
-                      张某某
-                    </el-col>
-                    <el-col :span="6">
-                      <span>出生日期：</span>
-                      张某某
-                    </el-col>
-                    <el-col :span="6">
-                      <span>国籍/地区：</span>
-                      张某某
-                    </el-col>
-                    <el-col :span="6">
-                      <span>证件号码：</span>
-                      张某某
-                    </el-col>
-                    <el-col :span="6" class="redx">
-                      <span>是否黑名单人员：</span>
-                      是
-                    </el-col>
-                    <el-col :span="6" class="redx">
-                      <span>重点关注库掌握人员：</span>
-                      A1311441
-                    </el-col>
-                    <el-col :span="6" class="redx">
-                      <span>是否重点上机地：</span>
-                      是
-                    </el-col>
-                    <el-col :span="6">
-                      <span>是否重点下机地：</span>
-                      是
-                    </el-col>
-                    <el-col :span="6" class="tc-999">
-                      <span>签证签发停留期：</span>
-                      是
-                    </el-col>
-                    <el-col :span="6" class="tc-999">
-                      <span>证件签发地：</span>
-                      是
+                    <el-col :span="6" v-for="(c1,ind) in box3Data.autoTargetInfo" :key="ind" :class="{'redx':c1.ISHIT==1}">
+                      <span>{{c1.TARGET_NAME}}：</span>
+                      {{c1.TARGET_VALUE}}
                     </el-col>
                     <el-col :span="6" class="tc-999">
                       <span>旅客户籍行政区划：</span>
@@ -344,45 +258,9 @@
                     <span>手动计算信息</span>
                   </div>
                   <el-row class="middle-msg-row2" :gutter="2">
-                    <el-col :span="6">
-                      <span>是否常驻第三国：</span>
-                      张某某
-                    </el-col>
-                    <el-col :span="6">
-                      <span>商贸目的地：</span>
-                      张某某
-                    </el-col>
-                    <el-col :span="6">
-                      <span>旅游目的地：</span>
-                      张
-                    </el-col>
-                    <el-col :span="6">
-                      <span>旅客入境活动区域：</span>
-                      某某
-                    </el-col>
-                    <el-col :span="6">
-                      <span>是否高端企业：</span>
-                      某某
-                    </el-col>
-                    <el-col :span="6">
-                      <span>旅客入境目的：</span>
-                      张某某
-                    </el-col>
-                    <el-col :span="6">
-                      <span>常驻国：</span>
-                      张某某
-                    </el-col>
-                    <el-col :span="6">
-                      <span>前往国：</span>
-                      张某某
-                    </el-col>
-                    <el-col :span="6">
-                      <span>出境日期：</span>
-                      张某某
-                    </el-col>
-                    <el-col :span="6">
-                      <span>前台采集停留期：</span>
-                      是
+                    <el-col :span="6" v-for="(c2,ind) in box3Data.manualTargetInfo" :key="ind" :class="{'redx':c1.ISHIT==1}">
+                      <span>{{c2.TARGET_NAME}}：</span>
+                      {{c1.TARGET_VALUE}}
                     </el-col>
                     <el-col :span="6" class="tc-999">
                       <span>入境计划停留时长：</span>
@@ -412,7 +290,7 @@
           <div class="ak-tab-pane" v-if="page==1">
             <div class="boder1 pb-10">
               <div class="title-green hand mt-10" @click="box4=!box4">
-                命中模型信息 <i class="el-icon-d-caret"></i>
+                核查策略 <i class="el-icon-d-caret"></i>
               </div>
               <div v-if="box4">
                 <!-- <el-button type="primary" plain size="small">模型相关案例</el-button> -->
@@ -425,11 +303,29 @@
                     </div>
                   </div>
                 </div>
+                <div class="box2-content mb-9" v-for="d1 in box4Data.checkTacticsList">
+                  <div class="gc-box">
+                    <div><span class="b-dot"></span>{{d1.modelName}}：</div>
+                    <div class="">
+                      {{d1.model_describe}}
+                    </div>
+                  </div>
+                </div>
                 <div class="box1-more">
                   <el-button type="text">展开更多 ﹀</el-button>
                 </div>
-                <div class="">
-                  自定义内容：人物描写的运用很普通，人物描写的母的是刻画人物描写的运用很普通 <el-button type="text" class="redx">删除</el-button>
+                <div class="gc-box">
+                  <div class="">
+                    自定义内容：
+                  </div>
+                  <div class="">
+                    <div class="">
+                      人物描写的运用很普通，人物描写的母的是刻画人物描写的运用很普通 <el-button type="text" class="redx">删除</el-button>
+                    </div>
+                    <div class="" v-for="d2 in box4Data.listRiskCustom">
+                      {{d2.CONTENT}} <el-button type="text" class="redx">删除</el-button>
+                    </div>
+                  </div>
                 </div>
                 <div class="hc-box">
                   <el-input
@@ -573,20 +469,88 @@ export default {
   data(){
     return{
       page:0,
+      page0Data:{},
       moreShow:false,
       box1:true,
+      box1Data:{},
       box2:true,
+      box2Data:[],
       box3:true,
+      box3Data:{},
       box4:true,
+      box4Data:null,
       box5:true,
       box6:true,
       box7:true,
-
+      serial:null,
     }
   },
   activated(){
-    this.box2=true;
+    this.page=this.$route.query.page;
+    this.serial=this.$route.query.serial;
+    if(this.page==0){
+      this.getRiskIapiInfo();
+      this.getHisModelInfo();
+      this.getOperationalTargetInfo();
+    }else if(this.page==1){
+      this.getRiskDescRecordInfo();
+    }
   },
+  methods:{
+    // 预报信息
+    getRiskIapiInfo(){
+      let p={
+        "eventSerial": this.serial
+      }
+      this.$api.post('/manage-platform/riskEventWarningController/getRiskIapiInfo',p,
+       r => {
+         this.page0Data=r.data;
+         this.getRiskEventTagInfo(this.page0Data.passportno,this.page0Data.nationality)
+      })
+    },
+    // 当前事件标签及标签详情信息
+    getRiskEventTagInfo(passportno,nationality){
+      let p={
+        "passportno":passportno,
+	      "nationality":nationality
+      }
+      this.$api.post('/manage-platform/riskEventWarningController/getRiskEventTagInfo',p,
+       r => {
+         this.box1Data=r.data.validList
+      })
+    },
+    // 命中模型信息
+    getHisModelInfo(){
+      let p={
+        "eventSerial": this.serial
+      }
+      this.$api.post('/manage-platform/riskEventWarningController/getHisModelInfo',p,
+       r => {
+         this.box2Data=r.data;
+      })
+    },
+    // 获取运算指标信息
+    getOperationalTargetInfo(){
+      let p={
+        "eventSerial": this.serial
+      }
+      this.$api.post('/manage-platform/riskEventWarningController/getOperationalTargetInfo',p,
+       r => {
+         this.box3Data=r.data
+      })
+    },
+    // page=1
+    // 获取简要描述/核查阶段/核查结果/流转及记录过程
+    getRiskDescRecordInfo(){
+      let p={
+        "eventSerial": this.serial
+      }
+      this.$api.post('/manage-platform/riskEventWarningController/getRiskDescRecordInfo',p,
+       r => {
+         this.box4Data=r.data
+      })
+    },
+  }
 }
 </script>
 

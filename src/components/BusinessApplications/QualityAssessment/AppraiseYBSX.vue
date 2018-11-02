@@ -37,7 +37,7 @@
                </el-select>
             </el-col>
 
-            <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
+            <!-- <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
               <span class="input-text">航班日期：</span>
               <div class="input-input t-flex t-date">
                <el-date-picker
@@ -52,7 +52,7 @@
                 placeholder="结束时间" :picker-options="pickerOptions1" >
             </el-date-picker>
           </div>
-            </el-col>
+            </el-col> -->
             <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
               <span class="input-text">航班号：</span>
                 <el-input placeholder="请输入内容" size="small" v-model="pd.fltno" class="input-input"></el-input>
@@ -102,7 +102,7 @@
 
     <div class="middle">
       <el-row class="mb-15 yr">
-        <el-button type="primary" size="small" @click="batchs">Excel导出</el-button>
+        <el-button type="primary" size="small" >Excel导出</el-button>
         </el-row>
       <el-table
         :data="tableData"
@@ -112,12 +112,12 @@
 
         <el-table-column
           prop="airline_company_id"
-          label="航空公司名称">
+          label="航空公司名称" width="250" v-if='showm'>
 
         </el-table-column>
         <el-table-column
           prop="fltno"
-          label="航班号"
+          label="航班号" v-if='showh'
           >
         </el-table-column>
 
@@ -288,6 +288,8 @@ export default {
           label: "30"
         }
       ],
+      showm:true,
+      showh:true,
       tableData: [],
       multipleSelection: [],
       // pickerOptions0: {
@@ -355,13 +357,23 @@ export default {
       // }
 
       let p = {
-        "currentPage": currentPage,
-        "showCount": showCount,
-        "cdt": pd
+        // "currentPage": currentPage,
+        // "showCount": showCount,
+        // "cdt": pd
+        "begintime":pd.begintime,
+        "endtime":pd.endtime,
+        "fltno":pd.fltno,
+        "airline_company_id":pd.airline_company_id
       };
       var url="/manage-platform/forecastEva/get_fctime_bycompanyid";
+
       if(this.typerow=="2"){
         url="/manage-platform/forecastEva/get_fctime_byfltno";
+        this.showh=true;
+        this.showm=false;
+      }else {
+        this.showh=false;
+        this.showm=true;
       }
       this.$api.post(url, p,
         r => {
