@@ -90,14 +90,14 @@
           prop="UPDATETIME"
           label="最后更新时间">
         </el-table-column>
-        <!-- <el-table-column
+        <el-table-column
           label="操作" width="300">
           <template slot-scope="scope">
               <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row)">详情</el-button>
               <el-button class="table-btn" size="mini" plain icon="el-icon-edit" @click="adds(1,scope.row)">编辑</el-button>
               <el-button class="table-btn" size="mini" plain icon="el-icon-delete" @click="deletes(scope.row)">删除</el-button>
          </template>
-        </el-table-column> -->
+        </el-table-column>
       </el-table>
       <div class="middle-foot">
         <div class="page-msg">
@@ -295,11 +295,11 @@ export default {
         "showCount": showCount,
         "pd": pd
       };
-      this.$api.post('/manage-platform/roleSys/selectPara', p,
+      this.$api.post('/manage-platform/userLabel/getUserLabelPage', p,
         r => {
           console.log("----" + r);
-          this.tableData = r.data.roleList.pdList;
-          this.TotalResult = r.data.roleList.totalResult;
+          this.tableData = r.data.resultList;
+          this.TotalResult = r.data.totalResult;
         })
     },
     queryNationality() {
@@ -338,10 +338,10 @@ export default {
             }
 
 
-      var url = "/manage-platform/roleSys/save";
+      var url = "/manage-platform/userLabel/addUserLabel";
 
       if (this.tp == 1) {
-        url = "/manage-platform/roleSys/edit";
+        url = "/manage-platform/userLabel/updateUserLabel";
       }
       this.$api.post(url, this.form,
         r => {
@@ -378,7 +378,7 @@ export default {
         type: 'warning'
       }).then(() => {
 
-        this.$api.post('/manage-platform/roleSys/delete', p,
+        this.$api.post('/manage-platform/userLabel/deleteUserLabel', p,
           r => {
             console.log("===" + r);
             if (r.success) {

@@ -7,6 +7,8 @@
           <div class="title-green">
             查询条件
           </div>
+
+
           <el-row align="center"   :gutter="2" >
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">姓名：</span>
@@ -116,47 +118,46 @@
         style="width: 100%;"
         >
         <el-table-column
-          prop="NAME"
+          prop="RISKDICTIONARIES"
           label="姓名">
         </el-table-column>
          <el-table-column
-          prop="COUNT"
+          prop="GENDER"
           label="性别"
           >
         </el-table-column>
         <el-table-column
-          prop="CREATEUSER"
+          prop="DATEOFBIRTH"
           label="出生日期">
         </el-table-column>
         <el-table-column
-          prop="CREATETIME"
+          prop="NATIONALITY"
           label="国籍">
         </el-table-column>
         <el-table-column
-          prop="CREATETIME"
+          prop="CARDTYPE"
           label="证件种类">
         </el-table-column>
         <el-table-column
-          prop="CREATETIME"
+          prop="CARDNO"
           label="证件号码">
         </el-table-column>
         <el-table-column
-          prop="CREATETIME"
+          prop="EXPIREDATE"
           label="有效日期">
         </el-table-column>
         <el-table-column
-          prop="CREATETIME"
+          prop="STATUS"
           label="有效状态">
         </el-table-column>
         <el-table-column
-          prop="CREATETIME"
+          prop="CREATEUSERNAME"
           label="操作人">
         </el-table-column>
         <el-table-column
           prop="CREATETIME"
           label="操作时间">
         </el-table-column>
-
         <el-table-column
           label="操作" width="300">
           <template slot-scope="scope">
@@ -165,7 +166,6 @@
               <el-button class="table-btn" size="mini"  icon="el-icon-delete" @click="deletes(scope.row)"></el-button>
          </template>
         </el-table-column>
-
       </el-table>
       <div class="middle-foot">
         <div class="page-msg">
@@ -230,13 +230,13 @@
           </el-col>
 
           <el-col :span="12" class="input-item">
-            <span class="yy-input-text" style="width:18%">姓名：</span>
+            <span class="yy-input-text" style="width:18%"><font class="yy-color">*</font>姓名：</span>
             <el-input placeholder="请输入内容" size="small" v-model="form.FAMILYNAME"  class="yy-input-input"></el-input>
           </el-col>
         </el-row>
         <el-row type="flex" class="mb-6">
           <el-col :span="12" class="input-item">
-            <span class="yy-input-text" style="width:18%">性别：</span>
+            <span class="yy-input-text" style="width:18%"><font class="yy-color">*</font>性别：</span>
             <el-select v-model="form.GENDER" placeholder="请选择"  filterable clearable size="small" class="yy-input-input">
                <el-option value="U" label="U - 未知">
                </el-option>
@@ -248,10 +248,10 @@
           </el-col>
 
           <el-col :span="12" class="input-item">
-            <span class="yy-input-text" style="width:18%">出生日期：</span>
+            <span class="yy-input-text" style="width:18%"><font class="yy-color">*</font>出生日期：</span>
             <el-date-picker
                v-model="form.DATEOFBIRTH" format="yyyy-MM-dd"
-               type="date" size="small" value-format="yyyyMMdd"
+               type="date" size="small" value-format="yyyy-MM-dd"
                placeholder="出生日期" class="yy-input-input">
            </el-date-picker>
           </el-col>
@@ -259,23 +259,31 @@
 
         <el-row type="flex" class="mb-6">
           <el-col :span="12" class="input-item">
-            <span class="yy-input-text" style="width:18%">有效日期：</span>
+            <span class="yy-input-text" style="width:18%"><font class="yy-color">*</font>有效日期：</span>
             <el-date-picker
                v-model="form.EXPIREDATE" format="yyyy-MM-dd"
-               type="datetime" size="small" value-format="yyyyMMdd"
+               type="date" size="small" value-format="yyyy-MM-dd"
                placeholder="请输入有效日期" class="yy-input-input">
            </el-date-picker>
           </el-col>
 
           <el-col :span="12" class="input-item">
-            <span class="yy-input-text" style="width:18%">名单类型：</span>
-            <el-select v-model="form.TYPE_NAME" placeholder="请选择"  filterable clearable size="small" class="yy-input-input">
+            <span class="yy-input-text" style="width:18%"><font class="yy-color">*</font>名单类型：</span>
+            <el-select v-model="form.TYPE_CODE" placeholder="请选择"  filterable clearable size="small" class="yy-input-input">
                <el-option value="重点维族人" label="重点维族人">
                </el-option>
                <el-option value="黑名单" label="黑名单">
                </el-option>
              </el-select>
           </el-col>
+        </el-row>
+        <el-row type="flex" class="mb-6">
+          <el-col :span="24" class="input-item">
+            <span class="input-text" style="width:12.5%">事件描述：</span>
+            <el-input type="textarea"  placeholder="请输入内容" :autosize="{ minRows: 3, maxRows: 6}" v-model="form.EVENTCOUNT" style="width:84%;"></el-input>
+
+          </el-col>
+
         </el-row>
 
       </el-form>
@@ -325,17 +333,15 @@
             <span class="yy-input-text">有效日期：</span>
           <span class="yy-input-input detailinput">  {{mapForm.EXPIREDATE}}</span>
           </el-col>
-
           <el-col :span="12" class="input-item">
             <span class="yy-input-text">名单类型：</span>
           <span class="yy-input-input detailinput">  {{mapForm.TYPE_NAME}}</span>
           </el-col>
         </el-row>
-
         <el-row type="flex" class="mb-6" >
           <el-col :span="24" class="input-item">
             <span class="input-text" style="width:12.5%;">事件描述：</span>
-          <span class="" style="width:85%;border: 1px solid #eeeeee; background: #F5F7FA;">  {{mapForm.EVENTCOUNT}}</span>
+          <span class="detailinput" style="width:84% !important;border: 1px solid #eeeeee; background: #F5F7FA;">  {{mapForm.EVENTCOUNT}}</span>
           </el-col>
         </el-row>
         <el-row type="flex" class="mb-6" >
@@ -445,11 +451,11 @@ export default {
         "showCount": showCount,
         "pd": pd
       };
-      this.$api.post('/manage-platform/roleSys/selectPara', p,
+      this.$api.post('/manage-platform/riskNameList/getRiskNameListPage', p,
         r => {
-          console.log("----" + r);
-          this.tableData = r.data.roleList.pdList;
-          this.TotalResult = r.data.roleList.totalResult;
+      //    console.log("----" + r);
+          this.tableData = r.data.resultList;
+          this.TotalResult = r.data.totalResult;
         })
     },
     queryNationality() {
@@ -480,9 +486,9 @@ export default {
                } else {
                }
             }
-      var url = "/manage-platform/roleSys/save";
+      var url = "/manage-platform/riskNameList/addRiskNameList";
       if (this.tp == 1) {
-        url = "/manage-platform/roleSys/edit";
+        url = "/manage-platform/riskNameList/updateRiskNameList";
       }
       this.$api.post(url, this.form,
         r => {
@@ -510,14 +516,14 @@ export default {
     },
     deletes(i) {
       let p = {
-        "SERIAL": i.SERIAL
+        "id": i.SERIAL
       };
       this.$confirm('您是否确认删除此角色？', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.$api.post('/manage-platform/roleSys/delete', p,
+        this.$api.post('/manage-platform/riskNameList/updateRiskNameListById', p,
           r => {
             console.log("===" + r);
             if (r.success) {
@@ -539,45 +545,8 @@ export default {
         });
       });
     },
-    menus(i) {
-      this.menuDialogVisible = true;
-      this.sertail=i.SERIAL;
-      let p = {
-        "SERIAL": i.SERIAL
-      };
-      this.$api.post('/manage-platform/roleSys/goEditJuri', p,
-        r => {
-          console.log(r);
-          if (r.success) {
-            this.menudata = r.data.userTreeOne;
-            let arr=r.data.userTreeOne,that=this;
-          this.defaultChecked=r.data.checkList;
-          }
-        })
-    },
-menuItem(){
-  let checkList=this.$refs.tree.getCheckedNodes();
-  //let checkList=this.$refs.tree.getCheckedKeys();
-  let p={
-    // menuList:this.menudata,
-   "ROLE_ID":this.sertail,
-    checkList:checkList
-  }
-  this.$api.post('/manage-platform/roleSys/editJuri', p,
-    r => {
-      console.log(r);
-      if (r.success) {
-        this.$message({
-          type: 'success',
-          message: '保存成功'
-        });
-      }else{
 
-  this.$message.error('保存失败');
-      }
-    })
-        this.menuDialogVisible = false;
-},
+
   },
   filters: {
 

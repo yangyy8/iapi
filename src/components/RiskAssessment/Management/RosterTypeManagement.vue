@@ -236,7 +236,7 @@ export default {
   },
   mounted() {
     this.getList(this.CurrentPage, this.pageSize, this.pd);
-    this.queryNationality();
+  //  this.queryNationality();
   },
   activated(){
     this.getList(this.CurrentPage, this.pageSize, this.pd);
@@ -259,11 +259,11 @@ export default {
         "showCount": showCount,
         "pd": pd
       };
-      this.$api.post('/manage-platform/roleSys/selectPara', p,
+      this.$api.post('/manage-platform/riskNamelistType/getnamelistTypePage', p,
         r => {
           console.log("----" + r);
-          this.tableData = r.data.roleList.pdList;
-          this.TotalResult = r.data.roleList.totalResult;
+          this.tableData = r.data.resultList;
+          this.TotalResult = r.data.totalResult;
         })
     },
     queryNationality() {
@@ -302,10 +302,10 @@ export default {
             }
 
 
-      var url = "/manage-platform/roleSys/save";
+      var url = "/manage-platform/riskNamelistType/addnamelistType";
 
       if (this.tp == 1) {
-        url = "/manage-platform/roleSys/edit";
+        url = "/manage-platform/riskNamelistType/updatenamelistType";
       }
       this.$api.post(url, this.form,
         r => {
@@ -334,7 +334,7 @@ export default {
     },
     deletes(i) {
       let p = {
-        "SERIAL": i.SERIAL
+        "id": i.SERIAL
       };
       this.$confirm('您是否确认删除此角色？', '提示', {
         confirmButtonText: '确定',
@@ -342,7 +342,7 @@ export default {
         type: 'warning'
       }).then(() => {
 
-        this.$api.post('/manage-platform/roleSys/delete', p,
+        this.$api.post('/manage-platform/riskNamelistType/deletenamelistType', p,
           r => {
             console.log("===" + r);
             if (r.success) {

@@ -262,7 +262,7 @@ export default {
       pickerOptions0: {
         disabledDate: (time) => {
           if (this.pd.endtime != null) {
-            let startT = formatDate(new Date(time.getTime()), 'yyyyMMdd');
+            let startT = formatDate(new Date(time.getTime()), 'yyyyMMddhhmmss');
             return startT > this.pd.endtime;
           } else if (this.pd.endtime == null) {
             return false
@@ -271,7 +271,7 @@ export default {
       },
       pickerOptions1: {
         disabledDate: (time) => {
-          let endT = formatDate(new Date(time.getTime()), 'yyyyMMdd');
+          let endT = formatDate(new Date(time.getTime()), 'yyyyMMddhhmmss');
           return endT < this.pd.begintime;
         }
       },

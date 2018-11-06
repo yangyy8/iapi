@@ -39,24 +39,27 @@
         style="width: 100%;"
         >
         <el-table-column
-          prop="ROLE_NAME"
+          prop="MTYPE"
           label="配置类型">
         </el-table-column>
-
         <el-table-column
-          prop="REMARKS"
+          prop="CVALUE"
           label="配置阀值">
         </el-table-column>
         <el-table-column
-          prop="REMARKS"
+          prop="VALUETYPE"
           label="配置单位">
+        </el-table-column>
+        <el-table-column
+          prop="MCHNDESC"
+          label="中文描述">
         </el-table-column>
 
         <el-table-column
-          label="操作" width="350">
+          label="操作" width="150">
           <template slot-scope="scope">
-              <el-button class="table-btn" size="mini"   icon="el-icon-edit" @click="adds(1,scope.row)"></el-button>
-  <el-button class="table-btn" size="mini"  icon="el-icon-delete" @click="deletes(scope.row)"></el-button>
+              <el-button class="table-btn" size="mini"   icon="el-icon-edit" @click="adds(1,scope.row)">编辑</el-button>
+  <!-- <el-button class="table-btn" size="mini"  icon="el-icon-delete" @click="deletes(scope.row)"></el-button> -->
 
          </template>
         </el-table-column>
@@ -91,12 +94,12 @@
         </el-pagination>
       </div>
     </div>
-    <el-dialog :title="dialogText" :visible.sync="addDialogVisible" width="500px" >
+    <el-dialog :title="dialogText" :visible.sync="addDialogVisible" width="800px" >
       <el-form :model="form" ref="addForm">
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
             <span class="yy-input-text"><font class="yy-color">*</font> 配置类型：</span>
-            <el-input placeholder="请输入内容" size="small" maxlength="20"  v-model="form.ROLE_NAME"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
+            <el-input placeholder="请输入内容" size="small" maxlength="20"  v-model="form.MTYPE"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
 
           </el-col>
         </el-row>
@@ -104,7 +107,7 @@
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
             <span class="yy-input-text"><font class="yy-color">*</font> 配置阀值：</span>
-            <el-input placeholder="请输入内容" size="small" maxlength="20"  v-model="form.ROLE_NAME"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
+            <el-input placeholder="请输入数字" size="small" maxlength="20"  v-model="form.CVALUE"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
 
           </el-col>
         </el-row>
@@ -112,11 +115,18 @@
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
             <span class="yy-input-text"><font class="yy-color">*</font> 配置单位：</span>
-            <el-input placeholder="请输入内容" size="small" maxlength="250"  v-model="form.ROLE_NAME"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
+            <el-input placeholder="请输入内容" size="small" maxlength="250"  v-model="form.VALUETYPE"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
 
           </el-col>
         </el-row>
 
+                <el-row type="flex"  class="mb-6">
+                  <el-col :span="24" class="input-item">
+                    <span class="yy-input-text"><font class="yy-color">*</font> 配置类型中文描述：</span>
+                      <el-input type="textarea"  placeholder="请输入内容" :autosize="{ minRows: 3, maxRows: 6}" v-model="form.MCHNDESC" class="yy-input-input"></el-input>
+
+                  </el-col>
+                </el-row>
 
 
       </el-form>
@@ -126,7 +136,7 @@
       </div>
     </el-dialog>
 
-    <el-dialog title="详情" :visible.sync="detailsDialogVisible" width="500px" >
+    <!-- <el-dialog title="详情" :visible.sync="detailsDialogVisible" width="500px" >
       <el-form :model="map" ref="mapForm">
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
@@ -158,7 +168,7 @@
       <div slot="footer" class="dialog-footer">
         <el-button @click="detailsDialogVisible = false" size="small">取 消</el-button>
       </div>
-    </el-dialog>
+    </el-dialog> -->
 
 
 
@@ -210,6 +220,9 @@ export default {
     this.getList(this.CurrentPage, this.pageSize, this.pd);
 
   },
+  activated() {
+    this.getList(this.CurrentPage, this.pageSize, this.pd);
+  },
   methods: {
     handleSelectionChange(val) {
       this.multipleSelection = val;
@@ -228,11 +241,11 @@ export default {
         "showCount": showCount,
         "pd": pd
       };
-      this.$api.post('/manage-platform/roleSys/selectPara', p,
+      this.$api.post('/manage-platform/monitorConfig/queryConfigList', p,
         r => {
           console.log("----" + r);
-          this.tableData = r.data.roleList.pdList;
-          this.TotalResult = r.data.roleList.totalResult;
+          this.tableData = r.data.resultList;
+          this.TotalResult = r.data.totalResult;
         })
     },
     queryNationality() {
@@ -268,15 +281,15 @@ export default {
             }
 
 
-      var url = "/manage-platform/roleSys/save";
+      var url = "/manage-platform/monitorConfig/saveConfig";
 
       if (this.tp == 1) {
-        url = "/manage-platform/roleSys/edit";
+        url = "/manage-platform/monitorConfig/editConfig";
       }
       this.$api.post(url, this.form,
         r => {
           console.log(r);
-          if (r.success) {
+          if (r.data.retMsg) {
             this.$message({
               message: '保存成功！',
               type: 'success'
