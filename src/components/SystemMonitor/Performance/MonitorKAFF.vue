@@ -25,7 +25,7 @@
               </div>
               <div class="" style="margin-bottom: -6px;width:60%" v-show="controlChecked==1">
                 <el-row align="center" :gutter="2">
-                  <el-col :sm="24" :md="12"  :lg="13" class="input-item">
+                  <!-- <el-col :sm="24" :md="12"  :lg="13" class="input-item">
                     <span class="input-text">分析日期：</span>
                     <div class="input-input t-flex t-date">
                         <el-date-picker
@@ -44,7 +44,7 @@
                          >
                      </el-date-picker>
                     </div>
-                  </el-col>
+                  </el-col> -->
                   <el-col :sm="24" :md="12"  :lg="9" class="input-item">
                     <span class="input-text">分发口岸：</span>
                     <el-select  placeholder="请选择"  size="mini"  class="input-input" v-model="cdt1.port" filterable clearable @visible-change="portMethod">
@@ -54,6 +54,13 @@
                       :value="item.KADM"
                       :label="item.KAMC"
                       ></el-option>
+                    </el-select>
+                  </el-col>
+                  <el-col :sm="24" :md="12"  :lg="9" class="input-item" v-show="coCheckId==2">
+                    <span class="input-text">筛选状态：</span>
+                    <el-select  placeholder="请选择"  size="mini"  class="input-input"  v-model="cdt1.average" filterable clearable>
+                      <el-option label="正常" value="2"></el-option>
+                      <el-option label="异常" value="1"></el-option>
                     </el-select>
                   </el-col>
                   <el-col :sm="24" :md="12"  :lg="2" class="input-item">
@@ -166,22 +173,28 @@
                       width="130">
                     </el-table-column>
                     <el-table-column
+                      prop="begintime"
                       label="分发开始时间"
                       width='200'>
-                      <template  slot-scope="scope">
-                        <span>{{scope.row.begintime}}</span>
-                      </template>
                     </el-table-column>
                     <el-table-column
+                      prop="endtime"
                       label="分发终止时间"
                       width='200'>
-                      <template  slot-scope="scope">
-                        <span>{{scope.row.endtime}}</span>
-                      </template>
                     </el-table-column>
                     <el-table-column
                       prop="average"
-                      label="耗时">
+                      label="耗时(毫秒)">
+                      <template  slot-scope="scope">
+                        <span :class="{'color':scope.row.average>=1000}">{{scope.row.average}}</span>
+                      </template>
+                    </el-table-column>
+                    <el-table-column
+                      label="监控状态"
+                      width="200">
+                      <template  slot-scope="scope">
+                        <span>{{scope.row.disStatus|statusDis}}</span>
+                      </template>
                     </el-table-column>
                   </el-table>
                   <div class="middle-foot">
@@ -278,7 +291,7 @@
                     </el-table-column>
                     <el-table-column
                       prop="consumetime"
-                      label="平均耗时">
+                      label="平均耗时(毫秒)">
                     </el-table-column>
                     <el-table-column
                       prop="createtimeStr"
@@ -288,6 +301,11 @@
                     <el-table-column
                       prop="createtimeStr"
                       label="统计时间"
+                      width="160">
+                    </el-table-column>
+                    <el-table-column
+                      prop="interval"
+                      label="统计区间"
                       width="160">
                     </el-table-column>
                   </el-table>
@@ -345,6 +363,7 @@ export default {
       hCurrentPage:1,
       hpageSize:10,
       hTotalResult:0,
+      typeT:0,
       value:1,
       controlChecked:1,
       coCheckId:1,
@@ -404,12 +423,12 @@ export default {
         port:''
       },
       cdt1:{
-        begin:'',
-        end:'',
+
       },
       pd:{},// 实时空信息
       pdc:{},//实时表格传折线处信息
       lineX:[],
+      lineXreal:[],
       lineY:[],
       barX:[],
       barY:[],
@@ -423,14 +442,14 @@ export default {
       this.drawLine();
       this.checkRealTime();
       let begin=new Date();
-      let beginOne=new Date();
+      // let beginOne=new Date();
       let aaaa = new Date(begin.setMonth((new Date().getMonth()-1)));
-      let cccc = new Date(beginOne.getTime()-6*60*60*1000);
+      // let cccc = new Date(beginOne.getTime()-6*60*60*1000);
       let bbbb = new Date();
       this.cdt.begin=formatDate(aaaa,'yyyyMMddhhmmss');
       this.cdt.end=formatDate(bbbb,'yyyyMMddhhmmss');
-      this.cdt1.begin=formatDate(cccc,'yyyyMMddhhmmss');
-      this.cdt1.end=formatDate(bbbb,'yyyyMMddhhmmss');
+      // this.cdt1.begin=formatDate(cccc,'yyyyMMddhhmmss');
+      // this.cdt1.end=formatDate(bbbb,'yyyyMMddhhmmss');
       // this.getList(this.CurrentPage,this.pageSize,this.cdt1);
   },
   activated() {
@@ -469,6 +488,13 @@ export default {
       if(value != null){
         return value.substring(0,19);
       }
+    },
+    statusDis(val){
+      if(val == 0){
+        return "正常"
+      }else if(val == 1){
+        return "异常"
+      }
     }
   },
   methods:{
@@ -483,11 +509,19 @@ export default {
     },
     // 实时监控分页
     pageSizeChange(val) {
-      this.getList(this.CurrentPage,val,this.cdt1);
+      if(this.typeT==1){
+        this.getList(this.CurrentPage,val,this.pdc);
+      }else{
+        this.getList(this.CurrentPage,val,this.cdt1);
+      }
       console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
-      this.getList(val,this.pageSize,this.cdt1);
+      if(this.typeT==1){
+        this.getList(val,this.pageSize,this.pdc);
+      }else{
+        this.getList(val,this.pageSize,this.cdt1);
+      }
       console.log(`当前页: ${val}`);
     },
     // 历史监控分页
@@ -554,7 +588,7 @@ export default {
              xAxis:[{
                type : 'category',
                boundaryGap : false,
-               data:this.lineX,
+               data:that.lineX,
                axisLine:{
                  lineStyle:{
                    color:'#169BD5',
@@ -606,14 +640,25 @@ export default {
                coordinateSystem:'cartesian2d',
                symbol:'emptyCircle',
                symbolSize:10,
-               data:this.lineY
+               data:that.lineY
              }]
            })
            // 点击折点渲染表格
            this.lineChart.on('click', function (params) {
              that.checked=false;
+             that.typeT=1;
+             var arrX=that.lineX;
+             var arrXreal = that.lineXreal;
              // 让表格出现
-             that.pdc.realX = params.name.split(':').join('');
+             for(var i=0;i<arrX.length;i++){
+               if(params.name == arrX[i]){
+                 var index = i;
+                 for(var j=0;j<arrXreal.length;j++){
+                   that.pdc.realX = arrXreal[index]
+                 }
+               }
+             }
+             // that.pdc.realX = params.name.split(':').join('');
              that.controlChecked=1;
              that.coCheckId=2;
              // 表格数据渲染
@@ -679,7 +724,7 @@ export default {
         }],
         series:[{
           type:'bar',
-          barWidth: '30',
+          barWidth: '10',
           data:this.barY,
           itemStyle:{
               normal:{
@@ -697,6 +742,14 @@ export default {
       //   this.hgetList(this.hCurrentPage,this.hpageSize,this.cdt);
       // })
     },
+    transform(val){
+      if(val!=""){
+        var b = val.substring(8,10);
+        var c = val.substring(10,12);
+        var d = b+':'+c;
+      }
+      return d
+    },
     // 校验比对实时监控折线图
     checkRealTime(){
       let p={
@@ -706,7 +759,17 @@ export default {
       }
       this.$api.post('/manage-platform/disPerLog/queryListPage',p,
       r =>{
-        this.lineX = r.data.pd.X;
+        if(r.success){
+          this.lineXreal = r.data.pd.X;
+          console.log(this.lineXreal);
+          var num = r.data.pd.X;
+          var arr = [];
+          for(var i=0;i<num.length;i++){
+            arr.push(this.transform(num[i]));
+          }
+          console.log(arr);
+        }
+        this.lineX = arr;
         this.lineY = r.data.pd.Y;
         this.drawLine()
       })
@@ -730,7 +793,11 @@ export default {
       if(this.coCheckId == 1){//如果当前显示图表
         this.checkRealTime();
       }else if(this.coCheckId == 2){//如果当前显示列表
-        this.getList(this.CurrentPage,this.pageSize,this.cdt1);
+        if(this.typeT==1){
+          this.getList(this.CurrentPage,this.pageSize,this.pdc);
+        }else{
+          this.getList(this.CurrentPage,this.pageSize,this.cdt1);
+        }
       }
     },
     historyq(){//重新点回性能分析时
@@ -744,6 +811,7 @@ export default {
     judgeChart(){
       this.coCheckId=1;
       if(this.controlChecked == 1){//判断实时图
+        this.typeT=0;
         this.checkRealTime();
         // this.getList(this.CurrentPage,this.pageSize,this.pd);
       }else if(this.controlChecked == 2){//判断历史表
@@ -754,6 +822,7 @@ export default {
     judgeList(){
       this.coCheckId=2;
       if(this.controlChecked == 1){//判断实时图
+        this.typeT=0;
         this.getList(this.CurrentPage,this.pageSize,this.cdt1);
       }else if(this.controlChecked == 2){//判断历史图
         this.hgetList(this.hCurrentPage,this.hpageSize,this.cdt);
@@ -767,6 +836,7 @@ export default {
       }
     },
     searchReal(){  //实时监控的查询
+      this.typeT=0;
       if(this.coCheckId==1){
         this.checkRealTime();
       }else if(this.coCheckId==2){
@@ -833,7 +903,9 @@ export default {
   padding: 20px;
   border-radius: 0 5px 5px 5px;
 }
-
+.color{
+  color: red;
+}
 </style>
 <style media="screen">
 .el-checkbox__input.is-checked .el-checkbox__inner, .el-checkbox__input.is-indeterminate .el-checkbox__inner {

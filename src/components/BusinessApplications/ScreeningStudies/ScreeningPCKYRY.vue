@@ -28,7 +28,7 @@
                    <el-date-picker
                    v-model="pd.begintime" format="yyyy-MM-dd"
                    type="date" size="small" value-format="yyyyMMdd"
-                   placeholder="开始时间"  :picker-options="pickerOptions" >
+                   placeholder="开始时间"  :picker-options="pickerOptions0" >
                  </el-date-picker>
                    <span class="septum">-</span>
                  <el-date-picker
@@ -384,7 +384,7 @@ export default {
       this.$api.post(url, p,
         r => {
           console.log(r);
-          this.tableData = r.data.resultList;
+          this.tableData = r.data;
           this.TotalResult = r.data.totalResult;
         })
 
@@ -399,7 +399,7 @@ export default {
       this.$api.post(url, p,
         r => {
           console.log(r);
-          this.tableData1 = r.data.resultList;
+          this.tableData1 = r.data;
           this.TotalResult1 = r.data.totalResult;
         })
     },
@@ -413,7 +413,7 @@ export default {
       this.$api.post(url, p,
         r => {
           console.log(r);
-          this.tableData2 = r.data.resultList;
+          this.tableData2 = r.data;
           this.TotalResult2 = r.data.totalResult;
         })
     },

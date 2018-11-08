@@ -68,7 +68,7 @@
       </el-row>
     </div>
 
-  <div class="middle" style="margin-top:20px;">
+  <div class="middle" style="margin-top:20px;" >
 
     <el-row type="flex" class="mb-6" >
       <el-col :span="24" class="ttitle">

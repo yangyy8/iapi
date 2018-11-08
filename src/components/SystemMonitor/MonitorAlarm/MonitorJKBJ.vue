@@ -16,10 +16,10 @@
                      </el-option>
                      <el-option value="1" label="1 - 业务平台区">
                      </el-option>
-                     <el-option value="2" label="2 - 整合分发区">
+                     <!-- <el-option value="2" label="2 - 整合分发区">
                      </el-option>
                      <el-option value="3" label="3 - 风险评估区">
-                     </el-option>
+                     </el-option> -->
                    </el-select>
 
                 </el-col>
@@ -30,8 +30,8 @@
                     </el-option>
                     <el-option value="DAT" label="DAT - 数据监控" >
                     </el-option>
-                    <el-option value="LOG" label="LOG - 日志监控" >
-                    </el-option>
+                    <!-- <el-option value="LOG" label="LOG - 日志监控" >
+                    </el-option> -->
                     <el-option value="PER" label="PER - 性能监控" >
                     </el-option>
                    </el-select>
@@ -105,10 +105,10 @@
                  </div>
                </template>
              </el-table-column>
-             <el-table-column
+             <!-- <el-table-column
                 prop="MTYPE"
                label="监控对象" sortable>
-             </el-table-column>
+             </el-table-column> -->
              <el-table-column
                prop="CREATETIME"
                label="报警时间" sortable>

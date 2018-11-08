@@ -79,9 +79,9 @@ export default {
     },
     fifter3(val) {
       if (val == 0) {
-        return "UP";
+        return "正常";
       } else {
-        return "DOWN";
+        return "异常";
       }
 
   }

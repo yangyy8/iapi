@@ -25,7 +25,7 @@
               </div>
               <div class="" style="margin-bottom: -6px;width: 60%;" v-show="controlChecked==1">
                 <el-row :gutter="2">
-                  <el-col :sm="24" :md="12"  :lg="13" class="input-item">
+                  <!-- <el-col :sm="24" :md="12"  :lg="13" class="input-item">
                     <span class="input-text">查询时间：</span>
                     <div class="input-input t-flex t-date">
                         <el-date-picker
@@ -44,15 +44,15 @@
                          >
                      </el-date-picker>
                     </div>
-                  </el-col>
+                  </el-col> -->
                   <el-col :sm="24" :md="12"  :lg="9" class="input-item" v-show="coCheckId==2">
                     <span class="input-text">筛选状态：</span>
-                    <el-select  placeholder="请选择"  size="mini"  class="input-input" @change="screen" v-model="cdt1.average" filterable clearable>
+                    <el-select  placeholder="请选择"  size="mini"  class="input-input"  v-model="cdt1.average" filterable clearable>
                       <el-option label="正常" value="2"></el-option>
                       <el-option label="异常" value="1"></el-option>
                     </el-select>
                   </el-col>
-                  <el-col :sm="24" :md="12"  :lg="2" class="input-item">
+                  <el-col :sm="24" :md="12"  :lg="2" class="input-item" v-show="coCheckId==2">
                     <el-button type="success" size="mini" class="ml-10" @click="searchReal">查询</el-button>
                   </el-col>
                 </el-row>
@@ -144,9 +144,9 @@
                       </template>
                     </el-table-column>
                     <el-table-column
-                      label="耗时">
+                      label="耗时(毫秒)">
                       <template  slot-scope="scope">
-                        <span>{{scope.row.average}}</span>
+                        <span :class="{'color':scope.row.average>=1000}">{{scope.row.average}}</span>
                       </template>
                     </el-table-column>
                     <el-table-column
@@ -158,7 +158,7 @@
                       label="监控状态"
                       width="200">
                       <template  slot-scope="scope">
-                        <span :class="{'color':scope.row.average>1000}">{{scope.row.status|statusDis}}</span>
+                        <span>{{scope.row.status|statusDis}}</span>
                       </template>
                     </el-table-column>
                   </el-table>
@@ -225,7 +225,11 @@
                     </el-table-column>
                     <el-table-column
                       prop="consumetime"
-                      label="平均耗时">
+                      label="平均耗时(毫秒)">
+                    </el-table-column>
+                    <el-table-column
+                      prop="interval"
+                      label="统计区间">
                     </el-table-column>
                     <el-table-column
                       prop="begintimeStr"
@@ -294,6 +298,7 @@ export default {
 
       value:1,
       state:'',
+      typeT:0,
       controlChecked:1,
       coCheckId:1,
       detailsDialogVisible:false,
@@ -345,12 +350,12 @@ export default {
         end:''
       },
       cdt1:{//实时监控传参
-        begin:'',
-        end:''
+
       },
       pd:{},// 实时空信息
       pdc:{},//实时表格传折线处信息
       lineX:[],
+      lineXreal:[],
       lineY:[],
       barX:[],
       barY:[],
@@ -363,16 +368,15 @@ export default {
   mounted() {
       this.checkRealTime();
       let begin=new Date();
-      let beginOne=new Date();
+      // let beginOne=new Date();
       let aaaa = new Date(begin.setMonth((new Date().getMonth()-1)));
-      let cccc = new Date(beginOne.getTime()-6*60*60*1000);
+      // let cccc = new Date(beginOne.getTime()-6*60*60*1000);
       let bbbb = new Date();
 
       this.cdt.begin=formatDate(aaaa,'yyyyMMddhhmmss');
       this.cdt.end=formatDate(bbbb,'yyyyMMddhhmmss');
-      this.cdt1.begin=formatDate(cccc,'yyyyMMddhhmmss');
-      this.cdt1.end=formatDate(bbbb,'yyyyMMddhhmmss');
-
+      // this.cdt1.begin=formatDate(cccc,'yyyyMMddhhmmss');
+      // this.cdt1.end=formatDate(bbbb,'yyyyMMddhhmmss');
   },
   activated(){
     this.checkRealTime();
@@ -441,25 +445,21 @@ export default {
     }
   },
   methods:{
-    aa(){
-      var arr=[];
-      for(var i=0;i<this.tableData.length;i++){
-        console.log(this.tableData[i]);
-
-        arr.push(this.tableData[i].average);
-      }
-      console.log(arr);
-    },
-    screen(){
-      this.aa();
-    },
     // 实时监控分页
     pageSizeChange(val) {
-      this.getList(this.CurrentPage,val,this.cdt1);
+      if(this.typeT==1){
+        this.getList(this.CurrentPage,val,this.pdc);
+      }else{
+        this.getList(this.CurrentPage,val,this.cdt1);
+      }
       console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
-      this.getList(val,this.pageSize,this.cdt1);
+      if(this.typeT==1){
+        this.getList(val,this.pageSize,this.pdc);
+      }else{
+        this.getList(val,this.pageSize,this.cdt1);
+      }
       console.log(`当前页: ${val}`);
     },
     // 历史监控分页
@@ -583,8 +583,19 @@ export default {
            // 点击折点渲染表格
            this.lineChart.on('click', function (params) {
              that.checked=false;
+             that.typeT=1;
+             var arrX=that.lineX;
+             var arrXreal = that.lineXreal;
              // 让表格出现
-             that.pdc.realX = params.name.split(':').join('');
+             for(var i=0;i<arrX.length;i++){
+               if(params.name == arrX[i]){
+                 var index = i;
+                 for(var j=0;j<arrXreal.length;j++){
+                   that.pdc.realX = arrXreal[index]
+                 }
+               }
+             }
+             // that.pdc.realX = params.name.split(':').join('');
              that.controlChecked=1;
              that.coCheckId=2;
              // 表格数据渲染
@@ -650,7 +661,7 @@ export default {
         }],
         series:[{
           type:'bar',
-          barWidth: '30',
+          barWidth: '10',
           data:this.barY,
           itemStyle:{
               normal:{
@@ -669,6 +680,14 @@ export default {
       //   this.hgetList(this.hCurrentPage,this.hpageSize,this.cdt);
       // })
     },
+    transform(val){
+      if(val!=""){
+        var b = val.substring(8,10);
+        var c = val.substring(10,12);
+        var d = b+':'+c;
+      }
+      return d
+    },
     // 校验比对实时监控折线图
     checkRealTime(){
       if(this.coCheckId==1){
@@ -682,7 +701,14 @@ export default {
       this.$api.post('/manage-platform/match/queryListPage',p,
       r =>{
         if(r.success){
-          this.lineX = r.data.pd.X;
+          this.lineXreal = r.data.pd.X;
+          var num = r.data.pd.X;
+          var arr = [];
+          for(var i=0;i<num.length;i++){
+            arr.push(this.transform(num[i]));
+          }
+          this.lineX = arr;
+          // this.lineX = r.data.pd.X;
           this.lineY = r.data.pd.Y;
           this.drawLine()
         }
@@ -705,9 +731,15 @@ export default {
     real(){//点击实时监控时
       this.controlChecked=1;
       if(this.coCheckId == 1){//如果当前显示图形
+        this.typeT=0;
+        console.log(this.typeT);
         this.checkRealTime();
       }else if(this.coCheckId == 2){//如果当前显示列表
-        this.getList(this.CurrentPage,this.pageSize,this.cdt1);
+        if(this.typeT==1){
+          this.getList(this.CurrentPage,this.pageSize,this.pdc);
+        }else{
+          this.getList(this.CurrentPage,this.pageSize,this.cdt1);
+        }
       }
     },
     historyq(){//点击性能分析时（历史）
@@ -721,6 +753,8 @@ export default {
     judgeChart(){//点击图形
       this.coCheckId=1;
       if(this.controlChecked == 1){//判断实时图形
+        this.typeT=0;
+        console.log(this.typeT);
         this.checkRealTime();
       }else if(this.controlChecked == 2){//判断历史图形
         this.checkHistoryTime();
@@ -729,6 +763,8 @@ export default {
     judgeList(){ //点击列表
       this.coCheckId=2;
       if(this.controlChecked == 1){//判断实时列表
+        this.typeT=0;
+        console.log(this.typeT);
         this.getList(this.CurrentPage,this.pageSize,this.cdt1);
       }else if(this.controlChecked == 2){//判断历史列表
         this.hgetList(this.hCurrentPage,this.hpageSize,this.cdt);
@@ -742,6 +778,7 @@ export default {
       }
     },
     searchReal(){  //实时监控的查询
+      this.typeT=0;
       if(this.coCheckId==1){
         this.checkRealTime();
       }else if(this.coCheckId==2){
