@@ -1,18 +1,18 @@
 // 配置API接口地址
 //var root="http://192.168.99.242:8080"    //石飞的电脑
-var root = "http://192.168.99.251:8080"    //性能监控
+// var root = "http://192.168.99.251:8080"    //性能监控
 
 // var root = "http://192.168.99.248:8181"    //性能监控
 //var root="http://192.168.99.228:8080"    //丁勇的电
-// var root="http://192.168.99.247:8080"    //任志强的电脑
+var root="http://192.168.99.247:8080"    //任志强的电脑
 // var root = 'http://192.168.99.245:8080'
 //var root="http://192.168.99.228:8080"    //丁勇的电
-// var root="http://192.168.99.206:8080"    //丁勇的电脑
+// var root="http://192.168.99.206:8080"
 // var root = 'http://192.168.99.245:8080'
  // var root="http://192.168.99.213:8080"   //服务器电脑
 //var root="http://192.168.99.228:8080
 // var root = 'http://192.168.99.201:8080'
-
+// var root="http://10.6.126.138:8088" //正式环境
 
 // 引用axios
 var axios = require('axios')
@@ -41,7 +41,7 @@ function filterNull(o) {
   return o
 }
 // 添加默认参数
-function apiAxios(method, url, params, success, failure,isLoad) {
+function apiAxios(method, url, params, success, failure,header) {
   // console.log("url",url)
   let loadingInstance1=null;
   if(!(url=='/manage-platform/nationwide/getPortDetail'||url=='/manage-platform/nationwide/getFlightDetail')){
@@ -57,7 +57,10 @@ function apiAxios(method, url, params, success, failure,isLoad) {
       data: method === 'POST' || method === 'PUT' ? params : null,
       params: method === 'GET' || method === 'DELETE' ? params : null,
       baseURL: root,
-      withCredentials: true
+      withCredentials: true,
+      headers: header||{'X-Requested-With': 'XMLHttpRequest'},
+
+      // headers: {'X-Requested-With': 'XMLHttpRequest'},
     })
     .then(function(res) {
       // console.log(res)
@@ -110,8 +113,8 @@ export default {
   get: function(url, params, success, failure) {
     return apiAxios('GET', url, params, success, failure)
   },
-  post: function(url, params, success, failure) {
-    return apiAxios('POST', url, params, success, failure)
+  post: function(url, params, success, failure,header) {
+    return apiAxios('POST', url, params, success, failure,header)
   },
   put: function(url, params, success, failure) {
     return apiAxios('PUT', url, params, success, failure)
