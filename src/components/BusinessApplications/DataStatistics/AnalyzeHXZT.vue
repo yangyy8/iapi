@@ -13,7 +13,7 @@
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">时间范围：</span>
               <div class="input-input t-flex t-date">
-                <el-date-picker
+                <el-date-picker 
                 v-model="pd.begintime" format="yyyy-MM-dd"
                v-verify.input.blur="{regs:'required',submit:'timeDemo'}"
                 type="date" size="small" value-format="yyyyMMdd"

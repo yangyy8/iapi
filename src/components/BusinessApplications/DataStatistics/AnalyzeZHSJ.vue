@@ -167,15 +167,15 @@
                   </el-table-column>
                   <el-table-column
                     prop="flttype"
-                    label="入出境方向" v-if='showtype'>
+                    label="入出境方向" v-if='show1'>
                   </el-table-column>
                   <el-table-column
                     prop="cityto"
-                    label="目的地">
+                    label="目的地" v-if='show2'>
                   </el-table-column>
                   <el-table-column
                     prop="country"
-                    label="国籍">
+                    label="国籍" v-if='show3'>
                   </el-table-column>
                   <el-table-column
                     prop="fltcount"
@@ -185,7 +185,7 @@
                     prop="checkincount"
                     label="值机校验数量">
                   </el-table-column>
-                    <el-table-column label="人员类别">
+                    <el-table-column label="人员类别" v=if='show4'>
                       <el-table-column
                         prop="chk_ptype_fl"
                         label="普通旅客">
@@ -297,7 +297,7 @@ export default {
       pickerOptions0: {
         disabledDate: (time) => {
           if (this.pd.endtime != null) {
-            let startT = formatDate(new Date(time.getTime()), 'yyyyMMdd');
+            let startT = formatDate(new Date(time.getTime()), 'yyyyMMddhhmmss');
             return startT > this.pd.endtime;
           } else if (this.pd.endtime == null) {
             return false
@@ -306,7 +306,7 @@ export default {
       },
       pickerOptions1: {
         disabledDate: (time) => {
-          let endT = formatDate(new Date(time.getTime()), 'yyyyMMdd');
+          let endT = formatDate(new Date(time.getTime()), 'yyyyMMddhhmmss');
           return endT < this.pd.begintime;
         }
       },

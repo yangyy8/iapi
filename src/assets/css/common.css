@@ -314,6 +314,9 @@ button{
 .redx{
   color: red;
 }
+.green{
+  color: rgb(75, 195, 160);
+}
 .mt-5{
   margin-bottom: 5!important;
 

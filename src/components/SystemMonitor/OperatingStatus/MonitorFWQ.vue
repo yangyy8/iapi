@@ -61,6 +61,14 @@
               label="网络流量（出）(%)"
               sortable
             >
+           </el-table-column>
+            <el-table-column
+             label="状态" width="80">
+             <template slot-scope="scope">
+               <div class="yycolor" id='yy1'>
+                 {{scope.row.netStat | fiftersate }}
+               </div>
+             </template>
             </el-table-column>
             <el-table-column
               label="文件系统"
@@ -138,6 +146,15 @@
                label="网络流量（出）(%)"
               sortable
              >
+             </el-table-column>
+             <el-table-column
+
+              label="状态" width="80">
+              <template slot-scope="scope">
+                <div class="yycolor" id='yy2'>
+                  {{scope.row.netStat | fiftersate }}
+                </div>
+              </template>
              </el-table-column>
              <el-table-column
                label="文件系统"
@@ -272,6 +289,15 @@ export default {
           return "其他服务器"
       }
     },
+    fiftersate(val){
+      if(val=="0"){
+
+        return "正常"
+      }else {
+    
+        return "异常"
+      }
+    }
 
   }
 
@@ -318,6 +344,8 @@ export default {
 .fileline {
   border-right: 1px solid #ffffff;
 }
+.yycolor{ width: 60px; height: 30px; background: #00FF00; line-height: 30px;}
+.yycolory{ width: 60px; height: 30px; background: #FF0000; line-height: 30px;}
 </style>
 <style media="screen">
 .el-table_1_column_9 .cell {

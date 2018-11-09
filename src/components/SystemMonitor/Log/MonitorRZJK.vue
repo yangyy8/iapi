@@ -13,9 +13,9 @@
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">监控区域：</span>
               <el-select v-model="pd.synFlag" placeholder="请选择" filterable  size="small"   class="input-input">
-                <el-option value="0" label="DMZ区" >
+                <el-option value="0" label="0 - DMZ区" >
                 </el-option>
-                 <el-option value="" label="业务平台区" >
+                 <el-option value="" label="1 - 业务平台区" >
                  </el-option>
                </el-select>
             </el-col>

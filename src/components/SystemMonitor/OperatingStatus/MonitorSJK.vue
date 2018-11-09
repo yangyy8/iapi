@@ -26,7 +26,7 @@
        </div>
   <div class="middle">
     <el-row>
- <el-col :span="12" class="left">
+ <el-col :span="24">
     <div class="yy-title">实例状态监控</div>
    <el-table
      :data="tableData"
@@ -103,52 +103,52 @@
 
    </el-table>
 
+   <!-- <el-col :span="12" class="right"> -->
+        <div class="yy-title">表空间监控</div>
+     <el-table
+       :data="tableData2"
+       border
+       style="width: 100%;"
+      >
+               <el-table-column
+                 label="区域" sortable
+               >
+               <template slot-scope="scope">
+                 <div class="">
+                   {{scope.row.zone | fifter1}}
+                 </div>
+               </template>
+               </el-table-column>
+               <el-table-column
+                 prop="tablespaceName"
+                 label="表空间名称" sortable
+               >
+               </el-table-column>
+               <el-table-column
+                 prop="total"
+                 label="总量" sortable
+               >
+               </el-table-column>
+               <el-table-column
+                 prop="used"
+                 label="使用量" sortable
+               >
+               </el-table-column>
+               <el-table-column
+                 prop="free"
+                 label="剩余量" sortable
+               >
+               </el-table-column>
+               <el-table-column
+                 prop="percent"
+                 label="使用率" sortable
+               >
+               </el-table-column>
 
+     </el-table>
+   <!-- </el-col> -->
  </el-col>
- <el-col :span="12" class="right">
-      <div class="yy-title">表空间监控</div>
-   <el-table
-     :data="tableData2"
-     border
-     style="width: 100%;"
-    >
-             <el-table-column
-               label="区域" sortable
-             >
-             <template slot-scope="scope">
-               <div class="">
-                 {{scope.row.zone | fifter1}}
-               </div>
-             </template>
-             </el-table-column>
-             <el-table-column
-               prop="tablespaceName"
-               label="表空间名称" sortable
-             >
-             </el-table-column>
-             <el-table-column
-               prop="total"
-               label="总量" sortable
-             >
-             </el-table-column>
-             <el-table-column
-               prop="used"
-               label="使用量" sortable
-             >
-             </el-table-column>
-             <el-table-column
-               prop="free"
-               label="剩余量" sortable
-             >
-             </el-table-column>
-             <el-table-column
-               prop="percent"
-               label="使用率" sortable
-             >
-             </el-table-column>
 
-   </el-table>
- </el-col>
 </el-row>
 
   </div>

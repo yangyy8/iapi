@@ -258,6 +258,7 @@ export default {
     nav1to2(nav1Id,click) {
       this.nav1Id=nav1Id;
       this.$router.push({query:{nav1Id:nav1Id}})
+      console.log(nav1Id)
       let _this=this;
       for(var i=0;i<this.nav1List.length;i++){
         var a=_this.nav1List[i];
@@ -314,10 +315,10 @@ export default {
         let _this=this;
         setTimeout(function(){
           _this.$router.push({params: {navId:nav2Item.rootId}});
-
+          _this.getNav(nav2Item.rootId)
         },400)
 
-        this.getNav(nav2Item.rootId)
+
       }
 
       this.nav1Id = nav2Item.parentId;
@@ -400,12 +401,16 @@ export default {
     },
     // 顶部菜单跳转================================
     topNavTo(SERIAL){
-      // console.log(this.$route.params.navId,SERIAL)
+      console.log(this.$route.params.navId,SERIAL)
       if(this.$route.params.navId==SERIAL)return;
       this.navId=SERIAL;
       console.log("顶部菜单跳转",SERIAL)
       this.$router.push({params: {navId:SERIAL}});
-      this.getNav(SERIAL);
+      console.log("this.$route.params.navId",this.$route.params.navId)
+      let _this=this;
+      setTimeout(function(){
+        _this.getNav(SERIAL);
+      },500)
       // this.tabList=[];
     },
     logOut(){

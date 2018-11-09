@@ -18,7 +18,7 @@
                <el-date-picker
                v-model="pd.BEGINDATE" format="yyyy-MM-dd HH:mm:ss"
                type="datetime" size="small" value-format="yyyyMMddHHmmss"
-               placeholder="开始时间"  :picker-options="pickerOptions" >
+               placeholder="开始时间"  :picker-options="pickerOptions0" >
              </el-date-picker>
                <span class="septum">-</span>
              <el-date-picker
@@ -47,20 +47,20 @@
         style="width: 100%;"
         >
         <el-table-column
-          prop="LABELTYPE_NAME"
+          prop="NAME"
           label="字典名称">
         </el-table-column>
          <el-table-column
-          prop="NAME"
+          prop="DESCRIBE"
           label="字典描述"
           >
         </el-table-column>
         <el-table-column
-          prop="CREATEUSER"
+          prop="DETAILSCOUNT"
           label="指标数量">
         </el-table-column>
         <el-table-column
-          prop="CREATETIME"
+          prop="CREATEUSERNAME"
           label="创建人">
         </el-table-column>
         <el-table-column
@@ -68,7 +68,7 @@
           label="创建时间">
         </el-table-column>
         <el-table-column
-          label="操作" width="300">
+          label="操作" width="350">
           <template slot-scope="scope">
 
               <el-button class="table-btn" size="mini" plain icon="el-icon-edit" @click="adds(1,scope.row)">编辑</el-button>
@@ -290,10 +290,10 @@ export default {
         "showCount": showCount,
         "pd": pd
       };
-      this.$api.post('/manage-platform/roleSys/selectPara', p,
+      this.$api.post('/manage-platform/riskDictionaries/getRiskDictionariesPage', p,
         r => {
-          this.tableData = r.data.roleList.pdList;
-          this.TotalResult = r.data.roleList.totalResult;
+          this.tableData = r.data.resultList;
+          this.TotalResult = r.data.totalResult;
         })
     },
     queryNationality() {
@@ -313,6 +313,7 @@ export default {
         this.form=Object.assign({}, i);
         this.dialogText="编辑";
       }else {
+        this.tp=0;
         this.dialogText="新增";
       }
     },
@@ -324,9 +325,9 @@ export default {
                } else {
                }
             }
-      var url = "/manage-platform/roleSys/save";
+      var url = "/manage-platform/riskDictionaries/addRiskDictionaries";
       if (this.tp == 1) {
-        url = "/manage-platform/roleSys/edit";
+        url = "/manage-platform/riskDictionaries/updateRiskDictionaries";
       }
       this.$api.post(url, this.form,
         r => {
@@ -354,14 +355,14 @@ export default {
     },
     deletes(i) {
       let p = {
-        "SERIAL": i.SERIAL
+        "id": i.SERIAL
       };
       this.$confirm('您是否确认删除此角色？', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.$api.post('/manage-platform/roleSys/delete', p,
+        this.$api.post('/manage-platform/riskDictionaries/deleteRiskDictionaries', p,
           r => {
             if (r.success) {
               this.$message({
@@ -382,44 +383,8 @@ export default {
         });
       });
     },
-    menus(i) {
-      this.menuDialogVisible = true;
-      this.sertail=i.SERIAL;
-      let p = {
-        "SERIAL": i.SERIAL
-      };
-      this.$api.post('/manage-platform/roleSys/goEditJuri', p,
-        r => {
-          console.log(r);
-          if (r.success) {
-            this.menudata = r.data.userTreeOne;
-            let arr=r.data.userTreeOne,that=this;
-          this.defaultChecked=r.data.checkList;
-          }
-        })
-    },
-menuItem(){
-  let checkList=this.$refs.tree.getCheckedNodes();
-  //let checkList=this.$refs.tree.getCheckedKeys();
-  let p={
-    // menuList:this.menudata,
-   "ROLE_ID":this.sertail,
-    checkList:checkList
-  }
-  this.$api.post('/manage-platform/roleSys/editJuri', p,
-    r => {
-      console.log(r);
-      if (r.success) {
-        this.$message({
-          type: 'success',
-          message: '保存成功'
-        });
-      }else{
-  this.$message.error('保存失败');
-      }
-    })
-        this.menuDialogVisible = false;
-},
+
+
   },
   filters: {
     fifterstatus(val) {
