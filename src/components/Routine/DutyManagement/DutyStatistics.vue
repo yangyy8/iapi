@@ -6,9 +6,9 @@
       </div>
       <el-row type="flex" style="height:100%" v-show="page==0">
         <el-col :span="22" class="br flex-c pr-20">
-          <el-row align="center" :gutter="10">
+          <el-row align="center" style="width:50%">
             <el-col :sm="24" :md="12" :lg="12" class="input-item">
-              <span class="input-text"><i class="t-must">*</i>值班月份</span>
+              <span class="input-text ttt"><i class="t-must">*</i>值班月份：</span>
               <div class="input-input">
                  <el-date-picker
 
@@ -17,7 +17,8 @@
                  size="small"
                  value-format="yyyyMM"
                  format="yyyy-MM"
-                 placeholder="统计月份">
+                 placeholder="统计月份"
+                 class="input-inp">
                 </el-date-picker>
               </div>
             </el-col>
@@ -52,17 +53,17 @@
           </el-row>
         </el-col>
         <el-col :span="2" class="down-btn-area">
-          <el-button type="success" size="small" @click="getList(CurrentPage,pageSize,cdt1)">查询</el-button>
+          <el-button type="success" size="small" @click="getGraph(cdt)">查询</el-button>
         </el-col>
       </el-row>
       <el-row type="flex" style="height:100%" v-show="page==1">
         <el-col :span="22" class="br flex-c pr-20">
-          <el-row align="center" :gutter="10">
+          <el-row align="center" style="width:50%">
             <el-col :sm="24" :md="12" :lg="12" class="input-item">
-              <span class="input-text"><i class="t-must">*</i>值班月份</span>
+              <span class="input-text"><i class="t-must">*</i>值班月份：</span>
               <div class="input-input">
                  <el-date-picker
-
+                 v-verify.input.blur="{regs:'required',submit:'timeDemo1'}"
                  v-model="cdt1.TIME"
                  type="date"
                  size="small"
@@ -184,14 +185,20 @@
         </div>
         <div id="div2" v-show="page==0">
           <el-row align="center">
-              <!-- <table>
+              <table class="t-table">
                 <thead>
-                  <tr>
-                    <th></th>
+                  <tr class="t-th">
+                    <th v-for="item in tableHeader">{{item}}</th>
                   </tr>
                 </thead>
-              </table> -->
-              333333333333
+                <tbody>
+                  <tr v-for="item in parseInt(tableBody.length/7)">
+                    <td>
+                      111
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
           </el-row>
         </div>
     </div>
@@ -230,8 +237,15 @@ export default {
       pageSize: 10,
       TotalResult: 0,
       page:0,
-      cdt:{},
-      cdt1:{},
+      cdt:{
+        TIME:''
+      },
+      cdt1:{
+        TIME:''
+      },
+
+      tableHeader:[],
+      tableBody:[],
       pd: {
         "isBlurred":false,
         departdateBegin:'',
@@ -261,9 +275,10 @@ export default {
   let time = new Date();
   let end = new Date();
   let begin =new Date(time - 1000 * 60 * 60 * 24 * 30);
-  this.pd.departdateBegin=formatDate(begin,'yyyyMMddhhmm');
-  this.pd.departdateEnd=formatDate(end,'yyyyMMddhhmm');
-  this.getList(this.CurrentPage, this.pageSize, this.cdt1);
+  this.cdt.TIME=formatDate(time,'yyyyMM');
+  this.cdt1.TIME=formatDate(end,'yyyyMM');
+  this.getGraph(this.cdt1);
+  // this.getList(this.CurrentPage, this.pageSize, this.cdt1);
 
   },
   activated(){
@@ -272,6 +287,7 @@ export default {
   methods: {
     qq(){
       this.page=0;
+      this.getGraph(this.cdt);
     },
     handleSelectionChange(val) {
     this.multipleSelection = val;
@@ -288,17 +304,10 @@ export default {
       console.log(`当前页: ${val}`);
     },
     getList(currentPage, showCount, pd) {
-      console.log(111111111);
-      // if(dayGap(this.pd.departdateBegin,this.pd.departdateEnd,0)>30){
-      //   this.$alert('查询时间间隔不能超过一个月', '提示', {
-      //     confirmButtonText: '确定',
-      //   });
-      //   return false
-      // }
-      // const result = this.$validator.verifyAll('timeDemo')
-      //  if (result.indexOf(false) > -1) {
-      //    return
-      //  }
+      const result = this.$validator.verifyAll('timeDemo1')
+       if (result.indexOf(false) > -1) {
+         return
+       }
       let p = {
         "currentPage": currentPage,
         "showCount": showCount,
@@ -311,8 +320,18 @@ export default {
           this.TotalResult = r.data.totalResult;
         })
     },
-    getGraph(){
-
+    getGraph(pd){
+      // const result = this.$validator.verifyAll('timeDemo')
+      //  if (result.indexOf(false) > -1) {
+      //    return
+      //  }
+      this.$api.post('/manage-platform/watch/queryCensusGraph', this.cdt,
+        r => {
+          if(r.success){
+            this.tableHeader = r.data.HEADER;
+            this.tableBody = r.data.CONTENT;
+          }
+        })
     },
     details(row){
       this.detailsDialogVisible = true;
@@ -402,5 +421,20 @@ export default {
 }
 .tubiao{
 width:100px; padding:6px 15px;  border:1px solid #56A8FE;
+}
+.ttt{
+  width:40%!important;
+}
+.t-table{
+  width: 100%;
+  /* border:1px solid #ccc; */
+}
+.t-table tr th{
+  /* border-right: 1px solid #ccc; */
+  padding: 0px!important;
+  box-sizing: border-box;
+}
+.t-th{
+  background-color: #F4F4F4;
 }
 </style>

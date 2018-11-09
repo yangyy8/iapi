@@ -770,6 +770,12 @@ export default new Router({
           name: "ModelUse",
           component: resolve => require(['@/components/RiskAssessment/StatisticalAnalysis/ModelUse'], resolve),
         },
+        //定制化首页 HomePage
+        {
+          path: "HomePage",
+          name: "HomePage",
+          component: resolve => require(['@/components/RiskAssessment/StatisticalAnalysis/HomePage'], resolve),
+        },
       ]
     }
   ]
