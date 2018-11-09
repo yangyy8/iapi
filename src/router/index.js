@@ -715,9 +715,9 @@ export default new Router({
         },
         //模型测试管理
         {
-          path: "Testmanagement",
-          name: "Testmanagement",
-          component: resolve => require(['@/components/RiskAssessment/Management/Testmanagement'], resolve),
+          path: "TestManagement",
+          name: "TestManagement",
+          component: resolve => require(['@/components/RiskAssessment/Management/TestManagement'], resolve),
         },
         //模型审批管理
         {
