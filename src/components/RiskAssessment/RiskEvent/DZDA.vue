@@ -1,32 +1,11 @@
 <template lang="html">
   <div class="bjsjck">
-    <!-- <div class="top mb-2">
-      事件编号：349082340982342348(客户提供唯一编码业务或方法)
-    </div> -->
+
     <div class="middle">
       <el-row :gutter="10">
-        <!-- <el-col :span="3">
-          <div class="bjsj-l">
-            <img src="../../../assets/img/bp_ap/ph_s.png" alt="" style="width:100%;">
-            <span class="mb-2">综合风险等级</span>
-            <el-rate :value="3" disabled class="mb-9"></el-rate>
-            <el-button type="primary" size="small" class="mb-9" style="width:100%">电子归档</el-button>
-            <el-button type="primary" size="small" class="mb-9" style="width:100%">综合查询</el-button>
-            <el-button type="primary" size="small" class="mb-9" style="width:100%">照片比对</el-button>
-            <el-button type="success" size="small" style="width:100%">事件归档</el-button>
-          </div>
-        </el-col> -->
+
         <el-col :span="24">
-          <!-- <div class="ak-tab">
-            <div class="ak-tabs">
-              <div class="ak-tab-item hand" :class="{'ak-checked':page==0}" @click="page=0">
-                风评信息
-              </div>
-              <div class="ak-tab-item hand" :class="{'ak-checked':page==1}" @click="page=1;">
-                核查信息
-              </div>
-            </div>
-          </div> -->
+
           <div class="middle">
             <div class="boder1 pb-10">
               <el-row :gutter="10">
@@ -44,31 +23,31 @@
                   <el-row class="middle-msg-row" :gutter="4">
                     <el-col :span="8">
                       <span>姓名：</span>
-                      张某某
+                      {{data0.NAME}}
                     </el-col>
                     <el-col :span="8">
                       <span>国籍/地区：</span>
-                      张某某
+                      {{data0.NATIONALITY_NAME}}
                     </el-col>
                     <el-col :span="8">
                       <span>出入类型：</span>
-                      风评次数
+                      {{data0.FLIGHTTYPE_NAME}}
                     </el-col>
                     <el-col :span="8">
                       <span>性别：</span>
-                      张某某
+                      {{data0.GENDER_NAME}}
                     </el-col>
                     <el-col :span="8">
                       <span>证件号码：</span>
-                      张某某
+                      {{data0.PASSPORTNO}}
                     </el-col>
                     <el-col :span="8">
                       <span>风评结果：</span>
-                      张某某
+                      {{data0.NEWCHECKRESULT}}
                     </el-col>
                     <el-col :span="8">
                       <span>出生日期：</span>
-                      张某某
+                      {{data0.BIRTHDAY}}
                     </el-col>
                   </el-row>
                   <div class="ak-tip">
@@ -77,19 +56,9 @@
                     <span class="tag0"></span>失效标签
                   </div>
                   <div class="">
-                    <el-tag type="warning" size="small">标签四</el-tag>
-                    <el-tag type="warning" size="small">标签四</el-tag>
-                    <el-tag type="warning" size="small">标签四</el-tag>
-                    <el-tag type="warning" size="small">标签四</el-tag>
-                    <el-tag type="warning" size="small">标签四</el-tag>
-                    <el-tag type="warning" size="small">标签四</el-tag>
-                    <el-tag type="warning" size="small">标签四</el-tag>
-                    <el-tag type="info" size="small">标签三</el-tag>
-                    <el-tag type="info" size="small">标签三</el-tag>
-                    <el-tag type="info" size="small">标签三</el-tag>
-                    <el-tag type="info" size="small">标签三</el-tag>
-                    <el-tag type="info" size="small">标签三</el-tag>
-                    <el-tag type="info" size="small">标签三</el-tag>
+                    <el-tag type="warning" size="small" class="mr-5" v-for="(x,ind) in dataTag.validList" :key="ind" v-if="x.OPERATION_TYPE==1">{{x.TAG_NAME}}</el-tag>
+                    <el-tag type="info" size="small" class="mr-5" v-for="(x,ind) in dataTag.validList" :key="ind" v-if="x.OPERATION_TYPE==2">{{x.TAG_NAME}}</el-tag>
+
                     <el-button type="text" size="small" @click="moreShow=true" v-if="!moreShow">查看更多 ></el-button>
                     <el-button type="text" size="small" @click="moreShow=false" v-if="moreShow">收起<</el-button>
                   </div>
@@ -103,94 +72,34 @@
                 标签详细信息 <i class="el-icon-d-caret"></i>
               </div>
               <div v-if="box1">
-                <div class="box1-content mb-9">
-                  <el-tag type="warning" size="small">维吾尔族人员</el-tag>
+                <div class="box1-content mb-9" v-for="(a,ind) in data1.particularsList" :key="ind">
+                  <el-tag type="warning" size="small" v-if="a.operation_type==1">{{a.tag_name}}</el-tag>
+                  <el-tag type="info" size="small" v-if="a.operation_type==2">{{a.tag_name}}</el-tag>
+
                   <div class="gc-box">
-                    <span>标签描述：</span>外籍畲江重点关注人员外籍畲江重点关注人员外籍畲江重点关注人员外籍畲江重点关注人员外籍畲江重点关注人员
+                    <span>标签描述：</span>{{a.tag_remar}}
                   </div>
                   <div class="gc-box">
                     <span>过程：</span>
                     <div class="gc-r-box">
-                      <div class="step-box">
-                        <div class="step-time mr-5 tc-333">2018-09-21</div>
+                      <div class="step-box" v-for="(x,y) in a.list" :key="y">
+                        <div class="step-time mr-5 tc-333">{{x.CREATETIME.slice(0,10)}}</div>
                         <div class="mr-15 step-icon">
                           <div class="step-dot"></div>
                           <div class="step-line"></div>
                         </div>
                         <ul class="step-content">
                           <li>
-                            <span class="step-t">审批人：</span><span class="mr-30">李先生</span>
-                            <span>审批结果：</span><span class="tc-o">生效</span>
+                            <span class="step-t">添加人：</span><span class="mr-30">{{x.USERID}}</span>
+                            <span>添加状态：</span><span class="tc-o">{{x.ADD_TAGTYPE}}</span>
                           </li>
                           <li>
                             <span class="step-t">原因：</span>
-                            经过查询，因为什么什么什么什么
+                            {{x.TAG_REMAR}}
                           </li>
                         </ul>
                       </div>
-                      <div class="step-box">
-                        <div class="step-time mr-5 tc-333">2018-09-21</div>
-                        <div class="mr-15 step-icon">
-                          <div class="step-dot"></div>
-                          <div class="step-line"></div>
-                        </div>
-                        <ul class="step-content">
-                          <li>
-                            <span class="step-t">审批人：</span><span class="mr-30">李先生</span>
-                            <span>审批结果：</span><span class="tc-o">生效</span>
-                          </li>
-                          <li>
-                            <span class="step-t">原因：</span>
-                            经过查询，因为什么什么什么什么
-                          </li>
-                        </ul>
-                      </div>
-                      <el-button type="text" size="small" class="gc-more">查看更多</el-button>
-                    </div>
-                  </div>
-                </div>
-                <div class="box1-content mb-9">
-                  <el-tag type="info" size="small">维吾尔族人员</el-tag>
-                  <div class="gc-box">
-                    <span>标签描述：</span>外籍畲江重点关注人员外籍畲江重点关注人员外籍畲江重点关注人员外籍畲江重点关注人员外籍畲江重点关注人员
-                  </div>
-                  <div class="gc-box">
-                    <span>过程：</span>
-                    <div class="gc-r-box">
-                      <div class="step-box">
-                        <div class="step-time mr-5 tc-333">2018-09-21</div>
-                        <div class="mr-15 step-icon">
-                          <div class="step-dot"></div>
-                          <div class="step-line"></div>
-                        </div>
-                        <ul class="step-content">
-                          <li>
-                            <span class="step-t">审批人：</span><span class="mr-30">李先生</span>
-                            <span>审批结果：</span><span class="tc-o">生效</span>
-                          </li>
-                          <li>
-                            <span class="step-t">原因：</span>
-                            经过查询，因为什么什么什么什么
-                          </li>
-                        </ul>
-                      </div>
-                      <div class="step-box">
-                        <div class="step-time mr-5 tc-333">2018-09-21</div>
-                        <div class="mr-15 step-icon">
-                          <div class="step-dot"></div>
-                          <div class="step-line"></div>
-                        </div>
-                        <ul class="step-content">
-                          <li>
-                            <span class="step-t">审批人：</span><span class="mr-30">李先生</span>
-                            <span>审批结果：</span><span class="tc-o">生效</span>
-                          </li>
-                          <li>
-                            <span class="step-t">原因：</span>
-                            经过查询，因为什么什么什么什么
-                          </li>
-                        </ul>
-                      </div>
+
                       <el-button type="text" size="small" class="gc-more">查看更多</el-button>
                     </div>
                   </div>
@@ -204,38 +113,49 @@
               <div class="title-green hand mt-10" @click="box2=!box2">
                 风险评估信息 <i class="el-icon-d-caret"></i>
               </div>
-              <div v-if="box2" >
+              <div v-if="box2">
                 <el-table
-                  :data="tableData1"
+                  :data="data2"
                   class="ak-table1"
                   style="width: 100%">
                   <el-table-column
                     label="序号"
+                    type="index"
                     width="70">
                   </el-table-column>
                   <el-table-column
-                    label="处理时间">
+                    label="处理时间"
+                    prop="PROCESSOR_TIME">
                   </el-table-column>
                   <el-table-column
-                    label="中心/口岸">
+                    label="中心/口岸"
+                    prop="CENTRE_PORT">
                   </el-table-column>
                   <el-table-column
-                    label="结果">
+                    label="结果"
+                    prop="NEWCHECKRESULT">
                   </el-table-column>
                   <el-table-column
-                    label="追加描述">
+                    label="追加描述"
+                    prop="PROCESSOR_TIME">
                   </el-table-column>
                   <el-table-column
-                    label="处理人">
+                    label="处理人"
+                    prop="PROCESSOR_PEOPLE">
                   </el-table-column>
                   <el-table-column
-                    label="联系方式">
+                    label="联系方式"
+                    prop="PROCESSOR_TIME">
                   </el-table-column>
                   <el-table-column
-                    label="单位">
+                    label="单位"
+                    prop="PROCESSOR_TIME">
                   </el-table-column>
                   <el-table-column
                     label="操作">
+                    <template slot-scope="scope">
+                      <el-button type="text" class="a-btn" icon="el-icon-view" title="事件处理查看" ></el-button>
+                    </template>
                   </el-table-column>
                 </el-table>
                 <div class="box1-more">
@@ -250,59 +170,28 @@
               <div v-if="box3">
                 <div class="box2-content mb-9 pl-20">
                   <el-row class="middle-msg-row2" :gutter="2">
-                    <el-col :span="8">
+                    <el-col :span="8" v-for="(x,ind) in data3" :key="ind">
                       <div class="">
                         <div class="da-box">
                           <span class="da-dot"></span><span>查询人：</span>
-                          张某某
+                          {{x.NAME}}
                         </div>
                         <div>
                           <span>查询时间：</span>
-                          张某某
+                          {{x.CREATETIME}}
                         </div>
                         <div :span="6">
                           <span>单位：</span>
-                          张
+                          {{x.DEPT}}
                         </div>
                       </div>
                     </el-col>
-                    <el-col :span="8">
-                      <div class="">
-                        <div class="da-box">
-                          <span class="da-dot"></span><span>查询人：</span>
-                          张某某
-                        </div>
-                        <div>
-                          <span>查询时间：</span>
-                          张某某
-                        </div>
-                        <div :span="6">
-                          <span>单位：</span>
-                          张
-                        </div>
-                      </div>
-                    </el-col>
-                    <el-col :span="8">
-                      <div class="">
-                        <div class="da-box">
-                          <span class="da-dot"></span><span>查询人：</span>
-                          张某某
-                        </div>
-                        <div>
-                          <span>查询时间：</span>
-                          张某某
-                        </div>
-                        <div :span="6">
-                          <span>单位：</span>
-                          张
-                        </div>
-                      </div>
-                    </el-col>
+
                   </el-row>
                 </div>
-                <div class="box1-more">
+                <!-- <div class="box1-more">
                   <el-button type="text">展开更多 ﹀</el-button>
-                </div>
+                </div> -->
               </div>
             </div>
             <div class="boder1 pb-10">
@@ -1174,30 +1063,29 @@
 export default {
   data(){
     return{
-      user:null,
+      user:{},
       moreShow:false,
-      box1:true,
-      box2:true,
-      box3:true,
-      box4:true,
-      box5:true,
-      box6:true,
-      box7:true,
-      box8:true,
-      box9:true,
-      box10:true,
-      box11:true,
-      box12:true,
-      box13:true,
-      box14:true,
-      box15:true,
-      box16:true,
-      box17:true,
-      box18:true,
-      box19:true,
-      box20:true,
+      box1:false,
+      box2:false,
+      box3:false,
+      box4:false,
+      box5:false,
+      box6:false,
+      box7:false,
+      box8:false,
+      box9:false,
+      box10:false,
+      box11:false,
+      box12:false,
+      box13:false,
+      box14:false,
+      box15:false,
+      box16:false,
+      box17:false,
+      box18:false,
+      box19:false,
+      box20:false,
 
-      tableData1:null,
       tableData2:null,
       tableData3:null,
       tableData4:null,
@@ -1217,44 +1105,137 @@ export default {
       tableData18:null,
       tableData19:null,
 
+      data0:{},
+      dataTag:{},
+      data1:{},
+      data2:[],
+      data3:[],
+      data5:[]
     }
   },
   mounted(){
-    this.getUers();
 
   },
   activated(){
-    this.box2=true;
     this.nationality=this.$route.query.nationality;
     this.passportno=this.$route.query.passportno;
-    this.saveRiskQueryRecordLogInfo();
+    this.getUsers();
+    this.getUserBaseInfo();
+    this.getUserTagInfo();
   },
   methods:{
-    getUers(){
+    getUsers(){
       this.$api.post('/manage-platform/sysUserInfoController/querySysUserInfo',{},
        r => {
-        // console.log(r)
         this.user=r.data;
+        console.log(this.user.userId)
+        this.saveRiskQueryRecordLogInfo();
+
       })
     },
     saveRiskQueryRecordLogInfo(){
+      console.log(this.user.userId)
       let p={
       	"nationality":this.nationality,
       	"passportno":this.passportno,
       	"userId":this.user.userId
       }
       this.$api.post('/manage-platform/riskRecordController/saveRiskQueryRecordLogInfo',p,
-       r => {})
+       r => {
+         if(r.success){
+           console.log("保存成功")
+         }
+       })
     },
-    // saveRiskQueryRecordLogInfo(){
-    //   let p={
-    //   	"nationality":this.nationality,
-    //   	"passportno":this.passportno,
-    //   	"userId":this.user.userId
-    //   }
-    //   this.$api.post('/manage-platform/riskRecordController/saveRiskQueryRecordLogInfo',p,
-    //    r => {})
-    // },
+    // 获取用户基础信息
+    getUserBaseInfo(){
+      let p={
+      	"nationality":this.nationality,
+      	"passportno":this.passportno,
+      }
+      this.$api.post('/manage-platform/riskRecordController/getUserBaseInfo',p,
+       r => {
+         this.data0=r.data
+       })
+    },
+    // 获取用户标签信息
+    getUserTagInfo(){
+      let p={
+        "nationality":this.nationality,
+        "passportno":this.passportno,
+      }
+      this.$api.post('/manage-platform/riskRecordController/getUserTagInfo',p,
+       r => {
+         this.dataTag=r.data
+       })
+    },
+
+    // 获取标签详细信息
+    getRecordTagInfo(){
+      let p={
+        "nationality":this.nationality,
+        "passportno":this.passportno,
+      }
+      this.$api.post('/manage-platform/riskRecordController/getRecordTagInfo',p,
+       r => {
+         this.data1=r.data
+       })
+    },
+    // 风险评估信息
+    getRiskEventInfo(){
+      let p={
+        "nationality":this.nationality,
+        "passportno":this.passportno,
+      }
+      this.$api.post('/manage-platform/riskRecordController/getRiskEventInfo',p,
+       r => {
+         this.data2=r.data
+       })
+    },
+    // 获取前三个查询该电子档案人员记录
+    getQueryRiskRecordUserInfo(){
+      let p={
+        "nationality":this.nationality,
+        "passportno":this.passportno,
+      }
+      this.$api.post('/manage-platform/riskRecordController/getQueryRiskRecordUserInfo',p,
+       r => {
+         this.data3=r.data
+       })
+    },
+    // 户籍信息接口
+    getCensusInfo(){
+      let p={
+        "nationality":this.nationality,
+        "passportno":this.passportno,
+      }
+      this.$api.post('/manage-platform/riskRecordController/getCensusInfo',p,
+       r => {
+         this.data5=r.data
+       })
+    },
+  },
+  watch:{
+    box1:function(val){
+      if(val){
+        this.getRecordTagInfo();
+      }
+    },
+    box2:function(val){
+      if(val){
+        this.getRiskEventInfo();
+      }
+    },
+    box3:function(val){
+      if(val){
+        this.getQueryRiskRecordUserInfo();
+      }
+    },
+    box5:function(val){
+      if(val){
+        this.getCensusInfo();
+      }
+    }
   }
 }
 </script>
