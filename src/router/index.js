@@ -660,8 +660,8 @@ export default new Router({
         },
         // 电子档案查询
         {
-          path: "FileDZDACX",
-          name: "FileDZDACX",
+          path: "FileDZDA",
+          name: "FileDZDA",
           component: resolve => require(['@/components/RiskAssessment/RiskEvent/FileDZDACX'], resolve),
         },
         // 电子档案
