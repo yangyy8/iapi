@@ -22,7 +22,7 @@
               <div class="ak-tab-item hand" :class="{'ak-checked':page==0}" @click="page=0">
                 风评信息
               </div>
-              <div class="ak-tab-item hand" :class="{'ak-checked':page==1}" @click="page=1;">
+              <div class="ak-tab-item hand" :class="{'ak-checked':page==1}" @click="page=1">
                 核查信息
               </div>
             </div>
@@ -89,8 +89,8 @@
                 <span class="tag0"></span>失效标签
               </div>
               <div class="">
-                <el-tag type="warning" size="small" class="mr-5" v-for="(x,ind) in box1Data" :key="ind" v-if="x.OPERATION_TYPE==1">{{x.TAG_NAME}}</el-tag>
-                <el-tag type="info" size="small" class="mr-5" v-for="(x,ind) in box1Data" :key="ind" v-if="x.OPERATION_TYPE==2">{{x.TAG_NAME}}</el-tag>
+                <el-tag type="warning" size="small" class="mr-5" v-for="(x,ind) in box1Data.validList" :key="ind" v-if="x.OPERATION_TYPE==1">{{x.TAG_NAME}}</el-tag>
+                <el-tag type="info" size="small" class="mr-5" v-for="(x,ind) in box1Data.validList" :key="ind" v-if="x.OPERATION_TYPE==2">{{x.TAG_NAME}}</el-tag>
 
                 <el-button type="text" size="small" @click="moreShow=true" v-if="!moreShow">查看更多 ></el-button>
                 <el-button type="text" size="small" @click="moreShow=false" v-if="moreShow">收起<</el-button>
@@ -102,98 +102,39 @@
                 标签详细信息 <i class="el-icon-d-caret"></i>
               </div>
               <div v-if="box1">
-                <div class="box1-content mb-9">
-                  <el-tag type="warning" size="small">维吾尔族人员</el-tag>
+                <div class="box1-content mb-9" v-for="(a,ind) in box1Data.particularsList" :key="ind">
+                  <el-tag type="warning" size="small" v-if="a.operation_type==1">{{a.tag_name}}</el-tag>
+                  <el-tag type="info" size="small" v-if="a.operation_type==2">{{a.tag_name}}</el-tag>
+
                   <div class="gc-box">
-                    <span>标签描述：</span>外籍畲江重点关注人员外籍畲江重点关注人员外籍畲江重点关注人员外籍畲江重点关注人员外籍畲江重点关注人员
+                    <span>标签描述：</span>{{a.tag_remar}}
                   </div>
                   <div class="gc-box">
                     <span>过程：</span>
                     <div class="gc-r-box">
-                      <div class="step-box">
-                        <div class="step-time mr-5 tc-333">2018-09-21</div>
+                      <div class="step-box" v-for="(x,y) in a.list" :key="y">
+                        <div class="step-time mr-5 tc-333">{{x.CREATETIME.slice(0,10)}}</div>
                         <div class="mr-15 step-icon">
                           <div class="step-dot"></div>
                           <div class="step-line"></div>
                         </div>
                         <ul class="step-content">
                           <li>
-                            <span class="step-t">审批人：</span><span class="mr-30">李先生</span>
-                            <span>审批结果：</span><span class="tc-o">生效</span>
+                            <span class="step-t">添加人：</span><span class="mr-30">{{x.USERID}}</span>
+                            <span>添加状态：</span><span class="tc-o">{{x.ADD_TAGTYPE}}</span>
                           </li>
                           <li>
                             <span class="step-t">原因：</span>
-                            经过查询，因为什么什么什么什么
+                            {{x.TAG_REMAR}}
                           </li>
                         </ul>
                       </div>
-                      <div class="step-box">
-                        <div class="step-time mr-5 tc-333">2018-09-21</div>
-                        <div class="mr-15 step-icon">
-                          <div class="step-dot"></div>
-                          <div class="step-line"></div>
-                        </div>
-                        <ul class="step-content">
-                          <li>
-                            <span class="step-t">审批人：</span><span class="mr-30">李先生</span>
-                            <span>审批结果：</span><span class="tc-o">生效</span>
-                          </li>
-                          <li>
-                            <span class="step-t">原因：</span>
-                            经过查询，因为什么什么什么什么
-                          </li>
-                        </ul>
-                      </div>
+
                       <el-button type="text" size="small" class="gc-more">查看更多</el-button>
                     </div>
                   </div>
                 </div>
-                <div class="box1-content mb-9">
-                  <el-tag type="info" size="small">维吾尔族人员</el-tag>
-                  <div class="gc-box">
-                    <span>标签描述：</span>外籍畲江重点关注人员外籍畲江重点关注人员外籍畲江重点关注人员外籍畲江重点关注人员外籍畲江重点关注人员
-                  </div>
-                  <div class="gc-box">
-                    <span>过程：</span>
-                    <div class="gc-r-box">
-                      <div class="step-box">
-                        <div class="step-time mr-5 tc-333">2018-09-21</div>
-                        <div class="mr-15 step-icon">
-                          <div class="step-dot"></div>
-                          <div class="step-line"></div>
-                        </div>
-                        <ul class="step-content">
-                          <li>
-                            <span class="step-t">审批人：</span><span class="mr-30">李先生</span>
-                            <span>审批结果：</span><span class="tc-o">生效</span>
-                          </li>
-                          <li>
-                            <span class="step-t">原因：</span>
-                            经过查询，因为什么什么什么什么
-                          </li>
-                        </ul>
-                      </div>
-                      <div class="step-box">
-                        <div class="step-time mr-5 tc-333">2018-09-21</div>
-                        <div class="mr-15 step-icon">
-                          <div class="step-dot"></div>
-                          <div class="step-line"></div>
-                        </div>
-                        <ul class="step-content">
-                          <li>
-                            <span class="step-t">审批人：</span><span class="mr-30">李先生</span>
-                            <span>审批结果：</span><span class="tc-o">生效</span>
-                          </li>
-                          <li>
-                            <span class="step-t">原因：</span>
-                            经过查询，因为什么什么什么什么
-                          </li>
-                        </ul>
-                      </div>
-                      <el-button type="text" size="small" class="gc-more">查看更多</el-button>
-                    </div>
-                  </div>
-                </div>
+
                 <div class="box1-more">
                   <el-button type="text">展开更多 ﹀</el-button>
                 </div>
@@ -294,15 +235,6 @@
               </div>
               <div v-if="box4">
                 <!-- <el-button type="primary" plain size="small">模型相关案例</el-button> -->
-                <div class="box2-content mb-9">
-                  <div class="gc-box">
-                    <div><span class="b-dot"></span>涉疆人员模型：</div>
-                    <div class="">
-                      外籍畲江重点关注人员外籍畲江重点关注人员外籍畲江重点关注人员外籍畲江重点关注人员外籍畲江重点关注人员<br/>
-                      外籍畲江重点关注人员外籍畲江重点关注人员外籍畲江重点关注人员外籍畲江重点关注人员外籍畲江重点关注人员<br/>
-                    </div>
-                  </div>
-                </div>
                 <div class="box2-content mb-9" v-for="d1 in box4Data.checkTacticsList">
                   <div class="gc-box">
                     <div><span class="b-dot"></span>{{d1.modelName}}：</div>
@@ -319,11 +251,11 @@
                     自定义内容：
                   </div>
                   <div class="">
-                    <div class="">
-                      人物描写的运用很普通，人物描写的母的是刻画人物描写的运用很普通 <el-button type="text" class="redx">删除</el-button>
+                    <div class="" v-for="(d2,ind) in box4Data.listRiskCustom" :key="ind">
+                      {{d2.content}} <el-button type="text" class="redx" @click="delListCustom1(d2.serial)">删除</el-button>
                     </div>
-                    <div class="" v-for="d2 in box4Data.listRiskCustom">
-                      {{d2.CONTENT}} <el-button type="text" class="redx">删除</el-button>
+                    <div class="" v-for="(x,ind) in listRiskCustom" :key="ind">
+                      {{x.content}} <el-button type="text" class="redx" @click="delListCustom(ind)">删除</el-button>
                     </div>
                   </div>
                 </div>
@@ -332,9 +264,10 @@
                     class="mr-10"
                     type="textarea"
                     :rows="3"
+                    v-model="addListCustom"
                     placeholder="请输入内容">
                   </el-input>
-                  <el-button type="success" size="small" plain>添加</el-button>
+                  <el-button type="success" size="small" plain @click="addCustomFn">添加</el-button>
                 </div>
               </div>
             </div>
@@ -343,11 +276,19 @@
                 指标录入 <i class="el-icon-d-caret"></i>
               </div>
               <div v-if="box5" class="hc-box">
-                <div class="input-item mr-30">
-                  <span class="input-text">出境航班：</span>
-                  <el-input placeholder="请输入内容" size="small" class="input-input"></el-input>
-                </div>
-                <el-button type="success" size="small" plain class="mb-6">添加</el-button>
+                <el-row align="center" :gutter="2" style="width:100%" class="mr-15">
+                  <el-col  :sm="24" :md="12" :lg="8"  class="input-item" v-for="(d3,ind) in box4Data.listRiskIndex" :key="ind">
+                    <span class="input-text">{{d3.index_name}}：</span>
+                    <el-input placeholder="请输入内容" size="small" class="input-input mr-10" v-model="d3.index_value"></el-input>
+                    <i class="el-icon-close redx hand" @click="delRiskIndexInfo(d3.serial)"></i>
+                  </el-col>
+                  <el-col  :sm="24" :md="12" :lg="8"  class="input-item" v-for="(d3,ind) in checkList" :key="ind">
+                    <span class="input-text">{{d3.index_name}}：</span>
+                    <el-input placeholder="请输入内容" size="small" class="input-input mr-10" v-model="d3.index_value"></el-input>
+                    <i class="el-icon-close redx hand" @click="delRiskIndexInfo0(d3.serial)"></i>
+                  </el-col>
+                </el-row>
+                <el-button type="success" size="small" plain class="mb-6" @click="getAddRiskIndexInfo">添加</el-button>
               </div>
             </div>
             <div class="boder1 pb-10">
@@ -355,8 +296,24 @@
                 附件 <i class="el-icon-d-caret"></i>
               </div>
               <div v-if="box6">
+                <div class="" v-for="(d4,ind) in box4Data.listRiskUpload" :key="ind">
+                  <span class="mr-30">{{d4.upload_name}}</span>
+                  <span class="mr-30 tc-999">上传人：{{d4.userName}}</span>
+                  <span class="mr-30 tc-999">上传时间：{{d4.createTime}}</span>
+                  <el-button type="text" class="redx" @click="delFileInfo(d4.serial)">删除</el-button>
+                  <el-button type="text" ><a :href="d4.url_patch" class="green">下载</a></el-button>
+                </div>
+                <div class="" v-if="fileData">
+                  <div class="" v-for="(x,ind) in fileData" :key="ind">
+                    <span class="mr-30">{{x.name}}</span>
 
-                <el-button type="primary" size="small" plain>添加附件</el-button>
+                  </div>
+                </div>
+                <label class="file">
+                  添加附件
+                  <input type="file" name="" multiple="multiple" @change="uploadFile">
+                </label>
+                <!-- <button type="button" name="button" @click="upload">上传</button> -->
               </div>
             </div>
             <div class="boder1 pb-10">
@@ -367,26 +324,37 @@
                 <el-input
                   class="mr-10 mb-9"
                   type="textarea"
+                  v-model="box4Data.riskDescRecordEntity.remark"
                   :rows="3"
                   placeholder="请输入描述意见">
                 </el-input>
                 <el-row align="center" :gutter="2">
                   <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                     <span class="mr-5">核查阶段 </span>
-                    <el-select  filterable clearable placeholder="请选择"  size="small" class="input-input">
-                      <el-option label="前期核查" value="1"></el-option>
+                    <el-select v-model="box4Data.riskDescRecordEntity.check_stage" filterable clearable placeholder="请选择"  size="small" class="input-input">
+                      <el-option label="1 - 前期核查" value="1"></el-option>
+                      <el-option label="2 - 见面核查" value="2"></el-option>
                     </el-select>
                   </el-col>
                   <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                     <span  class="mr-5">核查结果 </span>
-                    <el-select  filterable clearable placeholder="请选择"  size="small" class="input-input">
-                      <el-option label="前期核查" value="1"></el-option>
+                    <el-select v-model="box4Data.riskDescRecordEntity.check_result" filterable clearable placeholder="请选择"  size="small" class="input-input">
+                      <el-option label="1 - 完全排除嫌疑" value="1"></el-option>
+                      <el-option label="2 - 未能排除嫌疑扭转至口岸" value="2"></el-option>
+                      <el-option label="3 - 未能排除嫌疑扭转至梅沙" value="3"></el-option>
+
                     </el-select>
                   </el-col>
                   <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                     <span  class="mr-5">流转至 </span>
-                    <el-select  filterable clearable placeholder="请选择"  size="small" class="input-input">
-                      <el-option label="前期核查" value="1"></el-option>
+                    <el-select v-model="box4Data.riskDescRecordEntity.change_port" filterable clearable placeholder="请选择"  size="small" class="input-input">
+                      <el-option
+                        v-for="item in airport"
+                        v-if="item.JCDM"
+                        :key="item.JCDM"
+                        :label="item.JCDM+' - '+item.KAMC"
+                        :value="item.JCDM">
+                      </el-option>
                     </el-select>
                   </el-col>
 
@@ -397,7 +365,7 @@
               <div class="hc-btn">
                 <el-button type="info" size="small" class="mr-20">返回</el-button>
 
-                <el-button type="success" size="small">确定</el-button>
+                <el-button type="success" size="small" @click="saveRiskDescRecordInfo">确定</el-button>
               </div>
 
             </div>
@@ -405,54 +373,30 @@
               <div class="title-green mt-10">
                 本次风评记录
               </div>
-              <div class="gc-box f-14">
-                <div class="mr-5">1.</div>
+              <div class="gc-box f-14" v-for="(d5,ind) in box4Data.listDescRecord" :key="ind">
+                <div class="mr-5">{{ind+1}}</div>
                 <div class="">
                   <div class="">
-                    <span class="mr-30">核查时间：2018-09-19 14:23:43</span><span>核查人：张先生</span>
+                    <span class="mr-30">核查时间：{{d5.createTime}}</span><span>核查人：{{d5.userName}}</span>
                   </div>
                   <div class="">
-                    操作类型：核查
+                    操作类型：{{d5.operation_type}}
                   </div>
                   <div class="gc-box">
                     <div>核查过程：</div>
                     <div class="">
-                      人物描写的运用很普通，人物描写的母的是刻画人物描写的运用很普通<br/>
-                      人物描写的运用很普通，人物描写的母的是刻画人物描写的运用很普通
+                      {{d5.course_type}}
                     </div>
                   </div>
                   <div class="">
-                    核查阶段：前期核查
+                    核查阶段：{{d5.check_stage}}
                   </div>
                   <div class="">
-                    核查结果：排除嫌疑
+                    核查结果：{{d5.check_result}}
                   </div>
                 </div>
               </div>
-              <div class="gc-box f-14">
-                <div class="mr-5">2.</div>
-                <div class="">
-                  <div class="">
-                    <span class="mr-30">核查时间：2018-09-19 14:23:43</span><span>核查人：张先生</span>
-                  </div>
-                  <div class="">
-                    操作类型：核查
-                  </div>
-                  <div class="gc-box">
-                    <div>核查过程：</div>
-                    <div class="">
-                      人物描写的运用很普通，人物描写的母的是刻画人物描写的运用很普通<br/>
-                      人物描写的运用很普通，人物描写的母的是刻画人物描写的运用很普通
-                    </div>
-                  </div>
-                  <div class="">
-                    核查阶段：前期核查
-                  </div>
-                  <div class="">
-                    核查结果：排除嫌疑
-                  </div>
-                </div>
-              </div>
+
               <div class="box2-more">
                 <el-button type="text">展开更多 ﹀</el-button>
               </div>
@@ -461,6 +405,15 @@
         </el-col>
       </el-row>
     </div>
+    <el-dialog title="添加指标" :visible.sync="czDialogVisible" width="640px">
+      <el-checkbox-group v-model="checkList" class="mb-20">
+       <el-checkbox :label="x"  v-for="(x,ind) in box5Data" :key="ind">{{x.index_name}}</el-checkbox>
+     </el-checkbox-group>
+      <!-- <div slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="czSave" size="small">确认</el-button>
+        <el-button type="warning" @click="czDialogVisible=false" size="small">取消</el-button>
+      </div> -->
+    </el-dialog>
   </div>
 </template>
 
@@ -468,6 +421,10 @@
 export default {
   data(){
     return{
+      user:null,
+      operation_type:null,
+      delIndex:'',
+      airport:null,
       page:0,
       page0Data:{},
       moreShow:false,
@@ -478,15 +435,27 @@ export default {
       box3:true,
       box3Data:{},
       box4:true,
-      box4Data:null,
+      box4Data:{},
       box5:true,
+      box5Data:{},
       box6:true,
       box7:true,
       serial:null,
+      fileData:null,
+      addListCustom:null,
+      listRiskCustom:[],
+      czDialogVisible:false,
+      checkList:[]
     }
   },
+  mounted(){
+    this.queryAirport();
+  },
   activated(){
+
+    this.getUers();
     this.page=this.$route.query.page;
+    this.operation_type=this.$route.query.operation_type;
     this.serial=this.$route.query.serial;
     if(this.page==0){
       this.getRiskIapiInfo();
@@ -496,7 +465,34 @@ export default {
       this.getRiskDescRecordInfo();
     }
   },
+  watch:{
+    page:function(val){
+      if(val==0){
+        this.getRiskIapiInfo();
+        this.getHisModelInfo();
+        this.getOperationalTargetInfo();
+      }else if(val==1){
+        this.getRiskDescRecordInfo();
+
+      }
+    }
+  },
   methods:{
+    getUers(){
+      this.$api.post('/manage-platform/sysUserInfoController/querySysUserInfo',{},
+       r => {
+        console.log(r)
+        this.user=r.data;
+      })
+    },
+    queryAirport(){
+      this.$api.post('/manage-platform/codeTable/queryAirportMatch',{},
+       r => {
+         if(r.success){
+           this.airport=r.data;
+         }
+      })
+    },
     // 预报信息
     getRiskIapiInfo(){
       let p={
@@ -516,7 +512,7 @@ export default {
       }
       this.$api.post('/manage-platform/riskEventWarningController/getRiskEventTagInfo',p,
        r => {
-         this.box1Data=r.data.validList
+         this.box1Data=r.data;
       })
     },
     // 命中模型信息
@@ -547,7 +543,182 @@ export default {
       }
       this.$api.post('/manage-platform/riskEventWarningController/getRiskDescRecordInfo',p,
        r => {
-         this.box4Data=r.data
+         this.box4Data=r.data;
+         this.box4Data.riskDescRecordEntity.operation_type=this.operation_type;
+      })
+    },
+    // 添加自定义
+    addCustomFn(){
+      this.addListCustom={
+        content:this.addListCustom,
+        // type:1
+      }
+      this.listRiskCustom.push(this.addListCustom);
+      this.addListCustom='';
+    },
+    // 删除自定义
+    delListCustom(ind){
+      this.listRiskCustom.splice(ind,1)
+    },
+    // 删除自定义真的
+    delListCustom1(serial){
+      let p={
+        "serial": serial,
+        "userId": this.user.userId
+      }
+      if(this.delIndex.indexOf("1,")==-1){
+        this.delIndex+="1,"
+      }
+
+      this.$api.post('/manage-platform/riskEventWarningController/updateRiskCustomInfo ',p,
+       r => {
+         if(r.success){
+           this.$message({
+             message: '恭喜你，删除成功！',
+             type: 'success'
+           });
+           this.getRiskDescRecordInfo();
+         }
+      })
+    },
+    // 指标弹窗
+    getAddRiskIndexInfo(){
+      let p={
+        "eventSerial": this.serial
+      }
+      this.czDialogVisible=true;
+      this.$api.post('/manage-platform/riskEventWarningController/getAddRiskIndexInfo',p,
+       r => {
+         this.box5Data=r.data.listRiskTarget;
+         let arr=this.box5Data;
+         let that=this;
+         for(var i =0;i<arr.length;i++){
+           arr[i].index_name=arr[i].TARGET_NAME
+         }
+      })
+    },
+    czSave(){
+      console.log(this.checkList)
+    },
+    // 删除指标信息
+    delRiskIndexInfo(serial){
+      let p={
+        "serial": serial,
+        "userId": this.user.userId
+      }
+      if(this.delIndex.indexOf("2,")==-1){
+        this.delIndex+="2,"
+      }
+      this.$api.post('/manage-platform/riskEventWarningController/delRiskIndexInfo',p,
+       r => {
+         if(r.success){
+           this.$message({
+             message: '恭喜你，删除成功！',
+             type: 'success'
+           });
+           this.getRiskDescRecordInfo();
+         }
+      })
+    },
+    // 获取要上传的文件
+    uploadFile(event){
+      this.fileData=event.target.files;
+      console.log(event);
+    },
+    // 上传附件
+    upload(serial){
+      console.log("this.fileData",this.fileData)
+      var formData = new FormData();
+      let arr=this.fileData;
+
+      for(var i=0;i<arr.length;i++){
+        formData.append("file",arr[i]);
+      }
+      formData.append("eventSerial",this.serial);
+      formData.append("userId",this.user.userId);
+      console.log(formData)
+      let p=formData
+      console.log("p",p)
+
+      this.$api.post('/manage-platform/riskEventWarningController/upload',p,
+       r => {
+         if(r.success){
+           this.$message({
+             message: '恭喜你，上传成功！',
+             type: 'success'
+           });
+           this.getRiskDescRecordInfo();
+           this.fileData=null;
+         }
+      },e=>{
+        return
+      },{'Content-Type': 'multipart/form-data'})
+    },
+    // 删除附件
+    delFileInfo(serial){
+      let p={
+        "serial": serial,
+        "delUser": this.user.userId
+      }
+      if(this.delIndex.indexOf("3,")==-1){
+        this.delIndex+="3,"
+      }
+      this.$api.post('/manage-platform/riskEventWarningController/delFileInfo',p,
+       r => {
+         if(r.success){
+           this.$message({
+             message: '恭喜你，删除成功！',
+             type: 'success'
+           });
+           this.getRiskDescRecordInfo();
+         }
+      })
+    },
+    // 下载
+    download(serial){
+      let p={
+        "serial": serial
+      }
+      this.$api.post('/manage-platform/riskEventWarningController/download',p,
+       r => {
+
+      })
+    },
+    // 保存校验描述/核查阶段/结果/流转
+    saveRiskDescRecordInfo(){
+      if(this.fileData){
+        if(this.delIndex.indexOf("3,")==-1){
+          this.delIndex+="3,"
+        }
+        this.upload();
+      }
+      if(this.listRiskCustom.length>0&&is.delIndex.indexOf("1,")==-1){
+        this.delIndex+="1,"
+      }
+      if(this.checkList.length>0&&is.delIndex.indexOf("2,")==-1){
+        this.delIndex+="2,"
+      }
+      let p={
+        custom:this.listRiskCustom,
+        descRecord:this.box4Data.riskDescRecordEntity,
+        addIndex:this.checkList,
+        userId:this.user.userId,
+        eventSerial: this.serial,
+        delIndex:this.delIndex,
+      }
+
+
+      this.$api.post('/manage-platform/riskEventWarningController/saveRiskDescRecordInfo',p,
+       r => {
+         // this.box5Data=r.data
+         if(r.success){
+           this.$message({
+             message: '恭喜你，保存成功！',
+             type: 'success'
+           });
+           this.getRiskDescRecordInfo();
+           this.listRiskCustom=[];
+         }
       })
     },
   }
@@ -621,6 +792,7 @@ export default {
 .hc-box{
   display: flex;
   align-items: center;
+  /* flex-wrap: wrap; */
 }
 .hc-btn{
   display: flex;
@@ -683,4 +855,30 @@ export default {
 /* .step-content:last-of-type{
   height: 60px;
 } */
+.file {
+    position: relative;
+    display: inline-block;
+    background: #ecf5ff;
+    border: 1px solid #b3d8ff;
+    border-radius: 4px;
+    padding: 4px 12px;
+    overflow: hidden;
+    color: #409EFF;
+    text-decoration: none;
+    text-indent: 0;
+    line-height: 20px;
+    font-size: 12px;
+}
+.file input {
+    position: absolute;
+    font-size: 100px;
+    right: 0;
+    top: 0;
+    opacity: 0;
+}
+.file:hover {
+    background: #409EFF;
+    border-color: #409EFF;
+    color: #ffffff;
+}
 </style>
