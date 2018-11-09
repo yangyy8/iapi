@@ -315,10 +315,10 @@ export default {
         let _this=this;
         setTimeout(function(){
           _this.$router.push({params: {navId:nav2Item.rootId}});
-
+          _this.getNav(nav2Item.rootId)
         },400)
 
-        this.getNav(nav2Item.rootId)
+
       }
 
       this.nav1Id = nav2Item.parentId;
