@@ -106,9 +106,10 @@
                 <el-select v-model="pd.centre_port" placeholder="请选择"  size="small" clearable filterable class="block input-input">
                   <el-option
                     v-for="item in airport"
-                    :key="item.AIRPORT_CODE"
-                    :label="item.AIRPORT_CODE+' - '+item.AIRPORT_NAME"
-                    :value="item.AIRPORT_CODE">
+                    v-if="item.JCDM"
+                    :key="item.JCDM"
+                    :label="item.JCDM+' - '+item.KAMC"
+                    :value="item.JCDM">
                   </el-option>
                 </el-select>
               </el-col>
@@ -288,7 +289,7 @@
             width="120">
             <template slot-scope="scope">
               <el-button type="text" class="a-btn" icon="el-icon-view" title="查看" @click="$router.push({name:'BJSJCK',query:{serial:scope.row.serial,page:0}})"></el-button>
-              <el-button type="text" class="a-btn" icon="el-icon-edit-outline"  title="处理" @click="$router.push({name:'BJSJCK',query:{serial:scope.row.serial,page:1}})"></el-button>
+              <el-button type="text" class="a-btn" icon="el-icon-edit-outline"  title="处理" @click="$router.push({name:'BJSJCK',query:{serial:scope.row.serial,page:1,operation_type:1}})"></el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -356,9 +357,10 @@
             <el-select v-model="czform.change_port" filterable clearable placeholder="请选择"  size="small" class="input-input">
               <el-option
                 v-for="item in airport"
-                :key="item.AIRPORT_CODE"
-                :label="item.AIRPORT_CODE+' - '+item.AIRPORT_NAME"
-                :value="item.AIRPORT_CODE">
+                v-if="item.JCDM"
+                :key="item.JCDM"
+                :label="item.JCDM+' - '+item.KAMC"
+                :value="item.JCDM">
               </el-option>
             </el-select>
           </el-col>
@@ -385,7 +387,7 @@
             placeholder="请输入描述意见">
           </el-input>
         </div>
-        <div class="boder1 ">
+        <div class="boder1 mb-9">
           <div class="f-bold mb-9">
             处理结果
           </div>
@@ -403,7 +405,18 @@
           </el-row>
         </div>
         <div class="">
-
+          <div class="f-bold mb-9">
+            添加标签
+          </div>
+          <div class="">
+            <div class="tag-list mb-6">
+              <span v-for="(val, key, index) in tagData" :key="index" @click="taged=key" :class="{'checked-tag':taged==key}">{{key}}</span>
+            </div>
+            <el-checkbox-group
+              v-model="checkedtag">
+              <el-checkbox v-for="i in tagData[taged]" :label="i.code" :key="i.code">{{i.name}}</el-checkbox>
+            </el-checkbox-group>
+          </div>
         </div>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -419,6 +432,7 @@
 export default {
   data(){
     return{
+      tagData:{},
       moreShow:false,
       page: 0,
       multipleSelection:null,
@@ -557,6 +571,9 @@ export default {
       czform:{},
       gdDialogVisible:false,
       gdform:{},
+
+      checkedtag:[],
+      taged:0
     }
   },
   mounted(){
@@ -584,18 +601,19 @@ export default {
       this.getList(val,this.pageSize,this.pd);
       console.log(`当前页: ${val}`);
     },
+    handleClose(done) {
+      // this.czform={};
+      done();
+    },
     queryAirport(){
-      this.$api.post('/manage-platform/codeTable/queryAirport',{},
+      this.$api.post('/manage-platform/codeTable/queryAirportMatch',{},
        r => {
          if(r.success){
            this.airport=r.data;
          }
       })
     },
-    handleClose(done) {
-      // this.czform={};
-      done();
-    },
+
     queryNationalityAlone(){
       this.$api.post('/manage-platform/codeTable/queryNationality',{},
        r => {
@@ -661,7 +679,7 @@ export default {
 
       this.$api.post('/manage-platform/riskEventController/updateBatchDisposeEventInfo',p,
        r => {
-         if(r.data.success=="success"){
+         if(r.success){
            this.$message({
              message: '恭喜你，操作成功！',
              type: 'success'
@@ -676,7 +694,16 @@ export default {
     },
     openGdTc(){
       this.gdform={};
-      this.gdDialogVisible=true
+      this.gdDialogVisible=true;
+      this.getBatchEventArchiveTagInfo();
+    },
+    getBatchEventArchiveTagInfo(){
+
+      this.$api.post('/manage-platform/riskEventController/getBatchEventArchiveTagInfo',{},
+       r => {
+         this.tagData=r.data;
+         // this.taged
+      })
     },
     gdSave(){
       let arr1=this.multipleSelection;
@@ -708,7 +735,7 @@ export default {
 
       this.$api.post('/manage-platform/riskEventController/saveBatchEventArchiveInfo',p,
        r => {
-         if(r.data.success=="success"){
+         if(r.success){
            this.$message({
              message: '恭喜你，操作成功！',
              type: 'success'
@@ -727,5 +754,30 @@ export default {
   white-space:nowrap;
   text-overflow:ellipsis;
   overflow: hidden;
+}
+.tag-list{
+  color: #0274f1;
+  border-bottom: 1px solid #0274f1;
+  font-size: 16px;
+  padding-bottom: 3px;
+  display: flex;
+  justify-content: space-between;
+}
+.tag-list span{
+  display: inline-block;
+  width: 22px;
+  height: 22px;
+  text-align: center;
+  line-height: 22px!important;
+}
+.checked-tag{
+  background: #0274f1;
+  color: #fff;
+  border-radius: 50%;
+}
+.tag-list span:hover{
+  background: #0274f1;
+  color: #fff;
+  border-radius: 50%;
 }
 </style>

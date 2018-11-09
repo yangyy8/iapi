@@ -15,6 +15,30 @@
             <el-option label="A - 入出境" value="A"></el-option>
           </el-select>
         </el-col>
+        <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
+          <span class="input-text">值机日期：</span>
+          <div class="input-input t-flex t-date">
+            <el-date-picker
+             type="date" size="small"
+             :editable="false"
+             :clearable="false"
+             @change="getList(CurrentPage,pageSize,pd)"
+             v-model="pd.fltDateFr"
+             value-format="yyyyMMdd"
+             placeholder="开始时间" >
+            </el-date-picker>
+            <span class="septum">-</span>
+            <el-date-picker
+              type="date" size="small"
+              :editable="false"
+              :clearable="false"
+              @change="getList(CurrentPage,pageSize,pd)"
+              v-model="pd.fltDateTo"
+              value-format="yyyyMMdd"
+              placeholder="结束时间">
+            </el-date-picker>
+          </div>
+        </el-col>
       </el-row>
     </div>
     <div class="middle mb-6">
@@ -30,7 +54,7 @@
         </div>
       </div>
       <div class="middle-tab-content">
-        <el-button type="success"  icon="el-icon-refresh" size="small" class="mb-9 mr-15">刷新</el-button>
+        <el-button type="success"  icon="el-icon-refresh" size="small" class="mb-9 mr-15" @click="getList(CurrentPage,pageSize,pd)">刷新</el-button>
         <el-checkbox v-model="checked">自动刷新</el-checkbox>
         <el-table
           ref="multipleTable"
@@ -207,6 +231,8 @@
 </template>
 
 <script>
+import { formatDate } from '@/assets/js/date.js'
+
 export default {
   data(){
     return{
@@ -215,7 +241,7 @@ export default {
       CurrentPage:1,
       pageSize:10,
       TotalResult:0,
-      pd:{type:0},
+      pd:{type:0,fltDateFr:'',fltDateTo:''},
       airport:null,
       options:[
         {
@@ -241,7 +267,10 @@ export default {
     // this.queryAirport();
   },
   activated(){
-
+    let end = new Date();
+    let begin = new Date(end - 24*60*60*1000);
+    this.pd.fltDateFr= formatDate(begin, 'yyyyMMdd');
+    this.pd.fltDateTo= formatDate(end, 'yyyyMMdd');
     this.getList2();
     this.getList(this.CurrentPage,this.pageSize,this.pd);
 
@@ -249,7 +278,7 @@ export default {
       let that=this;
       this.timer=setInterval(function(){
         that.getList(that.CurrentPage,that.pageSize,that.pd);
-      },10000)
+      },15000)
     }
 
   },
@@ -263,7 +292,7 @@ export default {
         let that=this;
         this.timer=setInterval(function(){
           that.getList(that.CurrentPage,that.pageSize,that.pd);
-        },10000)
+        },15000)
       }else{
         clearInterval(this.timer);
       }

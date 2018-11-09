@@ -1174,6 +1174,7 @@
 export default {
   data(){
     return{
+      user:null,
       moreShow:false,
       box1:true,
       box2:true,
@@ -1218,9 +1219,31 @@ export default {
 
     }
   },
+  mounted(){
+    this.getUers();
+  },
   activated(){
     this.box2=true;
+    // this.nationality=this.$route.query
   },
+  methods:{
+    getUers(){
+      this.$api.post('/manage-platform/sysUserInfoController/querySysUserInfo',{},
+       r => {
+        // console.log(r)
+        this.user=r.data;
+      })
+    },
+    saveRiskQueryRecordLogInfo(){
+      let p={
+      	"nationality":"CHN",
+      	"passportno":"111",
+      	"userId":"61004ed414884ae3afc4a238065daf0b"
+      }
+      this.$api.post('/manage-platform/riskRecordController/saveRiskQueryRecordLogInfo',{},
+       r => {})
+    },
+  }
 }
 </script>
 
