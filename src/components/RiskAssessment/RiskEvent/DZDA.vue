@@ -1221,10 +1221,13 @@ export default {
   },
   mounted(){
     this.getUers();
+
   },
   activated(){
     this.box2=true;
-    // this.nationality=this.$route.query
+    this.nationality=this.$route.query.nationality;
+    this.passportno=this.$route.query.passportno;
+    this.saveRiskQueryRecordLogInfo();
   },
   methods:{
     getUers(){
@@ -1236,13 +1239,22 @@ export default {
     },
     saveRiskQueryRecordLogInfo(){
       let p={
-      	"nationality":"CHN",
-      	"passportno":"111",
-      	"userId":"61004ed414884ae3afc4a238065daf0b"
+      	"nationality":this.nationality,
+      	"passportno":this.passportno,
+      	"userId":this.user.userId
       }
-      this.$api.post('/manage-platform/riskRecordController/saveRiskQueryRecordLogInfo',{},
+      this.$api.post('/manage-platform/riskRecordController/saveRiskQueryRecordLogInfo',p,
        r => {})
     },
+    // saveRiskQueryRecordLogInfo(){
+    //   let p={
+    //   	"nationality":this.nationality,
+    //   	"passportno":this.passportno,
+    //   	"userId":this.user.userId
+    //   }
+    //   this.$api.post('/manage-platform/riskRecordController/saveRiskQueryRecordLogInfo',p,
+    //    r => {})
+    // },
   }
 }
 </script>
