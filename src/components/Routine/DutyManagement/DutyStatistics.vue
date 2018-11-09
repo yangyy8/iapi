@@ -111,7 +111,7 @@
     <div class="middle">
         <span class="tubiao hand" :class="{'checked':page==0}" @click="qq">日历</span><span class="tubiao hand" :class="{'checked':page==1}" @click="page=1;getList(CurrentPage,pageSize,cdt1)">列表</span>
         <el-button type="success" size="small" @click="" style="vertical-align: 2px;">导出</el-button>
-        <div id="div1" v-show="page==1">
+        <div id="div1" v-show="page==1" class="mt-10">
           <el-table
             :data="tableData"
             border
@@ -183,22 +183,30 @@
             </el-pagination>
           </div>
         </div>
-        <div id="div2" v-show="page==0">
-          <el-row align="center">
-              <table class="t-table">
-                <thead>
-                  <tr class="t-th">
-                    <th v-for="item in tableHeader">{{item}}</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="item in parseInt(tableBody.length/7)">
-                    <td>
-                      111
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+        <div id="div2" v-show="page==0" class="mt-10">
+          <el-row align="center" type="flex" style="height:100%">
+              <el-col :span='24'>
+                <el-row align="center" style="width:100%">
+                  <el-col v-for="item in tableHeader" style="width:14%">
+                    <div class="" style="width:100%;border:1px solid #F4F4F4;text-align:center;background-color:#F4F4F4;border-bottom:none!important;font-weight:bold;font-size:14px">
+                      {{item}}
+                    </div>
+                  </el-col>
+                </el-row>
+                <el-row align="center" style="width:100%">
+                  <el-col v-for="item in tableBody" style="width:14%">
+                    <div class="" style="width:100%;height:85px;border:1px solid #F4F4F4">
+                      <span style="display:inline-block;text-align:right;width:100%;padding-right:5px;box-sizing:border-box;font-size:14px">{{item.DATE}}</span>
+                      <ul>
+                        <li v-for="n in item.USER" style="display:flex;justify-content:space-between;padding:0 10px 0px 10px;margin-bottom:5px;box-sizing:border-box;font-size:13px;background-color:#DDBCD9;border-radius:10px;height:21px;line-height: 21px;color:#fff">
+                          <i style="">{{n.NAME}}</i>
+                          <span style="">{{n.JOBTIME}}</span>
+                        </li>
+                      </ul>
+                    </div>
+                  </el-col>
+                </el-row>
+              </el-col>
           </el-row>
         </div>
     </div>
@@ -207,14 +215,14 @@
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
             <span class="yy-input-text"><font class="yy-color">*</font>姓名：</span>
-            <el-input placeholder="请输入姓名" size="small" v-model="form.NAME"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
+            <el-input placeholder="请输入姓名" size="small" v-model="form.NAME"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}" :disabled="true"></el-input>
 
           </el-col>
         </el-row>
         <el-row type="flex" class="mb-6" >
           <el-col :span="24" class="input-item">
             <span class="yy-input-text">值班时段：</span>
-           <el-input type="textarea" placeholder="请输入内容" :autosize="{ minRows: 3, maxRows: 6}" v-model="form.content" class="yy-input-input"></el-input>
+            <el-input type="textarea" placeholder="请输入内容" :autosize="{ minRows: 3, maxRows: 6}" v-model="form.content" class="yy-input-input" :disabled="true"></el-input>
           </el-col>
         </el-row>
       </el-form>
@@ -433,6 +441,9 @@ width:100px; padding:6px 15px;  border:1px solid #56A8FE;
   /* border-right: 1px solid #ccc; */
   padding: 0px!important;
   box-sizing: border-box;
+}
+.t-table tr td{
+  border:1px solid #ccc;
 }
 .t-th{
   background-color: #F4F4F4;

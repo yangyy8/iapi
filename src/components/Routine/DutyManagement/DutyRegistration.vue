@@ -123,11 +123,11 @@
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
             <span class="yy-input-text"><font class="yy-color">*</font>姓名：</span>
-            <el-select placeholder="请选择" v-model="form.USERSERIAL" filterable clearable @visible-change="nameMethod(0)" size="small" class="yy-input-input" @change="nameMethodReal(form.USERSERIAL)" v-verify.change.blur ="{regs:'required',submit:'demo2'}">
+            <el-select placeholder="请选择" v-model="form.NAME" filterable clearable @visible-change="nameMethod(0)" size="small" class="yy-input-input" @change="nameMethodReal(form.NAME)" v-verify.change.blur ="{regs:'required',submit:'demo2'}">
               <el-option
               v-for="item in dutyName"
               :key="item.SERIAL"
-              :value="item.SERIAL"
+              :value="item.NAME"
               :label="item.NAME">
               </el-option>
             </el-select>
@@ -137,32 +137,32 @@
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
             <span class="yy-input-text"><font class="yy-color">*</font>账号：</span>
-            <el-input placeholder="请输入账号" size="small" v-model="form.USERNAME"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
+            <el-input placeholder="请输入账号" size="small" v-model="form.USERNAME"  class="yy-input-input" :disabled="true"></el-input>
           </el-col>
         </el-row>
 
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
             <span class="yy-input-text"><font class="yy-color">*</font>部门：</span>
-            <el-input placeholder="请输入部门" size="small" v-model="form.DEPT_QC"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
+            <el-input placeholder="请输入部门" size="small" v-model="form.DEPT_QC"  class="yy-input-input" :disabled="true"></el-input>
           </el-col>
         </el-row>
 
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
             <span class="yy-input-text"><font class="yy-color">*</font>电话：</span>
-            <el-input placeholder="请输入电话" size="small" v-model="form.PHONE"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
+            <el-input placeholder="请输入电话" size="small" v-model="form.PHONE"  class="yy-input-input" :disabled="true"></el-input>
           </el-col>
         </el-row>
 
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
             <span class="yy-input-text"><font class="yy-color">*</font>值班领导：</span>
-            <el-select placeholder="请选择" v-model="form.LEADERSERIAL" filterable clearable @visible-change="nameMethod(1)" size="small" class="yy-input-input" @change="leaderNameReal(form.LEADERSERIAL)" v-verify.change.blur ="{regs:'required',submit:'demo2'}">
+            <el-select placeholder="请选择" v-model="form.LEADERNAME" filterable clearable @visible-change="nameMethod(1)" size="small" class="yy-input-input" @change="leaderNameReal(form.LEADERNAME)" v-verify.change.blur ="{regs:'required',submit:'demo2'}">
               <el-option
               v-for="item in leaderName"
               :key="item.SERIAL"
-              :value="item.SERIAL"
+              :value="item.NAME"
               :label="item.NAME">
               </el-option>
             </el-select>
@@ -310,22 +310,26 @@ export default {
         })
     },
     leaderNameReal(val){
+      console.log(val);
       let arr = this.leaderName;
       for(var i=0;i<arr.length;i++){
-        if(arr[i].SERIAL == val){
-          this.form.LEADERNAME = arr[i].NAME;
+        if(arr[i].NAME == val){
+          this.form.LEADERSERIAL = arr[i].SERIAL;
         }
       }
     },
     nameMethodReal(val){//新增添值&编辑修改
+      this.$set(this.form,'PHONE','');
+      this.$set(this.form,'DEPT_QC','');
+      this.$set(this.form,'USERNAME','');
       let arr = this.dutyName;
       for(var i=0;i<arr.length;i++){
-        if(arr[i].SERIAL == val){
+        if(arr[i].NAME == val){
           this.form.PHONE = arr[i].PHONE;//电话
           this.form.USERNAME = arr[i].USERNAME;//账号
           this.form.DEPT_QC = arr[i].DEPT_QC;
           this.form.DEPT_ID = arr[i].DEPT_ID;//部门id
-          this.form.NAME = arr[i].NAME;//姓名
+          this.form.USERSERIAL = arr[i].SERIAL;//姓名
         }
       }
     },
