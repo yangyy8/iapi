@@ -109,8 +109,8 @@
     <div class="middle">
       <el-row class="mb-15">
         <el-button type="primary" size="small" @click="adds(0,'');form={};">新增</el-button>
-        <el-button type="primary" size="small" @click="">批量导入</el-button>
-        <el-button type="primary" size="small" @click="">模板下载</el-button>
+        <el-button type="warning"  size="small" @click="showUpload">批量导入</el-button>
+        <el-button type="success" size="small" @click="download">模板下载</el-button>
         </el-row>
       <el-table
         :data="tableData"
@@ -359,6 +359,26 @@
         <el-button @click="detailsDialogVisible = false" size="small">取 消</el-button>
       </div>
     </el-dialog>
+
+    <el-dialog title="上传模板" :visible.sync="uploadDialogVisible"  width="640px">
+      <el-form >
+        <el-upload
+          class="upload-demo"
+          ref="upload"
+          :action='$api.rootUrl+"/manage-platform/nameList/readExcel/1"'
+          :file-list="fileList"
+          multiple
+          :on-success="upSuccess"
+          :before-upload="beforeAvatarUpload"
+          :limit="1"
+          :auto-upload="false">
+          <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
+          <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">上传到服务器</el-button>
+          <div slot="tip" class="el-upload__tip">只能上传EXCEL文件</div>
+        </el-upload>
+
+      </el-form>
+    </el-dialog>
   </div>
   </div>
 </template>
@@ -372,10 +392,12 @@ export default {
       TotalResult: 0,
       pd: {},
       company: [],
+      fileList:[],
       sertail:"",
       dialogText:"新增",
       addDialogVisible: false,
       detailsDialogVisible: false,
+      uploadDialogVisible:false,
       menuDialogVisible: false,
       options: [{
           value: 10,
@@ -475,6 +497,7 @@ export default {
         this.form=Object.assign({}, i);
         this.dialogText="编辑";
       }else {
+          this.tp = 0;
         this.dialogText="新增";
       }
     },
@@ -501,7 +524,7 @@ export default {
           } else {
             this.$message.error(r.Message);
           }
-          this.$refs[formName].resetFields();
+        //  this.$refs[formName].resetFields();
           this.addDialogVisible = false;
           this.getList(this.CurrentPage, this.pageSize, this.pd);
           // this.tableData=r.Data.ResultList;
@@ -546,7 +569,46 @@ export default {
       });
     },
 
+    showUpload(){
+     this.uploadDialogVisible=true;
+     console.log( this.$refs.upload)
+     if( this.$refs.upload){
+       this.$refs.upload.clearFiles();
+     }
+    },
+    upSuccess(r){
+     //console.log(r);
+     if(r.success){
+       this.$message({
+         message: r.data,
+         type: 'success'
+       });
+      this.uploadDialogVisible=false ;
 
+      this.getList(this.CurrentPage,this.pageSize,this.pd);
+     }
+   },
+   beforeAvatarUpload(file){
+    console.log(file.type)
+    const isEXL = file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+
+    if (!isEXL) {
+      this.$message.error('上传文件只能是 xlsl 格式!');
+    }
+    return isEXL ;
+   },
+   submitUpload() {
+    console.log(this.$refs.upload)
+
+    if(this.$refs.upload.uploadFiles.length==0){
+      this.$message({
+       message: '请先选择文件！',
+       type: 'warning'
+     });
+      return
+    }
+    this.$refs.upload.submit();
+   },
   },
   filters: {
 

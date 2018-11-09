@@ -10,19 +10,14 @@
           <el-row align="center"   :gutter="2" >
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">标签分类：</span>
-              <el-select v-model="pd.LABELTYPE_CODE" class="input-input"  filterable clearable placeholder="请选择"   size="small" >
-
-                <el-option value="涉恐" label="涉恐">
+              <el-select v-model="pd.LABELTYPE_CODE" filterable clearable  placeholder="请选择"  size="small" class="yy-input-input">
+                <el-option
+                  v-for="item in company"
+                  :key="item.CODE"
+                  :label="item.CODE+' - '+item.NAME"
+                  :value="item.CODE">
                 </el-option>
-                <el-option value="非法居留" label="非法居留">
-                </el-option>
-                <el-option value="非法就业" label="非法就业">
-                </el-option>
-                <el-option value="非法出入境" label="非法出入境">
-                </el-option>
-                <el-option value="其他" label="其他">
-                </el-option>
-               </el-select>
+              </el-select>
             </el-col>
 
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
@@ -134,18 +129,13 @@
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
             <span class="yy-input-text"><font class="yy-color">*</font> 标签分类：</span>
-            <el-select v-model="form.LABELTYPE_CODE" class="input-input"  filterable clearable placeholder="请选择"   size="small" >
-
-              <el-option value="涉恐" label="涉恐">
-              </el-option>
-              <el-option value="非法居留" label="非法居留">
-              </el-option>
-              <el-option value="非法就业" label="非法就业">
-              </el-option>
-              <el-option value="非法出入境" label="非法出入境">
-              </el-option>
-              <el-option value="其他" label="其他">
-              </el-option>
+             <el-select v-model="form.LABELTYPE_CODE" filterable clearable  placeholder="请选择"  size="small" class="yy-input-input">
+               <el-option
+                 v-for="item in company"
+                 :key="item.CODE"
+                 :label="item.CODE+' - '+item.NAME"
+                 :value="item.CODE">
+               </el-option>
              </el-select>
           </el-col>
         </el-row>
@@ -154,7 +144,8 @@
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
             <span class="yy-input-text"><font class="yy-color">*</font> 标签名称：</span>
-            <el-input placeholder="请输入内容(不能超过20个汉字)" size="small" maxlength="20"  v-model="form.LABELNAME"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
+            <el-input placeholder="请输入内容(不能超过20个汉字)"
+             size="small" maxlength="20"  v-model="form.LABELNAME"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
 
           </el-col>
         </el-row>
@@ -276,6 +267,7 @@ export default {
   },
   activated(){
     this.getList(this.CurrentPage, this.pageSize, this.pd);
+    this.queryNationality();
   },
   methods: {
     handleSelectionChange(val) {
@@ -303,11 +295,11 @@ export default {
         })
     },
     queryNationality() {
-      this.$api.post('/manage-platform/userSys/goAdd', {},
+      this.$api.post('/manage-platform/codeTable/queryRiskLabeltypeList', {},
         r => {
           console.log(r);
           if (r.success) {
-            this.company = r.data.deptList;
+            this.company = r.data;
           }
         })
     },
@@ -321,6 +313,7 @@ export default {
         this.form=Object.assign({}, i);
         this.dialogText="编辑";
       }else {
+        this.tp = 0;
         this.dialogText="新增";
       }
 

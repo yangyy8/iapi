@@ -9,18 +9,14 @@
           <el-row align="center"   :gutter="2" >
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">类型：</span>
-              <el-select v-model="pd.LABELTYPE_CODE" class="input-input"  filterable clearable placeholder="请选择"   size="small">
-                <el-option value="涉恐类" label="涉恐类">
+              <el-select v-model="pd.LABELTYPE_CODE" filterable clearable  placeholder="请选择"  size="small" class="yy-input-input">
+                <el-option
+                  v-for="item in company"
+                  :key="item.CODE"
+                  :label="item.CODE+' - '+item.NAME"
+                  :value="item.CODE">
                 </el-option>
-                <el-option value="偷渡类" label="偷渡类">
-                </el-option>
-                <el-option value="三非类" label="三非类">
-                </el-option>
-                <el-option value="变换身份类" label="变换身份类">
-                </el-option>
-                <el-option value="其他" label="其他">
-                </el-option>
-               </el-select>
+              </el-select>
             </el-col>
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">问题名称：</span>
@@ -119,18 +115,14 @@
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
             <span class="yy-input-text"><font class="yy-color">*</font> 类型：</span>
-            <el-select v-model="form.LABELTYPE_CODE" class="yy-input-input"  filterable clearable placeholder="请选择" size="small">
-              <el-option value="涉恐类" label="涉恐类">
+            <el-select v-model="form.LABELTYPE_CODE" filterable clearable  placeholder="请选择"  size="small" class="yy-input-input">
+              <el-option
+                v-for="item in company"
+                :key="item.CODE"
+                :label="item.CODE+' - '+item.NAME"
+                :value="item.CODE">
               </el-option>
-              <el-option value="偷渡类" label="偷渡类">
-              </el-option>
-              <el-option value="三非类" label="三非类">
-              </el-option>
-              <el-option value="变换身份类" label="变换身份类">
-              </el-option>
-              <el-option value="其他" label="其他">
-              </el-option>
-             </el-select>
+            </el-select>
           </el-col>
         </el-row>
         <el-row type="flex"  class="mb-6">
@@ -262,6 +254,7 @@ export default {
   },
   activated(){
     this.getList(this.CurrentPage, this.pageSize, this.pd);
+    this.queryNationality();
   },
   methods: {
     handleSelectionChange(val) {
@@ -281,18 +274,18 @@ export default {
         "showCount": showCount,
         "pd": pd
       };
-      this.$api.post('/manage-platform/roleSys/selectPara', p,
+      this.$api.post('/manage-platform/Problem/getProblemPage', p,
         r => {
-          this.tableData = r.data.roleList.pdList;
-          this.TotalResult = r.data.roleList.totalResult;
+          this.tableData = r.data.resultList;
+          this.TotalResult = r.data.totalResult;
         })
     },
     queryNationality() {
-      this.$api.post('/manage-platform/userSys/goAdd', {},
+      this.$api.post('/manage-platform/codeTable/queryRiskLabeltypeList', {},
         r => {
           console.log(r);
           if (r.success) {
-            this.company = r.data.deptList;
+            this.company = r.data;
           }
         })
     },
@@ -304,6 +297,7 @@ export default {
         this.form=Object.assign({}, i);
         this.dialogText="编辑";
       }else {
+        this.tp=0;
         this.dialogText="新增";
       }
     },
@@ -315,9 +309,9 @@ export default {
                } else {
                }
             }
-      var url = "/manage-platform/roleSys/save";
+      var url = "/manage-platform/Problem/addProblem";
       if (this.tp == 1) {
-        url = "/manage-platform/roleSys/edit";
+        url = "/manage-platform/Problem/updateProblem";
       }
       this.$api.post(url, this.form,
         r => {
@@ -345,14 +339,14 @@ export default {
     },
     deletes(i) {
       let p = {
-        "SERIAL": i.SERIAL
+        "id": i.SERIAL
       };
       this.$confirm('您是否确认删除此角色？', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.$api.post('/manage-platform/roleSys/delete', p,
+        this.$api.post('/manage-platform/Problem/deleteProblem', p,
           r => {
             if (r.success) {
               this.$message({
@@ -373,44 +367,8 @@ export default {
         });
       });
     },
-    menus(i) {
-      this.menuDialogVisible = true;
-      this.sertail=i.SERIAL;
-      let p = {
-        "SERIAL": i.SERIAL
-      };
-      this.$api.post('/manage-platform/roleSys/goEditJuri', p,
-        r => {
-          console.log(r);
-          if (r.success) {
-            this.menudata = r.data.userTreeOne;
-            let arr=r.data.userTreeOne,that=this;
-          this.defaultChecked=r.data.checkList;
-          }
-        })
-    },
-menuItem(){
-  let checkList=this.$refs.tree.getCheckedNodes();
-  //let checkList=this.$refs.tree.getCheckedKeys();
-  let p={
-    // menuList:this.menudata,
-   "ROLE_ID":this.sertail,
-    checkList:checkList
-  }
-  this.$api.post('/manage-platform/roleSys/editJuri', p,
-    r => {
-      console.log(r);
-      if (r.success) {
-        this.$message({
-          type: 'success',
-          message: '保存成功'
-        });
-      }else{
-  this.$message.error('保存失败');
-      }
-    })
-        this.menuDialogVisible = false;
-},
+
+
   },
   filters: {
     fifterstatus(val) {
