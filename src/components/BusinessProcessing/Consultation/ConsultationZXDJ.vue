@@ -38,7 +38,7 @@
                 :value="item.AIRPORT_CODE"
                 :label="item.AIRPORT_CODE+' - '+item.AIRPORT_NAME">
                 </el-option>
-               </el-select>
+              </el-select>
             </el-col>
             <el-col  :sm="24" :md="12" :lg="6"  class="input-item">
               <span class="input-text">姓名：</span>
@@ -78,14 +78,14 @@
           </span>&nbsp;|&nbsp;
           <div style="display:inline-block" class="problem-type">
             <span>问题类型</span>
-            <el-radio-group v-model="entity.CONSULTTYPE">
+            <el-radio-group v-model="CONSULTTYPE">
               <el-radio :label="0">旅客校验</el-radio>
               <el-radio :label="1">业务咨询</el-radio>
               <el-radio :label="2">其他</el-radio>
             </el-radio-group>
           </div>
 
-          <el-row align="center" :gutter="2" style="margin-top:10px" v-show="entity.CONSULTTYPE==0">
+          <el-row align="center" :gutter="2" style="margin-top:10px" v-show="CONSULTTYPE==0">
             <el-col  :sm="24" :md="12" :lg="6"  class="input-item">
               <span class="input-text">证件号码：</span>
               <el-input placeholder="请输入内容" size="small" v-model="pd.PASSPORTNO"  class="input-input"></el-input>
@@ -94,7 +94,6 @@
               <span class="input-text">国籍/地区：</span>
               <el-select v-model="pd.NATIONALITY" filterable clearable placeholder="请选择" size="small" class="input-input" @visible-change="baseNation">
                 <el-option
-
                   v-for="item in selection"
                   :key="item.CODE"
                   :value="item.CODE"
@@ -126,15 +125,14 @@
         :data="tableData"
         border
         style="width: 100%;"
-        v-show="entity.CONSULTTYPE==0">
+        v-show="CONSULTTYPE==0">
         <el-table-column
           prop="INTG_CHNNAME"
           label="姓名">
         </el-table-column>
         <el-table-column
           prop="PASSPORTNO"
-          label="证件号码"
-          >
+          label="证件号码">
         </el-table-column>
         <el-table-column
           prop="PASSPORTEXPIREDATE"
@@ -178,16 +176,26 @@
           label="反馈状态">
         </el-table-column>
         <el-table-column
+          prop="DETAILS"
+          label="反馈状态"
+          v-if="false">
+        </el-table-column>
+        <el-table-column
+          prop="serial"
+          label="反馈状态"
+          v-if="false">
+        </el-table-column>
+        <el-table-column
           label="操作"
           width="200"
           fixed="right">
           <template slot-scope="scope">
-            <el-button class="table-btn" size="mini" plain icon="el-icon-delete" @click="entryDetails(scope.row)">录入</el-button>
-            <el-button class="table-btn" size="mini" plain icon="el-icon-delete" @click="$router.push({name:'ConsultationZXHG'})">回复</el-button>
+            <el-button class="table-btn" size="mini" plain icon="el-icon-delete" v-if="scope.row.CONSULTSERIAL" @click="reviewTohis(scope.row)">回复</el-button>
+            <el-button class="table-btn" size="mini" plain icon="el-icon-delete" @click="entryDetails(scope.row)" v-else>录入</el-button>
          </template>
         </el-table-column>
       </el-table>
-      <div class="middle-foot" v-show="entity.CONSULTTYPE==0">
+      <div class="middle-foot" v-show="CONSULTTYPE==0">
         <div class="page-msg">
           <div class="">
             共{{Math.ceil(TotalResult/pageSize)}}页
@@ -214,54 +222,32 @@
           :page-size="pageSize"
           layout="prev, pager, next"
           :total="TotalResult"
-          v-show="entity.CONSULTTYPE==0">
+          v-show="CONSULTTYPE==0">
         </el-pagination>
       </div>
-      <el-row align="center" :gutter="2" type="flex" v-show="entity.CONSULTTYPE==1||entity.CONSULTTYPE==2">
+      <el-row align="center" :gutter="2" type="flex" v-show="CONSULTTYPE==1||CONSULTTYPE==2">
         <el-col :span="24" class="input-item">
           <span class="yy-input-text width-lef">问题详情：</span>
-          <el-input type="textarea"></el-input>
+          <el-input type="textarea" v-model="businessDETAILS"></el-input>
         </el-col>
       </el-row>
-      <el-row align="center" :gutter="2" type="flex" justify="center" style="margin-top:10px;padding-bottom:20px;border-bottom:1px dotted #ccc" v-show="entity.CONSULTTYPE==1||entity.CONSULTTYPE==2">
-        <el-button type="primary" size="small" @click="">回复</el-button>
+      <el-row align="center" :gutter="2" type="flex" justify="center" style="margin-top:10px;padding-bottom:20px;border-bottom:1px dotted #ccc" v-show="CONSULTTYPE==1||CONSULTTYPE==2">
+        <el-button type="primary" size="small" @click="businessSave">{{businessText}}</el-button>
         <el-button type="primary" size="small" @click="" style="margin-left:20px!important">清空</el-button>
       </el-row>
     </div>
 
-    <el-dialog title="新增"  :visible.sync="addedDialogVisible" width="400px;">
-      <el-form :model="dform" ref="detailsForm">
-        <el-row type="flex"  class="mb-6">
-          <el-col :span="8" class="input-item">
-            <span class="yy-input-text">监控类型：</span>
-          <span class="yy-input-input detailinput">   {{dform.PARENT_JC }}</span>
-          </el-col>
-          <el-col :span="8" class="input-item">
-            <span class="yy-input-text">报警阈值：</span>
-            <span class="yy-input-input detailinput"> {{dform.DEPT_QC }}</span>
-          </el-col>
-          <el-col :span="8" class="input-item">
-            <span class="yy-input-text">阈值单位：</span>
-            <span class="yy-input-input detailinput"> {{dform.DEPT_JC }}</span>
-          </el-col>
-        </el-row>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="addedDialogVisible = false" size="small" type="warning">提交</el-button>
-      </div>
-    </el-dialog>
-
     <el-dialog title="录入详情"  :visible.sync="detailsDialogVisible" width="400px;">
-      <el-form :model="dform" ref="detailsForm">
+      <!-- <el-form :model="dform" ref="detailsForm"> -->
         <el-row :gutter="2">
           <el-col :span="24" class="input-item">
             <span class="yy-input-text tt-width">问题详情：</span>
-            <el-input type="textarea" class="height80"></el-input>
+            <el-input type="textarea" class="height80" v-model="DETAILS"></el-input>
           </el-col>
         </el-row>
-      </el-form>
+      <!-- </el-form> -->
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" size="small" @click="detailsDialogVisible = false">保存</el-button>
+        <el-button type="primary" size="small" @click="guestSave">保存</el-button>
         <el-button type="primary" size="small" @click="" style="margin-left:20px!important">清空</el-button>
       </div>
     </el-dialog>
@@ -276,19 +262,23 @@ export default {
       pageSize: 10,
       TotalResult: 0,
 
-      entity:{
-        CONSULTTYPE:0
-      },
+      entity:{},
       takeOffName:[],
       pd: {},
       selection:[],
+      CONSULTTYPE:0,//咨询问题类型
+      detailsRow:{},//旅客校验录入详情本行数据
+      detailsRow1:{},
+      detailsTotal:{},//旅客校验录入详情总传参
+      DETAILS:'',
+      businessText:'保存',
+      businessDETAILS:'',
 
       nation: [],
       company: [],
       value: '',
       value1: "",
       addedDialogVisible:false,
-      addDialogVisible: false,
       detailsDialogVisible: false,
       options: [{
           value: 10,
@@ -376,9 +366,64 @@ export default {
          };
        })
     },
-    entryDetails(row){//录入详情
+    guestSave(){
+      var obj = {};
+      var ent = {};
+      obj.CONSULTTYPE = this.CONSULTTYPE;
+      obj.DETAILS = this.DETAILS;
+      obj.IAPISERIAL = this.detailsRow1.SERIAL;
+      ent = this.entity
+      this.detailsTotal = Object.assign(obj,ent,this.detailsRow);
+      // this.detailsRow.DETAILS = this.DETAILS;
+
+      this.$api.post('/manage-platform/consult/saveConsult',this.detailsTotal,
+        r => {
+          if(r.success){
+            console.log(r);
+            this.$message({
+              message: '恭喜你，保存成功',
+              type: 'success'
+            });
+            this.detailsTotal.serial = r.data.serial;
+            this.getList(this.CurrentPage, this.pageSize, this.pd)
+            this.detailsDialogVisible = false;
+            for(var i=0;i<this.tableData.length;i++){
+              if(this.tableData[i].SERIAL == obj.IAPISERIAL){
+                this.tableData[i].DETAILS = this.DETAILS;
+                this.tableData[i].serial = r.data.serial;
+                console.log(this.tableData[i]);
+                return
+              }
+            }
+          }
+        })
+    },
+    entryDetails(row){//列表录入详情
+      this.detailsDialogVisible = true
+      this.detailsRow = row;
+      this.detailsRow1 = row;
+    },
+    reviewTohis(row){//列表回复
       console.log(row);
-      // this.detailsDialogVisible = true
+      this.$router.push({name:'ConsultationZXHG',query:{review:row,details:row.DETAILS,serial:row.serial}})
+    },
+    businessSave(){
+      var enti = {};
+      var enti = this.entity;
+      enti.CONSULTTYPE = this.CONSULTTYPE;
+      enti.DETAILS = this.businessDETAILS;
+      this.$api.post('/manage-platform/consult/saveConsult',enti,
+       r =>{
+         if(r.success){
+           console.log(r);
+           this.$message({
+             message: '恭喜你，保存成功',
+             type: 'success'
+           });
+           enti.serial = r.data.serial;
+           console.log(enti);
+         }
+       })
     }
   },
 
