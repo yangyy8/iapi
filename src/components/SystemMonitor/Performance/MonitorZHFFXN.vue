@@ -56,10 +56,10 @@
                       ></el-option>
                     </el-select>
                   </el-col>
-                  <el-col :sm="24" :md="12" :lg="6" class="input-item">
+                  <!-- <el-col :sm="24" :md="12" :lg="6" class="input-item">
                     <span class="input-text">证件号码：</span>
                     <el-input placeholder="请输入内容" v-model="cdt1.passportno" size="small" class="input-input"></el-input>
-                  </el-col>
+                  </el-col> -->
                   <el-col :sm="24" :md="12"  :lg="6" class="input-item" v-show="coCheckId==2">
                     <span class="input-text">筛选状态：</span>
                     <el-select  placeholder="请选择"  size="mini"  class="input-input"  v-model="cdt1.average" filterable clearable>

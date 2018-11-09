@@ -715,9 +715,9 @@ export default new Router({
         },
         //模型测试管理
         {
-          path: "Testmanagement",
-          name: "Testmanagement",
-          component: resolve => require(['@/components/RiskAssessment/Management/Testmanagement'], resolve),
+          path: "TestManagement",
+          name: "TestManagement",
+          component: resolve => require(['@/components/RiskAssessment/Management/TestManagement'], resolve),
         },
         //模型审批管理
         {
@@ -769,6 +769,12 @@ export default new Router({
           path: "ModelUse",
           name: "ModelUse",
           component: resolve => require(['@/components/RiskAssessment/StatisticalAnalysis/ModelUse'], resolve),
+        },
+        //定制化首页 HomePage
+        {
+          path: "HomePage",
+          name: "HomePage",
+          component: resolve => require(['@/components/RiskAssessment/StatisticalAnalysis/HomePage'], resolve),
         },
       ]
     }

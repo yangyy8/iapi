@@ -9,7 +9,7 @@
           <el-row align="center" :gutter="2" type="flex" justify="center">
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">口岸/部门：</span>
-              <el-select v-model="pd.DEPT_ID" filterable clearable placeholder="请选择" size="small" class="input-input">
+              <el-select v-model="pd.userId" filterable clearable placeholder="请选择" size="small" class="input-input" @change="nameId(pd.userId)">
                 <el-option
                   v-for="item in company"
                   :key="item.SERIAL"
@@ -20,96 +20,156 @@
             </el-col>
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">姓名：</span>
-              <el-input placeholder="请输入内容" size="small" v-model="pd.DEPT_JC"  class="input-input"></el-input>
+              <el-select v-model="pd.id" filterable clearable placeholder="请选择" size="small" class="input-input">
+                <el-option
+                  v-for="item in nameCllo"
+                  :key="item.NAME"
+                  :label="item.NAME"
+                  :value="item.NAME">
+                </el-option>
+               </el-select>
             </el-col>
-
           </el-row>
         </el-col>
         <el-col :span="2" class="down-btn-area" style="padding-top:30px;">
-          <el-button type="success" size="small" @click="getList(CurrentPage,pageSize,pd)">查询</el-button>
+          <el-button type="success" size="small" @click="addDialogVisible = true">查询</el-button>
         </el-col>
       </el-row>
     </div>
     <div class="middle">
-      <el-row class="mb-15">
-        <el-button type="warning" size="small" @click="sendMesssage">发送消息</el-button>
-        </el-row>
-      <el-table
-        :data="tableData"
-        border
-        style="width: 100%;"
-        >
-        <el-table-column
-          prop="DEPT_QC"
-          label="发送人">
-        </el-table-column>
-        <el-table-column
-          prop="DEPT_JC"
-          label="接收人"
+      <span class="tubiao hand borderL" :class="{'checked':page==0}" @click="page=0;getList();">发件箱</span><span class="tubiao hand borderR" :class="{'checked':page==1}" @click="qq">收件箱</span>
+      <div class="tableWrap" v-show="page==0">
+        <el-table
+          :data="outTableData"
+          border
+          style="width: 100%;"
           >
-        </el-table-column>
-        <el-table-column
-          prop="DEPT_CODE"
-          label="消息内容">
-        </el-table-column>
-        <el-table-column
-          prop="PARENT_JC"
-          label="发送时间"
-          >
-        </el-table-column>
-        <el-table-column
-          prop="STATUS"
-          label="状态"
-        >
-        <template slot-scope="scope">
-            {{scope.row.STATUS | fiftertype}}
-          </template>
-        </el-table-column>
-
-        <el-table-column
-          label="操作" width="200">
-          <template slot-scope="scope">
-              <el-button class="table-btn" size="mini" plain icon="el-icon-edit" @click="review(scope.row)">回复</el-button>
-              <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row)">详情</el-button>
-         </template>
-        </el-table-column>
-      </el-table>
-      <div class="middle-foot">
-        <div class="page-msg">
-          <div class="">
-            共{{Math.ceil(TotalResult/pageSize)}}页
+          <el-table-column
+            prop="DETAILS"
+            label="消息内容">
+          </el-table-column>
+          <el-table-column
+            prop="SENDTIME"
+            label="发送时间">
+          </el-table-column>
+          <el-table-column
+            label="操作" width="200">
+            <template slot-scope="scope">
+              <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="outDetails(scope.row)">详情</el-button>
+           </template>
+          </el-table-column>
+        </el-table>
+        <div class="middle-foot">
+          <div class="page-msg">
+            <div class="">
+              共{{Math.ceil(TotalResult/pageSize)}}页
+            </div>
+            <div class="">
+              每页
+              <el-select v-model="pageSize" @change="pageSizeChange(pageSize)" placeholder="10" size="mini" class="page-select">
+                <el-option
+                  v-for="item in options"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value">
+                </el-option>
+              </el-select>
+              条
+            </div>
+            <div class="">
+              共{{TotalResult}}条
+            </div>
           </div>
-          <div class="">
-            每页
-            <el-select v-model="pageSize" @change="pageSizeChange(pageSize)" placeholder="10" size="mini" class="page-select">
-              <el-option
-                v-for="item in options"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value">
-              </el-option>
-            </el-select>
-            条
-          </div>
-          <div class="">
-            共{{TotalResult}}条
-          </div>
+          <el-pagination
+            background
+            @current-change="handleCurrentChange"
+            :page-size="pageSize"
+            layout="prev, pager, next"
+            :total="TotalResult">
+          </el-pagination>
         </div>
-        <el-pagination
-          background
-          @current-change="handleCurrentChange"
-          :page-size="pageSize"
-          layout="prev, pager, next"
-          :total="TotalResult">
-        </el-pagination>
+      </div>
+      <div class="tableWrap" v-show="page==1">
+        <el-row class="mb-5">
+          <el-button type="warning" size="small" @click="sendMesssage">发送消息</el-button>
+        </el-row>
+        <el-table
+          :data="inTableData"
+          border
+          style="width: 100%;"
+          >
+          <el-table-column
+            prop="informationSend.SENDERNAME"
+            label="发送人">
+          </el-table-column>
+          <el-table-column
+            prop="informationSend.DETAILS"
+            label="发送内容">
+          </el-table-column>
+          <el-table-column
+            prop="informationSend.SENDTIME"
+            label="发送时间">
+          </el-table-column>
+          <el-table-column
+            prop="READSTATUS"
+            label="读取状态">
+            <template slot-scope="scope">
+              {{scope.row.STATUS | fiftertype}}
+            </template>
+          </el-table-column>
+
+          <el-table-column
+            label="操作" width="200">
+            <template slot-scope="scope">
+                <el-button class="table-btn" size="mini" plain icon="el-icon-edit" @click="inReply(scope.row)">回复</el-button>
+                <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="inDetails(scope.row)">详情</el-button>
+           </template>
+          </el-table-column>
+        </el-table>
+        <div class="middle-foot">
+          <div class="page-msg">
+            <div class="">
+              共{{Math.ceil(inTotalResult/inPageSize)}}页
+            </div>
+            <div class="">
+              每页
+              <el-select v-model="inPageSize" @change="pageSizeChange(inPageSize)" placeholder="10" size="mini" class="page-select">
+                <el-option
+                  v-for="item in options"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value">
+                </el-option>
+              </el-select>
+              条
+            </div>
+            <div class="">
+              共{{inTotalResult}}条
+            </div>
+          </div>
+          <el-pagination
+            background
+            @current-change="handleCurrentChange"
+            :page-size="inPageSize"
+            layout="prev, pager, next"
+            :total="inTotalResult">
+          </el-pagination>
+        </div>
       </div>
     </div>
     <el-dialog title="发送消息"  :visible.sync="sendDialogVisible" width="400px;">
-      <el-form :model="form" ref="addForm">
+      <el-form :model="dform" ref="addForm">
         <el-row type="flex"  class="mb-6" style="margin-left:85px">
           <el-col :span="8" class="input-item">
             <span class="yy-input-text">接收口岸：</span>
-          <span class="yy-input-input detailinput">   {{dform.PARENT_JC }}</span>
+            <el-select  placeholder="请选择"  size="mini"  class="input-input" v-model="dform.port" filterable clearable @visible-change="portMethod">
+              <el-option
+              v-for="item in portName"
+              :key="item.KADM"
+              :value="item.KADM"
+              :label="item.KAMC"
+              ></el-option>
+            </el-select>
           </el-col>
           <el-col :span="8" class="input-item">
             <span class="yy-input-text">接收人：</span>
@@ -135,12 +195,12 @@
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
             <span class="yy-input-text width-ts">回复内容：</span>
-            <el-input type="textarea"></el-input>
+            <el-input type="textarea" v-model="dform.DETAILS"></el-input>
           </el-col>
         </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="addItem('addForm')" size="small">发送</el-button>
+        <el-button type="primary" @click="sendMesssageReal" size="small">发送</el-button>
         <el-button @click="" size="small" type="warning">清空</el-button>
       </div>
     </el-dialog>
@@ -149,61 +209,92 @@
         <el-row type="flex"  class="mb-6" style="margin-left:85px">
           <el-col :span="8" class="input-item">
             <span class="yy-input-text">接收人：</span>
-            <span class="review-span">李四</span>
+            <span class="review-span">{{form.RECEIVENAME}}</span>
           </el-col>
           <el-col :span="8" class="input-item">
             <span class="yy-input-text">发送人：</span>
-            <span class="review-span">张萌萌</span>
+            <span class="review-span">{{form.informationSend.SENDERNAME}}</span>
           </el-col>
           <el-col :span="8" class="input-item">
             <span class="yy-input-text">发送时间：</span>
-            <span class="review-span">2018-09-20</span>
+            <span class="review-span">{{form.informationSend.SENDTIME}}</span>
           </el-col>
         </el-row>
 
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
             <span class="yy-input-text width-ts">回复内容：</span>
-            <el-input type="textarea"></el-input>
+            <el-input type="textarea" v-model="replyContent"></el-input>
           </el-col>
         </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="addItem('addForm')" size="small">发送</el-button>
-        <el-button @click="" size="small" type="warning">清空</el-button>
+        <el-button type="primary" @click="inReplySend" size="small">发送</el-button>
+        <el-button @click="" size="small" type="warning" @click="replyContent=''">清空</el-button>
       </div>
     </el-dialog>
-    <el-dialog title="详情"  :visible.sync="detailsDialogVisible" width="400px;">
+    <el-dialog title="收件详情"  :visible.sync="inDetailsDialogVisible" width="400px;">
       <el-form :model="dform" ref="detailsForm">
         <el-row type="flex"  class="mb-6">
           <el-col :span="12" class="input-item">
-            <span class="yy-input-text">接收人：</span>
-          <span class="yy-input-input detailinput">   {{dform.PARENT_JC }}</span>
+            <span class="yy-input-text">发送人：</span>
+            <span class="yy-input-input detailinput">{{dform.informationSend.SENDERNAME}}</span>
           </el-col>
           <el-col :span="12" class="input-item">
             <span class="yy-input-text">发送时间：</span>
-            <span class="yy-input-input detailinput"> {{dform.DEPT_QC }}</span>
+            <span class="yy-input-input detailinput"> {{dform.informationSend.SENDTIME}}</span>
           </el-col>
         </el-row>
         <el-row type="flex"  class="mb-6">
           <el-col :span="12" class="input-item">
-            <span class="yy-input-text">发送人：</span>
-            <span class="yy-input-input detailinput"> {{dform.DEPT_JC }}</span>
-          </el-col>
-          <el-col :span="12" class="input-item">
-            <span class="yy-input-text">接收时间：</span>
-          <span class="yy-input-input detailinput">   {{dform.DEPT_CODE }}</span>
+            <span class="yy-input-text">回复时间：</span>
+            <span class="yy-input-input detailinput">  {{dform.REPLYTIME}}</span>
           </el-col>
         </el-row>
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
-            <span class="tt-input">消息内容：</span>
-            <span class="yy-input-input detailInp">  {{dform.STATUS | fiftertype}}</span>
+            <span class="tt-input">发送内容：</span>
+            <span class="yy-input-input detailInp">  {{dform.informationSend.DETAILS}}</span>
+          </el-col>
+        </el-row>
+        <el-row type="flex"  class="mb-6">
+          <el-col :span="24" class="input-item">
+            <span class="tt-input">回复内容：</span>
+            <span class="yy-input-input detailInp">  {{dform.REPLYMESSAGE}}</span>
           </el-col>
         </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="detailsDialogVisible = false" size="small" type="warning">下载附件</el-button>
+      </div>
+    </el-dialog>
+    <el-dialog title="发件详情"  :visible.sync="outDetailsDialogVisible" width="400px;">
+      <el-table
+        :data="outTableDataDetail"
+        border
+        style="width: 100%;">
+        <el-table-column
+          prop="RECEIVENAME"
+          label="收件人姓名">
+        </el-table-column>
+        <el-table-column
+          prop="REPLYMESSAGE"
+          label="回复内容">
+        </el-table-column>
+        <el-table-column
+          prop="REPLYTIME"
+          label="回复时间">
+        </el-table-column>
+        <el-table-column
+          prop="RECEIVETYPE"
+          label="读取状态">
+          <template slot-scope="scope">
+            {{scope.row.STATUS | fiftertype}}
+          </template>
+        </el-table-column>
+      </el-table>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="outDetailsDialogVisible = false" size="small">取消</el-button>
       </div>
     </el-dialog>
   </div>
@@ -216,15 +307,32 @@ export default {
       CurrentPage: 1,
       pageSize: 10,
       TotalResult: 0,
+
+      inCurrentPage: 1,
+      inPageSize: 10,
+      inTotalResult: 0,
+
+
+
+      outTableData:[],
+      inTableData:[],
+      outTableDataDetail:[],
+
       pd: {},
       nation: [],
       company: [],
+      portName:[],
+      page:0,
+      replyContent:'',//回复内容
+      serialImp:'',
+      nameCllo:[],
 
       value: '',
       value1: "",
       dialogText: "新增",
       addDialogVisible: false,
-      detailsDialogVisible: false,
+      inDetailsDialogVisible: false,//收件详情
+      outDetailsDialogVisible: false,//发件详情
       sendDialogVisible:false,
       options: [{
           value: 10,
@@ -263,18 +371,27 @@ export default {
         //   }
         // }]
       },
-      form: {},
-      dform: {},
+      form: {
+        informationSend:{}
+      },
+      dform: {
+        informationSend:{}
+      },
     }
   },
   mounted() {
-    this.getList(this.CurrentPage, this.pageSize, this.pd);
+    this.getList();
+    // this.getList(this.CurrentPage, this.pageSize, this.pd);
     this.queryNationality();
   },
   activated() {
     this.getList(this.CurrentPage, this.pageSize, this.pd);
   },
   methods: {
+    qq(){
+      this.page=1;
+      this.getList();
+    },
     handleRemove(file, fileList) {
        console.log(file, fileList);
      },
@@ -287,10 +404,20 @@ export default {
      beforeRemove(file, fileList) {
        return this.$confirm(`确定移除 ${ file.name }？`);
      },
-     sendMesssage(){
+     sendMesssage(){//发送消息
        this.sendDialogVisible = true;
      },
-
+     sendMesssageReal(){
+       this.$api.post('/manage-platform/information/saveInformationSend',p,
+         r =>{
+           if(r.success){
+             this.$message({
+               message: '恭喜你，发送成功',
+               type: 'success'
+             });
+           }
+         })
+     },
     handleSelectionChange(val) {
       this.multipleSelection = val;
     },
@@ -304,31 +431,113 @@ export default {
       console.log(`当前页: ${val}`);
     },
     getList(currentPage, showCount, pd) {
-      let p = {
-        "currentPage": currentPage,
-        "showCount": showCount,
-        "pd": pd
-      };
-      this.$api.post('/manage-platform/deptSys/selectAll', p,
-        r => {
-          console.log(r);
-          this.tableData = r.data.deptList.pdList;
-          this.TotalResult = r.data.deptList.totalResult;
+      // let p = {
+      //   "currentPage": currentPage,
+      //   "showCount": showCount,
+      //   "pd": pd
+      // };
+      if(this.page==0){
+        this.$api.post('/manage-platform/information/queryInformationSendList',{},
+          r => {
+            console.log(r);
+            this.outTableData = r.data.resultList;
+            this.TotalResult = r.data.totalResult;
+          })
+      }else if(this.page==1){
+        this.$api.post('/manage-platform/information/queryInformationReceiveList',{},
+         r => {
+           this.inTableData = r.data.resultList;
+           this.inTotalResult = r.data.totalResult;
+         })
+      }
+    },
+    outDetails(row){
+      this.outDetailsDialogVisible = true;
+      let p={
+        'serial':row.SERIAL
+      }
+      this.$api.post('/manage-platform/information/queryInformationSend',p,
+        r =>{
+          this.outTableDataDetail = r.data.receiveList;
         })
     },
-    review(n) {
-      this.addDialogVisible = true;
-      this.form=Object.assign({}, n);
+    inDetails(row){
+      this.inDetailsDialogVisible = true;
+      let p={
+        'serial':row.SERIAL
+      }
+      this.$api.post('/manage-platform/information/queryInformationReceive',p,
+        r =>{
+          this.dform = r.data;
+        })
     },
-    queryNationality() {
-      this.$api.post('/manage-platform/userSys/deptList', {},
+    inReply(row){//点击回复
+      this.replyContent='';
+      this.addDialogVisible = true;
+      this.serialImp = row.SERIAL;
+      let p={
+        'serial':row.SERIAL
+      }
+      this.$api.post('/manage-platform/information/queryInformationReceive',p,
+        r =>{
+          this.form = r.data;
+        })
+    },
+    inReplySend(){//点击回复发送
+      var entity = {};
+      entity.serial = this.serialImp;
+      entity.REPLYMESSAGE = this.replyContent;
+      let p={
+        'entity':entity
+      }
+      this.$api.post('/manage-platform/information/saveInformationReceive',p,
+        r =>{
+          if(r.success){
+            this.$message({
+              message: '恭喜你，发送成功',
+              type: 'success'
+            });
+          }
+          this.addDialogVisible = false;
+        })
+    },
+    queryNationality() {//口岸
+      this.$api.post('/manage-platform/userSys/deptListSmall', {},
         r => {
           console.log(r);
           if (r.success) {
             this.company = r.data.deptList;
+            console.log(this.company);
           }
         })
     },
+    nameId(val){
+      console.log(val)
+      var obj={};
+      obj.userId = val;
+      let p={
+        'pd':obj
+      }
+      this.$api.post('/manage-platform/userSys/selectAll', p,
+        r => {
+          console.log(r);
+          this.nameCllo = r.data.userList.pdList;
+        })
+      // let arr = this.company;
+      // this.nameCllo = [];
+      // for(var i=0;i<arr.length;i++){
+      //   if(arr[i].DEPT_JC == val){
+      //     console.log(arr[i]);
+      //     this.nameCllo.push(arr[i].NAME)
+      //   }
+      // }
+      // console.log(this.nameCllo);
+    },
+    review(n) {
+
+      this.form=Object.assign({}, n);
+    },
+
 
     addItem(formName) {
       if (this.form.DEPT_ORDER != undefined && this.form.DEPT_ORDER != "") {
@@ -401,6 +610,14 @@ export default {
         });
       });
     },
+    portMethod(){
+      this.$api.post('/manage-platform/codeTable/queryAirportMatch',{},
+      r =>{
+        if(r.success){
+          this.portName = r.data
+        }
+      })
+    }
   },
   filters: {
     fiftertype(val) {
@@ -443,5 +660,25 @@ function checkRate(nubmer) {　　
 }
 .width-ts{
   width: 20.3%!important;
+}
+.checked{
+  background:#399bfe;
+  color:#ffffff;
+}
+.tubiao{
+  width:100px; padding:6px 15px;
+  border:1px solid #399bfe;
+  font-size: 13px;
+}
+.borderL{
+  border-top-left-radius: 3px;
+  border-bottom-left-radius: 3px;
+}
+.borderR{
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px;
+}
+.tableWrap{
+  margin-top: 10px;
 }
 </style>

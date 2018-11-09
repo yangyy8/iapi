@@ -9,27 +9,27 @@
           <el-row align="center" :gutter="2" type="flex" justify="center">
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">姓名：</span>
-              <el-input placeholder="请输入内容" size="small" v-model="pd.DEPT_JC"  class="input-input"></el-input>
+              <el-input placeholder="请输入内容" size="small" v-model="cdt.NAME"  class="input-input"></el-input>
             </el-col>
             <el-col :sm="24" :md="12" :lg="8" class="input-item">
-              <span class="input-text"><i class="t-must">*</i>值班时间：</span>
+              <span class="input-text">值班时间：</span>
               <div class="input-input t-flex t-date">
                  <el-date-picker
-                 v-verify.input.blur="{regs:'required',submit:'timeDemo'}"
-                 v-model="pd.startCreatetime"
+                 v-model="cdt.STARTTIME"
                  type="datetime"
                  size="small"
-                 value-format="yyyyMMddHHmmss"
+                 format="yyyy-MM-dd HH:mm"
+                 value-format="yyyyMMddHHmm"
                  placeholder="开始时间"
                  :picker-options="pickerOptions">
                 </el-date-picker>
                  <span class="septum">-</span>
                  <el-date-picker
-                  v-verify.input.blur="{regs:'required',submit:'timeDemo'}"
-                  v-model="pd.endCreatetime"
+                  v-model="cdt.ENDTIME"
                   type="datetime"
                   size="small"
-                  value-format="yyyyMMddHHmmss"
+                  format="yyyy-MM-dd HH:mm"
+                  value-format="yyyyMMddHHmm"
                   placeholder="结束时间"
                   :picker-options="pickerOptions1">
                 </el-date-picker>
@@ -38,13 +38,13 @@
           </el-row>
         </el-col>
         <el-col :span="2" class="down-btn-area" style="padding-top:30px;">
-          <el-button type="success" size="small" @click="">查询</el-button>
+          <el-button type="success" size="small" @click="getList(CurrentPage,pageSize,cdt);">查询</el-button>
         </el-col>
       </el-row>
     </div>
     <div class="middle">
       <el-row class="mb-15">
-        <el-button type="primary" size="small" @click="adds(0,'')">新增</el-button>
+        <el-button type="primary" size="small" @click="adds(0,'');form={}">新增</el-button>
         </el-row>
       <el-table
         :data="tableData"
@@ -52,35 +52,34 @@
         style="width: 100%;"
         >
         <el-table-column
-          prop="DEPT_QC"
+          prop="NAME"
           label="姓名">
         </el-table-column>
         <el-table-column
-          prop="DEPT_JC"
+          prop="USERNAME"
           label="账号"
           >
         </el-table-column>
         <el-table-column
-          prop="DEPT_CODE"
-          label="岗位">
+          prop="DEPT_QC"
+          label="部门">
         </el-table-column>
         <el-table-column
-          prop="PARENT_JC"
+          prop="PHONE"
           label="电话">
         </el-table-column>
         <el-table-column
-          prop="STATUS"
+          prop="LEADERNAME"
           label="值班领导">
           </el-table-column>
           <el-table-column
-            prop="PARENT_JC"
+            prop="STARTTIMESTR"
             label="值班开始时间">
           </el-table-column>
           <el-table-column
-            prop="STATUS"
+            prop="ENDTIMESTR"
             label="值班结束时间">
         </el-table-column>
-
         <el-table-column
           label="操作" width="200">
           <template slot-scope="scope">
@@ -124,49 +123,63 @@
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
             <span class="yy-input-text"><font class="yy-color">*</font>姓名：</span>
-            <el-input placeholder="请输入内容(不能超过20个汉字)" size="small" maxlength="20"  v-model="form.ROLE_NAME"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
+            <el-select placeholder="请选择" v-model="form.USERSERIAL" filterable clearable @visible-change="nameMethod(0)" size="small" class="yy-input-input" @change="nameMethodReal(form.USERSERIAL)" v-verify.change.blur ="{regs:'required',submit:'demo2'}">
+              <el-option
+              v-for="item in dutyName"
+              :key="item.SERIAL"
+              :value="item.SERIAL"
+              :label="item.NAME">
+              </el-option>
+            </el-select>
           </el-col>
         </el-row>
 
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
             <span class="yy-input-text"><font class="yy-color">*</font>账号：</span>
-            <el-input placeholder="请输入内容(不能超过20个汉字)" size="small" maxlength="20"  v-model="form.ROLE_NAME"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
+            <el-input placeholder="请输入账号" size="small" v-model="form.USERNAME"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
           </el-col>
         </el-row>
 
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
-            <span class="yy-input-text"><font class="yy-color">*</font>岗位：</span>
-            <el-input placeholder="请输入内容(不能超过20个汉字)" size="small" maxlength="20"  v-model="form.ROLE_NAME"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
+            <span class="yy-input-text"><font class="yy-color">*</font>部门：</span>
+            <el-input placeholder="请输入部门" size="small" v-model="form.DEPT_QC"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
           </el-col>
         </el-row>
 
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
             <span class="yy-input-text"><font class="yy-color">*</font>电话：</span>
-            <el-input placeholder="请输入内容(不能超过20个汉字)" size="small" maxlength="20"  v-model="form.ROLE_NAME"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
+            <el-input placeholder="请输入电话" size="small" v-model="form.PHONE"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
           </el-col>
         </el-row>
 
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
             <span class="yy-input-text"><font class="yy-color">*</font>值班领导：</span>
-            <el-input placeholder="请输入内容(不能超过20个汉字)" size="small" maxlength="20"  v-model="form.ROLE_NAME"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
+            <el-select placeholder="请选择" v-model="form.LEADERSERIAL" filterable clearable @visible-change="nameMethod(1)" size="small" class="yy-input-input" @change="leaderNameReal(form.LEADERSERIAL)" v-verify.change.blur ="{regs:'required',submit:'demo2'}">
+              <el-option
+              v-for="item in leaderName"
+              :key="item.SERIAL"
+              :value="item.SERIAL"
+              :label="item.NAME">
+              </el-option>
+            </el-select>
           </el-col>
         </el-row>
 
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
             <span class="yy-input-text"><font class="yy-color">*</font>值班开始时间：</span>
-
               <el-date-picker
-              v-verify.change.blur ="{regs:'required',submit:'demo2'}"
-
-              type="date" size="mini"
+              v-model="form.STARTTIMESTR"
+              v-verify.input.blur ="{regs:'required',submit:'demo2'}"
+              type="datetime" size="mini"
               placeholder="请选择值班开始时间"
               class="yy-input-input"
-              value-format="yyyyMMdd">
+              format="yyyy-MM-dd HH:mm"
+              value-format="yyyyMMddHHmm">
             </el-date-picker>
 
           </el-col>
@@ -176,12 +189,13 @@
           <el-col :span="24" class="input-item">
             <span class="yy-input-text"><font class="yy-color">*</font>值班结束时间：</span>
               <el-date-picker
-              v-verify.change.blur ="{regs:'required',submit:'demo2'}"
-
-              type="date" size="mini"
+              v-model="form.ENDTIMESTR"
+              v-verify.input.blur ="{regs:'required',submit:'demo2'}"
+              type="datetime" size="mini"
               placeholder="请选择值班结束时间"
               class="yy-input-input"
-              value-format="yyyyMMdd">
+              format="yyyy-MM-dd HH:mm"
+              value-format="yyyyMMddHHmm">
             </el-date-picker>
           </el-col>
         </el-row>
@@ -196,6 +210,7 @@
 </template>
 
 <script>
+import {formatDate,format} from '@/assets/js/date.js'
 export default {
   data() {
     return {
@@ -203,9 +218,13 @@ export default {
       CurrentPage: 1,
       pageSize: 10,
       TotalResult: 0,
+      cdt:{},
+
       pd: {},
       nation: [],
       company: [],
+      dutyName:[],
+      leaderName:[],
 
       value: '',
       value1: "",
@@ -228,37 +247,31 @@ export default {
       ],
       tableData: [],
       multipleSelection: [],
+      pickerOptions: {
+        disabledDate: (time) => {
+            if (this.cdt.ENDTIME != null) {
+              let startT = formatDate(new Date(time.getTime()),'yyyyMMddhhmm');
+              return startT > this.cdt.ENDTIME;
+            }else if(this.cdt.ENDTIME == null){
+              return false
+            }
+        }
+      },
       pickerOptions1: {
-        // shortcuts: [{
-        //   text: '今天',
-        //   onClick(picker) {
-        //     picker.$emit('pick', new Date());
-        //   }
-        // }, {
-        //   text: '昨天',
-        //   onClick(picker) {
-        //     const date = new Date();
-        //     date.setTime(date.getTime() - 3600 * 1000 * 24);
-        //     picker.$emit('pick', date);
-        //   }
-        // }, {
-        //   text: '一周前',
-        //   onClick(picker) {
-        //     const date = new Date();
-        //     date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
-        //     picker.$emit('pick', date);
-        //   }
-        // }]
+        disabledDate: (time) => {
+            let endT = formatDate(new Date(time.getTime()),'yyyyMMddhhmm');
+            return endT < this.cdt.STARTTIME;
+        }
       },
       form: {},
       dform: {},
     }
   },
   mounted() {
-    this.getList(this.CurrentPage, this.pageSize, this.pd);
+    this.getList(this.CurrentPage, this.pageSize, this.cdt);
   },
   activated() {
-    this.getList(this.CurrentPage, this.pageSize, this.pd);
+    this.getList(this.CurrentPage, this.pageSize, this.cdt);
   },
   methods: {
 
@@ -266,61 +279,81 @@ export default {
       this.multipleSelection = val;
     },
     pageSizeChange(val) {
-      this.getList(this.CurrentPage, val, this.pd);
+      this.getList(this.CurrentPage, val, this.cdt);
       console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
-      this.getList(val, this.pageSize, this.pd);
-
+      this.getList(val, this.pageSize, this.cdt);
       console.log(`当前页: ${val}`);
     },
     getList(currentPage, showCount, pd) {
       let p = {
         "currentPage": currentPage,
         "showCount": showCount,
-        "pd": pd
+        "cdt": pd
       };
-      this.$api.post('/manage-platform/deptSys/selectAll', p,
+      this.$api.post('/manage-platform/watch/queryListPage', p,
         r => {
           console.log(r);
-          this.tableData = r.data.deptList.pdList;
-          this.TotalResult = r.data.deptList.totalResult;
+          this.tableData = r.data.resultList;
+          this.TotalResult = r.data.totalResult;
         })
     },
-    adds(n, i) {
+    nameMethod(type){
+      this.$api.post('/manage-platform/watch/queryUserAll',{},
+        r => {
+          if(type==0){
+            this.dutyName = r.data;
+          }else if(type==1){
+            this.leaderName = r.data;
+          }
+        })
+    },
+    leaderNameReal(val){
+      let arr = this.leaderName;
+      for(var i=0;i<arr.length;i++){
+        if(arr[i].SERIAL == val){
+          this.form.LEADERNAME = arr[i].NAME;
+        }
+      }
+    },
+    nameMethodReal(val){//新增添值&编辑修改
+      let arr = this.dutyName;
+      for(var i=0;i<arr.length;i++){
+        if(arr[i].SERIAL == val){
+          this.form.PHONE = arr[i].PHONE;//电话
+          this.form.USERNAME = arr[i].USERNAME;//账号
+          this.form.DEPT_QC = arr[i].DEPT_QC;
+          this.form.DEPT_ID = arr[i].DEPT_ID;//部门id
+          this.form.NAME = arr[i].NAME;//姓名
+        }
+      }
+    },
+    adds(n, i) {//打开新增&编辑模态框
       this.addDialogVisible = true;
-
       if (n != 0) {
         this.tp = 1;
         // this.form = i;
         this.form=Object.assign({}, i);
+        console.log(this.form)
+        console.log(this.form.STARTTIMESTR)
+        this.form.STARTTIMESTR=formatDate(new Date(this.form.STARTTIMESTR),'yyyyMMddhhmm');
+        this.form.ENDTIMESTR=formatDate(new Date(this.form.ENDTIMESTR),'yyyyMMddhhmm');
         this.dialogText="编辑";
       }else {
+        this.tp = 0;
         this.dialogText="新增";
       }
 
     },
-
-
-
-    addItem(formName) {
-      if (this.form.DEPT_ORDER != undefined && this.form.DEPT_ORDER != "") {
-        if (!checkRate(this.form.DEPT_ORDER)) {
-          this.$message.error('排列序号必须为数字，请重新输入！');
-          return;
-        }
-      }
-
+    addItem(formName) {//新增&编辑保存
       if (this.$validator.listener.demo2) {
         const result = this.$validator.verifyAll('demo2')
         if (result.indexOf(false) > -1) {
           return;
         }
       }
-
-       var url = "/manage-platform/deptSys/edit";
-
-      this.$api.post(url, this.form,
+      this.$api.post('/manage-platform/watch/saveWatch', this.form,
         r => {
           console.log(r);
           if (r.success) {
@@ -331,9 +364,9 @@ export default {
           } else {
             this.$message.error('保存失败！');
           }
-          this.$refs[formName].resetFields();
+          // this.$refs[formName].resetFields();
           this.addDialogVisible = false;
-          this.getList();
+          this.getList(this.CurrentPage, this.pageSize, this.cdt);
           // this.tableData=r.Data.ResultList;
         }, e => {
           this.$message.error('失败了');
@@ -341,22 +374,22 @@ export default {
     },
 
     deletes(i) {
-      let p = {
-        "SERIAL": i.SERIAL
-      };
-      this.$confirm('您是否确认删除此部门？', '提示', {
+      this.$confirm('您是否确认删除本条数据？', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.$api.post('/manage-platform/deptSys/delete', p,
+        let p = {
+          'SERIAL':i.SERIAL
+        }
+        this.$api.post('/manage-platform/watch/delete',p,
           r => {
             if (r.success) {
               this.$message({
                 message: '删除成功！',
                 type: 'success'
               });
-              this.getList();
+              this.getList(this.CurrentPage, this.pageSize, this.cdt);
             } else {
               this.$message.error(r.Message);
             }

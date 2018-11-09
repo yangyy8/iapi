@@ -11,18 +11,26 @@
 
               <el-col :sm="24" :md="12" :lg="8" class="input-item">
                 <span class="input-text">咨询来源：</span>
-                <el-input placeholder="请输入内容" size="small" v-model="pd.DEPT_JC"  class="input-input"></el-input>
+                <el-select v-model="cdt.CONSULTFROM" filterable clearable placeholder="请选择" size="small" class="input-input">
+                  <el-option label="航空公司" value="0"></el-option>
+                  <el-option label="乘客" value="1"></el-option>
+                  <el-option label="其他" value="2"></el-option>
+                </el-select>
               </el-col>
               <el-col :sm="24" :md="12" :lg="8" class="input-item">
                 <span class="input-text">问题类型：</span>
-                <el-input placeholder="请输入内容" size="small" v-model="pd.DEPT_JC"  class="input-input"></el-input>
+                <el-select v-model="cdt.CONSULTTYPE" filterable clearable placeholder="请选择" size="small" class="input-input">
+                  <el-option label="旅客校验" value="0"></el-option>
+                  <el-option label="业务咨询" value="1"></el-option>
+                  <el-option label="其他" value="2"></el-option>
+                </el-select>
               </el-col>
               <el-col :sm="24" :md="12" :lg="8" class="input-item">
                 <span class="input-text"><i class="t-must">*</i>咨询时间：</span>
                 <div class="input-input t-flex t-date">
                    <el-date-picker
                    v-verify.input.blur="{regs:'required',submit:'timeDemo'}"
-                   v-model="pd.startCreatetime"
+                   v-model="cdt.STARTTIME"
                    type="datetime"
                    size="small"
                    value-format="yyyyMMddHHmmss"
@@ -32,7 +40,7 @@
                    <span class="septum">-</span>
                    <el-date-picker
                     v-verify.input.blur="{regs:'required',submit:'timeDemo'}"
-                    v-model="pd.endCreatetime"
+                    v-model="cdt.ENDTIME"
                     type="datetime"
                     size="small"
                     value-format="yyyyMMddHHmmss"
@@ -45,21 +53,32 @@
               </el-col>
               <el-col :sm="24" :md="12" :lg="8" class="input-item">
                 <span class="input-text">咨询人：</span>
-                <el-input placeholder="请输入内容" size="small" v-model="pd.DEPT_JC"  class="input-input"></el-input>
+                <el-input placeholder="请输入内容" size="small" v-model="cdt.CONSULTNAME"  class="input-input"></el-input>
               </el-col>
               <el-col :sm="24" :md="12" :lg="8" class="input-item">
                 <span class="input-text">航站：</span>
-                <el-input placeholder="请输入内容" size="small" v-model="pd.DEPT_JC"  class="input-input"></el-input>
+                <el-select v-model="cdt.TERMINAL" filterable clearable placeholder="请选择" size="small" class="input-input" @visible-change="terminal">
+                  <el-option
+                  v-for="item in takeOffName"
+                  :key="item.AIRPORT_CODE"
+                  :value="item.AIRPORT_CODE"
+                  :label="item.AIRPORT_CODE+' - '+item.AIRPORT_NAME">
+                  </el-option>
+                </el-select>
               </el-col>
               <el-col :sm="24" :md="12" :lg="8" class="input-item">
                 <span class="input-text">咨询方式：</span>
-                <el-input placeholder="请输入内容" size="small" v-model="pd.DEPT_JC"  class="input-input"></el-input>
+                <el-select v-model="cdt.CONSULTFROMTYPE" filterable clearable placeholder="请选择" size="small" class="input-input">
+                  <el-option label="电话" value="0"></el-option>
+                  <el-option label="传真" value="1"></el-option>
+                  <el-option label="邮箱" value="2"></el-option>
+                  <el-option label="传真" value="3"></el-option>
+                </el-select>
               </el-col>
-
             </el-row>
           </el-col>
           <el-col :span="2" class="down-btn-area" style="margin-top:35px;">
-            <el-button type="success" class="mb-15" size="small"  @click="getList(CurrentPage,pageSize,pd)">查询</el-button>
+            <el-button type="success" class="mb-15" size="small"  @click="getList(CurrentPage,pageSize,cdt)">查询</el-button>
           </el-col>
         </el-row>
     </div>
@@ -71,53 +90,44 @@
         style="width: 100%;"
         >
         <el-table-column
-          prop="DEPT_QC"
-          label="姓名">
+          prop="CONSULTFROM"
+          label="咨询来源">
         </el-table-column>
         <el-table-column
-          prop="DEPT_JC"
-          label="证件号码"
-          >
+          prop="TERMINAL"
+          label="航站">
         </el-table-column>
         <el-table-column
-          prop="DEPT_CODE"
-          label="证件有效期">
+          prop="CONSULTNAME"
+          label="咨询人">
         </el-table-column>
         <el-table-column
-          prop="DEPT_CODE"
-          label="国籍/地区">
+          prop="NAME"
+          label="被咨询人">
         </el-table-column>
         <el-table-column
-          prop="DEPT_CODE"
-          label="性别">
+          prop="CONSULTFROMTYPE"
+          label="咨询方式">
         </el-table-column>
         <el-table-column
-          prop="DEPT_CODE"
-          label="出生日期">
+          prop="CREATETIMESTR"
+          label="咨询时间">
         </el-table-column>
         <el-table-column
-          prop="DEPT_CODE"
-          label="出入境类型">
+          prop="CONSULTTYPE"
+          label="问题类型">
         </el-table-column>
         <el-table-column
-          prop="DEPT_CODE"
-          label="航班号">
+          prop="PHONE"
+          label="联系方式">
         </el-table-column>
         <el-table-column
-          prop="DEPT_CODE"
-          label="计划起飞时间">
-        </el-table-column>
-        <el-table-column
-          prop="DEPT_CODE"
-          label="签证号码">
-        </el-table-column>
-        <el-table-column
-          prop="DEPT_CODE"
-          label="签证种类">
-        </el-table-column>
-        <el-table-column
-          prop="DEPT_CODE"
-          label="反馈状态">
+          label="操作"
+          width="200"
+          fixed="right">
+          <template slot-scope="scope">
+            <el-button class="table-btn" size="mini" plain icon="el-icon-delete" @click="details(scope.row)">详情</el-button>
+         </template>
         </el-table-column>
       </el-table>
 
@@ -150,23 +160,78 @@
           :total="TotalResult">
         </el-pagination>
       </div>
-      <el-row align="center" :gutter="2" type="flex" justify="center">
-        <el-button type="primary" size="small" @click="">回复</el-button>
-        <el-button type="primary" size="small" @click="" style="margin-left:20px!important">清空</el-button>
-      </el-row>
     </div>
-
-
-
+    <el-dialog title="查看详情"  :visible.sync="detailsDialogVisible" width="400px;">
+      <el-table
+        :data="tableDataD"
+        border
+        style="width: 100%;"
+        >
+        <el-table-column
+          prop="NAME"
+          label="姓名">
+        </el-table-column>
+        <el-table-column
+          prop="CARDNUM"
+          label="证件号码">
+        </el-table-column>
+        <el-table-column
+          prop="EXPIREDATESTR"
+          label="证件有效期"
+          width="160">
+        </el-table-column>
+        <el-table-column
+          prop="NATIONALITY"
+          label="国籍/地区"
+          width="120">
+        </el-table-column>
+        <el-table-column
+          prop="GENDER"
+          label="性别">
+        </el-table-column>
+        <el-table-column
+          prop="DATEOFBIRTHSTR"
+          label="出生日期"
+          width="160">
+        </el-table-column>
+        <el-table-column
+          prop="FLIGHTTYPE"
+          label="出入境类型"
+          width="120">
+        </el-table-column>
+        <el-table-column
+          prop="FLTNO"
+          label="航班号">
+        </el-table-column>
+        <el-table-column
+          prop="DEPARTDATESTR"
+          label="计划起飞时间"
+          width="160">
+        </el-table-column>
+        <el-table-column
+          prop="VISANUMBER"
+          label="签证号码">
+        </el-table-column>
+        <el-table-column
+          prop="VISATYPE"
+          label="签证种类">
+        </el-table-column>
+        <el-table-column
+          prop="INSTRUCT_OLD"
+          label="反馈状态">
+        </el-table-column>
+      </el-table>
+      <el-row :gutter="2">
+        <el-col :span="24" class="input-item">
+          <span class="yy-input-text tt-width">问题详情：</span>
+          <el-input type="textarea" class="height80" v-model="DETAILS"></el-input>
+        </el-col>
+      </el-row>
+    </el-dialog>
   </div>
-
-
-
-
 </template>
 
 <script>
-
 import {formatDate} from '@/assets/js/date.js'
 import {dayGap} from '@/assets/js/date.js'
 export default {
@@ -176,17 +241,21 @@ export default {
       CurrentPage: 1,
       pageSize: 10,
       TotalResult: 0,
-      dealer:{},
+
+      cdt:{
+        STARTTIME:'',
+        ENDTIME:''
+      },
+      DETAILS:'',
+      takeOffName:[],
+      detailsDialogVisible:false,
+
       pd: {
         startCreatetime:'',
         endCreatetime:'',
         startDealtime:'',
         endDealtime:''
       },
-      dform: {},
-      hform: {},
-      zform: {},
-
       options: [{
           value: 10,
           label: "10"
@@ -201,13 +270,13 @@ export default {
         }
       ],
       tableData: [],
-
+      tableDataD:[],
       pickerOptions: {
         disabledDate: (time) => {
-            if (this.pd.endCreatetime != null) {
+            if (this.cdt.ENDTIME != null) {
               let startT = formatDate(new Date(time.getTime()),'yyyyMMddhhmmss');
-              return startT > this.pd.endCreatetime;
-            }else if(this.pd.endCreatetime == null){
+              return startT > this.cdt.ENDTIME;
+            }else if(this.cdt.ENDTIME == null){
               return false
             }
         }
@@ -215,46 +284,22 @@ export default {
       pickerOptions1: {
         disabledDate: (time) => {
             let endT = formatDate(new Date(time.getTime()),'yyyyMMddhhmmss');
-            return endT < this.pd.startCreatetime;
+            return endT < this.cdt.STARTTIME;
         }
       },
-
-      pickerOptions2: {
-        disabledDate: (time) => {
-            if (this.pd.endDealtime != null) {
-              let startT = formatDate(new Date(time.getTime()),'yyyyMMddhhmmss');
-              return startT > this.pd.endDealtime;
-            }else if(this.pd.endDealtime == null){
-              return false
-            }
-        }
-      },
-      pickerOptions3: {
-        disabledDate: (time) => {
-            let endT = formatDate(new Date(time.getTime()),'yyyyMMddhhmmss');
-            return endT < this.pd.startDealtime;
-        }
-      },
-
     }
   },
   mounted() {
-
     let time = new Date();
     let end = new Date();
     let begin =new Date(time - 1000 * 60 * 60 * 24 * 30);
-    this.pd.startCreatetime=formatDate(begin,'yyyyMMddhhmmss');
-    this.pd.endCreatetime=formatDate(end,'yyyyMMddhhmmss');
-    this.pd.startDealtime=formatDate(begin,'yyyyMMddhhmmss');
-    this.pd.endDealtime=formatDate(end,'yyyyMMddhhmmss');
+    this.cdt.STARTTIME=formatDate(begin,'yyyyMMddhhmmss');
+    this.cdt.ENDTIME=formatDate(end,'yyyyMMddhhmmss');
   },
 
   methods: {
     handleSelectionChange(val) {
       this.multipleSelection = val;
-    },
-    getNation(msg) {
-      this.pd.NATIONALITY = msg;
     },
     pageSizeChange(val) {
       this.getList(this.CurrentPage, val, this.pd);
@@ -262,7 +307,6 @@ export default {
     },
     handleCurrentChange(val) {
       this.getList(val, this.pageSize, this.pd);
-
       console.log(`当前页: ${val}`);
     },
     getList(currentPage, showCount, pd) {
@@ -270,14 +314,8 @@ export default {
        if (result.indexOf(false) > -1) {
          return
        }
-      if(dayGap(this.pd.startCreatetime,this.pd.endCreatetime,1)>30){
+      if(dayGap(this.cdt.STARTTIME,this.cdt.ENDTIME,1)>30){
         this.$alert('事件产生时间查询时间间隔不能超过一个月', '提示', {
-          confirmButtonText: '确定',
-        });
-        return false
-      };
-      if(dayGap(this.pd.startDealtime,this.pd.endDealtime,1)>30){
-        this.$alert('处理时间查询时间间隔不能超过一个月', '提示', {
           confirmButtonText: '确定',
         });
         return false
@@ -287,23 +325,34 @@ export default {
         "showCount": showCount,
         "cdt": pd
       };
-      this.$api.post('/manage-platform/eventManagement/queryListPage', p,
+      this.$api.post('/manage-platform/consult/queryConsultHistory', p,
         r => {
           console.log(r);
           if (r.success) {
-            // this.tableData = r.data.resultList;
+            this.tableData = r.data.resultList;
             this.TotalResult = r.data.totalResult;
           }
         })
     },
-
-    handler(){
-      this.$api.post('/manage-platform/eventManagement/queryEventUser',{},
-      r =>{
-        if(r.success){
-          this.dealer = r.data
-        }
-      })
+    terminal(){//航站
+      this.$api.post('/manage-platform/codeTable/queryAirport',{},
+       r =>{
+         if(r.success){
+           this.takeOffName = r.data;
+         }
+       })
+    },
+    details(row){
+      this.tableDataD=[];
+      this.detailsDialogVisible = true;
+      let p={
+        'serial':row.SERIAL
+      }
+      this.$api.post('/manage-platform/consult/queryConsultBySerial',p,
+       r =>{
+         this.tableDataD.push(r.data);
+         this.DETAILS = r.data.DETAILS
+       })
     }
   }
 }
@@ -405,6 +454,9 @@ export default {
 .flightDate {
   width: 211px;
   height: 32px
+}
+.tt-width{
+  width: 9%!important;
 }
 </style>
 <style media="screen">
