@@ -41,14 +41,14 @@
           <path class="cls-1" :class="{'clss':left==4}" d="M178,327.48a131.56,131.56,0,0,1-50.47-46L36.87,338.29a239,239,0,0,0,91.82,84.17Z" fill="#032552" transform="translate(0 -0.2)" @mouseover="leftOver(4)"/>
         </svg>
 
-        <router-link :to="{ name: 'Content', params: {navId:val.SERIAL} }" class="nav-item" :class='"nav-item"+parseInt(ind)' v-for="(val,ind) in muneListOne" :key="val.SERIAL" v-if="ind<4&&(val.name!='日常工作'&&val.name!='常用菜单')">
+        <router-link :to="{ name: 'Content', params: {navId:val.SERIAL} }" class="nav-item" :class='"nav-item"+parseInt(ind)' v-for="(val,ind) in muneListOne" :key="val.SERIAL" v-if="ind<4&&(val.name!='常用菜单')">
           <img :src='"../assets/img/navIcon/"+val.MENU_ICON+".png"' alt="">
           <span>{{val.name}}</span>
         </router-link>
-        <a @click="rcgz" class="nav-item" :class='"nav-item"+parseInt(ind)' v-for="(val,ind) in muneListOne" :key="val.SERIAL" v-if="ind<4&&val.name=='日常工作'">
+        <!-- <a @click="rcgz" class="nav-item" :class='"nav-item"+parseInt(ind)' v-for="(val,ind) in muneListOne" :key="val.SERIAL" v-if="ind<4&&val.name=='日常工作'">
           <img :src='"../assets/img/navIcon/"+val.MENU_ICON+".png"' alt="">
           <span>{{val.name}}</span>
-        </a>
+        </a> -->
         <a @click="getcc(val.SERIAL)" class="nav-item" :class='"nav-item"+parseInt(ind)' v-for="(val,ind) in muneListOne" :key="val.SERIAL" v-if="ind<4&&val.name=='常用菜单'">
           <img :src='"../assets/img/navIcon/"+val.MENU_ICON+".png"' alt="">
           <span>{{val.name}}</span>
@@ -70,14 +70,14 @@
         </svg>
 
 
-        <router-link :to="{ name: 'Content', params: {navId:val.SERIAL} }" class="nav-item" :class='"nav-item"+parseInt(ind)' v-for="(val,ind) in muneListOne" :key="val.SERIAL" v-if="ind>3&&(val.name!='日常工作'&&val.name!='常用菜单')">
+        <router-link :to="{ name: 'Content', params: {navId:val.SERIAL} }" class="nav-item" :class='"nav-item"+parseInt(ind)' v-for="(val,ind) in muneListOne" :key="val.SERIAL" v-if="ind>3&&(val.name!='常用菜单')">
           <img :src='"../assets/img/navIcon/"+val.MENU_ICON+".png"' alt="">
           <span>{{val.name}}</span>
         </router-link>
-        <a @click="rcgz" class="nav-item" :class='"nav-item"+parseInt(ind)' v-for="(val,ind) in muneListOne" :key="val.SERIAL" v-if="ind>3&&val.name=='日常工作'">
+        <!-- <a @click="rcgz" class="nav-item" :class='"nav-item"+parseInt(ind)' v-for="(val,ind) in muneListOne" :key="val.SERIAL" v-if="ind>3&&val.name=='日常工作'">
           <img :src='"../assets/img/navIcon/"+val.MENU_ICON+".png"' alt="">
           <span>{{val.name}}</span>
-        </a>
+        </a> -->
         <a @click="getcc(val.SERIAL)" class="nav-item" :class='"nav-item"+parseInt(ind)' v-for="(val,ind) in muneListOne" :key="val.SERIAL" v-if="ind>3&&val.name=='常用菜单'">
           <img :src='"../assets/img/navIcon/"+val.MENU_ICON+".png"' alt="">
           <span>{{val.name}}</span>

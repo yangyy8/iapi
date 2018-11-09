@@ -373,7 +373,7 @@
               <div class="title-green mt-10">
                 本次风评记录
               </div>
-              <div class="gc-box f-14" v-for="(d5,ind) in box4Data.listDescRecord" :key="ind">
+              <div class="gc-box f-14" v-for="(d5,ind) in box4Data.listDescRecord" :key="ind" v-if="ind<size.size8">
                 <div class="mr-5">{{ind+1}}</div>
                 <div class="">
                   <div class="">
@@ -398,7 +398,7 @@
               </div>
 
               <div class="box2-more">
-                <el-button type="text">展开更多 ﹀</el-button>
+                <el-button type="text" @click="size.size8=size.size8+5">展开更多 ﹀</el-button>
               </div>
             </div>
           </div>
@@ -440,12 +440,14 @@ export default {
       box5Data:{},
       box6:true,
       box7:true,
+      size:{size8:5},
       serial:null,
       fileData:null,
       addListCustom:null,
       listRiskCustom:[],
       czDialogVisible:false,
-      checkList:[]
+      checkList:[],
+      fuji:true
     }
   },
   mounted(){
@@ -647,11 +649,17 @@ export default {
              message: '恭喜你，上传成功！',
              type: 'success'
            });
-           this.getRiskDescRecordInfo();
+           if(this.delIndex.indexOf("3,")==-1){
+             this.delIndex+="3,"
+           }
+           // this.getRiskDescRecordInfo();
            this.fileData=null;
+         }else {
+           this.fileData=null;
+           return
          }
-      },e=>{
-        return
+      },e => {
+
       },{'Content-Type': 'multipart/form-data'})
     },
     // 删除附件
@@ -687,9 +695,7 @@ export default {
     // 保存校验描述/核查阶段/结果/流转
     saveRiskDescRecordInfo(){
       if(this.fileData){
-        if(this.delIndex.indexOf("3,")==-1){
-          this.delIndex+="3,"
-        }
+
         this.upload();
       }
       if(this.listRiskCustom.length>0&&is.delIndex.indexOf("1,")==-1){
