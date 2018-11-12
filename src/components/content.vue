@@ -21,7 +21,7 @@
             <li class="top-nav-li hand" @click="$router.push('/')">
               首页
             </li>
-            <li class="top-nav-li hand" v-for="i in muneListOne" :class="{'topCheckLi':navId==i.SERIAL}" @click="topNavTo(i.SERIAL)" v-if="i.name!='日常工作'">
+            <li class="top-nav-li hand" v-for="i in muneListOne" :class="{'topCheckLi':navId==i.SERIAL}" @click="topNavTo(i.SERIAL)">
               {{i.name}}
             </li>
           </ul>
