@@ -345,8 +345,11 @@ export default {
       }
     },
     sendRange(val){
-      var str = val.join(' ');
-      return str
+      console.log(val)
+      if(val){
+        var str = val.join(' ');
+        return str
+      }  
     },
   }
 }

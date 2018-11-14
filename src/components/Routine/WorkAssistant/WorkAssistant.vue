@@ -8,7 +8,7 @@
         <el-col  :sm="24" :md="12" :lg="4"  class="input-item">
           &nbsp;&nbsp;&nbsp;
           <el-button type="success" size="small" @click="mgetList(mCurrentPage,mpageSize,mcdt)">搜索</el-button>&nbsp;&nbsp;&nbsp;
-          <el-button type="success" size="small" @click="uploadDialogVisible = true">文件上传</el-button>
+          <el-button type="success" size="small" @click="folderDialogVisible = true">文件上传</el-button>
         </el-col>
       </el-row>
       <el-row type="flex" class="middle" v-show="page==0">
@@ -40,7 +40,9 @@
         <span class="tubiao hand" :class="{'checked':page==1}" @click="qq">文件管理</span><span class="tubiao hand" :class="{'checked':page==0}" @click="page=0;getList(CurrentPage,pageSize,cdt)">通讯录</span>
         <div id="div1" v-show="page==0">
           <el-row class="margin-bt">
-            <el-button type="primary" size="small" @click="adds(0,'')">新增</el-button>
+            <el-button type="primary" size="mini" @click="adds(0,'');form={}">新增</el-button>
+            <el-button type="primary" plain size="mini" @click="batchI">批量导入</el-button>
+            <el-button type="primary" plain size="mini" @click="download">模板下载</el-button>
           </el-row>
           <el-table
             :data="tableData"
@@ -193,41 +195,67 @@
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
             <span class="yy-input-text"><font class="yy-color">*</font>姓名：</span>
-            <el-input placeholder="请输入姓名" size="small" maxlength="20"  v-model="form.ROLE_NAME"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
+            <el-select placeholder="请选择" v-model="form.NAME" filterable clearable @visible-change="nameMethod(0)" size="small" class="yy-input-input" @change="nameMethodReal(form.NAME)" v-verify.change.blur ="{regs:'required',submit:'demo2'}">
+              <el-option
+              v-for="item in dutyName"
+              :key="item.SERIAL"
+              :value="item.NAME"
+              :label="item.NAME">
+              </el-option>
+            </el-select>
           </el-col>
         </el-row>
 
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
             <span class="yy-input-text"><font class="yy-color">*</font>性别：</span>
-            <el-select v-model="form.STATUS" clearable placeholder="请选择" size="small" class="input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}">
-               <el-option value="M" label="男"></el-option>
-               <el-option value="F" label="女"></el-option>
-               <el-option value="U" label="未知"></el-option>
-             </el-select>
+            <el-input placeholder="请输入账号" size="small" v-model="form.SEX"  class="yy-input-input" :disabled="true"></el-input>
           </el-col>
         </el-row>
 
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
-            <span class="yy-input-text">账号：</span>
-            <el-input placeholder="请输入账号" size="small" maxlength="20"  v-model="form.ROLE_NAME"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
+            <span class="yy-input-text"><font class="yy-color">*</font>账号：</span>
+            <el-input placeholder="请输入账号" size="small" v-model="form.USERNAME"  class="yy-input-input" :disabled="true"></el-input>
           </el-col>
         </el-row>
 
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
-            <span class="yy-input-text">部门：</span>
-            <el-input placeholder="请输入岗位" size="small" maxlength="20"  v-model="form.ROLE_NAME"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
+            <span class="yy-input-text"><font class="yy-color">*</font>部门：</span>
+            <el-input placeholder="请输入部门" size="small" v-model="form.DEPT_QC"  class="yy-input-input" :disabled="true"></el-input>
           </el-col>
         </el-row>
 
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
-            <span class="yy-input-text">电话：</span>
-            <el-input placeholder="请输入电话" size="small" maxlength="20"  v-model="form.ROLE_NAME"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
+            <span class="yy-input-text"><font class="yy-color">*</font>电话：</span>
+            <el-input placeholder="请输入电话" size="small" v-model="form.PHONE"  class="yy-input-input" :disabled="true"></el-input>
           </el-col>
         </el-row>
+
+        <el-row type="flex"  class="mb-6">
+          <el-col :span="24" class="input-item">
+            <span class="yy-input-text"><font class="yy-color">*</font>邮箱：</span>
+            <el-input placeholder="请输入账号" size="small" v-model="form.MAIL"  class="yy-input-input"></el-input>
+          </el-col>
+        </el-row>
+
+        <el-row type="flex"  class="mb-6">
+          <el-col :span="24" class="input-item">
+            <span class="yy-input-text"><font class="yy-color">*</font>航站：</span>
+            <el-select placeholder="请选择" v-model="form.AIRPORT_NAME" filterable clearable @visible-change="terminal" size="small" class="yy-input-input"  v-verify.change.blur ="{regs:'required',submit:'demo2'}">
+              <el-option
+              v-for="item in takeOffName"
+              :key="item.AIRPORT_CODE"
+              :value="item.AIRPORT_CODE"
+              :label="item.AIRPORT_CODE+' - '+item.AIRPORT_NAME">
+              </el-option>
+            </el-select>
+          </el-col>
+        </el-row>
+
+
 
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -236,7 +264,7 @@
       </div>
     </el-dialog>
 
-    <el-dialog title="文件上传" :visible.sync="uploadDialogVisible"   width="640px" :before-close="handleClose">
+    <el-dialog title="文件上传" :visible.sync="folderDialogVisible"   width="640px" :before-close="uploadHandleClose">
       <el-form :model="releaseform" ref="releaseForm">
         <el-row type="flex"  class="mb-6" justify="center">
           <el-col :span="12" class="input-item">
@@ -269,25 +297,12 @@
           </div>
           <el-button type="success" name="button" @click="upload" size="small">上传</el-button>
         </el-row>
-        <!-- <el-upload
-          style="display: flex;justify-content: center;"
-          class="upload-demo"
-          ref="upload"
-          :multiple="false"
-          :action="$api.rootUrl+'/manage-platform/fileAssistant/uploadFile'"
-          :on-success="uploadSuccess"
-          :limit="1"
-          :on-exceed="handleExceed"
-          :before-upload="beforeUpload"
-          :auto-upload="false">
-          <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
-          <el-button style="margin-left: 10px;!important" size="small" type="success" @click="submitUpload">上传到服务器</el-button>
-        </el-upload> -->
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="cancelUpload" size="small">取 消</el-button>
+        <el-button @click="uploadCancelUpload" size="small">取 消</el-button>
       </div>
     </el-dialog>
+
     <el-dialog
       title="文件夹名"
       :visible.sync="folderdialogVisible"
@@ -301,6 +316,31 @@
       <span slot="footer" class="dialog-footer">
         <el-button type="primary" @click="planSave">保存</el-button>
       </span>
+    </el-dialog>
+
+    <el-dialog title="批量导入" :visible.sync="uploadDialogVisible"   width="640px"
+    :before-close="handleClose">
+      <el-form :model="importform" ref="importForm">
+        <el-upload
+          class="upload-demo"
+          ref="upload"
+          name="excel"
+          :multiple="false"
+          accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+
+          :action="$api.rootUrl+'/manage-platform/iapi/readExcel'"
+          :on-success="uploadSuccess"
+          :limit="1"
+          :on-exceed="handleExceed"
+          :before-upload="beforeUpload"
+          :auto-upload="false">
+          <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
+          <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">上传到服务器</el-button>
+        </el-upload>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="cancelUpload" size="small">取 消</el-button>
+      </div>
     </el-dialog>
   </div>
 </template>
@@ -324,9 +364,10 @@ export default {
       mTotalResult: 0,
 
       dialogText: "新增",
-      addDialogVisible: false,
-      uploadDialogVisible:false,
-      folderdialogVisible:false,
+      addDialogVisible: false,//新增编辑
+      uploadDialogVisible:false,//批量导入
+      folderDialogVisible:false,//文件上传
+      folderdialogVisible:false,//文件夹名
       page:0,
 
       mcdt:{},
@@ -335,7 +376,10 @@ export default {
       formLabelWidth:'120px',
       fff:'',
       releaseform:{},
+      importform:{},
       fileData:{},
+      takeOffName:[],
+      dutyName:[],
 
       pd: {
         "isBlurred":false,
@@ -418,17 +462,23 @@ export default {
           this.mTotalResult = r.data.totalResult;
         })
     },
-    handleClose(){
+    uploadHandleClose(){
+      this.uploadCancelUpload();
+    },
+    uploadCancelUpload(){
+      this.folderDialogVisible=false;
+    },
+    handleClose(){//关闭文件上传模态框
       this.cancelUpload();
     },
     cancelUpload(){
-      // this.$refs.upload.clearFiles();
+      this.$refs.upload.clearFiles();
       this.uploadDialogVisible=false;
     },
-    uploadFile(event){
+    uploadFile(event){//获取上传的文件
       this.fileData=event.target.files;
     },
-    upload(){
+    upload(){//上传文件
       var formData = new FormData();
       let arr=this.fileData;
       for(var i=0;i<arr.length;i++){
@@ -443,7 +493,7 @@ export default {
              message: '恭喜你，上传成功！',
              type: 'success'
            });
-           this.uploadDialogVisible=false;
+           this.folderDialogVisible=false;
            this.mgetList(this.mCurrentPage,this.mpageSize,this.mcdt);
            // if(this.delIndex.indexOf("3,")==-1){
            //   this.delIndex+="3,"
@@ -457,48 +507,57 @@ export default {
        },e => {
        },{'Content-Type': 'multipart/form-data'})
     },
-    // uploadSuccess(response, file, fileList){
-    //   console.log(response);
-    //   if(response.success){
-    //     this.uploadDialogVisible=false;
-    //     this.rows = response.data.cdtList;
-    //     this.$refs.upload.clearFiles();
-    //     this.$message({
-    //       duration:3000,
-    //       message: '恭喜你，导入成功！',
-    //       type: 'success'
-    //     });
-    //   }else{
-    //     this.$message({
-    //       duration:3000,
-    //       message: response.message,
-    //       type: 'warning'
-    //     });
-    //   }
-    // },
-    // handleExceed(files, fileList){
-    //   if(files.length!=0){
-    //     this.$message({
-    //       message: '只能上传一个文件！',
-    //       type: 'warning'
-    //     });
-    //   }
-    // },
-    // beforeUpload(file){
-    //   console.log(file);
-    // },
-    // submitUpload() {
-    //   console.log(this.$refs.upload);
-    //   if(this.$refs.upload.uploadFiles.length==0){
-    //      this.$message({
-    //       message: '请先选择文件！',
-    //       type: 'warning'
-    //     });
-    //      return
-    //    }
-    //   this.$refs.upload.submit();
-    //  // this.uploadDialogVisible=false;
-    // },
+    batchI(){//批量导入
+      if( this.$refs.upload){
+        this.$refs.upload.clearFiles();
+      }
+      this.uploadDialogVisible = true;
+    },
+    download(){
+      window.location.href=this.$api.rootUrl+'/manage-platform/templateFile/nameListDataFile.xlsx'
+    },
+    uploadSuccess(response, file, fileList){
+      console.log(response);
+      if(response.success){
+        this.uploadDialogVisible=false;
+        this.rows = response.data.cdtList;
+        this.$refs.upload.clearFiles();
+        this.$message({
+          duration:3000,
+          message: '恭喜你，导入成功！',
+          type: 'success'
+        });
+      }else{
+        this.$message({
+          duration:3000,
+          message: response.message,
+          type: 'warning'
+        });
+      }
+    },
+    handleExceed(files, fileList){
+      if(files.length!=0){
+        this.$message({
+          message: '只能上传一个文件！',
+          type: 'warning'
+        });
+      }
+    },
+    beforeUpload(file){
+      console.log(file);
+    },
+    submitUpload() {
+      console.log(this.$refs.upload);
+      if(this.$refs.upload.uploadFiles.length==0){
+         this.$message({
+          message: '请先选择文件！',
+          type: 'warning'
+        });
+         return
+       }
+      this.$refs.upload.submit();
+     // this.uploadDialogVisible=false;
+    },
     addFolder(){//新增文件夹名
       this.folderdialogVisible = true;
     },
@@ -560,6 +619,39 @@ export default {
         });
       });
     },
+    terminal(){//航站
+      this.$api.post('/manage-platform/codeTable/queryAirport',{},
+       r =>{
+         if(r.success){
+           this.takeOffName = r.data;
+         }
+       })
+    },
+    nameMethod(){//姓名
+      this.$api.post('/manage-platform/watch/queryUserAll',{},
+        r => {
+            if(r.success){
+              this.dutyName = r.data;
+            }
+        })
+    },
+    nameMethodReal(val){//新增添值&编辑修改
+      this.$set(this.form,'PHONE','');
+      this.$set(this.form,'DEPT_QC','');
+      this.$set(this.form,'USERNAME','');
+      this.$set(this.form,'SEX','');
+      let arr = this.dutyName;
+      for(var i=0;i<arr.length;i++){
+        if(arr[i].NAME == val){
+          this.form.PHONE = arr[i].PHONE;//电话
+          this.form.USERNAME = arr[i].USERNAME;//账号
+          this.form.SEX = arr[i].SEX;
+          this.form.DEPT_QC = arr[i].DEPT_QC;
+          this.form.DEPT_ID = arr[i].DEPT_ID;//部门id
+          this.form.USERSERIAL = arr[i].SERIAL;//姓名
+        }
+      }
+    },
     adds(n, i) {
       this.addDialogVisible = true;
 
@@ -569,6 +661,7 @@ export default {
         this.form=Object.assign({}, i);
         this.dialogText="编辑";
       }else {
+        this.tp = 0;
         this.dialogText="新增";
       }
 
@@ -577,22 +670,13 @@ export default {
 
 
     addItem(formName) {
-      if (this.form.DEPT_ORDER != undefined && this.form.DEPT_ORDER != "") {
-        if (!checkRate(this.form.DEPT_ORDER)) {
-          this.$message.error('排列序号必须为数字，请重新输入！');
-          return;
-        }
-      }
-
       if (this.$validator.listener.demo2) {
         const result = this.$validator.verifyAll('demo2')
         if (result.indexOf(false) > -1) {
           return;
         }
       }
-
-       var url = "/manage-platform/deptSys/edit";
-
+       var url = "/manage-platform/addressManage/save";
       this.$api.post(url, this.form,
         r => {
           console.log(r);
@@ -606,7 +690,7 @@ export default {
           }
           this.$refs[formName].resetFields();
           this.addDialogVisible = false;
-          this.getList();
+          this.getList(this.CurrentPage, this.pageSize, this.cdt);
           // this.tableData=r.Data.ResultList;
         }, e => {
           this.$message.error('失败了');
