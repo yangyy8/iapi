@@ -11,19 +11,21 @@
 
           <el-row align="center"   :gutter="2">
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
-              <span class="input-text">时间范围：</span>
+              <span class="input-text"><font class="yy-color">*</font> 时间范围：</span>
               <div class="input-input t-flex t-date">
-               <el-date-picker
-               v-model="pd.begintime" format="yyyy-MM-dd"
-               type="date" size="small" value-format="yyyyMMdd"
-               placeholder="开始时间"  :picker-options="pickerOptions0" >
-             </el-date-picker>
-               <span class="septum">-</span>
-             <el-date-picker
-                v-model="pd.endtime" format="yyyy-MM-dd"
+                <el-date-picker
+                v-model="pd.begintime" format="yyyy-MM-dd"
+               v-verify.input.blur="{regs:'required',submit:'timeDemo'}"
                 type="date" size="small" value-format="yyyyMMdd"
-                placeholder="结束时间" :picker-options="pickerOptions1" >
-            </el-date-picker>
+                placeholder="开始时间"  :picker-options="pickerOptions0" >
+              </el-date-picker>
+                <span class="septum">-</span>
+              <el-date-picker
+                 v-model="pd.endtime" format="yyyy-MM-dd"
+                 v-verify.input.blur="{regs:'required',submit:'timeDemo'}"
+                 type="date" size="small" value-format="yyyyMMdd"
+                 placeholder="结束时间" :picker-options="pickerOptions1" >
+             </el-date-picker>
           </div>
             </el-col>
 
@@ -31,8 +33,8 @@
                 <span class="input-text">出发地：</span>
                 <el-select v-model="pd.cityfrom" filterable clearable  placeholder="请选择"  size="small" class="input-input">
                   <el-option
-                    v-for="item in gnName"
-                    :key="item.citycode"
+                    v-for="(item,ind) in gnName"
+                    :key="ind"
                     :value="item.citycode"
                     :label="item.citycode+' - '+item.cityname"
                   ></el-option>
@@ -42,8 +44,8 @@
                 <span class="input-text">目的地：</span>
                 <el-select v-model="pd.cityto" filterable clearable placeholder="请选择"  size="small" class="input-input">
                   <el-option
-                    v-for="item in gnName"
-                    :key="item.citycode"
+                    v-for="(item,ind) in gnName"
+                    :key="ind"
                     :value="item.citycode"
                     :label="item.citycode+' - '+item.cityname"
                   ></el-option>
@@ -64,25 +66,33 @@
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">人员类别：</span>
               <el-select v-model="pd.passengertype" filterable clearable  placeholder="请选择" size="small" class="input-input">
-                 <el-option text="全部" value="全部" >
-                 </el-option>
+                <el-option label="FL - 普通旅客" value="FL" >
+                </el-option>
+                <el-option label="DDU - 中转旅客" value="DDU" >
+                </el-option>
 
                </el-select>
             </el-col>
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">值机渠道：</span>
               <el-select v-model="pd.vid" filterable clearable  placeholder="请选择" size="small" class="input-input">
-                 <el-option text="全部" value="全部" >
+                 <el-option label="S - 自助" value="S" >
                  </el-option>
-
+                 <el-option label="C - 柜台" value="C" >
+                 </el-option>
                </el-select>
             </el-col>
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">预检结果：</span>
               <el-select v-model="pd.lastcheckresult" filterable clearable  placeholder="请选择" size="small" class="input-input">
-                 <el-option text="全部" value="全部" >
-                 </el-option>
-
+                <el-option value="0Z" label="0Z - 允许打印登机牌">
+                </el-option>
+                <el-option value="1Z" label="1Z - 禁止打印登机牌">
+                </el-option>
+                <el-option value="2Z" label="2Z - 请再次核对">
+                </el-option>
+                <el-option value="4Z" label="4Z - 数据错误">
+                </el-option>
                </el-select>
             </el-col>
 
@@ -104,7 +114,7 @@
           <el-row align="center"  class="yy-line">
 
             <el-col  :span="20">
-              <span class="input-text" style="width:12%">行属性：</span>
+              <span class="input-text" style="width:12%"><font class="yy-color">*</font> 行属性：</span>
               <el-checkbox label="出入境方向" v-model="pd.rowproperty_flttype"></el-checkbox>
               <el-checkbox label="国籍" v-model="pd.rowproperty_country"></el-checkbox>
               <el-checkbox label="出发地" v-model="pd.rowproperty_cityfrom"></el-checkbox>
@@ -112,12 +122,11 @@
               <el-checkbox label="人员类别" v-model="pd.rowproperty_passengertype"></el-checkbox>
               <el-checkbox label="值机渠道" v-model="pd.rowproperty_vid"></el-checkbox>
               <el-checkbox label="预检结果" v-model="pd.rowproperty_lastcheckresult"></el-checkbox>
-
             </el-col>
            </el-row>
             <el-row align="center" class="yy-line">
               <el-col  :span="20">
-                <span class="input-text" style="width:12%">列属性：</span>
+                <span class="input-text" style="width:12%"><font class="yy-color">*</font> 列属性：</span>
               <el-checkbox label="人员类别" v-model="pd.colproperty1"></el-checkbox>
               <el-checkbox label="性别构成" v-model="pd.colproperty2"></el-checkbox>
               <el-checkbox label="国家构成" v-model="pd.colproperty3"></el-checkbox>
@@ -146,7 +155,7 @@
 
       <div class="ak-tab-pane" >
           <div v-show="page==0" >
-            <div id="myChart" class="ppie"></div>
+            <div id="myChart" class="ppie">暂无数据</div>
             <div id="myChart2" class="ppie"></div>
             <div id="myChart3" class="ppie"></div>
             <div id="myChart4" class="ppie"></div>
@@ -185,7 +194,7 @@
                     prop="checkincount"
                     label="值机校验数量">
                   </el-table-column>
-                    <el-table-column label="人员类别" v=if='show4'>
+                    <el-table-column label="人员类别" v-if='show4'>
                       <el-table-column
                         prop="chk_ptype_fl"
                         label="普通旅客">
@@ -195,7 +204,7 @@
                         label="中转旅客">
                       </el-table-column>
                      </el-table-column>
-                      <el-table-column label="性别构成">
+                      <el-table-column label="性别构成" v-if='show5'>
                         <el-table-column
                           prop="chk_gender_m"
                           label="男">
@@ -205,7 +214,7 @@
                           label="女">
                         </el-table-column>
                    </el-table-column>
-                      <el-table-column label="国籍构成">
+                      <el-table-column label="国籍构成" v-if='show6'>
                           <el-table-column
                             prop="foreign"
                             label="外国人">
@@ -219,7 +228,7 @@
                             label="港澳台">
                           </el-table-column>
                      </el-table-column>
-                     <el-table-column label="值机渠道">
+                     <el-table-column label="值机渠道" v-if='show7'>
                       <el-table-column
                         prop="chk_s"
                         label="自助">
@@ -229,7 +238,7 @@
                         label="柜台">
                       </el-table-column>
                     </el-table-column>
-                  <el-table-column label="预检结果">
+                  <el-table-column label="预检结果" v-if='show8'>
                     <el-table-column
                       prop="chk_0z"
                       label="允许登机">
@@ -269,10 +278,7 @@ export default {
       pageSize: 10,
       TotalResult: 0,
       pd: {
-        begin: '',
-        end: '',
-        synFlag: '0',
-        rzlx: '0'
+      begintime:'',endtime:''
       },
       nation: [],
       company: [],
@@ -312,37 +318,46 @@ export default {
       },
       form: {},
       lineChart: null,
-      gnName:[],
-      sData1:[],
-      sData2:[],
-      sData3:[],
-      sData4:[],
-      sData5:[],
-      sData6:[],
+      gnName: [],
+      sData1: [],
+      sData2: [],
+      sData3: [],
+      sData4: [],
+      sData5: [],
+      sData6: [],
+      show1: true,
+      show2: true,
+      show3: true,
+      show4: true,
+      show5: true,
+      show6: true,
+      show7: true,
+      show8: true
 
     }
   },
   mounted() {
-    this.queryNationality();
-    this.gn();
-  //  this.drawLine();
+
     let time = new Date();
     let endz = new Date();
     let beginz = new Date(time - 1000 * 60 * 60 * 24 * 30);
     this.pd.begintime = formatDate(beginz, 'yyyyMMdd');
     this.pd.endtime = formatDate(endz, 'yyyyMMdd');
-    //this.getList(this.CurrentPage, this.pageSize, this.pd);
+    this.queryNationality();
+    this.gn();
+
   },
   activated() {
-    this.queryNationality();
-      this.gn();
-    //  this.drawLine();
+
+
     let time = new Date();
     let endz = new Date();
-    let beginz = new Date(time - 1000 * 60 * 60 * 24 *30);
+    let beginz = new Date(time - 1000 * 60 * 60 * 24 * 30);
     this.pd.begintime = formatDate(beginz, 'yyyyMMdd');
     this.pd.endtime = formatDate(endz, 'yyyyMMdd');
-    //this.getList(this.CurrentPage, this.pageSize, this.pd);
+    this.queryNationality();
+    this.gn();
+
   },
   methods: {
     base() {
@@ -372,46 +387,98 @@ export default {
         })
     },
     getSummaries(param) {
-        console.log("合计-------------");
-         const { columns, data } = param;
-         const sums = [];
-         columns.forEach((column, index) => {
-           if (index === 0) {
-             sums[index] = '合计';
-             return;
-           }
-           const values = data.map(item => Number(item[column.property]));
-           if (!values.every(value => isNaN(value))) {
-             sums[index] = values.reduce((prev, curr) => {
-               const value = Number(curr);
-               if (!isNaN(value)) {
-                 return prev + curr;
-               } else {
-                 return prev;
-               }
-             }, 0);
-             sums[index] += '';
-           } else {
-             sums[index] = '';
-           }
-         });
+      console.log("合计-------------");
+      const {
+        columns,
+        data
+      } = param;
+      const sums = [];
+      columns.forEach((column, index) => {
+        if (index === 0) {
+          sums[index] = '合计';
+          return;
+        }
+        const values = data.map(item => Number(item[column.property]));
+        if (!values.every(value => isNaN(value))) {
+          sums[index] = values.reduce((prev, curr) => {
+            const value = Number(curr);
+            if (!isNaN(value)) {
+              return prev + curr;
+            } else {
+              return prev;
+            }
+          }, 0);
+          sums[index] += '';
+        } else {
+          sums[index] = '';
+        }
+      });
 
-         return sums;
-       },
+      return sums;
+    },
     getList(currentPage, showCount, pd) {
-      // this.pd.begin=formatDate(this.pd.begin,"yyyyMMddhhssmm");
-      // this.pd.end=formatDate(this.pd.end,"yyyyMMddhhssmm");
-      // if (dayGap(this.pd.begin, this.pd.end, 0) > 1) {
-      //   this.$alert('只能查询某一天的日期', '提示', {
-      //     confirmButtonText: '确定',
-      //   });
-      //   return false
-      // }
+
+      const result = this.$validator.verifyAll('timeDemo')
+       if (result.indexOf(false) > -1) {
+         return
+       }
+      if (this.pd.begintime.trim()== "" || this.pd.endtime.trim() == "") {
+        this.$alert('时间范围不能为空', '提示', {
+          confirmButtonText: '确定',
+        });
+        return false
+      };
+
+      if (this.pd.rowproperty_flttype==undefined && this.pd.rowproperty_country==undefined && this.pd.rowproperty_cityfrom==undefined && this.pd.rowproperty_cityro==undefined && this.pd.rowproperty_passengertype==undefined && this.pd.rowproperty_vid==undefined && this.pd.rowproperty_lastcheckresult==undefined) {
+        this.$alert('请选择至少一个行属性', '提示', {
+          confirmButtonText: '确定',
+        });
+        return false
+      };
+
+      if (this.pd.colproperty1==undefined && this.pd.colproperty2==undefined && this.pd.colproperty3==undefined && this.pd.colproperty4==undefined && this.pd.colproperty5==undefined) {
+        this.$alert('请选择至少一个列属性', '提示', {
+          confirmButtonText: '确定',
+        });
+        return false
+      };
+
+
+      this.show1 = false;
+      this.show2 = false;
+      this.show3 = false;
+      this.show4 = false;
+      this.show5 = false;
+      this.show6 = false;
+      this.show7 = false;
+      this.show8 = false;
+
+   if(this.pd.rowproperty_flttype){
+         this.show1 = true;
+   }
+   if(this.pd.rowproperty_cityro){
+         this.show2 = true;
+   }
+   if(this.pd.rowproperty_country){
+         this.show3 = true;
+   }
+   if(this.pd.colproperty1){
+         this.show4 = true;
+   }
+   if(this.pd.colproperty2){
+         this.show5 = true;
+   }
+   if(this.pd.colproperty3){
+         this.show6= true;
+   }
+   if(this.pd.colproperty4){
+         this.show7 = true;
+   }
+   if(this.pd.colproperty5){
+         this.show8 = true;
+   }
 
       let p = {
-        // "currentPage": currentPage,
-        // "showCount": showCount,
-        // "cdt": pd
 
         "begintime": pd.begintime,
         "endtime": pd.endtime,
@@ -420,9 +487,9 @@ export default {
         "cityto": pd.cityto,
         "fltno": pd.fltno,
         "flighttype": pd.flighttype,
-        "passengertype":pd.passengertype,
-        "vid":pd.vid,
-        "lastcheckresult":pd.lastcheckresult,
+        "passengertype": pd.passengertype,
+        "vid": pd.vid,
+        "lastcheckresult": pd.lastcheckresult,
         "rowproperty_country": pd.rowproperty_country,
         "rowproperty_cityto": pd.rowproperty_cityto,
         "rowproperty_fltno": pd.rowproperty_fltno,
@@ -440,40 +507,98 @@ export default {
           console.log(r);
           this.tableData = r.data;
 
-          let arr=this.tableData;
-          var sum1=0,sum01=0;
-          var sum2=0,sum02=0;
-          var sum3=0,sum03=0;
-          var sum4=0,sum04=0;
-          var sum5=0,sum05=0,sum005=0;
-            var sum6=0,sum06=0,sum006=0,sum0006=0;
-          for(var i=0;i<arr.length;i++){
-            sum1+=parseInt(arr[i].fltcount);
-            sum01+=parseInt(arr[i].checkincount
-            );
-            sum2+=parseInt(arr[i].chk_ptype_fl);
-            sum02+=parseInt(arr[i].chk_ptype_ddu);
-            sum3+=parseInt(arr[i].chk_gender_m);
-            sum03+=parseInt(arr[i].chk_gender_f);
-            sum4+=parseInt(arr[i].chk_s);
-            sum04+=parseInt(arr[i].chk_c);
-            sum5+=parseInt(arr[i].foreign);
-            sum05+=parseInt(arr[i].inland);
-            sum005+=parseInt(arr[i].gat);
+          let arr = this.tableData;
+          var sum1 = 0,
+            sum01 = 0;
+          var sum2 = 0,
+            sum02 = 0;
+          var sum3 = 0,
+            sum03 = 0;
+          var sum4 = 0,
+            sum04 = 0;
+          var sum5 = 0,
+            sum05 = 0,
+            sum005 = 0;
+          var sum6 = 0,
+            sum06 = 0,
+            sum006 = 0,
+            sum0006 = 0;
+          for (var i = 0; i < arr.length; i++) {
+            sum1 += parseInt(arr[i].fltcount);
+            sum01 += parseInt(arr[i].checkincount);
+            sum2 += parseInt(arr[i].chk_ptype_fl);
+            sum02 += parseInt(arr[i].chk_ptype_ddu);
+            sum3 += parseInt(arr[i].chk_gender_m);
+            sum03 += parseInt(arr[i].chk_gender_f);
+            sum4 += parseInt(arr[i].chk_s);
+            sum04 += parseInt(arr[i].chk_c);
+            sum5 += parseInt(arr[i].foreign);
+            sum05 += parseInt(arr[i].inland);
+            sum005 += parseInt(arr[i].gat);
 
-            sum6+=parseInt(arr[i].chk_0z);
-            sum06+=parseInt(arr[i].chk_1z);
-            sum006+=parseInt(arr[i].chk_2z);
-            sum0006+=parseInt(arr[i].chk_4z);
+            sum6 += parseInt(arr[i].chk_0z);
+            sum06 += parseInt(arr[i].chk_1z);
+            sum006 += parseInt(arr[i].chk_2z);
+            sum0006 += parseInt(arr[i].chk_4z);
           }
-          this.sData1=[{value:sum1, name:'航班数量'},{value:sum01, name:'值机校验数量'}];
-          this.sData2=[{value:sum2, name:'普通旅客'},{value:sum02, name:'中转旅客'}];
-          this.sData3=[{value:sum3, name:'男'},{value:sum03, name:'女'}];
-          this.sData4=[{value:sum4, name:'自助'},{value:sum04, name:'柜台'}];
-          this.sData5=[{value:sum5, name:'外国人'},{value:sum05, name:'内地居民'},{value:sum005, name:'港澳台'}];
-          this.sData6=[{value:sum6, name:'允许登机'},{value:sum06, name:'禁止登机'},{value:sum006, name:'再次检查'},{value:sum0006, name:'数据错误'}];
-          //  console.log(this.sData1+"------------"+sum0+"==="+sum00);
-          this.drawLine();this.drawLine2();this.drawLine3();this.drawLine4();this.drawLine5();this.drawLine6();
+          this.sData1 = [{
+            value: sum1,
+            name: '航班数量'
+          }, {
+            value: sum01,
+            name: '值机校验数量'
+          }];
+          this.sData2 = [{
+            value: sum2,
+            name: '普通旅客'
+          }, {
+            value: sum02,
+            name: '中转旅客'
+          }];
+          this.sData3 = [{
+            value: sum3,
+            name: '男'
+          }, {
+            value: sum03,
+            name: '女'
+          }];
+          this.sData4 = [{
+            value: sum4,
+            name: '自助'
+          }, {
+            value: sum04,
+            name: '柜台'
+          }];
+          this.sData5 = [{
+            value: sum5,
+            name: '外国人'
+          }, {
+            value: sum05,
+            name: '内地居民'
+          }, {
+            value: sum005,
+            name: '港澳台'
+          }];
+          this.sData6 = [{
+            value: sum6,
+            name: '允许登机'
+          }, {
+            value: sum06,
+            name: '禁止登机'
+          }, {
+            value: sum006,
+            name: '再次检查'
+          }, {
+            value: sum0006,
+            name: '数据错误'
+          }];
+        //  console.log(this.sData1+"------------"+sum0+"==="+sum00);
+          this.drawLine();
+          this.drawLine2();
+          this.drawLine3();
+          this.drawLine4();
+          this.drawLine5();
+          this.drawLine6();
 
 
 
@@ -498,127 +623,115 @@ export default {
     drawLine() {
       this.lineChart = echarts.init(document.getElementById('myChart'), 'light');
       window.onresize = echarts.init(document.getElementById('myChart')).resize;
-        let that = this;
-        this.lineChart.setOption({
-          tooltip: {
+      let that = this;
+      this.lineChart.setOption({
+        tooltip: {
           trigger: 'item',
           formatter: "{a} <br/>{b}: {c} ({d}%)"
         },
-          series: [
-                {
-                  name:'航班数量、值机校验数量',
-                  type:'pie',
-                  radius: ['30%', '50%'],
-                  center: ['50%', '50%'],   //调整位置
-                  data:this.sData1
-                 }
-                ]
-          });
+        series: [{
+          name: '航班数量、值机校验数量',
+          type: 'pie',
+          radius: ['30%', '50%'],
+          center: ['50%', '50%'], //调整位置
+          data: this.sData1
+        }]
+      });
     },
     drawLine2() {
       this.lineChart = echarts.init(document.getElementById('myChart2'), 'light');
       window.onresize = echarts.init(document.getElementById('myChart2')).resize;
-        let that = this;
-        this.lineChart.setOption({
-          tooltip: {
+      let that = this;
+      this.lineChart.setOption({
+        tooltip: {
           trigger: 'item',
           formatter: "{a} <br/>{b}: {c} ({d}%)"
         },
-          series: [
-                {
-                  name:'旅客类型构成',
-                  type:'pie',
-                  radius: ['30%', '50%'],
-                  center: ['50%', '50%'],   //调整位置
-                  data:this.sData2
-                 }
-                ]
-          });
+        series: [{
+          name: '旅客类型构成',
+          type: 'pie',
+          radius: ['30%', '50%'],
+          center: ['50%', '50%'], //调整位置
+          data: this.sData2
+        }]
+      });
     },
     drawLine3() {
       this.lineChart = echarts.init(document.getElementById('myChart3'), 'light');
       window.onresize = echarts.init(document.getElementById('myChart3')).resize;
-        let that = this;
-        this.lineChart.setOption({
-          tooltip: {
+      let that = this;
+      this.lineChart.setOption({
+        tooltip: {
           trigger: 'item',
           formatter: "{a} <br/>{b}: {c} ({d}%)"
         },
-          series: [
-                {
-                  name:'性别构成',
-                  type:'pie',
-                  radius: ['30%', '50%'],
-                  center: ['50%', '50%'],   //调整位置
-                  data:this.sData3
-                 }
-                ]
-          });
+        series: [{
+          name: '性别构成',
+          type: 'pie',
+          radius: ['30%', '50%'],
+          center: ['50%', '50%'], //调整位置
+          data: this.sData3
+        }]
+      });
     },
 
     drawLine4() {
       this.lineChart = echarts.init(document.getElementById('myChart4'), 'light');
       window.onresize = echarts.init(document.getElementById('myChart4')).resize;
-        let that = this;
-        this.lineChart.setOption({
-          tooltip: {
+      let that = this;
+      this.lineChart.setOption({
+        tooltip: {
           trigger: 'item',
           formatter: "{a} <br/>{b}: {c} ({d}%)"
         },
-          series: [
-                {
-                  name:'值机渠道',
-                  type:'pie',
-                  radius: ['30%', '50%'],
-                  center: ['50%', '50%'],   //调整位置
-                  data:this.sData4
-                 }
-                ]
-          });
+        series: [{
+          name: '值机渠道',
+          type: 'pie',
+          radius: ['30%', '50%'],
+          center: ['50%', '50%'], //调整位置
+          data: this.sData4
+        }]
+      });
     },
     drawLine5() {
       this.lineChart = echarts.init(document.getElementById('myChart5'), 'light');
       window.onresize = echarts.init(document.getElementById('myChart5')).resize;
-        let that = this;
-        this.lineChart.setOption({
-          tooltip: {
+      let that = this;
+      this.lineChart.setOption({
+        tooltip: {
           trigger: 'item',
           formatter: "{a} <br/>{b}: {c} ({d}%)"
         },
-          series: [
-                {
-                  name:'国家构成',
-                  type:'pie',
-                  radius: ['30%', '50%'],
-                  center: ['50%', '50%'],   //调整位置
-                  data:this.sData5
-                 }
-                ]
-          });
+        series: [{
+          name: '国家构成',
+          type: 'pie',
+          radius: ['30%', '50%'],
+          center: ['50%', '50%'], //调整位置
+          data: this.sData5
+        }]
+      });
     },
     drawLine6() {
       this.lineChart = echarts.init(document.getElementById('myChart6'), 'light');
       window.onresize = echarts.init(document.getElementById('myChart6')).resize;
-        let that = this;
-        this.lineChart.setOption({
-          tooltip: {
+      let that = this;
+      this.lineChart.setOption({
+        tooltip: {
           trigger: 'item',
           formatter: "{a} <br/>{b}: {c} ({d}%)"
         },
-          series: [
-                {
-                  name:'预检结果',
-                  type:'pie',
-                  radius: ['30%', '50%'],
-                  center: ['50%', '50%'],   //调整位置
-                  data:this.sData6
-                 }
-                ]
-          });
+        series: [{
+          name: '预检结果',
+          type: 'pie',
+          radius: ['30%', '50%'],
+          center: ['50%', '50%'], //调整位置
+          data: this.sData6
+        }]
+      });
     },
 
-      }
-    }
+  }
+}
 </script>
 
 <style scoped>

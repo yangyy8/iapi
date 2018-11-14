@@ -640,7 +640,7 @@ export default {
       formData.append("userId",this.user.userId);
       console.log(formData)
       let p=formData
-      console.log("p",p)
+      console.log("p----------",p)
 
       this.$api.post('/manage-platform/riskEventWarningController/upload',p,
        r => {

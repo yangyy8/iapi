@@ -11,7 +11,7 @@
 
           <el-row align="center"   :gutter="2">
             <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
-              <span class="input-text">时间范围：</span>
+              <span class="input-text"><font class="yy-color">*</font>  时间范围：</span>
               <div class="input-input t-flex t-date">
                <el-date-picker
                v-model="pd.begintime" format="yyyy-MM-dd"
@@ -192,10 +192,7 @@ export default {
       pageSize: 10,
       TotalResult: 0,
       pd: {
-        begin: '',
-        end: '',
-        synFlag: '0',
-        rzlx: '0'
+      begintime:'',endtime:''
       },
       nation: [],
       company: [],
@@ -242,24 +239,24 @@ export default {
     }
   },
   mounted() {
-  //  this.queryNationality();
+
     this.drawLine();
     let time = new Date();
     let endz = new Date();
     let beginz = new Date(time - 1000 * 60 * 60 * 24 * 30);
     this.pd.begintime= formatDate(beginz, 'yyyyMMdd');
     this.pd.endtime = formatDate(endz, 'yyyyMMdd');
-    //this.getList(this.CurrentPage, this.pageSize, this.pd);
+
   },
   activated() {
-    //this.queryNationality();
+
       this.drawLine();
     let time = new Date();
     let endz = new Date();
     let beginz = new Date(time - 1000 * 60 * 60 * 24 * 30);
     this.pd.begintime = formatDate(beginz, 'yyyyMMdd');
     this.pd.endtime = formatDate(endz, 'yyyyMMdd');
-  //  this.getList(this.CurrentPage, this.pageSize, this.pd);
+
   },
   methods: {
     base() {
@@ -281,19 +278,10 @@ export default {
       console.log(`当前页: ${val}`);
     },
     getList(currentPage, showCount, pd) {
-      // this.pd.begin=formatDate(this.pd.begin,"yyyyMMddhhssmm");
-      // this.pd.end=formatDate(this.pd.end,"yyyyMMddhhssmm");
-      // if (dayGap(this.pd.begin, this.pd.end, 0) > 1) {
-      //   this.$alert('只能查询某一天的日期', '提示', {
-      //     confirmButtonText: '确定',
-      //   });
-      //   return false
-      // }
+
 
       let p = {
-        // "currentPage": currentPage,
-        // "showCount": showCount,
-        // "cdt": pd
+
         "begintime":pd.begintime,
         "endtime":pd.endtime
       };
