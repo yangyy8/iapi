@@ -8,95 +8,112 @@
             查询条件
           </div>
           <el-row align="center"   :gutter="2" >
-
-            <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
-              <span class="input-text">事件标题：</span>
-              <el-input placeholder="请输入内容" size="small" v-model="pd.fltno"  class="input-input"></el-input>
-            </el-col>
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">登记人姓名：</span>
-              <el-input placeholder="请输入内容" size="small" v-model="pd.fltno"  class="input-input"></el-input>
+              <el-input placeholder="请输入内容" size="small" v-model="cdt.NAME"  class="input-input"></el-input>
             </el-col>
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">登记人账号：</span>
-              <el-input placeholder="请输入内容" size="small" v-model="pd.fltno"  class="input-input"></el-input>
+              <el-input placeholder="请输入内容" size="small" v-model="cdt.USERNAME"  class="input-input"></el-input>
             </el-col>
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">来源人姓名：</span>
-              <el-input placeholder="请输入内容" size="small" v-model="pd.fltno"  class="input-input"></el-input>
+              <el-input placeholder="请输入内容" size="small" v-model="cdt.SOURCENAME"  class="input-input"></el-input>
             </el-col>
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">来源人电话：</span>
-              <el-input placeholder="请输入内容" size="small" v-model="pd.fltno"  class="input-input"></el-input>
+              <el-input placeholder="请输入内容" size="small" v-model="cdt.SOURCEPHONE"  class="input-input"></el-input>
             </el-col>
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
-              <span class="input-text"><i class="t-must">*</i>事件登记时间：</span>
+              <span class="input-text">交接人姓名：</span>
+              <el-input placeholder="请输入内容" size="small" v-model="cdt.HANDOVERNAME"  class="input-input"></el-input>
+            </el-col>
+            <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+              <span class="input-text">交接人账号：</span>
+              <el-input placeholder="请输入内容" size="small" v-model="cdt.HANDOVERLOGIN"  class="input-input"></el-input>
+            </el-col>
+            <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+              <span class="input-text">事件标题：</span>
+              <el-input placeholder="请输入内容" size="small" v-model="cdt.TITLE"  class="input-input"></el-input>
+            </el-col>
+            <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+              <span class="input-text">事件登记时间：</span>
               <div class="input-input t-flex t-date">
                <el-date-picker
-               v-verify.input.blur="{regs:'required',submit:'timeDemo'}"
-               v-model="pd.scheduledeparturetime"
+               v-model="cdt.STARTRECORDTIME"
                type="datetime" size="small"
                placeholder="开始时间"
-               format="yyyy-MM-dd HH:mm"
-               value-format="yyyyMMddHHmm"
-               :picker-options="pickerOptions">
+               format="yyyy-MM-dd HH:mm:ss"
+               value-format="yyyyMMddHHmmss">
              </el-date-picker>
                <span class="septum">-</span>
              <el-date-picker
-                v-verify.input.blur="{regs:'required',submit:'timeDemo'}"
-                v-model="pd.schedulearrivetime"
+                v-model="cdt.ENDRECORDTIME"
                 type="datetime" size="small"
                 placeholder="结束时间"
-                format="yyyy-MM-dd HH:mm"
-                value-format="yyyyMMddHHmm"
-                :picker-options="pickerOptions1">
+                format="yyyy-MM-dd HH:mm:ss"
+                value-format="yyyyMMddHHmmss">
             </el-date-picker>
           </div>
             </el-col>
           </el-row>
         </el-col>
         <el-col :span="2" class="down-btn-area" >
-          <el-button type="success" size="small" @click="getList(CurrentPage,pageSize,pd)">查询</el-button>
+          <el-button type="success" size="small" @click="getList(CurrentPage,pageSize,cdt)">查询</el-button>
         </el-col>
 
       </el-row>
     </div>
     <div class="middle">
-      <el-button type="primary" size="small" @click="" style="margin-bottom:4px!important">交接</el-button>
       <el-table
         :data="tableData"
         border
         style="width: 100%;"
       >
+      <el-table-column
+        label="序号"
+        type="index"
+        width="50">
+      </el-table-column>
         <el-table-column
-          prop="fltno"
-          label="标题" width="80px">
-
+          prop="TITLE"
+          label="标题"
+          width="80px">
         </el-table-column>
         <el-table-column
-          label="登记人姓名"
-          >
+          prop="NAME"
+          label="登记人姓名">
         </el-table-column>
         <el-table-column
-          label="登记人账号" width="100px">
+          prop="USERNAME"
+          label="登记人账号"
+          width="100px">
         </el-table-column>
         <el-table-column
-          label="来源人姓名"
-          >
+          prop="SOURCENAME"
+          label="来源人姓名">
         </el-table-column>
         <el-table-column
-
-          label="来源人电话"
-        >
-
+          prop="SOURCEPHONE"
+          label="来源人电话">
         </el-table-column>
         <el-table-column
-          prop="stationfrom"
-          label="登记时间">
+          prop="HANDOVERNAME"
+          label="交接人姓名">
         </el-table-column>
         <el-table-column
-          label="操作">
+          prop="RECORDTIMESTR"
+          label="事件时间">
+        </el-table-column>
+        <el-table-column
+          prop="TYPE"
+          label="事件类型">
+        </el-table-column>
+        <el-table-column
+          label="操作"
+          width="250px">
           <template slot-scope="scope">
+              <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="change(scope.row.SERIAL)">交接</el-button>
               <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row)">详情</el-button>
               <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="downLoad(scope.row)">导出</el-button>
          </template>
@@ -135,9 +152,46 @@
     <el-dialog
       title="交接班"
       :visible.sync="changeDialogVisible"
-      width="1220px"
+      width="700px"
       >
+      <el-row align="center" style="width:100%">
+        <h4 style="margin-top:0px!important">请选择接下来要交接的人</h4>
+        <el-radio-group v-model="qqq">
+          <el-radio v-for="item in dutyName" :label="item.SERIAL" style="width:25%;margin-bottom: 7px;">{{item.NAME}}</el-radio>
+        </el-radio-group>
+      </el-row>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="changeSave" size="small" type="primary">确 定</el-button>
+        <el-button @click="changeDialogVisible = false" size="small">返 回</el-button>
+      </div>
+    </el-dialog>
 
+    <el-dialog title="详情" :visible.sync="detailsDialogVisible" width="500px">
+      <el-form :model="form" ref="addForm">
+        <el-row type="flex"  class="mb-6">
+          <el-col :span="20" class="input-item">
+            <span class="yy-input-text">标题：</span>
+            <el-input placeholder="请输入姓名" size="small" v-model="form.title"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}" :disabled="true"></el-input>
+          </el-col>
+        </el-row>
+
+        <el-row type="flex"  class="mb-6">
+          <el-col :span="20" class="input-item">
+            <span class="yy-input-text">附件：</span>
+            <button type="button" class="table-btn" name="button">附件下载</button>
+          </el-col>
+        </el-row>
+
+        <el-row type="flex" class="mb-6" >
+          <el-col :span="20" class="input-item">
+            <span class="yy-input-text">事件描述：</span>
+            <el-input type="textarea" placeholder="请输入内容" :autosize="{ minRows: 3, maxRows: 6}" v-model="form.content" class="yy-input-input" :disabled="true"></el-input>
+          </el-col>
+        </el-row>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="detailsDialogVisible = false" size="small">返 回</el-button>
+      </div>
     </el-dialog>
   </div>
 
@@ -147,21 +201,21 @@
 import {formatDate} from '@/assets/js/date.js'
 import {dayGap} from '@/assets/js/date.js'
 export default {
-  
+
   data() {
     return {
       CurrentPage: 1,
       pageSize: 10,
       TotalResult: 0,
-      pd: {
-        schedulearrivetime:'',
-        scheduledeparturetime:''
-      },
+      cdt:{},
+      dutyName:[],
       nation: [],
       company:[],
       addDialogVisible: false,
       detailsDialogVisible: false,
       changeDialogVisible:false,
+      qqq:'',
+      changeRow:[],
       options: [{
           value: 10,
           label: "10"
@@ -177,74 +231,57 @@ export default {
       ],
       tableData: [],
       multipleSelection: [],
-      pickerOptions: {
-        disabledDate: (time) => {
-            if (this.pd.schedulearrivetime != null) {
-              let startT = formatDate(new Date(time.getTime()),'yyyyMMddhhmm');
-              return startT > this.pd.schedulearrivetime;
-            }else if(this.pd.schedulearrivetime == null){
-              return false
-            }
-        }
-      },
-      pickerOptions1: {
-        disabledDate: (time) => {
-            let endT = formatDate(new Date(time.getTime()),'yyyyMMddhhmm');
-            return endT < this.pd.scheduledeparturetime;
-        }
-      },
-      form: { },
+      form: {},
     }
   },
   mounted() {
-    let time = new Date();
-    let end = new Date();
-    let begin =new Date(time - 1000 * 60 * 60 * 24 * 30);
-    this.pd.scheduledeparturetime=formatDate(begin,'yyyyMMddhhmm');
-    this.pd.schedulearrivetime=formatDate(end,'yyyyMMddhhmm');
+    this.getList(this.CurrentPage,this.pageSize,this.cdt);
     this.queryNationality();
   },
   activated(){
-    // let time = new Date();
-    // let end = new Date();
-    // let begin =new Date(time - 1000 * 60 * 60 * 24 * 30);
-    // this.pd.scheduledeparturetime=formatDate(begin,'yyyyMMddhhmm');
-    // this.pd.schedulearrivetime=formatDate(end,'yyyyMMddhhmm');
+    this.getList(this.CurrentPage,this.pageSize,this.cdt);
   },
   methods: {
     handleSelectionChange(val) {
       this.multipleSelection = val;
     },
     pageSizeChange(val) {
-      this.getList(this.CurrentPage, val, this.pd);
+      this.getList(this.CurrentPage, val, this.cdt);
       console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
-      this.getList(val, this.pageSize, this.pd);
+      this.getList(val, this.pageSize, this.cdt);
       console.log(`当前页: ${val}`);
     },
     getList(currentPage, showCount, pd) {
-      const result = this.$validator.verifyAll('timeDemo')
-       if (result.indexOf(false) > -1) {
-         return
-       }
-      if(dayGap(this.pd.scheduledeparturetime,this.pd.schedulearrivetime,0)>30){
-        this.$alert('查询时间间隔不能超过一个月', '提示', {
-          confirmButtonText: '确定',
-        });
-        return false
-      }
+      // const result = this.$validator.verifyAll('timeDemo')
+      //  if (result.indexOf(false) > -1) {
+      //    return
+      //  }
       let p = {
         "currentPage": currentPage,
         "showCount": showCount,
         "cdt": pd
       };
-      this.$api.post('/manage-platform/statusUpdate/flight/queryListPages', p,
+      this.$api.post('/manage-platform/incident/queryListPage', p,
         r => {
           console.log(r);
           this.tableData = r.data.resultList;
           this.TotalResult = r.data.totalResult;
         })
+    },
+    nameMethod(){//姓名
+      this.$api.post('/manage-platform/watch/queryUserAll',{},
+        r => {
+            if(r.success){
+              this.dutyName = r.data;
+            }
+        })
+    },
+    change(i){
+      this.nameMethod();
+      this.changeDialogVisible = true;
+      this.changeRow = i;
     },
     queryNationality() {
       this.$api.post('/manage-platform/codeTable/queryAircompanyList', {},
@@ -255,53 +292,35 @@ export default {
           }
         })
     },
-    addItem(formName) {
-      // this.$refs[formName].validate((valid) => {
-      //     if (valid) {
-      //       console.log(valid)
-      //       alert('submit!');
-      //     } else {
-      //       console.log('error submit!!');
-      //       return false;
-      //     }
-      //   });
-      this.$api.post('/manage-platform/nameList/addNameList', this.form,
+    changeSave(){//交接保存
+      var name="";
+      for(var i=0;i<this.dutyName.length;i++){
+        if(this.dutyName[i].SERIAL == this.qqq){
+          name = this.dutyName[i].NAME;
+        }
+      }
+      let p={
+        'SERIAL':this.changeRow,
+        'HANDOVERLOGIN':this.qqq,
+        'HANDOVERNAME':name
+      }
+      this.$api.post('/manage-platform/incident/handover', p,
         r => {
-          console.log(r);
-          if (r.Success) {
+          if (r.success) {
             this.$message({
-              message: '恭喜你，添加成功！',
+              message: '恭喜你，交接成功！',
               type: 'success'
             });
-          } else {
-            this.$message.error(r.Message);
           }
-          this.$refs[formName].resetFields();
-          this.addDialogVisible = false;
-          this.getList();
-          // this.tableData=r.Data.ResultList;
-        }, e => {
-          this.$message.error('失败了');
+          this.changeDialogVisible = false;
         })
     },
+
     details(i) {
-      this.seatDialogVisible=true;
-      // this.detailsDialogVisible = true;
-      // let p = {
-      //   "flightRecordnum": i,
-      //
-      // };
-      // this.$api.post('/manage-platform/statusUpdate/flight/queryTbFlightEntityById', p,
-      //   r => {
-      //     console.log(r);
-
-      //     this.form = r.data;
-      //   })
-
-      this.$router.push({query:{flightNumber:i.fltno,departdateBegin:i.departuretime}})
-
+      this.detailsDialogVisible = true;
+      this.form.title=i.TITLE;
+      this.form.content=i.INCIDENTDESC;
     },
-
   },
 
     filters: {

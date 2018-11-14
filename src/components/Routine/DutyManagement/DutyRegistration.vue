@@ -339,8 +339,6 @@ export default {
         this.tp = 1;
         // this.form = i;
         this.form=Object.assign({}, i);
-        console.log(this.form)
-        console.log(this.form.STARTTIMESTR)
         this.form.STARTTIMESTR=formatDate(new Date(this.form.STARTTIMESTR),'yyyyMMddhhmm');
         this.form.ENDTIMESTR=formatDate(new Date(this.form.ENDTIMESTR),'yyyyMMddhhmm');
         this.dialogText="编辑";
