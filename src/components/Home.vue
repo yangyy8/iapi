@@ -267,12 +267,19 @@ export default {
       planePath: 'path://M1705.06,1318.313v-89.254l-319.9-221.799l0.073-208.063c0.521-84.662-26.629-121.796-63.961-121.491c-37.332-0.305-64.482,36.829-63.961,121.491l0.073,208.063l-319.9,221.799v89.254l330.343-157.288l12.238,241.308l-134.449,92.931l0.531,42.034l175.125-42.917l175.125,42.917l0.531-42.034l-134.449-92.931l12.238-241.308L1705.06,1318.313z',
       color: ['#11fb44', '#dcbf71'], // 自定义图中要用到的颜色
       series:[], // 用来存储地图数据
+      timer:null,
     };
   },
 
   mounted() {
     this.fn();
-    this.getSatus();
+    var _this=this;
+    _this.getSatus();
+    this.timer=setInterval(function(){
+      _this.getSatus();
+
+    },1200000)
+
     this.getTime();
     this.initJzmm();
     if(this.$route.query.isLogin){
@@ -357,6 +364,9 @@ export default {
          if(this.isLogin){
            this.getUers();
            this.getNav0();
+         }else{
+           console.log("==============",this.isLogin)
+           this.$router.push({name:"Home"})
          }
 
       })

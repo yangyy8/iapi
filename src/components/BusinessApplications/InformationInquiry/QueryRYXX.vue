@@ -3299,10 +3299,10 @@ export default {
  .el-table .caret-wrapper{
    width: 20px!important;
  }
- .cell{
+ /* .cell{
    display: flex;
    justify-content: space-around;
- }
+ } */
  .akUl .el-col-2{
    width: 25%;
  }

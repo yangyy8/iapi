@@ -399,7 +399,7 @@ export default {
       this.$api.post('/manage-platform/flightMonitor/queryIllegalFlight',p,
        r => {
          console.log(r)
-         this.tableData=r.data;
+         this.tableData=r.data.pdList;
       })
     },
     getList2(CurrentPage,pageSize,pd2){
@@ -411,7 +411,7 @@ export default {
       this.$api.post('/manage-platform/flightMonitor/queryIllegalRealTime',p,
        r => {
          console.log(r)
-         this.tableData2=r.data;
+         this.tableData2=r.data.pdList;
          // this.TotalResult=r.data.totalResult;
 
       })

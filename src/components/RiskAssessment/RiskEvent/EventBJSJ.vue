@@ -82,7 +82,7 @@
                 <div class="input-input t-flex t-date">
                   <el-input-number size="small" v-model="pd.eachEvent_start"></el-input-number>
                   <span class="septum">-</span>
-                  <el-input-number size="small" v-model="pd.eachEvent_start"></el-input-number>
+                  <el-input-number size="small" v-model="pd.eachEvent_end"></el-input-number>
                 </div>
               </el-col>
               <el-col :sm="24" :md="12"  :lg="8" class="input-item">
@@ -728,7 +728,7 @@ export default {
     			"userId":"111",
     			"operation_type":"1",
     			"add_remark":"111",
-    			"add_tagtype":"1"
+    			"add_tagtype":"2"
         }
         p.list.push(a)
       }
@@ -737,7 +737,7 @@ export default {
        r => {
          if(r.success){
            this.$message({
-             message: '恭喜你，操作成功！',
+             message: '恭喜你，归档成功！',
              type: 'success'
            });
            this.gdDialogVisible=false;
