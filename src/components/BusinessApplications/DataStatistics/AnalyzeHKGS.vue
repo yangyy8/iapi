@@ -165,10 +165,7 @@ export default {
       pageSize: 10,
       TotalResult: 0,
       pd: {
-        begin: '',
-        end: '',
-        synFlag: '0',
-        rzlx: '0'
+    begintime:'',endtime:''
       },
       nation: [],
       company: [],
@@ -252,7 +249,7 @@ export default {
       console.log(`当前页: ${val}`);
     },
     getSummaries(param) {
-        console.log("合计-------------");
+    
          const { columns, data } = param;
          const sums = [];
          columns.forEach((column, index) => {

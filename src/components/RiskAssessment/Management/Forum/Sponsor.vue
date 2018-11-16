@@ -1,36 +1,51 @@
 <template lang="html">
   <div class="rank">
-
     <el-row class="mb-15">
-      <el-button type="success" size="small" @click="adds(0,'');form={};">发送</el-button>
+      <el-button type="success" size="small" @click="addItemForum(pd);form={};">发送</el-button>
       <el-button type="primary" size="small" @click="adds(0,'');form={};">预览</el-button>
       <el-button plain size="small" @click="adds(0,'');form={};">取消</el-button>
     </el-row>
     <el-row type="flex" class="mb-6 lht" >
       <el-col :span="24" >
         项目名称：
-        <el-input placeholder="请输入内容" size="small" v-model="pd.NAME" class="inputr"></el-input>
+        <el-input placeholder="请输入内容" size="small" v-model="pd.TITLE" class="inputr"></el-input>
       </el-col>
     </el-row>
     <el-row type="flex" class="mb-6 lht" >
       <el-col :span="24" >
         过期时间：
-         <el-input placeholder="请输入内容" size="small" v-model="pd.NAME1" class="inputr"></el-input>
+         <el-date-picker class="inputr"
+         v-model="pd.EXPIRATIONDATE" format="yyyy-MM-dd"
+         type="date" size="small" value-format="yyyy-MM-dd"
+         placeholder="请输入过期时间">
+       </el-date-picker>
       </el-col>
     </el-row>
     <el-row type="flex" class="mb-6 lht" >
       <el-col :span="24" >
         简&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 介：
-         <el-input placeholder="请输入内容" size="small" v-model="pd.NAME1" class="inputr"></el-input>
+         <el-input placeholder="请输入内容" size="small" v-model="pd.INTRO" class="inputr"></el-input>
       </el-col>
     </el-row>
+    <el-row type="flex" class="mb-6 lht" >
+      <el-col :span="24" >
+        <label class="file">
+          <img src="../../../../assets/img/fujian.png" />
+          <input type="file" name="" multiple="multiple" @change="uploadFile">
+        </label>
 
+        <div class="" v-if="fileData">
+          <div class="" v-for="(x,ind) in fileData" :key="ind">
+            <span class="mr-30">{{x.name}}</span>
+          </div>
+        </div>
+      </el-col>
+    </el-row>
      <div id="editorElem" style="text-align:left; margin-bottom:10px;"></div>
      <el-row class="mb-15">
-    <el-button type="success" size="small" @click="adds(0,'');form={};">发送</el-button>
+    <el-button type="success" size="small" @click="addItemForum(pd);form={};">发送</el-button>
     <el-button type="primary" size="small" v-on:click="getContent">预览</el-button>
     </el-row>
-
   </div>
   </div>
 </template>
@@ -41,34 +56,139 @@ export default {
   data() {
     return {
       editorContent: '',
-      pd:{}
+      pd: {},
+      fileData:null
     }
   },
   methods: {
-          getContent: function () {
-              alert(this.editorContent)
+    getContent: function() {
+      alert(this.editorContent)
+    },
+    addItemForum(pd) {
+      pd.COUNT = this.editorContent;
+      var formData = new FormData();
+      let arr=this.fileData;
+      for(var i=0;i<arr.length;i++){
+        formData.append("file",arr[i]);
+      }
+      formData.append("TITLE",pd.TITLE);
+      formData.append("INTRO",pd.INTRO);
+formData.append("COUNT",pd.COUNT);
+formData.append("EXPIRATIONDATE",pd.EXPIRATIONDATE);
+      let p =formData;
+
+      this.$api.post('/manage-platform/itemForum/addItemForum', p,
+        r => {
+          console.log(r);
+          if (r.success) {
+            this.$message({
+              message: '保存成功！',
+              type: 'success'
+            });
+          } else {
+            this.$message({
+              message: r.message
+            });
           }
-        },
-mounted() {
-          var editor = new E('#editorElem')
-          editor.customConfig.onchange = (html) => {
-            this.editorContent = html
-          }
-          editor.create()
-  }
+          pd = {}
+        },e => {
+
+        },{'Content-Type': 'multipart/form-data'})
+    },
+    // 获取要上传的文件
+    uploadFile(event) {
+
+      this.fileData= event.target.files;
+      //this.fileData.push(e.target.files);
+
+    },
+    // 上传附件
+    upload(serial){
+      console.log("this.fileData",this.fileData)
+      var formData = new FormData();
+      let arr=this.fileData;
+
+      for(var i=0;i<arr.length;i++){
+        formData.append("file",arr[i]);
+      }
+      formData.append("eventSerial",this.serial);
+      formData.append("userId",this.user.userId);
+      console.log(formData)
+      let p=formData
+      console.log("p",p)
+
+      this.$api.post('/manage-platform/riskEventWarningController/upload',p,
+       r => {
+         if(r.success){
+           this.$message({
+             message: '恭喜你，上传成功！',
+             type: 'success'
+           });
+           if(this.delIndex.indexOf("3,")==-1){
+             this.delIndex+="3,"
+           }
+           // this.getRiskDescRecordInfo();
+           this.fileData=null;
+         }else {
+           this.fileData=null;
+           return
+         }
+      },e => {
+
+      },{'Content-Type': 'multipart/form-data'})
+    },
+  },
+  mounted() {
+    var editor = new E('#editorElem')
+    editor.customConfig.onchange = (html) => {
+      this.editorContent = html
+    }
+    editor.create()
+  },
+
 
 
 }
 </script>
 
 <style scoped>
-.rank{background: #ffffff; min-height: 750px; padding: 10px;}
-.lht{line-height: 40px; border-bottom: 1px solid #eeeeee; color: #1676C2;}
-.inputr{width:90%;border:none!important;}
+.rank {
+  background: #ffffff;
+  min-height: 750px;
+  padding: 10px;
+}
+
+.lht {
+  line-height: 40px;
+  border-bottom: 1px solid #eeeeee;
+  color: #1676C2;
+}
+
+.inputr {
+  width: 90%;
+  border: none !important;
+}
+.file {
+    position: relative;
+    display: inline-block;
+    overflow: hidden;
+    text-decoration: none;
+    text-indent: 0;
+    width: 305px;
+    height: 21px;
+
+}
+.file input {
+    position: absolute;
+    right: 0;
+    top: 0;
+    opacity: 0;
+      cursor:pointer;
+}
 
 </style>
 <style>
 .lht .el-input--small .el-input__inner {
-    border: none;
+  border: none;
 }
 </style>

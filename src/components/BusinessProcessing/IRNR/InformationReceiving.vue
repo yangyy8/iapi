@@ -313,7 +313,7 @@ export default {
       inTotalResult: 0,
 
 
-
+      PageSize:10000,
       outTableData:[],
       inTableData:[],
       outTableDataDetail:[],
@@ -514,8 +514,9 @@ export default {
     nameId(val){
       console.log(val)
       var obj={};
-      obj.userId = val;
+      obj.DEPT_ID = val;
       let p={
+        'showCount':this.PageSize,
         'pd':obj
       }
       this.$api.post('/manage-platform/userSys/selectAll', p,

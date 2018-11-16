@@ -3,12 +3,12 @@
     <div class="middle-top mb-2">
       <el-row type="flex" class="middle" v-show="page==1" justify="center">
         <el-col  :sm="24" :md="12" :lg="10">
-          <el-input placeholder="请输入内容" size="small" v-model="pd.DEPT_JC"></el-input>
+          <el-input placeholder="请输入内容" size="small" v-model="mcdt.FILENAME"></el-input>
         </el-col>
         <el-col  :sm="24" :md="12" :lg="4"  class="input-item">
           &nbsp;&nbsp;&nbsp;
-          <el-button type="success" size="small" @click="">搜索</el-button>&nbsp;&nbsp;&nbsp;
-          <el-button type="success" size="small" @click="">文件上传</el-button>
+          <el-button type="success" size="small" @click="mgetList(mCurrentPage,mpageSize,mcdt)">搜索</el-button>&nbsp;&nbsp;&nbsp;
+          <el-button type="success" size="small" @click="folderDialogVisible = true">文件上传</el-button>
         </el-col>
       </el-row>
       <el-row type="flex" class="middle" v-show="page==0">
@@ -37,35 +37,50 @@
       </el-row>
     </div>
     <div class="middle">
-        <span class="tubiao hand" :class="{'checked':page==1}" @click="qq">文件管理</span><span class="tubiao hand" :class="{'checked':page==0}" @click="page=0;getList(CurrentPage,pageSize,pd)">通讯录</span>
+        <span class="tubiao hand" :class="{'checked':page==1}" @click="qq">文件管理</span><span class="tubiao hand" :class="{'checked':page==0}" @click="page=0;getList(CurrentPage,pageSize,cdt)">通讯录</span>
         <div id="div1" v-show="page==0">
           <el-row class="margin-bt">
-            <el-button type="primary" size="small" @click="adds(0,'')">新增</el-button>
+            <el-button type="primary" size="mini" @click="adds(0,'');form={}">新增</el-button>
+            <el-button type="primary" plain size="mini" @click="batchI">批量导入</el-button>
+            <el-button type="primary" plain size="mini" @click="download">模板下载</el-button>
           </el-row>
           <el-table
             :data="tableData"
             border
             style="width: 100%;">
             <el-table-column
-              prop="tsname"
+              label="序号"
+              type="index"
+              width="50">
+            </el-table-column>
+            <el-table-column
+              prop="NAME"
               label="姓名" sortable
               width="140">
             </el-table-column>
             <el-table-column
-              prop="gender"
+              prop="SEX"
               label="性别" sortable>
             </el-table-column>
             <el-table-column
-              prop="birthdate"
+              prop="USERNAME"
               label="账号" sortable>
             </el-table-column>
             <el-table-column
-              prop="nationalityStr"
-              label="岗位" sortable>
+              prop="DEPT_QC"
+              label="部门" sortable>
             </el-table-column>
             <el-table-column
-              prop="nationalityStr"
+              prop="PHONE"
               label="电话" sortable>
+            </el-table-column>
+            <el-table-column
+              prop="MAIL"
+              label="邮箱" sortable>
+            </el-table-column>
+            <el-table-column
+              prop="AIRPORT_NAME"
+              label="航站名称" sortable>
             </el-table-column>
             <el-table-column
               label="操作">
@@ -106,14 +121,73 @@
           </div>
         </div>
         <div id="div2" v-show="page==1">
-          <el-row align="center"  type="flex" justify="center">
-              <el-col :span="15">
-                <h3>啦啦爬啦啦啦啦啦啦啦啦绿绿绿绿绿</h3>
-                <div class="">
-                  二排坡隧道位于云南省石林县大、小锁卜所村和松树凹村之间。这里，抬眼是山、低头是崎岖的山路；这里，远离城市的喧嚣，没有普通车站熙熙攘攘的旅客，但这里，也是春运安全保卫的主战场。从警22年的铁路民警李华，是这里唯一的民警。
-                </div>
-              </el-col>
-          </el-row>
+          <el-table
+            :data="mtableData"
+            border
+            style="width: 100%;">
+            <el-table-column
+              label="序号"
+              type="index"
+              width="50">
+            </el-table-column>
+            <el-table-column
+              prop="FOLDER"
+              label="文件夹名称" sortable
+              width="140">
+            </el-table-column>
+            <el-table-column
+              prop="FILENAME"
+              label="文件名称" sortable>
+            </el-table-column>
+            <el-table-column
+              prop="FILESIZE"
+              label="文件大小" sortable>
+            </el-table-column>
+            <el-table-column
+              prop="FILETYPE"
+              label="文件类型" sortable>
+            </el-table-column>
+            <el-table-column
+              prop="CREATETIMESTR"
+              label="文件创建时间" sortable>
+            </el-table-column>
+            <el-table-column
+              label="操作">
+              <template slot-scope="scope">
+                <el-button class="table-btn" size="mini" plain icon="el-icon-edit" @click="">文件下载</el-button>
+                <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="deletes(scope.row)">删除</el-button>
+             </template>
+            </el-table-column>
+          </el-table>
+          <div class="middle-foot">
+            <div class="page-msg">
+              <div class="">
+                共{{Math.ceil(mTotalResult/mpageSize)}}页
+              </div>
+              <div class="">
+                每页
+                <el-select v-model="mpageSize" @change="pageSizeChange(mpageSize)" placeholder="10" size="mini" class="page-select">
+                  <el-option
+                    v-for="item in options"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                  </el-option>
+                </el-select>
+                条
+              </div>
+              <div class="">
+                共{{mTotalResult}}条
+              </div>
+            </div>
+            <el-pagination
+              background
+              @current-change="handleCurrentChange"
+              :page-size="mpageSize"
+              layout="prev, pager, next"
+              :total="mTotalResult">
+            </el-pagination>
+          </div>
         </div>
     </div>
     <el-dialog :title="dialogText" :visible.sync="addDialogVisible" width="500px" >
@@ -121,46 +195,151 @@
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
             <span class="yy-input-text"><font class="yy-color">*</font>姓名：</span>
-            <el-input placeholder="请输入姓名" size="small" maxlength="20"  v-model="form.ROLE_NAME"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
+            <el-select placeholder="请选择" v-model="form.NAME" filterable clearable @visible-change="nameMethod(0)" size="small" class="yy-input-input" @change="nameMethodReal(form.NAME)" v-verify.change.blur ="{regs:'required',submit:'demo2'}">
+              <el-option
+              v-for="item in dutyName"
+              :key="item.SERIAL"
+              :value="item.NAME"
+              :label="item.NAME">
+              </el-option>
+            </el-select>
           </el-col>
         </el-row>
 
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
             <span class="yy-input-text"><font class="yy-color">*</font>性别：</span>
-            <el-select v-model="form.STATUS" clearable placeholder="请选择" size="small" class="input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}">
-               <el-option value="M" label="男"></el-option>
-               <el-option value="F" label="女"></el-option>
-               <el-option value="U" label="未知"></el-option>
-             </el-select>
+            <el-input placeholder="请输入账号" size="small" v-model="form.SEX"  class="yy-input-input" :disabled="true"></el-input>
           </el-col>
         </el-row>
 
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
-            <span class="yy-input-text">账号：</span>
-            <el-input placeholder="请输入账号" size="small" maxlength="20"  v-model="form.ROLE_NAME"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
+            <span class="yy-input-text"><font class="yy-color">*</font>账号：</span>
+            <el-input placeholder="请输入账号" size="small" v-model="form.USERNAME"  class="yy-input-input" :disabled="true"></el-input>
           </el-col>
         </el-row>
 
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
-            <span class="yy-input-text">岗位：</span>
-            <el-input placeholder="请输入岗位" size="small" maxlength="20"  v-model="form.ROLE_NAME"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
+            <span class="yy-input-text"><font class="yy-color">*</font>部门：</span>
+            <el-input placeholder="请输入部门" size="small" v-model="form.DEPT_QC"  class="yy-input-input" :disabled="true"></el-input>
           </el-col>
         </el-row>
 
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
-            <span class="yy-input-text">电话：</span>
-            <el-input placeholder="请输入电话" size="small" maxlength="20"  v-model="form.ROLE_NAME"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
+            <span class="yy-input-text"><font class="yy-color">*</font>电话：</span>
+            <el-input placeholder="请输入电话" size="small" v-model="form.PHONE"  class="yy-input-input" :disabled="true"></el-input>
           </el-col>
         </el-row>
+
+        <el-row type="flex"  class="mb-6">
+          <el-col :span="24" class="input-item">
+            <span class="yy-input-text"><font class="yy-color">*</font>邮箱：</span>
+            <el-input placeholder="请输入账号" size="small" v-model="form.MAIL"  class="yy-input-input"></el-input>
+          </el-col>
+        </el-row>
+
+        <el-row type="flex"  class="mb-6">
+          <el-col :span="24" class="input-item">
+            <span class="yy-input-text"><font class="yy-color">*</font>航站：</span>
+            <el-select placeholder="请选择" v-model="form.AIRPORT_NAME" filterable clearable @visible-change="terminal" size="small" class="yy-input-input"  v-verify.change.blur ="{regs:'required',submit:'demo2'}">
+              <el-option
+              v-for="item in takeOffName"
+              :key="item.AIRPORT_CODE"
+              :value="item.AIRPORT_CODE"
+              :label="item.AIRPORT_CODE+' - '+item.AIRPORT_NAME">
+              </el-option>
+            </el-select>
+          </el-col>
+        </el-row>
+
+
 
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="addItem('addForm')" size="small">保 存</el-button>
         <el-button @click="addDialogVisible = false" size="small">取 消</el-button>
+      </div>
+    </el-dialog>
+
+    <el-dialog title="文件上传" :visible.sync="folderDialogVisible"   width="640px" :before-close="uploadHandleClose">
+      <el-form :model="releaseform" ref="releaseForm">
+        <el-row type="flex"  class="mb-6" justify="center">
+          <el-col :span="12" class="input-item">
+            <span class="yy-input-text">文件夹：</span>
+            <!-- <el-input placeholder="请输入文件夹名" size="small"  v-model="folder"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input> -->
+            <el-select placeholder="请选择" v-model="folder" filterable clearable @visible-change="folderMethod" size="small" class="input-inp">
+              <el-option
+              v-for="item in folderName"
+              :key="item.SERIAL"
+              :value="item.SERIAL"
+              :label="item.FOLDER">
+              <span style="float: left">{{item.FOLDER}}</span>
+              <span style="float: right;margin-left:20px;line-height:2.5!important;" class="el-icon-circle-close" @click.stop="deleteItem(item.SERIAL)"></span>
+              </el-option>
+            </el-select>
+          </el-col>
+          <el-col :span="2" class="input-item">
+            <el-button @click="addFolder" size="small" type="primary">新 增</el-button>
+          </el-col>
+        </el-row>
+        <el-row type="flex"  class="mb-6">
+          <label class="file">
+            添加文件
+            <input type="file" name=""  @change="uploadFile">
+          </label>
+          <div class="" v-if="fileData">
+            <div class="" v-for="(x,ind) in fileData" :key="ind">
+              <span class="mr-30">{{x.name}}</span>
+            </div>
+          </div>
+          <el-button type="success" name="button" @click="upload" size="small">上传</el-button>
+        </el-row>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="uploadCancelUpload" size="small">取 消</el-button>
+      </div>
+    </el-dialog>
+
+    <el-dialog
+      title="文件夹名"
+      :visible.sync="folderdialogVisible"
+      width="30%"
+      >
+      <el-form  class="plan">
+        <el-form-item label="文件夹名:" :label-width="formLabelWidth">
+          <el-input v-model="fff" auto-complete="off" size="small"></el-input>
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="planSave">保存</el-button>
+      </span>
+    </el-dialog>
+
+    <el-dialog title="批量导入" :visible.sync="uploadDialogVisible"   width="640px"
+    :before-close="handleClose">
+      <el-form :model="importform" ref="importForm">
+        <el-upload
+          class="upload-demo"
+          ref="upload"
+          name="excel"
+          :multiple="false"
+          accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+
+          :action="$api.rootUrl+'/manage-platform/iapi/readExcel'"
+          :on-success="uploadSuccess"
+          :limit="1"
+          :on-exceed="handleExceed"
+          :before-upload="beforeUpload"
+          :auto-upload="false">
+          <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
+          <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">上传到服务器</el-button>
+        </el-upload>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="cancelUpload" size="small">取 消</el-button>
       </div>
     </el-dialog>
   </div>
@@ -174,13 +353,34 @@ export default {
 
   data() {
     return {
+      delIndex:'',
       tp: 0,
       CurrentPage: 1,
       pageSize: 10,
       TotalResult: 0,
+
+      mCurrentPage: 1,
+      mpageSize: 10,
+      mTotalResult: 0,
+
       dialogText: "新增",
-      addDialogVisible: false,
+      addDialogVisible: false,//新增编辑
+      uploadDialogVisible:false,//批量导入
+      folderDialogVisible:false,//文件上传
+      folderdialogVisible:false,//文件夹名
       page:0,
+
+      mcdt:{},
+      folder:'',//文件夹名
+      folderName:[],//文件夹名列表
+      formLabelWidth:'120px',
+      fff:'',
+      releaseform:{},
+      importform:{},
+      fileData:{},
+      takeOffName:[],
+      dutyName:[],
+
       pd: {
         "isBlurred":false,
         departdateBegin:'',
@@ -201,18 +401,15 @@ export default {
         }
       ],
       tableData: [],
+      mtableData:[],
       multipleSelection: [],
       form: {},
 
     }
   },
   mounted() {
-    this.getList(this.CurrentPage, this.pageSize, this.pd)
-    let time = new Date();
-    let end = new Date();
-    let begin =new Date(time - 1000 * 60 * 60 * 24 * 30);
-    this.pd.departdateBegin=formatDate(begin,'yyyyMMddhhmm');
-    this.pd.departdateEnd=formatDate(end,'yyyyMMddhhmm');
+    this.getList(this.CurrentPage, this.pageSize, this.cdt)
+    this.mgetList(this.mCurrentPage,this.mpageSize,this.mcdt)
   },
   activated(){
 
@@ -220,42 +417,240 @@ export default {
   methods: {
     qq(){
       this.page=1;
+      this.mgetList(this.mCurrentPage,this.mpageSize,this.mcdt);
     },
     handleSelectionChange(val) {
     this.multipleSelection = val;
     },
-    getNation(msg){
-      this.pd.NATIONALITY=msg;
-    },
     pageSizeChange(val) {
-      this.getList(this.CurrentPage, val, this.pd);
+      if(this.page==0){
+        this.getList(this.CurrentPage, val, this.cdt);
+      }else if(this.page==1){
+        this.mgetList(this.mCurrentPage,val,this.mcdt);
+      }
       console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
-      this.getList(val, this.pageSize, this.pd);
-
+      if(this.page==0){
+        this.getList(val, this.pageSize, this.cdt);
+      }else if(this.page==1){
+        this.mgetList(val,this.mpageSize,this.mcdt);
+      }
       console.log(`当前页: ${val}`);
     },
     getList(currentPage, showCount, pd) {
-
-      if(dayGap(this.pd.departdateBegin,this.pd.departdateEnd,0)>30){
-        this.$alert('查询时间间隔不能超过一个月', '提示', {
-          confirmButtonText: '确定',
-        });
-        return false
-      }
-
       let p = {
         "currentPage": currentPage,
         "showCount": showCount,
         "cdt": pd
       };
-      this.$api.post('/manage-platform/statusUpdate/seat/queryListPages', p,
+      this.$api.post('/manage-platform/addressManage/queryListPage', p,
         r => {
-          console.log(r);
           this.tableData = r.data.resultList;
           this.TotalResult = r.data.totalResult;
         })
+    },
+    mgetList(currentPage, showCount, pd){
+      let p = {
+        "currentPage": currentPage,
+        "showCount": showCount,
+        "cdt": pd
+      };
+      this.$api.post('/manage-platform/fileAssistant/queryListPage', p,
+        r => {
+          this.mtableData = r.data.resultList;
+          this.mTotalResult = r.data.totalResult;
+        })
+    },
+    uploadHandleClose(){
+      this.uploadCancelUpload();
+    },
+    uploadCancelUpload(){
+      this.folderDialogVisible=false;
+    },
+    handleClose(){//关闭文件上传模态框
+      this.cancelUpload();
+    },
+    cancelUpload(){
+      this.$refs.upload.clearFiles();
+      this.uploadDialogVisible=false;
+    },
+    uploadFile(event){//获取上传的文件
+      this.fileData=event.target.files;
+    },
+    upload(){//上传文件
+      var formData = new FormData();
+      let arr=this.fileData;
+      for(var i=0;i<arr.length;i++){
+        formData.append("file",arr[i]);
+      }
+      formData.append("folder",this.folder);
+      let p=formData;
+      this.$api.post('/manage-platform/fileAssistant/uploadFile',p,
+       r =>{
+         if(r.success){
+           this.$message({
+             message: '恭喜你，上传成功！',
+             type: 'success'
+           });
+           this.folderDialogVisible=false;
+           this.mgetList(this.mCurrentPage,this.mpageSize,this.mcdt);
+           // if(this.delIndex.indexOf("3,")==-1){
+           //   this.delIndex+="3,"
+           // }
+           // this.getRiskDescRecordInfo();
+           this.fileData=null;
+         }else {
+           this.fileData=null;
+           return
+         }
+       },e => {
+       },{'Content-Type': 'multipart/form-data'})
+    },
+    batchI(){//批量导入
+      if( this.$refs.upload){
+        this.$refs.upload.clearFiles();
+      }
+      this.uploadDialogVisible = true;
+    },
+    download(){
+      window.location.href=this.$api.rootUrl+'/manage-platform/templateFile/nameListDataFile.xlsx'
+    },
+    uploadSuccess(response, file, fileList){
+      console.log(response);
+      if(response.success){
+        this.uploadDialogVisible=false;
+        this.rows = response.data.cdtList;
+        this.$refs.upload.clearFiles();
+        this.$message({
+          duration:3000,
+          message: '恭喜你，导入成功！',
+          type: 'success'
+        });
+      }else{
+        this.$message({
+          duration:3000,
+          message: response.message,
+          type: 'warning'
+        });
+      }
+    },
+    handleExceed(files, fileList){
+      if(files.length!=0){
+        this.$message({
+          message: '只能上传一个文件！',
+          type: 'warning'
+        });
+      }
+    },
+    beforeUpload(file){
+      console.log(file);
+    },
+    submitUpload() {
+      console.log(this.$refs.upload);
+      if(this.$refs.upload.uploadFiles.length==0){
+         this.$message({
+          message: '请先选择文件！',
+          type: 'warning'
+        });
+         return
+       }
+      this.$refs.upload.submit();
+     // this.uploadDialogVisible=false;
+    },
+    addFolder(){//新增文件夹名
+      this.folderdialogVisible = true;
+    },
+    folderMethod(){//文件夹列表
+      this.$api.post('/manage-platform/fileAssistant/queryFolder',{},
+        r => {
+          if(r.success){
+            this.folderName = r.data;
+          }
+        })
+    },
+    planSave(){//保存文件夹名称
+      if(this.fff==''){
+        this.$alert('文件夹名称不能为空', '提示', {
+          confirmButtonText: '确定',
+        });
+        return false
+      }
+      let p={
+        "folder":this.fff
+      }
+      this.$api.post('/manage-platform/fileAssistant/saveFolder',p,
+        r => {
+          if(r.success){
+            this.folderdialogVisible = false;
+          }
+        })
+    },
+    deleteItem(i){//删除文件夹名称
+      this.$confirm('方案删除后将无法恢复, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        // let di = this.saveName.indexOf(i);
+        // this.saveName.splice(di,1);
+        let dei = {
+          SERIAL:i,
+        };
+        this.$api.post('/manage-platform/fileAssistant/delete',dei,
+         r =>{
+           if(r.success){
+             if(this.folder==i){
+               this.folder='';
+               this.folderMethod();
+             }else{
+               this.folderMethod();
+             }
+             this.$message({
+               type: 'success',
+               message: '操作成功!'
+             });
+           }
+         })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        });
+      });
+    },
+    terminal(){//航站
+      this.$api.post('/manage-platform/codeTable/queryAirport',{},
+       r =>{
+         if(r.success){
+           this.takeOffName = r.data;
+         }
+       })
+    },
+    nameMethod(){//姓名
+      this.$api.post('/manage-platform/watch/queryUserAll',{},
+        r => {
+            if(r.success){
+              this.dutyName = r.data;
+            }
+        })
+    },
+    nameMethodReal(val){//新增添值&编辑修改
+      this.$set(this.form,'PHONE','');
+      this.$set(this.form,'DEPT_QC','');
+      this.$set(this.form,'USERNAME','');
+      this.$set(this.form,'SEX','');
+      let arr = this.dutyName;
+      for(var i=0;i<arr.length;i++){
+        if(arr[i].NAME == val){
+          this.form.PHONE = arr[i].PHONE;//电话
+          this.form.USERNAME = arr[i].USERNAME;//账号
+          this.form.SEX = arr[i].SEX;
+          this.form.DEPT_QC = arr[i].DEPT_QC;
+          this.form.DEPT_ID = arr[i].DEPT_ID;//部门id
+          this.form.USERSERIAL = arr[i].SERIAL;//姓名
+        }
+      }
     },
     adds(n, i) {
       this.addDialogVisible = true;
@@ -266,6 +661,7 @@ export default {
         this.form=Object.assign({}, i);
         this.dialogText="编辑";
       }else {
+        this.tp = 0;
         this.dialogText="新增";
       }
 
@@ -274,22 +670,13 @@ export default {
 
 
     addItem(formName) {
-      if (this.form.DEPT_ORDER != undefined && this.form.DEPT_ORDER != "") {
-        if (!checkRate(this.form.DEPT_ORDER)) {
-          this.$message.error('排列序号必须为数字，请重新输入！');
-          return;
-        }
-      }
-
       if (this.$validator.listener.demo2) {
         const result = this.$validator.verifyAll('demo2')
         if (result.indexOf(false) > -1) {
           return;
         }
       }
-
-       var url = "/manage-platform/deptSys/edit";
-
+       var url = "/manage-platform/addressManage/save";
       this.$api.post(url, this.form,
         r => {
           console.log(r);
@@ -303,7 +690,7 @@ export default {
           }
           this.$refs[formName].resetFields();
           this.addDialogVisible = false;
-          this.getList();
+          this.getList(this.CurrentPage, this.pageSize, this.cdt);
           // this.tableData=r.Data.ResultList;
         }, e => {
           this.$message.error('失败了');
@@ -415,4 +802,39 @@ width:100px; padding:6px 15px;  border:1px solid #56A8FE;
 .margin-bt{
   margin: 5px 0px !important;
 }
+.plan .el-input{
+  width:75%!important;
+
+}
+.file {
+    position: relative;
+    display: inline-block;
+    background: #ecf5ff;
+    border: 1px solid #b3d8ff;
+    border-radius: 4px;
+    padding: 4px 12px;
+    overflow: hidden;
+    color: #409EFF;
+    text-decoration: none;
+    text-indent: 0;
+    line-height: 20px;
+    font-size: 12px;
+}
+.file input {
+    position: absolute;
+    font-size: 100px;
+    right: 0;
+    top: 0;
+    opacity: 0;
+}
+.file:hover {
+    background: #409EFF;
+    border-color: #409EFF;
+    color: #ffffff;
+}
+</style>
+<style media="screen">
+/* .plan .el-input .el-input__inner{
+  height: 32px!important;
+} */
 </style>

@@ -8,17 +8,6 @@
           </div>
           <el-row align="center" :gutter="2" >
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
-              <span class="input-text">机场三位码：</span>
-              <el-select placeholder="请选择" v-model="cdt.airportCode" filterable clearable @visible-change="takeOff(0)" size="small" class="input-input">
-                <el-option
-                v-for="item in takeOffName"
-                :key="item.AIRPORT_CODE"
-                :value="item.AIRPORT_CODE"
-                :label="item.AIRPORT_CODE">
-                </el-option>
-              </el-select>
-            </el-col>
-            <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">洲：</span>
               <el-select placeholder="请选择" v-model="cdt.continentsCode" filterable clearable @visible-change="chau(0)" @change="nationality(cdt.continentsCode,0)" size="small"  class="input-input">
                 <el-option
@@ -51,6 +40,17 @@
                 ></el-option>
               </el-select>
             </el-col>
+            <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+              <span class="input-text">机场三位码：</span>
+              <el-select placeholder="请选择" v-model="cdt.airportCode" filterable clearable @visible-change="takeOff(0)" size="small" class="input-input">
+                <el-option
+                v-for="item in takeOffName"
+                :key="item.AIRPORT_CODE"
+                :value="item.AIRPORT_CODE"
+                :label="item.AIRPORT_CODE">
+                </el-option>
+              </el-select>
+            </el-col>
           </el-row>
         </el-col>
         <el-col :span="2" class="down-btn-area" style="padding-top:30px;">
@@ -61,7 +61,7 @@
     <div class="middle">
       <el-row class="mb-15">
         <el-button type="primary" size="small" @click="adds(0,'');form={}">新增</el-button>
-        <el-button type="success" size="small" @click="">批量导入</el-button>
+        <el-button type="success" size="small" @click="batchI">批量导入</el-button>
         <el-button type="success" size="small" @click="">模板下载</el-button>
       </el-row>
       <el-table
@@ -235,6 +235,30 @@
         <el-button @click="addDialogVisible = false" size="small">取 消</el-button>
       </div>
     </el-dialog>
+
+    <el-dialog title="批量导入" :visible.sync="uploadDialogVisible"   width="640px"
+    :before-close="handleClose">
+      <el-form :model="importform" ref="importForm">
+        <el-upload
+          class="upload-demo"
+          ref="upload"
+          name="excel"
+          :multiple="false"
+          accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+          :action="$api.rootUrl+'/manage-platform/airportManage/importFlightManage'"
+          :on-success="uploadSuccess"
+          :limit="1"
+          :on-exceed="handleExceed"
+          :before-upload="beforeUpload"
+          :auto-upload="false">
+          <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
+          <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">上传到服务器</el-button>
+        </el-upload>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="cancelUpload" size="small">取 消</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -273,6 +297,8 @@ export default {
       addDialogVisible: false,
       detailsDialogVisible: false,
       sendDialogVisible:false,
+      uploadDialogVisible:false,
+      importform:{},
       options: [{
           value: 10,
           label: "10"
@@ -354,6 +380,61 @@ export default {
           this.tableData = r.data.resultList;
           this.TotalResult = r.data.totalResult;
         })
+    },
+    handleClose(){//关闭文件上传模态框
+      this.cancelUpload();
+    },
+    cancelUpload(){
+      this.$refs.upload.clearFiles();
+      this.uploadDialogVisible=false;
+    },
+    batchI(){//批量导入
+      if( this.$refs.upload){
+        this.$refs.upload.clearFiles();
+      }
+      this.uploadDialogVisible = true;
+    },
+    uploadSuccess(response, file, fileList){
+      console.log(response);
+      if(response.success){
+        this.uploadDialogVisible=false;
+        this.rows = response.data.cdtList;
+        this.$refs.upload.clearFiles();
+        this.$message({
+          duration:3000,
+          message: '恭喜你，导入成功！',
+          type: 'success'
+        });
+      }else{
+        this.$message({
+          duration:3000,
+          message: response.message,
+          type: 'warning'
+        });
+      }
+    },
+    handleExceed(files, fileList){
+      if(files.length!=0){
+        this.$message({
+          message: '只能上传一个文件！',
+          type: 'warning'
+        });
+      }
+    },
+    beforeUpload(file){
+      console.log(file);
+    },
+    submitUpload() {
+      console.log(this.$refs.upload);
+      if(this.$refs.upload.uploadFiles.length==0){
+         this.$message({
+          message: '请先选择文件！',
+          type: 'warning'
+        });
+         return
+       }
+      this.$refs.upload.submit();
+     // this.uploadDialogVisible=false;
     },
     chau(type){//调用洲
       this.$api.post('/manage-platform/codeTable/queryContinentsCountry',{},
@@ -454,8 +535,10 @@ export default {
     cityAble(val,type){
       if(val==undefined||val==''){
         if(type==0){
+          this.$set(this.cdt,'cityCode','');
           this.able=true;
         }else if(type==1){
+          this.$set(this.form,'cityCode','');
           this.addAble=true;
         }
       }else{

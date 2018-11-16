@@ -11,18 +11,18 @@
 
           <el-row align="center"   :gutter="2">
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
-              <span class="input-text">时间范围：</span>
+              <span class="input-text"><font class="yy-color">*</font>  时间范围：</span>
               <div class="input-input t-flex t-date">
-                <el-date-picker 
+                <el-date-picker
                 v-model="pd.begintime" format="yyyy-MM-dd"
-               v-verify.input.blur="{regs:'required',submit:'timeDemo'}"
+
                 type="date" size="small" value-format="yyyyMMdd"
                 placeholder="开始时间"  :picker-options="pickerOptions0" >
               </el-date-picker>
                 <span class="septum">-</span>
               <el-date-picker
                  v-model="pd.endtime" format="yyyy-MM-dd"
-                 v-verify.input.blur="{regs:'required',submit:'timeDemo'}"
+
                  type="date" size="small" value-format="yyyyMMdd"
                  placeholder="结束时间" :picker-options="pickerOptions1" >
              </el-date-picker>
@@ -33,8 +33,8 @@
                 <span class="input-text">洲：</span>
                 <el-select placeholder="请选择" v-model="pd.continentfrom" filterable clearable size="small"  class="input-input">
                   <el-option
-                    v-for="item in zhouName"
-                    :key="item.code"
+                    v-for="(item,ind) in zhouName"
+                    :key="ind"
                     :value="item.code"
                     :label="item.code+' - '+item.name"
                   ></el-option>
@@ -44,8 +44,8 @@
                 <span class="input-text">国家：</span>
                 <el-select placeholder="请选择" v-model="pd.countryfrom" filterable clearable size="small"  class="input-input">
                   <el-option
-                    v-for="item in gwName"
-                    :key="item.citycode"
+                    v-for="(item,ind)  in gwName"
+                    :key="ind"
                     :value="item.citycode"
                     :label="item.citycode+' - '+item.cityname"
                   ></el-option>
@@ -55,8 +55,8 @@
                 <span class="input-text">出发地：</span>
                 <el-select placeholder="请选择" v-model="pd.cityfrom" filterable clearable size="small"  class="input-input">
                   <el-option
-                    v-for="item in gnName"
-                    :key="item.citycode"
+                    v-for="(item,ind) in gnName"
+                    :key="ind"
                     :value="item.citycode"
                     :label="item.citycode+' - '+item.cityname"
                   ></el-option>
@@ -66,8 +66,8 @@
                 <span class="input-text">目的地：</span>
                 <el-select placeholder="请选择" v-model="pd.cityto" filterable clearable size="small"  class="input-input">
                   <el-option
-                    v-for="item in gnName"
-                    :key="item.citycode"
+                    v-for="(item,ind) in gnName"
+                    :key="ind"
                     :value="item.citycode"
                     :label="item.citycode+' - '+item.cityname"
                   ></el-option>
@@ -224,10 +224,7 @@ export default {
       pageSize: 10,
       TotalResult: 0,
       pd: {
-        begin: '',
-        end: '',
-        synFlag: '0',
-        rzlx: '0'
+      begintime:'',endtime:''
       },
       nation: [],
       company: [],
@@ -251,10 +248,10 @@ export default {
       multipleSelection: [],
       pickerOptions0: {
         disabledDate: (time) => {
-          if (this.pd.end != null) {
+          if (this.pd.endtime != null) {
             let startT = formatDate(new Date(time.getTime()), 'yyyyMMddhhmmss');
-            return startT > this.pd.end;
-          } else if (this.pd.end == null) {
+            return startT > this.pd.endtime;
+          } else if (this.pd.endtime == null) {
             return false
           }
         }
@@ -262,7 +259,7 @@ export default {
       pickerOptions1: {
         disabledDate: (time) => {
           let endT = formatDate(new Date(time.getTime()), 'yyyyMMddhhmmss');
-          return endT < this.pd.begin;
+          return endT < this.pd.begintime;
         }
       },
       form: {},
@@ -290,7 +287,7 @@ export default {
     let beginz = new Date(time - 1000 * 60 * 60 * 24 * 30);
     this.pd.begintime = formatDate(beginz, 'yyyyMMdd');
     this.pd.endtime = formatDate(endz, 'yyyyMMdd');
-    //this.getList(this.CurrentPage, this.pageSize, this.pd);
+
   },
   activated() {
     this.queryNationality();
@@ -302,7 +299,7 @@ export default {
     let beginz = new Date(time - 1000 * 60 * 60 * 24 * 30);
     this.pd.begintime = formatDate(beginz, 'yyyyMMdd');
     this.pd.endtime = formatDate(endz, 'yyyyMMdd');
-    //this.getList(this.CurrentPage, this.pageSize, this.pd);
+
   },
   methods: {
     base() {
@@ -324,21 +321,18 @@ export default {
       console.log(`当前页: ${val}`);
     },
     getList(currentPage, showCount, pd) {
-      // this.pd.begin=formatDate(this.pd.begin,"yyyyMMddhhssmm");
-      // this.pd.end=formatDate(this.pd.end,"yyyyMMddhhssmm");
-      // if (dayGap(this.pd.begin, this.pd.end, 0) > 1) {
-      //   this.$alert('只能查询某一天的日期', '提示', {
-      //     confirmButtonText: '确定',
-      //   });
-      //   return false
-      // }
 
+
+      if (this.pd.begintime.trim()== "" || this.pd.endtime.trim() == "") {
+        this.$alert('时间范围不能为空', '提示', {
+          confirmButtonText: '确定',
+        });
+        return false
+      };
 
 
       let p = {
-        // "currentPage": currentPage,
-        // "showCount": showCount,
-        // "cdt": pd
+
         "begintime":pd.begintime,
         "endtime":pd.endtime,
         "continentfrom":pd.continentfrom,

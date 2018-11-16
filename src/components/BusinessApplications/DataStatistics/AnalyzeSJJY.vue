@@ -151,10 +151,7 @@ export default {
       pageSize: 10,
       TotalResult: 0,
       pd: {
-        begin: '',
-        end: '',
-        synFlag: '0',
-        rzlx: '0'
+      begintime:'',endtime:''
       },
       nation: [],
       company: [],

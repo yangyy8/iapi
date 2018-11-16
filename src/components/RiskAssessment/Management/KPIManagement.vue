@@ -1,11 +1,9 @@
 <template lang="html">
   <div class="zlbg">
-    <div class="middle-top mb-2">
-      <el-row type="flex" class="middle">
+    <div class="middle mb-6">
+      <el-row type="flex" >
         <el-col :span="22" class="br pr-20">
-          <div class="title-green">
-            查询条件
-          </div>
+
           <el-row align="center"   :gutter="2" >
 
             <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
@@ -65,7 +63,7 @@
             </el-col> -->
           </el-row>
         </el-col>
-        <el-col :span="2" class="down-btn-area" style="padding-top:30px;">
+        <el-col :span="2" class="down-btn-area">
           <el-button type="success" size="small" @click="getList(CurrentPage,pageSize,pd)">查询</el-button>
         </el-col>
       </el-row>
