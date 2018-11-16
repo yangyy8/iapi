@@ -1,7 +1,6 @@
 // 配置API接口地址
 
 // var root="http://192.168.99.206:8080"
-
 // var root = 'http://192.168.99.245:8080'
 //var root="http://192.168.99.228:8080"    //丁勇的电
 // var root="http://192.168.99.206:8080"
@@ -9,7 +8,7 @@
 //var root="http://192.168.99.213:8080"   //服务器电脑
 var root="http://192.168.99.247:8080"
 // var root = 'http://192.168.99.201:8080'
-// var root = 'http://192.168.99.244:8080'  //小李文龙
+// var root = 'http://192.168.99.234:80'  //李文龙
 
 
 // 引用axios
@@ -67,17 +66,17 @@ function apiAxios(method, url, params, success, failure,isLoad) {
               loadingInstance1.close();
             }
             if(!res.data.success){
-              if(res.data.message=="获取登录信息失败！"){
-                  MessageBox.alert('登录已失效，请重新登录?', '提示', {
-                     confirmButtonText: '确定',
-                     type: 'warning'
-                   }).then(() => {
-                     // console.log("ffffff")
-                     window.location.href ="#/";
-                   })
-              }else{
+              // if(res.data.message=="获取登录信息失败！"){
+              //     MessageBox.alert('登录已失效，请重新登录?', '提示', {
+              //        confirmButtonText: '确定',
+              //        type: 'warning'
+              //      }).then(() => {
+              //        // console.log("ffffff")
+              //        window.location.href ="#/";
+              //      })
+              // }else{
                 Message.error(res.data.message);
-              }
+              // }
             }
             success(res.data)
           // },1000)
