@@ -2,8 +2,8 @@
   <div class="rank">
     <el-row class="mb-15">
       <el-button type="success" size="small" @click="addItemForum(pd);form={};">发送</el-button>
-      <el-button type="primary" size="small" @click="adds(0,'');form={};">预览</el-button>
-      <el-button plain size="small" @click="adds(0,'');form={};">取消</el-button>
+      <el-button type="primary" size="small" @click="getContent()">预览</el-button>
+      <el-button plain size="small" @click="link()">取消</el-button>
     </el-row>
     <el-row type="flex" class="mb-6 lht" >
       <el-col :span="24" >
@@ -41,10 +41,10 @@
         </div>
       </el-col>
     </el-row>
-     <div id="editorElem" style="text-align:left; margin-bottom:10px;"></div>
+     <div id="editorElem" style="text-align:left; margin-bottom:10px; "></div>
      <el-row class="mb-15">
     <el-button type="success" size="small" @click="addItemForum(pd);form={};">发送</el-button>
-    <el-button type="primary" size="small" v-on:click="getContent">预览</el-button>
+    <el-button type="primary" size="small" v-on:click="getContent()">预览</el-button>
     </el-row>
   </div>
   </div>
@@ -57,27 +57,96 @@ export default {
     return {
       editorContent: '',
       pd: {},
-      fileData:null
+      fileData: null,
+      SERIAL: "",
     }
   },
+  activated(){
+
+      this.getList();
+  },
+  mounted() {
+
+    this.getList();
+    var editor = new E('#editorElem')
+    editor.customConfig.onchange = (html) => {
+      this.editorContent = html
+    }
+    editor.create()
+  },
   methods: {
-    getContent: function() {
-      alert(this.editorContent)
+    getContent() {
+      this.$alert(  this.editorContent, '提示', {
+        confirmButtonText: '确定',
+      });
+        return false
+    },
+    getList() {
+    this.SERIAL = this.$route.params.SERIAL;
+      if (this.SERIAL != "") {
+        let p = {
+          "SERIAL": this.SERIAL
+        };
+        this.$api.post('/manage-platform/itemForum/getItemForumInforNotComment', p,
+          r => {
+            console.log(r);
+            this.pd = r.data;
+            this.editorContent.html(r.data.COUNT);
+          });
+      }
     },
     addItemForum(pd) {
       pd.COUNT = this.editorContent;
-      var formData = new FormData();
-      let arr=this.fileData;
-      for(var i=0;i<arr.length;i++){
-        formData.append("file",arr[i]);
+      if (pd.TITLE == undefined || pd.TITLE.trim() == "") {
+        this.$alert('项目名称不能为空', '提示', {
+          confirmButtonText: '确定',
+        });
+        return false
       }
-      formData.append("TITLE",pd.TITLE);
-      formData.append("INTRO",pd.INTRO);
-formData.append("COUNT",pd.COUNT);
-formData.append("EXPIRATIONDATE",pd.EXPIRATIONDATE);
-      let p =formData;
 
-      this.$api.post('/manage-platform/itemForum/addItemForum', p,
+      if (pd.EXPIRATIONDATE == undefined) {
+
+        this.$alert('过期时间不能为空', '提示', {
+          confirmButtonText: '确定',
+        });
+        return false
+      }
+      if (pd.INTRO == undefined || pd.INTRO.trim() == "") {
+
+        this.$alert('简介不能为空', '提示', {
+          confirmButtonText: '确定',
+        });
+        return false
+      }
+
+      if (pd.COUNT == undefined || pd.COUNT.trim() == "") {
+
+        this.$alert('发送内容不能为空', '提示', {
+          confirmButtonText: '确定',
+        });
+        return false
+      }
+
+
+      var formData = new FormData();
+      let arr = this.fileData;
+      for (var i = 0; i < arr.length; i++) {
+        formData.append("file", arr[i]);
+      }
+      formData.append("TITLE", pd.TITLE);
+      formData.append("INTRO", pd.INTRO);
+      formData.append("COUNT", pd.COUNT);
+      formData.append("EXPIRATIONDATE", pd.EXPIRATIONDATE);
+      let p = formData;
+
+
+
+      var url = '/manage-platform/itemForum/addItemForum';
+      if (this.SERIAL != "") {
+        url = '/manage-platform/itemForum/updateItemForum';
+      }
+
+      this.$api.post(url, p,
         r => {
           console.log(r);
           if (r.success) {
@@ -85,68 +154,75 @@ formData.append("EXPIRATIONDATE",pd.EXPIRATIONDATE);
               message: '保存成功！',
               type: 'success'
             });
+
+
+            this.$router.push({
+              name: 'Discussion'
+            });
+
           } else {
             this.$message({
               message: r.message
             });
           }
           pd = {}
-        },e => {
+        }, e => {
 
-        },{'Content-Type': 'multipart/form-data'})
+        }, {
+          'Content-Type': 'multipart/form-data'
+        })
     },
     // 获取要上传的文件
     uploadFile(event) {
 
-      this.fileData= event.target.files;
+      this.fileData = event.target.files;
       //this.fileData.push(e.target.files);
 
     },
     // 上传附件
-    upload(serial){
-      console.log("this.fileData",this.fileData)
+    upload(serial) {
+      console.log("this.fileData", this.fileData)
       var formData = new FormData();
-      let arr=this.fileData;
+      let arr = this.fileData;
 
-      for(var i=0;i<arr.length;i++){
-        formData.append("file",arr[i]);
+      for (var i = 0; i < arr.length; i++) {
+        formData.append("file", arr[i]);
       }
-      formData.append("eventSerial",this.serial);
-      formData.append("userId",this.user.userId);
+      formData.append("eventSerial", this.serial);
+      formData.append("userId", this.user.userId);
       console.log(formData)
-      let p=formData
-      console.log("p",p)
+      let p = formData
+      console.log("p", p)
 
-      this.$api.post('/manage-platform/riskEventWarningController/upload',p,
-       r => {
-         if(r.success){
-           this.$message({
-             message: '恭喜你，上传成功！',
-             type: 'success'
-           });
-           if(this.delIndex.indexOf("3,")==-1){
-             this.delIndex+="3,"
-           }
-           // this.getRiskDescRecordInfo();
-           this.fileData=null;
-         }else {
-           this.fileData=null;
-           return
-         }
-      },e => {
+      this.$api.post('/manage-platform/riskEventWarningController/upload', p,
+        r => {
+          if (r.success) {
+            this.$message({
+              message: '恭喜你，上传成功！',
+              type: 'success'
+            });
+            if (this.delIndex.indexOf("3,") == -1) {
+              this.delIndex += "3,"
+            }
+            // this.getRiskDescRecordInfo();
+            this.fileData = null;
+          } else {
+            this.fileData = null;
+            return
+          }
+        }, e => {
 
-      },{'Content-Type': 'multipart/form-data'})
+        }, {
+          'Content-Type': 'multipart/form-data'
+        })
     },
   },
-  mounted() {
-    var editor = new E('#editorElem')
-    editor.customConfig.onchange = (html) => {
-      this.editorContent = html
-    }
-    editor.create()
-  },
+
+  link(){
 
 
+      this.$router.push({name:'Discussion'});
+  }
 
 }
 </script>
@@ -168,24 +244,25 @@ formData.append("EXPIRATIONDATE",pd.EXPIRATIONDATE);
   width: 90%;
   border: none !important;
 }
+
 .file {
-    position: relative;
-    display: inline-block;
-    overflow: hidden;
-    text-decoration: none;
-    text-indent: 0;
-    width: 305px;
-    height: 21px;
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  text-decoration: none;
+  text-indent: 0;
+  width: 305px;
+  height: 21px;
 
 }
+
 .file input {
-    position: absolute;
-    right: 0;
-    top: 0;
-    opacity: 0;
-      cursor:pointer;
+  position: absolute;
+  right: 0;
+  top: 0;
+  opacity: 0;
+  cursor: pointer;
 }
-
 </style>
 <style>
 .lht .el-input--small .el-input__inner {

@@ -33,7 +33,7 @@
                 <span class="input-text">出发地：</span>
                 <el-select v-model="pd.cityfrom" filterable clearable  placeholder="请选择"  size="small" class="input-input">
                   <el-option
-                    v-for="(item,ind) in gnName"
+                    v-for="(item,ind) in gwName"
                     :key="ind"
                     :value="item.citycode"
                     :label="item.citycode+' - '+item.cityname"
@@ -62,6 +62,7 @@
                     :value="item.CODE">
                   </el-option>
                 </el-select>
+
             </el-col>
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">人员类别：</span>
@@ -319,6 +320,7 @@ export default {
       form: {},
       lineChart: null,
       gnName: [],
+      gwName:[],
       sData1: [],
       sData2: [],
       sData3: [],
@@ -337,7 +339,6 @@ export default {
     }
   },
   mounted() {
-
     let time = new Date();
     let endz = new Date();
     let beginz = new Date(time - 1000 * 60 * 60 * 24 * 30);
@@ -345,11 +346,9 @@ export default {
     this.pd.endtime = formatDate(endz, 'yyyyMMdd');
     this.queryNationality();
     this.gn();
-
+    this.gw();
   },
   activated() {
-
-
     let time = new Date();
     let endz = new Date();
     let beginz = new Date(time - 1000 * 60 * 60 * 24 * 30);
@@ -357,7 +356,7 @@ export default {
     this.pd.endtime = formatDate(endz, 'yyyyMMdd');
     this.queryNationality();
     this.gn();
-
+    this.gw();
   },
   methods: {
     base() {
@@ -375,10 +374,17 @@ export default {
     },
     handleCurrentChange(val) {
       this.getList(val, this.pageSize, this.pd);
-
       console.log(`当前页: ${val}`);
     },
-    gn() { //国内
+    gw() { //国外城市
+      this.$api.post('/manage-platform/dataStatistics/get_city', {},
+        r => {
+          if (r.success) {
+            this.gwName = r.data;
+          };
+        })
+    },
+    gn() { //国内城市
       this.$api.post('/manage-platform/dataStatistics/get_city', {},
         r => {
           if (r.success) {

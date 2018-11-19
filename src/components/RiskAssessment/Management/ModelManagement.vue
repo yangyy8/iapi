@@ -8,11 +8,11 @@
           <el-row align="center"   :gutter="2" >
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">模型名称：</span>
-              <el-input placeholder="请输入内容" size="small" v-model="pd.LABELNAME"  class="input-input"></el-input>
+              <el-input placeholder="请输入内容" size="small" v-model="pd.modelName"  class="input-input"></el-input>
             </el-col>
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">是否启用：</span>
-              <el-select v-model="pd.LABELTYPE_CODE" class="input-input"  filterable clearable placeholder="请选择"   size="small" >
+              <el-select v-model="pd.status" class="input-input"  filterable clearable placeholder="请选择"   size="small" >
 
                 <el-option value="是" label="是">
                 </el-option>
@@ -23,18 +23,18 @@
             </el-col>
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">模型状态：</span>
-              <el-select v-model="pd.LABELTYPE_CODE" class="input-input"  filterable clearable placeholder="请选择"   size="small" >
-                <el-option value="新增" label="新增">
+              <el-select v-model="pd.modelPhases" class="input-input"  filterable clearable placeholder="请选择"   size="small" >
+                <el-option value="1" label="1 - 新建">
                 </el-option>
-                <el-option value="测试中" label="测试中">
+                <el-option value="2" label="2 - 提交测试">
                 </el-option>
-                <el-option value="测试完成" label="测试完成">
+                <el-option value="3" label="3 - 测试通过">
                 </el-option>
-                <el-option value="待审核" label="待审核">
+                <el-option value="4" label="4 - 提交审核">
                 </el-option>
-                <el-option value="审核通过" label="审核通过">
+                <el-option value="5" label="5 - 审核通过允许使用">
                 </el-option>
-                <el-option value="审核不通过" label="审核不通过">
+                <el-option value="6" label="6 - 审核不通过">
                 </el-option>
                </el-select>
             </el-col>
@@ -42,24 +42,24 @@
               <span class="input-text">最后更新时间：</span>
               <div class="input-input t-flex t-date">
                <el-date-picker
-               v-model="pd.BEGINDATE" format="yyyy-MM-dd HH:mm:ss"
-               type="datetime" size="small" value-format="yyyyMMddHHmmss"
-               placeholder="开始时间"  :picker-options="pickerOptions" >
+               v-model="pd.beginTime" format="yyyy-MM-dd"
+               type="date" size="small" value-format="yyyyMMdd"
+               placeholder="开始时间"  :picker-options="pickerOptions0" >
              </el-date-picker>
                <span class="septum">-</span>
              <el-date-picker
-                v-model="pd.EXPIREDATE" format="yyyy-MM-dd HH:mm:ss"
-                type="datetime" size="small" value-format="yyyyMMddHHmmss"
+                v-model="pd.endTime" format="yyyy-MM-dd"
+                type="date" size="small" value-format="yyyyMMdd"
                 placeholder="结束时间" :picker-options="pickerOptions1" >
             </el-date-picker>
           </div>
             </el-col>
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">发布状态：</span>
-              <el-select v-model="pd.LABELTYPE_CODE" class="input-input"  filterable clearable placeholder="请选择"   size="small" >
-                <el-option value="未发布" label="未发布">
+              <el-select v-model="pd.modelStatus" class="input-input"  filterable clearable placeholder="请选择"   size="small" >
+                <el-option value="0" label="0 - 未发布">
                 </el-option>
-                <el-option value="已发布" label="已发布">
+                <el-option value="1" label="1 - 已发布">
                 </el-option>
                </el-select>
             </el-col>
@@ -80,28 +80,28 @@
         style="width: 100%;"
         >
         <el-table-column
-          type="Index"
+          type="index"
           label="序号" width="60">
         </el-table-column>
         <el-table-column
-          prop="LABELTYPE_NAME"
+          prop="MODEL_NAME"
           label="模型名称">
         </el-table-column>
          <el-table-column
-          prop="LABELNAME"
+          prop="MODEL_JC"
           label="模型简称"
           >
         </el-table-column>
         <el-table-column
-          prop="LABELREASON"
+          prop="MODEL_DESCRIBE"
           label="模型描述">
         </el-table-column>
         <el-table-column
-          prop="CREATEUSER"
+          prop="CREATE_PERSION"
           label="创建人">
         </el-table-column>
         <el-table-column
-          prop="CREATETIME"
+          prop="PORT_NAME"
           label="创建口岸">
         </el-table-column>
         <el-table-column
@@ -113,19 +113,21 @@
           label="最后更新日期" width="130">
         </el-table-column>
         <el-table-column
-          prop="UPDATETIME"
+          prop="LIFE_SPAN"
           label="有效日期">
         </el-table-column>
         <el-table-column
-          prop="UPDATETIME"
           label="是否启用">
+          <template slot-scope="scope">
+              {{scope.row.STATUS | fifterstatus}}
+            </template>
         </el-table-column>
         <el-table-column
-          prop="UPDATETIME"
+          prop="MODEL_PHASES"
           label="模型状态">
         </el-table-column>
         <el-table-column
-          prop="UPDATETIME"
+          prop="MODEL_STATUS"
           label="发布状态">
         </el-table-column>
       <el-table-column
@@ -169,49 +171,48 @@
         </el-pagination>
       </div>
     </div>
-    <el-dialog :title="dialogText" :visible.sync="addDialogVisible">
+    <el-dialog :title="dialogText" :visible.sync="addDialogVisible" style="margin-top:-100px;">
       <el-form :model="form" ref="addForm">
 
         <el-row type="flex"  class="mb-6">
           <el-col :span="12" class="input-item">
             <span class="yy-input-text"><font class="yy-color">*</font> 模型名称：</span>
-            <el-input placeholder="请输入内容" size="small"   v-model="form.LABELNAME"  class="yy-input-input" ></el-input>
-
+            <el-input placeholder="请输入内容" size="small"   v-model="form.modelName"  class="yy-input-input" ></el-input>
           </el-col>
           <el-col :span="12" class="input-item">
             <span class="yy-input-text"><font class="yy-color">*</font> 是否启用：</span>
-            <el-select v-model="form.LABELTYPE_C1ODE" class="input-input"  filterable clearable placeholder="请选择"   size="small" >
-              <el-option value="是" label="是">
+            <el-select v-model="form.status" class="input-input"  filterable clearable placeholder="请选择"   size="small" >
+              <el-option value="0" label="0 - 不启用">
               </el-option>
-              <el-option value="否" label="否">
+              <el-option value="1" label="1 - 启用">
               </el-option>
              </el-select>
           </el-col>
           </el-col>
         </el-row>
-        <el-row type="flex" class="mb-6" >
+        <!-- <el-row type="flex" class="mb-6" >
           <el-col :span="24" class="input-item">
             <span class="input-text memol">适用口岸范围：</span>
            <el-input type="textarea" placeholder="请输入内容" maxlength="250" :autosize="{ minRows: 3, maxRows: 6}" v-model="form.LABELREASON"  class="memor"></el-input>
           </el-col>
-        </el-row>
+        </el-row> -->
         <el-row type="flex" class="mb-6" >
           <el-col :span="24" class="input-item">
             <span class="input-text memol">模型描述：</span>
-           <el-input type="textarea" placeholder="请输入内容" maxlength="250" :autosize="{ minRows: 3, maxRows: 6}" v-model="form.LABELREASON" class="memor"></el-input>
+           <el-input type="textarea" placeholder="请输入内容" maxlength="250" :autosize="{ minRows: 3, maxRows: 6}" v-model="form.modelDescribe" class="memor"></el-input>
           </el-col>
         </el-row>
         <el-row type="flex" class="mb-6" >
           <el-col :span="24" class="input-item" >
             <span class="input-text memol">核查策略：</span>
-           <el-input type="textarea" placeholder="请输入内容" maxlength="250" :autosize="{ minRows: 3, maxRows: 6}" v-model="form.LABELREASON" class="memor"></el-input>
+           <el-input type="textarea" placeholder="请输入内容" maxlength="250" :autosize="{ minRows: 3, maxRows: 6}" v-model="form.strategy" class="memor"></el-input>
           </el-col>
         </el-row>
         <el-row type="flex" class="mb-6" >
           <el-col :span="24" class="input-item" >
             <span class="input-text memol">案例描述：</span>
 
-           <el-input type="textarea" placeholder="请输入内容" maxlength="250" :autosize="{ minRows: 3, maxRows: 6}" v-model="form.LABELREASON" class="memor"></el-input>
+           <el-input type="textarea" placeholder="请输入内容" maxlength="250" :autosize="{ minRows: 3, maxRows: 6}" v-model="form.caseNarration" class="memor"></el-input>
           </el-col>
         </el-row>
         <el-row type="flex" class="mb-6" >
@@ -219,94 +220,119 @@
         </el-row>
         <el-row type="flex" class="mb-6" >
           <el-col :span="24" class="title">指标项
-<div style="float:right;padding-right:10px;">  <el-button @click="addDialogVisible = false" size="small">添 加</el-button></div>
+      <div style="float:right;padding-right:10px;">  <el-button @click="addrows()" size="small">添 加</el-button></div>
           </el-col>
         </el-row>
-        <el-row type="flex">
-          <el-col :span="3" class="tjcon tjconr" >C1：  </el-col>
-            <el-col :span="5" class="tjcon">
-               <el-select v-model="form.LABELTdYPE_CODE"  class="memoa" filterable clearable placeholder="请选择"   size="small" >
-                <el-option value="是" label="是">
-                </el-option>
-                <el-option value="否" label="否">
-                </el-option>
-               </el-select>
-             </el-col>
-               <el-col :span="5" class="tjcon">
-                 <el-select v-model="form.LABELTYPEd_CODE" class="memoa"  filterable clearable placeholder="请选择"   size="small" >
-                  <el-option value="是" label="是">
-                  </el-option>
-                  <el-option value="否" label="否">
-                  </el-option>
-                 </el-select>
-                </el-col>
-                <el-col :span="11" class="tjcon">
-                   <el-input placeholder="请输入内容" size="small" style="width:96%"   v-model="form.LABELNAME" ></el-input>
-                </el-col>
+        <el-row type="flex" v-for="(rr,ind) in rows">
+          <el-col :span="3" class="tjcon tjconr" > C{{rr.id}}：
+          </el-col>
+          <el-col :span="5" class="tjcon">
+           <el-select v-model="rr.targetId"  class="memoa" filterable clearable placeholder="请选择"   size="small" >
+             <el-option
+               v-for="(item,ind) in target"
+               :key="ind"
+               :label="item.TARGET_ID+' - '+item.TARGET_NAME"
+               :value="item.TARGET_ID">
+             </el-option>
+           </el-select>
+          </el-col>
+          <el-col :span="5" class="tjcon">
+                   <el-select v-model="rr.calculation" class="memoa"  filterable clearable placeholder="请选择"   size="small" >
+                    <el-option value="等于" label="等于">
+                    </el-option>
+                    <el-option value="不等于" label="不等于">
+                    </el-option>
+                    <el-option value="大于" label="大于">
+                    </el-option>
+                    <el-option value="小于" label="小于">
+                    </el-option>
+                    <el-option value="范围" label="范围">
+                    </el-option>
+                    <el-option value="包含" label="包含">
+                    </el-option>
+                    <el-option value="集合" label="集合">
+                    </el-option>
+                    <el-option value="属于" label="属于">
+                    </el-option>
+                   </el-select>
+          </el-col>
+          <el-col :span="10" class="tjcon">
+            <el-input placeholder="请输入内容" size="small" style="width:96%"   v-model="rr.targetValue" ></el-input>
+          </el-col>
+          <el-col :span="1" class="tjcon" style="padding-top:10px;">
+            <i class="el-icon-remove-outline iconc" @click="deleterows(ind)"></i>
+          </el-col>
         </el-row>
         <el-row type="flex" >
           <el-col :span="3" class="tjcon"  style="text-align:right">
-进入规则：
+            进入规则：
           </el-col>
           <el-col :span="21" class="tjcon">
-            <el-input type="textarea" placeholder="请输入内容" maxlength="250" :autosize="{ minRows: 3, maxRows: 3}" v-model="form.LABELREASON"  class="memoa"></el-input>
+            <el-input type="textarea" placeholder="请输入内容" maxlength="250" :autosize="{ minRows: 3, maxRows: 3}" v-model="form.enterRule"  class="memoa"></el-input>
 
           </el-col>
         </el-row>
         <el-row type="flex" >
           <el-col :span="3" class="tjcon"  style="text-align:right">
-过滤规则：
+            过滤规则：
           </el-col>
           <el-col :span="21" class="tjcon">
-            <el-input type="textarea" placeholder="请输入内容" maxlength="250" :autosize="{ minRows: 3, maxRows: 3}" v-model="form.LABELREASON"  class="memoa"></el-input>
+            <el-input type="textarea" placeholder="请输入内容" maxlength="250" :autosize="{ minRows: 3, maxRows: 3}" v-model="form.filterRule"  class="memoa"></el-input>
 
           </el-col>
         </el-row>
-
         <el-row type="flex" class="mb-6" >
           <el-col :span="24" class="title">预警触发条件
-<div style="float:right;padding-right:10px;">  <el-button @click="addDialogVisible = false" size="small">添 加</el-button></div>
+            <div style="float:right;padding-right:10px;">  <el-button @click="adderows()" size="small">添 加</el-button></div>
           </el-col>
         </el-row>
-    <el-row type="flex" >
+<div  v-for="(ee,ind) in erows" style="border-bottom:1px solid #93C4F9; padding-top:10px; ">
+    <el-row type="flex">
       <el-col :span="3" class="tjcon tjconr" >
-规则名称：
+        规则名称：
       </el-col>
-      <el-col :span="9" class="tjcon">
-        <el-input type="text" placeholder="请输入内容" size="small"  v-model="form.LABELREASON"  class="memoa"></el-input>
+      <el-col :span="6" class="tjcon">
+        <el-input type="text" placeholder="请输入内容" size="small"  v-model="ee.ruleName"  class="memoa"></el-input>
 
       </el-col>
       <el-col :span="3" class="tjcon tjconr">
-触发条件：
+        触发条件：
       </el-col>
-      <el-col :span="9" class="tjcon">
-        <el-input type="text" placeholder="请输入内容" size="small"  v-model="form.LABELREASON"  class="memoa"></el-input>
+      <el-col :span="10" class="tjcon">
+        <el-input type="text" placeholder="请输入内容" size="small"  v-model="ee.ruleRules"  class="memoa"></el-input>
 
       </el-col>
     </el-row>
     <el-row type="flex" >
       <el-col :span="3" class="tjcon tjconr" >
-风险等级：
+        风险等级：
       </el-col>
-      <el-col :span="9" class="tjcon">
-        <el-select v-model="form.LABELTdYPE_CODE"  class="memoa" filterable clearable placeholder="请选择"   size="small" >
-         <el-option value="高" label="高">
+      <el-col :span="6" class="tjcon">
+        <el-select v-model="ee.ruleGrade"  class="memoa" filterable clearable placeholder="请选择"   size="small" >
+         <el-option value="1" label="1">
          </el-option>
-         <el-option value="中" label="中">
+         <el-option value="2" label="2">
          </el-option>
-         <el-option value="低" label="低">
+         <el-option value="3" label="3">
+         </el-option>
+         <el-option value="4" label="4">
+         </el-option>
+         <el-option value="5" label="5">
          </el-option>
         </el-select>
       </el-col>
       <el-col :span="3" class="tjcon tjconr">
-规则描述：
+        规则描述：
       </el-col>
-      <el-col :span="9" class="tjcon">
-        <el-input type="text" placeholder="请输入内容" size="small"  v-model="form.LABELREASON"  class="memoa"></el-input>
+      <el-col :span="10" class="tjcon">
+        <el-input type="text" placeholder="请输入内容" size="small"  v-model="ee.ruleDescribe"  class="memoa"></el-input>
 
+      </el-col>
+      <el-col :span="2" class="tjcon" style="padding-top:10px;">
+        <i class="el-icon-remove-outline iconc" @click="deleteerows(ind)"></i>
       </el-col>
     </el-row>
-
+  </div>
 
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -317,9 +343,9 @@
 
     <el-dialog title="详情" :visible.sync="detailsDialogVisible">
       <el-form :model="map" ref="mapForm">
-    <el-tabs :tab-position="tabPosition" style="height: 200px;">
-    <el-
-   </el-tabs>
+        <el-tabs :tab-position="tabPosition" style="height: 200px;">
+
+       </el-tabs>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="detailsDialogVisible = false" size="small">取 消</el-button>
@@ -339,7 +365,7 @@ export default {
       pageSize: 10,
       TotalResult: 0,
       pd: {},
-      company: [],
+      target: [],
       sertail:"",
       dialogText:"新增",
       tabPosition: 'left',
@@ -367,31 +393,46 @@ export default {
       },
       defaultChecked:[],
       multipleSelection: [],
-      pickerOptions1: {
-        // shortcuts: [{
-        //   text: '今天',
-        //   onClick(picker) {
-        //     picker.$emit('pick', new Date());
-        //   }
-        // }, {
-        //   text: '昨天',
-        //   onClick(picker) {
-        //     const date = new Date();
-        //     date.setTime(date.getTime() - 3600 * 1000 * 24);
-        //     picker.$emit('pick', date);
-        //   }
-        // }, {
-        //   text: '一周前',
-        //   onClick(picker) {
-        //     const date = new Date();
-        //     date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
-        //     picker.$emit('pick', date);
-        //   }
-        // }]
-      },
+
       form: {},
       mapForm: {},
       Airport: [],
+      rows:[
+        {
+          id:1,
+          targetId:'',
+          calculation:'',
+          targetValue:''
+        }
+      ],
+      modelrow:[
+        {
+          id:1,
+          targetId:'',
+          calculation:'',
+          targetValue:''
+        }
+      ],
+      erows:[
+        {
+          id:1,
+          ruleName:'',
+          ruleRules:'',
+          ruleDescribe:'',
+          ruleGrade:''
+        }
+      ],
+      emodelrow:[
+        {
+          id:1,
+          ruleName:'',
+          ruleRules:'',
+          ruleDescribe:'',
+          ruleGrade:''
+        }
+      ],
+      count:1,
+      ecount:1,
     }
   },
   mounted() {
@@ -400,6 +441,7 @@ export default {
   },
   activated(){
     this.getList(this.CurrentPage, this.pageSize, this.pd);
+      this.queryNationality();
   },
   methods: {
     handleSelectionChange(val) {
@@ -419,19 +461,19 @@ export default {
         "showCount": showCount,
         "pd": pd
       };
-      this.$api.post('/manage-platform/roleSys/selectPara', p,
+      this.$api.post('/manage-platform/model/select', p,
         r => {
           console.log("----" + r);
-          this.tableData = r.data.roleList.pdList;
-          this.TotalResult = r.data.roleList.totalResult;
+          this.tableData = r.data.pdList;
+          this.TotalResult = r.data.totalResult;
         })
     },
     queryNationality() {
-      this.$api.post('/manage-platform/userSys/goAdd', {},
+      this.$api.post('/manage-platform/model/selectTarget', {},
         r => {
           console.log(r);
           if (r.success) {
-            this.company = r.data.deptList;
+            this.target = r.data;
           }
         })
     },
@@ -450,19 +492,35 @@ export default {
 
     },
     addItem(formName) {
-            if(this.$validator.listener.demo2){
-              const result = this.$validator.verifyAll('demo2')
-               if (result.indexOf(false) > -1) {
-                 return
-               } else {
-               }
-            }
-      var url = "/manage-platform/roleSys/save";
+            // if(this.$validator.listener.demo2){
+            //   const result = this.$validator.verifyAll('demo2')
+            //    if (result.indexOf(false) > -1) {
+            //      return
+            //    } else {
+            //    }
+            // }
+
+
+let p={
+  "modelName":this.form.modelName,
+  "modelJc":this.form.modelJc,
+  "status":this.form.status,
+  "modelDescribe":this.form.modelDescribe,
+  "strategy":this.form.strategy,
+  "caseNarration":this.form.caseNarration,
+  "lifeSpan":this.form.lifeSpan,
+  "targetList":this.rows,
+  "enterRule":{"ruleRules":this.form.enterRule},
+  "filterRule":{"ruleRules":this.form.filterRule},
+  "ruleList":this.erows
+};
+
+      var url = "/manage-platform/model/add";
 
       if (this.tp == 1) {
-        url = "/manage-platform/roleSys/edit";
+        url = "/manage-platform/model/edit";
       }
-      this.$api.post(url, this.form,
+      this.$api.post(url, p,
         r => {
           console.log(r);
           if (r.success) {
@@ -477,7 +535,7 @@ export default {
           this.$refs[formName].resetFields();
           this.addDialogVisible = false;
           this.getList(this.CurrentPage, this.pageSize, this.pd);
-          // this.tableData=r.Data.ResultList;
+
         }, e => {
           this.$message.error('失败了');
         })
@@ -523,50 +581,44 @@ export default {
       });
 
     },
-    menus(i) {
-      this.menuDialogVisible = true;
-      this.sertail=i.SERIAL;
-      let p = {
-        "SERIAL": i.SERIAL
-      };
-      this.$api.post('/manage-platform/roleSys/goEditJuri', p,
-        r => {
-          console.log(r);
-          if (r.success) {
-            this.menudata = r.data.userTreeOne;
-            let arr=r.data.userTreeOne,that=this;
-          this.defaultChecked=r.data.checkList;
-          }
-        })
 
+addrows()
+{
+  this.count++;
+  this.modelrow = {
+    id:1,
+    targetId:'',
+    calculation:'',
+    targetValue:''
+  };
+  this.modelrow.id=this.count;
+  this.rows.push(this.modelrow);
+},
+deleterows(index){
 
-    },
-menuItem(){
-
-  let checkList=this.$refs.tree.getCheckedNodes();
-  //let checkList=this.$refs.tree.getCheckedKeys();
-  let p={
-    // menuList:this.menudata,
-   "ROLE_ID":this.sertail,
-    checkList:checkList
-  }
-  this.$api.post('/manage-platform/roleSys/editJuri', p,
-    r => {
-      console.log(r);
-      if (r.success) {
-        this.$message({
-          type: 'success',
-          message: '保存成功'
-        });
-      }else{
-
-  this.$message.error('保存失败');
-      }
-    })
-        this.menuDialogVisible = false;
+    this.rows.splice(index,1);
 
 },
-  },
+adderows()
+{
+  this.ecount++;
+  this.emodelrow = {
+    id:1,
+    ruleName:'',
+    ruleRules:'',
+    ruleDescribe:'',
+    ruleGrade:''
+  };
+  this.emodelrow.id=this.ecount;
+  this.erows.push(this.emodelrow);
+},
+deleteerows(index){
+
+    this.erows.splice(index,1);
+
+},
+},
+
   filters: {
 
     fifterstatus(val) {
@@ -614,4 +666,5 @@ menuItem(){
 .title{background: #D4E8FF; font-weight: bold;color: #666; height: 40px; line-height: 40px; padding-left: 10px;}
 .tjcon{background: #FBFCFF;padding: 5px 0px;}
 .tjconr{text-align:right;line-height:30px;}
+.iconc{cursor: pointer;font-size: 20px;color: red}
 </style>

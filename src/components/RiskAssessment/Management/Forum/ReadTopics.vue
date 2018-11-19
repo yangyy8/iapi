@@ -11,8 +11,8 @@
       #{{itemForumData.TITLE}}#
           </el-col>
           <el-col :span="4" style="text-align:right">
-            <el-button plain size="small" @click="adds(0,'');form={};">返回</el-button>
-          <el-button type="success" size="small" @click="adds(0,'');form={};">编辑</el-button>
+            <el-button plain size="small" @click="link()">返回</el-button>
+          <el-button type="success" size="small" @click="edits()">编辑</el-button>
         </el-col>
         </el-row>
 
@@ -91,18 +91,19 @@
           {{comment.CREATETIME}}    <span class="sspan"># {{comment.ROW_NUMBER}}  楼</span>
         </el-col>
          <el-col :span="4" style="text-align:right;">
-             <a @click="clickCommentLike(comment.SERIAL);"><img src="../../../../assets/img/zan.png"></a>({{comment.CREDITNUMBER}})
+             <a @click="clickCommentLike(comment.SERIAL);"><img src="../../../../assets/img/zan.png"  v-if='comment.CREDITUSERCOUNT==0'> <img src="../../../../assets/img/zan1.png" v-else></a> {{comment.CREDITNUMBER}}
            </el-col>
         </el-row>
       </el-col>
     </el-row>
 
-    <div class="middle-foot">
+    <div class="middle-foot" style="padding:10px 25px;">
       <div class="page-msg">
         <div class="">
           共{{Math.ceil(TotalResult/pageSize)}}页
         </div>
         <div class="">
+
           每页
           <el-select v-model="pageSize" @change="pageSizeChange(pageSize)" placeholder="10" size="mini" class="page-select">
             <el-option
@@ -156,8 +157,8 @@ export default {
 
   methods:{
     getItemForumInfor(){
-      // this.SERIAL:this.$route.params.SERIAL;
-      this.SERIAL="84652c2c38b34fe8a6101732f406c6a5";
+     this.SERIAL=this.$route.params.SERIAL;
+    //  this.SERIAL="84652c2c38b34fe8a6101732f406c6a5";
       let p={
         "SERIAL":this.SERIAL
       };
@@ -234,10 +235,13 @@ export default {
        r => {
          console.log(r);
          if(r.success){
-           this.$message({
-             message: '点赞成功！',
-             type: 'success'
-           });
+
+           // this.$message({
+           //   message: '点赞成功！',
+           //   type: 'success'
+           // });
+
+
          }else {
            this.$message({
              message: r.message
@@ -245,6 +249,14 @@ export default {
          }
          this.getCommentList(1,this.pageSize,this.pd);
       })
+    },
+    link(){
+
+
+        this.$router.push({name:'Discussion'});
+    },
+    edits(){
+         this.$router.push({name: 'Sponsor',params:{ SERIAL:this.SERIAL}});
     }
   }
 }
