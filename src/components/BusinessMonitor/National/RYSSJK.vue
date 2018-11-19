@@ -241,7 +241,7 @@ export default {
       CurrentPage:1,
       pageSize:10,
       TotalResult:0,
-      pd:{type:0,fltDateFr:'',fltDateTo:''},
+      pd:{type:'0',fltDateFr:'',fltDateTo:''},
       airport:null,
       options:[
         {

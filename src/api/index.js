@@ -1,27 +1,29 @@
 // 配置API接口地址
 
-//var root="http://192.168.99.242:8081"    //石飞的电脑
-
-//var root="http://192.168.99.242:8081"    //石飞的电脑
-
-//var root = "http://192.168.99.251:8080"    //性能监控
-
-// var root = "http://192.168.99.248:8181"    //性能监控
-//var root="http://192.168.99.228:8080"    //丁勇的电
-//var root="http://192.168.99.247:8080"    //任志强的电脑
+// var root="http://192.168.99.206:8080"
 // var root = 'http://192.168.99.245:8080'
 
 //var root="http://192.168.99.228:8080"    //丁勇的电脑
 
+<<<<<<< HEAD
 //var root="http://192.168.99.228:8080"    //丁勇的电
 var root="http://192.168.99.206:8080"
+=======
+var root="http://192.168.99.247:8080"   
+//var root="http://192.168.99.206:8080"
+>>>>>>> b376835aa626250da046d9595b427cd1c7823fd7
 
 // var root = 'http://192.168.99.245:8080'
 //var root="http://192.168.99.213:8080"   //服务器电脑
  //var root="http://192.168.99.228:8080"
 //var root="http://10.6.126.138:8088"
 // var root = 'http://192.168.99.201:8080'
+<<<<<<< HEAD
 //var root="http://10.6.126.138:8088" //正式环境
+=======
+// var root = 'http://192.168.99.234:80'  //李文龙
+
+>>>>>>> b376835aa626250da046d9595b427cd1c7823fd7
 
 // 引用axios
 var axios = require('axios')
@@ -82,17 +84,17 @@ function apiAxios(method, url, params, success, failure,header) {
               loadingInstance1.close();
             }
             if(!res.data.success){
-              if(res.data.message=="获取登录信息失败！"){
-                  MessageBox.alert('登录已失效，请重新登录?', '提示', {
-                     confirmButtonText: '确定',
-                     type: 'warning'
-                   }).then(() => {
-                     // console.log("ffffff")
-                     window.location.href ="#/";
-                   })
-              }else{
+              // if(res.data.message=="获取登录信息失败！"){
+              //     MessageBox.alert('登录已失效，请重新登录?', '提示', {
+              //        confirmButtonText: '确定',
+              //        type: 'warning'
+              //      }).then(() => {
+              //        // console.log("ffffff")
+              //        window.location.href ="#/";
+              //      })
+              // }else{
                 Message.error(res.data.message);
-              }
+              // }
             }
             success(res.data)
           // },1000)

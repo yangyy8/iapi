@@ -380,19 +380,19 @@
                     <span class="mr-30">核查时间：{{d5.createTime}}</span><span>核查人：{{d5.userName}}</span>
                   </div>
                   <div class="">
-                    操作类型：{{d5.operation_type}}
+                    操作类型：{{d5.operation_typeName}}
                   </div>
                   <div class="gc-box">
                     <div>核查过程：</div>
                     <div class="">
-                      {{d5.course_type}}
+                      {{d5.course_typeName}}
                     </div>
                   </div>
                   <div class="">
-                    核查阶段：{{d5.check_stage}}
+                    核查阶段：{{d5.check_stageName}}
                   </div>
                   <div class="">
-                    核查结果：{{d5.check_result}}
+                    核查结果：{{d5.check_resultName}}
                   </div>
                 </div>
               </div>
