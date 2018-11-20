@@ -79,7 +79,6 @@
               <span class="input-text"><i class="t-must">*</i>航班日期：</span>
               <div class="input-input t-flex t-date">
                   <el-date-picker
-                  v-verify.input.blur="{regs:'required',submit:'timeDemo'}"
                   v-model="cdt.SCHEDULEDEPARTURETIMESTR"
                   type="datetime" size="small"
                   placeholder="开始日期"
@@ -89,7 +88,6 @@
                 </el-date-picker>
                 <span class="septum">-</span>
                 <el-date-picker
-                   v-verify.input.blur="{regs:'required',submit:'timeDemo'}"
                    v-model="cdt.SCHEDULEARRIVETIMESTR"
                    type="datetime" size="small"
                    placeholder="结束日期"
@@ -102,15 +100,15 @@
           </el-row>
         </el-col>
         <el-col :span="2" class="down-btn-area" style="padding-top:30px;">
-          <el-button type="success" size="small" @click="">查询</el-button>
+          <el-button type="success" size="small" @click="getList(CurrentPage,pageSize,cdt)">查询</el-button>
         </el-col>
       </el-row>
     </div>
     <div class="middle">
       <el-row class="mb-15">
         <el-button type="primary" size="small" @click="adds(0,'');form={}">新增</el-button>
-        <el-button type="success" size="small" @click="">批量导入</el-button>
-        <el-button type="success" size="small" @click="">模板下载</el-button>
+        <el-button type="success" size="small" @click="batchI">批量导入</el-button>
+        <el-button type="success" size="small" @click="download">模板下载</el-button>
       </el-row>
       <el-table
         :data="tableData"
@@ -163,7 +161,7 @@
         <el-table-column
           label="城市">
           <template slot-scope="scope">
-            <span v-if="scope.row.DEPTAIRPORT&&scope.row.DESTAIRPORT">{{scope.row.DEPTAIRPORT.PROV_REGION_NAME+' | '+scope.row.DESTAIRPORT.PROV_REGION_NAME}}</span>
+            <span v-if="scope.row.DEPTAIRPORT&&scope.row.DESTAIRPORT">{{scope.row.DEPTAIRPORT.CITY_NAME+' | '+scope.row.DESTAIRPORT.CITY_NAME}}</span>
             <span v-else></span>
 
           </template>
@@ -218,12 +216,12 @@
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
             <span class="yy-input-text"><font class="yy-color">*</font>航线：</span>
-            <el-select placeholder="请选择" v-model="form.AIRWAY_CODE" filterable clearable @visible-change="terminal" size="small" class="yy-input-input"  v-verify.change.blur ="{regs:'required',submit:'demo2'}">
+            <el-select placeholder="请选择" v-model="form.AIRWAY_CODE" filterable clearable @visible-change="takeLine" size="small" class="yy-input-input"  v-verify.change.blur ="{regs:'required',submit:'demo2'}">
               <el-option
-              v-for="item in takeOffName"
-              :key="item.AIRPORT_CODE"
-              :value="item.AIRPORT_CODE"
-              :label="item.AIRPORT_CODE+' - '+item.AIRPORT_NAME">
+              v-for="item in takeOffLine"
+              :key="item.AIRWAY_CODE"
+              :value="item.AIRWAY_CODE"
+              :label="item.AIRWAY_CODE">
               </el-option>
             </el-select>
           </el-col>
@@ -272,6 +270,30 @@
         <el-button @click="addDialogVisible = false" size="small">取 消</el-button>
       </div>
     </el-dialog>
+    <!-- action="http://192.168.99.245:8080//manage-platform/flightManage/importFlightManage" -->
+    <el-dialog title="批量导入" :visible.sync="uploadDialogVisible"   width="640px"
+    :before-close="handleClose">
+      <el-form :model="importform" ref="importForm">
+        <el-upload
+          class="upload-demo"
+          ref="upload"
+          name="file"
+          :multiple="false"
+          accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+          :action="$api.rootUrl+'/manage-platform/flightManage/importFlightManage'"
+          :on-success="uploadSuccess"
+          :limit="1"
+          :on-exceed="handleExceed"
+          :before-upload="beforeUpload"
+          :auto-upload="false">
+          <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
+          <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">上传到服务器</el-button>
+        </el-upload>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="cancelUpload" size="small">取 消</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -294,13 +316,15 @@ export default {
       chauName:[],
       selection:[],
       cityName:[],
-      takeOffName:[],
+      takeOffLine:[],
       able:true,
 
       value: '',
       value1: "",
       dialogText: "新增",
       addDialogVisible: false,
+      uploadDialogVisible:false,
+      importform:{},
 
       options: [{
           value: 10,
@@ -359,6 +383,10 @@ export default {
           }
         })
     },
+    download(){
+      window.location.href=this.$api.rootUrl+'/manage-platform/templateFile/airport_temple.xlsx'
+      // window.location.href='http://192.168.99.245:8080/manage-platform/templateFile/flt_temple.xlsx'
+    },
     handleSelectionChange(val) {
       this.multipleSelection = val;
     },
@@ -385,13 +413,68 @@ export default {
           console.log(this.tableData);
         })
     },
-    terminal(){
-      this.$api.post('/manage-platform/codeTable/queryAirport',{},
+    takeLine(){//航线
+      this.$api.post('/manage-platform/codeTable/queryAirline',{},
        r =>{
          if(r.success){
-           this.takeOffName = r.data;
+           this.takeOffLine = r.data;
          }
        })
+    },
+    handleClose(){//关闭文件上传模态框
+      this.cancelUpload();
+    },
+    cancelUpload(){
+      this.$refs.upload.clearFiles();
+      this.uploadDialogVisible=false;
+    },
+    batchI(){//批量导入
+      if( this.$refs.upload){
+        this.$refs.upload.clearFiles();
+      }
+      this.uploadDialogVisible = true;
+    },
+    uploadSuccess(response, file, fileList){
+      console.log(response);
+      if(response.success){
+        this.uploadDialogVisible=false;
+        this.rows = response.data.cdtList;
+        this.$refs.upload.clearFiles();
+        this.$message({
+          duration:3000,
+          message: '恭喜你，导入成功！',
+          type: 'success'
+        });
+      }else{
+        this.$message({
+          duration:3000,
+          message: response.message,
+          type: 'warning'
+        });
+      }
+    },
+    handleExceed(files, fileList){
+      if(files.length!=0){
+        this.$message({
+          message: '只能上传一个文件！',
+          type: 'warning'
+        });
+      }
+    },
+    beforeUpload(file){
+      console.log(file);
+    },
+    submitUpload() {
+      console.log(this.$refs.upload);
+      if(this.$refs.upload.uploadFiles.length==0){
+         this.$message({
+          message: '请先选择文件！',
+          type: 'warning'
+        });
+         return
+       }
+      this.$refs.upload.submit();
+     // this.uploadDialogVisible=false;
     },
     chau(){//调用洲
       this.$api.post('/manage-platform/codeTable/queryContinentsCountry',{},
@@ -449,6 +532,8 @@ export default {
         this.tp = 1;
         // this.form = i;
         this.form=Object.assign({}, i);
+        this.form.SCHEDULEDEPARTURETIMESTR=formatDate(new Date(this.form.SCHEDULEDEPARTURETIMESTR),'yyyyMMddhhmm');
+        this.form.SCHEDULEARRIVETIMESTR=formatDate(new Date(this.form.SCHEDULEARRIVETIMESTR),'yyyyMMddhhmm');
         this.dialogText="编辑";
       }else {
         this.tp = 0;

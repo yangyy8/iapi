@@ -9,13 +9,12 @@
         </el-col>
       </el-row>
     </div>
-    <div class="middle" style="border-bottom:2px solid #38628C">
+    <div class="middle" style="border-bottom:2px solid #38628C" v-show="this.$route.query.flag==0">
       <span>报送信息</span>
       <el-table
         :data="tableData"
         border
-        style="width: 100%;"
-        >
+        style="width: 100%;">
         <el-table-column
           prop="INTG_CHNNAME"
           label="姓名">
@@ -145,7 +144,7 @@
     </div>
     <div class="middle mb-2">
       <el-row align="center" :gutter="2" type="flex" justify="left">
-        <el-col  :sm="24" :md="12" :lg="6"  class="input-item">
+        <el-col  :sm="24" :md="12" :lg="6"  class="input-item" v-show="this.$route.query.flag==0">
           <span class="input-text t-width-inp">处理结果：</span>
           <el-select v-model="pd.RESULTOFHANDING" filterable clearable placeholder="请选择" size="small" class="input-input">
             <el-option label="0-不做处理" value="0"></el-option>
@@ -334,7 +333,8 @@ export default {
   },
   mounted() {
     // this.tableData.push(this.$route.query.review);
-    console.log(this.$route.query.review);
+    console.log(this.$route.query.serial);
+    console.log(this.$route.query.details);
     // this.getList(this.CurrentPage, this.pageSize, this.pd);
   },
   activated() {
@@ -382,6 +382,8 @@ export default {
        })
     },
     replayC(val){
+      this.$set(this.pd,'CHNREPLY','');
+      this.$set(this.pd,'ENGREPLY','');
       for(var i=0;i<this.caliber.length;i++){
         if(this.caliber[i].TYPE == val){
           this.pd.CHNREPLY = this.caliber[i].CHN;
@@ -406,7 +408,7 @@ export default {
     },
     handlesItem1(formName, ap) {
       let p = {
-        "IAPISERIAL": [this.form.SERIAL],
+        "IAPISERIAL": [this.$route.query.review.SERIAL],
         "CREATEUSER": "杨小",
         "APPROVALUSER": ap.APPROVALUSER,
 
@@ -478,11 +480,12 @@ export default {
         this.form.PASSPORTNO = this.$route.query.review.PASSPORTNO;
         this.form.INTG_VISANO = this.$route.query.review.VISANO;
         this.form.LASTCHECKRESULT = this.$route.query.review.LASTCHECKRESULT;
+        this.form.LASTCHECKRESULTC = this.$route.query.review.LASTCHECKRESULT;
       }else{
         var objN = this.pd;
         objN.DEALRESULT = 0;//不变更
         // objN.serial = this.$route.query.serial
-        objN.serial = '1';
+        objN.serial = this.$route.query.serial;
         this.$api.post('/manage-platform/consult/saveConsultReply',objN,
          r => {
            if(r.success){

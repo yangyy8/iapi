@@ -1,6 +1,9 @@
 .table-select{
   width: 100%!important;
 }
+.acolor{
+  color: #1f67b3!important;
+}
 .color-font{
   color:#3EA5EC;
 }
@@ -31,6 +34,9 @@
     color: #fff;
 }
 .el-input.is-disabled .el-input__inner{
+  color:#747b88!important;
+}
+.el-textarea.is-disabled .el-textarea__inner{
   color:#747b88!important;
 }
 .el-transfer__button.is-disabled, .el-transfer__button.is-disabled:hover{

@@ -8,7 +8,7 @@
         <el-col  :sm="24" :md="12" :lg="4"  class="input-item">
           &nbsp;&nbsp;&nbsp;
           <el-button type="success" size="small" @click="mgetList(mCurrentPage,mpageSize,mcdt)">搜索</el-button>&nbsp;&nbsp;&nbsp;
-          <el-button type="success" size="small" @click="folderDialogVisible = true">文件上传</el-button>
+          <el-button type="success" size="small" @click="folderDialogVisible = true;fileData=null">文件上传</el-button>
         </el-col>
       </el-row>
       <el-row type="flex" class="middle" v-show="page==0">
@@ -19,30 +19,30 @@
           <el-row align="center"   :gutter="2" class="pr-20" type="flex" justify="center">
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">姓名：</span>
-              <el-input placeholder="请输入内容" size="small" v-model="pd.DEPT_JC"  class="input-input"></el-input>
+              <el-input placeholder="请输入内容" size="small" v-model="cdt.NAME"  class="input-input"></el-input>
             </el-col>
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">账号：</span>
-              <el-input placeholder="请输入内容" size="small" v-model="pd.DEPT_JC"  class="input-input"></el-input>
+              <el-input placeholder="请输入内容" size="small" v-model="cdt.USERNAME"  class="input-input"></el-input>
             </el-col>
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">手机号：</span>
-              <el-input placeholder="请输入内容" size="small" v-model="pd.DEPT_JC"  class="input-input"></el-input>
+              <el-input placeholder="请输入内容" size="small" v-model="cdt.PHONE"  class="input-input"></el-input>
             </el-col>
           </el-row>
         </el-col>
         <el-col :span="2" class="down-btn-area">
-          <el-button type="success" size="small" @click="">查询</el-button>
+          <el-button type="success" size="small" @click="getList(CurrentPage,pageSize,cdt)">查询</el-button>
         </el-col>
       </el-row>
     </div>
     <div class="middle">
-        <span class="tubiao hand" :class="{'checked':page==1}" @click="qq">文件管理</span><span class="tubiao hand" :class="{'checked':page==0}" @click="page=0;getList(CurrentPage,pageSize,cdt)">通讯录</span>
+        <span class="tubiao hand borderL" :class="{'checked':page==1}" @click="qq">文件管理</span><span class="tubiao hand borderR" :class="{'checked':page==0}" @click="page=0;getList(CurrentPage,pageSize,cdt)">通讯录</span>
         <div id="div1" v-show="page==0">
           <el-row class="margin-bt">
             <el-button type="primary" size="mini" @click="adds(0,'');form={}">新增</el-button>
-            <el-button type="primary" plain size="mini" @click="batchI">批量导入</el-button>
-            <el-button type="primary" plain size="mini" @click="download">模板下载</el-button>
+            <el-button type="success" size="mini" @click="batchI">批量导入</el-button>
+            <el-button type="success" size="mini" @click="download">模板下载</el-button>
           </el-row>
           <el-table
             :data="tableData"
@@ -59,8 +59,10 @@
               width="140">
             </el-table-column>
             <el-table-column
-              prop="SEX"
               label="性别" sortable>
+              <template slot-scope="scope">
+                {{ scope.row.SEX | fiftersex }}
+              </template>
             </el-table-column>
             <el-table-column
               prop="USERNAME"
@@ -120,7 +122,7 @@
             </el-pagination>
           </div>
         </div>
-        <div id="div2" v-show="page==1">
+        <div id="div2" v-show="page==1" class="margin-bt">
           <el-table
             :data="mtableData"
             border
@@ -154,7 +156,7 @@
             <el-table-column
               label="操作">
               <template slot-scope="scope">
-                <el-button class="table-btn" size="mini" plain icon="el-icon-edit" @click="">文件下载</el-button>
+                <el-button class="table-btn" size="mini" plain icon="el-icon-edit"><a :href="fileLoad = scope.row.FILESERIAL" class="acolor">文件下载</a></el-button>
                 <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="deletes(scope.row)">删除</el-button>
              </template>
             </el-table-column>
@@ -209,28 +211,28 @@
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
             <span class="yy-input-text"><font class="yy-color">*</font>性别：</span>
-            <el-input placeholder="请输入账号" size="small" v-model="form.SEX"  class="yy-input-input" :disabled="true"></el-input>
+            <el-input size="small" v-model="form.SEXNAME"  class="yy-input-input" :disabled="true"></el-input>
           </el-col>
         </el-row>
 
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
             <span class="yy-input-text"><font class="yy-color">*</font>账号：</span>
-            <el-input placeholder="请输入账号" size="small" v-model="form.USERNAME"  class="yy-input-input" :disabled="true"></el-input>
+            <el-input size="small" v-model="form.USERNAME"  class="yy-input-input" :disabled="true"></el-input>
           </el-col>
         </el-row>
 
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
             <span class="yy-input-text"><font class="yy-color">*</font>部门：</span>
-            <el-input placeholder="请输入部门" size="small" v-model="form.DEPT_QC"  class="yy-input-input" :disabled="true"></el-input>
+            <el-input size="small" v-model="form.DEPT_QC"  class="yy-input-input" :disabled="true"></el-input>
           </el-col>
         </el-row>
 
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
             <span class="yy-input-text"><font class="yy-color">*</font>电话：</span>
-            <el-input placeholder="请输入电话" size="small" v-model="form.PHONE"  class="yy-input-input" :disabled="true"></el-input>
+            <el-input size="small" v-model="form.PHONE"  class="yy-input-input" :disabled="true"></el-input>
           </el-col>
         </el-row>
 
@@ -266,7 +268,7 @@
 
     <el-dialog title="文件上传" :visible.sync="folderDialogVisible"   width="640px" :before-close="uploadHandleClose">
       <el-form :model="releaseform" ref="releaseForm">
-        <el-row type="flex"  class="mb-6" justify="center">
+        <el-row type="flex"  class="mb-6" justify="center" :gutter="10">
           <el-col :span="12" class="input-item">
             <span class="yy-input-text">文件夹：</span>
             <!-- <el-input placeholder="请输入文件夹名" size="small"  v-model="folder"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input> -->
@@ -286,19 +288,28 @@
           </el-col>
         </el-row>
         <el-row type="flex"  class="mb-6">
-          <label class="file">
-            添加文件
-            <input type="file" name=""  @change="uploadFile">
-          </label>
-          <div class="" v-if="fileData">
-            <div class="" v-for="(x,ind) in fileData" :key="ind">
-              <span class="mr-30">{{x.name}}</span>
+          <el-col :span="5" class="input-item">
+          </el-col>
+          <el-col :span="4" class="input-item">
+            <label class="file">
+              添加文件
+              <input type="file" name=""  @change="uploadFile">
+            </label>
+
+          </el-col>
+          <el-col :span="2" class="input-item">
+            <div class="" v-if="fileData">
+              <div class="" v-for="(x,ind) in fileData" :key="ind">
+                <span class="mr-30">{{x.name}}</span>
+              </div>
             </div>
-          </div>
-          <el-button type="success" name="button" @click="upload" size="small">上传</el-button>
+          </el-col>
+
+
         </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
+        <el-button type="primary" name="button" @click="upload" size="small" style="margin-left:10px!important">上传</el-button>
         <el-button @click="uploadCancelUpload" size="small">取 消</el-button>
       </div>
     </el-dialog>
@@ -317,7 +328,7 @@
         <el-button type="primary" @click="planSave">保存</el-button>
       </span>
     </el-dialog>
-
+    <!-- action="http://192.168.99.245:8080/manage-platform/addressManage/readExcel" -->
     <el-dialog title="批量导入" :visible.sync="uploadDialogVisible"   width="640px"
     :before-close="handleClose">
       <el-form :model="importform" ref="importForm">
@@ -326,9 +337,8 @@
           ref="upload"
           name="excel"
           :multiple="false"
-          accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-
-          :action="$api.rootUrl+'/manage-platform/iapi/readExcel'"
+          accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"  
+          :action="$api.rootUrl+'/manage-platform/addressManage/readExcel'"
           :on-success="uploadSuccess"
           :limit="1"
           :on-exceed="handleExceed"
@@ -369,8 +379,10 @@ export default {
       folderDialogVisible:false,//文件上传
       folderdialogVisible:false,//文件夹名
       page:0,
+      fileLoad:'',
 
       mcdt:{},
+      cdt:{},
       folder:'',//文件夹名
       folderName:[],//文件夹名列表
       formLabelWidth:'120px',
@@ -495,10 +507,6 @@ export default {
            });
            this.folderDialogVisible=false;
            this.mgetList(this.mCurrentPage,this.mpageSize,this.mcdt);
-           // if(this.delIndex.indexOf("3,")==-1){
-           //   this.delIndex+="3,"
-           // }
-           // this.getRiskDescRecordInfo();
            this.fileData=null;
          }else {
            this.fileData=null;
@@ -514,7 +522,7 @@ export default {
       this.uploadDialogVisible = true;
     },
     download(){
-      window.location.href=this.$api.rootUrl+'/manage-platform/templateFile/nameListDataFile.xlsx'
+      window.location.href=this.$api.rootUrl+'/manage-platform/templateFile/address_temple.xlsx'
     },
     uploadSuccess(response, file, fileList){
       console.log(response);
@@ -645,6 +653,7 @@ export default {
         if(arr[i].NAME == val){
           this.form.PHONE = arr[i].PHONE;//电话
           this.form.USERNAME = arr[i].USERNAME;//账号
+          this.form.SEXNAME = arr[i].SEXNAME;
           this.form.SEX = arr[i].SEX;
           this.form.DEPT_QC = arr[i].DEPT_QC;
           this.form.DEPT_ID = arr[i].DEPT_ID;//部门id
@@ -706,20 +715,39 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.$api.post('/manage-platform/deptSys/delete', p,
-          r => {
-            if (r.success) {
-              this.$message({
-                message: '删除成功！',
-                type: 'success'
-              });
-              this.getList();
-            } else {
-              this.$message.error(r.Message);
-            }
-          }, e => {
-            this.$message.error('失败了');
-          });
+        if(this.page==1){
+          this.$api.post('/manage-platform/fileAssistant/delete', p,
+            r => {
+              if (r.success) {
+                this.$message({
+                  message: '删除成功！',
+                  type: 'success'
+                });
+                this.mgetList(this.mCurrentPage,this.mpageSize,this.mcdt);
+              } else {
+                this.$message.error(r.Message);
+              }
+            }, e => {
+              this.$message.error('失败了');
+            });
+        }else if(this.page==0){
+          this.$api.post('/manage-platform/addressManage/delete', p,
+            r => {
+              if (r.success) {
+                this.$message({
+                  message: '删除成功！',
+                  type: 'success'
+                });
+
+                this.getList(this.CurrentPage,this.pageSize, this.cdt);
+              } else {
+                this.$message.error(r.Message);
+              }
+            }, e => {
+              this.$message.error('失败了');
+            });
+        }
+
       }).catch(() => {
         this.$message({
           type: 'info',
@@ -741,12 +769,10 @@ export default {
 
         },
         fiftersex(val) {
-          if (val == "F") {
+          if (val == "0") {
             return "女"
-          } else if (val == "M") {
+          } else if (val == "1") {
             return "男"
-          } else if (val == "U") {
-            return "未知"
           }
         },
         fiftecr(val) {
@@ -831,6 +857,19 @@ width:100px; padding:6px 15px;  border:1px solid #56A8FE;
     background: #409EFF;
     border-color: #409EFF;
     color: #ffffff;
+}
+.tubiao{
+  width:100px; padding:5.5px 15px;
+  border:1px solid #399bfe;
+  font-size: 13px;
+}
+.borderL{
+  border-top-left-radius: 3px;
+  border-bottom-left-radius: 3px;
+}
+.borderR{
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px;
 }
 </style>
 <style media="screen">
