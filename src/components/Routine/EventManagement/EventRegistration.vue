@@ -11,20 +11,20 @@
       <el-row type="flex"  class="mb-6">
         <el-col :span="20" class="input-item">
           <span class="yy-input-text"><font class="yy-color">*</font>登记人姓名：</span>
-          <el-input placeholder="请输入姓名" size="small" v-model="userName"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}" :disabled="true"></el-input>
+          <el-input placeholder="请输入姓名" size="small" v-model="userName"  class="yy-input-input" :disabled="true"></el-input>
         </el-col>
       </el-row>
       <el-row type="flex"  class="mb-6">
         <el-col :span="20" class="input-item">
           <span class="yy-input-text"><font class="yy-color">*</font>登记人账号：</span>
-          <el-input placeholder="请输入账号" size="small" v-model="userId"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}" :disabled="true"></el-input>
+          <el-input placeholder="请输入账号" size="small" v-model="userId"  class="yy-input-input" :disabled="true"></el-input>
         </el-col>
       </el-row>
       <el-row type="flex"  class="mb-6">
         <el-col :span="20" class="input-item">
           <span class="yy-input-text"><font class="yy-color">*</font>事件登记时间：</span>
             <el-date-picker
-            v-verify.change.blur ="{regs:'required',submit:'demo2'}"
+            
             v-model="form.RECORDTIMESTR"
             type="datetime" size="mini"
             placeholder="请输入时间"
@@ -50,14 +50,14 @@
         <el-col :span="20" class="input-item">
           <span class="yy-input-text" v-if="form.TYPE==2"><font class="yy-color">*</font>来电人姓名：</span>
           <span class="yy-input-text" v-else-if="form.TYPE==3"><font class="yy-color">*</font>信访人姓名：</span>
-          <el-input placeholder="请输入姓名" size="small" v-model="form.SOURCENAME"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
+          <el-input placeholder="请输入姓名" size="small" v-model="form.SOURCENAME"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo1'}"></el-input>
         </el-col>
       </el-row>
       <el-row type="flex"  class="mb-6" v-show="form.TYPE==2||form.TYPE==3">
         <el-col :span="20" class="input-item">
           <span class="yy-input-text" v-if="form.TYPE==2"><font class="yy-color">*</font>来电人电话：</span>
           <span class="yy-input-text" v-else-if="form.TYPE==3"><font class="yy-color">*</font>信访人电话：</span>
-          <el-input placeholder="请输入账号" size="small" v-model="form.SOURCEPHONE"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
+          <el-input placeholder="请输入账号" size="small" v-model="form.SOURCEPHONE"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo1'}"></el-input>
         </el-col>
       </el-row>
 
@@ -69,19 +69,18 @@
       </el-row>
       <el-row type="flex"  class="mb-6">
         <el-col :span="20" class="input-item">
-          <span class="yy-input-text">附件：</span>
-          <el-upload
-            class="upload-demo"
-            action=""
-            :on-preview="handlePreview"
-            :on-remove="handleRemove"
-            :before-remove="beforeRemove"
-            multiple
-            :limit="3"
-            :on-exceed="handleExceed"
-            >
-            <el-button size="small" class="table-btn">上传附件</el-button>
-          </el-upload>
+          <span class="yy-input-text" style="width: 20.7%!important;">附件：</span>
+          <el-col :span="20" class="input-item">
+            <label class="file">
+              上传附件
+              <input type="file" name=""  @change="uploadFile">
+            </label>
+            <div class="" v-if="fileData">
+              <div class="" v-for="(x,ind) in fileData" :key="ind">
+                <span class="mr-30">{{x.name}}</span>
+              </div>
+            </div>
+          </el-col>
         </el-col>
       </el-row>
       <el-row type="flex" class="mb-6" >
@@ -113,11 +112,8 @@ export default {
       htmlTitle: '页面导出PDF文件名',
       page:0,
       detailsDialogVisible: false,
-
-      form: {
-        FILESERIAL:'',
-      },
-
+      fileData:{},
+      form: {},
     }
   },
   mounted() {
@@ -128,18 +124,6 @@ export default {
     this.getUser();
   },
   methods: {
-    handleRemove(file, fileList) {
-       console.log(file, fileList);
-     },
-     handlePreview(file) {
-       console.log(file);
-     },
-     handleExceed(files, fileList) {
-       this.$message.warning(`当前限制选择 3 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
-     },
-     beforeRemove(file, fileList) {
-       return this.$confirm(`确定移除 ${ file.name }？`);
-     },
      getUser(){
        this.$api.post('/manage-platform/sysUserInfoController/querySysUserInfo',{},
          r => {
@@ -147,20 +131,64 @@ export default {
            this.userId = r.data.userId;
          })
      },
+     uploadFile(event){//获取上传的文件
+       this.fileData=event.target.files;
+     },
+     upload(val){//上传文件
+       var formData = new FormData();
+       let arr=this.fileData;
+       for(var i=0;i<arr.length;i++){
+         formData.append("file",arr[i]);
+       }
+       formData.append("eventSerial",val);
+       let p=formData;
+       this.$api.post('/manage-platform/incident/upload',p,
+        r =>{
+          if(r.success){
+            this.$message({
+              message: '恭喜你，保存成功！',
+              type: 'success'
+            });
+            this.form={};
+            this.fileData=null;
+          }else {
+            this.fileData=null;
+            return
+          }
+        },e => {
+        },{'Content-Type': 'multipart/form-data'})
+     },
      save(){
-       if (this.$validator.listener.demo2) {
-         const result = this.$validator.verifyAll('demo2')
-         if (result.indexOf(false) > -1) {
-           return;
+       if(this.form.TYPE==1){
+         if (this.$validator.listener.demo2) {
+           const result = this.$validator.verifyAll('demo2')
+           console.log(result);
+           if (result.indexOf(false) > -1) {
+             return;
+           }
+         }
+       }else{
+         if (this.$validator.listener.demo2&&this.$validator.listener.demo1) {
+           const result = this.$validator.verifyAll('demo2');
+           const result1 = this.$validator.verifyAll('demo1');
+           if (result.indexOf(false) > -1 && result1.indexOf(false) > -1) {
+             return;
+           }
          }
        }
+
        this.$api.post('/manage-platform/incident/save',this.form,
          r => {
            if (r.success) {
-             this.$message({
-               message: '保存成功！',
-               type: 'success'
-             });
+             if(this.fileData.length){
+               this.upload(r.data);
+             }else{
+               this.$message({
+                 message: '恭喜你，保存成功！',
+                 type: 'success'
+               });
+               this.form={};
+             }
            } else {
              this.$message.error('保存失败！');
            }
@@ -186,5 +214,31 @@ export default {
 }
 .widthts{
   width: 70%!important
+}
+.file {
+    position: relative;
+    display: inline-block;
+    background: #ecf5ff;
+    border: 1px solid #b3d8ff;
+    border-radius: 4px;
+    padding: 4px 12px;
+    overflow: hidden;
+    color: #409EFF;
+    text-decoration: none;
+    text-indent: 0;
+    line-height: 20px;
+    font-size: 12px;
+}
+.file input {
+    position: absolute;
+    font-size: 100px;
+    right: 0;
+    top: 0;
+    opacity: 0;
+}
+.file:hover {
+    background: #409EFF;
+    border-color: #409EFF;
+    color: #ffffff;
 }
 </style>

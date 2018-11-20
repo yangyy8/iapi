@@ -6,10 +6,10 @@
           <div class="title-green">
             查询条件
           </div>
-          <el-row align="center" :gutter="2" type="flex" justify="center">
+          <el-row align="center" :gutter="2" type="flex" justify="center" v-show="page==0">
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">口岸/部门：</span>
-              <el-select v-model="pd.userId" filterable clearable placeholder="请选择" size="small" class="input-input" @change="nameId(pd.userId)">
+              <el-select v-model="outBu" filterable clearable placeholder="请选择" size="small" class="input-input" @visible-change="queryNationality(0)" @change="nameId(outBu,0)">
                 <el-option
                   v-for="item in company"
                   :key="item.SERIAL"
@@ -19,8 +19,8 @@
                </el-select>
             </el-col>
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
-              <span class="input-text">姓名：</span>
-              <el-select v-model="pd.id" filterable clearable placeholder="请选择" size="small" class="input-input">
+              <span class="input-text">收件人姓名：</span>
+              <el-select v-model="pd.userId" filterable clearable placeholder="请选择" size="small" class="input-input" :disabled="able">
                 <el-option
                   v-for="item in nameCllo"
                   :key="item.NAME"
@@ -30,14 +30,39 @@
                </el-select>
             </el-col>
           </el-row>
+          <el-row align="center" :gutter="2" type="flex" justify="center" v-show="page==1">
+            <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+              <span class="input-text">口岸/部门：</span>
+              <el-select v-model="inBu" filterable clearable placeholder="请选择" size="small" class="input-input" @visible-change="queryNationality(2)" @change="nameId(inBu,2)">
+                <el-option
+                  v-for="item in inCompany"
+                  :key="item.SERIAL"
+                  :label="item.DEPT_JC"
+                  :value="item.SERIAL">
+                </el-option>
+               </el-select>
+            </el-col>
+            <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+              <span class="input-text">发件人姓名：</span>
+              <el-select v-model="pd1.userId" filterable clearable placeholder="请选择" size="small" class="input-input" :disabled="outAble">
+                <el-option
+                  v-for="item in outNameCllo"
+                  :key="item.NAME"
+                  :label="item.NAME"
+                  :value="item.NAME">
+                </el-option>
+               </el-select>
+            </el-col>
+          </el-row>
         </el-col>
         <el-col :span="2" class="down-btn-area" style="padding-top:30px;">
-          <el-button type="success" size="small" @click="addDialogVisible = true">查询</el-button>
+          <el-button type="success" size="small" @click="search">查询</el-button>
         </el-col>
       </el-row>
     </div>
     <div class="middle">
-      <span class="tubiao hand borderL" :class="{'checked':page==0}" @click="page=0;getList();">发件箱</span><span class="tubiao hand borderR" :class="{'checked':page==1}" @click="qq">收件箱</span>
+      <span class="tubiao hand borderL" :class="{'checked':page==0}" @click="page=0;getList(CurrentPage,pageSize,pd);">发件箱</span><span class="tubiao hand borderR" :class="{'checked':page==1}" @click="qq">收件箱</span>
+      <el-button type="warning" size="mini" @click="sendMesssage">发送消息</el-button>
       <div class="tableWrap" v-show="page==0">
         <el-table
           :data="outTableData"
@@ -45,11 +70,15 @@
           style="width: 100%;"
           >
           <el-table-column
+            prop="receiveStrList"
+            label="收件人">
+          </el-table-column>
+          <el-table-column
             prop="DETAILS"
             label="消息内容">
           </el-table-column>
           <el-table-column
-            prop="SENDTIME"
+            prop="SENDTIMESTR"
             label="发送时间">
           </el-table-column>
           <el-table-column
@@ -90,9 +119,7 @@
         </div>
       </div>
       <div class="tableWrap" v-show="page==1">
-        <el-row class="mb-5">
-          <el-button type="warning" size="small" @click="sendMesssage">发送消息</el-button>
-        </el-row>
+
         <el-table
           :data="inTableData"
           border
@@ -107,14 +134,13 @@
             label="发送内容">
           </el-table-column>
           <el-table-column
-            prop="informationSend.SENDTIME"
+            prop="informationSend.SENDTIMESTR"
             label="发送时间">
           </el-table-column>
           <el-table-column
-            prop="READSTATUS"
             label="读取状态">
             <template slot-scope="scope">
-              {{scope.row.STATUS | fiftertype}}
+              {{scope.row.READSTATUS | fiftertype}}
             </template>
           </el-table-column>
 
@@ -158,44 +184,48 @@
       </div>
     </div>
     <el-dialog title="发送消息"  :visible.sync="sendDialogVisible" width="400px;">
-      <el-form :model="dform" ref="addForm">
+      <el-form :model="sform" ref="addForm">
         <el-row type="flex"  class="mb-6" style="margin-left:85px">
           <el-col :span="8" class="input-item">
             <span class="yy-input-text">接收口岸：</span>
-            <el-select  placeholder="请选择"  size="mini"  class="input-input" v-model="dform.port" filterable clearable @visible-change="portMethod">
+            <el-select  placeholder="请选择"  size="mini"  class="input-input" v-model="sendBu" filterable clearable @visible-change="queryNationality(1)" @change="nameId(sendBu,1)">
               <el-option
-              v-for="item in portName"
-              :key="item.KADM"
-              :value="item.KADM"
-              :label="item.KAMC"
+              v-for="item in sendCompany"
+              :key="item.SERIAL"
+              :value="item.SERIAL"
+              :label="item.DEPT_JC"
               ></el-option>
             </el-select>
           </el-col>
           <el-col :span="8" class="input-item">
             <span class="yy-input-text">接收人：</span>
-            <span class="yy-input-input detailinput"> {{dform.DEPT_QC }}</span>
+            <el-select v-model="sform.RECEIVEID" filterable clearable placeholder="请选择" size="small" class="input-input" filterable clearable multiple :disabled="sendAble">
+              <el-option
+                v-for="item in sendNameCllo"
+                :key="item.SERIAL"
+                :label="item.NAME"
+                :value="item.SERIAL">
+              </el-option>
+             </el-select>
           </el-col>
           <el-col :span="8" class="input-item">
             <span class="yy-input-text">附件：</span>
-            <el-upload
-              class="upload-demo"
-              action=""
-              :on-preview="handlePreview"
-              :on-remove="handleRemove"
-              :before-remove="beforeRemove"
-              multiple
-              :limit="3"
-              :on-exceed="handleExceed"
-              :file-list="fileList">
-              <el-button size="small" class="table-btn">上传附件</el-button>
-            </el-upload>
+            <label class="file">
+              上传附件
+              <input type="file" name=""  @change="uploadFile" multiple>
+            </label>
+            <div class="" v-if="fileData">
+              <div class="" v-for="(x,ind) in fileData" :key="ind">
+                <span class="mr-30">{{x.name}}</span>
+              </div>
+            </div>
           </el-col>
         </el-row>
 
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
-            <span class="yy-input-text width-ts">回复内容：</span>
-            <el-input type="textarea" v-model="dform.DETAILS"></el-input>
+            <span class="yy-input-text width-ts">发送内容：</span>
+            <el-input type="textarea" v-model="sform.DETAILS"></el-input>
           </el-col>
         </el-row>
       </el-form>
@@ -224,7 +254,7 @@
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
             <span class="yy-input-text width-ts">回复内容：</span>
-            <el-input type="textarea" v-model="replyContent"></el-input>
+            <el-input type="textarea" v-model="replyContent" maxlength="300" :autosize="{ minRows: 3, maxRows: 6}" placeholder="请输入描述(不能超过300字)"></el-input>
           </el-col>
         </el-row>
       </el-form>
@@ -242,13 +272,13 @@
           </el-col>
           <el-col :span="12" class="input-item">
             <span class="yy-input-text">发送时间：</span>
-            <span class="yy-input-input detailinput"> {{dform.informationSend.SENDTIME}}</span>
+            <span class="yy-input-input detailinput"> {{dform.informationSend.SENDTIMESTR}}</span>
           </el-col>
         </el-row>
         <el-row type="flex"  class="mb-6">
           <el-col :span="12" class="input-item">
             <span class="yy-input-text">回复时间：</span>
-            <span class="yy-input-input detailinput">  {{dform.REPLYTIME}}</span>
+            <span class="yy-input-input detailinput">  {{dform.REPLYTIMESTR}}</span>
           </el-col>
         </el-row>
         <el-row type="flex"  class="mb-6">
@@ -282,14 +312,13 @@
           label="回复内容">
         </el-table-column>
         <el-table-column
-          prop="REPLYTIME"
+          prop="REPLYTIMESTR"
           label="回复时间">
         </el-table-column>
         <el-table-column
-          prop="RECEIVETYPE"
           label="读取状态">
           <template slot-scope="scope">
-            {{scope.row.STATUS | fiftertype}}
+            {{scope.row.READSTATUS | fiftertype}}
           </template>
         </el-table-column>
       </el-table>
@@ -317,15 +346,27 @@ export default {
       outTableData:[],
       inTableData:[],
       outTableDataDetail:[],
+      outBu:'',
+      inBu:'',
+      sendBu:'',
+      inCompany:[],
 
       pd: {},
+      pd1:{},
+      able:true,
+      outAble:true,
+      sendAble:true,
       nation: [],
       company: [],
-      portName:[],
+      sendCompany:[],
       page:0,
       replyContent:'',//回复内容
       serialImp:'',
       nameCllo:[],
+      sendNameCllo:[],
+      outNameCllo:[],
+      sform:{},
+      fileData:{},
 
       value: '',
       value1: "",
@@ -349,28 +390,6 @@ export default {
       ],
       tableData: [],
       multipleSelection: [],
-      pickerOptions1: {
-        // shortcuts: [{
-        //   text: '今天',
-        //   onClick(picker) {
-        //     picker.$emit('pick', new Date());
-        //   }
-        // }, {
-        //   text: '昨天',
-        //   onClick(picker) {
-        //     const date = new Date();
-        //     date.setTime(date.getTime() - 3600 * 1000 * 24);
-        //     picker.$emit('pick', date);
-        //   }
-        // }, {
-        //   text: '一周前',
-        //   onClick(picker) {
-        //     const date = new Date();
-        //     date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
-        //     picker.$emit('pick', date);
-        //   }
-        // }]
-      },
       form: {
         informationSend:{}
       },
@@ -380,7 +399,7 @@ export default {
     }
   },
   mounted() {
-    this.getList();
+    this.getList(this.CurrentPage, this.pageSize, this.pd);
     // this.getList(this.CurrentPage, this.pageSize, this.pd);
     this.queryNationality();
   },
@@ -390,7 +409,7 @@ export default {
   methods: {
     qq(){
       this.page=1;
-      this.getList();
+      this.inGetList(this.inCurrentPage, this.inPageSize, this.pd1);
     },
     handleRemove(file, fileList) {
        console.log(file, fileList);
@@ -407,8 +426,28 @@ export default {
      sendMesssage(){//发送消息
        this.sendDialogVisible = true;
      },
+     search(){
+       if(this.page==0){
+         this.getList(this.CurrentPage, this.pageSize, this.pd);
+       }else if(this.page==1){
+         this.inGetList(this.inCurrentPage, this.inPageSize, this.pd1);
+       }
+     },
      sendMesssageReal(){
-       this.$api.post('/manage-platform/information/saveInformationSend',p,
+       let arr = [];
+       let obj={};
+       for(var i=0;i<this.sform.RECEIVEID.length;i++){
+         for(var j=0;j<this.sendNameCllo.length;j++){
+           if(this.sform.RECEIVEID[i] == this.sendNameCllo[j].SERIAL){
+             obj.RECEIVEID = this.sendNameCllo[j].SERIAL
+             obj.RECEIVECODE = this.sendNameCllo[j].USERNAME
+             obj.RECEIVENAME = this.sendNameCllo[j].NAME
+           }
+         }
+         arr.push(obj);
+       }
+       this.sform.receiveList = arr;
+       this.$api.post('/manage-platform/information/saveInformationSend',this.sform,
          r =>{
            if(r.success){
              this.$message({
@@ -422,34 +461,72 @@ export default {
       this.multipleSelection = val;
     },
     pageSizeChange(val) {
-      this.getList(this.CurrentPage, val, this.pd);
+      if(this.page==0){
+        this.getList(this.CurrentPage, val, this.pd);
+      }else if(this.page==1){
+        this.inGetList(this.inCurrentPage, val, this.pd1);
+      }
       console.log(`每页 ${val} 条`);
     },
+    uploadFile(event){//获取上传的文件
+      this.fileData=event.target.files;
+    },
+    upload(val){//上传文件
+      var formData = new FormData();
+      let arr=this.fileData;
+      for(var i=0;i<arr.length;i++){
+        formData.append("file",arr[i]);
+      }
+      formData.append("eventSerial",val);
+      let p=formData;
+      this.$api.post('/manage-platform/incident/upload',p,
+       r =>{
+         if(r.success){
+           this.$message({
+             message: '恭喜你，保存成功！',
+             type: 'success'
+           });
+           this.form={};
+           this.fileData=null;
+         }else {
+           this.fileData=null;
+           return
+         }
+       },e => {
+       },{'Content-Type': 'multipart/form-data'})
+    },
     handleCurrentChange(val) {
-      this.getList(val, this.pageSize, this.pd);
-
+      if(this.page==0){
+        this.getList(val, this.pageSize, this.pd);
+      }else if(this.page==1){
+        this.inGetList(val, this.inPageSize, this.pd1);
+      }
       console.log(`当前页: ${val}`);
     },
     getList(currentPage, showCount, pd) {
-      // let p = {
-      //   "currentPage": currentPage,
-      //   "showCount": showCount,
-      //   "pd": pd
-      // };
-      if(this.page==0){
-        this.$api.post('/manage-platform/information/queryInformationSendList',{},
-          r => {
-            console.log(r);
-            this.outTableData = r.data.resultList;
-            this.TotalResult = r.data.totalResult;
-          })
-      }else if(this.page==1){
-        this.$api.post('/manage-platform/information/queryInformationReceiveList',{},
-         r => {
-           this.inTableData = r.data.resultList;
-           this.inTotalResult = r.data.totalResult;
-         })
-      }
+      let p = {
+        "currentPage": currentPage,
+        "showCount": showCount,
+        "pd": pd
+      };
+      this.$api.post('/manage-platform/information/queryInformationSendList',p,
+        r => {
+          console.log(r);
+          this.outTableData = r.data.resultList;
+          this.TotalResult = r.data.totalResult;
+        })
+    },
+    inGetList(currentPage, showCount, pd){
+      let p = {
+        "currentPage": currentPage,
+        "showCount": showCount,
+        "pd": pd
+      };
+      this.$api.post('/manage-platform/information/queryInformationReceiveList',p,
+       r => {
+         this.inTableData = r.data.resultList;
+         this.inTotalResult = r.data.totalResult;
+       })
     },
     outDetails(row){
       this.outDetailsDialogVisible = true;
@@ -501,17 +578,23 @@ export default {
           this.addDialogVisible = false;
         })
     },
-    queryNationality() {//口岸
+    queryNationality(type) {//口岸
       this.$api.post('/manage-platform/userSys/deptListSmall', {},
         r => {
           console.log(r);
           if (r.success) {
-            this.company = r.data.deptList;
+            if(type==0){
+              this.company = r.data.deptList;
+            }else if(type==1){
+              this.sendCompany = r.data.deptList;
+            }else if(type==2){
+              this.inCompany = r.data.deptList;
+            }
             console.log(this.company);
           }
         })
     },
-    nameId(val){
+    nameId(val,type){
       console.log(val)
       var obj={};
       obj.DEPT_ID = val;
@@ -522,7 +605,33 @@ export default {
       this.$api.post('/manage-platform/userSys/selectAll', p,
         r => {
           console.log(r);
-          this.nameCllo = r.data.userList.pdList;
+          if(type==0){
+            this.$set(this.pd,'userId','');
+            if(val==''){
+              this.able=true
+            }else{
+              this.able=false;
+              this.nameCllo = r.data.userList.pdList;
+            }
+
+          }else if(type==1){
+            this.$set(this.sform,'RECEIVEID',[]);
+            if(val==''){
+              this.sendAble=true;
+            }else{
+              this.sendAble=false;
+              this.sendNameCllo = r.data.userList.pdList;
+            }
+            console.log(this.sendNameCllo);
+          }else if(type==2){
+            this.$set(this.pd1,'userId','');
+            if(val==''){
+              this.outAble=true;
+            }else{
+              this.outAble=false;
+              this.outNameCllo = r.data.userList.pdList;
+            }
+          }
         })
       // let arr = this.company;
       // this.nameCllo = [];
@@ -611,21 +720,16 @@ export default {
         });
       });
     },
-    portMethod(){
-      this.$api.post('/manage-platform/codeTable/queryAirportMatch',{},
-      r =>{
-        if(r.success){
-          this.portName = r.data
-        }
-      })
-    }
+
   },
   filters: {
     fiftertype(val) {
-      if (val == "0") {
-        return "停用";
-      } else {
-        return "启用";
+      if (val == 0) {
+        return "未读";
+      } else if(val == 1) {
+        return "已读";
+      }else if(val==2){
+        return "已回"
       }
     },
   }
@@ -667,7 +771,7 @@ function checkRate(nubmer) {　　
   color:#ffffff;
 }
 .tubiao{
-  width:100px; padding:6px 15px;
+  width:100px; padding:5.5px 15px;
   border:1px solid #399bfe;
   font-size: 13px;
 }
@@ -681,5 +785,31 @@ function checkRate(nubmer) {　　
 }
 .tableWrap{
   margin-top: 10px;
+}
+.file {
+    position: relative;
+    display: inline-block;
+    background: #ecf5ff;
+    border: 1px solid #b3d8ff;
+    border-radius: 4px;
+    padding: 4px 12px;
+    overflow: hidden;
+    color: #409EFF;
+    text-decoration: none;
+    text-indent: 0;
+    line-height: 20px;
+    font-size: 12px;
+}
+.file input {
+    position: absolute;
+    font-size: 100px;
+    right: 0;
+    top: 0;
+    opacity: 0;
+}
+.file:hover {
+    background: #409EFF;
+    border-color: #409EFF;
+    color: #ffffff;
 }
 </style>

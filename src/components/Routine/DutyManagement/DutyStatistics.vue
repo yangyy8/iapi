@@ -11,14 +11,15 @@
               <span class="input-text ttt"><i class="t-must">*</i>值班月份：</span>
               <div class="input-input">
                  <el-date-picker
-
+                 v-verify.input.blur="{regs:'required',submit:'timeDemo1'}"
                  v-model="cdt.TIME"
                  type="date"
                  size="small"
                  value-format="yyyyMM"
                  format="yyyy-MM"
                  placeholder="统计月份"
-                 class="input-inp">
+                 class="input-inp"
+                 >
                 </el-date-picker>
               </div>
             </el-col>
@@ -63,7 +64,7 @@
               <span class="input-text"><i class="t-must">*</i>值班月份：</span>
               <div class="input-input">
                  <el-date-picker
-                 v-verify.input.blur="{regs:'required',submit:'timeDemo1'}"
+                 v-verify.input.blur="{regs:'required',submit:'timeDemo2'}"
                  v-model="cdt1.TIME"
                  type="date"
                  size="small"
@@ -109,8 +110,8 @@
       </el-row>
     </div>
     <div class="middle">
-        <span class="tubiao hand" :class="{'checked':page==0}" @click="qq">日历</span><span class="tubiao hand" :class="{'checked':page==1}" @click="page=1;getList(CurrentPage,pageSize,cdt1)">列表</span>
-        <el-button type="success" size="small" @click="" style="vertical-align: 2px;">导出</el-button>
+        <span class="tubiao hand borderL" :class="{'checked':page==0}" @click="qq">日历</span><span class="tubiao hand borderR" :class="{'checked':page==1}" @click="page=1;getList(CurrentPage,pageSize,cdt1)">列表</span>
+        <el-button type="success" size="mini" @click="tableDown">导出</el-button>
         <div id="div1" v-show="page==1" class="mt-10">
           <el-table
             :data="tableData"
@@ -215,14 +216,14 @@
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
             <span class="yy-input-text"><font class="yy-color">*</font>姓名：</span>
-            <el-input placeholder="请输入姓名" size="small" v-model="form.NAME"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}" :disabled="true"></el-input>
+            <el-input placeholder="请输入姓名" size="small" v-model="form.NAME"  class="yy-input-input" :disabled="true"></el-input>
 
           </el-col>
         </el-row>
         <el-row type="flex" class="mb-6" >
           <el-col :span="24" class="input-item">
             <span class="yy-input-text">值班时段：</span>
-            <el-input type="textarea" placeholder="请输入内容" :autosize="{ minRows: 3, maxRows: 6}" v-model="form.content" class="yy-input-input" :disabled="true"></el-input>
+            <el-input type="textarea" placeholder="请输入内容" :autosize="{ minRows: 3, maxRows: 6}" v-model="form.content" class="yy-input-input" :disabled="true" style="color:#000!important"></el-input>
           </el-col>
         </el-row>
       </el-form>
@@ -235,8 +236,9 @@
 
 <script>
 
-import {formatDate} from '@/assets/js/date.js'
+import {formatDate,format} from '@/assets/js/date.js'
 import {dayGap} from '@/assets/js/date.js'
+import axios from 'axios'
 export default {
 
   data() {
@@ -282,15 +284,15 @@ export default {
   mounted() {
   let time = new Date();
   let end = new Date();
-  let begin =new Date(time - 1000 * 60 * 60 * 24 * 30);
   this.cdt.TIME=formatDate(time,'yyyyMM');
   this.cdt1.TIME=formatDate(end,'yyyyMM');
-  this.getGraph(this.cdt1);
-  // this.getList(this.CurrentPage, this.pageSize, this.cdt1);
-
+  let that = this;
+  setTimeout(function(){
+    that.getGraph(that.cdt);
+  },100)
   },
   activated(){
-
+    this.getGraph(this.cdt);
   },
   methods: {
     qq(){
@@ -312,7 +314,7 @@ export default {
       console.log(`当前页: ${val}`);
     },
     getList(currentPage, showCount, pd) {
-      const result = this.$validator.verifyAll('timeDemo1')
+      const result = this.$validator.verifyAll('timeDemo2')
        if (result.indexOf(false) > -1) {
          return
        }
@@ -329,10 +331,10 @@ export default {
         })
     },
     getGraph(pd){
-      // const result = this.$validator.verifyAll('timeDemo')
-      //  if (result.indexOf(false) > -1) {
-      //    return
-      //  }
+      const result = this.$validator.verifyAll('timeDemo1')
+       if (result.indexOf(false) > -1) {
+         return
+       }
       this.$api.post('/manage-platform/watch/queryCensusGraph', this.cdt,
         r => {
           if(r.success){
@@ -342,24 +344,65 @@ export default {
         })
     },
     details(row){
-      this.detailsDialogVisible = true;
       let p={
         'USERSERIAL':row.USERSERIAL,
         'TIME':this.cdt.TIME
       }
       this.form.NAME=row.NAME;
-      this.$api.post('/manage-platform/watch/queryCensusInfo', p,
+      this.$api.post('/manage-platform/watch/queryCensusInfo',p,
         r => {
           if(r.success){
             var str="";
             for(var i=0;i<r.data.length;i++){
               str+=r.data[i].STARTTIMESTR+' -- '+r.data[i].ENDTIMESTR + '\n'
             }
+            this.form.content = str;
+            this.detailsDialogVisible = true;
           }
-          this.form.content = str;
         })
+    },
+    downloadM (data,type) {
+        if (!data) {
+            return
+        }
+        let url = window.URL.createObjectURL(new Blob([data.data],{type:"application/octet-stream"}))
+        let link = document.createElement('a')
+        link.style.display = 'none'
+        link.href = url
+        link.setAttribute('download', format(new Date(),'yyyy-MM-dd hh:mm:ss')+'.xlsx')
+        document.body.appendChild(link)
+        link.click()
+    },
+    tableDown(){
+      if(this.page==0){
+        axios({
+         method: 'post',
+         // url: 'http://192.168.99.245:8081/manage-platform/watch/exportGraphIo',
+         url: this.$api.rootUrl+"/manage-platform/watch/exportGraphIo",
+         data: {
+             "TIME":this.cdt.TIME,
+             "NAME":this.cdt.NAME
+         },
+         responseType: 'blob'
+         }).then(response => {
+             this.downloadM(response)
+         });
+      }else if(this.page==1){
+        axios({
+         method: 'post',
+         // url: 'http://192.168.99.245:8081/manage-platform/watch/exportListPageIo',
+         url: this.$api.rootUrl+"/manage-platform/watch/exportListPageIo",
+         data: {
+             "currentPage": 1,
+             "showCount": 600,
+             "cdt":this.cdt1
+         },
+         responseType: 'blob'
+         }).then(response => {
+             this.downloadM(response)
+         });
+      }
     }
-
   },
     filters: {
         filterdate(n)
@@ -428,7 +471,17 @@ export default {
   background:#56A8FE; color:#ffffff;
 }
 .tubiao{
-width:100px; padding:6px 15px;  border:1px solid #56A8FE;
+  width:100px; padding:5.5px 15px;
+  border:1px solid #399bfe;
+  font-size: 13px;
+}
+.borderL{
+  border-top-left-radius: 3px;
+  border-bottom-left-radius: 3px;
+}
+.borderR{
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px;
 }
 .ttt{
   width:40%!important;

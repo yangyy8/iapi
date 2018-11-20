@@ -11,8 +11,8 @@
               <span class="input-text">洲：</span>
               <el-select placeholder="请选择" v-model="cdt.continentsCode" filterable clearable @visible-change="chau(0)" @change="nationality(cdt.continentsCode,0)" size="small"  class="input-input">
                 <el-option
-                  v-for="item in chauName"
-                  :key="item.code"
+                  v-for="(item,index) in chauName"
+                  :key="index"
                   :value="item.code"
                   :label="item.code+' - '+item.name"
                 ></el-option>
@@ -22,8 +22,8 @@
               <span class="input-text">国家：</span>
               <el-select placeholder="请选择" v-model="cdt.countryCode" filterable clearable size="small"  class="input-input" @visible-change="baseNation(0)" @change="cityAble(cdt.countryCode,0)">
                 <el-option
-                  v-for="item in selection"
-                  :key="item.CODE"
+                  v-for="(item,index) in selection"
+                  :key="index"
                   :value="item.CODE"
                   :label="item.CODE+' - '+item.CNAME"
                 ></el-option>
@@ -33,8 +33,8 @@
               <span class="input-text">城市：</span>
               <el-select placeholder="请选择" v-model="cdt.cityCode" filterable clearable size="small"  class="input-input" @visible-change="city(0)" :disabled="able">
                 <el-option
-                  v-for="item in cityName"
-                  :key="item.citycode"
+                  v-for="(item,index) in cityName"
+                  :key="index"
                   :value="item.citycode"
                   :label="item.citycode+' - '+item.cityname"
                 ></el-option>
@@ -44,8 +44,8 @@
               <span class="input-text">机场三位码：</span>
               <el-select placeholder="请选择" v-model="cdt.airportCode" filterable clearable @visible-change="takeOff(0)" size="small" class="input-input">
                 <el-option
-                v-for="item in takeOffName"
-                :key="item.AIRPORT_CODE"
+                v-for="(item,index) in takeOffName"
+                :key="index"
                 :value="item.AIRPORT_CODE"
                 :label="item.AIRPORT_CODE">
                 </el-option>
@@ -54,7 +54,7 @@
           </el-row>
         </el-col>
         <el-col :span="2" class="down-btn-area" style="padding-top:30px;">
-          <el-button type="success" size="small" @click="">查询</el-button>
+          <el-button type="success" size="small" @click="getList(CurrentPage,pageSize,cdt);">查询</el-button>
         </el-col>
       </el-row>
     </div>
@@ -62,7 +62,7 @@
       <el-row class="mb-15">
         <el-button type="primary" size="small" @click="adds(0,'');form={}">新增</el-button>
         <el-button type="success" size="small" @click="batchI">批量导入</el-button>
-        <el-button type="success" size="small" @click="">模板下载</el-button>
+        <el-button type="success" size="small" @click="download">模板下载</el-button>
       </el-row>
       <el-table
         :data="tableData"
@@ -103,7 +103,8 @@
         </el-table-column>
         <el-table-column
           prop="airportDesc"
-          label="机场描述">
+          label="机场描述"
+          show-overflow-tooltip="true">
         </el-table-column>
         <el-table-column
           label="操作" width="200">
@@ -150,8 +151,8 @@
             <span class="yy-input-text"><font class="yy-color">*</font>机场三位码：</span>
             <el-select placeholder="请选择" v-model="form.airportCode" filterable clearable @visible-change="takeOff(1)" size="small" class="yy-input-input" @change="takeOffReal(form.airportCode)">
               <el-option
-              v-for="item in addTakeOffName"
-              :key="item.AIRPORT_CODE"
+              v-for="(item,index) in addTakeOffName"
+              :key="index"
               :value="item.AIRPORT_CODE"
               :label="item.AIRPORT_CODE">
               </el-option>
@@ -171,8 +172,8 @@
             <span class="yy-input-text"><font class="yy-color">*</font>洲：</span>
             <el-select v-model="form.continentsCode"  filterable clearable placeholder="请选择" size="small" class="yy-input-input" @visible-change="chau(1)" @change="nationality(form.continentsCode,1)">
               <el-option
-                v-for="item in addChauName"
-                :key="item.code"
+                v-for="(item,index) in addChauName"
+                :key="index"
                 :value="item.code"
                 :label="item.code+' - '+item.name"
               ></el-option>
@@ -185,8 +186,8 @@
             <span class="yy-input-text"><font class="yy-color">*</font>国家/地区：</span>
             <el-select v-model="form.countryCode"  filterable clearable placeholder="请选择" size="small" class="yy-input-input" @visible-change="baseNation(1)" @change="cityAble(form.countryCode,1)">
               <el-option
-                v-for="item in addSelection"
-                :key="item.CODE"
+                v-for="(item,index) in addSelection"
+                :key="index"
                 :value="item.CODE"
                 :label="item.CODE+' - '+item.CNAME"
               ></el-option>
@@ -197,10 +198,10 @@
         <el-row type="flex" class="mb-6" >
           <el-col :span="24" class="input-item">
             <span class="yy-input-text"><font class="yy-color">*</font>城市：</span>
-            <el-select v-model="form.cityCode"  filterable clearable placeholder="请选择" size="small" class="yy-input-input" @visible-change="city(1)" :disabled="addAble">
+            <el-select v-model="form.cityCode"  filterable clearable placeholder="请选择" size="small" class="yy-input-input" @visible-change="city(1)" :disabled="addAble" @change="cityReal(form.cityCode)">
               <el-option
-                v-for="item in addCityName"
-                :key="item.citycode"
+                v-for="(item,index) in addCityName"
+                :key="index"
                 :value="item.citycode"
                 :label="item.citycode+' - '+item.cityname"
               ></el-option>
@@ -235,14 +236,14 @@
         <el-button @click="addDialogVisible = false" size="small">取 消</el-button>
       </div>
     </el-dialog>
-
+    <!-- action="http://192.168.99.245:8080/manage-platform/airportManage/importFlightManage" -->
     <el-dialog title="批量导入" :visible.sync="uploadDialogVisible"   width="640px"
     :before-close="handleClose">
       <el-form :model="importform" ref="importForm">
         <el-upload
           class="upload-demo"
           ref="upload"
-          name="excel"
+          name="file"
           :multiple="false"
           accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
           :action="$api.rootUrl+'/manage-platform/airportManage/importFlightManage'"
@@ -314,28 +315,6 @@ export default {
       ],
       tableData: [],
       multipleSelection: [],
-      pickerOptions1: {
-        // shortcuts: [{
-        //   text: '今天',
-        //   onClick(picker) {
-        //     picker.$emit('pick', new Date());
-        //   }
-        // }, {
-        //   text: '昨天',
-        //   onClick(picker) {
-        //     const date = new Date();
-        //     date.setTime(date.getTime() - 3600 * 1000 * 24);
-        //     picker.$emit('pick', date);
-        //   }
-        // }, {
-        //   text: '一周前',
-        //   onClick(picker) {
-        //     const date = new Date();
-        //     date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
-        //     picker.$emit('pick', date);
-        //   }
-        // }]
-      },
       form: {},
       dform: {},
     }
@@ -380,6 +359,10 @@ export default {
           this.tableData = r.data.resultList;
           this.TotalResult = r.data.totalResult;
         })
+    },
+    download(){
+      window.location.href=this.$api.rootUrl+'/manage-platform/templateFile/airport_temple.xlsx'
+      // window.location.href='http://192.168.99.245:8080/manage-platform/templateFile/airport_temple.xlsx'
     },
     handleClose(){//关闭文件上传模态框
       this.cancelUpload();
@@ -466,6 +449,7 @@ export default {
         for(var i=0;i<arr.length;i++){
           if(arr[i].code == data){
             that.addSelection=arr[i].countryList;
+            this.form.continentsName = arr[i].name;
           }
         }
       }
@@ -510,6 +494,15 @@ export default {
          }
        })
     },
+    cityReal(val){
+      let arr = this.addCityName;
+      let that = this;
+      for(var i=0;i<arr.length;i++){
+        if(arr[i].citycode == val){
+          this.form.cityName = arr[i].cityname
+        }
+      }
+    },
     takeOff(type){//调用起飞机场
       this.$api.post('/manage-platform/codeTable/queryAirport',{},
        r =>{
@@ -546,6 +539,13 @@ export default {
           this.able=false;
         }else if(type==1){
           this.addAble=false;
+          let arr = this.addSelection;
+          let that = this;
+          for(var i=0;i<arr.length;i++){
+            if(arr[i].CODE == val){
+              this.form.countryName = arr[i].CNAME
+            }
+          }
         }
       }
     },
@@ -559,6 +559,7 @@ export default {
       }else {
         this.tp = 0;
         this.dialogText="新增";
+        this.form={};
       }
 
     },
@@ -590,9 +591,9 @@ export default {
 
     deletes(i) {
       let p = {
-        "SERIAL": i.SERIAL
+        "airportCode": i.airportCode
       };
-      this.$confirm('您是否确认删除此部门？', '提示', {
+      this.$confirm('您是否确认删除本条数据？', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
