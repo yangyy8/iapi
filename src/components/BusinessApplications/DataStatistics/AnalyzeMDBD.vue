@@ -81,7 +81,7 @@
           <el-row align="center"   :gutter="2" class="yy-line">
 
             <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
-              <span class="input-text">行属性：</span>
+              <span class="input-text"> 行属性：</span>
               <el-checkbox label="国籍" v-model="pd.rowproperty_country"></el-checkbox>
               <el-checkbox label="目的地" v-model="pd.rowproperty_cityto"></el-checkbox>
               <el-checkbox label="航班" v-model="pd.rowproperty_fltno"></el-checkbox>
@@ -234,10 +234,7 @@ export default {
       pageSize: 10,
       TotalResult: 0,
       pd: {
-        begin: '',
-        end: '',
-        synFlag: '0',
-        rzlx: '0'
+      begintime:'',endtime:''
       },
       nation: [],
       company: [],
@@ -290,24 +287,21 @@ export default {
   },
   mounted() {
     this.queryNationality();
-
     let time = new Date();
     let endz = new Date();
     let beginz = new Date(time - 1000 * 60 * 60 * 24 * 30);
     this.pd.begintime = formatDate(beginz, 'yyyyMMdd');
     this.pd.endtime = formatDate(endz, 'yyyyMMdd');
-    console.log(begintime+"--"+endtime);
-    //  this.getList(this.CurrentPage, this.pageSize, this.pd);
+
   },
   activated() {
     this.queryNationality();
-
     let time = new Date();
     let endz = new Date();
     let beginz = new Date(time - 1000 * 60 * 60 * 24 * 30);
     this.pd.begintime = formatDate(beginz, 'yyyyMMdd');
     this.pd.endtime = formatDate(endz, 'yyyyMMdd');
-    //  this.getList(this.CurrentPage, this.pageSize, this.pd);
+
   },
   methods: {
     base() {

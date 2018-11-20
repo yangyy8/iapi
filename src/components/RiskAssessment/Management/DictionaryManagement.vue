@@ -1,11 +1,9 @@
 <template lang="html">
   <div class="zlbg">
-    <div class="middle-top mb-2">
-      <el-row type="flex" class="middle">
+    <div class="middle mb-6">
+      <el-row type="flex" >
         <el-col :span="22" class="br pr-20">
-          <div class="title-green">
-            查询条件
-          </div>
+
           <el-row align="center"   :gutter="2" >
             <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
               <span class="input-text">字典名称：</span>
@@ -32,7 +30,7 @@
 
           </el-row>
         </el-col>
-        <el-col :span="2" class="down-btn-area" style="padding-top:30px;">
+        <el-col :span="2" class="down-btn-area">
           <el-button type="success" size="small" @click="getList(CurrentPage,pageSize,pd)">查询</el-button>
         </el-col>
       </el-row>
@@ -145,7 +143,7 @@
         <el-row type="flex" class="mb-6" >
           <el-col :span="24" class="input-item">
             <span class="yy-input-text">字典项描述：</span>
-           <el-input type="textarea" placeholder="请输入内容" maxlength="250" :autosize="{ minRows: 3, maxRows: 6}" v-model="form.REASON" class="yy-input-input"></el-input>
+           <el-input type="textarea" placeholder="请输入内容" maxlength="250" :autosize="{ minRows: 3, maxRows: 6}" v-model="form.DESCRIBE" class="yy-input-input"></el-input>
           </el-col>
         </el-row>
       </el-form>

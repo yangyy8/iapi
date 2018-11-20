@@ -82,7 +82,7 @@
                 <div class="input-input t-flex t-date">
                   <el-input-number size="small" v-model="pd.eachEvent_start"></el-input-number>
                   <span class="septum">-</span>
-                  <el-input-number size="small" v-model="pd.eachEvent_start"></el-input-number>
+                  <el-input-number size="small" v-model="pd.eachEvent_end"></el-input-number>
                 </div>
               </el-col>
               <el-col :sm="24" :md="12"  :lg="8" class="input-item">
@@ -113,16 +113,7 @@
                   </el-option>
                 </el-select>
               </el-col>
-              <el-col :sm="24" :md="12"  :lg="8" class="input-item">
-                <span class="input-text">当前状态：</span>
-                <el-select v-model="pd.status" placeholder="请选择"  size="small" clearable filterable class="block input-input">
-                  <el-option label="0 - 全部" value="0"></el-option>
-                  <el-option label="1 - 未核查" value="1"></el-option>
-                  <el-option label="2 - 已核查" value="2"></el-option>
-                  <el-option label="3 - 已流转" value="3"></el-option>
-                  <el-option label="4 - 已归档" value="4"></el-option>
-                </el-select>
-              </el-col>
+
               <el-col :sm="24" :md="12" :lg="8" class="input-item">
                 <span class="input-text">推送人：</span>
                 <el-input v-model="pd.change_people" placeholder="请输入内容" size="small" clearable class="input-input"></el-input>
@@ -132,7 +123,7 @@
                 <el-input v-model="pd.processor_people" placeholder="请输入内容" size="small" clearable class="input-input"></el-input>
               </el-col>
               <el-col :sm="24" :md="12" :lg="8" class="input-item">
-                <span class="input-text">本事件核查次数：</span>
+                <span class="input-text">归档人：</span>
                 <el-input v-model="pd.checkNumber" placeholder="请输入内容" size="small" clearable class="input-input"></el-input>
               </el-col>
             </el-row>
@@ -149,7 +140,7 @@
         </el-row>
     </div>
     <div class="middle t-table">
-      <div class="ak-tab">
+      <!-- <div class="ak-tab">
         <div class="ak-tabs">
           <div class="ak-tab-item hand" :class="{'ak-checked':pd.type==0}" @click="pd.type=0">
             全部
@@ -168,10 +159,10 @@
           </div>
 
         </div>
-      </div>
-      <div class="ak-tab-pane" >
-        <el-button type="primary" class="mr-5" plain size="small" @click="openGdTc" :disabled="isdisable">批量归档</el-button>
-        <el-button type="primary" plain size="small" @click="openCzTc" :disabled="isdisable">批量事件处理</el-button>
+      </div> -->
+      <div class="" >
+        <!-- <el-button type="primary" class="mr-5" plain size="small" @click="openGdTc" :disabled="isdisable">批量归档</el-button>
+        <el-button type="primary" plain size="small" @click="openCzTc" :disabled="isdisable">批量事件处理</el-button> -->
 
         <el-table
           class="mt-10"
@@ -179,28 +170,14 @@
           :data="tableData"
           border
           cell-class-name="cellClass"
-          @selection-change="handleSelectionChange"
           style="width: 100%;">
           <el-table-column
-           fixed
-           width="40"
-           type="selection">
-          </el-table-column>
-          <el-table-column
-            label="事件编号"
+            label="唯一编号"
             prop="serial">
           </el-table-column>
           <el-table-column
             label="姓名"
             prop="name">
-          </el-table-column>
-          <el-table-column
-            label="出入标识"
-            prop="flightTypeName">
-          </el-table-column>
-          <el-table-column
-            label="性别"
-            prop="genderName">
           </el-table-column>
           <el-table-column
             label="出生日期"
@@ -210,6 +187,10 @@
           <el-table-column
             label="国籍"
             prop="nationalityName">
+          </el-table-column>
+          <el-table-column
+            label="出入标识"
+            prop="flightTypeName">
           </el-table-column>
           <el-table-column
             label="证件类型"
@@ -236,60 +217,43 @@
             prop="hit_rule_name">
           </el-table-column>
           <el-table-column
-            label="中心/口岸"
-            width="100"
-            prop="centre_port">
-          </el-table-column>
-          <el-table-column
             label="风险等级"
             width="150">
             <template slot-scope="scope">
               <el-rate :value="scope.row.grade" size="mini" disabled class="mb-9"></el-rate>
             </template>
-
+          </el-table-column>
+          <el-table-column
+            label="风评结果"
+            prop="processorresult">
+          </el-table-column>
+          <el-table-column
+            label="中心/口岸"
+            width="100"
+            prop="centre_port">
+          </el-table-column>
+          <el-table-column
+            label="推送人"
+            prop="processor_peopleName">
           </el-table-column>
           <el-table-column
             label="处理人"
             prop="processor_peopleName">
           </el-table-column>
           <el-table-column
-            label="当前状态"
-            prop="statusName">
+            label="归档人"
+            prop="processor_peopleName">
           </el-table-column>
           <el-table-column
-            label="核查次数"
-            prop="checknumber">
-          </el-table-column>
-          <el-table-column
-            label="最新核查结果"
-            width="120"
-            prop="newcheckresult">
-          </el-table-column>
-          <el-table-column
-            label="历次风评">
-            <template slot-scope="scope">
-              <el-popover
-                placement="top"
-                width="400"
-                trigger="click">
-                <ul>
-                  <li v-for="i in eachData">
-                    <span>  创建时间：{{i.CREATETIME}}</span>
-                    <span>  口岸名称：{{i.PORT_NAME}}</span>
-                    <span>  处理结果：{{i.PROCESSORRESULT}}</span>
-                  </li>
-                </ul>
-                <div class="tc-b hand" title="查看详情" slot="reference" @click="queryEach(scope.row.serial,scope.row.nationality,scope.row.passportno)">{{scope.row.eachevent}}</div>
-              </el-popover>
-
-            </template>
+            label="归档时间"
+            prop="archive_time">
           </el-table-column>
           <el-table-column
             label="操作"
-            width="120">
+            width="100">
             <template slot-scope="scope">
-              <el-button type="text" class="a-btn" icon="el-icon-view" title="查看" @click="$router.push({name:'BJSJCK',query:{serial:scope.row.serial,page:0}})"></el-button>
-              <el-button type="text" class="a-btn" icon="el-icon-edit-outline"  title="处理" @click="$router.push({name:'BJSJCK',query:{serial:scope.row.serial,page:1,operation_type:1}})"></el-button>
+              <el-button type="text" class="a-btn" icon="el-icon-view" title="查看" @click="$router.push({name:'BJCLCX',query:{serial:scope.row.serial}})"></el-button>
+              <el-button type="text" class="a-btn" icon="el-icon-edit-outline"  title="归档追加" @click="openGdTc(scope.row)"></el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -325,55 +289,8 @@
         </div>
       </div>
     </div>
-    <el-dialog title="批量事件处理" :visible.sync="czDialogVisible" width="640px" :before-close="handleClose">
-      <el-form :model="czform" ref="czForm">
-        <div class=" boder1 mb-15">
-          <div class="f-bold mb-9">
-            处理结果描述
-          </div>
-          <el-input
-            class="mb-9"
-            type="textarea"
-            v-model="czform.processor_desc"
-            :rows="3"
-            placeholder="请输入描述意见">
-          </el-input>
-        </div>
 
-        <div class="f-bold mb-9">
-          处理结果
-        </div>
-        <el-row align="center" :gutter="2">
-          <el-col  :sm="24" :md="12" :lg="12"  class="input-item">
-            <span class="mr-5">处理结果 </span>
-            <el-select v-model="czform.processorResult" filterable clearable placeholder="请选择"  size="small" class="input-input">
-              <el-option label="1 - 排除嫌疑" value="1"></el-option>
-              <el-option label="2 -  未能排除嫌疑，待进一步核查" value="2"></el-option>
-
-            </el-select>
-          </el-col>
-          <el-col  :sm="24" :md="12" :lg="12"  class="input-item">
-            <span  class="mr-5">扭转至 </span>
-            <el-select v-model="czform.change_port" filterable clearable placeholder="请选择"  size="small" class="input-input">
-              <el-option
-                v-for="item in airport"
-                v-if="item.JCDM"
-                :key="item.JCDM"
-                :label="item.JCDM+' - '+item.KAMC"
-                :value="item.JCDM">
-              </el-option>
-            </el-select>
-          </el-col>
-
-        </el-row>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="czSave" size="small">确认</el-button>
-        <el-button type="warning" @click="czDialogVisible=false" size="small">取消</el-button>
-
-      </div>
-    </el-dialog>
-    <el-dialog title="批量归档" :visible.sync="gdDialogVisible" width="640px" :before-close="handleClose">
+    <el-dialog title="归档追加" :visible.sync="gdDialogVisible" width="640px" :before-close="handleClose">
       <el-form :model="gdform" ref="gdForm">
         <div class="mb-15">
           <div class="f-bold mb-9">
@@ -422,7 +339,6 @@
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="gdSave" size="small">确认</el-button>
         <el-button type="warning" @click="gdDialogVisible=false" size="small">取消</el-button>
-
       </div>
     </el-dialog>
   </div>
@@ -441,7 +357,7 @@ export default {
       CurrentPage:1,
       pageSize:10,
       TotalResult:0,
-      pd:{type:'0',status:'0'},
+      pd:{},
       airport:null,
       docCode:null,
       nationAlone:null,
@@ -573,7 +489,8 @@ export default {
       gdform:{},
 
       checkedtag:[],
-      taged:0
+      taged:0,
+      checkeditem:null,
     }
   },
   mounted(){
@@ -636,7 +553,7 @@ export default {
         "currentPage": CurrentPage,
         "pd": pd
       }
-      this.$api.post('/manage-platform/riskEventController/queryRiskEventInfo',p,
+      this.$api.post('/manage-platform/riskEventController/queryRiskGdEventInfo',p,
        r => {
          console.log(r)
          this.tableData=r.data.resultList;
@@ -692,8 +609,9 @@ export default {
         console.log(value);
         console.log(this.gdform.processorResult)
     },
-    openGdTc(){
+    openGdTc(item){
       this.gdform={};
+      this.checkeditem=item;
       this.gdDialogVisible=true;
       this.getBatchEventArchiveTagInfo();
     },
@@ -706,38 +624,35 @@ export default {
       })
     },
     gdSave(){
-      let arr1=this.multipleSelection;
       let p={
-        list:[]
+        list:[
+          {
+            "eventSerial":this.checkeditem.serial,
+      			"newcheckresult":this.checkeditem.newcheckresult,
+      			"archive_pepole":this.checkeditem.archive_pepole,
+      			"describe":this.gdform.describe,
+      			"type":"1",
+      			"IOType":this.gdform.processorResult[0],
+      			"firstType":this.gdform.processorResult[1],
+      			"secondType":this.gdform.processorResult[2],
+      			"tag_type":"1",
+      			"tag_code":"111",
+      			"tag_name":"111",
+      			"tag_remar":"111",
+      			"userId":"111",
+      			"operation_type":"1",
+      			"add_remark":"111",
+      			"add_tagtype":"1"
+          }
+        ]
       };
-      let that=this;
-      for(var i=0;i<arr1.length;i++){
-        let a={
-          "eventSerial":arr1[i].serial,
-    			"newcheckresult":arr1[i].newcheckresult,
-    			"archive_pepole":arr1[i].archive_pepole,
-    			"describe":that.gdform.describe,
-    			"type":"1",
-    			"IOType":that.gdform.processorResult[0],
-    			"firstType":that.gdform.processorResult[1],
-    			"secondType":that.gdform.processorResult[2],
-    			"tag_type":"1",
-    			"tag_code":"111",
-    			"tag_name":"111",
-    			"tag_remar":"111",
-    			"userId":"111",
-    			"operation_type":"1",
-    			"add_remark":"111",
-    			"add_tagtype":"1"
-        }
-        p.list.push(a)
-      }
+
 
       this.$api.post('/manage-platform/riskEventController/saveBatchEventArchiveInfo',p,
        r => {
          if(r.success){
            this.$message({
-             message: '恭喜你，操作成功！',
+             message: '恭喜你，归档成功！',
              type: 'success'
            });
            this.gdDialogVisible=false;

@@ -51,6 +51,7 @@ Vue.prototype.$api = api;
 
 
 router.beforeResolve((to, from, next) => {
+
   let state=false;
   api.post('/manage-platform/isLanding',{},
    r => {

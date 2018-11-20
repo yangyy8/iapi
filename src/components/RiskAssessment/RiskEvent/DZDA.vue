@@ -58,6 +58,8 @@
                   <div class="">
                     <el-tag type="warning" size="small" class="mr-5" v-for="(x,ind) in dataTag.validList" :key="ind" v-if="x.OPERATION_TYPE==1">{{x.TAG_NAME}}</el-tag>
                     <el-tag type="info" size="small" class="mr-5" v-for="(x,ind) in dataTag.validList" :key="ind" v-if="x.OPERATION_TYPE==2">{{x.TAG_NAME}}</el-tag>
+                    <el-button type="success" size="mini" plain @click="addTagFn('1')">添加</el-button>
+                    <el-button type="danger" size="mini" plain @click="addTagFn('2')">删除</el-button>
 
                     <el-button type="text" size="small" @click="moreShow=true" v-if="!moreShow">查看更多 ></el-button>
                     <el-button type="text" size="small" @click="moreShow=false" v-if="moreShow">收起<</el-button>
@@ -125,11 +127,11 @@
                   </el-table-column>
                   <el-table-column
                     label="处理时间"
-                    prop="PROCESSOR_TIME">
+                    prop="ARCHIVE_TIME">
                   </el-table-column>
                   <el-table-column
                     label="中心/口岸"
-                    prop="CENTRE_PORT">
+                    prop="PORT_NAME">
                   </el-table-column>
                   <el-table-column
                     label="结果"
@@ -137,7 +139,7 @@
                   </el-table-column>
                   <el-table-column
                     label="追加描述"
-                    prop="PROCESSOR_TIME">
+                    prop="REMARK">
                   </el-table-column>
                   <el-table-column
                     label="处理人"
@@ -145,11 +147,11 @@
                   </el-table-column>
                   <el-table-column
                     label="联系方式"
-                    prop="PROCESSOR_TIME">
+                    prop="PHONE">
                   </el-table-column>
                   <el-table-column
                     label="单位"
-                    prop="PROCESSOR_TIME">
+                    prop="DEPT_QC">
                   </el-table-column>
                   <el-table-column
                     label="操作">
@@ -206,47 +208,47 @@
                   <el-row class="middle-msg-row2" :gutter="2">
                     <el-col :span="6">
                       <span>国籍地区：</span>
-                      张某某
+                      {{data4.nationalityName}}
                     </el-col>
                     <el-col :span="6">
                       <span>性别：</span>
-                      张某某
+                      {{data4.gender_name}}
                     </el-col>
                     <el-col :span="6">
                       <span>航空公司：</span>
-                      张
+                      {{data4.applicationsenderid}}
                     </el-col>
                     <el-col :span="6">
                       <span>旅客订票号：</span>
-                      某某
+                      {{data4.tktnumber}}
                     </el-col>
                     <el-col :span="6">
                       <span>证件号码：</span>
-                      某某
+                      {{data4.passportno}}
                     </el-col>
                     <el-col :span="6">
                       <span>出生日期：</span>
-                      张某某
+                      {{data4.birthday}}
                     </el-col>
                     <el-col :span="6">
                       <span>航班时间：</span>
-                      张某某
+                      {{data4.fltnoDate}}
                     </el-col>
                     <el-col :span="6">
                       <span>旅客状态：</span>
-                      张某某
+                      {{data4.passengerStatusName}}
                     </el-col>
                     <el-col :span="6">
                       <span>姓名：</span>
-                      张某某
+                      {{data4.name}}
                     </el-col>
                     <el-col :span="6">
                       <span>航班号：</span>
-                      是
+                      {{data4.flight_recordnum}}
                     </el-col>
                     <el-col :span="6" class="tc-999">
                       <span>出入标识：</span>
-                      A1311441
+                      {{data4.flightType_name}}
                     </el-col>
                   </el-row>
                 </div>
@@ -288,6 +290,9 @@
                   </el-table-column>
                   <el-table-column
                     label="操作">
+                    <template slot-scope="scope">
+                      <el-button type="text" class="a-btn" icon="el-icon-view" title="查看" @click="moreFn('box5',scope.row)"></el-button>
+                    </template>
                   </el-table-column>
                 </el-table>
               </div>
@@ -298,45 +303,60 @@
               </div>
               <div v-if="box6">
                 <el-table
-                  :data="tableData3"
+                  :data="data6"
                   class="ak-table2"
                   border
                   style="width: 100%">
                   <el-table-column
-                    label="姓名">
+                    label="姓名"
+                    prop="pers_name">
                   </el-table-column>
                   <el-table-column
-                    label="出入标识">
+                    label="出入标识"
+                    prop="in_out_flag">
                   </el-table-column>
                   <el-table-column
-                    label="国籍/地区">
+                    label="国籍/地区"
+                    prop="to_country_code">
                   </el-table-column>
                   <el-table-column
-                    label="性别">
+                    label="性别"
+                    prop="pers_gender">
                   </el-table-column>
                   <el-table-column
-                    label="出生日期">
+                    label="出生日期"
+                    prop="birth_date">
                   </el-table-column>
                   <el-table-column
-                    label="证件类型">
+                    label="证件类型"
+                    prop="cert_type_na">
                   </el-table-column>
                   <el-table-column
-                    label="证件号码">
+                    label="证件号码"
+                    prop="cert_no">
+                    <template slot-scope="scope">
+                      <span class="tc-b hand" @click="moreFn('box6',scope.row)">{{scope.row.cert_no}}</span>
+                    </template>
                   </el-table-column>
                   <el-table-column
-                    label="出入时间">
+                    label="出入时间"
+                    prop="imm_dt">
                   </el-table-column>
                   <el-table-column
-                    label="出入口岸">
+                    label="出入口岸"
+                    prop="imm_port">
                   </el-table-column>
                   <el-table-column
-                    label="交通方式">
+                    label="交通方式"
+                    prop="trs_mode_na">
                   </el-table-column>
                   <el-table-column
-                    label="交通工具">
+                    label="交通工具"
+                    prop="trs_id">
                   </el-table-column>
                   <el-table-column
-                    label="前往地/出发地">
+                    label="前往地/出发地"
+                    prop="to_country_code">
                   </el-table-column>
                 </el-table>
               </div>
@@ -347,7 +367,7 @@
               </div>
               <div v-if="box7">
                 <el-table
-                  :data="tableData4"
+                  :data="data7"
                   class="ak-table2"
                   border
                   style="width: 100%">
@@ -396,51 +416,93 @@
               </div>
               <div v-if="box8">
                 <el-table
-                  :data="tableData5"
+                  :data="data8"
                   class="ak-table2"
                   border
                   style="width: 100%">
                   <el-table-column
                     label="英文姓名">
+                    <template slot-scope="scope">
+                      <span>{{scope.row.pers_name||scope.row.eng_name||scope.row.pers_name_en||'-'}}</span>
+                    </template>
                   </el-table-column>
                   <el-table-column
                     label="中文姓名">
+                    <template slot-scope="scope">
+                      <span>{{scope.row.pers_name_cn||scope.row.chn_name||scope.row.pers_name_cn||'-'}}</span>
+                    </template>
                   </el-table-column>
                   <el-table-column
                     label="性别">
+                    <template slot-scope="scope">
+                      <span>{{scope.row.pers_gender_na||scope.row.gender_na||scope.row.pers_gender_na||'-'}}</span>
+                    </template>
                   </el-table-column>
                   <el-table-column
                     label="出生日期">
+                    <template slot-scope="scope">
+                      <span>{{scope.row.pers_birth_date||scope.row.birth_date||scope.row.pers_birth_date||'-'}}</span>
+                    </template>
                   </el-table-column>
                   <el-table-column
                     label="证件号码">
+                    <template slot-scope="scope">
+                      <span class="tc-b hand" @click="moreFn('box8',scope.row)">{{scope.row.cert_no||scope.row.cert_no||scope.row.passport_no||'-'}}</span>
+                    </template>
                   </el-table-column>
                   <el-table-column
                     label="国籍/地区">
+                    <template slot-scope="scope">
+                      <span>{{nationalityName}}</span>
+                    </template>
                   </el-table-column>
                   <el-table-column
                     label="团队号">
+                    <template slot-scope="scope">
+                      <span>{{scope.row.group_no||scope.row.pers_name_en||'-'}}</span>
+                    </template>
                   </el-table-column>
                   <el-table-column
                     label="签证种类">
+                    <template slot-scope="scope">
+                      <span>{{scope.row.holding_cert_type_na||scope.row.visa_type_na||scope.row.pers_name_en||'-'}}</span>
+                    </template>
                   </el-table-column>
                   <el-table-column
                     label="签证号码">
+                    <template slot-scope="scope">
+                      <span>{{scope.row.holding_cert_no||scope.row.visa_no||scope.row.pers_name_en||'-'}}</span>
+                    </template>
                   </el-table-column>
                   <el-table-column
                     label="审批机关">
+                    <template slot-scope="scope">
+                      <span>{{scope.row.accept_dept_na||scope.row.accept_organ_na||scope.row.issuing_organ_na||'-'}}</span>
+                    </template>
                   </el-table-column>
                   <el-table-column
                     label="签发日期">
+                    <template slot-scope="scope">
+                      <span>{{scope.row.issuing_date||scope.row.visa_date||scope.row.issuing_date||'-'}}</span>
+                    </template>
                   </el-table-column>
                   <el-table-column
                     label="有效期至">
+                    <template slot-scope="scope">
+                      <span>{{scope.row.cert_vld||scope.row.visa_vld||scope.row.cert_vld||'-'}}</span>
+                    </template>
                   </el-table-column>
                   <el-table-column
                     label="有效次数">
+                    <template slot-scope="scope">
+                      <span>{{scope.row.visa_eff_nbr||scope.row.renewal_nbr||'-'}}</span>
+                    </template>
                   </el-table-column>
                   <el-table-column
                     label="联系电话">
+                    <template slot-scope="scope">
+                      <span>{{scope.row.contact_tel||scope.row.domestic_tel||scope.row.pers_telno||'-'}}</span>
+                    </template>
                   </el-table-column>
                 </el-table>
               </div>
@@ -451,63 +513,81 @@
               </div>
               <div v-if="box9">
                 <el-table
-                  :data="tableData6"
+                  :data="data9"
                   class="ak-table2"
                   border
                   style="width: 100%">
                   <el-table-column
-                    label="姓名">
+                    label="姓名"
+                    prop="pers_name">
                   </el-table-column>
                   <el-table-column
-                    label="证件种类">
+                    label="证件种类"
+                    prop="cert_type_na">
                   </el-table-column>
                   <el-table-column
-                    label="证件号码">
+                    label="证件号码"
+                    prop="cert_no">
                   </el-table-column>
                   <el-table-column
-                    label="性别">
+                    label="性别"
+                    prop="gender_na">
                   </el-table-column>
                   <el-table-column
-                    label="国籍/地区">
+                    label="国籍/地区"
+                    prop="pers_name">
                   </el-table-column>
                   <el-table-column
-                    label="出生日期">
+                    label="出生日期"
+                    prop="birth_date">
                   </el-table-column>
                   <el-table-column
-                    label="自述姓名">
+                    label="自述姓名"
+                    prop="confess_name">
                   </el-table-column>
                   <el-table-column
-                    label="自述出生日期">
+                    label="自述出生日期"
+                    prop="confess_birth_date">
                   </el-table-column>
                   <el-table-column
-                    label="自述国家地区代码">
+                    label="自述国家地区代码"
+                    prop="confess_country_code">
                   </el-table-column>
                   <el-table-column
-                    label="自述证件号码">
+                    label="自述证件号码"
+                    prop="confess_cert_no">
                   </el-table-column>
                   <el-table-column
-                    label="往来国">
+                    label="往来国"
+                    prop="tf_country_code">
                   </el-table-column>
                   <el-table-column
-                    label="交通标识">
+                    label="交通标识"
+                    prop="trs_mode_na">
                   </el-table-column>
                   <el-table-column
-                    label="查获时间">
+                    label="查获时间"
+                    prop="catch_dt">
                   </el-table-column>
                   <el-table-column
-                    label="事件类型">
+                    label="事件类型"
+                    prop="evt_types_na">
                   </el-table-column>
                   <el-table-column
-                    label="事件性质">
+                    label="事件性质"
+                    prop="evt_char_na">
                   </el-table-column>
                   <el-table-column
-                    label="事件主题关键字">
+                    label="事件主题关键字"
+                    prop="evt_theme">
                   </el-table-column>
                   <el-table-column
-                    label="处理结果">
+                    label="处理结果"
+                    prop="ill_deal_rsn_na">
                   </el-table-column>
                   <el-table-column
-                    label="查获口岸">
+                    label="查获口岸"
+                    prop="">
                   </el-table-column>
                 </el-table>
               </div>
@@ -518,42 +598,56 @@
               </div>
               <div v-if="box10">
                 <el-table
-                  :data="tableData7"
+                  :data="data10"
                   class="ak-table2"
                   border
                   style="width: 100%">
                   <el-table-column
-                    label="证件号码">
+                    label="证件号码"
+                    prop="cert_no">
+                    <template slot-scope="scope">
+                      <span class="tc-b hand" @click="moreFn('box10',scope.row)">{{scope.row.cert_no||'-'}}</span>
+                    </template>
                   </el-table-column>
                   <el-table-column
-                    label="人员类别">
+                    label="人员类别"
+                    prop="pers_imm_type_na">
                   </el-table-column>
                   <el-table-column
-                    label="证件种类">
+                    label="证件种类"
+                    prop="cert_type_na">
                   </el-table-column>
                   <el-table-column
-                    label="业务类型">
+                    label="业务类型"
+                    prop="repat_type">
                   </el-table-column>
                   <el-table-column
-                    label="第二证件号码">
+                    label="第二证件号码"
+                    prop="sec_cert_no">
                   </el-table-column>
                   <el-table-column
-                    label="录入时间">
+                    label="录入时间"
+                    prop="edit_dt">
                   </el-table-column>
                   <el-table-column
-                    label="遣返遣送口岸">
+                    label="遣返遣送口岸"
+                    prop="repat_port_na">
                   </el-table-column>
                   <el-table-column
-                    label="遣返遣送国家">
+                    label="遣返遣送国家"
+                    prop="repat_country_na">
                   </el-table-column>
                   <el-table-column
-                    label="遣返遣送原因">
+                    label="遣返遣送原因"
+                    prop="repat_rsn_na">
                   </el-table-column>
                   <el-table-column
-                    label="交通标识">
+                    label="交通标识"
+                    prop="trs_id">
                   </el-table-column>
                   <el-table-column
-                    label="往来国">
+                    label="往来国"
+                    prop="">
                   </el-table-column>
                 </el-table>
               </div>
@@ -567,84 +661,112 @@
                   <span>外管常住信息</span>
                 </div>
                 <el-table
-                  :data="tableData8"
+                  :data="data11_1"
                   class="ak-table2"
                   border
                   style="width: 100%">
                   <el-table-column
-                    label="英文姓名">
+                    label="英文姓名"
+                    prop="eng_name">
                   </el-table-column>
                   <el-table-column
-                    label="中文姓名">
+                    label="中文姓名"
+                    prop="chn_name">
                   </el-table-column>
                   <el-table-column
-                    label="证件号码">
+                    label="证件号码"
+                    prop="cert_no">
+                    <template slot-scope="scope">
+                      <span class="tc-b hand" @click="moreFn('box11',scope.row)">{{scope.row.cert_no||'-'}}</span>
+                    </template>
                   </el-table-column>
                   <el-table-column
-                    label="出生日期">
+                    label="出生日期"
+                    prop="birth_date">
                   </el-table-column>
                   <el-table-column
-                    label="国籍/地区">
+                    label="国籍/地区"
+                    prop="pers_country">
                   </el-table-column>
                   <el-table-column
-                    label="性别">
+                    label="性别"
+                    prop="gender_na">
                   </el-table-column>
                   <el-table-column
-                    label="签证号码">
+                    label="签证号码"
+                    prop="prmt_no">
                   </el-table-column>
                   <el-table-column
-                    label="审批机关">
+                    label="审批机关"
+                    prop="issuing_organ_na">
                   </el-table-column>
                   <el-table-column
-                    label="登记单位">
+                    label="登记单位"
+                    prop="">
                   </el-table-column>
                   <el-table-column
-                    label="登记时间">
+                    label="登记时间"
+                    prop="">
                   </el-table-column>
                   <el-table-column
-                    label="住宿地点">
+                    label="住宿地点"
+                    prop="">
                   </el-table-column>
                 </el-table>
                 <div class="box2-t-box">
                   <span>外管临住信息</span>
                 </div>
                 <el-table
-                  :data="tableData9"
+                  :data="data11_2"
                   class="ak-table2"
                   border
                   style="width: 100%">
                   <el-table-column
-                    label="英文姓名">
+                    label="英文姓名"
+                    prop="eng_name">
                   </el-table-column>
                   <el-table-column
-                    label="中文姓名">
+                    label="中文姓名"
+                    prop="chn_name">
                   </el-table-column>
                   <el-table-column
-                    label="证件号码">
+                    label="证件号码"
+                    prop="hold_cert_no">
+                    <template slot-scope="scope">
+                      <span class="tc-b hand" @click="moreFn('box11',scope.row)">{{scope.row.hold_cert_no||'-'}}</span>
+                    </template>
                   </el-table-column>
                   <el-table-column
-                    label="出生日期">
+                    label="出生日期"
+                    prop="birth_date">
                   </el-table-column>
                   <el-table-column
-                    label="国籍/地区">
+                    label="国籍/地区"
+                    prop="country_na">
                   </el-table-column>
                   <el-table-column
-                    label="性别">
+                    label="性别"
+                    prop="gender_na">
                   </el-table-column>
                   <el-table-column
-                    label="签证号码">
+                    label="签证号码"
+                    prop="visas_no">
                   </el-table-column>
                   <el-table-column
-                    label="审批机关">
+                    label="审批机关"
+                    prop="issuing_unit_na">
                   </el-table-column>
                   <el-table-column
-                    label="登记单位">
+                    label="登记单位"
+                    prop="tsu_name">
                   </el-table-column>
                   <el-table-column
-                    label="登记时间">
+                    label="登记时间"
+                    prop="">
                   </el-table-column>
                   <el-table-column
-                    label="住宿地点">
+                    label="住宿地点"
+                    prop="">
                   </el-table-column>
                 </el-table>
               </div>
@@ -655,18 +777,21 @@
               </div>
               <div v-if="box12">
                 <el-table
-                  :data="tableData10"
+                  :data="data12"
                   class="ak-table2"
                   border
                   style="width: 100%">
                   <el-table-column
-                    label="案件名">
+                    label="案件名"
+                    prop="">
                   </el-table-column>
                   <el-table-column
-                    label="案事件性质">
+                    label="案事件性质"
+                    prop="">
                   </el-table-column>
                   <el-table-column
-                    label="涉案事件类别">
+                    label="涉案事件类别"
+                    prop="">
                   </el-table-column>
                   <el-table-column
                     label="立(受)案时间">
@@ -686,60 +811,74 @@
                   <span>收缴证件信息</span>
                 </div>
                 <el-table
-                  :data="tableData11"
+                  :data="data13_1"
                   class="ak-table2"
                   border
                   style="width: 100%">
                   <el-table-column
-                    label="证件姓名">
+                    label="证件姓名"
+                    prop="cert_name">
                   </el-table-column>
                   <el-table-column
-                    label="证件类别">
+                    label="证件类别"
+                    prop="cert_type">
                   </el-table-column>
                   <el-table-column
-                    label="收缴原因">
+                    label="收缴原因"
+                    prop="capt_rsn_desc">
                   </el-table-column>
                   <el-table-column
-                    label="收缴日期">
+                    label="收缴日期"
+                    prop="capt_date">
                   </el-table-column>
                   <el-table-column
-                    label="收缴人">
+                    label="收缴人"
+                    prop="capt_oper">
                   </el-table-column>
                   <el-table-column
-                    label="部门">
+                    label="部门"
+                    prop="dept_na">
                   </el-table-column>
                 </el-table>
                 <div class="box2-t-box">
                   <span>收缴物品信息</span>
                 </div>
                 <el-table
-                  :data="tableData12"
+                  :data="data13_2"
                   class="ak-table2"
                   border
                   style="width: 100%">
                   <el-table-column
-                    label="名称">
+                    label="名称"
+                    prop="res_name">
                   </el-table-column>
                   <el-table-column
-                    label="种类">
+                    label="种类"
+                    prop="res_name">
                   </el-table-column>
                   <el-table-column
-                    label="数量">
+                    label="数量"
+                    prop="res_nbr">
                   </el-table-column>
                   <el-table-column
-                    label="规格">
+                    label="规格"
+                    prop="res_specs">
                   </el-table-column>
                   <el-table-column
-                    label="查获日期">
+                    label="查获日期"
+                    prop="seize_date">
                   </el-table-column>
                   <el-table-column
-                    label="部门">
+                    label="部门"
+                    prop="dept_na">
                   </el-table-column>
                   <el-table-column
-                    label="处理口岸">
+                    label="处理口岸"
+                    prop="port_na">
                   </el-table-column>
                   <el-table-column
-                    label="物品性质">
+                    label="物品性质"
+                    prop="res_prpt_na">
                   </el-table-column>
                 </el-table>
               </div>
@@ -750,42 +889,58 @@
               </div>
               <div v-if="box14">
                 <el-table
-                  :data="tableData13"
+                  :data="data14"
                   class="ak-table2"
                   border
                   style="width: 100%">
                   <el-table-column
-                    label="携枪人姓名">
+                    label="携枪人姓名"
+                    prop="gun_carrier">
                   </el-table-column>
                   <el-table-column
                     label="国籍/地区">
+                    <template slot-scope="scope">
+                      <span>{{nationalityName}}</span>
+                    </template>
                   </el-table-column>
                   <el-table-column
-                    label="证件号码">
+                    label="证件号码"
+                    prop="cert_no">
+                    <template slot-scope="scope">
+                      <span class="tc-b hand" @click="moreFn('box14',scope.row)">{{scope.row.cert_no||'-'}}</span>
+                    </template>
                   </el-table-column>
                   <el-table-column
-                    label="入境口岸">
+                    label="入境口岸"
+                    prop="entry_port_na">
                   </el-table-column>
                   <el-table-column
-                    label="出境口岸">
+                    label="出境口岸"
+                    prop="exit_port_na">
                   </el-table-column>
                   <el-table-column
-                    label="接待单位">
+                    label="接待单位"
+                    prop="rcpt_unit">
                   </el-table-column>
                   <el-table-column
-                    label="批准机关">
+                    label="批准机关"
+                    prop="approval_unit">
                   </el-table-column>
                   <el-table-column
-                    label="批准文号">
+                    label="批准文号"
+                    prop="approval_no">
                   </el-table-column>
                   <el-table-column
-                    label="交通标识">
+                    label="交通标识"
+                    prop="trs_id">
                   </el-table-column>
                   <el-table-column
-                    label="目的地">
+                    label="目的地"
+                    prop="destination">
                   </el-table-column>
                   <el-table-column
-                    label="登记时间">
+                    label="登记时间"
+                    prop="reg_dt">
                   </el-table-column>
                 </el-table>
               </div>
@@ -796,21 +951,28 @@
               </div>
               <div v-if="box15">
                 <el-table
-                  :data="tableData14"
+                  :data="data15"
                   class="ak-table2"
                   border
                   style="width: 100%">
                   <el-table-column
-                    label="姓名">
+                    label="姓名"
+                    prop="name">
                   </el-table-column>
                   <el-table-column
-                    label="证号">
+                    label="证号"
+                    prop="cert_no">
+                    <template slot-scope="scope">
+                      <span class="tc-b hand" @click="moreFn('box15',scope.row)">{{scope.row.cert_no||'-'}}</span>
+                    </template>
                   </el-table-column>
                   <el-table-column
-                    label="证类">
+                    label="证类"
+                    prop="cert_type_na">
                   </el-table-column>
                   <el-table-column
-                    label="证件有效期">
+                    label="证件有效期"
+                    prop="cert_vld">
                   </el-table-column>
                 </el-table>
               </div>
@@ -821,33 +983,44 @@
               </div>
               <div v-if="box16">
                 <el-table
-                  :data="tableData15"
+                  :data="data16"
                   class="ak-table2"
                   border
                   style="width: 100%">
                   <el-table-column
-                    label="中文姓名">
+                    label="中文姓名"
+                    prop="psrchnname">
                   </el-table-column>
                   <el-table-column
-                    label="国籍/地区">
+                    label="国籍/地区"
+                    prop="pdtcountry_na">
                   </el-table-column>
                   <el-table-column
-                    label="证件号码">
+                    label="证件号码"
+                    prop="cert_no">
+                    <template slot-scope="scope">
+                      <span class="tc-b hand" @click="moreFn('box16',scope.row)">{{scope.row.cert_no||'-'}}</span>
+                    </template>
                   </el-table-column>
                   <el-table-column
-                    label="证件类别">
+                    label="证件类别"
+                    prop="cert_type_na">
                   </el-table-column>
                   <el-table-column
-                    label="出生日期">
+                    label="出生日期"
+                    prop="pdtbirthday">
                   </el-table-column>
                   <el-table-column
-                    label="出入境时间">
+                    label="出入境时间"
+                    prop="aord_time">
                   </el-table-column>
                   <el-table-column
-                    label="出发地">
+                    label="出发地"
+                    prop="segdeptcode_na">
                   </el-table-column>
                   <el-table-column
-                    label="航次">
+                    label="航次"
+                    prop="fltnumber">
                   </el-table-column>
                 </el-table>
               </div>
@@ -1055,11 +1228,29 @@
 
         </el-col>
       </el-row>
+
     </div>
+    <el-dialog title="标签管理" :visible.sync="tagDialogVisible" width="640px">
+      <el-checkbox-group v-model="tagCheckList" class="mb-20">
+       <el-checkbox :label="x.LABELTYPE_CODE||x.SERIAL"  v-for="(x,ind) in tagList" :key="ind">{{x.LABELNAME||x.TAG_NAME}}</el-checkbox>
+     </el-checkbox-group>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="TagSave" size="small">确认</el-button>
+        <el-button type="warning" @click="tagDialogVisible=false" size="small">取消</el-button>
+      </div>
+    </el-dialog>
+    <el-dialog title="详情" :visible.sync="moreDialogVisible" width="640px">
+      <MoreDialog :more-data="moredata" :more-type="moreType"></MoreDialog>
+      <!-- <div slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="TagSave" size="small">确认</el-button>
+        <el-button type="warning" @click="tagDialogVisible=false" size="small">取消</el-button>
+      </div> -->
+    </el-dialog>
   </div>
 </template>
 
 <script>
+import MoreDialog from './DZDATC'
 export default {
   data(){
     return{
@@ -1104,14 +1295,39 @@ export default {
       tableData17:null,
       tableData18:null,
       tableData19:null,
+      nationalityName:'',
 
       data0:{},
       dataTag:{},
       data1:{},
       data2:[],
       data3:[],
-      data5:[]
+      data4:[],
+      data5:[],
+      data6:[],
+      data7:[],
+      data8:[],
+      data9:[],
+      data10:[],
+      data11_1:[],
+      data11_2:[],
+      data12:[],
+      data13_1:[],
+      data13_2:[],
+      data14:[],
+      data15:[],
+      data16:[],
+
+      tagList:[],
+      tagCheckList:[],
+      tagDialogVisible:false,
+      moreDialogVisible:false,
+      moredata:{},
+      moreType:'',
     }
+  },
+  components:{
+    MoreDialog
   },
   mounted(){
 
@@ -1169,7 +1385,68 @@ export default {
          this.dataTag=r.data
        })
     },
+    // 添加、删除标签
+    addTagFn(type){
+      this.tagCheckList=[];
+      this.tagDialogVisible=true;
+      let p={
+        "type":type,
+        "nationality":this.nationality,
+        "passportno":this.passportno,
+      }
+      this.$api.post('/manage-platform/riskRecordController/getAddDellButtonTagInfo',p,
+       r => {
 
+         if(type==1){
+           this.tagList=r.data.add
+         }else{
+           this.tagList=r.data.del
+         }
+       })
+    },
+    // 保存标签
+    TagSave(){
+      console.log(this.tagList,this.tagCheckList)
+      if(this.tagList[0].LABELNAME){
+        let p={
+          "userId":this.user.userId,
+        	"remark":"描述",
+          "nationality":this.nationality,
+          "passportno":this.passportno,
+        	"list":this.tagCheckList,
+        }
+        this.$api.post('/manage-platform/riskRecordController/saveUserTagInfo',p,
+         r => {
+           if(r.success){
+             this.$message({
+               message: '恭喜你，添加成功！',
+               type: 'success'
+             });
+             this.tagDialogVisible=false;
+             this.getUserTagInfo();
+           }
+         })
+      }else{
+        let p={
+          "userId":this.user.userId,
+        	"remark":"描述",
+          "nationality":this.nationality,
+          "passportno":this.passportno,
+        	"list":this.tagCheckList,
+        }
+        this.$api.post('/manage-platform/riskRecordController/updateUserTagInfo',p,
+         r => {
+           if(r.success){
+             this.$message({
+               message: '恭喜你，删除成功！',
+               type: 'success'
+             });
+             this.tagDialogVisible=false;
+             this.getUserTagInfo();
+           }
+         })
+      }
+    },
     // 获取标签详细信息
     getRecordTagInfo(){
       let p={
@@ -1203,6 +1480,17 @@ export default {
          this.data3=r.data
        })
     },
+    // 人员预报信息
+    getRiskPersonnelForecasInfo(){
+      let p={
+        "eventSerial":this.data0.SERIAL
+      }
+      this.$api.post('/manage-platform/riskRecordController/getRiskPersonnelForecasInfo',p,
+       r => {
+         this.data4=r.data
+       })
+    },
+
     // 户籍信息接口
     getCensusInfo(){
       let p={
@@ -1213,6 +1501,74 @@ export default {
        r => {
          this.data5=r.data
        })
+    },
+    // 综合信息展示内容
+    getRecordOtherInfo(type){
+      let p={
+        "nationality":"CHN",
+        "passportno":"140215727",
+        "birth":this.data0.BIRTHDAY,
+        "type":type
+      }
+      this.$api.post('/manage-platform/riskRecordExtInterfaceController/getRecordOtherInfo',p,
+       r => {
+         this.nationalityName=r.data.nationalityName;
+         switch (type) {
+           case 'imm':
+             this.data6=r.data.data.dcap_f_per_act_psr_imm;
+             break;
+           case 'immcard':
+             // this.data6=r.data.data.dcap_f_per_act_psr_imm;
+             break;
+           case 'visa':
+             if(r.data.data.dcap_f_per_cert_chn_issue){
+               this.data8=r.data.data.dcap_f_per_cert_chn_issue;
+             }else if(r.data.data.dcap_f_per_cert_fgn_visa){
+               this.data8=r.data.data.dcap_f_per_cert_fgn_visa;
+             }else if(r.data.data.dcap_f_per_cert_hmt_issue){
+               this.data8=r.data.data.dcap_f_per_cert_hmt_issue;
+             }
+             break;
+           case 'illegal':
+             this.data9=r.data.data.dcap_f_evt_psr_illegal;
+             break;
+           case 'repat':
+             this.data10=r.data.data.dcap_f_evt_psr_repat;
+             break;
+           case 'resident':
+             this.data11_1=r.data.data.dcap_f_per_fgn_resident_reg;
+             break;
+           case 'temp':
+             this.data11_2=r.data.data.dcap_f_per_fgn_temp_reg;
+             break;
+           case 'fgncas':
+             this.data12=r.data.data.dcap_f_evt_fgn_cas_person;
+             break;
+           case 'cert':
+             this.data13_1=r.data.data.dcap_f_evt_capt_cert;
+             break;
+           case 'res':
+             this.data13_2=r.data.data.dcap_f_evt_capt_res;
+             break;
+           case 'act':
+             this.data14=r.data.data.dcap_f_evt_gun_act_psr_imm;
+             break;
+           case 'self':
+             this.data15=r.data.data.dcap_f_per_rec_self_clearance;
+             break;
+           case 'api':
+             this.data16=r.data.data.dcap_f_per_pred_api_psr_info;
+             break;
+           default:
+
+         }
+
+       })
+    },
+    moreFn(type,item){
+      this.moreDialogVisible=true;
+      this.moreType=type;
+      this.moredata=item;
     },
   },
   watch:{
@@ -1231,11 +1587,84 @@ export default {
         this.getQueryRiskRecordUserInfo();
       }
     },
+    box4:function(val){
+      if(val){
+        this.getRiskPersonnelForecasInfo();
+      }
+    },
     box5:function(val){
       if(val){
         this.getCensusInfo();
       }
-    }
+    },
+    // 出入境信息
+    box6:function(val){
+      if(val){
+        this.getRecordOtherInfo('imm');
+      }
+    },
+    // 出入境证件
+    box7:function(val){
+      if(val){
+        this.getRecordOtherInfo('immcard');
+      }
+    },
+    // 签证(居留)签发信息
+    box8:function(val){
+      if(val){
+        this.getRecordOtherInfo('visa');
+      }
+    },
+    // 边检违法违规信息
+    box9:function(val){
+      if(val){
+        this.getRecordOtherInfo('illegal');
+      }
+    },
+    // 遣返遣送信息
+    box10:function(val){
+      if(val){
+        this.getRecordOtherInfo('repat');
+      }
+    },
+    // 外管常住/临住信息
+    box11:function(val){
+      if(val){
+        this.getRecordOtherInfo('resident');
+        this.getRecordOtherInfo('temp');
+      }
+    },
+    // 出入境管理案事件
+    box12:function(val){
+      if(val){
+        this.getRecordOtherInfo('fgncas');
+      }
+    },
+    // 收缴证件/物品信息
+    box13:function(val){
+      if(val){
+        this.getRecordOtherInfo('cert');
+        this.getRecordOtherInfo('res');
+      }
+    },
+    // 携带枪支弹药信息
+    box14:function(val){
+      if(val){
+        this.getRecordOtherInfo('act');
+      }
+    },
+    // 自助备案信息
+    box15:function(val){
+      if(val){
+        this.getRecordOtherInfo('self');
+      }
+    },
+    // API信息
+    box16:function(val){
+      if(val){
+        this.getRecordOtherInfo('api');
+      }
+    },
   }
 }
 </script>

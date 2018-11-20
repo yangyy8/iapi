@@ -1,7 +1,7 @@
 <template lang="html">
   <div class="bjsjck">
     <div class="top mb-2">
-      事件编号：349082340982342348(客户提供唯一编码业务或方法)
+      事件编号：{{serial}}(客户提供唯一编码业务或方法)
     </div>
     <div class="middle">
       <el-row :gutter="15">
@@ -26,53 +26,52 @@
               <el-row class="middle-msg-row" :gutter="4">
                 <el-col :span="6">
                   <span>姓名：</span>
-                  张某某
+                  {{page0Data.name}}
                 </el-col>
                 <el-col :span="6">
                   <span>国籍/地区：</span>
-                  张某某
+                  {{page0Data.nationalityName}}
                 </el-col>
                 <el-col :span="6">
                   <span>出入类型：</span>
-                  张某某
+                  {{page0Data.flightTypeName}}
                 </el-col>
                 <el-col :span="6">
                   <span>出发地：</span>
-                  张某某
+                  {{page0Data.origin}}
                 </el-col>
                 <el-col :span="6">
                   <span>性别：</span>
-                  张某某
+                  {{page0Data.genderName}}
                 </el-col>
                 <el-col :span="6">
                   <span>证件类型：</span>
-                  张某某
+                  {{page0Data.passportType}}
                 </el-col>
                 <el-col :span="6">
                   <span>航班号：</span>
-                  张某某
+                  {{page0Data.fltno}}
                 </el-col>
                 <el-col :span="6">
                   <span>目的地：</span>
-                  张某某
+                  {{page0Data.destination}}
                 </el-col>
                 <el-col :span="6">
                   <span>出生日期：</span>
-                  张某某
+                  {{page0Data.birthday}}
                 </el-col>
                 <el-col :span="6">
                   <span>证件号码：</span>
-                  张某某
+                  {{page0Data.passportno}}
                 </el-col>
                 <el-col :span="6">
                   <span>航班日期：</span>
-                  张某某
+                  {{page0Data.fltnoDate}}
                 </el-col>
                 <el-col :span="6">
                   <span>报警时间：</span>
-                  2018-07-09 13:23:22
+                  {{page0Data.createTime}}
                 </el-col>
-
               </el-row>
               <div class="ak-tip">
                 注：
@@ -80,19 +79,9 @@
                 <span class="tag0"></span>失效标签
               </div>
               <div class="">
-                <el-tag type="warning" size="small">标签四</el-tag>
-                <el-tag type="warning" size="small">标签四</el-tag>
-                <el-tag type="warning" size="small">标签四</el-tag>
-                <el-tag type="warning" size="small">标签四</el-tag>
-                <el-tag type="warning" size="small">标签四</el-tag>
-                <el-tag type="warning" size="small">标签四</el-tag>
-                <el-tag type="warning" size="small">标签四</el-tag>
-                <el-tag type="info" size="small">标签三</el-tag>
-                <el-tag type="info" size="small">标签三</el-tag>
-                <el-tag type="info" size="small">标签三</el-tag>
-                <el-tag type="info" size="small">标签三</el-tag>
-                <el-tag type="info" size="small">标签三</el-tag>
-                <el-tag type="info" size="small">标签三</el-tag>
+                <el-tag type="warning" size="small" class="mr-5" v-for="(x,ind) in box1Data.validList" :key="ind" v-if="x.OPERATION_TYPE==1">{{x.TAG_NAME}}</el-tag>
+                <el-tag type="info" size="small" class="mr-5" v-for="(x,ind) in box1Data.validList" :key="ind" v-if="x.OPERATION_TYPE==2">{{x.TAG_NAME}}</el-tag>
+
                 <el-button type="text" size="small" @click="moreShow=true" v-if="!moreShow">查看更多 ></el-button>
                 <el-button type="text" size="small" @click="moreShow=false" v-if="moreShow">收起<</el-button>
               </div>
@@ -103,98 +92,39 @@
                 标签详细信息 <i class="el-icon-d-caret"></i>
               </div>
               <div v-if="box1">
-                <div class="box1-content mb-9">
-                  <el-tag type="warning" size="small">维吾尔族人员</el-tag>
+                <div class="box1-content mb-9" v-for="(a,ind) in box1Data.particularsList" :key="ind">
+                  <el-tag type="warning" size="small" v-if="a.operation_type==1">{{a.tag_name}}</el-tag>
+                  <el-tag type="info" size="small" v-if="a.operation_type==2">{{a.tag_name}}</el-tag>
+
                   <div class="gc-box">
-                    <span>标签描述：</span>外籍畲江重点关注人员外籍畲江重点关注人员外籍畲江重点关注人员外籍畲江重点关注人员外籍畲江重点关注人员
+                    <span>标签描述：</span>{{a.tag_remar}}
                   </div>
                   <div class="gc-box">
                     <span>过程：</span>
                     <div class="gc-r-box">
-                      <div class="step-box">
-                        <div class="step-time mr-5 tc-333">2018-09-21</div>
+                      <div class="step-box" v-for="(x,y) in a.list" :key="y">
+                        <div class="step-time mr-5 tc-333">{{x.CREATETIME.slice(0,10)}}</div>
                         <div class="mr-15 step-icon">
                           <div class="step-dot"></div>
                           <div class="step-line"></div>
                         </div>
                         <ul class="step-content">
                           <li>
-                            <span class="step-t">审批人：</span><span class="mr-30">李先生</span>
-                            <span>审批结果：</span><span class="tc-o">生效</span>
+                            <span class="step-t">添加人：</span><span class="mr-30">{{x.USERID}}</span>
+                            <span>添加状态：</span><span class="tc-o">{{x.ADD_TAGTYPE}}</span>
                           </li>
                           <li>
                             <span class="step-t">原因：</span>
-                            经过查询，因为什么什么什么什么
+                            {{x.TAG_REMAR}}
                           </li>
                         </ul>
                       </div>
-                      <div class="step-box">
-                        <div class="step-time mr-5 tc-333">2018-09-21</div>
-                        <div class="mr-15 step-icon">
-                          <div class="step-dot"></div>
-                          <div class="step-line"></div>
-                        </div>
-                        <ul class="step-content">
-                          <li>
-                            <span class="step-t">审批人：</span><span class="mr-30">李先生</span>
-                            <span>审批结果：</span><span class="tc-o">生效</span>
-                          </li>
-                          <li>
-                            <span class="step-t">原因：</span>
-                            经过查询，因为什么什么什么什么
-                          </li>
-                        </ul>
-                      </div>
+
                       <el-button type="text" size="small" class="gc-more">查看更多</el-button>
                     </div>
                   </div>
                 </div>
-                <div class="box1-content mb-9">
-                  <el-tag type="info" size="small">维吾尔族人员</el-tag>
-                  <div class="gc-box">
-                    <span>标签描述：</span>外籍畲江重点关注人员外籍畲江重点关注人员外籍畲江重点关注人员外籍畲江重点关注人员外籍畲江重点关注人员
-                  </div>
-                  <div class="gc-box">
-                    <span>过程：</span>
-                    <div class="gc-r-box">
-                      <div class="step-box">
-                        <div class="step-time mr-5 tc-333">2018-09-21</div>
-                        <div class="mr-15 step-icon">
-                          <div class="step-dot"></div>
-                          <div class="step-line"></div>
-                        </div>
-                        <ul class="step-content">
-                          <li>
-                            <span class="step-t">审批人：</span><span class="mr-30">李先生</span>
-                            <span>审批结果：</span><span class="tc-o">生效</span>
-                          </li>
-                          <li>
-                            <span class="step-t">原因：</span>
-                            经过查询，因为什么什么什么什么
-                          </li>
-                        </ul>
-                      </div>
-                      <div class="step-box">
-                        <div class="step-time mr-5 tc-333">2018-09-21</div>
-                        <div class="mr-15 step-icon">
-                          <div class="step-dot"></div>
-                          <div class="step-line"></div>
-                        </div>
-                        <ul class="step-content">
-                          <li>
-                            <span class="step-t">审批人：</span><span class="mr-30">李先生</span>
-                            <span>审批结果：</span><span class="tc-o">生效</span>
-                          </li>
-                          <li>
-                            <span class="step-t">原因：</span>
-                            经过查询，因为什么什么什么什么
-                          </li>
-                        </ul>
-                      </div>
-                      <el-button type="text" size="small" class="gc-more">查看更多</el-button>
-                    </div>
-                  </div>
-                </div>
+
                 <div class="box1-more">
                   <el-button type="text">展开更多 ﹀</el-button>
                 </div>
@@ -205,46 +135,26 @@
                 命中模型信息 <i class="el-icon-d-caret"></i>
               </div>
               <div v-if="box2">
-                <div class="box2-content mb-9">
+                <div class="box2-content mb-9" v-for="b in box2Data" >
                   <div class="box2-t-box">
-                    <span>外籍涉疆重点人员</span>
+                    <span>{{b.modelName}}</span>
                     <el-button type="primary" plain size="small">模型相关案例</el-button>
                   </div>
                   <div class="gc-box">
-                    <span>风险等级：</span> <el-rate :value="3" disabled class="mt-5"></el-rate>
+                    <span>风险等级：</span> <el-rate :value="b.grade" disabled class="mt-5"></el-rate>
                   </div>
 
                   <div class="gc-box">
-                    <span>模型描述：</span>外籍畲江重点关注人员外籍畲江重点关注人员外籍畲江重点关注人员外籍畲江重点关注人员外籍畲江重点关注人员
+                    <span>模型描述：</span>{{b.modelDesc}}
                   </div>
                   <div class="gc-box">
                     <span>指标描述：</span>
                     <div class="">
-                      外籍畲江重点关注人员外籍畲江重点关注人员外籍畲江重点关注人员外籍畲江重点关注人员外籍畲江重点关注人员<br/>
-                      外籍畲江重点关注人员外籍畲江重点关注人员外籍畲江重点关注人员外籍畲江重点关注人员外籍畲江重点关注人员<br/>
+                      {{b.targetDesc}}
                     </div>
                   </div>
                 </div>
-                <div class="box2-content mb-9">
-                  <div class="box2-t-box">
-                    <span>外籍涉疆重点人员</span>
-                    <el-button type="primary" plain size="small">模型相关案例</el-button>
-                  </div>
-                  <div class="gc-box">
-                    <span>风险等级：</span> <el-rate :value="3" disabled class="mt-5"></el-rate>
-                  </div>
 
-                  <div class="gc-box">
-                    <span>模型描述：</span>外籍畲江重点关注人员外籍畲江重点关注人员外籍畲江重点关注人员外籍畲江重点关注人员外籍畲江重点关注人员
-                  </div>
-                  <div class="gc-box">
-                    <span>指标描述：</span>
-                    <div class="">
-                      外籍畲江重点关注人员外籍畲江重点关注人员外籍畲江重点关注人员外籍畲江重点关注人员外籍畲江重点关注人员<br/>
-                      外籍畲江重点关注人员外籍畲江重点关注人员外籍畲江重点关注人员外籍畲江重点关注人员外籍畲江重点关注人员<br/>
-                    </div>
-                  </div>
-                </div>
                 <div class="box1-more">
                   <el-button type="text">展开更多 ﹀</el-button>
                 </div>
@@ -260,74 +170,11 @@
                     <span>自动计算信息</span>
                   </div>
                   <el-row class="middle-msg-row2" :gutter="2">
-                    <el-col :span="6">
-                      <span>中文姓名：</span>
-                      张某某
+                    <el-col :span="6" v-for="(c1,ind) in box3Data.autoTargetInfo" :key="ind" :class="{'redx':c1.ISHIT==1}">
+                      <span>{{c1.TARGET_NAME}}：</span>
+                      {{c1.TARGET_VALUE}}
                     </el-col>
-                    <el-col :span="6">
-                      <span>英文姓名：</span>
-                      张某某
-                    </el-col>
-                    <el-col :span="6">
-                      <span>姓：</span>
-                      张
-                    </el-col>
-                    <el-col :span="6">
-                      <span>中间名：</span>
-                      某某
-                    </el-col>
-                    <el-col :span="6">
-                      <span>名：</span>
-                      某某
-                    </el-col>
-                    <el-col :span="6">
-                      <span>性别：</span>
-                      张某某
-                    </el-col>
-                    <el-col :span="6">
-                      <span>出生日期：</span>
-                      张某某
-                    </el-col>
-                    <el-col :span="6">
-                      <span>国籍/地区：</span>
-                      张某某
-                    </el-col>
-                    <el-col :span="6">
-                      <span>证件号码：</span>
-                      张某某
-                    </el-col>
-                    <el-col :span="6" class="redx">
-                      <span>是否黑名单人员：</span>
-                      是
-                    </el-col>
-                    <el-col :span="6" class="redx">
-                      <span>重点关注库掌握人员：</span>
-                      A1311441
-                    </el-col>
-                    <el-col :span="6" class="redx">
-                      <span>是否重点上机地：</span>
-                      是
-                    </el-col>
-                    <el-col :span="6">
-                      <span>是否重点下机地：</span>
-                      是
-                    </el-col>
-                    <el-col :span="6" class="tc-999">
-                      <span>签证签发停留期：</span>
-                      是
-                    </el-col>
-                    <el-col :span="6" class="tc-999">
-                      <span>证件签发地：</span>
-                      是
-                    </el-col>
-                    <el-col :span="6" class="tc-999">
-                      <span>旅客户籍行政区划：</span>
-                      是
-                    </el-col>
-                    <el-col :span="6" class="tc-999">
-                      <span>旅客身份证号：</span>
-                      是
-                    </el-col>
+
                   </el-row>
                 </div>
                 <div class="box2-content mb-9">
@@ -335,61 +182,9 @@
                     <span>手动计算信息</span>
                   </div>
                   <el-row class="middle-msg-row2" :gutter="2">
-                    <el-col :span="6">
-                      <span>是否常驻第三国：</span>
-                      张某某
-                    </el-col>
-                    <el-col :span="6">
-                      <span>商贸目的地：</span>
-                      张某某
-                    </el-col>
-                    <el-col :span="6">
-                      <span>旅游目的地：</span>
-                      张
-                    </el-col>
-                    <el-col :span="6">
-                      <span>旅客入境活动区域：</span>
-                      某某
-                    </el-col>
-                    <el-col :span="6">
-                      <span>是否高端企业：</span>
-                      某某
-                    </el-col>
-                    <el-col :span="6">
-                      <span>旅客入境目的：</span>
-                      张某某
-                    </el-col>
-                    <el-col :span="6">
-                      <span>常驻国：</span>
-                      张某某
-                    </el-col>
-                    <el-col :span="6">
-                      <span>前往国：</span>
-                      张某某
-                    </el-col>
-                    <el-col :span="6">
-                      <span>出境日期：</span>
-                      张某某
-                    </el-col>
-                    <el-col :span="6">
-                      <span>前台采集停留期：</span>
-                      是
-                    </el-col>
-                    <el-col :span="6" class="tc-999">
-                      <span>入境计划停留时长：</span>
-                      A1311441
-                    </el-col>
-                    <el-col :span="6" class="tc-999">
-                      <span>出境计划前往国：</span>
-                      是
-                    </el-col>
-                    <el-col :span="6" class="tc-999">
-                      <span>出境航班：</span>
-                      是
-                    </el-col>
-                    <el-col :span="6" class="tc-999">
-                      <span>是否前往小商品集散地：</span>
-                      是
+                    <el-col :span="6" v-for="(c2,ind) in box3Data.manualTargetInfo" :key="ind" :class="{'redx':c1.ISHIT==1}">
+                      <span>{{c2.TARGET_NAME}}：</span>
+                      {{c1.TARGET_VALUE}}
                     </el-col>
 
                   </el-row>
@@ -410,36 +205,52 @@
                   <div class="box2-t-box">
                     <span>核查策略</span>
                   </div>
-                  <div class="gc-box">
-                    <div><span class="b-dot"></span>涉疆人员模型：</div>
-                    <div class="">
-                      外籍畲江重点关注人员外籍畲江重点关注人员外籍畲江重点关注人员外籍畲江重点关注人员外籍畲江重点关注人员<br/>
-                      外籍畲江重点关注人员外籍畲江重点关注人员外籍畲江重点关注人员外籍畲江重点关注人员外籍畲江重点关注人员<br/>
+                  <div class="box2-content mb-9" v-for="d1 in box4Data.checkTacticsList">
+                    <div class="gc-box">
+                      <div><span class="b-dot"></span>{{d1.modelName}}：</div>
+                      <div class="">
+                        {{d1.model_describe}}
+                      </div>
                     </div>
                   </div>
+
                 </div>
                 <div class="box1-more">
                   <el-button type="text">展开更多 ﹀</el-button>
                 </div>
-                <div class="boder1 pb-10">
-                  添加内容：人物描写的运用很普通，人物描写的母的是刻画人物描写的运用很普通
+                <div class="boder1 gc-box pb-10">
+                  <div class="">
+                    自定义内容：
+                  </div>
+                  <div class="">
+                    <div class="" v-for="(d2,ind) in box4Data.listRiskCustom" :key="ind">
+                      {{d2.content}}
+                    </div>
+
+                  </div>
                 </div>
                 <div class="box2-content boder1 pb-10">
                   <div class="box2-t-box">
                     <span>指标录入</span>
                   </div>
-                  <div class="gc-box">
-                    <span>出境航班：</span>
-                    zdwss
+                  <div class="gc-box wrap">
+                    <div class="mr-20"  v-for="(d3,ind) in box4Data.listRiskIndex">
+                      <span class="tc-333">{{d3.index_name}}：</span>
+                      {{d3.index_value}}
+                    </div>
                   </div>
                 </div>
                 <div class="box2-content boder1 pb-10">
                   <div class="box2-t-box">
                     <span>附件</span>
                   </div>
-                  <div class="gc-box">
-                    <span>出境航班：</span>
-                    zdwss
+                  <div class="">
+                    <div class="" v-for="(d4,ind) in box4Data.listRiskUpload" :key="ind">
+                      <span class="mr-30">{{d4.upload_name}}</span>
+                      <span class="mr-30 tc-999">上传人：{{d4.userName}}</span>
+                      <span class="mr-30 tc-999">上传时间：{{d4.createTime}}</span>
+                      <el-button type="text" ><a :href="d4.url_patch" class="green">下载</a></el-button>
+                    </div>
                   </div>
                 </div>
                 <div class="box2-content">
@@ -448,20 +259,20 @@
                   </div>
                   <div class="">
                     <div class="">
-                      逗我呢发好囧伙食费或司法局伙食费合计金额活化能
+                      {{box4Data.riskDescRecordEntity.remark}}
                     </div>
                     <el-row align="center" :gutter="2">
                       <el-col  :sm="24" :md="12" :lg="8" >
                         <span class="mr-5">核查阶段：</span>
-                        <span class="tc-333">哈哈哈</span>
+                        <span class="tc-333">{{box4Data.riskDescRecordEntity.check_stageName}}</span>
                       </el-col>
                       <el-col  :sm="24" :md="12" :lg="8" >
                         <span  class="mr-5">核查结果： </span>
-                        <span class="tc-333">哈哈哈</span>
+                        <span class="tc-333">{{box4Data.riskDescRecordEntity.check_resultName}}</span>
                       </el-col>
                       <el-col  :sm="24" :md="12" :lg="8"  >
                         <span  class="mr-5">流转至： </span>
-                      <span class="tc-333">哈哈哈</span>
+                      <span class="tc-333">{{box4Data.riskDescRecordEntity.change_portName}}</span>
                       </el-col>
 
                     </el-row>
@@ -475,56 +286,32 @@
               <div class="title-green mt-10">
                 本次风评记录
               </div>
-              <div class="gc-box f-14">
-                <div class="mr-5">1.</div>
+              <div class="gc-box f-14" v-for="(d5,ind) in box4Data.listDescRecord" :key="ind" v-if="ind<size.size8">
+                <div class="mr-5">{{ind+1}}</div>
                 <div class="">
                   <div class="">
-                    <span class="mr-30">核查时间：2018-09-19 14:23:43</span><span>核查人：张先生</span>
+                    <span class="mr-30">核查时间：{{d5.createTime}}</span><span>核查人：{{d5.userName}}</span>
                   </div>
                   <div class="">
-                    操作类型：核查
+                    操作类型：{{d5.operation_typeName}}
                   </div>
                   <div class="gc-box">
                     <div>核查过程：</div>
                     <div class="">
-                      人物描写的运用很普通，人物描写的母的是刻画人物描写的运用很普通<br/>
-                      人物描写的运用很普通，人物描写的母的是刻画人物描写的运用很普通
+                      {{d5.course_typeName}}
                     </div>
                   </div>
                   <div class="">
-                    核查阶段：前期核查
+                    核查阶段：{{d5.check_stageName}}
                   </div>
                   <div class="">
-                    核查结果：排除嫌疑
+                    核查结果：{{d5.check_resultName}}
                   </div>
                 </div>
               </div>
-              <div class="gc-box f-14">
-                <div class="mr-5">2.</div>
-                <div class="">
-                  <div class="">
-                    <span class="mr-30">核查时间：2018-09-19 14:23:43</span><span>核查人：张先生</span>
-                  </div>
-                  <div class="">
-                    操作类型：核查
-                  </div>
-                  <div class="gc-box">
-                    <div>核查过程：</div>
-                    <div class="">
-                      人物描写的运用很普通，人物描写的母的是刻画人物描写的运用很普通<br/>
-                      人物描写的运用很普通，人物描写的母的是刻画人物描写的运用很普通
-                    </div>
-                  </div>
-                  <div class="">
-                    核查阶段：前期核查
-                  </div>
-                  <div class="">
-                    核查结果：排除嫌疑
-                  </div>
-                </div>
-              </div>
-              <div class="box1-more">
-                <el-button type="text">展开更多 ﹀</el-button>
+
+              <div class="box2-more">
+                <el-button type="text" @click="size.size8=size.size8+5">展开更多 ﹀</el-button>
               </div>
             </div>
             <div class=" pb-10">
@@ -555,21 +342,73 @@ export default {
       box5:true,
       box6:true,
       box7:true,
-
+      size:{size8:5},
+      page0Data:{},
+      box1Data:{},
+      box2Data:[],
+      box3Data:[],
+      box4Data:[],
     }
   },
   activated(){
-    this.getRiskEvent();
+    this.serial=this.$route.query.serial;
+    this.getRiskIapiInfo();
+    this.getHisModelInfo();
+    this.getRiskDescRecordInfo();
     console.log("ffff")
   },
   methods:{
-    getRiskEvent(){
+    // 预报信息
+    getRiskIapiInfo(){
       let p={
-        "serial": this.$route.query.serial
+        "eventSerial": this.serial
       }
-      this.$api.post('/manage-platform/riskEventController/getRiskEventEntityInfo',p,
+      this.$api.post('/manage-platform/riskEventWarningController/getRiskIapiInfo',p,
        r => {
-         console.log(r)
+         this.page0Data=r.data;
+         this.getRiskEventTagInfo(this.page0Data.passportno,this.page0Data.nationality)
+      })
+    },
+    // 当前事件标签及标签详情信息
+    getRiskEventTagInfo(passportno,nationality){
+      let p={
+        "passportno":passportno,
+        "nationality":nationality
+      }
+      this.$api.post('/manage-platform/riskEventWarningController/getRiskEventTagInfo',p,
+       r => {
+         this.box1Data=r.data;
+      })
+    },
+    // 命中模型信息
+    getHisModelInfo(){
+      let p={
+        "eventSerial": this.serial
+      }
+      this.$api.post('/manage-platform/riskEventWarningController/getHisModelInfo',p,
+       r => {
+         this.box2Data=r.data;
+      })
+    },
+    // 获取运算指标信息
+    getOperationalTargetInfo(){
+      let p={
+        "eventSerial": this.serial
+      }
+      this.$api.post('/manage-platform/riskEventWarningController/getOperationalTargetInfo',p,
+       r => {
+         this.box3Data=r.data
+      })
+    },
+    // 获取简要描述/核查阶段/核查结果/流转及记录过程
+    getRiskDescRecordInfo(){
+      let p={
+        "eventSerial": this.serial
+      }
+      this.$api.post('/manage-platform/riskEventWarningController/getRiskDescRecordInfo',p,
+       r => {
+         this.box4Data=r.data;
+         this.box4Data.riskDescRecordEntity.operation_type=this.operation_type;
       })
     },
   }
@@ -675,6 +514,9 @@ export default {
 .step-box{
   display: flex;
   /* align-items: center; */
+}
+.wrap{
+  flex-wrap: wrap;
 }
 .step-icon{
   position: relative;

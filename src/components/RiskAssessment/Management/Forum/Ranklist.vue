@@ -8,13 +8,18 @@
           <th width="25%"><div class="male">点赞数</div></th>
          </tr>
 
-         <tr>
-           <td><div class="div c1">TOP1</div></td>
-           <td><div class="rx"><img src="../../../../assets/img/tx1.png">&nbsp;张先生</div></td>
-           <td>北京航空航天</td>
-           <td><div class="rx1"><img src="../../../../assets/img/zan.png"> (24512) </div></td>
+         <tr v-for="(site,ind) in tableData">
+           <td>
+             <div class="div c1" v-if='(ind+1)==1'>TOP{{ind+1}}</div>
+             <div class="div c2" v-else-if='(ind+1)==2'>TOP{{ind+1}}</div>
+             <div class="div c3" v-else-if='(ind+1)==4'>TOP{{ind+1}}</div>
+             <div class="div c4" v-else>TOP{{ind+1}}</div>
+           </td>
+           <td><div class="rx"><img src="../../../../assets/img/tx1.png">&nbsp;{{site.NICKNAME}}</div></td>
+           <td>{{site.DEPARTMENTNAME}}</td>
+           <td><div class="rx1"><img src="../../../../assets/img/zan.png">  {{site.CREDITNUMBER}} </div></td>
          </tr>
-         <tr>
+         <!-- <tr>
            <td><div class="div c2">TOP2</div></td>
            <td><div class="rx"><img src="../../../../assets/img/tx1.png">&nbsp;呼呼哈</div></td>
            <td>北京航空航天</td>
@@ -25,8 +30,40 @@
            <td><div class="rx"><img src="../../../../assets/img/tx.png">&nbsp;统统统</div></td>
            <td>北京航空航天</td>
            <td><div class="rx1"><img src="../../../../assets/img/zan.png"> (24512) </div></td>
-         </tr>
+         </tr> -->
        </table>
+
+       <!-- <div class="middle-foot">
+         <div class="page-msg">
+           <div class="">
+             共{{Math.ceil(TotalResult/pageSize)}}页
+           </div>
+           <div class="">
+             每页
+             <el-select v-model="pageSize" @change="pageSizeChange(pageSize)" placeholder="10" size="mini" class="page-select">
+               <el-option
+                 v-for="item in options"
+                 :key="item.value"
+                 :label="item.label"
+                 :value="item.value">
+               </el-option>
+             </el-select>
+             条
+           </div>
+           <div class="">
+             共{{TotalResult}}条
+           </div>
+         </div>
+         <el-pagination
+           background
+           @current-change="handleCurrentChange"
+           :current-page.sync ="CurrentPage"
+           :page-size="pageSize"
+           layout="prev, pager, next"
+           :total="TotalResult">
+         </el-pagination>
+       </div> -->
+
   </div>
   </div>
 </template>
@@ -35,8 +72,61 @@ export default {
   data() {
     return {
 
+      airport:[],
+      backShow:false,
+      fileList:[],
+      CurrentPage:1,
+      pageSize:6,
+      TotalResult:0,
+      tableData:[],
+      pd: {}
     }
+  },
+
+  activated(){
+    this.getList(this.CurrentPage,this.pageSize,this.pd);
+  },
+  mounted() {
+this.getList(this.CurrentPage,this.pageSize,this.pd);
+  },
+  methods:{
+    pageSizeChange(val) {
+      if(this.backShow){
+        this.getHisFn(this.CurrentPage,val,this.pd);
+
+      }else{
+        this.getList(this.CurrentPage,val,this.pd);
+      }
+      console.log(`每页 ${val} 条`);
+    },
+    handleCurrentChange(val) {
+      if(this.backShow){
+        this.getHisFn(val,this.pageSize,this.pd);
+      }else{
+        this.getList(val,this.pageSize,this.pd);
+
+      }
+      console.log(`当前页: ${val}`);
+    },
+
+    getList(currentPage,showCount,pd){
+      let p={
+        "currentPage":currentPage,
+        "showCount":showCount,
+        "pd":pd
+      };
+      console.log(pd)
+
+      this.$api.post('/manage-platform/itemForum/getItemForumCommentRankingPage',p,
+       r => {
+         console.log(r);
+         this.tableData=r.data.resultList;
+         this.TotalResult=r.data.totalResult;
+      })
+    }
+
   }
+
 }
 </script>
 
@@ -67,4 +157,5 @@ padding: 0 !important;  vertical-align:bottom; color: #666; font-weight:500;
 .c1{background: #E23E3F; }
 .c2{background: #F19147;}
 .c3{background: #31B36D;}
+.c3{background: #9A9A9A;}
 </style>

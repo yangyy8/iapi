@@ -8,43 +8,44 @@
       <el-col :span="23">
         <el-row type="flex" class="mb-6" >
           <el-col :span="20" class="ttitle">
-      #瑞典电视台回应节目报告#
+      #{{itemForumData.TITLE}}#
           </el-col>
           <el-col :span="4" style="text-align:right">
-            <el-button plain size="small" @click="adds(0,'');form={};">返回</el-button>
-          <el-button type="success" size="small" @click="adds(0,'');form={};">编辑</el-button>
+            <el-button plain size="small" @click="link()">返回</el-button>
+          <el-button type="success" size="small" @click="edits()">编辑</el-button>
         </el-col>
         </el-row>
 
         <el-row type="flex" class="mb-6 tcont" >
           <el-col :span="3">
-            作者：张先生
+            作者：{{itemForumData.CREATEUSERNAME}}
           </el-col>
           <el-col :span="6">
-            发布时间：2018-09-09 12：23：25</el-col>
+            发布时间：{{itemForumData.CREATETIME}}</el-col>
             <el-col :span="8">
-              有效时间：2018-09-09 12：23：25</el-col>
+              有效时间：{{itemForumData.EXPIRATIONDATE}}</el-col>
         </el-row>
         <el-row type="flex" class="mb-6 tcc" >
           <el-col :span="24">
-               当地时间9月25日下等，瑞典电视台在官网发表了一篇文章回应视频事件，承认节目表达的整体意思出现了缺失，“为此道歉”，
+               <!-- 当地时间9月25日下等，瑞典电视台在官网发表了一篇文章回应视频事件，承认节目表达的整体意思出现了缺失，“为此道歉”，
                但对外界关于其节目涉及种族歧视和用错地图的指责依旧闪烁其词，未作道歉。
                当地时间9月25日下等，瑞典电视台在官网发表了一篇文章回应视频事件，承认节目表达的整体意思出现了缺失，“为此道歉”，
                但对外界关于其节目涉及种族歧视和用错地图的指责依旧闪烁其词，未作道歉。
                当地时间9月25日下等，瑞典电视台在官网发表了一篇文章回应视频事件，承认节目表达的整体意思出现了缺失，“为此道歉”，
                但对外界关于其节目涉及种族歧视和用错地图的指责依旧闪烁其词，未作道歉。
                当地时间9月25日下等，瑞典电视台在官网发表了一篇文章回应视频事件，承认节目表达的整体意思出现了缺失，“为此道歉”，
-               但对外界关于其节目涉及种族歧视和用错地图的指责依旧闪烁其词，未作道歉。
+               但对外界关于其节目涉及种族歧视和用错地图的指责依旧闪烁其词，未作道歉。 -->
+               {{itemForumData.COUNT}}
 
           </el-col>
         </el-row>
         <el-row type="flex" class="mb-6 " >
           <el-col :span="20" class="ttitle">
-       附件：###      <span class="sspan">  删除|下载</span>
+       附件： <span v-for="name in accessoryNameList">{{ name.ACCESSORYNAME }}<span class="sspan">下载   </span></span>
           </el-col>
           <el-col :span="4" style="text-align:right">
 
-          回复
+          <!-- 回复 -->
         </el-col>
         </el-row>
       </el-col>
@@ -61,58 +62,72 @@
         <el-row type="flex" class="mb-6">
 
           <el-col :span="24" >
-            <el-input type="textarea" placeholder="请发表评论" maxlength="250" :autosize="{ minRows: 3, maxRows: 6}" v-model="pd.REASON" style="width:100%"></el-input>
+            <el-input type="textarea" placeholder="请发表评论" maxlength="250" :autosize="{ minRows: 3, maxRows: 6}" v-model="pd.COMMENT_CONTENT" style="width:100%"></el-input>
           </el-col>
         </el-row>
         <el-row type="flex" class="mb-6" style="text-align:right">
 
           <el-col :span="24" >
-            <el-button plain size="small" @click="adds(0,'');form={};">发送</el-button>
+            <el-button plain size="small" @click="addItemForumComment(pd);form={};">发送</el-button>
           </el-col>
         </el-row>
       </el-col>
 
     </el-row>
 
-    <el-row type="flex" class="mb-6 ppading" >
+    <el-row v-for="comment in tableData" type="flex" class="mb-6 ppading" >
       <el-col :span="1" class="ttitle" style="width:70px;text-align:center;border-bottom:1px solid #dddddd;">
       <img src="../../../../assets/img/logo.png" width="40" height="40">
       </el-col>
       <el-col :span="23" class="hf">
         <el-row type="flex" class="mb-6 " >
           <el-col :span="24">
-               当地时间9月25日下等，瑞典电视台在官网发表了一篇文章回应视频事件，承认节目表达的整体意思出现了缺失，“为此道歉”，
+               {{comment.COMMENTCREATEUSERNAME}}：  {{comment.COMMENT_CONTENT}}
           </el-col>
         </el-row>
 
         <el-row type="flex" class="mb-6 " >
           <el-col :span="20">
-          2018-09-09 12：23：25    <span class="sspan">#12楼</span>
+          {{comment.CREATETIME}}    <span class="sspan"># {{comment.ROW_NUMBER}}  楼</span>
         </el-col>
          <el-col :span="4" style="text-align:right;">
-             <img src="../../../../assets/img/zan.png">(24512)
+             <a @click="clickCommentLike(comment.SERIAL);"><img src="../../../../assets/img/zan.png"  v-if='comment.CREDITUSERCOUNT==0'> <img src="../../../../assets/img/zan1.png" v-else></a> {{comment.CREDITNUMBER}}
            </el-col>
         </el-row>
       </el-col>
     </el-row>
 
-    <el-row type="flex" class="mb-6 ppading" >
-      <el-col :span="1" class="ttitle" style="width:70px;text-align:center;border-bottom:1px solid #dddddd;">
-      <img src="../../../../assets/img/logo.png" width="40" height="40">
-      </el-col>
-      <el-col :span="23" class="hf">
-        <el-row type="flex" class="mb-6 " >
-          <el-col :span="24">
-               当地时间9月25日下等，瑞典电视台在官网发表了一篇文章回应视频事件，承认节目表达的整体意思出现了缺失，“为此道歉”，
-          </el-col>
-        </el-row>
+    <div class="middle-foot" style="padding:10px 25px;">
+      <div class="page-msg">
+        <div class="">
+          共{{Math.ceil(TotalResult/pageSize)}}页
+        </div>
+        <div class="">
 
-        <el-row type="flex" class="mb-6 " >
-          <el-col :span="24">
-          2018-09-09 12：23：25    <span class="sspan">#12楼</span></el-col>
-        </el-row>
-      </el-col>
-    </el-row>
+          每页
+          <el-select v-model="pageSize" @change="pageSizeChange(pageSize)" placeholder="10" size="mini" class="page-select">
+            <el-option
+              v-for="item in options"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
+          条
+        </div>
+        <div class="">
+          共{{TotalResult}}条
+        </div>
+      </div>
+      <el-pagination
+        background
+        @current-change="handleCurrentChange"
+        :current-page.sync ="CurrentPage"
+        :page-size="pageSize"
+        layout="prev, pager, next"
+        :total="TotalResult">
+      </el-pagination>
+    </div>
 
   </div>
   </div>
@@ -121,7 +136,127 @@
 export default {
   data() {
     return {
-pd:{}
+      accessoryNameList:[],
+      comment_infor:[],
+      itemForumData:{},
+      SERIAL:"",
+      airport:[],
+      backShow:false,
+      fileList:[],
+      CurrentPage:1,
+      pageSize:5,
+      TotalResult:0,
+      tableData:[],
+      pd:{}
+    }
+  },
+  activated(){
+    this.getItemForumInfor();
+    this.getCommentList(this.CurrentPage,this.pageSize,this.pd);
+  },
+
+  methods:{
+    getItemForumInfor(){
+     this.SERIAL=this.$route.params.SERIAL;
+    //  this.SERIAL="84652c2c38b34fe8a6101732f406c6a5";
+      let p={
+        "SERIAL":this.SERIAL
+      };
+
+      this.$api.post('/manage-platform/itemForum/getItemForumInforNotComment',p,
+       r => {
+         console.log(r);
+         if(r.success){
+           this.itemForumData=r.data;
+           this.accessoryNameList=r.data.ACCESSORYNAMELIST;
+         }
+      })
+    },
+    pageSizeChange(val) {
+      if(this.backShow){
+        this.getHisFn(this.CurrentPage,val,this.pd);
+
+      }else{
+        this.getCommentList(this.CurrentPage,val,this.pd);
+      }
+      console.log(`每页 ${val} 条`);
+    },
+    handleCurrentChange(val) {
+      if(this.backShow){
+        this.getHisFn(val,this.pageSize,this.pd);
+      }else{
+        this.getCommentList(val,this.pageSize,this.pd);
+
+      }
+      console.log(`当前页: ${val}`);
+    },
+    getCommentList(currentPage,showCount,pd){
+      pd.SERIAL=this.SERIAL;
+      let p={
+        "currentPage":currentPage,
+        "showCount":showCount,
+        "pd":pd
+      };
+
+      this.$api.post('/manage-platform/itemForum/getCommentListPage',p,
+       r => {
+         console.log(r);
+         if(r.success){
+           // this.comment_infor=r.data;
+           this.tableData=r.data.resultList;
+           this.TotalResult=r.data.totalResult;
+         }
+      })
+    },
+    addItemForumComment(pd){
+      pd.ITEM_FORUM_CODE=this.SERIAL;
+      this.$api.post('/manage-platform/itemForum/addItemForumComment',pd,
+       r => {
+         console.log(r);
+         if(r.success){
+           this.$message({
+             message: '评论成功！',
+             type: 'success'
+           });
+         }else {
+           this.$message({
+             message: r.message
+           });
+         }
+         pd.COMMENT_CONTENT="";
+         this.getCommentList(1,this.pageSize,this.pd);
+      })
+    },
+    clickCommentLike(serial){
+      let p={
+        "COMMENTID":serial
+      };
+      this.$api.post('/manage-platform/itemForum/updateCommentLike',p,
+       r => {
+         console.log(r);
+         if(r.success){
+
+           // this.$message({
+           //   message: '点赞成功！',
+           //   type: 'success'
+           // });
+
+
+         }else {
+           this.$message({
+             message: r.message
+           });
+         }
+         this.getCommentList(1,this.pageSize,this.pd);
+      })
+    },
+    link(){
+
+
+        this.$router.push({name:'Discussion'});
+    },
+    edits(){
+         this.$router.push({name: 'Sponsor',params:{ SERIAL:this.SERIAL}});
     }
   }
 }
