@@ -8,11 +8,11 @@
           <el-row align="center"   :gutter="2" >
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">模型名称：</span>
-              <el-input placeholder="请输入内容" size="small" v-model="pd.modelName"  class="input-input"></el-input>
+              <el-input placeholder="请输入内容" size="small" v-model="pd.MODEL_NAME"  class="input-input"></el-input>
             </el-col>
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">是否启用：</span>
-              <el-select v-model="pd.status" class="input-input"  filterable clearable placeholder="请选择"   size="small" >
+              <el-select v-model="pd.STATUS" class="input-input"  filterable clearable placeholder="请选择"   size="small" >
 
                 <el-option value="是" label="是">
                 </el-option>
@@ -23,7 +23,7 @@
             </el-col>
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">模型状态：</span>
-              <el-select v-model="pd.modelPhases" class="input-input"  filterable clearable placeholder="请选择"   size="small" >
+              <el-select v-model="pd.MODEL_PHASES" class="input-input"  filterable clearable placeholder="请选择"   size="small" >
                 <el-option value="1" label="1 - 新建">
                 </el-option>
                 <el-option value="2" label="2 - 提交测试">
@@ -56,7 +56,7 @@
             </el-col>
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">发布状态：</span>
-              <el-select v-model="pd.modelStatus" class="input-input"  filterable clearable placeholder="请选择"   size="small" >
+              <el-select v-model="pd.MODEL_STATUS" class="input-input"  filterable clearable placeholder="请选择"   size="small" >
                 <el-option value="0" label="0 - 未发布">
                 </el-option>
                 <el-option value="1" label="1 - 已发布">
@@ -135,9 +135,9 @@
           <template slot-scope="scope">
             <el-button class="table-btn" size="mini" plain icon="el-icon-edit" @click="adds(1,scope.row)">编辑</el-button>
             <el-button class="table-btn" size="mini" plain icon="el-icon-delete" @click="deletes(scope.row)">删除</el-button>
-            <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row)">版本查看</el-button>
-            <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row)">关联问题</el-button>
-            <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row)">推送测试</el-button>
+            <!-- <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row)">版本查看</el-button> -->
+            <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="relates(scope.row)">关联问题</el-button>
+            <!-- <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row)">推送测试</el-button> -->
          </template>
         </el-table-column>
       </el-table>
@@ -352,6 +352,24 @@
       </div>
     </el-dialog>
 
+    <el-dialog title="关联问题" :visible.sync="menuDialogVisible" width="500px">
+      <el-tree
+        :data="menudata"
+        show-checkbox
+        default-expand-all
+        node-key="SERIAL"
+        :default-checked-keys="defaultChecked"
+        ref="tree"
+        highlight-current
+        :props="defaultProps">
+      </el-tree>
+
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="menuItem" size="small">保 存</el-button>
+        <el-button @click="menuDialogVisible = false" size="small">取 消</el-button>
+      </div>
+    </el-dialog>
+
   </div>
   </div>
 </template>
@@ -371,6 +389,7 @@ export default {
       tabPosition: 'left',
       addDialogVisible: false,
       detailsDialogVisible: false,
+      relatesDialogVisible:false,
       menuDialogVisible: false,
       options: [{
           value: 10,
@@ -386,10 +405,11 @@ export default {
         }
       ],
       tableData: [],
+
       menudata: [],
       defaultProps: {
         children: 'menuList',
-        label: 'name'
+        label: 'NAME'
       },
       defaultChecked: [],
       multipleSelection: [],
@@ -582,6 +602,20 @@ export default {
       this.detailsDialogVisible = true;
       console.log(i);
       this.mapForm = i;
+    },
+    relates(i){
+      this.menuDialogVisible = true;
+        console.log(i.modelJc);
+      this.$api.post('/manage-platform/model/questionAll', {},
+        r => {
+          console.log(r);
+          if (r.success) {
+            this.menudata = r.data;
+            let arr=r.data.userTreeOne,that=this;
+          this.defaultChecked=r.data.checkList;
+          }
+        })
+
     },
     deletes(i) {
       let p = {

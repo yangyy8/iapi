@@ -57,10 +57,10 @@
 
 
     <div class="middle">
-      <el-row class="yr" style="margin-bottom:-20px;">
+      <!-- <el-row class="yr" style="margin-bottom:-20px;">
         <el-button type="primary" size="small" @click="download()">全部导出</el-button>
         <el-button type="warning" size="small" @click="download()">导出当前页</el-button>
-      </el-row>
+      </el-row> -->
       <div class="ak-tab mb-20">
       <div class="ak-tabs">
         <div class="ak-tab-item hand" :class="{'ak-checked':page==0}" @click="base">
