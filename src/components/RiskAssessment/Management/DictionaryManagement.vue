@@ -38,6 +38,7 @@
     <div class="middle">
       <el-row class="mb-15">
         <el-button type="primary" size="small" @click="adds(0,'');form={};">新增</el-button>
+        <el-button type="primary" size="small" @click="download">模板下载</el-button>
         </el-row>
       <el-table
         :data="tableData"
@@ -70,8 +71,8 @@
           <template slot-scope="scope">
 
               <el-button class="table-btn" size="mini" plain icon="el-icon-edit" @click="adds(1,scope.row)">编辑</el-button>
-              <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row)">导入</el-button>
-                            <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row)">导出</el-button>
+              <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="showUpload(scope.row)">导入</el-button>
+                            <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="tableDown(scope.row)">导出</el-button>
               <el-button class="table-btn" size="mini" plain icon="el-icon-delete" @click="deletes(scope.row)">删除</el-button>
          </template>
         </el-table-column>
@@ -197,10 +198,32 @@
       </div>
     </el-dialog> -->
 
+    <el-dialog title="上传模板" :visible.sync="uploadDialogVisible"  width="640px">
+      <el-form :model="releaseform" ref="releaseForm">
+        <el-upload
+          class="upload-demo"
+          ref="upload"
+          :action='"http://localhost:8081/manage-platform/riskDictionaries/riskReadExcel/"+getSerial'
+          :file-list="fileList"
+          multiple
+          :on-success="upSuccess"
+          :before-upload="beforeAvatarUpload"
+          :limit="1"
+          :auto-upload="false">
+          <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
+          <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">上传到服务器</el-button>
+          <div slot="tip" class="el-upload__tip">只能上传EXCEL文件</div>
+
+        </el-upload>
+
+      </el-form>
+    </el-dialog>
+
   </div>
   </div>
 </template>
 <script>
+import axios from 'axios'
 export default {
   data() {
     return {
@@ -211,10 +234,12 @@ export default {
       pd: {},
       company: [],
       sertail:"",
+      getSerial:"",
       dialogText:"新增",
       addDialogVisible: false,
       detailsDialogVisible: false,
       menuDialogVisible: false,
+      uploadDialogVisible:false,
       options: [{
           value: 10,
           label: "10"
@@ -271,6 +296,9 @@ export default {
     this.getList(this.CurrentPage, this.pageSize, this.pd);
   },
   methods: {
+    download(){
+      window.location.href='http://localhost:8081/manage-platform/templateFile/riskDictionariesEtails.xlsx'
+    },
     handleSelectionChange(val) {
       this.multipleSelection = val;
     },
@@ -382,6 +410,70 @@ export default {
       });
     },
 
+    beforeAvatarUpload(file){
+      console.log(file.type)
+      const isEXL = file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+
+      if (!isEXL) {
+        this.$message.error('上传文件只能是 xlsl 格式!');
+      }
+      return isEXL ;
+    },
+    showUpload(i){
+      this.getSerial=i.SERIAL;
+      this.uploadDialogVisible=true;
+      console.log( this.$refs.upload);
+      if( this.$refs.upload){
+        this.$refs.upload.clearFiles();
+      }
+    },
+    submitUpload() {
+      if(this.$refs.upload.uploadFiles.length==0){
+        this.$message({
+         message: '请先选择文件！',
+         type: 'warning'
+       });
+        return
+      }
+      alert(this.$refs);
+      this.$refs.upload.submit();
+    },
+    upSuccess(r){
+      console.log(r);
+      if(r.success){
+        this.$message({
+          message: r.data,
+          type: 'success'
+        });
+       this.uploadDialogVisible=false ;
+       this.getList(this.CurrentPage,this.pageSize,this.pd);
+      }
+    },
+    tableDown(i){
+      console.log(this.$api.rootUrl)
+        axios({
+         method: 'post',
+         url: "http://localhost:8081/manage-platform/riskDictionaries/exportFileIo",
+         data: {
+             "id": i.SERIAL,
+         },
+         responseType: 'blob'
+         }).then(response => {
+             this.downloadM(response)
+       });
+    },
+    downloadM (data,type) {
+        if (!data) {
+            return
+        }
+        let url = window.URL.createObjectURL(new Blob([data.data],{type:"application/octet-stream"}))
+        let link = document.createElement('a')
+        link.style.display = 'none'
+        link.href = url
+        link.setAttribute('download', 'riskDictionariesEtails.xlsx')
+        document.body.appendChild(link)
+        link.click()
+    }
 
   },
   filters: {

@@ -89,8 +89,16 @@
                 <span class="tag0"></span>失效标签
               </div>
               <div class="">
-                <el-tag type="warning" size="small" class="mr-5" v-for="(x,ind) in box1Data.validList" :key="ind" v-if="x.OPERATION_TYPE==1">{{x.TAG_NAME}}</el-tag>
-                <el-tag type="info" size="small" class="mr-5" v-for="(x,ind) in box1Data.validList" :key="ind" v-if="x.OPERATION_TYPE==2">{{x.TAG_NAME}}</el-tag>
+                <el-popover
+                  v-for="(x,ind) in box1Data.validList" :key="ind"
+                  ref="popover"
+                  placement="bottom"
+                  width="200"
+                  trigger="hover"
+                  :content="x.REMARK">
+                  <el-tag type="warning" slot="reference" size="small" class="mr-5" v-if="x.OPERATION_TYPE==1">{{x.TAG_NAME}}</el-tag>
+                  <el-tag type="info" slot="reference" size="small" class="mr-5" v-if="x.OPERATION_TYPE==2">{{x.TAG_NAME}}</el-tag>
+                </el-popover>
 
                 <el-button type="text" size="small" @click="moreShow=true" v-if="!moreShow">查看更多 ></el-button>
                 <el-button type="text" size="small" @click="moreShow=false" v-if="moreShow">收起<</el-button>

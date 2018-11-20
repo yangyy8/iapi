@@ -4,8 +4,6 @@
 
       <el-row type="flex">
         <el-col :span="22" class="br pr-20">
-
-
           <el-row align="center"   :gutter="2" >
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">姓名：</span>

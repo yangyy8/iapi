@@ -143,7 +143,7 @@
             <el-button type="text" size="small" @click="moreShow=false" v-if="moreShow">收起<</el-button>
           </el-col>
           <el-col :span="2" class="down-btn-area">
-            <el-button type="success" size="small" @click="getList(CurrentPage,pageSize,pd)">查询</el-button>
+            <el-button type="success" size="small" @click="pd.type='0';getList(CurrentPage,pageSize,pd)">查询</el-button>
             <!-- <el-button type="primary" plain size="small" >重置</el-button> -->
           </el-col>
         </el-row>
@@ -151,19 +151,19 @@
     <div class="middle t-table">
       <div class="ak-tab">
         <div class="ak-tabs">
-          <div class="ak-tab-item hand" :class="{'ak-checked':pd.type==0}" @click="pd.type=0">
+          <div class="ak-tab-item hand" :class="{'ak-checked':pd.type=='0'}" @click="pd.type='0';getList(CurrentPage,pageSize,pd)">
             全部
           </div>
-          <div class="ak-tab-item hand" :class="{'ak-checked':pd.type==1}" @click="pd.type=1;">
+          <div class="ak-tab-item hand" :class="{'ak-checked':pd.type=='1'}" @click="pd.type='1';getList(CurrentPage,pageSize,pd)">
             未核查
           </div>
-          <div class="ak-tab-item hand" :class="{'ak-checked':pd.type==2}" @click="pd.type=2;">
+          <div class="ak-tab-item hand" :class="{'ak-checked':pd.type=='2'}" @click="pd.type='2';getList(CurrentPage,pageSize,pd)">
             已核查
           </div>
-          <div class="ak-tab-item hand" :class="{'ak-checked':pd.type==3}" @click="pd.type=3;">
+          <div class="ak-tab-item hand" :class="{'ak-checked':pd.type=='3'}" @click="pd.type='3';getList(CurrentPage,pageSize,pd)">
             已流转
           </div>
-          <div class="ak-tab-item hand" :class="{'ak-checked':pd.type==4}" @click="pd.type=4;">
+          <div class="ak-tab-item hand" :class="{'ak-checked':pd.type=='4'}" @click="pd.type='4';getList(CurrentPage,pageSize,pd)">
             已归档
           </div>
 
@@ -213,7 +213,7 @@
           </el-table-column>
           <el-table-column
             label="证件类型"
-            prop="passporttype">
+            prop="passportTypeName">
           </el-table-column>
           <el-table-column
             label="证件号"
@@ -353,7 +353,7 @@
             </el-select>
           </el-col>
           <el-col  :sm="24" :md="12" :lg="12"  class="input-item">
-            <span  class="mr-5">扭转至 </span>
+            <span  class="mr-5">流转至 </span>
             <el-select v-model="czform.change_port" filterable clearable placeholder="请选择"  size="small" class="input-input">
               <el-option
                 v-for="item in airport"

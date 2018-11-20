@@ -1,6 +1,11 @@
 <template lang="html">
   <div class="rank">
+
     <div class="middle">
+      <!-- <el-row class="yr" style="margin-bottom:-20px;">
+        <el-button type="primary" size="small" @click="download()">全部导出</el-button>
+        <el-button type="warning" size="small" @click="download()">导出当前页</el-button>
+      </el-row> -->
       <div class="ak-tab mb-20">
       <div class="ak-tabs">
         <div class="ak-tab-item hand" :class="{'ak-checked':page==0}" @click="base">
@@ -23,18 +28,20 @@
 
               <el-row align="center"   :gutter="2">
                 <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
-                  <span class="input-text">时间范围：</span>
+                  <span class="input-text"><font class="yy-color">*</font> 时间范围：</span>
                   <div class="input-input t-flex t-date">
                    <el-date-picker
                    v-model="pd.begintime" format="yyyy-MM-dd"
                    type="date" size="small" value-format="yyyyMMdd"
-                   placeholder="开始时间"  :picker-options="pickerOptions0" >
+                   v-verify.input.blur="{regs:'required',submit:'timeDemo'}"
+                   placeholder="开始时间"  :picker-options="pickerOptions1" >
                  </el-date-picker>
                    <span class="septum">-</span>
                  <el-date-picker
                     v-model="pd.endtime" format="yyyy-MM-dd"
                     type="date" size="small" value-format="yyyyMMdd"
-                    placeholder="结束时间" :picker-options="pickerOptions1" >
+                    v-verify.input.blur="{regs:'required',submit:'timeDemo'}"
+                    placeholder="结束时间" :picker-options="pickerOptions2" >
                 </el-date-picker>
               </div>
                 </el-col>
@@ -46,7 +53,7 @@
             </el-col>
           </el-row>
 
-阀值：7
+阀值：{{this.booktimes}}
             <el-table
               :data="tableData"
               border
@@ -56,7 +63,7 @@
                 label="国籍">
               </el-table-column>
               <el-table-column
-                prop="passportnopassportno"
+                prop="passportno"
                 label="证件号码">
               </el-table-column>
               <el-table-column
@@ -72,7 +79,7 @@
                 label="出生日期">
               </el-table-column>
               <el-table-column
-                prop="fltdate"
+                prop="totalcount"
                 label="订票次数">
               </el-table-column>
             </el-table>
@@ -116,18 +123,20 @@
 
               <el-row align="center"   :gutter="2">
                 <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
-                  <span class="input-text">时间范围：</span>
+                  <span class="input-text"><font class="yy-color">*</font> 时间范围：</span>
                   <div class="input-input t-flex t-date">
                    <el-date-picker
                    v-model="pd1.begintime" format="yyyy-MM-dd"
                    type="date" size="small" value-format="yyyyMMdd"
-                   placeholder="开始时间"  :picker-options="pickerOptions" >
+                   v-verify.input.blur="{regs:'required',submit:'timeDemo1'}"
+                   placeholder="开始时间"  :picker-options="pickerOptions3" >
                  </el-date-picker>
                    <span class="septum">-</span>
                  <el-date-picker
                     v-model="pd1.endtime" format="yyyy-MM-dd"
                     type="date" size="small" value-format="yyyyMMdd"
-                    placeholder="结束时间" :picker-options="pickerOptions1" >
+                    v-verify.input.blur="{regs:'required',submit:'timeDemo1'}"
+                    placeholder="结束时间" :picker-options="pickerOptions4" >
                 </el-date-picker>
               </div>
                 </el-col>
@@ -139,7 +148,7 @@
             </el-col>
           </el-row>
 
-阀值：7
+阀值：{{this.checktimes}}
             <el-table
               :data="tableData1"
               border
@@ -149,7 +158,7 @@
                 label="国籍">
               </el-table-column>
               <el-table-column
-                prop="passportnopassportno"
+                prop="passportno"
                 label="证件号码">
               </el-table-column>
               <el-table-column
@@ -165,8 +174,8 @@
                 label="出生日期">
               </el-table-column>
               <el-table-column
-                prop="fltdate"
-                label="订票次数">
+                prop="totalcount"
+                label="值机次数">
               </el-table-column>
             </el-table>
             <div class="middle-foot">
@@ -210,18 +219,20 @@
 
               <el-row align="center"   :gutter="2">
                 <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
-                  <span class="input-text">时间范围：</span>
+                  <span class="input-text"><font class="yy-color">*</font> 时间范围：</span>
                   <div class="input-input t-flex t-date">
                    <el-date-picker
                    v-model="pd2.begintime" format="yyyy-MM-dd"
                    type="date" size="small" value-format="yyyyMMdd"
-                   placeholder="开始时间"  :picker-options="pickerOptions" >
+                   v-verify.input.blur="{regs:'required',submit:'timeDemo2'}"
+                   placeholder="开始时间"  :picker-options="pickerOptions5" >
                  </el-date-picker>
                    <span class="septum">-</span>
                  <el-date-picker
                     v-model="pd2.endtime" format="yyyy-MM-dd"
                     type="date" size="small" value-format="yyyyMMdd"
-                    placeholder="结束时间" :picker-options="pickerOptions1" >
+                    v-verify.input.blur="{regs:'required',submit:'timeDemo2'}"
+                    placeholder="结束时间" :picker-options="pickerOptions6" >
                 </el-date-picker>
               </div>
                 </el-col>
@@ -233,7 +244,7 @@
             </el-col>
           </el-row>
 
-          阀值：7
+          阀值：{{this.eetimes}}
             <el-table
               :data="tableData2"
               border
@@ -243,7 +254,7 @@
                 label="国籍">
               </el-table-column>
               <el-table-column
-                prop="passportnopassportno"
+                prop="passportno"
                 label="证件号码">
               </el-table-column>
               <el-table-column
@@ -259,8 +270,8 @@
                 label="出生日期">
               </el-table-column>
               <el-table-column
-                prop="fltdate"
-                label="订票次数">
+                prop="totalcount"
+                label="出入境次数">
               </el-table-column>
             </el-table>
             <div class="middle-foot">
@@ -300,6 +311,12 @@
   </div>
 </template>
 <script>
+import {
+  formatDate
+} from '@/assets/js/date.js'
+import {
+  dayGap
+} from '@/assets/js/date.js'
 export default {
   data() {
     return {
@@ -313,9 +330,18 @@ export default {
       pageSize2: 10,
       TotalResult2: 0,
 
-      pd: {},
-      pd1: {},
-      pd2: {},
+      pd: {
+        begintime: '',
+        endtime: ''
+      },
+      pd1: {
+        begintime: '',
+        endtime: ''
+      },
+      pd2: {
+        begintime: '',
+        endtime: ''
+      },
 
       page: 0,
       options: [{
@@ -334,8 +360,86 @@ export default {
       tableData: [],
       tableData1: [],
       tableData2: [],
+      pickerOptions1: {
+        disabledDate: (time) => {
+          if (this.pd.endtime != null) {
+            let startT = formatDate(new Date(time.getTime()), 'yyyyMMddhhmmss');
+            return startT > this.pd.endtime;
+          } else if (this.pd.endtime == null) {
+            return false
+          }
+        }
+      },
+      pickerOptions2: {
+        disabledDate: (time) => {
+          let endT = formatDate(new Date(time.getTime()), 'yyyyMMddhhmmss');
+          return endT < this.pd.begintime;
+        }
+      },
+      pickerOptions3: {
+        disabledDate: (time) => {
+          if (this.pd1.endtime != null) {
+            let startT = formatDate(new Date(time.getTime()), 'yyyyMMddhhmmss');
+            return startT > this.pd1.endtime;
+          } else if (this.pd1.endtime == null) {
+            return false
+          }
+        }
+      },
+      pickerOptions4: {
+        disabledDate: (time) => {
+          let endT = formatDate(new Date(time.getTime()), 'yyyyMMddhhmmss');
+          return endT < this.pd1.begintime;
+        }
+      },
+      pickerOptions5: {
+        disabledDate: (time) => {
+          if (this.pd2.endtime != null) {
+            let startT = formatDate(new Date(time.getTime()), 'yyyyMMddhhmmss');
+            return startT > this.pd2.endtime;
+          } else if (this.pd2.endtime == null) {
+            return false
+          }
+        }
+      },
+      pickerOptions6: {
+        disabledDate: (time) => {
+          let endT = formatDate(new Date(time.getTime()), 'yyyyMMddhhmmss');
+          return endT < this.pd2.begintime;
+        }
+      },
+
+      checktimes: 0, //值机频次阈值
+      booktimes: 0, //订票频次阈值
+      eetimes: 0, //出入境频次阈值
 
     }
+  },
+  mounted() {
+    this.getTimes();
+    let time = new Date();
+    let endz = new Date();
+    let beginz = new Date(time - 1000 * 60 * 60 * 24 * 30);
+    this.pd.begintime = formatDate(beginz, 'yyyyMMdd');
+    this.pd.endtime = formatDate(endz, 'yyyyMMdd');
+    this.pd1.begintime = formatDate(beginz, 'yyyyMMdd');
+    this.pd1.endtime = formatDate(endz, 'yyyyMMdd');
+    this.pd2.begintime = formatDate(beginz, 'yyyyMMdd');
+    this.pd2.endtime = formatDate(endz, 'yyyyMMdd');
+
+  },
+  activated() {
+    this.getTimes();
+    let time = new Date();
+    let endz = new Date();
+    let beginz = new Date(time - 1000 * 60 * 60 * 24 * 30);
+    this.pd.begintime = formatDate(beginz, 'yyyyMMdd');
+    this.pd.endtime = formatDate(endz, 'yyyyMMdd');
+    this.pd1.begintime = formatDate(beginz, 'yyyyMMdd');
+    this.pd1.endtime = formatDate(endz, 'yyyyMMdd');
+    this.pd2.begintime = formatDate(beginz, 'yyyyMMdd');
+    this.pd2.endtime = formatDate(endz, 'yyyyMMdd');
+
   },
   methods: {
 
@@ -373,14 +477,44 @@ export default {
       this.getList2(val, this.pageSize2, this.pd2);
       console.log(`2当前页: ${val}`);
     },
+    getTimes() {
 
+      var url = "/manage-platform/SuspectPerson/get_rates";
+      this.$api.post(url, {},
+        r => {
+
+          for (let rr of r.data) {
+            if (rr.code == "booktimes") {
+              this.booktimes = rr.name;
+            } else if (rr.code == "checktimes") {
+              this.checktimes = rr.name;
+            } else if (rr.code == "eetimes") {
+              this.eetimes = rr.name;
+            }
+          }
+
+        })
+
+    },
     getList(currentPage, showCount, pd) {
+      const result = this.$validator.verifyAll('timeDemo')
+       if (result.indexOf(false) > -1) {
+         return
+       }
+      if (this.pd.begintime.trim() == "" || this.pd.endtime.trim() == "") {
+        this.$alert('时间范围不能为空', '提示', {
+          confirmButtonText: '确定',
+        });
+        return false
+      };
+
+
       let p = {
         "currentPage": currentPage,
         "showCount": showCount,
         "cdt": pd
       };
-     var url="/manage-platform/SuspectPerson/get_bk_nochk";
+      var url = "/manage-platform/SuspectPerson/get_bk_nochk";
       this.$api.post(url, p,
         r => {
           console.log(r);
@@ -390,12 +524,22 @@ export default {
 
     },
     getList1(currentPage1, showCount1, pd1) {
+      const result = this.$validator.verifyAll('timeDemo1')
+       if (result.indexOf(false) > -1) {
+         return
+       }
+      if (this.pd1.begintime.trim() == "" || this.pd1.endtime.trim() == "") {
+        this.$alert('时间范围不能为空', '提示', {
+          confirmButtonText: '确定',
+        });
+        return false
+      };
       let p = {
         "currentPage": currentPage1,
         "showCount": showCount1,
         "cdt": pd1
       };
-     var url="/manage-platform/SuspectPerson/get_chk_nobrd";
+      var url = "/manage-platform/SuspectPerson/get_chk_nobrd";
       this.$api.post(url, p,
         r => {
           console.log(r);
@@ -404,12 +548,22 @@ export default {
         })
     },
     getList2(currentPage2, showCount2, pd2) {
+      const result = this.$validator.verifyAll('timeDemo2')
+       if (result.indexOf(false) > -1) {
+         return
+       }
+      if (this.pd2.begintime.trim() == "" || this.pd2.endtime.trim() == "") {
+        this.$alert('时间范围不能为空', '提示', {
+          confirmButtonText: '确定',
+        });
+        return false
+      };
       let p = {
         "currentPage": currentPage2,
         "showCount": showCount2,
         "cdt": pd2
       };
-     var url="/manage-platform/SuspectPerson/get_brd_noee";
+      var url = "/manage-platform/SuspectPerson/get_brd_noee";
       this.$api.post(url, p,
         r => {
           console.log(r);
@@ -423,5 +577,8 @@ export default {
 </script>
 
 <style scoped>
-.rank{background: #ffffff; min-height: 750px;}
+.rank {
+  background: #ffffff;
+  min-height: 750px;
+}
 </style>

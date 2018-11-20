@@ -56,8 +56,8 @@
                 <span class="input-text">国籍：</span>
                 <el-select v-model="pd.country" filterable clearable  placeholder="请选择"  size="small" class="input-input">
                   <el-option
-                    v-for="item in nation"
-                    :key="item.CODE"
+                  v-for="(item,ind)  in nation"
+                  :key="ind"
                     :label="item.CODE+' - '+item.CNAME"
                     :value="item.CODE">
                   </el-option>
@@ -164,7 +164,11 @@
             <div id="myChart6" class="ppie"></div>
             <div style="clear:both"></div>
           </div>
+
           <div v-show="page==1">
+            <el-row class="mb-15 yr">
+              <el-button type="primary" size="small" @click="download()">Excel导出</el-button>
+              </el-row>
             <el-table
                   :data="tableData"
                   :summary-method="getSummaries"
@@ -279,7 +283,8 @@ export default {
       pageSize: 10,
       TotalResult: 0,
       pd: {
-      begintime:'',endtime:''
+        begintime: '',
+        endtime: ''
       },
       nation: [],
       company: [],
@@ -320,7 +325,7 @@ export default {
       form: {},
       lineChart: null,
       gnName: [],
-      gwName:[],
+      gwName: [],
       sData1: [],
       sData2: [],
       sData3: [],
@@ -393,7 +398,7 @@ export default {
         })
     },
     getSummaries(param) {
-      console.log("合计-------------");
+
       const {
         columns,
         data
@@ -425,24 +430,26 @@ export default {
     getList(currentPage, showCount, pd) {
 
       const result = this.$validator.verifyAll('timeDemo')
-       if (result.indexOf(false) > -1) {
-         return
-       }
-      if (this.pd.begintime.trim()== "" || this.pd.endtime.trim() == "") {
+      if (result.indexOf(false) > -1) {
+        return
+      }
+
+      if (this.pd.begintime == null || this.pd.endtime == null) {
         this.$alert('时间范围不能为空', '提示', {
           confirmButtonText: '确定',
         });
         return false
       };
 
-      if (this.pd.rowproperty_flttype==undefined && this.pd.rowproperty_country==undefined && this.pd.rowproperty_cityfrom==undefined && this.pd.rowproperty_cityro==undefined && this.pd.rowproperty_passengertype==undefined && this.pd.rowproperty_vid==undefined && this.pd.rowproperty_lastcheckresult==undefined) {
+      if (this.pd.rowproperty_flttype == undefined && this.pd.rowproperty_country == undefined && this.pd.rowproperty_cityfrom == undefined && this.pd.rowproperty_cityro == undefined && this.pd.rowproperty_passengertype == undefined && this.pd.rowproperty_vid ==
+        undefined && this.pd.rowproperty_lastcheckresult == undefined) {
         this.$alert('请选择至少一个行属性', '提示', {
           confirmButtonText: '确定',
         });
         return false
       };
 
-      if (this.pd.colproperty1==undefined && this.pd.colproperty2==undefined && this.pd.colproperty3==undefined && this.pd.colproperty4==undefined && this.pd.colproperty5==undefined) {
+      if (this.pd.colproperty1 == undefined && this.pd.colproperty2 == undefined && this.pd.colproperty3 == undefined && this.pd.colproperty4 == undefined && this.pd.colproperty5 == undefined) {
         this.$alert('请选择至少一个列属性', '提示', {
           confirmButtonText: '确定',
         });
@@ -459,30 +466,30 @@ export default {
       this.show7 = false;
       this.show8 = false;
 
-   if(this.pd.rowproperty_flttype){
-         this.show1 = true;
-   }
-   if(this.pd.rowproperty_cityro){
-         this.show2 = true;
-   }
-   if(this.pd.rowproperty_country){
-         this.show3 = true;
-   }
-   if(this.pd.colproperty1){
-         this.show4 = true;
-   }
-   if(this.pd.colproperty2){
-         this.show5 = true;
-   }
-   if(this.pd.colproperty3){
-         this.show6= true;
-   }
-   if(this.pd.colproperty4){
-         this.show7 = true;
-   }
-   if(this.pd.colproperty5){
-         this.show8 = true;
-   }
+      if (this.pd.rowproperty_flttype) {
+        this.show1 = true;
+      }
+      if (this.pd.rowproperty_cityro) {
+        this.show2 = true;
+      }
+      if (this.pd.rowproperty_country) {
+        this.show3 = true;
+      }
+      if (this.pd.colproperty1) {
+        this.show4 = true;
+      }
+      if (this.pd.colproperty2) {
+        this.show5 = true;
+      }
+      if (this.pd.colproperty3) {
+        this.show6 = true;
+      }
+      if (this.pd.colproperty4) {
+        this.show7 = true;
+      }
+      if (this.pd.colproperty5) {
+        this.show8 = true;
+      }
 
       let p = {
 
@@ -514,6 +521,9 @@ export default {
           this.tableData = r.data;
 
           let arr = this.tableData;
+
+
+
           var sum1 = 0,
             sum01 = 0;
           var sum2 = 0,
@@ -529,6 +539,7 @@ export default {
             sum06 = 0,
             sum006 = 0,
             sum0006 = 0;
+
           for (var i = 0; i < arr.length; i++) {
             sum1 += parseInt(arr[i].fltcount);
             sum01 += parseInt(arr[i].checkincount);
@@ -541,7 +552,6 @@ export default {
             sum5 += parseInt(arr[i].foreign);
             sum05 += parseInt(arr[i].inland);
             sum005 += parseInt(arr[i].gat);
-
             sum6 += parseInt(arr[i].chk_0z);
             sum06 += parseInt(arr[i].chk_1z);
             sum006 += parseInt(arr[i].chk_2z);
@@ -563,10 +573,10 @@ export default {
           }];
           this.sData3 = [{
             value: sum3,
-            name: '男'
+            name: '女'
           }, {
             value: sum03,
-            name: '女'
+            name: '男'
           }];
           this.sData4 = [{
             value: sum4,
@@ -598,7 +608,7 @@ export default {
             value: sum0006,
             name: '数据错误'
           }];
-        //  console.log(this.sData1+"------------"+sum0+"==="+sum00);
+          //  console.log(this.sData1+"------------"+sum0+"==="+sum00);
           this.drawLine();
           this.drawLine2();
           this.drawLine3();
@@ -663,6 +673,7 @@ export default {
       });
     },
     drawLine3() {
+
       this.lineChart = echarts.init(document.getElementById('myChart3'), 'light');
       window.onresize = echarts.init(document.getElementById('myChart3')).resize;
       let that = this;

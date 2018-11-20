@@ -1,6 +1,11 @@
 <template lang="html">
   <div class="rank">
+
     <div class="middle">
+      <!-- <el-row class="yr" style="margin-bottom:-20px;">
+        <el-button type="primary" size="small" @click="download()">全部导出</el-button>
+        <el-button type="warning" size="small" @click="download()">导出当前页</el-button>
+      </el-row> -->
       <div class="ak-tab mb-20">
       <div class="ak-tabs">
         <div class="ak-tab-item hand" :class="{'ak-checked':page==0}" @click="base">
@@ -26,22 +31,24 @@
 
               <el-row align="center"   :gutter="2">
                 <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
-                  <span class="input-text">航班号：</span>
-                  <el-input placeholder="请输入内容" size="small" v-model="pd.fltno"  class="input-input"></el-input>
+                  <span class="input-text"><font class="yy-color">*</font> 航班号：</span>
+                  <el-input placeholder="请输入内容" size="small" v-model="pd.fltno"  class="input-input" v-verify.input.blur="{regs:'required',submit:'timeDemo'}"></el-input>
                 </el-col>
                 <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
-                  <span class="input-text">计划起飞时间：</span>
+                  <span class="input-text"><font class="yy-color">*</font> 时间范围：</span>
                   <div class="input-input t-flex t-date">
                    <el-date-picker
                    v-model="pd.begintime" format="yyyy-MM-dd"
                    type="date" size="small" value-format="yyyyMMdd"
-                   placeholder="开始时间"  :picker-options="pickerOptions" >
+                   v-verify.input.blur="{regs:'required',submit:'timeDemo'}"
+                   placeholder="开始时间"  :picker-options="pickerOptions1" >
                  </el-date-picker>
                    <span class="septum">-</span>
                  <el-date-picker
                     v-model="pd.endtime" format="yyyy-MM-dd"
                     type="date" size="small" value-format="yyyyMMdd"
-                    placeholder="结束时间" :picker-options="pickerOptions1" >
+                    v-verify.input.blur="{regs:'required',submit:'timeDemo'}"
+                    placeholder="结束时间" :picker-options="pickerOptions2" >
                 </el-date-picker>
               </div>
                 </el-col>
@@ -123,22 +130,24 @@
 
               <el-row align="center"   :gutter="2">
                 <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
-                  <span class="input-text">航班号：</span>
-                  <el-input placeholder="请输入内容" size="small" v-model="pd1.fltno"  class="input-input"></el-input>
+                  <span class="input-text"><font class="yy-color">*</font>  航班号：</span>
+                  <el-input placeholder="请输入内容" size="small" v-model="pd1.fltno"  class="input-input" v-verify.input.blur="{regs:'required',submit:'timeDemo1'}"></el-input>
                 </el-col>
                 <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
-                  <span class="input-text">计划起飞时间：</span>
+                  <span class="input-text"><font class="yy-color">*</font>  时间范围：</span>
                   <div class="input-input t-flex t-date">
                    <el-date-picker
                    v-model="pd1.begintime" format="yyyy-MM-dd"
                    type="date" size="small" value-format="yyyyMMdd"
-                   placeholder="开始时间"  :picker-options="pickerOptions" >
+                   v-verify.input.blur="{regs:'required',submit:'timeDemo1'}"
+                   placeholder="开始时间"  :picker-options="pickerOptions3" >
                  </el-date-picker>
                    <span class="septum">-</span>
                  <el-date-picker
                     v-model="pd1.endtime" format="yyyy-MM-dd"
                     type="date" size="small" value-format="yyyyMMdd"
-                    placeholder="结束时间" :picker-options="pickerOptions1" >
+                    v-verify.input.blur="{regs:'required',submit:'timeDemo1'}"
+                    placeholder="结束时间" :picker-options="pickerOptions4" >
                 </el-date-picker>
               </div>
                 </el-col>
@@ -220,22 +229,24 @@
 
               <el-row align="center"   :gutter="2">
                 <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
-                  <span class="input-text">航班号：</span>
-                  <el-input placeholder="请输入内容" size="small" v-model="pd2.fltno"  class="input-input"></el-input>
+                  <span class="input-text"><font class="yy-color">*</font>  航班号：</span>
+                  <el-input placeholder="请输入内容" size="small" v-model="pd2.fltno"  class="input-input" v-verify.input.blur="{regs:'required',submit:'timeDemo2'}"></el-input>
                 </el-col>
                 <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
-                  <span class="input-text">计划起飞时间：</span>
+                  <span class="input-text"> <font class="yy-color">*</font> 时间范围：</span>
                   <div class="input-input t-flex t-date">
                    <el-date-picker
                    v-model="pd2.begintime" format="yyyy-MM-dd"
                    type="date" size="small" value-format="yyyyMMdd"
-                   placeholder="开始时间"  :picker-options="pickerOptions" >
+                   v-verify.input.blur="{regs:'required',submit:'timeDemo2'}"
+                   placeholder="开始时间"  :picker-options="pickerOptions5" >
                  </el-date-picker>
                    <span class="septum">-</span>
                  <el-date-picker
                     v-model="pd2.endtime" format="yyyy-MM-dd"
                     type="date" size="small" value-format="yyyyMMdd"
-                    placeholder="结束时间" :picker-options="pickerOptions1" >
+                    v-verify.input.blur="{regs:'required',submit:'timeDemo2'}"
+                    placeholder="结束时间" :picker-options="pickerOptions6" >
                 </el-date-picker>
               </div>
                 </el-col>
@@ -317,22 +328,24 @@
 
               <el-row align="center"   :gutter="2">
                 <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
-                  <span class="input-text">航班号：</span>
-                  <el-input placeholder="请输入内容" size="small" v-model="pd3.fltno"  class="input-input"></el-input>
+                  <span class="input-text"><font class="yy-color">*</font>  航班号：</span>
+                  <el-input placeholder="请输入内容" size="small" v-model="pd3.fltno"  class="input-input" v-verify.input.blur="{regs:'required',submit:'timeDemo3'}"></el-input>
                 </el-col>
                 <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
-                  <span class="input-text">计划起飞时间：</span>
+                  <span class="input-text"><font class="yy-color">*</font>  时间范围：</span>
                   <div class="input-input t-flex t-date">
                    <el-date-picker
                    v-model="pd3.begintime" format="yyyy-MM-dd"
                    type="date" size="small" value-format="yyyyMMdd"
-                   placeholder="开始时间"  :picker-options="pickerOptions" >
+                   v-verify.input.blur="{regs:'required',submit:'timeDemo3'}"
+                   placeholder="开始时间"  :picker-options="pickerOptions7" >
                  </el-date-picker>
                    <span class="septum">-</span>
                  <el-date-picker
                     v-model="pd3.endtime" format="yyyy-MM-dd"
                     type="date" size="small" value-format="yyyyMMdd"
-                    placeholder="结束时间" :picker-options="pickerOptions1" >
+                    v-verify.input.blur="{regs:'required',submit:'timeDemo3'}"
+                    placeholder="结束时间" :picker-options="pickerOptions8" >
                 </el-date-picker>
               </div>
                 </el-col>
@@ -420,6 +433,12 @@
   </div>
 </template>
 <script>
+import {
+  formatDate
+} from '@/assets/js/date.js'
+import {
+  dayGap
+} from '@/assets/js/date.js'
 export default {
   data() {
     return {
@@ -435,10 +454,10 @@ export default {
       CurrentPage3: 1,
       pageSize3: 10,
       TotalResult3: 0,
-      pd: {},
-      pd1: {},
-      pd2: {},
-      pd3: {},
+      pd: {      begintime:'',endtime:''},
+      pd1: {      begintime:'',endtime:''},
+      pd2: {      begintime:'',endtime:''},
+      pd3: {      begintime:'',endtime:''},
       page: 0,
       options: [{
           value: 10,
@@ -457,7 +476,99 @@ export default {
       tableData1: [],
       tableData2: [],
       tableData3: [],
+      pickerOptions1: {
+        disabledDate: (time) => {
+          if (this.pd.endtime != null) {
+            let startT = formatDate(new Date(time.getTime()), 'yyyyMMddhhmmss');
+            return startT > this.pd.endtime;
+          } else if (this.pd.endtime == null) {
+            return false
+          }
+        }
+      },
+      pickerOptions2: {
+        disabledDate: (time) => {
+          let endT = formatDate(new Date(time.getTime()), 'yyyyMMddhhmmss');
+          return endT < this.pd.begintime;
+        }
+      },
+      pickerOptions3: {
+        disabledDate: (time) => {
+          if (this.pd1.endtime != null) {
+            let startT = formatDate(new Date(time.getTime()), 'yyyyMMddhhmmss');
+            return startT > this.pd1.endtime;
+          } else if (this.pd1.endtime == null) {
+            return false
+          }
+        }
+      },
+      pickerOptions4: {
+        disabledDate: (time) => {
+          let endT = formatDate(new Date(time.getTime()), 'yyyyMMddhhmmss');
+          return endT < this.pd1.begintime;
+        }
+      },
+      pickerOptions5: {
+        disabledDate: (time) => {
+          if (this.pd2.endtime != null) {
+            let startT = formatDate(new Date(time.getTime()), 'yyyyMMddhhmmss');
+            return startT > this.pd2.endtime;
+          } else if (this.pd2.endtime == null) {
+            return false
+          }
+        }
+      },
+      pickerOptions6: {
+        disabledDate: (time) => {
+          let endT = formatDate(new Date(time.getTime()), 'yyyyMMddhhmmss');
+          return endT < this.pd2.begintime;
+        }
+      },
+      pickerOptions7: {
+        disabledDate: (time) => {
+          if (this.pd3.endtime != null) {
+            let startT = formatDate(new Date(time.getTime()), 'yyyyMMddhhmmss');
+            return startT > this.pd3.endtime;
+          } else if (this.pd3.endtime == null) {
+            return false
+          }
+        }
+      },
+      pickerOptions8: {
+        disabledDate: (time) => {
+          let endT = formatDate(new Date(time.getTime()), 'yyyyMMddhhmmss');
+          return endT < this.pd3.begintime;
+        }
+      },
     }
+  },
+  mounted() {
+
+    let time = new Date();
+    let endz = new Date();
+    let beginz = new Date(time - 1000 * 60 * 60 * 24 * 30);
+    this.pd.begintime = formatDate(beginz, 'yyyyMMdd');
+    this.pd.endtime = formatDate(endz, 'yyyyMMdd');
+    this.pd1.begintime = formatDate(beginz, 'yyyyMMdd');
+    this.pd1.endtime = formatDate(endz, 'yyyyMMdd');
+    this.pd2.begintime = formatDate(beginz, 'yyyyMMdd');
+    this.pd2.endtime = formatDate(endz, 'yyyyMMdd');
+    this.pd3.begintime = formatDate(beginz, 'yyyyMMdd');
+    this.pd3.endtime = formatDate(endz, 'yyyyMMdd');
+  },
+  activated() {
+    let time = new Date();
+    let endz = new Date();
+    let beginz = new Date(time - 1000 * 60 * 60 * 24 * 30);
+    this.pd.begintime = formatDate(beginz, 'yyyyMMdd');
+    this.pd.endtime = formatDate(endz, 'yyyyMMdd');
+    this.pd1.begintime = formatDate(beginz, 'yyyyMMdd');
+    this.pd1.endtime = formatDate(endz, 'yyyyMMdd');
+    this.pd2.begintime = formatDate(beginz, 'yyyyMMdd');
+    this.pd2.endtime = formatDate(endz, 'yyyyMMdd');
+    this.pd3.begintime = formatDate(beginz, 'yyyyMMdd');
+    this.pd3.endtime = formatDate(endz, 'yyyyMMdd')
+
   },
   methods: {
 
@@ -506,6 +617,22 @@ export default {
       console.log(`3当前页: ${val}`);
     },
     getList(currentPage, showCount, pd) {
+      const result = this.$validator.verifyAll('timeDemo')
+       if (result.indexOf(false) > -1) {
+         return
+       }
+      if (this.pd.fltno==undefined || this.pd.fltno.trim() == "") {
+        this.$alert('航班号不能为空', '提示', {
+          confirmButtonText: '确定',
+        });
+        return false
+      };
+      if (this.pd.begintime.trim()== "" || this.pd.endtime.trim() == "") {
+        this.$alert('时间范围不能为空', '提示', {
+          confirmButtonText: '确定',
+        });
+        return false
+      };
       let p = {
         "currentPage": currentPage,
         "showCount": showCount,
@@ -521,6 +648,22 @@ export default {
 
     },
     getList1(currentPage1, showCount1, pd1) {
+      const result = this.$validator.verifyAll('timeDemo1')
+       if (result.indexOf(false) > -1) {
+         return
+       }
+      if (this.pd1.fltno==undefined || this.pd1.fltno.trim() == "") {
+        this.$alert('航班号不能为空', '提示', {
+          confirmButtonText: '确定',
+        });
+        return false
+      };
+      if (this.pd1.begintime.trim()== "" || this.pd1.endtime.trim() == "") {
+        this.$alert('时间范围不能为空', '提示', {
+          confirmButtonText: '确定',
+        });
+        return false
+      };
       let p = {
         "currentPage": currentPage1,
         "showCount": showCount1,
@@ -535,6 +678,22 @@ export default {
         })
     },
     getList2(currentPage2, showCount2, pd2) {
+      const result = this.$validator.verifyAll('timeDemo2')
+       if (result.indexOf(false) > -1) {
+         return
+       }
+      if (this.pd2.fltno==undefined || this.pd2.fltno.trim() == "") {
+        this.$alert('航班号不能为空', '提示', {
+          confirmButtonText: '确定',
+        });
+        return false
+      };
+      if (this.pd2.begintime.trim()== "" || this.pd2.endtime.trim() == "") {
+        this.$alert('时间范围不能为空', '提示', {
+          confirmButtonText: '确定',
+        });
+        return false
+      };
       let p = {
         "currentPage": currentPage2,
         "showCount": showCount2,
@@ -549,6 +708,22 @@ export default {
         })
     },
     getList3(currentPage3, showCount3, pd3) {
+      const result = this.$validator.verifyAll('timeDemo3')
+       if (result.indexOf(false) > -1) {
+         return
+       }
+      if (this.pd3.fltno==undefined || this.pd3.fltno.trim() == "") {
+        this.$alert('航班号不能为空', '提示', {
+          confirmButtonText: '确定',
+        });
+        return false
+      };
+      if (this.pd3.begintime.trim()== "" || this.pd3.endtime.trim() == "") {
+        this.$alert('时间范围不能为空', '提示', {
+          confirmButtonText: '确定',
+        });
+        return false
+      };
       let p = {
         "currentPage": currentPage3,
         "showCount": showCount3,

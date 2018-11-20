@@ -118,7 +118,7 @@
           申请事由：{{moreData.birth_date}}
         </el-col>
         <el-col :span="12">
-          证件类型：{{moreData.cert_type_na}}
+          证件类型：{{moreData.cert_type_na||moreData.passport_type}}
         </el-col>
         <el-col :span="12">
           证件号码：{{moreData.cert_no}}
@@ -133,16 +133,16 @@
           境外人员类别：{{moreData.entry_period}}
         </el-col>
         <el-col :span="12">
-          人员地域类别：{{moreData.imm_time}}
+          人员地域类别：{{moreData.pers_reg_catg_na}}
         </el-col>
         <el-col :span="12">
-          境外人员身份证号码：{{moreData.imm_port}}
+          境外人员身份证号码：{{moreData.fgn_card_id}}
         </el-col>
         <el-col :span="12">
-          原签证/居留许可种类：{{moreData.imm_rsn_code_na}}
+          原签证/居留许可种类：{{moreData.orig_visa_type_na}}
         </el-col>
         <el-col :span="12">
-          原签证/居留许可号码：{{moreData.inspector}}
+          原签证/居留许可号码：{{moreData.orig_visa_no}}
         </el-col>
         <el-col :span="12">
           原签证/居留许可停留期至：{{moreData.inspector_name}}

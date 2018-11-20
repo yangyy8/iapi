@@ -11,12 +11,12 @@
 
           <el-row align="center"   :gutter="2">
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
-              <span class="input-text">时间范围：</span>
+              <span class="input-text"><font class="yy-color">*</font> 时间范围：</span>
               <div class="input-input t-flex t-date">
                <el-date-picker
                v-model="pd.begintime" format="yyyy-MM-dd"
                type="date" size="small" value-format="yyyyMMdd"
-               placeholder="开始时间"  :picker-options="pickerOptions" >
+               placeholder="开始时间"  :picker-options="pickerOptions0" >
              </el-date-picker>
                <span class="septum">-</span>
              <el-date-picker
@@ -57,6 +57,10 @@
 
 
     <div class="middle">
+      <!-- <el-row class="yr" style="margin-bottom:-20px;">
+        <el-button type="primary" size="small" @click="download()">全部导出</el-button>
+        <el-button type="warning" size="small" @click="download()">导出当前页</el-button>
+      </el-row> -->
       <div class="ak-tab mb-20">
       <div class="ak-tabs">
         <div class="ak-tab-item hand" :class="{'ak-checked':page==0}" @click="base">
@@ -66,9 +70,9 @@
           重复值机
         </div>
       </div>
+
     <div class="ak-tab-pane" >
         <div v-show="page==0">
-
             <el-table
               :data="tableData"
               border
@@ -277,7 +281,7 @@ export default {
       pickerOptions0: {
         disabledDate: (time) => {
             if (this.pd.endtime != null) {
-              let startT = formatDate(new Date(time.getTime()),'yyyyMMdd');
+              let startT = formatDate(new Date(time.getTime()),'yyyyMMddhhmmss');
               return startT > this.pd.endtime;
             }else if(this.pd.endtime == null){
               return false
@@ -286,7 +290,7 @@ export default {
       },
       pickerOptions1: {
         disabledDate: (time) => {
-            let endT = formatDate(new Date(time.getTime()),'yyyyMMdd');
+            let endT = formatDate(new Date(time.getTime()),'yyyyMMddhhmmss');
             return endT < this.pd.begintime;
         }
       },
@@ -345,13 +349,15 @@ export default {
     },
     getList(currentPage, showCount, pd) {
 
-      // if(dayGap(this.pd.begin,this.pd.end,0)>1){
-      //   this.$alert('只能查询某一天的日期', '提示', {
-      //     confirmButtonText: '确定',
-      //   });
-      //   return false
-      // }
-console.log("-----------:"+this.type+"==="+this.flag+"==="+this.page);
+
+      if (this.pd.begintime== null || this.pd.endtime == null) {
+        this.$alert('时间范围不能为空', '提示', {
+          confirmButtonText: '确定',
+        });
+        return false
+      };
+
+
       let p = {
         "currentPage": currentPage,
         "showCount": showCount,
@@ -388,7 +394,12 @@ console.log("-----------:"+this.type+"==="+this.flag+"==="+this.page);
 
     getList1(currentPage1, showCount1, pd) {
 
-
+      if (this.pd.begintime== null || this.pd.endtime == null) {
+        this.$alert('时间范围不能为空', '提示', {
+          confirmButtonText: '确定',
+        });
+        return false
+      };
       let pp = {
         "currentPage": currentPage1,
         "showCount": showCount1,
