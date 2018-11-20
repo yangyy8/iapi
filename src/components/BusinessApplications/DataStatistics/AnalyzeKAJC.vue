@@ -102,12 +102,15 @@
 
       <div class="ak-tab-pane" >
           <div v-show="page==0" >
-          <div id="myChart" class="ppie"></div>
+          <div id="myChart" class="ppie">暂无数据</div>
           <div id="myChart2" class="ppie"></div>
           <div id="myChart3" class="ppie"></div>
           <div style="clear:both"></div>
           </div>
           <div v-show="page==1">
+            <el-row class="mb-15 yr">
+              <el-button type="primary" size="small" @click="download()">Excel导出</el-button>
+              </el-row>
             <el-table
               :data="tableData"
               border
@@ -240,7 +243,7 @@ export default {
   },
   mounted() {
 
-    this.drawLine();
+    //this.drawLine();
     let time = new Date();
     let endz = new Date();
     let beginz = new Date(time - 1000 * 60 * 60 * 24 * 30);
@@ -250,7 +253,7 @@ export default {
   },
   activated() {
 
-      this.drawLine();
+    //this.drawLine();
     let time = new Date();
     let endz = new Date();
     let beginz = new Date(time - 1000 * 60 * 60 * 24 * 30);
@@ -279,6 +282,12 @@ export default {
     },
     getList(currentPage, showCount, pd) {
 
+            if (this.pd.begintime== null|| this.pd.endtime == null) {
+              this.$alert('时间范围不能为空', '提示', {
+                confirmButtonText: '确定',
+              });
+              return false
+            };
 
       let p = {
 

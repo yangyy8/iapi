@@ -5,29 +5,18 @@
 
 //var root="http://192.168.99.228:8080"    //丁勇的电脑
 
-<<<<<<< HEAD
 //var root="http://192.168.99.228:8080"    //丁勇的电
 var root="http://192.168.99.206:8080"
-=======
-var root="http://192.168.99.247:8080"   
-//var root="http://192.168.99.206:8080"
->>>>>>> b376835aa626250da046d9595b427cd1c7823fd7
 
 // var root = 'http://192.168.99.245:8080'
 //var root="http://192.168.99.213:8080"   //服务器电脑
  //var root="http://192.168.99.228:8080"
 //var root="http://10.6.126.138:8088"
 // var root = 'http://192.168.99.201:8080'
-<<<<<<< HEAD
 //var root="http://10.6.126.138:8088" //正式环境
-=======
-// var root = 'http://192.168.99.234:80'  //李文龙
-
->>>>>>> b376835aa626250da046d9595b427cd1c7823fd7
 
 // 引用axios
 var axios = require('axios')
-
 import { Loading } from 'element-ui';
 import { Message } from 'element-ui';
 import { MessageBox } from 'element-ui';

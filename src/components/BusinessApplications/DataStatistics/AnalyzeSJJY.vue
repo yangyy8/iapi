@@ -83,12 +83,15 @@
 
       <div class="ak-tab-pane" >
           <div v-show="page==0" >
-            <div id="myChart" class="ppie"></div>
+            <div id="myChart" class="ppie">暂无数据</div>
             <div id="myChart2" class="ppie"></div>
             <!-- <div id="myChart3" class="ppie"></div> -->
             <div style="clear:both"></div>
           </div>
           <div v-show="page==1">
+            <el-row class="mb-15 yr">
+              <el-button type="primary" size="small" @click="download()">Excel导出</el-button>
+              </el-row>
                        <el-table
                              :data="tableData"
                              :summary-method="getSummaries"
@@ -260,12 +263,17 @@ export default {
          return sums;
        },
     getList(currentPage, showCount, pd) {
-      // this.pd.begin=formatDate(this.pd.begin,"yyyyMMddhhssmm");
-      // this.pd.end=formatDate(this.pd.end,"yyyyMMddhhssmm");
-      // const result = this.$validator.verifyAll('timeDemo')
-      //  if (result.indexOf(false) > -1) {
-      //    return
-      //  }
+      const result = this.$validator.verifyAll('timeDemo')
+       if (result.indexOf(false) > -1) {
+         return
+       }
+
+             if (this.pd.begintime== null|| this.pd.endtime == null) {
+               this.$alert('时间范围不能为空', '提示', {
+                 confirmButtonText: '确定',
+               });
+               return false
+             };
 
       let p = {
         "begintime": pd.begintime,

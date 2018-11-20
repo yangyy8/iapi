@@ -177,11 +177,11 @@
         <el-row type="flex"  class="mb-6">
           <el-col :span="12" class="input-item">
             <span class="yy-input-text"><font class="yy-color">*</font> 模型名称：</span>
-            <el-input placeholder="请输入内容" size="small"   v-model="form.modelName"  class="yy-input-input" ></el-input>
+            <el-input placeholder="请输入内容" size="small"   v-model="form.modelName"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
           </el-col>
           <el-col :span="12" class="input-item">
             <span class="yy-input-text"><font class="yy-color">*</font> 是否启用：</span>
-            <el-select v-model="form.status" class="input-input"  filterable clearable placeholder="请选择"   size="small" >
+            <el-select v-model="form.status" class="input-input"  filterable clearable placeholder="请选择"   size="small" v-verify.change.blur ="{regs:'required',submit:'demo2'}">
               <el-option value="0" label="0 - 不启用">
               </el-option>
               <el-option value="1" label="1 - 启用">
@@ -198,21 +198,21 @@
         </el-row> -->
         <el-row type="flex" class="mb-6" >
           <el-col :span="24" class="input-item">
-            <span class="input-text memol">模型描述：</span>
-           <el-input type="textarea" placeholder="请输入内容" maxlength="250" :autosize="{ minRows: 3, maxRows: 6}" v-model="form.modelDescribe" class="memor"></el-input>
+            <span class="input-text memol"><font class="yy-color">*</font> 模型描述：</span>
+           <el-input type="textarea" placeholder="请输入内容" maxlength="250" :autosize="{ minRows: 3, maxRows: 6}" v-model="form.modelDescribe" class="memor" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
           </el-col>
         </el-row>
         <el-row type="flex" class="mb-6" >
           <el-col :span="24" class="input-item" >
-            <span class="input-text memol">核查策略：</span>
-           <el-input type="textarea" placeholder="请输入内容" maxlength="250" :autosize="{ minRows: 3, maxRows: 6}" v-model="form.strategy" class="memor"></el-input>
+            <span class="input-text memol"><font class="yy-color">*</font> 核查策略：</span>
+           <el-input type="textarea" placeholder="请输入内容" maxlength="250" :autosize="{ minRows: 3, maxRows: 6}" v-model="form.strategy" class="memor" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
           </el-col>
         </el-row>
         <el-row type="flex" class="mb-6" >
           <el-col :span="24" class="input-item" >
-            <span class="input-text memol">案例描述：</span>
+            <span class="input-text memol"><font class="yy-color">*</font> 案例描述：</span>
 
-           <el-input type="textarea" placeholder="请输入内容" maxlength="250" :autosize="{ minRows: 3, maxRows: 6}" v-model="form.caseNarration" class="memor"></el-input>
+           <el-input type="textarea" placeholder="请输入内容" maxlength="250" :autosize="{ minRows: 3, maxRows: 6}" v-model="form.caseNarration" class="memor" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
           </el-col>
         </el-row>
         <el-row type="flex" class="mb-6" >
@@ -265,10 +265,10 @@
         </el-row>
         <el-row type="flex" >
           <el-col :span="3" class="tjcon"  style="text-align:right">
-            进入规则：
+          <font class="yy-color">*</font>   进入规则：
           </el-col>
           <el-col :span="21" class="tjcon">
-            <el-input type="textarea" placeholder="请输入内容" maxlength="250" :autosize="{ minRows: 3, maxRows: 3}" v-model="form.enterRule"  class="memoa"></el-input>
+            <el-input type="textarea" placeholder="请输入内容" maxlength="250" :autosize="{ minRows: 3, maxRows: 3}" v-model="form.enterRule"  class="memoa" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
 
           </el-col>
         </el-row>
@@ -366,8 +366,8 @@ export default {
       TotalResult: 0,
       pd: {},
       target: [],
-      sertail:"",
-      dialogText:"新增",
+      sertail: "",
+      dialogText: "新增",
       tabPosition: 'left',
       addDialogVisible: false,
       detailsDialogVisible: false,
@@ -391,57 +391,49 @@ export default {
         children: 'menuList',
         label: 'name'
       },
-      defaultChecked:[],
+      defaultChecked: [],
       multipleSelection: [],
 
       form: {},
       mapForm: {},
       Airport: [],
-      rows:[
-        {
-          id:1,
-          targetId:'',
-          calculation:'',
-          targetValue:''
-        }
-      ],
-      modelrow:[
-        {
-          id:1,
-          targetId:'',
-          calculation:'',
-          targetValue:''
-        }
-      ],
-      erows:[
-        {
-          id:1,
-          ruleName:'',
-          ruleRules:'',
-          ruleDescribe:'',
-          ruleGrade:''
-        }
-      ],
-      emodelrow:[
-        {
-          id:1,
-          ruleName:'',
-          ruleRules:'',
-          ruleDescribe:'',
-          ruleGrade:''
-        }
-      ],
-      count:1,
-      ecount:1,
+      rows: [{
+        id: 1,
+        targetId: '',
+        calculation: '',
+        targetValue: ''
+      }],
+      modelrow: [{
+        id: 1,
+        targetId: '',
+        calculation: '',
+        targetValue: ''
+      }],
+      erows: [{
+        id: 1,
+        ruleName: '',
+        ruleRules: '',
+        ruleDescribe: '',
+        ruleGrade: ''
+      }],
+      emodelrow: [{
+        id: 1,
+        ruleName: '',
+        ruleRules: '',
+        ruleDescribe: '',
+        ruleGrade: ''
+      }],
+      count: 1,
+      ecount: 1,
     }
   },
   mounted() {
     this.getList(this.CurrentPage, this.pageSize, this.pd);
     this.queryNationality();
   },
-  activated(){
+  activated() {
     this.getList(this.CurrentPage, this.pageSize, this.pd);
-      this.queryNationality();
+    this.queryNationality();
   },
   methods: {
     handleSelectionChange(val) {
@@ -484,41 +476,87 @@ export default {
       if (n != 0) {
         this.tp = 1;
         // this.form = i;
-        this.form=Object.assign({}, i);
-        this.dialogText="编辑";
-      }else {
-        this.dialogText="新增";
+        this.form = Object.assign({}, i);
+        this.dialogText = "编辑";
+        let p={
+          "modelId": i.MODEL_ID,
+          "modelCode": i.MODEL_CODE,
+          "modelVersion": i.MODEL_VERSION
+        };
+        this.$api.post('/manage-platform/model/goEdit', p,
+          r => {
+            console.log(r);
+            if (r.success) {
+              this.form = r.data;
+              this.form.enterRule=r.data.enterRule.ruleRules;
+              this.form.filterRule=r.data.filterRule.ruleRules;
+              this.rows=r.data.targetList;
+              this.erows=r.data.ruleList;
+
+            }
+          });
+
+      } else {
+        this.tp = 0;
+        this.dialogText = "新增";
       }
 
     },
     addItem(formName) {
-            // if(this.$validator.listener.demo2){
-            //   const result = this.$validator.verifyAll('demo2')
-            //    if (result.indexOf(false) > -1) {
-            //      return
-            //    } else {
-            //    }
-            // }
+      if(this.$validator.listener.demo2){
+        const result = this.$validator.verifyAll('demo2')
+         if (result.indexOf(false) > -1) {
+           return
+         } else {
+         }
+      }
 
 
-let p={
-  "modelName":this.form.modelName,
-  "modelJc":this.form.modelJc,
-  "status":this.form.status,
-  "modelDescribe":this.form.modelDescribe,
-  "strategy":this.form.strategy,
-  "caseNarration":this.form.caseNarration,
-  "lifeSpan":this.form.lifeSpan,
-  "targetList":this.rows,
-  "enterRule":{"ruleRules":this.form.enterRule},
-  "filterRule":{"ruleRules":this.form.filterRule},
-  "ruleList":this.erows
-};
-
-      var url = "/manage-platform/model/add";
-
+      let p={};
+      var url = "";
       if (this.tp == 1) {
+
+         p = {
+          "modelId": this.form.modelId,
+          "modelCode":this.form.modelCode,
+          "modelVersion":this.form.modelVersion,
+          "modelName": this.form.modelName,
+          "modelJc": this.form.modelJc,
+          "status": this.form.status,
+          "modelDescribe": this.form.modelDescribe,
+          "strategy": this.form.strategy,
+          "caseNarration": this.form.caseNarration,
+          "lifeSpan": this.form.lifeSpan,
+          "targetList": this.rows,
+          "enterRule": {
+            "ruleRules": this.form.enterRule
+          },
+          "filterRule": {
+            "ruleRules": this.form.filterRule
+          },
+          "ruleList": this.erows
+        };
         url = "/manage-platform/model/edit";
+      } else {
+         p = {
+          "modelName": this.form.modelName,
+          "modelJc": this.form.modelJc,
+          "status": this.form.status,
+          "modelDescribe": this.form.modelDescribe,
+          "strategy": this.form.strategy,
+          "caseNarration": this.form.caseNarration,
+          "lifeSpan": this.form.lifeSpan,
+          "targetList": this.rows,
+          "enterRule": {
+            "ruleRules": this.form.enterRule
+          },
+          "filterRule": {
+            "ruleRules": this.form.filterRule
+          },
+          "ruleList": this.erows
+        };
+
+        url = "/manage-platform/model/add";
       }
       this.$api.post(url, p,
         r => {
@@ -547,7 +585,9 @@ let p={
     },
     deletes(i) {
       let p = {
-        "SERIAL": i.SERIAL
+        "modelId": i.MODEL_ID,
+        "modelCode": i.MODEL_CODE,
+        "modelVersion": i.MODEL_VERSION
       };
       this.$confirm('您是否确认删除此角色？', '提示', {
         confirmButtonText: '确定',
@@ -555,9 +595,9 @@ let p={
         type: 'warning'
       }).then(() => {
 
-        this.$api.post('/manage-platform/roleSys/delete', p,
+        this.$api.post('/manage-platform/model/delete', p,
           r => {
-            console.log("===" + r);
+
             if (r.success) {
               this.$message({
                 message: '删除成功！',
@@ -582,42 +622,40 @@ let p={
 
     },
 
-addrows()
-{
-  this.count++;
-  this.modelrow = {
-    id:1,
-    targetId:'',
-    calculation:'',
-    targetValue:''
-  };
-  this.modelrow.id=this.count;
-  this.rows.push(this.modelrow);
-},
-deleterows(index){
+    addrows() {
+      this.count++;
+      this.modelrow = {
+        id: 1,
+        targetId: '',
+        calculation: '',
+        targetValue: ''
+      };
+      this.modelrow.id = this.count;
+      this.rows.push(this.modelrow);
+    },
+    deleterows(index) {
 
-    this.rows.splice(index,1);
+      this.rows.splice(index, 1);
 
-},
-adderows()
-{
-  this.ecount++;
-  this.emodelrow = {
-    id:1,
-    ruleName:'',
-    ruleRules:'',
-    ruleDescribe:'',
-    ruleGrade:''
-  };
-  this.emodelrow.id=this.ecount;
-  this.erows.push(this.emodelrow);
-},
-deleteerows(index){
+    },
+    adderows() {
+      this.ecount++;
+      this.emodelrow = {
+        id: 1,
+        ruleName: '',
+        ruleRules: '',
+        ruleDescribe: '',
+        ruleGrade: ''
+      };
+      this.emodelrow.id = this.ecount;
+      this.erows.push(this.emodelrow);
+    },
+    deleteerows(index) {
 
-    this.erows.splice(index,1);
+      this.erows.splice(index, 1);
 
-},
-},
+    },
+  },
 
   filters: {
 
@@ -659,12 +697,48 @@ deleteerows(index){
 
 }
 
-.memol{width:12.5%!important;}
-.memor{width:85%!important;}
-.memoa{width: 98%;}
-.tiaojian{color: #2084F4; border-bottom: 1px solid #5EA7F6; line-height: 35px; font-size: 16px; font-weight: bold;}
-.title{background: #D4E8FF; font-weight: bold;color: #666; height: 40px; line-height: 40px; padding-left: 10px;}
-.tjcon{background: #FBFCFF;padding: 5px 0px;}
-.tjconr{text-align:right;line-height:30px;}
-.iconc{cursor: pointer;font-size: 20px;color: red}
+.memol {
+  width: 12.5% !important;
+}
+
+.memor {
+  width: 85% !important;
+}
+
+.memoa {
+  width: 98%;
+}
+
+.tiaojian {
+  color: #2084F4;
+  border-bottom: 1px solid #5EA7F6;
+  line-height: 35px;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.title {
+  background: #D4E8FF;
+  font-weight: bold;
+  color: #666;
+  height: 40px;
+  line-height: 40px;
+  padding-left: 10px;
+}
+
+.tjcon {
+  background: #FBFCFF;
+  padding: 5px 0px;
+}
+
+.tjconr {
+  text-align: right;
+  line-height: 30px;
+}
+
+.iconc {
+  cursor: pointer;
+  font-size: 20px;
+  color: red
+}
 </style>
