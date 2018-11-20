@@ -39,7 +39,7 @@
             </el-row>
           </el-col>
           <el-col :span="4" class="down-btn-area">
-            <el-button type="success" class="mt-26" size="small" >查询</el-button>
+            <el-button type="success" class="" size="small" >查询</el-button>
             <!-- <el-button type="primary" class="mb-15" plain size="small" >重置</el-button> -->
           </el-col>
         </el-row>

@@ -624,7 +624,7 @@ export default {
 }
 
 .main {
-  margin: 0 60px;
+  margin: 0 30px;
   padding: 40px 0 0px 20px;
   background-color: rgba(27, 92, 168, 0.502);
   border-radius: 8px;

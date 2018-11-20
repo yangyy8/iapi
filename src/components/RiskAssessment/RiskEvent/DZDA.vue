@@ -7,7 +7,7 @@
         <el-col :span="24">
 
           <div class="middle">
-            <div class="boder1 pb-10">
+            <div class="boder1 pb-10"  ref="box0">
               <el-row :gutter="10">
                 <el-col :span="3">
                   <div class="bjsj-l2">
@@ -56,8 +56,19 @@
                     <span class="tag0"></span>失效标签
                   </div>
                   <div class="">
-                    <el-tag type="warning" size="small" class="mr-5" v-for="(x,ind) in dataTag.validList" :key="ind" v-if="x.OPERATION_TYPE==1">{{x.TAG_NAME}}</el-tag>
+                    <el-popover
+                      v-for="(x,ind) in dataTag.validList" :key="ind"
+                      ref="popover"
+                      placement="bottom"
+                      width="200"
+                      trigger="hover"
+                      :content="x.REMARK">
+                      <el-tag type="warning" slot="reference" size="small" class="mr-5" v-if="x.OPERATION_TYPE==1">{{x.TAG_NAME}}</el-tag>
+                      <el-tag type="info" slot="reference" size="small" class="mr-5" v-if="x.OPERATION_TYPE==2">{{x.TAG_NAME}}</el-tag>
+                    </el-popover>
+                    <!-- <el-tag type="warning" size="small" class="mr-5" v-for="(x,ind) in dataTag.validList" :key="ind" v-if="x.OPERATION_TYPE==1">{{x.TAG_NAME}}</el-tag>
                     <el-tag type="info" size="small" class="mr-5" v-for="(x,ind) in dataTag.validList" :key="ind" v-if="x.OPERATION_TYPE==2">{{x.TAG_NAME}}</el-tag>
+                     -->
                     <el-button type="success" size="mini" plain @click="addTagFn('1')">添加</el-button>
                     <el-button type="danger" size="mini" plain @click="addTagFn('2')">删除</el-button>
 
@@ -69,7 +80,7 @@
 
 
             </div>
-            <div class="boder1 pb-10">
+            <div class="boder1 pb-10" ref="box1">
               <div class="title-green hand mt-10" @click="box1=!box1">
                 标签详细信息 <i class="el-icon-d-caret"></i>
               </div>
@@ -111,7 +122,7 @@
                 </div>
               </div>
             </div>
-            <div class="boder1 pb-10">
+            <div class="boder1 pb-10" ref="box2">
               <div class="title-green hand mt-10" @click="box2=!box2">
                 风险评估信息 <i class="el-icon-d-caret"></i>
               </div>
@@ -165,7 +176,7 @@
                 </div>
               </div>
             </div>
-            <div class="boder1 pb-10">
+            <div class="boder1 pb-10" ref="box3">
               <div class="title-green hand mt-10" @click="box3=!box3">
                 电子档案查询记录 <i class="el-icon-d-caret"></i>
               </div>
@@ -196,7 +207,7 @@
                 </div> -->
               </div>
             </div>
-            <div class="boder1 pb-10">
+            <div class="boder1 pb-10" ref="box4">
               <div class="title-green hand mt-10" @click="box4=!box4">
                 人员预报信息 <i class="el-icon-d-caret"></i>
               </div>
@@ -257,7 +268,7 @@
                 </div>
               </div>
             </div>
-            <div class="boder1">
+            <div class="boder1" ref="box5">
               <div class="title-green hand mt-10" @click="box5=!box5">
                 户籍信息 <i class="el-icon-d-caret"></i>
               </div>
@@ -297,7 +308,7 @@
                 </el-table>
               </div>
             </div>
-            <div class="boder1">
+            <div class="boder1" ref="box6">
               <div class="title-green hand mt-10" @click="box6=!box6">
                 出入境信息 <i class="el-icon-d-caret"></i>
               </div>
@@ -361,7 +372,7 @@
                 </el-table>
               </div>
             </div>
-            <div class="boder1">
+            <div class="boder1" ref="box7">
               <div class="title-green hand mt-10" @click="box7=!box7">
                 出入境证件信息 <i class="el-icon-d-caret"></i>
               </div>
@@ -410,7 +421,7 @@
                 </el-table>
               </div>
             </div>
-            <div class="boder1">
+            <div class="boder1" ref="box8">
               <div class="title-green hand mt-10" @click="box8=!box8">
                 签证(居留)签发信息 <i class="el-icon-d-caret"></i>
               </div>
@@ -507,7 +518,7 @@
                 </el-table>
               </div>
             </div>
-            <div class="boder1">
+            <div class="boder1" ref="box9">
               <div class="title-green hand mt-10" @click="box9=!box9">
                 边检违法违规信息 <i class="el-icon-d-caret"></i>
               </div>
@@ -592,7 +603,7 @@
                 </el-table>
               </div>
             </div>
-            <div class="boder1">
+            <div class="boder1" ref="box10">
               <div class="title-green hand mt-10" @click="box10=!box10">
                 遣返遣送信息 <i class="el-icon-d-caret"></i>
               </div>
@@ -652,7 +663,7 @@
                 </el-table>
               </div>
             </div>
-            <div class="boder1">
+            <div class="boder1"  ref="box11">
               <div class="title-green hand mt-10" @click="box11=!box11">
                 外管常住/临住信息 <i class="el-icon-d-caret"></i>
               </div>
@@ -771,7 +782,7 @@
                 </el-table>
               </div>
             </div>
-            <div class="boder1">
+            <div class="boder1" ref="box12">
               <div class="title-green hand mt-10" @click="box12=!box12">
                  出入境管理案事件信息 <i class="el-icon-d-caret"></i>
               </div>
@@ -802,7 +813,7 @@
                 </el-table>
               </div>
             </div>
-            <div class="boder1">
+            <div class="boder1" ref="box13">
               <div class="title-green hand mt-10" @click="box13=!box13">
                 收缴证件/物品信息 <i class="el-icon-d-caret"></i>
               </div>
@@ -883,7 +894,7 @@
                 </el-table>
               </div>
             </div>
-            <div class="boder1">
+            <div class="boder1" ref="box14">
               <div class="title-green hand mt-10" @click="box14=!box14">
                  携带枪支弹药信息 <i class="el-icon-d-caret"></i>
               </div>
@@ -945,7 +956,7 @@
                 </el-table>
               </div>
             </div>
-            <div class="boder1">
+            <div class="boder1" ref="box15">
               <div class="title-green hand mt-10" @click="box15=!box15">
                  自助备案信息 <i class="el-icon-d-caret"></i>
               </div>
@@ -977,7 +988,7 @@
                 </el-table>
               </div>
             </div>
-            <div class="boder1">
+            <div class="boder1" ref="box16">
               <div class="title-green hand mt-10" @click="box16=!box16">
                  API信息 <i class="el-icon-d-caret"></i>
               </div>
@@ -1025,7 +1036,7 @@
                 </el-table>
               </div>
             </div>
-            <div class="boder1">
+            <div class="boder1" ref="box17">
               <div class="title-green hand mt-10" @click="box17=!box17">
                  工作单位信息 <i class="el-icon-d-caret"></i>
               </div>
@@ -1056,7 +1067,7 @@
                 </el-table>
               </div>
             </div>
-            <div class="boder1">
+            <div class="boder1"  ref="box18">
               <div class="title-green hand mt-10" @click="box18=!box18">
                  铁路订票信息 <i class="el-icon-d-caret"></i>
               </div>
@@ -1096,7 +1107,7 @@
                 </el-table>
               </div>
             </div>
-            <div class="boder1">
+            <div class="boder1" ref="box19">
               <div class="title-green hand mt-10" @click="box19=!box19">
                  民航订票信息 <i class="el-icon-d-caret"></i>
               </div>
@@ -1160,7 +1171,7 @@
                 </el-table>
               </div>
             </div>
-            <div class="boder1">
+            <div class="boder1" ref="box20">
               <div class="title-green hand mt-10" @click="box20=!box20">
                  民航离岗信息 <i class="el-icon-d-caret"></i>
               </div>
@@ -1224,6 +1235,7 @@
                 </el-table>
               </div>
             </div>
+
           </div>
 
         </el-col>
@@ -1246,6 +1258,28 @@
         <el-button type="warning" @click="tagDialogVisible=false" size="small">取消</el-button>
       </div> -->
     </el-dialog>
+    <div class="gototop">
+      <div class="shoutop" @click="toboxShow=!toboxShow">
+        <div class="" v-if="toboxShow">
+          <i class="el-icon-arrow-down"></i>
+          收起
+        </div>
+        <div class="" v-else>
+          <i class="el-icon-arrow-up"></i>
+          展开
+        </div>
+
+      </div>
+      <div class="" v-if="toboxShow">
+        <div class="tobox" :class="{'toboxCheck':tobox==x.id}" v-for="x in rightList" @click="backtop(x)">
+          {{x.name}}
+        </div>
+      </div>
+      <div class="backtop" @click="backtop('top')">
+        <i class="el-icon-upload2"></i>
+        返回顶部
+      </div>
+    </div>
   </div>
 </template>
 
@@ -1324,6 +1358,95 @@ export default {
       moreDialogVisible:false,
       moredata:{},
       moreType:'',
+      rightList:[
+        {
+          name:"基本信息",
+          id:"box0"
+        },
+        {
+          name:"标签详情",
+          id:"box1"
+        },
+        {
+          name:"风险评估",
+          id:"box2"
+        },
+        {
+          name:"电子档案查询",
+          id:"box3"
+        },
+        {
+          name:"人员预报",
+          id:"box4"
+        },
+        {
+          name:"户籍信息",
+          id:"box5"
+        },
+        {
+          name:"出入境信息",
+          id:"box6"
+        },
+        {
+          name:"出入境证件",
+          id:"box7"
+        },
+        {
+          name:"签证(居留)签发",
+          id:"box8"
+        },
+        {
+          name:"边检违法违规",
+          id:"box9"
+        },
+        {
+          name:"遣返遣送信息",
+          id:"box10"
+        },
+        {
+          name:"外管常住/临住",
+          id:"box11"
+        },
+        {
+          name:"出入境管理案事件",
+          id:"box12"
+        },
+        {
+          name:"收缴证件/物品",
+          id:"box13"
+        },
+        {
+          name:"携带枪支弹药",
+          id:"box14"
+        },
+        {
+          name:"自助备案",
+          id:"box15"
+        },
+        {
+          name:"API信息",
+          id:"box16"
+        },
+        {
+          name:"工作单位",
+          id:"box17"
+        },
+        {
+          name:"铁路订票",
+          id:"box18"
+        },
+        {
+          name:"民航订票",
+          id:"box19"
+        },
+        {
+          name:"民航离岗",
+          id:"box20"
+        },
+      ],
+      ccTimer:null,
+      tobox:'box0',
+      toboxShow:false,
     }
   },
   components:{
@@ -1570,6 +1693,29 @@ export default {
       this.moreType=type;
       this.moredata=item;
     },
+    backtop(x){
+      this.tobox;
+      let box;
+      if(x=='top'){
+          this.tobox='box0';
+          box=this.$refs.box0
+      }else{
+        this.tobox=x.id;
+        box=this.$refs[x.id];
+      }
+      let that=this;
+      let t = document.documentElement.scrollTop||document.body.scrollTop;
+      let num=t,step=100;
+      console.log(box.offsetTop,t);
+      this.ccTimer=setInterval(function () {
+        num=num+step;
+        window.scrollTo(0,num);
+        if(num>=box.offsetTop){
+          window.scrollTo(0,box.offsetTop);
+          clearInterval(that.ccTimer)
+        }
+      },100)
+    }
   },
   watch:{
     box1:function(val){
@@ -1816,4 +1962,46 @@ export default {
 /* .step-content:last-of-type{
   height: 60px;
 } */
+.gototop{
+    position: fixed;
+    right:30px;
+    bottom: 50px;
+    width: 100px;
+    line-height: 20px;
+    background-color: #ffffff;
+    box-shadow: 0 1px 4px 0 rgba(0,0,0,0.26);
+    overflow: hidden;
+    color: #666666;
+
+}
+.gototop > div {
+    font-size: 12px;
+    padding: 0 5px 0 8px;
+
+    cursor:pointer;
+}
+.shoutop{
+  color: #1a77c4;
+  background-color: rgba(37,130,220,0.3);
+  line-height: 18px;
+  text-align: center;
+  padding: 0!important;
+}
+.backtop{
+  color: #1a77c4;
+  background-color: rgba(37,130,220,0.3);
+  line-height: 28px;
+
+}
+.tobox{
+  padding-left: 8px;
+  white-space: nowrap;
+  text-overflow:ellipsis;
+  overflow: hidden;
+  margin: 8px 0;
+}
+.toboxCheck{
+  color: #1a77c4;
+  border-left: 2px solid #1a77c4;
+}
 </style>
