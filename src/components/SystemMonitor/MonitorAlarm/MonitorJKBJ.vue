@@ -2,7 +2,6 @@
   <div class="sjk">
       <div class="middle-top mb-2">
         <el-row type="flex" class="middle">
-
             <el-col :span="22" class="br pr-20">
             <div class="title-green">
               查询条件
@@ -16,9 +15,9 @@
                      </el-option>
                      <el-option value="1" label="1 - 业务平台区">
                      </el-option>
-                     <!-- <el-option value="2" label="2 - 整合分发区">
+                     <el-option value="2" label="2 - 风评区">
                      </el-option>
-                     <el-option value="3" label="3 - 风险评估区">
+                     <!-- <el-option value="3" label="3 - 风险评估区">
                      </el-option> -->
                    </el-select>
 
