@@ -44,18 +44,19 @@
                 <span class="input-text">国家：</span>
                 <el-select placeholder="请选择" v-model="pd.countryfrom" filterable clearable size="small"  class="input-input">
                   <el-option
-                    v-for="(item,ind)  in gwName"
+                    v-for="(item,ind)  in nation"
                     :key="ind"
-                    :value="item.citycode"
-                    :label="item.citycode+' - '+item.cityname"
-                  ></el-option>
+                    :label="item.CODE+' - '+item.CNAME"
+                    :value="item.CODE">
+                  </el-option>
+
                 </el-select>
             </el-col>
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                 <span class="input-text">出发地：</span>
                 <el-select placeholder="请选择" v-model="pd.cityfrom" filterable clearable size="small"  class="input-input">
                   <el-option
-                    v-for="(item,ind) in gnName"
+                    v-for="(item,ind) in gwName"
                     :key="ind"
                     :value="item.citycode"
                     :label="item.citycode+' - '+item.cityname"
@@ -122,13 +123,15 @@
 
       <div class="ak-tab-pane" >
           <div v-show="page==0" >
-            <div id="myChart" class="ppie"></div>
+            <div id="myChart" class="ppie">暂无数据</div>
               <div id="myChart2" class="ppie"></div>
                 <div id="myChart3" class="ppie"></div>
                 <div style="clear:both"></div>
           </div>
           <div v-show="page==1">
-
+            <el-row class="mb-15 yr">
+              <el-button type="primary" size="small" @click="download()">Excel导出</el-button>
+              </el-row>
             <el-table
                   :data="tableData"
                   :summary-method="getSummaries"
@@ -323,7 +326,7 @@ export default {
     getList(currentPage, showCount, pd) {
 
 
-      if (this.pd.begintime.trim()== "" || this.pd.endtime.trim() == "") {
+      if (this.pd.begintime== null|| this.pd.endtime == null) {
         this.$alert('时间范围不能为空', '提示', {
           confirmButtonText: '确定',
         });

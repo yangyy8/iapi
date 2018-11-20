@@ -29,7 +29,7 @@
             </el-col>
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                 <span class="input-text">国籍：</span>
-                <el-select v-model="pd.country" filterable clearable @visible-change="queryNationality" placeholder="请选择"  size="small" class="input-input">
+                <el-select v-model="pd.country" filterable clearable placeholder="请选择"  size="small" class="input-input">
                   <el-option
                     v-for="item in nation"
                     :key="item.CODE"
@@ -40,24 +40,24 @@
             </el-col>
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                 <span class="input-text">出发地：</span>
-                <el-select v-model="pd.cityfrom" filterable clearable @visible-change="queryNationality" placeholder="请选择"  size="small" class="input-input">
+                <el-select v-model="pd.cityfrom" filterable clearable placeholder="请选择"  size="small" class="input-input">
                   <el-option
-                    v-for="item in nation"
-                    :key="item.CODE"
-                    :label="item.CODE+' - '+item.CNAME"
-                    :value="item.CODE">
-                  </el-option>
+                    v-for="(item,ind) in gwName"
+                    :key="ind"
+                    :value="item.citycode"
+                    :label="item.citycode+' - '+item.cityname"
+                  ></el-option>
                 </el-select>
             </el-col>
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                 <span class="input-text">目的地：</span>
-                <el-select v-model="pd.cityto" filterable clearable @visible-change="queryNationality" placeholder="请选择"  size="small" class="input-input">
+                <el-select v-model="pd.cityto" filterable clearable placeholder="请选择"  size="small" class="input-input">
                   <el-option
-                    v-for="item in nation"
-                    :key="item.CODE"
-                    :label="item.CODE+' - '+item.CNAME"
-                    :value="item.CODE">
-                  </el-option>
+                    v-for="(item,ind) in gnName"
+                    :key="ind"
+                    :value="item.citycode"
+                    :label="item.citycode+' - '+item.cityname"
+                  ></el-option>
                 </el-select>
             </el-col>
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
@@ -105,7 +105,6 @@
 
 
     <div class="middle">
-
       <div class="ak-tab mb-20">
       <div class="ak-tabs">
         <div class="ak-tab-item hand" :class="{'ak-checked':page==0}" @click="base">
@@ -115,16 +114,18 @@
           报表
         </div>
       </div>
-
       <div class="ak-tab-pane" >
           <div v-show="page==0" >
-            <div id="myChart" class="ppie"></div>
+            <div id="myChart" class="ppie">暂无数据</div>
             <div id="myChart2" class="ppie"></div>
             <div id="myChart3" class="ppie"></div>
             <div id="myChart4" class="ppie"></div>
             <div style="clear:both"></div>
           </div>
           <div v-show="page==1">
+            <el-row class="mb-15 yr">
+              <el-button type="primary" size="small" @click="download()">Excel导出</el-button>
+              </el-row>
             <el-table
               :data="tableData"
               border
@@ -134,7 +135,6 @@
             <el-table-column
               prop="flttype"
               label="入出境方向" width="100" >
-
             </el-table-column>
             <el-table-column
               prop="country"
@@ -287,6 +287,8 @@ export default {
   },
   mounted() {
     this.queryNationality();
+    this.gw();
+    this.gn();
     let time = new Date();
     let endz = new Date();
     let beginz = new Date(time - 1000 * 60 * 60 * 24 * 30);
@@ -296,6 +298,8 @@ export default {
   },
   activated() {
     this.queryNationality();
+    this.gw();
+    this.gn();
     let time = new Date();
     let endz = new Date();
     let beginz = new Date(time - 1000 * 60 * 60 * 24 * 30);
@@ -350,9 +354,13 @@ export default {
          return sums;
        },
     getList(currentPage, showCount, pd) {
-      // this.pd.begin=formatDate(this.pd.begin,"yyyyMMddhhssmm");
-      // this.pd.end=formatDate(this.pd.end,"yyyyMMddhhssmm");
 
+            if (this.pd.begintime== null|| this.pd.endtime == null) {
+              this.$alert('时间范围不能为空', '提示', {
+                confirmButtonText: '确定',
+              });
+              return false
+            };
       let p = {
         // "currentPage": currentPage,
         // "showCount": showCount,
@@ -413,7 +421,7 @@ export default {
       this.$api.post(url, p,
         r => {
           this.tableData = r.data;
-          console.log(r.data + "------------------");
+
         })
     },
     queryNationality() {
@@ -445,7 +453,7 @@ export default {
             this.sData1=[{value:sum1, name:'总数'},{value:sum01, name:'不准登机人员数量'}];
             this.sData2=[{value:sum2, name:'普通旅客'},{value:sum02, name:'中转旅客'}];
             this.sData3=[{value:sum3, name:'男'},{value:sum03, name:'女'}];
-            this.sData4=[{value:sum4, name:'自助'},{value:sum04, name:'柜台'}];
+            this.sData4=[{value:sum4, name:'确认'},{value:sum04, name:'排除'}];
             this.sData5=[{value:sum5, name:'外国人'},{value:sum05, name:'内地居民'},{value:sum005, name:'港澳台'}];
           //  console.log(this.sData1+"------------"+sum0+"==="+sum00);
             this.drawLine();this.drawLine2();this.drawLine3();this.drawLine4();this.drawLine5();
@@ -453,6 +461,22 @@ export default {
 
 
           }
+        })
+    },
+    gw() { //国外
+      this.$api.post('/manage-platform/dataStatistics/get_city_frn', {},
+        r => {
+          if (r.success) {
+            this.gwName = r.data;
+          };
+        })
+    },
+    gn() { //国内
+      this.$api.post('/manage-platform/dataStatistics/get_city', {},
+        r => {
+          if (r.success) {
+            this.gnName = r.data;
+          };
         })
     },
     details(i) {

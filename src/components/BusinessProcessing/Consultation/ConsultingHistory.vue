@@ -12,17 +12,17 @@
               <el-col :sm="24" :md="12" :lg="8" class="input-item">
                 <span class="input-text">咨询来源：</span>
                 <el-select v-model="cdt.CONSULTFROM" filterable clearable placeholder="请选择" size="small" class="input-input">
-                  <el-option label="航空公司" value="0"></el-option>
-                  <el-option label="乘客" value="1"></el-option>
-                  <el-option label="其他" value="2"></el-option>
+                  <el-option label="0 - 航空公司" value="0"></el-option>
+                  <el-option label="1 - 乘客" value="1"></el-option>
+                  <el-option label="2 - 其他" value="2"></el-option>
                 </el-select>
               </el-col>
               <el-col :sm="24" :md="12" :lg="8" class="input-item">
                 <span class="input-text">问题类型：</span>
                 <el-select v-model="cdt.CONSULTTYPE" filterable clearable placeholder="请选择" size="small" class="input-input">
-                  <el-option label="旅客校验" value="0"></el-option>
-                  <el-option label="业务咨询" value="1"></el-option>
-                  <el-option label="其他" value="2"></el-option>
+                  <el-option label="0 - 旅客校验" value="0"></el-option>
+                  <el-option label="1 - 业务咨询" value="1"></el-option>
+                  <el-option label="2 - 其他" value="2"></el-option>
                 </el-select>
               </el-col>
               <el-col :sm="24" :md="12" :lg="8" class="input-item">
@@ -72,8 +72,30 @@
                   <el-option label="电话" value="0"></el-option>
                   <el-option label="传真" value="1"></el-option>
                   <el-option label="邮箱" value="2"></el-option>
-                  <el-option label="传真" value="3"></el-option>
+                  <el-option label="固定电话" value="3"></el-option>
+                  <el-option label="其他" value="4"></el-option>
                 </el-select>
+              </el-col>
+
+              <el-col  :sm="24" :md="12" :lg="6"  class="input-item" v-show="entity.CONSULTFROMTYPE=='0'">
+                <span class="input-text">电话：</span>
+                <el-input placeholder="请输入内容" size="small" v-model="entity.PHONE"  class="input-input"></el-input>
+              </el-col>
+              <el-col  :sm="24" :md="12" :lg="6"  class="input-item" v-show="entity.CONSULTFROMTYPE=='1'">
+                <span class="input-text">传真：</span>
+                <el-input placeholder="请输入内容" size="small" v-model="entity.CONSULTFAX"  class="input-input"></el-input>
+              </el-col>
+              <el-col  :sm="24" :md="12" :lg="6"  class="input-item" v-show="entity.CONSULTFROMTYPE=='2'">
+                <span class="input-text">邮箱：</span>
+                <el-input placeholder="请输入内容" size="small" v-model="entity.CONSULTEMAIL"  class="input-input"></el-input>
+              </el-col>
+              <el-col  :sm="24" :md="12" :lg="6"  class="input-item" v-show="entity.CONSULTFROMTYPE=='3'">
+                <span class="input-text">固定电话：</span>
+                <el-input placeholder="请输入内容" size="small" v-model="entity.INCOMINGPHONE"  class="input-input"></el-input>
+              </el-col>
+              <el-col  :sm="24" :md="12" :lg="6"  class="input-item" v-show="entity.CONSULTFROMTYPE=='4'">
+                <span class="input-text">其他：</span>
+                <el-input placeholder="请输入内容" size="small" v-model="entity.CONSULTFROMOTHERREMARK"  class="input-input"></el-input>
               </el-col>
             </el-row>
           </el-col>
@@ -92,6 +114,9 @@
         <el-table-column
           prop="CONSULTFROM"
           label="咨询来源">
+          <template slot-scope="scope">
+            {{ scope.row.CONSULTFROM | fifter1}}
+          </template>
         </el-table-column>
         <el-table-column
           prop="TERMINAL"
@@ -296,7 +321,17 @@ export default {
     this.cdt.STARTTIME=formatDate(begin,'yyyyMMddhhmmss');
     this.cdt.ENDTIME=formatDate(end,'yyyyMMddhhmmss');
   },
-
+  filters: {
+    fifter1(val) {
+      if (val == "0") {
+        return "航空公司";
+      } else if(val == "1"){
+        return "乘客";
+      }else if(val == '2'){
+        return "其他"
+      }
+    },
+  },
   methods: {
     handleSelectionChange(val) {
       this.multipleSelection = val;

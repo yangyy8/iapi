@@ -10,17 +10,19 @@
           </div>
           <el-row align="center"   :gutter="2">
             <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
-              <span class="input-text">时间范围：</span>
+              <span class="input-text"><font class="yy-color">*</font> 时间范围：</span>
               <div class="input-input t-flex t-date">
                <el-date-picker
                v-model="pd.begintime" format="yyyy-MM-dd"
                type="date" size="small" value-format="yyyyMMdd"
-               placeholder="开始时间"  :picker-options="pickerOptions" >
+               v-verify.input.blur="{regs:'required',submit:'timeDemo'}"
+               placeholder="开始时间"  :picker-options="pickerOptions0" >
              </el-date-picker>
                <span class="septum">-</span>
              <el-date-picker
                 v-model="pd.endtime" format="yyyy-MM-dd"
                 type="date" size="small" value-format="yyyyMMdd"
+                v-verify.input.blur="{regs:'required',submit:'timeDemo'}"
                 placeholder="结束时间" :picker-options="pickerOptions1" >
             </el-date-picker>
           </div>
@@ -270,7 +272,7 @@ export default {
       CurrentPage: 1,
       pageSize: 10,
       TotalResult: 0,
-      pd: {},
+      pd: {begintime:'',endtime:''},
       nation: [],
       company: [],
       addDialogVisible: false,
@@ -292,22 +294,22 @@ export default {
       showh:true,
       tableData: [],
       multipleSelection: [],
-      // pickerOptions0: {
-      //   disabledDate: (time) => {
-      //       if (this.pd.end != null) {
-      //         let startT = formatDate(new Date(time.getTime()),'yyyyMMddhhmmss');
-      //         return startT > this.pd.end;
-      //       }else if(this.pd.end == null){
-      //         return false
-      //       }
-      //   }
-      // },
-      // pickerOptions1: {
-      //   disabledDate: (time) => {
-      //       let endT = formatDate(new Date(time.getTime()),'yyyyMMddhhmmss');
-      //       return endT < this.pd.begin;
-      //   }
-      // },
+      pickerOptions0: {
+        disabledDate: (time) => {
+          if (this.pd.endtime != null) {
+            let startT = formatDate(new Date(time.getTime()), 'yyyyMMddhhmmss');
+            return startT > this.pd.endtime;
+          } else if (this.pd.endtime == null) {
+            return false
+          }
+        }
+      },
+      pickerOptions1: {
+        disabledDate: (time) => {
+          let endT = formatDate(new Date(time.getTime()), 'yyyyMMddhhmmss');
+          return endT < this.pd.begintime;
+        }
+      },
           form: {},
           typerow:'1',
 
@@ -315,21 +317,19 @@ export default {
   },
   mounted() {
     this.queryNationality();
-    // let time = new Date();
-    // let endz = new Date();
-    // let beginz = new Date(time - 1000 * 60 * 60 * 24 * 1);
-    // this.pd.begin = formatDate(beginz, 'yyyyMMddHHmmss');
-    // this.pd.end = formatDate(endz, 'yyyyMMddhhmmss');
-    // this.getList(this.CurrentPage, this.pageSize, this.pd);
+    let time = new Date();
+    let endz = new Date();
+    let beginz = new Date(time - 1000 * 60 * 60 * 24 * 30);
+    this.pd.begintime = formatDate(beginz, 'yyyyMMdd');
+    this.pd.endtime = formatDate(endz, 'yyyyMMdd');
   },
   activated(){
       this.queryNationality();
-    // let time = new Date();
-    // let endz = new Date();
-    // let beginz = new Date(time - 1000 * 60 * 60 * 24 * 1);
-    // this.pd.begin = formatDate(beginz, 'yyyyMMddhhmmss');
-    // this.pd.end = formatDate(endz, 'yyyyMMddhhmmss');
-    // this.getList(this.CurrentPage,this.pageSize,this.pd);
+      let time = new Date();
+      let endz = new Date();
+      let beginz = new Date(time - 1000 * 60 * 60 * 24 * 30);
+      this.pd.begintime = formatDate(beginz, 'yyyyMMdd');
+      this.pd.endtime = formatDate(endz, 'yyyyMMdd');
   },
   methods: {
     handleSelectionChange(val) {
@@ -345,21 +345,13 @@ export default {
       console.log(`当前页: ${val}`);
     },
     getList(currentPage, showCount, pd) {
-      // this.pd.begin=formatDate(this.pd.begin,"yyyyMMddhhssmm");
-      // this.pd.end=formatDate(this.pd.end,"yyyyMMddhhssmm");
-
-      //
-      // if(dayGap(this.pd.begin,this.pd.end,0)>1){
-      //   this.$alert('只能查询某一天的日期', '提示', {
-      //     confirmButtonText: '确定',
-      //   });
-      //   return false
-      // }
+      const result = this.$validator.verifyAll('timeDemo')
+       if (result.indexOf(false) > -1) {
+         return
+       }
 
       let p = {
-        // "currentPage": currentPage,
-        // "showCount": showCount,
-        // "cdt": pd
+
         "begintime":pd.begintime,
         "endtime":pd.endtime,
         "fltno":pd.fltno,

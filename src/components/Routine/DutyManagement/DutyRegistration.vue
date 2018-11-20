@@ -179,7 +179,8 @@
               placeholder="请选择值班开始时间"
               class="yy-input-input"
               format="yyyy-MM-dd HH:mm"
-              value-format="yyyyMMddHHmm">
+              value-format="yyyyMMddHHmm"
+              :picker-options="pickerOptions2">
             </el-date-picker>
 
           </el-col>
@@ -195,7 +196,8 @@
               placeholder="请选择值班结束时间"
               class="yy-input-input"
               format="yyyy-MM-dd HH:mm"
-              value-format="yyyyMMddHHmm">
+              value-format="yyyyMMddHHmm"
+              :picker-options="pickerOptions3">
             </el-date-picker>
           </el-col>
         </el-row>
@@ -263,7 +265,26 @@ export default {
             return endT < this.cdt.STARTTIME;
         }
       },
-      form: {},
+      pickerOptions2: {
+        disabledDate: (time) => {
+            if (this.form.ENDTIMESTR != null) {
+              let startT = formatDate(new Date(time.getTime()),'yyyyMMddhhmm');
+              return startT > this.form.ENDTIMESTR;
+            }else if(this.form.ENDTIMESTR == null){
+              return false
+            }
+        }
+      },
+      pickerOptions3: {
+        disabledDate: (time) => {
+            let endT = formatDate(new Date(time.getTime()),'yyyyMMddhhmm');
+            return endT < this.form.STARTTIMESTR;
+        }
+      },
+      form: {
+        STARTTIMESTR:'',
+        ENDTIMESTR:'',
+      },
       dform: {},
     }
   },

@@ -65,6 +65,7 @@
       </el-row>
     </div>
     <div class="middle">
+      <el-button type="success"  class="mb-9" size="small" @click="tableDown">导出</el-button>
       <el-table
         :data="tableData"
         border
@@ -111,11 +112,10 @@
         </el-table-column>
         <el-table-column
           label="操作"
-          width="250px">
+          width="200px">
           <template slot-scope="scope">
-              <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="change(scope.row.SERIAL)">交接</el-button>
-              <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row)">详情</el-button>
-              <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="downLoad(scope.row)">导出</el-button>
+            <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="change(scope.row.SERIAL)">交接</el-button>
+            <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row)">详情</el-button>
          </template>
         </el-table-column>
       </el-table>
@@ -178,7 +178,9 @@
         <el-row type="flex"  class="mb-6">
           <el-col :span="20" class="input-item">
             <span class="yy-input-text">附件：</span>
-            <button type="button" class="table-btn" name="button">附件下载</button>
+
+            <el-button size="small" class="table-btn"><a :href="fitAdress" class="acolor">附件下载</a></el-button>
+            <!-- <button type="button" class="table-btn" name="button">附件下载</button> -->
           </el-col>
         </el-row>
 
@@ -198,8 +200,9 @@
 </template>
 
 <script>
-import {formatDate} from '@/assets/js/date.js'
+import {formatDate,format} from '@/assets/js/date.js'
 import {dayGap} from '@/assets/js/date.js'
+import axios from 'axios'
 export default {
 
   data() {
@@ -215,6 +218,7 @@ export default {
       detailsDialogVisible: false,
       changeDialogVisible:false,
       qqq:'',
+      fitAdress:'',
       changeRow:[],
       options: [{
           value: 10,
@@ -320,7 +324,35 @@ export default {
       this.detailsDialogVisible = true;
       this.form.title=i.TITLE;
       this.form.content=i.INCIDENTDESC;
+      this.fitAdress = i.FILESERIAL;
     },
+    downloadM (data) {
+        if (!data) {
+            return
+        }
+        let url = window.URL.createObjectURL(new Blob([data.data],{type:"application/octet-stream"}))
+        let link = document.createElement('a')
+        link.style.display = 'none'
+        link.href = url
+        link.setAttribute('download', format(new Date(),'yyyy-MM-dd hh:mm:ss')+'.xlsx')
+        document.body.appendChild(link)
+        link.click()
+    },
+    tableDown(){
+      axios({
+       method: 'post',
+       // url: 'http://192.168.99.245:8081/manage-platform/incident/exportListPage',
+       url: this.$api.rootUrl+"/manage-platform/incident/exportListPage",
+       data: {
+         "currentPage": 1,
+         "showCount": 600,
+         "cdt": this.cdt
+       },
+       responseType: 'blob'
+       }).then(response => {
+           this.downloadM(response)
+       });
+    }
   },
 
     filters: {

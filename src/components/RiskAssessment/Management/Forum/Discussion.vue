@@ -152,8 +152,9 @@ export default {
       pd: {}
     }
   },
-  activated(){
-    this.getList(this.CurrentPage,this.pageSize,this.pd);
+
+  mounted() {
+this.getList(this.CurrentPage,this.pageSize,this.pd);
   },
   methods:{
     pageSizeChange(val) {

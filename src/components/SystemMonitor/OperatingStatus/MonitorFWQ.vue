@@ -236,9 +236,13 @@ export default {
       detailsDialogVisible: false,
     }
   },
-  created() {
-    this.getList({});
+  mounted() {
+    this.getList();
   },
+  created() {
+    this.getList();
+  },
+
   // computed:{
   //   ss:function(val){
   //     console.log(JSON.parse(val))
@@ -294,7 +298,7 @@ export default {
 
         return "正常"
       }else {
-    
+
         return "异常"
       }
     }

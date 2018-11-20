@@ -8,11 +8,16 @@
           <th width="25%"><div class="male">点赞数</div></th>
          </tr>
 
-         <tr v-for="site in tableData">
-           <td><div class="div c1">TOP1</div></td>
+         <tr v-for="(site,ind) in tableData">
+           <td>
+             <div class="div c1" v-if='(ind+1)==1'>TOP{{ind+1}}</div>
+             <div class="div c2" v-else-if='(ind+1)==2'>TOP{{ind+1}}</div>
+             <div class="div c3" v-else-if='(ind+1)==4'>TOP{{ind+1}}</div>
+             <div class="div c4" v-else>TOP{{ind+1}}</div>
+           </td>
            <td><div class="rx"><img src="../../../../assets/img/tx1.png">&nbsp;{{site.NICKNAME}}</div></td>
            <td>{{site.DEPARTMENTNAME}}</td>
-           <td><div class="rx1"><img src="../../../../assets/img/zan.png"> ({{site.CREDITNUMBER}}) </div></td>
+           <td><div class="rx1"><img src="../../../../assets/img/zan.png">  {{site.CREDITNUMBER}} </div></td>
          </tr>
          <!-- <tr>
            <td><div class="div c2">TOP2</div></td>
@@ -28,7 +33,7 @@
          </tr> -->
        </table>
 
-       <div class="middle-foot">
+       <!-- <div class="middle-foot">
          <div class="page-msg">
            <div class="">
              共{{Math.ceil(TotalResult/pageSize)}}页
@@ -57,7 +62,7 @@
            layout="prev, pager, next"
            :total="TotalResult">
          </el-pagination>
-       </div>
+       </div> -->
 
   </div>
   </div>
@@ -66,6 +71,7 @@
 export default {
   data() {
     return {
+
       airport:[],
       backShow:false,
       fileList:[],
@@ -79,6 +85,9 @@ export default {
 
   activated(){
     this.getList(this.CurrentPage,this.pageSize,this.pd);
+  },
+  mounted() {
+this.getList(this.CurrentPage,this.pageSize,this.pd);
   },
   methods:{
     pageSizeChange(val) {
@@ -116,13 +125,7 @@ export default {
       })
     }
 
-
-
   }
-
-
-
-
 
 }
 </script>
@@ -154,4 +157,5 @@ padding: 0 !important;  vertical-align:bottom; color: #666; font-weight:500;
 .c1{background: #E23E3F; }
 .c2{background: #F19147;}
 .c3{background: #31B36D;}
+.c3{background: #9A9A9A;}
 </style>

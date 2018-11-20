@@ -205,9 +205,12 @@ export default {
     }
   },
   mounted() {
+    this.range()
+    console.log(this.promptRange);
     this.getList(this.CurrentPage, this.pageSize, this.pd);
   },
   activated() {
+    this.range()
     this.getList(this.CurrentPage, this.pageSize, this.pd);
   },
   methods: {
@@ -265,6 +268,9 @@ export default {
       this.form.promptedArr = this.pro;
       var url = '/manage-platform/promptManage/savePromptEntity';
       if(this.tp==1){
+        // this.rangeReal(this.form.promptedStr)
+        // this.form.promptedArr = this.pro;
+        this.form.promptedArr = this.form.prompted
         url = '/manage-platform/promptManage/editPrompt';
       }
       this.$api.post(url, this.form,
@@ -349,7 +355,7 @@ export default {
       if(val){
         var str = val.join(' ');
         return str
-      }  
+      }
     },
   }
 }

@@ -112,10 +112,11 @@
           </el-table-column>
 
         <el-table-column
-          width="150"
+          width="200"
           label="操作">
           <template slot-scope="scope">
               <el-button class="table-btn" :class="{'gray':scope.row.status!=3}" size="mini" plain icon="el-icon-tickets" @click="details(scope.row)">处理</el-button>
+              <el-button class="table-btn" :class="{'gray':scope.row.status==5}" size="mini" plain icon="el-icon-tickets" @click="cancel(scope.row)">取消</el-button>
          </template>
         </el-table-column>
       </el-table>
@@ -211,6 +212,54 @@
 
       </div>
     </el-dialog>
+
+    <el-dialog title="航班取消" :visible.sync="cancelDialogVisible">
+      <el-form :model="cform" ref="addForm">
+        <el-row type="flex"  class="mb-6">
+          <el-col :span="12" class="input-item">
+            <span class="yy-input-text">航班号：</span>
+            <el-input placeholder="请输入内容" size="small" :disabled="true" v-model="cform.fltno" class="yy-input-input" ></el-input>
+
+          </el-col>
+          <el-col :span="12" class="input-item">
+            <span class="yy-input-text">所属航空公司：</span>
+            <el-input placeholder="请输入内容" size="small"  :disabled="true" v-model="cform.airlineCompanyName" class="yy-input-input"></el-input>
+          </el-col>
+
+        </el-row>
+        <el-row type="flex"  class="mb-6">
+          <el-col :span="12" class="input-item">
+            <span class="yy-input-text">航班日期：</span>
+            <el-input placeholder="请输入内容" size="small"   :disabled="true" v-model="cform.flightTime" class="yy-input-input"></el-input>
+          </el-col>
+          <el-col :span="12" class="input-item">
+            <span class="yy-input-text">实际出发口岸：</span>
+            <el-input placeholder="请输入内容" size="small" v-model="cform.stationfrom+' - '+cform.stationfromName" :disabled="true" class="yy-input-input"></el-input>
+
+          </el-col>
+
+        </el-row>
+
+        <el-row type="flex" class="mb-6" >
+          <el-col :span="12" class="input-item">
+            <span class="yy-input-text">原计划到达口岸：</span>
+              <el-input placeholder="请输入内容" size="small" v-model="cform.stationto+' - '+cform.stationtoName" :disabled="true" class="yy-input-input"></el-input>
+          </el-col>
+        </el-row>
+  <hr/>
+        <el-row type="flex" class="mb-6" >
+          <el-col :span="24" class="input-item">
+            <span class="yy-input-text" style="width:15%">事件描述：</span>
+           <el-input type="textarea" maxlength="250" placeholder="请输入备降事件描述(不能超过250个字)" :autosize="{ minRows: 3, maxRows: 6}" v-model="cform.desc" style="width:80%;"></el-input>
+          </el-col>
+        </el-row>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="caddItem('addForm')" size="small">提 交</el-button>
+        <el-button @click="cancelDialogVisible = false" size="small">取 消</el-button>
+
+      </div>
+    </el-dialog>
   </div>
   </div>
 </template>
@@ -235,6 +284,7 @@ export default {
       value1: "",
       addDialogVisible: false,
       detailsDialogVisible: false,
+      cancelDialogVisible: false,
       options: [{
           value: 10,
           label: "10"
@@ -267,6 +317,7 @@ export default {
         }
       },
       form: {},
+      cform:{},
       Airport:[],
     }
   },
@@ -332,6 +383,11 @@ export default {
           this.TotalResult = r.data.totalResult;
         })
     },
+    cancel(i){
+      this.cancelDialogVisible = true;
+      this.cform = i;
+      this.cform.desc='';
+    },
     queryNationality() {
       this.$api.post('/manage-platform/codeTable/queryAircompanyList', {},
         r => {
@@ -366,6 +422,32 @@ export default {
           }
           this.$refs[formName].resetFields();
           this.addDialogVisible = false;
+          this.getList(this.CurrentPage, this.pageSize, this.pd);
+          // this.tableData=r.Data.ResultList;
+        }, e => {
+          this.$message.error('失败了');
+        })
+    },
+    caddItem(formName) {
+      let p={
+        'flightRecordnum':this.cform.flightRecordnum,
+        'desc':this.cform.desc
+      }
+      this.$api.post('/manage-platform/statusUpdate/flight/changeFlightCancel',p,
+        r => {
+          console.log(r);
+          if (r.success) {
+            this.$message({
+              message: '航班取消成功！',
+              type: 'success'
+            });
+
+          } else {
+            this.cancelDialogVisible = false;
+            this.$message.error(r.Message);
+          }
+          this.$refs[formName].resetFields();
+          this.cancelDialogVisible = false;
           this.getList(this.CurrentPage, this.pageSize, this.pd);
           // this.tableData=r.Data.ResultList;
         }, e => {
