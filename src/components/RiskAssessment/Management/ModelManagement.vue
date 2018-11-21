@@ -104,10 +104,7 @@
           prop="PORT_NAME"
           label="创建口岸">
         </el-table-column>
-        <el-table-column
-          prop="UPDATEUSER"
-          label="使用口岸">
-        </el-table-column>
+
         <el-table-column
           prop="UPDATETIME"
           label="最后更新日期" width="130">
@@ -123,8 +120,10 @@
             </template>
         </el-table-column>
         <el-table-column
-          prop="MODEL_PHASES"
           label="模型状态">
+          <template slot-scope="scope">
+              {{scope.row.MODEL_PHASES | fiftermodel}}
+            </template>
         </el-table-column>
         <el-table-column
           prop="MODEL_STATUS"
@@ -137,6 +136,7 @@
             <el-button class="table-btn" size="mini" plain icon="el-icon-delete" @click="deletes(scope.row)">删除</el-button>
             <!-- <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row)">版本查看</el-button> -->
             <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="relates(scope.row)">关联问题</el-button>
+            <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="auses(scope.row)">使用口岸</el-button>
             <!-- <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row)">推送测试</el-button> -->
          </template>
         </el-table-column>
@@ -179,7 +179,7 @@
             <span class="yy-input-text"><font class="yy-color">*</font> 模型名称：</span>
             <el-input placeholder="请输入内容" size="small"   v-model="form.modelName"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
           </el-col>
-          <el-col :span="12" class="input-item">
+           <el-col :span="12" class="input-item">
             <span class="yy-input-text"><font class="yy-color">*</font> 是否启用：</span>
             <el-select v-model="form.status" class="input-input"  filterable clearable placeholder="请选择"   size="small" v-verify.change.blur ="{regs:'required',submit:'demo2'}">
               <el-option value="0" label="0 - 不启用">
@@ -188,7 +188,23 @@
               </el-option>
              </el-select>
           </el-col>
+
+        </el-row>
+        <el-row type="flex"  class="mb-6">
+          <el-col :span="12" class="input-item">
+            <span class="yy-input-text"><font class="yy-color">*</font> 模型简称：</span>
+            <el-input placeholder="请输入内容" size="small"   v-model="form.modelJc"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
           </el-col>
+           <el-col :span="12" class="input-item">
+            <span class="yy-input-text"><font class="yy-color">*</font> 有效期：</span>
+            <el-date-picker style="width:70%"
+            v-model="form.lifeSpan" format="yyyy-MM-dd"
+            v-verify.change.blur ="{regs:'required',submit:'demo2'}"
+            type="date" size="small" value-format="yyyyMMdd"
+            placeholder="有效期">
+          </el-date-picker>
+          </el-col>
+
         </el-row>
         <!-- <el-row type="flex" class="mb-6" >
           <el-col :span="24" class="input-item">
@@ -231,7 +247,7 @@
              <el-option
                v-for="(item,ind) in target"
                :key="ind"
-               :label="item.TARGET_ID+' - '+item.TARGET_NAME"
+               :label="item.TARGET_NAME"
                :value="item.TARGET_ID">
              </el-option>
            </el-select>
@@ -352,21 +368,31 @@
       </div>
     </el-dialog>
 
-    <el-dialog title="关联问题" :visible.sync="menuDialogVisible" width="500px">
-      <el-tree
-        :data="menudata"
-        show-checkbox
-        default-expand-all
-        node-key="SERIAL"
-        :default-checked-keys="defaultChecked"
-        ref="tree"
-        highlight-current
-        :props="defaultProps">
-      </el-tree>
+    <el-dialog title="关联问题" :visible.sync="menuDialogVisible" width="700px">
 
+
+  <el-transfer
+    v-model="value1"
+    :titles="['备选', '已选']"
+    :data="data">
+       </el-transfer>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="menuItem" size="small">保 存</el-button>
+        <el-button type="primary" @click="addRelates()" size="small">保 存</el-button>
         <el-button @click="menuDialogVisible = false" size="small">取 消</el-button>
+      </div>
+    </el-dialog>
+
+    <el-dialog title="使用口岸" :visible.sync="useDialogVisible" width="700px">
+
+
+  <el-transfer
+    v-model="value2"
+    :titles="['备选', '已选']"
+    :data="data2">
+       </el-transfer>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="addUse()" size="small">保 存</el-button>
+        <el-button @click="useDialogVisible = false" size="small">取 消</el-button>
       </div>
     </el-dialog>
 
@@ -377,8 +403,23 @@
 <script>
 export default {
   data() {
+    const generateData = _ => {
+    const data = [];
+    for (let i = 1; i <= 4; i++) {
+        data.push({
+        key: i,
+        label: `备选项 ${i}`,
+        disabled: i % 4 === 0
+        });
+    }
+    return data;
+    };
     return {
       tp: 0,
+      data:generateData(),
+      value1:[],
+      data2:generateData(),
+      value2:[],
       CurrentPage: 1,
       pageSize: 10,
       TotalResult: 0,
@@ -389,7 +430,7 @@ export default {
       tabPosition: 'left',
       addDialogVisible: false,
       detailsDialogVisible: false,
-      relatesDialogVisible:false,
+    useDialogVisible:false,
       menuDialogVisible: false,
       options: [{
           value: 10,
@@ -406,12 +447,6 @@ export default {
       ],
       tableData: [],
 
-      menudata: [],
-      defaultProps: {
-        children: 'menuList',
-        label: 'NAME'
-      },
-      defaultChecked: [],
       multipleSelection: [],
 
       form: {},
@@ -445,6 +480,7 @@ export default {
       }],
       count: 1,
       ecount: 1,
+      mocode:'',
     }
   },
   mounted() {
@@ -604,19 +640,83 @@ export default {
       this.mapForm = i;
     },
     relates(i){
-      this.menuDialogVisible = true;
-        console.log(i.modelJc);
-      this.$api.post('/manage-platform/model/questionAll', {},
+     this.menuDialogVisible = true;
+     this.data=[];
+     this.value1=[];
+     let p={
+       "MODEL_CODE":i.MODEL_CODE
+     };
+     this.mocode=i.MODEL_CODE;
+      this.$api.post('/manage-platform/model/questionAll', p,
         r => {
-          console.log(r);
-          if (r.success) {
-            this.menudata = r.data;
-            let arr=r.data.userTreeOne,that=this;
-          this.defaultChecked=r.data.checkList;
-          }
-        })
+           for(let rr of r.data.questionList){
+            this.data.push({
+               key: rr.SERIAL,
+               label: rr.NAME,
+               disabled: rr.check
+             });
+           }
+        });
 
     },
+    addRelates(){
+
+       let p={
+         "MODEL_CODE":this.mocode,
+         "checkQuestion":this.value1
+       };
+       this.$api.post('/manage-platform/model/relevancyQuestion', p,
+         r => {
+           if (r.success) {
+             this.$message({
+               message: '保存成功！',
+               type: 'success'
+             });
+           } else {
+             this.$message.error(r.Message);
+           }
+         });
+          this.menuDialogVisible = false;
+    },
+    auses(i){
+     this.useDialogVisible = true;
+     this.data2=[];
+     this.value2=[];
+     let p={
+       "MODEL_CODE":i.MODEL_CODE
+     };
+      this.mocode=i.MODEL_CODE;
+      this.$api.post('/manage-platform/model/portAll', p,
+        r => {
+           for(let rr of r.data.portList){
+            this.data2.push({
+               key: rr.DEPT_CODE,
+               label: rr.DEPT_JC,
+               disabled: rr.check
+             });
+           }
+        });
+
+    },
+    addUse(){
+       let p={
+         "MODEL_CODE":this.mocode,
+         "checkPort":this.value2
+       };
+       this.$api.post('/manage-platform/model/savePort', p,
+         r => {
+           if (r.success) {
+             this.$message({
+               message: '保存成功！',
+               type: 'success'
+             });
+           } else {
+             this.$message.error(r.Message);
+           }
+         });
+          this.useDialogVisible = false;
+    },
+
     deletes(i) {
       let p = {
         "modelId": i.MODEL_ID,
@@ -695,13 +795,33 @@ export default {
 
     fifterstatus(val) {
       if (val == 0) {
-        return "停用"
+        return "不启用"
 
       } else {
         return "启用"
       }
-      // return val*2
-    }
+    },
+    fiftermodel(val) {
+      if (val == 1) {
+        return "新建"
+
+      } else if (val == 2) {
+        return "提交测试"
+      }
+      else if (val == 3) {
+        return "测试通过"
+      }
+      else if (val == 4) {
+        return "提交审核"
+      }
+      else if (val == 5) {
+        return "审核通过允许使用"
+      }
+      else if (val == 6) {
+        return "审核不通过"
+      }
+    },
+
   },
 }
 </script>
@@ -775,4 +895,8 @@ export default {
   font-size: 20px;
   color: red
 }
+</style>
+<style>
+.el-transfer-panel{max-height: 500px !important}
+.el-transfer__buttons{width: 4%!important}
 </style>

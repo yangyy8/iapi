@@ -124,10 +124,8 @@
            <el-row class="mb-15 yr">
              <el-button type="primary" size="small" @click="download()">Excel导出</el-button>
              </el-row>
-
            <el-table
                  :data="tableData"
-
                  :summary-method="getSummaries"
                  show-summary
                  border
@@ -214,12 +212,9 @@
 </template>
 <script>
 import echarts from 'echarts'
-import {
-  formatDate
-} from '@/assets/js/date.js'
-import {
-  dayGap
-} from '@/assets/js/date.js'
+import {formatDate,format} from '@/assets/js/date.js'
+import {dayGap} from '@/assets/js/date.js'
+import axios from 'axios'
 export default {
   data() {
     return {
@@ -543,6 +538,38 @@ export default {
           this.drawLine();this.drawLine2();this.drawLine3();this.drawLine4();this.drawLine5();
         })
     },
+    download(){
+    //  var url="http://192.168.99.213:8080/manage-platform/dataStatistics/export_flt";
+    console.log("------"+this.$api.rootUrl);
+     var url= this.$api.rootUrl+"/manage-platform/dataStatistics/export_flt";
+      axios({
+       method: 'post',
+       url: url,
+      // url:'http://192.168.99.206:8080/manage-platform/iapi/exportFileIo/0/600',
+      // url: this.$api.rootUrl+"/manage-platform/iapi/exportFileIo/0/600",
+       data: {
+         "begintime": this.pd.begintime,
+         "endtime": this.pd.endtime,
+         "fltno": this.pd.fltno,
+       },
+       responseType: 'blob'
+       }).then(response => {
+           this.downloadM(response)
+       });
+    },
+    downloadM (data) {
+        if (!data) {
+            return
+        }
+
+        let url = window.URL.createObjectURL(new Blob([data.data],{type:"application/octet-stream"}))
+        let link = document.createElement('a')
+        link.style.display = 'none'
+        link.href = url
+        link.setAttribute('download', 'hbtj'+format(new Date(),'yyyyMMddhhmmss')+'.xlsx')
+        document.body.appendChild(link)
+        link.click()
+    },
 
     details(i) {
       this.detailsDialogVisible = true;
@@ -569,6 +596,7 @@ export default {
                 ]
           });
     },
+
     drawLine2() {
       this.lineChart = echarts.init(document.getElementById('myChart2'), 'light');
       window.onresize = echarts.init(document.getElementById('myChart2')).resize;

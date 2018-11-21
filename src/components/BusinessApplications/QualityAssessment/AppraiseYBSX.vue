@@ -123,7 +123,7 @@
           >
         </el-table-column>
 
-        <el-table-column
+        <!-- <el-table-column
           prop="flttype"
           label="航班类型" >
         </el-table-column>
@@ -134,7 +134,7 @@
         <el-table-column
           prop="passportno"
           label="证件号码" >
-        </el-table-column>
+        </el-table-column> -->
         <el-table-column
           prop="noreport"
           label="关闭报-未报数量" >
@@ -393,10 +393,16 @@ export default {
       this.form=i;
     },
     download(){
+      //var url="http://192.168.99.213:8080/manage-platform/forecastEva/export_fctime_bycompanyid";
+           var url= this.$api.rootUrl+"/manage-platform/forecastEva/export_fctime_bycompanyid";
+      if(this.typerow=="2"){
+        //url="http://192.168.99.213:8080/manage-platform/forecastEva/export_fctime_byfltno";
+        url= this.$api.rootUrl+"/manage-platform/forecastEva/export_fctime_byfltno";
+      }
       axios({
        method: 'post',
-       //url: 'http://192.168.99.213:8080/manage-platform/forecastEva/export_fctime_byfltno',
-       url:'http://192.168.99.206:8080/manage-platform/iapi/exportFileIo/0/600',
+       url: url,
+      // url:'http://192.168.99.206:8080/manage-platform/iapi/exportFileIo/0/600',
       // url: this.$api.rootUrl+"/manage-platform/iapi/exportFileIo/0/600",
        data: {
            "begintime":this.pd.begintime,
@@ -406,10 +412,10 @@ export default {
        },
        responseType: 'blob'
        }).then(response => {
-           this.downloadM(response,"ybsx")
+           this.downloadM(response)
        });
     },
-    downloadM (data,name) {
+    downloadM (data) {
         if (!data) {
             return
         }
@@ -418,7 +424,7 @@ export default {
         let link = document.createElement('a')
         link.style.display = 'none'
         link.href = url
-        link.setAttribute(name, format(new Date(),'yyyy-MM-dd hh:mm:ss')+'.xlsx')
+        link.setAttribute('download', 'ybsx'+format(new Date(),'yyyyMMddhhmmss')+'.xlsx')
         document.body.appendChild(link)
         link.click()
     },
