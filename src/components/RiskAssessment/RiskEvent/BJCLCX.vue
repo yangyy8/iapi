@@ -1,7 +1,7 @@
 <template lang="html">
   <div class="bjsjck">
     <div class="top mb-2">
-      事件编号：{{serial}}(客户提供唯一编码业务或方法)
+      事件编号：{{serial}}
     </div>
     <div class="middle">
       <el-row :gutter="15">
@@ -46,7 +46,7 @@
                 </el-col>
                 <el-col :span="6">
                   <span>证件类型：</span>
-                  {{page0Data.passportType}}
+                  {{page0Data.passportTypeName}}
                 </el-col>
                 <el-col :span="6">
                   <span>航班号：</span>

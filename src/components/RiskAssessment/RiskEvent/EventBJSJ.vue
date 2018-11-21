@@ -246,7 +246,6 @@
             <template slot-scope="scope">
               <el-rate :value="scope.row.grade" size="mini" disabled class="mb-9"></el-rate>
             </template>
-
           </el-table-column>
           <el-table-column
             label="处理人"
@@ -393,7 +392,7 @@
           </div>
           <el-row align="center" :gutter="2">
             <el-col  :sm="24" :md="12" :lg="12"  class="input-item">
-              <span class="mr-5">添加标签 </span>
+              <span class="mr-5">类别 </span>
               <el-cascader
                 expand-trigger="hover"
                 class="input-input"
@@ -702,7 +701,13 @@ export default {
       this.$api.post('/manage-platform/riskEventController/getBatchEventArchiveTagInfo',{},
        r => {
          this.tagData=r.data;
-         // this.taged
+         var that = this;
+         for(var i in that.tagData){
+           console.log(i)
+           that.taged=i
+           return;
+         }
+
       })
     },
     gdSave(){
@@ -761,7 +766,7 @@ export default {
   font-size: 16px;
   padding-bottom: 3px;
   display: flex;
-  justify-content: space-between;
+  /* justify-content: space-between; */
 }
 .tag-list span{
   display: inline-block;

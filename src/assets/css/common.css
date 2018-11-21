@@ -512,12 +512,14 @@ button{
   padding: 12px;
   border-radius: 0 3px 3px 3px;
 }
-.detail-msg-row{
-  color: #999;
+.detail-msg-row,.detail-msg-row a{
+  color: #666;
   line-height: 32px;
 }
 .detail-msg-row span{
   color: #333;
+  font-weight: bold;
   display: inline-block;
+  margin-right: 5px;
   /* width: 91px; */
 }

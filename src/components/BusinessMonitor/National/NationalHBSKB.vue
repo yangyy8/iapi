@@ -54,6 +54,7 @@
           label="出境">
           <el-table-column
             label="航班号"
+            sortable
             prop="out.fltNo">
           </el-table-column>
           <el-table-column
@@ -62,6 +63,8 @@
           </el-table-column>
           <el-table-column
             label="计划起飞时间"
+            sortable
+            width="180"
             prop="out.daDate">
           </el-table-column>
           <el-table-column
@@ -69,12 +72,13 @@
             <template slot-scope="scope" v-if="scope.row.out!=null">
               <div>
                 <span v-if="scope.row.out.status==0">计划</span>
-                <span v-if="scope.row.out.status==1">值机</span>
-                <span v-if="scope.row.out.status==3">已起飞</span>
-                <span v-if="scope.row.out.status==4">已办理入境</span>
-                <span v-if="scope.row.out.status==5">取消</span>
-                <span v-if="scope.row.out.status==6">已到达</span>
-                <span v-if="scope.row.out.status==7">已失效</span>
+                <span v-if="scope.row.out.status==1">已预检</span>
+                <span v-if="scope.row.out.status==2">已起飞</span>
+                <span v-if="scope.row.out.status==3">已到达</span>
+                <span v-if="scope.row.out.status==4">已办理入境手续</span>
+                <span v-if="scope.row.out.status==5">已取消</span>
+                <span v-if="scope.row.out.status==6">无关闭报文</span>
+                <span v-if="scope.row.out.status==7">无值机报文</span>
               </div>
             </template>
           </el-table-column>
@@ -91,6 +95,7 @@
           label="入境">
           <el-table-column
             label="航班号"
+            sortable
             prop="in.fltNo">
           </el-table-column>
           <el-table-column
@@ -99,6 +104,8 @@
           </el-table-column>
           <el-table-column
             label="计划到达时间"
+            sortable
+            width="180"
             prop="in.daDate">
           </el-table-column>
           <el-table-column
@@ -106,12 +113,13 @@
             <template slot-scope="scope" v-if="scope.row.in!=null">
               <div >
                 <span v-if="scope.row.in.status==0">计划</span>
-                <span v-if="scope.row.in.status==1">值机</span>
-                <span v-if="scope.row.in.status==3">已起飞</span>
-                <span v-if="scope.row.in.status==4">已办理入境</span>
-                <span v-if="scope.row.in.status==5">取消</span>
-                <span v-if="scope.row.in.status==6">已到达</span>
-                <span v-if="scope.row.in.status==7">已失效</span>
+                <span v-if="scope.row.in.status==1">已预检</span>
+                <span v-if="scope.row.in.status==2">已起飞</span>
+                <span v-if="scope.row.in.status==3">已到达</span>
+                <span v-if="scope.row.in.status==4">已办理入境手续</span>
+                <span v-if="scope.row.in.status==5">已取消</span>
+                <span v-if="scope.row.in.status==6">无关闭报文</span>
+                <span v-if="scope.row.in.status==7">无值机报文</span>
               </div>
             </template>
           </el-table-column>
