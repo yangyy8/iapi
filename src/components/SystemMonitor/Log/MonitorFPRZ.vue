@@ -2,7 +2,6 @@
 <template lang="html">
   <div class="zlbg">
     <div class="middle-top mb-2">
-
       <el-row type="flex" class="middle">
         <el-col :span="22" class="br pr-20">
           <div class="title-green">
@@ -12,28 +11,31 @@
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">日志类型：</span>
               <el-select v-model="pd.rzlx" placeholder="请选择"  filterable  size="small" class="input-input">
-
-                <el-option value="0" label="0 - 系统日志" >
-                </el-option>
-                <el-option value="1" label="1 - 错误日志" >
-                </el-option>
-                <!-- <el-option value="2" label="2 - 操作日志" > -->
-                <!-- </el-option> -->
+                <el-option value="0" label="0 - 系统日志" ></el-option>
+                <el-option value="1" label="1 - 错误日志" ></el-option>
                </el-select>
             </el-col>
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">生成时间：</span>
               <div class="input-input t-flex t-date">
                <el-date-picker
-               v-model="pd.begin" format="yyyy-MM-dd HH:mm:ss"
-               type="datetime" size="small" value-format="yyyyMMddHHmmss"
-               placeholder="开始时间"  :picker-options="pickerOptions" >
+               v-model="pd.begin"
+               format="yyyy-MM-dd HH:mm:ss"
+               type="datetime"
+               size="small"
+               value-format="yyyyMMddHHmmss"
+               placeholder="开始时间"
+               :picker-options="pickerOptions" >
              </el-date-picker>
                <span class="septum">-</span>
              <el-date-picker
-                v-model="pd.end" format="yyyy-MM-dd HH:mm:ss"
-                type="datetime" size="small" value-format="yyyyMMddHHmmss"
-                placeholder="结束时间" :picker-options="pickerOptions1" >
+                v-model="pd.end"
+                format="yyyy-MM-dd HH:mm:ss"
+                type="datetime"
+                size="small"
+                value-format="yyyyMMddHHmmss"
+                placeholder="结束时间"
+                :picker-options="pickerOptions1" >
             </el-date-picker>
           </div>
             </el-col>
@@ -170,22 +172,22 @@ export default {
       tableData: [],
       multipleSelection: [],
       pickerOptions: {
-        // disabledDate: (time) => {
-        //     if (this.pd.end != null) {
-        //       let startT = formatDate(new Date(time.getTime()),'yyyyMMddhhmmss');
-        //       return startT > this.pd.end;
-        //     }else if(this.pd.end == null){
-        //       return false
-        //     }
-        // }
+        disabledDate: (time) => {
+            if (this.pd.end != null) {
+              let startT = formatDate(new Date(time.getTime()),'yyyyMMddhhmmss');
+              return startT > this.pd.end;
+            }else if(this.pd.end == null){
+              return false
+            }
+        }
       },
       pickerOptions1: {
-        // disabledDate: (time) => {
-        //     let endT = formatDate(new Date(time.getTime()),'yyyyMMddhhmmss');
-        //     return endT < this.pd.begin;
-        // }
+        disabledDate: (time) => {
+            let endT = formatDate(new Date(time.getTime()),'yyyyMMddhhmmss');
+            return endT < this.pd.begin;
+        }
       },
-          form: {},
+      form: {},
 
     }
   },
@@ -199,11 +201,6 @@ export default {
     // this.getList(this.CurrentPage, this.pageSize, this.pd);
   },
   activated(){
-    let time = new Date();
-    let endz = new Date();
-    let beginz = new Date(time - 1000 * 60 * 60 * 24 * 1);
-    this.pd.begin = formatDate(beginz, 'yyyyMMddhhmmss');
-    this.pd.end = formatDate(endz, 'yyyyMMddhhmmss');
     // this.getList(this.CurrentPage,this.pageSize,this.pd);
   },
   methods: {
@@ -216,16 +213,15 @@ export default {
     },
     handleCurrentChange(val) {
       this.getList(val, this.pageSize, this.pd);
-
       console.log(`当前页: ${val}`);
     },
     getList(currentPage, showCount, pd) {
-      // if(dayGap(this.pd.begin,this.pd.end,0)>1){
-      //   this.$alert('只能查询某一天的日期', '提示', {
-      //     confirmButtonText: '确定',
-      //   });
-      //   return false
-      // }
+      if(dayGap(this.pd.begin,this.pd.end,0)>1){
+        this.$alert('只能查询某一天的日期', '提示', {
+          confirmButtonText: '确定',
+        });
+        return false
+      }
       let p = {
         "currentPage": currentPage,
         "showCount": showCount,
