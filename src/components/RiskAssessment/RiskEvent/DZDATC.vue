@@ -387,7 +387,70 @@
         <el-col :span="12">
           备注：{{moreData.remakrs||'-'}}
         </el-col>
-
+      </el-row>
+    </div>
+    <div class="" v-if="moreType=='box12'">
+      <el-row style="line-height:32px;">
+        <el-col :span="12">
+          英文姓名：{{moreData.eng_name}}
+        </el-col>
+        <el-col :span="12">
+          中文姓名：{{moreData.chn_name}}
+        </el-col>
+        <el-col :span="12">
+          数据来源：{{moreData.data_src_flag||'-'}}
+        </el-col>
+        <el-col :span="12">
+          性别：{{moreData.gender_na}}
+        </el-col>
+        <el-col :span="12">
+          出生日期：{{moreData.birth_date}}
+        </el-col>
+        <el-col :span="12">
+          国籍/地区：{{moreData.pers_country||moreData.country_na}}
+        </el-col>
+        <el-col :span="12">
+          证件类型：{{moreData.cert_type_na||moreData.hold_cert_type}}
+        </el-col>
+        <el-col :span="12">
+          证件号码：{{moreData.cert_no||moreData.hold_cert_no}}
+        </el-col>
+        <el-col :span="12">
+          签证(注)类型：{{moreData.visas_type_na||'-'}}
+        </el-col>
+        <el-col :span="12">
+          签证(注)号码：{{moreData.prmt_no||moreData.visas_no}}
+        </el-col>
+        <el-col :span="12">
+          签证(注)有效期：{{moreData.prmt_vld||moreData.visas_vld}}
+        </el-col>
+        <el-col :span="12">
+          住宿日期：{{moreData.stay_date||'-'}}
+        </el-col>
+        <el-col :span="12">
+          留宿单位地址：{{moreData.stay_address||'-'}}
+        </el-col>
+        <el-col :span="12">
+          离开日期：{{moreData.leave_date||'-'}}
+        </el-col>
+        <el-col :span="12">
+          接待单位：{{moreData.rcpt_unit||'-'}}
+        </el-col>
+        <el-col :span="12">
+          登记单位行政区划：{{moreData.tsu_region_na||'-'}}
+        </el-col>
+        <el-col :span="12">
+          登记单位：{{moreData.tsu_name||'-'}}
+        </el-col>
+        <el-col :span="12">
+          上报省份：{{moreData.rpt_prov_na||'-'}}
+        </el-col>
+        <el-col :span="12">
+          上报城市：{{moreData.sjsbcs_na||'-'}}
+        </el-col>
+        <el-col :span="12">
+          备注：{{moreData.remakrs||'-'}}
+        </el-col>
       </el-row>
     </div>
     <div class="" v-if="moreType=='box14'">

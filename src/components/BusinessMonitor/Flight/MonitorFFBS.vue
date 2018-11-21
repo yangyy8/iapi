@@ -121,17 +121,18 @@
             <template slot-scope="scope">
               <div>
                 <span v-if="scope.row.status==0">计划</span>
-                <span v-if="scope.row.status==1">值机</span>
-                <span v-if="scope.row.status==3">已起飞</span>
-                <span v-if="scope.row.status==4">已办理入境</span>
-                <span v-if="scope.row.status==5">取消</span>
-                <span v-if="scope.row.status==6">已到达</span>
-                <span v-if="scope.row.status==7">已失效</span>
+                <span v-if="scope.row.status==1">已预检</span>
+                <span v-if="scope.row.status==2">已起飞</span>
+                <span v-if="scope.row.status==3">已到达</span>
+                <span v-if="scope.row.status==4">已办理入境手续</span>
+                <span v-if="scope.row.status==5">已取消</span>
+                <span v-if="scope.row.status==6">无关闭报文</span>
+                <span v-if="scope.row.status==7">无值机报文</span>
               </div>
             </template>
           </el-table-column>
           <el-table-column
-            label="航班关闭报文异常"
+            label="非法报送数"
             prop="closeEx">
           </el-table-column>
         </el-table>
@@ -225,12 +226,13 @@
           <template slot-scope="scope">
             <div>
               <span v-if="scope.row.status==0">计划</span>
-              <span v-if="scope.row.status==1">值机</span>
-              <span v-if="scope.row.status==3">已起飞</span>
-              <span v-if="scope.row.status==4">已办理入境</span>
-              <span v-if="scope.row.status==5">取消</span>
-              <span v-if="scope.row.status==6">已到达</span>
-              <span v-if="scope.row.status==7">已失效</span>
+              <span v-if="scope.row.status==1">已预检</span>
+              <span v-if="scope.row.status==2">已起飞</span>
+              <span v-if="scope.row.status==3">已到达</span>
+              <span v-if="scope.row.status==4">已办理入境手续</span>
+              <span v-if="scope.row.status==5">已取消</span>
+              <span v-if="scope.row.status==6">无关闭报文</span>
+              <span v-if="scope.row.status==7">无值机报文</span>
             </div>
           </template>
         </el-table-column>

@@ -97,7 +97,7 @@
       <el-row align="center" :gutter="2" type="flex">
         <el-col :span="24" class="input-item">
           <span class="yy-input-text width-lef">预检结果：</span>
-          <el-input type="textarea" v-model="pretestResults"></el-input>
+          <el-input type="textarea" v-model="pretestResults" maxlength="300" :autosize="{ minRows: 3, maxRows: 3}"></el-input>
         </el-col>
       </el-row>
     </div>

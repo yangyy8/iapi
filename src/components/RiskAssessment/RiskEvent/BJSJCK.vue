@@ -1,7 +1,7 @@
 <template lang="html">
   <div class="bjsjck">
     <div class="top mb-2">
-      事件编号：{{serial}}(客户提供唯一编码业务或方法)
+      事件编号：{{serial}}
     </div>
     <div class="middle">
       <el-row :gutter="10">
@@ -10,10 +10,10 @@
             <img src="../../../assets/img/bp_ap/ph_s.png" alt="" style="width:100%;">
             <span class="mb-2">综合风险等级</span>
             <el-rate :value="3" disabled class="mb-9"></el-rate>
-            <el-button type="primary" size="small" class="mb-9" style="width:100%">电子归档</el-button>
+            <el-button type="primary" size="small" class="mb-9" style="width:100%" @click="$router.push({name:'DZDA',query:{nationality:page0Data.nationality,passportno:page0Data.passportno}})">电子档案</el-button>
             <el-button type="primary" size="small" class="mb-9" style="width:100%">综合查询</el-button>
             <el-button type="primary" size="small" class="mb-9" style="width:100%">照片比对</el-button>
-            <el-button type="success" size="small" style="width:100%">事件归档</el-button>
+            <el-button type="success" size="small" style="width:100%" :disabled="!operation_type">事件归档</el-button>
           </div>
         </el-col>
         <el-col :span="21">
@@ -55,7 +55,7 @@
                 </el-col>
                 <el-col :span="6">
                   <span>证件类型：</span>
-                  {{page0Data.passportType}}
+                  {{page0Data.passportTypeName}}
                 </el-col>
                 <el-col :span="6">
                   <span>航班号：</span>
@@ -90,7 +90,7 @@
               </div>
               <div class="">
                 <el-popover
-                  v-for="(x,ind) in box1Data.validList" :key="ind"
+                  v-for="(x,ind) in box1Data.validList" :key="ind" v-if="ind<size.size0"
                   ref="popover"
                   placement="bottom"
                   width="200"
@@ -100,8 +100,8 @@
                   <el-tag type="info" slot="reference" size="small" class="mr-5" v-if="x.OPERATION_TYPE==2">{{x.TAG_NAME}}</el-tag>
                 </el-popover>
 
-                <el-button type="text" size="small" @click="moreShow=true" v-if="!moreShow">查看更多 ></el-button>
-                <el-button type="text" size="small" @click="moreShow=false" v-if="moreShow">收起<</el-button>
+                <el-button type="text" size="small" @click="moreShow=true;size.size0=box1Data.validList.length+1" v-if="!moreShow&&box1Data.validList.length>6">查看更多 ></el-button>
+                <el-button type="text" size="small" @click="moreShow=false;size.size0=6" v-if="moreShow">收起<</el-button>
               </div>
 
             </div>
@@ -110,7 +110,7 @@
                 标签详细信息 <i class="el-icon-d-caret"></i>
               </div>
               <div v-if="box1">
-                <div class="box1-content mb-9" v-for="(a,ind) in box1Data.particularsList" :key="ind">
+                <div class="box1-content mb-9" v-for="(a,ind) in box1Data.particularsList" :key="ind" v-if="ind<size.size1">
                   <el-tag type="warning" size="small" v-if="a.operation_type==1">{{a.tag_name}}</el-tag>
                   <el-tag type="info" size="small" v-if="a.operation_type==2">{{a.tag_name}}</el-tag>
 
@@ -137,14 +137,16 @@
                           </li>
                         </ul>
                       </div>
-
-                      <el-button type="text" size="small" class="gc-more">查看更多</el-button>
+                      <el-button type="text" size="small" class="gc-more" v-if="">查看更多</el-button>
                     </div>
                   </div>
                 </div>
 
                 <div class="box1-more">
-                  <el-button type="text">展开更多 ﹀</el-button>
+
+                  <el-button type="text" @click="size.size1=box1Data.particularsList.length+1" v-if="box1Data.particularsList.length>3&&size.size1==3">展开更多 ﹀</el-button>
+                  <el-button type="text" @click="size.size1=3" v-if="size.size1==box1Data.particularsList.length+1">收起 ︿</el-button>
+
                 </div>
               </div>
             </div>
@@ -153,7 +155,7 @@
                 命中模型信息 <i class="el-icon-d-caret"></i>
               </div>
               <div v-if="box2">
-                <div class="box2-content mb-9" v-for="b in box2Data" >
+                <div class="box2-content mb-9" v-for="(b,ind) in box2Data" :key="ind" v-if="ind<size.size2">
                   <div class="box2-t-box">
                     <span>{{b.modelName}}</span>
                     <el-button type="primary" plain size="small">模型相关案例</el-button>
@@ -174,7 +176,8 @@
                 </div>
 
                 <div class="box1-more">
-                  <el-button type="text">展开更多 ﹀</el-button>
+                  <el-button type="text" @click="size.size2=box2Data.length+1" v-if="box2Data.length>3&&size.size2==3">展开更多 ﹀</el-button>
+                  <el-button type="text" @click="size.size2=3" v-if="size.size2==box2Data.length+1">收起 ︿</el-button>
                 </div>
               </div>
             </div>
@@ -192,14 +195,6 @@
                       <span>{{c1.TARGET_NAME}}：</span>
                       {{c1.TARGET_VALUE}}
                     </el-col>
-                    <el-col :span="6" class="tc-999">
-                      <span>旅客户籍行政区划：</span>
-                      是
-                    </el-col>
-                    <el-col :span="6" class="tc-999">
-                      <span>旅客身份证号：</span>
-                      是
-                    </el-col>
                   </el-row>
                 </div>
                 <div class="box2-content mb-9">
@@ -211,28 +206,12 @@
                       <span>{{c2.TARGET_NAME}}：</span>
                       {{c1.TARGET_VALUE}}
                     </el-col>
-                    <el-col :span="6" class="tc-999">
-                      <span>入境计划停留时长：</span>
-                      A1311441
-                    </el-col>
-                    <el-col :span="6" class="tc-999">
-                      <span>出境计划前往国：</span>
-                      是
-                    </el-col>
-                    <el-col :span="6" class="tc-999">
-                      <span>出境航班：</span>
-                      是
-                    </el-col>
-                    <el-col :span="6" class="tc-999">
-                      <span>是否前往小商品集散地：</span>
-                      是
-                    </el-col>
 
                   </el-row>
                 </div>
-                <div class="box1-more">
+                <!-- <div class="box1-more">
                   <el-button type="text">展开更多 ﹀</el-button>
-                </div>
+                </div> -->
               </div>
             </div>
           </div>
@@ -243,7 +222,7 @@
               </div>
               <div v-if="box4">
                 <!-- <el-button type="primary" plain size="small">模型相关案例</el-button> -->
-                <div class="box2-content mb-9" v-for="d1 in box4Data.checkTacticsList">
+                <div class="box2-content mb-9" v-for="(d1,ind) in box4Data.checkTacticsList" :key="ind" v-if="ind<size.size3">
                   <div class="gc-box">
                     <div><span class="b-dot"></span>{{d1.modelName}}：</div>
                     <div class="">
@@ -252,7 +231,8 @@
                   </div>
                 </div>
                 <div class="box1-more">
-                  <el-button type="text">展开更多 ﹀</el-button>
+                  <el-button type="text" @click="size.size3=box4Data.checkTacticsList.length+1" v-if="box4Data.checkTacticsList.length>3&&size.size3==3">展开更多 ﹀</el-button>
+                  <el-button type="text" @click="size.size3=3" v-if="size.size3==box4Data.checkTacticsList.length+1">收起 ︿</el-button>
                 </div>
                 <div class="gc-box">
                   <div class="">
@@ -269,13 +249,14 @@
                 </div>
                 <div class="hc-box">
                   <el-input
+                    :disabled="!operation_type"
                     class="mr-10"
                     type="textarea"
                     :rows="3"
                     v-model="addListCustom"
                     placeholder="请输入内容">
                   </el-input>
-                  <el-button type="success" size="small" plain @click="addCustomFn">添加</el-button>
+                  <el-button type="success" size="small" plain @click="addCustomFn" :disabled="!addListCustom">添加</el-button>
                 </div>
               </div>
             </div>
@@ -287,8 +268,8 @@
                 <el-row align="center" :gutter="2" style="width:100%" class="mr-15">
                   <el-col  :sm="24" :md="12" :lg="8"  class="input-item" v-for="(d3,ind) in box4Data.listRiskIndex" :key="ind">
                     <span class="input-text">{{d3.index_name}}：</span>
-                    <el-input placeholder="请输入内容" size="small" class="input-input mr-10" v-model="d3.index_value"></el-input>
-                    <i class="el-icon-close redx hand" @click="delRiskIndexInfo(d3.serial)"></i>
+                    <el-input :disabled="!operation_type" placeholder="请输入内容" size="small" class="input-input mr-10" v-model="d3.index_value"></el-input>
+                    <i v-if="operation_type" class="el-icon-close redx hand" @click="delRiskIndexInfo(d3.serial)"></i>
                   </el-col>
                   <el-col  :sm="24" :md="12" :lg="8"  class="input-item" v-for="(d3,ind) in checkList" :key="ind">
                     <span class="input-text">{{d3.index_name}}：</span>
@@ -296,7 +277,7 @@
                     <i class="el-icon-close redx hand" @click="delRiskIndexInfo0(d3.serial)"></i>
                   </el-col>
                 </el-row>
-                <el-button type="success" size="small" plain class="mb-6" @click="getAddRiskIndexInfo">添加</el-button>
+                <el-button type="success" size="small" plain class="mb-6" :disabled="!operation_type" @click="getAddRiskIndexInfo">添加</el-button>
               </div>
             </div>
             <div class="boder1 pb-10">
@@ -308,8 +289,8 @@
                   <span class="mr-30">{{d4.upload_name}}</span>
                   <span class="mr-30 tc-999">上传人：{{d4.userName}}</span>
                   <span class="mr-30 tc-999">上传时间：{{d4.createTime}}</span>
-                  <el-button type="text" class="redx" @click="delFileInfo(d4.serial)">删除</el-button>
-                  <el-button type="text" ><a :href="d4.url_patch" class="green">下载</a></el-button>
+                  <el-button v-if="operation_type" type="text" class="redx" @click="delFileInfo(d4.serial)">删除</el-button>
+                  <el-button v-if="operation_type" type="text" ><a :href="d4.url_patch" class="green">下载</a></el-button>
                 </div>
                 <div class="" v-if="fileData">
                   <div class="" v-for="(x,ind) in fileData" :key="ind">
@@ -317,7 +298,7 @@
 
                   </div>
                 </div>
-                <label class="file">
+                <label class="file" v-if="operation_type">
                   添加附件
                   <input type="file" name="" multiple="multiple" @change="uploadFile">
                 </label>
@@ -330,6 +311,7 @@
               </div>
               <div v-if="box7">
                 <el-input
+                  :disabled="!operation_type"
                   class="mr-10 mb-9"
                   type="textarea"
                   v-model="box4Data.riskDescRecordEntity.remark"
@@ -339,14 +321,14 @@
                 <el-row align="center" :gutter="2">
                   <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                     <span class="mr-5">核查阶段 </span>
-                    <el-select v-model="box4Data.riskDescRecordEntity.check_stage" filterable clearable placeholder="请选择"  size="small" class="input-input">
+                    <el-select :disabled="!operation_type" v-model="box4Data.riskDescRecordEntity.check_stage" filterable clearable placeholder="请选择"  size="small" class="input-input">
                       <el-option label="1 - 前期核查" value="1"></el-option>
                       <el-option label="2 - 见面核查" value="2"></el-option>
                     </el-select>
                   </el-col>
                   <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                     <span  class="mr-5">核查结果 </span>
-                    <el-select v-model="box4Data.riskDescRecordEntity.check_result" filterable clearable placeholder="请选择"  size="small" class="input-input">
+                    <el-select :disabled="!operation_type" v-model="box4Data.riskDescRecordEntity.check_result" filterable clearable placeholder="请选择"  size="small" class="input-input">
                       <el-option label="1 - 完全排除嫌疑" value="1"></el-option>
                       <el-option label="2 - 未能排除嫌疑扭转至口岸" value="2"></el-option>
                       <el-option label="3 - 未能排除嫌疑扭转至梅沙" value="3"></el-option>
@@ -355,7 +337,7 @@
                   </el-col>
                   <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                     <span  class="mr-5">流转至 </span>
-                    <el-select v-model="box4Data.riskDescRecordEntity.change_port" filterable clearable placeholder="请选择"  size="small" class="input-input">
+                    <el-select :disabled="!operation_type" v-model="box4Data.riskDescRecordEntity.change_port" filterable clearable placeholder="请选择"  size="small" class="input-input">
                       <el-option
                         v-for="item in airport"
                         v-if="item.JCDM"
@@ -369,7 +351,7 @@
                 </el-row>
               </div>
             </div>
-            <div class="boder1 pb-10">
+            <div class="boder1 pb-10" v-if="operation_type">
               <div class="hc-btn">
                 <el-button type="info" size="small" class="mr-20">返回</el-button>
 
@@ -406,7 +388,9 @@
               </div>
 
               <div class="box2-more">
-                <el-button type="text" @click="size.size8=size.size8+5">展开更多 ﹀</el-button>
+                <el-button type="text" @click="size.size8=box4Data.listDescRecord.length+1" v-if="box4Data.listDescRecord.length>3&&size.size8==3">展开更多 ﹀</el-button>
+                <el-button type="text" @click="size.size8=3" v-if="size.size8==box4Data.listDescRecord.length+1">收起 ︿</el-button>
+
               </div>
             </div>
           </div>
@@ -448,7 +432,7 @@ export default {
       box5Data:{},
       box6:true,
       box7:true,
-      size:{size8:5},
+      size:{size0:6,size1:3,size2:3,size3:3,size8:3},
       serial:null,
       fileData:null,
       addListCustom:null,
@@ -662,9 +646,10 @@ export default {
            }
            // this.getRiskDescRecordInfo();
            this.fileData=null;
+           return true;
          }else {
            this.fileData=null;
-           return
+           return false;
          }
       },e => {
 
@@ -703,9 +688,11 @@ export default {
     // 保存校验描述/核查阶段/结果/流转
     saveRiskDescRecordInfo(){
       if(this.fileData){
-
         this.upload();
+      }else{
+
       }
+      console.log(this.upload())
       if(this.listRiskCustom.length>0&&is.delIndex.indexOf("1,")==-1){
         this.delIndex+="1,"
       }
@@ -719,12 +706,10 @@ export default {
         userId:this.user.userId,
         eventSerial: this.serial,
         delIndex:this.delIndex,
-      }
-
-
+      };
       this.$api.post('/manage-platform/riskEventWarningController/saveRiskDescRecordInfo',p,
        r => {
-         // this.box5Data=r.data
+         // this.box5Data=r.data;
          if(r.success){
            this.$message({
              message: '恭喜你，保存成功！',

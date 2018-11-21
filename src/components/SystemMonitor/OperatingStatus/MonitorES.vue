@@ -6,7 +6,7 @@
     </div>
 
 <div class="middle">
-  <div class="yy-title">DMZ区</div>
+  <div class="yy-title">集群</div>
   <el-table
     :data="tableData"
     border
@@ -17,54 +17,39 @@
       width="50">
     </el-table-column>
     <el-table-column
-      prop="name"
-      label="类型">
+      prop="cluster_name"
+      label="名称">
     </el-table-column>
 
     <el-table-column
-      prop="HOSTADDRESS"
-      label="IP地址"
+      label="集群状态"
+      sortable>
+      <template slot-scope="scope">
+        <span :class="{'yellow':scope.row.status == 'yellow','green':scope.row.status == 'green','red':scope.row.status == 'red'}">{{scope.row.status | fiftersate}}</span>
+      </template>
+    </el-table-column>
+    <el-table-column
+      prop="active_primary_shards"
+      label="主分片数量"
       sortable>
     </el-table-column>
     <el-table-column
-      prop="CPU"
-      label="CPU使用率(%)"
+      label="副分片数量"
       sortable>
+      <template slot-scope="scope">
+        {{scope.row.active_shards - scope.row.active_primary_shards}}
+      </template>
     </el-table-column>
     <el-table-column
-      prop="mPercent"
-      label="内存使用率(%)"
+      prop="unassigned_shards"
+      label="未分配节点数"
       sortable>
     </el-table-column>
-    <el-table-column
-      prop="diskPercent"
-      label="磁盘使用率(%)"
-      sortable>
-    </el-table-column>
-    <el-table-column
-      prop="netIn"
-      label="网络流量（入）(%)"
-      sortable>
-    </el-table-column>
-    <el-table-column
-      prop="netOut"
-      label="网络流量（出）(%)"
-      sortable>
-   </el-table-column>
-    <el-table-column
-     label="状态" width="80">
-     <template slot-scope="scope">
-       <div class="yycolor" id='yy1'>
-         {{scope.row.netStat | fiftersate }}
-       </div>
-     </template>
-    </el-table-column>
-    <el-table-column
-      label="文件系统"
-    >
+    <!-- <el-table-column
+      label="操作">
     <template slot-scope="scope">
-   <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row.fileSysArr)">详情</el-button>
-      <!-- <el-row   v-if="scope.row.fileSysArr!=null">
+      <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row.fileSysArr)">详情</el-button>
+      <el-row   v-if="scope.row.fileSysArr!=null">
       <el-col :span="4">avail</el-col>
       <el-col :span="4">fileSystem</el-col>
       <el-col :span="4">mount</el-col>
@@ -79,13 +64,13 @@
         <el-col :span="4">{{i.size}}</el-col>
         <el-col :span="4">{{i.used}}</el-col>
         <el-col :span="4">{{i.usedPer}}</el-col>
-      </el-row> -->
+      </el-row>
      </template>
-    </el-table-column>
+    </el-table-column> -->
   </el-table>
 </div>
  <div class="middle">
-   <div class="yy-title">业务平台区</div>
+   <div class="yy-title">节点</div>
    <el-table
      :data="tableData1"
      border
@@ -98,52 +83,21 @@
      </el-table-column>
      <el-table-column
        prop="name"
-       label="类型">
+       label="名称">
      </el-table-column>
      <el-table-column
-       prop="HOSTADDRESS"
-       label="IP地址"
+       prop="ip"
+       label="IP地址">
+     </el-table-column>
+     <el-table-column
+       prop="version"
+       label="ES版本"
        sortable>
      </el-table-column>
-     <el-table-column
-       prop="CPU"
-       label="CPU使用率(%)"
-       sortable>
-     </el-table-column>
-     <el-table-column
-       prop="mPercent"
-       label="内存使用率(%)"
-       sortable>
-     </el-table-column>
-     <el-table-column
-       prop="diskPercent"
-       label="磁盘使用率(%)"
-       sortable>
-     </el-table-column>
-     <el-table-column
-       prop="netIn"
-       label="网络流量（入）(%)"
-       sortable>
-     </el-table-column>
-     <el-table-column
-       prop="netOut"
-       label="网络流量（出）(%)"
-       sortable>
-     </el-table-column>
-     <el-table-column
-      label="状态" width="80">
-      <template slot-scope="scope">
-        <div class="yycolor" id='yy2'>
-          {{scope.row.netStat | fiftersate }}
-        </div>
-      </template>
-     </el-table-column>
-     <el-table-column
-       label="文件系统"
-     >
+     <!-- <el-table-column
+       label="操作">
      <template slot-scope="scope">
-          <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row.fileSysArr)">详情</el-button>
-<!--
+       <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row.fileSysArr)">详情</el-button>
        <el-row  v-if="scope.row.fileSysArr!=null">
        <el-col :span="4">avail</el-col>
        <el-col :span="4">fileSystem</el-col>
@@ -159,12 +113,76 @@
          <el-col :span="4">{{i.size}}</el-col>
          <el-col :span="4">{{i.used}}</el-col>
          <el-col :span="4">{{i.usedPer}}</el-col>
-       </el-row> -->
+       </el-row>
        </template>
-     </el-table-column>
+     </el-table-column> -->
    </el-table>
+  </div>
 
-    </div>
+  <div class="middle">
+    <div class="yy-title">索引</div>
+    <el-table
+      :data="tableData2"
+      border
+      style="width: 100%;">
+      <el-table-column
+        type="index"
+        label="序号"
+        width="50">
+      </el-table-column>
+      <el-table-column
+        prop="name"
+        label="索引名称">
+      </el-table-column>
+
+      <el-table-column
+        label="索引状态"
+        sortable>
+        <template slot-scope="scope">
+          <span :class="{'yellow':scope.row.status == 'yellow','green':scope.row.status == 'green','red':scope.row.status == 'red'}">{{scope.row.status | fiftersate}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column
+        prop="active_primary_shards"
+        label="主分片数量"
+        sortable>
+      </el-table-column>
+      <el-table-column
+        label="副分片数量"
+        sortable>
+        <template slot-scope="scope">
+          {{scope.row.active_shards - scope.row.active_primary_shards}}
+        </template>
+      </el-table-column>
+      <el-table-column
+        prop="unassigned_shards"
+        label="未分配节点数"
+        sortable>
+      </el-table-column>
+      <!-- <el-table-column
+        label="操作">
+      <template slot-scope="scope">
+        <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row.fileSysArr)">详情</el-button>
+        <el-row   v-if="scope.row.fileSysArr!=null">
+        <el-col :span="4">avail</el-col>
+        <el-col :span="4">fileSystem</el-col>
+        <el-col :span="4">mount</el-col>
+        <el-col :span="4">size</el-col>
+        <el-col :span="4">used</el-col>
+        <el-col :span="4">usedPer</el-col>
+       </el-row>
+        <el-row v-for='i in scope.row.fileSysArr'>
+          <el-col :span="4">{{i.avail}}</el-col>
+          <el-col :span="4">{{i.fileSystem}}</el-col>
+          <el-col :span="4">{{i.mount}}</el-col>
+          <el-col :span="4">{{i.size}}</el-col>
+          <el-col :span="4">{{i.used}}</el-col>
+          <el-col :span="4">{{i.usedPer}}</el-col>
+        </el-row>
+       </template>
+      </el-table-column> -->
+    </el-table>
+  </div>
 
     <el-dialog
       title="详情"
@@ -220,30 +238,19 @@ export default {
   mounted() {
     this.getList();
   },
-  created() {
+  activated() {
     this.getList();
   },
-
-  // computed:{
-  //   ss:function(val){
-  //     console.log(JSON.parse(val))
-  //     return JSON.parse(val)
-  //   }
-  // },
   methods: {
-
-    getList(pd) {
-
-      this.$api.post('/manage-platform/monitorServer/queryMonitorServer', pd,
+    getList() {
+      this.$api.post('/manage-platform/monitorElastic/queryMonitorElasticSearch',{},
         r => {
-          console.log(r);
-          this.tableData = r.data.dmz;
-          this.tableData1 = r.data.business;
-          // for(var i=0;i<r.data.dmz.length;i++){
-          //   this.tableTitle = JSON.parse(r.data.dmz[0].FILESYSTEM);
-          //
-          // }
-          // console.log(this.tableTitle)
+          if(r.success){
+            this.tableData = [];
+            this.tableData.push(r.data);
+            this.tableData1 = r.data.data;
+            this.tableData2 = r.data.indices;
+          }
         })
     },
     details(i) {
@@ -257,29 +264,12 @@ export default {
 
   filters: {
 
-    fifter2(val) {
-      if (val == "172.16.1.101" || val == "172.16.1.102" || val == "172.16.1.103") {
-        return "网站应用服务器"
-      } else if (val == "172.16.1.104" || val == "172.16.1.105") {
-        return "负载均衡服务器"
-      } else if (val == "172.16.1.106") {
-        return "后台任务服务器"
-      } else if (val == "172.16.1.107") {
-        return "监控运维服务器"
-      } else if (val == "172.16.1.108" || val == "172.16.1.109" || val == "172.16.1.110") {
-        return "整合分发服务器"
-      } else if (val == "172.16.1.111" || val == "172.16.1.112") {
-        return "队列服务器"
-      }else if(val!=""){
-          return "其他服务器"
-      }
-    },
     fiftersate(val){
-      if(val=="0"){
-
+      if(val=="yellow"){
+        return "需要检查"
+      }else if(val == "green"){
         return "正常"
-      }else {
-
+      }else if(val =="red"){
         return "异常"
       }
     }
@@ -331,6 +321,9 @@ export default {
 }
 .yycolor{ width: 60px; height: 30px; background: #00FF00; line-height: 30px;}
 .yycolory{ width: 60px; height: 30px; background: #FF0000; line-height: 30px;}
+.yellow{color: #d0bd57}
+.green{color:green}
+.red{color:red}
 </style>
 <style media="screen">
 .el-table_1_column_9 .cell {

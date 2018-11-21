@@ -632,7 +632,7 @@
       </div>
       <div class="middle-btn-g">
         <button type="button" name="button" class="mr-15" :class="{'pitchOn':bigBase==0}" @click="iapi">IAPI数据</button>
-        <button type="button" name="button" :class="{'pitchOn':bigBase==1}"  @click="pnr">PNR数据</button>
+        <button type="button" name="button" :class="{'pitchOn':bigBase==1}"  @click="pnr" v-show="false">PNR数据</button>
       </div>
 
     </div>
