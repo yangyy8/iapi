@@ -82,10 +82,13 @@
      border
      style="width: 100%;">
      <el-table-column
-       prop="CREATETIME"
        label="所属系统"
-       sortable
-       v-if="pd.ZONE=='1'">
+       sortable>
+       <template slot-scope="scope">
+         <div class="">
+           {{scope.row.ZONE | fifter3}}
+         </div>
+       </template>
      </el-table-column>
      <el-table-column
        label="监控区域"
@@ -379,12 +382,8 @@ export default {
     fifter1(val) {
       if (val == 0) {
         return "DMZ区"
-      } else if (val == 2) {
-        return "整合分发区"
-      } else if (val == 1) {
+      } else {
         return "业务平台区"
-      } else if (val == 3){
-        return "风险评估区"
       }
     },
     fifter2(val) {
@@ -396,6 +395,17 @@ export default {
         return "日志监控"
       } else if(val == "PER"){
         return "性能监控"
+      }
+    },
+    fifter3(val){
+      if(val == 0){
+        return '值机校验系统'
+      }else if(val == 1){
+        return '业务平台子系统'
+      }else if(val == 2){
+        return '整合分发子系统'
+      }else if(val == 3){
+        return '风险评估子系统'
       }
     },
     fifter4(val) {

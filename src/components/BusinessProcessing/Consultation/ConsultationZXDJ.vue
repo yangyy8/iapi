@@ -9,11 +9,11 @@
           <span>时间：{{currentDate}}</span>
           <el-row align="center" :gutter="2" style="margin-top:10px">
             <el-col  :sm="24" :md="12" :lg="6"  class="input-item">
-              <span class="input-text">咨询人：</span>
+              <span class="input-text">咨询来源：</span>
               <el-select v-model="entity.CONSULTFROM" filterable clearable placeholder="请选择" size="small" class="input-input">
-                <el-option label="航空公司" value="0"></el-option>
-                <el-option label="乘客" value="1"></el-option>
-                <el-option label="其他" value="2"></el-option>
+                <el-option label="0 - 航空公司" value="0"></el-option>
+                <el-option label="1 - 乘客" value="1"></el-option>
+                <el-option label="2 - 其他" value="2"></el-option>
               </el-select>
             </el-col>
             <el-col  :sm="24" :md="12" :lg="6"  class="input-item">
@@ -28,23 +28,23 @@
               </el-select>
             </el-col>
             <el-col  :sm="24" :md="12" :lg="6"  class="input-item">
-              <span class="input-text">姓名：</span>
+              <span class="input-text">咨询人：</span>
               <el-input placeholder="请输入内容" size="small" v-model="entity.CONSULTNAME"  class="input-input"></el-input>
             </el-col>
 
             <el-col  :sm="24" :md="12" :lg="6"  class="input-item">
               <span class="input-text">咨询方式：</span>
               <el-select v-model="entity.CONSULTFROMTYPE" filterable clearable placeholder="请选择" size="small" class="input-input"  @change="">
-                <el-option label="电话" value="0"></el-option>
-                <el-option label="传真" value="1"></el-option>
-                <el-option label="邮箱" value="2"></el-option>
-                <el-option label="固定电话" value="3"></el-option>
-                <el-option label="其他" value="4"></el-option>
+                <el-option label="0 - 移动电话" value="0"></el-option>
+                <el-option label="1 - 传真" value="1"></el-option>
+                <el-option label="2 - 邮箱" value="2"></el-option>
+                <el-option label="3 - 固定电话" value="3"></el-option>
+                <el-option label="4 - 其他" value="4"></el-option>
               </el-select>
             </el-col>
 
             <el-col  :sm="24" :md="12" :lg="6"  class="input-item" v-show="entity.CONSULTFROMTYPE=='0'">
-              <span class="input-text">电话：</span>
+              <span class="input-text">移动电话：</span>
               <el-input placeholder="请输入内容" size="small" v-model="entity.PHONE"  class="input-input"></el-input>
             </el-col>
             <el-col  :sm="24" :md="12" :lg="6"  class="input-item" v-show="entity.CONSULTFROMTYPE=='1'">
@@ -224,7 +224,7 @@
       </el-row>
       <el-row align="center" :gutter="2" type="flex" justify="center" style="margin-top:10px;padding-bottom:20px;border-bottom:1px dotted #ccc" v-show="CONSULTTYPE==1">
         <el-button type="primary" size="small" @click="businessSave">{{businessText}}</el-button>
-        <el-button type="primary" size="small" @click="" style="margin-left:20px!important">清空</el-button>
+        <el-button type="primary" size="small" @click="businessDETAILS=''" style="margin-left:20px!important">清空</el-button>
       </el-row>
 
       <el-row align="center" :gutter="2" type="flex" v-show="CONSULTTYPE==2">
@@ -235,7 +235,7 @@
       </el-row>
       <el-row align="center" :gutter="2" type="flex" justify="center" style="margin-top:10px;padding-bottom:20px;border-bottom:1px dotted #ccc" v-show="CONSULTTYPE==2">
         <el-button type="primary" size="small" @click="otherSave">{{otherText}}</el-button>
-        <el-button type="primary" size="small" @click="" style="margin-left:20px!important">清空</el-button>
+        <el-button type="primary" size="small" @click="otherDETAILS=''" style="margin-left:20px!important">清空</el-button>
       </el-row>
     </div>
 

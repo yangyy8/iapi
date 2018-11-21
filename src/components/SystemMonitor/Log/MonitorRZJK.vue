@@ -196,7 +196,7 @@ export default {
             return endT < this.pd.begin;
         }
       },
-          form: {},
+      form: {},
 
     }
   },
@@ -204,18 +204,12 @@ export default {
     let time = new Date();
     let endz = new Date();
     let beginz = new Date(time - 1000 * 60 * 60 * 24 * 1);
-    this.pd.begin = formatDate(beginz, 'yyyyMMddHHmmss');
+    this.pd.begin = formatDate(beginz, 'yyyyMMddhhmmss');
     this.pd.end = formatDate(endz, 'yyyyMMddhhmmss');
-
-    // this.getList(this.CurrentPage, this.pageSize, this.pd);
+    this.getList(this.CurrentPage, this.pageSize, this.pd);
   },
   activated(){
-    // let time = new Date();
-    // let endz = new Date();
-    // let beginz = new Date(time - 1000 * 60 * 60 * 24 * 1);
-    // this.pd.begin = formatDate(beginz, 'yyyyMMddhhmmss');
-    // this.pd.end = formatDate(endz, 'yyyyMMddhhmmss');
-    // this.getList(this.CurrentPage,this.pageSize,this.pd);
+    this.getList(this.CurrentPage,this.pageSize,this.pd);
   },
   methods: {
     handleSelectionChange(val) {
@@ -227,30 +221,20 @@ export default {
     },
     handleCurrentChange(val) {
       this.getList(val, this.pageSize, this.pd);
-
       console.log(`当前页: ${val}`);
     },
     getList(currentPage, showCount, pd) {
-      // this.pd.begin=formatDate(this.pd.begin,"yyyyMMddhhssmm");
-      // this.pd.end=formatDate(this.pd.end,"yyyyMMddhhssmm");
-
-
       if(dayGap(this.pd.begin,this.pd.end,0)>1){
         this.$alert('只能查询某一天的日期', '提示', {
           confirmButtonText: '确定',
         });
         return false
       }
-
       let p = {
         "currentPage": currentPage,
         "showCount": showCount,
         "cdt": pd
       };
-      // var url="eamp/log_event/queryListPage";
-      // if(pd.type=="1"){
-      //   url="eamp/log_event/querylistPageExpretion";
-      // }
       this.$api.post("/manage-platform/log_event/queryListPageAll", p,
         r => {
           console.log(r);
