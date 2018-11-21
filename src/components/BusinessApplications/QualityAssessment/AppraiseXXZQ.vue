@@ -343,9 +343,16 @@ export default {
       this.form=i;
     },
     download(){
+    //  var url="http://192.168.99.213:8080/manage-platform/forecastEva/export_fccrt_bycompanyid";
+     var url= this.$api.rootUrl+"/manage-platform/forecastEva/export_fccrt_bycompanyid";
+      if(this.typerow=="2"){
+        //url="http://192.168.99.213:8080/manage-platform/forecastEva/export_fccrt_byfltno";
+        url= this.$api.rootUrl+"/manage-platform/forecastEva/export_fccrt_byfltno";
+      }
       axios({
        method: 'post',
-       url: 'http://192.168.99.206:8080/manage-platform/forecastEva/get_fccrt_bycompanyid',
+       url: url,
+      // url:'http://192.168.99.206:8080/manage-platform/iapi/exportFileIo/0/600',
       // url: this.$api.rootUrl+"/manage-platform/iapi/exportFileIo/0/600",
        data: {
            "begintime":this.pd.begintime,
@@ -355,18 +362,19 @@ export default {
        },
        responseType: 'blob'
        }).then(response => {
-           this.downloadM(response,"xxzq")
+           this.downloadM(response)
        });
     },
-    downloadM (data,name) {
+    downloadM (data) {
         if (!data) {
             return
         }
+        console.log("---"+data);
         let url = window.URL.createObjectURL(new Blob([data.data],{type:"application/octet-stream"}))
         let link = document.createElement('a')
         link.style.display = 'none'
         link.href = url
-        link.setAttribute(name, format(new Date(),'yyyy-MM-dd hh:mm:ss')+'.xlsx')
+        link.setAttribute('download', 'xxzq'+format(new Date(),'yyyyMMddhhmmss')+'.xlsx')
         document.body.appendChild(link)
         link.click()
     },
