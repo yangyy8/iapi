@@ -12,11 +12,8 @@
               <el-col  :span="8"  class="input-item">
                 <span class="input-text">监控区域：</span>
                 <el-select v-model="pd.zone"  class="input-input"  filterable clearable  placeholder="请选择"  size="small">
-
-                  <el-option value="0"  label="0 - DMZ区">
-                  </el-option>
-                  <el-option value="1"  label="1 - 业务平台区">
-                  </el-option>
+                  <el-option value="0"  label="0 - DMZ区"></el-option>
+                  <el-option value="1"  label="1 - 业务平台区"></el-option>
                 </el-select>
               </el-col>
             </el-row>
@@ -29,46 +26,44 @@
 
     <div class="middle">
       <el-table
-        :data="tableData"
-        border
-        style="width: 100%;">
-        <el-table-column
-          label="区域" sortable
-        >
-          <template slot-scope="scope">
-            <div class="">
-              {{scope.row.zone | fifter1}}
-            </div>
-          </template>
-
-        </el-table-column>
-        <el-table-column
-          prop="url"
-          label="URL" sortable
-        >
-        </el-table-column>
-        <el-table-column
-          prop="name"
-          label="服务名称" sortable
-        >
-        </el-table-column>
-        <el-table-column
-
-          label="服务状态" sortable
-        >
+      :data="tableData"
+      border
+      style="width: 100%;">
+      <el-table-column
+        prop="url"
+        label="所属系统"
+        sortable
+        v-if="pd.zone=='1'">
+      </el-table-column>
+      <el-table-column
+        label="区域" sortable>
         <template slot-scope="scope">
-
-            {{scope.row.status | fifter2}}
-
+          <div class="">
+            {{scope.row.zone | fifter1}}
+          </div>
         </template>
-        </el-table-column>
-      </el-table>
-
+      </el-table-column>
+      <el-table-column
+        prop="url"
+        label="URL"
+        sortable>
+      </el-table-column>
+      <el-table-column
+        prop="name"
+        label="服务名称"
+        sortable>
+      </el-table-column>
+      <el-table-column
+        label="服务状态"
+        sortable>
+        <template slot-scope="scope">
+          {{scope.row.status | fifter2}}
+        </template>
+      </el-table-column>
+    </el-table>
     </div>
   </div>
-
 </template>
-
 <script>
 export default {
   data() {

@@ -555,6 +555,13 @@ export default new Router({
           component: resolve => require(['@/components/SystemMonitor/Log/MonitorRZJK'], resolve),
 
         },
+        //风评监控
+        {
+          path: "MonitorFPRZ",
+          name: "MonitorFPRZ",
+          component: resolve => require(['@/components/SystemMonitor/Log/MonitorFPRZ'], resolve),
+
+        },
         //性能监控------------------------------------------------------------------------------------
         //校验比对性能监控
         {
