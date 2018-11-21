@@ -462,6 +462,19 @@ export default new Router({
           component: resolve => require(['@/components/SystemMonitor/OperatingStatus/MonitorFWQ'], resolve),
 
         },
+        //mongodb监控
+        {
+          path: "MonitorDB",
+          name: "MonitorDB",
+          component: resolve => require(['@/components/SystemMonitor/OperatingStatus/MonitorDB'], resolve),
+
+        },
+        //elasticsearch监控
+        {
+          path: "MonitorES",
+          name: "MonitorES",
+          component: resolve => require(['@/components/SystemMonitor/OperatingStatus/MonitorES'], resolve),
+        },
         //数据库监控
         {
           path: "MonitorSJK",

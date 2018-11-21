@@ -186,7 +186,7 @@
     <el-dialog title="发送消息"  :visible.sync="sendDialogVisible" width="400px;">
       <el-form :model="sform" ref="addForm">
         <el-row type="flex"  class="mb-6" style="margin-left:85px">
-          <el-col :span="8" class="input-item">
+          <el-col :span="10" class="input-item">
             <span class="yy-input-text">接收口岸：</span>
             <el-select  placeholder="请选择"  size="mini"  class="input-input" v-model="sendBu" filterable clearable @visible-change="queryNationality(1)" @change="nameId(sendBu,1)">
               <el-option
@@ -197,7 +197,7 @@
               ></el-option>
             </el-select>
           </el-col>
-          <el-col :span="8" class="input-item">
+          <el-col :span="10" class="input-item">
             <span class="yy-input-text">接收人：</span>
             <el-select v-model="sform.RECEIVEID" filterable clearable placeholder="请选择" size="small" class="input-input" filterable clearable multiple :disabled="sendAble">
               <el-option
@@ -208,13 +208,16 @@
               </el-option>
              </el-select>
           </el-col>
-          <el-col :span="8" class="input-item">
-            <span class="yy-input-text">附件：</span>
+        </el-row>
+
+        <el-row type="flex"  class="mb-6" style="margin-left:85px">
+          <el-col :span="24" class="input-item">
+            <span class="yy-input-text" style="width: 10.3%!important;">附件：</span>
             <label class="file">
               上传附件
               <input type="file" name=""  @change="uploadFile" multiple>
             </label>
-            <div class="" v-if="fileData">
+            <div class="fileColl" v-if="fileData">
               <div class="" v-for="(x,ind) in fileData" :key="ind">
                 <span class="mr-30">{{x.name}}</span>
               </div>
@@ -231,7 +234,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="sendMesssageReal" size="small">发送</el-button>
-        <el-button @click="" size="small" type="warning">清空</el-button>
+        <el-button @click="sform={RECEIVEID:[]};fileData=null;sendBu=''" size="small" type="warning">清空</el-button>
       </div>
     </el-dialog>
     <el-dialog title="消息回复"  :visible.sync="addDialogVisible" width="400px;">
@@ -251,9 +254,24 @@
           </el-col>
         </el-row>
 
+        <el-row type="flex"  class="mb-6" style="margin-left:85px">
+          <el-col :span="24" class="input-item">
+            <span class="yy-input-text" style="width: 8.3%!important;">附件：</span>
+            <label class="file">
+              上传附件
+              <input type="file" name=""  @change="reviewUpload" multiple>
+            </label>
+            <div class="fileColl" v-if="reviewFile">
+              <div class="" v-for="(x,ind) in reviewFile" :key="ind">
+                <span class="mr-30">{{x.name}}</span>
+              </div>
+            </div>
+          </el-col>
+        </el-row>
+
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
-            <span class="yy-input-text width-ts">回复内容：</span>
+            <span class="yy-input-text" style="width:20.3%!important">回复内容：</span>
             <el-input type="textarea" v-model="replyContent" maxlength="300" :autosize="{ minRows: 3, maxRows: 6}" placeholder="请输入描述(不能超过300字)"></el-input>
           </el-col>
         </el-row>
@@ -293,9 +311,19 @@
             <span class="yy-input-input detailInp">  {{dform.REPLYMESSAGE}}</span>
           </el-col>
         </el-row>
+        <el-row class="mb-6">
+          <el-col :span="24" class="infile">
+            <div v-for="(d4,ind) in inFiles" :key="ind" class="infiledd">
+              <span class="mr-30 avgerName">{{d4.FILENAME}}</span>
+              <span class="mr-30 tc-999 avgera">上传时间：{{d4.CREATETIME}}</span>
+              <!-- <el-button type="text" class="redx" @click="delFileInfo(d4.SERIAL)">删除</el-button> -->
+              <el-button type="text" class="avgera"><a :href="d4.FILEURL" class="green" download="">下载</a></el-button>
+            </div>
+          </el-col>
+        </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="detailsDialogVisible = false" size="small" type="warning">下载附件</el-button>
+        <el-button @click="detailsDialogVisible = false" size="small" type="warning">取消</el-button>
       </div>
     </el-dialog>
     <el-dialog title="发件详情"  :visible.sync="outDetailsDialogVisible" width="400px;">
@@ -322,6 +350,14 @@
           </template>
         </el-table-column>
       </el-table>
+      <el-row class="mb-6">
+        <div class="infiledd" v-for="(d4,ind) in files" :key="ind">
+          <span class="mr-30 avgerName">{{d4.FILENAME}}</span>
+          <span class="mr-30 tc-999 avgera">上传时间：{{d4.CREATETIME}}</span>
+          <!-- <el-button type="text" class="redx" @click="delFileInfo(d4.SERIAL)">删除</el-button> -->
+          <el-button type="text" class="avgera"><a :href="d4.FILEURL" class="green" download="">下载</a></el-button>
+        </div>
+      </el-row>
       <div slot="footer" class="dialog-footer">
         <el-button @click="outDetailsDialogVisible = false" size="small">取消</el-button>
       </div>
@@ -367,6 +403,11 @@ export default {
       outNameCllo:[],
       sform:{},
       fileData:{},
+      reviewFile:{},
+      fitAdress:'',
+      sendAdress:'',
+      files:[],
+      inFiles:[],
 
       value: '',
       value1: "",
@@ -424,6 +465,9 @@ export default {
        return this.$confirm(`确定移除 ${ file.name }？`);
      },
      sendMesssage(){//发送消息
+       this.sendBu="";
+       this.sform={RECEIVEID:[]};
+       this.fileData=null;
        this.sendDialogVisible = true;
      },
      search(){
@@ -450,10 +494,15 @@ export default {
        this.$api.post('/manage-platform/information/saveInformationSend',this.sform,
          r =>{
            if(r.success){
-             this.$message({
-               message: '恭喜你，发送成功',
-               type: 'success'
-             });
+             if(this.fileData){
+               this.upload(r.data.serial,this.fileData);
+             }else{
+               this.$message({
+                 message: '恭喜你，发送成功',
+                 type: 'success'
+               });
+             }
+             this.sendDialogVisible = false;
            }
          })
      },
@@ -468,25 +517,33 @@ export default {
       }
       console.log(`每页 ${val} 条`);
     },
+    reviewUpload(event){
+      this.reviewFile=event.target.files;
+    },
     uploadFile(event){//获取上传的文件
       this.fileData=event.target.files;
     },
-    upload(val){//上传文件
+    upload(val,arr){//上传文件
       var formData = new FormData();
-      let arr=this.fileData;
+      // let arr=this.fileData;
       for(var i=0;i<arr.length;i++){
-        formData.append("file",arr[i]);
+        formData.append("fileList",arr[i]);
       }
-      formData.append("eventSerial",val);
+      formData.append("serial",val);
+      if(this.page==0){
+        formData.append('type',0)
+      }else if(this.page==1){
+        formData.append('type',1)
+      }
+
       let p=formData;
-      this.$api.post('/manage-platform/incident/upload',p,
+      this.$api.post('/manage-platform/information/uploadFile',p,
        r =>{
          if(r.success){
            this.$message({
              message: '恭喜你，保存成功！',
              type: 'success'
            });
-           this.form={};
            this.fileData=null;
          }else {
            this.fileData=null;
@@ -536,6 +593,7 @@ export default {
       this.$api.post('/manage-platform/information/queryInformationSend',p,
         r =>{
           this.outTableDataDetail = r.data.receiveList;
+          this.files = r.data.files;
         })
     },
     inDetails(row){
@@ -546,10 +604,12 @@ export default {
       this.$api.post('/manage-platform/information/queryInformationReceive',p,
         r =>{
           this.dform = r.data;
+          this.inFiles = r.data.files;
         })
     },
     inReply(row){//点击回复
       this.replyContent='';
+      this.reviewFile=null;
       this.addDialogVisible = true;
       this.serialImp = row.SERIAL;
       let p={
@@ -561,19 +621,21 @@ export default {
         })
     },
     inReplySend(){//点击回复发送
-      var entity = {};
-      entity.serial = this.serialImp;
-      entity.REPLYMESSAGE = this.replyContent;
       let p={
-        'entity':entity
+        'SERIAL':this.serialImp,
+        'REPLYMESSAGE':this.replyContent
       }
       this.$api.post('/manage-platform/information/saveInformationReceive',p,
         r =>{
           if(r.success){
-            this.$message({
-              message: '恭喜你，发送成功',
-              type: 'success'
-            });
+            if(this.reviewFile.length){
+              this.upload(r.data.serial,this.reviewFile);
+            }else{
+              this.$message({
+                message: '恭喜你，回复成功',
+                type: 'success'
+              });
+            }
           }
           this.addDialogVisible = false;
         })
@@ -764,7 +826,7 @@ function checkRate(nubmer) {　　
   width: 25% !important;
 }
 .width-ts{
-  width: 20.3%!important;
+  width: 23%!important;
 }
 .checked{
   background:#399bfe;
@@ -811,5 +873,26 @@ function checkRate(nubmer) {　　
     background: #409EFF;
     border-color: #409EFF;
     color: #ffffff;
+}
+.fileColl{
+  padding-left: 20px;
+}
+.fileColl div{
+  padding: 2px;
+  box-sizing: border-box;
+}
+.infile{
+  padding-left: 5%;
+}
+.infiledd{
+  padding: 3px 0px;
+}
+.avgera{
+  width: 20%;
+  display: inline-block;
+}
+.avgerName{
+  width: 30%;
+  display: inline-block;
 }
 </style>

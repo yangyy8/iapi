@@ -2,17 +2,36 @@
 
 // var root="http://192.168.99.206:8080"
 // var root = 'http://192.168.99.245:8080'
-
 //var root="http://192.168.99.228:8080"    //丁勇的电脑
+<<<<<<< HEAD
+//var root="http://192.168.99.228:8080"    //丁勇的电
+// var root="http://192.168.99.206:8080"
+// var root="http://192.168.99.247:8080"
+//var root="http://192.168.99.206:8080"
+var root = 'http://192.168.99.244:8080'//小李文龙
+=======
 
 //var root="http://192.168.99.228:8080"    //丁勇的电
 
+<<<<<<< HEAD
 var root = 'http://192.168.99.247:8080'
+=======
+>>>>>>> 251bcdfcd302d86a1a65043bd465c18e940549f5
+// var root = 'http://192.168.99.245:8080'
+>>>>>>> 3a2963e366647b93c2dda189bf88b6fabb29f741
 //var root="http://192.168.99.213:8080"   //服务器电脑
  //var root="http://192.168.99.228:8080"
 //var root="http://10.6.126.138:8088"
 // var root = 'http://192.168.99.201:8080'
+<<<<<<< HEAD
+
 //var root="http://10.6.126.138:8088" //正式环境
+
+// var root = 'http://192.168.99.234:80'  //李文龙
+
+=======
+//var root="http://10.6.126.138:8088" //正式环境
+>>>>>>> 251bcdfcd302d86a1a65043bd465c18e940549f5
 
 // 引用axios
 var axios = require('axios')
@@ -25,7 +44,6 @@ function toType(obj) {
 }
 // 参数过滤函数
 function filterNull(o) {
-
   for (var key in o) {
     if (o[key] === null) {
       delete o[key]

@@ -11,88 +11,77 @@
     :data="tableData"
     border
     style="width: 100%;">
-            <el-table-column
-              type="index"
-              label="序号"
-              width="50">
-            </el-table-column>
-            <el-table-column
-            prop="name"
-              label="类型"
+    <el-table-column
+      type="index"
+      label="序号"
+      width="50">
+    </el-table-column>
+    <el-table-column
+      prop="name"
+      label="类型">
+    </el-table-column>
 
-            >
-            <!-- <template slot-scope="scope">
-                {{scope.row.HOSTADDRESS | fifter2}}
-            </template> -->
-            </el-table-column>
-
-            <el-table-column
-              prop="HOSTADDRESS"
-              label="IP地址"
-              sortable
-            >
-            </el-table-column>
-            <el-table-column
-              prop="CPU"
-              label="CPU使用率(%)"
-              sortable
-            >
-            </el-table-column>
-            <el-table-column
-              prop="mPercent"
-              label="内存使用率(%)"
-              sortable
-            >
-            </el-table-column>
-            <el-table-column
-              prop="diskPercent"
-              label="磁盘使用率(%)"
-              sortable
-            >
-            </el-table-column>
-            <el-table-column
-              prop="netIn"
-              label="网络流量（入）(%)"
-            sortable
-            >
-            </el-table-column>
-            <el-table-column
-              prop="netOut"
-              label="网络流量（出）(%)"
-              sortable
-            >
-           </el-table-column>
-            <el-table-column
-             label="状态" width="80">
-             <template slot-scope="scope">
-               <div class="yycolor" id='yy1'>
-                 {{scope.row.netStat | fiftersate }}
-               </div>
-             </template>
-            </el-table-column>
-            <el-table-column
-              label="文件系统"
-            >
-            <template slot-scope="scope">
-           <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row.fileSysArr)">详情</el-button>
-              <!-- <el-row   v-if="scope.row.fileSysArr!=null">
-              <el-col :span="4">avail</el-col>
-              <el-col :span="4">fileSystem</el-col>
-              <el-col :span="4">mount</el-col>
-              <el-col :span="4">size</el-col>
-              <el-col :span="4">used</el-col>
-              <el-col :span="4">usedPer</el-col>
-             </el-row>
-              <el-row v-for='i in scope.row.fileSysArr'>
-                <el-col :span="4">{{i.avail}}</el-col>
-                <el-col :span="4">{{i.fileSystem}}</el-col>
-                <el-col :span="4">{{i.mount}}</el-col>
-                <el-col :span="4">{{i.size}}</el-col>
-                <el-col :span="4">{{i.used}}</el-col>
-                <el-col :span="4">{{i.usedPer}}</el-col>
-              </el-row> -->
-             </template>
-            </el-table-column>
+    <el-table-column
+      prop="HOSTADDRESS"
+      label="IP地址"
+      sortable>
+    </el-table-column>
+    <el-table-column
+      prop="CPU"
+      label="CPU使用率(%)"
+      sortable>
+    </el-table-column>
+    <el-table-column
+      prop="mPercent"
+      label="内存使用率(%)"
+      sortable>
+    </el-table-column>
+    <el-table-column
+      prop="diskPercent"
+      label="磁盘使用率(%)"
+      sortable>
+    </el-table-column>
+    <el-table-column
+      prop="netIn"
+      label="网络流量（入）(%)"
+      sortable>
+    </el-table-column>
+    <el-table-column
+      prop="netOut"
+      label="网络流量（出）(%)"
+      sortable>
+   </el-table-column>
+    <el-table-column
+     label="状态" width="80">
+     <template slot-scope="scope">
+       <div class="yycolor" id='yy1'>
+         {{scope.row.netStat | fiftersate }}
+       </div>
+     </template>
+    </el-table-column>
+    <el-table-column
+      label="文件系统"
+    >
+    <template slot-scope="scope">
+   <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row.fileSysArr)">详情</el-button>
+      <!-- <el-row   v-if="scope.row.fileSysArr!=null">
+      <el-col :span="4">avail</el-col>
+      <el-col :span="4">fileSystem</el-col>
+      <el-col :span="4">mount</el-col>
+      <el-col :span="4">size</el-col>
+      <el-col :span="4">used</el-col>
+      <el-col :span="4">usedPer</el-col>
+     </el-row>
+      <el-row v-for='i in scope.row.fileSysArr'>
+        <el-col :span="4">{{i.avail}}</el-col>
+        <el-col :span="4">{{i.fileSystem}}</el-col>
+        <el-col :span="4">{{i.mount}}</el-col>
+        <el-col :span="4">{{i.size}}</el-col>
+        <el-col :span="4">{{i.used}}</el-col>
+        <el-col :span="4">{{i.usedPer}}</el-col>
+      </el-row> -->
+     </template>
+    </el-table-column>
   </el-table>
 </div>
  <div class="middle">
@@ -102,89 +91,162 @@
      border
      style="width: 100%;">
 
-             <el-table-column
-               type="index"
-               label="序号"
-               width="50">
-             </el-table-column>
-             <el-table-column
-               prop="name"
-               label="类型">
-             </el-table-column>
-             <el-table-column
-               prop="HOSTADDRESS"
-               label="IP地址"
-              sortable
-             >
-             </el-table-column>
-             <el-table-column
-               prop="CPU"
-               label="CPU使用率(%)"
-              sortable
-             >
-             </el-table-column>
-             <el-table-column
-               prop="mPercent"
-               label="内存使用率(%)"
-                sortable
-             >
-             </el-table-column>
-             <el-table-column
-               prop="diskPercent"
-               label="磁盘使用率(%)"
-              sortable
-             >
-             </el-table-column>
-             <el-table-column
-               prop="netIn"
-               label="网络流量（入）(%)"
-              sortable
-             >
-             </el-table-column>
-             <el-table-column
-               prop="netOut"
-               label="网络流量（出）(%)"
-              sortable
-             >
-             </el-table-column>
-             <el-table-column
-
-              label="状态" width="80">
-              <template slot-scope="scope">
-                <div class="yycolor" id='yy2'>
-                  {{scope.row.netStat | fiftersate }}
-                </div>
-              </template>
-             </el-table-column>
-             <el-table-column
-               label="文件系统"
-             >
-             <template slot-scope="scope">
-                  <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row.fileSysArr)">详情</el-button>
+     <el-table-column
+       type="index"
+       label="序号"
+       width="50">
+     </el-table-column>
+     <el-table-column
+       prop="name"
+       label="类型">
+     </el-table-column>
+     <el-table-column
+       prop="HOSTADDRESS"
+       label="IP地址"
+       sortable>
+     </el-table-column>
+     <el-table-column
+       prop="CPU"
+       label="CPU使用率(%)"
+       sortable>
+     </el-table-column>
+     <el-table-column
+       prop="mPercent"
+       label="内存使用率(%)"
+       sortable>
+     </el-table-column>
+     <el-table-column
+       prop="diskPercent"
+       label="磁盘使用率(%)"
+       sortable>
+     </el-table-column>
+     <el-table-column
+       prop="netIn"
+       label="网络流量（入）(%)"
+       sortable>
+     </el-table-column>
+     <el-table-column
+       prop="netOut"
+       label="网络流量（出）(%)"
+       sortable>
+     </el-table-column>
+     <el-table-column
+      label="状态" width="80">
+      <template slot-scope="scope">
+        <div class="yycolor" id='yy2'>
+          {{scope.row.netStat | fiftersate }}
+        </div>
+      </template>
+     </el-table-column>
+     <el-table-column
+       label="文件系统"
+     >
+     <template slot-scope="scope">
+          <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row.fileSysArr)">详情</el-button>
 <!--
-               <el-row  v-if="scope.row.fileSysArr!=null">
-               <el-col :span="4">avail</el-col>
-               <el-col :span="4">fileSystem</el-col>
-               <el-col :span="4">mount</el-col>
-               <el-col :span="4">size</el-col>
-               <el-col :span="4">used</el-col>
-               <el-col :span="4">usedPer</el-col>
-              </el-row>
-               <el-row v-for='i in scope.row.fileSysArr'>
-                 <el-col :span="4">{{i.avail}}</el-col>
-                 <el-col :span="4">{{i.fileSystem}}</el-col>
-                 <el-col :span="4">{{i.mount}}</el-col>
-                 <el-col :span="4">{{i.size}}</el-col>
-                 <el-col :span="4">{{i.used}}</el-col>
-                 <el-col :span="4">{{i.usedPer}}</el-col>
-               </el-row> -->
-
-
-               </template>
-             </el-table-column>
+       <el-row  v-if="scope.row.fileSysArr!=null">
+       <el-col :span="4">avail</el-col>
+       <el-col :span="4">fileSystem</el-col>
+       <el-col :span="4">mount</el-col>
+       <el-col :span="4">size</el-col>
+       <el-col :span="4">used</el-col>
+       <el-col :span="4">usedPer</el-col>
+      </el-row>
+       <el-row v-for='i in scope.row.fileSysArr'>
+         <el-col :span="4">{{i.avail}}</el-col>
+         <el-col :span="4">{{i.fileSystem}}</el-col>
+         <el-col :span="4">{{i.mount}}</el-col>
+         <el-col :span="4">{{i.size}}</el-col>
+         <el-col :span="4">{{i.used}}</el-col>
+         <el-col :span="4">{{i.usedPer}}</el-col>
+       </el-row> -->
+       </template>
+     </el-table-column>
    </el-table>
 
     </div>
+
+    <div class="middle">
+      <div class="yy-title">风评区</div>
+      <el-table
+        :data="tableData2"
+        border
+        style="width: 100%;">
+
+        <el-table-column
+          type="index"
+          label="序号"
+          width="50">
+        </el-table-column>
+        <el-table-column
+          prop="name"
+          label="类型">
+        </el-table-column>
+        <el-table-column
+          prop="HOSTADDRESS"
+          label="IP地址"
+          sortable>
+        </el-table-column>
+        <el-table-column
+          prop="CPU"
+          label="CPU使用率(%)"
+          sortable>
+        </el-table-column>
+        <el-table-column
+          prop="mPercent"
+          label="内存使用率(%)"
+          sortable>
+        </el-table-column>
+        <el-table-column
+          prop="diskPercent"
+          label="磁盘使用率(%)"
+          sortable>
+        </el-table-column>
+        <el-table-column
+          prop="netIn"
+          label="网络流量（入）(%)"
+          sortable>
+        </el-table-column>
+        <el-table-column
+          prop="netOut"
+          label="网络流量（出）(%)"
+          sortable>
+        </el-table-column>
+        <el-table-column
+         label="状态" width="80">
+         <template slot-scope="scope">
+           <div class="yycolor" id='yy2'>
+             {{scope.row.netStat | fiftersate }}
+           </div>
+         </template>
+        </el-table-column>
+        <el-table-column
+          label="文件系统"
+        >
+        <template slot-scope="scope">
+             <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row.fileSysArr)">详情</el-button>
+   <!--
+          <el-row  v-if="scope.row.fileSysArr!=null">
+          <el-col :span="4">avail</el-col>
+          <el-col :span="4">fileSystem</el-col>
+          <el-col :span="4">mount</el-col>
+          <el-col :span="4">size</el-col>
+          <el-col :span="4">used</el-col>
+          <el-col :span="4">usedPer</el-col>
+         </el-row>
+          <el-row v-for='i in scope.row.fileSysArr'>
+            <el-col :span="4">{{i.avail}}</el-col>
+            <el-col :span="4">{{i.fileSystem}}</el-col>
+            <el-col :span="4">{{i.mount}}</el-col>
+            <el-col :span="4">{{i.size}}</el-col>
+            <el-col :span="4">{{i.used}}</el-col>
+            <el-col :span="4">{{i.usedPer}}</el-col>
+          </el-row> -->
+          </template>
+        </el-table-column>
+      </el-table>
+
+       </div>
 
     <el-dialog
       title="详情"
@@ -230,6 +292,7 @@ export default {
       pd: {},
       tableData: [],
       tableData1: [],
+      tableData2: [],
       filesytem: "",
       title: [],
       tableTitle: [],
