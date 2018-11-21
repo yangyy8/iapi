@@ -32,16 +32,17 @@
           <span class="input-text">航班状态：</span>
           <el-select v-model="pd.status" @change="getList(CurrentPage,pageSize,pd)" placeholder="请选择"  size="small" clearable filterable class="block input-input">
             <el-option label="0 - 计划" value="0"></el-option>
-            <el-option label="1 - 值机" value="1"></el-option>
-            <el-option label="3 - 已起飞" value="3"></el-option>
-            <el-option label="4 - 已办理入境" value="4"></el-option>
-            <el-option label="5 - 取消" value="5"></el-option>
-            <el-option label="6 - 已到达" value="6"></el-option>
-            <el-option label="7 - 已失效" value="7"></el-option>
+            <el-option label="1 - 已预检" value="1"></el-option>
+            <el-option label="2 - 已起飞" value="3"></el-option>
+            <el-option label="3 - 已到达" value="3"></el-option>
+            <el-option label="4 - 已办理入境手续" value="4"></el-option>
+            <el-option label="5 - 已取消" value="5"></el-option>
+            <el-option label="6 - 无关闭报文" value="6"></el-option>
+            <el-option label="7 - 无值机报文" value="7"></el-option>
           </el-select>
         </el-col>
         <el-col :sm="24" :md="12"  :lg="8" class="input-item">
-          <span class="input-text">报警事件：</span>
+          <span class="input-text">报警类型：</span>
           <el-select v-model="bjsj"  @change="getList(CurrentPage,pageSize,pd)" multiple placeholder="请选择"  size="small" clearable filterable class="block input-input">
             <el-option label="1 - 白名单" value="whtSel"></el-option>
             <el-option label="2 - 黑名单" value="blkSel"></el-option>
@@ -104,7 +105,8 @@
         <el-table-column
           label="航班号"
           prop="fltNo"
-          width="65">
+          sortable
+          width="90">
         </el-table-column>
         <el-table-column
           label="出发站"
@@ -130,6 +132,7 @@
         <el-table-column
           label="航班日期"
           prop="fltDate"
+          sortable
           width="110">
         </el-table-column>
         <el-table-column
@@ -138,19 +141,19 @@
           <template slot-scope="scope">
             <div>
               <span v-if="scope.row.status==0">计划</span>
-              <span v-if="scope.row.status==1">值机</span>
-              <span v-if="scope.row.status==3">已起飞</span>
-              <span v-if="scope.row.status==4">已办理入境</span>
-              <span v-if="scope.row.status==5">取消</span>
-              <span v-if="scope.row.status==6">已到达</span>
-              <span v-if="scope.row.status==7">已失效</span>
+              <span v-if="scope.row.status==1">已预检</span>
+              <span v-if="scope.row.status==2">已起飞</span>
+              <span v-if="scope.row.status==3">已到达</span>
+              <span v-if="scope.row.status==4">已办理入境手续</span>
+              <span v-if="scope.row.status==5">已取消</span>
+              <span v-if="scope.row.status==6">无关闭报文</span>
+              <span v-if="scope.row.status==7">无值机报文</span>
             </div>
           </template>
 
         </el-table-column>
         <el-table-column
-          label="名单报警"
-          width="120">
+          label="名单报警">
           <template slot-scope="scope">
             <div>
               <span class="tc-o">黑({{scope.row.blkNum}})</span>
@@ -163,53 +166,60 @@
         <el-table-column
           label="值机时间"
           prop="checkInTime"
+          sortable
           width="110">
         </el-table-column>
         <el-table-column
           label="计划起降时间"
           prop="scheduleDaTime"
-          width="110">
+          sortable
+          width="130">
         </el-table-column>
         <el-table-column
           label="实际起降时间"
           prop="daTime"
-          width="110">
+          sortable
+          width="130">
         </el-table-column>
         <el-table-column
           label="值机人员详情">
           <el-table-column
             label="中国内地"
             prop="inlandNum"
-            width="80">
+            width="50">
           </el-table-column>
           <el-table-column
             label="港澳台"
             prop="gatNum"
-            width="68">
+            width="50">
           </el-table-column>
           <el-table-column
             label="外国人"
             prop="foreignNum"
-            width="68">
+            width="50">
           </el-table-column>
         </el-table-column>
         <el-table-column
           label="登机人员详情">
           <el-table-column
             label="实际登机"
-            prop="boarding">
+            prop="boarding"
+            width="50">
           </el-table-column>
           <el-table-column
             label="允许登机"
-            prop="chk0Z">
+            prop="chk0Z"
+            width="50">
           </el-table-column>
           <el-table-column
             label="禁止登机"
-            prop="chk1Z">
+            prop="chk1Z"
+            width="50">
           </el-table-column>
           <el-table-column
             label="非法载运"
-            prop="illegalBoarding">
+            prop="illegalBoarding"
+            width="50">
           </el-table-column>
         </el-table-column>
 
@@ -293,12 +303,13 @@
             <span>航班状态</span>
             <!-- {{detailsData.status}} -->
             <a v-if="detailsData.status==0">计划</a>
-            <a v-if="detailsData.status==1">值机</a>
-            <a v-if="detailsData.status==3">已起飞</a>
-            <a v-if="detailsData.status==4">已办理入境</a>
-            <a v-if="detailsData.status==5">取消</a>
-            <a v-if="detailsData.status==6">已到达</a>
-            <a v-if="detailsData.status==7">已失效</a>
+            <a v-if="detailsData.status==1">已预检</a>
+            <a v-if="detailsData.status==2">已起飞</a>
+            <a v-if="detailsData.status==3">已到达</a>
+            <a v-if="detailsData.status==4">已办理入境手续</a>
+            <a v-if="detailsData.status==5">已取消</a>
+            <a v-if="detailsData.status==6">无关闭报文</a>
+            <a v-if="detailsData.status==7">无值机报文</a>
           </el-col>
           <el-col :sm="24" :md="12" :lg="8" >
             <span>实际起飞时间</span>
@@ -469,13 +480,14 @@ export default {
     },
     // 航班实时查询
     getList(CurrentPage,showCount,pd){
-      console.log(CurrentPage,showCount,pd)
+      console.log(this.bjsj,pd)
 
-      let arr =this.bjsj
+      let arr =this.bjsj;
+      pd.whtSel=0;pd.blkSel=0;pd.ctlSel=0;pd.fcsSel=0;
       for(var i=0;i<arr.length;i++){
         pd[arr[i]]=1;
       }
-      console.log(pd)
+      // console.log(pd)
 
       let p={
     		"showCount": showCount,

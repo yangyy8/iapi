@@ -310,7 +310,7 @@
           </div>
           <el-row align="center" :gutter="2">
             <el-col  :sm="24" :md="12" :lg="12"  class="input-item">
-              <span class="mr-5">添加标签 </span>
+              <span class="mr-5">类别 </span>
               <el-cascader
                 expand-trigger="hover"
                 class="input-input"
@@ -676,7 +676,7 @@ export default {
   font-size: 16px;
   padding-bottom: 3px;
   display: flex;
-  justify-content: space-between;
+  /* justify-content: space-between; */
 }
 .tag-list span{
   display: inline-block;

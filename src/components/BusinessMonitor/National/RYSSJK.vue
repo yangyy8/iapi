@@ -218,7 +218,15 @@
             <el-input placeholder="请输入内容" size="small" v-model="addform.passno" auto-complete="off"></el-input>
           </el-form-item>
           <el-form-item label="国籍：" prop="nationality">
-            <el-input placeholder="请输入内容" size="small" v-model="addform.nationality" auto-complete="off"></el-input>
+            <!-- <el-input placeholder="请输入内容" size="small" v-model="addform.nationality" auto-complete="off"></el-input> -->
+            <el-select v-model="addform.nationality" placeholder="请选择"  size="small" clearable filterable style="width:100%">
+              <el-option
+                v-for="item in nationAlone"
+                :key="item.CODE"
+                :label="item.CODE+' - '+item.CNAME"
+                :value="item.CODE">
+              </el-option>
+            </el-select>
           </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -243,6 +251,7 @@ export default {
       TotalResult:0,
       pd:{type:'0',fltDateFr:'',fltDateTo:''},
       airport:null,
+      nationAlone:null,
       options:[
         {
           value:10,
@@ -265,6 +274,7 @@ export default {
   mounted(){
     // this.getList(this.CurrentPage,this.pageSize,this.pd);
     // this.queryAirport();
+    this.queryNationalityAlone();
   },
   activated(){
     let end = new Date();
@@ -312,6 +322,14 @@ export default {
        r => {
          if(r.success){
            this.airport=r.data;
+         }
+      })
+    },
+    queryNationalityAlone(){
+      this.$api.post('/manage-platform/codeTable/queryNationality',{},
+       r => {
+         if(r.success){
+           this.nationAlone=r.data;
          }
       })
     },
