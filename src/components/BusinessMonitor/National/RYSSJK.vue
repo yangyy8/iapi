@@ -64,21 +64,31 @@
           <el-table-column
             label="姓名"
             prop="name"
+            sortable
             width="110">
           </el-table-column>
           <el-table-column
             label="性别"
             prop="gender"
             width="80">
+            <template slot-scope="scope">
+              <div>
+                <span v-if="scope.row.gender=='F'">女</span>
+                <span v-if="scope.row.gender=='M'">男</span>
+                <span v-if="scope.row.gender=='U'">未知</span>
+              </div>
+            </template>
           </el-table-column>
           <el-table-column
             label="出生日期"
             prop="birthDay"
-            width="80">
+            sortable
+            width="160">
           </el-table-column>
           <el-table-column
             label="国籍"
             prop="nationalityName"
+            sortable
             width="80">
           </el-table-column>
           <el-table-column
@@ -114,7 +124,8 @@
           <el-table-column
             label="证件号码"
             prop="passportNo"
-            width="110">
+            sortable
+            width="150">
           </el-table-column>
           <el-table-column
             label="签证类别"
@@ -122,19 +133,24 @@
           </el-table-column>
           <el-table-column
             label="航班号"
-            prop="fltno">
+            prop="fltno"
+            sortable>
           </el-table-column>
           <el-table-column
             label="航班时间"
-            prop="fltDate">
+            prop="fltDate"
+            width="180"
+            sortable>
           </el-table-column>
           <el-table-column
             label="是否非法载运人员"
-            prop="illegalMan">
+            prop="illegalMan"
+            sortable>
           </el-table-column>
           <el-table-column
             label="是否重点关注人员"
-            prop="focusMan">
+            prop="focusMan"
+            sortable>
           </el-table-column>
           <!-- <el-table-column
             label="操作">
