@@ -116,7 +116,7 @@
         <el-table-column
           label="是否启用">
           <template slot-scope="scope">
-              {{scope.row.STATUS | fifterstatus}}
+              <span :class="{'yyred':scope.row.STATUS == '0','yygreen':scope.row.STATUS == '1'}">  {{scope.row.STATUS | fifterstatus}}</span>
             </template>
         </el-table-column>
         <el-table-column
@@ -125,10 +125,10 @@
               {{scope.row.MODEL_PHASES | fiftermodel}}
             </template>
         </el-table-column>
-        <el-table-column
+        <!-- <el-table-column
           prop="MODEL_STATUS"
           label="发布状态">
-        </el-table-column>
+        </el-table-column> -->
       <el-table-column
           label="操作" width="480">
           <template slot-scope="scope">
@@ -137,6 +137,8 @@
             <!-- <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row)">版本查看</el-button> -->
             <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="relates(scope.row)">关联问题</el-button>
             <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="auses(scope.row)">使用口岸</el-button>
+            <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" v-if="scope.row.STATUS==0" @click="starts(scope.row,1)">启用</el-button>
+            <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" v-else  @click="starts(scope.row,0)">停用</el-button>
             <!-- <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row)">推送测试</el-button> -->
          </template>
         </el-table-column>
@@ -294,7 +296,6 @@
           </el-col>
           <el-col :span="21" class="tjcon">
             <el-input type="textarea" placeholder="请输入内容" maxlength="250" :autosize="{ minRows: 3, maxRows: 3}" v-model="form.filterRule"  class="memoa"></el-input>
-
           </el-col>
         </el-row>
         <el-row type="flex" class="mb-6" >
@@ -349,28 +350,23 @@
       </el-col>
     </el-row>
   </div>
-
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="addItem('addForm')" size="small">确 定</el-button>
         <el-button @click="addDialogVisible = false" size="small">取 消</el-button>
       </div>
     </el-dialog>
-
     <el-dialog title="详情" :visible.sync="detailsDialogVisible">
       <el-form :model="map" ref="mapForm">
-        <el-tabs :tab-position="tabPosition" style="height: 200px;">
-
+        <el-tabs :tab-position="tabPosition" style="height
+        : 200px;">
        </el-tabs>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="detailsDialogVisible = false" size="small">取 消</el-button>
       </div>
     </el-dialog>
-
     <el-dialog title="关联问题" :visible.sync="menuDialogVisible" width="700px">
-
-
   <el-transfer
     v-model="value1"
     :titles="['备选', '已选']"
@@ -548,7 +544,6 @@ export default {
               this.form.filterRule=r.data.filterRule.ruleRules;
               this.rows=r.data.targetList;
               this.erows=r.data.ruleList;
-
             }
           });
 
@@ -566,8 +561,6 @@ export default {
          } else {
          }
       }
-
-
       let p={};
       var url = "";
       if (this.tp == 1) {
@@ -633,6 +626,27 @@ export default {
         }, e => {
           this.$message.error('失败了');
         })
+    },
+    starts(i,type){
+      let p={
+"modelId":i.MODEL_ID,
+"status":type
+
+      };
+      this.$api.post('/manage-platform/model/updateStatus', p,
+        r => {
+          if (r.success) {
+            this.$message({
+              message: '修改成功！',
+              type: 'success'
+            });
+              this.getList(this.CurrentPage, this.pageSize, this.pd);
+          } else {
+            this.$message.error(r.Message);
+          }
+        });
+
+
     },
     details(i) {
       this.detailsDialogVisible = true;
@@ -795,7 +809,8 @@ export default {
 
     fifterstatus(val) {
       if (val == 0) {
-        return "不启用"
+
+        return "停用"
 
       } else {
         return "启用"
@@ -895,6 +910,8 @@ export default {
   font-size: 20px;
   color: red
 }
+.yyred{color: red}
+.yygreen{color: blue}
 </style>
 <style>
 .el-transfer-panel{max-height: 500px !important}

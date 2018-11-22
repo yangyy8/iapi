@@ -540,7 +540,6 @@ export default {
     },
     download(){
     //  var url="http://192.168.99.213:8080/manage-platform/dataStatistics/export_flt";
-    console.log("------"+this.$api.rootUrl);
      var url= this.$api.rootUrl+"/manage-platform/dataStatistics/export_flt";
       axios({
        method: 'post',

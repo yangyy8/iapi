@@ -475,6 +475,9 @@ export default {
           this.TotalResult = r.data.totalResult;
         })
     },
+    download(){
+      window.location.href=this.$api.rootUrl+'/manage-platform/templateFile/riskNameListFile.xlsx'
+    },
     queryNationality() {
       this.$api.post('/manage-platform/codeTable/queryNationality', {},
         r => {

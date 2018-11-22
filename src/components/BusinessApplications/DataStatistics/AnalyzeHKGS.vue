@@ -155,12 +155,9 @@
 </template>
 <script>
 import echarts from 'echarts'
-import {
-  formatDate
-} from '@/assets/js/date.js'
-import {
-  dayGap
-} from '@/assets/js/date.js'
+import {formatDate,format} from '@/assets/js/date.js'
+import {dayGap} from '@/assets/js/date.js'
+import axios from 'axios'
 export default {
   data() {
     return {
@@ -286,7 +283,7 @@ export default {
               });
               return false
             };
-            
+
       let p = {
         "begintime": pd.begintime,
         "endtime": pd.endtime,
@@ -310,12 +307,46 @@ export default {
             sum03+=parseInt(arr[i].inland);
             sum03+=parseInt(arr[i].gat);
           }
-          this.sData1=[{value:sum1, name:'载运人员总数'},{value:sum01, name:'不准登机人员数量'}];
+          this.sData1=[{value:sum1, name:'载运人员总数'},{value:sum01, name:'不准登机人数'}];
           this.sData2=[{value:sum2, name:'男'},{value:sum02, name:'女'}];
           this.sData3=[{value:sum3, name:'外国人'},{value:sum03, name:'内地居民'},{value:sum003, name:'港澳台'}];
           this.drawLine();this.drawLine2();this.drawLine3();
         })
     },
+    download(){
+       //  var url="http://192.168.99.213:8080/manage-platform/dataStatistics/export_flightCompany";
+      var url= this.$api.rootUrl+"/manage-platform/dataStatistics/export_flightCompany";
+
+      axios({
+       method: 'post',
+       url: url,
+      // url:'http://192.168.99.206:8080/manage-platform/iapi/exportFileIo/0/600',
+      // url: this.$api.rootUrl+"/manage-platform/iapi/exportFileIo/0/600",
+       data: {
+         "begintime":this.pd.begintime,
+         "endtime":this.pd.endtime,
+           "airline_company_id": this.pd.airline_company_id
+       },
+       responseType: 'blob'
+       }).then(response => {
+           this.downloadM(response)
+       });
+    },
+    downloadM (data) {
+        if (!data) {
+            return
+        }
+
+        let url = window.URL.createObjectURL(new Blob([data.data],{type:"application/octet-stream"}))
+        let link = document.createElement('a')
+        link.style.display = 'none'
+        link.href = url
+        link.setAttribute('download', 'hkgs'+format(new Date(),'yyyyMMddhhmmss')+'.xlsx')
+        document.body.appendChild(link)
+        link.click()
+    },
+
+
     queryNationality() {
       this.$api.post('/manage-platform/codeTable/queryAircompanyList', {},
         r => {
@@ -341,7 +372,7 @@ export default {
         },
           series: [
                 {
-                  name:'载运人员总数、不准登机人员数量',
+                  name:'载运人员总数、不准登机人数',
                   type:'pie',
                   radius: ['30%', '50%'],
                   center: ['50%', '30%'],   //调整位置

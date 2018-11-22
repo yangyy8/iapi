@@ -221,12 +221,9 @@
 </template>
 <script>
 import echarts from 'echarts'
-import {
-  formatDate
-} from '@/assets/js/date.js'
-import {
-  dayGap
-} from '@/assets/js/date.js'
+import {formatDate,format} from '@/assets/js/date.js'
+import {dayGap} from '@/assets/js/date.js'
+import axios from 'axios'
 export default {
   data() {
     return {
@@ -431,38 +428,90 @@ export default {
           if (r.success) {
             this.nation = r.data;
             let arr=this.tableData;
-            var sum1=0,sum01=0;
-            var sum2=0,sum02=0;
-            var sum3=0,sum03=0;
+            var sum1=0,sum01=0,sum001=0,sum0001=0,sum00001=0;
+            var sum2=0,sum02=0,sum002=0,sum0002=0;
+            var sum3=0,sum03=0,sum003=0,sum0003=0;
             var sum4=0,sum04=0;
-            var sum5=0,sum05=0,sum005=0;
+
             for(var i=0;i<arr.length;i++){
-              sum1+=parseInt(arr[i].checkincount);
-              sum01+=parseInt(arr[i].chk_1z);
-              sum2+=parseInt(arr[i].chk_ptype_fl);
-              sum02+=parseInt(arr[i].chk_ptype_ddu);
-              sum3+=parseInt(arr[i].chk_gender_m);
-              sum03+=parseInt(arr[i].chk_gender_f);
+              sum1+=parseInt(arr[i].blkin);
+              sum01+=parseInt(arr[i].blkinsxzj);
+              sum001+=parseInt(arr[i].visablkin);
+              sum0001+=parseInt(arr[i].tctlin);
+              sum00001+=parseInt(arr[i].whtin);
+              sum2+=parseInt(arr[i].plt_blkin);
+              sum02+=parseInt(arr[i].plt_blkinsxzj);
+              sum002+=parseInt(arr[i].plt_visablkin);
+              sum0002+=parseInt(arr[i].focus);
+              sum3+=parseInt(arr[i].Chk_0z);
+              sum03+=parseInt(arr[i].Chk_1z);
+              sum003+=parseInt(arr[i].Chk_2z);
+              sum0003+=parseInt(arr[i].Chk_4z);
               sum4+=parseInt(arr[i].chk_s);
               sum04+=parseInt(arr[i].chk_c);
-              sum5+=parseInt(arr[i].foreign);
-              sum05+=parseInt(arr[i].inland);
-              sum005+=parseInt(arr[i].gat);
+
 
             }
-            this.sData1=[{value:sum1, name:'总数'},{value:sum01, name:'不准登机人员数量'}];
-            this.sData2=[{value:sum2, name:'普通旅客'},{value:sum02, name:'中转旅客'}];
-            this.sData3=[{value:sum3, name:'男'},{value:sum03, name:'女'}];
+            this.sData1=[{value:sum1, name:'黑名单'},{value:sum01, name:'失效证'},{value:sum001, name:'失效签证'},{value:sum0001, name:'临控名单'},{value:sum00001, name:'白名单'}];
+            this.sData2=[{value:sum2, name:'黑名单'},{value:sum02, name:'失效证'},{value:sum02, name:'失效签证'},{value:sum02, name:'重点关注'}];
+            this.sData3=[{value:sum3, name:'允许值机'},{value:sum03, name:'禁止登机'},{value:sum3, name:'再次检查'},{value:sum03, name:'数据错误'}];
             this.sData4=[{value:sum4, name:'确认'},{value:sum04, name:'排除'}];
-            this.sData5=[{value:sum5, name:'外国人'},{value:sum05, name:'内地居民'},{value:sum005, name:'港澳台'}];
-          //  console.log(this.sData1+"------------"+sum0+"==="+sum00);
-            this.drawLine();this.drawLine2();this.drawLine3();this.drawLine4();this.drawLine5();
+
+
+            this.drawLine();this.drawLine2();this.drawLine3();this.drawLine4();
 
 
 
           }
         })
     },
+    download(){
+       //  var url="http://192.168.99.213:8080/manage-platform/dataStatistics/export_namelistfix";
+      var url= this.$api.rootUrl+"/manage-platform/dataStatistics/export_namelistfix";
+
+      axios({
+       method: 'post',
+       url: url,
+      // url:'http://192.168.99.206:8080/manage-platform/iapi/exportFileIo/0/600',
+      // url: this.$api.rootUrl+"/manage-platform/iapi/exportFileIo/0/600",
+       data: {
+         "begintime": this.pd.begintime,
+         "endtime": this.pd.endtime,
+         "country": this.pd.country,
+         "cityfrom": this.pd.cityfrom,
+         "cityto": this.pd.cityto,
+         "fltno": this.pd.fltno,
+         "flttype": this.pd.flttype,
+
+         "rowproperty_country": this.pd.rowproperty_country,
+         "rowproperty_cityto": this.pd.rowproperty_cityto,
+         "rowproperty_fltno": this.pd.rowproperty_fltno,
+         "rowproperty_flttype": this.pd.rowproperty_flttype,
+
+         "colproperty1": this.pd.colproperty1,
+         "colproperty2": this.pd.colproperty2,
+         "colproperty3": this.pd.colproperty3,
+         "colproperty4": this.pd.colproperty4,
+       },
+       responseType: 'blob'
+       }).then(response => {
+           this.downloadM(response)
+       });
+    },
+    downloadM (data) {
+        if (!data) {
+            return
+        }
+
+        let url = window.URL.createObjectURL(new Blob([data.data],{type:"application/octet-stream"}))
+        let link = document.createElement('a')
+        link.style.display = 'none'
+        link.href = url
+        link.setAttribute('download', 'mdbd'+format(new Date(),'yyyyMMddhhmmss')+'.xlsx')
+        document.body.appendChild(link)
+        link.click()
+    },
+
     gw() { //国外
       this.$api.post('/manage-platform/dataStatistics/get_city_frn', {},
         r => {
