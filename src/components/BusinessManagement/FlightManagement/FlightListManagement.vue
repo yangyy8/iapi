@@ -69,10 +69,10 @@
             <el-col :sm="24" :md="12" :lg="8" class="input-item">
               <span class="input-text">出入境：</span>
               <el-select v-model="cdt.IN_OUT_FLAG" placeholder="请选择" filterable clearable size="small" class="input-input">
-                <el-option label="I - 入境" value="I"></el-option>
-                <el-option label="O - 出境" value="O"></el-option>
-                <!-- <el-option label="G - 过境" value="G"></el-option>
-                <el-option label="全部" value=""></el-option> -->
+                <el-option label="1 - 入境" value="1"></el-option>
+                <el-option label="2 - 出境" value="2"></el-option>
+                <el-option label="3 - 出入境" value="3"></el-option>
+                <!-- <el-option label="全部" value=""></el-option> -->
               </el-select>
             </el-col>
             <el-col :sm="24" :md="12" :lg="8" class="input-item">
@@ -127,6 +127,9 @@
         <el-table-column
           prop="IN_OUT_FLAG"
           label="出入境">
+          <template slot-scope="scope">
+            {{scope.row.IN_OUT_FLAG | fifterInOut}}
+          </template>
         </el-table-column>
         <el-table-column
           prop="FLTDEPT"
@@ -308,7 +311,10 @@ export default {
       pageSize: 10,
       TotalResult: 0,
       pd: {},
-      cdt:{},
+      cdt:{
+        SCHEDULEDEPARTURETIMESTR:'',
+        SCHEDULEARRIVETIMESTR:''
+      },
       nation: [],
       company: [],
       startPark:[],
@@ -343,10 +349,10 @@ export default {
       multipleSelection: [],
       pickerOptions: {
         disabledDate: (time) => {
-            if (this.pd.endFlightDepartdate != null) {
+            if (this.cdt.SCHEDULEARRIVETIMESTR != null) {
               let startT = formatDate(new Date(time.getTime()),'yyyyMMddhhmm');
-              return startT > this.pd.endFlightDepartdate;
-            }else if(this.pd.endFlightDepartdate == null){
+              return startT > this.cdt.SCHEDULEARRIVETIMESTR;
+            }else if(this.cdt.SCHEDULEARRIVETIMESTR == null){
               return false
             }
         }
@@ -354,7 +360,7 @@ export default {
       pickerOptions1: {
         disabledDate: (time) => {
             let endT = formatDate(new Date(time.getTime()),'yyyyMMddhhmm');
-            return endT < this.pd.startFlightDepartdate;
+            return endT < this.cdt.SCHEDULEDEPARTURETIMESTR;
         }
       },
       form: {},
@@ -366,8 +372,8 @@ export default {
     let end = new Date();
     let begin =new Date(time - 1000 * 60 * 60 * 24 * 30);
     let flightStart = new Date(new Date().setHours(0,0,0,0));
-    this.pd.startFlightDepartdate=formatDate(flightStart,'yyyyMMddhhmm');
-    this.pd.endFlightDepartdate=formatDate(end,'yyyyMMddhhmm');
+    this.cdt.SCHEDULEDEPARTURETIMESTR=formatDate(flightStart,'yyyyMMddhhmm');
+    this.cdt.SCHEDULEARRIVETIMESTR=formatDate(end,'yyyyMMddhhmm');
     this.getList(this.CurrentPage, this.pageSize, this.cdt);
   },
   activated() {
@@ -609,6 +615,15 @@ export default {
         return "停用";
       } else {
         return "启用";
+      }
+    },
+    fifterInOut(val){
+      if(val == '1'){
+        return "入境"
+      }else if(val == '2'){
+        return "出境"
+      }else if(val == '3'){
+        return "出入境"
       }
     },
   }

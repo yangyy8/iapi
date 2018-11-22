@@ -69,33 +69,33 @@
               <el-col :sm="24" :md="12" :lg="8" class="input-item">
                 <span class="input-text">咨询方式：</span>
                 <el-select v-model="cdt.CONSULTFROMTYPE" filterable clearable placeholder="请选择" size="small" class="input-input">
-                  <el-option label="电话" value="0"></el-option>
-                  <el-option label="传真" value="1"></el-option>
-                  <el-option label="邮箱" value="2"></el-option>
-                  <el-option label="固定电话" value="3"></el-option>
-                  <el-option label="其他" value="4"></el-option>
+                  <el-option label="0 - 电话" value="0"></el-option>
+                  <el-option label="1 - 传真" value="1"></el-option>
+                  <el-option label="2 - 邮箱" value="2"></el-option>
+                  <el-option label="3 - 固定电话" value="3"></el-option>
+                  <el-option label="4 - 其他" value="4"></el-option>
                 </el-select>
               </el-col>
 
-              <el-col  :sm="24" :md="12" :lg="6"  class="input-item" v-show="entity.CONSULTFROMTYPE=='0'">
+              <el-col  :sm="24" :md="12" :lg="8"  class="input-item" v-show="cdt.CONSULTFROMTYPE=='0'">
                 <span class="input-text">电话：</span>
-                <el-input placeholder="请输入内容" size="small" v-model="entity.PHONE"  class="input-input"></el-input>
+                <el-input placeholder="请输入内容" size="small" v-model="cdt.PHONE"  class="input-input"></el-input>
               </el-col>
-              <el-col  :sm="24" :md="12" :lg="6"  class="input-item" v-show="entity.CONSULTFROMTYPE=='1'">
+              <el-col  :sm="24" :md="12" :lg="8"  class="input-item" v-show="cdt.CONSULTFROMTYPE=='1'">
                 <span class="input-text">传真：</span>
-                <el-input placeholder="请输入内容" size="small" v-model="entity.CONSULTFAX"  class="input-input"></el-input>
+                <el-input placeholder="请输入内容" size="small" v-model="cdt.CONSULTFAX"  class="input-input"></el-input>
               </el-col>
-              <el-col  :sm="24" :md="12" :lg="6"  class="input-item" v-show="entity.CONSULTFROMTYPE=='2'">
+              <el-col  :sm="24" :md="12" :lg="8"  class="input-item" v-show="cdt.CONSULTFROMTYPE=='2'">
                 <span class="input-text">邮箱：</span>
-                <el-input placeholder="请输入内容" size="small" v-model="entity.CONSULTEMAIL"  class="input-input"></el-input>
+                <el-input placeholder="请输入内容" size="small" v-model="cdt.CONSULTEMAIL"  class="input-input"></el-input>
               </el-col>
-              <el-col  :sm="24" :md="12" :lg="6"  class="input-item" v-show="entity.CONSULTFROMTYPE=='3'">
+              <el-col  :sm="24" :md="12" :lg="8"  class="input-item" v-show="cdt.CONSULTFROMTYPE=='3'">
                 <span class="input-text">固定电话：</span>
-                <el-input placeholder="请输入内容" size="small" v-model="entity.INCOMINGPHONE"  class="input-input"></el-input>
+                <el-input placeholder="请输入内容" size="small" v-model="cdt.INCOMINGPHONE"  class="input-input"></el-input>
               </el-col>
-              <el-col  :sm="24" :md="12" :lg="6"  class="input-item" v-show="entity.CONSULTFROMTYPE=='4'">
+              <el-col  :sm="24" :md="12" :lg="8"  class="input-item" v-show="cdt.CONSULTFROMTYPE=='4'">
                 <span class="input-text">其他：</span>
-                <el-input placeholder="请输入内容" size="small" v-model="entity.CONSULTFROMOTHERREMARK"  class="input-input"></el-input>
+                <el-input placeholder="请输入内容" size="small" v-model="cdt.CONSULTFROMOTHERREMARK"  class="input-input"></el-input>
               </el-col>
             </el-row>
           </el-col>

@@ -120,7 +120,6 @@
           <div class="rb-content">
             <div class="rb-msg-item" v-for="(i,ind) in msgList" :key="ind">
               <a href="javascript:void(0)" @click="msgNav(i)">{{i.CONTENT}}，请点击查看</a>
-
             </div>
           </div>
         </div>

@@ -94,12 +94,16 @@
           label="城市">
         </el-table-column>
         <el-table-column
-          prop="jingdu"
           label="经度">
+          <template slot-scope="scope">
+            <span v-if="scope.row.jingdu">{{scope.row.jingdu + '°'}}</span>
+          </template>
         </el-table-column>
         <el-table-column
-          prop="weidu"
           label="纬度">
+          <template slot-scope="scope">
+            <span v-if="scope.row.weidu">{{scope.row.weidu + '°'}}</span>
+          </template>
         </el-table-column>
         <el-table-column
           prop="airportDesc"

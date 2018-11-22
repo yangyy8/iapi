@@ -105,7 +105,7 @@
 
     <div class="middle">
       <el-row class="mb-15 yr">
-        <el-button type="primary" size="small" @click="">Excel导出</el-button>
+        <el-button type="primary" size="small" @click="download()">Excel导出</el-button>
         </el-row>
       <el-table
         :data="tableData"
@@ -208,8 +208,10 @@
   </div>
 </template>
 <script>
-import {formatDate} from '@/assets/js/date.js'
+import {formatDate,format} from '@/assets/js/date.js'
 import {dayGap} from '@/assets/js/date.js'
+import axios from 'axios'
+
 export default {
   data() {
     return {
@@ -336,6 +338,42 @@ export default {
       this.detailsDialogVisible = true;
       console.log(i);
       this.form=i;
+    },
+    download(){
+      //var url="http://192.168.99.213:8080/manage-platform/forecastEva/export_pnr_fccrt_bycompanyid";
+       var url= this.$api.rootUrl+"/manage-platform/forecastEva/export_pnr_fccrt_bycompanyid";
+      if(this.typerow=="2"){
+      //  url="http://192.168.99.213:8080/manage-platform/forecastEva/export_pnr_fccrt_byfltno";
+      url= this.$api.rootUrl+"/manage-platform/forecastEva/export_pnr_fccrt_byfltno";
+      }
+      axios({
+       method: 'post',
+       url: url,
+      // url:'http://192.168.99.206:8080/manage-platform/iapi/exportFileIo/0/600',
+      // url: this.$api.rootUrl+"/manage-platform/iapi/exportFileIo/0/600",
+       data: {
+           "begintime":this.pd.begintime,
+           "endtime":this.pd.endtime,
+           "fltno":this.pd.fltno,
+           "airline_company_id":this.pd.airline_company_id
+       },
+       responseType: 'blob'
+       }).then(response => {
+           this.downloadM(response)
+       });
+    },
+    downloadM (data) {
+        if (!data) {
+            return
+        }
+        console.log("---"+data);
+        let url = window.URL.createObjectURL(new Blob([data.data],{type:"application/octet-stream"}))
+        let link = document.createElement('a')
+        link.style.display = 'none'
+        link.href = url
+        link.setAttribute('download', 'zlzh'+format(new Date(),'yyyyMMddhhmmss')+'.xlsx')
+        document.body.appendChild(link)
+        link.click()
     },
   }
 }

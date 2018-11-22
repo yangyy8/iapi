@@ -10,17 +10,11 @@
                 <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                   <span class="input-text">监控区域：</span>
                   <el-select v-model="pd.ZONE"  placeholder="请选择"  filterable clearable size="small" class="input-input">
-
                      <el-option value="0" label="0 - DMZ区">
                      </el-option>
                      <el-option value="1" label="1 - 业务平台区">
                      </el-option>
-                     <el-option value="2" label="2 - 风评区">
-                     </el-option>
-                     <!-- <el-option value="3" label="3 - 风险评估区">
-                     </el-option> -->
                    </el-select>
-
                 </el-col>
                 <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                   <span class="input-text">报警类型：</span>
@@ -86,52 +80,65 @@
    <el-table
      :data="tableData"
      border
-     style="width: 100%;"
-    >
-             <el-table-column
-               label="监控区域" sortable>
-               <template slot-scope="scope">
-                 <div class="">
-                   {{scope.row.ZONE | fifter1}}
-                 </div>
-               </template>
-             </el-table-column>
-             <el-table-column
-               label="报警类型" sortable>
-               <template slot-scope="scope">
-                 <div class="">
-                   {{scope.row.MCLASS | fifter2 }}
-                 </div>
-               </template>
-             </el-table-column>
-             <!-- <el-table-column
-                prop="MTYPE"
-               label="监控对象" sortable>
-             </el-table-column> -->
-             <el-table-column
-               prop="CREATETIME"
-               label="报警时间" sortable>
-             </el-table-column>
-             <el-table-column
-               prop="MDESC"
-               label="报警内容">
-             </el-table-column>
-             <el-table-column
-               prop="DEALUSER"
-               label="处理人" sortable>
-             </el-table-column>
-             <el-table-column
-               prop="DEALTIME"
-               label="处理时间" sortable>
-             </el-table-column>
-             <el-table-column
-               label="操作"
-               width="180">
-               <template slot-scope="scope">
-                   <el-button  v-if="scope.row.STATUS!='0'" class="table-btn" size="mini"plain icon="el-icon-edit" @click="pross(scope.row)">处理</el-button>
-                   <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row)">详情</el-button>
-              </template>
-             </el-table-column>
+     style="width: 100%;">
+     <el-table-column
+       label="所属系统"
+       sortable>
+       <template slot-scope="scope">
+         <div class="">
+           {{scope.row.ZONE | fifter3}}
+         </div>
+       </template>
+     </el-table-column>
+     <el-table-column
+       label="监控区域"
+       sortable>
+       <template slot-scope="scope">
+         <div class="">
+           {{scope.row.ZONE | fifter1}}
+         </div>
+       </template>
+     </el-table-column>
+     <el-table-column
+       label="报警类型"
+       sortable>
+       <template slot-scope="scope">
+         <div class="">
+           {{scope.row.MCLASS | fifter2 }}
+         </div>
+       </template>
+     </el-table-column>
+     <!-- <el-table-column
+        prop="MTYPE"
+       label="监控对象" sortable>
+     </el-table-column> -->
+     <el-table-column
+       prop="CREATETIME"
+       label="报警时间"
+       sortable>
+     </el-table-column>
+     <el-table-column
+       prop="MDESC"
+       label="报警内容">
+     </el-table-column>
+     <el-table-column
+       prop="DEALUSER"
+       label="处理人"
+       sortable>
+     </el-table-column>
+     <el-table-column
+       prop="DEALTIME"
+       label="处理时间"
+       sortable>
+     </el-table-column>
+     <el-table-column
+       label="操作"
+       width="180">
+       <template slot-scope="scope">
+           <el-button  v-if="scope.row.STATUS!='0'" class="table-btn" size="mini"plain icon="el-icon-edit" @click="pross(scope.row)">处理</el-button>
+           <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row)">详情</el-button>
+      </template>
+     </el-table-column>
    </el-table>
    <div class="middle-foot">
      <div class="page-msg">
@@ -375,12 +382,8 @@ export default {
     fifter1(val) {
       if (val == 0) {
         return "DMZ区"
-      } else if (val == 2) {
-        return "整合分发区"
-      } else if (val == 1) {
+      } else {
         return "业务平台区"
-      } else if (val == 3){
-        return "风险评估区"
       }
     },
     fifter2(val) {
@@ -392,6 +395,17 @@ export default {
         return "日志监控"
       } else if(val == "PER"){
         return "性能监控"
+      }
+    },
+    fifter3(val){
+      if(val == 0){
+        return '值机校验系统'
+      }else if(val == 1){
+        return '业务平台子系统'
+      }else if(val == 2){
+        return '整合分发子系统'
+      }else if(val == 3){
+        return '风险评估子系统'
       }
     },
     fifter4(val) {

@@ -8,14 +8,6 @@
             查询条件
           </div>
           <el-row align="center"   :gutter="2" >
-
-            <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
-              <span class="input-text">监控区域：</span>
-              <el-select v-model="pd.synFlag" placeholder="请选择" filterable  size="small"   class="input-input">
-                <el-option value="0" label="0 - DMZ区" ></el-option>
-                <el-option value="1" label="1 - 业务平台区" ></el-option>
-               </el-select>
-            </el-col>
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">日志类型：</span>
               <el-select v-model="pd.rzlx" placeholder="请选择"  filterable  size="small" class="input-input">
@@ -60,26 +52,25 @@
         :data="tableData"
         border
         style="width: 100%;">
-
-
         <el-table-column
           prop="synFlag"
-          label="监控区域"  sortable>
-
+          label="监控区域"
+          sortable>
         </el-table-column>
         <el-table-column
           prop="rzlx"
-          label="日志类型"  sortable
-          >
+          label="日志类型"
+          sortable>
         </el-table-column>
         <el-table-column
-          prop="timestmp"
-          label="生成时间" sortable>
+          prop="timestamp"
+          label="生成时间"
+          sortable>
         </el-table-column>
         <el-table-column
           prop="levelString"
-          label="日志内容类型" sortable
-          >
+          label="日志内容类型"
+          sortable>
         </el-table-column>
         <el-table-column
           width="180"
@@ -235,11 +226,20 @@ export default {
         "showCount": showCount,
         "cdt": pd
       };
-      this.$api.post("/manage-platform/log_event/queryListPageAll", p,
+      this.$api.post("/manage-platform/log_event/queryRiskListPageAll", p,
         r => {
           console.log(r);
           this.tableData = r.data.resultList;
+          for(var i=0;i<this.tableData.length;i++){
+            this.tableData[i].synFlag = '风评区'
+            if(this.pd.rzlx=='0'){
+              this.tableData[i].rzlx = '系统日志'
+            }else if(this.pd.rzlx=='1'){
+              this.tableData[i].rzlx = '错误日志'
+            }
+          }
           this.TotalResult = r.data.totalResult;
+          console.log(this.tableData);
         })
     },
     details(i) {
