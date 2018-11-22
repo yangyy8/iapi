@@ -72,7 +72,7 @@
         </el-table-column>
         <el-table-column
           prop="CONSULTFROM"
-          label="类型">
+          label="咨询类型">
         </el-table-column>
         <el-table-column
           prop="STATIONFROM"
@@ -80,7 +80,7 @@
         </el-table-column>
         <el-table-column
           prop="NAME"
-          label="人员姓名">
+          label="咨询人">
         </el-table-column>
         <el-table-column
           prop="TELEPHONE"
@@ -88,7 +88,7 @@
         </el-table-column>
         <el-table-column
           prop="CELLPHONE"
-          label="联系电话">
+          label="移动电话">
         </el-table-column>
         <el-table-column
           prop="FAX"

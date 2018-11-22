@@ -36,6 +36,8 @@
         </el-row>
     </div>
     <div class="middle">
+      <el-checkbox v-model="checked" class="mr-15">自动刷新</el-checkbox>
+
       <el-table
         :data="tableData"
         border
@@ -159,6 +161,8 @@ export default {
       TotalResult:0,
       pd:{fltDate:''},
       airport:null,
+      checked:true,
+      timer:null,
       options:[
         {
           value:10,
@@ -182,6 +186,29 @@ export default {
     this.getList(this.CurrentPage,this.pageSize,this.pd);
     let end = new Date();
     this.pd.fltDate= formatDate(end, 'yyyyMMdd');
+    if(this.checked){
+      let that=this;
+      this.timer=setInterval(function(){
+        that.getList(that.CurrentPage,that.pageSize,that.pd);
+      },180000)
+    }
+
+  },
+  deactivated(){
+　　clearInterval(this.timer)
+  },
+  watch:{
+    checked:function(val){
+      console.log(val)
+      if(val){
+        let that=this;
+        this.timer=setInterval(function(){
+          that.getList(that.CurrentPage,that.pageSize,that.pd);
+        },15000)
+      }else{
+        clearInterval(this.timer);
+      }
+    }
   },
   methods:{
     pageSizeChange(val) {

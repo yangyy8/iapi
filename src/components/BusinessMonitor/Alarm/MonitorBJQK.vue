@@ -39,9 +39,9 @@
 
 
     </div>
-    <div class="middle t-table">
-      <!-- <el-button type="success"  icon="el-icon-refresh" size="small" class="mb-9 mr-15">刷新</el-button>
-      <el-checkbox v-model="checked">自动刷新</el-checkbox> -->
+    <div class="middle">
+      <!-- <el-button type="success"  icon="el-icon-refresh" size="small" class="mb-9 mr-15">刷新</el-button>-->
+      <el-checkbox v-model="checked">自动刷新</el-checkbox>
       <el-table
         ref="multipleTable"
         :data="tableData"
@@ -49,6 +49,7 @@
         style="width: 100%;">
         <el-table-column
           label="航站"
+          sortable
           prop="portName">
           <template slot-scope="scope">
             <div class="tc-b hand" title="查看详情" @click="openKa(scope.row)">{{scope.row.portName}}</div>
@@ -58,14 +59,17 @@
           label="出境">
           <el-table-column
             label="黑名单"
+            sortable
             prop="outBlkList">
           </el-table-column>
           <el-table-column
             label="临控名单"
+            sortable
             prop="outTctlList">
           </el-table-column>
           <el-table-column
             label="重点关注名单"
+            sortable
             prop="outFocus">
           </el-table-column>
         </el-table-column>
@@ -73,18 +77,22 @@
           label="入境">
           <el-table-column
             label="黑名单"
+            sortable
             prop="blkList">
           </el-table-column>
           <el-table-column
             label="临控名单"
+            sortable
             prop="tctlList">
           </el-table-column>
           <el-table-column
             label="重点关注名单"
+            sortable
             prop="focus">
           </el-table-column>
         </el-table-column>
         <el-table-column
+          sortable
           label="合计">
           <template slot-scope="scope">
             <div>{{scope.row.outBlkList+scope.row.outTctlList+scope.row.outFocus+scope.row.blkList+scope.row.tctlList+scope.row.focus}}</div>
@@ -158,6 +166,7 @@ export default {
         }
       ],
       checked:true,
+      timer:null,
       kaDialogVisible:false,
       barChart:null,
       barData:null,
@@ -173,6 +182,29 @@ export default {
     // this.pd.fltDate= '20181008';
 
     this.getList(this.CurrentPage,this.pageSize,this.pd);
+    if(this.checked){
+      let that=this;
+      this.timer=setInterval(function(){
+        that.getList(that.CurrentPage,that.pageSize,that.pd);
+      },180000)
+    }
+
+  },
+  deactivated(){
+　　clearInterval(this.timer)
+  },
+  watch:{
+    checked:function(val){
+      console.log(val)
+      if(val){
+        let that=this;
+        this.timer=setInterval(function(){
+          that.getList(that.CurrentPage,that.pageSize,that.pd);
+        },15000)
+      }else{
+        clearInterval(this.timer);
+      }
+    }
   },
   beforeDestroy() {
     if(!this.barChart){

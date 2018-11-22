@@ -14,6 +14,9 @@
 .el-transfer-panel .el-transfer-panel__header{
   display:none;
 }
+.el-tooltip__popper{
+  width: 22%!important;
+}
 .el-transfer__buttons{
   width: 2%;
   padding: 0 2% 0 2%;
