@@ -54,7 +54,7 @@
     <el-table-column
      label="状态" width="80">
      <template slot-scope="scope">
-         <span :class="{'yycolor':scope.row.netStat=="0",'yycolory':scope.row.netStat=="1"}">      {{scope.row.netStat | fiftersate }}</span>
+         <span :class="{'yycolor':scope.row.netStat=='0','yycolory':scope.row.netStat=='1'}">      {{scope.row.netStat | fiftersate }}</span>
      </template>
     </el-table-column>
     <el-table-column
@@ -131,9 +131,7 @@
      <el-table-column
       label="状态" width="80">
       <template slot-scope="scope">
-
-    <span :class="{'yycolor':scope.row.netStat=="0",'yycolory':scope.row.netStat=="1"}">      {{scope.row.netStat | fiftersate }}</span>
-
+          <span :class="{'yycolor':scope.row.netStat=='0','yycolory':scope.row.netStat=='1'}">      {{scope.row.netStat | fiftersate }}</span>
       </template>
      </el-table-column>
      <el-table-column
