@@ -3,7 +3,7 @@
     <el-row class="mb-15">
       <el-button type="success" size="small" @click="addItemForum(pd);form={};">发送</el-button>
       <el-button type="primary" size="small" @click="getContent()">预览</el-button>
-      <el-button plain size="small" @click="link()">取消</el-button>
+      <el-button plain size="small" @click="linkss()">取消</el-button>
     </el-row>
     <el-row type="flex" class="mb-6 lht" >
       <el-col :span="24" >
@@ -33,7 +33,6 @@
           <img src="../../../../assets/img/fujian.png" />
           <input type="file" name="" multiple="multiple" @change="uploadFile">
         </label>
-
         <div class="" v-if="fileData">
           <div class="" v-for="(x,ind) in fileData" :key="ind">
             <span class="mr-30">{{x.name}}</span>
@@ -46,8 +45,21 @@
     <el-button type="success" size="small" @click="addItemForum(pd);form={};">发送</el-button>
     <el-button type="primary" size="small" v-on:click="getContent()">预览</el-button>
     </el-row>
+
+
+
+    <el-dialog
+      title="预览"
+      :visible.sync="ylDialogVisible"
+      width="700px"
+      >
+<span v-html="editorContent"></span>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="ylDialogVisible = false" size="small">取消</el-button>
+      </div>
+    </el-dialog>
   </div>
-  </div>
+
 </template>
 <script>
 import E from 'wangeditor'
@@ -59,39 +71,53 @@ export default {
       pd: {},
       fileData: null,
       SERIAL: "",
+      ylDialogVisible:false,
+
     }
   },
   activated(){
-
+  this.pd={};
       this.getList();
+
   },
   mounted() {
-
+  this.pd={};
     this.getList();
+
+
+
     var editor = new E('#editorElem')
     editor.customConfig.onchange = (html) => {
       this.editorContent = html
     }
     editor.create()
+
   },
   methods: {
     getContent() {
-      this.$alert(  this.editorContent, '提示', {
-        confirmButtonText: '确定',
-      });
-        return false
+
+   this.ylDialogVisible=true;
+
     },
     getList() {
-    this.SERIAL = this.$route.params.SERIAL;
-      if (this.SERIAL != "") {
+
+      this.SERIAL = this.$route.params.SERIAL;
+      if (this.SERIAL != "" && this.SERIAL!=undefined) {
         let p = {
           "SERIAL": this.SERIAL
         };
+
         this.$api.post('/manage-platform/itemForum/getItemForumInforNotComment', p,
           r => {
             console.log(r);
             this.pd = r.data;
-            this.editorContent.html(r.data.COUNT);
+
+           var editor = new E('#editorElem')
+           editor.customConfig.onchange = (html) => {
+             this.editorContent = html
+           }
+           editor.create()
+           editor.txt.html(r.data.COUNT);
           });
       }
     },
@@ -127,11 +153,18 @@ export default {
         return false
       }
 
-
+      console.log("==="+this.fileData);
       var formData = new FormData();
+      if (this.SERIAL != "" && this.SERIAL!=undefined) {
+
+          formData.append("SERIAL", this.SERIAL);
+      }
+      if(this.fileData!=null){
       let arr = this.fileData;
+
       for (var i = 0; i < arr.length; i++) {
         formData.append("file", arr[i]);
+      }
       }
       formData.append("TITLE", pd.TITLE);
       formData.append("INTRO", pd.INTRO);
@@ -140,9 +173,9 @@ export default {
       let p = formData;
 
 
-
       var url = '/manage-platform/itemForum/addItemForum';
-      if (this.SERIAL != "") {
+      if (this.SERIAL != "" && this.SERIAL!=undefined) {
+
         url = '/manage-platform/itemForum/updateItemForum';
       }
 
@@ -216,13 +249,12 @@ export default {
           'Content-Type': 'multipart/form-data'
         })
     },
+    linkss(){
+      this.$router.push({name:'Discussion'});
+    }
   },
 
-  link(){
 
-
-      this.$router.push({name:'Discussion'});
-  }
 
 }
 </script>
@@ -263,9 +295,16 @@ export default {
   opacity: 0;
   cursor: pointer;
 }
+
 </style>
 <style>
 .lht .el-input--small .el-input__inner {
   border: none;
+}
+.w-e-menu{
+  z-index: 2 !important;
+}
+.w-e-text-container{
+  z-index: 1 !important;
 }
 </style>
