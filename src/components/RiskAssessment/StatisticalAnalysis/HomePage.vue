@@ -2,8 +2,9 @@
   <div class="middle">
     <div class="" v-for="i in dataArr">
       <div class="map-title">{{i.titleText}}</div>
-      <div class="">
-        <Vecharts :legendData="i.legendData" :series="i.series"></Vecharts>
+      <div style="position:relative">
+        <el-button class="table-btn dz-btn" plain @click="cancel(i.censusParamBean.version)">取消定制</el-button>
+        <Vecharts :chartData="i"></Vecharts>
         <el-table
           :data="i.tableData"
           border
@@ -15,6 +16,7 @@
             </template>
           </el-table-column>
         </el-table>
+
       </div>
     </div>
 
@@ -73,6 +75,18 @@ export default {
          }
        })
     },
+    cancel(item){
+      let p={
+        'version':item
+      }
+      this.$api.post('/manage-platform/census/deleteCustom',p,
+       r =>{
+         this.$message({
+           message: '删除成功！',
+           type: 'success'
+         });
+       })
+    }
     // drawLiang(){
     //   this.liangChart = echarts.init(document.getElementById('liangEcharts'));
     //   window.onresize = echarts.init(document.getElementById('liangEcharts')).resize;
@@ -176,7 +190,6 @@ export default {
   position: absolute;
   right: 140px;
   top: 0px;
-  width: 20px!important;
   height: 20px;
   line-height: 3px;
 }
