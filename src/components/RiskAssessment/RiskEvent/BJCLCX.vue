@@ -10,14 +10,13 @@
             <img src="../../../assets/img/bp_ap/ph_s.png" alt="" style="width:100%;">
             <span class="mb-2">综合风险等级</span>
             <el-rate :value="3" disabled class="mb-9"></el-rate>
-            <el-button type="primary" size="small" class="mb-9" style="width:100%">电子归档</el-button>
+            <el-button type="primary" size="small" class="mb-9" style="width:100%">电子档案</el-button>
             <el-button type="primary" size="small" class="mb-9" style="width:100%">综合查询</el-button>
             <el-button type="primary" size="small" class="mb-9" style="width:100%">照片比对</el-button>
-            <el-button type="success" size="small" style="width:100%">事件归档</el-button>
+            <el-button type="success" size="small" style="width:100%">归档追加</el-button>
           </div>
         </el-col>
         <el-col :span="21">
-
           <div class="">
             <div class="boder1 pb-10">
               <div class="title-green ">

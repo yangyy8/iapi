@@ -24,46 +24,84 @@
                   </el-date-picker>
               </div>
             </el-col>
-            <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+            <!-- <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">中心/口岸：</span>
-              <!-- <el-select v-model="pd.NATIONALITY" filterable clearable multiple placeholder="请选择"  size="small" class="input-input" @visible-change="queryAirport">
-                <el-option
-                  v-for="item in airport"
-                  :key="item.ID"
-                  :label="item.ID+' - '+item.CNAME"
-                  :value="item.ID">
-                </el-option>
-              </el-select> -->
-              <multiCascader width="240px" height="220px" size="small" class="input-input"></multiCascader>
 
-              <!-- <cascaderMulti v-model="end_code" placeholder="状态码" :data="end_codes"></cascaderMulti> -->
-
-            </el-col>
+            </el-col> -->
 
             <el-col :sm="24" :md="12"  :lg="8" class="input-item">
               <span class="input-text">模型：</span>
-              <el-input placeholder="请输入内容" size="small" multiple v-verify.input.blur="{regs:'required|max:35',submit:'demo'}" v-model="pd.type" clearable class="input-input"></el-input>
+              <el-button type="success" size="small" plain @click="getmodel">点击选择</el-button>
+              <!-- <el-input placeholder="请输入内容" size="small" multiple v-verify.input.blur="{regs:'required|max:35',submit:'demo'}" v-model="pd.type" clearable class="input-input"></el-input> -->
             </el-col>
+            <el-dialog title="模型选择" :visible.sync="modelDialogVisible" width="640px">
+              <el-input
+                placeholder="输入模型关键字进行过滤"
+                v-model="filterText">
+              </el-input>
+              <el-tree
+                class="filter-tree"
+                ref="tree"
+                :data="treeData"
+                show-checkbox
+                node-key="id"
+                :filter-node-method="filterNode"
+                :props="defaultProps">
+              </el-tree>
+              <div slot="footer" class="dialog-footer">
+                <el-button type="primary" @click="getCheckedNodes" size="small">确认</el-button>
+                <el-button type="warning" @click="modelDialogVisible=false" size="small">取消</el-button>
+              </div>
+            </el-dialog>
 
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">类型：</span>
               <div class="input-input t-flex t-date">
-                <el-select v-model="pd.type" filterable clearable placeholder="请选择"  size="small" class="tt-input">
-                  <el-option label="模型" value="0"></el-option>
-                  <el-option label="国籍" value="1"></el-option>
-                  <el-option label="航线" value="2"></el-option>
-                  <el-option label="签证种类" value="3"></el-option>
-                  <el-option label="证件类别" value="4"></el-option>
-                  <el-option label="年龄段" value="5"></el-option>
+                <el-select v-model="pd.type" @visible-change="pd.typeValue=[]" filterable placeholder="请选择" size="small" class="tt-input">
+                  <el-option label="请选择" value="0"></el-option>
+                  <el-option label="1 - 国籍" value="1"></el-option>
+                  <el-option label="2 - 航线" value="2"></el-option>
+                  <el-option label="3 - 签证种类" value="3"></el-option>
+                  <el-option label="4 - 证件种类" value="4"></el-option>
+                  <el-option label="5 - 年龄段" value="5"></el-option>
                 </el-select>
-                <span class="septum" v-if="isActive">-</span>
-                <el-select v-if="isActive" v-model="pd.typeValue" filterable clearable placeholder="请选择"  size="small" class="tt-input">
+                <span class="septum">-</span>
+                <el-select v-if="pd.type!=5" :disabled="!pd.type||pd.type=='0'" v-model="pd.typeValue" multiple filterable clearable placeholder="请选择"  size="small" class="tt-input">
                   <el-option
+                    v-if="pd.type==1"
                     v-for="item in nationAlone"
                     :key="item.CODE"
                     :label="item.CODE+' - '+item.CNAME"
                     :value="item.CODE">
                   </el-option>
+                  <el-option
+                    v-if="pd.type==2"
+                    v-for="(item,ind) in airline"
+                    :key="ind"
+                    :label="item.AIRWAY_CODE+' - '+item.AIRLINE_DESC"
+                    :value="item.AIRWAY_CODE">
+                  </el-option>
+                  <el-option
+                    v-if="pd.type==3"
+                    v-for="(item,ind) in visaType"
+                    :key="ind"
+                    :label="item.CODE+' - '+item.NAME"
+                    :value="item.CODE">
+                  </el-option>
+                  <el-option
+                    v-if="pd.type==4"
+                    v-for="(item,ind) in cardType"
+                    :key="ind"
+                    :label="item.CODE+' - '+item.NAME"
+                    :value="item.CODE">
+                  </el-option>
+                </el-select>
+                <el-select v-if="pd.type==5" :disabled="!pd.type||pd.type=='0'" v-model="pd.typeValue" multiple filterable placeholder="请选择"  size="small" class="tt-input">
+                  <el-option label="A - 0~6 童年" value="A"></el-option>
+                  <el-option label="B - 7~17 少年" value="B"></el-option>
+                  <el-option label="C - 18~40 青年" value="C"></el-option>
+                  <el-option label="D - 41~65 中年" value="D"></el-option>
+                  <el-option label="E - >=66 老年" value="E"></el-option>
                 </el-select>
               </div>
             </el-col>
@@ -71,43 +109,39 @@
             <el-col :sm="24" :md="12"  :lg="8" class="input-item" style="position:relative">
               <span class="input-text">量选择：</span>
               <el-select  placeholder="请选择"  size="small" v-model="pd.number" multiple clearable filterable class="block input-input">
-                <el-option label="使用量" value="0"></el-option>
-                <el-option label="报警量" value="1"></el-option>
-                <el-option label="命中量" value="2"></el-option>
+                <el-option label="0 - 使用量" value="0"></el-option>
+                <el-option label="1 - 报警量" value="1"></el-option>
+                <el-option label="2 - 命中量" value="2"></el-option>
               </el-select>
               <span class="el-icon-warning t-tip" @click="warnOpen"></span>
             </el-col>
             <el-col :sm="24" :md="12"  :lg="8" class="input-item" style="position:relative">
               <span class="input-text">率选择：</span>
               <el-select  placeholder="请选择"  size="small" v-model="pd.percent" multiple clearable filterable class="block input-input">
-                <el-option label="报警率" value="3"></el-option>
-                <el-option label="模型命中率" value="4"></el-option>
-                <el-option label="报警命中率" value="5"></el-option>
+                <el-option label="3 - 报警率" value="3"></el-option>
+                <el-option label="4 - 模型命中率" value="4"></el-option>
+                <el-option label="5 - 报警命中率" value="5"></el-option>
               </el-select>
               <span class="el-icon-warning t-tip" @click="warnOpenLv"></span>
             </el-col>
           </el-row>
         </el-col>
         <el-col :span="3" class="down-btn-area">
-          <el-button type="success" size="small"  class="mt-15" @click="CurrentPage=1">查询</el-button>
+          <el-button type="success" size="small"  class="mt-15" @click="getList">查询</el-button>
           <el-button type="primary" class="mt-15" plain size="small" @click="reset">重置</el-button>
         </el-col>
 
       </el-row>
     </div>
-    <div class="middle">
-      <div class="map-title">北京首都国际机场</div>
+    <div class="middle" v-for="(x,ind) in chartList" :key="ind">
+      <div class="map-title">{{x.titleText}}</div>
       <span class="tubiao hand borderL" :class="{'checked':page==0}" @click="page=0">量</span><span class="tubiao hand borderR" :class="{'checked':page==1}" @click="qq">率</span>
       <div class="" v-show="page==0">
-        <div class = "liangChart" style="position:relative;width:100%;overflow:hidden;">
-          <div id = "liangEcharts" style = "width:100%;height: 400px"></div>
-          <el-button class="table-btn dz-btn" plain>定制</el-button>
-        </div>
+        <Vecharts :legendData="x.legendData" :series="x.series"></Vecharts>
         <el-table
           :data="tableData"
           border
-          style="width: 100%;"
-          >
+          style="width: 100%;">
           <el-table-column
             :label="data" v-for="(data,key) in header" :key="key">
             <template slot-scope="scope">
@@ -116,7 +150,7 @@
           </el-table-column>
         </el-table>
       </div>
-      <div class="" v-show="page==1">
+      <!-- <div class="" v-show="page==1">
         <div class = "lvChart" style="width:100%;overflow:hidden">
           <div id = "lvEcharts" style = "width:100%;height: 400px"></div>
         </div>
@@ -132,15 +166,20 @@
             </template>
           </el-table-column>
         </el-table>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
 <script>
-import echarts from 'echarts'
+import Vecharts from './echart'
+
 export default {
+  components:{
+    Vecharts
+  },
   data(){
     return{
+      modelDialogVisible:false,
       header:["A","B","C"],
       tableData:[
         [1, 2, 3],
@@ -151,227 +190,212 @@ export default {
         ["a","b","c","4"],
         [4,5,6,7]
       ],
-      end_code:[
-        {
-          value: 1000,
-          label: "接通",
-          children: [{
-            label: "已报价",
-            value: 1100,
-            children: [],
-            multiple: true //可忽略项，当为true时该项为多选
-          }]
-        }
-      ],
-      end_codes: [
-        {
-          value: 1000,
-          label: "接通",
-          children: [{
-            label: "已报价",
-            value: 1100,
-            children: [],
-            multiple: true //可忽略项，当为true时该项为多选
-          }]
-        }
-      ],
-      // configOptions: [{
-      //   value: "1",
-      //   label: "一级菜单",
-      //   checked: false,
-      //   children: [
-      //     {
-      //       value: "11",
-      //       checked: false,
-      //       label: "二级菜单"
-      //     },
-      //     {
-      //       value: "12",
-      //       checked: false,
-      //       label: "二级菜单"
-      //     }
-      //   ]
-      // }],
-      // selectGroups:'1',
-      // configTips:'1',
+
       isActive:true,
       page:0,
-      airport:[],
-      CurrentPage:1,
-      pageSize:10,
-      TotalResult:0,
-      pd:{NAMELIKE:'0'},
       nationAlone:[],
-      colorDialogVisible:false,
-      options:[
-        {
-          value:10,
-          label:"10"
-        },
-        {
-          value:20,
-          label:"20"
-        },
-        {
-          value:30,
-          label:"30"
-        }
-      ],
+      airline:[],
+      cardType:[],
+      visaType:[],
+      pd:{type:'0',typeValue:[],queryType:'0'},
+      chartList:[],
+
       liangChart:null,
-      lvChart:null
+      lvChart:null,
+      filterText: '',
+      treeData: [],
+      defaultProps: {
+        children: 'model',
+        label: 'name'
+      },
     }
   },
+  watch:{
+     filterText(val) {
+       this.$refs.tree.filter(val);
+     }
+  },
   mounted(){
-    // this.getList(this.CurrentPage,this.pageSize,this.pd);
     this.queryNationalityAlone();
-    this.queryAirport();
-    this.drawLiang();
+    this.queryAirline();
+    this.queryCardType();
+    this.queryVisaType();
+    // this.queryAirport();
+
   },
   activated(){
-    // this.getList(this.CurrentPage,this.pageSize,this.pd);
+
   },
   methods:{
-    // getSelected(val) {
-    //     this.selectGroups = val;
-    //     this.configTips = '已选择'+val.length+'个分组';
-    // },
+    filterNode(value, data) {
+      if (!value) return true;
+      return data.name.indexOf(value) !== -1;
+    },
+    getmodel(){
+      this.modelDialogVisible=true;
+      this.$api.post('/manage-platform/census/queryPortAndModel',{},
+       r => {
+         console.log(r);
+         this.treeData=r.data;
+      })
+    },
+    getCheckedNodes() {
+      this.pd.models=this.$refs.tree.getCheckedNodes(true,true);
+      console.log(this.pd.models)
+      this.modelDialogVisible=false;
+    },
     qq(){
       this.page=1;
       this.drawLv();
     },
-    colorSet(){
-      this.colorDialogVisible = true;
-    },
     reset(){
-      this.CurrentPage=1;
-      this.pageSize=10;
-      this.pd={NAMELIKE:'0'};
-      // this.getList(this.CurrentPage,this.pageSize,this.pd);
+      this.pd={}
     },
-    getList(currentPage,showCount,pd){
-      let p={
-      	"currentPage":currentPage,
-      	"showCount":showCount,
-      	"pd":pd
-      };
-      console.log(pd)
-
-        this.$api.post('/manage-platform/nameListFocusList/getNameListFocusListPage',p,
-         r => {
-           console.log(r);
-           // this.tableData=r.data.resultList;
-           this.TotalResult=r.data.totalResult;
-        })
+    getList(){
+      this.$api.post('/manage-platform/census/queryCensus',this.pd,
+       r => {
+         console.log(r)
+         this.chartList=r.data;
+         // this.drawLiang(this.chartList[0],0);
+         // this.TotalResult=r.data.totalResult;
+      })
 
     },
     queryNationalityAlone(){
       this.$api.post('/manage-platform/codeTable/queryNationality',{},
        r => {
-         console.log(r);
          if(r.success){
            this.nationAlone=r.data;
          }
       })
     },
-    queryAirport(){
-      this.$api.post('/manage-platform/census/queryPort',{},
+    // queryAirport(){
+    //   this.$api.post('/manage-platform/census/queryPort',{},
+    //    r => {
+    //      console.log(r);
+    //      if(r.success){
+    //        this.airport=r.data;
+    //      }
+    //   })
+    // },
+    queryAirline(){
+      this.$api.post('/manage-platform/codeTable/queryAirline',{},
        r => {
-         console.log(r);
          if(r.success){
-           this.airport=r.data;
+           this.airline=r.data;
          }
       })
     },
-    drawLiang(){
-      this.liangChart = echarts.init(document.getElementById('liangEcharts'));
-      window.onresize = echarts.init(document.getElementById('liangEcharts')).resize;
-      let that = this;
-      this.liangChart.setOption({
-        tooltip : {
-            trigger: 'axis'
-        },
-        legend: {
-            data:[
-                'ECharts1 - 2k数据','ECharts1 - 2w数据','ECharts1 - 20w数据','',
-                'ECharts2 - 2k数据','ECharts2 - 2w数据','ECharts2 - 20w数据'
-            ]
-        },
-        toolbox: {
-            show : true,
-            feature : {
-                mark : {show: true},
-                dataView : {show: true, readOnly: false},
-                magicType : {show: true, type: ['line', 'bar']},
-                restore : {show: true},
-                saveAsImage : {show: true}
-            }
-        },
-        calculable : true,
-        grid: {y: 70, y2:30, x2:20},
-        xAxis : [
-            {
-                type : 'category',
-                data : ['Line','Bar','Scatter','K','Map']
-            },
-            {
-                type : 'category',
-                axisLine: {show:false},
-                axisTick: {show:false},
-                axisLabel: {show:false},
-                splitArea: {show:false},
-                splitLine: {show:false},
-                data : ['Line','Bar','Scatter','K','Map']
-            }
-        ],
-        yAxis : [
-            {
-                type : 'value',
-                axisLabel:{formatter:'{value} ms'}
-            }
-        ],
-        series : [
-            {
-                name:'ECharts2 - 2k数据',
-                type:'bar',
-                itemStyle: {normal: {color:'rgba(193,35,43,1)', label:{show:true}}},
-                data:[40,155,95,75, 0]
-            },
-            {
-                name:'ECharts2 - 2w数据',
-                type:'bar',
-                itemStyle: {normal: {color:'rgba(181,195,52,1)', label:{show:true,textStyle:{color:'#27727B'}}}},
-                data:[100,200,105,100,156]
-            },
-            {
-                name:'ECharts2 - 20w数据',
-                type:'bar',
-                itemStyle: {normal: {color:'rgba(252,206,16,1)', label:{show:true,textStyle:{color:'#E87C25'}}}},
-                data:[906,911,908,778,0]
-            },
-            {
-                name:'ECharts1 - 2k数据',
-                type:'bar',
-                xAxisIndex:1,
-                itemStyle: {normal: {color:'rgba(193,35,43,0.5)', label:{show:true,formatter:function(p){return p.value > 0 ? (p.value +'\n'):'';}}}},
-                data:[96,224,164,124,0]
-            },
-            {
-                name:'ECharts1 - 2w数据',
-                type:'bar',
-                xAxisIndex:1,
-                itemStyle: {normal: {color:'rgba(181,195,52,0.5)', label:{show:true}}},
-                data:[491,2035,389,955,347]
-            },
-            {
-                name:'ECharts1 - 20w数据',
-                type:'bar',
-                xAxisIndex:1,
-                itemStyle: {normal: {color:'rgba(252,206,16,0.5)', label:{show:true,formatter:function(p){return p.value > 0 ? (p.value +'+'):'';}}}},
-                data:[3000,3000,2817,3000,0]
-            }
-        ]
+    queryCardType(){
+      this.$api.post('/manage-platform/cardAndVisaTypeController/queryCardType',{},
+       r => {
+         if(r.success){
+           this.cardType=r.data;
+         }
       })
     },
+    queryVisaType(){
+      this.$api.post('/manage-platform/cardAndVisaTypeController/queryVisaType',{},
+       r => {
+         if(r.success){
+           this.visaType=r.data;
+         }
+      })
+    },
+    // drawLiang(item,ind){
+    //   console.log(item,ind,document.getElementById('liangEcharts'+ind))
+    //   console.log(this.$refs.liangEcharts0)
+    //   let liangChart = echarts.init(this.$resf.liangEcharts0);
+    //   console.log(echarts,liangChart)
+    //   // window.onresize = echarts.init(document.getElementById('liangEcharts'+ind)).resize;
+    //   let that = this;
+    //
+    //   liangChart.setOption({
+    //     tooltip : {
+    //         trigger: 'axis'
+    //     },
+    //     legend: {
+    //         data:[
+    //             'ECharts1 - 2k数据','ECharts1 - 2w数据','ECharts1 - 20w数据','',
+    //             'ECharts2 - 2k数据','ECharts2 - 2w数据','ECharts2 - 20w数据'
+    //         ]
+    //     },
+    //     toolbox: {
+    //         show : true,
+    //         feature : {
+    //             mark : {show: true},
+    //             dataView : {show: true, readOnly: false},
+    //             magicType : {show: true, type: ['line', 'bar']},
+    //             restore : {show: true},
+    //             saveAsImage : {show: true}
+    //         }
+    //     },
+    //     calculable : true,
+    //     grid: {y: 70, y2:30, x2:20},
+    //     xAxis : [
+    //         {
+    //             type : 'category',
+    //             data : ['Line','Bar','Scatter','K','Map']
+    //         },
+    //         {
+    //             type : 'category',
+    //             axisLine: {show:false},
+    //             axisTick: {show:false},
+    //             axisLabel: {show:false},
+    //             splitArea: {show:false},
+    //             splitLine: {show:false},
+    //             data : ['Line','Bar','Scatter','K','Map']
+    //         }
+    //     ],
+    //     yAxis : [
+    //         {
+    //             type : 'value',
+    //             axisLabel:{formatter:'{value} ms'}
+    //         }
+    //     ],
+    //     series : [
+    //         {
+    //             name:'ECharts2 - 2k数据',
+    //             type:'bar',
+    //             itemStyle: {normal: {color:'rgba(193,35,43,1)', label:{show:true}}},
+    //             data:[40,155,95,75, 0]
+    //         },
+    //         {
+    //             name:'ECharts2 - 2w数据',
+    //             type:'bar',
+    //             itemStyle: {normal: {color:'rgba(181,195,52,1)', label:{show:true,textStyle:{color:'#27727B'}}}},
+    //             data:[100,200,105,100,156]
+    //         },
+    //         {
+    //             name:'ECharts2 - 20w数据',
+    //             type:'bar',
+    //             itemStyle: {normal: {color:'rgba(252,206,16,1)', label:{show:true,textStyle:{color:'#E87C25'}}}},
+    //             data:[906,911,908,778,0]
+    //         },
+    //         {
+    //             name:'ECharts1 - 2k数据',
+    //             type:'bar',
+    //             xAxisIndex:1,
+    //             itemStyle: {normal: {color:'rgba(193,35,43,0.5)', label:{show:true,formatter:function(p){return p.value > 0 ? (p.value +'\n'):'';}}}},
+    //             data:[96,224,164,124,0]
+    //         },
+    //         {
+    //             name:'ECharts1 - 2w数据',
+    //             type:'bar',
+    //             xAxisIndex:1,
+    //             itemStyle: {normal: {color:'rgba(181,195,52,0.5)', label:{show:true}}},
+    //             data:[491,2035,389,955,347]
+    //         },
+    //         {
+    //             name:'ECharts1 - 20w数据',
+    //             type:'bar',
+    //             xAxisIndex:1,
+    //             itemStyle: {normal: {color:'rgba(252,206,16,0.5)', label:{show:true,formatter:function(p){return p.value > 0 ? (p.value +'+'):'';}}}},
+    //             data:[3000,3000,2817,3000,0]
+    //         }
+    //     ]
+    //   })
+    // },
     drawLv(){
       this.lvChart = echarts.init(document.getElementById('lvEcharts'));
       window.onresize = echarts.init(document.getElementById('lvEcharts')).resize;
@@ -522,18 +546,5 @@ export default {
   border-top-right-radius: 3px;
   border-bottom-right-radius: 3px;
 }
-.t-tip{
-  position:absolute;
-  right: -18px;
-  top: 7px;
-  z-index: 999;
-}
-.dz-btn{
-  position: absolute;
-  right: 140px;
-  top: 0px;
-  width: 20px!important;
-  height: 20px;
-  line-height: 3px;
-}
+
 </style>

@@ -80,13 +80,13 @@
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">行属性：</span>
               <el-select v-model="typerow" filterable clearable  placeholder="请选择" size="small" class="input-input">
-                 <el-option label="洲" value="1" >
+                 <el-option label="洲" value="continent" >
                  </el-option>
-                 <el-option label="国家" value="2" >
+                 <el-option label="国家" value="country" >
                  </el-option>
-                 <el-option label="城市" value="3" >
+                 <el-option label="城市" value="city" >
                  </el-option>
-                 <el-option label="口岸" value="4" >
+                 <el-option label="口岸" value="port" >
                  </el-option>
                </el-select>
             </el-col>
@@ -130,7 +130,7 @@
           </div>
           <div v-show="page==1">
             <el-row class="mb-15 yr">
-              <el-button type="primary" size="small" @click="">Excel导出</el-button>
+              <el-button type="primary" size="small" @click="download()">Excel导出</el-button>
               </el-row>
             <el-table
                   :data="tableData"
@@ -267,7 +267,7 @@ export default {
       zhouName: [],
       gwName: [],
       gnName: [],
-      typerow: '1',
+      typerow: 'continent',
       sData1:[],
       sData2:[],
       sData3:[],
@@ -346,20 +346,20 @@ export default {
       this.showg=false;
       this.showc=false;
       this.showk=false;
-      if (this.typerow == "2") {
+      if (this.typerow == "country") {
 
         url="/manage-platform/dataStatistics/get_fltline_bycountry";
         this.showz=false;
         this.showg=true;
         this.showc=false;
         this.showk=false;
-      } else if (this.typerow == "3") {
+      } else if (this.typerow == "city") {
         url="/manage-platform/dataStatistics/get_fltline_bycity";
         this.showz=false;
         this.showg=false;
         this.showc=true;
         this.showk=false;
-      } else if (this.typerow == "4") {
+      } else if (this.typerow == "port") {
         url="/manage-platform/dataStatistics/get_fltline_byport";
         this.showz=false;
         this.showg=false;
@@ -385,7 +385,7 @@ export default {
             sum03+=parseInt(arr[i].inland);
             sum003+=parseInt(arr[i].gat);
           }
-          this.sData1=[{value:sum1, name:'总数'},{value:sum01, name:'不准登机人员数量'}];
+          this.sData1=[{value:sum1, name:'总数'},{value:sum01, name:'不准登机人数'}];
           this.sData2=[{value:sum2, name:'男'},{value:sum02, name:'女'}];
           this.sData3=[{value:sum3, name:'外国人'},{value:sum03, name:'内地居民'},{value:sum003, name:'港澳台'}];
           this.drawLine();this.drawLine2();this.drawLine3();
@@ -393,10 +393,9 @@ export default {
     },
 
     download(){
-      var url="http://192.168.99.213:8080/manage-platform/dataStatistics/export_flt";
-      if(this.typerow=="2"){
-        url="http://192.168.99.213:8080/manage-platform/forecastEva/export_fctime_byfltno";
-      }
+    //  var url="http://192.168.99.213:8080/manage-platform/dataStatistics/export_fltline";
+      var url= this.$api.rootUrl+"/manage-platform/dataStatistics/export_fltline";
+
       axios({
        method: 'post',
        url: url,
@@ -408,7 +407,8 @@ export default {
          "continentfrom":this.pd.continentfrom,
          "countryfrom":this.pd.countryfrom,
          "cityfrom":this.pd.cityfrom,
-         "cityto":this.pd.cityto
+         "cityto":this.pd.cityto,
+         "rowproperty":this.typerow
        },
        responseType: 'blob'
        }).then(response => {
@@ -479,7 +479,7 @@ export default {
           formatter: "{a} <br/>{b}: {c} ({d}%)"
         },
         series: [{
-          name: '总数、不准登机人员数量',
+          name: '总数、不准登机人数',
           type: 'pie',
           radius: ['30%', '50%'],
           center: ['50%', '50%'], //调整位置

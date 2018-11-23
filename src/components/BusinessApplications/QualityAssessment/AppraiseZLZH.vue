@@ -9,7 +9,7 @@
             查询条件
           </div>
           <el-row align="center"   :gutter="2">
-            <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+            <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
               <span class="input-text"><font class="yy-color">*</font> 时间范围：</span>
               <div class="input-input t-flex t-date">
                <el-date-picker
@@ -27,9 +27,9 @@
             </el-date-picker>
           </div>
             </el-col>
-            <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+            <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
               <span class="input-text">航空公司名称：</span>
-              <el-select v-model="pd.airlineCompanyIdEqual" filterable clearable  placeholder="请选择" size="small" class="input-input">
+              <el-select v-model="pd.airline_company_id" filterable clearable  placeholder="请选择" size="small" class="input-input">
                  <el-option
                    v-for="(item,ind) in company"
                    :key="ind"
@@ -38,14 +38,22 @@
                  </el-option>
                </el-select>
             </el-col>
-            <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+            <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
               <span class="input-text">航班号：</span>
-                <el-input placeholder="请输入内容" size="small" v-model="pd.PASSPORTNO" class="input-input"></el-input>
+                <el-input placeholder="请输入内容" size="small" v-model="pd.fltno" class="input-input"></el-input>
+            </el-col>
+            <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
+              <span class="input-text">航班日期：</span>
+              <el-date-picker
+              v-model="pd.fltdate" format="yyyy-MM-dd" class="input-input"
+              type="date" size="small" value-format="yyyyMMdd"
+              placeholder="航班日期" >
+            </el-date-picker>
             </el-col>
           </el-row>
           <el-row align="center"   :gutter="2" class="yy-line">
 
-            <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+            <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
               <span class="input-text">行属性：</span>
               <el-select v-model="typerow" filterable clearable  placeholder="请选择" size="small" class="input-input">
                  <el-option label="航空公司名称" value="1" >
@@ -307,6 +315,7 @@ export default {
       "begintime":pd.begintime,
       "endtime":pd.endtime,
       "fltno":pd.fltno,
+      "fltdate":pd.fltdate,
       "airline_company_id":pd.airline_company_id
 
       };
@@ -355,6 +364,7 @@ export default {
            "begintime":this.pd.begintime,
            "endtime":this.pd.endtime,
            "fltno":this.pd.fltno,
+           "fltdate":this.pd.fltdate,
            "airline_company_id":this.pd.airline_company_id
        },
        responseType: 'blob'
@@ -366,7 +376,7 @@ export default {
         if (!data) {
             return
         }
-        console.log("---"+data);
+
         let url = window.URL.createObjectURL(new Blob([data.data],{type:"application/octet-stream"}))
         let link = document.createElement('a')
         link.style.display = 'none'

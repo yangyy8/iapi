@@ -15,7 +15,7 @@
              :value="item.value">
            </el-option>
          </el-select>
-         &nbsp;&nbsp;&nbsp; 出入境类别:
+         &nbsp;&nbsp;&nbsp; 出入标识:
          <el-select v-model="pd.flighttype" placeholder="请选择" filterable clearable size="small">
            <el-option label="I - 入境" value="I"></el-option>
            <el-option label="O - 出境" value="O"></el-option>
@@ -48,29 +48,34 @@
         </el-table-column>
         <el-table-column
           prop="name"
-          label="出入类型">
+          label="人员姓名">
         </el-table-column>
         <el-table-column
           prop="intgchnname"
-          label="证件号码">
+          label="中文姓名">
         </el-table-column>
         <el-table-column
           prop="nationality"
           width="90"
-          label="人员姓名">
-        </el-table-column>
-        <el-table-column
-          prop="passportno"
           label="国籍/地区">
         </el-table-column>
         <el-table-column
+          prop="passportno"
+          label="证件号码">
+        </el-table-column>
+        <el-table-column
           prop="flightType"
-          label="航班号"
+          label="出入标识"
           width="90">
         </el-table-column>
         <el-table-column
           prop="fltno"
           width="90"
+          label="航班号">
+        </el-table-column>
+        <el-table-column
+          prop="createtime"
+          width="160"
           label="报警时间">
         </el-table-column>
         <el-table-column
@@ -82,11 +87,10 @@
             <span v-if="scope.row.status==2">处理中</span>
           </template>
         </el-table-column>
-
         <el-table-column
           label="操作">
           <template slot-scope="scope">
-            <el-button class="table-btn" icon="el-icon-edit" size="mini" plain @click="$router.push({name:'alarmProcess',query:{eventserial:scope.row.eventSerial,AlarmType:scope.row.alarmTypeNum}})">报警处理</el-button>
+            <el-button class="table-btn" icon="el-icon-edit" size="mini" plain @click="$router.push({name:'alarmProcess',query:{eventserial:scope.row.eventSerial,AlarmType:scope.row.alarmTypeNum,isECBJ:1}})">报警处理</el-button>
          </template>
         </el-table-column>
       </el-table>
@@ -210,7 +214,7 @@ export default {
         "pd":pd
       };
 
-      this.$api.post('/manage-platform/alarmEvents/getEventsInfo',p,
+      this.$api.post('/manage-platform/secondAlarmEvents/getsecondAlarmEventsInfo',p,
        r => {
          console.log(r);
          this.tableData=r.data.resultList;

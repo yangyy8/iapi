@@ -232,13 +232,6 @@ button{
   width: 105px;
 }
 
-.el-checkbox__input.is-checked .el-checkbox__inner, .el-checkbox__input.is-indeterminate .el-checkbox__inner {
-  background-color: #44d83a!important;
-  border-color: #44d83a!important;
-}
-.el-checkbox__input.is-checked+.el-checkbox__label {
-  color: #44d83a!important;
-}
 .login-item2 .el-checkbox__input.is-checked .el-checkbox__inner,.login-item2 .el-checkbox__input.is-indeterminate .el-checkbox__inner {
   background-color: #409EFF!important;
   border-color: #409EFF!important;

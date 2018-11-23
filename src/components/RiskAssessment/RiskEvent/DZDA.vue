@@ -1245,9 +1245,19 @@
     <el-dialog title="标签管理" :visible.sync="tagDialogVisible" width="640px">
       <el-checkbox-group v-model="tagCheckList" class="mb-20">
        <el-checkbox :label="x.LABELTYPE_CODE||x.SERIAL"  v-for="(x,ind) in tagList" :key="ind">{{x.LABELNAME||x.TAG_NAME}}</el-checkbox>
-     </el-checkbox-group>
+      </el-checkbox-group>
+      <div class="f-bold mb-9">
+        原因(必填)
+      </div>
+      <el-input
+        class="mb-9"
+        type="textarea"
+        v-model="tagRemark"
+        :rows="3"
+        placeholder="请输入添加原因">
+      </el-input>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="TagSave" size="small">确认</el-button>
+        <el-button type="primary" @click="TagSave" size="small" :disabled="!tagRemark">确认</el-button>
         <el-button type="warning" @click="tagDialogVisible=false" size="small">取消</el-button>
       </div>
     </el-dialog>
@@ -1330,7 +1340,7 @@ export default {
       tableData18:null,
       tableData19:null,
       nationalityName:'',
-
+      tagRemark:'',
       data0:{},
       dataTag:{},
       data1:{},
@@ -1530,10 +1540,11 @@ export default {
     // 保存标签
     TagSave(){
       console.log(this.tagList,this.tagCheckList)
+
       if(this.tagList[0].LABELNAME){
         let p={
           "userId":this.user.userId,
-        	"remark":"描述",
+        	"remark":this.tagRemark,
           "nationality":this.nationality,
           "passportno":this.passportno,
         	"list":this.tagCheckList,
@@ -1552,7 +1563,7 @@ export default {
       }else{
         let p={
           "userId":this.user.userId,
-        	"remark":"描述",
+        	"remark":this.tagRemark,
           "nationality":this.nationality,
           "passportno":this.passportno,
         	"list":this.tagCheckList,

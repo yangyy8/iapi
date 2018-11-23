@@ -59,6 +59,14 @@
               <span class="input-text">航班号：</span>
                 <el-input placeholder="请输入内容" size="small" v-model="pd.fltno" class="input-input"></el-input>
             </el-col>
+            <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
+              <span class="input-text">航班日期：</span>
+              <el-date-picker
+              v-model="pd.fltdate" format="yyyy-MM-dd" class="input-input"
+              type="date" size="small" value-format="yyyyMMdd"
+              placeholder="航班日期" >
+            </el-date-picker>
+            </el-col>
           </el-row>
           <el-row type="flex" class="yy-line">
 
@@ -137,27 +145,27 @@
         </el-table-column> -->
         <el-table-column
           prop="noreport"
-          label="关闭报-未报数量" >
+          label="关闭报文未报数量" >
         </el-table-column>
         <el-table-column
           prop="ontime"
-          label="关闭报-及时报数量" >
+          label="关闭报文准时预报数量" >
         </el-table-column>
         <el-table-column
           prop="later"
-          label="关闭报-晚报数量" >
+          label="关闭报文晚报数量" >
         </el-table-column>
         <el-table-column
           prop="msg_ontime"
-          label="值机报-及时报数量" >
+          label="值机报文准时预报数量" >
         </el-table-column>
         <el-table-column
           prop="msg_noreport"
-          label="值机报-未报数量" >
+          label="值机报文未报数量" >
         </el-table-column>
         <el-table-column
           prop="msg_later"
-          label="值机报-晚报数量" >
+          label="值机报文晚报数量" >
         </el-table-column>
         <!-- <el-table-column
           prop="levelString"
@@ -359,6 +367,7 @@ export default {
         "begintime":pd.begintime,
         "endtime":pd.endtime,
         "fltno":pd.fltno,
+        "fltdate":pd.fltdate,
         "airline_company_id":pd.airline_company_id
       };
       var url="/manage-platform/forecastEva/get_fctime_bycompanyid";
@@ -394,7 +403,7 @@ export default {
     },
     download(){
       //var url="http://192.168.99.213:8080/manage-platform/forecastEva/export_fctime_bycompanyid";
-           var url= this.$api.rootUrl+"/manage-platform/forecastEva/export_fctime_bycompanyid";
+      var url= this.$api.rootUrl+"/manage-platform/forecastEva/export_fctime_bycompanyid";
       if(this.typerow=="2"){
         //url="http://192.168.99.213:8080/manage-platform/forecastEva/export_fctime_byfltno";
         url= this.$api.rootUrl+"/manage-platform/forecastEva/export_fctime_byfltno";
@@ -408,6 +417,7 @@ export default {
            "begintime":this.pd.begintime,
            "endtime":this.pd.endtime,
            "fltno":this.pd.fltno,
+           "fltdate":this.pd.fltdate,
            "airline_company_id":this.pd.airline_company_id
        },
        responseType: 'blob'

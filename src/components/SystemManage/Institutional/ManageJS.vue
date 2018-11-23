@@ -345,9 +345,6 @@ export default {
 
     },
     addItem(formName) {
-
-
-
             if(this.$validator.listener.demo2){
               const result = this.$validator.verifyAll('demo2')
                if (result.indexOf(false) > -1) {
@@ -355,10 +352,7 @@ export default {
                } else {
                }
             }
-
-
       var url = "/manage-platform/roleSys/save";
-
       if (this.tp == 1) {
         url = "/manage-platform/roleSys/edit";
       }

@@ -270,12 +270,9 @@
 </template>
 <script>
 import echarts from 'echarts'
-import {
-  formatDate
-} from '@/assets/js/date.js'
-import {
-  dayGap
-} from '@/assets/js/date.js'
+import {formatDate,format} from '@/assets/js/date.js'
+import {dayGap} from '@/assets/js/date.js'
+import axios from 'axios'
 export default {
   data() {
     return {
@@ -620,6 +617,45 @@ export default {
 
         })
     },
+    download(){
+       //  var url="http://192.168.99.213:8080/manage-platform/dataStatistics/export_flt";
+      var url= this.$api.rootUrl+"/manage-platform/dataStatistics/export_flt";
+      if(this.typerow=="2"){
+      //  url="http://192.168.99.213:8080/manage-platform/forecastEva/export_fctime_byfltno";
+        url= this.$api.rootUrl+"/manage-platform/forecastEva/export_fctime_byfltno";
+      }
+      axios({
+       method: 'post',
+       url: url,
+      // url:'http://192.168.99.206:8080/manage-platform/iapi/exportFileIo/0/600',
+      // url: this.$api.rootUrl+"/manage-platform/iapi/exportFileIo/0/600",
+       data: {
+         "begintime":this.pd.begintime,
+         "endtime":this.pd.endtime,
+         "continentfrom":this.pd.continentfrom,
+         "countryfrom":this.pd.countryfrom,
+         "cityfrom":this.pd.cityfrom,
+         "cityto":this.pd.cityto
+       },
+       responseType: 'blob'
+       }).then(response => {
+           this.downloadM(response)
+       });
+    },
+    downloadM (data) {
+        if (!data) {
+            return
+        }
+
+        let url = window.URL.createObjectURL(new Blob([data.data],{type:"application/octet-stream"}))
+        let link = document.createElement('a')
+        link.style.display = 'none'
+        link.href = url
+        link.setAttribute('download', 'zhsj'+format(new Date(),'yyyyMMddhhmmss')+'.xlsx')
+        document.body.appendChild(link)
+        link.click()
+    },
+
     queryNationality() {
       this.$api.post('/manage-platform/codeTable/queryNationality', {},
         r => {

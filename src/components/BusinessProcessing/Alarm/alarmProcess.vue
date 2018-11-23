@@ -629,7 +629,12 @@ export default {
           r => {
             console.log(r);
             this.iapiMap = r.data.iapiMap
-            this.listMap = r.data.listMap;
+            if(this.$route.query.isECBJ){
+              this.listMap = r.data.blackListMap;
+            }else{
+              this.listMap = r.data.listMap;
+              
+            }
             this.userMap = r.data.userMap;
             var arr = this.listMap;
             var thar = this;
