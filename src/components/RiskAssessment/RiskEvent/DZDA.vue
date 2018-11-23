@@ -103,12 +103,12 @@
                         </div>
                         <ul class="step-content">
                           <li>
-                            <span class="step-t">添加人：</span><span class="mr-30">{{x.USERID}}</span>
-                            <span>添加状态：</span><span class="tc-o">{{x.ADD_TAGTYPE}}</span>
+                            <span class="step-t">添加人：</span><span class="mr-30">{{x.USERNAME}}</span>
+                            <span>添加状态：</span><span class="tc-o">{{x.OPERATION_TYPENAME}}</span>
                           </li>
                           <li>
                             <span class="step-t">原因：</span>
-                            {{x.TAG_REMAR}}
+                            {{x.REMARK}}
                           </li>
                         </ul>
                       </div>
@@ -1254,7 +1254,7 @@
         type="textarea"
         v-model="tagRemark"
         :rows="3"
-        placeholder="请输入添加原因">
+        placeholder="请输入添加/删除原因">
       </el-input>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="TagSave" size="small" :disabled="!tagRemark">确认</el-button>
