@@ -469,6 +469,9 @@ export default {
        //  var url="http://192.168.99.213:8080/manage-platform/dataStatistics/export_namelistfix";
       var url= this.$api.rootUrl+"/manage-platform/dataStatistics/export_namelistfix";
 
+    if(this.pd.colproperty2){
+    url= this.$api.rootUrl+"/manage-platform/dataStatistics/export_namelist_dynamic";
+    }
       axios({
        method: 'post',
        url: url,

@@ -844,7 +844,7 @@ export default {
       }
     },
     portMethod(){
-      this.$api.post('/manage-platform/codeTable/queryAirportMatch',{},
+      this.$api.post('/manage-platform/codeTable/queryAirportMatch1',{},
       r =>{
         if(r.success){
           this.portName = r.data
