@@ -1,7 +1,6 @@
 <template lang="html">
-  <div class = "liangChart" style="position:relative;width:100%;">
-    <div id="liangEcharts" style = "width:100%;height: 400px" ></div>
-    <el-button class="table-btn dz-btn" plain>定制</el-button>
+  <div class = "liangChart" style="width:100%;">
+    <div :id="chartDatas.titleText" style = "width:100%;height: 400px" ></div>
   </div>
 </template>
 
@@ -9,29 +8,33 @@
 import echarts from 'echarts'
 
 export default {
-  nane:"Vecharts",
+  name:"Vecharts",
   data(){
     return {
-        chartdata: {},
+        chartdata: this.chartDatas,
     }
   },
   watch: {
-    chartData: function(newVal,oldVal){
+    chartDatas:function(newVal,oldVal){
         console.log(newVal,oldVal)
         this.chartdata = newVal;  //newVal即是chartData
         this.drawLiang();
     }
   },
-  props:['chartData'],
-
+  props:{
+    'chartDatas':{
+      type:Object,
+      default:{titleText:"kk"}
+    }
+  },
   mounted(){
-    // this.drawLiang();
+    this.drawLiang();
   },
   methods:{
     drawLiang(){
       console.log(this.chartdata)
-      let liangChart = echarts.init(document.getElementById('liangEcharts'));
-      window.onresize = echarts.init(document.getElementById('liangEcharts')).resize;
+      let liangChart = echarts.init(document.getElementById(this.chartDatas.titleText));
+      window.onresize = echarts.init(document.getElementById(this.chartDatas.titleText)).resize;
       let _this=this
       let color=['rgba(110,180,252,1)', 'rgba(244,173,57,1)', 'rgba(52,182,180,1)']
       let arr=this.chartdata.series
@@ -115,18 +118,5 @@ export default {
 </script>
 
 <style scoped>
-.t-tip{
-  position:absolute;
-  right: -18px;
-  top: 7px;
-  z-index: 999;
-}
-.dz-btn{
-  position: absolute;
-  right: 140px;
-  top: 0px;
-  width: 20px!important;
-  height: 20px;
-  line-height: 3px;
-}
+
 </style>

@@ -133,11 +133,13 @@
 
       </el-row>
     </div>
-    <div class="middle" v-for="(x,ind) in chartList" :key="ind">
+    <div class="middle mb-2" v-for="(x,ind) in chartList" :key="ind">
       <div class="map-title">{{x.titleText}}</div>
       <span class="tubiao hand borderL" :class="{'checked':x.censusParamBean.queryType==0}" @click="pd.queryType='0';getList();">量</span><span class="tubiao hand borderR" :class="{'checked':x.censusParamBean.queryType==1}" @click="pd.queryType='1';getList();">率</span>
-      <div class="">
-        <Vecharts :chartData="x"></Vecharts>
+      <div class="" style="position:relative;">
+        <el-button class="table-btn dz-btn" plain>定制</el-button>
+
+        <Vecharts :chartDatas="x" v-if="x.titleText"></Vecharts>
         <el-table
           :data="tableData"
           border
@@ -546,5 +548,18 @@ export default {
   border-top-right-radius: 3px;
   border-bottom-right-radius: 3px;
 }
-
+.t-tip{
+  position:absolute;
+  right: -18px;
+  top: 7px;
+  z-index: 999;
+}
+.dz-btn{
+  position: absolute;
+  right: 140px;
+  top: 0px;
+  width: 20px!important;
+  height: 20px;
+  line-height: 3px;
+}
 </style>
