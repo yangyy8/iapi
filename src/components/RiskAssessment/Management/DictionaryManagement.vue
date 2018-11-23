@@ -38,7 +38,7 @@
     <div class="middle">
       <el-row class="mb-15">
         <el-button type="primary" size="small" @click="adds(0,'');form={};">新增</el-button>
-        <el-button type="primary" size="small" @click="download">模板下载</el-button>
+        <el-button type="success" size="small" @click="download">模板下载</el-button>
         </el-row>
       <el-table
         :data="tableData"
@@ -203,7 +203,7 @@
         <el-upload
           class="upload-demo"
           ref="upload"
-          :action='"http://localhost:8081/manage-platform/riskDictionaries/riskReadExcel/"+getSerial'
+          :action='actions+"/manage-platform/riskDictionaries/riskReadExcel/"+getSerial'
           :file-list="fileList"
           multiple
           :on-success="upSuccess"
@@ -213,9 +213,7 @@
           <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
           <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">上传到服务器</el-button>
           <div slot="tip" class="el-upload__tip">只能上传EXCEL文件</div>
-
         </el-upload>
-
       </el-form>
     </el-dialog>
 
@@ -231,6 +229,7 @@ export default {
       CurrentPage: 1,
       pageSize: 10,
       TotalResult: 0,
+      actions:"",
       pd: {},
       company: [],
       sertail:"",
@@ -297,7 +296,7 @@ export default {
   },
   methods: {
     download(){
-      window.location.href='http://localhost:8081/manage-platform/templateFile/riskDictionariesEtails.xlsx'
+      window.location.href=this.$api.rootUrl+'/manage-platform/templateFile/riskDictionariesEtails.xlsx'
     },
     handleSelectionChange(val) {
       this.multipleSelection = val;
@@ -383,7 +382,7 @@ export default {
       let p = {
         "id": i.SERIAL
       };
-      this.$confirm('您是否确认删除此角色？', '提示', {
+      this.$confirm('您是否确认删除？', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
@@ -420,7 +419,9 @@ export default {
       return isEXL ;
     },
     showUpload(i){
+
       this.getSerial=i.SERIAL;
+      this.actions=this.$api.rootUrl;
       this.uploadDialogVisible=true;
       console.log( this.$refs.upload);
       if( this.$refs.upload){
@@ -435,7 +436,7 @@ export default {
        });
         return
       }
-      alert(this.$refs);
+      // alert(this.$refs);
       this.$refs.upload.submit();
     },
     upSuccess(r){
@@ -453,7 +454,7 @@ export default {
       console.log(this.$api.rootUrl)
         axios({
          method: 'post',
-         url: "http://localhost:8081/manage-platform/riskDictionaries/exportFileIo",
+         url: this.$api.rootUrl+"/manage-platform/riskDictionaries/exportFileIo",
          data: {
              "id": i.SERIAL,
          },

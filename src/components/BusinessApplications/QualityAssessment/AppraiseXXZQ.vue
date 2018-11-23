@@ -59,6 +59,14 @@
               <span class="input-text">航班号：</span>
                 <el-input placeholder="请输入内容" size="small" v-model="pd.fltno" class="input-input"></el-input>
             </el-col>
+            <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
+              <span class="input-text">航班日期：</span>
+              <el-date-picker
+              v-model="pd.fltdate" format="yyyy-MM-dd" class="input-input"
+              type="date" size="small" value-format="yyyyMMdd"
+              placeholder="航班日期" >
+            </el-date-picker>
+            </el-col>
           </el-row>
 
           <el-row type="flex"  class="yy-line">
@@ -310,6 +318,7 @@ export default {
         "begintime":pd.begintime,
         "endtime":pd.endtime,
         "fltno":pd.fltno,
+        "fltdate":pd.fltdate,
         "airline_company_id":pd.airline_company_id
       };
        var url="/manage-platform/forecastEva/get_fccrt_bycompanyid";
@@ -358,6 +367,7 @@ export default {
            "begintime":this.pd.begintime,
            "endtime":this.pd.endtime,
            "fltno":this.pd.fltno,
+           "fltdate":this.pd.fltdate,
            "airline_company_id":this.pd.airline_company_id
        },
        responseType: 'blob'

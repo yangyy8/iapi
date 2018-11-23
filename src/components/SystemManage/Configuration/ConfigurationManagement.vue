@@ -88,6 +88,7 @@
         <el-pagination
           background
           @current-change="handleCurrentChange"
+          :current-page.sync ="CurrentPage"
           :page-size="pageSize"
           layout="prev, pager, next"
           :total="TotalResult">
@@ -99,23 +100,21 @@
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
             <span class="yy-input-text"><font class="yy-color">*</font> 配置类型：</span>
-            <el-input placeholder="请输入内容" size="small" maxlength="20"  v-model="form.MTYPE"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
+            <el-input placeholder="请输入内容，最大字符为15" size="small" maxlength="15"  v-model="form.MTYPE"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
 
           </el-col>
         </el-row>
-
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
             <span class="yy-input-text"><font class="yy-color">*</font> 配置阀值：</span>
-            <el-input placeholder="请输入数字" size="small" maxlength="20"  v-model="form.CVALUE"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
-
+            <el-input placeholder="请输入数字" size="small" maxlength="10" @keyup="trim()"  v-model="form.CVALUE"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
           </el-col>
         </el-row>
 
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
             <span class="yy-input-text"><font class="yy-color">*</font> 配置单位：</span>
-            <el-input placeholder="请输入内容" size="small" maxlength="250"  v-model="form.VALUETYPE"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
+            <el-input placeholder="请输入内容，最大字符为15" size="small" maxlength="15"  v-model="form.VALUETYPE"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
 
           </el-col>
         </el-row>
@@ -123,15 +122,14 @@
                 <el-row type="flex"  class="mb-6">
                   <el-col :span="24" class="input-item">
                     <span class="yy-input-text"><font class="yy-color">*</font> 配置类型中文描述：</span>
-                      <el-input type="textarea"  placeholder="请输入内容" :autosize="{ minRows: 3, maxRows: 6}" v-model="form.MCHNDESC" class="yy-input-input"></el-input>
-
+                      <el-input type="textarea"  placeholder="请输入内容，最大字符为50"  maxlength="50":autosize="{ minRows: 3, maxRows: 6}" v-model="form.MCHNDESC" class="yy-input-input"  v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
                   </el-col>
                 </el-row>
 
 
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="addItem('addForm')" size="small">确 定</el-button>
+        <el-button type="primary" @click="CurrentPage=1;addItem('addForm')" size="small">确 定</el-button>
         <el-button @click="addDialogVisible = false" size="small">取 消</el-button>
       </div>
     </el-dialog>
@@ -315,7 +313,7 @@ export default {
       let p = {
         "SERIAL": i.SERIAL
       };
-      this.$confirm('您是否确认删除此角色？', '提示', {
+      this.$confirm('您是否确认删除此？', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
@@ -390,13 +388,16 @@ menuItem(){
         this.menuDialogVisible = false;
 
 },
+trim(){
+console.log("=========");
+  this.form.CVALUE=this.form.CVALUE.replace(/[^\w]/g,'');
+}
   },
   filters: {
 
     fifterstatus(val) {
       if (val == 0) {
         return "停用"
-
       } else {
         return "启用"
       }
