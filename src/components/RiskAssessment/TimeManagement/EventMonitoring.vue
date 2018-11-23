@@ -1,7 +1,6 @@
 <template lang="html">
   <div class="whitelist">
     <div class="middle-top mb-2">
-
       <el-row type="flex" class="middle">
         <el-col :span="21" class="br pr-20">
           <div class="title-green">
@@ -12,59 +11,64 @@
                 <span class="input-text">航班时间：</span>
                 <div class="input-input t-flex t-date">
                    <el-date-picker
-                     v-model="pd.DATEOFBIRTHSTART"
-                     type="date" size="small" value-format="yyyyMMdd"
-                     placeholder="开始时间" align="right" >
+                     v-model="cdt.startFlightDate"
+                     type="date"
+                     size="small"
+                     value-format="yyyyMMdd"
+                     placeholder="开始时间">
                    </el-date-picker>
                    <span class="septum">-</span>
                    <el-date-picker
-                      v-model="pd.DATEOFBIRTHEND"
-                      type="date" size="small" align="right" value-format="yyyyMMdd"
+                      v-model="cdt.endFlightDate"
+                      type="date"
+                      size="small"
+                      align="right"
+                      value-format="yyyyMMdd"
                       placeholder="结束时间"  >
                   </el-date-picker>
               </div>
             </el-col>
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">出入境：</span>
-              <el-select v-model="pd.NATIONALITY" filterable clearable placeholder="请选择"  size="small" class="input-input">
-                <el-option
-                  v-for="item in nationAlone"
-                  :key="item.CODE"
-                  :label="item.CODE+' - '+item.CNAME"
-                  :value="item.CODE">
-                </el-option>
+              <el-select  placeholder="请选择"  size="small" v-model="cdt.flightype" clearable filterable class="block input-input">
+                <el-option label="I - 入境" value="I"></el-option>
+                <el-option label="O - 出境" value="O"></el-option>
+                <el-option label="A - 入出境" value="A"></el-option>
               </el-select>
             </el-col>
 
             <el-col :sm="24" :md="12"  :lg="8" class="input-item">
               <span class="input-text">航班号：</span>
-              <el-input placeholder="请输入内容" size="small" v-verify.input.blur="{regs:'required|max:35',submit:'demo'}" v-model="pd.CARDNO" clearable class="input-input"></el-input>
+              <el-input placeholder="请输入内容" size="small" v-verify.input.blur="{regs:'required|max:35',submit:'demo'}" v-model="cdt.fltnoStr" clearable class="input-input"></el-input>
             </el-col>
 
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">中心/口岸：</span>
-              <el-select v-model="pd.NATIONALITY" filterable clearable placeholder="请选择"  size="small" class="input-input">
+              <el-select v-model="cdt.port" filterable clearable placeholder="请选择"  size="small" class="input-input" @visible-change="centerK" @change="centerReal(cdt.port)">
                 <el-option
-                  v-for="item in nationAlone"
-                  :key="item.CODE"
-                  :label="item.CODE+' - '+item.CNAME"
-                  :value="item.CODE">
+                  v-for="item in centerColl"
+                  :key="item.DEPT_CODE"
+                  :label="item.DEPT_CODE+' - '+item.DEPT_JC"
+                  :value="item.DEPT_CODE">
                 </el-option>
               </el-select>
             </el-col>
 
             <el-col :sm="24" :md="12"  :lg="8" class="input-item">
               <span class="input-text">模型：</span>
-              <el-select  placeholder="请选择"  size="small" v-model="pd.IN_OUT" clearable filterable class="block input-input">
-                <el-option label="I - 入境" value="I"></el-option>
-                <el-option label="O - 出境" value="O"></el-option>
-                <el-option label="A - 入出境" value="A"></el-option>
+              <el-select v-model="cdt.modelSerial" filterable clearable placeholder="请选择"  size="small" class="input-input" @visible-change="modelK" :disabled="able">
+                <el-option
+                  v-for="item in modelColl"
+                  :key="item.MODEL_ID"
+                  :label="item.MODEL_ID+' - '+item.MODEL_NAME"
+                  :value="item.MODEL_ID">
+                </el-option>
               </el-select>
             </el-col>
           </el-row>
         </el-col>
         <el-col :span="3" class="down-btn-area">
-          <el-button type="success" size="small"  class="mt-15" @click="CurrentPage=1;getList(CurrentPage,pageSize,pd)">查询</el-button>
+          <el-button type="success" size="small"  class="mt-15" @click="CurrentPage=1;getList(CurrentPage,pageSize,cdt)">查询</el-button>
           <el-button type="primary" class="mt-15" plain size="small" @click="reset">重置</el-button>
         </el-col>
 
@@ -72,13 +76,12 @@
     </div>
     <div class="middle">
       <el-row>
-        <el-button  size="small"  class="mb-15 table-btn" @click="">导出</el-button>
+        <el-button  size="small"  class="mb-15 table-btn" @click="tableDown">导出</el-button>
         <el-button  size="small"  class="mb-15 table-btn" @click="colorSet">色彩设置</el-button>
       </el-row>
       <el-table
         :data="tableData"
         border
-        class="caozuo"
         style="width:100%;">
         <!-- <el-table-column
           type="index"
@@ -86,76 +89,95 @@
           width="60">
         </el-table-column> -->
         <el-table-column
-          prop="RECORDNUM"
+          prop="FLTNO"
           label="航班号"
-          sortable>
-        </el-table-column>
-        <el-table-column
-          prop="NATIONALITYNAME"
           sortable
-          label="航班日期">
-
+          width="120">
         </el-table-column>
         <el-table-column
-          prop="CARDTYPENAME"
-          label="到达时间">
-        </el-table-column>
-        <el-table-column
-          prop="CARDNO"
+          prop="FLIGHTDATESTR"
           sortable
-          label="出入境">
+          label="航班日期"
+          width="160">
         </el-table-column>
         <el-table-column
-          prop="FAMILYNAME"
-          label="起飞机场">
+          prop="ARRIVDATESTR"
+          label="到达时间"
+          sortable
+          width="160">
         </el-table-column>
         <el-table-column
-          prop="GENDER"
-          width="60"
+          label="出入境"
+          width="120">
+          <template slot-scope="scope">
+            {{ scope.row.FLIGHTTYPE | fifterInOut}}
+          </template>
+        </el-table-column>
+        <el-table-column
+          prop="CITYFROMSTR"
+          label="起飞机场"
+          width="150">
+        </el-table-column>
+        <el-table-column
+          prop="CITYTOSTR"
+          width="150"
           label="到达机场">
         </el-table-column>
         <el-table-column
-          prop="DATEOFBIRTH"
+          prop="CHECKINCOUNT"
           label="预报旅客">
         </el-table-column>
         <el-table-column
-          prop="BEGINDATE"
-          label="预报中国旅客">
+          prop="CHINACOUNT"
+          label="预报中国旅客"
+          width="150">
         </el-table-column>
         <el-table-column
-          prop="ENDDATE"
-          label="预报外籍旅客">
+          prop="NOTCHINACOUNT"
+          label="预报外籍旅客"
+          width="150">
         </el-table-column>
         <el-table-column
-          prop="BEGINDATE"
-          label="一级预警人数">
+          prop="ONEEVENT"
+          label="一级预警人数"
+          width="150">
         </el-table-column>
         <el-table-column
-          prop="ENDDATE"
-          label="二级预警人数">
+          prop="TWOEVENT"
+          label="二级预警人数"
+          width="150">
         </el-table-column>
         <el-table-column
-          prop="BEGINDATE"
-          label="三级预警人数">
+          prop="THREEEVENT"
+          label="三级预警人数"
+          width="150">
         </el-table-column>
         <el-table-column
-          prop="ENDDATE"
-          label="四级预警人数">
+          prop="FOUREVENT"
+          label="四级预警人数"
+          width="150">
         </el-table-column>
         <el-table-column
-          prop="BEGINDATE"
-          label="五级预警人数">
+          prop="FIVEEVENT"
+          label="五级预警人数"
+          width="150">
         </el-table-column>
         <el-table-column
-          prop="BEGINDATE"
-          label="报警率">
+          label="报警率"
+          width="150">
+          <template slot-scope="scope">
+            <span :style="{color:color1}" v-if="scope.row.PERCENT < high1&&scope.row.PERCENT >=low1">{{scope.row.PERCENT}}</span>
+            <span :style="{color:color2}" v-if="scope.row.PERCENT < high2&&scope.row.PERCENT >=low2">{{scope.row.PERCENT}}</span>
+            <span :style="{color:color3}" v-if="scope.row.PERCENT < high3&&scope.row.PERCENT >=low3">{{scope.row.PERCENT}}</span>
+            <span :style="{color:color4}" v-if="scope.row.PERCENT < high4&&scope.row.PERCENT >=low4">{{scope.row.PERCENT}}</span>
+          </template>
         </el-table-column>
       </el-table>
 
       <div class="middle-foot">
         <div class="page-msg">
           <div class="">
-            共{{Math.ceil(TotalResult/pageSize)}}页
+            第{{CurrentPage}}页
           </div>
           <div class="">
             每页
@@ -169,87 +191,88 @@
             </el-select>
             条
           </div>
-          <div class="">
+          <!-- <div class="">
             共{{TotalResult}}条
-          </div>
+          </div> -->
         </div>
         <el-pagination
           background
           @current-change="handleCurrentChange"
           :current-page.sync ="CurrentPage"
           :page-size="pageSize"
-          layout="prev, pager, next"
-          :total="TotalResult">
+          prev-text="上一页"
+          next-text="下一页"
+          layout="prev,next">
         </el-pagination>
       </div>
     </div>
 
     <el-dialog title="色彩设置" :visible.sync="colorDialogVisible"   width="40%">
-      <el-row align="center" class="mb-6">
+      <el-row align="center" class="mb-6" v-for="i in colorArr">
         <el-col  :sm="24" :md="12" :lg="12"  class="input-item">
-          <span class="input-text tt-input-text">颜色值1：</span>
-          <el-input placeholder="请输入内容" size="small" v-model="pd.fltnoEqual"  class="t-input-input"></el-input>
+          <span class="input-text tt-input-text">颜色值{{i.useColour.COL_NUMBER}}：</span>
+          <el-input placeholder="请输入内容" size="small" v-model="i.useColour.COL_VALUE"  class="t-input-input"></el-input>
         </el-col>
         <el-col  :sm="24" :md="12" :lg="12"  class="input-item">
           <span class="input-text tt-input-text">区间：</span>
-          <el-input placeholder="请输入内容" size="small" v-model="pd.fltnoEqual"  class="input-input"></el-input>
+          <el-input placeholder="请输入内容" size="small" v-model="i.useColour.LOW_VALUE"  class="input-input"></el-input>
           <span class="septum line-h">-</span>
-          <el-input placeholder="请输入内容" size="small" v-model="pd.fltnoEqual"  class="input-input"></el-input>
+          <el-input placeholder="请输入内容" size="small" v-model="i.useColour.HIGH_VALUE"  class="input-input"></el-input>
           <span class="septum line-h">%</span>
         </el-col>
       </el-row>
-      <el-row align="center" class="mb-6">
+      <!-- <el-row align="center" class="mb-6">
         <el-col  :sm="24" :md="12" :lg="12"  class="input-item">
           <span class="input-text tt-input-text">颜色值2：</span>
-          <el-input placeholder="请输入内容" size="small" v-model="pd.fltnoEqual"  class="t-input-input"></el-input>
+          <el-input placeholder="请输入内容" size="small" v-model="twoColor.COL_VALUE"  class="t-input-input"></el-input>
         </el-col>
         <el-col  :sm="24" :md="12" :lg="12"  class="input-item">
           <span class="input-text tt-input-text">区间：</span>
-          <el-input placeholder="请输入内容" size="small" v-model="pd.fltnoEqual"  class="input-input"></el-input>
+          <el-input placeholder="请输入内容" size="small" v-model="twoColor.HIGH_VALUE"  class="input-input"></el-input>
           <span class="septum line-h">-</span>
-          <el-input placeholder="请输入内容" size="small" v-model="pd.fltnoEqual"  class="input-input"></el-input>
+          <el-input placeholder="请输入内容" size="small" v-model="twoColor.LOW_VALUE"  class="input-input"></el-input>
           <span class="septum line-h">%</span>
         </el-col>
       </el-row>
       <el-row align="center" class="mb-6">
         <el-col  :sm="24" :md="12" :lg="12"  class="input-item">
           <span class="input-text tt-input-text">颜色值3：</span>
-          <el-input placeholder="请输入内容" size="small" v-model="pd.fltnoEqual"  class="t-input-input"></el-input>
+          <el-input placeholder="请输入内容" size="small" v-model="tirdColor.COL_VALUE"  class="t-input-input"></el-input>
         </el-col>
         <el-col  :sm="24" :md="12" :lg="12"  class="input-item">
           <span class="input-text tt-input-text">区间：</span>
-          <el-input placeholder="请输入内容" size="small" v-model="pd.fltnoEqual"  class="input-input"></el-input>
+          <el-input placeholder="请输入内容" size="small" v-model="tirdColor.HIGH_VALUE"  class="input-input"></el-input>
           <span class="septum line-h">-</span>
-          <el-input placeholder="请输入内容" size="small" v-model="pd.fltnoEqual"  class="input-input"></el-input>
+          <el-input placeholder="请输入内容" size="small" v-model="tirdColor.LOW_VALUE"  class="input-input"></el-input>
           <span class="septum line-h">%</span>
         </el-col>
       </el-row>
       <el-row align="center" class="pd-6 bb">
         <el-col  :sm="24" :md="12" :lg="12"  class="input-item">
           <span class="input-text tt-input-text">颜色值4：</span>
-          <el-input placeholder="请输入内容" size="small" v-model="pd.fltnoEqual"  class="t-input-input"></el-input>
+          <el-input placeholder="请输入内容" size="small" v-model="fourColor.COL_VALUE"  class="t-input-input"></el-input>
         </el-col>
         <el-col  :sm="24" :md="12" :lg="12"  class="input-item">
           <span class="input-text tt-input-text">区间：</span>
-          <el-input placeholder="请输入内容" size="small" v-model="pd.fltnoEqual"  class="input-input"></el-input>
+          <el-input placeholder="请输入内容" size="small" v-model="fourColor.HIGH_VALUE"  class="input-input"></el-input>
           <span class="septum line-h">-</span>
-          <el-input placeholder="请输入内容" size="small" v-model="pd.fltnoEqual"  class="input-input"></el-input>
+          <el-input placeholder="请输入内容" size="small" v-model="fourColor.LOW_VALUE"  class="input-input"></el-input>
           <span class="septum line-h">%</span>
         </el-col>
-      </el-row>
+      </el-row> -->
       <h4>历史参数设置参考</h4>
-      <el-row align="center" class="mb-6">
+      <el-row align="center" class="mb-6" v-for="item in historyArr">
         <el-col  :sm="4" :md="4" :lg="4"  class="input-item" style="justify-content: center;">
-          颜色值1：
+          颜色值{{item.useColour.COL_NUMBER}}：
         </el-col>
         <el-col  :sm="20" :md="20" :lg="20" style="margin-left:-20px">
-          <span>历次设置的范围平均值 低区间平均值 60% 高区间平均值 100%</span><br/>
-          <span style="padding-top:10px;display:inline-block">最近设置（）</span>
+          <span>历次设置的范围平均值 低区间平均值 {{item.useColour.LOW_AVG_VALUE}} 高区间平均值 {{item.useColour.HIGH_AVG_VALUE}}</span><br/>
+          <span style="padding-top:10px;display:inline-block">最近设置（<i v-for="j in item.oldColour">{{j.COL_VALUE+' '+j.LOW_VALUE+' -- '+j.HIGH_VALUE +' / '}}</i>）</span>
         </el-col>
       </el-row>
       <div slot="footer" class="dialog-footer">
         <el-button  @click="colorDialogVisible = false" size="small">取消</el-button>
-        <el-button type="primary" @click="" size="small">确定</el-button>
+        <el-button type="primary" @click="colorReal" size="small">确定</el-button>
       </div>
     </el-dialog>
   </div>
@@ -257,6 +280,9 @@
 </template>
 
 <script>
+import {formatDate,format} from '@/assets/js/date.js'
+import {dayGap} from '@/assets/js/date.js'
+import axios from 'axios'
 export default {
   data(){
     return{
@@ -264,9 +290,29 @@ export default {
       CurrentPage:1,
       pageSize:10,
       TotalResult:0,
-      pd:{NAMELIKE:'0'},
-      nationAlone:[],
+      cdt:{
+        startFlightDate:'',
+        endFlightDate:''
+      },
+      centerColl:[],
+      modelColl:[],
       colorDialogVisible:false,
+      colorArr:[],
+      historyArr:[],
+      colorList:[],
+      able:true,
+      color1:'',
+      color2:'',
+      color3:'',
+      color4:'',
+      low1:'',
+      low2:'',
+      low3:'',
+      low4:'',
+      high1:'',
+      high2:'',
+      high3:'',
+      high4:'',
       options:[
         {
           value:10,
@@ -285,29 +331,148 @@ export default {
     }
   },
   mounted(){
-    this.getList(this.CurrentPage,this.pageSize,this.pd);
+    let time = new Date();
+    let end = new Date();
+    let begin =new Date(time - 1000 * 60 * 60 * 24 * 30);
+    this.cdt.startFlightDate=formatDate(begin,'yyyyMMdd');
+    this.cdt.endFlightDate=formatDate(end,'yyyyMMdd');
+    this.getList(this.CurrentPage,this.pageSize,this.cdt);
     this.queryNationalityAlone();
     this.queryAirport();
+    document.getElementsByClassName('btn-next')[0].disabled=true;
   },
   activated(){
-    this.getList(this.CurrentPage,this.pageSize,this.pd);
+    this.getList(this.CurrentPage,this.pageSize,this.cdt);
   },
   methods:{
     colorSet(){
       this.colorDialogVisible = true;
+      this.$api.post('/manage-platform/eventMonitor/queryUserColour',{},
+       r => {
+         if(r.success){
+           this.colorArr=[];
+           this.historyArr=[];
+           this.colorArr = r.data;
+           this.historyArr = r.data;
+         }
+      })
+    },
+    centerK(){
+      this.$api.post('/manage-platform/census/queryPort',{},
+      r => {
+        if(r.success){
+          this.centerColl = r.data;
+        }
+      })
+    },
+    modelK(){
+      let p={
+        'DEPT_CODE':this.cdt.port
+      }
+      this.$api.post('/manage-platform/census/queryModels',p,
+      r => {
+        if(r.success){
+          this.modelColl = r.data;
+        }
+      })
+    },
+    centerReal(val){
+      this.$set(this.cdt,'modelSerial','');
+      if(val==''||val==undefined){
+        this.able=true;
+      }else{
+        this.able=false;
+      }
+    },
+    colorReal(){
+      let arrColor = this.colorArr;
+      for(var i=0;i<arrColor.length;i++){
+        delete arrColor[i].oldColour
+      }
+      this.$api.post('/manage-platform/eventMonitor/saveUserColour',arrColor,
+       r => {
+         if(r.success){
+           this.$message({
+             message: '设置成功！',
+             type: 'success'
+           });
+         }
+         this.colorDialogVisible = false;
+         this.colorJudge(this.colorArr);
+      })
+    },
+    colorJudge(arr){
+      for(var j=0;j<arr.length;j++){
+        if(arr[j].useColour.COL_NUMBER == 1){
+          this.color1=arr[j].useColour.COL_VALUE;
+          this.low1 = arr[j].useColour.LOW_VALUE;
+          this.high1 = arr[j].useColour.HIGH_VALUE;
+          // console.log(this.low1,this.high1)
+        }else if(arr[j].useColour.COL_NUMBER == 2){
+          this.color2=arr[j].useColour.COL_VALUE;
+          this.low2 = arr[j].useColour.LOW_VALUE;
+          this.high2 = arr[j].useColour.HIGH_VALUE;
+          // console.log(this.low2,this.color2,this.high2)
+        }else if(arr[j].useColour.COL_NUMBER == 3){
+          this.color3=arr[j].useColour.COL_VALUE;
+          this.low3 = arr[j].useColour.LOW_VALUE;
+          this.high3 = arr[j].useColour.HIGH_VALUE;
+          // console.log(low3,high3)
+        }else if(arr[j].useColour.COL_NUMBER == 4){
+          this.color4=arr[j].useColour.COL_VALUE;
+          this.low4 = arr[j].useColour.LOW_VALUE;
+          this.high4 = arr[j].useColour.HIGH_VALUE;
+          // console.log(low4,high4)
+        }
+      }
+    },
+    downloadM (data) {
+        if (!data) {
+            return
+        }
+        let url = window.URL.createObjectURL(new Blob([data.data],{type:"application/octet-stream"}))
+        let link = document.createElement('a')
+        link.style.display = 'none'
+        link.href = url
+        link.setAttribute('download', format(new Date(),'yyyy-MM-dd hh:mm:ss')+'.xlsx')
+        document.body.appendChild(link)
+        link.click()
+    },
+    tableDown(){
+      axios({
+       method: 'post',
+       // url: 'http://192.168.99.245:8080/manage-platform/eventMonitor/exportFileIo/600',
+       url: this.$api.rootUrl+"/manage-platform/eventMonitor/exportFileIo/600",
+       data: {
+         "currentPage": 1,
+         "showCount": 600,
+         "cdt": this.cdt
+       },
+       responseType: 'blob'
+       }).then(response => {
+           this.downloadM(response)
+       });
     },
     reset(){
       this.CurrentPage=1;
       this.pageSize=10;
-      this.pd={NAMELIKE:'0'};
-      this.getList(this.CurrentPage,this.pageSize,this.pd);
+      let time = new Date();
+      let end = new Date();
+      let begin =new Date(time - 1000 * 60 * 60 * 24 * 30);
+      this.cdt={
+        startFlightDate:'',
+        endFlightDate:''
+      };
+      this.cdt.startFlightDate=formatDate(begin,'yyyyMMdd');
+      this.cdt.endFlightDate=formatDate(end,'yyyyMMdd');
+      this.getList(this.CurrentPage,this.pageSize,this.cdt);
     },
     pageSizeChange(val) {
-      this.getList(this.CurrentPage,val,this.pd);
+      this.getList(this.CurrentPage,val,this.cdt);
       console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
-      this.getList(val,this.pageSize,this.pd);
+      this.getList(val,this.pageSize,this.cdt);
       console.log(`当前页: ${val}`);
     },
 
@@ -315,17 +480,46 @@ export default {
       let p={
       	"currentPage":currentPage,
       	"showCount":showCount,
-      	"pd":pd
+      	"cdt":pd
       };
       console.log(pd)
-
-        this.$api.post('/manage-platform/nameListFocusList/getNameListFocusListPage',p,
+        this.$api.post('/manage-platform/eventMonitor/queryFlightMonitor',p,
          r => {
            console.log(r);
+           if(r.data.nextState==0){
+             console.log(document.getElementsByClassName('btn-next')[0])
+             document.getElementsByClassName('btn-next')[0].disabled=true;
+           }else{
+             document.getElementsByClassName('btn-next')[0].disabled=false;
+           }
            this.tableData=r.data.resultList;
-           this.TotalResult=r.data.totalResult;
+           this.CurrentPage = r.data.currentPage;
+           this.colorList = r.data.pd.useColour;
+           for(var j=0;j<this.colorList.length;j++){
+             if(this.colorList[j].COL_NUMBER == 1){
+               this.color1=this.colorList[j].COL_VALUE;
+               this.low1 = this.colorList[j].LOW_VALUE;
+               this.high1 = this.colorList[j].HIGH_VALUE;
+               // console.log(low1,high1)
+             }else if(this.colorList[j].COL_NUMBER == 2){
+               this.color2=this.colorList[j].COL_VALUE;
+               this.low2 = this.colorList[j].LOW_VALUE;
+               this.high2 = this.colorList[j].HIGH_VALUE;
+               // console.log(low2,high2)
+             }else if(this.colorList[j].COL_NUMBER == 3){
+               this.color3=this.colorList[j].COL_VALUE;
+               this.low3 = this.colorList[j].LOW_VALUE;
+               this.high3 = this.colorList[j].HIGH_VALUE;
+               // console.log(low3,high3)
+             }else if(this.colorList[j].COL_NUMBER == 4){
+               this.color4=this.colorList[j].COL_VALUE;
+               this.low4 = this.colorList[j].LOW_VALUE;
+               this.high4 = this.colorList[j].HIGH_VALUE;
+               // console.log(low4,high4)
+             }
+           }
+           // this.TotalResult=r.data.totalResult;
         })
-
     },
     queryNationalityAlone(){
       this.$api.post('/manage-platform/codeTable/queryNationality',{},
@@ -346,6 +540,16 @@ export default {
          }
       })
     },
+
+  },
+  filters: {
+    fifterInOut(val){
+      if(val=="O"){
+        return "出境"
+      }else if(val == "I"){
+        return "入境"
+      }
+    }
 
   }
 }
@@ -373,4 +577,5 @@ export default {
 .wrapper{
   padding-left:3%;
 }
+
 </style>
