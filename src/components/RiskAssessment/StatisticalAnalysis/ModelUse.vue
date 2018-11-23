@@ -127,17 +127,19 @@
           </el-row>
         </el-col>
         <el-col :span="3" class="down-btn-area">
-          <el-button type="success" size="small"  class="mt-15" @click="getList">查询</el-button>
+          <el-button type="success" size="small"  class="mt-15" @click="getList()">查询</el-button>
           <el-button type="primary" class="mt-15" plain size="small" @click="reset">重置</el-button>
         </el-col>
 
       </el-row>
     </div>
-    <div class="middle" v-for="(x,ind) in chartList" :key="ind">
+    <div class="middle mb-2" v-for="(x,ind) in chartList" :key="ind">
       <div class="map-title">{{x.titleText}}</div>
-      <span class="tubiao hand borderL" :class="{'checked':page==0}" @click="page=0">量</span><span class="tubiao hand borderR" :class="{'checked':page==1}" @click="qq">率</span>
-      <div class="" v-show="page==0">
-        <Vecharts :legendData="x.legendData" :series="x.series"></Vecharts>
+      <span class="tubiao hand borderL" :class="{'checked':x.censusParamBean.queryType==0}" @click="pd.queryType='0';getList();">量</span><span class="tubiao hand borderR" :class="{'checked':x.censusParamBean.queryType==1}" @click="pd.queryType='1';getList();">率</span>
+      <div class="" style="position:relative;">
+        <el-button class="table-btn dz-btn" plain>定制</el-button>
+
+        <Vecharts :chartDatas="x" v-if="x.titleText"></Vecharts>
         <el-table
           :data="tableData"
           border
@@ -150,10 +152,9 @@
           </el-table-column>
         </el-table>
       </div>
-      <!-- <div class="" v-show="page==1">
-        <div class = "lvChart" style="width:100%;overflow:hidden">
-          <div id = "lvEcharts" style = "width:100%;height: 400px"></div>
-        </div>
+      <!-- <div class="" v-show="x.censusParamBean.queryType==1">
+        <Vecharts :chartData="x"></Vecharts>
+
         <el-table
           :data="LtableData"
           border
@@ -252,6 +253,7 @@ export default {
       this.pd={}
     },
     getList(){
+      // this.pd.queryType=queryType;
       this.$api.post('/manage-platform/census/queryCensus',this.pd,
        r => {
          console.log(r)
@@ -546,5 +548,18 @@ export default {
   border-top-right-radius: 3px;
   border-bottom-right-radius: 3px;
 }
-
+.t-tip{
+  position:absolute;
+  right: -18px;
+  top: 7px;
+  z-index: 999;
+}
+.dz-btn{
+  position: absolute;
+  right: 140px;
+  top: 0px;
+  width: 20px!important;
+  height: 20px;
+  line-height: 3px;
+}
 </style>

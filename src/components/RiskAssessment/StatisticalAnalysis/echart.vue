@@ -1,8 +1,6 @@
 <template lang="html">
-  <div class = "liangChart" style="position:relative;width:100%;overflow:hidden;">
-    <div id="liangEcharts" style = "width:100%;height: 400px" ></div>
-    <span>{{legendData[0]}}{{legend[0]}}</span>
-    <el-button class="table-btn dz-btn" plain>定制</el-button>
+  <div class = "liangChart" style="width:100%;">
+    <div :id="chartDatas.titleText" style = "width:100%;height: 400px" ></div>
   </div>
 </template>
 
@@ -10,55 +8,50 @@
 import echarts from 'echarts'
 
 export default {
-  nane:"Vecharts",
+  name:"Vecharts",
   data(){
     return {
-        legend: [],
-        seriesv:[]
+        chartdata: this.chartDatas,
     }
   },
   watch: {
-    legendData: function(newVal,oldVal){
+    chartDatas:function(newVal,oldVal){
         console.log(newVal,oldVal)
-        this.legend = newVal;  //newVal即是chartData
-        this.drawLiang();
-    },
-    series:function(newVal,oldVal){
-        console.log(newVal,oldVal)
-        this.seriesv = newVal;  //newVal即是chartData
+        this.chartdata = newVal;  //newVal即是chartData
         this.drawLiang();
     }
   },
-  // props:['legendData','series'],
   props:{
-
-    legendData:{
-        type:Array,
-        default:[]
-    },
-    series:{
-      type:Array,
-      default:[]
+    'chartDatas':{
+      type:Object,
+      default:{titleText:"kk"}
     }
   },
-
   mounted(){
     this.drawLiang();
   },
   methods:{
     drawLiang(){
-      console.log(this.legend)
-      let liangChart = echarts.init(document.getElementById('liangEcharts'));
-      window.onresize = echarts.init(document.getElementById('liangEcharts')).resize;
+      console.log(this.chartdata)
+      let liangChart = echarts.init(document.getElementById(this.chartDatas.titleText));
+      window.onresize = echarts.init(document.getElementById(this.chartDatas.titleText)).resize;
       let _this=this
-      console.log(_this.legend)
+      let color=['rgba(110,180,252,1)', 'rgba(244,173,57,1)', 'rgba(52,182,180,1)']
+      let arr=this.chartdata.series
+      // this.chartdata.series
+      // for(var i=0;i<arr.length;i++){
+      //   if(arr[i].xAxisIndex==1){
+      //     arr[i].itemStyle.color=
+      //   }
+      //
+      // }
 
       liangChart.setOption({
         tooltip : {
             trigger: 'axis'
         },
         legend: {
-            data:  _this.legend
+            data: _this.chartdata.legendData
         },
         toolbox: {
             show : true,
@@ -72,10 +65,11 @@ export default {
         },
         calculable : true,
         grid: {y: 70, y2:30, x2:20},
+        color:color,
         xAxis : [
             {
                 type : 'category',
-                data : ['Line','Bar','Scatter','K','Map']
+                data : _this.chartdata.xAxisData
             },
             {
                 type : 'category',
@@ -84,17 +78,39 @@ export default {
                 axisLabel: {show:false},
                 splitArea: {show:false},
                 splitLine: {show:false},
-                data : ['Line','Bar','Scatter','K','Map']
+                data : _this.chartdata.xAxisData
+            },
+            {
+                type : 'category',
+                axisLine: {show:false},
+                axisTick: {show:false},
+                axisLabel: {show:false},
+                splitArea: {show:false},
+                splitLine: {show:false},
+                data : _this.chartdata.xAxisData
             }
+
         ],
         yAxis : [
             {
                 type : 'value',
-                axisLabel:{formatter:'{value} ms'}
+                axisLabel:{formatter:'{value}'}
             }
         ],
-        series : _this.seriesv
+        series:_this.chartdata.series
+        // series : [
+        //     {
+        //         name:'中国--使用量',
+        //         type:'bar',
+        //         xAxisIndex:1,
+        //         // itemStyle: {normal: {color:'rgba(193,35,43,1)', label:{show:true}}},
+        //         data:[10, 0, 0, 0, 0, 0, 0, 0, 60, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        //     },
+
+
+        // ]
       })
+
     },
   }
 
@@ -102,18 +118,5 @@ export default {
 </script>
 
 <style scoped>
-.t-tip{
-  position:absolute;
-  right: -18px;
-  top: 7px;
-  z-index: 999;
-}
-.dz-btn{
-  position: absolute;
-  right: 140px;
-  top: 0px;
-  width: 20px!important;
-  height: 20px;
-  line-height: 3px;
-}
+
 </style>
