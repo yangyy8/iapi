@@ -1,6 +1,6 @@
 <template lang="html">
   <div class = "liangChart" style="width:100%;">
-    <div :id="chartdata.version" style = "width:100%;height: 400px" ></div>
+    <div :id="chartsId" style = "width:100%;height: 400px" ></div>
   </div>
 </template>
 
@@ -25,6 +25,10 @@ export default {
     'chartDatas':{
       type:Object,
       default:{titleText:"kk"}
+    },
+    'chartsId':{
+      type:String,
+      default:'0'
     }
   },
   mounted(){
@@ -33,8 +37,8 @@ export default {
   methods:{
     drawLiang(){
       console.log(this.chartdata)
-      let liangChart = echarts.init(document.getElementById(this.chartdata.version));
-      window.onresize = echarts.init(document.getElementById(this.chartdata.version)).resize;
+      let liangChart = echarts.init(document.getElementById(this.chartsId));
+      window.onresize = echarts.init(document.getElementById(this.chartsId)).resize;
       let _this=this
       let color=['rgba(110,180,252,1)', 'rgba(244,173,57,1)', 'rgba(52,182,180,1)']
       let arr=this.chartdata.series

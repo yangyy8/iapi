@@ -139,7 +139,7 @@
       <div class="" style="position:relative;">
         <el-button class="table-btn dz-btn" plain @click="customized(x.censusParamBean)">定制</el-button>
 
-        <Vecharts :chartDatas="x" v-if="x.titleText"></Vecharts>
+        <Vecharts :chartDatas="x" v-if="x.titleText" :chartsId="ind"></Vecharts>
         <el-table
           :data="x.tableData"
           border
