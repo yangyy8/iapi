@@ -12,7 +12,7 @@
                 <el-option
                   v-for="item in company"
                   :key="item.CODE"
-                  :label="item.CODE+' - '+item.NAME"
+                  :label="item.NAME"
                   :value="item.CODE">
                 </el-option>
               </el-select>
@@ -68,7 +68,7 @@
           label="标签描述">
         </el-table-column>
         <el-table-column
-          prop="CREATEUSER"
+          prop="CREATEUSERNAME"
           label="创建人">
         </el-table-column>
         <el-table-column
@@ -131,7 +131,7 @@
                <el-option
                  v-for="item in company"
                  :key="item.CODE"
-                 :label="item.CODE+' - '+item.NAME"
+                 :label="item.NAME"
                  :value="item.CODE">
                </el-option>
              </el-select>
@@ -143,7 +143,7 @@
           <el-col :span="24" class="input-item">
             <span class="yy-input-text"><font class="yy-color">*</font> 标签名称：</span>
             <el-input placeholder="请输入内容(不能超过20个汉字)"
-             size="small" maxlength="20"  v-model="form.LABELNAME"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
+             size="small" maxlength="20"  v-model="form.LABELNAME"  class="yy-input-input" ></el-input>
 
           </el-col>
         </el-row>
@@ -318,16 +318,16 @@ export default {
     },
     addItem(formName) {
 
+      if(this.form.LABELTYPE_CODE=="" || this.form.LABELTYPE_CODE==undefined){
 
+            this.$message.error("请选择标签分类");
+            return  false;
+      }
+      if(this.form.LABELNAME=="" || this.form.LABELNAME==undefined){
 
-            if(this.$validator.listener.demo2){
-              const result = this.$validator.verifyAll('demo2')
-               if (result.indexOf(false) > -1) {
-                 return
-               } else {
-               }
-            }
-
+            this.$message.error("标签名称不能为空");
+            return  false;
+      }
 
       var url = "/manage-platform/userLabel/addUserLabel";
 
@@ -363,7 +363,7 @@ export default {
       let p = {
         "SERIAL": i.SERIAL
       };
-      this.$confirm('您是否确认删除此角色？', '提示', {
+      this.$confirm('您是否确认删除？', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
