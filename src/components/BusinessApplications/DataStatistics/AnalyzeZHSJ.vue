@@ -619,11 +619,7 @@ export default {
     },
     download(){
        //  var url="http://192.168.99.213:8080/manage-platform/dataStatistics/export_flt";
-      var url= this.$api.rootUrl+"/manage-platform/dataStatistics/export_flt";
-      if(this.typerow=="2"){
-      //  url="http://192.168.99.213:8080/manage-platform/forecastEva/export_fctime_byfltno";
-        url= this.$api.rootUrl+"/manage-platform/forecastEva/export_fctime_byfltno";
-      }
+      var url= this.$api.rootUrl+"/manage-platform/dataStatistics/export_comp";
       axios({
        method: 'post',
        url: url,

@@ -13,6 +13,7 @@
           <el-col :span="4" style="text-align:right">
             <el-button plain size="small" @click="link()">返回</el-button>
           <el-button type="success" size="small" @click="edits()">编辑</el-button>
+          <el-button type="danger" size="small" @click="deletes()">删除</el-button>
         </el-col>
         </el-row>
 
@@ -35,7 +36,7 @@
                但对外界关于其节目涉及种族歧视和用错地图的指责依旧闪烁其词，未作道歉。
                当地时间9月25日下等，瑞典电视台在官网发表了一篇文章回应视频事件，承认节目表达的整体意思出现了缺失，“为此道歉”，
                但对外界关于其节目涉及种族歧视和用错地图的指责依旧闪烁其词，未作道歉。 -->
-               {{itemForumData.COUNT}}
+              <span v-html="itemForumData.COUNT"> </span>
 
           </el-col>
         </el-row>
@@ -229,6 +230,7 @@ export default {
     },
     clickCommentLike(serial){
       let p={
+        "SERIAL":this.SERIAL,
         "COMMENTID":serial
       };
       this.$api.post('/manage-platform/itemForum/updateCommentLike',p,
@@ -249,6 +251,42 @@ export default {
          }
          this.getCommentList(1,this.pageSize,this.pd);
       })
+    },
+    deletes() {
+      let p = {
+        "SERIAL": this.SERIAL
+      };
+      this.$confirm('您是否确认删除?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+
+        this.$api.post('/manage-platform/itemForum/deleteItemForumUp', p,
+          r => {
+            console.log("===" + r);
+            if (r.success) {
+              this.$message({
+                message: '删除成功！',
+                type: 'success'
+              });
+              this.link();
+            } else {
+              this.$message.error(r.Message);
+            }
+          }, e => {
+            this.$message.error('失败了');
+
+          });
+
+
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        });
+      });
+
     },
     link(){
 

@@ -80,7 +80,7 @@
     <el-row type="flex" class="mb-6 tcc" >
       <el-col :span="24">
            {{ site.INTRO }}
-           <a href="#" @click = "getItemForumInfor(site.SERIAL)">查看全文</a>
+           <a href="#" class="aa" @click = "getItemForumInfor(site.SERIAL)">查看全文</a>
       </el-col>
     </el-row>
     <el-row type="flex" class="mb-6 tcont tborder" >
@@ -154,6 +154,7 @@ export default {
   },
 
   mounted() {
+
 this.getList(this.CurrentPage,this.pageSize,this.pd);
   },
   methods:{
@@ -209,4 +210,5 @@ this.getList(this.CurrentPage,this.pageSize,this.pd);
 .tcc{line-height: 30px; color: #666666;}
 .tline{width:1px; background:#dddddd; height:18px; margin-top:5px;}
 .tborder{border-bottom: 1px solid #dddddd;}
+.aa{color: #409EFF; margin-left: 20px; }
 </style>
