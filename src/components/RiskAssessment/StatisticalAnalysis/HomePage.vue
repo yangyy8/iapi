@@ -1,10 +1,18 @@
 <template lang="html">
   <div class="middle">
+<<<<<<< HEAD
     <div class="" v-for="i in dataArr">
       <div class="map-title">{{i.titleText}}</div>
       <div style="position:relative">
         <el-button class="table-btn dz-btn" plain @click="cancel(i.censusParamBean.version)">取消定制</el-button>
         <Vecharts :chartData="i"></Vecharts>
+=======
+    <div class="" v-for="(i,ind) in dataArr" :key="ind">
+      <div class="map-title">{{i.titleText}}</div>
+      <div style="position:relative">
+        <el-button class="table-btn dz-btn" plain @click="cancel(i.censusParamBean.version)">取消定制</el-button>
+        <Vecharts :chartDatas="i" v-if="i.titleText"></Vecharts>
+>>>>>>> 1dada3bfde7ba204d6f413306c5405a404564200
         <el-table
           :data="i.tableData"
           border

@@ -135,14 +135,11 @@
     </div>
     <div class="middle mb-2" v-for="(x,ind) in chartList" :key="ind">
       <div class="map-title">{{x.titleText}}</div>
-      <span class="tubiao hand borderL" :class="{'checked':x.censusParamBean.queryType==0}" @click="getType(x,ind,'0');">量</span><span class="tubiao hand borderR" :class="{'checked':x.censusParamBean.queryType==1}" @click="getType(x,ind,'1')">率</span>
+      <span class="tubiao hand borderL" :class="{'checked':x.censusParamBean.queryType==0}" @click="pd.queryType='0';getList();">量</span><span class="tubiao hand borderR" :class="{'checked':x.censusParamBean.queryType==1}" @click="pd.queryType='1';getList();">率</span>
       <div class="" style="position:relative;">
         <el-button class="table-btn dz-btn" plain>定制</el-button>
-        {{x.series[0].type}}
+
         <Vecharts :chartDatas="x" v-if="x.titleText"></Vecharts>
-
-        <!-- <Vecharts :chartDatas="chartItem" v-if="chartItem"></Vecharts> -->
-
         <el-table
           :data="tableData"
           border
