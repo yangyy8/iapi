@@ -139,7 +139,7 @@
       <div class="" style="position:relative;">
         <el-button class="table-btn dz-btn" plain>定制</el-button>
 
-        <Vecharts :chartDatas="x" v-if="x.titleText"></Vecharts>
+        <Vecharts :chartDatas="x" v-if="x.censusParamBean.version"></Vecharts>
         <el-table
           :data="tableData"
           border

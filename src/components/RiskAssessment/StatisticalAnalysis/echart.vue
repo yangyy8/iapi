@@ -1,6 +1,6 @@
 <template lang="html">
   <div class = "liangChart" style="width:100%;">
-    <div :id="chartDatas.titleText" style = "width:100%;height: 400px" ></div>
+    <div :id="chartDatas.censusParamBean.version" style = "width:100%;height: 400px" ></div>
   </div>
 </template>
 
@@ -33,8 +33,8 @@ export default {
   methods:{
     drawLiang(){
       console.log(this.chartdata)
-      let liangChart = echarts.init(document.getElementById(this.chartDatas.titleText));
-      window.onresize = echarts.init(document.getElementById(this.chartDatas.titleText)).resize;
+      let liangChart = echarts.init(document.getElementById(this.chartDatas.censusParamBean.version));
+      window.onresize = echarts.init(document.getElementById(this.chartDatas.censusParamBean.version)).resize;
       let _this=this
       let color=['rgba(110,180,252,1)', 'rgba(244,173,57,1)', 'rgba(52,182,180,1)']
       let arr=this.chartdata.series

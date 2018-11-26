@@ -4,7 +4,7 @@
       <div class="map-title">{{i.titleText}}</div>
       <div style="position:relative">
         <el-button class="table-btn dz-btn" plain @click="cancel(i.censusParamBean.version)">取消定制</el-button>
-        <Vecharts :chartDatas="i" v-if="i.titleText"></Vecharts>
+        <Vecharts :chartDatas="i" v-if="i.censusParamBean.version"></Vecharts>
         <el-table
           :data="i.tableData"
           border
