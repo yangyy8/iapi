@@ -209,6 +209,7 @@ export default {
         children: 'model',
         label: 'name'
       },
+      chartItem:null
     }
   },
   watch:{
@@ -245,10 +246,7 @@ export default {
       console.log(this.pd.models)
       this.modelDialogVisible=false;
     },
-    qq(){
-      this.page=1;
-      this.drawLv();
-    },
+
     reset(){
       this.pd={}
     },
@@ -258,10 +256,22 @@ export default {
        r => {
          console.log(r)
          this.chartList=r.data;
-         // this.drawLiang(this.chartList[0],0);
-         // this.TotalResult=r.data.totalResult;
       })
 
+    },
+    getType(item,index,type){
+      console.log("item",item)
+
+      item.censusParamBean.queryType=type;
+      this.$api.post('/manage-platform/census/queryCensusByQueryType',item.censusParamBean,
+       r => {
+         console.log(r)
+         // this.chartItem=r.data;
+         console.log(item,index,type);
+         this.chartList.splice(index,1,r.data);
+         console.log(this.chartList);
+
+      })
     },
     queryNationalityAlone(){
       this.$api.post('/manage-platform/codeTable/queryNationality',{},
@@ -304,190 +314,7 @@ export default {
          }
       })
     },
-    // drawLiang(item,ind){
-    //   console.log(item,ind,document.getElementById('liangEcharts'+ind))
-    //   console.log(this.$refs.liangEcharts0)
-    //   let liangChart = echarts.init(this.$resf.liangEcharts0);
-    //   console.log(echarts,liangChart)
-    //   // window.onresize = echarts.init(document.getElementById('liangEcharts'+ind)).resize;
-    //   let that = this;
-    //
-    //   liangChart.setOption({
-    //     tooltip : {
-    //         trigger: 'axis'
-    //     },
-    //     legend: {
-    //         data:[
-    //             'ECharts1 - 2k数据','ECharts1 - 2w数据','ECharts1 - 20w数据','',
-    //             'ECharts2 - 2k数据','ECharts2 - 2w数据','ECharts2 - 20w数据'
-    //         ]
-    //     },
-    //     toolbox: {
-    //         show : true,
-    //         feature : {
-    //             mark : {show: true},
-    //             dataView : {show: true, readOnly: false},
-    //             magicType : {show: true, type: ['line', 'bar']},
-    //             restore : {show: true},
-    //             saveAsImage : {show: true}
-    //         }
-    //     },
-    //     calculable : true,
-    //     grid: {y: 70, y2:30, x2:20},
-    //     xAxis : [
-    //         {
-    //             type : 'category',
-    //             data : ['Line','Bar','Scatter','K','Map']
-    //         },
-    //         {
-    //             type : 'category',
-    //             axisLine: {show:false},
-    //             axisTick: {show:false},
-    //             axisLabel: {show:false},
-    //             splitArea: {show:false},
-    //             splitLine: {show:false},
-    //             data : ['Line','Bar','Scatter','K','Map']
-    //         }
-    //     ],
-    //     yAxis : [
-    //         {
-    //             type : 'value',
-    //             axisLabel:{formatter:'{value} ms'}
-    //         }
-    //     ],
-    //     series : [
-    //         {
-    //             name:'ECharts2 - 2k数据',
-    //             type:'bar',
-    //             itemStyle: {normal: {color:'rgba(193,35,43,1)', label:{show:true}}},
-    //             data:[40,155,95,75, 0]
-    //         },
-    //         {
-    //             name:'ECharts2 - 2w数据',
-    //             type:'bar',
-    //             itemStyle: {normal: {color:'rgba(181,195,52,1)', label:{show:true,textStyle:{color:'#27727B'}}}},
-    //             data:[100,200,105,100,156]
-    //         },
-    //         {
-    //             name:'ECharts2 - 20w数据',
-    //             type:'bar',
-    //             itemStyle: {normal: {color:'rgba(252,206,16,1)', label:{show:true,textStyle:{color:'#E87C25'}}}},
-    //             data:[906,911,908,778,0]
-    //         },
-    //         {
-    //             name:'ECharts1 - 2k数据',
-    //             type:'bar',
-    //             xAxisIndex:1,
-    //             itemStyle: {normal: {color:'rgba(193,35,43,0.5)', label:{show:true,formatter:function(p){return p.value > 0 ? (p.value +'\n'):'';}}}},
-    //             data:[96,224,164,124,0]
-    //         },
-    //         {
-    //             name:'ECharts1 - 2w数据',
-    //             type:'bar',
-    //             xAxisIndex:1,
-    //             itemStyle: {normal: {color:'rgba(181,195,52,0.5)', label:{show:true}}},
-    //             data:[491,2035,389,955,347]
-    //         },
-    //         {
-    //             name:'ECharts1 - 20w数据',
-    //             type:'bar',
-    //             xAxisIndex:1,
-    //             itemStyle: {normal: {color:'rgba(252,206,16,0.5)', label:{show:true,formatter:function(p){return p.value > 0 ? (p.value +'+'):'';}}}},
-    //             data:[3000,3000,2817,3000,0]
-    //         }
-    //     ]
-    //   })
-    // },
-    drawLv(){
-      this.lvChart = echarts.init(document.getElementById('lvEcharts'));
-      window.onresize = echarts.init(document.getElementById('lvEcharts')).resize;
-      let that = this;
-      this.lvChart.setOption({
-        tooltip : {
-            trigger: 'axis'
-        },
-        legend: {
-            data:[
-                'ECharts1 - 2k数据','ECharts1 - 2w数据','ECharts1 - 20w数据','',
-                'ECharts2 - 2k数据','ECharts2 - 2w数据','ECharts2 - 20w数据'
-            ]
-        },
-        toolbox: {
-            show : true,
-            feature : {
-                mark : {show: true},
-                dataView : {show: true, readOnly: false},
-                magicType : {show: true, type: ['line', 'bar']},
-                restore : {show: true},
-                saveAsImage : {show: true}
-            }
-        },
-        calculable : true,
-        grid: {y: 70, y2:30, x2:20},
-        xAxis : [
-            {
-                type : 'category',
-                data : ['Line','Bar','Scatter','K','Map']
-            },
-            {
-                type : 'category',
-                axisLine: {show:false},
-                axisTick: {show:false},
-                axisLabel: {show:false},
-                splitArea: {show:false},
-                splitLine: {show:false},
-                data : ['Line','Bar','Scatter','K','Map']
-            }
-        ],
-        yAxis : [
-            {
-                type : 'value',
-                axisLabel:{formatter:'{value} ms'}
-            }
-        ],
-        series : [
-            {
-                name:'ECharts2 - 2k数据',
-                type:'line',
-                itemStyle: {normal: {color:'rgba(193,35,43,1)', label:{show:true}}},
-                data:[40,155,95,75, 0]
-            },
-            {
-                name:'ECharts2 - 2w数据',
-                type:'line',
-                itemStyle: {normal: {color:'rgba(181,195,52,1)', label:{show:true,textStyle:{color:'#27727B'}}}},
-                data:[100,200,105,100,156]
-            },
-            {
-                name:'ECharts2 - 20w数据',
-                type:'line',
-                itemStyle: {normal: {color:'rgba(252,206,16,1)', label:{show:true,textStyle:{color:'#E87C25'}}}},
-                data:[906,911,908,778,0]
-            },
-            {
-                name:'ECharts1 - 2k数据',
-                type:'line',
-                xAxisIndex:1,
-                itemStyle: {normal: {color:'rgba(193,35,43,0.5)', label:{show:true,formatter:function(p){return p.value > 0 ? (p.value +'\n'):'';}}}},
-                data:[96,224,164,124,0]
-            },
-            {
-                name:'ECharts1 - 2w数据',
-                type:'line',
-                xAxisIndex:1,
-                itemStyle: {normal: {color:'rgba(181,195,52,0.5)', label:{show:true}}},
-                data:[491,2035,389,955,347]
-            },
-            {
-                name:'ECharts1 - 20w数据',
-                type:'line',
-                xAxisIndex:1,
-                itemStyle: {normal: {color:'rgba(252,206,16,0.5)', label:{show:true,formatter:function(p){return p.value > 0 ? (p.value +'+'):'';}}}},
-                data:[3000,3000,2817,3000,0]
-            }
-        ]
-      })
-    },
+
     warnOpen(){
       this.$alert('使用量：模型比对一次算一次</br>报警量：模型比中</br>命中量：事件处理中确认该模型非误报', '提示', {
         dangerouslyUseHTMLString: true
