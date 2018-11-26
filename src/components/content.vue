@@ -13,7 +13,7 @@
       <el-carousel-item v-for="item in 3" :key="item">
       </el-carousel-item>
     </el-carousel> -->
-    <el-header height="150px">
+    <el-header height="101px">
       <img src="../assets/img/logoo.png"  @click="rightShow=null">
       <div class="top-right">
         <div class="top-nav">
@@ -543,6 +543,8 @@ export default {
 .top-right {
   display: flex;
   align-items: center;
+  position: absolute;
+  right: 88px;
 }
 
 .top-right-1 {
@@ -607,10 +609,14 @@ export default {
 }
 
 .el-header {
-  padding: 0 88px;
+
+  padding: 25px 88px 16px 88px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  color: #333;
+  /* height:101px; */
+  line-height: 60px;
 }
 
 .el-header img {}
@@ -630,12 +636,6 @@ export default {
   min-height: 830px;
   display: flex;
 
-}
-
-.el-header {
-  /* background-color: #B3C0D1; */
-  color: #333;
-  line-height: 60px;
 }
 
 .left {
