@@ -3,8 +3,8 @@
     <div class="" v-for="(i,ind) in dataArr" :key="ind">
       <div class="map-title">{{i.titleText}}</div>
       <div style="position:relative">
-        <el-button class="table-btn dz-btn" plain @click="cancel(i.censusParamBean.version)">取消定制</el-button>
-        <Vecharts :chartDatas="i" v-if="i.censusParamBean.version"></Vecharts>
+        <el-button class="table-btn dz-btn" plain @click="cancel(i.version)">取消定制</el-button>
+        <Vecharts :chartDatas="i" v-if="i.version"></Vecharts>
         <el-table
           :data="i.tableData"
           border
@@ -81,10 +81,13 @@ export default {
       }
       this.$api.post('/manage-platform/census/deleteCustom',p,
        r =>{
-         this.$message({
-           message: '删除成功！',
-           type: 'success'
-         });
+         if(r.success){
+           this.$message({
+             message: '删除成功！',
+             type: 'success'
+           });
+         }
+         this.getStart();
        })
     }
     // drawLiang(){
@@ -192,5 +195,6 @@ export default {
   top: 0px;
   height: 20px;
   line-height: 3px;
+  z-index: 100;
 }
 </style>

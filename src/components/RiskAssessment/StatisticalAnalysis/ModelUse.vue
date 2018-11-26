@@ -135,19 +135,19 @@
     </div>
     <div class="middle mb-2" v-for="(x,ind) in chartList" :key="ind">
       <div class="map-title">{{x.titleText}}</div>
-      <span class="tubiao hand borderL" :class="{'checked':x.censusParamBean.queryType==0}" @click="pd.queryType='0';getList();">量</span><span class="tubiao hand borderR" :class="{'checked':x.censusParamBean.queryType==1}" @click="pd.queryType='1';getList();">率</span>
+      <span class="tubiao hand borderL" :class="{'checked':x.censusParamBean.queryType==0}" @click="getType(x,ind,0);">量</span><span class="tubiao hand borderR" :class="{'checked':x.censusParamBean.queryType==1}" @click="getType(x,ind,1);">率</span>
       <div class="" style="position:relative;">
-        <el-button class="table-btn dz-btn" plain>定制</el-button>
+        <el-button class="table-btn dz-btn" plain @click="customized(x.censusParamBean)">定制</el-button>
 
-        <Vecharts :chartDatas="x" v-if="x.censusParamBean.version"></Vecharts>
+        <Vecharts :chartDatas="x" v-if="x.titleText"></Vecharts>
         <el-table
-          :data="tableData"
+          :data="x.tableData"
           border
           style="width: 100%;">
           <el-table-column
-            :label="data" v-for="(data,key) in header" :key="key">
+            :label="data" v-for="(data,key) in x.header" :key="key">
             <template slot-scope="scope">
-                {{tableData[scope.$index][key]}}
+                {{x.tableData[scope.$index][key]}}
             </template>
           </el-table-column>
         </el-table>
@@ -181,16 +181,16 @@ export default {
   data(){
     return{
       modelDialogVisible:false,
-      header:["A","B","C"],
-      tableData:[
-        [1, 2, 3],
-        [4,5,6]
-      ],
-      Lheader:["L","O","V","E"],
-      LtableData:[
-        ["a","b","c","4"],
-        [4,5,6,7]
-      ],
+      // header:["A","B","C"],
+      // tableData:[
+      //   [1, 2, 3],
+      //   [4,5,6]
+      // ],
+      // Lheader:["L","O","V","E"],
+      // LtableData:[
+      //   ["a","b","c","4"],
+      //   [4,5,6,7]
+      // ],
 
       isActive:true,
       page:0,
@@ -229,6 +229,17 @@ export default {
 
   },
   methods:{
+    customized(item){
+      this.$api.post('/manage-platform/census/saveCustom',item,
+       r =>{
+         if(r.success){
+           this.$message({
+             message: '保存成功！',
+             type: 'success'
+           });
+         }
+       })
+    },
     filterNode(value, data) {
       if (!value) return true;
       return data.name.indexOf(value) !== -1;
@@ -260,12 +271,12 @@ export default {
 
     },
     getType(item,index,type){
-      console.log("item",item)
-
+      // console.log("item",item)
       item.censusParamBean.queryType=type;
+      console.log("item.censusParamBean",item.censusParamBean);
       this.$api.post('/manage-platform/census/queryCensusByQueryType',item.censusParamBean,
        r => {
-         console.log(r)
+         // console.log(r)
          // this.chartItem=r.data;
          console.log(item,index,type);
          this.chartList.splice(index,1,r.data);
