@@ -111,16 +111,18 @@
         <el-table-column
           label="出发站"
           prop="portFrom"
-          width="80">
+          sortable
+          width="87">
         </el-table-column>
         <el-table-column
           label="目的站"
           prop="portTo"
-          width="80">
+          sortable
+          width="87">
         </el-table-column>
         <el-table-column
           label="出入标识"
-          width="80">
+          width="101">
           <template slot-scope="scope">
             <div>
               <span v-if="scope.row.ioType=='I'">入境</span>
@@ -133,11 +135,12 @@
           label="航班日期"
           prop="fltDate"
           sortable
-          width="110">
+          width="101">
         </el-table-column>
         <el-table-column
           label="航班状态"
-          width="80">
+          sortable
+          width="101">
           <template slot-scope="scope">
             <div>
               <span v-if="scope.row.status==0">计划</span>
@@ -167,19 +170,19 @@
           label="值机时间"
           prop="checkInTime"
           sortable
-          width="110">
+          width="101">
         </el-table-column>
         <el-table-column
           label="计划起降时间"
           prop="scheduleDaTime"
           sortable
-          width="130">
+          width="101">
         </el-table-column>
         <el-table-column
           label="实际起降时间"
           prop="daTime"
           sortable
-          width="130">
+          width="101">
         </el-table-column>
         <el-table-column
           label="值机人员详情">
@@ -249,6 +252,7 @@
         <el-pagination
           background
           @current-change="handleCurrentChange"
+          :current-page.sync ="CurrentPage"
           :page-size="pageSize"
           layout="prev, pager, next"
           :total="TotalResult">
@@ -262,15 +266,15 @@
       <div class="detail-msg-text">
         <el-row  class="detail-msg-row">
           <el-col :sm="24" :md="12" :lg="8" >
-            <span>航班号</span>
+            <span>航班号：</span>
             {{detailsData.fltNo}}
           </el-col>
           <el-col :sm="24" :md="12" :lg="8" >
-            <span>航班日期</span>
+            <span>航班日期：</span>
             {{detailsData.fltDate}}
           </el-col>
           <el-col :sm="24" :md="12" :lg="8" >
-            <span>出入境标识</span>
+            <span>出入境标识：</span>
             <!-- {{detailsData.ioType}} -->
             <a v-if="detailsData.ioType=='I'">入境</a>
             <a v-if="detailsData.ioType=='O'">出境</a>
@@ -278,29 +282,29 @@
           </el-col>
 
           <el-col :sm="24" :md="12" :lg="8" >
-            <span>出发地</span>
+            <span>出发地：</span>
             {{detailsData.portFrom}}
 
           </el-col>
           <el-col :sm="24" :md="12" :lg="8" >
-            <span>目的地</span>
+            <span>目的地：</span>
             {{detailsData.portTo}}
           </el-col>
           <el-col :sm="24" :md="12" :lg="8" >
-            <span>航空公司</span>
+            <span>航空公司：</span>
             {{detailsData.airlineCompany}}
           </el-col>
 
           <el-col :sm="24" :md="12" :lg="8" >
-            <span>预计起飞时间</span>
+            <span>预计起飞时间：</span>
             {{detailsData.departuretime}}
           </el-col>
           <el-col :sm="24" :md="12" :lg="8" >
-            <span>预计到达时间</span>
+            <span>预计到达时间：</span>
             {{detailsData.arrivetime}}
           </el-col>
           <el-col :sm="24" :md="12" :lg="8" >
-            <span>航班状态</span>
+            <span>航班状态：</span>
             <!-- {{detailsData.status}} -->
             <a v-if="detailsData.status==0">计划</a>
             <a v-if="detailsData.status==1">已预检</a>
@@ -312,63 +316,63 @@
             <a v-if="detailsData.status==7">无值机报文</a>
           </el-col>
           <el-col :sm="24" :md="12" :lg="8" >
-            <span>实际起飞时间</span>
+            <span>实际起飞时间：</span>
             {{detailsData.realDeparturetime}}
           </el-col>
           <el-col :sm="24" :md="12" :lg="8" >
-            <span>实际到达时间</span>
+            <span>实际到达时间：</span>
             {{detailsData.realArrivetime}}
           </el-col>
           <el-col :sm="24" :md="12" :lg="8" >
-            <span>值机时间</span>
+            <span>值机时间：</span>
             {{detailsData.checkInTime}}
           </el-col>
           <el-col :sm="24" :md="12" :lg="8" >
-            <span>订票总人数</span>
+            <span>订票总人数：</span>
             {{detailsData.bookingcount}}
           </el-col>
           <el-col :sm="24" :md="12" :lg="8" >
-            <span>值机人数</span>
+            <span>值机人数：</span>
             {{detailsData.gatNum}}
           </el-col>
           <el-col :sm="24" :md="12" :lg="8" >
-            <span>黑名单人数</span>
+            <span>黑名单人数：</span>
             {{detailsData.blkNum}}
           </el-col>
           <el-col :sm="24" :md="12" :lg="8" >
-            <span>临控名单人数</span>
+            <span>临控名单人数：</span>
             {{detailsData.ctlNum}}
           </el-col>
           <el-col :sm="24" :md="12" :lg="8" >
-            <span>重点关注名单人数</span>
+            <span>重点关注名单人数：</span>
             {{detailsData.fcsNum}}
           </el-col>
           <el-col :sm="24" :md="12" :lg="8" >
-            <span>白名单人数</span>
+            <span>白名单人数：</span>
             {{detailsData.whtNum}}
           </el-col>
           <el-col :sm="24" :md="12" :lg="8" >
-            <span>内地人数</span>
+            <span>内地人数：</span>
             {{detailsData.inlandNum}}
           </el-col>
           <el-col :sm="24" :md="12" :lg="8" >
-            <span>港澳台人数</span>
+            <span>港澳台人数：</span>
             {{detailsData.gatNum}}
           </el-col>
           <el-col :sm="24" :md="12" :lg="8" >
-            <span>外国人人数</span>
+            <span>外国人人数：</span>
             {{detailsData.foreignNum}}
           </el-col>
           <el-col :sm="24" :md="12" :lg="8" >
-            <span>允许登机人数</span>
+            <span>允许登机人数：</span>
             {{detailsData.chk0Z}}
           </el-col>
           <el-col :sm="24" :md="12" :lg="8" >
-            <span>实际登机人数</span>
+            <span>实际登机人数：</span>
             {{detailsData.boarding}}
           </el-col>
           <el-col :sm="24" :md="12" :lg="8" >
-            <span>非法运载人数</span>
+            <span>非法运载人数：</span>
             {{detailsData.illegalBoarding}}
           </el-col>
 
@@ -391,7 +395,7 @@ export default {
       pageSize:10,
       TotalResult:0,
       bjsj:[],
-      pd:{whtSel:0,blkSel:0,ctlSel:0,fcsSel:0,fltDateFr:'',fltDateTo:''},
+      pd:{whtSel:'0',blkSel:'0',ctlSel:'0',fcsSel:'0',fltDateFr:'',fltDateTo:''},
       airport:null,
       options:[
         {
@@ -423,6 +427,7 @@ export default {
     let begin = new Date(end - 24*60*60*1000);
     this.pd.fltDateFr= formatDate(begin, 'yyyyMMdd');
     this.pd.fltDateTo= formatDate(end, 'yyyyMMdd');
+    // this.initTimer()
     this.getList(this.CurrentPage,this.pageSize,this.pd);
 
     if(this.checked){
@@ -430,7 +435,7 @@ export default {
       console.log(that.CurrentPage,that.pageSize,that.pd)
       this.timer=setInterval(function(){
         that.getList(that.CurrentPage,that.pageSize,that.pd);
-      },15000)
+      },30000)
     }
 
   },
@@ -444,7 +449,7 @@ export default {
         let that=this;
         this.timer=setInterval(function(){
           that.getList(that.CurrentPage,that.pageSize,that.pd);
-        },15000)
+        },30000)
       }else{
         clearInterval(this.timer);
       }
@@ -452,11 +457,13 @@ export default {
   },
   methods:{
     pageSizeChange(val) {
-      this.getList(this.CurrentPage,val,this.pd);
+      this.pageSize=val;
+      this.getList(this.CurrentPage,this.pageSize,this.pd);
       console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
-      this.getList(val,this.pageSize,this.pd);
+      this.CurrentPage=val
+      this.getList(this.CurrentPage,this.pageSize,this.pd);
       console.log(`当前页: ${val}`);
     },
     queryAirport(){
@@ -484,9 +491,9 @@ export default {
       // console.log(this.bjsj,pd)
 
       let arr =this.bjsj;
-      pd.whtSel=0;pd.blkSel=0;pd.ctlSel=0;pd.fcsSel=0;
+      pd.whtSel='0';pd.blkSel='0';pd.ctlSel='0';pd.fcsSel='0';
       for(var i=0;i<arr.length;i++){
-        pd[arr[i]]=1;
+        pd[arr[i]]='1';
       }
       // console.log(pd)
 

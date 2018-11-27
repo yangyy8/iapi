@@ -1652,7 +1652,7 @@ export default {
              this.data6=r.data.data.dcap_f_per_act_psr_imm;
              break;
            case 'immcard':
-             // this.data6=r.data.data.dcap_f_per_act_psr_imm;
+             this.data7=r.data.data.dcap_f_per_act_psr_imm;
              break;
            case 'visa':
              if(r.data.data.dcap_f_per_cert_chn_issue){

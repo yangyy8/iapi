@@ -124,6 +124,7 @@
         <el-pagination
           background
           @current-change="handleCurrentChange"
+          :current-page.sync ="CurrentPage"
           :page-size="pageSize"
           layout="prev, pager, next"
           :total="TotalResult">
@@ -215,11 +216,13 @@ export default {
   },
   methods:{
     pageSizeChange(val) {
-      this.getList(this.CurrentPage,val,this.pd);
+      this.pageSize=val;
+      this.getList(this.CurrentPage,this.pageSize,this.pd);
       console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
-      this.getList(val,this.pageSize,this.pd);
+      this.CurrentPage=val
+      this.getList(this.CurrentPage,this.pageSize,this.pd);
       console.log(`当前页: ${val}`);
     },
     queryAirport(){

@@ -84,8 +84,6 @@
           <el-tooltip class="item" effect="light" content="展开菜单" placement="left">
               <img :src='"../assets/img/spread_"+navh+".png"' >
           </el-tooltip>
-
-
         </div>
       </el-aside>
       <el-main class="right-main" :class="{'nobg':tabList.length==0}">
