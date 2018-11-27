@@ -4,7 +4,7 @@
       <div class="map-title">{{i.titleText}}</div>
       <div style="position:relative">
         <el-button class="table-btn dz-btn" plain @click="cancel(i.version)">取消定制</el-button>
-        <Vecharts :chartDatas="i" v-if="i.version"></Vecharts>
+        <Vecharts :chartDatas="i" v-if="i.version" :chartsId="ind"></Vecharts>
         <el-table
           :data="i.tableData"
           border
@@ -32,31 +32,20 @@ export default {
   },
   data(){
     return{
-      // header:["A","B","C"],
-      // tableData:[
-      //   [1, 2, 3],
-      //   [4,5,6]
-      // ],
       liangChart:null,
-      // legendData:[],
-      // series:[],
       text:'',
       dataArr:[],
     }
   },
-  mounted() {
-    this.getStart();
-  },
-  // activated() {
+  // mounted() {
   //   this.getStart();
   // },
-  // getList(p){
-  //   alert(1);
-  //   this.$api.post('/manage-platform/census/queryCensusByQueryType',p,
-  //    r =>{
-  //
-  //    })
+  // created(){
+  //   this.getStart();
   // },
+  activated() {
+    this.getStart();
+  },
   methods:{
     getStart(){
       this.$api.post('/manage-platform/census/customIndex',{},

@@ -133,7 +133,7 @@
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
             <span class="yy-input-text">名单类型名称：</span>
-          <span class="yy-input-input detailinput">  {{mapForm.ROLE_NAME}}</span>
+          <span class="yy-input-input detailinput">  {{mapForm.NAME}}</span>
             </el-col>
         </el-row>
 
@@ -142,19 +142,19 @@
         <el-row type="flex" class="mb-6" >
           <el-col :span="24" class="input-item">
             <span class="yy-input-text">名单类型描述：</span>
-          <span class="yy-input-input detailinput">  {{mapForm.REMARKS}}</span>
+          <span class="yy-input-input detailinput">  {{mapForm.COUNT}}</span>
           </el-col>
         </el-row>
         <el-row type="flex" class="mb-6" >
           <el-col :span="24" class="input-item">
             <span class="yy-input-text">创建人：</span>
-          <span class="yy-input-input detailinput">  {{mapForm.CREATE_TIME}}</span>
+          <span class="yy-input-input detailinput">  {{mapForm.CREATEUSER}}</span>
           </el-col>
         </el-row>
         <el-row type="flex" class="mb-6" >
           <el-col :span="24" class="input-item">
             <span class="yy-input-text">创建时间：</span>
-          <span class="yy-input-input detailinput">  {{mapForm.CREATE_TIME}}</span>
+          <span class="yy-input-input detailinput">  {{mapForm.CREATETIME}}</span>
           </el-col>
         </el-row>
       </el-form>
@@ -334,7 +334,7 @@ export default {
       let p = {
         "id": i.SERIAL
       };
-      this.$confirm('您是否确认删除此角色？', '提示', {
+      this.$confirm('您是否确认删除？', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'

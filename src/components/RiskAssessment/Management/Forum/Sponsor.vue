@@ -72,6 +72,7 @@ export default {
       fileData: null,
       SERIAL: "",
       ylDialogVisible:false,
+      content:"",
 
     }
   },
@@ -102,6 +103,7 @@ export default {
     getList() {
 
       this.SERIAL = this.$route.params.SERIAL;
+      this.content="";
       if (this.SERIAL != "" && this.SERIAL!=undefined) {
         let p = {
           "SERIAL": this.SERIAL
@@ -118,6 +120,7 @@ export default {
            }
            editor.create()
            editor.txt.html(r.data.COUNT);
+           this.content=r.data.COUNT;
           });
       }
     },
@@ -144,6 +147,12 @@ export default {
         });
         return false
       }
+
+
+        if(this.content!="" && (pd.COUNT == undefined || pd.COUNT.trim() == "")){
+          pd.COUNT=this.content;
+        }
+
 
       if (pd.COUNT == undefined || pd.COUNT.trim() == "") {
 
