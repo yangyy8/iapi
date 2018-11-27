@@ -427,6 +427,7 @@ export default {
 
     if(this.checked){
       let that=this;
+      console.log(that.CurrentPage,that.pageSize,that.pd)
       this.timer=setInterval(function(){
         that.getList(that.CurrentPage,that.pageSize,that.pd);
       },15000)
@@ -480,7 +481,7 @@ export default {
     },
     // 航班实时查询
     getList(CurrentPage,showCount,pd){
-      console.log(this.bjsj,pd)
+      // console.log(this.bjsj,pd)
 
       let arr =this.bjsj;
       pd.whtSel=0;pd.blkSel=0;pd.ctlSel=0;pd.fcsSel=0;

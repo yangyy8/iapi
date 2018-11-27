@@ -167,7 +167,6 @@ export default {
       pageSize:10,
       TotalResult:0,
       pd:{},
-      airport:null,
       nationAlone:null,
       docCode:null,
       tagList:[],

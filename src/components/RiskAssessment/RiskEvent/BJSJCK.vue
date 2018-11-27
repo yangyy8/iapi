@@ -340,10 +340,10 @@
                     <el-select :disabled="!operation_type" v-model="box4Data.riskDescRecordEntity.change_port" filterable clearable placeholder="请选择"  size="small" class="input-input">
                       <el-option
                         v-for="item in airport"
-                        v-if="item.JCDM"
-                        :key="item.JCDM"
-                        :label="item.JCDM+' - '+item.KAMC"
-                        :value="item.JCDM">
+                        v-if="item.DEPT_CODE"
+                        :key="item.DEPT_CODE"
+                        :label="item.DEPT_CODE+' - '+item.DEPT_JC"
+                        :value="item.DEPT_CODE">
                       </el-option>
                     </el-select>
                   </el-col>
@@ -480,7 +480,7 @@ export default {
       })
     },
     queryAirport(){
-      this.$api.post('/manage-platform/codeTable/queryAirportMatch',{},
+      this.$api.post('/manage-platform/riskEventController/getDeptInfo',{},
        r => {
          if(r.success){
            this.airport=r.data;
