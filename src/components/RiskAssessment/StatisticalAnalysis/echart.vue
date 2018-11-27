@@ -27,8 +27,8 @@ export default {
       default:{titleText:"kk"}
     },
     'chartsId':{
-      type:String,
-      default:'0'
+      type:Number,
+      default:0
     }
   },
   mounted(){

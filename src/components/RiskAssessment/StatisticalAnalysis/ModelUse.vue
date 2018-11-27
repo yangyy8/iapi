@@ -399,5 +399,6 @@ export default {
   width: 20px!important;
   height: 20px;
   line-height: 3px;
+  z-index: 100;
 }
 </style>

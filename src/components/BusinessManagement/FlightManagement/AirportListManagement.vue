@@ -105,14 +105,14 @@
             <span v-if="scope.row.weidu">{{scope.row.weidu + '°'}}</span>
           </template>
         </el-table-column>
-        <el-table-column
+        <!-- <el-table-column
           prop="airportDesc"
-          label="机场描述"
-          show-overflow-tooltip="true">
-        </el-table-column>
+          label="机场描述">
+        </el-table-column> -->
         <el-table-column
           label="操作" width="200">
           <template slot-scope="scope">
+            <el-button class="table-btn" size="mini" plain icon="el-icon-edit" @click="detail(scope.row.airportDesc)">详情</el-button>
               <el-button class="table-btn" size="mini" plain icon="el-icon-edit" @click="adds(1,scope.row)">编辑</el-button>
               <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="deletes(scope.row)">删除</el-button>
          </template>
@@ -264,6 +264,12 @@
         <el-button @click="cancelUpload" size="small">取 消</el-button>
       </div>
     </el-dialog>
+    <el-dialog title="详情" :visible.sync="detailsDialogVisible" width="500px" >
+      <span class="detailClass">{{content}}</span>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="detailsDialogVisible = false" size="small">取 消</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -295,6 +301,7 @@ export default {
       pd: {},
       nation: [],
       company: [],
+      content:'',
 
       value: '',
       value1: "",
@@ -338,6 +345,10 @@ export default {
             this.company = r.data.deptList;
           }
         })
+    },
+    detail(item){
+      this.detailsDialogVisible = true;
+      this.content = item;
     },
     handleSelectionChange(val) {
       this.multipleSelection = val;
@@ -665,5 +676,8 @@ function checkRate(nubmer) {　　
 }
 .width-ts{
   width: 20.3%!important;
+}
+.detailClass{
+
 }
 </style>
