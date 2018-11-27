@@ -294,7 +294,7 @@
         </el-upload>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="cancelUpload" size="small">取 消</el-button>
+        <el-button @click="cancelUpload" size="small">关 闭</el-button>
       </div>
     </el-dialog>
   </div>
