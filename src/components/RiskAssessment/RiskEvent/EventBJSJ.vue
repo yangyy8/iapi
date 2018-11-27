@@ -88,9 +88,13 @@
               <el-col :sm="24" :md="12"  :lg="8" class="input-item">
                 <span class="input-text">命中模型：</span>
                 <el-select v-model="pd.hit_mode" placeholder="请选择"  size="small" clearable filterable class="block input-input">
-                  <el-option label="I - 入境" value="I"></el-option>
-                  <el-option label="O - 出境" value="O"></el-option>
-                  <el-option label="A - 入出境" value="A"></el-option>
+                  <el-option
+                    v-for="item in ModelHis"
+                    v-if="item.MODEL_CODE"
+                    :key="item.MODEL_CODE"
+                    :label="item.MODEL_CODE+' - '+item.MODEL_JC"
+                    :value="item.MODEL_CODE">
+                  </el-option>
                 </el-select>
               </el-col>
               <el-col :sm="24" :md="12"  :lg="8" class="input-item">
@@ -106,10 +110,10 @@
                 <el-select v-model="pd.centre_port" placeholder="请选择"  size="small" clearable filterable class="block input-input">
                   <el-option
                     v-for="item in airport"
-                    v-if="item.JCDM"
-                    :key="item.JCDM"
-                    :label="item.JCDM+' - '+item.KAMC"
-                    :value="item.JCDM">
+                    v-if="item.DEPT_CODE"
+                    :key="item.DEPT_CODE"
+                    :label="item.DEPT_CODE+' - '+item.DEPT_JC"
+                    :value="item.DEPT_CODE">
                   </el-option>
                 </el-select>
               </el-col>
@@ -178,7 +182,7 @@
           ref="multipleTable"
           :data="tableData"
           border
-          cell-class-name="cellClass"
+
           @selection-change="handleSelectionChange"
           style="width: 100%;">
           <el-table-column
@@ -356,10 +360,10 @@
             <el-select v-model="czform.change_port" filterable clearable placeholder="请选择"  size="small" class="input-input">
               <el-option
                 v-for="item in airport"
-                v-if="item.JCDM"
-                :key="item.JCDM"
-                :label="item.JCDM+' - '+item.KAMC"
-                :value="item.JCDM">
+                v-if="item.DEPT_CODE"
+                :key="item.DEPT_CODE"
+                :label="item.DEPT_CODE+' - '+item.DEPT_JC"
+                :value="item.DEPT_CODE">
               </el-option>
             </el-select>
           </el-col>
@@ -413,7 +417,7 @@
             </div>
             <el-checkbox-group
               v-model="checkedtag">
-              <el-checkbox v-for="i in tagData[taged]" :label="i.code" :key="i.code">{{i.name}}</el-checkbox>
+              <el-checkbox v-for="i in tagData[taged]" :label="i" :key="i.tag_code">{{i.tag_name}}</el-checkbox>
             </el-checkbox-group>
           </div>
         </div>
@@ -431,6 +435,7 @@
 export default {
   data(){
     return{
+      user:null,
       tagData:{},
       moreShow:false,
       page: 0,
@@ -444,6 +449,7 @@ export default {
       airport:null,
       docCode:null,
       nationAlone:null,
+      ModelHis:null,
       isdisable:true,
       options:[
         {
@@ -579,6 +585,8 @@ export default {
     this.queryAirport();
     this.queryNationalityAlone();
     this.queryDocCode();
+    this.getRiskModelHisInfo();
+    this.getUers();
   },
   activated(){
     this.getList(this.CurrentPage,this.pageSize,this.pd);
@@ -605,7 +613,7 @@ export default {
       done();
     },
     queryAirport(){
-      this.$api.post('/manage-platform/codeTable/queryAirportMatch',{},
+      this.$api.post('/manage-platform/riskEventController/getDeptInfo',{},
        r => {
          if(r.success){
            this.airport=r.data;
@@ -626,6 +634,14 @@ export default {
        r => {
          if(r.success){
            this.docCode=r.data;
+         }
+      })
+    },
+    getRiskModelHisInfo(){
+      this.$api.post('/manage-platform/riskEventController/getRiskModelHisInfo',{},
+       r => {
+         if(r.success){
+           this.ModelHis=r.data;
          }
       })
     },
@@ -670,7 +686,7 @@ export default {
           "processorResult":that.czform.processorResult,
     			"change_port":that.czform.change_port,
     			"processor_desc":that.czform.processor_desc,
-        	"processor_people":arr1[i].processor_people,
+        	"processor_people":this.user.userId,
     			"serial":arr1[i].serial
         }
         p.list.push(a)
@@ -684,6 +700,8 @@ export default {
              type: 'success'
            });
            this.czDialogVisible=false;
+           this.getList(this.CurrentPage,this.pageSize,this.pd);
+           
          }
       })
     },
@@ -710,10 +728,18 @@ export default {
 
       })
     },
+    getUers(){
+      this.$api.post('/manage-platform/sysUserInfoController/querySysUserInfo',{},
+       r => {
+        console.log(r)
+        this.user=r.data;
+      })
+    },
     gdSave(){
       let arr1=this.multipleSelection;
       let p={
-        list:[]
+        list:[],
+        userId:this.user.userId
       };
       let that=this;
       for(var i=0;i<arr1.length;i++){
@@ -721,19 +747,17 @@ export default {
           "eventSerial":arr1[i].serial,
     			"newcheckresult":arr1[i].newcheckresult,
     			"archive_pepole":arr1[i].archive_pepole,
+          "nationality":arr1[i].nationality,
+          "passportno":arr1[i].passportno,
     			"describe":that.gdform.describe,
     			"type":"1",
     			"IOType":that.gdform.processorResult[0],
     			"firstType":that.gdform.processorResult[1],
     			"secondType":that.gdform.processorResult[2],
-    			"tag_type":"1",
-    			"tag_code":"111",
-    			"tag_name":"111",
-    			"tag_remar":"111",
-    			"userId":"111",
-    			"operation_type":"1",
-    			"add_remark":"111",
-    			"add_tagtype":"2"
+          "operation_type":1,
+          "tag_type":2,
+          "add_tagtype":2,
+          "tagList":this.checkedtag
         }
         p.list.push(a)
       }
