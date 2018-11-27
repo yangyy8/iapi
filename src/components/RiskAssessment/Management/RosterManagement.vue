@@ -38,7 +38,7 @@
             </el-col>
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                 <span class="input-text">国籍/地区：</span>
-                <el-select v-model="pd.NATIONALITY" filterable clearable @visible-change="queryNationality" placeholder="请选择"  size="small" class="input-input">
+                <el-select v-model="pd.NATIONALITY" filterable clearable placeholder="请选择"  size="small" class="input-input">
                   <el-option
                     v-for="item in nation"
                     :key="item.CODE"
@@ -62,12 +62,15 @@
       </el-col>
       <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
       <span class="input-text">名单类型：</span>
-      <el-select v-model="pd.TYPE" placeholder="请选择"  filterable clearable size="small" class="input-input">
-       <el-option value="重点维族人" label="重点维族人">
-       </el-option>
-       <el-option value="黑名单" label="黑名单">
-       </el-option>
+            <el-select v-model="pd.TYPE" filterable clearable  placeholder="请选择"  size="small" class="input-input">
+        <el-option
+          v-for="(item,ind) in mdtype"
+          :key="ind"
+          :label="item.NAME"
+          :value="item.SERIAL">
+        </el-option>
       </el-select>
+
       </el-col>
       <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
         <span class="input-text">有效期：</span>
@@ -117,9 +120,11 @@
           label="姓名">
         </el-table-column>
          <el-table-column
-          prop="GENDER"
           label="性别"
           >
+          <template slot-scope="scope">
+              {{scope.row.GENDER | fiftersex}}
+            </template>
         </el-table-column>
         <el-table-column
           prop="DATEOFBIRTH"
@@ -130,8 +135,10 @@
           label="国籍">
         </el-table-column>
         <el-table-column
-          prop="CARDTYPE"
           label="证件种类">
+          <template slot-scope="scope">
+              {{scope.row.CARDTYP | fiftertt}}
+            </template>
         </el-table-column>
         <el-table-column
           prop="CARDNO"
@@ -264,12 +271,14 @@
 
           <el-col :span="12" class="input-item">
             <span class="yy-input-text" style="width:18%"><font class="yy-color">*</font> 名单类型：</span>
-            <el-select v-model="form.TYPE_CODE" placeholder="请选择"  filterable clearable size="small" class="yy-input-input">
-               <el-option value="重点维族人" label="重点维族人">
-               </el-option>
-               <el-option value="黑名单" label="黑名单">
-               </el-option>
-             </el-select>
+             <el-select v-model="form.TYPE_CODE" filterable clearable  placeholder="请选择"  size="small" class="yy-input-input">
+         <el-option
+           v-for="(item,ind) in mdtype"
+           :key="ind"
+           :label="item.NAME"
+           :value="item.SERIAL">
+         </el-option>
+       </el-select>
           </el-col>
         </el-row>
         <el-row type="flex" class="mb-6">
@@ -297,7 +306,7 @@
 
           <el-col :span="12" class="input-item">
             <span class="yy-input-text">证件种类：</span>
-          <span class="yy-input-input detailinput">  {{mapForm.CARDTYPE}}</span>
+          <span class="yy-input-input detailinput">  {{mapForm.CARDTYPE=="T"?"区域证件":"护照"}}</span>
           </el-col>
         </el-row>
         <el-row type="flex" class="mb-6" >
@@ -308,14 +317,14 @@
 
           <el-col :span="12" class="input-item">
             <span class="yy-input-text">姓名：</span>
-          <span class="yy-input-input detailinput">  {{mapForm.FAMILYNAME}}</span>
+          <span class="yy-input-input detailinput">  {{mapForm.RISKDICTIONARIES}}</span>
           </el-col>
         </el-row>
 
         <el-row type="flex" class="mb-6" >
           <el-col :span="12" class="input-item">
             <span class="yy-input-text">性别：</span>
-          <span class="yy-input-input detailinput">  {{mapForm.GENDER}}</span>
+          <span class="yy-input-input detailinput">  {{mapForm.GENDER=="U"?"未知":mapForm.GENDER=="F"?"女":"男"}}</span>
           </el-col>
 
           <el-col :span="12" class="input-item">
@@ -330,7 +339,7 @@
           </el-col>
           <el-col :span="12" class="input-item">
             <span class="yy-input-text">名单类型：</span>
-          <span class="yy-input-input detailinput">  {{mapForm.TYPE_NAME}}</span>
+          <span class="yy-input-input detailinput">  {{mapForm.TYPENAME}}</span>
           </el-col>
         </el-row>
         <el-row type="flex" class="mb-6" >
@@ -342,7 +351,7 @@
         <el-row type="flex" class="mb-6" >
           <el-col :span="12" class="input-item">
             <span class="yy-input-text">操作人：</span>
-          <span class="yy-input-input detailinput">  {{mapForm.CREATEUSER}}</span>
+          <span class="yy-input-input detailinput">  {{mapForm.CREATEUSERNAME}}</span>
           </el-col>
           <el-col :span="12" class="input-item">
             <span class="yy-input-text">操作时间：</span>
@@ -357,10 +366,26 @@
 
     <el-dialog title="上传模板" :visible.sync="uploadDialogVisible"  width="640px">
       <el-form >
+        <el-row type="flex" class="mb-6">
+          <el-col :span="24" class="input-item">
+        <span style="width:18%;vertical-align: top;"><font class="yy-color">*</font> 名单类型：</span>
+         <el-select v-model="typemd" filterable clearable  placeholder="请选择"  size="small" class="yy-input-input">
+     <el-option
+       v-for="(item,ind) in mdtype"
+       :key="ind"
+       :label="item.NAME"
+       :value="item.SERIAL">
+     </el-option>
+     </el-select>
+   </el-col>
+ </el-row>
+ <el-row type="flex" class="mb-6">
+   <el-col :span="24" class="input-item">
+    <span style="width:18%;vertical-align: top;"><font class="yy-color">*</font> EXCEL文件：</span>
         <el-upload
-          class="upload-demo"
+          class="yy-input-input"
           ref="upload"
-          :action='$api.rootUrl+"/manage-platform/nameList/readExcel/1"'
+          :action='actions+"/manage-platform/riskNameList/riskReadExcel/"+typemd'
           :file-list="fileList"
           multiple
           :on-success="upSuccess"
@@ -369,9 +394,10 @@
           :auto-upload="false">
           <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
           <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">上传到服务器</el-button>
-          <div slot="tip" class="el-upload__tip">只能上传EXCEL文件</div>
+          <span slot="tip" class="el-upload__tip">只能上传EXCEL文件</span>
         </el-upload>
-
+      </el-col>
+    </el-row>
       </el-form>
     </el-dialog>
   </div>
@@ -385,14 +411,15 @@ export default {
       CurrentPage: 1,
       pageSize: 10,
       TotalResult: 0,
+      typemd:"",
       pd: {},
       company: [],
-      fileList:[],
-      sertail:"",
-      dialogText:"新增",
+      fileList: [],
+      sertail: "",
+      dialogText: "新增",
       addDialogVisible: false,
       detailsDialogVisible: false,
-      uploadDialogVisible:false,
+      uploadDialogVisible: false,
       menuDialogVisible: false,
       options: [{
           value: 10,
@@ -408,14 +435,16 @@ export default {
         }
       ],
       tableData: [],
+      actions:"",
       menudata: [],
       defaultProps: {
         children: 'menuList',
         label: 'name'
       },
-      defaultChecked:[],
-      nation:[],
+      defaultChecked: [],
+      nation: [],
       multipleSelection: [],
+      mdtype:[],
       pickerOptions1: {
         // shortcuts: [{
         //   text: '今天',
@@ -441,14 +470,18 @@ export default {
       form: {},
       mapForm: {},
       Airport: [],
+      typecode:""
     }
   },
   mounted() {
     this.getList(this.CurrentPage, this.pageSize, this.pd);
     this.queryNationality();
+    this.queryType();
   },
-  activated(){
+  activated() {
     this.getList(this.CurrentPage, this.pageSize, this.pd);
+    this.queryNationality();
+    this.queryType();
   },
   methods: {
     handleSelectionChange(val) {
@@ -470,13 +503,13 @@ export default {
       };
       this.$api.post('/manage-platform/riskNameList/getRiskNameListPage', p,
         r => {
-      //    console.log("----" + r);
+          //    console.log("----" + r);
           this.tableData = r.data.resultList;
           this.TotalResult = r.data.totalResult;
         })
     },
-    download(){
-      window.location.href=this.$api.rootUrl+'/manage-platform/templateFile/riskNameListFile.xlsx'
+    download() {
+      window.location.href = this.$api.rootUrl + '/manage-platform/templateFile/riskNameListFile.xlsx'
     },
     queryNationality() {
       this.$api.post('/manage-platform/codeTable/queryNationality', {},
@@ -487,26 +520,35 @@ export default {
           }
         })
     },
+    queryType() {
+      this.$api.post('manage-platform/riskNamelistType/getnamelistType', {},
+        r => {
+          console.log(r);
+          if (r.success) {
+            this.mdtype = r.data;
+          }
+        })
+    },
     adds(n, i) {
       this.addDialogVisible = true;
       if (n != 0) {
         this.tp = 1;
         // this.form = i;
-        this.form=Object.assign({}, i);
-        this.dialogText="编辑";
-      }else {
-          this.tp = 0;
-        this.dialogText="新增";
+        this.form = Object.assign({}, i);
+        this.form.FAMILYNAME = i.RISKDICTIONARIES;
+        this.dialogText = "编辑";
+      } else {
+        this.tp = 0;
+        this.dialogText = "新增";
       }
     },
     addItem(formName) {
-            if(this.$validator.listener.demo2){
-              const result = this.$validator.verifyAll('demo2')
-               if (result.indexOf(false) > -1) {
-                 return
-               } else {
-               }
-            }
+      if (this.$validator.listener.demo2) {
+        const result = this.$validator.verifyAll('demo2')
+        if (result.indexOf(false) > -1) {
+          return
+        } else {}
+      }
       var url = "/manage-platform/riskNameList/addRiskNameList";
       if (this.tp == 1) {
         url = "/manage-platform/riskNameList/updateRiskNameList";
@@ -522,7 +564,7 @@ export default {
           } else {
             this.$message.error(r.Message);
           }
-        //  this.$refs[formName].resetFields();
+          //  this.$refs[formName].resetFields();
           this.addDialogVisible = false;
           this.getList(this.CurrentPage, this.pageSize, this.pd);
           // this.tableData=r.Data.ResultList;
@@ -567,49 +609,80 @@ export default {
       });
     },
 
-    showUpload(){
-     this.uploadDialogVisible=true;
-     console.log( this.$refs.upload)
-     if( this.$refs.upload){
-       this.$refs.upload.clearFiles();
-     }
+    showUpload() {
+      this.uploadDialogVisible = true;
+      this.actions=this.$api.rootUrl;
+      console.log(this.$refs.upload)
+      if (this.$refs.upload) {
+        this.$refs.upload.clearFiles();
+      }
     },
-    upSuccess(r){
-     //console.log(r);
-     if(r.success){
-       this.$message({
-         message: r.data,
-         type: 'success'
-       });
-      this.uploadDialogVisible=false ;
+    upSuccess(r) {
+      //console.log(r);
+      if (r.success) {
+        this.$message({
+          message: r.data,
+          type: 'success'
+        });
+        this.uploadDialogVisible = false;
 
-      this.getList(this.CurrentPage,this.pageSize,this.pd);
-     }
-   },
-   beforeAvatarUpload(file){
-    console.log(file.type)
-    const isEXL = file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+        this.getList(this.CurrentPage, this.pageSize, this.pd);
+      }
+    },
+    beforeAvatarUpload(file) {
+      console.log(file.type)
+      const isEXL = file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
 
-    if (!isEXL) {
-      this.$message.error('上传文件只能是 xlsl 格式!');
-    }
-    return isEXL ;
-   },
-   submitUpload() {
-    console.log(this.$refs.upload)
+      if (!isEXL) {
+        this.$message.error('上传文件只能是 xlsl 格式!');
+      }
+      return isEXL;
+    },
 
-    if(this.$refs.upload.uploadFiles.length==0){
-      this.$message({
-       message: '请先选择文件！',
-       type: 'warning'
-     });
-      return
-    }
-    this.$refs.upload.submit();
-   },
+    submitUpload() {
+      console.log(this.$refs.upload)
+
+      if(this.typemd=="" || this.typemd==undefined){
+
+        this.$message({
+          message: '请先选择名单类型！',
+          type: 'warning'
+        });
+        return
+      }
+      if (this.$refs.upload.uploadFiles.length == 0) {
+        this.$message({
+          message: '请先选择文件！',
+          type: 'warning'
+        });
+        return
+      }
+
+
+      this.$refs.upload.submit();
+    },
   },
   filters: {
 
+    fiftersex(val) {
+      if (val == "U") {
+
+        return "未知"
+
+      } else if (val == "M") {
+        return "男"
+      } else {
+        return "女";
+      }
+    },
+    fiftertt(val) {
+      if (val == "T") {
+        "区域证件"
+      } else {
+        return "护照";
+      }
+
+    }
   },
 }
 </script>
@@ -618,19 +691,24 @@ export default {
 .add-dialog {
   /* padding-left:40px; */
 }
+
 .detail-msg-row {
   color: #999;
   line-height: 32px;
 }
+
 .detail-msg-row span {
   color: #333;
   display: inline-block;
   width: 60px;
 }
+
 .yy-input-text {
   width: 25% !important;
 }
+
 .yy-input-input {
   width: 68% !important;
 }
+
 </style>
