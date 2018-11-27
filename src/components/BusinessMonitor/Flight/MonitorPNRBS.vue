@@ -44,11 +44,15 @@
         style="width: 100%;">
         <el-table-column
           label="航班号"
-          prop="fltno">
+          prop="fltno"
+          sortable
+          width="90">
         </el-table-column>
         <el-table-column
           label="航班日期"
-          prop="fltDate">
+          prop="fltDate"
+          sortable
+          width="101">
         </el-table-column>
         <el-table-column
           label="出入标识"
@@ -62,11 +66,15 @@
         </el-table-column>
         <el-table-column
           label="计划起飞时间"
-          prop="preDepartTime">
+          prop="preDepartTime"
+          sortable
+          width="101">
         </el-table-column>
         <el-table-column
           label="计划到达时间"
-          prop="preArriveTime">
+          prop="preArriveTime"
+          sortable
+          width="101">
         </el-table-column>
         <el-table-column
           label="出发站"
@@ -141,6 +149,7 @@
         <el-pagination
           background
           @current-change="handleCurrentChange"
+          :current-page.sync ="CurrentPage"
           :page-size="pageSize"
           layout="prev, pager, next"
           :total="TotalResult">
@@ -212,11 +221,13 @@ export default {
   },
   methods:{
     pageSizeChange(val) {
-      this.getList(this.CurrentPage,val,this.pd);
+      this.pageSize=val;
+      this.getList(this.CurrentPage,this.pageSize,this.pd);
       console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
-      this.getList(val,this.pageSize,this.pd);
+      this.CurrentPage=val
+      this.getList(this.CurrentPage,this.pageSize,this.pd);
       console.log(`当前页: ${val}`);
     },
     getList(CurrentPage,showCount,pd){

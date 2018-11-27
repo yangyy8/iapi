@@ -289,63 +289,18 @@
         </div>
       </div>
     </div>
+    <GDTC :gtitle="'归档追加'" :gvisible="gdDialogVisible" :garr="checkeditem"  @gclose="gclose"></GDTC>
 
-    <el-dialog title="归档追加" :visible.sync="gdDialogVisible" width="640px" :before-close="handleClose">
-      <el-form :model="gdform" ref="gdForm">
-        <div class="mb-15">
-          <div class="f-bold mb-9">
-            归档描述
-          </div>
-          <el-input
-            class="mb-9"
-            type="textarea"
-            v-model="gdform.describe"
-            :rows="3"
-            placeholder="请输入描述意见">
-          </el-input>
-        </div>
-        <div class="boder1 mb-9">
-          <div class="f-bold mb-9">
-            处理结果
-          </div>
-          <el-row align="center" :gutter="2">
-            <el-col  :sm="24" :md="12" :lg="12"  class="input-item">
-              <span class="mr-5">类别 </span>
-              <el-cascader
-                expand-trigger="hover"
-                class="input-input"
-                :options="options2"
-                v-model="gdform.processorResult"
-                @change="handleChange">
-              </el-cascader>
-            </el-col>
-          </el-row>
-        </div>
-        <div class="">
-          <div class="f-bold mb-9">
-            添加标签
-          </div>
-          <div class="">
-            <div class="tag-list mb-6">
-              <span v-for="(val, key, index) in tagData" :key="index" @click="taged=key" :class="{'checked-tag':taged==key}">{{key}}</span>
-            </div>
-            <el-checkbox-group
-              v-model="checkedtag">
-              <el-checkbox v-for="i in tagData[taged]" :label="i.code" :key="i.code">{{i.name}}</el-checkbox>
-            </el-checkbox-group>
-          </div>
-        </div>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="gdSave" size="small">确认</el-button>
-        <el-button type="warning" @click="gdDialogVisible=false" size="small">取消</el-button>
-      </div>
-    </el-dialog>
+
   </div>
 </template>
 
 <script>
+import GDTC from './GDTC'
+
 export default {
+  components:{GDTC},
+
   data(){
     return{
       tagData:{},
@@ -610,55 +565,16 @@ export default {
         console.log(this.gdform.processorResult)
     },
     openGdTc(item){
-      this.gdform={};
+      // this.gdform={};
       this.checkeditem=item;
       this.gdDialogVisible=true;
-      this.getBatchEventArchiveTagInfo();
+      // this.getBatchEventArchiveTagInfo();
     },
-    getBatchEventArchiveTagInfo(){
-
-      this.$api.post('/manage-platform/riskEventController/getBatchEventArchiveTagInfo',{},
-       r => {
-         this.tagData=r.data;
-         // this.taged
-      })
+    gclose(data){
+      console.log(data)
+      this.gdDialogVisible=data;
     },
-    gdSave(){
-      let p={
-        list:[
-          {
-            "eventSerial":this.checkeditem.serial,
-      			"newcheckresult":this.checkeditem.newcheckresult,
-      			"archive_pepole":this.checkeditem.archive_pepole,
-      			"describe":this.gdform.describe,
-      			"type":"1",
-      			"IOType":this.gdform.processorResult[0],
-      			"firstType":this.gdform.processorResult[1],
-      			"secondType":this.gdform.processorResult[2],
-      			"tag_type":"1",
-      			"tag_code":"111",
-      			"tag_name":"111",
-      			"tag_remar":"111",
-      			"userId":"111",
-      			"operation_type":"1",
-      			"add_remark":"111",
-      			"add_tagtype":"1"
-          }
-        ]
-      };
-
-
-      this.$api.post('/manage-platform/riskEventController/saveBatchEventArchiveInfo',p,
-       r => {
-         if(r.success){
-           this.$message({
-             message: '恭喜你，归档成功！',
-             type: 'success'
-           });
-           this.gdDialogVisible=false;
-         }
-      })
-    },
+  
   }
 }
 </script>

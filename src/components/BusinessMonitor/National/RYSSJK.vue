@@ -83,7 +83,7 @@
             label="出生日期"
             prop="birthDay"
             sortable
-            width="160">
+            width="101">
           </el-table-column>
           <el-table-column
             label="国籍"
@@ -128,29 +128,42 @@
             width="150">
           </el-table-column>
           <el-table-column
-            label="签证类别"
+            label="签证种类"
             prop="visaTypeName">
           </el-table-column>
           <el-table-column
             label="航班号"
             prop="fltno"
-            sortable>
+            sortable
+            width="90">
           </el-table-column>
           <el-table-column
             label="航班时间"
             prop="fltDate"
-            width="180"
+            width="101"
             sortable>
           </el-table-column>
           <el-table-column
             label="是否非法载运人员"
             prop="illegalMan"
             sortable>
+            <template slot-scope="scope">
+              <div>
+                <span v-if="scope.row.illegalMan==0">否</span>
+                <span v-if="scope.row.illegalMan==1">是</span>
+              </div>
+            </template>
           </el-table-column>
           <el-table-column
             label="是否重点关注人员"
             prop="focusMan"
             sortable>
+            <template slot-scope="scope">
+              <div>
+                <span v-if="scope.row.focusMan==0">否</span>
+                <span v-if="scope.row.focusMan==1">是</span>
+              </div>
+            </template>
           </el-table-column>
           <!-- <el-table-column
             label="操作">
@@ -181,6 +194,7 @@
           <el-pagination
             background
             @current-change="handleCurrentChange"
+            :current-page.sync ="CurrentPage"
             :page-size="pageSize"
             layout="prev, pager, next"
             :total="TotalResult">
@@ -326,11 +340,13 @@ export default {
   },
   methods:{
     pageSizeChange(val) {
-      this.getList(this.CurrentPage,val,this.pd);
+      this.pageSize=val;
+      this.getList(this.CurrentPage,this.pageSize,this.pd);
       console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
-      this.getList(val,this.pageSize,this.pd);
+      this.CurrentPage=val
+      this.getList(this.CurrentPage,this.pageSize,this.pd);
       console.log(`当前页: ${val}`);
     },
     queryAirport(){

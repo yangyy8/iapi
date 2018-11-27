@@ -83,27 +83,27 @@
           type="index"
           label="序号" width="60">
         </el-table-column>
-        <el-table-column
+        <!-- <el-table-column
           prop="MODEL_NAME"
           label="模型名称">
-        </el-table-column>
+        </el-table-column> -->
          <el-table-column
           prop="MODEL_JC"
           label="模型简称"
           >
         </el-table-column>
-        <el-table-column
+        <!-- <el-table-column
           prop="MODEL_DESCRIBE"
           label="模型描述">
-        </el-table-column>
+        </el-table-column> -->
         <el-table-column
           prop="CREATE_PERSION"
           label="创建人">
         </el-table-column>
-        <el-table-column
+        <!-- <el-table-column
           prop="PORT_NAME"
           label="创建口岸">
-        </el-table-column>
+        </el-table-column> -->
 
         <el-table-column
           prop="UPDATETIME"
@@ -184,13 +184,12 @@
            <el-col :span="12" class="input-item">
             <span class="yy-input-text"><font class="yy-color">*</font> 是否启用：</span>
             <el-select v-model="form.status" class="input-input"  filterable clearable placeholder="请选择"   size="small" v-verify.change.blur ="{regs:'required',submit:'demo2'}">
-              <el-option value="0" label="0 - 不启用">
+              <el-option value="0" label="0 - 禁用">
               </el-option>
               <el-option value="1" label="1 - 启用">
               </el-option>
              </el-select>
           </el-col>
-
         </el-row>
         <el-row type="flex"  class="mb-6">
           <el-col :span="12" class="input-item">
@@ -483,10 +482,10 @@ export default {
     this.getList(this.CurrentPage, this.pageSize, this.pd);
     this.queryNationality();
   },
-  activated() {
-    this.getList(this.CurrentPage, this.pageSize, this.pd);
-    this.queryNationality();
-  },
+  // activated() {
+  //   this.getList(this.CurrentPage, this.pageSize, this.pd);
+  //   this.queryNationality();
+  // },
   methods: {
     handleSelectionChange(val) {
       this.multipleSelection = val;
@@ -737,7 +736,7 @@ export default {
         "modelCode": i.MODEL_CODE,
         "modelVersion": i.MODEL_VERSION
       };
-      this.$confirm('您是否确认删除此角色？', '提示', {
+      this.$confirm('您是否确认删除？', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'

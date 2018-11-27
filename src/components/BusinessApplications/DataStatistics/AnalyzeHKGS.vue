@@ -139,7 +139,7 @@
                                        label="内地居民">
                                      </el-table-column>
                                      <el-table-column
-                                       prop="inland"
+                                       prop="gat"
                                        label="港澳台">
                                      </el-table-column>
                                 </el-table-column>

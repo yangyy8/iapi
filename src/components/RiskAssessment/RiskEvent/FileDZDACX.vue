@@ -20,30 +20,22 @@
               <el-input v-model="pd.passportno" placeholder="请输入内容" size="small" clearable class="input-input"></el-input>
             </el-col>
             <el-col :sm="24" :md="12" :lg="8" class="input-item">
-              <span class="input-text">中文姓名：</span>
+              <span class="input-text">姓名：</span>
               <el-input v-model="pd.name" placeholder="请输入内容" size="small" clearable class="input-input"></el-input>
             </el-col>
-            <el-col :sm="24" :md="12" :lg="8" class="input-item">
+            <!-- <el-col :sm="24" :md="12" :lg="8" class="input-item">
               <span class="input-text">英文姓名：</span>
               <el-input v-model="pd.ename" placeholder="请输入内容" size="small" clearable class="input-input"></el-input>
-            </el-col>
+            </el-col> -->
             <el-col :sm="24" :md="12" :lg="8" class="input-item">
               <span class="input-text">出生日期：</span>
-              <div class="input-input t-flex t-date">
-                <el-date-picker
-                 type="date" size="small" format="yyyy-MM-dd"
-                 v-model="pd.birthday_1"
-                 value-format="yyyyMMdd"
-                 placeholder="开始时间" >
-                </el-date-picker>
-                <span class="septum">-</span>
-                <el-date-picker
-                  type="date" size="small" format="yyyy-MM-dd"
-                  v-model="pd.birthday_2"
-                  value-format="yyyyMMdd"
-                  placeholder="结束时间">
-                </el-date-picker>
-              </div>
+              <el-date-picker
+              class="input-input"
+               type="date" size="small" format="yyyy-MM-dd"
+               v-model="pd.birthday"
+               value-format="yyyyMMdd"
+               placeholder="出生日期" >
+              </el-date-picker>
             </el-col>
             <el-col :sm="24" :md="12"  :lg="8" class="input-item">
               <span class="input-text">性別：</span>
