@@ -8,7 +8,6 @@
           <div class="title-green">
             查询条件
           </div>
-
           <el-row align="center"   :gutter="2">
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text"><font class="yy-color">*</font> 时间范围：</span>
@@ -28,7 +27,6 @@
              </el-date-picker>
           </div>
             </el-col>
-
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                 <span class="input-text">出发地：</span>
                 <el-select v-model="pd.cityfrom" filterable clearable  placeholder="请选择"  size="small" class="input-input">
@@ -62,7 +60,6 @@
                     :value="item.CODE">
                   </el-option>
                 </el-select>
-
             </el-col>
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">人员类别：</span>
@@ -71,7 +68,6 @@
                 </el-option>
                 <el-option label="DDU - 中转旅客" value="DDU" >
                 </el-option>
-
                </el-select>
             </el-col>
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
@@ -96,11 +92,9 @@
                 </el-option>
                </el-select>
             </el-col>
-
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                 <span class="input-text">出入标识：</span>
                 <el-select v-model="pd.flighttype"  filterable clearable  class="input-input"  placeholder="请选择"  size="small">
-
                   <el-option value="I" label="I - 入境">
                   </el-option>
                   <el-option value="O" label="O - 出境">
@@ -109,11 +103,8 @@
                   </el-option>
                 </el-select>
               </el-col>
-
-
           </el-row>
           <el-row align="center"  class="yy-line">
-
             <el-col  :span="20">
               <span class="input-text" style="width:12%"><font class="yy-color">*</font> 行属性：</span>
               <el-checkbox label="出入境方向" v-model="pd.rowproperty_flttype"></el-checkbox>
@@ -141,9 +132,7 @@
         </el-col>
       </el-row>
     </div>
-
     <div class="middle">
-
       <div class="ak-tab mb-20">
       <div class="ak-tabs">
         <div class="ak-tab-item hand" :class="{'ak-checked':page==0}" @click="base">
@@ -153,7 +142,6 @@
           报表
         </div>
       </div>
-
       <div class="ak-tab-pane" >
           <div v-show="page==0" >
             <div id="myChart" class="ppie">暂无数据</div>
@@ -164,7 +152,6 @@
             <div id="myChart6" class="ppie"></div>
             <div style="clear:both"></div>
           </div>
-
           <div v-show="page==1">
             <el-row class="mb-15 yr">
               <el-button type="primary" size="small" @click="download()">Excel导出</el-button>
@@ -257,7 +244,7 @@
                       label="再次检查">
                     </el-table-column>
                     <el-table-column
-                      prop="datacheckcount"
+                      prop="chk_4z"
                       label="数据错误">
                     </el-table-column>
                 </el-table-column>
@@ -270,6 +257,7 @@
 </template>
 <script>
 import echarts from 'echarts'
+
 import {formatDate,format} from '@/assets/js/date.js'
 import {dayGap} from '@/assets/js/date.js'
 import axios from 'axios'
@@ -519,7 +507,7 @@ export default {
 
           let arr = this.tableData;
 
-
+console.log(arr.length+"======");
 
           var sum1 = 0,
             sum01 = 0;

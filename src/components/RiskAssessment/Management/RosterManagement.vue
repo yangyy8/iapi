@@ -225,13 +225,13 @@
           </el-col>
 
           <el-col :span="12" class="input-item">
-            <span class="yy-input-text" style="width:18%"><font class="yy-color">*</font>姓名：</span>
+            <span class="yy-input-text" style="width:18%"><font class="yy-color">*</font> 姓名：</span>
             <el-input placeholder="请输入内容" size="small" v-model="form.FAMILYNAME"  class="yy-input-input"></el-input>
           </el-col>
         </el-row>
         <el-row type="flex" class="mb-6">
           <el-col :span="12" class="input-item">
-            <span class="yy-input-text" style="width:18%"><font class="yy-color">*</font>性别：</span>
+            <span class="yy-input-text" style="width:18%"><font class="yy-color">*</font> 性别：</span>
             <el-select v-model="form.GENDER" placeholder="请选择"  filterable clearable size="small" class="yy-input-input">
                <el-option value="U" label="U - 未知">
                </el-option>
@@ -243,7 +243,7 @@
           </el-col>
 
           <el-col :span="12" class="input-item">
-            <span class="yy-input-text" style="width:18%"><font class="yy-color">*</font>出生日期：</span>
+            <span class="yy-input-text" style="width:18%"><font class="yy-color">*</font> 出生日期：</span>
             <el-date-picker
                v-model="form.DATEOFBIRTH" format="yyyy-MM-dd"
                type="date" size="small" value-format="yyyy-MM-dd"
@@ -254,7 +254,7 @@
 
         <el-row type="flex" class="mb-6">
           <el-col :span="12" class="input-item">
-            <span class="yy-input-text" style="width:18%"><font class="yy-color">*</font>有效日期：</span>
+            <span class="yy-input-text" style="width:18%"><font class="yy-color">*</font> 有效日期：</span>
             <el-date-picker
                v-model="form.EXPIREDATE" format="yyyy-MM-dd"
                type="date" size="small" value-format="yyyy-MM-dd"
@@ -263,7 +263,7 @@
           </el-col>
 
           <el-col :span="12" class="input-item">
-            <span class="yy-input-text" style="width:18%"><font class="yy-color">*</font>名单类型：</span>
+            <span class="yy-input-text" style="width:18%"><font class="yy-color">*</font> 名单类型：</span>
             <el-select v-model="form.TYPE_CODE" placeholder="请选择"  filterable clearable size="small" class="yy-input-input">
                <el-option value="重点维族人" label="重点维族人">
                </el-option>
@@ -539,7 +539,7 @@ export default {
       let p = {
         "id": i.SERIAL
       };
-      this.$confirm('您是否确认删除此角色？', '提示', {
+      this.$confirm('您是否确认删除？', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
