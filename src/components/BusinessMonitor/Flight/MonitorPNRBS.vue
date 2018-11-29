@@ -23,7 +23,7 @@
                 <el-select v-model="pd.ioType"  placeholder="请选择"  size="small" clearable filterable class="block input-input">
                   <el-option label="I - 入境" value="I"></el-option>
                   <el-option label="O - 出境" value="O"></el-option>
-                  <el-option label="A - 入出境" value="''"></el-option>
+                  <el-option label="A - 入出境" value=""></el-option>
                 </el-select>
               </el-col>
 
@@ -37,10 +37,12 @@
     </div>
     <div class="middle">
       <el-checkbox v-model="checked" class="mr-15">自动刷新</el-checkbox>
+      <span class="tc-999 f-14">注：点击每行可查看航班详情</span>
 
       <el-table
         :data="tableData"
         border
+        @row-click="rowClick"
         style="width: 100%;">
         <el-table-column
           label="航班号"
@@ -157,6 +159,129 @@
         </el-pagination>
       </div>
     </div>
+    <el-dialog
+      title="详情"
+      :visible.sync="detailsDialogVisible"
+      width="950px">
+      <div class="detail-msg-text">
+        <el-row  class="detail-msg-row">
+          <el-col :sm="24" :md="12" :lg="8" >
+            <span>航班号：</span>
+            {{detailsData.fltNo}}
+          </el-col>
+          <el-col :sm="24" :md="12" :lg="8" >
+            <span>航班日期：</span>
+            {{detailsData.fltDate}}
+          </el-col>
+          <el-col :sm="24" :md="12" :lg="8" >
+            <span>出入境标识：</span>
+            <!-- {{detailsData.ioType}} -->
+            <a v-if="detailsData.ioType=='I'">入境</a>
+            <a v-if="detailsData.ioType=='O'">出境</a>
+
+          </el-col>
+
+          <el-col :sm="24" :md="12" :lg="8" >
+            <span>出发地：</span>
+            {{detailsData.portFrom}}
+
+          </el-col>
+          <el-col :sm="24" :md="12" :lg="8" >
+            <span>目的地：</span>
+            {{detailsData.portTo}}
+          </el-col>
+          <el-col :sm="24" :md="12" :lg="8" >
+            <span>航空公司：</span>
+            {{detailsData.airlineCompany}}
+          </el-col>
+
+          <el-col :sm="24" :md="12" :lg="8" >
+            <span>预计起飞时间：</span>
+            {{detailsData.departuretime}}
+          </el-col>
+          <el-col :sm="24" :md="12" :lg="8" >
+            <span>预计到达时间：</span>
+            {{detailsData.arrivetime}}
+          </el-col>
+          <el-col :sm="24" :md="12" :lg="8" >
+            <span>航班状态：</span>
+            <!-- {{detailsData.status}} -->
+            <a v-if="detailsData.status==0">计划</a>
+            <a v-if="detailsData.status==1">已预检</a>
+            <a v-if="detailsData.status==2">已起飞</a>
+            <a v-if="detailsData.status==3">已到达</a>
+            <a v-if="detailsData.status==4">已办理入境手续</a>
+            <a v-if="detailsData.status==5">已取消</a>
+            <a v-if="detailsData.status==6">无关闭报文</a>
+            <a v-if="detailsData.status==7">无值机报文</a>
+          </el-col>
+          <el-col :sm="24" :md="12" :lg="8" >
+            <span>实际起飞时间：</span>
+            {{detailsData.realDeparturetime}}
+          </el-col>
+          <el-col :sm="24" :md="12" :lg="8" >
+            <span>实际到达时间：</span>
+            {{detailsData.realArrivetime}}
+          </el-col>
+          <el-col :sm="24" :md="12" :lg="8" >
+            <span>值机时间：</span>
+            {{detailsData.checkInTime}}
+          </el-col>
+          <el-col :sm="24" :md="12" :lg="8" >
+            <span>订票总人数：</span>
+            {{detailsData.bookingcount}}
+          </el-col>
+          <el-col :sm="24" :md="12" :lg="8" >
+            <span>值机人数：</span>
+            {{detailsData.gatNum}}
+          </el-col>
+          <el-col :sm="24" :md="12" :lg="8" >
+            <span>黑名单人数：</span>
+            {{detailsData.blkNum}}
+          </el-col>
+          <el-col :sm="24" :md="12" :lg="8" >
+            <span>临控名单人数：</span>
+            {{detailsData.ctlNum}}
+          </el-col>
+          <el-col :sm="24" :md="12" :lg="8" >
+            <span>重点关注名单人数：</span>
+            {{detailsData.fcsNum}}
+          </el-col>
+          <el-col :sm="24" :md="12" :lg="8" >
+            <span>白名单人数：</span>
+            {{detailsData.whtNum}}
+          </el-col>
+          <el-col :sm="24" :md="12" :lg="8" >
+            <span>内地人数：</span>
+            {{detailsData.inlandNum}}
+          </el-col>
+          <el-col :sm="24" :md="12" :lg="8" >
+            <span>港澳台人数：</span>
+            {{detailsData.gatNum}}
+          </el-col>
+          <el-col :sm="24" :md="12" :lg="8" >
+            <span>外国人人数：</span>
+            {{detailsData.foreignNum}}
+          </el-col>
+          <el-col :sm="24" :md="12" :lg="8" >
+            <span>允许登机人数：</span>
+            {{detailsData.chk0Z}}
+          </el-col>
+          <el-col :sm="24" :md="12" :lg="8" >
+            <span>实际登机人数：</span>
+            {{detailsData.boarding}}
+          </el-col>
+          <el-col :sm="24" :md="12" :lg="8" >
+            <span>非法运载人数：</span>
+            {{detailsData.illegalBoarding}}
+          </el-col>
+
+        </el-row>
+      </div>
+      <span slot="footer" class="dialog-footer">
+        <el-button type="warning" @click="detailsDialogVisible = false" size="small">关闭页面</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -187,6 +312,8 @@ export default {
           label:"30"
         }
       ],
+      detailsDialogVisible:false,
+      detailsData:{},
     }
   },
   mounted(){
@@ -244,6 +371,18 @@ export default {
          console.log(r)
          this.tableData=r.data.pdList;
          this.TotalResult=r.data.totalResult;
+      })
+    },
+    rowClick(row,event,column){
+      let p={
+        flightRecordnum:row.fltKey,
+        portto:row.portto
+      }
+      this.$api.post('/manage-platform/flightRealTime/queryFightDetail',p,
+       r => {
+         console.log(r)
+         this.detailsDialogVisible=true;
+         this.detailsData=r.data
       })
     },
   }
