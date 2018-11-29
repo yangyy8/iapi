@@ -28,7 +28,7 @@
           </div>
             </el-col>
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
-                <span class="input-text">国籍：</span>
+                <span class="input-text">国籍/地区：</span>
                 <el-select v-model="pd.country" filterable clearable placeholder="请选择"  size="small" class="input-input">
                   <el-option
                     v-for="item in nation"
@@ -82,7 +82,7 @@
 
             <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
               <span class="input-text"> 行属性：</span>
-              <el-checkbox label="国籍" v-model="pd.rowproperty_country"></el-checkbox>
+              <el-checkbox label="国籍/地区" v-model="pd.rowproperty_country"></el-checkbox>
               <el-checkbox label="目的地" v-model="pd.rowproperty_cityto"></el-checkbox>
               <el-checkbox label="航班" v-model="pd.rowproperty_fltno"></el-checkbox>
               <el-checkbox label="出入境方向" v-model="pd.rowproperty_flttype"></el-checkbox>
@@ -138,7 +138,7 @@
             </el-table-column>
             <el-table-column
               prop="country"
-              label="国籍"
+              label="国籍/地区"
               >
             </el-table-column>
             <el-table-column label="DMZ比中" v-if='showdmz'>

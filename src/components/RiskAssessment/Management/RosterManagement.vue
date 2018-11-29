@@ -134,7 +134,7 @@
         </el-table-column>
         <el-table-column
           prop="NATIONALITYNAME"
-          label="国籍">
+          label="国籍/地区">
         </el-table-column>
         <el-table-column
         prop="CARDTYPENAME"

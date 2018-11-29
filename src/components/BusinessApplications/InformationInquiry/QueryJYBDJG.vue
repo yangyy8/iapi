@@ -101,7 +101,7 @@
 
                 <el-table-column
                   prop="NATIONALITY"
-                  label="国籍"
+                  label="国籍/地区"
                   width="100">
 
                 </el-table-column>
@@ -197,7 +197,7 @@
       <el-form :model="form" ref="addForm">
         <el-row type="flex"  class="mb-6">
           <el-col :span="8" class="input-item">
-            <span class="input-text">国籍：</span>
+            <span class="input-text">国籍/地区：</span>
             <el-input placeholder="请输入内容" size="small" v-model="form.NATIONALITY"></el-input>
 
           </el-col>
