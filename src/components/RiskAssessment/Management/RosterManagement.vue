@@ -24,15 +24,15 @@
               <span class="input-text">出生日期：</span>
               <div class="input-input t-flex t-date">
                <el-date-picker
-               v-model="pd.BIRTHDATESTART" format="yyyy-MM-dd HH:mm:ss"
-               type="datetime" size="small" value-format="yyyyMMddHHmmss"
-               placeholder="开始时间"  :picker-options="pickerOptions" >
+               v-model="pd.BIRTHDATESTART" format="yyyy-MM-dd"
+               type="date" size="small" value-format="yyyyMMdd"
+               placeholder="开始时间" >
              </el-date-picker>
                <span class="septum">-</span>
              <el-date-picker
-                v-model="pd.BIRTHDATESTARTEND" format="yyyy-MM-dd HH:mm:ss"
-                type="datetime" size="small" value-format="yyyyMMddHHmmss"
-                placeholder="结束时间" :picker-options="pickerOptions1" >
+                v-model="pd.BIRTHDATESTARTEND" format="yyyy-MM-dd"
+                type="date" size="small" value-format="yyyyMMdd"
+                placeholder="结束时间" >
             </el-date-picker>
           </div>
             </el-col>
@@ -50,10 +50,12 @@
       <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
       <span class="input-text">证件种类：</span>
       <el-select v-model="pd.CARDTYPE" placeholder="请选择"  filterable clearable size="small" class="input-input">
-       <el-option value="T" label="T - 区域证件">
-       </el-option>
-       <el-option value="P" label="P - 护照">
-       </el-option>
+        <el-option
+          v-for="item in docCode"
+          :key="item.CODE"
+          :label="item.CODE+' - '+item.NAME"
+          :value="item.CODE">
+        </el-option>
       </el-select>
       </el-col>
       <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
@@ -62,7 +64,7 @@
       </el-col>
       <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
       <span class="input-text">名单类型：</span>
-            <el-select v-model="pd.TYPE" filterable clearable  placeholder="请选择"  size="small" class="input-input">
+            <el-select v-model="pd.TYPE_CODE" filterable clearable  placeholder="请选择"  size="small" class="input-input">
         <el-option
           v-for="(item,ind) in mdtype"
           :key="ind"
@@ -76,24 +78,24 @@
         <span class="input-text">有效期：</span>
         <div class="input-input t-flex t-date">
          <el-date-picker
-         v-model="pd.BEGINDATE" format="yyyy-MM-dd HH:mm:ss"
-         type="datetime" size="small" value-format="yyyyMMddHHmmss"
-         placeholder="开始时间"  :picker-options="pickerOptions">
+         v-model="pd.BEGINDATE" format="yyyy-MM-dd"
+         type="date" size="small" value-format="yyyyMMdd"
+         placeholder="开始时间" >
        </el-date-picker>
          <span class="septum">-</span>
        <el-date-picker
-          v-model="pd.EXPIREDATE" format="yyyy-MM-dd HH:mm:ss"
-          type="datetime" size="small" value-format="yyyyMMddHHmmss"
-          placeholder="结束时间" :picker-options="pickerOptions1" >
+          v-model="pd.EXPIREDATE" format="yyyy-MM-dd"
+          type="date" size="small" value-format="yyyyMMdd"
+          placeholder="结束时间">
       </el-date-picker>
     </div>
       </el-col>
       <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
       <span class="input-text">有效状态：</span>
       <el-select v-model="pd.STATUS" placeholder="请选择"  filterable clearable size="small" class="input-input">
-       <el-option value="无效" label="无效">
+       <el-option value="0" label="无效">
        </el-option>
-       <el-option value="有效" label="有效">
+       <el-option value="1" label="有效">
        </el-option>
       </el-select>
       </el-col>
@@ -131,14 +133,13 @@
           label="出生日期">
         </el-table-column>
         <el-table-column
-          prop="NATIONALITY"
+          prop="NATIONALITYNAME"
           label="国籍">
         </el-table-column>
         <el-table-column
+        prop="CARDTYPENAME"
           label="证件种类">
-          <template slot-scope="scope">
-              {{scope.row.CARDTYP | fiftertt}}
-            </template>
+
         </el-table-column>
         <el-table-column
           prop="CARDNO"
@@ -149,8 +150,11 @@
           label="有效日期">
         </el-table-column>
         <el-table-column
-          prop="STATUS"
+
           label="有效状态">
+          <template slot-scope="scope">
+              {{scope.row.STATUS | fiftertt}}
+            </template>
         </el-table-column>
         <el-table-column
           prop="CREATEUSERNAME"
@@ -218,10 +222,12 @@
           <el-col :span="12" class="input-item">
             <span class="yy-input-text"><font class="yy-color">*</font> 证件种类：</span>
             <el-select v-model="form.CARDTYPE" placeholder="请选择"  filterable clearable size="small" class="yy-input-input">
-             <el-option value="T" label="T - 区域证件">
-             </el-option>
-             <el-option value="P" label="P - 护照">
-             </el-option>
+              <el-option
+                v-for="item in docCode"
+                :key="item.CODE"
+                :label="item.CODE+' - '+item.NAME"
+                :value="item.CODE">
+              </el-option>
             </el-select>
           </el-col>
         </el-row>
@@ -301,12 +307,12 @@
         <el-row type="flex"  class="mb-6">
           <el-col :span="12" class="input-item">
             <span class="yy-input-text">国籍/地区：</span>
-          <span class="yy-input-input detailinput">  {{mapForm.NATIONALITY}}</span>
+          <span class="yy-input-input detailinput">  {{mapForm.NATIONALITYNAME}}</span>
             </el-col>
 
           <el-col :span="12" class="input-item">
             <span class="yy-input-text">证件种类：</span>
-          <span class="yy-input-input detailinput">  {{mapForm.CARDTYPE=="T"?"区域证件":"护照"}}</span>
+          <span class="yy-input-input detailinput">  {{mapForm.CARDTYPENAME}}</span>
           </el-col>
         </el-row>
         <el-row type="flex" class="mb-6" >
@@ -363,7 +369,6 @@
         <el-button @click="detailsDialogVisible = false" size="small">取 消</el-button>
       </div>
     </el-dialog>
-
     <el-dialog title="上传模板" :visible.sync="uploadDialogVisible"  width="640px">
       <el-form >
         <el-row type="flex" class="mb-6">
@@ -415,6 +420,7 @@ export default {
       pd: {},
       company: [],
       fileList: [],
+      docCode:[],
       sertail: "",
       dialogText: "新增",
       addDialogVisible: false,
@@ -445,28 +451,7 @@ export default {
       nation: [],
       multipleSelection: [],
       mdtype:[],
-      pickerOptions1: {
-        // shortcuts: [{
-        //   text: '今天',
-        //   onClick(picker) {
-        //     picker.$emit('pick', new Date());
-        //   }
-        // }, {
-        //   text: '昨天',
-        //   onClick(picker) {
-        //     const date = new Date();
-        //     date.setTime(date.getTime() - 3600 * 1000 * 24);
-        //     picker.$emit('pick', date);
-        //   }
-        // }, {
-        //   text: '一周前',
-        //   onClick(picker) {
-        //     const date = new Date();
-        //     date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
-        //     picker.$emit('pick', date);
-        //   }
-        // }]
-      },
+
       form: {},
       mapForm: {},
       Airport: [],
@@ -477,11 +462,13 @@ export default {
     this.getList(this.CurrentPage, this.pageSize, this.pd);
     this.queryNationality();
     this.queryType();
+    this.queryDocCode();
   },
   activated() {
     this.getList(this.CurrentPage, this.pageSize, this.pd);
     this.queryNationality();
     this.queryType();
+      this.queryDocCode();
   },
   methods: {
     handleSelectionChange(val) {
@@ -519,6 +506,15 @@ export default {
             this.nation = r.data;
           }
         })
+    },
+    queryDocCode(){
+      this.$api.post('/manage-platform/codeTable/queryDocCode',{},
+       r => {
+         //console.log(r);
+         if(r.success){
+           this.docCode=r.data;
+         }
+      })
     },
     queryType() {
       this.$api.post('manage-platform/riskNamelistType/getnamelistType', {},
@@ -676,10 +672,10 @@ export default {
       }
     },
     fiftertt(val) {
-      if (val == "T") {
-        "区域证件"
+      if (val == "0") {
+        "无效"
       } else {
-        return "护照";
+        return "有效";
       }
 
     }

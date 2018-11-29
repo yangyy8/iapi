@@ -31,7 +31,7 @@
             </el-col>
             <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
               <span class="input-text">航空公司名称：</span>
-              <el-select v-model="pd.airline_company_id" filterable clearable  placeholder="请选择" size="small" class="input-input">
+              <el-select v-model="pd.airline_company_id" filterable clearable @change="changeValue(pd.airline_company_id)"  placeholder="请选择" size="small" class="input-input">
                  <el-option
                    v-for="(item,ind) in company"
                    :key="ind"
@@ -209,6 +209,7 @@ export default {
       sData1:[],
       sData2:[],
       sData3:[],
+      companyname:""
     }
   },
   mounted() {
@@ -230,6 +231,15 @@ export default {
 
   },
   methods: {
+    changeValue(value){
+console.log(value);
+     let obj = {};
+     obj = this.company.find((item)=>{//这里的userList就是上面遍历的数据源
+         return item.AIRLINE_CODE === value;//筛选出匹配数据
+     });
+     console.log(obj.AIRLINE_CHN_NAME);//我这边的name就是对应label的
+   this.companyname=obj.AIRLINE_CHN_NAME;
+    },
     base() {
       this.page = 0;
     },
@@ -284,6 +294,8 @@ export default {
               return false
             };
 
+
+
       let p = {
         "begintime": pd.begintime,
         "endtime": pd.endtime,
@@ -325,7 +337,8 @@ export default {
        data: {
          "begintime":this.pd.begintime,
          "endtime":this.pd.endtime,
-           "airline_company_id": this.pd.airline_company_id
+         "airline_company_id": this.pd.airline_company_id,
+         "airline_company_name":this.companyname,
        },
        responseType: 'blob'
        }).then(response => {
@@ -336,7 +349,6 @@ export default {
         if (!data) {
             return
         }
-
         let url = window.URL.createObjectURL(new Blob([data.data],{type:"application/octet-stream"}))
         let link = document.createElement('a')
         link.style.display = 'none'
@@ -345,8 +357,6 @@ export default {
         document.body.appendChild(link)
         link.click()
     },
-
-
     queryNationality() {
       this.$api.post('/manage-platform/codeTable/queryAircompanyList', {},
         r => {

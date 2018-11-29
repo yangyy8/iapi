@@ -164,26 +164,32 @@
       <el-form :model="map" ref="mapForm">
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
-            <span class="yy-input-text">名单类型名称：</span>
-          <span class="yy-input-input detailinput">  {{mapForm.ROLE_NAME}}</span>
+            <span class="yy-input-text">标签分类：</span>
+          <span class="yy-input-input detailinput">  {{mapForm.LABELTYPE_NAME}}</span>
             </el-col>
         </el-row>
         <el-row type="flex" class="mb-6" >
           <el-col :span="24" class="input-item">
-            <span class="yy-input-text">名单类型描述：</span>
-          <span class="yy-input-input detailinput">  {{mapForm.REMARKS}}</span>
+            <span class="yy-input-text">标签名称：</span>
+          <span class="yy-input-input detailinput">  {{mapForm.LABELNAME}}</span>
+          </el-col>
+        </el-row>
+        <el-row type="flex" class="mb-6" >
+          <el-col :span="24" class="input-item">
+            <span class="yy-input-text">标签描述：</span>
+          <span class="yy-input-input detailinput">  {{mapForm.LABELREASON}}</span>
           </el-col>
         </el-row>
         <el-row type="flex" class="mb-6" >
           <el-col :span="24" class="input-item">
             <span class="yy-input-text">创建人：</span>
-          <span class="yy-input-input detailinput">  {{mapForm.CREATE_TIME}}</span>
+          <span class="yy-input-input detailinput">  {{mapForm.CREATEUSERNAME}}</span>
           </el-col>
         </el-row>
         <el-row type="flex" class="mb-6" >
           <el-col :span="24" class="input-item">
             <span class="yy-input-text">创建时间：</span>
-          <span class="yy-input-input detailinput">  {{mapForm.CREATE_TIME}}</span>
+          <span class="yy-input-input detailinput">  {{mapForm.CREATETIME}}</span>
           </el-col>
         </el-row>
       </el-form>

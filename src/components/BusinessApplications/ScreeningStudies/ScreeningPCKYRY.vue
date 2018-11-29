@@ -60,7 +60,7 @@
               style="width: 100%;">
               <el-table-column
                 prop="nationality"
-                label="国籍">
+                label="国籍/地区">
               </el-table-column>
               <el-table-column
                 prop="passportno"
@@ -519,7 +519,9 @@ export default {
         r => {
           console.log(r);
           this.tableData = r.data;
+          if(r.data.totalResult!="" && r.data.totalResult!=undefined){
           this.TotalResult = r.data.totalResult;
+        }
         })
 
     },
@@ -544,7 +546,9 @@ export default {
         r => {
           console.log(r);
           this.tableData1 = r.data;
+          if(r.data.totalResult!="" && r.data.totalResult!=undefined){
           this.TotalResult1 = r.data.totalResult;
+        }
         })
     },
     getList2(currentPage2, showCount2, pd2) {
@@ -568,7 +572,9 @@ export default {
         r => {
           console.log(r);
           this.tableData2 = r.data;
-          this.TotalResult2 = r.data.totalResult;
+
+          if(r.data.totalResult!="" && r.data.totalResult!=undefined){
+          this.TotalResult2 =r.data.totalResult ;}
         })
     },
 

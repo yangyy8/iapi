@@ -51,7 +51,7 @@
             </el-date-picker>
             </el-col>
           </el-row>
-          <el-row align="center"   :gutter="2" class="yy-line">
+          <!-- <el-row align="center"   :gutter="2" class="yy-line">
 
             <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
               <span class="input-text">行属性：</span>
@@ -62,7 +62,7 @@
                  </el-option>
                </el-select>
             </el-col>
-          </el-row>
+          </el-row> -->
         </el-col>
         <el-col :span="2" class="down-btn-area" style="margin-top:25px;">
           <el-button type="success" size="small" @click="getList(CurrentPage,pageSize,pd)">查询</el-button>
@@ -123,12 +123,12 @@
         <el-table-column
           prop="airline_company_id"
 
-          label="航空公司名称" v-if='showm'
+          label="航空公司名称"
           >
         </el-table-column>
         <el-table-column
           prop="fltno"
-          label="航班号" v-if='showh'>
+          label="航班号">
         </el-table-column>
 
         <el-table-column
@@ -320,14 +320,14 @@ export default {
 
       };
       var url="/manage-platform/forecastEva/get_pnr_fccrt_bycompanyid";
-      if(this.typerow=="2"){
-        url="/manage-platform/forecastEva/get_pnr_fccrt_byfltno";
-        this.showm=false;
-        this.showh=true;
-      }else {
-        this.showm=true;
-        this.showh=false;
-      }
+      // if(this.typerow=="2"){
+      //   url="/manage-platform/forecastEva/get_pnr_fccrt_byfltno";
+      //   this.showm=false;
+      //   this.showh=true;
+      // }else {
+      //   this.showm=true;
+      //   this.showh=false;
+      // }
       this.$api.post(url, p,
         r => {
           console.log(r);
@@ -351,15 +351,12 @@ export default {
     download(){
       //var url="http://192.168.99.213:8080/manage-platform/forecastEva/export_pnr_fccrt_bycompanyid";
        var url= this.$api.rootUrl+"/manage-platform/forecastEva/export_pnr_fccrt_bycompanyid";
-      if(this.typerow=="2"){
-      //  url="http://192.168.99.213:8080/manage-platform/forecastEva/export_pnr_fccrt_byfltno";
-      url= this.$api.rootUrl+"/manage-platform/forecastEva/export_pnr_fccrt_byfltno";
-      }
+      // if(this.typerow=="2"){
+      // url= this.$api.rootUrl+"/manage-platform/forecastEva/export_pnr_fccrt_byfltno";
+      // }
       axios({
        method: 'post',
        url: url,
-      // url:'http://192.168.99.206:8080/manage-platform/iapi/exportFileIo/0/600',
-      // url: this.$api.rootUrl+"/manage-platform/iapi/exportFileIo/0/600",
        data: {
            "begintime":this.pd.begintime,
            "endtime":this.pd.endtime,

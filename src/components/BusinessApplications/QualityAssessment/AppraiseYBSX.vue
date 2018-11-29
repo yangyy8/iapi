@@ -68,7 +68,7 @@
             </el-date-picker>
             </el-col>
           </el-row>
-          <el-row type="flex" class="yy-line">
+          <!-- <el-row type="flex" class="yy-line">
 
                 <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
                   <span class="input-text">行属性：</span>
@@ -79,27 +79,7 @@
                      </el-option>
                    </el-select>
                 </el-col>
-
-                <!-- <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
-                  <span class="input-text">列属性：</span>
-                  <el-select v-model="pd.aircol" filterable clearable  placeholder="请选择" size="small" class="input-input">
-                     <el-option text="关闭报文准时预报数量" value="关闭报文准时预报数量">
-                     </el-option>
-                     <el-option text="关闭报文晚报数量" value="关闭报文晚报数量">
-                     </el-option>
-                     <el-option text="关闭报文未报数量" value="关闭报文未报数量">
-                     </el-option>
-                     <el-option text="值机报文准时预报数量" value="值机报文准时预报数量">
-                     </el-option>
-                     <el-option text="值机报文未报数量" value="值机报文未报数量">
-                     </el-option>
-                     <el-option text="值机报文晚报数量" value="值机报文晚报数量">
-                     </el-option>
-                   </el-select>
-                </el-col> -->
-
-
-          </el-row>
+          </el-row> -->
 
         </el-col>
         <el-col :span="2" class="down-btn-area" style="margin-top:25px;">
@@ -122,12 +102,12 @@
 
         <el-table-column
           prop="airline_company_id"
-          label="航空公司名称" width="250" v-if='showm'>
+          label="航空公司名称" width="250">
 
         </el-table-column>
         <el-table-column
           prop="fltno"
-          label="航班号" v-if='showh'
+          label="航班号"
           >
         </el-table-column>
 
@@ -372,14 +352,14 @@ export default {
       };
       var url="/manage-platform/forecastEva/get_fctime_bycompanyid";
 
-      if(this.typerow=="2"){
-        url="/manage-platform/forecastEva/get_fctime_byfltno";
-        this.showh=true;
-        this.showm=false;
-      }else {
-        this.showh=false;
-        this.showm=true;
-      }
+      // if(this.typerow=="2"){
+      //   url="/manage-platform/forecastEva/get_fctime_byfltno";
+      //   this.showh=true;
+      //   this.showm=false;
+      // }else {
+      //   this.showh=false;
+      //   this.showm=true;
+      // }
       this.$api.post(url, p,
         r => {
           console.log(r);
@@ -404,15 +384,12 @@ export default {
     download(){
       //var url="http://192.168.99.213:8080/manage-platform/forecastEva/export_fctime_bycompanyid";
       var url= this.$api.rootUrl+"/manage-platform/forecastEva/export_fctime_bycompanyid";
-      if(this.typerow=="2"){
-        //url="http://192.168.99.213:8080/manage-platform/forecastEva/export_fctime_byfltno";
-        url= this.$api.rootUrl+"/manage-platform/forecastEva/export_fctime_byfltno";
-      }
+      // if(this.typerow=="2"){
+      //   url= this.$api.rootUrl+"/manage-platform/forecastEva/export_fctime_byfltno";
+      // }
       axios({
        method: 'post',
        url: url,
-      // url:'http://192.168.99.206:8080/manage-platform/iapi/exportFileIo/0/600',
-      // url: this.$api.rootUrl+"/manage-platform/iapi/exportFileIo/0/600",
        data: {
            "begintime":this.pd.begintime,
            "endtime":this.pd.endtime,

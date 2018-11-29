@@ -31,8 +31,8 @@
 
               <el-row align="center"   :gutter="2">
                 <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
-                  <span class="input-text"><font class="yy-color">*</font> 航班号：</span>
-                  <el-input placeholder="请输入内容" size="small" v-model="pd.fltno"  class="input-input" v-verify.input.blur="{regs:'required',submit:'timeDemo'}"></el-input>
+                  <span class="input-text"> 航班号：</span>
+                  <el-input placeholder="请输入内容" size="small" v-model="pd.fltno"  class="input-input"></el-input>
                 </el-col>
                 <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
                   <span class="input-text"><font class="yy-color">*</font> 时间范围：</span>
@@ -130,8 +130,8 @@
 
               <el-row align="center"   :gutter="2">
                 <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
-                  <span class="input-text"><font class="yy-color">*</font>  航班号：</span>
-                  <el-input placeholder="请输入内容" size="small" v-model="pd1.fltno"  class="input-input" v-verify.input.blur="{regs:'required',submit:'timeDemo1'}"></el-input>
+                  <span class="input-text"> 航班号：</span>
+                  <el-input placeholder="请输入内容" size="small" v-model="pd1.fltno"  class="input-input"></el-input>
                 </el-col>
                 <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
                   <span class="input-text"><font class="yy-color">*</font>  时间范围：</span>
@@ -229,8 +229,8 @@
 
               <el-row align="center"   :gutter="2">
                 <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
-                  <span class="input-text"><font class="yy-color">*</font>  航班号：</span>
-                  <el-input placeholder="请输入内容" size="small" v-model="pd2.fltno"  class="input-input" v-verify.input.blur="{regs:'required',submit:'timeDemo2'}"></el-input>
+                  <span class="input-text"> 航班号：</span>
+                  <el-input placeholder="请输入内容" size="small" v-model="pd2.fltno"  class="input-input"></el-input>
                 </el-col>
                 <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
                   <span class="input-text"> <font class="yy-color">*</font> 时间范围：</span>
@@ -328,8 +328,8 @@
 
               <el-row align="center"   :gutter="2">
                 <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
-                  <span class="input-text"><font class="yy-color">*</font>  航班号：</span>
-                  <el-input placeholder="请输入内容" size="small" v-model="pd3.fltno"  class="input-input" v-verify.input.blur="{regs:'required',submit:'timeDemo3'}"></el-input>
+                  <span class="input-text"> 航班号：</span>
+                  <el-input placeholder="请输入内容" size="small" v-model="pd3.fltno"  class="input-input"></el-input>
                 </el-col>
                 <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
                   <span class="input-text"><font class="yy-color">*</font>  时间范围：</span>
@@ -621,12 +621,12 @@ export default {
        if (result.indexOf(false) > -1) {
          return
        }
-      if (this.pd.fltno==undefined || this.pd.fltno.trim() == "") {
-        this.$alert('航班号不能为空', '提示', {
-          confirmButtonText: '确定',
-        });
-        return false
-      };
+      // if (this.pd.fltno==undefined || this.pd.fltno.trim() == "") {
+      //   this.$alert('航班号不能为空', '提示', {
+      //     confirmButtonText: '确定',
+      //   });
+      //   return false
+      // };
       if (this.pd.begintime.trim()== "" || this.pd.endtime.trim() == "") {
         this.$alert('时间范围不能为空', '提示', {
           confirmButtonText: '确定',
@@ -643,7 +643,9 @@ export default {
         r => {
           console.log(r);
           this.tableData = r.data.resultList;
+          if(r.data.totalResult!="" && r.data.totalResult!=undefined){
           this.TotalResult = r.data.totalResult;
+        }
         })
 
     },
@@ -652,12 +654,12 @@ export default {
        if (result.indexOf(false) > -1) {
          return
        }
-      if (this.pd1.fltno==undefined || this.pd1.fltno.trim() == "") {
-        this.$alert('航班号不能为空', '提示', {
-          confirmButtonText: '确定',
-        });
-        return false
-      };
+      // if (this.pd1.fltno==undefined || this.pd1.fltno.trim() == "") {
+      //   this.$alert('航班号不能为空', '提示', {
+      //     confirmButtonText: '确定',
+      //   });
+      //   return false
+      // };
       if (this.pd1.begintime.trim()== "" || this.pd1.endtime.trim() == "") {
         this.$alert('时间范围不能为空', '提示', {
           confirmButtonText: '确定',
@@ -674,7 +676,9 @@ export default {
         r => {
           console.log(r);
           this.tableData1 = r.data.resultList;
+          if(r.data.totalResult!="" && r.data.totalResult!=undefined){
           this.TotalResult1 = r.data.totalResult;
+        }
         })
     },
     getList2(currentPage2, showCount2, pd2) {
@@ -682,12 +686,12 @@ export default {
        if (result.indexOf(false) > -1) {
          return
        }
-      if (this.pd2.fltno==undefined || this.pd2.fltno.trim() == "") {
-        this.$alert('航班号不能为空', '提示', {
-          confirmButtonText: '确定',
-        });
-        return false
-      };
+      // if (this.pd2.fltno==undefined || this.pd2.fltno.trim() == "") {
+      //   this.$alert('航班号不能为空', '提示', {
+      //     confirmButtonText: '确定',
+      //   });
+      //   return false
+      // };
       if (this.pd2.begintime.trim()== "" || this.pd2.endtime.trim() == "") {
         this.$alert('时间范围不能为空', '提示', {
           confirmButtonText: '确定',
@@ -704,7 +708,9 @@ export default {
         r => {
           console.log(r);
           this.tableData2 = r.data.resultList;
+          if(r.data.totalResult!="" && r.data.totalResult!=undefined){
           this.TotalResult2 = r.data.totalResult;
+        }
         })
     },
     getList3(currentPage3, showCount3, pd3) {
@@ -712,12 +718,12 @@ export default {
        if (result.indexOf(false) > -1) {
          return
        }
-      if (this.pd3.fltno==undefined || this.pd3.fltno.trim() == "") {
-        this.$alert('航班号不能为空', '提示', {
-          confirmButtonText: '确定',
-        });
-        return false
-      };
+      // if (this.pd3.fltno==undefined || this.pd3.fltno.trim() == "") {
+      //   this.$alert('航班号不能为空', '提示', {
+      //     confirmButtonText: '确定',
+      //   });
+      //   return false
+      // };
       if (this.pd3.begintime.trim()== "" || this.pd3.endtime.trim() == "") {
         this.$alert('时间范围不能为空', '提示', {
           confirmButtonText: '确定',
@@ -734,11 +740,12 @@ export default {
         r => {
           console.log(r);
           this.tableData3 = r.data.resultList;
+          if(r.data.totalResult!="" && r.data.totalResult!=undefined){
           this.TotalResult3 = r.data.totalResult;
+        }
         })
     },
   }
-
 }
 </script>
 

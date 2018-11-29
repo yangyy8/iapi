@@ -12,7 +12,7 @@
            <td>
              <div class="div c1" v-if='(ind+1)==1'>TOP{{ind+1}}</div>
              <div class="div c2" v-else-if='(ind+1)==2'>TOP{{ind+1}}</div>
-             <div class="div c3" v-else-if='(ind+1)==4'>TOP{{ind+1}}</div>
+             <div class="div c3" v-else-if='(ind+1)==3'>TOP{{ind+1}}</div>
              <div class="div c4" v-else>TOP{{ind+1}}</div>
            </td>
            <td><div class="rx"><img src="../../../../assets/img/tx1.png">&nbsp;{{site.NICKNAME}}</div></td>
@@ -157,5 +157,5 @@ padding: 0 !important;  vertical-align:bottom; color: #666; font-weight:500;
 .c1{background: #E23E3F; }
 .c2{background: #F19147;}
 .c3{background: #31B36D;}
-.c3{background: #9A9A9A;}
+.c4{background: #9A9A9A;}
 </style>

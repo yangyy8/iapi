@@ -107,8 +107,8 @@
           <el-row align="center"  class="yy-line">
             <el-col  :span="20">
               <span class="input-text" style="width:12%"><font class="yy-color">*</font> 行属性：</span>
-              <el-checkbox label="出入境方向" v-model="pd.rowproperty_flttype"></el-checkbox>
-              <el-checkbox label="国籍" v-model="pd.rowproperty_country"></el-checkbox>
+              <el-checkbox label="出入标识" v-model="pd.rowproperty_flttype"></el-checkbox>
+              <el-checkbox label="国籍/地区" v-model="pd.rowproperty_country"></el-checkbox>
               <el-checkbox label="出发地" v-model="pd.rowproperty_cityfrom"></el-checkbox>
               <el-checkbox label="目的地" v-model="pd.rowproperty_cityro"></el-checkbox>
               <el-checkbox label="人员类别" v-model="pd.rowproperty_passengertype"></el-checkbox>
@@ -162,13 +162,13 @@
                   show-summary
                   border
                   >
-                  <el-table-column
+                  <!-- <el-table-column
                     prop=""
                     label="">
-                  </el-table-column>
+                  </el-table-column> -->
                   <el-table-column
-                    prop="flttype"
-                    label="入出境方向" v-if='show1'>
+                    prop="flighttype"
+                    label="出入标识" v-if='show1'>
                   </el-table-column>
                   <el-table-column
                     prop="cityto"
@@ -176,7 +176,7 @@
                   </el-table-column>
                   <el-table-column
                     prop="country"
-                    label="国籍" v-if='show3'>
+                    label="国籍/地区" v-if='show3'>
                   </el-table-column>
                   <el-table-column
                     prop="fltcount"
@@ -257,10 +257,10 @@
 </template>
 <script>
 import echarts from 'echarts'
-
 import {formatDate,format} from '@/assets/js/date.js'
 import {dayGap} from '@/assets/js/date.js'
 import axios from 'axios'
+
 export default {
   data() {
     return {
@@ -542,6 +542,7 @@ console.log(arr.length+"======");
             sum006 += parseInt(arr[i].chk_2z);
             sum0006 += parseInt(arr[i].chk_4z);
           }
+
           this.sData1 = [{
             value: sum1,
             name: '航班数量'
@@ -593,7 +594,7 @@ console.log(arr.length+"======");
             value: sum0006,
             name: '数据错误'
           }];
-          //  console.log(this.sData1+"------------"+sum0+"==="+sum00);
+
           this.drawLine();
           this.drawLine2();
           this.drawLine3();
@@ -660,6 +661,7 @@ console.log(arr.length+"======");
       this.lineChart = echarts.init(document.getElementById('myChart'), 'light');
       window.onresize = echarts.init(document.getElementById('myChart')).resize;
       let that = this;
+
       this.lineChart.setOption({
         tooltip: {
           trigger: 'item',
@@ -801,4 +803,5 @@ console.log(arr.length+"======");
   padding: 20px;
   border-radius: 0 5px 5px 5px;
 }
+.ppie{width:420px; height:400px; float:left}
 </style>

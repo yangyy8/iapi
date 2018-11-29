@@ -41,9 +41,17 @@
           </el-col>
         </el-row>
         <el-row type="flex" class="mb-6 " >
-          <el-col :span="20" class="ttitle">
-       附件： <span v-for="name in accessoryNameList">{{ name.ACCESSORYNAME }}<span class="sspan">下载   </span></span>
-          </el-col>
+          <el-col :span="1"  class="ttitle" style="line-height:30px;">附件：</el-col>
+          <el-col :span="15" style="line-height:30px;">
+       <!-- 附件： <span v-for="name in accessoryNameList">{{ name.ACCESSORYNAME }}
+         <span class="sspan"> <a :href="name.URL">下载</a>   </span>   </span>-->
+
+   <div class="" v-for="name in accessoryNameList" :key="ind">
+     <span class="mr-30">{{name.ACCESSORYNAME}}</span>
+
+     <a :href="name.URL">下载</a>
+   </div>
+  </el-col>
           <el-col :span="4" style="text-align:right">
 
           <!-- 回复 -->
