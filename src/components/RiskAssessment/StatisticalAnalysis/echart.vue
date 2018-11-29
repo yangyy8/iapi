@@ -42,13 +42,6 @@ export default {
       let _this=this
       let color=['rgba(110,180,252,1)', 'rgba(244,173,57,1)', 'rgba(52,182,180,1)']
       let arr=this.chartdata.series
-      // this.chartdata.series
-      // for(var i=0;i<arr.length;i++){
-      //   if(arr[i].xAxisIndex==1){
-      //     arr[i].itemStyle.color=
-      //   }
-      //
-      // }
 
       liangChart.setOption({
         tooltip : {
@@ -68,7 +61,7 @@ export default {
             }
         },
         calculable : true,
-        grid: {y: 70, y2:30, x2:20},
+        grid: {x:40,y: 70, y2:30, x2:20},
         color:color,
         xAxis : [
             {
@@ -102,17 +95,6 @@ export default {
             }
         ],
         series:_this.chartdata.series
-        // series : [
-        //     {
-        //         name:'中国--使用量',
-        //         type:'bar',
-        //         xAxisIndex:1,
-        //         // itemStyle: {normal: {color:'rgba(193,35,43,1)', label:{show:true}}},
-        //         data:[10, 0, 0, 0, 0, 0, 0, 0, 60, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-        //     },
-
-
-        // ]
       })
 
     },

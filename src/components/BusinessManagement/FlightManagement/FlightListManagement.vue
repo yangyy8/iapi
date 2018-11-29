@@ -46,23 +46,23 @@
             </el-col>
             <el-col :sm="24" :md="12" :lg="8" class="input-item">
               <span class="input-text">出发地：</span>
-              <el-select placeholder="请选择" v-model="cdt.FLTDEPT" filterable clearable   size="small"  class="input-input">
+              <el-select placeholder="请选择" v-model="cdt.FLTDEPT" filterable clearable   size="small"  class="input-input" @visible-change="takeOff">
                 <el-option
                   v-for="item in startPark"
-                  :key="item.code"
-                  :value="item.code"
-                  :label="item.code+' - '+item.name"
+                  :key="item.AIRPORT_CODE"
+                  :value="item.AIRPORT_CODE"
+                  :label="item.AIRPORT_CODE+' - '+item.AIRPORT_NAME"
                 ></el-option>
               </el-select>
             </el-col>
             <el-col :sm="24" :md="12" :lg="8" class="input-item">
               <span class="input-text">目的地：</span>
-              <el-select placeholder="请选择" v-model="cdt.FLTDEST" filterable clearable size="small"  class="input-input">
+              <el-select placeholder="请选择" v-model="cdt.FLTDEST" filterable clearable size="small"  class="input-input" @visible-change="landing">
                 <el-option
                   v-for="item in endPark"
-                  :key="item.CODE"
-                  :value="item.CODE"
-                  :label="item.CODE+' - '+item.CNAME"
+                  :key="item.AIRPORT_CODE"
+                  :value="item.AIRPORT_CODE"
+                  :label="item.AIRPORT_CODE+' - '+item.AIRPORT_NAME"
                 ></el-option>
               </el-select>
             </el-col>
@@ -390,7 +390,7 @@ export default {
         })
     },
     download(){
-      window.location.href=this.$api.rootUrl+'/manage-platform/templateFile/airport_temple.xlsx'
+      window.location.href=this.$api.rootUrl+'/manage-platform/templateFile/flt_temple.xlsx'
       // window.location.href='http://192.168.99.245:8080/manage-platform/templateFile/flt_temple.xlsx'
     },
     handleSelectionChange(val) {
@@ -520,7 +520,7 @@ export default {
     },
     city(){//调用城市
       var countryCode='';
-      countryCode = this.cdt.countryCode
+      countryCode = this.cdt.COUNTRY_CODE
       let p = {
         'countryCode':countryCode
       }
@@ -607,6 +607,22 @@ export default {
           message: '已取消删除'
         });
       });
+    },
+    takeOff(){//调用起飞机场
+      this.$api.post('/manage-platform/codeTable/queryAirport',{},
+       r =>{
+         if(r.success){
+           this.startPark = r.data;
+         }
+       })
+    },
+    landing(){//调用降落机场
+      this.$api.post('/manage-platform/codeTable/queryAirport',{},
+       r =>{
+         if(r.success){
+           this.endPark = r.data;
+         }
+       })
     },
   },
   filters: {
