@@ -9,7 +9,7 @@
           </div>
           <el-row align="center" :gutter="2">
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
-              <span class="input-text">国籍：</span>
+              <span class="input-text">国籍/地区：</span>
               <el-select v-model="pd.NATIONALITY" filterable clearable placeholder="请选择"  size="small" class="input-input">
                 <el-option
                   v-for="item in nationAlone"
@@ -204,7 +204,7 @@
         <el-table-column
           prop="NATIONALITYNAME"
 
-          label="国籍">
+          label="国籍/地区">
 
         </el-table-column>
         <!-- <el-table-column
@@ -300,7 +300,7 @@
       <el-form :model="form" ref="addForm">
         <el-row  class="mb-6" align="center">
           <el-col :sm="24" :md="12" :lg="8"  class="input-item">
-            <span class="input-text"><span class="redx">*</span>国籍：</span>
+            <span class="input-text"><span class="redx">*</span>国籍/地区：</span>
             <el-select v-model="form.NATIONALITY" filterable clearable placeholder="请选择"  v-verify.change.blur ="{regs:'required',submit:'demo2'}" size="small" class="input-input">
               <el-option
                 v-for="item in nationAlone"
@@ -502,7 +502,7 @@
         </el-row>
         <el-row type="flex" class="detail-msg-row">
           <el-col :sm="24" :md="12" :lg="8" >
-            <span>国籍</span>
+            <span>国籍/地区</span>
           {{detailsData.NATIONALITYNAME}}
 
           </el-col>
