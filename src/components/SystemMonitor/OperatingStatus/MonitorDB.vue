@@ -59,16 +59,11 @@ export default {
   },
   filters: {
     fifter1(val) {
-      if (val == 0) {
+      if(val==0){
         return "DMZ区"
-      } else if (val == 1) {
-        return "整合分发区"
-      } else if (val == 2) {
+      }else{
         return "业务平台区"
-      } else {
-        return "DMZ区"
       }
-      // return val*2
     },
     fifter3(val) {
       if (val == 0) {

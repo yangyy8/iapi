@@ -223,7 +223,7 @@
         <el-row type="flex" class="mb-6" >
           <el-col :span="24" class="input-item">
             <span class="yy-input-text">值班时段：</span>
-            <el-input type="textarea" placeholder="请输入内容" :autosize="{ minRows: 3, maxRows: 6}" v-model="form.content" class="yy-input-input" :disabled="true" style="color:#000!important"></el-input>
+            <el-input type="textarea" placeholder="请输入内容" :autosize="{ minRows: 3, maxRows: 6}" v-model="form.content" class="yy-input-input" :disabled="true"></el-input>
           </el-col>
         </el-row>
       </el-form>
@@ -469,19 +469,6 @@ export default {
 }
 .checked{
   background:#56A8FE; color:#ffffff;
-}
-.tubiao{
-  width:100px; padding:5.5px 15px;
-  border:1px solid #399bfe;
-  font-size: 13px;
-}
-.borderL{
-  border-top-left-radius: 3px;
-  border-bottom-left-radius: 3px;
-}
-.borderR{
-  border-top-right-radius: 3px;
-  border-bottom-right-radius: 3px;
 }
 .ttt{
   width:40%!important;

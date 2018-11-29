@@ -241,7 +241,8 @@
         <el-button @click="addDialogVisible = false" size="small">取 消</el-button>
       </div>
     </el-dialog>
-    <!-- action="http://192.168.99.245:8080/manage-platform/airportManage/importFlightManage" -->
+    <!-- :action="$api.rootUrl+'/manage-platform/airportManage/importFlightManage'" -->
+
     <el-dialog title="批量导入" :visible.sync="uploadDialogVisible"   width="640px"
     :before-close="handleClose">
       <el-form :model="importform" ref="importForm">
@@ -251,7 +252,7 @@
           name="file"
           :multiple="false"
           accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-          :action="$api.rootUrl+'/manage-platform/airportManage/importFlightManage'"
+          action="http://192.168.99.245:8081/manage-platform/airportManage/importFlightManage"
           :on-success="uploadSuccess"
           :limit="1"
           :on-exceed="handleExceed"
@@ -416,15 +417,18 @@ export default {
         this.$refs.upload.clearFiles();
         this.$message({
           duration:3000,
-          message: '恭喜你，导入成功！',
+          message: response.data,
           type: 'success'
         });
       }else{
+        // alert(response.message);
         this.$message({
-          duration:3000,
+          duration:6000,
+          dangerouslyUseHTMLString: true,
           message: response.message,
           type: 'warning'
         });
+        this.uploadDialogVisible=false;
       }
     },
     handleExceed(files, fileList){
