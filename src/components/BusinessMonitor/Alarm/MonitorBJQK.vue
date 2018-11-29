@@ -176,10 +176,11 @@ export default {
   mounted(){
     // this.getList(this.CurrentPage,this.pageSize,this.pd);
     this.queryAirport();
-  },
-  activated(){
     let end = new Date();
     this.pd.fltDate= formatDate(end, 'yyyyMMdd');
+  },
+  activated(){
+
     // this.pd.fltDate= '20181008';
 
     this.getList(this.CurrentPage,this.pageSize,this.pd);

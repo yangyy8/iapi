@@ -148,7 +148,7 @@
           </el-col>
           <el-col :span="2" class="down-btn-area">
             <el-button type="success" size="small" @click="pd.type='0';getList(CurrentPage,pageSize,pd)">查询</el-button>
-            <!-- <el-button type="primary" plain size="small" >重置</el-button> -->
+            <el-button type="primary" plain size="small"  class="mt-15" @click="reset" v-if="moreShow">重置</el-button>
           </el-col>
         </el-row>
     </div>
@@ -569,6 +569,12 @@ export default {
     handleClose(done) {
       // this.czform={};
       done();
+    },
+    reset(){
+      this.CurrentPage=1;
+      this.pageSize=10;
+      this.pd={type:'0',status:'0'};
+      this.getList(this.CurrentPage,this.pageSize,this.pd);
     },
     queryAirport(){
       this.$api.post('/manage-platform/riskEventController/getDeptInfo',{},
