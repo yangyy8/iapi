@@ -129,7 +129,7 @@
                                      label="女">
                                    </el-table-column>
                               </el-table-column>
-                                 <el-table-column label="国籍构成">
+                                 <el-table-column label="国家构成">
                                      <el-table-column
                                        prop="foreign"
                                        label="外国人">
@@ -422,7 +422,7 @@ console.log(value);
         },
           series: [
                 {
-                  name:'国籍构成',
+                  name:'国家构成',
                   type:'pie',
                   radius: ['30%', '50%'],
                   center: ['50%', '30%'],   //调整位置
@@ -465,6 +465,6 @@ console.log(value);
   padding: 20px;
   border-radius: 0 5px 5px 5px;
 }
-.ppie{width:420px; height:400px; float:left}
+.ppie{width:420px; height:400px; padding-top: 30px;float:left}
 
 </style>

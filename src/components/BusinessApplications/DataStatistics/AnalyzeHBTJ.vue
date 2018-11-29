@@ -159,7 +159,7 @@
                          label="女">
                        </el-table-column>
                   </el-table-column>
-                     <el-table-column label="国籍构成">
+                     <el-table-column label="国家构成">
                          <el-table-column
                            prop="foreign"
                            label="外国人">
@@ -607,7 +607,7 @@ export default {
         },
           series: [
                 {
-                  name:'旅客类型构成',
+                  name:'人员类别',
                   type:'pie',
                   radius: ['30%', '50%'],
                   center: ['50%', '50%'],   //调整位置
