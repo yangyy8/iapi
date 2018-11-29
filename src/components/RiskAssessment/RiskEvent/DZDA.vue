@@ -167,7 +167,7 @@
                   <el-table-column
                     label="操作">
                     <template slot-scope="scope">
-                      <el-button type="text" class="a-btn" icon="el-icon-view" title="事件处理查看" ></el-button>
+                      <el-button type="text" class="a-btn" icon="el-icon-view" title="事件处理查看"  @click="$router.push({name:'BJCLCX',query:{serial:scope.row.EVENTSERIAL}})"></el-button>
                     </template>
                   </el-table-column>
                 </el-table>
@@ -383,40 +383,55 @@
                   border
                   style="width: 100%">
                   <el-table-column
-                    label="姓名">
+                    label="姓名"
+                    prop="pers_name_cn">
                   </el-table-column>
                   <el-table-column
-                    label="性别">
+                    label="性别"
+                    prop="pers_gender">
                   </el-table-column>
                   <el-table-column
-                    label="出生日期">
+                    label="出生日期"
+                    prop="pers_birth_date">
                   </el-table-column>
                   <el-table-column
-                    label="证件类型">
+                    label="证件类型"
+                    prop="cert_type">
                   </el-table-column>
                   <el-table-column
-                    label="证件号码">
+                    label="证件号码"
+                    prop="cert_no">
+                    <template slot-scope="scope">
+                      <span class="tc-b hand" @click="moreFn('box7',scope.row)">{{scope.row.cert_no}}</span>
+                    </template>
                   </el-table-column>
                   <el-table-column
-                    label="原证件号码">
+                    label="原证件号码"
+                    prop="holding_cert_type">
                   </el-table-column>
                   <el-table-column
-                    label="身份证号">
+                    label="身份证号"
+                    prop="pers_card_id">
                   </el-table-column>
                   <el-table-column
-                    label="户籍">
+                    label="户籍"
+                    prop="rsdt_region_code">
                   </el-table-column>
                   <el-table-column
-                    label="审批机关">
+                    label="审批机关"
+                    prop="issuing_unit">
                   </el-table-column>
                   <el-table-column
-                    label="签发日期">
+                    label="签发日期"
+                    prop="issuing_date">
                   </el-table-column>
                   <el-table-column
-                    label="证件有效期至">
+                    label="证件有效期至"
+                    prop="cert_vld">
                   </el-table-column>
                   <el-table-column
-                    label="联系电话">
+                    label="联系电话"
+                    prop="contact_tel">
                   </el-table-column>
                 </el-table>
               </div>
@@ -688,7 +703,7 @@
                     label="证件号码"
                     prop="cert_no">
                     <template slot-scope="scope">
-                      <span class="tc-b hand" @click="moreFn('box11',scope.row)">{{scope.row.cert_no||'-'}}</span>
+                      <span class="tc-b hand" @click="moreFn('box1101',scope.row)">{{scope.row.cert_no||'-'}}</span>
                     </template>
                   </el-table-column>
                   <el-table-column
@@ -744,7 +759,7 @@
                     label="证件号码"
                     prop="hold_cert_no">
                     <template slot-scope="scope">
-                      <span class="tc-b hand" @click="moreFn('box11',scope.row)">{{scope.row.hold_cert_no||'-'}}</span>
+                      <span class="tc-b hand" @click="moreFn('box1102',scope.row)">{{scope.row.hold_cert_no||'-'}}</span>
                     </template>
                   </el-table-column>
                   <el-table-column
@@ -764,16 +779,12 @@
                     prop="visas_no">
                   </el-table-column>
                   <el-table-column
-                    label="审批机关"
-                    prop="issuing_unit_na">
-                  </el-table-column>
-                  <el-table-column
-                    label="登记单位"
-                    prop="tsu_name">
-                  </el-table-column>
-                  <el-table-column
                     label="登记时间"
                     prop="">
+                  </el-table-column>
+                  <el-table-column
+                    label="签发单位"
+                    prop="issuing_unit_na">
                   </el-table-column>
                   <el-table-column
                     label="住宿地点"
@@ -1173,7 +1184,7 @@
             </div>
             <div class="boder1" ref="box20">
               <div class="title-green hand mt-10" @click="box20=!box20">
-                 民航离岗信息 <i class="el-icon-d-caret"></i>
+                 民航离港信息 <i class="el-icon-d-caret"></i>
               </div>
               <div v-if="box20">
                 <el-table
@@ -1244,7 +1255,7 @@
     </div>
     <el-dialog title="标签管理" :visible.sync="tagDialogVisible" width="640px">
       <el-checkbox-group v-model="tagCheckList" class="mb-20">
-       <el-checkbox :label="x.LABELTYPE_CODE||x.SERIAL"  v-for="(x,ind) in tagList" :key="ind">{{x.LABELNAME||x.TAG_NAME}}</el-checkbox>
+       <el-checkbox :label="x.SERIAL"  v-for="(x,ind) in tagList" :key="ind">{{x.LABELNAME||x.TAG_NAME}}</el-checkbox>
       </el-checkbox-group>
       <div class="f-bold mb-9">
         原因(必填)
@@ -1450,7 +1461,7 @@ export default {
           id:"box19"
         },
         {
-          name:"民航离岗",
+          name:"民航离港",
           id:"box20"
         },
       ],
@@ -1639,8 +1650,8 @@ export default {
     // 综合信息展示内容
     getRecordOtherInfo(type){
       let p={
-        "nationality":"CHN",
-        "passportno":"140215727",
+        "nationality":this.nationality,
+        "passportno":this.passportno,
         "birth":this.data0.BIRTHDAY,
         "type":type
       }
@@ -1652,7 +1663,7 @@ export default {
              this.data6=r.data.data.dcap_f_per_act_psr_imm;
              break;
            case 'immcard':
-             this.data7=r.data.data.dcap_f_per_act_psr_imm;
+             this.data7=r.data.data.immcard;
              break;
            case 'visa':
              if(r.data.data.dcap_f_per_cert_chn_issue){

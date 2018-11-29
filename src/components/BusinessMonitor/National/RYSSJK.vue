@@ -9,10 +9,10 @@
 
         <el-col :sm="24" :md="12"  :lg="8" class="input-item">
           <span class="input-text">出入标识：</span>
-          <el-select v-model="pd.iOType"  @change="getList(CurrentPage,pageSize,pd)" placeholder="请选择"  size="small" clearable filterable class="block input-input">
+          <el-select v-model="pd.ioType"  @change="getList(CurrentPage,pageSize,pd)" placeholder="请选择"  size="small" clearable filterable class="block input-input">
             <el-option label="I - 入境" value="I"></el-option>
             <el-option label="O - 出境" value="O"></el-option>
-            <el-option label="A - 入出境" value="A"></el-option>
+            <el-option label="A - 入出境" value="''"></el-option>
           </el-select>
         </el-col>
         <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
@@ -56,16 +56,17 @@
       <div class="middle-tab-content">
         <el-button type="success"  icon="el-icon-refresh" size="small" class="mb-9 mr-15" @click="getList(CurrentPage,pageSize,pd)">刷新</el-button>
         <el-checkbox v-model="checked">自动刷新</el-checkbox>
+        <span class="tc-999 f-14">注：点击每行可查看人员详情</span>
         <el-table
           ref="multipleTable"
           :data="tableData"
           border
+          @row-click="rowClick"
           style="width: 100%;">
           <el-table-column
             label="姓名"
             prop="name"
-            sortable
-            width="110">
+            sortable>
           </el-table-column>
           <el-table-column
             label="性别"
@@ -89,7 +90,7 @@
             label="国籍"
             prop="nationalityName"
             sortable
-            width="80">
+            width="120">
           </el-table-column>
           <el-table-column
             label="出入标识"
@@ -118,14 +119,13 @@
           </el-table-column> -->
           <el-table-column
             label="证件种类"
-            prop="cardTypeName"
-            width="110">
+            prop="cardTypeName">
           </el-table-column>
           <el-table-column
             label="证件号码"
             prop="passportNo"
             sortable
-            width="150">
+            width="180">
           </el-table-column>
           <el-table-column
             label="签证种类"
@@ -146,7 +146,7 @@
           <el-table-column
             label="是否非法载运人员"
             prop="illegalMan"
-            sortable>
+            width="80">
             <template slot-scope="scope">
               <div>
                 <span v-if="scope.row.illegalMan==0">否</span>
@@ -157,7 +157,7 @@
           <el-table-column
             label="是否重点关注人员"
             prop="focusMan"
-            sortable>
+            width="80">
             <template slot-scope="scope">
               <div>
                 <span v-if="scope.row.focusMan==0">否</span>
@@ -304,13 +304,14 @@ export default {
   mounted(){
     // this.getList(this.CurrentPage,this.pageSize,this.pd);
     // this.queryAirport();
-    this.queryNationalityAlone();
-  },
-  activated(){
     let end = new Date();
     let begin = new Date(end - 24*60*60*1000);
     this.pd.fltDateFr= formatDate(begin, 'yyyyMMdd');
     this.pd.fltDateTo= formatDate(end, 'yyyyMMdd');
+    this.queryNationalityAlone();
+  },
+  activated(){
+
     this.getList2();
     this.getList(this.CurrentPage,this.pageSize,this.pd);
 
@@ -318,7 +319,7 @@ export default {
       let that=this;
       this.timer=setInterval(function(){
         that.getList(that.CurrentPage,that.pageSize,that.pd);
-      },15000)
+      },60000)
     }
 
   },
@@ -332,7 +333,7 @@ export default {
         let that=this;
         this.timer=setInterval(function(){
           that.getList(that.CurrentPage,that.pageSize,that.pd);
-        },15000)
+        },60000)
       }else{
         clearInterval(this.timer);
       }
@@ -431,6 +432,9 @@ export default {
          });
        });
 
+    },
+    rowClick(row){
+    
     },
   }
 }

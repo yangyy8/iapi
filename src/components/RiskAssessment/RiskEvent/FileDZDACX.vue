@@ -19,14 +19,10 @@
               <span class="input-text">证件号：</span>
               <el-input v-model="pd.passportno" placeholder="请输入内容" size="small" clearable class="input-input"></el-input>
             </el-col>
-            <el-col :sm="24" :md="12" :lg="8" class="input-item">
+            <!-- <el-col :sm="24" :md="12" :lg="8" class="input-item">
               <span class="input-text">姓名：</span>
               <el-input v-model="pd.name" placeholder="请输入内容" size="small" clearable class="input-input"></el-input>
             </el-col>
-            <!-- <el-col :sm="24" :md="12" :lg="8" class="input-item">
-              <span class="input-text">英文姓名：</span>
-              <el-input v-model="pd.ename" placeholder="请输入内容" size="small" clearable class="input-input"></el-input>
-            </el-col> -->
             <el-col :sm="24" :md="12" :lg="8" class="input-item">
               <span class="input-text">出生日期：</span>
               <el-date-picker
@@ -55,7 +51,7 @@
                   :value="item.LABELTYPE_CODE">
                 </el-option>
               </el-select>
-            </el-col>
+            </el-col> -->
           </el-row>
 
 
@@ -67,7 +63,7 @@
         </el-col>
       </el-row>
     </div>
-    <div class="middle t-table">
+    <div class="middle">
       <div class="">
         <el-table
           class="mt-10"
@@ -108,6 +104,8 @@
             width="80">
             <template slot-scope="scope">
               <el-button type="text" class="a-btn" icon="el-icon-view" title="查看" @click="$router.push({name:'DZDA',query:{nationality:scope.row.NATIONALITY,passportno:scope.row.PASSPORTNO}})"></el-button>
+              <!-- <el-button type="text" class="a-btn" icon="el-icon-edit-outline"  title="事件追加" @click="openGdTc(scope.row)"></el-button> -->
+
             </template>
           </el-table-column>
         </el-table>
@@ -144,17 +142,21 @@
       </div>
 
     </div>
+    <!-- <GDTC :gtitle="'事件追加'" :gvisible="gdDialogVisible" :garr="checkeditem"  @gclose="gclose"></GDTC> -->
+
   </div>
 </template>
 
 <script>
+// import GDTC from './GDTC'
+
 export default {
   data(){
     return{
       moreShow:false,
       page: 0,
       multipleSelection:null,
-      tableData:[],
+      tableData:[{}],
       CurrentPage:1,
       pageSize:10,
       TotalResult:0,
@@ -176,6 +178,7 @@ export default {
           label:"30"
         }
       ],
+      checkeditem:{}
     }
   },
   mounted(){
@@ -236,6 +239,14 @@ export default {
          this.TotalResult=r.data.totalResult;
       })
     },
+    // openGdTc(item){
+    //   this.checkeditem=item;
+    //   this.gdDialogVisible=true;
+    // },
+    // gclose(data){
+    //   console.log(data)
+    //   this.gdDialogVisible=data;
+    // },
   }
 }
 </script>

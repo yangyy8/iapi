@@ -13,7 +13,7 @@
             <el-button type="primary" size="small" class="mb-9" style="width:100%" @click="$router.push({name:'DZDA',query:{nationality:page0Data.nationality,passportno:page0Data.passportno}})">电子档案</el-button>
             <el-button type="primary" size="small" class="mb-9" style="width:100%">综合查询</el-button>
             <el-button type="primary" size="small" class="mb-9" style="width:100%">照片比对</el-button>
-            <el-button type="success" size="small" style="width:100%" :disabled="!operation_type">事件归档</el-button>
+            <el-button type="success" size="small" style="width:100%" :disabled="!operation_type" @click="openGdTc(page0Data)">事件归档</el-button>
           </div>
         </el-col>
         <el-col :span="21">
@@ -90,8 +90,7 @@
               </div>
               <div class="">
                 <el-popover
-                  v-for="(x,ind) in box1Data.validList" :key="ind" v-if="ind<size.size0"
-                  ref="popover"
+                  v-for="(x,ind) in box1Data.validList" :key="ind" v-if="x.REMARK&&ind<size.size0"
                   placement="bottom"
                   width="200"
                   trigger="hover"
@@ -99,6 +98,8 @@
                   <el-tag type="warning" slot="reference" size="small" class="mr-5" v-if="x.OPERATION_TYPE==1">{{x.TAG_NAME}}</el-tag>
                   <el-tag type="info" slot="reference" size="small" class="mr-5" v-if="x.OPERATION_TYPE==2">{{x.TAG_NAME}}</el-tag>
                 </el-popover>
+                <el-tag type="warning"  v-for="(x,ind) in box1Data.validList" :key="ind" v-if="x.OPERATION_TYPE==1&&ind<size.size0" size="small" class="mr-5">{{x.TAG_NAME}}</el-tag>
+                <el-tag type="info"   v-for="(x,ind) in box1Data.validList" :key="ind" v-if="x.OPERATION_TYPE==2&&ind<size.size0" size="small" class="mr-5">{{x.TAG_NAME}}</el-tag>
 
                 <el-button type="text" size="small" @click="moreShow=true;size.size0=box1Data.validList.length+1" v-if="!moreShow&&box1Data.validList.length>6">查看更多 ></el-button>
                 <el-button type="text" size="small" @click="moreShow=false;size.size0=6" v-if="moreShow">收起<</el-button>
@@ -143,10 +144,8 @@
                 </div>
 
                 <div class="box1-more">
-
                   <el-button type="text" @click="size.size1=box1Data.particularsList.length+1" v-if="box1Data.particularsList.length>3&&size.size1==3">展开更多 ﹀</el-button>
                   <el-button type="text" @click="size.size1=3" v-if="size.size1==box1Data.particularsList.length+1">收起 ︿</el-button>
-
                 </div>
               </div>
             </div>
@@ -158,7 +157,7 @@
                 <div class="box2-content mb-9" v-for="(b,ind) in box2Data" :key="ind" v-if="ind<size.size2">
                   <div class="box2-t-box">
                     <span>{{b.modelName}}</span>
-                    <el-button type="primary" plain size="small">模型相关案例</el-button>
+                    <el-button type="primary" plain size="small" @click="getModelCaseInfo(b.model_code,b.model_version)">模型相关案例</el-button>
                   </div>
                   <div class="gc-box">
                     <span>风险等级：</span> <el-rate :value="b.grade" disabled class="mt-5"></el-rate>
@@ -191,27 +190,33 @@
                     <span>自动计算信息</span>
                   </div>
                   <el-row class="middle-msg-row2" :gutter="2">
-                    <el-col :span="6" v-for="(c1,ind) in box3Data.autoTargetInfo" :key="ind" :class="{'redx':c1.ISHIT==1}">
+                    <el-col :span="6" v-for="(c1,ind) in box3Data.autoTargetInfo" :key="ind" v-if="ind<size.size301">
                       <span>{{c1.TARGET_NAME}}：</span>
                       {{c1.TARGET_VALUE}}
                     </el-col>
                   </el-row>
+
+                </div>
+                <div class="box1-more">
+                  <el-button type="text" @click="size.size301=box3Data.autoTargetInfo.length+1" v-if="box3Data.autoTargetInfo.length>16&&size.size301==16">展开更多 ﹀</el-button>
+                  <el-button type="text" @click="size.size301=16" v-if="size.size301==box3Data.autoTargetInfo.length+1">收起 ︿</el-button>
                 </div>
                 <div class="box2-content mb-9">
                   <div class="box2-t-box">
                     <span>手动计算信息</span>
                   </div>
                   <el-row class="middle-msg-row2" :gutter="2">
-                    <el-col :span="6" v-for="(c2,ind) in box3Data.manualTargetInfo" :key="ind" :class="{'redx':c1.ISHIT==1}">
+                    <el-col :span="6" v-for="(c2,ind) in box3Data.manualTargetInfo" :key="ind"  v-if="ind<size.size302">
                       <span>{{c2.TARGET_NAME}}：</span>
-                      {{c1.TARGET_VALUE}}
+                      {{c2.TARGET_VALUE}}
                     </el-col>
 
                   </el-row>
                 </div>
-                <!-- <div class="box1-more">
-                  <el-button type="text">展开更多 ﹀</el-button>
-                </div> -->
+                <div class="box1-more">
+                  <el-button type="text" @click="size.size302=box3Data.manualTargetInfo.length+1" v-if="box3Data.manualTargetInfo.length>16&&size.size302==16">展开更多 ﹀</el-button>
+                  <el-button type="text" @click="size.size302=16" v-if="size.size302==box3Data.manualTargetInfo.length+1">收起 ︿</el-button>
+                </div>
               </div>
             </div>
           </div>
@@ -222,7 +227,7 @@
               </div>
               <div v-if="box4">
                 <!-- <el-button type="primary" plain size="small">模型相关案例</el-button> -->
-                <div class="box2-content mb-9" v-for="(d1,ind) in box4Data.checkTacticsList" :key="ind" v-if="ind<size.size3">
+                <div class="box2-content mb-9" v-for="(d1,ind) in box4Data.checkTacticsList" :key="ind" v-if="ind<size.size4">
                   <div class="gc-box">
                     <div><span class="b-dot"></span>{{d1.modelName}}：</div>
                     <div class="">
@@ -231,8 +236,8 @@
                   </div>
                 </div>
                 <div class="box1-more">
-                  <el-button type="text" @click="size.size3=box4Data.checkTacticsList.length+1" v-if="box4Data.checkTacticsList.length>3&&size.size3==3">展开更多 ﹀</el-button>
-                  <el-button type="text" @click="size.size3=3" v-if="size.size3==box4Data.checkTacticsList.length+1">收起 ︿</el-button>
+                  <el-button type="text" @click="size.size4=box4Data.checkTacticsList.length+1" v-if="box4Data.checkTacticsList.length>3&&size.size4==3">展开更多 ﹀</el-button>
+                  <el-button type="text" @click="size.size4=3" v-if="size.size4==box4Data.checkTacticsList.length+1">收起 ︿</el-button>
                 </div>
                 <div class="gc-box">
                   <div class="">
@@ -406,11 +411,32 @@
         <el-button type="warning" @click="czDialogVisible=false" size="small">取消</el-button>
       </div> -->
     </el-dialog>
+    <GDTC :gtitle="'事件归档'" :gvisible="gdDialogVisible" :garr="checkeditem" :gtype="'1'" @gclose="gclose"></GDTC>
+
+    <el-dialog title="模型相关案例描述" :visible.sync="modelDialogVisible" width="640px">
+      <div class="mb-20">
+        <div class="" v-for="(x,ind) in modeldec" >
+          <p v-if="x.CASE_NARRATION">{{x.CASE_NARRATION}}</p>
+          <p v-else>该模型没有案例描述！</p>
+        </div>
+
+      </div>
+
+      <!-- <div slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="czSave" size="small">确认</el-button>
+        <el-button type="warning" @click="czDialogVisible=false" size="small">取消</el-button>
+      </div> -->
+    </el-dialog>
+
   </div>
 </template>
 
 <script>
+import GDTC from './GDTC'
+
 export default {
+  components:{GDTC},
+
   data(){
     return{
       user:null,
@@ -432,14 +458,18 @@ export default {
       box5Data:{},
       box6:true,
       box7:true,
-      size:{size0:6,size1:3,size2:3,size3:3,size8:3},
+      size:{size0:6,size1:3,size2:3,size301:16,size302:16,size4:3,size8:3},
       serial:null,
       fileData:null,
       addListCustom:null,
       listRiskCustom:[],
       czDialogVisible:false,
       checkList:[],
-      fuji:true
+      fuji:true,
+      gdDialogVisible:false,
+      checkeditem:null,
+      modelDialogVisible:false,
+      modeldec:null,
     }
   },
   mounted(){
@@ -451,8 +481,8 @@ export default {
     this.page=this.$route.query.page;
     this.operation_type=this.$route.query.operation_type;
     this.serial=this.$route.query.serial;
+    this.getRiskIapiInfo();
     if(this.page==0){
-      this.getRiskIapiInfo();
       this.getHisModelInfo();
       this.getOperationalTargetInfo();
     }else if(this.page==1){
@@ -466,6 +496,7 @@ export default {
         this.getHisModelInfo();
         this.getOperationalTargetInfo();
       }else if(val==1){
+        this.getRiskIapiInfo();
         this.getRiskDescRecordInfo();
 
       }
@@ -637,10 +668,10 @@ export default {
       this.$api.post('/manage-platform/riskEventWarningController/upload',p,
        r => {
          if(r.success){
-           this.$message({
-             message: '恭喜你，上传成功！',
-             type: 'success'
-           });
+           // this.$message({
+           //   message: '恭喜你，上传成功！',
+           //   type: 'success'
+           // });
            if(this.delIndex.indexOf("3,")==-1){
              this.delIndex+="3,"
            }
@@ -689,14 +720,12 @@ export default {
     saveRiskDescRecordInfo(){
       if(this.fileData){
         this.upload();
-      }else{
-
       }
-      console.log(this.upload())
-      if(this.listRiskCustom.length>0&&is.delIndex.indexOf("1,")==-1){
+      // console.log(this.upload())
+      if(this.listRiskCustom.length>0&&this.delIndex.indexOf("1,")==-1){
         this.delIndex+="1,"
       }
-      if(this.checkList.length>0&&is.delIndex.indexOf("2,")==-1){
+      if(this.checkList.length>0&&this.delIndex.indexOf("2,")==-1){
         this.delIndex+="2,"
       }
       let p={
@@ -720,6 +749,27 @@ export default {
          }
       })
     },
+    openGdTc(item){
+      this.checkeditem=item;
+      this.gdDialogVisible=true;
+    },
+    gclose(data){
+      console.log(data)
+      this.gdDialogVisible=data;
+    },
+    // 模型案例
+    getModelCaseInfo(code,ver){
+      let p={
+        "model_code":code,
+	      "model_version":ver
+
+      }
+      this.$api.post('/manage-platform/riskEventWarningController/getModelCaseInfo',p,
+       r => {
+         this.modelDialogVisible=true;
+         this.modeldec=r.data
+      })
+    }
   }
 }
 </script>
@@ -742,9 +792,14 @@ export default {
   text-align: right;
 }
 .middle-msg-row2 span{
-  /* display: inline-block;
-  width: 175px;
-  text-align: right; */
+
+  display: inline-block;
+  vertical-align: middle;
+  max-width: 175px;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap
+  /* text-align: right; */
 }
 .ak-tip{
   font-size: 14px;

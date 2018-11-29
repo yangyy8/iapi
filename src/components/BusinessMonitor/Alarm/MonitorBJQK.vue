@@ -176,10 +176,11 @@ export default {
   mounted(){
     // this.getList(this.CurrentPage,this.pageSize,this.pd);
     this.queryAirport();
-  },
-  activated(){
     let end = new Date();
     this.pd.fltDate= formatDate(end, 'yyyyMMdd');
+  },
+  activated(){
+
     // this.pd.fltDate= '20181008';
 
     this.getList(this.CurrentPage,this.pageSize,this.pd);
@@ -201,7 +202,7 @@ export default {
         let that=this;
         this.timer=setInterval(function(){
           that.getList(that.CurrentPage,that.pageSize,that.pd);
-        },15000)
+        },180000)
       }else{
         clearInterval(this.timer);
       }

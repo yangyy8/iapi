@@ -1,6 +1,6 @@
 <template lang="html">
-  <div class="middle">
-    <div class="" v-for="(i,ind) in dataArr" :key="ind">
+  <div class="">
+    <div class="middle mb-2" v-for="(i,ind) in dataArr" :key="ind">
       <div class="map-title">{{i.titleText}}</div>
       <div style="position:relative">
         <el-button class="table-btn dz-btn" plain @click="cancel(i.version)">取消定制</el-button>
@@ -8,7 +8,8 @@
         <el-table
           :data="i.tableData"
           border
-          style="width: 100%;">
+          style="width: 100%;"
+          class="homePage">
           <el-table-column
             :label="data" v-for="(data,key) in i.header" :key="key">
             <template slot-scope="scope">
@@ -16,7 +17,7 @@
             </template>
           </el-table-column>
         </el-table>
-
+        <span style="color:#FFCF81">注：列表数据查看顺序&nbsp;&nbsp;&nbsp;&nbsp;{{i.prompt}}</span>
       </div>
     </div>
 
@@ -25,7 +26,6 @@
 
 <script>
 import Vecharts from './echart'
-// import echarts from 'echarts'
 export default {
   components:{
     Vecharts
@@ -37,12 +37,6 @@ export default {
       dataArr:[],
     }
   },
-  // mounted() {
-  //   this.getStart();
-  // },
-  // created(){
-  //   this.getStart();
-  // },
   activated() {
     this.getStart();
   },
@@ -176,7 +170,7 @@ export default {
 <style scoped>
 .map-title{
   color: #71CEB2;
-  /* font-weight: bold; */
+  font-size: 18px;
 }
 .dz-btn{
   position: absolute;

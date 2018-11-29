@@ -88,7 +88,7 @@
           </el-table-column>
           <el-table-column
             label="出入标识"
-            prop="iOType">
+            prop="ioType">
             <template slot-scope="scope">
               <div>
                 <span v-if="scope.row.ioType=='I'">入境</span>
@@ -193,7 +193,7 @@
         </el-table-column>
         <el-table-column
           label="出入标识"
-          prop="iOType">
+          prop="ioType">
           <template slot-scope="scope">
             <div>
               <span v-if="scope.row.ioType=='I'">入境</span>
@@ -335,11 +335,12 @@ export default {
   mounted(){
     // this.getList(this.CurrentPage,this.pageSize,this.pd);
     this.queryAirport();
-  },
-  activated(){
     let end = new Date();
     this.pd1.fltDate= formatDate(end, 'yyyyMMdd');
     this.pd2.fltDate= formatDate(end, 'yyyyMMdd');
+
+  },
+  activated(){
 
     this.getList();
     this.getList2(this.CurrentPage,this.pageSize,this.pd);
@@ -348,7 +349,7 @@ export default {
       let that=this;
       this.timer=setInterval(function(){
         that.getList2(that.CurrentPage,that.pageSize,that.pd);
-      },15000)
+      },60000)
     }
 
   },
@@ -362,7 +363,7 @@ export default {
         let that=this;
         this.timer=setInterval(function(){
           that.getList2(that.CurrentPage,that.pageSize,that.pd);
-        },15000)
+        },60000)
       }else{
         clearInterval(this.timer);
       }

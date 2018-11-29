@@ -24,7 +24,7 @@
           <el-select  v-model="pd.ioType" @change="getList(CurrentPage,pageSize,pd)" placeholder="请选择"  size="small" clearable filterable class="block input-input">
             <el-option label="I - 入境" value="I"></el-option>
             <el-option label="O - 出境" value="O"></el-option>
-            <el-option label="A - 入出境" value="A"></el-option>
+            <el-option label="A - 入出境" value="''"></el-option>
           </el-select>
         </el-col>
         <!--   0:计划 1:值机 3:已起飞 4:已办理入境 5:取消 6:已到达 7:已失效-->
@@ -419,14 +419,15 @@ export default {
   },
   mounted(){
     // this.getTimePage();
-    this.queryAirport();
-
-  },
-  activated(){
     let end = new Date();
     let begin = new Date(end - 24*60*60*1000);
     this.pd.fltDateFr= formatDate(begin, 'yyyyMMdd');
     this.pd.fltDateTo= formatDate(end, 'yyyyMMdd');
+    this.queryAirport();
+
+  },
+  activated(){
+
     // this.initTimer()
     this.getList(this.CurrentPage,this.pageSize,this.pd);
 
@@ -435,7 +436,7 @@ export default {
       console.log(that.CurrentPage,that.pageSize,that.pd)
       this.timer=setInterval(function(){
         that.getList(that.CurrentPage,that.pageSize,that.pd);
-      },30000)
+      },60000)
     }
 
   },
@@ -449,7 +450,7 @@ export default {
         let that=this;
         this.timer=setInterval(function(){
           that.getList(that.CurrentPage,that.pageSize,that.pd);
-        },30000)
+        },60000)
       }else{
         clearInterval(this.timer);
       }

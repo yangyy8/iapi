@@ -9,7 +9,7 @@
             </div>
             <el-row align="center" :gutter="2">
               <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
-                <span class="input-text">咨询人：</span>
+                <span class="input-text">咨询来源：</span>
                 <el-select v-model="pd.CONSULTFROM" filterable clearable placeholder="请选择" size="small" class="input-input">
                   <el-option label="0 - 航空公司" value="0"></el-option>
                   <el-option label="1 - 乘客" value="1"></el-option>
@@ -28,7 +28,7 @@
                 </el-select>
               </el-col>
               <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
-                <span class="input-text">人员姓名：</span>
+                <span class="input-text">咨询人：</span>
                 <el-input placeholder="请输入内容" size="small" v-model="pd.NAME"  class="input-input"></el-input>
               </el-col>
               <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
@@ -36,7 +36,7 @@
                 <el-input placeholder="请输入内容" size="small" v-model="pd.TELEPHONE"  class="input-input"></el-input>
               </el-col>
               <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
-                <span class="input-text">联系电话：</span>
+                <span class="input-text">移动电话：</span>
                 <el-input placeholder="请输入内容" size="small" v-model="pd.CELLPHONE"  class="input-input"></el-input>
               </el-col>
               <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
@@ -71,8 +71,10 @@
           width="50">
         </el-table-column>
         <el-table-column
-          prop="CONSULTFROM"
-          label="咨询类型">
+          label="咨询来源">
+          <template slot-scope="scope">
+            {{scope.row.CONSULTFROM|fifterFrom}}
+          </template>
         </el-table-column>
         <el-table-column
           prop="STATIONFROM"
@@ -168,9 +170,11 @@ export default {
     }
   },
   mounted() {
+    this.terminal();
     this.getList(this.CurrentPage,this.pageSize,this.pd);
   },
   activated() {
+    this.terminal();
     this.getList(this.CurrentPage, this.pageSize, this.pd);
   },
   methods: {
@@ -178,11 +182,11 @@ export default {
       this.multipleSelection = val;
     },
     pageSizeChange(val) {
-      this.getList(this.CurrentPage, val);
+      this.getList(this.CurrentPage, val,this.pd);
       console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
-      this.getList(val, this.pageSize);
+      this.getList(val, this.pageSize,this.pd);
       console.log(`当前页: ${val}`);
     },
     getList(currentPage,showCount,pd) {
@@ -207,6 +211,17 @@ export default {
            this.takeOffName = r.data;
          }
        })
+    },
+  },
+  filters: {
+    fifterFrom(val) {
+      if (val == "0") {
+        return "航空公司";
+      } else if(val == '1'){
+        return "乘客";
+      } else if(val == '2'){
+        return "其他"
+      }
     },
   }
 }

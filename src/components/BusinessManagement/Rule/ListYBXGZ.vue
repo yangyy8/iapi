@@ -53,7 +53,8 @@
         :data="tableData"
         border
         style="width: 100%"
-        max-height="466">
+        max-height="466"
+        class="tableYbxgz">
         <el-table-column
           label="出入境方向"
           width="130">
@@ -425,48 +426,13 @@ export default {
 
 </style>
 <style media="screen">
-.t-table .el-table__body-wrapper{
+/* .t-table .el-table__body-wrapper{
   overflow-y: auto;
-}
-.el-table__body{
-    table-layout:auto !important;
-}
+} */
 .mt-26{
   margin-top: 26px!important;
 }
-.el-message-box{
-  width:430px!important;
-}
-/* .example-error{
-  font-size: 12px;
-    color: rgb(51, 51, 51);
-    position: absolute;
-    top: 0px!important;
-    left: 0px!important;
-    background-color: rgb(255, 255, 255);
-    padding: 2px 8px;
-    margin: 0px;
-    z-index: 99;
-    box-shadow: rgba(0, 0, 0, 0.12) 0px 2px 4px, rgba(0, 0, 0, 0.04) 0px 0px 6px;
-    border-radius: 4px;
-    left: unset!important;
-    right: -73px!important;
-    color: red!important;
-    padding: 6px!important;
-}
-.example-error b{
-    position: absolute;
-    left: -6px!important;
-    bottom: 14px!important;
-    width: 8px;
-    height: 8px;
-    display: block;
-    border-right: 1px solid rgba(0, 0, 0, 0.1);
-    transform: rotateZ(133deg)!important;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-    background-color: rgb(255, 255, 255);
-} */
-.cell{
+.tableYbxgz .cell{
   overflow: visible!important;
 }
 </style>

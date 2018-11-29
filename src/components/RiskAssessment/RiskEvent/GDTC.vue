@@ -56,7 +56,7 @@
 <script>
 export default {
   name:"GDTC",
-  props:['gtitle','gvisible','garr'],
+  props:['gtitle','gvisible','garr','gtype'],
   data(){
     return{
       user:{},
@@ -172,7 +172,8 @@ export default {
       checkedtag:[],
       gdform:{},
       gdDialogVisible2:this.gvisible,
-      listData:this.garr
+      listData:this.garr,
+      gt:this.gtype
     }
   },
   mounted(){
@@ -193,6 +194,9 @@ export default {
     },
     garr:function(val){
       this.listData=val
+    },
+    gtype:function(val){
+      this.gt=val
     }
   },
   methods:{
@@ -243,13 +247,12 @@ export default {
             "nationality":arr1[i].nationality,
             "passportno":arr1[i].passportno,
             "describe":that.gdform.describe,
-            "type":"1",
+            "type":this.gt,
             "IOType":that.gdform.processorResult[0],
             "firstType":that.gdform.processorResult[1],
             "secondType":that.gdform.processorResult[2],
             "operation_type":1,
             "tag_type":2,
-            "add_tagtype":2,
             "tagList":that.checkedtag
           }
           p.list.push(a)
@@ -262,13 +265,12 @@ export default {
            "newcheckresult":arr1.newcheckresult,
            "archive_pepole":arr1.archive_pepole,
            "describe":this.gdform.describe,
-           "type":"1",
+           "type":this.gt,
            "IOType":this.gdform.processorResult[0],
            "firstType":this.gdform.processorResult[1],
            "secondType":this.gdform.processorResult[2],
            "operation_type":1,
            "tag_type":2,
-           "add_tagtype":1,
            "tagList":this.checkedtag
          }
        ]
@@ -278,12 +280,12 @@ export default {
        r => {
          if(r.success){
            this.$message({
-             message: '恭喜你，归档成功！',
+             message: '恭喜你，操作成功！',
              type: 'success'
            });
            this.gdDialogVisible2=false;
            this.$emit("gclose", this.gdDialogVisible2)
-           
+
          }
       })
     },
@@ -297,4 +299,29 @@ export default {
 </script>
 
 <style scoped>
+.tag-list{
+  color: #0274f1;
+  border-bottom: 1px solid #0274f1;
+  font-size: 16px;
+  padding-bottom: 3px;
+  display: flex;
+  /* justify-content: space-between; */
+}
+.tag-list span{
+  display: inline-block;
+  width: 22px;
+  height: 22px;
+  text-align: center;
+  line-height: 22px!important;
+}
+.checked-tag{
+  background: #0274f1;
+  color: #fff;
+  border-radius: 50%;
+}
+.tag-list span:hover{
+  background: #0274f1;
+  color: #fff;
+  border-radius: 50%;
+}
 </style>

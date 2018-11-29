@@ -443,9 +443,6 @@ export default {
   max-height: 466px;
   overflow-y: auto;
 }
-.el-table__body{
-    table-layout:auto !important;
-}
 .mt-26{
   margin-top: 26px!important;
 }

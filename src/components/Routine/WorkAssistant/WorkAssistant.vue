@@ -822,9 +822,6 @@ export default {
 .checked{
   background:#56A8FE; color:#ffffff;
 }
-.tubiao{
-width:100px; padding:6px 15px;  border:1px solid #56A8FE;
-}
 .margin-bt{
   margin: 5px 0px !important;
 }
@@ -857,19 +854,6 @@ width:100px; padding:6px 15px;  border:1px solid #56A8FE;
     background: #409EFF;
     border-color: #409EFF;
     color: #ffffff;
-}
-.tubiao{
-  width:100px; padding:5.5px 15px;
-  border:1px solid #399bfe;
-  font-size: 13px;
-}
-.borderL{
-  border-top-left-radius: 3px;
-  border-bottom-left-radius: 3px;
-}
-.borderR{
-  border-top-right-radius: 3px;
-  border-bottom-right-radius: 3px;
 }
 </style>
 <style media="screen">

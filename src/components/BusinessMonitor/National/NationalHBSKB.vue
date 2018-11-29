@@ -64,11 +64,12 @@
           <el-table-column
             label="计划起飞时间"
             sortable
-            width="180"
+            width="130"
             prop="out.daDate">
           </el-table-column>
           <el-table-column
-            label="航班状态">
+            label="航班状态"
+            width="150">
             <template slot-scope="scope" v-if="scope.row.out!=null">
               <div>
                 <span v-if="scope.row.out.status==0">计划</span>
@@ -105,11 +106,12 @@
           <el-table-column
             label="计划到达时间"
             sortable
-            width="180"
+            width="130"
             prop="in.daDate">
           </el-table-column>
           <el-table-column
-            label="航班状态">
+            label="航班状态"
+            width="150">
             <template slot-scope="scope" v-if="scope.row.in!=null">
               <div >
                 <span v-if="scope.row.in.status==0">计划</span>
@@ -199,11 +201,12 @@ export default {
   mounted(){
     // this.getList(this.CurrentPage,this.pageSize,this.pd);
     this.queryAirport();
+    let end = new Date();
+    this.pd.fltDate= formatDate(end, 'yyyyMMdd');
   },
   activated(){
     this.getList(this.CurrentPage,this.pageSize,this.pd);
-    let end = new Date();
-    this.pd.fltDate= formatDate(end, 'yyyyMMdd');
+
   },
 
   methods:{

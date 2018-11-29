@@ -135,11 +135,12 @@
           </el-col>
           <el-col :span="2" class="down-btn-area">
             <el-button type="success" size="small" @click="getList(CurrentPage,pageSize,pd)">查询</el-button>
-            <!-- <el-button type="primary" plain size="small" >重置</el-button> -->
+            <el-button type="primary" plain size="small"  class="mt-15" @click="reset" v-if="moreShow">重置</el-button>
+
           </el-col>
         </el-row>
     </div>
-    <div class="middle t-table">
+    <div class="middle">
       <!-- <div class="ak-tab">
         <div class="ak-tabs">
           <div class="ak-tab-item hand" :class="{'ak-checked':pd.type==0}" @click="pd.type=0">
@@ -210,11 +211,15 @@
           </el-table-column>
           <el-table-column
             label="命中模型"
-            prop="hit_mode">
+            prop="hit_mode"
+            width="140"
+            :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="命中规则"
-            prop="hit_rule_name">
+            prop="hit_rule_name"
+            width="140"
+            :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="风险等级"
@@ -289,7 +294,7 @@
         </div>
       </div>
     </div>
-    <GDTC :gtitle="'归档追加'" :gvisible="gdDialogVisible" :garr="checkeditem"  @gclose="gclose"></GDTC>
+    <GDTC :gtitle="'归档追加'" :gvisible="gdDialogVisible" :garr="checkeditem" :gtype="'3'" @gclose="gclose"></GDTC>
 
 
   </div>
@@ -303,7 +308,6 @@ export default {
 
   data(){
     return{
-      tagData:{},
       moreShow:false,
       page: 0,
       multipleSelection:null,
@@ -331,120 +335,11 @@ export default {
           label:"30"
         }
       ],
-      options2:[
-        {
-          value: '1',
-          label: '入境',
-          children:[
-            {
-              value: '1',
-              label: '允许入境',
-              children:[
-                {
-                  value: '1',
-                  label: '排除嫌疑，允许入境',
-                },
-                {
-                  value: '2',
-                  label: '暂未排除嫌疑，允许入境',
-                },
-                {
-                  value: '8',
-                  label: '移交相关单位',
-                }
-              ]
-            },
-            {
-              value: '2',
-              label: '阻止入境',
-              children:[
-                {
-                  value: '7',
-                  label: '参考梅沙',
-                }
-              ]
-            }
-          ]
-        },
-        {
-          value: '2',
-          label: '出境',
-          children:[
-            {
-              value: '3',
-              label: '允许出境',
-              children:[
-                {
-                  value: '3',
-                  label: '排除嫌疑，允许出境',
-                },
-                {
-                  value: '4',
-                  label: '暂未排除嫌疑，允许出境',
-                },
 
-              ]
-            },
-            {
-              value: '4',
-              label: '阻止出境',
-              children:[
-                {
-                  value: '7',
-                  label: '参考梅沙',
-                },
-                {
-                  value: '8',
-                  label: '移交相关单位',
-                }
-              ]
-            }
-          ]
-        },
-        {
-          value: '3',
-          label: '过境',
-          children:[
-            {
-              value: '5',
-              label: '允许过境',
-              children:[
-                {
-                  value: '5',
-                  label: '排除嫌疑，允许过境',
-                },
-                {
-                  value: '6',
-                  label: '暂未排除嫌疑，允许过境',
-                },
-                {
-                  value: '8',
-                  label: '移交相关单位',
-                }
-              ]
-            },
-            {
-              value: '6',
-              label: '阻止过境',
-              children:[
-                {
-                  value: '7',
-                  label: '参考梅沙',
-                },
-
-              ]
-            }
-          ]
-        }
-
-      ],
       czDialogVisible:false,
       czform:{},
       gdDialogVisible:false,
-      gdform:{},
 
-      checkedtag:[],
-      taged:0,
       checkeditem:null,
     }
   },
@@ -476,6 +371,12 @@ export default {
     handleClose(done) {
       // this.czform={};
       done();
+    },
+    reset(){
+      this.CurrentPage=1;
+      this.pageSize=10;
+      this.pd={};
+      this.getList(this.CurrentPage,this.pageSize,this.pd);
     },
     queryAirport(){
       this.$api.post('/manage-platform/riskEventController/getDeptInfo',{},
@@ -560,21 +461,15 @@ export default {
          }
       })
     },
-    handleChange(value) {
-        console.log(value);
-        console.log(this.gdform.processorResult)
-    },
     openGdTc(item){
-      // this.gdform={};
       this.checkeditem=item;
       this.gdDialogVisible=true;
-      // this.getBatchEventArchiveTagInfo();
     },
     gclose(data){
       console.log(data)
       this.gdDialogVisible=data;
     },
-  
+
   }
 }
 </script>
