@@ -33,10 +33,18 @@
           <img src="../../../../assets/img/fujian.png" />
           <input type="file" name="" multiple="multiple" @change="uploadFile">
         </label>
+
+        <div class="" v-for="(ff,ind) in fileinfo" :key="ind">
+          <span class="mr-30">{{ff.ACCESSORYNAME}}</span>
+          <el-button type="text" class="redx" @click="delFileInfo(ff.SERIAL)">删除</el-button>
+        </div>
+
         <div class="" v-if="fileData">
           <div class="" v-for="(x,ind) in fileData" :key="ind">
-            <span class="mr-30">{{x.name}}</span>
+            <span class="mr-30">{{x.name}}   </span>
+            <el-button type="text" class="redx" @click="deletes(ind)">删除</el-button>
           </div>
+
         </div>
       </el-col>
     </el-row>
@@ -45,9 +53,6 @@
     <el-button type="success" size="small" @click="addItemForum(pd);form={};">发送</el-button>
     <el-button type="primary" size="small" v-on:click="getContent()">预览</el-button>
     </el-row>
-
-
-
     <el-dialog
       title="预览"
       :visible.sync="ylDialogVisible"
@@ -69,20 +74,22 @@ export default {
     return {
       editorContent: '',
       pd: {},
-      fileData: null,
+      fileData: [],
+      fileData0: [],
       SERIAL: "",
-      ylDialogVisible:false,
-      content:"",
+      ylDialogVisible: false,
+      content: "",
+      fileinfo: {}
 
     }
   },
-  activated(){
-  this.pd={};
-      this.getList();
+  activated() {
+    this.pd = {};
+    this.getList();
 
   },
   mounted() {
-  this.pd={};
+    this.pd = {};
     this.getList();
 
 
@@ -97,14 +104,16 @@ export default {
   methods: {
     getContent() {
 
-   this.ylDialogVisible=true;
+      this.ylDialogVisible = true;
 
     },
     getList() {
 
       this.SERIAL = this.$route.params.SERIAL;
-      this.content="";
-      if (this.SERIAL != "" && this.SERIAL!=undefined) {
+      this.content = "";
+      this.editorContent = "";
+      if (this.SERIAL != "" && this.SERIAL != undefined) {
+        this.fileData  = null;
         let p = {
           "SERIAL": this.SERIAL
         };
@@ -113,16 +122,63 @@ export default {
           r => {
             console.log(r);
             this.pd = r.data;
-
-           var editor = new E('#editorElem')
-           editor.customConfig.onchange = (html) => {
-             this.editorContent = html
-           }
-           editor.create()
-           editor.txt.html(r.data.COUNT);
-           this.content=r.data.COUNT;
+            this.fileinfo = r.data.ACCESSORYNAMELIST;
+            var editor = new E('#editorElem')
+            editor.customConfig.onchange = (html) => {
+              this.editorContent = html
+            }
+            editor.create()
+            editor.txt.html(r.data.COUNT);
+            this.editorContent = r.data.COUNT
+            this.content = r.data.COUNT;
           });
+      } else {
+        var editor = new E('#editorElem')
+        editor.customConfig.onchange = (html) => {
+          this.editorContent = html
+        }
+        editor.create()
+        editor.txt.html("");
       }
+    },
+    deletes(t) {
+      console.log(this.fileData0);
+      this.fileData0.splice(t, 1);
+      this.fileData = this.fileData0
+
+// this.fileData=null;
+    },
+    delFileInfo(id) {
+      let p = {
+        "SERIAL": id
+      };
+      this.$confirm('您是否确认删除？', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$api.post('/manage-platform/itemForum/deleteItemForumAccessory', p,
+          r => {
+            console.log("===" + r);
+            if (r.success) {
+              this.$message({
+                message: '删除成功！',
+                type: 'success'
+              });
+              this.getList();
+            } else {
+              this.$message.error(r.Message);
+            }
+          }, e => {
+            this.$message.error('失败了');
+          });
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        });
+      });
+
     },
     addItemForum(pd) {
       pd.COUNT = this.editorContent;
@@ -149,9 +205,9 @@ export default {
       }
 
 
-        if(this.content!="" && (pd.COUNT == undefined || pd.COUNT.trim() == "")){
-          pd.COUNT=this.content;
-        }
+      if (this.content != "" && (pd.COUNT == undefined || pd.COUNT.trim() == "")) {
+        pd.COUNT = this.content;
+      }
 
 
       if (pd.COUNT == undefined || pd.COUNT.trim() == "") {
@@ -162,18 +218,18 @@ export default {
         return false
       }
 
-      console.log("==="+this.fileData);
+      console.log(this.fileData);
       var formData = new FormData();
-      if (this.SERIAL != "" && this.SERIAL!=undefined) {
+      if (this.SERIAL != "" && this.SERIAL != undefined) {
 
-          formData.append("SERIAL", this.SERIAL);
+        formData.append("SERIAL", this.SERIAL);
       }
-      if(this.fileData!=null){
-      let arr = this.fileData;
+      if (this.fileData != null) {
+        let arr = this.fileData;
 
-      for (var i = 0; i < arr.length; i++) {
-        formData.append("file", arr[i]);
-      }
+        for (var i = 0; i < arr.length; i++) {
+          formData.append("file", arr[i]);
+        }
       }
       formData.append("TITLE", pd.TITLE);
       formData.append("INTRO", pd.INTRO);
@@ -183,7 +239,7 @@ export default {
 
 
       var url = '/manage-platform/itemForum/addItemForum';
-      if (this.SERIAL != "" && this.SERIAL!=undefined) {
+      if (this.SERIAL != "" && this.SERIAL != undefined) {
 
         url = '/manage-platform/itemForum/updateItemForum';
       }
@@ -218,7 +274,15 @@ export default {
     uploadFile(event) {
 
       this.fileData = event.target.files;
-      //this.fileData.push(e.target.files);
+      console.log(this.fileData)
+
+      let _this = this
+      if (this.fileData && this.fileData.length) {
+        // 原始FileList对象不可更改，所以将其赋予curFiles提供接下来的修改
+        Array.prototype.push.apply(_this.fileData0, _this.fileData);
+      }
+      console.log(this.fileData0)
+      this.fileData.push(e.target.files);
 
     },
     // 上传附件
@@ -258,8 +322,10 @@ export default {
           'Content-Type': 'multipart/form-data'
         })
     },
-    linkss(){
-      this.$router.push({name:'Discussion'});
+    linkss() {
+      this.$router.push({
+        name: 'Discussion'
+      });
     }
   },
 
@@ -304,16 +370,17 @@ export default {
   opacity: 0;
   cursor: pointer;
 }
-
 </style>
 <style>
 .lht .el-input--small .el-input__inner {
   border: none;
 }
-.w-e-menu{
+
+.w-e-menu {
   z-index: 2 !important;
 }
-.w-e-text-container{
+
+.w-e-text-container {
   z-index: 1 !important;
 }
 </style>

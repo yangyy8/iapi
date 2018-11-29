@@ -241,14 +241,16 @@
           </el-col>
         </el-row>
         <el-row type="flex" v-for="(rr,ind) in rows">
-          <el-col :span="3" class="tjcon tjconr" > C{{rr.id}}：
+          <el-col :span="3" class="tjcon tjconr" >
+             <!-- C{{rr.id}}： -->
+             <el-input placeholder="" size="small" style="width:80px;text-align:right"  v-model="rr.targetSign" ></el-input>：
           </el-col>
           <el-col :span="5" class="tjcon">
-           <el-select v-model="rr.targetId"  class="memoa" filterable clearable placeholder="请选择"   size="small" >
+           <el-select v-model="rr.targetId"  class="memoa" @change="changeTarget(rr.targetId)" filterable clearable placeholder="请选择"   size="small" >
              <el-option
                v-for="(item,ind) in target"
                :key="ind"
-               :label="item.TARGET_NAME"
+               :label="item.TARGET_SIGN+' - '+item.TARGET_NAME"
                :value="item.TARGET_ID">
              </el-option>
            </el-select>
@@ -443,7 +445,7 @@ export default {
       tableData: [],
 
       multipleSelection: [],
-
+tem:{},
       form: {},
       mapForm: {},
       Airport: [],
@@ -451,13 +453,15 @@ export default {
         id: 1,
         targetId: '',
         calculation: '',
-        targetValue: ''
+        targetValue: '',
+        targetSign:''
       }],
       modelrow: [{
         id: 1,
         targetId: '',
         calculation: '',
-        targetValue: ''
+        targetValue: '',
+        targetSign:''
       }],
       erows: [{
         id: 1,
@@ -487,6 +491,24 @@ export default {
   //   this.queryNationality();
   // },
   methods: {
+    changeTarget(value){
+      console.log(value);
+      let arr = this.rows;
+      let that = this;
+      for(var i=0;i<arr.length;i++){
+        if(arr[i].targetId == value){
+
+          let obj = {};
+          obj = that.target.find((item)=>{//这里的userList就是上面遍历的数据源
+              return item.TARGET_ID === value;//筛选出匹配数据
+          });
+          arr[i].targetSign=obj.TARGET_SIGN;
+        }
+      }
+
+      // console.log(obj.TARGET_SIGN);//我这边的name就是对应label的
+
+    },
     handleSelectionChange(val) {
       this.multipleSelection = val;
     },
@@ -528,6 +550,7 @@ export default {
         this.tp = 1;
         // this.form = i;
         this.form = Object.assign({}, i);
+
         this.dialogText = "编辑";
         let p={
           "modelId": i.MODEL_ID,
@@ -539,10 +562,11 @@ export default {
             console.log(r);
             if (r.success) {
               this.form = r.data;
+              console.log(r.data.ruleList+"----");
+              this.erows=r.data.ruleList;
+              this.rows=r.data.targetList;
               this.form.enterRule=r.data.enterRule.ruleRules;
               this.form.filterRule=r.data.filterRule.ruleRules;
-              this.rows=r.data.targetList;
-              this.erows=r.data.ruleList;
             }
           });
 
@@ -563,7 +587,6 @@ export default {
       let p={};
       var url = "";
       if (this.tp == 1) {
-
          p = {
           "modelId": this.form.modelId,
           "modelCode":this.form.modelCode,
@@ -606,6 +629,7 @@ export default {
 
         url = "/manage-platform/model/add";
       }
+
       this.$api.post(url, p,
         r => {
           console.log(r);
@@ -775,7 +799,8 @@ export default {
         id: 1,
         targetId: '',
         calculation: '',
-        targetValue: ''
+        targetValue: '',
+        targetSign:''
       };
       this.modelrow.id = this.count;
       this.rows.push(this.modelrow);

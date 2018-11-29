@@ -69,7 +69,7 @@
             </el-col>
           </el-row>
 
-          <el-row type="flex"  class="yy-line">
+          <!-- <el-row type="flex"  class="yy-line">
 
                 <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
                   <span class="input-text">行属性：</span>
@@ -81,24 +81,9 @@
                    </el-select>
                 </el-col>
 
-                <!-- <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
-                  <span class="input-text">列属性：</span>
-                  <el-select v-model="pd.aircol" filterable clearable  placeholder="请选择" size="small" class="input-input">
-                     <el-option text="漏报人数" value="漏报人数">
-                     </el-option>
-                     <el-option text="多报人数" value="多报人数">
-                     </el-option>
-                     <el-option text="误报人数" value="误报人数">
-                     </el-option>
-                     <el-option text="信息不完整人数" value="信息不完整人数">
-                     </el-option>
-                     <el-option text="缺少订票信息人数" value="缺少订票信息人数">
-                     </el-option>
 
-                   </el-select>
-                </el-col> -->
 
-              </el-row>
+              </el-row> -->
 
 
 
@@ -120,11 +105,11 @@
         style="width: 100%;">
         <el-table-column
           prop="airline_company_id"
-          label="航空公司名称" width="250" v-if='showm'>
+          label="航空公司名称" width="250">
         </el-table-column>
         <el-table-column
           prop="fltno"
-          label="航班号" v-if='showh'
+          label="航班号"
           >
         </el-table-column>
 
@@ -322,14 +307,14 @@ export default {
         "airline_company_id":pd.airline_company_id
       };
        var url="/manage-platform/forecastEva/get_fccrt_bycompanyid";
-      if(this.typerow=="2"){
-        url="/manage-platform/forecastEva/get_fccrt_byfltno";
-        this.showh=true;
-        this.showm=false;
-      }else {
-        this.showh=false;
-        this.showm=true;
-      }
+      // if(this.typerow=="2"){
+      //   url="/manage-platform/forecastEva/get_fccrt_byfltno";
+      //   this.showh=true;
+      //   this.showm=false;
+      // }else {
+      //   this.showh=false;
+      //   this.showm=true;
+      // }
       this.$api.post(url, p,
         r => {
           console.log(r);
@@ -354,15 +339,13 @@ export default {
     download(){
     //  var url="http://192.168.99.213:8080/manage-platform/forecastEva/export_fccrt_bycompanyid";
      var url= this.$api.rootUrl+"/manage-platform/forecastEva/export_fccrt_bycompanyid";
-      if(this.typerow=="2"){
-        //url="http://192.168.99.213:8080/manage-platform/forecastEva/export_fccrt_byfltno";
-        url= this.$api.rootUrl+"/manage-platform/forecastEva/export_fccrt_byfltno";
-      }
+      // if(this.typerow=="2"){
+      //
+      //   url= this.$api.rootUrl+"/manage-platform/forecastEva/export_fccrt_byfltno";
+      // }
       axios({
        method: 'post',
        url: url,
-      // url:'http://192.168.99.206:8080/manage-platform/iapi/exportFileIo/0/600',
-      // url: this.$api.rootUrl+"/manage-platform/iapi/exportFileIo/0/600",
        data: {
            "begintime":this.pd.begintime,
            "endtime":this.pd.endtime,

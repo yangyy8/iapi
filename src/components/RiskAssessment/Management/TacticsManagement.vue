@@ -11,7 +11,7 @@
                 <el-option
                   v-for="item in company"
                   :key="item.CODE"
-                  :label="item.CODE+' - '+item.NAME"
+                  :label="item.NAME"
                   :value="item.CODE">
                 </el-option>
               </el-select>
@@ -62,7 +62,7 @@
           >
         </el-table-column>
         <el-table-column
-          prop="CREATEUSER"
+          prop="CREATEUSERNAME"
           label="创建人">
         </el-table-column>
         <el-table-column
@@ -117,7 +117,7 @@
               <el-option
                 v-for="item in company"
                 :key="item.CODE"
-                :label="item.CODE+' - '+item.NAME"
+                :label="item.NAME"
                 :value="item.CODE">
               </el-option>
             </el-select>
@@ -165,7 +165,7 @@
         <el-row type="flex" class="mb-6" >
           <el-col :span="24" class="input-item">
             <span class="yy-input-text">创建人：</span>
-          <span class="yy-input-input detailinput">  {{mapForm.CREATEUSER}}</span>
+          <span class="yy-input-input detailinput">  {{mapForm.CREATEUSERNAME}}</span>
           </el-col>
         </el-row>
         <el-row type="flex" class="mb-6" >

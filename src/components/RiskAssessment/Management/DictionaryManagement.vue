@@ -203,7 +203,7 @@
         <el-upload
           class="upload-demo"
           ref="upload"
-          :action='actions+"/manage-platform/riskDictionaries/riskReadExcel/"+getSerial'
+          :action='"http://192.168.99.242:8081/manage-platform/riskDictionaries/riskReadExcel/"+getSerial'
           :file-list="fileList"
           multiple
           :on-success="upSuccess"
