@@ -187,7 +187,7 @@
         </el-row>
         <el-row type="flex"  class="mb-6">
           <el-col :span="8" class="input-item">
-            <span class="yy-input-text">国籍：</span>
+            <span class="yy-input-text">国籍/地区：</span>
             <el-input placeholder="请输入内容" size="small" v-model="form.NATIONALITYC" class="yy-input-input" :disabled="true"></el-input>
 
           </el-col>

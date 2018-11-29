@@ -185,7 +185,7 @@
           </el-row>
           <el-row type="flex"  class="mb-6">
             <el-col :span="8" class="input-item">
-              <span class="yy-input-text">国籍：</span>
+              <span class="yy-input-text">国籍/地区：</span>
               <el-input size="small"  :disabled="true" v-model="zform.NATIONALITYNAME" class="yy-input-input" ></el-input>
 
             </el-col>

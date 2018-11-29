@@ -211,7 +211,7 @@
                 </el-row>
                 <el-row type="flex" class="middle-msg-row2">
                   <el-col :span="6">
-                    <span>国籍</span>
+                    <span>国籍/地区</span>
                     {{warnMap.nationality}}
 
                   </el-col>
@@ -313,7 +313,7 @@
               </el-table-column>
               <el-table-column
                 prop="namelistNationalityDesc"
-                label="国籍">
+                label="国籍/地区">
               </el-table-column>
               <el-table-column
                 prop="visatype"
@@ -433,7 +433,7 @@
         </el-row>
         <el-row type="flex"  class="mb-6">
           <el-col :span="8" class="input-item">
-            <span class="yy-input-text">国籍：</span>
+            <span class="yy-input-text">国籍/地区：</span>
             <el-input placeholder="请输入内容" size="small" v-model="iapiMap.nationality" class="yy-input-input" :disabled="true"></el-input>
 
           </el-col>
@@ -633,7 +633,7 @@ export default {
               this.listMap = r.data.blackListMap;
             }else{
               this.listMap = r.data.listMap;
-              
+
             }
             this.userMap = r.data.userMap;
             var arr = this.listMap;

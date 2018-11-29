@@ -188,14 +188,14 @@
           <el-row align="center" type="flex" style="height:100%">
               <el-col :span='24'>
                 <el-row align="center" style="width:100%">
-                  <el-col v-for="item in tableHeader" style="width:14%">
+                  <el-col v-for="(item,ind) in tableHeader" :key="ind" style="width:14%">
                     <div class="" style="width:100%;border:1px solid #F4F4F4;text-align:center;background-color:#F4F4F4;border-bottom:none!important;font-weight:bold;font-size:14px">
                       {{item}}
                     </div>
                   </el-col>
                 </el-row>
                 <el-row align="center" style="width:100%">
-                  <el-col v-for="item in tableBody" style="width:14%">
+                  <el-col v-for="(item,ind) in tableBody" :key="ind" style="width:14%">
                     <div class="" style="width:100%;height:85px;border:1px solid #F4F4F4">
                       <span style="display:inline-block;text-align:right;width:100%;padding-right:5px;box-sizing:border-box;font-size:14px">{{item.DATE}}</span>
                       <ul>

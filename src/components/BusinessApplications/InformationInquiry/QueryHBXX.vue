@@ -221,65 +221,6 @@
       >
       <Seat></Seat>
     </el-dialog>
-
-
-
-    <!-- <el-dialog
-      title="详情"
-      :visible.sync="detailsDialogVisible"
-      width="950px">
-      <div class="detail-msg-text">
-      <el-form :model="form" ref="addForm">
-        <el-row type="flex" class="detail-msg-row">
-          <el-col :span="8">
-            <span class="yy-input-text">姓名：</span>
-          <span class="yy-input-input detailinput">  {{form.familyname}}</span>
-          </el-col>
-          <el-col :span="8">
-            <span class="yy-input-text">性别：</span>
-          <span class="yy-input-input detailinput">  {{form.gender=='F'?"女":form.gender=='M'?"男":"未知"}}</span>
-          </el-col>
-          <el-col :span="8">
-            <span class="yy-input-text">出生日期：</span>
-          <span class="yy-input-input detailinput">  {{form.birthday}}</span>
-          </el-col>
-        </el-row>
-
-        <el-row type="flex" class="detail-msg-row">
-          <el-col :span="8">
-            <span class="yy-input-text">国籍：</span>
-          <span class="yy-input-input detailinput">  {{form.birthcountry}}</span>
-          </el-col>
-          <el-col :span="8">
-            <span class="yy-input-text">证件号码：</span>
-          <span class="yy-input-input detailinput">  {{form.passportno}}</span>
-          </el-col>
-          <el-col :span="8">
-            <span class="yy-input-text">出入标识：</span>
-          <span class="yy-input-input detailinput">  {{form.flighttype}}</span>
-          </el-col>
-        </el-row>
-        <el-row type="flex" class="detail-msg-row">
-          <el-col :span="8">
-            <span class="yy-input-text">航班号：</span>
-          <span class="yy-input-input detailinput">  {{form.fltno}}</span>
-          </el-col>
-          <el-col :span="8">
-            <span class="yy-input-text">航班日期：</span>
-          <span class="yy-input-input detailinput">  {{form.scheduledeparturetime}}</span>
-          </el-col>
-          <el-col :span="8">
-            <span class="yy-input-text">事件类型：</span>
-
-          </el-col>
-        </el-row>
-
-      </el-form>
-      </div>
-      <span slot="footer" class="dialog-footer">
-        <el-button type="warning" @click="detailsDialogVisible = false" size="small">取消</el-button>
-      </span>
-    </el-dialog> -->
   </div>
 
 </template>

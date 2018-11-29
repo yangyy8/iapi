@@ -62,7 +62,7 @@
               <div class="input-input t-flex t-date" style="width:80%!important">
                 <el-select v-model="pd.type" @visible-change="pd.typeValue=[]" filterable placeholder="请选择" size="small" class="tt-input" style="width:42%!important">
                   <el-option label="请选择" value="0"></el-option>
-                  <el-option label="1 - 国籍" value="1"></el-option>
+                  <el-option label="1 - 国籍/地区" value="1"></el-option>
                   <el-option label="2 - 航线" value="2"></el-option>
                   <el-option label="3 - 签证种类" value="3"></el-option>
                   <el-option label="4 - 证件种类" value="4"></el-option>

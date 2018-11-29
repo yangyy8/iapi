@@ -53,7 +53,7 @@
               </td>
             </tr>
             <tr>
-              <td>国籍</td>
+              <td>国籍/地区</td>
               <td>{{travellerInfo.nationality}}</td>
               <td>{{tableData.BZRJyfbywtList.GJDQDMDESC}}</td>
               <td>
@@ -106,7 +106,7 @@
               </td>
             </tr>
             <tr>
-              <td>国籍</td>
+              <td>国籍/地区</td>
               <td>{{travellerInfo.nationality}}</td>
               <td>{{tableData.invalidCardList.GJDQDMDESC}}</td>
               <td>
@@ -177,7 +177,7 @@
               </td>
             </tr>
             <tr>
-              <td>国籍</td>
+              <td>国籍/地区</td>
               <td>{{travellerInfo.nationality}}</td>
               <td>{{tableData.invalidVisaList.GJDQDMDESC}}</td>
               <td>
@@ -230,7 +230,7 @@
               </td>
             </tr>
             <tr>
-              <td>国籍</td>
+              <td>国籍/地区</td>
               <td>{{travellerInfo.nationality}}</td>
               <td>{{tableData.WnameListList.GJDQDMDESC}}</td>
               <td>
@@ -283,7 +283,7 @@
               </td>
             </tr>
             <tr>
-              <td>国籍</td>
+              <td>国籍/地区</td>
               <td>{{travellerInfo.nationality}}</td>
               <td>{{tableData.LKNameListList.GJDQDMDESC}}</td>
               <td>
@@ -328,7 +328,7 @@
               </td>
             </tr>
             <tr>
-              <td>国籍</td>
+              <td>国籍/地区</td>
               <td>{{travellerInfo.nationalityDesc}}</td>
               <td>{{tableData.NameListFocusEntity.nationalityDesc}}</td>
               <td>

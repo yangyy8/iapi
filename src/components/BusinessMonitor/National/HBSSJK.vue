@@ -24,7 +24,7 @@
           <el-select  v-model="pd.ioType" @change="getList(CurrentPage,pageSize,pd)" placeholder="请选择"  size="small" clearable filterable class="block input-input">
             <el-option label="I - 入境" value="I"></el-option>
             <el-option label="O - 出境" value="O"></el-option>
-            <el-option label="A - 入出境" value="''"></el-option>
+            <el-option label="A - 入出境" value=""></el-option>
           </el-select>
         </el-col>
         <!--   0:计划 1:值机 3:已起飞 4:已办理入境 5:取消 6:已到达 7:已失效-->

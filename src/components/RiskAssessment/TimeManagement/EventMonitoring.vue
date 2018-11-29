@@ -208,7 +208,7 @@
     </div>
 
     <el-dialog title="色彩设置" :visible.sync="colorDialogVisible"   width="40%">
-      <el-row align="center" class="mb-6" v-for="i in colorArr">
+      <el-row align="center" class="mb-6" v-for="(i,ind) in colorArr" :key="ind">
         <el-col  :sm="24" :md="12" :lg="12"  class="input-item">
           <span class="input-text tt-input-text">颜色值{{i.useColour.COL_NUMBER}}：</span>
           <el-input placeholder="请输入内容" size="small" v-model="i.useColour.COL_VALUE"  class="t-input-input"></el-input>
@@ -261,7 +261,7 @@
         </el-col>
       </el-row> -->
       <h4>历史参数设置参考</h4>
-      <el-row align="center" class="mb-6" v-for="item in historyArr">
+      <el-row align="center" class="mb-6" v-for="(item,ind) in historyArr" :key="ind">
         <el-col  :sm="4" :md="4" :lg="4"  class="input-item" style="justify-content: center;">
           颜色值{{item.useColour.COL_NUMBER}}：
         </el-col>

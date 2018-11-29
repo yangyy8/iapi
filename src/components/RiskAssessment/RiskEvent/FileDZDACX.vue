@@ -5,7 +5,7 @@
         <el-col :span="22" class="pr-20">
           <el-row align="center" :gutter="2">
             <el-col :sm="24" :md="12"  :lg="8" class="input-item">
-              <span class="input-text">国籍：</span>
+              <span class="input-text">国籍/地区：</span>
               <el-select v-model="pd.nationality" placeholder="请选择"  size="small" clearable filterable class="block input-input">
                 <el-option
                   v-for="item in nationAlone"
@@ -84,7 +84,7 @@
             prop="BIRTHDAY">
           </el-table-column>
           <el-table-column
-            label="国籍"
+            label="国籍/地区"
             prop="NATIONALITYNAME">
           </el-table-column>
           <el-table-column

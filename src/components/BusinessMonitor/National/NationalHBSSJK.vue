@@ -846,7 +846,7 @@
 
           </el-col>
           <el-col :sm="24" :md="12" :lg="6" class="hb-item">
-            <span class="item-text">国籍：</span>
+            <span class="item-text">国籍/地区：</span>
             <el-select placeholder="请选择"  filterable clearable v-model="p2.nationality" size="mini"  class="item-input">
               <el-option
                 v-for="item in GjList"
@@ -954,7 +954,7 @@
           </el-table-column>
           <el-table-column
             prop="nationalityName"
-            label="国籍">
+            label="国籍/地区">
           </el-table-column>
           <el-table-column
             prop="name"
@@ -1004,7 +1004,7 @@
           </el-table-column>
           <el-table-column
             prop="nationalityName"
-            label="国籍">
+            label="国籍/地区">
           </el-table-column>
           <el-table-column
             prop="name"
@@ -1508,7 +1508,7 @@ export default {
                   if(r.data.travelers){
                     let table='<table cellspacing="0" style="background:#09679d; width:100%;">\
                                   <tr style="height:20px;">\
-                                    <td style="height:24px!important;">姓名</td><td style="height:24px!important;">性别</td><td style="height:24px!important;">国籍</td><td style="height:24px!important;">出生日期</td>\
+                                    <td style="height:24px!important;">姓名</td><td style="height:24px!important;">性别</td><td style="height:24px!important;">国籍/地区</td><td style="height:24px!important;">出生日期</td>\
                                   </tr>';
                     for(var i in r.data.travelers){
                       console.log("i",r.data.travelers[i])
