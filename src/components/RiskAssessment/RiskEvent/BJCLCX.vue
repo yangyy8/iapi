@@ -17,7 +17,7 @@
           </div>
         </el-col>
         <el-col :span="21">
-          <div class="">
+          <div class="" id="printMe">
             <div class="boder1 pb-10">
               <div class="title-green ">
                 预报信息
@@ -335,9 +335,9 @@
             </div>
             <div class=" pb-10">
               <div class="hc-btn">
-                <el-button type="info" size="small" class="mr-20">返回</el-button>
+                <el-button type="info" size="small" class="mr-20" @click="$router.go(-1)">返回</el-button>
 
-                <el-button type="primary" size="small">导出</el-button>
+                <el-button type="primary" size="small"  @click="getPdf(1)">导出</el-button>
               </div>
 
             </div>
@@ -372,6 +372,7 @@ export default {
 
   data(){
     return{
+      htmlTitle: '页面信息',
       moreShow:false,
       box1:true,
       box2:true,
