@@ -137,7 +137,7 @@
                     </el-table-column>
                     <el-table-column
                       prop="nationality"
-                      label="国籍">
+                      label="国籍/地区">
                     </el-table-column>
                     <el-table-column
                       prop="flightRecordnum"
