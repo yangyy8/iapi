@@ -20,10 +20,10 @@
               </el-col>
               <el-col :sm="24" :md="12"  :lg="8" class="input-item">
                 <span class="input-text">出入标识：</span>
-                <el-select v-model="pd.iOType"  placeholder="请选择"  size="small" clearable filterable class="block input-input">
+                <el-select v-model="pd.ioType"  placeholder="请选择"  size="small" clearable filterable class="block input-input">
                   <el-option label="I - 入境" value="I"></el-option>
                   <el-option label="O - 出境" value="O"></el-option>
-                  <el-option label="A - 入出境" value="A"></el-option>
+                  <el-option label="A - 入出境" value="''"></el-option>
                 </el-select>
               </el-col>
 
@@ -56,7 +56,7 @@
         </el-table-column>
         <el-table-column
           label="出入标识"
-          prop="iOType"
+          prop="ioType"
           width="90">
           <template slot-scope="scope">
             <div>
@@ -191,11 +191,12 @@ export default {
   },
   mounted(){
     // this.getList(this.CurrentPage,this.pageSize,this.pd);
+    let end = new Date();
+    this.pd.fltDate= formatDate(end, 'yyyyMMdd');
   },
   activated(){
     this.getList(this.CurrentPage,this.pageSize,this.pd);
-    let end = new Date();
-    this.pd.fltDate= formatDate(end, 'yyyyMMdd');
+
     if(this.checked){
       let that=this;
       this.timer=setInterval(function(){

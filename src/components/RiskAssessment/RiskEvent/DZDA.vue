@@ -1184,7 +1184,7 @@
             </div>
             <div class="boder1" ref="box20">
               <div class="title-green hand mt-10" @click="box20=!box20">
-                 民航离岗信息 <i class="el-icon-d-caret"></i>
+                 民航离港信息 <i class="el-icon-d-caret"></i>
               </div>
               <div v-if="box20">
                 <el-table
@@ -1255,7 +1255,7 @@
     </div>
     <el-dialog title="标签管理" :visible.sync="tagDialogVisible" width="640px">
       <el-checkbox-group v-model="tagCheckList" class="mb-20">
-       <el-checkbox :label="x.LABELTYPE_CODE||x.SERIAL"  v-for="(x,ind) in tagList" :key="ind">{{x.LABELNAME||x.TAG_NAME}}</el-checkbox>
+       <el-checkbox :label="x.SERIAL"  v-for="(x,ind) in tagList" :key="ind">{{x.LABELNAME||x.TAG_NAME}}</el-checkbox>
       </el-checkbox-group>
       <div class="f-bold mb-9">
         原因(必填)
@@ -1461,7 +1461,7 @@ export default {
           id:"box19"
         },
         {
-          name:"民航离岗",
+          name:"民航离港",
           id:"box20"
         },
       ],

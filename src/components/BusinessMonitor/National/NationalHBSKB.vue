@@ -201,11 +201,12 @@ export default {
   mounted(){
     // this.getList(this.CurrentPage,this.pageSize,this.pd);
     this.queryAirport();
+    let end = new Date();
+    this.pd.fltDate= formatDate(end, 'yyyyMMdd');
   },
   activated(){
     this.getList(this.CurrentPage,this.pageSize,this.pd);
-    let end = new Date();
-    this.pd.fltDate= formatDate(end, 'yyyyMMdd');
+
   },
 
   methods:{
