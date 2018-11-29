@@ -56,7 +56,8 @@
         </el-table-column>
         <el-table-column
           label="出入标识"
-          prop="iOType">
+          prop="iOType"
+          width="90">
           <template slot-scope="scope">
             <div>
               <span v-if="scope.row.ioType=='I'">入境</span>
@@ -213,7 +214,7 @@ export default {
         let that=this;
         this.timer=setInterval(function(){
           that.getList(that.CurrentPage,that.pageSize,that.pd);
-        },15000)
+        },180000)
       }else{
         clearInterval(this.timer);
       }

@@ -64,8 +64,7 @@
           <el-table-column
             label="姓名"
             prop="name"
-            sortable
-            width="110">
+            sortable>
           </el-table-column>
           <el-table-column
             label="性别"
@@ -89,7 +88,7 @@
             label="国籍"
             prop="nationalityName"
             sortable
-            width="80">
+            width="120">
           </el-table-column>
           <el-table-column
             label="出入标识"
@@ -118,14 +117,13 @@
           </el-table-column> -->
           <el-table-column
             label="证件种类"
-            prop="cardTypeName"
-            width="110">
+            prop="cardTypeName">
           </el-table-column>
           <el-table-column
             label="证件号码"
             prop="passportNo"
             sortable
-            width="150">
+            width="180">
           </el-table-column>
           <el-table-column
             label="签证种类"
@@ -146,7 +144,7 @@
           <el-table-column
             label="是否非法载运人员"
             prop="illegalMan"
-            sortable>
+            width="80">
             <template slot-scope="scope">
               <div>
                 <span v-if="scope.row.illegalMan==0">否</span>
@@ -157,7 +155,7 @@
           <el-table-column
             label="是否重点关注人员"
             prop="focusMan"
-            sortable>
+            width="80">
             <template slot-scope="scope">
               <div>
                 <span v-if="scope.row.focusMan==0">否</span>
@@ -318,7 +316,7 @@ export default {
       let that=this;
       this.timer=setInterval(function(){
         that.getList(that.CurrentPage,that.pageSize,that.pd);
-      },15000)
+      },60000)
     }
 
   },
@@ -332,7 +330,7 @@ export default {
         let that=this;
         this.timer=setInterval(function(){
           that.getList(that.CurrentPage,that.pageSize,that.pd);
-        },15000)
+        },60000)
       }else{
         clearInterval(this.timer);
       }

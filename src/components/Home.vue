@@ -24,7 +24,7 @@
         </div>
       </div>
       <div class="home-title1">
-        国家移民局旅客预报预检系统
+        国家移民管理局局旅客预报预检系统
       </div>
       <div class="home-title2-box">
         <span class="home-title2">
@@ -137,7 +137,7 @@
           <span v-if="isWan">万</span><span style="font-size:14px">人次</span>
         </div>
         <div class="foot3">
-          Copyright © 2018 中国移民局边防检查机关 ALL Right Reserved <span> 技术支持:太极计算机股份有限公司</span>
+          Copyright © 2018 中华人民共和国国家移民管理局 ALL Right Reserved <span> 技术支持:太极计算机股份有限公司</span>
         </div>
       </div>
     </el-main>

@@ -303,9 +303,10 @@ export default {
 
     },
     tabNav2(nav2Item){
-      if(this.nav2Id==nav2Item.SERIAL) return;
       console.log('nav2Item:',nav2Item);
       console.log('nav2Id',this.nav2Id)
+      if(this.nav2Id==nav2Item.SERIAL) return;
+
       if(nav2Item.rootId!=this.$route.params.navId){
         this.navId=nav2Item.rootId;
         console.log(nav2Item.rootId,this.$route.params.navId)
@@ -314,8 +315,6 @@ export default {
           _this.$router.push({params: {navId:nav2Item.rootId}});
           _this.getNav(nav2Item.rootId)
         },400)
-
-
       }
 
       this.nav1Id = nav2Item.parentId;
