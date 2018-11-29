@@ -797,10 +797,9 @@
             sortable>
           </el-table-column>
           <el-table-column
-
-            label="性别" sortable
-            width="80"
-          >
+            label="性别"
+            sortable
+            width="80">
           <template slot-scope="scope">
             {{scope.row.GENDER | fiftersex}}
           </template>

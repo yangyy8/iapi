@@ -414,53 +414,54 @@
           style="width: 100%;">
           <el-table-column
             prop="NAME"
-            label="姓名" sortable
-          >
+            label="姓名"
+            sortable
+            width="100">
           </el-table-column>
           <el-table-column
-
-            label="性别" sortable
-            width="80"
-          >
+            label="性别"
+            sortable
+            width="80">
           <template slot-scope="scope">
             {{scope.row.GENDER | fiftersex}}
           </template>
           </el-table-column>
           <el-table-column
             prop="DATEOFBIRTH"
-            label="出生日期" sortable
-            width="100"
-            >
+            label="出生日期"
+            sortable
+            width="130">
           </el-table-column>
           <el-table-column
             prop="NATIONALITYC"
-            label="国籍" sortable
-          >
+            label="国籍"
+            sortable>
           </el-table-column>
 
           <el-table-column
             prop="PASSPORTNO"
-            label="证件号码" sortable
-            width="100"
-          >
+            label="证件号码"
+            sortable
+            width="130">
           </el-table-column>
 
           <el-table-column
             prop="FLTNO"
-            label="航班号" sortable
-          >
+            label="航班号"
+            sortable
+            width="120">
           </el-table-column>
           <el-table-column
             prop="SCHEDULEDEPARTURETIME"
-            label="航班日期" sortable
-            width="140"
-            >
+            label="航班日期"
+            sortable
+            width="140">
           </el-table-column>
 
           <el-table-column
-            label="预检结果" sortable
-              width="100"
-            >
+            label="预检结果"
+            sortable
+            width="120">
             <template slot-scope="scope">
               {{scope.row.CHECKRESULT | fiftecr}}
             </template>
