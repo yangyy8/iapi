@@ -210,7 +210,7 @@ export default {
     this.getList(this.CurrentPage, this.pageSize, this.pd);
   },
   activated() {
-    this.range()
+
     this.getList(this.CurrentPage, this.pageSize, this.pd);
   },
   methods: {
@@ -249,6 +249,7 @@ export default {
         this.form=Object.assign({}, i);
         this.form.VALIDITYSTR=formatDate(new Date(this.form.VALIDITYSTR),'yyyyMMdd');
         this.dialogText="编辑";
+        this.range()
       }else {
         this.tp = 0;
         this.dialogText="新增";
@@ -268,9 +269,12 @@ export default {
       this.form.promptedArr = this.pro;
       var url = '/manage-platform/promptManage/savePromptEntity';
       if(this.tp==1){
-        // this.rangeReal(this.form.promptedStr)
-        // this.form.promptedArr = this.pro;
-        this.form.promptedArr = this.form.prompted
+        console.log(this.promptRange);
+        console.log(this.form.promptedStr);
+        this.rangeReal(this.form.promptedStr)
+        this.form.promptedArr = this.pro;
+        delete this.form.prompted;
+        // this.form.promptedArr = this.form.prompted
         url = '/manage-platform/promptManage/editPrompt';
       }
       this.$api.post(url, this.form,
@@ -335,6 +339,8 @@ export default {
       for(var i=0;i<val.length;i++){
         for(var j=0;j<arr1.length;j++){
           if(val[i] == arr1[j].SERIAL){
+            arr.push(arr1[j]);
+          }else if(val[i] == arr1[j].NAME){
             arr.push(arr1[j]);
           }
         }

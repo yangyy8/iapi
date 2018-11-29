@@ -337,7 +337,7 @@
           ref="upload"
           name="excel"
           :multiple="false"
-          accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"  
+          accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
           :action="$api.rootUrl+'/manage-platform/addressManage/readExcel'"
           :on-success="uploadSuccess"
           :limit="1"
@@ -349,7 +349,7 @@
         </el-upload>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="cancelUpload" size="small">取 消</el-button>
+        <el-button @click="cancelUpload" size="small">关 闭</el-button>
       </div>
     </el-dialog>
   </div>

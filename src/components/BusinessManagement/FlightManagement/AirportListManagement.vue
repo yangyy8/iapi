@@ -41,13 +41,13 @@
               </el-select>
             </el-col>
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
-              <span class="input-text">机场三位码：</span>
+              <span class="input-text">机场：</span>
               <el-select placeholder="请选择" v-model="cdt.airportCode" filterable clearable @visible-change="takeOff(0)" size="small" class="input-input">
                 <el-option
                 v-for="(item,index) in takeOffName"
                 :key="index"
                 :value="item.AIRPORT_CODE"
-                :label="item.AIRPORT_CODE">
+                :label="item.AIRPORT_CODE+' - '+item.AIRPORT_NAME">
                 </el-option>
               </el-select>
             </el-col>
@@ -60,7 +60,7 @@
     </div>
     <div class="middle">
       <el-row class="mb-15">
-        <el-button type="primary" size="small" @click="adds(0,'');form={}">新增</el-button>
+        <el-button type="primary" size="small" @click="adds(0,'')">新增</el-button>
         <el-button type="success" size="small" @click="batchI">批量导入</el-button>
         <el-button type="success" size="small" @click="download">模板下载</el-button>
       </el-row>
@@ -110,9 +110,9 @@
           label="机场描述">
         </el-table-column> -->
         <el-table-column
-          label="操作" width="200">
+          label="操作" width="250">
           <template slot-scope="scope">
-            <el-button class="table-btn" size="mini" plain icon="el-icon-edit" @click="detail(scope.row.airportDesc)">详情</el-button>
+            <el-button class="table-btn" size="mini" plain icon="el-icon-edit" @click="detail(scope.row)">详情</el-button>
               <el-button class="table-btn" size="mini" plain icon="el-icon-edit" @click="adds(1,scope.row)">编辑</el-button>
               <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="deletes(scope.row)">删除</el-button>
          </template>
@@ -153,28 +153,29 @@
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
             <span class="yy-input-text"><font class="yy-color">*</font>机场三位码：</span>
-            <el-select placeholder="请选择" v-model="form.airportCode" filterable clearable @visible-change="takeOff(1)" size="small" class="yy-input-input" @change="takeOffReal(form.airportCode)">
+            <el-input placeholder="请输入内容" size="small"  v-model="form.airportCode"  maxlength="3" class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}" :disabled="airCodeAble"></el-input>
+            <!-- <el-select placeholder="请选择" v-model="form.airportCode" filterable clearable @visible-change="takeOff(1)" size="small" class="yy-input-input" @change="takeOffReal(form.airportCode)">
               <el-option
               v-for="(item,index) in addTakeOffName"
               :key="index"
               :value="item.AIRPORT_CODE"
               :label="item.AIRPORT_CODE">
               </el-option>
-            </el-select>
+            </el-select> -->
           </el-col>
         </el-row>
 
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
             <span class="yy-input-text"><font class="yy-color">*</font>机场名称：</span>
-            <el-input placeholder="请输入内容" size="small"  v-model="form.airportName"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
+            <el-input placeholder="请输入内容" size="small"  v-model="form.airportName"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}" :disabled="airCodeAble"></el-input>
           </el-col>
         </el-row>
 
         <el-row type="flex" class="mb-6" >
           <el-col :span="24" class="input-item">
             <span class="yy-input-text"><font class="yy-color">*</font>洲：</span>
-            <el-select v-model="form.continentsCode"  filterable clearable placeholder="请选择" size="small" class="yy-input-input" @visible-change="chau(1)" @change="nationality(form.continentsCode,1)">
+            <el-select v-model="form.continentsCode"  filterable clearable placeholder="请选择" size="small" class="yy-input-input" @visible-change="chau(1)" @change="nationality(form.continentsCode,1)" v-verify.change.blur ="{regs:'required',submit:'demo2'}">
               <el-option
                 v-for="(item,index) in addChauName"
                 :key="index"
@@ -188,7 +189,7 @@
         <el-row type="flex" class="mb-6" >
           <el-col :span="24" class="input-item">
             <span class="yy-input-text"><font class="yy-color">*</font>国家/地区：</span>
-            <el-select v-model="form.countryCode"  filterable clearable placeholder="请选择" size="small" class="yy-input-input" @visible-change="baseNation(1)" @change="cityAble(form.countryCode,1)">
+            <el-select v-model="form.countryCode"  filterable clearable placeholder="请选择" size="small" class="yy-input-input" @visible-change="baseNation(1)" @change="cityAble(form.countryCode,1)" v-verify.change.blur ="{regs:'required',submit:'demo2'}">
               <el-option
                 v-for="(item,index) in addSelection"
                 :key="index"
@@ -202,7 +203,7 @@
         <el-row type="flex" class="mb-6" >
           <el-col :span="24" class="input-item">
             <span class="yy-input-text"><font class="yy-color">*</font>城市：</span>
-            <el-select v-model="form.cityCode"  filterable clearable placeholder="请选择" size="small" class="yy-input-input" @visible-change="city(1)" :disabled="addAble" @change="cityReal(form.cityCode)">
+            <el-select v-model="form.cityCode"  filterable clearable placeholder="请选择" size="small" class="yy-input-input" @visible-change="city(1)" :disabled="addAble" @change="cityReal(form.cityCode)" v-verify.change.blur ="{regs:'required',submit:'demo2'}">
               <el-option
                 v-for="(item,index) in addCityName"
                 :key="index"
@@ -216,14 +217,14 @@
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
             <span class="yy-input-text"><font class="yy-color">*</font>经度：</span>
-            <el-input placeholder="请输入内容" size="small" v-model="form.jingdu"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
+            <el-input placeholder="请输入内容" size="small" v-model="form.jingdu"  class="yy-input-input" v-verify.change.blur ="{regs:'required',numberic:'numberic',submit:'demo2'}"></el-input>
           </el-col>
         </el-row>
 
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
             <span class="yy-input-text"><font class="yy-color">*</font>纬度：</span>
-            <el-input placeholder="请输入内容" size="small" v-model="form.weidu"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
+            <el-input placeholder="请输入内容" size="small" v-model="form.weidu"  class="yy-input-input" v-verify.change.blur ="{regs:'required',numberic:'numberic',submit:'demo2'}"></el-input>
           </el-col>
         </el-row>
 
@@ -261,11 +262,23 @@
         </el-upload>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="cancelUpload" size="small">取 消</el-button>
+        <el-button @click="cancelUpload" size="small">关 闭</el-button>
       </div>
     </el-dialog>
-    <el-dialog title="详情" :visible.sync="detailsDialogVisible" width="500px" >
-      <span class="detailClass">{{content}}</span>
+    <el-dialog title="详情" :visible.sync="detailsDialogVisible" >
+      <el-row type="flex"  class="mb-6" style="padding-left:30px">
+        <el-col :span="6" class="t-el-content"><div class="t-el-text">机场名称：</div><div class="t-el-sub">{{qform.airportName}}</div></el-col>
+        <el-col :span="6" class="t-el-content"><div class="t-el-text">洲：</div><div class="t-el-sub">{{qform.continentsName}}</div></el-col>
+        <el-col :span="6" class="t-el-content"><div class="t-el-text">国家：</div><div class="t-el-sub">{{qform.countryName}}</div></el-col>
+        <el-col :span="6" class="t-el-content"><div class="t-el-text">城市：</div><div class="t-el-sub">{{qform.cityName}}</div></el-col>
+      </el-row>
+      <el-row type="flex"  class="mb-6">
+        <el-col :span="24" class="input-item">
+          <span class="yy-input-text" style="width:12.3%!important">机场描述：</span>
+          <el-input type="textarea" v-model="qform.airportDesc" :autosize="{ minRows: 5, maxRows: 6}" :disabled="true"></el-input>
+        </el-col>
+      </el-row>
+      <!-- <span class="detailClass">{{content}}</span> -->
       <div slot="footer" class="dialog-footer">
         <el-button @click="detailsDialogVisible = false" size="small">取 消</el-button>
       </div>
@@ -297,6 +310,7 @@ export default {
 
       able:true,
       addAble:true,
+      airCodeAble:false,
 
       pd: {},
       nation: [],
@@ -328,6 +342,7 @@ export default {
       multipleSelection: [],
       form: {},
       dform: {},
+      qform:{},
     }
   },
   mounted() {
@@ -348,7 +363,8 @@ export default {
     },
     detail(item){
       this.detailsDialogVisible = true;
-      this.content = item;
+      this.qform = item;
+      // this.content = item;
     },
     handleSelectionChange(val) {
       this.multipleSelection = val;
@@ -450,6 +466,8 @@ export default {
     nationality(data,type){//基础查询国籍与洲二级联动
       if(type==0){
         this.$set(this.cdt,'countryCode','');
+        this.$set(this.cdt,'cityCode','');
+        this.cityAble(this.form.countryCode,0)
         let arr=this.chauName;
         let that=this;
         for(var i=0;i<arr.length;i++){
@@ -459,6 +477,8 @@ export default {
         }
       }else if(type==1){
         this.$set(this.form,'countryCode','');
+        this.$set(this.form,'cityCode','');
+        this.cityAble(this.form.countryCode,1)
         let arr=this.addChauName;
         let that=this;
         for(var i=0;i<arr.length;i++){
@@ -570,21 +590,28 @@ export default {
         this.tp = 1;
         // this.form = i;
         this.form=Object.assign({}, i);
+        this.form.type=this.tp;
+        this.airCodeAble = true;
         this.dialogText="编辑";
+        this.cityAble(this.form.countryCode,1);
       }else {
         this.tp = 0;
         this.dialogText="新增";
+        this.airCodeAble = false;
         this.form={};
+        this.cityAble(this.form.countryCode,1);
+        this.form.type=this.tp;
       }
 
     },
     addItem() {//新增完成
-      // if (this.$validator.listener.demo2) {
-      //   const result = this.$validator.verifyAll('demo2')
-      //   if (result.indexOf(false) > -1) {
-      //     return;
-      //   }
-      // }
+      console.log(this.$validator)
+      if (this.$validator.listener.demo2) {
+        const result = this.$validator.verifyAll('demo2')
+        if (result.indexOf(false) > -1) {
+          return;
+        }
+      }
       this.$api.post('/manage-platform/airportManage/changFlightManage', this.form,
         r => {
           console.log(r);
@@ -593,8 +620,6 @@ export default {
               message: '保存成功！',
               type: 'success'
             });
-          } else {
-            this.$message.error('保存失败！');
           }
           this.addDialogVisible = false;
           this.getList(this.CurrentPage, this.pageSize, this.cdt);
@@ -678,6 +703,8 @@ function checkRate(nubmer) {　　
   width: 20.3%!important;
 }
 .detailClass{
-
+  display: inline-block;
+  line-height: 30px;
+  text-indent:28px;
 }
 </style>
