@@ -206,7 +206,7 @@
                           label="女">
                         </el-table-column>
                    </el-table-column>
-                      <el-table-column label="国籍构成" v-if='show6'>
+                      <el-table-column label="国家构成" v-if='show6'>
                           <el-table-column
                             prop="foreign"
                             label="外国人">
@@ -426,21 +426,34 @@ export default {
         return false
       };
 
-      if (this.pd.rowproperty_flttype == undefined && this.pd.rowproperty_country == undefined && this.pd.rowproperty_cityfrom == undefined && this.pd.rowproperty_cityro == undefined && this.pd.rowproperty_passengertype == undefined && this.pd.rowproperty_vid ==
-        undefined && this.pd.rowproperty_lastcheckresult == undefined) {
+      console.log("----------"+this.pd.rowproperty_flttype);
+
+      if ((this.pd.rowproperty_flttype == undefined || this.pd.rowproperty_flttype == false)
+      && (this.pd.rowproperty_country == undefined || this.pd.rowproperty_country == false)
+       && (this.pd.rowproperty_cityfrom == undefined || this.pd.rowproperty_cityfrom == false)
+        && (this.pd.rowproperty_cityro == undefined || this.pd.rowproperty_cityro == false)
+        && (this.pd.rowproperty_passengertype == undefined || this.pd.rowproperty_passengertype == false)
+        && (this.pd.rowproperty_vid == undefined ||this.pd.rowproperty_vid == false) &&
+        (this.pd.rowproperty_lastcheckresult == undefined || this.pd.rowproperty_lastcheckresult == false)) {
+
         this.$alert('请选择至少一个行属性', '提示', {
           confirmButtonText: '确定',
         });
         return false
       };
 
-      if (this.pd.colproperty1 == undefined && this.pd.colproperty2 == undefined && this.pd.colproperty3 == undefined && this.pd.colproperty4 == undefined && this.pd.colproperty5 == undefined) {
+
+
+      if ((this.pd.colproperty1 == undefined || this.pd.colproperty1 == false)
+         && (this.pd.colproperty2 == undefined || this.pd.colproperty2 == false)
+          && (this.pd.colproperty3 == undefined || this.pd.colproperty3 == false)
+           && (this.pd.colproperty4 == undefined || this.pd.colproperty4 == false)
+           && (this.pd.colproperty5 == undefined || this.pd.colproperty5 == false)) {
         this.$alert('请选择至少一个列属性', '提示', {
           confirmButtonText: '确定',
         });
         return false
       };
-
 
       this.show1 = false;
       this.show2 = false;
@@ -612,8 +625,7 @@ console.log(arr.length+"======");
       axios({
        method: 'post',
        url: url,
-      // url:'http://192.168.99.206:8080/manage-platform/iapi/exportFileIo/0/600',
-      // url: this.$api.rootUrl+"/manage-platform/iapi/exportFileIo/0/600",
+
        data: {
          "begintime":this.pd.begintime,
          "endtime":this.pd.endtime,
@@ -686,7 +698,7 @@ console.log(arr.length+"======");
           formatter: "{a} <br/>{b}: {c} ({d}%)"
         },
         series: [{
-          name: '旅客类型构成',
+          name: '人员类别',
           type: 'pie',
           radius: ['30%', '50%'],
           center: ['50%', '50%'], //调整位置

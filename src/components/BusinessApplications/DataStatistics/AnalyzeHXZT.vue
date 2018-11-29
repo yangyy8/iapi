@@ -138,10 +138,7 @@
                   show-summary
                   border
                   >
-                  <el-table-column
-                    prop=""
-                    label="">
-                  </el-table-column>
+
                   <el-table-column
                     prop="continent"
                     label="洲" v-if='showz'>
@@ -189,7 +186,7 @@
                         </el-table-column>
 
                    </el-table-column>
-                   <el-table-column label="国籍构成">
+                   <el-table-column label="国家构成">
                      <el-table-column
                        prop="foreign"
                        label="外国人">
@@ -522,7 +519,7 @@ export default {
               formatter: "{a} <br/>{b}: {c} ({d}%)"
             },
             series: [{
-              name: '国籍构成',
+              name: '国家构成',
               type: 'pie',
               radius: ['30%', '50%'],
               center: ['50%', '50%'], //调整位置
