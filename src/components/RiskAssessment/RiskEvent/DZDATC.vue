@@ -94,6 +94,112 @@
         </el-col>
       </el-row>
     </div>
+    <div class="" v-if="moreType=='box7'">
+      <el-row style="line-height:32px;">
+        <el-col :span="12">
+          姓名：{{moreData.pers_name_cn}}
+        </el-col>
+        <el-col :span="12">
+          拼音姓名：{{moreData.pers_name_py}}
+        </el-col>
+        <el-col :span="12">
+          别名/曾用名：{{moreData.pers_name_sec}}
+        </el-col>
+        <el-col :span="12">
+          性别：{{moreData.pers_gender}}
+        </el-col>
+        <el-col :span="12">
+          出生日期：{{moreData.pers_birth_date}}
+        </el-col>
+        <el-col :span="12">
+          国籍/地区：{{moreData.pers_country}}
+        </el-col>
+        <el-col :span="12">
+          民族：{{moreData.pers_nation}}
+        </el-col>
+        <el-col :span="12">
+          出生地：{{moreData.pers_birth_address}}
+        </el-col>
+        <el-col :span="12">
+          身份证号：{{moreData.pers_card_id}}
+        </el-col>
+        <el-col :span="12">
+          文化程度：{{moreData.education_code}}
+        </el-col>
+        <el-col :span="12">
+          职级职称：{{moreData.position_grade_code}}
+        </el-col>
+        <el-col :span="12">
+          户籍地：{{moreData.rsdt_region_code}}
+        </el-col>
+        <el-col :span="12">
+          派出所：{{moreData.police_dept_name}}
+        </el-col>
+        <el-col :span="12">
+          现住地：{{moreData.curr_address}}
+        </el-col>
+        <el-col :span="12">
+          工作单位：{{moreData.work_unit}}
+        </el-col>
+        <el-col :span="12">
+          职业：{{moreData.profession_code}}
+        </el-col>
+        <el-col :span="12">
+          证件类型：{{moreData.cert_type}}
+        </el-col>
+        <el-col :span="12">
+          证件号码：{{moreData.cert_no}}
+        </el-col>
+        <el-col :span="12">
+          办证类别：{{moreData.apply_type}}
+        </el-col>
+        <el-col :span="12">
+          原持证号码：{{moreData.holding_cert_typ}}
+        </el-col>
+        <el-col :span="12">
+          前往国/地区：{{moreData.to_country_code}}
+        </el-col>
+        <el-col :span="12">
+          出境事由：{{moreData.exit_reason_cod}}
+        </el-col>
+        <el-col :span="12">
+          签证机关：{{moreData.issuing_uni}}
+        </el-col>
+        <el-col :span="12">
+          制证单位：{{moreData.accred_unit}}
+        </el-col>
+        <el-col :span="12">
+          签发日期：{{moreData.issuing_date}}
+        </el-col>
+        <el-col :span="12">
+          有效期至：{{moreData.cert_vld}}
+        </el-col>
+        <el-col :span="12">
+          受理时间：{{moreData.accept_dt}}
+        </el-col>
+        <el-col :span="12">
+          受理机关：{{moreData.accept_dept}}
+        </el-col>
+        <el-col :span="12">
+          备注：{{moreData.remakrs}}
+        </el-col>
+        <el-col :span="12">
+          数据来源：{{moreData.data_src_flag}}
+        </el-col>
+        <el-col :span="12">
+          联系电话：{{moreData.contact_tel}}
+        </el-col>
+        <el-col :span="12">
+          手机号码：{{moreData.mobile_no}}
+        </el-col>
+        <el-col :span="12">
+          上报省份：{{moreData.rpt_prov}}
+        </el-col>
+        <el-col :span="12">
+          异地标识：{{moreData.remote_flag}}
+        </el-col>
+      </el-row>
+    </div>
     <div class="" v-if="moreType=='box8'">
       <el-row style="line-height:32px;">
         <el-col :span="12">
@@ -325,7 +431,111 @@
         </el-col>
       </el-row>
     </div>
-    <div class="" v-if="moreType=='box11'">
+    <div class="" v-if="moreType=='box1101'">
+      <el-row style="line-height:32px;">
+        <el-col :span="12">
+          英文姓名：{{moreData.eng_name}}
+        </el-col>
+        <el-col :span="12">
+          中文姓名：{{moreData.chn_name}}
+        </el-col>
+        <el-col :span="12">
+          性别：{{moreData.gender_na}}
+        </el-col>
+        <el-col :span="12">
+          出生日期：{{moreData.birth_date}}
+        </el-col>
+        <el-col :span="12">
+          国籍/地区：{{moreData.pers_country||moreData.country_na}}
+        </el-col>
+        <el-col :span="12">
+          证件种类：{{moreData.cert_type_na||moreData.hold_cert_type}}
+        </el-col>
+        <el-col :span="12">
+          证件号码：{{moreData.cert_no||moreData.hold_cert_no}}
+        </el-col>
+
+        <el-col :span="12">
+          证件有效期：{{moreData.cert_vld}}
+        </el-col>
+        <el-col :span="12">
+          人员类别：{{moreData.pers_type}}
+        </el-col>
+        <el-col :span="12">
+          身份：{{moreData.fgn_sts}}
+        </el-col>
+        <el-col :span="12">
+          境外人员身份证号：{{moreData.fgn_card_id}}
+        </el-col>
+        <el-col :span="12">
+          签证(注)种类：{{moreData.visas_type_na||'-'}}
+        </el-col>
+        <el-col :span="12">
+          签证(注)号码：{{moreData.prmt_no||moreData.visas_no}}
+        </el-col>
+        <el-col :span="12">
+          证件内人数：{{moreData.in_cert_nb}}
+        </el-col>
+        <el-col :span="12">
+          入境事由：{{moreData.entry_rsn_code}}
+        </el-col>
+        <el-col :span="12">
+          居留事由：{{moreData.rsdt_rsn_code}}
+        </el-col>
+        <el-col :span="12">
+          居留许可签发日期：{{moreData.prmt_issuing_date}}
+        </el-col>
+        <el-col :span="12">
+          居留许可有效期至：{{moreData.prmt_vld}}
+        </el-col>
+        <el-col :span="12">
+          签发机关：{{moreData.issuing_organ}}
+        </el-col>
+        <el-col :span="12">
+          上报省份：{{moreData.rpt_prov_na||'-'}}
+        </el-col>
+        <el-col :span="12">
+          常住人员联系电话：{{moreData.rsdt_fgn_tel||'-'}}
+        </el-col>
+        <el-col :span="12">
+          单位区划：{{moreData.curr_wu_region_na||'-'}}
+        </el-col>
+        <el-col :span="12">
+          单位派出所：{{moreData.curr_wu_lps_name||'-'}}
+        </el-col>
+        <el-col :span="12">
+          工作单位：{{moreData.curr_wu_name||'-'}}
+        </el-col>
+        <el-col :span="12">
+          工作地城市：{{moreData.work_city_na||'-'}}
+        </el-col>
+        <el-col :span="12">
+          工作起始时间：{{moreData.work_start_date||'-'}}
+        </el-col>
+        <el-col :span="12">
+          工作终止时间：{{moreData.work_end_date||'-'}}
+        </el-col>
+        <el-col :span="12">
+          工作状态类型：{{moreData.work_sts_type||'-'}}
+        </el-col>
+        <el-col :span="12">
+          居住地城市：{{moreData.rsdt_city_na||'-'}}
+        </el-col>
+        <el-col :span="12">
+          居住地区划：{{moreData.curr_region_na||'-'}}
+        </el-col>
+        <el-col :span="12">
+          居住地派出所：{{moreData.curr_lps_name||'-'}}
+        </el-col>
+        <el-col :span="12">
+          居住地详细地址：{{moreData.curr_address||'-'}}
+        </el-col>
+        <el-col :span="12">
+          居住状态类型：{{moreData.rsdt_sts_type||'-'}}
+        </el-col>
+      </el-row>
+    </div>
+    <div class="" v-if="moreType=='box1102'">
       <el-row style="line-height:32px;">
         <el-col :span="12">
           英文姓名：{{moreData.eng_name}}
@@ -352,7 +562,7 @@
           证件号码：{{moreData.cert_no||moreData.hold_cert_no}}
         </el-col>
         <el-col :span="12">
-          签证(注)类型：{{moreData.visas_type_na||'-'}}
+          签证(注)种类：{{moreData.visas_type_na||'-'}}
         </el-col>
         <el-col :span="12">
           签证(注)号码：{{moreData.prmt_no||moreData.visas_no}}

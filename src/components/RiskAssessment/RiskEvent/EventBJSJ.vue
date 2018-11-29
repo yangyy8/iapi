@@ -152,7 +152,7 @@
           </el-col>
         </el-row>
     </div>
-    <div class="middle t-table">
+    <div class="middle">
       <div class="ak-tab">
         <div class="ak-tabs">
           <div class="ak-tab-item hand" :class="{'ak-checked':pd.type=='0'}" @click="pd.type='0';getList(CurrentPage,pageSize,pd)">
@@ -182,7 +182,6 @@
           ref="multipleTable"
           :data="tableData"
           border
-
           @selection-change="handleSelectionChange"
           style="width: 100%;">
           <el-table-column
@@ -233,11 +232,15 @@
           </el-table-column>
           <el-table-column
             label="命中模型"
-            prop="hit_mode">
+            prop="hit_mode"
+            width="140"
+            :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="命中规则"
-            prop="hit_rule_name">
+            prop="hit_rule_name"
+            width="140"
+            :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="中心/口岸"
@@ -376,7 +379,7 @@
 
       </div>
     </el-dialog>
-    <GDTC :gtitle="'批量归档'" :gvisible="gdDialogVisible" :garr="multipleSelection"  @gclose="gclose"></GDTC>
+    <GDTC :gtitle="'批量归档'" :gvisible="gdDialogVisible" :garr="multipleSelection" :gtype="'1'" @gclose="gclose"></GDTC>
   </div>
 </template>
 
@@ -678,29 +681,5 @@ export default {
   text-overflow:ellipsis;
   overflow: hidden;
 }
-.tag-list{
-  color: #0274f1;
-  border-bottom: 1px solid #0274f1;
-  font-size: 16px;
-  padding-bottom: 3px;
-  display: flex;
-  /* justify-content: space-between; */
-}
-.tag-list span{
-  display: inline-block;
-  width: 22px;
-  height: 22px;
-  text-align: center;
-  line-height: 22px!important;
-}
-.checked-tag{
-  background: #0274f1;
-  color: #fff;
-  border-radius: 50%;
-}
-.tag-list span:hover{
-  background: #0274f1;
-  color: #fff;
-  border-radius: 50%;
-}
+
 </style>

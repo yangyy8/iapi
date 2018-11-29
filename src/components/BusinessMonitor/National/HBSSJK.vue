@@ -435,7 +435,7 @@ export default {
       console.log(that.CurrentPage,that.pageSize,that.pd)
       this.timer=setInterval(function(){
         that.getList(that.CurrentPage,that.pageSize,that.pd);
-      },30000)
+      },60000)
     }
 
   },
@@ -449,7 +449,7 @@ export default {
         let that=this;
         this.timer=setInterval(function(){
           that.getList(that.CurrentPage,that.pageSize,that.pd);
-        },30000)
+        },60000)
       }else{
         clearInterval(this.timer);
       }
