@@ -10,7 +10,7 @@
             <img src="../../../assets/img/bp_ap/ph_s.png" alt="" style="width:100%;">
             <span class="mb-2">综合风险等级</span>
             <el-rate :value="3" disabled class="mb-9"></el-rate>
-            <el-button type="primary" size="small" class="mb-9" style="width:100%" @click="$router.push({name:'DZDA',query:{nationality:page0Data.nationality,passportno:page0Data.passportno}})">电子档案</el-button>
+            <el-button type="primary" size="small" class="mb-9" style="width:100%" @click="$router.push({name:'DZDA',query:{nationality:page0Data.nationality,passportno:page0Data.passportno,type:1}})">电子档案</el-button>
             <el-button type="primary" size="small" class="mb-9" style="width:100%">综合查询</el-button>
             <el-button type="primary" size="small" class="mb-9" style="width:100%">照片比对</el-button>
             <el-button type="success" size="small" style="width:100%" :disabled="!operation_type" @click="openGdTc(page0Data)">事件归档</el-button>
@@ -358,7 +358,7 @@
             </div>
             <div class="boder1 pb-10" v-if="operation_type">
               <div class="hc-btn">
-                <el-button type="info" size="small" class="mr-20">返回</el-button>
+                <el-button type="info" size="small" class="mr-20" @click="$router.go(-1)">返回</el-button>
 
                 <el-button type="success" size="small" @click="saveRiskDescRecordInfo">确定</el-button>
               </div>

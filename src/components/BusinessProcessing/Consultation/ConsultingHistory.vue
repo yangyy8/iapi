@@ -139,8 +139,10 @@
           label="咨询时间">
         </el-table-column>
         <el-table-column
-          prop="CONSULTTYPE"
           label="问题类型">
+          <template slot-scope="scope">
+            {{scope.row.CONSULTTYPE|fifter1}}
+          </template>
         </el-table-column>
         <el-table-column
           prop="PHONE"
@@ -345,10 +347,10 @@ export default {
       console.log(`当前页: ${val}`);
     },
     getList(currentPage, showCount, pd) {
-      const result = this.$validator.verifyAll('timeDemo')
-       if (result.indexOf(false) > -1) {
-         return
-       }
+      // const result = this.$validator.verifyAll('timeDemo')
+      //  if (result.indexOf(false) > -1) {
+      //    return
+      //  }
       if(dayGap(this.cdt.STARTTIME,this.cdt.ENDTIME,1)>30){
         this.$alert('事件产生时间查询时间间隔不能超过一个月', '提示', {
           confirmButtonText: '确定',

@@ -52,16 +52,16 @@
                 <span class="input-text">航班日期：</span>
                 <div class="input-input t-flex t-date">
                   <el-date-picker
-                   type="date" size="small" format="yyyy-MM-dd"
+                   type="datetime" size="small" format="yyyy-MM-dd HH:mm"
                    v-model="pd.fltnoDate_start"
-                   value-format="yyyyMMdd"
+                   value-format="yyyyMMddHHmm"
                    placeholder="开始时间" >
                   </el-date-picker>
                   <span class="septum">-</span>
                   <el-date-picker
-                    type="date" size="small" format="yyyy-MM-dd"
+                    type="date" size="small" format="yyyy-MM-dd HH:mm"
                     v-model="pd.fltnoDate_end"
-                    value-format="yyyyMMdd"
+                    value-format="yyyyMMddHHmm"
                     placeholder="结束时间">
                   </el-date-picker>
                 </div>
@@ -191,85 +191,120 @@
           </el-table-column>
           <el-table-column
             label="事件编号"
-            prop="serial">
+            prop="serial"
+            sortable
+            width="101">
           </el-table-column>
           <el-table-column
             label="姓名"
-            prop="name">
+            prop="name"
+            sortable
+            width="80"
+            :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="出入标识"
-            prop="flightTypeName">
+            prop="flightTypeName"
+            width="50">
           </el-table-column>
           <el-table-column
             label="性别"
-            prop="genderName">
+            prop="genderName"
+            width="50"
+            :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="出生日期"
             prop="birthday"
-            width="80">
+            sortable
+            width="101">
           </el-table-column>
           <el-table-column
-            label="国籍/地区"
-            prop="nationalityName">
+            label="国籍地区"
+            prop="nationalityName"
+            width="50"
+            :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="证件类型"
-            prop="passportTypeName">
+            prop="passportTypeName"
+            width="50"
+            :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="证件号"
-            prop="passportno">
+            prop="passportno"
+            sortable
+            width="90"
+            :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="航班号"
-            prop="fltno">
+            prop="fltno"
+            sortable
+            width="90"
+            :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="航班日期"
-            prop="fltnoDate">
+            prop="fltnoDate"
+            sortable
+            width="101">
           </el-table-column>
+
           <el-table-column
             label="命中模型"
-            prop="hit_mode"
-            width="140"
+            prop="hit_mode_gc"
+            width="90"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="命中规则"
             prop="hit_rule_name"
-            width="140"
+            width="90"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
-            label="中心/口岸"
-            width="100"
+            label="口岸"
+            prop="port_name"
+            width="50"
+            :show-overflow-tooltip="true">
+          </el-table-column>
+          <el-table-column
+            label="中心口岸"
+            width="50"
             prop="centre_port">
           </el-table-column>
           <el-table-column
             label="风险等级"
-            width="150">
+            width="145">
             <template slot-scope="scope">
               <el-rate :value="scope.row.grade" size="mini" disabled class="mb-9"></el-rate>
             </template>
           </el-table-column>
           <el-table-column
             label="处理人"
-            prop="processor_peopleName">
+            prop="processor_peopleName"
+            width="50"
+            :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="当前状态"
-            prop="statusName">
+            prop="statusName"
+            width="63"
+            :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="核查次数"
-            prop="checknumber">
+            prop="checknumber"
+            width="50"
+            :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="最新核查结果"
-            width="120"
-            prop="newcheckresult">
+            width="50"
+            prop="newcheckresult"
+            :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="历次风评">
@@ -292,7 +327,7 @@
           </el-table-column>
           <el-table-column
             label="操作"
-            width="120">
+            width="70">
             <template slot-scope="scope">
               <el-button type="text" class="a-btn" icon="el-icon-view" title="查看" @click="$router.push({name:'BJSJCK',query:{serial:scope.row.serial,page:0}})"></el-button>
               <el-button type="text" class="a-btn" icon="el-icon-edit-outline"  title="处理" @click="$router.push({name:'BJSJCK',query:{serial:scope.row.serial,page:1,operation_type:1}})"></el-button>

@@ -2,10 +2,10 @@
   <div class="bjsjck">
 
     <div class="middle">
+      <el-button v-if="$route.query.type" type="warning" size="small" class="mr-20" @click="$router.go(-1)">返回</el-button>
+
       <el-row :gutter="10">
-
         <el-col :span="24">
-
           <div class="middle">
             <div class="boder1 pb-10"  ref="box0">
               <el-row :gutter="10">

@@ -38,26 +38,38 @@ export default {
       list2:[],
       light:[],
       form: {},
-      departdateBegin:''
+      flightNumber:this.flightNumber
     }
   },
-  created(){
-    let _this=this;
-    setTimeout(function(){
-      _this.getimgtable()
-    },500)
-  },
-  // mounted(){
-  //   this.getimgtable()
+  // created(){
+  //   let _this=this;
+  //   setTimeout(function(){
+  //     _this.getimgtable()
+  //   },500)
   // },
+  watch:{
+    flightNumber:function(newVal,oldVal){
+        console.log(newVal,oldVal)
+        this.flightNumber = newVal;  //newVal即是chartData
+        this.getimgtable();
+    }
+  },
+  props:{
+    'flightNumber':{
+      type:String,
+      default:''
+    }
+  },
+  mounted(){
+    this.getimgtable()
+  },
   methods: {
     getimgtable(){
-      let departdateBegin = formatDate(new Date(this.$route.query.departdateBegin),'yyyyMMddhhmm');
+      console.log(this.flightNumber);
       let p = {
-        "flightNumber": this.$route.query.flightNumber,
-        "departdateBegin": departdateBegin,
+        "flightRecordnum": this.flightNumber,
       };
-      this.$api.post('/manage-platform/statusUpdate/seat/queryListPagesSeatList', p,
+      this.$api.post('/manage-platform/statusUpdate/seat/queryListPagesSeat', p,
         r => {
           console.log(r);
           this.list1 = r.data.list123;

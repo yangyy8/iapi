@@ -132,7 +132,7 @@
               </el-col>
             </el-row>
           </el-col>
-          <el-col :span="12" class="down-btn-area">
+          <el-col :span="12" class="down-btn-area" v-show="false">
             <el-row align="center" type="flex">
               <el-button type="primary" class="width-btn" @click="">咨询辅助</el-button>
             </el-row>
@@ -163,8 +163,8 @@
       <el-row align="center" :gutter="2" type="flex" justify="center">
         <!-- <el-button type="primary" size="small" @click="">取消</el-button>
         <el-button type="primary" size="small" @click="" style="margin-left:20px!important">暂存</el-button> -->
-        <el-button type="primary" size="small" @click="" style="margin-left:20px!important" @click="saveT">保存</el-button>
-        <!-- <el-button type="primary" size="small" @click="" style="margin-left:20px!important">退出</el-button> -->
+        <el-button type="primary" size="small" style="margin-left:20px!important" @click="saveT">保存</el-button>
+        <el-button type="primary" size="small" style="margin-left:20px!important"><a href="javascript:history.back(-1)" style="color:#fff">返回</a></el-button>
       </el-row>
     </div>
     <el-dialog title="指令变更" :visible.sync="handlesDialogVisible" width="900px">

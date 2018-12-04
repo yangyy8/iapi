@@ -377,11 +377,11 @@
           <el-col :sm="24" :md="12" :lg="8"  class="input-item">
             <span class="input-text"><span class="redx">*</span>原因严重性：</span>
             <el-select v-model="form.CTL_REASONLEVEL" placeholder="请选择"  size="small"  class="input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}" >
-              <el-option label="1" value="1"></el-option>
-              <el-option label="2" value="2"></el-option>
-              <el-option label="3" value="3"></el-option>
-              <el-option label="4" value="4"></el-option>
-              <el-option label="5" value="5"></el-option>
+              <el-option label="1" :value="'1'"></el-option>
+              <el-option label="2" :value="'2'"></el-option>
+              <el-option label="3" :value="'3'"></el-option>
+              <el-option label="4" :value="'4'"></el-option>
+              <el-option label="5" :value="'5'"></el-option>
             </el-select>
           </el-col>
 

@@ -356,7 +356,8 @@ export default {
   font-size: 18px;
 }
 .checked{
-  background:#56A8FE; color:#ffffff;
+  background:#56A8FE; 
+  color:#ffffff;
 }
 .t-tip{
   position:absolute;

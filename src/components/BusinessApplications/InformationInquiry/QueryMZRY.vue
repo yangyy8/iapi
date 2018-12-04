@@ -22,7 +22,6 @@
                 <el-option label="U - 未知" value="U"></el-option>
                 <el-option label="M - 男" value="M"></el-option>
                 <el-option label="F - 女" value="F"></el-option>
-
               </el-select>
             </el-col>
             <el-col :sm="24" :md="12" :lg="8" class="input-item">

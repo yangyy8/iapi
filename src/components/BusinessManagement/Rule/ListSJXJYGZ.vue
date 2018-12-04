@@ -52,7 +52,7 @@
         :data="tableData"
         border
         style="width: 100%;"
-        >
+        class="tableSj">
         <el-table-column
           label="出入境方向"
           width="120">
@@ -446,7 +446,7 @@ export default {
 .mt-26{
   margin-top: 26px!important;
 }
-.cell{
+.tableSj .cell{
   overflow: visible!important;
 }
 .example-error{

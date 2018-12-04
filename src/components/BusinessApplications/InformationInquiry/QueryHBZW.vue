@@ -10,7 +10,7 @@
         <el-row align="center"   :gutter="2" class="pr-20">
           <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
             <span class="input-text"><font style="color:red">*</font> 航班号：</span>
-            <el-input placeholder="请输入内容" v-verify.input.blur="{regs:'required',submit:'HBZWDemo'}" size="small" v-model="pd.flightNumber"   class="input-input"></el-input>
+            <el-input placeholder="请输入内容"  size="small" v-model="pd.flightNumber"   class="input-input"></el-input>
           </el-col>
           <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
           <span class="input-text"><font style="color:red">*</font> 航班日期：</span>
@@ -103,8 +103,8 @@
       </el-row>
     </div>
     <div class="middle">
-        <span class="tubiao hand borderL" :class="{'checked':page==0}" @click="page=0;getList(CurrentPage,pageSize,pd)">列表</span><span class="tubiao hand borderR" :class="{'checked':page==1}" @click="qq">图表</span>
-    <div id="div1" v-show="page==0">
+        <!-- <span class="tubiao hand borderL" :class="{'checked':page==0}" @click="page=0;getList(CurrentPage,pageSize,pd)">列表</span><span class="tubiao hand borderR" :class="{'checked':page==1}" @click="qq">图表</span> -->
+    <div id="div1">
       <el-table
         :data="tableData"
         border
@@ -158,9 +158,11 @@
           label="人员状态" sortable>
         </el-table-column>
         <el-table-column
-          label="操作">
+          label="操作"
+          width="200">
           <template slot-scope="scope">
             <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row)">详情</el-button>
+            <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="seatDetails(scope.row)">座位详情</el-button>
          </template>
         </el-table-column>
       </el-table>
@@ -194,7 +196,7 @@
         </el-pagination>
       </div>
 </div>
-<div id="div2" v-show="page==1">
+    <!-- <div id="div2" v-show="page==1">
   <el-row align="center"  type="flex">
     <el-col  :span="5" style="border-right:1px solid #cccccc; margin-right:30px;">
         <img src="../../../assets/img/port.png">
@@ -220,7 +222,7 @@
       </ul>
     </el-col>
   </el-row>
-</div>
+</div> -->
     </div>
 
     <el-dialog title="查看详情" :visible.sync="detailsDialogVisible">
@@ -487,15 +489,25 @@
       >
       <AlarmProcess></AlarmProcess>
     </el-dialog>
+
+    <el-dialog
+      title="座位详情"
+      :visible.sync="seatDialogVisible"
+      width="1220px"
+      >
+      <Seat :flightNumber="flightNumber0"></Seat>
+    </el-dialog>
   </div>
 </template>
 
 <script>
+import Seat from '../../other/seat'
 import AlarmProcess from '../../BusinessProcessing/Alarm/alarmProcess'
 import {formatDate} from '@/assets/js/date.js'
 import {dayGap} from '@/assets/js/date.js'
 export default {
   components: {AlarmProcess},
+  components: {Seat},
   data() {
     return {
       CurrentPage: 1,
@@ -524,6 +536,7 @@ export default {
       historyCdt:{},
       queryDialogVisible: false,
       pnrDialogVisible:false,
+      seatDialogVisible:false,
       pnrEve:'',
       eve:'',
       detailstableData: [],//详情里面的列表
@@ -570,6 +583,7 @@ export default {
       form: {},
       nav1Id:null,
       nav2Id:null,
+      flightNumber0:'',
     }
   },
   mounted() {
@@ -587,19 +601,20 @@ export default {
   activated(){
     this.nav1Id=this.$route.query.nav1Id
     this.nav2Id=this.$route.query.nav2Id
-    // let time = new Date();
-    // let end = new Date();
-    // let begin =new Date(time - 1000 * 60 * 60 * 24 * 30);
-    // this.pd.departdateBegin=formatDate(begin,'yyyyMMddhhmm');
-    // this.pd.departdateEnd=formatDate(end,'yyyyMMddhhmm');
   },
   methods: {
     querySeat(){
-      if(this.page==0){
+      // if(this.page==0){
         this.getList(this.CurrentPage,this.pageSize,this.pd)
-      }else if(this.page==1){
-        this.getimgtable(0,10,this.pd);
-      }
+      // }else if(this.page==1){
+      //   this.getimgtable(0,10,this.pd);
+      // }
+    },
+    seatDetails(i){
+      // console.log(i)
+      this.seatDialogVisible=true;
+      this.flightNumber0=i.flightRecordnum;
+      // this.$router.push({query:{flightNumber:i.flightRecordnum}})
     },
     getHistoryListPnr(hcurrentPage,hshowCount,historyCdt){
       let ghl = {
@@ -622,10 +637,10 @@ export default {
       this.getHistoryListPnr(val,this.hshowCount,this.historyCdt);
     },
 
-    qq(){
-      this.page=1;
-      this.getimgtable(0,10,this.pd);
-    },
+    // qq(){
+    //   this.page=1;
+    //   this.getimgtable(0,10,this.pd);
+    // },
     handleSelectionChange(val) {
     this.multipleSelection = val;
     },
@@ -682,20 +697,20 @@ export default {
         })
     },
 
-    getimgtable(currentPage, showCount, pd){
-      let p = {
-        "currentPage": currentPage,
-        "showCount": showCount,
-        "cdt": pd
-      };
-      this.$api.post('/manage-platform/statusUpdate/seat/queryListPagesSeat', p,
-        r => {
-          console.log(r);
-          this.list1 = r.data.list123;
-          this.list2 = r.data.listabc;
-          this.light=r.data.highlight;
-        })
-    },
+    // getimgtable(currentPage, showCount, pd){
+    //   let p = {
+    //     "currentPage": currentPage,
+    //     "showCount": showCount,
+    //     "cdt": pd
+    //   };
+    //   this.$api.post('/manage-platform/statusUpdate/seat/queryListPagesSeat', p,
+    //     r => {
+    //       console.log(r);
+    //       this.list1 = r.data.list123;
+    //       this.list2 = r.data.listabc;
+    //       this.light=r.data.highlight;
+    //     })
+    // },
     details(i) {
       this.detailsDialogVisible = true;
       this.historyCdt.nationalityEqual = i.nationality;
