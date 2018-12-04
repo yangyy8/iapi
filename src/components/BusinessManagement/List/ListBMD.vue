@@ -98,7 +98,6 @@
                 <el-option label="I - 入境" value="I"></el-option>
                 <el-option label="O - 出境" value="O"></el-option>
                 <el-option label="A - 入出境" value="A"></el-option>
-
               </el-select>
             </el-col>
 

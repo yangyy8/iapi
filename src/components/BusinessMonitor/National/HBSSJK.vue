@@ -33,7 +33,7 @@
           <el-select v-model="pd.status" @change="getList(CurrentPage,pageSize,pd)" placeholder="请选择"  size="small" clearable filterable class="block input-input">
             <el-option label="0 - 计划" value="0"></el-option>
             <el-option label="1 - 已预检" value="1"></el-option>
-            <el-option label="2 - 已起飞" value="3"></el-option>
+            <el-option label="2 - 已起飞" value="2"></el-option>
             <el-option label="3 - 已到达" value="3"></el-option>
             <el-option label="4 - 已办理入境手续" value="4"></el-option>
             <el-option label="5 - 已取消" value="5"></el-option>

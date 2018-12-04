@@ -1230,7 +1230,7 @@ export default {
     // document.onkeydown = function(e){
     //     alert(27)
     //     var key = window.event.keyCode;
-    //       console.log(key,_self.zdh)
+    //       //console.log(key,_self.zdh)
     //     if(key==27&&_self.zdh){
     //
     //       _self.zxhFn();
@@ -1246,12 +1246,12 @@ export default {
   },
   methods: {
     closeBox(){
-      console.log("hhhhhhhhhh")
+      //console.log("hhhhhhhhhh")
       this.checkShow=false;this.checkShow2=false;this.checkShow3=false;this.checkShow4=false;this.checkShow5=false;
 
     },
     checkAllFn(){
-      console.log(this.checkAll);
+      //console.log(this.checkAll);
       if(this.checkAll==1){
         for(var i in this.locationData){
           this.locationData[i].forEach(function (val) {
@@ -1265,7 +1265,7 @@ export default {
       }
     },
     checkAllFn2(){
-      console.log(this.locationData2)
+      //console.log(this.locationData2)
       if(this.checkAll2==1){
         for(var i in this.locationData2){
           this.locationData2[i].forEach(function (val) {
@@ -1279,7 +1279,7 @@ export default {
       }
     },
     checkAllFn3(){
-      console.log(this.locationData3)
+      //console.log(this.locationData3)
       if(this.checkAll3==1){
         for(var i in this.locationData3){
           this.locationData3[i].forEach(function (val) {
@@ -1293,7 +1293,7 @@ export default {
       }
     },
     checkAllFn4(){
-      console.log(this.locationData4)
+      //console.log(this.locationData4)
       if(this.checkAll4==1){
         for(var i in this.locationData4){
           this.locationData4[i].forEach(function (val) {
@@ -1319,7 +1319,7 @@ export default {
 
     },
     checkedZhou(){
-      console.log(this.checkList5)
+      //console.log(this.checkList5)
     },
     zdhFn(){
       let element=document.documentElement;
@@ -1381,7 +1381,7 @@ export default {
       this.showLeft=false;
       this.$api.post('/manage-platform/nationwide/getFlightCountToday',{},
        r => {
-         console.log(r);
+         //console.log(r);
          if(r.data!=null){
            this.hbsl=r.data;
          }
@@ -1389,14 +1389,14 @@ export default {
       this.$api.post('/manage-platform/nationwide/getFlightPortCountToday',{},
        r => {
          this.kahb=r.data
-         console.log(this.kahb.length);
+         //console.log(this.kahb.length);
       })
     },
     getRightData(){
       this.showRight=false;
       this.$api.post('/manage-platform/nationwide/getTravelerCountToday',{},
        r => {
-         console.log(r);
+         //console.log(r);
          if(r.data!=null){
             this.rygk=r.data;
          }
@@ -1404,7 +1404,7 @@ export default {
       });
       this.$api.post('/manage-platform/nationwide/getTravelerPortCountToday',{},
        r => {
-         console.log(r);
+         //console.log(r);
          this.kary=r.data;
       })
     },
@@ -1413,7 +1413,7 @@ export default {
       if(this.HzList.length==0){
         this.$api.post('/manage-platform/codeTable/queryAirport',{},
         r => {
-          console.log(r);
+          //console.log(r);
           this.HzList=r.data
         })
       }
@@ -1423,7 +1423,7 @@ export default {
       if(this.HgList.length==0){
         this.$api.post('/manage-platform/codeTable/queryAircompanyList',{},
         r => {
-          console.log(r);
+          //console.log(r);
           this.HgList=r.data
         })
       }
@@ -1434,7 +1434,7 @@ export default {
       if(this.HgList.length==0){
         this.$api.post('/manage-platform/codeTable/queryNationality',{},
           r => {
-            console.log(r)
+            //console.log(r)
             this.GjList=r.data
           })
       }
@@ -1444,7 +1444,7 @@ export default {
     getNewData(){
       this.$api.post('/manage-platform/nationwide/getFlightMonitorInfo',{},
        r => {
-         console.log(r);
+         //console.log(r);
          this.newHbData=r.data;
          this.createM( this.newHbData)
       })
@@ -1492,14 +1492,14 @@ export default {
             borderWidth:1,
             // triggerOn:'click',
             formatter: function (params, ticket, callback) {
-              console.log(params)
+              //console.log(params)
                 let p={
                   dt:params.data.fk,
                   dtLst:params.data.dtLst
                 }
                 _this.$api.post('/manage-platform/nationwide/getFlightDetail',p,
                  r => {
-                   // console.log(r);
+                   // //console.log(r);
                    let data=r.data;
                    let html='<div class="katooltip">\
                               <span style="color:#31aafb">航班号：</span>'+data.fltno+' <span style="color:#31aafb">航班日期：</span>'+data.fltDate+'<span style="color:#31aafb">起飞地：</span>'+data.from+'<br>'+'\
@@ -1511,7 +1511,7 @@ export default {
                                     <td style="height:24px!important;">姓名</td><td style="height:24px!important;">性别</td><td style="height:24px!important;">国籍/地区</td><td style="height:24px!important;">出生日期</td>\
                                   </tr>';
                     for(var i in r.data.travelers){
-                      console.log("i",r.data.travelers[i])
+                      //console.log("i",r.data.travelers[i])
                       table+='<tr style="background:#112b42;height:20px">\
                                 <td style="border:1px #143652 solid;height:24px!important;">'+r.data.travelers[i].name+'</td>\
                                 <td style="border:1px #143652 solid;height:24px!important;">'+r.data.travelers[i].gender+'</td>\
@@ -1566,7 +1566,7 @@ export default {
                            </tr>'
                   }
                   html+=table+'</table></div>'
-                 // console.log(r);
+                 // //console.log(r);
                  // let data=r.data.flights[0];
                  // let html='<div class="katooltip">\
                  //            <span style="color:#31aafb">航班号：</span>'+data.fltno+' <span style="color:#31aafb">航班日期：</span>'+data.fltDate+'<span style="color:#31aafb">起飞地：</span>'+data.from+'<br>'+'\
@@ -1623,7 +1623,7 @@ export default {
                            </tr>'
                   }
                   html+=table+'</table></div>';
-                 // console.log(r);
+                 // //console.log(r);
                  // let data=r.data.flights[0];
                  // let html='<div class="katooltip">\
                  //            <span style="color:#31aafb">航班号：</span>'+data.fltno+' <span style="color:#31aafb">航班日期：</span>'+data.fltDate+'<span style="color:#31aafb">起飞地：</span>'+data.from+'<br>'+'\
@@ -1660,7 +1660,7 @@ export default {
       this.series.push(t)
       this.series.push(x)
 
-      console.log(this.series)
+      //console.log(this.series)
 
       this.initChart(this.series);
 
@@ -1671,23 +1671,23 @@ export default {
     getXqHb(fk){
       this.$api.get('/manage-platform/nationwide/getFlightDetail',{fk:fk},
        r => {
-         console.log(r);
+         //console.log(r);
       })
     },
     //口岸详细信息取得
     getXqKa(port){
       this.$api.get('/manage-platform/nationwide/getPortDetail',{port:port},
        r => {
-         console.log(r);
+         //console.log(r);
          this.XqKa=r.data.flights[0]
-         console.log(this.XqKa.aircompanyName)
+         //console.log(this.XqKa.aircompanyName)
       })
     },
     // 当前监控口岸取得
     getJkKa(){
       this.$api.post('/manage-platform/portMonitor/getMonitorPortInfo',{},
        r => {
-         console.log(r);
+         //console.log(r);
       })
     },
     // 更新监控口岸
@@ -1723,7 +1723,7 @@ export default {
       };
       this.$api.post('/manage-platform/portMonitor/updateMonitorPortInfo',p,
        r => {
-         console.log(r);
+         //console.log(r);
          this.getJkKa()
          this.getNewData();
          this.tabId=0;
@@ -1734,7 +1734,7 @@ export default {
       if(this.checkShow)return;
       this.checkShow=true;
       this.checkShow2=false;this.checkShow3=false;this.checkShow4=false;this.checkShow5=false;
-      console.log("ddddd",this.checkList)
+      //console.log("ddddd",this.checkList)
       this.$api.post('/manage-platform/portMonitor/getInProvinceList',{},
        r => {
          this.locationData=r.data;
@@ -1747,7 +1747,7 @@ export default {
              }
            }
          }
-         console.log(this.locationName)
+         //console.log(this.locationName)
       })
     },
     // 境内口岸列表取得
@@ -1756,7 +1756,7 @@ export default {
       let p=this.checkList.map(function(val){
         return val.code
       })
-      console.log("p",p);
+      //console.log("p",p);
       if(p.length==0){
         this.$message({
          message: '请先选择省！',
@@ -1780,7 +1780,7 @@ export default {
 
       this.$api.post('/manage-platform/portMonitor/getInPortList',{dtLst:p},
        r => {
-         console.log(r);
+         //console.log(r);
          this.locationData2=r.data;
          let obj1=r.data;
          for(var i in obj1){
@@ -1819,7 +1819,7 @@ export default {
 
       this.$api.post('/manage-platform/portMonitor/getOutNationalityList',{dtLst:p},
        r => {
-         console.log(r);
+         //console.log(r);
          this.locationData3=r.data;
          let obj1=r.data;
          for(var i in obj1){
@@ -1858,7 +1858,7 @@ export default {
 
       this.$api.post('/manage-platform/portMonitor/getOutPortList',{dtLst:p},
        r => {
-         console.log(r);
+         //console.log(r);
          this.locationData4=r.data;
          let obj1=r.data;
          for(var i in obj1){
@@ -1903,7 +1903,7 @@ export default {
     getJkHb(){
       this.$api.post('/manage-platform/flightMonitor/queryFlightPage',this.p1,
        r => {
-         console.log(r);
+         //console.log(r);
          this.HBList=r.data.pdList
          this.getDqJkHb();
       })
@@ -1912,7 +1912,7 @@ export default {
     addJkHb(fk){
       this.$api.get('/manage-platform/flightMonitor/addMonitorFlight',{fltKey:fk},
        r => {
-         console.log(r);
+         //console.log(r);
          if(r.success){
            this.$message({
              message: '恭喜你，添加成功！',
@@ -1926,7 +1926,7 @@ export default {
     delJkHb(fk){
       this.$api.get('/manage-platform/flightMonitor/delMonitorFlight',{fltKey:fk},
        r => {
-         console.log(r);
+         //console.log(r);
          if(r.success){
            this.$message({
              message: '恭喜你，删除成功！',
@@ -1940,7 +1940,7 @@ export default {
     getDqJkHb(){
       this.$api.get('/manage-platform/flightMonitor/getMonitorFlights',{},
        r => {
-         console.log(r);
+         //console.log(r);
          this.DqJkHb=r.data;
          this.getNewData()
 
@@ -1957,10 +1957,10 @@ export default {
     },
     getRy(){
       this.p2.name=this.getreplace(this.p2.name);
-      console.log("this.p2.name",this.p2.name)
+      //console.log("this.p2.name",this.p2.name)
       this.$api.post('/manage-platform/travelerMonitor/queryTravelerPage',this.p2,
        r => {
-         console.log(r);
+         //console.log(r);
          this.RyList=r.data.pdList;
          this.getDqRy()
 
@@ -1970,7 +1970,7 @@ export default {
     addRy(tk){
       this.$api.get('/manage-platform/travelerMonitor/addMonitorTraveler',{trvKey:tk},
        r => {
-         console.log(r);
+         //console.log(r);
          if(r.success){
            this.$message({
              message: '恭喜你，添加成功！',
@@ -1984,7 +1984,7 @@ export default {
     delRy(tk){
       this.$api.get('/manage-platform/travelerMonitor/delMonitorTraveler',{trvKey:tk},
        r => {
-         console.log(r);
+         //console.log(r);
          if(r.success){
            this.$message({
              message: '恭喜你，删除成功！',
@@ -1998,7 +1998,7 @@ export default {
     getDqRy(){
       this.$api.post('/manage-platform/travelerMonitor/getMonitorTravelers',{},
        r => {
-         console.log(r);
+         //console.log(r);
          this.DqRy=r.data;
          this.getNewData()
 

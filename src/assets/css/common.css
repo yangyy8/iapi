@@ -15,7 +15,7 @@ a{
   left: unset!important;
   right:0!important;
   color:red!important;
-  padding: 10px!important;
+  /* padding: 10px!important; */
 }
 /* .el-loading-spinner .circular{
   display: none;

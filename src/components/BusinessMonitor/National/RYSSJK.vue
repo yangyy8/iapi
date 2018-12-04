@@ -39,6 +39,18 @@
             </el-date-picker>
           </div>
         </el-col>
+        <el-col :sm="24" :md="12" :lg="8" class="input-item">
+          <span class="input-text">航站：</span>
+          <el-select  v-model="pd.port" @change="getList(CurrentPage,pageSize,pd)" placeholder="请选择" filterable clearable size="small" class="input-input">
+            <el-option
+              v-for="item in airport"
+              v-if="item.JCDM"
+              :key="item.JCDM"
+              :label="item.JCDM+' - '+item.KAMC"
+              :value="item.JCDM">
+            </el-option>
+          </el-select>
+        </el-col>
       </el-row>
     </div>
     <div class="middle mb-6">
@@ -141,6 +153,16 @@
             label="航班时间"
             prop="fltDate"
             width="101"
+            sortable>
+          </el-table-column>
+          <el-table-column
+            label="出发站"
+            prop="cityfrom"
+            sortable>
+          </el-table-column>
+          <el-table-column
+            label="目的站"
+            prop="cityto"
             sortable>
           </el-table-column>
           <el-table-column
@@ -588,7 +610,7 @@ export default {
   },
   mounted(){
     // this.getList(this.CurrentPage,this.pageSize,this.pd);
-    // this.queryAirport();
+    this.queryAirport();
     this.nav1Id=this.$route.query.nav1Id
     this.nav2Id=this.$route.query.nav2Id
     let end = new Date();
