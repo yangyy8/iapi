@@ -88,9 +88,13 @@
               <el-col :sm="24" :md="12"  :lg="8" class="input-item">
                 <span class="input-text">命中模型：</span>
                 <el-select v-model="pd.hit_mode" placeholder="请选择"  size="small" clearable filterable class="block input-input">
-                  <el-option label="I - 入境" value="I"></el-option>
-                  <el-option label="O - 出境" value="O"></el-option>
-                  <el-option label="A - 入出境" value="A"></el-option>
+                  <el-option
+                    v-for="item in ModelHis"
+                    v-if="item.MODEL_CODE"
+                    :key="item.MODEL_CODE"
+                    :label="item.MODEL_CODE+' - '+item.MODEL_JC"
+                    :value="item.MODEL_CODE">
+                  </el-option>
                 </el-select>
               </el-col>
               <el-col :sm="24" :md="12"  :lg="8" class="input-item">
@@ -172,12 +176,12 @@
           border
           cell-class-name="cellClass"
           style="width: 100%;">
-          <el-table-column
+          <!-- <el-table-column
             label="唯一编号"
             prop="serial"
             sortable
             width="101">
-          </el-table-column>
+          </el-table-column> -->
           <el-table-column
             label="姓名"
             prop="name"
@@ -230,7 +234,7 @@
           <el-table-column
             label="口岸"
             prop="port_name"
-            width="50"
+
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
@@ -283,7 +287,9 @@
           </el-table-column>
           <el-table-column
             label="归档时间"
-            prop="archive_time">
+            prop="archive_time"
+            sortable
+            width="101">
           </el-table-column>
           <el-table-column
             label="操作"
@@ -352,6 +358,7 @@ export default {
       airport:null,
       docCode:null,
       nationAlone:null,
+      ModelHis:null,
       isdisable:true,
       options:[
         {
@@ -379,6 +386,8 @@ export default {
     this.queryAirport();
     this.queryNationalityAlone();
     this.queryDocCode();
+    this.getRiskModelHisInfo();
+
   },
   activated(){
     this.getList(this.CurrentPage,this.pageSize,this.pd);
@@ -432,6 +441,14 @@ export default {
        r => {
          if(r.success){
            this.docCode=r.data;
+         }
+      })
+    },
+    getRiskModelHisInfo(){
+      this.$api.post('/manage-platform/riskEventController/getRiskModelHisInfo',{},
+       r => {
+         if(r.success){
+           this.ModelHis=r.data;
          }
       })
     },

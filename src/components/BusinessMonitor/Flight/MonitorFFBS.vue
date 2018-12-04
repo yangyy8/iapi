@@ -3,6 +3,9 @@
     <div class="mb-6 middle">
       <div class="ak-tab">
         <div class="ak-tabs">
+          <div class="ak-tab-item hand" :class="{'ak-checked':tabId==0}" @click="tabId=0">
+            整体监控
+          </div>
           <div class="ak-tab-item hand" :class="{'ak-checked':tabId==1}" @click="tabId=1">
             航班关闭
           </div>
@@ -17,26 +20,141 @@
           </div>
         </div>
       </div>
-      <!-- <div class="middle-tab">
-        <div class="middle-tab-item hand" :class="{'middle-checked':tabId==1}" >
-          航班关闭
-        </div>
-        <div class="middle-tab-item hand" :class="{'middle-checked':tabId==2}">
-          航班取消
-        </div>
-        <div class="middle-tab-item hand" :class="{'middle-checked':tabId==3}">
-          IAPI
-        </div>
-        <div class="middle-tab-item hand" :class="{'middle-checked':tabId==4}">
-          PNR
-        </div>
-      </div> -->
-      <div class="ak-tab-pane">
+      <div class="ak-tab-pane" v-if="tabId==0">
+        <el-row class="mb-9">
+          <el-col :span="20" class="pr-20">
+            <el-row align="center" :gutter="2">
+              <el-col :sm="24" :md="12" :lg="8" class="input-item">
+                <span class="input-text">航班日期：</span>
+                <el-date-picker
+                  class="input-input"
+                  :editable="false"
+                  :clearable="false"
+                  @change="getList2(CurrentPage,pageSize,pd2)"
+                  v-model="pd2.fltDate"
+                  type="date" size="mini" value-format="yyyyMMdd"
+                  placeholder="选择时间"  >
+                </el-date-picker>
+
+              </el-col>
+              <el-col :sm="24" :md="12"  :lg="8" class="input-item">
+                <span class="input-text">口岸：</span>
+                <el-select v-model="pd2.port" @change="getList2(CurrentPage,pageSize,pd2)" placeholder="请选择"  size="small" clearable filterable class="block input-input">
+                  <el-option
+                    v-for="item in airport"
+                    v-if="item.JCDM"
+                    :key="item.JCDM"
+                    :label="item.JCDM+' - '+item.KAMC"
+                    :value="item.JCDM">
+                  </el-option>
+                </el-select>
+              </el-col>
+
+            </el-row>
+          </el-col>
+        </el-row>
+        <el-button type="success"  icon="el-icon-refresh" size="small" class="mb-9 mr-15" @click="getList2(CurrentPage,pageSize,pd2)">刷新</el-button>
+        <el-checkbox v-model="checked">自动刷新</el-checkbox>
+
+        <el-table
+          :data="tableData2"
+          border
+          max-height="600"
+          style="width: 100%;">
+          <el-table-column
+            label="航班号"
+            prop="fltno"
+            sortable
+            width="90">
+          </el-table-column>
+          <el-table-column
+            label="出入标识"
+            prop="ioType"
+            width="77">
+            <template slot-scope="scope">
+              <div>
+                <span v-if="scope.row.ioType=='I'">入境</span>
+                <span v-if="scope.row.ioType=='O'">出境</span>
+              </div>
+            </template>
+          </el-table-column>
+          <el-table-column
+            label="计划起飞时间"
+            prop="preDepartTime"
+            sortable
+            width="132">
+          </el-table-column>
+          <el-table-column
+            label="计划到达时间"
+            prop="preArriveTime"
+            sortable
+            width="132">
+          </el-table-column>
+          <el-table-column
+            label="出发站"
+            prop="from"
+            sortable>
+          </el-table-column>
+          <el-table-column
+            label="目的站"
+            prop="to"
+            sortable>
+          </el-table-column>
+          <el-table-column
+            label="航空公司"
+            prop="aircompanyName"
+            sortable>
+          </el-table-column>
+          <el-table-column
+            label="航班状态"
+            width="119">
+            <template slot-scope="scope">
+              <div>
+                <span v-if="scope.row.status==0">计划</span>
+                <span v-if="scope.row.status==1">已预检</span>
+                <span v-if="scope.row.status==2">已起飞</span>
+                <span v-if="scope.row.status==3">已到达</span>
+                <span v-if="scope.row.status==4">已办理入境手续</span>
+                <span v-if="scope.row.status==5">已取消</span>
+                <span v-if="scope.row.status==6">无关闭报文</span>
+                <span v-if="scope.row.status==7">无值机报文</span>
+              </div>
+            </template>
+          </el-table-column>
+          <el-table-column
+            label="航班关闭报文次数">
+            <template slot-scope="scope">
+              <div>正常：{{scope.row.close}}<br/>
+              异常：{{scope.row.closeEx}}</div>
+            </template>
+          </el-table-column>
+          <el-table-column
+            label="航班取消报文次数">
+            <template slot-scope="scope">
+              <div>正常：{{scope.row.cancel}}<br/>
+              异常：{{scope.row.cancelEx}}</div>
+            </template>
+          </el-table-column>
+          <el-table-column
+            label="IAPI报文次数">
+            <template slot-scope="scope">
+              <div>正常：{{scope.row.iapi}}<br/>
+              异常：{{scope.row.iapiEx}}</div>
+            </template>
+          </el-table-column>
+          <el-table-column
+            label="PNR报文次数">
+            <template slot-scope="scope">
+              <div>正常：{{scope.row.pnr}}<br/>
+              异常：{{scope.row.pnrEx}}</div>
+            </template>
+          </el-table-column>
+        </el-table>
+      </div>
+      <div class="ak-tab-pane" v-else>
+
         <el-row class="mb-9">
           <el-col :span="20" class="br pr-20">
-            <!-- <div class="title-green ">
-              查询条件
-            </div> -->
             <el-row align="center" :gutter="2">
 
               <el-col :sm="24" :md="12" :lg="8" class="input-item">
@@ -76,19 +194,23 @@
             <!-- <el-button type="primary" class="mb-15" plain size="small" >重置</el-button> -->
           </el-col>
         </el-row>
+        <el-checkbox v-model="checked2" class="mr-15">自动刷新</el-checkbox>
+
         <el-table
-          ref="multipleTable"
           :data="tableData"
-          height="350"
+          max-height="600"
           border
           style="width: 100%;">
           <el-table-column
             label="航班号"
-            prop="fltno">
+            prop="fltno"
+            sortable
+            width="90">
           </el-table-column>
           <el-table-column
             label="出入标识"
-            prop="ioType">
+            prop="ioType"
+            width="101">
             <template slot-scope="scope">
               <div>
                 <span v-if="scope.row.ioType=='I'">入境</span>
@@ -98,23 +220,32 @@
           </el-table-column>
           <el-table-column
             label="计划起飞时间"
-            prop="preDepartTime">
+            prop="preDepartTime"
+            sortable
+            width="145">
           </el-table-column>
           <el-table-column
             label="计划到达时间"
-            prop="preArriveTime">
+            prop="preArriveTime"
+            sortable
+            width="145">
           </el-table-column>
           <el-table-column
             label="出发站"
-            prop="from">
+            prop="from"
+            sortable>
           </el-table-column>
           <el-table-column
             label="目的站"
-            prop="to">
+            prop="to"
+            sortable>
           </el-table-column>
           <el-table-column
             label="航空公司"
-            prop="aircompanyName">
+            prop="aircompanyName"
+            sortable
+            width="280"
+            :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="航班状态">
@@ -132,7 +263,7 @@
             </template>
           </el-table-column>
           <el-table-column
-            label="非法报送数"
+            label="报文次数"
             prop="closeEx">
           </el-table-column>
         </el-table>
@@ -140,11 +271,11 @@
 
     </div>
 
-    <div class="middle-top middle mb-2">
+    <!-- <div class="middle-top middle mb-2">
       <div class="title-green ">
         报送实时查询
       </div>
-      <el-row >
+      <el-row>
         <el-col :span="20" class="pr-20">
           <el-row align="center" :gutter="2">
             <el-col :sm="24" :md="12" :lg="8" class="input-item">
@@ -175,98 +306,10 @@
 
           </el-row>
         </el-col>
-
       </el-row>
     </div>
-    <div class="middle t-table">
-
-      <el-button type="success"  icon="el-icon-refresh" size="small" class="mb-9 mr-15" @click="getList2(CurrentPage,pageSize,pd2)">刷新</el-button>
-      <el-checkbox v-model="checked">自动刷新</el-checkbox>
-      <el-table
-        ref="multipleTable"
-        :data="tableData2"
-        border
-        style="width: 100%;">
-        <el-table-column
-          label="航班号"
-          prop="fltno">
-        </el-table-column>
-        <el-table-column
-          label="出入标识"
-          prop="ioType">
-          <template slot-scope="scope">
-            <div>
-              <span v-if="scope.row.ioType=='I'">入境</span>
-              <span v-if="scope.row.ioType=='O'">出境</span>
-            </div>
-          </template>
-        </el-table-column>
-        <el-table-column
-          label="计划起飞时间"
-          prop="preDepartTime">
-        </el-table-column>
-        <el-table-column
-          label="计划到达时间"
-          prop="preArriveTime">
-        </el-table-column>
-        <el-table-column
-          label="出发站"
-          prop="from">
-        </el-table-column>
-        <el-table-column
-          label="目的站"
-          prop="to">
-        </el-table-column>
-        <el-table-column
-          label="航空公司"
-          prop="aircompanyName">
-        </el-table-column>
-        <el-table-column
-          label="航班状态">
-          <template slot-scope="scope">
-            <div>
-              <span v-if="scope.row.status==0">计划</span>
-              <span v-if="scope.row.status==1">已预检</span>
-              <span v-if="scope.row.status==2">已起飞</span>
-              <span v-if="scope.row.status==3">已到达</span>
-              <span v-if="scope.row.status==4">已办理入境手续</span>
-              <span v-if="scope.row.status==5">已取消</span>
-              <span v-if="scope.row.status==6">无关闭报文</span>
-              <span v-if="scope.row.status==7">无值机报文</span>
-            </div>
-          </template>
-        </el-table-column>
-        <el-table-column
-          label="航班关闭报文次数">
-          <template slot-scope="scope">
-            <div>正常：{{scope.row.close}}<br/>
-            异常：{{scope.row.closeEx}}</div>
-          </template>
-        </el-table-column>
-        <el-table-column
-          label="航班取消报文次数">
-          <template slot-scope="scope">
-            <div>正常：{{scope.row.cancel}}<br/>
-            异常：{{scope.row.cancelEx}}</div>
-          </template>
-        </el-table-column>
-        <el-table-column
-          label="IAPI报文次数">
-          <template slot-scope="scope">
-            <div>正常：{{scope.row.iapi}}<br/>
-            异常：{{scope.row.iapiEx}}</div>
-          </template>
-        </el-table-column>
-        <el-table-column
-          label="PNR报文次数">
-          <template slot-scope="scope">
-            <div>正常：{{scope.row.pnr}}<br/>
-            异常：{{scope.row.pnrEx}}</div>
-          </template>
-        </el-table-column>
-      </el-table>
-
-      <!-- <div class="middle-foot">
+    <div class="middle">
+      <div class="middle-foot">
         <div class="page-msg">
           <div class="">
             共{{Math.ceil(TotalResult/pageSize)}}页
@@ -294,8 +337,8 @@
           layout="prev, pager, next"
           :total="TotalResult">
         </el-pagination>
-      </div> -->
-    </div>
+      </div>
+    </div> -->
   </div>
 </template>
 
@@ -305,7 +348,7 @@ import { formatDate } from '@/assets/js/date.js'
 export default {
   data(){
     return{
-      tabId:1,
+      tabId:0,
       yuzhi:null,
       tableData:null,
       tableData2:null,
@@ -330,6 +373,9 @@ export default {
         }
       ],
       checked:true,
+      checked2:true,
+      timer:null,
+      timer2:null
     }
   },
   mounted(){
@@ -345,27 +391,46 @@ export default {
     this.getList();
     this.getList2(this.CurrentPage,this.pageSize,this.pd);
 
-    if(this.checked){
+    if(this.checked&&this.tabId==0){
       let that=this;
       this.timer=setInterval(function(){
         that.getList2(that.CurrentPage,that.pageSize,that.pd);
       },60000)
     }
+    if(this.checked2&&this.tabId!=0){
+      let that=this;
+      this.timer2=setInterval(function(){
+        that.getList();
+      },180000)
+    }
 
   },
   deactivated(){
-　　clearInterval(this.timer)
+　　clearInterval(this.timer);
+    clearInterval(this.timer2);
+
   },
   watch:{
     checked:function(val){
       console.log(val)
-      if(val){
+      if(val&&this.tabId==0){
         let that=this;
         this.timer=setInterval(function(){
           that.getList2(that.CurrentPage,that.pageSize,that.pd);
         },60000)
       }else{
         clearInterval(this.timer);
+      }
+    },
+    checked2:function(val){
+      console.log(val)
+      if(val&&this.tabId!=0){
+        let that=this;
+        this.timer2=setInterval(function(){
+          that.getList();
+        },60000)
+      }else{
+        clearInterval(this.timer2);
       }
     }
   },
