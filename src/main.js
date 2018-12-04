@@ -39,11 +39,15 @@ Vue.use(vverify, {
    },
    noCinese:(value)=>{
      return !(/[\u4E00-\u9FA5]/g.test(value))
+   },
+   number:(value)=>{
+     return /^-?\d+(\.\d{1,5})?$/.test(value)
    }
   },
   messages: { // 验证器消息提示
      zing: (filed) => `${filed}必须以@zing.com结尾`,
-     noCinese:(filed) => `${filed}不可以輸入中文`
+     noCinese:(filed) => `${filed}不可以輸入中文`,
+     number:(filed) => `${filed}请输入数字`,
    }
  })
 // Vue.use(vva)

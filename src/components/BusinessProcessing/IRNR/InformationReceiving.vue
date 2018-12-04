@@ -1,11 +1,15 @@
 <template lang="html">
   <div class="zlbg">
-    <div class="middle-top mb-2">
-      <el-row type="flex" class="middle">
+    <div class="mb-2">
+      <div class="middle">
+        <span class="tubiao hand borderL" :class="{'checked':page==0}" @click="page=0;startOut(CurrentPage,pageSize);">发件箱</span><span class="tubiao hand borderR" :class="{'checked':page==1}" @click="qq">收件箱</span>
+        <el-button type="warning" size="mini" @click="sendMesssage">发送消息</el-button>
+      </div>
+      <el-row type="flex" class="middle" style="padding-top:0px!important">
         <el-col :span="22" class="br pr-20">
-          <div class="title-green">
+          <!-- <div class="title-green">
             查询条件
-          </div>
+          </div> -->
           <el-row align="center" :gutter="2" type="flex" justify="center" v-show="page==0">
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">口岸/部门：</span>
@@ -23,9 +27,9 @@
               <el-select v-model="pd.userId" filterable clearable placeholder="请选择" size="small" class="input-input" :disabled="able">
                 <el-option
                   v-for="item in nameCllo"
-                  :key="item.NAME"
+                  :key="item.SERIAL"
                   :label="item.NAME"
-                  :value="item.NAME">
+                  :value="item.SERIAL">
                 </el-option>
                </el-select>
             </el-col>
@@ -47,22 +51,21 @@
               <el-select v-model="pd1.userId" filterable clearable placeholder="请选择" size="small" class="input-input" :disabled="outAble">
                 <el-option
                   v-for="item in outNameCllo"
-                  :key="item.NAME"
+                  :key="item.SERIAL"
                   :label="item.NAME"
-                  :value="item.NAME">
+                  :value="item.SERIAL">
                 </el-option>
                </el-select>
             </el-col>
           </el-row>
         </el-col>
-        <el-col :span="2" class="down-btn-area" style="padding-top:30px;">
+        <el-col :span="2" class="down-btn-area">
           <el-button type="success" size="small" @click="search">查询</el-button>
         </el-col>
       </el-row>
     </div>
     <div class="middle">
-      <span class="tubiao hand borderL" :class="{'checked':page==0}" @click="page=0;getList(CurrentPage,pageSize,pd);">发件箱</span><span class="tubiao hand borderR" :class="{'checked':page==1}" @click="qq">收件箱</span>
-      <el-button type="warning" size="mini" @click="sendMesssage">发送消息</el-button>
+
       <div class="tableWrap" v-show="page==0">
         <el-table
           :data="outTableData"
@@ -199,7 +202,7 @@
           </el-col>
           <el-col :span="10" class="input-item">
             <span class="yy-input-text">接收人：</span>
-            <el-select v-model="sform.RECEIVEID" filterable clearable placeholder="请选择" size="small" class="input-input" filterable clearable multiple :disabled="sendAble">
+            <el-select v-model="sform.RECEIVEID" filterable clearable  multiple placeholder="请选择" size="small" class="input-input"  :disabled="sendAble">
               <el-option
                 v-for="item in sendNameCllo"
                 :key="item.SERIAL"
@@ -440,30 +443,18 @@ export default {
     }
   },
   mounted() {
-    this.getList(this.CurrentPage, this.pageSize, this.pd);
+    this.startOut(this.CurrentPage, this.pageSize);
     // this.getList(this.CurrentPage, this.pageSize, this.pd);
     this.queryNationality();
   },
   activated() {
-    this.getList(this.CurrentPage, this.pageSize, this.pd);
+    this.startOut(this.CurrentPage, this.pageSize);
   },
   methods: {
     qq(){
       this.page=1;
-      this.inGetList(this.inCurrentPage, this.inPageSize, this.pd1);
+      this.startIn(this.inCurrentPage, this.inPageSize);
     },
-    handleRemove(file, fileList) {
-       console.log(file, fileList);
-     },
-     handlePreview(file) {
-       console.log(file);
-     },
-     handleExceed(files, fileList) {
-       this.$message.warning(`当前限制选择 3 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
-     },
-     beforeRemove(file, fileList) {
-       return this.$confirm(`确定移除 ${ file.name }？`);
-     },
      sendMesssage(){//发送消息
        this.sendBu="";
        this.sform={RECEIVEID:[]};
@@ -479,8 +470,8 @@ export default {
      },
      sendMesssageReal(){
        let arr = [];
-       let obj={};
        for(var i=0;i<this.sform.RECEIVEID.length;i++){
+         let obj={};
          for(var j=0;j<this.sendNameCllo.length;j++){
            if(this.sform.RECEIVEID[i] == this.sendNameCllo[j].SERIAL){
              obj.RECEIVEID = this.sendNameCllo[j].SERIAL
@@ -489,6 +480,7 @@ export default {
            }
          }
          arr.push(obj);
+         console.log(arr);
        }
        this.sform.receiveList = arr;
        this.$api.post('/manage-platform/information/saveInformationSend',this.sform,
@@ -502,6 +494,7 @@ export default {
                  type: 'success'
                });
              }
+             this.startOut(this.CurrentPage, this.pageSize);
              this.sendDialogVisible = false;
            }
          })
@@ -515,7 +508,6 @@ export default {
       }else if(this.page==1){
         this.inGetList(this.inCurrentPage, val, this.pd1);
       }
-      console.log(`每页 ${val} 条`);
     },
     reviewUpload(event){
       this.reviewFile=event.target.files;
@@ -560,15 +552,36 @@ export default {
       }
       console.log(`当前页: ${val}`);
     },
+    startOut(currentPage, showCount){
+      let p = {
+        "currentPage": currentPage,
+        "showCount": showCount,
+      }
+      this.$api.post('/manage-platform/information/queryInformationSendList',p,
+       r =>{
+         this.outTableData = r.data.resultList;
+         this.TotalResult = r.data.totalResult;
+       })
+    },
+    startIn(currentPage, showCount){
+      let p = {
+        "currentPage": currentPage,
+        "showCount": showCount,
+      }
+      this.$api.post('/manage-platform/information/queryInformationReceiveList',p,
+       r =>{
+         this.inTableData = r.data.resultList;
+         this.inTotalResult = r.data.totalResult;
+       })
+    },
     getList(currentPage, showCount, pd) {
       let p = {
         "currentPage": currentPage,
         "showCount": showCount,
         "pd": pd
       };
-      this.$api.post('/manage-platform/information/queryInformationSendList',p,
+      this.$api.post('/manage-platform/information/queryInformationSendListByReceiveId',p,
         r => {
-          console.log(r);
           this.outTableData = r.data.resultList;
           this.TotalResult = r.data.totalResult;
         })
@@ -579,7 +592,7 @@ export default {
         "showCount": showCount,
         "pd": pd
       };
-      this.$api.post('/manage-platform/information/queryInformationReceiveList',p,
+      this.$api.post('/manage-platform/information/queryInformationReceiveListBySendId',p,
        r => {
          this.inTableData = r.data.resultList;
          this.inTotalResult = r.data.totalResult;
@@ -695,94 +708,13 @@ export default {
             }
           }
         })
-      // let arr = this.company;
-      // this.nameCllo = [];
-      // for(var i=0;i<arr.length;i++){
-      //   if(arr[i].DEPT_JC == val){
-      //     console.log(arr[i]);
-      //     this.nameCllo.push(arr[i].NAME)
-      //   }
-      // }
-      // console.log(this.nameCllo);
-    },
-    review(n) {
-
-      this.form=Object.assign({}, n);
     },
 
-
-    addItem(formName) {
-      if (this.form.DEPT_ORDER != undefined && this.form.DEPT_ORDER != "") {
-        if (!checkRate(this.form.DEPT_ORDER)) {
-          this.$message.error('排列序号必须为数字，请重新输入！');
-          return;
-        }
-      }
-
-      if (this.$validator.listener.demo2) {
-        const result = this.$validator.verifyAll('demo2')
-        if (result.indexOf(false) > -1) {
-          return;
-        }
-      }
-
-       var url = "/manage-platform/deptSys/edit";
-
-      this.$api.post(url, this.form,
-        r => {
-          console.log(r);
-          if (r.success) {
-            this.$message({
-              message: '保存成功！',
-              type: 'success'
-            });
-          } else {
-            this.$message.error('保存失败！');
-          }
-          this.$refs[formName].resetFields();
-          this.addDialogVisible = false;
-          this.getList();
-          // this.tableData=r.Data.ResultList;
-        }, e => {
-          this.$message.error('失败了');
-        })
-    },
     details(i) {
       this.detailsDialogVisible = true;
       console.log(i);
       this.dform = i;
     },
-    deletes(i) {
-      let p = {
-        "SERIAL": i.SERIAL
-      };
-      this.$confirm('您是否确认删除此部门？', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        this.$api.post('/manage-platform/deptSys/delete', p,
-          r => {
-            if (r.success) {
-              this.$message({
-                message: '删除成功！',
-                type: 'success'
-              });
-              this.getList();
-            } else {
-              this.$message.error(r.Message);
-            }
-          }, e => {
-            this.$message.error('失败了');
-          });
-      }).catch(() => {
-        this.$message({
-          type: 'info',
-          message: '已取消删除'
-        });
-      });
-    },
-
   },
   filters: {
     fiftertype(val) {
@@ -829,7 +761,7 @@ function checkRate(nubmer) {　　
   width: 23%!important;
 }
 .checked{
-  background:#399bfe;
+  background:#56A8FE;
   color:#ffffff;
 }
 .tableWrap{

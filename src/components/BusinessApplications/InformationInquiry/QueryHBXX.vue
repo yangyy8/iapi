@@ -180,7 +180,7 @@
         <el-table-column
           label="操作">
           <template slot-scope="scope">
-              <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row)">详情</el-button>
+              <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row)">座位详情</el-button>
          </template>
         </el-table-column>
       </el-table>
@@ -219,7 +219,7 @@
       :visible.sync="seatDialogVisible"
       width="1220px"
       >
-      <Seat></Seat>
+      <Seat :flightNumber="flightNumber0"></Seat>
     </el-dialog>
   </div>
 
@@ -278,14 +278,16 @@ export default {
             return endT < this.pd.scheduledeparturetime;
         }
       },
-      form: { },
+      form: {},
+      flightNumber0:''
     }
   },
   mounted() {
     let time = new Date();
     let end = new Date();
     let begin =new Date(time - 1000 * 60 * 60 * 24 * 30);
-    this.pd.scheduledeparturetime=formatDate(begin,'yyyyMMddhhmm');
+    let flightStart = new Date(new Date().setHours(0,0,0,0));
+    this.pd.scheduledeparturetime=formatDate(flightStart,'yyyyMMddhhmm');
     this.pd.schedulearrivetime=formatDate(end,'yyyyMMddhhmm');
     this.queryNationality();
   },
@@ -370,21 +372,10 @@ export default {
         })
     },
     details(i) {
+      console.log(i);
       this.seatDialogVisible=true;
-      // this.detailsDialogVisible = true;
-      // let p = {
-      //   "flightRecordnum": i,
-      //
-      // };
-      // this.$api.post('/manage-platform/statusUpdate/flight/queryTbFlightEntityById', p,
-      //   r => {
-      //     console.log(r);
-
-      //     this.form = r.data;
-      //   })
-
-      this.$router.push({query:{flightNumber:i.fltno,departdateBegin:i.departuretime}})
-
+      this.flightNumber0 = i.flightRecordnum;
+      // this.$router.push({query:{flightNumber:i.flightRecordnum}})
     },
     takeOff(){//调用起飞机场
       this.$api.post('/manage-platform/codeTable/queryAirport',{},

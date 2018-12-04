@@ -16,13 +16,13 @@
                 <el-option label="2 - 其他" value="2"></el-option>
               </el-select>
             </el-col>
-            <el-col  :sm="24" :md="12" :lg="6"  class="input-item">
+            <el-col  :sm="24" :md="12" :lg="6"  class="input-item" v-show="entity.CONSULTFROM == '0'||entity.CONSULTFROM == ''||entity.CONSULTFROM == undefined">
               <span class="input-text">航站：</span>
               <el-select v-model="entity.TERMINAL" filterable clearable placeholder="请选择" size="small" class="input-input" @visible-change="terminal">
                 <el-option
                 v-for="item in takeOffName"
                 :key="item.AIRPORT_CODE"
-                :value="item.AIRPORT_CODE"
+                :value="item.AIRPORT_NAME"
                 :label="item.AIRPORT_CODE+' - '+item.AIRPORT_NAME">
                 </el-option>
               </el-select>
