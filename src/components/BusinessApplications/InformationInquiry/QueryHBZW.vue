@@ -10,7 +10,7 @@
         <el-row align="center"   :gutter="2" class="pr-20">
           <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
             <span class="input-text"><font style="color:red">*</font> 航班号：</span>
-            <el-input placeholder="请输入内容"  size="small" v-model="pd.flightNumber"   class="input-input"></el-input>
+            <el-input placeholder="请输入内容"  size="small" v-model="pd.flightNumberLike"   class="input-input"></el-input>
           </el-col>
           <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
           <span class="input-text"><font style="color:red">*</font> 航班日期：</span>
@@ -93,7 +93,7 @@
             </el-col>
             <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
               <span class="input-text">证件号码：</span>
-              <el-input placeholder="请输入内容" size="small" v-model="pd.cardnum"   class="input-input"></el-input>
+              <el-input placeholder="请输入内容" size="small" v-model="pd.cardnumlike"   class="input-input"></el-input>
             </el-col>
           </el-row>
         </el-col>
@@ -593,8 +593,8 @@ export default {
 
   let time = new Date();
   let end = new Date();
-  let begin =new Date(time - 1000 * 60 * 60 * 24 * 30);
-  this.pd.departdateBegin=formatDate(begin,'yyyyMMddhhmm');
+  let flightStart = new Date(new Date().setHours(0,0,0,0));
+  this.pd.departdateBegin=formatDate(flightStart,'yyyyMMddhhmm');
   this.pd.departdateEnd=formatDate(end,'yyyyMMddhhmm');
 
   },
