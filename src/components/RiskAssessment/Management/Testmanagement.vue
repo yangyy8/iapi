@@ -294,7 +294,7 @@
 
       <el-table-column
         prop="PASSPORTNO"
-        label="国籍"
+        label="国籍/地区"
       >
       </el-table-column>
 

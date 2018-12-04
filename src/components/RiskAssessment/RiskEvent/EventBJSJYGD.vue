@@ -13,7 +13,7 @@
                 <el-input v-model="pd.fltno" placeholder="请输入内容" size="small" clearable class="input-input"></el-input>
               </el-col>
               <el-col :sm="24" :md="12"  :lg="8" class="input-item">
-                <span class="input-text">国籍：</span>
+                <span class="input-text">国籍/地区：</span>
                 <el-select v-model="pd.nationality" placeholder="请选择"  size="small" clearable filterable class="block input-input">
                   <el-option
                     v-for="item in nationAlone"
@@ -186,7 +186,7 @@
             width="80">
           </el-table-column>
           <el-table-column
-            label="国籍"
+            label="国籍/地区"
             prop="nationalityName">
           </el-table-column>
           <el-table-column

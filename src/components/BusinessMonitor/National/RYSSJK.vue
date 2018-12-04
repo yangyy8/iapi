@@ -12,7 +12,7 @@
           <el-select v-model="pd.ioType"  @change="getList(CurrentPage,pageSize,pd)" placeholder="请选择"  size="small" clearable filterable class="block input-input">
             <el-option label="I - 入境" value="I"></el-option>
             <el-option label="O - 出境" value="O"></el-option>
-            <el-option label="A - 入出境" value="''"></el-option>
+            <el-option label="A - 入出境" value=""></el-option>
           </el-select>
         </el-col>
         <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
@@ -87,7 +87,7 @@
             width="101">
           </el-table-column>
           <el-table-column
-            label="国籍"
+            label="国籍/地区"
             prop="nationalityName"
             sortable
             width="120">
@@ -209,7 +209,7 @@
       </div>
       <el-table
         :data="tableData2"
-        style="width: 451px"
+        style="width: 481px"
         class="table2"
         border>
         <el-table-column
@@ -223,9 +223,9 @@
           width="200">
         </el-table-column>
         <el-table-column
-          label="国籍"
+          label="国籍/地区"
           prop="nationality"
-          width="80">
+          width="110">
         </el-table-column>
         <el-table-column
           label="操作"
@@ -247,7 +247,7 @@
           <el-form-item label="证件号码：" prop="passno">
             <el-input placeholder="请输入内容" size="small" v-model="addform.passno" auto-complete="off"></el-input>
           </el-form-item>
-          <el-form-item label="国籍：" prop="nationality">
+          <el-form-item label="国籍/地区：" prop="nationality">
             <!-- <el-input placeholder="请输入内容" size="small" v-model="addform.nationality" auto-complete="off"></el-input> -->
             <el-select v-model="addform.nationality" placeholder="请选择"  size="small" clearable filterable style="width:100%">
               <el-option
@@ -276,7 +276,7 @@
           <el-col :span="6" class="t-el-content"><div class="t-el-text">出入境类型：</div><div class="t-el-sub">{{dform.FLIGHTINOUT}}</div></el-col>
         </el-row>
         <el-row type="flex"  class="t-detail">
-          <el-col :span="6" class="t-el-content"><div class="t-el-text">国籍：</div><div class="t-el-sub">{{dform.NATIONALITYNAME}}</div></el-col>
+          <el-col :span="6" class="t-el-content"><div class="t-el-text">国籍/地区：</div><div class="t-el-sub">{{dform.NATIONALITYNAME}}</div></el-col>
           <el-col :span="6" class="t-el-content"><div class="t-el-text">证件号码：</div><div class="t-el-sub">{{dform.PASSPORTNO}}</div></el-col>
           <el-col :span="6" class="t-el-content"><div class="t-el-text">证件颁发国：</div><div class="t-el-sub">{{dform.PASSPORTISSUECOUNTRYNAME}}</div></el-col>
           <el-col :span="6" class="t-el-content"><div class="t-el-text">证件有效期：</div><div class="t-el-sub">{{dform.PASSPORTEXPIREDATESTR}}</div></el-col>
@@ -431,7 +431,7 @@
           </el-table-column>
           <el-table-column
             prop="NATIONALITYC"
-            label="国籍"
+            label="国籍/地区"
             sortable>
           </el-table-column>
 
@@ -879,7 +879,7 @@ export default {
 }
 .addbtn{
   position: absolute;
-  left:475px;
+  left:505px;
   top:63px
 }
 </style>

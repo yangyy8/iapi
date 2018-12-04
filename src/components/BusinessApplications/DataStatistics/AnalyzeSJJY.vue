@@ -400,7 +400,7 @@ export default {
         },
           series: [
                 {
-                  name:'国籍构成',
+                  name:'国家构成',
                   type:'pie',
                   radius: ['30%', '50%'],
                   center: ['50%', '30%'],   //调整位置

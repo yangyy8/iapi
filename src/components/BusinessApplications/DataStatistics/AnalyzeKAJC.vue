@@ -309,7 +309,7 @@ export default {
             sum03+=parseInt(arr[i].inland);
             sum003+=parseInt(arr[i].gat);
           }
-          this.sData1=[{value:sum1, name:'出入境人员数量'},{value:sum01, name:'不准登机人员数量'}];
+          this.sData1=[{value:sum1, name:'出入境人数'},{value:sum01, name:'不准登机人数'}];
           this.sData2=[{value:sum2, name:'男'},{value:sum02, name:'女'}];
           this.sData3=[{value:sum3, name:'外国人'},{value:sum03, name:'内地居民'},{value:sum003, name:'港澳台'}];
           this.drawLine();this.drawLine2();this.drawLine3();
@@ -373,7 +373,7 @@ export default {
           formatter: "{a} <br/>{b}: {c} ({d}%)"
         },
         series: [{
-          name: '出入境人员数量、不准登机人员数量',
+          name: '出入境人数、不准登机人数',
           type: 'pie',
           radius: ['30%', '50%'],
           center: ['50%', '50%'], //调整位置

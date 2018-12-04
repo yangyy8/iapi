@@ -41,7 +41,7 @@
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                 <span class="input-text">判断条件：</span>
                 <el-select v-model="flag" filterable clearable  placeholder="请选择"  size="small" class="input-input">
-                  <el-option value="1" label="国籍+证件号码">
+                  <el-option value="1" label="国籍/地区+证件号码">
                   </el-option>
                   <el-option value="2" label="姓名+性别+出生日期">
                   </el-option>
@@ -79,7 +79,7 @@
               style="width: 100%;">
               <el-table-column
                 prop="nationality"
-                label="国籍">
+                label="国籍/地区">
               </el-table-column>
               <el-table-column
                 prop="passportnopassportno"
@@ -163,7 +163,7 @@
                         style="width: 100%;">
                         <el-table-column
                           prop="nationality"
-                          label="国籍">
+                          label="国籍/地区">
                         </el-table-column>
                         <el-table-column
                           prop="passportnopassportno"

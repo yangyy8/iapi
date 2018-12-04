@@ -6,7 +6,7 @@
       <el-row type="flex" class="middle">
         <el-col :span="22" class="br pr-20">
           <div class="title-green">
-            查询条件   <span style="padding-left:20px;color:#FF9F9F;font-size:14px;font-weight:lighter">注：国籍证号，国籍姓名性别出生日期二选一</span>
+            查询条件   <span style="padding-left:20px;color:#FF9F9F;font-size:14px;font-weight:lighter">注：国籍/地区证号，国籍姓名性别出生日期二选一</span>
           </div>
           <el-row align="center"   :gutter="2">
             <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
