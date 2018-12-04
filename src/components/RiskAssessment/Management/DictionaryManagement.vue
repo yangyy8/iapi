@@ -382,7 +382,7 @@ export default {
       let p = {
         "id": i.SERIAL
       };
-      this.$confirm('您是否确认删除？', '提示', {
+      this.$confirm('此字典名称删除后导入的详情代码项也一并删除，您是否确认删除？？', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'

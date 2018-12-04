@@ -182,13 +182,13 @@
           label="晚报时间" sortable
           >
         </el-table-column> -->
-        <!-- <el-table-column
+        <el-table-column
           width="180"
           label="操作">
           <template slot-scope="scope">
               <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row)">详情</el-button>
          </template>
-        </el-table-column> -->
+        </el-table-column>
       </el-table>
       <!-- <div class="middle-foot">
         <div class="page-msg">
@@ -222,32 +222,337 @@
     </div>
     <el-dialog
       title="详情"
-      :visible.sync="detailsDialogVisible"
-      width="600px">
-      <el-form :model="form">
-        <div class="titile">类别名称 </div>
-        <el-row type="flex" class="mb-15">
-          <el-col :span="24" class="titlecontent">
-            {{form.loggerName}}
-          </el-col>
-            </el-row>
-          <div class="titile">线程名称</div>
-            <el-row type="flex" class="mb-15">
-          <el-col :span="24" class="titlecontent">
-            {{form.threadName}}
-          </el-col>
-        </el-row>
-     <div class="titile">监控消息</div>
-        <el-row type="flex" class="mb-15">
-          <el-col :span="24" class="titlecontent">
-            {{form.formattedMessage}}
-          </el-col>
-        </el-row>
-      </el-form>
+      :visible.sync="detailsDialogVisible">
 
-      <span slot="footer" class="dialog-footer">
-        <el-button  @click="detailsDialogVisible = false" size="small">取消</el-button>
-      </span>
+        <div class="ak-tabs">
+          <div class="ak-tab-item abehgt hand" :class="{'ak-checked':page==0}" @click="base">
+            未关闭报航班
+          </div>
+          <div class="ak-tab-item abehgt hand" :class="{'ak-checked':page==1}" @click="base1">
+            晚报关闭报航班
+          </div>
+          <div class="ak-tab-item abehgt hand" :class="{'ak-checked':page==2}" @click="base2">
+            值机报晚报人员
+          </div>
+          <div class="ak-tab-item abehgt hand" :class="{'ak-checked':page==3}" @click="base3">
+            无值机报晚报人员
+          </div>
+        </div>
+        <div class="ak-tab-pane" >
+            <div v-show="page==0">
+              <el-row class="mb-15 yr">
+                <el-button type="primary" size="small" @click="download(1)">Excel导出</el-button>
+                </el-row>
+                  <el-table
+                    :data="tableData1"
+                    border
+                    style="width: 100%;">
+                    <el-table-column
+                      prop="airline_company_id"
+                      label="航空公司名称" >
+                    </el-table-column>
+                    <el-table-column
+                      prop="fltno"
+                      label="航班号"
+                      >
+                    </el-table-column>
+                    <el-table-column
+                      prop="flttype"
+                      label="类型" >
+                    </el-table-column>
+                    <el-table-column
+                      prop="localdeparturetime"
+                      label="起飞时间" >
+                    </el-table-column>
+                    <el-table-column
+                      prop="localarrivetime"
+                      label="降落时间"
+                      >
+                    </el-table-column>
+                    <el-table-column
+                      prop="cityfrom"
+                      label="出发地"
+                      >
+                    </el-table-column>
+                    <el-table-column
+                      prop="cityto"
+                      label="目的地"
+                      >
+                    </el-table-column>
+                  </el-table>
+                  <div class="middle-foot">
+                    <div class="page-msg">
+                      <div class="">
+                        共{{Math.ceil(TotalResult1/pageSize1)}}页
+                      </div>
+                      <div class="">
+                        每页
+                        <el-select v-model="pageSize1" @change="pageSizeChange1(pageSize1)" placeholder="10" size="mini" class="page-select">
+                          <el-option
+                            v-for="item in options"
+                            :key="item.value"
+                            :label="item.label"
+                            :value="item.value">
+                          </el-option>
+                        </el-select>
+                        条
+                      </div>
+                      <div class="">
+                        共{{TotalResult1}}条
+                      </div>
+                    </div>
+                    <el-pagination
+                      background
+                      @current-change="handleCurrentChange1"
+                      :page-size="pageSize1"
+                      layout="prev, pager, next"
+                      :total="TotalResult1">
+                    </el-pagination>
+                  </div>
+            </div>
+
+            <div v-show="page==1">
+              <el-row class="mb-15 yr">
+                <el-button type="primary" size="small" @click="download(2)">Excel导出</el-button>
+                </el-row>
+                      <el-table
+                        :data="tableData2"
+                        border
+                        style="width: 100%;">
+                        <el-table-column
+                          prop="airline_company_id"
+                          label="航空公司名称"
+                          >
+                        </el-table-column>
+                        <el-table-column
+                          prop="fltno"
+                          label="航班号"
+                          >
+                        </el-table-column>
+                        <el-table-column
+                          prop="flttype"
+                          label="类型" >
+                        </el-table-column>
+                        <el-table-column
+                          prop="localdeparturetime"
+                          label="起飞时间"
+                          >
+                        </el-table-column>
+                        <el-table-column
+                          prop="localarrivetime"
+                          label="降落时间" >
+                        </el-table-column>
+                        <el-table-column
+                          prop="cityfrom"
+                          label="出发地" >
+                        </el-table-column>
+                        <el-table-column
+                          prop="cityto"
+                          label="目的地"
+                          >
+                        </el-table-column>
+                        <el-table-column
+                          prop="iapi_receivetime"
+                          label="关闭报文接收时间"
+                          >
+                        </el-table-column>
+                        <el-table-column
+                          prop="close_threshold"
+                          label="阈值"
+                          >
+                        </el-table-column>
+                        <el-table-column
+                          prop="offset"
+                          label="大于阈值的偏差"
+                          >
+                        </el-table-column>
+                      </el-table>
+                      <div class="middle-foot">
+                        <div class="page-msg">
+                          <div class="">
+                            共{{Math.ceil(TotalResult2/pageSize2)}}页
+                          </div>
+                          <div class="">
+                            每页
+                            <el-select v-model="pageSize2" @change="pageSizeChange2(pageSize2)" placeholder="10" size="mini" class="page-select">
+                              <el-option
+                                v-for="item in options"
+                                :key="item.value"
+                                :label="item.label"
+                                :value="item.value">
+                              </el-option>
+                            </el-select>
+                            条
+                          </div>
+                          <div class="">
+                            共{{TotalResult2}}条
+                          </div>
+                        </div>
+                        <el-pagination
+                          background
+                          @current-change="handleCurrentChange2"
+                          :page-size="pageSize2"
+                          layout="prev, pager, next"
+                          :total="TotalResult2">
+                        </el-pagination>
+                      </div>
+            </div>
+
+            <div v-show="page==2">
+              <el-row class="mb-15 yr">
+                <el-button type="primary" size="small" @click="download(3)">Excel导出</el-button>
+                </el-row>
+                  <el-table
+                    :data="tableData3"
+                    border
+                    style="width: 100%;">
+                    <el-table-column
+                      prop="fltno"
+                      label="航班号"
+                      >
+                    </el-table-column>
+                    <el-table-column
+                      prop="flttype"
+                      label="类型"
+                      >
+                    </el-table-column>
+
+
+                    <el-table-column
+                      prop="passportissuecountry"
+                      label="国籍" >
+                    </el-table-column>
+                    <el-table-column
+                      prop="passportno"
+                      label="证号" >
+                    </el-table-column>
+                    <el-table-column
+                      prop="name"
+                      label="姓名" >
+                    </el-table-column>
+                    <el-table-column
+                      prop="gender"
+                      label="性别"
+                      >
+                    </el-table-column>
+                    <el-table-column
+                      prop="dateofbirth"
+                      label="出生日期"
+                      >
+                    </el-table-column>
+                    <el-table-column
+                      prop="passengertype"
+                      label="旅客类型" >
+                    </el-table-column>
+                    <el-table-column
+                      prop="vid"
+                      label="值机渠道"
+                      >
+                    </el-table-column>
+                    <el-table-column
+                      prop="closetime"
+                      label="关闭报文接收时间"
+                      >
+                    </el-table-column>
+                    <el-table-column
+                      prop="chktime"
+                      label="值机时间"
+                      >
+                    </el-table-column>
+
+                  </el-table>
+                  <div class="middle-foot">
+                    <div class="page-msg">
+                      <div class="">
+                        共{{Math.ceil(TotalResult3/pageSize3)}}页
+                      </div>
+                      <div class="">
+                        每页
+                        <el-select v-model="pageSize3" @change="pageSizeChange3(pageSize3)" placeholder="10" size="mini" class="page-select">
+                          <el-option
+                            v-for="item in options"
+                            :key="item.value"
+                            :label="item.label"
+                            :value="item.value">
+                          </el-option>
+                        </el-select>
+                        条
+                      </div>
+                      <div class="">
+                        共{{TotalResult3}}条
+                      </div>
+                    </div>
+                    <el-pagination
+                      background
+                      @current-change="handleCurrentChange3"
+                      :page-size="pageSize3"
+                      layout="prev, pager, next"
+                      :total="TotalResult3">
+                    </el-pagination>
+                  </div>
+            </div>
+
+            <div v-show="page==3">
+              <el-row class="mb-15 yr">
+                <el-button type="primary" size="small" @click="download(4)">Excel导出</el-button>
+                </el-row>
+                      <el-table
+                        :data="tableData4"
+                        border
+                        style="width: 100%;">
+                        <el-table-column
+                          prop="abono"
+                          label="abo号码" >
+                        </el-table-column>
+                        <el-table-column
+                          prop="fltno"
+                          label="航班号"
+                          >
+                        </el-table-column>
+                        <el-table-column
+                          prop="dptime"
+                          label="计划飞起时间"
+                          >
+                        </el-table-column>
+                        <el-table-column
+                          prop="artime"
+                          label="计划降落时间"
+                          >
+                        </el-table-column>
+                      </el-table>
+                      <div class="middle-foot">
+                        <div class="page-msg">
+                          <div class="">
+                            共{{Math.ceil(TotalResult4/pageSize4)}}页
+                          </div>
+                          <div class="">
+                            每页
+                            <el-select v-model="pageSize4" @change="pageSizeChange4(pageSize4)" placeholder="10" size="mini" class="page-select">
+                              <el-option
+                                v-for="item in options"
+                                :key="item.value"
+                                :label="item.label"
+                                :value="item.value">
+                              </el-option>
+                            </el-select>
+                            条
+                          </div>
+                          <div class="">
+                            共{{TotalResult4}}条
+                          </div>
+                        </div>
+                        <el-pagination
+                          background
+                          @current-change="handleCurrentChange4"
+                          :page-size="pageSize4"
+                          layout="prev, pager, next"
+                          :total="TotalResult4">
+                        </el-pagination>
+                      </div>
+            </div>
+        </div>
+
+
     </el-dialog>
   </div>
 </template>
@@ -264,6 +569,16 @@ export default {
       CurrentPage: 1,
       pageSize: 10,
       TotalResult: 0,
+      CurrentPage1: 1,
+      pageSize1: 10,
+      TotalResult1: 0,
+      CurrentPage2: 1,
+      pageSize2: 10,
+      TotalResult2: 0,
+      CurrentPage3: 1,
+      pageSize3: 10,
+      TotalResult3: 0,
+      CurrentPage4: 1,
       pd: {begintime:'',endtime:''},
       nation: [],
       company: [],
@@ -285,6 +600,10 @@ export default {
       showm:true,
       showh:true,
       tableData: [],
+      tableData1: [],
+      tableData2: [],
+      tableData3: [],
+      tableData4: [],
       multipleSelection: [],
       pickerOptions0: {
         disabledDate: (time) => {
@@ -324,6 +643,18 @@ export default {
       this.pd.endtime = formatDate(endz, 'yyyyMMdd');
   },
   methods: {
+    base() {
+      this.page = 0;
+    },
+    base1() {
+      this.page = 1;
+    },
+    base2() {
+      this.page = 2;
+    },
+    base3() {
+      this.page = 3;
+    },
     handleSelectionChange(val) {
       this.multipleSelection = val;
     },
@@ -334,6 +665,38 @@ export default {
     handleCurrentChange(val) {
       this.getList(val, this.pageSize, this.pd);
 
+      console.log(`当前页: ${val}`);
+    },
+    pageSizeChange1(val) {
+      this.getList1(this.CurrentPage1, val, this.pd);
+      console.log(`每页 ${val} 条`);
+    },
+    handleCurrentChange1(val) {
+      this.getList1(val, this.pageSize1, this.pd);
+      console.log(`当前页: ${val}`);
+    },
+    pageSizeChange2(val) {
+      this.getList2(this.CurrentPage2, val, this.pd);
+      console.log(`每页 ${val} 条`);
+    },
+    handleCurrentChange2(val) {
+      this.getList2(val, this.pageSize2, this.pd);
+      console.log(`当前页: ${val}`);
+    },
+    pageSizeChange3(val) {
+      this.getList3(this.CurrentPage3, val, this.pd);
+      console.log(`每页 ${val} 条`);
+    },
+    handleCurrentChange3(val) {
+      this.getList3(val, this.pageSize3, this.pd);
+      console.log(`当前页: ${val}`);
+    },
+    pageSizeChange4(val) {
+      this.getList4(this.CurrentPage4, val, this.pd);
+      console.log(`每页 ${val} 条`);
+    },
+    handleCurrentChange4(val) {
+      this.getList4(val, this.pageSize4, this.pd);
       console.log(`当前页: ${val}`);
     },
     getList(currentPage, showCount, pd) {
@@ -376,14 +739,99 @@ export default {
           }
         })
     },
-    details(i) {
-      this.detailsDialogVisible = true;
-      console.log(i);
-      this.form=i;
-    },
-    download(){
+    //无关闭报航班
+     getList1(currentPage, showCount, pd) {
+
+       let p = {
+         "currentPage": currentPage,
+         "showCount": showCount,
+         "cdt": pd
+       };
+
+       this.$api.post('/manage-platform/forecastEva/get_noreport_flt', p,
+         r => {
+           console.log(r);
+           if (r.success) {
+             this.tableData1 = r.data;
+           }
+         });
+     },
+     //晚报关闭报航班
+      getList2(currentPage, showCount, pd) {
+        let p = {
+          "currentPage": currentPage,
+          "showCount": showCount,
+          "cdt": pd
+        };
+        this.$api.post('/manage-platform/forecastEva/get_laterreport_flt', p,
+          r => {
+            console.log(r);
+            if (r.success) {
+              this.tableData2 = r.data;
+            }
+          });
+      },
+      //值机报晚报人员
+       getList3(currentPage, showCount, pd) {
+
+         let p = {
+           "currentPage": currentPage,
+           "showCount": showCount,
+           "cdt": pd
+         };
+         this.$api.post('/manage-platform/forecastEva/get_laterreport_person', p,
+           r => {
+             console.log(r);
+             if (r.success) {
+               this.tableData3 = r.data;
+             }
+           });
+       },
+       //无值机报晚报人员
+        getList4(currentPage, showCount, pd) {
+
+          let p = {
+            "currentPage": currentPage,
+            "showCount": showCount,
+            "cdt": pd
+          };
+
+          this.$api.post('/manage-platform/forecastEva/get_noreport_person', p,
+            r => {
+              console.log(r);
+              if (r.success) {
+                this.tableData4 = r.data;
+              }
+            });
+        },
+   details(i) {
+     this.detailsDialogVisible = true;
+
+     this.pd.fltno=i.fltno;
+     this.pd.airline_company_id=i.airline_company_id;
+     console.log(i.fltno+"---------"+i.airline_company_id);
+     this.getList1(this.CurrentPage1, this.pageSize1, this.pd);
+     this.getList2(this.CurrentPage2, this.pageSize2, this.pd);
+     this.getList3(this.CurrentPage3, this.pageSize3, this.pd);
+     this.getList4(this.CurrentPage4, this.pageSize4, this.pd);
+   },
+
+    download(n){
       //var url="http://192.168.99.213:8080/manage-platform/forecastEva/export_fctime_bycompanyid";
-      var url= this.$api.rootUrl+"/manage-platform/forecastEva/export_fctime_bycompanyid";
+      var actions=this.$api.rootUrl;
+      var url=actions+"/manage-platform/forecastEva/export_fctime_bycompanyid";
+      if(n==1){
+        url= actions+"/manage-platform/forecastEva/exp_noreport_flt";
+      }else if(n==2){
+        url=actions+"/manage-platform/forecastEva/exp_laterreport_flt";
+      }
+      else if(n==3){
+        url=actions+"/manage-platform/forecastEva/exp_laterreport_person";
+      }
+      else if(n==4){
+        url=actions+"/manage-platform/forecastEva/exp_noreport_person";
+      }
+
       // if(this.typerow=="2"){
       //   url= this.$api.rootUrl+"/manage-platform/forecastEva/export_fctime_byfltno";
       // }
