@@ -9,7 +9,7 @@
             查询条件
           </div>
           <el-row align="center"   :gutter="2">
-            <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
+            <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text"><font class="yy-color">*</font> 时间范围：</span>
               <div class="input-input t-flex t-date">
                <el-date-picker
@@ -27,7 +27,7 @@
             </el-date-picker>
           </div>
             </el-col>
-            <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
+            <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">航空公司名称：</span>
               <el-select v-model="pd.airline_company_id" filterable clearable  placeholder="请选择" size="small" class="input-input">
                  <el-option
@@ -38,18 +38,18 @@
                  </el-option>
                </el-select>
             </el-col>
-            <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
+            <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">航班号：</span>
                 <el-input placeholder="请输入内容" size="small" v-model="pd.fltno" class="input-input"></el-input>
             </el-col>
-            <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
+            <!-- <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
               <span class="input-text">航班日期：</span>
               <el-date-picker
               v-model="pd.fltdate" format="yyyy-MM-dd" class="input-input"
               type="date" size="small" value-format="yyyyMMdd"
               placeholder="航班日期" >
             </el-date-picker>
-            </el-col>
+            </el-col> -->
           </el-row>
           <!-- <el-row align="center"   :gutter="2" class="yy-line">
 
@@ -70,12 +70,9 @@
       </el-row>
     </div>
   <!-- <div class="mb-2">
-
           <el-row type="flex" class="middle">
               <el-col :span="22" class="pr-20">
-
               <el-row align="center"   :gutter="2">
-
                 <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
                   <span class="input-text">行属性：</span>
                   <el-select v-model="pd.airrow" filterable clearable  placeholder="请选择" size="small" class="input-input">
@@ -85,7 +82,6 @@
                      </el-option>
                    </el-select>
                 </el-col>
-
                 <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
                   <span class="input-text">列属性：</span>
                   <el-select v-model="pd.aircol" filterable clearable  placeholder="请选择" size="small" class="input-input">
@@ -99,18 +95,14 @@
                      </el-option>
                      <el-option text="缺少订票信息人数" value="缺少订票信息人数">
                      </el-option>
-
                    </el-select>
                 </el-col>
-
               </el-row>
             </el-col>
             <el-col :span="2" class="down-btn-area">
             </el-col>
           </el-row>
   </div> -->
-
-
     <div class="middle">
       <el-row class="mb-15 yr">
         <el-button type="primary" size="small" @click="download()">Excel导出</el-button>
@@ -122,7 +114,6 @@
 
         <el-table-column
           prop="airline_company_id"
-
           label="航空公司名称"
           >
         </el-table-column>
@@ -146,13 +137,13 @@
           label="值机未订票数"
           >
         </el-table-column>
-        <!-- <el-table-column
+        <el-table-column
           width="180"
           label="操作">
           <template slot-scope="scope">
               <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row)">详情</el-button>
          </template>
-        </el-table-column> -->
+        </el-table-column>
       </el-table>
       <!-- <div class="middle-foot">
         <div class="page-msg">
@@ -266,7 +257,6 @@ export default {
           typerow:'1',
           showm:true,
           showh:true,
-
     }
   },
   mounted() {
@@ -274,10 +264,8 @@ export default {
     let time = new Date();
     let endz = new Date();
     let beginz = new Date(time - 1000 * 60 * 60 * 24 * 30);
-
     this.pd.begintime = formatDate(beginz, 'yyyyMMdd');
     this.pd.endtime = formatDate(endz, 'yyyyMMdd');
-
   },
   activated(){
     this.queryNationality();
@@ -390,12 +378,10 @@ export default {
 .add-dialog {
   /* padding-left:40px; */
 }
-
 .detail-msg-row {
   color: #999;
   line-height: 32px;
 }
-
 .detail-msg-row span {
   color: #333;
   display: inline-block;

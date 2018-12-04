@@ -54,7 +54,7 @@
     <el-table-column
      label="状态" width="80">
      <template slot-scope="scope">
-         <span :class="{'yycolor':scope.row.netStat=='0','yycolory':scope.row.netStat=='1'}">      {{scope.row.netStat | fiftersate }}</span>
+         <span :class="{'yycolor':scope.row.netStat=='0','yycolory':scope.row.netStat=='1'}">  {{scope.row.netStat | fiftersate }}</span>
      </template>
     </el-table-column>
     <el-table-column
@@ -325,8 +325,8 @@ export default {
 .fileline {
   border-right: 1px solid #ffffff;
 }
-.yycolor{ background: #00FF00; padding: 10px 15px;}
-.yycolory{  background: #FF0000;padding: 10px 15px; }
+.yycolor{ background: #00FF00; padding: 3px 8px;}
+.yycolory{  background: #FF0000;padding: 3px 8px; }
 </style>
 <style media="screen">
 .el-table_1_column_9 .cell {

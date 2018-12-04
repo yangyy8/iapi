@@ -1,32 +1,25 @@
 <template lang="html">
   <div class="zlbg">
     <div class="middle-top mb-2">
-
       <el-row type="flex" class="middle">
         <el-col :span="22" class="br pr-20">
           <div class="title-green">
-            配置管理
+            查询条件
           </div>
-          <!-- <el-row align="center"   :gutter="2" >
-            <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
-              <span class="input-text">角色：</span>
-              <el-input placeholder="请输入内容" size="small" v-model="pd.ROLE_NAME"  class="input-input"></el-input>
+          <el-row align="center"   :gutter="2" >
+            <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
+              <span class="input-text">配置类型：</span>
+              <el-input placeholder="请输入内容" size="small" v-model="pd.MTYPE"  class="input-input"></el-input>
             </el-col>
-
-            <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
-              <span class="input-text">状态：</span>
-              <el-select v-model="pd.STATUS" clearable placeholder="请选择" size="small" class="input-input">
-                 <el-option value="1" label="1 - 启用">
-                 </el-option>
-                 <el-option value="0" label="0 - 停用">
-                 </el-option>
-               </el-select>
+            <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
+              <span class="input-text">配置管理：</span>
+              <el-input placeholder="请输入内容" size="small" v-model="pd.VALUETYPE"  class="input-input"></el-input>
             </el-col>
-          </el-row> -->
+          </el-row>
         </el-col>
-        <!-- <el-col :span="2" class="down-btn-area" style="padding-top:30px;">
+        <el-col :span="2" class="down-btn-area" style="padding-top:28px;">
           <el-button type="success" size="small" @click="getList(CurrentPage,pageSize,pd)">查询</el-button>
-        </el-col> -->
+        </el-col>
       </el-row>
     </div>
     <div class="middle">
@@ -54,13 +47,11 @@
           prop="MCHNDESC"
           label="中文描述">
         </el-table-column>
-
         <el-table-column
           label="操作" width="150">
           <template slot-scope="scope">
               <el-button class="table-btn" size="mini"   icon="el-icon-edit" @click="adds(1,scope.row)">编辑</el-button>
   <!-- <el-button class="table-btn" size="mini"  icon="el-icon-delete" @click="deletes(scope.row)"></el-button> -->
-
          </template>
         </el-table-column>
       </el-table>
@@ -101,7 +92,6 @@
           <el-col :span="24" class="input-item">
             <span class="yy-input-text"><font class="yy-color">*</font> 配置类型：</span>
             <el-input placeholder="请输入内容，最大字符为15" size="small" maxlength="15"  v-model="form.MTYPE"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
-
           </el-col>
         </el-row>
         <el-row type="flex"  class="mb-6">
@@ -110,23 +100,18 @@
             <el-input placeholder="请输入数字" size="small" maxlength="10" @keyup="trim()"  v-model="form.CVALUE"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
           </el-col>
         </el-row>
-
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
             <span class="yy-input-text"><font class="yy-color">*</font> 配置单位：</span>
             <el-input placeholder="请输入内容，最大字符为15" size="small" maxlength="15"  v-model="form.VALUETYPE"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
-
           </el-col>
         </el-row>
-
-                <el-row type="flex"  class="mb-6">
-                  <el-col :span="24" class="input-item">
-                    <span class="yy-input-text"><font class="yy-color">*</font> 配置类型中文描述：</span>
-                      <el-input type="textarea"  placeholder="请输入内容，最大字符为50"  maxlength="50":autosize="{ minRows: 3, maxRows: 6}" v-model="form.MCHNDESC" class="yy-input-input"  v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
-                  </el-col>
-                </el-row>
-
-
+        <el-row type="flex"  class="mb-6">
+          <el-col :span="24" class="input-item">
+           <span class="yy-input-text"><font class="yy-color">*</font> 配置类型中文描述：</span>
+            <el-input type="textarea"  placeholder="请输入内容，最大字符为50"  maxlength="50":autosize="{ minRows: 3, maxRows: 6}" v-model="form.MCHNDESC" class="yy-input-input"  v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
+          </el-col>
+        </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="CurrentPage=1;addItem('addForm')" size="small">确 定</el-button>
@@ -142,8 +127,6 @@
           <span class="yy-input-input detailinput">  {{mapForm.ROLE_NAME}}</span>
             </el-col>
         </el-row>
-
-
         <el-row type="flex" class="mb-6" >
           <el-col :span="24" class="input-item">
             <span class="yy-input-text">状态：</span>
@@ -167,13 +150,9 @@
         <el-button @click="detailsDialogVisible = false" size="small">取 消</el-button>
       </div>
     </el-dialog> -->
-
-
-
   </div>
   </div>
 </template>
-
 <script>
 export default {
   data() {
@@ -208,15 +187,12 @@ export default {
         children: 'menuList',
         label: 'name'
       },
-
       form: {},
       mapForm: {},
-
     }
   },
   mounted() {
     this.getList(this.CurrentPage, this.pageSize, this.pd);
-
   },
   activated() {
     this.getList(this.CurrentPage, this.pageSize, this.pd);
@@ -237,7 +213,7 @@ export default {
       let p = {
         "currentPage": currentPage,
         "showCount": showCount,
-        "pd": pd
+        "cdt": pd
       };
       this.$api.post('/manage-platform/monitorConfig/queryConfigList', p,
         r => {
@@ -255,10 +231,8 @@ export default {
           }
         })
     },
-
     adds(n, i) {
       this.addDialogVisible = true;
-
       if (n != 0) {
         this.tp = 1;
         // this.form = i;
@@ -267,7 +241,6 @@ export default {
       }else {
         this.dialogText="新增";
       }
-
     },
     addItem(formName) {
             if(this.$validator.listener.demo2){
@@ -277,10 +250,7 @@ export default {
                } else {
                }
             }
-
-
       var url = "/manage-platform/monitorConfig/saveConfig";
-
       if (this.tp == 1) {
         url = "/manage-platform/monitorConfig/editConfig";
       }
@@ -295,7 +265,6 @@ export default {
           } else {
             this.$message.error(r.Message);
           }
-
           this.$refs[formName].resetFields();
           this.addDialogVisible = false;
           this.getList(this.CurrentPage, this.pageSize, this.pd);
@@ -333,17 +302,13 @@ export default {
             }
           }, e => {
             this.$message.error('失败了');
-
           });
-
-
       }).catch(() => {
         this.$message({
           type: 'info',
           message: '已取消删除'
         });
       });
-
     },
     menus(i) {
       this.menuDialogVisible = true;
@@ -360,11 +325,8 @@ export default {
           this.defaultChecked=r.data.checkList;
           }
         })
-
-
     },
 menuItem(){
-
   let checkList=this.$refs.tree.getCheckedNodes();
   //let checkList=this.$refs.tree.getCheckedKeys();
   let p={
@@ -385,16 +347,14 @@ menuItem(){
   this.$message.error('保存失败');
       }
     })
-        this.menuDialogVisible = false;
-
+    this.menuDialogVisible = false;
 },
 trim(){
-console.log("=========");
+
   this.form.CVALUE=this.form.CVALUE.replace(/[^\w]/g,'');
 }
   },
   filters: {
-
     fifterstatus(val) {
       if (val == 0) {
         return "停用"

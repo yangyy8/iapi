@@ -9,7 +9,7 @@
             查询条件
           </div>
           <el-row align="center"   :gutter="2">
-            <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
+            <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text"><font class="yy-color">*</font> 时间范围：</span>
               <div class="input-input t-flex t-date">
                <el-date-picker
@@ -27,7 +27,7 @@
             </el-date-picker>
           </div>
             </el-col>
-            <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
+            <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">航空公司名称：</span>
               <el-select v-model="pd.airline_company_id" filterable clearable  placeholder="请选择" size="small" class="input-input">
                  <el-option
@@ -38,7 +38,6 @@
                  </el-option>
                </el-select>
             </el-col>
-
             <!-- <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
               <span class="input-text">航班日期：</span>
               <div class="input-input t-flex t-date">
@@ -55,18 +54,18 @@
             </el-date-picker>
           </div>
             </el-col> -->
-            <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
+            <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">航班号：</span>
                 <el-input placeholder="请输入内容" size="small" v-model="pd.fltno" class="input-input"></el-input>
             </el-col>
-            <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
+            <!-- <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
               <span class="input-text">航班日期：</span>
               <el-date-picker
               v-model="pd.fltdate" format="yyyy-MM-dd" class="input-input"
               type="date" size="small" value-format="yyyyMMdd"
               placeholder="航班日期" >
             </el-date-picker>
-            </el-col>
+            </el-col> -->
           </el-row>
 
           <!-- <el-row type="flex"  class="yy-line">
@@ -112,20 +111,16 @@
           label="航班号"
           >
         </el-table-column>
-
         <el-table-column
           prop="ee_noboarding"
-          width="110"
           label="漏报人数" >
         </el-table-column>
         <el-table-column
           prop="brd_noee"
-          width="110"
           label="多报人数" >
         </el-table-column>
         <el-table-column
           prop="error"
-          width="110"
           label="误报人数"
           >
         </el-table-column>
@@ -139,13 +134,13 @@
           label="缺少订票信息人数"
           >
         </el-table-column>
-        <!-- <el-table-column
-          width="180"
+        <el-table-column
+          width="100"
           label="操作">
           <template slot-scope="scope">
               <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row)">详情</el-button>
          </template>
-        </el-table-column> -->
+        </el-table-column>
       </el-table>
       <!-- <div class="middle-foot">
         <div class="page-msg">
@@ -183,28 +178,13 @@
       width="600px">
       <el-form :model="form">
         <div class="titile">类别名称 </div>
-        <el-row type="flex" class="mb-15">
-          <el-col :span="24" class="titlecontent">
-            {{form.loggerName}}
-          </el-col>
-            </el-row>
-          <div class="titile">线程名称</div>
-            <el-row type="flex" class="mb-15">
-          <el-col :span="24" class="titlecontent">
-            {{form.threadName}}
-          </el-col>
-        </el-row>
-     <div class="titile">监控消息</div>
-        <el-row type="flex" class="mb-15">
-          <el-col :span="24" class="titlecontent">
-            {{form.formattedMessage}}
-          </el-col>
-        </el-row>
+     
+
       </el-form>
 
-      <span slot="footer" class="dialog-footer">
+      <!-- <span slot="footer" class="dialog-footer">
         <el-button  @click="detailsDialogVisible = false" size="small">取消</el-button>
-      </span>
+      </span> -->
     </el-dialog>
   </div>
 </template>
