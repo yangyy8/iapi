@@ -29,7 +29,7 @@
               </div>
             </el-col>
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
-              <span class="input-text">出入境：</span>
+              <span class="input-text">出入标识：</span>
               <el-select  placeholder="请选择"  size="small" v-model="cdt.flightype" clearable filterable class="block input-input">
                 <el-option label="I - 入境" value="I"></el-option>
                 <el-option label="O - 出境" value="O"></el-option>
@@ -108,7 +108,8 @@
         </el-table-column>
         <el-table-column
           label="出入境"
-          width="120">
+          width="120"
+          sortable>
           <template slot-scope="scope">
             {{ scope.row.FLIGHTTYPE | fifterInOut}}
           </template>
@@ -116,60 +117,73 @@
         <el-table-column
           prop="CITYFROMSTR"
           label="起飞机场"
-          width="150">
+          width="150"
+          sortable>
         </el-table-column>
         <el-table-column
           prop="CITYTOSTR"
           width="150"
-          label="到达机场">
+          label="到达机场"
+          sortable>
         </el-table-column>
         <el-table-column
           prop="CHECKINCOUNT"
-          label="预报旅客">
+          label="预报旅客"
+          width="130"
+          sortable>
         </el-table-column>
         <el-table-column
           prop="CHINACOUNT"
           label="预报中国旅客"
-          width="150">
+          width="150"
+          sortable>
         </el-table-column>
         <el-table-column
           prop="NOTCHINACOUNT"
           label="预报外籍旅客"
-          width="150">
+          width="150"
+          sortable>
         </el-table-column>
         <el-table-column
           prop="ONEEVENT"
           label="一级预警人数"
-          width="150">
+          width="150"
+          sortable>
         </el-table-column>
         <el-table-column
           prop="TWOEVENT"
           label="二级预警人数"
-          width="150">
+          width="150"
+          sortable>
         </el-table-column>
         <el-table-column
           prop="THREEEVENT"
           label="三级预警人数"
-          width="150">
+          width="150"
+          sortable>
         </el-table-column>
         <el-table-column
           prop="FOUREVENT"
           label="四级预警人数"
-          width="150">
+          width="150"
+          sortable>
         </el-table-column>
         <el-table-column
           prop="FIVEEVENT"
           label="五级预警人数"
-          width="150">
+          width="150"
+          sortable>
         </el-table-column>
         <el-table-column
           label="报警率"
-          width="150">
+          width="150"
+          sortable>
           <template slot-scope="scope">
             <span :style="{color:color1}" v-if="scope.row.PERCENT < high1&&scope.row.PERCENT >=low1">{{scope.row.PERCENT}}</span>
-            <span :style="{color:color2}" v-if="scope.row.PERCENT < high2&&scope.row.PERCENT >=low2">{{scope.row.PERCENT}}</span>
-            <span :style="{color:color3}" v-if="scope.row.PERCENT < high3&&scope.row.PERCENT >=low3">{{scope.row.PERCENT}}</span>
-            <span :style="{color:color4}" v-if="scope.row.PERCENT < high4&&scope.row.PERCENT >=low4">{{scope.row.PERCENT}}</span>
+            <span :style="{color:color2}" v-else-if="scope.row.PERCENT < high2&&scope.row.PERCENT >=low2">{{scope.row.PERCENT}}</span>
+            <span :style="{color:color3}" v-else-if="scope.row.PERCENT < high3&&scope.row.PERCENT >=low3">{{scope.row.PERCENT}}</span>
+            <span :style="{color:color4}" v-else-if="scope.row.PERCENT < high4&&scope.row.PERCENT >=low4">{{scope.row.PERCENT}}</span>
+            <span v-else>{{scope.row.PERCENT}}</span>
           </template>
         </el-table-column>
       </el-table>

@@ -43,7 +43,6 @@
           </div>
             </el-col>
             <el-col :sm="24" :md="12" :lg="8" class="input-item">
-                <!-- <QueryNationality  :nationality="pd.nationalityEqual"  @transNation="getNation"></QueryNationality> -->
                 <span class="input-text">国籍/地区：</span>
                 <el-select v-model="pd.nationalityEqual" filterable clearable @visible-change="queryNationality" placeholder="请选择"  size="small" class="input-input">
                   <el-option
@@ -56,29 +55,42 @@
             </el-col>
             <el-col :sm="24" :md="12" :lg="8" class="input-item">
               <span class="input-text">证件号码：</span>
-            <el-input placeholder="请输入内容" size="small" v-model="pd.passportnoEqual" class="input-input"></el-input>
+            <el-input placeholder="请输入内容" size="small" v-model="pd.passportno" class="input-input"></el-input>
             </el-col>
 
             <el-col :sm="24" :md="12" :lg="8" class="input-item">
               <span class="input-text">航班号：</span>
-              <el-input placeholder="请输入内容" size="small" v-model="pd.fltnoEqual" class="input-input"></el-input>
+              <el-input placeholder="请输入内容" size="small" v-model="pd.fltno" class="input-input"></el-input>
             </el-col>
 
             <el-col :sm="24" :md="12" :lg="8" class="input-item">
-              <span class="input-text">航班日期：</span>
+              <span class="input-text">口岸：</span>
+              <el-select  v-model="pd.port" @change="getList(CurrentPage,pageSize,pd)" placeholder="请选择" filterable clearable size="small" class="input-input">
+                <el-option
+                  v-for="item in airport"
+                  v-if="item.JCDM"
+                  :key="item.JCDM"
+                  :label="item.JCDM+' - '+item.KAMC"
+                  :value="item.JCDM">
+                </el-option>
+              </el-select>
+            </el-col>
+
+            <el-col :sm="24" :md="12" :lg="8" class="input-item">
+              <span class="input-text"><i class="t-must">*</i>航班日期：</span>
               <div class="input-input t-flex t-date">
                <el-date-picker
                v-model="pd.startFlightDepartdate"
-               type="datetime" size="small"
+               type="date" size="small"
                placeholder="开始时间"
-               value-format="yyyyMMddHHmmss">
+               value-format="yyyyMMdd">
              </el-date-picker>
                <span class="septum">-</span>
              <el-date-picker
                 v-model="pd.endFlightDepartdate"
-                type="datetime" size="small"
+                type="date" size="small"
                 placeholder="结束时间"
-                value-format="yyyyMMddHHmmss">
+                value-format="yyyyMMdd">
             </el-date-picker>
           </div>
             </el-col>
@@ -152,10 +164,21 @@
           label="中文姓名">
         </el-table-column>
         <el-table-column
+          prop="CITYFROMNAME"
+          label="出发地"
+          sortable
+          width="150">
+        </el-table-column>
+        <el-table-column
+          prop="CITYTONAME"
+          label="目的地"
+          sortable
+          width="150">
+        </el-table-column>
+        <el-table-column
           prop="GENDERNAME"
           label="性别"
-          sortable
-          >
+          sortable>
         </el-table-column>
         <el-table-column
           prop="BIRTHDAY"
@@ -544,6 +567,7 @@ export default {
       nation:[],
       eventserial:'',
       type:0,
+      airport:[],
 
       pnrEventserial:'',
       pnrType:0,
@@ -559,7 +583,9 @@ export default {
       pd: {
         "isBlurred":false,
         startCreatetime:'',
-        endCreatetime:''
+        endCreatetime:'',
+        startFlightDepartdate:'',
+        endFlightDepartdate:''
       },
       queryDialogVisible: false,
       pnrDialogVisible:false,
@@ -616,18 +642,18 @@ export default {
     this.nav2Id=this.$route.query.nav2Id
     let time = new Date();
     let end = new Date();
-    let begin =new Date(time - 1000 * 60 * 60 * 24 * 30);
-    this.pd.startCreatetime=formatDate(begin,'yyyyMMddhhmmss');
+    let createStar = new Date(new Date().setHours(0,0,0,0));
+    this.pd.startCreatetime=formatDate(createStar,'yyyyMMddhhmmss');
     this.pd.endCreatetime=formatDate(end,'yyyyMMddhhmmss');
+
+    let flightStart = new Date(new Date().setHours(0,0,0,0));
+    this.pd.startFlightDepartdate=formatDate(flightStart,'yyyyMMdd');
+    this.pd.endFlightDepartdate=formatDate(end,'yyyyMMdd');
+    this.queryAirport();
   },
   activated(){
     this.nav1Id=this.$route.query.nav1Id
     this.nav2Id=this.$route.query.nav2Id
-    // let time = new Date();
-    // let end = new Date();
-    // let begin =new Date(time - 1000 * 60 * 60 * 24 * 30);
-    // this.pd.startCreatetime=formatDate(begin,'yyyyMMddhhmmss');
-    // this.pd.endCreatetime=formatDate(end,'yyyyMMddhhmmss');
   },
   filters: {
     discount: function(value) {
@@ -671,7 +697,6 @@ export default {
     },
     getNation(msg){
       this.pd.nationalityEqual=msg;
-      console.log("============",this.pd.nationalityEqual)
     },
     pageSizeChange(val) {
       this.getList(this.CurrentPage, val, this.pd);
@@ -708,6 +733,14 @@ export default {
           this.tableData = r.data.resultList;
           this.TotalResult = r.data.totalResult;
         })
+    },
+    queryAirport(){
+      this.$api.post('/manage-platform/codeTable/queryAirportMatch',{},
+       r => {
+         if(r.success){
+           this.airport=r.data;
+         }
+      })
     },
     getHistoryList(hcurrentPage,hshowCount,historyCdt){
       let gh = {

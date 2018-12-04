@@ -199,11 +199,9 @@
           <el-col :span="24" class="input-item">
             <span class="yy-input-text"><font class="yy-color">*</font> 指标来源：</span>
             <el-select v-model="form.targetSource" class="yy-input-input"  filterable clearable placeholder="请选择"   size="small">
-              <el-option value="数据库" label="数据库">
+              <el-option value="1" label="1 - 自动计算">
               </el-option>
-              <el-option value="收工录入" label="收工录入">
-              </el-option>
-              <el-option value="计算得出" label="计算得出">
+              <el-option value="2" label="2 - 手工录入">
               </el-option>
              </el-select>
           </el-col>

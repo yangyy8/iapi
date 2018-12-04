@@ -1,16 +1,13 @@
 <template lang="html">
   <div class="zlbg">
     <div class="middle mb-6">
-
       <el-row type="flex">
         <el-col :span="22" class="br pr-20">
-
           <el-row align="center"   :gutter="2" >
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">名单类型名称：</span>
               <el-input placeholder="请输入内容" size="small" v-model="pd.NAME"  class="input-input"></el-input>
             </el-col>
-
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">创建人：</span>
               <el-input placeholder="请输入内容" size="small" v-model="pd.CREATEUSER"  class="input-input"></el-input>
@@ -109,12 +106,8 @@
           <el-col :span="24" class="input-item">
             <span class="yy-input-text"><font class="yy-color">*</font>名单类型名称：</span>
             <el-input placeholder="请输入内容(不能超过20个汉字)" size="small" maxlength="20"  v-model="form.NAME"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
-
           </el-col>
         </el-row>
-
-
-
         <el-row type="flex" class="mb-6" >
           <el-col :span="24" class="input-item">
             <span class="yy-input-text">名单类型描述：</span>
@@ -127,7 +120,6 @@
         <el-button @click="addDialogVisible = false" size="small">取 消</el-button>
       </div>
     </el-dialog>
-
     <el-dialog title="详情" :visible.sync="detailsDialogVisible" width="500px" >
       <el-form :model="map" ref="mapForm">
         <el-row type="flex"  class="mb-6">
@@ -136,9 +128,6 @@
           <span class="yy-input-input detailinput">  {{mapForm.NAME}}</span>
             </el-col>
         </el-row>
-
-
-
         <el-row type="flex" class="mb-6" >
           <el-col :span="24" class="input-item">
             <span class="yy-input-text">名单类型描述：</span>
@@ -162,13 +151,9 @@
         <el-button @click="detailsDialogVisible = false" size="small">取 消</el-button>
       </div>
     </el-dialog>
-
-
-
   </div>
   </div>
 </template>
-
 <script>
 export default {
   data() {
@@ -273,10 +258,8 @@ export default {
           }
         })
     },
-
     adds(n, i) {
       this.addDialogVisible = true;
-
       if (n != 0) {
         this.tp = 1;
         // this.form = i;
@@ -285,12 +268,8 @@ export default {
       }else {
         this.dialogText="新增";
       }
-
     },
     addItem(formName) {
-
-
-
             if(this.$validator.listener.demo2){
               const result = this.$validator.verifyAll('demo2')
                if (result.indexOf(false) > -1) {
@@ -298,10 +277,7 @@ export default {
                } else {
                }
             }
-
-
       var url = "/manage-platform/riskNamelistType/addnamelistType";
-
       if (this.tp == 1) {
         url = "/manage-platform/riskNamelistType/updatenamelistType";
       }
@@ -316,7 +292,6 @@ export default {
           } else {
             this.$message.error(r.Message);
           }
-
           this.$refs[formName].resetFields();
           this.addDialogVisible = false;
           this.getList(this.CurrentPage, this.pageSize, this.pd);
@@ -339,7 +314,6 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-
         this.$api.post('/manage-platform/riskNamelistType/deletenamelistType', p,
           r => {
             console.log("===" + r);
@@ -354,17 +328,13 @@ export default {
             }
           }, e => {
             this.$message.error('失败了');
-
           });
-
-
       }).catch(() => {
         this.$message({
           type: 'info',
           message: '已取消删除'
         });
       });
-
     },
     menus(i) {
       this.menuDialogVisible = true;
@@ -381,11 +351,8 @@ export default {
           this.defaultChecked=r.data.checkList;
           }
         })
-
-
     },
 menuItem(){
-
   let checkList=this.$refs.tree.getCheckedNodes();
   //let checkList=this.$refs.tree.getCheckedKeys();
   let p={
@@ -406,8 +373,7 @@ menuItem(){
   this.$message.error('保存失败');
       }
     })
-        this.menuDialogVisible = false;
-
+    this.menuDialogVisible = false;
 },
   },
   filters: {

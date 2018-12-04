@@ -26,18 +26,20 @@
             </el-date-picker>
           </div>
             </el-col>
-            <!-- <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+            <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
                 <span class="input-text">口岸：</span>
-                <el-select v-model="pd.NATIONALITY" filterable clearable @visible-change="queryNationality" placeholder="请选择"  size="small" class="input-input">
+                <el-select v-model="pd.port" filterable clearable placeholder="请选择"  size="small" class="input-input">
+
                   <el-option
-                    v-for="item in nation"
-                    :key="item.CODE"
-                    :label="item.CODE+' - '+item.CNAME"
-                    :value="item.CODE">
-                  </el-option>
+              v-for="item in nation"
+              v-if="item.JCDM"
+              :key="item.JCDM"
+              :label="item.JCDM+' - '+item.KAMC"
+              :value="item.JCDM">
+            </el-option>
                 </el-select>
             </el-col>
-            <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+            <!-- <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                 <span class="input-text">机场：</span>
                 <el-select v-model="pd.NATIONS" filterable clearable @visible-change="queryNationality" placeholder="请选择"  size="small" class="input-input">
                   <el-option
@@ -240,7 +242,7 @@ export default {
   },
   mounted() {
 
-    //this.drawLine();
+    this.queryNationality();
     let time = new Date();
     let endz = new Date();
     let beginz = new Date(time - 1000 * 60 * 60 * 24 * 30);
@@ -250,7 +252,7 @@ export default {
   },
   activated() {
 
-    //this.drawLine();
+      this.queryNationality();
     let time = new Date();
     let endz = new Date();
     let beginz = new Date(time - 1000 * 60 * 60 * 24 * 30);
@@ -287,7 +289,7 @@ export default {
             };
 
       let p = {
-
+        "port":pd.port,
         "begintime":pd.begintime,
         "endtime":pd.endtime
       };
@@ -347,8 +349,8 @@ export default {
         document.body.appendChild(link)
         link.click()
     },
-    queryNationality() {
-      this.$api.post('/manage-platform/codeTable/queryNationality', {},
+    queryNationality() {   //口岸
+      this.$api.post('/manage-platform/codeTable/queryAirportMatch', {},
         r => {
           console.log(r);
           if (r.success) {
@@ -362,11 +364,9 @@ export default {
       this.form = i;
     },
     drawLine() {
-
       this.lineChart = echarts.init(document.getElementById('myChart'), 'light');
       window.onresize = echarts.init(document.getElementById('myChart')).resize;
       let that = this;
-
       this.lineChart.setOption({
         tooltip: {
           trigger: 'item',
@@ -378,17 +378,13 @@ export default {
           radius: ['30%', '50%'],
           center: ['50%', '50%'], //调整位置
           data: this.sData1,
-
         }]
       });
-
     },
       drawLine2() {
-
         this.lineChart = echarts.init(document.getElementById('myChart2'), 'light');
         window.onresize = echarts.init(document.getElementById('myChart2')).resize;
         let that = this;
-
         this.lineChart.setOption({
           tooltip: {
             trigger: 'item',
