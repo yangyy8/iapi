@@ -79,6 +79,7 @@
               <span class="input-text"><i class="t-must">*</i>航班日期：</span>
               <div class="input-input t-flex t-date">
                   <el-date-picker
+                  v-verify.input.blur="{regs:'required',submit:'timeDemo'}"
                   v-model="cdt.SCHEDULEDEPARTURETIMESTR"
                   type="datetime" size="small"
                   placeholder="开始日期"
@@ -88,6 +89,7 @@
                 </el-date-picker>
                 <span class="septum">-</span>
                 <el-date-picker
+                   v-verify.input.blur="{regs:'required',submit:'timeDemo'}"
                    v-model="cdt.SCHEDULEARRIVETIMESTR"
                    type="datetime" size="small"
                    placeholder="结束日期"
@@ -241,7 +243,8 @@
               placeholder="请选择航班开始时间"
               class="yy-input-input"
               format="yyyy-MM-dd HH:mm"
-              value-format="yyyyMMddHHmm">
+              value-format="yyyyMMddHHmm"
+              :picker-options="pickerOptions2">
             </el-date-picker>
           </el-col>
         </el-row>
@@ -256,7 +259,8 @@
               placeholder="请选择航班结束时间"
               class="yy-input-input"
               format="yyyy-MM-dd HH:mm"
-              value-format="yyyyMMddHHmm">
+              value-format="yyyyMMddHHmm"
+              :picker-options="pickerOptions3">
             </el-date-picker>
           </el-col>
         </el-row>
@@ -363,7 +367,26 @@ export default {
             return endT < this.cdt.SCHEDULEDEPARTURETIMESTR;
         }
       },
-      form: {},
+      pickerOptions2: {
+        disabledDate: (time) => {
+            if (this.form.SCHEDULEARRIVETIMESTR != null) {
+              let startT = formatDate(new Date(time.getTime()),'yyyyMMddhhmm');
+              return startT > this.form.SCHEDULEARRIVETIMESTR;
+            }else if(this.form.SCHEDULEARRIVETIMESTR == null){
+              return false
+            }
+        }
+      },
+      pickerOptions3: {
+        disabledDate: (time) => {
+            let endT = formatDate(new Date(time.getTime()),'yyyyMMddhhmm');
+            return endT < this.form.SCHEDULEDEPARTURETIMESTR;
+        }
+      },
+      form: {
+        SCHEDULEARRIVETIMESTR:'',
+        SCHEDULEDEPARTURETIMESTR:''
+      },
       dform: {},
     }
   },
@@ -374,10 +397,10 @@ export default {
     let flightStart = new Date(new Date().setHours(0,0,0,0));
     this.cdt.SCHEDULEDEPARTURETIMESTR=formatDate(flightStart,'yyyyMMddhhmm');
     this.cdt.SCHEDULEARRIVETIMESTR=formatDate(end,'yyyyMMddhhmm');
-    this.getList(this.CurrentPage, this.pageSize, this.cdt);
+    // this.getList(this.CurrentPage, this.pageSize, this.cdt);
   },
   activated() {
-    this.getList(this.CurrentPage, this.pageSize, this.cdt);
+    // this.getList(this.CurrentPage, this.pageSize, this.cdt);
   },
   methods: {
     queryNationality() {
@@ -406,6 +429,17 @@ export default {
       console.log(`当前页: ${val}`);
     },
     getList(currentPage, showCount, pd) {
+
+      const result = this.$validator.verifyAll('timeDemo')
+       if (result.indexOf(false) > -1) {
+         return
+       }
+      if(dayGap(this.cdt.SCHEDULEDEPARTURETIMESTR,this.cdt.SCHEDULEARRIVETIMESTR,0)>30){
+        this.$alert('航班日期查询时间间隔不能超过一个月', '提示', {
+          confirmButtonText: '确定',
+        });
+        return false
+      }
       let p = {
         "currentPage": currentPage,
         "showCount": showCount,
@@ -553,6 +587,7 @@ export default {
     addItem(formName) {
       if (this.$validator.listener.demo2) {
         const result = this.$validator.verifyAll('demo2')
+        console.log(result)
         if (result.indexOf(false) > -1) {
           return;
         }
@@ -566,11 +601,9 @@ export default {
               message: '保存成功！',
               type: 'success'
             });
-          } else {
-            this.$message.error('保存失败！');
+            this.addDialogVisible = false;
           }
           this.$refs[formName].resetFields();
-          this.addDialogVisible = false;
           this.getList(this.CurrentPage, this.pageSize, this.cdt);
           // this.tableData=r.Data.ResultList;
         }, e => {

@@ -88,20 +88,20 @@
                       <el-date-picker
                       v-verify.input.blur="{regs:'required',submit:'timeDemo'}"
                       v-model="cdt.startFlightDepartdate"
-                      type="datetime" size="small"
+                      type="date" size="small"
                       placeholder="开始日期"
-                      format="yyyy-MM-dd HH:mm"
-                      value-format="yyyyMMddHHmm"
+                      format="yyyy-MM-dd"
+                      value-format="yyyyMMdd"
                       :picker-options="pickerOptions">
                     </el-date-picker>
                     <span class="septum">-</span>
                     <el-date-picker
                        v-verify.input.blur="{regs:'required',submit:'timeDemo'}"
                        v-model="cdt.endFlightDepartdate"
-                       type="datetime" size="small"
+                       type="date" size="small"
                        placeholder="结束日期"
-                       format="yyyy-MM-dd HH:mm"
-                       value-format="yyyyMMddHHmm"
+                       format="yyyy-MM-dd"
+                       value-format="yyyyMMdd"
                        :picker-options="pickerOptions1">
                    </el-date-picker>
                   </div>
@@ -1634,8 +1634,8 @@ export default {
     let end = new Date();
     let begin =new Date(time - 1000 * 60 * 60 * 24 * 30);
     let flightStart = new Date(new Date().setHours(0,0,0,0));
-    this.cdt.startFlightDepartdate=formatDate(flightStart,'yyyyMMddhhmm');
-    this.cdt.endFlightDepartdate=formatDate(end,'yyyyMMddhhmm');
+    this.cdt.startFlightDepartdate=formatDate(flightStart,'yyyyMMdd');
+    this.cdt.endFlightDepartdate=formatDate(end,'yyyyMMdd');
 
     this.cdt.startDepartdate=formatDate(begin,'yyyyMMddhhmm');
     this.cdt.endDepartdate=formatDate(end,'yyyyMMddhhmm');

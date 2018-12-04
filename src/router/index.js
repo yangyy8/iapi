@@ -430,6 +430,13 @@ export default new Router({
           component: resolve => require(['@/components/SystemManage/Configuration/ConfigurationManagement'], resolve),
 
         },
+        //配置管理
+        {
+          path: "ConfigurationHFKJ",
+          name: "ConfigurationHFKJ",
+          component: resolve => require(['@/components/SystemManage/Configuration/ConfigurationHFKJ'], resolve),
+
+        },
         //权限管理--------------------------------------------------------------------------------
         //用户管理
         {

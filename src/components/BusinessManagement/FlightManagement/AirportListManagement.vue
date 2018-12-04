@@ -112,7 +112,7 @@
         <el-table-column
           label="操作" width="250">
           <template slot-scope="scope">
-            <el-button class="table-btn" size="mini" plain icon="el-icon-edit" @click="detail(scope.row)">详情</el-button>
+            <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="detail(scope.row)">详情</el-button>
               <el-button class="table-btn" size="mini" plain icon="el-icon-edit" @click="adds(1,scope.row)">编辑</el-button>
               <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="deletes(scope.row)">删除</el-button>
          </template>
@@ -217,14 +217,14 @@
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
             <span class="yy-input-text"><font class="yy-color">*</font>经度：</span>
-            <el-input placeholder="请输入内容" size="small" v-model="form.jingdu"  class="yy-input-input" v-verify.change.blur ="{regs:'required',numberic:'numberic',submit:'demo2'}"></el-input>
+            <el-input placeholder="请输入内容" size="small" v-model="form.jingdu"  class="yy-input-input" v-verify.change.blur ="{regs:'required|number',submit:'demo2'}"></el-input>
           </el-col>
         </el-row>
 
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
             <span class="yy-input-text"><font class="yy-color">*</font>纬度：</span>
-            <el-input placeholder="请输入内容" size="small" v-model="form.weidu"  class="yy-input-input" v-verify.change.blur ="{regs:'required',numberic:'numberic',submit:'demo2'}"></el-input>
+            <el-input placeholder="请输入内容" size="small" v-model="form.weidu"  class="yy-input-input" v-verify.change.blur ="{regs:'required|number',submit:'demo2'}"></el-input>
           </el-col>
         </el-row>
 
@@ -469,6 +469,7 @@ export default {
     },
     nationality(data,type){//基础查询国籍与洲二级联动
       if(type==0){
+        console.log(data);
         this.$set(this.cdt,'countryCode','');
         this.$set(this.cdt,'cityCode','');
         this.cityAble(this.form.countryCode,0)
@@ -624,8 +625,8 @@ export default {
               message: '保存成功！',
               type: 'success'
             });
+            this.addDialogVisible = false;
           }
-          this.addDialogVisible = false;
           this.getList(this.CurrentPage, this.pageSize, this.cdt);
           // this.tableData=r.Data.ResultList;
         }, e => {
