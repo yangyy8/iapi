@@ -29,42 +29,13 @@
           </div>
             </el-col>
 
-            <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
-                <span class="input-text">洲：</span>
-                <el-select placeholder="请选择" v-model="pd.continentfrom" filterable clearable size="small"  class="input-input">
-                  <el-option
-                    v-for="(item,ind) in zhouName"
-                    :key="ind"
-                    :value="item.code"
-                    :label="item.code+' - '+item.name"
-                  ></el-option>
-                </el-select>
-            </el-col>
-            <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
-                <span class="input-text">国家：</span>
-                <el-select placeholder="请选择" v-model="pd.countryfrom" filterable clearable size="small"  class="input-input">
-                  <el-option
-                    v-for="(item,ind)  in nation"
-                    :key="ind"
-                    :label="item.CODE+' - '+item.CNAME"
-                    :value="item.CODE">
-                  </el-option>
 
-                </el-select>
-            </el-col>
+          </el-row>
+
+          <el-row align="center"   :gutter="2" class="yy-line">
+
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
-                <span class="input-text">出发地：</span>
-                <el-select placeholder="请选择" v-model="pd.cityfrom" filterable clearable size="small"  class="input-input">
-                  <el-option
-                    v-for="(item,ind) in gwName"
-                    :key="ind"
-                    :value="item.citycode"
-                    :label="item.citycode+' - '+item.cityname"
-                  ></el-option>
-                </el-select>
-            </el-col>
-            <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
-                <span class="input-text">目的地：</span>
+                <span class="input-text"> <span class="spang">国内</span> 城市：</span>
                 <el-select placeholder="请选择" v-model="pd.cityto" filterable clearable size="small"  class="input-input">
                   <el-option
                     v-for="(item,ind) in gnName"
@@ -74,9 +45,67 @@
                   ></el-option>
                 </el-select>
             </el-col>
-          </el-row>
-          <el-row align="center"   :gutter="2" class="yy-line">
+            <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+                <span class="input-text">机场：</span>
+                <el-select placeholder="请选择" v-model="pd.portto" filterable clearable size="small"  class="input-input">
+                  <el-option
+              v-for="item in airportn"
+              v-if="item.JCDM"
+              :key="item.JCDM"
+              :label="item.JCDM+' - '+item.KAMC"
+              :value="item.JCDM">
+            </el-option>
+                </el-select>
+            </el-col>
+         </el-row>
 
+         <el-row align="center"   :gutter="2" class="yy-line">
+                       <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+                           <span class="input-text"><span class="spang">国外</span>  &emsp;洲：</span>
+                           <el-select placeholder="请选择" v-model="pd.continentfrom" filterable clearable size="small"  class="input-input">
+                             <el-option
+                               v-for="(item,ind) in zhouName"
+                               :key="ind"
+                               :value="item.code"
+                               :label="item.code+' - '+item.name"
+                             ></el-option>
+                           </el-select>
+                       </el-col>
+                       <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+                           <span class="input-text">国家：</span>
+                           <el-select placeholder="请选择" v-model="pd.countryfrom" filterable clearable size="small"  class="input-input">
+                             <el-option
+                               v-for="(item,ind)  in nation"
+                               :key="ind"
+                               :label="item.CODE+' - '+item.CNAME"
+                               :value="item.CODE">
+                             </el-option>
+                           </el-select>
+                       </el-col>
+           <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+               <span class="input-text">城市：</span>
+               <el-select placeholder="请选择" v-model="pd.cityfrom" filterable clearable size="small"  class="input-input">
+                 <el-option
+                   v-for="(item,ind) in gwName"
+                   :key="ind"
+                   :value="item.citycode"
+                   :label="item.citycode+' - '+item.cityname"
+                 ></el-option>
+               </el-select>
+           </el-col>
+           <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+               <span class="input-text">机场：</span>
+               <el-select placeholder="请选择" v-model="pd.portfrom" filterable clearable size="small"  class="input-input">
+                 <el-option
+                  v-for="item in airportw"
+                  :key="item.AIRPORT_CODE"
+                  :label="item.AIRPORT_CODE+' - '+item.AIRPORT_NAME"
+                  :value="item.AIRPORT_CODE">
+                </el-option>
+               </el-select>
+           </el-col>
+        </el-row>
+          <el-row align="center"   :gutter="2" class="yy-line">
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">行属性：</span>
               <el-select v-model="typerow" filterable clearable  placeholder="请选择" size="small" class="input-input">
@@ -91,15 +120,7 @@
                </el-select>
             </el-col>
 
-                              <!-- <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
-                                <span class="input-text">列属性：</span>
-                                <el-select v-model="pd.aircol" filterable clearable  placeholder="请选择" size="small" class="input-input">
-                                   <el-option text="航班数量" value="航班数量" >
-                                   </el-option>
-                                   <el-option text="预报航班数量" value="预报航班数量" >
-                                   </el-option>
-                                 </el-select>
-                              </el-col> -->
+
           </el-row>
         </el-col>
         <el-col :span="2" class="down-btn-area" style="margin-top:25px;">
@@ -138,7 +159,6 @@
                   show-summary
                   border
                   >
-
                   <el-table-column
                     prop="continent"
                     label="洲" v-if='showz'>
@@ -184,7 +204,6 @@
                           prop="chk_gender_f"
                           label="女">
                         </el-table-column>
-
                    </el-table-column>
                    <el-table-column label="国家构成">
                      <el-table-column
@@ -199,9 +218,7 @@
                        prop="gat"
                        label="港澳台">
                      </el-table-column>
-
                  </el-table-column>
-
                 </el-table>
           </div>
         </div>
@@ -225,6 +242,8 @@ export default {
       },
       nation: [],
       company: [],
+      airportn:[],
+      airportw:[],
       addDialogVisible: false,
       detailsDialogVisible: false,
       options: [{
@@ -279,6 +298,8 @@ export default {
     this.zhou();
     this.gw();
     this.gn();
+    this.gwart();
+    this.gnart();
     let time = new Date();
     let endz = new Date();
     let beginz = new Date(time - 1000 * 60 * 60 * 24 * 30);
@@ -291,6 +312,8 @@ export default {
     this.zhou();
     this.gw();
     this.gn();
+    this.gwart();
+    this.gnart();
     let time = new Date();
     let endz = new Date();
     let beginz = new Date(time - 1000 * 60 * 60 * 24 * 30);
@@ -450,6 +473,22 @@ export default {
           };
         })
     },
+    gwart() { //国外机场
+      this.$api.post('/manage-platform/codeTable/queryAirport', {},
+        r => {
+          if (r.success) {
+            this.airportw = r.data;
+          };
+        })
+    },
+    gnart() { //国内机场
+      this.$api.post('/manage-platform/codeTable/queryAirportMatch', {},
+        r => {
+          if (r.success) {
+            this.airportn = r.data;
+          };
+        })
+    },
     queryNationality() {
       this.$api.post('/manage-platform/codeTable/queryNationality', {},
         r => {
@@ -565,4 +604,5 @@ export default {
   border-radius: 0 5px 5px 5px;
 }
 .ppie{width:420px; height:400px; float:left}
+.spang{margin-right:30px; background:#EE8E48; padding:3px 8px; border:1px solid #cccccc; border-radius:5px;color:#ffffff }
 </style>

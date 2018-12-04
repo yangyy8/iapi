@@ -174,80 +174,112 @@
           style="width: 100%;">
           <el-table-column
             label="唯一编号"
-            prop="serial">
+            prop="serial"
+            sortable
+            width="101">
           </el-table-column>
           <el-table-column
             label="姓名"
-            prop="name">
+            prop="name"
+            sortable
+            width="80"
+            :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="出生日期"
             prop="birthday"
-            width="80">
+            sortable
+            width="101">
           </el-table-column>
           <el-table-column
-            label="国籍/地区"
-            prop="nationalityName">
+            label="国籍地区"
+            prop="nationalityName"
+            width="50"
+            :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="出入标识"
-            prop="flightTypeName">
+            prop="flightTypeName"
+            width="50">
           </el-table-column>
           <el-table-column
             label="证件类型"
-            prop="passporttype">
+            prop="passporttype"
+            width="50"
+            :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="证件号"
-            prop="passportno">
+            prop="passportno"
+            sortable
+            width="90"
+            :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="航班号"
-            prop="fltno">
+            prop="fltno"
+            sortable
+            width="90">
           </el-table-column>
           <el-table-column
             label="航班日期"
-            prop="fltnoDate">
+            prop="fltnoDate"
+            sortable
+            width="101">
+          </el-table-column>
+          <el-table-column
+            label="口岸"
+            prop="port_name"
+            width="50"
+            :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="命中模型"
-            prop="hit_mode"
-            width="140"
+            prop="hit_mode_gc"
+            width="90"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="命中规则"
             prop="hit_rule_name"
-            width="140"
+            width="90"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="风险等级"
-            width="150">
+            width="145">
             <template slot-scope="scope">
-              <el-rate :value="scope.row.grade" size="mini" disabled class="mb-9"></el-rate>
+              <el-rate :value="scope.row.grade" size="mini" disabled></el-rate>
             </template>
           </el-table-column>
           <el-table-column
             label="风评结果"
-            prop="processorresult">
+            prop="processorresult"
+            width="50"
+            :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
-            label="中心/口岸"
-            width="100"
+            label="中心口岸"
+            width="50"
             prop="centre_port">
           </el-table-column>
           <el-table-column
             label="推送人"
-            prop="processor_peopleName">
+            prop="processor_peopleName"
+            width="50"
+            :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="处理人"
-            prop="processor_peopleName">
+            prop="processor_peopleName"
+            width="50"
+            :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="归档人"
-            prop="processor_peopleName">
+            prop="processor_peopleName"
+            width="50"
+            :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="归档时间"
@@ -255,7 +287,7 @@
           </el-table-column>
           <el-table-column
             label="操作"
-            width="100">
+            width="90">
             <template slot-scope="scope">
               <el-button type="text" class="a-btn" icon="el-icon-view" title="查看" @click="$router.push({name:'BJCLCX',query:{serial:scope.row.serial}})"></el-button>
               <el-button type="text" class="a-btn" icon="el-icon-edit-outline"  title="归档追加" @click="openGdTc(scope.row)"></el-button>

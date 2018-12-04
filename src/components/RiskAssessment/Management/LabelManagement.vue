@@ -1,10 +1,8 @@
 <template lang="html">
   <div class="zlbg">
     <div class="middle mb-6">
-
       <el-row type="flex" >
         <el-col :span="22" class="br pr-20">
-
           <el-row align="center"   :gutter="2" >
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">标签分类：</span>
@@ -17,7 +15,6 @@
                 </el-option>
               </el-select>
             </el-col>
-
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">标签名称：</span>
               <el-input placeholder="请输入内容" size="small" v-model="pd.LABELNAME"  class="input-input"></el-input>
@@ -28,13 +25,13 @@
                <el-date-picker
                v-model="pd.BEGINDATE" format="yyyy-MM-dd HH:mm:ss"
                type="datetime" size="small" value-format="yyyyMMddHHmmss"
-               placeholder="开始时间"  :picker-options="pickerOptions" >
+               placeholder="开始时间"  >
              </el-date-picker>
                <span class="septum">-</span>
              <el-date-picker
                 v-model="pd.EXPIREDATE" format="yyyy-MM-dd HH:mm:ss"
                 type="datetime" size="small" value-format="yyyyMMddHHmmss"
-                placeholder="结束时间" :picker-options="pickerOptions1" >
+                placeholder="结束时间">
             </el-date-picker>
           </div>
             </el-col>
@@ -137,14 +134,11 @@
              </el-select>
           </el-col>
         </el-row>
-
-
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
             <span class="yy-input-text"><font class="yy-color">*</font> 标签名称：</span>
             <el-input placeholder="请输入内容(不能超过20个汉字)"
              size="small" maxlength="20"  v-model="form.LABELNAME"  class="yy-input-input" ></el-input>
-
           </el-col>
         </el-row>
         <el-row type="flex" class="mb-6" >
@@ -238,28 +232,7 @@ export default {
       },
       defaultChecked:[],
       multipleSelection: [],
-      pickerOptions1: {
-        // shortcuts: [{
-        //   text: '今天',
-        //   onClick(picker) {
-        //     picker.$emit('pick', new Date());
-        //   }
-        // }, {
-        //   text: '昨天',
-        //   onClick(picker) {
-        //     const date = new Date();
-        //     date.setTime(date.getTime() - 3600 * 1000 * 24);
-        //     picker.$emit('pick', date);
-        //   }
-        // }, {
-        //   text: '一周前',
-        //   onClick(picker) {
-        //     const date = new Date();
-        //     date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
-        //     picker.$emit('pick', date);
-        //   }
-        // }]
-      },
+
       form: {},
       mapForm: {},
       Airport: [],

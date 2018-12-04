@@ -178,9 +178,9 @@ export default {
   watch:{
     tabList:function(val){
       if(val.length>8){
-        console.log(this.tabList.length)
+        //console.log(this.tabList.length)
         this.tabliwidth=Math.floor(100/(this.tabList.length+1))+'%'
-        console.log(this.tabliwidth)
+        //console.log(this.tabliwidth)
 
       }
     }
@@ -207,7 +207,7 @@ export default {
     msg(){
       this.$api.post('/manage-platform/MessageBounced/getMessageInfo ',{type:'bjcl'},
        r => {
-        console.log(r);
+        //console.log(r);
 
         if(r.data.result.length!=0){
           this.msgList=r.data.result
@@ -238,12 +238,12 @@ export default {
           SERIAL: navId
         },
         r => {
-          // console.log(r)
+          // //console.log(r)
           if(r.success){
             this.nav1List = r.data.menuChild;
             this.nav1Id=this.$route.query.nav1Id||r.data.menuChild[0].SERIAL;
-            console.log("nav1Id:",this.nav1Id);
-            console.log("nav1List",this.nav1List)
+            //console.log("nav1Id:",this.nav1Id);
+            //console.log("nav1List",this.nav1List)
 
             this.nav1to2(this.nav1Id);
           }
@@ -255,7 +255,7 @@ export default {
     nav1to2(nav1Id,click) {
       this.nav1Id=nav1Id;
       this.$router.push({query:{nav1Id:nav1Id}})
-      console.log(nav1Id)
+      //console.log(nav1Id)
       let _this=this;
       for(var i=0;i<this.nav1List.length;i++){
         var a=_this.nav1List[i];
@@ -266,8 +266,8 @@ export default {
           }else{
             _this.nav2Id=_this.$route.query.nav2Id||a.menuList[0].SERIAL
           }
-          console.log("nav2List:",_this.nav2List);
-          console.log("nav2Id1:",_this.nav2Id);
+          //console.log("nav2List:",_this.nav2List);
+          //console.log("nav2Id1:",_this.nav2Id);
           _this.nav2(_this.nav2Id)
         }
       }
@@ -275,13 +275,13 @@ export default {
     },
     // 点击二级菜单======================================
     nav2(nav2Id) {
-      console.log("nav2List:",this.nav2List);
+      //console.log("nav2List:",this.nav2List);
 
       this.nav2Id = nav2Id;
       for(var i=0;i<this.nav2List.length;i++){
         if(this.nav2List[i].SERIAL==nav2Id){
           this.checkItem=this.nav2List[i];
-          console.log("nav2Id2:",this.nav2Id);
+          //console.log("nav2Id2:",this.nav2Id);
           let _this=this;
           setTimeout(function(){
             _this.$router.push({name: _this.checkItem.url,query:{nav1Id:_this.checkItem.parentId,nav2Id:nav2Id}})
@@ -290,7 +290,7 @@ export default {
 
           for(var j=0;j<this.tabList.length;j++){
             if(this.tabList[j].SERIAL==this.checkItem.SERIAL){
-              // console.log("重复")
+              // //console.log("重复")
               return
             }
           }
@@ -303,13 +303,12 @@ export default {
 
     },
     tabNav2(nav2Item){
-      console.log('nav2Item:',nav2Item);
-      // console.log('nav2Id',this.nav2Id)
+      //console.log('nav2Item:',nav2Item);
       if(this.nav2Id==nav2Item.SERIAL) return;
 
       if(nav2Item.rootId!=this.$route.params.navId){
         this.navId=nav2Item.rootId;
-        console.log("~~",nav2Item.rootId,this.$route.params.navId)
+        //console.log("~~",nav2Item.rootId,this.$route.params.navId)
         let _this=this;
         setTimeout(function(){
           _this.$router.push({params: {navId:nav2Item.rootId}});
@@ -326,8 +325,8 @@ export default {
         }
       }
 
-      console.log("nav1List",this.nav1List)
-      console.log("nav2List:",this.nav2List);
+      //console.log("nav1List",this.nav1List)
+      //console.log("nav2List:",this.nav2List);
       this.$router.push({name: nav2Item.url,query:{nav1Id:this.nav1Id,nav2Id:this.nav2Id}})
 
     },
@@ -380,7 +379,7 @@ export default {
         },
         r => {
           if(r.success){
-            // console.log(r)
+            // //console.log(r)
             this.navIdCCdata=r.data.menuChild[0].menuList;
           }
         })
@@ -397,12 +396,12 @@ export default {
     },
     // 顶部菜单跳转================================
     topNavTo(SERIAL){
-      console.log(this.$route.params.navId,SERIAL)
+      //console.log(this.$route.params.navId,SERIAL)
       if(this.$route.params.navId==SERIAL)return;
       this.navId=SERIAL;
-      console.log("顶部菜单跳转",SERIAL)
+      //console.log("顶部菜单跳转",SERIAL)
       this.$router.push({params: {navId:SERIAL}});
-      console.log("this.$route.params.navId",this.$route.params.navId)
+      //console.log("this.$route.params.navId",this.$route.params.navId)
       let _this=this;
       setTimeout(function(){
         _this.getNav(SERIAL);
@@ -705,7 +704,8 @@ export default {
 .nav1-text {
   color: #2ad9f4;
   font-size: 15px;
-
+  text-align: center;
+  padding: 0px 10px;
 }
 
 .nav2 {
