@@ -15,13 +15,13 @@
               <div class="input-input t-flex t-date">
                <el-date-picker
                v-model="pd.BEGINDATE" format="yyyy-MM-dd HH:mm:ss"
-               type="datetime" size="small" value-format="yyyyMMddHHmmss"
+               type="datetime" size="small" value-format="yyyy-MM-dd HH:mm:ss"
                placeholder="开始时间"  :picker-options="pickerOptions0" >
              </el-date-picker>
                <span class="septum">-</span>
              <el-date-picker
                 v-model="pd.EXPIREDATE" format="yyyy-MM-dd HH:mm:ss"
-                type="datetime" size="small" value-format="yyyyMMddHHmmss"
+                type="datetime" size="small" value-format="yyyy-MM-dd HH:mm:ss"
                 placeholder="结束时间" :picker-options="pickerOptions1" >
             </el-date-picker>
           </div>
