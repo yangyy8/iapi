@@ -427,7 +427,7 @@ export default {
       this.$api.post(url, pp,
         r => {
           console.log(r);
-          this.tableData1 = r.data.pd.resultList;
+          this.tableData1 = r.data.resultList;
           this.TotalResult1 = r.data.totalResult;
         })
     },
