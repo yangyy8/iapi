@@ -317,7 +317,7 @@ console.log(value);
             sum02+=parseInt(arr[i].chk_gender_f);
             sum3+=parseInt(arr[i].foreign);
             sum03+=parseInt(arr[i].inland);
-            sum03+=parseInt(arr[i].gat);
+            sum003+=parseInt(arr[i].gat);
           }
           this.sData1=[{value:sum1, name:'载运人员总数'},{value:sum01, name:'不准登机人数'}];
           this.sData2=[{value:sum2, name:'男'},{value:sum02, name:'女'}];
