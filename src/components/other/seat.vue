@@ -12,9 +12,9 @@
             </div>
           </li>
           <li v-for="i in list1" class="planLi">
-            <div  v-for="j in list2" >
+            <div  v-for="j in list2">
               <span v-if="getlight(i,j)" >
-                <div class="" ><img src="../../assets/img/ren.png" :title="i+j"/></div>
+                <div class=""><img src="../../assets/img/ren.png" :title="i+j"/></div>
               </span>
               <span v-else>
                 <div class="" :title="i+j"></div>
@@ -38,7 +38,8 @@ export default {
       list2:[],
       light:[],
       form: {},
-      flightNumber:this.flightNumber
+      flightNumber:this.flightNumber,
+      globalserial:this.globalserial,
     }
   },
   // created(){
@@ -48,17 +49,22 @@ export default {
   //   },500)
   // },
   watch:{
-    flightNumber:function(newVal,oldVal){
+    globalserial:function(newVal,oldVal){
         console.log(newVal,oldVal)
-        this.flightNumber = newVal;  //newVal即是chartData
+        this.globalserial = newVal;  //newVal即是chartData
         this.getimgtable();
     }
   },
   props:{
+    'globalserial':{
+      type:String,
+      default:''
+    },
     'flightNumber':{
       type:String,
       default:''
     }
+
   },
   mounted(){
     this.getimgtable()
@@ -78,7 +84,6 @@ export default {
         })
     },
     getlight(n,m){
-
     var ss=this.light;
     var se=n+m;
     for(var i=0;i<ss.length;i++){

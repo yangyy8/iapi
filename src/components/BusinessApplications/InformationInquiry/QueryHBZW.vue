@@ -34,6 +34,17 @@
              </el-date-picker>
              </div>
           </el-col>
+          <el-col :sm="24" :md="12" :lg="8" class="input-item">
+            <span class="input-text">口岸：</span>
+            <el-select  v-model="pd.port" @change="getList(CurrentPage,pageSize,pd)" placeholder="请选择" filterable clearable size="small" class="input-input">
+              <el-option
+                v-for="item in airport"
+                :key="item.JCDM"
+                :label="item.JCDM+' - '+item.KAMC"
+                :value="item.JCDM">
+              </el-option>
+            </el-select>
+          </el-col>
           <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">出入标识：</span>
               <el-select v-model="pd.flighttype"  class="input-input"   filterable clearable  placeholder="请选择"  size="small">
@@ -495,7 +506,7 @@
       :visible.sync="seatDialogVisible"
       width="1220px"
       >
-      <Seat :flightNumber="flightNumber0"></Seat>
+      <Seat :flightNumber="flightNumber0" :globalserial="globalserial0"></Seat>
     </el-dialog>
   </div>
 </template>
@@ -519,6 +530,7 @@ export default {
         departdateBegin:'',
         departdateEnd:'',
       },
+      airport:[],
 
       dform:{},
       rules:{},
@@ -584,6 +596,7 @@ export default {
       nav1Id:null,
       nav2Id:null,
       flightNumber0:'',
+      globalserial0:'',
     }
   },
   mounted() {
@@ -596,13 +609,21 @@ export default {
   let flightStart = new Date(new Date().setHours(0,0,0,0));
   this.pd.departdateBegin=formatDate(flightStart,'yyyyMMddhhmm');
   this.pd.departdateEnd=formatDate(end,'yyyyMMddhhmm');
-
+  this.queryAirport();
   },
   activated(){
     this.nav1Id=this.$route.query.nav1Id
     this.nav2Id=this.$route.query.nav2Id
   },
   methods: {
+    queryAirport(){
+      this.$api.post('/manage-platform/codeTable/queryAirportMatch',{},
+       r => {
+         if(r.success){
+           this.airport=r.data;
+         }
+      })
+    },
     querySeat(){
       // if(this.page==0){
         this.getList(this.CurrentPage,this.pageSize,this.pd)
@@ -614,6 +635,7 @@ export default {
       // console.log(i)
       this.seatDialogVisible=true;
       this.flightNumber0=i.flightRecordnum;
+      this.globalserial0=i.globalserial;
       // this.$router.push({query:{flightNumber:i.flightRecordnum}})
     },
     getHistoryListPnr(hcurrentPage,hshowCount,historyCdt){

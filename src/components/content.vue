@@ -121,7 +121,22 @@
             </div>
           </div>
         </div>
+      </div>
 
+      <div class="rb-msg" v-if="msgIrShow">
+        <div class="">
+          <div class="rb-title">
+            未处理消息
+          </div>
+          <div class="rb-closeBtn el-icon-close" @click="msgIrShow=false"></div>
+          <div class="rb-content">
+            <div class="rb-msg-item" v-for="(i,ind) in msgIrList" :key="ind">
+              <span>发送人：{{i.informationSend.SENDERNAME}}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+              <span>内容：{{i.informationSend.DETAILS}}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+              <a href="javascript:void(0)" @click="msgIr(i)">点击查看</a>
+            </div>
+          </div>
+        </div>
       </div>
     </el-container>
   </el-container>
@@ -162,18 +177,27 @@ export default {
       nav1End: 6,
 
       msgList:null,
-      msgShow:false
+      msgIrList:null,
+      msgShow:false,
+      msgIrShow:false
     }
   },
   mounted() {
     this.getUers();
     this.bgChange();
     this.navInit();
+    setTimeout(this.msgI(),100)
+
+    console.log(this.msgIrList)
     let _this=this;
     // this.msg()
     // setInterval(function() {
     //   _this.msg()
     // },180000)
+    // setInterval(function() {
+    //   _this.msg()
+    // },180000)
+
   },
   watch:{
     tabList:function(val){
@@ -225,6 +249,15 @@ export default {
           // });
         }
 
+      })
+    },
+    msgI(){
+      let p={
+        'pd':{time:10}
+      }
+      this.$api.post('/manage-platform/information/queryUnReadInformationReceiveListByTime',p,
+      r => {
+        this.msgIrList = r.data
       })
     },
     // 左侧菜单初始化=====================
@@ -393,6 +426,9 @@ export default {
       this.$router.push({params:{navId:x.ROOTID},query:{nav1Id:x.PARENTID,nav2Id:x.URLID}})
       this.getNav(x.ROOTID);
       this.msgShow=false;
+    },
+    msgIr(x){
+      // this.$router.push({params:})
     },
     // 顶部菜单跳转================================
     topNavTo(SERIAL){
