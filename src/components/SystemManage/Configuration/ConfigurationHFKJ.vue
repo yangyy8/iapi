@@ -22,20 +22,27 @@
           label="口径类型">
         </el-table-column>
         <el-table-column
-          prop="DESCRIBE"
           label="口径类型描述">
-        </el-table-column>
-        <el-table-column
-          prop="CHN"
-          label="中文口径">
-        </el-table-column>
-        <el-table-column
-          prop="EN"
-          label="英文口径">
-        </el-table-column>
-        <el-table-column
-          label="操作" width="200">
           <template slot-scope="scope">
+            <span class="t-noWrap">{{scope.row.DESCRIBE}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column
+          label="中文口径">
+          <template slot-scope="scope">
+            <span class="t-noWrap">{{scope.row.CHN}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column
+          label="英文口径">
+          <template slot-scope="scope">
+            <span class="t-noWrap">{{scope.row.EN}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column
+          label="操作" width="250">
+          <template slot-scope="scope">
+              <el-button class="table-btn" size="mini"  icon="el-icon-delete" @click="details(scope.row)">详情</el-button>
               <el-button class="table-btn" size="mini"  icon="el-icon-edit" @click="adds(1,scope.row)">编辑</el-button>
               <el-button class="table-btn" size="mini"  icon="el-icon-delete" @click="deletes(scope.row)">删除</el-button>
          </template>
@@ -78,20 +85,20 @@
           <el-col :span="24" class="input-item">
             <span class="yy-input-text"><font class="yy-color">*</font> 口径类型：</span>
             <el-input placeholder="请输入内容，最大字符为15" size="small" maxlength="15"  v-model="form.TYPE"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
-
           </el-col>
         </el-row>
+
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
             <span class="yy-input-text"><font class="yy-color">*</font> 中文口径：</span>
-            <el-input placeholder="请输入数字" size="small" maxlength="10"  v-model="form.CHN"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
+            <el-input type="textarea" placeholder="请输入内容，最大字符为300"  maxlength="300" :autosize="{ minRows: 3, maxRows: 6}" v-model="form.CHN"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
           </el-col>
         </el-row>
 
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
             <span class="yy-input-text"><font class="yy-color">*</font> 英文口径：</span>
-            <el-input placeholder="请输入内容，最大字符为15" size="small" maxlength="15"  v-model="form.EN"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
+            <el-input type="textarea" placeholder="请输入内容，最大字符为300"  maxlength="300" :autosize="{ minRows: 3, maxRows: 6}" v-model="form.EN"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
 
           </el-col>
         </el-row>
@@ -111,42 +118,41 @@
       </div>
     </el-dialog>
 
-    <!-- <el-dialog title="详情" :visible.sync="detailsDialogVisible" width="500px" >
-      <el-form :model="map" ref="mapForm">
+    <el-dialog title="详情" :visible.sync="detailsDialogVisible" width="800px">
+      <el-form :model="dform" ref="mapForm">
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
-            <span class="yy-input-text">角色名：</span>
-          <span class="yy-input-input detailinput">  {{mapForm.ROLE_NAME}}</span>
-            </el-col>
-        </el-row>
-
-
-        <el-row type="flex" class="mb-6" >
-          <el-col :span="24" class="input-item">
-            <span class="yy-input-text">状态：</span>
-          <span class="yy-input-input detailinput">  {{mapForm.STATUS=="1"?"启用":"停用"}}</span>
+            <span class="yy-input-text">口径类型：</span>
+            <el-input placeholder="最大字符为15" size="small" maxlength="15"  v-model="dform.TYPE"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}" :disabled="true"></el-input>
           </el-col>
         </el-row>
-        <el-row type="flex" class="mb-6" >
+
+        <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
-            <span class="yy-input-text">创建时间：</span>
-          <span class="yy-input-input detailinput">  {{mapForm.CREATE_TIME}}</span>
+            <span class="yy-input-text">中文口径：</span>
+            <el-input type="textarea" placeholder="最大字符为300"  maxlength="300" :autosize="{ minRows: 3, maxRows: 6}" v-model="dform.CHN"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}" :disabled="true"></el-input>
           </el-col>
         </el-row>
-        <el-row type="flex" class="mb-6" >
+
+        <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
-            <span class="yy-input-text">备注：</span>
-          <span class="yy-input-input detailinput">  {{mapForm.REMARKS}}</span>
+            <span class="yy-input-text">英文口径：</span>
+            <el-input type="textarea" placeholder="最大字符为300"  maxlength="300" :autosize="{ minRows: 3, maxRows: 6}" v-model="dform.EN"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}" :disabled="true"></el-input>
+
+          </el-col>
+        </el-row>
+
+        <el-row type="flex"  class="mb-6">
+          <el-col :span="24" class="input-item">
+            <span class="yy-input-text">口径类型描述：</span>
+              <el-input type="textarea"  placeholder="最大字符为50"  maxlength="50":autosize="{ minRows: 3, maxRows: 6}" v-model="dform.DESCRIBE" class="yy-input-input"  v-verify.change.blur ="{regs:'required',submit:'demo2'}" :disabled="true"></el-input>
           </el-col>
         </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="detailsDialogVisible = false" size="small">取 消</el-button>
       </div>
-    </el-dialog> -->
-
-
-
+    </el-dialog>
   </div>
   </div>
 </template>
@@ -186,6 +192,7 @@ export default {
       },
 
       form: {},
+      dform:{},
       mapForm: {},
 
     }
@@ -269,8 +276,7 @@ export default {
     },
     details(i) {
       this.detailsDialogVisible = true;
-      console.log(i);
-      this.mapForm = i;
+      this.dform = i;
     },
     deletes(i) {
       let p = {
@@ -341,6 +347,12 @@ export default {
 
 .yy-input-input {
   width: 70% !important;
-
+}
+.t-noWrap{
+  width: 200px;
+  display: inline-block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 </style>

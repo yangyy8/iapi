@@ -68,7 +68,6 @@
               <el-select  v-model="pd.port" @change="getList(CurrentPage,pageSize,pd)" placeholder="请选择" filterable clearable size="small" class="input-input">
                 <el-option
                   v-for="item in airport"
-                  v-if="item.JCDM"
                   :key="item.JCDM"
                   :label="item.JCDM+' - '+item.KAMC"
                   :value="item.JCDM">
