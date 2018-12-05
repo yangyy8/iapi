@@ -189,12 +189,12 @@
            width="40"
            type="selection">
           </el-table-column>
-          <el-table-column
+          <!-- <el-table-column
             label="事件编号"
             prop="serial"
             sortable
             width="101">
-          </el-table-column>
+          </el-table-column> -->
           <el-table-column
             label="姓名"
             prop="name"
@@ -267,7 +267,7 @@
           <el-table-column
             label="口岸"
             prop="port_name"
-            width="50"
+            width="60"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
@@ -327,6 +327,7 @@
           </el-table-column>
           <el-table-column
             label="操作"
+            fixed="right"
             width="70">
             <template slot-scope="scope">
               <el-button type="text" class="a-btn" icon="el-icon-view" title="查看" @click="$router.push({name:'BJSJCK',query:{serial:scope.row.serial,page:0}})"></el-button>

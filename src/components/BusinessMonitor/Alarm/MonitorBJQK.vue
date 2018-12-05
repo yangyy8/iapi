@@ -100,7 +100,7 @@
         </el-table-column>
       </el-table>
 
-      <div class="middle-foot">
+      <!-- <div class="middle-foot">
         <div class="page-msg">
           <div class="">
             共{{Math.ceil(TotalResult/pageSize)}}页
@@ -129,7 +129,7 @@
           layout="prev, pager, next"
           :total="TotalResult">
         </el-pagination>
-      </div>
+      </div> -->
     </div>
     <el-dialog title="口岸柱状图" :visible.sync="kaDialogVisible" width="800px">
       <div slot="footer" class="dialog-">

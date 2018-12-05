@@ -336,15 +336,15 @@ export default {
 
     },
     tabNav2(nav2Item){
-      //console.log('nav2Item:',nav2Item);
+      console.log('nav2Item:',nav2Item);
       if(this.nav2Id==nav2Item.SERIAL) return;
 
       if(nav2Item.rootId!=this.$route.params.navId){
         this.navId=nav2Item.rootId;
-        //console.log("~~",nav2Item.rootId,this.$route.params.navId)
+        console.log("rootId不同",nav2Item.rootId,this.$route.params.navId)
         let _this=this;
         setTimeout(function(){
-          _this.$router.push({params: {navId:nav2Item.rootId}});
+          _this.$router.push({params: {navId:nav2Item.rootId},query:{nav1Id:nav2Item.parentId,nav2Id:nav2Item.SERIAL}});
           _this.getNav(nav2Item.rootId)
         },400)
       }

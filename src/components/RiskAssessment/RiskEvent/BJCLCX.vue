@@ -109,7 +109,7 @@
                   <div class="gc-box">
                     <span>过程：</span>
                     <div class="gc-r-box">
-                      <div class="step-box" v-for="(x,y) in a.list" :key="y">
+                      <div class="step-box" v-for="(x,y) in a.list" :key="y" v-if="y<a.TAGSIZE">
                         <div class="step-time mr-5 tc-333">{{x.CREATETIME.slice(0,10)}}</div>
                         <div class="mr-15 step-icon">
                           <div class="step-dot"></div>
@@ -127,7 +127,9 @@
                         </ul>
                       </div>
 
-                      <el-button type="text" size="small" class="gc-more">查看更多</el-button>
+                      <el-button type="text" size="small" class="gc-more" @click="a.TAGSIZE=a.list.length+1" v-if="a.list.length>2&&a.TAGSIZE==2">查看更多</el-button>
+                      <el-button type="text" size="small" class="gc-more" @click="a.TAGSIZE=2" v-if="a.TAGSIZE==a.list.length+1">收起</el-button>
+
                     </div>
                   </div>
                 </div>

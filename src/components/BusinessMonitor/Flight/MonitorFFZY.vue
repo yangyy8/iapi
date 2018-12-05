@@ -44,15 +44,20 @@
         style="width: 100%;">
         <el-table-column
           label="航班号"
-          prop="fltno">
+          prop="fltno"
+          sortable
+          width="90">
         </el-table-column>
         <el-table-column
           label="航班日期"
-          prop="fltDate">
+          prop="fltDate"
+          sortable
+          width="101">
         </el-table-column>
         <el-table-column
           label="出入标识"
-          prop="ioType">
+          prop="ioType"
+          width="105">
           <template slot-scope="scope">
             <div>
               <span v-if="scope.row.ioType=='I'">入境</span>
@@ -62,23 +67,28 @@
         </el-table-column>
         <el-table-column
           label="计划起飞时间"
-          prop="preDepartTime">
+          prop="preDepartTime"
+          sortable>
         </el-table-column>
         <el-table-column
           label="计划到达时间"
-          prop="preArriveTime">
+          prop="preArriveTime"
+          sortable>
         </el-table-column>
         <el-table-column
           label="出发站"
-          prop="from">
+          prop="from"
+          sortable>
         </el-table-column>
         <el-table-column
           label="目的站"
-          prop="to">
+          prop="to"
+          sortable>
         </el-table-column>
         <el-table-column
           label="航空公司"
-          prop="aircompanyName">
+          prop="aircompanyName"
+          sortable>
         </el-table-column>
         <el-table-column
           label="航班状态">
@@ -139,30 +149,48 @@
       <el-table
         :data="tableData2"
         border
-        style="width: 500px;">
+        style="width: 631px;">
         <el-table-column
           label="姓名"
-          prop="name">
+          prop="name"
+          sortable
+          width="110">
         </el-table-column>
         <el-table-column
           label="性别"
-          prop="gender">
+          prop="gender"
+          width="70">
+          <template slot-scope="scope">
+            <div>
+              <span v-if="scope.row.gender=='F'">女</span>
+              <span v-if="scope.row.gender=='M'">男</span>
+              <span v-if="scope.row.gender=='U'">未知</span>
+            </div>
+          </template>
         </el-table-column>
         <el-table-column
           label="出生日期"
-          prop="birthDay">
+          prop="birthDay"
+          sortable
+          width="105">
         </el-table-column>
         <el-table-column
           label="国籍/地区"
-          prop="nationalityName">
+          sortable
+          prop="nationalityName"
+          width="115">
         </el-table-column>
         <el-table-column
           label="证件号码"
-          prop="passportNo">
+          prop="passportNo"
+          sortable
+          width="140">
         </el-table-column>
         <el-table-column
           label="座位号"
-          prop="seatNum">
+          prop="seatNum"
+          sortable
+          width="90">
         </el-table-column>
       </el-table>
     </div>

@@ -16,7 +16,7 @@
           </el-select>
         </el-col>
         <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
-          <span class="input-text">值机日期：</span>
+          <span class="input-text">航班日期：</span>
           <div class="input-input t-flex t-date">
             <el-date-picker
              type="date" size="small"
@@ -752,6 +752,8 @@ export default {
       this.$api.post('/manage-platform/travelerRealTime/queryMonitorPerson',{},
        r => {
          this.tableData2=r.data;
+         this.getList(this.CurrentPage,this.pageSize,this.pd);
+         
       })
     },
     addMonitorPerson(){
