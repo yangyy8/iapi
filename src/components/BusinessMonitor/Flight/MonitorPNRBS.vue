@@ -8,6 +8,10 @@
             </div> -->
             <el-row align="center" :gutter="2">
               <el-col :sm="24" :md="12" :lg="8" class="input-item">
+                <span class="input-text">航班号：</span>
+                <el-input  v-model="pd.fltNo" placeholder="请输入内容" size="small" clearable class="input-input"></el-input>
+              </el-col>
+              <el-col :sm="24" :md="12" :lg="8" class="input-item">
                 <span class="input-text">航班日期：</span>
                 <el-date-picker
                   class="input-input"

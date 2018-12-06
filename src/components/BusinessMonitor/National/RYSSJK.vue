@@ -1,55 +1,61 @@
 <template lang="html">
   <div class="ryssjk">
     <div class="top mb-6">
-      <el-row :gutter="2" class="pr-20">
-        <el-col :sm="24" :md="12" :lg="8" class="input-item">
-          <span class="input-text">航班号：</span>
-          <el-input v-model="pd.fltNo" @blur="getList(CurrentPage,pageSize,pd)" placeholder="请输入内容" size="small" clearable class="input-input"></el-input>
-        </el-col>
+      <el-row type="flex">
+        <el-col :span="22" class="br">
+          <el-row :gutter="2" class="pr-20">
+            <el-col :sm="24" :md="12" :lg="8" class="input-item">
+              <span class="input-text">航班号：</span>
+              <el-input v-model="pd.fltNo"  placeholder="请输入内容" size="small" clearable class="input-input"></el-input>
+            </el-col>
 
-        <el-col :sm="24" :md="12"  :lg="8" class="input-item">
-          <span class="input-text">出入标识：</span>
-          <el-select v-model="pd.ioType"  @change="getList(CurrentPage,pageSize,pd)" placeholder="请选择"  size="small" clearable filterable class="block input-input">
-            <el-option label="I - 入境" value="I"></el-option>
-            <el-option label="O - 出境" value="O"></el-option>
-            <el-option label="A - 入出境" value=""></el-option>
-          </el-select>
+            <el-col :sm="24" :md="12"  :lg="8" class="input-item">
+              <span class="input-text">出入标识：</span>
+              <el-select v-model="pd.ioType" placeholder="请选择"  size="small" clearable filterable class="block input-input">
+                <el-option label="I - 入境" value="I"></el-option>
+                <el-option label="O - 出境" value="O"></el-option>
+                <el-option label="A - 入出境" value=""></el-option>
+              </el-select>
+            </el-col>
+            <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
+              <span class="input-text">航班日期：</span>
+              <div class="input-input t-flex t-date">
+                <el-date-picker
+                 type="date" size="small"
+                 :editable="false"
+                 :clearable="false"
+                 v-model="pd.fltDateFr"
+                 value-format="yyyyMMdd"
+                 placeholder="开始时间" >
+                </el-date-picker>
+                <span class="septum">-</span>
+                <el-date-picker
+                  type="date" size="small"
+                  :editable="false"
+                  :clearable="false"
+                  v-model="pd.fltDateTo"
+                  value-format="yyyyMMdd"
+                  placeholder="结束时间">
+                </el-date-picker>
+              </div>
+            </el-col>
+            <el-col :sm="24" :md="12" :lg="8" class="input-item">
+              <span class="input-text">航站：</span>
+              <el-select  v-model="pd.port" placeholder="请选择" filterable clearable size="small" class="input-input">
+                <el-option
+                  v-for="item in airport"
+                  v-if="item.JCDM"
+                  :key="item.JCDM"
+                  :label="item.JCDM+' - '+item.KAMC"
+                  :value="item.JCDM">
+                </el-option>
+              </el-select>
+            </el-col>
+          </el-row>
         </el-col>
-        <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
-          <span class="input-text">航班日期：</span>
-          <div class="input-input t-flex t-date">
-            <el-date-picker
-             type="date" size="small"
-             :editable="false"
-             :clearable="false"
-             @change="getList(CurrentPage,pageSize,pd)"
-             v-model="pd.fltDateFr"
-             value-format="yyyyMMdd"
-             placeholder="开始时间" >
-            </el-date-picker>
-            <span class="septum">-</span>
-            <el-date-picker
-              type="date" size="small"
-              :editable="false"
-              :clearable="false"
-              @change="getList(CurrentPage,pageSize,pd)"
-              v-model="pd.fltDateTo"
-              value-format="yyyyMMdd"
-              placeholder="结束时间">
-            </el-date-picker>
-          </div>
-        </el-col>
-        <el-col :sm="24" :md="12" :lg="8" class="input-item">
-          <span class="input-text">航站：</span>
-          <el-select  v-model="pd.port" @change="getList(CurrentPage,pageSize,pd)" placeholder="请选择" filterable clearable size="small" class="input-input">
-            <el-option
-              v-for="item in airport"
-              v-if="item.JCDM"
-              :key="item.JCDM"
-              :label="item.JCDM+' - '+item.KAMC"
-              :value="item.JCDM">
-            </el-option>
-          </el-select>
+        <el-col :span="2" class="down-btn-area">
+          <el-button type="success" class="" size="small" @click="getList(CurrentPage,pageSize,pd)">查询</el-button>
+          <!-- <el-button type="primary" class="mb-15" plain size="small" >重置</el-button> -->
         </el-col>
       </el-row>
     </div>
@@ -83,7 +89,8 @@
           <el-table-column
             label="性别"
             prop="gender"
-            width="80">
+            width="80"
+            >
             <template slot-scope="scope">
               <div>
                 <span v-if="scope.row.gender=='F'">女</span>
@@ -246,7 +253,7 @@
         </el-table-column>
         <el-table-column
           label="国籍/地区"
-          prop="nationality"
+          prop="nationalityName"
           width="110">
         </el-table-column>
         <el-table-column
@@ -753,7 +760,7 @@ export default {
        r => {
          this.tableData2=r.data;
          this.getList(this.CurrentPage,this.pageSize,this.pd);
-         
+
       })
     },
     addMonitorPerson(){

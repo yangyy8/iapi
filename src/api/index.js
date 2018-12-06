@@ -6,7 +6,7 @@
 // var root="http://192.168.99.247:8080"
 // var root = 'http://192.168.99.244:8080'//小李文龙
 
-
+// var root=""
 
 var root = 'http://192.168.99.248:8081'
 // var root = 'http://192.168.99.248:8080'
@@ -16,7 +16,7 @@ var root = 'http://192.168.99.248:8081'
 //var root="http://192.168.99.213:8080"   //服务器电脑
 //var root="http://192.168.99.228:8080"
 // var root = 'http://192.168.99.201:8080'
-//var root="http://10.6.126.138:8088" //正式环境
+// var root="http://10.6.126.138:8088" //正式环境
 // 引用axios
 var axios = require('axios')
 import { Loading } from 'element-ui';
@@ -46,7 +46,7 @@ function filterNull(o) {
 function apiAxios(method, url, params, success, failure,header) {
   // console.log("url",url)
   let loadingInstance1=null;
-  if(!(url=='/manage-platform/nationwide/getPortDetail'||url=='/manage-platform/nationwide/getFlightDetail'||url=='/manage-platform/nameList/getNameListDataAnalysis')){
+  if(!(url=='/manage-platform/nationwide/getPortDetail'||url=='/manage-platform/nationwide/getFlightDetail'||url=='/manage-platform/nameList/getNameListDataAnalysis'||url=='/manage-platform/riskRecordExtInterfaceController/getRecordOtherInfo')){
     loadingInstance1 = Loading.service({ fullscreen: true, spinner: 'el-icon-loading',text:'拼命加载中',background:'rgba(0,0,0,0.6)',customClass:'loadingClass'});
   }
   if (params) {
