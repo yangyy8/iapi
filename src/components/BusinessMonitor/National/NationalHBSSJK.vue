@@ -721,7 +721,6 @@
           航班监控表：
         </div>
         <el-table
-          size="mini"
           :data="HBList"
           border
           max-height="150"

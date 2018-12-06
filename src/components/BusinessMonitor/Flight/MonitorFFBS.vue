@@ -263,7 +263,7 @@
             </template>
           </el-table-column>
           <el-table-column
-            label="报文次数"
+            label="非法报送数"
             prop="closeEx">
           </el-table-column>
         </el-table>
