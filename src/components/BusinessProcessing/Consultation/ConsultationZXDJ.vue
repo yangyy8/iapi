@@ -2,13 +2,13 @@
   <div class="zlbg">
     <div class="middle-top mb-2">
       <el-row type="flex" class="middle">
-        <el-col :span="24" class="br pr-20">
+        <el-col :span="22" class="br pr-20">
           <span class="title-green">
             咨询来源
           </span>&nbsp;|&nbsp;
           <span>时间：{{currentDate}}</span>
           <el-row align="center" :gutter="2" style="margin-top:10px">
-            <el-col  :sm="24" :md="12" :lg="6"  class="input-item">
+            <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">咨询来源：</span>
               <el-select v-model="entity.CONSULTFROM" filterable clearable placeholder="请选择" size="small" class="input-input">
                 <el-option label="0 - 航空公司" value="0"></el-option>
@@ -16,7 +16,7 @@
                 <el-option label="2 - 其他" value="2"></el-option>
               </el-select>
             </el-col>
-            <el-col  :sm="24" :md="12" :lg="6"  class="input-item" v-show="entity.CONSULTFROM == '0'||entity.CONSULTFROM == ''||entity.CONSULTFROM == undefined">
+            <el-col  :sm="24" :md="12" :lg="8"  class="input-item" v-show="entity.CONSULTFROM == '0'||entity.CONSULTFROM == ''||entity.CONSULTFROM == undefined">
               <span class="input-text">航站：</span>
               <el-select v-model="entity.TERMINAL" filterable clearable placeholder="请选择" size="small" class="input-input" @visible-change="terminal">
                 <el-option
@@ -27,51 +27,53 @@
                 </el-option>
               </el-select>
             </el-col>
-            <el-col  :sm="24" :md="12" :lg="6"  class="input-item">
+            <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">咨询人：</span>
               <el-input placeholder="请输入内容" size="small" v-model="entity.CONSULTNAME"  class="input-input"></el-input>
             </el-col>
 
-            <el-col  :sm="24" :md="12" :lg="6"  class="input-item">
+            <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">咨询方式：</span>
-              <el-select v-model="entity.CONSULTFROMTYPE" filterable clearable placeholder="请选择" size="small" class="input-input"  @change="">
-                <el-option label="0 - 移动电话" value="0"></el-option>
-                <el-option label="1 - 传真" value="1"></el-option>
-                <el-option label="2 - 邮箱" value="2"></el-option>
-                <el-option label="3 - 固定电话" value="3"></el-option>
-                <el-option label="4 - 其他" value="4"></el-option>
+              <el-select v-model="entity.CONSULTFROMTYPE" filterable clearable placeholder="请选择" size="small" class="input-input">
+                <el-option label="0 - 移动电话" value="移动电话"></el-option>
+                <el-option label="1 - 传真" value="传真"></el-option>
+                <el-option label="2 - 邮箱" value="邮箱"></el-option>
+                <el-option label="3 - 固定电话" value="固定电话"></el-option>
+                <el-option label="4 - 其他" value="其他"></el-option>
               </el-select>
             </el-col>
 
-            <el-col  :sm="24" :md="12" :lg="6"  class="input-item" v-show="entity.CONSULTFROMTYPE=='0'">
+            <el-col  :sm="24" :md="12" :lg="8"  class="input-item" v-show="entity.CONSULTFROMTYPE=='移动电话'">
               <span class="input-text">移动电话：</span>
               <el-input placeholder="请输入内容" size="small" v-model="entity.PHONE"  class="input-input"></el-input>
             </el-col>
-            <el-col  :sm="24" :md="12" :lg="6"  class="input-item" v-show="entity.CONSULTFROMTYPE=='1'">
+            <el-col  :sm="24" :md="12" :lg="8"  class="input-item" v-show="entity.CONSULTFROMTYPE=='传真'">
               <span class="input-text">传真：</span>
               <el-input placeholder="请输入内容" size="small" v-model="entity.CONSULTFAX"  class="input-input"></el-input>
             </el-col>
-            <el-col  :sm="24" :md="12" :lg="6"  class="input-item" v-show="entity.CONSULTFROMTYPE=='2'">
+            <el-col  :sm="24" :md="12" :lg="8"  class="input-item" v-show="entity.CONSULTFROMTYPE=='邮箱'">
               <span class="input-text">邮箱：</span>
               <el-input placeholder="请输入内容" size="small" v-model="entity.CONSULTEMAIL"  class="input-input"></el-input>
             </el-col>
-            <el-col  :sm="24" :md="12" :lg="6"  class="input-item" v-show="entity.CONSULTFROMTYPE=='3'">
+            <el-col  :sm="24" :md="12" :lg="8"  class="input-item" v-show="entity.CONSULTFROMTYPE=='固定电话'">
               <span class="input-text">固定电话：</span>
               <el-input placeholder="请输入内容" size="small" v-model="entity.INCOMINGPHONE"  class="input-input"></el-input>
             </el-col>
-            <el-col  :sm="24" :md="12" :lg="6"  class="input-item" v-show="entity.CONSULTFROMTYPE=='4'">
+            <el-col  :sm="24" :md="12" :lg="8"  class="input-item" v-show="entity.CONSULTFROMTYPE=='其他'">
               <span class="input-text">其他：</span>
               <el-input placeholder="请输入内容" size="small" v-model="entity.CONSULTFROMOTHERREMARK"  class="input-input"></el-input>
             </el-col>
           </el-row>
-          <el-row align="center" :gutter="2" type="flex" justify="center" style="margin-top:10px;padding-bottom:20px;border-bottom:1px dotted #ccc">
+        </el-col>
+        <el-col :span="2" class="down-btn-area" style="margin-top:35px;">
+          <!-- <el-row align="center" :gutter="2" type="flex" justify="center" style="margin-top:10px;padding-bottom:20px;border-bottom:1px dotted #ccc"> -->
             <el-button type="success" size="small" @click="addToBook">添加至通讯录</el-button>
-          </el-row>
-      </el-col>
+          <!-- </el-row> -->
+        </el-col>
       </el-row>
     </div>
     <div class="middle">
-      <el-row type="flex" class="middle" style="padding-top:0px!important">
+      <el-row type="flex"  style="padding-top:0px!important">
         <el-col :span="22" class="pr-20" :class="{'br':CONSULTTYPE==0}">
           <span class="title-green">
             咨询问题
@@ -86,11 +88,11 @@
           </div>
 
           <el-row align="center" :gutter="2" style="margin-top:10px" v-show="CONSULTTYPE==0">
-            <el-col  :sm="24" :md="12" :lg="6"  class="input-item">
+            <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">证件号码：</span>
               <el-input placeholder="请输入内容" size="small" v-model="pd.PASSPORTNO"  class="input-input"></el-input>
             </el-col>
-            <el-col  :sm="24" :md="12" :lg="6"  class="input-item">
+            <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">国籍/地区：</span>
               <el-select v-model="pd.NATIONALITY" filterable clearable placeholder="请选择" size="small" class="input-input" @visible-change="baseNation">
                 <el-option
@@ -101,17 +103,18 @@
                 ></el-option>
                </el-select>
             </el-col>
-            <el-col  :sm="24" :md="12" :lg="6"  class="input-item">
+            <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">航班号：</span>
               <el-input placeholder="请输入内容" size="small" v-model="pd.FLTNO"  class="input-input" v-verify.change.blur ="{regs:'required',submit:'timeDemo'}"></el-input>
             </el-col>
-            <el-col  :sm="24" :md="12" :lg="6"  class="input-item">
+            <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">航班日期：</span>
               <el-date-picker
                 v-model="pd.DEPARTDATE"
                 type="datetime" size="small"
                 placeholder="航班日期"
                 format="yyyy-MM-dd HH:mm"
+                class="input-input"
                 value-format="yyyyMMddHHmm">
             </el-date-picker>
             </el-col>
@@ -135,7 +138,7 @@
           label="证件号码">
         </el-table-column>
         <el-table-column
-          prop="PASSPORTEXPIREDATE"
+          prop="PASSPORTEXPIREDATESTR"
           label="证件有效期">
         </el-table-column>
         <el-table-column
@@ -147,7 +150,7 @@
           label="性别">
         </el-table-column>
         <el-table-column
-          prop="DATEOFBIRTH"
+          prop="BIRTHDAYSTR"
           label="出生日期">
         </el-table-column>
         <el-table-column
@@ -159,7 +162,7 @@
           label="航班号">
         </el-table-column>
         <el-table-column
-          prop="DEPARTDATE"
+          prop="DEPARTDATESTR"
           label="计划起飞时间"
           width="140">
         </el-table-column>
@@ -410,6 +413,7 @@ export default {
               type: 'success'
             });
           }
+          this.entity={};
         })
     },
     baseNation(){//国籍

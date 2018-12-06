@@ -25,7 +25,7 @@
           >
         </el-table-column>
         <el-table-column
-          prop="PASSPORTEXPIREDATE"
+          prop="PASSPORTEXPIREDATESTR"
           label="证件有效期">
         </el-table-column>
         <el-table-column
@@ -37,7 +37,7 @@
           label="性别">
         </el-table-column>
         <el-table-column
-          prop="DATEOFBIRTH"
+          prop="BIRTHDAYSTR"
           label="出生日期">
         </el-table-column>
         <el-table-column
@@ -49,7 +49,7 @@
           label="航班号">
         </el-table-column>
         <el-table-column
-          prop="DEPARTDATE"
+          prop="DEPARTDATESTR"
           label="计划起飞时间">
         </el-table-column>
         <el-table-column
