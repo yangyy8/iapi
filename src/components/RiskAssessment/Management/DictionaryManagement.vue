@@ -7,7 +7,7 @@
           <el-row align="center"   :gutter="2" >
             <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
               <span class="input-text">字典名称：</span>
-              <el-input placeholder="请输入内容" size="small" v-model="pd.NAME"  class="input-input"></el-input>
+              <el-input placeholder="请输入内容" size="small" v-model="pd.NAME" maxlength="11"  class="input-input"></el-input>
             </el-col>
 
             <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
@@ -71,8 +71,8 @@
           <template slot-scope="scope">
 
               <el-button class="table-btn" size="mini" plain icon="el-icon-edit" @click="adds(1,scope.row)">编辑</el-button>
-              <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="showUpload(scope.row)">导入</el-button>
-                            <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="tableDown(scope.row)">导出</el-button>
+              <el-button class="table-btn" size="mini" plain icon="el-icon-upload2" @click="showUpload(scope.row)">导入</el-button>
+                            <el-button class="table-btn" size="mini" plain icon="el-icon-download" @click="tableDown(scope.row)">导出</el-button>
               <el-button class="table-btn" size="mini" plain icon="el-icon-delete" @click="deletes(scope.row)">删除</el-button>
          </template>
         </el-table-column>
@@ -126,7 +126,7 @@
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
             <span class="yy-input-text"><font class="yy-color">*</font> 字典名称：</span>
-            <el-input placeholder="请输入内容" size="small"   v-model="form.NAME"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
+            <el-input placeholder="请输入内容" size="small"  maxlength="11"  v-model="form.NAME"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
           </el-col>
         </el-row>
         <!-- <el-row type="flex"  class="mb-6">

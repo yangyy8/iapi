@@ -169,7 +169,7 @@
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
             <span class="yy-input-text"><font class="yy-color">*</font> 指标类型：</span>
-            <el-select v-model="form.targetType" class="yy-input-input"  filterable clearable placeholder="请选择"   size="small">
+            <el-select v-model="form.targetType" class="yy-input-input"  filterable clearable placeholder="请选择"   size="small" v-verify.change.blur ="{regs:'required',submit:'demo2'}">
               <el-option value="名单" label="名单">
               </el-option>
               <el-option value="地域" label="地域">
@@ -198,7 +198,7 @@
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
             <span class="yy-input-text"><font class="yy-color">*</font> 指标来源：</span>
-            <el-select v-model="form.targetSource" class="yy-input-input"  filterable clearable placeholder="请选择"   size="small">
+            <el-select v-model="form.targetSource" class="yy-input-input"  filterable clearable placeholder="请选择"   size="small" v-verify.change.blur ="{regs:'required',submit:'demo2'}">
               <el-option value="1" label="1 - 自动计算">
               </el-option>
               <el-option value="2" label="2 - 手工录入">
@@ -209,20 +209,20 @@
 
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
-            <span class="yy-input-text"><font class="yy-color">*</font> 计算方式：</span>
-            <el-input placeholder="请输入内容" size="small"  v-model="form.calculation"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
+            <span class="yy-input-text">计算方式：</span>
+            <el-input placeholder="请输入内容" size="small"  v-model="form.calculation"  class="yy-input-input" ></el-input>
           </el-col>
         </el-row>
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
-            <span class="yy-input-text"><font class="yy-color">*</font> 方法名称：</span>
-            <el-input placeholder="请输入内容" size="small" v-model="form.className"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
+            <span class="yy-input-text"> 方法名称：</span>
+            <el-input placeholder="请输入内容" size="small" v-model="form.className"  class="yy-input-input" ></el-input>
           </el-col>
         </el-row>
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
             <span class="yy-input-text">参数：</span>
-            <el-input placeholder="请输入内容" size="small"   v-model="form.para"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
+            <el-input placeholder="请输入内容" size="small"   v-model="form.para"  class="yy-input-input" ></el-input>
           </el-col>
         </el-row>
         <el-row type="flex" class="mb-6" >
