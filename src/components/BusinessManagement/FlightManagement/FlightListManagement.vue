@@ -277,7 +277,7 @@
         <el-button @click="addDialogVisible = false" size="small">取 消</el-button>
       </div>
     </el-dialog>
-    <!-- action="http://192.168.99.245:8080//manage-platform/flightManage/importFlightManage" -->
+    <!-- action="http://192.168.99.248:8081/manage-platform/flightManage/importFlightManage" -->
     <el-dialog title="批量导入" :visible.sync="uploadDialogVisible"   width="640px"
     :before-close="handleClose">
       <el-form :model="importform" ref="importForm">
@@ -482,15 +482,17 @@ export default {
         this.$refs.upload.clearFiles();
         this.$message({
           duration:3000,
-          message: '恭喜你，导入成功！',
+          message: response.data,
           type: 'success'
         });
       }else{
         this.$message({
           duration:3000,
+          dangerouslyUseHTMLString: true,
           message: response.message,
           type: 'warning'
         });
+        this.uploadDialogVisible=false;
       }
     },
     handleExceed(files, fileList){

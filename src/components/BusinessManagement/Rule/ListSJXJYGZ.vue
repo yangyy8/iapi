@@ -52,8 +52,11 @@
         :data="tableData"
         border
         style="width: 100%;"
-        class="tableSj">
+        class="tableSj"
+        @sort-change='sortChange'>
         <el-table-column
+          prop="IODIR"
+          sortable='custom'
           label="出入境方向"
           width="120">
           <template slot-scope="scope">
@@ -65,7 +68,9 @@
          </template>
         </el-table-column>
         <el-table-column
+          prop="PERSONNELTYPE"
           label="人员类别"
+          sortable='custom'
           width="150">
           <template slot-scope="scope">
             <el-select v-model="scope.row.PERSONNELTYPE" placeholder="请选择" v-verify.input.blur="{regs:'required',submit:'demo'}" filterable clearable size="mini" class="table-select">
@@ -91,22 +96,28 @@
          </template>
         </el-table-column>
         <el-table-column
+          prop="MAXLENGTH"
           label="最大长度"
-          width="100">
+          width="120"
+          sortable='custom'>
           <template slot-scope="scope">
             <el-input v-model="scope.row.MAXLENGTH" size="small" class="table-select" @blur="max(scope.row)" @focus="lengthFoc(scope.row.MAXLENGTH)"></el-input>
          </template>
         </el-table-column>
         <el-table-column
+          prop="MINLENGTH"
           label="最小长度"
-          width="100">
+          width="120"
+          sortable='custom'>
           <template slot-scope="scope">
             <el-input v-model="scope.row.MINLENGTH" size="small" class="table-select" @blur="min(scope.row)" @focus="lengthFoc(scope.row.MINLENGTH)"></el-input>
          </template>
         </el-table-column>
         <el-table-column
+          prop="CHECKRESULT"
           label="反馈结果"
-          width="100">
+          width="120"
+          sortable='custom'>
           <template slot-scope="scope">
             <el-select v-model="scope.row.CHECKRESULT" v-verify.input.blur="{regs:'required',submit:'demo'}" filterable clearable placeholder="请选择"  size="mini" class="table-select" @change="inschange(scope.row)">
               <el-option label="1Z" value="1Z"></el-option>
@@ -123,8 +134,10 @@
          </template>
         </el-table-column>
         <el-table-column
+          prop="INPUT"
           label="限制性"
-          width="130">
+          width="130"
+          sortable='custom'>
           <template slot-scope="scope">
             <el-select v-model="scope.row.INPUT" v-verify.input.blur="{regs:'required',submit:'demo'}" placeholder="请选择" filterable clearable  size="mini" class="table-select">
               <el-option label="0 - 必填项" value="0"></el-option>
@@ -133,8 +146,10 @@
          </template>
         </el-table-column>
         <el-table-column
+          prop="STATUS"
           label="规则状态"
-          width="120">
+          width="120"
+          sortable='custom'>
           <template slot-scope="scope">
             <el-select v-model="scope.row.STATUS" v-verify.input.blur="{regs:'required',submit:'demo'}" placeholder="请选择" filterable clearable size="mini" class="table-select">
               <el-option label="0 - 停用" value="0"></el-option>
@@ -276,6 +291,36 @@ export default {
     this.getList(this.pd);
   },
   methods:{
+    sortChange(column, prop, order){
+      console.log(column);
+      console.log(column.order);
+      console.log(column.prop);
+      let p={
+        'order':column.prop,
+        'orderIo':column.order
+      }
+      this.$api.post('/manage-platform/dataCheck/getDataCheckList',p,
+       r => {
+         for(var i=0;i<r.data.length;i++){
+           if(r.data[i].MAXLENGTH == -1){
+             r.data[i].MAXLENGTH = ''
+           }
+           if(r.data[i].MINLENGTH == -1){
+             r.data[i].MINLENGTH = ''
+           }
+           if(r.data[i].REGULAR == -1){
+             r.data.REGULAR = ''
+           }
+           if(r.data[i].VALIDTIME == -1){
+             r.data.VALIDTIME = ''
+           }
+         }
+         this.tableData=r.data;
+         this.allData=this.tableData;
+         // this.TotalResult=r.data.totalResult;
+         this.count = this.tableData.length;
+      })
+    },
     // handleSelectionChange(val) {
     //    this.multipleSelection = val;
     //  },
@@ -423,14 +468,14 @@ export default {
          }
        }
      },
-     // lengthFoc(item){
-     //   if(item == undefined||item == ''){
-     //     this.$message({
-     //       type: 'warning',
-     //       message: '此项留空则系统不做校验处理'
-     //     });
-     //   }
-     // }
+     lengthFoc(item){
+       // if(item == undefined||item == ''){
+       //   this.$message({
+       //     type: 'warning',
+       //     message: '此项留空则系统不做校验处理'
+       //   });
+       // }
+     }
   }
 }
 </script>

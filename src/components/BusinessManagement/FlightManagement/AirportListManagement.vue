@@ -252,7 +252,7 @@
           name="file"
           :multiple="false"
           accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-          action="http://192.168.99.245:8081/manage-platform/airportManage/importFlightManage"
+          action="http://192.168.99.248:8081/manage-platform/airportManage/importFlightManage"
           :on-success="uploadSuccess"
           :limit="1"
           :on-exceed="handleExceed"
