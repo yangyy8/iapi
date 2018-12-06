@@ -12,7 +12,7 @@
               <el-input placeholder="请输入内容" size="small" v-model="pd.MTYPE"  class="input-input"></el-input>
             </el-col>
             <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
-              <span class="input-text">配置管理：</span>
+              <span class="input-text">配置单位：</span>
               <el-input placeholder="请输入内容" size="small" v-model="pd.VALUETYPE"  class="input-input"></el-input>
             </el-col>
           </el-row>

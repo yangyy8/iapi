@@ -91,7 +91,7 @@
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
             <span class="yy-input-text"><font class="yy-color">*</font> 中文口径：</span>
-            <el-input type="textarea" placeholder="请输入内容，最大字符为300"  maxlength="300" :autosize="{ minRows: 3, maxRows: 6}" v-model="form.CHN"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
+            <el-input type="textarea" placeholder="请输入内容，最大字符为300"  maxlength="300" :autosize="{ minRows: 3, maxRows: 6}" v-model="form.CHN"  class="yy-input-input" v-verify.change.blur ="{regs:'required|',submit:'demo2'}"></el-input>
           </el-col>
         </el-row>
 

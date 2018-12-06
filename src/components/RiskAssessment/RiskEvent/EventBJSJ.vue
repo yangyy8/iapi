@@ -205,11 +205,13 @@
           <el-table-column
             label="出入标识"
             prop="flightTypeName"
+            sortable
             width="50">
           </el-table-column>
           <el-table-column
             label="性别"
             prop="genderName"
+            sortable
             width="50"
             :show-overflow-tooltip="true">
           </el-table-column>
@@ -221,6 +223,7 @@
           </el-table-column>
           <el-table-column
             label="国籍地区"
+            sortable
             prop="nationalityName"
             width="50"
             :show-overflow-tooltip="true">
@@ -228,6 +231,7 @@
           <el-table-column
             label="证件类型"
             prop="passportTypeName"
+            sortable
             width="50"
             :show-overflow-tooltip="true">
           </el-table-column>
@@ -267,6 +271,7 @@
           <el-table-column
             label="口岸"
             prop="port_name"
+            sortable
             width="60"
             :show-overflow-tooltip="true">
           </el-table-column>
@@ -286,17 +291,20 @@
             label="处理人"
             prop="processor_peopleName"
             width="50"
+            sortable
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="当前状态"
             prop="statusName"
+            sortable
             width="63"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="核查次数"
             prop="checknumber"
+            sortable
             width="50"
             :show-overflow-tooltip="true">
           </el-table-column>
@@ -394,7 +402,7 @@
 
             </el-select>
           </el-col>
-          <el-col  :sm="24" :md="12" :lg="12"  class="input-item">
+          <el-col  :sm="24" :md="12" :lg="12"  class="input-item"  v-if="user.dept_code!='B06'">
             <span  class="mr-5">流转至 </span>
             <el-select v-model="czform.change_port" filterable clearable placeholder="请选择"  size="small" class="input-input">
               <el-option

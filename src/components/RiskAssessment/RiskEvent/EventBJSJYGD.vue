@@ -198,17 +198,20 @@
           <el-table-column
             label="国籍地区"
             prop="nationalityName"
+            sortable
             width="50"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="出入标识"
             prop="flightTypeName"
+            sortable
             width="50">
           </el-table-column>
           <el-table-column
             label="证件类型"
             prop="passporttype"
+            sortable
             width="50"
             :show-overflow-tooltip="true">
           </el-table-column>
@@ -234,7 +237,7 @@
           <el-table-column
             label="口岸"
             prop="port_name"
-
+            sortable
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
@@ -265,23 +268,27 @@
           <el-table-column
             label="中心口岸"
             width="50"
+            sortable
             prop="centre_port">
           </el-table-column>
           <el-table-column
             label="推送人"
             prop="processor_peopleName"
+            sortable
             width="50"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="处理人"
             prop="processor_peopleName"
+            sortable
             width="50"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="归档人"
             prop="processor_peopleName"
+            sortable
             width="50"
             :show-overflow-tooltip="true">
           </el-table-column>

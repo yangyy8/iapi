@@ -9,12 +9,12 @@
         <img src="../../../assets/img/qgjk/tab1_0.png" alt="" v-else>
         <span>口岸监控</span>
       </li>
-      <li class="map-tabli mr-30 hand" :class="{'check-tab':tabId==2}" @click="tabId=2;getJkHb()">
+      <li class="map-tabli mr-30 hand" :class="{'check-tab':tabId==2}" @click="tabId=2;getJkHb();getDqJkHb();">
         <img src="../../../assets/img/qgjk/tab2_1.png" alt="" v-if="tabId==2">
         <img src="../../../assets/img/qgjk/tab2_0.png" alt="" v-else>
         <span>航班监控</span>
       </li>
-      <li class="map-tabli hand" :class="{'check-tab':tabId==3}" @click="tabId=3;getRy()">
+      <li class="map-tabli hand" :class="{'check-tab':tabId==3}" @click="tabId=3;getRy();getDqRy()">
         <img src="../../../assets/img/qgjk/tab3_1.png" alt="" v-if="tabId==3">
         <img src="../../../assets/img/qgjk/tab3_0.png" alt="" v-else>
         <span>人员监控</span>
@@ -631,7 +631,7 @@
       <div class="tan-btn-g">
         <el-button type="primary" size="small" class="mr-10" @click="clear0">清空</el-button>
         <el-button type="success"  class="mr-10" size="small" @click="updateJkKa">确定</el-button>
-        <el-button type="info" size="small"  @click="tabId=0">关闭</el-button>
+        <el-button type="warning" size="small"  @click="tabId=0">关闭</el-button>
 
       </div>
     </div>
@@ -704,16 +704,18 @@
           </el-col>
           <el-col :sm="24" :md="12" :lg="8" class="hb-item">
             <span class="item-text">出入标识：</span>
-            <el-select placeholder="请选择" size="mini" clearable v-model="p1.iOType" class="item-input">
-              <el-option label="入境" value="I"></el-option>
-              <el-option label="出境" value="O"></el-option>
+            <el-select placeholder="请选择" size="mini" clearable v-model="p1.ioType" class="item-input">
+              <el-option label="I - 入境" value="I"></el-option>
+              <el-option label="O - 出境" value="O"></el-option>
+              <el-option label="A - 入出境" value=""></el-option>
+
             </el-select>
           </el-col>
         </el-row>
         <div class="tan-btn-g">
           <el-button type="primary" size="small" class="mr-10" @click="cleartab2">清空</el-button>
           <!-- <el-button type="success" size="small" class="mr-10">取消</el-button> -->
-          <el-button type="info" size="small" @click="getJkHb">查询</el-button>
+          <el-button type="success" size="small" @click="getJkHb">查询</el-button>
         </div>
         <div class="tan-row-text">
           航班监控表：
@@ -725,15 +727,18 @@
           style="width: 100%">
           <el-table-column
             prop="preDepartTime"
-            label="预计起飞">
+            label="预计起飞"
+            width="89">
           </el-table-column>
           <el-table-column
             prop="preArriveTime"
-            label="预计抵达">
+            label="预计抵达"
+            width="89">
           </el-table-column>
           <el-table-column
             prop="fltDate"
-            label="航班日期">
+            label="航班日期"
+            width="89">
           </el-table-column>
           <el-table-column
             prop="fltno"
@@ -775,15 +780,18 @@
           style="width: 100%">
           <el-table-column
             prop="preDepartTime"
-            label="预计起飞">
+            label="预计起飞"
+            width="89">
           </el-table-column>
           <el-table-column
             prop="preArriveTime"
-            label="预计抵达">
+            label="预计抵达"
+            width="89">
           </el-table-column>
           <el-table-column
             prop="fltDate"
-            label="航班日期">
+            label="航班日期"
+            width="89">
           </el-table-column>
           <el-table-column
             prop="fltno"
@@ -812,7 +820,7 @@
           </el-table-column>
         </el-table>
         <div class="tan-btn-g">
-          <el-button type="info" size="small"  @click="tabId=0">关闭</el-button>
+          <el-button type="warning" size="small"  @click="tabId=0">关闭</el-button>
         </div>
       </div>
     </div>
@@ -882,9 +890,11 @@
           </el-col>
           <el-col :sm="24" :md="12" :lg="6" class="hb-item">
             <span class="item-text">出入标识：</span>
-            <el-select placeholder="请选择" size="mini" clearable v-model="p2.iOType" class="item-input">
-              <el-option label="入境" value="I"></el-option>
-              <el-option label="出境" value="O"></el-option>
+            <el-select placeholder="请选择" size="mini" clearable v-model="p2.ioType" class="item-input">
+              <el-option label="I - 入境" value="I"></el-option>
+              <el-option label="O - 出境" value="O"></el-option>
+              <el-option label="A - 入出境" value=""></el-option>
+
             </el-select>
           </el-col>
           <el-col :sm="24" :md="12" :lg="6" class="hb-item">
@@ -922,7 +932,7 @@
         <div class="tan-btn-g">
           <el-button type="primary" size="small" class="mr-10" @click="cleartab3">清空</el-button>
           <!-- <el-button type="success" size="small" class="mr-10">取消</el-button> -->
-          <el-button type="info" size="small" @click="getRy">查询</el-button>
+          <el-button type="success" size="small" @click="getRy">查询</el-button>
         </div>
         <div class="tan-row-text">
           人员监控表：
@@ -934,15 +944,18 @@
           style="width: 100%">
           <el-table-column
             prop="preDepartTime"
-            label="预计起飞">
+            label="预计起飞"
+            width="89">
           </el-table-column>
           <el-table-column
             prop="preArriveTime"
-            label="预计抵达">
+            label="预计抵达"
+            width="89">
           </el-table-column>
           <el-table-column
             prop="fltDate"
-            label="航班日期">
+            label="航班日期"
+            width="89">
           </el-table-column>
           <el-table-column
             prop="fltno"
@@ -962,7 +975,8 @@
           </el-table-column>
           <el-table-column
             prop="birthDay"
-            label="出生日期">
+            label="出生日期"
+            width="89">
           </el-table-column>
           <el-table-column
             label="操作"
@@ -984,15 +998,18 @@
           style="width: 100%">
           <el-table-column
             prop="preDepartTime"
-            label="预计起飞">
+            label="预计起飞"
+            width="89">
           </el-table-column>
           <el-table-column
             prop="preArriveTime"
-            label="预计抵达">
+            label="预计抵达"
+            width="89">
           </el-table-column>
           <el-table-column
             prop="fltDate"
-            label="航班日期">
+            label="航班日期"
+            width="89">
           </el-table-column>
           <el-table-column
             prop="fltno"
@@ -1012,7 +1029,8 @@
           </el-table-column>
           <el-table-column
             prop="birthDay"
-            label="出生日期">
+            label="出生日期"
+            width="89">
           </el-table-column>
           <el-table-column
             label="操作"
@@ -1025,7 +1043,7 @@
           </el-table-column>
         </el-table>
         <div class="tan-btn-g">
-          <el-button type="info" size="small" @click="tabId=0">关闭</el-button>
+          <el-button type="warning" size="small" @click="tabId=0">关闭</el-button>
         </div>
       </div>
     </div>
@@ -1216,7 +1234,7 @@ export default {
 
   mounted() {
     this.initChart(this.series);
-    this.getNewData();
+    // this.getNewData();
     this.getHz();
     this.getGj();
     this.getHkGs();
@@ -1905,7 +1923,7 @@ export default {
        r => {
          //console.log(r);
          this.HBList=r.data.pdList
-         this.getDqJkHb();
+
       })
     },
     // 添加监控航班addMonitorFlight
@@ -1962,7 +1980,7 @@ export default {
        r => {
          //console.log(r);
          this.RyList=r.data.pdList;
-         this.getDqRy()
+
 
       })
     },

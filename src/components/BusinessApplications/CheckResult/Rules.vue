@@ -30,7 +30,7 @@
           </el-col>
           <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">出入标识：</span>
-              <el-select v-model="pd.flightType"  filterable clearable  class="input-input"  placeholder="请选择"  size="small">
+              <el-select v-model="pd.flightType"  filterable clearable @change="changeAirport(pd.flightType)"  class="input-input"  placeholder="请选择"  size="small">
                 <el-option value="I" label="I - 入境">
                 </el-option>
                 <el-option value="O" label="O - 出境">
@@ -43,12 +43,19 @@
             <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
                 <span class="input-text">起飞机场：</span>
                   <el-select v-model="pd.cityFrom" filterable clearable  placeholder="请选择" size="small" class="input-input">
-                 <el-option
-                   v-for="item in Airport"
-                   :key="item.AIRPORT_CODE"
-                   :label="item.AIRPORT_CODE+' - '+item.AIRPORT_NAME"
-                   :value="item.AIRPORT_CODE" >
-                 </el-option>
+                    <el-option
+                      v-for="(item,ind) in AirportI"
+                      v-if="item.AIRPORT_CODE"
+                      :label="item.AIRPORT_CODE+' - '+item.AIRPORT_NAME"
+                      :value="item.AIRPORT_CODE" >
+                    </el-option>
+                    <el-option
+                      v-for="(item,ind) in AirportI"
+                      v-if="item.JCDM"
+                      :label="item.JCDM+' - '+item.KAMC"
+                      :value="item.JCDM" >
+                    </el-option>
+                     </el-select>
                </el-select>
                <!-- <QueryAirport  :airportModel="pd.cityFrom" @transAirport="getInAirport"></QueryAirport> -->
             </el-col>
@@ -72,13 +79,20 @@
 
           <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">到达机场：</span>
-              <el-select v-model="pd.cityTo" filterable clearable  placeholder="请选择" size="small" class="input-input">
-             <el-option
-               v-for="item in Airport"
-               :key="item.AIRPORT_CODE"
-               :label="item.AIRPORT_CODE+' - '+item.AIRPORT_NAME"
-               :value="item.AIRPORT_CODE" >
-             </el-option>
+              <el-select v-model="pd.cityTo" filterable clearable   placeholder="请选择" size="small" class="input-input">
+                <el-option
+                  v-for="(item,ind) in AirportO"
+                  v-if="item.AIRPORT_CODE"
+                  :label="item.AIRPORT_CODE+' - '+item.AIRPORT_NAME"
+                  :value="item.AIRPORT_CODE" >
+                </el-option>
+                <el-option
+                  v-for="(item,ind) in AirportO"
+                  v-if="item.JCDM"
+                  :label="item.JCDM+' - '+item.KAMC"
+                  :value="item.JCDM" >
+                </el-option>
+                 </el-select>
            </el-select>
           <!-- <QueryAirport  :airportModel="pd.cityTo" @transAirport="getOutAirport"></QueryAirport> -->
             </el-col>
@@ -128,9 +142,7 @@
         </el-col>
         <el-col :span="2" class="down-btn-area">
           <el-button type="success" size="small" @click="getList(CurrentPage,pageSize,pd)">查询</el-button>
-
         </el-col>
-
       </el-row>
     </div>
 
@@ -147,7 +159,6 @@
   <el-col :span="9"></el-col>
   </el-row>
 </div>
-
     <div class="middle">
       <el-table
         :data="tableData"
@@ -173,7 +184,6 @@
           prop="nationalityDesc"
           label="国籍/地区" sortable>
         </el-table-column>
-
         <el-table-column
           prop="passportNo"
           label="证件号码" >
@@ -362,7 +372,7 @@ export default {
     //this.getList(this.CurrentPage, this.pageSize, this.pd);
     // this.getsum();
     // this.getnum();
-    this.queryAirport();
+    this.queryAirport("0");
 
     let time = new Date();
     let end = new Date();
@@ -444,16 +454,46 @@ export default {
           this.TotalResult = r.data.totalResult;
         })
     },
-    queryAirport() {
-      if (this.Airport.length != 0) {
-        return;
-      };
-      this.$api.post('/manage-platform/codeTable/queryAirport', {},
-        r => {
-          console.log(r);
-          this.Airport = r.data;
+    queryAirport(n) {
+      // if (this.Airport.length != 0) {
+      //   return;
+      // };
+      //全球
+      if (n == "A" || n=="0") {
+        this.$api.post('/manage-platform/codeTable/queryAirport', {},
+          r => {
+            console.log(r);
+            this.AirportI = r.data;
+            this.AirportO = r.data;
+          })
+      } else {
+        //国外
+        this.$api.post('/manage-platform/codeTable/queryForeignAirport', {},
+          r => {
+            console.log(r);
+            if (n == "I") {
+              this.AirportI = r.data;
+            } else {
+              this.AirportO = r.data;
+            }
 
-        })
+          })
+
+        //国内
+        this.$api.post('/manage-platform/codeTable/queryAirportMatch', {},
+          r => {
+            console.log(r);
+            if (n == "O") {
+              this.AirportI = r.data;
+            } else {
+              this.AirportO = r.data;
+            }
+          })
+      }
+    },
+
+    changeAirport(value) {
+      this.queryAirport(value);
     },
 
     details(i) {

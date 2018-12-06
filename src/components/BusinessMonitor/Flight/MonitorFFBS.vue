@@ -20,7 +20,7 @@
           </div>
         </div>
       </div>
-      <div class="ak-tab-pane" v-if="tabId==0">
+      <div class="ak-tab-pane" v-show="tabId==0">
         <el-row class="mb-9">
           <el-col :span="20" class="pr-20">
             <el-row align="center" :gutter="2">
@@ -151,7 +151,7 @@
           </el-table-column>
         </el-table>
       </div>
-      <div class="ak-tab-pane" v-else>
+      <div class="ak-tab-pane" v-show="tabId!=0">
 
         <el-row class="mb-9">
           <el-col :span="20" class="br pr-20">
@@ -263,7 +263,7 @@
             </template>
           </el-table-column>
           <el-table-column
-            label="报文次数"
+            label="非法报送数"
             prop="closeEx">
           </el-table-column>
         </el-table>
@@ -389,12 +389,12 @@ export default {
   activated(){
 
     this.getList();
-    this.getList2(this.CurrentPage,this.pageSize,this.pd);
+    this.getList2(this.CurrentPage,this.pageSize,this.pd2);
 
     if(this.checked&&this.tabId==0){
       let that=this;
       this.timer=setInterval(function(){
-        that.getList2(that.CurrentPage,that.pageSize,that.pd);
+        that.getList2(that.CurrentPage,that.pageSize,that.pd2);
       },60000)
     }
     if(this.checked2&&this.tabId!=0){
@@ -411,12 +411,33 @@ export default {
 
   },
   watch:{
+    // tabId:function(val){
+    //   console.log(val)
+    //   if(val==0&&this.checked){
+    //     let that=this;
+    //     this.timer=setInterval(function(){
+    //       that.getList2(that.CurrentPage,that.pageSize,that.pd2);
+    //     },60000)
+    //   }else {
+    //     clearInterval(this.timer);
+    //
+    //   }
+    //   if(val!=0&&this.checked2){
+    //     let that=this;
+    //     this.timer2=setInterval(function(){
+    //       that.getList();
+    //     },180000)
+    //   }else {
+    //     clearInterval(this.timer2);
+    //
+    //   }
+    // },
     checked:function(val){
       console.log(val)
       if(val&&this.tabId==0){
         let that=this;
         this.timer=setInterval(function(){
-          that.getList2(that.CurrentPage,that.pageSize,that.pd);
+          that.getList2(that.CurrentPage,that.pageSize,that.pd2);
         },60000)
       }else{
         clearInterval(this.timer);
@@ -428,7 +449,7 @@ export default {
         let that=this;
         this.timer2=setInterval(function(){
           that.getList();
-        },60000)
+        },180000)
       }else{
         clearInterval(this.timer2);
       }

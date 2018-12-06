@@ -518,7 +518,7 @@ export default {
       this.$api.post(url, p,
         r => {
           console.log(r);
-          this.tableData = r.data;
+          this.tableData = r.data.resultList;
           if(r.data.totalResult!="" && r.data.totalResult!=undefined){
           this.TotalResult = r.data.totalResult;
         }
@@ -545,7 +545,7 @@ export default {
       this.$api.post(url, p,
         r => {
           console.log(r);
-          this.tableData1 = r.data;
+          this.tableData1 = r.data.resultList;
           if(r.data.totalResult!="" && r.data.totalResult!=undefined){
           this.TotalResult1 = r.data.totalResult;
         }
@@ -571,7 +571,7 @@ export default {
       this.$api.post(url, p,
         r => {
           console.log(r);
-          this.tableData2 = r.data;
+          this.tableData2 = r.data.resultList;
 
           if(r.data.totalResult!="" && r.data.totalResult!=undefined){
           this.TotalResult2 =r.data.totalResult ;}

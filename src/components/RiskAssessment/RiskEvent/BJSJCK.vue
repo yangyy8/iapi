@@ -279,9 +279,9 @@
                     <i v-if="operation_type" class="el-icon-close redx hand" @click="delRiskIndexInfo(d3.serial)"></i>
                   </el-col>
                   <el-col  :sm="24" :md="12" :lg="8"  class="input-item" v-for="(d3,ind) in checkList" :key="ind">
-                    <span class="input-text">{{d3.index_name}}：</span>
-                    <el-input placeholder="请输入内容" size="small" class="input-input mr-10" v-model="d3.index_value"></el-input>
-                    <i class="el-icon-close redx hand" @click="delRiskIndexInfo0(d3.serial)"></i>
+                    <span class="input-text">{{d3.INDEX_NAME}}：</span>
+                    <el-input placeholder="请输入内容" size="small" class="input-input mr-10" v-model="d3.INDEX_VALUE"></el-input>
+                    <i class="el-icon-close redx hand" @click="delRiskIndexInfo0(d3.serial,ind)"></i>
                   </el-col>
                 </el-row>
                 <el-button type="success" size="small" plain class="mb-6" :disabled="!operation_type" @click="getAddRiskIndexInfo">添加</el-button>
@@ -297,7 +297,7 @@
                   <span class="mr-30 tc-999">上传人：{{d4.userName}}</span>
                   <span class="mr-30 tc-999">上传时间：{{d4.createTime}}</span>
                   <el-button v-if="operation_type" type="text" class="redx" @click="delFileInfo(d4.serial)">删除</el-button>
-                  <el-button v-if="operation_type" type="text" ><a :href="d4.url_patch" class="green">下载</a></el-button>
+                  <el-button v-if="operation_type" type="text" ><a :href="d4.url_patch" target="_blank" class="green">下载</a></el-button>
                 </div>
                 <div class="" v-if="fileData">
                   <div class="" v-for="(x,ind) in fileData" :key="ind">
@@ -342,7 +342,7 @@
 
                     </el-select>
                   </el-col>
-                  <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+                  <el-col  :sm="24" :md="12" :lg="8"  class="input-item" v-if="user.dept_code!='B06'">
                     <span  class="mr-5">流转至 </span>
                     <el-select :disabled="!operation_type" v-model="box4Data.riskDescRecordEntity.change_port" filterable clearable placeholder="请选择"  size="small" class="input-input">
                       <el-option
@@ -647,6 +647,9 @@ export default {
          }
       })
     },
+    delRiskIndexInfo0(serial,ind){
+      this.checkList.splice(ind,1)
+    },
     // 获取要上传的文件
     uploadFile(event){
       this.fileData=event.target.files;
@@ -720,6 +723,7 @@ export default {
     },
     // 保存校验描述/核查阶段/结果/流转
     saveRiskDescRecordInfo(){
+      console.log("this.checkList==================",this.checkList)
       if(this.fileData){
         this.upload();
       }

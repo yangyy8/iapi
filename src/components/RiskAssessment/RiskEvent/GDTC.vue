@@ -264,6 +264,8 @@ export default {
            "eventSerial":arr1.serial,
            "newcheckresult":arr1.newcheckresult,
            "archive_pepole":arr1.archive_pepole,
+           "nationality":arr1.nationality,
+           "passportno":arr1.passportno,
            "describe":this.gdform.describe,
            "type":this.gt,
            "IOType":this.gdform.processorResult[0],
