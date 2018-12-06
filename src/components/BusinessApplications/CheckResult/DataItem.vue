@@ -30,7 +30,7 @@
           </el-col>
           <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">出入标识：</span>
-              <el-select v-model="pd.flightType"  filterable clearable  class="input-input"  placeholder="请选择"  size="small">
+              <el-select v-model="pd.flightType"  filterable clearable  class="input-input" @change="changeAirport(pd.flightType)"  placeholder="请选择"  size="small">
 
                 <el-option value="I" label="I - 入境">
                 </el-option>
@@ -43,14 +43,20 @@
             <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
                 <span class="input-text">起飞机场：</span>
                 <el-select v-model="pd.cityFrom" filterable clearable  placeholder="请选择" size="small" class="input-input">
-                     <el-option
-                       v-for="item in Airport"
-                       :key="item.AIRPORT_CODE"
-                       :label="item.AIRPORT_CODE+' - '+item.AIRPORT_NAME"
-                       :value="item.AIRPORT_CODE" >
-                     </el-option>
+                  <el-option
+                    v-for="(item,ind) in AirportI"
+                    v-if="item.AIRPORT_CODE"
+                    :label="item.AIRPORT_CODE+' - '+item.AIRPORT_NAME"
+                    :value="item.AIRPORT_CODE" >
+                  </el-option>
+                  <el-option
+                    v-for="(item,ind) in AirportI"
+                    v-if="item.JCDM"
+                    :label="item.JCDM+' - '+item.KAMC"
+                    :value="item.JCDM" >
+                  </el-option>
                    </el-select>
-  <!-- <QueryAirport  :airportModel="pd.cityFrom" @transAirport="getInAirport"></QueryAirport> -->
+
 
             </el-col>
 
@@ -75,13 +81,20 @@
               <span class="input-text">到达机场：</span>
               <el-select v-model="pd.cityTo" filterable clearable  placeholder="请选择" size="small" class="input-input">
                    <el-option
-                     v-for="item in Airport"
-                     :key="item.AIRPORT_CODE"
+                     v-for="(item,ind) in AirportO"
+                     v-if="item.AIRPORT_CODE"
                      :label="item.AIRPORT_CODE+' - '+item.AIRPORT_NAME"
                      :value="item.AIRPORT_CODE" >
                    </el-option>
+                   <el-option
+                     v-for="(item,ind) in AirportO"
+
+                     v-if="item.JCDM"
+                     :label="item.JCDM+' - '+item.KAMC"
+                     :value="item.JCDM" >
+                   </el-option>
                  </el-select>
-                 <!-- <QueryAirport  :airportModel="pd.cityTo" @transAirport="getOutAirport"></QueryAirport> -->
+
             </el-col>
             <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
             <span class="input-text">预计到达时间：</span>
@@ -309,10 +322,14 @@
 
 <script>
 // import QueryAirport from '../../other/queryAirport'
-import {formatDate} from '@/assets/js/date.js'
-import {dayGap} from '@/assets/js/date.js'
+import {
+  formatDate
+} from '@/assets/js/date.js'
+import {
+  dayGap
+} from '@/assets/js/date.js'
 export default {
-    // components: {QueryAirport},
+  // components: {QueryAirport},
   data() {
     return {
       CurrentPage: 1,
@@ -321,10 +338,11 @@ export default {
       sum: "0",
       num: "0",
       pd: {
-        dataCheckBeginTime:"",
-        dataCheckEndTime:""
+        dataCheckBeginTime: "",
+        dataCheckEndTime: ""
       },
-      Airport: [],
+      AirportI: [],
+      AirportO: [],
       nation: [],
       value: '',
       value1: "",
@@ -347,18 +365,18 @@ export default {
       multipleSelection: [],
       pickerOptions0: {
         disabledDate: (time) => {
-            if (this.pd.dataCheckEndTime != null) {
-              let startT = formatDate(new Date(time.getTime()),'yyyyMMddhhmmss');
-              return startT > this.pd.dataCheckEndTime;
-            }else if(this.pd.dataCheckEndTime == null){
-              return false
-            }
+          if (this.pd.dataCheckEndTime != null) {
+            let startT = formatDate(new Date(time.getTime()), 'yyyyMMddhhmmss');
+            return startT > this.pd.dataCheckEndTime;
+          } else if (this.pd.dataCheckEndTime == null) {
+            return false
+          }
         }
       },
       pickerOptions1: {
         disabledDate: (time) => {
-            let endT = formatDate(new Date(time.getTime()),'yyyyMMddhhmmss');
-            return endT < this.pd.dataCheckBeginTime;
+          let endT = formatDate(new Date(time.getTime()), 'yyyyMMddhhmmss');
+          return endT < this.pd.dataCheckBeginTime;
         }
       },
       form: {},
@@ -366,22 +384,22 @@ export default {
     }
   },
   mounted() {
-  //  this.getList(this.CurrentPage, this.pageSize, this.pd);
+    //  this.getList(this.CurrentPage, this.pageSize, this.pd);
 
-    this.queryAirport();
+    this.queryAirport("0");
     let time = new Date();
     let end = new Date();
-    let begin =new Date(time - 1000 * 60 * 60 * 24 * 30);
-    this.pd.dataCheckBeginTime=formatDate(begin,'yyyyMMddhhmmss');
-    this.pd.dataCheckEndTime=formatDate(end,'yyyyMMddhhmmss');
+    let begin = new Date(time - 1000 * 60 * 60 * 24 * 30);
+    this.pd.dataCheckBeginTime = formatDate(begin, 'yyyyMMddhhmmss');
+    this.pd.dataCheckEndTime = formatDate(end, 'yyyyMMddhhmmss');
 
   },
-  activated(){
+  activated() {
     let time = new Date();
     let end = new Date();
-    let begin =new Date(time - 1000 * 60 * 60 * 24 * 30);
-    this.pd.dataCheckBeginTime=formatDate(begin,'yyyyMMddhhmmss');
-    this.pd.dataCheckEndTime=formatDate(end,'yyyyMMddhhmmss');
+    let begin = new Date(time - 1000 * 60 * 60 * 24 * 30);
+    this.pd.dataCheckBeginTime = formatDate(begin, 'yyyyMMddhhmmss');
+    this.pd.dataCheckEndTime = formatDate(end, 'yyyyMMddhhmmss');
   },
   methods: {
     handleSelectionChange(val) {
@@ -428,7 +446,7 @@ export default {
     },
     getList(currentPage, showCount, pd) {
 
-      if(dayGap(this.pd.dataCheckBeginTime,this.pd.dataCheckEndTime,1)>30){
+      if (dayGap(this.pd.dataCheckBeginTime, this.pd.dataCheckEndTime, 1) > 30) {
         this.$alert('查询时间间隔不能超过一个月', '提示', {
           confirmButtonText: '确定',
         });
@@ -448,17 +466,46 @@ export default {
           this.TotalResult = r.data.totalResult;
         })
     },
-    queryAirport() {
-      if (this.Airport.length != 0) {
-        return;
-      };
-      this.$api.post('/manage-platform/codeTable/queryAirport', {},
-        r => {
-          console.log(r);
-          this.Airport = r.data;
+    queryAirport(n) {
+      // if (this.Airport.length != 0) {
+      //   return;
+      // };
+      //全球
+      if (n == "A" || n=="0") {
+        this.$api.post('/manage-platform/codeTable/queryAirport', {},
+          r => {
+            console.log(r);
+            this.AirportI = r.data;
+            this.AirportO = r.data;
+          })
+      } else {
+        //国外
+        this.$api.post('/manage-platform/codeTable/queryForeignAirport', {},
+          r => {
+            console.log(r);
+            if (n == "I") {
+              this.AirportI = r.data;
+            } else {
+              this.AirportO = r.data;
+            }
 
-        })
+          })
 
+        //国内
+        this.$api.post('/manage-platform/codeTable/queryAirportMatch', {},
+          r => {
+            console.log(r);
+            if (n == "O") {
+              this.AirportI = r.data;
+            } else {
+              this.AirportO = r.data;
+            }
+          })
+      }
+    },
+
+    changeAirport(value) {
+      this.queryAirport(value);
     },
 
     details(i) {
@@ -503,5 +550,4 @@ export default {
   margin-right: 20px;
   height: 60px;
 }
-
 </style>

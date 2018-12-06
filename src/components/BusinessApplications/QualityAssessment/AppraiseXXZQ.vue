@@ -96,7 +96,9 @@
 
     <div class="middle">
       <el-row class="mb-15 yr">
-        <el-button type="primary" size="small" @click="download()">Excel导出</el-button>
+
+        <el-button type="primary" size="small" @click="download(0)">统计数据导出</el-button>
+        <el-button type="warning" size="small" @click="download(5)">明细导出</el-button>
         </el-row>
       <el-table
         :data="tableData"
@@ -559,7 +561,7 @@ export default {
       pageSize4: 10,
       TotalResult4: 0,
       pd: {begintime:'',endtime:''},
-
+      pd0:{},
       nation: [],
       company: [],
       addDialogVisible: false,
@@ -730,7 +732,8 @@ export default {
           r => {
             console.log(r);
             if (r.success) {
-              this.tableData1 = r.data;
+              this.tableData1 = r.data.resultList;
+              this.TotalResult1 = r.data.totalResult;
             }
           });
       },
@@ -745,7 +748,8 @@ export default {
            r => {
              console.log(r);
              if (r.success) {
-               this.tableData2 = r.data;
+               this.tableData2 = r.data.resultList;
+               this.TotalResult2 = r.data.totalResult;
              }
            });
        },
@@ -761,7 +765,8 @@ export default {
             r => {
               console.log(r);
               if (r.success) {
-                this.tableData3 = r.data;
+                this.tableData3 = r.data.resultList;
+                this.TotalResult3 = r.data.totalResult;
               }
             });
         },
@@ -778,19 +783,21 @@ export default {
              r => {
                console.log(r);
                if (r.success) {
-                 this.tableData4 = r.data;
+                 this.tableData4 = r.data.resultList;
+                 this.TotalResult4 = r.data.totalResult;
                }
              });
          },
     details(i) {
       this.detailsDialogVisible = true;
 
-      this.pd.fltno=i.fltno;
-          console.log(i.fltno+"---------");
-      this.getList1(this.CurrentPage1, this.pageSize1, this.pd);
-      this.getList2(this.CurrentPage2, this.pageSize2, this.pd);
-      this.getList3(this.CurrentPage3, this.pageSize3, this.pd);
-      this.getList4(this.CurrentPage4, this.pageSize4, this.pd);
+      this.pd0.fltno=i.fltno;
+      this.pd0.begintime=this.pd.begintime;
+      this.pd0.endtime=this.pd.endtime;
+      this.getList1(this.CurrentPage1, this.pageSize1, this.pd0);
+      this.getList2(this.CurrentPage2, this.pageSize2, this.pd0);
+      this.getList3(this.CurrentPage3, this.pageSize3, this.pd0);
+      this.getList4(this.CurrentPage4, this.pageSize4, this.pd0);
     },
 
 
@@ -808,6 +815,8 @@ export default {
      }
      else if(n==4){
        url=actions+"/manage-platform/forecastEva/exp_ee_nobrdperson";
+     }else if(n==5){
+       url=actions+"/manage-platform/forecastEva/exp_fccrt_all";
      }
 
       axios({
@@ -817,7 +826,7 @@ export default {
            "begintime":this.pd.begintime,
            "endtime":this.pd.endtime,
            "fltno":this.pd.fltno,
-           "fltdate":this.pd.fltdate,
+
            "airline_company_id":this.pd.airline_company_id
        },
        responseType: 'blob'
