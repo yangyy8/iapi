@@ -2076,6 +2076,7 @@ export default {
                padding:10,
                borderColor:'#028bd0',
                borderWidth:1,
+               enterable :true,
                // triggerOn:'click'
            },
           series: series, // 将之前处理的数据放到这里

@@ -423,14 +423,14 @@ export default {
          }
        }
      },
-     lengthFoc(item){
-       if(item == undefined||item == ''){
-         this.$message({
-           type: 'warning',
-           message: '此项留空则系统不做校验处理'
-         });
-       }
-     }
+     // lengthFoc(item){
+     //   if(item == undefined||item == ''){
+     //     this.$message({
+     //       type: 'warning',
+     //       message: '此项留空则系统不做校验处理'
+     //     });
+     //   }
+     // }
   }
 }
 </script>
