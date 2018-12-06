@@ -469,6 +469,13 @@ export default {
        }
      },
      sendMesssageReal(){
+       if(this.sform.RECEIVEID == ''||this.sform.RECEIVEID == undefined){
+         this.$message({
+          message: '接收人为必填项',
+          type: 'error',
+          duration:6000
+        });
+       }
        let arr = [];
        for(var i=0;i<this.sform.RECEIVEID.length;i++){
          let obj={};
