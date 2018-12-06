@@ -342,7 +342,7 @@
 
                     </el-select>
                   </el-col>
-                  <el-col  :sm="24" :md="12" :lg="8"  class="input-item" v-if="user.dept_code!='B06'">
+                  <el-col  :sm="24" :md="12" :lg="8"  class="input-item" v-if="user.dept_code=='B06'">
                     <span  class="mr-5">流转至 </span>
                     <el-select :disabled="!operation_type" v-model="box4Data.riskDescRecordEntity.change_port" filterable clearable placeholder="请选择"  size="small" class="input-input">
                       <el-option
@@ -508,8 +508,9 @@ export default {
     getUers(){
       this.$api.post('/manage-platform/sysUserInfoController/querySysUserInfo',{},
        r => {
-        console.log(r)
         this.user=r.data;
+        console.log(this.user.dept_code)
+
       })
     },
     queryAirport(){

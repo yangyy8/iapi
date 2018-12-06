@@ -108,6 +108,13 @@
               <el-col :sm="24" :md="12"  :lg="8" class="input-item">
                 <span class="input-text">中心/口岸事件：</span>
                 <el-select v-model="pd.centre_port" placeholder="请选择"  size="small" clearable filterable class="block input-input">
+                  <el-option label="1 - 中心" value="1"></el-option>
+                  <el-option label="2 - 口岸" value="2"></el-option>
+                </el-select>
+              </el-col>
+              <el-col :sm="24" :md="12"  :lg="8" class="input-item">
+                <span class="input-text">口岸：</span>
+                <el-select v-model="pd.port_name" placeholder="请选择"  size="small" clearable filterable class="block input-input">
                   <el-option
                     v-for="item in airport"
                     v-if="item.DEPT_CODE"
@@ -241,6 +248,9 @@
             sortable
             width="90"
             :show-overflow-tooltip="true">
+            <template slot-scope="scope">
+              <span class="tc-b hand" @click="$router.push({name:'DZDA',query:{nationality:scope.row.nationality,passportno:scope.row.passportno,type:1}})">{{scope.row.passportno}}</span>
+            </template>
           </el-table-column>
           <el-table-column
             label="航班号"
@@ -402,7 +412,7 @@
 
             </el-select>
           </el-col>
-          <el-col  :sm="24" :md="12" :lg="12"  class="input-item"  v-if="user.dept_code!='B06'">
+          <el-col  :sm="24" :md="12" :lg="12"  class="input-item"  v-if="user.dept_code=='B06'">
             <span  class="mr-5">流转至 </span>
             <el-select v-model="czform.change_port" filterable clearable placeholder="请选择"  size="small" class="input-input">
               <el-option

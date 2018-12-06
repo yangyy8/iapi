@@ -11,7 +11,7 @@
 
           <el-row align="center"   :gutter="2">
 
-            <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
+            <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text"><font color="red">*</font>  时间范围：</span>
               <div class="input-input t-flex t-date">
                <el-date-picker
@@ -29,14 +29,25 @@
             </el-date-picker>
           </div>
             </el-col>
-            <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
+            <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">航班号：</span>
                 <el-input placeholder="请输入内容" size="small" v-model="pd.fltno" class="input-input"></el-input>
+            </el-col>
+            <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+              <span class="input-text">航空公司名称：</span>
+              <el-select v-model="pd.airline_company_id" filterable clearable   placeholder="请选择" size="small" class="input-input">
+                 <el-option
+                   v-for="(item,ind) in company"
+                   :key="ind"
+                   :label="item.AIRLINE_CODE+' - '+item.AIRLINE_CHN_NAME"
+                   :value="item.AIRLINE_CODE" >
+                 </el-option>
+               </el-select>
             </el-col>
           </el-row>
 
           <el-row type="flex" class="yy-line">
-              <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
+              <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                   <span class="input-text">行属性：</span>
                   <el-select v-model="typerow"   placeholder="请选择" size="small" class="input-input">
 
@@ -265,6 +276,7 @@ export default {
       },
       form: {},
       lineChart: null,
+      company:"",
       // tables: [{
       //   xiaoxue: '福兰',
       //   chuzhong: '加芳',
@@ -363,7 +375,7 @@ export default {
     }
   },
   mounted() {
-  //  this.queryNationality();
+   this.queryNationality();
   //this.setdates(this.tableData);
 
   //  this.drawLine();
@@ -375,7 +387,7 @@ export default {
   //  this.getList(this.CurrentPage, this.pageSize, this.pd);
   },
   activated() {
-    //this.queryNationality();
+    his.queryNationality();
   //  this.drawLine();
     let time = new Date();
     let endz = new Date();
@@ -485,7 +497,15 @@ export default {
 
        return sums;
      },
-
+     queryNationality() {
+       this.$api.post('/manage-platform/codeTable/queryAircompanyList', {},
+         r => {
+           console.log(r);
+           if (r.success) {
+             this.company = r.data;
+           }
+         })
+     },
     getList(currentPage, showCount, pd) {
       const result = this.$validator.verifyAll('timeDemo')
        if (result.indexOf(false) > -1) {
@@ -503,6 +523,7 @@ export default {
         "begintime": pd.begintime,
         "endtime": pd.endtime,
         "fltno": pd.fltno,
+        "airline_company_id":pd.airline_company_id
       };
 
       this.$api.post("/manage-platform/dataStatistics/get_flt", p,
@@ -550,6 +571,7 @@ export default {
          "begintime": this.pd.begintime,
          "endtime": this.pd.endtime,
          "fltno": this.pd.fltno,
+         "airline_company_id":this.pd.airline_company_id
        },
        responseType: 'blob'
        }).then(response => {

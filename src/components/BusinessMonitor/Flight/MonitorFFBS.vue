@@ -13,10 +13,10 @@
             航班取消
           </div>
           <div class="ak-tab-item hand" :class="{'ak-checked':tabId==3}" @click="tabId=3">
-            IAPI
+            预检信息
           </div>
           <div class="ak-tab-item hand" :class="{'ak-checked':tabId==4}" @click="tabId=4">
-            PNR
+            订票信息
           </div>
         </div>
       </div>

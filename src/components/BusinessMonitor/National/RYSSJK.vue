@@ -84,13 +84,15 @@
           <el-table-column
             label="姓名"
             prop="name"
-            sortable>
+            sortable
+            width="105"
+            :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="性别"
             prop="gender"
-            width="80"
-            >
+            width="65"
+            sortable>
             <template slot-scope="scope">
               <div>
                 <span v-if="scope.row.gender=='F'">女</span>
@@ -109,11 +111,12 @@
             label="国籍/地区"
             prop="nationalityName"
             sortable
-            width="120">
+            width="106">
           </el-table-column>
           <el-table-column
             label="出入标识"
-            width="110">
+            width="80"
+            sortable>
             <template slot-scope="scope">
               <div>
                 <span v-if="scope.row.ioType=='I'">入境</span>
@@ -138,17 +141,23 @@
           </el-table-column> -->
           <el-table-column
             label="证件种类"
-            prop="cardTypeName">
+            prop="cardTypeName"
+            sortable
+            width="110"
+            :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="证件号码"
             prop="passportNo"
             sortable
-            width="180">
+            >
           </el-table-column>
           <el-table-column
             label="签证种类"
-            prop="visaTypeName">
+            prop="visaTypeName"
+            sortable
+            width="110"
+            :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="航班号"
@@ -157,25 +166,35 @@
             width="90">
           </el-table-column>
           <el-table-column
-            label="航班时间"
+            label="航班日期"
             prop="fltDate"
+            width="101"
+            sortable>
+          </el-table-column>
+          <el-table-column
+            label="值机日期"
+            prop="createTime"
             width="101"
             sortable>
           </el-table-column>
           <el-table-column
             label="出发站"
             prop="cityfrom"
-            sortable>
+            sortable
+            width="90"
+            :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="目的站"
             prop="cityto"
-            sortable>
+            sortable
+            width="90"
+            :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="是否非法载运人员"
             prop="illegalMan"
-            width="80">
+            width="60">
             <template slot-scope="scope">
               <div>
                 <span v-if="scope.row.illegalMan==0">否</span>
@@ -186,7 +205,7 @@
           <el-table-column
             label="是否重点关注人员"
             prop="focusMan"
-            width="80">
+            width="60">
             <template slot-scope="scope">
               <div>
                 <span v-if="scope.row.focusMan==0">否</span>
