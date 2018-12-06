@@ -243,7 +243,7 @@
         <el-row type="flex" v-for="(rr,ind) in rows">
           <el-col :span="3" class="tjcon tjconr" >
              <!-- C{{rr.id}}： -->
-             <el-input placeholder="" size="small" style="width:80px;text-align:right"  v-model="rr.targetSign" ></el-input>：
+             <el-input placeholder="" size="small" style="width:80px;text-align:right;"  v-model="rr.targetSign" :readonly="true"></el-input>：
           </el-col>
           <el-col :span="5" class="tjcon">
            <el-select v-model="rr.targetId"  class="memoa" @change="changeTarget(rr.targetId)" filterable clearable placeholder="请选择"   size="small" >
@@ -272,6 +272,8 @@
                     <el-option value="集合" label="集合">
                     </el-option>
                     <el-option value="属于" label="属于">
+                    </el-option>
+                    <el-option value="不属于" label="不属于">
                     </el-option>
                    </el-select>
           </el-col>

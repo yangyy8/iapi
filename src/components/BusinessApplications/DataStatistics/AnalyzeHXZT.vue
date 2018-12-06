@@ -35,7 +35,7 @@
           <el-row align="center"   :gutter="2" class="yy-line">
 
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
-                <span class="input-text"> <span class="spang">国内</span> 城市：</span>
+                <span class="input-text"> <span class="spang">境内</span> 城市：</span>
                 <el-select placeholder="请选择" v-model="pd.cityto" filterable clearable size="small"  class="input-input">
                   <el-option
                     v-for="(item,ind) in gnName"
@@ -57,11 +57,12 @@
             </el-option>
                 </el-select>
             </el-col>
+           <font class="yy-color">  （注：城市、机场二选一）</font>
          </el-row>
 
          <el-row align="center"   :gutter="2" class="yy-line">
                        <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
-                           <span class="input-text"><span class="spang">国外</span>  &emsp;洲：</span>
+                           <span class="input-text"><span class="spang">境外</span>  &emsp;洲：</span>
                            <el-select placeholder="请选择" v-model="pd.continentfrom" filterable clearable size="small"  class="input-input">
                              <el-option
                                v-for="(item,ind) in zhouName"
@@ -104,6 +105,7 @@
                 </el-option>
                </el-select>
            </el-col>
+           <font class="yy-color">（注：洲、国家、城市、机场四选一）</font>
         </el-row>
           <el-row align="center"   :gutter="2" class="yy-line">
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
@@ -119,8 +121,6 @@
                  </el-option>
                </el-select>
             </el-col>
-
-
           </el-row>
         </el-col>
         <el-col :span="2" class="down-btn-area" style="margin-top:25px;">
@@ -128,10 +128,7 @@
         </el-col>
       </el-row>
     </div>
-
-
     <div class="middle">
-
       <div class="ak-tab mb-20">
       <div class="ak-tabs">
         <div class="ak-tab-item hand" :class="{'ak-checked':page==0}" @click="base">
@@ -141,7 +138,6 @@
           报表
         </div>
       </div>
-
       <div class="ak-tab-pane" >
           <div v-show="page==0" >
             <div id="myChart" class="ppie">暂无数据</div>
