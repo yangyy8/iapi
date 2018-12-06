@@ -54,9 +54,12 @@
         border
         style="width: 100%"
         max-height="466"
-        class="tableYbxgz">
+        class="tableYbxgz"
+        @sort-change='sortChange'>
         <el-table-column
+          prop="IODIR"
           label="出入境方向"
+          sortable='custom'
           width="130">
           <template slot-scope="scope">
             <el-select v-model="scope.row.IODIR" placeholder="请选择" v-verify.change.blur="{regs:'required',submit:'demo'}" size="mini" filterable clearable class="table-select">
@@ -68,7 +71,8 @@
         </el-table-column>
         <el-table-column
           label="人员类别"
-          width="150">
+          width="150"
+          sortable='custom'>
           <template slot-scope="scope">
             <el-select v-model="scope.row.PERSONNELTYPE" placeholder="请选择" v-verify.input.blur="{regs:'required',submit:'demo'}" size="mini" filterable clearable class="table-select">
               <el-option label="0 - 中国内地人" value="0"></el-option>
@@ -80,14 +84,16 @@
         </el-table-column>
         <el-table-column
           label="规则名称"
-          width="160">
+          width="160"
+          sortable='custom'>
           <template slot-scope="scope">
             <el-input v-model="scope.row.RULEDESC" v-verify.input.blur="{regs:'required',submit:'demo'}" size="mini" class="table-select"></el-input>
          </template>
         </el-table-column>
         <el-table-column
           label="字段名称"
-          width="140">
+          width="140"
+          sortable='custom'>
           <template slot-scope="scope">
             <el-select v-model="scope.row.FIELDNAME" v-verify.input.blur="{regs:'required',submit:'demo'}" filterable clearable @visible-change="codeName(scope.row.FIELDNAME,scope.row)" @change="inputMode(scope.row.FIELDNAME,scope.row)" placeholder="请选择"  size="mini" class="table-select">
               <el-option
@@ -101,7 +107,8 @@
         </el-table-column>
         <el-table-column
           label="运算符"
-          width="120">
+          width="120"
+          sortable='custom'>
           <template slot-scope="scope">
             <el-select v-model="scope.row.OPERATORCHARACTER" v-verify.input.blur="{regs:'required',submit:'demo'}" placeholder="请选择" filterable clearable size="mini" class="table-select" v-show="dateShow==1">
               <el-option label="等于" value="0"></el-option>
@@ -117,7 +124,8 @@
         </el-table-column>
         <el-table-column
           label="取值"
-          width="150">
+          width="150"
+          sortable='custom'>
           <template slot-scope="scope">
             <el-select v-model="scope.row.VALUE" placeholder="请选择" v-verify.input.blur="{regs:'required',submit:'demo'}" size="mini" filterable clearable class="table-select" v-show="show==1">
               <el-option label="当前系统时间" value="sysdate"></el-option>
@@ -133,7 +141,8 @@
         </el-table-column>
         <el-table-column
           label="反馈结果"
-          width="180">
+          width="180"
+          sortable='custom'>
           <template slot-scope="scope">
             <el-select v-model="scope.row.CHECKRESULT" v-verify.input.blur="{regs:'required',submit:'demo'}" placeholder="请选择" filterable clearable size="mini" class="table-select" @change="inschange(scope.row)">
               <el-option label="1Z - 禁止打印登机牌" value="1Z"></el-option>
@@ -279,6 +288,11 @@ export default {
     this.getList(this.pd);
   },
   methods:{
+    sortChange(column, prop, order){
+      console.log(column);
+      console.log(column.order);
+      console.log(column.prop);
+    },
     inschange(n) {
       var content = "";
       if (n.CHECKRESULT == "0Z") {

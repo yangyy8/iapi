@@ -219,7 +219,7 @@
       :visible.sync="seatDialogVisible"
       width="1220px"
       >
-      <Seat :flightNumber="flightNumber0"></Seat>
+      <Seat :flightNumber="flightNumber0" :globalserial="globalserial0"></Seat>
     </el-dialog>
   </div>
 
@@ -279,7 +279,8 @@ export default {
         }
       },
       form: {},
-      flightNumber0:''
+      flightNumber0:'',
+      globalserial0:''
     }
   },
   mounted() {
@@ -375,6 +376,7 @@ export default {
       console.log(i);
       this.seatDialogVisible=true;
       this.flightNumber0 = i.flightRecordnum;
+      this.globalserial0=i.flightRecordnum;
       // this.$router.push({query:{flightNumber:i.flightRecordnum}})
     },
     takeOff(){//调用起飞机场
