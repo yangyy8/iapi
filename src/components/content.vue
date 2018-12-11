@@ -126,14 +126,14 @@
       <div class="rb-msg" v-if="msgIrShow">
         <div class="">
           <div class="rb-title">
-            未处理消息
+            信息收发未处理消息
           </div>
           <div class="rb-closeBtn el-icon-close" @click="msgIrShow=false"></div>
           <div class="rb-content">
             <div class="rb-msg-item" v-for="(i,ind) in msgIrList" :key="ind">
               <span>发送人：{{i.informationSend.SENDERNAME}}</span>&nbsp;&nbsp;&nbsp;&nbsp;
-              <span>内容：{{i.informationSend.DETAILS}}</span>&nbsp;&nbsp;&nbsp;&nbsp;
-              <a href="javascript:void(0)" @click="msgIr(i)">点击查看</a>
+              <span class="t-noWrap">内容：{{i.informationSend.DETAILS}}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+              <a  @click="msgIr(i)">点击查看</a>
             </div>
           </div>
         </div>
@@ -187,8 +187,6 @@ export default {
     this.bgChange();
     this.navInit();
     setTimeout(this.msgI(),100)
-
-    console.log(this.msgIrList)
     let _this=this;
     // this.msg()
     // setInterval(function() {
@@ -198,6 +196,16 @@ export default {
     //   _this.msg()
     // },180000)
 
+    // setInterval(function(){
+    //   _this.msgI();
+    // },10000)
+
+  },
+  activated(){
+      let that = this;
+      setInterval(function(){
+        that.msgI();
+      },10000)
   },
   watch:{
     tabList:function(val){
@@ -257,7 +265,10 @@ export default {
       }
       this.$api.post('/manage-platform/information/queryUnReadInformationReceiveListByTime',p,
       r => {
-        this.msgIrList = r.data
+        if(r.data.length!=0){
+          this.msgIrList = r.data
+          this.msgIrShow=true;
+        }
       })
     },
     // 左侧菜单初始化=====================
@@ -428,7 +439,12 @@ export default {
       this.msgShow=false;
     },
     msgIr(x){
-      // this.$router.push({params:})
+      console.log(x.menuId.rootId)
+      console.log(x.menuId.parentId)
+      console.log(x.menuId.urlId)
+      this.$router.push({params:{navId:x.menuId.rootId},query:{nav1Id:x.menuId.parentId,nav2Id:x.menuId.urlId}})
+      this.getNav(x.menuId.rootId);
+      // this.msgIrShow=false;
     },
     // 顶部菜单跳转================================
     topNavTo(SERIAL){
@@ -852,5 +868,13 @@ export default {
 }
 .fade2-enter, .fade2-leave-to{
   opacity: 0.3;
+}
+.t-noWrap{
+  width: 77px;
+  display: inline-block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  vertical-align: -5px;
 }
 </style>

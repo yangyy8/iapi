@@ -17,7 +17,7 @@
                 <el-option
                   v-for="item in company"
                   :key="item.SERIAL"
-                  :label="item.DEPT_JC"
+                  :label="item.DEPT_CODE+' - '+item.DEPT_JC"
                   :value="item.SERIAL">
                 </el-option>
                </el-select>
@@ -75,6 +75,9 @@
           <el-table-column
             prop="receiveStrList"
             label="收件人">
+            <template slot-scope="scope">
+              {{scope.row.receiveStrList|sendRange}}
+            </template>
           </el-table-column>
           <el-table-column
             prop="DETAILS"
@@ -190,14 +193,14 @@
       <el-form :model="sform" ref="addForm">
         <el-row type="flex"  class="mb-6" style="margin-left:85px">
           <el-col :span="10" class="input-item">
-            <span class="yy-input-text">接收口岸：</span>
+            <span class="yy-input-text">口岸/部门：</span>
             <el-select  placeholder="请选择"  size="mini"  class="input-input" v-model="sendBu" filterable clearable @visible-change="queryNationality(1)" @change="nameId(sendBu,1)">
               <el-option
               v-for="item in sendCompany"
               :key="item.SERIAL"
               :value="item.SERIAL"
-              :label="item.DEPT_JC"
-              ></el-option>
+              :label="item.DEPT_CODE+' - '+item.DEPT_JC">
+              </el-option>
             </el-select>
           </el-col>
           <el-col :span="10" class="input-item">
@@ -469,12 +472,22 @@ export default {
        }
      },
      sendMesssageReal(){
-       if(this.sform.RECEIVEID == ''||this.sform.RECEIVEID == undefined){
+       console.log(this.sform.RECEIVEID.length)
+       if(this.sform.RECEIVEID.length==0){
          this.$message({
           message: '接收人为必填项',
           type: 'error',
           duration:6000
         });
+        return
+       }
+       if((this.sform.DETAILS == ''||this.sform.DETAILS == undefined)&&this.fileData == null){
+         this.$message({
+          message: '请上传附件或者填写发送内容',
+          type: 'error',
+          duration:6000
+        });
+        return
        }
        let arr = [];
        for(var i=0;i<this.sform.RECEIVEID.length;i++){
@@ -731,6 +744,12 @@ export default {
         return "已读";
       }else if(val==2){
         return "已回"
+      }
+    },
+    sendRange(val){
+      if(val){
+        var str = val.join(' ');
+        return str
       }
     },
   }

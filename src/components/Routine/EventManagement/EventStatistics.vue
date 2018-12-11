@@ -112,10 +112,11 @@
         </el-table-column>
         <el-table-column
           label="操作"
-          width="200px">
+          width="250px">
           <template slot-scope="scope">
-            <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="change(scope.row.SERIAL)">交接</el-button>
+            <el-button class="table-btn" size="mini" plain icon="el-icon-edit" @click="change(scope.row.SERIAL)">交接</el-button>
             <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row)">详情</el-button>
+            <el-button class="table-btn" size="mini" plain icon="el-icon-delete" @click="deletes(scope.row)">删除</el-button>
          </template>
         </el-table-column>
       </el-table>
@@ -352,7 +353,37 @@ export default {
        }).then(response => {
            this.downloadM(response)
        });
-    }
+    },
+    deletes(i) {
+      this.$confirm('您是否确认删除本条数据？', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        let p = {
+          'serial':i.SERIAL
+        }
+        this.$api.post('/manage-platform/incident/delete',p,
+          r => {
+            if (r.success) {
+              this.$message({
+                message: '删除成功！',
+                type: 'success'
+              });
+              this.getList(this.CurrentPage, this.pageSize, this.cdt);
+            } else {
+              this.$message.error(r.Message);
+            }
+          }, e => {
+            this.$message.error('失败了');
+          });
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        });
+      });
+    },
   },
 
     filters: {

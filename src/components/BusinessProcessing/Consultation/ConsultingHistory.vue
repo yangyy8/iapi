@@ -69,7 +69,7 @@
               <el-col :sm="24" :md="12" :lg="8" class="input-item">
                 <span class="input-text">咨询方式：</span>
                 <el-select v-model="cdt.CONSULTFROMTYPE" filterable clearable placeholder="请选择" size="small" class="input-input">
-                  <el-option label="0 - 电话" value="0"></el-option>
+                  <el-option label="0 - 移动电话" value="0"></el-option>
                   <el-option label="1 - 传真" value="1"></el-option>
                   <el-option label="2 - 邮箱" value="2"></el-option>
                   <el-option label="3 - 固定电话" value="3"></el-option>
@@ -131,8 +131,10 @@
           label="被咨询人">
         </el-table-column>
         <el-table-column
-          prop="CONSULTFROMTYPE"
           label="咨询方式">
+          <template slot-scope="scope">
+            {{scope.row.CONSULTFROMTYPE|fifter2}}
+          </template>
         </el-table-column>
         <el-table-column
           prop="CREATETIMESTR"
@@ -145,8 +147,14 @@
           </template>
         </el-table-column>
         <el-table-column
-          prop="PHONE"
           label="联系方式">
+          <template slot-scope="scope">
+            <span v-if="scope.row.CONSULTFROMTYPE == 0">{{scope.row.PHONE}}</span>
+            <span v-else-if="scope.row.CONSULTFROMTYPE == 1">{{scope.row.CONSULTFAX}}</span>
+            <span v-else-if="scope.row.CONSULTFROMTYPE == 2">{{scope.row.CONSULTEMAIL}}</span>
+            <span v-else-if="scope.row.CONSULTFROMTYPE == 3">{{scope.row.INCOMINGPHONE}}</span>
+            <span v-else="scope.row.CONSULTFROMTYPE == 4">{{scope.row.CONSULTFROMOTHERREMARK}}</span>
+          </template>
         </el-table-column>
         <el-table-column
           label="操作"
@@ -154,6 +162,7 @@
           fixed="right">
           <template slot-scope="scope">
             <el-button class="table-btn" size="mini" plain icon="el-icon-delete" @click="details(scope.row)">详情</el-button>
+            <!-- <el-button class="table-btn" size="mini" plain icon="el-icon-delete" @click="details(scope.row)">回复</el-button> -->
          </template>
         </el-table-column>
       </el-table>
@@ -328,11 +337,24 @@ export default {
       if (val == "0") {
         return "旅客校验";
       } else if(val == "1"){
-        return "业务咨询";
+        return "乘客";
       }else if(val == '2'){
         return "其他"
       }
     },
+    fifter2(val){
+      if (val == "0") {
+        return "移动电话";
+      } else if(val == "1"){
+        return "传真";
+      }else if(val == '2'){
+        return "邮箱"
+      }else if(val == '3'){
+        return "固定电话"
+      }else if(val == '4'){
+        return "其他"
+      }
+    }
   },
   methods: {
     handleSelectionChange(val) {

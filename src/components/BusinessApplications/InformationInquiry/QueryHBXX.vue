@@ -39,13 +39,22 @@
             </el-col>
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">出入标识：</span>
-              <el-select v-model="pd.flighttype" placeholder="请选择" filterable clearable size="small" class="input-input">
-
-                 <el-option value="I" label="I - 入境">
-                 </el-option>
-                 <el-option value="O" label="O - 出境">
-                 </el-option>
+              <el-select v-model="pd.flighttype" placeholder="请选择" filterable clearable size="small" class="input-input" @change="ftReal">
+                 <el-option value="I" label="I - 入境"></el-option>
+                 <el-option value="O" label="O - 出境"></el-option>
                </el-select>
+            </el-col>
+
+            <el-col :sm="24" :md="12" :lg="8" class="input-item">
+              <span class="input-text">口岸：</span>
+              <el-select  v-model="pd.port" @change="airportReal" placeholder="请选择" filterable clearable size="small" class="input-input" @visible-change="queryAirport">
+                <el-option
+                  v-for="item in airport"
+                  :key="item.KADM"
+                  :label="item.KADM+' - '+item.KAMC"
+                  :value="item.KADM">
+                </el-option>
+              </el-select>
             </el-col>
 
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
@@ -242,6 +251,7 @@ export default {
       },
       nation: [],
       company:[],
+      airport:[],
       takeOffName:[],
       landingName:[],
       addDialogVisible: false,
@@ -291,6 +301,7 @@ export default {
     this.pd.scheduledeparturetime=formatDate(flightStart,'yyyyMMddhhmm');
     this.pd.schedulearrivetime=formatDate(end,'yyyyMMddhhmm');
     this.queryNationality();
+    // this.queryAirport();
   },
   activated(){
     // let time = new Date();
@@ -333,6 +344,22 @@ export default {
           this.tableData = r.data.resultList;
           this.TotalResult = r.data.totalResult;
         })
+    },
+    ftReal(){
+      this.$set(this.pd,'stationfrom','');
+      this.$set(this.pd,'stationto','');
+    },
+    airportReal(){
+      this.$set(this.pd,'stationfrom','');
+      this.$set(this.pd,'stationto','');
+    },
+    queryAirport(){
+      this.$api.post('/manage-platform/codeTable/queryAirportMatch',{},
+       r => {
+         if(r.success){
+           this.airport=r.data;
+         }
+      })
     },
     queryNationality() {
       this.$api.post('/manage-platform/codeTable/queryAircompanyList', {},
@@ -380,7 +407,12 @@ export default {
       // this.$router.push({query:{flightNumber:i.flightRecordnum}})
     },
     takeOff(){//调用起飞机场
-      this.$api.post('/manage-platform/codeTable/queryAirport',{},
+      let p={
+        "port":this.pd.port,
+        "flighttype":this.pd.flighttype,
+        "type":0
+      }
+      this.$api.post('/manage-platform/codeTable/queryAirportByPortAndFlighttype',p,
        r =>{
          if(r.success){
            this.takeOffName = r.data;
@@ -388,7 +420,12 @@ export default {
        })
     },
     landing(){//调用降落机场
-      this.$api.post('/manage-platform/codeTable/queryAirport',{},
+      let p={
+        "port":this.pd.port,
+        "flighttype":this.pd.flighttype,
+        "type":1
+      }
+      this.$api.post('/manage-platform/codeTable/queryAirportByPortAndFlighttype',p,
        r =>{
          if(r.success){
            this.landingName = r.data;

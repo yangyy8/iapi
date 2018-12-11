@@ -42,12 +42,24 @@ Vue.use(vverify, {
    },
    number:(value)=>{
      return /^-?\d+(\.\d{1,5})?$/.test(value)
+   },
+   phone:(value)=>{
+     return /^[1][3,4,5,7,8][0-9]{9}$/.test(value)
+   },
+   fix:(value)=>{
+     return  /^[+]{0,1}(\d){1,3}[ ]?([-]?((\d)|[ ]){1,12})+$/.test(value)
+   },
+   fixPhone:(value)=>{
+     return /(^(\d{3,4}-)?\d{7,8})$|^((1[0-9][0-9]\d{8}$))/.test(value)
    }
   },
   messages: { // 验证器消息提示
      zing: (filed) => `${filed}必须以@zing.com结尾`,
      noCinese:(filed) => `${filed}不可以輸入中文`,
      number:(filed) => `${filed}请输入数字`,
+     phone:(filed) => `${filed}移动电话格式不正确`,
+     fix:(filed) => `${filed}传真格式不正确`,
+     fixPhone:(filed) =>`${filed}固定电话格式不正确`
    }
  })
 // Vue.use(vva)
