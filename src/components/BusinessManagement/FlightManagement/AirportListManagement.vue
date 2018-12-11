@@ -114,7 +114,7 @@
           <template slot-scope="scope">
             <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="detail(scope.row)">详情</el-button>
               <el-button class="table-btn" size="mini" plain icon="el-icon-edit" @click="adds(1,scope.row)">编辑</el-button>
-              <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="deletes(scope.row)">删除</el-button>
+              <el-button class="table-btn" size="mini" plain icon="el-icon-delete" @click="deletes(scope.row)">删除</el-button>
          </template>
         </el-table-column>
       </el-table>
@@ -241,8 +241,7 @@
         <el-button @click="addDialogVisible = false" size="small">取 消</el-button>
       </div>
     </el-dialog>
-    <!-- :action="$api.rootUrl+'/manage-platform/airportManage/importFlightManage'" -->
-
+    <!-- action="http://192.168.99.248:8081/manage-platform/airportManage/importFlightManage" -->
     <el-dialog title="批量导入" :visible.sync="uploadDialogVisible"   width="640px"
     :before-close="handleClose">
       <el-form :model="importform" ref="importForm">
@@ -252,7 +251,7 @@
           name="file"
           :multiple="false"
           accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-          action="http://192.168.99.245:8081/manage-platform/airportManage/importFlightManage"
+          :action="$api.rootUrl+'/manage-platform/airportManage/importFlightManage'"
           :on-success="uploadSuccess"
           :limit="1"
           :on-exceed="handleExceed"

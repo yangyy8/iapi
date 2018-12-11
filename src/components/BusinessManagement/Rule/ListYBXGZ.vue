@@ -70,6 +70,7 @@
          </template>
         </el-table-column>
         <el-table-column
+          prop="PERSONNELTYPE"
           label="人员类别"
           width="150"
           sortable='custom'>
@@ -84,16 +85,14 @@
         </el-table-column>
         <el-table-column
           label="规则名称"
-          width="160"
-          sortable='custom'>
+          width="160">
           <template slot-scope="scope">
             <el-input v-model="scope.row.RULEDESC" v-verify.input.blur="{regs:'required',submit:'demo'}" size="mini" class="table-select"></el-input>
          </template>
         </el-table-column>
         <el-table-column
           label="字段名称"
-          width="140"
-          sortable='custom'>
+          width="140">
           <template slot-scope="scope">
             <el-select v-model="scope.row.FIELDNAME" v-verify.input.blur="{regs:'required',submit:'demo'}" filterable clearable @visible-change="codeName(scope.row.FIELDNAME,scope.row)" @change="inputMode(scope.row.FIELDNAME,scope.row)" placeholder="请选择"  size="mini" class="table-select">
               <el-option
@@ -106,6 +105,7 @@
          </template>
         </el-table-column>
         <el-table-column
+          prop="OPERATORCHARACTER"
           label="运算符"
           width="120"
           sortable='custom'>
@@ -124,8 +124,7 @@
         </el-table-column>
         <el-table-column
           label="取值"
-          width="150"
-          sortable='custom'>
+          width="150">
           <template slot-scope="scope">
             <el-select v-model="scope.row.VALUE" placeholder="请选择" v-verify.input.blur="{regs:'required',submit:'demo'}" size="mini" filterable clearable class="table-select" v-show="show==1">
               <el-option label="当前系统时间" value="sysdate"></el-option>
@@ -140,6 +139,7 @@
          </template>
         </el-table-column>
         <el-table-column
+          prop="CHECKRESULT"
           label="反馈结果"
           width="180"
           sortable='custom'>
@@ -292,6 +292,15 @@ export default {
       console.log(column);
       console.log(column.order);
       console.log(column.prop);
+      let p={
+        'order':column.prop,
+        'orderIo':column.order
+      }
+      this.$api.post('/manage-platform/ruleConfig/getRuleConfigList',p,
+       r => {
+         this.tableData=r.data;
+         this.count = this.tableData.length;
+      })
     },
     inschange(n) {
       var content = "";

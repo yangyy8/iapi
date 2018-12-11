@@ -1508,6 +1508,7 @@ export default {
             padding:10,
             borderColor:'#028bd0',
             borderWidth:1,
+            enterable :true,
             // triggerOn:'click',
             formatter: function (params, ticket, callback) {
               //console.log(params)
@@ -1519,22 +1520,30 @@ export default {
                  r => {
                    // //console.log(r);
                    let data=r.data;
-                   let html='<div class="katooltip">\
-                              <span style="color:#31aafb">航班号：</span>'+data.fltno+' <span style="color:#31aafb">航班日期：</span>'+data.fltDate+'<span style="color:#31aafb">起飞地：</span>'+data.from+'<br>'+'\
-                              <span style="color:#31aafb">到达地：</span>'+data.to+' <span style="color:#31aafb">起飞时间：</span>'+data.departTime+'<br>'+'\
-                              <span style="color:#31aafb">预计到达时间：</span>'+data.preArriveTime+'<br>'
+                   let html='<div class="katooltip" >\
+                              <span style="color:#31aafb">航班号:</span><span style="color:red">'+data.fltno+' </span><span style="color:#31aafb">起飞地:</span>'+data.from+' <span style="color:#31aafb">到达地:</span>'+data.to+' <br>'
+                  if(data.fltDate){
+                    html+=' <span style="color:#31aafb">航班日期:</span>'+data.fltDate
+                  }
+                  if(data.preDepartTime){
+                    html+=' <span style="color:#31aafb">预计起飞时间:</span>'+data.preDepartTime
+                  }
+                  if(data.preArriveTime){
+                    html+='<span style="color:#31aafb">预计到达时间:</span>'+data.preArriveTime+'<br>'
+                  }
                   if(r.data.travelers){
-                    let table='<table cellspacing="0" style="background:#09679d; width:100%;">\
+                    let table='<table cellspacing="0" style="background:#09679d; width:100%;font-size:12px">\
                                   <tr style="height:20px;">\
-                                    <td style="height:24px!important;">姓名</td><td style="height:24px!important;">性别</td><td style="height:24px!important;">国籍/地区</td><td style="height:24px!important;">出生日期</td>\
+                                    <td style="height:20px!important;">姓名</td><td style="height:20px!important;">性别</td><td style="height:20px!important;">国籍/地区</td><td style="height:20px!important;">出生日期</td>\
                                   </tr>';
                     for(var i in r.data.travelers){
                       //console.log("i",r.data.travelers[i])
+                      let t
                       table+='<tr style="background:#112b42;height:20px">\
-                                <td style="border:1px #143652 solid;height:24px!important;">'+r.data.travelers[i].name+'</td>\
-                                <td style="border:1px #143652 solid;height:24px!important;">'+r.data.travelers[i].gender+'</td>\
-                                <td style="border:1px #143652 solid;height:24px!important;">'+r.data.travelers[i].nationalityName+'</td>\
-                                <td style="border:1px #143652 solid;height:24px!important;">'+r.data.travelers[i].birthDay+'</td>\
+                                <td style="border:1px #143652 solid;height:20px!important;padding:0 5px!important;">'+r.data.travelers[i].name+'</td>\
+                                <td style="border:1px #143652 solid;height:20px!important;padding:0 5px!important;">'+r.data.travelers[i].genderStr+'</td>\
+                                <td style="border:1px #143652 solid;height:20px!important;padding:0 5px!important;">'+r.data.travelers[i].nationalityName+'</td>\
+                                <td style="border:1px #143652 solid;height:20px!important;padding:0 5px!important;">'+r.data.travelers[i].birthDay+'</td>\
                              </tr>'
                     }
                     html+=table+'</table></div>'
@@ -1565,25 +1574,36 @@ export default {
           padding:10,
           borderColor:'#028bd0',
           borderWidth:1,
+          enterable :true,
           // triggerOn:'click',
           formatter: function (params, ticket, callback) {
               _this.$api.get('/manage-platform/nationwide/getPortDetail',{port:params.data.value[2]},
                r => {
                  let data=r.data.flights;
                   let html ='';
-                  let table='<table cellspacing="0" style="background:#09679d; width:100%;max-height:360px;overflow:auto">\
-                                <tr style="height:20px;">\
-                                  <td style="height:24px!important;">航班号</td><td style="height:24px!important;">起飞时间</td><td style="height:24px!important;">预计到达时间</td><td style="height:24px!important;">载运旅客数</td>\
-                                </tr>';
+                  let table='<table cellspacing="0" style="background:#09679d;width:100%;font-size:12px;">\
+                                  <thead>\
+                                    <tr style="height:20px;">\
+                                      <td style="height:20px!important;">航班号</td><td style="height:20px!important;padding:0 5px!important;">预计起飞时间</td><td style="height:20px!important;padding:0 5px!important;">预计到达时间</td><td style="height:20px!important;">载运旅客数</td>\
+                                    </tr>\
+                                  </thead>\
+                                <tbody style="height:60px!important;overflow-y:auto!important">';
                   for(var i in data){
+                    let data2={};
+                        data2.fltno=data[i].fltno||'-';
+                        data2.preDepartTime=data[i].preDepartTime||'-';
+                        data2.preArriveTime=data[i].preArriveTime||'-';
+                        data2.boardingNum=data[i].boardingNum||'-';
+
                     table+='<tr style="background:#112b42;height:20px">\
-                              <td style="border:1px #143652 solid;height:24px!important;">'+data[i].fltno+'</td>\
-                              <td style="border:1px #143652 solid;height:24px!important;">'+data[i].departTime+'</td>\
-                              <td style="border:1px #143652 solid;height:24px!important;">'+data[i].preArriveTime+'</td>\
-                              <td style="border:1px #143652 solid;height:24px!important;">'+data[i].boardingNum+'</td>\
+                              <td style="border:1px #143652 solid;height:20px!important;padding:0 5px!important">'+data2.fltno+'</td>\
+                              <td style="border:1px #143652 solid;height:20px!important;padding:0 5px!important">'+data2.preDepartTime+'</td>\
+                              <td style="border:1px #143652 solid;height:20px!important;padding:0 5px!important">'+data2.preArriveTime+'</td>\
+                              <td style="border:1px #143652 solid;height:20px!important;padding:0 5px!important">'+data2.boardingNum+'</td>\
                            </tr>'
+
                   }
-                  html+=table+'</table></div>'
+                  html+=table+'<tbody></table></div>'
                  // //console.log(r);
                  // let data=r.data.flights[0];
                  // let html='<div class="katooltip">\
@@ -1622,25 +1642,35 @@ export default {
           padding:10,
           borderColor:'#028bd0',
           borderWidth:1,
+          enterable :true,
           // triggerOn:'click',
           formatter: function (params, ticket, callback) {
               _this.$api.get('/manage-platform/nationwide/getPortDetail',{port:params.data.value[2]},
                r => {
                  let data=r.data.flights;
                   let html ='';
-                  let table='<table cellspacing="0" style="background:#09679d; width:100%;max-height:360px;overflow:auto">\
-                                <tr style="height:20px;">\
-                                  <td style="height:24px!important;">航班号</td><td style="height:24px!important;">起飞时间</td><td style="height:24px!important;">预计到达时间</td><td style="height:24px!important;">载运旅客数</td>\
-                                </tr>';
+                  let table='<table cellspacing="0" style="background:#09679d;width:100%;font-size:12px;">\
+                                  <thead>\
+                                    <tr style="height:20px;">\
+                                      <td style="height:20px!important;">航班号</td><td style="height:20px!important;padding:0 5px!important;">预计起飞时间</td><td style="height:20px!important;padding:0 5px!important;">预计到达时间</td><td style="height:20px!important;">载运旅客数</td>\
+                                    </tr>\
+                                  </thead>\
+                                <tbody style="height:60px!important;overflow-y:auto!important">';
                   for(var i in data){
+                    let data2={};
+                        data2.fltno=data[i].fltno||'-';
+                        data2.preDepartTime=data[i].preDepartTime||'-';
+                        data2.preArriveTime=data[i].preArriveTime||'-';
+                        data2.boardingNum=data[i].boardingNum||'-';
+
                     table+='<tr style="background:#112b42;height:20px">\
-                              <td style="border:1px #143652 solid;height:24px!important;">'+data[i].fltno+'</td>\
-                              <td style="border:1px #143652 solid;height:24px!important;">'+data[i].departTime+'</td>\
-                              <td style="border:1px #143652 solid;height:24px!important;">'+data[i].preArriveTime+'</td>\
-                              <td style="border:1px #143652 solid;height:24px!important;">'+data[i].boardingNum+'</td>\
+                              <td style="border:1px #143652 solid;height:20px!important;padding:0 5px!important">'+data2.fltno+'</td>\
+                              <td style="border:1px #143652 solid;height:20px!important;padding:0 5px!important">'+data2.preDepartTime+'</td>\
+                              <td style="border:1px #143652 solid;height:20px!important;padding:0 5px!important">'+data2.preArriveTime+'</td>\
+                              <td style="border:1px #143652 solid;height:20px!important;padding:0 5px!important">'+data2.boardingNum+'</td>\
                            </tr>'
                   }
-                  html+=table+'</table></div>';
+                  html+=table+'<tbody></table></div>';
                  // //console.log(r);
                  // let data=r.data.flights[0];
                  // let html='<div class="katooltip">\

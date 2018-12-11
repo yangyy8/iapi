@@ -34,6 +34,17 @@
              </el-date-picker>
              </div>
           </el-col>
+          
+          <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+              <span class="input-text">出入标识：</span>
+              <el-select v-model="pd.flighttype"  class="input-input"   filterable clearable  placeholder="请选择"  size="small">
+                <el-option value="I" label="I - 入境">
+                </el-option>
+                <el-option value="O" label="O - 出境">
+                </el-option>
+              </el-select>
+            </el-col>
+
           <el-col :sm="24" :md="12" :lg="8" class="input-item">
             <span class="input-text">口岸：</span>
             <el-select  v-model="pd.port" @change="getList(CurrentPage,pageSize,pd)" placeholder="请选择" filterable clearable size="small" class="input-input">
@@ -45,15 +56,7 @@
               </el-option>
             </el-select>
           </el-col>
-          <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
-              <span class="input-text">出入标识：</span>
-              <el-select v-model="pd.flighttype"  class="input-input"   filterable clearable  placeholder="请选择"  size="small">
-                <el-option value="I" label="I - 入境">
-                </el-option>
-                <el-option value="O" label="O - 出境">
-                </el-option>
-              </el-select>
-            </el-col>
+
           <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
             <span class="input-text">姓名：</span>
             <div class="input-input t-fuzzy t-flex">
@@ -739,7 +742,7 @@ export default {
       this.historyCdt.passportnoEqual = i.cardnum;
       console.log(i);
       this.getHistoryListPnr(this.hcurrentPage,this.hshowCount,this.historyCdt);
-      this.$api.post('/manage-platform/pnr/queryPnrInfo',{serial:i.globalserial},
+      this.$api.post('/manage-platform/iapi/queryIapiInfo',{serial:i.globalserial},
        r =>{
          if(r.success){
            this.dform = r.data.IAPI;

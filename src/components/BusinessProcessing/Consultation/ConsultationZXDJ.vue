@@ -9,16 +9,16 @@
           <span>时间：{{currentDate}}</span>
           <el-row align="center" :gutter="2" style="margin-top:10px">
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
-              <span class="input-text">咨询来源：</span>
-              <el-select v-model="entity.CONSULTFROM" filterable clearable placeholder="请选择" size="small" class="input-input">
+              <span class="input-text"><i class="t-must">*</i>咨询来源：</span>
+              <el-select v-model="entity.CONSULTFROM" filterable clearable placeholder="请选择" size="small" class="input-input" v-verify.input.blur="{regs:'required',submit:'txl'}">
                 <el-option label="0 - 航空公司" value="0"></el-option>
                 <el-option label="1 - 乘客" value="1"></el-option>
                 <el-option label="2 - 其他" value="2"></el-option>
               </el-select>
             </el-col>
-            <el-col  :sm="24" :md="12" :lg="8"  class="input-item" v-show="entity.CONSULTFROM == '0'||entity.CONSULTFROM == ''||entity.CONSULTFROM == undefined">
-              <span class="input-text">航站：</span>
-              <el-select v-model="entity.TERMINAL" filterable clearable placeholder="请选择" size="small" class="input-input" @visible-change="terminal">
+            <el-col  :sm="24" :md="12" :lg="8"  class="input-item" v-if="entity.CONSULTFROM == '0'||entity.CONSULTFROM == ''||entity.CONSULTFROM == undefined">
+              <span class="input-text"><i class="t-must">*</i>航站：</span>
+              <el-select v-model="entity.TERMINAL" filterable clearable placeholder="请选择" size="small" class="input-input" @visible-change="terminal" v-verify.input.blur="{regs:'required',submit:'txl'}">
                 <el-option
                 v-for="item in takeOffName"
                 :key="item.AIRPORT_CODE"
@@ -28,46 +28,47 @@
               </el-select>
             </el-col>
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
-              <span class="input-text">咨询人：</span>
-              <el-input placeholder="请输入内容" size="small" v-model="entity.CONSULTNAME"  class="input-input"></el-input>
+              <span class="input-text"><i class="t-must">*</i>咨询人：</span>
+              <el-input placeholder="请输入内容" size="small" v-model="entity.CONSULTNAME"  class="input-input" v-verify.input.blur="{regs:'required',submit:'txl'}"></el-input>
             </el-col>
 
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
-              <span class="input-text">咨询方式：</span>
-              <el-select v-model="entity.CONSULTFROMTYPE" filterable clearable placeholder="请选择" size="small" class="input-input">
-                <el-option label="0 - 移动电话" value="移动电话"></el-option>
-                <el-option label="1 - 传真" value="传真"></el-option>
-                <el-option label="2 - 邮箱" value="邮箱"></el-option>
-                <el-option label="3 - 固定电话" value="固定电话"></el-option>
-                <el-option label="4 - 其他" value="其他"></el-option>
+              <span class="input-text"><i class="t-must">*</i>咨询方式：</span>
+              <el-select v-model="entity.CONSULTFROMTYPE" filterable clearable placeholder="请选择" size="small" class="input-input" v-verify.input.blur="{regs:'required',submit:'txl'}">
+                <el-option label="0 - 移动电话" value="0"></el-option>
+                <el-option label="1 - 传真" value="1"></el-option>
+                <el-option label="2 - 邮箱" value="2"></el-option>
+                <el-option label="3 - 固定电话" value="3"></el-option>
+                <el-option label="4 - 其他" value="4"></el-option>
               </el-select>
             </el-col>
 
-            <el-col  :sm="24" :md="12" :lg="8"  class="input-item" v-show="entity.CONSULTFROMTYPE=='移动电话'">
-              <span class="input-text">移动电话：</span>
-              <el-input placeholder="请输入内容" size="small" v-model="entity.PHONE"  class="input-input"></el-input>
+            <el-col  :sm="24" :md="12" :lg="8"  class="input-item" v-if="entity.CONSULTFROMTYPE=='0'">
+              <span class="input-text"><i class="t-must">*</i>移动电话：</span>
+              <el-input placeholder="请输入内容" size="small" v-model="entity.PHONE"  class="input-input" v-verify.input.blur="{regs:'required',submit:'txl'}" maxlength="25"></el-input>
             </el-col>
-            <el-col  :sm="24" :md="12" :lg="8"  class="input-item" v-show="entity.CONSULTFROMTYPE=='传真'">
-              <span class="input-text">传真：</span>
-              <el-input placeholder="请输入内容" size="small" v-model="entity.CONSULTFAX"  class="input-input"></el-input>
+            <el-col  :sm="24" :md="12" :lg="8"  class="input-item" v-if="entity.CONSULTFROMTYPE=='1'">
+              <span class="input-text"><i class="t-must">*</i>传真：</span>
+              <el-input placeholder="请输入内容" size="small" v-model="entity.CONSULTFAX"  class="input-input" v-verify.input.blur="{regs:'required',submit:'txl'}" maxlength="25"></el-input>
             </el-col>
-            <el-col  :sm="24" :md="12" :lg="8"  class="input-item" v-show="entity.CONSULTFROMTYPE=='邮箱'">
-              <span class="input-text">邮箱：</span>
-              <el-input placeholder="请输入内容" size="small" v-model="entity.CONSULTEMAIL"  class="input-input"></el-input>
+            <el-col  :sm="24" :md="12" :lg="8"  class="input-item" v-if="entity.CONSULTFROMTYPE=='2'">
+              <span class="input-text"><i class="t-must">*</i>邮箱：</span>
+              <el-input placeholder="请输入内容" size="small" v-model="entity.CONSULTEMAIL"  class="input-input" v-verify.input.blur="{regs:'required',submit:'txl'}" maxlength="50"></el-input>
             </el-col>
-            <el-col  :sm="24" :md="12" :lg="8"  class="input-item" v-show="entity.CONSULTFROMTYPE=='固定电话'">
-              <span class="input-text">固定电话：</span>
-              <el-input placeholder="请输入内容" size="small" v-model="entity.INCOMINGPHONE"  class="input-input"></el-input>
+            <el-col  :sm="24" :md="12" :lg="8"  class="input-item" v-if="entity.CONSULTFROMTYPE=='3'">
+              <span class="input-text"><i class="t-must">*</i>固定电话：</span>
+              <el-input placeholder="请输入内容" size="small" v-model="entity.INCOMINGPHONE"  class="input-input" v-verify.input.blur="{regs:'required',submit:'txl'}" maxlength="25"></el-input>
             </el-col>
-            <el-col  :sm="24" :md="12" :lg="8"  class="input-item" v-show="entity.CONSULTFROMTYPE=='其他'">
-              <span class="input-text">其他：</span>
-              <el-input placeholder="请输入内容" size="small" v-model="entity.CONSULTFROMOTHERREMARK"  class="input-input"></el-input>
+            <el-col  :sm="24" :md="12" :lg="8"  class="input-item" v-if="entity.CONSULTFROMTYPE=='4'">
+              <span class="input-text"><i class="t-must">*</i>其他：</span>
+              <el-input placeholder="请输入内容" size="small" v-model="entity.CONSULTFROMOTHERREMARK"  class="input-input" v-verify.input.blur="{regs:'required',submit:'txl'}"></el-input>
             </el-col>
           </el-row>
         </el-col>
         <el-col :span="2" class="down-btn-area" style="margin-top:35px;">
           <!-- <el-row align="center" :gutter="2" type="flex" justify="center" style="margin-top:10px;padding-bottom:20px;border-bottom:1px dotted #ccc"> -->
-            <el-button type="success" size="small" @click="addToBook">添加至通讯录</el-button>
+            <el-button type="success" size="small" class="mb-15" @click="addToBook">添加至通讯录</el-button>
+            <el-button type="primary" size="small" plain @click="entity = {}">重置</el-button>
           <!-- </el-row> -->
         </el-col>
       </el-row>
@@ -105,7 +106,7 @@
             </el-col>
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">航班号：</span>
-              <el-input placeholder="请输入内容" size="small" v-model="pd.FLTNO"  class="input-input" v-verify.change.blur ="{regs:'required',submit:'timeDemo'}"></el-input>
+              <el-input placeholder="请输入内容" size="small" v-model="pd.FLTNO"  class="input-input"></el-input>
             </el-col>
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">航班日期：</span>
@@ -242,12 +243,12 @@
       </el-row>
     </div>
 
-    <el-dialog :title="detailText"  :visible.sync="detailsDialogVisible" width="400px;">
+    <el-dialog :title="detailText"  :visible.sync="detailsDialogVisible" width="400px;" class="oneD">
       <!-- <el-form :model="dform" ref="detailsForm"> -->
-        <el-row :gutter="2">
+        <el-row :gutter="2" class="middle">
           <el-col :span="24" class="input-item">
-            <span class="yy-input-text tt-width">问题详情：</span>
-            <el-input type="textarea" class="height80" v-model="DETAILS" :autosize="{ minRows: 3, maxRows: 3}" placeholder="请输入描述(不能超过300字)"></el-input>
+            <span class="yy-input-text tt-width"><i class="t-must">*</i>问题详情：</span>
+            <el-input type="textarea" class="height80" v-model="DETAILS" :autosize="{ minRows: 3, maxRows: 3}" placeholder="请输入描述(不能超过300字)" v-verify.input.blur="{regs:'required',submit:'oneDetail'}"></el-input>
           </el-col>
         </el-row>
       <!-- </el-form> -->
@@ -340,10 +341,10 @@ export default {
       console.log(`当前页: ${val}`);
     },
     getList(currentPage, showCount, pd) {
-      const result = this.$validator.verifyAll('timeDemo')
-       if (result.indexOf(false) > -1) {
-         return
-       }
+      // const result = this.$validator.verifyAll('timeDemo')
+      //  if (result.indexOf(false) > -1) {
+      //    return
+      //  }
       let p = {
         "currentPage": currentPage,
         "showCount": showCount,
@@ -395,6 +396,11 @@ export default {
     //   }
     // },
     addToBook(){//添加至通讯录
+      console.log(this.$validator)
+      const result = this.$validator.verifyAll('txl')
+       if (result.indexOf(false) > -1) {
+         return
+       }
       var obj={};
       obj.CONSULTFROM = this.entity.CONSULTFROM;
       obj.STATIONFROM = this.entity.TERMINAL;
@@ -413,7 +419,6 @@ export default {
               type: 'success'
             });
           }
-          this.entity={};
         })
     },
     baseNation(){//国籍
@@ -425,11 +430,23 @@ export default {
        })
     },
     guestSave(){
+      const result = this.$validator.verifyAll('oneDetail')
+       if (result.indexOf(false) > -1) {
+         return
+       }
+       console.log(this.entity.TERMINAL)
+       if(this.entity.CONSULTFROM == '0'||this.entity.CONSULTFROM == ''||this.entity.CONSULTFROM == undefined){
+         this.detailsRow.TERMINAL = this.entity.TERMINAL;
+       }else{
+         this.detailsRow.TERMINAL = '';
+       }
       this.detailsRow.CONSULTTYPE = this.CONSULTTYPE;//类型
       this.detailsRow.DETAILS = this.DETAILS;//详情
       this.detailsRow.IAPISERIAL = this.detailsRow.SERIAL;//通讯录一批
+      this.detailsRow.NAME = this.detailsRow.INTG_CHNNAME;
+      this.detailsRow.CONSULTFROMTYPE = this.entity.CONSULTFROMTYPE;
       this.detailsRow.CONSULTFROM = this.entity.CONSULTFROM;
-      this.detailsRow.TERMINAL = this.entity.TERMINAL;
+
       this.detailsRow.CONSULTNAME = this.entity.CONSULTNAME;
       this.detailsRow.INCOMINGPHONE = this.entity.INCOMINGPHONE;
       this.detailsRow.PHONE = this.entity.PHONE;
@@ -444,6 +461,7 @@ export default {
               message: '恭喜你，保存成功',
               type: 'success'
             });
+            this.entity={}
             this.detailsRow.serial = r.data.serial;
             this.enterText = '回复';
             this.detailText = '回复';
@@ -467,6 +485,10 @@ export default {
         }
     },
     entryDetails(row){//列表录入详情
+      const result = this.$validator.verifyAll('txl')
+       if (result.indexOf(false) > -1) {
+         return
+       }
       this.enterText = '保存';
       this.detailText = '录入详情';
       this.DETAILS="";
@@ -566,4 +588,11 @@ export default {
   .problem-type .el-radio{
     margin-left: 30px!important;
   }
+  .oneD .el-dialog__body{
+    max-height: 600px;
+    overflow-y: visible!important;
+  }
+  /* .example-error{
+    padding: 10px!important;
+  } */
 </style>

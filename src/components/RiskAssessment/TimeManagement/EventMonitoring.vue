@@ -205,9 +205,9 @@
             </el-select>
             条
           </div>
-          <!-- <div class="">
+          <div class="">
             共{{TotalResult}}条
-          </div> -->
+          </div>
         </div>
         <el-pagination
           background
@@ -351,14 +351,29 @@ export default {
     this.cdt.startFlightDate=formatDate(begin,'yyyyMMdd');
     this.cdt.endFlightDate=formatDate(end,'yyyyMMdd');
     this.getList(this.CurrentPage,this.pageSize,this.cdt);
+    this.totalPageM()
     this.queryNationalityAlone();
     this.queryAirport();
     document.getElementsByClassName('btn-next')[0].disabled=true;
   },
   activated(){
     this.getList(this.CurrentPage,this.pageSize,this.cdt);
+    this.totalPageM()
   },
   methods:{
+    totalPageM(){
+      let p={
+      	"currentPage":this.CurrentPage,
+      	"showCount":this.pageSize,
+      	"cdt":this.cdt
+      };
+      this.$api.post('/manage-platform/eventMonitor/queryFlightMonitorCount',p,
+      r =>{
+        if(r.success){
+          this.TotalResult = r.data;
+        }
+      })
+    },
     colorSet(){
       this.colorDialogVisible = true;
       this.$api.post('/manage-platform/eventMonitor/queryUserColour',{},

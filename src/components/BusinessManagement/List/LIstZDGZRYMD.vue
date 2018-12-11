@@ -163,6 +163,7 @@
         </el-table-column>
         <el-table-column
           prop="CARDTYPENAME"
+          sortable
           label="证件种类">
         </el-table-column>
         <el-table-column
@@ -172,11 +173,13 @@
         </el-table-column>
         <el-table-column
           prop="FAMILYNAME"
+          sortable
           label="姓名">
         </el-table-column>
         <el-table-column
           prop="GENDER"
-          width="60"
+          width="80"
+          sortable
           label="性别">
           <template slot-scope="scope">
             <span v-if="scope.row.GENDER=='M'">男</span>
@@ -186,14 +189,17 @@
         </el-table-column>
         <el-table-column
           prop="DATEOFBIRTH"
+          sortable
           label="出生日期">
         </el-table-column>
         <el-table-column
           prop="BEGINDATE"
+          sortable
           label="开始日期">
         </el-table-column>
         <el-table-column
           prop="ENDDATE"
+          sortable
           label="失效日期">
         </el-table-column>
 

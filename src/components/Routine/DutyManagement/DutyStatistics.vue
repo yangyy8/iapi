@@ -13,13 +13,12 @@
                  <el-date-picker
                  v-verify.input.blur="{regs:'required',submit:'timeDemo1'}"
                  v-model="cdt.TIME"
-                 type="date"
                  size="small"
                  value-format="yyyyMM"
                  format="yyyy-MM"
                  placeholder="统计月份"
                  class="input-inp"
-                 >
+                 type="month">
                 </el-date-picker>
               </div>
             </el-col>
@@ -66,11 +65,11 @@
                  <el-date-picker
                  v-verify.input.blur="{regs:'required',submit:'timeDemo2'}"
                  v-model="cdt1.TIME"
-                 type="date"
                  size="small"
                  value-format="yyyyMM"
                  format="yyyy-MM"
-                 placeholder="统计月份">
+                 placeholder="统计月份"
+                 type="month">
                 </el-date-picker>
               </div>
             </el-col>
@@ -196,7 +195,7 @@
                 </el-row>
                 <el-row align="center" style="width:100%">
                   <el-col v-for="(item,ind) in tableBody" :key="ind" style="width:14%">
-                    <div class="" style="width:100%;height:85px;border:1px solid #F4F4F4">
+                    <div class="" style="width:100%;height:85px;border:1px solid #F4F4F4;overflow-y: auto;">
                       <span style="display:inline-block;text-align:right;width:100%;padding-right:5px;box-sizing:border-box;font-size:14px">{{item.DATE}}</span>
                       <ul>
                         <li v-for="n in item.USER" style="display:flex;justify-content:space-between;padding:0 10px 0px 10px;margin-bottom:5px;box-sizing:border-box;font-size:13px;background-color:#DDBCD9;border-radius:10px;height:21px;line-height: 21px;color:#fff">
