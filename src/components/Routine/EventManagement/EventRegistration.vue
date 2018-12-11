@@ -24,7 +24,7 @@
         <el-col :span="20" class="input-item">
           <span class="yy-input-text"><font class="yy-color">*</font>事件登记时间：</span>
             <el-date-picker
-            
+            v-verify.change.blur ="{regs:'required',submit:'demo2'}"
             v-model="form.RECORDTIMESTR"
             type="datetime" size="mini"
             placeholder="请输入时间"
@@ -85,8 +85,8 @@
       </el-row>
       <el-row type="flex" class="mb-6" >
         <el-col :span="20" class="input-item">
-          <span class="yy-input-text">事件描述：</span>
-         <el-input type="textarea" placeholder="请输入内容" :autosize="{ minRows: 3, maxRows: 6}" v-model="form.INCIDENTDESC" class="yy-input-input widthts"></el-input>
+          <span class="yy-input-text"><font class="yy-color">*</font>事件描述：</span>
+         <el-input type="textarea" placeholder="请输入内容" :autosize="{ minRows: 3, maxRows: 6}" v-model="form.INCIDENTDESC" class="yy-input-input widthts" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
         </el-col>
       </el-row>
     </div>

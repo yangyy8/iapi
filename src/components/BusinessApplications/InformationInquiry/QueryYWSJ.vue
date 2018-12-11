@@ -715,7 +715,7 @@ export default {
     this.nav2Id=this.$route.query.nav2Id
     let time = new Date();
     let end = new Date();
-    let begin =new Date(time - 1000 * 60 * 60 * 24 * 30);
+    let begin = new Date(new Date().setHours(0,0,0,0));
     this.pd.startCreatetime=formatDate(begin,'yyyyMMddhhmmss');
     this.pd.endCreatetime=formatDate(end,'yyyyMMddhhmmss');
     this.pd.startDealtime=formatDate(begin,'yyyyMMddhhmmss');
