@@ -208,7 +208,7 @@
         <el-row type="flex"  class="mb-6">
           <el-col :span="12" class="input-item">
             <span class="yy-input-text"><font class="yy-color">*</font> 国籍/地区：</span>
-            <el-select v-model="form.NATIONALITY" filterable clearable @visible-change="queryNationality" placeholder="请选择"  size="small" class="yy-input-input">
+            <el-select v-model="form.NATIONALITY" filterable clearable @visible-change="queryNationality" placeholder="请选择"  v-verify.change.blur ="{regs:'required',submit:'demo2'}"  size="small" class="yy-input-input">
               <el-option
                 v-for="item in nation"
                 :key="item.CODE"
@@ -221,7 +221,7 @@
 
           <el-col :span="12" class="input-item">
             <span class="yy-input-text"><font class="yy-color">*</font> 证件种类：</span>
-            <el-select v-model="form.CARDTYPE" placeholder="请选择"  filterable clearable size="small" class="yy-input-input">
+            <el-select v-model="form.CARDTYPE" placeholder="请选择"  v-verify.change.blur ="{regs:'required',submit:'demo2'}"  filterable clearable size="small" class="yy-input-input">
               <el-option
                 v-for="item in docCode"
                 :key="item.CODE"
@@ -234,18 +234,18 @@
         <el-row type="flex" class="mb-6">
           <el-col :span="12" class="input-item">
             <span class="yy-input-text" style="width:18%"><font class="yy-color">*</font> 证件号码：</span>
-            <el-input placeholder="请输入内容" size="small" v-model="form.CARDNO"  class="yy-input-input"></el-input>
+            <el-input placeholder="请输入内容" size="small" v-model="form.CARDNO"   maxlength="20" v-verify.change.blur ="{regs:'required',submit:'demo2'}" class="yy-input-input"></el-input>
           </el-col>
 
           <el-col :span="12" class="input-item">
             <span class="yy-input-text" style="width:18%"><font class="yy-color">*</font> 姓名：</span>
-            <el-input placeholder="请输入内容" size="small" v-model="form.FAMILYNAME"  class="yy-input-input"></el-input>
+            <el-input placeholder="请输入内容(长度不超过11)" size="small" v-model="form.FAMILYNAME" maxlength="11"  v-verify.change.blur ="{regs:'required',submit:'demo2'}"  class="yy-input-input"></el-input>
           </el-col>
         </el-row>
         <el-row type="flex" class="mb-6">
           <el-col :span="12" class="input-item">
             <span class="yy-input-text" style="width:18%"><font class="yy-color">*</font> 性别：</span>
-            <el-select v-model="form.GENDER" placeholder="请选择"  filterable clearable size="small" class="yy-input-input">
+            <el-select v-model="form.GENDER" placeholder="请选择"  filterable clearable size="small"  v-verify.change.blur ="{regs:'required',submit:'demo2'}" class="yy-input-input">
                <el-option value="U" label="U - 未知">
                </el-option>
                <el-option value="M" label="M - 男">
@@ -259,6 +259,7 @@
             <span class="yy-input-text" style="width:18%"><font class="yy-color">*</font> 出生日期：</span>
             <el-date-picker
                v-model="form.DATEOFBIRTH" format="yyyy-MM-dd"
+                v-verify.change.blur ="{regs:'required',submit:'demo2'}"
                type="date" size="small" value-format="yyyy-MM-dd"
                placeholder="出生日期" class="yy-input-input">
            </el-date-picker>
@@ -270,6 +271,7 @@
             <span class="yy-input-text" style="width:18%"><font class="yy-color">*</font> 有效日期：</span>
             <el-date-picker
                v-model="form.EXPIREDATE" format="yyyy-MM-dd"
+                v-verify.change.blur ="{regs:'required',submit:'demo2'}"
                type="date" size="small" value-format="yyyy-MM-dd"
                placeholder="请输入有效日期" class="yy-input-input">
            </el-date-picker>
@@ -277,7 +279,7 @@
 
           <el-col :span="12" class="input-item">
             <span class="yy-input-text" style="width:18%"><font class="yy-color">*</font> 名单类型：</span>
-             <el-select v-model="form.TYPE_CODE" filterable clearable  placeholder="请选择"  size="small" class="yy-input-input">
+             <el-select v-model="form.TYPE_CODE" filterable clearable  v-verify.change.blur ="{regs:'required',submit:'demo2'}"  placeholder="请选择"  size="small" class="yy-input-input">
          <el-option
            v-for="(item,ind) in mdtype"
            :key="ind"
@@ -290,7 +292,7 @@
         <el-row type="flex" class="mb-6">
           <el-col :span="24" class="input-item">
             <span class="input-text" style="width:12.5%">事件描述：</span>
-            <el-input type="textarea"  placeholder="请输入内容" :autosize="{ minRows: 3, maxRows: 6}" v-model="form.EVENTCOUNT" style="width:84%;"></el-input>
+            <el-input type="textarea"  placeholder="请输入内容" maxlength="600" :autosize="{ minRows: 3, maxRows: 6}" v-model="form.EVENTCOUNT" style="width:84%;"></el-input>
 
           </el-col>
 
@@ -302,6 +304,8 @@
         <el-button @click="addDialogVisible = false" size="small">取 消</el-button>
       </div>
     </el-dialog>
+
+
     <el-dialog title="详情" :visible.sync="detailsDialogVisible" >
       <el-form :model="map" ref="mapForm">
         <el-row type="flex"  class="mb-6">
@@ -517,7 +521,7 @@ export default {
       })
     },
     queryType() {
-      this.$api.post('manage-platform/riskNamelistType/getnamelistType', {},
+      this.$api.post('/manage-platform/riskNamelistType/getnamelistType', {},
         r => {
           console.log(r);
           if (r.success) {
@@ -543,7 +547,7 @@ export default {
         const result = this.$validator.verifyAll('demo2')
         if (result.indexOf(false) > -1) {
           return
-        } else {}
+        }
       }
       var url = "/manage-platform/riskNameList/addRiskNameList";
       if (this.tp == 1) {

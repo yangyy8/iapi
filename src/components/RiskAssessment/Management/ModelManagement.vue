@@ -24,7 +24,7 @@
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">模型状态：</span>
               <el-select v-model="pd.MODEL_PHASES" class="input-input"  filterable clearable placeholder="请选择"   size="small" >
-                <el-option value="1" label="1 - 新建">
+                <el-option value="1" label="1 - 編輯">
                 </el-option>
                 <el-option value="2" label="2 - 提交测试">
                 </el-option>
@@ -32,7 +32,7 @@
                 </el-option>
                 <el-option value="4" label="4 - 提交审核">
                 </el-option>
-                <el-option value="5" label="5 - 审核通过允许使用">
+                <el-option value="5" label="5 - 审核通过">
                 </el-option>
                 <el-option value="6" label="6 - 审核不通过">
                 </el-option>
@@ -54,7 +54,7 @@
             </el-date-picker>
           </div>
             </el-col>
-            <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+            <!-- <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">发布状态：</span>
               <el-select v-model="pd.MODEL_STATUS" class="input-input"  filterable clearable placeholder="请选择"   size="small" >
                 <el-option value="0" label="0 - 未发布">
@@ -62,7 +62,7 @@
                 <el-option value="1" label="1 - 已发布">
                 </el-option>
                </el-select>
-            </el-col>
+            </el-col> -->
           </el-row>
         </el-col>
         <el-col :span="2" class="down-btn-area" >
@@ -135,10 +135,10 @@
             <el-button class="table-btn" size="mini" plain icon="el-icon-edit" @click="adds(1,scope.row)">编辑</el-button>
             <el-button class="table-btn" size="mini" plain icon="el-icon-delete" @click="deletes(scope.row)">删除</el-button>
             <!-- <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row)">版本查看</el-button> -->
-            <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="relates(scope.row)">关联问题</el-button>
-            <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="auses(scope.row)">使用口岸</el-button>
-            <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" v-if="scope.row.STATUS==0" @click="starts(scope.row,1)">启用</el-button>
-            <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" v-else  @click="starts(scope.row,0)">停用</el-button>
+            <el-button class="table-btn" size="mini" plain icon="el-icon-share" @click="relates(scope.row)">关联问题</el-button>
+            <el-button class="table-btn" size="mini" plain icon="el-icon-edit-outline" @click="auses(scope.row)">使用口岸</el-button>
+            <el-button class="table-btn" size="mini" plain icon="el-icon-setting" v-if="scope.row.STATUS==0" @click="starts(scope.row,1)">启用</el-button>
+            <el-button class="table-btn" size="mini" plain icon="el-icon-setting" v-else  @click="starts(scope.row,0)">停用</el-button>
             <!-- <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row)">推送测试</el-button> -->
          </template>
         </el-table-column>

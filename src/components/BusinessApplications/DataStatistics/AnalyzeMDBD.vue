@@ -89,7 +89,7 @@
             </el-col>
             <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
               <span class="input-text">列属性：</span>
-              <el-checkbox label="DMZ比中" v-model="pd.colproperty1"></el-checkbox>
+              <el-checkbox label="数据校验比对区比中" v-model="pd.colproperty1"></el-checkbox>
               <el-checkbox label="业务平台比中" v-model="pd.colproperty2"></el-checkbox>
               <el-checkbox label="处理结果" v-model="pd.colproperty3"></el-checkbox>
               <el-checkbox label="甄别结果" v-model="pd.colproperty4"></el-checkbox>
@@ -141,7 +141,7 @@
               label="国籍/地区"
               >
             </el-table-column>
-            <el-table-column label="DMZ比中" v-if='showdmz'>
+            <el-table-column label="数据校验比对区比中" v-if='showdmz'>
                 <el-table-column
                   prop="blkin"
                   label="黑名单" >
@@ -548,7 +548,7 @@ export default {
           formatter: "{a} <br/>{b}: {c} ({d}%)"
         },
         series: [{
-          name: 'DMZ比中',
+          name: '数据校验比对区比中',
           type: 'pie',
           radius: ['30%', '50%'],
           center: ['50%', '50%'], //调整位置

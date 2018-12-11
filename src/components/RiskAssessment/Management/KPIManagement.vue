@@ -110,8 +110,8 @@
           label="操作" width="300">
           <template slot-scope="scope">
               <el-button class="table-btn" size="mini"  icon="el-icon-tickets" @click="details(scope.row)">详情</el-button>
-              <!-- <el-button class="table-btn" size="mini"  icon="el-icon-edit" @click="adds(1,scope.row)"></el-button>
-              <el-button class="table-btn" size="mini"  icon="el-icon-delete" @click="deletes(scope.row)"></el-button> -->
+              <el-button class="table-btn" size="mini"  icon="el-icon-edit" @click="adds(1,scope.row)">编辑</el-button>
+              <el-button class="table-btn" size="mini"  icon="el-icon-delete" @click="deletes(scope.row)">删除</el-button>
          </template>
         </el-table-column>
       </el-table>
@@ -147,17 +147,16 @@
     </div>
     <el-dialog :title="dialogText" :visible.sync="addDialogVisible" width="500px" >
       <el-form :model="form" ref="addForm">
-
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
             <span class="yy-input-text"><font class="yy-color">*</font> 指标项代码：</span>
-            <el-input placeholder="请输入内容" size="small"   v-model="form.targetSign"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
+            <el-input placeholder="请输入内容(长度不能超过50)" size="small" maxlength="50"   v-model="form.targetSign"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
           </el-col>
         </el-row>
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
             <span class="yy-input-text"><font class="yy-color">*</font> 指标项名称：</span>
-            <el-input placeholder="请输入内容" size="small"  v-model="form.targetName"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
+            <el-input placeholder="请输入内容(长度不能超过100)" size="small" maxlength="100"  v-model="form.targetName"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
           </el-col>
         </el-row>
         <el-row type="flex" class="mb-6" >
@@ -414,7 +413,7 @@ export default {
         this.form=Object.assign({}, i);
         this.dialogText="编辑";
       }else {
-          this.tp = 0;
+        this.tp = 0;
         this.dialogText="新增";
       }
     },
@@ -423,12 +422,11 @@ export default {
               const result = this.$validator.verifyAll('demo2')
                if (result.indexOf(false) > -1) {
                  return
-               } else {
                }
             }
       var url = "/manage-platform/target/addTarger";
       if (this.tp == 1) {
-        url = "/manage-platform/target/addTarger";
+        url = "/manage-platform/target/editTarger";
       }
       this.$api.post(url, this.form,
         r => {
@@ -468,7 +466,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.$api.post('/manage-platform/roleSys/delete', p,
+        this.$api.post('/manage-platform/target/deleteTarger', p,
           r => {
             if (r.success) {
               this.$message({
