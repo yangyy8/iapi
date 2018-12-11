@@ -875,6 +875,7 @@ export default {
   margin-top: 10px;
   width: 60%;
   color: #fff;
+  line-height: 32px;
 }
 
 .el-input__icon img{

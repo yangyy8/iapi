@@ -265,6 +265,14 @@
           <el-table-column
             label="非法报送数"
             prop="closeEx">
+            <template slot-scope="scope">
+              <div>
+                <span v-if="tabId==1">{{scope.row.close+scope.row.closeEx}}</span>
+                <span v-if="tabId==2">{{scope.row.cancel+scope.row.cancelEx}}</span>
+                <span v-if="tabId==3">{{scope.row.iapi+scope.row.iapiEx}}</span>
+                <span v-if="tabId==4">{{scope.row.pnr+scope.row.pnrEx}}</span>
+              </div>
+            </template>
           </el-table-column>
         </el-table>
       </div>
@@ -411,27 +419,27 @@ export default {
 
   },
   watch:{
-    // tabId:function(val){
-    //   console.log(val)
-    //   if(val==0&&this.checked){
-    //     let that=this;
-    //     this.timer=setInterval(function(){
-    //       that.getList2(that.CurrentPage,that.pageSize,that.pd2);
-    //     },60000)
-    //   }else {
-    //     clearInterval(this.timer);
-    //
-    //   }
-    //   if(val!=0&&this.checked2){
-    //     let that=this;
-    //     this.timer2=setInterval(function(){
-    //       that.getList();
-    //     },180000)
-    //   }else {
-    //     clearInterval(this.timer2);
-    //
-    //   }
-    // },
+    tabId:function(val){
+      console.log(val)
+      if(val==0&&this.checked){
+        let that=this;
+        this.timer=setInterval(function(){
+          that.getList2(that.CurrentPage,that.pageSize,that.pd2);
+        },60000)
+      }else {
+        clearInterval(this.timer);
+
+      }
+      if(val!=0&&this.checked2){
+        let that=this;
+        this.timer2=setInterval(function(){
+          that.getList();
+        },180000)
+      }else {
+        clearInterval(this.timer2);
+
+      }
+    },
     checked:function(val){
       console.log(val)
       if(val&&this.tabId==0){

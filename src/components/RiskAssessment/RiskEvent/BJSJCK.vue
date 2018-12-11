@@ -279,8 +279,8 @@
                     <i v-if="operation_type" class="el-icon-close redx hand" @click="delRiskIndexInfo(d3.serial)"></i>
                   </el-col>
                   <el-col  :sm="24" :md="12" :lg="8"  class="input-item" v-for="(d3,ind) in checkList" :key="ind">
-                    <span class="input-text">{{d3.INDEX_NAME}}：</span>
-                    <el-input placeholder="请输入内容" size="small" class="input-input mr-10" v-model="d3.INDEX_VALUE"></el-input>
+                    <span class="input-text">{{d3.index_name}}：</span>
+                    <el-input placeholder="请输入内容" size="small" class="input-input mr-10" v-model="d3.index_value"></el-input>
                     <i class="el-icon-close redx hand" @click="delRiskIndexInfo0(d3.serial,ind)"></i>
                   </el-col>
                 </el-row>

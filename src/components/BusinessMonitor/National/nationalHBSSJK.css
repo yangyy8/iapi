@@ -397,7 +397,7 @@
   flex-wrap: wrap;
 }
 .katooltip span{
-  color: #31aafb;
+  color: #31aafb!important;
 }
 .ulover{
   max-height: 270px;
