@@ -156,7 +156,7 @@ export default {
       moreShow:false,
       page: 0,
       multipleSelection:null,
-      tableData:[{}],
+      tableData:[],
       CurrentPage:1,
       pageSize:10,
       TotalResult:0,
@@ -186,7 +186,7 @@ export default {
     this.getRiskUserLabelInfo();
   },
   activated(){
-    this.getList(this.CurrentPage,this.pageSize,this.pd);
+    // this.getList(this.CurrentPage,this.pageSize,this.pd);
   },
   methods:{
     handleSelectionChange(val) {
@@ -227,6 +227,9 @@ export default {
     },
 
     getList(CurrentPage,showCount,pd){
+      if(!this.pd.nationality||!this.pd.passportno){
+        this.$message.error('请先填写国籍地区和证件号！');
+      }
       let p={
         "showCount": showCount,
         "currentPage": CurrentPage,

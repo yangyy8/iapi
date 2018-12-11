@@ -54,14 +54,14 @@
                   <el-date-picker
                    type="datetime" size="small" format="yyyy-MM-dd HH:mm"
                    v-model="pd.fltnoDate_start"
-                   value-format="yyyyMMddHHmm"
+                   value-format="yyyyMMddhhmm"
                    placeholder="开始时间" >
                   </el-date-picker>
                   <span class="septum">-</span>
                   <el-date-picker
                     type="date" size="small" format="yyyy-MM-dd HH:mm"
                     v-model="pd.fltnoDate_end"
-                    value-format="yyyyMMddHHmm"
+                    value-format="yyyyMMddhhmm"
                     placeholder="结束时间">
                   </el-date-picker>
                 </div>
@@ -106,7 +106,7 @@
                 </el-select>
               </el-col>
               <el-col :sm="24" :md="12"  :lg="8" class="input-item">
-                <span class="input-text">中心/口岸事件：</span>
+                <span class="input-text">事件来源：</span>
                 <el-select v-model="pd.centre_port" placeholder="请选择"  size="small" clearable filterable class="block input-input">
                   <el-option label="1 - 中心" value="1"></el-option>
                   <el-option label="2 - 口岸" value="2"></el-option>
@@ -150,8 +150,8 @@
             </el-collapse-transition>
           </el-col>
           <el-col :span="2" class="down-btn-area">
-            <el-button type="text" size="small" @click="moreShow=true" v-if="!moreShow">高级查询 ></el-button>
-            <el-button type="text" size="small" @click="moreShow=false" v-if="moreShow">收起<</el-button>
+            <el-button type="text" size="small" @click="moreShow=true" v-if="!moreShow">高级查询 ﹀</el-button>
+            <el-button type="text" size="small" @click="moreShow=false" v-if="moreShow">收起 ︿</el-button>
           </el-col>
           <el-col :span="2" class="down-btn-area">
             <el-button type="success" size="small" @click="pd.type='0';getList(CurrentPage,pageSize,pd)">查询</el-button>
@@ -286,7 +286,7 @@
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
-            label="中心口岸"
+            label="事件来源"
             width="50"
             prop="centre_port">
           </el-table-column>
@@ -439,6 +439,8 @@
 
 <script>
 import GDTC from './GDTC'
+import { formatDate } from '@/assets/js/date.js'
+
 export default {
   components:{GDTC},
   data(){
@@ -587,6 +589,11 @@ export default {
     }
   },
   mounted(){
+    let end = new Date();
+    let begin = new Date(end - 24*60*60*1000);
+    this.pd.fltnoDate_start= formatDate(begin, 'yyyyMMddhhmmss');
+    this.pd.fltnoDate_end= formatDate(end, 'yyyyMMddhhmmss');
+
     this.queryAirport();
     this.queryNationalityAlone();
     this.queryDocCode();
@@ -648,7 +655,7 @@ export default {
       })
     },
     queryDocCode(){
-      this.$api.post('/manage-platform/codeTable/queryDocCode',{},
+      this.$api.post('/manage-platform/cardAndVisaTypeController/queryDmDocCodeAndDmDocCodes',{},
        r => {
          if(r.success){
            this.docCode=r.data;

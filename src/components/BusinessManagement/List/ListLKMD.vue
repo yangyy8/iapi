@@ -199,11 +199,11 @@
         <el-table-column
           prop="RECORDNUM"
           label="档号"
-          >
+          sortable>
         </el-table-column>
         <el-table-column
           prop="NATIONALITYNAME"
-
+          sortable
           label="国籍/地区">
 
         </el-table-column>
@@ -213,20 +213,23 @@
         </el-table-column> -->
         <el-table-column
           prop="CARDTYPENAME"
+          sortable
           label="证件种类">
         </el-table-column>
         <el-table-column
           prop="CARDNO"
-
+          sortable
           label="证件号码">
         </el-table-column>
         <el-table-column
           prop="FAMILYNAME"
+          sortable
           label="姓名">
         </el-table-column>
         <el-table-column
           prop="GENDER"
-          width="60"
+          width="80"
+          sortable
           label="性别">
           <template slot-scope="scope">
             <span v-if="scope.row.GENDER=='M'">男</span>
@@ -236,14 +239,17 @@
         </el-table-column>
         <el-table-column
           prop="BIRTHDATE"
+          sortable
           label="出生日期">
         </el-table-column>
         <el-table-column
           prop="CTL_EXPIREDATE"
+          sortable
           label="失效日期">
         </el-table-column>
         <el-table-column
           prop="SYN_STATUS"
+          sortable
           label="名单状态">
           <template slot-scope="scope">
             <span v-if="scope.row.SYN_STATUS==0">未发布</span>
