@@ -75,9 +75,9 @@ body{
 #app{
   height: 100%;
 }
-.el-table__body{
+/* .el-table__body{
     table-layout:auto !important;
-}
+} */
 .login-item .el-input .el-input__inner{
   background-color: #0a3162!important;
   border: 1px #2975aa solid!important;
