@@ -8,7 +8,7 @@
     <el-row type="flex" class="mb-6 lht" >
       <el-col :span="24" >
         项目名称：
-        <el-input placeholder="请输入内容" size="small" v-model="pd.TITLE" class="inputr"></el-input>
+        <el-input placeholder="请输入内容(长度不超过100)" maxlength="100" size="small" v-model="pd.TITLE" class="inputr"></el-input>
       </el-col>
     </el-row>
     <el-row type="flex" class="mb-6 lht" >
@@ -24,7 +24,7 @@
     <el-row type="flex" class="mb-6 lht" >
       <el-col :span="24" >
         简&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 介：
-         <el-input placeholder="请输入内容" size="small" v-model="pd.INTRO" class="inputr"></el-input>
+         <el-input placeholder="请输入内容" size="small" maxlength="660" v-model="pd.INTRO" class="inputr"></el-input>
       </el-col>
     </el-row>
     <el-row type="flex" class="mb-6 lht" >

@@ -126,13 +126,13 @@
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
             <span class="yy-input-text"><font class="yy-color">*</font> 问题名称：</span>
-            <el-input placeholder="请输入内容(不能超过20个汉字)" size="small" maxlength="20"  v-model="form.NAME"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
+            <el-input placeholder="请输入内容(长度不超过50)" size="small" maxlength="50"  v-model="form.NAME"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
           </el-col>
         </el-row>
         <el-row type="flex" class="mb-6" >
           <el-col :span="24" class="input-item">
             <span class="yy-input-text">问题描述：</span>
-           <el-input type="textarea" placeholder="请输入内容" maxlength="250" :autosize="{ minRows: 3, maxRows: 6}" v-model="form.REASON" class="yy-input-input"></el-input>
+           <el-input type="textarea" placeholder="请输入内容" maxlength="1300" :autosize="{ minRows: 3, maxRows: 6}" v-model="form.REASON" class="yy-input-input"></el-input>
           </el-col>
         </el-row>
       </el-form>
@@ -302,11 +302,12 @@ export default {
     addItem(formName) {
             if(this.$validator.listener.demo2){
               const result = this.$validator.verifyAll('demo2')
+              console.log(result.indexOf(false)+"---");
                if (result.indexOf(false) > -1) {
                  return
-               } else {
                }
             }
+
       var url = "/manage-platform/Problem/addProblem";
       if (this.tp == 1) {
         url = "/manage-platform/Problem/updateProblem";

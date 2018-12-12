@@ -25,6 +25,7 @@
     <el-table
     :data="tableData"
     border
+    :default-sort = "{prop: 'name', order: 'descending'}"
     style="width: 100%;">
     <el-table-column
       label="所属系统"
@@ -39,7 +40,7 @@
       label="区域" sortable>
       <template slot-scope="scope">
         <div class="">
-          {{scope.row.zone | fifter1}}
+         <span :class="{'yycolor':scope.row.zone=='UP','yycolory':scope.row.zone=='DOWN'}">   {{scope.row.zone | fifter1}}</span>
         </div>
       </template>
     </el-table-column>
@@ -68,7 +69,7 @@
 export default {
   data() {
     return {
-      pd: {},
+      pd: {zone:'0'},
       tableData:[]
     }
   },
@@ -119,5 +120,6 @@ export default {
 </script>
 
 <style scoped>
-
+.yycolor{ background: #00FF00; padding: 3px 8px;}
+.yycolory{  background: #FF0000;padding: 3px 8px; }
 </style>

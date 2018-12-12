@@ -55,7 +55,7 @@
           <li class="nav1bar-up" @click="preList">
             <img src="../assets/img/navbar-up.png" alt="">
           </li>
-          <li class="nav1-item " :class="{'nav1-checked':nav1Id==i.SERIAL}" v-for="(i,index) in nav1List.slice(nav1Star, nav1End)" @click="nav1to2(i.SERIAL,1)">
+          <li class="nav1-item " :class="{'nav1-checked':nav1Id==i.SERIAL}" v-for="(i,index) in nav1List" @click="nav1to2(i.SERIAL,1)">
 
             <!-- <img src="../assets/img/navIcon/i_cc_1.png" alt="" class="nav1-icon"  v-if="navId=='cc'"> -->
             <img :src='"../assets/img/navIcon/"+i.MENU_ICON+"_0.png"' alt="" class="nav1-icon" v-if="nav1Id!=i.SERIAL">
@@ -278,6 +278,8 @@ export default {
     },
     // 左侧菜单获取===============================
     getNav(navId) {
+      this.nav1Star= 0;
+      this.nav1End=6;
       this.$api.post('/manage-platform/muneSys/menuChild', {
           SERIAL: navId
         },
@@ -706,6 +708,7 @@ export default {
   width: 110px;
   position: relative;
   margin-right: 10px;
+  padding: 49px 0;
 }
 
 
@@ -717,6 +720,9 @@ export default {
   border-radius: 6px 6px 0 0;
   text-align: center;
   line-height: 40px;
+  position: absolute;
+  top:0;
+  left: 0;
 }
 
 .nav1bar-down {
@@ -727,7 +733,9 @@ export default {
   text-align: center;
   line-height: 40px;
   position: absolute;
-  bottom: 17px;
+  bottom: 0px;
+  left: 0;
+  margin-bottom: 10px;
 }
 
 .nav1-item {
