@@ -45,19 +45,19 @@
 
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item" v-if="entity.CONSULTFROMTYPE=='0'">
               <span class="input-text"><i class="t-must">*</i>移动电话：</span>
-              <el-input placeholder="请输入内容" size="small" v-model="entity.PHONE"  class="input-input" v-verify.input.blur="{regs:'required|phone',submit:'txl'}"></el-input>
+              <el-input placeholder="请输入内容" size="small" v-model="entity.PHONE"  class="input-input" v-verify.input.blur="{regs:'required',submit:'txl'}" maxlength="25"></el-input>
             </el-col>
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item" v-if="entity.CONSULTFROMTYPE=='1'">
               <span class="input-text"><i class="t-must">*</i>传真：</span>
-              <el-input placeholder="请输入内容" size="small" v-model="entity.CONSULTFAX"  class="input-input" v-verify.input.blur="{regs:'required|fix',submit:'txl'}"></el-input>
+              <el-input placeholder="请输入内容" size="small" v-model="entity.CONSULTFAX"  class="input-input" v-verify.input.blur="{regs:'required',submit:'txl'}" maxlength="25"></el-input>
             </el-col>
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item" v-if="entity.CONSULTFROMTYPE=='2'">
               <span class="input-text"><i class="t-must">*</i>邮箱：</span>
-              <el-input placeholder="请输入内容" size="small" v-model="entity.CONSULTEMAIL"  class="input-input" v-verify.input.blur="{regs:'required|email',submit:'txl'}"></el-input>
+              <el-input placeholder="请输入内容" size="small" v-model="entity.CONSULTEMAIL"  class="input-input" v-verify.input.blur="{regs:'required',submit:'txl'}" maxlength="50"></el-input>
             </el-col>
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item" v-if="entity.CONSULTFROMTYPE=='3'">
               <span class="input-text"><i class="t-must">*</i>固定电话：</span>
-              <el-input placeholder="请输入内容" size="small" v-model="entity.INCOMINGPHONE"  class="input-input" v-verify.input.blur="{regs:'required|fixPhone',submit:'txl'}"></el-input>
+              <el-input placeholder="请输入内容" size="small" v-model="entity.INCOMINGPHONE"  class="input-input" v-verify.input.blur="{regs:'required',submit:'txl'}" maxlength="25"></el-input>
             </el-col>
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item" v-if="entity.CONSULTFROMTYPE=='4'">
               <span class="input-text"><i class="t-must">*</i>其他：</span>

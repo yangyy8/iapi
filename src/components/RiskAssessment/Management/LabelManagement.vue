@@ -73,7 +73,7 @@
           label="创建时间">
         </el-table-column>
         <el-table-column
-          prop="UPDATEUSER"
+          prop="UPDATEUSERNAME"
           label="最后更新人">
         </el-table-column>
         <el-table-column
@@ -137,14 +137,13 @@
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
             <span class="yy-input-text"><font class="yy-color">*</font> 标签名称：</span>
-            <el-input placeholder="请输入内容(不能超过20个汉字)"
-             size="small" maxlength="20"  v-model="form.LABELNAME"  class="yy-input-input" ></el-input>
+            <el-input placeholder="请输入内容(长度不超过11)" size="small" maxlength="11"  v-model="form.LABELNAME"  class="yy-input-input" ></el-input>
           </el-col>
         </el-row>
         <el-row type="flex" class="mb-6" >
           <el-col :span="24" class="input-item">
             <span class="yy-input-text">标签描述：</span>
-           <el-input type="textarea" placeholder="请输入内容" maxlength="250" :autosize="{ minRows: 3, maxRows: 6}" v-model="form.LABELREASON" class="yy-input-input"></el-input>
+           <el-input type="textarea" placeholder="请输入内容" maxlength="1300" :autosize="{ minRows: 3, maxRows: 6}" v-model="form.LABELREASON" class="yy-input-input"></el-input>
           </el-col>
         </el-row>
       </el-form>
@@ -184,6 +183,18 @@
           <el-col :span="24" class="input-item">
             <span class="yy-input-text">创建时间：</span>
           <span class="yy-input-input detailinput">  {{mapForm.CREATETIME}}</span>
+          </el-col>
+        </el-row>
+        <el-row type="flex" class="mb-6" >
+          <el-col :span="24" class="input-item">
+            <span class="yy-input-text">最后更新人：</span>
+          <span class="yy-input-input detailinput">  {{mapForm.UPDATEUSERNAME}}</span>
+          </el-col>
+        </el-row>
+        <el-row type="flex" class="mb-6" >
+          <el-col :span="24" class="input-item">
+            <span class="yy-input-text">最后更新时间：</span>
+          <span class="yy-input-input detailinput">  {{mapForm.UPDATETIME}}</span>
           </el-col>
         </el-row>
       </el-form>
