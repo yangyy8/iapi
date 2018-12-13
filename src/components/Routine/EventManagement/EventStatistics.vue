@@ -107,8 +107,10 @@
           label="事件时间">
         </el-table-column>
         <el-table-column
-          prop="TYPE"
-          label="事件类型">
+          label="事件来源">
+          <template slot-scope="scope">
+            {{scope.row.TYPE|fifter1}}
+          </template>
         </el-table-column>
         <el-table-column
           label="操作"
@@ -256,6 +258,7 @@ export default {
     },
     handleCurrentChange(val) {
       this.getList(val, this.pageSize, this.cdt);
+      this.CurrentPage = val;
       console.log(`当前页: ${val}`);
     },
     getList(currentPage, showCount, pd) {
@@ -318,6 +321,8 @@ export default {
             });
           }
           this.changeDialogVisible = false;
+          console.log(this.CurrentPage);
+          this.getList(this.CurrentPage,this.pageSize,this.cdt);
         })
     },
 
@@ -326,6 +331,7 @@ export default {
       this.form.title=i.TITLE;
       this.form.content=i.INCIDENTDESC;
       this.fitAdress = i.FILESERIAL;
+      console.log(this.fitAdress);
     },
     downloadM (data) {
         if (!data) {
@@ -387,46 +393,15 @@ export default {
   },
 
     filters: {
-
       fifter1(val) {
-        if (val == "I") {
-          return "入境";
-        } else if(val == "O"){
-          return "出境";
+        if (val == 1) {
+          return "上级通知";
+        } else if(val == 2){
+          return "电话来电";
+        } else if(val == 3){
+          return "信件"
         }
       },
-      fifter2(val) {
-        if (val == "0") {
-          return "计划";
-        } else if(val == "1"){
-          return "正在预检";
-        }
-        else if(val == "2"){
-          return "完成预检";
-        }
-        else if(val == "3"){
-          return "已起飞";
-        }
-        else if(val == "4"){
-          return "已办理入境";
-        }
-        else if(val == "5"){
-          return "取消";
-        }
-        else if(val == "6"){
-          return "已到达";
-        }
-      },
-      filterdate(n)
-      {
-        if(n=="" || n==null){
-          return n;
-        }else {
-            return n.substring(0,n.length-3);
-        }
-
-      }
-
     }
 }
 </script>

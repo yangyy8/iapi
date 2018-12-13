@@ -133,14 +133,14 @@
                       label="报文接收时间"
                       width="200">
                       <template  slot-scope="scope">
-                        <span>{{scope.row.cmpbegintime|discount}}</span>
+                        <span>{{scope.row.cmpbegintime}}</span>
                       </template>
                     </el-table-column>
                     <el-table-column
                       label="校验比对结束时间"
                       width='200'>
                       <template  slot-scope="scope">
-                        <span>{{scope.row.cmpendtime|discount}}</span>
+                        <span>{{scope.row.cmpendtime}}</span>
                       </template>
                     </el-table-column>
                     <el-table-column

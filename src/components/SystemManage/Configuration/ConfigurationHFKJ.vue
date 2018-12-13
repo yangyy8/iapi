@@ -84,36 +84,35 @@
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
             <span class="yy-input-text"><font class="yy-color">*</font> 口径类型：</span>
-            <el-input placeholder="请输入内容，最大字符为15" size="small" maxlength="15"  v-model="form.TYPE"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
+            <el-input placeholder="请输入内容，最大字符为15" size="small" maxlength="15"  v-model="form.TYPE"  class="yy-input-input" v-verify.input.blur ="{regs:'required',submit:'Koujing'}"></el-input>
           </el-col>
         </el-row>
 
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
             <span class="yy-input-text"><font class="yy-color">*</font> 中文口径：</span>
-            <el-input type="textarea" placeholder="请输入内容，最大字符为300"  maxlength="300" :autosize="{ minRows: 3, maxRows: 6}" v-model="form.CHN"  class="yy-input-input" v-verify.change.blur ="{regs:'required|',submit:'demo2'}"></el-input>
+            <el-input type="textarea" placeholder="请输入内容，最大字符为300"  maxlength="300" :autosize="{ minRows: 3, maxRows: 6}" v-model="form.CHN"  class="yy-input-input" v-verify.input.blur ="{regs:'required',submit:'Koujing'}"></el-input>
           </el-col>
         </el-row>
 
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
             <span class="yy-input-text"><font class="yy-color">*</font> 英文口径：</span>
-            <el-input type="textarea" placeholder="请输入内容，最大字符为300"  maxlength="300" :autosize="{ minRows: 3, maxRows: 6}" v-model="form.EN"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
-
+            <el-input type="textarea" placeholder="请输入内容，最大字符为300"  maxlength="300" :autosize="{ minRows: 3, maxRows: 6}" v-model="form.EN"  class="yy-input-input" v-verify.input.blur ="{regs:'required',submit:'Koujing'}"></el-input>
           </el-col>
         </el-row>
 
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
             <span class="yy-input-text"><font class="yy-color">*</font> 口径类型描述：</span>
-              <el-input type="textarea"  placeholder="请输入内容，最大字符为50"  maxlength="50":autosize="{ minRows: 3, maxRows: 6}" v-model="form.DESCRIBE" class="yy-input-input"  v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
+              <el-input type="textarea"  placeholder="请输入内容，最大字符为50"  maxlength="50":autosize="{ minRows: 3, maxRows: 6}" v-model="form.DESCRIBE" class="yy-input-input"  v-verify.change.blur ="{regs:'required',submit:'Koujing'}"></el-input>
           </el-col>
         </el-row>
 
 
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="CurrentPage=1;addItem('addForm')" size="small">确 定</el-button>
+        <el-button type="primary" @click="addItem('addForm')" size="small">确 定</el-button>
         <el-button @click="addDialogVisible = false" size="small">取 消</el-button>
       </div>
     </el-dialog>
@@ -123,29 +122,28 @@
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
             <span class="yy-input-text">口径类型：</span>
-            <el-input placeholder="最大字符为15" size="small" maxlength="15"  v-model="dform.TYPE"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}" :disabled="true"></el-input>
+            <el-input placeholder="最大字符为15" size="small" maxlength="15"  v-model="dform.TYPE"  class="yy-input-input" :disabled="true"></el-input>
           </el-col>
         </el-row>
 
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
             <span class="yy-input-text">中文口径：</span>
-            <el-input type="textarea" placeholder="最大字符为300"  maxlength="300" :autosize="{ minRows: 3, maxRows: 6}" v-model="dform.CHN"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}" :disabled="true"></el-input>
+            <el-input type="textarea" placeholder="最大字符为300"  maxlength="300" :autosize="{ minRows: 3, maxRows: 6}" v-model="dform.CHN"  class="yy-input-input" :disabled="true"></el-input>
           </el-col>
         </el-row>
 
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
             <span class="yy-input-text">英文口径：</span>
-            <el-input type="textarea" placeholder="最大字符为300"  maxlength="300" :autosize="{ minRows: 3, maxRows: 6}" v-model="dform.EN"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}" :disabled="true"></el-input>
-
+            <el-input type="textarea" placeholder="最大字符为300"  maxlength="300" :autosize="{ minRows: 3, maxRows: 6}" v-model="dform.EN"  class="yy-input-input" :disabled="true"></el-input>
           </el-col>
         </el-row>
 
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
             <span class="yy-input-text">口径类型描述：</span>
-              <el-input type="textarea"  placeholder="最大字符为50"  maxlength="50":autosize="{ minRows: 3, maxRows: 6}" v-model="dform.DESCRIBE" class="yy-input-input"  v-verify.change.blur ="{regs:'required',submit:'demo2'}" :disabled="true"></el-input>
+              <el-input type="textarea"  placeholder="最大字符为50"  maxlength="50":autosize="{ minRows: 3, maxRows: 6}" v-model="dform.DESCRIBE" class="yy-input-input" :disabled="true"></el-input>
           </el-col>
         </el-row>
       </el-form>
@@ -245,11 +243,10 @@ export default {
 
     },
     addItem(formName) {
-      if(this.$validator.listener.demo2){
-        const result = this.$validator.verifyAll('demo2')
+      if(this.$validator.listener.Koujing){
+        const result = this.$validator.verifyAll('Koujing')
          if (result.indexOf(false) > -1) {
            return
-         } else {
          }
       }
       var url = "/manage-platform/consult/saveConsultReplyConfig";
