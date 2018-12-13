@@ -230,7 +230,8 @@
     h1.8V168.2z M373.6,164.5c0.5-0.4,1-0.7,1.4-1l0.5,0.5c-0.4,0.3-0.8,0.6-1.4,1L373.6,164.5z"/>
   <polyline class="st0" points="58.5,91.6 58.5,86.4 355.7,86.4 355.7,90.8 		"/>
   <image xlink:href="../../../assets/img/zhjk/cloud.png" class="cloud" x="148" y="70"/>
-  <image xlink:href="../../../assets/img/zhjk/firewall.png" class="firewallLeft" x="40" y="130" width="3%"/>
+  <image xlink:href="../../../assets/img/zhjk/firewall.png" class="firewallLeft" x="40" y="130" width="3%" v-show="firewallLeft"/>
+  <image xlink:href="../../../assets/img/zhjk/firewall-gray.png" class="firewallLeft" x="40" y="130" width="3%" v-show="firewallLeftGray"/>
   <image xlink:href="../../../assets/img/zhjk/firewall.png" class="firewallRight" x="340" y="130" width="3%"/>
   <image xlink:href="../../../assets/img/zhjk/balance.png" class="balanceLeft" x="125" y="160" width="5%"/>
   <image xlink:href="../../../assets/img/zhjk/balance.png" class="balanceRight" x="225" y="160" width="5%"/>
@@ -12786,16 +12787,21 @@ export default {
 
   data(){
     return{
-      cloud:''
+      cloud:'',
+      firewallLeft:false,
+      firewallLeftGray:true,
     }
 
   },
   mounted(){
-
+    this.IpShow();
   },
   methods:{
-    ff(){
-      console.log("wwwwww");
+    IpShow(){
+      this.$api.post('/manage-platform/monitorIntegrate/queryMonitorIntegrate',{},
+       r =>{
+
+       })
     }
   }
 

@@ -277,7 +277,8 @@
         <el-button @click="addDialogVisible = false" size="small">取 消</el-button>
       </div>
     </el-dialog>
-    <!-- action="http://192.168.99.248:8081/manage-platform/flightManage/importFlightManage" -->
+    <!-- action="http://192.168.99.206:8080/manage-platform/flightManage/importFlightManage" -->
+
     <el-dialog title="批量导入" :visible.sync="uploadDialogVisible"   width="640px"
     :before-close="handleClose">
       <el-form :model="importform" ref="importForm">
@@ -485,9 +486,11 @@ export default {
           message: response.data,
           type: 'success'
         });
+        this.getList(this.CurrentPage, this.pageSize, this.cdt);
       }else{
         this.$message({
-          duration:3000,
+          duration:6000,
+          showClose: true,
           dangerouslyUseHTMLString: true,
           message: response.message,
           type: 'warning'
