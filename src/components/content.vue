@@ -55,7 +55,7 @@
           <li class="nav1bar-up" @click="preList">
             <img src="../assets/img/navbar-up.png" alt="">
           </li>
-          <li class="nav1-item " :class="{'nav1-checked':nav1Id==i.SERIAL}" v-for="(i,index) in nav1List.slice(nav1Star, nav1End)" @click="nav1to2(i.SERIAL,1)">
+          <li class="nav1-item " :class="{'nav1-checked':nav1Id==i.SERIAL}" v-for="(i,index) in nav1List" @click="nav1to2(i.SERIAL,1)">
 
             <!-- <img src="../assets/img/navIcon/i_cc_1.png" alt="" class="nav1-icon"  v-if="navId=='cc'"> -->
             <img :src='"../assets/img/navIcon/"+i.MENU_ICON+"_0.png"' alt="" class="nav1-icon" v-if="nav1Id!=i.SERIAL">
@@ -138,6 +138,22 @@
           </div>
         </div>
       </div>
+
+      <div class="rb-msg" v-if="msgPmShow">
+        <div class="">
+          <div class="rb-title">
+            提示管理未处理消息
+          </div>
+          <div class="rb-closeBtn el-icon-close" @click="msgPmShow=false"></div>
+          <div class="rb-content">
+            <div class="rb-msg-item" v-for="(i,ind) in msgPmList" :key="ind">
+              <span>发送人：{{i.prompt.REGISTRATIONNAME}}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+              <span class="t-noWrap">内容：{{i.prompt.CONTENT}}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+              <a  @click="msgPm(i)">点击查看</a>
+            </div>
+          </div>
+        </div>
+      </div>
     </el-container>
   </el-container>
 </template>
@@ -179,14 +195,16 @@ export default {
       msgList:null,
       msgIrList:null,
       msgShow:false,
-      msgIrShow:false
+      msgIrShow:false,
+      msgPmShow:false,
     }
   },
   mounted() {
     this.getUers();
     this.bgChange();
     this.navInit();
-    setTimeout(this.msgI(),100)
+    // setTimeout(this.msgI(),100)
+    this.msgP();
     let _this=this;
     // this.msg()
     // setInterval(function() {
@@ -200,12 +218,6 @@ export default {
     //   _this.msgI();
     // },10000)
 
-  },
-  activated(){
-      let that = this;
-      setInterval(function(){
-        that.msgI();
-      },10000)
   },
   watch:{
     tabList:function(val){
@@ -264,12 +276,21 @@ export default {
         'pd':{time:10}
       }
       this.$api.post('/manage-platform/information/queryUnReadInformationReceiveListByTime',p,
-      r => {
-        if(r.data.length!=0){
-          this.msgIrList = r.data
-          this.msgIrShow=true;
-        }
-      })
+        r => {
+          if(r.data.length!=0){
+            this.msgIrList = r.data
+            this.msgIrShow=true;
+          }
+        })
+    },
+    msgP(){
+      this.$api.post('/manage-platform/promptManage/queryPresentTodayPromptedList',{},
+        r => {
+          if(r.data.resultList.length!=0){
+            this.msgPmList = r.data.resultList
+            this.msgPmShow=true;
+          }
+        })
     },
     // 左侧菜单初始化=====================
     navInit(){
@@ -278,6 +299,8 @@ export default {
     },
     // 左侧菜单获取===============================
     getNav(navId) {
+      this.nav1Star= 0;
+      this.nav1End=6;
       this.$api.post('/manage-platform/muneSys/menuChild', {
           SERIAL: navId
         },
@@ -439,12 +462,16 @@ export default {
       this.msgShow=false;
     },
     msgIr(x){
-      console.log(x.menuId.rootId)
-      console.log(x.menuId.parentId)
-      console.log(x.menuId.urlId)
+      // console.log(x.menuId.rootId)
+      // console.log(x.menuId.parentId)
+      // console.log(x.menuId.urlId)
       this.$router.push({params:{navId:x.menuId.rootId},query:{nav1Id:x.menuId.parentId,nav2Id:x.menuId.urlId}})
       this.getNav(x.menuId.rootId);
       // this.msgIrShow=false;
+    },
+    msgPm(x){
+      this.$router.push({params:{navId:x.menuId.rootId},query:{nav1Id:x.menuId.parentId,nav2Id:x.menuId.urlId}})
+      this.getNav(x.menuId.rootId);
     },
     // 顶部菜单跳转================================
     topNavTo(SERIAL){
@@ -706,6 +733,7 @@ export default {
   width: 110px;
   position: relative;
   margin-right: 10px;
+  padding: 49px 0;
 }
 
 
@@ -717,6 +745,9 @@ export default {
   border-radius: 6px 6px 0 0;
   text-align: center;
   line-height: 40px;
+  position: absolute;
+  top:0;
+  left: 0;
 }
 
 .nav1bar-down {
@@ -727,7 +758,9 @@ export default {
   text-align: center;
   line-height: 40px;
   position: absolute;
-  bottom: 17px;
+  bottom: 0px;
+  left: 0;
+  margin-bottom: 10px;
 }
 
 .nav1-item {

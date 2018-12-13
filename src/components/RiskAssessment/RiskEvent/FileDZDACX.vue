@@ -73,31 +73,36 @@
           style="width: 100%;">
           <el-table-column
             label="姓名"
+            sortable
             prop="NAME">
           </el-table-column>
           <el-table-column
             label="性别"
+            sortable
             prop="GENDERNAME">
           </el-table-column>
           <el-table-column
             label="出生日期"
+            sortable
             prop="BIRTHDAY">
           </el-table-column>
           <el-table-column
             label="国籍/地区"
+            sortable
             prop="NATIONALITYNAME">
           </el-table-column>
           <el-table-column
             label="证件号"
+            sortable
             prop="PASSPORTNO">
           </el-table-column>
           <el-table-column
             label="标签"
+            sortable
             prop="TAG_NAME">
           </el-table-column>
           <el-table-column
-            label="照片"
-            prop="NAME">
+            label="照片">
           </el-table-column>
           <el-table-column
             label="操作"

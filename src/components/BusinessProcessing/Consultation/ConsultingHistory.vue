@@ -337,7 +337,7 @@ export default {
       if (val == "0") {
         return "旅客校验";
       } else if(val == "1"){
-        return "乘客";
+        return "业务咨询";
       }else if(val == '2'){
         return "其他"
       }

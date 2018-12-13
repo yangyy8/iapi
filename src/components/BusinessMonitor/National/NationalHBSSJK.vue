@@ -1581,13 +1581,13 @@ export default {
                r => {
                  let data=r.data.flights;
                   let html ='';
-                  let table='<table cellspacing="0" style="background:#09679d;width:100%;font-size:12px;">\
-                                  <thead>\
-                                    <tr style="height:20px;">\
-                                      <td style="height:20px!important;">航班号</td><td style="height:20px!important;padding:0 5px!important;">预计起飞时间</td><td style="height:20px!important;padding:0 5px!important;">预计到达时间</td><td style="height:20px!important;">载运旅客数</td>\
+                  let table='<table cellspacing="0" style="background:#09679d;width:500px;font-size:12px;">\
+                                  <thead style="display: table;table-layout: fixed;width:100%;">\
+                                    <tr style="height:20px;display: table;table-layout: fixed;width:100%;">\
+                                      <td style="height:20px!important;width:80px">航班号</td><td style="height:20px!important;padding:0 5px!important;">预计起飞时间</td><td style="height:20px!important;padding:0 5px!important;">预计到达时间</td><td style="height:20px!important;width:80px">载运旅客数</td>\
                                     </tr>\
                                   </thead>\
-                                <tbody style="height:60px!important;overflow-y:auto!important">';
+                                <tbody style="max-height:240px!important;overflow-y:auto!important;display:block">';
                   for(var i in data){
                     let data2={};
                         data2.fltno=data[i].fltno||'-';
@@ -1595,11 +1595,11 @@ export default {
                         data2.preArriveTime=data[i].preArriveTime||'-';
                         data2.boardingNum=data[i].boardingNum||'-';
 
-                    table+='<tr style="background:#112b42;height:20px">\
-                              <td style="border:1px #143652 solid;height:20px!important;padding:0 5px!important">'+data2.fltno+'</td>\
+                    table+='<tr style="background:#112b42;height:20px;display: table;table-layout: fixed;width:100%;">\
+                              <td style="border:1px #143652 solid;height:20px!important;padding:0 5px!important;width:80px">'+data2.fltno+'</td>\
                               <td style="border:1px #143652 solid;height:20px!important;padding:0 5px!important">'+data2.preDepartTime+'</td>\
                               <td style="border:1px #143652 solid;height:20px!important;padding:0 5px!important">'+data2.preArriveTime+'</td>\
-                              <td style="border:1px #143652 solid;height:20px!important;padding:0 5px!important">'+data2.boardingNum+'</td>\
+                              <td style="border:1px #143652 solid;height:20px!important;padding:0 5px!important;width:80px">'+data2.boardingNum+'</td>\
                            </tr>'
 
                   }
@@ -1649,13 +1649,13 @@ export default {
                r => {
                  let data=r.data.flights;
                   let html ='';
-                  let table='<table cellspacing="0" style="background:#09679d;width:100%;font-size:12px;">\
-                                  <thead>\
-                                    <tr style="height:20px;">\
-                                      <td style="height:20px!important;">航班号</td><td style="height:20px!important;padding:0 5px!important;">预计起飞时间</td><td style="height:20px!important;padding:0 5px!important;">预计到达时间</td><td style="height:20px!important;">载运旅客数</td>\
+                  let table='<table cellspacing="0" style="background:#09679d;width:500px;font-size:12px;">\
+                                  <thead style="display: table;table-layout: fixed;width:100%;">\
+                                    <tr style="height:20px;display: table;table-layout: fixed;width:100%;">\
+                                      <td style="height:20px!important;width:80px">航班号</td><td style="height:20px!important;padding:0 5px!important;">预计起飞时间</td><td style="height:20px!important;padding:0 5px!important;">预计到达时间</td><td style="height:20px!important;width:80px">载运旅客数</td>\
                                     </tr>\
                                   </thead>\
-                                <tbody style="height:60px!important;overflow-y:auto!important">';
+                                <tbody style="max-height:240px!important;overflow-y:auto!important;display:block">';
                   for(var i in data){
                     let data2={};
                         data2.fltno=data[i].fltno||'-';
@@ -1663,14 +1663,15 @@ export default {
                         data2.preArriveTime=data[i].preArriveTime||'-';
                         data2.boardingNum=data[i].boardingNum||'-';
 
-                    table+='<tr style="background:#112b42;height:20px">\
-                              <td style="border:1px #143652 solid;height:20px!important;padding:0 5px!important">'+data2.fltno+'</td>\
+                    table+='<tr style="background:#112b42;height:20px;display: table;table-layout: fixed;width:100%;">\
+                              <td style="border:1px #143652 solid;height:20px!important;padding:0 5px!important;width:80px">'+data2.fltno+'</td>\
                               <td style="border:1px #143652 solid;height:20px!important;padding:0 5px!important">'+data2.preDepartTime+'</td>\
                               <td style="border:1px #143652 solid;height:20px!important;padding:0 5px!important">'+data2.preArriveTime+'</td>\
-                              <td style="border:1px #143652 solid;height:20px!important;padding:0 5px!important">'+data2.boardingNum+'</td>\
+                              <td style="border:1px #143652 solid;height:20px!important;padding:0 5px!important;width:80px">'+data2.boardingNum+'</td>\
                            </tr>'
+
                   }
-                  html+=table+'<tbody></table></div>';
+                  html+=table+'<tbody></table></div>'
                  // //console.log(r);
                  // let data=r.data.flights[0];
                  // let html='<div class="katooltip">\

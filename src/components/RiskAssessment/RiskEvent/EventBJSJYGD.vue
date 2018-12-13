@@ -52,16 +52,16 @@
                 <span class="input-text">航班日期：</span>
                 <div class="input-input t-flex t-date">
                   <el-date-picker
-                   type="date" size="small" format="yyyy-MM-dd"
+                   type="datetime" size="small" format="yyyy-MM-dd HH:mm"
                    v-model="pd.fltnoDate_start"
-                   value-format="yyyyMMdd"
+                   value-format="yyyyMMddHHmm"
                    placeholder="开始时间" >
                   </el-date-picker>
                   <span class="septum">-</span>
                   <el-date-picker
-                    type="date" size="small" format="yyyy-MM-dd"
+                    type="datetime" size="small" format="yyyy-MM-dd HH:mm"
                     v-model="pd.fltnoDate_end"
-                    value-format="yyyyMMdd"
+                    value-format="yyyyMMddHHmm"
                     placeholder="结束时间">
                   </el-date-picker>
                 </div>
@@ -70,8 +70,8 @@
                 <span class="input-text">证件类型：</span>
                 <el-select v-model="pd.passportType" placeholder="请选择"  size="small" clearable filterable class="block input-input">
                   <el-option
-                    v-for="item in docCode"
-                    :key="item.CODE"
+                    v-for="(item,ind) in docCode"
+                    :key="ind"
                     :label="item.CODE+' - '+item.NAME"
                     :value="item.CODE">
                   </el-option>
@@ -89,9 +89,9 @@
                 <span class="input-text">命中模型：</span>
                 <el-select v-model="pd.hit_mode" placeholder="请选择"  size="small" clearable filterable class="block input-input">
                   <el-option
-                    v-for="item in ModelHis"
+                    v-for="(item,ind) in ModelHis"
                     v-if="item.MODEL_CODE"
-                    :key="item.MODEL_CODE"
+                    :key="ind"
                     :label="item.MODEL_CODE+' - '+item.MODEL_JC"
                     :value="item.MODEL_CODE">
                   </el-option>
@@ -116,9 +116,9 @@
                 <span class="input-text">口岸：</span>
                 <el-select v-model="pd.port_name" placeholder="请选择"  size="small" clearable filterable class="block input-input">
                   <el-option
-                    v-for="item in airport"
+                    v-for="(item,ind) in airport"
                     v-if="item.DEPT_CODE"
-                    :key="item.DEPT_CODE"
+                    :key="ind"
                     :label="item.DEPT_CODE+' - '+item.DEPT_JC"
                     :value="item.DEPT_CODE">
                   </el-option>
@@ -264,6 +264,8 @@
           </el-table-column>
           <el-table-column
             label="风险等级"
+            prop="grade"
+            sortable
             width="145">
             <template slot-scope="scope">
               <el-rate :value="scope.row.grade" size="mini" disabled></el-rate>
@@ -271,7 +273,7 @@
           </el-table-column>
           <el-table-column
             label="风评结果"
-            prop="processorresult"
+            prop="checkResult"
             width="50"
             :show-overflow-tooltip="true">
           </el-table-column>
@@ -312,7 +314,7 @@
             label="操作"
             width="90">
             <template slot-scope="scope">
-              <el-button type="text" class="a-btn" icon="el-icon-view" title="查看" @click="$router.push({name:'BJCLCX',query:{serial:scope.row.serial}})"></el-button>
+              <el-button type="text" class="a-btn" icon="el-icon-view" title="查看" @click="$router.push({name:'BJCLCX',query:{serial:scope.row.serial,grade:scope.row.grade}})"></el-button>
               <el-button type="text" class="a-btn" icon="el-icon-edit-outline"  title="归档追加" @click="openGdTc(scope.row)"></el-button>
             </template>
           </el-table-column>
@@ -357,6 +359,7 @@
 
 <script>
 import GDTC from './GDTC'
+import { formatDate } from '@/assets/js/date.js'
 
 export default {
   components:{GDTC},
@@ -371,7 +374,7 @@ export default {
       CurrentPage:1,
       pageSize:10,
       TotalResult:0,
-      pd:{},
+      pd:{fltnoDate_start:'',fltnoDate_end:''},
       airport:null,
       docCode:null,
       nationAlone:null,
@@ -400,6 +403,11 @@ export default {
     }
   },
   mounted(){
+    // let begin = new Date();
+    // let end = new Date(begin.getTime()+24*60*60*1000);
+    // this.pd.fltnoDate_start= formatDate(begin, 'yyyyMMdd')+'000000';
+    // this.pd.fltnoDate_end= formatDate(end, 'yyyyMMdd')+'000000';
+
     this.queryAirport();
     this.queryNationalityAlone();
     this.queryDocCode();
@@ -470,6 +478,24 @@ export default {
       })
     },
     getList(CurrentPage,showCount,pd){
+      if(this.pd.fltnoDate_start||this.pd.fltnoDate_end){
+        if(!(this.pd.fltnoDate_end&&this.pd.fltnoDate_start)){
+          this.$message.error('请输入完整的航班日期区间！');
+          return
+        }
+      }
+      if(this.pd.birthday_start||this.pd.birthday_end){
+        if(!(this.pd.birthday_end&&this.pd.birthday_start)){
+          this.$message.error('请输入完整的出生日期区间！');
+          return
+        }
+      }
+      if(this.pd.eachEvent_start||this.pd.eachEvent_end){
+        if(!(this.pd.eachEvent_end&&this.pd.eachEvent_start)){
+          this.$message.error('请输入完整的历次风评区间！');
+          return
+        }
+      }
       let p={
         "showCount": showCount,
         "currentPage": CurrentPage,
@@ -534,6 +560,8 @@ export default {
     gclose(data){
       console.log(data)
       this.gdDialogVisible=data;
+      this.getList(this.CurrentPage,this.pageSize,this.pd);
+
     },
 
   }

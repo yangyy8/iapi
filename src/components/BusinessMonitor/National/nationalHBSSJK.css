@@ -218,8 +218,8 @@
   margin-left: -26%;
 }
 .width3{
-  width: 58%;
-  margin-left: -29%;
+  width: 70%;
+  margin-left: -35%;
 }
 .tan-box span{
   /* display: inline-block;
@@ -271,18 +271,18 @@
 }
 .hb-item{
   display: flex;
-  justify-content: space-between;
+  justify-content:flex-end;
   align-items: center;
   margin-bottom: 8px;
 }
 .item-text{
   display: inline-block!important;
-  width: 32%!important;
+  /* width: 32%!important; */
   height: 28px!important;
   line-height: 28px!important;
 }
 .item-input{
-  width: 65%
+  width: 65%;
 }
 .bb{
   border-bottom: 1px #329ca9 solid;

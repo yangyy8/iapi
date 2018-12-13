@@ -30,7 +30,8 @@
             placeholder="请输入时间"
             class="yy-input-input"
             format="yyyy-MM-dd HH:mm:ss"
-            value-format="yyyyMMddHHmmss">
+            value-format="yyyyMMddHHmmss"
+            :clearable="false">
           </el-date-picker>
         </el-col>
       </el-row>
@@ -38,7 +39,7 @@
       <el-row type="flex"  class="mb-6">
         <el-col :span="20" class="input-item">
           <span class="yy-input-text"><font class="yy-color">*</font>事件来源：</span>
-          <el-select placeholder="请选择" v-model="form.TYPE" filterable clearable  size="small" class="yy-input-input"  v-verify.change.blur ="{regs:'required',submit:'demo2'}">
+          <el-select placeholder="请选择" v-model="form.TYPE" filterable clearable  size="small" class="yy-input-input"  v-verify.change.blur ="{regs:'required',submit:'demo2'}" @change="TypeReal">
             <el-option  value="1" label="上级通知"></el-option>
             <el-option  value="2" label="电话来电"></el-option>
             <el-option  value="3" label="信件"></el-option>
@@ -78,12 +79,13 @@
             <div class="" v-if="fileData">
               <div class="" v-for="(x,ind) in fileData" :key="ind">
                 <span class="mr-30">{{x.name}}</span>
+                <span @click="deleteFile" class="hand redx">删除</span>
               </div>
             </div>
           </el-col>
         </el-col>
       </el-row>
-      <el-row type="flex" class="mb-6" >
+      <el-row type="flex" class="mb-6">
         <el-col :span="20" class="input-item">
           <span class="yy-input-text"><font class="yy-color">*</font>事件描述：</span>
          <el-input type="textarea" placeholder="请输入内容" :autosize="{ minRows: 3, maxRows: 6}" v-model="form.INCIDENTDESC" class="yy-input-input widthts" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
@@ -113,10 +115,14 @@ export default {
       page:0,
       detailsDialogVisible: false,
       fileData:{},
-      form: {},
+      form: {
+        RECORDTIMESTR:''
+      },
     }
   },
   mounted() {
+    let time = new Date();
+    this.form.RECORDTIMESTR=formatDate(time,'yyyyMMddhhmmss');
     this.getUser();
 
   },
@@ -124,11 +130,15 @@ export default {
     this.getUser();
   },
   methods: {
+     TypeReal(){
+       this.$set(this.form,'SOURCENAME','');
+       this.$set(this.form,'SOURCEPHONE','')
+     },
      getUser(){
        this.$api.post('/manage-platform/sysUserInfoController/querySysUserInfo',{},
          r => {
-           this.userName = r.data.userName;
-           this.userId = r.data.userId;
+           this.userName = r.data.name;
+           this.userId = r.data.userName;
          })
      },
      uploadFile(event){//获取上传的文件
@@ -158,8 +168,14 @@ export default {
         },e => {
         },{'Content-Type': 'multipart/form-data'})
      },
+     deleteFile(){
+       this.fileData = null;
+     },
      save(){
+
        if(this.form.TYPE==1){
+         console.log(this.form.TYPE);
+         console.log(this.$validator);
          if (this.$validator.listener.demo2) {
            const result = this.$validator.verifyAll('demo2')
            console.log(result);

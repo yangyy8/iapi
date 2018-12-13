@@ -75,9 +75,9 @@ body{
 #app{
   height: 100%;
 }
-.el-table__body{
+/* .el-table__body{
     table-layout:auto !important;
-}
+} */
 .login-item .el-input .el-input__inner{
   background-color: #0a3162!important;
   border: 1px #2975aa solid!important;
@@ -268,10 +268,10 @@ button{
 .el-dialog__headerbtn .el-dialog__close {
   color: #fff!important;
 }
-.el-dialog__body {
+/* .el-dialog__body {
     padding: 30px 20px 10px 20px!important;
     border-bottom: 1px #eee solid;
-}
+} */
 .el-dialog__footer{
   text-align: center!important;
   background: #f7f7f7;

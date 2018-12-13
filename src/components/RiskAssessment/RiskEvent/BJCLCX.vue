@@ -9,7 +9,7 @@
           <div class="bjsj-l">
             <img src="../../../assets/img/bp_ap/ph_s.png" alt="" style="width:100%;">
             <span class="mb-2">综合风险等级</span>
-            <el-rate :value="3" disabled class="mb-9"></el-rate>
+            <el-rate :value="$route.query.grade" disabled class="mb-9"></el-rate>
             <el-button type="primary" size="small" class="mb-9" style="width:100%" @click="$router.push({name:'DZDA',query:{nationality:page0Data.nationality,passportno:page0Data.passportno,type:2}})">电子档案</el-button>
             <el-button type="primary" size="small" class="mb-9" style="width:100%">综合查询</el-button>
             <el-button type="primary" size="small" class="mb-9" style="width:100%">照片比对</el-button>
@@ -87,10 +87,11 @@
                   <el-tag type="warning" slot="reference" size="small" class="mr-5" v-if="x.OPERATION_TYPE==1">{{x.TAG_NAME}}</el-tag>
                   <el-tag type="info" slot="reference" size="small" class="mr-5" v-if="x.OPERATION_TYPE==2">{{x.TAG_NAME}}</el-tag>
                 </el-popover>
-                <el-tag type="warning"  v-for="(x,ind) in box1Data.validList" :key="ind" v-if="x.OPERATION_TYPE==1&&ind<size.size0" size="small" class="mr-5">{{x.TAG_NAME}}</el-tag>
-                <el-tag type="info"   v-for="(x,ind) in box1Data.validList" :key="ind" v-if="x.OPERATION_TYPE==2&&ind<size.size0" size="small" class="mr-5">{{x.TAG_NAME}}</el-tag>
-                <el-button type="text" size="small" @click="moreShow=true;size.size0=box1Data.validList.length+1" v-if="!moreShow&&box1Data.validList.length>6">查看更多 ></el-button>
+                <el-tag type="warning"  v-for="(x,ind) in box1Data.validList" :key="ind" v-if="!x.REMARK&&x.OPERATION_TYPE==1&&ind<size.size0" size="small" class="mr-5">{{x.TAG_NAME}}</el-tag>
+                <el-tag type="info"   v-for="(x,ind) in box1Data.validList" :key="ind" v-if="!x.REMARK&&x.OPERATION_TYPE==2&&ind<size.size0" size="small" class="mr-5">{{x.TAG_NAME}}</el-tag>
+                <el-button type="text" size="small" @click="moreShow=true;size.size0=box1Data.validList.length" v-if="!moreShow&&box1Data.validList.length>6">查看更多 ></el-button>
                 <el-button type="text" size="small" @click="moreShow=false;size.size0=6" v-if="moreShow">收起<</el-button>
+
               </div>
 
             </div>
@@ -127,16 +128,16 @@
                         </ul>
                       </div>
 
-                      <el-button type="text" size="small" class="gc-more" @click="a.TAGSIZE=a.list.length+1" v-if="a.list.length>2&&a.TAGSIZE==2">查看更多</el-button>
-                      <el-button type="text" size="small" class="gc-more" @click="a.TAGSIZE=2" v-if="a.TAGSIZE==a.list.length+1">收起</el-button>
+                      <el-button type="text" size="small" class="gc-more" @click="a.TAGSIZE=a.list.length+3" v-if="a.list.length>2&&a.TAGSIZE==2">查看更多</el-button>
+                      <el-button type="text" size="small" class="gc-more" @click="a.TAGSIZE=2" v-if="a.TAGSIZE==a.list.length+3">收起</el-button>
 
                     </div>
                   </div>
                 </div>
 
                 <div class="box1-more">
-                  <el-button type="text" @click="size.size1=box1Data.particularsList.length+1" v-if="box1Data.particularsList.length>3&&size.size1==3">展开更多 ﹀</el-button>
-                  <el-button type="text" @click="size.size1=3" v-if="size.size1==box1Data.particularsList.length+1">收起 ︿</el-button>
+                  <el-button type="text" @click="size.size1=box1Data.particularsList.length+4" v-if="box1Data.particularsList.length>3&&size.size1==3">展开更多 ﹀</el-button>
+                  <el-button type="text" @click="size.size1=3" v-if="size.size1==box1Data.particularsList.length+4">收起 ︿</el-button>
                 </div>
               </div>
             </div>
@@ -166,8 +167,8 @@
                 </div>
 
                 <div class="box1-more">
-                  <el-button type="text" @click="size.size2=box2Data.length+1" v-if="box2Data.length>3&&size.size2==3">展开更多 ﹀</el-button>
-                  <el-button type="text" @click="size.size2=3" v-if="size.size2==box2Data.length+1">收起 ︿</el-button>
+                  <el-button type="text" @click="size.size2=box2Data.length+4" v-if="box2Data.length>3&&size.size2==3">展开更多 ﹀</el-button>
+                  <el-button type="text" @click="size.size2=3" v-if="size.size2==box2Data.length+4">收起 ︿</el-button>
                 </div>
               </div>
             </div>
@@ -182,15 +183,23 @@
                   </div>
                   <el-row class="middle-msg-row2" :gutter="2">
                     <el-col :span="6" v-for="(c1,ind) in box3Data.autoTargetInfo" :key="ind" v-if="ind<size.size301">
-                      <span>{{c1.TARGET_NAME}}：</span>
-                      {{c1.TARGET_VALUE}}
+                      <el-tooltip effect="light" :content="c1.TARGET_NAME" placement="top-start" v-if="c1.TARGET_NAME">
+                        <span class="msg-t" :class="{'tc-999':!c1.TARGET_VALUE}">{{c1.TARGET_NAME}}</span>
+                      </el-tooltip>
+                      <span class="msg-t" :class="{'tc-999':!c1.TARGET_VALUE}" v-else>{{c1.TARGET_NAME}}</span>
+                      :
+                      <el-tooltip effect="light" :content="c1.TARGET_VALUE" placement="top-start" v-if="c1.TARGET_VALUE">
+                        <span class="msg-text">{{c1.TARGET_VALUE}}</span>
+                      </el-tooltip>
+                      <span class="msg-text" v-else>{{c1.TARGET_VALUE}}</span>
+
                     </el-col>
 
 
                   </el-row>
                   <div class="box1-more">
-                    <el-button type="text" @click="size.size301=box3Data.autoTargetInfo.length+1" v-if="box3Data&&box3Data.autoTargetInfo.length>16&&size.size301==16">展开更多 ﹀</el-button>
-                    <el-button type="text" @click="size.size301=16" v-if="size.size301==box3Data.autoTargetInfo.length+1">收起 ︿</el-button>
+                    <el-button type="text" @click="size.size301=box3Data.autoTargetInfo.length+17" v-if="box3Data&&box3Data.autoTargetInfo.length>16&&size.size301==16">展开更多 ﹀</el-button>
+                    <el-button type="text" @click="size.size301=16" v-if="size.size301==box3Data.autoTargetInfo.length+17">收起 ︿</el-button>
                   </div>
                 </div>
 
@@ -200,14 +209,22 @@
                   </div>
                   <el-row class="middle-msg-row2" :gutter="2">
                     <el-col :span="6" v-for="(c2,ind) in box3Data.manualTargetInfo" :key="ind"  v-if="ind<size.size302">
-                      <span>{{c2.TARGET_NAME}}：</span>
-                      {{c2.TARGET_VALUE}}
+                      <el-tooltip effect="light" :content="c2.TARGET_NAME" placement="top-start" v-if="c2.TARGET_NAME">
+                        <span class="msg-t" :class="{'tc-999':!c2.TARGET_VALUE}">{{c2.TARGET_NAME}}</span>
+                      </el-tooltip>
+                      <span class="msg-t" :class="{'tc-999':!c2.TARGET_VALUE}" v-else>{{c2.TARGET_NAME}}</span>
+                      :
+                      <el-tooltip effect="light" :content="c2.TARGET_VALUE" placement="top-start" v-if="c2.TARGET_VALUE">
+                        <span class="msg-text">{{c2.TARGET_VALUE}}</span>
+                      </el-tooltip>
+                      <span class="msg-text" v-else>{{c2.TARGET_VALUE}}</span>
+
                     </el-col>
 
                   </el-row>
                   <div class="box1-more">
-                    <el-button type="text" @click="size.size302=box3Data.manualTargetInfo.length+1" v-if="box3Data&&box3Data.manualTargetInfo.length>16&&size.size302==16">展开更多 ﹀</el-button>
-                    <el-button type="text" @click="size.size302=16" v-if="size.size302==box3Data.manualTargetInfo.length+1">收起 ︿</el-button>
+                    <el-button type="text" @click="size.size302=box3Data.manualTargetInfo.length+17" v-if="box3Data&&box3Data.manualTargetInfo.length>16&&size.size302==16">展开更多 ﹀</el-button>
+                    <el-button type="text" @click="size.size302=16" v-if="size.size302==box3Data.manualTargetInfo.length+17">收起 ︿</el-button>
                   </div>
                 </div>
 
@@ -235,8 +252,8 @@
 
                 </div>
                 <div class="box1-more">
-                  <el-button type="text" @click="size.size4=box4Data.checkTacticsList.length+1" v-if="box4Data.checkTacticsList.length>3&&size.size4==3">展开更多 ﹀</el-button>
-                  <el-button type="text" @click="size.size4=3" v-if="size.size4==box4Data.checkTacticsList.length+1">收起 ︿</el-button>
+                  <el-button type="text" @click="size.size4=box4Data.checkTacticsList.length+4" v-if="box4Data.checkTacticsList.length>3&&size.size4==3">展开更多 ﹀</el-button>
+                  <el-button type="text" @click="size.size4=3" v-if="size.size4==box4Data.checkTacticsList.length+4">收起 ︿</el-button>
                 </div>
                 <div class="boder1 gc-box pb-10">
                   <div class="">
@@ -374,6 +391,7 @@ export default {
 
   data(){
     return{
+      serial:'',
       htmlTitle: '页面信息',
       moreShow:false,
       box1:true,
@@ -385,14 +403,16 @@ export default {
       box7:true,
       size:{size0:6,size1:3,size2:3,size301:16,size302:16,size4:3,size8:3},
       page0Data:{},
-      box1Data:{},
+      box1Data:{validList:[],particularsList:[]},
       box2Data:[],
-      box3Data:[],
-      box4Data:[],
+      box3Data:{autoTargetInfo:[],manualTargetInfo:[]},
+      box4Data:{checkTacticsList:[],listDescRecord:[],listRiskCustom:[],listRiskUpload:[],listRiskIndex:[],riskDescRecordEntity:{}},
+
       gdDialogVisible:false,
       checkeditem:null,
       modelDialogVisible:false,
       modeldec:null,
+
     }
   },
   activated(){
@@ -498,10 +518,23 @@ export default {
   width: 85px;
   text-align: right;
 }
-.middle-msg-row2 span{
-  /* display: inline-block;
-  width: 175px;
-  text-align: right; */
+.middle-msg-row2 .msg-t{
+
+  display: inline-block;
+  vertical-align: middle;
+  max-width: 35%;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap
+  /* text-align: right; */
+}
+.middle-msg-row2 .msg-text{
+  display: inline-block;
+  vertical-align: middle;
+  max-width: 65%;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
 }
 .ak-tip{
   font-size: 14px;

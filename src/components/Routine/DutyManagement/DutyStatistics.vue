@@ -376,8 +376,8 @@ export default {
       if(this.page==0){
         axios({
          method: 'post',
-         // url: 'http://192.168.99.245:8081/manage-platform/watch/exportGraphIo',
-         url: this.$api.rootUrl+"/manage-platform/watch/exportGraphIo",
+         url: 'http://192.168.99.248:8081/manage-platform/watch/exportGraphIo',
+         // url: this.$api.rootUrl+"/manage-platform/watch/exportGraphIo",
          data: {
              "TIME":this.cdt.TIME,
              "NAME":this.cdt.NAME
@@ -389,7 +389,7 @@ export default {
       }else if(this.page==1){
         axios({
          method: 'post',
-         // url: 'http://192.168.99.245:8081/manage-platform/watch/exportListPageIo',
+         // url: 'http://192.168.99.248:8081/manage-platform/watch/exportListPageIo',
          url: this.$api.rootUrl+"/manage-platform/watch/exportListPageIo",
          data: {
              "currentPage": 1,
