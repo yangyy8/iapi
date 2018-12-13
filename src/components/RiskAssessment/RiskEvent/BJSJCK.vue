@@ -9,7 +9,7 @@
           <div class="bjsj-l">
             <img src="../../../assets/img/bp_ap/ph_s.png" alt="" style="width:100%;">
             <span class="mb-2">综合风险等级</span>
-            <el-rate :value="3" disabled class="mb-9"></el-rate>
+            <el-rate :value="$route.query.grade" disabled class="mb-9"></el-rate>
             <el-button type="primary" size="small" class="mb-9" style="width:100%" @click="$router.push({name:'DZDA',query:{nationality:page0Data.nationality,passportno:page0Data.passportno,type:1}})">电子档案</el-button>
             <el-button type="primary" size="small" class="mb-9" style="width:100%">综合查询</el-button>
             <el-button type="primary" size="small" class="mb-9" style="width:100%">照片比对</el-button>
@@ -98,11 +98,12 @@
                   <el-tag type="warning" slot="reference" size="small" class="mr-5" v-if="x.OPERATION_TYPE==1">{{x.TAG_NAME}}</el-tag>
                   <el-tag type="info" slot="reference" size="small" class="mr-5" v-if="x.OPERATION_TYPE==2">{{x.TAG_NAME}}</el-tag>
                 </el-popover>
-                <el-tag type="warning"  v-for="(x,ind) in box1Data.validList" :key="ind" v-if="x.OPERATION_TYPE==1&&ind<size.size0" size="small" class="mr-5">{{x.TAG_NAME}}</el-tag>
-                <el-tag type="info"   v-for="(x,ind) in box1Data.validList" :key="ind" v-if="x.OPERATION_TYPE==2&&ind<size.size0" size="small" class="mr-5">{{x.TAG_NAME}}</el-tag>
+                <el-tag type="warning"  v-for="(x,ind) in box1Data.validList" :key="ind" v-if="!x.REMARK&&x.OPERATION_TYPE==1&&ind<size.size0" size="small" class="mr-5">{{x.TAG_NAME}}</el-tag>
+                <el-tag type="info"   v-for="(x,ind) in box1Data.validList" :key="ind" v-if="!x.REMARK&&x.OPERATION_TYPE==2&&ind<size.size0" size="small" class="mr-5">{{x.TAG_NAME}}</el-tag>
 
-                <el-button type="text" size="small" @click="moreShow=true;size.size0=box1Data.validList.length+1" v-if="!moreShow&&box1Data.validList.length>6">查看更多 ></el-button>
+                <el-button type="text" size="small" @click="moreShow=true;size.size0=box1Data.validList.length" v-if="!moreShow&&box1Data.validList!==undefined&&box1Data.validList.length>6">查看更多 ></el-button>
                 <el-button type="text" size="small" @click="moreShow=false;size.size0=6" v-if="moreShow">收起<</el-button>
+
               </div>
 
             </div>
@@ -138,16 +139,16 @@
                           </li>
                         </ul>
                       </div>
-                      <el-button type="text" size="small" class="gc-more" @click="a.TAGSIZE=a.list.length+1" v-if="a.list.length>2&&a.TAGSIZE==2">查看更多</el-button>
-                      <el-button type="text" size="small" class="gc-more" @click="a.TAGSIZE=2" v-if="a.TAGSIZE==a.list.length+1">收起</el-button>
+                      <el-button type="text" size="small" class="gc-more" @click="a.TAGSIZE=a.list.length+3" v-if="a.list !== undefined &&a.list.length>2&&a.TAGSIZE==2">查看更多</el-button>
+                      <el-button type="text" size="small" class="gc-more" @click="a.TAGSIZE=2" v-if="a.TAGSIZE==a.list.length+3">收起</el-button>
 
                     </div>
                   </div>
                 </div>
 
                 <div class="box1-more">
-                  <el-button type="text" @click="size.size1=box1Data.particularsList.length+1" v-if="box1Data.particularsList.length>3&&size.size1==3">展开更多 ﹀</el-button>
-                  <el-button type="text" @click="size.size1=3" v-if="size.size1==box1Data.particularsList.length+1">收起 ︿</el-button>
+                  <el-button type="text" @click="size.size1=box1Data.particularsList.length+4" v-if="box1Data.particularsList !== undefined &&box1Data.particularsList.length>3&&size.size1==3">展开更多 ﹀</el-button>
+                  <el-button type="text" @click="size.size1=3" v-if="size.size1==box1Data.particularsList.length+4">收起 ︿</el-button>
                 </div>
               </div>
             </div>
@@ -177,8 +178,8 @@
                 </div>
 
                 <div class="box1-more">
-                  <el-button type="text" @click="size.size2=box2Data.length+1" v-if="box2Data.length>3&&size.size2==3">展开更多 ﹀</el-button>
-                  <el-button type="text" @click="size.size2=3" v-if="size.size2==box2Data.length+1">收起 ︿</el-button>
+                  <el-button type="text" @click="size.size2=box2Data.length+4" v-if="box2Data !== undefined &&box2Data.length>3&&size.size2==3">展开更多 ﹀</el-button>
+                  <el-button type="text" @click="size.size2=3" v-if="size.size2==box2Data.length+4">收起 ︿</el-button>
                 </div>
               </div>
             </div>
@@ -193,15 +194,23 @@
                   </div>
                   <el-row class="middle-msg-row2" :gutter="2">
                     <el-col :span="6" v-for="(c1,ind) in box3Data.autoTargetInfo" :key="ind" v-if="ind<size.size301">
-                      <span>{{c1.TARGET_NAME}}：</span>
-                      {{c1.TARGET_VALUE}}
+                      <el-tooltip effect="light" :content="c1.TARGET_NAME" placement="top-start" v-if="c1.TARGET_NAME">
+                        <span class="msg-t" :class="{'tc-999':!c1.TARGET_VALUE}">{{c1.TARGET_NAME}}</span>
+                      </el-tooltip>
+                      <span class="msg-t" :class="{'tc-999':!c1.TARGET_VALUE}" v-else>{{c1.TARGET_NAME}}</span>
+                      :
+                      <el-tooltip effect="light" :content="c1.TARGET_VALUE" placement="top-start" v-if="c1.TARGET_VALUE">
+                        <span class="msg-text">{{c1.TARGET_VALUE}}</span>
+                      </el-tooltip>
+                      <span class="msg-text" v-else>{{c1.TARGET_VALUE}}</span>
+
                     </el-col>
                   </el-row>
 
                 </div>
                 <div class="box1-more">
-                  <el-button type="text" @click="size.size301=box3Data.autoTargetInfo.length+1" v-if="box3Data.autoTargetInfo.length>16&&size.size301==16">展开更多 ﹀</el-button>
-                  <el-button type="text" @click="size.size301=16" v-if="size.size301==box3Data.autoTargetInfo.length+1">收起 ︿</el-button>
+                  <el-button type="text" @click="size.size301=box3Data.autoTargetInfo.length+17" v-if="box3Data.autoTargetInfo !== undefined &&box3Data.autoTargetInfo.length>16&&size.size301==16">展开更多 ﹀</el-button>
+                  <el-button type="text" @click="size.size301=16" v-if="size.size301==box3Data.autoTargetInfo.length+17">收起 ︿</el-button>
                 </div>
                 <div class="box2-content mb-9">
                   <div class="box2-t-box">
@@ -209,15 +218,23 @@
                   </div>
                   <el-row class="middle-msg-row2" :gutter="2">
                     <el-col :span="6" v-for="(c2,ind) in box3Data.manualTargetInfo" :key="ind"  v-if="ind<size.size302">
-                      <span>{{c2.TARGET_NAME}}：</span>
-                      {{c2.TARGET_VALUE}}
+                      <el-tooltip effect="light" :content="c2.TARGET_NAME" placement="top-start" v-if="c2.TARGET_NAME">
+                        <span class="msg-t" :class="{'tc-999':!c2.TARGET_VALUE}">{{c2.TARGET_NAME}}</span>
+                      </el-tooltip>
+                      <span class="msg-t" :class="{'tc-999':!c2.TARGET_VALUE}" v-else>{{c2.TARGET_NAME}}</span>
+                      :
+                      <el-tooltip effect="light" :content="c2.TARGET_VALUE" placement="top-start" v-if="c2.TARGET_VALUE">
+                        <span class="msg-text">{{c2.TARGET_VALUE}}</span>
+                      </el-tooltip>
+                      <span class="msg-text" v-else>{{c2.TARGET_VALUE}}</span>
+
                     </el-col>
 
                   </el-row>
                 </div>
                 <div class="box1-more">
-                  <el-button type="text" @click="size.size302=box3Data.manualTargetInfo.length+1" v-if="box3Data.manualTargetInfo.length>16&&size.size302==16">展开更多 ﹀</el-button>
-                  <el-button type="text" @click="size.size302=16" v-if="size.size302==box3Data.manualTargetInfo.length+1">收起 ︿</el-button>
+                  <el-button type="text" @click="size.size302=box3Data.manualTargetInfo.length+17" v-if="box3Data.manualTargetInfo !== undefined &&box3Data.manualTargetInfo.length>16&&size.size302==16">展开更多 ﹀</el-button>
+                  <el-button type="text" @click="size.size302=16" v-if="size.size302==box3Data.manualTargetInfo.length+17">收起 ︿</el-button>
                 </div>
               </div>
             </div>
@@ -227,8 +244,8 @@
               <div class="title-green hand mt-10" @click="box4=!box4">
                 核查策略 <i class="el-icon-d-caret"></i>
               </div>
-              <div v-if="box4">
-                <!-- <el-button type="primary" plain size="small">模型相关案例</el-button> -->
+              <div v-if="box4" style="position:relative">
+                <el-button type="primary" plain size="mini" class="rightBtn" :disabled="!operation_type">推送前台</el-button>
                 <div class="box2-content mb-9" v-for="(d1,ind) in box4Data.checkTacticsList" :key="ind" v-if="ind<size.size4">
                   <div class="gc-box">
                     <div><span class="b-dot"></span>{{d1.modelName}}：</div>
@@ -238,8 +255,8 @@
                   </div>
                 </div>
                 <div class="box1-more">
-                  <el-button type="text" @click="size.size4=box4Data.checkTacticsList.length+1" v-if="box4Data.checkTacticsList.length>3&&size.size4==3">展开更多 ﹀</el-button>
-                  <el-button type="text" @click="size.size4=3" v-if="size.size4==box4Data.checkTacticsList.length+1">收起 ︿</el-button>
+                  <el-button type="text" @click="size.size4=box4Data.checkTacticsList.length+4" v-if="box4Data.checkTacticsList !== undefined &&box4Data.checkTacticsList.length>3&&size.size4==3">展开更多 ﹀</el-button>
+                  <el-button type="text" @click="size.size4=3" v-if="size.size4==box4Data.checkTacticsList.length+4">收起 ︿</el-button>
                 </div>
                 <div class="gc-box">
                   <div class="">
@@ -298,6 +315,8 @@
                   <span class="mr-30 tc-999">上传时间：{{d4.createTime}}</span>
                   <el-button v-if="operation_type" type="text" class="redx" @click="delFileInfo(d4.serial)">删除</el-button>
                   <el-button v-if="operation_type" type="text" ><a :href="d4.url_patch" target="_blank" class="green">下载</a></el-button>
+                  <!-- <el-button v-if="operation_type" type="text" ><a @click="download(d4.serial)">下载</a></el-button> -->
+
                 </div>
                 <div class="" v-if="fileData">
                   <div class="" v-for="(x,ind) in fileData" :key="ind">
@@ -346,9 +365,9 @@
                     <span  class="mr-5">流转至 </span>
                     <el-select :disabled="!operation_type" v-model="box4Data.riskDescRecordEntity.change_port" filterable clearable placeholder="请选择"  size="small" class="input-input">
                       <el-option
-                        v-for="item in airport"
+                        v-for="(item,ind) in airport"
                         v-if="item.DEPT_CODE"
-                        :key="item.DEPT_CODE"
+                        :key="ind"
                         :label="item.DEPT_CODE+' - '+item.DEPT_JC"
                         :value="item.DEPT_CODE">
                       </el-option>
@@ -395,8 +414,8 @@
               </div>
 
               <div class="box2-more">
-                <el-button type="text" @click="size.size8=box4Data.listDescRecord.length+1" v-if="box4Data.listDescRecord.length>3&&size.size8==3">展开更多 ﹀</el-button>
-                <el-button type="text" @click="size.size8=3" v-if="size.size8==box4Data.listDescRecord.length+1">收起 ︿</el-button>
+                <el-button type="text" @click="size.size8=box4Data.listDescRecord.length+4" v-if="box4Data.listDescRecord !== undefined &&box4Data.listDescRecord.length>3&&size.size8==3">展开更多 ﹀</el-button>
+                <el-button type="text" @click="size.size8=3" v-if="size.size8==box4Data.listDescRecord.length+4">收起 ︿</el-button>
 
               </div>
             </div>
@@ -416,7 +435,7 @@
     <GDTC :gtitle="'事件归档'" :gvisible="gdDialogVisible" :garr="checkeditem" :gtype="'1'" @gclose="gclose"></GDTC>
 
     <el-dialog title="模型相关案例描述" :visible.sync="modelDialogVisible" width="640px">
-      <div class="mb-20">
+      <div class="mb-20" style="line-height:32px;font-size:16px;">
         <div class="" v-for="(x,ind) in modeldec" >
           <p v-if="x.CASE_NARRATION">{{x.CASE_NARRATION}}</p>
           <p v-else>该模型没有案例描述！</p>
@@ -441,7 +460,7 @@ export default {
 
   data(){
     return{
-      user:null,
+      user:{},
       operation_type:null,
       delIndex:'',
       airport:null,
@@ -449,13 +468,13 @@ export default {
       page0Data:{},
       moreShow:false,
       box1:true,
-      box1Data:{},
+      box1Data:{validList:[],particularsList:[]},
       box2:true,
       box2Data:[],
       box3:true,
-      box3Data:{},
+      box3Data:{autoTargetInfo:[],manualTargetInfo:[]},
       box4:true,
-      box4Data:{},
+      box4Data:{checkTacticsList:[],listDescRecord:[],listRiskCustom:[],listRiskUpload:[],listRiskIndex:[],riskDescRecordEntity:{}},
       box5:true,
       box5Data:{},
       box6:true,
@@ -798,15 +817,23 @@ export default {
   width: 85px;
   text-align: right;
 }
-.middle-msg-row2 span{
+.middle-msg-row2 .msg-t{
 
   display: inline-block;
   vertical-align: middle;
-  max-width: 175px;
+  max-width: 35%;
   overflow:hidden;
   text-overflow:ellipsis;
   white-space:nowrap
   /* text-align: right; */
+}
+.middle-msg-row2 .msg-text{
+  display: inline-block;
+  vertical-align: middle;
+  max-width: 65%;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
 }
 .ak-tip{
   font-size: 14px;
@@ -941,5 +968,10 @@ export default {
     background: #409EFF;
     border-color: #409EFF;
     color: #ffffff;
+}
+.rightBtn{
+  position: absolute;
+  right: 0;
+  top:-20px;
 }
 </style>

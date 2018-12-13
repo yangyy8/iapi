@@ -57,8 +57,7 @@
                   </div>
                   <div class="">
                     <el-popover
-                      v-for="(x,ind) in dataTag.validList" :key="ind"
-                      ref="popover"
+                      v-for="(x,ind) in dataTag.validList" :key="ind" v-if="x.REMARK&&ind<size.size0"
                       placement="bottom"
                       width="200"
                       trigger="hover"
@@ -66,26 +65,23 @@
                       <el-tag type="warning" slot="reference" size="small" class="mr-5" v-if="x.OPERATION_TYPE==1">{{x.TAG_NAME}}</el-tag>
                       <el-tag type="info" slot="reference" size="small" class="mr-5" v-if="x.OPERATION_TYPE==2">{{x.TAG_NAME}}</el-tag>
                     </el-popover>
-                    <!-- <el-tag type="warning" size="small" class="mr-5" v-for="(x,ind) in dataTag.validList" :key="ind" v-if="x.OPERATION_TYPE==1">{{x.TAG_NAME}}</el-tag>
-                    <el-tag type="info" size="small" class="mr-5" v-for="(x,ind) in dataTag.validList" :key="ind" v-if="x.OPERATION_TYPE==2">{{x.TAG_NAME}}</el-tag>
-                     -->
+                    <el-tag type="warning"  v-for="(x,ind) in dataTag.validList" :key="ind" v-if="!x.REMARK&&x.OPERATION_TYPE==1&&ind<size.size0" size="small" class="mr-5">{{x.TAG_NAME}}</el-tag>
+                    <el-tag type="info"   v-for="(x,ind) in dataTag.validList" :key="ind" v-if="!x.REMARK&&x.OPERATION_TYPE==2&&ind<size.size0" size="small" class="mr-5">{{x.TAG_NAME}}</el-tag>
+
                     <el-button type="success" size="mini" plain @click="addTagFn('1')">添加</el-button>
                     <el-button type="danger" size="mini" plain @click="addTagFn('2')">删除</el-button>
-
-                    <el-button type="text" size="small" @click="moreShow=true" v-if="!moreShow">查看更多 ></el-button>
-                    <el-button type="text" size="small" @click="moreShow=false" v-if="moreShow">收起<</el-button>
+                    <el-button type="text" size="small" @click="moreShow=true;size.size0=dataTag.validList.length" v-if="!moreShow&&dataTag.validList.length>8">查看更多 ></el-button>
+                    <el-button type="text" size="small" @click="moreShow=false;size.size0=8" v-if="moreShow">收起<</el-button>
                   </div>
                 </el-col>
               </el-row>
-
-
             </div>
             <div class="boder1 pb-10" ref="box1">
               <div class="title-green hand mt-10" @click="box1=!box1">
                 标签详细信息 <i class="el-icon-d-caret"></i>
               </div>
               <div v-if="box1">
-                <div class="box1-content mb-9" v-for="(a,ind) in data1.particularsList" :key="ind">
+                <div class="box1-content mb-9" v-for="(a,ind) in data1.particularsList" :key="ind" v-if="ind<size.size1">
                   <el-tag type="warning" size="small" v-if="a.operation_type==1">{{a.tag_name}}</el-tag>
                   <el-tag type="info" size="small" v-if="a.operation_type==2">{{a.tag_name}}</el-tag>
 
@@ -95,7 +91,7 @@
                   <div class="gc-box">
                     <span>过程：</span>
                     <div class="gc-r-box">
-                      <div class="step-box" v-for="(x,y) in a.list" :key="y">
+                      <div class="step-box" v-for="(x,y) in a.list" :key="y"  v-if="y<a.TAGSIZE">
                         <div class="step-time mr-5 tc-333">{{x.CREATETIME.slice(0,10)}}</div>
                         <div class="mr-15 step-icon">
                           <div class="step-dot"></div>
@@ -113,12 +109,16 @@
                         </ul>
                       </div>
 
-                      <el-button type="text" size="small" class="gc-more">查看更多</el-button>
+                      <el-button type="text" size="small" class="gc-more" @click="a.TAGSIZE=a.list.length+3" v-if="a.list.length>2&&a.TAGSIZE==2">查看更多</el-button>
+                      <el-button type="text" size="small" class="gc-more" @click="a.TAGSIZE=2" v-if="a.TAGSIZE==a.list.length+3">收起</el-button>
+
                     </div>
                   </div>
                 </div>
                 <div class="box1-more">
-                  <el-button type="text">展开更多 ﹀</el-button>
+                  <el-button type="text" @click="size.size1=data1.particularsList.length+4" v-if="data1.particularsList.length>3&&size.size1==3">展开更多 ﹀</el-button>
+                  <el-button type="text" @click="size.size1=3" v-if="size.size1==data1.particularsList.length+4">收起 ︿</el-button>
+
                 </div>
               </div>
             </div>
@@ -171,9 +171,9 @@
                     </template>
                   </el-table-column>
                 </el-table>
-                <div class="box1-more">
+                <!-- <div class="box1-more">
                   <el-button type="text">展开更多 ﹀</el-button>
-                </div>
+                </div> -->
               </div>
             </div>
             <div class="boder1 pb-10" ref="box3">
@@ -257,14 +257,368 @@
                       <span>航班号：</span>
                       {{data4.flight_recordnum}}
                     </el-col>
-                    <el-col :span="6" class="tc-999">
+                    <el-col :span="6">
                       <span>出入标识：</span>
                       {{data4.flightType_name}}
+                    </el-col>
+                    <el-col :span="6">
+                      <span>校验结果：</span>
+                      {{data4.checkResultName}}
+                    </el-col>
+                  </el-row>
+                  <el-row class="middle-msg-row2" :gutter="2" v-if="data4Show">
+                    <el-col :span="6">
+                      <span>证件种类：</span>
+                      {{data4.passportTypeName}}
+                    </el-col>
+                    <el-col :span="6">
+                      <span>计划起飞时间：</span>
+                      {{data4.departDate}}
+                    </el-col>
+                    <el-col :span="6">
+                      <span>计划到达时间：</span>
+                      {{data4.arrivDate}}
+                    </el-col>
+                    <el-col :span="6">
+                      <span>座位号：</span>
+                      {{data4.Specifigseat}}
+                    </el-col>
+                    <el-col :span="6">
+                      <span>航班状态：</span>
+                      {{data4.flightStatusName}}
+                    </el-col>
+                    <el-col :span="6">
+                      <span>证件有效期：</span>
+                      {{data4.passportexpireDate}}
+                    </el-col>
+                    <el-col :span="6">
+                      <span>证件签发日期：</span>
+                      {{data4.passportissueDate}}
+                    </el-col>
+                    <el-col :span="6">
+                      <span>证件签发国：</span>
+                      {{data4.passportissuecountryName}}
+                    </el-col>
+                    <el-col :span="6">
+                      <span>签证号码：</span>
+                      {{data4.visano}}
+                    </el-col>
+                    <el-col :span="6">
+                      <span>签证有效期：</span>
+                      {{data4.visaexpireDate}}
+                    </el-col>
+                    <el-col :span="6">
+                      <span>其他证件号码：</span>
+                      {{data4.other_no}}
+                    </el-col>
+                    <el-col :span="6">
+                      <span>其他证件有效期：</span>
+                      {{data4.other_expiredate}}
+                    </el-col>
+
+                    <el-col :span="6">
+                      <span>其他证件签发日期：</span>
+                      {{data4.other_issuecountryName}}
+                    </el-col>
+                    <el-col :span="6">
+                      <span>航空公司联系电话：</span>
+                      {{data4.airlinePhone}}
+                    </el-col>
+                    <el-col :span="6">
+                      <span>边检回复日期：</span>
+                      {{data4.iapi_responseTime}}
+                    </el-col>
+                    <el-col :span="6">
+                      <span>ABO唯一标识：</span>
+                      {{data4.aboNo}}
+                    </el-col>
+                    <el-col :span="6">
+                      <span>值机时间：</span>
+                      {{data4.lastupdateTime}}
+                    </el-col>
+                    <el-col :span="6">
+                      <span>起飞机场：</span>
+                      {{data4.cityFromName}}
+                    </el-col>
+                    <el-col :span="6">
+                      <span>降落机场：</span>
+                      {{data4.passportissueDate}}
+                    </el-col>
+                    <el-col :span="6">
+                      <span>PNR报文发送方：</span>
+                      {{data4.Company_Identification}}
+                    </el-col>
+                    <el-col :span="6">
+                      <span>旅客唯一编号：</span>
+                      {{data4.reference_number}}
+                    </el-col>
+                    <el-col :span="6">
+                      <span>旅客类型：</span>
+                      {{data4.passenger_type}}
+                    </el-col>
+                    <el-col :span="6">
+                      <span>旅客其他姓名：</span>
+                      {{data4.other_names}}
+                    </el-col>
+                    <el-col :span="6">
+                      <span>携带婴儿标志：</span>
+                      {{data4.t_a_by_infant_indicator}}
+                    </el-col>
+
+                    <el-col :span="6">
+                      <span>票号发起时间：</span>
+                      {{data4.phCreateTime}}
+                    </el-col>
+                    <el-col :span="6">
+                      <span>旅客地址：</span>
+                      {{data4.street_and_number}}
+                    </el-col>
+                    <el-col :span="6">
+                      <span>旅客城市：</span>
+                      {{data4.city_Name}}
+                    </el-col>
+                    <el-col :span="6">
+                      <span>旅客省(州)：</span>
+                      {{data4.country_Sub_entity_Name}}
+                    </el-col>
+                    <el-col :span="6">
+                      <span>旅客国家代码：</span>
+                      {{data4.country_Coded}}
+                    </el-col>
+                    <el-col :span="6">
+                      <span>旅客邮政编码：</span>
+                      {{data4.postcode_Identification}}
+                    </el-col>
+                    <el-col :span="6">
+                      <span>常旅客航空公司代码：</span>
+                      {{data4.airline_Designator}}
+                    </el-col>
+                    <el-col :span="6">
+                      <span>常旅客编号：</span>
+                      {{data4.frequent_T_Idenification}}
+                    </el-col>
+                    <el-col :span="6">
+                      <span>旅客特殊需求类型：</span>
+                      {{data4.special_Requirement_Type}}
+                    </el-col>
+                    <el-col :span="6">
+                      <span>旅客特殊需求描述：</span>
+                      {{data4.freetxt}}
+                    </el-col>
+                    <el-col :span="6">
+                      <span>旅客超额行李数量：</span>
+                      {{data4.quantity}}
+                    </el-col>
+                    <el-col :span="6">
+                      <span>付款方式：</span>
+                      {{data4.payment_Type}}
+                    </el-col>
+
+                    <el-col :span="6">
+                      <span>付款账号(卡号)：</span>
+                      {{data4.accountNumber}}
+                    </el-col>
+                    <el-col :span="6">
+                      <span>旅客行李数量：</span>
+                      {{data4.numberofpieces}}
+                    </el-col>
+                    <el-col :span="6">
+                      <span>记录变更时间：</span>
+                      {{data4.createTime}}
+                    </el-col>
+                    <el-col :span="6">
+                      <span>记录变更类型：</span>
+                      {{data4.information_Type}}
+                    </el-col>
+                    <el-col :span="6">
+                      <span>变更旅客姓：</span>
+                      {{data4.traveller_Surname}}
+                    </el-col>
+                    <el-col :span="6">
+                      <span>变更旅客名：</span>
+                      {{data4.traveller_Given_Name}}
+                    </el-col>
+                    <el-col :span="6">
+                      <span>变更旅客其他姓名：</span>
+                      {{data4.changeOther_names}}
+                    </el-col>
+                    <el-col :span="6">
+                      <span>变更旅客携带婴儿标志：</span>
+                      {{data4.traveller_A_by_Infant_Id}}
+                    </el-col>
+                    <el-col :span="6">
+                      <span>变更特殊需求类型：</span>
+                      {{data4.changeSpecial_Requirement_Type}}
+                    </el-col>
+                    <el-col :span="6">
+                      <span>变更特殊需求描述：</span>
+                      {{data4.ssrfreetxt}}
+                    </el-col>
+                    <el-col :span="6">
+                      <span>变更航空公司：</span>
+                      {{data4.company_Identification1}}
+                    </el-col>
+                    <el-col :span="6">
+                      <span>变更起飞机场：</span>
+                      {{data4.board_city}}
+                    </el-col>
+
+                    <el-col :span="6">
+                      <span>变更降落机场：</span>
+                      {{data4.off_city}}
+                    </el-col>
+                    <el-col :span="6">
+                      <span>旅馆入住时间：</span>
+                      {{data4.first_Date}}
+                    </el-col>
+                    <el-col :span="6">
+                      <span>旅客结束入住时间：</span>
+                      {{data4.second_date}}
+                    </el-col>
+                    <el-col :span="6">
+                      <span>旅馆地址：</span>
+                      {{data4.place}}
+                    </el-col>
+                    <el-col :span="6">
+                      <span>旅馆名字：</span>
+                      {{data4.place_Name}}
+                    </el-col>
+                    <el-col :span="6">
+                      <span>订单分离旅客数量：</span>
+                      {{data4.number_of_Units}}
+                    </el-col>
+                    <el-col :span="6">
+                      <span>订单编号：</span>
+                      {{data4.ddbh}}
+                    </el-col>
+                    <el-col :span="6">
+                      <span>订单发起时间：</span>
+                      {{data4.ddfqTime}}
+                    </el-col>
+                    <el-col :span="6">
+                      <span>订单联系人姓：</span>
+                      {{data4.ddlxrx}}
+                    </el-col>
+                    <el-col :span="6">
+                      <span>订单联系人名：</span>
+                      {{data4.ddlxrm}}
+                    </el-col>
+                    <el-col :span="6">
+                      <span>订单联系人地址：</span>
+                      {{data4.ddlxradd}}
+                    </el-col>
+                    <el-col :span="6">
+                      <span>订单联系人城市：</span>
+                      {{data4.ddlxrCity}}
+                    </el-col>
+
+                    <el-col :span="6">
+                      <span>订单联系人省(州)：</span>
+                      {{data4.ddlxrs}}
+                    </el-col>
+                    <el-col :span="6">
+                      <span>订单联系人国家代码：</span>
+                      {{data4.ddlxrgjcode}}
+                    </el-col>
+                    <el-col :span="6">
+                      <span>订单联系人邮政编码：</span>
+                      {{data4.ddlxryzbm}}
+                    </el-col>
+                    <el-col :span="6">
+                      <span>订单联系人电话：</span>
+                      {{data4.ddlxrdh}}
+                    </el-col>
+                    <el-col :span="6">
+                      <span>订单联系人传真：</span>
+                      {{data4.ddlxrcz}}
+                    </el-col>
+                    <el-col :span="6">
+                      <span>订单旅客数量：</span>
+                      {{data4.ddlksl}}
+                    </el-col>
+                    <el-col :span="6">
+                      <span>订单铁树需求类型：</span>
+                      {{data4.ddxqlx}}
+                    </el-col>
+                    <el-col :span="6">
+                      <span>订单特殊需求描述：</span>
+                      {{data4.ddxqms}}
+                    </el-col>
+                    <el-col :span="6">
+                      <span>旅客电话：</span>
+                      {{data4.lkdh}}
+                    </el-col>
+                    <el-col :span="6">
+                      <span>旅客传真：</span>
+                      {{data4.lkcz}}
+                    </el-col>
+                    <el-col :span="6">
+                      <span>付款人地址：</span>
+                      {{data4.fkrdz}}
+                    </el-col>
+                    <el-col :span="6">
+                      <span>付款人城市：</span>
+                      {{data4.fkrcs}}
+                    </el-col>
+
+                    <el-col :span="6">
+                      <span>付款人省(州)：</span>
+                      {{data4.fkrs}}
+                    </el-col>
+                    <el-col :span="6">
+                      <span>付款人国家代码：</span>
+                      {{data4.fkrgjdm}}
+                    </el-col>
+                    <el-col :span="6">
+                      <span>付款人邮政编码：</span>
+                      {{data4.fkryzbm}}
+                    </el-col>
+                    <el-col :span="6">
+                      <span>付款人电话：</span>
+                      {{data4.fkrdh}}
+                    </el-col>
+                    <el-col :span="6">
+                      <span>付款人传真：</span>
+                      {{data4.fkrcz}}
+                    </el-col>
+                    <el-col :span="6">
+                      <span>航班飞机型号：</span>
+                      {{data4.hbfjxh}}
+                    </el-col>
+                    <el-col :span="6">
+                      <span>航班check-in时间：</span>
+                      {{data4.check_in}}
+                    </el-col>
+                    <el-col :span="6">
+                      <span>旅客舱位级别：</span>
+                      {{data4.lkjwjb}}
+                    </el-col>
+                    <el-col :span="6">
+                      <span>订单其他旅客信息：</span>
+                      {{data4.ddqtlkxx}}
+                    </el-col>
+                    <el-col :span="6">
+                      <span>变更行李数量：</span>
+                      {{data4.bgxlsl}}
+                    </el-col>
+                    <el-col :span="6">
+                      <span>变更航班号：</span>
+                      {{data4.bghbh}}
+                    </el-col>
+                    <el-col :span="6">
+                      <span>变更起飞时间：</span>
+                      {{data4.bgqfsj}}
+                    </el-col>
+                    <el-col :span="6">
+                      <span>变更到达时间：</span>
+                      {{data4.bgddsj}}
                     </el-col>
                   </el-row>
                 </div>
                 <div class="box1-more">
-                  <el-button type="text">展开更多 ﹀</el-button>
+                  <el-button type="text" @click="data4Show=true" v-if="!data4Show">展开更多 ﹀</el-button>
+                  <el-button type="text" @click="data4Show=false" v-if="data4Show">收起 ︿</el-button>
+
                 </div>
               </div>
             </div>
@@ -1331,33 +1685,22 @@ export default {
       box18:false,
       box19:false,
       box20:false,
+      size:{size0:8,size1:3,size2:3,size301:16,size302:16,size4:3,size8:3},
 
-      tableData2:null,
-      tableData3:null,
-      tableData4:null,
-      tableData5:null,
-      tableData6:null,
-      tableData7:null,
-      tableData8:null,
-      tableData9:null,
-      tableData10:null,
-      tableData11:null,
-      tableData12:null,
-      tableData13:null,
-      tableData14:null,
-      tableData15:null,
-      tableData16:null,
-      tableData17:null,
-      tableData18:null,
-      tableData19:null,
+      tableData2:[],
+      tableData16:[],
+      tableData17:[],
+      tableData18:[],
+      tableData19:[],
       nationalityName:'',
       tagRemark:'',
       data0:{},
-      dataTag:{},
-      data1:{},
+      dataTag:{validList:[]},
+      data1:{particularsList:[]},
       data2:[],
       data3:[],
       data4:[],
+      data4Show:false,
       data5:[],
       data6:[],
       data7:[],

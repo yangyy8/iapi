@@ -268,10 +268,10 @@ button{
 .el-dialog__headerbtn .el-dialog__close {
   color: #fff!important;
 }
-.el-dialog__body {
+/* .el-dialog__body {
     padding: 30px 20px 10px 20px!important;
     border-bottom: 1px #eee solid;
-}
+} */
 .el-dialog__footer{
   text-align: center!important;
   background: #f7f7f7;
