@@ -150,13 +150,13 @@
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
             <span class="yy-input-text"><font class="yy-color">*</font> 指标项代码：</span>
-            <el-input placeholder="请输入内容(长度不能超过50)" size="small" maxlength="50"   v-model="form.targetSign"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
+            <el-input placeholder="请输入内容(长度不能超过50)" size="small" maxlength="50"  v-bind:readonly="form.targetSign"  v-model="form.targetSign"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
           </el-col>
         </el-row>
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
             <span class="yy-input-text"><font class="yy-color">*</font> 指标项名称：</span>
-            <el-input placeholder="请输入内容(长度不能超过100)" size="small" maxlength="100"  v-model="form.targetName"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
+            <el-input placeholder="请输入内容(长度不能超过100)" size="small" maxlength="100"  v-bind:readonly="form.targetName" v-model="form.targetName"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
           </el-col>
         </el-row>
         <el-row type="flex" class="mb-6" >
@@ -406,11 +406,22 @@ export default {
         })
     },
     adds(n, i) {
+      console.log("++++++++"+i.TARGET_ID);
       this.addDialogVisible = true;
       if (n != 0) {
         this.tp = 1;
         // this.form = i;
-        this.form=Object.assign({}, i);
+        //this.form=Object.assign({}, i);
+        this.form.targetId=i.TARGET_ID;
+        this.form.targetSign=i.TARGET_SIGN;
+        this.form.targetName=i.TARGET_NAME;
+        this.form.targetDescribe=i.TARGET_DESCRIBE;
+        this.form.targetType=i.TARGET_TYPE;
+        this.form.targetSource=i.TARGET_SOURCE;
+        this.form.calculation=i.CALCULATION;
+        this.form.className=i.CLASS_NAME;
+        this.form.para=i.PARA;
+        this.form.script=i.SCRIPT;
         this.dialogText="编辑";
       }else {
         this.tp = 0;
@@ -458,8 +469,10 @@ export default {
         })
     },
     deletes(i) {
+      console.log("----"+i.TARGET_ID+"==="+ i.TARGET_SIGN);
       let p = {
-        "SERIAL": i.SERIAL
+        "targetId": i.TARGET_ID,
+        "targetSign": i.TARGET_SIGN,
       };
       this.$confirm('您是否确认删除？', '提示', {
         confirmButtonText: '确定',

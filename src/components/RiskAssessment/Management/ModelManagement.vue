@@ -24,7 +24,7 @@
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">模型状态：</span>
               <el-select v-model="pd.MODEL_PHASES" class="input-input"  filterable clearable placeholder="请选择"   size="small" >
-                <el-option value="1" label="1 - 編輯">
+                <el-option value="1" label="1 - 编辑">
                 </el-option>
                 <el-option value="2" label="2 - 提交测试">
                 </el-option>
@@ -205,7 +205,6 @@
             placeholder="有效期">
           </el-date-picker>
           </el-col>
-
         </el-row>
         <!-- <el-row type="flex" class="mb-6" >
           <el-col :span="24" class="input-item">
@@ -395,6 +394,26 @@
       </div>
     </el-dialog>
 
+
+    <el-dialog  title="权限校验" :visible.sync="AuthDialogVisible"  width="500px">
+
+      <el-row  type="flex"  class="mb-15">
+            <el-col :span="20">
+            <span class="yy-input-text">用户名：</span>
+            <el-input placeholder="请输入内容" size="small" v-model="ap.userName" v-verify.change.blur ="{regs:'required',submit:'demo3'}" class="yy-input-input"></el-input></el-col>
+      </el-row>
+      <el-row  type="flex"  class="mb-15">
+            <el-col :span="20">
+              <span class="yy-input-text">密  码：</span>
+              <el-input placeholder="请输入内容" type="password" size="small" v-model="ap.password" v-verify.change.blur ="{regs:'required',submit:'demo3'}" class="yy-input-input"></el-input></el-col>
+
+      </el-row>
+      <div slot="footer" class="dialog-footer">
+       <el-button type="primary" @click="Authorization(ap)" size="small">确认</el-button>
+        <el-button @click="AuthDialogVisible = false" size="small">取消</el-button>
+
+      </div>
+    </el-dialog>
   </div>
   </div>
 </template>
@@ -415,6 +434,7 @@ export default {
     };
     return {
       tp: 0,
+      ap:{},
       data:generateData(),
       value1:[],
       data2:generateData(),
@@ -430,6 +450,7 @@ export default {
       addDialogVisible: false,
       detailsDialogVisible: false,
     useDialogVisible:false,
+    AuthDialogVisible:false,
       menuDialogVisible: false,
       options: [{
           value: 10,
@@ -447,7 +468,7 @@ export default {
       tableData: [],
 
       multipleSelection: [],
-tem:{},
+      tem:{},
       form: {},
       mapForm: {},
       Airport: [],
@@ -488,10 +509,10 @@ tem:{},
     this.getList(this.CurrentPage, this.pageSize, this.pd);
     this.queryNationality();
   },
-  // activated() {
-  //   this.getList(this.CurrentPage, this.pageSize, this.pd);
-  //   this.queryNationality();
-  // },
+  activated() {
+    this.getList(this.CurrentPage, this.pageSize, this.pd);
+    this.queryNationality();
+  },
   methods: {
     changeTarget(value){
       console.log(value);
@@ -530,7 +551,7 @@ tem:{},
       };
       this.$api.post('/manage-platform/model/select', p,
         r => {
-          console.log("----" + r);
+        
           this.tableData = r.data.pdList;
           this.TotalResult = r.data.totalResult;
         })
@@ -755,12 +776,27 @@ tem:{},
          });
           this.useDialogVisible = false;
     },
+   deletes(i){
+  this.ap={};
+   this.AuthDialogVisible=true;
+   this.ap.MODEL_ID=i.MODEL_ID;
+   this.ap.MODEL_CODE=i.MODEL_CODE;
+   this.ap.MODEL_VERSION=i.MODEL_VERSION;
+   },
+    Authorization(ap) {
 
-    deletes(i) {
+      if(this.$validator.listener.demo3){
+        const result = this.$validator.verifyAll('demo3')
+         if (result.indexOf(false) > -1) {
+           return
+         }
+      }
       let p = {
-        "modelId": i.MODEL_ID,
-        "modelCode": i.MODEL_CODE,
-        "modelVersion": i.MODEL_VERSION
+        "modelId": ap.MODEL_ID,
+        "modelCode": ap.MODEL_CODE,
+        "modelVersion": ap.MODEL_VERSION,
+        "userName":ap.userName,
+        "password":ap.password
       };
       this.$confirm('您是否确认删除？', '提示', {
         confirmButtonText: '确定',
@@ -776,6 +812,7 @@ tem:{},
                 message: '删除成功！',
                 type: 'success'
               });
+              this.AuthDialogVisible=false;
               this.getList(this.CurrentPage, this.pageSize, this.pd);
             } else {
               this.$message.error(r.Message);

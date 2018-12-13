@@ -30,7 +30,8 @@
           </el-col>
           <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">出入标识：</span>
-              <el-select v-model="pd.flightType"  filterable clearable @change="changeAirport(pd.flightType)"  class="input-input"  placeholder="请选择"  size="small">
+              <el-select v-model="pd.flightType"  filterable clearable  class="input-input" @change="changeCountry(pd.flightType)"  placeholder="请选择"  size="small">
+
                 <el-option value="I" label="I - 入境">
                 </el-option>
                 <el-option value="O" label="O - 出境">
@@ -39,6 +40,18 @@
                 </el-option>
               </el-select>
             </el-col>
+            <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+                <span class="input-text">起飞国家：</span>
+                <el-select v-model="pd.countryi"  filterable clearable  class="input-input" @change="changeAirport(pd.countryi,'I')"  placeholder="请选择"  size="small">
+                  <el-option
+                    v-for="(item,ind) in countryI"
+                    :key="ind"
+                    v-if="item.COUNTRY_CODE"
+                    :label="item.COUNTRY_CODE+' - '+item.COUNTRY_NAME"
+                    :value="item.COUNTRY_CODE" >
+                  </el-option>
+                </el-select>
+              </el-col>
 
             <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
                 <span class="input-text">起飞机场：</span>
@@ -76,7 +89,18 @@
                </el-date-picker>
                </div>
             </el-col>
-
+            <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+                <span class="input-text">到达国家：</span>
+                <el-select v-model="pd.countryo"  filterable clearable  class="input-input" @change="changeAirport(pd.countryo,'O')"  placeholder="请选择"  size="small">
+                  <el-option
+                    v-for="(item,ind) in countryO"
+                    :key="ind"
+                    v-if="item.COUNTRY_CODE"
+                    :label="item.COUNTRY_CODE+' - '+item.COUNTRY_NAME"
+                    :value="item.COUNTRY_CODE" >
+                  </el-option>
+                </el-select>
+              </el-col>
           <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">到达机场：</span>
               <el-select v-model="pd.cityTo" filterable clearable   placeholder="请选择" size="small" class="input-input">
@@ -366,13 +390,16 @@ export default {
       },
       form: {},
       dform: {},
+      countryI:{},
+      countryO:{}
     }
   },
   mounted() {
     //this.getList(this.CurrentPage, this.pageSize, this.pd);
     // this.getsum();
     // this.getnum();
-    this.queryAirport("0");
+    this.queryAirport("","A");
+    this.queryCountry("A");
 
     let time = new Date();
     let end = new Date();
@@ -381,6 +408,8 @@ export default {
     this.pd.dataCheckEndTime=formatDate(end,'yyyyMMddhhmmss');
   },
   activated(){
+    this.queryAirport("","A");
+    this.queryCountry("A");
     let time = new Date();
     let end = new Date();
     let begin =new Date(time - 1000 * 60 * 60 * 24 * 30);
@@ -454,18 +483,66 @@ export default {
           this.TotalResult = r.data.totalResult;
         })
     },
-    queryAirport(n) {
-      // if (this.Airport.length != 0) {
-      //   return;
-      // };
+    queryCountry(value) {
+   if(value=="A"){
+      let p = {
+        "flightType": value
+      };
+      this.$api.post('/manage-platform/codeTable/queryDmAirportCountryName', p,
+        r => {
+
+          this.countryI = r.data;
+          this.countryO = r.data;
+        });
+    }else {
+      let p1 = {
+        "flightType": value,
+        "type":"1"
+      };
+      this.$api.post('/manage-platform/codeTable/queryDmAirportCountryName', p1,
+        r => {
+
+          this.countryI = r.data;
+        });
+
+        let p2 = {
+          "flightType": value,
+          "type":"2"
+        };
+        this.$api.post('/manage-platform/codeTable/queryDmAirportCountryName', p2,
+          r => {
+            this.countryO = r.data;
+          });
+    }
+    },
+
+    changeCountry(value){
+
+     this.queryCountry(value);
+    },
+    queryAirport(n,t) {
+
       //全球
-      if (n == "A" || n=="0") {
+      if (t == "A" && n=="") {
         this.$api.post('/manage-platform/codeTable/queryAirport', {},
           r => {
             console.log(r);
             this.AirportI = r.data;
             this.AirportO = r.data;
           })
+      }else if(n!="" && t!=""){
+        let p={
+          "COUNTRY_CODE":n
+        };
+        this.$api.post('/manage-platform/codeTable/queryDmAirportCodeName', p,
+          r => {
+            console.log(r);
+            if(t=="I"){
+            this.AirportI = r.data;
+          }else {
+            this.AirportO = r.data;
+          }
+          });
       } else {
         //国外
         this.$api.post('/manage-platform/codeTable/queryForeignAirport', {},
@@ -490,10 +567,11 @@ export default {
             }
           })
       }
+
     },
 
-    changeAirport(value) {
-      this.queryAirport(value);
+    changeAirport(value,type) {
+      this.queryAirport(value,type);
     },
 
     details(i) {

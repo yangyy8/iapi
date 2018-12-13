@@ -8,15 +8,13 @@
           <div class="title-green">
             查询条件
           </div>
-
           <el-row align="center"   :gutter="2">
-
             <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
               <span class="input-text"><font color="red">*</font> 时间范围：</span>
               <div class="input-input t-flex t-date">
                 <el-date-picker
                 v-model="pd.begintime" format="yyyy-MM-dd"
-               v-verify.input.blur="{regs:'required',submit:'timeDemo'}"
+                v-verify.input.blur="{regs:'required',submit:'timeDemo'}"
                 type="date" size="small" value-format="yyyyMMdd"
                 placeholder="开始时间"  :picker-options="pickerOptions0" >
               </el-date-picker>
