@@ -150,7 +150,7 @@ export default {
        for(var i=0;i<arr.length;i++){
          formData.append("file",arr[i]);
        }
-       // formData.append("eventSerial",val);
+       formData.append("eventSerial",val);
        let p=formData;
        this.$api.post('/manage-platform/incident/upload',p,
         r =>{
