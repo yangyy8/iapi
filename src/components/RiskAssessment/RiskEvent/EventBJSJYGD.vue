@@ -264,6 +264,8 @@
           </el-table-column>
           <el-table-column
             label="风险等级"
+            prop="grade"
+            sortable
             width="145">
             <template slot-scope="scope">
               <el-rate :value="scope.row.grade" size="mini" disabled></el-rate>
@@ -312,7 +314,7 @@
             label="操作"
             width="90">
             <template slot-scope="scope">
-              <el-button type="text" class="a-btn" icon="el-icon-view" title="查看" @click="$router.push({name:'BJCLCX',query:{serial:scope.row.serial}})"></el-button>
+              <el-button type="text" class="a-btn" icon="el-icon-view" title="查看" @click="$router.push({name:'BJCLCX',query:{serial:scope.row.serial,grade:scope.row.grade}})"></el-button>
               <el-button type="text" class="a-btn" icon="el-icon-edit-outline"  title="归档追加" @click="openGdTc(scope.row)"></el-button>
             </template>
           </el-table-column>

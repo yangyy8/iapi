@@ -293,7 +293,9 @@
           </el-table-column>
           <el-table-column
             label="风险等级"
-            width="145">
+            sortable
+            width="145"
+            prop="grade">
             <template slot-scope="scope">
               <el-rate :value="scope.row.grade" size="mini" disabled class="mb-9"></el-rate>
             </template>
@@ -349,8 +351,8 @@
             fixed="right"
             width="70">
             <template slot-scope="scope">
-              <el-button type="text" class="a-btn" icon="el-icon-view" title="查看" @click="$router.push({name:'BJSJCK',query:{serial:scope.row.serial,page:0}})"></el-button>
-              <el-button type="text" class="a-btn" icon="el-icon-edit-outline"  title="处理" @click="$router.push({name:'BJSJCK',query:{serial:scope.row.serial,page:1,operation_type:1}})"></el-button>
+              <el-button type="text" class="a-btn" icon="el-icon-view" title="查看" @click="$router.push({name:'BJSJCK',query:{serial:scope.row.serial,grade:scope.row.grade,page:0}})"></el-button>
+              <el-button type="text" class="a-btn" icon="el-icon-edit-outline"  title="处理" @click="$router.push({name:'BJSJCK',query:{serial:scope.row.serial,grade:scope.row.grade,page:1,operation_type:1}})"></el-button>
             </template>
           </el-table-column>
         </el-table>
