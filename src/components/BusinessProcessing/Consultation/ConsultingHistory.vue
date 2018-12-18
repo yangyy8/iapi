@@ -26,10 +26,10 @@
                 </el-select>
               </el-col>
               <el-col :sm="24" :md="12" :lg="8" class="input-item">
-                <span class="input-text"><i class="t-must">*</i>咨询时间：</span>
+                <span class="input-text">咨询时间：</span>
                 <div class="input-input t-flex t-date">
                    <el-date-picker
-                   v-verify.input.blur="{regs:'required',submit:'timeDemo'}"
+
                    v-model="cdt.STARTTIME"
                    type="datetime"
                    size="small"
@@ -39,7 +39,7 @@
                   </el-date-picker>
                    <span class="septum">-</span>
                    <el-date-picker
-                    v-verify.input.blur="{regs:'required',submit:'timeDemo'}"
+
                     v-model="cdt.ENDTIME"
                     type="datetime"
                     size="small"
@@ -115,7 +115,7 @@
           prop="CONSULTFROM"
           label="咨询来源">
           <template slot-scope="scope">
-            {{ scope.row.CONSULTFROM | fifter1}}
+            {{ scope.row.CONSULTFROM | fifter3}}
           </template>
         </el-table-column>
         <el-table-column
@@ -162,7 +162,7 @@
           fixed="right">
           <template slot-scope="scope">
             <el-button class="table-btn" size="mini" plain icon="el-icon-delete" @click="details(scope.row)">详情</el-button>
-            <!-- <el-button class="table-btn" size="mini" plain icon="el-icon-delete" @click="details(scope.row)">回复</el-button> -->
+            <el-button class="table-btn" size="mini" :class="{'gray':scope.row.CONSULTSTATUS==0}" plain icon="el-icon-delete" @click="review(scope.row)">回复</el-button>
          </template>
         </el-table-column>
       </el-table>
@@ -326,11 +326,14 @@ export default {
     }
   },
   mounted() {
-    let time = new Date();
-    let end = new Date();
-    let begin =new Date(time - 1000 * 60 * 60 * 24 * 30);
-    this.cdt.STARTTIME=formatDate(begin,'yyyyMMddhhmmss');
-    this.cdt.ENDTIME=formatDate(end,'yyyyMMddhhmmss');
+    // let time = new Date();
+    // let end = new Date();
+    // let begin =new Date(time - 1000 * 60 * 60 * 24 * 30);
+    // this.cdt.STARTTIME=formatDate(begin,'yyyyMMddhhmmss');
+    // this.cdt.ENDTIME=formatDate(end,'yyyyMMddhhmmss');
+  },
+  activated(){
+    this.getList(this.CurrentPage, this.pageSize, this.pd);
   },
   filters: {
     fifter1(val) {
@@ -338,6 +341,15 @@ export default {
         return "旅客校验";
       } else if(val == "1"){
         return "业务咨询";
+      }else if(val == '2'){
+        return "其他"
+      }
+    },
+    fifter3(val) {
+      if (val == "0") {
+        return "航空公司";
+      } else if(val == "1"){
+        return "乘客";
       }else if(val == '2'){
         return "其他"
       }
@@ -369,10 +381,7 @@ export default {
       console.log(`当前页: ${val}`);
     },
     getList(currentPage, showCount, pd) {
-      // const result = this.$validator.verifyAll('timeDemo')
-      //  if (result.indexOf(false) > -1) {
-      //    return
-      //  }
+
       if(dayGap(this.cdt.STARTTIME,this.cdt.ENDTIME,1)>30){
         this.$alert('事件产生时间查询时间间隔不能超过一个月', '提示', {
           confirmButtonText: '确定',
@@ -392,6 +401,13 @@ export default {
             this.TotalResult = r.data.totalResult;
           }
         })
+    },
+    review(i){
+      if(i.CONSULTTYPE!=0){
+        this.$router.push({name:'ConsultationZXHG',query:{serial:i.SERIAL,details:i.DETAILS,flag:i.CONSULTTYPE}})
+      }else if(i.CONSULTTYPE == 0){
+        this.$router.push({name:'ConsultationZXHG',query:{review:i,details:i.DETAILS,serial:i.SERIAL,flag:i.CONSULTTYPE}})
+      }
     },
     terminal(){//航站
       this.$api.post('/manage-platform/codeTable/queryAirport',{},
@@ -420,5 +436,10 @@ export default {
 <style scoped>
 .tt-width{
   width: 9%!important;
+}
+.gray{
+  background-color: #F4F4F4!important;
+  border:1px solid #ccc!important;
+  color:#bbb!important;
 }
 </style>

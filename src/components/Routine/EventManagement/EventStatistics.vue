@@ -155,12 +155,12 @@
     <el-dialog
       title="交接班"
       :visible.sync="changeDialogVisible"
-      width="700px"
+      width="1000px"
       >
       <el-row align="center" style="width:100%">
         <h4 style="margin-top:0px!important">请选择接下来要交接的人</h4>
         <el-radio-group v-model="qqq">
-          <el-radio v-for="(item,ind) in dutyName" :key="ind" :label="item.SERIAL" style="width:25%;margin-bottom: 7px;">{{item.NAME}}</el-radio>
+          <el-radio v-for="(item,ind) in dutyName" :key="ind" :label="item.SERIAL" style="width:25%;margin-bottom: 7px;">{{item.EMPLOYEE_CARD+' - '+item.NAME}}</el-radio>
         </el-radio-group>
       </el-row>
       <div slot="footer" class="dialog-footer">
@@ -331,7 +331,6 @@ export default {
       this.form.title=i.TITLE;
       this.form.content=i.INCIDENTDESC;
       this.fitAdress = i.FILESERIAL;
-      console.log(this.fitAdress);
     },
     downloadM (data) {
         if (!data) {

@@ -63,8 +63,8 @@
                   <el-col :sm="24" :md="12"  :lg="6" class="input-item" v-show="coCheckId==2">
                     <span class="input-text">筛选状态：</span>
                     <el-select  placeholder="请选择"  size="mini"  class="input-input"  v-model="cdt1.average" filterable clearable>
-                      <el-option label="正常" value="2"></el-option>
-                      <el-option label="异常" value="1"></el-option>
+                      <el-option label="1 - 异常" value="1"></el-option>
+                      <el-option label="2 - 正常" value="2"></el-option>
                     </el-select>
                   </el-col>
                   <el-col :sm="24" :md="12"  :lg="2" class="input-item">
@@ -97,11 +97,11 @@
                   <el-col :sm="24" :md="12"  :lg="7" class="input-item">
                     <span class="input-text">分析维度：</span>
                     <el-select  placeholder="请选择"  size="mini"  class="input-input" v-model="cdt.type" filterable clearable>
-                      <el-option label="按5分钟分析" value="5"></el-option>
-                      <el-option label="按小时分析" value="0"></el-option>
-                      <el-option label="按天分析" value="1"></el-option>
-                      <el-option label="按周分析" value="2"></el-option>
-                      <el-option label="按月分析" value="3"></el-option>
+                      <el-option label="5 - 按5分钟分析" value="5"></el-option>
+                      <el-option label="0 - 按小时分析" value="0"></el-option>
+                      <el-option label="1 - 按天分析" value="1"></el-option>
+                      <el-option label="2 - 按周分析" value="2"></el-option>
+                      <el-option label="3 - 按月分析" value="3"></el-option>
                       <!-- <el-option label="按季度分析" value="4"></el-option> -->
 
                     </el-select>
