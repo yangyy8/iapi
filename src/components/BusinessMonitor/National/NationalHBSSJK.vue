@@ -2,7 +2,7 @@
 <div class="nationlHBSSJK" :class="{'qgjk-zdh':zdh}" >
   <div class="mask" v-if="checkShow||checkShow2||checkShow3||checkShow4||checkShow5" @click.capture="closeBox"></div>
   <div class="map-top">
-    <h3 class="map-title">国家移民局旅客预报预检系统</h3>
+    <h3 class="map-title">国家移民管理局旅客预报预检系统</h3>
     <ul class="map-tabul">
       <li class="map-tabli mr-30 hand" :class="{'check-tab':tabId==1}" @click="tabId=1;">
         <img src="../../../assets/img/qgjk/tab1_1.png" alt="" v-if="tabId==1">
@@ -361,8 +361,18 @@
                   <el-popover
                     placement="left"
                     width="200"
-                    trigger="hover"
-                    :content="'入境：'+i.inLand + ' 出境：'+i.outLand">
+                    trigger="click"
+                    :popper-class="'td2-pop'">
+                    <div class="td2-div">
+                      <div class="td2-pop-div b-r">
+                        <span>入境</span>
+                        <span class="td2-pop-num1">{{i.inLand}}</span>
+                      </div>
+                      <div class="td2-pop-div">
+                        <span>出境</span>
+                        <span class="td2-pop-num2">{{i.outLand}}</span>
+                      </div>
+                    </div>
                     <span slot="reference" class="hand">{{i.inLand+i.outLand||0}}</span>
 
                   </el-popover>
@@ -372,8 +382,18 @@
                   <el-popover
                     placement="left"
                     width="200"
-                    trigger="hover"
-                    :content="'入境：'+i.inGat + ' 出境：'+i.outGat">
+                    trigger="click"
+                    :popper-class="'td2-pop'">
+                    <div class="td2-div">
+                      <div class="td2-pop-div b-r">
+                        <span>入境</span>
+                        <span class="td2-pop-num1">{{i.inGat}}</span>
+                      </div>
+                      <div class="td2-pop-div">
+                        <span>出境</span>
+                        <span class="td2-pop-num2">{{i.outGat}}</span>
+                      </div>
+                    </div>
                     <span slot="reference" class="hand">{{i.inGat+i.outGat||0}}</span>
                   </el-popover>
                 </div>
@@ -381,8 +401,18 @@
                   <el-popover
                     placement="left"
                     width="200"
-                    trigger="hover"
-                    :content="'入境：'+i.inFrn + ' 出境：'+i.outFrn">
+                    trigger="click"
+                    :popper-class="'td2-pop'">
+                    <div class="td2-div">
+                      <div class="td2-pop-div b-r">
+                        <span>入境</span>
+                        <span class="td2-pop-num1">{{i.inFrn}}</span>
+                      </div>
+                      <div class="td2-pop-div">
+                        <span>出境</span>
+                        <span class="td2-pop-num2">{{i.outFrn}}</span>
+                      </div>
+                    </div>
                     <span slot="reference" class="hand">{{i.inFrn+i.outFrn||0}}</span>
                   </el-popover>
                   <!-- {{i.inFrn+i.outFrn}} -->
@@ -391,14 +421,41 @@
                   <el-popover
                     placement="left"
                     width="200"
-                    trigger="hover"
-                    :content="'入境：'+i.matchIn + ' 出境：'+i.matchOut">
+                    trigger="click"
+                    :popper-class="'td2-pop'">
+                    <div class="td2-div">
+                      <div class="td2-pop-div b-r">
+                        <span>入境</span>
+                        <span class="td2-pop-num1">{{i.matchIn}}</span>
+                      </div>
+                      <div class="td2-pop-div">
+                        <span>出境</span>
+                        <span class="td2-pop-num2">{{i.matchOut}}</span>
+                      </div>
+                    </div>
                     <span slot="reference" class="hand">{{i.matchIn+i.matchOut||0}}</span>
                   </el-popover>
                   <!-- {{i.matchIn+i.matchOut}} -->
                 </div>
                 <div class="td2">
-                  {{i.inLand+i.outLand+i.inGat+i.outGat+i.inFrn+i.outFrn+i.matchIn+i.matchOut||0}}
+                  <el-popover
+                    placement="left"
+                    width="200"
+                    trigger="click"
+                    :popper-class="'td2-pop'">
+                    <div class="td2-div">
+                      <div class="td2-pop-div b-r">
+                        <span>入境</span>
+                        <span class="td2-pop-num1">{{i.matchIn+i.inLand+i.inGat+i.inFrn}}</span>
+                      </div>
+                      <div class="td2-pop-div">
+                        <span>出境</span>
+                        <span class="td2-pop-num2">{{i.matchOut+i.outLand+i.outGat+i.outFrn}}</span>
+                      </div>
+                    </div>
+                    <span slot="reference" class="hand">{{i.inLand+i.outLand+i.inGat+i.outGat+i.inFrn+i.outFrn+i.matchIn+i.matchOut||0}}</span>
+                  </el-popover>
+
 
                 </div>
               </li>
@@ -1254,6 +1311,7 @@ export default {
     //       _self.zxhFn();
     //     }
     // }
+
   },
   beforeDestroy() {
     if (!this.chart) {
@@ -1471,7 +1529,7 @@ export default {
     createM(data){
       this.series=[];
       let _this=this;
-       let x=  {
+      let x = {
           type: 'lines',
           // coordinateSystem: 'lines',
           zlevel: 4,
@@ -1510,6 +1568,7 @@ export default {
             borderWidth:1,
             enterable :true,
             // triggerOn:'click',
+
             formatter: function (params, ticket, callback) {
               //console.log(params)
                 let p={
@@ -1533,22 +1592,54 @@ export default {
                   }
                   if(r.data.travelers){
                     let table='<table cellspacing="0" style="background:#09679d; width:100%;font-size:12px">\
+                                  <thead>\
                                   <tr style="height:20px;">\
                                     <td style="height:20px!important;">姓名</td><td style="height:20px!important;">性别</td><td style="height:20px!important;">国籍/地区</td><td style="height:20px!important;">出生日期</td>\
-                                  </tr>';
+                                  </tr>\
+                                  </thead>\
+                                  <tbody id="tbody1">';
                     for(var i in r.data.travelers){
                       //console.log("i",r.data.travelers[i])
                       let t
-                      table+='<tr style="background:#112b42;height:20px">\
-                                <td style="border:1px #143652 solid;height:20px!important;padding:0 5px!important;">'+r.data.travelers[i].name+'</td>\
+                      table+='<tr style="background:#112b42;height:20px;">\
+                                <td style="border:1px #143652 solid;height:20px!important;padding:0 5px!important;" class="name">'+r.data.travelers[i].name+'</td>\
                                 <td style="border:1px #143652 solid;height:20px!important;padding:0 5px!important;">'+r.data.travelers[i].genderStr+'</td>\
                                 <td style="border:1px #143652 solid;height:20px!important;padding:0 5px!important;">'+r.data.travelers[i].nationalityName+'</td>\
                                 <td style="border:1px #143652 solid;height:20px!important;padding:0 5px!important;">'+r.data.travelers[i].birthDay+'</td>\
-                             </tr>'
+                              </tr>'
                     }
-                    html+=table+'</table></div>'
+                    html+=table+'</tbody></table></div>'
                   }
                    callback(ticket, html);
+                   console.log(document.getElementById("tbody1"));
+                   document.getElementById("tbody1").addEventListener('click',function(e){
+                     if(e.target.className=='name'){
+                       // console.log("点击的内容是：",e.target.className);
+
+                       if(e.target.children.length==0){
+                         var div=document.createElement('div');
+                         e.target.appendChild(div);
+                         e.target.style.position='relative';
+                         div.style.position='absolute';
+                         div.style.top='-40px';
+                         div.style.left="80px";
+                         div.style.background="#031023";
+                         div.style.border="1px #01aed4 solid";
+                         div.style.borderRadius="3px";
+                         div.style.padding="15px";
+
+                         var html=`<ul class="o-step">
+                             <li>已订票</li>
+                             <li>已值机</li>
+                             <li>已起飞</li>
+                             <li>已到达</li>
+                           </ul>
+                           <span class="o-jiao"></span>`;
+                      div.innerHTML=html;
+
+                       }
+                     }
+                   });
                 })
                 return 'Loading';
             },
@@ -1581,29 +1672,48 @@ export default {
                r => {
                  let data=r.data.flights;
                   let html ='';
-                  let table='<table cellspacing="0" style="background:#09679d;width:500px;font-size:12px;">\
+                  let table='<table cellspacing="0" style="background:#09679d;font-size:12px;width:650px">\
                                   <thead style="display: table;table-layout: fixed;width:100%;">\
                                     <tr style="height:20px;display: table;table-layout: fixed;width:100%;">\
-                                      <td style="height:20px!important;width:80px">航班号</td><td style="height:20px!important;padding:0 5px!important;">预计起飞时间</td><td style="height:20px!important;padding:0 5px!important;">预计到达时间</td><td style="height:20px!important;width:80px">载运旅客数</td>\
+                                      <td style="height:20px!important;padding:0 5px!important;width:40px">航班号</td>\
+                                      <td style="height:20px!important;padding:0 5px!important;width:110px;">到达地</td>\
+                                      <td style="height:20px!important;padding:0 5px!important;width:100px;">预计起飞时间</td>\
+                                      <td style="height:20px!important;padding:0 5px!important;width:100px;">预计到达时间</td>\
+                                      <td style="height:20px!important;padding:0 0px!important;width:85px;">航班状态</td>\
+                                      <td style="height:20px!important;padding:0 0px!important;width:50px;">订票数</td>\
+                                      <td style="height:20px!important;padding:0 5px!important;width:50px;">载运旅客</td>\
+                                      <td style="height:20px!important;padding:0 5px!important;width:50px;">不准入境</td>\
+                                      <td style="height:20px!important;padding:0 5px!important;width:50px;">非法载运</td>\
                                     </tr>\
                                   </thead>\
-                                <tbody style="max-height:240px!important;overflow-y:auto!important;display:block">';
+                                <tbody style="max-height:240px!important;overflow-y:auto!important;display:block;width:100%;">';
                   for(var i in data){
                     let data2={};
                         data2.fltno=data[i].fltno||'-';
                         data2.preDepartTime=data[i].preDepartTime||'-';
+                        data2.to=data[i].to||'-';
                         data2.preArriveTime=data[i].preArriveTime||'-';
-                        data2.boardingNum=data[i].boardingNum||'-';
+                        data2.statusName=data[i].statusName||'-';
+                        data2.bookNum=data[i].bookNum||'0';
+                        data2.boardingNum=data[i].boardingNum||'0';
+                        data2.forbiddenNum=data[i].forbiddenNum||'0';
+                        data2.illegalNum=data[i].illegalNum||'0';
 
+                        console.log(data2)
                     table+='<tr style="background:#112b42;height:20px;display: table;table-layout: fixed;width:100%;">\
-                              <td style="border:1px #143652 solid;height:20px!important;padding:0 5px!important;width:80px">'+data2.fltno+'</td>\
-                              <td style="border:1px #143652 solid;height:20px!important;padding:0 5px!important">'+data2.preDepartTime+'</td>\
-                              <td style="border:1px #143652 solid;height:20px!important;padding:0 5px!important">'+data2.preArriveTime+'</td>\
-                              <td style="border:1px #143652 solid;height:20px!important;padding:0 5px!important;width:80px">'+data2.boardingNum+'</td>\
+                              <td style="border:1px #143652 solid;height:20px!important;padding:0 5px!important;width:40px">'+data2.fltno+'</td>\
+                              <td style="border:1px #143652 solid;height:20px!important;padding:0 5px!important;width:110px;">'+data2.to+'</td>\
+                              <td style="border:1px #143652 solid;height:20px!important;padding:0 5px!important;width:100px;">'+data2.preDepartTime+'</td>\
+                              <td style="border:1px #143652 solid;height:20px!important;padding:0 5px!important;width:100px;">'+data2.preArriveTime+'</td>\
+                              <td style="border:1px #143652 solid;height:20px!important;padding:0 0px!important;width:85px">'+data2.statusName+'</td>\
+                              <td style="border:1px #143652 solid;height:20px!important;padding:0 0px!important;width:50px">'+data2.bookNum+'</td>\
+                              <td style="border:1px #143652 solid;height:20px!important;padding:0 5px!important;width:50px">'+data2.boardingNum+'</td>\
+                              <td style="border:1px #143652 solid;height:20px!important;padding:0 5px!important;width:50px">'+data2.forbiddenNum+'</td>\
+                              <td style="border:1px #143652 solid;height:20px!important;padding:0 5px!important;width:50px">'+data2.illegalNum+'</td>\
                            </tr>'
 
                   }
-                  html+=table+'<tbody></table></div>'
+                  html+=table+'</tbody></table></div>'
                  // //console.log(r);
                  // let data=r.data.flights[0];
                  // let html='<div class="katooltip">\
@@ -1649,29 +1759,47 @@ export default {
                r => {
                  let data=r.data.flights;
                   let html ='';
-                  let table='<table cellspacing="0" style="background:#09679d;width:500px;font-size:12px;">\
+                  let table='<table cellspacing="0" style="background:#09679d;font-size:12px;width:650px">\
                                   <thead style="display: table;table-layout: fixed;width:100%;">\
                                     <tr style="height:20px;display: table;table-layout: fixed;width:100%;">\
-                                      <td style="height:20px!important;width:80px">航班号</td><td style="height:20px!important;padding:0 5px!important;">预计起飞时间</td><td style="height:20px!important;padding:0 5px!important;">预计到达时间</td><td style="height:20px!important;width:80px">载运旅客数</td>\
+                                      <td style="height:20px!important;padding:0 5px!important;width:40px">航班号</td>\
+                                      <td style="height:20px!important;padding:0 0px!important;width:110px;">起飞地</td>\
+                                      <td style="height:20px!important;padding:0 0px!important;width:100px;">预计起飞时间</td>\
+                                      <td style="height:20px!important;padding:0 0px!important;width:100px;">预计到达时间</td>\
+                                      <td style="height:20px!important;padding:0 0px!important;width:85px;">航班状态</td>\
+                                      <td style="height:20px!important;padding:0 0px!important;width:50px;">订票数</td>\
+                                      <td style="height:20px!important;padding:0 0px!important;width:50px;">载运旅客</td>\
+                                      <td style="height:20px!important;padding:0 0px!important;width:50px;">不准入境</td>\
+                                      <td style="height:20px!important;padding:0 0px!important;width:50px;">非法载运</td>\
                                     </tr>\
                                   </thead>\
-                                <tbody style="max-height:240px!important;overflow-y:auto!important;display:block">';
+                                <tbody style="max-height:240px!important;overflow-y:auto!important;display:block;width:100%;">';
                   for(var i in data){
                     let data2={};
                         data2.fltno=data[i].fltno||'-';
                         data2.preDepartTime=data[i].preDepartTime||'-';
+                        data2.from=data[i].from||'-';
                         data2.preArriveTime=data[i].preArriveTime||'-';
-                        data2.boardingNum=data[i].boardingNum||'-';
+                        data2.statusName=data[i].statusName||'-';
+                        data2.bookNum=data[i].bookNum||'0';
+                        data2.boardingNum=data[i].boardingNum||'0';
+                        data2.forbiddenNum=data[i].forbiddenNum||'0';
+                        data2.illegalNum=data[i].illegalNum||'0';
 
                     table+='<tr style="background:#112b42;height:20px;display: table;table-layout: fixed;width:100%;">\
-                              <td style="border:1px #143652 solid;height:20px!important;padding:0 5px!important;width:80px">'+data2.fltno+'</td>\
-                              <td style="border:1px #143652 solid;height:20px!important;padding:0 5px!important">'+data2.preDepartTime+'</td>\
-                              <td style="border:1px #143652 solid;height:20px!important;padding:0 5px!important">'+data2.preArriveTime+'</td>\
-                              <td style="border:1px #143652 solid;height:20px!important;padding:0 5px!important;width:80px">'+data2.boardingNum+'</td>\
+                              <td style="border:1px #143652 solid;height:20px!important;padding:0 5px!important;width:40px">'+data2.fltno+'</td>\
+                              <td style="border:1px #143652 solid;height:20px!important;padding:0 0px!important;width:110px;">'+data2.from+'</td>\
+                              <td style="border:1px #143652 solid;height:20px!important;padding:0 0px!important;width:100px;">'+data2.preDepartTime+'</td>\
+                              <td style="border:1px #143652 solid;height:20px!important;padding:0 0px!important;width:100px;">'+data2.preArriveTime+'</td>\
+                              <td style="border:1px #143652 solid;height:20px!important;padding:0 0px!important;width:85px">'+data2.statusName+'</td>\
+                              <td style="border:1px #143652 solid;height:20px!important;padding:0 0px!important;width:50px">'+data2.bookNum+'</td>\
+                              <td style="border:1px #143652 solid;height:20px!important;padding:0 0px!important;width:50px">'+data2.boardingNum+'</td>\
+                              <td style="border:1px #143652 solid;height:20px!important;padding:0 0px!important;width:50px">'+data2.forbiddenNum+'</td>\
+                              <td style="border:1px #143652 solid;height:20px!important;padding:0 0px!important;width:50px">'+data2.illegalNum+'</td>\
                            </tr>'
 
                   }
-                  html+=table+'<tbody></table></div>'
+                  html+=table+'</tbody></table></div>'
                  // //console.log(r);
                  // let data=r.data.flights[0];
                  // let html='<div class="katooltip">\
@@ -1713,8 +1841,12 @@ export default {
 
       this.initChart(this.series);
 
-    },
 
+
+    },
+    // tabclick(e){
+    //   console.log("###########",e)
+    // },
 
     // 航班详细信息取得=========================================================================================
     getXqHb(fk){
@@ -2108,6 +2240,8 @@ export default {
                borderColor:'#028bd0',
                borderWidth:1,
                enterable :true,
+               position:'inside',
+               confine :true,
                // triggerOn:'click'
            },
           series: series, // 将之前处理的数据放到这里
@@ -2147,6 +2281,7 @@ export default {
 
   }
 }
+
 </script>
 <style scoped>
 @import 'nationalHBSSJK.css';

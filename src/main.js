@@ -34,7 +34,7 @@ Vue.use(vverify, {
   errorIcon: 'el-icon-warning', // String 错误提示 icon 样式
   errorForm: '', // 错误消息样式
   validators: { // 自定义验证器
-    zing: (value) => {
+   zing: (value) => {
      return /^[a-zA-Z0-9_-]+@zing\\.com$/.test(value)
    },
    noCinese:(value)=>{
@@ -51,6 +51,9 @@ Vue.use(vverify, {
    },
    fixPhone:(value)=>{
      return /(^(\d{3,4}-)?\d{7,8})$|^((1[0-9][0-9]\d{8}$))/.test(value)
+   },
+   cname:(value)=>{
+     return /^[a-zA-Z0-9]{0,35}$|^[\u4e00-\u9fa5]{0,11}$/.test(value)
    }
   },
   messages: { // 验证器消息提示
@@ -59,7 +62,8 @@ Vue.use(vverify, {
      number:(filed) => `${filed}请输入数字`,
      phone:(filed) => `${filed}移动电话格式不正确`,
      fix:(filed) => `${filed}传真格式不正确`,
-     fixPhone:(filed) =>`${filed}固定电话格式不正确`
+     fixPhone:(filed) =>`${filed}固定电话格式不正确`,
+     cname:(filed) =>`${filed}姓名不能超过11个汉字，35个字母或数字`,
    }
  })
 // Vue.use(vva)

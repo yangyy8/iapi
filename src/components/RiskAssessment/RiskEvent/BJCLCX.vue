@@ -1,6 +1,8 @@
 <template lang="html">
   <div class="bjsjck">
     <div class="top mb-2">
+      <el-button type="warning" size="small" class="mr-20" @click="$router.go(-1)">返回</el-button>
+      
       事件编号：{{serial}}
     </div>
     <div class="middle">

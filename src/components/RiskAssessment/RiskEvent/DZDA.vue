@@ -2,7 +2,7 @@
   <div class="bjsjck">
 
     <div class="middle">
-      <el-button v-if="$route.query.type" type="warning" size="small" class="mr-20" @click="$router.go(-1)">返回</el-button>
+      <el-button type="warning" size="small" class="mr-20" @click="$router.go(-1)">返回</el-button>
 
       <el-row :gutter="10">
         <el-col :span="24">
@@ -146,7 +146,7 @@
                   </el-table-column>
                   <el-table-column
                     label="结果"
-                    prop="NEWCHECKRESULT">
+                    prop="NEWCHECKRESULTNAME">
                   </el-table-column>
                   <el-table-column
                     label="追加描述"
@@ -1607,12 +1607,12 @@
       </el-row>
 
     </div>
-    <el-dialog title="标签管理" :visible.sync="tagDialogVisible" width="640px">
-      <el-checkbox-group v-model="tagCheckList" class="mb-20">
+    <el-dialog title="标签管理" :visible.sync="tagDialogVisible" width="640px" :before-close="handleClose">
+      <el-checkbox-group v-model="tagCheckList" class="mb-20 o-checkbox-g2">
        <el-checkbox :label="x.SERIAL"  v-for="(x,ind) in tagList" :key="ind">{{x.LABELNAME||x.TAG_NAME}}</el-checkbox>
       </el-checkbox-group>
       <div class="f-bold mb-9">
-        原因(必填)
+        原因<span class="redx">(必填)</span>
       </div>
       <el-input
         class="mb-9"
@@ -1622,8 +1622,8 @@
         placeholder="请输入添加/删除原因">
       </el-input>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="TagSave" size="small" :disabled="!tagRemark">确认</el-button>
-        <el-button type="warning" @click="tagDialogVisible=false" size="small">取消</el-button>
+        <el-button type="primary" @click="TagSave" size="small">确认</el-button>
+        <el-button type="warning" @click="tagDialogVisible=false;tagCheckList=[];tagRemark=''" size="small">取消</el-button>
       </div>
     </el-dialog>
     <el-dialog title="详情" :visible.sync="moreDialogVisible" width="640px">
@@ -1825,6 +1825,27 @@ export default {
     this.getUsers();
     this.getUserBaseInfo();
     this.getUserTagInfo();
+    this.moreShow=false;
+    this.box1=false;
+    this.box2=false;
+    this.box3=false;
+    this.box4=false;
+    this.box5=false;
+    this.box6=false;
+    this.box7=false;
+    this.box8=false;
+    this.box9=false;
+    this.box10=false;
+    this.box11=false;
+    this.box12=false;
+    this.box13=false;
+    this.box14=false;
+    this.box15=false;
+    this.box16=false;
+    this.box17=false;
+    this.box18=false;
+    this.box19=false;
+    this.box20=false;
   },
   methods:{
     getUsers(){
@@ -1891,9 +1912,21 @@ export default {
          }
        })
     },
+    handleClose(done) {
+      this.tagCheckList=[];
+      this.tagRemark='';
+      done();
+    },
     // 保存标签
     TagSave(){
       console.log(this.tagList,this.tagCheckList)
+      if(this.tagCheckList.length==0){
+        this.$message.error('请先选择标签');
+        return
+      }else if(!this.tagRemark){
+        this.$message.error('请先填备注');
+        return
+      }
 
       if(this.tagList[0].LABELNAME){
         let p={
@@ -1910,6 +1943,8 @@ export default {
                message: '恭喜你，添加成功！',
                type: 'success'
              });
+             this.tagCheckList=[];
+             this.tagRemark='';
              this.tagDialogVisible=false;
              this.getUserTagInfo();
            }

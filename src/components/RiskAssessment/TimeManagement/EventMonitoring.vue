@@ -107,7 +107,7 @@
           width="160">
         </el-table-column>
         <el-table-column
-          label="出入境"
+          label="出入标识"
           width="120"
           sortable>
           <template slot-scope="scope">
