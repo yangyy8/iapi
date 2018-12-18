@@ -69,7 +69,7 @@
               </div>
             </el-col>
             <el-col :sm="24" :md="12"  :lg="8" class="input-item">
-              <span class="input-text">出入境类型：</span>
+              <span class="input-text">出入标识：</span>
               <el-select  placeholder="请选择"  size="small" v-model="pd.IN_OUT" clearable filterable class="block input-input">
                 <el-option label="I - 入境" value="I"></el-option>
                 <el-option label="O - 出境" value="O"></el-option>
@@ -254,7 +254,7 @@
 
           <el-col :sm="24" :md="12" :lg="8"  class="input-item">
             <span class="input-text"><span class="redx">*</span>姓名：</span>
-            <el-input placeholder="请输入内容" size="small" v-model="form.FAMILYNAME" clearable class="input-input" v-verify.input.blur ="{regs:'required|max:35',submit:'demo2'}"></el-input>
+            <el-input placeholder="请输入内容" size="small" v-model="form.FAMILYNAME" clearable class="input-input" v-verify.input.blur ="{regs:'required|cname',submit:'demo2'}"></el-input>
           </el-col>
           <el-col :sm="24" :md="12" :lg="8"  class="input-item">
             <span class="input-text"><span class="redx">*</span>性别：</span>

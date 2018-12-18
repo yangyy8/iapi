@@ -103,6 +103,7 @@
           </el-table-column>
           <el-table-column
             label="照片">
+            
           </el-table-column>
           <el-table-column
             label="操作"

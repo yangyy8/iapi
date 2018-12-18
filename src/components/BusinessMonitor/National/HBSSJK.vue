@@ -334,7 +334,7 @@
           </el-col>
           <el-col :sm="24" :md="12" :lg="8" >
             <span>值机人数：</span>
-            {{detailsData.gatNum}}
+            {{detailsData.checkinCount}}
           </el-col>
           <el-col :sm="24" :md="12" :lg="8" >
             <span>黑名单人数：</span>

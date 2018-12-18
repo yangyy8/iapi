@@ -69,10 +69,9 @@
         <el-table-column
           label="操作" width="350">
           <template slot-scope="scope">
-
               <el-button class="table-btn" size="mini" plain icon="el-icon-edit" @click="adds(1,scope.row)">编辑</el-button>
               <el-button class="table-btn" size="mini" plain icon="el-icon-upload2" @click="showUpload(scope.row)">导入</el-button>
-                            <el-button class="table-btn" size="mini" plain icon="el-icon-download" @click="tableDown(scope.row)">导出</el-button>
+              <el-button class="table-btn" size="mini" plain icon="el-icon-download" @click="tableDown(scope.row)">导出</el-button>
               <el-button class="table-btn" size="mini" plain icon="el-icon-delete" @click="deletes(scope.row)">删除</el-button>
          </template>
         </el-table-column>
@@ -421,8 +420,7 @@ export default {
     showUpload(i){
 
       this.getSerial=i.SERIAL;
-       this.actions="http://192.168.99.242:8081";
-    // this.actions=this.$api.rootUrl;
+     this.actions=this.$api.rootUrl;
       this.uploadDialogVisible=true;
       console.log( this.$refs.upload);
       if( this.$refs.upload){
@@ -430,6 +428,7 @@ export default {
       }
     },
     submitUpload() {
+console.log(this.$refs.upload.uploadFiles);
       if(this.$refs.upload.uploadFiles.length==0){
         this.$message({
          message: '请先选择文件！',
@@ -437,6 +436,8 @@ export default {
        });
         return
       }
+
+
       // alert(this.$refs);
       this.$refs.upload.submit();
     },

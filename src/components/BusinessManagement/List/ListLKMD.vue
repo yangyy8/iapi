@@ -93,7 +93,7 @@
               </div>
             </el-col>
             <el-col :sm="24" :md="12"  :lg="8" class="input-item">
-              <span class="input-text">出入境类型：</span>
+              <span class="input-text">出入标识：</span>
               <el-select  placeholder="请选择"  size="small" v-model="pd.IN_OUT" clearable filterable class="block input-input">
                 <el-option label="I - 入境" value="I"></el-option>
                 <el-option label="O - 出境" value="O"></el-option>
@@ -307,7 +307,7 @@
         <el-row  class="mb-6" align="center">
           <el-col :sm="24" :md="12" :lg="8"  class="input-item">
             <span class="input-text"><span class="redx">*</span>国籍/地区：</span>
-            <el-select v-model="form.NATIONALITY" filterable clearable placeholder="请选择"  v-verify.change.blur ="{regs:'required',submit:'demo2'}" size="small" class="input-input">
+            <el-select v-model="form.NATIONALITY" filterable clearable placeholder="请选择"  v-verify.change.blur="{regs:'required',submit:'demo2'}" size="small" class="input-input">
               <el-option
                 v-for="item in nationAlone"
                 :key="item.CODE"
@@ -357,7 +357,7 @@
 
           <el-col :sm="24" :md="12" :lg="8"  class="input-item">
             <span class="input-text"><span class="redx">*</span>姓名：</span>
-            <el-input placeholder="请输入内容" size="small" v-model="form.FAMILYNAME"  class="input-input" v-verify.input.blur="{regs:'required|max:35',submit:'demo2'}" ></el-input>
+            <el-input placeholder="请输入内容" size="small" v-model="form.FAMILYNAME"  class="input-input" v-verify.input.blur="{regs:'required|cname',submit:'demo2'}" ></el-input>
           </el-col>
 
           <el-col :sm="24" :md="12" :lg="8"  class="input-item">
@@ -477,7 +477,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="addItem('addForm','0')" size="small">保存</el-button>
-        <el-button type="warning" @click="releaseDialogVisible=true" size="small">保存并发布</el-button>
+        <el-button type="warning" @click="bzfb" size="small">保存并发布</el-button>
         <el-button @click="addDialogVisible = false" size="small">取消</el-button>
       </div>
     </el-dialog>
@@ -993,17 +993,27 @@ export default {
          })
       }
     },
-
+    bzfb(){
+      if(this.$validator.listener.demo2){
+        const result = this.$validator.verifyAll('demo2')
+         if (result.indexOf(false) > -1) {
+           return
+         } else {
+           // return
+         }
+      }
+      this.releaseDialogVisible=true
+    },
     // 保存0  确认授权1
     addItem(formName,synStatus){
-      // console.log(this.$validator)
-      // if(this.$validator.listener.demo2){
-      //   const result = this.$validator.verifyAll('demo2')
-      //    if (result.indexOf(false) > -1) {
-      //      return
-      //    } else {
-      //    }
-      // }
+      console.log(this.$validator)
+      if(this.$validator.listener.demo2){
+        const result = this.$validator.verifyAll('demo2')
+         if (result.indexOf(false) > -1) {
+           return
+         } else {
+         }
+      }
       if(synStatus==0){
         switch (this.dialogType) {
           case "add":
