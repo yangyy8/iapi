@@ -600,6 +600,9 @@ export default {
         this.form.type=this.tp;
         this.airCodeAble = true;
         this.dialogText="编辑";
+        this.form.continentsCode = i.continentsName;
+        this.form.countryCode = i.countryName;
+        this.form.cityCode = i.cityName;
         this.cityAble(this.form.countryCode,1);
       }else {
         this.tp = 0;

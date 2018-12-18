@@ -430,59 +430,65 @@ export default {
        })
     },
     guestSave(){
-      const result = this.$validator.verifyAll('oneDetail')
-       if (result.indexOf(false) > -1) {
-         return
-       }
-       console.log(this.entity.TERMINAL)
-       if(this.entity.CONSULTFROM == '0'||this.entity.CONSULTFROM == ''||this.entity.CONSULTFROM == undefined){
-         this.detailsRow.TERMINAL = this.entity.TERMINAL;
-       }else{
-         this.detailsRow.TERMINAL = '';
-       }
-      this.detailsRow.CONSULTTYPE = this.CONSULTTYPE;//类型
-      this.detailsRow.DETAILS = this.DETAILS;//详情
-      this.detailsRow.IAPISERIAL = this.detailsRow.SERIAL;//通讯录一批
-      this.detailsRow.NAME = this.detailsRow.INTG_CHNNAME;
-      this.detailsRow.CONSULTFROMTYPE = this.entity.CONSULTFROMTYPE;
-      this.detailsRow.CONSULTFROM = this.entity.CONSULTFROM;
+      if(this.enterText == '回复'){
+        this.detailsDialogVisible = false;
+        this.$router.push({name:'ConsultationZXHG',query:{review:this.detailsRow,details:this.detailsRow.DETAILS,serial:this.detailsRow.serial,flag:this.CONSULTTYPE}})
+      }else{
+        const result = this.$validator.verifyAll('oneDetail')
+         if (result.indexOf(false) > -1) {
+           return
+         }
+         if(this.entity.CONSULTFROM == '0'||this.entity.CONSULTFROM == ''||this.entity.CONSULTFROM == undefined){
+           this.detailsRow.TERMINAL = this.entity.TERMINAL;
+         }else{
+           this.detailsRow.TERMINAL = '';
+         }
+        this.detailsRow.CONSULTTYPE = this.CONSULTTYPE;//类型
+        this.detailsRow.DETAILS = this.DETAILS;//详情
 
-      this.detailsRow.CONSULTNAME = this.entity.CONSULTNAME;
-      this.detailsRow.INCOMINGPHONE = this.entity.INCOMINGPHONE;
-      this.detailsRow.PHONE = this.entity.PHONE;
-      this.detailsRow.CONSULTFAX = this.entity.CONSULTFAX;
-      this.detailsRow.CONSULTEMAIL= this.entity.CONSULTEMAIL;
-      this.detailsRow.CONSULTFROMOTHERREMARK = this.entity.CONSULTFROMOTHERREMARK;
-      this.$api.post('/manage-platform/consult/saveConsult',this.detailsRow,
-        r => {
-          if(r.success){
-            console.log(r);
-            this.$message({
-              message: '恭喜你，保存成功',
-              type: 'success'
-            });
-            this.entity={}
-            this.detailsRow.serial = r.data.serial;
-            this.enterText = '回复';
-            this.detailText = '回复';
-            // this.getList(this.CurrentPage, this.pageSize, this.pd)
-            // this.detailsDialogVisible = false;
-            // setTimeout(function(){for(var i=0;i<this.tableData.length;i++){
-            //   if(this.tableData[i].SERIAL == this.detailsRow.IAPISERIAL){
-            //     this.$set(this.tableData[i],'DETAILS',this.DETAILS);
-            //     this.$set(this.tableData[i],'serial',r.data.serial);
-            //     // this.tableData[i].DETAILS = this.DETAILS;
-            //     // this.tableData[i].serial = r.data.serial;
-            //     console.log(this.tableData[i]);
-            //     return
-            //   }
-            // }},100)
-          }
-        })
-        if(this.enterText == '回复'){
-          this.detailsDialogVisible = false;
-          this.$router.push({name:'ConsultationZXHG',query:{review:this.detailsRow1,details:this.detailsRow.DETAILS,serial:this.detailsRow.serial,flag:this.CONSULTTYPE}})
-        }
+        this.detailsRow.IAPISERIAL = this.detailsRow.SERIAL;//通讯录一批
+        this.detailsRow.NAME = this.detailsRow.INTG_CHNNAME;//姓名
+        this.detailsRow.CARDNUM = this.detailsRow.PASSPORTNO;//证件号码
+        this.detailsRow.EXPIREDATE = this.detailsRow.PASSPORTEXPIREDATESTR;//证件有效期
+        this.detailsRow.DATEOFBIRTH = this.detailsRow.BIRTHDAYSTR;//出生日期
+        this.detailsRow.VISANUMBER = this.detailsRow.VISANO;//签证号码
+        this.detailsRow.INSTRUCT_OLD = this.detailsRow.LASTCHECKRESULT;//反馈状态
+
+        this.detailsRow.CONSULTFROMTYPE = this.entity.CONSULTFROMTYPE;
+        this.detailsRow.CONSULTFROM = this.entity.CONSULTFROM;
+        this.detailsRow.CONSULTNAME = this.entity.CONSULTNAME;
+        this.detailsRow.INCOMINGPHONE = this.entity.INCOMINGPHONE;
+        this.detailsRow.PHONE = this.entity.PHONE;
+        this.detailsRow.CONSULTFAX = this.entity.CONSULTFAX;
+        this.detailsRow.CONSULTEMAIL= this.entity.CONSULTEMAIL;
+        this.detailsRow.CONSULTFROMOTHERREMARK = this.entity.CONSULTFROMOTHERREMARK;
+        this.$api.post('/manage-platform/consult/saveConsult',this.detailsRow,
+          r => {
+            if(r.success){
+              console.log(r);
+              this.$message({
+                message: '恭喜你，保存成功',
+                type: 'success'
+              });
+              this.entity={}
+              this.detailsRow.serial = r.data.serial;
+              this.enterText = '回复';
+              this.detailText = '回复';
+              // this.getList(this.CurrentPage, this.pageSize, this.pd)
+              // this.detailsDialogVisible = false;
+              // setTimeout(function(){for(var i=0;i<this.tableData.length;i++){
+              //   if(this.tableData[i].SERIAL == this.detailsRow.IAPISERIAL){
+              //     this.$set(this.tableData[i],'DETAILS',this.DETAILS);
+              //     this.$set(this.tableData[i],'serial',r.data.serial);
+              //     // this.tableData[i].DETAILS = this.DETAILS;
+              //     // this.tableData[i].serial = r.data.serial;
+              //     console.log(this.tableData[i]);
+              //     return
+              //   }
+              // }},100)
+            }
+          })
+      }
     },
     entryDetails(row){//列表录入详情
       const result = this.$validator.verifyAll('txl')
@@ -496,11 +502,11 @@ export default {
       this.detailsRow = row;
       this.detailsRow1 = row;
     },
-    reviewTohis(row){//列表回复
-      console.log(this.tableData);
-      console.log(row);
-      this.$router.push({name:'ConsultationZXHG',query:{review:row,details:row.DETAILS,serial:row.serial,flag:this.CONSULTTYPE}})
-    },
+    // reviewTohis(row){//列表回复
+    //   console.log(this.tableData);
+    //   console.log(row);
+    //   this.$router.push({name:'ConsultationZXHG',query:{review:row,details:row.DETAILS,serial:row.serial,flag:this.CONSULTTYPE}})
+    // },
     businessSave(){
       var enti = {};
       var enti = this.entity;

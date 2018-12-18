@@ -9,11 +9,11 @@
             <el-row align="center" :gutter="2">
 
               <el-col :sm="24" :md="12" :lg="8" class="input-item">
-                <span class="input-text">出入境方向：</span>
+                <span class="input-text">出入标识：</span>
                 <el-select v-model="pd.IODIR" placeholder="请选择" filterable clearable size="small" class="input-input">
                   <el-option label="I - 入境" value="I"></el-option>
                   <el-option label="O - 出境" value="O"></el-option>
-                  <el-option label="A - 全部" value="A"></el-option>
+                  <el-option label="A - 入出境" value="A"></el-option>
                 </el-select>
               </el-col>
 

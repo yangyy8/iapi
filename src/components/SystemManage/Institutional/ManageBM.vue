@@ -157,9 +157,9 @@
           <el-col :span="12" class="input-item">
             <span class="yy-input-text"><font class="yy-color">*</font> 状态：</span>
             <el-select v-model="form.STATUS"  placeholder="请选择" size="small" class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}">
-               <el-option  value="1" label="启用">
+               <el-option  value="1" label="1 - 启用">
                </el-option>
-               <el-option  value="0" label="停用">
+               <el-option  value="0" label="0 - 停用">
                </el-option>
              </el-select>
           </el-col>
@@ -354,12 +354,13 @@ export default {
               message: '保存成功！',
               type: 'success'
             });
+            this.addDialogVisible = false;
           } else {
             this.$message.error(r.message);
           }
           this.$refs[formName].resetFields();
-          this.addDialogVisible = false;
-          this.getList();
+
+        this.getList(this.CurrentPage, this.pageSize, this.pd);
           // this.tableData=r.Data.ResultList;
         }, e => {
           this.$message.error('失败了');

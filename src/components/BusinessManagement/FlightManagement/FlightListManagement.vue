@@ -67,11 +67,11 @@
               </el-select>
             </el-col>
             <el-col :sm="24" :md="12" :lg="8" class="input-item">
-              <span class="input-text">出入境：</span>
+              <span class="input-text">出入标识：</span>
               <el-select v-model="cdt.IN_OUT_FLAG" placeholder="请选择" filterable clearable size="small" class="input-input">
-                <el-option label="1 - 入境" value="1"></el-option>
-                <el-option label="2 - 出境" value="2"></el-option>
-                <el-option label="3 - 出入境" value="3"></el-option>
+                <el-option label="I - 入境" value="1"></el-option>
+                <el-option label="O - 出境" value="2"></el-option>
+                <el-option label="A - 入出境" value="3"></el-option>
                 <!-- <el-option label="全部" value=""></el-option> -->
               </el-select>
             </el-col>
@@ -128,7 +128,7 @@
         </el-table-column>
         <el-table-column
           prop="IN_OUT_FLAG"
-          label="出入境">
+          label="出入标识">
           <template slot-scope="scope">
             {{scope.row.IN_OUT_FLAG | fifterInOut}}
           </template>

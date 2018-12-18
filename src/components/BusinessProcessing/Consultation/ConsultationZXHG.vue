@@ -16,16 +16,15 @@
         border
         style="width: 100%;">
         <el-table-column
-          prop="INTG_CHNNAME"
+          prop="NAME"
           label="姓名">
         </el-table-column>
         <el-table-column
-          prop="PASSPORTNO"
-          label="证件号码"
-          >
+          prop="CARDNUM"
+          label="证件号码">
         </el-table-column>
         <el-table-column
-          prop="PASSPORTEXPIREDATESTR"
+          prop="EXPIREDATE"
           label="证件有效期">
         </el-table-column>
         <el-table-column
@@ -37,7 +36,7 @@
           label="性别">
         </el-table-column>
         <el-table-column
-          prop="BIRTHDAYSTR"
+          prop="DATEOFBIRTH"
           label="出生日期">
         </el-table-column>
         <el-table-column
@@ -53,7 +52,7 @@
           label="计划起飞时间">
         </el-table-column>
         <el-table-column
-          prop="VISANO"
+          prop="VISANUMBER"
           label="签证号码">
         </el-table-column>
         <el-table-column
@@ -61,39 +60,10 @@
           label="签证种类">
         </el-table-column>
         <el-table-column
-          prop="LASTCHECKRESULT"
+          prop="INSTRUCT_OLD"
           label="反馈状态">
         </el-table-column>
       </el-table>
-      <!-- <div class="middle-foot">
-        <div class="page-msg">
-          <div class="">
-            共{{Math.ceil(TotalResult/pageSize)}}页
-          </div>
-          <div class="">
-            每页
-            <el-select v-model="pageSize" @change="pageSizeChange(pageSize)" placeholder="10" size="mini" class="page-select">
-              <el-option
-                v-for="item in options"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value">
-              </el-option>
-            </el-select>
-            条
-          </div>
-          <div class="">
-            共{{TotalResult}}条
-          </div>
-        </div>
-        <el-pagination
-          background
-          @current-change="handleCurrentChange"
-          :page-size="pageSize"
-          layout="prev, pager, next"
-          :total="TotalResult">
-        </el-pagination>
-      </div> -->
       <el-row align="center" :gutter="2" type="flex">
         <el-col :span="24" class="input-item">
           <span class="yy-input-text width-lef">预检结果：</span>
@@ -103,7 +73,6 @@
     </div>
 
     <div class="middle mb-2">
-      <!-- <span class="title-blue">回复口径</span> -->
       <el-row type="flex" class="middle">
         <el-col :span="12" class="br pr-20">
             <el-row align="center" :gutter="2" type="flex">
@@ -111,8 +80,8 @@
                 <span class="input-text">回复口径：</span>
                 <el-select v-model="pd.REPLYTYPE" filterable clearable placeholder="请选择" size="small" class="input-input" @visible-change="replyCaliber" @change="replayC(pd.REPLYTYPE)">
                   <el-option
-                   v-for="item in caliber"
-                   :key="item.TYPE"
+                   v-for="(item,ind) in caliber"
+                   :key="ind"
                    :value="item.TYPE"
                    :label="item.DESCRIBE">
                   </el-option>
@@ -155,14 +124,11 @@
         <el-col  :sm="24" :md="12" :lg="18"  class="input-item">
           <span class="input-text  t-width-bz">备注：</span>
           <el-input placeholder="请输入内容" size="small" v-model="pd.REMARKOFHANDING"  class="input-input"></el-input>
-          <!-- <el-input type="textarea" v-model="pd.REMARKOFHANDING"></el-input> -->
         </el-col>
       </el-row>
     </div>
     <div class="middle">
       <el-row align="center" :gutter="2" type="flex" justify="center">
-        <!-- <el-button type="primary" size="small" @click="">取消</el-button>
-        <el-button type="primary" size="small" @click="" style="margin-left:20px!important">暂存</el-button> -->
         <el-button type="primary" size="small" style="margin-left:20px!important" @click="saveT">保存</el-button>
         <el-button type="primary" size="small" style="margin-left:20px!important"><a href="javascript:history.back(-1)" style="color:#fff">返回</a></el-button>
       </el-row>
@@ -173,8 +139,8 @@
           <el-col :span="8" class="input-item">
             <span class="yy-input-text">姓名：</span>
             <el-input placeholder="请输入内容" size="small" v-model="form.NAME" class="yy-input-input" :disabled="true"></el-input>
-
           </el-col>
+
           <el-col :span="8" class="input-item">
             <span class="yy-input-text">性别：</span>
               <el-input placeholder="请输入内容" size="small" v-model="form.GENDER=='U'?'未知':form.GENDER=='M'?'男':'女'" class="yy-input-input" :disabled="true"></el-input>
@@ -189,8 +155,8 @@
           <el-col :span="8" class="input-item">
             <span class="yy-input-text">国籍/地区：</span>
             <el-input placeholder="请输入内容" size="small" v-model="form.NATIONALITYC" class="yy-input-input" :disabled="true"></el-input>
-
           </el-col>
+
           <el-col :span="8" class="input-item">
             <span class="yy-input-text">证件号码：</span>
             <el-input placeholder="请输入内容" size="small" v-model="form.PASSPORTNO" class="yy-input-input" :disabled="true"> </el-input>
@@ -227,21 +193,17 @@
             <span class="yy-input-text" style="width:20%">变更后反馈状态：</span>
             <el-select v-model="form.INSTRUCT"  placeholder="请选择"  filterable clearable  @change="inschange(form.INSTRUCT)"  size="small" style="width:82%">
               <span v-if="form.LASTCHECKRESULT!='0Z'">
-              <el-option value="0Z" label="0Z - 允许打印登机牌">
-              </el-option>
-             </span>
+                <el-option value="0Z" label="0Z - 允许打印登机牌"></el-option>
+              </span>
               <span v-if="form.LASTCHECKRESULT!='1Z'">
-              <el-option value="1Z" label="1Z - 禁止打印登机牌">
-              </el-option>
-            </span>
-            <span v-if="form.LASTCHECKRESULT!='2Z'">
-              <el-option value="2Z" label="2Z - 请再次核对">
-              </el-option>
-                </span>
+                <el-option value="1Z" label="1Z - 禁止打印登机牌"></el-option>
+              </span>
+              <span v-if="form.LASTCHECKRESULT!='2Z'">
+                <el-option value="2Z" label="2Z - 请再次核对"></el-option>
+              </span>
               <span v-if="form.LASTCHECKRESULT!='4Z'">
-              <el-option value="4Z" label="4Z - 数据错误">
-              </el-option>
-                </span>
+               <el-option value="4Z" label="4Z - 数据错误"></el-option>
+              </span>
              </el-select>
           </el-col>
           </el-col>
@@ -253,7 +215,6 @@
           </el-col>
         </el-row>
 
-
         <el-row type="flex" class="mb-6">
           <el-col :span="24" class="input-item">
             <span class="yy-input-text" style="width:20%">变更描述：</span>
@@ -264,28 +225,25 @@
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="handlessys()" size="small">变更</el-button>
         <el-button @click="handlesDialogVisible = false" size="small">取消</el-button>
-
       </div>
-
     </el-dialog>
 
     <el-dialog  title="操作授权" :visible.sync="AuthDialogVisible"  append-to-body width="500px">
-
       <el-row  type="flex"  class="mb-15">
-            <el-col :span="20">
-            <span class="yy-input-text">授权账号：</span>
-            <el-input placeholder="请输入内容" size="small" v-model="ap.APPROVALUSER" v-verify.change.blur ="{regs:'required',submit:'demo2'}" class="yy-input-input"></el-input></el-col>
+        <el-col :span="20">
+          <span class="yy-input-text">授权账号：</span>
+          <el-input placeholder="请输入内容" size="small" v-model="ap.APPROVALUSER" v-verify.change.blur ="{regs:'required',submit:'demo2'}" class="yy-input-input"></el-input>
+        </el-col>
       </el-row>
       <el-row  type="flex"  class="mb-15">
-            <el-col :span="20">
-              <span class="yy-input-text">授权密码：</span>
-              <el-input placeholder="请输入内容" type="password" size="small" v-model="ap.APPROVALPW" v-verify.change.blur ="{regs:'required',submit:'demo2'}" class="yy-input-input"></el-input></el-col>
-
+        <el-col :span="20">
+          <span class="yy-input-text">授权密码：</span>
+          <el-input placeholder="请输入内容" type="password" size="small" v-model="ap.APPROVALPW" v-verify.change.blur ="{regs:'required',submit:'demo2'}" class="yy-input-input"></el-input>
+        </el-col>
       </el-row>
       <div slot="footer" class="dialog-footer">
        <el-button type="primary" @click="Authorization(ap)" size="small">确认授权</el-button>
         <el-button @click="AuthDialogVisible = false" size="small">取消</el-button>
-
       </div>
     </el-dialog>
   </div>
@@ -295,9 +253,6 @@
 export default {
   data() {
     return {
-      // CurrentPage: 1,
-      // pageSize: 10,
-      // TotalResult: 0,
       pd: {},
       nation: [],
       company: [],
@@ -307,24 +262,9 @@ export default {
       AuthDialogVisible:false,
       form: {},
       ap: {},
-      changeId:'',
 
       value: '',
       value1: "",
-
-      // options: [{
-      //     value: 10,
-      //     label: "10"
-      //   },
-      //   {
-      //     value: 20,
-      //     label: "20"
-      //   },
-      //   {
-      //     value: 30,
-      //     label: "30"
-      //   }
-      // ],
       tableData: [],
       multipleSelection: [],
 
@@ -332,48 +272,17 @@ export default {
     }
   },
   mounted() {
-    // this.tableData.push(this.$route.query.review);
-    console.log(this.$route.query.serial);
-    console.log(this.$route.query.details);
-    // this.getList(this.CurrentPage, this.pageSize, this.pd);
+
   },
   activated() {
     this.tableData=[];
     this.tableData.push(this.$route.query.review);
     this.pretestResults = this.$route.query.details;
-    console.log(this.$route.query.details);
-    // this.getList(this.CurrentPage, this.pageSize, this.pd);
   },
   methods: {
      added(){
        this.addedDialogVisible = true;
      },
-
-    handleSelectionChange(val) {
-      this.multipleSelection = val;
-    },
-    // pageSizeChange(val) {
-    //   this.getList(this.CurrentPage, val, this.pd);
-    //   console.log(`每页 ${val} 条`);
-    // },
-    // handleCurrentChange(val) {
-    //   this.getList(val, this.pageSize, this.pd);
-    //
-    //   console.log(`当前页: ${val}`);
-    // },
-    // getList(currentPage, showCount, pd) {
-    //   let p = {
-    //     "currentPage": currentPage,
-    //     "showCount": showCount,
-    //     "pd": pd
-    //   };
-    //   this.$api.post('/manage-platform/deptSys/selectAll', p,
-    //     r => {
-    //       console.log(r);
-    //       // this.tableData = r.data.deptList.pdList;
-    //       this.TotalResult = r.data.deptList.totalResult;
-    //     })
-    // },
     replyCaliber(){//回复口径
       this.$api.post('/manage-platform/consult/queryReplyList',{},
        r => {
@@ -400,8 +309,6 @@ export default {
         const result = this.$validator.verifyAll('demo2')
         if (result.indexOf(false) > -1) {
           return
-        } else {
-
         }
       }
       this.handlesItem1("handlesForm", ap);
@@ -420,7 +327,6 @@ export default {
         r => {
           console.log(r);
           if(r.success){
-            // this.changeId = r.data.changeStatusSERIAL;
             if (r.data.success) {//变更成功
               this.$message({
                 message: '变更成功！',
@@ -434,7 +340,6 @@ export default {
             this.handlesDialogVisible = false;
             this.AuthDialogVisible = false;
           }
-          // this.getList(this.CurrentPage, this.pageSize, this.pd);
         }, e => {
           this.$message.error('失败了');
         })
@@ -455,7 +360,7 @@ export default {
     saveBg(val){//指令变更保存
       var reply = {};
       reply = this.pd;
-      reply.INSTRUCT_OLD = this.$route.query.review.LASTCHECKRESULT;//原指令
+      reply.INSTRUCT_OLD = this.$route.query.review.INSTRUCT_OLD;//原指令
       reply.INSTRUCT_NEW = this.form.INSTRUCT;//最终指令
       reply.DEALRESULT = 1;//变更
       reply.CHANGESERIAL = val;
@@ -469,6 +374,9 @@ export default {
            });
          }
        })
+       setTimeout(function(){
+         window.history.go(-1);
+       },1500);
     },
     saveT(){//变更
       if(this.pd.RESULTOFHANDING == 1||this.pd.RESULTOFHANDING == 2){
@@ -495,6 +403,9 @@ export default {
              });
            }
          })
+         setTimeout(function(){
+           window.history.go(-1);
+         },1500);
       }
     }
 
