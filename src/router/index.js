@@ -430,12 +430,17 @@ export default new Router({
           component: resolve => require(['@/components/SystemManage/Configuration/ConfigurationManagement'], resolve),
 
         },
+        //口岸配置管理
+        {
+          path: "ConfigurationKA",
+          name: "ConfigurationKA",
+          component: resolve => require(['@/components/SystemManage/Configuration/ConfigurationKA'], resolve),
+        },
         //配置管理
         {
           path: "ConfigurationHFKJ",
           name: "ConfigurationHFKJ",
           component: resolve => require(['@/components/SystemManage/Configuration/ConfigurationHFKJ'], resolve),
-
         },
         //权限管理--------------------------------------------------------------------------------
         //用户管理
@@ -523,6 +528,13 @@ export default new Router({
           path: "MonitorBJJHPT",
           name: "MonitorBJJHPT",
           component: resolve => require(['@/components/SystemMonitor/OperatingStatus/MonitorBJJHPT'], resolve),
+
+        },
+        //口岸状态监控
+        {
+          path: "MonitorKAJK",
+          name: "MonitorKAJK",
+          component: resolve => require(['@/components/SystemMonitor/OperatingStatus/MonitorKAJK'], resolve),
 
         },
         //数据监控--------------------------------------------------------------------------------------

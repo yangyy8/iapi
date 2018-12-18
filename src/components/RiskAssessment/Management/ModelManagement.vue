@@ -106,8 +106,8 @@
         </el-table-column> -->
 
         <el-table-column
-          prop="UPDATETIME"
-          label="最后更新日期" width="130">
+          prop="UPDATE_TIME"
+          label="最后更新日期">
         </el-table-column>
         <el-table-column
           prop="LIFE_SPAN"
@@ -422,23 +422,23 @@
 export default {
   data() {
     const generateData = _ => {
-    const data = [];
-    for (let i = 1; i <= 4; i++) {
+      const data = [];
+      for (let i = 1; i <= 4; i++) {
         data.push({
-        key: i,
-        label: `备选项 ${i}`,
-        disabled: i % 4 === 0
+          key: i,
+          label: `备选项 ${i}`,
+          disabled: i % 4 === 0
         });
-    }
-    return data;
+      }
+      return data;
     };
     return {
       tp: 0,
-      ap:{},
-      data:generateData(),
-      value1:[],
-      data2:generateData(),
-      value2:[],
+      ap: {},
+      data: generateData(),
+      value1: [],
+      data2: generateData(),
+      value2: [],
       CurrentPage: 1,
       pageSize: 10,
       TotalResult: 0,
@@ -449,8 +449,8 @@ export default {
       tabPosition: 'left',
       addDialogVisible: false,
       detailsDialogVisible: false,
-    useDialogVisible:false,
-    AuthDialogVisible:false,
+      useDialogVisible: false,
+      AuthDialogVisible: false,
       menuDialogVisible: false,
       options: [{
           value: 10,
@@ -468,7 +468,7 @@ export default {
       tableData: [],
 
       multipleSelection: [],
-      tem:{},
+      tem: {},
       form: {},
       mapForm: {},
       Airport: [],
@@ -477,14 +477,14 @@ export default {
         targetId: '',
         calculation: '',
         targetValue: '',
-        targetSign:''
+        targetSign: ''
       }],
       modelrow: [{
         id: 1,
         targetId: '',
         calculation: '',
         targetValue: '',
-        targetSign:''
+        targetSign: ''
       }],
       erows: [{
         id: 1,
@@ -502,7 +502,7 @@ export default {
       }],
       count: 1,
       ecount: 1,
-      mocode:'',
+      mocode: '',
     }
   },
   mounted() {
@@ -514,18 +514,18 @@ export default {
     this.queryNationality();
   },
   methods: {
-    changeTarget(value){
+    changeTarget(value) {
       console.log(value);
       let arr = this.rows;
       let that = this;
-      for(var i=0;i<arr.length;i++){
-        if(arr[i].targetId == value){
+      for (var i = 0; i < arr.length; i++) {
+        if (arr[i].targetId == value) {
 
           let obj = {};
-          obj = that.target.find((item)=>{//这里的userList就是上面遍历的数据源
-              return item.TARGET_ID === value;//筛选出匹配数据
+          obj = that.target.find((item) => { //这里的userList就是上面遍历的数据源
+            return item.TARGET_ID === value; //筛选出匹配数据
           });
-          arr[i].targetSign=obj.TARGET_SIGN;
+          arr[i].targetSign = obj.TARGET_SIGN;
         }
       }
 
@@ -551,7 +551,7 @@ export default {
       };
       this.$api.post('/manage-platform/model/select', p,
         r => {
-        
+
           this.tableData = r.data.pdList;
           this.TotalResult = r.data.totalResult;
         })
@@ -569,51 +569,90 @@ export default {
     adds(n, i) {
       this.addDialogVisible = true;
 
+
+
       if (n != 0) {
         this.tp = 1;
         // this.form = i;
         this.form = Object.assign({}, i);
 
         this.dialogText = "编辑";
-        let p={
+        let p = {
           "modelId": i.MODEL_ID,
           "modelCode": i.MODEL_CODE,
           "modelVersion": i.MODEL_VERSION
         };
         this.$api.post('/manage-platform/model/goEdit', p,
           r => {
-            console.log(r);
+
             if (r.success) {
               this.form = r.data;
-              console.log(r.data.ruleList+"----");
-              this.erows=r.data.ruleList;
-              this.rows=r.data.targetList;
-              this.form.enterRule=r.data.enterRule.ruleRules;
-              this.form.filterRule=r.data.filterRule.ruleRules;
+
+              if (r.data.targetList.length > 0) {
+                this.rows = r.data.targetList;
+              } else {
+
+                this.rows = [{
+                  id: 1,
+                  targetId: '',
+                  calculation: '',
+                  targetValue: '',
+                  targetSign: ''
+                }];
+              }
+              if (r.data.ruleList.length > 0) {
+                this.erows = r.data.ruleList;
+              } else {
+                this.erows = [{
+                  id: 1,
+                  ruleName: '',
+                  ruleRules: '',
+                  ruleDescribe: '',
+                  ruleGrade: ''
+                }];
+              }
+              this.form.enterRule = r.data.enterRule.ruleRules;
+              this.form.filterRule = r.data.filterRule.ruleRules;
             }
           });
 
       } else {
+
         this.tp = 0;
         this.dialogText = "新增";
+
+        this.rows = [{
+          id: 1,
+          targetId: '',
+          calculation: '',
+          targetValue: '',
+          targetSign: ''
+        }];
+        this.erows = [{
+          id: 1,
+          ruleName: '',
+          ruleRules: '',
+          ruleDescribe: '',
+          ruleGrade: ''
+        }];
+
       }
 
     },
     addItem(formName) {
-      if(this.$validator.listener.demo2){
+      if (this.$validator.listener.demo2) {
         const result = this.$validator.verifyAll('demo2')
-         if (result.indexOf(false) > -1) {
-           return
-         } else {
-         }
+        if (result.indexOf(false) > -1) {
+          return
+        } else {  }
       }
-      let p={};
+      let p = {};
       var url = "";
       if (this.tp == 1) {
-         p = {
+        p = {
           "modelId": this.form.modelId,
-          "modelCode":this.form.modelCode,
-          "modelVersion":this.form.modelVersion,
+          "modelCode": this.form.modelCode,
+          "modelVersion": this.form.modelVersion,
           "modelName": this.form.modelName,
           "modelJc": this.form.modelJc,
           "status": this.form.status,
@@ -632,7 +671,7 @@ export default {
         };
         url = "/manage-platform/model/edit";
       } else {
-         p = {
+        p = {
           "modelName": this.form.modelName,
           "modelJc": this.form.modelJc,
           "status": this.form.status,
@@ -673,10 +712,10 @@ export default {
           this.$message.error('失败了');
         })
     },
-    starts(i,type){
-      let p={
-"modelId":i.MODEL_ID,
-"status":type
+    starts(i, type) {
+      let p = {
+        "modelId": i.MODEL_ID,
+        "status": type
 
       };
       this.$api.post('/manage-platform/model/updateStatus', p,
@@ -686,7 +725,7 @@ export default {
               message: '修改成功！',
               type: 'success'
             });
-              this.getList(this.CurrentPage, this.pageSize, this.pd);
+            this.getList(this.CurrentPage, this.pageSize, this.pd);
           } else {
             this.$message.error(r.Message);
           }
@@ -699,104 +738,104 @@ export default {
       console.log(i);
       this.mapForm = i;
     },
-    relates(i){
-     this.menuDialogVisible = true;
-     this.data=[];
-     this.value1=[];
-     let p={
-       "MODEL_CODE":i.MODEL_CODE
-     };
-     this.mocode=i.MODEL_CODE;
+    relates(i) {
+      this.menuDialogVisible = true;
+      this.data = [];
+      this.value1 = [];
+      let p = {
+        "MODEL_CODE": i.MODEL_CODE
+      };
+      this.mocode = i.MODEL_CODE;
       this.$api.post('/manage-platform/model/questionAll', p,
         r => {
-           for(let rr of r.data.questionList){
+          for (let rr of r.data.questionList) {
             this.data.push({
-               key: rr.SERIAL,
-               label: rr.NAME,
-               disabled: rr.check
-             });
-           }
+              key: rr.SERIAL,
+              label: rr.NAME,
+              disabled: rr.check
+            });
+          }
         });
 
     },
-    addRelates(){
+    addRelates() {
 
-       let p={
-         "MODEL_CODE":this.mocode,
-         "checkQuestion":this.value1
-       };
-       this.$api.post('/manage-platform/model/relevancyQuestion', p,
-         r => {
-           if (r.success) {
-             this.$message({
-               message: '保存成功！',
-               type: 'success'
-             });
-           } else {
-             this.$message.error(r.Message);
-           }
-         });
-          this.menuDialogVisible = false;
+      let p = {
+        "MODEL_CODE": this.mocode,
+        "checkQuestion": this.value1
+      };
+      this.$api.post('/manage-platform/model/relevancyQuestion', p,
+        r => {
+          if (r.success) {
+            this.$message({
+              message: '保存成功！',
+              type: 'success'
+            });
+          } else {
+            this.$message.error(r.Message);
+          }
+        });
+      this.menuDialogVisible = false;
     },
-    auses(i){
-     this.useDialogVisible = true;
-     this.data2=[];
-     this.value2=[];
-     let p={
-       "MODEL_CODE":i.MODEL_CODE
-     };
-      this.mocode=i.MODEL_CODE;
+    auses(i) {
+      this.useDialogVisible = true;
+      this.data2 = [];
+      this.value2 = [];
+      let p = {
+        "MODEL_CODE": i.MODEL_CODE
+      };
+      this.mocode = i.MODEL_CODE;
       this.$api.post('/manage-platform/model/portAll', p,
         r => {
-           for(let rr of r.data.portList){
+          for (let rr of r.data.portList) {
             this.data2.push({
-               key: rr.DEPT_CODE,
-               label: rr.DEPT_JC,
-               disabled: rr.check
-             });
-           }
+              key: rr.DEPT_CODE,
+              label: rr.DEPT_JC,
+              disabled: rr.check
+            });
+          }
         });
 
     },
-    addUse(){
-       let p={
-         "MODEL_CODE":this.mocode,
-         "checkPort":this.value2
-       };
-       this.$api.post('/manage-platform/model/savePort', p,
-         r => {
-           if (r.success) {
-             this.$message({
-               message: '保存成功！',
-               type: 'success'
-             });
-           } else {
-             this.$message.error(r.Message);
-           }
-         });
-          this.useDialogVisible = false;
+    addUse() {
+      let p = {
+        "MODEL_CODE": this.mocode,
+        "checkPort": this.value2
+      };
+      this.$api.post('/manage-platform/model/savePort', p,
+        r => {
+          if (r.success) {
+            this.$message({
+              message: '保存成功！',
+              type: 'success'
+            });
+          } else {
+            this.$message.error(r.Message);
+          }
+        });
+      this.useDialogVisible = false;
     },
-   deletes(i){
-  this.ap={};
-   this.AuthDialogVisible=true;
-   this.ap.MODEL_ID=i.MODEL_ID;
-   this.ap.MODEL_CODE=i.MODEL_CODE;
-   this.ap.MODEL_VERSION=i.MODEL_VERSION;
-   },
+    deletes(i) {
+      this.ap = {};
+      this.AuthDialogVisible = true;
+      this.ap.MODEL_ID = i.MODEL_ID;
+      this.ap.MODEL_CODE = i.MODEL_CODE;
+      this.ap.MODEL_VERSION = i.MODEL_VERSION;
+    },
     Authorization(ap) {
 
-      if(this.$validator.listener.demo3){
+      if (this.$validator.listener.demo3) {
         const result = this.$validator.verifyAll('demo3')
-         if (result.indexOf(false) > -1) {
-           return
-         }
+        if (result.indexOf(false) > -1) {
+          return
+        }
       }
       let p = {
         "modelId": ap.MODEL_ID,
         "modelCode": ap.MODEL_CODE,
         "modelVersion": ap.MODEL_VERSION,
-        "userName":ap.userName,
-        "password":ap.password
+        "userName": ap.userName,
+        "password": ap.password
       };
       this.$confirm('您是否确认删除？', '提示', {
         confirmButtonText: '确定',
@@ -812,7 +851,7 @@ export default {
                 message: '删除成功！',
                 type: 'success'
               });
-              this.AuthDialogVisible=false;
+              this.AuthDialogVisible = false;
               this.getList(this.CurrentPage, this.pageSize, this.pd);
             } else {
               this.$message.error(r.Message);
@@ -839,7 +878,7 @@ export default {
         targetId: '',
         calculation: '',
         targetValue: '',
-        targetSign:''
+        targetSign: ''
       };
       this.modelrow.id = this.count;
       this.rows.push(this.modelrow);
@@ -881,21 +920,17 @@ export default {
     },
     fiftermodel(val) {
       if (val == 1) {
-        return "新建"
+        return "编辑"
 
       } else if (val == 2) {
         return "提交测试"
-      }
-      else if (val == 3) {
+      } else if (val == 3) {
         return "测试通过"
-      }
-      else if (val == 4) {
+      } else if (val == 4) {
         return "提交审核"
-      }
-      else if (val == 5) {
-        return "审核通过允许使用"
-      }
-      else if (val == 6) {
+      } else if (val == 5) {
+        return "审核通过"
+      } else if (val == 6) {
         return "审核不通过"
       }
     },
@@ -973,10 +1008,21 @@ export default {
   font-size: 20px;
   color: red
 }
-.yyred{color: red}
-.yygreen{color: blue}
+
+.yyred {
+  color: red
+}
+
+.yygreen {
+  color: blue
+}
 </style>
 <style>
-.el-transfer-panel{max-height: 500px !important}
-.el-transfer__buttons{width: 4%!important}
+.el-transfer-panel {
+  max-height: 500px !important
+}
+
+.el-transfer__buttons {
+  width: 4% !important
+}
 </style>

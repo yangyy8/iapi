@@ -364,12 +364,12 @@ export default {
               message: '保存成功！',
               type: 'success'
             });
+            this.addDialogVisible = false;
           } else {
             this.$message.error(r.Message);
           }
 
           this.$refs[formName].resetFields();
-          this.addDialogVisible = false;
           this.getList(this.CurrentPage, this.pageSize, this.pd);
           // this.tableData=r.Data.ResultList;
         }, e => {

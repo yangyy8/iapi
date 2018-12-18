@@ -142,9 +142,15 @@ export default {
       }
     },
     deletes(t) {
-      console.log(this.fileData0);
-      this.fileData0.splice(t, 1);
-      this.fileData = this.fileData0
+      // console.log(this.fileData0);
+      // this.fileData0.splice(t, 1);
+      // this.fileData = this.fileData0
+
+      console.log(this.fileData0)
+      this.fileData =[...this.fileData0]
+      console.log(this.fileData)
+
+      this.fileData.splice(t,1)
 
 // this.fileData=null;
     },

@@ -611,6 +611,7 @@ export default {
 
     showUpload() {
       this.uploadDialogVisible = true;
+      this.typemd="";
       this.actions=this.$api.rootUrl;
       console.log(this.$refs.upload)
       if (this.$refs.upload) {
