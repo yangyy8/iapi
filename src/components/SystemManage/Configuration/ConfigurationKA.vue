@@ -68,7 +68,6 @@
           >
         </el-table-column>
         <el-table-column
-
           label="口岸开关"
           >
           <template slot-scope="scope">
