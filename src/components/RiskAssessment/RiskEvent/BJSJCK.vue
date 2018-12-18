@@ -1,6 +1,8 @@
 <template lang="html">
   <div class="bjsjck">
     <div class="top mb-2">
+      <el-button type="warning" size="small" class="mr-20" @click="$router.go(-1)">返回</el-button>
+
       事件编号：{{serial}}
     </div>
     <div class="middle">
@@ -321,7 +323,7 @@
                 <div class="" v-if="fileData">
                   <div class="" v-for="(x,ind) in fileData" :key="ind">
                     <span class="mr-30">{{x.name}}</span>
-
+                    <el-button type="text" class="redx" @click="delFile(ind)">删除</el-button>
                   </div>
                 </div>
                 <label class="file" v-if="operation_type">
@@ -333,7 +335,7 @@
             </div>
             <div class="boder1 pb-10">
               <div class="title-green hand mt-10" @click="box7=!box7">
-                简要描述 <i class="el-icon-d-caret"></i>
+                <span class="redx">*</span>简要描述 <i class="el-icon-d-caret"></i>
               </div>
               <div v-if="box7">
                 <el-input
@@ -346,18 +348,18 @@
                 </el-input>
                 <el-row align="center" :gutter="2">
                   <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
-                    <span class="mr-5">核查阶段 </span>
+                    <span class="redx">*</span><span class="mr-5">核查阶段 </span>
                     <el-select :disabled="!operation_type" v-model="box4Data.riskDescRecordEntity.check_stage" filterable clearable placeholder="请选择"  size="small" class="input-input">
                       <el-option label="1 - 前期核查" value="1"></el-option>
                       <el-option label="2 - 见面核查" value="2"></el-option>
                     </el-select>
                   </el-col>
                   <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
-                    <span  class="mr-5">核查结果 </span>
+                    <span class="redx">*</span><span  class="mr-5">核查结果 </span>
                     <el-select :disabled="!operation_type" v-model="box4Data.riskDescRecordEntity.check_result" filterable clearable placeholder="请选择"  size="small" class="input-input">
                       <el-option label="1 - 完全排除嫌疑" value="1"></el-option>
-                      <el-option label="2 - 未能排除嫌疑扭转至口岸" value="2"></el-option>
-                      <el-option label="3 - 未能排除嫌疑扭转至梅沙" value="3"></el-option>
+                      <el-option label="2 - 未能排除嫌疑，待进一步核查" value="2"></el-option>
+                      <el-option label="3 - 推送梅沙" value="3"></el-option>
 
                     </el-select>
                   </el-col>
@@ -673,11 +675,19 @@ export default {
     // 获取要上传的文件
     uploadFile(event){
       this.fileData=event.target.files;
+
       console.log(event);
     },
+    // 假删除附件
+    delFile(x){
+      console.log(this.fileData)
+      this.fileData =[...this.fileData]
+      console.log(this.fileData)
+
+      this.fileData.splice(x,1)
+    },
     // 上传附件
-    upload(serial){
-      console.log("this.fileData",this.fileData)
+    upload(){
       var formData = new FormData();
       let arr=this.fileData;
 
@@ -686,10 +696,7 @@ export default {
       }
       formData.append("eventSerial",this.serial);
       formData.append("userId",this.user.userId);
-      console.log(formData)
       let p=formData
-      console.log("p----------",p)
-
       this.$api.post('/manage-platform/riskEventWarningController/upload',p,
        r => {
          if(r.success){
@@ -743,37 +750,100 @@ export default {
     },
     // 保存校验描述/核查阶段/结果/流转
     saveRiskDescRecordInfo(){
-      console.log("this.checkList==================",this.checkList)
+      if(this.$route.query.status==4){
+        this.$message.error('事件已归档！');
+        return
+      }else if(!this.box4Data.riskDescRecordEntity.remark){
+        this.$message.error('请先填写简要描述！');
+        return
+      }else if(!this.box4Data.riskDescRecordEntity.check_stage){
+        this.$message.error('请选择核查阶段！');
+        return
+      }else if(!this.box4Data.riskDescRecordEntity.check_result){
+        this.$message.error('请选择核查结果！');
+        return
+      }
       if(this.fileData){
-        this.upload();
+        var formData = new FormData();
+        let arr=this.fileData;
+
+        for(var i=0;i<arr.length;i++){
+          formData.append("file",arr[i]);
+        }
+        formData.append("eventSerial",this.serial);
+        formData.append("userId",this.user.userId);
+        let p=formData
+        this.$api.post('/manage-platform/riskEventWarningController/upload',p,
+         r => {
+           if(r.success){
+             if(this.delIndex.indexOf("3,")==-1){
+               this.delIndex+="3,"
+             }
+             if(this.listRiskCustom.length>0&&this.delIndex.indexOf("1,")==-1){
+               this.delIndex+="1,"
+             }
+             if(this.checkList.length>0&&this.delIndex.indexOf("2,")==-1){
+               this.delIndex+="2,"
+             }
+             let p={
+               custom:this.listRiskCustom,
+               descRecord:this.box4Data.riskDescRecordEntity,
+               addIndex:this.checkList,
+               userId:this.user.userId,
+               eventSerial: this.serial,
+               delIndex:this.delIndex,
+             };
+             this.$api.post('/manage-platform/riskEventWarningController/saveRiskDescRecordInfo',p,
+              r => {
+                if(r.success){
+                  this.$message({
+                    message: '恭喜你，保存成功！',
+                    type: 'success'
+                  });
+                  this.getRiskDescRecordInfo();
+                  this.listRiskCustom=[];
+                }
+             })
+             this.fileData=null;
+
+           }else {
+             this.fileData=null;
+             return false;
+           }
+        },e => {
+
+        },{'Content-Type': 'multipart/form-data'})
+        // this.upload();
+      }else{
+        if(this.listRiskCustom.length>0&&this.delIndex.indexOf("1,")==-1){
+          this.delIndex+="1,"
+        }
+        if(this.checkList.length>0&&this.delIndex.indexOf("2,")==-1){
+          this.delIndex+="2,"
+        }
+        let p={
+          custom:this.listRiskCustom,
+          descRecord:this.box4Data.riskDescRecordEntity,
+          addIndex:this.checkList,
+          userId:this.user.userId,
+          eventSerial: this.serial,
+          delIndex:this.delIndex,
+        };
+        this.$api.post('/manage-platform/riskEventWarningController/saveRiskDescRecordInfo',p,
+         r => {
+           if(r.success){
+             this.$message({
+               message: '恭喜你，保存成功！',
+               type: 'success'
+             });
+             this.getRiskDescRecordInfo();
+             this.listRiskCustom=[];
+           }
+        })
       }
-      // console.log(this.upload())
-      if(this.listRiskCustom.length>0&&this.delIndex.indexOf("1,")==-1){
-        this.delIndex+="1,"
-      }
-      if(this.checkList.length>0&&this.delIndex.indexOf("2,")==-1){
-        this.delIndex+="2,"
-      }
-      let p={
-        custom:this.listRiskCustom,
-        descRecord:this.box4Data.riskDescRecordEntity,
-        addIndex:this.checkList,
-        userId:this.user.userId,
-        eventSerial: this.serial,
-        delIndex:this.delIndex,
-      };
-      this.$api.post('/manage-platform/riskEventWarningController/saveRiskDescRecordInfo',p,
-       r => {
-         // this.box5Data=r.data;
-         if(r.success){
-           this.$message({
-             message: '恭喜你，保存成功！',
-             type: 'success'
-           });
-           this.getRiskDescRecordInfo();
-           this.listRiskCustom=[];
-         }
-      })
+
+
+
     },
     openGdTc(item){
       this.checkeditem=item;

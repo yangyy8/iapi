@@ -335,7 +335,7 @@
                 width="400"
                 trigger="click">
                 <ul>
-                  <li v-for="i in eachData">
+                  <li v-for="i in eachData" class="hand" style="line-height:32px" title="查看" @click="$router.push({name:'BJCLCX',query:{serial:i.SERIAL,grade:i.GRADE}})">
                     <span>  创建时间：{{i.CREATETIME}}</span>
                     <span>  口岸名称：{{i.PORT_NAME}}</span>
                     <span>  处理结果：{{i.PROCESSORRESULT}}</span>
@@ -352,7 +352,7 @@
             width="70">
             <template slot-scope="scope">
               <el-button type="text" class="a-btn" icon="el-icon-view" title="查看" @click="$router.push({name:'BJSJCK',query:{serial:scope.row.serial,grade:scope.row.grade,page:0}})"></el-button>
-              <el-button type="text" class="a-btn" icon="el-icon-edit-outline"  title="处理" @click="$router.push({name:'BJSJCK',query:{serial:scope.row.serial,grade:scope.row.grade,page:1,operation_type:1}})"></el-button>
+              <el-button type="text" class="a-btn" icon="el-icon-edit-outline"  title="处理" @click="$router.push({name:'BJSJCK',query:{serial:scope.row.serial,grade:scope.row.grade,status:scope.row.status,page:1,operation_type:1}})"></el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -412,6 +412,7 @@
             <el-select v-model="czform.processorResult" filterable clearable placeholder="请选择"  size="small" class="input-input">
               <el-option label="1 - 排除嫌疑" value="1"></el-option>
               <el-option label="2 -  未能排除嫌疑，待进一步核查" value="2"></el-option>
+              <el-option label="3 -  推送梅沙 " value="3"></el-option>
 
             </el-select>
           </el-col>
@@ -724,6 +725,13 @@ export default {
       this.czDialogVisible=true
     },
     czSave(){
+      if(!this.czform.processor_desc){
+        this.$message.error('请先填写处理结果描述！');
+        return
+      }else if(!this.czform.processorResult){
+        this.$message.error('请选择处理结果！');
+        return
+      }
       let arr1=this.multipleSelection;
       let p={
         list:[]

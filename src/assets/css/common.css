@@ -247,6 +247,11 @@ button{
   /* margin-right: 30px!important; */
   width:136px !important;
 }
+.o-checkbox-g2 .el-checkbox {
+  margin-left: 0!important;
+  margin-right: 20px!important;
+  /* width:136px !important; */
+}
 .o-date-box1 input{
   width: 30%!important;
 }
@@ -515,4 +520,77 @@ button{
   display: inline-block;
   /* margin-right: 5px; */
   /* width: 91px; */
+}
+.o-step{
+  position: relative;
+  margin-bottom: 30px;
+  counter-reset: step;
+  width: 216px;
+
+}
+
+/*步骤描述*/
+.o-step li {
+  list-style-type: none;
+  font-size: 12px;
+  text-align: center;
+  width: 25%;
+  position: relative;
+  float: left;
+}
+
+/*步骤数字*/
+.o-step li:before {
+  display: block;
+  content: counter(step); /*设定计数器内容*/
+  counter-increment: step;  /*计数器值递增*/
+  width: 20px;
+  height: 20px;
+  background-color: #58aa56;
+  line-height: 20px;
+  border-radius: 20px;
+  font-size: 12px;
+  color: #fff;
+  text-align: center;
+  /* font-weight: 700; */
+  margin: 0 auto 8px auto;
+
+}
+
+/*连接线*/
+.o-step li ~ li:after {
+  content: '';
+  width: 100%;
+  height: 2px;
+  background-color: #58aa56;
+  position: absolute;
+  left: -50%;
+  top: 9px;
+  /*z-index: 0; 放置在数字后面*/
+}
+
+/*将当前/完成步骤之前的数字及连接线变绿*/
+.o-step li.active:before,
+.o-step li.active:after {
+  background-color: #019875;
+}
+
+/*将当前/完成步骤之后的数字及连接线变灰*/
+.o-step li.active ~ li:before,
+.o-step li.active ~ li:after {
+  background-color: #777;
+
+}
+.o-jiao{
+  display: block;
+  position: absolute;
+  width:0;
+  height:0;
+  border-width:10px 10px 10px 0;
+  border-style:solid;
+  border-color:transparent #031023 transparent transparent;;
+  top:50%;
+  left: -10px;
+  margin-top: -10px;
+
 }

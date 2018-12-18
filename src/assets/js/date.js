@@ -64,3 +64,6 @@ export function dayGap(start,end,type){//相差天数  type =1 到分  type=0 �
   let day = parseInt((endT-startT)/(1000 * 60 * 60 * 24));
   return day;
 }
+export function tabclick(e){
+  console.log("###########",e)
+}

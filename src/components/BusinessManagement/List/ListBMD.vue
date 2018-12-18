@@ -93,7 +93,7 @@
               </div>
             </el-col>
             <el-col :sm="24" :md="12"  :lg="8" class="input-item">
-              <span class="input-text">出入境类型：</span>
+              <span class="input-text">出入标识：</span>
               <el-select  placeholder="请选择"  size="small" v-model="pd.IN_OUT" clearable filterable class="block input-input">
                 <el-option label="I - 入境" value="I"></el-option>
                 <el-option label="O - 出境" value="O"></el-option>
@@ -302,12 +302,12 @@
       </div>
     </div>
 
-    <el-dialog :title="dialogText" :visible.sync="addDialogVisible"   width="60%">
+    <el-dialog :title="dialogText" :visible.sync="addDialogVisible" style="line-height:32px;"  width="60%" id="xinzeng">
       <el-form :model="form" ref="addForm">
         <el-row  class="mb-6" align="center">
           <el-col :sm="24" :md="12" :lg="8"  class="input-item">
             <span class="input-text"><span class="redx">*</span>国籍/地区：</span>
-            <el-select v-model="form.NATIONALITY" filterable clearable placeholder="请选择" @change="aa" v-verify.change.blur ="{regs:'required',submit:'demo2'}" size="small" class="input-input">
+            <el-select v-model="form.NATIONALITY" filterable clearable placeholder="请选择"  v-verify.change.blur ="{regs:'required',submit:'demo2'}" size="small" class="input-input">
               <el-option
                 v-for="item in nationAlone"
                 :key="item.CODE"
@@ -332,7 +332,7 @@
 
           <el-col :sm="24" :md="12" :lg="8"  class="input-item">
             <span class="input-text"><span class="redx">*</span>控制类型：</span>
-            <el-select v-model="form.PERSON_TYPE" placeholder="请选择"  size="small"  v-verify.change.blur ="{regs:'required',submit:'demo2'}" class="input-input">
+            <el-select v-model="form.PERSON_TYPE" placeholder="请选择"  size="small" clearable v-verify.change.blur ="{regs:'required',submit:'demo2'}" class="input-input">
               <el-option label="0 - 外国人" value="0"></el-option>
               <el-option label="1 - 中国人" value="1"></el-option>
             </el-select>
@@ -340,7 +340,7 @@
 
           <el-col :sm="24" :md="12" :lg="8"  class="input-item">
             <span class="input-text"><span class="redx">*</span>证件号码：</span>
-            <el-input placeholder="请输入内容" size="small" v-model="form.CARDNO" v-verify.input.blur ="{regs:'required|max:35',submit:'demo2'}" class="input-input"></el-input>
+            <el-input placeholder="请输入内容" size="small" v-model="form.CARDNO" clearable v-verify.input.blur ="{regs:'required|max:35',submit:'demo2'}" class="input-input"></el-input>
           </el-col>
 
           <el-col :sm="24" :md="12" :lg="8"  class="input-item">
@@ -357,7 +357,7 @@
 
           <el-col :sm="24" :md="12" :lg="8"  class="input-item">
             <span class="input-text"><span class="redx">*</span>姓名：</span>
-            <el-input placeholder="请输入内容" size="small" v-model="form.FAMILYNAME"  class="input-input" v-verify.input.blur="{regs:'required|max:35',submit:'demo2'}" ></el-input>
+            <el-input placeholder="请输入内容" size="small" v-model="form.FAMILYNAME" clearable class="input-input" v-verify.input.blur="{regs:'required|cname',submit:'demo2'}" ></el-input>
           </el-col>
 
           <el-col :sm="24" :md="12" :lg="8"  class="input-item">
@@ -374,6 +374,7 @@
             <el-date-picker
               size="small" value-format="yyyy-MM-dd"
               v-model="form.BIRTHDATE"
+              v-verify.change.blur ="{regs:'required',submit:'demo2'}"
               type="date"
               start-placeholder="出生日期"
               class="input-input block">
@@ -406,7 +407,9 @@
               size="small"
 
               @change="dateDisabled=false;$set(form,'CTL_EXPIREDATE',null)"
-              v-model="form.CTL_BEGINDATE" value-format="yyyy-MM-dd"
+              v-model="form.CTL_BEGINDATE"
+              v-verify.change.blur ="{regs:'required',submit:'demo2'}"
+              value-format="yyyy-MM-dd"
               type="date"
               start-placeholder="生效日期"
               class="input-input block"
@@ -418,7 +421,9 @@
             <span class="input-text"><span class="redx">*</span>失效日期：</span>
             <el-date-picker
               size="small"
-              v-model="form.CTL_EXPIREDATE" value-format="yyyy-MM-dd"
+              v-model="form.CTL_EXPIREDATE"
+              v-verify.change.blur ="{regs:'required',submit:'demo2'}"
+              value-format="yyyy-MM-dd"
               type="date"
               :disabled="dateDisabled"
               start-placeholder="失效日期"
@@ -477,8 +482,8 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="addItem('addForm','0')" size="small">保存</el-button>
-        <el-button type="warning" @click="releaseDialogVisible=true" size="small">保存并发布</el-button>
-        <el-button @click="addDialogVisible = false" size="small">取消</el-button>
+        <el-button type="warning" @click="bzfb" size="small">保存并发布</el-button>
+        <el-button @click="canceldig" size="small">取消</el-button>
       </div>
     </el-dialog>
 
@@ -662,6 +667,8 @@ import {formatDate,dayGap} from '@/assets/js/date.js'
 export default {
   data(){
     return{
+      renode1:null,
+      renode2:null,
       dialogVisible:false,
       backShow:false,
       nationAlone:[],
@@ -740,9 +747,6 @@ export default {
     this.getList(this.CurrentPage,this.pageSize,this.pd);
   },
   methods:{
-    aa(){
-      console.log("aaaaaaaa")
-    },
     download(){
       window.location.href=this.$api.rootUrl+'/manage-platform/templateFile/nameListDataFile.xlsx'
     },
@@ -790,8 +794,44 @@ export default {
       this.$refs[formName].resetFields();
     },
     handleClose(done) {
+
       this.resetForm('releasForm');
+
+
       done();
+    },
+    canceldig(){
+      console.log(this.$validator)
+       // this.$validator.removeEvent('demo2')
+       let a=this.$validator.verifyAll('demo2');
+       console.log(a)
+
+       // a.map(function(item,index){
+       //    return true
+       // })
+       // console.log(a)
+      // console.log( this.$validator.removeEvent('demo2'))
+      // var xz = document.getElementById('xinzeng')
+      // var arr=xz.getElementsByClassName("input-input")
+      // for(var i=0;i<arr.length;i++){
+      //   console.log(arr[i].children[0])
+      //   this.renode1=arr[i].children[0].children[2]
+      //   this.renode2=arr[i].children[1]
+      //
+      //   // console.log(renode)
+      //   if(this.renode1){
+      //     // this.renode1.style.display="none";
+      //
+      //     arr[i].children[0].removeChild(this.renode1)
+      //   }
+      //   if(this.renode2){
+      //     // this.renode2.style.display="none";
+      //
+      //     arr[i].removeChild(this.renode2)
+      //
+      //   }
+      // }
+      this.addDialogVisible = false;
     },
     handleSelectionChange(val) {
       this.multipleSelection = val;
@@ -984,17 +1024,30 @@ export default {
          })
       }
     },
-
+    bzfb(){
+      if(this.$validator.listener.demo2){
+        const result = this.$validator.verifyAll('demo2')
+         if (result.indexOf(false) > -1) {
+           return
+         } else {
+           // return
+         }
+      }
+      this.releaseDialogVisible=true
+    },
     // 保存0  确认授权1
     addItem(formName,synStatus){
-      // console.log(this.$validator)
-      // if(this.$validator.listener.demo2){
-      //   const result = this.$validator.verifyAll('demo2')
-      //    if (result.indexOf(false) > -1) {
-      //      return
-      //    } else {
-      //    }
-      // }
+      console.log(this.$validator)
+      if(this.$validator.listener.demo2){
+        const result = this.$validator.verifyAll('demo2')
+         if (result.indexOf(false) > -1) {
+           // this.$validator=null;
+           console.log(result)
+           return
+         }else{
+           console.log("kkkk")
+         }
+      }
       if(synStatus==0){
         switch (this.dialogType) {
           case "add":

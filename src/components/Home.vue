@@ -24,7 +24,7 @@
         </div>
       </div>
       <div class="home-title1">
-        国家移民管理局局旅客预报预检系统
+        国家移民管理局旅客预报预检系统
       </div>
       <div class="home-title2-box">
         <span class="home-title2">
@@ -449,7 +449,7 @@ export default {
         r => {
           if(r.success){
             this.navIdCCdata=r.data.menuChild[0].menuList;
-            console.log(this.navIdCCdata)
+            // console.log(this.navIdCCdata)
 
           }
         })

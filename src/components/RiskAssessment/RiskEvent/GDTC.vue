@@ -183,6 +183,9 @@ export default {
     }
     console.log(this.gvisible)
   },
+  activated(){
+    this.checkedtag=[];
+  },
   watch:{
     gvisible:function(val){
       this.gdDialogVisible2=val;
@@ -190,6 +193,7 @@ export default {
         this.gdform={};
         this.getBatchEventArchiveTagInfo()
         this.getUers();
+        this.checkedtag=[];
       }
     },
     garr:function(val){
@@ -232,6 +236,14 @@ export default {
       })
     },
     gdSave(){
+      console.log("checkedtag",this.checkedtag)
+      if(!this.gdform.describe){
+        this.$message.error('请先填写归档描述！');
+        return
+      }else if(!this.gdform.processorResult){
+        this.$message.error('请选择处理结果！');
+        return
+      }
       let arr1=this.listData;
       let p={
         list:[],
