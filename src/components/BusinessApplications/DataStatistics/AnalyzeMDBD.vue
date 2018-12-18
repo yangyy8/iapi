@@ -131,6 +131,8 @@
               border
               :summary-method="getSummaries"
               show-summary
+              max-height="600"
+              style="width: 100%;"
               >
             <el-table-column
               prop="flttype"

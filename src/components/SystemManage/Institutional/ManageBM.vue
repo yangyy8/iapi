@@ -355,7 +355,7 @@ export default {
               type: 'success'
             });
           } else {
-            this.$message.error('保存失败！');
+            this.$message.error(r.message);
           }
           this.$refs[formName].resetFields();
           this.addDialogVisible = false;

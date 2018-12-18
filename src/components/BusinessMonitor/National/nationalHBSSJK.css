@@ -411,3 +411,30 @@
 .divClass{
   color: red !important;
 }
+.td2-div{
+  display: flex;
+  /* height: 40px; */
+  align-items: center;
+  justify-content: center;
+}
+.b-r{
+  border-right: 1px solid #23717e;
+}
+.td2-pop-div{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 50%;
+  font-size: 12px;
+}
+.td2-pop-num1{
+  font-size: 18px;
+  color: #e68342;
+  margin-top: 7px;
+}
+.td2-pop-num2{
+  font-size: 18px;
+  color: #ffca6a;
+  margin-top: 7px;
+}

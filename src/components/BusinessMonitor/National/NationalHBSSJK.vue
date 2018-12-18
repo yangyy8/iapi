@@ -361,8 +361,18 @@
                   <el-popover
                     placement="left"
                     width="200"
-                    trigger="hover"
-                    :content="'入境：'+i.inLand + ' 出境：'+i.outLand">
+                    trigger="click"
+                    :popper-class="'td2-pop'">
+                    <div class="td2-div">
+                      <div class="td2-pop-div b-r">
+                        <span>入境</span>
+                        <span class="td2-pop-num1">{{i.inLand}}</span>
+                      </div>
+                      <div class="td2-pop-div">
+                        <span>出境</span>
+                        <span class="td2-pop-num2">{{i.outLand}}</span>
+                      </div>
+                    </div>
                     <span slot="reference" class="hand">{{i.inLand+i.outLand||0}}</span>
 
                   </el-popover>
@@ -372,8 +382,18 @@
                   <el-popover
                     placement="left"
                     width="200"
-                    trigger="hover"
-                    :content="'入境：'+i.inGat + ' 出境：'+i.outGat">
+                    trigger="click"
+                    :popper-class="'td2-pop'">
+                    <div class="td2-div">
+                      <div class="td2-pop-div b-r">
+                        <span>入境</span>
+                        <span class="td2-pop-num1">{{i.inGat}}</span>
+                      </div>
+                      <div class="td2-pop-div">
+                        <span>出境</span>
+                        <span class="td2-pop-num2">{{i.outGat}}</span>
+                      </div>
+                    </div>
                     <span slot="reference" class="hand">{{i.inGat+i.outGat||0}}</span>
                   </el-popover>
                 </div>
@@ -381,8 +401,18 @@
                   <el-popover
                     placement="left"
                     width="200"
-                    trigger="hover"
-                    :content="'入境：'+i.inFrn + ' 出境：'+i.outFrn">
+                    trigger="click"
+                    :popper-class="'td2-pop'">
+                    <div class="td2-div">
+                      <div class="td2-pop-div b-r">
+                        <span>入境</span>
+                        <span class="td2-pop-num1">{{i.inFrn}}</span>
+                      </div>
+                      <div class="td2-pop-div">
+                        <span>出境</span>
+                        <span class="td2-pop-num2">{{i.outFrn}}</span>
+                      </div>
+                    </div>
                     <span slot="reference" class="hand">{{i.inFrn+i.outFrn||0}}</span>
                   </el-popover>
                   <!-- {{i.inFrn+i.outFrn}} -->
@@ -391,14 +421,41 @@
                   <el-popover
                     placement="left"
                     width="200"
-                    trigger="hover"
-                    :content="'入境：'+i.matchIn + ' 出境：'+i.matchOut">
+                    trigger="click"
+                    :popper-class="'td2-pop'">
+                    <div class="td2-div">
+                      <div class="td2-pop-div b-r">
+                        <span>入境</span>
+                        <span class="td2-pop-num1">{{i.matchIn}}</span>
+                      </div>
+                      <div class="td2-pop-div">
+                        <span>出境</span>
+                        <span class="td2-pop-num2">{{i.matchOut}}</span>
+                      </div>
+                    </div>
                     <span slot="reference" class="hand">{{i.matchIn+i.matchOut||0}}</span>
                   </el-popover>
                   <!-- {{i.matchIn+i.matchOut}} -->
                 </div>
                 <div class="td2">
-                  {{i.inLand+i.outLand+i.inGat+i.outGat+i.inFrn+i.outFrn+i.matchIn+i.matchOut||0}}
+                  <el-popover
+                    placement="left"
+                    width="200"
+                    trigger="click"
+                    :popper-class="'td2-pop'">
+                    <div class="td2-div">
+                      <div class="td2-pop-div b-r">
+                        <span>入境</span>
+                        <span class="td2-pop-num1">{{i.matchIn+i.inLand+i.inGat+i.inFrn}}</span>
+                      </div>
+                      <div class="td2-pop-div">
+                        <span>出境</span>
+                        <span class="td2-pop-num2">{{i.matchOut+i.outLand+i.outGat+i.outFrn}}</span>
+                      </div>
+                    </div>
+                    <span slot="reference" class="hand">{{i.inLand+i.outLand+i.inGat+i.outGat+i.inFrn+i.outFrn+i.matchIn+i.matchOut||0}}</span>
+                  </el-popover>
+
 
                 </div>
               </li>

@@ -270,12 +270,14 @@
           <el-table-column
             label="命中模型"
             prop="hit_mode_gc"
+            sortable
             width="90"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="命中规则"
             prop="hit_rule_name"
+            sortable
             width="90"
             :show-overflow-tooltip="true">
           </el-table-column>
@@ -289,6 +291,7 @@
           <el-table-column
             label="事件来源"
             width="50"
+            sortable
             prop="centre_port">
           </el-table-column>
           <el-table-column
@@ -324,11 +327,14 @@
           <el-table-column
             label="最新核查结果"
             width="50"
+            sortable
             prop="checkResult"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
-            label="历次风评">
+            label="历次风评"
+            sortable
+            prop="eachevent">
             <template slot-scope="scope">
               <el-popover
                 placement="top"

@@ -421,7 +421,8 @@ export default {
     showUpload(i){
 
       this.getSerial=i.SERIAL;
-      this.actions=this.$api.rootUrl;
+       this.actions="http://192.168.99.242:8081";
+    // this.actions=this.$api.rootUrl;
       this.uploadDialogVisible=true;
       console.log( this.$refs.upload);
       if( this.$refs.upload){
@@ -446,9 +447,12 @@ export default {
           message: r.data,
           type: 'success'
         });
-       this.uploadDialogVisible=false ;
-       this.getList(this.CurrentPage,this.pageSize,this.pd);
-      }
+
+     }else {
+       this.$message.error(r.message);
+     }
+     this.uploadDialogVisible=false ;
+     this.getList(this.CurrentPage,this.pageSize,this.pd);
     },
     tableDown(i){
       console.log(this.$api.rootUrl)

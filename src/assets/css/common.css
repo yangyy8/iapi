@@ -594,3 +594,8 @@ button{
   margin-top: -10px;
 
 }
+.td2-pop{
+  background: rgba(14, 32, 62, 0.88);
+  color: #fff;
+  border: 1px solid #0288d1;
+}

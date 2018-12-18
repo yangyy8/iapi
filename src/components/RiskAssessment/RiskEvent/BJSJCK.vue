@@ -291,15 +291,20 @@
                 指标录入 <i class="el-icon-d-caret"></i>
               </div>
               <div v-if="box5" class="hc-box">
-                <el-row align="center" :gutter="2" style="width:100%" class="mr-15">
+                <el-row align="center" :gutter="5" style="width:100%" class="mr-15">
                   <el-col  :sm="24" :md="12" :lg="8"  class="input-item" v-for="(d3,ind) in box4Data.listRiskIndex" :key="ind">
-                    <span class="input-text">{{d3.index_name}}：</span>
-                    <el-input :disabled="!operation_type" placeholder="请输入内容" size="small" class="input-input mr-10" v-model="d3.index_value"></el-input>
+                    <el-tooltip effect="light" :content="d3.index_name" placement="top-end">
+                      <span class="input-text">{{d3.index_name}}</span>
+                    </el-tooltip>
+                    ：
+                    <el-input :disabled="!operation_type" placeholder="请输入内容" size="small" class="input-input mr-5" v-model="d3.index_value"></el-input>
                     <i v-if="operation_type" class="el-icon-close redx hand" @click="delRiskIndexInfo(d3.serial)"></i>
                   </el-col>
                   <el-col  :sm="24" :md="12" :lg="8"  class="input-item" v-for="(d3,ind) in checkList" :key="ind">
-                    <span class="input-text">{{d3.index_name}}：</span>
-                    <el-input placeholder="请输入内容" size="small" class="input-input mr-10" v-model="d3.index_value"></el-input>
+                    <el-tooltip effect="light" :content="d3.index_name" placement="top-end">
+                      <span class="input-text">{{d3.index_name}}</span>
+                    </el-tooltip>：
+                    <el-input placeholder="请输入内容" size="small" class="input-input mr-5" v-model="d3.index_value"></el-input>
                     <i class="el-icon-close redx hand" @click="delRiskIndexInfo0(d3.serial,ind)"></i>
                   </el-col>
                 </el-row>
@@ -425,14 +430,14 @@
         </el-col>
       </el-row>
     </div>
-    <el-dialog title="添加指标" :visible.sync="czDialogVisible" width="640px">
-      <el-checkbox-group v-model="checkList" class="mb-20">
-       <el-checkbox :label="x"  v-for="(x,ind) in box5Data" :key="ind">{{x.index_name}}</el-checkbox>
-     </el-checkbox-group>
-      <!-- <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="czSave" size="small">确认</el-button>
-        <el-button type="warning" @click="czDialogVisible=false" size="small">取消</el-button>
-      </div> -->
+    <el-dialog title="添加指标" :visible.sync="czDialogVisible" width="640px" :show-close="false">
+      <el-checkbox-group v-model="checkList" class="mb-20 o-checkbox-g2">
+        <el-checkbox v-for="(x,ind) in box5Data" :key="x.TARGET_ID" :label="x">{{x.index_name}}</el-checkbox>
+      </el-checkbox-group>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="czDialogVisible=false" size="small">确认</el-button>
+        <!-- <el-button type="warning" @click="czDialogVisible=false" size="small">取消</el-button> -->
+      </div>
     </el-dialog>
     <GDTC :gtitle="'事件归档'" :gvisible="gdDialogVisible" :garr="checkeditem" :gtype="'1'" @gclose="gclose"></GDTC>
 
@@ -510,6 +515,9 @@ export default {
       this.getOperationalTargetInfo();
     }else if(this.page==1){
       this.getRiskDescRecordInfo();
+      this.checkList=[];
+      this.fileData=[];
+      this.listRiskCustom=[];
     }
   },
   watch:{
@@ -632,6 +640,7 @@ export default {
     },
     // 指标弹窗
     getAddRiskIndexInfo(){
+      console.log("checkList#",this.checkList)
       let p={
         "eventSerial": this.serial
       }
@@ -1043,5 +1052,10 @@ export default {
   position: absolute;
   right: 0;
   top:-20px;
+}
+.input-text{
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
 }
 </style>

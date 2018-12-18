@@ -135,7 +135,7 @@
               </el-col>
               <el-col :sm="24" :md="12" :lg="8" class="input-item">
                 <span class="input-text">归档人：</span>
-                <el-input v-model="pd.checkNumber" placeholder="请输入内容" size="small" clearable class="input-input"></el-input>
+                <el-input v-model="pd.archive_pepole" placeholder="请输入内容" size="small" clearable class="input-input"></el-input>
               </el-col>
             </el-row>
             </el-collapse-transition>
@@ -285,7 +285,7 @@
           </el-table-column>
           <el-table-column
             label="推送人"
-            prop="processor_peopleName"
+            prop="change_peopleName"
             sortable
             width="50"
             :show-overflow-tooltip="true">

@@ -99,6 +99,7 @@
       <el-table
         :data="tableData"
         border
+        max-height="600"
         style="width: 100%;">
 
 
