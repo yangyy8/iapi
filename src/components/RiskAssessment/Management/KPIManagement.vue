@@ -150,21 +150,13 @@
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
             <span class="yy-input-text"><font class="yy-color">*</font> 指标项代码：</span>
-<<<<<<< HEAD
-            <el-input placeholder="请输入内容(长度不能超过50)" size="small" maxlength="50"  v-bind:readonly="form.targetSign"  v-model="form.targetSign"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
-=======
             <el-input placeholder="请输入内容(长度不能超过50)" size="small" maxlength="50"  v-bind:disabled="form.targetId"  v-model="form.targetSign"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
->>>>>>> 983c7759e84a137d53eda9ee446f100e4f3da603
           </el-col>
         </el-row>
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
             <span class="yy-input-text"><font class="yy-color">*</font> 指标项名称：</span>
-<<<<<<< HEAD
-            <el-input placeholder="请输入内容(长度不能超过100)" size="small" maxlength="100"  v-bind:readonly="form.targetName" v-model="form.targetName"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
-=======
             <el-input placeholder="请输入内容(长度不能超过100)" size="small" maxlength="100"  v-bind:disabled="form.targetId" v-model="form.targetName"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
->>>>>>> 983c7759e84a137d53eda9ee446f100e4f3da603
           </el-col>
         </el-row>
         <el-row type="flex" class="mb-6" >

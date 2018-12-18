@@ -420,12 +420,7 @@ export default {
     showUpload(i){
 
       this.getSerial=i.SERIAL;
-<<<<<<< HEAD
-       this.actions="http://192.168.99.242:8081";
-    // this.actions=this.$api.rootUrl;
-=======
      this.actions=this.$api.rootUrl;
->>>>>>> 983c7759e84a137d53eda9ee446f100e4f3da603
       this.uploadDialogVisible=true;
       console.log( this.$refs.upload);
       if( this.$refs.upload){

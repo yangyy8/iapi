@@ -434,19 +434,11 @@ export default {
     };
     return {
       tp: 0,
-<<<<<<< HEAD
-      ap:{},
-      data:generateData(),
-      value1:[],
-      data2:generateData(),
-      value2:[],
-=======
       ap: {},
       data: generateData(),
       value1: [],
       data2: generateData(),
       value2: [],
->>>>>>> 983c7759e84a137d53eda9ee446f100e4f3da603
       CurrentPage: 1,
       pageSize: 10,
       TotalResult: 0,
@@ -457,13 +449,8 @@ export default {
       tabPosition: 'left',
       addDialogVisible: false,
       detailsDialogVisible: false,
-<<<<<<< HEAD
-    useDialogVisible:false,
-    AuthDialogVisible:false,
-=======
       useDialogVisible: false,
       AuthDialogVisible: false,
->>>>>>> 983c7759e84a137d53eda9ee446f100e4f3da603
       menuDialogVisible: false,
       options: [{
           value: 10,
@@ -481,11 +468,7 @@ export default {
       tableData: [],
 
       multipleSelection: [],
-<<<<<<< HEAD
-      tem:{},
-=======
       tem: {},
->>>>>>> 983c7759e84a137d53eda9ee446f100e4f3da603
       form: {},
       mapForm: {},
       Airport: [],
@@ -568,11 +551,7 @@ export default {
       };
       this.$api.post('/manage-platform/model/select', p,
         r => {
-<<<<<<< HEAD
-        
-=======
 
->>>>>>> 983c7759e84a137d53eda9ee446f100e4f3da603
           this.tableData = r.data.pdList;
           this.TotalResult = r.data.totalResult;
         })
@@ -843,22 +822,6 @@ export default {
       this.ap.MODEL_CODE = i.MODEL_CODE;
       this.ap.MODEL_VERSION = i.MODEL_VERSION;
     },
-<<<<<<< HEAD
-   deletes(i){
-  this.ap={};
-   this.AuthDialogVisible=true;
-   this.ap.MODEL_ID=i.MODEL_ID;
-   this.ap.MODEL_CODE=i.MODEL_CODE;
-   this.ap.MODEL_VERSION=i.MODEL_VERSION;
-   },
-    Authorization(ap) {
-
-      if(this.$validator.listener.demo3){
-        const result = this.$validator.verifyAll('demo3')
-         if (result.indexOf(false) > -1) {
-           return
-         }
-=======
     Authorization(ap) {
 
       if (this.$validator.listener.demo3) {
@@ -866,19 +829,13 @@ export default {
         if (result.indexOf(false) > -1) {
           return
         }
->>>>>>> 983c7759e84a137d53eda9ee446f100e4f3da603
       }
       let p = {
         "modelId": ap.MODEL_ID,
         "modelCode": ap.MODEL_CODE,
         "modelVersion": ap.MODEL_VERSION,
-<<<<<<< HEAD
-        "userName":ap.userName,
-        "password":ap.password
-=======
         "userName": ap.userName,
         "password": ap.password
->>>>>>> 983c7759e84a137d53eda9ee446f100e4f3da603
       };
       this.$confirm('您是否确认删除？', '提示', {
         confirmButtonText: '确定',
@@ -894,11 +851,7 @@ export default {
                 message: '删除成功！',
                 type: 'success'
               });
-<<<<<<< HEAD
-              this.AuthDialogVisible=false;
-=======
               this.AuthDialogVisible = false;
->>>>>>> 983c7759e84a137d53eda9ee446f100e4f3da603
               this.getList(this.CurrentPage, this.pageSize, this.pd);
             } else {
               this.$message.error(r.Message);
