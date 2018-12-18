@@ -624,10 +624,12 @@ export default {
           message: r.data,
           type: 'success'
         });
-        this.uploadDialogVisible = false;
 
-        this.getList(this.CurrentPage, this.pageSize, this.pd);
+      }else {
+         this.$message.error(r.message);
       }
+      this.uploadDialogVisible = false;
+      this.getList(this.CurrentPage, this.pageSize, this.pd);
     },
     beforeAvatarUpload(file) {
       console.log(file.type)

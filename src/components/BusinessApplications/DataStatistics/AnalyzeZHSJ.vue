@@ -161,6 +161,8 @@
                   :summary-method="getSummaries"
                   show-summary
                   border
+                  max-height="600"
+                  style="width: 100%;"
                   >
                   <!-- <el-table-column
                     prop=""
