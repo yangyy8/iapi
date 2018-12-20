@@ -38,12 +38,17 @@
     <div class="middle">
       <el-row class="mb-15">
         <el-button type="primary" size="small" @click="adds(0,'');form={};">新增</el-button>
+                <el-button type="info" size="small" @click="batchsdelete">批量删除</el-button>
         </el-row>
       <el-table
         :data="tableData"
         border
         style="width: 100%;"
-        >
+      @selection-change="handleSelectionChange">
+        <el-table-column
+         type="selection"
+         width="40">
+        </el-table-column>
         <el-table-column
           prop="NAME"
           label="名单类型名称">
@@ -236,6 +241,13 @@ export default {
       this.getList(val, this.pageSize, this.pd);
       console.log(`当前页: ${val}`);
     },
+    open(content) {
+
+      this.$alert(content, '提示', {
+        confirmButtonText: '确定',
+        type: 'warning'
+      });
+    },
     getList(currentPage, showCount, pd) {
       let p = {
         "currentPage": currentPage,
@@ -336,44 +348,48 @@ export default {
         });
       });
     },
-    menus(i) {
-      this.menuDialogVisible = true;
-      this.sertail=i.SERIAL;
-      let p = {
-        "SERIAL": i.SERIAL
-      };
-      this.$api.post('/manage-platform/roleSys/goEditJuri', p,
-        r => {
-          console.log(r);
-          if (r.success) {
-            this.menudata = r.data.userTreeOne;
-            let arr=r.data.userTreeOne,that=this;
-          this.defaultChecked=r.data.checkList;
-          }
-        })
-    },
-menuItem(){
-  let checkList=this.$refs.tree.getCheckedNodes();
-  //let checkList=this.$refs.tree.getCheckedKeys();
-  let p={
-    // menuList:this.menudata,
-   "ROLE_ID":this.sertail,
-    checkList:checkList
-  }
-  this.$api.post('/manage-platform/roleSys/editJuri', p,
-    r => {
-      console.log(r);
-      if (r.success) {
-        this.$message({
-          type: 'success',
-          message: '保存成功'
-        });
-      }else{
 
-  this.$message.error('保存失败');
-      }
-    })
-    this.menuDialogVisible = false;
+batchsdelete() {
+
+  if (this.multipleSelection.length == 0) {
+
+    this.open("请选择列表内容！");
+    return;
+
+  }
+ console.log(this.multipleSelection);
+
+  let p = {
+    "ids": this.multipleSelection
+  };
+  this.$confirm('您是否确认删除？', '提示', {
+    confirmButtonText: '确定',
+    cancelButtonText: '取消',
+    type: 'warning'
+  }).then(() => {
+    this.$api.post('/manage-platform/riskNamelistType/deletenamelistTypes', p,
+      r => {
+
+        if (r.success) {
+          this.$message({
+            message: '删除成功！',
+            type: 'success'
+          });
+          this.getList(this.CurrentPage, this.pageSize, this.pd);
+        } else {
+          this.$message.error(r.Message);
+        }
+      }, e => {
+        this.$message.error('失败了');
+      });
+  }).catch(() => {
+    this.$message({
+      type: 'info',
+      message: '已取消删除'
+    });
+  });
+
+
 },
   },
   filters: {

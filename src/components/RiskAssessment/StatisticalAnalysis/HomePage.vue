@@ -1,5 +1,8 @@
 <template lang="html">
   <div class="">
+    <div class="middle height" v-show="prompt">
+      <span class="propClass">{{propmptText}}</span>
+    </div>
     <div class="middle mb-2" v-for="(i,ind) in dataArr" :key="ind">
       <div class="map-title">{{i.titleText}}</div>
       <div style="position:relative">
@@ -35,6 +38,8 @@ export default {
       liangChart:null,
       text:'',
       dataArr:[],
+      propmptText:'',
+      prompt:false
     }
   },
   activated() {
@@ -45,6 +50,12 @@ export default {
       this.$api.post('/manage-platform/census/customIndex',{},
        r =>{
          if(r.success){
+           if(r.data.length==0){
+             this.propmptText="提示：您还未定制图形，请前往“模型应用统计”定制图形";
+             this.prompt = true;
+           }else{
+             this.prompt = false;
+           }
            this.dataArr = [];
            for(var i=0;i<r.data.length;i++){
              this.$api.post('/manage-platform/census/queryCensusByQueryType',r.data[i],
@@ -54,7 +65,6 @@ export default {
                 }
               })
            }
-           console.log(this.dataArr)
          }
        })
     },
@@ -71,98 +81,10 @@ export default {
            });
          }
          this.getStart();
+
+         console.log(this.dataArr)
        })
     }
-    // drawLiang(){
-    //   this.liangChart = echarts.init(document.getElementById('liangEcharts'));
-    //   window.onresize = echarts.init(document.getElementById('liangEcharts')).resize;
-    //   let that = this;
-    //   this.liangChart.setOption({
-    //     tooltip : {
-    //         trigger: 'axis'
-    //     },
-    //     legend: {
-    //         data:[
-    //             'ECharts1 - 2k数据','ECharts1 - 2w数据','ECharts1 - 20w数据','',
-    //             'ECharts2 - 2k数据','ECharts2 - 2w数据','ECharts2 - 20w数据'
-    //         ]
-    //     },
-    //     toolbox: {
-    //         show : true,
-    //         feature : {
-    //             mark : {show: true},
-    //             dataView : {show: true, readOnly: false},
-    //             magicType : {show: true, type: ['line', 'bar']},
-    //             restore : {show: true},
-    //             saveAsImage : {show: true}
-    //         }
-    //     },
-    //     calculable : true,
-    //     grid: {y: 70, y2:30, x2:20},
-    //     xAxis : [
-    //         {
-    //             type : 'category',
-    //             data : ['Line','Bar','Scatter','K','Map']
-    //         },
-    //         {
-    //             type : 'category',
-    //             axisLine: {show:false},
-    //             axisTick: {show:false},
-    //             axisLabel: {show:false},
-    //             splitArea: {show:false},
-    //             splitLine: {show:false},
-    //             data : ['Line','Bar','Scatter','K','Map']
-    //         }
-    //     ],
-    //     yAxis : [
-    //         {
-    //             type : 'value',
-    //             axisLabel:{formatter:'{value} ms'}
-    //         }
-    //     ],
-    //     series : [
-    //         {
-    //             name:'ECharts2 - 2k数据',
-    //             type:'bar',
-    //             itemStyle: {normal: {color:'rgba(193,35,43,1)', label:{show:true}}},
-    //             data:[40,155,95,75, 0]
-    //         },
-    //         {
-    //             name:'ECharts2 - 2w数据',
-    //             type:'bar',
-    //             itemStyle: {normal: {color:'rgba(181,195,52,1)', label:{show:true,textStyle:{color:'#27727B'}}}},
-    //             data:[100,200,105,100,156]
-    //         },
-    //         {
-    //             name:'ECharts2 - 20w数据',
-    //             type:'bar',
-    //             itemStyle: {normal: {color:'rgba(252,206,16,1)', label:{show:true,textStyle:{color:'#E87C25'}}}},
-    //             data:[906,911,908,778,0]
-    //         },
-    //         {
-    //             name:'ECharts1 - 2k数据',
-    //             type:'bar',
-    //             xAxisIndex:1,
-    //             itemStyle: {normal: {color:'rgba(193,35,43,0.5)', label:{show:true,formatter:function(p){return p.value > 0 ? (p.value +'\n'):'';}}}},
-    //             data:[96,224,164,124,0]
-    //         },
-    //         {
-    //             name:'ECharts1 - 2w数据',
-    //             type:'bar',
-    //             xAxisIndex:1,
-    //             itemStyle: {normal: {color:'rgba(181,195,52,0.5)', label:{show:true}}},
-    //             data:[491,2035,389,955,347]
-    //         },
-    //         {
-    //             name:'ECharts1 - 20w数据',
-    //             type:'bar',
-    //             xAxisIndex:1,
-    //             itemStyle: {normal: {color:'rgba(252,206,16,0.5)', label:{show:true,formatter:function(p){return p.value > 0 ? (p.value +'+'):'';}}}},
-    //             data:[3000,3000,2817,3000,0]
-    //         }
-    //     ]
-    //   })
-    // },
   }
 }
 </script>
@@ -179,5 +101,14 @@ export default {
   height: 20px;
   line-height: 3px;
   z-index: 100;
+}
+.height{
+  height: 100px;
+  text-align: center;
+  line-height: 100px;
+}
+.propClass{
+  color: red;
+  font-size: 13px;
 }
 </style>

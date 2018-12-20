@@ -113,7 +113,9 @@ export default {
       this.content = "";
       this.editorContent = "";
       if (this.SERIAL != "" && this.SERIAL != undefined) {
-        this.fileData  = null;
+        this.fileData=null;
+        this.fileinfo=null;
+
         let p = {
           "SERIAL": this.SERIAL
         };
@@ -133,6 +135,9 @@ export default {
             this.content = r.data.COUNT;
           });
       } else {
+        this.fileData=null;
+        this.fileinfo=null;
+
         var editor = new E('#editorElem')
         editor.customConfig.onchange = (html) => {
           this.editorContent = html
@@ -142,17 +147,13 @@ export default {
       }
     },
     deletes(t) {
+      console.log(this.fileData0);
+      this.fileData0.splice(t, 1);
+      this.fileData = this.fileData0
+
       // console.log(this.fileData0);
-      // this.fileData0.splice(t, 1);
-      // this.fileData = this.fileData0
-
-      console.log(this.fileData0)
-      this.fileData =[...this.fileData0]
-      console.log(this.fileData)
-
-      this.fileData.splice(t,1)
-
-// this.fileData=null;
+      // this.fileData0.splice(t,1);
+      // this.fileData =[...this.fileData0];
     },
     delFileInfo(id) {
       let p = {
@@ -280,15 +281,15 @@ export default {
     uploadFile(event) {
 
       this.fileData = event.target.files;
-      console.log(this.fileData)
+      //console.log(this.fileData)
 
       let _this = this
       if (this.fileData && this.fileData.length) {
         // 原始FileList对象不可更改，所以将其赋予curFiles提供接下来的修改
         Array.prototype.push.apply(_this.fileData0, _this.fileData);
       }
-      console.log(this.fileData0)
-      this.fileData.push(e.target.files);
+      //console.log(this.fileData0)
+      //this.fileData0.push(event.target.files);
 
     },
     // 上传附件

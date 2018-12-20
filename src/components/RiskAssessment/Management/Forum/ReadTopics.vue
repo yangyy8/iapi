@@ -11,7 +11,7 @@
       #{{itemForumData.TITLE}}#
           </el-col>
           <el-col :span="4" style="text-align:right">
-            <el-button plain size="small" @click="link()">返回</el-button>
+            <el-button type="warning" size="small" @click="link()">返回</el-button>
           <el-button type="success" size="small" @click="edits()">编辑</el-button>
           <el-button type="danger" size="small" @click="deletes()">删除</el-button>
         </el-col>

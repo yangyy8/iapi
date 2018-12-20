@@ -48,16 +48,19 @@ export default {
             trigger: 'axis'
         },
         legend: {
+            type:'scroll',
+            width:480,
+            pageButtonGap:40,
             data: _this.chartdata.legendData
         },
         toolbox: {
             show : true,
             feature : {
+                saveAsImage : {show: true},
                 mark : {show: true},
                 dataView : {show: true, readOnly: false},
                 magicType : {show: true, type: ['line', 'bar']},
                 restore : {show: true},
-                saveAsImage : {show: true}
             }
         },
         calculable : true,

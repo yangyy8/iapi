@@ -93,9 +93,9 @@
       <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
       <span class="input-text">有效状态：</span>
       <el-select v-model="pd.STATUS" placeholder="请选择"  filterable clearable size="small" class="input-input">
-       <el-option value="0" label="无效">
+       <el-option value="0" label="0 - 无效">
        </el-option>
-       <el-option value="1" label="有效">
+       <el-option value="1" label="1 - 有效">
        </el-option>
       </el-select>
       </el-col>
@@ -111,16 +111,22 @@
         <el-button type="primary" size="small" @click="adds(0,'');form={};">新增</el-button>
         <el-button type="warning"  size="small" @click="showUpload">批量导入</el-button>
         <el-button type="success" size="small" @click="download">模板下载</el-button>
+            <el-button type="info" size="small" @click="batchsdelete">批量删除</el-button>
         </el-row>
       <el-table
         :data="tableData"
         border
         style="width: 100%;"
-        >
+        @selection-change="handleSelectionChange">
+        <el-table-column
+         type="selection"
+         width="40">
+        </el-table-column>
         <el-table-column
           prop="RISKDICTIONARIES"
           label="姓名">
         </el-table-column>
+
          <el-table-column
           label="性别"
           >
@@ -152,8 +158,11 @@
         <el-table-column
 
           label="有效状态">
-          <template slot-scope="scope">
-              {{scope.row.STATUS | fiftertt}}
+
+            <template slot-scope="scope">
+
+               <span :class="{'yycolor':scope.row.STATUS=='1','yycolory':scope.row.STATUS=='0'}">   {{scope.row.STATUS | fiftertt}}</span>
+
             </template>
         </el-table-column>
         <el-table-column
@@ -486,6 +495,12 @@ export default {
       this.getList(val, this.pageSize, this.pd);
       console.log(`当前页: ${val}`);
     },
+    open(content) {
+      this.$alert(content, '提示', {
+        confirmButtonText: '确定',
+        type: 'warning'
+      });
+    },
     getList(currentPage, showCount, pd) {
       let p = {
         "currentPage": currentPage,
@@ -664,6 +679,48 @@ export default {
 
       this.$refs.upload.submit();
     },
+    batchsdelete() {
+
+      if (this.multipleSelection.length == 0) {
+
+        this.open("请选择列表内容！");
+        return;
+
+      }
+
+      let p = {
+        "ids": this.multipleSelection
+      };
+      this.$confirm('您是否确认删除？', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$api.post('/manage-platform/riskNameList/updateRiskNameLists', p,
+          r => {
+
+            if (r.success) {
+              this.$message({
+                message: '删除成功！',
+                type: 'success'
+              });
+              this.getList(this.CurrentPage, this.pageSize, this.pd);
+            } else {
+              this.$message.error(r.Message);
+            }
+          }, e => {
+            this.$message.error('失败了');
+          });
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        });
+      });
+
+
+    },
+
   },
   filters: {
 
@@ -713,5 +770,7 @@ export default {
 .yy-input-input {
   width: 68% !important;
 }
+.yycolor{ background: #00FF00; padding: 3px 8px;}
+.yycolory{  background: #FF0000;padding: 3px 8px; }
 
 </style>

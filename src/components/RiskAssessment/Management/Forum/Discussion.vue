@@ -66,8 +66,8 @@
 
   <div v-for="site in tableData">
     <el-row type="flex" class="mb-6" >
-      <el-col :span="24" class="ttitle">
-      #{{ site.TITLE }}#
+      <el-col :span="24">
+     <a href="#" class="ttitle"  @click = "getItemForumInfor(site.SERIAL)">  #{{ site.TITLE }}#</a>
       </el-col>
     </el-row>
     <el-row type="flex" class="mb-6 tcont" >
@@ -96,7 +96,7 @@
       <el-col :span="1">
             <div class="tline"></div>
       </el-col>
-      <el-col :span="8" >
+      <el-col :span="8" v-if="site.COMMENT_NUMBER>0">
           最后回复: {{ site.FINALLY_COMMENT_USER }}        {{ site.FINALLY_COMMENT_TIME }}
       </el-col>
     </el-row>

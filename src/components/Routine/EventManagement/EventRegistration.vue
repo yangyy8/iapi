@@ -95,7 +95,7 @@
     <div class="middle">
       <el-row type="flex" justify="center">
         <el-button type="primary" @click="save" size="small">保存</el-button>&nbsp;&nbsp;&nbsp;&nbsp;
-        <el-button @click="" size="small" v-print="'#printMe'">打印</el-button>&nbsp;&nbsp;&nbsp;&nbsp;
+        <el-button @click="getPdf(0)" size="small">打印</el-button>&nbsp;&nbsp;&nbsp;&nbsp;
         <el-button type="primary" @click="reset" size="small">重置</el-button>
     </el-row>
     </div>

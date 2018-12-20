@@ -45,11 +45,11 @@
         border
         style="width: 100%;">
         <el-table-column
-          type="Index"
+          type="index"
           label="序号">
         </el-table-column>
         <el-table-column
-          prop="portcode"
+          prop="PORTCODE"
           label="口岸编号"
           >
         </el-table-column>
@@ -58,7 +58,7 @@
           label="口岸名称" >
         </el-table-column>
         <el-table-column
-          prop="ipaddress"
+          prop="IPADDRESS"
           label="口岸地址"
           >
         </el-table-column>
@@ -71,7 +71,7 @@
           label="接口状态"
           >
           <template slot-scope="scope">
-              <span :class="{'yycolor':scope.row.clientStatus=='1','yycolory':scope.row.clientStatus=='0'}">  {{scope.row.clientStatus | fiftersate }}</span>
+              <span :class="{'yycolor':scope.row.STATUS=='1','yycolory':scope.row.STATUS=='0'}">  {{scope.row.STATUS | fiftersate }}</span>
           </template>
         </el-table-column>
         <el-table-column
@@ -120,8 +120,7 @@
   </div>
 </template>
 <script>
-import {formatDate} from '@/assets/js/date.js'
-import {dayGap} from '@/assets/js/date.js'
+
 export default {
 
   data() {
@@ -168,21 +167,16 @@ export default {
       console.log(`当前页: ${val}`);
     },
     getList(currentPage, showCount, pd) {
-      if(dayGap(this.pd.begin,this.pd.end,0)>1){
-        this.$alert('只能查询某一天的日期', '提示', {
-          confirmButtonText: '确定',
-        });
-        return false
-      }
+
       let p = {
         "currentPage": currentPage,
         "showCount": showCount,
         "cdt": pd
       };
-      this.$api.post("/manage-platform/log_event/queryListPageAll", p,
+      this.$api.post("/manage-platform/portStatus/select", p,
         r => {
           console.log(r);
-          this.tableData = r.data.resultList;
+          this.tableData = r.data.pdList;
           this.TotalResult = r.data.totalResult;
         })
     },
