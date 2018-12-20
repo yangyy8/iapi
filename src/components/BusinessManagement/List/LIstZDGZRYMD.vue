@@ -153,34 +153,40 @@
         <el-table-column
           prop="RECORDNUM"
           label="档号"
-          sortable>
+          sortable
+          :show-overflow-tooltip="true">
         </el-table-column>
         <el-table-column
           prop="NATIONALITYNAME"
           sortable
-          label="国籍/地区">
+          label="国籍/地区"
+          :show-overflow-tooltip="true">
 
         </el-table-column>
         <el-table-column
           prop="CARDTYPENAME"
           sortable
-          label="证件种类">
+          label="证件种类"
+          :show-overflow-tooltip="true">
         </el-table-column>
         <el-table-column
           prop="CARDNO"
           sortable
-          label="证件号码">
+          label="证件号码"
+          :show-overflow-tooltip="true">
         </el-table-column>
         <el-table-column
           prop="FAMILYNAME"
           sortable
-          label="姓名">
+          label="姓名"
+          :show-overflow-tooltip="true">
         </el-table-column>
         <el-table-column
           prop="GENDER"
           width="80"
           sortable
-          label="性别">
+          label="性别"
+          :show-overflow-tooltip="true">
           <template slot-scope="scope">
             <span v-if="scope.row.GENDER=='M'">男</span>
             <span v-if="scope.row.GENDER=='F'">女</span>
@@ -190,17 +196,20 @@
         <el-table-column
           prop="DATEOFBIRTH"
           sortable
-          label="出生日期">
+          label="出生日期"
+          :show-overflow-tooltip="true">
         </el-table-column>
         <el-table-column
           prop="BEGINDATE"
           sortable
-          label="开始日期">
+          label="开始日期"
+          :show-overflow-tooltip="true">
         </el-table-column>
         <el-table-column
           prop="ENDDATE"
           sortable
-          label="失效日期">
+          label="失效日期"
+          :show-overflow-tooltip="true">
         </el-table-column>
 
         <el-table-column

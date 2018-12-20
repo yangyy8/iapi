@@ -99,11 +99,14 @@
           <el-table-column
             label="标签"
             sortable
-            prop="TAG_NAME">
+            prop="TAG_CODE"
+            :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="照片">
-            
+            <template slot-scope="scope">
+              <span class="tc-b hand" @click="getPhotoInf(scope.row.PASSPORTNO,scope.row.NATIONALITY,scope.row.BIRTHDAY,scope.row.ENAME)">查看</span>
+            </template>
           </el-table-column>
           <el-table-column
             label="操作"
@@ -149,13 +152,20 @@
 
     </div>
     <!-- <GDTC :gtitle="'事件追加'" :gvisible="gdDialogVisible" :garr="checkeditem"  @gclose="gclose"></GDTC> -->
-
+    <el-dialog title="照片" :visible.sync="czDialogVisible" width="500px" :show-close="false">
+      <div class="img-div">
+        <img :src="imgURL" alt="">
+      </div>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="czDialogVisible=false" size="small">确认</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 // import GDTC from './GDTC'
-
+import imgUrl from '../../../assets/img/bp_ap/ph_s.png'
 export default {
   data(){
     return{
@@ -184,7 +194,9 @@ export default {
           label:"30"
         }
       ],
-      checkeditem:{}
+      checkeditem:{},
+      imgURL:imgUrl,
+      czDialogVisible:false,
     }
   },
   mounted(){
@@ -248,19 +260,42 @@ export default {
          this.TotalResult=r.data.totalResult;
       })
     },
-    // openGdTc(item){
-    //   this.checkeditem=item;
-    //   this.gdDialogVisible=true;
-    // },
-    // gclose(data){
-    //   console.log(data)
-    //   this.gdDialogVisible=data;
-    // },
+    getPhotoInf(passportno,nationality,birthday,name){
+      this.czDialogVisible=true;
+      let p={}
+      if(nationality=="CHN"){
+        p={
+          "type": 'photo',
+          "nationality": nationality,
+          "passportno": passportno,
+        }
+      }else{
+        p={
+          "passportno": passportno,
+          "nationality": nationality,
+          "birthday": birthday,
+          "name": name,
+          "type": 'photo',
+        }
+      }
+
+      this.$api.post('/manage-platform/riskRecordController/getPhotoInf',p,
+       r => {
+         console.log(r)
+         this.imgURL=r.url
+      })
+    }
   }
 }
 </script>
 
 <style scoped>
 
-
+.img-div{
+  width: 200px;
+  margin: 0 auto;
+}
+.img-div img{
+  width: 100%;
+}
 </style>

@@ -87,20 +87,22 @@
         </el-col>
 
         <el-col :span="2" class="down-btn-area">
-          <el-button type="success" class="" size="small" @click="getList(CurrentPage,pageSize,pd)">查询</el-button>
+          <el-button type="success" class="" size="small" @click="getList(CurrentPage,pageSize,pd,orders,direction)">查询</el-button>
           <!-- <el-button type="primary" class="mb-15" plain size="small" >重置</el-button> -->
         </el-col>
 
       </el-row>
     </div>
     <div class="middle">
-      <el-button type="success"  icon="el-icon-refresh" size="small" class="mb-9 mr-15" @click="getList(CurrentPage,pageSize,pd)">刷新</el-button>
+      <el-button type="success"  icon="el-icon-refresh" size="small" class="mb-9 mr-15" @click="getList(CurrentPage,pageSize,pd,orders,direction)">刷新</el-button>
       <el-checkbox v-model="checked" class="mr-15">自动刷新</el-checkbox>
       <span class="tc-999 f-14">注：点击每行可查看航班详情</span>
       <el-table
+        class="o-table3"
         ref="multipleTable"
         :data="tableData"
         @row-click="rowClick"
+        @sort-change="sortChange"
         border
         style="width: 100%;">
         <el-table-column
@@ -113,17 +115,22 @@
           label="出发站"
           prop="portFrom"
           sortable
-          width="87">
+          width="87"
+          :show-overflow-tooltip="true">
         </el-table-column>
         <el-table-column
           label="目的站"
           prop="portTo"
           sortable
-          width="87">
+          width="87"
+          :show-overflow-tooltip="true">
         </el-table-column>
         <el-table-column
           label="出入标识"
-          width="101">
+          sortable
+          width="90"
+          prop="FLIGHTTYPE"
+          :show-overflow-tooltip="true">
           <template slot-scope="scope">
             <div>
               <span v-if="scope.row.ioType=='I'">入境</span>
@@ -134,14 +141,20 @@
         </el-table-column>
         <el-table-column
           label="航班日期"
-          prop="fltDate"
+          prop="SCHEDULEDATIME"
           sortable
-          width="101">
+          width="101"
+          :show-overflow-tooltip="true">
+          <template slot-scope="scope">
+            <span>{{scope.row.fltDate}}</span>
+          </template>
         </el-table-column>
         <el-table-column
           label="航班状态"
+          prop="status"
           sortable
-          width="101">
+          width="101"
+          :show-overflow-tooltip="true">
           <template slot-scope="scope">
             <div>
               <span v-if="scope.row.status==0">计划</span>
@@ -157,7 +170,8 @@
 
         </el-table-column>
         <el-table-column
-          label="名单报警">
+          label="名单报警"
+          :show-overflow-tooltip="true">
           <template slot-scope="scope">
             <div>
               <span class="tc-o">黑({{scope.row.blkNum}})</span>
@@ -171,19 +185,22 @@
           label="值机时间"
           prop="checkInTime"
           sortable
-          width="101">
+          width="110"
+          :show-overflow-tooltip="true">
         </el-table-column>
         <el-table-column
           label="计划起降时间"
           prop="scheduleDaTime"
           sortable
-          width="101">
+          width="120"
+          :show-overflow-tooltip="true">
         </el-table-column>
         <el-table-column
           label="实际起降时间"
           prop="daTime"
           sortable
-          width="101">
+          width="120"
+          :show-overflow-tooltip="true">
         </el-table-column>
         <el-table-column
           label="值机人员详情">
@@ -394,6 +411,8 @@ export default {
       tableData:null,
       CurrentPage:1,
       pageSize:10,
+      orders:"",
+      direction:0,
       TotalResult:0,
       bjsj:[],
       pd:{whtSel:'0',blkSel:'0',ctlSel:'0',fcsSel:'0',fltDateFr:'',fltDateTo:''},
@@ -430,13 +449,13 @@ export default {
   activated(){
 
     // this.initTimer()
-    this.getList(this.CurrentPage,this.pageSize,this.pd);
+    this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
 
     if(this.checked){
       let that=this;
       console.log(that.CurrentPage,that.pageSize,that.pd)
       this.timer=setInterval(function(){
-        that.getList(that.CurrentPage,that.pageSize,that.pd);
+        that.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
       },60000)
     }
 
@@ -450,7 +469,7 @@ export default {
       if(val){
         let that=this;
         this.timer=setInterval(function(){
-          that.getList(that.CurrentPage,that.pageSize,that.pd);
+          that.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
         },60000)
       }else{
         clearInterval(this.timer);
@@ -460,12 +479,12 @@ export default {
   methods:{
     pageSizeChange(val) {
       this.pageSize=val;
-      this.getList(this.CurrentPage,this.pageSize,this.pd);
+      this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
       console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
       this.CurrentPage=val
-      this.getList(this.CurrentPage,this.pageSize,this.pd);
+      this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
       console.log(`当前页: ${val}`);
     },
     queryAirport(){
@@ -488,22 +507,33 @@ export default {
          this.detailsData=r.data
       })
     },
+    sortChange(data){
+      console.log(data)
+      this.orders=data.prop;
+      if(data.order=='descending'){
+        this.direction=0
+      }else{
+        this.direction=1
+      }
+      console.log(this.orders,this.direction)
+      this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
+    },
     // 航班实时查询
-    getList(CurrentPage,showCount,pd){
+    getList(CurrentPage,showCount,pd,orders,direction){
       // console.log(this.bjsj,pd)
-
       let arr =this.bjsj;
       pd.whtSel='0';pd.blkSel='0';pd.ctlSel='0';pd.fcsSel='0';
       for(var i=0;i<arr.length;i++){
         pd[arr[i]]='1';
       }
       // console.log(pd)
-
       let p={
     		"showCount": showCount,
     		"currentPage": CurrentPage,
         "totalResult": this.TotalResult,
-    		"pd": pd
+    		"pd": pd,
+        "order":orders,
+	      "direction":direction
       }
       console.log(CurrentPage,showCount,pd)
       this.$api.post('/manage-platform/flightRealTime/queryRealTimePage',p,

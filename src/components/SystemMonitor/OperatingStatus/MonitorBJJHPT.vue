@@ -230,20 +230,63 @@
     h1.8V168.2z M373.6,164.5c0.5-0.4,1-0.7,1.4-1l0.5,0.5c-0.4,0.3-0.8,0.6-1.4,1L373.6,164.5z"/>
   <polyline class="st0" points="58.5,91.6 58.5,86.4 355.7,86.4 355.7,90.8 		"/>
   <image xlink:href="../../../assets/img/zhjk/cloud.png" class="cloud" x="148" y="70"/>
-  <image xlink:href="../../../assets/img/zhjk/firewall.png" class="firewallLeft" x="40" y="130" width="3%" v-show="firewallLeft"/>
-  <image xlink:href="../../../assets/img/zhjk/firewall-gray.png" class="firewallLeft" x="40" y="130" width="3%" v-show="firewallLeftGray"/>
-  <image xlink:href="../../../assets/img/zhjk/firewall.png" class="firewallRight" x="340" y="130" width="3%"/>
+  <!-- 防火墙 -->
+  <!-- 左 -->
+  <image xlink:href="../../../assets/img/zhjk/firewall.png" class="firewallLeft" x="40" y="130" width="3%" v-show="fhqLeft"/>
+  <image xlink:href="../../../assets/img/zhjk/firewall-gray.png" class="firewallLeft" x="40" y="130" width="3%" v-show="fhqLeftGray"/>
+  <!-- 右 -->
+  <image xlink:href="../../../assets/img/zhjk/firewall.png" class="firewallRight" x="340" y="130" width="3%" v-show="fhqRight"/>
+  <image xlink:href="../../../assets/img/zhjk/firewall-gray.png" class="firewallRight" x="340" y="130" width="3%" v-show="fhqRightGray"/>
+
+
   <image xlink:href="../../../assets/img/zhjk/balance.png" class="balanceLeft" x="125" y="160" width="5%"/>
   <image xlink:href="../../../assets/img/zhjk/balance.png" class="balanceRight" x="225" y="160" width="5%"/>
 
-  <image xlink:href="../../../assets/img/zhjk/exchange.png" class="billionExchangeRight" x="340" y="207" width="5%"/>
-  <image xlink:href="../../../assets/img/zhjk/exchange.png" class="thousandExchangeLeft" x="147" y="235" width="5%"/>
-  <image xlink:href="../../../assets/img/zhjk/exchange.png" class="thousandExchangeRight" x="212" y="235" width="5%"/>
-  <image xlink:href="../../../assets/img/zhjk/container.png" class="container" x="30" y="320" width="7%"/>
-  <image xlink:href="../../../assets/img/zhjk/message.png" class="message" x="127" y="320" width="7%"/>
-  <image xlink:href="../../../assets/img/zhjk/redis.png" class="redis" x="227" y="311" width="7%"/>
-  <image xlink:href="../../../assets/img/zhjk/redis.png" class="mirror" x="227" y="360" width="7%"/>
-  <image xlink:href="../../../assets/img/zhjk/database.png" class="database" x="327" y="315" width="7%"/>
+  <!-- 万兆交换机 -->
+  <image xlink:href="../../../assets/img/zhjk/exchange.png" class="billionExchangeRight" x="340" y="207" width="5%" v-show="wzjhw"/>
+  <image xlink:href="../../../assets/img/zhjk/exchange-gray.png" class="billionExchangeRight" x="340" y="207" width="5%" v-show="wzjhwGray"/>
+
+  <!-- 千兆交换机 -->
+  <image xlink:href="../../../assets/img/zhjk/exchange.png" class="thousandExchangeLeft" x="147" y="235" width="5%" v-show="qzjhj"/>
+  <image xlink:href="../../../assets/img/zhjk/exchange-gray.png" class="thousandExchangeLeft" x="147" y="235" width="5%" v-show="qzjhjGray"/>
+
+  <image xlink:href="../../../assets/img/zhjk/exchange.png" class="thousandExchangeRight" x="212" y="235" width="5%" v-show="qzjhj"/>
+  <image xlink:href="../../../assets/img/zhjk/exchange-gray.png" class="thousandExchangeLeft" x="212" y="235" width="5%" v-show="qzjhjGray"/>
+
+  <!-- 容器平台 -->
+  <image xlink:href="../../../assets/img/zhjk/RQ04.png" class="container" x="30" y="425" width="7%" v-show="rq04"/>
+  <image xlink:href="../../../assets/img/zhjk/RQ04-gray.png" class="container" x="30" y="425" width="7%" v-show="rq04Gray"/>
+
+  <image xlink:href="../../../assets/img/zhjk/RQ03.png" class="container" x="30" y="390" width="7%" v-show="rq03"/>
+  <image xlink:href="../../../assets/img/zhjk/RQ03-gray.png" class="container" x="30" y="390" width="7%" v-show="rq03Gray"/>
+
+  <image xlink:href="../../../assets/img/zhjk/RQ02.png" class="container" x="30" y="355" width="7%" v-show="rq02"/>
+  <image xlink:href="../../../assets/img/zhjk/RQ02-gray.png" class="container" x="30" y="355" width="7%" v-show="rq02Gray"/>
+
+  <image xlink:href="../../../assets/img/zhjk/RQ01.png" class="container" x="30" y="320" width="7%" v-show="rq01"/>
+  <image xlink:href="../../../assets/img/zhjk/RQ01-gray.png" class="container" x="30" y="320" width="7%" v-show="rq01Gray"/>
+
+  <!-- 消息队列集群 -->
+  <image xlink:href="../../../assets/img/zhjk/MQ01.png" class="message" x="127" y="340" width="7%" v-show="mq01"/>
+  <image xlink:href="../../../assets/img/zhjk/MQ01-gray.png" class="message" x="127" y="340" width="7%" v-show="mq01Gray"/>
+
+  <image xlink:href="../../../assets/img/zhjk/MQ02.png" class="message" x="127" y="400" width="7%" v-show="mq02"/>
+  <image xlink:href="../../../assets/img/zhjk/MQ02-gray.png" class="message" x="127" y="400" width="7%" v-show="mq02Gray"/>
+
+  <!-- Redis Master -->
+  <image xlink:href="../../../assets/img/zhjk/redis.png" class="redis" x="227" y="311" width="7%" v-show="rm"/>
+  <image xlink:href="../../../assets/img/zhjk/redis-gray.png" class="redis" x="227" y="311" width="7%" v-show="rmGray"/>
+  <!-- 镜像仓库 -->
+  <image xlink:href="../../../assets/img/zhjk/redis.png" class="mirror" x="227" y="360" width="7%" v-show="jxck"/>
+  <image xlink:href="../../../assets/img/zhjk/redis-gray.png" class="mirror" x="227" y="360" width="7%" v-show="jxckGray"/>
+
+  <!-- 数据库集群 -->
+  <image xlink:href="../../../assets/img/zhjk/DB02.png" class="database" x="327" y="345" width="6.5%" v-show="db02"/>
+  <image xlink:href="../../../assets/img/zhjk/DB02-gray.png" class="database" x="327" y="345" width="6.5%" v-show="db02Gray"/>
+
+  <image xlink:href="../../../assets/img/zhjk/DB01.png" class="database" x="327" y="315" width="6.5%" v-show="db01"/>
+  <image xlink:href="../../../assets/img/zhjk/DB01-gray.png" class="database" x="327" y="315" width="6.5%" v-show="db01Gray"/>
+
   <image xlink:href="../../../assets/img/zhjk/storage.png" class="storage" x="277" y="445" width="7%"/>
   <path class="st2" d="M19.3,210.2c0-2.7,2.2-4.8,4.8-4.8h369.5c2.7,0,4.8,2.2,4.8,4.8v59.1c0,2.7-2.2,4.8-4.8,4.8H24.1
     c-2.7,0-4.8-2.2-4.8-4.8V210.2z"/>
@@ -336,7 +379,10 @@
   <path class="st2" d="M830.4,169.6c0-3.7,3-6.6,6.6-6.6h81.6c3.7,0,6.6,3,6.6,6.6v97.8c0,3.7-3,6.6-6.6,6.6H837
     c-3.7,0-6.6-3-6.6-6.6V169.6z"/>
   <polyline class="st0" points="83.3,222.8 14,222.8 14,68.5 471.4,68.5 471.4,104.2 		"/>
-  <image xlink:href="../../../assets/img/zhjk/exchange.png" class="billionExchangeLeft" x="40" y="207" width="5%"/>
+  <!-- 万兆交换机 -->
+  <image xlink:href="../../../assets/img/zhjk/exchange.png" class="billionExchangeLeft" x="40" y="207" width="5%" v-show="wzjhw"/>
+  <image xlink:href="../../../assets/img/zhjk/exchange-gray.png" class="billionExchangeLeft" x="40" y="207" width="5%" v-show="wzjhwGray"/>
+
   <path class="st1" d="M742.9,263.8v2.4c0,2.1-0.4,3.6-1.3,4.6c-0.2-0.2-0.4-0.4-0.6-0.6c0.7-0.9,1.1-2.2,1.1-3.9v-3.1h3.3v-2h0.8
     v0.8h4v0.6h-4v0.6h4.5l-0.1,1.6c-0.3,0-0.5,0-0.7,0l0.1-0.9H742.9z M742.7,269.8h2.5v-2.9h0.8v2.9h1.2v-2.9h0.8v2.9h2.8v0.7h-8.1
     V269.8z M743.1,264.8l2.2-0.1V264h0.7v0.6l3-0.2l0,0.6l-3,0.2v0.3c0,0.3,0.2,0.4,0.6,0.4h2c0.4,0,0.7-0.2,0.8-0.5
@@ -393,24 +439,83 @@
     c0.4-0.4,0.7-0.9,1.1-1.4l0.6,0.4c-0.4,0.5-0.8,1-1.1,1.4L902.2,262z"/>
   <polyline class="st0" points="471.9,105.1 546.2,105.1 546.2,105.2 629.4,105.2 		"/>
   <polyline class="st0" points="630.2,105.3 630.2,69.6 785.7,69.6 785.7,70 		"/>
-  <!-- 千兆变换机 -->
-  <image xlink:href="../../../assets/img/zhjk/converter.png" class="thousandConverter" x="730" y="70" width="9%"/>
+  <!-- 千兆交换机 -->
+  <image xlink:href="../../../assets/img/zhjk/converter.png" class="thousandConverter" x="730" y="70" width="9%" v-show="converter"/>
+  <image xlink:href="../../../assets/img/zhjk/converter-gray.png" class="thousandConverter" x="730" y="70" width="9%" v-show="converterGray"/>
   <!-- 万兆网-->
-  <image xlink:href="../../../assets/img/zhjk/converter.png" class="billonConverter" x="830" y="70" width="9%"/>
+  <image xlink:href="../../../assets/img/zhjk/converter.png" class="billonConverter" x="830" y="70" width="9%" v-show="wzw"/>
+  <image xlink:href="../../../assets/img/zhjk/converter-gray.png" class="billonConverter" x="830" y="70" width="9%" v-show="wzwGray"/>
   <!--虚拟化平台-->
-  <image xlink:href="../../../assets/img/zhjk/virtualization.png" class="virtualization" x="730" y="165" width="7%"/>
+  <!-- 左 -->
+  <!-- <image xlink:href="../../../assets/img/zhjk/xnhpt.png" class="virtualization" width="272" height="140" style="overflow: visible;" transform="matrix(0.24 0 0 0.24 707.324 223.4404)"/>
+  <image xlink:href="../../../assets/img/zhjk/xnhpt.png" class="virtualization" width="272" height="140" style="overflow: visible;" transform="matrix(0.24 0 0 0.24 707.324 212.8804)"/>
+  <image xlink:href="../../../assets/img/zhjk/xnhpt.png" class="virtualization" width="272" height="140" style="overflow: visible;" transform="matrix(0.24 0 0 0.24 707.324 201.8405)"/>
+  <image xlink:href="../../../assets/img/zhjk/xnhpt.png" class="virtualization" width="272" height="140" style="overflow: visible;" transform="matrix(0.24 0 0 0.24 707.324 190.0804)"/>
+  <image xlink:href="../../../assets/img/zhjk/xnhpt.png" class="virtualization"  width="272" height="140" style="overflow: visible;" transform="matrix(0.24 0 0 0.24 707.324 178.3205)"/>
+  <image xlink:href="../../../assets/img/zhjk/xnhpt.png" class="virtualization"  width="272" height="140" style="overflow: visible;" transform="matrix(0.24 0 0 0.24 707.324 167.2805)"/> -->
+
+
+  <image xlink:href="../../../assets/img/zhjk/xnhpt.png" class="virtualization" x="715" y="225" width="5%" v-show="xnhptLeftSix"/>
+  <image xlink:href="../../../assets/img/zhjk/xnhpt-gray.png" class="virtualization" x="715" y="225" width="5%" v-show="xnhptLeftSixGray"/>
+
+  <image xlink:href="../../../assets/img/zhjk/xnhpt.png" class="virtualization" x="715" y="215" width="5%" v-show="xnhptLeftFive"/>
+  <image xlink:href="../../../assets/img/zhjk/xnhpt-gray.png" class="virtualization" x="715" y="215" width="5%" v-show="xnhptLeftFiveGray"/>
+
+  <image xlink:href="../../../assets/img/zhjk/xnhpt.png" class="virtualization" x="715" y="205" width="5%" v-show="xnhptLeftFour"/>
+  <image xlink:href="../../../assets/img/zhjk/xnhpt-gray.png" class="virtualization" x="715" y="205" width="5%" v-show="xnhptLeftFourGray"/>
+
+  <image xlink:href="../../../assets/img/zhjk/xnhpt.png" class="virtualization" x="715" y="195" width="5%" v-show="xnhptLeftThree"/>
+  <image xlink:href="../../../assets/img/zhjk/xnhpt-gray.png" class="virtualization" x="715" y="195" width="5%" v-show="xnhptLeftThreeGray"/>
+
+  <image xlink:href="../../../assets/img/zhjk/xnhpt.png" class="virtualization" x="715" y="185" width="5%" v-show="xnhptLeftTwo"/>
+  <image xlink:href="../../../assets/img/zhjk/xnhpt-gray.png" class="virtualization" x="715" y="185" width="5%" v-show="xnhptLeftTwoGray"/>
+
+  <image xlink:href="../../../assets/img/zhjk/xnhpt.png" class="virtualization" x="715" y="175" width="5%" v-show="xnhptLeftOne"/>
+  <image xlink:href="../../../assets/img/zhjk/xnhpt-gray.png" class="virtualization" x="715" y="175" width="5%" v-show="xnhptLeftOneGray"/>
+  <!-- 右 -->
+  <image xlink:href="../../../assets/img/zhjk/xnhpt.png" class="virtualization" x="765" y="225" width="5%" v-show="xnhptRightSix"/>
+  <image xlink:href="../../../assets/img/zhjk/xnhpt-gray.png" class="virtualization" x="765" y="225" width="5%" v-show="xnhptRightSixGray"/>
+
+  <image xlink:href="../../../assets/img/zhjk/xnhpt.png" class="virtualization" x="765" y="215" width="5%" v-show="xnhptRightFive"/>
+  <image xlink:href="../../../assets/img/zhjk/xnhpt-gray.png" class="virtualization" x="765" y="215" width="5%" v-show="xnhptRightFiveGray"/>
+
+  <image xlink:href="../../../assets/img/zhjk/xnhpt.png" class="virtualization" x="765" y="205" width="5%" v-show="xnhptRightFour"/>
+  <image xlink:href="../../../assets/img/zhjk/xnhpt-gray.png" class="virtualization" x="765" y="205" width="5%" v-show="xnhptRightFourGray"/>
+
+  <image xlink:href="../../../assets/img/zhjk/xnhpt.png" class="virtualization" x="765" y="195" width="5%" v-show="xnhptRightThree"/>
+  <image xlink:href="../../../assets/img/zhjk/xnhpt-gray.png" class="virtualization" x="765" y="195" width="5%" v-show="xnhptRightThreeGray"/>
+
+  <image xlink:href="../../../assets/img/zhjk/xnhpt.png" class="virtualization" x="765" y="185" width="5%" v-show="xnhptRightTwo"/>
+  <image xlink:href="../../../assets/img/zhjk/xnhpt-gray.png" class="virtualization" x="765" y="185" width="5%" v-show="xnhptRightTwoGray"/>
+
+  <image xlink:href="../../../assets/img/zhjk/xnhpt.png" class="virtualization" x="765" y="175" width="5%" v-show="xnhptRightOne"/>
+  <image xlink:href="../../../assets/img/zhjk/xnhpt-gray.png" class="virtualization" x="765" y="175" width="5%" v-show="xnhptRightOneGray"/>
+
   <!--数据库集群-->
-  <image xlink:href="../../../assets/img/zhjk/database-cluster.png" class="databaseCluster" x="845" y="165" width="7%"/>
+  <image xlink:href="../../../assets/img/zhjk/xnhpt.png" class="databaseCluster" x="845" y="175" width="6.5%" v-show="sjkjqTop"/>
+  <image xlink:href="../../../assets/img/zhjk/xnhpt-gray.png" class="databaseCluster" x="845" y="175" width="6.5%" v-show="sjkjqTopGray"/>
+
+  <image xlink:href="../../../assets/img/zhjk/xnhpt.png" class="databaseCluster" x="845" y="215" width="6.5%" v-show="sjkjqBot"/>
+  <image xlink:href="../../../assets/img/zhjk/xnhpt-gray.png" class="databaseCluster" x="845" y="215" width="6.5%" v-show="sjkjqBotGray"/>
+
+
   <!--san交换机-->
   <image xlink:href="../../../assets/img/zhjk/san.png" class="sanLeft" x="730" y="315" width="7%"/>
   <!--san交换机-->
   <image xlink:href="../../../assets/img/zhjk/san.png" class="sanRight" x="845" y="315" width="7%"/>
   <line class="st0" x1="456.9" y1="212.8" x2="608.4" y2="211.4"/>
   <!-- 电信专线 -->
-  <image xlink:href="../../../assets/img/zhjk/special-line.png" class="specialLineTl" x="455" y="80" width="3%"/>
-  <image xlink:href="../../../assets/img/zhjk/special-line.png" class="specialLineTr" x="502" y="80" width="3%"/>
-  <image xlink:href="../../../assets/img/zhjk/special-line.png" class="specialLineBl" x="455" y="190" width="3%"/>
-  <image xlink:href="../../../assets/img/zhjk/special-line.png" class="specialLineBr" x="502" y="190" width="3%"/>
+  <image xlink:href="../../../assets/img/zhjk/special-line.png" class="specialLineTl" x="455" y="80" width="3%" v-show="bjjhpt"/>
+  <image xlink:href="../../../assets/img/zhjk/special-line-gray.png" class="specialLineTl" x="455" y="80" width="3%" v-show="bjjhptGray"/>
+
+  <image xlink:href="../../../assets/img/zhjk/special-line.png" class="specialLineTr" x="502" y="80" width="3%" v-show="bjjhpt"/>
+  <image xlink:href="../../../assets/img/zhjk/special-line-gray.png" class="specialLineTr" x="502" y="80" width="3%" v-show="bjjhptGray"/>
+
+  <image xlink:href="../../../assets/img/zhjk/special-line.png" class="specialLineBl" x="455" y="190" width="3%" v-show="bjjhpt"/>
+  <image xlink:href="../../../assets/img/zhjk/special-line-gray.png" class="specialLineBl" x="455" y="190" width="3%" v-show="bjjhptGray"/>
+
+  <image xlink:href="../../../assets/img/zhjk/special-line.png" class="specialLineBr" x="502" y="190" width="3%" v-show="bjjhpt"/>
+  <image xlink:href="../../../assets/img/zhjk/special-line-gray.png" class="specialLineBr" x="502" y="190" width="3%" v-show="bjjhptGray"/>
   <polyline class="st0" points="608,211.4 699.4,211.4 699.4,102.8 724.7,102.8 		"/>
   <path class="st1" d="M49.4,468.6c-0.1,0.1-0.1,0.1-0.2,0.2c1.3,1.2,2.8,2,4.5,2.5c-0.2,0.3-0.4,0.6-0.5,0.8
     c-0.4-0.2-0.8-0.3-1.2-0.5v3.3h-0.8v-0.4h-4.8v0.4h-0.8v-3.2c-0.4,0.2-0.9,0.4-1.3,0.6c-0.1-0.2-0.3-0.5-0.4-0.7
@@ -719,10 +824,17 @@
   <line class="st8" x1="493" y1="38.7" x2="493" y2="486.7"/>
   <line class="st9" x1="629.5" y1="38.7" x2="629.5" y2="486.7"/>
   <!-- 边界交换平台 -->
-  <image xlink:href="../../../assets/img/zhjk/exchange.png" class="exchangePlatTop" x="550" y="90" width="5%"/>
-  <image xlink:href="../../../assets/img/zhjk/border.png" class="borderTop" x="605" y="90" width="5%"/>
-  <image xlink:href="../../../assets/img/zhjk/exchange.png" class="exchangePlatBottom" x="550" y="200" width="5%"/>
-  <image xlink:href="../../../assets/img/zhjk/border.png" class="borderBottom" x="605" y="200" width="5%"/>
+  <image xlink:href="../../../assets/img/zhjk/exchange.png" class="exchangePlatTop" x="550" y="90" width="5%" v-show="bjjhpt"/>
+  <image xlink:href="../../../assets/img/zhjk/exchange-gray.png" class="exchangePlatTop" x="550" y="90" width="5%" v-show="bjjhptGray"/>
+
+  <image xlink:href="../../../assets/img/zhjk/border.png" class="borderTop" x="605" y="90" width="5%" v-show="bjjhpt"/>
+  <image xlink:href="../../../assets/img/zhjk/border-gray.png" class="borderTop" x="605" y="90" width="5%" v-show="bjjhptGray"/>
+
+  <image xlink:href="../../../assets/img/zhjk/exchange.png" class="exchangePlatBottom" x="550" y="200" width="5%" v-show="bjjhpt"/>
+  <image xlink:href="../../../assets/img/zhjk/exchange-gray.png" class="exchangePlatBottom" x="550" y="200" width="5%" v-show="bjjhptGray"/>
+
+  <image xlink:href="../../../assets/img/zhjk/border.png" class="borderBottom" x="605" y="200" width="5%" v-show="bjjhpt"/>
+  <image xlink:href="../../../assets/img/zhjk/border-gray.png" class="borderBottom" x="605" y="200" width="5%" v-show="bjjhptGray"/>
   <g>
     <rect x="19.3" y="495.2" class="st10" width="605" height="22.3"/>
     <g>
@@ -12788,8 +12900,112 @@ export default {
   data(){
     return{
       cloud:'',
-      firewallLeft:true,
-      firewallLeftGray:false,
+      //防火墙
+      fhqLeft:true,
+      fhqLeftGray:false,
+
+      fhqRight:true,
+      fhqRightGray:false,
+      // 千兆交换机
+      qzjhj:true,
+      qzjhjGray:false,
+      // 容器平台
+      rq01:true,
+      rq01Gray:false,
+
+      rq02:true,
+      rq02Gray:false,
+
+      rq03:true,
+      rq03Gray:false,
+
+      rq04:true,
+      rq04Gray:false,
+      //消息队列集群
+      mq01:true,
+      mq01Gray:false,
+
+      mq02:true,
+      mq02Gray:false,
+
+      //Redis Master
+      rm:true,
+      rmGray:false,
+
+      //镜像仓库
+      jxck:true,
+      jxckGray:false,
+
+      //数据库器群
+      db01:true,
+      db01Gray:false,
+
+      db02:true,
+      db02Gray:false,
+
+      //千兆交换机
+      converter:true,
+      converterGray:false,
+
+      //万兆网
+      wzw:true,
+      wzwGray:false,
+
+      //数据库集群
+      sjkjqTop:true,
+      sjkjqTopGray:false,
+
+      sjkjqBot:true,
+      sjkjqBotGray:false,
+
+      //虚拟化平台
+      xnhptLeftOne:true,
+      xnhptLeftOneGray:false,
+
+      xnhptLeftTwo:true,
+      xnhptLeftTwoGray:false,
+
+      xnhptLeftThree:true,
+      xnhptLeftThreeGray:false,
+
+      xnhptLeftFour:true,
+      xnhptLeftFourGray:false,
+
+      xnhptLeftFive:true,
+      xnhptLeftFiveGray:false,
+
+      xnhptLeftSix:true,
+      xnhptLeftSixGray:false,
+
+      xnhptRightOne:true,
+      xnhptRightOneGray:false,
+
+      xnhptRightTwo:true,
+      xnhptRightTwoGray:false,
+
+      xnhptRightThree:true,
+      xnhptRightThreeGray:false,
+
+      xnhptRightFour:true,
+      xnhptRightFourGray:false,
+
+      xnhptRightFive:true,
+      xnhptRightFiveGray:false,
+
+      xnhptRightSix:true,
+      xnhptRightSixGray:false,
+
+      //边界交换平台
+      bjjhpt:true,
+      bjjhptGray:false,
+
+      //万兆交换机
+      wzjhw:true,
+      wzjhwGray:false,
+
+      wzjhjLeft:true,
+      wzjhjRight:true,
+
     }
 
   },
@@ -12800,7 +13016,113 @@ export default {
     IpShow(){
       this.$api.post('/manage-platform/monitorIntegrate/queryMonitorIntegrate',{},
        r =>{
-
+         if(r.success){
+           var arr = r.data;
+           for(var i = 0;i<arr.length;i++){
+             if(arr[i].ip == '172.16.1.1'){//防火墙
+               this.fhqLeft = arr[i].isConnected
+               this.fhqLeftGray = arr[i].flag
+             }else if(arr[i].ip == '172.16.1.2'){
+               this.fhqRight = arr[i].isConnected
+               this.fhqRightGray = arr[i].flag
+             }else if(arr[i].ip == '172.16.1.253'){//千兆交换机
+               this.qzjhj = arr[i].isConnected
+               this.qzjhjGray = arr[i].flag
+             }else if(arr[i].ip == '172.16.1.101'){//RQ01容器平台
+               this.rq01 = arr[i].isConnected
+               this.rq01Gray = arr[i].flag
+             }else if(arr[i].ip == '172.16.1.102'){//RQ02
+               this.rq02 = arr[i].isConnected
+               this.rq02Gray = arr[i].flag
+             }else if(arr[i].ip == '172.16.1.103'){//RQ03
+               this.rq03 = arr[i].isConnected
+               this.rq03Gray = arr[i].flag
+             }else if(arr[i].ip == '172.16.1.104'){//RQ04
+               this.rq04 = arr[i].isConnected
+               this.rq04Gray = arr[i].flag
+             }else if(arr[i].ip == '172.16.1.111'){//mq01消息队列集群
+               this.mq01 = arr[i].isConnected
+               this.mq01Gray = arr[i].flag
+             }else if(arr[i].ip == '172.16.1.112'){//mq02消息队列集群
+               this.mq02 = arr[i].isConnected
+               this.mq02Gray = arr[i].flag
+             }else if(arr[i].ip == '172.16.1.117'){//Redis Master
+               this.rm = arr[i].isConnected
+               this.rmGray = arr[i].flag
+             }else if(arr[i].ip == '172.16.1.116'){//镜像仓库
+               this.jxck = arr[i].isConnected
+               this.jxckGray = arr[i].flag
+             }else if(arr[i].ip == '172.16.1.121'){//数据库集群
+               this.db01 = arr[i].isConnected
+               this.db01Gray = arr[i].flag
+             }else if(arr[i].ip == '172.16.1.122'){
+               this.db02 = arr[i].isConnected
+               this.db02Gray = arr[i].flag
+             }else if(arr[i].ip == '172.16.18.254'){//千兆交换机
+               this.converter = arr[i].isConnected
+               this.converterGray = arr[i].flag
+             }else if(arr[i].ip == '172.16.19.254'){//万兆网
+               this.wzw = arr[i].isConnected
+               this.wzwGray = arr[i].flag
+             }else if(arr[i].ip == '172.16.18.121'){//数据库集群
+               this.sjkjqTop = arr[i].isConnected
+               this.sjkjqTopGray = arr[i].flag
+             }else if(arr[i].ip == '172.16.18.122'){
+               this.sjkjqBot = arr[i].isConnected
+               this.sjkjqBotGray = arr[i].flag
+             }else if(arr[i].ip == '172.16.18.101'){//虚拟化平台
+               this.xnhptLeftOne = arr[i].isConnected
+               this.xnhptLeftOneGray = arr[i].flag
+             }else if(arr[i].ip == '172.16.18.102'){
+               this.xnhptLeftTwo = arr[i].isConnected
+               this.xnhptLeftTwoGray = arr[i].flag
+             }else if(arr[i].ip == '172.16.18.103'){
+               this.xnhptLeftThree = arr[i].isConnected
+               this.xnhptLeftThreeGray = arr[i].flag
+             }else if(arr[i].ip == '172.16.18.104'){
+               this.xnhptLeftFour = arr[i].isConnected
+               this.xnhptLeftFourGray = arr[i].flag
+             }else if(arr[i].ip == '172.16.18.105'){
+               this.xnhptLeftFive = arr[i].isConnected
+               this.xnhptLeftFiveGray = arr[i].flag
+             }else if(arr[i].ip == '172.16.18.106'){
+               this.xnhptLeftSix = arr[i].isConnected
+               this.xnhptLeftSixGray = arr[i].flag
+             }else if(arr[i].ip == '172.16.18.107'){//虚拟化平台
+               this.xnhptRightOne = arr[i].isConnected
+               this.xnhptRightOneGray = arr[i].flag
+             }else if(arr[i].ip == '172.16.18.108'){
+               this.xnhptRightTwo = arr[i].isConnected
+               this.xnhptRightTwoGray = arr[i].flag
+             }else if(arr[i].ip == '172.16.18.109'){
+               this.xnhptRightThree = arr[i].isConnected
+               this.xnhptRightThreeGray = arr[i].flag
+             }else if(arr[i].ip == '172.16.18.110'){
+               this.xnhptRightFour = arr[i].isConnected
+               this.xnhptRightFourGray = arr[i].flag
+             }else if(arr[i].ip == '172.16.18.111'){
+               this.xnhptRightFive = arr[i].isConnected
+               this.xnhptRightFiveGray = arr[i].flag
+             }else if(arr[i].ip == '172.16.18.112'){
+               this.xnhptRightSix = arr[i].isConnected
+               this.xnhptRightSixGray = arr[i].flag
+             }else if(arr[i].ip == '172.16.10.254'){
+               this.bjjhpt = arr[i].isConnected
+               this.bjjhptGray = arr[i].flag
+             }else if(arr[i].ip == '172.16.1.254'){//万兆交换机
+               this.wzjhjLeft = arr[i].isConnected
+             }else if(arr[i].ip == '172.16.2.254'){
+               this.wzjhjRight = arr[i].isConnected
+             }
+           }
+           if(this.wzjhjLeft || this.wzjhjRight){
+             this.wzjhw = true
+             this.wzjhwGray = false
+           }else{
+             this.wzjhw = false
+             this.wzjhwGray = true
+           }
+         }
        })
     }
   }

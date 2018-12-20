@@ -48,6 +48,9 @@ export default {
             trigger: 'axis'
         },
         legend: {
+            type:'scroll',
+            width:480,
+            pageButtonGap:40,
             data: _this.chartdata.legendData
         },
         toolbox: {

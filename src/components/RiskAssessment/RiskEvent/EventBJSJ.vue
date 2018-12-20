@@ -154,7 +154,7 @@
             <el-button type="text" size="small" @click="moreShow=false" v-if="moreShow">收起 ︿</el-button>
           </el-col>
           <el-col :span="2" class="down-btn-area">
-            <el-button type="success" size="small" @click="pd.type='0';getList(CurrentPage,pageSize,pd)">查询</el-button>
+            <el-button type="success" size="small" @click="pd.type='0';getList(CurrentPage,pageSize,pd,orders,direction)">查询</el-button>
             <el-button type="primary" plain size="small"  class="mt-15" @click="reset" v-if="moreShow">重置</el-button>
           </el-col>
         </el-row>
@@ -162,19 +162,19 @@
     <div class="middle">
       <div class="ak-tab">
         <div class="ak-tabs">
-          <div class="ak-tab-item hand" :class="{'ak-checked':pd.type=='0'}" @click="pd.type='0';getList(CurrentPage,pageSize,pd)">
+          <div class="ak-tab-item hand" :class="{'ak-checked':pd.type=='0'}" @click="pd.type='0';getList(CurrentPage,pageSize,pd,orders,direction)">
             全部
           </div>
-          <div class="ak-tab-item hand" :class="{'ak-checked':pd.type=='1'}" @click="pd.type='1';getList(CurrentPage,pageSize,pd)">
+          <div class="ak-tab-item hand" :class="{'ak-checked':pd.type=='1'}" @click="pd.type='1';getList(CurrentPage,pageSize,pd,orders,direction)">
             未核查
           </div>
-          <div class="ak-tab-item hand" :class="{'ak-checked':pd.type=='2'}" @click="pd.type='2';getList(CurrentPage,pageSize,pd)">
+          <div class="ak-tab-item hand" :class="{'ak-checked':pd.type=='2'}" @click="pd.type='2';getList(CurrentPage,pageSize,pd,orders,direction)">
             已核查
           </div>
-          <div class="ak-tab-item hand" :class="{'ak-checked':pd.type=='3'}" @click="pd.type='3';getList(CurrentPage,pageSize,pd)">
+          <div class="ak-tab-item hand" :class="{'ak-checked':pd.type=='3'}" @click="pd.type='3';getList(CurrentPage,pageSize,pd,orders,direction)">
             已流转
           </div>
-          <div class="ak-tab-item hand" :class="{'ak-checked':pd.type=='4'}" @click="pd.type='4';getList(CurrentPage,pageSize,pd)">
+          <div class="ak-tab-item hand" :class="{'ak-checked':pd.type=='4'}" @click="pd.type='4';getList(CurrentPage,pageSize,pd,orders,direction)">
             已归档
           </div>
 
@@ -185,11 +185,12 @@
         <el-button type="primary" plain size="small" @click="openCzTc" :disabled="isdisable" v-if="pd.type!=4">批量事件处理</el-button>
 
         <el-table
-          class="mt-10"
+          class="mt-10 o-table3"
           ref="multipleTable"
           :data="tableData"
           border
           @selection-change="handleSelectionChange"
+          @sort-change="sortChange"
           style="width: 100%;">
           <el-table-column
            v-if="pd.type!=4"
@@ -207,19 +208,17 @@
             label="姓名"
             prop="name"
             sortable
-            width="80"
+            title="姓名"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="出入标识"
             prop="flightTypeName"
-            sortable
             width="50">
           </el-table-column>
           <el-table-column
             label="性别"
             prop="genderName"
-            sortable
             width="50"
             :show-overflow-tooltip="true">
           </el-table-column>
@@ -227,19 +226,22 @@
             label="出生日期"
             prop="birthday"
             sortable
-            width="101">
+            width="101"
+            :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="国籍地区"
             sortable
-            prop="nationalityName"
+            prop="nationality"
             width="50"
             :show-overflow-tooltip="true">
+            <template slot-scope="scope">
+              <span>{{scope.row.nationalityName}}</span>
+            </template>
           </el-table-column>
           <el-table-column
             label="证件类型"
             prop="passportTypeName"
-            sortable
             width="50"
             :show-overflow-tooltip="true">
           </el-table-column>
@@ -250,35 +252,36 @@
             width="90"
             :show-overflow-tooltip="true">
             <template slot-scope="scope">
-              <span class="tc-b hand" @click="$router.push({name:'DZDA',query:{nationality:scope.row.nationality,passportno:scope.row.passportno,type:1}})">{{scope.row.passportno}}</span>
+              <span class="tc-b hand" @click="$router.push({name:'DZDA',query:{nationality:scope.row.nationality,passportno:scope.row.passportno,grade:scope.row.grade,type:1}})">{{scope.row.passportno}}</span>
             </template>
           </el-table-column>
           <el-table-column
             label="航班号"
             prop="fltno"
             sortable
-            width="90"
+            width="70"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="航班日期"
             prop="fltnoDate"
             sortable
-            width="101">
+            width="101"
+            :show-overflow-tooltip="true">
           </el-table-column>
 
           <el-table-column
             label="命中模型"
             prop="hit_mode_gc"
             sortable
-            width="90"
+            width="70"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="命中规则"
             prop="hit_rule_name"
             sortable
-            width="90"
+            width="70"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
@@ -290,7 +293,7 @@
           </el-table-column>
           <el-table-column
             label="事件来源"
-            width="50"
+            width="55"
             sortable
             prop="centre_port">
           </el-table-column>
@@ -306,16 +309,18 @@
           <el-table-column
             label="处理人"
             prop="processor_peopleName"
-            width="50"
-            sortable
+            width="60"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="当前状态"
-            prop="statusName"
+            prop="status"
             sortable
-            width="63"
+            width="50"
             :show-overflow-tooltip="true">
+            <template slot-scope="scope">
+              <span>{{scope.row.statusName}}</span>
+            </template>
           </el-table-column>
           <el-table-column
             label="核查次数"
@@ -326,14 +331,14 @@
           </el-table-column>
           <el-table-column
             label="最新核查结果"
-            width="50"
-            sortable
+            width="70"
             prop="checkResult"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="历次风评"
             sortable
+            width="50"
             prop="eachevent">
             <template slot-scope="scope">
               <el-popover
@@ -464,6 +469,8 @@ export default {
       eachData:[],
       CurrentPage:1,
       pageSize:10,
+      orders:[],
+      direction:0,
       TotalResult:0,
       pd:{type:'0',status:'0',fltnoDate_start:'',fltnoDate_end:''},
       airport:null,
@@ -613,7 +620,7 @@ export default {
     this.getUers();
   },
   activated(){
-    this.getList(this.CurrentPage,this.pageSize,this.pd);
+    this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
   },
   methods:{
     getUers(){
@@ -632,12 +639,25 @@ export default {
       }
     },
     pageSizeChange(val) {
-      this.getList(this.CurrentPage,val,this.pd);
+      this.pageSize=val;
+      this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
       console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
-      this.getList(val,this.pageSize,this.pd);
+      this.CurrentPage=val
+      this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
       console.log(`当前页: ${val}`);
+    },
+    sortChange(data){
+      console.log(data)
+      this.orders=[data.prop];
+      if(data.order=='descending'){
+        this.direction=0
+      }else{
+        this.direction=1
+      }
+      console.log(this.orders,this.direction)
+      this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
     },
     handleClose(done) {
       // this.czform={};
@@ -647,7 +667,10 @@ export default {
       this.CurrentPage=1;
       this.pageSize=10;
       this.pd={type:'0',status:'0'};
-      this.getList(this.CurrentPage,this.pageSize,this.pd);
+      this.orders=[];
+      this.direction=0;
+      this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
+
     },
     queryAirport(){
       this.$api.post('/manage-platform/riskEventController/getDeptInfo',{},
@@ -682,7 +705,7 @@ export default {
          }
       })
     },
-    getList(CurrentPage,showCount,pd){
+    getList(CurrentPage,showCount,pd,orders,direction){
       if(this.pd.fltnoDate_start||this.pd.fltnoDate_end){
         if(!(this.pd.fltnoDate_end&&this.pd.fltnoDate_start)){
           this.$message.error('请输入完整的航班日期区间！');
@@ -704,7 +727,9 @@ export default {
       let p={
         "showCount": showCount,
         "currentPage": CurrentPage,
-        "pd": pd
+        "pd": pd,
+        "orders":orders,
+	      "direction":direction
       }
       this.$api.post('/manage-platform/riskEventController/queryRiskEventInfo',p,
        r => {
@@ -762,7 +787,8 @@ export default {
              type: 'success'
            });
            this.czDialogVisible=false;
-           this.getList(this.CurrentPage,this.pageSize,this.pd);
+           this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
+
 
          }
       })
@@ -773,7 +799,8 @@ export default {
     gclose(data){
       console.log(data)
       this.gdDialogVisible=data;
-      this.getList(this.CurrentPage,this.pageSize,this.pd);
+      this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
+
 
     }
   }

@@ -8,7 +8,7 @@
           </div>
           <el-row align="center" :gutter="2">
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
-                <span class="input-text">航班时间：</span>
+                <span class="input-text">航班日期：</span>
                 <div class="input-input t-flex t-date">
                    <el-date-picker
                      v-model="cdt.startFlightDate"
@@ -351,14 +351,12 @@ export default {
     this.cdt.startFlightDate=formatDate(begin,'yyyyMMdd');
     this.cdt.endFlightDate=formatDate(end,'yyyyMMdd');
     this.getList(this.CurrentPage,this.pageSize,this.cdt);
-    this.totalPageM()
     this.queryNationalityAlone();
     this.queryAirport();
     document.getElementsByClassName('btn-next')[0].disabled=true;
   },
   activated(){
     this.getList(this.CurrentPage,this.pageSize,this.cdt);
-    this.totalPageM()
   },
   methods:{
     totalPageM(){
@@ -514,40 +512,36 @@ export default {
       console.log(pd)
         this.$api.post('/manage-platform/eventMonitor/queryFlightMonitor',p,
          r => {
-           console.log(r);
-           if(r.data.nextState==0){
-             console.log(document.getElementsByClassName('btn-next')[0])
-             document.getElementsByClassName('btn-next')[0].disabled=true;
-           }else{
-             document.getElementsByClassName('btn-next')[0].disabled=false;
-           }
-           this.tableData=r.data.resultList;
-           this.CurrentPage = r.data.currentPage;
-           this.colorList = r.data.pd.useColour;
-           for(var j=0;j<this.colorList.length;j++){
-             if(this.colorList[j].COL_NUMBER == 1){
-               this.color1=this.colorList[j].COL_VALUE;
-               this.low1 = this.colorList[j].LOW_VALUE;
-               this.high1 = this.colorList[j].HIGH_VALUE;
-               // console.log(low1,high1)
-             }else if(this.colorList[j].COL_NUMBER == 2){
-               this.color2=this.colorList[j].COL_VALUE;
-               this.low2 = this.colorList[j].LOW_VALUE;
-               this.high2 = this.colorList[j].HIGH_VALUE;
-               // console.log(low2,high2)
-             }else if(this.colorList[j].COL_NUMBER == 3){
-               this.color3=this.colorList[j].COL_VALUE;
-               this.low3 = this.colorList[j].LOW_VALUE;
-               this.high3 = this.colorList[j].HIGH_VALUE;
-               // console.log(low3,high3)
-             }else if(this.colorList[j].COL_NUMBER == 4){
-               this.color4=this.colorList[j].COL_VALUE;
-               this.low4 = this.colorList[j].LOW_VALUE;
-               this.high4 = this.colorList[j].HIGH_VALUE;
-               // console.log(low4,high4)
+           if(r.success){
+             if(r.data.nextState==0){
+               document.getElementsByClassName('btn-next')[0].disabled=true;
+             }else{
+               document.getElementsByClassName('btn-next')[0].disabled=false;
              }
+             this.tableData=r.data.resultList;
+             this.CurrentPage = r.data.currentPage;
+             this.colorList = r.data.pd.useColour;
+             for(var j=0;j<this.colorList.length;j++){
+               if(this.colorList[j].COL_NUMBER == 1){
+                 this.color1=this.colorList[j].COL_VALUE;
+                 this.low1 = this.colorList[j].LOW_VALUE;
+                 this.high1 = this.colorList[j].HIGH_VALUE;
+               }else if(this.colorList[j].COL_NUMBER == 2){
+                 this.color2=this.colorList[j].COL_VALUE;
+                 this.low2 = this.colorList[j].LOW_VALUE;
+                 this.high2 = this.colorList[j].HIGH_VALUE;
+               }else if(this.colorList[j].COL_NUMBER == 3){
+                 this.color3=this.colorList[j].COL_VALUE;
+                 this.low3 = this.colorList[j].LOW_VALUE;
+                 this.high3 = this.colorList[j].HIGH_VALUE;
+               }else if(this.colorList[j].COL_NUMBER == 4){
+                 this.color4=this.colorList[j].COL_VALUE;
+                 this.low4 = this.colorList[j].LOW_VALUE;
+                 this.high4 = this.colorList[j].HIGH_VALUE;
+               }
+             }
+             this.totalPageM()
            }
-           // this.TotalResult=r.data.totalResult;
         })
     },
     queryNationalityAlone(){

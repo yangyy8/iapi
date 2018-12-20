@@ -177,11 +177,12 @@
         <el-button type="primary" plain size="small" @click="openCzTc" :disabled="isdisable">批量事件处理</el-button> -->
 
         <el-table
-          class="mt-10"
+          class="mt-10 o-table3"
           ref="multipleTable"
           :data="tableData"
           border
           cell-class-name="cellClass"
+          @sort-change="sortChange"
           style="width: 100%;">
           <!-- <el-table-column
             label="唯一编号"
@@ -193,7 +194,6 @@
             label="姓名"
             prop="name"
             sortable
-            width="80"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
@@ -204,22 +204,23 @@
           </el-table-column>
           <el-table-column
             label="国籍地区"
-            prop="nationalityName"
+            prop="nationality"
             sortable
-            width="50"
+            width="60"
             :show-overflow-tooltip="true">
+            <template slot-scope="scope">
+              <span>{{scope.row.nationalityName}}</span>
+            </template>
           </el-table-column>
           <el-table-column
             label="出入标识"
             prop="flightTypeName"
-            sortable
-            width="50">
+            width="60">
           </el-table-column>
           <el-table-column
             label="证件类型"
             prop="passportTypeName"
-            sortable
-            width="50"
+            width="60"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
@@ -229,37 +230,41 @@
             width="90"
             :show-overflow-tooltip="true">
             <template slot-scope="scope">
-              <span class="tc-b hand" @click="$router.push({name:'DZDA',query:{nationality:scope.row.nationality,passportno:scope.row.passportno,type:2}})">{{scope.row.passportno}}</span>
+              <span class="tc-b hand" @click="$router.push({name:'DZDA',query:{nationality:scope.row.nationality,passportno:scope.row.passportno,grade:scope.row.grade,type:2}})">{{scope.row.passportno}}</span>
             </template>
           </el-table-column>
           <el-table-column
             label="航班号"
             prop="fltno"
             sortable
-            width="90">
+            width="70">
           </el-table-column>
           <el-table-column
             label="航班日期"
             prop="fltnoDate"
             sortable
-            width="101">
+            width="101"
+            :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="口岸"
             prop="port_name"
             sortable
+            width="60"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="命中模型"
             prop="hit_mode_gc"
-            width="90"
+            sortable
+            width="70"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="命中规则"
             prop="hit_rule_name"
-            width="90"
+            sortable
+            width="70"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
@@ -273,42 +278,44 @@
           </el-table-column>
           <el-table-column
             label="风评结果"
-            prop="checkResult"
-            width="50"
+            prop="newcheckresult"
+            sortable
+            width="60"
             :show-overflow-tooltip="true">
+            <template slot-scope="scope">
+              <span>{{scope.row.newcheckresultName}}</span>
+            </template>
           </el-table-column>
           <el-table-column
             label="事件来源"
-            width="50"
+            width="60"
             sortable
             prop="centre_port">
           </el-table-column>
           <el-table-column
             label="推送人"
             prop="change_peopleName"
-            sortable
-            width="50"
+            width="60"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="处理人"
             prop="processor_peopleName"
-            sortable
-            width="50"
+            width="60"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="归档人"
             prop="processor_peopleName"
-            sortable
-            width="50"
+            width="60"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="归档时间"
             prop="archive_time"
             sortable
-            width="101">
+            width="101"
+            :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="操作"
@@ -373,6 +380,8 @@ export default {
       eachData:[],
       CurrentPage:1,
       pageSize:10,
+      orders:[],
+      direction:0,
       TotalResult:0,
       pd:{fltnoDate_start:'',fltnoDate_end:''},
       airport:null,
@@ -415,7 +424,8 @@ export default {
 
   },
   activated(){
-    this.getList(this.CurrentPage,this.pageSize,this.pd);
+    this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
+
   },
   methods:{
     handleSelectionChange(val) {
@@ -427,12 +437,27 @@ export default {
       }
     },
     pageSizeChange(val) {
-      this.getList(this.CurrentPage,val,this.pd);
+      this.pageSize=val;
+      this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
+
       console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
-      this.getList(val,this.pageSize,this.pd);
+      this.CurrentPage=val;
+      this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
+
       console.log(`当前页: ${val}`);
+    },
+    sortChange(data){
+      console.log(data)
+      this.orders=[data.prop];
+      if(data.order=='descending'){
+        this.direction=0
+      }else{
+        this.direction=1
+      }
+      console.log(this.orders,this.direction)
+      this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
     },
     handleClose(done) {
       // this.czform={};
@@ -442,7 +467,10 @@ export default {
       this.CurrentPage=1;
       this.pageSize=10;
       this.pd={};
-      this.getList(this.CurrentPage,this.pageSize,this.pd);
+      this.orders=[];
+      this.direction=0;
+      this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
+
     },
     queryAirport(){
       this.$api.post('/manage-platform/riskEventController/getDeptInfo',{},
@@ -477,7 +505,7 @@ export default {
          }
       })
     },
-    getList(CurrentPage,showCount,pd){
+    getList(CurrentPage,showCount,pd,orders,direction){
       if(this.pd.fltnoDate_start||this.pd.fltnoDate_end){
         if(!(this.pd.fltnoDate_end&&this.pd.fltnoDate_start)){
           this.$message.error('请输入完整的航班日期区间！');
@@ -499,7 +527,9 @@ export default {
       let p={
         "showCount": showCount,
         "currentPage": CurrentPage,
-        "pd": pd
+        "pd": pd,
+        "orders":orders,
+        "direction":direction
       }
       this.$api.post('/manage-platform/riskEventController/queryRiskGdEventInfo',p,
        r => {
@@ -560,7 +590,8 @@ export default {
     gclose(data){
       console.log(data)
       this.gdDialogVisible=data;
-      this.getList(this.CurrentPage,this.pageSize,this.pd);
+      this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
+
 
     },
 

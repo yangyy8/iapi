@@ -185,3 +185,13 @@
   font-weight: bold;
   border-top: 1px solid #3F96F2;
 }
+.el-select__tags-text{
+  display: inline-block;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 145px;
+  overflow: hidden;
+}
+.el-select .el-tag__close.el-icon-close{
+  top: -6px!important;
+}
