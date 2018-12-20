@@ -39,9 +39,9 @@
     <el-table-column
       label="区域" sortable>
       <template slot-scope="scope">
-        <div class="">
-         <span :class="{'yycolor':scope.row.zone=='UP','yycolory':scope.row.zone=='DOWN'}">   {{scope.row.zone | fifter1}}</span>
-        </div>
+
+        {{scope.row.zone | fifter1}}
+
       </template>
     </el-table-column>
     <el-table-column
@@ -58,7 +58,7 @@
       label="服务状态"
       sortable>
       <template slot-scope="scope">
-        {{scope.row.status | fifter2}}
+         <span :class="{'yycolor':scope.row.status=='UP','yycolory':scope.row.status=='DOWN'}">   {{scope.row.status | fifter2}}</span>
       </template>
     </el-table-column>
   </el-table>

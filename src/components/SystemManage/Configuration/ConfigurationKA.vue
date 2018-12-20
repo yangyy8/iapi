@@ -253,21 +253,16 @@ export default {
       console.log(`当前页: ${val}`);
     },
     getList(currentPage, showCount, pd) {
-      if(dayGap(this.pd.begin,this.pd.end,0)>1){
-        this.$alert('只能查询某一天的日期', '提示', {
-          confirmButtonText: '确定',
-        });
-        return false
-      }
+
       let p = {
         "currentPage": currentPage,
         "showCount": showCount,
         "cdt": pd
       };
-      this.$api.post("/manage-platform/log_event/queryListPageAll", p,
+      this.$api.post("/manage-platform/portConfig/select", p,
         r => {
           console.log(r);
-          this.tableData = r.data.resultList;
+          this.tableData = r.data.pdList;
           this.TotalResult = r.data.totalResult;
         })
     },

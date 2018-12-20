@@ -150,13 +150,13 @@
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
             <span class="yy-input-text"><font class="yy-color">*</font> 指标项代码：</span>
-            <el-input placeholder="请输入内容(长度不能超过50)" size="small" maxlength="50"  v-bind:disabled="form.targetId"  v-model="form.targetSign"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
+            <el-input placeholder="请输入内容(长度不能超过50)" size="small" maxlength="50"  :disabled="form.targetId!=''"  v-model="form.targetSign"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
           </el-col>
         </el-row>
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
             <span class="yy-input-text"><font class="yy-color">*</font> 指标项名称：</span>
-            <el-input placeholder="请输入内容(长度不能超过100)" size="small" maxlength="100"  v-bind:disabled="form.targetId" v-model="form.targetName"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
+            <el-input placeholder="请输入内容(长度不能超过100)" size="small" maxlength="100"  :disabled="form.targetId!=''" v-model="form.targetName"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
           </el-col>
         </el-row>
         <el-row type="flex" class="mb-6" >
@@ -168,7 +168,7 @@
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
             <span class="yy-input-text"><font class="yy-color">*</font> 指标类型：</span>
-            <el-select v-model="form.targetType" class="yy-input-input"  filterable clearable placeholder="请选择"   size="small" v-verify.change.blur ="{regs:'required',submit:'demo2'}">
+            <el-select v-model="form.targetType" class="yy-input-input"  filterable clearable placeholder="请选择" @change="selectChange"  size="small" v-verify.change.blur ="{regs:'required',submit:'demo2'}">
               <el-option value="名单" label="名单">
               </el-option>
               <el-option value="地域" label="地域">
@@ -197,7 +197,7 @@
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
             <span class="yy-input-text"><font class="yy-color">*</font> 指标来源：</span>
-            <el-select v-model="form.targetSource" class="yy-input-input"  filterable clearable placeholder="请选择"   size="small" v-verify.change.blur ="{regs:'required',submit:'demo2'}">
+            <el-select v-model="form.targetSource" class="yy-input-input"  filterable clearable placeholder="请选择" @change="selectChange"   size="small" v-verify.change.blur ="{regs:'required',submit:'demo2'}">
               <el-option value="1" label="1 - 自动计算">
               </el-option>
               <el-option value="2" label="2 - 手工录入">
@@ -373,6 +373,9 @@ export default {
     this.getList(this.CurrentPage, this.pageSize, this.pd);
   },
   methods: {
+    selectChange(){
+      this.$forceUpdate();
+    },
     handleSelectionChange(val) {
       this.multipleSelection = val;
     },
@@ -411,7 +414,7 @@ export default {
       if (n != 0) {
         this.tp = 1;
         // this.form = i;
-        //this.form=Object.assign({}, i);
+        // this.form=Object.assign({}, i);
         this.form.targetId=i.TARGET_ID;
         this.form.targetSign=i.TARGET_SIGN;
         this.form.targetName=i.TARGET_NAME;

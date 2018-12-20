@@ -39,12 +39,17 @@
       <el-row class="mb-15">
         <el-button type="primary" size="small" @click="adds(0,'');form={};">新增</el-button>
         <el-button type="success" size="small" @click="download">模板下载</el-button>
+<el-button type="info" size="small" @click="batchsdelete">批量删除</el-button>
         </el-row>
       <el-table
         :data="tableData"
         border
         style="width: 100%;"
-        >
+        @selection-change="handleSelectionChange">
+        <el-table-column
+         type="selection"
+         width="40">
+        </el-table-column>
         <el-table-column
           prop="NAME"
           label="字典名称">
@@ -308,6 +313,13 @@ export default {
       this.getList(val, this.pageSize, this.pd);
       console.log(`当前页: ${val}`);
     },
+    open(content) {
+
+      this.$alert(content, '提示', {
+        confirmButtonText: '确定',
+        type: 'warning'
+      });
+    },
     getList(currentPage, showCount, pd) {
       let p = {
         "currentPage": currentPage,
@@ -413,14 +425,15 @@ export default {
       const isEXL = file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
 
       if (!isEXL) {
-        this.$message.error('上传文件只能是 xlsl 格式!');
+        this.$message.error('上传文件只能是 xlsx 格式!');
       }
       return isEXL ;
     },
     showUpload(i){
 
       this.getSerial=i.SERIAL;
-     this.actions=this.$api.rootUrl;
+      //this.actions="http://192.168.99.247:8080";
+    this.actions=this.$api.rootUrl;
       this.uploadDialogVisible=true;
       console.log( this.$refs.upload);
       if( this.$refs.upload){
@@ -436,8 +449,6 @@ console.log(this.$refs.upload.uploadFiles);
        });
         return
       }
-
-
       // alert(this.$refs);
       this.$refs.upload.submit();
     },
@@ -479,7 +490,49 @@ console.log(this.$refs.upload.uploadFiles);
         link.setAttribute('download', 'riskDictionariesEtails.xlsx')
         document.body.appendChild(link)
         link.click()
-    }
+    },
+    batchsdelete() {
+
+      if (this.multipleSelection.length == 0) {
+
+        this.open("请选择列表内容！");
+        return;
+
+      }
+     console.log(this.multipleSelection);
+
+      let p = {
+        "ids": this.multipleSelection
+      };
+      this.$confirm('此字典名称删除后导入的详情代码项也一并删除，您是否确认删除？？', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$api.post('/manage-platform/riskDictionaries/deleteRiskDictionariess', p,
+          r => {
+
+            if (r.success) {
+              this.$message({
+                message: '删除成功！',
+                type: 'success'
+              });
+              this.getList(this.CurrentPage, this.pageSize, this.pd);
+            } else {
+              this.$message.error(r.Message);
+            }
+          }, e => {
+            this.$message.error('失败了');
+          });
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        });
+      });
+
+
+    },
 
   },
   filters: {

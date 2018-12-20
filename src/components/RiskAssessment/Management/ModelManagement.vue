@@ -317,7 +317,6 @@
       </el-col>
       <el-col :span="6" class="tjcon">
         <el-input type="text" placeholder="请输入内容" size="small"  v-model="ee.ruleName"  class="memoa"></el-input>
-
       </el-col>
       <el-col :span="3" class="tjcon tjconr">
         触发条件：
