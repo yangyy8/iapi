@@ -242,6 +242,7 @@ export default {
       this.pd={}
     },
     getList(){
+
       const result = this.$validator.verifyAll('timeDemo')
        if (result.indexOf(false) > -1) {
          return
@@ -252,7 +253,7 @@ export default {
         });
         return false
       }
-      if(this.filterText==''||this.filterText==undefined){
+      if(this.pd.models.length==0){
         this.$alert('模型不能为空', '提示', {
           confirmButtonText: '确定',
         });
@@ -356,7 +357,7 @@ export default {
   font-size: 18px;
 }
 .checked{
-  background:#56A8FE; 
+  background:#56A8FE;
   color:#ffffff;
 }
 .t-tip{
