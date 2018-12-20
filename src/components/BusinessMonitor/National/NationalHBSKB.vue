@@ -44,7 +44,7 @@
           </el-col>
         </el-row>
     </div>
-    <div class="middle t-table">
+    <div class="middle">
       <el-table
         ref="multipleTable"
         :data="tableData"

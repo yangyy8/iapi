@@ -649,6 +649,7 @@
               <span class="check-text">口岸</span>
               <div class="check-box">
                 <div class="check-box-nei"  @click.self="getJwKaList">
+
                   <div class="mr-5 mb-9" v-for="(x, ind) in checkList4">
                     <span>{{x.name}}</span>
                     <i class="el-icon-circle-close" @click="checkList4.splice(ind,1)"></i>
@@ -657,16 +658,17 @@
 
                 <div class="check-div" v-if="checkShow4">
                   <i class="el-icon-close close" @click="checkShow4=false"></i>
+                  <el-input  placeholder="请输入口岸"  v-model="port1" clearable size="mini" class="mb-9" @input="searchPort"></el-input>
                   <header>
                     <ul class="classify">
                       <el-checkbox v-model="checkAll4" @change="checkAllFn4" true-label="1" false-label="0">全选</el-checkbox>
-                      <li  v-for="(arr,key,index) in locationName4"  @click="isClassify4=key">
+                      <li  v-for="(arr,key,index) in locationName4"  @click="isClassify4=key" v-if="searchP">
                         <span class="classify-a hand" :class="{'check-a':isClassify4==key}">{{key}}</span>
                       </li>
                     </ul>
                   </header>
                   <div class="site-name">
-                    <div v-for="value of isClassify4" class="list-div">
+                    <div v-for="value of isClassify4" class="list-div" v-if="searchP">
                       <div class="list-pre">{{value}}</div>
                       <div class="list-dd">
                         <div v-for="(val,index) in locationName4[isClassify4][value]"  class="dd">
@@ -675,6 +677,14 @@
                             <span class="list-a" >{{val.name}}</span>
                           </label>
                         </div>
+                      </div>
+                    </div>
+                    <div class="list-dd" v-if="!searchP">
+                      <div v-for="(val,index) in searchPlist"  class="dd">
+                        <label  class="checkbox-item" :class="{'schecked':checkList4.some(function(x){return x.code==val.code})}">
+                          <input type="checkbox" :value="val" v-model="checkList4" class="checkbox-input" :disabled="!val.code">
+                          <span class="list-a" >{{val.name}}</span>
+                        </label>
                       </div>
                     </div>
                   </div>
@@ -779,39 +789,47 @@
         </div>
         <el-table
           :data="HBList"
+          size="mini"
           border
           max-height="150"
           style="width: 100%">
           <el-table-column
             prop="preDepartTime"
             label="预计起飞"
-            width="89">
+            width="100"
+            :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             prop="preArriveTime"
             label="预计抵达"
-            width="89">
+            width="100"
+            :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             prop="fltDate"
             label="航班日期"
-            width="89">
+            width="89"
+            :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             prop="fltno"
-            label="航班号">
+            label="航班号"
+            :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             prop="aircompanyName"
-            label="航空公司">
+            label="航空公司"
+            :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             prop="from"
-            label="出发地">
+            label="出发地"
+            :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             prop="to"
-            label="到达地">
+            label="到达地"
+            :show-overflow-tooltip="true">
           </el-table-column>
           <!-- <el-table-column
             prop="date"
@@ -832,39 +850,47 @@
         </div>
         <el-table
           :data="DqJkHb"
+          size="mini"
           border
           max-height="150"
           style="width: 100%">
           <el-table-column
             prop="preDepartTime"
             label="预计起飞"
-            width="89">
+            width="100"
+            :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             prop="preArriveTime"
             label="预计抵达"
-            width="89">
+            width="100"
+            :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             prop="fltDate"
             label="航班日期"
-            width="89">
+            width="89"
+            :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             prop="fltno"
-            label="航班号">
+            label="航班号"
+            :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             prop="aircompanyName"
-            label="航空公司">
+            label="航空公司"
+            :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             prop="from"
-            label="出发地">
+            label="出发地"
+            :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             prop="to"
-            label="到达地">
+            label="到达地"
+            :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="操作"
@@ -996,52 +1022,59 @@
         </div>
         <el-table
           :data="RyList"
+          size="mini"
           border
           max-height="150"
           style="width: 100%">
           <el-table-column
             prop="preDepartTime"
             label="预计起飞"
-            width="89">
+            width="140"
+            :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             prop="preArriveTime"
             label="预计抵达"
-            width="89">
+            width="140"
+            :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             prop="fltDate"
             label="航班日期"
-            width="89">
+            width="110"
+            :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             prop="fltno"
-            label="航班号">
+            label="航班号"
+            :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             prop="passportNo"
-            label="证件号码">
+            label="证件号码"
+            :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             prop="nationalityName"
-            label="国籍/地区">
+            label="国籍/地区"
+            :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             prop="name"
-            label="姓名">
+            label="姓名"
+            :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             prop="birthDay"
             label="出生日期"
-            width="89">
+            width="110"
+            :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="操作"
-            width="45">
+            width="60">
             <template slot-scope="scope">
-              <div class="flex-r">
                 <div class="ta-btn hand" @click="addRy(scope.row.trvKey)">添加</div>
-              </div>
            </template>
           </el-table-column>
         </el-table>
@@ -1050,52 +1083,59 @@
         </div>
         <el-table
           :data="DqRy"
+          size="mini"
           border
           max-height="150"
           style="width: 100%">
           <el-table-column
             prop="preDepartTime"
             label="预计起飞"
-            width="89">
+            width="140"
+            :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             prop="preArriveTime"
             label="预计抵达"
-            width="89">
+            width="140"
+            :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             prop="fltDate"
             label="航班日期"
-            width="89">
+            width="110"
+            :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             prop="fltno"
-            label="航班号">
+            label="航班号"
+            :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             prop="passportNo"
-            label="证件号码">
+            label="证件号码"
+            :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             prop="nationalityName"
-            label="国籍/地区">
+            label="国籍/地区"
+            :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             prop="name"
-            label="姓名">
+            label="姓名"
+            :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             prop="birthDay"
             label="出生日期"
-            width="89">
+            width="110"
+            :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="操作"
-            width="45">
+            width="60">
             <template slot-scope="scope">
-              <div class="flex-r">
-                <div class="ta-btn hand" @click="delRy(scope.row.trvKey)">删除</div>
-              </div>
+              <div class="ta-btn hand" @click="delRy(scope.row.trvKey)">删除</div>
            </template>
           </el-table-column>
         </el-table>
@@ -1133,6 +1173,9 @@ export default {
   },
   data() {
     return {
+      port1:"",
+      searchP:true,
+      searchPlist:[],
       sscheced:null,
       zdh:false,
       tabId: 0,
@@ -1321,6 +1364,31 @@ export default {
     this.chart = null;
   },
   methods: {
+    searchPort(){
+      this.searchPlist=[];
+      if(this.port1){
+        this.searchP=false;
+        let obj =this.locationName4;
+        let _this=this;
+        for(var i in obj){
+          for(var j in obj[i]){
+            for(var x=0;x<obj[i][j].length;x++){
+              if(obj[i][j][x].name.indexOf(_this.port1)>-1){
+                console.log(obj[i][j][x])
+                _this.searchPlist.push(obj[i][j][x])
+              }
+            }
+          }
+        }
+        if(_this.searchPlist.length==0){
+          console.log("没有此口岸！")
+          _this.searchPlist=[{name:"没有此口岸！"}]
+        }
+      }else{
+        this.searchP=true;
+      }
+
+    },
     closeBox(){
       //console.log("hhhhhhhhhh")
       this.checkShow=false;this.checkShow2=false;this.checkShow3=false;this.checkShow4=false;this.checkShow5=false;
