@@ -306,13 +306,17 @@
           </el-col>
         </el-row>
 <div  v-for="(ee,ind) in erows" style="border-bottom:1px solid #93C4F9; padding-top:10px; ">
+  <el-row type="flex" style="display:none">
+    <el-col :span="12" class="tjcon tjconr" >
+    <el-input type="text" placeholder="请输入内容" size="small"  v-model="ee.ruleCode"  class="memoa"></el-input>
+  </el-col>
+</el-row>
     <el-row type="flex">
       <el-col :span="3" class="tjcon tjconr" >
         规则名称：
       </el-col>
       <el-col :span="6" class="tjcon">
         <el-input type="text" placeholder="请输入内容" size="small"  v-model="ee.ruleName"  class="memoa"></el-input>
-
       </el-col>
       <el-col :span="3" class="tjcon tjconr">
         触发条件：
@@ -491,14 +495,16 @@ export default {
         ruleName: '',
         ruleRules: '',
         ruleDescribe: '',
-        ruleGrade: ''
+        ruleGrade: '',
+        ruleCode:''
       }],
       emodelrow: [{
         id: 1,
         ruleName: '',
         ruleRules: '',
         ruleDescribe: '',
-        ruleGrade: ''
+        ruleGrade: '',
+        ruleCode:''
       }],
       count: 1,
       ecount: 1,
@@ -608,7 +614,8 @@ export default {
                   ruleName: '',
                   ruleRules: '',
                   ruleDescribe: '',
-                  ruleGrade: ''
+                  ruleGrade: '',
+                  ruleCode:''
                 }];
               }
               this.form.enterRule = r.data.enterRule.ruleRules;
@@ -633,7 +640,8 @@ export default {
           ruleName: '',
           ruleRules: '',
           ruleDescribe: '',
-          ruleGrade: ''
+          ruleGrade: '',
+          ruleCode:''
         }];
 
       }
@@ -895,7 +903,8 @@ export default {
         ruleName: '',
         ruleRules: '',
         ruleDescribe: '',
-        ruleGrade: ''
+        ruleGrade: '',
+        ruleCode:''
       };
       this.emodelrow.id = this.ecount;
       this.erows.push(this.emodelrow);

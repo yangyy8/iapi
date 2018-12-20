@@ -105,7 +105,7 @@
 
         <el-table-column
           prop="airline_company_id"
-          label="航空公司名称" width="250">
+          label="航空公司名称" width="200">
 
         </el-table-column>
         <el-table-column
@@ -186,7 +186,7 @@
           >
         </el-table-column> -->
         <el-table-column
-          width="80"
+          width="110"
           label="操作">
           <template slot-scope="scope">
               <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row)">详情</el-button>
