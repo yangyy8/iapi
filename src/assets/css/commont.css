@@ -249,6 +249,11 @@
   overflow-y: auto;
   overflow-x: scroll;
 }
+.akcheck2top {
+  background: #f6f7fb;
+  padding: 6px;
+}
+
 /* 自定义查询 */
 .queryLeft{
   height: 107px;
