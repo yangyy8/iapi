@@ -627,7 +627,6 @@
               <el-button type="primary" plain size="small" @click="selfReset">重置</el-button>
             </el-col>
           </el-row>
-
         </div>
       </div>
       <div class="middle-btn-g">

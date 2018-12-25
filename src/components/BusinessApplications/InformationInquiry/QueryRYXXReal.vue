@@ -3,7 +3,7 @@
     <div class="middle">
       <div class="ak-tab mb-20">
         <div class="ak-tabs">
-          <div class="ak-tab-item hand" :class="{'ak-checked':page==0}" @click="$router.push({name:'QueryRYXXZH'})">
+          <div class="ak-tab-item hand" :class="{'ak-checked':page==0}" @click="$router.push({name:'QueryRYXXZH',query:{page:page}})">
             基础查询
           </div>
           <div class="ak-tab-item hand" :class="{'ak-checked':page==1}" @click="$router.push({name:'QueryRYXXPL'})">
