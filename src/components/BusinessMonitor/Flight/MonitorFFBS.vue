@@ -21,8 +21,9 @@
         </div>
       </div>
       <div class="ak-tab-pane" v-show="tabId==0">
+
         <el-row class="mb-9">
-          <el-col :span="20" class="pr-20">
+          <el-col :span="20" class="br pr-20">
             <el-row align="center" :gutter="2">
               <el-col :sm="24" :md="12" :lg="8" class="input-item">
                 <span class="input-text">航班日期：</span>
@@ -30,7 +31,6 @@
                   class="input-input"
                   :editable="false"
                   :clearable="false"
-                  @change="getList2(CurrentPage,pageSize,pd2)"
                   v-model="pd2.fltDate"
                   type="date" size="mini" value-format="yyyyMMdd"
                   placeholder="选择时间"  >
@@ -38,8 +38,8 @@
 
               </el-col>
               <el-col :sm="24" :md="12"  :lg="8" class="input-item">
-                <span class="input-text">口岸：</span>
-                <el-select v-model="pd2.port" @change="getList2(CurrentPage,pageSize,pd2)" placeholder="请选择"  size="small" clearable filterable class="block input-input">
+                <span class="input-text">机场：</span>
+                <el-select v-model="pd2.port" placeholder="请选择"  size="small" clearable filterable class="block input-input">
                   <el-option
                     v-for="item in airport"
                     v-if="item.JCDM"
@@ -52,12 +52,17 @@
 
             </el-row>
           </el-col>
+          <el-col :span="4" class="down-btn-area">
+            <el-button type="success" class="" size="small" @click="getList2(CurrentPage,pageSize,pd2)">查询</el-button>
+            <!-- <el-button type="primary" class="mb-15" plain size="small" >重置</el-button> -->
+          </el-col>
         </el-row>
-        <el-button type="success"  icon="el-icon-refresh" size="small" class="mb-9 mr-15" @click="getList2(CurrentPage,pageSize,pd2)">刷新</el-button>
+        <!-- <el-button type="success"  icon="el-icon-refresh" size="small" class="mb-9 mr-15" @click="getList2(CurrentPage,pageSize,pd2)">刷新</el-button> -->
         <el-checkbox v-model="checked">自动刷新</el-checkbox>
 
         <el-table
           :data="tableData2"
+          class="mt-10 o-table3"
           border
           max-height="600"
           style="width: 100%;">
@@ -170,7 +175,7 @@
 
               </el-col>
               <el-col :sm="24" :md="12"  :lg="8" class="input-item">
-                <span class="input-text">口岸：</span>
+                <span class="input-text">机场：</span>
                 <el-select v-model="pd1.port" placeholder="请选择"  size="small" clearable filterable class="block input-input">
                   <el-option
                     v-for="item in airport"
@@ -197,6 +202,7 @@
         <el-checkbox v-model="checked2" class="mr-15">自动刷新</el-checkbox>
 
         <el-table
+          class="mt-10 o-table3"
           :data="tableData"
           max-height="600"
           border
@@ -300,7 +306,7 @@
 
             </el-col>
             <el-col :sm="24" :md="12"  :lg="8" class="input-item">
-              <span class="input-text">口岸：</span>
+              <span class="input-text">机场：</span>
               <el-select v-model="pd2.port" @change="getList2(CurrentPage,pageSize,pd2)" placeholder="请选择"  size="small" clearable filterable class="block input-input">
                 <el-option
                   v-for="item in airport"
@@ -395,7 +401,8 @@ export default {
 
   },
   activated(){
-
+    console.log(this.tabId)
+    console.log("get1")
     this.getList();
     this.getList2(this.CurrentPage,this.pageSize,this.pd2);
 
@@ -407,6 +414,7 @@ export default {
     }
     if(this.checked2&&this.tabId!=0){
       let that=this;
+      console.log("get2")
       this.timer2=setInterval(function(){
         that.getList();
       },180000)
@@ -416,30 +424,31 @@ export default {
   deactivated(){
 　　clearInterval(this.timer);
     clearInterval(this.timer2);
-
+    this.timer=null;
+    this.timer2=null;
+    console.log(this.timer,this.timer2)
   },
   watch:{
-    tabId:function(val){
-      console.log(val)
-      if(val==0&&this.checked){
-        let that=this;
-        this.timer=setInterval(function(){
-          that.getList2(that.CurrentPage,that.pageSize,that.pd2);
-        },60000)
-      }else {
-        clearInterval(this.timer);
-
-      }
-      if(val!=0&&this.checked2){
-        let that=this;
-        this.timer2=setInterval(function(){
-          that.getList();
-        },180000)
-      }else {
-        clearInterval(this.timer2);
-
-      }
-    },
+    // tabId:function(val){
+    //   console.log(val)
+    //   if(val==0&&this.checked){
+    //     let that=this;
+    //     this.timer=setInterval(function(){
+    //       that.getList2(that.CurrentPage,that.pageSize,that.pd2);
+    //     },60000)
+    //   }else {
+    //     clearInterval(this.timer);
+    //   }
+    //   if(val!=0&&this.checked2){
+    //     let that=this;
+    //     this.timer2=setInterval(function(){
+    //       that.getList();
+    //     },180000)
+    //   }else {
+    //     clearInterval(this.timer2);
+    //
+    //   }
+    // },
     checked:function(val){
       console.log(val)
       if(val&&this.tabId==0){
@@ -455,6 +464,7 @@ export default {
       console.log(val)
       if(val&&this.tabId!=0){
         let that=this;
+        console.log("get3")
         this.timer2=setInterval(function(){
           that.getList();
         },180000)

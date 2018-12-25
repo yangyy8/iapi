@@ -361,7 +361,7 @@
                   <el-popover
                     placement="left"
                     width="200"
-                    trigger="click"
+                    trigger="hover"
                     :popper-class="'td2-pop'">
                     <div class="td2-div">
                       <div class="td2-pop-div b-r">
@@ -382,7 +382,7 @@
                   <el-popover
                     placement="left"
                     width="200"
-                    trigger="click"
+                    trigger="hover"
                     :popper-class="'td2-pop'">
                     <div class="td2-div">
                       <div class="td2-pop-div b-r">
@@ -401,7 +401,7 @@
                   <el-popover
                     placement="left"
                     width="200"
-                    trigger="click"
+                    trigger="hover"
                     :popper-class="'td2-pop'">
                     <div class="td2-div">
                       <div class="td2-pop-div b-r">
@@ -421,7 +421,7 @@
                   <el-popover
                     placement="left"
                     width="200"
-                    trigger="click"
+                    trigger="hover"
                     :popper-class="'td2-pop'">
                     <div class="td2-div">
                       <div class="td2-pop-div b-r">
@@ -441,7 +441,7 @@
                   <el-popover
                     placement="left"
                     width="200"
-                    trigger="click"
+                    trigger="hover"
                     :popper-class="'td2-pop'">
                     <div class="td2-div">
                       <div class="td2-pop-div b-r">
@@ -552,16 +552,18 @@
 
                 <div class="check-div" v-if="checkShow2">
                   <i class="el-icon-close close" @click="checkShow2=false"></i>
+                  <el-input  placeholder="请输入口岸"  v-model="port0" clearable size="mini" class="mb-9" @input="searchPort0"></el-input>
+
                   <header>
                     <ul class="classify">
                       <el-checkbox v-model="checkAll2" @change="checkAllFn2" true-label="1" false-label="0">全选</el-checkbox>
-                      <li  v-for="(arr,key,index) in locationName2"  @click="isClassify2=key">
+                      <li  v-for="(arr,key,index) in locationName2"  @click="isClassify2=key" v-if="searchP0">
                         <span class="classify-a hand" :class="{'check-a':isClassify2==key}">{{key}}</span>
                       </li>
                     </ul>
                   </header>
                   <div class="site-name">
-                    <div v-for="value of isClassify2" class="list-div">
+                    <div v-for="value of isClassify2" class="list-div" v-if="searchP0">
                       <div class="list-pre">{{value}}</div>
                       <div class="list-dd">
                         <div v-for="(val,index) in locationName2[isClassify2][value]"  class="dd">
@@ -570,6 +572,14 @@
                             <span class="list-a" >{{val.name}}</span>
                           </label>
                         </div>
+                      </div>
+                    </div>
+                    <div class="list-dd" v-if="!searchP0">
+                      <div v-for="(val,index) in searchP0list"  class="dd">
+                        <label  class="checkbox-item" :class="{'schecked':checkList2.some(function(x){return x.code==val.code})}">
+                          <input type="checkbox" :value="val" v-model="checkList2" class="checkbox-input" :disabled="!val.code">
+                          <span class="list-a" >{{val.name}}</span>
+                        </label>
                       </div>
                     </div>
                   </div>
@@ -620,16 +630,18 @@
 
                 <div class="check-div" v-if="checkShow3">
                   <i class="el-icon-close close" @click="checkShow3=false"></i>
+                  <el-input  placeholder="请输入国家"  v-model="gj1" clearable size="mini" class="mb-9" @input="searchGj"></el-input>
+
                   <header>
                     <ul class="classify">
                       <el-checkbox v-model="checkAll3" @change="checkAllFn3" true-label="1" false-label="0">全选</el-checkbox>
-                      <li  v-for="(arr,key,index) in locationName3"  @click="isClassify3=key">
+                      <li  v-for="(arr,key,index) in locationName3"  @click="isClassify3=key"  v-if="searchP">
                         <span class="classify-a hand" :class="{'check-a':isClassify3==key}">{{key}}</span>
                       </li>
                     </ul>
                   </header>
                   <div class="site-name">
-                    <div v-for="value of isClassify3" class="list-div">
+                    <div v-for="value of isClassify3" class="list-div"  v-if="searchG">
                       <div class="list-pre">{{value}}</div>
                       <div class="list-dd">
                         <div v-for="(val,index) in locationName3[isClassify3][value]"  class="dd">
@@ -638,6 +650,14 @@
                             <span class="list-a" >{{val.name}}</span>
                           </label>
                         </div>
+                      </div>
+                    </div>
+                    <div class="list-dd" v-if="!searchG">
+                      <div v-for="(val,index) in searchGlist"  class="dd">
+                        <label  class="checkbox-item" :class="{'schecked':checkList3.some(function(x){return x.code==val.code})}">
+                          <input type="checkbox" :value="val" v-model="checkList3" class="checkbox-input" :disabled="!val.code">
+                          <span class="list-a" >{{val.name}}</span>
+                        </label>
                       </div>
                     </div>
                   </div>
@@ -1173,9 +1193,15 @@ export default {
   },
   data() {
     return {
+      port0:"",
       port1:"",
+      gj1:"",
+      searchP0:true,
+      searchP0list:[],
       searchP:true,
       searchPlist:[],
+      searchG:true,
+      searchGlist:[],
       sscheced:null,
       zdh:false,
       tabId: 0,
@@ -1364,6 +1390,31 @@ export default {
     this.chart = null;
   },
   methods: {
+    searchPort0(){
+      this.searchP0list=[];
+      if(this.port0){
+        this.searchP0=false;
+        let obj =this.locationName2;
+        let _this=this;
+        for(var i in obj){
+          for(var j in obj[i]){
+            for(var x=0;x<obj[i][j].length;x++){
+              if(obj[i][j][x].name.indexOf(_this.port0)>-1){
+                console.log(obj[i][j][x])
+                _this.searchP0list.push(obj[i][j][x])
+              }
+            }
+          }
+        }
+        if(_this.searchP0list.length==0){
+          console.log("没有此口岸！")
+          _this.searchP0list=[{name:"没有此口岸！"}]
+        }
+      }else{
+        this.searchP0=true;
+      }
+
+    },
     searchPort(){
       this.searchPlist=[];
       if(this.port1){
@@ -1386,6 +1437,31 @@ export default {
         }
       }else{
         this.searchP=true;
+      }
+
+    },
+    searchGj(){
+      this.searchGlist=[];
+      if(this.gj1){
+        this.searchG=false;
+        let obj =this.locationName3;
+        let _this=this;
+        for(var i in obj){
+          for(var j in obj[i]){
+            for(var x=0;x<obj[i][j].length;x++){
+              if(obj[i][j][x].name.indexOf(_this.gj1)>-1){
+                console.log(obj[i][j][x])
+                _this.searchGlist.push(obj[i][j][x])
+              }
+            }
+          }
+        }
+        if(_this.searchGlist.length==0){
+          console.log("没有此国家！")
+          _this.searchGlist=[{name:"没有此国家！"}]
+        }
+      }else{
+        this.searchG=true;
       }
 
     },

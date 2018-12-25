@@ -161,7 +161,7 @@
 
             <template slot-scope="scope">
 
-               <span :class="{'yycolor':scope.row.STATUS=='1','yycolory':scope.row.STATUS=='0'}">   {{scope.row.STATUS | fiftertt}}</span>
+               <span :class="{'yycolor':scope.row.STATUS==1,'yycolory':scope.row.STATUS==0}">   {{scope.row.STATUS | fiftertt}}</span>
 
             </template>
         </el-table-column>
@@ -736,8 +736,9 @@ export default {
       }
     },
     fiftertt(val) {
-      if (val == "0") {
-        "无效"
+
+      if (val == 0) {
+          return "无效";
       } else {
         return "有效";
       }
@@ -770,7 +771,7 @@ export default {
 .yy-input-input {
   width: 68% !important;
 }
-.yycolor{ background: #00FF00; padding: 3px 8px;}
-.yycolory{  background: #FF0000;padding: 3px 8px; }
+.yycolor{ background: #00FF00; padding: 3px 8px; color: #ffffff;}
+.yycolory{  background: #FF0000;padding: 3px 8px;color: #ffffff; }
 
 </style>

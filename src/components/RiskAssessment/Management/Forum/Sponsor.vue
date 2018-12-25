@@ -39,9 +39,9 @@
           <el-button type="text" class="redx" @click="delFileInfo(ff.SERIAL)">删除</el-button>
         </div>
 
-        <div class="" v-if="fileData">
+        <div class="">
           <div class="" v-for="(x,ind) in fileData" :key="ind">
-            <span class="mr-30">{{x.name}}   </span>
+            <span class="mr-30">{{x.name}}</span>
             <el-button type="text" class="redx" @click="deletes(ind)">删除</el-button>
           </div>
 
@@ -75,7 +75,7 @@ export default {
       editorContent: '',
       pd: {},
       fileData: [],
-      fileData0: [],
+      // fileData0: [],
       SERIAL: "",
       ylDialogVisible: false,
       content: "",
@@ -146,15 +146,7 @@ export default {
         editor.txt.html("");
       }
     },
-    deletes(t) {
-      console.log(this.fileData0);
-      this.fileData0.splice(t, 1);
-      this.fileData = this.fileData0
 
-      // console.log(this.fileData0);
-      // this.fileData0.splice(t,1);
-      // this.fileData =[...this.fileData0];
-    },
     delFileInfo(id) {
       let p = {
         "SERIAL": id
@@ -277,18 +269,52 @@ export default {
           'Content-Type': 'multipart/form-data'
         })
     },
+    deletes(t) {
+      // console.log(this.fileData0);
+      // this.fileData0.splice(t, 1);
+
+      this.fileData.splice(t,1);
+      if(this.fileData.length==0){
+        this.fileData=null
+      }
+      console.log(this.fileData);
+
+      // this.fileData =[...this.fileData0];
+    },
     // 获取要上传的文件
     uploadFile(event) {
 
-      this.fileData = event.target.files;
+      if(!this.fileData){
+        console.log("this.fileData",event)
+
+        this.fileData = event.target.files;
+        this.fileData = [...this.fileData];
+        console.log("this.fileData",event)
+      }else{
+        let arr=[...event.target.files];
+        console.log(arr)
+        let _this=this;
+        let arr0=this.fileData;
+        for (var i = 0; i < arr0.length; i++) {
+          for(var j=0;j<arr.length;j++){
+            if(arr0[i].name==arr[j].name){
+              console.log(arr0[i].name,arr[j].name)
+              arr.splice(j,1);
+            }
+          }
+        }
+        this.fileData=this.fileData.concat(arr);
+        console.log(this.fileData)
+      }
+
       //console.log(this.fileData)
 
-      let _this = this
-      if (this.fileData && this.fileData.length) {
-        // 原始FileList对象不可更改，所以将其赋予curFiles提供接下来的修改
-        Array.prototype.push.apply(_this.fileData0, _this.fileData);
-      }
-      //console.log(this.fileData0)
+      // let _this = this
+      // if (this.fileData && this.fileData.length) {
+      //   // 原始FileList对象不可更改，所以将其赋予curFiles提供接下来的修改
+      //   Array.prototype.push.apply(_this.fileData0, _this.fileData);
+      // }
+      // //console.log(this.fileData0)
       //this.fileData0.push(event.target.files);
 
     },

@@ -34,7 +34,7 @@
      style="width: 100%;"
     >
              <el-table-column
-               label="区域" sortable>
+               label="区域" >
                <template slot-scope="scope">
                  <div class="">
                    {{scope.row.zone | fifter1}}
@@ -43,10 +43,10 @@
              </el-table-column>
              <el-table-column
                prop="instanceName"
-               label="实例名称" sortable>
+               label="实例名称" >
              </el-table-column>
              <el-table-column
-               label="状态" sortable>
+               label="状态" >
                <template slot-scope="scope">
 
                    {{scope.row.status | fifter2}}
@@ -65,7 +65,7 @@
   >
              <el-table-column
 
-               label="区域" sortable
+               label="区域"
              >
              <template slot-scope="scope">
                <div class="">
@@ -74,17 +74,17 @@
              </template>
              </el-table-column>
              <el-table-column
-               prop="type"
-               label="类型" sortable
+               prop="typeStr"
+               label="类型"
              >
              </el-table-column>
              <el-table-column
                prop="name"
-               label="名称" sortable
+               label="名称"
              >
              </el-table-column>
              <el-table-column
-               label="状态" sortable
+               label="状态"
              >
              <template slot-scope="scope">
               {{scope.row.status | fifterstate}}
@@ -111,7 +111,7 @@
        style="width: 100%;"
       >
                <el-table-column
-                 label="区域" sortable
+                 label="区域"
                >
                <template slot-scope="scope">
                  <div class="">
@@ -121,7 +121,7 @@
                </el-table-column>
                <el-table-column
                  prop="tablespaceName"
-                 label="表空间名称" sortable
+                 label="表空间名称"
                >
                </el-table-column>
                <el-table-column
@@ -197,9 +197,9 @@ export default {
     },
     fifterstate(val){
 
-      if (val == "Y") {
+      // if (val == "Y") {
         return "异常"
-      }
+      // }
     },
     fifter2(val){
       if(val=="OPEN"){

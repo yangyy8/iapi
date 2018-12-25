@@ -37,19 +37,17 @@
       </el-row>
     </div>
     <div class="middle">
-      <el-row class="mb-15">
-        <el-button type="primary" size="small" @click="adds(0,'');form={};">新增</el-button>
-        </el-row>
+
       <el-table
         :data="tableData"
         border
         style="width: 100%;">
         <el-table-column
           type="index"
-          label="序号">
+          label="序号" width="60">
         </el-table-column>
         <el-table-column
-          prop="PORTCODE"
+          prop="portcode"
           label="口岸编号"
           >
         </el-table-column>
@@ -58,7 +56,7 @@
           label="口岸名称" >
         </el-table-column>
         <el-table-column
-          prop="IPADDRESS"
+          prop="ipaddress"
           label="口岸地址"
           >
         </el-table-column>
@@ -71,7 +69,7 @@
           label="接口状态"
           >
           <template slot-scope="scope">
-              <span :class="{'yycolor':scope.row.STATUS=='1','yycolory':scope.row.STATUS=='0'}">  {{scope.row.STATUS | fiftersate }}</span>
+              <span :class="{'yycolor':scope.row.clientStatus=='1','yycolory':scope.row.clientStatus=='0'}">  {{scope.row.clientStatus | fiftersate }}</span>
           </template>
         </el-table-column>
         <el-table-column
@@ -171,7 +169,7 @@ export default {
       let p = {
         "currentPage": currentPage,
         "showCount": showCount,
-        "cdt": pd
+        "pd": pd
       };
       this.$api.post("/manage-platform/portStatus/select", p,
         r => {
