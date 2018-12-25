@@ -45,8 +45,8 @@
         border
         style="width: 100%;">
         <el-table-column
-          type="Index"
-          label="序号">
+          type="index"
+          label="序号" width="60">
         </el-table-column>
         <el-table-column
           prop="portcode"
@@ -75,14 +75,14 @@
           </template>
         </el-table-column>
         <el-table-column
-          width="180"
+          width="300"
           label="操作">
           <template slot-scope="scope">
               <!-- <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row)">详情</el-button> -->
               <el-button class="table-btn" size="mini" plain icon="el-icon-edit" @click="adds(1,scope.row)">编辑</el-button>
               <el-button class="table-btn" size="mini" plain icon="el-icon-delete" @click="deletes(scope.row)">删除</el-button>
-              <el-button class="table-btn" size="mini" plain icon="el-icon-close" @click="deletes(scope.row)">关闭</el-button>
-              <el-button class="table-btn" size="mini" plain icon="el-icon-check" @click="deletes(scope.row)">开启</el-button>
+              <el-button class="table-btn" size="mini" plain icon="el-icon-close" v-if="scope.row.status=='1'" @click="deletes(scope.row)">关闭</el-button>
+              <el-button class="table-btn" size="mini" plain icon="el-icon-check" v-if="scope.row.status=='0'" @click="deletes(scope.row)">开启</el-button>
          </template>
         </el-table-column>
       </el-table>
@@ -117,80 +117,64 @@
       </div>
     </div>
     <el-dialog
-      title="dialogText"
+      :title="dialogText"
       :visible.sync="addDialogVisible"
       width="600px">
       <el-form :model="form" ref="addForm">
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
-            <span class="yy-input-text"><font class="yy-color">*</font>口岸名称：</span>
-            <el-input placeholder="请输入内容(长度不超过11)" size="small" maxlength="11"  v-model="form.NAME"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
+            <span class="input-text"><font class="yy-color">*</font> 口岸名称：</span>
+            <el-input placeholder="请输入内容" size="small" maxlength="100"  v-model="form.portname"  class="input-input" v-verify.change.blur ="{regs:'required',submit:'demoka'}"></el-input>
           </el-col>
         </el-row>
 
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
-            <span class="yy-input-text"><font class="yy-color">*</font>口岸编号：</span>
-            <el-input placeholder="请输入内容(长度不超过11)" size="small" maxlength="11"  v-model="form.NAME"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
+            <span class="input-text"><font class="yy-color">*</font> 口岸编号：</span>
+            <el-input placeholder="请输入内容(长度不超过32)" size="small" maxlength="32"  v-model="form.portcode"  class="input-input" v-verify.change.blur ="{regs:'required',submit:'demoka'}"></el-input>
           </el-col>
         </el-row>
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
-            <span class="yy-input-text"><font class="yy-color">*</font>口岸地址：</span>
-            <el-input placeholder="请输入内容(长度不超过11)" size="small" maxlength="11"  v-model="form.NAME"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
+            <span class="input-text"><font class="yy-color">*</font> 口岸地址：</span>
+            <el-input placeholder="请输入内容(长度不超过11)" size="small" maxlength="100"  v-model="form.ipaddress"  class="input-input" v-verify.change.blur ="{regs:'required',submit:'demoka'}"></el-input>
           </el-col>
         </el-row>
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
-            <span class="yy-input-text"><font class="yy-color">*</font>备用地址：</span>
-            <el-input placeholder="请输入内容(长度不超过11)" size="small" maxlength="11"  v-model="form.NAME"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
+            <span class="input-text"><font class="yy-color">*</font> 备用地址：</span>
+            <el-input placeholder="请输入内容(长度不超过11)" size="small" maxlength="100"  v-model="form.ipaddressBack"  class="input-input" v-verify.change.blur ="{regs:'required',submit:'demoka'}"></el-input>
           </el-col>
         </el-row>
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
-            <span class="yy-input-text"><font class="yy-color">*</font>口岸开关：</span>
-            <el-select v-model="form.synFlag" placeholder="请选择" filterable  size="small"   class="input-input">
+            <span class="input-text"><font class="yy-color">*</font> 口岸开关：</span>
+            <el-select v-model="form.status" placeholder="请选择" filterable  size="small"   class="input-input" v-verify.change.blur ="{regs:'required',submit:'demoka'}">
               <el-option value="0" label="0 - 关闭" ></el-option>
               <el-option value="1" label="1 - 开启" ></el-option>
              </el-select>
           </el-col>
         </el-row>
-        <el-row type="flex" class="mb-6" >
+        <!-- <el-row type="flex" class="mb-6" >
           <el-col :span="24" class="input-item">
-            <span class="yy-input-text">备注：</span>
+            <span class="yy-input-text"> 备注：</span>
            <el-input type="textarea" placeholder="请输入内容" maxlength="600" :autosize="{ minRows: 3, maxRows: 6}" v-model="form.COUNT" class="yy-input-input"></el-input>
           </el-col>
-        </el-row>
+        </el-row> -->
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="addItem('addForm')" size="small">确 定</el-button>
-        <el-button @click="addDialogVisible = false" size="small">取 消</el-button>
+
+          <el-button type="info" @click="conarts('addForm')" size="small">连接测试</el-button>
+          <el-button @click="addDialogVisible = false" size="small">取 消</el-button>
       </div>
     </el-dialog>
     <el-dialog
-      title="详情"
+      title="连接测试"
       :visible.sync="detailsDialogVisible"
-      width="600px">
-      <el-form :model="form">
-        <div class="titile">类别名称 </div>
-        <el-row type="flex" class="mb-15">
-          <el-col :span="24" class="titlecontent">
-            {{form.loggerName}}
-          </el-col>
-            </el-row>
-          <div class="titile">线程名称</div>
-            <el-row type="flex" class="mb-15">
-          <el-col :span="24" class="titlecontent">
-            {{form.threadName}}
-          </el-col>
-        </el-row>
-     <div class="titile">监控消息</div>
-        <el-row type="flex" class="mb-15">
-          <el-col :span="24" class="titlecontent">
-            {{form.formattedMessage}}
-          </el-col>
-        </el-row>
-      </el-form>
+      width="400px">
+
+        <div class="titile">{{mmsg}} </div>
 
       <span slot="footer" class="dialog-footer">
         <el-button  @click="detailsDialogVisible = false" size="small">取消</el-button>
@@ -201,16 +185,13 @@
 <script>
 
 export default {
-
   data() {
     return {
       CurrentPage: 1,
       pageSize: 10,
       TotalResult: 0,
       pd: {},
-      nation: [],
-      value: '',
-      value1: "",
+      dialogText: "新增",
       addDialogVisible: false,
       detailsDialogVisible: false,
       options: [{
@@ -228,7 +209,7 @@ export default {
       ],
       tableData: [],
       multipleSelection: [],
-
+      mmsg:"",
       form: {},
 
     }
@@ -257,9 +238,9 @@ export default {
       let p = {
         "currentPage": currentPage,
         "showCount": showCount,
-        "cdt": pd
+        "pd": pd
       };
-      this.$api.post("/manage-platform/portConfig/select", p,
+      this.$api.post("/manage-platform/portStatus/select", p,
         r => {
           console.log(r);
           this.tableData = r.data.pdList;
@@ -271,23 +252,59 @@ export default {
         if (n != 0) {
           this.tp = 1;
           // this.form = i;
-          this.form=Object.assign({}, i);
+        //  this.form=Object.assign({}, i);
+        let p={
+          "portcode":i.portcode
+        };
+        this.$api.post("/manage-platform/portConfig/goEdie", p,
+          r => {
+            this.form = r.data;
+          })
+
           this.dialogText="编辑";
         }else {
+          this.tp=0;
           this.dialogText="新增";
         }
       },
+      panduan(){
+
+      if(this.form.portname=undefined || this.form.portname=="")
+      {
+            this.$message.error("口岸名称不能为空！"); return false;
+      }
+      if(this.form.portcode==undefined || this.form.portcode=="")
+      {
+            this.$message.error("口岸编号不能为空！"); return false;
+      }
+      if(this.form.ipaddress==undefined || this.form.ipaddress=="")
+      {
+            this.$message.error("口岸地址不能为空！"); return false;
+      }
+      if(this.form.ipaddressBack==undefined || this.form.ipaddressBack=="")
+      {
+            this.$message.error("备用地址不能为空！"); return false;
+      }
+      if(this.form.status==undefined || this.form.status==null)
+      {
+            this.$message.error("口岸开关不能为空！"); return false;
+      }
+       return true;
+      },
       addItem(formName) {
-              if(this.$validator.listener.demo2){
-                const result = this.$validator.verifyAll('demo2')
-                 if (result.indexOf(false) > -1) {
-                   return
-                 } else {
-                 }
-              }
-        var url = "/manage-platform/riskNamelistType/addnamelistType";
+              // if(this.$validator.listener.demoka){
+              //   const result = this.$validator.verifyAll('demoka')
+              //    if (result.indexOf(false) > -1) {
+              //      return
+              //    }
+              // }
+        console.log("this.panduan",this.panduan());
+        if(this.panduan){
+          return;
+        }
+        var url = "/manage-platform/portConfig/add";
         if (this.tp == 1) {
-          url = "/manage-platform/riskNamelistType/updatenamelistType";
+          url = "/manage-platform/portConfig/edit";
         }
         this.$api.post(url, this.form,
           r => {
@@ -313,6 +330,52 @@ export default {
       console.log(i);
       this.form=i;
     },
+    deletes(i) {
+      let p = {
+        "portcode": i.portcode
+      };
+      this.$confirm('您是否确认删除？', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$api.post('/manage-platform/portConfig/delete', p,
+          r => {
+            console.log("===" + r);
+            if (r.success) {
+              this.$message({
+                message: '删除成功！',
+                type: 'success'
+              });
+              this.getList(this.CurrentPage, this.pageSize, this.pd);
+            } else {
+              this.$message.error(r.Message);
+            }
+          }, e => {
+            this.$message.error('失败了');
+          });
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        });
+      });
+    },
+    conarts(){
+
+        this.$api.post('/manage-platform/portConfig/connTest', this.form,
+          r => {
+
+            if (r.success) {
+              this.mmsg=r.data;
+              this.detailsDialogVisible=true;
+            } else {
+              this.$message.error(r.Message);
+            }
+          }, e => {
+            this.$message.error('失败了');
+          });
+    },
   },
   filters: {
     fiftersate(val){
@@ -330,4 +393,7 @@ export default {
 <style scoped>
 .yycolor{ background: #00FF00; padding: 3px 8px;}
 .yycolory{  background: #FF0000;padding: 3px 8px; }
+.input-text{width: 20%!important;}
+.input-input{width: 75%!important;}
+.titile{width: 100%;font-size: 16px; text-align: center; color: #FF0000}
 </style>

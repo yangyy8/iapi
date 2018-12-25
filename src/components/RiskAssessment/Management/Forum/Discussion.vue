@@ -7,9 +7,9 @@
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">项目类型：</span>
               <el-select v-model="pd.ITEMTYPE" class="input-input"  filterable clearable placeholder="请选择"   size="small">
-                <el-option value="0" label="全部">
+                <el-option value="0" label="0 - 全部">
                 </el-option>
-                <el-option value="1" label="个人">
+                <el-option value="1" label="1 - 个人">
                 </el-option>
                </el-select>
             </el-col>
