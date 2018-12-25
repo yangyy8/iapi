@@ -361,7 +361,7 @@
                   <el-popover
                     placement="left"
                     width="200"
-                    trigger="click"
+                    trigger="hover"
                     :popper-class="'td2-pop'">
                     <div class="td2-div">
                       <div class="td2-pop-div b-r">
@@ -382,7 +382,7 @@
                   <el-popover
                     placement="left"
                     width="200"
-                    trigger="click"
+                    trigger="hover"
                     :popper-class="'td2-pop'">
                     <div class="td2-div">
                       <div class="td2-pop-div b-r">
@@ -401,7 +401,7 @@
                   <el-popover
                     placement="left"
                     width="200"
-                    trigger="click"
+                    trigger="hover"
                     :popper-class="'td2-pop'">
                     <div class="td2-div">
                       <div class="td2-pop-div b-r">
@@ -421,7 +421,7 @@
                   <el-popover
                     placement="left"
                     width="200"
-                    trigger="click"
+                    trigger="hover"
                     :popper-class="'td2-pop'">
                     <div class="td2-div">
                       <div class="td2-pop-div b-r">
@@ -441,7 +441,7 @@
                   <el-popover
                     placement="left"
                     width="200"
-                    trigger="click"
+                    trigger="hover"
                     :popper-class="'td2-pop'">
                     <div class="td2-div">
                       <div class="td2-pop-div b-r">
