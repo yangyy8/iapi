@@ -491,9 +491,9 @@ export default {
     },
     statusDis(val){
       if(val == 0){
-        return "正常"
+        return "失败"
       }else if(val == 1){
-        return "异常"
+        return "成功"
       }
     }
   },

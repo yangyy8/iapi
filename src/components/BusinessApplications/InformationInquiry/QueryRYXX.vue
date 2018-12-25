@@ -1749,12 +1749,6 @@ export default {
 
     seat(){
       console.log(this.radio)
-      // if(this.radio == ''){
-      //   this.$message({
-      //     type: 'warning',
-      //     message: '请选择需要查看的信息'
-      //   });
-      // }
       for(var i=0;i<this.tableData.length;i++){
         if(this.radio == this.tableData[i].I_SERIAL){
           this.seatDialogVisible=true;
