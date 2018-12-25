@@ -1,6 +1,26 @@
 <template lang="html">
   <div class="zlbg">
-
+    <div class="middle-top mb-2">
+       <el-row type="flex" class="middle">
+         <el-col :span="20" class="br">
+           <div class="title-green">
+             查询条件
+           </div>
+           <el-row align="center" type="flex" justify="center"   :gutter="2" class="pr-20">
+             <el-col  :span="8"  class="input-item">
+               <span class="input-text">监控区域：</span>
+               <el-select v-model="pd.zone"  class="input-input"  filterable clearable  placeholder="请选择"  size="small">
+                 <el-option value="0"  label="0 - DMZ区"></el-option>
+                 <el-option value="1"  label="1 - 业务平台区"></el-option>
+               </el-select>
+             </el-col>
+           </el-row>
+         </el-col>
+         <el-col :span="4" class="down-btn-area" style="margin-top:25px;">
+           <el-button type="success" size="small" @click="getList(pd)">查询</el-button>
+         </el-col>
+       </el-row>
+   </div>
     <div class="middle">
 
       <el-table
@@ -62,6 +82,9 @@
                     <template slot-scope="scope">
                        <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row.serial)">详情</el-button>
                     </template>
+
+
+
                 </el-table-column>
       </el-table>
 
@@ -81,6 +104,11 @@
                 >
                 </el-table-column>
                 <el-table-column
+                  prop="queueEnName"
+                  label="队列英文名称"
+                >
+                </el-table-column>
+                <el-table-column
                   prop="queueNum"
                   label="队列数"
                 >
@@ -92,6 +120,8 @@
                    {{scope.row.queueStatus | fifter2}}
                </template>
                </el-table-column>
+
+
             </el-table>
       <div slot="footer" class="dialog-footer">
         <el-button @click="detailsDialogVisible = false" size="small">取消</el-button>
@@ -107,6 +137,7 @@ export default {
       tableData: [],
       mtableData1ap: [],
       detailsDialogVisible: false,
+      num:0
     }
   },
   created() {
@@ -118,7 +149,16 @@ export default {
         r => {
           console.log(r);
           this.tableData = r.data;
-        })
+        });
+
+    let p={
+      "type":"MQWarningNumber"
+    }
+        this.$api.post('/manage-platform/monitorConfig/queryConfigByMTYPE', p,
+          r => {
+            console.log(r);
+            this.num = r.data.CVALUE;
+          });
     },
     details(i) {
       // console.log('---' + i);
@@ -137,12 +177,9 @@ export default {
     fifter1(val) {
       if (val == 0) {
         return "DMZ区"
-      } else if (val == 1) {
-        return "整合分发区"
-      } else if (val == 2) {
-        return "业务平台区"
       } else {
-        return "DMZ区"
+        
+        return "业务平台区"
       }
       // return val*2
     },
