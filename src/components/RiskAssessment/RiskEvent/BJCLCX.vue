@@ -37,7 +37,7 @@
                   {{page0Data.flightTypeName}}
                 </el-col>
                 <el-col :span="6">
-                  <span>出发地：</span>
+                  <span>初始上机地：</span>
                   {{page0Data.origin}}
                 </el-col>
                 <el-col :span="6">
@@ -53,7 +53,7 @@
                   {{page0Data.fltno}}
                 </el-col>
                 <el-col :span="6">
-                  <span>目的地：</span>
+                  <span>最终下机地：</span>
                   {{page0Data.destination}}
                 </el-col>
                 <el-col :span="6">
@@ -185,14 +185,14 @@
                   <el-row class="middle-msg-row2" :gutter="2">
                     <el-col :span="6" v-for="(c1,ind) in box3Data.autoTargetInfo" :key="ind" v-if="ind<size.size301">
                       <el-tooltip effect="light" :content="c1.TARGET_NAME" placement="top-start" v-if="c1.TARGET_NAME">
-                        <span class="msg-t" :class="{'tc-999':!c1.TARGET_VALUE}">{{c1.TARGET_NAME}}</span>
+                        <span class="msg-t" :class="{'tc-999':!c1.TARGET_VALUE,'redx':c1.ISHIT==1}">{{c1.TARGET_NAME}}</span>
                       </el-tooltip>
-                      <span class="msg-t" :class="{'tc-999':!c1.TARGET_VALUE}" v-else>{{c1.TARGET_NAME}}</span>
+                      <span class="msg-t" :class="{'tc-999':!c1.TARGET_VALUE,'redx':c1.ISHIT==1}" v-else>{{c1.TARGET_NAME}}</span>
                       :
                       <el-tooltip effect="light" :content="c1.TARGET_VALUE" placement="top-start" v-if="c1.TARGET_VALUE">
-                        <span class="msg-text">{{c1.TARGET_VALUE}}</span>
+                        <span class="msg-text" :class="{'tc-999':!c1.TARGET_VALUE,'redx':c1.ISHIT==1}">{{c1.TARGET_VALUE}}</span>
                       </el-tooltip>
-                      <span class="msg-text" v-else>{{c1.TARGET_VALUE}}</span>
+                      <span class="msg-text" :class="{'tc-999':!c1.TARGET_VALUE,'redx':c1.ISHIT==1}" v-else>{{c1.TARGET_VALUE}}</span>
 
                     </el-col>
 
@@ -211,14 +211,14 @@
                   <el-row class="middle-msg-row2" :gutter="2">
                     <el-col :span="6" v-for="(c2,ind) in box3Data.manualTargetInfo" :key="ind"  v-if="ind<size.size302">
                       <el-tooltip effect="light" :content="c2.TARGET_NAME" placement="top-start" v-if="c2.TARGET_NAME">
-                        <span class="msg-t" :class="{'tc-999':!c2.TARGET_VALUE}">{{c2.TARGET_NAME}}</span>
+                        <span class="msg-t" :class="{'tc-999':!c2.TARGET_VALUE,'redx':c2.ISHIT==1}">{{c2.TARGET_NAME}}</span>
                       </el-tooltip>
-                      <span class="msg-t" :class="{'tc-999':!c2.TARGET_VALUE}" v-else>{{c2.TARGET_NAME}}</span>
+                      <span class="msg-t" :class="{'tc-999':!c2.TARGET_VALUE,'redx':c2.ISHIT==1}" v-else>{{c2.TARGET_NAME}}</span>
                       :
                       <el-tooltip effect="light" :content="c2.TARGET_VALUE" placement="top-start" v-if="c2.TARGET_VALUE">
-                        <span class="msg-text">{{c2.TARGET_VALUE}}</span>
+                        <span class="msg-text" :class="{'tc-999':!c2.TARGET_VALUE,'redx':c2.ISHIT==1}">{{c2.TARGET_VALUE}}</span>
                       </el-tooltip>
-                      <span class="msg-text" v-else>{{c2.TARGET_VALUE}}</span>
+                      <span class="msg-text" :class="{'tc-999':!c2.TARGET_VALUE,'redx':c2.ISHIT==1}" v-else>{{c2.TARGET_VALUE}}</span>
 
                     </el-col>
 
@@ -516,7 +516,7 @@ export default {
 }
 .middle-msg-row span{
   display: inline-block;
-  width: 85px;
+  width: 107px;
   text-align: right;
 }
 .middle-msg-row2 .msg-t{

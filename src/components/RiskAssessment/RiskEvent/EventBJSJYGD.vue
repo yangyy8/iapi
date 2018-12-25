@@ -25,7 +25,7 @@
               </el-col>
             </el-row>
             <el-collapse-transition>
-            <el-row align="center" :gutter="2" v-if="moreShow">
+            <el-row align="center" :gutter="2" v-if="moreShow" class="top-row">
               <el-col :sm="24" :md="12" :lg="8" class="input-item">
                 <span class="input-text">姓名：</span>
                 <el-input v-model="pd.name" placeholder="请输入内容" size="small" clearable class="input-input"></el-input>

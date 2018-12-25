@@ -35,7 +35,8 @@
 
             <el-col :sm="24" :md="12"  :lg="8" class="input-item">
               <span class="input-text"><i class="t-must">*</i>模型：</span>
-              <el-button type="success" size="small" plain @click="getmodel">点击选择</el-button>
+              <el-button type="success" size="small" plain @click="getmodel">点击选择</el-button>&nbsp;&nbsp;&nbsp;&nbsp;
+              <el-button type="primary" size="small" plain @click="seeModel">点击查看</el-button>
             </el-col>
             <el-dialog title="模型选择" :visible.sync="modelDialogVisible" width="640px">
               <el-input
@@ -53,7 +54,21 @@
               </el-tree>
               <div slot="footer" class="dialog-footer">
                 <el-button type="primary" @click="getCheckedNodes" size="small">确认</el-button>
+                <el-button type="primary" @click="resetModel" size="small" plain>重置</el-button>
                 <el-button type="warning" @click="modelDialogVisible=false" size="small">取消</el-button>
+              </div>
+            </el-dialog>
+
+            <el-dialog title="模型选择" :visible.sync="seeModelDialogVisible" width="800px">
+              <div class="" v-show="modelCheck">
+                <span class="redx">您还未选择模型</span>
+              </div>
+              <el-row align="center" style="width:100%">
+                <!-- <h4 style="margin-top:0px!important">选中的模型</h4> -->
+                <span v-for="(item,ind) in dutyName" :key="ind" style="width:25%;margin-bottom: 7px;display:inline-block;line-height: 20px;">{{item.MODEL_NAME}}</span>
+              </el-row>
+              <div slot="footer" class="dialog-footer">
+                <el-button @click="seeModelDialogVisible = false" size="small">取 消</el-button>
               </div>
             </el-dialog>
 
@@ -171,7 +186,10 @@ export default {
   data(){
     return{
       modelDialogVisible:false,
+      seeModelDialogVisible:false,
+      modelCheck:false,
       isActive:true,
+      dutyName:[],
       page:0,
       nationAlone:[],
       airline:[],
@@ -228,10 +246,28 @@ export default {
     },
     getmodel(){
       this.modelDialogVisible=true;
+      if(this.pd.models == undefined||this.pd.models.length==0){
+        this.$api.post('/manage-platform/census/queryPortAndModel',{},
+         r => {
+           this.treeData=r.data;
+        })
+      }
+    },
+    resetModel(){
       this.$api.post('/manage-platform/census/queryPortAndModel',{},
        r => {
          this.treeData=r.data;
       })
+    },
+    seeModel(){
+      console.log()
+      this.seeModelDialogVisible = true;
+      this.dutyName = this.pd.models;
+      if(this.dutyName == undefined || this.dutyName.length == 0){
+        this.modelCheck = true
+      }else{
+        this.modelCheck = false
+      }
     },
     getCheckedNodes() {
       this.pd.models=this.$refs.tree.getCheckedNodes(true,true);

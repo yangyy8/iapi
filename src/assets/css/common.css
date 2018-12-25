@@ -124,7 +124,10 @@ body{
   color: #6d90c0!important;
 
 }
-
+.top-row{
+  display: flex!important;
+  flex-wrap: wrap!important;
+}
 .ak-table1 thead tr,.ak-table1 thead th{
   background-color: #fff !important;
   color: #333 !important;

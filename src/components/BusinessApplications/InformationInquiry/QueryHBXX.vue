@@ -121,8 +121,7 @@
       <el-table
         :data="tableData"
         border
-        style="width: 100%;"
-      >
+        style="width: 100%;">
         <el-table-column
           sortable
           prop="fltno"
@@ -130,63 +129,51 @@
           width="100px">
         </el-table-column>
         <el-table-column
+          prop="fltDate"
           sortable
-          label="航班日期"
-          >
-          <template slot-scope="scope">
-              {{scope.row.departuretime}}
-            </template>
+          label="航班日期">
         </el-table-column>
         <el-table-column
-          label="出入标识" width="100px">
+          label="出入标识"
+          width="100px">
           <template slot-scope="scope">
-              {{scope.row.flighttype | fifter1}}
-            </template>
-
-        </el-table-column>
-        <el-table-column
-          sortable
-          label="计划起飞时间"
-          >
-
-          <template slot-scope="scope">
-              {{scope.row.departuretime}}
-            </template>
-        </el-table-column>
-        <el-table-column
-          sortable
-          label="计划到达时间"
-        >
-        <template slot-scope="scope">
-            {{scope.row.arrivetime}}
+            {{scope.row.flighttype | fifter1}}
           </template>
         </el-table-column>
         <el-table-column
-          prop="stationfrom"
-          label="出发航站"
-  >
+          prop="airwayMessage"
+          sortable
+          label="航线">
         </el-table-column>
         <el-table-column
-          prop="stationto"
-          label="到达航站"
-  >
-        </el-table-column>
-
-        <el-table-column
+          prop="statusName"
           sortable
           label="航班状态"
-          width="120px"
-  >  <template slot-scope="scope">
-        {{scope.row.status | fifter2}}
-      </template>
+          width="120px">
         </el-table-column>
-
-        <!-- <el-table-column
-          prop="BIRTHdate"
-          label="值机状态"
-  >
-        </el-table-column> -->
-
+        <el-table-column
+          prop="checkincount"
+          label="值机人数">
+        </el-table-column>
+        <el-table-column
+          prop="boardingcount"
+          label="登机人数">
+          <el-table-column
+          prop="boardingcount"
+          label="已登机"
+          width="120">
+        </el-table-column>
+        <el-table-column
+          prop="chkNobrd"
+          label="未登机"
+          width="120">
+        </el-table-column>
+        </el-table-column>
+        <el-table-column
+          prop="closetime"
+          sortable
+          label="关闭报文">
+        </el-table-column>
         <el-table-column
           label="操作">
           <template slot-scope="scope">
@@ -339,7 +326,7 @@ export default {
         "showCount": showCount,
         "cdt": pd
       };
-      this.$api.post('/manage-platform/statusUpdate/flight/queryListPages', p,
+      this.$api.post('/manage-platform/statusUpdate/flight/queryListPagesNew', p,
         r => {
           console.log(r);
           this.tableData = r.data.resultList;

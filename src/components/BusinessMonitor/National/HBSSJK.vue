@@ -1,9 +1,9 @@
 <template lang="html">
   <div class="hbssjk">
     <div class="top mb-6">
-      <el-row type="flex">
+      <el-row type="flex" >
         <el-col :span="22" class="br">
-          <el-row :gutter="2" class="pr-20">
+          <el-row :gutter="2" class="pr-20 top-row">
             <el-col :sm="24" :md="12" :lg="8" class="input-item">
               <span class="input-text">航班号：</span>
               <el-input  v-model="pd.fltNo" placeholder="请输入内容" size="small" clearable class="input-input"></el-input>

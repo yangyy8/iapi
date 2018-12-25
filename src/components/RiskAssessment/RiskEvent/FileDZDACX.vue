@@ -25,20 +25,28 @@
             </el-col>
             <el-col :sm="24" :md="12" :lg="8" class="input-item">
               <span class="input-text">出生日期：</span>
-              <el-date-picker
-              class="input-input"
-               type="date" size="small" format="yyyy-MM-dd"
-               v-model="pd.birthday"
-               value-format="yyyyMMdd"
-               placeholder="出生日期" >
-              </el-date-picker>
+              <div class="input-input t-flex t-date">
+                <el-date-picker
+                 type="date" size="small" format="yyyy-MM-dd"
+                 v-model="pd.birthday_start"
+                 value-format="yyyyMMdd"
+                 placeholder="开始时间" >
+                </el-date-picker>
+                <span class="septum">-</span>
+                <el-date-picker
+                  type="date" size="small" format="yyyy-MM-dd"
+                  v-model="pd.birthday_end"
+                  value-format="yyyyMMdd"
+                  placeholder="结束时间">
+                </el-date-picker>
+              </div>
             </el-col>
             <el-col :sm="24" :md="12"  :lg="8" class="input-item">
               <span class="input-text">性別：</span>
               <el-select v-model="pd.gender" placeholder="请选择"  size="small" clearable filterable class="input-input">
-                <el-option label="M - 男" value="M"></el-option>
-                <el-option label="F - 女" value="F"></el-option>
-                <el-option label="U - 未知" value="U"></el-option>
+                <el-option label="M - 男" value="1"></el-option>
+                <el-option label="F - 女" value="2"></el-option>
+                <el-option label="U - 未知" value="3"></el-option>
               </el-select>
             </el-col>
             <el-col :sm="24" :md="12" :lg="8" class="input-item">
@@ -104,9 +112,9 @@
           </el-table-column>
           <el-table-column
             label="照片">
-            <template slot-scope="scope">
+            <!-- <template slot-scope="scope">
               <span class="tc-b hand" @click="getPhotoInf(scope.row.PASSPORTNO,scope.row.NATIONALITY,scope.row.BIRTHDAY,scope.row.ENAME)">查看</span>
-            </template>
+            </template> -->
           </el-table-column>
           <el-table-column
             label="操作"
@@ -248,6 +256,12 @@ export default {
       if(!this.pd.nationality||!this.pd.passportno){
         this.$message.error('请先填写国籍地区和证件号！');
       }
+      // if(this.pd.birthday_start||this.pd.birthday_end){
+      //   if(!(this.pd.birthday_end&&this.pd.birthday_start)){
+      //     this.$message.error('请输入完整的出生日期区间！');
+      //     return
+      //   }
+      // }
       let p={
         "showCount": showCount,
         "currentPage": CurrentPage,
