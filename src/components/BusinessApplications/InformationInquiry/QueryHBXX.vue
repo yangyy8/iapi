@@ -173,6 +173,9 @@
           prop="closetime"
           sortable
           label="关闭报文">
+          <template slot-scope="scope">
+            {{scope.row.closetime|fifter3}}
+          </template>
         </el-table-column>
         <el-table-column
           label="操作">
@@ -452,6 +455,13 @@ export default {
         }
         else if(val == "6"){
           return "已到达";
+        }
+      },
+      fifter3(val){
+        if(val){
+          return '是'
+        }else{
+          return '否'
         }
       },
       filterdate(n)
