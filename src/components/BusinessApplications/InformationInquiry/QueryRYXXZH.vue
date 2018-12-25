@@ -222,7 +222,8 @@
         </el-col>
         <el-col :span="2" class="down-btn-area">
           <el-button type="success" class="mb-15" size="small" @click="getList(currentPage,showCount,cdt);">查询</el-button>
-          <el-button type="primary" plain size="small" @click="reset">重置</el-button>
+          <el-button type="primary" class="mb-15" plain size="small" @click="reset">重置</el-button>
+          <el-button type="primary" size="small"  @click="">批量导入</el-button>
         </el-col>
       </el-row>
     </div>

@@ -3,13 +3,13 @@
     <div class="middle">
       <div class="ak-tab mb-20">
         <div class="ak-tabs">
-          <div class="ak-tab-item hand" :class="{'ak-checked':page==0}" @click="$router.push({name:'QueryRYXXZH',query:{page:page}})">
+          <div class="ak-tab-item hand" :class="{'ak-checked':page==0}" @click="page=0;$router.push({name:'QueryRYXXZH',query:{page:page}})">
             基础查询
           </div>
-          <div class="ak-tab-item hand" :class="{'ak-checked':page==1}" @click="$router.push({name:'QueryRYXXPL'})">
+          <div class="ak-tab-item hand" :class="{'ak-checked':page==1}" @click="page=1;$router.push({name:'QueryRYXXPL'})">
             批量查询
           </div>
-          <div class="ak-tab-item hand" :class="{'ak-checked':page==2}" @click="$router.push({name:'QueryRYXXZDY'})">
+          <div class="ak-tab-item hand" :class="{'ak-checked':page==2}" @click="page=2;$router.push({name:'QueryRYXXZDY'})">
             自定义查询
           </div>
         </div>
@@ -39,8 +39,8 @@ export default {
   display: flex;
 }
 .ak-checked {
-  background: #fff;
-  color: #399bfe;
+  background: #fff!important;
+  color: #399bfe!important;
   border: 1px #399bfe solid;
   border-bottom: 1px #fff solid;
   margin-bottom: -1px;

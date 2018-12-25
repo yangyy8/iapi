@@ -331,9 +331,11 @@ export default {
       };
       this.$api.post('/manage-platform/statusUpdate/flight/queryListPagesNew', p,
         r => {
-          console.log(r);
-          this.tableData = r.data.resultList;
-          this.TotalResult = r.data.totalResult;
+          if(r.success){
+            this.globalserial0 = '';
+            this.tableData = r.data.resultList;
+            this.TotalResult = r.data.totalResult;
+          }
         })
     },
     ftReal(){
