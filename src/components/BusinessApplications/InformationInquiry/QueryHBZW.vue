@@ -634,7 +634,7 @@ export default {
       // }
     },
     seatDetails(i){
-      // console.log(i)
+      console.log(i)
       this.seatDialogVisible=true;
       this.flightNumber0=i.flightRecordnum;
       this.globalserial0=i.globalserial;
@@ -698,7 +698,6 @@ export default {
         });
         return false
       }
-
       let p = {
         "currentPage": currentPage,
         "showCount": showCount,
@@ -706,9 +705,11 @@ export default {
       };
       this.$api.post('/manage-platform/statusUpdate/seat/queryListPages', p,
         r => {
-          console.log(r);
-          this.tableData = r.data.resultList;
-          this.TotalResult = r.data.totalResult;
+          if(r.success){
+            this.globalserial0='';
+            this.tableData = r.data.resultList;
+            this.TotalResult = r.data.totalResult;
+          }
         })
     },
     queryNationality() {
