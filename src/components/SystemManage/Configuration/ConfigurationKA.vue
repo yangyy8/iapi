@@ -149,7 +149,7 @@
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
             <span class="input-text"><font class="yy-color">*</font> 口岸开关：</span>
-            <el-select v-model="form.status" placeholder="请选择" filterable  size="small"   class="input-input" v-verify.change.blur ="{regs:'required',submit:'demoka'}">
+            <el-select v-model="form.status" placeholder="请选择" filterable clearable  size="small"   class="input-input" v-verify.change.blur ="{regs:'required',submit:'demoka'}">
               <el-option value="0" label="0 - 关闭" ></el-option>
               <el-option value="1" label="1 - 开启" ></el-option>
              </el-select>
