@@ -104,6 +104,31 @@ export default new Router({
           path: "QueryRYXX",
           name: "QueryRYXX",
           component: resolve => require(['@/components/BusinessApplications/InformationInquiry/QueryRYXX'], resolve),
+        },
+        {
+          path: "QueryRYXXReal",
+          name: "QueryRYXXReal",
+          component: resolve => require(['@/components/BusinessApplications/InformationInquiry/QueryRYXXReal'], resolve),
+          children:[
+            //综合查询
+            {
+              path: "QueryRYXXZH",
+              name: "QueryRYXXZH",
+              component: resolve => require(['@/components/BusinessApplications/InformationInquiry/QueryRYXXZH'], resolve),
+            },
+            //批量查询
+            {
+              path: "QueryRYXXPL",
+              name: "QueryRYXXPL",
+              component: resolve => require(['@/components/BusinessApplications/InformationInquiry/QueryRYXXPL'], resolve),
+            },
+            //自定义查询
+            {
+              path: "QueryRYXXZDY",
+              name: "QueryRYXXZDY",
+              component: resolve => require(['@/components/BusinessApplications/InformationInquiry/QueryRYXXZDY'], resolve),
+            },
+          ]
 
         },
         // 业务事件查询

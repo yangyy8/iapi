@@ -9,7 +9,7 @@
           </div>
         <el-row align="center"   :gutter="2" class="pr-20">
           <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
-            <span class="input-text"><font style="color:red">*</font> 航班号：</span>
+            <span class="input-text">航班号：</span>
             <el-input placeholder="请输入内容"  size="small" v-model="pd.flightNumberLike"   class="input-input"></el-input>
           </el-col>
           <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
