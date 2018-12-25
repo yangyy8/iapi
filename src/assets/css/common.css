@@ -568,29 +568,41 @@ button{
   /* margin-right: 5px; */
   /* width: 91px; */
 }
-.o-step{
-  position: relative;
-  margin-bottom: 30px;
-  counter-reset: step;
-  width: 216px;
 
+.o-step{
+  width: 246px;
+  display: flex;
+  justify-content: space-between;
 }
 
 /*步骤描述*/
-.o-step li {
-  list-style-type: none;
-  font-size: 12px;
-  text-align: center;
+.o-step li{
   width: 25%;
-  position: relative;
-  float: left;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  color: #58aa56;
 }
-
-/*步骤数字*/
-.o-step li:before {
+.o-step li span{
   display: block;
-  content: counter(step); /*设定计数器内容*/
-  counter-increment: step;  /*计数器值递增*/
+  width: 20px;
+  height: 20px;
+  background: #58aa56;
+  border-radius: 50%;
+  margin-bottom: 8px;
+  color: #fff;
+}
+.o-step-err{
+  color: #e92114!important;
+}
+.o-step-err span{
+  background: #e92114!important;
+}
+/*步骤数字*/
+/* .o-step li:before {
+  display: block;
+  content: counter(step);
+  counter-increment: step;
   width: 20px;
   height: 20px;
   background-color: #58aa56;
@@ -599,13 +611,11 @@ button{
   font-size: 12px;
   color: #fff;
   text-align: center;
-  /* font-weight: 700; */
   margin: 0 auto 8px auto;
-
-}
+} */
 
 /*连接线*/
-.o-step li ~ li:after {
+/* .o-step li ~ li:after {
   content: '';
   width: 100%;
   height: 2px;
@@ -613,21 +623,8 @@ button{
   position: absolute;
   left: -50%;
   top: 9px;
-  /*z-index: 0; 放置在数字后面*/
-}
+} */
 
-/*将当前/完成步骤之前的数字及连接线变绿*/
-.o-step li.active:before,
-.o-step li.active:after {
-  background-color: #019875;
-}
-
-/*将当前/完成步骤之后的数字及连接线变灰*/
-.o-step li.active ~ li:before,
-.o-step li.active ~ li:after {
-  background-color: #777;
-
-}
 .o-jiao{
   display: block;
   position: absolute;
@@ -635,7 +632,7 @@ button{
   height:0;
   border-width:10px 10px 10px 0;
   border-style:solid;
-  border-color:transparent #031023 transparent transparent;;
+  border-color:transparent rgba(14, 32, 62, 0.88) transparent transparent;;
   top:50%;
   left: -10px;
   margin-top: -10px;
