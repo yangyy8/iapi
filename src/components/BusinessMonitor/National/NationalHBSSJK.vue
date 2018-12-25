@@ -1759,7 +1759,6 @@ export default {
                    document.getElementById("tbody1").addEventListener('click',function(e){
                      if(e.target.className=='name'){
                        // console.log("点击的内容是：",e.target.className);
-
                        if(e.target.children.length==0){
                          var div=document.createElement('div');
                          e.target.appendChild(div);
