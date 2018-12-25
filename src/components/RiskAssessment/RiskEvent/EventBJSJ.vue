@@ -25,7 +25,7 @@
               </el-col>
             </el-row>
             <el-collapse-transition>
-            <el-row align="center" :gutter="2" v-if="moreShow">
+            <el-row align="center" :gutter="2" v-if="moreShow" class="top-row">
               <el-col :sm="24" :md="12" :lg="8" class="input-item">
                 <span class="input-text">姓名：</span>
                 <el-input v-model="pd.name" placeholder="请输入内容" size="small" clearable class="input-input"></el-input>
@@ -342,9 +342,11 @@
             prop="eachevent">
             <template slot-scope="scope">
               <el-popover
+                ref="popover"
                 placement="top"
                 width="400"
-                trigger="click">
+                trigger="click"
+                v-if="eachData.length!=0">
                 <ul>
                   <li v-for="i in eachData" class="hand" style="line-height:32px" title="查看" @click="$router.push({name:'BJCLCX',query:{serial:i.SERIAL,grade:i.GRADE}})">
                     <span>  创建时间：{{i.CREATETIME}}</span>
@@ -352,8 +354,8 @@
                     <span>  处理结果：{{i.PROCESSORRESULT}}</span>
                   </li>
                 </ul>
-                <div class="tc-b hand" title="查看详情" slot="reference" @click="queryEach(scope.row.serial,scope.row.nationality,scope.row.passportno)">{{scope.row.eachevent}}</div>
               </el-popover>
+              <div class="tc-b hand"  v-popover:popover title="查看详情" slot="reference" @click="queryEach(scope.row.serial,scope.row.nationality,scope.row.passportno)">{{scope.row.eachevent}}</div>
 
             </template>
           </el-table-column>
