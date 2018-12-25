@@ -13,7 +13,7 @@
                   <div class="bjsj-l2">
                     <img src="../../../assets/img/bp_ap/ph_s.png" alt="" style="height:150px;">
                     <span >综合风险等级</span>
-                    <el-rate :value="3" disabled></el-rate>
+                    <el-rate :value="$route.query.grade||data0.GRADE" disabled></el-rate>
                   </div>
                 </el-col>
                 <el-col :span="21">

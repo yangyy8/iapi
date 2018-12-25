@@ -126,50 +126,56 @@
             <el-table-column
               prop="dh"
               label="档号"
-              >
+              :show-overflow-tooltip="true">
             </el-table-column>
             <el-table-column
               prop="alarmType"
-              label="名单类型">
+              label="名单类型"
+              :show-overflow-tooltip="true">
             </el-table-column>
             <el-table-column
               prop="name"
-              label="姓名">
+              label="姓名"
+              :show-overflow-tooltip="true">
             </el-table-column>
             <el-table-column
               prop="gender"
-              label="性别">
+              label="性别"
+              :show-overflow-tooltip="true">
             </el-table-column>
             <el-table-column
               prop="dateofbirth"
-              label="出生日期">
+              label="出生日期"
+              :show-overflow-tooltip="true">
             </el-table-column>
             <el-table-column
               prop="nationality"
-              label="国籍/地区">
+              label="国籍/地区"
+              :show-overflow-tooltip="true">
             </el-table-column>
             <el-table-column
               prop="visaType"
-              label="证件种类">
+              label="证件种类"
+              :show-overflow-tooltip="true">
             </el-table-column>
             <el-table-column
               prop="passportno"
-              label="证件号码">
+              label="证件号码"
+              :show-overflow-tooltip="true">
             </el-table-column>
 
             <el-table-column
               prop="visano"
-              label="签证号码">
+              label="签证号码"
+              :show-overflow-tooltip="true">
             </el-table-column>
             <el-table-column
-
               label="甄别状态"
-              width="80">
+              width="80"
+              :show-overflow-tooltip="true">
               <template slot-scope="scope">
-              <span v-if="scope.row.status==1">已甄别</span>
-
-              <span v-else>未甄别</span>
-
+                <span v-if="scope.row.status==1">已甄别</span>
+                <span v-else>未甄别</span>
               </template>
             </el-table-column>
 

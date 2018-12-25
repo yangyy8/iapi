@@ -199,12 +199,14 @@
         <el-table-column
           prop="RECORDNUM"
           label="档号"
-          sortable>
+          sortable
+          :show-overflow-tooltip="true">
         </el-table-column>
         <el-table-column
           prop="NATIONALITYNAME"
           sortable
-          label="国籍/地区">
+          label="国籍/地区"
+          :show-overflow-tooltip="true">
 
         </el-table-column>
         <!-- <el-table-column
@@ -214,23 +216,27 @@
         <el-table-column
           prop="CARDTYPENAME"
           label="证件种类"
-          sortable>
+          sortable
+          :show-overflow-tooltip="true">
         </el-table-column>
         <el-table-column
           prop="CARDNO"
           sortable
-          label="证件号码">
+          label="证件号码"
+          :show-overflow-tooltip="true">
         </el-table-column>
         <el-table-column
           prop="FAMILYNAME"
           sortable
-          label="姓名">
+          label="姓名"
+          :show-overflow-tooltip="true">
         </el-table-column>
         <el-table-column
           prop="GENDER"
           width="80"
           sortable
-          label="性别">
+          label="性别"
+          :show-overflow-tooltip="true">
           <template slot-scope="scope">
             <span v-if="scope.row.GENDER=='M'">男</span>
             <span v-if="scope.row.GENDER=='F'">女</span>
@@ -240,21 +246,23 @@
         <el-table-column
           prop="BIRTHDATE"
           sortable
-          label="出生日期">
+          label="出生日期"
+          :show-overflow-tooltip="true">
         </el-table-column>
         <el-table-column
           prop="CTL_EXPIREDATE"
           sortable
-          label="失效日期">
+          label="失效日期"
+          :show-overflow-tooltip="true">
         </el-table-column>
         <el-table-column
           prop="SYN_STATUS"
           sortable
-          label="名单状态">
+          label="名单状态"
+          :show-overflow-tooltip="true">
           <template slot-scope="scope">
             <span v-if="scope.row.SYN_STATUS==0">未发布</span>
             <span v-if="scope.row.SYN_STATUS==1">已发布</span>
-
           </template>
         </el-table-column>
         <el-table-column
@@ -966,7 +974,18 @@ export default {
       this.form.synStatus="0";
       this.form.LIST_TYPE="1",
       this.dialogType="update";
-      this.dialogText="编辑"
+      this.dialogText="编辑";
+      if(this.$validator.listener.demo2){
+        const result = this.$validator.verifyAll('demo2')
+         if (result.indexOf(false) > -1) {
+           // this.$validator=null;
+           console.log(result)
+           return
+         }else{
+           console.log("kkkk")
+         }
+      }
+
     },
 
     details(i){

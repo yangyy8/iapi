@@ -38,34 +38,41 @@
         <el-table-column
           prop="eventSerial"
           label="事件编号"
-          width="180">
+          width="180"
+          :show-overflow-tooltip="true">
         </el-table-column>
         <el-table-column
           prop="alarmType"
           label="报警类型"
-          width="160">
+          width="160"
+          :show-overflow-tooltip="true">
         </el-table-column>
         <el-table-column
           prop="name"
-          label="人员姓名">
+          label="人员姓名"
+          :show-overflow-tooltip="true">
         </el-table-column>
         <el-table-column
           prop="cname"
-          label="中文姓名">
+          label="中文姓名"
+          :show-overflow-tooltip="true">
         </el-table-column>
         <el-table-column
           prop="nationality"
           width="90"
-          label="国籍/地区">
+          label="国籍/地区"
+          :show-overflow-tooltip="true">
         </el-table-column>
         <el-table-column
           prop="passportno"
-          label="证件号码">
+          label="证件号码"
+          :show-overflow-tooltip="true">
         </el-table-column>
         <el-table-column
           prop="flightType"
           label="出入标识"
-          width="90">
+          width="90"
+          :show-overflow-tooltip="true">
           <template slot-scope="scope">
             <span v-if="scope.row.flightType=='O'">出境</span>
             <span v-if="scope.row.flightType=='I'">入境</span>
@@ -74,16 +81,19 @@
         <el-table-column
           prop="fltno"
           width="90"
-          label="航班号">
+          label="航班号"
+          :show-overflow-tooltip="true">
         </el-table-column>
         <el-table-column
           prop="createtime"
           width="160"
-          label="报警时间">
+          label="报警时间"
+          :show-overflow-tooltip="true">
         </el-table-column>
         <el-table-column
           width="80"
-          label="当前状态">
+          label="当前状态"
+          :show-overflow-tooltip="true">
           <template slot-scope="scope">
             <span v-if="scope.row.status==0">未甄别</span>
             <span v-if="scope.row.status==1">已归档</span>
