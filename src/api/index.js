@@ -2,10 +2,7 @@
 // var root="http://192.168.99.206:8080"
 //var root=""
 var root = 'http://192.168.99.248:8081'
-<<<<<<< HEAD
-=======
 //var root = 'http://192.168.99.248:8081'
->>>>>>> 4b7cf11cc112c6ef59fb7fd9d9fed9c07eab7fca
  // var root = 'http://192.168.99.248:8080'
  //var root="http://192.168.99.247:8080"
 //var root = 'http://192.168.99.244:8080'
