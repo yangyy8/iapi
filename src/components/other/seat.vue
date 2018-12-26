@@ -63,8 +63,8 @@
         <div class="" style="margin-top:10px;margin-left:10px">
           <el-row align="center" type="flex" style="height:100%">
             <el-col :span='24'>
-              <el-row align="center" style="width:100%">
-                <el-col v-for="(item,ind) in tableBody" :key="ind" style="width:33%">
+              <el-row align="center" style="width:1200px">
+                <el-col v-for="(item,ind) in tableBody" :key="ind" style="width:40%">
                   <span>{{item}}</span>
                 </el-col>
               </el-row>

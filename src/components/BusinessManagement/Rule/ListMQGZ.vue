@@ -199,7 +199,7 @@
           <!-- 入境口岸标题 -->
           <el-row>
             <div class="title-green t-flex t-bb">
-              <div>入境口岸</div>
+              <div>入境机场</div>
               <div>
                 <span class="t-active">{{entryInactive}}</span>
                 <el-switch
@@ -213,11 +213,11 @@
               </div>
             </div>
           </el-row>
-          <div class="t-text" :class="{active:entryIsActive}">注：输入关键字搜索口岸并加入</div>
+          <div class="t-text" :class="{active:entryIsActive}">注：输入关键字搜索机场并加入</div>
           <!-- 入境搜索框 -->
           <el-row type="flex" align="center" justify="space-between" style="width:100%;margin-bottom: 5px;">
               <el-col :sm="24" :md="18" :lg="21" class="input-item">
-                <el-select v-model="entry" filterable clearable @visible-change="entrySearch" placeholder="入境口岸搜索"  size="small" class="t-input" :disabled="entryIsActive">
+                <el-select v-model="entry" filterable clearable @visible-change="entrySearch" placeholder="入境机场搜索"  size="small" class="t-input" :disabled="entryIsActive">
                   <el-option
                     v-for="item in entryName"
                     :key="item.AIRPORT_CODE"
@@ -235,7 +235,7 @@
             <div class="card-disabled" v-show="entryIsActive"></div>
             <el-card class="box-card t-card">
               <div slot="header" class="clearfix">
-                <span>准入口岸</span>
+                <span>准入机场</span>
               </div>
               <div v-for="i in data.airportMapList" class="t-list">
                 <span>{{i.name}}</span>

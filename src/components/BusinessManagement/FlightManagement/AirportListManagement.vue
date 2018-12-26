@@ -19,7 +19,7 @@
               </el-select>
             </el-col>
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
-              <span class="input-text">国家：</span>
+              <span class="input-text">国籍/地区：</span>
               <el-select placeholder="请选择" v-model="cdt.countryCode" filterable clearable size="small"  class="input-input" @visible-change="baseNation(0)" @change="cityAble(cdt.countryCode,0)">
                 <el-option
                   v-for="(item,index) in selection"

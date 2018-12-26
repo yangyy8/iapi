@@ -46,7 +46,7 @@
                </el-select>
             </el-col>
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
-              <span class="input-text">实际出发口岸：</span>
+              <span class="input-text">实际出发机场：</span>
               <el-select v-model="pd.stationfromEqual" filterable clearable  placeholder="请选择" size="small" class="input-input">
                  <el-option
                    v-for="item in Airport"
@@ -58,7 +58,7 @@
             </el-col>
 
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
-              <span class="input-text">计划到达口岸：</span>
+              <span class="input-text">计划到达机场：</span>
               <el-select v-model="pd.stationtoEqual" filterable clearable  placeholder="请选择"   size="small" class="input-input">
                  <el-option
                    v-for="item in Airport"
@@ -94,11 +94,11 @@
 
         <el-table-column
           prop="stationfromName"
-          label="实际出发口岸" sortable>
+          label="实际出发机场" sortable>
         </el-table-column>
         <el-table-column
           prop="stationtoName"
-          label="计划到达口岸" sortable>
+          label="计划到达机场" sortable>
         </el-table-column>
 
         <el-table-column
@@ -172,7 +172,7 @@
             <el-input placeholder="请输入内容" size="small"   :disabled="true" v-model="form.flightTime" class="yy-input-input"></el-input>
           </el-col>
           <el-col :span="12" class="input-item">
-            <span class="yy-input-text">实际出发口岸：</span>
+            <span class="yy-input-text">实际出发机场：</span>
             <el-input placeholder="请输入内容" size="small" v-model="form.stationfrom+' - '+form.stationfromName" :disabled="true" class="yy-input-input"></el-input>
 
           </el-col>
@@ -181,14 +181,14 @@
 
         <el-row type="flex" class="mb-6" >
           <el-col :span="12" class="input-item">
-            <span class="yy-input-text">原计划到达口岸：</span>
+            <span class="yy-input-text">原计划到达机场：</span>
               <el-input placeholder="请输入内容" size="small" v-model="form.stationto+' - '+form.stationtoName" :disabled="true" class="yy-input-input"></el-input>
           </el-col>
         </el-row>
   <hr/>
         <el-row type="flex" class="mb-6" >
           <el-col :span="24" class="input-item">
-            <span class="yy-input-text" style="width:15%">备降口岸：</span>
+            <span class="yy-input-text" style="width:15%">备降机场：</span>
             <el-select v-model="form.changeport"  filterable clearable  @visible-change="queryAirport" placeholder="请选择" size="small" style="width:80%;">
                <el-option
                  v-for="item in Airport"
@@ -233,7 +233,7 @@
             <el-input placeholder="请输入内容" size="small"   :disabled="true" v-model="cform.flightTime" class="yy-input-input"></el-input>
           </el-col>
           <el-col :span="12" class="input-item">
-            <span class="yy-input-text">实际出发口岸：</span>
+            <span class="yy-input-text">实际出发机场：</span>
             <el-input placeholder="请输入内容" size="small" v-model="cform.stationfrom+' - '+cform.stationfromName" :disabled="true" class="yy-input-input"></el-input>
 
           </el-col>
@@ -242,7 +242,7 @@
 
         <el-row type="flex" class="mb-6" >
           <el-col :span="12" class="input-item">
-            <span class="yy-input-text">原计划到达口岸：</span>
+            <span class="yy-input-text">原计划到达机场：</span>
               <el-input placeholder="请输入内容" size="small" v-model="cform.stationto+' - '+cform.stationtoName" :disabled="true" class="yy-input-input"></el-input>
           </el-col>
         </el-row>

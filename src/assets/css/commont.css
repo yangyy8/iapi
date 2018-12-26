@@ -195,3 +195,77 @@
 .el-select .el-tag__close.el-icon-close{
   top: -6px!important;
 }
+.ak-tab-pane {
+  border: 1px #399bfe solid;
+  padding: 20px;
+  border-radius: 0 5px 5px 5px;
+}
+/* 保存按钮 */
+.t-save{
+  display: flex;
+  justify-content: flex-end!important;
+  width:100%;
+}
+.t-save button{
+  font-size: 14px;
+  height: 27px;
+  width: 80px;
+  border: none;
+  border-radius: 5px;
+  background-color: #16A4FD;
+  color: #fff;
+  margin-top: 2px;
+}
+
+.middle-btn-g {
+  display: flex;
+  justify-content: center;
+}
+
+.planDelete{
+  float: right;
+  margin-left:20px;
+  margin-top: 9px;
+}
+.planItem{
+  float: left;
+}
+.middle-btn-g button {
+  height: 32px;
+  width: 107px;
+  border: none;
+  border-radius: 5px;
+  background: none;
+  /* background: linear-gradient( 360deg, rgb(58, 190, 243) 0%, rgb(34, 149, 251) 100%); */
+  background-color: #009cff;
+  color: #fff;
+}
+.pitchOn{
+  /* background: linear-gradient( 360deg, rgb(8, 108, 148) 1%, rgb(0, 121, 228) 100%)!important; */
+  background-color: #0c4a93!important;
+}
+/* 批量查询 */
+.akUl {
+  overflow-y: auto;
+  overflow-x: scroll;
+}
+.akcheck2top {
+  background: #f6f7fb;
+  padding: 6px;
+}
+
+/* 自定义查询 */
+.queryLeft{
+  height: 107px;
+  overflow-y: auto;
+  border-right: 1px solid #ccc;
+}
+.queryRight{
+  height:107px;
+}
+.expression-text{
+  width: 15%!important;
+}
+.mt-20{
+  margin-top: 20px;
+}

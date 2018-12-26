@@ -102,11 +102,11 @@
           </li> -->
         </ul>
         <div class="tab-content">
-            <transition name="fade"  mode="out-in">
+            <!-- <transition name="fade"  mode="out-in"> -->
               <keep-alive>
                 <router-view></router-view>
               </keep-alive>
-            </transition>
+            <!-- </transition> -->
         </div>
       </el-main>
       <div class="rb-msg" v-if="msgShow">

@@ -1759,24 +1759,24 @@ export default {
                    document.getElementById("tbody1").addEventListener('click',function(e){
                      if(e.target.className=='name'){
                        // console.log("点击的内容是：",e.target.className);
-
                        if(e.target.children.length==0){
                          var div=document.createElement('div');
                          e.target.appendChild(div);
                          e.target.style.position='relative';
                          div.style.position='absolute';
-                         div.style.top='-40px';
+                         div.style.top='-30px';
                          div.style.left="80px";
-                         div.style.background="#031023";
+                         div.style.background="rgba(14, 32, 62, 0.88)";
                          div.style.border="1px #01aed4 solid";
+                         div.style.boxShadow="0 0 6px #0288d1";
                          div.style.borderRadius="3px";
                          div.style.padding="15px";
 
                          var html=`<ul class="o-step">
-                             <li>已订票</li>
-                             <li>已值机</li>
-                             <li>已起飞</li>
-                             <li>已到达</li>
+                             <li><span>✔</span>已订票</li>
+                             <li><span>✘</span>已值机</li>
+                             <li><span>✘</span>出入境手续</li>
+                             <li><span>✔</span>航班关闭</li>
                            </ul>
                            <span class="o-jiao"></span>`;
                       div.innerHTML=html;

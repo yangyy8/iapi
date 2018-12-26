@@ -8,26 +8,31 @@
           </div>
           <el-row align="center" :gutter="2">
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
-                <span class="input-text">航班日期：</span>
+                <span class="input-text"><i class="t-must">*</i>航班日期：</span>
                 <div class="input-input t-flex t-date">
                    <el-date-picker
+                     v-verify.input.blur="{regs:'required',submit:'demo'}"
                      v-model="cdt.startFlightDate"
-                     type="date"
+                     type="datetime"
                      size="small"
-                     value-format="yyyyMMdd"
+                     format="yyyy-MM-dd HH:mm"
+                     value-format="yyyyMMddHHmm"
                      placeholder="开始时间">
                    </el-date-picker>
                    <span class="septum">-</span>
                    <el-date-picker
+                   v-verify.input.blur="{regs:'required',submit:'demo'}"
                       v-model="cdt.endFlightDate"
-                      type="date"
+                      type="datetime"
                       size="small"
                       align="right"
-                      value-format="yyyyMMdd"
-                      placeholder="结束时间"  >
+                      format="yyyy-MM-dd HH:mm"
+                      value-format="yyyyMMddHHmm"
+                      placeholder="结束时间">
                   </el-date-picker>
               </div>
             </el-col>
+
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">出入标识：</span>
               <el-select  placeholder="请选择"  size="small" v-model="cdt.flightype" clearable filterable class="block input-input">
@@ -38,8 +43,8 @@
             </el-col>
 
             <el-col :sm="24" :md="12"  :lg="8" class="input-item">
-              <span class="input-text">航班号：</span>
-              <el-input placeholder="请输入内容" size="small" v-verify.input.blur="{regs:'required|max:35',submit:'demo'}" v-model="cdt.fltnoStr" clearable class="input-input"></el-input>
+              <span class="input-text"><i class="t-must">*</i>航班号：</span>
+              <el-input placeholder="多个航班号请用分号隔开" size="small" v-verify.input.blur="{regs:'required|max:35',submit:'demo'}" v-model="cdt.fltnoStr" clearable class="input-input"></el-input>
             </el-col>
 
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
@@ -59,9 +64,9 @@
               <el-select v-model="cdt.modelSerial" filterable clearable placeholder="请选择"  size="small" class="input-input" @visible-change="modelK" :disabled="able">
                 <el-option
                   v-for="item in modelColl"
-                  :key="item.MODEL_ID"
-                  :label="item.MODEL_ID+' - '+item.MODEL_NAME"
-                  :value="item.MODEL_ID">
+                  :key="item.MODEL_CODE"
+                  :label="item.MODEL_CODE+' - '+item.MODEL_NAME"
+                  :value="item.MODEL_CODE">
                 </el-option>
               </el-select>
             </el-col>
@@ -235,45 +240,7 @@
           <span class="septum line-h">%</span>
         </el-col>
       </el-row>
-      <!-- <el-row align="center" class="mb-6">
-        <el-col  :sm="24" :md="12" :lg="12"  class="input-item">
-          <span class="input-text tt-input-text">颜色值2：</span>
-          <el-input placeholder="请输入内容" size="small" v-model="twoColor.COL_VALUE"  class="t-input-input"></el-input>
-        </el-col>
-        <el-col  :sm="24" :md="12" :lg="12"  class="input-item">
-          <span class="input-text tt-input-text">区间：</span>
-          <el-input placeholder="请输入内容" size="small" v-model="twoColor.HIGH_VALUE"  class="input-input"></el-input>
-          <span class="septum line-h">-</span>
-          <el-input placeholder="请输入内容" size="small" v-model="twoColor.LOW_VALUE"  class="input-input"></el-input>
-          <span class="septum line-h">%</span>
-        </el-col>
-      </el-row>
-      <el-row align="center" class="mb-6">
-        <el-col  :sm="24" :md="12" :lg="12"  class="input-item">
-          <span class="input-text tt-input-text">颜色值3：</span>
-          <el-input placeholder="请输入内容" size="small" v-model="tirdColor.COL_VALUE"  class="t-input-input"></el-input>
-        </el-col>
-        <el-col  :sm="24" :md="12" :lg="12"  class="input-item">
-          <span class="input-text tt-input-text">区间：</span>
-          <el-input placeholder="请输入内容" size="small" v-model="tirdColor.HIGH_VALUE"  class="input-input"></el-input>
-          <span class="septum line-h">-</span>
-          <el-input placeholder="请输入内容" size="small" v-model="tirdColor.LOW_VALUE"  class="input-input"></el-input>
-          <span class="septum line-h">%</span>
-        </el-col>
-      </el-row>
-      <el-row align="center" class="pd-6 bb">
-        <el-col  :sm="24" :md="12" :lg="12"  class="input-item">
-          <span class="input-text tt-input-text">颜色值4：</span>
-          <el-input placeholder="请输入内容" size="small" v-model="fourColor.COL_VALUE"  class="t-input-input"></el-input>
-        </el-col>
-        <el-col  :sm="24" :md="12" :lg="12"  class="input-item">
-          <span class="input-text tt-input-text">区间：</span>
-          <el-input placeholder="请输入内容" size="small" v-model="fourColor.HIGH_VALUE"  class="input-input"></el-input>
-          <span class="septum line-h">-</span>
-          <el-input placeholder="请输入内容" size="small" v-model="fourColor.LOW_VALUE"  class="input-input"></el-input>
-          <span class="septum line-h">%</span>
-        </el-col>
-      </el-row> -->
+
       <h4>历史参数设置参考</h4>
       <el-row align="center" class="mb-6" v-for="(item,ind) in historyArr" :key="ind">
         <el-col  :sm="4" :md="4" :lg="4"  class="input-item" style="justify-content: center;">
@@ -348,9 +315,12 @@ export default {
     let time = new Date();
     let end = new Date();
     let begin =new Date(time - 1000 * 60 * 60 * 24 * 30);
-    this.cdt.startFlightDate=formatDate(begin,'yyyyMMdd');
-    this.cdt.endFlightDate=formatDate(end,'yyyyMMdd');
-    this.getList(this.CurrentPage,this.pageSize,this.cdt);
+    this.cdt.startFlightDate=formatDate(begin,'yyyyMMddhhmm');
+    this.cdt.endFlightDate=formatDate(end,'yyyyMMddhhmm');
+    let that = this
+    setTimeout(function(){
+      that.getList(this.CurrentPage,this.pageSize,this.cdt);
+    },100)
     this.queryNationalityAlone();
     this.queryAirport();
     document.getElementsByClassName('btn-next')[0].disabled=true;
@@ -504,6 +474,10 @@ export default {
     },
 
     getList(currentPage,showCount,pd){
+      const result = this.$validator.verifyAll('demo')
+       if (result.indexOf(false) > -1) {
+         return
+       }
       let p={
       	"currentPage":currentPage,
       	"showCount":showCount,
