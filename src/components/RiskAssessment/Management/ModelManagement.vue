@@ -13,12 +13,10 @@
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">是否启用：</span>
               <el-select v-model="pd.STATUS" class="input-input"  filterable clearable placeholder="请选择"   size="small" >
-
                 <el-option value="是" label="是">
                 </el-option>
                 <el-option value="否" label="否">
                 </el-option>
-
                </el-select>
             </el-col>
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">

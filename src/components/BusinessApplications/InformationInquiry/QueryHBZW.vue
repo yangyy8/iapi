@@ -45,13 +45,14 @@
             </el-col>
 
           <el-col :sm="24" :md="12" :lg="8" class="input-item">
-            <span class="input-text">口岸：</span>
+            <span class="input-text">机场：</span>
             <el-select  v-model="pd.port" @change="getList(CurrentPage,pageSize,pd)" placeholder="请选择" filterable clearable size="small" class="input-input">
               <el-option
                 v-for="item in airport"
-                :key="item.KADM"
-                :label="item.KADM+' - '+item.KAMC"
-                :value="item.KADM">
+                v-if="item.JCDM"
+                :key="item.JCDM"
+                :label="item.JCDM+' - '+item.KAMC"
+                :value="item.JCDM">
               </el-option>
             </el-select>
           </el-col>

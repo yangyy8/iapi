@@ -81,8 +81,8 @@
               <!-- <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row)">详情</el-button> -->
               <el-button class="table-btn" size="mini" plain icon="el-icon-edit" @click="adds(1,scope.row)">编辑</el-button>
               <el-button class="table-btn" size="mini" plain icon="el-icon-delete" @click="deletes(scope.row)">删除</el-button>
-              <el-button class="table-btn" size="mini" plain icon="el-icon-close" v-if="scope.row.status=='1'" @click="deletes(scope.row)">关闭</el-button>
-              <el-button class="table-btn" size="mini" plain icon="el-icon-check" v-if="scope.row.status=='0'" @click="deletes(scope.row)">开启</el-button>
+              <el-button class="table-btn" size="mini" plain icon="el-icon-close" v-if="scope.row.status=='1'" @click="sets(scope.row.portcode,0)">关闭</el-button>
+              <el-button class="table-btn" size="mini" plain icon="el-icon-check" v-if="scope.row.status=='0'" @click="sets(scope.row.portcode,1)">开启</el-button>
          </template>
         </el-table-column>
       </el-table>
@@ -124,26 +124,26 @@
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
             <span class="input-text"><font class="yy-color">*</font> 口岸名称：</span>
-            <el-input placeholder="请输入内容" size="small" maxlength="100"  v-model="form.portname"  class="input-input" v-verify.change.blur ="{regs:'required',submit:'demoka'}"></el-input>
+            <el-input placeholder="请输入口岸名称" size="small" maxlength="100"  v-model="form.portname"  class="input-input" v-verify.change.blur ="{regs:'required',submit:'demoka'}"></el-input>
           </el-col>
         </el-row>
 
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
             <span class="input-text"><font class="yy-color">*</font> 口岸编号：</span>
-            <el-input placeholder="请输入内容(长度不超过32)" size="small" maxlength="32"  v-model="form.portcode"  class="input-input" v-verify.change.blur ="{regs:'required',submit:'demoka'}"></el-input>
+            <el-input placeholder="请输入口岸编号(长度不超过32)" size="small" maxlength="32"  v-model="form.portcode"  class="input-input" v-verify.change.blur ="{regs:'required',submit:'demoka'}"></el-input>
           </el-col>
         </el-row>
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
             <span class="input-text"><font class="yy-color">*</font> 口岸地址：</span>
-            <el-input placeholder="请输入内容(长度不超过11)" size="small" maxlength="100"  v-model="form.ipaddress"  class="input-input" v-verify.change.blur ="{regs:'required',submit:'demoka'}"></el-input>
+            <el-input placeholder="请输入口岸地址" size="small" maxlength="100"  v-model="form.ipaddress"  class="input-input" v-verify.change.blur ="{regs:'required',submit:'demoka'}"></el-input>
           </el-col>
         </el-row>
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
             <span class="input-text"><font class="yy-color">*</font> 备用地址：</span>
-            <el-input placeholder="请输入内容(长度不超过11)" size="small" maxlength="100"  v-model="form.ipaddressBack"  class="input-input" v-verify.change.blur ="{regs:'required',submit:'demoka'}"></el-input>
+            <el-input placeholder="请输入备用地址" size="small" maxlength="100"  v-model="form.ipaddressBack"  class="input-input" v-verify.change.blur ="{regs:'required',submit:'demoka'}"></el-input>
           </el-col>
         </el-row>
         <el-row type="flex"  class="mb-6">
@@ -298,8 +298,8 @@ export default {
               //      return
               //    }
               // }
-        console.log("this.panduan",this.panduan());
-        if(this.panduan){
+      //  console.log("this.panduan",this.panduan());
+        if(this.panduan()){
           return;
         }
         var url = "/manage-platform/portConfig/add";
@@ -375,6 +375,28 @@ export default {
           }, e => {
             this.$message.error('失败了');
           });
+    },
+    sets(c,n)
+    {
+      let p={
+        "portcode":c,
+        "status":n
+      };
+    this.$api.post('/manage-platform/portConfig/updateStatus', p,
+     r => {
+      if (r.success) {
+        this.$message({
+          message: '修改成功！',
+          type: 'success'
+        });
+        this.getList(this.CurrentPage, this.pageSize, this.pd);
+      } else {
+        this.$message.error(r.Message);
+      }
+    }, e => {
+      this.$message.error('失败了');
+    });
+
     },
   },
   filters: {
