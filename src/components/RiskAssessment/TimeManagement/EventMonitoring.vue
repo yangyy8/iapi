@@ -460,8 +460,8 @@ export default {
         startFlightDate:'',
         endFlightDate:''
       };
-      this.cdt.startFlightDate=formatDate(begin,'yyyyMMdd');
-      this.cdt.endFlightDate=formatDate(end,'yyyyMMdd');
+      this.cdt.startFlightDate=formatDate(begin,'yyyyMMddhhmm');
+      this.cdt.endFlightDate=formatDate(end,'yyyyMMddhhmm');
       this.getList(this.CurrentPage,this.pageSize,this.cdt);
     },
     pageSizeChange(val) {

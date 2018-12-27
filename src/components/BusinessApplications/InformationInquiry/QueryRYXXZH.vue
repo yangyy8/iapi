@@ -55,21 +55,13 @@
 
             <el-col :sm="24" :md="12" :lg="6" class="input-item">
               <span class="input-text">出生日期：</span>
-              <div class="input-input t-flex t-date">
-                  <el-date-picker
-                  v-model="cdt.startDateofbirth"
-                  type="date" size="small"
-                  placeholder="开始日期"
-                  value-format="yyyyMMdd">
-                </el-date-picker>
-                <span class="septum">-</span>
                 <el-date-picker
-                   v-model="cdt.endDateofbirth"
-                   type="date" size="small"
-                   placeholder="结束日期"
-                   value-format="yyyyMMdd">
-               </el-date-picker>
-              </div>
+                v-model="cdt.dateofbirthEqual"
+                type="date" size="small"
+                placeholder="开始日期"
+                value-format="yyyyMMdd"
+                class="input-input">
+              </el-date-picker>
             </el-col>
 
             <el-col :sm="24" :md="12" :lg="6" class="input-item">
@@ -84,7 +76,7 @@
 
             <el-col :sm="24" :md="12" :lg="6" class="input-item">
               <span class="input-text">机场：</span>
-              <el-select v-model="cdt.flighttypeEqual" placeholder="请选择" filterable clearable size="small" class="input-input">
+              <el-select v-model="cdt.portEqual" placeholder="请选择" filterable clearable size="small" class="input-input">
                 <el-option label="I - 入境" value="I"></el-option>
                 <el-option label="O - 出境" value="O"></el-option>
               </el-select>
@@ -92,12 +84,12 @@
 
             <el-col :sm="24" :md="12" :lg="6" class="input-item">
               <span class="input-text">订票号：</span>
-              <el-input placeholder="请输入内容" v-model="cdt.passportnoEqual" size="small" class="input-input"></el-input>
+              <el-input placeholder="请输入内容" v-model="cdt.pnrRciEqual" size="small" class="input-input"></el-input>
             </el-col>
 
             <el-col :sm="24" :md="12" :lg="6" class="input-item">
               <span class="input-text">航空公司：</span>
-              <el-select v-model="cdt.flighttypeEqual" placeholder="请选择" filterable clearable size="small" class="input-input">
+              <el-select v-model="cdt.applicationsenderidEqual" placeholder="请选择" filterable clearable size="small" class="input-input">
                 <el-option label="I - 入境" value="I"></el-option>
                 <el-option label="O - 出境" value="O"></el-option>
               </el-select>
@@ -114,7 +106,7 @@
               <div class="input-input t-flex t-date">
                   <el-date-picker
                   v-verify.input.blur="{regs:'required',submit:'timeDemo'}"
-                  v-model="cdt.startFlightDepartdate"
+                  v-model="cdt.startFltdate"
                   type="date" size="small"
                   placeholder="开始日期"
                   format="yyyy-MM-dd"
@@ -124,7 +116,7 @@
                 <span class="septum">-</span>
                 <el-date-picker
                    v-verify.input.blur="{regs:'required',submit:'timeDemo'}"
-                   v-model="cdt.endFlightDepartdate"
+                   v-model="cdt.endFltdate"
                    type="date" size="small"
                    placeholder="结束日期"
                    format="yyyy-MM-dd"
@@ -138,17 +130,17 @@
               <span class="input-text">值机时间：</span>
               <div class="input-input t-flex t-date">
                   <el-date-picker
-                  v-model="cdt.startCreatetime"
-                  type="datetime" size="small"
+                  v-model="cdt.startIapiReceivetime"
+                  type="date" size="small"
                   placeholder="开始日期"
-                  value-format="yyyyMMddHHmmss">
+                  value-format="yyyyMMdd">
                 </el-date-picker>
                 <span class="septum">-</span>
                 <el-date-picker
-                   v-model="cdt.endCreatetime"
-                   type="datetime" size="small"
+                   v-model="cdt.endIapiReceivetime"
+                   type="date" size="small"
                    placeholder="结束日期"
-                   value-format="yyyyMMddHHmmss">
+                   value-format="yyyyMMdd">
                </el-date-picker>
               </div>
             </el-col>
@@ -181,7 +173,7 @@
 
             <el-col :sm="24" :md="12" :lg="6" class="input-item">
               <span class="input-text">校验结果：</span>
-              <el-select v-model="cdt.lastcheckresult" placeholder="请选择" filterable clearable size="small" class="input-input">
+              <el-select v-model="cdt.checkresultEqual" placeholder="请选择" filterable clearable size="small" class="input-input">
                 <el-option label="0Z - 允许登机" value="0Z"></el-option>
                 <el-option label="1Z - 禁止登机" value="1Z"></el-option>
                 <el-option label="2Z - 再次核对" value="2Z"></el-option>
@@ -264,7 +256,7 @@
           </template>
         </el-table-column>
         <el-table-column
-          prop="I_NAME"
+          prop="iapiName"
           label="姓名"
           sortable
           width="130"
@@ -278,207 +270,287 @@
           v-if="checkList.indexOf(checkItem[1].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
-          prop="I_34"
+          prop="GENDER"
           label="性别"
           width="100"
           sortable
           v-if="checkList.indexOf(checkItem[2].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
-          prop="I_76"
+          prop="iapiBirthdayName"
           label="出生日期"
           width="130"
           sortable
           v-if="checkList.indexOf(checkItem[3].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
-          prop="I_37"
+          prop="iapiNationaName"
           label="国籍/地区"
           width="130"
           sortable
           v-if="checkList.indexOf(checkItem[4].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
-          prop="I_77"
+          prop="iapiCardName"
           label="证件种类"
           width="100"
           sortable
           v-if="checkList.indexOf(checkItem[5].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
-          prop="I_39"
+          prop="PASSPORTNO"
           label="证件号码"
           width="130"
           sortable
           v-if="checkList.indexOf(checkItem[6].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
-          prop="I_12"
+          prop="FLTNO"
           label="航班号"
           width="100"
           sortable
           v-if="checkList.indexOf(checkItem[7].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
-          prop="filghtDate"
+          prop="FLTDATE"
           label="航班日期"
           width="150"
           sortable
           v-if="checkList.indexOf(checkItem[8].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
-          prop="I_65"
-          label="值机状态"
+          prop="CHECKRESULT"
+          label="校验结果"
           width="130"
           sortable
           v-if="checkList.indexOf(checkItem[9].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
-          prop="I_60"
-          label="最终预检结果"
+          prop="FLIGHTTYPE"
+          label="出入标识"
           width="130"
           sortable
           v-if="checkList.indexOf(checkItem[10].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
-          prop="I_13"
-          label="出入标识"
-          width="100"
+          prop="iapiCityfromName"
+          label="起飞机场"
+          width="130"
           sortable
           v-if="checkList.indexOf(checkItem[11].ITEMNAME)>-1">
         </el-table-column>
-
         <el-table-column
-          prop="I_15"
-          label="起飞机场"
+          prop="departdateStr"
+          label="预计起飞时间"
           width="130"
           sortable
           v-if="checkList.indexOf(checkItem[12].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
-          prop="I_74"
-          label="预计起飞时间"
-          width="130"
+          prop="iapiCitytoName"
+          label="到达机场"
+          width="150"
           sortable
           v-if="checkList.indexOf(checkItem[13].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
-          prop="I_16"
-          label="到达机场"
-          width="150"
+          prop="arrivdateStr"
+          label="预计降落时间"
+          width="180"
           sortable
           v-if="checkList.indexOf(checkItem[14].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
-          prop="I_75"
-          label="预计降落时间"
-          width="180"
+          prop="PNR_SPECIFIGSEAT"
+          label="航班座位号"
+          width="150"
           sortable
           v-if="checkList.indexOf(checkItem[15].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
-          prop="I_73"
-          label="航班座位号"
-          width="150"
+          prop="flightStatusName"
+          label="航班状态"
+          width="130"
           sortable
           v-if="checkList.indexOf(checkItem[16].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
-          prop="I_64"
-          label="航班状态"
-          width="130"
+          prop="PASSPORTEXPIREDATE"
+          label="证件有效期"
+          width="150"
           sortable
           v-if="checkList.indexOf(checkItem[17].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
-          prop="I_40"
-          label="证件有效期"
+          prop="PASSPORTISSUEDATE"
+          label="证件签发日期"
           width="150"
           sortable
           v-if="checkList.indexOf(checkItem[18].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
-          prop="I_42"
-          label="证件签发日期"
+          prop="PASSPORTISSUECOUNTRYNAME"
+          label="证件签发国"
           width="150"
           sortable
           v-if="checkList.indexOf(checkItem[19].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
-          prop="I_41"
-          label="证件签发国"
-          width="150"
+          prop="VISANO"
+          label="签证号码"
+          width="130"
           sortable
           v-if="checkList.indexOf(checkItem[20].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
-          prop="I_48"
-          label="签证号码"
-          width="130"
+          prop="VISAEXPIREDATE"
+          label="签证有效期"
+          width="140"
           sortable
           v-if="checkList.indexOf(checkItem[21].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
-          prop="I_49"
-          label="签证有效期"
+          prop="OTHER_NO"
+          label="其他证件号码"
           width="140"
           sortable
           v-if="checkList.indexOf(checkItem[22].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
-          prop="I_43"
-          label="其他证件号码"
-          width="140"
+          prop="OTHER_EXPIREDATE"
+          label="其他证件有效期"
+          width="180"
           sortable
           v-if="checkList.indexOf(checkItem[23].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
-          prop="I_44"
-          label="其他证件有效期"
+          prop="OTHERDOCUMENTISSUEDATE"
+          label="其他证件签发日期"
           width="180"
           sortable
           v-if="checkList.indexOf(checkItem[24].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
-          prop="I_46"
-          label="其他证件签发日期"
+          prop="OTHER_ISSUECOUNTRYNAME"
+          label="其他证件签发国"
           width="180"
           sortable
           v-if="checkList.indexOf(checkItem[25].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
-          prop="I_45"
-          label="其他证件签发国"
+          prop="AIRLINEPHONE"
+          label="航空公司联系电话"
           width="180"
           sortable
           v-if="checkList.indexOf(checkItem[26].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
-          prop="I_10"
-          label="航空公司联系电话"
-          width="180"
+          prop="IAPI_RESPONSETIMESTR"
+          label="边检回复日期"
+          width="150"
           sortable
           v-if="checkList.indexOf(checkItem[27].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
-          prop="I_63"
-          label="边检回复日期"
+          prop="ABONO"
+          label="ABO唯一标识"
           width="150"
           sortable
           v-if="checkList.indexOf(checkItem[28].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
-          prop="I_27"
-          label="ABO唯一标识"
+          prop="TKTNUMBER"
+          label="电子客票号"
           width="150"
           sortable
           v-if="checkList.indexOf(checkItem[29].ITEMNAME)>-1">
+        </el-table-column>
+        <el-table-column
+          prop="originName"
+          label="最初上机地"
+          width="150"
+          sortable
+          v-if="checkList.indexOf(checkItem[30].ITEMNAME)>-1">
+        </el-table-column>
+        <el-table-column
+          prop="destinationName"
+          label="最终下机地"
+          width="150"
+          sortable
+          v-if="checkList.indexOf(checkItem[31].ITEMNAME)>-1">
+        </el-table-column>
+        <el-table-column
+          prop="PNR_CARBINCLASSDESIGNATOR"
+          label="舱位"
+          width="150"
+          sortable
+          v-if="checkList.indexOf(checkItem[32].ITEMNAME)>-1">
+        </el-table-column>
+        <el-table-column
+          prop="PNR_RCI"
+          label="旅客订票号"
+          width="150"
+          sortable
+          v-if="checkList.indexOf(checkItem[33].ITEMNAME)>-1">
+        </el-table-column>
+        <el-table-column
+          prop="APPLICATIONSENDERIDNAME"
+          label="航空公司"
+          width="150"
+          sortable
+          v-if="checkList.indexOf(checkItem[34].ITEMNAME)>-1">
+        </el-table-column>
+        <el-table-column
+          prop="PORTNAME"
+          label="机场"
+          width="150"
+          sortable
+          v-if="checkList.indexOf(checkItem[35].ITEMNAME)>-1">
+        </el-table-column>
+        <el-table-column
+          prop="IAPI_RECEIVETIMESTR"
+          label="值机时间"
+          width="150"
+          sortable
+          v-if="checkList.indexOf(checkItem[36].ITEMNAME)>-1">
+        </el-table-column>
+        <el-table-column
+          prop="PNRFLAG"
+          label="是否订票"
+          width="150"
+          sortable
+          v-if="checkList.indexOf(checkItem[37].ITEMNAME)>-1">
+        </el-table-column>
+        <el-table-column
+          prop="CHKFLAG"
+          label="是否值机"
+          width="150"
+          sortable
+          v-if="checkList.indexOf(checkItem[38].ITEMNAME)>-1">
+        </el-table-column>
+        <el-table-column
+          prop="EEFLAG"
+          label="出入境手续"
+          width="150"
+          sortable
+          v-if="checkList.indexOf(checkItem[39].ITEMNAME)>-1">
+        </el-table-column>
+        <el-table-column
+          prop="CLSFLAG"
+          label="航班是否关闭"
+          width="150"
+          sortable
+          v-if="checkList.indexOf(checkItem[40].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
           label="操作"
           width="150">
           <template slot-scope="scope">
             <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="">详情</el-button>
+            <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="">同值机</el-button>
+            <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="">同订票</el-button>
+            <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="">临近</el-button>
+            <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="">航班座位</el-button>
          </template>
         </el-table-column>
       </el-table>
@@ -567,16 +639,16 @@ export default {
       //查询条件
       cdt:{
         isBlurred:false,
-        startFlightDepartdate:'',
-        endFlightDepartdate:'',
+        startFltdate:'',
+        endFltdate:'',
       },
       takeOffName:[],
       landingName:[],
       //展示项
-      checkList: ['I_NAME','INTG_CHNNAME','I_34','I_76','I_37','I_39','I_12','filghtDate','I_65','I_13'],
+      checkList: ['iapiName','GENDER','iapiBirthdayName','iapiNationaName','PASSPORTNO','FLTNO','FLTDATE','filghtDate','FLIGHTTYPE','iapiCityfromName','iapiCitytoName','APPLICATIONSENDERIDNAME','PORTNAME'],
       checkItem:[
         {
-          ITEMNAME:'I_NAME',
+          ITEMNAME:'iapiName',
           LABEL:'姓名',
         },
         {
@@ -584,124 +656,171 @@ export default {
           LABEL:'中文姓名',
         },
         {
-          ITEMNAME:'I_34',
+          ITEMNAME:'GENDER',
           LABEL:'性别',
         },
         {
-          ITEMNAME:'I_76',
+          ITEMNAME:'iapiBirthdayName',
           LABEL:'出生日期',
         },
         {
-          ITEMNAME:'I_37',
+          ITEMNAME:'iapiNationaName',
           LABEL:'国籍/地区',
         },
         {
-          ITEMNAME:'I_77',
+          ITEMNAME:'iapiCardName',
           LABEL:'证件种类',
         },
         {
-          ITEMNAME:'I_39',
+          ITEMNAME:'PASSPORTNO',
           LABEL:'证件号码',
         },
         {
-          ITEMNAME:'I_12',
+          ITEMNAME:'FLTNO',
           LABEL:'航班号',
         },
         {
-          ITEMNAME:'filghtDate',
+          ITEMNAME:'FLTDATE',
           LABEL:'航班日期',
         },
         {
-          ITEMNAME:'I_65',
-          LABEL:'值机状态',
+          ITEMNAME:'CHECKRESULT',
+          LABEL:'校验结果',
         },
         {
-          ITEMNAME:'I_60',
-          LABEL:'最终预检结果',
-        },
-        {
-          ITEMNAME:'I_13',
+          ITEMNAME:'FLIGHTTYPE',
           LABEL:'出入标识',
         },
         {
-          ITEMNAME:'I_15',
+          ITEMNAME:'iapiCityfromName',
           LABEL:'起飞机场',
         },
         {
-          ITEMNAME:'I_74',
+          ITEMNAME:'departdateStr',
           LABEL:'预计起飞时间',
         },
         {
-          ITEMNAME:'I_16',
+          ITEMNAME:'iapiCitytoName',
           LABEL:'到达机场',
         },
         {
-          ITEMNAME:'I_75',
+          ITEMNAME:'arrivdateStr',
           LABEL:'预计降落时间',
         },
         {
-          ITEMNAME:'I_73',
+          ITEMNAME:'PNR_SPECIFIGSEAT',
           LABEL:'航班座位号',
         },
         {
-          ITEMNAME:'I_64',
+          ITEMNAME:'flightStatusName',
           LABEL:'航班状态',
         },
         {
-          ITEMNAME:'I_40',
+          ITEMNAME:'PASSPORTEXPIREDATE',
           LABEL:'证件有效期',
         },
         {
-          ITEMNAME:'I_42',
+          ITEMNAME:'PASSPORTISSUEDATE',
           LABEL:'证件签发日期',
         },
         {
-          ITEMNAME:'I_41',
+          ITEMNAME:'PASSPORTISSUECOUNTRYNAME',
           LABEL:'证件签发国',
         },
         {
-          ITEMNAME:'I_48',
+          ITEMNAME:'VISANO',
           LABEL:'签证号码',
         },
         {
-          ITEMNAME:'I_49',
+          ITEMNAME:'VISAEXPIREDATE',
           LABEL:'签证有效期',
         },
         {
-          ITEMNAME:'I_43',
+          ITEMNAME:'OTHER_NO',
           LABEL:'其他证件号码',
         },
         {
-          ITEMNAME:'I_44',
+          ITEMNAME:'OTHER_EXPIREDATE',
           LABEL:'其他证件有效期',
         },
         {
-          ITEMNAME:'I_46',
+          ITEMNAME:'OTHERDOCUMENTISSUEDATE',
           LABEL:'其他证件签发日期',
         },
         {
-          ITEMNAME:'I_45',
+          ITEMNAME:'OTHER_ISSUECOUNTRYNAME',
           LABEL:'其他证件签发国',
         },
         {
-          ITEMNAME:'I_10',
+          ITEMNAME:'AIRLINEPHONE',
           LABEL:'航空公司联系电话',
         },
+
         {
-          ITEMNAME:'I_63',
+          ITEMNAME:'IAPI_RESPONSETIMESTR',
           LABEL:'边检回复日期',
         },
         {
-          ITEMNAME:'I_27',
+          ITEMNAME:'ABONO',
           LABEL:'ABO唯一标识',
-        }
+        },
+        {
+          ITEMNAME:'TKTNUMBER',
+          LABEL:'电子客票号',
+        },
+        {
+          ITEMNAME:'originName',
+          LABEL:'最初上机地',
+        },
+        {
+          ITEMNAME:'destinationName',
+          LABEL:'最终下机地',
+        },
+        {
+          ITEMNAME:'PNR_CARBINCLASSDESIGNATOR',
+          LABEL:'舱位',
+        },
+        {
+          ITEMNAME:'PNR_RCI',
+          LABEL:'旅客订票号',
+        },
+        {
+          ITEMNAME:'APPLICATIONSENDERIDNAME',
+          LABEL:'航空公司',
+        },
+        {
+          ITEMNAME:'PORTNAME',
+          LABEL:'机场',
+        },
+        {
+          ITEMNAME:'IAPI_RECEIVETIMESTR',
+          LABEL:'值机时间',
+        },
+        {
+          ITEMNAME:'PNRFLAG',
+          LABEL:'是否订票',
+        },
+        {
+          ITEMNAME:'CHKFLAG',
+          LABEL:'是否值机',
+        },
+        {
+          ITEMNAME:'EEFLAG',
+          LABEL:'出入境手续',
+        },
+        {
+          ITEMNAME:'CLSFLAG',
+          LABEL:'航班是否关闭',
+        },
+
       ],
+      showConfiglist:[],//展示项数组
       pickerOptions: {
         disabledDate: (time) => {
-            if (this.cdt.endFlightDepartdate != null) {
+            if (this.cdt.endFltdate != null) {
               let startT = formatDate(new Date(time.getTime()),'yyyyMMddhhmm');
-              return startT > this.cdt.endFlightDepartdate;
-            }else if(this.cdt.endFlightDepartdate == null){
+              return startT > this.cdt.endFltdate;
+            }else if(this.cdt.endFltdate == null){
               return false
             }
         }
@@ -709,7 +828,7 @@ export default {
       pickerOptions1: {
         disabledDate: (time) => {
             let endT = formatDate(new Date(time.getTime()),'yyyyMMddhhmm');
-            return endT < this.cdt.startFlightDepartdate;
+            return endT < this.cdt.startFltdate;
         }
       },
 
@@ -720,10 +839,11 @@ export default {
     let end = new Date();
     let begin =new Date(time - 1000 * 60 * 60 * 24 * 30);
     let flightStart = new Date(new Date().setHours(0,0,0,0));
-    this.cdt.startFlightDepartdate=formatDate(flightStart,'yyyyMMdd');
-    this.cdt.endFlightDepartdate=formatDate(end,'yyyyMMdd');
+    this.cdt.startFltdate=formatDate(flightStart,'yyyyMMdd');
+    this.cdt.endFltdate=formatDate(end,'yyyyMMdd');
     this.takeOff();
     this.landing();
+    document.getElementsByClassName('btn-next')[0].disabled=true;
   },
   methods:{
     openCheck(){
@@ -909,7 +1029,7 @@ export default {
        if (result.indexOf(false) > -1) {
          return
        }
-      if(dayGap(this.cdt.startFlightDepartdate,this.cdt.endFlightDepartdate,0)>30){
+      if(dayGap(this.cdt.startFltdate,this.cdt.endFltdate,0)>30){
         this.$alert('航班日期查询时间间隔不能超过一个月，如有需要请分多次查询', '提示', {
           confirmButtonText: '确定',
         });
@@ -921,7 +1041,7 @@ export default {
       	"showCount":showCount,
       	"cdt":cdt
       };
-      this.$api.post('/manage-platform/iapi/queryListPage',pl,
+      this.$api.post('/manage-platform/iapiHead/queryListPage',pl,
        r => {
          if(r.data.nextState==0){
            console.log(document.getElementsByClassName('btn-next')[0])
