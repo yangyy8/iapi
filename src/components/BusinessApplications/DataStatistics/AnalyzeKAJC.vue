@@ -27,7 +27,7 @@
           </div>
             </el-col>
             <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
-                <span class="input-text">口岸：</span>
+                <span class="input-text">机场：</span>
                 <el-select v-model="pd.port" filterable clearable placeholder="请选择"  size="small" class="input-input">
 
                   <el-option

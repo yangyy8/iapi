@@ -57,24 +57,22 @@
               <span class="input-text">证件号码：</span>
             <el-input placeholder="请输入内容" size="small" v-model="pd.passportno" class="input-input"></el-input>
             </el-col>
-
             <el-col :sm="24" :md="12" :lg="8" class="input-item">
               <span class="input-text">航班号：</span>
               <el-input placeholder="请输入内容" size="small" v-model="pd.fltno" class="input-input"></el-input>
             </el-col>
-
             <el-col :sm="24" :md="12" :lg="8" class="input-item">
-              <span class="input-text">口岸：</span>
+              <span class="input-text">机场：</span>
               <el-select  v-model="pd.port" @change="getList(CurrentPage,pageSize,pd)" placeholder="请选择" filterable clearable size="small" class="input-input">
                 <el-option
                   v-for="item in airport"
-                  :key="item.KADM"
-                  :label="item.KADM+' - '+item.KAMC"
-                  :value="item.KADM">
+                  v-if="item.JCDM"
+                  :key="item.JCDM"
+                  :label="item.JCDM+' - '+item.KAMC"
+                  :value="item.JCDM">
                 </el-option>
               </el-select>
             </el-col>
-
             <el-col :sm="24" :md="12" :lg="8" class="input-item">
               <span class="input-text"><i class="t-must">*</i>航班日期：</span>
               <div class="input-input t-flex t-date">
@@ -93,7 +91,6 @@
             </el-date-picker>
           </div>
             </el-col>
-
             <el-col :sm="24" :md="12" :lg="8" class="input-item">
               <span class="input-text"><i class="t-must">*</i>命中时间：</span>
               <div class="input-input t-flex t-date">
@@ -118,11 +115,9 @@
             </el-date-picker>
           </div>
             </el-col>
-
             <el-col :sm="24" :md="12" :lg="8" class="input-item">
               <span class="input-text">命中人员类别：</span>
               <el-select v-model='pd.eventtype' placeholder="请选择" size="small" filterable clearable class="input-input">
-
                   <el-option value="0" label="0 - 白名单"></el-option>
                     <el-option value="1" label="1 - 临控名单"></el-option>
                     <el-option value="2" label="2 - 黑名单 - 不准入境"></el-option>
@@ -134,7 +129,6 @@
               </el-select>
             </el-col>
           </el-row>
-
         </el-col>
         <el-col :span="2" class="down-btn-area">
           <el-button type="success" size="small" @click="getList(CurrentPage,pageSize,pd)">查询</el-button>
@@ -142,7 +136,6 @@
       </el-row>
     </div>
     <div class="middle">
-
       <el-table
         :data="tableData"
         border
@@ -227,7 +220,6 @@
           width="130"
           sortable>
         </el-table-column>
-
         <el-table-column
           fixed="right"
           label="操作"
@@ -239,8 +231,6 @@
          </template>
         </el-table-column>
       </el-table>
-
-
       <div class="middle-foot">
         <div class="page-msg">
           <div class="">
@@ -271,7 +261,6 @@
         </el-pagination>
       </div>
     </div>
-
     <el-dialog
       title="事件文档"
       :visible.sync="queryDialogVisible"
@@ -279,7 +268,6 @@
       >
       <AlarmProcess></AlarmProcess>
     </el-dialog>
-
     <el-dialog
       title="PNR预报警详情"
       :visible.sync="pnrDialogVisible"
@@ -287,8 +275,6 @@
       >
       <AlarmProcess></AlarmProcess>
     </el-dialog>
-
-
     <el-dialog title="查看详情" :visible.sync="detailsDialogVisible">
       <el-form :model="dform" ref="detailsForm">
         <div class="hrtitle">基本信息</div>
@@ -417,7 +403,6 @@
             <el-col :span="12" class="t-el-content"><div class="t-el-text">错误详情：</div><div class="t-el-sub">{{rules.CHECKREMARK}}</div></el-col>
           </el-row>
         </div>
-
         <!-- PNR预报警 -->
         <div class="" v-show="isCall">
           <div class="hrtitle">PNR预报警</div>
@@ -427,7 +412,6 @@
             </el-col>
           </el-row>
         </div>
-
         <div class="hrtitle" style="margin-bottom:10px">历史值机信息</div>
         <el-table
           :data="detailstableData"
@@ -458,14 +442,12 @@
             label="国籍/地区"
             sortable>
           </el-table-column>
-
           <el-table-column
             prop="PASSPORTNO"
             label="证件号码"
             sortable
             width="130">
           </el-table-column>
-
           <el-table-column
             prop="FLTNO"
             label="航班号"
@@ -478,7 +460,6 @@
             sortable
             width="140">
           </el-table-column>
-
           <el-table-column
             label="预检结果"
             sortable
@@ -503,7 +484,6 @@
               {{scope.row.STATUS | fifterbj}}
             </template>
           </el-table-column>
-
         </el-table>
         <div class="middle-foot">
           <div class="page-msg">

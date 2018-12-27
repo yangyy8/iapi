@@ -2,7 +2,11 @@
   <div class="fwq">
 
     <div class="middle-top mb-2">
-
+      <el-row type="flex" class="middle">
+        <el-col :span="10" >
+          <el-button type="success" size="small" @click="getList(pd)">查询</el-button>
+        </el-col>
+      </el-row>
     </div>
 
 <div class="middle">
@@ -236,10 +240,10 @@ export default {
     }
   },
   mounted() {
-    this.getList();
+    //this.getList();
   },
   activated() {
-    this.getList();
+  //  this.getList();
   },
   methods: {
     getList() {
@@ -257,13 +261,8 @@ export default {
       this.detailsDialogVisible = true;
       this.filesytem = i;
     },
-
-
   },
-
-
   filters: {
-
     fiftersate(val){
       if(val=="yellow"){
         return "需要检查"
@@ -273,9 +272,7 @@ export default {
         return "异常"
       }
     }
-
   }
-
 }
 </script>
 
@@ -286,16 +283,13 @@ export default {
   display: flex;
   flex-direction: column;
 }
-
 .filesystems ul {
   list-style: none;
 }
-
 .filesystems ul li {
   float: left;
   width: 100px;
 }
-
 .filearr {
   background: #858585;
   height: 35px;
@@ -303,19 +297,16 @@ export default {
   text-align: center;
   color: #ffffff;
 }
-
 .filearr1 {
   text-align: center;
   line-height: 30px;
 }
-
 .filearrk {
   text-align: center;
   color: red;
   line-height: 50px;
   font-size: 18px;
 }
-
 .fileline {
   border-right: 1px solid #ffffff;
 }

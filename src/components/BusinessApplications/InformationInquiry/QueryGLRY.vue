@@ -1013,7 +1013,7 @@ export default {
 
             };
 
-     var url="/manage-platform/relaterperson/get_related_book";
+     var url="/manage-platform/relatedperson/get_related_book";
       this.$api.post(url, p,
         r => {
           console.log(r);
@@ -1057,7 +1057,7 @@ export default {
 
 
             };
-     var url="/manage-platform/relaterperson/get_related_check";
+     var url="/manage-platform/relatedperson/get_related_check";
       this.$api.post(url, p,
         r => {
           console.log(r);
@@ -1093,7 +1093,7 @@ export default {
         "showCount": showCount2,
         "cdt": pd2
       };
-     var url="/manage-platform/relaterperson/get_related_flt";
+     var url="/manage-platform/relatedperson/get_related_flt";
       this.$api.post(url, p,
         r => {
           console.log(r);
@@ -1142,7 +1142,7 @@ export default {
         "showCount": showCount4,
         "cdt": pd4
       };
-     var url="/manage-platform/relaterperson/get_related_seat";
+     var url="/manage-platform/relatedperson/get_related_seat";
       this.$api.post(url, p,
         r => {
           console.log(r);

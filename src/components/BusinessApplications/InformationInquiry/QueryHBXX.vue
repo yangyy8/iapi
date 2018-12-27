@@ -46,17 +46,7 @@
                </el-select>
             </el-col>
 
-            <el-col :sm="24" :md="12" :lg="8" class="input-item">
-              <span class="input-text">口岸：</span>
-              <el-select  v-model="pd.port" @change="airportReal" placeholder="请选择" filterable clearable size="small" class="input-input" @visible-change="queryAirport">
-                <el-option
-                  v-for="item in airport"
-                  :key="item.KADM"
-                  :label="item.KADM+' - '+item.KAMC"
-                  :value="item.KADM">
-                </el-option>
-              </el-select>
-            </el-col>
+
 
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">航班状态：</span>
@@ -72,17 +62,7 @@
                </el-select>
             </el-col>
 
-            <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
-              <span class="input-text">所属航空公司：</span>
-              <el-select v-model="pd.airlineCompanyId" placeholder="请选择" filterable clearable size="small" class="input-input">
-                <el-option
-                  v-for="(item,ind) in company"
-                  :key="ind"
-                  :label="item.AIRLINE_CODE+' - '+item.AIRLINE_CHN_NAME"
-                  :value="item.AIRLINE_CODE" >
-                </el-option>
-               </el-select>
-            </el-col>
+
 
             <el-col :sm="24" :md="12" :lg="8" class="input-item">
               <span class="input-text">起飞机场：</span>
@@ -107,6 +87,30 @@
                 </el-option>
               </el-select>
             </el-col>
+
+            <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+              <span class="input-text">所属航空公司：</span>
+              <el-select v-model="pd.airlineCompanyId" placeholder="请选择" filterable clearable size="small" class="input-input">
+                <el-option
+                  v-for="(item,ind) in company"
+                  :key="ind"
+                  :label="item.AIRLINE_CODE+' - '+item.AIRLINE_CHN_NAME"
+                  :value="item.AIRLINE_CODE" >
+                </el-option>
+               </el-select>
+            </el-col>
+            <!-- <el-col :sm="24" :md="12" :lg="8" class="input-item">
+              <span class="input-text">口岸：</span>
+              <el-select  v-model="pd.port" @change="airportReal" placeholder="请选择" filterable clearable size="small" class="input-input" @visible-change="queryAirport">
+                <el-option
+                  v-for="item in airport"
+                  :key="item.KADM"
+                  :label="item.KADM+' - '+item.KAMC"
+                  :value="item.KADM">
+                </el-option>
+              </el-select>
+            </el-col> -->
+
           </el-row>
         </el-col>
         <el-col :span="2" class="down-btn-area" >

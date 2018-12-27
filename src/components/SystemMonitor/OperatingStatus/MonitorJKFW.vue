@@ -74,10 +74,10 @@ export default {
     }
   },
   mounted() {
-    this.getList(this.pd);
+    //this.getList(this.pd);
   },
   activated() {
-    this.getList(this.pd);
+  //  this.getList(this.pd);
   },
 
   methods: {

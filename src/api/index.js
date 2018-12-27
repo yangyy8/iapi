@@ -1,7 +1,12 @@
 // 配置API接口地址
+<<<<<<< HEAD
 var root="http://192.168.99.206:8080"
 // var root=""
 // var root = 'http://192.168.99.248:8081'
+=======
+ var root="http://192.168.99.206:8080"
+//var root=""
+>>>>>>> 7cb4267797dc203a7183c5bb29b05cdf0bbbb1fd
  // var root = 'http://192.168.99.248:8080'
  //var root="http://192.168.99.247:8080"
 //var root = 'http://192.168.99.244:8080'

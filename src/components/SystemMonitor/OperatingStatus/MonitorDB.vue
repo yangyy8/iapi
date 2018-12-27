@@ -1,5 +1,12 @@
 <template lang="html">
   <div class="zlbg">
+    <div class="middle-top mb-2">
+      <el-row type="flex" class="middle">
+        <el-col :span="10" >
+          <el-button type="success" size="small" @click="getList(pd)">查询</el-button>
+        </el-col>
+      </el-row>
+    </div>
     <div class="middle">
       <el-table
         :data="tableData"
@@ -44,10 +51,10 @@ export default {
     }
   },
   mounted() {
-    this.getList();
+  //  this.getList();
   },
   activated() {
-    this.getList();
+  //  this.getList();
   },
   methods: {
     getList() {
