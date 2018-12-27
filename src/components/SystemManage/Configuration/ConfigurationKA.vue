@@ -142,8 +142,8 @@
         </el-row>
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
-            <span class="input-text"><font class="yy-color">*</font> 备用地址：</span>
-            <el-input placeholder="请输入备用地址" size="small" maxlength="100"  v-model="form.ipaddressBack"  class="input-input" v-verify.change.blur ="{regs:'required',submit:'demoka'}"></el-input>
+            <span class="input-text"> 备用地址：</span>
+            <el-input placeholder="请输入备用地址" size="small" maxlength="100"  v-model="form.ipaddressBack"  class="input-input" ></el-input>
           </el-col>
         </el-row>
         <el-row type="flex"  class="mb-6">
@@ -267,41 +267,15 @@ export default {
           this.dialogText="新增";
         }
       },
-      panduan(){
 
-      if(this.form.portname=undefined || this.form.portname=="")
-      {
-            this.$message.error("口岸名称不能为空！"); return false;
-      }
-      if(this.form.portcode==undefined || this.form.portcode=="")
-      {
-            this.$message.error("口岸编号不能为空！"); return false;
-      }
-      if(this.form.ipaddress==undefined || this.form.ipaddress=="")
-      {
-            this.$message.error("口岸地址不能为空！"); return false;
-      }
-      if(this.form.ipaddressBack==undefined || this.form.ipaddressBack=="")
-      {
-            this.$message.error("备用地址不能为空！"); return false;
-      }
-      if(this.form.status==undefined || this.form.status==null)
-      {
-            this.$message.error("口岸开关不能为空！"); return false;
-      }
-       return true;
-      },
       addItem(formName) {
-              // if(this.$validator.listener.demoka){
-              //   const result = this.$validator.verifyAll('demoka')
-              //    if (result.indexOf(false) > -1) {
-              //      return
-              //    }
-              // }
-      //  console.log("this.panduan",this.panduan());
-        if(this.panduan()){
-          return;
-        }
+              if(this.$validator.listener.demoka){
+                const result = this.$validator.verifyAll('demoka')
+                 if (result.indexOf(false) > -1) {
+                   return
+                 }
+              }
+
         var url = "/manage-platform/portConfig/add";
         if (this.tp == 1) {
           url = "/manage-platform/portConfig/edit";
