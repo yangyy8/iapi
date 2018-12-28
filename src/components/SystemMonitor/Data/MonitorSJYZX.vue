@@ -2,7 +2,7 @@
   <div class="listAnalysis">
     <div class="middle middle-top">
 
-      <!-- <el-button type="success"  icon="el-icon-refresh" size="small" class="mb-9" @click="getData">刷新</el-button> -->
+      <el-button type="success"   size="small" class="mb-9" @click="getData">查询</el-button>
       <table class="o-table2" cellspacing="0">
         <tr class="th1">
           <th align="center"></th>
@@ -58,7 +58,6 @@
 
           </td>
         </tr>
-
         <tr>
           <td class="th3">入境白名单</td>
           <td class="tc1">{{tableData4.whiteinredis}}</td>
@@ -152,7 +151,6 @@
           <td class="tc1">
             <el-button v-if="tableData9.isequal==1" @click="getTB('9')"  plain size="mini" class="btn">同步</el-button>
           <el-button  v-else  size="mini" :disabled="true">同步</el-button>
-
           </td>
         </tr>
         <tr>
@@ -209,24 +207,24 @@
 export default {
   data() {
     return {
-      tableData1: {},
-      tableData2: {},
-      tableData3: {},
-      tableData4: {},
-      tableData5: {},
-      tableData6: {},
-      tableData7: {},
-      tableData8: {},
-      tableData9: {},
-      tableData10: {},
-      tableData11: {},
+      tableData1: {blackinredis:'---',blackindb:'---',SYNCTIME:'---'},
+      tableData2: {blackoutredis:'---',blackoutdb:'---',SYNCTIME:'---'},
+      tableData3: {invalidredis:'---',invaliddb:'---',SYNCTIME:'---'},
+      tableData4: {whiteinredis:'---',whiteindb:'---',SYNCTIME:'---'},
+      tableData5: {whiteoutredis:'---',whiteoutdb:'---',SYNCTIME:'---'},
+      tableData6: {ctlinredis:'---',ctlindb:'---',SYNCTIME:'---'},
+      tableData7: {ctloutredis:'---',ctloutdb:'---',SYNCTIME:'---'},
+      tableData8: {dataruleredis:'---',dataruledb:'---',SYNCTIME:'---'},
+      tableData9: {busruleredis:'---',busruledb:'---',SYNCTIME:'---'},
+      tableData10: {invalidinredis:'---',invalidindb:'---',SYNCTIME:'---'},
+      tableData11: {invalidoutredis:'---',invalidoutdb:'---',SYNCTIME:'---'},
       centerDialogVisible: false,
       num: "1",
       dtext: "该数据同步时间较长，需要等待..."
     }
   },
   mounted() {
-    this.getData();
+  //  this.getData();
   },
   methods: {
     getData() {
