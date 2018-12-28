@@ -890,6 +890,13 @@ export default {
 
   mounted() {
     this.queryNationality();
+    let that = this;
+    setTimeout(function(){
+      that.page = that.$route.query.page;
+      if(that.page==1){
+        that.pd.fltno = that.$route.query.row.FLTNO;
+      }
+    },400)
     // let time = new Date();
     // let endz = new Date();
     // let beginz = new Date(time - 1000 * 60 * 60 * 24 * 1);
@@ -899,6 +906,10 @@ export default {
   },
   activated() {
     this.queryNationality();
+    this.page = this.$route.query.page;
+    if(this.page==1){
+      this.pd.fltno = this.$route.query.row.FLTNO;
+    }
     // let time = new Date();
     // let endz = new Date();
     // let beginz = new Date(time - 1000 * 60 * 60 * 24 * 1);

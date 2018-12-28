@@ -101,7 +101,7 @@
             </el-col>
 
 
-            <el-col :sm="24" :md="12" :lg="6" class="input-item">
+            <!-- <el-col :sm="24" :md="12" :lg="6" class="input-item">
               <span class="input-text"><i class="t-must">*</i>航班日期：</span>
               <div class="input-input t-flex t-date">
                   <el-date-picker
@@ -116,6 +116,31 @@
                 <span class="septum">-</span>
                 <el-date-picker
                    v-verify.input.blur="{regs:'required',submit:'timeDemo'}"
+                   v-model="cdt.endFltdate"
+                   type="date" size="small"
+                   placeholder="结束日期"
+                   format="yyyy-MM-dd"
+                   value-format="yyyyMMdd"
+                   :picker-options="pickerOptions1">
+               </el-date-picker>
+              </div>
+            </el-col> -->
+
+            <el-col :sm="24" :md="12" :lg="6" class="input-item">
+              <span class="input-text">航班日期：</span>
+              <div class="input-input t-flex t-date">
+                  <el-date-picker
+
+                  v-model="cdt.startFltdate"
+                  type="date" size="small"
+                  placeholder="开始日期"
+                  format="yyyy-MM-dd"
+                  value-format="yyyyMMdd"
+                  :picker-options="pickerOptions">
+                </el-date-picker>
+                <span class="septum">-</span>
+                <el-date-picker
+
                    v-model="cdt.endFltdate"
                    type="date" size="small"
                    placeholder="结束日期"
@@ -261,6 +286,19 @@
           sortable
           width="130"
           v-if="checkList.indexOf(checkItem[0].ITEMNAME)>-1">
+          <template slot-scope="scope">
+            <template v-if="scope.row.nameIsEqual == true">
+              <el-popover
+                placement="top-start"
+                trigger="hover"
+                :content="scope.row.pnrName">
+                <span slot="reference">{{scope.row.iapiName}}*</span>
+              </el-popover>
+            </template>
+            <template v-else-if="scope.row.nameIsEqual == false">
+              {{scope.row.iapiName}}
+            </template>
+          </template>
         </el-table-column>
         <el-table-column
           prop="INTG_CHNNAME"
@@ -275,6 +313,9 @@
           width="100"
           sortable
           v-if="checkList.indexOf(checkItem[2].ITEMNAME)>-1">
+          <template slot-scope="scope">
+            {{scope.row.GENDER|fiftersex}}
+          </template>
         </el-table-column>
         <el-table-column
           prop="iapiBirthdayName"
@@ -544,10 +585,10 @@
         </el-table-column>
         <el-table-column
           label="操作"
-          width="150">
+          width="500">
           <template slot-scope="scope">
             <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="">详情</el-button>
-            <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="">同值机</el-button>
+            <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="$router.push({name:'QueryGLRY',query:{row:scope.row,page:1}})">同值机</el-button>
             <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="">同订票</el-button>
             <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="">临近</el-button>
             <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="">航班座位</el-button>
@@ -839,11 +880,22 @@ export default {
     let end = new Date();
     let begin =new Date(time - 1000 * 60 * 60 * 24 * 30);
     let flightStart = new Date(new Date().setHours(0,0,0,0));
-    this.cdt.startFltdate=formatDate(flightStart,'yyyyMMdd');
-    this.cdt.endFltdate=formatDate(end,'yyyyMMdd');
+    // this.cdt.startFltdate=formatDate(flightStart,'yyyyMMdd');
+    // this.cdt.endFltdate=formatDate(end,'yyyyMMdd');
     this.takeOff();
     this.landing();
     document.getElementsByClassName('btn-next')[0].disabled=true;
+  },
+  filters: {
+    fiftersex(val) {
+      if (val == "F") {
+        return "女"
+      } else if (val == "M") {
+        return "男"
+      } else if (val == "U") {
+        return "未知"
+      }
+    },
   },
   methods:{
     openCheck(){
@@ -1025,16 +1077,16 @@ export default {
     },
     //==============查询===========================
     getList(currentPage,showCount,cdt){//基础查询 查询调用
-      const result = this.$validator.verifyAll('timeDemo')
-       if (result.indexOf(false) > -1) {
-         return
-       }
-      if(dayGap(this.cdt.startFltdate,this.cdt.endFltdate,0)>30){
-        this.$alert('航班日期查询时间间隔不能超过一个月，如有需要请分多次查询', '提示', {
-          confirmButtonText: '确定',
-        });
-        return false
-      }
+      // const result = this.$validator.verifyAll('timeDemo')
+      //  if (result.indexOf(false) > -1) {
+      //    return
+      //  }
+      // if(dayGap(this.cdt.startFltdate,this.cdt.endFltdate,0)>30){
+      //   this.$alert('航班日期查询时间间隔不能超过一个月，如有需要请分多次查询', '提示', {
+      //     confirmButtonText: '确定',
+      //   });
+      //   return false
+      // }
 
       let pl={
       	"currentPage":currentPage,

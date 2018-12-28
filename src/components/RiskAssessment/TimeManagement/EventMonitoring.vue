@@ -43,8 +43,8 @@
             </el-col>
 
             <el-col :sm="24" :md="12"  :lg="8" class="input-item">
-              <span class="input-text"><i class="t-must">*</i>航班号：</span>
-              <el-input placeholder="多个航班号请用分号隔开" size="small" v-verify.input.blur="{regs:'required|max:35',submit:'demo'}" v-model="cdt.fltnoStr" clearable class="input-input"></el-input>
+              <span class="input-text">航班号：</span>
+              <el-input placeholder="多个航班号请用分号隔开" size="small" v-verify.input.blur="{regs:'max:35',submit:'demo'}" v-model="cdt.fltnoStr" clearable class="input-input"></el-input>
             </el-col>
 
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
