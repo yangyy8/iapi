@@ -175,7 +175,23 @@
   font-size: 16px;
   font-weight: bold;
   border-bottom: 1px solid #3F96F2;
-},
+}
+.t-hrtitle{
+  height: 35px;
+  line-height: 35px;
+  color: #3F96F2;
+  font-size: 16px;
+  font-weight: bold;
+}
+.hrtitle-child{
+  height: 35px;
+  line-height: 35px;
+  border: none;
+  color: #3F96F2;
+  font-size: 14px;
+  font-weight: bold;
+  border-bottom: 1px solid #3F96F2;
+}
 .hrt {
   height: 35px;
   line-height: 35px;

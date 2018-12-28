@@ -353,7 +353,7 @@
           v-if="checkList.indexOf(checkItem[7].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
-          prop="FLTDATE"
+          prop="FLTDATESTR"
           label="航班日期"
           width="150"
           sortable
@@ -587,11 +587,11 @@
           label="操作"
           width="500">
           <template slot-scope="scope">
-            <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="">详情</el-button>
-            <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="$router.push({name:'QueryGLRY',query:{row:scope.row,page:1}})">同值机</el-button>
-            <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="">同订票</el-button>
-            <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="">临近</el-button>
-            <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="">航班座位</el-button>
+            <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row)">详情</el-button>
+            <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="$router.push({name:'QueryGLRY',query:{row:scope.row,page:1,isRoute:true}})">同值机</el-button>
+            <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="$router.push({name:'QueryGLRY',query:{row:scope.row,page:0,isRoute:true}})">同订票</el-button>
+            <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="$router.push({name:'QueryGLRY',query:{row:scope.row,page:4,isRoute:true}})">临近</el-button>
+            <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="seat(scope.row)">航班座位</el-button>
          </template>
         </el-table-column>
       </el-table>
@@ -630,6 +630,128 @@
         </el-pagination>
       </div>
     </div>
+    <el-dialog
+      title="座位详情"
+      :visible.sync="seatDialogVisible"
+      width="1220px"
+      >
+      <Seat :flightNumber="flightNumber0" :globalserial="globalserial0"></Seat>
+    </el-dialog>
+    <el-dialog title="查看详情" :visible.sync="detailsDialogVisible">
+      <el-form :model="dform" ref="detailsForm">
+        <div class="t-hrtitle">值机信息</div>
+        <div class="hrtitle-child">基本信息</div>
+        <el-row type="flex"  class="t-detail">
+          <el-col :span="6" class="t-el-content"><div class="t-el-text">姓名：</div><div class="t-el-sub">{{dform.CNAME}}</div></el-col>
+          <el-col :span="6" class="t-el-content"><div class="t-el-text">性别：</div><div class="t-el-sub">{{dform.GENDERNAME}}</div></el-col>
+          <el-col :span="6" class="t-el-content"><div class="t-el-text">出生日期：</div><div class="t-el-sub">{{dform.BIRTHDAYSTR}}</div></el-col>
+          <el-col :span="6" class="t-el-content"><div class="t-el-text">出入境类型：</div><div class="t-el-sub">{{dform.FLIGHTINOUT}}</div></el-col>
+        </el-row>
+        <el-row type="flex"  class="t-detail">
+          <el-col :span="6" class="t-el-content"><div class="t-el-text">国籍/地区：</div><div class="t-el-sub">{{dform.NATIONALITYNAME}}</div></el-col>
+          <el-col :span="6" class="t-el-content"><div class="t-el-text">证件号码：</div><div class="t-el-sub">{{dform.PASSPORTNO}}</div></el-col>
+          <el-col :span="6" class="t-el-content"><div class="t-el-text">证件颁发国：</div><div class="t-el-sub">{{dform.PASSPORTISSUECOUNTRYNAME}}</div></el-col>
+          <el-col :span="6" class="t-el-content"><div class="t-el-text">证件有效期：</div><div class="t-el-sub">{{dform.PASSPORTEXPIREDATESTR}}</div></el-col>
+        </el-row>
+        <el-row type="flex"  class="t-detail">
+          <el-col :span="6" class="t-el-content"><div class="t-el-text">证件签发日期：</div><div class="t-el-sub">{{dform.PASSPORTISSUEDATESTR}}</div></el-col>
+          <el-col :span="6" class="t-el-content"><div class="t-el-text">出生国：</div><div class="t-el-sub">{{dform.BIRTHCOUNTRYNAME}}</div></el-col>
+          <el-col :span="6" class="t-el-content"><div class="t-el-text">居住国：</div><div class="t-el-sub">{{dform.RESIDENCENAME}}</div></el-col>
+        </el-row>
+        <div class="hrtitle-child">航班信息</div>
+        <el-row type="flex"  class="t-detail">
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">航班号：</div><div class="t-el-sub">{{dform.FLTNO}}</div></el-col>
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">航班日期：</div><div class="t-el-sub">{{dform.FLIGHTDATESTR}}</div></el-col>
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">起飞机场：</div><div class="t-el-sub">{{dform.CITYFROMNAME}}</div></el-col>
+        </el-row>
+        <el-row type="flex"  class="t-detail">
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">预计起飞时间：</div><div class="t-el-sub">{{dform.DEPARTDATESTR}}</div></el-col>
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">到达机场：</div><div class="t-el-sub">{{dform.CITYTONAME}}</div></el-col>
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">预计到达时间：</div><div class="t-el-sub">{{dform.ARRIVDATESTR}}</div></el-col>
+
+        </el-row>
+        <el-row type="flex"  class="t-detail">
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">原预检结果：</div><div class="t-el-sub">{{dform.CHECKRESULTNAME}}</div></el-col>
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">最终预检结果：</div><div class="t-el-sub">{{dform.LASTCHECKRESULTSTR}}</div></el-col>
+          <!-- <el-col :span="8">是否有效：{{dform.PASSENGERSTATUSSTR==0?"无效":"有效"}}</el-col> -->
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">航班状态：</div><div class="t-el-sub">{{dform.FLIGHTSTATUSSTR}}</div></el-col>
+        </el-row>
+        <el-row type="flex"  class="t-detail">
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">航班起飞时间：</div><div class="t-el-sub">{{dform.LASTUPDATETIMEUPSTR}}</div></el-col>
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">航班取消时间：</div><div class="t-el-sub">{{dform.LASTUPDATETIMEDOWNSTR}}</div></el-col>
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">降落口岸：</div><div class="t-el-sub">{{dform.PORTSTR}}</div></el-col>
+        </el-row>
+        <el-row type="flex"  class="t-detail">
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">备降口岸：</div><div class="t-el-sub">{{dform.CHANGEPORTSTR}}</div></el-col>
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">航空公司联系电话：</div><div class="t-el-sub">{{dform.AIRLINEPHONE}}</div></el-col>
+        </el-row>
+        <div class="hrtitle-child">其他信息</div>
+        <el-row type="flex"  class="t-detail">
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">航空公司传真：</div><div class="t-el-sub">{{dform.AIRLINEFAX}}</div></el-col>
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">航信发送报文时间：</div><div class="t-el-sub">{{dform.GAPP_RECEIVETIMESTR}}</div></el-col>
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">航信接受报文时间：</div><div class="t-el-sub">{{dform.GAPP_SENDTIMESTR}}</div></el-col>
+        </el-row>
+        <el-row type="flex"  class="t-detail">
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">流水号：</div><div class="t-el-sub">{{dform.TID}}</div></el-col>
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">ICS记录编号：</div><div class="t-el-sub">{{dform.RECORDLOCATER}}</div></el-col>
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">旅客中间名：</div><div class="t-el-sub">{{dform.MIDDLENAME}}</div></el-col>
+        </el-row>
+        <el-row type="flex"  class="t-detail">
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">旅客类型：</div><div class="t-el-sub">{{dform.PASSENGERTYPESTR}}</div></el-col>
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">旅客值机方式：</div><div class="t-el-sub">{{dform.VIDSTR}}</div></el-col>
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">旅客状态：</div><div class="t-el-sub">{{dform.PASSENGERSTATUSSTR}}</div></el-col>
+        </el-row>
+        <el-row type="flex"  class="t-detail">
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">是否报警：</div><div class="t-el-sub">{{dform.ISEVENT}}</div></el-col>
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">ABO唯一标识：</div><div class="t-el-sub">{{dform.ABONO}}</div></el-col>
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">其他证件号码：</div><div class="t-el-sub">{{dform.OTHER_NO}}</div></el-col>
+        </el-row>
+        <el-row type="flex"  class="t-detail">
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">其他证件有效期：</div><div class="t-el-sub">{{dform.OTHER_EXPIREDATESTR}}</div></el-col>
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">其他证件颁发国：</div><div class="t-el-sub">{{dform.OTHER_ISSUECOUNTRYSTR}}</div></el-col>
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">其他证件签发日期：</div><div class="t-el-sub">{{dform.OTHERDOCUMENTISSUEDATESTR}}</div></el-col>
+        </el-row>
+        <el-row type="flex"  class="t-detail">
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">签证号码：</div><div class="t-el-sub">{{dform.VISANO}}</div></el-col>
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">签证有效期：</div><div class="t-el-sub">{{dform.VISAEXPIREDATESTR}}</div></el-col>
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">签证国家：</div><div class="t-el-sub">{{dform.VISAISSUECOUNTRYSTR}}</div></el-col>
+        </el-row>
+        <el-row type="flex"  class="t-detail">
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">签证签发日期：</div><div class="t-el-sub">{{dform.VISAISSUEDATESTR}}</div></el-col>
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">起飞城市：</div><div class="t-el-sub">{{dform.ORIGINSTR}}</div></el-col>
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">目的地地址：</div><div class="t-el-sub">{{dform.DESTADDRESS}}</div></el-col>
+        </el-row>
+        <el-row type="flex"  class="t-detail">
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">目的地城市：</div><div class="t-el-sub">{{dform.DESTCITY}}</div></el-col>
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">目的的所在省：</div><div class="t-el-sub">{{dform.DESTSTATESTR}}</div></el-col>
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">目的地国家：</div><div class="t-el-sub">{{dform.DESTCOUNTRYSTR}}</div></el-col>
+        </el-row>
+        <el-row type="flex"  class="t-detail">
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">目的地邮编：</div><div class="t-el-sub">{{dform.DESTPOSTALCODE}}</div></el-col>
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">边检接收时间：</div><div class="t-el-sub">{{dform.IAPI_RECEIVETIMESTR}}</div></el-col>
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">边检回复时间：</div><div class="t-el-sub">{{dform.IAPI_RESPONSETIMESTR}}</div></el-col>
+        </el-row>
+        <!-- 订票信息 -->
+
+        <div class="t-hrtitle">订票信息</div>
+        <div class="hrtitle-child">基本信息</div>
+        <el-row type="flex"  class="t-detail">
+          <el-col :span="6" class="t-el-content"><div class="t-el-text">属性名：</div><div class="t-el-sub">{{dform.FIELDNAME}}</div></el-col>
+          <el-col :span="6" class="t-el-content"><div class="t-el-text">属性值：</div><div class="t-el-sub">{{dform.FIELDVALUES}}</div></el-col>
+          <el-col :span="6" class="t-el-content"><div class="t-el-text">是否必填：</div><div class="t-el-sub">{{dform.INPUT}}</div></el-col>
+          <el-col :span="6" class="t-el-content"><div class="t-el-text">最小长度：</div><div class="t-el-sub">{{dform.MINLENGTH}}</div></el-col>
+        </el-row>
+        <el-row type="flex"  class="t-detail">
+          <el-col :span="6" class="t-el-content"><div class="t-el-text">最大长度：</div><div class="t-el-sub">{{dform.MAXLENGTH}}</div></el-col>
+          <el-col :span="6" class="t-el-content"><div class="t-el-text">正则表达式：</div><div class="t-el-sub">{{dform.REGULAR}}</div></el-col>
+          <el-col :span="12" class="t-el-content"><div class="t-el-text">错误描述：</div><div class="t-el-sub">{{dform.DETAIL}}</div></el-col>
+        </el-row>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="detailsDialogVisible = false" size="small">取消</el-button>
+      </div>
+    </el-dialog>
+
   </div>
 </template>
 
@@ -663,6 +785,9 @@ export default {
       totalResult:0,//总条数
       totalPage:1,//总页数
       releaseform:{},
+      seatDialogVisible:false,
+      flightNumber0:'',
+      globalserial0:'',
       options:[
         {
           value:10,
@@ -677,6 +802,10 @@ export default {
           label:"30"
         }
       ],
+      //详情
+      dform:{},
+      detailsDialogVisible:false,
+
       //查询条件
       cdt:{
         isBlurred:false,
@@ -686,7 +815,7 @@ export default {
       takeOffName:[],
       landingName:[],
       //展示项
-      checkList: ['iapiName','GENDER','iapiBirthdayName','iapiNationaName','PASSPORTNO','FLTNO','FLTDATE','filghtDate','FLIGHTTYPE','iapiCityfromName','iapiCitytoName','APPLICATIONSENDERIDNAME','PORTNAME'],
+      checkList: ['iapiName','GENDER','iapiBirthdayName','iapiNationaName','PASSPORTNO','FLTNO','FLTDATESTR','filghtDate','FLIGHTTYPE','iapiCityfromName','iapiCitytoName','APPLICATIONSENDERIDNAME','PORTNAME'],
       checkItem:[
         {
           ITEMNAME:'iapiName',
@@ -721,7 +850,7 @@ export default {
           LABEL:'航班号',
         },
         {
-          ITEMNAME:'FLTDATE',
+          ITEMNAME:'FLTDATESTR',
           LABEL:'航班日期',
         },
         {
@@ -853,8 +982,9 @@ export default {
           ITEMNAME:'CLSFLAG',
           LABEL:'航班是否关闭',
         },
-
       ],
+      nav1Id:null,
+      nav2Id:null,
       showConfiglist:[],//展示项数组
       pickerOptions: {
         disabledDate: (time) => {
@@ -876,6 +1006,8 @@ export default {
     }
   },
   mounted(){
+    this.nav1Id=this.$route.query.nav1Id
+    this.nav2Id=this.$route.query.nav2Id
     let time = new Date();
     let end = new Date();
     let begin =new Date(time - 1000 * 60 * 60 * 24 * 30);
@@ -885,6 +1017,10 @@ export default {
     this.takeOff();
     this.landing();
     document.getElementsByClassName('btn-next')[0].disabled=true;
+  },
+  activated(){
+    this.nav1Id=this.$route.query.nav1Id
+    this.nav2Id=this.$route.query.nav2Id
   },
   filters: {
     fiftersex(val) {
@@ -898,6 +1034,11 @@ export default {
     },
   },
   methods:{
+    seat(i){
+      this.seatDialogVisible = true;
+      this.flightNumber0 = i.FLTNO;
+      this.globalserial0=i.SERIAL;
+    },
     openCheck(){
       this.openCheckbox = !this.openCheckbox
       if(this.openCheckbox == true){
@@ -919,7 +1060,10 @@ export default {
       console.log(row);
       this.radio=row.I_SERIAL
     },
+    details(i){
+      this.detailsDialogVisible = true;
 
+    },
     //------------------------------------------------全局代码项-------------------------------------------------
     takeOff(){//调用起飞机场
       this.$api.post('/manage-platform/codeTable/queryAirport',{},

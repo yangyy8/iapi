@@ -238,7 +238,7 @@ export default {
         r => {
           console.log(r);
           this.tableData = r.data.dmz;
-          this.tableData1 = r.data.business;
+          this.tableData1 = r.data.business.concat(r.data.risk);
           // for(var i=0;i<r.data.dmz.length;i++){
           //   this.tableTitle = JSON.parse(r.data.dmz[0].FILESYSTEM);
           //
