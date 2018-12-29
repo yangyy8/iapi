@@ -163,7 +163,7 @@
           <el-button type="success" class="mb-15" size="small" v-if="backShow" @click="CurrentPage=1;getHisFn(CurrentPage,pageSize,pd)">查询</el-button>
 
           <el-button type="primary" class="mb-15" plain size="small" @click="reset">重置</el-button>
-          <el-button type="warning" size="small" @click="$router.go(0);backShow=false" v-if="backShow">返回</el-button>
+          <el-button type="warning" size="small" @click="CurrentPage=1;getList(CurrentPage,pageSize,pd)" v-if="backShow">返回</el-button>
 
         </el-col>
       </el-row>
@@ -182,7 +182,6 @@
         :data="tableData"
         border
         empty-text=""
-        class="caozuo"
         style="width:100%;"
         @selection-change="handleSelectionChange">
         <el-table-column
@@ -267,13 +266,16 @@
         </el-table-column>
         <el-table-column
           label="操作"
-          width="250"
-          >
+          width="100">
           <template slot-scope="scope">
             <!-- <div class="flex-r"> -->
-              <el-button class="table-btn" size="mini" plain icon="el-icon-edit" @click="update(scope.row)" v-if="scope.row.SYN_STATUS==0&&!backShow">编辑</el-button>
+            <el-button type="text" class="a-btn" icon="el-icon-edit" title="编辑" @click="update(scope.row)" :disabled="scope.row.SYN_STATUS!=0||backShow"></el-button>
+            <el-button type="text" class="a-btn" icon="el-icon-delete"  title="删除" @click="deleteItem(scope.row.SERIAL,scope.row.SYN_STATUS)" :disabled="backShow"></el-button>
+            <el-button type="text" class="a-btn" icon="el-icon-tickets"  title="详情" @click="details(scope.row.SERIAL)"></el-button>
+
+              <!-- <el-button class="table-btn" size="mini" plain icon="el-icon-edit" @click="update(scope.row)" v-if="scope.row.SYN_STATUS==0&&!backShow">编辑</el-button>
               <el-button class="table-btn" size="mini" plain icon="el-icon-delete" @click="deleteItem(scope.row.SERIAL,scope.row.SYN_STATUS)" v-if="!backShow">删除</el-button>
-              <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row.SERIAL)">详情</el-button>
+              <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row.SERIAL)">详情</el-button> -->
             <!-- </div> -->
          </template>
         </el-table-column>
@@ -736,13 +738,14 @@ export default {
     }
   },
   mounted(){
-    this.getList(this.CurrentPage,this.pageSize,this.pd);
+    // this.getList(this.CurrentPage,this.pageSize,this.pd);
     this.queryNationalityAlone();
     this.queryAirport();
     this.queryDocCode();
   },
   activated(){
-    this.getList(this.CurrentPage,this.pageSize,this.pd);
+    // this.backShow=false;
+    // this.getList(this.CurrentPage,this.pageSize,this.pd);
   },
   methods:{
     download(){
@@ -872,6 +875,7 @@ export default {
            //console.log(r);
            this.tableData=r.data.resultList;
            this.TotalResult=r.data.totalResult;
+           this.backShow=false;
         })
       // }
     },
