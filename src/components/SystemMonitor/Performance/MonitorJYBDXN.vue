@@ -334,16 +334,9 @@ export default {
         }
       ],
       // 实时表格
-      tableData:[{
-
-      }],
+      tableData:[],
       // 历史表格
-      htableData:[{
-        year:'',
-        tcount:'',
-        createtimeStr:'',
-        consumetime:''
-      }],
+      htableData:[],
       cdt:{//历史监控传参
         type:'5',
         begin:'',
@@ -736,9 +729,9 @@ export default {
         this.checkRealTime();
       }else if(this.coCheckId == 2){//如果当前显示列表
         if(this.typeT==1){
-          this.getList(this.CurrentPage,this.pageSize,this.pdc);
+          // this.getList(this.CurrentPage,this.pageSize,this.pdc);
         }else{
-          this.getList(this.CurrentPage,this.pageSize,this.cdt1);
+          // this.getList(this.CurrentPage,this.pageSize,this.cdt1);
         }
       }
     },
@@ -747,7 +740,7 @@ export default {
       if(this.coCheckId == 1){//如果当前显示图形
         this.checkHistoryTime();
       }else if(this.coCheckId == 2){//如果当前显示列表
-        this.hgetList(this.hCurrentPage,this.hpageSize,this.cdt);
+        // this.hgetList(this.hCurrentPage,this.hpageSize,this.cdt);
       }
     },
     judgeChart(){//点击图形
@@ -765,9 +758,9 @@ export default {
       if(this.controlChecked == 1){//判断实时列表
         this.typeT=0;
         console.log(this.typeT);
-        this.getList(this.CurrentPage,this.pageSize,this.cdt1);
+        // this.getList(this.CurrentPage,this.pageSize,this.cdt1);
       }else if(this.controlChecked == 2){//判断历史列表
-        this.hgetList(this.hCurrentPage,this.hpageSize,this.cdt);
+        // this.hgetList(this.hCurrentPage,this.hpageSize,this.cdt);
       }
     },
     search(){  //历史监控的查看
