@@ -56,22 +56,27 @@
           label="口岸名称" >
         </el-table-column>
         <el-table-column
-          prop="ipaddress"
           label="口岸地址"
           >
+           <template slot-scope="scope">
+            <span>{{scope.row.ipaddress}}</span> <span :class="{'ycolor':scope.row.clientStatus=='1','ycolory':scope.row.clientStatus=='0'}">{{scope.row.clientStatus|fiftersate}}</span>
+          </template>
         </el-table-column>
+
         <el-table-column
-          prop="ipaddressBack"
           label="备用地址"
           >
+          <template slot-scope="scope">
+            <span>{{scope.row.ipaddressBack}}</span><span :class="{'ycolor':scope.row.clientStatus=='1','ycolory':scope.row.clientStatus=='0'}">{{scope.row.clientBackStatus|fiftersate}}</span>
+          </template>
         </el-table-column>
-        <el-table-column
+        <!-- <el-table-column
           label="接口状态"
           >
           <template slot-scope="scope">
               <span :class="{'yycolor':scope.row.clientStatus=='1','yycolory':scope.row.clientStatus=='0'}">  {{scope.row.clientStatus | fiftersate }}</span>
           </template>
-        </el-table-column>
+        </el-table-column> -->
         <el-table-column
           prop="backlog1"
           label="预报积压数"
@@ -183,16 +188,18 @@ export default {
       fiftersate(val){
         if(val=="1"){
 
-          return "正常"
-        }else {
+          return "( 正常 )"
+        }else if(val=="0"){
 
-          return "异常"
+          return "( 异常 )"
         }
       }
     }
 }
 </script>
 <style scoped>
-.yycolor{ background: #00FF00; padding: 3px 8px;}
-.yycolory{  background: #FF0000;padding: 3px 8px; }
+.yycolor{ background: green; padding: 3px 8px; color: #ffffff;}
+.yycolory{  background: red;padding: 3px 8px; color: #ffffff;}
+.ycolor{ color: green;padding-left:10px; font-size:12px;}
+.ycolory{  color: red; padding-left:10px; font-size:12px;}
 </style>

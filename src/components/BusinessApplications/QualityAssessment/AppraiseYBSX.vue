@@ -610,6 +610,7 @@ export default {
       tableData2: [],
       tableData3: [],
       tableData4: [],
+      downfltno:'',
       multipleSelection: [],
       pickerOptions0: {
         disabledDate: (time) => {
@@ -818,6 +819,7 @@ export default {
         },
    details(i) {
      this.detailsDialogVisible = true;
+     this.downfltno=i.fltno;
      this.pd0.fltno=i.fltno;
      this.pd0.begintime=this.pd.begintime;
      this.pd0.endtime=this.pd.endtime;
@@ -841,21 +843,26 @@ export default {
       if(n==1){
         url= actions+"/manage-platform/forecastEva/exp_noreport_flt";
       }else if(n==2){
+
         url=actions+"/manage-platform/forecastEva/exp_laterreport_flt";
       }
       else if(n==3){
+
         url=actions+"/manage-platform/forecastEva/exp_laterreport_person";
       }
       else if(n==4){
+
         url=actions+"/manage-platform/forecastEva/exp_noreport_person";
       }else if(n==5){
+
         url=actions+"/manage-platform/forecastEva/exp_fctime_all";
       }
       if(n==1 || n==2 || n==3 || n==4 || n==5){
+
         p={
             "begintime":this.pd.begintime,
             "endtime":this.pd.endtime,
-            "fltno":this.pd.fltno
+            "fltno":this.downfltno
         };
       }
 
@@ -873,7 +880,7 @@ export default {
         if (!data) {
             return
         }
-        console.log("---"+data);
+
         let url = window.URL.createObjectURL(new Blob([data.data],{type:"application/octet-stream"}))
         let link = document.createElement('a')
         link.style.display = 'none'

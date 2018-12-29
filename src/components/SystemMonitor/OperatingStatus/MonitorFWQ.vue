@@ -329,8 +329,8 @@ export default {
 .fileline {
   border-right: 1px solid #ffffff;
 }
-.yycolor{ background: #00FF00; padding: 3px 8px;}
-.yycolory{  background: #FF0000;padding: 3px 8px; }
+.yycolor{ background: green; padding: 3px 8px; color: #ffffff;}
+.yycolory{  background: red;padding: 3px 8px; color: #ffffff;}
 </style>
 <style media="screen">
 .el-table_1_column_9 .cell {
