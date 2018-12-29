@@ -43,8 +43,8 @@
             </el-col>
 
             <el-col :sm="24" :md="12"  :lg="8" class="input-item">
-              <span class="input-text"><i class="t-must">*</i>航班号：</span>
-              <el-input placeholder="多个航班号请用分号隔开" size="small" v-verify.input.blur="{regs:'required|max:35',submit:'demo'}" v-model="cdt.fltnoStr" clearable class="input-input"></el-input>
+              <span class="input-text">航班号：</span>
+              <el-input placeholder="多个航班号请用分号隔开" size="small" v-verify.input.blur="{regs:'max:35',submit:'demo'}" v-model="cdt.fltnoStr" clearable class="input-input"></el-input>
             </el-col>
 
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
@@ -97,19 +97,19 @@
           prop="FLTNO"
           label="航班号"
           sortable
-          width="120">
+          width="100">
         </el-table-column>
         <el-table-column
           prop="FLIGHTDATESTR"
           sortable
           label="航班日期"
-          width="160">
+          width="140">
         </el-table-column>
         <el-table-column
           prop="ARRIVDATESTR"
           label="到达时间"
           sortable
-          width="160">
+          width="140">
         </el-table-column>
         <el-table-column
           label="出入标识"
@@ -134,54 +134,54 @@
         <el-table-column
           prop="CHECKINCOUNT"
           label="预报旅客"
-          width="130"
+          width="120"
           sortable>
         </el-table-column>
         <el-table-column
           prop="CHINACOUNT"
           label="预报中国旅客"
-          width="150"
+          width="130"
           sortable>
         </el-table-column>
         <el-table-column
           prop="NOTCHINACOUNT"
           label="预报外籍旅客"
-          width="150"
+          width="130"
           sortable>
         </el-table-column>
         <el-table-column
           prop="ONEEVENT"
           label="一级预警人数"
-          width="150"
+          width="130"
           sortable>
         </el-table-column>
         <el-table-column
           prop="TWOEVENT"
           label="二级预警人数"
-          width="150"
+          width="130"
           sortable>
         </el-table-column>
         <el-table-column
           prop="THREEEVENT"
           label="三级预警人数"
-          width="150"
+          width="130"
           sortable>
         </el-table-column>
         <el-table-column
           prop="FOUREVENT"
           label="四级预警人数"
-          width="150"
+          width="130"
           sortable>
         </el-table-column>
         <el-table-column
           prop="FIVEEVENT"
           label="五级预警人数"
-          width="150"
+          width="130"
           sortable>
         </el-table-column>
         <el-table-column
           label="报警率"
-          width="150"
+          width="100"
           sortable>
           <template slot-scope="scope">
             <span :style="{color:color1}" v-if="scope.row.PERCENT < high1&&scope.row.PERCENT >=low1">{{scope.row.PERCENT}}</span>
@@ -460,8 +460,8 @@ export default {
         startFlightDate:'',
         endFlightDate:''
       };
-      this.cdt.startFlightDate=formatDate(begin,'yyyyMMdd');
-      this.cdt.endFlightDate=formatDate(end,'yyyyMMdd');
+      this.cdt.startFlightDate=formatDate(begin,'yyyyMMddhhmm');
+      this.cdt.endFlightDate=formatDate(end,'yyyyMMddhhmm');
       this.getList(this.CurrentPage,this.pageSize,this.cdt);
     },
     pageSizeChange(val) {

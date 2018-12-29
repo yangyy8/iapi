@@ -2,7 +2,11 @@
   <div class="fwq">
 
     <div class="middle-top mb-2">
-
+      <el-row type="flex" class="middle">
+        <el-col :span="10" >
+          <el-button type="success" size="small" @click="getList(pd)">查询</el-button>
+        </el-col>
+      </el-row>
     </div>
 
 <div class="middle">
@@ -214,10 +218,10 @@ export default {
     }
   },
   mounted() {
-    this.getList();
+  //  this.getList();
   },
   created() {
-    this.getList();
+  //  this.getList();
   },
 
   // computed:{
@@ -234,7 +238,7 @@ export default {
         r => {
           console.log(r);
           this.tableData = r.data.dmz;
-          this.tableData1 = r.data.business;
+          this.tableData1 = r.data.business.concat(r.data.risk);
           // for(var i=0;i<r.data.dmz.length;i++){
           //   this.tableTitle = JSON.parse(r.data.dmz[0].FILESYSTEM);
           //
@@ -325,8 +329,8 @@ export default {
 .fileline {
   border-right: 1px solid #ffffff;
 }
-.yycolor{ background: #00FF00; padding: 3px 8px;}
-.yycolory{  background: #FF0000;padding: 3px 8px; }
+.yycolor{ background: green; padding: 3px 8px; color: #ffffff;}
+.yycolory{  background: red;padding: 3px 8px; color: #ffffff;}
 </style>
 <style media="screen">
 .el-table_1_column_9 .cell {

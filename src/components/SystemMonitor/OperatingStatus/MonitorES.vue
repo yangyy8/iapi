@@ -2,7 +2,11 @@
   <div class="fwq">
 
     <div class="middle-top mb-2">
-
+      <el-row type="flex" class="middle">
+        <el-col :span="10" >
+          <el-button type="success" size="small" @click="getList(pd)">查询</el-button>
+        </el-col>
+      </el-row>
     </div>
 
 <div class="middle">
@@ -29,6 +33,10 @@
       </template>
     </el-table-column>
     <el-table-column
+      prop="number_of_nodes"
+      label="节点数">
+    </el-table-column>
+    <el-table-column
       prop="active_primary_shards"
       label="主分片数量"
       sortable>
@@ -42,7 +50,7 @@
     </el-table-column>
     <el-table-column
       prop="unassigned_shards"
-      label="未分配节点数"
+      label="未分配分片数"
       sortable>
     </el-table-column>
     <!-- <el-table-column
@@ -90,6 +98,12 @@
        label="IP地址">
      </el-table-column>
      <el-table-column
+       label="状态">
+       <template slot-scope="scope">
+         <span :class="{'red':scope.row.statusName == '异常'}">{{scope.row.statusName}}</span>
+       </template>
+     </el-table-column>
+     <el-table-column
        prop="version"
        label="ES版本"
        sortable>
@@ -119,7 +133,7 @@
    </el-table>
   </div>
 
-  <div class="middle">
+  <div class="middle" v-show="false">
     <div class="yy-title">索引</div>
     <el-table
       :data="tableData2"
@@ -236,10 +250,10 @@ export default {
     }
   },
   mounted() {
-    this.getList();
+    //this.getList();
   },
   activated() {
-    this.getList();
+  //  this.getList();
   },
   methods: {
     getList() {
@@ -257,13 +271,8 @@ export default {
       this.detailsDialogVisible = true;
       this.filesytem = i;
     },
-
-
   },
-
-
   filters: {
-
     fiftersate(val){
       if(val=="yellow"){
         return "需要检查"
@@ -272,10 +281,8 @@ export default {
       }else if(val =="red"){
         return "异常"
       }
-    }
-
+    },
   }
-
 }
 </script>
 
@@ -286,16 +293,13 @@ export default {
   display: flex;
   flex-direction: column;
 }
-
 .filesystems ul {
   list-style: none;
 }
-
 .filesystems ul li {
   float: left;
   width: 100px;
 }
-
 .filearr {
   background: #858585;
   height: 35px;
@@ -303,19 +307,16 @@ export default {
   text-align: center;
   color: #ffffff;
 }
-
 .filearr1 {
   text-align: center;
   line-height: 30px;
 }
-
 .filearrk {
   text-align: center;
   color: red;
   line-height: 50px;
   font-size: 18px;
 }
-
 .fileline {
   border-right: 1px solid #ffffff;
 }

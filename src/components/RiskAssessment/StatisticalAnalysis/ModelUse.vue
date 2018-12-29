@@ -38,7 +38,7 @@
               <el-button type="success" size="small" plain @click="getmodel">点击选择</el-button>&nbsp;&nbsp;&nbsp;&nbsp;
               <el-button type="primary" size="small" plain @click="seeModel">点击查看</el-button>
             </el-col>
-            <el-dialog title="模型选择" :visible.sync="modelDialogVisible" width="640px">
+            <el-dialog title="模型选择" :visible.sync="modelDialogVisible" width="640px" :before-close="cancelModel">
               <el-input
                 placeholder="输入模型关键字进行过滤"
                 v-model="filterText">
@@ -48,14 +48,15 @@
                 ref="tree"
                 :data="treeData"
                 show-checkbox
-                node-key="id"
+                node-key="MODEL_ID"
                 :filter-node-method="filterNode"
-                :props="defaultProps">
+                :props="defaultProps"
+                :default-checked-keys='keys'>
               </el-tree>
               <div slot="footer" class="dialog-footer">
                 <el-button type="primary" @click="getCheckedNodes" size="small">确认</el-button>
                 <el-button type="primary" @click="resetModel" size="small" plain>重置</el-button>
-                <el-button type="warning" @click="modelDialogVisible=false" size="small">取消</el-button>
+                <el-button type="warning" @click="cancelModel" size="small">取消</el-button>
               </div>
             </el-dialog>
 
@@ -206,7 +207,12 @@ export default {
         children: 'model',
         label: 'name'
       },
-      chartItem:null
+      chartItem:null,
+      historyModel:null,
+      keys:[],
+      keysExample:[],
+      flagCZ:0,
+      flagQX:0,
     }
   },
   watch:{
@@ -244,8 +250,16 @@ export default {
       if (!value) return true;
       return data.name.indexOf(value) !== -1;
     },
-    getmodel(){
+    getmodel(){//点击选择
+      this.filterText='';
       this.modelDialogVisible=true;
+      if(this.flagCZ==1&&this.flagQX==1){
+        this.keys = this.keysExample
+        this.$refs.tree.setCheckedKeys(this.keys);
+        console.log(this.keys);
+      }
+      this.flagCZ = 0;
+      this.flagQX = 0;
       if(this.pd.models == undefined||this.pd.models.length==0){
         this.$api.post('/manage-platform/census/queryPortAndModel',{},
          r => {
@@ -253,14 +267,25 @@ export default {
         })
       }
     },
-    resetModel(){
-      this.$api.post('/manage-platform/census/queryPortAndModel',{},
-       r => {
-         this.treeData=r.data;
-      })
+    resetModel(){//重置
+      this.flagCZ=1;
+      if(this.pd.models == undefined||this.pd.models.length==0){//没有值的时候
+        this.historyModel = [];
+        this.keysExample = [];
+      }else{
+        this.historyModel = this.$refs.tree.getCheckedNodes(true,true);;//存入清空前的值
+        this.keysExample = this.$refs.tree.getCheckedKeys(true);//先存值再清空
+      }
+      this.$refs.tree.setCheckedKeys([]);
+    },
+    cancelModel(){//取消
+      this.flagQX=1;
+      if(this.flagCZ == 1){
+        this.pd.models=this.historyModel;
+      }
+      this.modelDialogVisible=false
     },
     seeModel(){
-      console.log()
       this.seeModelDialogVisible = true;
       this.dutyName = this.pd.models;
       if(this.dutyName == undefined || this.dutyName.length == 0){
@@ -269,7 +294,7 @@ export default {
         this.modelCheck = false
       }
     },
-    getCheckedNodes() {
+    getCheckedNodes() {//确认
       this.pd.models=this.$refs.tree.getCheckedNodes(true,true);
       this.modelDialogVisible=false;
     },

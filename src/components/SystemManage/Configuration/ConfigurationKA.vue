@@ -58,14 +58,17 @@
           label="口岸名称" >
         </el-table-column>
         <el-table-column
-          prop="ipaddress"
-          label="口岸地址"
-          >
+          label="口岸地址">
+          <template slot-scope="scope">
+            <span>{{scope.row.ipaddress}}</span> <span :class="{'ycolor':scope.row.clientStatus=='1','ycolory':scope.row.clientStatus=='0'}">{{scope.row.clientStatus|fifters}}</span>
+          </template>
         </el-table-column>
         <el-table-column
-          prop="ipaddressBack"
           label="备用地址"
           >
+          <template slot-scope="scope">
+            <span>{{scope.row.ipaddressBack}}</span><span :class="{'ycolor':scope.row.clientStatus=='1','ycolory':scope.row.clientStatus=='0'}">{{scope.row.clientBackStatus|fifters}}</span>
+          </template>
         </el-table-column>
         <el-table-column
           label="口岸开关"
@@ -81,8 +84,8 @@
               <!-- <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row)">详情</el-button> -->
               <el-button class="table-btn" size="mini" plain icon="el-icon-edit" @click="adds(1,scope.row)">编辑</el-button>
               <el-button class="table-btn" size="mini" plain icon="el-icon-delete" @click="deletes(scope.row)">删除</el-button>
-              <el-button class="table-btn" size="mini" plain icon="el-icon-close" v-if="scope.row.status=='1'" @click="deletes(scope.row)">关闭</el-button>
-              <el-button class="table-btn" size="mini" plain icon="el-icon-check" v-if="scope.row.status=='0'" @click="deletes(scope.row)">开启</el-button>
+              <el-button class="table-btn" size="mini" plain icon="el-icon-close" v-if="scope.row.status=='1'" @click="sets(scope.row.portcode,0)">关闭</el-button>
+              <el-button class="table-btn" size="mini" plain icon="el-icon-check" v-if="scope.row.status=='0'" @click="sets(scope.row.portcode,1)">开启</el-button>
          </template>
         </el-table-column>
       </el-table>
@@ -124,26 +127,26 @@
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
             <span class="input-text"><font class="yy-color">*</font> 口岸名称：</span>
-            <el-input placeholder="请输入内容" size="small" maxlength="100"  v-model="form.portname"  class="input-input" v-verify.change.blur ="{regs:'required',submit:'demoka'}"></el-input>
+            <el-input placeholder="请输入口岸名称" size="small" maxlength="100"  v-model="form.portname"  class="input-input" v-verify.change.blur ="{regs:'required',submit:'demoka'}"></el-input>
           </el-col>
         </el-row>
 
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
             <span class="input-text"><font class="yy-color">*</font> 口岸编号：</span>
-            <el-input placeholder="请输入内容(长度不超过32)" size="small" maxlength="32"  v-model="form.portcode"  class="input-input" v-verify.change.blur ="{regs:'required',submit:'demoka'}"></el-input>
+            <el-input placeholder="请输入口岸编号(长度不超过32)" size="small" maxlength="32"  v-model="form.portcode"  class="input-input" v-verify.change.blur ="{regs:'required',submit:'demoka'}"></el-input>
           </el-col>
         </el-row>
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
             <span class="input-text"><font class="yy-color">*</font> 口岸地址：</span>
-            <el-input placeholder="请输入内容(长度不超过11)" size="small" maxlength="100"  v-model="form.ipaddress"  class="input-input" v-verify.change.blur ="{regs:'required',submit:'demoka'}"></el-input>
+            <el-input placeholder="请输入口岸地址" size="small" maxlength="100"  v-model="form.ipaddress"  class="input-input" v-verify.change.blur ="{regs:'required',submit:'demoka'}"></el-input>
           </el-col>
         </el-row>
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
-            <span class="input-text"><font class="yy-color">*</font> 备用地址：</span>
-            <el-input placeholder="请输入内容(长度不超过11)" size="small" maxlength="100"  v-model="form.ipaddressBack"  class="input-input" v-verify.change.blur ="{regs:'required',submit:'demoka'}"></el-input>
+            <span class="input-text"> 备用地址：</span>
+            <el-input placeholder="请输入备用地址" size="small" maxlength="100"  v-model="form.ipaddressBack"  class="input-input" ></el-input>
           </el-col>
         </el-row>
         <el-row type="flex"  class="mb-6">
@@ -267,41 +270,15 @@ export default {
           this.dialogText="新增";
         }
       },
-      panduan(){
 
-      if(this.form.portname=undefined || this.form.portname=="")
-      {
-            this.$message.error("口岸名称不能为空！"); return false;
-      }
-      if(this.form.portcode==undefined || this.form.portcode=="")
-      {
-            this.$message.error("口岸编号不能为空！"); return false;
-      }
-      if(this.form.ipaddress==undefined || this.form.ipaddress=="")
-      {
-            this.$message.error("口岸地址不能为空！"); return false;
-      }
-      if(this.form.ipaddressBack==undefined || this.form.ipaddressBack=="")
-      {
-            this.$message.error("备用地址不能为空！"); return false;
-      }
-      if(this.form.status==undefined || this.form.status==null)
-      {
-            this.$message.error("口岸开关不能为空！"); return false;
-      }
-       return true;
-      },
       addItem(formName) {
-              // if(this.$validator.listener.demoka){
-              //   const result = this.$validator.verifyAll('demoka')
-              //    if (result.indexOf(false) > -1) {
-              //      return
-              //    }
-              // }
-        console.log("this.panduan",this.panduan());
-        if(this.panduan){
-          return;
-        }
+              if(this.$validator.listener.demoka){
+                const result = this.$validator.verifyAll('demoka')
+                 if (result.indexOf(false) > -1) {
+                   return
+                 }
+              }
+
         var url = "/manage-platform/portConfig/add";
         if (this.tp == 1) {
           url = "/manage-platform/portConfig/edit";
@@ -376,6 +353,28 @@ export default {
             this.$message.error('失败了');
           });
     },
+    sets(c,n)
+    {
+      let p={
+        "portcode":c,
+        "status":n
+      };
+    this.$api.post('/manage-platform/portConfig/updateStatus', p,
+     r => {
+      if (r.success) {
+        this.$message({
+          message: '修改成功！',
+          type: 'success'
+        });
+        this.getList(this.CurrentPage, this.pageSize, this.pd);
+      } else {
+        this.$message.error(r.Message);
+      }
+    }, e => {
+      this.$message.error('失败了');
+    });
+
+    },
   },
   filters: {
     fiftersate(val){
@@ -386,13 +385,24 @@ export default {
 
         return "关闭"
       }
-    }
+    },
+    fifters(val){
+      if(val=="1"){
+
+        return "( 正常 )"
+      }
+        if(val=="0"){
+          return "( 异常 )"
+        }
+    },
   }
 }
 </script>
 <style scoped>
-.yycolor{ background: #00FF00; padding: 3px 8px;}
-.yycolory{  background: #FF0000;padding: 3px 8px; }
+.yycolor{ background: green; padding: 3px 8px; color: #ffffff;}
+.yycolory{  background: red;padding: 3px 8px; color: #ffffff;}
+.ycolor{ color: green;padding-left:10px; font-size:12px;}
+.ycolory{  color: red; padding-left:10px; font-size:12px;}
 .input-text{width: 20%!important;}
 .input-input{width: 75%!important;}
 .titile{width: 100%;font-size: 16px; text-align: center; color: #FF0000}

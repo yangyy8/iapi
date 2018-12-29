@@ -110,7 +110,7 @@
               <el-checkbox label="出入标识" v-model="pd.rowproperty_flttype"></el-checkbox>
               <el-checkbox label="国籍/地区" v-model="pd.rowproperty_country"></el-checkbox>
               <el-checkbox label="出发地" v-model="pd.rowproperty_cityfrom"></el-checkbox>
-              <el-checkbox label="目的地" v-model="pd.rowproperty_cityro"></el-checkbox>
+              <el-checkbox label="目的地" v-model="pd.rowproperty_cityto"></el-checkbox>
               <el-checkbox label="人员类别" v-model="pd.rowproperty_passengertype"></el-checkbox>
               <el-checkbox label="值机渠道" v-model="pd.rowproperty_vid"></el-checkbox>
               <el-checkbox label="预检结果" v-model="pd.rowproperty_lastcheckresult"></el-checkbox>
@@ -170,11 +170,15 @@
                   </el-table-column> -->
                   <el-table-column
                     prop="flighttype"
-                    label="出入标识" v-if='show1'>
+                    label="出入标识" v-if='show1' key='1'>
                   </el-table-column>
                   <el-table-column
                     prop="cityto"
                     label="目的地" v-if='show2'>
+                  </el-table-column>
+                  <el-table-column
+                    prop="cityfrom"
+                    label="出发地" v-if='show9'>
                   </el-table-column>
                   <el-table-column
                     prop="country"
@@ -188,7 +192,7 @@
                     prop="checkincount"
                     label="值机校验数量">
                   </el-table-column>
-                    <el-table-column label="人员类别" v-if='show4'>
+                  <el-table-column label="人员类别" v-if='show4'>
                       <el-table-column
                         prop="chk_ptype_fl"
                         label="普通旅客">
@@ -197,8 +201,8 @@
                         prop="chk_ptype_ddu"
                         label="中转旅客">
                       </el-table-column>
-                     </el-table-column>
-                      <el-table-column label="性别构成" v-if='show5'>
+                  </el-table-column>
+                  <el-table-column label="性别构成" v-if='show5'>
                         <el-table-column
                           prop="chk_gender_m"
                           label="男">
@@ -208,7 +212,7 @@
                           label="女">
                         </el-table-column>
                    </el-table-column>
-                      <el-table-column label="国家构成" v-if='show6'>
+                  <el-table-column label="国家构成" v-if='show6'>
                           <el-table-column
                             prop="foreign"
                             label="外国人">
@@ -221,8 +225,8 @@
                             prop="inland"
                             label="港澳台">
                           </el-table-column>
-                     </el-table-column>
-                     <el-table-column label="值机渠道" v-if='show7'>
+                  </el-table-column>
+                  <el-table-column label="值机渠道" v-if='show7'>
                       <el-table-column
                         prop="chk_s"
                         label="自助">
@@ -231,7 +235,7 @@
                         prop="chk_c"
                         label="柜台">
                       </el-table-column>
-                    </el-table-column>
+                  </el-table-column>
                   <el-table-column label="预检结果" v-if='show8'>
                     <el-table-column
                       prop="chk_0z"
@@ -249,7 +253,7 @@
                       prop="chk_4z"
                       label="数据错误">
                     </el-table-column>
-                </el-table-column>
+                 </el-table-column>
                 </el-table>
           </div>
         </div>
@@ -326,7 +330,8 @@ export default {
       show5: true,
       show6: true,
       show7: true,
-      show8: true
+      show8: true,
+      show9: true
 
     }
   },
@@ -465,15 +470,19 @@ export default {
       this.show6 = false;
       this.show7 = false;
       this.show8 = false;
+      this.show9 = false;
 
       if (this.pd.rowproperty_flttype) {
         this.show1 = true;
       }
-      if (this.pd.rowproperty_cityro) {
+      if (this.pd.rowproperty_cityto) {
         this.show2 = true;
       }
       if (this.pd.rowproperty_country) {
         this.show3 = true;
+      }
+      if (this.pd.rowproperty_cityfrom) {
+        this.show9 = true;
       }
       if (this.pd.colproperty1) {
         this.show4 = true;
@@ -505,6 +514,7 @@ export default {
         "lastcheckresult": pd.lastcheckresult,
         "rowproperty_country": pd.rowproperty_country,
         "rowproperty_cityto": pd.rowproperty_cityto,
+        "rowproperty_cityfrom":pd.rowproperty_cityfrom,
         "rowproperty_fltno": pd.rowproperty_fltno,
         "rowproperty_flttype": pd.rowproperty_flttype,
 
@@ -521,9 +531,6 @@ export default {
           this.tableData = r.data;
 
           let arr = this.tableData;
-
-console.log(arr.length+"======");
-
           var sum1 = 0,
             sum01 = 0;
           var sum2 = 0,

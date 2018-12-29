@@ -8,13 +8,12 @@
             查询条件
           </div>
           <el-row align="center"   :gutter="2" >
-
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">监控区域：</span>
               <el-select v-model="pd.synFlag" placeholder="请选择" filterable  size="small"   class="input-input">
                 <el-option value="0" label="0 - DMZ区" ></el-option>
                 <el-option value="1" label="1 - 业务平台区" ></el-option>
-               </el-select>
+              </el-select>
             </el-col>
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">日志类型：</span>
@@ -55,17 +54,13 @@
       </el-row>
     </div>
     <div class="middle">
-
       <el-table
         :data="tableData"
         border
         style="width: 100%;">
-
-
         <el-table-column
           prop="synFlag"
           label="监控区域"  sortable>
-
         </el-table-column>
         <el-table-column
           prop="rzlx"
@@ -143,7 +138,6 @@
           </el-col>
         </el-row>
       </el-form>
-
       <span slot="footer" class="dialog-footer">
         <el-button  @click="detailsDialogVisible = false" size="small">取消</el-button>
       </span>
@@ -206,10 +200,10 @@ export default {
     let beginz = new Date(time - 1000 * 60 * 60 * 24 * 1);
     this.pd.begin = formatDate(beginz, 'yyyyMMddhhmmss');
     this.pd.end = formatDate(endz, 'yyyyMMddhhmmss');
-    this.getList(this.CurrentPage, this.pageSize, this.pd);
+  //  this.getList(this.CurrentPage, this.pageSize, this.pd);
   },
   activated(){
-    this.getList(this.CurrentPage,this.pageSize,this.pd);
+  //  this.getList(this.CurrentPage,this.pageSize,this.pd);
   },
   methods: {
     handleSelectionChange(val) {

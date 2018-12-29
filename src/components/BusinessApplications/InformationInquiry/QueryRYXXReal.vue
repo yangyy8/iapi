@@ -4,7 +4,7 @@
       <div class="ak-tab mb-20">
         <div class="ak-tabs">
           <div class="ak-tab-item hand" :class="{'ak-checked':page==0}" @click="page=0;$router.push({name:'QueryRYXXZH',query:{page:page}})">
-            基础查询
+            综合查询
           </div>
           <div class="ak-tab-item hand" :class="{'ak-checked':page==1}" @click="page=1;$router.push({name:'QueryRYXXPL',query:{page:page}})">
             批量查询

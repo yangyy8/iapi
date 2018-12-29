@@ -576,13 +576,13 @@
                    <el-date-picker
                    v-model="pd3.begintime" format="yyyy-MM-dd"
                    type="date" size="small" value-format="yyyyMMdd"
-                   placeholder="开始时间"  :picker-options="pickerOptions0" >
+                   placeholder="开始时间">
                  </el-date-picker>
                    <span class="septum">-</span>
                  <el-date-picker
                     v-model="pd3.endtime" format="yyyy-MM-dd"
                     type="date" size="small" value-format="yyyyMMdd"
-                    placeholder="结束时间" :picker-options="pickerOptions1" >
+                    placeholder="结束时间">
                 </el-date-picker>
               </div>
                 </el-col>
@@ -688,13 +688,13 @@
               <el-row align="center"   :gutter="2">
                 <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
                   <span class="input-text"><font color="red">*</font> 航班号：</span>
-                    <el-input placeholder="请输入内容" size="small" v-model="pd.fltno" class="input-input"></el-input>
+                    <el-input placeholder="请输入内容" size="small" v-model="pd4.fltno" class="input-input"></el-input>
                 </el-col>
                 <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
                   <span class="input-text">航班日期：</span>
 
                    <el-date-picker
-                   v-model="pd.fltdate" format="yyyy-MM-dd" class="input-input"
+                   v-model="pd4.fltdate" format="yyyy-MM-dd" class="input-input"
                    type="date" size="small" value-format="yyyyMMdd"
                    placeholder="开始时间">
                  </el-date-picker>
@@ -866,6 +866,7 @@ export default {
       pd2: {},
       pd3: {},
       pd4: {},
+      nation:[],
       page: 0,
       options: [{
           value: 10,
@@ -885,11 +886,22 @@ export default {
       tableData2: [],
       tableData3: [],
       tableData4: [],
+      isRoute:false,
     }
   },
 
   mounted() {
     this.queryNationality();
+    let that = this;
+    setTimeout(function(){
+      // that.isRoute = that.$route.query.isRoute;
+      if(that.$route.query.isRoute){
+        that.page = that.$route.query.page;
+        if(that.page==1){
+          that.pd1.fltno = that.$route.query.row.FLTNO;
+        }
+      }
+    },400)
     // let time = new Date();
     // let endz = new Date();
     // let beginz = new Date(time - 1000 * 60 * 60 * 24 * 1);
@@ -899,6 +911,38 @@ export default {
   },
   activated() {
     this.queryNationality();
+    // this.isRoute = this.$route.query.isRoute;
+    console.log(this.$route.query.isRoute);
+    if(this.$route.query.isRoute){
+      this.page = this.$route.query.page;
+      if(this.page==1){
+        this.pd1.fltno = this.$route.query.row.FLTNO;
+        this.pd1.fltdate = this.$route.query.row.FLTDATESTR;
+        this.pd1.nationality = this.$route.query.row.iapiNationaName;
+        this.pd1.cardnum = this.$route.query.row.PASSPORTNO;
+        this.pd1.name = this.$route.query.row.iapiName;
+        this.pd1.gender = this.$route.query.row.GENDER;
+        this.pd1.birthday = this.$route.query.row.iapiBirthdayName;
+      }else if(this.page==0){
+        this.pd.fltno = this.$route.query.row.FLTNO;
+        this.pd.fltdate = this.$route.query.row.FLTDATESTR;
+        this.pd.nationality = this.$route.query.row.iapiNationaName;
+        this.pd.cardnum = this.$route.query.row.PASSPORTNO;
+        this.pd.name = this.$route.query.row.iapiName;
+        this.pd.gender = this.$route.query.row.GENDER;
+        this.pd.birthday = this.$route.query.row.iapiBirthdayName;
+      }else if(this.page==4){
+        this.pd4.fltno = this.$route.query.row.FLTNO;
+        this.pd4.fltdate = this.$route.query.row.FLTDATESTR;
+        this.pd4.nationality = this.$route.query.row.iapiNationaName;
+        this.pd4.cardnum = this.$route.query.row.PASSPORTNO;
+        this.pd4.name = this.$route.query.row.iapiName;
+        this.pd4.gender = this.$route.query.row.GENDER;
+        this.pd4.birthday = this.$route.query.row.iapiBirthdayName;
+      }
+    }
+
+
     // let time = new Date();
     // let endz = new Date();
     // let beginz = new Date(time - 1000 * 60 * 60 * 24 * 1);
@@ -1013,7 +1057,7 @@ export default {
 
             };
 
-     var url="/manage-platform/relaterperson/get_related_book";
+     var url="/manage-platform/relatedperson/get_related_book";
       this.$api.post(url, p,
         r => {
           console.log(r);
@@ -1057,7 +1101,7 @@ export default {
 
 
             };
-     var url="/manage-platform/relaterperson/get_related_check";
+     var url="/manage-platform/relatedperson/get_related_check";
       this.$api.post(url, p,
         r => {
           console.log(r);
@@ -1093,7 +1137,7 @@ export default {
         "showCount": showCount2,
         "cdt": pd2
       };
-     var url="/manage-platform/relaterperson/get_related_flt";
+     var url="/manage-platform/relatedperson/get_related_flt";
       this.$api.post(url, p,
         r => {
           console.log(r);
@@ -1142,7 +1186,7 @@ export default {
         "showCount": showCount4,
         "cdt": pd4
       };
-     var url="/manage-platform/relaterperson/get_related_seat";
+     var url="/manage-platform/relatedperson/get_related_seat";
       this.$api.post(url, p,
         r => {
           console.log(r);
