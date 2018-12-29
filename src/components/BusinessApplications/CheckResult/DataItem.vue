@@ -413,8 +413,9 @@ export default {
     let time = new Date();
     let end = new Date();
     let begin = new Date(time - 1000 * 60 * 60 * 24 * 30);
-    this.pd.dataCheckBeginTime = formatDate(begin, 'yyyyMMddhhmmss');
-    this.pd.dataCheckEndTime = formatDate(end, 'yyyyMMddhhmmss');
+    let flightStart = new Date(new Date().setHours(0,0,0,0));
+    this.pd.dataCheckBeginTime = formatDate(flightStart, 'yyyyMMddhhssmm');
+    this.pd.dataCheckEndTime = formatDate(end, 'yyyyMMddhhssmm');
 
   },
   activated() {
@@ -423,8 +424,9 @@ export default {
     let time = new Date();
     let end = new Date();
     let begin = new Date(time - 1000 * 60 * 60 * 24 * 30);
-    this.pd.dataCheckBeginTime = formatDate(begin, 'yyyyMMddhhmmss');
-    this.pd.dataCheckEndTime = formatDate(end, 'yyyyMMddhhmmss');
+    let flightStart = new Date(new Date().setHours(0,0,0,0));
+    this.pd.dataCheckBeginTime = formatDate(flightStart, 'yyyyMMddhhssmm');
+    this.pd.dataCheckEndTime = formatDate(end, 'yyyyMMddhhssmm');
   },
   methods: {
     handleSelectionChange(val) {

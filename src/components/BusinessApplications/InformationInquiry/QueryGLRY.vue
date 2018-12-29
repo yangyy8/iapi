@@ -1181,17 +1181,25 @@ export default {
         })
     },
     getList4(currentPage4, showCount4, pd4) {
-      let p = {
-        "currentPage": currentPage4,
-        "showCount": showCount4,
-        "cdt": pd4
-      };
+
+        let p = {
+
+          "fltno":pd4.fltno,
+          "fltdate":pd4.fltdate,
+          "nationality":pd4.nationality,
+          "cardnum":pd4.cardnum,
+          "name":pd4.name,
+          "birthday":pd4.birthday,
+          "intervel":pd4.intervel
+
+
+        };
+
      var url="/manage-platform/relatedperson/get_related_seat";
       this.$api.post(url, p,
         r => {
           console.log(r);
           this.tableData4 = r.data;
-          this.TotalResult4 = r.data.totalResult;
         })
     },
 
