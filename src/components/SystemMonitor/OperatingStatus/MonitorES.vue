@@ -33,6 +33,10 @@
       </template>
     </el-table-column>
     <el-table-column
+      prop="number_of_nodes"
+      label="节点数">
+    </el-table-column>
+    <el-table-column
       prop="active_primary_shards"
       label="主分片数量"
       sortable>
@@ -46,7 +50,7 @@
     </el-table-column>
     <el-table-column
       prop="unassigned_shards"
-      label="未分配节点数"
+      label="未分配分片数"
       sortable>
     </el-table-column>
     <!-- <el-table-column
@@ -94,6 +98,12 @@
        label="IP地址">
      </el-table-column>
      <el-table-column
+       label="状态">
+       <template slot-scope="scope">
+         <span :class="{'red':scope.row.statusName == '异常'}">{{scope.row.statusName}}</span>
+       </template>
+     </el-table-column>
+     <el-table-column
        prop="version"
        label="ES版本"
        sortable>
@@ -123,7 +133,7 @@
    </el-table>
   </div>
 
-  <div class="middle">
+  <div class="middle" v-show="false">
     <div class="yy-title">索引</div>
     <el-table
       :data="tableData2"
@@ -271,7 +281,7 @@ export default {
       }else if(val =="red"){
         return "异常"
       }
-    }
+    },
   }
 }
 </script>
