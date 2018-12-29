@@ -102,7 +102,7 @@
             </el-col>
 
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
-              <span class="input-text">入境口岸：</span>
+              <span class="input-text">入境机场：</span>
               <el-select v-model="pd.WHITE_PORT_IN" filterable clearable placeholder="请选择"  size="small" class="input-input">
                 <el-option
                   v-for="item in airport"
@@ -113,7 +113,7 @@
               </el-select>
             </el-col>
             <el-col :sm="24" :md="12"  :lg="8" class="input-item">
-              <span class="input-text">出境口岸：</span>
+              <span class="input-text">出境机场：</span>
               <el-select v-model="pd.WHITE_PORT_OUT" filterable clearable placeholder="请选择"  size="small" class="input-input">
                 <el-option
                   v-for="item in airport"
@@ -441,7 +441,7 @@
           </el-col>
 
           <el-col :sm="24" :md="12" :lg="8"  class="input-item">
-            <span class="input-text">入境口岸：</span>
+            <span class="input-text">入境机场：</span>
             <el-select v-model="form.WHITE_PORT_IN" filterable clearable placeholder="请选择"  size="small" class="input-input">
               <el-option
                 v-for="item in airport"
@@ -453,7 +453,7 @@
           </el-col>
 
           <el-col :sm="24" :md="12" :lg="8"  class="input-item">
-            <span class="input-text">出境口岸：</span>
+            <span class="input-text">出境机场：</span>
             <el-select v-model="form.WHITE_PORT_OUT" filterable clearable placeholder="请选择"  size="small" class="input-input">
               <el-option
                 v-for="item in airport"
@@ -573,55 +573,45 @@
         </el-row>
         <el-row type="flex" class="detail-msg-row">
           <el-col :sm="24" :md="12" :lg="8" >
-            <span>入境口岸</span>
+            <span>入境机场</span>
             {{detailsData.WHITE_PORT_IN_NAME}}
-
           </el-col>
           <el-col :sm="24" :md="12" :lg="8" >
-            <span>出境口岸</span>
+            <span>出境机场</span>
             {{detailsData.WHITE_PORT_OUT_NAME}}
-
           </el-col>
           <el-col :sm="24" :md="12" :lg="8" >
             <span>交控单位</span>
             {{detailsData.SUBORG_NAME}}
-
           </el-col>
-
         </el-row>
         <el-row type="flex" class="detail-msg-row mb-20">
           <el-col :sm="24" :md="12" :lg="8" >
             <span>联系电话</span>
             {{detailsData.SUBORG_CONN}}
-
           </el-col>
           <el-col :sm="24" :md="12" :lg="8" >
             <span>控制类型</span>
             <a v-if="detailsData.PERSON_TYPE=='0'">外国人</a>
             <a v-if="detailsData.PERSON_TYPE=='1'">中国人</a>
-
           </el-col>
           <el-col :sm="24" :md="12" :lg="8" >
             <span>处理依据</span>
-          {{detailsData.CTL_REASON}}
-
+            {{detailsData.CTL_REASON}}
           </el-col>
         </el-row>
         <el-row type="flex" class="detail-msg-row">
           <el-col :span="5">
             <span>操作人</span>
             {{detailsData.CREATEUSER}}
-
           </el-col>
           <el-col :span="5">
             <span>审批人</span>
             {{detailsData.APPRVOUSER}}
-
           </el-col>
           <el-col :span="6">
             <span>操作时间</span>
             {{detailsData.CREATETIME}}
-
           </el-col>
         </el-row>
       </div>

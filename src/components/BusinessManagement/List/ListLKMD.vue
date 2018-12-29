@@ -103,7 +103,7 @@
             </el-col>
 
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
-              <span class="input-text">入境口岸：</span>
+              <span class="input-text">入境机场：</span>
               <el-select v-model="pd.WHITE_PORT_IN" filterable clearable placeholder="请选择"  size="small" class="input-input">
                 <el-option
                   v-for="item in airport"
@@ -114,7 +114,7 @@
               </el-select>
             </el-col>
             <el-col :sm="24" :md="12"  :lg="8" class="input-item">
-              <span class="input-text">出境口岸：</span>
+              <span class="input-text">出境机场：</span>
               <el-select v-model="pd.WHITE_PORT_OUT" filterable clearable placeholder="请选择"  size="small" class="input-input">
                 <el-option
                   v-for="item in airport"
@@ -437,7 +437,7 @@
           </el-col>
 
           <el-col :sm="24" :md="12" :lg="8"  class="input-item">
-            <span class="input-text">入境口岸：</span>
+            <span class="input-text">入境机场：</span>
             <el-select v-model="form.WHITE_PORT_IN" filterable clearable placeholder="请选择"  size="small" class="input-input">
               <el-option
                 v-for="item in airport"
@@ -449,7 +449,7 @@
           </el-col>
 
           <el-col :sm="24" :md="12" :lg="8"  class="input-item">
-            <span class="input-text">出境口岸：</span>
+            <span class="input-text">出境机场：</span>
             <el-select v-model="form.WHITE_PORT_OUT" filterable clearable placeholder="请选择"  size="small" class="input-input">
               <el-option
                 v-for="item in airport"
@@ -569,12 +569,12 @@
         </el-row>
         <el-row type="flex" class="detail-msg-row">
           <el-col :sm="24" :md="12" :lg="8" >
-            <span>入境口岸</span>
+            <span>入境机场</span>
             {{detailsData.WHITE_PORT_IN_NAME}}
 
           </el-col>
           <el-col :sm="24" :md="12" :lg="8" >
-            <span>出境口岸</span>
+            <span>出境机场</span>
             {{detailsData.WHITE_PORT_OUT_NAME}}
 
           </el-col>

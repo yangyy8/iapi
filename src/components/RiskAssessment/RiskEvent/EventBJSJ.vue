@@ -124,7 +124,7 @@
                   </el-option>
                 </el-select>
               </el-col>
-              <el-col :sm="24" :md="12"  :lg="8" class="input-item">
+              <!-- <el-col :sm="24" :md="12"  :lg="8" class="input-item">
                 <span class="input-text">当前状态：</span>
                 <el-select v-model="pd.status" placeholder="请选择"  size="small" clearable filterable class="block input-input">
                   <el-option label="0 - 全部" value="0"></el-option>
@@ -133,7 +133,7 @@
                   <el-option label="3 - 已流转" value="3"></el-option>
                   <el-option label="4 - 已归档" value="4"></el-option>
                 </el-select>
-              </el-col>
+              </el-col> -->
               <el-col :sm="24" :md="12" :lg="8" class="input-item">
                 <span class="input-text">推送人：</span>
                 <el-input v-model="pd.change_people" placeholder="请输入内容" size="small" clearable class="input-input"></el-input>
@@ -154,7 +154,7 @@
             <el-button type="text" size="small" @click="moreShow=false" v-if="moreShow">收起 ︿</el-button>
           </el-col>
           <el-col :span="2" class="down-btn-area">
-            <el-button type="success" size="small" @click="pd.type='0';getList(CurrentPage,pageSize,pd,orders,direction)">查询</el-button>
+            <el-button type="success" size="small" @click="getList(CurrentPage,pageSize,pd,orders,direction)">查询</el-button>
             <el-button type="primary" plain size="small"  class="mt-15" @click="reset" v-if="moreShow">重置</el-button>
           </el-col>
         </el-row>
@@ -341,20 +341,22 @@
             width="50"
             prop="eachevent">
             <template slot-scope="scope">
-              <el-popover
-                ref="popover"
-                placement="top"
-                width="400"
-                trigger="click"
-                v-if="eachData.length!=0">
-                <ul>
-                  <li v-for="i in eachData" class="hand" style="line-height:32px" title="查看" @click="$router.push({name:'BJCLCX',query:{serial:i.SERIAL,grade:i.GRADE}})">
-                    <span>  创建时间：{{i.CREATETIME}}</span>
-                    <span>  口岸名称：{{i.PORT_NAME}}</span>
-                    <span>  处理结果：{{i.PROCESSORRESULT}}</span>
-                  </li>
-                </ul>
-              </el-popover>
+              <div v-if="eachData">
+                <el-popover
+                  ref="popover"
+                  placement="top"
+                  width="400"
+                  trigger="click">
+                  <ul>
+                    <li v-for="i in eachData" class="hand" style="line-height:32px" title="查看" @click="$router.push({name:'BJCLCX',query:{serial:i.SERIAL,grade:i.GRADE}})">
+                      <span>  创建时间：{{i.CREATETIME}}</span>
+                      <span>  口岸名称：{{i.PORT_NAME}}</span>
+                      <span>  处理结果：{{i.PROCESSORRESULT}}</span>
+                    </li>
+                  </ul>
+                </el-popover>
+              </div>
+
               <div class="tc-b hand"  v-popover:popover title="查看详情" slot="reference" @click="queryEach(scope.row.serial,scope.row.nationality,scope.row.passportno)">{{scope.row.eachevent}}</div>
 
             </template>
@@ -474,7 +476,7 @@ export default {
       orders:[],
       direction:0,
       TotalResult:0,
-      pd:{type:'0',status:'0',fltnoDate_start:'',fltnoDate_end:''},
+      pd:{type:'0',fltnoDate_start:'',fltnoDate_end:''},
       airport:null,
       docCode:null,
       nationAlone:null,
@@ -668,7 +670,7 @@ export default {
     reset(){
       this.CurrentPage=1;
       this.pageSize=10;
-      this.pd={type:'0',status:'0'};
+      this.pd={type:'0'};
       this.orders=[];
       this.direction=0;
       this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);

@@ -1661,16 +1661,16 @@ export default {
 
     },
     // 最新航班监控信息取得
-    getNewData(){
+    getNewData(type){
       this.$api.post('/manage-platform/nationwide/getFlightMonitorInfo',{},
        r => {
          //console.log(r);
          this.newHbData=r.data;
-         this.createM( this.newHbData)
+         this.createM(this.newHbData,type)
       })
     },
     // 动画
-    createM(data){
+    createM(data,type){
       this.series=[];
       let _this=this;
       let x = {
@@ -1758,8 +1758,18 @@ export default {
                    console.log(document.getElementById("tbody1"));
                    document.getElementById("tbody1").addEventListener('click',function(e){
                      if(e.target.className=='name'){
-                       // console.log("点击的内容是：",e.target.className);
+                       var trNodes = e.target.parentNode.parentNode.childNodes;
+                       console.log("trNodes:",trNodes)
+                       for(var x=0;x<trNodes.length;x++){
+                         let a =trNodes[x].firstElementChild.getElementsByTagName('div')[0];
+                         console.log('a',a)
+                         if(a){
+                           trNodes[x].firstElementChild.removeChild(a);
+                         }
+                       }
                        if(e.target.children.length==0){
+
+                         // removeChild()
                          var div=document.createElement('div');
                          e.target.appendChild(div);
                          e.target.style.position='relative';
@@ -1771,15 +1781,39 @@ export default {
                          div.style.boxShadow="0 0 6px #0288d1";
                          div.style.borderRadius="3px";
                          div.style.padding="15px";
+                         let tarr=r.data.travelers;
+                         let traveler={};
+                         for(var i=0;i<tarr.length;i++){
+                           if(e.target.innerText==tarr[i].name){
+                             traveler=tarr[i]
+                             console.log(traveler)
+                           }
+                         }
+                         let h1='';let h2='';let h3='';let h4='';
+                         if(traveler.pnrflag==1){
+                           h1='<li><span>✔</span>已订票</li>'
+                         }else{
+                           h1='<li class="o-step-err"><span>!</span>已订票</li>'
+                         }
+                         if(traveler.chkflag==1){
+                           h2='<li><span>✔</span>已值机</li>'
+                         }else{
+                           h2='<li class="o-step-err"><span>!</span>已值机</li>'
+                         }
+                         if(traveler.clsflag==1){
+                           h3='<li><span>✔</span>出入境手续</li>'
+                         }else{
+                           h3='<li class="o-step-err"><span>!</span>出入境手续</li>'
+                         }
+                         if(traveler.eeflag==1){
+                           h4='<li><span>✔</span>航班关闭</li>'
+                         }else{
+                           h4='<li class="o-step-err"><span>!</span>航班关闭</li>'
+                         }
 
-                         var html=`<ul class="o-step">
-                             <li><span>✔</span>已订票</li>
-                             <li><span>✘</span>已值机</li>
-                             <li><span>✘</span>出入境手续</li>
-                             <li><span>✔</span>航班关闭</li>
-                           </ul>
-                           <span class="o-jiao"></span>`;
-                      div.innerHTML=html;
+                         var html='<ul class="o-step">'+h1+h2+h3+h4+'</ul>\
+                           <span class="o-jiao"></span>';
+                         div.innerHTML=html;
 
                        }
                      }
@@ -2012,7 +2046,7 @@ export default {
     getJkKa(){
       this.$api.post('/manage-platform/portMonitor/getMonitorPortInfo',{},
        r => {
-         //console.log(r);
+         console.log("getJkKa",r);
       })
     },
     // 更新监控口岸
@@ -2048,9 +2082,9 @@ export default {
       };
       this.$api.post('/manage-platform/portMonitor/updateMonitorPortInfo',p,
        r => {
-         //console.log(r);
+         console.log("updateJkKa",r);
          this.getJkKa()
-         this.getNewData();
+         this.getNewData('ka');
          this.tabId=0;
       })
     },
