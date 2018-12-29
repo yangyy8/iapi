@@ -118,7 +118,7 @@
 
           <el-button type="success" size="small" v-if="backShow" class="mb-15" @click="CurrentPage=1;getHisFn(CurrentPage,pageSize,pd)">查询</el-button>
           <el-button type="primary" class="mb-15" plain size="small" @click="reset">重置</el-button>
-          <el-button type="warning" size="small" @click="$router.go(0);backShow=false" v-if="backShow">返回</el-button>
+          <el-button type="warning" size="small" @click="CurrentPage=1;getList(CurrentPage,pageSize,pd)" v-if="backShow">返回</el-button>
 
         </el-col>
 
@@ -136,7 +136,6 @@
       <el-table
         :data="tableData"
         border
-        class="caozuo"
         style="width:100%;"
         @selection-change="handleSelectionChange">
         <el-table-column
@@ -214,15 +213,15 @@
 
         <el-table-column
           label="操作"
-          width="250">
+          width="100">
           <template slot-scope="scope">
-            <!-- <div class="flex-r"> -->
-              <el-button class="table-btn" size="mini" plain icon="el-icon-edit" @click="update(scope.row)" v-if="!backShow">编辑</el-button>
-              <el-button class="table-btn" size="mini" plain icon="el-icon-delete" @click="deleteItem(scope.row.SERIAL)" v-if="!backShow">删除</el-button>
-              <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row)">详情</el-button>
-            <!-- </div> -->
+            <el-button type="text" class="a-btn" icon="el-icon-edit" title="编辑" @click="update(scope.row)" :disabled="backShow"></el-button>
+            <el-button type="text" class="a-btn" icon="el-icon-delete"  title="删除" @click="deleteItem(scope.row.SERIAL)" :disabled="backShow"></el-button>
+            <el-button type="text" class="a-btn" icon="el-icon-tickets"  title="详情" @click="details(scope.row)"></el-button>
+
          </template>
         </el-table-column>
+
       </el-table>
 
       <div class="middle-foot">
@@ -652,14 +651,15 @@ export default {
     }
   },
   mounted(){
-    this.getList(this.CurrentPage,this.pageSize,this.pd);
+    // this.getList(this.CurrentPage,this.pageSize,this.pd);
     this.queryNationalityAlone();
     this.queryDocCode();
     this.queryInOutReason();
     this.queryAirport();
   },
   activated(){
-    this.getList(this.CurrentPage,this.pageSize,this.pd);
+    // this.backShow=false;
+    // this.getList(this.CurrentPage,this.pageSize,this.pd);
   },
   methods:{
     download(){
@@ -721,6 +721,8 @@ export default {
            console.log(r);
            this.tableData=r.data.resultList;
            this.TotalResult=r.data.totalResult;
+           this.backShow=false;
+
         })
 
     },
