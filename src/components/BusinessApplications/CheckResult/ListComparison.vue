@@ -413,8 +413,9 @@ export default {
     let time = new Date();
     let end = new Date();
     let begin =new Date(time - 1000 * 60 * 60 * 24 * 30);
-    this.pd.compareBeginDate=formatDate(begin,'yyyyMMddhhmmss');
-    this.pd.compareEndDate=formatDate(end,'yyyyMMddhhmmss');
+    let flightStart = new Date(new Date().setHours(0,0,0,0));
+    this.pd.compareBeginDate=formatDate(flightStart,'yyyyMMddhhssmm');
+    this.pd.compareEndDate=formatDate(end,'yyyyMMddhhssmm');
   },
   activated(){
     this.queryAirport("","A");
@@ -422,8 +423,9 @@ export default {
     let time = new Date();
     let end = new Date();
     let begin =new Date(time - 1000 * 60 * 60 * 24 * 30);
-    this.pd.compareBeginDate=formatDate(begin,'yyyyMMddhhmmss');
-    this.pd.compareEndDate=formatDate(end,'yyyyMMddhhmmss');
+    let flightStart = new Date(new Date().setHours(0,0,0,0));
+    this.pd.compareBeginDate=formatDate(flightStart,'yyyyMMddhhssmm');
+    this.pd.compareEndDate=formatDate(end,'yyyyMMddhhssmm');
   },
   methods: {
     handleSelectionChange(val) {

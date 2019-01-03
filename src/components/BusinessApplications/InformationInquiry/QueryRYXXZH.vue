@@ -13,6 +13,46 @@
               <el-input placeholder="请输入内容" v-model="cdt.passportnoEqual" size="small" class="input-input"></el-input>
             </el-col>
 
+            <el-col :sm="24" :md="12"  :lg="6" class="input-item">
+              <span class="input-text">国籍/地区：</span>
+              <el-button type="success" size="small" plain @click="getmodel">点击选择</el-button>&nbsp;&nbsp;&nbsp;&nbsp;
+              <el-button type="primary" size="small" plain @click="seeModel">点击查看</el-button>
+            </el-col>
+            <el-dialog title="国籍选择" :visible.sync="modelDialogVisible" width="640px" :before-close="cancelModel">
+              <el-input
+                placeholder="输入模型关键字进行过滤"
+                v-model="filterText">
+              </el-input>
+              <el-tree
+                class="filter-tree"
+                ref="tree"
+                :data="treeData"
+                show-checkbox
+                node-key="CODE"
+                :filter-node-method="filterNode"
+                :props="defaultProps"
+                :default-checked-keys='keys'>
+              </el-tree>
+              <div slot="footer" class="dialog-footer">
+                <el-button type="primary" @click="getCheckedNodes" size="small">确认</el-button>
+                <el-button type="primary" @click="resetModel" size="small" plain>重置</el-button>
+                <el-button type="warning" @click="cancelModel" size="small">取消</el-button>
+              </div>
+            </el-dialog>
+
+            <el-dialog title="国籍选择" :visible.sync="seeModelDialogVisible" width="800px">
+              <div class="" v-show="modelCheck">
+                <span class="redx">您还未选择国籍</span>
+              </div>
+              <el-row align="center" style="width:100%">
+                <!-- <h4 style="margin-top:0px!important">选中的模型</h4> -->
+                <span v-for="(item,ind) in dutyName" :key="ind" style="width:25%;margin-bottom: 7px;display:inline-block;line-height: 20px;">{{item.MODEL_NAME}}</span>
+              </el-row>
+              <div slot="footer" class="dialog-footer">
+                <el-button @click="seeModelDialogVisible = false" size="small">取 消</el-button>
+              </div>
+            </el-dialog>
+
             <!-- <el-col :sm="24" :md="12" :lg="6" class="input-item">
               <span class="input-text">洲：</span>
               <el-select placeholder="请选择" v-model="cdt.continentsCodeEqual" filterable clearable @visible-change="chau" @change="nationality(cdt.continentsCodeEqual)" size="small"  class="input-input">
@@ -238,13 +278,37 @@
           </el-dialog>
         </el-col>
         <el-col :span="2" class="down-btn-area">
-          <el-button type="success" class="mb-15" size="small" @click="getList(currentPage,showCount,cdt);">查询</el-button>
+          <el-button type="success" class="mb-15" size="small" @click="searchZH()">查询</el-button>
           <el-button type="primary" class="mb-15" plain size="small" @click="reset">重置</el-button>
-          <el-button type="primary" size="small"  @click="">批量导入</el-button>
+          <el-button type="primary" size="small"  @click="batchImport">批量导入</el-button>
         </el-col>
       </el-row>
     </div>
   </div>
+  <!-- :action="$api.rootUrl+'/manage-platform/iapi/readExcel'" -->
+  <el-dialog title="导入文件" :visible.sync="uploadDialogVisible"   width="640px"
+  :before-close="handleClose">
+    <el-form :model="releaseform" ref="releaseForm">
+      <el-upload
+        class="upload-demo"
+        ref="upload"
+        name="excel"
+        :multiple="false"
+        accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        action="http://192.168.99.248:8080/manage-platform/iapiHead/readNationalAndPassportnoExcel"
+
+        :on-success="uploadSuccess"
+        :limit="1"
+        :on-exceed="handleExceed"
+        :auto-upload="false">
+        <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
+        <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">上传到服务器</el-button>
+      </el-upload>
+    </el-form>
+    <div slot="footer" class="dialog-footer">
+      <el-button @click="cancelUpload" size="small">取 消</el-button>
+    </div>
+  </el-dialog>
     <!-- 展示项 -->
     <div class="middle middle-top mb-2 mt-20">
       <div class="title-green">
@@ -613,9 +677,9 @@
             </el-select>
             条
           </div>
-          <!-- <div class="">
+          <div class="">
             共{{totalResult}}条
-          </div> -->
+          </div>
         </div>
         <el-pagination
           background
@@ -736,15 +800,160 @@
         <div class="t-hrtitle">订票信息</div>
         <div class="hrtitle-child">基本信息</div>
         <el-row type="flex"  class="t-detail">
-          <el-col :span="6" class="t-el-content"><div class="t-el-text">属性名：</div><div class="t-el-sub">{{dform.FIELDNAME}}</div></el-col>
-          <el-col :span="6" class="t-el-content"><div class="t-el-text">属性值：</div><div class="t-el-sub">{{dform.FIELDVALUES}}</div></el-col>
-          <el-col :span="6" class="t-el-content"><div class="t-el-text">是否必填：</div><div class="t-el-sub">{{dform.INPUT}}</div></el-col>
-          <el-col :span="6" class="t-el-content"><div class="t-el-text">最小长度：</div><div class="t-el-sub">{{dform.MINLENGTH}}</div></el-col>
+          <el-col :span="6" class="t-el-content"><div class="t-el-text">姓名：</div><div class="t-el-sub">{{dpform.pnrName}}</div></el-col>
+          <el-col :span="6" class="t-el-content"><div class="t-el-text">性别：</div><div class="t-el-sub">{{dpform.PNR_GENDER}}</div></el-col>
+          <el-col :span="6" class="t-el-content"><div class="t-el-text">出生日期：</div><div class="t-el-sub">{{dpform.pnrBirthdayName}}</div></el-col>
+          <el-col :span="6" class="t-el-content"><div class="t-el-text">国籍：</div><div class="t-el-sub">{{dpform.pnrNationaName}}</div></el-col>
         </el-row>
         <el-row type="flex"  class="t-detail">
-          <el-col :span="6" class="t-el-content"><div class="t-el-text">最大长度：</div><div class="t-el-sub">{{dform.MAXLENGTH}}</div></el-col>
-          <el-col :span="6" class="t-el-content"><div class="t-el-text">正则表达式：</div><div class="t-el-sub">{{dform.REGULAR}}</div></el-col>
-          <el-col :span="12" class="t-el-content"><div class="t-el-text">错误描述：</div><div class="t-el-sub">{{dform.DETAIL}}</div></el-col>
+          <el-col :span="6" class="t-el-content"><div class="t-el-text">证件号码：</div><div class="t-el-sub">{{dpform.PNR_PASSPORTNO}}</div></el-col>
+          <el-col :span="6" class="t-el-content"><div class="t-el-text">证件有效期截止日期：</div><div class="t-el-sub">{{dpform.PASSPORTEXPIREDATE}}</div></el-col>
+          <el-col :span="6" class="t-el-content"><div class="t-el-text">航班号：</div><div class="t-el-sub">{{dpform.FLTNO}}</div></el-col>
+          <el-col :span="6" class="t-el-content"><div class="t-el-text">航班日期：</div><div class="t-el-sub">{{dpform.PNR_FLTDATE1}}</div></el-col>
+        </el-row>
+        <el-row type="flex"  class="t-detail">
+          <el-col :span="6" class="t-el-content"><div class="t-el-text">出入标识：</div><div class="t-el-sub">{{dpform.PNR_FLTTYPE}}</div></el-col>
+          <el-col :span="6" class="t-el-content"><div class="t-el-text">起飞城市：</div><div class="t-el-sub">{{dpform.originName}}</div></el-col>
+          <el-col :span="6" class="t-el-content"><div class="t-el-text">到达城市：</div><div class="t-el-sub">{{dpform.destinationName}}</div></el-col>
+          <el-col :span="6" class="t-el-content"><div class="t-el-text">起飞机场：</div><div class="t-el-sub">{{dpform.pnrCityfromName}}</div></el-col>
+        </el-row>
+        <el-row type="flex"  class="t-detail">
+          <el-col :span="6" class="t-el-content"><div class="t-el-text">到达机场：</div><div class="t-el-sub">{{dpform.pnrCitytoName}}</div></el-col>
+          <el-col :span="6" class="t-el-content"><div class="t-el-text">计划起飞时间：</div><div class="t-el-sub">{{dpform.departdateStr}}</div></el-col>
+          <el-col :span="6" class="t-el-content"><div class="t-el-text">计划到达时间：</div><div class="t-el-sub">{{dpform.arrivdateStr}}</div></el-col>
+          <el-col :span="6" class="t-el-content"><div class="t-el-text">电子客票号：</div><div class="t-el-sub">{{dpform.TKTNUMBER}}</div></el-col>
+        </el-row>
+        <el-row type="flex"  class="t-detail">
+          <el-col :span="6" class="t-el-content"><div class="t-el-text">旅客订票号：</div><div class="t-el-sub">{{dpform.PNR_RCI}}</div></el-col>
+          <el-col :span="6" class="t-el-content"><div class="t-el-text">代理所在城市：</div><div class="t-el-sub">{{dpform.LOCATION_IDENTIFICATION_NAME}}</div></el-col>
+          <el-col :span="6" class="t-el-content"><div class="t-el-text">代理人IATAID号或虚拟IATA号：</div><div class="t-el-sub">{{dpform.TRAVEL_AGENT_IDENTIFICATION}}</div></el-col>
+          <el-col :span="6" class="t-el-content"><div class="t-el-text">订票时间：</div><div class="t-el-sub">{{dpform.PNR_RCITIME_STR}}</div></el-col>
+        </el-row>
+        <el-row type="flex"  class="t-detail">
+          <el-col :span="6" class="t-el-content"><div class="t-el-text">旅客登机序号：</div><div class="t-el-sub">{{dpform.BOARDINGSEQUENCE}}</div></el-col>
+          <el-col :span="6" class="t-el-content"><div class="t-el-text">座位号：</div><div class="t-el-sub">{{dpform.PNR_SPECIFIGSEAT}}</div></el-col>
+          <el-col :span="6" class="t-el-content"><div class="t-el-text">座位所属：</div><div class="t-el-sub">{{dpform.PNR_CARBINCLASSDESIGNATOR}}</div></el-col>
+          <el-col :span="6" class="t-el-content"><div class="t-el-text">PNR报文发送方：</div><div class="t-el-sub">{{dpform.pnrFsf}}</div></el-col>
+        </el-row>
+        <el-row type="flex"  class="t-detail">
+          <el-col :span="6" class="t-el-content"><div class="t-el-text">旅客其他姓名：</div><div class="t-el-sub">{{dpform.otherName}}</div></el-col>
+          <el-col :span="6" class="t-el-content"><div class="t-el-text">携带婴儿标志：</div><div class="t-el-sub">{{dpform.baby==1?'是':'否'}}</div></el-col>
+          <el-col :span="6" class="t-el-content"><div class="t-el-text">订单旅客数量：</div><div class="t-el-sub">{{dpform.tifSum}}</div></el-col>
+          <el-col :span="6" class="t-el-content"><div class="t-el-text">乘机人行李数量：</div><div class="t-el-sub">{{dpform.NUMBEROFPIECES}}</div></el-col>
+        </el-row>
+        <el-row type="flex"  class="t-detail">
+          <el-col :span="6" class="t-el-content"><div class="t-el-text">航班飞机型号：</div><div class="t-el-sub">{{dpform.MAXLENGTH}}</div></el-col>
+          <el-col :span="6" class="t-el-content"><div class="t-el-text">订座系统分配给某个代理或Office的ID号：</div><div class="t-el-sub">{{dpform.IN_HOUSE_IDENTIFICATION}}</div></el-col>
+        </el-row>
+        <div class="hrtitle-child" @click="box1=!box1">订票人住址<i class="el-icon-d-caret"></i></div>
+        <el-row type="flex"  class="t-detail" v-for="i in addList" v-if="box1">
+          <el-col :span="6" class="t-el-content"><div class="t-el-text">城市：</div><div class="t-el-sub">{{i.CITY_NAME}}</div></el-col>
+          <el-col :span="6" class="t-el-content"><div class="t-el-text">国家：</div><div class="t-el-sub">{{i.COUNTRY_NAME}}</div></el-col>
+          <el-col :span="6" class="t-el-content"><div class="t-el-text">街道号和街道名称：</div><div class="t-el-sub">{{i.STREET_AND_NUMBER}}</div></el-col>
+        </el-row>
+        <div class="hrtitle-child" @click="box2=!box2">订票人联系方式<i class="el-icon-d-caret"></i></div>
+        <el-row type="flex"  class="t-detail" v-for="i in lftList" v-if="box2">
+          <el-col :span="24" class="t-el-content"><div class="t-el-text">订票人联系方式：</div><div class="t-el-sub">{{i.CONTENT}}</div></el-col>
+        </el-row>
+        <div class="hrtitle-child" @click="box3=!box3">非航空服务（汽车，旅馆）<i class="el-icon-d-caret"></i></div>
+        <el-row type="flex"  class="t-detail" v-for="i in msgList" v-if="box3">
+          <div class="" v-for="j in i.tvlLv3List" style="width: 100%;">
+            <el-col :span="8" class="t-el-content"><div class="t-el-text">服务的类型：</div><div class="t-el-sub">{{i.RESPONSE_TYPE}}</div></el-col>
+            <el-col :span="8" class="t-el-content"><div class="t-el-text">服务提供者姓名：</div><div class="t-el-sub">{{j.PLACE_NAME}}</div></el-col>
+            <el-col :span="8" class="t-el-content"><div class="t-el-text">服务提供者地址：</div><div class="t-el-sub">{{j.PRODUCT_IDENTIFICATION}}</div></el-col>
+          </div>
+        </el-row>
+        <div class="hrtitle-child" @click="box4=!box4">订单特殊需求<i class="el-icon-d-caret"></i></div>
+        <el-row type="flex"  class="t-detail" v-for="i in ssrList" v-if="box4">
+          <el-col :span="6" class="t-el-content"><div class="t-el-text">订票人特殊请求类型：</div><div class="t-el-sub">{{i.SPECIAL_REQUIREMENT_TYPE}}</div></el-col>
+          <el-col :span="18" class="t-el-content"><div class="t-el-text">订票人特殊请求描述：</div><div class="t-el-sub">{{i.FREETXT}}</div></el-col>
+        </el-row>
+        <div class="hrtitle-child" @click="box5=!box5">分离旅客信息<i class="el-icon-d-caret"></i></div>
+        <el-row class="t-detail" v-for="i in eqnList" v-if="box5">
+          <el-col :span="24" class="t-el-content"><div class="t-el-text">分离的人数：</div><div class="t-el-sub">{{i.eqnCount}}</div></el-col>
+          <el-row type="flex"  v-for="j in i.rciList" style="width:100%">
+            <el-col :span="12" class="t-el-content"><div class="t-el-text">记录分离后的编号所属的航空公司代码：</div><div class="t-el-sub">{{j.COMPANY_IDENTIFICATION}}</div></el-col>
+            <el-col :span="12" class="t-el-content"><div class="t-el-text">分离后的记录编号：</div><div class="t-el-sub">{{j.RESERVATION_CONTROL_NUMBER}}</div></el-col>
+          </el-row>
+        </el-row>
+        <div class="hrtitle-child" @click="box6=!box6">旅客联系方式<i class="el-icon-d-caret"></i></div>
+        <el-row type="flex"  class="t-detail" v-for="i in lftListTwo" v-if="box6">
+          <el-col :span="24" class="t-el-content"><div class="t-el-text">旅客联系方式：</div><div class="t-el-sub">{{i.CONTENT}}</div></el-col>
+        </el-row>
+        <div class="hrtitle-child" @click="box7=!box7">旅客住址<i class="el-icon-d-caret"></i></div>
+        <el-row type="flex"  class="t-detail" v-for="i in addListTwo" v-if="box7">
+          <el-col :span="6" class="t-el-content"><div class="t-el-text">城市：</div><div class="t-el-sub">{{i.CITY_NAME}}</div></el-col>
+          <el-col :span="6" class="t-el-content"><div class="t-el-text">国家：</div><div class="t-el-sub">{{i.COUNTRY_NAME}}</div></el-col>
+          <el-col :span="6" class="t-el-content"><div class="t-el-text">街道号和街道名称：</div><div class="t-el-sub">{{i.STREET_AND_NUMBER}}</div></el-col>
+        </el-row>
+        <div class="hrtitle-child" @click="box8=!box8">常旅客信息<i class="el-icon-d-caret"></i></div>
+        <el-row type="flex"  class="t-detail" v-for="i in ftiListTwo" v-if="box8">
+          <el-col :span="6" class="t-el-content"><div class="t-el-text">常旅客ID：</div><div class="t-el-sub">{{i.FREQUENT_T_IDENIFICATION}}</div></el-col>
+          <el-col :span="6" class="t-el-content"><div class="t-el-text">常旅客登机：</div><div class="t-el-sub">{{i.MEMBERSHIP_LEVEL}}</div></el-col>
+        </el-row>
+        <div class="hrtitle-child" @click="box9=!box9">旅客特殊需求<i class="el-icon-d-caret"></i></div>
+        <el-row type="flex"  class="t-detail" v-for="i in ssrListTwo" v-if="box9">
+          <el-col :span="6" class="t-el-content"><div class="t-el-text">旅客特殊服务请求类型：</div><div class="t-el-sub">{{i.SPECIAL_REQUIREMENT_TYPE}}</div></el-col>
+          <el-col :span="18" class="t-el-content"><div class="t-el-text">旅客特殊服务内容：</div><div class="t-el-sub">{{i.FREETXT}}</div></el-col>
+        </el-row>
+        <div class="hrtitle-child" @click="box10=!box10">订票人机票更改记录<i class="el-icon-d-caret"></i></div>
+        <el-row class="t-detail" v-for="i in messageThr" v-if="box10">
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">变更操作者的ID信息：</div><div class="t-el-sub">{{i.abi.TRAVEL_AGENT_IDENTIFICATION}}</div></el-col>
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">变更者的城市代码：</div><div class="t-el-sub">{{i.abi.PLACE}}</div></el-col>
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">变更者的所属航司或GDS：</div><div class="t-el-sub">{{i.abi.COMPANY_IDENTIFICATION}}</div></el-col>
+          <el-col style="width:100%" v-for="j in i.hisGr11List">
+            <div class="t-detail">
+              <el-row>
+                <el-col :span="8" class="t-el-content"><div class="t-el-text">旅客类型：</div><div class="t-el-sub">{{j.hisGr11.NAME_TYPE}}</div></el-col>
+                <el-col :span="8" class="t-el-content"><div class="t-el-text">旅客姓名：</div><div class="t-el-sub">{{j.hisGr11.NAME_TYPE}}</div></el-col>
+                <el-col :span="8" class="t-el-content"><div class="t-el-text">其他姓名：</div><div class="t-el-sub">{{j.hisGr11.OTHER_NAMES}}</div></el-col>
+              </el-row>
+              <el-row type="flex">
+                <el-col :span="8" class="t-el-content"><div class="t-el-text">携带不占座婴儿标识：</div><div class="t-el-sub">{{j.hisGr11.TRAVELLER_A_BY_INFANT_ID}}</div></el-col>
+                <el-col :span="8" class="t-el-content"><div class="t-el-text">特殊服务类型：</div><div class="t-el-sub">{{j.hisGr11.SPECIAL_REQUIREMENT_TYPE}}</div></el-col>
+                <el-col :span="8" class="t-el-content"><div class="t-el-text">行李数量：</div><div class="t-el-sub">{{j.tbdGr11Count.SUM}}</div></el-col>
+              </el-row>
+            </div>
+            <el-row type="flex" class="t-detail">
+              <el-col :span="24" class="t-el-content"><div class="t-el-text">特殊需求描述：</div><div class="t-el-sub">{{j.hisGr11.SSRFREETXT}}</div></el-col>
+            </el-row>
+            <div class="t-detail" style="color: #3F96F2;">航班信息</div>
+            <div class="t-detail" v-for="it in j.tvlList">
+              <el-row type="flex">
+                <el-col :span="8" class="t-el-content"><div class="t-el-text">航班号：</div><div class="t-el-sub">{{it.FLIGHT_NUMBER}}</div></el-col>
+                <el-col :span="8" class="t-el-content"><div class="t-el-text">航空公司：</div><div class="t-el-sub">{{it.OPERATING_AIRLINE_CODE}}</div></el-col>
+                <el-col :span="8" class="t-el-content"><div class="t-el-text">起飞时间：</div><div class="t-el-sub">{{it.DEPARTURE}}</div></el-col>
+              </el-row>
+              <el-row type="flex">
+                <el-col :span="8" class="t-el-content"><div class="t-el-text">到达时间：</div><div class="t-el-sub">{{it.ARRIVAL}}</div></el-col>
+                <el-col :span="8" class="t-el-content"><div class="t-el-text">起飞机场：</div><div class="t-el-sub">{{it.LAST_DEPARTURE_AIRPORT_NAME}}</div></el-col>
+                <el-col :span="8" class="t-el-content"><div class="t-el-text">降落机场：</div><div class="t-el-sub">{{it.FIRST_ARRIVAL_AIRPORT_NAME}}</div></el-col>
+              </el-row>
+            </div>
+          </el-col>
+        </el-row>
+        <div class="hrtitle-child" @click="box11=!box11">订票人付款信息<i class="el-icon-d-caret"></i></div>
+        <el-row type="flex"  class="t-detail" v-for="i in fopList" v-if="box11">
+          <el-col :span="12" class="t-el-content"><div class="t-el-text">订票人付款方式：</div><div class="t-el-sub">{{i.PAYMENT_TYPE}}</div></el-col>
+          <el-col :span="12" class="t-el-content"><div class="t-el-text">订票人付款账号：</div><div class="t-el-sub">{{i.ACCOUNT_NUMBER}}</div></el-col>
+        </el-row>
+        <div class="hrtitle-child" @click="box12=!box12">票价信息<i class="el-icon-d-caret"></i></div>
+        <el-row type="flex"  class="t-detail" v-for="i in monList" v-if="box12">
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">客票金额类型：</div><div class="t-el-sub">{{i.MONETARY_AMOUNT_TYPE}}</div></el-col>
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">金额：</div><div class="t-el-sub">{{i.AMOUNT}}</div></el-col>
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">货币代码：</div><div class="t-el-sub">{{i.CURRENCY}}</div></el-col>
+        </el-row>
+        <div class="hrtitle-child" @click="box13=!box13">票税信息<i class="el-icon-d-caret"></i></div>
+        <el-row type="flex"  class="t-detail" v-for="i in txdList" v-if="box13">
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">税金额：</div><div class="t-el-sub">{{i.TAX_AMOUNT}}</div></el-col>
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">货币类型：</div><div class="t-el-sub">{{i.CURRENCY}}</div></el-col>
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">税类型：</div><div class="t-el-sub">{{i.TAX_TYPE}}</div></el-col>
+        </el-row>
+        <div class="hrtitle-child" @click="box14=!box14">旅客行李情况<i class="el-icon-d-caret"></i></div>
+        <el-row type="flex"  class="t-detail" v-for="i in messageFive" v-if="box14">
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">乘机人行李条码：</div><div class="t-el-sub">{{i.BAG_LICENSE_PLATE}}</div></el-col>
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">乘机人连续条码数量：</div><div class="t-el-sub">{{i.CONSECUTIVE_TAGS_SERIAL_NUM}}</div></el-col>
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">乘机人行李目的地：</div><div class="t-el-sub">{{i.PLACE_OF_DESTINATION_NAME}}</div></el-col>
         </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -804,8 +1013,42 @@ export default {
       ],
       //详情
       dform:{},
+      dpform:{},
       detailsDialogVisible:false,
+      addList:[],
+      eqnList:[],
+      lftList:[],
+      msgList:[],
+      ssrList:[],
 
+      addListTwo:[],
+      lftListTwo:[],
+      ftiListTwo:[],
+      ssrListTwo:[],
+
+      messageThr:[],
+
+      fopList:[],
+      monList:[],
+      txdList:[],
+
+      messageFive:[],
+
+      box1:false,
+      box2:false,
+      box3:false,
+      box4:false,
+      box5:false,
+      box6:false,
+      box7:false,
+      box8:false,
+      box9:false,
+      box10:false,
+      box11:false,
+      box12:false,
+      box13:false,
+      box14:false,
+      box15:false,
       //查询条件
       cdt:{
         isBlurred:false,
@@ -814,6 +1057,26 @@ export default {
       },
       takeOffName:[],
       landingName:[],
+      modelDialogVisible:false,
+      seeModelDialogVisible:false,
+      //批量导入
+      uploadDialogVisible:false,
+      releaseform:{},
+      cdt1:{},
+      batchFlag:0,
+
+      modelCheck:false,
+      filterText:'',
+      treeData: [],
+      defaultProps: {
+        children: 'countryList',
+        label: 'name',
+      },
+      keys:[],
+      keysExample:[],
+      dutyName:[],
+      flagCZ:0,
+      flagQX:0,
       //展示项
       checkList: ['iapiName','GENDER','iapiBirthdayName','iapiNationaName','PASSPORTNO','FLTNO','FLTDATESTR','filghtDate','FLIGHTTYPE','iapiCityfromName','iapiCitytoName','APPLICATIONSENDERIDNAME','PORTNAME'],
       checkItem:[
@@ -1002,8 +1265,13 @@ export default {
             return endT < this.cdt.startFltdate;
         }
       },
-
+      pd:{},
     }
+  },
+  watch:{
+     filterText(val) {
+       this.$refs.tree.filter(val);
+     }
   },
   mounted(){
     this.nav1Id=this.$route.query.nav1Id
@@ -1034,6 +1302,59 @@ export default {
     },
   },
   methods:{
+    //============================洲国籍======================================================================
+    filterNode(value, data) {
+      if (!value) return true;
+      return data.name.indexOf(value) !== -1;
+    },
+    getmodel(){//点击选择
+      this.filterText='';
+      this.modelDialogVisible=true;
+      if(this.flagCZ==1&&this.flagQX==1){
+        this.keys = this.keysExample
+        this.$refs.tree.setCheckedKeys(this.keys);
+        console.log(this.keys);
+      }
+      this.flagCZ = 0;
+      this.flagQX = 0;
+      if(this.cdt.nationalityList == undefined||this.cdt.nationalityList.length==0){
+        this.$api.post('/manage-platform/codeTable/queryContinentsCountry',{},
+         r => {
+           this.treeData=r.data;
+        })
+      }
+    },
+    resetModel(){//重置
+      this.flagCZ=1;
+      if(this.cdt.nationalityList == undefined||this.cdt.nationalityList.length==0){//没有值的时候
+        this.historyModel = [];
+        this.keysExample = [];
+      }else{
+        this.historyModel = this.$refs.tree.getCheckedNodes(true,true);;//存入清空前的值
+        this.keysExample = this.$refs.tree.getCheckedKeys(true);//先存值再清空
+      }
+      this.$refs.tree.setCheckedKeys([]);
+    },
+    cancelModel(){//取消
+      this.flagQX=1;
+      if(this.flagCZ == 1){
+        this.cdt.nationalityList=this.historyModel;
+      }
+      this.modelDialogVisible=false
+    },
+    seeModel(){
+      this.seeModelDialogVisible = true;
+      this.dutyName = this.cdt.nationalityList;
+      if(this.dutyName == undefined || this.dutyName.length == 0){
+        this.modelCheck = true
+      }else{
+        this.modelCheck = false
+      }
+    },
+    getCheckedNodes() {//确认
+      this.cdt.nationalityList=this.$refs.tree.getCheckedNodes(true,true);
+      this.modelDialogVisible=false;
+    },
     seat(i){
       this.seatDialogVisible = true;
       this.flightNumber0 = i.FLTNO;
@@ -1060,8 +1381,125 @@ export default {
       console.log(row);
       this.radio=row.I_SERIAL
     },
+    //==============================================批量导入=====================================================
+    batchImport(){
+      if(this.$refs.upload){
+        this.$refs.upload.clearFiles();
+      }
+      this.uploadDialogVisible = true;
+      console.log( this.$refs.upload)
+    },
+    handleClose(){
+      this.cancelUpload();
+    },
+    cancelUpload(){
+      this.$refs.upload.clearFiles();
+      this.uploadDialogVisible=false;
+    },
+    uploadSuccess(response, file, fileList){
+      console.log(response);
+      if(response.success){
+        this.uploadDialogVisible=false;
+        this.cdt1.nationalAndPassportnoList = response.data;
+        this.$refs.upload.clearFiles();
+        this.$message({
+          duration:3000,
+          message: '恭喜你，导入成功！',
+          type: 'success'
+        });
+        this.batchFlag = 1;
+      }else{
+        this.$message({
+          duration:3000,
+          message: response.message,
+          type: 'warning'
+        });
+      }
+    },
+    handleExceed(files, fileList){
+      if(files.length!=0){
+        this.$message({
+          message: '只能上传一个文件！',
+          type: 'warning'
+        });
+      }
+    },
+    submitUpload() {
+      if(this.$refs.upload.uploadFiles.length==0){
+         this.$message({
+          message: '请先选择文件！',
+          type: 'warning'
+        });
+         return
+       }
+      this.$refs.upload.submit();
+     // this.uploadDialogVisible=false;
+    },
+    //==============================================详情=========================================================
     details(i){
       this.detailsDialogVisible = true;
+      let p={
+        'SERIAL':i.SERIAL,
+        'CHK_SERIAL':i.CHK_SERIAL,
+        'PNR_TID':i.PNR_TID,
+        'PNR_TKTNUMBER':i.PNR_TKTNUMBER,
+      }
+      this.$api.post('/manage-platform/iapiHead/queryIapiHeadInfo',p,
+       r =>{
+         if(r.success){
+           if(r.data.IAPINULL == 0){
+             this.dform = r.data.IAPI;
+             this.dpform = r.data.pnrBasis;
+           }
+           this.dpform = r.data.pnrBasis;
+           if(r.data.pnrTkt){
+             this.$api.post('/manage-platform/pnr/queryPnrGr1InfoNew',r.data.pnrTkt,
+              r =>{
+                this.addList = r.data.addList;//订票人住址
+                this.lftList = r.data.lftList;//订票人联系方式
+                this.msgList = r.data.msgList;//服务
+                this.ssrList = r.data.ssrList;//订单特殊需求
+                this.eqnList = r.data.eqnList;//分离旅客信息
+                this.dpform.pnrFsf = r.data.COMPANY_IDENTIFICATION;//pnr发送方
+                this.dpform.tifSum = r.data.tifSum;//订单旅客数量
+                this.dpform.LOCATION_IDENTIFICATION_NAME = r.data.orgInfo.LOCATION_IDENTIFICATION_NAME;//代理所在城市
+                this.dpform.TRAVEL_AGENT_IDENTIFICATION = r.data.orgInfo.TRAVEL_AGENT_IDENTIFICATION;//代理人IATAID号或虚拟IATA号
+                this.dpform.IN_HOUSE_IDENTIFICATION = r.data.orgInfo.IN_HOUSE_IDENTIFICATION;//订座系统分配给某个代理或Office的ID号
+              })
+              this.$api.post('/manage-platform/pnr/queryPassengersLv3Gr2New',r.data.pnrTkt,
+              r =>{
+                this.addListTwo = r.data.addList;//旅客住址
+                this.lftListTwo = r.data.lftList;//旅客联系方式
+                this.ftiListTwo = r.data.ftiList;//常旅客信息
+                this.ssrListTwo = r.data.ssrList;//旅客特殊需求
+                this.dpform.otherName = r.data.tif.OTHER_NAMES;//旅客其他姓名
+                this.dpform.baby = r.data.tif.T_A_BY_INFANT_INDICATOR;//携带婴儿标志
+              })
+              let p={
+                "showCount": 10,
+              	"currentPage": 1,
+              	"pd": r.data.pnrTkt
+              }
+              this.$api.post('/manage-platform/pnr/queryHisGr10ListPageNew',p,
+               r =>{
+                  this.messageThr = r.data.resultList;
+               })
+              this.$api.post('/manage-platform/pnr/queryTikcetsGr3New',r.data.pnrTkt,
+                r =>{
+                  this.fopList = r.data.fopList;//付款方式
+                  this.monList = r.data.monList;//票价信息
+                  this.txdList = r.data.txdList;//票税信息
+                })
+              this.$api.post('/manage-platform/pnr/queryTbdGr7InfoNew',r.data.pnrTkt,
+               r =>{
+                 this.messageFive = r.data.tbdDetailsList;
+                 this.dpform.NUMBEROFPIECES = r.data.NUMBEROFPIECES;//乘机人行李数
+                 this.dpform.TYPE_OF_AIRCRAFT = r.data.TYPE_OF_AIRCRAFT;//航班飞机型号
+                 this.dpform.BOARDINGSEQUENCE = r.data.BOARDINGSEQUENCE;//旅客登机序号
+               })
+           }
+         }
+       })
 
     },
     //------------------------------------------------全局代码项-------------------------------------------------
@@ -1220,7 +1658,21 @@ export default {
       }
     },
     //==============查询===========================
-    getList(currentPage,showCount,cdt){//基础查询 查询调用
+    totalPageM(currentPage,showCount,cdt,num){//总条数
+      let p={
+        "currentPage":currentPage,
+      	"showCount":showCount,
+      	"cdt":cdt,
+        "direction":num
+      }
+      this.$api.post('/manage-platform/iapiHead/queryListPageCount',p,
+       r =>{
+         if(r.success){
+           this.totalResult = r.data
+         }
+       })
+    },
+    getList(currentPage,showCount,cdt,num){//基础查询 查询调用
       // const result = this.$validator.verifyAll('timeDemo')
       //  if (result.indexOf(false) > -1) {
       //    return
@@ -1231,23 +1683,40 @@ export default {
       //   });
       //   return false
       // }
-
       let pl={
       	"currentPage":currentPage,
       	"showCount":showCount,
-      	"cdt":cdt
+      	"cdt":cdt,
+        "direction":num
       };
       this.$api.post('/manage-platform/iapiHead/queryListPage',pl,
        r => {
-         if(r.data.nextState==0){
-           console.log(document.getElementsByClassName('btn-next')[0])
-           document.getElementsByClassName('btn-next')[0].disabled=true;
-         }else{
-           document.getElementsByClassName('btn-next')[0].disabled=false;
+         if(r.success){
+           if(r.data.nextState==0){
+             console.log(document.getElementsByClassName('btn-next')[0])
+             document.getElementsByClassName('btn-next')[0].disabled=true;
+           }else{
+             document.getElementsByClassName('btn-next')[0].disabled=false;
+           }
+
+           this.tableData=r.data.resultList;//表格数据
+           this.currentPage = r.data.currentPage;
+
+           if(num == 1){
+             this.totalPageM(this.currentPage,this.showCount,this.cdt1,1);
+           }else{
+             this.totalPageM(this.currentPage,this.showCount,this.cdt);
+           }
          }
-         this.tableData=r.data.resultList;//表格数据
-         this.currentPage = r.data.currentPage;
       })
+    },
+    searchZH(){
+      if(this.batchFlag == 1){//批量导入
+        this.getList(this.currentPage,this.showCount,this.cdt1,1);
+        this.batchFlag = 0;
+      }else if(this.batchFlag == 0){
+        this.getList(this.currentPage,this.showCount,this.cdt);
+      }
     },
     reset(){
       this.cdt={isBlurred:false};

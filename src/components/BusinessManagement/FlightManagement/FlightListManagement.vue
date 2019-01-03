@@ -157,7 +157,7 @@
           </template>
         </el-table-column>
         <el-table-column
-          label="国家">
+          label="国籍/地区">
           <template slot-scope="scope">
             <span v-if="scope.row.DEPTAIRPORT&&scope.row.DESTAIRPORT">{{scope.row.DEPTAIRPORT.COUNTRY_NAME+' | '+scope.row.DESTAIRPORT.COUNTRY_NAME}}</span>
             <span v-else></span>

@@ -87,7 +87,7 @@
         </el-table-column>
         <el-table-column
           prop="countryName"
-          label="国家">
+          label="国籍/地区">
         </el-table-column>
         <el-table-column
           prop="cityName"
@@ -188,7 +188,7 @@
 
         <el-row type="flex" class="mb-6" >
           <el-col :span="24" class="input-item">
-            <span class="yy-input-text"><font class="yy-color">*</font>国家/地区：</span>
+            <span class="yy-input-text"><font class="yy-color">*</font>国籍/地区：</span>
             <el-select v-model="form.countryCode"  filterable clearable placeholder="请选择" size="small" class="yy-input-input" @visible-change="baseNation(1)" @change="cityAble(form.countryCode,1)" v-verify.change.blur ="{regs:'required',submit:'demo2'}">
               <el-option
                 v-for="(item,index) in addSelection"
@@ -270,7 +270,7 @@
       <el-row type="flex"  class="mb-6" style="padding-left:30px">
         <el-col :span="6" class="t-el-content"><div class="t-el-text">机场名称：</div><div class="t-el-sub">{{qform.airportName}}</div></el-col>
         <el-col :span="6" class="t-el-content"><div class="t-el-text">洲：</div><div class="t-el-sub">{{qform.continentsName}}</div></el-col>
-        <el-col :span="6" class="t-el-content"><div class="t-el-text">国家：</div><div class="t-el-sub">{{qform.countryName}}</div></el-col>
+        <el-col :span="6" class="t-el-content"><div class="t-el-text">国籍/地区：</div><div class="t-el-sub">{{qform.countryName}}</div></el-col>
         <el-col :span="6" class="t-el-content"><div class="t-el-text">城市：</div><div class="t-el-sub">{{qform.cityName}}</div></el-col>
       </el-row>
       <el-row type="flex"  class="mb-6">

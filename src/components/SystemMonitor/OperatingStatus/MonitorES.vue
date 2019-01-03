@@ -94,7 +94,7 @@
        label="名称">
      </el-table-column>
      <el-table-column
-       prop="ip"
+       prop="host"
        label="IP地址">
      </el-table-column>
      <el-table-column
