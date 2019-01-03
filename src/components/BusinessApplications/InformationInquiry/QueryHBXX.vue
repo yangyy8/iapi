@@ -51,18 +51,16 @@
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">航班状态：</span>
               <el-select v-model="pd.status" placeholder="请选择" filterable clearable size="small" class="input-input">
-                 <el-option value="0" label="0 - 计划"></el-option>
-                 <el-option value="1" label="1 - 正在预检"></el-option>
-                 <el-option value="2" label="2 - 完成预检"></el-option>
-                 <el-option value="3" label="3 - 已起飞"></el-option>
-                 <el-option value="4" label="4 - 已办理入境"></el-option>
-                 <el-option value="5" label="5 - 取消"></el-option>
-                 <el-option value="6" label="6 - 已到达"></el-option>
-                 <el-option value="7" label="7 - 失效"></el-option>
+                <el-option label="0 - 计划" value="0"></el-option>
+                <el-option label="1 - 已预检" value="1"></el-option>
+                <el-option label="2 - 已起飞" value="3"></el-option>
+                <el-option label="3 - 已到达" value="6"></el-option>
+                <el-option label="4 - 已办理入境手续" value="4"></el-option>
+                <el-option label="5 - 已取消" value="5"></el-option>
+                <el-option label="6 - 无关闭报文" value="7"></el-option>
+                <el-option label="7 - 无值机报文" value="8"></el-option>
                </el-select>
             </el-col>
-
-
 
             <el-col :sm="24" :md="12" :lg="8" class="input-item">
               <span class="input-text">起飞机场：</span>
@@ -150,10 +148,13 @@
           label="航线">
         </el-table-column>
         <el-table-column
-          prop="statusName"
+          prop="status"
           sortable
           label="航班状态"
           width="120px">
+          <template slot-scope="scope">
+            {{scope.row.status | fifter2}}
+          </template>
         </el-table-column>
         <el-table-column
           prop="checkincount"
@@ -182,9 +183,9 @@
           </template>
         </el-table-column>
         <el-table-column
-          label="操作">
+          label="操作" width="70">
           <template slot-scope="scope">
-              <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row)">座位详情</el-button>
+              <el-button type="text"  class="a-btn" size="mini" title="座位详情" icon="el-icon-tickets" @click="details(scope.row)"></el-button>
          </template>
         </el-table-column>
       </el-table>
@@ -445,22 +446,25 @@ export default {
         if (val == "0") {
           return "计划";
         } else if(val == "1"){
-          return "正在预检";
-        }
-        else if(val == "2"){
-          return "完成预检";
+          return "已预检";
         }
         else if(val == "3"){
           return "已起飞";
         }
         else if(val == "4"){
-          return "已办理入境";
+          return "已办理入境手续";
         }
         else if(val == "5"){
-          return "取消";
+          return "已取消";
         }
         else if(val == "6"){
           return "已到达";
+        }
+        else if(val == "7"){
+          return "无关闭报文";
+        }
+        else if(val == "8"){
+          return "无值机报文";
         }
       },
       fifter3(val){

@@ -132,16 +132,14 @@
               :summary-method="getSummaries"
               show-summary
               max-height="600"
-              style="width: 100%;"
-              >
+              style="width: 100%;" >
             <el-table-column
               prop="flttype"
               label="入出境方向" width="100" >
             </el-table-column>
             <el-table-column
               prop="country"
-              label="国籍/地区"
-              >
+              label="国籍/地区">
             </el-table-column>
             <el-table-column label="数据校验比对区比中" v-if='showdmz'>
                 <el-table-column
@@ -176,7 +174,7 @@
                 </el-table-column>
                 <el-table-column
                   prop="plt_visablkin"
-                  label="失效签证" >
+                  label="失效签证">
                 </el-table-column>
                 <el-table-column
                   prop="focus"
@@ -208,7 +206,7 @@
                 </el-table-column>
                 <el-table-column
                   prop="cancel"
-                  label="排除" >
+                  label="排除">
                 </el-table-column>
 
             </el-table-column>

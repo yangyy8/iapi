@@ -80,7 +80,7 @@
           width="180"
           label="操作">
           <template slot-scope="scope">
-              <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row)">详情</el-button>
+              <el-button type="text"  class="a-btn" size="mini" title="详情" icon="el-icon-tickets" @click="details(scope.row)"></el-button>
          </template>
         </el-table-column>
       </el-table>

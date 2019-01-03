@@ -48,9 +48,9 @@
           label="中文描述">
         </el-table-column>
         <el-table-column
-          label="操作" width="150">
+          label="操作" width="70">
           <template slot-scope="scope">
-              <el-button class="table-btn" size="mini"   icon="el-icon-edit" @click="adds(1,scope.row)">编辑</el-button>
+              <el-button type="text"  class="a-btn" size="mini" title="编辑"   icon="el-icon-edit" @click="adds(1,scope.row)"></el-button>
   <!-- <el-button class="table-btn" size="mini"  icon="el-icon-delete" @click="deletes(scope.row)"></el-button> -->
          </template>
         </el-table-column>

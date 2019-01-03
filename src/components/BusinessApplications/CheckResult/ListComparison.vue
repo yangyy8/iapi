@@ -266,10 +266,10 @@
                   label="反馈描述" >
                 </el-table-column> -->
                 <el-table-column
-                  label="操作">
+                  label="操作" width="70">
                   <template slot-scope="scope">
 
-                      <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row)">详情</el-button>
+                      <el-button  type="text"  class="a-btn" size="mini" title="详情"  icon="el-icon-tickets" @click="details(scope.row)"></el-button>
 
                  </template>
                 </el-table-column>

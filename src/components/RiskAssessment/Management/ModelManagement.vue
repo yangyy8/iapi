@@ -128,16 +128,16 @@
           label="发布状态">
         </el-table-column> -->
       <el-table-column
-          label="操作" width="480">
+          label="操作" width="160">
           <template slot-scope="scope">
-            <el-button class="table-btn" size="mini" plain icon="el-icon-edit" @click="adds(1,scope.row)">编辑</el-button>
-            <el-button class="table-btn" size="mini" plain icon="el-icon-delete" @click="deletes(scope.row)">删除</el-button>
-            <!-- <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row)">版本查看</el-button> -->
-            <el-button class="table-btn" size="mini" plain icon="el-icon-share" @click="relates(scope.row)">关联问题</el-button>
-            <el-button class="table-btn" size="mini" plain icon="el-icon-edit-outline" @click="auses(scope.row)">使用口岸</el-button>
-            <el-button class="table-btn" size="mini" plain icon="el-icon-setting" v-if="scope.row.STATUS==0" @click="starts(scope.row,1)">启用</el-button>
-            <el-button class="table-btn" size="mini" plain icon="el-icon-setting" v-else  @click="starts(scope.row,0)">停用</el-button>
-            <!-- <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row)">推送测试</el-button> -->
+            <el-button type="text" class="a-btn" title="编辑"   icon="el-icon-edit" @click="adds(1,scope.row)"></el-button>
+            <el-button type="text" class="a-btn" title="删除"  icon="el-icon-delete" @click="deletes(scope.row)"></el-button>
+            <!-- <el-button type="text" class="a-btn"  icon="el-icon-tickets" title="版本查看" @click="details(scope.row)"></el-button> -->
+            <el-button type="text" class="a-btn" title="关联问题"  icon="el-icon-share" @click="relates(scope.row)"></el-button>
+            <el-button type="text" class="a-btn" title="使用口岸"  icon="el-icon-edit-outline" @click="auses(scope.row)"></el-button>
+            <el-button type="text" class="a-btn" title="启用"  icon="el-icon-setting" v-if="scope.row.STATUS==0" @click="starts(scope.row,1)"></el-button>
+            <el-button type="text" class="a-btn" title="停用"  icon="el-icon-setting" v-else  @click="starts(scope.row,0)"></el-button>
+            <!-- <el-button type="text" class="a-btn" icon="el-icon-tickets" title="推送测试" @click="details(scope.row)"></el-button> -->
          </template>
         </el-table-column>
       </el-table>

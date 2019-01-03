@@ -72,12 +72,12 @@
           label="创建时间">
         </el-table-column>
         <el-table-column
-          label="操作" width="350">
+          label="操作" width="150">
           <template slot-scope="scope">
-              <el-button class="table-btn" size="mini" plain icon="el-icon-edit" @click="adds(1,scope.row)">编辑</el-button>
-              <el-button class="table-btn" size="mini" plain icon="el-icon-upload2" @click="showUpload(scope.row)">导入</el-button>
-              <el-button class="table-btn" size="mini" plain icon="el-icon-download" @click="tableDown(scope.row)">导出</el-button>
-              <el-button class="table-btn" size="mini" plain icon="el-icon-delete" @click="deletes(scope.row)">删除</el-button>
+              <el-button type="text" class="a-btn" title="编辑"  icon="el-icon-edit" @click="adds(1,scope.row)"></el-button>
+              <el-button type="text" class="a-btn" title="导入"  icon="el-icon-upload2" @click="showUpload(scope.row)"></el-button>
+              <el-button type="text" class="a-btn" title="导出"   icon="el-icon-download" @click="tableDown(scope.row)"></el-button>
+              <el-button type="text" class="a-btn" title="删除"   icon="el-icon-delete" @click="deletes(scope.row)"></el-button>
          </template>
         </el-table-column>
       </el-table>

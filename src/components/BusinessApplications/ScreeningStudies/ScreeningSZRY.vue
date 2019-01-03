@@ -544,23 +544,23 @@ export default {
   },
   mounted() {
 
-    let time = new Date();
-    let endz = new Date();
-    let beginz = new Date(time - 1000 * 60 * 60 * 24 * 30);
-    this.pd.begintime = formatDate(beginz, 'yyyyMMdd');
-    this.pd.endtime = formatDate(endz, 'yyyyMMdd');
-    this.pd1.begintime = formatDate(beginz, 'yyyyMMdd');
-    this.pd1.endtime = formatDate(endz, 'yyyyMMdd');
-    this.pd2.begintime = formatDate(beginz, 'yyyyMMdd');
-    this.pd2.endtime = formatDate(endz, 'yyyyMMdd');
-    this.pd3.begintime = formatDate(beginz, 'yyyyMMdd');
-    this.pd3.endtime = formatDate(endz, 'yyyyMMdd');
+    // let time = new Date();
+    // let endz = new Date();
+    // let beginz = new Date(time - 1000 * 60 * 60 * 24 * 30);
+    // this.pd.begintime = formatDate(endz, 'yyyyMMdd');
+    // this.pd.endtime = formatDate(endz, 'yyyyMMdd');
+    // this.pd1.begintime = formatDate(beginz, 'yyyyMMdd');
+    // this.pd1.endtime = formatDate(endz, 'yyyyMMdd');
+    // this.pd2.begintime = formatDate(beginz, 'yyyyMMdd');
+    // this.pd2.endtime = formatDate(endz, 'yyyyMMdd');
+    // this.pd3.begintime = formatDate(beginz, 'yyyyMMdd');
+    // this.pd3.endtime = formatDate(endz, 'yyyyMMdd');
   },
   activated() {
     let time = new Date();
     let endz = new Date();
     let beginz = new Date(time - 1000 * 60 * 60 * 24 * 30);
-    this.pd.begintime = formatDate(beginz, 'yyyyMMdd');
+    this.pd.begintime = formatDate(endz, 'yyyyMMdd');
     this.pd.endtime = formatDate(endz, 'yyyyMMdd');
     this.pd1.begintime = formatDate(beginz, 'yyyyMMdd');
     this.pd1.endtime = formatDate(endz, 'yyyyMMdd');

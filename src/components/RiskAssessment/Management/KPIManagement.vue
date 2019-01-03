@@ -128,7 +128,7 @@
           label="参数">
         </el-table-column>
         <el-table-column
-          label="操作" width="300">
+          label="操作" width="120">
           <template slot-scope="scope">
               <el-button type="text" class="a-btn"   title="详情"  icon="el-icon-tickets" @click="details(scope.row)"></el-button>
               <el-button type="text" class="a-btn" title="编辑" icon="el-icon-edit" @click="adds(1,scope.row)"></el-button>
