@@ -46,18 +46,21 @@
           label="航班号"
           prop="fltno"
           sortable
-          width="90">
+          width="90"
+          :show-overflow-tooltip="true">
         </el-table-column>
         <el-table-column
           label="航班日期"
           prop="fltDate"
           sortable
-          width="101">
+          width="101"
+          :show-overflow-tooltip="true">
         </el-table-column>
         <el-table-column
           label="出入标识"
           prop="ioType"
-          width="105">
+          width="105"
+          :show-overflow-tooltip="true">
           <template slot-scope="scope">
             <div>
               <span v-if="scope.row.ioType=='I'">入境</span>
@@ -68,7 +71,8 @@
         <el-table-column
           label="计划起飞时间"
           prop="preDepartTime"
-          sortable>
+          sortable
+          :show-overflow-tooltip="true">
         </el-table-column>
         <el-table-column
           label="计划到达时间"
@@ -78,20 +82,24 @@
         <el-table-column
           label="出发站"
           prop="from"
-          sortable>
+          sortable
+          :show-overflow-tooltip="true">
         </el-table-column>
         <el-table-column
           label="目的站"
           prop="to"
-          sortable>
+          sortable
+          :show-overflow-tooltip="true">
         </el-table-column>
         <el-table-column
           label="航空公司"
           prop="aircompanyName"
-          sortable>
+          sortable
+          :show-overflow-tooltip="true">
         </el-table-column>
         <el-table-column
-          label="航班状态">
+          label="航班状态"
+          :show-overflow-tooltip="true">
           <template slot-scope="scope">
             <div>
               <span v-if="scope.row.status==0">计划</span>
@@ -106,7 +114,8 @@
           </template>
         </el-table-column>
         <el-table-column
-          label="非法载运人数">
+          label="非法载运人数"
+          :show-overflow-tooltip="true">
           <template slot-scope="scope">
             <div class="tc-b hand" title="查看详情" @click="getList2(scope.row.fltKey)">{{scope.row.illegalNum}}</div>
           </template>
@@ -154,7 +163,8 @@
           label="姓名"
           prop="name"
           sortable
-          width="110">
+          width="110"
+          :show-overflow-tooltip="true">
         </el-table-column>
         <el-table-column
           label="性别"
@@ -172,19 +182,22 @@
           label="出生日期"
           prop="birthDay"
           sortable
-          width="105">
+          width="105"
+          :show-overflow-tooltip="true">
         </el-table-column>
         <el-table-column
           label="国籍/地区"
           sortable
           prop="nationalityName"
-          width="115">
+          width="115"
+          :show-overflow-tooltip="true">
         </el-table-column>
         <el-table-column
           label="证件号码"
           prop="passportNo"
           sortable
-          width="140">
+          width="140"
+          :show-overflow-tooltip="true">
         </el-table-column>
         <el-table-column
           label="座位号"

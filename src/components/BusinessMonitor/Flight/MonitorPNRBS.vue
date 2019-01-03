@@ -52,18 +52,21 @@
           label="航班号"
           prop="fltno"
           sortable
-          width="90">
+          width="90"
+          :show-overflow-tooltip="true">
         </el-table-column>
         <el-table-column
           label="航班日期"
           prop="fltDate"
           sortable
-          width="101">
+          width="101"
+          :show-overflow-tooltip="true">
         </el-table-column>
         <el-table-column
           label="出入标识"
           prop="ioType"
-          width="90">
+          width="90"
+          :show-overflow-tooltip="true">
           <template slot-scope="scope">
             <div>
               <span v-if="scope.row.ioType=='I'">入境</span>
@@ -75,56 +78,66 @@
           label="计划起飞时间"
           prop="preDepartTime"
           sortable
-          width="101">
+          width="135"
+          :show-overflow-tooltip="true">
         </el-table-column>
         <el-table-column
           label="计划到达时间"
           prop="preArriveTime"
           sortable
-          width="101">
+          width="135"
+          :show-overflow-tooltip="true">
         </el-table-column>
         <el-table-column
           label="出发站"
-          prop="from">
+          prop="from"
+          :show-overflow-tooltip="true">
         </el-table-column>
         <el-table-column
           label="目的站"
-          prop="to">
+          prop="to"
+          :show-overflow-tooltip="true">
         </el-table-column>
         <el-table-column
           label="航空公司"
-          prop="aircompanyName">
+          prop="aircompanyName"
+          :show-overflow-tooltip="true">
         </el-table-column>
         <el-table-column
-          label="72小时">
+          label="72小时"
+          :show-overflow-tooltip="true">
           <template slot-scope="scope">
             <div>正常：{{scope.row.pnr72}}<br/>
             异常：{{scope.row.pnr72Ex}}</div>
           </template>
         </el-table-column>
         <el-table-column
-          label="24小时">
+          label="24小时"
+          :show-overflow-tooltip="true">
           <template slot-scope="scope">
             <div>正常：{{scope.row.pnr24}}<br/>
             异常：{{scope.row.pnr24Ex}}</div>
           </template>
         </el-table-column>
         <el-table-column
-          label="2小时">
+          label="2小时"
+          :show-overflow-tooltip="true">
           <template slot-scope="scope">
             <div>正常：{{scope.row.pnr2}}<br/>
             异常：{{scope.row.pnr2Ex}}</div>
           </template>
         </el-table-column>
         <el-table-column
-          label="1小时">
+          label="1小时"
+          :show-overflow-tooltip="true">
           <template slot-scope="scope">
             <div>正常：{{scope.row.pnr1}}<br/>
             异常：{{scope.row.pnr1Ex}}</div>
           </template>
         </el-table-column>
         <el-table-column
-          label="航班关闭">
+          label="航班关闭"
+          :show-overflow-tooltip="true">
           <template slot-scope="scope">
             <div>正常：{{scope.row.pnr0}}<br/>
             异常：{{scope.row.pnr0Ex}}</div>

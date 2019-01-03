@@ -422,21 +422,21 @@ export default {
     openNav() {
       this.navUlShow = !this.navUlShow
       if (this.navUlShow) {
-      this.getNavData()
+        this.getNavData()
       }
     },
     getNavData(){
-      if(this.muneListOne)return;
+      // if(this.muneListOne)return;
       this.$api.post('/manage-platform/muneSys/selectMenuOne', {},
         r => {
           if(r.success){
             this.muneListOne = r.data.muneListOne;
-            this.muneListOne.map(function(a){
-              if(a.name=='常用菜单'){
-                this.navIdcc=a.SERIAL
-                this.getNavCC(this.navIdcc)
-              }
-            },this)
+            // this.muneListOne.map(function(a){
+            //   if(a.name=='常用菜单'){
+            //     this.navIdcc=a.SERIAL
+            //     this.getNavCC(this.navIdcc)
+            //   }
+            // },this)
           }
         })
     },
