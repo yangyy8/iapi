@@ -89,7 +89,7 @@
         style="width: 100%;">
         <el-table-column
           prop="typeStr"
-          
+
           label="事件类型">
         </el-table-column>
         <el-table-column
@@ -118,7 +118,7 @@
           label="操作"
           >
           <template slot-scope="scope">
-              <el-button type="text"  class="a-btn" size="mini" title="详情" icon="el-icon-tickets" @click="details(scope.row)"></el-button>
+              <el-button type="text"  class="a-btn"  title="详情" icon="el-icon-tickets" @click="details(scope.row)"></el-button>
          </template>
         </el-table-column>
       </el-table>

@@ -21,7 +21,6 @@
                placeholder="开始时间">
              </el-date-picker>
             </el-col>
-
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                 <span class="input-text"> 国籍/地区：</span>
                 <el-select v-model="pd.nationality" filterable clearable placeholder="请选择"  size="small" class="input-input">
@@ -150,8 +149,10 @@
                     label="姓名">
                   </el-table-column>
                   <el-table-column
-                    prop="gender"
-                    label="性别">
+                    label="性别" >
+                    <template slot-scope="scope">
+                        {{scope.row.gender | fiftersex}}
+                      </template>
                   </el-table-column>
                   <el-table-column
                     prop="birthday"
@@ -483,6 +484,20 @@ this.$api.post("/manage-platform/PersonLocation/get_person_status", p,
       this.detailsDialogVisible = true;
       console.log(i);
       this.form = i;
+    },
+  },
+  filters: {
+
+    fiftersex(val) {
+      if (val == "U") {
+
+        return "未知";
+
+      } else if (val == "M") {
+        return "男";
+      } else if (val == "F")  {
+        return "女";
+      }
     },
   }
 }

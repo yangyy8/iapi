@@ -88,9 +88,9 @@
             label="发送时间">
           </el-table-column>
           <el-table-column
-            label="操作" width="200">
+            label="操作" width="70">
             <template slot-scope="scope">
-              <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="outDetails(scope.row)">详情</el-button>
+              <el-button type="text"  class="a-btn"  title="详情" icon="el-icon-tickets" @click="outDetails(scope.row)"></el-button>
            </template>
           </el-table-column>
         </el-table>
@@ -151,10 +151,10 @@
           </el-table-column>
 
           <el-table-column
-            label="操作" width="200">
+            label="操作" width="80">
             <template slot-scope="scope">
-                <el-button class="table-btn" size="mini" plain icon="el-icon-edit" @click="inReply(scope.row)">回复</el-button>
-                <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="inDetails(scope.row)">详情</el-button>
+                <el-button type="text"  class="a-btn"  title="回复" icon="el-icon-edit" @click="inReply(scope.row)"></el-button>
+                <el-button type="text"  class="a-btn"  title="详情" icon="el-icon-tickets" @click="inDetails(scope.row)"></el-button>
            </template>
           </el-table-column>
         </el-table>

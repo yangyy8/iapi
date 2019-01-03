@@ -77,10 +77,10 @@
                 </el-table-column> -->
 
                 <el-table-column
-                  label="操作"
+                  label="操作" width="70"
                 >
                     <template slot-scope="scope">
-                       <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row.serial)">详情</el-button>
+                       <el-button type="text"  class="a-btn"  title="详情" icon="el-icon-tickets" @click="details(scope.row.serial)"></el-button>
                     </template>
 
 
@@ -178,7 +178,7 @@ export default {
       if (val == 0) {
         return "DMZ区"
       } else {
-        
+
         return "业务平台区"
       }
       // return val*2

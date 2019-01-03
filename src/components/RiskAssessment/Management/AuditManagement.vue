@@ -133,10 +133,10 @@
           label="发布状态">
         </el-table-column>
         <el-table-column
-          label="操作" width="250">
+          label="操作" width="80">
           <template slot-scope="scope">
-              <el-button class="table-btn" size="mini" plain icon="el-icon-edit" @click="adds(1,scope.row)">审核通过</el-button>
-              <el-button class="table-btn" size="mini" plain icon="el-icon-edit" @click="adds(1,scope.row)">审核不通过</el-button>
+              <el-button type="text"  class="a-btn"  title="审核通过"  icon="el-icon-edit" @click="adds(1,scope.row)"></el-button>
+              <el-button type="text"  class="a-btn"  title="审核不通过" icon="el-icon-edit" @click="adds(1,scope.row)"></el-button>
          </template>
         </el-table-column>
       </el-table>

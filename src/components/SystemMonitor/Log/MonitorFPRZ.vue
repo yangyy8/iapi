@@ -73,7 +73,7 @@
           sortable>
         </el-table-column>
         <el-table-column
-          width="180"
+          width="70"
           label="操作">
           <template slot-scope="scope">
               <el-button type="text"  class="a-btn" size="mini" title="详情" icon="el-icon-tickets" @click="details(scope.row)"></el-button>

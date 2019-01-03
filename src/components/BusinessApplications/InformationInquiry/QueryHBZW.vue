@@ -175,8 +175,8 @@
           label="操作"
           width="80">
           <template slot-scope="scope">
-            <el-button type="text"  class="a-btn" size="mini" title="详情" icon="el-icon-tickets" @click="details(scope.row)"></el-button>
-            <el-button type="text"  class="a-btn" size="mini" title="座位详情"  icon="el-icon-tickets" @click="seatDetails(scope.row)">座位详情</el-button>
+            <el-button type="text"  class="a-btn"  title="详情" icon="el-icon-tickets" @click="details(scope.row)"></el-button>
+            <el-button type="text"  class="a-btn"  title="座位详情"  icon="el-icon-tickets" @click="seatDetails(scope.row)">座位详情</el-button>
          </template>
         </el-table-column>
       </el-table>

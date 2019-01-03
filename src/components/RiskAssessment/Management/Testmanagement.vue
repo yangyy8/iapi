@@ -80,14 +80,14 @@
           label="最后更新日期">
         </el-table-column>
         <el-table-column
-          label="操作" width="550">
+          label="操作" width="200">
           <template slot-scope="scope">
 
-              <el-button class="table-btn" size="mini" plain icon="el-icon-edit" @click="adds1(1,scope.row)">编辑</el-button>
-              <el-button class="table-btn" size="mini" plain icon="el-icon-delete" @click="deletes1(scope.row)">删除</el-button>
-              <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="deletes1(scope.row)">导入测试数据</el-button>
-              <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row)">查看测试结果</el-button>
-              <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="deletes1(scope.row)">测试完成</el-button>
+              <el-button type="text"  class="a-btn"  title="编辑" icon="el-icon-edit" @click="adds1(1,scope.row)"></el-button>
+              <el-button type="text"  class="a-btn"  title="删除" icon="el-icon-delete" @click="deletes1(scope.row)"></el-button>
+              <el-button type="text"  class="a-btn"  title="导入测试数据" icon="el-icon-tickets" @click="deletes1(scope.row)"></el-button>
+              <el-button type="text"  class="a-btn"  title="查看测试结果" icon="el-icon-tickets" @click="details(scope.row)"></el-button>
+              <el-button type="text"  class="a-btn"  title="测试完成" icon="el-icon-tickets" @click="deletes1(scope.row)"></el-button>
          </template>
         </el-table-column>
       </el-table>

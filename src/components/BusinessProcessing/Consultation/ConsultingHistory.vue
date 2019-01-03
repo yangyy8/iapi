@@ -158,11 +158,11 @@
         </el-table-column>
         <el-table-column
           label="操作"
-          width="200"
+          width="80"
           fixed="right">
           <template slot-scope="scope">
-            <el-button class="table-btn" size="mini" plain icon="el-icon-delete" @click="details(scope.row)">详情</el-button>
-            <el-button class="table-btn" size="mini" :class="{'gray':scope.row.CONSULTSTATUS==0}" plain icon="el-icon-delete" @click="review(scope.row)">回复</el-button>
+            <el-button type="text"  class="a-btn"  title="详情"  icon="el-icon-delete" @click="details(scope.row)"></el-button>
+            <el-button type="text"  class="a-btn"  title="回复"  :class="{'gray':scope.row.CONSULTSTATUS==0}"  icon="el-icon-delete" @click="review(scope.row)"></el-button>
          </template>
         </el-table-column>
       </el-table>

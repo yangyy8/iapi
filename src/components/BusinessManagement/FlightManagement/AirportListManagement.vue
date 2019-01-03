@@ -110,11 +110,11 @@
           label="机场描述">
         </el-table-column> -->
         <el-table-column
-          label="操作" width="250">
+          label="操作" width="120">
           <template slot-scope="scope">
-            <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="detail(scope.row)">详情</el-button>
-              <el-button class="table-btn" size="mini" plain icon="el-icon-edit" @click="adds(1,scope.row)">编辑</el-button>
-              <el-button class="table-btn" size="mini" plain icon="el-icon-delete" @click="deletes(scope.row)">删除</el-button>
+            <el-button type="text"  class="a-btn"  title="详情" icon="el-icon-tickets" @click="detail(scope.row)"></el-button>
+              <el-button type="text"  class="a-btn"  title="编辑" icon="el-icon-edit" @click="adds(1,scope.row)"></el-button>
+              <el-button type="text"  class="a-btn"  title="删除" icon="el-icon-delete" @click="deletes(scope.row)"></el-button>
          </template>
         </el-table-column>
       </el-table>
