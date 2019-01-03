@@ -504,50 +504,50 @@
       <div class="detail-msg-text">
         <el-row type="flex" class="detail-msg-row">
           <el-col :sm="24" :md="12" :lg="8" >
-            <span>姓名</span>
+            <span>姓名：</span>
             {{detailsData.FAMILYNAME}}
 
           </el-col>
           <el-col :sm="24" :md="12" :lg="8" >
-            <span>性别</span>
+            <span>性别：</span>
             <a v-if="detailsData.GENDER=='M'">男</a>
             <a v-if="detailsData.GENDER=='F'">女</a>
             <a v-if="detailsData.GENDER=='U'">未知</a>
 
           </el-col>
           <el-col :sm="24" :md="12" :lg="8" >
-            <span>出生日期</span>
+            <span>出生日期：</span>
             {{detailsData.BIRTHDATE}}
 
           </el-col>
         </el-row>
         <el-row type="flex" class="detail-msg-row">
           <el-col :sm="24" :md="12" :lg="8" >
-            <span>国籍/地区</span>
+            <span>国籍/地区：</span>
           {{detailsData.NATIONALITYNAME}}
 
           </el-col>
           <el-col :sm="24" :md="12" :lg="8" >
-            <span>证件号码</span>
+            <span>证件号码：</span>
             {{detailsData.CARDNO}}
           </el-col>
           <el-col :sm="24" :md="12" :lg="8" >
-            <span>证件类型</span>
+            <span>证件类型：</span>
             {{detailsData.CARDTYPENAME}}
           </el-col>
         </el-row>
         <el-row type="flex" class="detail-msg-row">
           <el-col :sm="24" :md="12" :lg="8" >
-            <span>证件有效期</span>
+            <span>证件有效期：</span>
             {{detailsData.CARDEXPIREDATE}}
           </el-col>
           <el-col :sm="24" :md="12" :lg="8" >
-            <span>原因严重性</span>
+            <span>原因严重性：</span>
             {{detailsData.CTL_REASONLEVEL}} <span>级</span>
 
           </el-col>
           <el-col :sm="24" :md="12" :lg="8" >
-            <span>出入标识</span>
+            <span>出入标识：</span>
             <a v-if="detailsData.IN_OUT=='I'">入境</a>
             <a v-if="detailsData.IN_OUT=='O'">出境</a>
 
@@ -557,17 +557,17 @@
         </el-row>
         <el-row type="flex" class="detail-msg-row">
           <el-col :sm="24" :md="12" :lg="8" >
-            <span>生效日期</span>
+            <span>生效日期：</span>
             {{detailsData.CTL_BEGINDATE}}
 
           </el-col>
           <el-col :sm="24" :md="12" :lg="8" >
-            <span>失效日期</span>
+            <span>失效日期：</span>
             {{detailsData.CTL_EXPIREDATE}}
 
           </el-col>
           <el-col :sm="24" :md="12" :lg="8" >
-            <span>航班号</span>
+            <span>航班号：</span>
           {{detailsData.FLTNO}}
 
           </el-col>
@@ -575,44 +575,44 @@
         </el-row>
         <el-row type="flex" class="detail-msg-row">
           <el-col :sm="24" :md="12" :lg="8" >
-            <span>入境机场</span>
+            <span>入境机场：</span>
             {{detailsData.WHITE_PORT_IN_NAME}}
           </el-col>
           <el-col :sm="24" :md="12" :lg="8" >
-            <span>出境机场</span>
+            <span>出境机场：</span>
             {{detailsData.WHITE_PORT_OUT_NAME}}
           </el-col>
           <el-col :sm="24" :md="12" :lg="8" >
-            <span>交控单位</span>
+            <span>交控单位：</span>
             {{detailsData.SUBORG_NAME}}
           </el-col>
         </el-row>
         <el-row type="flex" class="detail-msg-row mb-20">
           <el-col :sm="24" :md="12" :lg="8" >
-            <span>联系电话</span>
+            <span>联系电话：</span>
             {{detailsData.SUBORG_CONN}}
           </el-col>
           <el-col :sm="24" :md="12" :lg="8" >
-            <span>控制类型</span>
+            <span>控制类型：</span>
             <a v-if="detailsData.PERSON_TYPE=='0'">外国人</a>
             <a v-if="detailsData.PERSON_TYPE=='1'">中国人</a>
           </el-col>
           <el-col :sm="24" :md="12" :lg="8" >
-            <span>处理依据</span>
+            <span>处理依据：</span>
             {{detailsData.CTL_REASON}}
           </el-col>
         </el-row>
         <el-row type="flex" class="detail-msg-row">
           <el-col :span="5">
-            <span>操作人</span>
+            <span>操作人：</span>
             {{detailsData.CREATEUSER}}
           </el-col>
           <el-col :span="5">
-            <span>审批人</span>
+            <span>审批人：</span>
             {{detailsData.APPRVOUSER}}
           </el-col>
           <el-col :span="6">
-            <span>操作时间</span>
+            <span>操作时间：</span>
             {{detailsData.CREATETIME}}
           </el-col>
         </el-row>

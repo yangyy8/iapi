@@ -714,7 +714,7 @@
 
           </div>
           <div class="btn-succ-box">
-            <el-button type="success" plain class="btn-succ" size="small">成功按钮</el-button>
+            <el-button type="success" plain class="btn-succ" size="small">比对通过</el-button>
 
           </div>
         </div>

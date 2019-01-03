@@ -743,7 +743,7 @@ export default {
       this.historyCdt.passportnoEqual = i.cardnum;
       console.log(i);
       this.getHistoryListPnr(this.hcurrentPage,this.hshowCount,this.historyCdt);
-      this.$api.post('/manage-platform/iapi/queryIapiInfo',{serial:i.globalserial},
+      this.$api.post('/manage-platform/iapi/queryIapiInfo',{serial:i.serial},
        r =>{
          if(r.success){
            this.dform = r.data.IAPI;

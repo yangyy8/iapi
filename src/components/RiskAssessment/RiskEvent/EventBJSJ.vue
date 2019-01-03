@@ -191,6 +191,7 @@
           border
           @selection-change="handleSelectionChange"
           @sort-change="sortChange"
+          @header-click="headerClick"
           style="width: 100%;">
           <el-table-column
            v-if="pd.type!=4"
@@ -208,7 +209,7 @@
             label="姓名"
             prop="name"
             sortable
-            title="姓名"
+            width="60"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
@@ -627,6 +628,10 @@ export default {
     // this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
   },
   methods:{
+    headerClick(column,event){
+      console.log(column,event)
+      event.target.title=column.label
+    },
     getUers(){
       this.$api.post('/manage-platform/sysUserInfoController/querySysUserInfo',{},
        r => {
