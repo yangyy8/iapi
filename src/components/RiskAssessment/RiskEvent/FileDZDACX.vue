@@ -19,7 +19,7 @@
               <span class="input-text">证件号：</span>
               <el-input v-model="pd.passportno" placeholder="请输入内容" size="small" clearable class="input-input"></el-input>
             </el-col>
-            <!-- <el-col :sm="24" :md="12" :lg="8" class="input-item">
+            <el-col :sm="24" :md="12" :lg="8" class="input-item">
               <span class="input-text">姓名：</span>
               <el-input v-model="pd.name" placeholder="请输入内容" size="small" clearable class="input-input"></el-input>
             </el-col>
@@ -28,14 +28,14 @@
               <div class="input-input t-flex t-date">
                 <el-date-picker
                  type="date" size="small" format="yyyy-MM-dd"
-                 v-model="pd.birthday_start"
+                 v-model="pd.birthdayStart"
                  value-format="yyyyMMdd"
                  placeholder="开始时间" >
                 </el-date-picker>
                 <span class="septum">-</span>
                 <el-date-picker
                   type="date" size="small" format="yyyy-MM-dd"
-                  v-model="pd.birthday_end"
+                  v-model="pd.birthdayEnd"
                   value-format="yyyyMMdd"
                   placeholder="结束时间">
                 </el-date-picker>
@@ -59,7 +59,7 @@
                   :value="item.LABELTYPE_CODE">
                 </el-option>
               </el-select>
-            </el-col> -->
+            </el-col>
           </el-row>
 
 
@@ -253,15 +253,15 @@ export default {
     },
 
     getList(CurrentPage,showCount,pd){
-      if(!this.pd.nationality||!this.pd.passportno){
-        this.$message.error('请先填写国籍地区和证件号！');
-      }
-      // if(this.pd.birthday_start||this.pd.birthday_end){
-      //   if(!(this.pd.birthday_end&&this.pd.birthday_start)){
-      //     this.$message.error('请输入完整的出生日期区间！');
-      //     return
-      //   }
+      // if(!this.pd.nationality||!this.pd.passportno){
+      //   this.$message.error('请先填写国籍地区和证件号！');
       // }
+      if(this.pd.birthdayStart||this.pd.birthdayEnd){
+        if(!(this.pd.birthdayEnd&&this.pd.birthdayStart)){
+          this.$message.error('请输入完整的出生日期区间！');
+          return
+        }
+      }
       let p={
         "showCount": showCount,
         "currentPage": CurrentPage,

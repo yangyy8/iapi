@@ -21,15 +21,7 @@
                placeholder="开始时间">
              </el-date-picker>
             </el-col>
-            <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
-                <span class="input-text">航班关闭：</span>
-                <el-select v-model="pd.clsflag"  class="input-input"   filterable clearable  placeholder="请选择"  size="small">
-                  <el-option value="0" label="0 - 未关闭">
-                  </el-option>
-                  <el-option value="1" label="1 - 已关闭">
-                  </el-option>
-                </el-select>
-            </el-col>
+
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                 <span class="input-text"> 国籍/地区：</span>
                 <el-select v-model="pd.nationality" filterable clearable placeholder="请选择"  size="small" class="input-input">
@@ -73,7 +65,16 @@
 
             </el-col>
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
-                <span class="input-text">订票：</span>
+                <span class="input-text">登机状态：</span>
+                <el-select v-model="pd.clsflag"  class="input-input"   filterable clearable  placeholder="请选择"  size="small">
+                  <el-option value="0" label="0 - 未登机">
+                  </el-option>
+                  <el-option value="1" label="1 - 已登机">
+                  </el-option>
+                </el-select>
+            </el-col>
+            <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+                <span class="input-text">订票状态：</span>
                 <el-select v-model="pd.pnrflag"  class="input-input"   filterable clearable  placeholder="请选择"  size="small">
                   <el-option value="0" label="0 - 未订票">
                   </el-option>
@@ -82,7 +83,7 @@
                 </el-select>
             </el-col>
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
-                <span class="input-text">值机：</span>
+                <span class="input-text">值机状态：</span>
                 <el-select v-model="pd.chkflag"  class="input-input"   filterable clearable  placeholder="请选择"  size="small">
                   <el-option value="0" label="0 - 未值机">
                   </el-option>
@@ -91,7 +92,7 @@
                 </el-select>
             </el-col>
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
-                <span class="input-text">出入境手续：</span>
+                <span class="input-text">出入境状态：</span>
                 <el-select v-model="pd.eeflag"  class="input-input"   filterable clearable  placeholder="请选择"  size="small">
                   <el-option value="0" label="0 - 未办理">
                   </el-option>
@@ -285,12 +286,7 @@ export default {
       pageSize: 10,
       TotalResult: 0,
       page:0,
-      pd: {
-        begin: '',
-        end: '',
-        synFlag: '0',
-        rzlx: '0'
-      },
+      pd: {},
       nation: [],
       company: [],
       addDialogVisible: false,
@@ -436,7 +432,7 @@ this.$api.post("/manage-platform/PersonLocation/get_person_status", p,
 
         let arr=r.data;
         var len= arr.length;
-console.log("r.data=="+r.data);
+    console.log("r.data=="+r.data);
       for(var i=0;i<len;i++)
       {
         if(arr[i].step=="订票")

@@ -6,42 +6,57 @@
 
           <el-row align="center"   :gutter="2" >
 
-            <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
+            <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">指标项代码：</span>
               <el-input placeholder="请输入内容" size="small" v-model="pd.targetSign"  class="input-input"></el-input>
             </el-col>
-            <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
+            <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">指标项名称：</span>
               <el-input placeholder="请输入内容" size="small" v-model="pd.targetName"  class="input-input"></el-input>
             </el-col>
-            <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
+            <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">指标类型：</span>
               <el-select v-model="pd.targetType" class="input-input"  filterable clearable placeholder="请选择"   size="small">
-                <el-option value="名单" label="名单">
+                <el-option value="名单" label="1 - 名单">
                 </el-option>
-                <el-option value="地域" label="地域">
+                <el-option value="地域" label="2 - 地域">
                 </el-option>
-                <el-option value="时间" label="时间">
+                <el-option value="时间" label="3 - 时间">
                 </el-option>
-                <el-option value="民族" label="民族">
+                <el-option value="民族" label="4 - 民族">
                 </el-option>
-                <el-option value="签证" label="签证">
+                <el-option value="签证" label="5 - 签证">
                 </el-option>
-                <el-option value="姓名" label="姓名">
+                <el-option value="姓名" label="6 - 姓名">
                 </el-option>
-                <el-option value="性别" label="性别">
+                <el-option value="性别" label="7 - 性别">
                 </el-option>
-                <el-option value="号码" label="号码">
+                <el-option value="号码" label="8 - 号码">
                 </el-option>
-                <el-option value="航班号" label="航班号">
+                <el-option value="航班号" label="9 - 航班号">
                 </el-option>
-                <el-option value="职业" label="职业">
+                <el-option value="职业" label="10 - 职业">
                 </el-option>
-                <el-option value="证件类别" label="证件类别">
+                <el-option value="证件类别" label="11 - 证件类别">
                 </el-option>
                </el-select>
             </el-col>
-            <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
+            <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+              <span class="input-text">显示类型：</span>
+              <el-select v-model="pd.showDistrick" class="input-input"  filterable clearable placeholder="请选择"   size="small">
+                <el-option value="1" label="1 - 人员基本信息">
+                </el-option>
+                <el-option value="2" label="2 - 证件信息">
+                </el-option>
+                <el-option value="3" label="3 - 航班信息"
+                </el-option>
+                <el-option value="4" label="4 - 在华情况">
+                </el-option>
+                <el-option value="5" label="5 - 其他">
+                </el-option>
+               </el-select>
+            </el-col>
+            <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">指标项描述：</span>
               <el-input placeholder="请输入内容" size="small" v-model="pd.targetDescribe"  class="input-input"></el-input>
             </el-col>
@@ -95,6 +110,12 @@
           label="指标类型">
         </el-table-column>
         <el-table-column
+          label="显示类型">
+          <template slot-scope="scope">
+              {{scope.row.SHOW_DISTRICK | fiftertype}}
+            </template>
+        </el-table-column>
+        <el-table-column
           prop="CALCULATION"
           label="计算方式">
         </el-table-column>
@@ -109,9 +130,9 @@
         <el-table-column
           label="操作" width="300">
           <template slot-scope="scope">
-              <el-button class="table-btn" size="mini"  icon="el-icon-tickets" @click="details(scope.row)">详情</el-button>
-              <el-button class="table-btn" size="mini"  icon="el-icon-edit" @click="adds(1,scope.row)">编辑</el-button>
-              <el-button class="table-btn" size="mini"  icon="el-icon-delete" @click="deletes(scope.row)">删除</el-button>
+              <el-button type="text" class="a-btn"   title="详情"  icon="el-icon-tickets" @click="details(scope.row)"></el-button>
+              <el-button type="text" class="a-btn" title="编辑" icon="el-icon-edit" @click="adds(1,scope.row)"></el-button>
+              <el-button type="text" class="a-btn" title="删除" icon="el-icon-delete" @click="deletes(scope.row)"></el-button>
          </template>
         </el-table-column>
       </el-table>
@@ -169,29 +190,46 @@
           <el-col :span="24" class="input-item">
             <span class="yy-input-text"><font class="yy-color">*</font> 指标类型：</span>
             <el-select v-model="form.targetType" class="yy-input-input"  filterable clearable placeholder="请选择" @change="selectChange"  size="small" v-verify.change.blur ="{regs:'required',submit:'demo2'}">
-              <el-option value="名单" label="名单">
+              <el-option value="名单" label="1 - 名单">
               </el-option>
-              <el-option value="地域" label="地域">
+              <el-option value="地域" label="2 - 地域">
               </el-option>
-              <el-option value="时间" label="时间">
+              <el-option value="时间" label="3 - 时间">
               </el-option>
-              <el-option value="民族" label="民族">
+              <el-option value="民族" label="4 - 民族">
               </el-option>
-              <el-option value="签证" label="签证">
+              <el-option value="签证" label="5 - 签证">
               </el-option>
-              <el-option value="姓名" label="姓名">
+              <el-option value="姓名" label="6 - 姓名">
               </el-option>
-              <el-option value="性别" label="性别">
+              <el-option value="性别" label="7 - 性别">
               </el-option>
-              <el-option value="号码" label="号码">
+              <el-option value="号码" label="8 - 号码">
               </el-option>
-              <el-option value="航班号" label="航班号">
+              <el-option value="航班号" label="9 - 航班号">
               </el-option>
-              <el-option value="职业" label="职业">
+              <el-option value="职业" label="10 - 职业">
               </el-option>
-              <el-option value="证件类别" label="证件类别">
+              <el-option value="证件类别" label="11 - 证件类别">
               </el-option>
              </el-select>
+          </el-col>
+        </el-row>
+        <el-row type="flex"  class="mb-6">
+          <el-col :span="24" class="input-item">
+            <span class="yy-input-text"><font class="yy-color">*</font> 显示类型：</span>
+            <el-select v-model="form.showDistrick" class="yy-input-input"  filterable clearable placeholder="请选择" @change="selectChange"  size="small" v-verify.change.blur ="{regs:'required',submit:'demo2'}">
+              <el-option value="1" label="1 - 人员基本信息">
+              </el-option>
+              <el-option value="2" label="2 - 证件信息">
+              </el-option>
+              <el-option value="3" label="3 - 航班信息">
+              </el-option>
+              <el-option value="4" label="4 - 在华情况">
+              </el-option>
+              <el-option value="5" label="5 - 其他">
+              </el-option>
+            </el-select>
           </el-col>
         </el-row>
         <el-row type="flex"  class="mb-6">
@@ -425,6 +463,7 @@ export default {
         this.form.className=i.CLASS_NAME;
         this.form.para=i.PARA;
         this.form.script=i.SCRIPT;
+        this.form.showDistrick=i.SHOW_DISTRICK;
         this.dialogText="编辑";
       }else {
         this.tp = 0;
@@ -543,13 +582,22 @@ menuItem(){
 },
   },
   filters: {
-    fifterstatus(val) {
-      if (val == 0) {
-        return "停用"
-      } else {
-        return "启用"
+    fiftertype(val) {
+      if (val == 1) {
+        return "人员基本信息"
+      } else if (val == 2){
+        return "证件信息"
       }
-      // return val*2
+      else if (val == 3){
+        return "航班信息"
+      }
+      else if (val == 4){
+        return "在华情况"
+      }
+      else {
+        return "其他"
+      }
+
     }
   },
 }

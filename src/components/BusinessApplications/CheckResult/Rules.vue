@@ -126,7 +126,7 @@
                  <el-date-picker
                  v-model="pd.planReachBeginTime"
                  type="datetime" size="small"  value-format="yyyyMMddHHssmm"
-                 placeholder="开始时间"  :picker-options="pickerOptions1">
+                 placeholder="开始时间"  :picker-options="pickerOptions0">
                </el-date-picker>
                  <span class="septum">-</span>
                <el-date-picker
@@ -161,7 +161,6 @@
                   </el-option>
                 </el-select>
               </el-col>
-
           </el-row>
         </el-col>
         <el-col :span="2" class="down-btn-area">
@@ -297,8 +296,6 @@
       </div>
     </div>
 
-
-
     <el-dialog
       title="详情"
       :visible.sync="detailsDialogVisible"
@@ -404,8 +401,10 @@ export default {
     let time = new Date();
     let end = new Date();
     let begin =new Date(time - 1000 * 60 * 60 * 24 * 30);
-    this.pd.dataCheckBeginTime=formatDate(begin,'yyyyMMddhhmmss');
-    this.pd.dataCheckEndTime=formatDate(end,'yyyyMMddhhmmss');
+    let flightStart = new Date(new Date().setHours(0,0,0,0));
+    this.pd.dataCheckBeginTime=formatDate(flightStart,'yyyyMMddhhssmm');
+
+    this.pd.dataCheckEndTime=formatDate(end,'yyyyMMddhhssmm');
   },
   activated(){
     this.queryAirport("","A");
@@ -413,8 +412,10 @@ export default {
     let time = new Date();
     let end = new Date();
     let begin =new Date(time - 1000 * 60 * 60 * 24 * 30);
-    this.pd.dataCheckBeginTime=formatDate(begin,'yyyyMMddhhmmss');
-    this.pd.dataCheckEndTime=formatDate(end,'yyyyMMddhhmmss');
+    let flightStart = new Date(new Date().setHours(0,0,0,0));
+    this.pd.dataCheckBeginTime=formatDate(flightStart,'yyyyMMddhhssmm');
+
+    this.pd.dataCheckEndTime=formatDate(end,'yyyyMMddhhssmm');
   },
   methods: {
     handleSelectionChange(val) {

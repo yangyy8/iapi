@@ -58,14 +58,17 @@
           label="口岸名称" >
         </el-table-column>
         <el-table-column
-          prop="ipaddress"
-          label="口岸地址"
-          >
+          label="口岸地址">
+          <template slot-scope="scope">
+            <span>{{scope.row.ipaddress}}</span> <span :class="{'ycolor':scope.row.clientStatus=='1','ycolory':scope.row.clientStatus=='0'}">{{scope.row.clientStatus|fifters}}</span>
+          </template>
         </el-table-column>
         <el-table-column
-          prop="ipaddressBack"
           label="备用地址"
           >
+          <template slot-scope="scope">
+            <span>{{scope.row.ipaddressBack}}</span><span :class="{'ycolor':scope.row.clientStatus=='1','ycolory':scope.row.clientStatus=='0'}">{{scope.row.clientBackStatus|fifters}}</span>
+          </template>
         </el-table-column>
         <el-table-column
           label="口岸开关"
@@ -382,13 +385,24 @@ export default {
 
         return "关闭"
       }
-    }
+    },
+    fifters(val){
+      if(val=="1"){
+
+        return "( 正常 )"
+      }
+        if(val=="0"){
+          return "( 异常 )"
+        }
+    },
   }
 }
 </script>
 <style scoped>
-.yycolor{ background: #00FF00; padding: 3px 8px;}
-.yycolory{  background: #FF0000;padding: 3px 8px; }
+.yycolor{ background: green; padding: 3px 8px; color: #ffffff;}
+.yycolory{  background: red;padding: 3px 8px; color: #ffffff;}
+.ycolor{ color: green;padding-left:10px; font-size:12px;}
+.ycolory{  color: red; padding-left:10px; font-size:12px;}
 .input-text{width: 20%!important;}
 .input-input{width: 75%!important;}
 .titile{width: 100%;font-size: 16px; text-align: center; color: #FF0000}

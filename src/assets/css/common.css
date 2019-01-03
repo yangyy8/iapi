@@ -64,7 +64,7 @@ a{
   padding: 0!important;
 }
 .a-btn{
-  font-size: 20px!important;
+  font-size: 16px!important;
 }
 html,body{
   width: 100%;
@@ -582,6 +582,7 @@ button{
   align-items: center;
   flex-direction: column;
   color: #58aa56;
+  font-weight: bold;
 }
 .o-step li span{
   display: block;
@@ -591,6 +592,7 @@ button{
   border-radius: 50%;
   margin-bottom: 8px;
   color: #fff;
+
 }
 .o-step-err{
   color: #e92114!important;

@@ -22,7 +22,7 @@
            <el-option label="A - 入出境" value="A"></el-option>
 
          </el-select>
-        <el-button type="warning" icon="el-icon-zoom-in" size="small" @click="getList(CurrentPage,pageSize,pd)">筛选</el-button>
+         <el-button type="success" size="small" @click="getList(CurrentPage,pageSize,pd)">查询</el-button>
         </el-col>
       </el-row>
 
@@ -98,9 +98,11 @@
           </template>
         </el-table-column>
         <el-table-column
-          label="操作">
+          label="操作"
+          width="70">
           <template slot-scope="scope">
-            <el-button class="table-btn" icon="el-icon-edit" size="mini" plain @click="$router.push({name:'alarmProcess',query:{eventserial:scope.row.eventSerial,AlarmType:scope.row.alarmTypeNum,isECBJ:1}})">报警处理</el-button>
+            <el-button type="text" class="a-btn" icon="el-icon-edit-outline" title="报警处理" @click="$router.push({name:'alarmProcess',query:{eventserial:scope.row.eventSerial,AlarmType:scope.row.alarmTypeNum}})"></el-button>
+            <!-- <el-button class="table-btn" icon="el-icon-edit" size="mini" plain @click="$router.push({name:'alarmProcess',query:{eventserial:scope.row.eventSerial,AlarmType:scope.row.alarmTypeNum}})">报警处理</el-button> -->
          </template>
         </el-table-column>
       </el-table>
@@ -194,7 +196,7 @@ export default {
 
   },
   mounted(){
-    this.getList(this.CurrentPage,this.pageSize,this.pd);
+    // this.getList(this.CurrentPage,this.pageSize,this.pd);
   },
   activated(){
     // this.CurrentPage=1,
@@ -204,7 +206,7 @@ export default {
     //   lastmatchType:"",
     //   flighttype:""
     // },
-    this.getList(this.CurrentPage,this.pageSize,this.pd);
+    // this.getList(this.CurrentPage,this.pageSize,this.pd);
   },
   methods: {
     refreshFn(){
@@ -213,9 +215,10 @@ export default {
       this.pd={
         lastmatchType:"",
         flighttype:""
-
       },
-      this.getList(this.CurrentPage,this.pageSize,this.pd);
+      this.tableData=[];
+      this.TotalResult=0;
+      // this.getList(this.CurrentPage,this.pageSize,this.pd);
     },
     getList(CurrentPage,showCount,pd){
       let p={

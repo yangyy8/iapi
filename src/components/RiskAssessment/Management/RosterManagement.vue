@@ -771,7 +771,7 @@ export default {
 .yy-input-input {
   width: 68% !important;
 }
-.yycolor{ background: #00FF00; padding: 3px 8px; color: #ffffff;}
-.yycolory{  background: #FF0000;padding: 3px 8px;color: #ffffff; }
+.yycolor{ background: green; padding: 3px 8px; color: #ffffff;}
+.yycolory{  background: red;padding: 3px 8px; color: #ffffff;}
 
 </style>
