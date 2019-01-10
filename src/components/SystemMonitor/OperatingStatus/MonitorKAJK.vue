@@ -24,7 +24,7 @@
             </el-col>
             <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
               <span class="input-text">接口状态：</span>
-              <el-select v-model="pd.clientStatus" placeholder="请选择" filterable  size="small"   class="input-input">
+              <el-select v-model="pd.clientStatus" placeholder="请选择" filterable clearable   size="small"   class="input-input">
                 <el-option value="0" label="0 - 异常" ></el-option>
                 <el-option value="1" label="1 - 正常" ></el-option>
                </el-select>
@@ -49,14 +49,16 @@
         <el-table-column
           prop="portcode"
           label="口岸编号"
+          sortable
           >
         </el-table-column>
         <el-table-column
           prop="portname"
-          label="口岸名称" >
+          label="口岸名称" sortable>
         </el-table-column>
         <el-table-column
           label="口岸地址"
+          sortable
           >
            <template slot-scope="scope">
             <span>{{scope.row.ipaddress}}</span> <span :class="{'ycolor':scope.row.clientStatus=='1','ycolory':scope.row.clientStatus=='0'}">{{scope.row.clientStatus|fiftersate}}</span>
@@ -65,6 +67,7 @@
 
         <el-table-column
           label="备用地址"
+          sortable
           >
           <template slot-scope="scope">
             <span>{{scope.row.ipaddressBack}}</span><span :class="{'ycolor':scope.row.clientStatus=='1','ycolory':scope.row.clientStatus=='0'}">{{scope.row.clientBackStatus|fiftersate}}</span>
@@ -80,11 +83,13 @@
         <el-table-column
           prop="backlog1"
           label="预报积压数"
+          sortable
           >
         </el-table-column>
         <el-table-column
           prop="backlog2"
           label="申报积压数"
+          sortable
           >
         </el-table-column>
 

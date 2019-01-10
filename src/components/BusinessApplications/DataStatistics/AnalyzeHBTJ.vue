@@ -145,73 +145,73 @@
                  >
                  <el-table-column
                    prop="fltno"
-                   label="航班号"
+                   label="航班号" sortable
                    width="120">
                  </el-table-column>
                  <el-table-column
-                   prop="checkincount"
+                   prop="checkincount" sortable
                    label="预报预检数量">
                  </el-table-column>
                    <el-table-column label="人员类别">
                      <el-table-column
-                       prop="chk_ptype_fl"
+                       prop="chk_ptype_fl" sortable
                        label="普通旅客">
                      </el-table-column>
                      <el-table-column
-                       prop="chk_ptype_ddu"
+                       prop="chk_ptype_ddu" sortable
                        label="中转旅客">
                      </el-table-column>
                     </el-table-column>
                      <el-table-column label="性别构成">
                        <el-table-column
-                         prop="chk_gender_m"
+                         prop="chk_gender_m" sortable
                          label="男">
                        </el-table-column>
                        <el-table-column
-                         prop="chk_gender_f"
+                         prop="chk_gender_f" sortable
                          label="女">
                        </el-table-column>
                   </el-table-column>
                      <el-table-column label="国家构成">
                          <el-table-column
-                           prop="foreign"
+                           prop="foreign" sortable
                            label="外国人">
                          </el-table-column>
                          <el-table-column
-                           prop="inland"
+                           prop="inland" sortable
                            label="内地居民">
                          </el-table-column>
                          <el-table-column
-                           prop="gat"
+                           prop="gat" sortable
                            label="港澳台">
                          </el-table-column>
                     </el-table-column>
 
                     <el-table-column label="值机渠道">
                      <el-table-column
-                       prop="chk_s"
+                       prop="chk_s" sortable
                        label="自助">
                      </el-table-column>
                      <el-table-column
-                       prop="chk_c"
+                       prop="chk_c" sortable
                        label="柜台">
                      </el-table-column>
                    </el-table-column>
                  <el-table-column label="预检结果">
                    <el-table-column
-                     prop="chk_0z"
+                     prop="chk_0z" sortable
                      label="允许登机">
                    </el-table-column>
                    <el-table-column
-                     prop="chk_1z"
+                     prop="chk_1z" sortable
                      label="禁止登机">
                    </el-table-column>
                    <el-table-column
-                     prop="chk_2z"
+                     prop="chk_2z" sortable
                      label="再次检查">
                    </el-table-column>
                    <el-table-column
-                     prop="datacheckcount"
+                     prop="datacheckcount" sortable
                      label="数据错误">
                    </el-table-column>
                </el-table-column>

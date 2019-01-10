@@ -205,7 +205,7 @@ export default {
     this.pd.fltDate= formatDate(end, 'yyyyMMdd');
   },
   activated(){
-    this.getList(this.CurrentPage,this.pageSize,this.pd);
+    // this.getList(this.CurrentPage,this.pageSize,this.pd);
 
   },
 

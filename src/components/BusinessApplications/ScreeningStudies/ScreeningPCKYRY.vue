@@ -27,7 +27,7 @@
               </div>
 
               <el-row align="center"   :gutter="2">
-                <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
+                <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                   <span class="input-text"><font class="yy-color">*</font> 时间范围：</span>
                   <div class="input-input t-flex t-date">
                    <el-date-picker
@@ -46,6 +46,21 @@
               </div>
                 </el-col>
 
+                <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+                  <span class="input-text">阀值：</span>
+                    <el-input placeholder="请输入内容" size="small" v-model="pd.booktimes" class="input-input"></el-input>
+                 </el-col>
+                 <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+                   <span class="input-text">口岸：</span>
+                   <el-select filterable clearable v-model="pd.port" size="mini"  class="input-input" placeholder="请选择">
+                         <el-option
+                           v-for="item in pport"
+                           :key="item.AIRPORT_CODE"
+                           :label="item.AIRPORT_CODE+' - '+item.AIRPORT_NAME"
+                           :value="item.AIRPORT_CODE">
+                         </el-option>
+                    </el-select>
+                  </el-col>
               </el-row>
             </el-col>
             <el-col :span="2" class="down-btn-area" style="margin-top:25px;">
@@ -53,34 +68,34 @@
             </el-col>
           </el-row>
 
-阀值：{{this.booktimes}}
+
             <el-table
               :data="tableData"
               border
               style="width: 100%;">
               <el-table-column
                 prop="nationality"
-                label="国籍/地区">
+                label="国籍/地区" sortable>
               </el-table-column>
               <el-table-column
                 prop="passportno"
-                label="证件号码">
+                label="证件号码" sortable>
               </el-table-column>
               <el-table-column
                 prop="name"
-                label="姓名">
+                label="姓名" sortable>
               </el-table-column>
               <el-table-column
                 prop="gender"
-                label="性别">
+                label="性别" sortable>
               </el-table-column>
               <el-table-column
                 prop="birthday"
-                label="出生日期">
+                label="出生日期" sortable>
               </el-table-column>
               <el-table-column
                 prop="totalcount"
-                label="订票次数">
+                label="订票次数" sortable>
               </el-table-column>
             </el-table>
             <div class="middle-foot">
@@ -122,7 +137,7 @@
               </div>
 
               <el-row align="center"   :gutter="2">
-                <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
+                <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                   <span class="input-text"><font class="yy-color">*</font> 时间范围：</span>
                   <div class="input-input t-flex t-date">
                    <el-date-picker
@@ -140,7 +155,21 @@
                 </el-date-picker>
               </div>
                 </el-col>
-
+                <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+                  <span class="input-text">阀值：</span>
+                    <el-input placeholder="请输入内容" size="small" v-model="pd1.checktimes" class="input-input"></el-input>
+                 </el-col>
+                 <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+                   <span class="input-text">口岸：</span>
+                   <el-select filterable clearable v-model="pd1.port" size="mini"  class="input-input" placeholder="请选择">
+                         <el-option
+                           v-for="item in pport"
+                           :key="item.AIRPORT_CODE"
+                           :label="item.AIRPORT_CODE+' - '+item.AIRPORT_NAME"
+                           :value="item.AIRPORT_CODE">
+                         </el-option>
+                    </el-select>
+                  </el-col>
               </el-row>
             </el-col>
             <el-col :span="2" class="down-btn-area" style="margin-top:25px;">
@@ -148,34 +177,34 @@
             </el-col>
           </el-row>
 
-阀值：{{this.checktimes}}
+
             <el-table
               :data="tableData1"
               border
               style="width: 100%;">
               <el-table-column
                 prop="nationality"
-                label="国籍/地区">
+                label="国籍/地区" sortable>
               </el-table-column>
               <el-table-column
                 prop="passportno"
-                label="证件号码">
+                label="证件号码" sortable>
               </el-table-column>
               <el-table-column
                 prop="name"
-                label="姓名">
+                label="姓名" sortable>
               </el-table-column>
               <el-table-column
                 prop="gender"
-                label="性别">
+                label="性别" sortable>
               </el-table-column>
               <el-table-column
                 prop="birthday"
-                label="出生日期">
+                label="出生日期" sortable>
               </el-table-column>
               <el-table-column
                 prop="totalcount"
-                label="值机次数">
+                label="值机次数" sortable>
               </el-table-column>
             </el-table>
             <div class="middle-foot">
@@ -209,7 +238,6 @@
             </div>
 
         </div>
-
         <div v-show="page==2">
           <el-row type="flex" class="middle" style="border-bottom:2px solid #DEF0FC;">
             <el-col :span="22" class="br pr-20">
@@ -218,7 +246,7 @@
               </div>
 
               <el-row align="center"   :gutter="2">
-                <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
+                <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                   <span class="input-text"><font class="yy-color">*</font> 时间范围：</span>
                   <div class="input-input t-flex t-date">
                    <el-date-picker
@@ -236,7 +264,21 @@
                 </el-date-picker>
               </div>
                 </el-col>
-
+                <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+                  <span class="input-text">阀值：</span>
+                    <el-input placeholder="请输入内容" size="small" v-model="pd2.eetimes" class="input-input"></el-input>
+                 </el-col>
+                 <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+                   <span class="input-text">口岸：</span>
+                   <el-select filterable clearable v-model="pd2.port" size="mini"  class="input-input" placeholder="请选择">
+                         <el-option
+                           v-for="item in pport"
+                           :key="item.AIRPORT_CODE"
+                           :label="item.AIRPORT_CODE+' - '+item.AIRPORT_NAME"
+                           :value="item.AIRPORT_CODE">
+                         </el-option>
+                    </el-select>
+                  </el-col>
               </el-row>
             </el-col>
             <el-col :span="2" class="down-btn-area" style="margin-top:25px;">
@@ -244,34 +286,34 @@
             </el-col>
           </el-row>
 
-          阀值：{{this.eetimes}}
+
             <el-table
               :data="tableData2"
               border
               style="width: 100%;">
               <el-table-column
                 prop="nationality"
-                label="国籍/地区">
+                label="国籍/地区" sortable>
               </el-table-column>
               <el-table-column
                 prop="passportno"
-                label="证件号码">
+                label="证件号码" sortable>
               </el-table-column>
               <el-table-column
                 prop="name"
-                label="姓名">
+                label="姓名" sortable>
               </el-table-column>
               <el-table-column
                 prop="gender"
-                label="性别">
+                label="性别" sortable>
               </el-table-column>
               <el-table-column
                 prop="birthday"
-                label="出生日期">
+                label="出生日期" sortable>
               </el-table-column>
               <el-table-column
                 prop="totalcount"
-                label="出入境次数">
+                label="出入境次数" sortable>
               </el-table-column>
             </el-table>
             <div class="middle-foot">
@@ -412,32 +454,34 @@ export default {
       checktimes: 0, //值机频次阈值
       booktimes: 0, //订票频次阈值
       eetimes: 0, //出入境频次阈值
-
+      pport:[],
     }
   },
   mounted() {
     this.getTimes();
+    this.getHz();
     let time = new Date();
     let endz = new Date();
     let beginz = new Date(time - 1000 * 60 * 60 * 24 * 30);
-    this.pd.begintime = formatDate(beginz, 'yyyyMMdd');
+    this.pd.begintime = formatDate(endz, 'yyyyMMdd');
     this.pd.endtime = formatDate(endz, 'yyyyMMdd');
-    this.pd1.begintime = formatDate(beginz, 'yyyyMMdd');
+    this.pd1.begintime = formatDate(endz, 'yyyyMMdd');
     this.pd1.endtime = formatDate(endz, 'yyyyMMdd');
-    this.pd2.begintime = formatDate(beginz, 'yyyyMMdd');
+    this.pd2.begintime = formatDate(endz, 'yyyyMMdd');
     this.pd2.endtime = formatDate(endz, 'yyyyMMdd');
 
   },
   activated() {
     this.getTimes();
+    this.getHz();
     let time = new Date();
     let endz = new Date();
     let beginz = new Date(time - 1000 * 60 * 60 * 24 * 30);
-    this.pd.begintime = formatDate(beginz, 'yyyyMMdd');
+    this.pd.begintime = formatDate(endz, 'yyyyMMdd');
     this.pd.endtime = formatDate(endz, 'yyyyMMdd');
-    this.pd1.begintime = formatDate(beginz, 'yyyyMMdd');
+    this.pd1.begintime = formatDate(endz, 'yyyyMMdd');
     this.pd1.endtime = formatDate(endz, 'yyyyMMdd');
-    this.pd2.begintime = formatDate(beginz, 'yyyyMMdd');
+    this.pd2.begintime = formatDate(endz, 'yyyyMMdd');
     this.pd2.endtime = formatDate(endz, 'yyyyMMdd');
 
   },
@@ -477,6 +521,17 @@ export default {
       this.getList2(val, this.pageSize2, this.pd2);
       console.log(`2当前页: ${val}`);
     },
+    // 获取口岸航站
+    getHz(){
+      if(this.pport.length==0){
+        this.$api.post('/manage-platform/codeTable/queryAirport',{},
+        r => {
+
+          this.pport=r.data
+        })
+      }
+    },
+
     getTimes() {
 
       var url = "/manage-platform/SuspectPerson/get_rates";
@@ -485,11 +540,11 @@ export default {
 
           for (let rr of r.data) {
             if (rr.code == "booktimes") {
-              this.booktimes = rr.name;
+              this.pd.booktimes = rr.name;
             } else if (rr.code == "checktimes") {
-              this.checktimes = rr.name;
+              this.pd1.checktimes = rr.name;
             } else if (rr.code == "eetimes") {
-              this.eetimes = rr.name;
+              this.pd2.eetimes = rr.name;
             }
           }
 
@@ -586,5 +641,27 @@ export default {
 .rank {
   background: #ffffff;
   min-height: 750px;
+}
+.ak-tab-item {
+  background: #399bfe;
+  color: #fff;
+  font-size: 14px;
+  margin-right: 6px;
+  border-radius: 5px 5px 0 0;
+  padding: 0 16px;
+}
+
+.ak-checked {
+  background: #fff;
+  color: #399bfe;
+  border: 1px #399bfe solid;
+  border-bottom: 1px #fff solid;
+  margin-bottom: -1px;
+}
+
+.ak-tab-pane {
+  border: 1px #399bfe solid;
+  padding: 20px;
+  border-radius: 0 5px 5px 5px;
 }
 </style>

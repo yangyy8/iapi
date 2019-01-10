@@ -646,3 +646,25 @@ button{
   border: 1px solid #0288d1;
   box-shadow: 0 0 6px #0288d1;
 }
+.err__ input.input {
+   border: 1px solid red;
+ }
+ .succ__ input.input {
+   border: 1px solid green;
+ }
+ .my-form-group{
+   position: relative;
+ }
+ .err__msg {
+   color: red;
+   display: block;
+   font-size: 12px;
+   line-height: 24px;
+   position: absolute;
+   background: #fff;
+   padding: 0px 5px;
+   box-shadow: 0 2px 4px rgba(0,0,0,.12), 0 0 6px rgba(0,0,0,.04);
+   border-radius: 4px;
+   top:-5px;
+   right:0;
+ }

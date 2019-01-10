@@ -56,16 +56,18 @@
         </el-table-column>
         <el-table-column
           prop="LABELTYPE_NAME"
-          label="模型名称">
+          label="模型名称"
+          sortable>
         </el-table-column>
          <el-table-column
           prop="NAME"
           label="模型简称"
-          >
+          sortable>
         </el-table-column>
         <el-table-column
           prop="CREATEUSER"
-          label="模型描述">
+          label="模型描述"
+          sortable>
         </el-table-column>
         <el-table-column
           prop="CREATETIME"
@@ -392,11 +394,11 @@ export default {
     }
   },
   mounted() {
-    this.getList(this.CurrentPage, this.pageSize, this.pd);
+    //this.getList(this.CurrentPage, this.pageSize, this.pd);
     this.queryNationality();
   },
   activated() {
-    this.getList(this.CurrentPage, this.pageSize, this.pd);
+  //  this.getList(this.CurrentPage, this.pageSize, this.pd);
   },
   methods: {
     handleSelectionChange(val) {

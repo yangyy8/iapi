@@ -91,9 +91,9 @@
 
 .content-middle .middleUl .middleLi,.middleLi2,.middleLi3,.middleLi4{
   display: flex;
-  height: 46px;
+  height: 35px;
   align-items: center;
-  border-bottom: 1px #fff dashed;
+  border-bottom: 1px rgba(255, 255, 255, 0.5) dashed;
   font-size: 12px;
 }
 .content-middle-head,.content-middle-head2,.content-middle-head3,.content-middle-head4{
@@ -400,7 +400,11 @@
   color: #31aafb!important;
 }
 .ulover{
-  max-height: 270px;
+  height: 270px;
+  overflow-y: auto;
+}
+.ulover2{
+  height: 330px;
   overflow-y: auto;
 }
 .td2 span{

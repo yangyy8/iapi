@@ -679,14 +679,22 @@
                   <el-table-column
                     label="出入标识"
                     prop="in_out_flag">
+                    <template slot-scope="scope">
+                      <span v-if="scope.row.in_out_flag==1">入境</span>
+                      <span v-if="scope.row.in_out_flag==2">出境</span>
+                    </template>
                   </el-table-column>
                   <el-table-column
                     label="国籍/地区"
-                    prop="to_country_code">
+                    prop="country_na">
                   </el-table-column>
                   <el-table-column
                     label="性别"
                     prop="pers_gender">
+                    <template slot-scope="scope">
+                      <span v-if="scope.row.pers_gender==1">男</span>
+                      <span v-if="scope.row.pers_gender==2">女</span>
+                    </template>
                   </el-table-column>
                   <el-table-column
                     label="出生日期"
@@ -721,7 +729,7 @@
                   </el-table-column>
                   <el-table-column
                     label="前往地/出发地"
-                    prop="to_country_code">
+                    prop="to_country">
                   </el-table-column>
                 </el-table>
               </div>
@@ -743,6 +751,10 @@
                   <el-table-column
                     label="性别"
                     prop="pers_gender">
+                    <template slot-scope="scope">
+                      <span v-if="scope.row.pers_gender==1">男</span>
+                      <span v-if="scope.row.pers_gender==2">女</span>
+                    </template>
                   </el-table-column>
                   <el-table-column
                     label="出生日期"
@@ -750,7 +762,7 @@
                   </el-table-column>
                   <el-table-column
                     label="证件类型"
-                    prop="cert_type">
+                    prop="cert_type_na">
                   </el-table-column>
                   <el-table-column
                     label="证件号码"
@@ -803,31 +815,31 @@
                   <el-table-column
                     label="英文姓名">
                     <template slot-scope="scope">
-                      <span>{{scope.row.pers_name||scope.row.eng_name||scope.row.pers_name_en||'-'}}</span>
+                      <span>{{scope.row.eng_name||'-'}}</span>
                     </template>
                   </el-table-column>
                   <el-table-column
                     label="中文姓名">
                     <template slot-scope="scope">
-                      <span>{{scope.row.pers_name_cn||scope.row.chn_name||scope.row.pers_name_cn||'-'}}</span>
+                      <span>{{scope.row.chn_name||'-'}}</span>
                     </template>
                   </el-table-column>
                   <el-table-column
                     label="性别">
                     <template slot-scope="scope">
-                      <span>{{scope.row.pers_gender_na||scope.row.gender_na||scope.row.pers_gender_na||'-'}}</span>
+                      <span>{{scope.row.gender_na||'-'}}</span>
                     </template>
                   </el-table-column>
                   <el-table-column
                     label="出生日期">
                     <template slot-scope="scope">
-                      <span>{{scope.row.pers_birth_date||scope.row.birth_date||scope.row.pers_birth_date||'-'}}</span>
+                      <span>{{scope.row.birth_date||'-'}}</span>
                     </template>
                   </el-table-column>
                   <el-table-column
                     label="证件号码">
                     <template slot-scope="scope">
-                      <span class="tc-b hand" @click="moreFn('box8',scope.row)">{{scope.row.cert_no||scope.row.cert_no||scope.row.passport_no||'-'}}</span>
+                      <span class="tc-b hand" @click="moreFn('box8',scope.row)">{{scope.row.cert_no||'-'}}</span>
                     </template>
                   </el-table-column>
                   <el-table-column
@@ -839,49 +851,49 @@
                   <el-table-column
                     label="团队号">
                     <template slot-scope="scope">
-                      <span>{{scope.row.group_no||scope.row.pers_name_en||'-'}}</span>
+                      <span>{{scope.row.group_no||'-'}}</span>
                     </template>
                   </el-table-column>
                   <el-table-column
                     label="签证种类">
                     <template slot-scope="scope">
-                      <span>{{scope.row.holding_cert_type_na||scope.row.visa_type_na||scope.row.pers_name_en||'-'}}</span>
+                      <span>{{scope.row.visa_type_na||'-'}}</span>
                     </template>
                   </el-table-column>
                   <el-table-column
                     label="签证号码">
                     <template slot-scope="scope">
-                      <span>{{scope.row.holding_cert_no||scope.row.visa_no||scope.row.pers_name_en||'-'}}</span>
+                      <span>{{scope.row.visa_no||'-'}}</span>
                     </template>
                   </el-table-column>
                   <el-table-column
                     label="审批机关">
                     <template slot-scope="scope">
-                      <span>{{scope.row.accept_dept_na||scope.row.accept_organ_na||scope.row.issuing_organ_na||'-'}}</span>
+                      <span>{{scope.row.accept_organ_na||'-'}}</span>
                     </template>
                   </el-table-column>
                   <el-table-column
                     label="签发日期">
                     <template slot-scope="scope">
-                      <span>{{scope.row.issuing_date||scope.row.visa_date||scope.row.issuing_date||'-'}}</span>
+                      <span>{{scope.row.visa_date||'-'}}</span>
                     </template>
                   </el-table-column>
                   <el-table-column
                     label="有效期至">
                     <template slot-scope="scope">
-                      <span>{{scope.row.cert_vld||scope.row.visa_vld||scope.row.cert_vld||'-'}}</span>
+                      <span>{{scope.row.visa_vld||'-'}}</span>
                     </template>
                   </el-table-column>
                   <el-table-column
                     label="有效次数">
                     <template slot-scope="scope">
-                      <span>{{scope.row.visa_eff_nbr||scope.row.renewal_nbr||'-'}}</span>
+                      <span>{{scope.row.visa_eff_nbr||'-'}}</span>
                     </template>
                   </el-table-column>
                   <el-table-column
                     label="联系电话">
                     <template slot-scope="scope">
-                      <span>{{scope.row.contact_tel||scope.row.domestic_tel||scope.row.pers_telno||'-'}}</span>
+                      <span>{{scope.row.domestic_tel||'-'}}</span>
                     </template>
                   </el-table-column>
                 </el-table>
@@ -1134,7 +1146,7 @@
                   </el-table-column>
                   <el-table-column
                     label="登记时间"
-                    prop="">
+                    prop="stay_date">
                   </el-table-column>
                   <el-table-column
                     label="签发单位"
@@ -1142,7 +1154,7 @@
                   </el-table-column>
                   <el-table-column
                     label="住宿地点"
-                    prop="">
+                    prop="stay_address">
                   </el-table-column>
                 </el-table>
               </div>
@@ -1364,8 +1376,12 @@
                   border
                   style="width: 100%">
                   <el-table-column
-                    label="中文姓名"
+                    label="姓名"
                     prop="psrchnname">
+                    <template slot-scope="scope">
+                      <span v-if="scope.row.psrchnname||scope.row.psrchnname!='-'">{{scope.row.psrchnname}}</span>
+                      <span v-else>{{scope.row.psrname}}</span>
+                    </template>
                   </el-table-column>
                   <el-table-column
                     label="国籍/地区"
@@ -2096,13 +2112,13 @@ export default {
              this.data7=r.data.data.immcard;
              break;
            case 'visa':
-             if(r.data.data.dcap_f_per_cert_chn_issue){
-               this.data8=r.data.data.dcap_f_per_cert_chn_issue;
-             }else if(r.data.data.dcap_f_per_cert_fgn_visa){
+             // if(r.data.data.dcap_f_per_cert_chn_issue){
+             //   this.data8=r.data.data.dcap_f_per_cert_chn_issue;
+             // }else if(r.data.data.dcap_f_per_cert_fgn_visa){
                this.data8=r.data.data.dcap_f_per_cert_fgn_visa;
-             }else if(r.data.data.dcap_f_per_cert_hmt_issue){
-               this.data8=r.data.data.dcap_f_per_cert_hmt_issue;
-             }
+             // }else if(r.data.data.dcap_f_per_cert_hmt_issue){
+             //   this.data8=r.data.data.dcap_f_per_cert_hmt_issue;
+             // }
              break;
            case 'illegal':
              this.data9=r.data.data.dcap_f_evt_psr_illegal;
@@ -2169,101 +2185,101 @@ export default {
       },100)
     }
   },
-  watch:{
-    box1:function(val){
-      if(val){
-        this.getRecordTagInfo();
-      }
-    },
-    box2:function(val){
-      if(val){
-        this.getRiskEventInfo();
-      }
-    },
-    box3:function(val){
-      if(val){
-        this.getQueryRiskRecordUserInfo();
-      }
-    },
-    box4:function(val){
-      if(val){
-        this.getRiskPersonnelForecasInfo();
-      }
-    },
-    box5:function(val){
-      if(val){
-        this.getCensusInfo();
-      }
-    },
-    // 出入境信息
-    box6:function(val){
-      if(val){
-        this.getRecordOtherInfo('imm');
-      }
-    },
-    // 出入境证件
-    box7:function(val){
-      if(val){
-        this.getRecordOtherInfo('immcard');
-      }
-    },
-    // 签证(居留)签发信息
-    box8:function(val){
-      if(val){
-        this.getRecordOtherInfo('visa');
-      }
-    },
-    // 边检违法违规信息
-    box9:function(val){
-      if(val){
-        this.getRecordOtherInfo('illegal');
-      }
-    },
-    // 遣返遣送信息
-    box10:function(val){
-      if(val){
-        this.getRecordOtherInfo('repat');
-      }
-    },
-    // 外管常住/临住信息
-    box11:function(val){
-      if(val){
-        this.getRecordOtherInfo('resident');
-        this.getRecordOtherInfo('temp');
-      }
-    },
-    // 出入境管理案事件
-    box12:function(val){
-      if(val){
-        this.getRecordOtherInfo('fgncas');
-      }
-    },
-    // 收缴证件/物品信息
-    box13:function(val){
-      if(val){
-        this.getRecordOtherInfo('cert');
-        this.getRecordOtherInfo('res');
-      }
-    },
-    // 携带枪支弹药信息
-    box14:function(val){
-      if(val){
-        this.getRecordOtherInfo('act');
-      }
-    },
-    // 自助备案信息
-    box15:function(val){
-      if(val){
-        this.getRecordOtherInfo('self');
-      }
-    },
-    // API信息
-    box16:function(val){
-      if(val){
-        this.getRecordOtherInfo('api');
-      }
-    },
-  }
+  // watch:{
+  //   box1:function(val){
+  //     if(val){
+  //       this.getRecordTagInfo();
+  //     }
+  //   },
+  //   box2:function(val){
+  //     if(val){
+  //       this.getRiskEventInfo();
+  //     }
+  //   },
+  //   box3:function(val){
+  //     if(val){
+  //       this.getQueryRiskRecordUserInfo();
+  //     }
+  //   },
+  //   box4:function(val){
+  //     if(val){
+  //       this.getRiskPersonnelForecasInfo();
+  //     }
+  //   },
+  //   box5:function(val){
+  //     if(val){
+  //       this.getCensusInfo();
+  //     }
+  //   },
+  //   // 出入境信息
+  //   box6:function(val){
+  //     if(val){
+  //       this.getRecordOtherInfo('imm');
+  //     }
+  //   },
+  //   // 出入境证件
+  //   box7:function(val){
+  //     if(val){
+  //       this.getRecordOtherInfo('immcard');
+  //     }
+  //   },
+  //   // 签证(居留)签发信息
+  //   box8:function(val){
+  //     if(val){
+  //       this.getRecordOtherInfo('visa');
+  //     }
+  //   },
+  //   // 边检违法违规信息
+  //   box9:function(val){
+  //     if(val){
+  //       this.getRecordOtherInfo('illegal');
+  //     }
+  //   },
+  //   // 遣返遣送信息
+  //   box10:function(val){
+  //     if(val){
+  //       this.getRecordOtherInfo('repat');
+  //     }
+  //   },
+  //   // 外管常住/临住信息
+  //   box11:function(val){
+  //     if(val){
+  //       this.getRecordOtherInfo('resident');
+  //       this.getRecordOtherInfo('temp');
+  //     }
+  //   },
+  //   // 出入境管理案事件
+  //   box12:function(val){
+  //     if(val){
+  //       this.getRecordOtherInfo('fgncas');
+  //     }
+  //   },
+  //   // 收缴证件/物品信息
+  //   box13:function(val){
+  //     if(val){
+  //       this.getRecordOtherInfo('cert');
+  //       this.getRecordOtherInfo('res');
+  //     }
+  //   },
+  //   // 携带枪支弹药信息
+  //   box14:function(val){
+  //     if(val){
+  //       this.getRecordOtherInfo('act');
+  //     }
+  //   },
+  //   // 自助备案信息
+  //   box15:function(val){
+  //     if(val){
+  //       this.getRecordOtherInfo('self');
+  //     }
+  //   },
+  //   // API信息
+  //   box16:function(val){
+  //     if(val){
+  //       this.getRecordOtherInfo('api');
+  //     }
+  //   },
+  // }
 }
 </script>
 

@@ -30,7 +30,7 @@
         >
 
                 <el-table-column
-                  label="区域" sortable
+                  label="区域" sortable width="150"
                 >
                 <template slot-scope="scope">
                   <div class="">
@@ -40,19 +40,19 @@
                 </el-table-column>
                 <el-table-column
                   prop="ipAddress"
-                  label="服务器地址" sortable
+                  label="服务器地址" sortable width="150"
                 >
                 </el-table-column>
                 <el-table-column
-                  label="节点状态"
+                  label="节点状态" width="120" sortable
                 >
                 <template slot-scope="scope">
                     {{scope.row.nodeStatus | fifter2}}
                 </template>
                 </el-table-column>
                 <el-table-column
-                  prop="queueNum"
-                  label="队列数"
+                  prop="queueNum" sortable
+                  label="队列数" width="100"
                 >
                 </el-table-column>
 
@@ -75,19 +75,29 @@
                   label="队列深度"
                 >
                 </el-table-column> -->
-
                 <el-table-column
-                  label="操作" width="70"
+                  label="详情"
                 >
                     <template slot-scope="scope">
-                       <el-button type="text"  class="a-btn"  title="详情" icon="el-icon-tickets" @click="details(scope.row.serial)"></el-button>
+                       <!-- <el-button type="text"  class="a-btn"  title="详情" icon="el-icon-tickets" @click="details(scope.row.serial)"></el-button> -->
+                              <el-row  v-if="scope.row.subMqList!=null" style="color:blue; border-bottom:1px solid #eeeeee;line-height:30px;">
+                              <el-col :span="8">队列名称</el-col>
+                              <el-col :span="10">队列英文名称</el-col>
+                              <el-col :span="3">队列数</el-col>
+                              <el-col :span="3">队列状态</el-col>
+                             </el-row>
+                              <el-row v-for='i in scope.row.subMqList' style=" border-bottom:1px solid #eeeeee; line-height:25px;">
+                                <el-col :span="8" style="text-align:left">{{i.queueName}}</el-col>
+                                <el-col :span="10" style="text-align:left">{{i.queueEnName}}</el-col>
+                                <el-col :span="3">{{i.queueNum}}</el-col>
+                                <el-col :span="3">{{i.queueStatus | fifter2}}</el-col>
+                              </el-row>
+
+
                     </template>
-
-
 
                 </el-table-column>
       </el-table>
-
     </div>
     <el-dialog
       title="详情"
@@ -101,27 +111,29 @@
                 <el-table-column
                   prop="queueName"
                   label="队列名称"
+                  sortable
                 >
                 </el-table-column>
                 <el-table-column
                   prop="queueEnName"
                   label="队列英文名称"
+                  sortable
                 >
                 </el-table-column>
                 <el-table-column
                   prop="queueNum"
                   label="队列数"
+                  sortable
                 >
                 </el-table-column>
                 <el-table-column
                  label="队列状态"
+                 sortable
                >
                <template slot-scope="scope">
                    {{scope.row.queueStatus | fifter2}}
                </template>
                </el-table-column>
-
-
             </el-table>
       <div slot="footer" class="dialog-footer">
         <el-button @click="detailsDialogVisible = false" size="small">取消</el-button>
@@ -141,7 +153,7 @@ export default {
     }
   },
   created() {
-    this.getList({});
+  //  this.getList({});
   },
   methods: {
     getList(pd) {
@@ -151,14 +163,15 @@ export default {
           this.tableData = r.data;
         });
 
-    let p={
-      "type":"MQWarningNumber"
-    }
-        this.$api.post('/manage-platform/monitorConfig/queryConfigByMTYPE', p,
-          r => {
-            console.log(r);
-            this.num = r.data.CVALUE;
-          });
+        //   let p={
+        //     "type":"MQWarningNumber"
+        //   }
+        // this.$api.post('/manage-platform/monitorConfig/queryConfigByMTYPE', p,
+        //   r => {
+        //     console.log(r);
+        //     this.num = r.data.CVALUE;
+        //   });
+
     },
     details(i) {
       // console.log('---' + i);
@@ -171,6 +184,18 @@ export default {
           console.log("=====" + r);
           this.tableData1 = r.data;
         })
+    },
+    filearr(i) {
+
+      let p = ({
+        "SERIAL": i
+      });
+      this.$api.post('/manage-platform/monitorMQ/queryQueueDetail', p,
+        r => {
+
+          return r.data;
+        })
+        return  [];
     }
   },
   filters: {

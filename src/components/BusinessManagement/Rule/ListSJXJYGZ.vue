@@ -63,7 +63,7 @@
             <el-select v-model="scope.row.IODIR" placeholder="请选择" filterable clearable size="mini" class="table-select">
               <el-option label="I - 入境" value="I"></el-option>
               <el-option label="O - 出境" value="O"></el-option>
-              <el-option label="A - 全部" value="A"></el-option>
+              <el-option label="A - 入出境" value="A"></el-option>
             </el-select>
          </template>
         </el-table-column>

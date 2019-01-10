@@ -252,7 +252,7 @@
                   <div class="gc-box">
                     <div><span class="b-dot"></span>{{d1.modelName}}：</div>
                     <div class="">
-                      {{d1.model_describe}}
+                      {{d1.strategy}}
                     </div>
                   </div>
                 </div>
@@ -265,11 +265,11 @@
                     自定义内容：
                   </div>
                   <div class="">
-                    <div class="" v-for="(d2,ind) in box4Data.listRiskCustom" :key="ind">
+                    <div class="" v-for="(d2,ind) in box4Data.listRiskCustom" :key="d2.serial">
                       {{d2.content}} <el-button type="text" class="redx" @click="delListCustom1(d2.serial)">删除</el-button>
                     </div>
-                    <div class="" v-for="(x,ind) in listRiskCustom" :key="ind">
-                      {{x.content}} <el-button type="text" class="redx" @click="delListCustom(ind)">删除</el-button>
+                    <div class="" v-for="(x,ind2) in listRiskCustom" :key="ind2">
+                      {{x.content}} <el-button type="text" class="redx" @click="delListCustom(ind2)">删除</el-button>
                     </div>
                   </div>
                 </div>
@@ -292,7 +292,7 @@
               </div>
               <div v-if="box5" class="hc-box">
                 <el-row align="center" :gutter="5" style="width:100%" class="mr-15">
-                  <el-col  :sm="24" :md="12" :lg="8"  class="input-item" v-for="(d3,ind) in box4Data.listRiskIndex" :key="ind">
+                  <el-col  :sm="24" :md="12" :lg="8"  class="input-item" v-for="(d3,ind0) in box4Data.listRiskIndex" :key="d3.serial">
                     <el-tooltip effect="light" :content="d3.index_name" placement="top-end">
                       <span class="input-text">{{d3.index_name}}</span>
                     </el-tooltip>
@@ -300,12 +300,12 @@
                     <el-input :disabled="!operation_type" placeholder="请输入内容" size="small" class="input-input mr-5" v-model="d3.index_value"></el-input>
                     <i v-if="operation_type" class="el-icon-close redx hand" @click="delRiskIndexInfo(d3.serial)"></i>
                   </el-col>
-                  <el-col  :sm="24" :md="12" :lg="8"  class="input-item" v-for="(d3,ind) in checkList" :key="ind">
+                  <el-col  :sm="24" :md="12" :lg="8"  class="input-item" v-for="(d3,ind1) in checkList" :key="ind1">
                     <el-tooltip effect="light" :content="d3.index_name" placement="top-end">
                       <span class="input-text">{{d3.index_name}}</span>
                     </el-tooltip>：
                     <el-input placeholder="请输入内容" size="small" class="input-input mr-5" v-model="d3.index_value"></el-input>
-                    <i class="el-icon-close redx hand" @click="delRiskIndexInfo0(d3.serial,ind)"></i>
+                    <i class="el-icon-close redx hand" @click="delRiskIndexInfo0(d3.serial,ind1)"></i>
                   </el-col>
                 </el-row>
                 <el-button type="success" size="small" plain class="mb-6" :disabled="!operation_type" @click="getAddRiskIndexInfo">添加</el-button>
@@ -509,6 +509,7 @@ export default {
     this.page=this.$route.query.page;
     this.operation_type=this.$route.query.operation_type;
     this.serial=this.$route.query.serial;
+    this.delIndex='';
     this.getRiskIapiInfo();
     if(this.page==0){
       this.getHisModelInfo();
@@ -772,7 +773,9 @@ export default {
         this.$message.error('请选择核查结果！');
         return
       }
-      if(this.fileData){
+      console.log(this.fileData)
+      if(this.fileData.length!=0){
+        console.log("this.fileData",this.delIndex)
         var formData = new FormData();
         let arr=this.fileData;
 
@@ -809,8 +812,10 @@ export default {
                     message: '恭喜你，保存成功！',
                     type: 'success'
                   });
+                  this.delIndex='';
                   this.getRiskDescRecordInfo();
                   this.listRiskCustom=[];
+                  this.checkList=[];
                 }
              })
              this.fileData=null;
@@ -845,8 +850,10 @@ export default {
                message: '恭喜你，保存成功！',
                type: 'success'
              });
+             this.delIndex='';
              this.getRiskDescRecordInfo();
              this.listRiskCustom=[];
+             this.checkList=[];
            }
         })
       }

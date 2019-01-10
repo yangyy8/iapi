@@ -9,11 +9,18 @@ import './assets/css/normalize.css'
 import Print from 'vue-print-nb'
 import htmlToPdf from '@/components/other/htmlToPdf'
 import vverify from 'v-verify'
-// import vva from './assets/js/va.js'
-
+// import Validator from './assets/js/va.js'
+// Vue.use(Validator)
+import vueValidateEasy from 'vue-validate-easy'
+var validators ={
+   cname(val){
+     var p = /^[a-zA-Z0-9]{0,35}$|^[\u4e00-\u9fa5]{0,11}$/.test(val)
+     if(!p) return '姓名不能超过11个汉字，35个字母或数字'
+   }
+}
+Vue.use(vueValidateEasy,{validators})
 import api from './api/index.js';
-// import VueValidator from 'vue-validator'
-// var VueValidator = require('vue-validator')
+
 // import 'lib-flexible/flexible'
 import App from './App'
 import router from './router'
@@ -69,7 +76,7 @@ Vue.use(vverify, {
 // Vue.use(vva)
 Vue.prototype.$api = api;
 
-
+console.log(vueValidateEasy)
 router.beforeResolve((to, from, next) => {
 
   let state=false;

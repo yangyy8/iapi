@@ -51,19 +51,19 @@
         </el-table-column>
         <el-table-column
           prop="NAME"
-          label="名单类型名称">
+          label="名单类型名称" sortable>
         </el-table-column>
          <el-table-column
           prop="COUNT"
-          label="名单类型描述"
+          label="名单类型描述" sortable
           >
         </el-table-column>
         <el-table-column
-          prop="CREATEUSER"
+          prop="CREATEUSER" sortable
           label="创建人">
         </el-table-column>
         <el-table-column
-          prop="CREATETIME"
+          prop="CREATETIME" sortable
           label="创建时间">
         </el-table-column>
         <el-table-column
@@ -223,11 +223,11 @@ export default {
     }
   },
   mounted() {
-    this.getList(this.CurrentPage, this.pageSize, this.pd);
-  //  this.queryNationality();
+  //  this.getList(this.CurrentPage, this.pageSize, this.pd);
+
   },
   activated(){
-    this.getList(this.CurrentPage, this.pageSize, this.pd);
+    //this.getList(this.CurrentPage, this.pageSize, this.pd);
   },
   methods: {
     handleSelectionChange(val) {

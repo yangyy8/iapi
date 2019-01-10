@@ -9,12 +9,12 @@
         <img src="../../../assets/img/qgjk/tab1_0.png" alt="" v-else>
         <span>口岸监控</span>
       </li>
-      <li class="map-tabli mr-30 hand" :class="{'check-tab':tabId==2}" @click="tabId=2;getJkHb();getDqJkHb();">
+      <li class="map-tabli mr-30 hand" :class="{'check-tab':tabId==2}" @click="tabId=2;getDqJkHb(1);">
         <img src="../../../assets/img/qgjk/tab2_1.png" alt="" v-if="tabId==2">
         <img src="../../../assets/img/qgjk/tab2_0.png" alt="" v-else>
         <span>航班监控</span>
       </li>
-      <li class="map-tabli hand" :class="{'check-tab':tabId==3}" @click="tabId=3;getRy();getDqRy()">
+      <li class="map-tabli hand" :class="{'check-tab':tabId==3}" @click="tabId=3;getDqRy(1)">
         <img src="../../../assets/img/qgjk/tab3_1.png" alt="" v-if="tabId==3">
         <img src="../../../assets/img/qgjk/tab3_0.png" alt="" v-else>
         <span>人员监控</span>
@@ -166,29 +166,6 @@
               <div v-if="">
 
               </div>
-              <!-- <li class="middleLi2" v-for="i in 10">
-                <div class="td1">
-                  西双版纳
-                </div>
-                <div class="td2">
-                  10
-                </div>
-                <div class="td2">
-                  10
-                </div>
-                <div class="td2">
-                  10
-                </div>
-                <div class="td2">
-                  10
-                </div>
-                <div class="td2">
-                  10
-                </div>
-                <div class="td2">
-                  10
-                </div>
-              </li> -->
               <li class="middleLi2" v-for="(i, index ) in kahb">
                 <div class="td1">
                   {{i.portName||'xx'}}
@@ -349,7 +326,7 @@
               </div>
 
             </div>
-            <ul class="middleUl ulover">
+            <ul class="middleUl ulover2">
 
               <li class="middleLi4" v-for="i in kary">
                 <div class="td1">
@@ -1800,12 +1777,12 @@ export default {
                          }else{
                            h2='<li class="o-step-err"><span>!</span>已值机</li>'
                          }
-                         if(traveler.clsflag==1){
+                         if(traveler.eeflag==1){
                            h3='<li><span>✔</span>出入境手续</li>'
                          }else{
                            h3='<li class="o-step-err"><span>!</span>出入境手续</li>'
                          }
-                         if(traveler.eeflag==1){
+                         if(traveler.clsflag==1){
                            h4='<li><span>✔</span>航班关闭</li>'
                          }else{
                            h4='<li class="o-step-err"><span>!</span>航班关闭</li>'
@@ -1880,7 +1857,7 @@ export default {
                         console.log(data2)
                     table+='<tr style="background:#112b42;height:20px;display: table;table-layout: fixed;width:100%;">\
                               <td style="border:1px #143652 solid;height:20px!important;padding:0 5px!important;width:40px">'+data2.fltno+'</td>\
-                              <td style="border:1px #143652 solid;height:20px!important;padding:0 5px!important;width:110px;">'+data2.to+'</td>\
+                              <td style="border:1px #143652 solid;height:20px!important;padding:0 5px!important;width:110px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;">'+data2.to+'</td>\
                               <td style="border:1px #143652 solid;height:20px!important;padding:0 5px!important;width:100px;">'+data2.preDepartTime+'</td>\
                               <td style="border:1px #143652 solid;height:20px!important;padding:0 5px!important;width:100px;">'+data2.preArriveTime+'</td>\
                               <td style="border:1px #143652 solid;height:20px!important;padding:0 0px!important;width:85px">'+data2.statusName+'</td>\
@@ -1966,7 +1943,7 @@ export default {
 
                     table+='<tr style="background:#112b42;height:20px;display: table;table-layout: fixed;width:100%;">\
                               <td style="border:1px #143652 solid;height:20px!important;padding:0 5px!important;width:40px">'+data2.fltno+'</td>\
-                              <td style="border:1px #143652 solid;height:20px!important;padding:0 0px!important;width:110px;">'+data2.from+'</td>\
+                              <td style="border:1px #143652 solid;height:20px!important;padding:0 0px!important;width:110px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;">'+data2.from+'</td>\
                               <td style="border:1px #143652 solid;height:20px!important;padding:0 0px!important;width:100px;">'+data2.preDepartTime+'</td>\
                               <td style="border:1px #143652 solid;height:20px!important;padding:0 0px!important;width:100px;">'+data2.preArriveTime+'</td>\
                               <td style="border:1px #143652 solid;height:20px!important;padding:0 0px!important;width:85px">'+data2.statusName+'</td>\
@@ -2277,7 +2254,7 @@ export default {
              message: '恭喜你，添加成功！',
              type: 'success'
            });
-           this.getDqJkHb()
+           this.getDqJkHb(2)
          }
       })
     },
@@ -2291,18 +2268,19 @@ export default {
              message: '恭喜你，删除成功！',
              type: 'success'
            });
-           this.getDqJkHb()
+           this.getDqJkHb(2)
          }
       })
     },
     // 当前监控航班取得
-    getDqJkHb(){
+    getDqJkHb(type){
       this.$api.get('/manage-platform/flightMonitor/getMonitorFlights',{},
        r => {
          //console.log(r);
          this.DqJkHb=r.data;
-         this.getNewData()
-
+         if(type==2){
+           this.getNewData()
+         }
       })
     },
 
@@ -2335,7 +2313,7 @@ export default {
              message: '恭喜你，添加成功！',
              type: 'success'
            });
-           this.getDqRy()
+           this.getDqRy(2)
          }
       })
     },
@@ -2349,17 +2327,19 @@ export default {
              message: '恭喜你，删除成功！',
              type: 'success'
            });
-           this.getDqRy()
+           this.getDqRy(2)
          }
       })
     },
     // 当前监控人员取得
-    getDqRy(){
+    getDqRy(type){
       this.$api.post('/manage-platform/travelerMonitor/getMonitorTravelers',{},
        r => {
          //console.log(r);
          this.DqRy=r.data;
-         this.getNewData()
+         if(type==2){
+           this.getNewData()
+         }
 
       })
     },

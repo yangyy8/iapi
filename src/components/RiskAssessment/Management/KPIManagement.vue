@@ -93,38 +93,38 @@
         style="width: 100%;"
         >
         <el-table-column
-          prop="TARGET_SIGN"
+          prop="TARGET_SIGN" sortable
           label="指标项代码">
         </el-table-column>
          <el-table-column
-          prop="TARGET_NAME"
+          prop="TARGET_NAME" sortable
           label="指标项名称"
           >
         </el-table-column>
         <el-table-column
-          prop="TARGET_DESCRIBE"
+          prop="TARGET_DESCRIBE" sortable
           label="指标项描述">
         </el-table-column>
         <el-table-column
-          prop="TARGET_TYPE"
+          prop="TARGET_TYPE" sortable
           label="指标类型">
         </el-table-column>
         <el-table-column
-          label="显示类型">
+          label="显示类型" sortable>
           <template slot-scope="scope">
               {{scope.row.SHOW_DISTRICK | fiftertype}}
             </template>
         </el-table-column>
         <el-table-column
-          prop="CALCULATION"
+          prop="CALCULATION" sortable
           label="计算方式">
         </el-table-column>
         <el-table-column
-          prop="CLASS_NAME"
+          prop="CLASS_NAME" sortable
           label="方法名称">
         </el-table-column>
         <el-table-column
-          prop="PARA"
+          prop="PARA" sortable
           label="参数">
         </el-table-column>
         <el-table-column

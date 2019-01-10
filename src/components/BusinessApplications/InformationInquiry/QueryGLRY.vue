@@ -19,7 +19,7 @@
                <el-date-picker
                v-model="pd.fltdate" format="yyyy-MM-dd" class="input-input"
                type="date" size="small" value-format="yyyyMMdd"
-               placeholder="开始时间">
+               placeholder="选择时间">
              </el-date-picker>
 
             </el-col>
@@ -64,7 +64,7 @@
               <el-date-picker
               v-model="pd.birthday"
               type="date" size="small" value-format="yyyyMMdd" class="input-input"
-              placeholder="开始时间" >
+              placeholder="选择时间" >
             </el-date-picker>
 
             </el-col>
@@ -107,51 +107,51 @@
               style="width: 100%;">
               <el-table-column
                 prop="fltno"
-                label="航班号">
+                label="航班号" sortable>
               </el-table-column>
               <el-table-column
                 prop="departdate"
-                label="计划起飞时间">
+                label="计划起飞时间" width="130"  sortable>
               </el-table-column>
               <el-table-column
                 prop="arrivdate"
-                label="计划到达时间">
+                label="计划到达时间" width="130"  sortable>
               </el-table-column>
               <el-table-column
                 prop="citfrom"
-                label="出发地">
+                label="出发地" sortable>
               </el-table-column>
               <el-table-column
                 prop="cityto"
-                label="到达地">
+                label="到达地" sortable>
               </el-table-column>
               <el-table-column
                 prop="nationality"
-                label="国籍/地区">
+                label="国籍/地区" sortable>
               </el-table-column>
               <el-table-column
                 prop="cardnum"
-                label="证件号码">
+                label="证件号码" sortable>
               </el-table-column>
               <el-table-column
                 prop="name"
-                label="姓名">
+                label="姓名" sortable>
               </el-table-column>
               <el-table-column
                 prop="gender"
-                label="性别">
+                label="性别" sortable>
               </el-table-column>
               <el-table-column
                 prop="birthday"
-                label="出生日期">
+                label="出生日期" sortable>
               </el-table-column>
               <el-table-column
                 prop="rci"
-                label="订单号">
+                label="订单号" sortable>
               </el-table-column>
               <el-table-column
                 prop="rcitime"
-                label="订单时间">
+                label="订单时间" sortable>
               </el-table-column>
             </el-table>
             <!-- <div class="middle-foot">
@@ -269,51 +269,51 @@
             style="width: 100%;">
             <el-table-column
               prop="fltno"
-              label="航班号">
+              label="航班号" sortable>
             </el-table-column>
             <el-table-column
               prop="departdate"
-              label="计划起飞时间">
+              label="计划起飞时间" width="130"  sortable>
             </el-table-column>
             <el-table-column
               prop="arrivdate"
-              label="计划到达时间">
+              label="计划到达时间" width="130"  sortable>
             </el-table-column>
             <el-table-column
               prop="citfrom"
-              label="出发地">
+              label="出发地" sortable>
             </el-table-column>
             <el-table-column
               prop="cityto"
-              label="到达地">
+              label="到达地" sortable>
             </el-table-column>
             <el-table-column
               prop="nationality"
-              label="国籍/地区">
+              label="国籍/地区" sortable>
             </el-table-column>
             <el-table-column
               prop="cardnum"
-              label="证件号码">
+              label="证件号码" sortable>
             </el-table-column>
             <el-table-column
               prop="name"
-              label="姓名">
+              label="姓名" sortable>
             </el-table-column>
             <el-table-column
               prop="gender"
-              label="性别">
+              label="性别" sortable>
             </el-table-column>
             <el-table-column
               prop="birthday"
-              label="出生日期">
+              label="出生日期" sortable>
             </el-table-column>
             <el-table-column
               prop="chktime"
-              label="值机时间">
+              label="值机时间" sortable>
             </el-table-column>
             <el-table-column
               prop="specifigseat"
-              label="座位号">
+              label="座位号" sortable>
             </el-table-column>
           </el-table>
             <!-- <div class="middle-foot">
@@ -428,51 +428,51 @@
             style="width: 100%;">
             <el-table-column
               prop="fltno"
-              label="航班号">
+              label="航班号" sortable>
             </el-table-column>
             <el-table-column
               prop="departdate"
-              label="计划起飞时间">
+              label="计划起飞时间" width="130"  sortable>
             </el-table-column>
             <el-table-column
               prop="arrivdate"
-              label="计划到达时间">
+              label="计划到达时间" width="130"  sortable>
             </el-table-column>
             <el-table-column
               prop="citfrom"
-              label="出发地">
+              label="出发地" sortable>
             </el-table-column>
             <el-table-column
               prop="cityto"
-              label="到达地">
+              label="到达地" sortable>
             </el-table-column>
             <el-table-column
               prop="nationality"
-              label="国籍/地区">
+              label="国籍/地区" sortable>
             </el-table-column>
             <el-table-column
               prop="cardnum"
-              label="证件号码">
+              label="证件号码" sortable>
             </el-table-column>
             <el-table-column
               prop="name"
-              label="姓名">
+              label="姓名" sortable>
             </el-table-column>
             <el-table-column
               prop="gender"
-              label="性别">
+              label="性别" sortable>
             </el-table-column>
             <el-table-column
               prop="birthday"
-              label="出生日期">
+              label="出生日期" sortable>
             </el-table-column>
             <el-table-column
               prop="chktime"
-              label="值机时间">
+              label="值机时间" sortable>
             </el-table-column>
             <el-table-column
               prop="specifigseat"
-              label="座位号">
+              label="座位号" sortable>
             </el-table-column>
           </el-table>
 
@@ -581,56 +581,56 @@
             </el-col>
           </el-row> -->
           <el-table
-            :data="tableData4"
+            :data="tableData3"
             border
             style="width: 100%;">
             <el-table-column
               prop="fltno"
-              label="航班号">
+              label="航班号" sortable>
             </el-table-column>
             <el-table-column
               prop="departdate"
-              label="计划起飞时间">
+              label="计划起飞时间" width="130" sortable>
             </el-table-column>
             <el-table-column
               prop="arrivdate"
-              label="计划到达时间">
+              label="计划到达时间" width="130"  sortable>
             </el-table-column>
             <el-table-column
               prop="citfrom"
-              label="出发地">
+              label="出发地" sortable>
             </el-table-column>
             <el-table-column
               prop="cityto"
-              label="到达地">
+              label="到达地" sortable>
             </el-table-column>
             <el-table-column
               prop="nationality"
-              label="国籍/地区">
+              label="国籍/地区" sortable>
             </el-table-column>
             <el-table-column
               prop="cardnum"
-              label="证件号码">
+              label="证件号码" sortable>
             </el-table-column>
             <el-table-column
               prop="name"
-              label="姓名">
+              label="姓名" sortable>
             </el-table-column>
             <el-table-column
               prop="gender"
-              label="性别">
+              label="性别" sortable>
             </el-table-column>
             <el-table-column
               prop="birthday"
-              label="出生日期">
+              label="出生日期" sortable>
             </el-table-column>
             <el-table-column
               prop="chktime"
-              label="值机时间">
+              label="值机时间" sortable>
             </el-table-column>
             <el-table-column
               prop="specifigseat"
-              label="座位号">
+              label="座位号" sortable>
             </el-table-column>
           </el-table>
             <!-- <div class="middle-foot">
@@ -911,7 +911,7 @@ export default {
   },
   activated() {
     this.queryNationality();
-    // this.isRoute = this.$route.query.isRoute;
+     this.isRoute = this.$route.query.isRoute;
     // console.log(this.$route.query.isRoute);
     // if(this.$route.query.isRoute){
     //   this.page = this.$route.query.page;
@@ -941,6 +941,7 @@ export default {
     //     this.pd4.birthday = this.$route.query.row.iapiBirthdayName;
     //   }
     // }
+    if(this.$route.query.isRoute){
     this.pd.fltno = this.$route.query.row.FLTNO;
     this.pd.fltdate = this.$route.query.row.FLTDATESTR;
     this.pd.nationality = this.$route.query.row.iapiNationaName;
@@ -948,7 +949,7 @@ export default {
     this.pd.name = this.$route.query.row.iapiName;
     this.pd.gender = this.$route.query.row.GENDER;
     this.pd.birthday = this.$route.query.row.iapiBirthdayName;
-
+     }
     // let time = new Date();
     // let endz = new Date();
     // let beginz = new Date(time - 1000 * 60 * 60 * 24 * 1);
@@ -1032,7 +1033,7 @@ export default {
           });
           return false
       }
-      if(this.pd.nationality==undefined){
+      if(this.pd.nationality==undefined || this.pd.nationality==""){
           this.$alert('国籍/地区不能为空！', '提示', {
             confirmButtonText: '确定',
           });
@@ -1191,7 +1192,7 @@ export default {
     //     })
     // },
     getList3(currentPage3, showCount3, pd3) {
-        console.log("--------");
+
         let p = {
 
           "fltno":pd3.fltno,

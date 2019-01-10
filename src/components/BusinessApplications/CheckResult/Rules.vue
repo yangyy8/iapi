@@ -36,7 +36,7 @@
                 </el-option>
                 <el-option value="O" label="O - 出境">
                 </el-option>
-                <el-option value="A" label="A - 全部">
+                <el-option value="A" label="A - 入出境">
                 </el-option>
               </el-select>
             </el-col>
@@ -189,15 +189,15 @@
         style="width: 100%;">
         <el-table-column
           prop="travellerName"
-          label="姓名" >
+          label="姓名" sortable>
         </el-table-column>
         <el-table-column
           prop="chineseName"
-          label="中文姓名" >
+          label="中文姓名" sortable>
         </el-table-column>
         <el-table-column
           prop="genderDesc"
-          label="性别" >
+          label="性别" sortable>
         </el-table-column>
         <el-table-column
           prop="birthday"
@@ -209,7 +209,7 @@
         </el-table-column>
         <el-table-column
           prop="passportNo"
-          label="证件号码" >
+          label="证件号码" sortable>
         </el-table-column>
         <!-- <el-table-column
           prop="passportExpireDate"
@@ -239,15 +239,15 @@
                 </el-table-column> -->
                 <el-table-column
                   prop="fieldName"
-                  label="比中校验项" >
+                  label="比中校验项" sortable>
                 </el-table-column>
                 <el-table-column
                   prop="fieldValue"
-                  label="比中值" >
+                  label="比中值" sortable>
                 </el-table-column>
                 <el-table-column
                   prop="ruleTypeDesc"
-                  label="不通过原因" >
+                  label="不通过原因" sortable>
                 </el-table-column>
 
                 <!-- <el-table-column

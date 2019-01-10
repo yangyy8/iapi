@@ -53,20 +53,20 @@
         style="width: 100%;"
         >
         <el-table-column
-          prop="LABELTYPE_NAME"
+          prop="LABELTYPE_NAME" sortable
           label="类型">
         </el-table-column>
          <el-table-column
-          prop="NAME"
+          prop="NAME" sortable
           label="问题名称"
           >
         </el-table-column>
         <el-table-column
-          prop="CREATEUSERNAME"
+          prop="CREATEUSERNAME" sortable
           label="创建人">
         </el-table-column>
         <el-table-column
-          prop="CREATETIME"
+          prop="CREATETIME" sortable
           label="创建时间">
         </el-table-column>
         <el-table-column
@@ -247,11 +247,11 @@ export default {
     }
   },
   mounted() {
-    this.getList(this.CurrentPage, this.pageSize, this.pd);
+  //  this.getList(this.CurrentPage, this.pageSize, this.pd);
     this.queryNationality();
   },
   activated(){
-    this.getList(this.CurrentPage, this.pageSize, this.pd);
+  //  this.getList(this.CurrentPage, this.pageSize, this.pd);
     this.queryNationality();
   },
   methods: {

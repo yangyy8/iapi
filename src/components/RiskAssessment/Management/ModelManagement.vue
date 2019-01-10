@@ -87,7 +87,7 @@
         </el-table-column> -->
          <el-table-column
           prop="MODEL_JC"
-          label="模型简称"
+          label="模型简称" sortable
           >
         </el-table-column>
         <!-- <el-table-column
@@ -96,7 +96,7 @@
         </el-table-column> -->
         <el-table-column
           prop="CREATE_PERSION"
-          label="创建人">
+          label="创建人" sortable>
         </el-table-column>
         <!-- <el-table-column
           prop="PORT_NAME"
@@ -104,21 +104,21 @@
         </el-table-column> -->
 
         <el-table-column
-          prop="UPDATE_TIME"
+          prop="UPDATE_TIME" sortable
           label="最后更新日期">
         </el-table-column>
         <el-table-column
-          prop="LIFE_SPAN"
+          prop="LIFE_SPAN" sortable
           label="有效日期">
         </el-table-column>
         <el-table-column
-          label="是否启用">
+          label="是否启用" sortable>
           <template slot-scope="scope">
               <span :class="{'yyred':scope.row.STATUS == '0','yygreen':scope.row.STATUS == '1'}">  {{scope.row.STATUS | fifterstatus}}</span>
             </template>
         </el-table-column>
         <el-table-column
-          label="模型状态">
+          label="模型状态" sortable>
           <template slot-scope="scope">
               {{scope.row.MODEL_PHASES | fiftermodel}}
             </template>

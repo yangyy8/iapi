@@ -115,27 +115,27 @@
 
         <el-table-column
           prop="airline_company_id"
-          label="航空公司名称"
+          label="航空公司名称" sortable
           >
         </el-table-column>
         <el-table-column
           prop="fltno"
-          label="航班号">
+          label="航班号" sortable>
         </el-table-column>
 
         <el-table-column
           prop="chkcount"
-          label="值机数"
+          label="值机数" sortable
           >
         </el-table-column>
         <el-table-column
           prop="bkcount"
-          label="订票数"
+          label="订票数" sortable
           >
         </el-table-column>
         <el-table-column
           prop="noprecount"
-          label="值机未订票数"
+          label="值机未订票数" sortable
           >
         </el-table-column>
         <!-- <el-table-column

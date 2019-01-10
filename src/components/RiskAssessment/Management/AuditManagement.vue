@@ -88,36 +88,36 @@
         label="序号">
         </el-table-column>
         <el-table-column
-          prop="LABELTYPE_NAME"
+          prop="LABELTYPE_NAME" sortable
           label="模型名称">
         </el-table-column>
          <el-table-column
           prop="NAME"
-          label="模型简称"
+          label="模型简称" sortable
           >
         </el-table-column>
         <el-table-column
-          prop="CREATEUSER"
+          prop="CREATEUSER" sortable
           label="模型描述">
         </el-table-column>
         <el-table-column
-          prop="CREATETIME"
+          prop="CREATETIME" sortable
           label="创建人">
         </el-table-column>
         <el-table-column
-          prop="CREATETIME"
+          prop="CREATETIME" sortable
           label="提交审核日期" width="130">
         </el-table-column>
         <el-table-column
-          prop="CREATETIME"
+          prop="CREATETIME" sortable
           label="最后处理日期" width="130">
         </el-table-column>
         <el-table-column
-          prop="CREATETIME"
+          prop="CREATETIME" sortable
           label="处理人">
         </el-table-column>
         <el-table-column
-          prop="CREATETIME"
+          prop="CREATETIME" sortable
           label="有效日期">
         </el-table-column>
         <el-table-column

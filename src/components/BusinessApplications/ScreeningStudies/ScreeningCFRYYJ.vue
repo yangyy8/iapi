@@ -79,45 +79,45 @@
               style="width: 100%;">
               <el-table-column
                 prop="nationality"
-                label="国籍/地区">
+                label="国籍/地区" sortable>
               </el-table-column>
               <el-table-column
                 prop="passportnopassportno"
-                label="证件号码">
+                label="证件号码" sortable>
               </el-table-column>
               <el-table-column
                 prop="name"
-                label="姓名">
+                label="姓名" sortable>
               </el-table-column>
               <el-table-column
                 prop="gender"
-                label="性别">
+                label="性别" sortable>
               </el-table-column>
               <el-table-column
                 prop="birthday"
-                label="出生日期">
+                label="出生日期" sortable>
               </el-table-column>
               <el-table-column
                 prop="fltdate"
-                label="航班日期">
+                label="航班日期" sortable>
               </el-table-column>
 
               <el-table-column
                 prop="fltno"
-                label="航班号">
+                label="航班号" sortable>
               </el-table-column>
 
               <el-table-column
                 prop="cityfrom"
-                label="出发地">
+                label="出发地" sortable>
               </el-table-column>
               <el-table-column
                 prop="cityto"
-                label="到达地">
+                label="到达地" sortable>
               </el-table-column>
               <el-table-column
                 prop="port"
-                label="口岸">
+                label="口岸" sortable>
               </el-table-column>
               <el-table-column
                 prop="average"
@@ -163,45 +163,45 @@
                         style="width: 100%;">
                         <el-table-column
                           prop="nationality"
-                          label="国籍/地区">
+                          label="国籍/地区" sortable>
                         </el-table-column>
                         <el-table-column
                           prop="passportnopassportno"
-                          label="证件号码">
+                          label="证件号码" sortable>
                         </el-table-column>
                         <el-table-column
                           prop="name"
-                          label="姓名">
+                          label="姓名" sortable>
                         </el-table-column>
                         <el-table-column
                           prop="gender"
-                          label="性别">
+                          label="性别" sortable>
                         </el-table-column>
                         <el-table-column
                           prop="birthday"
-                          label="出生日期">
+                          label="出生日期" sortable>
                         </el-table-column>
                         <el-table-column
                           prop="fltdate"
-                          label="航班日期">
+                          label="航班日期" sortable>
                         </el-table-column>
 
                         <el-table-column
                           prop="fltno"
-                          label="航班号">
+                          label="航班号" sortable>
                         </el-table-column>
 
                         <el-table-column
                           prop="cityfrom"
-                          label="出发地">
+                          label="出发地" sortable>
                         </el-table-column>
                         <el-table-column
                           prop="cityto"
-                          label="到达地">
+                          label="到达地" sortable>
                         </el-table-column>
                         <el-table-column
                           prop="port"
-                          label="口岸">
+                          label="口岸" sortable>
                         </el-table-column>
                         <el-table-column
                           prop="average"
@@ -305,7 +305,7 @@ export default {
     let beginz = new Date(time - 1000 * 60 * 60 * 24 * 1);
     this.pd.begintime = formatDate(beginz, 'yyyyMMdd');
     this.pd.endtime = formatDate(endz, 'yyyyMMdd');
-    this.getList(this.CurrentPage, this.pageSize, this.pd);
+  //  this.getList(this.CurrentPage, this.pageSize, this.pd);
   },
   activated(){
 
@@ -314,7 +314,7 @@ export default {
     let beginz = new Date(time - 1000 * 60 * 60 * 24 * 1);
     this.pd.begintime = formatDate(beginz, 'yyyyMMdd');
     this.pd.endtime = formatDate(endz, 'yyyyMMdd');
-    this.getList(this.CurrentPage,this.pageSize,this.pd);
+    //this.getList(this.CurrentPage,this.pageSize,this.pd);
   },
   methods: {
 

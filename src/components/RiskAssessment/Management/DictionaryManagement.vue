@@ -51,25 +51,25 @@
          width="40">
         </el-table-column>
         <el-table-column
-          prop="NAME"
+          prop="NAME" sortable
           label="字典名称">
         </el-table-column>
          <el-table-column
-          prop="DESCRIBE"
+          prop="DESCRIBE" sortable
           label="字典描述"
           >
         </el-table-column>
         <el-table-column
-          prop="DETAILSCOUNT"
+          prop="DETAILSCOUNT" sortable
           label="指标数量">
         </el-table-column>
         <el-table-column
           prop="CREATEUSERNAME"
-          label="创建人">
+          label="创建人" sortable>
         </el-table-column>
         <el-table-column
           prop="CREATETIME"
-          label="创建时间">
+          label="创建时间" sortable>
         </el-table-column>
         <el-table-column
           label="操作" width="150">
