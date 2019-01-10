@@ -125,37 +125,37 @@
                 label="" width="60">
               </el-table-column> -->
             <el-table-column
-              prop="kamc"
+              prop="kamc" sortable
               label="口岸/机场" width="150">
             </el-table-column>
             <el-table-column
               prop="linecount"
-              label="航线数量"
+              label="航线数量" sortable
               >
             </el-table-column>
             <el-table-column
-              prop="fltcount"
+              prop="fltcount" sortable
               label="预报航班数量"
               >
             </el-table-column>
             <el-table-column
-              prop="boardingcount"
+              prop="boardingcount" sortable
               label="出入境人员数量"
               >
             </el-table-column>
             <el-table-column
-              prop="chk_1z"
+              prop="chk_1z" sortable
               label="不准登机人员数"
               >
             </el-table-column>
                 <el-table-column label="性别构成">
             <el-table-column
-              prop="chk_gender_m"
+              prop="chk_gender_m" sortable
               label="男"
               >
             </el-table-column>
             <el-table-column
-              prop="chk_gender_f"
+              prop="chk_gender_f" sortable
               label="女"
               >
             </el-table-column>
@@ -163,17 +163,17 @@
               <el-table-column label="国家构成">
           <el-table-column
             prop="foreign"
-            label="外国人"
+            label="外国人" sortable
             >
           </el-table-column>
           <el-table-column
             prop="inland"
-            label="内地居民"
+            label="内地居民" sortable
             >
           </el-table-column>
           <el-table-column
             prop="gat"
-            label="港澳台"
+            label="港澳台" sortable
             >
           </el-table-column>
             </el-table-column>

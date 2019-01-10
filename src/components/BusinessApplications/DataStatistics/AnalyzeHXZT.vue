@@ -158,62 +158,62 @@
                   style="width: 100%;"
                   >
                   <el-table-column
-                    prop="continent"
+                    prop="continent" sortable
                     label="洲" v-if='showz'>
                   </el-table-column>
                   <el-table-column
-                    prop="country"
+                    prop="country" sortable
                     label="国家" v-if='showg'>
                   </el-table-column>
                   <el-table-column
-                    prop="city"
+                    prop="city" sortable
                     label="城市" v-if='showc'>
                   </el-table-column>
                   <el-table-column
-                    prop="port"
+                    prop="port" sortable
                     label="口岸" v-if='showk'>
                   </el-table-column>
                   <el-table-column
-                    prop="flt_count"
+                    prop="flt_count" sortable
                     label="预报航班数量">
                   </el-table-column>
                   <el-table-column
-                    prop="boardingcount"
+                    prop="boardingcount" sortable
                     label="载运人员总量">
                   </el-table-column>
                   <el-table-column
-                    prop="fus_flt_count"
+                    prop="fus_flt_count" sortable
                     label="重点航线航班数">
                   </el-table-column>
                   <el-table-column
-                    prop="fus_boardingcount"
+                    prop="fus_boardingcount" sortable
                     label="重点航线载运人员量">
                   </el-table-column>
                   <el-table-column
-                    prop="chk_1z"
+                    prop="chk_1z" sortable
                     label="不准登机人员数量">
                   </el-table-column>
                       <el-table-column label="性别构成">
                         <el-table-column
-                          prop="chk_gender_m"
+                          prop="chk_gender_m" sortable
                           label="男">
                         </el-table-column>
                         <el-table-column
-                          prop="chk_gender_f"
+                          prop="chk_gender_f" sortable
                           label="女">
                         </el-table-column>
                    </el-table-column>
                    <el-table-column label="国家构成">
                      <el-table-column
-                       prop="foreign"
+                       prop="foreign" sortable
                        label="外国人">
                      </el-table-column>
                      <el-table-column
-                       prop="inland"
+                       prop="inland" sortable
                        label="内地居民">
                      </el-table-column>
                      <el-table-column
-                       prop="gat"
+                       prop="gat" sortable
                        label="港澳台">
                      </el-table-column>
                  </el-table-column>

@@ -49,7 +49,7 @@
         style="width: 100%;"
         >
         <el-table-column
-          prop="ROLE_NAME"
+          prop="ROLE_NAME" sortable
           label="角色名">
         </el-table-column>
         <!-- <el-table-column
@@ -59,8 +59,7 @@
         </el-table-column> -->
 
         <el-table-column
-
-          label="状态">
+          label="状态" sortable>
  <template slot-scope="scope">
    {{scope.row.STATUS | fifterstatus}}
 

@@ -106,35 +106,35 @@
         max-height="600"
         style="width: 100%;">
         <el-table-column
-          prop="airline_company_id"
+          prop="airline_company_id" sortable
           label="航空公司名称" width="200">
         </el-table-column>
         <el-table-column
           prop="fltno"
-          label="航班号"
+          label="航班号" sortable
           >
         </el-table-column>
         <el-table-column
           prop="ee_noboarding"
-          label="漏报人数" >
+          label="漏报人数" sortable>
         </el-table-column>
         <el-table-column
           prop="brd_noee"
-          label="多报人数" >
+          label="多报人数" sortable>
         </el-table-column>
         <el-table-column
           prop="error"
-          label="误报人数"
+          label="误报人数" sortable
           >
         </el-table-column>
         <el-table-column
           prop="incomplete"
-          label="信息不完整人数"
+          label="信息不完整人数" sortable
           >
         </el-table-column>
         <el-table-column
           prop="chk_nopnr"
-          label="缺少订票信息人数"
+          label="缺少订票信息人数" sortable
           >
         </el-table-column>
         <el-table-column
@@ -204,33 +204,33 @@
                     style="width: 100%;">
                     <el-table-column
                       prop="passportissuecountry"
-                      label="国籍" >
+                      label="国籍" sortable>
                     </el-table-column>
                     <el-table-column
                       prop="passportno"
-                      label="证号"
+                      label="证号" sortable
                       >
                     </el-table-column>
                     <el-table-column
-                      prop="name"
+                      prop="name" sortable
                       label="姓名" >
                     </el-table-column>
                     <el-table-column
                       prop="gender"
-                      label="性别" >
+                      label="性别" sortable>
                     </el-table-column>
                     <el-table-column
                       prop="dateofbirth"
-                      label="出生日期"
+                      label="出生日期" sortable
                       >
                     </el-table-column>
                     <el-table-column
-                      prop="eetime"
+                      prop="eetime" sortable
                       label="出入境时间"
                       >
                     </el-table-column>
                     <el-table-column
-                      prop="fltno"
+                      prop="fltno" sortable
                       label="航班号"
                       >
                     </el-table-column>
@@ -276,39 +276,39 @@
                         style="width: 100%;">
                         <el-table-column
                           prop="passportissuecountry"
-                          label="国籍"
+                          label="国籍" sortable
                           >
                         </el-table-column>
                         <el-table-column
                           prop="passportno"
-                          label="证号"
+                          label="证号" sortable
                           >
                         </el-table-column>
                         <el-table-column
                           prop="fltno"
-                          label="航班号" >
+                          label="航班号" sortable>
                         </el-table-column>
                         <el-table-column
                           prop="fltdate"
-                          label="航班日期"
+                          label="航班日期" sortable
                           >
                         </el-table-column>
                         <el-table-column
                           prop="flttype"
-                          label="类型" >
+                          label="类型" sortable>
                         </el-table-column>
                         <el-table-column
                           prop="name"
-                          label="姓名" >
+                          label="姓名" sortable>
                         </el-table-column>
                         <el-table-column
                           prop="gender"
-                          label="性别"
+                          label="性别" sortable
                           >
                         </el-table-column>
                         <el-table-column
                           prop="dateofbirth"
-                          label="出生日期"
+                          label="出生日期" sortable
                           >
                         </el-table-column>
                       </el-table>
@@ -353,73 +353,73 @@
                     style="width: 100%;">
                     <el-table-column
                       prop="fltno"
-                      label="航班号"
+                      label="航班号" sortable
                       >
                     </el-table-column>
                     <el-table-column
                       prop="fltno_chk"
-                      label="值机航班号"
+                      label="值机航班号" sortable
                       >
                     </el-table-column>
 
                     <el-table-column
                       prop="fltdate_chk"
-                      label="航班日期"
+                      label="航班日期" sortable
                       >
                     </el-table-column>
                     <el-table-column
                       prop="passportissuecountry"
-                      label="国籍" >
+                      label="国籍" sortable>
                     </el-table-column>
                     <el-table-column
                       prop="passportno"
-                      label="证号" >
+                      label="证号" sortable>
                     </el-table-column>
                     <el-table-column
                       prop="name"
-                      label="姓名" >
+                      label="姓名" sortable>
                     </el-table-column>
                     <el-table-column
                       prop="gender"
-                      label="性别"
+                      label="性别" sortable
                       >
                     </el-table-column>
                     <el-table-column
                       prop="dateofbirth"
-                      label="出生日期"
+                      label="出生日期" sortable
                       >
                     </el-table-column>
                     <el-table-column
                       prop="name_chk"
-                      label="值机姓名" >
+                      label="值机姓名" sortable>
                     </el-table-column>
                     <el-table-column
                       prop="gender_chk"
-                      label="值机性别"
+                      label="值机性别" sortable
                       >
                     </el-table-column>
                     <el-table-column
                       prop="birthday_chk"
-                      label="值机出生日期"
+                      label="值机出生日期" sortable
                       >
                     </el-table-column>
                     <el-table-column
                       prop="crjwybs"
-                      label="出入境记录标识"
+                      label="出入境记录标识" sortable
                       >
                     </el-table-column>
                     <el-table-column
                       prop="passenger_recordnum"
-                      label="值机人员标识" >
+                      label="值机人员标识" sortable>
                     </el-table-column>
                     <el-table-column
                       prop="crrqsj"
-                      label="出入境时间"
+                      label="出入境时间" sortable
                       >
                     </el-table-column>
                     <el-table-column
                       prop="iapi_receivetime"
-                      label="值机时间"
+                      label="值机时间" sortable
                       >
                     </el-table-column>
                   </el-table>
@@ -464,40 +464,40 @@
                         style="width: 100%;">
                         <el-table-column
                           prop="fltno"
-                          label="航班号" >
+                          label="航班号" sortable>
                         </el-table-column>
                         <el-table-column
                           prop="fltdate"
-                          label="航班日期"
+                          label="航班日期" sortable
                           >
                         </el-table-column>
                         <el-table-column
                           prop="passportissuecountry"
-                          label="国籍"
+                          label="国籍" sortable
                           >
                         </el-table-column>
                         <el-table-column
                           prop="passportno"
-                          label="证号"
+                          label="证号" sortable
                           >
                         </el-table-column>
 
                         <el-table-column
                           prop="abono"
-                          label="abo号码" >
+                          label="abo号码" sortable>
                         </el-table-column>
                         <el-table-column
                           prop="name"
-                          label="姓名" >
+                          label="姓名" sortable>
                         </el-table-column>
                         <el-table-column
                           prop="gender"
-                          label="性别"
+                          label="性别" sortable
                           >
                         </el-table-column>
                         <el-table-column
                           prop="dateofbirth"
-                          label="出生日期"
+                          label="出生日期" sortable
                           >
                         </el-table-column>
                       </el-table>

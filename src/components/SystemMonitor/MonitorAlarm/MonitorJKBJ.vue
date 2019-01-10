@@ -113,21 +113,21 @@
        label="监控对象" sortable>
      </el-table-column> -->
      <el-table-column
-       prop="CREATETIME"
+       prop="CREATETIME" sortable
        label="报警时间"
        sortable>
      </el-table-column>
      <el-table-column
-       prop="MDESC"
+       prop="MDESC" sortable
        label="报警内容">
      </el-table-column>
      <el-table-column
-       prop="DEALUSER"
+       prop="DEALUSER" sortable
        label="处理人"
        sortable>
      </el-table-column>
      <el-table-column
-       prop="DEALTIME"
+       prop="DEALTIME" sortable
        label="处理时间"
        sortable>
      </el-table-column>

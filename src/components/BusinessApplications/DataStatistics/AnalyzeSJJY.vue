@@ -102,29 +102,29 @@
                              </el-table-column>
                              <el-table-column
                                prop="totalcount"
-                               label="校验总量" >
+                               label="校验总量" sortable>
                              </el-table-column>
                              <el-table-column
                                prop="errcount"
-                               label="异常数">
+                               label="异常数" sortable>
                              </el-table-column>
 
                                  <el-table-column label="问题类型">
                                    <el-table-column
                                      prop="rst_1"
-                                     label="缺失">
+                                     label="缺失" sortable>
                                    </el-table-column>
                                    <el-table-column
                                      prop="rst_2"
-                                     label="长度不符合">
+                                     label="长度不符合" sortable>
                                    </el-table-column>
                                    <el-table-column
                                      prop="rst_3"
-                                     label="格式错误">
+                                     label="格式错误" sortable>
                                    </el-table-column>
                                    <el-table-column
                                      prop="rst_4"
-                                     label="不符合当前时间">
+                                     label="不符合当前时间" sortable>
                                    </el-table-column>
                               </el-table-column>
 

@@ -52,32 +52,32 @@
         style="width: 100%;"
         >
         <el-table-column
-          prop="LABELTYPE_NAME"
+          prop="LABELTYPE_NAME" sortable
           label="标签分类">
         </el-table-column>
          <el-table-column
-          prop="LABELNAME"
+          prop="LABELNAME" sortable
           label="标签名称"
           >
         </el-table-column>
         <el-table-column
-          prop="LABELREASON"
+          prop="LABELREASON" sortable
           label="标签描述">
         </el-table-column>
         <el-table-column
-          prop="CREATEUSERNAME"
+          prop="CREATEUSERNAME" sortable
           label="创建人">
         </el-table-column>
         <el-table-column
-          prop="CREATETIME"
+          prop="CREATETIME" sortable
           label="创建时间">
         </el-table-column>
         <el-table-column
-          prop="UPDATEUSERNAME"
+          prop="UPDATEUSERNAME" sortable
           label="最后更新人">
         </el-table-column>
         <el-table-column
-          prop="UPDATETIME"
+          prop="UPDATETIME" sortable
           label="最后更新时间">
         </el-table-column>
         <el-table-column

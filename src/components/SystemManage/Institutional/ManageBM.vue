@@ -49,25 +49,25 @@
         style="width: 100%;"
         >
         <el-table-column
-          prop="DEPT_QC"
+          prop="DEPT_QC" sortable
           label="部门全称">
         </el-table-column>
         <el-table-column
-          prop="DEPT_JC"
+          prop="DEPT_JC" sortable
           label="部门简称"
           >
         </el-table-column>
         <el-table-column
-          prop="DEPT_CODE"
+          prop="DEPT_CODE" sortable
           label="部门编码">
         </el-table-column>
         <el-table-column
-          prop="PARENT_JC"
+          prop="PARENT_JC" sortable
           label="上级部门"
           >
         </el-table-column>
         <el-table-column
-          prop="STATUS"
+          prop="STATUS" sortable
           label="使用状态"
         >
         <template slot-scope="scope">

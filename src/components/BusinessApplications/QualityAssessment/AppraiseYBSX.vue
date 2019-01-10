@@ -104,12 +104,12 @@
 
 
         <el-table-column
-          prop="airline_company_id"
+          prop="airline_company_id" sortable
           label="航空公司名称" width="200">
 
         </el-table-column>
         <el-table-column
-          prop="fltno"
+          prop="fltno" sortable
           label="航班号"
           >
         </el-table-column>
@@ -127,27 +127,27 @@
           label="证件号码" >
         </el-table-column> -->
         <el-table-column
-          prop="noreport"
+          prop="noreport" sortable
           label="关闭报文未报数量" >
         </el-table-column>
         <el-table-column
-          prop="ontime"
+          prop="ontime" sortable
           label="关闭报文准时预报数量" >
         </el-table-column>
         <el-table-column
-          prop="later"
+          prop="later" sortable
           label="关闭报文晚报数量" >
         </el-table-column>
         <el-table-column
-          prop="msg_ontime"
+          prop="msg_ontime" sortable
           label="值机报文准时预报数量" >
         </el-table-column>
         <el-table-column
-          prop="msg_noreport"
+          prop="msg_noreport" sortable
           label="值机报文未报数量" >
         </el-table-column>
         <el-table-column
-          prop="msg_later"
+          prop="msg_later" sortable
           label="值机报文晚报数量" >
         </el-table-column>
         <!-- <el-table-column
@@ -226,7 +226,6 @@
     <el-dialog
       title="详情"
       :visible.sync="detailsDialogVisible">
-
         <div class="ak-tabs">
           <div class="ak-tab-item abehgt hand" :class="{'ak-checked':page==0}" @click="base">
             未关闭报航班
@@ -252,34 +251,34 @@
                     style="width: 100%;">
                     <el-table-column
                       prop="airline_company_id"
-                      label="航空公司名称" >
+                      label="航空公司名称" sortable>
                     </el-table-column>
                     <el-table-column
                       prop="fltno"
-                      label="航班号"
+                      label="航班号" sortable
                       >
                     </el-table-column>
                     <el-table-column
                       prop="flttype"
-                      label="类型" >
+                      label="类型" sortable>
                     </el-table-column>
                     <el-table-column
                       prop="localdeparturetime"
-                      label="起飞时间" >
+                      label="起飞时间" sortable>
                     </el-table-column>
                     <el-table-column
                       prop="localarrivetime"
-                      label="降落时间"
+                      label="降落时间" sortable
                       >
                     </el-table-column>
                     <el-table-column
                       prop="cityfrom"
-                      label="出发地"
+                      label="出发地" sortable
                       >
                     </el-table-column>
                     <el-table-column
                       prop="cityto"
-                      label="目的地"
+                      label="目的地" sortable
                       >
                     </el-table-column>
                   </el-table>
@@ -324,49 +323,49 @@
                         style="width: 100%;">
                         <el-table-column
                           prop="airline_company_id"
-                          label="航空公司名称"
+                          label="航空公司名称" sortable
                           >
                         </el-table-column>
                         <el-table-column
                           prop="fltno"
-                          label="航班号"
+                          label="航班号" sortable
                           >
                         </el-table-column>
                         <el-table-column
                           prop="flttype"
-                          label="类型" >
+                          label="类型" sortable>
                         </el-table-column>
                         <el-table-column
                           prop="localdeparturetime"
-                          label="起飞时间"
+                          label="起飞时间" sortable
                           >
                         </el-table-column>
                         <el-table-column
                           prop="localarrivetime"
-                          label="降落时间" >
+                          label="降落时间" sortable>
                         </el-table-column>
                         <el-table-column
                           prop="cityfrom"
-                          label="出发地" >
+                          label="出发地" sortable>
                         </el-table-column>
                         <el-table-column
                           prop="cityto"
-                          label="目的地"
+                          label="目的地" sortable
                           >
                         </el-table-column>
                         <el-table-column
                           prop="iapi_receivetime"
-                          label="关闭报文接收时间"
+                          label="关闭报文接收时间" sortable
                           >
                         </el-table-column>
                         <el-table-column
-                          prop="close_threshold"
+                          prop="close_threshold" sortable
                           label="阈值"
                           >
                         </el-table-column>
                         <el-table-column
                           prop="offset"
-                          label="大于阈值的偏差"
+                          label="大于阈值的偏差" sortable
                           >
                         </el-table-column>
                       </el-table>
@@ -411,55 +410,53 @@
                     style="width: 100%;">
                     <el-table-column
                       prop="fltno"
-                      label="航班号"
+                      label="航班号" sortable
                       >
                     </el-table-column>
                     <el-table-column
                       prop="flttype"
-                      label="类型"
+                      label="类型" sortable
                       >
                     </el-table-column>
-
-
                     <el-table-column
                       prop="passportissuecountry"
-                      label="国籍" >
+                      label="国籍" sortable>
                     </el-table-column>
                     <el-table-column
                       prop="passportno"
-                      label="证号" >
+                      label="证号" sortable>
                     </el-table-column>
                     <el-table-column
                       prop="name"
-                      label="姓名" >
+                      label="姓名" sortable>
                     </el-table-column>
                     <el-table-column
                       prop="gender"
-                      label="性别"
+                      label="性别" sortable
                       >
                     </el-table-column>
                     <el-table-column
                       prop="dateofbirth"
-                      label="出生日期"
+                      label="出生日期" sortable
                       >
                     </el-table-column>
                     <el-table-column
                       prop="passengertype"
-                      label="旅客类型" >
+                      label="旅客类型" sortable>
                     </el-table-column>
                     <el-table-column
                       prop="vid"
-                      label="值机渠道"
+                      label="值机渠道" sortable
                       >
                     </el-table-column>
                     <el-table-column
                       prop="closetime"
-                      label="关闭报文接收时间"
+                      label="关闭报文接收时间" sortable
                       >
                     </el-table-column>
                     <el-table-column
                       prop="chktime"
-                      label="值机时间"
+                      label="值机时间" sortable
                       >
                     </el-table-column>
 
@@ -505,20 +502,20 @@
                         style="width: 100%;">
                         <el-table-column
                           prop="abono"
-                          label="abo号码" >
+                          label="abo号码" sortable>
                         </el-table-column>
                         <el-table-column
-                          prop="fltno"
+                          prop="fltno" sortable
                           label="航班号"
                           >
                         </el-table-column>
                         <el-table-column
-                          prop="dptime"
+                          prop="dptime" sortable
                           label="计划飞起时间"
                           >
                         </el-table-column>
                         <el-table-column
-                          prop="artime"
+                          prop="artime" sortable
                           label="计划降落时间"
                           >
                         </el-table-column>

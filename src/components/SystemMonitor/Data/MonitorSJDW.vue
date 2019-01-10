@@ -15,11 +15,19 @@
             </el-col>
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text"><font color="red">*</font> 航班日期：</span>
-               <el-date-picker
-               v-model="pd.fltdate" format="yyyy-MM-dd" class="input-input"
-               type="date" size="small" value-format="yyyyMMdd"
-               placeholder="开始时间">
-             </el-date-picker>
+         <div class="input-input t-flex t-date">
+            <el-date-picker
+            v-model="pd.begintime" format="yyyy-MM-dd"
+            type="date" size="small" value-format="yyyyMMdd"
+            placeholder="开始时间"  :picker-options="pickerOptions1" >
+          </el-date-picker>
+            <span class="septum">-</span>
+          <el-date-picker
+             v-model="pd.endtime" format="yyyy-MM-dd"
+             type="date" size="small" value-format="yyyyMMdd"
+             placeholder="结束时间" :picker-options="pickerOptions2" >
+         </el-date-picker>
+     </div>
             </el-col>
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                 <span class="input-text"> 国籍/地区：</span>
@@ -37,8 +45,6 @@
               <span class="input-text">证件号码：</span>
                 <el-input placeholder="请输入内容" size="small" v-model="pd.cardnum" class="input-input"></el-input>
              </el-col>
-
-
               <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
                 <span class="input-text">姓名：</span>
                 <el-input placeholder="请输入内容" size="small" v-model="pd.name"   class="input-input"></el-input>
@@ -59,7 +65,7 @@
               <el-date-picker
               v-model="pd.birthday"
               type="date" size="small" value-format="yyyyMMdd" class="input-input"
-              placeholder="开始时间" >
+              placeholder="选择时间" >
             </el-date-picker>
 
             </el-col>
@@ -103,7 +109,7 @@
 
         </el-col>
         <el-col :span="2" class="down-btn-area" style="margin-top:25px;">
-          <el-button type="success" size="small" @click="getList(CurrentPage,pageSize,pd)">统计</el-button>
+          <el-button type="success" size="small" @click="getList(CurrentPage,pageSize,pd)">查询</el-button>
         </el-col>
       </el-row>
     </div>
@@ -118,61 +124,70 @@
         <div class="ak-tab-item hand" :class="{'ak-checked':page==1}" @click="batch">
           图表展示
         </div>
+        <span style="font-size:14px; color:red">注："双击"一条数据图表即可展示进度</span>
       </div>
       <div class="ak-tab-pane">
           <div v-show="page==0" >
-
-
             <el-table
                   :data="tableData"
-                  @row-click="rowClick"
+                  @row-dblclick="rowClick"
                   border
                   >
                   <el-table-column
                     prop="fltno"
-                    label="航班号" >
+                    label="航班号" sortable>
                   </el-table-column>
                   <el-table-column
-                    prop="fltdate"
-                    label="航班日期">
+                    prop="fltdate_show"
+                    label="航班日期" sortable>
                   </el-table-column>
                   <el-table-column
-                    prop="passportissuecountry"
-                    label="国籍">
+                    prop="passportissuecountry_show"
+                    label="国籍/地区" sortable>
                   </el-table-column>
                   <el-table-column
                     prop="passportno"
-                    label="证号">
+                    label="证件号码" sortable>
                   </el-table-column>
                   <el-table-column
                     prop="name"
-                    label="姓名">
+                    label="姓名" sortable>
                   </el-table-column>
                   <el-table-column
-                    label="性别" >
-                    <template slot-scope="scope">
+                  prop="gender_show"
+                    label="性别" sortable >
+                    <!-- <template slot-scope="scope">
                         {{scope.row.gender | fiftersex}}
+                      </template> -->
+                  </el-table-column>
+                  <el-table-column
+                    prop="birthday_show"
+                    label="出生日期" sortable>
+
+                  </el-table-column>
+                  <el-table-column
+                    label="订票状态" sortable>
+                    <template slot-scope="scope">
+                        {{scope.row.pnrflag,1 | fifterstatus}}
                       </template>
                   </el-table-column>
                   <el-table-column
-                    prop="birthday"
-                    label="出生日期">
+                    label="值机状态" sortable>
+                    <template slot-scope="scope">
+                        {{scope.row.chkflag,2 | fifterstatus}}
+                      </template>
                   </el-table-column>
                   <el-table-column
-                    prop="pnrflag"
-                    label="订票状态">
+                    label="登机状态" sortable>
+                    <template slot-scope="scope">
+                        {{scope.row.clsflag,3 | fifterstatus}}
+                      </template>
                   </el-table-column>
                   <el-table-column
-                    prop="chkflag"
-                    label="值机状态">
-                  </el-table-column>
-                  <el-table-column
-                    prop="clsflag"
-                    label="登机状态">
-                  </el-table-column>
-                  <el-table-column
-                    prop="eeflag"
-                    label="入出境状态">
+                    label="入出境状态" sortable>
+                    <template slot-scope="scope">
+                        {{scope.row.eeflag,4 | fifterstatus}}
+                    </template>
                   </el-table-column>
                 </el-table>
                 <div class="middle-foot">
@@ -274,12 +289,8 @@
   </div>
 </template>
 <script>
-import {
-  formatDate
-} from '@/assets/js/date.js'
-import {
-  dayGap
-} from '@/assets/js/date.js'
+import {formatDate} from '@/assets/js/date.js'
+import {dayGap} from '@/assets/js/date.js'
 export default {
   data() {
     return {
@@ -287,7 +298,7 @@ export default {
       pageSize: 10,
       TotalResult: 0,
       page:0,
-      pd: {},
+      pd: {begintime:'',endtime:''},
       nation: [],
       company: [],
       addDialogVisible: false,
@@ -307,22 +318,22 @@ export default {
       ],
       tableData: [],
       multipleSelection: [],
-      // pickerOptions0: {
-      //   disabledDate: (time) => {
-      //     if (this.pd.end != null) {
-      //       let startT = formatDate(new Date(time.getTime()), 'yyyyMMddhhmmss');
-      //       return startT > this.pd.end;
-      //     } else if (this.pd.end == null) {
-      //       return false
-      //     }
-      //   }
-      // },
-      // pickerOptions1: {
-      //   disabledDate: (time) => {
-      //     let endT = formatDate(new Date(time.getTime()), 'yyyyMMddhhmmss');
-      //     return endT < this.pd.begin;
-      //   }
-      // },
+      pickerOptions1: {
+        disabledDate: (time) => {
+          if (this.pd.endtime != null) {
+            let startT = formatDate(new Date(time.getTime()), 'yyyyMMddhhmmss');
+            return startT > this.pd.endtime;
+          } else if (this.pd.endtime == null) {
+            return false
+          }
+        }
+      },
+      pickerOptions2: {
+        disabledDate: (time) => {
+          let endT = formatDate(new Date(time.getTime()), 'yyyyMMddhhmmss');
+          return endT < this.pd.begintime;
+        }
+      },
       form:{},
       rst1:[],
       rst2:[],
@@ -339,21 +350,19 @@ export default {
   },
   mounted() {
     this.queryNationality();
-    // let time = new Date();
-    // let endz = new Date();
-    // let beginz = new Date(time - 1000 * 60 * 60 * 24 * 1);
-    // this.pd.begin = formatDate(beginz, 'yyyyMMddHHmmss');
-    // this.pd.end = formatDate(endz, 'yyyyMMddhhmmss');
-  //  this.getList(this.CurrentPage, this.pageSize, this.pd);
+    let time = new Date();
+    let endz = new Date();
+    let beginz = new Date(time - 1000 * 60 * 60 * 24 * 30);
+    this.pd.begintime = formatDate(endz, 'yyyyMMdd');
+    this.pd.endtime = formatDate(endz, 'yyyyMMdd');
   },
   activated() {
     this.queryNationality();
-    // let time = new Date();
-    // let endz = new Date();
-    // let beginz = new Date(time - 1000 * 60 * 60 * 24 * 1);
-    // this.pd.begin = formatDate(beginz, 'yyyyMMddhhmmss');
-    // this.pd.end = formatDate(endz, 'yyyyMMddhhmmss');
-    // this.getList(this.CurrentPage, this.pageSize, this.pd);
+    let time = new Date();
+    let endz = new Date();
+    let beginz = new Date(time - 1000 * 60 * 60 * 24 * 30);
+    this.pd.begintime = formatDate(endz, 'yyyyMMdd');
+    this.pd.endtime = formatDate(endz, 'yyyyMMdd');
   },
   methods: {
     base() {
@@ -376,8 +385,15 @@ export default {
     },
     getList(currentPage, showCount, pd) {
 
-if(this.pd.fltdate==undefined || this.pd.fltdate==""){
-    this.$alert('航班日期不能为空！', '提示', {
+if(this.pd.begintime==undefined || this.pd.begintime==""){
+    this.$alert('航班开始时间不能为空！', '提示', {
+      confirmButtonText: '确定',
+    });
+    return false
+}
+
+if(this.pd.endtime==undefined || this.pd.endtime==""){
+    this.$alert('航班结束时间不能为空！', '提示', {
       confirmButtonText: '确定',
     });
     return false
@@ -499,6 +515,39 @@ this.$api.post("/manage-platform/PersonLocation/get_person_status", p,
         return "女";
       }
     },
+
+    fifterstatus(val,t)
+    {
+        if(t==1){
+           if(val=="是"){
+             return "已订票";
+           }else{
+             return "未订票";
+           }
+        }
+        else if(t==2){
+          if(val=="是"){
+            return "已值机";
+          }else{
+            return "未值机";
+          }
+        }
+        else if(t==3){
+          if(val=="是"){
+            return "已登机";
+          }else{
+            return "未登机";
+          }
+        }
+        else if(t==4){
+          if(val=="是"){
+            return "已办理";
+          }else{
+            return "未办理";
+          }
+        }
+
+    }
   }
 }
 </script>

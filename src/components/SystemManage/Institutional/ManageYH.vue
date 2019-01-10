@@ -60,26 +60,25 @@
         style="width: 100%;"
         >
         <el-table-column
-          prop="EMPLOYEE_CARD"
+          prop="EMPLOYEE_CARD" sortable
           label="警号">
         </el-table-column>
         <el-table-column
-          prop="NAME"
+          prop="NAME" sortable
           label="民警姓名"
           >
         </el-table-column>
         <el-table-column
-          prop="USERNAME"
+          prop="USERNAME" sortable
           label="用户名">
         </el-table-column>
         <el-table-column
-          prop="CERTIFICATE_NO"
+          prop="CERTIFICATE_NO" sortable
           label="身份证"
           >
         </el-table-column>
         <el-table-column
-
-          label="性别"
+          label="性别" sortable
         >
         <template slot-scope="scope">
           {{scope.row.SEX | fiftersex}}
@@ -88,11 +87,11 @@
         </el-table-column>
         <el-table-column
           prop="PHONE"
-          label="联系方式"
+          label="联系方式" sortable
         >
         </el-table-column>
         <el-table-column
-          label="状态"
+          label="状态" sortable
         >
         <template slot-scope="scope">
           {{scope.row.STATUS | fifterstatus}}

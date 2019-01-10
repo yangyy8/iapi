@@ -33,19 +33,19 @@
         >
         <el-table-column
           prop="MTYPE"
-          label="配置类型">
+          label="配置类型" sortable>
         </el-table-column>
         <el-table-column
           prop="CVALUE"
-          label="配置阀值">
+          label="配置阀值" sortable>
         </el-table-column>
         <el-table-column
           prop="VALUETYPE"
-          label="配置单位">
+          label="配置单位" sortable>
         </el-table-column>
         <el-table-column
           prop="MCHNDESC"
-          label="中文描述">
+          label="中文描述" sortable>
         </el-table-column>
         <el-table-column
           label="操作" width="70">
