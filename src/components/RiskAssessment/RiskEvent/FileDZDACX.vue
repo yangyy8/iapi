@@ -112,9 +112,9 @@
           </el-table-column>
           <el-table-column
             label="照片">
-            <!-- <template slot-scope="scope">
+            <template slot-scope="scope">
               <span class="tc-b hand" @click="getPhotoInf(scope.row.PASSPORTNO,scope.row.NATIONALITY,scope.row.BIRTHDAY,scope.row.ENAME)">查看</span>
-            </template> -->
+            </template>
           </el-table-column>
           <el-table-column
             label="操作"

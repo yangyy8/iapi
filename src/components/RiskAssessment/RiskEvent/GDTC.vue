@@ -21,12 +21,17 @@
           <el-col  :sm="24" :md="12" :lg="12"  class="input-item">
             <span class="mr-5">类别 </span>
             <el-cascader
+              size="small"
               expand-trigger="hover"
               class="input-input"
               :options="options2"
               v-model="gdform.processorResult"
               @change="handleChange">
             </el-cascader>
+          </el-col>
+          <el-col  :sm="24" :md="12" :lg="12"  class="input-item" style="height:32px;">
+            <el-radio v-model="gdform.hit" label="0" class="mr-15">未查获</el-radio>
+            <el-radio v-model="gdform.hit" label="1">已查获</el-radio>
           </el-col>
         </el-row>
       </div>
@@ -170,7 +175,7 @@ export default {
       tagData:{},
       taged:0,
       checkedtag:[],
-      gdform:{},
+      gdform:{hit:'0'},
       gdDialogVisible2:this.gvisible,
       listData:this.garr,
       gt:this.gtype
@@ -190,7 +195,7 @@ export default {
     gvisible:function(val){
       this.gdDialogVisible2=val;
       if(val){
-        this.gdform={};
+        this.gdform={hit:'0'};
         this.getBatchEventArchiveTagInfo()
         this.getUers();
         this.checkedtag=[];
@@ -247,7 +252,8 @@ export default {
       let arr1=this.listData;
       let p={
         list:[],
-        userId:this.user.userId
+        userId:this.user.userId,
+        "hit":this.gdform.hit
       };
       if(arr1.length){
         let that=this;
@@ -265,7 +271,8 @@ export default {
             "secondType":that.gdform.processorResult[2],
             "operation_type":1,
             "tag_type":2,
-            "tagList":that.checkedtag
+            "tagList":that.checkedtag,
+
           }
           p.list.push(a)
         }
@@ -285,7 +292,7 @@ export default {
            "secondType":this.gdform.processorResult[2],
            "operation_type":1,
            "tag_type":2,
-           "tagList":this.checkedtag
+           "tagList":this.checkedtag,
          }
        ]
       }

@@ -329,7 +329,7 @@
           </el-table-column>
           <el-table-column
             label="订票性别"
-            prop="bkgender"
+            prop="bkbirthday"
             width="65"
             sortable
             :show-overflow-tooltip="true">
@@ -357,7 +357,7 @@
           </el-table-column>
           <el-table-column
             label="订票出生日期"
-            prop="bkbirthday"
+            prop="bkgender"
             sortable
             width="101"
             :show-overflow-tooltip="true">

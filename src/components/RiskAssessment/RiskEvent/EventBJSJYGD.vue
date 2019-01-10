@@ -425,7 +425,7 @@ export default {
 
   },
   activated(){
-    this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
+    // this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
 
   },
   methods:{
