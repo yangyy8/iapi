@@ -111,7 +111,8 @@
         <el-button type="primary" size="small" @click="adds(0,'');form={};">新增</el-button>
         <el-button type="warning"  size="small" @click="showUpload">批量导入</el-button>
         <el-button type="success" size="small" @click="download">模板下载</el-button>
-            <el-button type="info" size="small" @click="batchsdelete">批量删除</el-button>
+        <el-button type="info" size="small" @click="batchsdelete">批量删除</el-button>
+        <el-button type="warning" size="small" @click="exportdata">批量导出</el-button>
         </el-row>
       <el-table
         :data="tableData"
@@ -124,11 +125,11 @@
         </el-table-column>
         <el-table-column
           prop="RISKDICTIONARIES"
-          label="姓名">
+          label="姓名" sortable>
         </el-table-column>
 
          <el-table-column
-          label="性别"
+          label="性别" sortable
           >
           <template slot-scope="scope">
               {{scope.row.GENDER | fiftersex}}
@@ -143,20 +144,20 @@
           label="国籍/地区">
         </el-table-column>
         <el-table-column
-        prop="CARDTYPENAME"
+        prop="CARDTYPENAME" sortable
           label="证件种类">
 
         </el-table-column>
         <el-table-column
-          prop="CARDNO"
+          prop="CARDNO" sortable
           label="证件号码">
         </el-table-column>
         <el-table-column
-          prop="EXPIREDATE"
+          prop="EXPIREDATE" sortable
           label="有效日期">
         </el-table-column>
         <el-table-column
-
+          sortable
           label="有效状态">
 
             <template slot-scope="scope">
@@ -166,19 +167,19 @@
             </template>
         </el-table-column>
         <el-table-column
-          prop="CREATEUSERNAME"
+          prop="CREATEUSERNAME" sortable
           label="操作人">
         </el-table-column>
         <el-table-column
-          prop="CREATETIME"
-          label="操作时间">
+          prop="CREATETIME" sortable
+          label="操作时间"  width="170">
         </el-table-column>
         <el-table-column
-          label="操作" width="300">
+          label="操作" width="120">
           <template slot-scope="scope">
-              <el-button class="table-btn" size="mini"  icon="el-icon-tickets" @click="details(scope.row)"></el-button>
-              <el-button class="table-btn" size="mini"  icon="el-icon-edit" @click="adds(1,scope.row)"></el-button>
-              <el-button class="table-btn" size="mini"  icon="el-icon-delete" @click="deletes(scope.row)"></el-button>
+              <el-button type="text"  class="a-btn"  title="详情"  icon="el-icon-tickets" @click="details(scope.row)"></el-button>
+              <el-button type="text"  class="a-btn"  title="编辑"   icon="el-icon-edit" @click="adds(1,scope.row)"></el-button>
+              <el-button type="text"  class="a-btn"   title="删除"  icon="el-icon-delete" @click="deletes(scope.row)"></el-button>
          </template>
         </el-table-column>
       </el-table>
@@ -422,6 +423,7 @@
   </div>
 </template>
 <script>
+import axios from 'axios'
 export default {
   data() {
     return {
@@ -472,13 +474,13 @@ export default {
     }
   },
   mounted() {
-    this.getList(this.CurrentPage, this.pageSize, this.pd);
+  //  this.getList(this.CurrentPage, this.pageSize, this.pd);
     this.queryNationality();
     this.queryType();
     this.queryDocCode();
   },
   activated() {
-    this.getList(this.CurrentPage, this.pageSize, this.pd);
+  //  this.getList(this.CurrentPage, this.pageSize, this.pd);
     this.queryNationality();
     this.queryType();
       this.queryDocCode();
@@ -720,7 +722,68 @@ export default {
 
 
     },
+    exportdata(){
+      //console.log("this.multipleSelection.length",this.multipleSelection.length);
+      if (this.multipleSelection.length == 0) {
+           this.download1();
+      }else {
+           this.download2();
+      }
+    },
+    download1(){
+        //var url="http://192.168.99.242:8081/manage-platform/riskNameList/exportAllData";
+        var url= this.$api.rootUrl+"/manage-platform/riskNameList/exportAllData";
+      axios({
+       method: 'post',
+       url: url,
+       data: {
+         "TYPE_CODE":this.pd.TYPE_CODE,
+         "NATIONALITY":this.pd.NATIONALITY,
+         "CARDTYPE":this.pd.CARDTYPE,
+         "CARDNO":this.pd.CARDNO,
+         "RISKDICTIONARIES":this.pd.RISKDICTIONARIES,
+         "GENDER":this.pd.GENDER,
+         "BIRTHDATESTART":this.pd.BIRTHDATESTART,
+         "BIRTHDATESTARTEND":this.pd.BIRTHDATESTARTEND,
+         "CREATETIMESTART":this.pd.CREATETIMESTART,
+         "CREATETIMEEND":this.pd.CREATETIMEEND,
+         "BEGINDATE":this.pd.BEGINDATE,
+         "EXPIREDATE":this.pd.EXPIREDATE,
+         "STATUS":this.pd.STATUS
 
+       },
+       responseType: 'blob'
+       }).then(response => {
+           this.downloadM(response)
+       });
+    },
+
+    download2(){
+       //var url="http://192.168.99.242:8081/manage-platform/riskNameList/exportAssignData";
+       var url= this.$api.rootUrl+"/manage-platform/riskNameList/exportAssignData";
+      axios({
+       method: 'post',
+       url: url,
+       data: {
+         "ids":this.multipleSelection
+       },
+       responseType: 'blob'
+       }).then(response => {
+           this.downloadM(response)
+       });
+    },
+    downloadM (data) {
+        if (!data) {
+            return
+        }
+        let url = window.URL.createObjectURL(new Blob([data.data],{type:"application/octet-stream"}))
+        let link = document.createElement('a')
+        link.style.display = 'none'
+        link.href = url
+        link.setAttribute('download', 'RosterData.xlsx')
+        document.body.appendChild(link)
+        link.click()
+    },
   },
   filters: {
 

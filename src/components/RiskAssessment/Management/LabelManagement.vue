@@ -52,40 +52,40 @@
         style="width: 100%;"
         >
         <el-table-column
-          prop="LABELTYPE_NAME"
+          prop="LABELTYPE_NAME" sortable
           label="标签分类">
         </el-table-column>
          <el-table-column
-          prop="LABELNAME"
+          prop="LABELNAME" sortable
           label="标签名称"
           >
         </el-table-column>
         <el-table-column
-          prop="LABELREASON"
+          prop="LABELREASON" sortable
           label="标签描述">
         </el-table-column>
         <el-table-column
-          prop="CREATEUSERNAME"
+          prop="CREATEUSERNAME" sortable
           label="创建人">
         </el-table-column>
         <el-table-column
-          prop="CREATETIME"
+          prop="CREATETIME" sortable
           label="创建时间">
         </el-table-column>
         <el-table-column
-          prop="UPDATEUSERNAME"
+          prop="UPDATEUSERNAME" sortable
           label="最后更新人">
         </el-table-column>
         <el-table-column
-          prop="UPDATETIME"
+          prop="UPDATETIME" sortable
           label="最后更新时间">
         </el-table-column>
         <el-table-column
-          label="操作" width="300">
+          label="操作" width="120">
           <template slot-scope="scope">
-              <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row)">详情</el-button>
-              <el-button class="table-btn" size="mini" plain icon="el-icon-edit" @click="adds(1,scope.row)">编辑</el-button>
-              <el-button class="table-btn" size="mini" plain icon="el-icon-delete" @click="deletes(scope.row)">删除</el-button>
+              <el-button type="text" class="a-btn" title="详情"  icon="el-icon-tickets" @click="details(scope.row)"></el-button>
+              <el-button type="text" class="a-btn" title="编辑"  icon="el-icon-edit" @click="adds(1,scope.row)"></el-button>
+              <el-button type="text" class="a-btn" title="删除"  icon="el-icon-delete" @click="deletes(scope.row)"></el-button>
          </template>
         </el-table-column>
       </el-table>

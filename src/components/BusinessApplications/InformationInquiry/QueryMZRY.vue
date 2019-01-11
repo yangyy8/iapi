@@ -79,14 +79,14 @@
                <el-date-picker
                v-model="pd.startFlightDepartdate"
                type="date" size="small"
-               placeholder="开始时间"
+               placeholder="开始时间"      v-verify.input.blur="{regs:'required',submit:'timeDemo'}"
                value-format="yyyyMMdd">
              </el-date-picker>
                <span class="septum">-</span>
              <el-date-picker
                 v-model="pd.endFlightDepartdate"
                 type="date" size="small"
-                placeholder="结束时间"
+                placeholder="结束时间"      v-verify.input.blur="{regs:'required',submit:'timeDemo'}"
                 value-format="yyyyMMdd">
             </el-date-picker>
           </div>
@@ -224,10 +224,10 @@
           fixed="right"
           label="操作"
           sortable
-          width="180">
+          width="80">
           <template slot-scope="scope">
-            <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row)">报表</el-button>
-            <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="getMore(scope.row)">详情</el-button>
+            <el-button type="text"  class="a-btn" title="报表" icon="el-icon-tickets" @click="details(scope.row)"></el-button>
+            <el-button type="text"  class="a-btn" title="详情"  plain icon="el-icon-tickets" @click="getMore(scope.row)"></el-button>
          </template>
         </el-table-column>
       </el-table>

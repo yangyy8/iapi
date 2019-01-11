@@ -429,54 +429,54 @@
       <div class="detail-msg-text">
         <el-row type="flex" class="detail-msg-row">
           <el-col :sm="24" :md="12" :lg="8" >
-            <span>姓名</span>
+            <span>姓名：</span>
             {{detailsData.FAMILYNAME}}
 
           </el-col>
           <el-col :sm="24" :md="12" :lg="8" >
-            <span>性别</span>
+            <span>性别：</span>
             <a v-if="detailsData.GENDER=='M'">男</a>
             <a v-if="detailsData.GENDER=='F'">女</a>
             <a v-if="detailsData.GENDER=='U'">未知</a>
 
           </el-col>
           <el-col :sm="24" :md="12" :lg="8" >
-            <span>出生日期</span>
+            <span>出生日期：</span>
             {{detailsData.DATEOFBIRTH}}
 
           </el-col>
         </el-row>
         <el-row type="flex" class="detail-msg-row">
           <el-col :sm="24" :md="12" :lg="8" >
-            <span>国籍/地区</span>
+            <span>国籍/地区：</span>
           {{detailsData.NATIONALITYNAME}}
 
           </el-col>
           <el-col :sm="24" :md="12" :lg="8" >
-            <span>证件号码</span>
+            <span>证件号码：</span>
             {{detailsData.CARDNO}}
 
           </el-col>
           <el-col :sm="24" :md="12" :lg="8" >
-            <span>签证号码</span>
+            <span>签证号码：</span>
             {{detailsData.VISANO}}
 
           </el-col>
         </el-row>
         <el-row type="flex" class="detail-msg-row">
           <el-col :sm="24" :md="12" :lg="8" >
-            <span>出入标识</span>
+            <span>出入标识：</span>
             <a v-if="detailsData.IN_OUT=='I'">入境</a>
             <a v-if="detailsData.IN_OUT=='O'">出境</a>
 
           </el-col>
           <el-col :sm="24" :md="12" :lg="8" >
-            <span>开始时间</span>
+            <span>开始时间：</span>
             {{detailsData.BEGINDATE}}
 
           </el-col>
           <el-col :sm="24" :md="12" :lg="8" >
-            <span>终止时间</span>
+            <span>终止时间：</span>
             {{detailsData.ENDDATE}}
 
           </el-col>
@@ -484,31 +484,31 @@
         </el-row>
         <el-row type="flex" class="detail-msg-row">
           <el-col :sm="24" :md="12" :lg="8" >
-            <span>航班号</span>
+            <span>航班号：</span>
           {{detailsData.FLTNO}}
 
           </el-col>
           <el-col :sm="24" :md="12" :lg="8" >
-            <span>出入事由</span>
+            <span>出入事由：</span>
             {{detailsData.REASONNAME}}
           </el-col>
           <el-col :sm="24" :md="12" :lg="8" >
-            <span>关注范围</span>
+            <span>关注范围：</span>
             {{detailsData.SCOPENAME}}
           </el-col>
         </el-row>
         <el-row type="flex" class="detail-msg-row">
           <el-col :sm="24" :md="12" :lg="8" >
-            <span>报列单位</span>
+            <span>报列单位：</span>
             {{detailsData.REPORTUNITNAME}}
           </el-col>
           <el-col :sm="24" :md="12" :lg="8" >
-            <span>联系电话</span>
+            <span>联系电话：</span>
             {{detailsData.TEL}}
 
           </el-col>
           <el-col :sm="24" :md="12" :lg="8" >
-            <span>关注类别</span>
+            <span>关注类别：</span>
             <a v-if="detailsData.TYPE=='1'">风评高风险人员</a>
             <a v-if="detailsData.TYPE=='2'">特殊关注对象</a>
 
@@ -516,14 +516,14 @@
         </el-row>
         <el-row type="flex" class="detail-msg-row mb-20">
           <el-col :sm="24" :md="12" :lg="16" >
-            <span>关注内容</span>
+            <span>关注内容：</span>
           {{detailsData.CONTENT}}
 
           </el-col>
         </el-row>
         <el-row type="flex" class="detail-msg-row">
           <el-col :span="5">
-            <span>操作人</span>
+            <span>操作人：</span>
             {{detailsData.CREATEUSER}}
 
           </el-col>
@@ -533,7 +533,7 @@
 
           </el-col> -->
           <el-col :span="6">
-            <span>操作时间</span>
+            <span>操作时间：</span>
             {{detailsData.CREATETIME}}
 
           </el-col>

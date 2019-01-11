@@ -65,7 +65,7 @@
             <el-select v-model="scope.row.IODIR" placeholder="请选择" v-verify.change.blur="{regs:'required',submit:'demo'}" size="mini" filterable clearable class="table-select">
               <el-option label="I - 入境" value="I"></el-option>
               <el-option label="O - 出境" value="O"></el-option>
-              <el-option label="A - 全部" value="A"></el-option>
+              <el-option label="A - 入出境" value="A"></el-option>
             </el-select>
          </template>
         </el-table-column>
@@ -170,11 +170,11 @@
         </el-table-column>
         <el-table-column
           label="操作"
-          width="130"
+          width="70"
           fixed="right">
           <template slot-scope="scope">
             <div>
-             <el-button class="table-btn" size="mini" plain icon="el-icon-delete" @click="deleteTableList(scope.$index,scope.row)">删除</el-button>
+             <el-button type="text"  class="a-btn"  title="删除"  icon="el-icon-delete" @click="deleteTableList(scope.$index,scope.row)"></el-button>
            </div>
          </template>
         </el-table-column>

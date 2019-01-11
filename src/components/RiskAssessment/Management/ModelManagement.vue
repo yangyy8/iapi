@@ -87,7 +87,7 @@
         </el-table-column> -->
          <el-table-column
           prop="MODEL_JC"
-          label="模型简称"
+          label="模型简称" sortable
           >
         </el-table-column>
         <!-- <el-table-column
@@ -96,7 +96,7 @@
         </el-table-column> -->
         <el-table-column
           prop="CREATE_PERSION"
-          label="创建人">
+          label="创建人" sortable>
         </el-table-column>
         <!-- <el-table-column
           prop="PORT_NAME"
@@ -104,21 +104,21 @@
         </el-table-column> -->
 
         <el-table-column
-          prop="UPDATE_TIME"
+          prop="UPDATE_TIME" sortable
           label="最后更新日期">
         </el-table-column>
         <el-table-column
-          prop="LIFE_SPAN"
+          prop="LIFE_SPAN" sortable
           label="有效日期">
         </el-table-column>
         <el-table-column
-          label="是否启用">
+          label="是否启用" sortable>
           <template slot-scope="scope">
               <span :class="{'yyred':scope.row.STATUS == '0','yygreen':scope.row.STATUS == '1'}">  {{scope.row.STATUS | fifterstatus}}</span>
             </template>
         </el-table-column>
         <el-table-column
-          label="模型状态">
+          label="模型状态" sortable>
           <template slot-scope="scope">
               {{scope.row.MODEL_PHASES | fiftermodel}}
             </template>
@@ -128,16 +128,16 @@
           label="发布状态">
         </el-table-column> -->
       <el-table-column
-          label="操作" width="480">
+          label="操作" width="160">
           <template slot-scope="scope">
-            <el-button class="table-btn" size="mini" plain icon="el-icon-edit" @click="adds(1,scope.row)">编辑</el-button>
-            <el-button class="table-btn" size="mini" plain icon="el-icon-delete" @click="deletes(scope.row)">删除</el-button>
-            <!-- <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row)">版本查看</el-button> -->
-            <el-button class="table-btn" size="mini" plain icon="el-icon-share" @click="relates(scope.row)">关联问题</el-button>
-            <el-button class="table-btn" size="mini" plain icon="el-icon-edit-outline" @click="auses(scope.row)">使用口岸</el-button>
-            <el-button class="table-btn" size="mini" plain icon="el-icon-setting" v-if="scope.row.STATUS==0" @click="starts(scope.row,1)">启用</el-button>
-            <el-button class="table-btn" size="mini" plain icon="el-icon-setting" v-else  @click="starts(scope.row,0)">停用</el-button>
-            <!-- <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row)">推送测试</el-button> -->
+            <el-button type="text" class="a-btn" title="编辑"   icon="el-icon-edit" @click="adds(1,scope.row)"></el-button>
+            <el-button type="text" class="a-btn" title="删除"  icon="el-icon-delete" @click="deletes(scope.row)"></el-button>
+            <!-- <el-button type="text" class="a-btn"  icon="el-icon-tickets" title="版本查看" @click="details(scope.row)"></el-button> -->
+            <el-button type="text" class="a-btn" title="关联问题"  icon="el-icon-share" @click="relates(scope.row)"></el-button>
+            <el-button type="text" class="a-btn" title="使用口岸"  icon="el-icon-edit-outline" @click="auses(scope.row)"></el-button>
+            <el-button type="text" class="a-btn" title="启用"  icon="el-icon-setting" v-if="scope.row.STATUS==0" @click="starts(scope.row,1)"></el-button>
+            <el-button type="text" class="a-btn" title="停用"  icon="el-icon-setting" v-else  @click="starts(scope.row,0)"></el-button>
+            <!-- <el-button type="text" class="a-btn" icon="el-icon-tickets" title="推送测试" @click="details(scope.row)"></el-button> -->
          </template>
         </el-table-column>
       </el-table>

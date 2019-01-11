@@ -28,16 +28,14 @@
              </el-date-picker>
              </div>
           </el-col>
-
           <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">出入标识：</span>
               <el-select v-model="pd.flightType"  filterable clearable  class="input-input" @change="changeCountry(pd.flightType)"  placeholder="请选择"  size="small">
-
                 <el-option value="I" label="I - 入境">
                 </el-option>
                 <el-option value="O" label="O - 出境">
                 </el-option>
-                <el-option value="A" label="A - 全部">
+                <el-option value="A" label="A - 入出境">
                 </el-option>
               </el-select>
             </el-col>
@@ -53,15 +51,12 @@
                   </el-option>
                 </el-select>
               </el-col>
-
             <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
                 <span class="input-text">起飞机场：</span>
-
                   <el-select v-model="pd.cityFrom" filterable clearable  placeholder="请选择" size="small" class="input-input">
                     <el-option
                       v-for="(item,ind) in AirportI"
                       v-if="item.AIRPORT_CODE"
-
                       :label="item.AIRPORT_CODE+' - '+item.AIRPORT_NAME"
                       :value="item.AIRPORT_CODE" >
                     </el-option>
@@ -75,7 +70,6 @@
                </el-select>
                <!-- <QueryAirport  :airportModel="pd.cityFrom" @transAirport="getInAirport"></QueryAirport> -->
             </el-col>
-
             <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
             <span class="input-text">预计起飞时间：</span>
             <div class="input-input t-flex t-date">
@@ -123,7 +117,6 @@
               </el-select>
               <!-- <QueryAirport  :airportModel="pd.cityTo" @transAirport="getOutAirport"></QueryAirport> -->
             </el-col>
-
             <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
             <span class="input-text">预计到达时间：</span>
             <div class="input-input t-flex t-date">
@@ -156,11 +149,9 @@
                </el-date-picker>
                </div>
             </el-col>
-
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                 <span class="input-text">比中类型：</span>
                 <el-select v-model="pd.checkResultType"  filterable clearable  class="input-input" filterable  clearable   placeholder="请选择"  size="small">
-
                   <el-option value="0" label="0 - 黑名单-不准入境">
                   </el-option>
                   <el-option value="1" label="1 - 黑名单-失效证件">
@@ -173,17 +164,13 @@
                   </el-option>
                 </el-select>
               </el-col>
-
           </el-row>
         </el-col>
         <el-col :span="2" class="down-btn-area">
           <el-button type="success" size="small" @click="getList(CurrentPage,pageSize,pd)">查询</el-button>
-
         </el-col>
-
       </el-row>
     </div>
-
 <div class="middle">
   <el-row type="flex" >
       <el-col :span="9"></el-col>
@@ -197,23 +184,22 @@
   <el-col :span="9"></el-col>
   </el-row>
 </div>
-
     <div class="middle">
       <el-table
         :data="tableData"
         border
         style="width: 100%;">
         <el-table-column
-          prop="travellerName"
-          label="姓名" >
+          prop="travellerName" width="80"
+          label="姓名" sortable>
         </el-table-column>
         <el-table-column
           prop="chineseName"
-          label="中文姓名" >
+          label="中文姓名" sortable>
         </el-table-column>
         <el-table-column
-          prop="genderDesc"
-          label="性别" >
+          prop="genderDesc" width="80"
+          label="性别" sortable>
         </el-table-column>
         <el-table-column
           prop="birthday"
@@ -223,16 +209,14 @@
                   prop="nationalityDesc"
                   label="国籍/地区" sortable>
                 </el-table-column>
-
                 <el-table-column
                   prop="passportNo"
-                  label="证件号码" >
+                  label="证件号码" sortable>
                 </el-table-column>
                 <!-- <el-table-column
                   prop="passportExpireDate"
                   label="证件有效期" >
                 </el-table-column> -->
-
                 <el-table-column
                   prop="personGrade"
                   label="人员类别" sortable>
@@ -251,26 +235,24 @@
                 </el-table-column>
                 <el-table-column
                   prop="checkResultTypeDesc"
-                  label="比中类型" >
+                  label="比中类型" sortable>
                 </el-table-column>
                 <el-table-column
                   prop="confirmResultDesc"
-                  label="最终确认结果" >
+                  label="最终确认结果" sortable>
                 </el-table-column>
                 <el-table-column
                   prop="checkResultDesc"
-                  label="反馈结果" >
+                  label="反馈结果" sortable>
                 </el-table-column>
                 <!-- <el-table-column
                   prop="compareDesc"
                   label="反馈描述" >
                 </el-table-column> -->
                 <el-table-column
-                  label="操作">
+                  label="操作" width="70">
                   <template slot-scope="scope">
-
-                      <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row)">详情</el-button>
-
+                      <el-button  type="text"  class="a-btn"  title="详情"  icon="el-icon-tickets" @click="details(scope.row)"></el-button>
                  </template>
                 </el-table-column>
       </el-table>
@@ -304,9 +286,6 @@
         </el-pagination>
       </div>
     </div>
-
-
-
     <el-dialog
       title="详情"
       :visible.sync="detailsDialogVisible"
@@ -525,7 +504,6 @@ export default {
     },
 
     changeCountry(value){
-
      this.queryCountry(value);
     },
     queryAirport(n,t) {
@@ -534,7 +512,6 @@ export default {
       if (t == "A" && n=="") {
         this.$api.post('/manage-platform/codeTable/queryAirport', {},
           r => {
-            console.log("----1111");
             this.AirportI = r.data;
             this.AirportO = r.data;
           })

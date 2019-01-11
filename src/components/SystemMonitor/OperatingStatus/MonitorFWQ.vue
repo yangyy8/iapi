@@ -21,7 +21,7 @@
       width="50">
     </el-table-column>
     <el-table-column
-      prop="name"
+      prop="name" sortable
       label="类型">
     </el-table-column>
 
@@ -56,7 +56,7 @@
       sortable>
    </el-table-column>
     <el-table-column
-     label="状态" width="80">
+     label="状态" width="80" sortable>
      <template slot-scope="scope">
          <span :class="{'yycolor':scope.row.netStat=='0','yycolory':scope.row.netStat=='1'}">  {{scope.row.netStat | fiftersate }}</span>
      </template>
@@ -65,7 +65,7 @@
       label="文件系统"
     >
     <template slot-scope="scope">
-   <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row.fileSysArr)">详情</el-button>
+   <el-button type="text"  class="a-btn"  title="详情"  icon="el-icon-tickets" @click="details(scope.row.fileSysArr)"></el-button>
       <!-- <el-row   v-if="scope.row.fileSysArr!=null">
       <el-col :span="4">avail</el-col>
       <el-col :span="4">fileSystem</el-col>
@@ -133,7 +133,7 @@
        sortable>
      </el-table-column>
      <el-table-column
-      label="状态" width="80">
+      label="状态" width="80" sortable>
       <template slot-scope="scope">
           <span :class="{'yycolor':scope.row.netStat=='0','yycolory':scope.row.netStat=='1'}">      {{scope.row.netStat | fiftersate }}</span>
       </template>
@@ -142,7 +142,7 @@
        label="文件系统"
      >
      <template slot-scope="scope">
-          <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row.fileSysArr)">详情</el-button>
+          <el-button type="text"  class="a-btn"  title="详情"  icon="el-icon-tickets" @click="details(scope.row.fileSysArr)"></el-button>
 <!--
        <el-row  v-if="scope.row.fileSysArr!=null">
        <el-col :span="4">avail</el-col>

@@ -114,11 +114,11 @@
         </el-table-column>
         <el-table-column
           label="操作"
-          width="250px">
+          width="120">
           <template slot-scope="scope">
-            <el-button class="table-btn" size="mini" plain icon="el-icon-edit" @click="change(scope.row.SERIAL)">交接</el-button>
-            <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row)">详情</el-button>
-            <el-button class="table-btn" size="mini" plain icon="el-icon-delete" @click="deletes(scope.row)">删除</el-button>
+            <el-button type="text"  class="a-btn"  title="交接"  icon="el-icon-edit" @click="change(scope.row.SERIAL)"></el-button>
+            <el-button type="text"  class="a-btn"  title="详情"  icon="el-icon-tickets" @click="details(scope.row)"></el-button>
+            <el-button type="text"  class="a-btn"  title="删除"  icon="el-icon-delete" @click="deletes(scope.row)"></el-button>
          </template>
         </el-table-column>
       </el-table>

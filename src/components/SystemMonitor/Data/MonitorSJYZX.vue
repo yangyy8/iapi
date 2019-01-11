@@ -20,7 +20,9 @@
           <td class="tc2">
             <img v-if="tableData1.isequal==0" src="../../../assets/img/hook.png"/>
             <img v-else-if="tableData1.isequal==1 || tableData1.isequal==2" src="../../../assets/img/cross.png"/>
-            <i v-else class="el-icon-loading"></i>
+            <!-- <i v-else class="el-icon-loading"></i> -->
+            <span v-else>---</span>
+
           </td>
           <td class="tc1">
           <el-button v-if="tableData1.isequal==1" @click="getTB('1')"  plain size="mini" class="btn">同步</el-button>
@@ -35,7 +37,8 @@
           <td class="tc2">
             <img v-if="tableData2.isequal==0" src="../../../assets/img/hook.png"/>
             <img v-else-if="tableData2.isequal==1 || tableData2.isequal==2" src="../../../assets/img/cross.png"/>
-            <i v-else class="el-icon-loading"></i>
+            <!-- <i v-else class="el-icon-loading"></i> -->
+            <span v-else>---</span>
           </td>
           <td class="tc1">
           <el-button v-if="tableData2.isequal==1" @click="getTB('2')"  plain size="mini" class="btn">同步</el-button>
@@ -50,7 +53,8 @@
           <td class="tc2">
             <img v-if="tableData3.isequal==0" src="../../../assets/img/hook.png"/>
             <img v-else-if="tableData3.isequal==1 || tableData3.isequal==2" src="../../../assets/img/cross.png"/>
-            <i v-else class="el-icon-loading"></i>
+            <!-- <i v-else class="el-icon-loading"></i> -->
+            <span v-else>---</span>
           </td>
           <td class="tc1">
             <el-button v-if="tableData3.isequal==1" @click="getTB('3')"  plain size="mini" class="btn">同步</el-button>
@@ -66,7 +70,8 @@
           <td class="tc2">
             <img v-if="tableData4.isequal==0" src="../../../assets/img/hook.png"/>
             <img v-else-if="tableData4.isequal==1 || tableData4.isequal==2" src="../../../assets/img/cross.png"/>
-            <i v-else class="el-icon-loading"></i>
+            <!-- <i v-else class="el-icon-loading"></i> -->
+            <span v-else>---</span>
           </td>
           <td class="tc1">
             <el-button v-if="tableData4.isequal==1" @click="getTB('4')"  plain size="mini" class="btn">同步</el-button>
@@ -82,7 +87,8 @@
           <td class="tc2">
             <img v-if="tableData5.isequal==0" src="../../../assets/img/hook.png"/>
             <img v-else-if="tableData5.isequal==1 || tableData5.isequal==2" src="../../../assets/img/cross.png"/>
-            <i v-else class="el-icon-loading"></i>
+            <!-- <i v-else class="el-icon-loading"></i> -->
+            <span v-else>---</span>
           </td>
           <td class="tc1">
             <el-button v-if="tableData5.isequal==1" @click="getTB('5')"  plain size="mini" class="btn">同步</el-button>
@@ -98,7 +104,8 @@
           <td class="tc2">
             <img v-if="tableData6.isequal==0" src="../../../assets/img/hook.png"/>
             <img v-else-if="tableData6.isequal==1 || tableData6.isequal==2" src="../../../assets/img/cross.png"/>
-            <i v-else class="el-icon-loading"></i>
+            <!-- <i v-else class="el-icon-loading"></i> -->
+            <span v-else>---</span>
           </td>
           <td class="tc1">
           <el-button v-if="tableData6.isequal==1" @click="getTB('6')"  plain size="mini" class="btn">同步</el-button>
@@ -114,7 +121,8 @@
           <td class="tc2">
             <img v-if="tableData7.isequal==0" src="../../../assets/img/hook.png"/>
             <img v-else-if="tableData7.isequal==1 || tableData7.isequal==2" src="../../../assets/img/cross.png"/>
-            <i v-else class="el-icon-loading"></i>
+            <!-- <i v-else class="el-icon-loading"></i> -->
+            <span v-else>---</span>
           </td>
           <td class="tc1">
             <el-button v-if="tableData7.isequal==1" @click="getTB('7')"  plain size="mini" class="btn">同步</el-button>
@@ -130,7 +138,8 @@
           <td class="tc2">
             <img v-if="tableData8.isequal==0" src="../../../assets/img/hook.png"/>
             <img v-else-if="tableData8.isequal==1 || tableData8.isequal==2" src="../../../assets/img/cross.png"/>
-            <i v-else class="el-icon-loading"></i>
+            <!-- <i v-else class="el-icon-loading"></i> -->
+            <span v-else>---</span>
           </td>
           <td class="tc1">
           <el-button v-if="tableData8.isequal==1" @click="getTB('8')"  plain size="mini" class="btn">同步</el-button>
@@ -146,7 +155,8 @@
           <td class="tc2">
             <img v-if="tableData9.isequal==0" src="../../../assets/img/hook.png"/>
             <img v-else-if="tableData9.isequal==1 || tableData9.isequal==2" src="../../../assets/img/cross.png"/>
-            <i v-else class="el-icon-loading"></i>
+            <!-- <i v-else class="el-icon-loading"></i> -->
+            <span v-else>---</span>
           </td>
           <td class="tc1">
             <el-button v-if="tableData9.isequal==1" @click="getTB('9')"  plain size="mini" class="btn">同步</el-button>
@@ -161,7 +171,8 @@
           <td class="tc2">
             <img v-if="tableData10.isequal==0" src="../../../assets/img/hook.png"/>
             <img v-else-if="tableData10.isequal==1 || tableData10.isequal==2" src="../../../assets/img/cross.png"/>
-            <i v-else class="el-icon-loading"></i>
+            <!-- <i v-else class="el-icon-loading"></i> -->
+            <span v-else>---</span>
           </td>
           <td class="tc1">
             <el-button v-if="tableData10.isequal==1" @click="getTB('10')"  plain size="mini" class="btn">同步</el-button>
@@ -178,7 +189,8 @@
           <td class="tc2">
             <img v-if="tableData11.isequal==0" src="../../../assets/img/hook.png"/>
             <img v-else-if="tableData11.isequal==1 || tableData11.isequal==2" src="../../../assets/img/cross.png"/>
-            <i v-else class="el-icon-loading"></i>
+            <!-- <i v-else class="el-icon-loading"></i> -->
+            <span v-else>---</span>
           </td>
           <td class="tc1">
             <el-button v-if="tableData11.isequal==1" @click="getTB('11')"  plain size="mini" class="btn">同步</el-button>

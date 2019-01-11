@@ -72,7 +72,7 @@
                   </el-option>
                   <el-option value="O" label="O - 出境">
                   </el-option>
-                  <el-option value="A" label="A - 全部">
+                  <el-option value="A" label="A - 入出境">
                   </el-option>
                 </el-select>
               </el-col>
@@ -129,86 +129,90 @@
             <el-table
               :data="tableData"
               border
-              :summary-method="getSummaries"
-              show-summary
               max-height="600"
-              style="width: 100%;"
-              >
+              style="width: 100%;" >
+              <el-table-column
+                prop="country" sortable
+                label="国籍/地区" width="120" v-if='sh1'>
+              </el-table-column>
             <el-table-column
-              prop="flttype"
-              label="入出境方向" width="100" >
+              prop="cityto" sortable
+              label="目的地" v-if='sh2'>
             </el-table-column>
             <el-table-column
-              prop="country"
-              label="国籍/地区"
-              >
+              prop="fltno" sortable
+              label="航班" v-if='sh3'>
+            </el-table-column>
+            <el-table-column
+              prop="flttype" sortable
+              label="出入境方向" width="100" v-if='sh4'>
             </el-table-column>
             <el-table-column label="数据校验比对区比中" v-if='showdmz'>
                 <el-table-column
-                  prop="blkin"
+                  prop="blkin" sortable
                   label="黑名单" >
                 </el-table-column>
                 <el-table-column
-                  prop="blkinsxzj"
+                  prop="blkinsxzj" sortable
                   label="失效证" >
                 </el-table-column>
                 <el-table-column
-                  prop="visablkin"
+                  prop="visablkin" sortable
                   label="失效签证" >
                 </el-table-column>
                 <el-table-column
-                  prop="tctlin"
+                  prop="tctlin" sortable
                   label="临控名单" >
                 </el-table-column>
                 <el-table-column
-                  prop="whtin"
+                  prop="whtin" sortable
                   label="白名单" >
                 </el-table-column>
             </el-table-column>
             <el-table-column label="业务平台比中" v-if='showyw'>
                 <el-table-column
-                  prop="plt_blkin"
+                  prop="plt_blkin" sortable
                   label="黑名单" >
                 </el-table-column>
                 <el-table-column
-                  prop="plt_blkinsxzj"
+                  prop="plt_blkinsxzj" sortable
                   label="失效证" >
                 </el-table-column>
                 <el-table-column
-                  prop="plt_visablkin"
-                  label="失效签证" >
+                  prop="plt_visablkin" sortable
+                  label="失效签证">
                 </el-table-column>
                 <el-table-column
                   prop="focus"
-                  label="重点关注" >
+                  label="重点关注" sortable >
                 </el-table-column>
             </el-table-column>
             <el-table-column label="处理结果" v-if='showcljg'>
                 <el-table-column
                   prop="Chk_0z"
-                  label="允许值机" >
+                  label="允许值机" sortable>
                 </el-table-column>
                 <el-table-column
                   prop="Chk_1z"
-                  label="禁止登机" >
+                  label="禁止登机" sortable>
                 </el-table-column>
                 <el-table-column
                   prop="Chk_2z"
-                  label="再次检查" >
+                  label="再次检查" sortable>
                 </el-table-column>
                 <el-table-column
                   prop="Chk_4z"
-                  label="数据错误" >
+                  label="数据错误" sortable>
                 </el-table-column>
             </el-table-column>
             <el-table-column label="甄别结果" v-if='showzbjg'>
                 <el-table-column
                   prop="confirm"
-                  label="确认" >
+                  label="确认" sortable>
                 </el-table-column>
                 <el-table-column
                   prop="cancel"
-                  label="排除" >
+                  label="排除" sortable>
                 </el-table-column>
 
             </el-table-column>
@@ -223,8 +227,13 @@
 </template>
 <script>
 import echarts from 'echarts'
-import {formatDate,format} from '@/assets/js/date.js'
-import {dayGap} from '@/assets/js/date.js'
+import {
+  formatDate,
+  format
+} from '@/assets/js/date.js'
+import {
+  dayGap
+} from '@/assets/js/date.js'
 import axios from 'axios'
 export default {
   data() {
@@ -233,7 +242,8 @@ export default {
       pageSize: 10,
       TotalResult: 0,
       pd: {
-      begintime:'',endtime:''
+        begintime: '',
+        endtime: ''
       },
       nation: [],
       company: [],
@@ -277,15 +287,19 @@ export default {
       showyw: true,
       showcljg: true,
       showzbjg: true,
-      sData1:[],
-      sData2:[],
-      sData3:[],
-      sData4:[],
+      sData1: [],
+      sData2: [],
+      sData3: [],
+      sData4: [],
+      sh1: true,
+      sh2: true,
+      sh3: true,
+      sh4: true,
 
     }
   },
   mounted() {
-    this.queryNationality();
+  //  this.queryNationality();
     this.gw();
     this.gn();
     let time = new Date();
@@ -296,7 +310,7 @@ export default {
 
   },
   activated() {
-    this.queryNationality();
+  //  this.queryNationality();
     this.gw();
     this.gn();
     let time = new Date();
@@ -326,40 +340,43 @@ export default {
       console.log(`当前页: ${val}`);
     },
     getSummaries(param) {
-        console.log("合计-------------");
-         const { columns, data } = param;
-         const sums = [];
-         columns.forEach((column, index) => {
-           if (index === 0) {
-             sums[index] = '合计';
-             return;
-           }
-           const values = data.map(item => Number(item[column.property]));
-           if (!values.every(value => isNaN(value))) {
-             sums[index] = values.reduce((prev, curr) => {
-               const value = Number(curr);
-               if (!isNaN(value)) {
-                 return prev + curr;
-               } else {
-                 return prev;
-               }
-             }, 0);
-             sums[index] += '';
-           } else {
-             sums[index] = '';
-           }
-         });
+      console.log("合计-------------");
+      const {
+        columns,
+        data
+      } = param;
+      const sums = [];
+      columns.forEach((column, index) => {
+        if (index === 0) {
+          sums[index] = '合计';
+          return;
+        }
+        const values = data.map(item => Number(item[column.property]));
+        if (!values.every(value => isNaN(value))) {
+          sums[index] = values.reduce((prev, curr) => {
+            const value = Number(curr);
+            if (!isNaN(value)) {
+              return prev + curr;
+            } else {
+              return prev;
+            }
+          }, 0);
+          sums[index] += '';
+        } else {
+          sums[index] = '';
+        }
+      });
 
-         return sums;
-       },
+      return sums;
+    },
     getList(currentPage, showCount, pd) {
 
-            if (this.pd.begintime== null|| this.pd.endtime == null) {
-              this.$alert('时间范围不能为空', '提示', {
-                confirmButtonText: '确定',
-              });
-              return false
-            };
+      if (this.pd.begintime == null || this.pd.endtime == null) {
+        this.$alert('时间范围不能为空', '提示', {
+          confirmButtonText: '确定',
+        });
+        return false
+      };
       let p = {
         // "currentPage": currentPage,
         // "showCount": showCount,
@@ -385,43 +402,71 @@ export default {
 
       };
       var url = "/manage-platform/dataStatistics/get_namelistcmp_fix";
-      if (pd.colproperty2) {
-        url = "/manage-platform/dataStatistics/get_namelistcmp_dynamic";
-        this.showdmz = false;
-        this.showyw = false;
-        this.showcljg = false;
-        this.showzbjg = false;
-      } else if (pd.colproperty1 || pd.colproperty2 || pd.colproperty3 || pd.colproperty4) {
-        url = "/manage-platform/dataStatistics/get_namelistcmp_dynamic_noplt";
-        this.showdmz = false;
-        this.showyw = false;
-        this.showcljg = false;
-        this.showzbjg = false;
-      }else {
-        this.showdmz = true;
-        this.showyw = true;
-        this.showcljg = true;
-        this.showzbjg = true;
+      if ((this.pd.rowproperty_country != undefined || this.pd.rowproperty_country == true) ||
+        (this.pd.rowproperty_cityto != undefined || this.pd.rowproperty_cityto == true) ||
+        (this.pd.rowproperty_fltno != undefined || this.pd.rowproperty_fltno == true) ||
+        (this.pd.rowproperty_flttype != undefined || this.pd.rowproperty_flttype == true)) {
+
+
+        this.sh1 = false;
+        this.sh2 = false;
+        this.sh3 = false;
+        this.sh4 = false;
+
+        if (this.pd.rowproperty_country != undefined || this.pd.rowproperty_country == true) {
+          this.sh1 = true;
+        }
+        if (this.pd.rowproperty_cityto != undefined || this.pd.rowproperty_cityto == true) {
+          this.sh2 = true;
+        }
+        if (this.pd.rowproperty_fltno != undefined || this.pd.rowproperty_fltno == true) {
+          this.sh3 = true;
+        }
+        if (this.pd.rowproperty_flttype != undefined || this.pd.rowproperty_flttype == true) {
+          this.sh4 = true;
+        }
       }
 
-      if (pd.colproperty1) {
-        this.showdmz = true;
-      }
-      if (pd.colproperty2) {
-        this.showyw = true;
-      }
-      if (pd.colproperty3) {
-        this.showcljg = true;
-      }
-      if (pd.colproperty4) {
-        this.showzbjg = true;
+      if ((this.pd.colproperty1 != undefined || this.pd.colproperty1 == true) ||
+        (this.pd.colproperty2 != undefined || this.pd.colproperty2 == true) ||
+        (this.pd.colproperty3 != undefined || this.pd.colproperty3 == true) ||
+        (this.pd.colproperty4 != undefined || this.pd.colproperty4 == true)) {
+
+        this.showdmz = false;
+        this.showyw = false;
+        this.showcljg = false;
+        this.showzbjg = false;
+
+       if ((this.pd.colproperty2 != undefined || this.pd.colproperty2 == true) ||
+       (this.pd.colproperty3 != undefined || this.pd.colproperty3 == true) ||
+       (this.pd.colproperty4 != undefined || this.pd.colproperty4 == true)) {
+          url = "/manage-platform/dataStatistics/get_namelistcmp_dynamic_noplt";
+
+        }
+
+        if (this.pd.colproperty1 != undefined || this.pd.colproperty1 == true) {
+          this.showdmz = true;
+        }
+        if (this.pd.colproperty2 != undefined || this.pd.colproperty2 == true) {
+          url = "/manage-platform/dataStatistics/get_namelistcmp_dynamic";
+          this.showyw = true;
+        }
+        if (this.pd.colproperty3 != undefined || this.pd.colproperty3 == true) {
+          this.showcljg = true;
+        }
+        if (this.pd.colproperty4 != undefined || this.pd.colproperty4 == true) {
+          this.showzbjg = true;
+        }
+
       }
 
       this.$api.post(url, p,
         r => {
           this.tableData = r.data;
-
         })
+
+this.queryNationality();
+
     },
     queryNationality() {
       this.$api.post('/manage-platform/codeTable/queryNationality', {},
@@ -429,92 +474,153 @@ export default {
           console.log(r);
           if (r.success) {
             this.nation = r.data;
-            let arr=this.tableData;
-            var sum1=0,sum01=0,sum001=0,sum0001=0,sum00001=0;
-            var sum2=0,sum02=0,sum002=0,sum0002=0;
-            var sum3=0,sum03=0,sum003=0,sum0003=0;
-            var sum4=0,sum04=0;
+            let arr = this.tableData;
+            var sum1 = 0,
+              sum01 = 0,
+              sum001 = 0,
+              sum0001 = 0,
+              sum00001 = 0;
+            var sum2 = 0,
+              sum02 = 0,
+              sum002 = 0,
+              sum0002 = 0;
+            var sum3 = 0,
+              sum03 = 0,
+              sum003 = 0,
+              sum0003 = 0;
+            var sum4 = 0,
+              sum04 = 0;
 
-            for(var i=0;i<arr.length;i++){
-              sum1+=parseInt(arr[i].blkin);
-              sum01+=parseInt(arr[i].blkinsxzj);
-              sum001+=parseInt(arr[i].visablkin);
-              sum0001+=parseInt(arr[i].tctlin);
-              sum00001+=parseInt(arr[i].whtin);
-              sum2+=parseInt(arr[i].plt_blkin);
-              sum02+=parseInt(arr[i].plt_blkinsxzj);
-              sum002+=parseInt(arr[i].plt_visablkin);
-              sum0002+=parseInt(arr[i].focus);
-              sum3+=parseInt(arr[i].Chk_0z);
-              sum03+=parseInt(arr[i].Chk_1z);
-              sum003+=parseInt(arr[i].Chk_2z);
-              sum0003+=parseInt(arr[i].Chk_4z);
-              sum4+=parseInt(arr[i].chk_s);
-              sum04+=parseInt(arr[i].chk_c);
+            for (var i = 0; i < arr.length; i++) {
+              sum1 += parseInt(arr[i].blkin);
+              sum01 += parseInt(arr[i].blkinsxzj);
+              sum001 += parseInt(arr[i].visablkin);
+              sum0001 += parseInt(arr[i].tctlin);
+              sum00001 += parseInt(arr[i].whtin);
+              sum2 += parseInt(arr[i].plt_blkin);
+              sum02 += parseInt(arr[i].plt_blkinsxzj);
+              sum002 += parseInt(arr[i].plt_visablkin);
+              sum0002 += parseInt(arr[i].focus);
+              sum3 += parseInt(arr[i].Chk_0z);
+              sum03 += parseInt(arr[i].Chk_1z);
+              sum003 += parseInt(arr[i].Chk_2z);
+              sum0003 += parseInt(arr[i].Chk_4z);
+              sum4 += parseInt(arr[i].chk_s);
+              sum04 += parseInt(arr[i].chk_c);
 
 
             }
-            this.sData1=[{value:sum1, name:'黑名单'},{value:sum01, name:'失效证'},{value:sum001, name:'失效签证'},{value:sum0001, name:'临控名单'},{value:sum00001, name:'白名单'}];
-            this.sData2=[{value:sum2, name:'黑名单'},{value:sum02, name:'失效证'},{value:sum02, name:'失效签证'},{value:sum02, name:'重点关注'}];
-            this.sData3=[{value:sum3, name:'允许值机'},{value:sum03, name:'禁止登机'},{value:sum3, name:'再次检查'},{value:sum03, name:'数据错误'}];
-            this.sData4=[{value:sum4, name:'确认'},{value:sum04, name:'排除'}];
+            this.sData1 = [{
+              value: sum1,
+              name: '黑名单'
+            }, {
+              value: sum01,
+              name: '失效证'
+            }, {
+              value: sum001,
+              name: '失效签证'
+            }, {
+              value: sum0001,
+              name: '临控名单'
+            }, {
+              value: sum00001,
+              name: '白名单'
+            }];
+            this.sData2 = [{
+              value: sum2,
+              name: '黑名单'
+            }, {
+              value: sum02,
+              name: '失效证'
+            }, {
+              value: sum02,
+              name: '失效签证'
+            }, {
+              value: sum02,
+              name: '重点关注'
+            }];
+            this.sData3 = [{
+              value: sum3,
+              name: '允许值机'
+            }, {
+              value: sum03,
+              name: '禁止登机'
+            }, {
+              value: sum3,
+              name: '再次检查'
+            }, {
+              value: sum03,
+              name: '数据错误'
+            }];
+            this.sData4 = [{
+              value: sum4,
+              name: '确认'
+            }, {
+              value: sum04,
+              name: '排除'
+            }];
 
 
-            this.drawLine();this.drawLine2();this.drawLine3();this.drawLine4();
+            this.drawLine();
+            this.drawLine2();
+            this.drawLine3();
+            this.drawLine4();
 
 
 
           }
         })
     },
-    download(){
-       //  var url="http://192.168.99.213:8080/manage-platform/dataStatistics/export_namelistfix";
-      var url= this.$api.rootUrl+"/manage-platform/dataStatistics/export_namelistfix";
+    download() {
+      //  var url="http://192.168.99.213:8080/manage-platform/dataStatistics/export_namelistfix";
+      var url = this.$api.rootUrl + "/manage-platform/dataStatistics/export_namelistfix";
 
-    if(this.pd.colproperty2){
-    url= this.$api.rootUrl+"/manage-platform/dataStatistics/export_namelist_dynamic";
-    }
+      if (this.pd.colproperty2) {
+        url = this.$api.rootUrl + "/manage-platform/dataStatistics/export_namelist_dynamic";
+      }
       axios({
-       method: 'post',
-       url: url,
-      // url:'http://192.168.99.206:8080/manage-platform/iapi/exportFileIo/0/600',
-      // url: this.$api.rootUrl+"/manage-platform/iapi/exportFileIo/0/600",
-       data: {
-         "begintime": this.pd.begintime,
-         "endtime": this.pd.endtime,
-         "country": this.pd.country,
-         "cityfrom": this.pd.cityfrom,
-         "cityto": this.pd.cityto,
-         "fltno": this.pd.fltno,
-         "flttype": this.pd.flttype,
+        method: 'post',
+        url: url,
+        // url:'http://192.168.99.206:8080/manage-platform/iapi/exportFileIo/0/600',
+        // url: this.$api.rootUrl+"/manage-platform/iapi/exportFileIo/0/600",
+        data: {
+          "begintime": this.pd.begintime,
+          "endtime": this.pd.endtime,
+          "country": this.pd.country,
+          "cityfrom": this.pd.cityfrom,
+          "cityto": this.pd.cityto,
+          "fltno": this.pd.fltno,
+          "flttype": this.pd.flttype,
 
-         "rowproperty_country": this.pd.rowproperty_country,
-         "rowproperty_cityto": this.pd.rowproperty_cityto,
-         "rowproperty_fltno": this.pd.rowproperty_fltno,
-         "rowproperty_flttype": this.pd.rowproperty_flttype,
+          "rowproperty_country": this.pd.rowproperty_country,
+          "rowproperty_cityto": this.pd.rowproperty_cityto,
+          "rowproperty_fltno": this.pd.rowproperty_fltno,
+          "rowproperty_flttype": this.pd.rowproperty_flttype,
 
-         "colproperty1": this.pd.colproperty1,
-         "colproperty2": this.pd.colproperty2,
-         "colproperty3": this.pd.colproperty3,
-         "colproperty4": this.pd.colproperty4,
-       },
-       responseType: 'blob'
-       }).then(response => {
-           this.downloadM(response)
-       });
+          "colproperty1": this.pd.colproperty1,
+          "colproperty2": this.pd.colproperty2,
+          "colproperty3": this.pd.colproperty3,
+          "colproperty4": this.pd.colproperty4,
+        },
+        responseType: 'blob'
+      }).then(response => {
+        this.downloadM(response)
+      });
     },
-    downloadM (data) {
-        if (!data) {
-            return
-        }
+    downloadM(data) {
+      if (!data) {
+        return
+      }
 
-        let url = window.URL.createObjectURL(new Blob([data.data],{type:"application/octet-stream"}))
-        let link = document.createElement('a')
-        link.style.display = 'none'
-        link.href = url
-        link.setAttribute('download', 'mdbd'+format(new Date(),'yyyyMMddhhmmss')+'.xlsx')
-        document.body.appendChild(link)
-        link.click()
+      let url = window.URL.createObjectURL(new Blob([data.data], {
+        type: "application/octet-stream"
+      }))
+      let link = document.createElement('a')
+      link.style.display = 'none'
+      link.href = url
+      link.setAttribute('download', 'mdbd' + format(new Date(), 'yyyyMMddhhmmss') + '.xlsx')
+      document.body.appendChild(link)
+      link.click()
     },
 
     gw() { //国外
@@ -653,6 +759,10 @@ export default {
   padding: 20px;
   border-radius: 0 5px 5px 5px;
 }
-.ppie{width:420px; height:300px; float:left; }
 
+.ppie {
+  width: 420px;
+  height: 300px;
+  float: left;
+}
 </style>

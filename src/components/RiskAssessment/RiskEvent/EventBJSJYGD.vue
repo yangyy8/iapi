@@ -183,6 +183,7 @@
           border
           cell-class-name="cellClass"
           @sort-change="sortChange"
+          @header-click="headerClick"
           style="width: 100%;">
           <!-- <el-table-column
             label="唯一编号"
@@ -319,7 +320,7 @@
           </el-table-column>
           <el-table-column
             label="操作"
-            width="90">
+            width="70">
             <template slot-scope="scope">
               <el-button type="text" class="a-btn" icon="el-icon-view" title="查看" @click="$router.push({name:'BJCLCX',query:{serial:scope.row.serial,grade:scope.row.grade}})"></el-button>
               <el-button type="text" class="a-btn" icon="el-icon-edit-outline"  title="归档追加" @click="openGdTc(scope.row)"></el-button>
@@ -424,10 +425,14 @@ export default {
 
   },
   activated(){
-    this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
+    // this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
 
   },
   methods:{
+    headerClick(column,event){
+      console.log(column,event)
+      event.target.title=column.label
+    },
     handleSelectionChange(val) {
       this.multipleSelection = val;
       if(this.multipleSelection.length==0){

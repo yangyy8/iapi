@@ -135,7 +135,7 @@
                 >
                 </el-table-column>
                 <el-table-column
-                  label="证件种类"
+                  label="证件种类" sortable
                   width="120"
                 >
                 <template slot-scope="scope">
@@ -151,17 +151,17 @@
                 </el-table-column>
                 <el-table-column
                   prop="NAME"
-                  label="姓名"
+                  label="姓名" sortable
                 >
                 </el-table-column>
                 <el-table-column
                   prop="INTG_CHNNAME"
                   label="中文姓名"
-                  width="120"
+                  width="120" sortable
                 >
                 </el-table-column>
                 <el-table-column
-                  label="性别"
+                  label="性别" sortable
                 >
                 <template slot-scope="scope">
                   {{scope.row.GENDER | fiftersex}}
@@ -188,7 +188,7 @@
 
                 <el-table-column
                   label="值机状态"
-                  width="120"
+                  width="120" sortable
                   >
                   <template slot-scope="scope">
                     {{scope.row.PASSENGERSTATUS | fifterstate}}
@@ -196,20 +196,20 @@
                 </el-table-column>
                 <el-table-column
                   label="反馈状态"
-                  width="120"
+                  width="120" sortable
                   >
                   <template slot-scope="scope">
                     {{scope.row.LASTCHECKRESULT | fiftecr}}
                   </template>
                 </el-table-column>
                 <el-table-column
-                  label="操作" width="180">
+                  label="操作" width="70">
                   <template slot-scope="scope">
   <span v-if="scope.row.FLIGHTSTATUS==0 || scope.row.FLIGHTSTATUS==1 ">
-  <el-button  size="mini" plain icon="el-icon-edit" :disabled="true">变更</el-button>
+  <el-button   type="text"  class="a-btn"  title="变更" icon="el-icon-edit" :disabled="true"></el-button>
 </span>
 <span v-else>
-    <el-button class="table-btn" size="mini" plain icon="el-icon-edit" @click="handles(scope.row);">变更</el-button>
+    <el-button  type="text"  class="a-btn"  title="变更" icon="el-icon-edit" @click="handles(scope.row);"></el-button>
   </span>
 
                       <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row)">详情</el-button>

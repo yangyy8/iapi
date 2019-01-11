@@ -99,7 +99,7 @@
                   </el-option>
                   <el-option value="O" label="O - 出境">
                   </el-option>
-                  <el-option value="A" label="A - 全部">
+                  <el-option value="A" label="A - 入出境">
                   </el-option>
                 </el-select>
               </el-col>
@@ -107,23 +107,20 @@
           <el-row align="center"  class="yy-line">
             <el-col  :span="20">
               <span class="input-text" style="width:12%"><font class="yy-color">*</font> 行属性：</span>
-              <el-checkbox label="出入标识" v-model="pd.rowproperty_flttype"></el-checkbox>
-              <el-checkbox label="国籍/地区" v-model="pd.rowproperty_country"></el-checkbox>
-              <el-checkbox label="出发地" v-model="pd.rowproperty_cityfrom"></el-checkbox>
-              <el-checkbox label="目的地" v-model="pd.rowproperty_cityto"></el-checkbox>
-              <el-checkbox label="人员类别" v-model="pd.rowproperty_passengertype"></el-checkbox>
-              <el-checkbox label="值机渠道" v-model="pd.rowproperty_vid"></el-checkbox>
-              <el-checkbox label="预检结果" v-model="pd.rowproperty_lastcheckresult"></el-checkbox>
+              <el-checkbox label="出入标识" v-model="pd.rowproperty_flttype" checked></el-checkbox>
+              <el-checkbox label="国籍/地区" v-model="pd.rowproperty_country" ></el-checkbox>
+              <el-checkbox label="出发地" v-model="pd.rowproperty_cityfrom" ></el-checkbox>
+              <el-checkbox label="目的地" v-model="pd.rowproperty_cityto" ></el-checkbox>
             </el-col>
            </el-row>
             <el-row align="center" class="yy-line">
               <el-col  :span="20">
                 <span class="input-text" style="width:12%"><font class="yy-color">*</font> 列属性：</span>
-              <el-checkbox label="人员类别" v-model="pd.colproperty1"></el-checkbox>
-              <el-checkbox label="性别构成" v-model="pd.colproperty2"></el-checkbox>
-              <el-checkbox label="国家构成" v-model="pd.colproperty3"></el-checkbox>
-              <el-checkbox label="值机渠道" v-model="pd.colproperty4"></el-checkbox>
-              <el-checkbox label="预检结果" v-model="pd.colproperty5"></el-checkbox>
+              <el-checkbox label="人员类别" v-model="pd.colproperty1" checked></el-checkbox>
+              <el-checkbox label="性别构成" v-model="pd.colproperty2" checked></el-checkbox>
+              <el-checkbox label="国家构成" v-model="pd.colproperty3" checked></el-checkbox>
+              <el-checkbox label="值机渠道" v-model="pd.colproperty4" checked></el-checkbox>
+              <el-checkbox label="预检结果" v-model="pd.colproperty5" checked></el-checkbox>
             </el-col>
           </el-row>
         </el-col>
@@ -169,89 +166,89 @@
                     label="">
                   </el-table-column> -->
                   <el-table-column
-                    prop="flighttype"
-                    label="出入标识" v-if='show1' key='1'>
+                    prop="flighttype" sortable
+                    label="出入标识" v-if='show1'>
                   </el-table-column>
                   <el-table-column
-                    prop="cityto"
+                    prop="cityto" sortable
                     label="目的地" v-if='show2'>
                   </el-table-column>
                   <el-table-column
-                    prop="cityfrom"
+                    prop="cityfrom" sortable
                     label="出发地" v-if='show9'>
                   </el-table-column>
                   <el-table-column
-                    prop="country"
-                    label="国籍/地区" v-if='show3'>
+                    prop="country" sortable
+                    label="国籍/地区" width="120" v-if='show3'>
                   </el-table-column>
                   <el-table-column
-                    prop="fltcount"
+                    prop="fltcount" sortable
                     label="航班数量">
                   </el-table-column>
                   <el-table-column
-                    prop="checkincount"
-                    label="值机校验数量">
+                    prop="checkincount" sortable
+                    label="值机校验数量" width="120" >
                   </el-table-column>
                   <el-table-column label="人员类别" v-if='show4'>
                       <el-table-column
                         prop="chk_ptype_fl"
-                        label="普通旅客">
+                        label="普通旅客" sortable>
                       </el-table-column>
                       <el-table-column
                         prop="chk_ptype_ddu"
-                        label="中转旅客">
+                        label="中转旅客" sortable>
                       </el-table-column>
                   </el-table-column>
                   <el-table-column label="性别构成" v-if='show5'>
                         <el-table-column
                           prop="chk_gender_m"
-                          label="男">
+                          label="男" sortable>
                         </el-table-column>
                         <el-table-column
                           prop="chk_gender_f"
-                          label="女">
+                          label="女" sortable>
                         </el-table-column>
                    </el-table-column>
                   <el-table-column label="国家构成" v-if='show6'>
                           <el-table-column
                             prop="foreign"
-                            label="外国人">
+                            label="外国人" sortable>
                           </el-table-column>
                           <el-table-column
                             prop="inland"
-                            label="内地居民">
+                            label="内地居民" sortable>
                           </el-table-column>
                           <el-table-column
                             prop="inland"
-                            label="港澳台">
+                            label="港澳台" sortable>
                           </el-table-column>
                   </el-table-column>
                   <el-table-column label="值机渠道" v-if='show7'>
                       <el-table-column
                         prop="chk_s"
-                        label="自助">
+                        label="自助" sortable>
                       </el-table-column>
                       <el-table-column
                         prop="chk_c"
-                        label="柜台">
+                        label="柜台" sortable>
                       </el-table-column>
                   </el-table-column>
                   <el-table-column label="预检结果" v-if='show8'>
                     <el-table-column
                       prop="chk_0z"
-                      label="允许登机">
+                      label="允许登机" sortable>
                     </el-table-column>
                     <el-table-column
                       prop="chk_1z"
-                      label="禁止登机">
+                      label="禁止登机" sortable>
                     </el-table-column>
                     <el-table-column
                       prop="chk_2z"
-                      label="再次检查">
+                      label="再次检查" sortable>
                     </el-table-column>
                     <el-table-column
                       prop="chk_4z"
-                      label="数据错误">
+                      label="数据错误" sortable>
                     </el-table-column>
                  </el-table-column>
                 </el-table>
@@ -294,7 +291,7 @@ export default {
           label: "30"
         }
       ],
-      page: 0,
+      page: 1,
       tableData: [],
       multipleSelection: [],
       pickerOptions0: {

@@ -155,7 +155,7 @@
                   <template slot-scope="scope">
                     <div class="flex-r">
 
-                      <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row.SERIAL)">详情</el-button>
+                      <el-button  type="text"  class="a-btn"  title="删除"  icon="el-icon-tickets" @click="details(scope.row.SERIAL)"></el-button>
                     </div>
                  </template>
                 </el-table-column>

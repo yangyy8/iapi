@@ -181,12 +181,12 @@
         </el-table-column>
         <el-table-column
           label="操作"
-          width="150"
+          width="70"
           fixed="right">
           <template slot-scope="scope">
             <!-- <el-button class="table-btn" size="mini" plain icon="el-icon-delete" v-if="scope.row.CONSULTSERIAL" @click="reviewTohis(scope.row)">回复</el-button>
             <el-button class="table-btn" size="mini" plain icon="el-icon-delete" @click="entryDetails(scope.row)" v-else>录入</el-button> -->
-            <el-button class="table-btn" size="mini" plain icon="el-icon-delete" @click="entryDetails(scope.row)">录入</el-button>
+            <el-button type="text"  class="a-btn"  title="录入"  icon="el-icon-delete" @click="entryDetails(scope.row)"></el-button>
          </template>
         </el-table-column>
       </el-table>

@@ -9,22 +9,26 @@
           <el-row align="center"   :gutter="2" >
             <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
               <span class="input-text">口岸名称：</span>
-              <el-input placeholder="请输入内容" size="small" v-model="pd.portname" class="input-input"></el-input>
-
+              <el-select v-model="pd.portname" filterable clearable  placeholder="请选择"  size="small" class="input-input">
+                <el-option
+                  v-for="item in kaname"
+                  :key="item.JCDM"
+                  :label="item.JCDM+' - '+item.KAMC"
+                  :value="item.JCDM">
+                </el-option>
+              </el-select>
             </el-col>
             <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
               <span class="input-text">口岸编号：</span>
               <el-input placeholder="请输入内容" size="small" v-model="pd.portcode" class="input-input"></el-input>
-
             </el-col>
             <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
               <span class="input-text">口岸地址：</span>
                 <el-input placeholder="请输入内容" size="small" v-model="pd.ipaddress" class="input-input"></el-input>
-
             </el-col>
             <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
               <span class="input-text">口岸开关：</span>
-              <el-select v-model="pd.status" placeholder="请选择" filterable  size="small"   class="input-input">
+              <el-select v-model="pd.status" placeholder="请选择" filterable clearable  size="small"   class="input-input">
                 <el-option value="0" label="0 - 关闭" ></el-option>
                 <el-option value="1" label="1 - 开启" ></el-option>
                </el-select>
@@ -50,42 +54,42 @@
         </el-table-column>
         <el-table-column
           prop="portcode"
-          label="口岸编号"
+          label="口岸编号" sortable
           >
         </el-table-column>
         <el-table-column
           prop="portname"
-          label="口岸名称" >
+          label="口岸名称" sortable>
         </el-table-column>
         <el-table-column
-          label="口岸地址">
+          label="口岸地址" sortable>
           <template slot-scope="scope">
             <span>{{scope.row.ipaddress}}</span> <span :class="{'ycolor':scope.row.clientStatus=='1','ycolory':scope.row.clientStatus=='0'}">{{scope.row.clientStatus|fifters}}</span>
           </template>
         </el-table-column>
         <el-table-column
-          label="备用地址"
+          label="备用地址" sortable
           >
           <template slot-scope="scope">
             <span>{{scope.row.ipaddressBack}}</span><span :class="{'ycolor':scope.row.clientStatus=='1','ycolory':scope.row.clientStatus=='0'}">{{scope.row.clientBackStatus|fifters}}</span>
           </template>
         </el-table-column>
         <el-table-column
-          label="口岸开关"
+          label="口岸开关" sortable
           >
           <template slot-scope="scope">
               <span :class="{'yycolor':scope.row.status=='1','yycolory':scope.row.status=='0'}">  {{scope.row.status | fiftersate }}</span>
           </template>
         </el-table-column>
         <el-table-column
-          width="300"
+          width="120"
           label="操作">
           <template slot-scope="scope">
               <!-- <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row)">详情</el-button> -->
-              <el-button class="table-btn" size="mini" plain icon="el-icon-edit" @click="adds(1,scope.row)">编辑</el-button>
-              <el-button class="table-btn" size="mini" plain icon="el-icon-delete" @click="deletes(scope.row)">删除</el-button>
-              <el-button class="table-btn" size="mini" plain icon="el-icon-close" v-if="scope.row.status=='1'" @click="sets(scope.row.portcode,0)">关闭</el-button>
-              <el-button class="table-btn" size="mini" plain icon="el-icon-check" v-if="scope.row.status=='0'" @click="sets(scope.row.portcode,1)">开启</el-button>
+              <el-button type="text"  class="a-btn"  title="编辑" icon="el-icon-edit" @click="adds(1,scope.row)"></el-button>
+              <el-button type="text"  class="a-btn"  title="删除" icon="el-icon-delete" @click="deletes(scope.row)"></el-button>
+              <el-button type="text"  class="a-btn"  title="关闭" icon="el-icon-close" v-if="scope.row.status=='1'" @click="sets(scope.row.portcode,0)"></el-button>
+              <el-button type="text"  class="a-btn"  title="开启" icon="el-icon-check" v-if="scope.row.status=='0'" @click="sets(scope.row.portcode,1)"></el-button>
          </template>
         </el-table-column>
       </el-table>
@@ -127,26 +131,35 @@
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
             <span class="input-text"><font class="yy-color">*</font> 口岸名称：</span>
-            <el-input placeholder="请输入口岸名称" size="small" maxlength="100"  v-model="form.portname"  class="input-input" v-verify.change.blur ="{regs:'required',submit:'demoka'}"></el-input>
+            <el-select v-model="form.portname" filterable clearable  placeholder="请选择"  size="small" class="input-input" v-verify.change.blur ="{regs:'required',submit:'demoka'}" @change="getCode(form.portname)">
+              <el-option
+                v-for="item in kaname"
+                :key="item.KAMC"
+                :label="item.JCDM+' - '+item.KAMC"
+                :value="item.KAMC">
+              </el-option>
+            </el-select>
           </el-col>
         </el-row>
 
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
             <span class="input-text"><font class="yy-color">*</font> 口岸编号：</span>
-            <el-input placeholder="请输入口岸编号(长度不超过32)" size="small" maxlength="32"  v-model="form.portcode"  class="input-input" v-verify.change.blur ="{regs:'required',submit:'demoka'}"></el-input>
+            <el-input placeholder="请输入口岸编号(长度不超过32)" size="small" maxlength="32" :disabled="form.portcode!=null"  v-model="form.portcode"  class="input-input" v-verify.change.blur ="{regs:'required',submit:'demoka'}"></el-input>
           </el-col>
         </el-row>
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
             <span class="input-text"><font class="yy-color">*</font> 口岸地址：</span>
-            <el-input placeholder="请输入口岸地址" size="small" maxlength="100"  v-model="form.ipaddress"  class="input-input" v-verify.change.blur ="{regs:'required',submit:'demoka'}"></el-input>
+            <el-input placeholder="请输入口岸地址(如：192.168.10.2)" size="small" maxlength="100"  v-model="form.ipaddress" style="width:50%"  v-verify.change.blur ="{regs:'required',submit:'demoka'}"></el-input>
+    <span style="padding-left:10px;">端口： </span> <el-input size="small" maxlength="4"  placeholder="8125" style="width:16%" v-model="form.pt"  ></el-input>
           </el-col>
         </el-row>
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
             <span class="input-text"> 备用地址：</span>
-            <el-input placeholder="请输入备用地址" size="small" maxlength="100"  v-model="form.ipaddressBack"  class="input-input" ></el-input>
+            <el-input placeholder="请输入备用地址(如：192.168.10.2)" size="small" maxlength="100"  v-model="form.ipaddressBack"  style="width:50%"></el-input>
+             <span style="padding-left:10px;">端口： </span> <el-input size="small" maxlength="4" placeholder="8125"  style="width:16%" v-model="form.ptBack" ></el-input>
           </el-col>
         </el-row>
         <el-row type="flex"  class="mb-6">
@@ -214,15 +227,18 @@ export default {
       multipleSelection: [],
       mmsg:"",
       form: {},
+      kaname:[],
 
     }
   },
 
   mounted() {
-      this.getList(this.CurrentPage, this.pageSize, this.pd);
+      //this.getList(this.CurrentPage, this.pageSize, this.pd);
+      this.getKAname();
   },
   activated(){
-      this.getList(this.CurrentPage, this.pageSize, this.pd);
+      //this.getList(this.CurrentPage, this.pageSize, this.pd);
+      this.getKAname();
   },
   methods: {
     handleSelectionChange(val) {
@@ -235,6 +251,20 @@ export default {
     handleCurrentChange(val) {
       this.getList(val, this.pageSize, this.pd);
       console.log(`当前页: ${val}`);
+    },
+    getKAname(){
+      this.$api.post("/manage-platform/portConfig/portList", null,
+        r => {
+          this.kaname = r.data;
+        })
+    },
+    getCode(val){
+      for(var i=0;i<this.kaname.length;i++){
+        if(val == this.kaname[i].KAMC){
+          this.form.portcode = this.kaname[i].KADM
+        }
+      }
+
     },
     getList(currentPage, showCount, pd) {
 
@@ -261,16 +291,17 @@ export default {
         };
         this.$api.post("/manage-platform/portConfig/goEdie", p,
           r => {
-            this.form = r.data;
+          this.form = r.data;
           })
 
           this.dialogText="编辑";
         }else {
           this.tp=0;
+          this.form.ptBack="8125";
+          this.form.pt="8125";
           this.dialogText="新增";
         }
       },
-
       addItem(formName) {
               if(this.$validator.listener.demoka){
                 const result = this.$validator.verifyAll('demoka')
@@ -345,7 +376,11 @@ export default {
 
             if (r.success) {
               this.mmsg=r.data;
-              this.detailsDialogVisible=true;
+            //  this.detailsDialogVisible=true;
+            this.$message({
+              message: this.mmsg,
+              type: 'success'
+            });
             } else {
               this.$message.error(r.Message);
             }

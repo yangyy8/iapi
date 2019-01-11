@@ -191,6 +191,7 @@
           border
           @selection-change="handleSelectionChange"
           @sort-change="sortChange"
+          @header-click="headerClick"
           style="width: 100%;">
           <el-table-column
            v-if="pd.type!=4"
@@ -208,7 +209,7 @@
             label="姓名"
             prop="name"
             sortable
-            title="姓名"
+            width="60"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
@@ -403,11 +404,11 @@
         </div>
       </div>
     </div>
-    <el-dialog title="批量事件处理" :visible.sync="czDialogVisible" width="640px" :before-close="handleClose">
+    <el-dialog title="批量事件处理" :visible.sync="czDialogVisible" width="780px" :before-close="handleClose">
       <el-form :model="czform" ref="czForm">
         <div class=" boder1 mb-15">
           <div class="f-bold mb-9">
-            处理结果描述
+            <span class="redx">*</span>处理结果描述
           </div>
           <el-input
             class="mb-9"
@@ -422,8 +423,15 @@
           处理结果
         </div>
         <el-row align="center" :gutter="2">
-          <el-col  :sm="24" :md="12" :lg="12"  class="input-item">
-            <span class="mr-5">处理结果 </span>
+          <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+            <span class="redx">*</span><span class="mr-5">核查阶段 </span>
+            <el-select v-model="czform.check_stage" filterable clearable placeholder="请选择"  size="small" class="input-input">
+              <el-option label="1 - 前期核查" value="1"></el-option>
+              <el-option label="2 - 见面核查" value="2"></el-option>
+            </el-select>
+          </el-col>
+          <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+            <span class="redx">*</span><span class="mr-5">处理结果 </span>
             <el-select v-model="czform.processorResult" filterable clearable placeholder="请选择"  size="small" class="input-input">
               <el-option label="1 - 排除嫌疑" value="1"></el-option>
               <el-option label="2 -  未能排除嫌疑，待进一步核查" value="2"></el-option>
@@ -431,8 +439,8 @@
 
             </el-select>
           </el-col>
-          <el-col  :sm="24" :md="12" :lg="12"  class="input-item"  v-show="user.dept_code=='B06'">
-            <span  class="mr-5">流转至 </span>
+          <el-col  :sm="24" :md="12" :lg="8"  class="input-item"  v-show="user.dept_code=='B06'">
+            <span class="mr-5">流转至 </span>
             <el-select v-model="czform.change_port" filterable clearable placeholder="请选择"  size="small" class="input-input">
               <el-option
                 v-for="(item,ind) in airport"
@@ -627,6 +635,10 @@ export default {
     // this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
   },
   methods:{
+    headerClick(column,event){
+      console.log(column,event)
+      event.target.title=column.label
+    },
     getUers(){
       this.$api.post('/manage-platform/sysUserInfoController/querySysUserInfo',{},
        r => {
@@ -760,8 +772,12 @@ export default {
       this.czDialogVisible=true
     },
     czSave(){
+
       if(!this.czform.processor_desc){
         this.$message.error('请先填写处理结果描述！');
+        return
+      }else if(!this.czform.check_stage){
+        this.$message.error('请选择核查阶段！');
         return
       }else if(!this.czform.processorResult){
         this.$message.error('请选择处理结果！');
@@ -778,6 +794,7 @@ export default {
     			"change_port":that.czform.change_port,
     			"processor_desc":that.czform.processor_desc,
         	"processor_people":this.user.userId,
+          "check_stage":that.czform.check_stage,
     			"serial":arr1[i].serial
         }
         p.list.push(a)

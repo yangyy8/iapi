@@ -21,7 +21,7 @@
       width="50">
     </el-table-column>
     <el-table-column
-      prop="cluster_name"
+      prop="cluster_name" sortable
       label="名称">
     </el-table-column>
 
@@ -33,7 +33,7 @@
       </template>
     </el-table-column>
     <el-table-column
-      prop="number_of_nodes"
+      prop="number_of_nodes" sortable
       label="节点数">
     </el-table-column>
     <el-table-column
@@ -91,14 +91,14 @@
      </el-table-column>
      <el-table-column
        prop="name"
-       label="名称">
+       label="名称" sortable>
      </el-table-column>
      <el-table-column
        prop="host"
-       label="IP地址">
+       label="IP地址" sortable>
      </el-table-column>
      <el-table-column
-       label="状态">
+       label="状态" sortable>
        <template slot-scope="scope">
          <span :class="{'red':scope.row.statusName == '异常'}">{{scope.row.statusName}}</span>
        </template>
@@ -146,7 +146,7 @@
       </el-table-column>
       <el-table-column
         prop="name"
-        label="索引名称">
+        label="索引名称" sortable>
       </el-table-column>
 
       <el-table-column

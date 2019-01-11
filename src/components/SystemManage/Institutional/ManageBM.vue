@@ -49,25 +49,25 @@
         style="width: 100%;"
         >
         <el-table-column
-          prop="DEPT_QC"
+          prop="DEPT_QC" sortable
           label="部门全称">
         </el-table-column>
         <el-table-column
-          prop="DEPT_JC"
+          prop="DEPT_JC" sortable
           label="部门简称"
           >
         </el-table-column>
         <el-table-column
-          prop="DEPT_CODE"
+          prop="DEPT_CODE" sortable
           label="部门编码">
         </el-table-column>
         <el-table-column
-          prop="PARENT_JC"
+          prop="PARENT_JC" sortable
           label="上级部门"
           >
         </el-table-column>
         <el-table-column
-          prop="STATUS"
+          prop="STATUS" sortable
           label="使用状态"
         >
         <template slot-scope="scope">
@@ -76,11 +76,11 @@
         </el-table-column>
 
         <el-table-column
-          label="操作" width="250">
+          label="操作" width="120">
           <template slot-scope="scope">
-              <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row)">详情</el-button>
-              <el-button class="table-btn" size="mini" plain icon="el-icon-edit" @click="adds(1,scope.row)">编辑</el-button>
-              <el-button class="table-btn" size="mini" plain icon="el-icon-delete" @click="deletes(scope.row)">删除</el-button>
+              <el-button  type="text"  class="a-btn" title="详情" icon="el-icon-tickets" @click="details(scope.row)"></el-button>
+              <el-button  type="text"  class="a-btn"  title="编辑" icon="el-icon-edit" @click="adds(1,scope.row)"></el-button>
+              <el-button  type="text"  class="a-btn"  title="删除" icon="el-icon-delete" @click="deletes(scope.row)"></el-button>
          </template>
         </el-table-column>
       </el-table>

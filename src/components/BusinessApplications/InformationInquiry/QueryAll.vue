@@ -20,7 +20,7 @@
     </div>
 
     <div class="middle" >
-      adasdfasdfsf
+      此模块正在暂停中...
     </div>
     </div>
   </div>

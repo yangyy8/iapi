@@ -315,9 +315,10 @@
     <el-dialog :title="dialogText" :visible.sync="addDialogVisible" style="line-height:32px;"  width="60%" id="xinzeng">
       <el-form :model="form" ref="addForm">
         <el-row  class="mb-6" align="center">
-          <el-col :sm="24" :md="12" :lg="8"  class="input-item">
+          <el-col :sm="24" :md="12" :lg="8"  class="input-item my-form-group" data-scope="demo1" data-name="NATIONALITY" data-type="input"
+            v-validate-easy="[['required']]">
             <span class="input-text"><span class="redx">*</span>国籍/地区：</span>
-            <el-select v-model="form.NATIONALITY" filterable clearable placeholder="请选择"  v-verify.change.blur ="{regs:'required',submit:'demo2'}" size="small" class="input-input">
+            <el-select v-model="form.NATIONALITY" filterable clearable placeholder="请选择" size="small" class="input-input">
               <el-option
                 v-for="item in nationAlone"
                 :key="item.CODE"
@@ -337,20 +338,21 @@
                 :value="item.CODE">
               </el-option>
             </el-select>
-            <!-- <QueryDocCode  :docCodeModel="form.CARDTYPE" @transDocCode="getDocCodeForm"></QueryDocCode> -->
           </el-col>
 
-          <el-col :sm="24" :md="12" :lg="8"  class="input-item">
+          <el-col :sm="24" :md="12" :lg="8"  class="input-item my-form-group" data-scope="demo1" data-name="PERSON_TYPE" data-type="input"
+            v-validate-easy="[['required']]">
             <span class="input-text"><span class="redx">*</span>控制类型：</span>
-            <el-select v-model="form.PERSON_TYPE" placeholder="请选择"  size="small" clearable v-verify.change.blur ="{regs:'required',submit:'demo2'}" class="input-input">
+            <el-select v-model="form.PERSON_TYPE" placeholder="请选择"  size="small" clearable class="input-input">
               <el-option label="0 - 外国人" value="0"></el-option>
               <el-option label="1 - 中国人" value="1"></el-option>
             </el-select>
           </el-col>
 
-          <el-col :sm="24" :md="12" :lg="8"  class="input-item">
+          <el-col :sm="24" :md="12" :lg="8"  class="input-item my-form-group" data-scope="demo1" data-name="CARDNO" data-type="input"
+            v-validate-easy="[['required']]">
             <span class="input-text"><span class="redx">*</span>证件号码：</span>
-            <el-input placeholder="请输入内容" size="small" v-model="form.CARDNO" clearable v-verify.input.blur ="{regs:'required|max:35',submit:'demo2'}" class="input-input"></el-input>
+            <el-input placeholder="请输入内容" size="small" v-model="form.CARDNO" clearable class="input-input"></el-input>
           </el-col>
 
           <el-col :sm="24" :md="12" :lg="8"  class="input-item">
@@ -365,35 +367,38 @@
             </el-date-picker>
           </el-col>
 
-          <el-col :sm="24" :md="12" :lg="8"  class="input-item">
+          <el-col :sm="24" :md="12" :lg="8"  class="input-item my-form-group" data-scope="demo1" data-name="FAMILYNAME" data-type="input"
+            v-validate-easy="[['required'],['cname']]">
             <span class="input-text"><span class="redx">*</span>姓名：</span>
-            <el-input placeholder="请输入内容" size="small" v-model="form.FAMILYNAME" clearable class="input-input" v-verify.input.blur="{regs:'required|cname',submit:'demo2'}" ></el-input>
+            <el-input placeholder="请输入内容" size="small" v-model="form.FAMILYNAME" clearable class="input-input"></el-input>
           </el-col>
 
-          <el-col :sm="24" :md="12" :lg="8"  class="input-item">
+          <el-col :sm="24" :md="12" :lg="8" class="input-item my-form-group" data-scope="demo1" data-name="GENDER" data-type="input"
+            v-validate-easy="[['required']]">
             <span class="input-text"><span class="redx">*</span>性别：</span>
-            <el-select v-model="form.GENDER" placeholder="请选择"  size="small"  class="input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}" >
+            <el-select v-model="form.GENDER" placeholder="请选择"  size="small"  class="input-input">
               <el-option label="M - 男" value="M"></el-option>
               <el-option label="F - 女" value="F"></el-option>
               <el-option label="U - 未知" value="U"></el-option>
             </el-select>
           </el-col>
 
-          <el-col :sm="24" :md="12" :lg="8"  class="input-item">
+          <el-col :sm="24" :md="12" :lg="8" class="input-item my-form-group" data-scope="demo1" data-name="BIRTHDATE" data-type="input"
+            v-validate-easy="[['required']]">
             <span class="input-text"><span class="redx">*</span>出生日期：</span>
             <el-date-picker
               size="small" value-format="yyyy-MM-dd"
               v-model="form.BIRTHDATE"
-              v-verify.change.blur ="{regs:'required',submit:'demo2'}"
               type="date"
               start-placeholder="出生日期"
               class="input-input block">
             </el-date-picker>
           </el-col>
 
-          <el-col :sm="24" :md="12" :lg="8"  class="input-item">
+          <el-col :sm="24" :md="12" :lg="8" class="input-item my-form-group" data-scope="demo1" data-name="CTL_REASONLEVEL" data-type="input"
+            v-validate-easy="[['required']]">
             <span class="input-text"><span class="redx">*</span>原因严重性：</span>
-            <el-select v-model="form.CTL_REASONLEVEL" placeholder="请选择"  size="small"  class="input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}" >
+            <el-select v-model="form.CTL_REASONLEVEL" placeholder="请选择"  size="small"  class="input-input">
               <el-option label="1" value="1"></el-option>
               <el-option label="2" value="2"></el-option>
               <el-option label="3" value="3"></el-option>
@@ -402,23 +407,23 @@
             </el-select>
           </el-col>
 
-          <el-col :sm="24" :md="12" :lg="8"  class="input-item">
+          <el-col :sm="24" :md="12" :lg="8" class="input-item my-form-group" data-scope="demo1" data-name="IN_OUT" data-type="input"
+            v-validate-easy="[['required']]">
             <span class="input-text"><span class="redx">*</span>出入境类型：</span>
-            <el-select v-model="form.IN_OUT" placeholder="请选择" size="small" class="input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}" >
+            <el-select v-model="form.IN_OUT" placeholder="请选择" size="small" class="input-input">
               <el-option label="I - 入境" value="I"></el-option>
               <el-option label="O - 出境" value="O"></el-option>
               <el-option label="A - 入出境" value="A"></el-option>
             </el-select>
           </el-col>
 
-          <el-col :sm="24" :md="12" :lg="8"  class="input-item">
+          <el-col :sm="24" :md="12" :lg="8"  class="input-item my-form-group" data-scope="demo1" data-name="CTL_BEGINDATE" data-type="input"
+            v-validate-easy.lazy="[['required']]">
             <span class="input-text"><span class="redx">*</span>生效日期：</span>
             <el-date-picker
               size="small"
-
               @change="dateDisabled=false;$set(form,'CTL_EXPIREDATE',null)"
               v-model="form.CTL_BEGINDATE"
-              v-verify.change.blur ="{regs:'required',submit:'demo2'}"
               value-format="yyyy-MM-dd"
               type="date"
               start-placeholder="生效日期"
@@ -427,12 +432,12 @@
             </el-date-picker>
           </el-col>
 
-          <el-col :sm="24" :md="12" :lg="8"  class="input-item">
+          <el-col :sm="24" :md="12" :lg="8"  class="input-item my-form-group" data-scope="demo1" data-name="CTL_EXPIREDATE" data-type="input"
+            v-validate-easy="[['required']]">
             <span class="input-text"><span class="redx">*</span>失效日期：</span>
             <el-date-picker
               size="small"
               v-model="form.CTL_EXPIREDATE"
-              v-verify.change.blur ="{regs:'required',submit:'demo2'}"
               value-format="yyyy-MM-dd"
               type="date"
               :disabled="dateDisabled"
@@ -493,7 +498,7 @@
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="addItem('addForm','0')" size="small">保存</el-button>
         <el-button type="warning" @click="bzfb" size="small">保存并发布</el-button>
-        <el-button @click="canceldig" size="small">取消</el-button>
+        <el-button @click="canceldig('demo1')" size="small">取消</el-button>
       </div>
     </el-dialog>
 
@@ -504,50 +509,50 @@
       <div class="detail-msg-text">
         <el-row type="flex" class="detail-msg-row">
           <el-col :sm="24" :md="12" :lg="8" >
-            <span>姓名</span>
+            <span>姓名：</span>
             {{detailsData.FAMILYNAME}}
 
           </el-col>
           <el-col :sm="24" :md="12" :lg="8" >
-            <span>性别</span>
+            <span>性别：</span>
             <a v-if="detailsData.GENDER=='M'">男</a>
             <a v-if="detailsData.GENDER=='F'">女</a>
             <a v-if="detailsData.GENDER=='U'">未知</a>
 
           </el-col>
           <el-col :sm="24" :md="12" :lg="8" >
-            <span>出生日期</span>
+            <span>出生日期：</span>
             {{detailsData.BIRTHDATE}}
 
           </el-col>
         </el-row>
         <el-row type="flex" class="detail-msg-row">
           <el-col :sm="24" :md="12" :lg="8" >
-            <span>国籍/地区</span>
+            <span>国籍/地区：</span>
           {{detailsData.NATIONALITYNAME}}
 
           </el-col>
           <el-col :sm="24" :md="12" :lg="8" >
-            <span>证件号码</span>
+            <span>证件号码：</span>
             {{detailsData.CARDNO}}
           </el-col>
           <el-col :sm="24" :md="12" :lg="8" >
-            <span>证件类型</span>
+            <span>证件类型：</span>
             {{detailsData.CARDTYPENAME}}
           </el-col>
         </el-row>
         <el-row type="flex" class="detail-msg-row">
           <el-col :sm="24" :md="12" :lg="8" >
-            <span>证件有效期</span>
+            <span>证件有效期：</span>
             {{detailsData.CARDEXPIREDATE}}
           </el-col>
           <el-col :sm="24" :md="12" :lg="8" >
-            <span>原因严重性</span>
+            <span>原因严重性：</span>
             {{detailsData.CTL_REASONLEVEL}} <span>级</span>
 
           </el-col>
           <el-col :sm="24" :md="12" :lg="8" >
-            <span>出入标识</span>
+            <span>出入标识：</span>
             <a v-if="detailsData.IN_OUT=='I'">入境</a>
             <a v-if="detailsData.IN_OUT=='O'">出境</a>
 
@@ -557,17 +562,17 @@
         </el-row>
         <el-row type="flex" class="detail-msg-row">
           <el-col :sm="24" :md="12" :lg="8" >
-            <span>生效日期</span>
+            <span>生效日期：</span>
             {{detailsData.CTL_BEGINDATE}}
 
           </el-col>
           <el-col :sm="24" :md="12" :lg="8" >
-            <span>失效日期</span>
+            <span>失效日期：</span>
             {{detailsData.CTL_EXPIREDATE}}
 
           </el-col>
           <el-col :sm="24" :md="12" :lg="8" >
-            <span>航班号</span>
+            <span>航班号：</span>
           {{detailsData.FLTNO}}
 
           </el-col>
@@ -575,44 +580,44 @@
         </el-row>
         <el-row type="flex" class="detail-msg-row">
           <el-col :sm="24" :md="12" :lg="8" >
-            <span>入境机场</span>
+            <span>入境机场：</span>
             {{detailsData.WHITE_PORT_IN_NAME}}
           </el-col>
           <el-col :sm="24" :md="12" :lg="8" >
-            <span>出境机场</span>
+            <span>出境机场：</span>
             {{detailsData.WHITE_PORT_OUT_NAME}}
           </el-col>
           <el-col :sm="24" :md="12" :lg="8" >
-            <span>交控单位</span>
+            <span>交控单位：</span>
             {{detailsData.SUBORG_NAME}}
           </el-col>
         </el-row>
         <el-row type="flex" class="detail-msg-row mb-20">
           <el-col :sm="24" :md="12" :lg="8" >
-            <span>联系电话</span>
+            <span>联系电话：</span>
             {{detailsData.SUBORG_CONN}}
           </el-col>
           <el-col :sm="24" :md="12" :lg="8" >
-            <span>控制类型</span>
+            <span>控制类型：</span>
             <a v-if="detailsData.PERSON_TYPE=='0'">外国人</a>
             <a v-if="detailsData.PERSON_TYPE=='1'">中国人</a>
           </el-col>
           <el-col :sm="24" :md="12" :lg="8" >
-            <span>处理依据</span>
+            <span>处理依据：</span>
             {{detailsData.CTL_REASON}}
           </el-col>
         </el-row>
         <el-row type="flex" class="detail-msg-row">
           <el-col :span="5">
-            <span>操作人</span>
+            <span>操作人：</span>
             {{detailsData.CREATEUSER}}
           </el-col>
           <el-col :span="5">
-            <span>审批人</span>
+            <span>审批人：</span>
             {{detailsData.APPRVOUSER}}
           </el-col>
           <el-col :span="6">
-            <span>操作时间</span>
+            <span>操作时间：</span>
             {{detailsData.CREATETIME}}
           </el-col>
         </el-row>
@@ -747,6 +752,37 @@ export default {
     // this.backShow=false;
     // this.getList(this.CurrentPage,this.pageSize,this.pd);
   },
+  // directives:{
+  //   input:{
+  //     inserted:function(el){
+  //      el.style.width = "300px";
+  //      el.style.height = "35px";
+  //      el.style.lineHeight = "35px";
+  //      el.style.background = "#ddd";
+  //      el.style.fontSize = "16px";
+  //      el.style.border = "1px solid #eee";
+  //      el.style.textIndent = "5px";
+  //      el.style.textIndent = "8px";
+  //      el.style.borderRadius = "5px";
+  //     }
+  //   },
+  //   focus:{
+  //     inserted:function(el){
+  //       el.focus();
+  //     }
+  //   },
+  //   require:{
+  //     inserted:function(el){
+  //       el.addEventListener('input',function(event){
+  //         // console.log(el,event)
+  //         if(event.target.value == '' || event.target.value == null){
+  //           // el.style.border = "1px solid red";
+  //           console.log('我不能为空');
+  //         };
+  //       });
+  //     }
+  //   },
+  // },
   methods:{
     download(){
       window.location.href=this.$api.rootUrl+'/manage-platform/templateFile/nameListDataFile.xlsx'
@@ -795,45 +831,10 @@ export default {
       this.$refs[formName].resetFields();
     },
     handleClose(done) {
-
       this.resetForm('releasForm');
-
-
       done();
     },
-    canceldig(){
-      console.log(this.$validator)
-       // this.$validator.removeEvent('demo2')
-       let a=this.$validator.verifyAll('demo2');
-       console.log(a)
 
-       // a.map(function(item,index){
-       //    return true
-       // })
-       // console.log(a)
-      // console.log( this.$validator.removeEvent('demo2'))
-      // var xz = document.getElementById('xinzeng')
-      // var arr=xz.getElementsByClassName("input-input")
-      // for(var i=0;i<arr.length;i++){
-      //   console.log(arr[i].children[0])
-      //   this.renode1=arr[i].children[0].children[2]
-      //   this.renode2=arr[i].children[1]
-      //
-      //   // console.log(renode)
-      //   if(this.renode1){
-      //     // this.renode1.style.display="none";
-      //
-      //     arr[i].children[0].removeChild(this.renode1)
-      //   }
-      //   if(this.renode2){
-      //     // this.renode2.style.display="none";
-      //
-      //     arr[i].removeChild(this.renode2)
-      //
-      //   }
-      // }
-      this.addDialogVisible = false;
-    },
     handleSelectionChange(val) {
       this.multipleSelection = val;
       if(this.multipleSelection.length==0){
@@ -903,6 +904,7 @@ export default {
       this.form={};
       this.form.synStatus="0";
       this.form.LIST_TYPE="1";
+      this.V.$reset('demo1')
     },
     piliangdel(){
       let arr=this.multipleSelection;
@@ -969,17 +971,7 @@ export default {
       this.form.LIST_TYPE="1",
       this.dialogType="update";
       this.dialogText="编辑";
-      if(this.$validator.listener.demo2){
-        const result = this.$validator.verifyAll('demo2')
-         if (result.indexOf(false) > -1) {
-           // this.$validator=null;
-           console.log(result)
-           return
-         }else{
-           console.log("kkkk")
-         }
-      }
-
+      this.V.$reset('demo1')
     },
 
     details(i){
@@ -1048,166 +1040,169 @@ export default {
       }
       this.releaseDialogVisible=true
     },
+    canceldig(scope){
+      this.addDialogVisible = false;
+      console.log(this.V)
+
+      this.V.$reset(scope)
+    },
     // 保存0  确认授权1
     addItem(formName,synStatus){
-      console.log(this.$validator)
-      if(this.$validator.listener.demo2){
-        const result = this.$validator.verifyAll('demo2')
-         if (result.indexOf(false) > -1) {
-           // this.$validator=null;
-           console.log(result)
-           return
-         }else{
-           console.log("kkkk")
-         }
-      }
-      if(synStatus==0){
-        switch (this.dialogType) {
-          case "add":
-            console.log(this.form)
-            this.$api.post('/manage-platform/nameList/addNameList',this.form,
-             r => {
-               if(r.success){
-                 this.$message({
-                   message: '恭喜你，添加成功！',
-                   type: 'success'
-                 });
-                 this.addDialogVisible=false;
-                 this.getList(this.CurrentPage,this.pageSize,this.pd);
-                 this.$refs[formName].resetFields();
-               }
-            })
-            break;
-          case "update":
-            console.log(this.form)
+      this.V.$submit('demo1', (canSumit,data) => {
+        // canSumit为true时，则所有该scope的所有表单验证通过
+        if(!canSumit) return
+        // 只有验证全部通过才会执行
+        console.log('验证通过的数据'+data)
 
-            this.$api.post('/manage-platform/nameList/updateNameList',this.form,
-             r => {
-               if(r.success){
-                 this.$message({
-                   message: '恭喜你，修改成功！',
-                   type: 'success'
-                 });
-                 this.addDialogVisible=false;
-                 this.getList(this.CurrentPage,this.pageSize,this.pd);
-                 this.$refs[formName].resetFields();
-               }
-            })
-            break;
-        }
-      }else {
-        switch (this.dialogType) {
-          case "add":
-            this.form.synStatus=synStatus;
-            this.form.AUTHORIZEDUSER=this.releaseform.user;
-            this.form.AUTHORIZEDPASSWORD=this.releaseform.pwd;
-            this.$api.post('/manage-platform/nameList/addNameList',this.form,
-             r => {
-               //console.log(r);
-               if(r.success){
-                 this.$message({
-                   message: '恭喜你，添加成功！',
-                   type: 'success'
-                 });
-                 this.releaseDialogVisible=false;
-                 this.addDialogVisible=false;
-                 this.getList(this.CurrentPage,this.pageSize,this.pd);
-                 this.$refs[formName].resetFields();
-               }
-            })
-            break;
-          case "update":
-            this.form.synStatus=synStatus;
-            this.form.AUTHORIZEDUSER=this.releaseform.user;
-            this.form.AUTHORIZEDPASSWORD=this.releaseform.pwd;
-            this.$api.post('/manage-platform/nameList/updateNameList',this.form,
-             r => {
-               //console.log(r);
-               if(r.success){
-                 this.$message({
-                   message: '恭喜你，修改成功！',
-                   type: 'success'
-                 });
-                 this.releaseDialogVisible=false;
-                 this.addDialogVisible=false;
-                 this.getList(this.CurrentPage,this.pageSize,this.pd);
-                 this.$refs[formName].resetFields();
-               }
-            })
-            break;
-          case "del":
-            let p={
-              LIST_TYPE : "1",
-              SERIAL:this.delId,
-              AUTHORIZEDUSER:this.releaseform.user,
-              AUTHORIZEDPASSWORD:this.releaseform.pwd,
-              synStatus:synStatus
-            }
-            this.$api.post('/manage-platform/nameList/deleteNameList',p,
-             r => {
-               if(r.success){
-                 this.$message({
-                   message: '删除成功',
-                   type: 'success'
-                 });
-                 this.releaseDialogVisible=false;
-                 this.getList(this.CurrentPage,this.pageSize,this.pd);
-                 this.$refs[formName].resetFields();
-               }
-            })
-            break;
-          case "dels":
-            var p = {
-              pd:{
-                SYN_STATUS: synStatus,
-                AUTHORIZEDUSER:this.releaseform.user,
-                AUTHORIZEDPASSWORD:this.releaseform.pwd,
-                LIST_TYPE : "1"
-              },
-              cdtList:this.multipleSelection.map(function(val){
-                return val.SERIAL
-              },this)
-            };
-            this.$api.post('/manage-platform/nameList/deleteNameListAll',p,
-             r => {
-               if(r.success){
-                 this.$message({
-                   message: '删除成功',
-                   type: 'success'
-                 });
-                 this.releaseDialogVisible=false;
-                 this.getList(this.CurrentPage,this.pageSize,this.pd);
-                 this.$refs[formName].resetFields();
-               }
-            })
+        if(synStatus==0){
+          switch (this.dialogType) {
+            case "add":
+              console.log(this.form)
+              this.$api.post('/manage-platform/nameList/addNameList',this.form,
+               r => {
+                 if(r.success){
+                   this.$message({
+                     message: '恭喜你，添加成功！',
+                     type: 'success'
+                   });
+                   this.addDialogVisible=false;
+                   this.getList(this.CurrentPage,this.pageSize,this.pd);
+                   this.$refs[formName].resetFields();
+                 }
+              })
               break;
-          case "syn":
-            var p ={
-              pd:{
+            case "update":
+              console.log(this.form)
+
+              this.$api.post('/manage-platform/nameList/updateNameList',this.form,
+               r => {
+                 if(r.success){
+                   this.$message({
+                     message: '恭喜你，修改成功！',
+                     type: 'success'
+                   });
+                   this.addDialogVisible=false;
+                   this.getList(this.CurrentPage,this.pageSize,this.pd);
+                   this.$refs[formName].resetFields();
+                 }
+              })
+              break;
+          }
+        }else {
+          switch (this.dialogType) {
+            case "add":
+              this.form.synStatus=synStatus;
+              this.form.AUTHORIZEDUSER=this.releaseform.user;
+              this.form.AUTHORIZEDPASSWORD=this.releaseform.pwd;
+              this.$api.post('/manage-platform/nameList/addNameList',this.form,
+               r => {
+                 //console.log(r);
+                 if(r.success){
+                   this.$message({
+                     message: '恭喜你，添加成功！',
+                     type: 'success'
+                   });
+                   this.releaseDialogVisible=false;
+                   this.addDialogVisible=false;
+                   this.getList(this.CurrentPage,this.pageSize,this.pd);
+                   this.$refs[formName].resetFields();
+                 }
+              })
+              break;
+            case "update":
+              this.form.synStatus=synStatus;
+              this.form.AUTHORIZEDUSER=this.releaseform.user;
+              this.form.AUTHORIZEDPASSWORD=this.releaseform.pwd;
+              this.$api.post('/manage-platform/nameList/updateNameList',this.form,
+               r => {
+                 //console.log(r);
+                 if(r.success){
+                   this.$message({
+                     message: '恭喜你，修改成功！',
+                     type: 'success'
+                   });
+                   this.releaseDialogVisible=false;
+                   this.addDialogVisible=false;
+                   this.getList(this.CurrentPage,this.pageSize,this.pd);
+                   this.$refs[formName].resetFields();
+                 }
+              })
+              break;
+            case "del":
+              let p={
+                LIST_TYPE : "1",
+                SERIAL:this.delId,
                 AUTHORIZEDUSER:this.releaseform.user,
                 AUTHORIZEDPASSWORD:this.releaseform.pwd,
-                LIST_TYPE : "1"
-              },
-              cdtList:this.multipleSelection.map(function(val){
-                return val.SERIAL
-              },this)
-            }
-            console.log(p)
-            this.$api.post('/manage-platform/nameList/synNameListAll',p,
-             r => {
-               if(r.success){
-                 this.$message({
-                   message: '生效发布成功',
-                   type: 'success'
-                 });
-                 this.releaseDialogVisible=false;
-                 this.getList(this.CurrentPage,this.pageSize,this.pd);
-               }
-            })
-            break;
+                synStatus:synStatus
+              }
+              this.$api.post('/manage-platform/nameList/deleteNameList',p,
+               r => {
+                 if(r.success){
+                   this.$message({
+                     message: '删除成功',
+                     type: 'success'
+                   });
+                   this.releaseDialogVisible=false;
+                   this.getList(this.CurrentPage,this.pageSize,this.pd);
+                   this.$refs[formName].resetFields();
+                 }
+              })
+              break;
+            case "dels":
+              var p = {
+                pd:{
+                  SYN_STATUS: synStatus,
+                  AUTHORIZEDUSER:this.releaseform.user,
+                  AUTHORIZEDPASSWORD:this.releaseform.pwd,
+                  LIST_TYPE : "1"
+                },
+                cdtList:this.multipleSelection.map(function(val){
+                  return val.SERIAL
+                },this)
+              };
+              this.$api.post('/manage-platform/nameList/deleteNameListAll',p,
+               r => {
+                 if(r.success){
+                   this.$message({
+                     message: '删除成功',
+                     type: 'success'
+                   });
+                   this.releaseDialogVisible=false;
+                   this.getList(this.CurrentPage,this.pageSize,this.pd);
+                   this.$refs[formName].resetFields();
+                 }
+              })
+                break;
+            case "syn":
+              var p ={
+                pd:{
+                  AUTHORIZEDUSER:this.releaseform.user,
+                  AUTHORIZEDPASSWORD:this.releaseform.pwd,
+                  LIST_TYPE : "1"
+                },
+                cdtList:this.multipleSelection.map(function(val){
+                  return val.SERIAL
+                },this)
+              }
+              console.log(p)
+              this.$api.post('/manage-platform/nameList/synNameListAll',p,
+               r => {
+                 if(r.success){
+                   this.$message({
+                     message: '生效发布成功',
+                     type: 'success'
+                   });
+                   this.releaseDialogVisible=false;
+                   this.getList(this.CurrentPage,this.pageSize,this.pd);
+                 }
+              })
+              break;
 
+          }
         }
-      }
+      })
+
     },
 
     beforeAvatarUpload(file){

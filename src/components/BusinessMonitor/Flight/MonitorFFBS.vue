@@ -70,12 +70,14 @@
             label="航班号"
             prop="fltno"
             sortable
-            width="90">
+            width="90"
+            :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="出入标识"
             prop="ioType"
-            width="77">
+            width="77"
+            :show-overflow-tooltip="true">
             <template slot-scope="scope">
               <div>
                 <span v-if="scope.row.ioType=='I'">入境</span>
@@ -87,32 +89,38 @@
             label="计划起飞时间"
             prop="preDepartTime"
             sortable
-            width="132">
+            width="132"
+            :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="计划到达时间"
             prop="preArriveTime"
             sortable
-            width="132">
+            width="132"
+            :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="出发站"
             prop="from"
-            sortable>
+            sortable
+            :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="目的站"
             prop="to"
-            sortable>
+            sortable
+            :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="航空公司"
             prop="aircompanyName"
-            sortable>
+            sortable
+            :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="航班状态"
-            width="119">
+            width="119"
+            :show-overflow-tooltip="true">
             <template slot-scope="scope">
               <div>
                 <span v-if="scope.row.status==0">计划</span>
@@ -127,28 +135,32 @@
             </template>
           </el-table-column>
           <el-table-column
-            label="航班关闭报文次数">
+            label="航班关闭报文次数"
+            :show-overflow-tooltip="true">
             <template slot-scope="scope">
               <div>正常：{{scope.row.close}}<br/>
               异常：{{scope.row.closeEx}}</div>
             </template>
           </el-table-column>
           <el-table-column
-            label="航班取消报文次数">
+            label="航班取消报文次数"
+            :show-overflow-tooltip="true">
             <template slot-scope="scope">
               <div>正常：{{scope.row.cancel}}<br/>
               异常：{{scope.row.cancelEx}}</div>
             </template>
           </el-table-column>
           <el-table-column
-            label="IAPI报文次数">
+            label="IAPI报文次数"
+            :show-overflow-tooltip="true">
             <template slot-scope="scope">
               <div>正常：{{scope.row.iapi}}<br/>
               异常：{{scope.row.iapiEx}}</div>
             </template>
           </el-table-column>
           <el-table-column
-            label="PNR报文次数">
+            label="PNR报文次数"
+            :show-overflow-tooltip="true">
             <template slot-scope="scope">
               <div>正常：{{scope.row.pnr}}<br/>
               异常：{{scope.row.pnrEx}}</div>
@@ -211,12 +223,14 @@
             label="航班号"
             prop="fltno"
             sortable
-            width="90">
+            width="90"
+            :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="出入标识"
             prop="ioType"
-            width="101">
+            width="101"
+            :show-overflow-tooltip="true">
             <template slot-scope="scope">
               <div>
                 <span v-if="scope.row.ioType=='I'">入境</span>
@@ -228,23 +242,27 @@
             label="计划起飞时间"
             prop="preDepartTime"
             sortable
-            width="145">
+            width="145"
+            :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="计划到达时间"
             prop="preArriveTime"
             sortable
-            width="145">
+            width="145"
+            :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="出发站"
             prop="from"
-            sortable>
+            sortable
+            :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="目的站"
             prop="to"
-            sortable>
+            sortable
+            :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="航空公司"
@@ -254,7 +272,8 @@
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
-            label="航班状态">
+            label="航班状态"
+            :show-overflow-tooltip="true">
             <template slot-scope="scope">
               <div>
                 <span v-if="scope.row.status==0">计划</span>
@@ -270,7 +289,8 @@
           </el-table-column>
           <el-table-column
             label="非法报送数"
-            prop="closeEx">
+            prop="closeEx"
+            :show-overflow-tooltip="true">
             <template slot-scope="scope">
               <div>
                 <span v-if="tabId==1">{{scope.row.close+scope.row.closeEx}}</span>

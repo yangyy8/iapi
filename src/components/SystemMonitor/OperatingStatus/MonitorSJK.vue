@@ -34,7 +34,7 @@
      style="width: 100%;"
     >
              <el-table-column
-               label="区域" >
+               label="区域" sortable>
                <template slot-scope="scope">
                  <div class="">
                    {{scope.row.zone | fifter1}}
@@ -43,10 +43,10 @@
              </el-table-column>
              <el-table-column
                prop="instanceName"
-               label="实例名称" >
+               label="实例名称" sortable>
              </el-table-column>
              <el-table-column
-               label="状态" >
+               label="状态" sortable>
                <template slot-scope="scope">
 
                    {{scope.row.status | fifter2}}
@@ -64,8 +64,7 @@
      style="width: 100%;"
   >
              <el-table-column
-
-               label="区域"
+               label="区域" sortable
              >
              <template slot-scope="scope">
                <div class="">
@@ -75,16 +74,16 @@
              </el-table-column>
              <el-table-column
                prop="typeStr"
-               label="类型"
+               label="类型" sortable
              >
              </el-table-column>
              <el-table-column
                prop="name"
-               label="名称"
+               label="名称" sortable
              >
              </el-table-column>
              <el-table-column
-               label="状态"
+               label="状态" sortable
              >
              <template slot-scope="scope">
               {{scope.row.status | fifterstate}}

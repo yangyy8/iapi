@@ -125,11 +125,11 @@
         style="width: 100%;">
        <el-table-column
           prop="intgChnname"
-          label="中文姓名" sortable>
+          label="中文姓名" >
         </el-table-column>
         <el-table-column
           prop="tsname"
-          label="姓名" sortable
+          label="姓名"
           width="140">
         </el-table-column>
         <el-table-column
@@ -142,11 +142,11 @@
         </el-table-column>
         <el-table-column
           prop="nationalityStr"
-          label="国籍/地区" sortable>
+          label="国籍/地区" >
         </el-table-column>
         <el-table-column
           prop="cardnum"
-          label="证件号码" sortable>
+          label="证件号码" >
         </el-table-column>
         <el-table-column
           prop="flightNumber"
@@ -169,14 +169,14 @@
         </el-table-column>
         <el-table-column
           prop="passengerstatus"
-          label="人员状态" sortable>
+          label="人员状态" >
         </el-table-column>
         <el-table-column
           label="操作"
-          width="200">
+          width="80">
           <template slot-scope="scope">
-            <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row)">详情</el-button>
-            <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="seatDetails(scope.row)">座位详情</el-button>
+            <el-button type="text"  class="a-btn"  title="详情" icon="el-icon-tickets" @click="details(scope.row)"></el-button>
+            <el-button type="text"  class="a-btn"  title="座位详情"  icon="el-icon-tickets" @click="seatDetails(scope.row)">座位详情</el-button>
          </template>
         </el-table-column>
       </el-table>

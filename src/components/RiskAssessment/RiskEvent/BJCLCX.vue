@@ -246,7 +246,7 @@
                     <div class="gc-box">
                       <div><span class="b-dot"></span>{{d1.modelName}}：</div>
                       <div class="">
-                        {{d1.model_describe}}
+                        {{d1.strategy}}
                       </div>
                     </div>
                   </div>

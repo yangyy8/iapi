@@ -1,6 +1,6 @@
 <template lang="html">
   <div class="ryssjk">
-    <div class="top mb-6">
+    <!-- <div class="top mb-6">
       <el-row type="flex">
         <el-col :span="22" class="br">
           <el-row :gutter="2" class="pr-20 top-row">
@@ -55,12 +55,30 @@
         </el-col>
         <el-col :span="2" class="down-btn-area">
           <el-button type="success" class="" size="small" @click="getList(CurrentPage,pageSize,pd)">查询</el-button>
-          <!-- <el-button type="primary" class="mb-15" plain size="small" >重置</el-button> -->
         </el-col>
       </el-row>
-    </div>
+    </div> -->
     <div class="middle mb-6">
-      <div class="middle-tab">
+      <div class="ak-tab">
+        <div class="ak-tabs">
+          <div class="ak-tab-item hand" :class="{'ak-checked':pd.type==0}" @click="checkTab(0)">
+            预检人员
+          </div>
+          <div class="ak-tab-item hand" :class="{'ak-checked':pd.type==1}" @click="checkTab(1)">
+            不准登机人员
+          </div>
+          <div class="ak-tab-item hand" :class="{'ak-checked':pd.type==2}" @click="checkTab(2)">
+            重点关注人员
+          </div>
+          <div class="ak-tab-item hand" :class="{'ak-checked':pd.type==3}" @click="checkTab(3)">
+            人员全业务监控
+          </div>
+          <div class="ak-tab-item hand" :class="{'ak-checked':pd.type==4}" @click="checkTab(4)">
+            pnr信息监控
+          </div>
+        </div>
+      </div>
+      <!-- <div class="middle-tab">
         <div class="middle-tab-item hand" :class="{'middle-checked':pd.type==0}" @click="pd.type=0;getList(CurrentPage,pageSize,pd)">
           预检人员
         </div>
@@ -70,29 +88,89 @@
         <div class="middle-tab-item hand" :class="{'middle-checked':pd.type==2}" @click="pd.type=2;getList(CurrentPage,pageSize,pd)">
           重点人员
         </div>
-      </div>
-      <div class="middle-tab-content">
-        <el-button type="success"  icon="el-icon-refresh" size="small" class="mb-9 mr-15" @click="getList(CurrentPage,pageSize,pd)">刷新</el-button>
+      </div> -->
+      <div class="ak-tab-pane">
+        <el-row type="flex">
+          <el-col :span="22" class="br">
+            <el-row :gutter="2" class="pr-20 top-row">
+              <el-col :sm="24" :md="12" :lg="8" class="input-item">
+                <span class="input-text">航班号：</span>
+                <el-input v-model="pd.fltNo"  placeholder="请输入内容" size="small" clearable class="input-input"></el-input>
+              </el-col>
+
+              <el-col :sm="24" :md="12"  :lg="8" class="input-item">
+                <span class="input-text">出入标识：</span>
+                <el-select v-model="pd.ioType" placeholder="请选择"  size="small" clearable filterable class="block input-input">
+                  <el-option label="I - 入境" value="I"></el-option>
+                  <el-option label="O - 出境" value="O"></el-option>
+                  <el-option label="A - 入出境" value=""></el-option>
+                </el-select>
+              </el-col>
+              <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
+                <span class="input-text">航班日期：</span>
+                <div class="input-input t-flex t-date">
+                  <el-date-picker
+                   type="date" size="small"
+                   :editable="false"
+                   :clearable="false"
+                   v-model="pd.fltDateFr"
+                   value-format="yyyyMMdd"
+                   placeholder="开始时间" >
+                  </el-date-picker>
+                  <span class="septum">-</span>
+                  <el-date-picker
+                    type="date" size="small"
+                    :editable="false"
+                    :clearable="false"
+                    v-model="pd.fltDateTo"
+                    value-format="yyyyMMdd"
+                    placeholder="结束时间">
+                  </el-date-picker>
+                </div>
+              </el-col>
+              <el-col :sm="24" :md="12" :lg="8" class="input-item">
+                <span class="input-text">航站：</span>
+                <el-select  v-model="pd.port" placeholder="请选择" filterable clearable size="small" class="input-input">
+                  <el-option
+                    v-for="item in airport"
+                    v-if="item.JCDM"
+                    :key="item.JCDM"
+                    :label="item.JCDM+' - '+item.KAMC"
+                    :value="item.JCDM">
+                  </el-option>
+                </el-select>
+              </el-col>
+            </el-row>
+          </el-col>
+          <el-col :span="2" class="down-btn-area">
+            <el-button type="success" class="" size="small" @click="getList(CurrentPage,pageSize,pd)">查询</el-button>
+            <!-- <el-button type="primary" class="mb-15" plain size="small" >重置</el-button> -->
+          </el-col>
+        </el-row>
+        <!-- <el-button type="success"  icon="el-icon-refresh" size="small" class="mb-9 mr-15" @click="getList(CurrentPage,pageSize,pd)">刷新</el-button> -->
         <el-checkbox v-model="checked">自动刷新</el-checkbox>
         <span class="tc-999 f-14">注：点击每行可查看人员详情</span>
         <el-table
-          ref="multipleTable"
+          class="mt-10 o-table3"
+          v-show="pd.type==0||pd.type==1||pd.type==2"
           :data="tableData"
           border
           @row-click="rowClick"
+          @header-click="headerClick"
           style="width: 100%;">
           <el-table-column
             label="姓名"
             prop="name"
             sortable
-            width="105"
+            width="90"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="性别"
             prop="gender"
-            width="65"
-            sortable>
+            width="70"
+            sortable
+            :show-overflow-tooltip="true">
             <template slot-scope="scope">
               <div>
                 <span v-if="scope.row.gender=='F'">女</span>
@@ -105,18 +183,21 @@
             label="出生日期"
             prop="birthDay"
             sortable
-            width="101">
+            width="101"
+            :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="国籍/地区"
             prop="nationalityName"
             sortable
-            width="106">
+            width="106"
+            :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="出入标识"
-            width="80"
-            sortable>
+            width="99"
+            sortable
+            :show-overflow-tooltip="true">
             <template slot-scope="scope">
               <div>
                 <span v-if="scope.row.ioType=='I'">入境</span>
@@ -139,18 +220,18 @@
             prop="name"
             width="120">
           </el-table-column> -->
-          <el-table-column
+          <!-- <el-table-column
             label="证件种类"
             prop="cardTypeName"
             sortable
             width="110"
             :show-overflow-tooltip="true">
-          </el-table-column>
+          </el-table-column> -->
           <el-table-column
             label="证件号码"
             prop="passportNo"
             sortable
-            >
+            :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="签证种类"
@@ -163,19 +244,22 @@
             label="航班号"
             prop="fltno"
             sortable
-            width="90">
+            width="90"
+            :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="航班日期"
             prop="fltDate"
             width="101"
-            sortable>
+            sortable
+            :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="值机日期"
             prop="createTime"
             width="101"
-            sortable>
+            sortable
+            :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="出发站"
@@ -213,9 +297,305 @@
               </div>
             </template>
           </el-table-column>
+          <el-table-column
+            label="是否已办理出入境手续"
+            prop="eeflag"
+            width="60">
+            <template slot-scope="scope">
+              <div>
+                <span v-if="scope.row.focusMan==0">否</span>
+                <span v-if="scope.row.focusMan==1">是</span>
+              </div>
+            </template>
+          </el-table-column>
           <!-- <el-table-column
             label="操作">
           </el-table-column> -->
+        </el-table>
+        <el-table
+          class="mt-10 o-table3"
+          v-show="pd.type==3"
+          :data="tableData"
+          border
+          @row-click="rowClick"
+          @header-click="headerClick"
+          style="width: 100%;">
+          <el-table-column
+            label="订票姓名"
+            prop="bkname"
+            sortable
+            width="105"
+            :show-overflow-tooltip="true">
+          </el-table-column>
+          <el-table-column
+            label="订票性别"
+            prop="bkbirthday"
+            width="65"
+            sortable
+            :show-overflow-tooltip="true">
+            <template slot-scope="scope">
+              <div>
+                <span v-if="scope.row.bkgender=='F'">女</span>
+                <span v-if="scope.row.bkgender=='M'">男</span>
+                <span v-if="scope.row.bkgender=='U'">未知</span>
+              </div>
+            </template>
+          </el-table-column>
+          <el-table-column
+            label="订票证号"
+            prop="bkcardnum"
+            sortable
+            width="105"
+            :show-overflow-tooltip="true">
+          </el-table-column>
+          <el-table-column
+            label="订票国籍/地区"
+            prop="bknationality"
+            sortable
+            width="106"
+            :show-overflow-tooltip="true">
+          </el-table-column>
+          <el-table-column
+            label="订票出生日期"
+            prop="bkgender"
+            sortable
+            width="101"
+            :show-overflow-tooltip="true">
+          </el-table-column>
+          <el-table-column
+            label="订票航班"
+            prop="bkfltno"
+            sortable
+            width="101"
+            :show-overflow-tooltip="true">
+          </el-table-column>
+          <el-table-column
+            label="订票航班日期"
+            prop="bkfltdate"
+            sortable
+            width="101"
+            :show-overflow-tooltip="true">
+          </el-table-column>
+          <el-table-column
+            label="订票电子客票号"
+            prop="rci"
+            sortable
+            width="101"
+            :show-overflow-tooltip="true">
+          </el-table-column>
+          <el-table-column
+            label="订单创建时间"
+            prop="rcitime"
+            sortable
+            width="101"
+            :show-overflow-tooltip="true">
+          </el-table-column>
+          <el-table-column
+            label="值机姓名"
+            prop="chkname"
+            sortable
+            width="105"
+            :show-overflow-tooltip="true">
+          </el-table-column>
+          <el-table-column
+            label="值机性别"
+            prop="chkgender"
+            width="65"
+            sortable
+            :show-overflow-tooltip="true">
+            <template slot-scope="scope">
+              <div>
+                <span v-if="scope.row.chkgender=='F'">女</span>
+                <span v-if="scope.row.chkgender=='M'">男</span>
+                <span v-if="scope.row.chkgender=='U'">未知</span>
+              </div>
+            </template>
+          </el-table-column>
+          <el-table-column
+            label="值机证号"
+            prop="chkcardnum"
+            sortable
+            width="105"
+            :show-overflow-tooltip="true">
+          </el-table-column>
+          <el-table-column
+            label="值机国籍/地区"
+            prop="chknationality"
+            sortable
+            width="106"
+            :show-overflow-tooltip="true">
+          </el-table-column>
+          <el-table-column
+            label="值机出生日期"
+            prop="chkbirthday"
+            sortable
+            width="101"
+            :show-overflow-tooltip="true">
+          </el-table-column>
+          <el-table-column
+            label="值机航班"
+            prop="chkfltno"
+            sortable
+            width="101"
+            :show-overflow-tooltip="true">
+          </el-table-column>
+          <el-table-column
+            label="值机航班日期"
+            prop="chkfltdate"
+            sortable
+            width="101"
+            :show-overflow-tooltip="true">
+          </el-table-column>
+          <el-table-column
+            label="值机电子客票号"
+            prop="tktnumber"
+            sortable
+            width="101"
+            :show-overflow-tooltip="true">
+          </el-table-column>
+          <el-table-column
+            label="值机时间"
+            prop="chktime"
+            sortable
+            width="101"
+            :show-overflow-tooltip="true">
+          </el-table-column>
+          <el-table-column
+            label="登机时间"
+            prop="clstime"
+            sortable
+            width="101"
+            :show-overflow-tooltip="true">
+          </el-table-column>
+          <el-table-column
+            label="入出境时间"
+            prop="eetime"
+            sortable
+            width="101"
+            :show-overflow-tooltip="true">
+          </el-table-column>
+        </el-table>
+        <el-table
+          class="mt-10 o-table3"
+          v-show="pd.type==4"
+          :data="tableData"
+          border
+          @row-click="rowClick"
+          @header-click="headerClick"
+          style="width: 100%;">
+          <el-table-column
+            label="姓"
+            prop="traveller_surname_tkt"
+            sortable
+            width="70"
+            :show-overflow-tooltip="true">
+          </el-table-column>
+          <el-table-column
+            label="名"
+            prop="traveller_given_name_tkt"
+            sortable
+            width="70"
+            :show-overflow-tooltip="true">
+          </el-table-column>
+          <el-table-column
+            label="性别"
+            prop="gender"
+            width="65"
+            sortable
+            :show-overflow-tooltip="true">
+            <template slot-scope="scope">
+              <div>
+                <span v-if="scope.row.gender=='F'">女</span>
+                <span v-if="scope.row.gender=='M'">男</span>
+                <span v-if="scope.row.gender=='U'">未知</span>
+              </div>
+            </template>
+          </el-table-column>
+          <el-table-column
+            label="出生日期"
+            prop="birthdate"
+            sortable
+            width="101"
+            :show-overflow-tooltip="true">
+          </el-table-column>
+          <el-table-column
+            label="国籍/地区"
+            prop="passportissuecountry"
+            sortable
+            width="106"
+            :show-overflow-tooltip="true">
+          </el-table-column>
+          <el-table-column
+            label="证号"
+            prop="passportno"
+            sortable
+            width="105"
+            :show-overflow-tooltip="true">
+          </el-table-column>
+          <el-table-column
+            label="电子客票号"
+            prop="tktnumber"
+            sortable
+            width="101"
+            :show-overflow-tooltip="true">
+          </el-table-column>
+          <el-table-column
+            label="航班号"
+            prop="fltno"
+            sortable
+            width="101"
+            :show-overflow-tooltip="true">
+          </el-table-column>
+          <el-table-column
+            label="计划起飞时间"
+            prop="departdate"
+            sortable
+            width="101"
+            :show-overflow-tooltip="true">
+          </el-table-column>
+
+          <el-table-column
+            label="计划到达时间"
+            prop="arrivdate"
+            sortable
+            width="101"
+            :show-overflow-tooltip="true">
+          </el-table-column>
+          <el-table-column
+            label="出发地"
+            prop="last_departure_airport"
+            sortable
+            width="100"
+            :show-overflow-tooltip="true">
+          </el-table-column>
+          <el-table-column
+            label="目的地"
+            prop="first_arrival_airport"
+            width="100"
+            sortable
+            :show-overflow-tooltip="true">
+          </el-table-column>
+          <el-table-column
+            label="订单时间"
+            prop="rcitime"
+            sortable
+            :show-overflow-tooltip="true">
+          </el-table-column>
+          <el-table-column
+            label="座位号"
+            prop="specifigseat"
+            sortable
+            width="106"
+            :show-overflow-tooltip="true">
+          </el-table-column>
+          <el-table-column
+            label="舱位"
+            prop="carbinclassdesignator"
+            sortable
+            width="101"
+            :show-overflow-tooltip="true">
+          </el-table-column>
+
         </el-table>
 
         <div class="middle-foot">
@@ -248,10 +628,45 @@
             :total="TotalResult">
           </el-pagination>
         </div>
+        <div class="ry3" v-show="pd.type==3">
+          <div class="title-grey">
+            人员监控列表
+          </div>
+          <el-table
+            :data="tableData2"
+            style="width: 481px"
+            class="table2"
+            border>
+            <el-table-column
+              label="姓名"
+              prop="name"
+              width="110">
+            </el-table-column>
+            <el-table-column
+              label="证件号码"
+              prop="passno"
+              width="200">
+            </el-table-column>
+            <el-table-column
+              label="国籍/地区"
+              prop="nationalityName"
+              width="110">
+            </el-table-column>
+            <el-table-column
+              label="操作"
+              width="60">
+              <template slot-scope="scope">
+                <el-button type="text" class="a-btn" icon="el-icon-delete"  title="删除" @click="delMonitorPerson(scope.row.serial)"></el-button>
+              </template>
+            </el-table-column>
+          </el-table>
+          <el-button type="success" size="mini" class="addbtn" @click="addDialogVisible=true">添加</el-button>
+
+        </div>
       </div>
 
     </div>
-    <div class="down ry3">
+    <!-- <div class="down ry3">
       <div class="title-grey">
         人员监控列表
       </div>
@@ -285,7 +700,7 @@
       </el-table>
       <el-button type="success" size="mini" class="addbtn" @click="addDialogVisible=true">添加</el-button>
 
-    </div>
+    </div> -->
     <el-dialog title="列表追加" :visible.sync="addDialogVisible" width="640px" :before-close="handleClose">
       <el-form :model="addform" ref="addForm" label-width="100px" style="width:520px">
           <el-form-item label="姓名：" prop="name">
@@ -631,7 +1046,8 @@ export default {
       eve:'',
       pnrEve:'',
       nav1Id:null,
-      nav2Id:null
+      nav2Id:null,
+      timer:null
     }
   },
   mounted(){
@@ -705,6 +1121,15 @@ export default {
     },
   },
   methods:{
+    checkTab(type){
+      this.pd.type=type;
+      this.tableData=null;
+      this.CurrentPage=1;
+      this.pageSize=10;
+      this.TotalResult=0;
+      this.getList(this.CurrentPage,this.pageSize,this.pd);
+
+    },
     pageSizeChange(val) {
       this.pageSize=val;
       this.getList(this.CurrentPage,this.pageSize,this.pd);
@@ -857,14 +1282,19 @@ export default {
          }
        })
     },
+    headerClick(column,event){
+      console.log(column,event)
+      event.target.title=column.label
+    },
     rowClick(item){
-      this.detailsDialogVisible = true;
       this.historyCdt.NATIONALITY = item.nationality;
       this.historyCdt.PASSPORTNO = item.passportNo;
       this.getHistoryList(this.hcurrentPage,this.hshowCount,this.historyCdt);
       this.$api.post('/manage-platform/iapi/queryIapiInfo',{serial:item.serial},
        r =>{
          if(r.success){
+           this.detailsDialogVisible = true;
+
            this.dform = r.data.IAPI;
            if(r.data.hasOwnProperty('CHECKDATA') == false){
              this.isCheck = false;
@@ -902,10 +1332,10 @@ export default {
 </script>
 
 <style scoped>
-.middle {
+/* .middle {
   background: none;
   padding: 0;
-}
+} */
 .middle-tab {
   /* width: 252px; */
   display: flex;

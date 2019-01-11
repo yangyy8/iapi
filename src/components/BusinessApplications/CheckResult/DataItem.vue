@@ -36,7 +36,7 @@
                 </el-option>
                 <el-option value="O" label="O - 出境">
                 </el-option>
-                <el-option value="A" label="A - 全部">
+                <el-option value="A" label="A - 入出境">
                 </el-option>
               </el-select>
             </el-col>
@@ -108,13 +108,11 @@
                    </el-option>
                    <el-option
                      v-for="(item,ind) in AirportO"
-
                      v-if="item.JCDM"
                      :label="item.JCDM+' - '+item.KAMC"
                      :value="item.JCDM" >
                    </el-option>
                  </el-select>
-
             </el-col>
             <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
             <span class="input-text">预计到达时间：</span>
@@ -132,7 +130,6 @@
                </el-date-picker>
                </div>
             </el-col>
-
             <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
                <span class="input-text"><font style="color:red">*</font> 校验时间：</span>
              <div class="input-input t-flex t-date">
@@ -168,9 +165,7 @@
         </el-col>
         <el-col :span="2" class="down-btn-area">
           <el-button type="success" size="small" @click="getList(CurrentPage,pageSize,pd)">查询</el-button>
-
         </el-col>
-
       </el-row>
     </div>
 
@@ -195,15 +190,16 @@
         style="width: 100%;">
         <el-table-column
           prop="travellerName"
-          label="姓名">
+          label="姓名"
+          sortable>
         </el-table-column>
         <el-table-column
           prop="chineseName"
-          label="中文姓名" >
+          label="中文姓名" sortable>
         </el-table-column>
         <el-table-column
           prop="genderDesc"
-          label="性别">
+          label="性别" sortable>
         </el-table-column>
         <el-table-column
           prop="birthday"
@@ -213,16 +209,14 @@
                   prop="nationalityDesc"
                   label="国籍/地区" sortable>
                 </el-table-column>
-
                 <el-table-column
                   prop="passportNo"
-                  label="证件号码">
+                  label="证件号码" sortable>
                 </el-table-column>
                 <!-- <el-table-column
                   prop="passportExpireDate"
                   label="证件有效期">
                 </el-table-column> -->
-
                 <el-table-column
                   prop="personGrade"
                   label="人员类别" sortable>
@@ -241,15 +235,15 @@
                 </el-table-column>
                 <el-table-column
                   prop="thanFieldNameDesc"
-                  label="错误校验项">
+                  label="错误校验项" sortable>
                 </el-table-column>
                 <el-table-column
                   prop="thanFieldName"
-                  label="错误值">
+                  label="错误值" sortable>
                 </el-table-column>
                 <el-table-column
                   prop="thanTypeDesc"
-                  label="不通过原因">
+                  label="不通过原因" sortable>
                 </el-table-column>
                 <!-- <el-table-column
                   prop="checkResultDesc"
@@ -260,10 +254,10 @@
                   label="反馈描述">
                 </el-table-column> -->
                 <el-table-column
-                  label="操作">
+                  label="操作" width="70">
                   <template slot-scope="scope">
 
-                      <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row)">详情</el-button>
+                      <el-button type="text"  class="a-btn"  title="详情"  icon="el-icon-tickets" @click="details(scope.row)"></el-button>
 
                  </template>
                 </el-table-column>
@@ -326,13 +320,9 @@
         <el-col :span="8">反馈结果：{{dform.checkResultDesc}}</el-col>
         <el-col :span="8">反馈描述：{{dform.thanTypeDesc}}</el-col>
       </el-row>
-
-
       </el-form>
       <div slot="footer" class="dialog-footer">
-
         <el-button @click="detailsDialogVisible = false" size="small">取消</el-button>
-
       </div>
     </el-dialog>
 
