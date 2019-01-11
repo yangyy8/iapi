@@ -66,7 +66,6 @@ function apiAxios(method, url, params, success, failure,header) {
             }
             if(!res.data.success){
               if(res.data.message=="获取登录信息失败！"){
-
                      // console.log("ffffff")
                 window.location.href ="#/";
               }else{
