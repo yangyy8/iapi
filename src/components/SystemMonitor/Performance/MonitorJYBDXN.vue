@@ -149,11 +149,11 @@
                         <span :class="{'color':scope.row.average>=1000}">{{scope.row.average}}</span>
                       </template>
                     </el-table-column>
-                    <el-table-column
+                    <!-- <el-table-column
                       prop="createtime"
                       label="监控时间"
                       width="200">
-                    </el-table-column>
+                    </el-table-column> -->
                     <el-table-column
                       label="监控状态"
                       width="200">

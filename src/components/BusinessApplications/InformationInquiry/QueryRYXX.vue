@@ -631,7 +631,7 @@
       </div>
       <div class="middle-btn-g">
         <button type="button" name="button" class="mr-15" :class="{'pitchOn':bigBase==0}" @click="iapi">IAPI数据</button>
-        <button type="button" name="button" :class="{'pitchOn':bigBase==1}"  @click="pnr" v-show="false">PNR数据</button>
+        <button type="button" name="button" :class="{'pitchOn':bigBase==1}"  @click="pnr" >PNR数据</button>
       </div>
 
     </div>
@@ -3202,7 +3202,6 @@ export default {
 
 .akcheck2top {
   background: #f6f7fb;
-  /* height: 28px; */
   padding: 6px;
 }
 
@@ -3250,18 +3249,6 @@ export default {
   margin-right: 8px;
 }
 
-.ak-li {
-  width: 3000px;
-  height: 58px;
-  align-items: center;
-  /* padding: 0 30px; */
-  /* line-height: 32px; */
-
-}
-.t-ak-li{
-  margin-top: 6px;
-  height: 45px!important;
-}
 .queryLeft{
   height: 107px;
   overflow-y: auto;
@@ -3269,7 +3256,6 @@ export default {
 }
 .queryRight{
   height:107px;
-
 }
 .expression-text{
   width: 15%!important;
@@ -3286,9 +3272,6 @@ export default {
  .tableRy .caret-wrapper{
    width: 20px!important;
  }
- /* .akUl .el-col-2{
-   width: 25%;
- } */
  .expression .el-textarea__inner{
    height: 105px;
    overflow-y: auto;
