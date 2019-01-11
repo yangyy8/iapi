@@ -95,7 +95,7 @@ var formElements = {
   select: {
     condition(directiveEl) {
       if (directiveEl.type_ == 'select') {
-        directiveEl.eventEl_ = directiveEl.querySelector('select')
+        directiveEl.eventEl_ = directiveEl.querySelector('input')
         return true
       }
     },
@@ -108,26 +108,12 @@ var formElements = {
     },
     getValue(directiveEl) {
       var eventEl = directiveEl.eventEl_ || directiveEl
-      var multiple = eventEl.getAttribute('multiple')
-      var optionEls = eventEl.querySelectorAll('option')
-      var value = !multiple ? '' : []
-      for (var i = 0; i < optionEls.length; i++) {
-        if (optionEls[i].selected) {
-          if (value === '') {
-            value = optionEls[i].value
-            break
-          } else {
-            value.push(optionEls[i].value)
-          }
-        }
-      }
+      var value = directiveEl.eventEl_.value
       return value
     },
     resetValue(directiveEl) {
       var eventEl = directiveEl.eventEl_ || directiveEl
-      eventEl.value = ''
-      var multiple = eventEl.getAttribute('multiple')
-      if (!multiple) eventEl.querySelector('option').selected = true // 单选重置后默认选择第一个值
+      // eventEl.value = ''
     }
   },
   custom: { // 自定义元素
