@@ -11,7 +11,7 @@ import htmlToPdf from '@/components/other/htmlToPdf'
 import vverify from 'v-verify'
 // import Validator from './assets/js/va.js'
 // Vue.use(Validator)
-import vueValidateEasy from 'vue-validate-easy'
+import vueValidateEasy from './assets/js/vue-validate-easy'
 var validators ={
    cname(val){
      var p = /^[a-zA-Z0-9]{0,35}$|^[\u4e00-\u9fa5]{0,11}$/.test(val)
