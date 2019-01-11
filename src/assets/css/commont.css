@@ -285,3 +285,12 @@
 .mt-20{
   margin-top: 20px;
 }
+.relative{
+  position: relative;
+}
+.dingwei{
+  position: absolute;
+  left: 0px;
+  height: 32px;
+  display: flex;
+}

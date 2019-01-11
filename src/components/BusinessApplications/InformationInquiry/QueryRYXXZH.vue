@@ -46,35 +46,12 @@
               </div>
               <el-row align="center" style="width:100%">
                 <!-- <h4 style="margin-top:0px!important">选中的模型</h4> -->
-                <span v-for="(item,ind) in dutyName" :key="ind" style="width:25%;margin-bottom: 7px;display:inline-block;line-height: 20px;">{{item.MODEL_NAME}}</span>
+                <span v-for="(item,ind) in dutyName" :key="ind" style="width:25%;margin-bottom: 7px;display:inline-block;line-height: 20px;">{{item.CNAME}}</span>
               </el-row>
               <div slot="footer" class="dialog-footer">
                 <el-button @click="seeModelDialogVisible = false" size="small">取 消</el-button>
               </div>
             </el-dialog>
-
-            <!-- <el-col :sm="24" :md="12" :lg="6" class="input-item">
-              <span class="input-text">洲：</span>
-              <el-select placeholder="请选择" v-model="cdt.continentsCodeEqual" filterable clearable @visible-change="chau" @change="nationality(cdt.continentsCodeEqual)" size="small"  class="input-input">
-                <el-option
-                  v-for="item in chauName"
-                  :key="item.code"
-                  :value="item.code"
-                  :label="item.code+' - '+item.name"
-                ></el-option>
-              </el-select>
-            </el-col>
-            <el-col :sm="24" :md="12" :lg="6" class="input-item">
-              <span class="input-text">国籍/地区：</span>
-              <el-select placeholder="请选择" v-model="cdt.nationalityEqual" filterable clearable size="small"  class="input-input" @visible-change="baseNation">
-                <el-option
-                  v-for="item in selection"
-                  :key="item.CODE"
-                  :value="item.CODE"
-                  :label="item.CODE+' - '+item.CNAME"
-                ></el-option>
-              </el-select>
-            </el-col> -->
 
             <el-col :sm="24" :md="12" :lg="6" class="input-item">
               <span class="input-text">姓名：</span>
@@ -109,16 +86,19 @@
               <el-select v-model="cdt.flighttypeEqual" placeholder="请选择" filterable clearable size="small" class="input-input">
                 <el-option label="I - 入境" value="I"></el-option>
                 <el-option label="O - 出境" value="O"></el-option>
-                <!-- <el-option label="G - 过境" value="G"></el-option>
-                <el-option label="全部" value=""></el-option> -->
+                <!-- <el-option label="全部" value=""></el-option> -->
               </el-select>
             </el-col>
 
             <el-col :sm="24" :md="12" :lg="6" class="input-item">
               <span class="input-text">机场：</span>
-              <el-select v-model="cdt.portEqual" placeholder="请选择" filterable clearable size="small" class="input-input">
-                <el-option label="I - 入境" value="I"></el-option>
-                <el-option label="O - 出境" value="O"></el-option>
+              <el-select v-model="cdt.portEqual" placeholder="请选择" filterable clearable size="small" class="input-input" @visible-change="portMethod">
+                <el-option
+                v-for="item in airport"
+                :key="item.AIRPORT_CODE"
+                :value="item.AIRPORT_CODE"
+                :label="item.AIRPORT_CODE+' - '+item.AIRPORT_NAME">
+                </el-option>
               </el-select>
             </el-col>
 
@@ -129,9 +109,13 @@
 
             <el-col :sm="24" :md="12" :lg="6" class="input-item">
               <span class="input-text">航空公司：</span>
-              <el-select v-model="cdt.applicationsenderidEqual" placeholder="请选择" filterable clearable size="small" class="input-input">
-                <el-option label="I - 入境" value="I"></el-option>
-                <el-option label="O - 出境" value="O"></el-option>
+              <el-select v-model="cdt.applicationsenderidEqual" placeholder="请选择" filterable clearable size="small" class="input-input" @visible-change="applicationMethod">
+                <el-option
+                v-for="item in application"
+                :key="item.AIRLINE_CODE"
+                :value="item.AIRLINE_CODE"
+                :label="item.AIRLINE_CODE+' - '+item.AIRLINE_CHN_NAME">
+                </el-option>
               </el-select>
             </el-col>
 
@@ -265,8 +249,7 @@
           <el-dialog
             title="方案名称"
             :visible.sync="dialogVisible"
-            width="30%"
-            >
+            width="30%">
             <el-form  class="plan">
               <el-form-item label="方案名称:" :label-width="formLabelWidth">
                 <el-input v-model="sss" auto-complete="off"></el-input>
@@ -325,7 +308,7 @@
     <div class="middle">
       <!-- <el-button  plain class="table-btn mb-9" size="small" @click="seat">航班座位图</el-button> -->
       <!-- <el-button  plain class="table-btn mb-9" size="small" @click="$router.push({name:'QueryGLRY'})">关联人员查询</el-button> -->
-      <el-button  plain class="table-btn mb-9" size="small" @click="tableDown">导出</el-button>
+      <el-button  plain class="table-btn mb-9" size="small" @click="exportZH">导出</el-button>
       <el-button  plain class="table-btn mb-9" size="small" v-print="'#printMe'">打印</el-button>
       <el-table
         ref="singleTable"
@@ -351,17 +334,20 @@
           width="130"
           v-if="checkList.indexOf(checkItem[0].ITEMNAME)>-1">
           <template slot-scope="scope">
+            <!-- 带 * nameIsEqual=true-->
             <template v-if="scope.row.nameIsEqual == true">
               <el-popover
                 placement="top-start"
                 trigger="hover"
-                :content="scope.row.pnrName">
-                <span slot="reference">{{scope.row.iapiName}}*</span>
+                :content="scope.row.pnrName"
+                :disabled="!scope.row.nameIsEqual">
+                <span slot="reference">{{scope.row.iapiName}}<span v-if="scope.row.nameIsEqual">*</span></span>
               </el-popover>
             </template>
-            <template v-else-if="scope.row.nameIsEqual == false">
+            <!--不带 * nameIsEqual=false-->
+            <!-- <template v-else-if="scope.row.nameIsEqual == false">
               {{scope.row.iapiName}}
-            </template>
+            </template> -->
           </template>
         </el-table-column>
         <el-table-column
@@ -571,14 +557,14 @@
           v-if="checkList.indexOf(checkItem[29].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
-          prop="originName"
+          prop="ORIGINNAME"
           label="最初上机地"
           width="150"
           sortable
           v-if="checkList.indexOf(checkItem[30].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
-          prop="destinationName"
+          prop="DESTINATIONNAME"
           label="最终下机地"
           width="150"
           sortable
@@ -917,8 +903,9 @@
             <el-row type="flex" class="t-detail">
               <el-col :span="24" class="t-el-content"><div class="t-el-text">特殊需求描述：</div><div class="t-el-sub">{{j.hisGr11.SSRFREETXT}}</div></el-col>
             </el-row>
-            <div class="t-detail" style="color: #3F96F2;">航班信息</div>
+
             <div class="t-detail" v-for="it in j.tvlList">
+              <div class="t-detail" style="color: #3F96F2;">航班信息</div>
               <el-row type="flex">
                 <el-col :span="8" class="t-el-content"><div class="t-el-text">航班号：</div><div class="t-el-sub">{{it.FLIGHT_NUMBER}}</div></el-col>
                 <el-col :span="8" class="t-el-content"><div class="t-el-text">航空公司：</div><div class="t-el-sub">{{it.OPERATING_AIRLINE_CODE}}</div></el-col>
@@ -1055,8 +1042,10 @@ export default {
         startFltdate:'',
         endFltdate:'',
       },
+      airport:[],
       takeOffName:[],
       landingName:[],
+      application:[],
       modelDialogVisible:false,
       seeModelDialogVisible:false,
       //批量导入
@@ -1070,10 +1059,11 @@ export default {
       treeData: [],
       defaultProps: {
         children: 'countryList',
-        label: 'name',
+        label: 'CNAME',
       },
       keys:[],
       keysExample:[],
+      keyCode:[],
       dutyName:[],
       flagCZ:0,
       flagQX:0,
@@ -1202,11 +1192,11 @@ export default {
           LABEL:'电子客票号',
         },
         {
-          ITEMNAME:'originName',
+          ITEMNAME:'ORIGINNAME',
           LABEL:'最初上机地',
         },
         {
-          ITEMNAME:'destinationName',
+          ITEMNAME:'DESTINATIONNAME',
           LABEL:'最终下机地',
         },
         {
@@ -1317,12 +1307,16 @@ export default {
       }
       this.flagCZ = 0;
       this.flagQX = 0;
-      if(this.cdt.nationalityList == undefined||this.cdt.nationalityList.length==0){
-        this.$api.post('/manage-platform/codeTable/queryContinentsCountry',{},
-         r => {
+      // if(this.cdt.nationalityList == undefined||this.cdt.nationalityList.length==0){
+      this.$api.post('/manage-platform/codeTable/queryContinentsCountry',{},
+       r => {
+         if(r.success){
            this.treeData=r.data;
-        })
-      }
+         }
+      })
+      this.keys = this.$refs.tree.getCheckedKeys(true);
+      this.$refs.tree.setCheckedKeys(this.keys);
+      // }
     },
     resetModel(){//重置
       this.flagCZ=1;
@@ -1353,6 +1347,7 @@ export default {
     },
     getCheckedNodes() {//确认
       this.cdt.nationalityList=this.$refs.tree.getCheckedNodes(true,true);
+      this.keys = this.$refs.tree.getCheckedKeys(true);//先存值再清空
       this.modelDialogVisible=false;
     },
     seat(i){
@@ -1443,6 +1438,8 @@ export default {
         'CHK_SERIAL':i.CHK_SERIAL,
         'PNR_TID':i.PNR_TID,
         'PNR_TKTNUMBER':i.PNR_TKTNUMBER,
+        'PNR_TRAVELLER_SURNAME_TIF':i.PNR_TRAVELLER_SURNAME_TIF,
+        'PNR_TRAVELLER_GIVEN_NAME_TIF':i.PNR_TRAVELLER_GIVEN_NAME_TIF
       }
       this.$api.post('/manage-platform/iapiHead/queryIapiHeadInfo',p,
        r =>{
@@ -1452,8 +1449,8 @@ export default {
              this.dpform = r.data.pnrBasis;
            }
            this.dpform = r.data.pnrBasis;
-           if(r.data.pnrTkt){
-             this.$api.post('/manage-platform/pnr/queryPnrGr1InfoNew',r.data.pnrTkt,
+           if(r.data.pnrTif){
+             this.$api.post('/manage-platform/pnr/queryPnrGr1InfoNew',r.data.pnrTif,
               r =>{
                 this.addList = r.data.addList;//订票人住址
                 this.lftList = r.data.lftList;//订票人联系方式
@@ -1466,7 +1463,7 @@ export default {
                 this.dpform.TRAVEL_AGENT_IDENTIFICATION = r.data.orgInfo.TRAVEL_AGENT_IDENTIFICATION;//代理人IATAID号或虚拟IATA号
                 this.dpform.IN_HOUSE_IDENTIFICATION = r.data.orgInfo.IN_HOUSE_IDENTIFICATION;//订座系统分配给某个代理或Office的ID号
               })
-              this.$api.post('/manage-platform/pnr/queryPassengersLv3Gr2New',r.data.pnrTkt,
+              this.$api.post('/manage-platform/pnr/queryPassengersLv3Gr2New',r.data.pnrTif,
               r =>{
                 this.addListTwo = r.data.addList;//旅客住址
                 this.lftListTwo = r.data.lftList;//旅客联系方式
@@ -1478,19 +1475,19 @@ export default {
               let p={
                 "showCount": 10,
               	"currentPage": 1,
-              	"pd": r.data.pnrTkt
+              	"pd": r.data.pnrTif
               }
               this.$api.post('/manage-platform/pnr/queryHisGr10ListPageNew',p,
                r =>{
                   this.messageThr = r.data.resultList;
                })
-              this.$api.post('/manage-platform/pnr/queryTikcetsGr3New',r.data.pnrTkt,
+              this.$api.post('/manage-platform/pnr/queryTikcetsGr3New',r.data.pnrTif,
                 r =>{
                   this.fopList = r.data.fopList;//付款方式
                   this.monList = r.data.monList;//票价信息
                   this.txdList = r.data.txdList;//票税信息
                 })
-              this.$api.post('/manage-platform/pnr/queryTbdGr7InfoNew',r.data.pnrTkt,
+              this.$api.post('/manage-platform/pnr/queryTbdGr7InfoNew',r.data.pnrTif,
                r =>{
                  this.messageFive = r.data.tbdDetailsList;
                  this.dpform.NUMBEROFPIECES = r.data.NUMBEROFPIECES;//乘机人行李数
@@ -1503,6 +1500,22 @@ export default {
 
     },
     //------------------------------------------------全局代码项-------------------------------------------------
+    applicationMethod(){
+      this.$api.post('/manage-platform/codeTable/queryAircompanyList',{},
+       r =>{
+         if(r.success){
+           this.application = r.data;
+         }
+       })
+    },
+    portMethod(){//机场
+      this.$api.post('/manage-platform/codeTable/queryAirport',{},
+       r =>{
+         if(r.success){
+           this.airport = r.data;
+         }
+       })
+    },
     takeOff(){//调用起飞机场
       this.$api.post('/manage-platform/codeTable/queryAirport',{},
        r =>{
@@ -1522,7 +1535,7 @@ export default {
     //-------------------------------------保存方案-------------------------------------------
     savePlanShow(){// 基础查询方案名称列表
       let sn = {
-        page : this.$route.query.page
+        page : 4
       }
       this.$api.post('/manage-platform/queryShow/queryNameList',sn,
        r =>{
@@ -1533,17 +1546,25 @@ export default {
     },
     planQuery(){//基础查询 方案渲染
         let pq = {
-          page : this.$route.query.page,
+          page : 4,
           name : this.ssss
         }
         this.$api.post('/manage-platform/queryShow/queryConfigInfo',pq,
         r =>{
           if(r.success){
-            this.cdt = r.data.config;
+            this.cdt = r.data.cIapiHeadBean;
+            if(this.cdt.nationalityList.length!=0){
+              this.keyCode=[];
+              for(var i=0;i<this.cdt.nationalityList.length;i++){
+                this.keyCode.push(this.cdt.nationalityList[i].CODE);
+              }
+              this.keys = this.keyCode
+              this.$refs.tree.setCheckedKeys(this.keys);
+            }
             let arr = r.data.showConfigList;
             let arr1=[];
             if(arr.length == 0){
-              this.checkList = ['I_NAME','I_34','I_76','I_37','I_39','I_12','filghtDate','I_13','I_65','I_59'];
+              this.checkList = ['iapiName','GENDER','iapiBirthdayName','iapiNationaName','PASSPORTNO','FLTNO','FLTDATESTR','filghtDate','FLIGHTTYPE','iapiCityfromName','iapiCitytoName','APPLICATIONSENDERIDNAME','PORTNAME'];
             }else{
               for(var i=0;i<arr.length;i++){
                 if(arr[i].isCheck == '1'){
@@ -1552,7 +1573,6 @@ export default {
               }
               this.checkList = arr1;
             }
-            this.basedQuery = this.checkList;
           }
         })
     },
@@ -1566,14 +1586,14 @@ export default {
         // this.saveName.splice(di,1);
         let dei = {
           name:i,
-          page:this.$route.query.page
+          page:4
         };
         this.$api.post('/manage-platform/queryShow/delete',dei,
          r =>{
            if(r.success){
              if(this.ssss==i){
                this.ssss='';
-               this.cdt={isBlurred:false};
+               this.cdt={isBlurred:false,startFltdate:'',endFltdate:'',};
                this.savePlanShow();
              }else{
                this.savePlanShow();
@@ -1591,7 +1611,7 @@ export default {
         });
       });
     },
-    planSave(){//基础查询 方案保存是否重名
+    planSave(){//基础查询 方案保存是否重名或是否已存在
       if(this.sss==''){
         this.$alert('方案名称不能为空', '提示', {
           confirmButtonText: '确定',
@@ -1600,16 +1620,15 @@ export default {
       }
       let tps = {
         name : this.sss,
-        page : this.$route.query.page
+        page : 4
       }
       this.$api.post('/manage-platform/queryShow/isExistName',tps,
         r =>{
           if(r.success){
-            if(r.data == false){
-              this.$options.methods.savePlan.bind(this)();
+            if(r.data == false){//不存在，可保存
+              this.savePlan();
               this.dialogVisible = false;
             }else{
-              // this.promptDialogVisible = true;
               this.$alert('方案名称已存在，请重新命名', '提示', {
                 confirmButtonText: '确定',
               });
@@ -1617,14 +1636,13 @@ export default {
           }
         })
     },
-    savePlan(){//基础查询 保存方案
-        this.$options.methods.showConfiglistArr.bind(this)();
+    savePlan(){//方案保存
+        this.showConfiglistArr();//保存展示项
         let sp = {
         	"name": this.sss,
-        	"page":  this.$route.query.page,
+        	"page":  4,
         	"showConfigList": this.showConfiglist,
-            //查询项
-        	"config": this.cdt
+        	"cIapiHeadBean": this.cdt//查询项
         }
         this.$api.post('/manage-platform/queryShow/save',sp,
          r =>{
@@ -1712,8 +1730,15 @@ export default {
     },
     searchZH(){
       if(this.batchFlag == 1){//批量导入
+        for(var i in this.cdt){
+          if(this.cdt[i]!=''){
+            this.$confirm('已批量导入查询条件，请点击重置后，再输入查询项查询', '提示', {
+              confirmButtonText: '确定',
+              type: 'warning'
+            })
+          }
+        }
         this.getList(this.currentPage,this.showCount,this.cdt1,1);
-        this.batchFlag = 0;
       }else if(this.batchFlag == 0){
         this.getList(this.currentPage,this.showCount,this.cdt);
       }
@@ -1722,6 +1747,14 @@ export default {
       this.cdt={isBlurred:false};
       this.ssss='';
       this.tableData=[];
+
+      if(this.batchFlag == 1){
+        this.batchFlag = 0;
+        this.$message({
+          message: '重置成功',
+          type: 'success'
+        });
+      }
     },
     pageSizeChange(val) {//显示条数，调用
       this.getList(this.currentPage,val,this.cdt);
@@ -1730,14 +1763,22 @@ export default {
       this.getList(val,this.showCount,this.cdt);
     },
     //===========================打印导出================================
-    tableDown(){
+    exportZH(){
+      if(this.batchFlag == 1){//批量导入之后的导出
+        this.tableDown(1)
+      }else if(this.batchFlag == 0){
+        this.tableDown()
+      }
+    },
+    tableDown(num){
       axios({
        method: 'post',
-       // url: 'http://192.168.99.245:8080/manage-platform/iapi/exportFileIo/0/600',
-       url: this.$api.rootUrl+"/manage-platform/iapi/exportFileIo/0/600",
+       url: 'http://192.168.99.248:8080/manage-platform/iapiHead/exportFileIo/4/iapiHead/600',
+       // url: this.$api.rootUrl+"/manage-platform/iapiHead/exportFileIo/600",
        data: {
            "exclTitles": this.checkList,
-           "cdt":this.cdt
+           "cdt":this.cdt,
+           "direction":num,
        },
        responseType: 'blob'
        }).then(response => {
