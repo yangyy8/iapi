@@ -100,15 +100,15 @@ export default new Router({
         // 业务应用===================================================================================================================================
         // 信息查询---------------------------------------------------------------------------------------------------
         //人员信息查询
+        // {
+        //   path: "QueryRYXX",
+        //   name: "QueryRYXX",
+        //   component: resolve => require(['@/components/BusinessApplications/InformationInquiry/QueryRYXX'], resolve),
+        // },
         {
           path: "QueryRYXX",
           name: "QueryRYXX",
           component: resolve => require(['@/components/BusinessApplications/InformationInquiry/QueryRYXX'], resolve),
-        },
-        {
-          path: "QueryRYXXReal",
-          name: "QueryRYXXReal",
-          component: resolve => require(['@/components/BusinessApplications/InformationInquiry/QueryRYXXReal'], resolve),
           children:[
             //综合查询
             {

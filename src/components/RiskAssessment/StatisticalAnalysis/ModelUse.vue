@@ -1,7 +1,6 @@
 <template lang="html">
   <div class="whitelist">
     <div class="middle-top mb-10">
-
       <el-row type="flex" class="middle">
         <el-col :span="21" class="br pr-20">
           <div class="title-green">

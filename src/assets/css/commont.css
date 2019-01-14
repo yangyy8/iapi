@@ -294,3 +294,18 @@
   height: 32px;
   display: flex;
 }
+.tipDetail{
+  width:100%;
+  overflow-wrap: break-word;
+  flex-wrap: wrap;
+}
+.detailFat{
+  line-height: 20px;
+}
+.cellColor{
+  color:#009CFF;
+  font-size: 16px;
+}
+.maxWidth{
+  max-width:400px;
+}

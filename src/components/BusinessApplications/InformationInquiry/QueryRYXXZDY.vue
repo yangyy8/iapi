@@ -23,7 +23,7 @@
                    label="属性"
                    width="150">
                    <template slot-scope="scope">
-                     <el-select placeholder="请选择属性" v-model="scope.row.attribute" filterable clearable size="mini" class="input-inp" @visible-change="attribute(scope.row)" @change="attributeOperator(scope.row)" @clear="clearItem(scope.$index,scope.row)">
+                     <el-select placeholder="请选择属性" v-model="scope.row.attribute" filterable clearable size="mini" class="input-inp" @visible-change="attribute(scope.row)" @change="attributeOperator(scope.row)" @click="clearItem(scope.row)">
                        <el-option
                          v-for="item in selfNature"
                          :key="item.code"
@@ -453,15 +453,13 @@
         border
         style="width: 100%;"
         highlight-current-row
-        @row-click="checkRow"
+        @selection-change="handleSelectionChange"
         id="printMe"
         v-if="bigBase==7">
         <el-table-column
-           width="70"
-           label="单选">
-          <template slot-scope="scope">
-            <el-radio v-model="radio" class="radio" :label="scope.row.I_SERIAL">&nbsp;</el-radio>
-          </template>
+          label="多选"
+          type="selection"
+          width="55">
         </el-table-column>
         <el-table-column
            v-for="item in tableHead"
@@ -470,9 +468,9 @@
         </el-table-column>
         <el-table-column
           label="操作"
-          width="150">
+          width="100">
           <template slot-scope="scope">
-            <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="">详情</el-button>
+            <el-button type="text" class="a-btn" title="详情" icon="el-icon-tickets" @click="detailsIapi(scope.row)"></el-button>
          </template>
         </el-table-column>
       </el-table>
@@ -518,15 +516,13 @@
         border
         style="width: 100%;"
         highlight-current-row
-        @row-click="checkRow"
+        @selection-change="handleSelectionChange"
         id="printMe"
         v-if="bigBase==8">
         <el-table-column
-           width="70"
-           label="单选">
-          <template slot-scope="scope">
-            <el-radio v-model="radioPnr" class="radio" :label="scope.row.I_SERIAL">&nbsp;</el-radio>
-          </template>
+          label="多选"
+          type="selection"
+          width="55">
         </el-table-column>
         <el-table-column
           prop="pnrName"
@@ -628,7 +624,7 @@
         </el-table-column>
         <el-table-column
           prop="PNR_RCI"
-          label="订票号"
+          label="旅客订票号"
           width="150"
           sortable
           v-if="checkListPnrHc.indexOf('PNR_RCI')>-1">
@@ -703,6 +699,20 @@
           width="140"
           sortable
           v-if="checkListPnrHc.indexOf('addlv2_Country_Coded')>-1">
+          <template slot-scope="scope">
+            <el-popover
+              placement="top-start"
+              trigger="hover"
+              :disabled="scope.row.is_addlv2_Country_Coded==0"
+              popper-class="maxWidth">
+              <div class="">
+                <el-row type="flex" class="detailFat" v-for="i in scope.row.addlv2_Country_Coded">
+                  <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
+                </el-row>
+              </div>
+              <span slot="reference">{{scope.row.addlv2_Country_Coded[0]}}<span v-if="scope.row.is_addlv2_Country_Coded==1" class="cellColor">*</span></span>
+            </el-popover>
+          </template>
         </el-table-column>
         <el-table-column
           prop="addlv2_City_Name"
@@ -710,6 +720,21 @@
           width="140"
           sortable
           v-if="checkListPnrHc.indexOf('addlv2_City_Name')>-1">
+          <template slot-scope="scope">
+            <!-- 带 * nameIsEqual=1-->
+            <el-popover
+              placement="top-start"
+              trigger="hover"
+              :disabled="scope.row.is_addlv2_City_Name==0"
+              popper-class="maxWidth">
+              <div class="">
+                <el-row type="flex" class="detailFat" v-for="i in scope.row.addlv2_City_Name">
+                  <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
+                </el-row>
+              </div>
+              <span slot="reference">{{scope.row.addlv2_City_Name[0]}}<span v-if="scope.row.is_addlv2_City_Name==1" class="cellColor">*</span></span>
+            </el-popover>
+          </template>
         </el-table-column>
         <el-table-column
           prop="addlv2_STREET_AND_NUMBER"
@@ -717,6 +742,20 @@
           width="140"
           sortable
           v-if="checkListPnrHc.indexOf('addlv2_STREET_AND_NUMBER')>-1">
+          <template slot-scope="scope">
+            <el-popover
+              placement="top-start"
+              trigger="hover"
+              :disabled="scope.row.is_addlv2_STREET_AND_NUMBER==0"
+              popper-class="maxWidth">
+              <div class="">
+                <el-row type="flex" class="detailFat" v-for="i in scope.row.addlv2_STREET_AND_NUMBER">
+                  <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
+                </el-row>
+              </div>
+              <span slot="reference">{{scope.row.addlv2_STREET_AND_NUMBER[0]}}<span v-if="scope.row.is_addlv2_STREET_AND_NUMBER==1" class="cellColor">*</span></span>
+            </el-popover>
+          </template>
         </el-table-column>
         <el-table-column
           prop="iftlv2_content"
@@ -724,6 +763,20 @@
           width="140"
           sortable
           v-if="checkListPnrHc.indexOf('iftlv2_content')>-1">
+          <template slot-scope="scope">
+            <el-popover
+              placement="top-start"
+              trigger="hover"
+              :disabled="scope.row.is_iftlv2_content==0"
+              popper-class="maxWidth">
+              <div>
+                <el-row type="flex" class="detailFat" v-for="i in scope.row.iftlv2_content">
+                  <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
+                </el-row>
+              </div>
+              <span slot="reference">{{scope.row.iftlv2_content[0]}}<span v-if="scope.row.is_iftlv2_content==1" class="cellColor">*</span></span>
+            </el-popover>
+          </template>
         </el-table-column>
         <el-table-column
           prop="foplv4_PAYMENT_TYPE"
@@ -731,6 +784,20 @@
           width="140"
           sortable
           v-if="checkListPnrHc.indexOf('foplv4_PAYMENT_TYPE')>-1">
+          <template slot-scope="scope">
+            <el-popover
+              placement="top-start"
+              trigger="hover"
+              :disabled="scope.row.is_foplv4_PAYMENT_TYPE==0"
+              popper-class="maxWidth">
+              <div class="">
+                <el-row type="flex" class="detailFat" v-for="i in scope.row.foplv4_PAYMENT_TYPE">
+                  <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
+                </el-row>
+              </div>
+              <span slot="reference">{{scope.row.foplv4_PAYMENT_TYPE[0]}}<span v-if="scope.row.is_foplv4_PAYMENT_TYPE==1" class="cellColor">*</span></span>
+            </el-popover>
+          </template>
         </el-table-column>
         <el-table-column
           prop="foplv4_AccountNumber"
@@ -738,6 +805,20 @@
           width="140"
           sortable
           v-if="checkListPnrHc.indexOf('foplv4_AccountNumber')>-1">
+          <template slot-scope="scope">
+            <el-popover
+              placement="top-start"
+              trigger="hover"
+              :disabled="scope.row.is_foplv4_AccountNumber==0"
+              popper-class="maxWidth">
+              <div class="">
+                <el-row type="flex" class="detailFat" v-for="i in scope.row.foplv4_AccountNumber">
+                  <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
+                </el-row>
+              </div>
+              <span slot="reference">{{scope.row.foplv4_AccountNumber[0]}}<span v-if="scope.row.is_foplv4_AccountNumber==1" class="cellColor">*</span></span>
+            </el-popover>
+          </template>
         </el-table-column>
         <el-table-column
           prop="msglv2_GR9SERIAL"
@@ -745,6 +826,20 @@
           width="140"
           sortable
           v-if="checkListPnrHc.indexOf('msglv2_GR9SERIAL')>-1">
+          <template slot-scope="scope">
+            <el-popover
+              placement="top-start"
+              trigger="hover"
+              :disabled="scope.row.is_msglv2_GR9SERIAL==0"
+              popper-class="maxWidth">
+              <div class="">
+                <el-row type="flex" class="detailFat" v-for="i in scope.row.msglv2_GR9SERIAL">
+                  <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
+                </el-row>
+              </div>
+              <span slot="reference">{{scope.row.msglv2_GR9SERIAL[0]}}<span v-if="scope.row.is_msglv2_GR9SERIAL==1" class="cellColor">*</span></span>
+            </el-popover>
+          </template>
         </el-table-column>
         <el-table-column
           prop="iftlv3_content"
@@ -752,6 +847,20 @@
           width="140"
           sortable
           v-if="checkListPnrHc.indexOf('iftlv3_content')>-1">
+          <template slot-scope="scope">
+            <el-popover
+              placement="top-start"
+              trigger="hover"
+              :disabled="scope.row.is_iftlv3_content==0"
+              popper-class="maxWidth">
+              <div class="">
+                <el-row type="flex" class="detailFat" v-for="i in scope.row.iftlv3_content">
+                  <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
+                </el-row>
+              </div>
+              <span slot="reference">{{scope.row.iftlv3_content[0]}}<span v-if="scope.row.is_iftlv3_content==1" class="cellColor">*</span></span>
+            </el-popover>
+          </template>
         </el-table-column>
         <el-table-column
           prop="tifgr2other_tifcount"
@@ -773,6 +882,20 @@
           width="140"
           sortable
           v-if="checkListPnrHc.indexOf('tbddetailgr7_BAG_LICENSE_PLATE')>-1">
+          <template slot-scope="scope">
+            <el-popover
+              placement="top-start"
+              trigger="hover"
+              :disabled="scope.row.is_tbddetailgr7_BAG_LICENSE_PLATE==0"
+              popper-class="maxWidth">
+              <div class="">
+                <el-row type="flex" class="detailFat" v-for="i in scope.row.tbddetailgr7_BAG_LICENSE_PLATE">
+                  <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
+                </el-row>
+              </div>
+              <span slot="reference">{{scope.row.tbddetailgr7_BAG_LICENSE_PLATE[0]}}<span v-if="scope.row.is_tbddetailgr7_BAG_LICENSE_PLATE==1" class="cellColor">*</span></span>
+            </el-popover>
+          </template>
         </el-table-column>
         <el-table-column
           prop="tbddetailgr7_CONSECUTIVE_TAGS_SERIAL_NUM"
@@ -780,6 +903,20 @@
           width="140"
           sortable
           v-if="checkListPnrHc.indexOf('tbddetailgr7_CONSECUTIVE_TAGS_SERIAL_NUM')>-1">
+          <template slot-scope="scope">
+            <el-popover
+              placement="top-start"
+              trigger="hover"
+              :disabled="scope.row.is_tbddetailgr7_CONSECUTIVE_TAGS_SERIAL_NUM==0"
+              popper-class="maxWidth">
+              <div class="">
+                <el-row type="flex" class="detailFat" v-for="i in scope.row.tbddetailgr7_CONSECUTIVE_TAGS_SERIAL_NUM">
+                  <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
+                </el-row>
+              </div>
+              <span slot="reference">{{scope.row.tbddetailgr7_CONSECUTIVE_TAGS_SERIAL_NUM[0]}}<span v-if="scope.row.is_tbddetailgr7_CONSECUTIVE_TAGS_SERIAL_NUM==1" class="cellColor">*</span></span>
+            </el-popover>
+          </template>
         </el-table-column>
         <el-table-column
           prop="tbddetailgr7_PLACE_OF_DESTINATION"
@@ -787,6 +924,20 @@
           width="140"
           sortable
           v-if="checkListPnrHc.indexOf('tbddetailgr7_PLACE_OF_DESTINATION')>-1">
+          <template slot-scope="scope">
+            <el-popover
+              placement="top-start"
+              trigger="hover"
+              :disabled="scope.row.is_tbddetailgr7_PLACE_OF_DESTINATION==0"
+              popper-class="maxWidth">
+              <div class="">
+                <el-row type="flex" class="detailFat" v-for="i in scope.row.tbddetailgr7_PLACE_OF_DESTINATION">
+                  <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
+                </el-row>
+              </div>
+              <span slot="reference">{{scope.row.tbddetailgr7_PLACE_OF_DESTINATION[0]}}<span v-if="scope.row.is_tbddetailgr7_PLACE_OF_DESTINATION==1" class="cellColor">*</span></span>
+            </el-popover>
+          </template>
         </el-table-column>
         <el-table-column
           prop="ebddetaillv3_QUANTITY"
@@ -801,6 +952,20 @@
           width="140"
           sortable
           v-if="checkListPnrHc.indexOf('ftilv2_Frequent_T_Idenification')>-1">
+          <template slot-scope="scope">
+            <el-popover
+              placement="top-start"
+              trigger="hover"
+              :disabled="scope.row.is_ftilv2_Frequent_T_Idenification==0"
+              popper-class="maxWidth">
+              <div class="">
+                <el-row type="flex" class="detailFat" v-for="i in scope.row.ftilv2_Frequent_T_Idenification">
+                  <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
+                </el-row>
+              </div>
+              <span slot="reference">{{scope.row.ftilv2_Frequent_T_Idenification[0]}}<span v-if="scope.row.is_ftilv2_Frequent_T_Idenification==1" class="cellColor">*</span></span>
+            </el-popover>
+          </template>
         </el-table-column>
         <el-table-column
           prop="ftilv2_Membership_Level"
@@ -808,6 +973,20 @@
           width="140"
           sortable
           v-if="checkListPnrHc.indexOf('ftilv2_Membership_Level')>-1">
+          <template slot-scope="scope">
+            <el-popover
+              placement="top-start"
+              trigger="hover"
+              :disabled="scope.row.is_ftilv2_Membership_Level==0"
+              popper-class="maxWidth">
+              <div class="">
+                <el-row type="flex" class="detailFat" v-for="i in scope.row.ftilv2_Membership_Level">
+                  <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
+                </el-row>
+              </div>
+              <span slot="reference">{{scope.row.ftilv2_Membership_Level[0]}}<span v-if="scope.row.is_ftilv2_Membership_Level==1" class="cellColor">*</span></span>
+            </el-popover>
+          </template>
         </el-table-column>
         <el-table-column
           prop="monlv4_Monetary_amount_type"
@@ -815,6 +994,20 @@
           width="140"
           sortable
           v-if="checkListPnrHc.indexOf('monlv4_Monetary_amount_type')>-1">
+          <template slot-scope="scope">
+            <el-popover
+              placement="top-start"
+              trigger="hover"
+              :disabled="scope.row.is_monlv4_Monetary_amount_type==0"
+              popper-class="maxWidth">
+              <div class="">
+                <el-row type="flex" class="detailFat" v-for="i in scope.row.monlv4_Monetary_amount_type">
+                  <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
+                </el-row>
+              </div>
+              <span slot="reference">{{scope.row.monlv4_Monetary_amount_type[0]}}<span v-if="scope.row.is_monlv4_Monetary_amount_type==1" class="cellColor">*</span></span>
+            </el-popover>
+          </template>
         </el-table-column>
         <el-table-column
           prop="monlv4_Amount"
@@ -822,6 +1015,20 @@
           width="140"
           sortable
           v-if="checkListPnrHc.indexOf('monlv4_Amount')>-1">
+          <template slot-scope="scope">
+            <el-popover
+              placement="top-start"
+              trigger="hover"
+              :disabled="scope.row.is_monlv4_Amount==0"
+              popper-class="maxWidth">
+              <div class="">
+                <el-row type="flex" class="detailFat" v-for="i in scope.row.monlv4_Amount">
+                  <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
+                </el-row>
+              </div>
+              <span slot="reference">{{scope.row.monlv4_Amount[0]}}<span v-if="scope.row.is_monlv4_Amount==1" class="cellColor">*</span></span>
+            </el-popover>
+          </template>
         </el-table-column>
         <el-table-column
           prop="monlv4_Currency"
@@ -829,6 +1036,20 @@
           width="140"
           sortable
           v-if="checkListPnrHc.indexOf('monlv4_Currency')>-1">
+          <template slot-scope="scope">
+            <el-popover
+              placement="top-start"
+              trigger="hover"
+              :disabled="scope.row.is_monlv4_Currency==0"
+              popper-class="maxWidth">
+              <div class="">
+                <el-row type="flex" class="detailFat" v-for="i in scope.row.monlv4_Currency">
+                  <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
+                </el-row>
+              </div>
+              <span slot="reference">{{scope.row.monlv4_Currency[0]}}<span v-if="scope.row.is_monlv4_Currency==1" class="cellColor">*</span></span>
+            </el-popover>
+          </template>
         </el-table-column>
         <el-table-column
           prop="txdlv4_Tax_Amount"
@@ -836,6 +1057,20 @@
           width="120"
           sortable
           v-if="checkListPnrHc.indexOf('txdlv4_Tax_Amount')>-1">
+          <template slot-scope="scope">
+            <el-popover
+              placement="top-start"
+              trigger="hover"
+              :disabled="scope.row.is_txdlv4_Tax_Amount==0"
+              popper-class="maxWidth">
+              <div class="">
+                <el-row type="flex" class="detailFat" v-for="i in scope.row.txdlv4_Tax_Amount">
+                  <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
+                </el-row>
+              </div>
+              <span slot="reference">{{scope.row.txdlv4_Tax_Amount[0]}}<span v-if="scope.row.is_txdlv4_Tax_Amount==1" class="cellColor">*</span></span>
+            </el-popover>
+          </template>
         </el-table-column>
         <el-table-column
           prop="txdlv4_Currency"
@@ -843,6 +1078,20 @@
           width="140"
           sortable
           v-if="checkListPnrHc.indexOf('txdlv4_Currency')>-1">
+          <template slot-scope="scope">
+            <el-popover
+              placement="top-start"
+              trigger="hover"
+              :disabled="scope.row.is_txdlv4_Currency==0"
+              popper-class="maxWidth">
+              <div class="">
+                <el-row type="flex" class="detailFat" v-for="i in scope.row.txdlv4_Currency">
+                  <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
+                </el-row>
+              </div>
+              <span slot="reference">{{scope.row.txdlv4_Currency[0]}}<span v-if="scope.row.is_txdlv4_Currency==1" class="cellColor">*</span></span>
+            </el-popover>
+          </template>
         </el-table-column>
         <el-table-column
           prop="txdlv4_Tax_Type"
@@ -850,6 +1099,20 @@
           width="120"
           sortable
           v-if="checkListPnrHc.indexOf('txdlv4_Tax_Type')>-1">
+          <template slot-scope="scope">
+            <el-popover
+              placement="top-start"
+              trigger="hover"
+              :disabled="scope.row.is_txdlv4_Tax_Type==0"
+              popper-class="maxWidth">
+              <div class="">
+                <el-row type="flex" class="detailFat" v-for="i in scope.row.txdlv4_Tax_Type">
+                  <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
+                </el-row>
+              </div>
+              <span slot="reference">{{scope.row.txdlv4_Tax_Type[0]}}<span v-if="scope.row.is_txdlv4_Tax_Type==1" class="cellColor">*</span></span>
+            </el-popover>
+          </template>
         </el-table-column>
         <el-table-column
           prop="ssrlv3_FREETXT_is"
@@ -864,6 +1127,20 @@
           width="140"
           sortable
           v-if="checkListPnrHc.indexOf('ssrlv3_SPECIAL_REQUIREMENT_TYPE')>-1">
+          <template slot-scope="scope">
+            <el-popover
+              placement="top-start"
+              trigger="hover"
+              :disabled="scope.row.is_ssrlv3_SPECIAL_REQUIREMENT_TYPE==0"
+              popper-class="maxWidth">
+              <div class="">
+                <el-row type="flex" class="detailFat" v-for="i in scope.row.ssrlv3_SPECIAL_REQUIREMENT_TYPE">
+                  <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
+                </el-row>
+              </div>
+              <span slot="reference">{{scope.row.ssrlv3_SPECIAL_REQUIREMENT_TYPE[0]}}<span v-if="scope.row.is_ssrlv3_SPECIAL_REQUIREMENT_TYPE==1" class="cellColor">*</span></span>
+            </el-popover>
+          </template>
         </el-table-column>
         <el-table-column
           prop="ssrlv3_FREETXT"
@@ -871,6 +1148,20 @@
           width="140"
           sortable
           v-if="checkListPnrHc.indexOf('ssrlv3_FREETXT')>-1">
+          <template slot-scope="scope">
+            <el-popover
+              placement="top-start"
+              trigger="hover"
+              :disabled="scope.row.is_ssrlv3_FREETXT==0"
+              popper-class="maxWidth">
+              <div class="">
+                <el-row type="flex" class="detailFat" v-for="i in scope.row.ssrlv3_FREETXT">
+                  <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
+                </el-row>
+              </div>
+              <span slot="reference">{{scope.row.ssrlv3_FREETXT[0]}}<span v-if="scope.row.is_ssrlv3_FREETXT==1" class="cellColor">*</span></span>
+            </el-popover>
+          </template>
         </el-table-column>
         <el-table-column
           prop="ssrlv2_FREETXT_is"
@@ -885,6 +1176,20 @@
           width="140"
           sortable
           v-if="checkListPnrHc.indexOf('ssrlv2_SPECIAL_REQUIREMENT_TYPE')>-1">
+          <template slot-scope="scope">
+            <el-popover
+              placement="top-start"
+              trigger="hover"
+              :disabled="scope.row.is_ssrlv2_SPECIAL_REQUIREMENT_TYPE==0"
+              popper-class="maxWidth">
+              <div class="">
+                <el-row type="flex" class="detailFat" v-for="i in scope.row.ssrlv2_SPECIAL_REQUIREMENT_TYPE">
+                  <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
+                </el-row>
+              </div>
+              <span slot="reference">{{scope.row.ssrlv2_SPECIAL_REQUIREMENT_TYPE[0]}}<span v-if="scope.row.is_ssrlv2_SPECIAL_REQUIREMENT_TYPE==1" class="cellColor">*</span></span>
+            </el-popover>
+          </template>
         </el-table-column>
         <el-table-column
           prop="ssrlv2_FREETXT"
@@ -892,6 +1197,20 @@
           width="140"
           sortable
           v-if="checkListPnrHc.indexOf('ssrlv2_FREETXT')>-1">
+          <template slot-scope="scope">
+            <el-popover
+              placement="top-start"
+              trigger="hover"
+              :disabled="scope.row.is_ssrlv2_FREETXT==0"
+              popper-class="maxWidth">
+              <div class="">
+                <el-row type="flex" class="detailFat" v-for="i in scope.row.ssrlv2_FREETXT">
+                  <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
+                </el-row>
+              </div>
+              <span slot="reference">{{scope.row.ssrlv2_FREETXT[0]}}<span v-if="scope.row.is_ssrlv2_FREETXT==1" class="cellColor">*</span></span>
+            </el-popover>
+          </template>
         </el-table-column>
         <el-table-column
           prop="tvlgr5_TYPE_OF_AIRCRAFT"
@@ -906,6 +1225,20 @@
           width="140"
           sortable
           v-if="checkListPnrHc.indexOf('tifchangegr11_Passenger_type')>-1">
+          <template slot-scope="scope">
+            <el-popover
+              placement="top-start"
+              trigger="hover"
+              :disabled="scope.row.is_tifchangegr11_Passenger_type==0"
+              popper-class="maxWidth">
+              <div class="">
+                <el-row type="flex" class="detailFat" v-for="i in scope.row.tifchangegr11_Passenger_type">
+                  <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
+                </el-row>
+              </div>
+              <span slot="reference">{{scope.row.tifchangegr11_Passenger_type[0]}}<span v-if="scope.row.is_tifchangegr11_Passenger_type==1" class="cellColor">*</span></span>
+            </el-popover>
+          </template>
         </el-table-column>
         <el-table-column
           prop="CHANGE_NAME"
@@ -920,6 +1253,20 @@
           width="140"
           sortable
           v-if="checkListPnrHc.indexOf('tifchangegr11_OTHER_NAMES')>-1">
+          <template slot-scope="scope">
+            <el-popover
+              placement="top-start"
+              trigger="hover"
+              :disabled="scope.row.is_tifchangegr11_OTHER_NAMES==0"
+              popper-class="maxWidth">
+              <div class="">
+                <el-row type="flex" class="detailFat" v-for="i in scope.row.tifchangegr11_OTHER_NAMES">
+                  <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
+                </el-row>
+              </div>
+              <span slot="reference">{{scope.row.tifchangegr11_OTHER_NAMES[0]}}<span v-if="scope.row.is_tifchangegr11_OTHER_NAMES==1" class="cellColor">*</span></span>
+            </el-popover>
+          </template>
         </el-table-column>
         <el-table-column
           prop="tifchangegr11_TRAVELLER_A_BY_INFANT_ID"
@@ -927,6 +1274,20 @@
           width="140"
           sortable
           v-if="checkListPnrHc.indexOf('tifchangegr11_TRAVELLER_A_BY_INFANT_ID')>-1">
+          <template slot-scope="scope">
+            <el-popover
+              placement="top-start"
+              trigger="hover"
+              :disabled="scope.row.is_tifchangegr11_TRAVELLER_A_BY_INFANT_ID==0"
+              popper-class="maxWidth">
+              <div class="">
+                <el-row type="flex" class="detailFat" v-for="i in scope.row.tifchangegr11_TRAVELLER_A_BY_INFANT_ID">
+                  <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
+                </el-row>
+              </div>
+              <span slot="reference">{{scope.row.tifchangegr11_TRAVELLER_A_BY_INFANT_ID[0]}}<span v-if="scope.row.is_tifchangegr11_TRAVELLER_A_BY_INFANT_ID==1" class="cellColor">*</span></span>
+            </el-popover>
+          </template>
         </el-table-column>
         <el-table-column
           prop="tifchangegr11_SPECIAL_REQUIREMENT_TYPE"
@@ -934,6 +1295,20 @@
           width="140"
           sortable
           v-if="checkListPnrHc.indexOf('tifchangegr11_SPECIAL_REQUIREMENT_TYPE')>-1">
+          <template slot-scope="scope">
+            <el-popover
+              placement="top-start"
+              trigger="hover"
+              :disabled="scope.row.is_tifchangegr11_SPECIAL_REQUIREMENT_TYPE==0"
+              popper-class="maxWidth">
+              <div class="">
+                <el-row type="flex" class="detailFat" v-for="i in scope.row.tifchangegr11_SPECIAL_REQUIREMENT_TYPE">
+                  <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
+                </el-row>
+              </div>
+              <span slot="reference">{{scope.row.tifchangegr11_SPECIAL_REQUIREMENT_TYPE[0]}}<span v-if="scope.row.is_tifchangegr11_SPECIAL_REQUIREMENT_TYPE==1" class="cellColor">*</span></span>
+            </el-popover>
+          </template>
         </el-table-column>
         <el-table-column
           prop="tifchangegr11_ssrfreetxt"
@@ -941,6 +1316,20 @@
           width="140"
           sortable
           v-if="checkListPnrHc.indexOf('tifchangegr11_ssrfreetxt')>-1">
+          <template slot-scope="scope">
+            <el-popover
+              placement="top-start"
+              trigger="hover"
+              :disabled="scope.row.is_tifchangegr11_ssrfreetxt==0"
+              popper-class="maxWidth">
+              <div class="">
+                <el-row type="flex" class="detailFat" v-for="i in scope.row.tifchangegr11_ssrfreetxt">
+                  <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
+                </el-row>
+              </div>
+              <span slot="reference">{{scope.row.tifchangegr11_ssrfreetxt[0]}}<span v-if="scope.row.is_tifchangegr11_ssrfreetxt==1" class="cellColor">*</span></span>
+            </el-popover>
+          </template>
         </el-table-column>
         <el-table-column
           prop="tifchangegr11_Status_Code"
@@ -948,6 +1337,20 @@
           width="140"
           sortable
           v-if="checkListPnrHc.indexOf('tifchangegr11_Status_Code')>-1">
+          <template slot-scope="scope">
+            <el-popover
+              placement="top-start"
+              trigger="hover"
+              :disabled="scope.row.is_tifchangegr11_Status_Code==0"
+              popper-class="maxWidth">
+              <div class="">
+                <el-row type="flex" class="detailFat" v-for="i in scope.row.tifchangegr11_Status_Code">
+                  <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
+                </el-row>
+              </div>
+              <span slot="reference">{{scope.row.tifchangegr11_Status_Code[0]}}<span v-if="scope.row.is_tifchangegr11_Status_Code==1" class="cellColor">*</span></span>
+            </el-popover>
+          </template>
         </el-table-column>
         <el-table-column
           prop="tbdgr11_NUMBEROFPIECES"
@@ -962,6 +1365,20 @@
           width="140"
           sortable
           v-if="checkListPnrHc.indexOf('tvlgr12_MARKETING_FLIGHT_NUMBER')>-1">
+          <template slot-scope="scope">
+            <el-popover
+              placement="top-start"
+              trigger="hover"
+              :disabled="scope.row.is_tvlgr12_MARKETING_FLIGHT_NUMBER==0"
+              popper-class="maxWidth">
+              <div class="">
+                <el-row type="flex" class="detailFat" v-for="i in scope.row.tvlgr12_MARKETING_FLIGHT_NUMBER">
+                  <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
+                </el-row>
+              </div>
+              <span slot="reference">{{scope.row.tvlgr12_MARKETING_FLIGHT_NUMBER[0]}}<span v-if="scope.row.is_tvlgr12_MARKETING_FLIGHT_NUMBER==1" class="cellColor">*</span></span>
+            </el-popover>
+          </template>
         </el-table-column>
         <el-table-column
           prop="tvlgr12_MARKETING_AIRLINE_CODE"
@@ -969,6 +1386,20 @@
           width="140"
           sortable
           v-if="checkListPnrHc.indexOf('tvlgr12_MARKETING_AIRLINE_CODE')>-1">
+          <template slot-scope="scope">
+            <el-popover
+              placement="top-start"
+              trigger="hover"
+              :disabled="scope.row.is_tvlgr12_MARKETING_AIRLINE_CODE==0"
+              popper-class="maxWidth">
+              <div class="">
+                <el-row type="flex" class="detailFat" v-for="i in scope.row.tvlgr12_MARKETING_AIRLINE_CODE">
+                  <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
+                </el-row>
+              </div>
+              <span slot="reference">{{scope.row.tvlgr12_MARKETING_AIRLINE_CODE[0]}}<span v-if="scope.row.is_tvlgr12_MARKETING_AIRLINE_CODE==1" class="cellColor">*</span></span>
+            </el-popover>
+          </template>
         </el-table-column>
         <el-table-column
           prop="tvlgr12_DEPARTURE_DATE"
@@ -976,6 +1407,20 @@
           width="140"
           sortable
           v-if="checkListPnrHc.indexOf('tvlgr12_DEPARTURE_DATE')>-1">
+          <template slot-scope="scope">
+            <el-popover
+              placement="top-start"
+              trigger="hover"
+              :disabled="scope.row.is_tvlgr12_DEPARTURE_DATE==0"
+              popper-class="maxWidth">
+              <div class="">
+                <el-row type="flex" class="detailFat" v-for="i in scope.row.tvlgr12_DEPARTURE_DATE">
+                  <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
+                </el-row>
+              </div>
+              <span slot="reference">{{scope.row.tvlgr12_DEPARTURE_DATE[0]}}<span v-if="scope.row.is_tvlgr12_DEPARTURE_DATE==1" class="cellColor">*</span></span>
+            </el-popover>
+          </template>
         </el-table-column>
         <el-table-column
           prop="tvlgr12_ARRIVAL_DATE"
@@ -983,6 +1428,20 @@
           width="140"
           sortable
           v-if="checkListPnrHc.indexOf('tvlgr12_ARRIVAL_DATE')>-1">
+          <template slot-scope="scope">
+            <el-popover
+              placement="top-start"
+              trigger="hover"
+              :disabled="scope.row.is_tvlgr12_ARRIVAL_DATE==0"
+              popper-class="maxWidth">
+              <div class="">
+                <el-row type="flex" class="detailFat" v-for="i in scope.row.tvlgr12_ARRIVAL_DATE">
+                  <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
+                </el-row>
+              </div>
+              <span slot="reference">{{scope.row.tvlgr12_ARRIVAL_DATE[0]}}<span v-if="scope.row.is_tvlgr12_ARRIVAL_DATE==1" class="cellColor">*</span></span>
+            </el-popover>
+          </template>
         </el-table-column>
         <el-table-column
           prop="tvlgr12_THE_LAST_DEPARTURE_AIRPORT"
@@ -990,6 +1449,20 @@
           width="140"
           sortable
           v-if="checkListPnrHc.indexOf('tvlgr12_THE_LAST_DEPARTURE_AIRPORT')>-1">
+          <template slot-scope="scope">
+            <el-popover
+              placement="top-start"
+              trigger="hover"
+              :disabled="scope.row.is_tvlgr12_THE_LAST_DEPARTURE_AIRPORT==0"
+              popper-class="maxWidth">
+              <div class="">
+                <el-row type="flex" class="detailFat" v-for="i in scope.row.tvlgr12_THE_LAST_DEPARTURE_AIRPORT">
+                  <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
+                </el-row>
+              </div>
+              <span slot="reference">{{scope.row.tvlgr12_THE_LAST_DEPARTURE_AIRPORT[0]}}<span v-if="scope.row.is_tvlgr12_THE_LAST_DEPARTURE_AIRPORT==1" class="cellColor">*</span></span>
+            </el-popover>
+          </template>
         </el-table-column>
         <el-table-column
           prop="tvlgr12_THE_FIRST_ARRIVAL_AIRPORT"
@@ -997,6 +1470,20 @@
           width="140"
           sortable
           v-if="checkListPnrHc.indexOf('tvlgr12_THE_FIRST_ARRIVAL_AIRPORT')>-1">
+          <template slot-scope="scope">
+            <el-popover
+              placement="top-start"
+              trigger="hover"
+              :disabled="scope.row.is_tvlgr12_THE_FIRST_ARRIVAL_AIRPORT==0"
+              popper-class="maxWidth">
+              <div class="">
+                <el-row type="flex" class="detailFat" v-for="i in scope.row.tvlgr12_THE_FIRST_ARRIVAL_AIRPORT">
+                  <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
+                </el-row>
+              </div>
+              <span slot="reference">{{scope.row.tvlgr12_THE_FIRST_ARRIVAL_AIRPORT[0]}}<span v-if="scope.row.is_tvlgr12_THE_FIRST_ARRIVAL_AIRPORT==1" class="cellColor">*</span></span>
+            </el-popover>
+          </template>
         </el-table-column>
         <el-table-column
           prop="abigr10_TRAVEL_AGENT_IDENTIFICATION"
@@ -1004,6 +1491,20 @@
           width="140"
           sortable
           v-if="checkListPnrHc.indexOf('abigr10_TRAVEL_AGENT_IDENTIFICATION')>-1">
+          <template slot-scope="scope">
+            <el-popover
+              placement="top-start"
+              trigger="hover"
+              :disabled="scope.row.is_abigr10_TRAVEL_AGENT_IDENTIFICATION==0"
+              popper-class="maxWidth">
+              <div class="">
+                <el-row type="flex" class="detailFat" v-for="i in scope.row.abigr10_TRAVEL_AGENT_IDENTIFICATION">
+                  <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
+                </el-row>
+              </div>
+              <span slot="reference">{{scope.row.abigr10_TRAVEL_AGENT_IDENTIFICATION[0]}}<span v-if="scope.row.is_abigr10_TRAVEL_AGENT_IDENTIFICATION==1" class="cellColor">*</span></span>
+            </el-popover>
+          </template>
         </el-table-column>
         <el-table-column
           prop="abigr10_PLACE"
@@ -1011,6 +1512,20 @@
           width="140"
           sortable
           v-if="checkListPnrHc.indexOf('abigr10_PLACE')>-1">
+          <template slot-scope="scope">
+            <el-popover
+              placement="top-start"
+              trigger="hover"
+              :disabled="scope.row.is_abigr10_PLACE==0"
+              popper-class="maxWidth">
+              <div class="">
+                <el-row type="flex" class="detailFat" v-for="i in scope.row.abigr10_PLACE">
+                  <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
+                </el-row>
+              </div>
+              <span slot="reference">{{scope.row.abigr10_PLACE[0]}}<span v-if="scope.row.is_abigr10_PLACE==1" class="cellColor">*</span></span>
+            </el-popover>
+          </template>
         </el-table-column>
         <el-table-column
           prop="abigr10_COMPANY_IDENTIFICATION"
@@ -1018,6 +1533,20 @@
           width="140"
           sortable
           v-if="checkListPnrHc.indexOf('abigr10_COMPANY_IDENTIFICATION')>-1">
+          <template slot-scope="scope">
+            <el-popover
+              placement="top-start"
+              trigger="hover"
+              :disabled="scope.row.is_abigr10_COMPANY_IDENTIFICATION==0"
+              popper-class="maxWidth">
+              <div class="">
+                <el-row type="flex" class="detailFat" v-for="i in scope.row.abigr10_COMPANY_IDENTIFICATION">
+                  <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
+                </el-row>
+              </div>
+              <span slot="reference">{{scope.row.abigr10_COMPANY_IDENTIFICATION[0]}}<span v-if="scope.row.is_abigr10_COMPANY_IDENTIFICATION==1" class="cellColor">*</span></span>
+            </el-popover>
+          </template>
         </el-table-column>
         <el-table-column
           prop="eqngr8_NUMBER_OF_UNITS"
@@ -1025,6 +1554,20 @@
           width="140"
           sortable
           v-if="checkListPnrHc.indexOf('eqngr8_NUMBER_OF_UNITS')>-1">
+          <template slot-scope="scope">
+            <el-popover
+              placement="top-start"
+              trigger="hover"
+              :disabled="scope.row.is_eqngr8_NUMBER_OF_UNITS==0"
+              popper-class="maxWidth">
+              <div class="">
+                <el-row type="flex" class="detailFat" v-for="i in scope.row.eqngr8_NUMBER_OF_UNITS">
+                  <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
+                </el-row>
+              </div>
+              <span slot="reference">{{scope.row.eqngr8_NUMBER_OF_UNITS[0]}}<span v-if="scope.row.is_eqngr8_NUMBER_OF_UNITS==1" class="cellColor">*</span></span>
+            </el-popover>
+          </template>
         </el-table-column>
         <el-table-column
           prop="rcigr8_COMPANY_IDENTIFICATION"
@@ -1032,6 +1575,20 @@
           width="140"
           sortable
           v-if="checkListPnrHc.indexOf('rcigr8_COMPANY_IDENTIFICATION')>-1">
+          <template slot-scope="scope">
+            <el-popover
+              placement="top-start"
+              trigger="hover"
+              :disabled="scope.row.is_rcigr8_COMPANY_IDENTIFICATION==0"
+              popper-class="maxWidth">
+              <div class="">
+                <el-row type="flex" class="detailFat" v-for="i in scope.row.rcigr8_COMPANY_IDENTIFICATION">
+                  <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
+                </el-row>
+              </div>
+              <span slot="reference">{{scope.row.rcigr8_COMPANY_IDENTIFICATION[0]}}<span v-if="scope.row.is_rcigr8_COMPANY_IDENTIFICATION==1" class="cellColor">*</span></span>
+            </el-popover>
+          </template>
         </el-table-column>
         <el-table-column
           prop="rcigr8_RESERVATION_CONTROL_NUMBER"
@@ -1039,6 +1596,20 @@
           width="140"
           sortable
           v-if="checkListPnrHc.indexOf('rcigr8_RESERVATION_CONTROL_NUMBER')>-1">
+          <template slot-scope="scope">
+            <el-popover
+              placement="top-start"
+              trigger="hover"
+              :disabled="scope.row.is_rcigr8_RESERVATION_CONTROL_NUMBER==0"
+              popper-class="maxWidth">
+              <div class="">
+                <el-row type="flex" class="detailFat" v-for="i in scope.row.rcigr8_RESERVATION_CONTROL_NUMBER">
+                  <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
+                </el-row>
+              </div>
+              <span slot="reference">{{scope.row.rcigr8_RESERVATION_CONTROL_NUMBER[0]}}<span v-if="scope.row.is_rcigr8_RESERVATION_CONTROL_NUMBER==1" class="cellColor">*</span></span>
+            </el-popover>
+          </template>
         </el-table-column>
         <el-table-column
           prop="datgr6_FIRST_DATE"
@@ -1067,6 +1638,13 @@
           width="140"
           sortable
           v-if="checkListPnrHc.indexOf('tifgr7_boardingsequence')>-1">
+        </el-table-column>
+        <el-table-column
+          label="操作"
+          width="100">
+          <template slot-scope="scope">
+            <el-button type="text" class="a-btn" title="详情" icon="el-icon-tickets" @click="detailsPnr(scope.row)"></el-button>
+         </template>
         </el-table-column>
       </el-table>
 
@@ -1104,18 +1682,295 @@
         </el-pagination>
       </div>
     </div>
+    <!-- pnr详情 -->
+    <el-dialog title="查看详情" :visible.sync="detailsSelfDialogVisible">
+      <Detail :detailType="1" :pnrType="8" :SERIALSelf="SERIALSelf0" :PNR_TIDSelf="PNR_TIDSelf0" :PNR_TKTNUMBERSelf="PNR_TKTNUMBERSelf0"></Detail>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="detailsSelfDialogVisible = false" size="small">取消</el-button>
+      </div>
+    </el-dialog>
+    <!-- iapi详情 -->
+    <el-dialog title="查看详情" :visible.sync="detailsIapiDialogVisible">
+      <el-form :model="dform" ref="detailsForm">
+        <div class="hrtitle">基本信息</div>
+        <el-row type="flex"  class="t-detail">
+          <el-col :span="6" class="t-el-content"><div class="t-el-text">姓名：</div><div class="t-el-sub">{{dform.CNAME}}</div></el-col>
+          <el-col :span="6" class="t-el-content"><div class="t-el-text">性别：</div><div class="t-el-sub">{{dform.GENDERNAME}}</div></el-col>
+          <el-col :span="6" class="t-el-content"><div class="t-el-text">出生日期：</div><div class="t-el-sub">{{dform.BIRTHDAYSTR}}</div></el-col>
+          <el-col :span="6" class="t-el-content"><div class="t-el-text">出入境类型：</div><div class="t-el-sub">{{dform.FLIGHTINOUT}}</div></el-col>
+        </el-row>
+        <el-row type="flex"  class="t-detail">
+          <el-col :span="6" class="t-el-content"><div class="t-el-text">国籍/地区：</div><div class="t-el-sub">{{dform.NATIONALITYNAME}}</div></el-col>
+          <el-col :span="6" class="t-el-content"><div class="t-el-text">证件号码：</div><div class="t-el-sub">{{dform.PASSPORTNO}}</div></el-col>
+          <el-col :span="6" class="t-el-content"><div class="t-el-text">证件颁发国：</div><div class="t-el-sub">{{dform.PASSPORTISSUECOUNTRYNAME}}</div></el-col>
+          <el-col :span="6" class="t-el-content"><div class="t-el-text">证件有效期：</div><div class="t-el-sub">{{dform.PASSPORTEXPIREDATESTR}}</div></el-col>
+        </el-row>
+        <el-row type="flex"  class="t-detail">
+          <el-col :span="6" class="t-el-content"><div class="t-el-text">证件签发日期：</div><div class="t-el-sub">{{dform.PASSPORTISSUEDATESTR}}</div></el-col>
+          <el-col :span="6" class="t-el-content"><div class="t-el-text">出生国：</div><div class="t-el-sub">{{dform.BIRTHCOUNTRYNAME}}</div></el-col>
+          <el-col :span="6" class="t-el-content"><div class="t-el-text">居住国：</div><div class="t-el-sub">{{dform.RESIDENCENAME}}</div></el-col>
+        </el-row>
+        <div class="hrtitle">航班信息</div>
+        <el-row type="flex"  class="t-detail">
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">航班号：</div><div class="t-el-sub">{{dform.FLTNO}}</div></el-col>
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">航班日期：</div><div class="t-el-sub">{{dform.FLIGHTDATESTR}}</div></el-col>
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">起飞机场：</div><div class="t-el-sub">{{dform.CITYFROMNAME}}</div></el-col>
+        </el-row>
+        <el-row type="flex"  class="t-detail">
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">预计起飞时间：</div><div class="t-el-sub">{{dform.DEPARTDATESTR}}</div></el-col>
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">到达机场：</div><div class="t-el-sub">{{dform.CITYTONAME}}</div></el-col>
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">预计到达时间：</div><div class="t-el-sub">{{dform.ARRIVDATESTR}}</div></el-col>
+
+        </el-row>
+        <el-row type="flex"  class="t-detail">
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">原预检结果：</div><div class="t-el-sub">{{dform.CHECKRESULTNAME}}</div></el-col>
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">最终预检结果：</div><div class="t-el-sub">{{dform.LASTCHECKRESULTSTR}}</div></el-col>
+          <!-- <el-col :span="8">是否有效：{{dform.PASSENGERSTATUSSTR==0?"无效":"有效"}}</el-col> -->
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">航班状态：</div><div class="t-el-sub">{{dform.FLIGHTSTATUSSTR}}</div></el-col>
+        </el-row>
+        <el-row type="flex"  class="t-detail">
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">航班起飞时间：</div><div class="t-el-sub">{{dform.LASTUPDATETIMEUPSTR}}</div></el-col>
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">航班取消时间：</div><div class="t-el-sub">{{dform.LASTUPDATETIMEDOWNSTR}}</div></el-col>
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">降落口岸：</div><div class="t-el-sub">{{dform.PORTSTR}}</div></el-col>
+        </el-row>
+        <el-row type="flex"  class="t-detail">
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">备降口岸：</div><div class="t-el-sub">{{dform.CHANGEPORTSTR}}</div></el-col>
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">航空公司联系电话：</div><div class="t-el-sub">{{dform.AIRLINEPHONE}}</div></el-col>
+        </el-row>
+        <div class="hrtitle">其他信息</div>
+        <el-row type="flex"  class="t-detail">
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">航空公司传真：</div><div class="t-el-sub">{{dform.AIRLINEFAX}}</div></el-col>
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">航信发送报文时间：</div><div class="t-el-sub">{{dform.GAPP_RECEIVETIMESTR}}</div></el-col>
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">航信接受报文时间：</div><div class="t-el-sub">{{dform.GAPP_SENDTIMESTR}}</div></el-col>
+        </el-row>
+        <el-row type="flex"  class="t-detail">
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">流水号：</div><div class="t-el-sub">{{dform.TID}}</div></el-col>
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">ICS记录编号：</div><div class="t-el-sub">{{dform.RECORDLOCATER}}</div></el-col>
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">旅客中间名：</div><div class="t-el-sub">{{dform.MIDDLENAME}}</div></el-col>
+        </el-row>
+        <el-row type="flex"  class="t-detail">
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">旅客类型：</div><div class="t-el-sub">{{dform.PASSENGERTYPESTR}}</div></el-col>
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">旅客值机方式：</div><div class="t-el-sub">{{dform.VIDSTR}}</div></el-col>
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">出入境手续：</div><div class="t-el-sub">{{dform.EEFLAG==1?'是':'否'}}</div></el-col>
+        </el-row>
+        <el-row type="flex"  class="t-detail">
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">是否订票：</div><div class="t-el-sub">{{dform.PNRFLAG==1?'是':'否'}}</div></el-col>
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">是否值机：</div><div class="t-el-sub">{{dform.CHKFLAG==1?'是':'否'}}</div></el-col>
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">航班是否关闭：</div><div class="t-el-sub">{{dform.CLSFLAG==1?'是':'否'}}</div></el-col>
+        </el-row>
+        <el-row type="flex"  class="t-detail">
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">是否报警：</div><div class="t-el-sub">{{dform.ISEVENT}}</div></el-col>
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">ABO唯一标识：</div><div class="t-el-sub">{{dform.ABONO}}</div></el-col>
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">其他证件号码：</div><div class="t-el-sub">{{dform.OTHER_NO}}</div></el-col>
+        </el-row>
+        <el-row type="flex"  class="t-detail">
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">其他证件有效期：</div><div class="t-el-sub">{{dform.OTHER_EXPIREDATESTR}}</div></el-col>
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">其他证件颁发国：</div><div class="t-el-sub">{{dform.OTHER_ISSUECOUNTRYSTR}}</div></el-col>
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">其他证件签发日期：</div><div class="t-el-sub">{{dform.OTHERDOCUMENTISSUEDATESTR}}</div></el-col>
+        </el-row>
+        <el-row type="flex"  class="t-detail">
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">签证号码：</div><div class="t-el-sub">{{dform.VISANO}}</div></el-col>
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">签证有效期：</div><div class="t-el-sub">{{dform.VISAEXPIREDATESTR}}</div></el-col>
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">签证国家：</div><div class="t-el-sub">{{dform.VISAISSUECOUNTRYSTR}}</div></el-col>
+        </el-row>
+        <el-row type="flex"  class="t-detail">
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">签证签发日期：</div><div class="t-el-sub">{{dform.VISAISSUEDATESTR}}</div></el-col>
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">起飞城市：</div><div class="t-el-sub">{{dform.ORIGINSTR}}</div></el-col>
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">目的地地址：</div><div class="t-el-sub">{{dform.DESTADDRESS}}</div></el-col>
+        </el-row>
+        <el-row type="flex"  class="t-detail">
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">目的地城市：</div><div class="t-el-sub">{{dform.DESTCITY}}</div></el-col>
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">目的的所在省：</div><div class="t-el-sub">{{dform.DESTSTATESTR}}</div></el-col>
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">目的地国家：</div><div class="t-el-sub">{{dform.DESTCOUNTRYSTR}}</div></el-col>
+        </el-row>
+        <el-row type="flex"  class="t-detail">
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">目的地邮编：</div><div class="t-el-sub">{{dform.DESTPOSTALCODE}}</div></el-col>
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">边检接收时间：</div><div class="t-el-sub">{{dform.IAPI_RECEIVETIMESTR}}</div></el-col>
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">边检回复时间：</div><div class="t-el-sub">{{dform.IAPI_RESPONSETIMESTR}}</div></el-col>
+        </el-row>
+        <!-- 数据有效性 -->
+        <div class="" v-show="isCheck">
+          <div class="hrtitle">数据有效性</div>
+          <el-row type="flex"  class="t-detail">
+            <el-col :span="6" class="t-el-content"><div class="t-el-text">属性名：</div><div class="t-el-sub">{{check.FIELDNAME}}</div></el-col>
+            <el-col :span="6" class="t-el-content"><div class="t-el-text">属性值：</div><div class="t-el-sub">{{check.FIELDVALUES}}</div></el-col>
+            <el-col :span="6" class="t-el-content"><div class="t-el-text">是否必填：</div><div class="t-el-sub">{{check.INPUT}}</div></el-col>
+            <el-col :span="6" class="t-el-content"><div class="t-el-text">最小长度：</div><div class="t-el-sub">{{check.MINLENGTH}}</div></el-col>
+          </el-row>
+
+          <el-row type="flex"  class="t-detail">
+            <el-col :span="6" class="t-el-content"><div class="t-el-text">最大长度：</div><div class="t-el-sub">{{check.MAXLENGTH}}</div></el-col>
+            <el-col :span="6" class="t-el-content"><div class="t-el-text">正则表达式：</div><div class="t-el-sub">{{check.REGULAR}}</div></el-col>
+            <el-col :span="12" class="t-el-content"><div class="t-el-text">错误描述：</div><div class="t-el-sub">{{check.DETAIL}}</div></el-col>
+          </el-row>
+        </div>
+
+        <!-- 名单比中详情 -->
+        <div class="" v-show="isName">
+          <div class="hrtitle">名单比中详情</div>
+          <el-row type="flex"  class="mb-6">
+            <el-col :span="6">
+              <el-button type="primary" plain name="button"  size="mini" @click="reviewDetail">查看评价详情</el-button>
+            </el-col>
+          </el-row>
+        </div>
+        <!-- 业务规则校验不通过 -->
+        <div class="" v-show="isRules">
+          <div class="hrtitle">业务规则校验不通过</div>
+          <el-row type="flex"  class="t-detail">
+            <el-col :span="6" class="t-el-content"><div class="t-el-text">规则名称：</div><div class="t-el-sub">{{rules.MATCHRRULE}}</div></el-col>
+            <el-col :span="6" class="t-el-content"><div class="t-el-text">返回状态：</div><div class="t-el-sub">{{rules.STATUS}}</div></el-col>
+            <el-col :span="12" class="t-el-content"><div class="t-el-text">错误详情：</div><div class="t-el-sub">{{rules.CHECKREMARK}}</div></el-col>
+          </el-row>
+        </div>
+
+        <div class="hrtitle" style="margin-bottom:10px">历史值机信息</div>
+        <el-table
+          :data="detailstableData"
+          border
+          style="width: 100%;">
+          <el-table-column
+            prop="NAME"
+            label="姓名"
+            width="100"
+            sortable>
+          </el-table-column>
+          <el-table-column
+            label="性别"
+            sortable
+            width="80">
+          <template slot-scope="scope">
+            {{scope.row.GENDER | fiftersex}}
+          </template>
+          </el-table-column>
+          <el-table-column
+            prop="DATEOFBIRTH"
+            label="出生日期"
+            sortable
+            width="130">
+          </el-table-column>
+          <el-table-column
+            prop="NATIONALITYC"
+            label="国籍/地区"
+            sortable>
+          </el-table-column>
+
+          <el-table-column
+            prop="PASSPORTNO"
+            label="证件号码"
+            sortable
+            width="130">
+          </el-table-column>
+
+          <el-table-column
+            prop="FLTNO"
+            label="航班号"
+            width="120"
+            sortable>
+          </el-table-column>
+          <el-table-column
+            prop="SCHEDULEDEPARTURETIME"
+            label="航班日期"
+            sortable
+            width="140">
+          </el-table-column>
+
+          <el-table-column
+            label="预检结果"
+            sortable
+            width="120">
+            <template slot-scope="scope">
+              {{scope.row.CHECKRESULT | fiftecr}}
+            </template>
+          </el-table-column>
+          <el-table-column
+            label="报警信息"
+            sortable
+            width="120">
+            <template slot-scope="scope">
+              {{scope.row.STATUS | fifterbj}}
+            </template>
+          </el-table-column>
+
+        </el-table>
+        <div class="middle-foot">
+          <div class="page-msg">
+            <div class="">
+              共{{htotalPage}}页
+            </div>
+            <div class="">
+              每页
+              <el-select v-model="hshowCount" @change="hpageSizeChange(hshowCount)" placeholder="10" size="mini" class="page-select">
+                <el-option
+                  v-for="item in options"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value">
+                </el-option>
+              </el-select>
+              条
+            </div>
+            <div class="">
+              共{{htotalResult}}条
+            </div>
+          </div>
+          <el-pagination
+            background
+            @current-change="hhandleCurrentChange"
+            :page-size="hshowCount"
+            layout="prev, pager, next"
+            :total="htotalResult">
+          </el-pagination>
+        </div>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="detailsIapiDialogVisible = false" size="small">取消</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import Seat from '../../other/seat'
+import Detail from './DetailRYXX'
 import AlarmProcess from '../../BusinessProcessing/Alarm/alarmProcess'
 import {formatDate,format} from '@/assets/js/date.js'
 import {dayGap} from '@/assets/js/date.js'
 import axios from 'axios'
 export default {
+  components: {AlarmProcess},
+  components: {Seat},
+  components: {Detail},
   data(){
     return{
+      // iapi详情
+      detailsIapiDialogVisible:false,
+      iapiNationaName0:'',
+      PASSPORTNO0:'',
+      SERIAL0:'',
+
+      dform:{},
+      check:{},
+      rules:{},
+      eve:'',
+      isCheck:false,
+      isName:true,
+      isRules:true,
+      detailstableData:[],
+      queryDialogVisible:false,
+      historyCdt:{},
+      hcurrentPage:1,//当前页数
+      hpageSize:10, //每页显示个数选择器的选项设置
+      hshowCount:10,//每页显示的记录数
+      htotalResult:0,//总条数
+      htotalPage:1,//总页数
+      nav1Id:null,
+      nav2Id:null,
+      //pnr详情
+      SERIALSelf0:'',
+      PNR_TIDSelf0:'',
+      PNR_TKTNUMBERSelf0:'',
+      detailsSelfDialogVisible:false,
       //iapi查询条件
       selfNature:[],//属性
       operator:[],//操作符
@@ -1127,17 +1982,28 @@ export default {
       str:'',
       str1:'',
       typeG:0,
+      selfD:{},
       selfRows:[
         {
             id:1,
-            attribute:'',
-            operator:'',
-            type:0,
+            attribute:'FLTDATE',
+            operator:'大于等于',
+            type:31,
             relation:'',
-            atype:'',
+            atype:formatDate(new Date(new Date() - 1000 * 60 * 60 * 24 * 7),'yyyyMMdd'),
             dataSort:'',
             isA:true
-        }
+        },
+        {
+            id:2,
+            attribute:'FLTDATE',
+            operator:'小于等于',
+            type:31,
+            relation:'and',
+            atype:formatDate(new Date(),'yyyyMMdd'),
+            dataSort:'',
+            isA:false
+        },
       ],
       //pnr查询条件
       selfNaturePnr:[],//属性
@@ -1151,17 +2017,30 @@ export default {
       passengerPnr:[],
       changeStatePnr:[],
       strPnr:'',
+      strPnr1:'',
+      typePnrG:0,
+      selfPnrD:{},
       selfRowsPnr:[
         {
             id:1,
-            attribute:'',
-            operator:'',
-            type:0,
+            attribute:'PNR_FLTDATE1',
+            operator:'大于等于',
+            type:31,
             relation:'',
-            atype:'',
+            atype:formatDate(new Date(new Date() - 1000 * 60 * 60 * 24 * 7),'yyyyMMdd'),
             dataSort:'',
             isA:true
-        }
+        },
+        {
+            id:2,
+            attribute:'PNR_FLTDATE1',
+            operator:'小于等于',
+            type:31,
+            relation:'and',
+            atype:formatDate(new Date(),'yyyyMMdd'),
+            dataSort:'',
+            isA:false
+        },
       ],
       selfModelrow:{
         id:0,
@@ -1291,10 +2170,20 @@ export default {
   },
   mounted(){
     this.showArr();
+    this.a();
+    this.b();
+    this.operator = ["等于", "大于", "大于等于", "小于", "小于等于"]
     document.getElementsByClassName('btn-next')[0].disabled=true;
+    this.nav1Id=this.$route.query.nav1Id
+    this.nav2Id=this.$route.query.nav2Id
   },
   activated(){
     this.showArr();
+    this.a();
+    this.b();
+    this.operator = ["等于", "大于", "大于等于", "小于", "小于等于"]
+    this.nav1Id=this.$route.query.nav1Id
+    this.nav2Id=this.$route.query.nav2Id
   },
   computed:{
     aaa:{
@@ -1392,6 +2281,92 @@ export default {
   },
   methods:{
     //==========================================================全局代码=========================================================
+    handleSelectionChange(val){
+      if(this.bigBase==7){
+        this.selfTableList = val;
+      }else if(this.bigBase==8){
+        this.selfTableListPnr = val;
+      }
+    },
+    getHistoryList(hcurrentPage,hshowCount,historyCdt){
+      let gh = {
+        "currentPage":hcurrentPage,
+      	"showCount":hshowCount,
+      	"pd":historyCdt
+      };
+      this.$api.post('/manage-platform/iapiUnscolicited/queryHistory',gh,
+      r =>{
+        this.detailstableData = r.data.pdList;
+        this.htotalResult = r.data.totalResult;
+        this.htotalPage = r.data.totalPage;
+      })
+    },
+    hhandleCurrentChange(val){ //历次数据
+      this.getHistoryList(val,this.hshowCount,this.historyCdt);
+    },
+    hpageSizeChange(val){//历次数据
+      this.getHistoryList(this.hcurrentPage,val,this.historyCdt);
+    },
+    reviewDetail(){//详情里的查看详情信息
+      this.queryDialogVisible = true;
+      let ss={
+        "event":this.eve
+      }
+      this.$api.post('/manage-platform/eventManagement/isFinishEventHandle',ss,
+       r =>{
+         if(r.data== true){
+            this.$router.push({query:{eventserial:this.eve,type:0,nav1Id:this.nav1Id,nav2Id:this.nav2Id}})
+         }else if(r.data == false){
+           this.$confirm('报警事件还未处理，请归档后再重试', '提示', {
+             confirmButtonText: '确定',
+             type: 'warning'
+           })
+         }
+       })
+    },
+    detailsIapi(i){
+      this.historyCdt.NATIONALITY = i.NATIONALITY;
+      this.historyCdt.PASSPORTNO = i.PASSPORTNO;
+      this.historyCdt.nationalityEqual = i.NATIONALITY;
+      this.historyCdt.passportnoEqual = i.PASSPORTNO;
+      this.getHistoryList(this.hcurrentPage,this.hshowCount,this.historyCdt);
+      let p={
+        'serial':i.CHK_SERIAL
+      }
+      this.$api.post('/manage-platform/iapi/queryIapiInfo',p,
+       r =>{
+         if(r.success){
+           this.detailsIapiDialogVisible = true;
+           this.dform = r.data.IAPI;
+           if(r.data.hasOwnProperty('CHECKDATA') == false){
+             this.isCheck = false;
+           }else{
+             this.isCheck = true;
+             this.check = r.data.CHECKDATA;
+           }
+
+           if(r.data.hasOwnProperty('RULELIST') == false){
+             this.isRules = false;
+           }else{
+             this.isRules = true;
+             this.rules = r.data.RULELIST;
+           }
+
+           if(r.data.hasOwnProperty('EVENT') == false){
+             this.isName = false;
+           }else{
+             this.isName = true;
+             this.eve = r.data.EVENT;
+           }
+         }
+       })
+    },
+    detailsPnr(i){
+      this.SERIALSelf0 = i.SERIAL;
+      this.PNR_TIDSelf0 = i.PNR_TID;
+      this.PNR_TKTNUMBERSelf0 = i.PNR_TKTNUMBER;
+      this.detailsSelfDialogVisible = true;
+    },
     nameChange(item,arr){
       for(var i=0;i<arr.length;i++){
         if(item == arr[i].code){
@@ -1402,30 +2377,56 @@ export default {
     selfAddRow(){//自定义查询 添加操作
       if(this.bigBase==7){
         this.selfCount++;
-        this.selfModelrow = {
-          id:0,
-          attribute:'',
-          operator:'',
-          type:0,
-          relation:'',
-          atype:'',
-          dataSort:'',
-          isA:false
-        },
+        if(this.selfRows.length==0){
+          this.selfModelrow = {
+            id:0,
+            attribute:'',
+            operator:'',
+            type:0,
+            relation:'',
+            atype:'',
+            dataSort:'',
+            isA:true
+          }
+        }else{
+          this.selfModelrow = {
+            id:0,
+            attribute:'',
+            operator:'',
+            type:0,
+            relation:'',
+            atype:'',
+            dataSort:'',
+            isA:false
+          }
+        }
         this.selfModelrow.id=this.selfCount;
         this.selfRows.push(this.selfModelrow);
       }else if(this.bigBase==8){
         this.selfCountPnr++;
-        this.selfModelrow = {
-          id:0,
-          attribute:'',
-          operator:'',
-          type:0,
-          relation:'',
-          atype:'',
-          dataSort:'',
-          isA:false
-        },
+        if(this.selfRowsPnr.length==0){
+          this.selfModelrow = {
+            id:0,
+            attribute:'',
+            operator:'',
+            type:0,
+            relation:'',
+            atype:'',
+            dataSort:'',
+            isA:true
+          }
+        }else{
+          this.selfModelrow = {
+            id:0,
+            attribute:'',
+            operator:'',
+            type:0,
+            relation:'',
+            atype:'',
+            dataSort:'',
+            isA:false
+          }
+        }
         this.selfModelrow.id=this.selfCountPnr;
         this.selfRowsPnr.push(this.selfModelrow);
       }
@@ -1468,6 +2469,22 @@ export default {
     },
     //=============================================================查询项===============================================================
     //===================================iapi=========================
+    a(){
+      this.$api.post('/manage-platform/iapiHead/getIapiCustomQueryConfig',{},
+      r =>{
+        if(r.success){
+          this.selfNature = r.data;
+        }
+      })
+    },
+    b(){
+      this.$api.post('/manage-platform/iapiHead/getPnrCustomQueryConfig',{},
+       r =>{
+         if(r.success){
+           this.selfNaturePnr = r.data;
+         }
+       })
+    },
     attribute(self){//属性
       this.$set(self,'operator','');
       this.$set(self,'atype','');
@@ -1511,7 +2528,7 @@ export default {
       }
     },
     clearItem(item){
-
+      console.log(item);
     },
     attribute2(arr,val){
       for(var i in arr){
@@ -1554,22 +2571,41 @@ export default {
          })
       }
     },
+    repeatLong(val,arr){
+      let count=0;
+        for(var i=0;i<arr.length;i++){
+          if(val == arr[i].attribute){
+            count++
+          }
+        }
+        return count
+    },
     selfDeleteRow(id,row){//自定义查询 删除操作
+      let count = this.repeatLong(row.attribute,this.selfRows);
       for(var i in this.checkList){
-        if(row.attribute == this.checkList[i]){
+        if(row.attribute == this.checkList[i]&&count<=1){
           this.checkList.splice(i,1);
         }
       }
       this.selfRows.splice(id,1);
+      if(this.selfRows.length==1){
+        this.selfRows[0].isA = true;
+        this.selfRows[0].relation = '';
+      }
     },
     //====================================pnr====================================
     selfDeleteRowPnr(id,row){
+      let countPnr = this.repeatLong(row.attribute,this.selfRowsPnr);
       for(var i in this.checkListPnr){
-        if(row.attribute == this.checkListPnr[i]){
+        if(row.attribute == this.checkListPnr[i]&&countPnr<=1){
           this.checkListPnr.splice(i,1);
         }
       }
       this.selfRowsPnr.splice(id,1);
+      if(this.selfRowsPnr.length==1){
+        this.selfRowsPnr[0].isA = true;
+        this.selfRowsPnr[0].relation = '';
+      }
     },
     ticket(){
       this.$api.post('/manage-platform/codeTable/queryMonetaryAmountType',{},
@@ -1597,8 +2633,16 @@ export default {
     },
 
     ii(){
-      // this.typeG = 1;
-      // this.str1 = this.aaa2;
+      if(this.bigBase==7){
+        console.log(this.aaa2);
+        this.typeG = 1;
+        this.str1 = this.aaa2;
+      }else if(this.bigBase==8){
+        console.log(aaa3);
+        console.log(bbb);
+        this.typePnrG = 1;
+        this.strPnr1 = this.aaa3;
+      }
     },
     //===========================================展示项==========================================
     showArr(){
@@ -1673,7 +2717,7 @@ export default {
       }
     },
     //============================================查询=================================================
-    selfQueryList(currentPage,showCount,str){//自定义查询列表
+    selfQueryList(currentPage,showCount){//自定义查询列表
       this.showTableConfig();
       let dataSelf = [];
       for(var i=0;i<this.selfRows.length;i++){
@@ -1683,16 +2727,15 @@ export default {
         "currentPage":currentPage,
       	"showCount":showCount,
         "orders":dataSelf,//排序
-        "cdt":str
       }
-      // if(this.typeG == 0){
-      //   sql.cdt = this.str;
-      //   this.selfD.cdt = this.str;//导出自定义表格数据的传参
-      // }else if(this.typeG == 1){
-      //   sql.cdt = this.str1;
-      //   this.selfD.cdt = this.str1;
-      //   this.typeG = 0;
-      // }
+      if(this.typeG == 0){
+        sql.cdt = this.str;
+        this.selfD.cdt = this.str;//导出自定义表格数据的传参
+      }else if(this.typeG == 1){
+        sql.cdt = this.str1;
+        this.selfD.cdt = this.str1;
+        this.typeG = 0;
+      }
       this.$api.post('/manage-platform/iapiHead/customIapiQuery',sql,
        r =>{
          if(r.success){
@@ -1713,7 +2756,7 @@ export default {
          }
        })
     },
-    selfQueryListPnr(currentPage,showCount,str){
+    selfQueryListPnr(currentPage,showCount){
       this.checkListPnrHc=Object.assign([], this.checkListPnr);
       let dataSelfPnr = [];
       for(var i=0;i<this.selfRowsPnr.length;i++){
@@ -1723,17 +2766,16 @@ export default {
         "currentPage":currentPage,
       	"showCount":showCount,
         "orders":dataSelfPnr,
-        "cdt":str,
         "pd":{'queryColList':this.checkListPnr},
       }
-      // if(this.typeG == 0){
-      //   sqlp.cdt = this.str
-      //   this.selfD.cdt = this.str;//导出自定义表格数据的传参
-      // }else if(this.typeG == 1){
-      //   sqlp.cdt = this.str1;
-      //   this.selfD.cdt = this.str1;
-      //   this.typeG = 0;
-      // }
+      if(this.typePnrG == 0){
+        sqlp.cdt = this.strPnr
+        this.selfPnrD.cdt = this.strPnr;//导出自定义表格数据的传参
+      }else if(this.typePnrG == 1){
+        sqlp.cdt = this.strPnr1;
+        this.selfPnrD.cdt = this.strPnr1;
+        this.typePnrG = 0;
+      }
       this.$api.post('/manage-platform/iapiHead/customPnrQuery',sqlp,
        r =>{
          if(r.success){
@@ -1769,39 +2811,60 @@ export default {
                 r =>{
                   if(r.success){
                     obj = r.data;
-                    console.log(obj);
                     arrTable.push(obj);
                   }
                 })
              }
-             console.log(arrTable);
              this.tableDataPnr = arrTable;
-             console.log(this.tableDataPnr)
            }
+           this.$api.post('/manage-platform/iapiHead/customPnrQueryCount',sqlp,
+            r =>{
+              if(r.success){
+                this.totalResultPnr = r.data;
+              }
+            })
          }
        })
     },
-    pageSizeChange(){
+    pageSizeChange(val){//显示条数
+      if(this.bigBase==7){
+        this.selfQueryList(this.currentPage,val)
+      }else if(this.bigBase==8){
+        this.selfQueryListPnr(this.currentPagePnr,val);
+      }
 
     },
-    handleCurrentChange(){
-
+    handleCurrentChange(val){//显示当前页
+      if(this.bigBase==7){
+        this.selfQueryList(val,this.showCount);
+      }else if(this.bigBase==8){
+        this.selfQueryListPnr(val,this.showCountPnr);
+      }
     },
     selfS(){
       if(this.bigBase == 7){
-        this.selfQueryList(this.currentPage,this.showCount,this.str);
+        this.selfQueryList(this.currentPage,this.showCount);
       }else if(this.bigBase == 8){
-        this.selfQueryListPnr(this.currentPagePnr,this.showCountPnr,this.strPnr);
+        this.selfQueryListPnr(this.currentPagePnr,this.showCountPnr);
       }
     },
     selfReset(){
-      this.selfRows=[{id:1,attribute:'',operator:'',type:0,relation:'',atype:'',isA:true}];
-      this.str = '';
-      // this.ffff='';
       if(this.bigBase == 7){
-        this.selfQueryList(this.currentPage,this.showCount,this.str);
+        this.selfRows=[
+          {id:1,attribute:'FLTDATE',operator:'大于等于',type:31,relation:'',atype:formatDate(new Date(new Date() - 1000 * 60 * 60 * 24 * 7),'yyyyMMdd'),dataSort:'',isA:true},
+          {id:2,attribute:'FLTDATE',operator:'小于等于',type:31,relation:'and',atype:formatDate(new Date(),'yyyyMMdd'),dataSort:'',isA:false},
+        ];
+        this.str = '';
+        this.ffff='';
+        this.selfQueryList(this.currentPage,this.showCount);
       }else if(this.bigBase == 8){
-        this.selfQueryListPnr(this.currentPagePnr,this.showCountPnr,this.strPnr);
+        this.selfRowsPnr=[
+          {id:1,attribute:'PNR_FLTDATE1',operator:'大于等于',type:31,relation:'',atype:formatDate(new Date(new Date() - 1000 * 60 * 60 * 24 * 7),'yyyyMMdd'),dataSort:'',isA:true},
+          {id:2,attribute:'PNR_FLTDATE1',operator:'小于等于',type:31,relation:'and',atype:formatDate(new Date(),'yyyyMMdd'),dataSort:'',isA:false},
+        ];
+        this.strPnr = '';
+        this.nnnn='';
+        this.selfQueryListPnr(this.currentPagePnr,this.showCountPnr);
       }
     },
     checkRow(row){//列表单选操作
@@ -1813,20 +2876,60 @@ export default {
     },
     tableDown(){
       if(this.bigBase==7){
-        axios({
-         method: 'post',
-         url: 'http://192.168.99.248:8080/manage-platform/iapiHead/exportCustomFileIo/7/600',
-         // url: this.$api.rootUrl+"/manage-platform/iapiHead/exportCustomFileIo/7/600",
-         data: {
-             "exclTitles": this.checkList,
-             "cdt":this.str
-         },
-         responseType: 'blob'
-         }).then(response => {
-             this.downloadM(response)
-         });
-      }else if(this.bigBase=8){
+        if(this.selfTableList==0){
+          this.selfD.exclTitles = this.checkList;
+          axios({
+           method: 'post',
+           // url: 'http://192.168.99.248:8080/manage-platform/iapiHead/exportCustomFileIo/7/600',
+           url: this.$api.rootUrl+"/manage-platform/iapiHead/exportCustomFileIo/7/600",
+           data: this.selfD,
+           responseType: 'blob'
+           }).then(response => {
+               this.downloadM(response)
+           });
+        }else if(this.selfTableList!=0){
+          axios({
+           method: 'post',
+           // url: 'http://192.168.99.248:8080/manage-platform/iapiHead/exportCheckColDataIo/7',
+           url: this.$api.rootUrl+"/manage-platform/iapiHead/exportCheckColDataIo/7",
+           data: {
+             'exclTitles':this.checkList,
+             'resultList':this.selfTableList
+           },
+           responseType: 'blob'
+           }).then(response => {
+               this.downloadM(response)
+           });
+        }
 
+      }else if(this.bigBase==8){
+        if(this.selfTableListPnr.length!=0){
+          axios({
+           method: 'post',
+           // url: 'http://192.168.99.248:8080/manage-platform/iapiHead/exportCheckColDataIo/8',
+           url: this.$api.rootUrl+"/manage-platform/iapiHead/exportCheckColDataIo/8",
+           data: {
+             'exclTitles':this.checkList,
+             'resultList':this.selfTableListPnr
+           },
+           responseType: 'blob'
+           }).then(response => {
+               this.downloadM(response)
+           });
+        }else if(this.selfTableListPnr.length==0){
+          axios({
+           method: 'post',
+           // url: 'http://192.168.99.248:8080/manage-platform/iapiHead/exportCustomPnrFileIo',
+           url: this.$api.rootUrl+"/manage-platform/iapiHead/exportCustomPnrFileIo",
+           data: {
+             'exclTitles':this.checkList,
+             'resultList':this.tableDataPnr
+           },
+           responseType: 'blob'
+           }).then(response => {
+               this.downloadM(response)
+           });
+        }
       }
     },
     downloadM (data,type) {
@@ -1921,10 +3024,16 @@ export default {
           let arr = r.data.showConfigList;
           let arr1=[];
           if(this.bigBase==7){
-            this.selfRows=[{id:1,attribute:'',operator:'',type:0,relation:'',atype:'',isA:true}];
+            this.selfRows=[
+              {id:1,attribute:'FLTDATE',operator:'大于等于',type:31,relation:'',atype:formatDate(new Date(new Date() - 1000 * 60 * 60 * 24 * 7),'yyyyMMdd'),dataSort:'',isA:true},
+              {id:2,attribute:'FLTDATE',operator:'小于等于',type:31,relation:'and',atype:formatDate(new Date(),'yyyyMMdd'),dataSort:'',isA:false},
+            ];
             this.str = r.data.config.AAAAA; //渲染
           }else if(this.bigBase==8){
-            this.selfRowsPnr=[{id:1,attribute:'',operator:'',type:0,relation:'',atype:'',isA:true}];
+            this.selfRowsPnr=[
+              {id:1,attribute:'PNR_FLTDATE1',operator:'大于等于',type:31,relation:'',atype:formatDate(new Date(new Date() - 1000 * 60 * 60 * 24 * 7),'yyyyMMdd'),dataSort:'',isA:true},
+              {id:2,attribute:'PNR_FLTDATE1',operator:'小于等于',type:31,relation:'and',atype:formatDate(new Date(),'yyyyMMdd'),dataSort:'',isA:false},
+            ];
             this.strPnr = r.data.config.AAAAA;
           }
           if(arr.length == 0){
