@@ -100,6 +100,8 @@
                              border
                              max-height="600"
                              style="width: 100%;"
+                             class="mt-10 o-table3"
+                             @header-click="headerClick"
                              >
                              <el-table-column
                                prop="airline_company_id" sortable
@@ -157,8 +159,13 @@
 </template>
 <script>
 import echarts from 'echarts'
-import {formatDate,format} from '@/assets/js/date.js'
-import {dayGap} from '@/assets/js/date.js'
+import {
+  formatDate,
+  format
+} from '@/assets/js/date.js'
+import {
+  dayGap
+} from '@/assets/js/date.js'
 import axios from 'axios'
 export default {
   data() {
@@ -167,7 +174,8 @@ export default {
       pageSize: 10,
       TotalResult: 0,
       pd: {
-    begintime:'',endtime:''
+        begintime: '',
+        endtime: ''
       },
       nation: [],
       company: [],
@@ -206,12 +214,12 @@ export default {
         }
       },
       form: {},
-      typerow:'1',
+      typerow: '1',
       lineChart: null,
-      sData1:[],
-      sData2:[],
-      sData3:[],
-      companyname:""
+      sData1: [],
+      sData2: [],
+      sData3: [],
+      companyname: ""
     }
   },
   mounted() {
@@ -233,14 +241,17 @@ export default {
 
   },
   methods: {
-    changeValue(value){
-console.log(value);
-     let obj = {};
-     obj = this.company.find((item)=>{//这里的userList就是上面遍历的数据源
-         return item.AIRLINE_CODE === value;//筛选出匹配数据
-     });
-     console.log(obj.AIRLINE_CHN_NAME);//我这边的name就是对应label的
-   this.companyname=obj.AIRLINE_CHN_NAME;
+    changeValue(value) {
+      console.log(value);
+      let obj = {};
+      obj = this.company.find((item) => { //这里的userList就是上面遍历的数据源
+        return item.AIRLINE_CODE === value; //筛选出匹配数据
+      });
+      console.log(obj.AIRLINE_CHN_NAME); //我这边的name就是对应label的
+      this.companyname = obj.AIRLINE_CHN_NAME;
+    },
+    headerClick(column, event) {
+      event.target.title = column.label
     },
     base() {
       this.page = 0;
@@ -262,39 +273,42 @@ console.log(value);
     },
     getSummaries(param) {
 
-         const { columns, data } = param;
-         const sums = [];
-         columns.forEach((column, index) => {
-           if (index === 0) {
-             sums[index] = '合计';
-             return;
-           }
-           const values = data.map(item => Number(item[column.property]));
-           if (!values.every(value => isNaN(value))) {
-             sums[index] = values.reduce((prev, curr) => {
-               const value = Number(curr);
-               if (!isNaN(value)) {
-                 return prev + curr;
-               } else {
-                 return prev;
-               }
-             }, 0);
-             sums[index] += '';
-           } else {
-             sums[index] = '';
-           }
-         });
+      const {
+        columns,
+        data
+      } = param;
+      const sums = [];
+      columns.forEach((column, index) => {
+        if (index === 0) {
+          sums[index] = '合计';
+          return;
+        }
+        const values = data.map(item => Number(item[column.property]));
+        if (!values.every(value => isNaN(value))) {
+          sums[index] = values.reduce((prev, curr) => {
+            const value = Number(curr);
+            if (!isNaN(value)) {
+              return prev + curr;
+            } else {
+              return prev;
+            }
+          }, 0);
+          sums[index] += '';
+        } else {
+          sums[index] = '';
+        }
+      });
 
-         return sums;
-       },
+      return sums;
+    },
     getList(currentPage, showCount, pd) {
 
-            if (this.pd.begintime== null|| this.pd.endtime == null) {
-              this.$alert('时间范围不能为空', '提示', {
-                confirmButtonText: '确定',
-              });
-              return false
-            };
+      if (this.pd.begintime == null || this.pd.endtime == null) {
+        this.$alert('时间范围不能为空', '提示', {
+          confirmButtonText: '确定',
+        });
+        return false
+      };
 
 
 
@@ -308,56 +322,85 @@ console.log(value);
         r => {
           console.log(r);
           this.tableData = r.data;
-          let arr=this.tableData;
-          var sum1=0,sum01=0;
-          var sum2=0,sum02=0;
-          var sum3=0,sum03=0,sum003=0;
-          for(var i=0;i<arr.length;i++){
-            sum1+=parseInt(arr[i].boardingcount);
-            sum01+=parseInt(arr[i].chk_1z);
-            sum2+=parseInt(arr[i].chk_gender_m);
-            sum02+=parseInt(arr[i].chk_gender_f);
-            sum3+=parseInt(arr[i].foreign);
-            sum03+=parseInt(arr[i].inland);
-            sum003+=parseInt(arr[i].gat);
+          let arr = this.tableData;
+          var sum1 = 0,
+            sum01 = 0;
+          var sum2 = 0,
+            sum02 = 0;
+          var sum3 = 0,
+            sum03 = 0,
+            sum003 = 0;
+          for (var i = 0; i < arr.length; i++) {
+            sum1 += parseInt(arr[i].boardingcount);
+            sum01 += parseInt(arr[i].chk_1z);
+            sum2 += parseInt(arr[i].chk_gender_m);
+            sum02 += parseInt(arr[i].chk_gender_f);
+            sum3 += parseInt(arr[i].foreign);
+            sum03 += parseInt(arr[i].inland);
+            sum003 += parseInt(arr[i].gat);
           }
-          this.sData1=[{value:sum1, name:'载运人员总数'},{value:sum01, name:'不准登机人数'}];
-          this.sData2=[{value:sum2, name:'男'},{value:sum02, name:'女'}];
-          this.sData3=[{value:sum3, name:'外国人'},{value:sum03, name:'内地居民'},{value:sum003, name:'港澳台'}];
-          this.drawLine();this.drawLine2();this.drawLine3();
+          this.sData1 = [{
+            value: sum1,
+            name: '载运人员总数'
+          }, {
+            value: sum01,
+            name: '不准登机人数'
+          }];
+          this.sData2 = [{
+            value: sum2,
+            name: '男'
+          }, {
+            value: sum02,
+            name: '女'
+          }];
+          this.sData3 = [{
+            value: sum3,
+            name: '外国人'
+          }, {
+            value: sum03,
+            name: '内地居民'
+          }, {
+            value: sum003,
+            name: '港澳台'
+          }];
+          this.drawLine();
+          this.drawLine2();
+          this.drawLine3();
         })
     },
-    download(){
-       //  var url="http://192.168.99.213:8080/manage-platform/dataStatistics/export_flightCompany";
-      var url= this.$api.rootUrl+"/manage-platform/dataStatistics/export_flightCompany";
+    download() {
+      //  var url="http://192.168.99.213:8080/manage-platform/dataStatistics/export_flightCompany";
+      var url = this.$api.rootUrl + "/manage-platform/dataStatistics/export_flightCompany";
 
       axios({
-       method: 'post',
-       url: url,
-      // url:'http://192.168.99.206:8080/manage-platform/iapi/exportFileIo/0/600',
-      // url: this.$api.rootUrl+"/manage-platform/iapi/exportFileIo/0/600",
-       data: {
-         "begintime":this.pd.begintime,
-         "endtime":this.pd.endtime,
-         "airline_company_id": this.pd.airline_company_id,
-         "airline_company_name":this.companyname,
-       },
-       responseType: 'blob'
-       }).then(response => {
-           this.downloadM(response)
-       });
+        method: 'post',
+        url: url,
+        // url:'http://192.168.99.206:8080/manage-platform/iapi/exportFileIo/0/600',
+        // url: this.$api.rootUrl+"/manage-platform/iapi/exportFileIo/0/600",
+        data: {
+          "begintime": this.pd.begintime,
+          "endtime": this.pd.endtime,
+          "airline_company_id": this.pd.airline_company_id,
+          "airline_company_name": this.companyname,
+        },
+        responseType: 'blob'
+      }).then(response => {
+        this.downloadM(response)
+      });
     },
-    downloadM (data) {
-        if (!data) {
-            return
-        }
-        let url = window.URL.createObjectURL(new Blob([data.data],{type:"application/octet-stream"}))
-        let link = document.createElement('a')
-        link.style.display = 'none'
-        link.href = url
-        link.setAttribute('download', 'hkgs'+format(new Date(),'yyyyMMddhhmmss')+'.xlsx')
-        document.body.appendChild(link)
-        link.click()
+    downloadM(data) {
+      if (!data) {
+        return
+      }
+      let url = window.URL.createObjectURL(new Blob([data.data], {
+        type: "application/octet-stream"
+      }))
+      let link = document.createElement('a')
+      link.style.display = 'none'
+      link.href = url
+      link.setAttribute('download', 'hkgs' + format(new Date(), 'yyyyMMddhhmmss') + '.xlsx')
+      document.body.appendChild(link)
+      link.click()
     },
     queryNationality() {
       this.$api.post('/manage-platform/codeTable/queryAircompanyList', {},
@@ -376,65 +419,59 @@ console.log(value);
     drawLine() {
       this.lineChart = echarts.init(document.getElementById('myChart'), 'light');
       window.onresize = echarts.init(document.getElementById('myChart')).resize;
-        let that = this;
-        this.lineChart.setOption({
-          tooltip: {
+      let that = this;
+      this.lineChart.setOption({
+        tooltip: {
           trigger: 'item',
           formatter: "{a} <br/>{b}: {c} ({d}%)"
         },
-          series: [
-                {
-                  name:'载运人员总数、不准登机人数',
-                  type:'pie',
-                  radius: ['30%', '50%'],
-                  center: ['50%', '30%'],   //调整位置
-                  data:this.sData1
-                 }
-                ]
-          });
+        series: [{
+          name: '载运人员总数、不准登机人数',
+          type: 'pie',
+          radius: ['30%', '50%'],
+          center: ['50%', '30%'], //调整位置
+          data: this.sData1
+        }]
+      });
     },
     drawLine2() {
       this.lineChart = echarts.init(document.getElementById('myChart2'), 'light');
       window.onresize = echarts.init(document.getElementById('myChart2')).resize;
-        let that = this;
-        this.lineChart.setOption({
-          tooltip: {
+      let that = this;
+      this.lineChart.setOption({
+        tooltip: {
           trigger: 'item',
           formatter: "{a} <br/>{b}: {c} ({d}%)"
         },
-          series: [
-                {
-                  name:'性别构成',
-                  type:'pie',
-                  radius: ['30%', '50%'],
-                  center: ['50%', '30%'],   //调整位置
-                  data:this.sData2
-                 }
-                ]
-          });
+        series: [{
+          name: '性别构成',
+          type: 'pie',
+          radius: ['30%', '50%'],
+          center: ['50%', '30%'], //调整位置
+          data: this.sData2
+        }]
+      });
     },
     drawLine3() {
       this.lineChart = echarts.init(document.getElementById('myChart3'), 'light');
       window.onresize = echarts.init(document.getElementById('myChart3')).resize;
-        let that = this;
-        this.lineChart.setOption({
-          tooltip: {
+      let that = this;
+      this.lineChart.setOption({
+        tooltip: {
           trigger: 'item',
           formatter: "{a} <br/>{b}: {c} ({d}%)"
         },
-          series: [
-                {
-                  name:'国家构成',
-                  type:'pie',
-                  radius: ['30%', '50%'],
-                  center: ['50%', '30%'],   //调整位置
-                  data:this.sData3
-                 }
-                ]
-          });
+        series: [{
+          name: '国家构成',
+          type: 'pie',
+          radius: ['30%', '50%'],
+          center: ['50%', '30%'], //调整位置
+          data: this.sData3
+        }]
+      });
     },
-      }
-    }
+  }
+}
 </script>
 
 <style scoped>
@@ -467,6 +504,11 @@ console.log(value);
   padding: 20px;
   border-radius: 0 5px 5px 5px;
 }
-.ppie{width:420px; height:400px; padding-top: 30px;float:left}
 
+.ppie {
+  width: 420px;
+  height: 400px;
+  padding-top: 30px;
+  float: left
+}
 </style>

@@ -109,6 +109,8 @@
         </el-row>
       <el-table
         :data="tableData"
+        class="mt-10 o-table3"
+        @header-click="headerClick"
         border
         max-height="600"
         style="width: 100%;">
@@ -264,7 +266,7 @@ export default {
     this.queryNationality();
     let time = new Date();
     let endz = new Date();
-    let beginz = new Date(time - 1000 * 60 * 60 * 24 * 30);
+    let beginz = new Date(time - 1000 * 60 * 60 * 24 * 1);
     this.pd.begintime = formatDate(beginz, 'yyyyMMdd');
     this.pd.endtime = formatDate(endz, 'yyyyMMdd');
   },
@@ -272,12 +274,15 @@ export default {
     this.queryNationality();
     let time = new Date();
     let endz = new Date();
-    let beginz = new Date(time - 1000 * 60 * 60 * 24 * 30);
+    let beginz = new Date(time - 1000 * 60 * 60 * 24 * 1);
     this.pd.begintime = formatDate(beginz, 'yyyyMMdd');
     this.pd.endtime = formatDate(endz, 'yyyyMMdd');
 
   },
   methods: {
+    headerClick(column,event){
+     event.target.title=column.label
+   },
     handleSelectionChange(val) {
       this.multipleSelection = val;
     },

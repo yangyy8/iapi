@@ -33,7 +33,7 @@
 
             <el-col :sm="24" :md="12"  :lg="8" class="input-item">
               <span class="input-text">证件号码：</span>
-              <el-input placeholder="请输入内容" size="small" v-verify.input.blur="{regs:'required|max:35',submit:'demo'}" v-model="pd.CARDNO" clearable class="input-input"></el-input>
+              <el-input placeholder="请输入内容" size="small" v-model="pd.CARDNO" clearable class="input-input"></el-input>
             </el-col>
 
             <el-col :sm="24" :md="12"  :lg="8" class="input-item">
@@ -260,34 +260,38 @@
       <el-form :model="form" ref="addForm">
         <el-row  class="mb-6" align="center">
 
-          <el-col :sm="24" :md="12" :lg="8"  class="input-item">
+          <el-col :sm="24" :md="12" :lg="8" class="input-item my-form-group" data-scope="demo3" data-name="FAMILYNAME" data-type="input"
+            v-validate-easy="[['required'],['cname']]">
             <span class="input-text"><span class="redx">*</span>姓名：</span>
-            <el-input placeholder="请输入内容" size="small" v-model="form.FAMILYNAME" clearable class="input-input" v-verify.input.blur ="{regs:'required|cname',submit:'demo2'}"></el-input>
+            <el-input placeholder="请输入内容" size="small" v-model="form.FAMILYNAME" clearable class="input-input"></el-input>
           </el-col>
-          <el-col :sm="24" :md="12" :lg="8"  class="input-item">
+          <el-col :sm="24" :md="12" :lg="8" class="input-item my-form-group" data-scope="demo3" data-name="GENDER" data-type="select"
+            v-validate-easy="[['required']]">
             <span class="input-text"><span class="redx">*</span>性别：</span>
-            <el-select v-model="form.GENDER" placeholder="请选择"  size="small" clearable filterable class="input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}">
+            <el-select v-model="form.GENDER" placeholder="请选择"  size="small" clearable filterable class="input-input">
               <el-option label="M - 男" value="M"></el-option>
               <el-option label="F - 女" value="F"></el-option>
               <el-option label="U - 未知" value="U"></el-option>
             </el-select>
           </el-col>
 
-          <el-col :sm="24" :md="12" :lg="8"  class="input-item">
+          <el-col :sm="24" :md="12" :lg="8"  class="input-item my-form-group" data-scope="demo3" data-name="BIRTHDATE" data-type="select"
+            v-validate-easy="[['required']]">
             <span class="input-text"><span class="redx">*</span>出生日期：</span>
             <el-date-picker
               size="small" value-format="yyyy-MM-dd"
               v-model="form.DATEOFBIRTH"
               type="date"
               range-separator="-"
-              start-placeholder="开始日期"
+              start-placeholder="出生日期"
               class="input-input block">
             </el-date-picker>
           </el-col>
 
-          <el-col :sm="24" :md="12" :lg="8"  class="input-item">
+          <el-col :sm="24" :md="12" :lg="8"  class="input-item my-form-group" data-scope="demo3" data-name="NATIONALITY" data-type="select"
+            v-validate-easy="[['required']]">
             <span class="input-text"><span class="redx">*</span>国籍/地区：</span>
-            <el-select v-model="form.NATIONALITY" filterable clearable placeholder="请选择"  size="small" class="input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}">
+            <el-select v-model="form.NATIONALITY" filterable clearable placeholder="请选择"  size="small" class="input-input">
               <el-option
                 v-for="item in nationAlone"
                 :key="item.CODE"
@@ -297,9 +301,10 @@
             </el-select>
           </el-col>
 
-          <el-col :sm="24" :md="12" :lg="8"  class="input-item">
+          <el-col :sm="24" :md="12" :lg="8" class="input-item my-form-group" data-scope="demo3" data-name="CARDTYPE" data-type="select"
+            v-validate-easy="[['required']]">
             <span class="input-text"><span class="redx">*</span>证件种类：</span>
-            <el-select v-model="form.CARDTYPE"  filterable clearable  placeholder="请选择"  size="small" class="input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}">
+            <el-select v-model="form.CARDTYPE"  filterable clearable  placeholder="请选择"  size="small" class="input-input">
               <el-option
                 v-for="item in docCode"
                 :key="item.CODE"
@@ -309,26 +314,30 @@
             </el-select>
           </el-col>
 
-          <el-col :sm="24" :md="12" :lg="8"  class="input-item">
+          <el-col :sm="24" :md="12" :lg="8" class="input-item my-form-group" data-scope="demo3" data-name="CARDNO" data-type="input"
+            v-validate-easy="[['required'],['maxLength',[35]]]">
             <span class="input-text"><span class="redx">*</span>证件号码：</span>
-            <el-input placeholder="请输入内容" size="small" max="35" v-verify.input.blur="{regs:'required|max:35',submit:'demo2'}" v-model="form.CARDNO" clearable class="input-input"></el-input>
+            <el-input placeholder="请输入内容" size="small" max="35" v-model="form.CARDNO" clearable class="input-input"></el-input>
           </el-col>
 
-          <el-col :sm="24" :md="12" :lg="8"  class="input-item">
+          <el-col :sm="24" :md="12" :lg="8" class="input-item my-form-group" data-scope="demo3" data-name="VISANO" data-type="input"
+            v-validate-easy="[['required']]">
             <span class="input-text"><span class="redx">*</span>签证号码：</span>
-            <el-input placeholder="请输入内容" size="small" v-model="form.VISANO" clearable class="input-input" v-verify.input.blur ="{regs:'required',submit:'demo2'}"></el-input>
+            <el-input placeholder="请输入内容" size="small" v-model="form.VISANO" clearable class="input-input"></el-input>
           </el-col>
 
-          <el-col :sm="24" :md="12" :lg="8"  class="input-item">
+          <el-col :sm="24" :md="12" :lg="8" class="input-item my-form-group" data-scope="demo3" data-name="IN_OUT" data-type="select"
+            v-validate-easy="[['required']]">
             <span class="input-text"><span class="redx">*</span>出入境标识：</span>
-            <el-select v-model="form.IN_OUT" placeholder="请选择" clearable filterable size="small"  class="input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}">
+            <el-select v-model="form.IN_OUT" placeholder="请选择" clearable filterable size="small"  class="input-input">
               <el-option label="I - 入境" value="I"></el-option>
               <el-option label="O - 出境" value="O"></el-option>
               <el-option label="A - 入出境" value="A"></el-option>
             </el-select>
           </el-col>
 
-          <el-col :sm="24" :md="12" :lg="8"  class="input-item">
+          <el-col :sm="24" :md="12" :lg="8" class="input-item my-form-group" data-scope="demo3" data-name="BEGINDATE" data-type="select"
+            v-validate-easy="[['required']]">
             <span class="input-text"><span class="redx">*</span>关注开始时间：</span>
             <el-date-picker
               size="small"
@@ -340,7 +349,8 @@
             </el-date-picker>
           </el-col>
 
-          <el-col :sm="24" :md="12" :lg="8"  class="input-item">
+          <el-col :sm="24" :md="12" :lg="8" class="input-item my-form-group" data-scope="demo3" data-name="ENDDATE" data-type="select"
+            v-validate-easy="[['required']]">
             <span class="input-text"><span class="redx">*</span>关注终止时间：</span>
             <el-date-picker
               size="small"
@@ -352,14 +362,16 @@
             </el-date-picker>
           </el-col>
 
-          <el-col :sm="24" :md="12" :lg="8"  class="input-item">
+          <el-col :sm="24" :md="12" :lg="8" class="input-item my-form-group" data-scope="other" data-name="FLTNO" data-type="input"
+            v-validate-easy="[['maxLength',[7]]]">
             <span class="input-text">航班号：</span>
-            <el-input placeholder="请输入内容" size="small" clearable v-model="form.FLTNO" class="input-input" v-verify.input.blur ="{regs:'required|max:7',submit:'demo1'}"></el-input>
+            <el-input placeholder="请输入内容" size="small" clearable v-model="form.FLTNO" class="input-input"></el-input>
           </el-col>
 
-          <el-col :sm="24" :md="12" :lg="8"  class="input-item">
+          <el-col :sm="24" :md="12" :lg="8" class="input-item my-form-group" data-scope="demo3" data-name="REASON" data-type="select"
+            v-validate-easy="[['required']]">
             <span class="input-text"><span class="redx">*</span>出入事由：</span>
-            <el-select v-model="form.REASON"  filterable clearable  placeholder="请选择"  size="small" class="input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}">
+            <el-select v-model="form.REASON"  filterable clearable  placeholder="请选择"  size="small" class="input-input">
               <el-option
                 v-for="item in inOutReason"
                 :key="item.CODE"
@@ -369,14 +381,16 @@
             </el-select>
           </el-col>
 
-          <el-col :sm="24" :md="12" :lg="8" class="input-item">
+          <el-col :sm="24" :md="12" :lg="8" class="input-item my-form-group" data-scope="other" data-name="REPORTUNITNAME" data-type="input"
+            v-validate-easy="[['maxLength',[35]]]">
             <span class="input-text">报列单位：</span>
-            <el-input placeholder="请输入内容" size="small" class="input-input" v-verify.input.blur="{regs:'required|max:35',submit:'demo'}" v-model="form.REPORTUNITNAME"></el-input>
+            <el-input placeholder="请输入内容" size="small" class="input-input" v-model="form.REPORTUNITNAME"></el-input>
           </el-col>
 
-          <el-col :sm="24" :md="12" :lg="8" class="input-item">
+          <el-col :sm="24" :md="12" :lg="8" class="input-item my-form-group" data-scope="other" data-name="TEL" data-type="input"
+            v-validate-easy="[['maxLength',[25]]]">
             <span class="input-text">联系电话：</span>
-            <el-input placeholder="请输入内容" size="small" max="25" class="input-input" v-verify.input.blur="{regs:'required|max:25',submit:'demo'}" v-model="form.TEL"></el-input>
+            <el-input placeholder="请输入内容" size="small" max="25" class="input-input" v-model="form.TEL"></el-input>
           </el-col>
 
           <el-col :sm="24" :md="12" :lg="8"  class="input-item">
@@ -749,12 +763,16 @@ export default {
       this.form.IN_OUT+='';
       this.dialogType="update";
       this.dialogText="编辑"
+      this.V.$reset('demo3')
+
     },
     addServe(){
       this.form={};
       this.addDialogVisible=true;
       this.dialogType="add"
-      this.dialogText="新增"
+      this.dialogText="新增";
+      this.V.$reset('demo3')
+
     },
 
     details(i){
@@ -856,15 +874,11 @@ export default {
       })
     },
     addItem(formName){
-      if(this.$validator.listener.demo2){
-        const result = this.$validator.verifyAll('demo2')
-        // console.log(result)
-         if (result.indexOf(false) > -1) {
-           return
-         } else {
-           // alert('填写成功')
-         }
-      }
+      this.V.$submit('demo3', (canSumit,data) => {
+        // canSumit为true时，则所有该scope的所有表单验证通过
+        if(!canSumit) return
+        // 只有验证全部通过才会执行
+        console.log('验证通过的数据'+data)
         if(this.dialogType=="add"){
           this.$api.post('/manage-platform/nameListFocusList/addNameListFocusList',this.form,
            r => {
@@ -897,6 +911,7 @@ export default {
 
           })
         }
+      })
     },
     beforeAvatarUpload(file){
       console.log(file.type)

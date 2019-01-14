@@ -315,7 +315,7 @@
     <el-dialog :title="dialogText" :visible.sync="addDialogVisible" style="line-height:32px;"  width="60%" id="xinzeng">
       <el-form :model="form" ref="addForm">
         <el-row  class="mb-6" align="center">
-          <el-col :sm="24" :md="12" :lg="8"  class="input-item my-form-group" data-scope="demo1" data-name="NATIONALITY" data-type="input"
+          <el-col :sm="24" :md="12" :lg="8"  class="input-item my-form-group" data-scope="demo1" data-name="NATIONALITY" data-type="select"
             v-validate-easy="[['required']]">
             <span class="input-text"><span class="redx">*</span>国籍/地区：</span>
             <el-select v-model="form.NATIONALITY" filterable clearable placeholder="请选择" size="small" class="input-input">
@@ -340,7 +340,7 @@
             </el-select>
           </el-col>
 
-          <el-col :sm="24" :md="12" :lg="8"  class="input-item my-form-group" data-scope="demo1" data-name="PERSON_TYPE" data-type="input"
+          <el-col :sm="24" :md="12" :lg="8"  class="input-item my-form-group" data-scope="demo1" data-name="PERSON_TYPE" data-type="select"
             v-validate-easy="[['required']]">
             <span class="input-text"><span class="redx">*</span>控制类型：</span>
             <el-select v-model="form.PERSON_TYPE" placeholder="请选择"  size="small" clearable class="input-input">
@@ -373,7 +373,7 @@
             <el-input placeholder="请输入内容" size="small" v-model="form.FAMILYNAME" clearable class="input-input"></el-input>
           </el-col>
 
-          <el-col :sm="24" :md="12" :lg="8" class="input-item my-form-group" data-scope="demo1" data-name="GENDER" data-type="input"
+          <el-col :sm="24" :md="12" :lg="8" class="input-item my-form-group" data-scope="demo1" data-name="GENDER" data-type="select"
             v-validate-easy="[['required']]">
             <span class="input-text"><span class="redx">*</span>性别：</span>
             <el-select v-model="form.GENDER" placeholder="请选择"  size="small"  class="input-input">
@@ -383,7 +383,7 @@
             </el-select>
           </el-col>
 
-          <el-col :sm="24" :md="12" :lg="8" class="input-item my-form-group" data-scope="demo1" data-name="BIRTHDATE" data-type="input"
+          <el-col :sm="24" :md="12" :lg="8" class="input-item my-form-group" data-scope="demo1" data-name="BIRTHDATE" data-type="select"
             v-validate-easy="[['required']]">
             <span class="input-text"><span class="redx">*</span>出生日期：</span>
             <el-date-picker
@@ -395,7 +395,7 @@
             </el-date-picker>
           </el-col>
 
-          <el-col :sm="24" :md="12" :lg="8" class="input-item my-form-group" data-scope="demo1" data-name="CTL_REASONLEVEL" data-type="input"
+          <el-col :sm="24" :md="12" :lg="8" class="input-item my-form-group" data-scope="demo1" data-name="CTL_REASONLEVEL" data-type="select"
             v-validate-easy="[['required']]">
             <span class="input-text"><span class="redx">*</span>原因严重性：</span>
             <el-select v-model="form.CTL_REASONLEVEL" placeholder="请选择"  size="small"  class="input-input">
@@ -407,7 +407,7 @@
             </el-select>
           </el-col>
 
-          <el-col :sm="24" :md="12" :lg="8" class="input-item my-form-group" data-scope="demo1" data-name="IN_OUT" data-type="input"
+          <el-col :sm="24" :md="12" :lg="8" class="input-item my-form-group" data-scope="demo1" data-name="IN_OUT" data-type="select"
             v-validate-easy="[['required']]">
             <span class="input-text"><span class="redx">*</span>出入境类型：</span>
             <el-select v-model="form.IN_OUT" placeholder="请选择" size="small" class="input-input">
@@ -417,7 +417,7 @@
             </el-select>
           </el-col>
 
-          <el-col :sm="24" :md="12" :lg="8"  class="input-item my-form-group" data-scope="demo1" data-name="CTL_BEGINDATE" data-type="input"
+          <el-col :sm="24" :md="12" :lg="8"  class="input-item my-form-group" data-scope="demo1" data-name="CTL_BEGINDATE" data-type="select"
             v-validate-easy.lazy="[['required']]">
             <span class="input-text"><span class="redx">*</span>生效日期：</span>
             <el-date-picker
@@ -432,7 +432,7 @@
             </el-date-picker>
           </el-col>
 
-          <el-col :sm="24" :md="12" :lg="8"  class="input-item my-form-group" data-scope="demo1" data-name="CTL_EXPIREDATE" data-type="input"
+          <el-col :sm="24" :md="12" :lg="8"  class="input-item my-form-group" data-scope="demo1" data-name="CTL_EXPIREDATE" data-type="select"
             v-validate-easy="[['required']]">
             <span class="input-text"><span class="redx">*</span>失效日期：</span>
             <el-date-picker
@@ -471,10 +471,11 @@
             </el-select>
           </el-col>
 
-          <el-col :sm="24" :md="12" :lg="8"  class="input-item">
+          <el-col :sm="24" :md="12" :lg="8"  class="input-item my-form-group" data-scope="other" data-name="FLTNO" data-type="input"
+            v-validate-easy="[['maxLength',[7]]]">
             <span class="input-text">航班号：</span>
             <!-- <input type="text" v-model="form.FLTNO" class="input-input"  > -->
-            <el-input placeholder="请输入内容" size="small" v-model="form.FLTNO" class="input-input"   v-verify.input.blur="{regs:'required|max:7',submit:'demo'}"></el-input>
+            <el-input placeholder="请输入内容" size="small" v-model="form.FLTNO" class="input-input"></el-input>
           </el-col>
 
           <el-col :sm="24" :md="12" :lg="8" class="input-item">
@@ -483,9 +484,10 @@
 
           </el-col>
 
-          <el-col :sm="24" :md="12" :lg="8"  class="input-item">
+          <el-col :sm="24" :md="12" :lg="8" class="input-item my-form-group" data-scope="other" data-name="SUBORG_CONN" data-type="input"
+            v-validate-easy="[['maxLength',[25]]]">
             <span class="input-text">联系电话：</span>
-            <el-input placeholder="请输入内容" size="small" v-verify.input.blur="{regs:'required|max:25',submit:'demo'}" v-model="form.SUBORG_CONN" class="input-input"></el-input>
+            <el-input placeholder="请输入内容" size="small" v-model="form.SUBORG_CONN" class="input-input"></el-input>
           </el-col>
 
           <el-col :sm="24" :md="12" :lg="8" class="input-item">
@@ -964,6 +966,7 @@ export default {
       this.addDialogVisible=true;
       this.dateDisabled=false;
       this.form=Object.assign({}, item);
+      console.log("BIRTHDATE",this.form.BIRTHDATE)
       // this.form=item;
       this.form.PERSON_TYPE+='';
       this.form.IN_OUT+='';
@@ -1030,15 +1033,11 @@ export default {
       }
     },
     bzfb(){
-      if(this.$validator.listener.demo2){
-        const result = this.$validator.verifyAll('demo2')
-         if (result.indexOf(false) > -1) {
-           return
-         } else {
-           // return
-         }
-      }
-      this.releaseDialogVisible=true
+      this.V.$submit('demo1', (canSumit,data) => {
+        // canSumit为true时，则所有该scope的所有表单验证通过
+        if(!canSumit) return
+        this.releaseDialogVisible=true
+      })
     },
     canceldig(scope){
       this.addDialogVisible = false;

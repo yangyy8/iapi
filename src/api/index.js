@@ -1,5 +1,9 @@
 // 配置API接口地址
+<<<<<<< HEAD
 // var root="http://192.168.99.206:8080"
+=======
+var root="http://192.168.99.206:8080"
+>>>>>>> 5ae5719ad6ca673e3ef2897dc4c0dcc45c907d83
 // var root=""
 //var root="http://192.168.99.242:8081"
 // var root = 'http://192.168.99.248:8081'
@@ -66,7 +70,6 @@ function apiAxios(method, url, params, success, failure,header) {
             }
             if(!res.data.success){
               if(res.data.message=="获取登录信息失败！"){
-
                      // console.log("ffffff")
                 window.location.href ="#/";
               }else{

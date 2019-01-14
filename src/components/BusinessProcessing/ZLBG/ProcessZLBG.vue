@@ -23,10 +23,12 @@
             <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
         <span class="input-text">证件种类：</span>
         <el-select v-model="pd.PASSPORTTYPE" placeholder="请选择"  filterable clearable size="small" class="input-input">
-           <el-option value="T" label="T - 区域证件">
-           </el-option>
-           <el-option value="P" label="P - 护照">
-           </el-option>
+          <el-option
+            v-for="item in docCode"
+            :key="item.CODE"
+            :label="item.CODE+' - '+item.NAME"
+            :value="item.CODE">
+          </el-option>
 
          </el-select>
       </el-col>
@@ -212,7 +214,7 @@
     <el-button  type="text"  class="a-btn"  title="变更" icon="el-icon-edit" @click="handles(scope.row);"></el-button>
   </span>
 
-                      <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row)">详情</el-button>
+      <el-button type="text"  class="a-btn"  title="详情" icon="el-icon-tickets" @click="details(scope.row)"></el-button>
                  </template>
                 </el-table-column>
       </el-table>
@@ -774,6 +776,7 @@ export default {
       map: {},
       dform: {},
       rules: {},
+      docCode:[],
       check: {},
       pickerOptions: {
         disabledDate: (time) => {
@@ -796,9 +799,10 @@ export default {
     }
   },
   mounted() {
-    this.nav1Id=this.$route.query.nav1Id
-    this.nav2Id=this.$route.query.nav2Id
+    this.nav1Id=this.$route.query.nav1Id;
+    this.nav2Id=this.$route.query.nav2Id;
     //this.getList(this.CurrentPage, this.pageSize, this.pd);
+    this.queryDocCode();
     let time = new Date();
     let end = new Date();
     let begin = new Date(time - 1000 * 60 * 60 * 24 * 14);
@@ -807,8 +811,9 @@ export default {
     this.pd.ENDTIME = formatDate(end, 'yyyyMMddhhmm');
   },
   activated() {
-    this.nav1Id=this.$route.query.nav1Id
-    this.nav2Id=this.$route.query.nav2Id
+    this.nav1Id=this.$route.query.nav1Id;
+    this.nav2Id=this.$route.query.nav2Id;
+    this.queryDocCode();
     //this.getList(this.CurrentPage, this.pageSize, this.pd);
     // let time = new Date();
     // let end = new Date();
@@ -823,6 +828,15 @@ export default {
     },
     getNation(msg) {
       this.pd.NATIONALITY = msg;
+    },
+    queryDocCode() {
+      this.$api.post('/manage-platform/cardAndVisaTypeController/queryDmDocCodeAndDmDocCodes', {},
+        r => {
+          //console.log(r);
+          if (r.success) {
+            this.docCode = r.data;
+          }
+        })
     },
     batchs() {
 

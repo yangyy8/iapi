@@ -396,7 +396,7 @@
               <div class="title-green mt-10">
                 本次风评记录
               </div>
-              <div class="gc-box f-14" v-for="(d5,ind) in box4Data.listDescRecord" :key="ind" v-if="ind<size.size8">
+              <!-- <div class="gc-box f-14" v-for="(d5,ind) in box4Data.listDescRecord" :key="ind" v-if="ind<size.size8">
                 <div class="mr-5">{{ind+1}}</div>
                 <div class="">
                   <div class="">
@@ -418,12 +418,45 @@
                     核查结果：{{d5.check_resultName}}
                   </div>
                 </div>
-              </div>
-
-              <div class="box2-more">
-                <el-button type="text" @click="size.size8=box4Data.listDescRecord.length+4" v-if="box4Data.listDescRecord !== undefined &&box4Data.listDescRecord.length>3&&size.size8==3">展开更多 ﹀</el-button>
-                <el-button type="text" @click="size.size8=3" v-if="size.size8==box4Data.listDescRecord.length+4">收起 ︿</el-button>
-
+              </div> -->
+              <el-table
+                :data="box4Data.listDescRecord"
+                class="ak-table1"
+                :class="{'ak-t1':size.size8==true,'ak-t2':size.size8==false}"
+                style="width: 100%">
+                <el-table-column
+                  label="序号"
+                  type="index"
+                  width="70">
+                </el-table-column>
+                <el-table-column
+                  label="核查时间"
+                  prop="createTime">
+                </el-table-column>
+                <el-table-column
+                  label="核查人"
+                  prop="userName">
+                </el-table-column>
+                <el-table-column
+                  label="操作类型"
+                  prop="operation_typeName">
+                </el-table-column>
+                <el-table-column
+                  label="核查过程"
+                  prop="course_typeName">
+                </el-table-column>
+                <el-table-column
+                  label="核查阶段"
+                  prop="check_stageName">
+                </el-table-column>
+                <el-table-column
+                  label="核查结果"
+                  prop="check_resultName">
+                </el-table-column>
+              </el-table>
+              <div class="box2-more" v-if="box4Data.listDescRecord.length>4">
+                <el-button type="text" @click="size.size8=false" v-if="size.size8">展开更多 ﹀</el-button>
+                <el-button type="text" @click="size.size8=true" v-if="!size.size8">收起 ︿</el-button>
               </div>
             </div>
           </div>
@@ -486,7 +519,7 @@ export default {
       box5Data:{},
       box6:true,
       box7:true,
-      size:{size0:6,size1:3,size2:3,size301:16,size302:16,size4:3,size8:3},
+      size:{size0:6,size1:3,size2:3,size301:16,size302:16,size4:3,size8:true},
       serial:null,
       fileData:null,
       addListCustom:null,

@@ -130,7 +130,9 @@
               :data="tableData"
               border
               max-height="600"
-              style="width: 100%;" >
+              style="width: 100%;"
+              class="mt-10 o-table3"
+              @header-click="headerClick" >
               <el-table-column
                 prop="country" sortable
                 label="国籍/地区" width="120" v-if='sh1'>
@@ -321,6 +323,10 @@ export default {
 
   },
   methods: {
+
+    headerClick(column,event){
+      event.target.title=column.label
+    },
     base() {
       this.page = 0;
     },

@@ -8,7 +8,6 @@
           <div class="title-green">
             查询条件
           </div>
-
           <el-row align="center"   :gutter="2">
             <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
               <span class="input-text"><font class="yy-color">*</font>  时间范围：</span>
@@ -119,6 +118,8 @@
               show-summary
               max-height="600"
               style="width: 100%;"
+              class="mt-10 o-table3"
+              @header-click="headerClick"
               >
               <!-- <el-table-column
                 prop=""
@@ -151,12 +152,12 @@
                 <el-table-column label="性别构成">
             <el-table-column
               prop="chk_gender_m" sortable
-              label="男"
+              label="男" width="100"
               >
             </el-table-column>
             <el-table-column
               prop="chk_gender_f" sortable
-              label="女"
+              label="女" width="100"
               >
             </el-table-column>
               </el-table-column>
@@ -263,6 +264,9 @@ export default {
 
   },
   methods: {
+    headerClick(column,event){
+    event.target.title=column.label
+  },
     base() {
       this.page = 0;
     },
@@ -331,7 +335,8 @@ export default {
       // url: this.$api.rootUrl+"/manage-platform/iapi/exportFileIo/0/600",
        data: {
          "begintime":this.pd.begintime,
-         "endtime":this.pd.endtime
+         "endtime":this.pd.endtime,
+         "port":this.pd.port
        },
        responseType: 'blob'
        }).then(response => {

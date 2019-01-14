@@ -132,6 +132,14 @@ body{
   background-color: #fff !important;
   color: #333 !important;
 }
+.ak-t1{
+  max-height: 240px;
+  overflow: hidden;
+}
+.ak-t2{
+  height: inherit;
+  overflow: visible;
+}
 .ak-table2 thead th{
   background-color: #529edc !important;
 }
