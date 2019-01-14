@@ -156,6 +156,8 @@
                   border
                   max-height="600"
                   style="width: 100%;"
+                  class="mt-10 o-table3"
+                  @header-click="headerClick"
                   >
                   <el-table-column
                     prop="continent" sortable
@@ -320,6 +322,9 @@ export default {
 
   },
   methods: {
+    headerClick(column,event){
+    event.target.title=column.label
+  },
     base() {
       this.page = 0;
     },
@@ -356,7 +361,9 @@ export default {
         "continentfrom":pd.continentfrom,
         "countryfrom":pd.countryfrom,
         "cityfrom":pd.cityfrom,
-        "cityto":pd.cityto
+        "cityto":pd.cityto,
+        "portto":pd.portto,
+        "portfrom":pd.portfrom,
       };
 
       var url = "/manage-platform/dataStatistics/get_fltline_bycontinent";
@@ -426,7 +433,9 @@ export default {
          "countryfrom":this.pd.countryfrom,
          "cityfrom":this.pd.cityfrom,
          "cityto":this.pd.cityto,
-         "rowproperty":this.typerow
+         "rowproperty":this.typerow,
+         "portto":pd.portto,
+         "portfrom":pd.portfrom,
        },
        responseType: 'blob'
        }).then(response => {

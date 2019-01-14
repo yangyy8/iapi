@@ -277,6 +277,7 @@ export default {
         }
       ],
       tableData: [],
+      tableData1:[],
       multipleSelection: [],
       pickerOptions0: {
         disabledDate: (time) => {

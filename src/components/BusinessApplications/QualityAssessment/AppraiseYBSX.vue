@@ -99,6 +99,8 @@
       <el-table
         :data="tableData"
         border
+        class="mt-10 o-table3"
+        @header-click="headerClick"
         max-height="600"
         style="width: 100%;">
 
@@ -136,7 +138,7 @@
         </el-table-column>
         <el-table-column
           prop="later" sortable
-          label="关闭报文晚报数量" >
+          label="关闭报文晚报数量">
         </el-table-column>
         <el-table-column
           prop="msg_ontime" sortable
@@ -635,7 +637,7 @@ export default {
     this.queryNationality();
     let time = new Date();
     let endz = new Date();
-    let beginz = new Date(time - 1000 * 60 * 60 * 24 * 30);
+    let beginz = new Date(time - 1000 * 60 * 60 * 24 * 1);
     this.pd.begintime = formatDate(beginz, 'yyyyMMdd');
     this.pd.endtime = formatDate(endz, 'yyyyMMdd');
   },
@@ -643,11 +645,15 @@ export default {
       this.queryNationality();
       let time = new Date();
       let endz = new Date();
-      let beginz = new Date(time - 1000 * 60 * 60 * 24 * 30);
+      let beginz = new Date(time - 1000 * 60 * 60 * 24 * 1);
       this.pd.begintime = formatDate(beginz, 'yyyyMMdd');
       this.pd.endtime = formatDate(endz, 'yyyyMMdd');
   },
   methods: {
+    headerClick(column,event){
+      console.log(column,event)
+      event.target.title=column.label
+    },
     base() {
       this.page = 0;
     },

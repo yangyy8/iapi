@@ -71,7 +71,7 @@
           :label="item.NAME"
           :value="item.SERIAL">
         </el-option>
-      </el-select> 
+      </el-select>
       </el-col>
       <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
         <span class="input-text">有效期：</span>
@@ -214,10 +214,13 @@
     </div>
     <el-dialog :title="dialogText" :visible.sync="addDialogVisible" >
       <el-form :model="form" ref="addForm">
+            <el-row type="flex"  class="mb-6">
+              <el-col :span="24" class="input-item" style="color:red; padding-left:5%">  <span> 注：必填项组合方式二选一 1、国籍+证件号;2、姓名+性别+出生日期;</span></el-col>
+            </el-row>
         <el-row type="flex"  class="mb-6">
           <el-col :span="12" class="input-item">
-            <span class="yy-input-text"><font class="yy-color">*</font> 国籍/地区：</span>
-            <el-select v-model="form.NATIONALITY" filterable clearable @visible-change="queryNationality" placeholder="请选择"  v-verify.change.blur ="{regs:'required',submit:'demo2'}"  size="small" class="yy-input-input">
+            <span class="yy-input-text"> 国籍/地区：</span>
+            <el-select v-model="form.NATIONALITY" filterable clearable @visible-change="queryNationality" placeholder="请选择"    size="small" class="yy-input-input">
               <el-option
                 v-for="item in nation"
                 :key="item.CODE"
@@ -229,8 +232,8 @@
           </el-col>
 
           <el-col :span="12" class="input-item">
-            <span class="yy-input-text"><font class="yy-color">*</font> 证件种类：</span>
-            <el-select v-model="form.CARDTYPE" placeholder="请选择"  v-verify.change.blur ="{regs:'required',submit:'demo2'}"  filterable clearable size="small" class="yy-input-input">
+            <span class="yy-input-text"> 证件种类：</span>
+            <el-select v-model="form.CARDTYPE" placeholder="请选择" filterable clearable size="small" class="yy-input-input">
               <el-option
                 v-for="item in docCode"
                 :key="item.CODE"
@@ -242,19 +245,19 @@
         </el-row>
         <el-row type="flex" class="mb-6">
           <el-col :span="12" class="input-item">
-            <span class="yy-input-text" style="width:18%"><font class="yy-color">*</font> 证件号码：</span>
-            <el-input placeholder="请输入内容" size="small" v-model="form.CARDNO"   maxlength="20" v-verify.change.blur ="{regs:'required',submit:'demo2'}" class="yy-input-input"></el-input>
+            <span class="yy-input-text" style="width:18%"> 证件号码：</span>
+            <el-input placeholder="请输入内容" size="small" v-model="form.CARDNO"   maxlength="20" class="yy-input-input"></el-input>
           </el-col>
 
           <el-col :span="12" class="input-item">
-            <span class="yy-input-text" style="width:18%"><font class="yy-color">*</font> 姓名：</span>
-            <el-input placeholder="请输入内容(长度不超过11)" size="small" v-model="form.FAMILYNAME" maxlength="11"  v-verify.change.blur ="{regs:'required',submit:'demo2'}"  class="yy-input-input"></el-input>
+            <span class="yy-input-text" style="width:18%"> 姓名：</span>
+            <el-input placeholder="请输入内容(长度不超过11)" size="small" v-model="form.FAMILYNAME" maxlength="11"   class="yy-input-input"></el-input>
           </el-col>
         </el-row>
         <el-row type="flex" class="mb-6">
           <el-col :span="12" class="input-item">
-            <span class="yy-input-text" style="width:18%"><font class="yy-color">*</font> 性别：</span>
-            <el-select v-model="form.GENDER" placeholder="请选择"  filterable clearable size="small"  v-verify.change.blur ="{regs:'required',submit:'demo2'}" class="yy-input-input">
+            <span class="yy-input-text" style="width:18%"> 性别：</span>
+            <el-select v-model="form.GENDER" placeholder="请选择"  filterable clearable size="small"   class="yy-input-input">
                <el-option value="U" label="U - 未知">
                </el-option>
                <el-option value="M" label="M - 男">
@@ -265,10 +268,9 @@
           </el-col>
 
           <el-col :span="12" class="input-item">
-            <span class="yy-input-text" style="width:18%"><font class="yy-color">*</font> 出生日期：</span>
+            <span class="yy-input-text" style="width:18%"> 出生日期：</span>
             <el-date-picker
                v-model="form.DATEOFBIRTH" format="yyyy-MM-dd"
-                v-verify.change.blur ="{regs:'required',submit:'demo2'}"
                type="date" size="small" value-format="yyyy-MM-dd"
                placeholder="出生日期" class="yy-input-input">
            </el-date-picker>
@@ -276,19 +278,20 @@
         </el-row>
 
         <el-row type="flex" class="mb-6">
-          <el-col :span="12" class="input-item">
+          <el-col :span="12" class="input-item my-form-group" data-scope="demo1" data-name="EXPIREDATE"
+          data-type="select"  v-validate-easy="[['required']]">
             <span class="yy-input-text" style="width:18%"><font class="yy-color">*</font> 有效日期：</span>
             <el-date-picker
                v-model="form.EXPIREDATE" format="yyyy-MM-dd"
-                v-verify.change.blur ="{regs:'required',submit:'demo2'}"
                type="date" size="small" value-format="yyyy-MM-dd"
                placeholder="请输入有效日期" class="yy-input-input">
            </el-date-picker>
           </el-col>
 
-          <el-col :span="12" class="input-item">
+          <el-col :span="12" class="input-item my-form-group" data-scope="demo1" data-name="TYPE_CODE"
+          data-type="select"  v-validate-easy="[['required']]">
             <span class="yy-input-text" style="width:18%"><font class="yy-color">*</font> 名单类型：</span>
-             <el-select v-model="form.TYPE_CODE" filterable clearable  v-verify.change.blur ="{regs:'required',submit:'demo2'}"  placeholder="请选择"  size="small" class="yy-input-input">
+             <el-select v-model="form.TYPE_CODE" filterable clearable   placeholder="请选择"  size="small" class="yy-input-input">
          <el-option
            v-for="(item,ind) in mdtype"
            :key="ind"
@@ -311,6 +314,7 @@
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="addItem('addForm')" size="small">确 定</el-button>
         <el-button @click="addDialogVisible = false" size="small">取 消</el-button>
+
       </div>
     </el-dialog>
 
@@ -430,11 +434,12 @@ export default {
       CurrentPage: 1,
       pageSize: 10,
       TotalResult: 0,
-      typemd:"",
+      typemd: "",
       pd: {},
+      map:{},
       company: [],
       fileList: [],
-      docCode:[],
+      docCode: [],
       sertail: "",
       dialogText: "新增",
       addDialogVisible: false,
@@ -455,7 +460,7 @@ export default {
         }
       ],
       tableData: [],
-      actions:"",
+      actions: "",
       menudata: [],
       defaultProps: {
         children: 'menuList',
@@ -464,25 +469,25 @@ export default {
       defaultChecked: [],
       nation: [],
       multipleSelection: [],
-      mdtype:[],
+      mdtype: [],
 
       form: {},
       mapForm: {},
       Airport: [],
-      typecode:""
+      typecode: ""
     }
   },
   mounted() {
-  //  this.getList(this.CurrentPage, this.pageSize, this.pd);
+    //  this.getList(this.CurrentPage, this.pageSize, this.pd);
     this.queryNationality();
     this.queryType();
     this.queryDocCode();
   },
   activated() {
-  //  this.getList(this.CurrentPage, this.pageSize, this.pd);
+    //  this.getList(this.CurrentPage, this.pageSize, this.pd);
     this.queryNationality();
     this.queryType();
-      this.queryDocCode();
+    this.queryDocCode();
   },
   methods: {
     handleSelectionChange(val) {
@@ -527,14 +532,14 @@ export default {
           }
         })
     },
-    queryDocCode(){
-      this.$api.post('/manage-platform/codeTable/queryDocCode',{},
-       r => {
-         //console.log(r);
-         if(r.success){
-           this.docCode=r.data;
-         }
-      })
+    queryDocCode() {
+      this.$api.post('/manage-platform/cardAndVisaTypeController/queryDmDocCodeAndDmDocCodes', {},
+        r => {
+          //console.log(r);
+          if (r.success) {
+            this.docCode = r.data;
+          }
+        })
     },
     queryType() {
       this.$api.post('/manage-platform/riskNamelistType/getnamelistType', {},
@@ -547,6 +552,7 @@ export default {
     },
     adds(n, i) {
       this.addDialogVisible = true;
+      this.V.$reset("demo1");
       if (n != 0) {
         this.tp = 1;
         // this.form = i;
@@ -554,39 +560,79 @@ export default {
         this.form.FAMILYNAME = i.RISKDICTIONARIES;
         this.dialogText = "编辑";
       } else {
+
         this.tp = 0;
         this.dialogText = "新增";
       }
     },
+
     addItem(formName) {
-      if (this.$validator.listener.demo2) {
-        const result = this.$validator.verifyAll('demo2')
-        if (result.indexOf(false) > -1) {
-          return
+      this.V.$submit('demo1', (canSumit, data) => {
+        if ((this.form.NATIONALITY == undefined || this.form.NATIONALITY == "") &&
+          (this.form.CARDNO == undefined || this.form.CARDNO == "") &&
+          (this.form.FAMILYNAME == undefined || this.form.FAMILYNAME == "") &&
+          (this.form.GENDER == undefined || this.form.GENDER == "") &&
+          (this.form.DATEOFBIRTH == undefined || this.form.DATEOFBIRTH == "")) {
+          this.$message.error('必填项组合方式二选一 1、国籍+证件号;2、姓名+性别+出生日期');
+          return;
         }
-      }
-      var url = "/manage-platform/riskNameList/addRiskNameList";
-      if (this.tp == 1) {
-        url = "/manage-platform/riskNameList/updateRiskNameList";
-      }
-      this.$api.post(url, this.form,
-        r => {
-          console.log(r);
-          if (r.success) {
-            this.$message({
-              message: '保存成功！',
-              type: 'success'
-            });
-          } else {
-            this.$message.error(r.Message);
+
+        if ((this.form.NATIONALITY == undefined || this.form.NATIONALITY == "") &&
+          (this.form.CARDNO == undefined || this.form.CARDNO == ""))
+          {
+console.log("-----1");
+          if ((this.form.FAMILYNAME == undefined || this.form.FAMILYNAME == "") ||
+            (this.form.GENDER == undefined || this.form.GENDER == "") ||
+            (this.form.DATEOFBIRTH == undefined || this.form.DATEOFBIRTH == "")) {
+
+            this.$message.error('姓名+性别+出生日期不能为空！');
+            return;
           }
-          //  this.$refs[formName].resetFields();
-          this.addDialogVisible = false;
-          this.getList(this.CurrentPage, this.pageSize, this.pd);
-          // this.tableData=r.Data.ResultList;
-        }, e => {
-          this.$message.error('失败了');
-        })
+
+        }
+
+         if ((this.form.FAMILYNAME == undefined || this.form.FAMILYNAME == "") &&
+          (this.form.GENDER == undefined || this.form.GENDER == "") &&
+          (this.form.DATEOFBIRTH == undefined || this.form.DATEOFBIRTH == ""))
+           {
+
+          if ((this.form.NATIONALITY == undefined || this.form.NATIONALITY == "") ||
+            (this.form.CARDNO == undefined || this.form.CARDNO == "")) {
+            this.$message.error('国籍+证件号不能为空！');
+            return;
+
+          }
+
+        }
+
+        // canSumit为true时，则所有该scope的所有表单验证通过
+        if (!canSumit) return;
+
+
+
+        var url = "/manage-platform/riskNameList/addRiskNameList";
+        if (this.tp == 1) {
+          url = "/manage-platform/riskNameList/updateRiskNameList";
+        }
+        this.$api.post(url, this.form,
+          r => {
+            console.log(r);
+            if (r.success) {
+              this.$message({
+                message: '保存成功！',
+                type: 'success'
+              });
+            } else {
+              this.$message.error(r.Message);
+            }
+            //  this.$refs[formName].resetFields();
+            this.addDialogVisible = false;
+            this.getList(this.CurrentPage, this.pageSize, this.pd);
+            // this.tableData=r.Data.ResultList;
+          }, e => {
+            this.$message.error('失败了');
+          });
+      });
     },
     details(i) {
       this.detailsDialogVisible = true;
@@ -627,8 +673,8 @@ export default {
 
     showUpload() {
       this.uploadDialogVisible = true;
-      this.typemd="";
-      this.actions=this.$api.rootUrl;
+      this.typemd = "";
+      this.actions = this.$api.rootUrl;
       console.log(this.$refs.upload)
       if (this.$refs.upload) {
         this.$refs.upload.clearFiles();
@@ -642,8 +688,8 @@ export default {
           type: 'success'
         });
 
-      }else {
-         this.$message.error(r.message);
+      } else {
+        this.$message.error(r.message);
       }
       this.uploadDialogVisible = false;
       this.getList(this.CurrentPage, this.pageSize, this.pd);
@@ -661,7 +707,7 @@ export default {
     submitUpload() {
       console.log(this.$refs.upload)
 
-      if(this.typemd=="" || this.typemd==undefined){
+      if (this.typemd == "" || this.typemd == undefined) {
 
         this.$message({
           message: '请先选择名单类型！',
@@ -721,67 +767,69 @@ export default {
 
 
     },
-    exportdata(){
+    exportdata() {
       //console.log("this.multipleSelection.length",this.multipleSelection.length);
       if (this.multipleSelection.length == 0) {
-           this.download1();
-      }else {
-           this.download2();
+        this.download1();
+      } else {
+        this.download2();
       }
     },
-    download1(){
-        //var url="http://192.168.99.242:8081/manage-platform/riskNameList/exportAllData";
-        var url= this.$api.rootUrl+"/manage-platform/riskNameList/exportAllData";
+    download1() {
+      //var url="http://192.168.99.242:8081/manage-platform/riskNameList/exportAllData";
+      var url = this.$api.rootUrl + "/manage-platform/riskNameList/exportAllData";
       axios({
-       method: 'post',
-       url: url,
-       data: {
-         "TYPE_CODE":this.pd.TYPE_CODE,
-         "NATIONALITY":this.pd.NATIONALITY,
-         "CARDTYPE":this.pd.CARDTYPE,
-         "CARDNO":this.pd.CARDNO,
-         "RISKDICTIONARIES":this.pd.RISKDICTIONARIES,
-         "GENDER":this.pd.GENDER,
-         "BIRTHDATESTART":this.pd.BIRTHDATESTART,
-         "BIRTHDATESTARTEND":this.pd.BIRTHDATESTARTEND,
-         "CREATETIMESTART":this.pd.CREATETIMESTART,
-         "CREATETIMEEND":this.pd.CREATETIMEEND,
-         "BEGINDATE":this.pd.BEGINDATE,
-         "EXPIREDATE":this.pd.EXPIREDATE,
-         "STATUS":this.pd.STATUS
+        method: 'post',
+        url: url,
+        data: {
+          "TYPE_CODE": this.pd.TYPE_CODE,
+          "NATIONALITY": this.pd.NATIONALITY,
+          "CARDTYPE": this.pd.CARDTYPE,
+          "CARDNO": this.pd.CARDNO,
+          "RISKDICTIONARIES": this.pd.RISKDICTIONARIES,
+          "GENDER": this.pd.GENDER,
+          "BIRTHDATESTART": this.pd.BIRTHDATESTART,
+          "BIRTHDATESTARTEND": this.pd.BIRTHDATESTARTEND,
+          "CREATETIMESTART": this.pd.CREATETIMESTART,
+          "CREATETIMEEND": this.pd.CREATETIMEEND,
+          "BEGINDATE": this.pd.BEGINDATE,
+          "EXPIREDATE": this.pd.EXPIREDATE,
+          "STATUS": this.pd.STATUS
 
-       },
-       responseType: 'blob'
-       }).then(response => {
-           this.downloadM(response)
-       });
+        },
+        responseType: 'blob'
+      }).then(response => {
+        this.downloadM(response)
+      });
     },
 
-    download2(){
-       //var url="http://192.168.99.242:8081/manage-platform/riskNameList/exportAssignData";
-       var url= this.$api.rootUrl+"/manage-platform/riskNameList/exportAssignData";
+    download2() {
+      //var url="http://192.168.99.242:8081/manage-platform/riskNameList/exportAssignData";
+      var url = this.$api.rootUrl + "/manage-platform/riskNameList/exportAssignData";
       axios({
-       method: 'post',
-       url: url,
-       data: {
-         "ids":this.multipleSelection
-       },
-       responseType: 'blob'
-       }).then(response => {
-           this.downloadM(response)
-       });
+        method: 'post',
+        url: url,
+        data: {
+          "ids": this.multipleSelection
+        },
+        responseType: 'blob'
+      }).then(response => {
+        this.downloadM(response)
+      });
     },
-    downloadM (data) {
-        if (!data) {
-            return
-        }
-        let url = window.URL.createObjectURL(new Blob([data.data],{type:"application/octet-stream"}))
-        let link = document.createElement('a')
-        link.style.display = 'none'
-        link.href = url
-        link.setAttribute('download', 'RosterData.xlsx')
-        document.body.appendChild(link)
-        link.click()
+    downloadM(data) {
+      if (!data) {
+        return
+      }
+      let url = window.URL.createObjectURL(new Blob([data.data], {
+        type: "application/octet-stream"
+      }))
+      let link = document.createElement('a')
+      link.style.display = 'none'
+      link.href = url
+      link.setAttribute('download', 'RosterData.xlsx')
+      document.body.appendChild(link)
+      link.click()
     },
   },
   filters: {
@@ -800,7 +848,7 @@ export default {
     fiftertt(val) {
 
       if (val == 0) {
-          return "无效";
+        return "无效";
       } else {
         return "有效";
       }
@@ -833,7 +881,16 @@ export default {
 .yy-input-input {
   width: 68% !important;
 }
-.yycolor{ background: green; padding: 3px 8px; color: #ffffff;}
-.yycolory{  background: red;padding: 3px 8px; color: #ffffff;}
 
+.yycolor {
+  background: green;
+  padding: 3px 8px;
+  color: #ffffff;
+}
+
+.yycolory {
+  background: red;
+  padding: 3px 8px;
+  color: #ffffff;
+}
 </style>

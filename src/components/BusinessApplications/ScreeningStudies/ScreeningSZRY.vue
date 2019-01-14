@@ -55,12 +55,13 @@
                 <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                   <span class="input-text">口岸：</span>
                   <el-select filterable clearable v-model="pd.port" size="mini"  class="input-input" placeholder="请选择">
-                        <el-option
-                          v-for="item in pport"
-                          :key="item.AIRPORT_CODE"
-                          :label="item.AIRPORT_CODE+' - '+item.AIRPORT_NAME"
-                          :value="item.AIRPORT_CODE">
-                        </el-option>
+                    <el-option
+                      v-for="item in pport"
+                        v-if="item.JCDM"
+                      :key="item.JCDM"
+                      :label="item.JCDM+' - '+item.KAMC"
+                      :value="item.JCDM">
+                    </el-option>
                    </el-select>
                  </el-col>
               </el-row>
@@ -164,12 +165,13 @@
                 <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                   <span class="input-text">口岸：</span>
                   <el-select filterable clearable v-model="pd1.port" size="mini"  class="input-input" placeholder="请选择">
-                        <el-option
-                          v-for="item in pport"
-                          :key="item.AIRPORT_CODE"
-                          :label="item.AIRPORT_CODE+' - '+item.AIRPORT_NAME"
-                          :value="item.AIRPORT_CODE">
-                        </el-option>
+                    <el-option
+                      v-for="item in pport"
+                        v-if="item.JCDM"
+                      :key="item.JCDM"
+                      :label="item.JCDM+' - '+item.KAMC"
+                      :value="item.JCDM">
+                    </el-option>
                    </el-select>
                  </el-col>
               </el-row>
@@ -273,12 +275,13 @@
                 <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                   <span class="input-text">口岸：</span>
                   <el-select filterable clearable v-model="pd2.port" size="mini"  class="input-input" placeholder="请选择">
-                        <el-option
-                          v-for="item in pport"
-                          :key="item.AIRPORT_CODE"
-                          :label="item.AIRPORT_CODE+' - '+item.AIRPORT_NAME"
-                          :value="item.AIRPORT_CODE">
-                        </el-option>
+                    <el-option
+                      v-for="item in pport"
+                        v-if="item.JCDM"
+                      :key="item.JCDM"
+                      :label="item.JCDM+' - '+item.KAMC"
+                      :value="item.JCDM">
+                    </el-option>
                    </el-select>
                  </el-col>
               </el-row>
@@ -380,12 +383,13 @@
                 <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                   <span class="input-text">口岸：</span>
                   <el-select filterable clearable v-model="pd3.port" size="mini"  class="input-input" placeholder="请选择">
-                        <el-option
-                          v-for="item in pport"
-                          :key="item.AIRPORT_CODE"
-                          :label="item.AIRPORT_CODE+' - '+item.AIRPORT_NAME"
-                          :value="item.AIRPORT_CODE">
-                        </el-option>
+                    <el-option
+                      v-for="item in pport"
+                        v-if="item.JCDM"
+                      :key="item.JCDM"
+                      :label="item.JCDM+' - '+item.KAMC"
+                      :value="item.JCDM">
+                    </el-option>
                    </el-select>
                  </el-col>
               </el-row>
@@ -659,9 +663,8 @@ export default {
     // 获取口岸航站
     getHz(){
       if(this.pport.length==0){
-        this.$api.post('/manage-platform/codeTable/queryAirport',{},
+        this.$api.post('/manage-platform/codeTable/queryAirportMatch',{},
         r => {
-
           this.pport=r.data
         })
       }
@@ -693,9 +696,8 @@ export default {
         r => {
           console.log(r);
           this.tableData = r.data.resultList;
-          if(r.data.totalResult!="" && r.data.totalResult!=undefined){
           this.TotalResult = r.data.totalResult;
-        }
+
         })
 
     },
@@ -726,9 +728,9 @@ export default {
         r => {
           console.log(r);
           this.tableData1 = r.data.resultList;
-          if(r.data.totalResult!="" && r.data.totalResult!=undefined){
+
           this.TotalResult1 = r.data.totalResult;
-        }
+
         })
     },
     getList2(currentPage2, showCount2, pd2) {
@@ -758,9 +760,9 @@ export default {
         r => {
           console.log(r);
           this.tableData2 = r.data.resultList;
-          if(r.data.totalResult!="" && r.data.totalResult!=undefined){
+
           this.TotalResult2 = r.data.totalResult;
-        }
+
         })
     },
     getList3(currentPage3, showCount3, pd3) {
@@ -790,9 +792,9 @@ export default {
         r => {
           console.log(r);
           this.tableData3 = r.data.resultList;
-          if(r.data.totalResult!="" && r.data.totalResult!=undefined){
+
           this.TotalResult3 = r.data.totalResult;
-        }
+        
         })
     },
   }

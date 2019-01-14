@@ -79,14 +79,14 @@
                <el-date-picker
                v-model="pd.startFlightDepartdate"
                type="date" size="small"
-               placeholder="开始时间"      v-verify.input.blur="{regs:'required',submit:'timeDemo'}"
+               placeholder="开始时间"
                value-format="yyyyMMdd">
              </el-date-picker>
                <span class="septum">-</span>
              <el-date-picker
                 v-model="pd.endFlightDepartdate"
                 type="date" size="small"
-                placeholder="结束时间"      v-verify.input.blur="{regs:'required',submit:'timeDemo'}"
+                placeholder="结束时间"
                 value-format="yyyyMMdd">
             </el-date-picker>
           </div>
@@ -95,7 +95,6 @@
               <span class="input-text"><i class="t-must">*</i>命中时间：</span>
               <div class="input-input t-flex t-date">
                <el-date-picker
-               v-verify.input.blur="{regs:'required',submit:'timeDemo'}"
                v-model="pd.startCreatetime"
                type="datetime"
                size="small"
@@ -105,7 +104,6 @@
              </el-date-picker>
                <span class="septum">-</span>
              <el-date-picker
-                v-verify.input.blur="{regs:'required',submit:'timeDemo'}"
                 v-model="pd.endCreatetime"
                 type="datetime"
                 size="small"
@@ -141,7 +139,8 @@
         border
         fit
         style="width: 100%;"
-        @sort-change="ccc()"
+        class="mt-10 o-table3"
+        @header-click="headerClick"
       >
         <el-table-column
           prop="NAME"
@@ -416,7 +415,9 @@
         <el-table
           :data="detailstableData"
           border
-          style="width: 100%;">
+          style="width: 100%;"
+          class="mt-10 o-table3"
+          @header-click="headerClick">
           <el-table-column
             prop="NAME"
             label="姓名"
@@ -667,7 +668,9 @@ export default {
     },
   },
   methods: {
-
+    headerClick(column,event){
+        event.target.title=column.label
+      },
     handleSelectionChange(val) {
       this.multipleSelection = val;
     },
@@ -689,16 +692,33 @@ export default {
       console.log(`当前页: ${val}`);
     },
     getList(currentPage, showCount, pd) {
-      const result = this.$validator.verifyAll('timeDemo')
-       if (result.indexOf(false) > -1) {
-         return
-       }
-      if(dayGap(this.pd.startCreatetime,this.pd.endCreatetime,1)>30){
+    if((this.pd.startFlightDepartdate!=undefined && this.pd.startFlightDepartdate!=null)
+       && (this.pd.endFlightDepartdate!=undefined && this.pd.endFlightDepartdate!=null))
+    {
+      if(dayGap(this.pd.startFlightDepartdate,this.pd.endFlightDepartdate,1)>30){
         this.$alert('查询时间间隔不能超过一个月', '提示', {
           confirmButtonText: '确定',
         });
         return false
       }
+    }else if((this.pd.startCreatetime!=undefined && this.pd.startCreatetime!=null)
+           && (this.pd.endCreatetime!=undefined && this.pd.endCreatetime!=null)) {
+
+             if(dayGap(this.pd.startCreatetime,this.pd.endCreatetime,1)>30){
+               this.$alert('查询时间间隔不能超过一个月', '提示', {
+                 confirmButtonText: '确定',
+               });
+               return false
+             }
+    }else {
+
+      this.$alert('航班日期和命中日期至少其中一项不能为空', '提示', {
+        confirmButtonText: '确定',
+      });
+      return false
+    }
+
+
       pd.saveflag=1;
       pd.instructNew="1Z";
       let p = {
