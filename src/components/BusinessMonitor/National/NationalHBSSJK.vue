@@ -1827,13 +1827,13 @@ export default {
                r => {
                  let data=r.data.flights;
                   let html ='';
-                  let table='<table cellspacing="0" style="background:#09679d;font-size:12px;width:650px">\
+                  let table='<table cellspacing="0" style="background:#09679d;font-size:12px;width:690px">\
                                   <thead style="display: table;table-layout: fixed;width:100%;">\
                                     <tr style="height:20px;display: table;table-layout: fixed;width:100%;">\
-                                      <td style="height:20px!important;padding:0 5px!important;width:40px">航班号</td>\
+                                      <td style="height:20px!important;padding:0 5px!important;width:50px">航班号</td>\
                                       <td style="height:20px!important;padding:0 5px!important;width:110px;">到达地</td>\
-                                      <td style="height:20px!important;padding:0 5px!important;width:100px;">预计起飞时间</td>\
-                                      <td style="height:20px!important;padding:0 5px!important;width:100px;">预计到达时间</td>\
+                                      <td style="height:20px!important;padding:0 5px!important;width:115px;">预计起飞时间</td>\
+                                      <td style="height:20px!important;padding:0 5px!important;width:115px;">预计到达时间</td>\
                                       <td style="height:20px!important;padding:0 0px!important;width:85px;">航班状态</td>\
                                       <td style="height:20px!important;padding:0 0px!important;width:50px;">订票数</td>\
                                       <td style="height:20px!important;padding:0 5px!important;width:50px;">载运旅客</td>\
@@ -1856,10 +1856,10 @@ export default {
 
                         console.log(data2)
                     table+='<tr style="background:#112b42;height:20px;display: table;table-layout: fixed;width:100%;">\
-                              <td style="border:1px #143652 solid;height:20px!important;padding:0 5px!important;width:40px">'+data2.fltno+'</td>\
+                              <td style="border:1px #143652 solid;height:20px!important;padding:0 5px!important;width:50px">'+data2.fltno+'</td>\
                               <td style="border:1px #143652 solid;height:20px!important;padding:0 5px!important;width:110px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;">'+data2.to+'</td>\
-                              <td style="border:1px #143652 solid;height:20px!important;padding:0 5px!important;width:100px;">'+data2.preDepartTime+'</td>\
-                              <td style="border:1px #143652 solid;height:20px!important;padding:0 5px!important;width:100px;">'+data2.preArriveTime+'</td>\
+                              <td style="border:1px #143652 solid;height:20px!important;padding:0 5px!important;width:115px;">'+data2.preDepartTime+'</td>\
+                              <td style="border:1px #143652 solid;height:20px!important;padding:0 5px!important;width:115px;">'+data2.preArriveTime+'</td>\
                               <td style="border:1px #143652 solid;height:20px!important;padding:0 0px!important;width:85px">'+data2.statusName+'</td>\
                               <td style="border:1px #143652 solid;height:20px!important;padding:0 0px!important;width:50px">'+data2.bookNum+'</td>\
                               <td style="border:1px #143652 solid;height:20px!important;padding:0 5px!important;width:50px">'+data2.boardingNum+'</td>\
@@ -1914,13 +1914,13 @@ export default {
                r => {
                  let data=r.data.flights;
                   let html ='';
-                  let table='<table cellspacing="0" style="background:#09679d;font-size:12px;width:650px">\
+                  let table='<table cellspacing="0" style="background:#09679d;font-size:12px;width:690px">\
                                   <thead style="display: table;table-layout: fixed;width:100%;">\
                                     <tr style="height:20px;display: table;table-layout: fixed;width:100%;">\
-                                      <td style="height:20px!important;padding:0 5px!important;width:40px">航班号</td>\
+                                      <td style="height:20px!important;padding:0 5px!important;width:50px">航班号</td>\
                                       <td style="height:20px!important;padding:0 0px!important;width:110px;">起飞地</td>\
-                                      <td style="height:20px!important;padding:0 0px!important;width:100px;">预计起飞时间</td>\
-                                      <td style="height:20px!important;padding:0 0px!important;width:100px;">预计到达时间</td>\
+                                      <td style="height:20px!important;padding:0 0px!important;width:115px;">预计起飞时间</td>\
+                                      <td style="height:20px!important;padding:0 0px!important;width:115px;">预计到达时间</td>\
                                       <td style="height:20px!important;padding:0 0px!important;width:85px;">航班状态</td>\
                                       <td style="height:20px!important;padding:0 0px!important;width:50px;">订票数</td>\
                                       <td style="height:20px!important;padding:0 0px!important;width:50px;">载运旅客</td>\
@@ -1942,10 +1942,10 @@ export default {
                         data2.illegalNum=data[i].illegalNum||'0';
 
                     table+='<tr style="background:#112b42;height:20px;display: table;table-layout: fixed;width:100%;">\
-                              <td style="border:1px #143652 solid;height:20px!important;padding:0 5px!important;width:40px">'+data2.fltno+'</td>\
+                              <td style="border:1px #143652 solid;height:20px!important;padding:0 5px!important;width:50px">'+data2.fltno+'</td>\
                               <td style="border:1px #143652 solid;height:20px!important;padding:0 0px!important;width:110px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;">'+data2.from+'</td>\
-                              <td style="border:1px #143652 solid;height:20px!important;padding:0 0px!important;width:100px;">'+data2.preDepartTime+'</td>\
-                              <td style="border:1px #143652 solid;height:20px!important;padding:0 0px!important;width:100px;">'+data2.preArriveTime+'</td>\
+                              <td style="border:1px #143652 solid;height:20px!important;padding:0 0px!important;width:115px;">'+data2.preDepartTime+'</td>\
+                              <td style="border:1px #143652 solid;height:20px!important;padding:0 0px!important;width:115px;">'+data2.preArriveTime+'</td>\
                               <td style="border:1px #143652 solid;height:20px!important;padding:0 0px!important;width:85px">'+data2.statusName+'</td>\
                               <td style="border:1px #143652 solid;height:20px!important;padding:0 0px!important;width:50px">'+data2.bookNum+'</td>\
                               <td style="border:1px #143652 solid;height:20px!important;padding:0 0px!important;width:50px">'+data2.boardingNum+'</td>\
