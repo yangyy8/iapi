@@ -12,9 +12,9 @@
               <el-select v-model="pd.portname" filterable clearable  placeholder="请选择"  size="small" class="input-input">
                 <el-option
                   v-for="item in kaname"
-                  :key="item.JCDM"
+                  :key="item.KAMC"
                   :label="item.JCDM+' - '+item.KAMC"
-                  :value="item.JCDM">
+                  :value="item.KAMC">
                 </el-option>
               </el-select>
             </el-col>
@@ -47,7 +47,9 @@
       <el-table
         :data="tableData"
         border
-        style="width: 100%;">
+        style="width: 100%;"
+        class="mt-10 o-table3"
+        @header-click="headerClick">
         <el-table-column
           type="index"
           label="序号" width="60">
@@ -141,7 +143,6 @@
             </el-select>
           </el-col>
         </el-row>
-
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
             <span class="input-text"><font class="yy-color">*</font> 口岸编号：</span>
@@ -180,7 +181,6 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="addItem('addForm')" size="small">确 定</el-button>
-
           <el-button type="info" @click="conarts('addForm')" size="small">连接测试</el-button>
           <el-button @click="addDialogVisible = false" size="small">取 消</el-button>
       </div>
@@ -189,9 +189,7 @@
       title="连接测试"
       :visible.sync="detailsDialogVisible"
       width="400px">
-
         <div class="titile">{{mmsg}} </div>
-
       <span slot="footer" class="dialog-footer">
         <el-button  @click="detailsDialogVisible = false" size="small">取消</el-button>
       </span>
@@ -199,7 +197,6 @@
   </div>
 </template>
 <script>
-
 export default {
   data() {
     return {
@@ -228,7 +225,6 @@ export default {
       mmsg:"",
       form: {},
       kaname:[],
-
     }
   },
 
@@ -241,6 +237,10 @@ export default {
       this.getKAname();
   },
   methods: {
+
+    headerClick(column,event){
+      event.target.title=column.label
+    },
     handleSelectionChange(val) {
       this.multipleSelection = val;
     },

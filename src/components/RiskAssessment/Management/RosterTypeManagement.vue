@@ -108,9 +108,10 @@
     <el-dialog :title="dialogText" :visible.sync="addDialogVisible" width="500px" >
       <el-form :model="form" ref="addForm">
         <el-row type="flex"  class="mb-6">
-          <el-col :span="24" class="input-item">
+          <el-col :span="24" class="input-item my-form-group" data-scope="demo1" data-name="NAME"
+          data-type="input" v-validate-easy="[['required']]">
             <span class="yy-input-text"><font class="yy-color">*</font>名单类型名称：</span>
-            <el-input placeholder="请输入内容(长度不超过11)" size="small" maxlength="11"  v-model="form.NAME"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
+            <el-input placeholder="请输入内容(长度不超过11)" size="small" maxlength="11"  v-model="form.NAME"  class="yy-input-input" ></el-input>
           </el-col>
         </el-row>
         <el-row type="flex" class="mb-6" >
@@ -272,6 +273,7 @@ export default {
     },
     adds(n, i) {
       this.addDialogVisible = true;
+      this.V.$reset("demo1");
       if (n != 0) {
         this.tp = 1;
         // this.form = i;
@@ -282,13 +284,9 @@ export default {
       }
     },
     addItem(formName) {
-            if(this.$validator.listener.demo2){
-              const result = this.$validator.verifyAll('demo2')
-               if (result.indexOf(false) > -1) {
-                 return
-               } else {
-               }
-            }
+            this.V.$submit('demo1', (canSumit,data) => {
+              if(!canSumit) return;
+
       var url = "/manage-platform/riskNamelistType/addnamelistType";
       if (this.tp == 1) {
         url = "/manage-platform/riskNamelistType/updatenamelistType";
@@ -310,7 +308,8 @@ export default {
           // this.tableData=r.Data.ResultList;
         }, e => {
           this.$message.error('失败了');
-        })
+        });
+      });
     },
     details(i) {
       this.detailsDialogVisible = true;

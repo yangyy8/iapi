@@ -95,6 +95,8 @@
                              :summary-method="getSummaries"
                              show-summary
                              border
+                             class="mt-10 o-table3"
+                             @header-click="headerClick"
                              >
                              <el-table-column
                                prop=""
@@ -212,6 +214,9 @@ export default {
 
   },
   methods: {
+    headerClick(column,event){
+    event.target.title=column.label
+  },
     base() {
       this.page = 0;
     },

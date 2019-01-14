@@ -160,6 +160,8 @@
                   border
                   max-height="600"
                   style="width: 100%;"
+                  class="mt-10 o-table3"
+                  @header-click="headerClick"
                   >
                   <!-- <el-table-column
                     prop=""
@@ -353,6 +355,9 @@ export default {
     this.gw();
   },
   methods: {
+    headerClick(column,event){
+  event.target.title=column.label
+},
     base() {
       this.page = 0;
     },
