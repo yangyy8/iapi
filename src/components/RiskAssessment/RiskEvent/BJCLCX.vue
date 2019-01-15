@@ -245,7 +245,7 @@
                   <div class="box2-content mb-9" v-for="(d1,ind) in box4Data.checkTacticsList" v-if="ind<size.size4">
                     <div class="gc-box">
                       <div><span class="b-dot"></span>{{d1.modelName}}：</div>
-                      <div class="">
+                      <div style="width:85%">
                         {{d1.strategy}}
                       </div>
                     </div>

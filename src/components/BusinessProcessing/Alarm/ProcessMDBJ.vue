@@ -40,57 +40,67 @@
           prop="eventSerial"
           label="事件编号"
           width="180"
+          sortable
           :show-overflow-tooltip="true">
         </el-table-column>
         <el-table-column
           prop="alarmType"
           label="报警类别"
           width="160"
+          sortable
           :show-overflow-tooltip="true">
 
         </el-table-column>
         <el-table-column
           prop="name"
           label="人员姓名"
+          sortable
           :show-overflow-tooltip="true">
         </el-table-column>
         <el-table-column
           prop="intgchnname"
           label="中文姓名"
+          sortable
           :show-overflow-tooltip="true">
         </el-table-column>
         <el-table-column
           prop="nationality"
-          width="90"
+          width="110"
           label="国籍/地区"
+          sortable
           :show-overflow-tooltip="true">
         </el-table-column>
         <el-table-column
           prop="passportno"
           label="证件号码"
+          sortable
           :show-overflow-tooltip="true">
         </el-table-column>
         <el-table-column
           prop="flightType"
           label="出入标识"
-          width="90"
+          width="110"
+          sortable
           :show-overflow-tooltip="true">
         </el-table-column>
         <el-table-column
           prop="fltno"
           width="90"
           label="航班号"
+          sortable
           :show-overflow-tooltip="true">
         </el-table-column>
         <el-table-column
           prop="createtime"
           width="160"
           label="报警时间"
+          sortable
           :show-overflow-tooltip="true">
         </el-table-column>
         <el-table-column
-          width="80"
+          width="110"
           label="当前状态"
+          sortable
           :show-overflow-tooltip="true">
           <template slot-scope="scope">
             <span v-if="scope.row.status==0">未甄别</span>
