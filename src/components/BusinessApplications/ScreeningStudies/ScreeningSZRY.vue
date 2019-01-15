@@ -57,10 +57,10 @@
                   <el-select filterable clearable v-model="pd.port" size="mini"  class="input-input" placeholder="请选择">
                     <el-option
                       v-for="item in pport"
-                        v-if="item.JCDM"
-                      :key="item.JCDM"
-                      :label="item.JCDM+' - '+item.KAMC"
-                      :value="item.JCDM">
+                        v-if="item.KADM"
+                      :key="item.KADM"
+                      :label="item.KADM+' - '+item.KAMC"
+                      :value="item.KADM">
                     </el-option>
                    </el-select>
                  </el-col>
@@ -167,10 +167,10 @@
                   <el-select filterable clearable v-model="pd1.port" size="mini"  class="input-input" placeholder="请选择">
                     <el-option
                       v-for="item in pport"
-                        v-if="item.JCDM"
-                      :key="item.JCDM"
-                      :label="item.JCDM+' - '+item.KAMC"
-                      :value="item.JCDM">
+                        v-if="item.KADM"
+                      :key="item.KADM"
+                      :label="item.KADM+' - '+item.KAMC"
+                      :value="item.KADM">
                     </el-option>
                    </el-select>
                  </el-col>
@@ -277,10 +277,10 @@
                   <el-select filterable clearable v-model="pd2.port" size="mini"  class="input-input" placeholder="请选择">
                     <el-option
                       v-for="item in pport"
-                        v-if="item.JCDM"
-                      :key="item.JCDM"
-                      :label="item.JCDM+' - '+item.KAMC"
-                      :value="item.JCDM">
+                        v-if="item.KADM"
+                      :key="item.KADM"
+                      :label="item.KADM+' - '+item.KAMC"
+                      :value="item.KADM">
                     </el-option>
                    </el-select>
                  </el-col>
@@ -385,10 +385,10 @@
                   <el-select filterable clearable v-model="pd3.port" size="mini"  class="input-input" placeholder="请选择">
                     <el-option
                       v-for="item in pport"
-                        v-if="item.JCDM"
-                      :key="item.JCDM"
-                      :label="item.JCDM+' - '+item.KAMC"
-                      :value="item.JCDM">
+                        v-if="item.KADM"
+                      :key="item.KADM"
+                      :label="item.KADM+' - '+item.KAMC"
+                      :value="item.KADM">
                     </el-option>
                    </el-select>
                  </el-col>
@@ -794,7 +794,7 @@ export default {
           this.tableData3 = r.data.resultList;
 
           this.TotalResult3 = r.data.totalResult;
-        
+
         })
     },
   }
