@@ -1938,9 +1938,7 @@ import {formatDate,format} from '@/assets/js/date.js'
 import {dayGap} from '@/assets/js/date.js'
 import axios from 'axios'
 export default {
-  components: {AlarmProcess},
-  components: {Seat},
-  components: {Detail},
+  components: {AlarmProcess,Seat,Detail},
   data(){
     return{
       // iapi详情
@@ -2747,7 +2745,7 @@ export default {
            }
            this.tableData=r.data.resultList;//表格数据
            this.currentPage = r.data.currentPage;
-           this.$api.post('/manage-platform/iapiHead/customIapiQueryCount',sql,
+           this.$api.post2('/manage-platform/iapiHead/customIapiQueryCount',sql,
             r =>{
               if(r.success){
                 this.totalResult = r.data;
@@ -2817,7 +2815,7 @@ export default {
              }
              this.tableDataPnr = arrTable;
            }
-           this.$api.post('/manage-platform/iapiHead/customPnrQueryCount',sqlp,
+           this.$api.post2('/manage-platform/iapiHead/customPnrQueryCount',sqlp,
             r =>{
               if(r.success){
                 this.totalResultPnr = r.data;

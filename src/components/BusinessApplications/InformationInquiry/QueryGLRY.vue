@@ -906,9 +906,9 @@ export default {
     let that = this;
     setTimeout(function(){
       // that.isRoute = that.$route.query.isRoute;
-      if(that.$route.query.isRoute){
+      // if(that.$route.query.isRoute){
         that.page = that.$route.query.page;
-      }
+      // }
     },400)
     // let time = new Date();
     // let endz = new Date();
@@ -919,7 +919,7 @@ export default {
   },
   activated() {
     this.queryNationality();
-     this.isRoute = this.$route.query.isRoute;
+     // this.isRoute = this.$route.query.isRoute;
     // console.log(this.$route.query.isRoute);
     // if(this.$route.query.isRoute){
     //   this.page = this.$route.query.page;
@@ -949,7 +949,8 @@ export default {
     //     this.pd4.birthday = this.$route.query.row.iapiBirthdayName;
     //   }
     // }
-    if(this.$route.query.isRoute){
+    // if(this.$route.query.isRoute){
+    this.page = this.$route.query.page;
     this.pd.fltno = this.$route.query.row.FLTNO;
     this.pd.fltdate = this.$route.query.row.FLTDATESTR;
     this.pd.nationality = this.$route.query.row.iapiNationaName;
@@ -957,7 +958,7 @@ export default {
     this.pd.name = this.$route.query.row.iapiName;
     this.pd.gender = this.$route.query.row.GENDER;
     this.pd.birthday = this.$route.query.row.iapiBirthdayName;
-     }
+     // }
     // let time = new Date();
     // let endz = new Date();
     // let beginz = new Date(time - 1000 * 60 * 60 * 24 * 1);
