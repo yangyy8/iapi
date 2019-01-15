@@ -35,7 +35,6 @@
                   </el-option>
                   <el-option value="3" label="出发地目的地均不同">
                   </el-option>
-
                 </el-select>
             </el-col>
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
