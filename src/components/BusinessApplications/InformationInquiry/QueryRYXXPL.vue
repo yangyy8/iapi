@@ -743,7 +743,7 @@
           v-if="checkListPnr.indexOf(checkItemPnr[11].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
-          prop="TKTNUMBER"
+          prop="PNR_TKTNUMBER"
           label="电子客票号"
           width="150"
           sortable
@@ -757,7 +757,7 @@
           v-if="checkListPnr.indexOf(checkItemPnr[13].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
-          prop="PNR_RCITIME_STR"
+          prop="PNR_RCIDATE"
           label="订票时间"
           width="150"
           sortable
@@ -771,7 +771,7 @@
           v-if="checkListPnr.indexOf(checkItemPnr[15].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
-          prop="PASSPORTISSUECOUNTRYNAME"
+          prop="PNR_PASSPORTISSUECOUNTRY"
           label="证件签发国"
           width="150"
           sortable
@@ -841,7 +841,7 @@
         </el-pagination>
       </div>
     </div>
-    <!-- :action="$api.rootUrl+'/manage-platform/iapi/readExcel'" -->
+    <!-- action="http://192.168.99.248:8080/manage-platform/iapi/readExcel" -->
     <el-dialog title="上传模板" :visible.sync="uploadDialogVisible"   width="640px"
     :before-close="handleClose">
       <el-form :model="releaseform" ref="releaseForm">
@@ -851,8 +851,7 @@
           name="excel"
           :multiple="false"
           accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-
-          action="http://192.168.99.248:8080/manage-platform/iapi/readExcel"
+          :action="$api.rootUrl+'/manage-platform/iapi/readExcel'"
           :on-success="uploadSuccess"
           :limit="1"
           :on-exceed="handleExceed"
@@ -1130,10 +1129,7 @@ import {formatDate,format} from '@/assets/js/date.js'
 import {dayGap} from '@/assets/js/date.js'
 import axios from 'axios'
 export default {
-  components: {AlarmProcess},
-  components: {Seat},
-  components: {Detail},
-  // components: {DetailIapi},
+  components: {AlarmProcess,Seat,Detail,DetailIapi},
   data(){
     return{
       //导出
@@ -1507,7 +1503,7 @@ export default {
           LABEL:'预计到达时间',
         },
         {
-          ITEMNAME:'TKTNUMBER',
+          ITEMNAME:'PNR_TKTNUMBER',
           LABEL:'电子客票号',
         },
         {
@@ -1515,7 +1511,7 @@ export default {
           LABEL:'证件有效期截止日期',
         },
         {
-          ITEMNAME:'PNR_RCITIME_STR',
+          ITEMNAME:'PNR_RCIDATE',
           LABEL:'订票时间',
         },
         {
@@ -1523,7 +1519,7 @@ export default {
           LABEL:'证件种类',
         },
         {
-          ITEMNAME:'PASSPORTISSUECOUNTRYNAME',
+          ITEMNAME:'PNR_PASSPORTISSUECOUNTRY',
           LABEL:'证件签发国',
         },
         {
@@ -1768,7 +1764,7 @@ export default {
           }
           this.tableData=r.data.resultList;//表格数据
           this.currentPage = r.data.currentPage;
-          this.$api.post('/manage-platform/iapiHead/queryIapiBatchCount',bql,
+          this.$api.post2('/manage-platform/iapiHead/queryIapiBatchCount',bql,
            r =>{
              if(r.success){
                this.totalResult = r.data;
@@ -1794,7 +1790,7 @@ export default {
           }
           this.tableDataPnr=r.data.resultList;//表格数据
           this.currentPagePnr = r.data.currentPage;
-          this.$api.post('/manage-platform/iapiHead/queryPnrBatchCount',bqlp,
+          this.$api.post2('/manage-platform/iapiHead/queryPnrBatchCount',bqlp,
            r =>{
              if(r.success){
                this.totalResultPnr = r.data;
@@ -1860,7 +1856,7 @@ export default {
         if(this.batchTableList.length==0){
           axios({
            method: 'post',
-           // url: 'http://192.168.99.248:8080/manage-platform/iapiHead/exportFileIo/5/iapi/600',
+           // url: 'http://192.168.99.248:8081/manage-platform/iapiHead/exportFileIo/5/iapi/600',
            url: this.$api.rootUrl+"/manage-platform/iapiHead/exportFileIo/5/iapi/600",
            data: {
                "exclTitles": this.checkList,
@@ -1871,8 +1867,6 @@ export default {
                this.downloadM(response)
            });
         }else if(this.batchTableList.length!=0){
-          alert(666);
-          console.log(this.batchTableList);
           axios({
            method: 'post',
            // url: 'http://192.168.99.248:8080/manage-platform/iapiHead/exportCheckColDataIo/5',
@@ -1891,7 +1885,7 @@ export default {
         if(this.batchTableListPnr.length==0){
           axios({
            method: 'post',
-           // url: 'http://192.168.99.248:8080/manage-platform/iapiHead/exportFileIo/6/pnr/600',
+           // url: 'http://192.168.99.248:8081/manage-platform/iapiHead/exportFileIo/6/pnr/600',
            url: this.$api.rootUrl+"/manage-platform/iapiHead/exportFileIo/6/pnr/600",
            data: {
                "exclTitles": this.checkListPnr,
@@ -1904,7 +1898,7 @@ export default {
         }else if(this.batchTableListPnr.length!=0){
           axios({
            method: 'post',
-           // url: 'http://192.168.99.248:8080/manage-platform/iapiHead/exportCheckColDataIo/6',
+           // url: 'http://192.168.99.248:8081/manage-platform/iapiHead/exportCheckColDataIo/6',
            url: this.$api.rootUrl+"/manage-platform/iapiHead/exportCheckColDataIo/6",
            data: {
                "exclTitles": this.checkListPnr,

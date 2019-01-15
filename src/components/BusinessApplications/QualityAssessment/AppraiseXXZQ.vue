@@ -140,10 +140,10 @@
           >
         </el-table-column>
         <el-table-column
-          width="110"
+          width="80"
           label="操作">
           <template slot-scope="scope">
-              <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row)">详情</el-button>
+              <el-button class="a-btn"  type="text" title="详情" icon="el-icon-tickets" @click="details(scope.row)"></el-button>
          </template>
         </el-table-column>
       </el-table>
@@ -203,7 +203,9 @@
                   <el-table
                     :data="tableData1"
                     border
-                    style="width: 100%;">
+                    style="width: 100%;"
+                    class="mt-10 o-table3"
+                    @header-click="headerClick">
                     <el-table-column
                       prop="passportissuecountry"
                       label="国籍" sortable>
@@ -275,7 +277,9 @@
                       <el-table
                         :data="tableData2"
                         border
-                        style="width: 100%;">
+                        style="width: 100%;"
+                        class="mt-10 o-table3"
+                        @header-click="headerClick">
                         <el-table-column
                           prop="passportissuecountry"
                           label="国籍" sortable
@@ -352,7 +356,9 @@
                   <el-table
                     :data="tableData3"
                     border
-                    style="width: 100%;">
+                    style="width: 100%;"
+                    class="mt-10 o-table3"
+                    @header-click="headerClick">
                     <el-table-column
                       prop="fltno"
                       label="航班号" sortable
@@ -463,7 +469,9 @@
                       <el-table
                         :data="tableData4"
                         border
-                        style="width: 100%;">
+                        style="width: 100%;"
+                        class="mt-10 o-table3"
+                        @header-click="headerClick">
                         <el-table-column
                           prop="fltno"
                           label="航班号" sortable>
@@ -796,7 +804,7 @@ export default {
          },
     details(i) {
       this.detailsDialogVisible = true;
-
+      console.log("i.fltno",i.fltno);
       this.pd0.fltno=i.fltno;
       this.pd0.begintime=this.pd.begintime;
       this.pd0.endtime=this.pd.endtime;
@@ -806,21 +814,20 @@ export default {
       this.getList4(this.CurrentPage4, this.pageSize4, this.pd0);
     },
 
-
     download(n){
     //  var url="http://192.168.99.213:8080/manage-platform/forecastEva/export_fccrt_bycompanyid";
     var actions=this.$api.rootUrl;
      var url= actions+"/manage-platform/forecastEva/export_fccrt_bycompanyid";
      if(n==1){
-       url= actions+"/manage-platform/forecastEva/exp_incomplete_person";
+       url= actions+"/manage-platform/forecastEva/exp_ee_nobrdperson";
      }else if(n==2){
-       url=actions+"/manage-platform/forecastEva/exp_error_person";
-     }
-     else if(n==3){
        url=actions+"/manage-platform/forecastEva/exp_brd_noeeperson";
      }
+     else if(n==3){
+       url=actions+"/manage-platform/forecastEva/exp_error_person";
+     }
      else if(n==4){
-       url=actions+"/manage-platform/forecastEva/exp_ee_nobrdperson";
+       url=actions+"/manage-platform/forecastEva/exp_incomplete_person";
      }else if(n==5){
        url=actions+"/manage-platform/forecastEva/exp_fccrt_all";
      }
@@ -831,9 +838,7 @@ export default {
        data: {
            "begintime":this.pd.begintime,
            "endtime":this.pd.endtime,
-           "fltno":this.pd.fltno,
-
-           "airline_company_id":this.pd.airline_company_id
+           "fltno":this.pd0.fltno,
        },
        responseType: 'blob'
        }).then(response => {

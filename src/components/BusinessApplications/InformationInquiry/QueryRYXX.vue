@@ -31,16 +31,16 @@ export default {
     }
   },
   mounted(){
-    this.default();
+    console.log(1)
+    let that = this;
+    setTimeout(function(){
+      that.$router.push({name:'QueryRYXXZH'})
+    },700)
   },
   activated(){
-    this.default();
+    console.log(3);
+    this.$router.push({name:'QueryRYXXZH'})
   },
-  methods:{
-    default(){
-      this.$router.push({name:'QueryRYXXZH'})
-    },
-  }
 }
 </script>
 

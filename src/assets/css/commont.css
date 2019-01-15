@@ -309,3 +309,13 @@
 .maxWidth{
   max-width:400px;
 }
+.local{
+  font-size:14px;
+}
+.local .el-loading-text{
+  font-size:14px!important;
+}
+.local .el-loading-spinner{
+  top: 56%!important;
+  left: 100%!important;
+}
