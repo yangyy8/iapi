@@ -197,10 +197,10 @@ export default {
     let beginz = new Date(time - 1000 * 60 * 60 * 24 * 1);
     this.pd.begin = formatDate(beginz, 'yyyyMMddhhmmss');
     this.pd.end = formatDate(endz, 'yyyyMMddhhmmss');
-    this.getList(this.CurrentPage, this.pageSize, this.pd);
+    // this.getList(this.CurrentPage, this.pageSize, this.pd);
   },
   activated(){
-    this.getList(this.CurrentPage,this.pageSize,this.pd);
+    // this.getList(this.CurrentPage,this.pageSize,this.pd);
   },
   methods: {
     handleSelectionChange(val) {

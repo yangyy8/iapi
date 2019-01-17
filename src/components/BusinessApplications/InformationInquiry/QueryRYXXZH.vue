@@ -41,9 +41,9 @@
             </el-dialog>
 
             <el-dialog title="国籍选择" :visible.sync="seeModelDialogVisible" width="800px">
-              <div class="" v-show="modelCheck">
+              <!-- <div class="" v-show="modelCheck">
                 <span class="redx">您还未选择国籍</span>
-              </div>
+              </div> -->
               <el-row align="center" style="width:100%">
                 <!-- <h4 style="margin-top:0px!important">选中的模型</h4> -->
                 <span v-for="(item,ind) in dutyName" :key="ind" style="width:25%;margin-bottom: 7px;display:inline-block;line-height: 20px;">{{item.CNAME}}</span>
@@ -75,7 +75,6 @@
                 <el-date-picker
                 v-model="cdt.dateofbirthEqual"
                 type="date" size="small"
-                placeholder="开始日期"
                 value-format="yyyyMMdd"
                 class="input-input">
               </el-date-picker>
@@ -95,6 +94,7 @@
               <el-select v-model="cdt.portEqual" placeholder="请选择" filterable clearable size="small" class="input-input" @visible-change="portMethod">
                 <el-option
                 v-for="item in airport"
+                v-if="item.JCDM"
                 :key="item.JCDM"
                 :value="item.JCDM"
                 :label="item.JCDM+' - '+item.KAMC">
@@ -180,17 +180,17 @@
                   <el-date-picker
                   v-model="cdt.startIapiReceivetime"
                   type="datetime" size="small"
-                  placeholder="开始日期"
+                  placeholder="开始时间"
                   format="yyyy-MM-dd HH:mm"
-                  value-format="yyyyMMddHHhh">
+                  value-format="yyyyMMddHHmm">
                 </el-date-picker>
                 <span class="septum">-</span>
                 <el-date-picker
                    v-model="cdt.endIapiReceivetime"
                    type="datetime" size="small"
-                   placeholder="结束日期"
+                   placeholder="结束时间"
                    format="yyyy-MM-dd HH:mm"
-                   value-format="yyyyMMddHHhh">
+                   value-format="yyyyMMddHHmm">
                </el-date-picker>
               </div>
             </el-col>
@@ -287,7 +287,7 @@
         :auto-upload="false">
         <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
         <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">上传到服务器</el-button>
-        <el-button slot="trigger" size="small" type="primary" @click="download">下载模板</el-button>
+        <el-button size="small" type="primary" @click="download">下载模板</el-button>
       </el-upload>
     </el-form>
     <div slot="footer" class="dialog-footer">
@@ -331,14 +331,14 @@
           prop="iapiName"
           label="姓名"
           sortable
-          width="130"
+          width="125"
           v-if="checkList.indexOf(checkItem[0].ITEMNAME)>-1">
           <template slot-scope="scope">
             <!-- 带 * nameIsEqual=true-->
             <el-popover
               placement="top-start"
               trigger="hover"
-              :content="scope.row.pnrName"
+              :content="scope.row.pnrName==undefined||scope.row.pnrName==''?'暂无数据':''+scope.row.pnrName"
               :disabled="!scope.row.nameIsEqual"
               popper-class="maxWidth">
               <span slot="reference">{{scope.row.iapiName}}<span v-if="scope.row.nameIsEqual" class="cellColor">*</span></span>
@@ -363,7 +363,7 @@
             <el-popover
               placement="top-start"
               trigger="hover"
-              :content="scope.row.PNR_GENDER"
+              :content="scope.row.PNR_GENDER==undefined||scope.row.PNR_GENDER==''?'暂无数据':(''+scope.row.PNR_GENDER)"
               :disabled="!scope.row.genderIsEqual"
               popper-class="maxWidth">
               <span slot="reference">{{scope.row.GENDER|fiftersex}}<span v-if="scope.row.genderIsEqual" class="cellColor">*</span></span>
@@ -381,7 +381,7 @@
             <el-popover
               placement="top-start"
               trigger="hover"
-              :content="scope.row.pnrBirthdayName"
+              :content="scope.row.pnrBirthdayName==undefined||scope.row.pnrBirthdayName==''?'暂无数据':''+scope.row.pnrBirthdayName"
               :disabled="!scope.row.birthdateIsEqual"
               popper-class="maxWidth">
               <span slot="reference">{{scope.row.iapiBirthdayName}}<span v-if="scope.row.birthdateIsEqual" class="cellColor">*</span></span>
@@ -399,7 +399,7 @@
             <el-popover
               placement="top-start"
               trigger="hover"
-              :content="scope.row.pnrNationaName"
+              :content="scope.row.pnrNationaName==undefined||scope.row.pnrNationaName==''?'暂无数据':''+scope.row.pnrNationaName"
               :disabled="!scope.row.nationalityIsEqual"
               popper-class="maxWidth">
               <span slot="reference">{{scope.row.iapiNationaName}}<span v-if="scope.row.nationalityIsEqual" class="cellColor">*</span></span>
@@ -413,11 +413,10 @@
           sortable
           v-if="checkList.indexOf(checkItem[5].ITEMNAME)>-1">
           <template slot-scope="scope">
-            <!-- 带 * nameIsEqual=true-->
             <el-popover
               placement="top-start"
               trigger="hover"
-              :content="scope.row.pnrCardName"
+              :content="scope.row.pnrCardName==undefined||scope.row.pnrCardName==''?'暂无数据':''+scope.row.pnrCardName"
               :disabled="!scope.row.cardtypeIsEqual"
               popper-class="maxWidth">
               <span slot="reference">{{scope.row.iapiCardName}}<span v-if="scope.row.cardtypeIsEqual" class="cellColor">*</span></span>
@@ -435,7 +434,7 @@
             <el-popover
               placement="top-start"
               trigger="hover"
-              :content="scope.row.PNR_PASSPORTNO"
+              :content="scope.row.PNR_PASSPORTNO==undefined||scope.row.PNR_PASSPORTNO==''?'暂无数据':''+scope.row.PNR_PASSPORTNO"
               :disabled="!scope.row.passportnoIsEqual"
               popper-class="maxWidth">
               <span slot="reference">{{scope.row.PASSPORTNO}}<span v-if="scope.row.passportnoIsEqual" class="cellColor">*</span></span>
@@ -460,7 +459,7 @@
             <el-popover
               placement="top-start"
               trigger="hover"
-              :content="scope.row.PNR_FLTDATE1"
+              :content="scope.row.PNR_FLTDATE1==undefined||scope.row.PNR_FLTDATE1==''?'暂无数据':''+scope.row.PNR_FLTDATE1"
               :disabled="!scope.row.fltdateIsEqual"
               popper-class="maxWidth">
               <span slot="reference">{{scope.row.FLTDATESTR}}<span v-if="scope.row.fltdateIsEqual" class="cellColor">*</span></span>
@@ -488,7 +487,7 @@
             <el-popover
               placement="top-start"
               trigger="hover"
-              :content="scope.row.PNR_FLTTYPE"
+              :content="scope.row.PNR_FLTTYPE==undefined||scope.row.PNR_FLTTYPE==''?'暂无数据':''+scope.row.PNR_FLTTYPE"
               :disabled="!scope.row.flttypeIsEqual"
               popper-class="maxWidth">
               <span slot="reference">{{scope.row.FLIGHTTYPE|fiftertype}}<span v-if="scope.row.flttypeIsEqual" class="cellColor">*</span></span>
@@ -506,7 +505,7 @@
             <el-popover
               placement="top-start"
               trigger="hover"
-              :content="scope.row.pnrCityfromName"
+              :content="scope.row.pnrCityfromName==undefined||scope.row.pnrCityfromName==''?'暂无数据':''+scope.row.pnrCityfromName"
               :disabled="!scope.row.cityfromIsEqual"
               popper-class="maxWidth">
               <span slot="reference">{{scope.row.iapiCityfromName}}<span v-if="scope.row.cityfromIsEqual" class="cellColor">*</span></span>
@@ -531,7 +530,7 @@
             <el-popover
               placement="top-start"
               trigger="hover"
-              :content="scope.row.pnrCitytoName"
+              :content="scope.row.pnrCitytoName==undefined||scope.row.pnrCitytoName==''?'暂无数据':''+scope.row.pnrCitytoName"
               :disabled="!scope.row.citytoIsEqual"
               popper-class="maxWidth">
               <span slot="reference">{{scope.row.iapiCitytoName}}<span v-if="scope.row.citytoIsEqual" class="cellColor">*</span></span>
@@ -744,9 +743,9 @@
           width="150">
           <template slot-scope="scope">
             <el-button type="text"  class="a-btn" title="详情" size="mini" icon="el-icon-tickets" @click="details(scope.row)"></el-button>
-            <el-button type="text"  class="a-btn" title="同值机人员" icon="el-icon-news" @click="$router.push({name:'QueryGLRY',query:{row:scope.row,page:1,isRoute:true}})"></el-button>
-            <el-button type="text"  class="a-btn" title="同订票人员" icon="el-icon-mobile-phone" @click="$router.push({name:'QueryGLRY',query:{row:scope.row,page:0,isRoute:true}})"></el-button>
-            <el-button type="text"  class="a-btn" title="临近座位" icon="el-icon-rank" @click="$router.push({name:'QueryGLRY',query:{row:scope.row,page:4,isRoute:true}})"></el-button>
+            <el-button type="text"  class="a-btn" title="同值机人员" icon="el-icon-news" @click="$router.push({name:'GLRY',query:{row:scope.row,page:1}})"></el-button>
+            <el-button type="text"  class="a-btn" title="同订票人员" icon="el-icon-mobile-phone" @click="$router.push({name:'GLRY',query:{row:scope.row,page:0}})"></el-button>
+            <el-button type="text"  class="a-btn" title="临近座位" icon="el-icon-rank" @click="$router.push({name:'GLRY',query:{row:scope.row,page:3}})"></el-button>
             <el-button type="text"  class="a-btn" title="航班座位" icon="el-icon-document" @click="seat(scope.row)"></el-button>
          </template>
         </el-table-column>
@@ -769,7 +768,7 @@
             </el-select>
             条
           </div>
-          <div class="">
+          <div class="" v-loading="loading" class="loadingtext">
             共{{totalResult}}条
           </div>
         </div>
@@ -789,8 +788,7 @@
     <el-dialog
       title="座位详情"
       :visible.sync="seatDialogVisible"
-      width="1220px"
-      >
+      width="1220px">
       <Seat :flightNumber="flightNumber0" :globalserial="globalserial0"></Seat>
     </el-dialog>
     <el-dialog title="查看详情" :visible.sync="detailsDialogVisible">
@@ -811,11 +809,10 @@ import {formatDate,format} from '@/assets/js/date.js'
 import {dayGap} from '@/assets/js/date.js'
 import axios from 'axios'
 export default {
-  components: {AlarmProcess},
-  components: {Seat},
-  components: {Detail},
+  components: {Detail,Seat,AlarmProcess},
   data(){
     return{
+      loading:false,
       //导出
       tableList:[],
 
@@ -931,7 +928,7 @@ export default {
       flagCZ:0,
       flagQX:0,
       //展示项
-      checkList: ['iapiName','INTG_CHNNAME','GENDER','iapiBirthdayName','iapiNationaName','iapiCardName','PASSPORTNO','FLTNO','FLTDATESTR','CHECKRESULT','FLIGHTTYPE','iapiCityfromName'],
+      checkList: ['iapiName','INTG_CHNNAME','GENDER','iapiBirthdayName','iapiNationaName','PASSPORTNO','FLTNO','FLTDATESTR','CHECKRESULT','FLIGHTTYPE'],
       checkItem:[
         {
           ITEMNAME:'iapiName',
@@ -1187,7 +1184,7 @@ export default {
     },
     filterNode(value, data) {
       if (!value) return true;
-      return data.name.indexOf(value) !== -1;
+      return data.CNAME.indexOf(value) !== -1;
     },
     getmodel(){//点击选择
       this.filterText='';
@@ -1229,12 +1226,14 @@ export default {
       this.modelDialogVisible=false
     },
     seeModel(){
-      this.seeModelDialogVisible = true;
+
       this.dutyName = this.cdt.nationalityList;
       if(this.dutyName == undefined || this.dutyName.length == 0){
-        this.modelCheck = true
+        // this.modelCheck = true
+        this.$message('您还未选择国籍');
       }else{
-        this.modelCheck = false
+        this.seeModelDialogVisible = true;
+        // this.modelCheck = false
       }
     },
     getCheckedNodes() {//确认
@@ -1393,7 +1392,7 @@ export default {
             let arr = r.data.showConfigList;
             let arr1=[];
             if(arr.length == 0){
-              this.checkList = ['iapiName','INTG_CHNNAME','GENDER','iapiBirthdayName','iapiNationaName','iapiCardName','PASSPORTNO','FLTNO','FLTDATESTR','CHECKRESULT','FLIGHTTYPE','iapiCityfromName'];
+              this.checkList = ['iapiName','INTG_CHNNAME','GENDER','iapiBirthdayName','iapiNationaName','PASSPORTNO','FLTNO','FLTDATESTR','CHECKRESULT','FLIGHTTYPE'];
             }else{
               for(var i=0;i<arr.length;i++){
                 if(arr[i].isCheck == '1'){
@@ -1512,10 +1511,10 @@ export default {
       	"cdt":cdt,
         "direction":num
       }
-      this.$api.post('/manage-platform/iapiHead/queryListPageCount',p,
+      this.$api.post2('/manage-platform/iapiHead/queryListPageCount',p,
        r =>{
          if(r.success){
-           this.totalResult = r.data
+           this.totalResult = r.data;
          }
        })
     },
@@ -1567,8 +1566,10 @@ export default {
             })
           }
         }
+        this.currentPage=1;
         this.getList(this.currentPage,this.showCount,this.cdt1,1);
       }else if(this.batchFlag == 0){
+        this.currentPage=1;
         this.getList(this.currentPage,this.showCount,this.cdt);
       }
     },
@@ -1648,6 +1649,8 @@ export default {
     },
     download(){//模板下载
       window.location.href=this.$api.rootUrl+'/manage-platform/templateFile/globalSearchExport.xlsx'
+      // window.location.href='http://192.168.99.248:8080/manage-platform/templateFile/globalSearchExport.xlsx'
+
     },
   },
 }

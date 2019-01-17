@@ -115,8 +115,8 @@
           width="80"
           label="操作">
           <template slot-scope="scope">
-              <el-button type="text"  class="a-btn"  title="处理"  :class="{'gray':scope.row.status!=3}"  icon="el-icon-tickets" @click="details(scope.row)"></el-button>
-              <el-button type="text"  class="a-btn"  title="取消"  :class="{'gray':scope.row.status==5}"  icon="el-icon-tickets" @click="cancel(scope.row)"></el-button>
+              <el-button type="text"  class="a-btn"  title="处理"  :class="{'gray':scope.row.status!=3}"  icon="el-icon-edit" @click="details(scope.row)"></el-button>
+              <el-button type="text"  class="a-btn"  title="取消"  :class="{'gray':scope.row.status==5}"  icon="el-icon-close" @click="cancel(scope.row)"></el-button>
          </template>
         </el-table-column>
       </el-table>

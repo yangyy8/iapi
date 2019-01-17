@@ -47,7 +47,7 @@
                 ref="tree"
                 :data="treeData"
                 show-checkbox
-                node-key="MODEL_ID"
+                node-key="MODEL_CODE"
                 :filter-node-method="filterNode"
                 :props="defaultProps"
                 :default-checked-keys='keys'>
