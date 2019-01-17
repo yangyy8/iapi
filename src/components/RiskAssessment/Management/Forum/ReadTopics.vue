@@ -85,7 +85,7 @@
 
     </el-row>
 
-    <el-row v-for="comment in tableData" type="flex" class="mb-6 ppading" >
+    <el-row v-for="(omment,ind) in tableData" :key="ind" type="flex" class="mb-6 ppading" >
       <el-col :span="1" class="ttitle" style="width:70px;text-align:center;border-bottom:1px solid #dddddd;">
       <img src="../../../../assets/img/logo.png" width="40" height="40">
       </el-col>
