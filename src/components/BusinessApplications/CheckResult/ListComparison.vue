@@ -56,12 +56,14 @@
                   <el-select v-model="pd.cityFrom" filterable clearable  placeholder="请选择" size="small" class="input-input">
                     <el-option
                       v-for="(item,ind) in AirportI"
+                      :key="ind"
                       v-if="item.AIRPORT_CODE"
                       :label="item.AIRPORT_CODE+' - '+item.AIRPORT_NAME"
                       :value="item.AIRPORT_CODE" >
                     </el-option>
                     <el-option
                       v-for="(item,ind) in AirportI"
+                      :key="ind"
                       v-if="item.JCDM"
                       :label="item.JCDM+' - '+item.KAMC"
                       :value="item.JCDM" >
@@ -103,12 +105,14 @@
               <el-select v-model="pd.cityTo"  class="input-input" filterable clearable   placeholder="请选择"  size="small">
                 <el-option
                   v-for="(item,ind) in AirportO"
+                  :key="ind"
                   v-if="item.AIRPORT_CODE"
                   :label="item.AIRPORT_CODE+' - '+item.AIRPORT_NAME"
                   :value="item.AIRPORT_CODE" >
                 </el-option>
                 <el-option
                   v-for="(item,ind) in AirportO"
+                  :key="ind"
                   v-if="item.JCDM"
                   :label="item.JCDM+' - '+item.KAMC"
                   :value="item.JCDM" >

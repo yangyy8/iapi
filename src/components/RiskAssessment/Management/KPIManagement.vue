@@ -91,6 +91,8 @@
         :data="tableData"
         border
         style="width: 100%;"
+        class="mt-10 o-table3"
+        @header-click="headerClick"
         >
         <el-table-column
           prop="TARGET_SIGN" sortable
@@ -169,15 +171,17 @@
     <el-dialog :title="dialogText" :visible.sync="addDialogVisible" width="500px" >
       <el-form :model="form" ref="addForm">
         <el-row type="flex"  class="mb-6">
-          <el-col :span="24" class="input-item">
+          <el-col :span="24" class="input-item my-form-group" data-scope="demo2" data-name="targetSign" data-type="input"
+            v-validate-easy="[['required']]">
             <span class="yy-input-text"><font class="yy-color">*</font> 指标项代码：</span>
-            <el-input placeholder="请输入内容(长度不能超过50)" size="small" maxlength="50"  :disabled="form.targetId!=''"  v-model="form.targetSign"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
+            <el-input placeholder="请输入内容(长度不能超过50)" size="small" maxlength="50"  :disabled="form.targetId!=null"  v-model="form.targetSign"  class="yy-input-input"></el-input>
           </el-col>
         </el-row>
         <el-row type="flex"  class="mb-6">
-          <el-col :span="24" class="input-item">
+          <el-col :span="24" class="input-item my-form-group" data-scope="demo2" data-name="targetName" data-type="input"
+            v-validate-easy="[['required']]">
             <span class="yy-input-text"><font class="yy-color">*</font> 指标项名称：</span>
-            <el-input placeholder="请输入内容(长度不能超过100)" size="small" maxlength="100"  :disabled="form.targetId!=''" v-model="form.targetName"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
+            <el-input placeholder="请输入内容(长度不能超过100)" size="small" maxlength="100"  :disabled="form.targetId!=null" v-model="form.targetName"  class="yy-input-input"></el-input>
           </el-col>
         </el-row>
         <el-row type="flex" class="mb-6" >
@@ -187,9 +191,10 @@
           </el-col>
         </el-row>
         <el-row type="flex"  class="mb-6">
-          <el-col :span="24" class="input-item">
+          <el-col :span="24" class="input-item my-form-group" data-scope="demo2" data-name="targetType" data-type="select"
+            v-validate-easy="[['required']]">
             <span class="yy-input-text"><font class="yy-color">*</font> 指标类型：</span>
-            <el-select v-model="form.targetType" class="yy-input-input"  filterable clearable placeholder="请选择" @change="selectChange"  size="small" v-verify.change.blur ="{regs:'required',submit:'demo2'}">
+            <el-select v-model="form.targetType" class="yy-input-input"  filterable clearable placeholder="请选择" @change="selectChange"  size="small" >
               <el-option value="名单" label="1 - 名单">
               </el-option>
               <el-option value="地域" label="2 - 地域">
@@ -216,9 +221,10 @@
           </el-col>
         </el-row>
         <el-row type="flex"  class="mb-6">
-          <el-col :span="24" class="input-item">
+          <el-col :span="24" class="input-item my-form-group" data-scope="demo2" data-name="showDistrick" data-type="select"
+            v-validate-easy="[['required']]">
             <span class="yy-input-text"><font class="yy-color">*</font> 显示类型：</span>
-            <el-select v-model="form.showDistrick" class="yy-input-input"  filterable clearable placeholder="请选择" @change="selectChange"  size="small" v-verify.change.blur ="{regs:'required',submit:'demo2'}">
+            <el-select v-model="form.showDistrick" class="yy-input-input"  filterable clearable placeholder="请选择" @change="selectChange"  size="small" >
               <el-option value="1" label="1 - 人员基本信息">
               </el-option>
               <el-option value="2" label="2 - 证件信息">
@@ -233,9 +239,10 @@
           </el-col>
         </el-row>
         <el-row type="flex"  class="mb-6">
-          <el-col :span="24" class="input-item">
+          <el-col :span="24" class="input-item my-form-group" data-scope="demo2" data-name="targetSource" data-type="select"
+            v-validate-easy="[['required']]">
             <span class="yy-input-text"><font class="yy-color">*</font> 指标来源：</span>
-            <el-select v-model="form.targetSource" class="yy-input-input"  filterable clearable placeholder="请选择" @change="selectChange"   size="small" v-verify.change.blur ="{regs:'required',submit:'demo2'}">
+            <el-select v-model="form.targetSource" class="yy-input-input"  filterable clearable placeholder="请选择" @change="selectChange"   size="small" >
               <el-option value="1" label="1 - 自动计算">
               </el-option>
               <el-option value="2" label="2 - 手工录入">
@@ -276,7 +283,7 @@
     </el-dialog>
 
     <el-dialog title="详情" :visible.sync="detailsDialogVisible" width="500px" >
-      <el-form :model="map" ref="mapForm">
+      <el-form  ref="mapForm">
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
             <span class="yy-input-text">指标项代码：</span>
@@ -414,6 +421,9 @@ export default {
     selectChange(){
       this.$forceUpdate();
     },
+    headerClick(column,event){
+    event.target.title=column.label
+    },
     handleSelectionChange(val) {
       this.multipleSelection = val;
     },
@@ -447,8 +457,9 @@ export default {
         })
     },
     adds(n, i) {
-      console.log("++++++++"+i.TARGET_ID);
+
       this.addDialogVisible = true;
+        this.V.$reset("demo2");
       if (n != 0) {
         this.tp = 1;
         // this.form = i;
@@ -471,12 +482,12 @@ export default {
       }
     },
     addItem(formName) {
-            if(this.$validator.listener.demo2){
-              const result = this.$validator.verifyAll('demo2')
-               if (result.indexOf(false) > -1) {
-                 return
-               }
-            }
+
+      this.V.$submit('demo2', (canSumit,data) => {
+          // canSumit为true时，则所有该scope的所有表单验证通过
+           if(!canSumit) return;
+           // 只有验证全部通过才会执行
+
       var url = "/manage-platform/target/addTarger";
       if (this.tp == 1) {
         url = "/manage-platform/target/editTarger";
@@ -498,7 +509,8 @@ export default {
           // this.tableData=r.Data.ResultList;
         }, e => {
           this.$message.error('失败了');
-        })
+        });
+      });
     },
     details(i) {
       this.detailsDialogVisible = true;

@@ -59,12 +59,14 @@
                     <el-option
                       v-for="(item,ind) in AirportI"
                       v-if="item.AIRPORT_CODE"
+                      :key="ind"
                       :label="item.AIRPORT_CODE+' - '+item.AIRPORT_NAME"
                       :value="item.AIRPORT_CODE" >
                     </el-option>
                     <el-option
                       v-for="(item,ind) in AirportI"
                       v-if="item.JCDM"
+                      :key="ind"
                       :label="item.JCDM+' - '+item.KAMC"
                       :value="item.JCDM" >
                     </el-option>
@@ -107,12 +109,14 @@
                 <el-option
                   v-for="(item,ind) in AirportO"
                   v-if="item.AIRPORT_CODE"
+                  :key="ind"
                   :label="item.AIRPORT_CODE+' - '+item.AIRPORT_NAME"
                   :value="item.AIRPORT_CODE" >
                 </el-option>
                 <el-option
                   v-for="(item,ind) in AirportO"
                   v-if="item.JCDM"
+                  :key="ind"
                   :label="item.JCDM+' - '+item.KAMC"
                   :value="item.JCDM" >
                 </el-option>
