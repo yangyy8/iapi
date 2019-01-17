@@ -19,7 +19,8 @@
                <el-date-picker
                v-model="pd.fltdate" format="yyyy-MM-dd" class="input-input"
                type="date" size="small" value-format="yyyyMMdd"
-               placeholder="选择时间">
+               placeholder="选择时间"
+               @change="selectChange">
              </el-date-picker>
 
             </el-col>
@@ -29,7 +30,7 @@
 
             <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
                 <span class="input-text"><font color="red">*</font> 国籍/地区：</span>
-                <el-select v-model="pd.nationality" filterable clearable  placeholder="请选择"  size="small" class="input-input">
+                <el-select v-model="pd.nationality" filterable clearable  placeholder="请选择"  size="small" class="input-input" @change="selectChange">
                   <el-option
                     v-for="item in nation"
                     :key="item.CODE"
@@ -50,7 +51,7 @@
               </el-col>
               <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
                   <span class="input-text">性别：</span>
-                  <el-select v-model="pd.gender"  class="input-input"   filterable clearable  placeholder="请选择"  size="small">
+                  <el-select v-model="pd.gender"  class="input-input"   filterable clearable  placeholder="请选择"  size="small" @change="selectChange">
                     <el-option value="U" label="U - 未知">
                     </el-option>
                     <el-option value="M" label="M - 男">
@@ -63,8 +64,9 @@
               <span class="input-text">出生日期：</span>
               <el-date-picker
               v-model="pd.birthday"
-              type="date" size="small" value-format="yyyyMMdd" class="input-input"
-              placeholder="选择时间" >
+              type="date" size="small" format="yyyy-MM-dd" value-format="yyyyMMdd" class="input-input"
+              placeholder="选择时间"
+              @change="selectChange">
             </el-date-picker>
 
             </el-col>
@@ -872,7 +874,10 @@ export default {
       CurrentPage4: 1,
       pageSize4: 10,
       TotalResult4: 0,
-      pd: {},
+      pd: {
+        fltdate:'',
+        birthday:'',
+      },
       pd1: {},
       pd2: {},
       pd3: {},
@@ -903,13 +908,9 @@ export default {
 
   mounted() {
     this.queryNationality();
-    let that = this;
-    setTimeout(function(){
-      // that.isRoute = that.$route.query.isRoute;
-      // if(that.$route.query.isRoute){
-        that.page = that.$route.query.page;
-      // }
-    },400)
+    // if(this.$route.query.isRoute==undefined){
+    //
+    // }
     // let time = new Date();
     // let endz = new Date();
     // let beginz = new Date(time - 1000 * 60 * 60 * 24 * 1);
@@ -949,16 +950,6 @@ export default {
     //     this.pd4.birthday = this.$route.query.row.iapiBirthdayName;
     //   }
     // }
-    // if(this.$route.query.isRoute){
-    this.page = this.$route.query.page;
-    this.pd.fltno = this.$route.query.row.FLTNO;
-    this.pd.fltdate = this.$route.query.row.FLTDATESTR;
-    this.pd.nationality = this.$route.query.row.iapiNationaName;
-    this.pd.cardnum = this.$route.query.row.PASSPORTNO;
-    this.pd.name = this.$route.query.row.iapiName;
-    this.pd.gender = this.$route.query.row.GENDER;
-    this.pd.birthday = this.$route.query.row.iapiBirthdayName;
-     // }
     // let time = new Date();
     // let endz = new Date();
     // let beginz = new Date(time - 1000 * 60 * 60 * 24 * 1);
@@ -1130,6 +1121,9 @@ export default {
           this.tableData1 = r.data;
           // this.TotalResult1 = r.data.totalResult;
         })
+    },
+    selectChange(){
+      this.$forceUpdate();
     },
     getList2(currentPage2, showCount2, pd2) {
       // if(this.pd2.fltno==undefined || this.pd2.fltno.trim()==""){

@@ -491,7 +491,7 @@
             </el-select>
             条
           </div>
-          <div class="">
+          <div class="" class="loadingtext">
             共{{totalResult}}条
           </div>
         </div>
@@ -695,7 +695,7 @@
         </el-table-column>
         <el-table-column
           prop="addlv2_Country_Coded"
-          label="订票人住址所在国家#@"
+          label="订票人住址所在国家"
           width="140"
           sortable
           v-if="checkListPnrHc.indexOf('addlv2_Country_Coded')>-1">
@@ -716,7 +716,7 @@
         </el-table-column>
         <el-table-column
           prop="addlv2_City_Name"
-          label="订票人住址所在城市#@"
+          label="订票人住址所在城市"
           width="140"
           sortable
           v-if="checkListPnrHc.indexOf('addlv2_City_Name')>-1">
@@ -738,7 +738,7 @@
         </el-table-column>
         <el-table-column
           prop="addlv2_STREET_AND_NUMBER"
-          label="订票人住址所在街道#@"
+          label="订票人住址所在街道"
           width="140"
           sortable
           v-if="checkListPnrHc.indexOf('addlv2_STREET_AND_NUMBER')>-1">
@@ -759,7 +759,7 @@
         </el-table-column>
         <el-table-column
           prop="iftlv2_content"
-          label="订票人联系方式#@"
+          label="订票人联系方式"
           width="140"
           sortable
           v-if="checkListPnrHc.indexOf('iftlv2_content')>-1">
@@ -780,7 +780,7 @@
         </el-table-column>
         <el-table-column
           prop="foplv4_PAYMENT_TYPE"
-          label="订票人付款方式#@"
+          label="订票人付款方式"
           width="140"
           sortable
           v-if="checkListPnrHc.indexOf('foplv4_PAYMENT_TYPE')>-1">
@@ -801,7 +801,7 @@
         </el-table-column>
         <el-table-column
           prop="foplv4_AccountNumber"
-          label="订票人付款帐号#@"
+          label="订票人付款帐号"
           width="140"
           sortable
           v-if="checkListPnrHc.indexOf('foplv4_AccountNumber')>-1">
@@ -822,7 +822,7 @@
         </el-table-column>
         <el-table-column
           prop="msglv2_GR9SERIAL"
-          label="订票人是否同时预定租车、酒店服务#@"
+          label="订票人是否同时预定租车、酒店服务"
           width="140"
           sortable
           v-if="checkListPnrHc.indexOf('msglv2_GR9SERIAL')>-1">
@@ -843,7 +843,7 @@
         </el-table-column>
         <el-table-column
           prop="iftlv3_content"
-          label="旅客联系方式#@"
+          label="旅客联系方式"
           width="140"
           sortable
           v-if="checkListPnrHc.indexOf('iftlv3_content')>-1">
@@ -878,7 +878,7 @@
         </el-table-column>
         <el-table-column
           prop="tbddetailgr7_BAG_LICENSE_PLATE"
-          label="旅客行李条码#@"
+          label="旅客行李条码"
           width="140"
           sortable
           v-if="checkListPnrHc.indexOf('tbddetailgr7_BAG_LICENSE_PLATE')>-1">
@@ -899,7 +899,7 @@
         </el-table-column>
         <el-table-column
           prop="tbddetailgr7_CONSECUTIVE_TAGS_SERIAL_NUM"
-          label="旅客行李连续条码数量#@"
+          label="旅客行李连续条码数量"
           width="140"
           sortable
           v-if="checkListPnrHc.indexOf('tbddetailgr7_CONSECUTIVE_TAGS_SERIAL_NUM')>-1">
@@ -920,7 +920,7 @@
         </el-table-column>
         <el-table-column
           prop="tbddetailgr7_PLACE_OF_DESTINATION"
-          label="旅客行李目的地#@"
+          label="旅客行李目的地"
           width="140"
           sortable
           v-if="checkListPnrHc.indexOf('tbddetailgr7_PLACE_OF_DESTINATION')>-1">
@@ -948,7 +948,7 @@
         </el-table-column>
         <el-table-column
           prop="ftilv2_Frequent_T_Idenification"
-          label="常客ID号码#@"
+          label="常客ID号码"
           width="140"
           sortable
           v-if="checkListPnrHc.indexOf('ftilv2_Frequent_T_Idenification')>-1">
@@ -969,7 +969,7 @@
         </el-table-column>
         <el-table-column
           prop="ftilv2_Membership_Level"
-          label="常客级别#@"
+          label="常客级别"
           width="140"
           sortable
           v-if="checkListPnrHc.indexOf('ftilv2_Membership_Level')>-1">
@@ -990,7 +990,7 @@
         </el-table-column>
         <el-table-column
           prop="monlv4_Monetary_amount_type"
-          label="客票金额类型#@"
+          label="客票金额类型"
           width="140"
           sortable
           v-if="checkListPnrHc.indexOf('monlv4_Monetary_amount_type')>-1">
@@ -1011,7 +1011,7 @@
         </el-table-column>
         <el-table-column
           prop="monlv4_Amount"
-          label="客票金额#@"
+          label="客票金额"
           width="140"
           sortable
           v-if="checkListPnrHc.indexOf('monlv4_Amount')>-1">
@@ -1032,7 +1032,7 @@
         </el-table-column>
         <el-table-column
           prop="monlv4_Currency"
-          label="客票货币类型代码#@"
+          label="客票货币类型代码"
           width="140"
           sortable
           v-if="checkListPnrHc.indexOf('monlv4_Currency')>-1">
@@ -1053,7 +1053,7 @@
         </el-table-column>
         <el-table-column
           prop="txdlv4_Tax_Amount"
-          label="税金额#@"
+          label="税金额"
           width="120"
           sortable
           v-if="checkListPnrHc.indexOf('txdlv4_Tax_Amount')>-1">
@@ -1074,7 +1074,7 @@
         </el-table-column>
         <el-table-column
           prop="txdlv4_Currency"
-          label="税货币类型代码#@"
+          label="税货币类型代码"
           width="140"
           sortable
           v-if="checkListPnrHc.indexOf('txdlv4_Currency')>-1">
@@ -1095,7 +1095,7 @@
         </el-table-column>
         <el-table-column
           prop="txdlv4_Tax_Type"
-          label="税类型#@"
+          label="税类型"
           width="120"
           sortable
           v-if="checkListPnrHc.indexOf('txdlv4_Tax_Type')>-1">
@@ -1123,7 +1123,7 @@
         </el-table-column>
         <el-table-column
           prop="ssrlv3_SPECIAL_REQUIREMENT_TYPE"
-          label="旅客特殊需求类型#@"
+          label="旅客特殊需求类型"
           width="140"
           sortable
           v-if="checkListPnrHc.indexOf('ssrlv3_SPECIAL_REQUIREMENT_TYPE')>-1">
@@ -1144,7 +1144,7 @@
         </el-table-column>
         <el-table-column
           prop="ssrlv3_FREETXT"
-          label="旅客特殊需求描述#@"
+          label="旅客特殊需求描述"
           width="140"
           sortable
           v-if="checkListPnrHc.indexOf('ssrlv3_FREETXT')>-1">
@@ -1172,7 +1172,7 @@
         </el-table-column>
         <el-table-column
           prop="ssrlv2_SPECIAL_REQUIREMENT_TYPE"
-          label="订单特殊需求类型#@"
+          label="订单特殊需求类型"
           width="140"
           sortable
           v-if="checkListPnrHc.indexOf('ssrlv2_SPECIAL_REQUIREMENT_TYPE')>-1">
@@ -1193,7 +1193,7 @@
         </el-table-column>
         <el-table-column
           prop="ssrlv2_FREETXT"
-          label="订单特殊需求描述#@"
+          label="订单特殊需求描述"
           width="140"
           sortable
           v-if="checkListPnrHc.indexOf('ssrlv2_FREETXT')>-1">
@@ -1221,7 +1221,7 @@
         </el-table-column>
         <el-table-column
           prop="tifchangegr11_Passenger_type"
-          label="变更旅客类型#@"
+          label="变更旅客类型"
           width="140"
           sortable
           v-if="checkListPnrHc.indexOf('tifchangegr11_Passenger_type')>-1">
@@ -1249,7 +1249,7 @@
         </el-table-column>
         <el-table-column
           prop="tifchangegr11_OTHER_NAMES"
-          label="变更旅客其他姓名#@"
+          label="变更旅客其他姓名"
           width="140"
           sortable
           v-if="checkListPnrHc.indexOf('tifchangegr11_OTHER_NAMES')>-1">
@@ -1270,7 +1270,7 @@
         </el-table-column>
         <el-table-column
           prop="tifchangegr11_TRAVELLER_A_BY_INFANT_ID"
-          label="变更旅客携带婴儿标志#@"
+          label="变更旅客携带婴儿标志"
           width="140"
           sortable
           v-if="checkListPnrHc.indexOf('tifchangegr11_TRAVELLER_A_BY_INFANT_ID')>-1">
@@ -1291,7 +1291,7 @@
         </el-table-column>
         <el-table-column
           prop="tifchangegr11_SPECIAL_REQUIREMENT_TYPE"
-          label="变更旅客特殊需求类型#@"
+          label="变更旅客特殊需求类型"
           width="140"
           sortable
           v-if="checkListPnrHc.indexOf('tifchangegr11_SPECIAL_REQUIREMENT_TYPE')>-1">
@@ -1312,7 +1312,7 @@
         </el-table-column>
         <el-table-column
           prop="tifchangegr11_ssrfreetxt"
-          label="变更旅客特殊需求描述#@"
+          label="变更旅客特殊需求描述"
           width="140"
           sortable
           v-if="checkListPnrHc.indexOf('tifchangegr11_ssrfreetxt')>-1">
@@ -1333,7 +1333,7 @@
         </el-table-column>
         <el-table-column
           prop="tifchangegr11_Status_Code"
-          label="变更状态代码#@"
+          label="变更状态代码"
           width="140"
           sortable
           v-if="checkListPnrHc.indexOf('tifchangegr11_Status_Code')>-1">
@@ -1361,7 +1361,7 @@
         </el-table-column>
         <el-table-column
           prop="tvlgr12_MARKETING_FLIGHT_NUMBER"
-          label="变更航班号#@"
+          label="变更航班号"
           width="140"
           sortable
           v-if="checkListPnrHc.indexOf('tvlgr12_MARKETING_FLIGHT_NUMBER')>-1">
@@ -1382,7 +1382,7 @@
         </el-table-column>
         <el-table-column
           prop="tvlgr12_MARKETING_AIRLINE_CODE"
-          label="变更航空公司#@"
+          label="变更航空公司"
           width="140"
           sortable
           v-if="checkListPnrHc.indexOf('tvlgr12_MARKETING_AIRLINE_CODE')>-1">
@@ -1403,7 +1403,7 @@
         </el-table-column>
         <el-table-column
           prop="tvlgr12_DEPARTURE_DATE"
-          label="变更起飞时间#@"
+          label="变更起飞时间"
           width="140"
           sortable
           v-if="checkListPnrHc.indexOf('tvlgr12_DEPARTURE_DATE')>-1">
@@ -1424,7 +1424,7 @@
         </el-table-column>
         <el-table-column
           prop="tvlgr12_ARRIVAL_DATE"
-          label="变更到达时间#@"
+          label="变更到达时间"
           width="140"
           sortable
           v-if="checkListPnrHc.indexOf('tvlgr12_ARRIVAL_DATE')>-1">
@@ -1445,7 +1445,7 @@
         </el-table-column>
         <el-table-column
           prop="tvlgr12_THE_LAST_DEPARTURE_AIRPORT"
-          label="变更起飞机场#@"
+          label="变更起飞机场"
           width="140"
           sortable
           v-if="checkListPnrHc.indexOf('tvlgr12_THE_LAST_DEPARTURE_AIRPORT')>-1">
@@ -1466,7 +1466,7 @@
         </el-table-column>
         <el-table-column
           prop="tvlgr12_THE_FIRST_ARRIVAL_AIRPORT"
-          label="变更降落机场#@"
+          label="变更降落机场"
           width="140"
           sortable
           v-if="checkListPnrHc.indexOf('tvlgr12_THE_FIRST_ARRIVAL_AIRPORT')>-1">
@@ -1487,7 +1487,7 @@
         </el-table-column>
         <el-table-column
           prop="abigr10_TRAVEL_AGENT_IDENTIFICATION"
-          label="变更操作者的ID信息#@"
+          label="变更操作者的ID信息"
           width="140"
           sortable
           v-if="checkListPnrHc.indexOf('abigr10_TRAVEL_AGENT_IDENTIFICATION')>-1">
@@ -1508,7 +1508,7 @@
         </el-table-column>
         <el-table-column
           prop="abigr10_PLACE"
-          label="变更者的城市代码#@"
+          label="变更者的城市代码"
           width="140"
           sortable
           v-if="checkListPnrHc.indexOf('abigr10_PLACE')>-1">
@@ -1529,7 +1529,7 @@
         </el-table-column>
         <el-table-column
           prop="abigr10_COMPANY_IDENTIFICATION"
-          label="变更者的所属航司或GDS#@"
+          label="变更者的所属航司或GDS"
           width="140"
           sortable
           v-if="checkListPnrHc.indexOf('abigr10_COMPANY_IDENTIFICATION')>-1">
@@ -1571,7 +1571,7 @@
         </el-table-column>
         <el-table-column
           prop="rcigr8_COMPANY_IDENTIFICATION"
-          label="分离后的编号所属的航空公司#@"
+          label="分离后的编号所属的航空公司"
           width="140"
           sortable
           v-if="checkListPnrHc.indexOf('rcigr8_COMPANY_IDENTIFICATION')>-1">
@@ -1592,7 +1592,7 @@
         </el-table-column>
         <el-table-column
           prop="rcigr8_RESERVATION_CONTROL_NUMBER"
-          label="分离后的记录编号#@"
+          label="分离后的记录编号"
           width="140"
           sortable
           v-if="checkListPnrHc.indexOf('rcigr8_RESERVATION_CONTROL_NUMBER')>-1">
@@ -1926,6 +1926,12 @@
       <div slot="footer" class="dialog-footer">
         <el-button @click="detailsIapiDialogVisible = false" size="small">取消</el-button>
       </div>
+    </el-dialog>
+    <el-dialog
+      title="事件文档"
+      :visible.sync="queryDialogVisible"
+      width="1220px">
+      <AlarmProcess></AlarmProcess>
     </el-dialog>
   </div>
 </template>
@@ -2276,6 +2282,35 @@ export default {
         this.aaa3 = newVal;
       }
     }
+  },
+  filters:{
+    fiftersex(val) {
+      if (val == "F") {
+        return "女"
+      } else if (val == "M") {
+        return "男"
+      } else if (val == "U") {
+        return "未知"
+      }
+    },
+    fiftecr(val) {
+      if (val == "0Z") {
+        return "允许打印登机牌";
+      } else if (val == "1Z") {
+        return "禁止打印登机牌";
+      } else if (val == "2Z") {
+        return "请再次核对";
+      } else {
+        return "数据错误";
+      }
+    },
+    fifterbj(val) {
+      if (val == "1") {
+        return "产生报警";
+      } else {
+        return "未产生报警";
+      }
+    },
   },
   methods:{
     //==========================================================全局代码=========================================================

@@ -152,7 +152,13 @@ export default new Router({
           component: resolve => require(['@/components/BusinessApplications/InformationInquiry/QueryMZRY'], resolve),
 
         },
+        // 关联人员路由
+        {
+          path: "GLRY",
+          name: "GLRY",
+          component: resolve => require(['@/components/BusinessApplications/InformationInquiry/GLRY'], resolve),
 
+        },
         // 关联人员查询
         {
           path: "QueryGLRY",

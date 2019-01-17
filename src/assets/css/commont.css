@@ -319,3 +319,6 @@
   top: 56%!important;
   left: 100%!important;
 }
+.el-scrollbar__wrap{
+  max-width: 500px;
+}

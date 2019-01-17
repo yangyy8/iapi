@@ -35,7 +35,7 @@ export default {
     let that = this;
     setTimeout(function(){
       that.$router.push({name:'QueryRYXXZH'})
-    },700)
+    },1500)
   },
   activated(){
     console.log(3);

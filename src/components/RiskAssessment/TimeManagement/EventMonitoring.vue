@@ -132,6 +132,26 @@
           sortable>
         </el-table-column>
         <el-table-column
+          prop="MODELNAMES"
+          width="150"
+          label="参与运算模型"
+          sortable>
+          <template slot-scope="scope">
+            <el-popover
+              placement="top-start"
+              trigger="hover"
+              :disabled="scope.row.MODELNAMES.length==1"
+              popper-class="maxWidth">
+              <div class="">
+                <el-row type="flex" class="detailFat" v-for="i in scope.row.MODELNAMES">
+                  <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
+                </el-row>
+              </div>
+              <span slot="reference">{{scope.row.MODELNAMES[0]}}<span v-if="scope.row.MODELNAMES.length>1" class="cellColor">*</span></span>
+            </el-popover>
+          </template>
+        </el-table-column>
+        <el-table-column
           prop="CHECKINCOUNT"
           label="预报旅客"
           width="120"
@@ -176,6 +196,18 @@
         <el-table-column
           prop="FIVEEVENT"
           label="五级预警人数"
+          width="130"
+          sortable>
+        </el-table-column>
+        <el-table-column
+          prop="DOWN_HIT"
+          label="未查获人数"
+          width="130"
+          sortable>
+        </el-table-column>
+        <el-table-column
+          prop="UP_HIT"
+          label="已查获人数"
           width="130"
           sortable>
         </el-table-column>

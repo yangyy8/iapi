@@ -184,7 +184,8 @@
                     </el-table-column>
                     <el-table-column
                       prop="average"
-                      label="耗时(毫秒)">
+                      label="耗时(毫秒)"
+                      width="130">
                       <template  slot-scope="scope">
                         <span :class="{'color':scope.row.average>=1000}">{{scope.row.average}}</span>
                       </template>

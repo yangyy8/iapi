@@ -131,8 +131,11 @@
         style="width: 100%;"
         v-show="CONSULTTYPE==0">
         <el-table-column
-          prop="INTG_CHNNAME"
+
           label="姓名">
+          <template slot-scope="scope">
+            {{(scope.row.INTG_CHNNAME==''||scope.row.INTG_CHNNAME==undefined)?scope.row.PNAME:scope.row.INTG_CHNNAME}}
+          </template>
         </el-table-column>
         <el-table-column
           prop="PASSPORTNO"
@@ -186,7 +189,7 @@
           <template slot-scope="scope">
             <!-- <el-button class="table-btn" size="mini" plain icon="el-icon-delete" v-if="scope.row.CONSULTSERIAL" @click="reviewTohis(scope.row)">回复</el-button>
             <el-button class="table-btn" size="mini" plain icon="el-icon-delete" @click="entryDetails(scope.row)" v-else>录入</el-button> -->
-            <el-button type="text"  class="a-btn"  title="录入"  icon="el-icon-delete" @click="entryDetails(scope.row)"></el-button>
+            <el-button type="text"  class="a-btn"  title="录入"  icon="el-icon-edit" @click="entryDetails(scope.row)"></el-button>
          </template>
         </el-table-column>
       </el-table>
@@ -447,7 +450,11 @@ export default {
         this.detailsRow.DETAILS = this.DETAILS;//详情
 
         this.detailsRow.IAPISERIAL = this.detailsRow.SERIAL;//通讯录一批
-        this.detailsRow.NAME = this.detailsRow.INTG_CHNNAME;//姓名
+        if(this.detailsRow.INTG_CHNNAME){
+          this.detailsRow.NAME = this.detailsRow.INTG_CHNNAME;//姓名
+        }else if(this.detailsRow.PNAME){
+          this.detailsRow.NAME = this.detailsRow.PNAME;//姓名
+        }
         this.detailsRow.CARDNUM = this.detailsRow.PASSPORTNO;//证件号码
         this.detailsRow.EXPIREDATE = this.detailsRow.PASSPORTEXPIREDATESTR;//证件有效期
         this.detailsRow.DATEOFBIRTH = this.detailsRow.BIRTHDAYSTR;//出生日期
