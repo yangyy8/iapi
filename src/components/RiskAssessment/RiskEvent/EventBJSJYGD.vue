@@ -238,7 +238,8 @@
             label="航班号"
             prop="fltno"
             sortable
-            width="70">
+            width="70"
+            :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="航班日期"

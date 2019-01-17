@@ -88,11 +88,11 @@
       </el-aside>
       <el-main class="right-main" :class="{'nobg':tabList.length==0}">
         <ul class="tabList">
-          <li class="tabList-item hand" :style="{width:tabliwidth}" :class="{'tabList-checked':nav2Id==i.SERIAL}" @click.right="closeRight(index)"  v-for="(i, index) in tabList">
+          <li class="tabList-item hand" :style="{width:tabliwidth}" :class="{'tabList-checked':nav2Id==i.query.nav2Id}" @click.right="closeRight(index)"  v-for="(i, index) in tabList">
             <!-- <el-tooltip class="item" effect="dark" :content="i.name" placement="top"> -->
-              <span  @click="tabNav2(i)">{{i.name}}</span>
+              <span  @click="tabNav2(i)">{{i.query.title}}</span>
             <!-- </el-tooltip> -->
-            <img src="../assets/img/tab-close1.png" alt="guanbi" @click="close1(index,i)" class="hand" style="padding:8px" v-if="nav2Id==i.SERIAL">
+            <img src="../assets/img/tab-close1.png" alt="guanbi" @click="close1(index,i)" class="hand" style="padding:8px" v-if="nav2Id==i.query.nav2Id">
             <img src="../assets/img/tab-close2.png" alt="" @click="tabList.splice(index, 1)" style="padding:8px" class="hand" v-else>
 
           </li>
@@ -227,6 +227,19 @@ export default {
         //console.log(this.tabliwidth)
 
       }
+    },
+    $route:function(val){
+      if(val.query.title){
+        for(var j=0;j<this.tabList.length;j++){
+          if(this.tabList[j].query.nav2Id==val.query.nav2Id){
+            // //console.log("重复")
+            return
+          }
+        }
+        this.tabList.push(val)
+      }
+
+      console.log("val==========================================",val)
     }
   },
   methods: {
@@ -351,17 +364,19 @@ export default {
           //console.log("nav2Id2:",this.nav2Id);
           let _this=this;
           setTimeout(function(){
-            _this.$router.push({name: _this.checkItem.url,query:{nav1Id:_this.checkItem.parentId,nav2Id:nav2Id}})
+            _this.$router.push({name: _this.checkItem.url,query:{nav1Id:_this.checkItem.parentId,nav2Id:nav2Id,title:_this.checkItem.name}})
 
           },400)
 
-          for(var j=0;j<this.tabList.length;j++){
-            if(this.tabList[j].SERIAL==this.checkItem.SERIAL){
-              // //console.log("重复")
-              return
-            }
-          }
-          this.tabList.push(this.checkItem)
+          // for(var j=0;j<this.tabList.length;j++){
+          //   if(this.tabList[j].SERIAL==this.checkItem.SERIAL){
+          //     // //console.log("重复")
+          //     return
+          //   }
+          // }
+          // console.log("checkItem============", this.checkItem)
+          // this.tabList.push(this.checkItem)
+
         }
       }
 
@@ -371,20 +386,20 @@ export default {
     },
     tabNav2(nav2Item){
       console.log('nav2Item:',nav2Item);
-      if(this.nav2Id==nav2Item.SERIAL) return;
+      if(this.nav2Id==nav2Item.query.nav2Id) return;
 
-      if(nav2Item.rootId!=this.$route.params.navId){
-        this.navId=nav2Item.rootId;
-        console.log("rootId不同",nav2Item.rootId,this.$route.params.navId)
+      if(nav2Item.params.navId!=this.$route.params.navId){
+        this.navId=nav2Item.params.navId;
+        console.log("rootId不同",nav2Item.params.navId,this.$route.params.navId)
         let _this=this;
         setTimeout(function(){
-          _this.$router.push({params: {navId:nav2Item.rootId},query:{nav1Id:nav2Item.parentId,nav2Id:nav2Item.SERIAL}});
-          _this.getNav(nav2Item.rootId)
+          _this.$router.push({params: {navId:nav2Item.params.navId},query:{nav1Id:nav2Item.query.nav1Id,nav2Id:nav2Item.query.nav2Id}});
+          _this.getNav(nav2Item.params.navId)
         },400)
       }
 
-      this.nav1Id = nav2Item.parentId;
-      this.nav2Id = nav2Item.SERIAL;
+      this.nav1Id = nav2Item.query.nav1Id;
+      this.nav2Id = nav2Item.query.nav2Id;
       let _this=this;
       for(var i=0;i<this.nav1List.length;i++){
         if(_this.nav1List[i].SERIAL==_this.nav1Id){
@@ -394,7 +409,7 @@ export default {
 
       //console.log("nav1List",this.nav1List)
       //console.log("nav2List:",this.nav2List);
-      this.$router.push({name: nav2Item.url,query:{nav1Id:this.nav1Id,nav2Id:this.nav2Id}})
+      this.$router.push({name: nav2Item.name,query:{nav1Id:this.nav1Id,nav2Id:this.nav2Id}})
 
     },
     // 关闭tab页面==========================
@@ -704,7 +719,7 @@ export default {
 .content {
   /* background: url(./../assets/img/bg.png) ; */
   /* background-size:  100% 100%; */
-  height: 100%;
+  /* height: 100%; */
   box-sizing: content-box;
   padding-bottom: 115px;
   position: relative;

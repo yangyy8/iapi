@@ -342,7 +342,7 @@
             width="50"
             prop="eachevent">
             <template slot-scope="scope">
-              <div v-if="eachData">
+              <div v-if="eachData.length!=0">
                 <el-popover
                   ref="popover"
                   placement="top"
