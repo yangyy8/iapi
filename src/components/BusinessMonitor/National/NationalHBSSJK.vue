@@ -143,10 +143,7 @@
               <div class="td1">
               </div>
               <div class="td2">
-                入境
-              </div>
-              <div class="td2">
-                出境
+                计划
               </div>
               <div class="td2">
                 预检
@@ -160,6 +157,9 @@
               <div class="td2">
                 延误
               </div>
+              <div class="td2">
+                实际
+              </div>
             </div>
             <ul class="middleUl ulover">
 
@@ -171,22 +171,119 @@
                   {{i.portName||'xx'}}
                 </div>
                 <div class="td2">
-                  {{i.inRealCount||0}}
+                  <el-popover
+                    placement="left"
+                    width="200"
+                    trigger="hover"
+                    :popper-class="'td2-pop'">
+                    <div class="td2-div">
+                      <div class="td2-pop-div b-r">
+                        <span>入境</span>
+                        <span class="td2-pop-num1">{{i.inScheduleCount||0}}</span>
+                      </div>
+                      <div class="td2-pop-div">
+                        <span>出境</span>
+                        <span class="td2-pop-num2">{{i.outScheduleCount||0}}</span>
+                      </div>
+                    </div>
+                    <span slot="reference" class="hand">{{i.inScheduleCount+i.outScheduleCount||0}}</span>
+                  </el-popover>
+
                 </div>
                 <div class="td2">
-                  {{i.outRealCount||0}}
+                  <el-popover
+                    placement="left"
+                    width="200"
+                    trigger="hover"
+                    :popper-class="'td2-pop'">
+                    <div class="td2-div">
+                      <div class="td2-pop-div b-r">
+                        <span>入境</span>
+                        <span class="td2-pop-num1">{{i.inCheckCount||0}}</span>
+                      </div>
+                      <div class="td2-pop-div">
+                        <span>出境</span>
+                        <span class="td2-pop-num2">{{i.outCheckCount||0}}</span>
+                      </div>
+                    </div>
+                    <span slot="reference" class="hand">{{i.inCheckCount+i.outCheckCount||0}}</span>
+                  </el-popover>
                 </div>
                 <div class="td2">
-                  {{i.inCheckCount+i.outCheckCount||0}}
+                  <el-popover
+                    placement="left"
+                    width="200"
+                    trigger="hover"
+                    :popper-class="'td2-pop'">
+                    <div class="td2-div">
+                      <div class="td2-pop-div b-r">
+                        <span>入境</span>
+                        <span class="td2-pop-num1">{{i.inFocusCount||0}}</span>
+                      </div>
+                      <div class="td2-pop-div">
+                        <span>出境</span>
+                        <span class="td2-pop-num2">{{i.outFocusCount||0}}</span>
+                      </div>
+                    </div>
+                    <span slot="reference" class="hand">{{i.inFocusCount+i.outFocusCount||0}}</span>
+                  </el-popover>
                 </div>
                 <div class="td2">
-                  {{i.inFocusCount+i.outFocusCount||0}}
+                  <el-popover
+                    placement="left"
+                    width="200"
+                    trigger="hover"
+                    :popper-class="'td2-pop'">
+                    <div class="td2-div">
+                      <div class="td2-pop-div b-r">
+                        <span>入境</span>
+                        <span class="td2-pop-num1">{{i.inCancelCount||0}}</span>
+                      </div>
+                      <div class="td2-pop-div">
+                        <span>出境</span>
+                        <span class="td2-pop-num2">{{i.outCancelCount||0}}</span>
+                      </div>
+                    </div>
+                    <span slot="reference" class="hand">{{i.inCancelCount+i.outCancelCount||0}}</span>
+                  </el-popover>
                 </div>
                 <div class="td2">
-                  {{i.inCancelCount+i.outCancelCount||0}}
+                  <el-popover
+                    placement="left"
+                    width="200"
+                    trigger="hover"
+                    :popper-class="'td2-pop'">
+                    <div class="td2-div">
+                      <div class="td2-pop-div b-r">
+                        <span>入境</span>
+                        <span class="td2-pop-num1">{{i.inDelayCount||0}}</span>
+                      </div>
+                      <div class="td2-pop-div">
+                        <span>出境</span>
+                        <span class="td2-pop-num2">{{i.outDelayCount||0}}</span>
+                      </div>
+                    </div>
+                    <span slot="reference" class="hand">{{i.inDelayCount+i.outDelayCount||0}}</span>
+                  </el-popover>
                 </div>
                 <div class="td2">
-                  {{i.inDelayCount+i.outDelayCount||0}}
+                  <el-popover
+                    placement="left"
+                    width="200"
+                    trigger="hover"
+                    :popper-class="'td2-pop'">
+                    <div class="td2-div">
+                      <div class="td2-pop-div b-r">
+                        <span>入境</span>
+                        <span class="td2-pop-num1">{{i.inRealCount||0}}</span>
+                      </div>
+                      <div class="td2-pop-div">
+                        <span>出境</span>
+                        <span class="td2-pop-num2">{{i.outRealCount||0}}</span>
+                      </div>
+                    </div>
+                    <span slot="reference" class="hand">{{i.inRealCount+i.outRealCount||0}}</span>
+                  </el-popover>
                 </div>
               </li>
 

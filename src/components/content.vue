@@ -603,14 +603,19 @@ export default {
 }
 .el-carousel__item:nth-child(1),.child1 {
 
-   background: url(../assets/img/bg/bg_9.jpg)
+   background: url(../assets/img/bg/bg_9.jpg);
+   background-size:100%;
  }
 
  .el-carousel__item:nth-child(2),.child2{
-   background: url(../assets/img/bg/bg_10.jpg)
+   background: url(../assets/img/bg/bg_10.jpg);
+   background-size:100%;
+
  }
  .el-carousel__item:nth-child(3),.child3 {
-   background: url(../assets/img/bg/bg_17.jpg)
+   background: url(../assets/img/bg/bg_17.jpg);
+   background-size:100%;
+
  }
  /* .el-carousel__item:nth-child(4) {
    background: url(../assets/img/bg/bg_17.jpg)
@@ -699,6 +704,8 @@ export default {
 .content {
   /* background: url(./../assets/img/bg.png) ; */
   /* background-size:  100% 100%; */
+  height: 100%;
+  box-sizing: content-box;
   padding-bottom: 115px;
   position: relative;
 }
