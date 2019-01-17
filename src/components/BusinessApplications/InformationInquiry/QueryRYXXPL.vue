@@ -374,6 +374,9 @@
           width="100"
           sortable
           v-if="checkList.indexOf(checkItem[2].ITEMNAME)>-1">
+          <template slot-scope="scope">
+            {{scope.row.GENDER|fiftersex}}
+          </template>
         </el-table-column>
         <el-table-column
           prop="iapiBirthdayName"
@@ -423,6 +426,8 @@
           width="130"
           sortable
           v-if="checkList.indexOf(checkItem[9].ITEMNAME)>-1">
+
+          <template slot-scope="scope">{{ scope.row.CHECKRESULT | fiftercheck}}</template>
         </el-table-column>
         <el-table-column
           prop="FLIGHTTYPE"
@@ -430,6 +435,9 @@
           width="100"
           sortable
           v-if="checkList.indexOf(checkItem[10].ITEMNAME)>-1">
+          <template slot-scope="scope">
+            {{scope.row.FLIGHTTYPE|fiftertype}}
+          </template>
         </el-table-column>
 
         <el-table-column
@@ -578,6 +586,9 @@
           width="150"
           sortable
           v-if="checkList.indexOf(checkItem[31].ITEMNAME)>-1">
+          <template slot-scope="scope">
+            {{scope.row.PNRFLAG|fifteryn}}
+          </template>
         </el-table-column>
         <el-table-column
           prop="CHKFLAG"
@@ -585,6 +596,9 @@
           width="150"
           sortable
           v-if="checkList.indexOf(checkItem[32].ITEMNAME)>-1">
+          <template slot-scope="scope">
+            {{scope.row.CHKFLAG|fifteryn}}
+          </template>
         </el-table-column>
         <el-table-column
           prop="EEFLAG"
@@ -592,6 +606,9 @@
           width="150"
           sortable
           v-if="checkList.indexOf(checkItem[33].ITEMNAME)>-1">
+          <template slot-scope="scope">
+            {{scope.row.EEFLAG|fifteryn}}
+          </template>
         </el-table-column>
         <el-table-column
           prop="CLSFLAG"
@@ -599,6 +616,9 @@
           width="150"
           sortable
           v-if="checkList.indexOf(checkItem[34].ITEMNAME)>-1">
+          <template slot-scope="scope">
+            {{scope.row.CLSFLAG|fifteryn}}
+          </template>
         </el-table-column>
         <el-table-column
           label="操作"
@@ -625,7 +645,7 @@
             </el-select>
             条
           </div>
-          <div class="">
+          <div class="" class="loadingtext">
             共{{totalResult}}条
           </div>
         </div>
@@ -671,6 +691,9 @@
           width="100"
           sortable
           v-if="checkListPnr.indexOf(checkItemPnr[1].ITEMNAME)>-1">
+          <template slot-scope="scope">
+            {{scope.row.PNR_GENDER|fiftersex}}
+          </template>
         </el-table-column>
         <el-table-column
           prop="pnrBirthdayName"
@@ -713,6 +736,7 @@
           width="100"
           sortable
           v-if="checkListPnr.indexOf(checkItemPnr[7].ITEMNAME)>-1">
+          <template slot-scope="scope">{{ scope.row.PNR_FLTTYPE|fiftertype}}</template>
         </el-table-column>
         <el-table-column
           prop="pnrCityfromName"
@@ -873,10 +897,10 @@
     </el-dialog>
 
     <!-- iapi详情 -->
-    <!-- <el-dialog title="查看详情" :visible.sync="detailsIapiDialogVisible">
+    <!-- <el-dialog title="查看详情" :visible.sync="detailsIapiDialogVisible0">
       <DetailIapi  :SERIAL="SERIAL0" :PASSPORTNO="PASSPORTNO0" :iapiNationaName="iapiNationaName0"></DetailIapi>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="detailsIapiDialogVisible = false" size="small">取消</el-button>
+        <el-button @click="detailsIapiDialogVisible0 = false" size="small">取消</el-button>
       </div>
     </el-dialog> -->
 
@@ -1117,6 +1141,13 @@
         <el-button @click="detailsIapiDialogVisible = false" size="small">取消</el-button>
       </div>
     </el-dialog>
+
+    <el-dialog
+      title="事件文档"
+      :visible.sync="queryDialogVisible"
+      width="1220px">
+      <AlarmProcess></AlarmProcess>
+    </el-dialog>
     </div>
 </template>
 
@@ -1142,6 +1173,7 @@ export default {
       openCheckboxPnr:true,
       //iapi详情
       detailsIapiDialogVisible:false,
+      detailsIapiDialogVisible0:false,
       iapiNationaName0:'',
       PASSPORTNO0:'',
       SERIAL0:'',
@@ -1558,6 +1590,17 @@ export default {
         return "未知"
       }
     },
+    fiftercheck(val){
+      if(val == '0Z'){
+        return '允许登机'
+      }else if(val == '1Z'){
+        return '禁止登机'
+      }else if(val == '2Z'){
+        return '再次核对'
+      }else if(val == '3Z'){
+        return '数据错误'
+      }
+    },
     fiftecr(val) {
       if (val == "0Z") {
         return "允许打印登机牌";
@@ -1576,6 +1619,20 @@ export default {
         return "未产生报警";
       }
     },
+    fiftertype(val){
+      if(val == 'I'){
+        return '入境'
+      }else if(val == 'O'){
+        return '出境'
+      }
+    },
+    fifteryn(val){
+      if(val == 0){
+        return '否'
+      }else if(val == 1){
+        return '是'
+      }
+    }
   },
   methods:{
     //------------------------------------------------全局代码项-------------------------------------------------
@@ -1666,10 +1723,10 @@ export default {
        })
     },
     // detailsIapi(i){
-    //   this.iapiNationaName0 = i.iapiNationaName;
+    //   this.iapiNationaName0 = i.NATIONALITY;
     //   this.PASSPORTNO0 = i.PASSPORTNO;
-    //   this.SERIAL0 = i.SERIAL;
-    //   this.detailsIapiDialogVisible = true;
+    //   this.SERIAL0 = i.CHK_SERIAL;
+    //   this.detailsIapiDialogVisible0 = true;
     // },
     nation(){ //批量查询国籍
       this.$api.post('/manage-platform/codeTable/queryNationality',{},

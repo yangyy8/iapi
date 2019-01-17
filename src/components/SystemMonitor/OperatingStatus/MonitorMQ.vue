@@ -86,7 +86,7 @@
                               <el-col :span="3">队列数</el-col>
                               <el-col :span="3">队列状态</el-col>
                              </el-row>
-                              <el-row v-for='i in scope.row.subMqList' style=" border-bottom:1px solid #eeeeee; line-height:25px;">
+                              <el-row v-for='i in scope.row.subMqList' :key="i.queueName" style=" border-bottom:1px solid #eeeeee; line-height:25px;">
                                 <el-col :span="8" style="text-align:left">{{i.queueName}}</el-col>
                                 <el-col :span="10" style="text-align:left">{{i.queueEnName}}</el-col>
                                 <el-col :span="3">{{i.queueNum}}</el-col>

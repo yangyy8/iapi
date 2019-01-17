@@ -124,58 +124,66 @@
         </el-table-column>
         <el-table-column
           prop="FLT_CODE"
-          label="航班号">
+          label="航班号"
+          sortable>
         </el-table-column>
         <el-table-column
           prop="IN_OUT_FLAG"
-          label="出入标识">
+          label="出入标识"
+          sortable>
           <template slot-scope="scope">
             {{scope.row.IN_OUT_FLAG | fifterInOut}}
           </template>
         </el-table-column>
         <el-table-column
-          prop="FLTDEPT"
-          label="出发地">
+          prop="CITYFROMNAME"
+          label="出发地"
+          sortable>
         </el-table-column>
         <el-table-column
-          prop="FLTDEST"
-          label="目的地">
+          prop="CITYTONAME"
+          label="目的地"
+          sortable>
         </el-table-column>
         <el-table-column
           prop="SCHEDULEDEPARTURETIMESTR"
-          label="航班开始日期">
+          label="航班开始日期"
+          sortable>
         </el-table-column>
         <el-table-column
           prop="SCHEDULEARRIVETIMESTR"
-          label="航班结束日期">
+          label="航班结束日期"
+          sortable>
         </el-table-column>
         <el-table-column
-          label="洲">
+          label="洲"
+          sortable>
           <template slot-scope="scope">
             <span v-if="scope.row.DEPTAIRPORT&&scope.row.DESTAIRPORT">{{scope.row.DEPTAIRPORT.CONTINENTS_NAME+' | '+scope.row.DESTAIRPORT.CONTINENTS_NAME}}</span>
             <span v-else></span>
           </template>
         </el-table-column>
         <el-table-column
-          label="国籍/地区">
+          label="国籍/地区"
+          sortable>
           <template slot-scope="scope">
             <span v-if="scope.row.DEPTAIRPORT&&scope.row.DESTAIRPORT">{{scope.row.DEPTAIRPORT.COUNTRY_NAME+' | '+scope.row.DESTAIRPORT.COUNTRY_NAME}}</span>
             <span v-else></span>
           </template>
         </el-table-column>
         <el-table-column
-          label="城市">
+          label="城市"
+          sortable>
           <template slot-scope="scope">
             <span v-if="scope.row.DEPTAIRPORT&&scope.row.DESTAIRPORT">{{scope.row.DEPTAIRPORT.CITY_NAME+' | '+scope.row.DESTAIRPORT.CITY_NAME}}</span>
             <span v-else></span>
-
           </template>
         </el-table-column>
         <el-table-column
           label="操作" width="80">
           <template slot-scope="scope">
               <el-button type="text"  class="a-btn"  title="编辑" icon="el-icon-edit" @click="adds(1,scope.row)"></el-button>
-              <el-button type="text"  class="a-btn"  title="删除" icon="el-icon-tickets" @click="deletes(scope.row)"></el-button>
+              <el-button type="text"  class="a-btn"  title="删除" icon="el-icon-delete" @click="deletes(scope.row)"></el-button>
          </template>
         </el-table-column>
       </el-table>
@@ -226,7 +234,7 @@
               v-for="item in takeOffLine"
               :key="item.AIRWAY_CODE"
               :value="item.AIRWAY_CODE"
-              :label="item.AIRWAY_CODE">
+              :label="item.AIRWAY_CODE+' - '+item.AIRLINE_DESC">
               </el-option>
             </el-select>
           </el-col>
@@ -277,8 +285,7 @@
         <el-button @click="addDialogVisible = false" size="small">取 消</el-button>
       </div>
     </el-dialog>
-    <!-- action="http://192.168.99.206:8080/manage-platform/flightManage/importFlightManage" -->
-
+    <!-- action="http://192.168.99.248:8081/manage-platform/flightManage/importFlightManage" -->
     <el-dialog title="批量导入" :visible.sync="uploadDialogVisible"   width="640px"
     :before-close="handleClose">
       <el-form :model="importform" ref="importForm">
@@ -289,6 +296,7 @@
           :multiple="false"
           accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
           :action="$api.rootUrl+'/manage-platform/flightManage/importFlightManage'"
+
           :on-success="uploadSuccess"
           :limit="1"
           :on-exceed="handleExceed"
@@ -435,12 +443,6 @@ export default {
        if (result.indexOf(false) > -1) {
          return
        }
-      if(dayGap(this.cdt.SCHEDULEDEPARTURETIMESTR,this.cdt.SCHEDULEARRIVETIMESTR,0)>30){
-        this.$alert('航班日期查询时间间隔不能超过一个月', '提示', {
-          confirmButtonText: '确定',
-        });
-        return false
-      }
       let p = {
         "currentPage": currentPage,
         "showCount": showCount,

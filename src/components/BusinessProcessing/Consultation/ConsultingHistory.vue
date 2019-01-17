@@ -161,8 +161,8 @@
           width="80"
           fixed="right">
           <template slot-scope="scope">
-            <el-button type="text"  class="a-btn"  title="详情"  icon="el-icon-delete" @click="details(scope.row)"></el-button>
-            <el-button type="text"  class="a-btn"  title="回复"  :class="{'gray':scope.row.CONSULTSTATUS==0}"  icon="el-icon-delete" @click="review(scope.row)"></el-button>
+            <el-button type="text"  class="a-btn"  title="详情"  icon="el-icon-tickets" @click="details(scope.row)"></el-button>
+            <el-button type="text"  class="a-btn"  title="回复"  icon="el-icon-edit-outline" :class="{'gray':scope.row.CONSULTSTATUS==0}"  @click="review(scope.row)"></el-button>
          </template>
         </el-table-column>
       </el-table>
@@ -202,7 +202,7 @@
         :data="tableDataD"
         border
         style="width: 100%;"
-        >
+        v-if="wenType==0">
         <el-table-column
           prop="NAME"
           label="姓名">
@@ -226,7 +226,7 @@
           label="性别">
         </el-table-column>
         <el-table-column
-          prop="DATEOFBIRTHSTR"
+          prop="DATEOFBIRTH"
           label="出生日期"
           width="160">
         </el-table-column>
@@ -260,7 +260,7 @@
       <el-row :gutter="2">
         <el-col :span="24" class="input-item">
           <span class="yy-input-text tt-width">问题详情：</span>
-          <el-input type="textarea" class="height80" v-model="DETAILS"></el-input>
+          <el-input type="textarea" class="height80" v-model="DETAILS" disabled="true"></el-input>
         </el-col>
       </el-row>
     </el-dialog>
@@ -277,7 +277,7 @@ export default {
       CurrentPage: 1,
       pageSize: 10,
       TotalResult: 0,
-
+      wenType:0,
       cdt:{
         STARTTIME:'',
         ENDTIME:''
@@ -419,6 +419,7 @@ export default {
     },
     details(row){
       this.tableDataD=[];
+      this.wenType = row.CONSULTTYPE;
       this.detailsDialogVisible = true;
       let p={
         'serial':row.SERIAL

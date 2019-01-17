@@ -42,13 +42,13 @@
                <el-date-picker
                v-model="pd.beginTime" format="yyyy-MM-dd"
                type="date" size="small" value-format="yyyyMMdd"
-               placeholder="开始时间"  :picker-options="pickerOptions0" >
+               placeholder="开始时间">
              </el-date-picker>
                <span class="septum">-</span>
              <el-date-picker
                 v-model="pd.endTime" format="yyyy-MM-dd"
                 type="date" size="small" value-format="yyyyMMdd"
-                placeholder="结束时间" :picker-options="pickerOptions1" >
+                placeholder="结束时间">
             </el-date-picker>
           </div>
             </el-col>
@@ -76,6 +76,8 @@
         :data="tableData"
         border
         style="width: 100%;"
+        class="mt-10 o-table3"
+        @header-click="headerClick"
         >
         <el-table-column
           type="index"
@@ -173,15 +175,16 @@
     </div>
     <el-dialog :title="dialogText" :visible.sync="addDialogVisible" style="margin-top:-100px;">
       <el-form :model="form" ref="addForm">
-
         <el-row type="flex"  class="mb-6">
-          <el-col :span="12" class="input-item">
+          <el-col :span="12" class="input-item my-form-group" data-scope="demo2" data-name="modelName" data-type="input"
+            v-validate-easy="[['required']]">
             <span class="yy-input-text"><font class="yy-color">*</font> 模型名称：</span>
-            <el-input placeholder="请输入内容" size="small"   v-model="form.modelName"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
+            <el-input placeholder="请输入内容" size="small"   v-model="form.modelName"  class="yy-input-input"></el-input>
           </el-col>
-           <el-col :span="12" class="input-item">
+           <el-col :span="12" class="input-item my-form-group" data-scope="demo2" data-name="status" data-type="select"
+            v-validate-easy="[['required']]">
             <span class="yy-input-text"><font class="yy-color">*</font> 是否启用：</span>
-            <el-select v-model="form.status" class="input-input"  filterable clearable placeholder="请选择"   size="small" v-verify.change.blur ="{regs:'required',submit:'demo2'}">
+            <el-select v-model="form.status" class="input-input"  filterable clearable placeholder="请选择"   size="small">
               <el-option value="0" label="0 - 禁用">
               </el-option>
               <el-option value="1" label="1 - 启用">
@@ -190,15 +193,16 @@
           </el-col>
         </el-row>
         <el-row type="flex"  class="mb-6">
-          <el-col :span="12" class="input-item">
+          <el-col :span="12" class="input-item my-form-group" data-scope="demo2" data-name="modelJc" data-type="input"
+            v-validate-easy="[['required']]">
             <span class="yy-input-text"><font class="yy-color">*</font> 模型简称：</span>
-            <el-input placeholder="请输入内容" size="small"   v-model="form.modelJc"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
+            <el-input placeholder="请输入内容" size="small"   v-model="form.modelJc"  class="yy-input-input"></el-input>
           </el-col>
-           <el-col :span="12" class="input-item">
+           <el-col :span="12" class="input-item my-form-group" data-scope="demo2" data-name="lifeSpan" data-type="select"
+            v-validate-easy="[['required']]">
             <span class="yy-input-text"><font class="yy-color">*</font> 有效期：</span>
             <el-date-picker style="width:70%"
             v-model="form.lifeSpan" format="yyyy-MM-dd"
-            v-verify.change.blur ="{regs:'required',submit:'demo2'}"
             type="date" size="small" value-format="yyyyMMdd"
             placeholder="有效期">
           </el-date-picker>
@@ -211,22 +215,24 @@
           </el-col>
         </el-row> -->
         <el-row type="flex" class="mb-6" >
-          <el-col :span="24" class="input-item">
+          <el-col :span="24" class="input-item my-form-group" data-scope="demo2" data-name="modelDescribe" data-type="textarea"
+            v-validate-easy="[['required']]">
             <span class="input-text memol"><font class="yy-color">*</font> 模型描述：</span>
-           <el-input type="textarea" placeholder="请输入内容" maxlength="250" :autosize="{ minRows: 3, maxRows: 6}" v-model="form.modelDescribe" class="memor" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
+           <el-input type="textarea" placeholder="请输入内容" maxlength="250" :autosize="{ minRows: 3, maxRows: 6}" v-model="form.modelDescribe" class="memor" ></el-input>
           </el-col>
         </el-row>
         <el-row type="flex" class="mb-6" >
-          <el-col :span="24" class="input-item" >
+          <el-col :span="24" class="input-item my-form-group" data-scope="demo2" data-name="strategy" data-type="textarea"
+            v-validate-easy="[['required']]">
             <span class="input-text memol"><font class="yy-color">*</font> 核查策略：</span>
-           <el-input type="textarea" placeholder="请输入内容" maxlength="250" :autosize="{ minRows: 3, maxRows: 6}" v-model="form.strategy" class="memor" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
+           <el-input type="textarea" placeholder="请输入内容" maxlength="250" :autosize="{ minRows: 3, maxRows: 6}" v-model="form.strategy" class="memor"></el-input>
           </el-col>
         </el-row>
         <el-row type="flex" class="mb-6" >
-          <el-col :span="24" class="input-item" >
+          <el-col :span="24" class="input-item my-form-group" data-scope="demo2" data-name="caseNarration" data-type="textarea"
+            v-validate-easy="[['required']]" >
             <span class="input-text memol"><font class="yy-color">*</font> 案例描述：</span>
-
-           <el-input type="textarea" placeholder="请输入内容" maxlength="250" :autosize="{ minRows: 3, maxRows: 6}" v-model="form.caseNarration" class="memor" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
+           <el-input type="textarea" placeholder="请输入内容" maxlength="250" :autosize="{ minRows: 3, maxRows: 6}" v-model="form.caseNarration" class="memor" ></el-input>
           </el-col>
         </el-row>
         <el-row type="flex" class="mb-6" >
@@ -237,7 +243,7 @@
       <div style="float:right;padding-right:10px;">  <el-button @click="addrows()" size="small">添 加</el-button></div>
           </el-col>
         </el-row>
-        <el-row type="flex" v-for="(rr,ind) in rows">
+        <el-row type="flex" v-for="(rr,inds) in rows" :key="inds">
           <el-col :span="3" class="tjcon tjconr" >
              <!-- C{{rr.id}}： -->
              <el-input placeholder="" size="small" style="width:80px;text-align:right;"  v-model="rr.targetSign" :readonly="true"></el-input>：
@@ -281,12 +287,13 @@
             <i class="el-icon-remove-outline iconc" @click="deleterows(ind)"></i>
           </el-col>
         </el-row>
-        <el-row type="flex" >
+        <el-row type="flex" class="my-form-group" data-scope="demo2" data-name="enterRule" data-type="textarea"
+            v-validate-easy="[['required']]">
           <el-col :span="3" class="tjcon"  style="text-align:right">
           <font class="yy-color">*</font>   进入规则：
           </el-col>
           <el-col :span="21" class="tjcon">
-            <el-input type="textarea" placeholder="请输入内容" maxlength="250" :autosize="{ minRows: 3, maxRows: 3}" v-model="form.enterRule"  class="memoa" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
+            <el-input type="textarea" placeholder="请输入内容" maxlength="250" :autosize="{ minRows: 3, maxRows: 3}" v-model="form.enterRule"  class="memoa"></el-input>
 
           </el-col>
         </el-row>
@@ -303,7 +310,7 @@
             <div style="float:right;padding-right:10px;">  <el-button @click="adderows()" size="small">添 加</el-button></div>
           </el-col>
         </el-row>
-<div  v-for="(ee,ind) in erows" style="border-bottom:1px solid #93C4F9; padding-top:10px; ">
+<div  v-for="(ee,ind) in erows" :key="ind" style="border-bottom:1px solid #93C4F9; padding-top:10px; " >
   <el-row type="flex" style="display:none">
     <el-col :span="12" class="tjcon tjconr" >
     <el-input type="text" placeholder="请输入内容" size="small"  v-model="ee.ruleCode"  class="memoa"></el-input>
@@ -361,7 +368,7 @@
       </div>
     </el-dialog>
     <el-dialog title="详情" :visible.sync="detailsDialogVisible">
-      <el-form :model="map" ref="mapForm">
+      <el-form  ref="mapForm">
         <el-tabs :tab-position="tabPosition" style="height
         : 200px;">
        </el-tabs>
@@ -400,14 +407,16 @@
     <el-dialog  title="权限校验" :visible.sync="AuthDialogVisible"  width="500px">
 
       <el-row  type="flex"  class="mb-15">
-            <el-col :span="20">
+            <el-col :span="20" class="my-form-group" data-scope="demo1" data-name="userName" data-type="input"
+            v-validate-easy="[['required']]">
             <span class="yy-input-text">用户名：</span>
-            <el-input placeholder="请输入内容" size="small" v-model="ap.userName" v-verify.change.blur ="{regs:'required',submit:'demo3'}" class="yy-input-input"></el-input></el-col>
+            <el-input placeholder="请输入内容" size="small" v-model="ap.userName"  class="yy-input-input"></el-input></el-col>
       </el-row>
       <el-row  type="flex"  class="mb-15">
-            <el-col :span="20">
+            <el-col :span="20" class="my-form-group" data-scope="demo1" data-name="password" data-type="input"
+            v-validate-easy="[['required']]">
               <span class="yy-input-text">密  码：</span>
-              <el-input placeholder="请输入内容" type="password" size="small" v-model="ap.password" v-verify.change.blur ="{regs:'required',submit:'demo3'}" class="yy-input-input"></el-input></el-col>
+              <el-input placeholder="请输入内容" type="password" size="small" v-model="ap.password"  class="yy-input-input"></el-input></el-col>
 
       </el-row>
       <div slot="footer" class="dialog-footer">
@@ -536,6 +545,9 @@ export default {
       // console.log(obj.TARGET_SIGN);//我这边的name就是对应label的
 
     },
+    headerClick(column,event){
+      event.target.title=column.label
+    },
     handleSelectionChange(val) {
       this.multipleSelection = val;
     },
@@ -571,8 +583,9 @@ export default {
     },
 
     adds(n, i) {
-      this.addDialogVisible = true;
 
+      this.addDialogVisible = true;
+    this.V.$reset("demo2");
 
 
       if (n != 0) {
@@ -646,12 +659,12 @@ export default {
 
     },
     addItem(formName) {
-      if (this.$validator.listener.demo2) {
-        const result = this.$validator.verifyAll('demo2')
-        if (result.indexOf(false) > -1) {
-          return
-        } else {  }
-      }
+
+
+  this.V.$submit('demo2', (canSumit,data) => {
+    // canSumit为true时，则所有该scope的所有表单验证通过
+     if(!canSumit) return;
+     // 只有验证全部通过才会执行
       let p = {};
       var url = "";
       if (this.tp == 1) {
@@ -716,7 +729,8 @@ export default {
 
         }, e => {
           this.$message.error('失败了');
-        })
+        });
+      });
     },
     starts(i, type) {
       let p = {
@@ -824,18 +838,18 @@ export default {
     deletes(i) {
       this.ap = {};
       this.AuthDialogVisible = true;
+      this.V.$reset("demo1");
       this.ap.MODEL_ID = i.MODEL_ID;
       this.ap.MODEL_CODE = i.MODEL_CODE;
       this.ap.MODEL_VERSION = i.MODEL_VERSION;
     },
     Authorization(ap) {
 
-      if (this.$validator.listener.demo3) {
-        const result = this.$validator.verifyAll('demo3')
-        if (result.indexOf(false) > -1) {
-          return
-        }
-      }
+      this.V.$submit('demo1', (canSumit,data) => {
+         // canSumit为true时，则所有该scope的所有表单验证通过
+          if(!canSumit) return;
+          // 只有验证全部通过才会执行
+
       let p = {
         "modelId": ap.MODEL_ID,
         "modelCode": ap.MODEL_CODE,
@@ -874,6 +888,7 @@ export default {
           message: '已取消删除'
         });
       });
+    });
 
     },
 

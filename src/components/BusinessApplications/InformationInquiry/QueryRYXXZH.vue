@@ -40,10 +40,10 @@
               </div>
             </el-dialog>
 
-            <el-dialog title="信息提示框" :visible.sync="seeModelDialogVisible" width="800px">
-              <div class="" v-show="modelCheck">
+            <el-dialog title="国籍选择" :visible.sync="seeModelDialogVisible" width="800px">
+              <!-- <div class="" v-show="modelCheck">
                 <span class="redx">您还未选择国籍</span>
-              </div>
+              </div> -->
               <el-row align="center" style="width:100%">
                 <!-- <h4 style="margin-top:0px!important">选中的模型</h4> -->
                 <span v-for="(item,ind) in dutyName" :key="ind" style="width:25%;margin-bottom: 7px;display:inline-block;line-height: 20px;">{{item.CNAME}}</span>
@@ -269,7 +269,7 @@
       </el-row>
     </div>
   </div>
-  <!-- :action="$api.rootUrl+'/manage-platform/iapi/readExcel'" -->
+  <!--action="http://192.168.99.248:8080/manage-platform/iapiHead/readNationalAndPassportnoExcel"  -->
   <el-dialog title="导入文件" :visible.sync="uploadDialogVisible"   width="640px"
   :before-close="handleClose">
     <el-form :model="releaseform" ref="releaseForm">
@@ -279,8 +279,7 @@
         name="excel"
         :multiple="false"
         accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-        action="http://192.168.99.248:8080/manage-platform/iapiHead/readNationalAndPassportnoExcel"
-
+        :action="$api.rootUrl+'/manage-platform/iapi/readExcel'"
         :on-success="uploadSuccess"
         :limit="1"
         :on-exceed="handleExceed"
@@ -331,7 +330,7 @@
           prop="iapiName"
           label="姓名"
           sortable
-          width="130"
+          width="125"
           v-if="checkList.indexOf(checkItem[0].ITEMNAME)>-1">
           <template slot-scope="scope">
             <!-- 带 * nameIsEqual=true-->
@@ -743,9 +742,9 @@
           width="150">
           <template slot-scope="scope">
             <el-button type="text"  class="a-btn" title="详情" size="mini" icon="el-icon-tickets" @click="details(scope.row)"></el-button>
-            <el-button type="text"  class="a-btn" title="同值机人员" icon="el-icon-news" @click="$router.push({name:'QueryGLRY',query:{row:scope.row,page:1,isRoute:true}})"></el-button>
-            <el-button type="text"  class="a-btn" title="同订票人员" icon="el-icon-mobile-phone" @click="$router.push({name:'QueryGLRY',query:{row:scope.row,page:0,isRoute:true}})"></el-button>
-            <el-button type="text"  class="a-btn" title="临近座位" icon="el-icon-rank" @click="$router.push({name:'QueryGLRY',query:{row:scope.row,page:3,isRoute:true}})"></el-button>
+            <el-button type="text"  class="a-btn" title="同值机人员" icon="el-icon-news" @click="$router.push({name:'GLRY',query:{row:scope.row,page:1}})"></el-button>
+            <el-button type="text"  class="a-btn" title="同订票人员" icon="el-icon-mobile-phone" @click="$router.push({name:'GLRY',query:{row:scope.row,page:0}})"></el-button>
+            <el-button type="text"  class="a-btn" title="临近座位" icon="el-icon-rank" @click="$router.push({name:'GLRY',query:{row:scope.row,page:3}})"></el-button>
             <el-button type="text"  class="a-btn" title="航班座位" icon="el-icon-document" @click="seat(scope.row)"></el-button>
          </template>
         </el-table-column>
@@ -928,7 +927,7 @@ export default {
       flagCZ:0,
       flagQX:0,
       //展示项
-      checkList: ['iapiName','INTG_CHNNAME','GENDER','iapiBirthdayName','iapiNationaName','iapiCardName','PASSPORTNO','FLTNO','FLTDATESTR','CHECKRESULT','FLIGHTTYPE','iapiCityfromName'],
+      checkList: ['iapiName','INTG_CHNNAME','GENDER','iapiBirthdayName','iapiNationaName','PASSPORTNO','FLTNO','FLTDATESTR','CHECKRESULT','FLIGHTTYPE'],
       checkItem:[
         {
           ITEMNAME:'iapiName',
@@ -1226,12 +1225,14 @@ export default {
       this.modelDialogVisible=false
     },
     seeModel(){
-      this.seeModelDialogVisible = true;
+
       this.dutyName = this.cdt.nationalityList;
       if(this.dutyName == undefined || this.dutyName.length == 0){
-        this.modelCheck = true
+        // this.modelCheck = true
+        this.$message('您还未选择国籍');
       }else{
-        this.modelCheck = false
+        this.seeModelDialogVisible = true;
+        // this.modelCheck = false
       }
     },
     getCheckedNodes() {//确认
@@ -1390,7 +1391,7 @@ export default {
             let arr = r.data.showConfigList;
             let arr1=[];
             if(arr.length == 0){
-              this.checkList = ['iapiName','INTG_CHNNAME','GENDER','iapiBirthdayName','iapiNationaName','iapiCardName','PASSPORTNO','FLTNO','FLTDATESTR','CHECKRESULT','FLIGHTTYPE','iapiCityfromName'];
+              this.checkList = ['iapiName','INTG_CHNNAME','GENDER','iapiBirthdayName','iapiNationaName','PASSPORTNO','FLTNO','FLTDATESTR','CHECKRESULT','FLIGHTTYPE'];
             }else{
               for(var i=0;i<arr.length;i++){
                 if(arr[i].isCheck == '1'){
