@@ -269,7 +269,7 @@
       </el-row>
     </div>
   </div>
-  <!-- :action="$api.rootUrl+'/manage-platform/iapi/readExcel'" -->
+  <!--action="http://192.168.99.248:8080/manage-platform/iapiHead/readNationalAndPassportnoExcel"  -->
   <el-dialog title="导入文件" :visible.sync="uploadDialogVisible"   width="640px"
   :before-close="handleClose">
     <el-form :model="releaseform" ref="releaseForm">
@@ -279,8 +279,7 @@
         name="excel"
         :multiple="false"
         accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-        action="http://192.168.99.248:8080/manage-platform/iapiHead/readNationalAndPassportnoExcel"
-
+        :action="$api.rootUrl+'/manage-platform/iapi/readExcel'"
         :on-success="uploadSuccess"
         :limit="1"
         :on-exceed="handleExceed"

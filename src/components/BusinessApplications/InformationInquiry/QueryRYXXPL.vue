@@ -1913,8 +1913,8 @@ export default {
         if(this.batchTableList.length==0){
           axios({
            method: 'post',
-           url: 'http://192.168.99.248:8081/manage-platform/iapiHead/exportFileIo/5/iapi/600',
-           // url: this.$api.rootUrl+"/manage-platform/iapiHead/exportFileIo/5/iapi/600",
+           // url: 'http://192.168.99.248:8081/manage-platform/iapiHead/exportFileIo/5/iapi/600',
+           url: this.$api.rootUrl+"/manage-platform/iapiHead/exportFileIo/5/iapi/600",
            data: {
                "exclTitles": this.checkList,
                "cdtList":this.rows
@@ -1926,8 +1926,8 @@ export default {
         }else if(this.batchTableList.length!=0){
           axios({
            method: 'post',
-           url: 'http://192.168.99.248:8080/manage-platform/iapiHead/exportCheckColDataIo/5',
-           // url: this.$api.rootUrl+"/manage-platform/iapiHead/exportCheckColDataIo/5",
+           // url: 'http://192.168.99.248:8080/manage-platform/iapiHead/exportCheckColDataIo/5',
+           url: this.$api.rootUrl+"/manage-platform/iapiHead/exportCheckColDataIo/5",
            data: {
                "exclTitles": this.checkList,
                "resultList":this.batchTableList
