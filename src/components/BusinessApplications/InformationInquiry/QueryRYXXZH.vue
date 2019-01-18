@@ -124,11 +124,10 @@
               <el-input placeholder="请输入内容" v-model="cdt.fltnoEqual" size="small" class="input-input"></el-input>
             </el-col>
 
-            <el-col :sm="24" :md="12" :lg="6" class="input-item">
+            <el-col :sm="24" :md="12" :lg="6" class="input-item ">
               <span class="input-text"><i class="t-must">*</i>航班日期：</span>
               <div class="input-input t-flex t-date">
                   <el-date-picker
-                  v-verify.input.blur="{regs:'required',submit:'timeDemo'}"
                   v-model="cdt.startFltdate"
                   type="date" size="small"
                   placeholder="开始日期"
@@ -138,7 +137,6 @@
                 </el-date-picker>
                 <span class="septum">-</span>
                 <el-date-picker
-                   v-verify.input.blur="{regs:'required',submit:'timeDemo'}"
                    v-model="cdt.endFltdate"
                    type="date" size="small"
                    placeholder="结束日期"
@@ -233,7 +231,7 @@
             </div>
           </el-row>
           <!-- 保存方案 -->
-          <div class="t-save">
+          <!-- <div class="t-save">
             <el-select  filterable v-model="ssss"  @focus="savePlanShow" @change="planQuery" placeholder="方案选择" size="small" class="mr-15" filterable clearable>
               <el-option
                 v-for="item in saveName"
@@ -245,7 +243,7 @@
               </el-option>
             </el-select>
             <button type="button" name="button" @click="dialogVisible = true;sss=''">保存方案</button>
-          </div>
+          </div> -->
           <!-- 写入方案名称 -->
           <el-dialog
             title="方案名称"
@@ -313,13 +311,14 @@
       <el-button  plain class="table-btn mb-9" size="small" v-print="'#printMe'">打印</el-button>
       <el-table
         ref="multipleTable"
-        class="tableRy"
+        class="tableRy o-table3"
         :data="tableData"
         fit
         border
         style="width: 100%;"
         highlight-current-row
         @selection-change="handleSelectionChange"
+        @header-click="headerClick"
         id="printMe">
         <el-table-column
           label="多选"
@@ -327,7 +326,7 @@
           width="55">
         </el-table-column>
         <el-table-column
-          prop="iapiName"
+          prop="linkName"
           label="姓名"
           sortable
           width="125"
@@ -1177,6 +1176,10 @@ export default {
   },
   methods:{
     //============================洲国籍======================================================================
+    headerClick(column,event){
+      console.log(column,event)
+      event.target.title=column.label
+    },
     handleSelectionChange(val){
       console.log(val);
       this.tableList = val;
@@ -1518,16 +1521,19 @@ export default {
        })
     },
     getList(currentPage,showCount,cdt,num){//基础查询 查询调用
-      // const result = this.$validator.verifyAll('timeDemo')
-      //  if (result.indexOf(false) > -1) {
-      //    return
-      //  }
       // if(dayGap(this.cdt.startFltdate,this.cdt.endFltdate,0)>30){
       //   this.$alert('航班日期查询时间间隔不能超过一个月，如有需要请分多次查询', '提示', {
       //     confirmButtonText: '确定',
       //   });
       //   return false
       // }
+      if(this.cdt.startFltdate==null||this.cdt.endFltdate==null||this.cdt.startFltdate==''||this.cdt.endFltdate==''){
+        this.$message({
+          message: '航班日期不能为空',
+          type: 'warning'
+        });
+        return
+      }
       let pl={
       	"currentPage":currentPage,
       	"showCount":showCount,
@@ -1576,7 +1582,12 @@ export default {
       this.cdt={isBlurred:false};
       this.ssss='';
       this.tableData=[];
-
+      let time = new Date();
+      let end = new Date();
+      let begin =new Date(time - 1000 * 60 * 60 * 24 * 30);
+      let flightStart = new Date(new Date().setHours(0,0,0,0));
+      this.cdt.startFltdate=formatDate(flightStart,'yyyyMMdd');
+      this.cdt.endFltdate=formatDate(end,'yyyyMMdd');
       if(this.batchFlag == 1){
         this.batchFlag = 0;
         this.$message({
@@ -1668,10 +1679,7 @@ export default {
  .tableRy .caret-wrapper{
    width: 20px!important;
  }
- .expression .el-textarea__inner{
-   height: 105px;
-   overflow-y: auto;
- }
+
  .akUl button{
    margin-left: 10px!important;
  }

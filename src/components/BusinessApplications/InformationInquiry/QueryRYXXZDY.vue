@@ -373,7 +373,7 @@
       </el-row>
       <!-- 方案保存 -->
       <el-row type="flex" style="height:100%">
-        <el-col :span="22" style="margin-top: 15px;">
+        <el-col :span="22">
           <div class="t-save">
             <el-select  filterable v-model="ffff" v-if="bigBase==7" @visible-change="selfSavePlanShow" filterable clearable @change="selfPlanQuery(ffff)" placeholder="方案选择" size="small" class="mr-15">
               <el-option
@@ -447,13 +447,14 @@
       <!-- iapi表格 -->
       <el-table
         ref="singleTable"
-        class="tableRy"
+        class="tableRy o-table3"
         :data="tableData"
         fit
         border
         style="width: 100%;"
         highlight-current-row
         @selection-change="handleSelectionChange"
+        @header-click="headerClick"
         id="printMe"
         v-if="bigBase==7">
         <el-table-column
@@ -462,6 +463,7 @@
           width="55">
         </el-table-column>
         <el-table-column
+          sortable
            v-for="item in tableHead"
            :label="item.label"
            :prop="item.code">
@@ -510,13 +512,14 @@
       <!-- pnr表格 -->
       <el-table
         ref="singleTablePnr"
-        class="tableRy"
+        class="tableRy o-table3"
         :data="tableDataPnr"
         fit
         border
         style="width: 100%;"
         highlight-current-row
         @selection-change="handleSelectionChange"
+        @header-click="headerClick"
         id="printMe"
         v-if="bigBase==8">
         <el-table-column
@@ -2074,8 +2077,8 @@ export default {
       itemHis:'',
       showConfiglist:[],
       //pnr展示
-      checkListPnr:['pnrName','PNR_GENDER','pnrBirthdayName','pnrNationaName','PNR_PASSPORTNO','PNR_FLTNO','PNR_FLTDATE1','PNR_FLTTYPE'],
-      checkListPnrHc:['pnrName','PNR_GENDER','pnrBirthdayName','pnrNationaName','PNR_PASSPORTNO','PNR_FLTNO','PNR_FLTDATE1','PNR_FLTTYPE'],
+      checkListPnr:['pnrName','PNR_GENDER','pnrBirthdayName','pnrNationaName','PNR_PASSPORTNO','PNR_CARDEXPIREDATESTR','PNR_FLTNO','PNR_FLTDATE1','PNR_FLTTYPE','pnrCityfromName','pnrCitytoName','PNR_DEPARTDATESTR','PNR_ARRIVDATESTR','PNR_TKTNUMBER','PNR_RCI','PNR_RCIDATE','PNR_SPECIFIGSEAT'],
+      checkListPnrHc:['pnrName','PNR_GENDER','pnrBirthdayName','pnrNationaName','PNR_PASSPORTNO','PNR_CARDEXPIREDATESTR','PNR_FLTNO','PNR_FLTDATE1','PNR_FLTTYPE','pnrCityfromName','pnrCitytoName','PNR_DEPARTDATESTR','PNR_ARRIVDATESTR','PNR_TKTNUMBER','PNR_RCI','PNR_RCIDATE','PNR_SPECIFIGSEAT'],
       showConfigPnr:[],
       showConfiglistPnr:[],
       //iapi表格数据
@@ -2314,6 +2317,10 @@ export default {
   },
   methods:{
     //==========================================================全局代码=========================================================
+    headerClick(column,event){
+      console.log(column,event)
+      event.target.title=column.label
+    },
     handleSelectionChange(val){
       if(this.bigBase==7){
         this.selfTableList = val;
@@ -3073,7 +3080,7 @@ export default {
             if(this.bigBase==7){
               this.checkList = ['iapiName','INTG_CHNNAME','GENDER','iapiBirthdayName','iapiNationaName','PASSPORTNO','FLTNO','FLTDATE','FLIGHTTYPE'];
             }else if(this.bigBase==8){
-              this.checkListPnr = ['pnrName','PNR_GENDER','pnrBirthdayName','pnrNationaName','PNR_PASSPORTNO','PNR_FLTNO','PNR_FLTDATE1','PNR_FLTTYPE']
+              this.checkListPnr = ['pnrName','PNR_GENDER','pnrBirthdayName','pnrNationaName','PNR_PASSPORTNO','PNR_CARDEXPIREDATESTR','PNR_FLTNO','PNR_FLTDATE1','PNR_FLTTYPE','pnrCityfromName','pnrCitytoName','PNR_DEPARTDATESTR','PNR_ARRIVDATESTR','PNR_TKTNUMBER','PNR_RCI','PNR_RCIDATE','PNR_SPECIFIGSEAT']
             }
           }else{
             for(var i=0;i<arr.length;i++){
@@ -3150,7 +3157,7 @@ export default {
    width: 20px!important;
  }
  .expression .el-textarea__inner{
-   height: 105px;
+   height: 135px;
    overflow-y: auto;
  }
  .akUl button{

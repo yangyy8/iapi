@@ -272,12 +272,11 @@
 
 /* 自定义查询 */
 .queryLeft{
-  height: 107px;
   overflow-y: auto;
   border-right: 1px solid #ccc;
 }
 .queryRight{
-  height:107px;
+  height:135px;
 }
 .expression-text{
   width: 15%!important;

@@ -340,13 +340,14 @@
       <!-- iapi表格 -->
       <el-table
         ref="singleTable"
-        class="tableRy"
+        class="tableRy o-table3"
         :data="tableData"
         fit
         border
         style="width: 100%;"
         highlight-current-row
         @selection-change="handleSelectionChange"
+        @header-click="headerClick"
         id="printMe"
         v-if="bigBase==5">
         <el-table-column
@@ -664,13 +665,14 @@
       <!-- pnr表格 -->
       <el-table
         ref="singleTablePnr"
-        class="tableRy"
+        class="tableRy o-table3"
         :data="tableDataPnr"
         fit
         border
         style="width: 100%;"
         highlight-current-row
         @selection-change="handleSelectionChange"
+        @header-click="headerClick"
         id="printMe"
         v-if="bigBase==6">
         <el-table-column
@@ -1636,6 +1638,10 @@ export default {
   },
   methods:{
     //------------------------------------------------全局代码项-------------------------------------------------
+    headerClick(column,event){
+      console.log(column,event)
+      event.target.title=column.label
+    },
     handleSelectionChange(val){
       if(this.bigBase==5){
         this.batchTableList = val;
@@ -2370,10 +2376,6 @@ export default {
  }
  .tableRy .caret-wrapper{
    width: 20px!important;
- }
- .expression .el-textarea__inner{
-   height: 105px;
-   overflow-y: auto;
  }
  .akUl button{
    margin-left: 10px!important;
