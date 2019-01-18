@@ -4,7 +4,7 @@
   <div class="map-top">
     <h3 class="map-title">国家移民管理局旅客预报预检系统</h3>
     <ul class="map-tabul">
-      <li class="map-tabli mr-30 hand" :class="{'check-tab':tabId==1}" @click="tabId=1;">
+      <li class="map-tabli mr-30 hand" :class="{'check-tab':tabId==1}" @click="tabId=1;getJkKa()">
         <img src="../../../assets/img/qgjk/tab1_1.png" alt="" v-if="tabId==1">
         <img src="../../../assets/img/qgjk/tab1_0.png" alt="" v-else>
         <span>口岸监控</span>
@@ -334,27 +334,67 @@
                     <div class="td2-div">
                       <div class="td2-pop-div2 b-r">
                         <span>中国内地</span>
-                        <span class="td2-pop-num1">{{rygk.inLand}}</span>
+                        <span class="td2-pop-num1">{{rygk.order_in_chn||0}}</span>
                       </div>
                       <div class="td2-pop-div2 b-r">
                         <span>港澳台</span>
-                        <span class="td2-pop-num2">{{rygk.outLand}}</span>
+                        <span class="td2-pop-num2">{{rygk.order_in_gat||0}}</span>
                       </div>
                       <div class="td2-pop-div2 b-r">
-                        <span>港澳台</span>
-                        <span class="td2-pop-num2">{{rygk.outLand}}</span>
+                        <span>外国人</span>
+                        <span class="td2-pop-num2">{{rygk.order_in_frn||0}}</span>
                       </div>
                     </div>
-                    <span slot="reference" class="hand">{{rygk.inOrderCount||0}}</span>
+                    <span slot="reference" class="hand">{{rygk.order_in_chn+rygk.order_in_gat+rygk.order_in_frn||0}}</span>
                   </el-popover>
 
                 </div>
                 <div class="td2">
-                  {{rygk.outOrderCount||0}}
+                  <el-popover
+                    placement="left"
+                    width="200"
+                    trigger="hover"
+                    :popper-class="'td2-pop'">
+                    <div class="td2-div">
+                      <div class="td2-pop-div2 b-r">
+                        <span>中国内地</span>
+                        <span class="td2-pop-num1">{{rygk.order_out_chn||0}}</span>
+                      </div>
+                      <div class="td2-pop-div2 b-r">
+                        <span>港澳台</span>
+                        <span class="td2-pop-num2">{{rygk.order_out_gat||0}}</span>
+                      </div>
+                      <div class="td2-pop-div2 b-r">
+                        <span>外国人</span>
+                        <span class="td2-pop-num2">{{rygk.order_out_frn||0}}</span>
+                      </div>
+                    </div>
+                    <span slot="reference" class="hand">{{rygk.order_out_chn+rygk.order_out_gat+rygk.order_out_frn||0}}</span>
+                  </el-popover>
 
                 </div>
                 <div class="td2">
-                  {{rygk.passOrderCount||0}}
+                  <el-popover
+                    placement="left"
+                    width="200"
+                    trigger="hover"
+                    :popper-class="'td2-pop'">
+                    <div class="td2-div">
+                      <div class="td2-pop-div2 b-r">
+                        <span>中国内地</span>
+                        <span class="td2-pop-num1">{{rygk.order_pass_chn||0}}</span>
+                      </div>
+                      <div class="td2-pop-div2 b-r">
+                        <span>港澳台</span>
+                        <span class="td2-pop-num2">{{rygk.order_pass_gat||0}}</span>
+                      </div>
+                      <div class="td2-pop-div2 b-r">
+                        <span>外国人</span>
+                        <span class="td2-pop-num2">{{rygk.order_pass_frn||0}}</span>
+                      </div>
+                    </div>
+                    <span slot="reference" class="hand">{{rygk.order_pass_chn+rygk.order_pass_gat+rygk.order_pass_frn||0}}</span>
+                  </el-popover>
 
                 </div>
               </li>
@@ -363,15 +403,75 @@
                   预检
                 </div>
                 <div class="td2">
-                  {{rygk.inCheckCount||0}}
+                  <el-popover
+                    placement="left"
+                    width="200"
+                    trigger="hover"
+                    :popper-class="'td2-pop'">
+                    <div class="td2-div">
+                      <div class="td2-pop-div2 b-r">
+                        <span>中国内地</span>
+                        <span class="td2-pop-num1">{{rygk.chk_in_chn||0}}</span>
+                      </div>
+                      <div class="td2-pop-div2 b-r">
+                        <span>港澳台</span>
+                        <span class="td2-pop-num2">{{rygk.chk_in_gat||0}}</span>
+                      </div>
+                      <div class="td2-pop-div2 b-r">
+                        <span>外国人</span>
+                        <span class="td2-pop-num2">{{rygk.chk_in_frn||0}}</span>
+                      </div>
+                    </div>
+                    <span slot="reference" class="hand">{{rygk.chk_in_chn+rygk.chk_in_gat+rygk.chk_in_frn||0}}</span>
+                  </el-popover>
 
                 </div>
                 <div class="td2">
-                  {{rygk.outCheckCount||0}}
+                  <el-popover
+                    placement="left"
+                    width="200"
+                    trigger="hover"
+                    :popper-class="'td2-pop'">
+                    <div class="td2-div">
+                      <div class="td2-pop-div2 b-r">
+                        <span>中国内地</span>
+                        <span class="td2-pop-num1">{{rygk.chk_out_chn||0}}</span>
+                      </div>
+                      <div class="td2-pop-div2 b-r">
+                        <span>港澳台</span>
+                        <span class="td2-pop-num2">{{rygk.chk_out_gat||0}}</span>
+                      </div>
+                      <div class="td2-pop-div2 b-r">
+                        <span>外国人</span>
+                        <span class="td2-pop-num2">{{rygk.chk_out_frn||0}}</span>
+                      </div>
+                    </div>
+                    <span slot="reference" class="hand">{{rygk.chk_out_chn+rygk.chk_out_gat+rygk.chk_out_frn||0}}</span>
+                  </el-popover>
 
                 </div>
                 <div class="td2">
-                  {{rygk.passCheckCount||0}}
+                  <el-popover
+                    placement="left"
+                    width="200"
+                    trigger="hover"
+                    :popper-class="'td2-pop'">
+                    <div class="td2-div">
+                      <div class="td2-pop-div2 b-r">
+                        <span>中国内地</span>
+                        <span class="td2-pop-num1">{{rygk.chk_pass_chn||0}}</span>
+                      </div>
+                      <div class="td2-pop-div2 b-r">
+                        <span>港澳台</span>
+                        <span class="td2-pop-num2">{{rygk.chk_pass_gat||0}}</span>
+                      </div>
+                      <div class="td2-pop-div2 b-r">
+                        <span>外国人</span>
+                        <span class="td2-pop-num2">{{rygk.chk_pass_frn||0}}</span>
+                      </div>
+                    </div>
+                    <span slot="reference" class="hand">{{rygk.chk_pass_chn+rygk.chk_pass_gat+rygk.chk_pass_frn||0}}</span>
+                  </el-popover>
 
                 </div>
               </li>
@@ -380,13 +480,73 @@
                   登机
                 </div>
                 <div class="td2">
-                  {{rygk.boardIn||0}}
+                  <el-popover
+                    placement="left"
+                    width="200"
+                    trigger="hover"
+                    :popper-class="'td2-pop'">
+                    <div class="td2-div">
+                      <div class="td2-pop-div2 b-r">
+                        <span>中国内地</span>
+                        <span class="td2-pop-num1">{{rygk.brd_in_chn||0}}</span>
+                      </div>
+                      <div class="td2-pop-div2 b-r">
+                        <span>港澳台</span>
+                        <span class="td2-pop-num2">{{rygk.brd_in_gat||0}}</span>
+                      </div>
+                      <div class="td2-pop-div2 b-r">
+                        <span>外国人</span>
+                        <span class="td2-pop-num2">{{rygk.brd_in_frn||0}}</span>
+                      </div>
+                    </div>
+                    <span slot="reference" class="hand">{{rygk.brd_in_chn+rygk.brd_in_gat+rygk.brd_in_frn||0}}</span>
+                  </el-popover>
                 </div>
                 <div class="td2">
-                  {{rygk.boardOut||0}}
+                  <el-popover
+                    placement="left"
+                    width="200"
+                    trigger="hover"
+                    :popper-class="'td2-pop'">
+                    <div class="td2-div">
+                      <div class="td2-pop-div2 b-r">
+                        <span>中国内地</span>
+                        <span class="td2-pop-num1">{{rygk.brd_out_chn||0}}</span>
+                      </div>
+                      <div class="td2-pop-div2 b-r">
+                        <span>港澳台</span>
+                        <span class="td2-pop-num2">{{rygk.brd_out_gat||0}}</span>
+                      </div>
+                      <div class="td2-pop-div2 b-r">
+                        <span>外国人</span>
+                        <span class="td2-pop-num2">{{rygk.brd_out_frn||0}}</span>
+                      </div>
+                    </div>
+                    <span slot="reference" class="hand">{{rygk.brd_out_chn+rygk.brd_out_gat+rygk.brd_out_frn||0}}</span>
+                  </el-popover>
                 </div>
                 <div class="td2">
-                  {{rygk.boardPass||0}}
+                  <el-popover
+                    placement="left"
+                    width="200"
+                    trigger="hover"
+                    :popper-class="'td2-pop'">
+                    <div class="td2-div">
+                      <div class="td2-pop-div2 b-r">
+                        <span>中国内地</span>
+                        <span class="td2-pop-num1">{{rygk.brd_pass_chn||0}}</span>
+                      </div>
+                      <div class="td2-pop-div2 b-r">
+                        <span>港澳台</span>
+                        <span class="td2-pop-num2">{{rygk.brd_pass_gat||0}}</span>
+                      </div>
+                      <div class="td2-pop-div2 b-r">
+                        <span>外国人</span>
+                        <span class="td2-pop-num2">{{rygk.brd_pass_frn||0}}</span>
+                      </div>
+                    </div>
+                    <span slot="reference" class="hand">{{rygk.brd_pass_chn+rygk.brd_pass_gat+rygk.brd_pass_frn||0}}</span>
+                  </el-popover>
                 </div>
               </li>
               <li class="middleLi3">
@@ -1445,6 +1605,7 @@ export default {
         '加拿大': [-102.646409, 59.994255]
       },
       planePath: 'path://M1705.06,1318.313v-89.254l-319.9-221.799l0.073-208.063c0.521-84.662-26.629-121.796-63.961-121.491c-37.332-0.305-64.482,36.829-63.961,121.491l0.073,208.063l-319.9,221.799v89.254l330.343-157.288l12.238,241.308l-134.449,92.931l0.531,42.034l175.125-42.917l175.125,42.917l0.531-42.034l-134.449-92.931l12.238-241.308L1705.06,1318.313z',
+      planePath2:`data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAOCAYAAADwikbvAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNi1jMTM4IDc5LjE1OTgyNCwgMjAxNi8wOS8xNC0wMTowOTowMSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIDIwMTcgKFdpbmRvd3MpIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOjdBMTk5Qzc2ODBDRTExRThCREI0OUYyQ0VFQkJEMzA0IiB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOjdBMTk5Qzc3ODBDRTExRThCREI0OUYyQ0VFQkJEMzA0Ij4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6N0ExOTlDNzQ4MENFMTFFOEJEQjQ5RjJDRUVCQkQzMDQiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6N0ExOTlDNzU4MENFMTFFOEJEQjQ5RjJDRUVCQkQzMDQiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz7TGjsIAAAAs0lEQVR42mL4//8/AxZsDMRHgfgbEJ8HYnts6rBp5ATiN/9RwUcg5kdXy8SACbSBWBhNjA+I1dAVYtP8jwE7+EeMZhUcmpUxRLD4WQKIH6P5+TFUnKCfXwDxCjSxFVBxgjaDsCKazYrY1GGzmQ2IPdDE/IGYA5fNTEDsCMQTgfjZf+zgNRBPB2IvqHqwZlDkH/tPGgCp5wdp7v9PHuhnBBL3ga5XYCAdPAAFGCMDeYARIMAATRp4jXDkrA0AAAAASUVORK5CYII=`,
       XqKa:{},
       series: []
 
@@ -1461,6 +1622,7 @@ export default {
   activated(){
     this.initChart(this.series);
     this.getNewData();
+
   },
   created(){
     var _self = this;
@@ -2663,6 +2825,17 @@ export default {
       this.$api.post('/manage-platform/portMonitor/getMonitorPortInfo',{},
        r => {
          console.log("getJkKa",r);
+         this.crType=r.data.ioType;
+         this.checkAll2=r.data.iPortAll;
+         this.checkList2=r.data.iPortObjLst;
+         this.checkAll=r.data.iProvAll;
+         this.checkList=r.data.iProvObjLst;
+         this.checkAll5=r.data.oContAll;
+         this.checkList5=r.data.oContObjLst;
+         this.checkAll3=r.data.oCounAll;
+         this.checkList3=r.data.oCounObjLst;
+         this.checkAll4=r.data.oPortAll;
+         this.checkList4=r.data.oPortObjLst;
       })
     },
     // 更新监控口岸
@@ -2673,33 +2846,37 @@ export default {
         "iPortLst": this.checkList2.map(function(val){
           return val.code
         },this), 	// 境内口岸 选中
+        "iPortObjLst": this.checkList2, // 境内口岸 选中
 
         "iProvAll": this.checkAll,// 境内省 是否全选 0：未全选  1：全选
         "iProvLst": this.checkList.map(function(val){
           return val.code
         }),	// 境内省 选中
+        "iProvObjLst": this.checkList,	// 境内省 选中
 
         "ioType": this.crType,	// 出入类型  I:入境，O:出境,A:全部
         "oContAll": this.checkAll5,	// 境外洲 0：未全选  1：全选
         "oContLst": this.checkList5.map(function(val){
           return val.code
         }),// 境外洲 选中
+        "oContObjLst": this.checkList5,// 境外洲 选中
 
         "oCounAll": this.checkAll3,	// 境外国 0：未全选  1：全选
         "oCounLst": this.checkList3.map(function(val){
           return val.code
         }),
+        "oCounObjLst": this.checkList3,
 
         "oPortAll": this.checkAll4,	// 境外口岸 0：未全选  1：全选
         "oPortLst": this.checkList4.map(function(val){
           return val.code
         }),		// 境外口岸 选中
+        "oPortObjLst": this.checkList4,		// 境外口岸 选中
 
       };
       this.$api.post('/manage-platform/portMonitor/updateMonitorPortInfo',p,
        r => {
          console.log("updateJkKa",r);
-         this.getJkKa()
          this.getNewData(1);
          this.tabId=0;
       })

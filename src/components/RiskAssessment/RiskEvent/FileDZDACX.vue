@@ -296,7 +296,7 @@ export default {
       this.$api.post('/manage-platform/riskRecordController/getPhotoInf',p,
        r => {
          console.log(r)
-         this.imgURL=r.url
+         this.imgURL=r.data.url||imgUrl;
       })
     }
   }

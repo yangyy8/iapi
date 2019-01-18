@@ -11,7 +11,7 @@
               <el-row :gutter="10">
                 <el-col :span="3">
                   <div class="bjsj-l2">
-                    <img src="../../../assets/img/bp_ap/ph_s.png" alt="" style="height:150px;">
+                    <img :src="imgURL" alt="" style="height:150px;">
                     <span >综合风险等级</span>
                     <el-rate :value="$route.query.grade||data0.GRADE" disabled></el-rate>
                   </div>
@@ -1676,6 +1676,8 @@
 
 <script>
 import MoreDialog from './DZDATC'
+import imgUrl from '../../../assets/img/bp_ap/ph_s.png'
+
 export default {
   data(){
     return{
@@ -1825,6 +1827,8 @@ export default {
       ccTimer:null,
       tobox:'box0',
       toboxShow:false,
+      imgURL:imgUrl,
+
     }
   },
   components:{
@@ -1947,8 +1951,34 @@ export default {
       }
       this.$api.post('/manage-platform/riskRecordController/getUserBaseInfo',p,
        r => {
-         this.data0=r.data
+         this.data0=r.data;
+         this.getPhotoInf(r.data.PASSPORTNO,r.data.NATIONALITY,r.data.BIRTHDAY,r.data.NAME);
+
        })
+    },
+    getPhotoInf(passportno,nationality,birthday,name){
+      let p={}
+      if(nationality=="CHN"){
+        p={
+          "type": 'photo',
+          "nationality": nationality,
+          "passportno": passportno,
+        }
+      }else{
+        p={
+          "passportno": passportno,
+          "nationality": nationality,
+          "birthday": birthday,
+          "name": name,
+          "type": 'photo',
+        }
+      }
+
+      this.$api.post('/manage-platform/riskRecordController/getPhotoInf',p,
+       r => {
+         console.log(r)
+         this.imgURL=r.data.url||imgUrl;
+      })
     },
     // 获取用户标签信息
     getUserTagInfo(){
