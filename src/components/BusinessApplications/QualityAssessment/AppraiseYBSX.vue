@@ -250,7 +250,9 @@
                   <el-table
                     :data="tableData1"
                     border
-                    style="width: 100%;">
+                    style="width: 100%;"
+                    class="mt-10 o-table3"
+                    @header-click="headerClick">
                     <el-table-column
                       prop="airline_company_id"
                       label="航空公司名称" sortable>
@@ -322,7 +324,9 @@
                       <el-table
                         :data="tableData2"
                         border
-                        style="width: 100%;">
+                        style="width: 100%;"
+                        class="mt-10 o-table3"
+                        @header-click="headerClick">
                         <el-table-column
                           prop="airline_company_id"
                           label="航空公司名称" sortable
@@ -409,7 +413,9 @@
                   <el-table
                     :data="tableData3"
                     border
-                    style="width: 100%;">
+                    style="width: 100%;"
+                    class="mt-10 o-table3"
+                    @header-click="headerClick">
                     <el-table-column
                       prop="fltno"
                       label="航班号" sortable
@@ -501,7 +507,9 @@
                       <el-table
                         :data="tableData4"
                         border
-                        style="width: 100%;">
+                        style="width: 100%;"
+                        class="mt-10 o-table3"
+                        @header-click="headerClick">
                         <el-table-column
                           prop="abono"
                           label="abo号码" sortable>

@@ -70,6 +70,10 @@
             </el-date-picker>
 
             </el-col>
+            <el-col  :sm="24" :md="12" :lg="11"   class="input-item">
+              <span class="input-text">值机间隔参数：</span>
+              <el-input placeholder="10" size="small" v-model="pd.intervel"   class="input-input"></el-input>
+            </el-col>
         </el-row>
 
         </el-col>
@@ -877,6 +881,7 @@ export default {
       pd: {
         fltdate:'',
         birthday:'',
+        intervel:10,
       },
       pd1: {},
       pd2: {},

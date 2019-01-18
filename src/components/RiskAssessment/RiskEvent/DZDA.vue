@@ -1973,7 +1973,6 @@ export default {
           "type": 'photo',
         }
       }
-
       this.$api.post('/manage-platform/riskRecordController/getPhotoInf',p,
        r => {
          console.log(r)

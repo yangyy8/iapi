@@ -75,7 +75,9 @@
             <el-table
               :data="tableData"
               border
-              style="width: 100%;">
+              style="width: 100%;"
+              class="mt-10 o-table3"
+              @header-click="headerClick">
               <el-table-column
                 prop="nationality"
                 label="国籍/地区" sortable>
@@ -159,7 +161,9 @@
                       <el-table
                         :data="tableData1"
                         border
-                        style="width: 100%;">
+                        style="width: 100%;"
+                        class="mt-10 o-table3"
+                        @header-click="headerClick">
                         <el-table-column
                           prop="nationality"
                           label="国籍/地区" sortable>
@@ -317,7 +321,9 @@ export default {
     //this.getList(this.CurrentPage,this.pageSize,this.pd);
   },
   methods: {
-
+    headerClick(column,event){
+        event.target.title=column.label
+    },
     base(){
     this.page=0;
     },
@@ -339,25 +345,19 @@ export default {
     },
     handleCurrentChange(val) {
       this.getList(val, this.pageSize, this.pd);
-
       console.log(`当前页: ${val}`);
     },
     handleCurrentChange1(val) {
       this.getList1(val, this.pageSize1, this.pd);
-
       console.log(`当前页: ${val}`);
     },
     getList(currentPage, showCount, pd) {
-
-
       if (this.pd.begintime== null || this.pd.endtime == null) {
         this.$alert('时间范围不能为空', '提示', {
           confirmButtonText: '确定',
         });
         return false
       };
-
-
       let p = {
         "currentPage": currentPage,
         "showCount": showCount,
