@@ -140,13 +140,13 @@
           label="值机未订票数" sortable
           >
         </el-table-column>
-        <!-- <el-table-column
+        <el-table-column
           width="180"
           label="操作">
           <template slot-scope="scope">
-              <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row)">详情</el-button>
+              <el-button class="a-btn" type="text" title="详情" icon="el-icon-tickets" @click="details(scope.row)"></el-button>
          </template>
-        </el-table-column> -->
+        </el-table-column>
       </el-table>
       <!-- <div class="middle-foot">
         <div class="page-msg">

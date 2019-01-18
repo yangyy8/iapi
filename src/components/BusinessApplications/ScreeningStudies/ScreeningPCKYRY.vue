@@ -48,7 +48,7 @@
 
                 <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                   <span class="input-text">阀值：</span>
-                    <el-input placeholder="请输入内容" size="small" v-model="pd.booktimes" class="input-input"></el-input>
+                    <el-input placeholder="请输入内容" size="small" v-model="pd.times" class="input-input"></el-input>
                  </el-col>
                  <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                    <span class="input-text">口岸：</span>
@@ -73,7 +73,9 @@
             <el-table
               :data="tableData"
               border
-              style="width: 100%;">
+              style="width: 100%;"
+              class="mt-10 o-table3"
+              @header-click="headerClick">
               <el-table-column
                 prop="nationality"
                 label="国籍/地区" sortable>
@@ -158,7 +160,7 @@
                 </el-col>
                 <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                   <span class="input-text">阀值：</span>
-                    <el-input placeholder="请输入内容" size="small" v-model="pd1.checktimes" class="input-input"></el-input>
+                    <el-input placeholder="请输入内容" size="small" v-model="pd1.times" class="input-input"></el-input>
                  </el-col>
                  <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                    <span class="input-text">口岸：</span>
@@ -183,7 +185,9 @@
             <el-table
               :data="tableData1"
               border
-              style="width: 100%;">
+              style="width: 100%;"
+              class="mt-10 o-table3"
+              @header-click="headerClick">
               <el-table-column
                 prop="nationality"
                 label="国籍/地区" sortable>
@@ -268,7 +272,7 @@
                 </el-col>
                 <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                   <span class="input-text">阀值：</span>
-                    <el-input placeholder="请输入内容" size="small" v-model="pd2.eetimes" class="input-input"></el-input>
+                    <el-input placeholder="请输入内容" size="small" v-model="pd2.times" class="input-input"></el-input>
                  </el-col>
                  <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                    <span class="input-text">口岸：</span>
@@ -293,7 +297,9 @@
             <el-table
               :data="tableData2"
               border
-              style="width: 100%;">
+              style="width: 100%;"
+              class="mt-10 o-table3"
+              @header-click="headerClick">
               <el-table-column
                 prop="nationality"
                 label="国籍/地区" sortable>
@@ -457,6 +463,7 @@ export default {
       checktimes: 0, //值机频次阈值
       booktimes: 0, //订票频次阈值
       eetimes: 0, //出入境频次阈值
+      times:0,
       pport:[],
     }
   },
@@ -489,7 +496,9 @@ export default {
 
   },
   methods: {
-
+    headerClick(column,event){
+         event.target.title=column.label
+       },
     base() {
       this.page = 0;
     },
@@ -543,11 +552,11 @@ export default {
 
           for (let rr of r.data) {
             if (rr.code == "booktimes") {
-              this.pd.booktimes = rr.name;
+              this.pd.times = rr.name;
             } else if (rr.code == "checktimes") {
-              this.pd1.checktimes = rr.name;
+              this.pd1.times = rr.name;
             } else if (rr.code == "eetimes") {
-              this.pd2.eetimes = rr.name;
+              this.pd2.times = rr.name;
             }
           }
 
@@ -572,14 +581,13 @@ export default {
         "showCount": showCount,
         "cdt": pd
       };
-      var url = "/manage-platform/SuspectPerson/get_bk_nochk";
+      var url = "/manage-platform/SuspectPerson/get_bk_count";
       this.$api.post(url, p,
         r => {
           console.log(r);
           this.tableData = r.data.resultList;
-          if(r.data.totalResult!="" && r.data.totalResult!=undefined){
           this.TotalResult = r.data.totalResult;
-        }
+
         })
 
     },
@@ -599,14 +607,14 @@ export default {
         "showCount": showCount1,
         "cdt": pd1
       };
-      var url = "/manage-platform/SuspectPerson/get_chk_nobrd";
+      var url = "/manage-platform/SuspectPerson/get_chk_count";
       this.$api.post(url, p,
         r => {
           console.log(r);
           this.tableData1 = r.data.resultList;
-          if(r.data.totalResult!="" && r.data.totalResult!=undefined){
+
           this.TotalResult1 = r.data.totalResult;
-        }
+
         })
     },
     getList2(currentPage2, showCount2, pd2) {
@@ -625,14 +633,12 @@ export default {
         "showCount": showCount2,
         "cdt": pd2
       };
-      var url = "/manage-platform/SuspectPerson/get_brd_noee";
+      var url = "/manage-platform/SuspectPerson/get_ee_count";
       this.$api.post(url, p,
         r => {
           console.log(r);
           this.tableData2 = r.data.resultList;
-
-          if(r.data.totalResult!="" && r.data.totalResult!=undefined){
-          this.TotalResult2 =r.data.totalResult ;}
+          this.TotalResult2 =r.data.totalResult ;
         })
     },
 

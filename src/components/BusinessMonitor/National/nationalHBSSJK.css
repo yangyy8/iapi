@@ -429,6 +429,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  text-align: center;
   width: 50%;
   font-size: 12px;
 }
@@ -441,4 +442,13 @@
   font-size: 18px;
   color: #ffca6a;
   margin-top: 7px;
+}
+.td2-pop-div2{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  width: 33%;
+  font-size: 12px;
 }
