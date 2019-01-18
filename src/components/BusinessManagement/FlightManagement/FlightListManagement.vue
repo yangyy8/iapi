@@ -285,8 +285,7 @@
         <el-button @click="addDialogVisible = false" size="small">取 消</el-button>
       </div>
     </el-dialog>
-    <!-- :action="$api.rootUrl+'/manage-platform/flightManage/importFlightManage'" -->
-
+    <!-- action="http://192.168.99.248:8081/manage-platform/flightManage/importFlightManage" -->
     <el-dialog title="批量导入" :visible.sync="uploadDialogVisible"   width="640px"
     :before-close="handleClose">
       <el-form :model="importform" ref="importForm">
@@ -296,7 +295,7 @@
           name="file"
           :multiple="false"
           accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-          action="http://192.168.99.248:8081/manage-platform/flightManage/importFlightManage"
+          :action="$api.rootUrl+'/manage-platform/flightManage/importFlightManage'"
 
           :on-success="uploadSuccess"
           :limit="1"

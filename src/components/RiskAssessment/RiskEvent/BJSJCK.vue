@@ -364,7 +364,7 @@
                     <el-select :disabled="!operation_type" v-model="box4Data.riskDescRecordEntity.check_result" filterable clearable placeholder="请选择"  size="small" class="input-input">
                       <el-option label="1 - 完全排除嫌疑" value="1"></el-option>
                       <el-option label="2 - 未能排除嫌疑，待进一步核查" value="2"></el-option>
-                      <el-option label="3 - 推送梅沙" value="3"></el-option>
+                      <el-option label="3 - 推送梅沙" value="3" v-if="box4Data.riskDescRecordEntity.check_stage!=2"></el-option>
 
                     </el-select>
                   </el-col>
@@ -1091,7 +1091,7 @@ export default {
 .rightBtn{
   position: absolute;
   right: 0;
-  top:-20px;
+  top:-30px;
 }
 .input-text{
   overflow:hidden;

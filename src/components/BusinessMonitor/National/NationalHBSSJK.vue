@@ -326,7 +326,28 @@
                   计划
                 </div>
                 <div class="td2">
-                  {{rygk.inOrderCount||0}}
+                  <el-popover
+                    placement="left"
+                    width="200"
+                    trigger="hover"
+                    :popper-class="'td2-pop'">
+                    <div class="td2-div">
+                      <div class="td2-pop-div2 b-r">
+                        <span>中国内地</span>
+                        <span class="td2-pop-num1">{{rygk.inLand}}</span>
+                      </div>
+                      <div class="td2-pop-div2 b-r">
+                        <span>港澳台</span>
+                        <span class="td2-pop-num2">{{rygk.outLand}}</span>
+                      </div>
+                      <div class="td2-pop-div2 b-r">
+                        <span>港澳台</span>
+                        <span class="td2-pop-num2">{{rygk.outLand}}</span>
+                      </div>
+                    </div>
+                    <span slot="reference" class="hand">{{rygk.inOrderCount||0}}</span>
+                  </el-popover>
+
                 </div>
                 <div class="td2">
                   {{rygk.outOrderCount||0}}
@@ -448,7 +469,6 @@
                       </div>
                     </div>
                     <span slot="reference" class="hand">{{i.inLand+i.outLand||0}}</span>
-
                   </el-popover>
                 </div>
 
@@ -841,7 +861,7 @@
               class="item-input"
               v-model="p1.fltDate"
               type="date" size="mini" value-format="yyyyMMdd"
-              placeholder="选择时间"  >
+              placeholder="选择时间">
             </el-date-picker>
 
           </el-col>
@@ -851,7 +871,7 @@
               class="item-input"
               v-model="p1.departTime"
               type="datetime" size="mini" value-format="yyyyMMddHHmm"
-              placeholder="选择时间"  >
+              placeholder="选择时间">
             </el-date-picker>
           </el-col>
           <el-col :sm="24" :md="12" :lg="8" class="hb-item">
@@ -860,7 +880,7 @@
               class="item-input"
               v-model="p1.arriveTime"
               type="datetime" size="mini" value-format="yyyyMMddHHmm"
-              placeholder="选择时间"  >
+              placeholder="选择时间">
             </el-date-picker>
           </el-col>
           <el-col :sm="24" :md="12" :lg="8" class="hb-item">
@@ -869,7 +889,6 @@
               <el-option label="I - 入境" value="I"></el-option>
               <el-option label="O - 出境" value="O"></el-option>
               <el-option label="A - 入出境" value=""></el-option>
-
             </el-select>
           </el-col>
         </el-row>
@@ -1740,6 +1759,7 @@ export default {
        r => {
          //console.log(r);
          this.newHbData=r.data;
+         console.log("newHbData",this.newHbData)
          this.createM(this.newHbData,type)
       })
     },
@@ -1747,36 +1767,19 @@ export default {
     createM(data,type){
       this.series=[];
       let _this=this;
-      let x = {
-          type: 'lines',
-          // coordinateSystem: 'lines',
-          zlevel: 4,
-          //symbol: ['none', 'arrow'],   // 用于设置箭头
-          symbolSize: 10,
-          effect: {
-            show: true,
-            period: 80,
-            trailLength: 0,
-            symbol:this.planePath,
-            symbolSize: 15,
-            color:'#ffffff',
-            loop:true
+      if(type==1){
+        let f={
+          type: 'effectScatter',
+          coordinateSystem: 'geo',
+          zlevel: 6,
+          rippleEffect: {
+            brushType: 'stroke'
           },
-          markPoint:{
-            symbol:'circle',
-            symbolSize:15,
-            symbolOffset:[0,'20%'],
-            color:'#000000'
-          },
-          lineStyle: {
+          itemStyle: {
             normal: {
-              color: '#11fa46',
-              width: 1.5,
-              opacity: 0.6,
-              curveness: -0.2
+              color: '#ffffff'
             }
           },
-          data: [],// 特效的起始、终点位置
           tooltip:{
             trigger: 'item',
             // formatter: '{b}<br/>{c}',
@@ -1786,314 +1789,853 @@ export default {
             borderWidth:1,
             enterable :true,
             // triggerOn:'click',
-
             formatter: function (params, ticket, callback) {
-              //console.log(params)
-                let p={
-                  dt:params.data.fk,
-                  dtLst:params.data.dtLst
-                }
-                _this.$api.post('/manage-platform/nationwide/getFlightDetail',p,
+                _this.$api.get('/manage-platform/nationwide/getPortDetail',{port:params.data.value[2]},
                  r => {
-                   // //console.log(r);
-                   let data=r.data;
-                   let html='<div class="katooltip" >\
-                              <span style="color:#31aafb">航班号:</span><span style="color:red">'+data.fltno+' </span><span style="color:#31aafb">起飞地:</span>'+data.from+' <span style="color:#31aafb">到达地:</span>'+data.to+' <br>'
-                  if(data.fltDate){
-                    html+=' <span style="color:#31aafb">航班日期:</span>'+data.fltDate
-                  }
-                  if(data.preDepartTime){
-                    html+=' <span style="color:#31aafb">预计起飞时间:</span>'+data.preDepartTime
-                  }
-                  if(data.preArriveTime){
-                    html+='<span style="color:#31aafb">预计到达时间:</span>'+data.preArriveTime+'<br>'
-                  }
-                  if(r.data.travelers){
-                    let table='<table cellspacing="0" style="background:#09679d; width:100%;font-size:12px">\
-                                  <thead>\
-                                  <tr style="height:20px;">\
-                                    <td style="height:20px!important;">姓名</td><td style="height:20px!important;">性别</td><td style="height:20px!important;">国籍/地区</td><td style="height:20px!important;">出生日期</td>\
-                                  </tr>\
-                                  </thead>\
-                                  <tbody id="tbody1">';
-                    for(var i in r.data.travelers){
-                      //console.log("i",r.data.travelers[i])
-                      let t
-                      table+='<tr style="background:#112b42;height:20px;">\
-                                <td style="border:1px #143652 solid;height:20px!important;padding:0 5px!important;" class="name">'+r.data.travelers[i].name+'</td>\
-                                <td style="border:1px #143652 solid;height:20px!important;padding:0 5px!important;">'+r.data.travelers[i].genderStr+'</td>\
-                                <td style="border:1px #143652 solid;height:20px!important;padding:0 5px!important;">'+r.data.travelers[i].nationalityName+'</td>\
-                                <td style="border:1px #143652 solid;height:20px!important;padding:0 5px!important;">'+r.data.travelers[i].birthDay+'</td>\
-                              </tr>'
+                   let data=r.data.flights;
+                    let html ='';
+                    let table='<table cellspacing="0" style="background:#09679d;font-size:12px;width:690px">\
+                                    <thead style="display: table;table-layout: fixed;width:100%;">\
+                                      <tr style="height:20px;display: table;table-layout: fixed;width:100%;">\
+                                        <td style="height:20px!important;padding:0 5px!important;width:50px">航班号</td>\
+                                        <td style="height:20px!important;padding:0 5px!important;width:110px;">到达地</td>\
+                                        <td style="height:20px!important;padding:0 5px!important;width:115px;">预计起飞时间</td>\
+                                        <td style="height:20px!important;padding:0 5px!important;width:115px;">预计到达时间</td>\
+                                        <td style="height:20px!important;padding:0 0px!important;width:85px;">航班状态</td>\
+                                        <td style="height:20px!important;padding:0 0px!important;width:50px;">订票数</td>\
+                                        <td style="height:20px!important;padding:0 5px!important;width:50px;">载运旅客</td>\
+                                        <td style="height:20px!important;padding:0 5px!important;width:50px;">不准入境</td>\
+                                        <td style="height:20px!important;padding:0 5px!important;width:50px;">非法载运</td>\
+                                      </tr>\
+                                    </thead>\
+                                  <tbody style="max-height:240px!important;overflow-y:auto!important;display:block;width:100%;">';
+                    for(var i in data){
+                      let data2={};
+                          data2.fltno=data[i].fltno||'-';
+                          data2.preDepartTime=data[i].preDepartTime||'-';
+                          data2.to=data[i].to||'-';
+                          data2.preArriveTime=data[i].preArriveTime||'-';
+                          data2.statusName=data[i].statusName||'-';
+                          data2.bookNum=data[i].bookNum||'0';
+                          data2.boardingNum=data[i].boardingNum||'0';
+                          data2.forbiddenNum=data[i].forbiddenNum||'0';
+                          data2.illegalNum=data[i].illegalNum||'0';
+
+                          console.log(data2)
+                      table+='<tr style="background:#112b42;height:20px;display: table;table-layout: fixed;width:100%;">\
+                                <td style="border:1px #143652 solid;height:20px!important;padding:0 5px!important;width:50px">'+data2.fltno+'</td>\
+                                <td style="border:1px #143652 solid;height:20px!important;padding:0 5px!important;width:110px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;">'+data2.to+'</td>\
+                                <td style="border:1px #143652 solid;height:20px!important;padding:0 5px!important;width:115px;">'+data2.preDepartTime+'</td>\
+                                <td style="border:1px #143652 solid;height:20px!important;padding:0 5px!important;width:115px;">'+data2.preArriveTime+'</td>\
+                                <td style="border:1px #143652 solid;height:20px!important;padding:0 0px!important;width:85px">'+data2.statusName+'</td>\
+                                <td style="border:1px #143652 solid;height:20px!important;padding:0 0px!important;width:50px">'+data2.bookNum+'</td>\
+                                <td style="border:1px #143652 solid;height:20px!important;padding:0 5px!important;width:50px">'+data2.boardingNum+'</td>\
+                                <td style="border:1px #143652 solid;height:20px!important;padding:0 5px!important;width:50px">'+data2.forbiddenNum+'</td>\
+                                <td style="border:1px #143652 solid;height:20px!important;padding:0 5px!important;width:50px">'+data2.illegalNum+'</td>\
+                             </tr>'
+
                     }
                     html+=table+'</tbody></table></div>'
-                  }
+                   // //console.log(r);
+                   // let data=r.data.flights[0];
+                   // let html='<div class="katooltip">\
+                   //            <span style="color:#31aafb">航班号：</span>'+data.fltno+' <span style="color:#31aafb">航班日期：</span>'+data.fltDate+'<span style="color:#31aafb">起飞地：</span>'+data.from+'<br>'+'\
+                   //            <span style="color:#31aafb">到达地：</span>'+data.to+' <span style="color:#31aafb">起飞时间：</span>'+data.departTime+'<br>'+'\
+                   //            <span style="color:#31aafb">预计到达时间：</span>'+data.preArriveTime+' <span style="color:#31aafb">载运旅客数：</span>'+data.boardingNum+'<br>'+'\
+                   //            <span style="color:#31aafb">机组数：</span>'+data.checkNum+' <span style="color:#31aafb">不准入境人员：</span>'+data.forbiddenNum+'<br>'+'\
+                   //           </div>'
                    callback(ticket, html);
-                   console.log(document.getElementById("tbody1"));
-                   document.getElementById("tbody1").addEventListener('click',function(e){
-                     if(e.target.className=='name'){
-                       var trNodes = e.target.parentNode.parentNode.childNodes;
-                       console.log("trNodes:",trNodes)
-                       for(var x=0;x<trNodes.length;x++){
-                         let a =trNodes[x].firstElementChild.getElementsByTagName('div')[0];
-                         console.log('a',a)
-                         if(a){
-                           trNodes[x].firstElementChild.removeChild(a);
-                         }
-                       }
-                       if(e.target.children.length==0){
-
-                         // removeChild()
-                         var div=document.createElement('div');
-                         e.target.appendChild(div);
-                         e.target.style.position='relative';
-                         div.style.position='absolute';
-                         div.style.top='-30px';
-                         div.style.left="80px";
-                         div.style.background="rgba(14, 32, 62, 0.88)";
-                         div.style.border="1px #01aed4 solid";
-                         div.style.boxShadow="0 0 6px #0288d1";
-                         div.style.borderRadius="3px";
-                         div.style.padding="15px";
-                         let tarr=r.data.travelers;
-                         let traveler={};
-                         for(var i=0;i<tarr.length;i++){
-                           if(e.target.innerText==tarr[i].name){
-                             traveler=tarr[i]
-                             console.log(traveler)
-                           }
-                         }
-                         let h1='';let h2='';let h3='';let h4='';
-                         if(traveler.pnrflag==1){
-                           h1='<li><span>✔</span>已订票</li>'
-                         }else{
-                           h1='<li class="o-step-err"><span>!</span>已订票</li>'
-                         }
-                         if(traveler.chkflag==1){
-                           h2='<li><span>✔</span>已值机</li>'
-                         }else{
-                           h2='<li class="o-step-err"><span>!</span>已值机</li>'
-                         }
-                         if(traveler.eeflag==1){
-                           h3='<li><span>✔</span>出入境手续</li>'
-                         }else{
-                           h3='<li class="o-step-err"><span>!</span>出入境手续</li>'
-                         }
-                         if(traveler.clsflag==1){
-                           h4='<li><span>✔</span>航班关闭</li>'
-                         }else{
-                           h4='<li class="o-step-err"><span>!</span>航班关闭</li>'
-                         }
-
-                         var html='<ul class="o-step">'+h1+h2+h3+h4+'</ul>\
-                           <span class="o-jiao"></span>';
-                         div.innerHTML=html;
-
-                       }
-                     }
-                   });
                 })
                 return 'Loading';
             },
           },
-        };
 
-      let f={
-        type: 'effectScatter',
-        coordinateSystem: 'geo',
-        zlevel: 6,
-        rippleEffect: {
-          brushType: 'stroke'
-        },
-        itemStyle: {
-          normal: {
-            color: '#ffffff'
-          }
-        },
-        tooltip:{
-          trigger: 'item',
-          // formatter: '{b}<br/>{c}',
-          backgroundColor:'#143652',
-          padding:10,
-          borderColor:'#028bd0',
-          borderWidth:1,
-          enterable :true,
-          // triggerOn:'click',
-          formatter: function (params, ticket, callback) {
-              _this.$api.get('/manage-platform/nationwide/getPortDetail',{port:params.data.value[2]},
-               r => {
-                 let data=r.data.flights;
-                  let html ='';
-                  let table='<table cellspacing="0" style="background:#09679d;font-size:12px;width:690px">\
-                                  <thead style="display: table;table-layout: fixed;width:100%;">\
-                                    <tr style="height:20px;display: table;table-layout: fixed;width:100%;">\
-                                      <td style="height:20px!important;padding:0 5px!important;width:50px">航班号</td>\
-                                      <td style="height:20px!important;padding:0 5px!important;width:110px;">到达地</td>\
-                                      <td style="height:20px!important;padding:0 5px!important;width:115px;">预计起飞时间</td>\
-                                      <td style="height:20px!important;padding:0 5px!important;width:115px;">预计到达时间</td>\
-                                      <td style="height:20px!important;padding:0 0px!important;width:85px;">航班状态</td>\
-                                      <td style="height:20px!important;padding:0 0px!important;width:50px;">订票数</td>\
-                                      <td style="height:20px!important;padding:0 5px!important;width:50px;">载运旅客</td>\
-                                      <td style="height:20px!important;padding:0 5px!important;width:50px;">不准入境</td>\
-                                      <td style="height:20px!important;padding:0 5px!important;width:50px;">非法载运</td>\
-                                    </tr>\
-                                  </thead>\
-                                <tbody style="max-height:240px!important;overflow-y:auto!important;display:block;width:100%;">';
-                  for(var i in data){
-                    let data2={};
-                        data2.fltno=data[i].fltno||'-';
-                        data2.preDepartTime=data[i].preDepartTime||'-';
-                        data2.to=data[i].to||'-';
-                        data2.preArriveTime=data[i].preArriveTime||'-';
-                        data2.statusName=data[i].statusName||'-';
-                        data2.bookNum=data[i].bookNum||'0';
-                        data2.boardingNum=data[i].boardingNum||'0';
-                        data2.forbiddenNum=data[i].forbiddenNum||'0';
-                        data2.illegalNum=data[i].illegalNum||'0';
-
-                        console.log(data2)
-                    table+='<tr style="background:#112b42;height:20px;display: table;table-layout: fixed;width:100%;">\
-                              <td style="border:1px #143652 solid;height:20px!important;padding:0 5px!important;width:50px">'+data2.fltno+'</td>\
-                              <td style="border:1px #143652 solid;height:20px!important;padding:0 5px!important;width:110px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;">'+data2.to+'</td>\
-                              <td style="border:1px #143652 solid;height:20px!important;padding:0 5px!important;width:115px;">'+data2.preDepartTime+'</td>\
-                              <td style="border:1px #143652 solid;height:20px!important;padding:0 5px!important;width:115px;">'+data2.preArriveTime+'</td>\
-                              <td style="border:1px #143652 solid;height:20px!important;padding:0 0px!important;width:85px">'+data2.statusName+'</td>\
-                              <td style="border:1px #143652 solid;height:20px!important;padding:0 0px!important;width:50px">'+data2.bookNum+'</td>\
-                              <td style="border:1px #143652 solid;height:20px!important;padding:0 5px!important;width:50px">'+data2.boardingNum+'</td>\
-                              <td style="border:1px #143652 solid;height:20px!important;padding:0 5px!important;width:50px">'+data2.forbiddenNum+'</td>\
-                              <td style="border:1px #143652 solid;height:20px!important;padding:0 5px!important;width:50px">'+data2.illegalNum+'</td>\
-                           </tr>'
-
-                  }
-                  html+=table+'</tbody></table></div>'
-                 // //console.log(r);
-                 // let data=r.data.flights[0];
-                 // let html='<div class="katooltip">\
-                 //            <span style="color:#31aafb">航班号：</span>'+data.fltno+' <span style="color:#31aafb">航班日期：</span>'+data.fltDate+'<span style="color:#31aafb">起飞地：</span>'+data.from+'<br>'+'\
-                 //            <span style="color:#31aafb">到达地：</span>'+data.to+' <span style="color:#31aafb">起飞时间：</span>'+data.departTime+'<br>'+'\
-                 //            <span style="color:#31aafb">预计到达时间：</span>'+data.preArriveTime+' <span style="color:#31aafb">载运旅客数：</span>'+data.boardingNum+'<br>'+'\
-                 //            <span style="color:#31aafb">机组数：</span>'+data.checkNum+' <span style="color:#31aafb">不准入境人员：</span>'+data.forbiddenNum+'<br>'+'\
-                 //           </div>'
-                 callback(ticket, html);
-              })
-              return 'Loading';
+          symbolSize: 10,
+          data: [],
+        }
+        let t={
+          type: 'effectScatter',
+          coordinateSystem: 'geo',
+          zlevel: 6,
+          rippleEffect: {
+            brushType: 'stroke'
           },
-        },
-
-        symbolSize: 10,
-        data: [],
-      }
-      let t={
-        type: 'effectScatter',
-        coordinateSystem: 'geo',
-        zlevel: 6,
-        rippleEffect: {
-          brushType: 'stroke'
-        },
-        itemStyle: {
-          normal: {
-            color: '#ffffff'
-          }
-        },
-        symbolSize: 10,
-        data: [],
-        tooltip:{
-          trigger: 'item',
-          // formatter: '{b}<br/>{c}',
-          backgroundColor:'#143652',
-          padding:10,
-          borderColor:'#028bd0',
-          borderWidth:1,
-          enterable :true,
-          // triggerOn:'click',
-          formatter: function (params, ticket, callback) {
-              _this.$api.get('/manage-platform/nationwide/getPortDetail',{port:params.data.value[2]},
-               r => {
-                 let data=r.data.flights;
-                  let html ='';
-                  let table='<table cellspacing="0" style="background:#09679d;font-size:12px;width:690px">\
-                                  <thead style="display: table;table-layout: fixed;width:100%;">\
-                                    <tr style="height:20px;display: table;table-layout: fixed;width:100%;">\
-                                      <td style="height:20px!important;padding:0 5px!important;width:50px">航班号</td>\
-                                      <td style="height:20px!important;padding:0 0px!important;width:110px;">起飞地</td>\
-                                      <td style="height:20px!important;padding:0 0px!important;width:115px;">预计起飞时间</td>\
-                                      <td style="height:20px!important;padding:0 0px!important;width:115px;">预计到达时间</td>\
-                                      <td style="height:20px!important;padding:0 0px!important;width:85px;">航班状态</td>\
-                                      <td style="height:20px!important;padding:0 0px!important;width:50px;">订票数</td>\
-                                      <td style="height:20px!important;padding:0 0px!important;width:50px;">载运旅客</td>\
-                                      <td style="height:20px!important;padding:0 0px!important;width:50px;">不准入境</td>\
-                                      <td style="height:20px!important;padding:0 0px!important;width:50px;">非法载运</td>\
-                                    </tr>\
-                                  </thead>\
-                                <tbody style="max-height:240px!important;overflow-y:auto!important;display:block;width:100%;">';
-                  for(var i in data){
-                    let data2={};
-                        data2.fltno=data[i].fltno||'-';
-                        data2.preDepartTime=data[i].preDepartTime||'-';
-                        data2.from=data[i].from||'-';
-                        data2.preArriveTime=data[i].preArriveTime||'-';
-                        data2.statusName=data[i].statusName||'-';
-                        data2.bookNum=data[i].bookNum||'0';
-                        data2.boardingNum=data[i].boardingNum||'0';
-                        data2.forbiddenNum=data[i].forbiddenNum||'0';
-                        data2.illegalNum=data[i].illegalNum||'0';
-
-                    table+='<tr style="background:#112b42;height:20px;display: table;table-layout: fixed;width:100%;">\
-                              <td style="border:1px #143652 solid;height:20px!important;padding:0 5px!important;width:50px">'+data2.fltno+'</td>\
-                              <td style="border:1px #143652 solid;height:20px!important;padding:0 0px!important;width:110px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;">'+data2.from+'</td>\
-                              <td style="border:1px #143652 solid;height:20px!important;padding:0 0px!important;width:115px;">'+data2.preDepartTime+'</td>\
-                              <td style="border:1px #143652 solid;height:20px!important;padding:0 0px!important;width:115px;">'+data2.preArriveTime+'</td>\
-                              <td style="border:1px #143652 solid;height:20px!important;padding:0 0px!important;width:85px">'+data2.statusName+'</td>\
-                              <td style="border:1px #143652 solid;height:20px!important;padding:0 0px!important;width:50px">'+data2.bookNum+'</td>\
-                              <td style="border:1px #143652 solid;height:20px!important;padding:0 0px!important;width:50px">'+data2.boardingNum+'</td>\
-                              <td style="border:1px #143652 solid;height:20px!important;padding:0 0px!important;width:50px">'+data2.forbiddenNum+'</td>\
-                              <td style="border:1px #143652 solid;height:20px!important;padding:0 0px!important;width:50px">'+data2.illegalNum+'</td>\
-                           </tr>'
-
-                  }
-                  html+=table+'</tbody></table></div>'
-                 // //console.log(r);
-                 // let data=r.data.flights[0];
-                 // let html='<div class="katooltip">\
-                 //            <span style="color:#31aafb">航班号：</span>'+data.fltno+' <span style="color:#31aafb">航班日期：</span>'+data.fltDate+'<span style="color:#31aafb">起飞地：</span>'+data.from+'<br>'+'\
-                 //            <span style="color:#31aafb">到达地：</span>'+data.to+' <span style="color:#31aafb">起飞时间：</span>'+data.departTime+'<br>'+'\
-                 //            <span style="color:#31aafb">预计到达时间：</span>'+data.preArriveTime+' <span style="color:#31aafb">载运旅客数：</span>'+data.boardingNum+'<br>'+'\
-                 //            <span style="color:#31aafb">机组数：</span>'+data.checkNum+' <span style="color:#31aafb">不准入境人员：</span>'+data.forbiddenNum+'<br>'+'\
-                 //           </div>'
-                 callback(ticket, html);
-              })
-              return 'Loading';
+          itemStyle: {
+            normal: {
+              color: '#ffffff'
+            }
           },
-        },
+          symbolSize: 10,
+          data: [],
+          tooltip:{
+            trigger: 'item',
+            // formatter: '{b}<br/>{c}',
+            backgroundColor:'#143652',
+            padding:10,
+            borderColor:'#028bd0',
+            borderWidth:1,
+            enterable :true,
+            // triggerOn:'click',
+            formatter: function (params, ticket, callback) {
+                _this.$api.get('/manage-platform/nationwide/getPortDetail',{port:params.data.value[2]},
+                 r => {
+                   let data=r.data.flights;
+                    let html ='';
+                    let table='<table cellspacing="0" style="background:#09679d;font-size:12px;width:690px">\
+                                    <thead style="display: table;table-layout: fixed;width:100%;">\
+                                      <tr style="height:20px;display: table;table-layout: fixed;width:100%;">\
+                                        <td style="height:20px!important;padding:0 5px!important;width:50px">航班号</td>\
+                                        <td style="height:20px!important;padding:0 0px!important;width:110px;">起飞地</td>\
+                                        <td style="height:20px!important;padding:0 0px!important;width:115px;">预计起飞时间</td>\
+                                        <td style="height:20px!important;padding:0 0px!important;width:115px;">预计到达时间</td>\
+                                        <td style="height:20px!important;padding:0 0px!important;width:85px;">航班状态</td>\
+                                        <td style="height:20px!important;padding:0 0px!important;width:50px;">订票数</td>\
+                                        <td style="height:20px!important;padding:0 0px!important;width:50px;">载运旅客</td>\
+                                        <td style="height:20px!important;padding:0 0px!important;width:50px;">不准入境</td>\
+                                        <td style="height:20px!important;padding:0 0px!important;width:50px;">非法载运</td>\
+                                      </tr>\
+                                    </thead>\
+                                  <tbody style="max-height:240px!important;overflow-y:auto!important;display:block;width:100%;">';
+                    for(var i in data){
+                      let data2={};
+                          data2.fltno=data[i].fltno||'-';
+                          data2.preDepartTime=data[i].preDepartTime||'-';
+                          data2.from=data[i].from||'-';
+                          data2.preArriveTime=data[i].preArriveTime||'-';
+                          data2.statusName=data[i].statusName||'-';
+                          data2.bookNum=data[i].bookNum||'0';
+                          data2.boardingNum=data[i].boardingNum||'0';
+                          data2.forbiddenNum=data[i].forbiddenNum||'0';
+                          data2.illegalNum=data[i].illegalNum||'0';
 
+                      table+='<tr style="background:#112b42;height:20px;display: table;table-layout: fixed;width:100%;">\
+                                <td style="border:1px #143652 solid;height:20px!important;padding:0 5px!important;width:50px">'+data2.fltno+'</td>\
+                                <td style="border:1px #143652 solid;height:20px!important;padding:0 0px!important;width:110px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;">'+data2.from+'</td>\
+                                <td style="border:1px #143652 solid;height:20px!important;padding:0 0px!important;width:115px;">'+data2.preDepartTime+'</td>\
+                                <td style="border:1px #143652 solid;height:20px!important;padding:0 0px!important;width:115px;">'+data2.preArriveTime+'</td>\
+                                <td style="border:1px #143652 solid;height:20px!important;padding:0 0px!important;width:85px">'+data2.statusName+'</td>\
+                                <td style="border:1px #143652 solid;height:20px!important;padding:0 0px!important;width:50px">'+data2.bookNum+'</td>\
+                                <td style="border:1px #143652 solid;height:20px!important;padding:0 0px!important;width:50px">'+data2.boardingNum+'</td>\
+                                <td style="border:1px #143652 solid;height:20px!important;padding:0 0px!important;width:50px">'+data2.forbiddenNum+'</td>\
+                                <td style="border:1px #143652 solid;height:20px!important;padding:0 0px!important;width:50px">'+data2.illegalNum+'</td>\
+                             </tr>'
+
+                    }
+                    html+=table+'</tbody></table></div>'
+                   // //console.log(r);
+                   // let data=r.data.flights[0];
+                   // let html='<div class="katooltip">\
+                   //            <span style="color:#31aafb">航班号：</span>'+data.fltno+' <span style="color:#31aafb">航班日期：</span>'+data.fltDate+'<span style="color:#31aafb">起飞地：</span>'+data.from+'<br>'+'\
+                   //            <span style="color:#31aafb">到达地：</span>'+data.to+' <span style="color:#31aafb">起飞时间：</span>'+data.departTime+'<br>'+'\
+                   //            <span style="color:#31aafb">预计到达时间：</span>'+data.preArriveTime+' <span style="color:#31aafb">载运旅客数：</span>'+data.boardingNum+'<br>'+'\
+                   //            <span style="color:#31aafb">机组数：</span>'+data.checkNum+' <span style="color:#31aafb">不准入境人员：</span>'+data.forbiddenNum+'<br>'+'\
+                   //           </div>'
+                   callback(ticket, html);
+                })
+                return 'Loading';
+            },
+          },
+
+        }
+        data.forEach(function(val,index,arr){
+          let a={
+            name:val.fp,
+            value:[val.fj,val.fw,val.fc]
+          }
+          let b={
+            name:val.tp,
+            value:[val.tj,val.tw,val.tc]
+          }
+          f.data.push(a)
+          t.data.push(b)
+        })
+        this.series.push(f)
+        this.series.push(t)
+      }else if(type==2){
+        let x = {
+            type: 'lines',
+            // coordinateSystem: 'lines',
+            zlevel: 4,
+            //symbol: ['none', 'arrow'],   // 用于设置箭头
+            symbolSize: 10,
+            effect: {
+              show: true,
+              period: 80,
+              trailLength: 0,
+              symbol:this.planePath,
+              symbolSize: 15,
+              color:'#ffffff',
+              loop:true
+            },
+            markPoint:{
+              symbol:'circle',
+              symbolSize:15,
+              symbolOffset:[0,'20%'],
+              color:'#000000'
+            },
+            lineStyle: {
+              normal: {
+                color: '#11fa46',
+                width: 1.5,
+                opacity: 0.6,
+                curveness: -0.2
+              }
+            },
+            data: [],// 特效的起始、终点位置
+            tooltip:{
+              trigger: 'item',
+              // formatter: '{b}<br/>{c}',
+              backgroundColor:'#143652',
+              padding:10,
+              borderColor:'#028bd0',
+              borderWidth:1,
+              enterable :true,
+              // triggerOn:'click',
+
+              formatter: function (params, ticket, callback) {
+                //console.log(params)
+                  let p={
+                    dt:params.data.fk,
+                    dtLst:params.data.dtLst
+                  }
+                  _this.$api.post('/manage-platform/nationwide/getFlightDetail',p,
+                   r => {
+                     // //console.log(r);
+                     let data=r.data;
+                     let html='<div class="katooltip" >\
+                                <span style="color:#31aafb">航班号:</span><span style="color:red">'+data.fltno+' </span><span style="color:#31aafb">起飞地:</span>'+data.from+' <span style="color:#31aafb">到达地:</span>'+data.to+' <br>'
+                    if(data.fltDate){
+                      html+=' <span style="color:#31aafb">航班日期:</span>'+data.fltDate
+                    }
+                    if(data.preDepartTime){
+                      html+=' <span style="color:#31aafb">预计起飞时间:</span>'+data.preDepartTime
+                    }
+                    if(data.preArriveTime){
+                      html+='<span style="color:#31aafb">预计到达时间:</span>'+data.preArriveTime+'<br>'
+                    }
+                    if(r.data.travelers){
+                      let table='<table cellspacing="0" style="background:#09679d; width:100%;font-size:12px">\
+                                    <thead>\
+                                    <tr style="height:20px;">\
+                                      <td style="height:20px!important;">姓名</td><td style="height:20px!important;">性别</td><td style="height:20px!important;">国籍/地区</td><td style="height:20px!important;">出生日期</td>\
+                                    </tr>\
+                                    </thead>\
+                                    <tbody id="tbody1">';
+                      for(var i in r.data.travelers){
+                        //console.log("i",r.data.travelers[i])
+                        let t
+                        table+='<tr style="background:#112b42;height:20px;">\
+                                  <td style="border:1px #143652 solid;height:20px!important;padding:0 5px!important;" class="name">'+r.data.travelers[i].name+'</td>\
+                                  <td style="border:1px #143652 solid;height:20px!important;padding:0 5px!important;">'+r.data.travelers[i].genderStr+'</td>\
+                                  <td style="border:1px #143652 solid;height:20px!important;padding:0 5px!important;">'+r.data.travelers[i].nationalityName+'</td>\
+                                  <td style="border:1px #143652 solid;height:20px!important;padding:0 5px!important;">'+r.data.travelers[i].birthDay+'</td>\
+                                </tr>'
+                      }
+                      html+=table+'</tbody></table></div>'
+                    }
+                     callback(ticket, html);
+                     console.log(document.getElementById("tbody1"));
+                     document.getElementById("tbody1").addEventListener('click',function(e){
+                       if(e.target.className=='name'){
+                         var trNodes = e.target.parentNode.parentNode.childNodes;
+                         console.log("trNodes:",trNodes)
+                         for(var x=0;x<trNodes.length;x++){
+                           let a =trNodes[x].firstElementChild.getElementsByTagName('div')[0];
+                           console.log('a',a)
+                           if(a){
+                             trNodes[x].firstElementChild.removeChild(a);
+                           }
+                         }
+                         if(e.target.children.length==0){
+
+                           // removeChild()
+                           var div=document.createElement('div');
+                           e.target.appendChild(div);
+                           e.target.style.position='relative';
+                           div.style.position='absolute';
+                           div.style.top='-30px';
+                           div.style.left="80px";
+                           div.style.background="rgba(14, 32, 62, 0.88)";
+                           div.style.border="1px #01aed4 solid";
+                           div.style.boxShadow="0 0 6px #0288d1";
+                           div.style.borderRadius="3px";
+                           div.style.padding="15px";
+                           let tarr=r.data.travelers;
+                           let traveler={};
+                           for(var i=0;i<tarr.length;i++){
+                             if(e.target.innerText==tarr[i].name){
+                               traveler=tarr[i]
+                               console.log(traveler)
+                             }
+                           }
+                           let h1='';let h2='';let h3='';let h4='';
+                           if(traveler.pnrflag==1){
+                             h1='<li><span>✔</span>已订票</li>'
+                           }else{
+                             h1='<li class="o-step-err"><span>!</span>已订票</li>'
+                           }
+                           if(traveler.chkflag==1){
+                             h2='<li><span>✔</span>已值机</li>'
+                           }else{
+                             h2='<li class="o-step-err"><span>!</span>已值机</li>'
+                           }
+                           if(traveler.eeflag==1){
+                             h3='<li><span>✔</span>出入境手续</li>'
+                           }else{
+                             h3='<li class="o-step-err"><span>!</span>出入境手续</li>'
+                           }
+                           if(traveler.clsflag==1){
+                             h4='<li><span>✔</span>航班关闭</li>'
+                           }else{
+                             h4='<li class="o-step-err"><span>!</span>航班关闭</li>'
+                           }
+
+                           var html='<ul class="o-step">'+h1+h2+h3+h4+'</ul>\
+                             <span class="o-jiao"></span>';
+                           div.innerHTML=html;
+
+                         }
+                       }
+                     });
+                  })
+                  return 'Loading';
+              },
+            },
+          };
+        let f={
+          type: 'effectScatter',
+          coordinateSystem: 'geo',
+          zlevel: 6,
+          rippleEffect: {
+            brushType: 'stroke'
+          },
+          itemStyle: {
+            normal: {
+              color: '#ffffff'
+            }
+          },
+          tooltip:{
+            trigger: 'item',
+            // formatter: '{b}<br/>{c}',
+            backgroundColor:'#143652',
+            padding:10,
+            borderColor:'#028bd0',
+            borderWidth:1,
+            enterable :true,
+            // triggerOn:'click',
+            formatter: function (params, ticket, callback) {
+                _this.$api.get('/manage-platform/nationwide/getPortDetail',{port:params.data.value[2]},
+                 r => {
+                   let data=r.data.flights;
+                    let html ='';
+                    let table='<table cellspacing="0" style="background:#09679d;font-size:12px;width:690px">\
+                                    <thead style="display: table;table-layout: fixed;width:100%;">\
+                                      <tr style="height:20px;display: table;table-layout: fixed;width:100%;">\
+                                        <td style="height:20px!important;padding:0 5px!important;width:50px">航班号</td>\
+                                        <td style="height:20px!important;padding:0 5px!important;width:110px;">到达地</td>\
+                                        <td style="height:20px!important;padding:0 5px!important;width:115px;">预计起飞时间</td>\
+                                        <td style="height:20px!important;padding:0 5px!important;width:115px;">预计到达时间</td>\
+                                        <td style="height:20px!important;padding:0 0px!important;width:85px;">航班状态</td>\
+                                        <td style="height:20px!important;padding:0 0px!important;width:50px;">订票数</td>\
+                                        <td style="height:20px!important;padding:0 5px!important;width:50px;">载运旅客</td>\
+                                        <td style="height:20px!important;padding:0 5px!important;width:50px;">不准入境</td>\
+                                        <td style="height:20px!important;padding:0 5px!important;width:50px;">非法载运</td>\
+                                      </tr>\
+                                    </thead>\
+                                  <tbody style="max-height:240px!important;overflow-y:auto!important;display:block;width:100%;">';
+                    for(var i in data){
+                      let data2={};
+                          data2.fltno=data[i].fltno||'-';
+                          data2.preDepartTime=data[i].preDepartTime||'-';
+                          data2.to=data[i].to||'-';
+                          data2.preArriveTime=data[i].preArriveTime||'-';
+                          data2.statusName=data[i].statusName||'-';
+                          data2.bookNum=data[i].bookNum||'0';
+                          data2.boardingNum=data[i].boardingNum||'0';
+                          data2.forbiddenNum=data[i].forbiddenNum||'0';
+                          data2.illegalNum=data[i].illegalNum||'0';
+
+                          console.log(data2)
+                      table+='<tr style="background:#112b42;height:20px;display: table;table-layout: fixed;width:100%;">\
+                                <td style="border:1px #143652 solid;height:20px!important;padding:0 5px!important;width:50px">'+data2.fltno+'</td>\
+                                <td style="border:1px #143652 solid;height:20px!important;padding:0 5px!important;width:110px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;">'+data2.to+'</td>\
+                                <td style="border:1px #143652 solid;height:20px!important;padding:0 5px!important;width:115px;">'+data2.preDepartTime+'</td>\
+                                <td style="border:1px #143652 solid;height:20px!important;padding:0 5px!important;width:115px;">'+data2.preArriveTime+'</td>\
+                                <td style="border:1px #143652 solid;height:20px!important;padding:0 0px!important;width:85px">'+data2.statusName+'</td>\
+                                <td style="border:1px #143652 solid;height:20px!important;padding:0 0px!important;width:50px">'+data2.bookNum+'</td>\
+                                <td style="border:1px #143652 solid;height:20px!important;padding:0 5px!important;width:50px">'+data2.boardingNum+'</td>\
+                                <td style="border:1px #143652 solid;height:20px!important;padding:0 5px!important;width:50px">'+data2.forbiddenNum+'</td>\
+                                <td style="border:1px #143652 solid;height:20px!important;padding:0 5px!important;width:50px">'+data2.illegalNum+'</td>\
+                             </tr>'
+
+                    }
+                    html+=table+'</tbody></table></div>'
+                   // //console.log(r);
+                   // let data=r.data.flights[0];
+                   // let html='<div class="katooltip">\
+                   //            <span style="color:#31aafb">航班号：</span>'+data.fltno+' <span style="color:#31aafb">航班日期：</span>'+data.fltDate+'<span style="color:#31aafb">起飞地：</span>'+data.from+'<br>'+'\
+                   //            <span style="color:#31aafb">到达地：</span>'+data.to+' <span style="color:#31aafb">起飞时间：</span>'+data.departTime+'<br>'+'\
+                   //            <span style="color:#31aafb">预计到达时间：</span>'+data.preArriveTime+' <span style="color:#31aafb">载运旅客数：</span>'+data.boardingNum+'<br>'+'\
+                   //            <span style="color:#31aafb">机组数：</span>'+data.checkNum+' <span style="color:#31aafb">不准入境人员：</span>'+data.forbiddenNum+'<br>'+'\
+                   //           </div>'
+                   callback(ticket, html);
+                })
+                return 'Loading';
+            },
+          },
+
+          symbolSize: 10,
+          data: [],
+        }
+        let t={
+          type: 'effectScatter',
+          coordinateSystem: 'geo',
+          zlevel: 6,
+          rippleEffect: {
+            brushType: 'stroke'
+          },
+          itemStyle: {
+            normal: {
+              color: '#ffffff'
+            }
+          },
+          symbolSize: 10,
+          data: [],
+          tooltip:{
+            trigger: 'item',
+            // formatter: '{b}<br/>{c}',
+            backgroundColor:'#143652',
+            padding:10,
+            borderColor:'#028bd0',
+            borderWidth:1,
+            enterable :true,
+            // triggerOn:'click',
+            formatter: function (params, ticket, callback) {
+                _this.$api.get('/manage-platform/nationwide/getPortDetail',{port:params.data.value[2]},
+                 r => {
+                   let data=r.data.flights;
+                    let html ='';
+                    let table='<table cellspacing="0" style="background:#09679d;font-size:12px;width:690px">\
+                                    <thead style="display: table;table-layout: fixed;width:100%;">\
+                                      <tr style="height:20px;display: table;table-layout: fixed;width:100%;">\
+                                        <td style="height:20px!important;padding:0 5px!important;width:50px">航班号</td>\
+                                        <td style="height:20px!important;padding:0 0px!important;width:110px;">起飞地</td>\
+                                        <td style="height:20px!important;padding:0 0px!important;width:115px;">预计起飞时间</td>\
+                                        <td style="height:20px!important;padding:0 0px!important;width:115px;">预计到达时间</td>\
+                                        <td style="height:20px!important;padding:0 0px!important;width:85px;">航班状态</td>\
+                                        <td style="height:20px!important;padding:0 0px!important;width:50px;">订票数</td>\
+                                        <td style="height:20px!important;padding:0 0px!important;width:50px;">载运旅客</td>\
+                                        <td style="height:20px!important;padding:0 0px!important;width:50px;">不准入境</td>\
+                                        <td style="height:20px!important;padding:0 0px!important;width:50px;">非法载运</td>\
+                                      </tr>\
+                                    </thead>\
+                                  <tbody style="max-height:240px!important;overflow-y:auto!important;display:block;width:100%;">';
+                    for(var i in data){
+                      let data2={};
+                          data2.fltno=data[i].fltno||'-';
+                          data2.preDepartTime=data[i].preDepartTime||'-';
+                          data2.from=data[i].from||'-';
+                          data2.preArriveTime=data[i].preArriveTime||'-';
+                          data2.statusName=data[i].statusName||'-';
+                          data2.bookNum=data[i].bookNum||'0';
+                          data2.boardingNum=data[i].boardingNum||'0';
+                          data2.forbiddenNum=data[i].forbiddenNum||'0';
+                          data2.illegalNum=data[i].illegalNum||'0';
+
+                      table+='<tr style="background:#112b42;height:20px;display: table;table-layout: fixed;width:100%;">\
+                                <td style="border:1px #143652 solid;height:20px!important;padding:0 5px!important;width:50px">'+data2.fltno+'</td>\
+                                <td style="border:1px #143652 solid;height:20px!important;padding:0 0px!important;width:110px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;">'+data2.from+'</td>\
+                                <td style="border:1px #143652 solid;height:20px!important;padding:0 0px!important;width:115px;">'+data2.preDepartTime+'</td>\
+                                <td style="border:1px #143652 solid;height:20px!important;padding:0 0px!important;width:115px;">'+data2.preArriveTime+'</td>\
+                                <td style="border:1px #143652 solid;height:20px!important;padding:0 0px!important;width:85px">'+data2.statusName+'</td>\
+                                <td style="border:1px #143652 solid;height:20px!important;padding:0 0px!important;width:50px">'+data2.bookNum+'</td>\
+                                <td style="border:1px #143652 solid;height:20px!important;padding:0 0px!important;width:50px">'+data2.boardingNum+'</td>\
+                                <td style="border:1px #143652 solid;height:20px!important;padding:0 0px!important;width:50px">'+data2.forbiddenNum+'</td>\
+                                <td style="border:1px #143652 solid;height:20px!important;padding:0 0px!important;width:50px">'+data2.illegalNum+'</td>\
+                             </tr>'
+
+                    }
+                    html+=table+'</tbody></table></div>'
+                   // //console.log(r);
+                   // let data=r.data.flights[0];
+                   // let html='<div class="katooltip">\
+                   //            <span style="color:#31aafb">航班号：</span>'+data.fltno+' <span style="color:#31aafb">航班日期：</span>'+data.fltDate+'<span style="color:#31aafb">起飞地：</span>'+data.from+'<br>'+'\
+                   //            <span style="color:#31aafb">到达地：</span>'+data.to+' <span style="color:#31aafb">起飞时间：</span>'+data.departTime+'<br>'+'\
+                   //            <span style="color:#31aafb">预计到达时间：</span>'+data.preArriveTime+' <span style="color:#31aafb">载运旅客数：</span>'+data.boardingNum+'<br>'+'\
+                   //            <span style="color:#31aafb">机组数：</span>'+data.checkNum+' <span style="color:#31aafb">不准入境人员：</span>'+data.forbiddenNum+'<br>'+'\
+                   //           </div>'
+                   callback(ticket, html);
+                })
+                return 'Loading';
+            },
+          },
+
+        }
+        data.forEach(function(val,index,arr){
+          let a={
+            name:val.fp,
+            value:[val.fj,val.fw,val.fc]
+          }
+          let b={
+            name:val.tp,
+            value:[val.tj,val.tw,val.tc]
+          }
+          let c={
+            fk:val.fk,
+            dtLst:val.tks,
+            coords:[[val.fj,val.fw],[val.tj,val.tw]]
+          }
+          f.data.push(a)
+          t.data.push(b)
+          x.data.push(c)
+        })
+        this.series.push(f)
+        this.series.push(t)
+        this.series.push(x)
+      }else if(type==3){
+        let x = {
+            type: 'lines',
+            // coordinateSystem: 'lines',
+            zlevel: 4,
+            //symbol: ['none', 'arrow'],   // 用于设置箭头
+            symbolSize: 10,
+            effect: {
+              show: true,
+              period: 80,
+              trailLength: 0,
+              symbol:this.planePath,
+              symbolSize: 15,
+              color:'#ffffff',
+              loop:true
+            },
+            markPoint:{
+              symbol:'circle',
+              symbolSize:15,
+              symbolOffset:[0,'20%'],
+              color:'#000000'
+            },
+            lineStyle: {
+              normal: {
+                color: '#11fa46',
+                width: 1.5,
+                opacity: 0.6,
+                curveness: -0.2
+              }
+            },
+            data: [],// 特效的起始、终点位置
+            tooltip:{
+              trigger: 'item',
+              // formatter: '{b}<br/>{c}',
+              backgroundColor:'#143652',
+              padding:10,
+              borderColor:'#028bd0',
+              borderWidth:1,
+              enterable :true,
+              // triggerOn:'click',
+
+              formatter: function (params, ticket, callback) {
+                //console.log(params)
+                  let p={
+                    dt:params.data.fk,
+                    dtLst:params.data.dtLst
+                  }
+                  _this.$api.post('/manage-platform/nationwide/getFlightDetail',p,
+                   r => {
+                     // //console.log(r);
+                     let data=r.data;
+                     let html='<div class="katooltip" >\
+                                <span style="color:#31aafb">航班号:</span><span style="color:red">'+data.fltno+' </span><span style="color:#31aafb">起飞地:</span>'+data.from+' <span style="color:#31aafb">到达地:</span>'+data.to+' <br>'
+                    if(data.fltDate){
+                      html+=' <span style="color:#31aafb">航班日期:</span>'+data.fltDate
+                    }
+                    if(data.preDepartTime){
+                      html+=' <span style="color:#31aafb">预计起飞时间:</span>'+data.preDepartTime
+                    }
+                    if(data.preArriveTime){
+                      html+='<span style="color:#31aafb">预计到达时间:</span>'+data.preArriveTime+'<br>'
+                    }
+                    if(r.data.travelers){
+                      let table='<table cellspacing="0" style="background:#09679d; width:100%;font-size:12px">\
+                                    <thead>\
+                                    <tr style="height:20px;">\
+                                      <td style="height:20px!important;">姓名</td><td style="height:20px!important;">性别</td><td style="height:20px!important;">国籍/地区</td><td style="height:20px!important;">出生日期</td>\
+                                    </tr>\
+                                    </thead>\
+                                    <tbody id="tbody1">';
+                      for(var i in r.data.travelers){
+                        //console.log("i",r.data.travelers[i])
+                        let t
+                        table+='<tr style="background:#112b42;height:20px;">\
+                                  <td style="border:1px #143652 solid;height:20px!important;padding:0 5px!important;" class="name">'+r.data.travelers[i].name+'</td>\
+                                  <td style="border:1px #143652 solid;height:20px!important;padding:0 5px!important;">'+r.data.travelers[i].genderStr+'</td>\
+                                  <td style="border:1px #143652 solid;height:20px!important;padding:0 5px!important;">'+r.data.travelers[i].nationalityName+'</td>\
+                                  <td style="border:1px #143652 solid;height:20px!important;padding:0 5px!important;">'+r.data.travelers[i].birthDay+'</td>\
+                                </tr>'
+                      }
+                      html+=table+'</tbody></table></div>'
+                    }
+                     callback(ticket, html);
+                     console.log(document.getElementById("tbody1"));
+                     document.getElementById("tbody1").addEventListener('click',function(e){
+                       if(e.target.className=='name'){
+                         var trNodes = e.target.parentNode.parentNode.childNodes;
+                         console.log("trNodes:",trNodes)
+                         for(var x=0;x<trNodes.length;x++){
+                           let a =trNodes[x].firstElementChild.getElementsByTagName('div')[0];
+                           console.log('a',a)
+                           if(a){
+                             trNodes[x].firstElementChild.removeChild(a);
+                           }
+                         }
+                         if(e.target.children.length==0){
+
+                           // removeChild()
+                           var div=document.createElement('div');
+                           e.target.appendChild(div);
+                           e.target.style.position='relative';
+                           div.style.position='absolute';
+                           div.style.top='-30px';
+                           div.style.left="80px";
+                           div.style.background="rgba(14, 32, 62, 0.88)";
+                           div.style.border="1px #01aed4 solid";
+                           div.style.boxShadow="0 0 6px #0288d1";
+                           div.style.borderRadius="3px";
+                           div.style.padding="15px";
+                           let tarr=r.data.travelers;
+                           let traveler={};
+                           for(var i=0;i<tarr.length;i++){
+                             if(e.target.innerText==tarr[i].name){
+                               traveler=tarr[i]
+                               console.log(traveler)
+                             }
+                           }
+                           let h1='';let h2='';let h3='';let h4='';
+                           if(traveler.pnrflag==1){
+                             h1='<li><span>✔</span>已订票</li>'
+                           }else{
+                             h1='<li class="o-step-err"><span>!</span>已订票</li>'
+                           }
+                           if(traveler.chkflag==1){
+                             h2='<li><span>✔</span>已值机</li>'
+                           }else{
+                             h2='<li class="o-step-err"><span>!</span>已值机</li>'
+                           }
+                           if(traveler.eeflag==1){
+                             h3='<li><span>✔</span>出入境手续</li>'
+                           }else{
+                             h3='<li class="o-step-err"><span>!</span>出入境手续</li>'
+                           }
+                           if(traveler.clsflag==1){
+                             h4='<li><span>✔</span>航班关闭</li>'
+                           }else{
+                             h4='<li class="o-step-err"><span>!</span>航班关闭</li>'
+                           }
+
+                           var html='<ul class="o-step">'+h1+h2+h3+h4+'</ul>\
+                             <span class="o-jiao"></span>';
+                           div.innerHTML=html;
+
+                         }
+                       }
+                     });
+                  })
+                  return 'Loading';
+              },
+            },
+          };
+
+        let f={
+          type: 'effectScatter',
+          coordinateSystem: 'geo',
+          zlevel: 6,
+          rippleEffect: {
+            brushType: 'stroke'
+          },
+          itemStyle: {
+            normal: {
+              color: '#ffffff'
+            }
+          },
+          tooltip:{
+            trigger: 'item',
+            // formatter: '{b}<br/>{c}',
+            backgroundColor:'#143652',
+            padding:10,
+            borderColor:'#028bd0',
+            borderWidth:1,
+            enterable :true,
+            // triggerOn:'click',
+            formatter: function (params, ticket, callback) {
+                _this.$api.get('/manage-platform/nationwide/getPortDetail',{port:params.data.value[2]},
+                 r => {
+                   let data=r.data.flights;
+                    let html ='';
+                    let table='<table cellspacing="0" style="background:#09679d;font-size:12px;width:690px">\
+                                    <thead style="display: table;table-layout: fixed;width:100%;">\
+                                      <tr style="height:20px;display: table;table-layout: fixed;width:100%;">\
+                                        <td style="height:20px!important;padding:0 5px!important;width:50px">航班号</td>\
+                                        <td style="height:20px!important;padding:0 5px!important;width:110px;">到达地</td>\
+                                        <td style="height:20px!important;padding:0 5px!important;width:115px;">预计起飞时间</td>\
+                                        <td style="height:20px!important;padding:0 5px!important;width:115px;">预计到达时间</td>\
+                                        <td style="height:20px!important;padding:0 0px!important;width:85px;">航班状态</td>\
+                                        <td style="height:20px!important;padding:0 0px!important;width:50px;">订票数</td>\
+                                        <td style="height:20px!important;padding:0 5px!important;width:50px;">载运旅客</td>\
+                                        <td style="height:20px!important;padding:0 5px!important;width:50px;">不准入境</td>\
+                                        <td style="height:20px!important;padding:0 5px!important;width:50px;">非法载运</td>\
+                                      </tr>\
+                                    </thead>\
+                                  <tbody style="max-height:240px!important;overflow-y:auto!important;display:block;width:100%;">';
+                    for(var i in data){
+                      let data2={};
+                          data2.fltno=data[i].fltno||'-';
+                          data2.preDepartTime=data[i].preDepartTime||'-';
+                          data2.to=data[i].to||'-';
+                          data2.preArriveTime=data[i].preArriveTime||'-';
+                          data2.statusName=data[i].statusName||'-';
+                          data2.bookNum=data[i].bookNum||'0';
+                          data2.boardingNum=data[i].boardingNum||'0';
+                          data2.forbiddenNum=data[i].forbiddenNum||'0';
+                          data2.illegalNum=data[i].illegalNum||'0';
+
+                          console.log(data2)
+                      table+='<tr style="background:#112b42;height:20px;display: table;table-layout: fixed;width:100%;">\
+                                <td style="border:1px #143652 solid;height:20px!important;padding:0 5px!important;width:50px">'+data2.fltno+'</td>\
+                                <td style="border:1px #143652 solid;height:20px!important;padding:0 5px!important;width:110px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;">'+data2.to+'</td>\
+                                <td style="border:1px #143652 solid;height:20px!important;padding:0 5px!important;width:115px;">'+data2.preDepartTime+'</td>\
+                                <td style="border:1px #143652 solid;height:20px!important;padding:0 5px!important;width:115px;">'+data2.preArriveTime+'</td>\
+                                <td style="border:1px #143652 solid;height:20px!important;padding:0 0px!important;width:85px">'+data2.statusName+'</td>\
+                                <td style="border:1px #143652 solid;height:20px!important;padding:0 0px!important;width:50px">'+data2.bookNum+'</td>\
+                                <td style="border:1px #143652 solid;height:20px!important;padding:0 5px!important;width:50px">'+data2.boardingNum+'</td>\
+                                <td style="border:1px #143652 solid;height:20px!important;padding:0 5px!important;width:50px">'+data2.forbiddenNum+'</td>\
+                                <td style="border:1px #143652 solid;height:20px!important;padding:0 5px!important;width:50px">'+data2.illegalNum+'</td>\
+                             </tr>'
+
+                    }
+                    html+=table+'</tbody></table></div>'
+                   // //console.log(r);
+                   // let data=r.data.flights[0];
+                   // let html='<div class="katooltip">\
+                   //            <span style="color:#31aafb">航班号：</span>'+data.fltno+' <span style="color:#31aafb">航班日期：</span>'+data.fltDate+'<span style="color:#31aafb">起飞地：</span>'+data.from+'<br>'+'\
+                   //            <span style="color:#31aafb">到达地：</span>'+data.to+' <span style="color:#31aafb">起飞时间：</span>'+data.departTime+'<br>'+'\
+                   //            <span style="color:#31aafb">预计到达时间：</span>'+data.preArriveTime+' <span style="color:#31aafb">载运旅客数：</span>'+data.boardingNum+'<br>'+'\
+                   //            <span style="color:#31aafb">机组数：</span>'+data.checkNum+' <span style="color:#31aafb">不准入境人员：</span>'+data.forbiddenNum+'<br>'+'\
+                   //           </div>'
+                   callback(ticket, html);
+                })
+                return 'Loading';
+            },
+          },
+
+          symbolSize: 10,
+          data: [],
+        }
+        let t={
+          type: 'effectScatter',
+          coordinateSystem: 'geo',
+          zlevel: 6,
+          rippleEffect: {
+            brushType: 'stroke'
+          },
+          itemStyle: {
+            normal: {
+              color: '#ffffff'
+            }
+          },
+          symbolSize: 10,
+          data: [],
+          tooltip:{
+            trigger: 'item',
+            // formatter: '{b}<br/>{c}',
+            backgroundColor:'#143652',
+            padding:10,
+            borderColor:'#028bd0',
+            borderWidth:1,
+            enterable :true,
+            // triggerOn:'click',
+            formatter: function (params, ticket, callback) {
+                _this.$api.get('/manage-platform/nationwide/getPortDetail',{port:params.data.value[2]},
+                 r => {
+                   let data=r.data.flights;
+                    let html ='';
+                    let table='<table cellspacing="0" style="background:#09679d;font-size:12px;width:690px">\
+                                    <thead style="display: table;table-layout: fixed;width:100%;">\
+                                      <tr style="height:20px;display: table;table-layout: fixed;width:100%;">\
+                                        <td style="height:20px!important;padding:0 5px!important;width:50px">航班号</td>\
+                                        <td style="height:20px!important;padding:0 0px!important;width:110px;">起飞地</td>\
+                                        <td style="height:20px!important;padding:0 0px!important;width:115px;">预计起飞时间</td>\
+                                        <td style="height:20px!important;padding:0 0px!important;width:115px;">预计到达时间</td>\
+                                        <td style="height:20px!important;padding:0 0px!important;width:85px;">航班状态</td>\
+                                        <td style="height:20px!important;padding:0 0px!important;width:50px;">订票数</td>\
+                                        <td style="height:20px!important;padding:0 0px!important;width:50px;">载运旅客</td>\
+                                        <td style="height:20px!important;padding:0 0px!important;width:50px;">不准入境</td>\
+                                        <td style="height:20px!important;padding:0 0px!important;width:50px;">非法载运</td>\
+                                      </tr>\
+                                    </thead>\
+                                  <tbody style="max-height:240px!important;overflow-y:auto!important;display:block;width:100%;">';
+                    for(var i in data){
+                      let data2={};
+                          data2.fltno=data[i].fltno||'-';
+                          data2.preDepartTime=data[i].preDepartTime||'-';
+                          data2.from=data[i].from||'-';
+                          data2.preArriveTime=data[i].preArriveTime||'-';
+                          data2.statusName=data[i].statusName||'-';
+                          data2.bookNum=data[i].bookNum||'0';
+                          data2.boardingNum=data[i].boardingNum||'0';
+                          data2.forbiddenNum=data[i].forbiddenNum||'0';
+                          data2.illegalNum=data[i].illegalNum||'0';
+
+                      table+='<tr style="background:#112b42;height:20px;display: table;table-layout: fixed;width:100%;">\
+                                <td style="border:1px #143652 solid;height:20px!important;padding:0 5px!important;width:50px">'+data2.fltno+'</td>\
+                                <td style="border:1px #143652 solid;height:20px!important;padding:0 0px!important;width:110px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;">'+data2.from+'</td>\
+                                <td style="border:1px #143652 solid;height:20px!important;padding:0 0px!important;width:115px;">'+data2.preDepartTime+'</td>\
+                                <td style="border:1px #143652 solid;height:20px!important;padding:0 0px!important;width:115px;">'+data2.preArriveTime+'</td>\
+                                <td style="border:1px #143652 solid;height:20px!important;padding:0 0px!important;width:85px">'+data2.statusName+'</td>\
+                                <td style="border:1px #143652 solid;height:20px!important;padding:0 0px!important;width:50px">'+data2.bookNum+'</td>\
+                                <td style="border:1px #143652 solid;height:20px!important;padding:0 0px!important;width:50px">'+data2.boardingNum+'</td>\
+                                <td style="border:1px #143652 solid;height:20px!important;padding:0 0px!important;width:50px">'+data2.forbiddenNum+'</td>\
+                                <td style="border:1px #143652 solid;height:20px!important;padding:0 0px!important;width:50px">'+data2.illegalNum+'</td>\
+                             </tr>'
+
+                    }
+                    html+=table+'</tbody></table></div>'
+                   // //console.log(r);
+                   // let data=r.data.flights[0];
+                   // let html='<div class="katooltip">\
+                   //            <span style="color:#31aafb">航班号：</span>'+data.fltno+' <span style="color:#31aafb">航班日期：</span>'+data.fltDate+'<span style="color:#31aafb">起飞地：</span>'+data.from+'<br>'+'\
+                   //            <span style="color:#31aafb">到达地：</span>'+data.to+' <span style="color:#31aafb">起飞时间：</span>'+data.departTime+'<br>'+'\
+                   //            <span style="color:#31aafb">预计到达时间：</span>'+data.preArriveTime+' <span style="color:#31aafb">载运旅客数：</span>'+data.boardingNum+'<br>'+'\
+                   //            <span style="color:#31aafb">机组数：</span>'+data.checkNum+' <span style="color:#31aafb">不准入境人员：</span>'+data.forbiddenNum+'<br>'+'\
+                   //           </div>'
+                   callback(ticket, html);
+                })
+                return 'Loading';
+            },
+          },
+
+        }
+        data.forEach(function(val,index,arr){
+          let a={
+            name:val.fp,
+            value:[val.fj,val.fw,val.fc]
+          }
+          let b={
+            name:val.tp,
+            value:[val.tj,val.tw,val.tc]
+          }
+          let c={
+            fk:val.fk,
+            dtLst:val.tks,
+            coords:[[val.fj,val.fw],[val.tj,val.tw]]
+          }
+          f.data.push(a)
+          t.data.push(b)
+          x.data.push(c)
+        })
+        this.series.push(f)
+        this.series.push(t)
+        this.series.push(x)
       }
-      data.forEach(function(val,index,arr){
-        let a={
-          name:val.fp,
-          value:[val.fj,val.fw,val.fc]
-        }
-        let b={
-          name:val.tp,
-          value:[val.tj,val.tw,val.tc]
-        }
-        let c={
-          fk:val.fk,
-          dtLst:val.tks,
-          coords:[[val.fj,val.fw],[val.tj,val.tw]]
-        }
-        f.data.push(a)
-        t.data.push(b)
-        x.data.push(c)
-      })
-      this.series.push(f)
-      this.series.push(t)
-      this.series.push(x)
-
-      //console.log(this.series)
-
       this.initChart(this.series);
-
-
 
     },
     // tabclick(e){
@@ -2158,7 +2700,7 @@ export default {
        r => {
          console.log("updateJkKa",r);
          this.getJkKa()
-         this.getNewData('ka');
+         this.getNewData(1);
          this.tabId=0;
       })
     },
@@ -2376,7 +2918,7 @@ export default {
          //console.log(r);
          this.DqJkHb=r.data;
          if(type==2){
-           this.getNewData()
+           this.getNewData(2)
          }
       })
     },
@@ -2435,7 +2977,7 @@ export default {
          //console.log(r);
          this.DqRy=r.data;
          if(type==2){
-           this.getNewData()
+           this.getNewData(3)
          }
 
       })
