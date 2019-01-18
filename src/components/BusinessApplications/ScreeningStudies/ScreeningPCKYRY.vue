@@ -572,14 +572,13 @@ export default {
         "showCount": showCount,
         "cdt": pd
       };
-      var url = "/manage-platform/SuspectPerson/get_bk_nochk";
+      var url = "/manage-platform/SuspectPerson/get_bk_count";
       this.$api.post(url, p,
         r => {
           console.log(r);
           this.tableData = r.data.resultList;
-          if(r.data.totalResult!="" && r.data.totalResult!=undefined){
           this.TotalResult = r.data.totalResult;
-        }
+
         })
 
     },
@@ -599,14 +598,14 @@ export default {
         "showCount": showCount1,
         "cdt": pd1
       };
-      var url = "/manage-platform/SuspectPerson/get_chk_nobrd";
+      var url = "/manage-platform/SuspectPerson/get_chk_count";
       this.$api.post(url, p,
         r => {
           console.log(r);
           this.tableData1 = r.data.resultList;
-          if(r.data.totalResult!="" && r.data.totalResult!=undefined){
+
           this.TotalResult1 = r.data.totalResult;
-        }
+
         })
     },
     getList2(currentPage2, showCount2, pd2) {
@@ -625,14 +624,13 @@ export default {
         "showCount": showCount2,
         "cdt": pd2
       };
-      var url = "/manage-platform/SuspectPerson/get_brd_noee";
+      var url = "/manage-platform/SuspectPerson/get_ee_count";
       this.$api.post(url, p,
         r => {
           console.log(r);
           this.tableData2 = r.data.resultList;
 
-          if(r.data.totalResult!="" && r.data.totalResult!=undefined){
-          this.TotalResult2 =r.data.totalResult ;}
+          this.TotalResult2 =r.data.totalResult ;
         })
     },
 
