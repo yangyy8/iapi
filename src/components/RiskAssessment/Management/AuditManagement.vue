@@ -17,13 +17,13 @@
             <el-date-picker
               v-model="pd.BEGINDATE" format="yyyy-MM-dd HH:mm:ss"
               type="datetime" size="small" value-format="yyyyMMddHHmmss"
-              placeholder="开始时间"  :picker-options="pickerOptions" >
+              placeholder="开始时间"   >
           </el-date-picker>
              <span class="septum">-</span>
              <el-date-picker
             v-model="pd.EXPIREDATE" format="yyyy-MM-dd HH:mm:ss"
             type="datetime" size="small" value-format="yyyyMMddHHmmss"
-            placeholder="结束时间" :picker-options="pickerOptions1" >
+            placeholder="结束时间" >
               </el-date-picker>
             </div>
             </el-col>
@@ -33,13 +33,13 @@
                <el-date-picker
                v-model="pd.BEGINDATE" format="yyyy-MM-dd HH:mm:ss"
                type="datetime" size="small" value-format="yyyyMMddHHmmss"
-               placeholder="开始时间"  :picker-options="pickerOptions" >
+               placeholder="开始时间"  >
              </el-date-picker>
                <span class="septum">-</span>
              <el-date-picker
                 v-model="pd.EXPIREDATE" format="yyyy-MM-dd HH:mm:ss"
                 type="datetime" size="small" value-format="yyyyMMddHHmmss"
-                placeholder="结束时间" :picker-options="pickerOptions1" >
+                placeholder="结束时间"  >
             </el-date-picker>
           </div>
             </el-col>
@@ -209,7 +209,7 @@
     </el-dialog>
 
     <el-dialog title="详情" :visible.sync="detailsDialogVisible" width="500px" >
-      <el-form :model="map" ref="mapForm">
+      <el-form ref="mapForm">
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
             <span class="yy-input-text">类型：</span>
@@ -285,28 +285,7 @@ export default {
       },
       defaultChecked:[],
       multipleSelection: [],
-      pickerOptions1: {
-        // shortcuts: [{
-        //   text: '今天',
-        //   onClick(picker) {
-        //     picker.$emit('pick', new Date());
-        //   }
-        // }, {
-        //   text: '昨天',
-        //   onClick(picker) {
-        //     const date = new Date();
-        //     date.setTime(date.getTime() - 3600 * 1000 * 24);
-        //     picker.$emit('pick', date);
-        //   }
-        // }, {
-        //   text: '一周前',
-        //   onClick(picker) {
-        //     const date = new Date();
-        //     date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
-        //     picker.$emit('pick', date);
-        //   }
-        // }]
-      },
+
       form: {},
       mapForm: {},
       Airport: [],

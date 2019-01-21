@@ -519,11 +519,11 @@ export default {
     }
   },
   mounted() {
-    this.getList(this.CurrentPage, this.pageSize, this.pd);
+  //  this.getList(this.CurrentPage, this.pageSize, this.pd);
     this.queryNationality();
   },
   activated() {
-    this.getList(this.CurrentPage, this.pageSize, this.pd);
+  //  this.getList(this.CurrentPage, this.pageSize, this.pd);
     this.queryNationality();
   },
   methods: {
@@ -585,8 +585,6 @@ export default {
     adds(n, i) {
 
       this.addDialogVisible = true;
-    this.V.$reset("demo2");
-
 
       if (n != 0) {
         this.tp = 1;
@@ -656,7 +654,7 @@ export default {
         }];
 
       }
-
+    this.V.$reset("demo2");
     },
     addItem(formName) {
 

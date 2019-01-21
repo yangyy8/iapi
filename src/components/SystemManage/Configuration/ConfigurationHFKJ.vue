@@ -16,25 +16,27 @@
       <el-table
         :data="tableData"
         border
-        style="width: 100%;">
+        style="width: 100%;"
+        class="mt-10 o-table3"
+@header-click="headerClick">
         <el-table-column
           prop="TYPE"
-          label="口径类型">
+          label="口径类型" sortable>
         </el-table-column>
         <el-table-column
-          label="口径类型描述">
+          label="口径类型描述" sortable>
           <template slot-scope="scope">
             <span class="t-noWrap">{{scope.row.DESCRIBE}}</span>
           </template>
         </el-table-column>
         <el-table-column
-          label="中文口径">
+          label="中文口径" sortable>
           <template slot-scope="scope">
             <span class="t-noWrap">{{scope.row.CHN}}</span>
           </template>
         </el-table-column>
         <el-table-column
-          label="英文口径">
+          label="英文口径" sortable>
           <template slot-scope="scope">
             <span class="t-noWrap">{{scope.row.EN}}</span>
           </template>
@@ -42,7 +44,7 @@
         <el-table-column
           label="操作" width="120">
           <template slot-scope="scope">
-              <el-button  type="text"  class="a-btn" title="详情" icon="el-icon-delete" @click="details(scope.row)"></el-button>
+              <el-button  type="text"  class="a-btn" title="详情" icon="el-icon-tickets" @click="details(scope.row)"></el-button>
               <el-button  type="text"  class="a-btn"  title="编辑"  icon="el-icon-edit" @click="adds(1,scope.row)"></el-button>
               <el-button  type="text"  class="a-btn"  title="删除"  icon="el-icon-delete" @click="deletes(scope.row)"></el-button>
          </template>
@@ -80,32 +82,36 @@
       </div> -->
     </div>
     <el-dialog :title="dialogText" :visible.sync="addDialogVisible" width="800px" >
-      <el-form :model="form" ref="addForm">
+      <el-form  ref="form">
         <el-row type="flex"  class="mb-6">
-          <el-col :span="24" class="input-item">
+          <el-col :span="24" class="input-item my-form-group" data-scope="demo" data-name="TYPE" data-type="input"
+            v-validate-easy="[['required']]">
             <span class="yy-input-text"><font class="yy-color">*</font> 口径类型：</span>
-            <el-input placeholder="请输入内容，最大字符为15" size="small" maxlength="15"  v-model="form.TYPE"  class="yy-input-input" v-verify.input.blur ="{regs:'required',submit:'Koujing'}"></el-input>
+            <el-input placeholder="请输入内容，最大字符为15" size="small" maxlength="15"  v-model="form.TYPE"  class="yy-input-input" ></el-input>
           </el-col>
         </el-row>
 
         <el-row type="flex"  class="mb-6">
-          <el-col :span="24" class="input-item">
+          <el-col :span="24" class="input-item my-form-group" data-scope="demo" data-name="CHN" data-type="textarea"
+            v-validate-easy="[['required']]">
             <span class="yy-input-text"><font class="yy-color">*</font> 中文口径：</span>
-            <el-input type="textarea" placeholder="请输入内容，最大字符为300"  maxlength="300" :autosize="{ minRows: 3, maxRows: 6}" v-model="form.CHN"  class="yy-input-input" v-verify.input.blur ="{regs:'required',submit:'Koujing'}"></el-input>
+            <el-input type="textarea" placeholder="请输入内容，最大字符为300"  maxlength="300" :autosize="{ minRows: 3, maxRows: 6}" v-model="form.CHN"  class="yy-input-input" ></el-input>
           </el-col>
         </el-row>
 
         <el-row type="flex"  class="mb-6">
-          <el-col :span="24" class="input-item">
+          <el-col :span="24" class="input-item my-form-group" data-scope="demo" data-name="EN" data-type="textarea"
+            v-validate-easy="[['required']]">
             <span class="yy-input-text"><font class="yy-color">*</font> 英文口径：</span>
-            <el-input type="textarea" placeholder="请输入内容，最大字符为300"  maxlength="300" :autosize="{ minRows: 3, maxRows: 6}" v-model="form.EN"  class="yy-input-input" v-verify.input.blur ="{regs:'required',submit:'Koujing'}"></el-input>
+            <el-input type="textarea" placeholder="请输入内容，最大字符为300"  maxlength="300" :autosize="{ minRows: 3, maxRows: 6}" v-model="form.EN"  class="yy-input-input" ></el-input>
           </el-col>
         </el-row>
 
         <el-row type="flex"  class="mb-6">
-          <el-col :span="24" class="input-item">
+          <el-col :span="24" class="input-item my-form-group" data-scope="demo" data-name="DESCRIBE" data-type="textarea"
+            v-validate-easy="[['required']]">
             <span class="yy-input-text"><font class="yy-color">*</font> 口径类型描述：</span>
-              <el-input type="textarea"  placeholder="请输入内容，最大字符为50"  maxlength="50":autosize="{ minRows: 3, maxRows: 6}" v-model="form.DESCRIBE" class="yy-input-input"  v-verify.change.blur ="{regs:'required',submit:'Koujing'}"></el-input>
+              <el-input type="textarea"  placeholder="请输入内容，最大字符为50"  maxlength="50":autosize="{ minRows: 3, maxRows: 6}" v-model="form.DESCRIBE" class="yy-input-input" ></el-input>
           </el-col>
         </el-row>
 
@@ -203,6 +209,11 @@ export default {
     this.getList();
   },
   methods: {
+
+    headerClick(column,event){
+      event.target.title=column.label
+    },
+
     handleSelectionChange(val) {
       this.multipleSelection = val;
     },
@@ -240,15 +251,14 @@ export default {
         this.tp = 0;
         this.dialogText="新增";
       }
-
+ this.V.$reset("demo");
     },
     addItem(formName) {
-      if(this.$validator.listener.Koujing){
-        const result = this.$validator.verifyAll('Koujing')
-         if (result.indexOf(false) > -1) {
-           return
-         }
-      }
+
+     this.V.$submit('demo', (canSumit,data) => {
+    // canSumit为true时，则所有该scope的所有表单验证通过
+     if(!canSumit) return;
+     // 只有验证全部通过才会执行
       var url = "/manage-platform/consult/saveConsultReplyConfig";
       if (this.tp == 1) {
         url = "/manage-platform/consult/editConsultReplyConfig";
@@ -261,15 +271,18 @@ export default {
               message: '保存成功！',
               type: 'success'
             });
+
           } else {
             this.$message.error(r.Message);
           }
+            this.addDialogVisible = false;
           this.$refs[formName].resetFields();
-          this.addDialogVisible = false;
+
           this.getList();
         }, e => {
           this.$message.error('失败了');
         })
+      });
     },
     details(i) {
       this.detailsDialogVisible = true;

@@ -47,6 +47,8 @@
         :data="tableData"
         border
         style="width: 100%;"
+        class="mt-10 o-table3"
+        @header-click="headerClick"
         >
         <el-table-column
           prop="ROLE_NAME" sortable
@@ -112,17 +114,19 @@
     <el-dialog :title="dialogText" :visible.sync="addDialogVisible" width="500px" >
       <el-form :model="form" ref="addForm">
         <el-row type="flex"  class="mb-6">
-          <el-col :span="24" class="input-item">
+          <el-col :span="24" class="input-item my-form-group" data-scope="demo" data-name="ROLE_NAME" data-type="input"
+            v-validate-easy="[['required']]">
             <span class="yy-input-text"><font class="yy-color">*</font>角色名：</span>
-            <el-input placeholder="请输入内容(不能超过20个汉字)" size="small" maxlength="20"  v-model="form.ROLE_NAME"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
+            <el-input placeholder="请输入内容(不能超过20个汉字)" size="small" maxlength="20"  v-model="form.ROLE_NAME"  class="yy-input-input" ></el-input>
 
           </el-col>
         </el-row>
 
         <el-row type="flex"  class="mb-6">
-          <el-col :span="24" class="input-item">
+          <el-col :span="24" class="input-item my-form-group" data-scope="demo" data-name="STATUS" data-type="select"
+            v-validate-easy="[['required']]">
             <span class="yy-input-text"><font class="yy-color">*</font>状态：</span>
-            <el-select v-model="form.STATUS" clearable placeholder="请选择" size="small" class="input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}">
+            <el-select v-model="form.STATUS" clearable placeholder="请选择" size="small" class="input-input" >
                <el-option value="1" label="1 - 启用">
                </el-option>
                <el-option value="0" label="0 - 停用">
@@ -159,7 +163,7 @@
     </el-dialog>
 
     <el-dialog title="详情" :visible.sync="detailsDialogVisible" width="500px" >
-      <el-form :model="map" ref="mapForm">
+      <el-form  ref="mapForm">
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
             <span class="yy-input-text">角色名：</span>
@@ -296,6 +300,9 @@ export default {
     this.getList(this.CurrentPage, this.pageSize, this.pd);
   },
   methods: {
+    headerClick(column,event){
+   event.target.title=column.label
+ },
     handleSelectionChange(val) {
       this.multipleSelection = val;
     },
@@ -341,16 +348,14 @@ export default {
       }else {
         this.dialogText="新增";
       }
-
+  this.V.$reset("demo");
     },
     addItem(formName) {
-            if(this.$validator.listener.demo2){
-              const result = this.$validator.verifyAll('demo2')
-               if (result.indexOf(false) > -1) {
-                 return
-               } else {
-               }
-            }
+
+this.V.$submit('demo', (canSumit,data) => {
+  // canSumit为true时，则所有该scope的所有表单验证通过
+   if(!canSumit) return;
+   // 只有验证全部通过才会执行
       var url = "/manage-platform/roleSys/save";
       if (this.tp == 1) {
         url = "/manage-platform/roleSys/edit";
@@ -373,6 +378,7 @@ export default {
           // this.tableData=r.Data.ResultList;
         }, e => {
           this.$message.error('失败了');
+        })
         })
     },
     details(i) {

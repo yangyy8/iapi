@@ -910,7 +910,6 @@ export default {
       isRoute:false,
     }
   },
-
   mounted() {
     this.queryNationality();
     // if(this.$route.query.isRoute==undefined){
@@ -921,7 +920,7 @@ export default {
     // let beginz = new Date(time - 1000 * 60 * 60 * 24 * 1);
     // this.pd.begin = formatDate(beginz, 'yyyyMMddHHmmss');
     // this.pd.end = formatDate(endz, 'yyyyMMddhhmmss');
-  //  this.getList(this.CurrentPage, this.pageSize, this.pd);
+    // this.getList(this.CurrentPage, this.pageSize, this.pd);
   },
   activated() {
     this.queryNationality();
@@ -982,7 +981,6 @@ export default {
     base4() {
       this.page = 4;
     },
-
     pageSizeChange(val) {
       this.getList(this.CurrentPage, val, this.pd);
       console.log(`每页 ${val} 条`);
@@ -1026,14 +1024,11 @@ export default {
     queryNationality() {
       this.$api.post('/manage-platform/codeTable/queryNationality', {},
         r => {
-          console.log(r);
-
+            console.log(r);
             this.nation = r.data;
-
         })
     },
     getList(currentPage, showCount, pd) {
-
       if(this.pd.fltno==undefined || this.pd.fltno.trim()==""){
           this.$alert('航班号不能为空！', '提示', {
             confirmButtonText: '确定',
@@ -1046,7 +1041,6 @@ export default {
           });
           return false
       }
-
       if(this.pd.cardnum==undefined || this.pd.cardnum.trim()==""){
         if(this.pd.name==undefined || this.pd.gender==undefined || this.pd.birthday==undefined || this.pd.name.trim()==""  || this.pd.birthday.trim()==""){
           this.$alert('证件号码或者姓名性别出生日期二选一！', '提示', {
@@ -1055,10 +1049,7 @@ export default {
           return false
         }
       }
-
-
-            let p = {
-
+      let p = {
               "fltno":pd.fltno,
               "fltdate":pd.fltdate,
               "nationality":pd.nationality,
@@ -1067,10 +1058,7 @@ export default {
               "birthday":pd.birthday,
               "birthday":pd.birthday,
               "birthday":pd.birthday
-
-
             };
-
      var url="/manage-platform/relatedperson/get_related_book";
       this.$api.post(url, p,
         r => {
@@ -1078,7 +1066,6 @@ export default {
           this.tableData = r.data;
           // this.TotalResult = r.data.totalResult;
         });
-
     this.getList1(currentPage, showCount, pd);
     this.getList2(currentPage, showCount, pd);
     this.getList3(currentPage, showCount, pd);
@@ -1105,10 +1092,7 @@ export default {
       //     return false
       //   }
       // }
-
-
             let p = {
-
               "fltno":pd1.fltno,
               "fltdate":pd1.fltdate,
               "nationality":pd1.nationality,
@@ -1116,8 +1100,6 @@ export default {
               "name":pd1.name,
               "birthday":pd1.birthday,
               "intervel":pd1.intervel
-
-
             };
      var url="/manage-platform/relatedperson/get_related_check";
       this.$api.post(url, p,
@@ -1152,7 +1134,6 @@ export default {
       //     return false
       //   }
       // }
-
       let p = {
         "currentPage": currentPage2,
         "showCount": showCount2,
@@ -1202,9 +1183,7 @@ export default {
     //     })
     // },
     getList3(currentPage3, showCount3, pd3) {
-
         let p = {
-
           "fltno":pd3.fltno,
           "fltdate":pd3.fltdate,
           "nationality":pd3.nationality,
@@ -1212,7 +1191,6 @@ export default {
           "name":pd3.name,
           "birthday":pd3.birthday
         };
-
      var url="/manage-platform/relatedperson/get_related_seat";
       this.$api.post(url, p,
         r => {
@@ -1220,11 +1198,9 @@ export default {
           this.tableData3 = r.data;
         })
     },
-
   }
 }
 </script>
-
 <style scoped>
 .rank{background: #ffffff; min-height: 750px;}
 .gg{padding-left:20px;color:#FF9F9F;font-size:14px;font-weight:lighter}

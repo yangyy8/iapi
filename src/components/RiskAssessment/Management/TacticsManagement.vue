@@ -26,13 +26,13 @@
                <el-date-picker
                v-model="pd.BEGINDATE" format="yyyy-MM-dd HH:mm:ss"
                type="datetime" size="small" value-format="yyyy-MM-dd HH:mm:ss"
-               placeholder="开始时间"  :picker-options="pickerOptions" >
+               placeholder="开始时间"   >
              </el-date-picker>
                <span class="septum">-</span>
              <el-date-picker
                 v-model="pd.EXPIREDATE" format="yyyy-MM-dd HH:mm:ss"
                 type="datetime" size="small" value-format="yyyy-MM-dd HH:mm:ss"
-                placeholder="结束时间" :picker-options="pickerOptions1" >
+                placeholder="结束时间"  >
             </el-date-picker>
           </div>
             </el-col>
@@ -51,6 +51,8 @@
         :data="tableData"
         border
         style="width: 100%;"
+        class="mt-10 o-table3"
+@header-click="headerClick"
         >
         <el-table-column
           prop="LABELTYPE_NAME" sortable
@@ -111,7 +113,8 @@
     <el-dialog :title="dialogText" :visible.sync="addDialogVisible" width="500px" >
       <el-form :model="form" ref="addForm">
         <el-row type="flex"  class="mb-6">
-          <el-col :span="24" class="input-item">
+          <el-col :span="24" class="input-item my-form-group" data-scope="demo" data-name="LABELTYPE_CODE" data-type="select"
+            v-validate-easy="[['required']]">
             <span class="yy-input-text"><font class="yy-color">*</font> 类型：</span>
             <el-select v-model="form.LABELTYPE_CODE" filterable clearable  placeholder="请选择"  size="small" class="yy-input-input">
               <el-option
@@ -124,9 +127,10 @@
           </el-col>
         </el-row>
         <el-row type="flex"  class="mb-6">
-          <el-col :span="24" class="input-item">
+          <el-col :span="24" class="input-item my-form-group" data-scope="demo" data-name="NAME" data-type="input"
+            v-validate-easy="[['required']]">
             <span class="yy-input-text"><font class="yy-color">*</font> 问题名称：</span>
-            <el-input placeholder="请输入内容(长度不超过50)" size="small" maxlength="50"  v-model="form.NAME"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
+            <el-input placeholder="请输入内容(长度不超过50)" size="small" maxlength="50"  v-model="form.NAME"  class="yy-input-input" ></el-input>
           </el-col>
         </el-row>
         <el-row type="flex" class="mb-6" >
@@ -143,7 +147,7 @@
     </el-dialog>
 
     <el-dialog title="详情" :visible.sync="detailsDialogVisible" width="500px" >
-      <el-form :model="map" ref="mapForm">
+      <el-form  ref="mapForm">
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
             <span class="yy-input-text">类型：</span>
@@ -255,6 +259,10 @@ export default {
     this.queryNationality();
   },
   methods: {
+
+    headerClick(column,event){
+      event.target.title=column.label
+    },
     handleSelectionChange(val) {
       this.multipleSelection = val;
     },
@@ -298,16 +306,13 @@ export default {
         this.tp=0;
         this.dialogText="新增";
       }
+        this.V.$reset("demo");
     },
     addItem(formName) {
-            if(this.$validator.listener.demo2){
-              const result = this.$validator.verifyAll('demo2')
-              console.log(result.indexOf(false)+"---");
-               if (result.indexOf(false) > -1) {
-                 return
-               }
-            }
-
+      this.V.$submit('demo', (canSumit,data) => {
+// canSumit为true时，则所有该scope的所有表单验证通过
+ if(!canSumit) return;
+ // 只有验证全部通过才会执行
       var url = "/manage-platform/Problem/addProblem";
       if (this.tp == 1) {
         url = "/manage-platform/Problem/updateProblem";
@@ -330,6 +335,7 @@ export default {
         }, e => {
           this.$message.error('失败了');
         })
+      });
     },
     details(i) {
       this.detailsDialogVisible = true;

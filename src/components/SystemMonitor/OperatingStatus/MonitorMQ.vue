@@ -148,6 +148,7 @@ export default {
       pd: {},
       tableData: [],
       mtableData1ap: [],
+      tableData1:[],
       detailsDialogVisible: false,
       num:0
     }

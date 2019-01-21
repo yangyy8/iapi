@@ -117,6 +117,8 @@
         :data="tableData"
         border
         style="width: 100%;"
+        class="mt-10 o-table3"
+@header-click="headerClick"
         @selection-change="handleSelectionChange">
         <el-table-column
          type="selection"
@@ -490,6 +492,9 @@ export default {
     this.queryDocCode();
   },
   methods: {
+    headerClick(column,event){
+  event.target.title=column.label
+},
     handleSelectionChange(val) {
       this.multipleSelection = val;
     },

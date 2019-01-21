@@ -89,27 +89,31 @@
     <el-dialog :title="dialogText" :visible.sync="addDialogVisible" width="800px" >
       <el-form :model="form" ref="addForm">
         <el-row type="flex"  class="mb-6">
-          <el-col :span="24" class="input-item">
+          <el-col :span="24" class="input-item my-form-group" data-scope="demo" data-name="MTYPE" data-type="input"
+            v-validate-easy="[['required']]">
             <span class="yy-input-text"><font class="yy-color">*</font> 配置类型：</span>
-            <el-input placeholder="请输入内容，最大字符为15" size="small" maxlength="15"  v-model="form.MTYPE"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
+            <el-input placeholder="请输入内容，最大字符为15" size="small" maxlength="15"  v-model="form.MTYPE"  class="yy-input-input" ></el-input>
           </el-col>
         </el-row>
         <el-row type="flex"  class="mb-6">
-          <el-col :span="24" class="input-item">
+          <el-col :span="24" class="input-item my-form-group" data-scope="demo" data-name="CVALUE" data-type="input"
+            v-validate-easy="[['required']]">
             <span class="yy-input-text"><font class="yy-color">*</font> 配置阀值：</span>
-            <el-input placeholder="请输入数字" size="small" maxlength="10" @keyup="trim()"  v-model="form.CVALUE"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
+            <el-input placeholder="请输入数字" size="small" maxlength="10" @keyup="trim()"  v-model="form.CVALUE"  class="yy-input-input" ></el-input>
           </el-col>
         </el-row>
         <el-row type="flex"  class="mb-6">
-          <el-col :span="24" class="input-item">
+          <el-col :span="24" class="input-item my-form-group" data-scope="demo" data-name="VALUETYPE" data-type="input"
+            v-validate-easy="[['required']]">
             <span class="yy-input-text"><font class="yy-color">*</font> 配置单位：</span>
-            <el-input placeholder="请输入内容，最大字符为15" size="small" maxlength="15"  v-model="form.VALUETYPE"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
+            <el-input placeholder="请输入内容，最大字符为15" size="small" maxlength="15"  v-model="form.VALUETYPE"  class="yy-input-input" ></el-input>
           </el-col>
         </el-row>
         <el-row type="flex"  class="mb-6">
-          <el-col :span="24" class="input-item">
+          <el-col :span="24" class="input-item my-form-group" data-scope="demo" data-name="MCHNDESC" data-type="textarea"
+            v-validate-easy="[['required']]">
            <span class="yy-input-text"><font class="yy-color">*</font> 配置类型中文描述：</span>
-            <el-input type="textarea"  placeholder="请输入内容，最大字符为50"  maxlength="50":autosize="{ minRows: 3, maxRows: 6}" v-model="form.MCHNDESC" class="yy-input-input"  v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
+            <el-input type="textarea"  placeholder="请输入内容，最大字符为50"  maxlength="50":autosize="{ minRows: 3, maxRows: 6}" v-model="form.MCHNDESC" class="yy-input-input"  ></el-input>
           </el-col>
         </el-row>
       </el-form>
@@ -217,7 +221,7 @@ export default {
       };
       this.$api.post('/manage-platform/monitorConfig/queryConfigList', p,
         r => {
-          console.log("----" + r);
+
           this.tableData = r.data.resultList;
           this.TotalResult = r.data.totalResult;
         })
@@ -239,17 +243,23 @@ export default {
         this.form=Object.assign({}, i);
         this.dialogText="编辑";
       }else {
+        this.tp = 0;
         this.dialogText="新增";
       }
+        this.V.$reset("demo")
     },
     addItem(formName) {
-            if(this.$validator.listener.demo2){
-              const result = this.$validator.verifyAll('demo2')
-               if (result.indexOf(false) > -1) {
-                 return
-               } else {
-               }
-            }
+      this.V.$submit('demo', (canSumit,data) => {
+      // canSumit为true时，则所有该scope的所有表单验证通过
+      if(!canSumit) return;
+      // 只有验证全部通过才会执行
+
+    if(this.form.MCHNDESC==undefined || this.form.MCHNDESC=="")
+    {
+    this.$message.error("配置类型中文描述不能为空，请重新输入！");return ;
+
+    }
+
       var url = "/manage-platform/monitorConfig/saveConfig";
       if (this.tp == 1) {
         url = "/manage-platform/monitorConfig/editConfig";
@@ -272,6 +282,7 @@ export default {
         }, e => {
           this.$message.error('失败了');
         })
+      });
     },
     details(i) {
       this.detailsDialogVisible = true;

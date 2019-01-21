@@ -58,6 +58,8 @@
         :data="tableData"
         border
         style="width: 100%;"
+        class="mt-10 o-table3"
+@header-click="headerClick"
         >
         <el-table-column
           prop="EMPLOYEE_CARD" sortable
@@ -139,37 +141,43 @@
     <el-dialog :title="dialogText" :visible.sync="addDialogVisible" width="800px" >
       <el-form :model="form" ref="addForm">
         <el-row type="flex"  class="mb-6">
-          <el-col :span="12" class="input-item">
+          <el-col :span="12" class="input-item my-form-group" data-scope="demo" data-name="NAME" data-type="input"
+            v-validate-easy="[['required']]">
             <span class="yy-input-text"><font class="yy-color">*</font> 姓名：</span>
-            <el-input placeholder="请输入内容" size="small"  v-model="form.NAME" class="yy-input-input"  v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
+            <el-input placeholder="请输入内容" size="small"  v-model="form.NAME" class="yy-input-input"  ></el-input>
 
           </el-col>
-          <el-col :span="12" class="input-item">
+          <el-col :span="12" class="input-item my-form-group" data-scope="demo" data-name="USERNAME" data-type="input"
+            v-validate-easy="[['required']]">
             <span class="yy-input-text"><font class="yy-color">*</font> 用户名：</span>
-            <el-input placeholder="请输入内容" size="small"  v-model="form.USERNAME" class="yy-input-input"  v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
+            <el-input placeholder="请输入内容" size="small"  v-model="form.USERNAME" class="yy-input-input"></el-input>
 
           </el-col>
         </el-row>
         <el-row type="flex"  class="mb-6">
-          <el-col :span="12" class="input-item">
+          <el-col :span="12" class="input-item my-form-group" data-scope="demo" data-name="PASSWORD" data-type="input"
+            v-validate-easy="[['required']]">
             <span class="yy-input-text"><font class="yy-color">*</font> 密码：</span>
-            <el-input placeholder="请输入内容" type="password" size="small"  v-model="form.PASSWORD" class="yy-input-input"  v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
+            <el-input placeholder="请输入内容" type="password" size="small"  v-model="form.PASSWORD" class="yy-input-input"  ></el-input>
           </el-col>
-          <el-col :span="12" class="input-item">
+          <el-col :span="12" class="input-item my-form-group" data-scope="demo" data-name="UNPASSWORD" data-type="input"
+            v-validate-easy="[['required']]">
             <span class="yy-input-text"><font class="yy-color">*</font> 确认密码：</span>
-            <el-input placeholder="请输入内容" size="small" type="password"  v-model="form.UNPASSWORD" class="yy-input-input"  v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
+            <el-input placeholder="请输入内容" size="small" type="password"  v-model="form.UNPASSWORD" class="yy-input-input" ></el-input>
           </el-col>
         </el-row>
 
         <el-row type="flex"  class="mb-6">
-          <el-col :span="12" class="input-item">
+          <el-col :span="12" class="input-item my-form-group" data-scope="demo" data-name="EMPLOYEE_CARD" data-type="input"
+            v-validate-easy="[['required']]">
             <span class="yy-input-text"><font class="yy-color">*</font> 警号：</span>
-            <el-input placeholder="请输入内容" size="small"  v-model="form.EMPLOYEE_CARD" class="yy-input-input"  v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
+            <el-input placeholder="请输入内容" size="small"  v-model="form.EMPLOYEE_CARD" class="yy-input-input"  ></el-input>
 
           </el-col>
-          <el-col :span="12" class="input-item">
+          <el-col :span="12" class="input-item my-form-group" data-scope="demo" data-name="STATUS" data-type="select"
+            v-validate-easy="[['required']]">
             <span class="yy-input-text"><font class="yy-color">*</font> 状态：</span>
-            <el-select v-model="form.STATUS"   placeholder="请选择" size="small" class="yy-input-input"  v-verify.change.blur ="{regs:'required',submit:'demo2'}">
+            <el-select v-model="form.STATUS"   placeholder="请选择" size="small" class="yy-input-input"  >
             <el-option value="1" label="启用">
               </el-option>
               <el-option value="0" label="停用">
@@ -190,9 +198,10 @@
              </el-select>
 
           </el-col>
-          <el-col :span="12" class="input-item">
+          <el-col :span="12" class="input-item my-form-group" data-scope="demo" data-name="DEPT_ID" data-type="select"
+            v-validate-easy="[['required']]">
             <span class="yy-input-text"><font class="yy-color">*</font> 部门：</span>
-            <el-select v-model="form.DEPT_ID"  filterable clearable placeholder="请选择" size="small" class="yy-input-input"  v-verify.change.blur ="{regs:'required',submit:'demo2'}">
+            <el-select v-model="form.DEPT_ID"  filterable clearable placeholder="请选择" size="small" class="yy-input-input"  >
                <el-option
 
                  v-for="item in company"
@@ -204,9 +213,10 @@
           </el-col>
         </el-row>
         <el-row type="flex"  class="mb-6">
-          <el-col :span="12" class="input-item">
+          <el-col :span="12" class="input-item my-form-group" data-scope="demo" data-name="PHONE" data-type="input"
+            v-validate-easy="[['required']]">
             <span class="yy-input-text"><font class="yy-color">*</font> 联系方式：</span>
-            <el-input placeholder="请输入内容" size="small"  v-model="form.PHONE" class="yy-input-input"  v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
+            <el-input placeholder="请输入内容" size="small"  v-model="form.PHONE" class="yy-input-input"  ></el-input>
 
           </el-col>
           <el-col :span="12" class="input-item">
@@ -368,6 +378,9 @@ export default {
     this.getList(this.CurrentPage, this.pageSize, this.pd);
   },
   methods: {
+    headerClick(column,event){
+  event.target.title=column.label
+},
     handleSelectionChange(val) {
       this.multipleSelection = val;
     },
@@ -446,21 +459,25 @@ export default {
         this.dialogText="新增";
       }
 
+
+        this.V.$reset("demo")
+
     },
     addItem(formName) {
+      this.V.$submit('demo', (canSumit,data) => {
+  // canSumit为true时，则所有该scope的所有表单验证通过
+   if(!canSumit) return;
+   // 只有验证全部通过才会执行
       if(this.form.PASSWORD!=this.form.UNPASSWORD && this.form.UNPASSWORD!=""){
 
         this.$message.error('两次密码输入不一致，请重新输入！'); return;
       }
 
+      if(this.form.roleList==undefined || this.form.roleList=="")
+      {
+      this.$message.error("角色不能为空，请重新选择！");return ;
 
-      if(this.$validator.listener.demo2){
-        const result = this.$validator.verifyAll('demo2')
-         if (result.indexOf(false) > -1) {
-           return
-         } else {
-
-      }}
+      }
 
       var url = "/manage-platform/userSys/save";
       if (this.tp == 1) {
@@ -483,7 +500,7 @@ export default {
         }, e => {
           this.$message.error('失败了');
         })
-
+    });
     },
     details(i) {
       this.detailsDialogVisible = true;

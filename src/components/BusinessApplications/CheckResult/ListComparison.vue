@@ -192,7 +192,9 @@
       <el-table
         :data="tableData"
         border
-        style="width: 100%;">
+        style="width: 100%;"
+        class="mt-10 o-table3"
+        @header-click="headerClick">
         <el-table-column
           prop="travellerName" width="80"
           label="姓名" sortable>
@@ -342,7 +344,8 @@ export default {
       TotalResult: 0,
       sum: "0",
       num: "0",
-      pd: {     compareBeginDate:"",
+      pd: {
+        compareBeginDate:"",
         compareEndDate:"",},
       nation: [],
       value: '',
@@ -384,7 +387,9 @@ export default {
       form: {},
       dform: {},
       countryI:{},
-      countryO:{}
+      countryO:{},
+      AirportO:{},
+      AirportI:{},
     }
   },
   mounted() {
@@ -414,6 +419,9 @@ export default {
     handleSelectionChange(val) {
       this.multipleSelection = val;
     },
+    headerClick(column,event){
+    event.target.title=column.label
+  },
     // getInAirport(msg){
     //   this.pd.cityFrom=msg;
     // },
