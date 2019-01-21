@@ -3,6 +3,7 @@ import validate from './validate'
 var formElements = {
   input: {
     condition(directiveEl) {
+      console.log(directiveEl.type_)
       if (directiveEl.type_ == 'input' || directiveEl.type_ == 'textarea') {
         directiveEl.eventEl_ = directiveEl.querySelector(directiveEl.type_)
         return true
@@ -109,6 +110,41 @@ var formElements = {
     getValue(directiveEl) {
       var eventEl = directiveEl.eventEl_ || directiveEl
       var value = directiveEl.eventEl_.value
+      console.log('value',value)
+      return value
+    },
+    resetValue(directiveEl) {
+      var eventEl = directiveEl.eventEl_ || directiveEl
+      // eventEl.value = ''
+    }
+  },
+  multiple: {
+    condition(directiveEl) {
+      if (directiveEl.type_ == 'multiple') {
+        directiveEl.eventEl_ = directiveEl.querySelector('input')
+        console.log("directiveEl.eventEl_",directiveEl.eventEl_)
+        return true
+      }
+    },
+    bindEvent(directiveEl, binding) {
+      console.log("directiveEl",directiveEl)
+      // directiveEl.eventEl_ = directiveEl.querySelector('input')
+      var eventEl = directiveEl.querySelector('input')
+      eventEl.onchange = (e) => {
+        var value = this.getValue(directiveEl)
+        validate(directiveEl, value)
+      }
+    },
+    getValue(directiveEl) {
+      var eventEl = directiveEl.querySelector('.el-select__tags-text')
+      console.log("eventEl",eventEl)
+      var value;
+      if(eventEl){
+        value= eventEl.innerText||'';
+      }else{
+        value= '';
+      }
+      console.log('value',value)
       return value
     },
     resetValue(directiveEl) {

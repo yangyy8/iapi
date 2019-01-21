@@ -123,7 +123,8 @@
       <el-table
         :data="tableData"
         border
-        style="width: 100%;">
+        style="width: 100%;"
+        @cell-click="rowClick">
         <el-table-column
           sortable
           prop="fltno"
@@ -226,6 +227,26 @@
       >
       <Seat :flightNumber="flightNumber0" :globalserial="globalserial0"></Seat>
     </el-dialog>
+
+    <el-dialog
+      title="详情"
+      :visible.sync="numberDialogVisible"
+      width="600px">
+      <el-form v-for="i in tableInfo">
+        <el-row type="flex"  class="t-detail">
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">姓名：</div><div class="t-el-sub">{{i.CNAME}}</div></el-col>
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">性别：</div><div class="t-el-sub">{{i.GENDERNAME}}</div></el-col>
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">出生日期：</div><div class="t-el-sub">{{i.BIRTHDAYSTR}}</div></el-col>
+        </el-row>
+        <el-row type="flex"  class="t-detail">
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">国籍/地区：</div><div class="t-el-sub">{{i.NATIONALITYNAME}}</div></el-col>
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">证件号码：</div><div class="t-el-sub">{{i.PASSPORTNO}}</div></el-col>
+        </el-row>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="numberDialogVisible = false" size="small">取消</el-button>
+      </div>
+    </el-dialog>
   </div>
 
 </template>
@@ -238,6 +259,8 @@ export default {
   components: {Seat},
   data() {
     return {
+      numberDialogVisible:false,
+      tableInfo:[],
       CurrentPage: 1,
       pageSize: 10,
       TotalResult: 0,
@@ -307,6 +330,25 @@ export default {
     // this.pd.schedulearrivetime=formatDate(end,'yyyyMMddhhmm');
   },
   methods: {
+    rowClick(row, column, cell, event){  
+      console.log(row.flightRecordnum)
+      console.log(column.property);
+      let p = {
+        'flightRecordnum':row.flightRecordnum,
+        'otherStr':column.property
+      }
+      this.$api.post('/manage-platform/iapi/queryIapiTableInfo',p,
+       r =>{
+         if(r.success){
+           this.tableInfo = r.data;
+           if(this.tableInfo.length==0){
+             this.$message('没有检索到详情');
+           }else{
+             this.numberDialogVisible = true;
+           }
+         }
+       })
+    },
     handleSelectionChange(val) {
       this.multipleSelection = val;
     },
