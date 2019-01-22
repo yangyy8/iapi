@@ -37,7 +37,7 @@
                    label="操作符"
                    width="120">
                    <template slot-scope="scope">
-                     <el-select placeholder="请选择" v-model="scope.row.operator" filterable clearable class="input-inp" @visible-change="attribute2(selfNature,scope.row)" size="mini">
+                     <el-select placeholder="请选择" v-model="scope.row.operator" filterable clearable class="input-inp" @visible-change="attribute2(selfNature,scope.row)" size="mini" @change="operatorDelete(scope.row)">
                        <el-option
                          v-for="item in operator"
                          :key="item"
@@ -540,6 +540,9 @@
           width="100"
           sortable
           v-if="checkListPnrHc.indexOf('PNR_GENDER')>-1">
+          <template slot-scope="scope">
+            {{scope.row.PNR_GENDER|fiftersex}}
+          </template>
         </el-table-column>
         <el-table-column
           prop="pnrBirthdayName"
@@ -589,6 +592,9 @@
           width="100"
           sortable
           v-if="checkListPnrHc.indexOf('PNR_FLTTYPE')>-1">
+          <template slot-scope="scope">
+            {{scope.row.PNR_FLTTYPE|fiftertype}}
+          </template>
         </el-table-column>
         <el-table-column
           prop="pnrCityfromName"
@@ -2122,6 +2128,7 @@ export default {
         },
       ],
       tableHeadHc:[],
+      selfTableList:[],
       radio:'',
       currentPage:1,//当前页数
       pageSize:10, //每页显示个数选择器的选项设置
@@ -2144,6 +2151,7 @@ export default {
       ],
       //pnr表格数据
       tableDataPnr:[],
+      selfTableListPnr:[],
       radioPnr:'',
       currentPagePnr:1,//当前页数
       pageSizePnr:10, //每页显示个数选择器的选项设置
@@ -2197,7 +2205,6 @@ export default {
       get:function(){
         let switchArr='';
         let arr = this.selfRows;
-        console.log(this.selfRows[0].attribute);
         if(this.selfRows[0].attribute!=''){
             this.str='';
             for(var i=0;i<arr.length;i++){
@@ -2219,14 +2226,16 @@ export default {
               if(arr[i].attribute==''){
                  this.str+='';
               }else{
+
                 if(arr[i].atype == null){
                   arr[i].atype ='';
                 }
-                if(i == 0){
-                  this.str += '('+this.nameChange(arr[i].attribute,this.selfNature)+switchArr+arr[i].atype+')'
-                }else{
+                // if(i == 0){
+                //   this.str += '('+this.nameChange(arr[i].attribute,this.selfNature)+switchArr+arr[i].atype+')'
+                // }else{
                     this.str += arr[i].relation+'('+this.nameChange(arr[i].attribute,this.selfNature)+switchArr+arr[i].atype+')';
-                }
+                    switchArr='';
+                // }
             };
           }
         }
@@ -2272,6 +2281,7 @@ export default {
                   this.strPnr += '('+this.nameChange(arr[i].attribute,this.selfNaturePnr)+switchArr+arr[i].atype+')'
                 }else{
                     this.strPnr += arr[i].relation+'('+this.nameChange(arr[i].attribute,this.selfNaturePnr)+switchArr+arr[i].atype+')';
+                    switchArr='';
                 }
             };
           }
@@ -2314,6 +2324,22 @@ export default {
         return "未产生报警";
       }
     },
+    fiftertype(val){
+      if(val == 'I'){
+        return '入境'
+      }else if(val == 'O'){
+        return '出境'
+      }else if(val == "A"){
+        return '入出境'
+      }
+    },
+    fifteryn(val){
+      if(val == 0){
+        return '否'
+      }else if(val == 1){
+        return '是'
+      }
+    }
   },
   methods:{
     //==========================================================全局代码=========================================================
@@ -2567,6 +2593,13 @@ export default {
 
       }
     },
+    operatorDelete(item){
+      if(item.operator==''||item.operator==undefined){
+        this.$set(item,'atype','');
+        this.$set(item,'operator','');
+        this.$set(item,'relation','');
+      }
+    },
     clearItem(item){
       console.log(item);
     },
@@ -2583,6 +2616,11 @@ export default {
       }
     },
     defaultDate(val){
+      if(val.operator==''||val.operator==undefined){
+        this.$set(val,'atype','');
+        this.$set(val,'operator','');
+        this.$set(val,'relation','');
+      }
       if(val.type==31){
         if(val.operator=='小于'||val.operator=='小于等于'||val.operator=='等于'){
           let end=new Date();
@@ -2621,9 +2659,10 @@ export default {
         return count
     },
     selfDeleteRow(id,row){//自定义查询 删除操作
+      console.log(this.selfRows.length);
       let count = this.repeatLong(row.attribute,this.selfRows);
       for(var i in this.checkList){
-        if(row.attribute == this.checkList[i]&&count<=1){
+        if((row.attribute == this.checkList[i])&&count<=1){
           this.checkList.splice(i,1);
         }
       }
@@ -2708,7 +2747,6 @@ export default {
       let arr = this.checkList;
       let that = this;
       let checkItem = this.showConfig;
-
       for(var i=0;i<arr.length;i++){
         var a='';
         var obj={};
@@ -2916,21 +2954,21 @@ export default {
     },
     tableDown(){
       if(this.bigBase==7){
-        if(this.selfTableList==0){
+        if(this.selfTableList.length==0){
           this.selfD.exclTitles = this.checkList;
           axios({
            method: 'post',
-           // url: 'http://192.168.99.248:8080/manage-platform/iapiHead/exportCustomFileIo/7/600',
+           // url: 'http://192.168.99.248:8081/manage-platform/iapiHead/exportCustomFileIo/7/600',
            url: this.$api.rootUrl+"/manage-platform/iapiHead/exportCustomFileIo/7/600",
            data: this.selfD,
            responseType: 'blob'
            }).then(response => {
                this.downloadM(response)
            });
-        }else if(this.selfTableList!=0){
+        }else if(this.selfTableList.length!=0){
           axios({
            method: 'post',
-           // url: 'http://192.168.99.248:8080/manage-platform/iapiHead/exportCheckColDataIo/7',
+           // url: 'http://192.168.99.248:8081/manage-platform/iapiHead/exportCheckColDataIo/7',
            url: this.$api.rootUrl+"/manage-platform/iapiHead/exportCheckColDataIo/7",
            data: {
              'exclTitles':this.checkList,
@@ -2946,10 +2984,10 @@ export default {
         if(this.selfTableListPnr.length!=0){
           axios({
            method: 'post',
-           // url: 'http://192.168.99.248:8080/manage-platform/iapiHead/exportCheckColDataIo/8',
+           // url: 'http://192.168.99.248:8081/manage-platform/iapiHead/exportCheckColDataIo/8',
            url: this.$api.rootUrl+"/manage-platform/iapiHead/exportCheckColDataIo/8",
            data: {
-             'exclTitles':this.checkList,
+             'exclTitles':this.checkListPnr,
              'resultList':this.selfTableListPnr
            },
            responseType: 'blob'
@@ -2957,12 +2995,13 @@ export default {
                this.downloadM(response)
            });
         }else if(this.selfTableListPnr.length==0){
+          console.log(this.selfTableListPnr)
           axios({
            method: 'post',
-           // url: 'http://192.168.99.248:8080/manage-platform/iapiHead/exportCustomPnrFileIo',
+           // url: 'http://192.168.99.248:8081/manage-platform/iapiHead/exportCustomPnrFileIo',
            url: this.$api.rootUrl+"/manage-platform/iapiHead/exportCustomPnrFileIo",
            data: {
-             'exclTitles':this.checkList,
+             'exclTitles':this.checkListPnr,
              'resultList':this.tableDataPnr
            },
            responseType: 'blob'

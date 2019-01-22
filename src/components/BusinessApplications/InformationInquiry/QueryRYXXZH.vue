@@ -82,10 +82,10 @@
 
             <el-col :sm="24" :md="12" :lg="6" class="input-item">
               <span class="input-text">出入标识：</span>
-              <el-select v-model="cdt.flighttypeEqual" placeholder="请选择" filterable clearable size="small" class="input-input">
+              <el-select v-model="cdt.flighttypeEqual" placeholder="请选择" filterable clearable size="small" class="input-input" @change="ftReal">
                 <el-option label="I - 入境" value="I"></el-option>
                 <el-option label="O - 出境" value="O"></el-option>
-                <!-- <el-option label="全部" value=""></el-option> -->
+                <el-option label="A - 入出境" value="A"></el-option>
               </el-select>
             </el-col>
 
@@ -361,7 +361,7 @@
             <el-popover
               placement="top-start"
               trigger="hover"
-              :content="scope.row.PNR_GENDER==undefined||scope.row.PNR_GENDER==''?'暂无数据':(''+scope.row.PNR_GENDER)"
+              :content="scope.row.PNR_GENDER==undefined||scope.row.PNR_GENDER==''?'暂无数据':(fanyiSex(''+scope.row.PNR_GENDER))"
               :disabled="!scope.row.genderIsEqual"
               popper-class="maxWidth">
               <span slot="reference">{{scope.row.GENDER|fiftersex}}<span v-if="scope.row.genderIsEqual" class="cellColor">*</span></span>
@@ -485,7 +485,7 @@
             <el-popover
               placement="top-start"
               trigger="hover"
-              :content="scope.row.PNR_FLTTYPE==undefined||scope.row.PNR_FLTTYPE==''?'暂无数据':''+scope.row.PNR_FLTTYPE"
+              :content="scope.row.PNR_FLTTYPE==undefined||scope.row.PNR_FLTTYPE==''?'暂无数据':fanyiState(''+scope.row.PNR_FLTTYPE)"
               :disabled="!scope.row.flttypeIsEqual"
               popper-class="maxWidth">
               <span slot="reference">{{scope.row.FLIGHTTYPE|fiftertype}}<span v-if="scope.row.flttypeIsEqual" class="cellColor">*</span></span>
@@ -1164,6 +1164,8 @@ export default {
         return '入境'
       }else if(val == 'O'){
         return '出境'
+      }else if(val == "A"){
+        return '入出境'
       }
     },
     fifteryn(val){
@@ -1176,6 +1178,28 @@ export default {
   },
   methods:{
     //============================洲国籍======================================================================
+    ftReal(){
+      this.$set(this.cdt,'cityfromEqual','');
+      this.$set(this.cdt,'citytoEqual','');
+    },
+    fanyiSex(val){
+      if (val == "F") {
+        return "女"
+      } else if (val == "M") {
+        return "男"
+      } else if (val == "U") {
+        return "未知"
+      }
+    },
+    fanyiState(val){
+      if(val == 'I'){
+        return '入境'
+      }else if(val == 'O'){
+        return '出境'
+      }else if(val == "A"){
+        return '入出境'
+      }
+    },
     headerClick(column,event){
       console.log(column,event)
       event.target.title=column.label
@@ -1347,7 +1371,11 @@ export default {
        })
     },
     takeOff(){//调用起飞机场
-      this.$api.post('/manage-platform/codeTable/queryAirport',{},
+      let p={
+        "flighttype":this.cdt.flighttypeEqual,
+        "type":0
+      }
+      this.$api.post('/manage-platform/codeTable/queryAirportByPortAndFlighttype',p,
        r =>{
          if(r.success){
            this.takeOffName = r.data;
@@ -1355,7 +1383,11 @@ export default {
        })
     },
     landing(){//调用降落机场
-      this.$api.post('/manage-platform/codeTable/queryAirport',{},
+      let p={
+        "flighttype":this.cdt.flighttypeEqual,
+        "type":1
+      }
+      this.$api.post('/manage-platform/codeTable/queryAirportByPortAndFlighttype',p,
        r =>{
          if(r.success){
            this.landingName = r.data;
@@ -1614,7 +1646,7 @@ export default {
       if(this.tableList.length==0){
         axios({
          method: 'post',
-         // url: 'http://192.168.99.248:8080/manage-platform/iapiHead/exportFileIo/4/iapiHead/600',
+         // url: 'http://192.168.99.248:8081/manage-platform/iapiHead/exportFileIo/4/iapiHead/600',
          url: this.$api.rootUrl+"/manage-platform/iapiHead/exportFileIo/4/iapiHead/600",
          data: {
              "exclTitles": this.checkList,
@@ -1628,7 +1660,7 @@ export default {
       }else if(this.tableList.length!=0){
         axios({
          method: 'post',
-         // url: 'http://192.168.99.248:8080/manage-platform/iapiHead/exportCheckColDataIo/4',
+         // url: 'http://192.168.99.248:8081/manage-platform/iapiHead/exportCheckColDataIo/4',
          url: this.$api.rootUrl+"/manage-platform/iapiHead/exportCheckColDataIo/4",
          data: {
              "exclTitles": this.checkList,

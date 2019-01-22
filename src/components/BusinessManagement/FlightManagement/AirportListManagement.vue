@@ -42,9 +42,9 @@
             </el-col>
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">机场：</span>
-              <el-select placeholder="请选择" v-model="cdt.airportCode" filterable clearable @visible-change="takeOff(0)" size="small" class="input-input">
+              <el-select placeholder="请选择" v-model="cdt.airportCode" filterable clearable @visible-change="takeOffLd(cdt.continentsCode,cdt.countryCode,cdt.cityCode)" size="small" class="input-input" :disabled="ableJc">
                 <el-option
-                v-for="(item,index) in takeOffName"
+                v-for="(item,index) in takeOffNameLd"
                 :key="index"
                 :value="item.AIRPORT_CODE"
                 :label="item.AIRPORT_CODE+' - '+item.AIRPORT_NAME">
@@ -311,6 +311,7 @@ export default {
       addChauName:[],
 
       takeOffName:[],
+      takeOffNameLd:[],
       addTakeOffName:[],
 
       cityName:[],
@@ -319,6 +320,7 @@ export default {
       able:true,
       addAble:true,
       airCodeAble:false,
+      ableJc:true,
 
       pd: {},
       nation: [],
@@ -481,7 +483,12 @@ export default {
         console.log(data);
         this.$set(this.cdt,'countryCode','');
         this.$set(this.cdt,'cityCode','');
-        this.cityAble(this.form.countryCode,0)
+        this.cityAble(this.form.countryCode,0);
+        if(data==''||data==undefined){
+          this.ableJc=true;
+        }else{
+          this.ableJc=false;
+        }
         let arr=this.chauName;
         let that=this;
         for(var i=0;i<arr.length;i++){
@@ -563,6 +570,19 @@ export default {
            }
          }
        })
+    },
+    takeOffLd(CONTINENTS,COUNTRY,CITY){
+      let p = {
+        'CONTINENTS_CODE':CONTINENTS,
+        'COUNTRY_CODE':COUNTRY,
+        'CITY_CODE':CITY,
+      }
+      this.$api.post('/manage-platform/codeTable/queryAirportByParam',p,
+      r =>{
+        if(r.success){
+          this.takeOffNameLd = r.data;
+        }
+      })
     },
     takeOffReal(val){
       this.$set(this.form,'airportName','');

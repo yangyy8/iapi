@@ -39,7 +39,10 @@ export default {
   },
   activated(){
     console.log(3);
-    this.$router.push({name:'QueryRYXXZH'})
+    let that = this;
+    setTimeout(function(){
+      that.$router.push({name:'QueryRYXXZH'})
+    },1000)
   },
 }
 </script>
