@@ -14,7 +14,9 @@
   <el-table
     :data="tableData"
     border
-    style="width: 100%;">
+    style="width: 100%;"
+    class="mt-10 o-table3"
+@header-click="headerClick">
     <el-table-column
       type="index"
       label="序号"
@@ -82,7 +84,10 @@
    <el-table
      :data="tableData1"
      border
-     style="width: 100%;">
+     style="width: 100%;"
+     class="mt-10 o-table3"
+ @header-click="headerClick"
+     >
 
      <el-table-column
        type="index"
@@ -138,7 +143,9 @@
     <el-table
       :data="tableData2"
       border
-      style="width: 100%;">
+      style="width: 100%;"
+      class="mt-10 o-table3"
+  @header-click="headerClick">
       <el-table-column
         type="index"
         label="序号"
@@ -256,6 +263,9 @@ export default {
   //  this.getList();
   },
   methods: {
+    headerClick(column,event){
+     event.target.title=column.label
+   },
     getList() {
       this.$api.post('/manage-platform/monitorElastic/queryMonitorElasticSearch',{},
         r => {

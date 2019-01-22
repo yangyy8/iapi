@@ -105,7 +105,7 @@
   </div> -->
     <div class="middle">
       <el-row class="mb-15 yr">
-        <el-button type="primary" size="small" @click="download()">Excel导出</el-button>
+        <el-button type="primary" size="small" @click="download(0)">Excel导出</el-button>
         </el-row>
       <el-table
         :data="tableData"
@@ -141,7 +141,7 @@
           >
         </el-table-column>
         <el-table-column
-          width="180"
+          width="70"
           label="操作">
           <template slot-scope="scope">
               <el-button class="a-btn" type="text" title="详情" icon="el-icon-tickets" @click="details(scope.row)"></el-button>
@@ -178,35 +178,92 @@
         </el-pagination>
       </div> -->
     </div>
-    <!-- <el-dialog
+    <el-dialog
       title="详情"
-      :visible.sync="detailsDialogVisible"
-      width="600px">
-      <el-form :model="form">
-        <div class="titile">类别名称 </div>
-        <el-row type="flex" class="mb-15">
-          <el-col :span="24" class="titlecontent">
-            {{form.loggerName}}
-          </el-col>
-            </el-row>
-          <div class="titile">线程名称</div>
-            <el-row type="flex" class="mb-15">
-          <el-col :span="24" class="titlecontent">
-            {{form.threadName}}
-          </el-col>
+      :visible.sync="detailsDialogVisible">
+      <el-row class="mb-15 yr">
+        <el-button type="primary" size="small" @click="download(1)">Excel导出</el-button>
         </el-row>
-     <div class="titile">监控消息</div>
-        <el-row type="flex" class="mb-15">
-          <el-col :span="24" class="titlecontent">
-            {{form.formattedMessage}}
-          </el-col>
-        </el-row>
-      </el-form>
+          <el-table
+            :data="tableData1"
+            border
+            style="width: 100%;"
+            class="mt-10 o-table3"
+            @header-click="headerClick">
+
+            <el-table-column
+              prop="fltno"
+              label="航班号" sortable
+              >
+            </el-table-column>
+            <el-table-column
+              prop="fltdate"
+              label="航班日期" sortable
+              >
+            </el-table-column>
+            <el-table-column
+              prop="flttype"
+              label="类型" sortable>
+            </el-table-column>
+            <el-table-column
+              prop="name"
+              label="姓名" sortable>
+            </el-table-column>
+            <el-table-column
+              prop="gender"
+              label="性别" sortable
+              >
+            </el-table-column>
+            <el-table-column
+              prop="dateofbirth"
+              label="出生日期" sortable
+              >
+            </el-table-column>
+            <el-table-column
+              prop="passportissuecountry"
+              label="证件国籍" sortable
+              >
+            </el-table-column>
+            <el-table-column
+              prop="passportno"
+              label="证件号码" sortable
+              >
+            </el-table-column>
+          </el-table>
+          <div class="middle-foot">
+            <div class="page-msg">
+              <div class="">
+                共{{Math.ceil(TotalResult1/pageSize1)}}页
+              </div>
+              <div class="">
+                每页
+                <el-select v-model="pageSize1" @change="pageSizeChange1(pageSize1)" placeholder="10" size="mini" class="page-select">
+                  <el-option
+                    v-for="item in options"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                  </el-option>
+                </el-select>
+                条
+              </div>
+              <div class="">
+                共{{TotalResult1}}条
+              </div>
+            </div>
+            <el-pagination
+              background
+              @current-change="handleCurrentChange1"
+              :page-size="pageSize1"
+              layout="prev, pager, next"
+              :total="TotalResult1">
+            </el-pagination>
+          </div>
 
       <span slot="footer" class="dialog-footer">
         <el-button  @click="detailsDialogVisible = false" size="small">取消</el-button>
       </span>
-    </el-dialog> -->
+    </el-dialog>
   </div>
 </template>
 <script>
@@ -220,7 +277,11 @@ export default {
       CurrentPage: 1,
       pageSize: 10,
       TotalResult: 0,
+      CurrentPage1: 1,
+      pageSize1: 10,
+      TotalResult1: 0,
       pd: {begintime:'',endtime:''},
+      pd0:{},
       nation: [],
       company: [],
       addDialogVisible: false,
@@ -239,6 +300,7 @@ export default {
         }
       ],
       tableData: [],
+      tableData1:[],
       multipleSelection: [],
       pickerOptions0: {
         disabledDate: (time) => {
@@ -295,6 +357,14 @@ export default {
 
       console.log(`当前页: ${val}`);
     },
+    pageSizeChange1(val) {
+      this.getList1(this.CurrentPage1, val, this.pd);
+      console.log(`每页 ${val} 条`);
+    },
+    handleCurrentChange1(val) {
+      this.getList1(val, this.pageSize1, this.pd);
+      console.log(`当前页: ${val}`);
+    },
     getList(currentPage, showCount, pd) {
       const result = this.$validator.verifyAll('timeDemo')
        if (result.indexOf(false) > -1) {
@@ -328,6 +398,24 @@ export default {
           this.tableData = r.data;
         })
     },
+    //无关闭报航班
+     getList1(currentPage, showCount, pd) {
+
+       let p = {
+         "currentPage": currentPage,
+         "showCount": showCount,
+         "cdt": pd
+       };
+
+       this.$api.post('/manage-platform/forecastEva/get_chk_nopnr_person', p,
+         r => {
+           console.log(r);
+           if (r.success) {
+             this.tableData1 = r.data.resultList;
+             this.TotalResult1 = r.data.totalResult;
+           }
+         });
+     },
     queryNationality() {
       this.$api.post('/manage-platform/codeTable/queryAircompanyList', {},
         r => {
@@ -339,15 +427,22 @@ export default {
     },
     details(i) {
       this.detailsDialogVisible = true;
-      console.log(i);
-      this.form=i;
+      // console.log(i);
+      // this.form=i;
+
+      this.pd0.fltno=i.fltno;
+      this.pd0.begintime=this.pd.begintime;
+      this.pd0.endtime=this.pd.endtime;
+
+      this.getList1(this.CurrentPage1, this.pageSize1, this.pd0);
+
     },
-    download(){
+    download(n){
       //var url="http://192.168.99.213:8080/manage-platform/forecastEva/export_pnr_fccrt_bycompanyid";
        var url= this.$api.rootUrl+"/manage-platform/forecastEva/export_pnr_fccrt_bycompanyid";
-      // if(this.typerow=="2"){
-      // url= this.$api.rootUrl+"/manage-platform/forecastEva/export_pnr_fccrt_byfltno";
-      // }
+      if(n==1){
+      url= this.$api.rootUrl+"/manage-platform/forecastEva/exp_chk_nopnr_person";
+      }
       axios({
        method: 'post',
        url: url,
@@ -355,7 +450,7 @@ export default {
            "begintime":this.pd.begintime,
            "endtime":this.pd.endtime,
            "fltno":this.pd.fltno,
-           "fltdate":this.pd.fltdate,
+          // "fltdate":this.pd.fltdate,
            "airline_company_id":this.pd.airline_company_id
        },
        responseType: 'blob'

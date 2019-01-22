@@ -79,7 +79,6 @@
               <span class="input-text"><i class="t-must">*</i>航班日期：</span>
               <div class="input-input t-flex t-date">
                   <el-date-picker
-                  v-verify.input.blur="{regs:'required',submit:'timeDemo'}"
                   v-model="cdt.SCHEDULEDEPARTURETIMESTR"
                   type="datetime" size="small"
                   placeholder="开始日期"
@@ -89,7 +88,6 @@
                 </el-date-picker>
                 <span class="septum">-</span>
                 <el-date-picker
-                   v-verify.input.blur="{regs:'required',submit:'timeDemo'}"
                    v-model="cdt.SCHEDULEARRIVETIMESTR"
                    type="datetime" size="small"
                    placeholder="结束日期"
@@ -220,16 +218,18 @@
     <el-dialog :title="dialogText" :visible.sync="addDialogVisible" width="500px" >
       <el-form :model="form" ref="addForm">
         <el-row type="flex"  class="mb-6">
-          <el-col :span="24" class="input-item">
+          <el-col :span="24" class="input-item my-form-group" data-scope="demo2" data-name="FLT_CODE" data-type="input"
+          v-validate-easy="[['required']]">
             <span class="yy-input-text"><font class="yy-color">*</font>航班号：</span>
-            <el-input placeholder="请输入内容" size="small" v-model="form.FLT_CODE"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
+            <el-input placeholder="请输入内容" size="small" v-model="form.FLT_CODE"  class="yy-input-input"></el-input>
           </el-col>
         </el-row>
 
         <el-row type="flex"  class="mb-6">
-          <el-col :span="24" class="input-item">
+          <el-col :span="24" class="input-item my-form-group" data-scope="demo2" data-name="AIRWAY_CODE" data-type="select"
+          v-validate-easy="[['required']]">
             <span class="yy-input-text"><font class="yy-color">*</font>航线：</span>
-            <el-select placeholder="请选择" v-model="form.AIRWAY_CODE" filterable clearable @visible-change="takeLine" size="small" class="yy-input-input"  v-verify.change.blur ="{regs:'required',submit:'demo2'}">
+            <el-select placeholder="请选择" v-model="form.AIRWAY_CODE" filterable clearable @visible-change="takeLine" size="small" class="yy-input-input">
               <el-option
               v-for="item in takeOffLine"
               :key="item.AIRWAY_CODE"
@@ -240,12 +240,11 @@
           </el-col>
         </el-row>
 
-
         <el-row type="flex"  class="mb-6">
-          <el-col :span="24" class="input-item">
+          <el-col :span="24" class="input-item my-form-group" data-scope="demo2" data-name="SCHEDULEDEPARTURETIMESTR" data-type="select"
+          v-validate-easy="[['required']]">
             <span class="yy-input-text"><font class="yy-color">*</font>航班开始时间：</span>
               <el-date-picker
-              v-verify.change.blur ="{regs:'required',submit:'demo2'}"
               v-model="form.SCHEDULEDEPARTURETIMESTR"
               type="datetime" size="mini"
               placeholder="请选择航班开始时间"
@@ -258,10 +257,10 @@
         </el-row>
 
         <el-row type="flex"  class="mb-6">
-          <el-col :span="24" class="input-item">
+          <el-col :span="24" class="input-item my-form-group" data-scope="demo2" data-name="SCHEDULEARRIVETIMESTR" data-type="select"
+          v-validate-easy="[['required']]">
             <span class="yy-input-text"><font class="yy-color">*</font>航班结束时间：</span>
               <el-date-picker
-              v-verify.change.blur ="{regs:'required',submit:'demo2'}"
               v-model="form.SCHEDULEARRIVETIMESTR"
               type="datetime" size="mini"
               placeholder="请选择航班结束时间"
@@ -274,8 +273,9 @@
         </el-row>
 
         <el-row type="flex" class="mb-6" >
-          <el-col :span="24" class="input-item">
-            <span class="yy-input-text">班期：</span>
+          <el-col :span="24" class="input-item my-form-group" data-scope="demo2" data-name="SCHEDULE_CODE" data-type="textarea"
+          v-validate-easy="[['required']]">
+            <span class="yy-input-text"><i class="t-must">*</i>班期：</span>
            <el-input type="textarea" placeholder="请输入内容" :autosize="{ minRows: 3, maxRows: 6}" v-model="form.SCHEDULE_CODE" class="yy-input-input"></el-input>
           </el-col>
         </el-row>
@@ -438,11 +438,13 @@ export default {
       console.log(`当前页: ${val}`);
     },
     getList(currentPage, showCount, pd) {
-
-      const result = this.$validator.verifyAll('timeDemo')
-       if (result.indexOf(false) > -1) {
-         return
-       }
+      if(this.cdt.SCHEDULEDEPARTURETIMESTR==''||this.cdt.SCHEDULEARRIVETIMESTR==''||this.cdt.SCHEDULEDEPARTURETIMESTR==null||this.cdt.SCHEDULEARRIVETIMESTR==null){
+        this.$message({
+          message: '航班日期不能为空',
+          type: 'warning'
+        });
+        return
+      }
       let p = {
         "currentPage": currentPage,
         "showCount": showCount,
@@ -574,7 +576,6 @@ export default {
     },
     adds(n, i) {
       this.addDialogVisible = true;
-
       if (n != 0) {
         this.tp = 1;
         // this.form = i;
@@ -586,36 +587,30 @@ export default {
         this.tp = 0;
         this.dialogText="新增";
       }
-
+      this.V.$reset('demo2')
     },
-
-
-
     addItem(formName) {
-      if (this.$validator.listener.demo2) {
-        const result = this.$validator.verifyAll('demo2')
-        console.log(result)
-        if (result.indexOf(false) > -1) {
-          return;
-        }
-      }
-      var url = "/manage-platform/flightManage/changFlightManage";
-      this.$api.post(url, this.form,
-        r => {
-          console.log(r);
-          if (r.success) {
-            this.$message({
-              message: '保存成功！',
-              type: 'success'
-            });
-            this.addDialogVisible = false;
-          }
-          this.$refs[formName].resetFields();
-          this.getList(this.CurrentPage, this.pageSize, this.cdt);
-          // this.tableData=r.Data.ResultList;
-        }, e => {
-          this.$message.error('失败了');
-        })
+      this.V.$submit('demo2', (canSumit,data) => {
+        // canSumit为true时，则所有该scope的所有表单验证通过
+        if(!canSumit) return
+        var url = "/manage-platform/flightManage/changFlightManage";
+        this.$api.post(url, this.form,
+          r => {
+            console.log(r);
+            if (r.success) {
+              this.$message({
+                message: '保存成功！',
+                type: 'success'
+              });
+              this.addDialogVisible = false;
+            }
+            this.$refs[formName].resetFields();
+            this.getList(this.CurrentPage, this.pageSize, this.cdt);
+            // this.tableData=r.Data.ResultList;
+          }, e => {
+            this.$message.error('失败了');
+          })
+      })
     },
 
     deletes(i) {

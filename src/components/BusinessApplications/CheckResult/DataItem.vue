@@ -18,7 +18,7 @@
                <el-date-picker
                v-model="pd.planFlyBeginDate"
                type="datetime" size="small" value-format="yyyyMMddHHssmm"
-               placeholder="开始时间"  :picker-options="pickerOptions">
+               placeholder="开始时间"  :picker-options="pickerOptions0">
              </el-date-picker>
                <span class="septum">-</span>
              <el-date-picker
@@ -186,12 +186,13 @@
   <el-col :span="9"></el-col>
   </el-row>
 </div>
-
     <div class="middle">
       <el-table
         :data="tableData"
         border
-        style="width: 100%;">
+        style="width: 100%;"
+        class="mt-10 o-table3"
+        @header-click="headerClick">
         <el-table-column
           prop="travellerName"
           label="姓名"
@@ -426,6 +427,9 @@ export default {
     handleSelectionChange(val) {
       this.multipleSelection = val;
     },
+    headerClick(column,event){
+    event.target.title=column.label
+  },
     // getInAirport(msg){
     //   this.pd.cityFrom=msg;
     // },

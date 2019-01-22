@@ -411,11 +411,11 @@ export default {
     }
   },
   mounted() {
-    this.getList(this.CurrentPage, this.pageSize, this.pd);
+    //this.getList(this.CurrentPage, this.pageSize, this.pd);
     //this.queryNationality();
   },
   activated(){
-    this.getList(this.CurrentPage, this.pageSize, this.pd);
+    //getList(this.CurrentPage, this.pageSize, this.pd);
   },
   methods: {
     selectChange(){

@@ -4,7 +4,7 @@
       <div class="title-green ">
         查询条件
       </div>
-      <el-row type="flex" style="height:100%" v-show="page==0">
+      <el-row type="flex" style="height:100%">
         <el-col :span="22" class="br flex-c pr-20">
           <el-row align="center" style="width:50%">
             <el-col :sm="24" :md="12" :lg="12" class="input-item">
@@ -26,37 +26,13 @@
               <span class="input-text">姓名：</span>
               <el-input placeholder="请输入内容" size="small" v-model="cdt.NAME"  class="input-input"></el-input>
             </el-col>
-            <!-- <el-col :sm="24" :md="12" :lg="8" class="input-item" v-show="page==0">
-              <span class="input-text"><i class="t-must">*</i>值班时间：</span>
-              <div class="input-input t-flex t-date">
-                 <el-date-picker
-                 v-verify.input.blur="{regs:'required',submit:'timeDemo'}"
-                 v-model="cdt.startCreatetime"
-                 type="datetime"
-                 size="small"
-                 value-format="yyyyMMddHHmmss"
-                 placeholder="开始时间"
-                 >
-                </el-date-picker>
-                 <span class="septum">-</span>
-                 <el-date-picker
-                  v-verify.input.blur="{regs:'required',submit:'timeDemo'}"
-                  v-model="cdt.endCreatetime"
-                  type="datetime"
-                  size="small"
-                  value-format="yyyyMMddHHmmss"
-                  placeholder="结束时间"
-                  >
-                </el-date-picker>
-              </div>
-            </el-col> -->
           </el-row>
         </el-col>
         <el-col :span="2" class="down-btn-area">
-          <el-button type="success" size="small" @click="getGraph(cdt)">查询</el-button>
+          <el-button type="success" size="small" @click="searchD">查询</el-button>
         </el-col>
       </el-row>
-      <el-row type="flex" style="height:100%" v-show="page==1">
+      <!-- <el-row type="flex" style="height:100%" v-show="page==1">
         <el-col :span="22" class="br flex-c pr-20">
           <el-row align="center" style="width:50%">
             <el-col :sm="24" :md="12" :lg="12" class="input-item">
@@ -77,39 +53,15 @@
               <span class="input-text">姓名：</span>
               <el-input placeholder="请输入内容" size="small" v-model="cdt1.NAME"  class="input-input"></el-input>
             </el-col>
-            <!-- <el-col :sm="24" :md="12" :lg="8" class="input-item" v-show="page==0">
-              <span class="input-text"><i class="t-must">*</i>值班时间：</span>
-              <div class="input-input t-flex t-date">
-                 <el-date-picker
-                 v-verify.input.blur="{regs:'required',submit:'timeDemo'}"
-                 v-model="cdt.startCreatetime"
-                 type="datetime"
-                 size="small"
-                 value-format="yyyyMMddHHmmss"
-                 placeholder="开始时间"
-                 >
-                </el-date-picker>
-                 <span class="septum">-</span>
-                 <el-date-picker
-                  v-verify.input.blur="{regs:'required',submit:'timeDemo'}"
-                  v-model="cdt.endCreatetime"
-                  type="datetime"
-                  size="small"
-                  value-format="yyyyMMddHHmmss"
-                  placeholder="结束时间"
-                  >
-                </el-date-picker>
-              </div>
-            </el-col> -->
           </el-row>
         </el-col>
         <el-col :span="2" class="down-btn-area">
           <el-button type="success" size="small" @click="getList(CurrentPage,pageSize,cdt1)">查询</el-button>
         </el-col>
-      </el-row>
+      </el-row> -->
     </div>
     <div class="middle">
-        <span class="tubiao hand borderL" :class="{'checked':page==0}" @click="qq">日历</span><span class="tubiao hand borderR" :class="{'checked':page==1}" @click="page=1;getList(CurrentPage,pageSize,cdt1)">列表</span>
+        <span class="tubiao hand borderL" :class="{'checked':page==0}" @click="qq">日历</span><span class="tubiao hand borderR" :class="{'checked':page==1}" @click="page=1;getList(CurrentPage,pageSize,cdt)">列表</span>
         <el-button type="success" size="mini" @click="tableDown">导出</el-button>
         <div id="div1" v-show="page==1" class="mt-10">
           <el-table
@@ -249,9 +201,9 @@ export default {
       cdt:{
         TIME:''
       },
-      cdt1:{
-        TIME:''
-      },
+      // cdt1:{
+      //   TIME:''
+      // },
 
       tableHeader:[],
       tableBody:[],
@@ -284,7 +236,7 @@ export default {
   let time = new Date();
   let end = new Date();
   this.cdt.TIME=formatDate(time,'yyyyMM');
-  this.cdt1.TIME=formatDate(end,'yyyyMM');
+  // this.cdt1.TIME=formatDate(end,'yyyyMM');
   let that = this;
   setTimeout(function(){
     that.getGraph(that.cdt);
@@ -294,6 +246,13 @@ export default {
     this.getGraph(this.cdt);
   },
   methods: {
+    searchD(){
+      if(this.page==0){
+        this.getGraph(this.cdt)
+      }else if(this.page==1){
+        this.getList(this.CurrentPage,this.pageSize,this.cdt)
+      }
+    },
     qq(){
       this.page=0;
       this.getGraph(this.cdt);
@@ -305,15 +264,15 @@ export default {
       this.pd.NATIONALITY=msg;
     },
     pageSizeChange(val) {
-      this.getList(this.CurrentPage, val, this.cdt1);
+      this.getList(this.CurrentPage, val, this.cdt);
       console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
-      this.getList(val, this.pageSize, this.cdt1);
+      this.getList(val, this.pageSize, this.cdt);
       console.log(`当前页: ${val}`);
     },
     getList(currentPage, showCount, pd) {
-      const result = this.$validator.verifyAll('timeDemo2')
+      const result = this.$validator.verifyAll('timeDemo1')
        if (result.indexOf(false) > -1) {
          return
        }
@@ -324,7 +283,6 @@ export default {
       };
       this.$api.post('/manage-platform/watch/queryCensusListPage', p,
         r => {
-          console.log(r);
           this.tableData = r.data.resultList;
           this.TotalResult = r.data.totalResult;
         })
@@ -376,7 +334,7 @@ export default {
       if(this.page==0){
         axios({
          method: 'post',
-         // url: 'http://192.168.99.248:8081/manage-platform/watch/exportGraphIo',
+         // url: 'http://192.168.99.248:8080/manage-platform/watch/exportGraphIo',
          url: this.$api.rootUrl+"/manage-platform/watch/exportGraphIo",
          data: {
              "TIME":this.cdt.TIME,
@@ -394,7 +352,7 @@ export default {
          data: {
              "currentPage": 1,
              "showCount": 600,
-             "cdt":this.cdt1
+             "cdt":this.cdt
          },
          responseType: 'blob'
          }).then(response => {

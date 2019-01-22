@@ -27,13 +27,13 @@
             <el-date-picker
               v-model="pd.BEGINDATE" format="yyyy-MM-dd"
               type="datetime" size="small" value-format="yyyy-MM-dd"
-              placeholder="开始时间"  :picker-options="pickerOptions" >
+              placeholder="开始时间"   >
           </el-date-picker>
              <span class="septum">-</span>
              <el-date-picker
             v-model="pd.EXPIREDATE" format="yyyy-MM-dd"
             type="datetime" size="small" value-format="yyyy-MM-dd"
-            placeholder="结束时间" :picker-options="pickerOptions1" >
+            placeholder="结束时间"  >
               </el-date-picker>
             </div>
             </el-col>
@@ -43,13 +43,13 @@
                <el-date-picker
                v-model="pd.STARTDEADLINE" format="yyyy-MM-dd"
                type="datetime" size="small" value-format="yyyy-MM-dd"
-               placeholder="开始时间"  :picker-options="pickerOptions" >
+               placeholder="开始时间"   >
              </el-date-picker>
                <span class="septum">-</span>
              <el-date-picker
                 v-model="pd.EXPIRATIONDATE" format="yyyy-MM-dd"
                 type="datetime" size="small" value-format="yyyy-MM-dd"
-                placeholder="结束时间" :picker-options="pickerOptions1" >
+                placeholder="结束时间"  >
             </el-date-picker>
 
           </div>

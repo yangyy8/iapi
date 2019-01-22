@@ -31,7 +31,6 @@
           <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">出入标识：</span>
               <el-select v-model="pd.flightType"  filterable clearable  class="input-input" @change="changeCountry(pd.flightType)"  placeholder="请选择"  size="small">
-
                 <el-option value="I" label="I - 入境">
                 </el-option>
                 <el-option value="O" label="O - 出境">
@@ -52,7 +51,6 @@
                   </el-option>
                 </el-select>
               </el-col>
-
             <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
                 <span class="input-text">起飞机场：</span>
                   <el-select v-model="pd.cityFrom" filterable clearable  placeholder="请选择" size="small" class="input-input">
@@ -74,7 +72,6 @@
                </el-select>
                <!-- <QueryAirport  :airportModel="pd.cityFrom" @transAirport="getInAirport"></QueryAirport> -->
             </el-col>
-
             <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
             <span class="input-text">预计起飞时间：</span>
             <div class="input-input t-flex t-date">
@@ -172,7 +169,6 @@
         </el-col>
       </el-row>
     </div>
-
 <div class="middle">
   <el-row type="flex" >
       <el-col :span="9"></el-col>
@@ -190,7 +186,9 @@
       <el-table
         :data="tableData"
         border
-        style="width: 100%;">
+        style="width: 100%;"
+        class="mt-10 o-table3"
+        @header-click="headerClick">
         <el-table-column
           prop="travellerName"
           label="姓名" sortable>
@@ -219,7 +217,6 @@
           prop="passportExpireDate"
           label="证件有效期" >
         </el-table-column> -->
-
         <el-table-column
           prop="personGrade"
           label="人员类别" sortable>
@@ -236,7 +233,6 @@
           prop="departDate"
           label="航班日期" sortable >
         </el-table-column>
-
                 <!-- <el-table-column
                   prop="ruleName"
                   label="比中规则" >
@@ -253,7 +249,6 @@
                   prop="ruleTypeDesc"
                   label="不通过原因" sortable>
                 </el-table-column>
-
                 <!-- <el-table-column
                   prop="checkResultDesc"
                   label="反馈结果" >
@@ -299,7 +294,6 @@
         </el-pagination>
       </div>
     </div>
-
     <el-dialog
       title="详情"
       :visible.sync="detailsDialogVisible"
@@ -325,20 +319,13 @@
         <el-col :span="8">反馈结果：{{dform.checkResultDesc}}</el-col>
         <el-col :span="8">反馈描述：{{dform.thanTypeDesc}}</el-col>
       </el-row>
-
-
       </el-form>
       <div slot="footer" class="dialog-footer">
-
         <el-button @click="detailsDialogVisible = false" size="small">取消</el-button>
-
       </div>
     </el-dialog>
-
   </div>
-
 </template>
-
 <script>
 // import QueryAirport from '../../other/queryAirport'
 import {formatDate} from '@/assets/js/date.js'
@@ -392,7 +379,9 @@ export default {
       form: {},
       dform: {},
       countryI:{},
-      countryO:{}
+      countryO:{},
+      AirportI:{},
+      AirportO:{},
     }
   },
   mounted() {
@@ -401,13 +390,11 @@ export default {
     // this.getnum();
     this.queryAirport("","A");
     this.queryCountry("A");
-
     let time = new Date();
     let end = new Date();
     let begin =new Date(time - 1000 * 60 * 60 * 24 * 30);
     let flightStart = new Date(new Date().setHours(0,0,0,0));
     this.pd.dataCheckBeginTime=formatDate(flightStart,'yyyyMMddhhssmm');
-
     this.pd.dataCheckEndTime=formatDate(end,'yyyyMMddhhssmm');
   },
   activated(){
@@ -425,6 +412,9 @@ export default {
     handleSelectionChange(val) {
       this.multipleSelection = val;
     },
+    headerClick(column,event){
+      event.target.title=column.label
+    },
     // getInAirport(msg){
     //   this.pd.cityFrom=msg;
     // },
@@ -437,23 +427,19 @@ export default {
     },
     handleCurrentChange(val) {
       this.getList(val, this.pageSize, this.pd);
-
       console.log(`当前页: ${val}`);
     },
     getsum(pd) {
       let p = {
         "cdt": pd
       };
-
       this.$api.post('/manage-platform/compareReuslt/businessRule/totalCounter', p,
         r => {
           console.log(r);
           this.sum = r.data.crCounter;
-
         })
     },
     getnum(pd) {
-
       let p = {
         "cdt": pd
       };
@@ -461,21 +447,17 @@ export default {
         r => {
           console.log(r);
           this.num = r.data.crCounter;
-
         })
     },
     getList(currentPage, showCount, pd) {
-
       if(dayGap(this.pd.dataCheckBeginTime,this.pd.dataCheckEndTime,1)>30){
         this.$alert('查询时间间隔不能超过一个月', '提示', {
           confirmButtonText: '确定',
         });
         return false
       }
-
       this.getsum(pd);
       this.getnum(pd);
-
       let p = {
         "currentPage": currentPage,
         "showCount": showCount,
@@ -495,7 +477,6 @@ export default {
       };
       this.$api.post('/manage-platform/codeTable/queryDmAirportCountryName', p,
         r => {
-
           this.countryI = r.data;
           this.countryO = r.data;
         });
@@ -506,10 +487,8 @@ export default {
       };
       this.$api.post('/manage-platform/codeTable/queryDmAirportCountryName', p1,
         r => {
-
           this.countryI = r.data;
         });
-
         let p2 = {
           "flightType": value,
           "type":"2"
@@ -522,11 +501,9 @@ export default {
     },
 
     changeCountry(value){
-
      this.queryCountry(value);
     },
     queryAirport(n,t) {
-
       //全球
       if (t == "A" && n=="") {
         this.$api.post('/manage-platform/codeTable/queryAirport', {},
@@ -560,7 +537,6 @@ export default {
             }
 
           })
-
         //国内
         this.$api.post('/manage-platform/codeTable/queryAirportMatch', {},
           r => {
@@ -572,48 +548,38 @@ export default {
             }
           })
       }
-
     },
-
     changeAirport(value,type) {
       this.queryAirport(value,type);
     },
-
     details(i) {
       this.detailsDialogVisible = true;
       console.log(i);
       this.dform = i;
     },
-
   }
 }
 </script>
-
 <style scoped>
 .add-dialog {
   /* padding-left:40px; */
 }
-
 .detail-msg-row {
   color: #999;
   line-height: 32px;
 }
-
 .detail-msg-row span {
   color: #333;
   display: inline-block;
   width: 60px;
 }
-
 .datacenter {
   text-align: center;
 }
-
 .dataleft {
   float: left;
   font-size: 22px;
 }
-
 .dataline {
   width: 2px;
   background: #cccccc;

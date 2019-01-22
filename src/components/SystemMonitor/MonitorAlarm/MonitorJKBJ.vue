@@ -58,13 +58,13 @@
                  <el-date-picker
                  v-model="pd.STARTTIME"
                  type="date" size="small" value-format="yyyyMMdd"
-                 placeholder="开始时间"  :picker-options="pickerOptions1">
+                 placeholder="开始时间"  >
                </el-date-picker>
                  <span class="septum">-</span>
                <el-date-picker
                   v-model="pd.ENDTIME"
                   type="date" size="small" value-format="yyyyMMdd"
-                  placeholder="结束时间" :picker-options="pickerOptions1">
+                  placeholder="结束时间" >
               </el-date-picker>
             </div>
               </el-col>
@@ -80,7 +80,9 @@
    <el-table
      :data="tableData"
      border
-     style="width: 100%;">
+     style="width: 100%;"
+     class="mt-10 o-table3"
+ @header-click="headerClick">
      <el-table-column
        label="所属系统"
        sortable>
@@ -284,6 +286,9 @@ export default {
   //  this.getList(this.CurrentPage, this.pageSize, this.pd);
   },
   methods: {
+    headerClick(column,event){
+     event.target.title=column.label
+    },
     pageSizeChange(val) {
       this.getList(this.CurrentPage, val, this.pd);
       console.log(`每页 ${val} 条`);
@@ -375,6 +380,7 @@ export default {
 
         })
     },
+    
   },
 
   filters: {
