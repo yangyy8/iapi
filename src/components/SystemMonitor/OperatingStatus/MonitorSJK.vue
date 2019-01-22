@@ -32,6 +32,8 @@
      :data="tableData"
      border
      style="width: 100%;"
+     class="mt-10 o-table3"
+@header-click="headerClick"
     >
              <el-table-column
                label="区域" sortable>
@@ -62,6 +64,8 @@
      :data="tableData1"
      border
      style="width: 100%;"
+     class="mt-10 o-table3"
+@header-click="headerClick"
   >
              <el-table-column
                label="区域" sortable
@@ -108,9 +112,11 @@
        :data="tableData2"
        border
        style="width: 100%;"
+       class="mt-10 o-table3"
+@header-click="headerClick"
       >
                <el-table-column
-                 label="区域"
+                 label="区域" sortable
                >
                <template slot-scope="scope">
                  <div class="">
@@ -119,7 +125,7 @@
                </template>
                </el-table-column>
                <el-table-column
-                 prop="tablespaceName"
+                 prop="tablespaceName" sortable
                  label="表空间名称"
                >
                </el-table-column>
@@ -166,9 +172,12 @@ export default {
     }
   },
   created() {
-    this.getlist({});
+  //  this.getlist({});
   },
   methods: {
+    headerClick(column,event){
+     event.target.title=column.label
+    },
     getlist(pd) {
       this.$api.post('/manage-platform/monitorData/queryMonitorDB', pd,
         r => {

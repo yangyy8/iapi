@@ -81,6 +81,9 @@
         :data="tableData"
         border
         style="width: 100%;"
+        class="mt-10 o-table3"
+@header-click="headerClick"
+
         >
         <el-table-column
           prop="fltno"
@@ -342,6 +345,9 @@ export default {
   },
 
   methods: {
+    headerClick(column,event){
+     event.target.title=column.label
+   },
     handleSelectionChange(val) {
       this.multipleSelection = val;
     },

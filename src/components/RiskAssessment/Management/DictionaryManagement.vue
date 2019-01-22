@@ -16,18 +16,16 @@
                <el-date-picker
                v-model="pd.BEGINDATE" format="yyyy-MM-dd HH:mm:ss"
                type="datetime" size="small" value-format="yyyy-MM-dd HH:mm:ss"
-               placeholder="开始时间"  :picker-options="pickerOptions0" >
+               placeholder="开始时间"   >
              </el-date-picker>
                <span class="septum">-</span>
              <el-date-picker
                 v-model="pd.EXPIREDATE" format="yyyy-MM-dd HH:mm:ss"
                 type="datetime" size="small" value-format="yyyy-MM-dd HH:mm:ss"
-                placeholder="结束时间" :picker-options="pickerOptions1" >
+                placeholder="结束时间"  >
             </el-date-picker>
           </div>
             </el-col>
-
-
           </el-row>
         </el-col>
         <el-col :span="2" class="down-btn-area">
@@ -39,12 +37,14 @@
       <el-row class="mb-15">
         <el-button type="primary" size="small" @click="adds(0,'');form={};">新增</el-button>
         <el-button type="success" size="small" @click="download">模板下载</el-button>
-<el-button type="info" size="small" @click="batchsdelete">批量删除</el-button>
+        <el-button type="info" size="small" @click="batchsdelete">批量删除</el-button>
         </el-row>
       <el-table
         :data="tableData"
         border
         style="width: 100%;"
+        class="mt-10 o-table3"
+@header-click="headerClick"
         @selection-change="handleSelectionChange">
         <el-table-column
          type="selection"
@@ -128,9 +128,10 @@
           </el-col>
         </el-row> -->
         <el-row type="flex"  class="mb-6">
-          <el-col :span="24" class="input-item">
+          <el-col :span="24" class="input-item my-form-group" data-scope="demo" data-name="NAME" data-type="input"
+            v-validate-easy="[['required']]">
             <span class="yy-input-text"><font class="yy-color">*</font> 字典名称：</span>
-            <el-input placeholder="请输入内容(长度不超过11)" size="small"  maxlength="11"  v-model="form.NAME"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
+            <el-input placeholder="请输入内容(长度不超过11)" size="small"  maxlength="11"  v-model="form.NAME"  class="yy-input-input" ></el-input>
           </el-col>
         </el-row>
         <!-- <el-row type="flex"  class="mb-6">
@@ -203,7 +204,7 @@
     </el-dialog> -->
 
     <el-dialog title="上传模板" :visible.sync="uploadDialogVisible"  width="640px">
-      <el-form :model="releaseform" ref="releaseForm">
+      <el-form  ref="releaseForm">
         <el-upload
           class="upload-demo"
           ref="upload"
@@ -233,16 +234,17 @@ export default {
       CurrentPage: 1,
       pageSize: 10,
       TotalResult: 0,
-      actions:"",
+      actions: "",
       pd: {},
       company: [],
-      sertail:"",
-      getSerial:"",
-      dialogText:"新增",
+      fileList:[],
+      sertail: "",
+      getSerial: "",
+      dialogText: "新增",
       addDialogVisible: false,
       detailsDialogVisible: false,
       menuDialogVisible: false,
-      uploadDialogVisible:false,
+      uploadDialogVisible: false,
       options: [{
           value: 10,
           label: "10"
@@ -262,7 +264,7 @@ export default {
         children: 'menuList',
         label: 'name'
       },
-      defaultChecked:[],
+      defaultChecked: [],
       multipleSelection: [],
       pickerOptions1: {
         // shortcuts: [{
@@ -292,15 +294,18 @@ export default {
     }
   },
   mounted() {
-    this.getList(this.CurrentPage, this.pageSize, this.pd);
+    //this.getList(this.CurrentPage, this.pageSize, this.pd);
     this.queryNationality();
   },
-  activated(){
-    this.getList(this.CurrentPage, this.pageSize, this.pd);
+  activated() {
+    //this.getList(this.CurrentPage, this.pageSize, this.pd);
   },
   methods: {
-    download(){
-      window.location.href=this.$api.rootUrl+'/manage-platform/templateFile/riskDictionariesEtails.xlsx'
+    headerClick(column,event){
+   event.target.title=column.label
+ },
+    download() {
+      window.location.href = this.$api.rootUrl + '/manage-platform/templateFile/riskDictionariesEtails.xlsx'
     },
     handleSelectionChange(val) {
       this.multipleSelection = val;
@@ -343,46 +348,46 @@ export default {
     },
     adds(n, i) {
       this.addDialogVisible = true;
+
       if (n != 0) {
         this.tp = 1;
         // this.form = i;
-        this.form=Object.assign({}, i);
-        this.dialogText="编辑";
-      }else {
-        this.tp=0;
-        this.dialogText="新增";
+        this.form = Object.assign({}, i);
+        this.dialogText = "编辑";
+      } else {
+        this.tp = 0;
+        this.dialogText = "新增";
       }
+        this.V.$reset("demo")
     },
     addItem(formName) {
-            if(this.$validator.listener.demo2){
-              const result = this.$validator.verifyAll('demo2')
-               if (result.indexOf(false) > -1) {
-                 return
-               } else {
-               }
+      this.V.$submit('demo', (canSumit, data) => {
+        // canSumit为true时，则所有该scope的所有表单验证通过
+        if (!canSumit) return;
+        // 只有验证全部通过才会执行
+        var url = "/manage-platform/riskDictionaries/addRiskDictionaries";
+        if (this.tp == 1) {
+          url = "/manage-platform/riskDictionaries/updateRiskDictionaries";
+        }
+        this.$api.post(url, this.form,
+          r => {
+            console.log(r);
+            if (r.success) {
+              this.$message({
+                message: '保存成功！',
+                type: 'success'
+              });
+            } else {
+              this.$message.error(r.Message);
             }
-      var url = "/manage-platform/riskDictionaries/addRiskDictionaries";
-      if (this.tp == 1) {
-        url = "/manage-platform/riskDictionaries/updateRiskDictionaries";
-      }
-      this.$api.post(url, this.form,
-        r => {
-          console.log(r);
-          if (r.success) {
-            this.$message({
-              message: '保存成功！',
-              type: 'success'
-            });
-          } else {
-            this.$message.error(r.Message);
-          }
-          this.$refs[formName].resetFields();
-          this.addDialogVisible = false;
-          this.getList(this.CurrentPage, this.pageSize, this.pd);
-          // this.tableData=r.Data.ResultList;
-        }, e => {
-          this.$message.error('失败了');
-        })
+            this.$refs[formName].resetFields();
+            this.addDialogVisible = false;
+            this.getList(this.CurrentPage, this.pageSize, this.pd);
+            // this.tableData=r.Data.ResultList;
+          }, e => {
+            this.$message.error('失败了');
+          });
+      });
     },
     details(i) {
       this.detailsDialogVisible = true;
@@ -420,76 +425,78 @@ export default {
       });
     },
 
-    beforeAvatarUpload(file){
+    beforeAvatarUpload(file) {
       console.log(file.type)
       const isEXL = file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
 
       if (!isEXL) {
         this.$message.error('上传文件只能是 xlsx 格式!');
       }
-      return isEXL ;
+      return isEXL;
     },
-    showUpload(i){
+    showUpload(i) {
 
-      this.getSerial=i.SERIAL;
+      this.getSerial = i.SERIAL;
       //this.actions="http://192.168.99.247:8080";
-    this.actions=this.$api.rootUrl;
-      this.uploadDialogVisible=true;
-      console.log( this.$refs.upload);
-      if( this.$refs.upload){
+      this.actions = this.$api.rootUrl;
+      this.uploadDialogVisible = true;
+      console.log(this.$refs.upload);
+      if (this.$refs.upload) {
         this.$refs.upload.clearFiles();
       }
     },
     submitUpload() {
-console.log(this.$refs.upload.uploadFiles);
-      if(this.$refs.upload.uploadFiles.length==0){
+      console.log(this.$refs.upload.uploadFiles);
+      if (this.$refs.upload.uploadFiles.length == 0) {
         this.$message({
-         message: '请先选择文件！',
-         type: 'warning'
-       });
+          message: '请先选择文件！',
+          type: 'warning'
+        });
         return
       }
       // alert(this.$refs);
       this.$refs.upload.submit();
     },
-    upSuccess(r){
+    upSuccess(r) {
       console.log(r);
-      if(r.success){
+      if (r.success) {
         this.$message({
           message: r.data,
           type: 'success'
         });
 
-     }else {
-       this.$message.error(r.message);
-     }
-     this.uploadDialogVisible=false ;
-     this.getList(this.CurrentPage,this.pageSize,this.pd);
+      } else {
+        this.$message.error(r.message);
+      }
+      this.uploadDialogVisible = false;
+      this.getList(this.CurrentPage, this.pageSize, this.pd);
     },
-    tableDown(i){
+    tableDown(i) {
       console.log(this.$api.rootUrl)
-        axios({
-         method: 'post',
-         url: this.$api.rootUrl+"/manage-platform/riskDictionaries/exportFileIo",
-         data: {
-             "id": i.SERIAL,
-         },
-         responseType: 'blob'
-         }).then(response => {
-             this.downloadM(response)
-       });
+      axios({
+        method: 'post',
+        url: this.$api.rootUrl + "/manage-platform/riskDictionaries/exportFileIo",
+        data: {
+          "id": i.SERIAL,
+        },
+        responseType: 'blob'
+      }).then(response => {
+        this.downloadM(response)
+      });
     },
-    downloadM (data,type) {
-        if (!data) {
-            return
-        }
-        let url = window.URL.createObjectURL(new Blob([data.data],{type:"application/octet-stream"}))
-        let link = document.createElement('a')
-        link.style.display = 'none'
-        link.href = url
-        link.setAttribute('download', 'riskDictionariesEtails.xlsx')
-        document.body.appendChild(link)
-        link.click()
+    downloadM(data, type) {
+      if (!data) {
+        return
+      }
+      let url = window.URL.createObjectURL(new Blob([data.data], {
+        type: "application/octet-stream"
+      }))
+      let link = document.createElement('a')
+      link.style.display = 'none'
+      link.href = url
+      link.setAttribute('download', 'riskDictionariesEtails.xlsx')
+      document.body.appendChild(link)
+      link.click()
     },
     batchsdelete() {
 
@@ -499,7 +506,7 @@ console.log(this.$refs.upload.uploadFiles);
         return;
 
       }
-     console.log(this.multipleSelection);
+      console.log(this.multipleSelection);
 
       let p = {
         "ids": this.multipleSelection
@@ -552,18 +559,22 @@ console.log(this.$refs.upload.uploadFiles);
 .add-dialog {
   /* padding-left:40px; */
 }
+
 .detail-msg-row {
   color: #999;
   line-height: 32px;
 }
+
 .detail-msg-row span {
   color: #333;
   display: inline-block;
   width: 60px;
 }
+
 .yy-input-text {
   width: 25% !important;
 }
+
 .yy-input-input {
   width: 68% !important;
 }

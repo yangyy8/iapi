@@ -47,6 +47,8 @@
         :data="tableData"
         border
         style="width: 100%;"
+        class="mt-10 o-table3"
+@header-click="headerClick"
         >
         <el-table-column
           prop="DEPT_QC" sortable
@@ -117,10 +119,11 @@
     <el-dialog :title="dialogText"  :visible.sync="addDialogVisible" width="400px;">
       <el-form :model="form" ref="addForm">
         <el-row type="flex"  class="mb-6">
-          <el-col :span="12" class="input-item">
+          <el-col :span="12" class="input-item my-form-group" data-scope="demo" data-name="PARENT_ID" data-type="select"
+            v-validate-easy="[['required']]">
             <span class="yy-input-text"><font class="yy-color">*</font> 上级部门：</span>
 
-            <el-select v-model="form.PARENT_ID" v-if='tp==0' filterable clearable placeholder="请选择" size="small" class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}">
+            <el-select v-model="form.PARENT_ID" v-if='tp==0' filterable clearable placeholder="请选择" size="small" class="yy-input-input" >
               <el-option
                 v-for="item in company"
                 :key="item.SERIAL"
@@ -129,7 +132,7 @@
               </el-option>
              </el-select>
 
-             <el-select v-else v-model="form.PARENT_ID"  :disabled="true" filterable clearable placeholder="请选择" size="small" class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}">
+             <el-select v-else v-model="form.PARENT_ID"  :disabled="true" filterable clearable placeholder="请选择" size="small" class="yy-input-input" >
                <el-option
                  v-for="item in company"
                  :key="item.SERIAL"
@@ -138,34 +141,38 @@
                </el-option>
               </el-select>
           </el-col>
-          <el-col :span="12" class="input-item">
+          <el-col :span="12" class="input-item my-form-group" data-scope="demo" data-name="DEPT_QC" data-type="input"
+            v-validate-easy="[['required']]">
             <span class="yy-input-text"><font class="yy-color">*</font> 部门名称：</span>
-            <el-input placeholder="请输入内容" size="small"  v-model="form.DEPT_QC" class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
+            <el-input placeholder="请输入内容" size="small"  v-model="form.DEPT_QC" class="yy-input-input" ></el-input>
           </el-col>
         </el-row>
         <el-row type="flex"  class="mb-6">
           <el-col :span="12" class="input-item">
             <span class="yy-input-text"><font class="yy-color">*</font> 部门简称：</span>
-            <el-input placeholder="请输入内容" size="small"   v-model="form.DEPT_JC" class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
+            <el-input placeholder="请输入内容" size="small"   v-model="form.DEPT_JC" class="yy-input-input" ></el-input>
           </el-col>
-          <el-col :span="12" class="input-item">
+          <el-col :span="12" class="input-item my-form-group" data-scope="demo" data-name="DEPT_CODE" data-type="input"
+            v-validate-easy="[['required']]">
             <span class="yy-input-text"><font class="yy-color">*</font> 部门编码：</span>
-            <el-input placeholder="请输入内容" size="small"  v-model="form.DEPT_CODE" class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
+            <el-input placeholder="请输入内容" size="small"  v-model="form.DEPT_CODE" class="yy-input-input"></el-input>
           </el-col>
         </el-row>
         <el-row type="flex"  class="mb-6">
-          <el-col :span="12" class="input-item">
+          <el-col :span="12" class="input-item my-form-group" data-scope="demo" data-name="STATUS" data-type="select"
+            v-validate-easy="[['required']]">
             <span class="yy-input-text"><font class="yy-color">*</font> 状态：</span>
-            <el-select v-model="form.STATUS"  placeholder="请选择" size="small" class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}">
+            <el-select v-model="form.STATUS"  placeholder="请选择" size="small" class="yy-input-input" >
                <el-option  value="1" label="1 - 启用">
                </el-option>
                <el-option  value="0" label="0 - 停用">
                </el-option>
              </el-select>
           </el-col>
-          <el-col :span="12" class="input-item">
+          <el-col :span="12" class="input-item my-form-group" data-scope="demo" data-name="DEPT_ORDER" data-type="input"
+            v-validate-easy="[['required']]">
             <span class="yy-input-text"><font class="yy-color">*</font> 排列序号：</span>
-            <el-input placeholder="请输入内容" size="small"  v-model="form.DEPT_ORDER" class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
+            <el-input placeholder="请输入内容" size="small" maxlength="5"  v-model="form.DEPT_ORDER" class="yy-input-input"></el-input>
           </el-col>
         </el-row>
       </el-form>
@@ -279,6 +286,10 @@ export default {
     this.getList(this.CurrentPage, this.pageSize, this.pd);
   },
   methods: {
+
+    headerClick(column,event){
+      event.target.title=column.label
+    },
     handleSelectionChange(val) {
       this.multipleSelection = val;
     },
@@ -316,6 +327,9 @@ export default {
         this.dialogText = "新增";
         this.tp = 0;
       }
+
+
+  this.V.$reset("demo")
     },
     queryNationality() {
       this.$api.post('/manage-platform/userSys/deptList', {},
@@ -328,16 +342,13 @@ export default {
     },
 
     addItem(formName) {
+      this.V.$submit('demo', (canSumit,data) => {
+          // canSumit为true时，则所有该scope的所有表单验证通过
+           if(!canSumit) return;
+           // 只有验证全部通过才会执行
       if (this.form.DEPT_ORDER != undefined && this.form.DEPT_ORDER != "") {
         if (!checkRate(this.form.DEPT_ORDER)) {
           this.$message.error('排列序号必须为数字，请重新输入！');
-          return;
-        }
-      }
-
-      if (this.$validator.listener.demo2) {
-        const result = this.$validator.verifyAll('demo2')
-        if (result.indexOf(false) > -1) {
           return;
         }
       }
@@ -365,6 +376,7 @@ export default {
         }, e => {
           this.$message.error('失败了');
         })
+      });
     },
     details(i) {
       this.detailsDialogVisible = true;

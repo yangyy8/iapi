@@ -73,7 +73,7 @@
           label="备用地址" sortable
           >
           <template slot-scope="scope">
-            <span>{{scope.row.ipaddressBack}}</span><span :class="{'ycolor':scope.row.clientStatus=='1','ycolory':scope.row.clientStatus=='0'}">{{scope.row.clientBackStatus|fifters}}</span>
+            <span>{{scope.row.ipaddressBack}}</span><span :class="{'ycolor':scope.row.clientBackStatus=='1','ycolory':scope.row.clientBackStatus=='0'}">{{scope.row.clientBackStatus|fifters}}</span>
           </template>
         </el-table-column>
         <el-table-column
@@ -131,9 +131,10 @@
       width="600px">
       <el-form :model="form" ref="addForm">
         <el-row type="flex"  class="mb-6">
-          <el-col :span="24" class="input-item">
+          <el-col :span="24" class="input-item my-form-group" data-scope="demo" data-name="portname" data-type="select"
+            v-validate-easy="[['required']]">
             <span class="input-text"><font class="yy-color">*</font> 口岸名称：</span>
-            <el-select v-model="form.portname" filterable clearable  placeholder="请选择"  size="small" class="input-input" v-verify.change.blur ="{regs:'required',submit:'demoka'}" @change="getCode(form.portname)">
+            <el-select v-model="form.portname" filterable clearable  placeholder="请选择"  size="small" class="input-input"  @change="getCode(form.portname)">
               <el-option
                 v-for="item in kaname"
                 :key="item.KAMC"
@@ -144,15 +145,17 @@
           </el-col>
         </el-row>
         <el-row type="flex"  class="mb-6">
-          <el-col :span="24" class="input-item">
+          <el-col :span="24" class="input-item my-form-group" data-scope="demo" data-name="portcode" data-type="input"
+            v-validate-easy="[['required']]">
             <span class="input-text"><font class="yy-color">*</font> 口岸编号：</span>
-            <el-input placeholder="请输入口岸编号(长度不超过32)" size="small" maxlength="32" :disabled="form.portcode!=null"  v-model="form.portcode"  class="input-input" v-verify.change.blur ="{regs:'required',submit:'demoka'}"></el-input>
+            <el-input placeholder="请输入口岸编号(长度不超过32)" size="small" maxlength="32" :disabled="form.portcode!=null"  v-model="form.portcode"  class="input-input" ></el-input>
           </el-col>
         </el-row>
         <el-row type="flex"  class="mb-6">
-          <el-col :span="24" class="input-item">
+          <el-col :span="24" class="input-item my-form-group" data-scope="demo" data-name="ipaddress" data-type="input"
+            v-validate-easy="[['required']]">
             <span class="input-text"><font class="yy-color">*</font> 口岸地址：</span>
-            <el-input placeholder="请输入口岸地址(如：192.168.10.2)" size="small" maxlength="100"  v-model="form.ipaddress" style="width:50%"  v-verify.change.blur ="{regs:'required',submit:'demoka'}"></el-input>
+            <el-input placeholder="请输入口岸地址(如：192.168.10.2)" size="small" maxlength="100"  v-model="form.ipaddress" style="width:50%" ></el-input>
     <span style="padding-left:10px;">端口： </span> <el-input size="small" maxlength="4"  placeholder="8125" style="width:16%" v-model="form.pt"  ></el-input>
           </el-col>
         </el-row>
@@ -164,9 +167,10 @@
           </el-col>
         </el-row>
         <el-row type="flex"  class="mb-6">
-          <el-col :span="24" class="input-item">
+          <el-col :span="24" class="input-item my-form-group" data-scope="demo" data-name="status" data-type="select"
+            v-validate-easy="[['required']]">
             <span class="input-text"><font class="yy-color">*</font> 口岸开关：</span>
-            <el-select v-model="form.status" placeholder="请选择" filterable clearable  size="small"   class="input-input" v-verify.change.blur ="{regs:'required',submit:'demoka'}">
+            <el-select v-model="form.status" placeholder="请选择" filterable clearable  size="small"   class="input-input">
               <el-option value="0" label="0 - 关闭" ></el-option>
               <el-option value="1" label="1 - 开启" ></el-option>
              </el-select>
@@ -301,15 +305,13 @@ export default {
           this.form.pt="8125";
           this.dialogText="新增";
         }
+          this.V.$reset("demo")
       },
       addItem(formName) {
-              if(this.$validator.listener.demoka){
-                const result = this.$validator.verifyAll('demoka')
-                 if (result.indexOf(false) > -1) {
-                   return
-                 }
-              }
-
+        this.V.$submit('demo', (canSumit,data) => {
+ // canSumit为true时，则所有该scope的所有表单验证通过
+  if(!canSumit) return;
+  // 只有验证全部通过才会执行
         var url = "/manage-platform/portConfig/add";
         if (this.tp == 1) {
           url = "/manage-platform/portConfig/edit";
@@ -332,6 +334,7 @@ export default {
           }, e => {
             this.$message.error('失败了');
           })
+        });
       },
     details(i) {
       this.detailsDialogVisible = true;
@@ -371,6 +374,10 @@ export default {
     },
     conarts(){
 
+        this.V.$submit('demo', (canSumit,data) => {
+          // canSumit为true时，则所有该scope的所有表单验证通过
+           if(!canSumit) return;
+           // 只有验证全部通过才会执行
         this.$api.post('/manage-platform/portConfig/connTest', this.form,
           r => {
 
@@ -387,6 +394,7 @@ export default {
           }, e => {
             this.$message.error('失败了');
           });
+            });
     },
     sets(c,n)
     {

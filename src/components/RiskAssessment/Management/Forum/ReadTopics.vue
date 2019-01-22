@@ -47,7 +47,7 @@
        <!-- 附件： <span v-for="name in accessoryNameList">{{ name.ACCESSORYNAME }}
          <span class="sspan"> <a :href="name.URL">下载</a>   </span>   </span>-->
 
-   <div class="" v-for="name in accessoryNameList" :key="ind">
+   <div class="" v-for="(name,ind) in accessoryNameList" :key="ind">
      <span class="mr-30">{{name.ACCESSORYNAME}}</span>
 
      <a :href="name.URL">下载</a>
@@ -85,7 +85,7 @@
 
     </el-row>
 
-    <el-row v-for="(omment,ind) in tableData" :key="ind" type="flex" class="mb-6 ppading" >
+    <el-row v-for="(comment,ind) in tableData" :key="ind" type="flex" class="mb-6 ppading" >
       <el-col :span="1" class="ttitle" style="width:70px;text-align:center;border-bottom:1px solid #dddddd;">
       <img src="../../../../assets/img/logo.png" width="40" height="40">
       </el-col>
@@ -151,6 +151,19 @@ export default {
       itemForumData:{},
       SERIAL:"",
       airport:[],
+      options: [{
+          value: 5,
+          label: "5"
+        },
+        {
+          value: 6,
+          label: "6"
+        },
+        {
+          value: 7,
+          label: "7"
+        }
+      ],
       backShow:false,
       fileList:[],
       CurrentPage:1,

@@ -50,6 +50,8 @@
         :data="tableData"
         border
         style="width: 100%;"
+        class="mt-10 o-table3"
+@header-click="headerClick"
         >
         <el-table-column
           prop="LABELTYPE_NAME" sortable
@@ -122,7 +124,8 @@
     <el-dialog :title="dialogText" :visible.sync="addDialogVisible" width="500px" >
       <el-form :model="form" ref="addForm">
         <el-row type="flex"  class="mb-6">
-          <el-col :span="24" class="input-item">
+          <el-col :span="24" class="input-item my-form-group" data-scope="demo" data-name="LABELTYPE_CODE" data-type="select"
+            v-validate-easy="[['required']]">
             <span class="yy-input-text"><font class="yy-color">*</font> 标签分类：</span>
              <el-select v-model="form.LABELTYPE_CODE" filterable clearable  placeholder="请选择"  size="small" class="yy-input-input">
                <el-option
@@ -135,7 +138,8 @@
           </el-col>
         </el-row>
         <el-row type="flex"  class="mb-6">
-          <el-col :span="24" class="input-item">
+          <el-col :span="24" class="input-item my-form-group" data-scope="demo" data-name="LABELNAME" data-type="input"
+            v-validate-easy="[['required']]">
             <span class="yy-input-text"><font class="yy-color">*</font> 标签名称：</span>
             <el-input placeholder="请输入内容(长度不超过11)" size="small" maxlength="11"  v-model="form.LABELNAME"  class="yy-input-input" ></el-input>
           </el-col>
@@ -208,6 +212,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
   data() {
     return {
@@ -246,18 +251,22 @@ export default {
 
       form: {},
       mapForm: {},
+      map:{},
       Airport: [],
     }
   },
   mounted() {
-    this.getList(this.CurrentPage, this.pageSize, this.pd);
+    //this.getList(this.CurrentPage, this.pageSize, this.pd);
     this.queryNationality();
   },
   activated(){
-    this.getList(this.CurrentPage, this.pageSize, this.pd);
+  //  this.getList(this.CurrentPage, this.pageSize, this.pd);
     this.queryNationality();
   },
   methods: {
+    headerClick(column,event){
+  event.target.title=column.label
+},
     handleSelectionChange(val) {
       this.multipleSelection = val;
     },
@@ -304,23 +313,25 @@ export default {
         this.tp = 0;
         this.dialogText="新增";
       }
-
+      this.V.$reset("demo");
     },
     addItem(formName) {
-
-      if(this.form.LABELTYPE_CODE=="" || this.form.LABELTYPE_CODE==undefined){
-
-            this.$message.error("请选择标签分类");
-            return  false;
-      }
-      if(this.form.LABELNAME=="" || this.form.LABELNAME==undefined){
-
-            this.$message.error("标签名称不能为空");
-            return  false;
-      }
+      this.V.$submit('demo', (canSumit,data) => {
+        // canSumit为true时，则所有该scope的所有表单验证通过
+         if(!canSumit) return;
+         // 只有验证全部通过才会执行
+      // if(this.form.LABELTYPE_CODE=="" || this.form.LABELTYPE_CODE==undefined){
+      //
+      //       this.$message.error("请选择标签分类");
+      //       return  false;
+      // }
+      // if(this.form.LABELNAME=="" || this.form.LABELNAME==undefined){
+      //
+      //       this.$message.error("标签名称不能为空");
+      //       return  false;
+      // }
 
       var url = "/manage-platform/userLabel/addUserLabel";
-
       if (this.tp == 1) {
         url = "/manage-platform/userLabel/updateUserLabel";
       }
@@ -342,7 +353,8 @@ export default {
           // this.tableData=r.Data.ResultList;
         }, e => {
           this.$message.error('失败了');
-        })
+        });
+      });
     },
     details(i) {
       this.detailsDialogVisible = true;

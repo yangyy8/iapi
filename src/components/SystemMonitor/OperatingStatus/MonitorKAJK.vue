@@ -41,7 +41,9 @@
       <el-table
         :data="tableData"
         border
-        style="width: 100%;">
+        style="width: 100%;"
+        class="mt-10 o-table3"
+        @header-click="headerClick">
         <el-table-column
           type="index"
           label="序号" width="60">
@@ -163,6 +165,9 @@ export default {
     //  this.getList(this.CurrentPage, this.pageSize, this.pd);
   },
   methods: {
+    headerClick(column,event){
+    event.target.title=column.label
+    },
     handleSelectionChange(val) {
       this.multipleSelection = val;
     },

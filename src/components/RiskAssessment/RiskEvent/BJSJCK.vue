@@ -9,7 +9,7 @@
       <el-row :gutter="10">
         <el-col :span="3">
           <div class="bjsj-l">
-            <img src="../../../assets/img/bp_ap/ph_s.png" alt="" style="width:100%;">
+            <img :src="imgURL" alt="" style="width:100%;">
             <span class="mb-2">综合风险等级</span>
             <el-rate :value="$route.query.grade" disabled class="mb-9"></el-rate>
             <el-button type="primary" size="small" class="mb-9" style="width:100%" @click="$router.push({name:'DZDA',query:{nationality:page0Data.nationality,passportno:page0Data.passportno,grade:$route.query.grade,type:1}})">电子档案</el-button>
@@ -494,6 +494,7 @@
 
 <script>
 import GDTC from './GDTC'
+import imgUrl from '../../../assets/img/bp_ap/ph_s.png'
 
 export default {
   components:{GDTC},
@@ -531,6 +532,7 @@ export default {
       checkeditem:null,
       modelDialogVisible:false,
       modeldec:null,
+      imgURL:imgUrl,
     }
   },
   mounted(){
@@ -593,6 +595,7 @@ export default {
        r => {
          this.page0Data=r.data;
          this.getRiskEventTagInfo(this.page0Data.passportno,this.page0Data.nationality)
+         this.getPhotoInf(r.data.passportno,r.data.nationality,r.data.birthday,r.data.name);
       })
     },
     // 当前事件标签及标签详情信息
@@ -913,6 +916,30 @@ export default {
        r => {
          this.modelDialogVisible=true;
          this.modeldec=r.data
+      })
+    },
+    getPhotoInf(passportno,nationality,birthday,name){
+      let p={}
+      if(nationality=="CHN"){
+        p={
+          "type": 'photo',
+          "nationality": nationality,
+          "passportno": passportno,
+        }
+      }else{
+        p={
+          "passportno": passportno,
+          "nationality": nationality,
+          "birthday": birthday,
+          "name": name,
+          "type": 'photo',
+        }
+      }
+
+      this.$api.post('/manage-platform/riskRecordController/getPhotoInf',p,
+       r => {
+         console.log(r)
+         this.imgURL=r.data.url||imgUrl;
       })
     }
   }

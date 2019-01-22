@@ -14,7 +14,9 @@
   <el-table
     :data="tableData"
     border
-    style="width: 100%;">
+    style="width: 100%;"
+    class="mt-10 o-table3"
+@header-click="headerClick">
     <el-table-column
       type="index"
       label="序号"
@@ -62,7 +64,7 @@
      </template>
     </el-table-column>
     <el-table-column
-      label="文件系统"
+      label="文件系统"  width="70"
     >
     <template slot-scope="scope">
    <el-button type="text"  class="a-btn"  title="详情"  icon="el-icon-tickets" @click="details(scope.row.fileSysArr)"></el-button>
@@ -91,7 +93,9 @@
    <el-table
      :data="tableData1"
      border
-     style="width: 100%;">
+     style="width: 100%;"
+     class="mt-10 o-table3"
+@header-click="headerClick">
 
      <el-table-column
        type="index"
@@ -139,7 +143,7 @@
       </template>
      </el-table-column>
      <el-table-column
-       label="文件系统"
+       label="文件系统" width="70"
      >
      <template slot-scope="scope">
           <el-button type="text"  class="a-btn"  title="详情"  icon="el-icon-tickets" @click="details(scope.row.fileSysArr)"></el-button>
@@ -231,7 +235,9 @@ export default {
   //   }
   // },
   methods: {
-
+    headerClick(column,event){
+      event.target.title=column.label
+    },
     getList(pd) {
 
       this.$api.post('/manage-platform/monitorServer/queryMonitorServer', pd,

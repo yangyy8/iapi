@@ -126,6 +126,8 @@
         :data="tableData"
         border
         style="width: 100%;"
+        class="mt-10 o-table3"
+@header-click="headerClick"
         @selection-change="handleSelectionChange">
         <el-table-column
          type="selection"
@@ -256,7 +258,9 @@
           <el-table
             :data="batchtableData"
             border
-            style="width: 100%;">
+            style="width: 100%;"
+            class="mt-10 o-table3"
+    @header-click="headerClick">
                     <el-table-column
                       prop="NAME"
                       label="姓名"
@@ -609,7 +613,9 @@
         <el-table
           :data="detailstableData"
           border
-          style="width: 100%;">
+          style="width: 100%;"
+          class="mt-10 o-table3"
+  @header-click="headerClick">
           <el-table-column
             prop="NAME"
             label="姓名" sortable
@@ -822,6 +828,9 @@ export default {
     // this.pd.ENDTIME = formatDate(end, 'yyyyMMddhhmm');
   },
   methods: {
+    headerClick(column,event){
+  event.target.title=column.label
+},
     handleSelectionChange(val) {
       this.multipleSelection = val;
       console.log(val)
