@@ -8,17 +8,20 @@
           </span>&nbsp;|&nbsp;
           <span>时间：{{currentDate}}</span>
           <el-row align="center" :gutter="2" style="margin-top:10px">
-            <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+            <el-col  :sm="24" :md="12" :lg="8"  class="input-item my-form-group" data-scope="txl" data-name="CONSULTFROM" data-type="select"
+            v-validate-easy="[['required']]">
               <span class="input-text"><i class="t-must">*</i>咨询来源：</span>
-              <el-select v-model="entity.CONSULTFROM" filterable clearable placeholder="请选择" size="small" class="input-input" v-verify.input.blur="{regs:'required',submit:'txl'}">
+              <el-select v-model="entity.CONSULTFROM" filterable clearable placeholder="请选择" size="small" class="input-input">
                 <el-option label="0 - 航空公司" value="0"></el-option>
                 <el-option label="1 - 乘客" value="1"></el-option>
                 <el-option label="2 - 其他" value="2"></el-option>
               </el-select>
             </el-col>
-            <el-col  :sm="24" :md="12" :lg="8"  class="input-item" v-if="entity.CONSULTFROM == '0'||entity.CONSULTFROM == ''||entity.CONSULTFROM == undefined">
+            <el-col  :sm="24" :md="12" :lg="8"  class="input-item my-form-group" v-if="entity.CONSULTFROM == '0'||entity.CONSULTFROM == ''||entity.CONSULTFROM == undefined"
+            data-scope="txl" data-name="TERMINAL" data-type="select"
+            v-validate-easy="[['required']]">
               <span class="input-text"><i class="t-must">*</i>航站：</span>
-              <el-select v-model="entity.TERMINAL" filterable clearable placeholder="请选择" size="small" class="input-input" @visible-change="terminal" v-verify.input.blur="{regs:'required',submit:'txl'}">
+              <el-select v-model="entity.TERMINAL" filterable clearable placeholder="请选择" size="small" class="input-input" @visible-change="terminal">
                 <el-option
                 v-for="item in takeOffName"
                 :key="item.AIRPORT_CODE"
@@ -27,14 +30,18 @@
                 </el-option>
               </el-select>
             </el-col>
-            <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+            <el-col  :sm="24" :md="12" :lg="8"  class="input-item my-form-group"
+            data-scope="txl" data-name="CONSULTNAME" data-type="input"
+            v-validate-easy="[['required']]">
               <span class="input-text"><i class="t-must">*</i>咨询人：</span>
-              <el-input placeholder="请输入内容" size="small" v-model="entity.CONSULTNAME"  class="input-input" v-verify.input.blur="{regs:'required',submit:'txl'}"></el-input>
+              <el-input placeholder="请输入内容" size="small" v-model="entity.CONSULTNAME"  class="input-input"></el-input>
             </el-col>
 
-            <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+            <el-col  :sm="24" :md="12" :lg="8"  class="input-item my-form-group"
+            data-scope="txl" data-name="CONSULTFROMTYPE" data-type="select"
+            v-validate-easy="[['required']]">
               <span class="input-text"><i class="t-must">*</i>咨询方式：</span>
-              <el-select v-model="entity.CONSULTFROMTYPE" filterable clearable placeholder="请选择" size="small" class="input-input" v-verify.input.blur="{regs:'required',submit:'txl'}">
+              <el-select v-model="entity.CONSULTFROMTYPE" filterable clearable placeholder="请选择" size="small" class="input-input">
                 <el-option label="0 - 移动电话" value="0"></el-option>
                 <el-option label="1 - 传真" value="1"></el-option>
                 <el-option label="2 - 邮箱" value="2"></el-option>
@@ -43,25 +50,35 @@
               </el-select>
             </el-col>
 
-            <el-col  :sm="24" :md="12" :lg="8"  class="input-item" v-if="entity.CONSULTFROMTYPE=='0'">
+            <el-col  :sm="24" :md="12" :lg="8"  class="input-item my-form-group" v-if="entity.CONSULTFROMTYPE=='0'"
+            data-scope="txl" data-name="PHONE" data-type="input"
+            v-validate-easy="[['required']]">
               <span class="input-text"><i class="t-must">*</i>移动电话：</span>
-              <el-input placeholder="请输入内容" size="small" v-model="entity.PHONE"  class="input-input" v-verify.input.blur="{regs:'required',submit:'txl'}" maxlength="25"></el-input>
+              <el-input placeholder="请输入内容" size="small" v-model="entity.PHONE"  class="input-input" maxlength="25"></el-input>
             </el-col>
-            <el-col  :sm="24" :md="12" :lg="8"  class="input-item" v-if="entity.CONSULTFROMTYPE=='1'">
+            <el-col  :sm="24" :md="12" :lg="8"  class="input-item my-form-group" v-if="entity.CONSULTFROMTYPE=='1'"
+            data-scope="txl" data-name="CONSULTFAX" data-type="input"
+            v-validate-easy="[['required']]">
               <span class="input-text"><i class="t-must">*</i>传真：</span>
-              <el-input placeholder="请输入内容" size="small" v-model="entity.CONSULTFAX"  class="input-input" v-verify.input.blur="{regs:'required',submit:'txl'}" maxlength="25"></el-input>
+              <el-input placeholder="请输入内容" size="small" v-model="entity.CONSULTFAX"  class="input-input" maxlength="25"></el-input>
             </el-col>
-            <el-col  :sm="24" :md="12" :lg="8"  class="input-item" v-if="entity.CONSULTFROMTYPE=='2'">
+            <el-col  :sm="24" :md="12" :lg="8"  class="input-item my-form-group" v-if="entity.CONSULTFROMTYPE=='2'"
+            data-scope="txl" data-name="CONSULTEMAIL" data-type="input"
+            v-validate-easy="[['required']]">
               <span class="input-text"><i class="t-must">*</i>邮箱：</span>
-              <el-input placeholder="请输入内容" size="small" v-model="entity.CONSULTEMAIL"  class="input-input" v-verify.input.blur="{regs:'required',submit:'txl'}" maxlength="50"></el-input>
+              <el-input placeholder="请输入内容" size="small" v-model="entity.CONSULTEMAIL"  class="input-input" maxlength="50"></el-input>
             </el-col>
-            <el-col  :sm="24" :md="12" :lg="8"  class="input-item" v-if="entity.CONSULTFROMTYPE=='3'">
+            <el-col  :sm="24" :md="12" :lg="8"  class="input-item my-form-group" v-if="entity.CONSULTFROMTYPE=='3'"
+            data-scope="txl" data-name="INCOMINGPHONE" data-type="input"
+            v-validate-easy="[['required']]">
               <span class="input-text"><i class="t-must">*</i>固定电话：</span>
-              <el-input placeholder="请输入内容" size="small" v-model="entity.INCOMINGPHONE"  class="input-input" v-verify.input.blur="{regs:'required',submit:'txl'}" maxlength="25"></el-input>
+              <el-input placeholder="请输入内容" size="small" v-model="entity.INCOMINGPHONE"  class="input-input" maxlength="25"></el-input>
             </el-col>
-            <el-col  :sm="24" :md="12" :lg="8"  class="input-item" v-if="entity.CONSULTFROMTYPE=='4'">
+            <el-col  :sm="24" :md="12" :lg="8"  class="input-item my-form-group" v-if="entity.CONSULTFROMTYPE=='4'"
+            data-scope="txl" data-name="CONSULTFROMOTHERREMARK" data-type="input"
+            v-validate-easy="[['required']]">
               <span class="input-text"><i class="t-must">*</i>其他：</span>
-              <el-input placeholder="请输入内容" size="small" v-model="entity.CONSULTFROMOTHERREMARK"  class="input-input" v-verify.input.blur="{regs:'required',submit:'txl'}"></el-input>
+              <el-input placeholder="请输入内容" size="small" v-model="entity.CONSULTFROMOTHERREMARK"  class="input-input"></el-input>
             </el-col>
           </el-row>
         </el-col>
@@ -88,7 +105,7 @@
             </el-radio-group>
           </div>
 
-          <el-row align="center" :gutter="2" style="margin-top:10px" v-show="CONSULTTYPE==0">
+          <el-row align="center" :gutter="2" style="margin-top:10px" v-if="CONSULTTYPE==0">
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">证件号码：</span>
               <el-input placeholder="请输入内容" size="small" v-model="pd.PASSPORTNO"  class="input-input"></el-input>
@@ -121,7 +138,7 @@
             </el-col>
           </el-row>
         </el-col>
-        <el-col :span="2" class="down-btn-area" style="margin-top:35px;" v-show="CONSULTTYPE==0">
+        <el-col :span="2" class="down-btn-area" style="margin-top:35px;" v-if="CONSULTTYPE==0">
           <el-button type="success" class="mb-15" size="small"  @click="getList(CurrentPage,pageSize,pd);">查询</el-button>
         </el-col>
       </el-row>
@@ -129,7 +146,7 @@
         :data="tableData"
         border
         style="width: 100%;"
-        v-show="CONSULTTYPE==0">
+        v-if="CONSULTTYPE==0">
         <el-table-column
 
           label="姓名">
@@ -193,7 +210,7 @@
          </template>
         </el-table-column>
       </el-table>
-      <div class="middle-foot" v-show="CONSULTTYPE==0">
+      <div class="middle-foot" v-if="CONSULTTYPE==0">
         <div class="page-msg">
           <div class="">
             共{{Math.ceil(TotalResult/pageSize)}}页
@@ -220,11 +237,12 @@
           :page-size="pageSize"
           layout="prev, pager, next"
           :total="TotalResult"
-          v-show="CONSULTTYPE==0">
+          v-if="CONSULTTYPE==0">
         </el-pagination>
       </div>
-      <el-row align="center" :gutter="2" type="flex" v-show="CONSULTTYPE==1">
-        <el-col :span="24" class="input-item">
+      <el-row align="center" :gutter="2" type="flex" v-if="CONSULTTYPE==1">
+        <el-col :span="24" class="input-item my-form-group" data-scope="txl" data-name="DETAILS" data-type="textarea"
+        v-validate-easy="[['required']]">
           <span class="yy-input-text width-lef">问题详情：</span>
           <el-input type="textarea" v-model="businessDETAILS" maxlength="300" :autosize="{ minRows: 3, maxRows: 6}" placeholder="请输入描述(不能超过300字)"></el-input>
         </el-col>
@@ -234,8 +252,9 @@
         <el-button type="primary" size="small" @click="businessDETAILS=''" style="margin-left:20px!important">清空</el-button>
       </el-row>
 
-      <el-row align="center" :gutter="2" type="flex" v-show="CONSULTTYPE==2">
-        <el-col :span="24" class="input-item">
+      <el-row align="center" :gutter="2" type="flex" v-if="CONSULTTYPE==2">
+        <el-col :span="24" class="input-item my-form-group" data-scope="txl" data-name="DETAILS" data-type="textarea"
+        v-validate-easy="[['required']]">
           <span class="yy-input-text width-lef">问题详情：</span>
           <el-input type="textarea" v-model="otherDETAILS" :autosize="{ minRows: 3, maxRows: 3}" placeholder="请输入描述(不能超过300字)"></el-input>
         </el-col>
@@ -246,12 +265,13 @@
       </el-row>
     </div>
 
-    <el-dialog :title="detailText"  :visible.sync="detailsDialogVisible" width="400px;" class="oneD">
+    <el-dialog :title="detailText"  :visible.sync="detailsDialogVisible" width="400px;" class="oneD" :before-close="handleClose">
       <!-- <el-form :model="dform" ref="detailsForm"> -->
         <el-row :gutter="2" class="middle">
-          <el-col :span="24" class="input-item">
+          <el-col :span="24" class="input-item my-form-group" data-scope="oneDetail" data-name="DETAILS" data-type="textarea"
+          v-validate-easy="[['required']]">
             <span class="yy-input-text tt-width"><i class="t-must">*</i>问题详情：</span>
-            <el-input type="textarea" class="height80" v-model="DETAILS" :autosize="{ minRows: 3, maxRows: 3}" placeholder="请输入描述(不能超过300字)" v-verify.input.blur="{regs:'required',submit:'oneDetail'}"></el-input>
+            <el-input type="textarea" class="height80" v-model="DETAILS" :autosize="{ minRows: 3, maxRows: 3}" placeholder="请输入描述(不能超过300字)"></el-input>
           </el-col>
         </el-row>
       <!-- </el-form> -->
@@ -321,17 +341,22 @@ export default {
     }
   },
   mounted() {
+    this.V.$reset('txl');
     this.baseNation();
     this.currentDate=formatDate(new Date(),'yyyy-MM-dd');
   },
   activated() {
+    this.V.$reset('txl');
     this.currentDate=formatDate(new Date(),'yyyy-MM-dd');
   },
   methods: {
+    handleClose(done){
+      done();
+      this.V.$reset('oneDetail');
+    },
      added(){
        this.addedDialogVisible = true;
      },
-
     handleSelectionChange(val) {
       this.multipleSelection = val;
     },
@@ -344,10 +369,6 @@ export default {
       console.log(`当前页: ${val}`);
     },
     getList(currentPage, showCount, pd) {
-      // const result = this.$validator.verifyAll('timeDemo')
-      //  if (result.indexOf(false) > -1) {
-      //    return
-      //  }
       let p = {
         "currentPage": currentPage,
         "showCount": showCount,
@@ -368,61 +389,29 @@ export default {
          }
        })
     },
-    // method(item){
-    //
-    //   for(var i=0;i<item.length;i++){
-    //     if(item[i]=='0'){
-    //       this.phone = '0'
-    //     }else if(item.indexOf('0') == -1){
-    //       this.phone = '5'
-    //     }
-    //     if(item[i]=='1'){
-    //       this.fix = '1'
-    //     }else if(item.indexOf('1') == -1){
-    //       this.fix = '5'
-    //     }
-    //     if(item[i]=='2'){
-    //       this.email ='2'
-    //     }else if(item.indexOf('2') == -1){
-    //       this.email ='5'
-    //     }
-    //     if(item[i]=='3'){
-    //       this.fixP ='3'
-    //     }else if(item.indexOf('3') == -1){
-    //       this.fixP ='5'
-    //     }
-    //     if(item[i]=='4'){
-    //       this.other = '4'
-    //     }else if(item.indexOf('4') == -1){
-    //       this.other = '5'
-    //     }
-    //   }
-    // },
     addToBook(){//添加至通讯录
-      console.log(this.$validator)
-      const result = this.$validator.verifyAll('txl')
-       if (result.indexOf(false) > -1) {
-         return
-       }
-      var obj={};
-      obj.CONSULTFROM = this.entity.CONSULTFROM;
-      obj.STATIONFROM = this.entity.TERMINAL;
-      obj.NAME = this.entity.CONSULTNAME;
-      obj.TELEPHONE = this.entity.INCOMINGPHONE;
-      obj.CELLPHONE = this.entity.PHONE;
-      obj.FAX = this.entity.CONSULTFAX;
-      obj.EMAIL= this.entity.CONSULTEMAIL;
-      obj.OTHER = this.entity.CONSULTFROMOTHERREMARK;
-      this.$api.post('/manage-platform/consult/saveConsultAddress',obj,
-        r => {
-          console.log(r);
-          if(r.success){
-            this.$message({
-              message: '恭喜你，添加成功',
-              type: 'success'
-            });
-          }
-        })
+      this.V.$submit('txl', (canSumit,data) => {
+        if(!canSumit) return
+        var obj={};
+        obj.CONSULTFROM = this.entity.CONSULTFROM;
+        obj.STATIONFROM = this.entity.TERMINAL;
+        obj.NAME = this.entity.CONSULTNAME;
+        obj.TELEPHONE = this.entity.INCOMINGPHONE;
+        obj.CELLPHONE = this.entity.PHONE;
+        obj.FAX = this.entity.CONSULTFAX;
+        obj.EMAIL= this.entity.CONSULTEMAIL;
+        obj.OTHER = this.entity.CONSULTFROMOTHERREMARK;
+        this.$api.post('/manage-platform/consult/saveConsultAddress',obj,
+          r => {
+            console.log(r);
+            if(r.success){
+              this.$message({
+                message: '恭喜你，添加成功',
+                type: 'success'
+              });
+            }
+          })
+      })
     },
     baseNation(){//国籍
       this.$api.post('/manage-platform/codeTable/queryNationality',{},
@@ -437,77 +426,65 @@ export default {
         this.detailsDialogVisible = false;
         this.$router.push({name:'ConsultationZXHG',query:{review:this.detailsRow,details:this.detailsRow.DETAILS,serial:this.detailsRow.serial,flag:this.CONSULTTYPE}})
       }else{
-        const result = this.$validator.verifyAll('oneDetail')
-         if (result.indexOf(false) > -1) {
-           return
-         }
-         if(this.entity.CONSULTFROM == '0'||this.entity.CONSULTFROM == ''||this.entity.CONSULTFROM == undefined){
-           this.detailsRow.TERMINAL = this.entity.TERMINAL;
-         }else{
-           this.detailsRow.TERMINAL = '';
-         }
-        this.detailsRow.CONSULTTYPE = this.CONSULTTYPE;//类型
-        this.detailsRow.DETAILS = this.DETAILS;//详情
-
-        this.detailsRow.IAPISERIAL = this.detailsRow.SERIAL;//通讯录一批
-        if(this.detailsRow.INTG_CHNNAME){
-          this.detailsRow.NAME = this.detailsRow.INTG_CHNNAME;//姓名
-        }else if(this.detailsRow.PNAME){
-          this.detailsRow.NAME = this.detailsRow.PNAME;//姓名
-        }
-        this.detailsRow.CARDNUM = this.detailsRow.PASSPORTNO;//证件号码
-        this.detailsRow.EXPIREDATE = this.detailsRow.PASSPORTEXPIREDATESTR;//证件有效期
-        this.detailsRow.DATEOFBIRTH = this.detailsRow.BIRTHDAYSTR;//出生日期
-        this.detailsRow.VISANUMBER = this.detailsRow.VISANO;//签证号码
-        this.detailsRow.INSTRUCT_OLD = this.detailsRow.LASTCHECKRESULT;//反馈状态
-
-        this.detailsRow.CONSULTFROMTYPE = this.entity.CONSULTFROMTYPE;
-        this.detailsRow.CONSULTFROM = this.entity.CONSULTFROM;
-        this.detailsRow.CONSULTNAME = this.entity.CONSULTNAME;
-        this.detailsRow.INCOMINGPHONE = this.entity.INCOMINGPHONE;
-        this.detailsRow.PHONE = this.entity.PHONE;
-        this.detailsRow.CONSULTFAX = this.entity.CONSULTFAX;
-        this.detailsRow.CONSULTEMAIL= this.entity.CONSULTEMAIL;
-        this.detailsRow.CONSULTFROMOTHERREMARK = this.entity.CONSULTFROMOTHERREMARK;
-        this.$api.post('/manage-platform/consult/saveConsult',this.detailsRow,
-          r => {
-            if(r.success){
-              console.log(r);
-              this.$message({
-                message: '恭喜你，保存成功',
-                type: 'success'
-              });
-              this.entity={}
-              this.detailsRow.serial = r.data.serial;
-              this.enterText = '回复';
-              this.detailText = '回复';
-              // this.getList(this.CurrentPage, this.pageSize, this.pd)
-              // this.detailsDialogVisible = false;
-              // setTimeout(function(){for(var i=0;i<this.tableData.length;i++){
-              //   if(this.tableData[i].SERIAL == this.detailsRow.IAPISERIAL){
-              //     this.$set(this.tableData[i],'DETAILS',this.DETAILS);
-              //     this.$set(this.tableData[i],'serial',r.data.serial);
-              //     // this.tableData[i].DETAILS = this.DETAILS;
-              //     // this.tableData[i].serial = r.data.serial;
-              //     console.log(this.tableData[i]);
-              //     return
-              //   }
-              // }},100)
+          this.V.$submit('oneDetail', (canSumit,data) => {
+            // canSumit为true时，则所有该scope的所有表单验证通过
+            if(!canSumit) return
+            if(this.entity.CONSULTFROM == '0'||this.entity.CONSULTFROM == ''||this.entity.CONSULTFROM == undefined){
+              this.detailsRow.TERMINAL = this.entity.TERMINAL;
+            }else{
+              this.detailsRow.TERMINAL = '';
             }
+           this.detailsRow.CONSULTTYPE = this.CONSULTTYPE;//类型
+           this.detailsRow.DETAILS = this.DETAILS;//详情
+
+           this.detailsRow.IAPISERIAL = this.detailsRow.SERIAL;//通讯录一批
+           if(this.detailsRow.INTG_CHNNAME){
+             this.detailsRow.NAME = this.detailsRow.INTG_CHNNAME;//姓名
+           }else if(this.detailsRow.PNAME){
+             this.detailsRow.NAME = this.detailsRow.PNAME;//姓名
+           }
+           this.detailsRow.CARDNUM = this.detailsRow.PASSPORTNO;//证件号码
+           this.detailsRow.EXPIREDATE = this.detailsRow.PASSPORTEXPIREDATESTR;//证件有效期
+           this.detailsRow.DATEOFBIRTH = this.detailsRow.BIRTHDAYSTR;//出生日期
+           this.detailsRow.VISANUMBER = this.detailsRow.VISANO;//签证号码
+           this.detailsRow.INSTRUCT_OLD = this.detailsRow.LASTCHECKRESULT;//反馈状态
+
+           this.detailsRow.CONSULTFROMTYPE = this.entity.CONSULTFROMTYPE;
+           this.detailsRow.CONSULTFROM = this.entity.CONSULTFROM;
+           this.detailsRow.CONSULTNAME = this.entity.CONSULTNAME;
+           this.detailsRow.INCOMINGPHONE = this.entity.INCOMINGPHONE;
+           this.detailsRow.PHONE = this.entity.PHONE;
+           this.detailsRow.CONSULTFAX = this.entity.CONSULTFAX;
+           this.detailsRow.CONSULTEMAIL= this.entity.CONSULTEMAIL;
+           this.detailsRow.CONSULTFROMOTHERREMARK = this.entity.CONSULTFROMOTHERREMARK;
+           this.$api.post('/manage-platform/consult/saveConsult',this.detailsRow,
+             r => {
+               if(r.success){
+                 console.log(r);
+                 this.$message({
+                   message: '恭喜你，保存成功',
+                   type: 'success'
+                 });
+                 this.entity={}
+                 this.detailsRow.serial = r.data.serial;
+                 this.enterText = '回复';
+                 this.detailText = '回复';
+               }
+             })
           })
       }
     },
     entryDetails(row){//列表录入详情
-      const result = this.$validator.verifyAll('txl')
-       if (result.indexOf(false) > -1) {
-         return
-       }
-      this.enterText = '保存';
-      this.detailText = '录入详情';
-      this.DETAILS="";
-      this.detailsDialogVisible = true;
-      this.detailsRow = row;
-      this.detailsRow1 = row;
+     this.V.$submit('txl', (canSumit,data) => {
+       // canSumit为true时，则所有该scope的所有表单验证通过
+       if(!canSumit) return
+       this.enterText = '保存';
+       this.detailText = '录入详情';
+       this.DETAILS="";
+       this.detailsDialogVisible = true;
+       this.detailsRow = row;
+       this.detailsRow1 = row;
+     })
     },
     // reviewTohis(row){//列表回复
     //   console.log(this.tableData);
@@ -515,55 +492,59 @@ export default {
     //   this.$router.push({name:'ConsultationZXHG',query:{review:row,details:row.DETAILS,serial:row.serial,flag:this.CONSULTTYPE}})
     // },
     businessSave(){
-      var enti = {};
-      var enti = this.entity;
-      enti.CONSULTTYPE = this.CONSULTTYPE;
-      enti.DETAILS = this.businessDETAILS;
-      if(this.businessText == "保存"){
-        this.$api.post('/manage-platform/consult/saveConsult',enti,
-         r =>{
-           if(r.success){
-             console.log(r);
-             this.$message({
-               message: '恭喜你，保存成功',
-               type: 'success'
-             });
-             enti.serial = r.data.serial;
-             this.businessText = "回复"
+      this.V.$submit('txl', (canSumit,data) => {
+        if(!canSumit) return
+        var enti = {};
+        var enti = this.entity;
+        enti.CONSULTTYPE = this.CONSULTTYPE;
+        enti.DETAILS = this.businessDETAILS;
+        if(this.businessText == "保存"){
+          this.$api.post('/manage-platform/consult/saveConsult',enti,
+           r =>{
+             if(r.success){
+               console.log(r);
+               this.$message({
+                 message: '恭喜你，保存成功',
+                 type: 'success'
+               });
+               enti.serial = r.data.serial;
+               this.businessText = "回复"
 
-           }
-         })
-      }else if(this.businessText == "回复"){
-        this.businessDETAILS="";
-        this.$router.push({name:'ConsultationZXHG',query:{serial:enti.serial,details:enti.DETAILS,flag:enti.CONSULTTYPE}})
-      }
+             }
+           })
+        }else if(this.businessText == "回复"){
+          this.businessDETAILS="";
+          this.$router.push({name:'ConsultationZXHG',query:{serial:enti.serial,details:enti.DETAILS,flag:enti.CONSULTTYPE}})
+        }
+      })
     },
     otherSave(){
-      var enti = {};
-      var enti = this.entity;
-      enti.CONSULTTYPE = this.CONSULTTYPE;
-      enti.DETAILS = this.otherDETAILS;
-      if(this.otherText == "保存"){
-        this.$api.post('/manage-platform/consult/saveConsult',enti,
-         r =>{
-           if(r.success){
-             console.log(r);
-             this.$message({
-               message: '恭喜你，保存成功',
-               type: 'success'
-             });
-             enti.serial = r.data.serial;
-             this.otherText = '回复';
-           }
-         })
-      }else if(this.otherText == "回复"){
-        this.otherDETAILS="";
-        this.$router.push({name:'ConsultationZXHG',query:{serial:enti.serial,details:enti.DETAILS,flag:enti.CONSULTTYPE}})
-      }
-
+      this.V.$submit('txl', (canSumit,data) => {
+        if(!canSumit) return
+        var enti = {};
+        var enti = this.entity;
+        enti.CONSULTTYPE = this.CONSULTTYPE;
+        enti.DETAILS = this.otherDETAILS;
+        if(this.otherText == "保存"){
+          this.$api.post('/manage-platform/consult/saveConsult',enti,
+           r =>{
+             if(r.success){
+               console.log(r);
+               this.$message({
+                 message: '恭喜你，保存成功',
+                 type: 'success'
+               });
+               enti.serial = r.data.serial;
+               this.otherText = '回复';
+             }
+           })
+        }else if(this.otherText == "回复"){
+          this.otherDETAILS="";
+          this.$router.push({name:'ConsultationZXHG',query:{serial:enti.serial,details:enti.DETAILS,flag:enti.CONSULTTYPE}})
+        }
+      })
     }
   },
-
 }
 
 

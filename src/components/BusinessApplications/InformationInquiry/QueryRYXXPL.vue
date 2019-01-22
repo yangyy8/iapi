@@ -1626,6 +1626,8 @@ export default {
         return '入境'
       }else if(val == 'O'){
         return '出境'
+      }else if(val == "A"){
+        return '入出境'
       }
     },
     fifteryn(val){
