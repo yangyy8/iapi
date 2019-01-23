@@ -1,10 +1,8 @@
 <template lang="html">
   <div class="zlbg">
     <div class="middle mb-6">
-
       <el-row type="flex">
         <el-col :span="22" class="br pr-20">
-
           <el-row align="center"   :gutter="2" >
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">模型名称：</span>
