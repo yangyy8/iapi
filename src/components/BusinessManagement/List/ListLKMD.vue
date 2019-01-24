@@ -351,7 +351,7 @@
           </el-col>
 
           <el-col :sm="24" :md="12" :lg="8"  class="input-item my-form-group" data-scope="demo2" data-name="CARDNO" data-type="input"
-            v-validate-easy="[['required']]">
+            v-validate-easy="[['required'],['maxLength',[35]]]">
             <span class="input-text"><span class="redx">*</span>证件号码：</span>
             <el-input placeholder="请输入内容" size="small" v-model="form.CARDNO" clearable class="input-input"></el-input>
           </el-col>
@@ -479,19 +479,21 @@
             <el-input placeholder="请输入内容" size="small" v-model="form.FLTNO" class="input-input"></el-input>
           </el-col>
 
-          <el-col :sm="24" :md="12" :lg="8" class="input-item">
+          <el-col :sm="24" :md="12" :lg="8" class="input-item my-form-group" data-scope="other" data-name="SUBORG_NAME" data-type="input"
+            v-validate-easy="[['maxLength',[16]]]">
             <span class="input-text">交控单位：</span>
             <el-input placeholder="请输入内容" size="small" max="50" v-model="form.SUBORG_NAME" class="input-input"></el-input>
 
           </el-col>
 
           <el-col :sm="24" :md="12" :lg="8"  class="input-item my-form-group" data-scope="other" data-name="SUBORG_CONN" data-type="input"
-            v-validate-easy="[['maxLength',[25]]]">
+            v-validate-easy="[['maxLength',[33]]]">
             <span class="input-text">联系电话：</span>
             <el-input placeholder="请输入内容" size="small" v-model="form.SUBORG_CONN" class="input-input"></el-input>
           </el-col>
 
-          <el-col :sm="24" :md="12" :lg="8" class="input-item">
+          <el-col :sm="24" :md="12" :lg="8" class="input-item my-form-group" data-scope="other" data-name="CTL_REASON" data-type="input"
+            v-validate-easy="[['maxLength',[1300]]]">
             <span class="input-text">处理依据：</span>
             <el-input placeholder="请输入内容" size="small" max="35" class="input-input" v-model="form.CTL_REASON"></el-input>
           </el-col>
@@ -895,6 +897,8 @@ export default {
       this.form={};
       this.form.synStatus="0";
       this.form.LIST_TYPE="2";
+      this.V.$reset('other');
+      this.V.$reset('demo2');
     },
     piliangdel(){
       let arr=this.multipleSelection;
@@ -960,7 +964,10 @@ export default {
       this.form.synStatus="0";
       this.form.LIST_TYPE="2",
       this.dialogType="update";
-      this.dialogText="编辑"
+      this.dialogText="编辑";
+      this.V.$reset('other');
+      this.V.$reset('demo2');
+
     },
 
 
@@ -1030,7 +1037,9 @@ export default {
       this.addDialogVisible = false;
       console.log(this.V)
 
-      this.V.$reset(scope)
+      this.V.$reset(scope);
+      // this.V.$reset('other')
+
     },
     // 保存0  确认授权1
     addItem(formName,synStatus){

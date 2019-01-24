@@ -704,7 +704,6 @@ export default {
 }
 
 .el-header {
-
   padding: 25px 88px 16px 88px;
   display: flex;
   justify-content: space-between;
@@ -715,7 +714,6 @@ export default {
 }
 
 .el-header img {}
-
 .content {
   /* background: url(./../assets/img/bg.png) ; */
   /* background-size:  100% 100%; */

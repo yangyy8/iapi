@@ -23,31 +23,31 @@
                   <el-row class="middle-msg-row" :gutter="4">
                     <el-col :span="8">
                       <span>姓名：</span>
-                      {{data0.NAME}}
+                      {{data0.CNAME}}
                     </el-col>
                     <el-col :span="8">
                       <span>国籍/地区：</span>
-                      {{data0.NATIONALITY_NAME}}
+                      {{data0.NATIONALITYNAME}}
                     </el-col>
                     <el-col :span="8">
                       <span>出入类型：</span>
-                      {{data0.FLIGHTTYPE_NAME}}
+                      {{data0.FLIGHTINOUT}}
                     </el-col>
                     <el-col :span="8">
                       <span>性别：</span>
-                      {{data0.GENDER_NAME}}
+                      {{data0.GENDERNAME}}
                     </el-col>
                     <el-col :span="8">
                       <span>证件号码：</span>
                       {{data0.PASSPORTNO}}
                     </el-col>
-                    <el-col :span="8">
+                    <!-- <el-col :span="8">
                       <span>风评结果：</span>
                       {{data0.NEWCHECKRESULT}}
-                    </el-col>
+                    </el-col> -->
                     <el-col :span="8">
                       <span>出生日期：</span>
-                      {{data0.BIRTHDAY}}
+                      {{data0.BIRTHDAYSTR}}
                     </el-col>
                   </el-row>
                   <div class="ak-tip">
@@ -266,7 +266,7 @@
                       {{data4.checkResultName}}
                     </el-col>
                   </el-row>
-                  <el-row class="middle-msg-row2" :gutter="2" v-if="data4Show">
+                  <!-- <el-row class="middle-msg-row2" :gutter="2" v-if="data4Show">
                     <el-col :span="6">
                       <span>证件种类：</span>
                       {{data4.passportTypeName}}
@@ -613,11 +613,11 @@
                       <span>变更到达时间：</span>
                       {{data4.bgddsj}}
                     </el-col>
-                  </el-row>
+                  </el-row> -->
                 </div>
                 <div class="box1-more">
-                  <el-button type="text" @click="data4Show=true" v-if="!data4Show">展开更多 ﹀</el-button>
-                  <el-button type="text" @click="data4Show=false" v-if="data4Show">收起 ︿</el-button>
+                  <el-button type="text" @click="detailsDialogVisible=true">展开更多 ﹀</el-button>
+                  <!-- <el-button type="text" @click="data4Show=false" v-if="data4Show">收起 ︿</el-button> -->
 
                 </div>
               </div>
@@ -1448,7 +1448,7 @@
                 </el-table>
               </div>
             </div>
-            <div class="boder1"  ref="box18">
+            <div class="boder1" ref="box18">
               <div class="title-green hand mt-10" @click="box18=!box18">
                  铁路订票信息 <i class="el-icon-d-caret"></i><span>({{data18.length}})</span>
               </div>
@@ -1649,6 +1649,12 @@
         <el-button type="warning" @click="tagDialogVisible=false" size="small">取消</el-button>
       </div> -->
     </el-dialog>
+    <el-dialog title="查看详情" :visible.sync="detailsDialogVisible">
+      <Detail :detailType="0" :SERIAL="data0.iapiHeadSerial" :CHK_SERIAL="''" :PNR_TID="''" :PNR_TKTNUMBER="''" :PNR_TRAVELLER_SURNAME_TIF="''" :PNR_TRAVELLER_GIVEN_NAME_TIF="''"></Detail>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="detailsDialogVisible = false" size="small">取消</el-button>
+      </div>
+    </el-dialog>
     <div class="gototop">
       <div class="shoutop" @click="toboxShow=!toboxShow">
         <div class="" v-if="toboxShow">
@@ -1677,6 +1683,7 @@
 <script>
 import MoreDialog from './DZDATC'
 import imgUrl from '../../../assets/img/bp_ap/ph_s.png'
+import Detail from '../../BusinessApplications/InformationInquiry/DetailRYXX'
 
 export default {
   data(){
@@ -1736,6 +1743,7 @@ export default {
       tagCheckList:[],
       tagDialogVisible:false,
       moreDialogVisible:false,
+      detailsDialogVisible:false,
       moredata:{},
       moreType:'',
       rightList:[
@@ -1832,7 +1840,7 @@ export default {
     }
   },
   components:{
-    MoreDialog
+    MoreDialog,Detail
   },
   mounted(){
 
@@ -1869,56 +1877,55 @@ export default {
   },
   methods:{
     init(){
-      if(this.data0&&this.data1.particularsList.length==0){
+      // if(this.data0&&this.data1.particularsList.length==0){
         this.getRecordTagInfo();
-      };
-      if(this.data1&&this.data2.length==0){
+      // };
+      // if(this.data1&&this.data2.length==0){
         this.getRiskEventInfo();
-      };
-      if(this.data2&&this.data3.length==0){
+      // };
+      // if(this.data2&&this.data3.length==0){
         this.getQueryRiskRecordUserInfo();
-      };
-      if(this.data3&&this.data4.length==0){
-        this.getRiskPersonnelForecasInfo();
-      };
-      if(this.data4&&this.data5.length==0){
+      // };
+      // if(this.data3&&this.data4.length==0){
+      // };
+      // if(this.data4&&this.data5.length==0){
         this.getCensusInfo();
-      };
-      if(this.data5&&this.data6.length==0){
+      // };
+      // if(this.data5&&this.data6.length==0){
         this.getRecordOtherInfo('imm');
-      };
-      if(this.data6&&this.data7.length==0){
+      // };
+      // if(this.data6&&this.data7.length==0){
         this.getRecordOtherInfo('immcard');
-      };
-      if(this.data7&&this.data8.length==0){
+      // };
+      // if(this.data7&&this.data8.length==0){
         this.getRecordOtherInfo('visa');
-      };
-      if(this.data8&&this.data9.length==0){
+      // };
+      // if(this.data8&&this.data9.length==0){
         this.getRecordOtherInfo('illegal');
-      };
-      if(this.data9&&this.data10.length==0){
+      // };
+      // if(this.data9&&this.data10.length==0){
         this.getRecordOtherInfo('repat');
-      };
-      if(this.data10&&this.data11_1.length==0){
+      // };
+      // if(this.data10&&this.data11_1.length==0){
         this.getRecordOtherInfo('resident');
         this.getRecordOtherInfo('temp');
-      };
-      if(this.data11_1&&this.data12.length==0){
+      // };
+      // if(this.data11_1&&this.data12.length==0){
         this.getRecordOtherInfo('fgncas');
-      };
-      if(this.data12&&this.data13_1.length==0){
+      // };
+      // if(this.data12&&this.data13_1.length==0){
         this.getRecordOtherInfo('cert');
         this.getRecordOtherInfo('res');
-      };
-      if(this.data13_1&&this.data14.length==0){
+      // };
+      // if(this.data13_1&&this.data14.length==0){
         this.getRecordOtherInfo('act');
-      };
-      if(this.data14&&this.data15.length==0){
+      // };
+      // if(this.data14&&this.data15.length==0){
         this.getRecordOtherInfo('self');
-      };
-      if(this.data15&&this.data16.length==0){
+      // };
+      // if(this.data15&&this.data16.length==0){
         this.getRecordOtherInfo('api');
-      };
+      // };
     },
     getUsers(){
       this.$api.post('/manage-platform/sysUserInfoController/querySysUserInfo',{},
@@ -1953,6 +1960,7 @@ export default {
        r => {
          this.data0=r.data;
          this.getPhotoInf(r.data.PASSPORTNO,r.data.NATIONALITY,r.data.BIRTHDAY,r.data.NAME);
+         this.getRiskPersonnelForecasInfo();
 
        })
     },
@@ -2102,14 +2110,27 @@ export default {
     },
     // 人员预报信息
     getRiskPersonnelForecasInfo(){
-      let p={
-        "eventSerial":this.data0.SERIAL
+      if(!this.data0.iapiHeadSerial){
+        return
       }
-      this.$api.post('/manage-platform/riskRecordController/getRiskPersonnelForecasInfo',p,
+      let p={
+        SERIAL:this.data0.iapiHeadSerial
+      }
+      console.log(p)
+      this.$api.post('/manage-platform/iapiHead/queryIapiHeadInfo',p,
        r => {
          this.data4=r.data
        })
     },
+    // getRiskPersonnelForecasInfo(){
+    //   let p={
+    //     "eventSerial":this.data0.SERIAL
+    //   }
+    //   this.$api.post('/manage-platform/riskRecordController/getRiskPersonnelForecasInfo',p,
+    //    r => {
+    //      this.data4=r.data
+    //    })
+    // },
 
     // 户籍信息接口
     getCensusInfo(){

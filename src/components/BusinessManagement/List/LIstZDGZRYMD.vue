@@ -421,7 +421,8 @@
             </el-select>
           </el-col>
 
-          <el-col :span="24" class="input-item">
+          <el-col :span="24" class="input-item my-form-group" data-scope="other" data-name="CONTENT" data-type="input"
+            v-validate-easy="[['maxLength',[1300]]]">
             <span style="line-height:32px;width:110px;text-align:right">关注内容：</span>
             <el-input placeholder="请输入内容" size="small" class="input-input" v-model="form.CONTENT"></el-input>
           </el-col>
@@ -764,6 +765,7 @@ export default {
       this.dialogType="update";
       this.dialogText="编辑"
       this.V.$reset('demo3')
+      this.V.$reset('other');
 
     },
     addServe(){
@@ -772,6 +774,8 @@ export default {
       this.dialogType="add"
       this.dialogText="新增";
       this.V.$reset('demo3')
+      this.V.$reset('other');
+
 
     },
 
