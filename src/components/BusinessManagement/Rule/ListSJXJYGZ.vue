@@ -52,8 +52,9 @@
         :data="tableData"
         border
         style="width: 100%;"
-        class="tableSj"
-        @sort-change='sortChange'>
+        class="tableSj o-table3"
+        @sort-change='sortChange'
+        @header-click="headerClick">
         <el-table-column
           prop="IODIR"
           sortable='custom'
@@ -284,13 +285,16 @@ export default {
     }
   },
   mounted() {
-    this.getList(this.pd);
+    // this.getList(this.pd);
     this.codeName();
   },
   activated(){
-    this.getList(this.pd);
+    // this.getList(this.pd);
   },
   methods:{
+    headerClick(column,event){
+      event.target.title=column.label
+    },
     sortChange(column, prop, order){
       console.log(column);
       console.log(column.order);

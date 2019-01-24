@@ -16,6 +16,10 @@ var validators ={
    cname(val){
      var p = /^[a-zA-Z0-9]{0,35}$|^[\u4e00-\u9fa5]{0,11}$/.test(val)
      if(!p) return '姓名不能超过11个汉字，35个字母或数字'
+   },
+   noCinese(val){
+     var p = /[\u4E00-\u9FA5]/g.test(val)
+     if(p) return '不可以输入中文'
    }
 }
 Vue.use(vueValidateEasy,{validators})

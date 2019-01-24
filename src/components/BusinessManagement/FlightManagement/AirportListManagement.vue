@@ -67,7 +67,9 @@
       <el-table
         :data="tableData"
         border
-        style="width: 100%;">
+        style="width: 100%;"
+        class="o-table3"
+        @header-click="headerClick">
         <el-table-column
           label="序号"
           type="index"
@@ -356,12 +358,15 @@ export default {
     }
   },
   mounted() {
-    this.getList(this.CurrentPage, this.pageSize, this.cdt);
+    // this.getList(this.CurrentPage, this.pageSize, this.cdt);
   },
   activated() {
-    this.getList(this.CurrentPage, this.pageSize, this.cdt);
+    // this.getList(this.CurrentPage, this.pageSize, this.cdt);
   },
   methods: {
+    headerClick(column,event){
+      event.target.title=column.label
+    },
     queryNationality() {
       this.$api.post('/manage-platform/userSys/goAdd', {},
         r => {

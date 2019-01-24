@@ -71,21 +71,25 @@
           :data="outTableData"
           border
           style="width: 100%;"
-          >
+          class="o-table3"
+          @header-click="headerClick">
           <el-table-column
             prop="receiveStrList"
-            label="收件人">
+            label="收件人"
+            sortable>
             <template slot-scope="scope">
               {{scope.row.receiveStrList|sendRange}}
             </template>
           </el-table-column>
           <el-table-column
             prop="DETAILS"
-            label="消息内容">
+            label="消息内容"
+            sortable>
           </el-table-column>
           <el-table-column
             prop="SENDTIMESTR"
-            label="发送时间">
+            label="发送时间"
+            sortable>
           </el-table-column>
           <el-table-column
             label="操作" width="70">
@@ -130,21 +134,27 @@
           :data="inTableData"
           border
           style="width: 100%;"
-          >
+          class="o-table3"
+          @header-click="headerClick">
           <el-table-column
             prop="informationSend.SENDERNAME"
-            label="发送人">
+            label="发送人"
+            sortable>
           </el-table-column>
           <el-table-column
             prop="informationSend.DETAILS"
-            label="发送内容">
+            label="发送内容"
+            sortable>
           </el-table-column>
           <el-table-column
             prop="informationSend.SENDTIMESTR"
-            label="发送时间">
+            label="发送时间"
+            sortable>
           </el-table-column>
           <el-table-column
-            label="读取状态">
+            prop="READSTATUS"
+            label="读取状态"
+            sortable>
             <template slot-scope="scope">
               {{scope.row.READSTATUS | fiftertype}}
             </template>
@@ -446,17 +456,20 @@ export default {
     }
   },
   mounted() {
-    this.startOut(this.CurrentPage, this.pageSize);
+    // this.startOut(this.CurrentPage, this.pageSize);
     // this.getList(this.CurrentPage, this.pageSize, this.pd);
     this.queryNationality();
   },
   activated() {
-    this.startOut(this.CurrentPage, this.pageSize);
+    // this.startOut(this.CurrentPage, this.pageSize);
   },
   methods: {
+    headerClick(column,event){
+      event.target.title=column.label
+    },
     qq(){
       this.page=1;
-      this.startIn(this.inCurrentPage, this.inPageSize);
+      // this.startIn(this.inCurrentPage, this.inPageSize);
     },
      sendMesssage(){//发送消息
        this.sendBu="";

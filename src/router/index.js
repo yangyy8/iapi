@@ -779,6 +779,18 @@ export default new Router({
           name: "KPIManagement",
           component: resolve => require(['@/components/RiskAssessment/Management/KPIManagement'], resolve),
         },
+        //需求申请
+        {
+          path: "NeedApply",
+          name: "NeedApply",
+          component: resolve => require(['@/components/RiskAssessment/Management/Demand/NeedApply'], resolve),
+        },
+        //需求审核
+        {
+          path: "NeedReview",
+          name: "NeedReview",
+          component: resolve => require(['@/components/RiskAssessment/Management/Demand/NeedReview'], resolve),
+        },
 
         //人员标签管理
         {
