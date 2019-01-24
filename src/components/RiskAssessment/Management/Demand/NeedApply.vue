@@ -14,15 +14,17 @@
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">申请类型：</span>
               <el-select v-model="pd.targetType" class="input-input"  filterable clearable placeholder="请选择"   size="small">
-                <el-option value="指标" label="1 - 指标">
+                <el-option value="1" label="1 - 指标">
                 </el-option>
-                <el-option value="字典" label="2 - 字典">
+                <el-option value="2" label="2 - 字典">
                 </el-option>
-                <el-option value="名单" label="3 - 名单">
+                <el-option value="3" label="3 - 名单">
                 </el-option>
-                <el-option value="标签" label="4 - 标签">
+                <el-option value="4" label="4 - 标签">
                 </el-option>
-                <el-option value="其它" label="5 - 其它">
+                <el-option value="5" label="5 - 前台提问">
+                </el-option>
+                <el-option value="99" label="99 - 其它">
                 </el-option>
 
                </el-select>
@@ -30,15 +32,17 @@
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">处理状态：</span>
               <el-select v-model="pd.showDistrick" class="input-input"  filterable clearable placeholder="请选择"   size="small">
-                <el-option value="1" label="1 - 申请">
+                <el-option value="11" label="11 - 申请">
                 </el-option>
-                <el-option value="2" label="2 - 确认">
+                <el-option value="12" label="12 - 撤回">
                 </el-option>
-                <el-option value="3" label="3 - 处理完成">
+                <el-option value="13" label="13 - 删除">
                 </el-option>
-                <el-option value="4" label="4 - 删除">
+                <el-option value="21" label="21 - 确认">
                 </el-option>
-                <el-option value="5" label="5 - 退回">
+                <el-option value="22" label="22 - 退回">
+                </el-option>
+                <el-option value="31" label="31 - 处理完成">
                 </el-option>
               </el-select>
             </el-col>
@@ -62,7 +66,7 @@
         >
         <el-table-column
         type="Index"
-        label="序号" width="50">
+        label="序号">
         </el-table-column>
         <el-table-column
           prop="TARGET_SIGN" sortable
@@ -156,15 +160,17 @@
             v-validate-easy="[['required']]">
             <span class="yy-input-text"><font class="yy-color">*</font> 申请类型：</span>
             <el-select v-model="form.targetType" class="yy-input-input"  filterable clearable placeholder="请选择" @change="selectChange"  size="small" >
-              <el-option value="指标" label="1 - 指标">
+              <el-option value="1" label="1 - 指标">
               </el-option>
-              <el-option value="字典" label="2 - 字典">
+              <el-option value="2" label="2 - 字典">
               </el-option>
-              <el-option value="名单" label="3 - 名单">
+              <el-option value="3" label="3 - 名单">
               </el-option>
-              <el-option value="标签" label="4 - 标签">
+              <el-option value="4" label="4 - 标签">
               </el-option>
-              <el-option value="其它" label="5 - 其它">
+              <el-option value="5" label="5 - 前台提问">
+              </el-option>
+              <el-option value="99" label="99 - 其它">
               </el-option>
              </el-select>
           </el-col>
@@ -174,15 +180,17 @@
             v-validate-easy="[['required']]">
             <span class="yy-input-text"><font class="yy-color">*</font> 处理状态：</span>
             <el-select v-model="form.showDistrick" class="yy-input-input"  filterable clearable placeholder="请选择" @change="selectChange"  size="small" >
-              <el-option value="1" label="1 - 申请">
+              <el-option value="11" label="11 - 申请">
               </el-option>
-              <el-option value="2" label="2 - 确认">
+              <el-option value="12" label="12 - 撤回">
               </el-option>
-              <el-option value="3" label="3 - 处理完成">
+              <el-option value="13" label="13 - 删除">
               </el-option>
-              <el-option value="4" label="4 - 删除">
+              <el-option value="21" label="21 - 确认">
               </el-option>
-              <el-option value="5" label="5 - 退回">
+              <el-option value="22" label="22 - 退回">
+              </el-option>
+              <el-option value="31" label="31 - 处理完成">
               </el-option>
             </el-select>
           </el-col>

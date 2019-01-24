@@ -14,31 +14,34 @@
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">申请类型：</span>
               <el-select v-model="pd.targetType" class="input-input"  filterable clearable placeholder="请选择"   size="small">
-                <el-option value="指标" label="1 - 指标">
+                <el-option value="1" label="1 - 指标">
                 </el-option>
-                <el-option value="字典" label="2 - 字典">
+                <el-option value="2" label="2 - 字典">
                 </el-option>
-                <el-option value="名单" label="3 - 名单">
+                <el-option value="3" label="3 - 名单">
                 </el-option>
-                <el-option value="标签" label="4 - 标签">
+                <el-option value="4" label="4 - 标签">
                 </el-option>
-                <el-option value="其它" label="5 - 其它">
+                <el-option value="5" label="5 - 前台提问">
                 </el-option>
-
+                <el-option value="99" label="99 - 其它">
+                </el-option>
                </el-select>
             </el-col>
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">处理状态：</span>
               <el-select v-model="pd.showDistrick" class="input-input"  filterable clearable placeholder="请选择"   size="small">
-                <el-option value="1" label="1 - 申请">
+                <el-option value="11" label="11 - 申请">
                 </el-option>
-                <el-option value="2" label="2 - 确认">
+                <el-option value="12" label="12 - 撤回">
                 </el-option>
-                <el-option value="3" label="3 - 处理完成">
+                <el-option value="13" label="13 - 删除">
                 </el-option>
-                <el-option value="4" label="4 - 删除">
+                <el-option value="21" label="21 - 确认">
                 </el-option>
-                <el-option value="5" label="5 - 退回">
+                <el-option value="22" label="22 - 退回">
+                </el-option>
+                <el-option value="31" label="31 - 处理完成">
                 </el-option>
               </el-select>
             </el-col>
@@ -50,7 +53,6 @@
       </el-row>
     </div>
     <div class="middle">
-
       <el-table
         :data="tableData"
         border
@@ -60,12 +62,17 @@
         >
         <el-table-column
         type="Index"
-        label="序号" width="50">
+        label="序号">
         </el-table-column>
         <el-table-column
           prop="TARGET_SIGN" sortable
           label="申请标题">
         </el-table-column>
+        <el-table-column
+         prop="TARGET_NAME" sortable
+         label="申请类型"
+         >
+       </el-table-column>
          <el-table-column
           prop="TARGET_NAME" sortable
           label="申请口岸"
@@ -198,62 +205,36 @@
       </div>
     </el-dialog>
     <el-dialog title="详情" :visible.sync="detailsDialogVisible" width="500px" >
-      <el-form  ref="mapForm">
-        <el-row type="flex"  class="mb-6">
-          <el-col :span="24" class="input-item">
-            <span class="yy-input-text">指标项代码：</span>
-          <span class="yy-input-input detailinput">  {{mapForm.TARGET_SIGN}}</span>
-            </el-col>
-        </el-row>
-        <el-row type="flex" class="mb-6" >
-          <el-col :span="24" class="input-item">
-            <span class="yy-input-text">指标项名称：</span>
-          <span class="yy-input-input detailinput">  {{mapForm.TARGET_NAME}}</span>
-          </el-col>
-        </el-row>
-        <el-row type="flex" class="mb-6" >
-          <el-col :span="24" class="input-item">
-            <span class="yy-input-text">指标项描述：</span>
-          <span class="yy-input-input detailinput">  {{mapForm.TARGET_DESCRIBE}}</span>
-          </el-col>
-        </el-row>
-        <el-row type="flex" class="mb-6" >
-          <el-col :span="24" class="input-item">
-            <span class="yy-input-text">指标类型：</span>
-          <span class="yy-input-input detailinput">  {{mapForm.TARGET_TYPE}}</span>
-          </el-col>
-        </el-row>
-        <el-row type="flex" class="mb-6" >
-          <el-col :span="24" class="input-item">
-            <span class="yy-input-text">指标来源：</span>
-          <span class="yy-input-input detailinput">  {{mapForm.TARGET_SOURCE}}</span>
-          </el-col>
-        </el-row>
-        <el-row type="flex" class="mb-6" >
-          <el-col :span="24" class="input-item">
-            <span class="yy-input-text">计算方式：</span>
-          <span class="yy-input-input detailinput">  {{mapForm.CALCULATION}}</span>
-          </el-col>
-        </el-row>
-        <el-row type="flex" class="mb-6" >
-          <el-col :span="24" class="input-item">
-            <span class="yy-input-text">方法名称：</span>
-          <span class="yy-input-input detailinput">  {{mapForm.CLASS_NAME}}</span>
-          </el-col>
-        </el-row>
-        <el-row type="flex" class="mb-6" >
-          <el-col :span="24" class="input-item">
-            <span class="yy-input-text">参数：</span>
-          <span class="yy-input-input detailinput">  {{mapForm.PARA}}</span>
-          </el-col>
-        </el-row>
-        <el-row type="flex" class="mb-6" >
-          <el-col :span="24" class="input-item">
-            <span class="yy-input-text">脚本：</span>
-          <span class="yy-input-input detailinput">  {{mapForm.SCRIPT}}</span>
-          </el-col>
-        </el-row>
-      </el-form>
+      <el-table
+        :data="tableData1"
+        border
+        style="width: 100%;"
+        class="mt-10 o-table3"
+        @header-click="headerClick"
+        >
+        <el-table-column
+        type="Index"
+        label="序号" >
+        </el-table-column>
+        <el-table-column
+          prop="TARGET_SIGN" sortable
+          label="操作人">
+        </el-table-column>
+         <el-table-column
+          prop="TARGET_NAME" sortable
+          label="状态"
+          >
+        </el-table-column>
+        <el-table-column
+          prop="CALCULATION" sortable
+          label="时间">
+        </el-table-column>
+        <el-table-column
+          prop="TARGET_DESCRIBE" sortable
+          label="备注">
+        </el-table-column>
+
+      </el-table>
       <div slot="footer" class="dialog-footer">
         <el-button @click="detailsDialogVisible = false" size="small">取 消</el-button>
       </div>
@@ -291,6 +272,7 @@ export default {
         }
       ],
       tableData: [],
+      tableData1: [],
       menudata: [],
       defaultProps: {
         children: 'menuList',
