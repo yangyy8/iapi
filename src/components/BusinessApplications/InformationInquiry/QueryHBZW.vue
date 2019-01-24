@@ -16,7 +16,6 @@
           <span class="input-text"><font style="color:red">*</font> 航班日期：</span>
           <div class="input-input t-flex t-date">
                <el-date-picker
-               v-verify.input.blur="{regs:'required',submit:'HBZWDemo'}"
                v-model="pd.departdateBegin"
                type="datetime" size="small"
                placeholder="开始时间"  :picker-options="pickerOptions"
@@ -25,7 +24,6 @@
              </el-date-picker>
                <span class="septum">-</span>
              <el-date-picker
-                v-verify.input.blur="{regs:'required',submit:'HBZWDemo'}"
                 v-model="pd.departdateEnd"
                 type="datetime" size="small"
                 format="yyyy-MM-dd HH:mm"
@@ -121,55 +119,69 @@
     <div id="div1">
       <el-table
         :data="tableData"
+        class="o-table3"
         border
+        @header-click="headerClick"
         style="width: 100%;">
        <el-table-column
           prop="intgChnname"
-          label="中文姓名" >
+          label="中文姓名"
+          sortable>
         </el-table-column>
         <el-table-column
           prop="tsname"
           label="姓名"
-          width="140">
+          width="140"
+          sortable>
         </el-table-column>
         <el-table-column
           prop="gender"
-          label="性别" sortable>
+          label="性别"
+          sortable>
         </el-table-column>
         <el-table-column
           prop="birthdate"
-          label="出生日期" sortable>
+          label="出生日期"
+          sortable>
         </el-table-column>
         <el-table-column
           prop="nationalityStr"
-          label="国籍/地区" >
+          label="国籍/地区"
+          sortable>
         </el-table-column>
         <el-table-column
           prop="cardnum"
-          label="证件号码" >
+          label="证件号码"
+          sortable>
         </el-table-column>
         <el-table-column
           prop="flightNumber"
-          label="航班号" sortable>
+          label="航班号"
+          sortable>
         </el-table-column>
         <el-table-column
-          label="航班日期" sortable
+          prop="departdate"
+          label="航班日期"
+          sortable
           width="150">
-              <template slot-scope="scope">
-                {{scope.row.departdate}}
-              </template>
+            <template slot-scope="scope">
+              {{scope.row.departdate}}
+            </template>
         </el-table-column>
         <el-table-column
           prop="cityfrom"
-          label="起飞机场" sortable>
+          label="起飞机场"
+          sortable>
         </el-table-column>
         <el-table-column
           prop="specifigseat"
-          label="座位号" sortable>
+          label="座位号"
+          sortable>
         </el-table-column>
         <el-table-column
           prop="passengerstatus"
-          label="人员状态" >
+          label="人员状态"
+          sortable>
         </el-table-column>
         <el-table-column
           label="操作"
@@ -619,6 +631,9 @@ export default {
     this.nav2Id=this.$route.query.nav2Id
   },
   methods: {
+    headerClick(column,event){
+      event.target.title=column.label
+    },
     queryAirport(){
       this.$api.post('/manage-platform/codeTable/queryAirportMatch',{},
        r => {
@@ -682,17 +697,13 @@ export default {
       console.log(`当前页: ${val}`);
     },
     getList(currentPage, showCount, pd) {
-      // const result = this.$validator.verifyAll('HBZWDemo')
-      //  if (result.indexOf(false) > -1) {
-      //    return
-      //  }
-      // if(this.pd.flightNumber==""||this.pd.flightNumber==undefined){
-      //   this.$alert('航班号不能为空！', '提示', {
-      //     confirmButtonText: '确定',
-      //   });
-      //   return false
-      // }
-
+      if(this.pd.departdateBegin==''||this.pd.departdateEnd==''||this.pd.departdateBegin==null||this.pd.departdateEnd==null){
+        this.$message({
+          message: '航班日期不能为空！',
+          type: 'warning'
+        });
+        return false
+      }
       if(dayGap(this.pd.departdateBegin,this.pd.departdateEnd,0)>30){
         this.$alert('查询时间间隔不能超过一个月', '提示', {
           confirmButtonText: '确定',

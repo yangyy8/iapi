@@ -82,7 +82,7 @@
               </div>
               <div class="checkResultInput">
                 <el-select placeholder="请选择反馈结果" v-model="data.visaCheckResult" filterable clearable size="mini" class="t-width100" :disabled="isActive" @change="inschange(data.visaCheckResult,0)">
-                  <!-- <el-option label="0Z - 允许登机" value="0Z"></el-option> -->
+                  <el-option label="请选择" value=""></el-option>
                   <el-option label="1Z - 禁止登机" value="1Z"></el-option>
                   <el-option label="2Z - 再次核对" value="2Z"></el-option>
                   <el-option label="4Z - 数据错误" value="4Z"></el-option>
@@ -98,8 +98,9 @@
                   <span>反馈描述</span>
                 </div>
               </div>
-              <div class="checkResultInput">
-                <el-input type="textarea" v-verify.input.blur="{regs:'noCinese',submit:'card'}" maxlength="100" v-model="data.visaResponseresult" class="t-width100" placeholder="请输入描述"  :autosize="{ minRows: 3, maxRows: 3}" :disabled="isActive"></el-input>
+              <div class="checkResultInput my-form-group" data-scope="noChi" data-name="visaResponseresult" data-type="textarea"
+               v-validate-easy="[['required'],['noCinese']]">
+                <el-input type="textarea" maxlength="100" v-model="data.visaResponseresult" class="t-width100" placeholder="请输入描述(必填)"  :autosize="{ minRows: 3, maxRows: 3}" :disabled="isActive"></el-input>
               </div>
              </div>
           </el-row>
@@ -168,7 +169,7 @@
                 </div>
                 <div class="checkResultInput">
                   <el-select placeholder="请选择反馈结果" v-model="data.nationalityCheckResult" filterable clearable size="mini" class="t-width100" :disabled="countryIsActive" @change="inschange(data.nationalityCheckResult,1)">
-                    <!-- <el-option label="0Z - 允许登机" value="0Z"></el-option> -->
+                    <el-option label="请选择" value=""></el-option>
                     <el-option label="1Z - 禁止登机" value="1Z"></el-option>
                     <el-option label="2Z - 再次核对" value="2Z"></el-option>
                     <el-option label="4Z - 数据错误" value="4Z"></el-option>
@@ -184,8 +185,9 @@
                     <span>反馈描述</span>
                   </div>
                 </div>
-                <div class="checkResultInput">
-                  <el-input type="textarea" v-verify.input.blur="{regs:'noCinese',submit:'contryCard'}" maxlength="100" v-model="data.nationalityResponseresult" class="t-width100" placeholder="请输入描述" :autosize="{ minRows: 3, maxRows: 3}" :disabled="countryIsActive"></el-input>
+                <div class="checkResultInput my-form-group" data-scope="noChi" data-name="nationalityResponseresult" data-type="textarea"
+                 v-validate-easy="[['required'],['noCinese']]">
+                  <el-input type="textarea" maxlength="100" v-model="data.nationalityResponseresult" class="t-width100" placeholder="请输入描述(必填)" :autosize="{ minRows: 3, maxRows: 3}" :disabled="countryIsActive"></el-input>
                 </div>
                </div>
             </el-row>
@@ -253,7 +255,7 @@
               </div>
               <div class="checkResultInput">
                 <el-select placeholder="请选择反馈结果" v-model="data.airportCheckResult" filterable clearable size="mini" class="t-width100" :disabled="entryIsActive" @change="inschange(data.airportCheckResult,2)">
-                  <!-- <el-option label="0Z - 允许登机" value="0Z"></el-option> -->
+                  <el-option label="请选择" value=""></el-option>
                   <el-option label="1Z - 禁止登机" value="1Z"></el-option>
                   <el-option label="2Z - 再次核对" value="2Z"></el-option>
                   <el-option label="4Z - 数据错误" value="4Z"></el-option>
@@ -269,8 +271,9 @@
                   <span>反馈描述</span>
                 </div>
               </div>
-              <div class="checkResultInput">
-                <el-input type="textarea" v-verify.input.blur="{regs:'noCinese',submit:'entryCard'}" maxlength="100" v-model="data.airportResponseresult" class="t-width100" placeholder="请输入描述" :autosize="{ minRows: 3, maxRows: 3}" :disabled="entryIsActive"></el-input>
+              <div class="checkResultInput my-form-group" data-scope="noChi" data-name="airportResponseresult" data-type="textarea"
+               v-validate-easy="[['required'],['noCinese']]">
+                <el-input type="textarea" maxlength="100" v-model="data.airportResponseresult" class="t-width100" placeholder="请输入描述(必填)" :autosize="{ minRows: 3, maxRows: 3}" :disabled="entryIsActive"></el-input>
               </div>
              </div>
           </el-row>
@@ -279,7 +282,7 @@
     </el-row>
     <el-row class="pd20 middle" type="flex" justify="center" style="height:100%">
       <!-- <el-col :span="24"> -->
-        <el-button type="primary" size="medium" @click="save">保存并发布</el-button>
+        <el-button type="primary" size="medium" @click="save()">保存并发布</el-button>
       <!-- </el-col> -->
     </el-row>
   </div>
@@ -295,20 +298,20 @@ export default {
         visaRuleSerial:'',//证件规则id
         visaOperator:'2',
         visaTime:'',//证件有效期
-        visaCheckResult:'2Z',//证件校验结果
+        visaCheckResult:'',//证件校验结果
         visaStatus:'1',//证件开关
         visaResponseresult:'',//证件规则描述
 
         nationalityRuleSerial:'',//国家规则id
         nationalityStatus:'1',//国家开关
         nationalityMapList:[],//已加入的国家代码集合
-        nationalityCheckResult:'2Z',//国家规则校验结果
+        nationalityCheckResult:'',//国家规则校验结果
         nationalityResponseresult:'',//国家规则反馈结果
 
         airportRuleSerial:'',//口岸规则id
         airportStatus:'1',//入境口岸开关
         airportMapList:[],//已加入的口岸代码集合
-        airportCheckResult:'2Z',//口岸规则校验结果
+        airportCheckResult:'',//口岸规则校验结果
         airportResponseresult:''//口岸规则反馈结果
       },
       // 不需要传的参
@@ -588,38 +591,22 @@ export default {
       })
     },
     save(){
-      if(this.data.visaStatus == '1'){
-        const result = this.$validator.verifyAll('card')
-        console.log(result);
-         if (result.indexOf(false) > -1) {
-           return
-         }
-      }else if(this.data.nationalityStatus == '1'){
-        const contryResult = this.$validator.verifyAll('contryCard')
-         if (contryResult.indexOf(false) > -1) {
-           return
-         }
-      }else if(this.data.airportStatus == '1'){
-         const entryResult = this.$validator.verifyAll('entryCard')
-         if (result.indexOf(entryResult) > -1) {
-           return
-         }
-      }
-
-      this.$api.post('/manage-platform/visaRule/saveVisaRule',this.data,
-      r =>{
-        if(r.success){
-          this.$message({
-            type: 'success',
-            message: '操作成功!'
-          });
-        }
+      this.V.$submit('noChi', (canSumit,data) => {
+        if(!canSumit) return
+        this.$api.post('/manage-platform/visaRule/saveVisaRule',this.data,
+        r =>{
+          if(r.success){
+            this.$message({
+              type: 'success',
+              message: '操作成功!'
+            });
+          }
+        })
       })
     },
     codeName(){//字段名称的接口
       this.$api.post('/manage-platform/ruleConfig/getRuleConfigFieldNameList/1',{},
        r => {
-         console.log(r);
          if(r.success){
            this.code = r.data
          }

@@ -70,7 +70,8 @@
         :data="tableData"
         border
         style="width: 100%;"
-      >
+        class="o-table3"
+        @header-click="headerClick">
       <el-table-column
         label="序号"
         type="index"
@@ -79,35 +80,44 @@
         <el-table-column
           prop="TITLE"
           label="标题"
-          width="80px">
+          width="80px"
+          sortable>
         </el-table-column>
         <el-table-column
           prop="NAME"
-          label="登记人姓名">
+          label="登记人姓名"
+          sortable>
         </el-table-column>
         <el-table-column
           prop="USERNAME"
           label="登记人账号"
-          width="100px">
+          width="100px"
+          sortable>
         </el-table-column>
         <el-table-column
           prop="SOURCENAME"
-          label="来源人姓名">
+          label="来源人姓名"
+          sortable>
         </el-table-column>
         <el-table-column
           prop="SOURCEPHONE"
-          label="来源人电话">
+          label="来源人电话"
+          sortable>
         </el-table-column>
         <el-table-column
           prop="HANDOVERNAME"
-          label="交接人姓名">
+          label="交接人姓名"
+          sortable>
         </el-table-column>
         <el-table-column
           prop="RECORDTIMESTR"
-          label="事件时间">
+          label="事件时间"
+          sortable>
         </el-table-column>
         <el-table-column
-          label="事件来源">
+          prop="TYPE"
+          label="事件来源"
+          sortable>
           <template slot-scope="scope">
             {{scope.row.TYPE|fifter1}}
           </template>
@@ -116,7 +126,7 @@
           label="操作"
           width="120">
           <template slot-scope="scope">
-            <el-button type="text"  class="a-btn"  title="交接"  icon="el-icon-edit" @click="change(scope.row.SERIAL)"></el-button>
+            <el-button type="text"  class="a-btn"  title="交接"  icon="el-icon-edit-outline" @click="change(scope.row.SERIAL)"></el-button>
             <el-button type="text"  class="a-btn"  title="详情"  icon="el-icon-tickets" @click="details(scope.row)"></el-button>
             <el-button type="text"  class="a-btn"  title="删除"  icon="el-icon-delete" @click="deletes(scope.row)"></el-button>
          </template>
@@ -242,13 +252,16 @@ export default {
     }
   },
   mounted() {
-    this.getList(this.CurrentPage,this.pageSize,this.cdt);
+    // this.getList(this.CurrentPage,this.pageSize,this.cdt);
     this.queryNationality();
   },
   activated(){
-    this.getList(this.CurrentPage,this.pageSize,this.cdt);
+    // this.getList(this.CurrentPage,this.pageSize,this.cdt);
   },
   methods: {
+    headerClick(column,event){
+      event.target.title=column.label
+    },
     handleSelectionChange(val) {
       this.multipleSelection = val;
     },

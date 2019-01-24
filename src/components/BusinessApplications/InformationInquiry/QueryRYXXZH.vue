@@ -90,14 +90,13 @@
             </el-col>
 
             <el-col :sm="24" :md="12" :lg="6" class="input-item">
-              <span class="input-text">机场：</span>
+              <span class="input-text">口岸：</span>
               <el-select v-model="cdt.portEqual" placeholder="请选择" filterable clearable size="small" class="input-input" @visible-change="portMethod">
                 <el-option
                 v-for="item in airport"
-                v-if="item.JCDM"
-                :key="item.JCDM"
-                :value="item.JCDM"
-                :label="item.JCDM+' - '+item.KAMC">
+                :key="item.AIRPORT_CODE"
+                :value="item.AIRPORT_CODE"
+                :label="item.AIRPORT_CODE+' - '+item.AIRPORT_NAME">
                 </el-option>
               </el-select>
             </el-col>
@@ -457,7 +456,7 @@
             <el-popover
               placement="top-start"
               trigger="hover"
-              :content="scope.row.PNR_FLTDATE1==undefined||scope.row.PNR_FLTDATE1==''?'暂无数据':''+scope.row.PNR_FLTDATE1"
+              :content="scope.row.PNR_FLTDATE1STR==undefined||scope.row.PNR_FLTDATE1STR==''?'暂无数据':''+scope.row.PNR_FLTDATE1STR"
               :disabled="!scope.row.fltdateIsEqual"
               popper-class="maxWidth">
               <span slot="reference">{{scope.row.FLTDATESTR}}<span v-if="scope.row.fltdateIsEqual" class="cellColor">*</span></span>
@@ -495,7 +494,7 @@
         <el-table-column
           prop="iapiCityfromName"
           label="起飞机场"
-          width="130"
+          width="150"
           sortable
           v-if="checkList.indexOf(checkItem[11].ITEMNAME)>-1">
           <template slot-scope="scope">
@@ -513,7 +512,7 @@
         <el-table-column
           prop="departdateStr"
           label="预计起飞时间"
-          width="130"
+          width="150"
           sortable
           v-if="checkList.indexOf(checkItem[12].ITEMNAME)>-1">
         </el-table-column>
@@ -537,8 +536,8 @@
         </el-table-column>
         <el-table-column
           prop="arrivdateStr"
-          label="预计降落时间"
-          width="180"
+          label="预计到达时间"
+          width="150"
           sortable
           v-if="checkList.indexOf(checkItem[14].ITEMNAME)>-1">
         </el-table-column>
@@ -684,7 +683,7 @@
         </el-table-column>
         <el-table-column
           prop="PORTNAME"
-          label="机场"
+          label="口岸"
           width="150"
           sortable
           v-if="checkList.indexOf(checkItem[35].ITEMNAME)>-1">
@@ -697,43 +696,43 @@
           v-if="checkList.indexOf(checkItem[36].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
-          prop="PNRFLAG"
+          prop="PNRFLAGSTR"
           label="是否订票"
           width="150"
           sortable
           v-if="checkList.indexOf(checkItem[37].ITEMNAME)>-1">
           <template slot-scope="scope">
-            {{scope.row.PNRFLAG|fifteryn}}
+            {{scope.row.PNRFLAGSTR|fifteryn}}
           </template>
         </el-table-column>
         <el-table-column
-          prop="CHKFLAG"
+          prop="CHKFLAGSTR"
           label="是否值机"
           width="150"
           sortable
           v-if="checkList.indexOf(checkItem[38].ITEMNAME)>-1">
           <template slot-scope="scope">
-            {{scope.row.CHKFLAG|fifteryn}}
+            {{scope.row.CHKFLAGSTR|fifteryn}}
           </template>
         </el-table-column>
         <el-table-column
-          prop="EEFLAG"
+          prop="EEFLAGSTR"
           label="出入境手续"
           width="150"
           sortable
           v-if="checkList.indexOf(checkItem[39].ITEMNAME)>-1">
           <template slot-scope="scope">
-            {{scope.row.EEFLAG|fifteryn}}
+            {{scope.row.EEFLAGSTR|fifteryn}}
           </template>
         </el-table-column>
         <el-table-column
-          prop="CLSFLAG"
+          prop="CLSFLAGSTR"
           label="航班是否关闭"
           width="150"
           sortable
           v-if="checkList.indexOf(checkItem[40].ITEMNAME)>-1">
           <template slot-scope="scope">
-            {{scope.row.CLSFLAG|fifteryn}}
+            {{scope.row.CLSFLAGSTR|fifteryn}}
           </template>
         </el-table-column>
         <el-table-column
@@ -917,7 +916,7 @@ export default {
       treeData: [],
       defaultProps: {
         children: 'countryList',
-        label: 'CNAME',
+        label: 'CODEANDCNAME',
       },
       keys:[],
       keysExample:[],
@@ -986,7 +985,7 @@ export default {
         },
         {
           ITEMNAME:'arrivdateStr',
-          LABEL:'预计降落时间',
+          LABEL:'预计到达时间',
         },
         {
           ITEMNAME:'PNR_SPECIFIGSEAT',
@@ -1071,26 +1070,26 @@ export default {
         },
         {
           ITEMNAME:'PORTNAME',
-          LABEL:'机场',
+          LABEL:'口岸',
         },
         {
           ITEMNAME:'IAPI_RECEIVETIMESTR',
           LABEL:'值机时间',
         },
         {
-          ITEMNAME:'PNRFLAG',
+          ITEMNAME:'PNRFLAGSTR',
           LABEL:'是否订票',
         },
         {
-          ITEMNAME:'CHKFLAG',
+          ITEMNAME:'CHKFLAGSTR',
           LABEL:'是否值机',
         },
         {
-          ITEMNAME:'EEFLAG',
+          ITEMNAME:'EEFLAGSTR',
           LABEL:'出入境手续',
         },
         {
-          ITEMNAME:'CLSFLAG',
+          ITEMNAME:'CLSFLAGSTR',
           LABEL:'航班是否关闭',
         },
       ],
@@ -1146,6 +1145,8 @@ export default {
         return "男"
       } else if (val == "U") {
         return "未知"
+      } else {
+        return val
       }
     },
     fiftercheck(val){
@@ -1157,6 +1158,8 @@ export default {
         return '再次核对'
       }else if(val == '3Z'){
         return '数据错误'
+      }else {
+        return val
       }
     },
     fiftertype(val){
@@ -1166,6 +1169,8 @@ export default {
         return '出境'
       }else if(val == "A"){
         return '入出境'
+      }else {
+        return val
       }
     },
     fifteryn(val){
@@ -1173,6 +1178,8 @@ export default {
         return '否'
       }else if(val == 1){
         return '是'
+      }else {
+        return val
       }
     }
   },
@@ -1189,6 +1196,8 @@ export default {
         return "男"
       } else if (val == "U") {
         return "未知"
+      }else {
+        return val
       }
     },
     fanyiState(val){
@@ -1198,6 +1207,8 @@ export default {
         return '出境'
       }else if(val == "A"){
         return '入出境'
+      }else {
+        return val
       }
     },
     headerClick(column,event){
@@ -1210,7 +1221,7 @@ export default {
     },
     filterNode(value, data) {
       if (!value) return true;
-      return data.CNAME.indexOf(value) !== -1;
+      return data.CODEANDCNAME.indexOf(value) !== -1;
     },
     getmodel(){//点击选择
       this.filterText='';
@@ -1269,7 +1280,7 @@ export default {
     },
     seat(i){
       this.seatDialogVisible = true;
-      this.flightNumber0 = i.FLTNO;
+      this.flightNumber0 = i.FLIGHT_RECORDNUM;
       this.globalserial0=i.SERIAL;
     },
     openCheck(){
@@ -1362,8 +1373,8 @@ export default {
          }
        })
     },
-    portMethod(){//机场
-      this.$api.post('/manage-platform/codeTable/queryAirportMatch',{},
+    portMethod(){//口岸
+      this.$api.post('/manage-platform/codeTable/queryAirport',{},
        r =>{
          if(r.success){
            this.airport = r.data;
@@ -1611,7 +1622,7 @@ export default {
       }
     },
     reset(){
-      this.cdt={isBlurred:false};
+      this.cdt={isBlurred:false,startFltdate:'',endFltdate:'',};
       this.ssss='';
       this.tableData=[];
       let time = new Date();

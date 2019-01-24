@@ -94,6 +94,7 @@
                  </template>
                 </el-table-column>
                 <el-table-column
+                  prop="cityfromEqual"
                   label="起飞机场"
                   width="200">
                   <template slot-scope="scope">
@@ -108,6 +109,7 @@
                  </template>
                 </el-table-column>
                 <el-table-column
+                  prop="citytoEqual"
                   label="到达机场"
                   width="200">
                   <template slot-scope="scope">
@@ -415,7 +417,7 @@
           v-if="checkList.indexOf(checkItem[7].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
-          prop="FLTDATE"
+          prop="FLTDATESTR"
           label="航班日期"
           width="150"
           sortable
@@ -444,14 +446,14 @@
         <el-table-column
           prop="iapiCityfromName"
           label="起飞机场"
-          width="130"
+          width="150"
           sortable
           v-if="checkList.indexOf(checkItem[11].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
           prop="departdateStr"
           label="预计起飞时间"
-          width="130"
+          width="150"
           sortable
           v-if="checkList.indexOf(checkItem[12].ITEMNAME)>-1">
         </el-table-column>
@@ -465,7 +467,7 @@
         <el-table-column
           prop="arrivdateStr"
           label="预计降落时间"
-          width="180"
+          width="150"
           sortable
           v-if="checkList.indexOf(checkItem[14].ITEMNAME)>-1">
         </el-table-column>
@@ -582,43 +584,43 @@
           v-if="checkList.indexOf(checkItem[30].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
-          prop="PNRFLAG"
+          prop="PNRFLAGSTR"
           label="是否订票"
           width="150"
           sortable
           v-if="checkList.indexOf(checkItem[31].ITEMNAME)>-1">
           <template slot-scope="scope">
-            {{scope.row.PNRFLAG|fifteryn}}
+            {{scope.row.PNRFLAGSTR|fifteryn}}
           </template>
         </el-table-column>
         <el-table-column
-          prop="CHKFLAG"
+          prop="CHKFLAGSTR"
           label="是否值机"
           width="150"
           sortable
           v-if="checkList.indexOf(checkItem[32].ITEMNAME)>-1">
           <template slot-scope="scope">
-            {{scope.row.CHKFLAG|fifteryn}}
+            {{scope.row.CHKFLAGSTR|fifteryn}}
           </template>
         </el-table-column>
         <el-table-column
-          prop="EEFLAG"
+          prop="EEFLAGSTR"
           label="出入境手续"
           width="150"
           sortable
           v-if="checkList.indexOf(checkItem[33].ITEMNAME)>-1">
           <template slot-scope="scope">
-            {{scope.row.EEFLAG|fifteryn}}
+            {{scope.row.EEFLAGSTR|fifteryn}}
           </template>
         </el-table-column>
         <el-table-column
-          prop="CLSFLAG"
+          prop="CLSFLAGSTR"
           label="航班是否关闭"
           width="150"
           sortable
           v-if="checkList.indexOf(checkItem[34].ITEMNAME)>-1">
           <template slot-scope="scope">
-            {{scope.row.CLSFLAG|fifteryn}}
+            {{scope.row.CLSFLAGSTR|fifteryn}}
           </template>
         </el-table-column>
         <el-table-column
@@ -726,7 +728,7 @@
           v-if="checkListPnr.indexOf(checkItemPnr[5].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
-          prop="PNR_FLTDATE1"
+          prop="PNR_FLTDATE1STR"
           label="航班日期"
           width="150"
           sortable
@@ -777,7 +779,7 @@
         </el-table-column>
         <el-table-column
           prop="PNR_CARDEXPIREDATESTR"
-          label="证件有效期截止日期"
+          label="证件有效期"
           width="130"
           sortable
           v-if="checkListPnr.indexOf(checkItemPnr[13].ITEMNAME)>-1">
@@ -797,7 +799,7 @@
           v-if="checkListPnr.indexOf(checkItemPnr[15].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
-          prop="PNR_PASSPORTISSUECOUNTRY"
+          prop="PNR_PASSPORTISSUECOUNTRYNAME"
           label="证件签发国"
           width="150"
           sortable
@@ -1335,8 +1337,8 @@ export default {
         }
       ],
       //展示项
-      checkList: ['iapiName','INTG_CHNNAME','GENDER','iapiBirthdayName','iapiNationaName','iapiCardName','PASSPORTNO','FLTNO','FLTDATE','CHECKRESULT','FLIGHTTYPE','iapiCityfromName'],
-      checkListPnr: ['pnrName','PNR_GENDER','pnrBirthdayName','pnrNationaName','PNR_PASSPORTNO','PNR_FLTNO','PNR_FLTDATE1','PNR_FLTTYPE','pnrCityfromName','pnrCitytoName','PNR_DEPARTDATESTR','PNR_ARRIVDATESTR'],
+      checkList: ['iapiName','INTG_CHNNAME','GENDER','iapiBirthdayName','iapiNationaName','iapiCardName','PASSPORTNO','FLTNO','FLTDATESTR','CHECKRESULT','FLIGHTTYPE','iapiCityfromName'],
+      checkListPnr: ['pnrName','PNR_GENDER','pnrBirthdayName','pnrNationaName','PNR_PASSPORTNO','PNR_FLTNO','PNR_FLTDATE1STR','PNR_FLTTYPE','pnrCityfromName','pnrCitytoName','PNR_DEPARTDATESTR','PNR_ARRIVDATESTR'],
       checkItem:[
         {
           ITEMNAME:'iapiName',
@@ -1371,7 +1373,7 @@ export default {
           LABEL:'航班号',
         },
         {
-          ITEMNAME:'FLTDATE',
+          ITEMNAME:'FLTDATESTR',
           LABEL:'航班日期',
         },
         {
@@ -1463,19 +1465,19 @@ export default {
           LABEL:'最终下机地',
         },
         {
-          ITEMNAME:'PNRFLAG',
+          ITEMNAME:'PNRFLAGSTR',
           LABEL:'是否订票',
         },
         {
-          ITEMNAME:'CHKFLAG',
+          ITEMNAME:'CHKFLAGSTR',
           LABEL:'是否值机',
         },
         {
-          ITEMNAME:'EEFLAG',
+          ITEMNAME:'EEFLAGSTR',
           LABEL:'出入境手续',
         },
         {
-          ITEMNAME:'CLSFLAG',
+          ITEMNAME:'CLSFLAGSTR',
           LABEL:'航班是否关闭',
         }
       ],
@@ -1505,7 +1507,7 @@ export default {
           LABEL:'航班号',
         },
         {
-          ITEMNAME:'PNR_FLTDATE1',
+          ITEMNAME:'PNR_FLTDATE1STR',
           LABEL:'航班日期',
         },
         {
@@ -1542,7 +1544,7 @@ export default {
         },
         {
           ITEMNAME:'PNR_CARDEXPIREDATESTR',
-          LABEL:'证件有效期截止日期',
+          LABEL:'证件有效期',
         },
         {
           ITEMNAME:'PNR_RCIDATE',
@@ -1553,7 +1555,7 @@ export default {
           LABEL:'证件种类',
         },
         {
-          ITEMNAME:'PNR_PASSPORTISSUECOUNTRY',
+          ITEMNAME:'PNR_PASSPORTISSUECOUNTRYNAME',
           LABEL:'证件签发国',
         },
         {
@@ -1590,6 +1592,8 @@ export default {
         return "男"
       } else if (val == "U") {
         return "未知"
+      }else {
+        return val
       }
     },
     fiftercheck(val){
@@ -1601,6 +1605,8 @@ export default {
         return '再次核对'
       }else if(val == '3Z'){
         return '数据错误'
+      }else {
+        return val
       }
     },
     fiftecr(val) {
@@ -1610,15 +1616,19 @@ export default {
         return "禁止打印登机牌";
       } else if (val == "2Z") {
         return "请再次核对";
-      } else {
+      } else if (val == "4Z"){
         return "数据错误";
+      }else {
+        return val
       }
     },
     fifterbj(val) {
       if (val == "1") {
         return "产生报警";
-      } else {
+      } else if(val == "0"){
         return "未产生报警";
+      }else {
+        return val
       }
     },
     fiftertype(val){
@@ -1628,6 +1638,8 @@ export default {
         return '出境'
       }else if(val == "A"){
         return '入出境'
+      }else {
+        return val
       }
     },
     fifteryn(val){
@@ -1635,6 +1647,8 @@ export default {
         return '否'
       }else if(val == 1){
         return '是'
+      }else {
+        return val
       }
     }
   },
@@ -1871,8 +1885,8 @@ export default {
       if(this.bigBase==5){//导出iapi
         axios({
          method: 'post',
-         // url: 'http://192.168.99.248:8080/manage-platform/iapi/export/three',
-         url: this.$api.rootUrl+"/manage-platform/iapi/export/three",
+         url: 'http://192.168.99.248:8080/manage-platform/iapi/export/three',
+         // url: this.$api.rootUrl+"/manage-platform/iapi/export/three",
          data: {
              "name": 'Fred',
              "cdtList":this.rows
@@ -1886,8 +1900,8 @@ export default {
       }else if(this.bigBase==6){//导出pnr
         axios({
          method: 'post',
-         // url: 'http://192.168.99.248:8080/manage-platform/iapi/export/three',
-         url: this.$api.rootUrl+"/manage-platform/iapi/export/three",
+         url: 'http://192.168.99.248:8080/manage-platform/iapi/export/three',
+         // url: this.$api.rootUrl+"/manage-platform/iapi/export/three",
          data: {
              "name": 'Fred',
              "cdtList":this.rowsPnr
@@ -1934,7 +1948,7 @@ export default {
         }else if(this.batchTableList.length!=0){
           axios({
            method: 'post',
-           // url: 'http://192.168.99.248:8080/manage-platform/iapiHead/exportCheckColDataIo/5',
+           // url: 'http://192.168.99.248:8081/manage-platform/iapiHead/exportCheckColDataIo/5',
            url: this.$api.rootUrl+"/manage-platform/iapiHead/exportCheckColDataIo/5",
            data: {
                "exclTitles": this.checkList,
@@ -2191,9 +2205,9 @@ export default {
           //展示项渲染
           if(arr.length == 0){
             if(this.bigBase==5){
-              this.checkList = ['iapiName','INTG_CHNNAME','GENDER','iapiBirthdayName','iapiNationaName','iapiCardName','PASSPORTNO','FLTNO','FLTDATE','CHECKRESULT','FLIGHTTYPE','iapiCityfromName'];
+              this.checkList = ['iapiName','INTG_CHNNAME','GENDER','iapiBirthdayName','iapiNationaName','iapiCardName','PASSPORTNO','FLTNO','FLTDATESTR','CHECKRESULT','FLIGHTTYPE','iapiCityfromName'];
             }else if(this.bigBase==6){
-              this.checkListPnr = ['pnrName','PNR_GENDER','pnrBirthdayName','pnrNationaName','PNR_PASSPORTNO','PNR_FLTNO','PNR_FLTDATE1','PNR_FLTTYPE','pnrCityfromName','pnrCitytoName','PNR_DEPARTDATESTR','PNR_ARRIVDATESTR'];
+              this.checkListPnr = ['pnrName','PNR_GENDER','pnrBirthdayName','pnrNationaName','PNR_PASSPORTNO','PNR_FLTNO','PNR_FLTDATE1STR','PNR_FLTTYPE','pnrCityfromName','pnrCitytoName','PNR_DEPARTDATESTR','PNR_ARRIVDATESTR'];
             }
           }else{
             for(var i=0;i<arr.length;i++){

@@ -11,7 +11,6 @@
                 <span class="input-text"><i class="t-must">*</i>航班日期：</span>
                 <div class="input-input t-flex t-date">
                    <el-date-picker
-                     v-verify.input.blur="{regs:'required',submit:'demo'}"
                      v-model="cdt.startFlightDate"
                      type="datetime"
                      size="small"
@@ -21,7 +20,6 @@
                    </el-date-picker>
                    <span class="septum">-</span>
                    <el-date-picker
-                   v-verify.input.blur="{regs:'required',submit:'demo'}"
                       v-model="cdt.endFlightDate"
                       type="datetime"
                       size="small"
@@ -42,9 +40,10 @@
               </el-select>
             </el-col>
 
-            <el-col :sm="24" :md="12"  :lg="8" class="input-item">
+            <el-col :sm="24" :md="12"  :lg="8" class="input-item my-form-group" data-scope="demo" data-name="fltnoStr" data-type="input"
+            v-validate-easy="[['maxLength',[35]]]">
               <span class="input-text">航班号：</span>
-              <el-input placeholder="多个航班号请用分号隔开" size="small" v-verify.input.blur="{regs:'max:35',submit:'demo'}" v-model="cdt.fltnoStr" clearable class="input-input"></el-input>
+              <el-input placeholder="多个航班号请用分号隔开" size="small" v-model="cdt.fltnoStr" clearable class="input-input"></el-input>
             </el-col>
 
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
@@ -87,7 +86,9 @@
       <el-table
         :data="tableData"
         border
-        style="width:100%;">
+        style="width:100%;"
+        class="o-table3"
+        @header-click="headerClick">
         <!-- <el-table-column
           type="index"
           label="序号"
@@ -112,6 +113,7 @@
           width="140">
         </el-table-column>
         <el-table-column
+          prop="FLIGHTTYPE"
           label="出入标识"
           width="120"
           sortable>
@@ -143,7 +145,7 @@
               :disabled="scope.row.MODELNAMES.length==1"
               popper-class="maxWidth">
               <div class="">
-                <el-row type="flex" class="detailFat" v-for="i in scope.row.MODELNAMES">
+                <el-row type="flex" class="detailFat" v-for="(i,ind) in scope.row.MODELNAMES" :key="ind">
                   <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
                 </el-row>
               </div>
@@ -361,6 +363,9 @@ export default {
     this.getList(this.CurrentPage,this.pageSize,this.cdt);
   },
   methods:{
+    headerClick(column,event){
+      event.target.title=column.label
+    },
     totalPageM(){
       let p={
       	"currentPage":this.CurrentPage,
@@ -506,49 +511,56 @@ export default {
     },
 
     getList(currentPage,showCount,pd){
-      const result = this.$validator.verifyAll('demo')
-       if (result.indexOf(false) > -1) {
-         return
-       }
-      let p={
-      	"currentPage":currentPage,
-      	"showCount":showCount,
-      	"cdt":pd
-      };
-      console.log(pd)
-        this.$api.post('/manage-platform/eventMonitor/queryFlightMonitor',p,
-         r => {
-           if(r.success){
-             if(r.data.nextState==0){
-               document.getElementsByClassName('btn-next')[0].disabled=true;
-             }else{
-               document.getElementsByClassName('btn-next')[0].disabled=false;
-             }
-             this.tableData=r.data.resultList;
-             this.CurrentPage = r.data.currentPage;
-             this.colorList = r.data.pd.useColour;
-             for(var j=0;j<this.colorList.length;j++){
-               if(this.colorList[j].COL_NUMBER == 1){
-                 this.color1=this.colorList[j].COL_VALUE;
-                 this.low1 = this.colorList[j].LOW_VALUE;
-                 this.high1 = this.colorList[j].HIGH_VALUE;
-               }else if(this.colorList[j].COL_NUMBER == 2){
-                 this.color2=this.colorList[j].COL_VALUE;
-                 this.low2 = this.colorList[j].LOW_VALUE;
-                 this.high2 = this.colorList[j].HIGH_VALUE;
-               }else if(this.colorList[j].COL_NUMBER == 3){
-                 this.color3=this.colorList[j].COL_VALUE;
-                 this.low3 = this.colorList[j].LOW_VALUE;
-                 this.high3 = this.colorList[j].HIGH_VALUE;
-               }else if(this.colorList[j].COL_NUMBER == 4){
-                 this.color4=this.colorList[j].COL_VALUE;
-                 this.low4 = this.colorList[j].LOW_VALUE;
-                 this.high4 = this.colorList[j].HIGH_VALUE;
+      if(this.cdt.startFlightDate==''||this.cdt.endFlightDate==''||this.cdt.startFlightDate==null||this.cdt.endFlightDate==null){
+        this.$message({
+          message: '航班日期不能为空',
+          type: 'warning'
+        });
+        return
+      }
+      this.V.$submit('demo', (canSumit,data) => {
+        // canSumit为true时，则所有该scope的所有表单验证通过
+        if(!canSumit) return
+        let p={
+          "currentPage":currentPage,
+          "showCount":showCount,
+          "cdt":pd
+        };
+          this.$api.post('/manage-platform/eventMonitor/queryFlightMonitor',p,
+           r => {
+             if(r.success){
+               if(r.data.nextState==0){
+                 document.getElementsByClassName('btn-next')[0].disabled=true;
+               }else{
+                 document.getElementsByClassName('btn-next')[0].disabled=false;
                }
+               this.tableData=r.data.resultList;
+               this.CurrentPage = r.data.currentPage;
+               this.colorList = r.data.pd.useColour;
+               for(var j=0;j<this.colorList.length;j++){
+                 if(this.colorList[j].COL_NUMBER == 1){
+                   this.color1=this.colorList[j].COL_VALUE;
+                   this.low1 = this.colorList[j].LOW_VALUE;
+                   this.high1 = this.colorList[j].HIGH_VALUE;
+                 }else if(this.colorList[j].COL_NUMBER == 2){
+                   this.color2=this.colorList[j].COL_VALUE;
+                   this.low2 = this.colorList[j].LOW_VALUE;
+                   this.high2 = this.colorList[j].HIGH_VALUE;
+                 }else if(this.colorList[j].COL_NUMBER == 3){
+                   this.color3=this.colorList[j].COL_VALUE;
+                   this.low3 = this.colorList[j].LOW_VALUE;
+                   this.high3 = this.colorList[j].HIGH_VALUE;
+                 }else if(this.colorList[j].COL_NUMBER == 4){
+                   this.color4=this.colorList[j].COL_VALUE;
+                   this.low4 = this.colorList[j].LOW_VALUE;
+                   this.high4 = this.colorList[j].HIGH_VALUE;
+                 }
+               }
+               this.totalPageM()
              }
-             this.totalPageM()
-           }
-        })
+          })
+      })
+
     },
     queryNationalityAlone(){
       this.$api.post('/manage-platform/codeTable/queryNationality',{},

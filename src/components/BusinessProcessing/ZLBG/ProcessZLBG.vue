@@ -78,19 +78,23 @@
                 <span class="input-text"><font color="red">*</font> 航班日期：</span>
                   <div class="input-input t-flex t-date">
                    <el-date-picker
-                   v-verify.input.blur="{regs:'required',submit:'timeDemo'}"
                    v-model="pd.STARTTIME"
-                   type="datetime" size="small" format="yyyy-MM-dd HH:mm"
+                   type="datetime"
+                   size="small"
+                   format="yyyy-MM-dd HH:mm"
                     value-format="yyyyMMddHHmm"
-                   placeholder="开始时间"  :picker-options="pickerOptions">
+                   placeholder="开始时间"
+                   :picker-options="pickerOptions">
                  </el-date-picker>
                    <span class="septum">-</span>
                  <el-date-picker
-                 v-verify.input.blur="{regs:'required',submit:'timeDemo'}"
                     v-model="pd.ENDTIME"
-                    type="datetime" size="small" format="yyyy-MM-dd HH:mm"
-                     value-format="yyyyMMddHHmm"
-                    placeholder="结束时间" :picker-options="pickerOptions1">
+                    type="datetime"
+                    size="small"
+                    format="yyyy-MM-dd HH:mm"
+                    value-format="yyyyMMddHHmm"
+                    placeholder="结束时间"
+                    :picker-options="pickerOptions1">
                 </el-date-picker>
               </div>
               </el-col>
@@ -127,7 +131,7 @@
         border
         style="width: 100%;"
         class="mt-10 o-table3"
-@header-click="headerClick"
+        @header-click="headerClick"
         @selection-change="handleSelectionChange">
         <el-table-column
          type="selection"
@@ -260,7 +264,7 @@
             border
             style="width: 100%;"
             class="mt-10 o-table3"
-    @header-click="headerClick">
+            @header-click="headerClick">
                     <el-table-column
                       prop="NAME"
                       label="姓名"
@@ -615,7 +619,7 @@
           border
           style="width: 100%;"
           class="mt-10 o-table3"
-  @header-click="headerClick">
+          @header-click="headerClick">
           <el-table-column
             prop="NAME"
             label="姓名" sortable
@@ -829,8 +833,8 @@ export default {
   },
   methods: {
     headerClick(column,event){
-  event.target.title=column.label
-},
+      event.target.title=column.label
+    },
     handleSelectionChange(val) {
       this.multipleSelection = val;
       console.log(val)
@@ -891,22 +895,16 @@ export default {
     },
     handleCurrentChange1(val) {
       this.detailgetlist(val, this.pageSize1, this.dform);
-
       console.log(`当前页: ${val}`);
     },
     getList(currentPage, showCount, pd) {
-
-      const result = this.$validator.verifyAll('timeDemo')
-       if (result.indexOf(false) > -1) {
-         return
-       }
-
-      // if(dayGap(this.pd.STARTTIME,this.pd.ENDTIME,0)>14){
-      //   this.$alert('航班日期起始查询日期不得小于'+this.datenow, '提示', {
-      //     confirmButtonText: '确定',
-      //   });
-      //   return false
-      // }
+      if(this.pd.STARTTIME==''||this.pd.ENDTIME==''||this.pd.STARTTIME==null||this.pd.ENDTIME==null){
+        this.$message({
+         message: '航班日期不能为空',
+         type: 'warning'
+       });
+       return
+      }
 
       this.pd.NAME = getreplace(this.pd.NAME);
       this.pd.PASSPORTNO = getreplace(this.pd.PASSPORTNO);

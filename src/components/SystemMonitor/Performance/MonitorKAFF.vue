@@ -136,7 +136,9 @@
                     :data="tableData"
                     border
                     style="width: 100%;"
-                    @selection-change="handleSelectionChange">
+                    @selection-change="handleSelectionChange"
+                    class="o-table3"
+                    @header-click="headerClick">
                     <el-table-column
                       prop="number"
                       type="index"
@@ -145,54 +147,65 @@
                     </el-table-column>
                     <el-table-column
                       prop="port"
-                      label="口岸">
+                      label="口岸"
+                      sortable>
                     </el-table-column>
                     <el-table-column
                       prop="tbiapi"
                       label="原始报文数量"
-                      width="130">
+                      width="130"
+                      sortable>
                     </el-table-column>
                     <el-table-column
                       prop="tbfclose"
                       label="关闭报文数量"
-                      width="130">
+                      width="130"
+                      sortable>
                     </el-table-column>
                     <el-table-column
                       prop="tbfcancel"
                       label="取消报文数量"
-                      width="130">
+                      width="130"
+                      sortable>
                     </el-table-column>
                     <el-table-column
                       prop="tbchange"
                       label="变更报文数量"
-                      width="130">
+                      width="130"
+                      sortable>
                     </el-table-column>
                     <el-table-column
                       prop="tbintg"
                       label="整合报文数量"
-                      width="130">
+                      width="130"
+                      sortable>
                     </el-table-column>
                     <el-table-column
                       prop="begintime"
                       label="分发开始时间"
-                      width='200'>
+                      width='200'
+                      sortable>
                     </el-table-column>
                     <el-table-column
                       prop="endtime"
                       label="分发终止时间"
-                      width='200'>
+                      width='200'
+                      sortable>
                     </el-table-column>
                     <el-table-column
                       prop="average"
                       label="耗时(毫秒)"
-                      width="130">
+                      width="130"
+                      sortable>
                       <template  slot-scope="scope">
                         <span :class="{'color':scope.row.average>=1000}">{{scope.row.average}}</span>
                       </template>
                     </el-table-column>
                     <el-table-column
+                      prop="disStatus"
                       label="监控状态"
-                      width="200">
+                      width="200"
+                      sortable>
                       <template  slot-scope="scope">
                         <span>{{scope.row.disStatus|statusDis}}</span>
                       </template>
@@ -240,74 +253,91 @@
                     :data="htableData"
                     border
                     style="width: 100%;"
-                    @selection-change="handleSelectionChange">
+                    @selection-change="handleSelectionChange"
+                    class="o-table3"
+                    @header-click="headerClick">
                     <el-table-column
-                    type="index"
+                      type="index"
                       prop="number"
                       label="序号"
                       width="70">
                     </el-table-column>
                     <el-table-column
                       prop="port"
-                      label="口岸">
+                      label="口岸"
+                      sortable>
                     </el-table-column>
                     <el-table-column
                       prop="tbiapi"
                       label="原始报文数量"
-                      width="130">
+                      width="130"
+                      sortable>
                     </el-table-column>
                     <el-table-column
                       prop="tbfclose"
                       label="关闭报文数量"
-                      width="110">
+                      width="130"
+                      sortable>
                     </el-table-column>
                     <el-table-column
                       prop="tbfcancel"
                       label="取消报文数量"
-                      width="110">
+                      width="130"
+                      sortable>
                     </el-table-column>
                     <el-table-column
                       prop="tbchange"
                       label="变更报文数量"
-                      width="110">
+                      width="130"
+                      sortable>
                     </el-table-column>
                     <el-table-column
                       prop="tbintg"
                       label="整合报文数量"
-                      width="110">
+                      width="130"
+                      sortable>
                     </el-table-column>
                     <el-table-column
                       prop="tcount"
-                      label="统计条数">
+                      label="统计条数"
+                      width="120"
+                      sortable>
                     </el-table-column>
                     <el-table-column
                       prop="begintimeStr"
                       label="分发开始时间"
-                      width="160">
+                      width="160"
+                      sortable>
                     </el-table-column>
                     <el-table-column
                       prop="endtimeStr"
                       label="分发结束时间"
-                      width="160">
+                      width="160"
+                      sortable>
                     </el-table-column>
                     <el-table-column
                       prop="consumetime"
-                      label="平均耗时(毫秒)">
+                      label="平均耗时(毫秒)"
+                      width="150"
+                      sortable>
                     </el-table-column>
                     <el-table-column
                       prop="createtimeStr"
                       label="监控时间"
-                      width="160">
+                      width="160"
+                      sortable>
                     </el-table-column>
                     <el-table-column
                       prop="createtimeStr"
                       label="统计时间"
-                      width="160">
+                      width="160"
+                      sortable>
                     </el-table-column>
                     <el-table-column
                       prop="interval"
                       label="统计区间"
-                      width="160">
+                      width="160"
+                      sortable>
                     </el-table-column>
                   </el-table>
                   <div class="middle-foot">
@@ -486,6 +516,9 @@ export default {
     }
   },
   methods:{
+    headerClick(column,event){
+      event.target.title=column.label
+    },
     dispose() {
        if (!this.lineChart) {
           return;

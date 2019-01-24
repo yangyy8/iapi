@@ -54,8 +54,9 @@
         border
         style="width: 100%"
         max-height="466"
-        class="tableYbxgz"
-        @sort-change='sortChange'>
+        class="tableYbxgz o-table3"
+        @sort-change='sortChange'
+        @header-click="headerClick">
         <el-table-column
           prop="IODIR"
           label="出入境方向"
@@ -282,12 +283,15 @@ export default {
   },
   mounted() {
     this.codeName();
-    this.getList(this.pd);
+    // this.getList(this.pd);
   },
   activated(){
-    this.getList(this.pd);
+    // this.getList(this.pd);
   },
   methods:{
+    headerClick(column,event){
+      event.target.title=column.label
+    },
     sortChange(column, prop, order){
       console.log(column);
       console.log(column.order);

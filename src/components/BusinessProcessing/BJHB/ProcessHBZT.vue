@@ -17,7 +17,6 @@
               <span class="input-text"><font color="red">*</font> 航班日期：</span>
               <div class="input-input t-flex t-date">
                <el-date-picker
-               v-verify.input.blur="{regs:'required',submit:'timeDemo'}"
                v-model="pd.startScheduledeparturetime"
                type="datetime" size="small"
                format="yyyy-MM-dd HH:mm"
@@ -26,7 +25,6 @@
              </el-date-picker>
                <span class="septum">-</span>
              <el-date-picker
-             v-verify.input.blur="{regs:'required',submit:'timeDemo'}"
                 v-model="pd.endScheduledeparturetime"
                 type="datetime" size="small" align="right"  format="yyyy-MM-dd HH:mm"
                  value-format="yyyyMMddHHmm"
@@ -367,10 +365,13 @@ export default {
   // if(pd.endScheduledeparturetime!= undefined){
   //   pd.endScheduledeparturetime= formatDate(pd.endScheduledeparturetime, "yyyy-MM-dd");
   // }
-      const result = this.$validator.verifyAll('timeDemo')
-       if (result.indexOf(false) > -1) {
-         return
-       }
+  if(this.pd.startScheduledeparturetime==''||this.pd.endScheduledeparturetime==''||this.pd.startScheduledeparturetime==null||this.pd.endScheduledeparturetime==null){
+    this.$message({
+     message: '航班日期不能为空',
+     type: 'warning'
+   });
+   return
+  }
       if(dayGap(this.pd.startScheduledeparturetime,this.pd.endScheduledeparturetime,0)>14){
         this.$alert('航班日期起始查询日期不得小于'+this.datenow, '提示', {
           confirmButtonText: '确定',

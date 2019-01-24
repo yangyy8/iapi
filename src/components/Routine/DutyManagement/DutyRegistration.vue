@@ -50,41 +50,48 @@
         :data="tableData"
         border
         style="width: 100%;"
-        >
+        class="o-table3"
+        @header-click="headerClick">
         <el-table-column
           prop="NAME"
-          label="姓名">
+          label="姓名"
+          sortable>
         </el-table-column>
         <el-table-column
           prop="USERNAME"
           label="账号"
-          >
+          sortable>
         </el-table-column>
         <el-table-column
           prop="DEPT_QC"
-          label="部门">
+          label="部门"
+          sortable>
         </el-table-column>
         <el-table-column
           prop="PHONE"
-          label="电话">
+          label="电话"
+          sortable>
         </el-table-column>
         <el-table-column
           prop="LEADERNAME"
-          label="值班领导">
+          label="值班领导"
+          sortable>
           </el-table-column>
           <el-table-column
             prop="STARTTIMESTR"
-            label="值班开始时间">
+            label="值班开始时间"
+            sortable>
           </el-table-column>
           <el-table-column
             prop="ENDTIMESTR"
-            label="值班结束时间">
+            label="值班结束时间"
+            sortable>
         </el-table-column>
         <el-table-column
           label="操作" width="80">
           <template slot-scope="scope">
               <el-button  type="text"  class="a-btn"  title="编辑" icon="el-icon-edit" @click="adds(1,scope.row)"></el-button>
-              <el-button  type="text"  class="a-btn"  title="删除" icon="el-icon-tickets" @click="deletes(scope.row)"></el-button>
+              <el-button  type="text"  class="a-btn"  title="删除" icon="el-icon-delete" @click="deletes(scope.row)"></el-button>
          </template>
         </el-table-column>
       </el-table>
@@ -289,13 +296,15 @@ export default {
     }
   },
   mounted() {
-    this.getList(this.CurrentPage, this.pageSize, this.cdt);
+    // this.getList(this.CurrentPage, this.pageSize, this.cdt);
   },
   activated() {
-    this.getList(this.CurrentPage, this.pageSize, this.cdt);
+    // this.getList(this.CurrentPage, this.pageSize, this.cdt);
   },
   methods: {
-
+    headerClick(column,event){
+      event.target.title=column.label
+    },
     handleSelectionChange(val) {
       this.multipleSelection = val;
     },

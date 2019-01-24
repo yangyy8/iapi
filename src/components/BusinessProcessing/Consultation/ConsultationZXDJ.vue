@@ -144,60 +144,74 @@
       </el-row>
       <el-table
         :data="tableData"
+        class="o-table3"
         border
         style="width: 100%;"
+        @header-click="headerClick"
         v-if="CONSULTTYPE==0">
         <el-table-column
-
-          label="姓名">
+          prop="INTG_CHNNAME"
+          label="姓名"
+          sortable>
           <template slot-scope="scope">
             {{(scope.row.INTG_CHNNAME==''||scope.row.INTG_CHNNAME==undefined)?scope.row.PNAME:scope.row.INTG_CHNNAME}}
           </template>
         </el-table-column>
         <el-table-column
           prop="PASSPORTNO"
-          label="证件号码">
+          label="证件号码"
+          sortable>
         </el-table-column>
         <el-table-column
           prop="PASSPORTEXPIREDATESTR"
-          label="证件有效期">
+          label="证件有效期"
+          sortable>
         </el-table-column>
         <el-table-column
           prop="NATIONALITY"
-          label="国籍/地区">
+          label="国籍/地区"
+          sortable>
         </el-table-column>
         <el-table-column
           prop="GENDER"
-          label="性别">
+          label="性别"
+          sortable>
         </el-table-column>
         <el-table-column
           prop="BIRTHDAYSTR"
-          label="出生日期">
+          label="出生日期"
+          sortable>
         </el-table-column>
         <el-table-column
           prop="FLIGHTTYPE"
-          label="出入境类型">
+          label="出入境类型"
+          sortable>
         </el-table-column>
         <el-table-column
           prop="FLTNO"
-          label="航班号">
+          label="航班号"
+          sortable>
         </el-table-column>
         <el-table-column
           prop="DEPARTDATESTR"
           label="计划起飞时间"
-          width="140">
+          width="140"
+          sortable>
         </el-table-column>
         <el-table-column
           prop="VISANO"
-          label="签证号码">
+          label="签证号码"
+          sortable>
         </el-table-column>
         <el-table-column
           prop="VISATYPE"
-          label="签证种类">
+          label="签证种类"
+          sortable>
         </el-table-column>
         <el-table-column
           prop="LASTCHECKRESULT"
-          label="反馈状态">
+          label="反馈状态"
+          sortable>
         </el-table-column>
         <el-table-column
           label="操作"
@@ -350,6 +364,9 @@ export default {
     this.currentDate=formatDate(new Date(),'yyyy-MM-dd');
   },
   methods: {
+    headerClick(column,event){
+      event.target.title=column.label
+    },
     handleClose(done){
       done();
       this.V.$reset('oneDetail');

@@ -140,8 +140,7 @@
         fit
         style="width: 100%;"
         class="mt-10 o-table3"
-        @header-click="headerClick"
-      >
+        @header-click="headerClick">
         <el-table-column
           prop="NAME"
           width="100"
@@ -225,7 +224,7 @@
           sortable
           width="80">
           <template slot-scope="scope">
-            <el-button type="text"  class="a-btn" title="报表" icon="el-icon-tickets" @click="details(scope.row)"></el-button>
+            <el-button type="text"  class="a-btn" title="报表" icon="el-icon-document" @click="details(scope.row)"></el-button>
             <el-button type="text"  class="a-btn" title="详情"  plain icon="el-icon-tickets" @click="getMore(scope.row)"></el-button>
          </template>
         </el-table-column>
@@ -515,15 +514,10 @@
             :total="htotalResult">
           </el-pagination>
         </div>
-
-
       </el-form>
       <div slot="footer" class="dialog-footer">
-
         <el-button @click="detailsDialogVisible = false" size="small">取消</el-button>
-
       </div>
-
     </el-dialog>
   </div>
 
@@ -711,14 +705,11 @@ export default {
                return false
              }
     }else {
-
       this.$alert('航班日期和命中日期至少其中一项不能为空', '提示', {
         confirmButtonText: '确定',
       });
       return false
     }
-
-
       pd.saveflag=1;
       pd.instructNew="1Z";
       let p = {

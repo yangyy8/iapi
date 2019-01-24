@@ -11,7 +11,6 @@
                 <span class="input-text"><i class="t-must">*</i>时间：</span>
                 <div class="input-input t-flex t-date">
                    <el-date-picker
-                     v-verify.input.blur="{regs:'required',submit:'timeDemo'}"
                      v-model="pd.startCreatetime"
                      type="date"
                      size="small"
@@ -21,7 +20,6 @@
                    </el-date-picker>
                    <span class="septum">-</span>
                    <el-date-picker
-                      v-verify.input.blur="{regs:'required',submit:'timeDemo'}"
                       v-model="pd.endCreatetime"
                       type="date"
                       size="small"
@@ -162,7 +160,8 @@
           :data="x.tableData"
           border
           style="width: 100%;"
-          class="homePage">
+          class="homePage o-table3"
+          @header-click="headerClick">
           <el-table-column
             :label="data" v-for="(data,key) in x.header" :key="key">
             <template slot-scope="scope">
@@ -234,6 +233,9 @@ export default {
 
   },
   methods:{
+    headerClick(column,event){
+      event.target.title=column.label
+    },
     customized(item){
       this.$api.post('/manage-platform/census/saveCustom',item,
        r =>{
@@ -302,18 +304,22 @@ export default {
       this.pd={}
     },
     getList(){
-
-      const result = this.$validator.verifyAll('timeDemo')
-       if (result.indexOf(false) > -1) {
-         return
-       }
+      console.log(this.pd.startCreatetime);
+      if(this.pd.startCreatetime==''||this.pd.endCreatetime==''||this.pd.startCreatetime==null||this.pd.endCreatetime==null){
+        this.$message({
+          message: '查询时间不能为空',
+          type: 'warning'
+        });
+        return false
+      }
       if(dayGap(this.pd.startCreatetime,this.pd.endCreatetime,0)>30){
         this.$alert('查询时间间隔不能超过一个月', '提示', {
           confirmButtonText: '确定',
         });
         return false
       }
-      if(this.pd.models.length==0){
+      console.log(this.pd.models);
+      if(this.pd.models==undefined||this.pd.models.length==0){
         this.$alert('模型不能为空', '提示', {
           confirmButtonText: '确定',
         });
