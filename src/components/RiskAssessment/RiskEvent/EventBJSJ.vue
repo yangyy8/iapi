@@ -1,5 +1,7 @@
 <template lang="html">
   <div class="eventbjsj">
+    <!-- <router-view></router-view> -->
+
     <div class="middle mb-6">
         <el-row type="flex">
           <el-col :span="20" class="pr-20">
@@ -367,7 +369,7 @@
             fixed="right"
             width="70">
             <template slot-scope="scope">
-              <el-button type="text" class="a-btn" icon="el-icon-view" title="查看" @click="$router.push({name:'BJSJCK',query:{serial:scope.row.serial,grade:scope.row.grade,page:0}})"></el-button>
+              <el-button type="text" class="a-btn" icon="el-icon-view" title="查看" @click="$router.push({name:'BJSJCK',query:{nav1Id:$route.query.nav1Id,nav2Id:$route.query.nav2Id,serial:scope.row.serial,grade:scope.row.grade,page:0}})"></el-button>
               <el-button type="text" class="a-btn" icon="el-icon-edit-outline"  title="处理" @click="$router.push({name:'BJSJCK',query:{serial:scope.row.serial,grade:scope.row.grade,status:scope.row.status,page:1,operation_type:1}})"></el-button>
             </template>
           </el-table-column>

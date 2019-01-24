@@ -715,6 +715,9 @@ export default new Router({
           path: "EventBJSJ",
           name: "EventBJSJ",
           component: resolve => require(['@/components/RiskAssessment/RiskEvent/EventBJSJ'], resolve),
+          children:[
+
+          ]
         },
         // 已归档风险报警事件
         {

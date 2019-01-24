@@ -88,11 +88,11 @@
       </el-aside>
       <el-main class="right-main" :class="{'nobg':tabList.length==0}">
         <ul class="tabList">
-          <li class="tabList-item hand" :style="{width:tabliwidth}" :class="{'tabList-checked':nav2Id==i.query.nav2Id}" @click.right="closeRight(index)"  v-for="(i, index) in tabList">
+          <li class="tabList-item hand" :style="{width:tabliwidth}" :class="{'tabList-checked':nav2name==i.name}" @click.right="closeRight(index)"  v-for="(i, index) in tabList">
             <!-- <el-tooltip class="item" effect="dark" :content="i.name" placement="top"> -->
-              <span  @click="tabNav2(i)">{{i.query.title}}</span>
+              <span  @click="tabNav2(i)">{{i.query.title||'二级页面'}}</span>
             <!-- </el-tooltip> -->
-            <img src="../assets/img/tab-close1.png" alt="guanbi" @click="close1(index,i)" class="hand" style="padding:8px" v-if="nav2Id==i.query.nav2Id">
+            <img src="../assets/img/tab-close1.png" alt="guanbi" @click="close1(index,i)" class="hand" style="padding:8px" v-if="nav2name==i.name">
             <img src="../assets/img/tab-close2.png" alt="" @click="tabList.splice(index, 1)" style="padding:8px" class="hand" v-else>
 
           </li>
@@ -181,6 +181,7 @@ export default {
       nav1Id: null,
       nav1List: [],
       nav2Id: 1,
+      nav2name:'',
       nav2List: [],
 
       tabList: [],
@@ -225,20 +226,21 @@ export default {
         //console.log(this.tabList.length)
         this.tabliwidth=Math.floor(100/(this.tabList.length+1))+'%'
         //console.log(this.tabliwidth)
-
       }
     },
     $route:function(val){
-      if(val.query.title){
+      if(val.query.nav2Id){
         for(var j=0;j<this.tabList.length;j++){
           if(this.tabList[j].query.nav2Id==val.query.nav2Id){
             // //console.log("重复")
             return
           }
         }
-        this.tabList.push(val)
-      }
+        this.tabList.push(val);
+        this.nav2name=val.name;
+        console.log("nav2name==========================================",this.nav2name)
 
+      }
       console.log("val==========================================",val)
     }
   },
@@ -312,30 +314,24 @@ export default {
     },
     // 左侧菜单获取===============================
     getNav(navId) {
-      this.nav1Star= 0;
-      this.nav1End=6;
+      console.log("1.菜单获取")
       this.$api.post('/manage-platform/muneSys/menuChild', {
           SERIAL: navId
         },
         r => {
-          // //console.log(r)
           if(r.success){
             this.nav1List = r.data.menuChild;
             this.nav1Id=this.$route.query.nav1Id||r.data.menuChild[0].SERIAL;
-            //console.log("nav1Id:",this.nav1Id);
-            //console.log("nav1List",this.nav1List)
-
             this.nav1to2(this.nav1Id);
           }
         })
-
     },
 
     // 点击一级菜单================================
     nav1to2(nav1Id,click) {
+      console.log("2.一级菜单获取")
       this.nav1Id=nav1Id;
       this.$router.push({query:{nav1Id:nav1Id}})
-      //console.log(nav1Id)
       let _this=this;
       for(var i=0;i<this.nav1List.length;i++){
         var a=_this.nav1List[i];
@@ -346,8 +342,6 @@ export default {
           }else{
             _this.nav2Id=_this.$route.query.nav2Id||a.menuList[0].SERIAL
           }
-          //console.log("nav2List:",_this.nav2List);
-          //console.log("nav2Id1:",_this.nav2Id);
           _this.nav2(_this.nav2Id)
         }
       }
@@ -355,28 +349,17 @@ export default {
     },
     // 点击二级菜单======================================
     nav2(nav2Id) {
-      //console.log("nav2List:",this.nav2List);
+      console.log("3.二级菜单获取")
 
       this.nav2Id = nav2Id;
+
       for(var i=0;i<this.nav2List.length;i++){
         if(this.nav2List[i].SERIAL==nav2Id){
           this.checkItem=this.nav2List[i];
-          //console.log("nav2Id2:",this.nav2Id);
           let _this=this;
           setTimeout(function(){
             _this.$router.push({name: _this.checkItem.url,query:{nav1Id:_this.checkItem.parentId,nav2Id:nav2Id,title:_this.checkItem.name}})
-
           },400)
-
-          // for(var j=0;j<this.tabList.length;j++){
-          //   if(this.tabList[j].SERIAL==this.checkItem.SERIAL){
-          //     // //console.log("重复")
-          //     return
-          //   }
-          // }
-          // console.log("checkItem============", this.checkItem)
-          // this.tabList.push(this.checkItem)
-
         }
       }
 
@@ -386,6 +369,7 @@ export default {
     },
     tabNav2(nav2Item){
       console.log('nav2Item:',nav2Item);
+      this.nav2name=nav2Item.name;
       if(this.nav2Id==nav2Item.query.nav2Id) return;
 
       if(nav2Item.params.navId!=this.$route.params.navId){
