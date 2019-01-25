@@ -464,7 +464,8 @@
         </el-table-column>
         <el-table-column
           sortable
-           v-for="item in tableHead"
+           v-for="(item,ind) in tableHead"
+           :key="ind"
            :label="item.label"
            :prop="item.code">
         </el-table-column>
@@ -567,7 +568,7 @@
         </el-table-column>
         <el-table-column
           prop="PNR_CARDEXPIREDATESTR"
-          label="证件有效期截止日期"
+          label="证件有效期"
           width="140"
           sortable
           v-if="checkListPnrHc.indexOf('PNR_CARDEXPIREDATESTR')>-1">
@@ -580,11 +581,11 @@
           v-if="checkListPnrHc.indexOf('PNR_FLTNO')>-1">
         </el-table-column>
         <el-table-column
-          prop="PNR_FLTDATE1"
+          prop="PNR_FLTDATE1STR"
           label="航班日期"
           width="150"
           sortable
-          v-if="checkListPnrHc.indexOf('PNR_FLTDATE1')>-1">
+          v-if="checkListPnrHc.indexOf('PNR_FLTDATE1STR')>-1">
         </el-table-column>
         <el-table-column
           prop="PNR_FLTTYPE"
@@ -715,7 +716,7 @@
               :disabled="scope.row.is_addlv2_Country_Coded==0"
               popper-class="maxWidth">
               <div class="">
-                <el-row type="flex" class="detailFat" v-for="i in scope.row.addlv2_Country_Coded">
+                <el-row type="flex" class="detailFat" v-for="(i,ind) in scope.row.addlv2_Country_Coded" :key="ind">
                   <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
                 </el-row>
               </div>
@@ -737,7 +738,7 @@
               :disabled="scope.row.is_addlv2_City_Name==0"
               popper-class="maxWidth">
               <div class="">
-                <el-row type="flex" class="detailFat" v-for="i in scope.row.addlv2_City_Name">
+                <el-row type="flex" class="detailFat" v-for="(i,ind) in scope.row.addlv2_City_Name" :key="ind">
                   <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
                 </el-row>
               </div>
@@ -758,7 +759,7 @@
               :disabled="scope.row.is_addlv2_STREET_AND_NUMBER==0"
               popper-class="maxWidth">
               <div class="">
-                <el-row type="flex" class="detailFat" v-for="i in scope.row.addlv2_STREET_AND_NUMBER">
+                <el-row type="flex" class="detailFat" v-for="(i,ind) in scope.row.addlv2_STREET_AND_NUMBER" :key="ind">
                   <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
                 </el-row>
               </div>
@@ -779,7 +780,7 @@
               :disabled="scope.row.is_iftlv2_content==0"
               popper-class="maxWidth">
               <div>
-                <el-row type="flex" class="detailFat" v-for="i in scope.row.iftlv2_content">
+                <el-row type="flex" class="detailFat" v-for="i in scope.row.iftlv2_content" :key="ind">
                   <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
                 </el-row>
               </div>
@@ -800,7 +801,7 @@
               :disabled="scope.row.is_foplv4_PAYMENT_TYPE==0"
               popper-class="maxWidth">
               <div class="">
-                <el-row type="flex" class="detailFat" v-for="i in scope.row.foplv4_PAYMENT_TYPE">
+                <el-row type="flex" class="detailFat" v-for="(i,ind) in scope.row.foplv4_PAYMENT_TYPE" :key="ind">
                   <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
                 </el-row>
               </div>
@@ -821,7 +822,7 @@
               :disabled="scope.row.is_foplv4_AccountNumber==0"
               popper-class="maxWidth">
               <div class="">
-                <el-row type="flex" class="detailFat" v-for="i in scope.row.foplv4_AccountNumber">
+                <el-row type="flex" class="detailFat" v-for="(i,ind) in scope.row.foplv4_AccountNumber" :key="ind">
                   <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
                 </el-row>
               </div>
@@ -842,7 +843,7 @@
               :disabled="scope.row.is_msglv2_GR9SERIAL==0"
               popper-class="maxWidth">
               <div class="">
-                <el-row type="flex" class="detailFat" v-for="i in scope.row.msglv2_GR9SERIAL">
+                <el-row type="flex" class="detailFat" v-for="(i,ind) in scope.row.msglv2_GR9SERIAL" :key="ind">
                   <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
                 </el-row>
               </div>
@@ -863,7 +864,7 @@
               :disabled="scope.row.is_iftlv3_content==0"
               popper-class="maxWidth">
               <div class="">
-                <el-row type="flex" class="detailFat" v-for="i in scope.row.iftlv3_content">
+                <el-row type="flex" class="detailFat" v-for="(i,ind) in scope.row.iftlv3_content" :key="ind">
                   <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
                 </el-row>
               </div>
@@ -898,7 +899,7 @@
               :disabled="scope.row.is_tbddetailgr7_BAG_LICENSE_PLATE==0"
               popper-class="maxWidth">
               <div class="">
-                <el-row type="flex" class="detailFat" v-for="i in scope.row.tbddetailgr7_BAG_LICENSE_PLATE">
+                <el-row type="flex" class="detailFat" v-for="(i,ind) in scope.row.tbddetailgr7_BAG_LICENSE_PLATE" :key="ind">
                   <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
                 </el-row>
               </div>
@@ -919,7 +920,7 @@
               :disabled="scope.row.is_tbddetailgr7_CONSECUTIVE_TAGS_SERIAL_NUM==0"
               popper-class="maxWidth">
               <div class="">
-                <el-row type="flex" class="detailFat" v-for="i in scope.row.tbddetailgr7_CONSECUTIVE_TAGS_SERIAL_NUM">
+                <el-row type="flex" class="detailFat" v-for="(i,ind) in scope.row.tbddetailgr7_CONSECUTIVE_TAGS_SERIAL_NUM" :key="ind">
                   <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
                 </el-row>
               </div>
@@ -940,7 +941,7 @@
               :disabled="scope.row.is_tbddetailgr7_PLACE_OF_DESTINATION==0"
               popper-class="maxWidth">
               <div class="">
-                <el-row type="flex" class="detailFat" v-for="i in scope.row.tbddetailgr7_PLACE_OF_DESTINATION">
+                <el-row type="flex" class="detailFat" v-for="(i,ind) in scope.row.tbddetailgr7_PLACE_OF_DESTINATION" :key="ind">
                   <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
                 </el-row>
               </div>
@@ -968,7 +969,7 @@
               :disabled="scope.row.is_ftilv2_Frequent_T_Idenification==0"
               popper-class="maxWidth">
               <div class="">
-                <el-row type="flex" class="detailFat" v-for="i in scope.row.ftilv2_Frequent_T_Idenification">
+                <el-row type="flex" class="detailFat" v-for="(i,ind) in scope.row.ftilv2_Frequent_T_Idenification" :key="ind">
                   <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
                 </el-row>
               </div>
@@ -989,7 +990,7 @@
               :disabled="scope.row.is_ftilv2_Membership_Level==0"
               popper-class="maxWidth">
               <div class="">
-                <el-row type="flex" class="detailFat" v-for="i in scope.row.ftilv2_Membership_Level">
+                <el-row type="flex" class="detailFat" v-for="(i,ind) in scope.row.ftilv2_Membership_Level" :key="ind">
                   <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
                 </el-row>
               </div>
@@ -1010,7 +1011,7 @@
               :disabled="scope.row.is_monlv4_Monetary_amount_type==0"
               popper-class="maxWidth">
               <div class="">
-                <el-row type="flex" class="detailFat" v-for="i in scope.row.monlv4_Monetary_amount_type">
+                <el-row type="flex" class="detailFat" v-for="(i,ind) in scope.row.monlv4_Monetary_amount_type" :key="ind">
                   <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
                 </el-row>
               </div>
@@ -1031,7 +1032,7 @@
               :disabled="scope.row.is_monlv4_Amount==0"
               popper-class="maxWidth">
               <div class="">
-                <el-row type="flex" class="detailFat" v-for="i in scope.row.monlv4_Amount">
+                <el-row type="flex" class="detailFat" v-for="(i,ind) in scope.row.monlv4_Amount" :key="ind">
                   <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
                 </el-row>
               </div>
@@ -1052,7 +1053,7 @@
               :disabled="scope.row.is_monlv4_Currency==0"
               popper-class="maxWidth">
               <div class="">
-                <el-row type="flex" class="detailFat" v-for="i in scope.row.monlv4_Currency">
+                <el-row type="flex" class="detailFat" v-for="(i,ind) in scope.row.monlv4_Currency" :key="ind">
                   <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
                 </el-row>
               </div>
@@ -1073,7 +1074,7 @@
               :disabled="scope.row.is_txdlv4_Tax_Amount==0"
               popper-class="maxWidth">
               <div class="">
-                <el-row type="flex" class="detailFat" v-for="i in scope.row.txdlv4_Tax_Amount">
+                <el-row type="flex" class="detailFat" v-for="(i,ind) in scope.row.txdlv4_Tax_Amount" :key="ind">
                   <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
                 </el-row>
               </div>
@@ -1094,7 +1095,7 @@
               :disabled="scope.row.is_txdlv4_Currency==0"
               popper-class="maxWidth">
               <div class="">
-                <el-row type="flex" class="detailFat" v-for="i in scope.row.txdlv4_Currency">
+                <el-row type="flex" class="detailFat" v-for="(i,ind) in scope.row.txdlv4_Currency" :key="ind">
                   <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
                 </el-row>
               </div>
@@ -1115,7 +1116,7 @@
               :disabled="scope.row.is_txdlv4_Tax_Type==0"
               popper-class="maxWidth">
               <div class="">
-                <el-row type="flex" class="detailFat" v-for="i in scope.row.txdlv4_Tax_Type">
+                <el-row type="flex" class="detailFat" v-for="(i,ind) in scope.row.txdlv4_Tax_Type" :key="ind">
                   <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
                 </el-row>
               </div>
@@ -1143,7 +1144,7 @@
               :disabled="scope.row.is_ssrlv3_SPECIAL_REQUIREMENT_TYPE==0"
               popper-class="maxWidth">
               <div class="">
-                <el-row type="flex" class="detailFat" v-for="i in scope.row.ssrlv3_SPECIAL_REQUIREMENT_TYPE">
+                <el-row type="flex" class="detailFat" v-for="(i,ind) in scope.row.ssrlv3_SPECIAL_REQUIREMENT_TYPE" :key="ind">
                   <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
                 </el-row>
               </div>
@@ -1164,7 +1165,7 @@
               :disabled="scope.row.is_ssrlv3_FREETXT==0"
               popper-class="maxWidth">
               <div class="">
-                <el-row type="flex" class="detailFat" v-for="i in scope.row.ssrlv3_FREETXT">
+                <el-row type="flex" class="detailFat" v-for="(i,ind) in scope.row.ssrlv3_FREETXT" :key="ind">
                   <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
                 </el-row>
               </div>
@@ -1192,7 +1193,7 @@
               :disabled="scope.row.is_ssrlv2_SPECIAL_REQUIREMENT_TYPE==0"
               popper-class="maxWidth">
               <div class="">
-                <el-row type="flex" class="detailFat" v-for="i in scope.row.ssrlv2_SPECIAL_REQUIREMENT_TYPE">
+                <el-row type="flex" class="detailFat" v-for="(i,ind) in scope.row.ssrlv2_SPECIAL_REQUIREMENT_TYPE" :key="ind">
                   <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
                 </el-row>
               </div>
@@ -1213,7 +1214,7 @@
               :disabled="scope.row.is_ssrlv2_FREETXT==0"
               popper-class="maxWidth">
               <div class="">
-                <el-row type="flex" class="detailFat" v-for="i in scope.row.ssrlv2_FREETXT">
+                <el-row type="flex" class="detailFat" v-for="(i,ind) in scope.row.ssrlv2_FREETXT" :key="ind">
                   <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
                 </el-row>
               </div>
@@ -1241,7 +1242,7 @@
               :disabled="scope.row.is_tifchangegr11_Passenger_type==0"
               popper-class="maxWidth">
               <div class="">
-                <el-row type="flex" class="detailFat" v-for="i in scope.row.tifchangegr11_Passenger_type">
+                <el-row type="flex" class="detailFat" v-for="(i,ind) in scope.row.tifchangegr11_Passenger_type" :key="ind">
                   <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
                 </el-row>
               </div>
@@ -1269,7 +1270,7 @@
               :disabled="scope.row.is_tifchangegr11_OTHER_NAMES==0"
               popper-class="maxWidth">
               <div class="">
-                <el-row type="flex" class="detailFat" v-for="i in scope.row.tifchangegr11_OTHER_NAMES">
+                <el-row type="flex" class="detailFat" v-for="(i,ind) in scope.row.tifchangegr11_OTHER_NAMES" :key="ind">
                   <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
                 </el-row>
               </div>
@@ -1290,7 +1291,7 @@
               :disabled="scope.row.is_tifchangegr11_TRAVELLER_A_BY_INFANT_ID==0"
               popper-class="maxWidth">
               <div class="">
-                <el-row type="flex" class="detailFat" v-for="i in scope.row.tifchangegr11_TRAVELLER_A_BY_INFANT_ID">
+                <el-row type="flex" class="detailFat" v-for="(i,ind) in scope.row.tifchangegr11_TRAVELLER_A_BY_INFANT_ID" :key="ind">
                   <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
                 </el-row>
               </div>
@@ -1311,7 +1312,7 @@
               :disabled="scope.row.is_tifchangegr11_SPECIAL_REQUIREMENT_TYPE==0"
               popper-class="maxWidth">
               <div class="">
-                <el-row type="flex" class="detailFat" v-for="i in scope.row.tifchangegr11_SPECIAL_REQUIREMENT_TYPE">
+                <el-row type="flex" class="detailFat" v-for="(i,ind) in scope.row.tifchangegr11_SPECIAL_REQUIREMENT_TYPE" :key="ind">
                   <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
                 </el-row>
               </div>
@@ -1332,7 +1333,7 @@
               :disabled="scope.row.is_tifchangegr11_ssrfreetxt==0"
               popper-class="maxWidth">
               <div class="">
-                <el-row type="flex" class="detailFat" v-for="i in scope.row.tifchangegr11_ssrfreetxt">
+                <el-row type="flex" class="detailFat" v-for="(i,ind) in scope.row.tifchangegr11_ssrfreetxt" :key="ind">
                   <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
                 </el-row>
               </div>
@@ -1353,7 +1354,7 @@
               :disabled="scope.row.is_tifchangegr11_Status_Code==0"
               popper-class="maxWidth">
               <div class="">
-                <el-row type="flex" class="detailFat" v-for="i in scope.row.tifchangegr11_Status_Code">
+                <el-row type="flex" class="detailFat" v-for="(i,ind) in scope.row.tifchangegr11_Status_Code" :key="ind">
                   <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
                 </el-row>
               </div>
@@ -1381,7 +1382,7 @@
               :disabled="scope.row.is_tvlgr12_MARKETING_FLIGHT_NUMBER==0"
               popper-class="maxWidth">
               <div class="">
-                <el-row type="flex" class="detailFat" v-for="i in scope.row.tvlgr12_MARKETING_FLIGHT_NUMBER">
+                <el-row type="flex" class="detailFat" v-for="(i,ind) in scope.row.tvlgr12_MARKETING_FLIGHT_NUMBER" :key="ind">
                   <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
                 </el-row>
               </div>
@@ -1402,7 +1403,7 @@
               :disabled="scope.row.is_tvlgr12_MARKETING_AIRLINE_CODE==0"
               popper-class="maxWidth">
               <div class="">
-                <el-row type="flex" class="detailFat" v-for="i in scope.row.tvlgr12_MARKETING_AIRLINE_CODE">
+                <el-row type="flex" class="detailFat" v-for="(i,ind) in scope.row.tvlgr12_MARKETING_AIRLINE_CODE" :key="ind">
                   <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
                 </el-row>
               </div>
@@ -1423,7 +1424,7 @@
               :disabled="scope.row.is_tvlgr12_DEPARTURE_DATE==0"
               popper-class="maxWidth">
               <div class="">
-                <el-row type="flex" class="detailFat" v-for="i in scope.row.tvlgr12_DEPARTURE_DATE">
+                <el-row type="flex" class="detailFat" v-for="(i,ind) in scope.row.tvlgr12_DEPARTURE_DATE" :key="ind">
                   <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
                 </el-row>
               </div>
@@ -1444,7 +1445,7 @@
               :disabled="scope.row.is_tvlgr12_ARRIVAL_DATE==0"
               popper-class="maxWidth">
               <div class="">
-                <el-row type="flex" class="detailFat" v-for="i in scope.row.tvlgr12_ARRIVAL_DATE">
+                <el-row type="flex" class="detailFat" v-for="(i,ind) in scope.row.tvlgr12_ARRIVAL_DATE" :key="ind">
                   <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
                 </el-row>
               </div>
@@ -1465,7 +1466,7 @@
               :disabled="scope.row.is_tvlgr12_THE_LAST_DEPARTURE_AIRPORT==0"
               popper-class="maxWidth">
               <div class="">
-                <el-row type="flex" class="detailFat" v-for="i in scope.row.tvlgr12_THE_LAST_DEPARTURE_AIRPORT">
+                <el-row type="flex" class="detailFat" v-for="(i,ind) in scope.row.tvlgr12_THE_LAST_DEPARTURE_AIRPORT" :key="ind">
                   <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
                 </el-row>
               </div>
@@ -1486,7 +1487,7 @@
               :disabled="scope.row.is_tvlgr12_THE_FIRST_ARRIVAL_AIRPORT==0"
               popper-class="maxWidth">
               <div class="">
-                <el-row type="flex" class="detailFat" v-for="i in scope.row.tvlgr12_THE_FIRST_ARRIVAL_AIRPORT">
+                <el-row type="flex" class="detailFat" v-for="(i,ind) in scope.row.tvlgr12_THE_FIRST_ARRIVAL_AIRPORT" :key="ind">
                   <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
                 </el-row>
               </div>
@@ -1507,7 +1508,7 @@
               :disabled="scope.row.is_abigr10_TRAVEL_AGENT_IDENTIFICATION==0"
               popper-class="maxWidth">
               <div class="">
-                <el-row type="flex" class="detailFat" v-for="i in scope.row.abigr10_TRAVEL_AGENT_IDENTIFICATION">
+                <el-row type="flex" class="detailFat" v-for="(i,ind) in scope.row.abigr10_TRAVEL_AGENT_IDENTIFICATION" :key="ind">
                   <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
                 </el-row>
               </div>
@@ -1528,7 +1529,7 @@
               :disabled="scope.row.is_abigr10_PLACE==0"
               popper-class="maxWidth">
               <div class="">
-                <el-row type="flex" class="detailFat" v-for="i in scope.row.abigr10_PLACE">
+                <el-row type="flex" class="detailFat" v-for="(i,ind) in scope.row.abigr10_PLACE" :key="ind">
                   <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
                 </el-row>
               </div>
@@ -1549,7 +1550,7 @@
               :disabled="scope.row.is_abigr10_COMPANY_IDENTIFICATION==0"
               popper-class="maxWidth">
               <div class="">
-                <el-row type="flex" class="detailFat" v-for="i in scope.row.abigr10_COMPANY_IDENTIFICATION">
+                <el-row type="flex" class="detailFat" v-for="(i,ind) in scope.row.abigr10_COMPANY_IDENTIFICATION" :key="ind">
                   <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
                 </el-row>
               </div>
@@ -1570,7 +1571,7 @@
               :disabled="scope.row.is_eqngr8_NUMBER_OF_UNITS==0"
               popper-class="maxWidth">
               <div class="">
-                <el-row type="flex" class="detailFat" v-for="i in scope.row.eqngr8_NUMBER_OF_UNITS">
+                <el-row type="flex" class="detailFat" v-for="(i,ind) in scope.row.eqngr8_NUMBER_OF_UNITS" :key="ind">
                   <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
                 </el-row>
               </div>
@@ -1591,7 +1592,7 @@
               :disabled="scope.row.is_rcigr8_COMPANY_IDENTIFICATION==0"
               popper-class="maxWidth">
               <div class="">
-                <el-row type="flex" class="detailFat" v-for="i in scope.row.rcigr8_COMPANY_IDENTIFICATION">
+                <el-row type="flex" class="detailFat" v-for="(i,ind) in scope.row.rcigr8_COMPANY_IDENTIFICATION" :key="ind">
                   <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
                 </el-row>
               </div>
@@ -1612,7 +1613,7 @@
               :disabled="scope.row.is_rcigr8_RESERVATION_CONTROL_NUMBER==0"
               popper-class="maxWidth">
               <div class="">
-                <el-row type="flex" class="detailFat" v-for="i in scope.row.rcigr8_RESERVATION_CONTROL_NUMBER">
+                <el-row type="flex" class="detailFat" v-for="(i,ind) in scope.row.rcigr8_RESERVATION_CONTROL_NUMBER" :key="ind">
                   <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
                 </el-row>
               </div>
@@ -1999,7 +2000,7 @@ export default {
       selfRows:[
         {
             id:1,
-            attribute:'FLTDATE',
+            attribute:'FLTDATESTR',
             operator:'大于等于',
             type:31,
             relation:'',
@@ -2009,7 +2010,7 @@ export default {
         },
         {
             id:2,
-            attribute:'FLTDATE',
+            attribute:'FLTDATESTR',
             operator:'小于等于',
             type:31,
             relation:'and',
@@ -2036,7 +2037,7 @@ export default {
       selfRowsPnr:[
         {
             id:1,
-            attribute:'PNR_FLTDATE1',
+            attribute:'PNR_FLTDATE1STR',
             operator:'大于等于',
             type:31,
             relation:'',
@@ -2046,7 +2047,7 @@ export default {
         },
         {
             id:2,
-            attribute:'PNR_FLTDATE1',
+            attribute:'PNR_FLTDATE1STR',
             operator:'小于等于',
             type:31,
             relation:'and',
@@ -2078,13 +2079,13 @@ export default {
       selfCountPnr:0,
       bigBase:7,
       //iapi展示项数组
-      checkList:['iapiName','INTG_CHNNAME','GENDER','iapiBirthdayName','iapiNationaName','PASSPORTNO','FLTNO','FLTDATE','FLIGHTTYPE'],
+      checkList:['iapiName','INTG_CHNNAME','GENDER','iapiBirthdayName','iapiNationaName','PASSPORTNO','FLTNO','FLTDATESTR','FLIGHTTYPE'],
       showConfig:[],
       itemHis:'',
       showConfiglist:[],
       //pnr展示
-      checkListPnr:['pnrName','PNR_GENDER','pnrBirthdayName','pnrNationaName','PNR_PASSPORTNO','PNR_CARDEXPIREDATESTR','PNR_FLTNO','PNR_FLTDATE1','PNR_FLTTYPE','pnrCityfromName','pnrCitytoName','PNR_DEPARTDATESTR','PNR_ARRIVDATESTR','PNR_TKTNUMBER','PNR_RCI','PNR_RCIDATE','PNR_SPECIFIGSEAT'],
-      checkListPnrHc:['pnrName','PNR_GENDER','pnrBirthdayName','pnrNationaName','PNR_PASSPORTNO','PNR_CARDEXPIREDATESTR','PNR_FLTNO','PNR_FLTDATE1','PNR_FLTTYPE','pnrCityfromName','pnrCitytoName','PNR_DEPARTDATESTR','PNR_ARRIVDATESTR','PNR_TKTNUMBER','PNR_RCI','PNR_RCIDATE','PNR_SPECIFIGSEAT'],
+      checkListPnr:['pnrName','PNR_GENDER','pnrBirthdayName','pnrNationaName','PNR_PASSPORTNO','PNR_CARDEXPIREDATESTR','PNR_FLTNO','PNR_FLTDATE1STR','PNR_FLTTYPE','pnrCityfromName','pnrCitytoName','PNR_DEPARTDATESTR','PNR_ARRIVDATESTR','PNR_TKTNUMBER','PNR_RCI','PNR_RCIDATE','PNR_SPECIFIGSEAT'],
+      checkListPnrHc:['pnrName','PNR_GENDER','pnrBirthdayName','pnrNationaName','PNR_PASSPORTNO','PNR_CARDEXPIREDATESTR','PNR_FLTNO','PNR_FLTDATE1STR','PNR_FLTTYPE','pnrCityfromName','pnrCitytoName','PNR_DEPARTDATESTR','PNR_ARRIVDATESTR','PNR_TKTNUMBER','PNR_RCI','PNR_RCIDATE','PNR_SPECIFIGSEAT'],
       showConfigPnr:[],
       showConfiglistPnr:[],
       //iapi表格数据
@@ -2119,7 +2120,7 @@ export default {
           label:'航班号'
         },
         {
-          code:'FLTDATE',
+          code:'FLTDATESTR',
           label:'航班日期'
         },
         {
@@ -2304,6 +2305,8 @@ export default {
         return "男"
       } else if (val == "U") {
         return "未知"
+      }else {
+        return val
       }
     },
     fiftecr(val) {
@@ -2313,15 +2316,19 @@ export default {
         return "禁止打印登机牌";
       } else if (val == "2Z") {
         return "请再次核对";
-      } else {
+      } else if(val == "4Z"){
         return "数据错误";
+      }else {
+        return val
       }
     },
     fifterbj(val) {
       if (val == "1") {
         return "产生报警";
-      } else {
+      } else if(val == "0"){
         return "未产生报警";
+      }else {
+        return val
       }
     },
     fiftertype(val){
@@ -2331,6 +2338,8 @@ export default {
         return '出境'
       }else if(val == "A"){
         return '入出境'
+      }else {
+        return val
       }
     },
     fifteryn(val){
@@ -2338,6 +2347,8 @@ export default {
         return '否'
       }else if(val == 1){
         return '是'
+      }else {
+        return val
       }
     }
   },
@@ -2929,16 +2940,16 @@ export default {
     selfReset(){
       if(this.bigBase == 7){
         this.selfRows=[
-          {id:1,attribute:'FLTDATE',operator:'大于等于',type:31,relation:'',atype:formatDate(new Date(new Date() - 1000 * 60 * 60 * 24 * 7),'yyyyMMdd'),dataSort:'',isA:true},
-          {id:2,attribute:'FLTDATE',operator:'小于等于',type:31,relation:'and',atype:formatDate(new Date(),'yyyyMMdd'),dataSort:'',isA:false},
+          {id:1,attribute:'FLTDATESTR',operator:'大于等于',type:31,relation:'',atype:formatDate(new Date(new Date() - 1000 * 60 * 60 * 24 * 7),'yyyyMMdd'),dataSort:'',isA:true},
+          {id:2,attribute:'FLTDATESTR',operator:'小于等于',type:31,relation:'and',atype:formatDate(new Date(),'yyyyMMdd'),dataSort:'',isA:false},
         ];
         this.str = '';
         this.ffff='';
         this.selfQueryList(this.currentPage,this.showCount);
       }else if(this.bigBase == 8){
         this.selfRowsPnr=[
-          {id:1,attribute:'PNR_FLTDATE1',operator:'大于等于',type:31,relation:'',atype:formatDate(new Date(new Date() - 1000 * 60 * 60 * 24 * 7),'yyyyMMdd'),dataSort:'',isA:true},
-          {id:2,attribute:'PNR_FLTDATE1',operator:'小于等于',type:31,relation:'and',atype:formatDate(new Date(),'yyyyMMdd'),dataSort:'',isA:false},
+          {id:1,attribute:'PNR_FLTDATE1STR',operator:'大于等于',type:31,relation:'',atype:formatDate(new Date(new Date() - 1000 * 60 * 60 * 24 * 7),'yyyyMMdd'),dataSort:'',isA:true},
+          {id:2,attribute:'PNR_FLTDATE1STR',operator:'小于等于',type:31,relation:'and',atype:formatDate(new Date(),'yyyyMMdd'),dataSort:'',isA:false},
         ];
         this.strPnr = '';
         this.nnnn='';
@@ -2958,8 +2969,8 @@ export default {
           this.selfD.exclTitles = this.checkList;
           axios({
            method: 'post',
-           // url: 'http://192.168.99.248:8081/manage-platform/iapiHead/exportCustomFileIo/7/600',
-           url: this.$api.rootUrl+"/manage-platform/iapiHead/exportCustomFileIo/7/600",
+           url: 'http://192.168.99.248:8081/manage-platform/iapiHead/exportCustomFileIo/7/600',
+           // url: this.$api.rootUrl+"/manage-platform/iapiHead/exportCustomFileIo/7/600",
            data: this.selfD,
            responseType: 'blob'
            }).then(response => {
@@ -2968,8 +2979,8 @@ export default {
         }else if(this.selfTableList.length!=0){
           axios({
            method: 'post',
-           // url: 'http://192.168.99.248:8081/manage-platform/iapiHead/exportCheckColDataIo/7',
-           url: this.$api.rootUrl+"/manage-platform/iapiHead/exportCheckColDataIo/7",
+           url: 'http://192.168.99.248:8081/manage-platform/iapiHead/exportCheckColDataIo/7',
+           // url: this.$api.rootUrl+"/manage-platform/iapiHead/exportCheckColDataIo/7",
            data: {
              'exclTitles':this.checkList,
              'resultList':this.selfTableList
@@ -2984,8 +2995,8 @@ export default {
         if(this.selfTableListPnr.length!=0){
           axios({
            method: 'post',
-           // url: 'http://192.168.99.248:8081/manage-platform/iapiHead/exportCheckColDataIo/8',
-           url: this.$api.rootUrl+"/manage-platform/iapiHead/exportCheckColDataIo/8",
+           url: 'http://192.168.99.248:8081/manage-platform/iapiHead/exportCheckColDataIo/8',
+           // url: this.$api.rootUrl+"/manage-platform/iapiHead/exportCheckColDataIo/8",
            data: {
              'exclTitles':this.checkListPnr,
              'resultList':this.selfTableListPnr
@@ -2998,8 +3009,8 @@ export default {
           console.log(this.selfTableListPnr)
           axios({
            method: 'post',
-           // url: 'http://192.168.99.248:8081/manage-platform/iapiHead/exportCustomPnrFileIo',
-           url: this.$api.rootUrl+"/manage-platform/iapiHead/exportCustomPnrFileIo",
+           url: 'http://192.168.99.248:8081/manage-platform/iapiHead/exportCustomPnrFileIo',
+           // url: this.$api.rootUrl+"/manage-platform/iapiHead/exportCustomPnrFileIo",
            data: {
              'exclTitles':this.checkListPnr,
              'resultList':this.tableDataPnr
@@ -3104,22 +3115,22 @@ export default {
           let arr1=[];
           if(this.bigBase==7){
             this.selfRows=[
-              {id:1,attribute:'FLTDATE',operator:'大于等于',type:31,relation:'',atype:formatDate(new Date(new Date() - 1000 * 60 * 60 * 24 * 7),'yyyyMMdd'),dataSort:'',isA:true},
-              {id:2,attribute:'FLTDATE',operator:'小于等于',type:31,relation:'and',atype:formatDate(new Date(),'yyyyMMdd'),dataSort:'',isA:false},
+              {id:1,attribute:'FLTDATESTR',operator:'大于等于',type:31,relation:'',atype:formatDate(new Date(new Date() - 1000 * 60 * 60 * 24 * 7),'yyyyMMdd'),dataSort:'',isA:true},
+              {id:2,attribute:'FLTDATESTR',operator:'小于等于',type:31,relation:'and',atype:formatDate(new Date(),'yyyyMMdd'),dataSort:'',isA:false},
             ];
             this.str = r.data.config.AAAAA; //渲染
           }else if(this.bigBase==8){
             this.selfRowsPnr=[
-              {id:1,attribute:'PNR_FLTDATE1',operator:'大于等于',type:31,relation:'',atype:formatDate(new Date(new Date() - 1000 * 60 * 60 * 24 * 7),'yyyyMMdd'),dataSort:'',isA:true},
-              {id:2,attribute:'PNR_FLTDATE1',operator:'小于等于',type:31,relation:'and',atype:formatDate(new Date(),'yyyyMMdd'),dataSort:'',isA:false},
+              {id:1,attribute:'PNR_FLTDATE1STR',operator:'大于等于',type:31,relation:'',atype:formatDate(new Date(new Date() - 1000 * 60 * 60 * 24 * 7),'yyyyMMdd'),dataSort:'',isA:true},
+              {id:2,attribute:'PNR_FLTDATE1STR',operator:'小于等于',type:31,relation:'and',atype:formatDate(new Date(),'yyyyMMdd'),dataSort:'',isA:false},
             ];
             this.strPnr = r.data.config.AAAAA;
           }
           if(arr.length == 0){
             if(this.bigBase==7){
-              this.checkList = ['iapiName','INTG_CHNNAME','GENDER','iapiBirthdayName','iapiNationaName','PASSPORTNO','FLTNO','FLTDATE','FLIGHTTYPE'];
+              this.checkList = ['iapiName','INTG_CHNNAME','GENDER','iapiBirthdayName','iapiNationaName','PASSPORTNO','FLTNO','FLTDATESTR','FLIGHTTYPE'];
             }else if(this.bigBase==8){
-              this.checkListPnr = ['pnrName','PNR_GENDER','pnrBirthdayName','pnrNationaName','PNR_PASSPORTNO','PNR_CARDEXPIREDATESTR','PNR_FLTNO','PNR_FLTDATE1','PNR_FLTTYPE','pnrCityfromName','pnrCitytoName','PNR_DEPARTDATESTR','PNR_ARRIVDATESTR','PNR_TKTNUMBER','PNR_RCI','PNR_RCIDATE','PNR_SPECIFIGSEAT']
+              this.checkListPnr = ['pnrName','PNR_GENDER','pnrBirthdayName','pnrNationaName','PNR_PASSPORTNO','PNR_CARDEXPIREDATESTR','PNR_FLTNO','PNR_FLTDATE1STR','PNR_FLTTYPE','pnrCityfromName','pnrCitytoName','PNR_DEPARTDATESTR','PNR_ARRIVDATESTR','PNR_TKTNUMBER','PNR_RCI','PNR_RCIDATE','PNR_SPECIFIGSEAT']
             }
           }else{
             for(var i=0;i<arr.length;i++){

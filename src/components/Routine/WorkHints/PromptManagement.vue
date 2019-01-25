@@ -30,7 +30,8 @@
         :data="tableData"
         border
         style="width: 100%;"
-        >
+        class="o-table3"
+        @header-click="headerClick">
         <el-table-column
           label="序号"
           type="index"
@@ -38,20 +39,23 @@
         </el-table-column>
         <el-table-column
           prop="REGISTRATIONNAME"
-          label="登记人姓名">
+          label="登记人姓名"
+          sortable>
         </el-table-column>
         <el-table-column
           prop="REGISTRATIONACCOUNT"
           label="登记人账号"
-          >
+          sortable>
         </el-table-column>
         <el-table-column
           prop="VALIDITYSTR"
-          label="有效期">
+          label="有效期"
+          sortable>
         </el-table-column>
         <el-table-column
           prop="CONTENT"
-          label="提示内容">
+          label="提示内容"
+          sortable>
         </el-table-column>
         <el-table-column
           label="发送范围">
@@ -63,7 +67,7 @@
           label="操作" width="80">
           <template slot-scope="scope">
               <el-button type="text"  class="a-btn"  title="编辑" icon="el-icon-edit" @click="adds(1,scope.row)"></el-button>
-              <el-button type="text"  class="a-btn"  title="删除" icon="el-icon-tickets" @click="deletes(scope.row)"></el-button>
+              <el-button type="text"  class="a-btn"  title="删除" icon="el-icon-delete" @click="deletes(scope.row)"></el-button>
          </template>
         </el-table-column>
       </el-table>
@@ -100,27 +104,29 @@
     <el-dialog :title="dialogText" :visible.sync="addDialogVisible" width="500px" >
       <el-form :model="form" ref="addForm">
         <el-row type="flex"  class="mb-6">
-          <el-col :span="24" class="input-item">
+          <el-col :span="24" class="input-item my-form-group" data-scope="demo2" data-name="REGISTRATIONNAME" data-type="input"
+          v-validate-easy="[['required']]">
             <span class="yy-input-text"><font class="yy-color">*</font>登记人姓名：</span>
-            <el-input placeholder="请输入姓名" size="small" v-model="form.REGISTRATIONNAME"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
+            <el-input placeholder="请输入姓名" size="small" v-model="form.REGISTRATIONNAME"  class="yy-input-input"></el-input>
           </el-col>
         </el-row>
 
         <el-row type="flex"  class="mb-6">
-          <el-col :span="24" class="input-item">
+          <el-col :span="24" class="input-item my-form-group" data-scope="demo2" data-name="REGISTRATIONACCOUNT" data-type="input"
+          v-validate-easy="[['required']]">
             <span class="yy-input-text"><font class="yy-color">*</font>登记人账号：</span>
-            <el-input placeholder="请输入账号" size="small" v-model="form.REGISTRATIONACCOUNT"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
+            <el-input placeholder="请输入账号" size="small" v-model="form.REGISTRATIONACCOUNT"  class="yy-input-input"></el-input>
           </el-col>
         </el-row>
 
         <el-row type="flex"  class="mb-6">
-          <el-col :span="24" class="input-item">
+          <el-col :span="24" class="input-item my-form-group" data-scope="demo2" data-name="VALIDITYSTR" data-type="select"
+          v-validate-easy="[['required']]">
             <span class="yy-input-text"><font class="yy-color">*</font>有效期：</span>
               <el-date-picker
               v-model="form.VALIDITYSTR"
-              v-verify.change.blur ="{regs:'required',submit:'demo2'}"
               type="date" size="mini"
-              placeholder="请选择值班开始时间"
+              placeholder="请选择日期"
               class="yy-input-input"
               value-format="yyyyMMdd"
               :picker-options="pickerOptions">
@@ -129,7 +135,8 @@
         </el-row>
 
         <el-row type="flex"  class="mb-6">
-          <el-col :span="24" class="input-item">
+          <el-col :span="24" class="input-item my-form-group" data-scope="demo2" data-name="promptedStr" data-type="multiple"
+          v-validate-easy="[['required']]">
             <span class="yy-input-text"><font class="yy-color">*</font>范围：</span>
             <el-select v-model="form.promptedStr" filterable clearable placeholder="请选择" size="small" class="width-input"  multiple @visible-change="range" @change="rangeReal(form.promptedStr)">
               <el-option
@@ -143,8 +150,9 @@
         </el-row>
 
         <el-row type="flex" class="mb-6" >
-          <el-col :span="24" class="input-item">
-            <span class="yy-input-text">提示内容：</span>
+          <el-col :span="24" class="input-item my-form-group" data-scope="demo2" data-name="CONTENT" data-type="textarea"
+          v-validate-easy="[['required']]">
+            <span class="yy-input-text"><font class="yy-color">*</font>提示内容：</span>
            <el-input type="textarea" placeholder="请输入内容" :autosize="{ minRows: 3, maxRows: 6}" v-model="form.CONTENT" class="yy-input-input"></el-input>
           </el-col>
         </el-row>
@@ -206,15 +214,16 @@ export default {
   },
   mounted() {
     this.range()
-    console.log(this.promptRange);
-    this.getList(this.CurrentPage, this.pageSize, this.pd);
+    // this.getList(this.CurrentPage, this.pageSize, this.pd);
   },
   activated() {
 
-    this.getList(this.CurrentPage, this.pageSize, this.pd);
+    // this.getList(this.CurrentPage, this.pageSize, this.pd);
   },
   methods: {
-
+    headerClick(column,event){
+      event.target.title=column.label
+    },
     handleSelectionChange(val) {
       this.multipleSelection = val;
     },
@@ -242,7 +251,6 @@ export default {
     },
     adds(n, i) {
       this.addDialogVisible = true;
-
       if (n != 0) {
         this.tp = 1;
         // this.form = i;
@@ -254,47 +262,45 @@ export default {
         this.tp = 0;
         this.dialogText="新增";
       }
-
+      this.V.$reset('demo2')
     },
 
 
 
     addItem(formName) {
-      if (this.$validator.listener.demo2) {
-        const result = this.$validator.verifyAll('demo2')
-        if (result.indexOf(false) > -1) {
-          return;
-        }
-      }
-      this.form.promptedArr = this.pro;
-      var url = '/manage-platform/promptManage/savePromptEntity';
-      if(this.tp==1){
-        console.log(this.promptRange);
-        console.log(this.form.promptedStr);
-        this.rangeReal(this.form.promptedStr)
+      this.V.$submit('demo2', (canSumit,data) => {
+        // canSumit为true时，则所有该scope的所有表单验证通过
+        if(!canSumit) return
         this.form.promptedArr = this.pro;
-        delete this.form.prompted;
-        // this.form.promptedArr = this.form.prompted
-        url = '/manage-platform/promptManage/editPrompt';
-      }
-      this.$api.post(url, this.form,
-        r => {
-          console.log(r);
-          if (r.success) {
-            this.$message({
-              message: '保存成功！',
-              type: 'success'
-            });
-          } else {
-            this.$message.error('保存失败！');
-          }
-          this.$refs[formName].resetFields();
-          this.addDialogVisible = false;
-          this.getList(this.CurrentPage, this.pageSize, this.pd);
-          // this.tableData=r.Data.ResultList;
-        }, e => {
-          this.$message.error('失败了');
-        })
+        var url = '/manage-platform/promptManage/savePromptEntity';
+        if(this.tp==1){
+          console.log(this.promptRange);
+          console.log(this.form.promptedStr);
+          this.rangeReal(this.form.promptedStr)
+          this.form.promptedArr = this.pro;
+          delete this.form.prompted;
+          // this.form.promptedArr = this.form.prompted
+          url = '/manage-platform/promptManage/editPrompt';
+        }
+        this.$api.post(url, this.form,
+          r => {
+            console.log(r);
+            if (r.success) {
+              this.$message({
+                message: '保存成功！',
+                type: 'success'
+              });
+            } else {
+              this.$message.error('保存失败！');
+            }
+            this.$refs[formName].resetFields();
+            this.addDialogVisible = false;
+            this.getList(this.CurrentPage, this.pageSize, this.pd);
+            // this.tableData=r.Data.ResultList;
+          }, e => {
+            this.$message.error('失败了');
+          })
+      })
     },
 
     deletes(i) {
@@ -357,7 +363,6 @@ export default {
       }
     },
     sendRange(val){
-      console.log(val)
       if(val){
         var str = val.join(' ');
         return str

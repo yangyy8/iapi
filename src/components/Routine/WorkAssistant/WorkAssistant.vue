@@ -37,7 +37,7 @@
       </el-row>
     </div>
     <div class="middle">
-        <span class="tubiao hand borderL" :class="{'checked':page==1}" @click="qq">文件管理</span><span class="tubiao hand borderR" :class="{'checked':page==0}" @click="page=0;getList(CurrentPage,pageSize,cdt)">通讯录</span>
+        <span class="tubiao hand borderL" :class="{'checked':page==1}" @click="qq">文件管理</span><span class="tubiao hand borderR" :class="{'checked':page==0}" @click="page=0">通讯录</span>
         <div id="div1" v-show="page==0">
           <el-row class="margin-bt">
             <el-button type="primary" size="mini" @click="adds(0,'');form={}">新增</el-button>
@@ -47,7 +47,9 @@
           <el-table
             :data="tableData"
             border
-            style="width: 100%;">
+            style="width: 100%;"
+            class="o-table3"
+            @header-click="headerClick">
             <el-table-column
               label="序号"
               type="index"
@@ -59,6 +61,7 @@
               width="140">
             </el-table-column>
             <el-table-column
+              prop="SEX"
               label="性别" sortable>
               <template slot-scope="scope">
                 {{ scope.row.SEX | fiftersex }}
@@ -88,7 +91,7 @@
               label="操作" width="80">
               <template slot-scope="scope">
                 <el-button type="text"  class="a-btn"  title="编辑" icon="el-icon-edit" @click="adds(1,scope.row)"></el-button>
-                <el-button type="text"  class="a-btn"  title="删除" icon="el-icon-tickets" @click="deletes(scope.row)">删除</el-button>
+                <el-button type="text"  class="a-btn"  title="删除" icon="el-icon-delete" @click="deletes(scope.row)"></el-button>
              </template>
             </el-table-column>
           </el-table>
@@ -126,7 +129,9 @@
           <el-table
             :data="mtableData"
             border
-            style="width: 100%;">
+            style="width: 100%;"
+            class="o-table3"
+            @header-click="headerClick">
             <el-table-column
               label="序号"
               type="index"
@@ -154,10 +159,11 @@
               label="文件创建时间" sortable>
             </el-table-column>
             <el-table-column
-              label="操作">
+              label="操作"
+              width="80">
               <template slot-scope="scope">
-                <el-button class="table-btn" size="mini" plain icon="el-icon-edit"><a :href="fileLoad = scope.row.FILESERIAL" class="acolor">文件下载</a></el-button>
-                <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="deletes(scope.row)">删除</el-button>
+                <el-button type="text"  class="a-btn"  title="文件下载" icon="el-icon-download"><a :href="fileLoad = scope.row.FILESERIAL" class="acolor"></a></el-button>
+                <el-button type="text"  class="a-btn"  title="删除" icon="el-icon-tickets" @click="deletes(scope.row)"></el-button>
              </template>
             </el-table-column>
           </el-table>
@@ -328,7 +334,8 @@
         <el-button type="primary" @click="planSave">保存</el-button>
       </span>
     </el-dialog>
-    <!-- action="http://192.168.99.245:8080/manage-platform/addressManage/readExcel" -->
+
+    <!--action="http://192.168.99.248:8081/manage-platform/addressManage/readExcel"  -->
     <el-dialog title="批量导入" :visible.sync="uploadDialogVisible"   width="640px"
     :before-close="handleClose">
       <el-form :model="importform" ref="importForm">
@@ -420,16 +427,19 @@ export default {
     }
   },
   mounted() {
-    this.getList(this.CurrentPage, this.pageSize, this.cdt)
-    this.mgetList(this.mCurrentPage,this.mpageSize,this.mcdt)
+    // this.getList(this.CurrentPage, this.pageSize, this.cdt)
+    // this.mgetList(this.mCurrentPage,this.mpageSize,this.mcdt)
   },
   activated(){
 
   },
   methods: {
+    headerClick(column,event){
+      event.target.title=column.label
+    },
     qq(){
       this.page=1;
-      this.mgetList(this.mCurrentPage,this.mpageSize,this.mcdt);
+      // this.mgetList(this.mCurrentPage,this.mpageSize,this.mcdt);
     },
     handleSelectionChange(val) {
     this.multipleSelection = val;
@@ -491,6 +501,14 @@ export default {
       this.fileData=event.target.files;
     },
     upload(){//上传文件
+      console.log(this.fileData);
+      if(this.fileData == null){
+        this.$message({
+          message: '您还未选择文件',
+          type: 'warning'
+        });
+        return
+      }
       var formData = new FormData();
       let arr=this.fileData;
       for(var i=0;i<arr.length;i++){
@@ -535,6 +553,7 @@ export default {
           message: '恭喜你，导入成功！',
           type: 'success'
         });
+        this.getList(this.CurrentPage, this.pageSize, this.cdt)
       }else{
         this.$message({
           duration:3000,
@@ -595,7 +614,7 @@ export default {
         })
     },
     deleteItem(i){//删除文件夹名称
-      this.$confirm('方案删除后将无法恢复, 是否继续?', '提示', {
+      this.$confirm('文件夹名删除后将无法恢复, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
@@ -688,19 +707,15 @@ export default {
        var url = "/manage-platform/addressManage/save";
       this.$api.post(url, this.form,
         r => {
-          console.log(r);
           if (r.success) {
             this.$message({
               message: '保存成功！',
               type: 'success'
             });
-          } else {
-            this.$message.error('保存失败！');
+            this.addDialogVisible = false;
+            this.getList(this.CurrentPage, this.pageSize, this.cdt);
           }
           this.$refs[formName].resetFields();
-          this.addDialogVisible = false;
-          this.getList(this.CurrentPage, this.pageSize, this.cdt);
-          // this.tableData=r.Data.ResultList;
         }, e => {
           this.$message.error('失败了');
         })
@@ -710,7 +725,7 @@ export default {
       let p = {
         "SERIAL": i.SERIAL
       };
-      this.$confirm('您是否确认删除此部门？', '提示', {
+      this.$confirm('您是否确认删除本条数据？', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'

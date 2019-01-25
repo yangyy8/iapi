@@ -110,44 +110,56 @@
         :data="tableData"
         border
         style="width: 100%;"
-        >
+        class="o-table3"
+        @header-click="headerClick">
         <el-table-column
           prop="CONSULTFROM"
-          label="咨询来源">
+          label="咨询来源"
+          sortable>
           <template slot-scope="scope">
             {{ scope.row.CONSULTFROM | fifter3}}
           </template>
         </el-table-column>
         <el-table-column
           prop="TERMINAL"
-          label="航站">
+          label="航站"
+          sortable>
         </el-table-column>
         <el-table-column
           prop="CONSULTNAME"
-          label="咨询人">
+          label="咨询人"
+          sortable>
         </el-table-column>
         <el-table-column
           prop="NAME"
-          label="被咨询人">
+          label="被咨询人"
+          sortable>
         </el-table-column>
         <el-table-column
-          label="咨询方式">
+          prop="CONSULTFROMTYPE"
+          label="咨询方式"
+          sortable>
           <template slot-scope="scope">
             {{scope.row.CONSULTFROMTYPE|fifter2}}
           </template>
         </el-table-column>
         <el-table-column
           prop="CREATETIMESTR"
-          label="咨询时间">
+          label="咨询时间"
+          sortable>
         </el-table-column>
         <el-table-column
-          label="问题类型">
+          prop="CONSULTTYPE"
+          label="问题类型"
+          sortable>
           <template slot-scope="scope">
             {{scope.row.CONSULTTYPE|fifter1}}
           </template>
         </el-table-column>
         <el-table-column
-          label="联系方式">
+          prop="CONSULTFROMTYPE"
+          label="联系方式"
+          sortable>
           <template slot-scope="scope">
             <span v-if="scope.row.CONSULTFROMTYPE == 0">{{scope.row.PHONE}}</span>
             <span v-else-if="scope.row.CONSULTFROMTYPE == 1">{{scope.row.CONSULTFAX}}</span>
@@ -202,59 +214,73 @@
         :data="tableDataD"
         border
         style="width: 100%;"
-        v-if="wenType==0">
+        class="o-table3"
+        v-if="wenType==0"
+        @header-click="headerClick">
         <el-table-column
           prop="NAME"
-          label="姓名">
+          label="姓名"
+          sortable>
         </el-table-column>
         <el-table-column
           prop="CARDNUM"
-          label="证件号码">
+          label="证件号码"
+          sortable>
         </el-table-column>
         <el-table-column
           prop="EXPIREDATESTR"
           label="证件有效期"
-          width="160">
+          width="160"
+          sortable>
         </el-table-column>
         <el-table-column
           prop="NATIONALITY"
           label="国籍/地区"
-          width="120">
+          width="120"
+          sortable>
         </el-table-column>
         <el-table-column
           prop="GENDER"
-          label="性别">
+          label="性别"
+          sortable>
         </el-table-column>
         <el-table-column
           prop="DATEOFBIRTH"
           label="出生日期"
-          width="160">
+          width="160"
+          sortable>
         </el-table-column>
         <el-table-column
           prop="FLIGHTTYPE"
           label="出入境类型"
-          width="120">
+          width="120"
+          sortable>
         </el-table-column>
         <el-table-column
           prop="FLTNO"
-          label="航班号">
+          label="航班号"
+          sortable>
         </el-table-column>
         <el-table-column
           prop="DEPARTDATESTR"
           label="计划起飞时间"
-          width="160">
+          width="160"
+          sortable>
         </el-table-column>
         <el-table-column
           prop="VISANUMBER"
-          label="签证号码">
+          label="签证号码"
+          sortable>
         </el-table-column>
         <el-table-column
           prop="VISATYPE"
-          label="签证种类">
+          label="签证种类"
+          sortable>
         </el-table-column>
         <el-table-column
           prop="INSTRUCT_OLD"
-          label="反馈状态">
+          label="反馈状态"
+          sortable>
         </el-table-column>
       </el-table>
       <el-row :gutter="2">
@@ -333,7 +359,7 @@ export default {
     // this.cdt.ENDTIME=formatDate(end,'yyyyMMddhhmmss');
   },
   activated(){
-    this.getList(this.CurrentPage, this.pageSize, this.pd);
+    // this.getList(this.CurrentPage, this.pageSize, this.pd);
   },
   filters: {
     fifter1(val) {
@@ -369,6 +395,9 @@ export default {
     }
   },
   methods: {
+    headerClick(column,event){
+      event.target.title=column.label
+    },
     handleSelectionChange(val) {
       this.multipleSelection = val;
     },

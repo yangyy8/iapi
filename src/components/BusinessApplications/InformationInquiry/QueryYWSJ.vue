@@ -26,7 +26,6 @@
                 <span class="input-text"><i class="t-must">*</i>事件产生时间：</span>
                 <div class="input-input t-flex t-date">
                    <el-date-picker
-                   v-verify.input.blur="{regs:'required',submit:'timeDemo'}"
                    v-model="pd.startCreatetime"
                    type="datetime"
                    size="small"
@@ -36,7 +35,6 @@
                   </el-date-picker>
                    <span class="septum">-</span>
                    <el-date-picker
-                    v-verify.input.blur="{regs:'required',submit:'timeDemo'}"
                     v-model="pd.endCreatetime"
                     type="datetime"
                     size="small"
@@ -59,17 +57,21 @@
                 <span class="input-text"><i class="t-must">*</i>处理时间：</span>
                 <div class="input-input t-flex t-date">
                  <el-date-picker
-                 v-verify.input.blur="{regs:'required',submit:'timeDemo'}"
                  v-model="pd.startDealtime"
-                 type="datetime" size="small" value-format="yyyyMMddHHmmss"
-                 placeholder="开始时间" align="right" :picker-options="pickerOptions2">
+                 type="datetime"
+                 size="small"
+                 value-format="yyyyMMddHHmmss"
+                 placeholder="开始时间"
+                 :picker-options="pickerOptions2">
                </el-date-picker>
                  <span class="septum">-</span>
                <el-date-picker
-                  v-verify.input.blur="{regs:'required',submit:'timeDemo'}"
                   v-model="pd.endDealtime"
-                  type="datetime" size="small" align="right" value-format="yyyyMMddHHmmss"
-                  placeholder="结束时间"  :picker-options="pickerOptions3">
+                  type="datetime"
+                  size="small"
+                  value-format="yyyyMMddHHmmss"
+                  placeholder="结束时间"
+                  :picker-options="pickerOptions3">
               </el-date-picker>
             </div>
               </el-col>
@@ -84,13 +86,15 @@
 
     <div class="middle">
       <el-table
+        class="o-table3"
         :data="tableData"
         border
+        @header-click="headerClick"
         style="width: 100%;">
         <el-table-column
           prop="typeStr"
-
-          label="事件类型">
+          label="事件类型"
+          sortable>
         </el-table-column>
         <el-table-column
           prop="createtimeStr"
@@ -100,7 +104,7 @@
         <el-table-column
           prop="name"
           label="处理人"
-          >
+          sortable>
         </el-table-column>
         <el-table-column
           prop="dealtimeStr"
@@ -110,13 +114,12 @@
         <el-table-column
           prop="content"
           label="事件描述"
-          >
+          sortable>
         </el-table-column>
 
         <el-table-column
           width="70"
-          label="操作"
-          >
+          label="操作">
           <template slot-scope="scope">
               <el-button type="text"  class="a-btn"  title="详情" icon="el-icon-tickets" @click="details(scope.row)"></el-button>
          </template>
@@ -731,6 +734,9 @@ export default {
     // this.pd.endDealtime=formatDate(end,'yyyyMMddhhmmss');
   },
   methods: {
+    headerClick(column,event){
+      event.target.title=column.label
+    },
     handleSelectionChange(val) {
       this.multipleSelection = val;
     },
@@ -747,10 +753,21 @@ export default {
       console.log(`当前页: ${val}`);
     },
     getList(currentPage, showCount, pd) {
-      const result = this.$validator.verifyAll('timeDemo')
-       if (result.indexOf(false) > -1) {
-         return
-       }
+      console.log(this.pd.startCreatetime);
+      if(this.pd.startCreatetime==''||this.pd.endCreatetime==''||this.pd.startCreatetime==null||this.pd.endCreatetime==null){
+        this.$message({
+          message: '事件产生时间不能为空',
+          type: 'warning'
+        });
+        return
+      }
+      if(this.pd.startDealtime==''||this.pd.endDealtime==''||this.pd.startDealtime==null||this.pd.endDealtime==null){
+        this.$message({
+          message: '处理时间不能为空',
+          type: 'warning'
+        });
+        return
+      }
       if(dayGap(this.pd.startCreatetime,this.pd.endCreatetime,1)>30){
         this.$alert('事件产生时间查询时间间隔不能超过一个月', '提示', {
           confirmButtonText: '确定',

@@ -17,7 +17,6 @@
               <span class="input-text"><i class="t-must">*</i>航班日期：</span>
               <div class="input-input t-flex t-date">
                <el-date-picker
-               v-verify.input.blur="{regs:'required',submit:'timeDemo'}"
                v-model="pd.scheduledeparturetime"
                type="datetime" size="small"
                placeholder="开始时间"
@@ -27,7 +26,6 @@
              </el-date-picker>
                <span class="septum">-</span>
              <el-date-picker
-                v-verify.input.blur="{regs:'required',submit:'timeDemo'}"
                 v-model="pd.schedulearrivetime"
                 type="datetime" size="small"
                 placeholder="结束时间"
@@ -45,8 +43,6 @@
                  <el-option value="A" label="A - 入出境"></el-option>
                </el-select>
             </el-col>
-
-
 
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">航班状态：</span>
@@ -122,7 +118,9 @@
 
       <el-table
         :data="tableData"
+        class="o-table3"
         border
+        @header-click="headerClick"
         style="width: 100%;"
         @cell-click="rowClick">
         <el-table-column
@@ -137,8 +135,10 @@
           label="航班日期">
         </el-table-column>
         <el-table-column
+          prop="flighttype"
           label="出入标识"
-          width="100px">
+          width="100px"
+          sortable>
           <template slot-scope="scope">
             {{scope.row.flighttype | fifter1}}
           </template>
@@ -159,20 +159,24 @@
         </el-table-column>
         <el-table-column
           prop="checkincount"
-          label="值机人数">
+          label="值机人数"
+          sortable>
         </el-table-column>
         <el-table-column
           prop="boardingcount"
-          label="登机人数">
+          label="登机人数"
+          sortable>
           <el-table-column
           prop="boardingcount"
           label="已登机"
-          width="120">
+          width="120"
+          sortable>
         </el-table-column>
         <el-table-column
           prop="chkNobrd"
           label="未登机"
-          width="120">
+          width="120"
+          sortable>
         </el-table-column>
         </el-table-column>
         <el-table-column
@@ -232,7 +236,7 @@
       title="详情"
       :visible.sync="numberDialogVisible"
       width="600px">
-      <el-form v-for="i in tableInfo">
+      <el-form v-for="(i,ind) in tableInfo" :key="ind">
         <el-row type="flex"  class="t-detail">
           <el-col :span="8" class="t-el-content"><div class="t-el-text">姓名：</div><div class="t-el-sub">{{i.CNAME}}</div></el-col>
           <el-col :span="8" class="t-el-content"><div class="t-el-text">性别：</div><div class="t-el-sub">{{i.GENDERNAME}}</div></el-col>
@@ -330,24 +334,30 @@ export default {
     // this.pd.schedulearrivetime=formatDate(end,'yyyyMMddhhmm');
   },
   methods: {
-    rowClick(row, column, cell, event){  
+    headerClick(column,event){
+      console.log(column,event)
+      event.target.title=column.label
+    },
+    rowClick(row, column, cell, event){
       console.log(row.flightRecordnum)
       console.log(column.property);
-      let p = {
-        'flightRecordnum':row.flightRecordnum,
-        'otherStr':column.property
-      }
-      this.$api.post('/manage-platform/iapi/queryIapiTableInfo',p,
-       r =>{
-         if(r.success){
-           this.tableInfo = r.data;
-           if(this.tableInfo.length==0){
-             this.$message('没有检索到详情');
-           }else{
-             this.numberDialogVisible = true;
+      if(column.property=='checkincount'||column.property=='boardingcount'||column.property=='boardingcount'||column.property=='chkNobrd'){
+        let p = {
+          'flightRecordnum':row.flightRecordnum,
+          'otherStr':column.property
+        }
+        this.$api.post('/manage-platform/iapi/queryIapiTableInfo',p,
+         r =>{
+           if(r.success){
+             this.tableInfo = r.data;
+             if(this.tableInfo.length==0){
+               this.$message('没有检索到详情');
+             }else{
+               this.numberDialogVisible = true;
+             }
            }
-         }
-       })
+         })
+      }
     },
     handleSelectionChange(val) {
       this.multipleSelection = val;
@@ -361,10 +371,13 @@ export default {
       console.log(`当前页: ${val}`);
     },
     getList(currentPage, showCount, pd) {
-      const result = this.$validator.verifyAll('timeDemo')
-       if (result.indexOf(false) > -1) {
-         return
-       }
+      if(this.pd.scheduledeparturetime==''||this.pd.schedulearrivetime==''||this.pd.scheduledeparturetime==null||this.pd.schedulearrivetime==null){
+        this.$message({
+         message: '航班日期不能为空',
+         type: 'warning'
+       });
+       return
+      }
       if(dayGap(this.pd.scheduledeparturetime,this.pd.schedulearrivetime,0)>30){
         this.$alert('查询时间间隔不能超过一个月', '提示', {
           confirmButtonText: '确定',

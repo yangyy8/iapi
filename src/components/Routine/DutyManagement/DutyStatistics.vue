@@ -11,7 +11,6 @@
               <span class="input-text ttt"><i class="t-must">*</i>值班月份：</span>
               <div class="input-input">
                  <el-date-picker
-                 v-verify.input.blur="{regs:'required',submit:'timeDemo1'}"
                  v-model="cdt.TIME"
                  size="small"
                  value-format="yyyyMM"
@@ -61,13 +60,15 @@
       </el-row> -->
     </div>
     <div class="middle">
-        <span class="tubiao hand borderL" :class="{'checked':page==0}" @click="qq">日历</span><span class="tubiao hand borderR" :class="{'checked':page==1}" @click="page=1;getList(CurrentPage,pageSize,cdt)">列表</span>
+        <span class="tubiao hand borderL" :class="{'checked':page==0}" @click="qq">日历</span><span class="tubiao hand borderR" :class="{'checked':page==1}" @click="page=1">列表</span>
         <el-button type="success" size="mini" @click="tableDown">导出</el-button>
         <div id="div1" v-show="page==1" class="mt-10">
           <el-table
             :data="tableData"
             border
-            style="width: 100%;">
+            style="width: 100%;"
+            class="o-table3"
+            @header-click="headerClick">
             <el-table-column
               label="序号"
               type="index"
@@ -243,9 +244,12 @@ export default {
   },100)
   },
   activated(){
-    this.getGraph(this.cdt);
+    // this.getGraph(this.cdt);
   },
   methods: {
+    headerClick(column,event){
+      event.target.title=column.label
+    },
     searchD(){
       if(this.page==0){
         this.getGraph(this.cdt)
@@ -255,7 +259,7 @@ export default {
     },
     qq(){
       this.page=0;
-      this.getGraph(this.cdt);
+      // this.getGraph(this.cdt);
     },
     handleSelectionChange(val) {
     this.multipleSelection = val;
@@ -272,10 +276,13 @@ export default {
       console.log(`当前页: ${val}`);
     },
     getList(currentPage, showCount, pd) {
-      const result = this.$validator.verifyAll('timeDemo1')
-       if (result.indexOf(false) > -1) {
-         return
-       }
+      if(this.cdt.TIME==''||this.cdt.TIME==null){
+        this.$message({
+          message: '值班月份不能为空',
+          type: 'warning'
+        });
+        return
+      }
       let p = {
         "currentPage": currentPage,
         "showCount": showCount,
@@ -288,10 +295,13 @@ export default {
         })
     },
     getGraph(pd){
-      const result = this.$validator.verifyAll('timeDemo1')
-       if (result.indexOf(false) > -1) {
-         return
-       }
+      if(this.cdt.TIME==''||this.cdt.TIME==null){
+        this.$message({
+          message: '值班月份不能为空',
+          type: 'warning'
+        });
+        return
+      }
       this.$api.post('/manage-platform/watch/queryCensusGraph', this.cdt,
         r => {
           if(r.success){

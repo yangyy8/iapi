@@ -113,7 +113,9 @@
                   <el-table
                     :data="tableData"
                     border
-                    style="width: 100%;">
+                    style="width: 100%;"
+                    class="o-table3"
+                    @header-click="headerClick">
                     <el-table-column
                       prop="number"
                       type="index"
@@ -122,29 +124,36 @@
                     </el-table-column>
                     <el-table-column
                       prop="tid"
-                      label="报文号">
+                      label="报文号"
+                      sortable>
                     </el-table-column>
                     <el-table-column
                       prop="flightRecordnum"
-                      label="航班号">
+                      label="航班号"
+                      sortable>
                     </el-table-column>
                     <el-table-column
                       prop="cmpbegintime"
                       label="报文接收时间"
-                      width="200">
+                      width="200"
+                      sortable>
                       <template  slot-scope="scope">
                         <span>{{scope.row.cmpbegintime}}</span>
                       </template>
                     </el-table-column>
                     <el-table-column
+                      prop="cmpendtime"
                       label="校验比对结束时间"
-                      width='200'>
+                      width='200'
+                      sortable>
                       <template  slot-scope="scope">
                         <span>{{scope.row.cmpendtime}}</span>
                       </template>
                     </el-table-column>
                     <el-table-column
-                      label="耗时(毫秒)">
+                      prop="average"
+                      label="耗时(毫秒)"
+                      sortable>
                       <template  slot-scope="scope">
                         <span :class="{'color':scope.row.average>=1000}">{{scope.row.average}}</span>
                       </template>
@@ -155,8 +164,10 @@
                       width="200">
                     </el-table-column> -->
                     <el-table-column
+                      prop="status"
                       label="监控状态"
-                      width="200">
+                      width="200"
+                      sortable>
                       <template  slot-scope="scope">
                         <span>{{scope.row.status|statusDis}}</span>
                       </template>
@@ -203,7 +214,9 @@
                   <el-table
                     :data="htableData"
                     border
-                    style="width: 100%;">
+                    style="width: 100%;"
+                    class="o-table3"
+                    @header-click="headerClick">
                     <el-table-column
                     type="index"
                       prop="number"
@@ -212,32 +225,39 @@
                     </el-table-column>
                     <el-table-column
                       prop="year"
-                      label="年份">
+                      label="年份"
+                      sortable>
                     </el-table-column>
                     <el-table-column
                       prop="createtimeStr"
                       label="统计日期"
-                      width="180">
+                      width="180"
+                      sortable>
                     </el-table-column>
                     <el-table-column
                       prop="tcount"
-                      label="统计条数">
+                      label="统计条数"
+                      sortable>
                     </el-table-column>
                     <el-table-column
                       prop="consumetime"
-                      label="平均耗时(毫秒)">
+                      label="平均耗时(毫秒)"
+                      sortable>
                     </el-table-column>
                     <el-table-column
                       prop="interval"
-                      label="统计区间">
+                      label="统计区间"
+                      sortable>
                     </el-table-column>
                     <el-table-column
                       prop="begintimeStr"
-                      label="区间开始时间">
+                      label="区间开始时间"
+                      sortable>
                     </el-table-column>
                     <el-table-column
                       prop="endtimeStr"
-                      label="区间结束时间">
+                      label="区间结束时间"
+                      sortable>
                     </el-table-column>
                   </el-table>
                   <div class="middle-foot">
@@ -438,6 +458,9 @@ export default {
     }
   },
   methods:{
+    headerClick(column,event){
+      event.target.title=column.label
+    },
     // 实时监控分页
     pageSizeChange(val) {
       if(this.typeT==1){

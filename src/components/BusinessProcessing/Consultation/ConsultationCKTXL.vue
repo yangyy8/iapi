@@ -64,45 +64,55 @@
         :data="tableData"
         border
         style="width: 100%;"
-        >
+        class="o-table3"
+        @header-click="headerClick">
         <el-table-column
           label="序号"
           type="index"
           width="50">
         </el-table-column>
         <el-table-column
-          label="咨询来源">
+          prop="CONSULTFROM"
+          label="咨询来源"
+          sortable>
           <template slot-scope="scope">
             {{scope.row.CONSULTFROM|fifterFrom}}
           </template>
         </el-table-column>
         <el-table-column
           prop="STATIONFROM"
-          label="航站">
+          label="航站"
+          sortable>
         </el-table-column>
         <el-table-column
           prop="NAME"
-          label="咨询人">
+          label="咨询人"
+          sortable>
         </el-table-column>
         <el-table-column
           prop="TELEPHONE"
-          label="固定电话">
+          label="固定电话"
+          sortable>
         </el-table-column>
         <el-table-column
           prop="CELLPHONE"
-          label="移动电话">
+          label="移动电话"
+          sortable>
         </el-table-column>
         <el-table-column
           prop="FAX"
-          label="传真">
+          label="传真"
+          sortable>
         </el-table-column>
         <el-table-column
           prop="EMAIL"
-          label="邮箱">
+          label="邮箱"
+          sortable>
         </el-table-column>
         <el-table-column
           prop="OTHER"
-          label="其他">
+          label="其他"
+          sortable>
         </el-table-column>
       </el-table>
 
@@ -171,13 +181,16 @@ export default {
   },
   mounted() {
     this.terminal();
-    this.getList(this.CurrentPage,this.pageSize,this.pd);
+    // this.getList(this.CurrentPage,this.pageSize,this.pd);
   },
   activated() {
     this.terminal();
-    this.getList(this.CurrentPage, this.pageSize, this.pd);
+    // this.getList(this.CurrentPage, this.pageSize, this.pd);
   },
   methods: {
+    headerClick(column,event){
+      event.target.title=column.label
+    },
     handleSelectionChange(val) {
       this.multipleSelection = val;
     },
