@@ -24,7 +24,7 @@
     </div>
     <div class="middle">
       <el-row class="mb-15">
-        <el-button type="primary" size="small" @click="adds(0,'');form={promptedStr:[]};">新增</el-button>
+        <el-button type="primary" size="small" @click="adds(0,'');">新增</el-button>
       </el-row>
       <el-table
         :data="tableData"
@@ -104,18 +104,16 @@
     <el-dialog :title="dialogText" :visible.sync="addDialogVisible" width="500px" >
       <el-form :model="form" ref="addForm">
         <el-row type="flex"  class="mb-6">
-          <el-col :span="24" class="input-item my-form-group" data-scope="demo2" data-name="REGISTRATIONNAME" data-type="input"
-          v-validate-easy="[['required']]">
+          <el-col :span="24" class="input-item">
             <span class="yy-input-text"><font class="yy-color">*</font>登记人姓名：</span>
-            <el-input placeholder="请输入姓名" size="small" v-model="form.REGISTRATIONNAME"  class="yy-input-input"></el-input>
+            <el-input placeholder="请输入姓名" size="small" v-model="form.REGISTRATIONNAME"  class="yy-input-input" :disabled="true"></el-input>
           </el-col>
         </el-row>
 
         <el-row type="flex"  class="mb-6">
-          <el-col :span="24" class="input-item my-form-group" data-scope="demo2" data-name="REGISTRATIONACCOUNT" data-type="input"
-          v-validate-easy="[['required']]">
+          <el-col :span="24" class="input-item">
             <span class="yy-input-text"><font class="yy-color">*</font>登记人账号：</span>
-            <el-input placeholder="请输入账号" size="small" v-model="form.REGISTRATIONACCOUNT"  class="yy-input-input"></el-input>
+            <el-input placeholder="请输入账号" size="small" v-model="form.REGISTRATIONACCOUNT"  class="yy-input-input" :disabled="true"></el-input>
           </el-col>
         </el-row>
 
@@ -250,7 +248,18 @@ export default {
         })
     },
     adds(n, i) {
-      this.addDialogVisible = true;
+      this.form={promptedStr:[]};
+      this.$api.post('/manage-platform/sysUserInfoController/querySysUserInfo',{},
+        r => {
+          if(r.success){
+            this.form.REGISTRATIONNAME = r.data.name;
+            this.form.REGISTRATIONACCOUNT = r.data.userName;
+            this.addDialogVisible = true;
+          }
+          console.log(this.form.REGISTRATIONNAME)
+          console.log(this.form.REGISTRATIONACCOUNT)
+        })
+
       if (n != 0) {
         this.tp = 1;
         // this.form = i;
@@ -263,6 +272,7 @@ export default {
         this.dialogText="新增";
       }
       this.V.$reset('demo2')
+
     },
 
 

@@ -123,7 +123,7 @@
         </div>
       </div>
 
-      <div class="rb-msg" v-if="msgIrShow">
+      <div class="rb-msg" v-if="msgIrShow" style="bottom: 250px !important;">
         <div class="">
           <div class="rb-title">
             信息收发未处理消息
@@ -139,7 +139,32 @@
         </div>
       </div>
 
-      <div class="rb-msg" v-if="msgPmShow">
+      <el-dialog
+        title="提示详情"
+        :visible.sync="numberIrDialogVisible"
+        width="600px">
+        <el-form>
+          <el-row type="flex"  class="t-detail">
+            <el-col :span="10" class="t-el-content"><div class="t-el-text">发送人姓名：</div><div class="t-el-sub">{{IrInfo.SENDERNAME}}</div></el-col>
+            <el-col :span="10" class="t-el-content"><div class="t-el-text">发送内容：</div><div class="t-el-sub">{{IrInfo.DETAILS}}</div></el-col>
+          </el-row>
+          <el-row class="mb-6">
+            <el-col :span="24" class="infile">
+              <div v-for="(d4,ind) in inFiles" :key="ind" class="infiledd">
+                <span class="mr-30 avgerName">{{d4.FILENAME}}</span>
+                <!-- <span class="mr-30 tc-999 avgera">上传时间：{{d4.CREATETIME}}</span> -->
+                <!-- <el-button type="text" class="redx" @click="delFileInfo(d4.SERIAL)">删除</el-button> -->
+                <el-button type="text" class="avgera"><a :href="d4.FILEURL" class="green" download="">下载</a></el-button>
+              </div>
+            </el-col>
+          </el-row>
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="numberIrDialogVisible = false" size="small">取消</el-button>
+        </div>
+      </el-dialog>
+
+      <div class="rb-msg" v-if="msgPmShow" style="bottom:120px!important">
         <div class="">
           <div class="rb-title">
             提示管理未处理消息
@@ -154,6 +179,25 @@
           </div>
         </div>
       </div>
+      <el-dialog
+        title="提示详情"
+        :visible.sync="numberDialogVisible"
+        width="400px">
+        <el-form>
+          <el-row type="flex"  class="t-detail">
+            <el-col :span="20" class="t-el-content"><div class="t-el-text">发送人姓名：</div><div class="t-el-sub">{{PmInfo.REGISTRATIONNAME}}</div></el-col>
+          </el-row>
+          <el-row type="flex"  class="t-detail">
+            <el-col :span="8" class="t-el-content"><div class="t-el-text">发送人账号：</div><div class="t-el-sub">{{PmInfo.REGISTRATIONACCOUNT}}</div></el-col>
+          </el-row>
+          <el-row type="flex"  class="t-detail">
+            <el-col :span="8" class="t-el-content"><div class="t-el-text">发送内容：</div><div class="t-el-sub">{{PmInfo.CONTENT}}</div></el-col>
+          </el-row>
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="numberDialogVisible = false" size="small">取消</el-button>
+        </div>
+      </el-dialog>
     </el-container>
   </el-container>
 </template>
@@ -163,6 +207,11 @@
 export default {
   data() {
     return {
+      PmInfo:{},
+      IrInfo:{},
+      inFiles:[],
+      numberDialogVisible:false,
+      numberIrDialogVisible:false,
       bgjpg:1,
       rightShow:null,
       userName:'',
@@ -214,9 +263,9 @@ export default {
     //   _this.msg()
     // },180000)
 
-    // setInterval(function(){
-    //   _this.msgI();
-    // },10000)
+    setInterval(function(){
+      _this.msgI();
+    },300000)
 
   },
   watch:{
@@ -286,7 +335,7 @@ export default {
     },
     msgI(){
       let p={
-        'pd':{time:10}
+        'pd':{time:300000}
       }
       this.$api.post('/manage-platform/information/queryUnReadInformationReceiveListByTime',p,
         r => {
@@ -477,16 +526,24 @@ export default {
       this.msgShow=false;
     },
     msgIr(x){
-      // console.log(x.menuId.rootId)
-      // console.log(x.menuId.parentId)
-      // console.log(x.menuId.urlId)
-      this.$router.push({params:{navId:x.menuId.rootId},query:{nav1Id:x.menuId.parentId,nav2Id:x.menuId.urlId}})
-      this.getNav(x.menuId.rootId);
-      // this.msgIrShow=false;
+      // this.$router.push({params:{navId:x.menuId.rootId},query:{nav1Id:x.menuId.parentId,nav2Id:x.menuId.urlId}})
+      // this.getNav(x.menuId.rootId);
+      this.numberIrDialogVisible = true;
+      this.IrInfo=x.informationSend;
+      this.inFiles=x.informationSend.files;
+      this.$api.post('/manage-platform/information/updateInformationReceiveInf',{SERIAL:x.SERIAL},
+       r =>{
+         this.msgIrShow=false;
+       })
+
     },
     msgPm(x){
-      this.$router.push({params:{navId:x.menuId.rootId},query:{nav1Id:x.menuId.parentId,nav2Id:x.menuId.urlId}})
-      this.getNav(x.menuId.rootId);
+      this.numberDialogVisible=true;
+      this.PmInfo = x.prompt;
+      this.$api.post('/manage-platform/promptManage/updatePrompt ',{SERIAL:x.SERIAL},
+       r =>{
+         this.msgPmShow = false;
+       })
     },
     // 顶部菜单跳转================================
     topNavTo(SERIAL){

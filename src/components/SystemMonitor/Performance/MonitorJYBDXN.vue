@@ -233,6 +233,9 @@
                       label="统计日期"
                       width="180"
                       sortable>
+                      <template slot-scope="scope">
+                        {{scope.row.createtimeStr|disday}}
+                      </template>
                     </el-table-column>
                     <el-table-column
                       prop="tcount"
@@ -437,7 +440,7 @@ export default {
     },
     disday(value){
       if(value != null){
-        return value.substring(0,11);
+        return value.substring(0,10);
       }
     },
     fiftersex(val) {

@@ -7,7 +7,7 @@
             查询条件
           </div>
           <el-row align="center" :gutter="2">
-            <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+            <!-- <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">洲：</span>
               <el-select placeholder="请选择" v-model="cdt.CONTINENTS_CODE" filterable clearable @visible-change="chau" @change="nationality(cdt.CONTINENTS_CODE)" size="small"  class="input-input">
                 <el-option
@@ -39,32 +39,38 @@
                   :label="item.citycode+' - '+item.cityname"
                 ></el-option>
               </el-select>
-            </el-col>
+            </el-col> -->
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">航班号：</span>
               <el-input placeholder="请输入内容" size="small" v-model="cdt.FLT_CODE"  class="input-input"></el-input>
             </el-col>
             <el-col :sm="24" :md="12" :lg="8" class="input-item">
               <span class="input-text">出发地：</span>
-              <el-select placeholder="请选择" v-model="cdt.FLTDEPT" filterable clearable   size="small"  class="input-input" @visible-change="takeOff">
-                <el-option
-                  v-for="item in startPark"
-                  :key="item.AIRPORT_CODE"
-                  :value="item.AIRPORT_CODE"
-                  :label="item.AIRPORT_CODE+' - '+item.AIRPORT_NAME"
-                ></el-option>
-              </el-select>
+                <el-cascader
+                  @visible-change="handleChange"
+                  :options="startPark"
+                  :props="props"
+                  size="small"
+                  v-model="cdt.FLTDEPT"
+                  filterable
+                  change-on-select
+                  class="input-input"
+                  clearable
+                ></el-cascader>
             </el-col>
             <el-col :sm="24" :md="12" :lg="8" class="input-item">
               <span class="input-text">目的地：</span>
-              <el-select placeholder="请选择" v-model="cdt.FLTDEST" filterable clearable size="small"  class="input-input" @visible-change="landing">
-                <el-option
-                  v-for="item in endPark"
-                  :key="item.AIRPORT_CODE"
-                  :value="item.AIRPORT_CODE"
-                  :label="item.AIRPORT_CODE+' - '+item.AIRPORT_NAME"
-                ></el-option>
-              </el-select>
+              <el-cascader
+                @visible-change="landing"
+                :options="endPark"
+                :props="props"
+                size="small"
+                v-model="cdt.FLTDEST"
+                filterable
+                change-on-select
+                class="input-input"
+                clearable
+              ></el-cascader>
             </el-col>
             <el-col :sm="24" :md="12" :lg="8" class="input-item">
               <span class="input-text">出入标识：</span>
@@ -154,7 +160,7 @@
           label="航班结束日期"
           sortable>
         </el-table-column>
-        <el-table-column
+        <!-- <el-table-column
           label="洲"
           sortable>
           <template slot-scope="scope">
@@ -177,7 +183,7 @@
             <span v-if="scope.row.DEPTAIRPORT&&scope.row.DESTAIRPORT">{{scope.row.DEPTAIRPORT.CITY_NAME+' | '+scope.row.DESTAIRPORT.CITY_NAME}}</span>
             <span v-else></span>
           </template>
-        </el-table-column>
+        </el-table-column> -->
         <el-table-column
           label="操作" width="80">
           <template slot-scope="scope">
@@ -320,7 +326,13 @@ import {dayGap} from '@/assets/js/date.js'
 export default {
   data() {
     return {
+      props: {
+          value: 'CODE',
+          label:'ENAME',
+          children: 'childList'
+        },
       tp: 0,
+      ssssssss:[],
       CurrentPage: 1,
       pageSize: 10,
       TotalResult: 0,
@@ -331,7 +343,6 @@ export default {
       },
       nation: [],
       company: [],
-      startPark:[],
       endPark:[],
       chauName:[],
       selection:[],
@@ -390,7 +401,8 @@ export default {
       pickerOptions3: {
         disabledDate: (time) => {
             let endT = formatDate(new Date(time.getTime()),'yyyyMMddhhmm');
-            return endT < this.form.SCHEDULEDEPARTURETIMESTR;
+            let a = new Date(this.timePlace(this.form.SCHEDULEDEPARTURETIMESTR))-1*24*60*60*1000;
+            return endT < formatDate(new Date(a),'yyyyMMddhhmm');
         }
       },
       form: {
@@ -398,6 +410,7 @@ export default {
         SCHEDULEDEPARTURETIMESTR:''
       },
       dform: {},
+      startPark:[],
     }
   },
   mounted() {
@@ -413,6 +426,15 @@ export default {
     // this.getList(this.CurrentPage, this.pageSize, this.cdt);
   },
   methods: {
+    //时间转换
+    timePlace(val){
+      let y = val.substring(0,4);
+      let m = val.substring(4,6);
+      let d = val.substring(6,8);
+      let h = val.substring(8,10);
+      let s = val.substring(10,12);
+      return y+'-'+m+'-'+d+' '+h+':'+s;
+    },
     headerClick(column,event){
       event.target.title=column.label
     },
@@ -442,6 +464,7 @@ export default {
       console.log(`当前页: ${val}`);
     },
     getList(currentPage, showCount, pd) {
+      console.log(this.cdt.FLTDEPT)
       if(this.cdt.SCHEDULEDEPARTURETIMESTR==''||this.cdt.SCHEDULEARRIVETIMESTR==''||this.cdt.SCHEDULEDEPARTURETIMESTR==null||this.cdt.SCHEDULEARRIVETIMESTR==null){
         this.$message({
           message: '航班日期不能为空',
@@ -647,8 +670,12 @@ export default {
         });
       });
     },
-    takeOff(){//调用起飞机场
-      this.$api.post('/manage-platform/codeTable/queryAirport',{},
+    handleChange(value){//调用起飞机场
+      let p={
+        'flighttype':this.cdt.IN_OUT_FLAG,
+        'citytype':'cityfrom'
+      }
+      this.$api.post('/manage-platform/codeTable/queryAirportCascade',p,
        r =>{
          if(r.success){
            this.startPark = r.data;
@@ -656,7 +683,11 @@ export default {
        })
     },
     landing(){//调用降落机场
-      this.$api.post('/manage-platform/codeTable/queryAirport',{},
+      let p={
+        'flighttype':this.cdt.IN_OUT_FLAG,
+        'citytype':'cityto'
+      }
+      this.$api.post('/manage-platform/codeTable/queryAirportCascade',p,
        r =>{
          if(r.success){
            this.endPark = r.data;
