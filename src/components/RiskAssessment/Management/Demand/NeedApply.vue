@@ -8,12 +8,12 @@
 
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">申请标题：</span>
-              <el-input placeholder="请输入内容" size="small" v-model="pd.targetSign"  class="input-input"></el-input>
+              <el-input placeholder="请输入内容" size="small" v-model="pd.APPLY_TITLE"  class="input-input"></el-input>
             </el-col>
 
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">申请类型：</span>
-              <el-select v-model="pd.targetType" class="input-input"  filterable clearable placeholder="请选择"   size="small">
+              <el-select v-model="pd.APPLY_TYPE" class="input-input"  filterable clearable placeholder="请选择"   size="small">
                 <el-option value="1" label="1 - 指标">
                 </el-option>
                 <el-option value="2" label="2 - 字典">
@@ -26,12 +26,11 @@
                 </el-option>
                 <el-option value="99" label="99 - 其它">
                 </el-option>
-
                </el-select>
             </el-col>
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">处理状态：</span>
-              <el-select v-model="pd.showDistrick" class="input-input"  filterable clearable placeholder="请选择"   size="small">
+              <el-select v-model="pd.APPLY_STATUS" class="input-input"  filterable clearable placeholder="请选择"   size="small">
                 <el-option value="11" label="11 - 申请">
                 </el-option>
                 <el-option value="12" label="12 - 撤回">
@@ -69,41 +68,41 @@
         label="序号">
         </el-table-column>
         <el-table-column
-          prop="TARGET_SIGN" sortable
+          prop="APPLY_TITLE" sortable
           label="申请标题">
         </el-table-column>
          <el-table-column
-          prop="TARGET_NAME" sortable
+          prop="APPLY_TYPE" sortable
           label="申请类型"
           >
         </el-table-column>
         <el-table-column
-          prop="TARGET_DESCRIBE" sortable
+          prop="APPLY_TIME" sortable
           label="申请时间">
         </el-table-column>
         <el-table-column
-          prop="TARGET_TYPE" sortable
+          prop="APPLY_DESCRIBE" sortable
           label="申请描述">
         </el-table-column>
         <el-table-column
           label="处理状态" sortable>
           <template slot-scope="scope">
-              {{scope.row.SHOW_DISTRICK | fiftertype}}
+              {{scope.row.APPLY_STATUS | fiftertype}}
             </template>
         </el-table-column>
         <el-table-column
-          prop="CALCULATION" sortable
+          prop="UPDATE_TIME" sortable
           label="处理时间">
         </el-table-column>
         <el-table-column
-          prop="CLASS_NAME" sortable
+          prop="REMARK" sortable
           label="回复信息">
         </el-table-column>
 
         <el-table-column
           label="操作" width="160">
           <template slot-scope="scope">
-              <el-button type="text" class="a-btn" title="撤回" icon="el-icon-sold-out" @click="adds(1,scope.row)"></el-button>
+              <el-button type="text" class="a-btn" title="撤回" icon="el-icon-sold-out" @click="withdraws(scope.row,12)"></el-button>
               <el-button type="text" class="a-btn" title="编辑" icon="el-icon-edit" @click="adds(1,scope.row)"></el-button>
               <el-button type="text" class="a-btn" title="删除" icon="el-icon-delete" @click="deletes(scope.row)"></el-button>
               <el-button type="text" class="a-btn"   title="状态详情"  icon="el-icon-tickets" @click="details(scope.row)"></el-button>
@@ -212,58 +211,35 @@
       <el-form  ref="mapForm">
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
-            <span class="yy-input-text">指标项代码：</span>
-          <span class="yy-input-input detailinput">  {{mapForm.TARGET_SIGN}}</span>
+            <span class="yy-input-text">操作人：</span>
+          <span class="yy-input-input detailinput">  {{mapForm.USER_NAME}}</span>
             </el-col>
         </el-row>
         <el-row type="flex" class="mb-6" >
           <el-col :span="24" class="input-item">
-            <span class="yy-input-text">指标项名称：</span>
-          <span class="yy-input-input detailinput">  {{mapForm.TARGET_NAME}}</span>
+            <span class="yy-input-text">操作时间：</span>
+          <span class="yy-input-input detailinput">  {{mapForm.POERATE_TIEM}}</span>
           </el-col>
         </el-row>
         <el-row type="flex" class="mb-6" >
           <el-col :span="24" class="input-item">
-            <span class="yy-input-text">指标项描述：</span>
-          <span class="yy-input-input detailinput">  {{mapForm.TARGET_DESCRIBE}}</span>
+            <span class="yy-input-text">操作状态：</span>
+          <span class="yy-input-input detailinput">  {{mapForm.POERATE_STATUS}}</span>
           </el-col>
         </el-row>
         <el-row type="flex" class="mb-6" >
           <el-col :span="24" class="input-item">
-            <span class="yy-input-text">指标类型：</span>
-          <span class="yy-input-input detailinput">  {{mapForm.TARGET_TYPE}}</span>
+            <span class="yy-input-text">处理顺序：</span>
+          <span class="yy-input-input detailinput">  {{mapForm.POERATE_SORT}}</span>
           </el-col>
         </el-row>
         <el-row type="flex" class="mb-6" >
           <el-col :span="24" class="input-item">
-            <span class="yy-input-text">指标来源：</span>
-          <span class="yy-input-input detailinput">  {{mapForm.TARGET_SOURCE}}</span>
+            <span class="yy-input-text">备注：</span>
+          <span class="yy-input-input detailinput">  {{mapForm.REMARK}}</span>
           </el-col>
         </el-row>
-        <el-row type="flex" class="mb-6" >
-          <el-col :span="24" class="input-item">
-            <span class="yy-input-text">计算方式：</span>
-          <span class="yy-input-input detailinput">  {{mapForm.CALCULATION}}</span>
-          </el-col>
-        </el-row>
-        <el-row type="flex" class="mb-6" >
-          <el-col :span="24" class="input-item">
-            <span class="yy-input-text">方法名称：</span>
-          <span class="yy-input-input detailinput">  {{mapForm.CLASS_NAME}}</span>
-          </el-col>
-        </el-row>
-        <el-row type="flex" class="mb-6" >
-          <el-col :span="24" class="input-item">
-            <span class="yy-input-text">参数：</span>
-          <span class="yy-input-input detailinput">  {{mapForm.PARA}}</span>
-          </el-col>
-        </el-row>
-        <el-row type="flex" class="mb-6" >
-          <el-col :span="24" class="input-item">
-            <span class="yy-input-text">脚本：</span>
-          <span class="yy-input-input detailinput">  {{mapForm.SCRIPT}}</span>
-          </el-col>
-        </el-row>
+      
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="detailsDialogVisible = false" size="small">取 消</el-button>
@@ -309,39 +285,17 @@ export default {
       },
       defaultChecked:[],
       multipleSelection: [],
-      pickerOptions1: {
-        // shortcuts: [{
-        //   text: '今天',
-        //   onClick(picker) {
-        //     picker.$emit('pick', new Date());
-        //   }
-        // }, {
-        //   text: '昨天',
-        //   onClick(picker) {
-        //     const date = new Date();
-        //     date.setTime(date.getTime() - 3600 * 1000 * 24);
-        //     picker.$emit('pick', date);
-        //   }
-        // }, {
-        //   text: '一周前',
-        //   onClick(picker) {
-        //     const date = new Date();
-        //     date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
-        //     picker.$emit('pick', date);
-        //   }
-        // }]
-      },
+
       form: {},
       mapForm: {},
       Airport: [],
     }
   },
   mounted() {
-    //this.getList(this.CurrentPage, this.pageSize, this.pd);
-    //this.queryNationality();
+
   },
   activated(){
-    //getList(this.CurrentPage, this.pageSize, this.pd);
+
   },
   methods: {
     selectChange(){
@@ -367,7 +321,7 @@ export default {
         "showCount": showCount,
         "pd": pd
       };
-      this.$api.post('/manage-platform/target/select', p,
+      this.$api.post('/manage-platform/apply/select', p,
         r => {
           this.tableData = r.data.pdList;
           this.TotalResult = r.data.totalResult;
@@ -385,22 +339,9 @@ export default {
     adds(n, i) {
 
       this.addDialogVisible = true;
-        this.V.$reset("demo2");
+      this.V.$reset("demo2");
       if (n != 0) {
         this.tp = 1;
-        // this.form = i;
-        // this.form=Object.assign({}, i);
-        this.form.targetId=i.TARGET_ID;
-        this.form.targetSign=i.TARGET_SIGN;
-        this.form.targetName=i.TARGET_NAME;
-        this.form.targetDescribe=i.TARGET_DESCRIBE;
-        this.form.targetType=i.TARGET_TYPE;
-        this.form.targetSource=i.TARGET_SOURCE;
-        this.form.calculation=i.CALCULATION;
-        this.form.className=i.CLASS_NAME;
-        this.form.para=i.PARA;
-        this.form.script=i.SCRIPT;
-        this.form.showDistrick=i.SHOW_DISTRICK;
         this.dialogText="编辑";
       }else {
         this.tp = 0;
@@ -414,9 +355,9 @@ export default {
            if(!canSumit) return;
            // 只有验证全部通过才会执行
 
-      var url = "/manage-platform/target/addTarger";
+      var url = "/manage-platform/apply/add";
       if (this.tp == 1) {
-        url = "/manage-platform/target/editTarger";
+        url = "/manage-platform/apply/edit";
       }
       this.$api.post(url, this.form,
         r => {
@@ -438,12 +379,46 @@ export default {
         });
       });
     },
+    withdraws(i,s){//撤回
+      var sinfo="撤回成功";
+
+      let p = {
+        "APPLY_ID": i.APPLY_ID,
+        "APPLY_STATUS": s,
+        "REMARK":sinfo
+      };
+      this.$confirm('您是否确认操作？', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$api.post('/manage-platform/apply/updateStatus', p,
+          r => {
+            if (r.success) {
+              this.$message({
+                message: sinfo+"！",
+                type: 'success'
+              });
+              this.getList(this.CurrentPage, this.pageSize, this.pd);
+            } else {
+              this.$message.error(r.Message);
+            }
+          }, e => {
+            this.$message.error('失败了');
+          });
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        });
+      });
+    },
     details(i) {
       this.detailsDialogVisible = true;
       let p = {
-        "targetId": i.TARGET_ID
+        "APPLY_ID": i.APPLY_ID
       };
-      this.$api.post('/manage-platform/target/showDetai', p,
+      this.$api.post('/manage-platform/applyLog/details', p,
         r => {
           this.mapForm = r.data;
         })
@@ -451,15 +426,14 @@ export default {
     deletes(i) {
 
       let p = {
-        "targetId": i.TARGET_ID,
-        "targetSign": i.TARGET_SIGN,
+        "id": i.APPLY_ID,
       };
       this.$confirm('您是否确认删除？', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.$api.post('/manage-platform/target/deleteTarger', p,
+        this.$api.post('/manage-platform/apply/delete', p,
           r => {
             if (r.success) {
               this.$message({
@@ -480,44 +454,7 @@ export default {
         });
       });
     },
-    menus(i) {
-      this.menuDialogVisible = true;
-      this.sertail=i.SERIAL;
-      let p = {
-        "SERIAL": i.SERIAL
-      };
-      this.$api.post('/manage-platform/roleSys/goEditJuri', p,
-        r => {
-          console.log(r);
-          if (r.success) {
-            this.menudata = r.data.userTreeOne;
-            let arr=r.data.userTreeOne,that=this;
-          this.defaultChecked=r.data.checkList;
-          }
-        })
-    },
-menuItem(){
-  let checkList=this.$refs.tree.getCheckedNodes();
-  //let checkList=this.$refs.tree.getCheckedKeys();
-  let p={
-    // menuList:this.menudata,
-   "ROLE_ID":this.sertail,
-    checkList:checkList
-  }
-  this.$api.post('/manage-platform/roleSys/editJuri', p,
-    r => {
-      console.log(r);
-      if (r.success) {
-        this.$message({
-          type: 'success',
-          message: '保存成功'
-        });
-      }else{
-  this.$message.error('保存失败');
-      }
-    })
-        this.menuDialogVisible = false;
-},
+
   },
   filters: {
     fiftertype(val) {
