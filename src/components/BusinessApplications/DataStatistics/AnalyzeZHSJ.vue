@@ -643,7 +643,8 @@ export default {
          "continentfrom":this.pd.continentfrom,
          "countryfrom":this.pd.countryfrom,
          "cityfrom":this.pd.cityfrom,
-         "cityto":this.pd.cityto
+         "cityto":this.pd.cityto,
+
        },
        responseType: 'blob'
        }).then(response => {
@@ -654,7 +655,6 @@ export default {
         if (!data) {
             return
         }
-
         let url = window.URL.createObjectURL(new Blob([data.data],{type:"application/octet-stream"}))
         let link = document.createElement('a')
         link.style.display = 'none'
