@@ -6,7 +6,7 @@
           <div class="title-green">
             查询条件
           </div>
-          <el-row align="center" :gutter="2" type="flex" justify="center">
+          <el-row align="center" :gutter="2">
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">姓名：</span>
               <el-input placeholder="请输入内容" size="small" v-model="cdt.NAME"  class="input-input"></el-input>
@@ -34,6 +34,24 @@
                   :picker-options="pickerOptions1">
                 </el-date-picker>
               </div>
+            </el-col>
+            <el-col :sm="24" :md="12" :lg="8" class="input-item">
+              <span class="input-text">部门：</span>
+                <el-cascader
+                  @visible-change="bumenMethod"
+                  :options="bumen"
+                  :props="props"
+                  size="small"
+                  v-model="cdt.deptList"
+                  filterable
+                  change-on-select
+                  class="input-input"
+                  clearable
+                ></el-cascader>
+            </el-col>
+            <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+              <span class="input-text">账号：</span>
+              <el-input placeholder="请输入内容" size="small" v-model="cdt.USERNAME"  class="input-input"></el-input>
             </el-col>
           </el-row>
         </el-col>
@@ -223,12 +241,17 @@ import {formatDate,format} from '@/assets/js/date.js'
 export default {
   data() {
     return {
+      bumen:[],
       tp: 0,
       CurrentPage: 1,
       pageSize: 10,
       TotalResult: 0,
       cdt:{},
-
+      props:{
+        label:'DEPT_QC',
+        value:'DEPT_CODE',
+        children:'childDeptList'
+      },
       pd: {},
       nation: [],
       company: [],
@@ -302,6 +325,14 @@ export default {
     // this.getList(this.CurrentPage, this.pageSize, this.cdt);
   },
   methods: {
+    bumenMethod(){
+      this.$api.post('/manage-platform/watch/queryDeptLv2And3',{},
+       r =>{
+         if(r.success){
+           this.bumen = r.data;
+         }
+       })
+    },
     headerClick(column,event){
       event.target.title=column.label
     },

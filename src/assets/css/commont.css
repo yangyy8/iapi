@@ -150,10 +150,13 @@
   margin-top: 15px!important;
 }
 .tubiao{
-  width:100px;
+  /* width: 38px; */
+  height: 14px;
+  line-height: 14px;
   padding:6px 15px;
   border:1px solid #56A8FE;
   font-size: 12px;
+  display: inline-block;
 }
 .borderL{
   border-top-left-radius: 3px;

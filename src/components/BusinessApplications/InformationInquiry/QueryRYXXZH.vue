@@ -94,9 +94,9 @@
               <el-select v-model="cdt.portEqual" placeholder="请选择" filterable clearable size="small" class="input-input" @visible-change="portMethod">
                 <el-option
                 v-for="item in airport"
-                :key="item.AIRPORT_CODE"
-                :value="item.AIRPORT_CODE"
-                :label="item.AIRPORT_CODE+' - '+item.AIRPORT_NAME">
+                :key="item.KADM"
+                :value="item.KADM"
+                :label="item.KADM+' - '+item.KAMC">
                 </el-option>
               </el-select>
             </el-col>
@@ -1374,7 +1374,7 @@ export default {
        })
     },
     portMethod(){//口岸
-      this.$api.post('/manage-platform/codeTable/queryAirport',{},
+      this.$api.post('/manage-platform/codeTable/queryAirportMatch',{},
        r =>{
          if(r.success){
            this.airport = r.data;

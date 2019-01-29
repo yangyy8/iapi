@@ -2,7 +2,7 @@
   <div class="zlbg">
     <div class="mb-2">
       <div class="middle">
-        <span class="tubiao hand borderL" :class="{'checked':page==0}" @click="page=0;startOut(CurrentPage,pageSize);">发件箱</span><span class="tubiao hand borderR" :class="{'checked':page==1}" @click="qq">收件箱</span>
+        <span class="tubiao hand borderL ww" :class="{'checked':page==0}" @click="page=0;startOut(CurrentPage,pageSize);">发件箱</span><span class="tubiao hand borderR ww" :class="{'checked':page==1}" @click="qq">收件箱</span>
         <el-button type="warning" size="mini" @click="sendMesssage">发送消息</el-button>
       </div>
       <el-row type="flex" class="middle" style="padding-top:0px!important">
@@ -852,5 +852,8 @@ function checkRate(nubmer) {　　
 .avgerName{
   width: 30%;
   display: inline-block;
+}
+.ww{
+  width: 38px;
 }
 </style>
