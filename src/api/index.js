@@ -1,6 +1,6 @@
 // 配置API接口地址
 
- // var root="http://192.168.99.206:8080"
+ var root="http://192.168.99.206:8080"
 // var root=""
 // var root = 'http://192.168.99.248:8080'
 
@@ -12,7 +12,7 @@
 // var root="http://192.168.99.213:8080"   //服务器电脑
 // var root="http://192.168.99.228:8080"
 // var root = 'http://192.168.99.206:8080'
-var root="http://10.6.126.138:8088" //正式环境
+// var root="http://10.6.126.138:8088" //正式环境
 // var root="http://192.168.99.234:8080" //正式环境
 // 引用axios
 var axios = require('axios')
@@ -39,16 +39,53 @@ function filterNull(o) {
   }
   return o
 }
-// 添加默认参数
+
+function isLOGIN(){
+  let a;
+  axios({
+      method: 'post',
+      url: '/manage-platform/isLanding',
+      baseURL: root,
+      withCredentials: true,
+    })
+  .then(function (r) {
+    a=r.data.data;
+    // a=false;
+    if(!a){
+      MessageBox.alert('登录已失效，请重新登录！', '温馨提示', {
+      confirmButtonText: '确定',
+      type: 'warning',
+      callback: action => {
+        window.location.href ="#/";
+        return;
+      }})
+
+    }
+  })
+  .catch(function (error) {
+    console.log(error);
+  });
+
+}
 function apiAxios(method, url, params, success, failure,header) {
-  // console.log("url",url)
+  if(!(url=='/manage-platform/isLanding'||url=='/manage-platform/homePage/iapiSize'||url=='/manage-platform/landing')){
+    isLOGIN();
+  }
+  // if (params) {
+  //   // params = filterNull(params);
+  //   let a=isLOGIN();
+  //   if(!a){
+  //     console.log("登陆失效");
+  //     window.location.href ="#/";
+  //     return;
+  //   }
+  // }
+
   let loadingInstance1=null;
   if(!(url=='/manage-platform/nationwide/getPortDetail'||url=='/manage-platform/nationwide/getFlightDetail'||url=='/manage-platform/nameList/getNameListDataAnalysis'||url=='/manage-platform/riskRecordExtInterfaceController/getRecordOtherInfo'||url=='/manage-platform/iapiHead/queryListPageCount')){
     loadingInstance1 = Loading.service({ fullscreen: true, spinner: 'el-icon-loading',text:'拼命加载中',background:'rgba(0,0,0,0.6)',customClass:'loadingClass'});
   }
-  if (params) {
-    // params = filterNull(params);
-  }
+
   axios({
       method: method,
       url: url,
@@ -60,11 +97,9 @@ function apiAxios(method, url, params, success, failure,header) {
       // headers: {'X-Requested-With': 'XMLHttpRequest'},
     })
     .then(function(res) {
-      // console.log(res)
       if (res.status == 200) {
         if (success) {
-          // console.log(res.data);
-          // setTimeout(function(){
+
             if(loadingInstance1){
               loadingInstance1.close();
             }
@@ -77,7 +112,6 @@ function apiAxios(method, url, params, success, failure,header) {
               }
             }
             success(res.data)
-          // },1000)
         }
       } else {
         if (failure) {

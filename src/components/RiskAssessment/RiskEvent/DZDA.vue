@@ -171,9 +171,27 @@
                     </template>
                   </el-table-column>
                 </el-table>
-                <!-- <div class="box1-more">
-                  <el-button type="text">展开更多 ﹀</el-button>
-                </div> -->
+                <div class="box1-more">
+                  <div class="page-msg">
+                    <div class="">
+                      共{{Math.ceil((data2.length||0)/pageSize.page1)}}页
+                    </div>
+                    <div class="">
+                      每页
+                      <el-select v-model="pageSize.page1" @change="pageSizeChange(pageSize.page1)" placeholder="10" size="mini" class="page-select">
+                        <el-option label="5" value="5"></el-option>
+                        <el-option label="10" value="10"></el-option>
+                        <el-option label="15" value="15"></el-option>
+
+                      </el-select>
+                      条
+                    </div>
+                    <div class="">
+                      共{{data2.length||0}}条
+                    </div>
+                  </div>
+                  <el-button type="text">导出</el-button>
+                </div>
               </div>
             </div>
             <div class="boder1 " ref="box3">
@@ -1730,7 +1748,7 @@ export default {
       box19:false,
       box20:false,
       size:{size0:8,size1:3,size2:3,size301:16,size302:16,size4:3,size8:3},
-
+      pageSize:{page1:5},
       nationalityName:'',
       tagRemark:'',
       data0:{},
@@ -1945,6 +1963,14 @@ export default {
       // if(this.data15&&this.data16.length==0){
         this.getRecordOtherInfo('api');
       // };
+    },
+    pageSizeChange(val) {
+      this.pageSize.page1=val;
+      console.log(`每页 ${val} 条`);
+    },
+    handleCurrentChange(val) {
+      this.CurrentPage=val
+      console.log(`当前页: ${val}`);
     },
     getUsers(){
       this.$api.post('/manage-platform/sysUserInfoController/querySysUserInfo',{},
@@ -2433,6 +2459,8 @@ export default {
 .box1-more{
   background: #eef9ff;
   text-align: center;
+  display: flex;
+  justify-content: center;
 }
 .box2-more{
   text-align: center;
