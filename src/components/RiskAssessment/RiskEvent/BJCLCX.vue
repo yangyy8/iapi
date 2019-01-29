@@ -10,7 +10,7 @@
           <div class="bjsj-l">
             <img :src="imgURL" alt="" style="width:100%;">
             <span class="mb-2">综合风险等级</span>
-            <el-rate :value="$route.query.grade||box2Data[0].grade" disabled class="mb-9"></el-rate>
+            <el-rate :value="parseInt($route.query.grade||box2Data[0].grade)" disabled class="mb-9"></el-rate>
             <el-button type="primary" size="small" class="mb-9" style="width:100%" @click="$router.push({name:'DZDA',query:{nationality:page0Data.nationality,passportno:page0Data.passportno,grade:$route.query.grade||box2Data[0].grade,type:2}})">电子档案</el-button>
             <el-button type="primary" size="small" class="mb-9" style="width:100%">综合查询</el-button>
             <el-button type="primary" size="small" class="mb-9" style="width:100%">照片比对</el-button>
@@ -153,7 +153,7 @@
                     <el-button type="primary" plain size="small" @click="getModelCaseInfo(b.model_code,b.model_version)">模型相关案例</el-button>
                   </div>
                   <div class="gc-box">
-                    <span>风险等级：</span> <el-rate :value="b.grade" disabled class="mt-5"></el-rate>
+                    <span>风险等级：</span> <el-rate :value="parseInt(b.grade)" disabled class="mt-5"></el-rate>
                   </div>
 
                   <div class="gc-box">
@@ -243,10 +243,23 @@
                     <span>核查策略</span>
                   </div>
                   <div class="box2-content mb-9" v-for="(d1,ind) in box4Data.checkTacticsList" v-if="ind<size.size4">
-                    <div class="gc-box">
+                    <div>
                       <div><span class="b-dot"></span>{{d1.modelName}}：</div>
-                      <div style="width:85%">
-                        {{d1.strategy}}
+                      <div class="gc-box">
+                        <div class="">
+                          前期核查策略：
+                        </div>
+                        <div style="width:90%">
+                          {{d1.strategy}}
+                        </div>
+                      </div>
+                      <div class="gc-box">
+                        <div class="">
+                          见面核查策略：
+                        </div>
+                        <div style="width:90%">
+                          {{d1.strategy_spot}}
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -358,8 +371,13 @@
                   label="核查结果"
                   prop="check_resultName">
                 </el-table-column>
+                <el-table-column
+                  label="详情"
+                  prop="xq"
+                  :show-overflow-tooltip="true">
+                </el-table-column>
               </el-table>
-              <div class="box2-more" v-if="box4Data.listDescRecord.length>4">
+              <div class="box2-more" v-if="box4Data.listDescRecord.length>5">
                 <el-button type="text" @click="size.size8=false" v-if="size.size8">展开更多 ﹀</el-button>
                 <el-button type="text" @click="size.size8=true" v-if="!size.size8">收起 ︿</el-button>
               </div>

@@ -253,7 +253,7 @@
 
           <el-col :span="12" class="input-item">
             <span class="yy-input-text" style="width:18%"> 姓名：</span>
-            <el-input placeholder="请输入内容(长度不超过11)" size="small" v-model="form.FAMILYNAME" maxlength="11"   class="yy-input-input"></el-input>
+            <el-input placeholder="请输入内容(长度不超过50)" size="small" v-model="form.FAMILYNAME" maxlength="50"   class="yy-input-input"></el-input>
           </el-col>
         </el-row>
         <el-row type="flex" class="mb-6">
@@ -349,7 +349,7 @@
         <el-row type="flex" class="mb-6" >
           <el-col :span="12" class="input-item">
             <span class="yy-input-text">性别：</span>
-          <span class="yy-input-input detailinput">  {{mapForm.GENDER=="U"?"未知":mapForm.GENDER=="F"?"女":"男"}}</span>
+          <span class="yy-input-input detailinput">  {{mapForm.GENDER=="U"?"未知":mapForm.GENDER=="F"?"女":mapForm.GENDER=="M"?"男":""}}</span>
           </el-col>
 
           <el-col :span="12" class="input-item">
@@ -846,15 +846,17 @@ console.log("-----1");
 
       } else if (val == "M") {
         return "男"
-      } else {
+      } else if (val == "F") {
         return "女";
+      }else {
+        return "";
       }
     },
     fiftertt(val) {
 
       if (val == 0) {
         return "无效";
-      } else {
+      } else if(val == 1){
         return "有效";
       }
 

@@ -274,7 +274,6 @@ export default {
         //console.log(this.tabList.length)
         this.tabliwidth=Math.floor(100/(this.tabList.length+1))+'%'
         //console.log(this.tabliwidth)
-
       }
     },
     $route:function(val){
@@ -285,9 +284,9 @@ export default {
             return
           }
         }
-        this.tabList.push(val)
-      }
+        this.tabList.push(val);
 
+      }
       console.log("val==========================================",val)
     }
   },
@@ -361,23 +360,17 @@ export default {
     },
     // 左侧菜单获取===============================
     getNav(navId) {
-      this.nav1Star= 0;
-      this.nav1End=6;
+      this.$route.params.navId=navId
       this.$api.post('/manage-platform/muneSys/menuChild', {
           SERIAL: navId
         },
         r => {
-          // //console.log(r)
           if(r.success){
             this.nav1List = r.data.menuChild;
             this.nav1Id=this.$route.query.nav1Id||r.data.menuChild[0].SERIAL;
-            //console.log("nav1Id:",this.nav1Id);
-            //console.log("nav1List",this.nav1List)
-
             this.nav1to2(this.nav1Id);
           }
         })
-
     },
 
     // 点击一级菜单================================
@@ -434,7 +427,9 @@ export default {
 
     },
     tabNav2(nav2Item){
+      console.log("this.$route.params.navId",this.$route.params.navId)
       console.log('nav2Item:',nav2Item);
+
       if(this.nav2Id==nav2Item.query.nav2Id) return;
 
       if(nav2Item.params.navId!=this.$route.params.navId){
@@ -443,6 +438,7 @@ export default {
         let _this=this;
         setTimeout(function(){
           _this.$router.push({params: {navId:nav2Item.params.navId},query:{nav1Id:nav2Item.query.nav1Id,nav2Id:nav2Item.query.nav2Id}});
+          console.log("new",nav2Item.params.navId)
           _this.getNav(nav2Item.params.navId)
         },400)
       }
@@ -761,6 +757,7 @@ export default {
 }
 
 .el-header {
+
   padding: 25px 88px 16px 88px;
   display: flex;
   justify-content: space-between;
@@ -771,6 +768,7 @@ export default {
 }
 
 .el-header img {}
+
 .content {
   /* background: url(./../assets/img/bg.png) ; */
   /* background-size:  100% 100%; */

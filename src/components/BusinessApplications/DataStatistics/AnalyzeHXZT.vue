@@ -434,8 +434,8 @@ export default {
          "cityfrom":this.pd.cityfrom,
          "cityto":this.pd.cityto,
          "rowproperty":this.typerow,
-         "portto":pd.portto,
-         "portfrom":pd.portfrom,
+         "portto":this.pd.portto,
+         "portfrom":this.pd.portfrom,
        },
        responseType: 'blob'
        }).then(response => {
