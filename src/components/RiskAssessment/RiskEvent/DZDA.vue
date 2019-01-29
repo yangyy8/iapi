@@ -130,6 +130,7 @@
                 <el-table
                   :data="data2"
                   class="ak-table1"
+                  :class="{'ak-t1':pageSize.page1==true,'ak-t2':pageSize.page1==false}"
                   style="width: 100%">
                   <el-table-column
                     label="序号"
@@ -171,25 +172,9 @@
                     </template>
                   </el-table-column>
                 </el-table>
-                <div class="box1-more">
-                  <div class="page-msg">
-                    <div class="">
-                      共{{Math.ceil((data2.length||0)/pageSize.page1)}}页
-                    </div>
-                    <div class="">
-                      每页
-                      <el-select v-model="pageSize.page1" @change="pageSizeChange(pageSize.page1)" placeholder="10" size="mini" class="page-select">
-                        <el-option label="5" value="5"></el-option>
-                        <el-option label="10" value="10"></el-option>
-                        <el-option label="15" value="15"></el-option>
-
-                      </el-select>
-                      条
-                    </div>
-                    <div class="">
-                      共{{data2.length||0}}条
-                    </div>
-                  </div>
+                <div class="box1-more" v-if="data2.length>0">
+                  <el-button type="text" class="mr-15" @click="pageSize.page1=false" v-if="pageSize.page1&&data2.length>5">展开更多 ﹀</el-button>
+                  <el-button type="text" class="mr-15" @click="pageSize.page1=true" v-if="!pageSize.page1">收起 ︿</el-button>
                   <el-button type="text">导出</el-button>
                 </div>
               </div>
@@ -666,6 +651,7 @@
               <div v-if="box5">
                 <el-table
                   :data="data5"
+                  :class="{'ak-t1':pageSize.page2==true,'ak-t2':pageSize.page2==false}"
                   class="ak-table2"
                   border
                   style="width: 100%">
@@ -697,6 +683,11 @@
                     </template>
                   </el-table-column>
                 </el-table>
+                <div class="box1-more" v-if="data5.length>0">
+                  <el-button type="text" class="mr-15" @click="pageSize.page2=false" v-if="pageSize.page2&&data5.length>5">展开更多 ﹀</el-button>
+                  <el-button type="text" class="mr-15" @click="pageSize.page2=true" v-if="!pageSize.page2">收起 ︿</el-button>
+                  <el-button type="text">导出</el-button>
+                </div>
               </div>
             </div>
             <div class="boder1" ref="box6">
@@ -707,6 +698,7 @@
                 <el-table
                   :data="data6"
                   class="ak-table2"
+                  :class="{'ak-t1':pageSize.page3==true,'ak-t2':pageSize.page3==false}"
                   border
                   style="width: 100%">
                   <el-table-column
@@ -715,6 +707,7 @@
                   </el-table-column>
                   <el-table-column
                     label="出入标识"
+                    width="80"
                     prop="in_out_flag">
                     <template slot-scope="scope">
                       <span v-if="scope.row.in_out_flag==1">入境</span>
@@ -727,6 +720,7 @@
                   </el-table-column>
                   <el-table-column
                     label="性别"
+                    width="60"
                     prop="pers_gender">
                     <template slot-scope="scope">
                       <span v-if="scope.row.pers_gender==1">男</span>
@@ -735,6 +729,7 @@
                   </el-table-column>
                   <el-table-column
                     label="出生日期"
+                    width="100"
                     prop="birth_date">
                   </el-table-column>
                   <el-table-column
@@ -769,6 +764,11 @@
                     prop="to_country">
                   </el-table-column>
                 </el-table>
+                <div class="box1-more" v-if="data6.length>0">
+                  <el-button type="text" class="mr-15" @click="pageSize.page3=false" v-if="pageSize.page3&&data6.length>5">展开更多 ﹀</el-button>
+                  <el-button type="text" class="mr-15" @click="pageSize.page3=true" v-if="!pageSize.page3">收起 ︿</el-button>
+                  <el-button type="text">导出</el-button>
+                </div>
               </div>
             </div>
             <div class="boder1" ref="box7">
@@ -778,6 +778,7 @@
               <div v-if="box7">
                 <el-table
                   :data="data7"
+                  :class="{'ak-t1':pageSize.page4==true,'ak-t2':pageSize.page4==false}"
                   class="ak-table2"
                   border
                   style="width: 100%">
@@ -837,6 +838,11 @@
                     prop="contact_tel">
                   </el-table-column>
                 </el-table>
+                <div class="box1-more" v-if="data7.length>0">
+                  <el-button type="text" class="mr-15" @click="pageSize.page4=false" v-if="pageSize.page4&&data7.length>5">展开更多 ﹀</el-button>
+                  <el-button type="text" class="mr-15" @click="pageSize.page4=true" v-if="!pageSize.page4">收起 ︿</el-button>
+                  <el-button type="text">导出</el-button>
+                </div>
               </div>
             </div>
             <div class="boder1" ref="box8">
@@ -846,6 +852,7 @@
               <div v-if="box8">
                 <el-table
                   :data="data8"
+                  :class="{'ak-t1':pageSize.page5==true,'ak-t2':pageSize.page5==false}"
                   class="ak-table2"
                   border
                   style="width: 100%">
@@ -934,6 +941,11 @@
                     </template>
                   </el-table-column>
                 </el-table>
+                <div class="box1-more" v-if="data8.length>0">
+                  <el-button type="text" class="mr-15" @click="pageSize.page5=false" v-if="pageSize.page5&&data8.length>5">展开更多 ﹀</el-button>
+                  <el-button type="text" class="mr-15" @click="pageSize.page5=true" v-if="!pageSize.page5">收起 ︿</el-button>
+                  <el-button type="text">导出</el-button>
+                </div>
               </div>
             </div>
             <div class="boder1" ref="box9">
@@ -944,6 +956,7 @@
                 <el-table
                   :data="data9"
                   class="ak-table2"
+                  :class="{'ak-t1':pageSize.page6==true,'ak-t2':pageSize.page6==false}"
                   border
                   style="width: 100%">
                   <el-table-column
@@ -1019,6 +1032,11 @@
                     prop="">
                   </el-table-column>
                 </el-table>
+                <div class="box1-more" v-if="data9.length>0">
+                  <el-button type="text" class="mr-15" @click="pageSize.page6=false" v-if="pageSize.page6&&data9.length>5">展开更多 ﹀</el-button>
+                  <el-button type="text" class="mr-15" @click="pageSize.page6=true" v-if="!pageSize.page6">收起 ︿</el-button>
+                  <el-button type="text">导出</el-button>
+                </div>
               </div>
             </div>
             <div class="boder1" ref="box10">
@@ -1029,6 +1047,7 @@
                 <el-table
                   :data="data10"
                   class="ak-table2"
+                  :class="{'ak-t1':pageSize.page7==true,'ak-t2':pageSize.page7==false}"
                   border
                   style="width: 100%">
                   <el-table-column
@@ -1079,6 +1098,11 @@
                     prop="">
                   </el-table-column>
                 </el-table>
+                <div class="box1-more" v-if="data10.length>0">
+                  <el-button type="text" class="mr-15" @click="pageSize.page7=false" v-if="pageSize.page7&&data10.length>5">展开更多 ﹀</el-button>
+                  <el-button type="text" class="mr-15" @click="pageSize.page7=true" v-if="!pageSize.page7">收起 ︿</el-button>
+                  <el-button type="text">导出</el-button>
+                </div>
               </div>
             </div>
             <div class="boder1"  ref="box11">
@@ -1092,6 +1116,7 @@
                 <el-table
                   :data="data11_1"
                   class="ak-table2"
+                  :class="{'ak-t1':pageSize.page8==true,'ak-t2':pageSize.page8==false}"
                   border
                   style="width: 100%">
                   <el-table-column
@@ -1142,12 +1167,18 @@
                     prop="">
                   </el-table-column>
                 </el-table>
+                <div class="box1-more" v-if="data11_1.length>0">
+                  <el-button type="text" class="mr-15" @click="pageSize.page8=false" v-if="pageSize.page8&&data11_1.length>5">展开更多 ﹀</el-button>
+                  <el-button type="text" class="mr-15" @click="pageSize.page8=true" v-if="!pageSize.page8">收起 ︿</el-button>
+                  <el-button type="text">导出</el-button>
+                </div>
                 <div class="box2-t-box">
                   <span>外管临住信息</span>
                 </div>
                 <el-table
                   :data="data11_2"
                   class="ak-table2"
+                  :class="{'ak-t1':pageSize.page9==true,'ak-t2':pageSize.page9==false}"
                   border
                   style="width: 100%">
                   <el-table-column
@@ -1194,6 +1225,11 @@
                     prop="stay_address">
                   </el-table-column>
                 </el-table>
+                <div class="box1-more" v-if="data11_2.length>0">
+                  <el-button type="text" class="mr-15" @click="pageSize.page9=false" v-if="pageSize.page9&&data11_2.length>5">展开更多 ﹀</el-button>
+                  <el-button type="text" class="mr-15" @click="pageSize.page9=true" v-if="!pageSize.page9">收起 ︿</el-button>
+                  <el-button type="text">导出</el-button>
+                </div>
               </div>
             </div>
             <div class="boder1" ref="box12">
@@ -1204,6 +1240,7 @@
                 <el-table
                   :data="data12"
                   class="ak-table2"
+                  :class="{'ak-t1':pageSize.page10==true,'ak-t2':pageSize.page10==false}"
                   border
                   style="width: 100%">
                   <el-table-column
@@ -1225,6 +1262,11 @@
                     label="案件数据来源">
                   </el-table-column>
                 </el-table>
+                <div class="box1-more" v-if="data12.length>0">
+                  <el-button type="text" class="mr-15" @click="pageSize.page10=false" v-if="pageSize.page10&&data12.length>5">展开更多 ﹀</el-button>
+                  <el-button type="text" class="mr-15" @click="pageSize.page10=true" v-if="!pageSize.page10">收起 ︿</el-button>
+                  <el-button type="text">导出</el-button>
+                </div>
               </div>
             </div>
             <div class="boder1" ref="box13">
@@ -1238,6 +1280,7 @@
                 <el-table
                   :data="data13_1"
                   class="ak-table2"
+                  :class="{'ak-t1':pageSize.page11==true,'ak-t2':pageSize.page11==false}"
                   border
                   style="width: 100%">
                   <el-table-column
@@ -1265,12 +1308,18 @@
                     prop="dept_na">
                   </el-table-column>
                 </el-table>
+                <div class="box1-more" v-if="data13_1.length>0">
+                  <el-button type="text" class="mr-15" @click="pageSize.page11=false" v-if="pageSize.page11&&data13_1.length>5">展开更多 ﹀</el-button>
+                  <el-button type="text" class="mr-15" @click="pageSize.page11=true" v-if="!pageSize.page11">收起 ︿</el-button>
+                  <el-button type="text">导出</el-button>
+                </div>
                 <div class="box2-t-box">
                   <span>收缴物品信息</span>
                 </div>
                 <el-table
                   :data="data13_2"
                   class="ak-table2"
+                  :class="{'ak-t1':pageSize.page12==true,'ak-t2':pageSize.page12==false}"
                   border
                   style="width: 100%">
                   <el-table-column
@@ -1306,6 +1355,11 @@
                     prop="res_prpt_na">
                   </el-table-column>
                 </el-table>
+                <div class="box1-more" v-if="data13_2.length>0">
+                  <el-button type="text" class="mr-15" @click="pageSize.page12=false" v-if="pageSize.page12&&data13_2.length>5">展开更多 ﹀</el-button>
+                  <el-button type="text" class="mr-15" @click="pageSize.page12=true" v-if="!pageSize.page12">收起 ︿</el-button>
+                  <el-button type="text">导出</el-button>
+                </div>
               </div>
             </div>
             <div class="boder1" ref="box14">
@@ -1316,6 +1370,7 @@
                 <el-table
                   :data="data14"
                   class="ak-table2"
+                  :class="{'ak-t1':pageSize.page13==true,'ak-t2':pageSize.page13==false}"
                   border
                   style="width: 100%">
                   <el-table-column
@@ -1368,6 +1423,11 @@
                     prop="reg_dt">
                   </el-table-column>
                 </el-table>
+                <div class="box1-more" v-if="data14.length>0">
+                  <el-button type="text" class="mr-15" @click="pageSize.page13=false" v-if="pageSize.page13&&data14.length>5">展开更多 ﹀</el-button>
+                  <el-button type="text" class="mr-15" @click="pageSize.page13=true" v-if="!pageSize.page13">收起 ︿</el-button>
+                  <el-button type="text">导出</el-button>
+                </div>
               </div>
             </div>
             <div class="boder1" ref="box15">
@@ -1378,6 +1438,7 @@
                 <el-table
                   :data="data15"
                   class="ak-table2"
+                  :class="{'ak-t1':pageSize.page14==true,'ak-t2':pageSize.page14==false}"
                   border
                   style="width: 100%">
                   <el-table-column
@@ -1400,6 +1461,11 @@
                     prop="cert_vld">
                   </el-table-column>
                 </el-table>
+                <div class="box1-more" v-if="data15.length>0">
+                  <el-button type="text" class="mr-15" @click="pageSize.page14=false" v-if="pageSize.page14&&data15.length>5">展开更多 ﹀</el-button>
+                  <el-button type="text" class="mr-15" @click="pageSize.page14=true" v-if="!pageSize.page14">收起 ︿</el-button>
+                  <el-button type="text">导出</el-button>
+                </div>
               </div>
             </div>
             <div class="boder1" ref="box16">
@@ -1410,6 +1476,7 @@
                 <el-table
                   :data="data16"
                   class="ak-table2"
+                  :class="{'ak-t1':pageSize.page15==true,'ak-t2':pageSize.page15==false}"
                   border
                   style="width: 100%">
                   <el-table-column
@@ -1452,6 +1519,11 @@
                     prop="fltnumber">
                   </el-table-column>
                 </el-table>
+                <div class="box1-more" v-if="data16.length>0">
+                  <el-button type="text" class="mr-15" @click="pageSize.page15=false" v-if="pageSize.page15&&data16.length>5">展开更多 ﹀</el-button>
+                  <el-button type="text" class="mr-15" @click="pageSize.page15=true" v-if="!pageSize.page15">收起 ︿</el-button>
+                  <el-button type="text">导出</el-button>
+                </div>
               </div>
             </div>
             <div class="boder1" ref="box17">
@@ -1462,6 +1534,7 @@
                 <el-table
                   :data="data17"
                   class="ak-table2"
+                  :class="{'ak-t1':pageSize.page16==true,'ak-t2':pageSize.page16==false}"
                   border
                   style="width: 100%">
                   <el-table-column
@@ -1483,6 +1556,11 @@
                     label="报送单位联系人电话">
                   </el-table-column>
                 </el-table>
+                <div class="box1-more" v-if="data17.length>0">
+                  <el-button type="text" class="mr-15" @click="pageSize.page16=false" v-if="pageSize.page16&&data17.length>5">展开更多 ﹀</el-button>
+                  <el-button type="text" class="mr-15" @click="pageSize.page16=true" v-if="!pageSize.page16">收起 ︿</el-button>
+                  <el-button type="text">导出</el-button>
+                </div>
               </div>
             </div>
             <div class="boder1" ref="box18">
@@ -1493,6 +1571,7 @@
                 <el-table
                   :data="data18"
                   class="ak-table2"
+                  :class="{'ak-t1':pageSize.page17==true,'ak-t2':pageSize.page17==false}"
                   border
                   style="width: 100%">
                   <el-table-column
@@ -1523,6 +1602,11 @@
                     label="状态">
                   </el-table-column>
                 </el-table>
+                <div class="box1-more" v-if="data18.length>0">
+                  <el-button type="text" class="mr-15" @click="pageSize.page17=false" v-if="pageSize.page17&&data18.length>5">展开更多 ﹀</el-button>
+                  <el-button type="text" class="mr-15" @click="pageSize.page17=true" v-if="!pageSize.page17">收起 ︿</el-button>
+                  <el-button type="text">导出</el-button>
+                </div>
               </div>
             </div>
             <div class="boder1" ref="box19">
@@ -1533,6 +1617,7 @@
                 <el-table
                   :data="data19"
                   class="ak-table2"
+                  :class="{'ak-t1':pageSize.page18==true,'ak-t2':pageSize.page18==false}"
                   border
                   style="width: 100%">
                   <el-table-column
@@ -1587,6 +1672,11 @@
                     label="操作日期">
                   </el-table-column>
                 </el-table>
+                <div class="box1-more" v-if="data19.length>0">
+                  <el-button type="text" class="mr-15" @click="pageSize.page18=false" v-if="pageSize.page18&&data19.length>5">展开更多 ﹀</el-button>
+                  <el-button type="text" class="mr-15" @click="pageSize.page18=true" v-if="!pageSize.page18">收起 ︿</el-button>
+                  <el-button type="text">导出</el-button>
+                </div>
               </div>
             </div>
             <div class="boder1" ref="box20">
@@ -1597,6 +1687,7 @@
                 <el-table
                   :data="data20"
                   class="ak-table2"
+                  :class="{'ak-t1':pageSize.page19==true,'ak-t2':pageSize.page19==false}"
                   border
                   style="width: 100%">
                   <el-table-column
@@ -1651,6 +1742,11 @@
                     label="操作日期">
                   </el-table-column>
                 </el-table>
+                <div class="box1-more" v-if="data20.length>0">
+                  <el-button type="text" class="mr-15" @click="pageSize.page19=false" v-if="pageSize.page19&&data20.length>5">展开更多 ﹀</el-button>
+                  <el-button type="text" class="mr-15" @click="pageSize.page19=true" v-if="!pageSize.page19">收起 ︿</el-button>
+                  <el-button type="text">导出</el-button>
+                </div>
               </div>
             </div>
 
@@ -1748,7 +1844,7 @@ export default {
       box19:false,
       box20:false,
       size:{size0:8,size1:3,size2:3,size301:16,size302:16,size4:3,size8:3},
-      pageSize:{page1:5},
+      pageSize:{page1:true,page2:true,page3:true,page4:true,page5:true,page6:true,page7:true,page8:true,page9:true,page10:true,page11:true,page12:true,page13:true,page14:true,page15:true,page16:true,page17:true,page18:true,page19:true},
       nationalityName:'',
       tagRemark:'',
       data0:{},
@@ -2457,6 +2553,7 @@ export default {
   vertical-align: middle;
 }
 .box1-more{
+  height: 32px;
   background: #eef9ff;
   text-align: center;
   display: flex;
