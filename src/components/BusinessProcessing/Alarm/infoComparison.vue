@@ -775,15 +775,15 @@ export default {
  },
 
  mounted(){
-   this.pd1.NameListType=parseInt(this.$route.query.NameListType);
-   this.pd1.eventserial=this.$route.query.eventserial;
-   this.pd1.iapiSerial=this.$route.query.iapiSerial;
-   this.pd1.nationAndPass=this.$route.query.nationAndPass;
-   this.pd1.visaNo=this.$route.query.visaNo;
-   this.pd1.personCode=this.$route.query.nationAndPass;
-   this.pd1.recordNum=this.$route.query.dh;
-   this.pd1.AlarmType=this.$route.query.AlarmType;
-   this.getData();
+   // this.pd1.NameListType=parseInt(this.$route.query.NameListType);
+   // this.pd1.eventserial=this.$route.query.eventserial;
+   // this.pd1.iapiSerial=this.$route.query.iapiSerial;
+   // this.pd1.nationAndPass=this.$route.query.nationAndPass;
+   // this.pd1.visaNo=this.$route.query.visaNo;
+   // this.pd1.personCode=this.$route.query.nationAndPass;
+   // this.pd1.recordNum=this.$route.query.dh;
+   // this.pd1.AlarmType=this.$route.query.AlarmType;
+   // this.getData();
  },
  activated(){
    this.pd1.NameListType=parseInt(this.$route.query.NameListType);
@@ -798,7 +798,6 @@ export default {
  },
  methods:{
    getData(){
-
      let p={
     	"currentPage":0,
     	"showCount":10,
@@ -835,7 +834,6 @@ export default {
 
    },
    queding(){
-
      let p={
        "currentPage":0,
        "showCount":3,
@@ -848,7 +846,7 @@ export default {
           "martchPort":this.martchPort,
           "recordNum":this.$route.query.dh
         }
-     };
+     }
      if(this.$route.query.isZDGZ){
        this.$confirm('是否确定?', '提示', {
           confirmButtonText: '确定',
@@ -872,7 +870,6 @@ export default {
           // this.isdisabled=true;
           // this.getData();
         });
-
      }else{
        this.$confirm('是否确定?', '提示', {
           confirmButtonText: '确定',
@@ -888,20 +885,39 @@ export default {
                   type: 'success'
                 });
                 this.$router.go(-1);
-
              }
           })
 
         }).catch(() => {
           // this.isdisabled=true;
-
           // this.getData();
         });
-
      }
-
-
-   }
+   },
+   // 人员照片
+   pssPhotoInfo(){
+     let p={}
+     this.$api.post('/manage-platform/alarmEvents/pssPhotoInfo',p,
+      r => {})
+   },
+   // 布控照片
+   executeControlPhoto(){
+     let p={}
+     this.$api.post('/manage-platform/alarmEvents/executeControlPhoto',p,
+      r => {})
+   },
+   // 信息照片比对结果
+   executeControlPhoto(){
+     let p={}
+     this.$api.post('/manage-platform/alarmEvents/photoCompare',p,
+      r => {})
+   },
+   // 指纹比对结果
+   fingerPrintCompare(){
+     let p={}
+     this.$api.post('/manage-platform/alarmEvents/fingerPrintCompare',p,
+      r => {})
+   },
  }
 }
 </script>

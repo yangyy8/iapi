@@ -11,8 +11,13 @@
 //var root = 'http://192.168.99.244:8080'
 // var root="http://192.168.99.213:8080"   //服务器电脑
 // var root="http://192.168.99.228:8080"
+<<<<<<< HEAD
 var root = 'http://192.168.99.206:8080'
 //var root="http://10.6.126.138:8088" //正式环境
+=======
+// var root = 'http://192.168.99.206:8080'
+// var root="http://10.6.126.138:8088" //正式环境
+>>>>>>> f629aa674972252f41fa17391ece37eeeba4d1a0
 // var root="http://192.168.99.234:8080" //正式环境
 // 引用axios
 var axios = require('axios')
