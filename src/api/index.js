@@ -1,14 +1,9 @@
 // 配置API接口地址
-
-<<<<<<< HEAD
- // var root="http://192.168.99.234:8080"
-=======
-  var root="http://192.168.99.206:8080"
->>>>>>> 87734c940db0f25a6de83a4daa6c43c2e796276c
+  // var root="http://192.168.99.206:8080"
 // var root=""
 // var root = 'http://192.168.99.248:8080'
 
-// var root="http://192.168.99.234:8080"
+var root="http://192.168.99.234:8080"
 //var root="http://192.168.99.242:8081"
 // var root = 'http://192.168.99.248:8080'
 // var root="http://192.168.99.247:8080"
@@ -60,7 +55,8 @@ function isLOGIN(){
       confirmButtonText: '确定',
       type: 'warning',
       callback: action => {
-        window.location.href ="#/";
+        // window.location.href ="#/";
+        window.location.reload();
         return;
       }})
 
