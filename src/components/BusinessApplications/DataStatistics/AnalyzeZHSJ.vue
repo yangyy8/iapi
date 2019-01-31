@@ -827,4 +827,10 @@ export default {
   border-radius: 0 5px 5px 5px;
 }
 .ppie{width:420px; height:400px; float:left}
+
+</style>
+<style>
+.el-table th > .cell {
+  padding-right: 15px!important;
+}
 </style>
