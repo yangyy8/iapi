@@ -8,12 +8,12 @@
 
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">申请标题：</span>
-              <el-input placeholder="请输入内容" size="small" v-model="pd.targetSign"  class="input-input"></el-input>
+              <el-input placeholder="请输入内容" size="small" v-model="pd.APPLY_TITLE"  class="input-input"></el-input>
             </el-col>
 
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">申请类型：</span>
-              <el-select v-model="pd.targetType" class="input-input"  filterable clearable placeholder="请选择"   size="small">
+              <el-select v-model="pd.APPLY_TYPE" class="input-input"  filterable clearable placeholder="请选择"   size="small">
                 <el-option value="1" label="1 - 指标">
                 </el-option>
                 <el-option value="2" label="2 - 字典">
@@ -30,12 +30,12 @@
             </el-col>
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">处理状态：</span>
-              <el-select v-model="pd.showDistrick" class="input-input"  filterable clearable placeholder="请选择"   size="small">
-                <el-option value="11" label="11 - 申请">
+              <el-select v-model="pd.APPLY_STATUS" class="input-input"  filterable clearable placeholder="请选择"   size="small">
+                <el-option value="10" label="10 - 暂存">
+                </el-option>
+                <el-option value="11" label="11 - 提交">
                 </el-option>
                 <el-option value="12" label="12 - 撤回">
-                </el-option>
-                <el-option value="13" label="13 - 删除">
                 </el-option>
                 <el-option value="21" label="21 - 确认">
                 </el-option>
@@ -61,20 +61,23 @@
         @header-click="headerClick"
         >
         <el-table-column
-        type="Index"
-        label="序号">
+        type="index"
+        label="序号" width="55">
         </el-table-column>
         <el-table-column
-          prop="TARGET_SIGN" sortable
+          prop="APPLY_TITLE" sortable
           label="申请标题">
         </el-table-column>
         <el-table-column
-         prop="TARGET_NAME" sortable
+          sortable
          label="申请类型"
          >
+         <template slot-scope="scope">
+             {{scope.row.APPLY_TYPE | fiftertype}}
+           </template>
        </el-table-column>
          <el-table-column
-          prop="TARGET_NAME" sortable
+          prop="PORT" sortable
           label="申请口岸"
           >
         </el-table-column>
@@ -83,29 +86,29 @@
           label="申请人">
         </el-table-column>
         <el-table-column
-          prop="TARGET_DESCRIBE" sortable
+          prop="APPLY_TIME" sortable
           label="申请时间">
         </el-table-column>
         <el-table-column
-          prop="TARGET_TYPE" sortable
+          prop="APPLY_DESCRIBE" sortable
           label="申请描述">
         </el-table-column>
         <el-table-column
-          prop="CLASS_NAME" sortable
+          prop="PHONE" sortable
           label="联系方式">
         </el-table-column>
         <el-table-column
           label="处理状态" sortable>
           <template slot-scope="scope">
-              {{scope.row.SHOW_DISTRICK | fiftertype}}
+              {{scope.row.APPLY_STATUS | fifterstatus}}
             </template>
         </el-table-column>
         <el-table-column
           label="操作" width="160">
           <template slot-scope="scope">
-              <el-button type="text" class="a-btn" title="确认" icon="el-icon-check" @click="adds(1,scope.row)"></el-button>
-              <el-button type="text" class="a-btn" title="退回" icon="el-icon-sold-out" @click="adds(1,scope.row)"></el-button>
-              <el-button type="text" class="a-btn" title="处理完成" icon="el-icon-edit-outline" @click="deletes(scope.row)"></el-button>
+              <el-button type="text" class="a-btn" title="确认" icon="el-icon-check" @click="withdraws(scope.row,21)"></el-button>
+              <el-button type="text" class="a-btn" title="退回" icon="el-icon-sold-out" @click="withdraws(scope.row,22)"></el-button>
+              <el-button type="text" class="a-btn" title="处理完成" icon="el-icon-edit-outline" @click="withdraws(scope.row,31)"></el-button>
               <el-button type="text" class="a-btn"   title="状态详情"  icon="el-icon-tickets" @click="details(scope.row)"></el-button>
          </template>
         </el-table-column>
@@ -204,7 +207,7 @@
         <el-button @click="addDialogVisible = false" size="small">取 消</el-button>
       </div>
     </el-dialog>
-    <el-dialog title="详情" :visible.sync="detailsDialogVisible" width="500px" >
+    <el-dialog title="详情" :visible.sync="detailsDialogVisible">
       <el-table
         :data="tableData1"
         border
@@ -213,24 +216,27 @@
         @header-click="headerClick"
         >
         <el-table-column
-        type="Index"
-        label="序号" >
+        type="index"
+        label="序号" width="55" >
         </el-table-column>
         <el-table-column
-          prop="TARGET_SIGN" sortable
+          prop="USER_NAME" sortable
           label="操作人">
         </el-table-column>
          <el-table-column
-          prop="TARGET_NAME" sortable
-          label="状态"
+          sortable
+          label="操作状态"
           >
+          <template slot-scope="scope">
+              {{scope.row.POERATE_STATUS | fifterstatus}}
+            </template>
         </el-table-column>
         <el-table-column
-          prop="CALCULATION" sortable
-          label="时间">
+          prop="POERATE_TIEM" sortable
+          label="操作时间">
         </el-table-column>
         <el-table-column
-          prop="TARGET_DESCRIBE" sortable
+          prop="REMARK" sortable
           label="备注">
         </el-table-column>
 
@@ -253,8 +259,8 @@ export default {
       TotalResult: 0,
       pd: {},
       company: [],
-      sertail:"",
-      dialogText:"新增",
+      sertail: "",
+      dialogText: "新增",
       addDialogVisible: false,
       detailsDialogVisible: false,
       menuDialogVisible: false,
@@ -278,7 +284,7 @@ export default {
         children: 'menuList',
         label: 'name'
       },
-      defaultChecked:[],
+      defaultChecked: [],
       multipleSelection: [],
       pickerOptions1: {
         // shortcuts: [{
@@ -311,15 +317,15 @@ export default {
     //this.getList(this.CurrentPage, this.pageSize, this.pd);
     //this.queryNationality();
   },
-  activated(){
+  activated() {
     //getList(this.CurrentPage, this.pageSize, this.pd);
   },
   methods: {
-    selectChange(){
+    selectChange() {
       this.$forceUpdate();
     },
-    headerClick(column,event){
-    event.target.title=column.label
+    headerClick(column, event) {
+      event.target.title = column.label
     },
     handleSelectionChange(val) {
       this.multipleSelection = val;
@@ -338,85 +344,69 @@ export default {
         "showCount": showCount,
         "pd": pd
       };
-      this.$api.post('/manage-platform/target/select', p,
+      this.$api.post('/manage-platform/apply/select', p,
         r => {
           this.tableData = r.data.pdList;
           this.TotalResult = r.data.totalResult;
         })
     },
-    queryNationality() {
-      this.$api.post('/manage-platform/userSys/goAdd', {},
-        r => {
-          console.log(r);
-          if (r.success) {
-            this.company = r.data.deptList;
-          }
-        })
-    },
-    adds(n, i) {
-
-      this.addDialogVisible = true;
-        this.V.$reset("demo2");
-      if (n != 0) {
-        this.tp = 1;
-        // this.form = i;
-        // this.form=Object.assign({}, i);
-        this.form.targetId=i.TARGET_ID;
-        this.form.targetSign=i.TARGET_SIGN;
-        this.form.targetName=i.TARGET_NAME;
-        this.form.targetDescribe=i.TARGET_DESCRIBE;
-        this.form.targetType=i.TARGET_TYPE;
-        this.form.targetSource=i.TARGET_SOURCE;
-        this.form.calculation=i.CALCULATION;
-        this.form.className=i.CLASS_NAME;
-        this.form.para=i.PARA;
-        this.form.script=i.SCRIPT;
-        this.form.showDistrick=i.SHOW_DISTRICK;
-        this.dialogText="编辑";
-      }else {
-        this.tp = 0;
-        this.dialogText="新增";
+    withdraws(i, s) { //撤回
+      var sinfo = "";
+      switch (s) {
+        case 21:
+          sinfo = "确认成功";
+          break;
+        case 22:
+          sinfo = "退回成功";
+          break;
+        case 31:
+          sinfo = "处理完成";
+          break;
+        default:
+          sinfo = "操作成功";
       }
-    },
-    addItem(formName) {
-
-      this.V.$submit('demo2', (canSumit,data) => {
-          // canSumit为true时，则所有该scope的所有表单验证通过
-           if(!canSumit) return;
-           // 只有验证全部通过才会执行
-
-      var url = "/manage-platform/target/addTarger";
-      if (this.tp == 1) {
-        url = "/manage-platform/target/editTarger";
-      }
-      this.$api.post(url, this.form,
-        r => {
-          console.log(r);
-          if (r.success) {
-            this.$message({
-              message: '保存成功！',
-              type: 'success'
-            });
-          } else {
-            this.$message.error(r.Message);
-          }
-          this.$refs[formName].resetFields();
-          this.addDialogVisible = false;
-          this.getList(this.CurrentPage, this.pageSize, this.pd);
-          // this.tableData=r.Data.ResultList;
-        }, e => {
-          this.$message.error('失败了');
+      let p = {
+        "APPLY_ID": i.APPLY_ID,
+        "APPLY_STATUS": s+"",
+        "REMARK": sinfo
+      };
+      this.$confirm('您是否确认操作？', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$api.post('/manage-platform/apply/updateStatus', p,
+          r => {
+            if (r.success) {
+              this.$message({
+                message: sinfo,
+                type: 'success'
+              });
+              this.getList(this.CurrentPage, this.pageSize, this.pd);
+            } else {
+              this.$message.error(r.Message);
+            }
+          }, e => {
+            this.$message.error('失败了');
+          });
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消操作'
         });
       });
     },
+
     details(i) {
       this.detailsDialogVisible = true;
       let p = {
-        "targetId": i.TARGET_ID
+        "APPLY_ID": i.APPLY_ID
       };
-      this.$api.post('/manage-platform/target/showDetai', p,
+      this.$api.post('/manage-platform/applyLog/details', p,
         r => {
-          this.mapForm = r.data;
+          if (r.success) {
+            this.tableData1 = r.data;
+          }
         })
     },
     deletes(i) {
@@ -451,62 +441,59 @@ export default {
         });
       });
     },
-    menus(i) {
-      this.menuDialogVisible = true;
-      this.sertail=i.SERIAL;
-      let p = {
-        "SERIAL": i.SERIAL
-      };
-      this.$api.post('/manage-platform/roleSys/goEditJuri', p,
-        r => {
-          console.log(r);
-          if (r.success) {
-            this.menudata = r.data.userTreeOne;
-            let arr=r.data.userTreeOne,that=this;
-          this.defaultChecked=r.data.checkList;
-          }
-        })
-    },
-menuItem(){
-  let checkList=this.$refs.tree.getCheckedNodes();
-  //let checkList=this.$refs.tree.getCheckedKeys();
-  let p={
-    // menuList:this.menudata,
-   "ROLE_ID":this.sertail,
-    checkList:checkList
-  }
-  this.$api.post('/manage-platform/roleSys/editJuri', p,
-    r => {
-      console.log(r);
-      if (r.success) {
-        this.$message({
-          type: 'success',
-          message: '保存成功'
-        });
-      }else{
-  this.$message.error('保存失败');
-      }
-    })
-        this.menuDialogVisible = false;
-},
+
+
   },
   filters: {
     fiftertype(val) {
-      if (val == 1) {
-        return "人员基本信息"
-      } else if (val == 2){
-        return "证件信息"
-      }
-      else if (val == 3){
-        return "航班信息"
-      }
-      else if (val == 4){
-        return "在华情况"
-      }
-      else {
-        return "其他"
+
+      switch (val) {
+        case "1":
+          return "指标";
+          break;
+        case "2":
+          return " 字典";
+          break;
+        case "3":
+          return "名单";
+          break;
+        case "4":
+          return "标签";
+          break;
+        case "5":
+          return "前台提问";
+          break;
+        case "99":
+          return "其它";
+          break;
+        default:
+          return "";
       }
 
+    },
+    fifterstatus(val) {
+      switch (val) {
+        case "11":
+          return "申请";
+          break;
+        case "13":
+          return "撤回";
+          break;
+        case "13":
+          return "删除";
+          break;
+        case "21":
+          return " 确认";
+          break;
+        case "22":
+          return "退回";
+          break;
+        case "31":
+          return "处理完成";
+          break;
+        default:
+          return "";
+      }
     }
   },
 }
@@ -516,18 +503,22 @@ menuItem(){
 .add-dialog {
   /* padding-left:40px; */
 }
+
 .detail-msg-row {
   color: #999;
   line-height: 32px;
 }
+
 .detail-msg-row span {
   color: #333;
   display: inline-block;
   width: 60px;
 }
+
 .yy-input-text {
   width: 25% !important;
 }
+
 .yy-input-input {
   width: 68% !important;
 }
