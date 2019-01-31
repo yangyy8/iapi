@@ -37,7 +37,7 @@
       </el-row>
     </div>
     <div class="middle">
-        <span class="tubiao hand borderL" :class="{'checked':page==1}" @click="qq">文件管理</span><span class="tubiao hand borderR" :class="{'checked':page==0}" @click="page=0">通讯录</span>
+        <span class="tubiao hand borderL www" :class="{'checked':page==1}" @click="qq">文件管理</span><span class="tubiao hand borderR wwt" :class="{'checked':page==0}" @click="page=0">通讯录</span>
         <div id="div1" v-show="page==0">
           <el-row class="margin-bt">
             <el-button type="primary" size="mini" @click="adds(0,'');form={}">新增</el-button>
@@ -869,6 +869,12 @@ export default {
     background: #409EFF;
     border-color: #409EFF;
     color: #ffffff;
+}
+.www{
+  width: 48px;
+}
+.wwt{
+  width: 38px;
 }
 </style>
 <style media="screen">

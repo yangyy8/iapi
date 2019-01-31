@@ -805,7 +805,7 @@
                 </div>
 
                 <div class="check-div" v-if="checkShow2">
-                  <i class="el-icon-close close" @click="checkShow2=false"></i>
+                  <i class="el-icon-close close" @click="checkShow2=false;"></i>
                   <el-input  placeholder="请输入口岸"  v-model="port0" clearable size="mini" class="mb-9" @input="searchPort0"></el-input>
 
                   <header>
@@ -1176,6 +1176,7 @@
           </el-table-column>
         </el-table>
         <div class="tan-btn-g">
+          <el-button type="success"  class="mr-10" size="small" @click="getNewData(2)">确定</el-button>
           <el-button type="warning" size="small"  @click="tabId=0">关闭</el-button>
         </div>
       </div>
@@ -1413,6 +1414,8 @@
           </el-table-column>
         </el-table>
         <div class="tan-btn-g">
+          <el-button type="success"  class="mr-10" size="small" @click="getNewData(3)">确定</el-button>
+
           <el-button type="warning" size="small" @click="tabId=0">关闭</el-button>
         </div>
       </div>
@@ -1621,7 +1624,7 @@ export default {
   },
   activated(){
     this.initChart(this.series);
-    this.getNewData();
+    // this.getNewData();
 
   },
   created(){
@@ -1920,12 +1923,119 @@ export default {
       this.$api.post('/manage-platform/nationwide/getFlightMonitorInfo',{},
        r => {
          //console.log(r);
-         this.newHbData=r.data;
-         console.log("newHbData",this.newHbData)
-         this.createM(this.newHbData,type)
+         // this.newHbData=r.data;
+         console.log("newHbData",r.data)
+         this.createM(r.data,type)
+      })
+    },
+    getNewData0(){
+      this.$api.post('/manage-platform/nationwide/getPortMonitorInfo',{},
+       r => {
+         //console.log(r);
+         // this.newHbData=r.data;
+         console.log("newHbData",r.data)
+         this.createM0(r.data)
       })
     },
     // 动画
+    createM0(data){
+      this.chart.dispose();
+      this.chart = null;
+      this.series=[];
+      let _this=this;
+      let f={
+        type: 'effectScatter',
+        coordinateSystem: 'geo',
+        zlevel: 6,
+        rippleEffect: {
+          brushType: 'stroke'
+        },
+        itemStyle: {
+          normal: {
+            color: '#ffffff'
+          }
+        },
+        tooltip:{
+          trigger: 'item',
+          // formatter: '{b}<br/>{c}',
+          backgroundColor:'#143652',
+          padding:10,
+          borderColor:'#028bd0',
+          borderWidth:1,
+          enterable :true,
+          // triggerOn:'click',
+          formatter: function (params, ticket, callback) {
+              _this.$api.get('/manage-platform/nationwide/getPortDetail',{port:params.data.value[2]},
+               r => {
+                 let data=r.data.flights;
+                  let html ='';
+                  let table='<table cellspacing="0" style="background:#09679d;font-size:12px;width:690px">\
+                                  <thead style="display: table;table-layout: fixed;width:100%;">\
+                                    <tr style="height:20px;display: table;table-layout: fixed;width:100%;">\
+                                      <td style="height:20px!important;padding:0 5px!important;width:50px">航班号</td>\
+                                      <td style="height:20px!important;padding:0 5px!important;width:110px;">到达地</td>\
+                                      <td style="height:20px!important;padding:0 5px!important;width:115px;">预计起飞时间</td>\
+                                      <td style="height:20px!important;padding:0 5px!important;width:115px;">预计到达时间</td>\
+                                      <td style="height:20px!important;padding:0 0px!important;width:85px;">航班状态</td>\
+                                      <td style="height:20px!important;padding:0 0px!important;width:50px;">订票数</td>\
+                                      <td style="height:20px!important;padding:0 5px!important;width:50px;">载运旅客</td>\
+                                      <td style="height:20px!important;padding:0 5px!important;width:50px;">不准入境</td>\
+                                      <td style="height:20px!important;padding:0 5px!important;width:50px;">非法载运</td>\
+                                    </tr>\
+                                  </thead>\
+                                <tbody style="max-height:240px!important;overflow-y:auto!important;display:block;width:100%;">';
+                  for(var i in data){
+                    let data2={};
+                        data2.fltno=data[i].fltno||'-';
+                        data2.preDepartTime=data[i].preDepartTime||'-';
+                        data2.to=data[i].to||'-';
+                        data2.preArriveTime=data[i].preArriveTime||'-';
+                        data2.statusName=data[i].statusName||'-';
+                        data2.bookNum=data[i].bookNum||'0';
+                        data2.boardingNum=data[i].boardingNum||'0';
+                        data2.forbiddenNum=data[i].forbiddenNum||'0';
+                        data2.illegalNum=data[i].illegalNum||'0';
+
+                        console.log(data2)
+                    table+='<tr style="background:#112b42;height:20px;display: table;table-layout: fixed;width:100%;">\
+                              <td style="border:1px #143652 solid;height:20px!important;padding:0 5px!important;width:50px">'+data2.fltno+'</td>\
+                              <td style="border:1px #143652 solid;height:20px!important;padding:0 5px!important;width:110px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;">'+data2.to+'</td>\
+                              <td style="border:1px #143652 solid;height:20px!important;padding:0 5px!important;width:115px;">'+data2.preDepartTime+'</td>\
+                              <td style="border:1px #143652 solid;height:20px!important;padding:0 5px!important;width:115px;">'+data2.preArriveTime+'</td>\
+                              <td style="border:1px #143652 solid;height:20px!important;padding:0 0px!important;width:85px">'+data2.statusName+'</td>\
+                              <td style="border:1px #143652 solid;height:20px!important;padding:0 0px!important;width:50px">'+data2.bookNum+'</td>\
+                              <td style="border:1px #143652 solid;height:20px!important;padding:0 5px!important;width:50px">'+data2.boardingNum+'</td>\
+                              <td style="border:1px #143652 solid;height:20px!important;padding:0 5px!important;width:50px">'+data2.forbiddenNum+'</td>\
+                              <td style="border:1px #143652 solid;height:20px!important;padding:0 5px!important;width:50px">'+data2.illegalNum+'</td>\
+                           </tr>'
+
+                  }
+                  html+=table+'</tbody></table></div>'
+
+                 callback(ticket, html);
+              })
+              return 'Loading';
+          },
+        },
+
+        symbolSize: 10,
+        data: [],
+      }
+      console.log(data)
+      data.forEach(function(val,index,arr){
+        console.log(val)
+        let a={
+          name:val.portName,
+          value:[val.jd,val.wd,val.port]
+        }
+
+        f.data.push(a)
+      })
+      this.series.push(f);
+      console.log(this.series)
+      this.initChart(this.series);
+
+    },
     createM(data,type){
       this.series=[];
       let _this=this;
@@ -2316,8 +2426,6 @@ export default {
                           data2.boardingNum=data[i].boardingNum||'0';
                           data2.forbiddenNum=data[i].forbiddenNum||'0';
                           data2.illegalNum=data[i].illegalNum||'0';
-
-                          console.log(data2)
                       table+='<tr style="background:#112b42;height:20px;display: table;table-layout: fixed;width:100%;">\
                                 <td style="border:1px #143652 solid;height:20px!important;padding:0 5px!important;width:50px">'+data2.fltno+'</td>\
                                 <td style="border:1px #143652 solid;height:20px!important;padding:0 5px!important;width:110px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;">'+data2.to+'</td>\
@@ -2877,7 +2985,7 @@ export default {
       this.$api.post('/manage-platform/portMonitor/updateMonitorPortInfo',p,
        r => {
          console.log("updateJkKa",r);
-         this.getNewData(1);
+         this.getNewData0();
          this.tabId=0;
       })
     },
@@ -2904,6 +3012,8 @@ export default {
     },
     // 境内口岸列表取得
     getKaList(){
+      this.port0='';
+      this.searchP0=true;
       if(this.checkShow2)return;
       let p=this.checkList.map(function(val){
         return val.code
@@ -2946,6 +3056,9 @@ export default {
     },
     // 境外国家列表取得
     getGjList(){
+      this.gj1='';
+      this.searchG=true;
+
       if(this.checkShow3)return;
 
       let p=this.checkList5.map(function(val){
@@ -2985,6 +3098,8 @@ export default {
     },
     // 境外口岸列表取得
     getJwKaList(){
+      this.port1='';
+      this.searchP=true;
       if(this.checkShow4)return;
 
       let p=this.checkList3.map(function(val){

@@ -88,11 +88,11 @@
       </el-aside>
       <el-main class="right-main" :class="{'nobg':tabList.length==0}">
         <ul class="tabList">
-          <li class="tabList-item hand" :style="{width:tabliwidth}" :class="{'tabList-checked':nav2name==i.name}" @click.right="closeRight(index)"  v-for="(i, index) in tabList">
+          <li class="tabList-item hand" :style="{width:tabliwidth}" :class="{'tabList-checked':nav2Id==i.query.nav2Id}" @click.right="closeRight(index)"  v-for="(i, index) in tabList">
             <!-- <el-tooltip class="item" effect="dark" :content="i.name" placement="top"> -->
-              <span  @click="tabNav2(i)">{{i.query.title||'二级页面'}}</span>
+              <span  @click="tabNav2(i)">{{i.query.title}}</span>
             <!-- </el-tooltip> -->
-            <img src="../assets/img/tab-close1.png" alt="guanbi" @click="close1(index,i)" class="hand" style="padding:8px" v-if="nav2name==i.name">
+            <img src="../assets/img/tab-close1.png" alt="guanbi" @click="close1(index,i)" class="hand" style="padding:8px" v-if="nav2Id==i.query.nav2Id">
             <img src="../assets/img/tab-close2.png" alt="" @click="tabList.splice(index, 1)" style="padding:8px" class="hand" v-else>
 
           </li>
@@ -123,7 +123,7 @@
         </div>
       </div>
 
-      <div class="rb-msg" v-if="msgIrShow">
+      <div class="rb-msg" v-if="msgIrShow" style="bottom: 250px !important;">
         <div class="">
           <div class="rb-title">
             信息收发未处理消息
@@ -139,7 +139,32 @@
         </div>
       </div>
 
-      <div class="rb-msg" v-if="msgPmShow">
+      <el-dialog
+        title="提示详情"
+        :visible.sync="numberIrDialogVisible"
+        width="600px">
+        <el-form>
+          <el-row type="flex"  class="t-detail">
+            <el-col :span="10" class="t-el-content"><div class="t-el-text">发送人姓名：</div><div class="t-el-sub">{{IrInfo.SENDERNAME}}</div></el-col>
+            <el-col :span="10" class="t-el-content"><div class="t-el-text">发送内容：</div><div class="t-el-sub">{{IrInfo.DETAILS}}</div></el-col>
+          </el-row>
+          <el-row class="mb-6">
+            <el-col :span="24" class="infile">
+              <div v-for="(d4,ind) in inFiles" :key="ind" class="infiledd">
+                <span class="mr-30 avgerName">{{d4.FILENAME}}</span>
+                <!-- <span class="mr-30 tc-999 avgera">上传时间：{{d4.CREATETIME}}</span> -->
+                <!-- <el-button type="text" class="redx" @click="delFileInfo(d4.SERIAL)">删除</el-button> -->
+                <el-button type="text" class="avgera"><a :href="d4.FILEURL" class="green" download="">下载</a></el-button>
+              </div>
+            </el-col>
+          </el-row>
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="numberIrDialogVisible = false" size="small">取消</el-button>
+        </div>
+      </el-dialog>
+
+      <div class="rb-msg" v-if="msgPmShow" style="bottom:120px!important">
         <div class="">
           <div class="rb-title">
             提示管理未处理消息
@@ -154,6 +179,25 @@
           </div>
         </div>
       </div>
+      <el-dialog
+        title="提示详情"
+        :visible.sync="numberDialogVisible"
+        width="400px">
+        <el-form>
+          <el-row type="flex"  class="t-detail">
+            <el-col :span="20" class="t-el-content"><div class="t-el-text">发送人姓名：</div><div class="t-el-sub">{{PmInfo.REGISTRATIONNAME}}</div></el-col>
+          </el-row>
+          <el-row type="flex"  class="t-detail">
+            <el-col :span="8" class="t-el-content"><div class="t-el-text">发送人账号：</div><div class="t-el-sub">{{PmInfo.REGISTRATIONACCOUNT}}</div></el-col>
+          </el-row>
+          <el-row type="flex"  class="t-detail">
+            <el-col :span="8" class="t-el-content"><div class="t-el-text">发送内容：</div><div class="t-el-sub">{{PmInfo.CONTENT}}</div></el-col>
+          </el-row>
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="numberDialogVisible = false" size="small">取消</el-button>
+        </div>
+      </el-dialog>
     </el-container>
   </el-container>
 </template>
@@ -163,6 +207,11 @@
 export default {
   data() {
     return {
+      PmInfo:{},
+      IrInfo:{},
+      inFiles:[],
+      numberDialogVisible:false,
+      numberIrDialogVisible:false,
       bgjpg:1,
       rightShow:null,
       userName:'',
@@ -181,7 +230,6 @@ export default {
       nav1Id: null,
       nav1List: [],
       nav2Id: 1,
-      nav2name:'',
       nav2List: [],
 
       tabList: [],
@@ -215,9 +263,9 @@ export default {
     //   _this.msg()
     // },180000)
 
-    // setInterval(function(){
-    //   _this.msgI();
-    // },10000)
+    setInterval(function(){
+      _this.msgI();
+    },300000)
 
   },
   watch:{
@@ -229,7 +277,7 @@ export default {
       }
     },
     $route:function(val){
-      if(val.query.nav2Id){
+      if(val.query.title){
         for(var j=0;j<this.tabList.length;j++){
           if(this.tabList[j].query.nav2Id==val.query.nav2Id){
             // //console.log("重复")
@@ -237,8 +285,6 @@ export default {
           }
         }
         this.tabList.push(val);
-        this.nav2name=val.name;
-        console.log("nav2name==========================================",this.nav2name)
 
       }
       console.log("val==========================================",val)
@@ -288,7 +334,7 @@ export default {
     },
     msgI(){
       let p={
-        'pd':{time:10}
+        'pd':{time:300000}
       }
       this.$api.post('/manage-platform/information/queryUnReadInformationReceiveListByTime',p,
         r => {
@@ -314,7 +360,7 @@ export default {
     },
     // 左侧菜单获取===============================
     getNav(navId) {
-      console.log("1.菜单获取")
+      this.$route.params.navId=navId
       this.$api.post('/manage-platform/muneSys/menuChild', {
           SERIAL: navId
         },
@@ -329,9 +375,9 @@ export default {
 
     // 点击一级菜单================================
     nav1to2(nav1Id,click) {
-      console.log("2.一级菜单获取")
       this.nav1Id=nav1Id;
       this.$router.push({query:{nav1Id:nav1Id}})
+      //console.log(nav1Id)
       let _this=this;
       for(var i=0;i<this.nav1List.length;i++){
         var a=_this.nav1List[i];
@@ -342,6 +388,8 @@ export default {
           }else{
             _this.nav2Id=_this.$route.query.nav2Id||a.menuList[0].SERIAL
           }
+          //console.log("nav2List:",_this.nav2List);
+          //console.log("nav2Id1:",_this.nav2Id);
           _this.nav2(_this.nav2Id)
         }
       }
@@ -349,17 +397,28 @@ export default {
     },
     // 点击二级菜单======================================
     nav2(nav2Id) {
-      console.log("3.二级菜单获取")
+      //console.log("nav2List:",this.nav2List);
 
       this.nav2Id = nav2Id;
-
       for(var i=0;i<this.nav2List.length;i++){
         if(this.nav2List[i].SERIAL==nav2Id){
           this.checkItem=this.nav2List[i];
+          //console.log("nav2Id2:",this.nav2Id);
           let _this=this;
           setTimeout(function(){
             _this.$router.push({name: _this.checkItem.url,query:{nav1Id:_this.checkItem.parentId,nav2Id:nav2Id,title:_this.checkItem.name}})
+
           },400)
+
+          // for(var j=0;j<this.tabList.length;j++){
+          //   if(this.tabList[j].SERIAL==this.checkItem.SERIAL){
+          //     // //console.log("重复")
+          //     return
+          //   }
+          // }
+          // console.log("checkItem============", this.checkItem)
+          // this.tabList.push(this.checkItem)
+
         }
       }
 
@@ -368,8 +427,9 @@ export default {
 
     },
     tabNav2(nav2Item){
+      console.log("this.$route.params.navId",this.$route.params.navId)
       console.log('nav2Item:',nav2Item);
-      this.nav2name=nav2Item.name;
+
       if(this.nav2Id==nav2Item.query.nav2Id) return;
 
       if(nav2Item.params.navId!=this.$route.params.navId){
@@ -378,6 +438,7 @@ export default {
         let _this=this;
         setTimeout(function(){
           _this.$router.push({params: {navId:nav2Item.params.navId},query:{nav1Id:nav2Item.query.nav1Id,nav2Id:nav2Item.query.nav2Id}});
+          console.log("new",nav2Item.params.navId)
           _this.getNav(nav2Item.params.navId)
         },400)
       }
@@ -461,16 +522,24 @@ export default {
       this.msgShow=false;
     },
     msgIr(x){
-      // console.log(x.menuId.rootId)
-      // console.log(x.menuId.parentId)
-      // console.log(x.menuId.urlId)
-      this.$router.push({params:{navId:x.menuId.rootId},query:{nav1Id:x.menuId.parentId,nav2Id:x.menuId.urlId}})
-      this.getNav(x.menuId.rootId);
-      // this.msgIrShow=false;
+      // this.$router.push({params:{navId:x.menuId.rootId},query:{nav1Id:x.menuId.parentId,nav2Id:x.menuId.urlId}})
+      // this.getNav(x.menuId.rootId);
+      this.numberIrDialogVisible = true;
+      this.IrInfo=x.informationSend;
+      this.inFiles=x.informationSend.files;
+      this.$api.post('/manage-platform/information/updateInformationReceiveInf',{SERIAL:x.SERIAL},
+       r =>{
+         this.msgIrShow=false;
+       })
+
     },
     msgPm(x){
-      this.$router.push({params:{navId:x.menuId.rootId},query:{nav1Id:x.menuId.parentId,nav2Id:x.menuId.urlId}})
-      this.getNav(x.menuId.rootId);
+      this.numberDialogVisible=true;
+      this.PmInfo = x.prompt;
+      this.$api.post('/manage-platform/promptManage/updatePrompt ',{SERIAL:x.SERIAL},
+       r =>{
+         this.msgPmShow = false;
+       })
     },
     // 顶部菜单跳转================================
     topNavTo(SERIAL){
@@ -688,6 +757,7 @@ export default {
 }
 
 .el-header {
+
   padding: 25px 88px 16px 88px;
   display: flex;
   justify-content: space-between;
@@ -698,6 +768,7 @@ export default {
 }
 
 .el-header img {}
+
 .content {
   /* background: url(./../assets/img/bg.png) ; */
   /* background-size:  100% 100%; */

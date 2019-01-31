@@ -151,7 +151,7 @@
     </div>
     <div class="middle mb-2" v-for="(x,ind) in chartList" :key="ind">
       <div class="map-title">{{x.titleText}}</div>
-      <span class="tubiao hand borderL" :class="{'checked':x.censusParamBean.queryType==0}" @click="getType(x,ind,0);">量</span><span class="tubiao hand borderR" :class="{'checked':x.censusParamBean.queryType==1}" @click="getType(x,ind,1);">率</span>
+      <span class="tubiao hand borderL wwm" :class="{'checked':x.censusParamBean.queryType==0,'xuanzeLiang':isLiang}" :style="{display:qq}" @click="getType(x,ind,0);">量</span><span class="tubiao hand borderR wwm" :style="{display:qq}" :class="{'checked':x.censusParamBean.queryType==1,'xuanzeLv':isLv}" @click="getType(x,ind,1);">率</span>
       <div class="" style="position:relative;">
         <el-button class="table-btn dz-btn" plain @click="customized(x.censusParamBean)">定制</el-button>
 
@@ -184,6 +184,9 @@ export default {
   },
   data(){
     return{
+      isLiang:true,
+      isLv:true,
+      qq:'none',
       modelDialogVisible:false,
       seeModelDialogVisible:false,
       modelCheck:false,
@@ -331,6 +334,25 @@ export default {
         });
         return false
       }
+      if(this.pd.number==''||this.pd.number==undefined){
+        this.isLiang=false;
+        this.qq='none'
+      }else{
+        this.isLiang=true;
+        this.qq='none'
+      }
+      if(this.pd.percent==''||this.pd.percent==undefined){
+        this.isLv=false;
+        this.qq='none'
+      }else{
+        this.isLv=true;
+        this.qq='none'
+      }
+      if(this.pd.number!=''&&this.pd.percent!=''){
+        this.isLiang=false;
+        this.isLv=false;
+        this.qq='inline-block'
+      }
       this.$api.post('/manage-platform/census/queryCensus',this.pd,
        r => {
          this.chartList=r.data;
@@ -440,5 +462,25 @@ export default {
   height: 20px;
   line-height: 3px;
   z-index: 100;
+}
+.xuanzeLiang{
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px;
+  display: inline-block!important;
+  background:#56A8FE;
+  color:#ffffff;
+}
+.xuanzeLv{
+  border-top-left-radius: 3px;
+  border-bottom-left-radius: 3px;
+  display: inline-block!important;
+  background:#56A8FE;
+  color:#ffffff;
+}
+.dd{
+  display: none;
+}
+.wwm{
+  width: 14px;
 }
 </style>
