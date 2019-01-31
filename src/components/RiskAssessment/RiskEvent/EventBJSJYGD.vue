@@ -231,7 +231,7 @@
             width="90"
             :show-overflow-tooltip="true">
             <template slot-scope="scope">
-              <span class="tc-b hand" @click="$router.push({name:'DZDA',query:{nationality:scope.row.nationality,passportno:scope.row.passportno,grade:scope.row.grade,type:2}})">{{scope.row.passportno}}</span>
+              <span class="tc-b hand" @click="$router.push({name:'DZDA',query:{nationality:scope.row.nationality,passportno:scope.row.passportno,grade:scope.row.grade,type:2,nav2Id:scope.row.passportno+scope.row.nationality,title:'电子档案'}})">{{scope.row.passportno}}</span>
             </template>
           </el-table-column>
           <el-table-column
@@ -323,7 +323,7 @@
             label="操作"
             width="70">
             <template slot-scope="scope">
-              <el-button type="text" class="a-btn" icon="el-icon-view" title="查看" @click="$router.push({name:'BJCLCX',query:{serial:scope.row.serial,grade:scope.row.grade}})"></el-button>
+              <el-button type="text" class="a-btn" icon="el-icon-view" title="查看" @click="$router.push({name:'BJCLCX',query:{serial:scope.row.serial,grade:scope.row.grade,nav2Id:scope.row.serial+2,title:'已归档查询'}})"></el-button>
               <el-button type="text" class="a-btn" icon="el-icon-edit-outline"  title="归档追加" @click="openGdTc(scope.row)"></el-button>
             </template>
           </el-table-column>

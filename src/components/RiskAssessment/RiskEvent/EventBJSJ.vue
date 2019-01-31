@@ -255,7 +255,7 @@
             width="90"
             :show-overflow-tooltip="true">
             <template slot-scope="scope">
-              <span class="tc-b hand" @click="$router.push({name:'DZDA',query:{nationality:scope.row.nationality,passportno:scope.row.passportno,grade:scope.row.grade,type:1}})">{{scope.row.passportno}}</span>
+              <span class="tc-b hand" @click="$router.push({name:'DZDA',query:{nationality:scope.row.nationality,passportno:scope.row.passportno,grade:scope.row.grade,type:1,nav2Id:scope.row.passportno+scope.row.nationality,title:'电子档案'}})">{{scope.row.passportno}}</span>
             </template>
           </el-table-column>
           <el-table-column
@@ -351,7 +351,7 @@
                   width="400"
                   trigger="click">
                   <ul>
-                    <li v-for="i in eachData" class="hand" style="line-height:32px" title="查看" @click="$router.push({name:'BJCLCX',query:{serial:i.SERIAL,grade:i.GRADE}})">
+                    <li v-for="i in eachData" class="hand" style="line-height:32px" title="查看" @click="$router.push({name:'BJCLCX',query:{serial:i.SERIAL,grade:i.GRADE,nav2Id:i.SERIAL+2,title:'已归档查询'}})">
                       <span>  创建时间：{{i.CREATETIME}}</span>
                       <span>  口岸名称：{{i.PORT_NAME}}</span>
                       <span>  处理结果：{{i.PROCESSORRESULT}}</span>
@@ -369,8 +369,8 @@
             fixed="right"
             width="70">
             <template slot-scope="scope">
-              <el-button type="text" class="a-btn" icon="el-icon-view" title="查看" @click="$router.push({name:'BJSJCK',query:{nav1Id:$route.query.nav1Id,nav2Id:$route.query.nav2Id,serial:scope.row.serial,grade:scope.row.grade,page:0}})"></el-button>
-              <el-button type="text" class="a-btn" icon="el-icon-edit-outline"  title="处理" @click="$router.push({name:'BJSJCK',query:{serial:scope.row.serial,grade:scope.row.grade,status:scope.row.status,page:1,operation_type:1}})"></el-button>
+              <el-button type="text" class="a-btn" icon="el-icon-view" title="查看" @click="$router.push({name:'BJSJCK',query:{serial:scope.row.serial,grade:scope.row.grade,page:0,nav2Id:scope.row.serial,title:'事件查看'}})"></el-button>
+              <el-button type="text" class="a-btn" icon="el-icon-edit-outline"  title="处理" @click="$router.push({name:'BJSJCK',query:{serial:scope.row.serial,grade:scope.row.grade,status:scope.row.status,page:1,operation_type:1,nav2Id:scope.row.serial+1,title:'事件处理'}})"></el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -616,7 +616,7 @@ export default {
       czDialogVisible:false,
       czform:{},
       gdDialogVisible:false,
-
+      hash:''
     }
   },
   mounted(){
@@ -632,8 +632,10 @@ export default {
     this.queryDocCode();
     this.getRiskModelHisInfo();
     this.getUers();
+
   },
   activated(){
+    // this.hash=(new Date()).getTime();
     // this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
   },
   methods:{

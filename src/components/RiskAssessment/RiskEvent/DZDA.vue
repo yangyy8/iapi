@@ -2,7 +2,7 @@
   <div class="bjsjck">
 
     <div class="middle">
-      <el-button type="warning" size="small" class="mr-20" @click="$router.go(-1)">返回</el-button>
+      <!-- <el-button type="warning" size="small" class="mr-20" @click="$router.go(-1)">返回</el-button> -->
 
       <el-row :gutter="10">
         <el-col :span="24">
@@ -1969,7 +1969,6 @@ export default {
       tobox:'box0',
       toboxShow:false,
       imgURL:imgUrl,
-
     }
   },
   components:{
@@ -2251,7 +2250,6 @@ export default {
     },
     // 人员预报信息
     getRiskPersonnelForecasInfo(){
-      console.log("=============================",this.data0.iapiHeadSerial)
       if(!this.data0.iapiHeadSerial){
         return
       }
@@ -2405,6 +2403,37 @@ export default {
     }
   },
   watch:{
+    $route:function(val){
+      console.log("=======================",val)
+      this.nationality=val.query.nationality;
+      this.passportno=val.query.passportno;
+      this.getUsers();
+      this.getUserBaseInfo();
+      this.getUserTagInfo();
+      this.init();
+
+      this.moreShow=false;
+      this.box1=false;
+      this.box2=false;
+      this.box3=false;
+      this.box4=false;
+      this.box5=false;
+      this.box6=false;
+      this.box7=false;
+      this.box8=false;
+      this.box9=false;
+      this.box10=false;
+      this.box11=false;
+      this.box12=false;
+      this.box13=false;
+      this.box14=false;
+      this.box15=false;
+      this.box16=false;
+      this.box17=false;
+      this.box18=false;
+      this.box19=false;
+      this.box20=false;
+    },
     box1:function(val){
       if(val){
         this.getRecordTagInfo();

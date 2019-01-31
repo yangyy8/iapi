@@ -312,7 +312,6 @@ export default {
       }
     },
     isJzmm(){
-      console.log(this.jzmm)
       if(this.jzmm){
         sessionStorage.setItem('jzmm',1);
         sessionStorage.setItem('userName',this.user.userName);
