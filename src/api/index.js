@@ -59,7 +59,8 @@ function isLOGIN(){
       confirmButtonText: '确定',
       type: 'warning',
       callback: action => {
-        window.location.href ="#/";
+        // window.location.href ="#/";
+        window.location.reload();
         return;
       }})
 
