@@ -464,3 +464,8 @@ export default {
 }
 .ppie{width:420px; height:400px; float:left}
 </style>
+<style>
+.el-table th > .cell {
+  padding-right: 15px!important;
+}
+</style>
