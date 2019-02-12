@@ -188,10 +188,10 @@
             <el-col :span="20" class="t-el-content"><div class="t-el-text">发送人姓名：</div><div class="t-el-sub">{{PmInfo.REGISTRATIONNAME}}</div></el-col>
           </el-row>
           <el-row type="flex"  class="t-detail">
-            <el-col :span="8" class="t-el-content"><div class="t-el-text">发送人账号：</div><div class="t-el-sub">{{PmInfo.REGISTRATIONACCOUNT}}</div></el-col>
+            <el-col :span="20" class="t-el-content"><div class="t-el-text">发送人账号：</div><div class="t-el-sub">{{PmInfo.REGISTRATIONACCOUNT}}</div></el-col>
           </el-row>
           <el-row type="flex"  class="t-detail">
-            <el-col :span="8" class="t-el-content"><div class="t-el-text">发送内容：</div><div class="t-el-sub">{{PmInfo.CONTENT}}</div></el-col>
+            <el-col :span="20" class="t-el-content"><div class="t-el-text">发送内容：</div><div class="t-el-sub">{{PmInfo.CONTENT}}</div></el-col>
           </el-row>
         </el-form>
         <div slot="footer" class="dialog-footer">

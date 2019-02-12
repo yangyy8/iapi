@@ -784,7 +784,7 @@
         </el-row>
         <el-row type="flex"  class="t-detail">
           <el-col :span="8" class="t-el-content"><div class="t-el-text">流水号：</div><div class="t-el-sub">{{dform.TID}}</div></el-col>
-          <el-col :span="8" class="t-el-content"><div class="t-el-text">ICS记录编号：</div><div class="t-el-sub">{{dform.RECORDLOCATER}}</div></el-col>
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">旅客订票号：</div><div class="t-el-sub">{{dform.RECORDLOCATER}}</div></el-col>
           <el-col :span="8" class="t-el-content"><div class="t-el-text">旅客中间名：</div><div class="t-el-sub">{{dform.MIDDLENAME}}</div></el-col>
         </el-row>
         <el-row type="flex"  class="t-detail">

@@ -3,13 +3,13 @@
     <div class="middle">
       <div class="ak-tab mb-20">
         <div class="ak-tabs">
-          <div class="ak-tab-item hand" :class="{'ak-checked':page==4}" @click="page=4;$router.push({name:'QueryRYXXZH'})">
+          <div class="ak-tab-item hand" :class="{'ak-checked':page==4}" @click="tiaozhuan(4,'QueryRYXXZH')">
             综合查询
           </div>
-          <div class="ak-tab-item hand" :class="{'ak-checked':page==1}" @click="page=1;$router.push({name:'QueryRYXXPL'})">
+          <div class="ak-tab-item hand" :class="{'ak-checked':page==1}" @click="tiaozhuan(1,'QueryRYXXPL')">
             批量查询
           </div>
-          <div class="ak-tab-item hand" :class="{'ak-checked':page==2}" @click="page=2;$router.push({name:'QueryRYXXZDY'})">
+          <div class="ak-tab-item hand" :class="{'ak-checked':page==2}" @click="tiaozhuan(2,'QueryRYXXZDY')">
             自定义查询
           </div>
         </div>
@@ -27,7 +27,8 @@
 export default {
   data(){
     return{
-      page:4
+      page:4,
+      url:'QueryRYXXZH'
     }
   },
   mounted(){
@@ -38,12 +39,18 @@ export default {
     },1500)
   },
   activated(){
-    console.log(3);
     let that = this;
     setTimeout(function(){
-      that.$router.push({name:'QueryRYXXZH'})
+      that.$router.push({name:that.url})
     },1000)
   },
+  methods:{
+    tiaozhuan(page,url){
+      this.page=page;
+      this.url=url;
+      this.$router.push({name:url})
+    }
+  }
 }
 </script>
 
