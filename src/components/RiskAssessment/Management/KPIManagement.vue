@@ -217,7 +217,15 @@
               </el-option>
               <el-option value="证件类别" label="11 - 证件类别">
               </el-option>
+              <el-option value="其他" label="12 - 其他">
+              </el-option>
              </el-select>
+          </el-col>
+        </el-row>
+        <el-row type="flex" v-if="form.targetType=='其他'" v-show="isshow">
+          <el-col :span="24" class="input-item">
+            <span class="yy-input-text">数据结构：</span>
+            <el-input placeholder="请输入内容" size="small"  v-model="form.otherType"  class="yy-input-input" ></el-input>
           </el-col>
         </el-row>
         <el-row type="flex"  class="mb-6">
@@ -306,6 +314,12 @@
           <el-col :span="24" class="input-item">
             <span class="yy-input-text">指标类型：</span>
           <span class="yy-input-input detailinput">  {{mapForm.TARGET_TYPE}}</span>
+          </el-col>
+        </el-row>
+        <el-row type="flex" class="mb-6" v-if="mapForm.TARGET_TYPE=='其他'">
+          <el-col :span="24" class="input-item">
+            <span class="yy-input-text">数据结构：</span>
+          <span class="yy-input-input detailinput">  {{mapForm.OTHER_TYPE}}</span>
           </el-col>
         </el-row>
         <el-row type="flex" class="mb-6" >
@@ -408,6 +422,7 @@ export default {
       form: {},
       mapForm: {},
       Airport: [],
+      isshow:false,
     }
   },
   mounted() {
@@ -420,6 +435,11 @@ export default {
   methods: {
     selectChange(){
       this.$forceUpdate();
+      if(this.form.targetType=="其他"){
+        this.isshow=true;
+      }else {
+        this.isshow=false;
+      }
     },
     headerClick(column,event){
     event.target.title=column.label

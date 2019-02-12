@@ -55,7 +55,7 @@
           <li class="nav1bar-up" @click="preList">
             <img src="../assets/img/navbar-up.png" alt="">
           </li>
-          <li class="nav1-item " :class="{'nav1-checked':nav1Id==i.SERIAL}" v-for="(i,index) in nav1List" @click="nav1to2(i.SERIAL,1)">
+          <li class="nav1-item " :class="{'nav1-checked':nav1Id==i.SERIAL}" v-for="(i,index) in nav1List" @click="nav1to2(navId,i.SERIAL,1)">
 
             <!-- <img src="../assets/img/navIcon/i_cc_1.png" alt="" class="nav1-icon"  v-if="navId=='cc'"> -->
             <img :src='"../assets/img/navIcon/"+i.MENU_ICON+"_0.png"' alt="" class="nav1-icon" v-if="nav1Id!=i.SERIAL">
@@ -70,7 +70,7 @@
         </ul>
         <!-- <transition  name="bounce"> -->
         <ul class="nav2" v-if="nav2Show">
-          <li class="nav2-item hand" :class="{'nav2-checked':nav2Id==x.SERIAL}" v-for="x in nav2List" @click="nav2(x.SERIAL)">
+          <li class="nav2-item hand" :class="{'nav2-checked':nav2Id==x.SERIAL}" v-for="x in nav2List" @click="nav2(navId,nav1Id,x.SERIAL)">
             {{x.name}}
           </li>
         </ul>
@@ -94,9 +94,7 @@
             <!-- </el-tooltip> -->
             <img src="../assets/img/tab-close1.png" alt="guanbi" @click="close1(index,i)" class="hand" style="padding:8px" v-if="nav2Id==i.query.nav2Id">
             <img src="../assets/img/tab-close2.png" alt="" @click="tabList.splice(index, 1)" style="padding:8px" class="hand" v-else>
-
           </li>
-
           <!-- <li class="tabList-item">
             <img src="../assets/img/add_tab.png" class="hand">
           </li> -->
@@ -252,6 +250,7 @@ export default {
     this.getUers();
     this.bgChange();
     this.navInit();
+    this.tablistinitFn();
     // setTimeout(this.msgI(),100)
     this.msgP();
     let _this=this;
@@ -277,18 +276,39 @@ export default {
       }
     },
     $route:function(val){
-      if(val.query.title){
+      console.log("navId:",val.params.navId);
+      console.log("nav1Id:",val.query.nav1Id);
+      console.log("nav2Id:",val.query.nav2Id);
+      console.log("val===",val)
+
+      // this.navId=val.params.navId;
+      // this.nav1Id=val.query.nav1Id;
+      // this.nav2Id=val.query.nav2Id;
+      if(val.query.nav2Id){
+        // this.navId=val.params.navId;
+        // this.nav1Id=val.query.nav1Id;
+        this.nav2Id=val.query.nav2Id;
         for(var j=0;j<this.tabList.length;j++){
           if(this.tabList[j].query.nav2Id==val.query.nav2Id){
-            // //console.log("重复")
             return
           }
         }
         this.tabList.push(val);
-
       }
-      console.log("val==========================================",val)
-    }
+    },
+    // navId:function(val){
+    //   console.log("navId",val);
+    //   this.$router.push(params:{navId:val})
+    // },
+    // nav1Id:function(val){
+    //   console.log("nav1Id",val);
+    //   this.$router.push(query:{nav1Id:val})
+    // },
+    // nav2Id:function(val){
+    //   console.log("nav2Id",val);
+    //   this.$router.push(query:{nav2Id:val})
+    // },
+
   },
   methods: {
     // 背景动画效果=====================
@@ -356,28 +376,28 @@ export default {
     // 左侧菜单初始化=====================
     navInit(){
       this.navId = this.$route.params.navId;
-      this.getNav(this.navId);
+      this.getNav();
     },
     // 左侧菜单获取===============================
-    getNav(navId) {
-      this.$route.params.navId=navId
+    getNav() {
+      console.log("左侧菜单",this.navId)
       this.$api.post('/manage-platform/muneSys/menuChild', {
-          SERIAL: navId
+          SERIAL: this.navId
         },
         r => {
           if(r.success){
             this.nav1List = r.data.menuChild;
-            this.nav1Id=this.$route.query.nav1Id||r.data.menuChild[0].SERIAL;
-            this.nav1to2(this.nav1Id);
+            this.nav1Id=this.nav1Id||r.data.menuChild[0].SERIAL;
+            this.nav1to2(this.navId,this.nav1Id);
           }
         })
     },
 
     // 点击一级菜单================================
-    nav1to2(nav1Id,click) {
+    nav1to2(navId,nav1Id,click) {
+      console.log("一级菜单",navId,nav1Id)
       this.nav1Id=nav1Id;
-      this.$router.push({query:{nav1Id:nav1Id}})
-      //console.log(nav1Id)
+      // this.$router.push({query:{nav1Id:this.nav1Id}})
       let _this=this;
       for(var i=0;i<this.nav1List.length;i++){
         var a=_this.nav1List[i];
@@ -386,61 +406,61 @@ export default {
           if(click==1){
             _this.nav2Id=a.menuList[0].SERIAL
           }else{
-            _this.nav2Id=_this.$route.query.nav2Id||a.menuList[0].SERIAL
+            _this.nav2Id=_this.nav2Id||a.menuList[0].SERIAL
           }
-          //console.log("nav2List:",_this.nav2List);
-          //console.log("nav2Id1:",_this.nav2Id);
-          _this.nav2(_this.nav2Id)
+          _this.nav2(navId,nav1Id,_this.nav2Id)
         }
       }
 
     },
     // 点击二级菜单======================================
-    nav2(nav2Id) {
-      //console.log("nav2List:",this.nav2List);
-
+    nav2(navId,nav1Id,nav2Id) {
+      console.log("二级菜单",navId,nav1Id,nav2Id)
       this.nav2Id = nav2Id;
       for(var i=0;i<this.nav2List.length;i++){
         if(this.nav2List[i].SERIAL==nav2Id){
           this.checkItem=this.nav2List[i];
-          //console.log("nav2Id2:",this.nav2Id);
           let _this=this;
-          setTimeout(function(){
-            _this.$router.push({name: _this.checkItem.url,query:{nav1Id:_this.checkItem.parentId,nav2Id:nav2Id,title:_this.checkItem.name}})
-
-          },400)
-
-          // for(var j=0;j<this.tabList.length;j++){
-          //   if(this.tabList[j].SERIAL==this.checkItem.SERIAL){
-          //     // //console.log("重复")
-          //     return
-          //   }
-          // }
-          // console.log("checkItem============", this.checkItem)
-          // this.tabList.push(this.checkItem)
-
+            _this.$router.push({name: _this.checkItem.url, params:{navId:navId},query:{nav1Id:nav1Id,nav2Id:nav2Id,title:_this.checkItem.name}})
         }
       }
-
-
-
-
+    },
+    tablistinitFn(){
+      console.log("======",this.$route)
+      let val=this.$route
+      if(val.query.nav2Id){
+        this.tabList.push(val);
+        this.navId=val.params.navId;
+        this.nav1Id=val.query.nav1Id;
+        this.nav2Id=val.query.nav2Id;
+      }
+    },
+    // 顶部菜单跳转================================
+    topNavTo(SERIAL){
+      if(this.$route.params.navId==SERIAL)return;
+      this.navId=SERIAL;
+      this.nav1Id='';
+      this.nav2Id='';
+      console.log("顶部菜单跳转",SERIAL)
+      let _this=this;
+      _this.getNav();
     },
     tabNav2(nav2Item){
-      console.log("this.$route.params.navId",this.$route.params.navId)
+      console.log("navId",this.navId)
       console.log('nav2Item:',nav2Item);
-
       if(this.nav2Id==nav2Item.query.nav2Id) return;
 
-      if(nav2Item.params.navId!=this.$route.params.navId){
+      if(nav2Item.params.navId!=this.navId){
+        console.log("rootId不同",nav2Item.params.navId,this.navId)
         this.navId=nav2Item.params.navId;
-        console.log("rootId不同",nav2Item.params.navId,this.$route.params.navId)
+        this.nav1Id=nav2Item.query.nav1Id;
+        this.nav2Id=nav2Item.query.nav2Id;
         let _this=this;
-        setTimeout(function(){
-          _this.$router.push({params: {navId:nav2Item.params.navId},query:{nav1Id:nav2Item.query.nav1Id,nav2Id:nav2Item.query.nav2Id}});
-          console.log("new",nav2Item.params.navId)
-          _this.getNav(nav2Item.params.navId)
-        },400)
+        // setTimeout(function(){
+          _this.$router.push({params: {navId:_this.navId},query:nav2Item.query});
+          console.log("new",_this.navId)
+          _this.getNav();
+        // },400)
       }
 
       this.nav1Id = nav2Item.query.nav1Id;
@@ -451,29 +471,19 @@ export default {
           _this.nav2List=_this.nav1List[i].menuList
         }
       }
-
-      //console.log("nav1List",this.nav1List)
-      //console.log("nav2List:",this.nav2List);
-      this.$router.push({name: nav2Item.name,query:{nav1Id:this.nav1Id,nav2Id:this.nav2Id}})
-
+      this.$router.push({name:nav2Item.name,query:nav2Item.query})
     },
     // 关闭tab页面==========================
     close1(index,item) {
       this.tabList.splice(index, 1);
       if (index > 0) {
-        // this.nav2Id = this.tabList[index - 1].SERIAL
         this.tabNav2(this.tabList[index - 1])
-        // this.$router.push({name: this.tabList[index - 1].url,query:{nav1Id:this.nav1Id,nav2Id:this.nav2Id}})
       }if(index==0){
         if(this.tabList.length!=0){
-          // this.nav2Id = this.tabList[index].SERIAL
           this.tabNav2(this.tabList[index])
-
-          // this.$router.push({name: this.tabList[index].url,query:{nav1Id:this.nav1Id,nav2Id:this.nav2Id}})
         }else {
           this.nav2Id=null;
           this.$router.push({name: 'Content',query:{nav1Id:this.nav1Id}})
-
         }
 
       }
@@ -510,15 +520,20 @@ export default {
             this.navIdCCdata=r.data.menuChild[0].menuList;
           }
         })
-
     },
     rightNav(x){
-      this.$router.push({params:{navId:x.rootId},query:{nav1Id:x.parentId,nav2Id:x.SERIAL}})
-      this.getNav(x.rootId);
+      this.navId=x.rootId;
+      this.nav1Id=x.parentId;
+      this.nav2Id=x.SERIAL;
+      this.$router.push({params:{navId:this.navId},query:{nav1Id:this.nav1Id,nav2Id:this.nav2Id}})
+      this.getNav();
     },
     msgNav(x){
+      this.navId=x.rootId;
+      this.nav1Id=x.parentId;
+      this.nav2Id=x.SERIAL;
       this.$router.push({params:{navId:x.ROOTID},query:{nav1Id:x.PARENTID,nav2Id:x.URLID}})
-      this.getNav(x.ROOTID);
+      this.getNav();
       this.msgShow=false;
     },
     msgIr(x){
@@ -541,20 +556,7 @@ export default {
          this.msgPmShow = false;
        })
     },
-    // 顶部菜单跳转================================
-    topNavTo(SERIAL){
-      //console.log(this.$route.params.navId,SERIAL)
-      if(this.$route.params.navId==SERIAL)return;
-      this.navId=SERIAL;
-      //console.log("顶部菜单跳转",SERIAL)
-      this.$router.push({params: {navId:SERIAL}});
-      //console.log("this.$route.params.navId",this.$route.params.navId)
-      let _this=this;
-      setTimeout(function(){
-        _this.getNav(SERIAL);
-      },500)
-      // this.tabList=[];
-    },
+
     logOut(){
       this.$api.post('/manage-platform/landout',{},
        r => {

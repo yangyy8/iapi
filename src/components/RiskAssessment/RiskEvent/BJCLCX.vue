@@ -1,7 +1,7 @@
 <template lang="html">
   <div class="bjsjck">
     <div class="top mb-2">
-      <el-button type="warning" size="small" class="mr-20" @click="$router.go(-1)">返回</el-button>
+      <!-- <el-button type="warning" size="small" class="mr-20" @click="$router.go(-1)">返回</el-button> -->
       事件编号：{{serial}}
     </div>
     <div class="middle">
@@ -11,7 +11,7 @@
             <img :src="imgURL" alt="" style="width:100%;">
             <span class="mb-2">综合风险等级</span>
             <el-rate :value="parseInt($route.query.grade||box2Data[0].grade)" disabled class="mb-9"></el-rate>
-            <el-button type="primary" size="small" class="mb-9" style="width:100%" @click="$router.push({name:'DZDA',query:{nationality:page0Data.nationality,passportno:page0Data.passportno,grade:$route.query.grade||box2Data[0].grade,type:2}})">电子档案</el-button>
+            <el-button type="primary" size="small" class="mb-9" style="width:100%" @click="$router.push({name:'DZDA',query:{nationality:page0Data.nationality,passportno:page0Data.passportno,grade:$route.query.grade||box2Data[0].grade,type:2,nav2Id:page0Data.passportno+page0Data.nationality,title:'电子档案'}})">电子档案</el-button>
             <el-button type="primary" size="small" class="mb-9" style="width:100%">综合查询</el-button>
             <el-button type="primary" size="small" class="mb-9" style="width:100%">照片比对</el-button>
             <el-button type="success" size="small" style="width:100%"  @click="openGdTc(page0Data)">事件追加</el-button>
@@ -452,6 +452,15 @@ export default {
     this.getHisModelInfo();
     this.getRiskDescRecordInfo();
     this.getOperationalTargetInfo();
+  },
+  watch:{
+    $route:function(val){
+      this.serial=val.query.serial;
+      this.getRiskIapiInfo();
+      this.getHisModelInfo();
+      this.getRiskDescRecordInfo();
+      this.getOperationalTargetInfo();
+    }
   },
   methods:{
     // 预报信息
