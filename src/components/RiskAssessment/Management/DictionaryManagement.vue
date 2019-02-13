@@ -475,7 +475,7 @@ export default {
       console.log(this.$api.rootUrl)
       axios({
         method: 'post',
-        url: "http://192.168.99.206:8080" + "/manage-platform/riskDictionaries/exportFileIo",
+        url: this.$api.rootUrl + "/manage-platform/riskDictionaries/exportFileIo",
         data: {
           "id": i.SERIAL,
         },
@@ -488,11 +488,10 @@ export default {
       if (!data) {
         return
       }
-      console.log("data",data.data)
       let url = window.URL.createObjectURL(new Blob([data.data], {
         type: "application/octet-stream"
       }))
-      console.log(data)
+      console.log(url)
       let link = document.createElement('a')
       link.style.display = 'none'
       link.href = url
