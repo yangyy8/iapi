@@ -48,7 +48,7 @@
         border
         style="width: 100%;"
         class="mt-10 o-table3"
-@header-click="headerClick"
+        @header-click="headerClick"
         >
         <el-table-column
           prop="DEPT_QC" sortable
@@ -131,7 +131,6 @@
                 :value="item.SERIAL">
               </el-option>
              </el-select>
-
              <el-select v-else v-model="form.PARENT_ID"  :disabled="true" filterable clearable placeholder="请选择" size="small" class="yy-input-input" >
                <el-option
                  v-for="item in company"
@@ -148,7 +147,8 @@
           </el-col>
         </el-row>
         <el-row type="flex"  class="mb-6">
-          <el-col :span="12" class="input-item">
+          <el-col :span="12" class="input-item my-form-group" data-scope="demo" data-name="DEPT_JC" data-type="input"
+            v-validate-easy="[['required']]">
             <span class="yy-input-text"><font class="yy-color">*</font> 部门简称：</span>
             <el-input placeholder="请输入内容" size="small"   v-model="form.DEPT_JC" class="yy-input-input" ></el-input>
           </el-col>
