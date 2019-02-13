@@ -406,10 +406,7 @@ export default {
           if(click==1){
             _this.nav2Id=a.menuList[0].SERIAL
           }else{
-            console.log("a.menuList[0].SERIAL",a.menuList[0].SERIAL)
             _this.nav2Id=_this.nav2Id||a.menuList[0].SERIAL
-            console.log("_this.nav2Id",_this.nav2Id)
-
           }
           _this.nav2(navId,nav1Id,_this.nav2Id)
         }
@@ -422,13 +419,9 @@ export default {
       this.nav2Id = nav2Id;
       console.log(this.nav2List)
       for(var i=0;i<this.nav2List.length;i++){
-        console.log("this.nav2List[i].SERIAL",this.nav2List[i].SERIAL,nav2Id)
-
         if(this.nav2List[i].SERIAL==nav2Id){
           console.log(this.nav2List[i].SERIAL,nav2Id)
           this.checkItem=this.nav2List[i];
-          console.log("二级菜单2",this.checkItem.url,navId,nav1Id,nav2Id)
-
           let _this=this;
           // setTimeout(function(){
             _this.$router.push({name: _this.checkItem.url, params:{navId:navId},query:{nav1Id:nav1Id,nav2Id:nav2Id,title:_this.checkItem.name}})
