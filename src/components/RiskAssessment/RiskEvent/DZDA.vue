@@ -115,9 +115,10 @@
                     </div>
                   </div>
                 </div>
-                <div class="box1-more">
-                  <el-button type="text" @click="size.size1=data1.particularsList.length+4" v-if="data1.particularsList.length>3&&size.size1==3">展开更多 ﹀</el-button>
-                  <el-button type="text" @click="size.size1=3" v-if="size.size1==data1.particularsList.length+4">收起 ︿</el-button>
+                <div class="box1-more" v-if="data1.particularsList.length!=0">
+                  <el-button type="text" class="mr-15" @click="size.size1=data1.particularsList.length+4" v-if="data1.particularsList.length>3&&size.size1==3">展开更多 ﹀</el-button>
+                  <el-button type="text" class="mr-15" @click="size.size1=3" v-if="size.size1==data1.particularsList.length+4">收起 ︿</el-button>
+                  <el-button type="text" @click="exportFn(2)">导出</el-button>
 
                 </div>
               </div>
@@ -133,39 +134,48 @@
                   :class="{'ak-t1':pageSize.page1==true,'ak-t2':pageSize.page1==false}"
                   style="width: 100%">
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="序号"
                     type="index"
                     width="70">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="处理时间"
                     prop="ARCHIVE_TIME">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="中心/口岸"
                     prop="PORT_NAME">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="结果"
                     prop="NEWCHECKRESULTNAME">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="追加描述"
                     prop="REMARK">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="处理人"
                     prop="PROCESSOR_PEOPLE">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="联系方式"
                     prop="PHONE">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="单位"
                     prop="DEPT_QC">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="操作">
                     <template slot-scope="scope">
                       <el-button type="text" class="a-btn" icon="el-icon-view" title="事件处理查看"  @click="$router.push({name:'BJCLCX',query:{serial:scope.row.EVENTSERIAL}})"></el-button>
@@ -175,7 +185,7 @@
                 <div class="box1-more" v-if="data2.length>0">
                   <el-button type="text" class="mr-15" @click="pageSize.page1=false" v-if="pageSize.page1&&data2.length>5">展开更多 ﹀</el-button>
                   <el-button type="text" class="mr-15" @click="pageSize.page1=true" v-if="!pageSize.page1">收起 ︿</el-button>
-                  <el-button type="text">导出</el-button>
+                  <el-button type="text" @click="exportFn(3)">导出</el-button>
                 </div>
               </div>
             </div>
@@ -656,27 +666,35 @@
                   border
                   style="width: 100%">
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="姓名">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="身份证号">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="性别">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="出生日期">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="民族">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="住址详情">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="服务住所">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="操作">
                     <template slot-scope="scope">
                       <el-button type="text" class="a-btn" icon="el-icon-view" title="查看" @click="moreFn('box5',scope.row)"></el-button>
@@ -686,7 +704,7 @@
                 <div class="box1-more" v-if="data5.length>0">
                   <el-button type="text" class="mr-15" @click="pageSize.page2=false" v-if="pageSize.page2&&data5.length>5">展开更多 ﹀</el-button>
                   <el-button type="text" class="mr-15" @click="pageSize.page2=true" v-if="!pageSize.page2">收起 ︿</el-button>
-                  <el-button type="text">导出</el-button>
+                  <el-button type="text" @click="exportFn(4)">导出</el-button>
                 </div>
               </div>
             </div>
@@ -702,10 +720,12 @@
                   border
                   style="width: 100%">
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="姓名"
                     prop="pers_name">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="出入标识"
                     width="80"
                     prop="in_out_flag">
@@ -715,10 +735,12 @@
                     </template>
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="国籍/地区"
                     prop="country_na">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="性别"
                     width="60"
                     prop="pers_gender">
@@ -728,15 +750,18 @@
                     </template>
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="出生日期"
                     width="100"
                     prop="birth_date">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="证件类型"
                     prop="cert_type_na">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="证件号码"
                     prop="cert_no">
                     <template slot-scope="scope">
@@ -744,22 +769,27 @@
                     </template>
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="出入时间"
                     prop="imm_dt">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="出入口岸"
                     prop="imm_port">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="交通方式"
                     prop="trs_mode_na">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="交通工具"
                     prop="trs_id">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="前往地/出发地"
                     prop="to_country">
                   </el-table-column>
@@ -767,7 +797,7 @@
                 <div class="box1-more" v-if="data6.length>0">
                   <el-button type="text" class="mr-15" @click="pageSize.page3=false" v-if="pageSize.page3&&data6.length>5">展开更多 ﹀</el-button>
                   <el-button type="text" class="mr-15" @click="pageSize.page3=true" v-if="!pageSize.page3">收起 ︿</el-button>
-                  <el-button type="text">导出</el-button>
+                  <el-button type="text" @click="exportFn(5)">导出</el-button>
                 </div>
               </div>
             </div>
@@ -783,10 +813,12 @@
                   border
                   style="width: 100%">
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="姓名"
                     prop="pers_name_cn">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="性别"
                     prop="pers_gender">
                     <template slot-scope="scope">
@@ -795,14 +827,17 @@
                     </template>
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="出生日期"
                     prop="pers_birth_date">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="证件类型"
                     prop="cert_type_na">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="证件号码"
                     prop="cert_no">
                     <template slot-scope="scope">
@@ -810,30 +845,37 @@
                     </template>
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="原证件号码"
                     prop="holding_cert_type">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="身份证号"
                     prop="pers_card_id">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="户籍"
                     prop="rsdt_region_code">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="审批机关"
                     prop="issuing_unit">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="签发日期"
                     prop="issuing_date">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="证件有效期至"
                     prop="cert_vld">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="联系电话"
                     prop="contact_tel">
                   </el-table-column>
@@ -841,7 +883,7 @@
                 <div class="box1-more" v-if="data7.length>0">
                   <el-button type="text" class="mr-15" @click="pageSize.page4=false" v-if="pageSize.page4&&data7.length>5">展开更多 ﹀</el-button>
                   <el-button type="text" class="mr-15" @click="pageSize.page4=true" v-if="!pageSize.page4">收起 ︿</el-button>
-                  <el-button type="text">导出</el-button>
+                  <el-button type="text" @click="exportFn(6)">导出</el-button>
                 </div>
               </div>
             </div>
@@ -857,84 +899,98 @@
                   border
                   style="width: 100%">
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="英文姓名">
                     <template slot-scope="scope">
                       <span>{{scope.row.eng_name||'-'}}</span>
                     </template>
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="中文姓名">
                     <template slot-scope="scope">
                       <span>{{scope.row.chn_name||'-'}}</span>
                     </template>
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="性别">
                     <template slot-scope="scope">
                       <span>{{scope.row.gender_na||'-'}}</span>
                     </template>
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="出生日期">
                     <template slot-scope="scope">
                       <span>{{scope.row.birth_date||'-'}}</span>
                     </template>
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="证件号码">
                     <template slot-scope="scope">
                       <span class="tc-b hand" @click="moreFn('box8',scope.row)">{{scope.row.cert_no||'-'}}</span>
                     </template>
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="国籍/地区">
                     <template slot-scope="scope">
                       <span>{{nationalityName}}</span>
                     </template>
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="团队号">
                     <template slot-scope="scope">
                       <span>{{scope.row.group_no||'-'}}</span>
                     </template>
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="签证种类">
                     <template slot-scope="scope">
                       <span>{{scope.row.visa_type_na||'-'}}</span>
                     </template>
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="签证号码">
                     <template slot-scope="scope">
                       <span>{{scope.row.visa_no||'-'}}</span>
                     </template>
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="审批机关">
                     <template slot-scope="scope">
                       <span>{{scope.row.accept_organ_na||'-'}}</span>
                     </template>
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="签发日期">
                     <template slot-scope="scope">
                       <span>{{scope.row.visa_date||'-'}}</span>
                     </template>
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="有效期至">
                     <template slot-scope="scope">
                       <span>{{scope.row.visa_vld||'-'}}</span>
                     </template>
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="有效次数">
                     <template slot-scope="scope">
                       <span>{{scope.row.visa_eff_nbr||'-'}}</span>
                     </template>
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="联系电话">
                     <template slot-scope="scope">
                       <span>{{scope.row.domestic_tel||'-'}}</span>
@@ -944,7 +1000,7 @@
                 <div class="box1-more" v-if="data8.length>0">
                   <el-button type="text" class="mr-15" @click="pageSize.page5=false" v-if="pageSize.page5&&data8.length>5">展开更多 ﹀</el-button>
                   <el-button type="text" class="mr-15" @click="pageSize.page5=true" v-if="!pageSize.page5">收起 ︿</el-button>
-                  <el-button type="text">导出</el-button>
+                  <el-button type="text" @click="exportFn(7)">导出</el-button>
                 </div>
               </div>
             </div>
@@ -960,74 +1016,92 @@
                   border
                   style="width: 100%">
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="姓名"
                     prop="pers_name">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="证件种类"
                     prop="cert_type_na">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="证件号码"
                     prop="cert_no">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="性别"
                     prop="gender_na">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="国籍/地区"
                     prop="pers_name">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="出生日期"
                     prop="birth_date">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="自述姓名"
                     prop="confess_name">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="自述出生日期"
                     prop="confess_birth_date">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="自述国家地区代码"
                     prop="confess_country_code">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="自述证件号码"
                     prop="confess_cert_no">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="往来国"
                     prop="tf_country_code">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="交通标识"
                     prop="trs_mode_na">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="查获时间"
                     prop="catch_dt">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="事件类型"
                     prop="evt_types_na">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="事件性质"
                     prop="evt_char_na">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="事件主题关键字"
                     prop="evt_theme">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="处理结果"
                     prop="ill_deal_rsn_na">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="查获口岸"
                     prop="">
                   </el-table-column>
@@ -1035,7 +1109,7 @@
                 <div class="box1-more" v-if="data9.length>0">
                   <el-button type="text" class="mr-15" @click="pageSize.page6=false" v-if="pageSize.page6&&data9.length>5">展开更多 ﹀</el-button>
                   <el-button type="text" class="mr-15" @click="pageSize.page6=true" v-if="!pageSize.page6">收起 ︿</el-button>
-                  <el-button type="text">导出</el-button>
+                  <el-button type="text" @click="exportFn(8)">导出</el-button>
                 </div>
               </div>
             </div>
@@ -1051,6 +1125,7 @@
                   border
                   style="width: 100%">
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="证件号码"
                     prop="cert_no">
                     <template slot-scope="scope">
@@ -1058,42 +1133,52 @@
                     </template>
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="人员类别"
                     prop="pers_imm_type_na">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="证件种类"
                     prop="cert_type_na">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="业务类型"
                     prop="repat_type">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="第二证件号码"
                     prop="sec_cert_no">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="录入时间"
                     prop="edit_dt">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="遣返遣送口岸"
                     prop="repat_port_na">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="遣返遣送国家"
                     prop="repat_country_na">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="遣返遣送原因"
                     prop="repat_rsn_na">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="交通标识"
                     prop="trs_id">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="往来国"
                     prop="">
                   </el-table-column>
@@ -1101,7 +1186,7 @@
                 <div class="box1-more" v-if="data10.length>0">
                   <el-button type="text" class="mr-15" @click="pageSize.page7=false" v-if="pageSize.page7&&data10.length>5">展开更多 ﹀</el-button>
                   <el-button type="text" class="mr-15" @click="pageSize.page7=true" v-if="!pageSize.page7">收起 ︿</el-button>
-                  <el-button type="text">导出</el-button>
+                  <el-button type="text" @click="exportFn(9)">导出</el-button>
                 </div>
               </div>
             </div>
@@ -1120,14 +1205,17 @@
                   border
                   style="width: 100%">
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="英文姓名"
                     prop="eng_name">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="中文姓名"
                     prop="chn_name">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="证件号码"
                     prop="cert_no">
                     <template slot-scope="scope">
@@ -1135,34 +1223,42 @@
                     </template>
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="出生日期"
                     prop="birth_date">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="国籍/地区"
                     prop="pers_country">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="性别"
                     prop="gender_na">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="签证号码"
                     prop="prmt_no">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="审批机关"
                     prop="issuing_organ_na">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="登记单位"
                     prop="">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="登记时间"
                     prop="">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="住宿地点"
                     prop="">
                   </el-table-column>
@@ -1170,7 +1266,7 @@
                 <div class="box1-more" v-if="data11_1.length>0">
                   <el-button type="text" class="mr-15" @click="pageSize.page8=false" v-if="pageSize.page8&&data11_1.length>5">展开更多 ﹀</el-button>
                   <el-button type="text" class="mr-15" @click="pageSize.page8=true" v-if="!pageSize.page8">收起 ︿</el-button>
-                  <el-button type="text">导出</el-button>
+                  <el-button type="text" @click="exportFn(10)">导出</el-button>
                 </div>
                 <div class="box2-t-box">
                   <span>外管临住信息</span>
@@ -1182,14 +1278,17 @@
                   border
                   style="width: 100%">
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="英文姓名"
                     prop="eng_name">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="中文姓名"
                     prop="chn_name">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="证件号码"
                     prop="hold_cert_no">
                     <template slot-scope="scope">
@@ -1197,30 +1296,37 @@
                     </template>
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="出生日期"
                     prop="birth_date">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="国籍/地区"
                     prop="country_na">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="性别"
                     prop="gender_na">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="签证号码"
                     prop="visas_no">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="登记时间"
                     prop="stay_date">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="签发单位"
                     prop="issuing_unit_na">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="住宿地点"
                     prop="stay_address">
                   </el-table-column>
@@ -1228,7 +1334,7 @@
                 <div class="box1-more" v-if="data11_2.length>0">
                   <el-button type="text" class="mr-15" @click="pageSize.page9=false" v-if="pageSize.page9&&data11_2.length>5">展开更多 ﹀</el-button>
                   <el-button type="text" class="mr-15" @click="pageSize.page9=true" v-if="!pageSize.page9">收起 ︿</el-button>
-                  <el-button type="text">导出</el-button>
+                  <el-button type="text" @click="exportFn(11)">导出</el-button>
                 </div>
               </div>
             </div>
@@ -1244,28 +1350,33 @@
                   border
                   style="width: 100%">
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="案件名"
                     prop="">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="案事件性质"
                     prop="">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="涉案事件类别"
                     prop="">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="立(受)案时间">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="案件数据来源">
                   </el-table-column>
                 </el-table>
                 <div class="box1-more" v-if="data12.length>0">
                   <el-button type="text" class="mr-15" @click="pageSize.page10=false" v-if="pageSize.page10&&data12.length>5">展开更多 ﹀</el-button>
                   <el-button type="text" class="mr-15" @click="pageSize.page10=true" v-if="!pageSize.page10">收起 ︿</el-button>
-                  <el-button type="text">导出</el-button>
+                  <el-button type="text" @click="exportFn(12)">导出</el-button>
                 </div>
               </div>
             </div>
@@ -1284,26 +1395,32 @@
                   border
                   style="width: 100%">
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="证件姓名"
                     prop="cert_name">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="证件类别"
                     prop="cert_type">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="收缴原因"
                     prop="capt_rsn_desc">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="收缴日期"
                     prop="capt_date">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="收缴人"
                     prop="capt_oper">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="部门"
                     prop="dept_na">
                   </el-table-column>
@@ -1311,7 +1428,7 @@
                 <div class="box1-more" v-if="data13_1.length>0">
                   <el-button type="text" class="mr-15" @click="pageSize.page11=false" v-if="pageSize.page11&&data13_1.length>5">展开更多 ﹀</el-button>
                   <el-button type="text" class="mr-15" @click="pageSize.page11=true" v-if="!pageSize.page11">收起 ︿</el-button>
-                  <el-button type="text">导出</el-button>
+                  <el-button type="text" @click="exportFn(13)">导出</el-button>
                 </div>
                 <div class="box2-t-box">
                   <span>收缴物品信息</span>
@@ -1323,34 +1440,42 @@
                   border
                   style="width: 100%">
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="名称"
                     prop="res_name">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="种类"
                     prop="res_name">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="数量"
                     prop="res_nbr">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="规格"
                     prop="res_specs">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="查获日期"
                     prop="seize_date">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="部门"
                     prop="dept_na">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="处理口岸"
                     prop="port_na">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="物品性质"
                     prop="res_prpt_na">
                   </el-table-column>
@@ -1358,7 +1483,7 @@
                 <div class="box1-more" v-if="data13_2.length>0">
                   <el-button type="text" class="mr-15" @click="pageSize.page12=false" v-if="pageSize.page12&&data13_2.length>5">展开更多 ﹀</el-button>
                   <el-button type="text" class="mr-15" @click="pageSize.page12=true" v-if="!pageSize.page12">收起 ︿</el-button>
-                  <el-button type="text">导出</el-button>
+                  <el-button type="text" @click="exportFn(14)">导出</el-button>
                 </div>
               </div>
             </div>
@@ -1374,16 +1499,19 @@
                   border
                   style="width: 100%">
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="携枪人姓名"
                     prop="gun_carrier">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="国籍/地区">
                     <template slot-scope="scope">
                       <span>{{nationalityName}}</span>
                     </template>
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="证件号码"
                     prop="cert_no">
                     <template slot-scope="scope">
@@ -1391,34 +1519,42 @@
                     </template>
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="入境口岸"
                     prop="entry_port_na">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="出境口岸"
                     prop="exit_port_na">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="接待单位"
                     prop="rcpt_unit">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="批准机关"
                     prop="approval_unit">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="批准文号"
                     prop="approval_no">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="交通标识"
                     prop="trs_id">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="目的地"
                     prop="destination">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="登记时间"
                     prop="reg_dt">
                   </el-table-column>
@@ -1426,7 +1562,7 @@
                 <div class="box1-more" v-if="data14.length>0">
                   <el-button type="text" class="mr-15" @click="pageSize.page13=false" v-if="pageSize.page13&&data14.length>5">展开更多 ﹀</el-button>
                   <el-button type="text" class="mr-15" @click="pageSize.page13=true" v-if="!pageSize.page13">收起 ︿</el-button>
-                  <el-button type="text">导出</el-button>
+                  <el-button type="text" @click="exportFn(15)">导出</el-button>
                 </div>
               </div>
             </div>
@@ -1442,10 +1578,12 @@
                   border
                   style="width: 100%">
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="姓名"
                     prop="name">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="证号"
                     prop="cert_no">
                     <template slot-scope="scope">
@@ -1453,10 +1591,12 @@
                     </template>
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="证类"
                     prop="cert_type_na">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="证件有效期"
                     prop="cert_vld">
                   </el-table-column>
@@ -1464,7 +1604,7 @@
                 <div class="box1-more" v-if="data15.length>0">
                   <el-button type="text" class="mr-15" @click="pageSize.page14=false" v-if="pageSize.page14&&data15.length>5">展开更多 ﹀</el-button>
                   <el-button type="text" class="mr-15" @click="pageSize.page14=true" v-if="!pageSize.page14">收起 ︿</el-button>
-                  <el-button type="text">导出</el-button>
+                  <el-button type="text" @click="exportFn(16)">导出</el-button>
                 </div>
               </div>
             </div>
@@ -1480,6 +1620,7 @@
                   border
                   style="width: 100%">
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="姓名"
                     prop="psrchnname">
                     <template slot-scope="scope">
@@ -1488,10 +1629,12 @@
                     </template>
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="国籍/地区"
                     prop="pdtcountry_na">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="证件号码"
                     prop="cert_no">
                     <template slot-scope="scope">
@@ -1499,22 +1642,27 @@
                     </template>
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="证件类别"
                     prop="cert_type_na">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="出生日期"
                     prop="pdtbirthday">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="出入境时间"
                     prop="aord_time">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="出发地"
                     prop="segdeptcode_na">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="航次"
                     prop="fltnumber">
                   </el-table-column>
@@ -1522,7 +1670,7 @@
                 <div class="box1-more" v-if="data16.length>0">
                   <el-button type="text" class="mr-15" @click="pageSize.page15=false" v-if="pageSize.page15&&data16.length>5">展开更多 ﹀</el-button>
                   <el-button type="text" class="mr-15" @click="pageSize.page15=true" v-if="!pageSize.page15">收起 ︿</el-button>
-                  <el-button type="text">导出</el-button>
+                  <el-button type="text" @click="exportFn(17)">导出</el-button>
                 </div>
               </div>
             </div>
@@ -1538,28 +1686,34 @@
                   border
                   style="width: 100%">
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="姓名">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="证号">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="职务">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="报送单位">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="报送单位联系人">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="报送单位联系人电话">
                   </el-table-column>
                 </el-table>
                 <div class="box1-more" v-if="data17.length>0">
                   <el-button type="text" class="mr-15" @click="pageSize.page16=false" v-if="pageSize.page16&&data17.length>5">展开更多 ﹀</el-button>
                   <el-button type="text" class="mr-15" @click="pageSize.page16=true" v-if="!pageSize.page16">收起 ︿</el-button>
-                  <el-button type="text">导出</el-button>
+                  <el-button type="text" @click="exportFn(18)">导出</el-button>
                 </div>
               </div>
             </div>
@@ -1575,37 +1729,46 @@
                   border
                   style="width: 100%">
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="姓名">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="证件号码">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="票号">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="车次">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="乘车日期">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="发站">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="到站">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="序号">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="状态">
                   </el-table-column>
                 </el-table>
                 <div class="box1-more" v-if="data18.length>0">
                   <el-button type="text" class="mr-15" @click="pageSize.page17=false" v-if="pageSize.page17&&data18.length>5">展开更多 ﹀</el-button>
                   <el-button type="text" class="mr-15" @click="pageSize.page17=true" v-if="!pageSize.page17">收起 ︿</el-button>
-                  <el-button type="text">导出</el-button>
+                  <el-button type="text" @click="exportFn(19)">导出</el-button>
                 </div>
               </div>
             </div>
@@ -1621,61 +1784,78 @@
                   border
                   style="width: 100%">
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="订票记录编号">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="旅客中文姓名">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="旅客英文姓名">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="身份证件类型">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="身份证件号码">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="航班号">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="起飞航站">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="当前出发日期">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="类型">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="当前出发时间">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="到达航站">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="当地到达日期">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="当地到达时间">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="操作代理人代码">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="团体标识">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="团体名称">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="操作日期">
                   </el-table-column>
                 </el-table>
                 <div class="box1-more" v-if="data19.length>0">
                   <el-button type="text" class="mr-15" @click="pageSize.page18=false" v-if="pageSize.page18&&data19.length>5">展开更多 ﹀</el-button>
                   <el-button type="text" class="mr-15" @click="pageSize.page18=true" v-if="!pageSize.page18">收起 ︿</el-button>
-                  <el-button type="text">导出</el-button>
+                  <el-button type="text" @click="exportFn(20)">导出</el-button>
                 </div>
               </div>
             </div>
@@ -1691,61 +1871,78 @@
                   border
                   style="width: 100%">
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="订票记录编号">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="旅客中文姓名">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="旅客英文姓名">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="身份证件类型">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="身份证件号码">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="航班号">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="起飞航站">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="当前出发日期">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="类型">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="当前出发时间">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="到达航站">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="当地到达日期">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="当地到达时间">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="操作代理人代码">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="团体标识">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="团体名称">
                   </el-table-column>
                   <el-table-column
+                    :show-overflow-tooltip="true"
                     label="操作日期">
                   </el-table-column>
                 </el-table>
                 <div class="box1-more" v-if="data20.length>0">
                   <el-button type="text" class="mr-15" @click="pageSize.page19=false" v-if="pageSize.page19&&data20.length>5">展开更多 ﹀</el-button>
                   <el-button type="text" class="mr-15" @click="pageSize.page19=true" v-if="!pageSize.page19">收起 ︿</el-button>
-                  <el-button type="text">导出</el-button>
+                  <el-button type="text" @click="exportFn(21)">导出</el-button>
                 </div>
               </div>
             </div>
@@ -2372,6 +2569,28 @@ export default {
          }
 
        })
+    },
+    exportFn(type){
+      let p={
+        "nationality":this.nationality,
+        "passportno":this.passportno,
+        "type":type
+      }
+      this.$api.post('/manage-platform/excelController/export',p,
+       r => {
+         console.log("data",r)
+         // if (!r) {
+         //     return
+         // }
+         let url = window.URL.createObjectURL(new Blob([r.data],{type:"application/octet-stream"}))
+
+         let link = document.createElement('a')
+         link.style.display = 'none'
+         link.href = url;
+         link.setAttribute('download', 'download.xlsx')
+         document.body.appendChild(link)
+         link.click()
+       },e=>{},'','blob')
     },
     moreFn(type,item){
       this.moreDialogVisible=true;

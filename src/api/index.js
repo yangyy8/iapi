@@ -1,24 +1,17 @@
 // 配置API接口地址
-
-
-var root = 'http://192.168.99.248:8081'
-
+// var root = 'http://192.168.99.248:8081'
+// var root =""
+// var root = 'http://192.168.99.206:8080'
 // var root="http://192.168.99.234:8080"
 //var root="http://192.168.99.242:8081"
 // var root = 'http://192.168.99.248:8080'
-// var root="http://192.168.99.247:8080"
+var root="http://192.168.99.247:8080"
 //var root = 'http://192.168.99.244:8080'
 // var root="http://192.168.99.213:8080"   //服务器电脑
 
 // var root="http://192.168.99.228:8080"
-// var root = 'http://192.168.99.206:8080'
 // var root="http://10.6.126.138:8088" //正式环境
 
-//var root="http://192.168.99.228:8080"
-// var root = 'http://192.168.99.206:8080'
-//var root="http://10.6.126.138:8088" //正式环境
-
-// var root = 'http://192.168.99.206:8080'
 
 // var root="http://192.168.99.234:8080" //正式环境
 // 引用axios
@@ -75,7 +68,7 @@ function isLOGIN(){
   });
 
 }
-function apiAxios(method, url, params, success, failure,header) {
+function apiAxios(method, url, params, success, failure,header,responseType) {
   if(!(url=='/manage-platform/isLanding'||url=='/manage-platform/homePage/iapiSize'||url=='/manage-platform/landing')){
     isLOGIN();
   }
@@ -100,14 +93,21 @@ function apiAxios(method, url, params, success, failure,header) {
       data: method === 'POST' || method === 'PUT' ? params : null,
       params: method === 'GET' || method === 'DELETE' ? params : null,
       baseURL: root,
+      responseType: responseType||'json',
       withCredentials: true,
       headers: header||{'X-Requested-With': 'XMLHttpRequest'},
       // headers: {'X-Requested-With': 'XMLHttpRequest'},
     })
     .then(function(res) {
+      console.log(res.status,success)
       if (res.status == 200) {
-        if (success) {
-
+        console.log("res",res)
+        if(responseType){
+          if(loadingInstance1){
+            loadingInstance1.close();
+          }
+          success(res)
+        }else if (success) {
             if(loadingInstance1){
               loadingInstance1.close();
             }
@@ -119,7 +119,8 @@ function apiAxios(method, url, params, success, failure,header) {
                 Message.error(res.data.message);
               }
             }
-            success(res.data)
+
+              success(res.data)
         }
       } else {
         if (failure) {
@@ -211,8 +212,8 @@ export default {
   get: function(url, params, success, failure) {
     return apiAxios('GET', url, params, success, failure)
   },
-  post: function(url, params, success, failure,header) {
-    return apiAxios('POST', url, params, success, failure,header)
+  post: function(url, params, success, failure,header,responseType) {
+    return apiAxios('POST', url, params, success, failure,header,responseType)
   },
   put: function(url, params, success, failure) {
     return apiAxios('PUT', url, params, success, failure)
