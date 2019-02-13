@@ -2972,7 +2972,6 @@ export default {
         "orders":dataSelfPnr,
         "pd":{'queryColList':this.checkListPnr},
       }
-      console.log(typePnrG)
       if(this.typePnrG == 0){
         sqlp.cdt = this.strPnr
         this.selfPnrD.cdt = this.strPnr;//导出自定义表格数据的传参
