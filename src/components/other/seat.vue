@@ -49,7 +49,7 @@
                       <el-col :span="8" class="t-el-content"><div class="t-el-text">校验结果：</div><div class="t-el-sub">{{dform.CHECKRESULTNAME}}</div></el-col>
                     </el-row>
                   </el-form>
-                  <div class="" @click="enter(i+j)" slot="reference"><img src="../../assets/img/ren.png" :title="i+j"/></div>
+                  <div :class="{'gaoliang':panduan}" @click="enter(i+j)" @mouseenter="hoverTitle(i+j)" slot="reference"><img src="../../assets/img/ren.png" :title="biaoti"/></div>
                 </el-popover>
 
               </span>
@@ -85,13 +85,17 @@ export default {
       list1:[],
       list2:[],
       light:[],
+      isgao:'',
+      panduan:false,
       tableBody:[],
       serialList:{},
       serial:'',
       form: {},
       dform:{},
+      biaoti:'',
       flightNumber:this.flightNumber,
       globalserial:this.globalserial,
+      // specifigseat:this.specifigseat,
       detailsDialogVisible:false,
     }
   },
@@ -102,34 +106,44 @@ export default {
         this.getimgtable();
     }
   },
-  props:{
-    'globalserial':{
-      type:String,
-      default:''
-    },
-    'flightNumber':{
-      type:String,
-      default:''
-    }
-
-  },
+  // props:{
+  //   'globalserial':{
+  //     type:String,
+  //     default:''
+  //   },
+  //   'flightNumber':{
+  //     type:String,
+  //     default:''
+  //   }
+  // },
+  props:['globalserial','flightNumber','specifigseat'],
   mounted(){
     this.getimgtable()
   },
   methods: {
     getimgtable(){
-      console.log(this.flightNumber);
       let p = {
         "flightRecordnum": this.flightNumber,
       };
       this.$api.post('/manage-platform/statusUpdate/seat/queryListPagesSeat', p,
         r => {
-          console.log(r);
-          this.list1 = r.data.list123;
-          this.list2 = r.data.listabc;
-          this.light=r.data.highlight;
-          this.tableBody = r.data.portList;
-          this.serialList = r.data.seatAndIdMap;
+          if(r.success){
+            this.list1 = r.data.list123;
+            this.list2 = r.data.listabc;
+            this.light=r.data.highlight;
+            this.tableBody = r.data.portList;
+            this.serialList = r.data.seatAndIdMap;
+          }
+          for(var i=0;i<this.list1.length;i++){
+            for(var j=0;j<this.list2.length;j++){
+              if(this.getlight(this.list1[i],this.list2[j])){
+                this.biaoti = this.list1[i]+this.list2[j];
+                this.isgao = this.list1[i]+this.list2[j];
+                this.panduan = (this.isgao == this.specifigseat);
+                console.log(this.panduan)
+              }
+            }
+          }
         })
     },
     enter(item){
@@ -139,6 +153,9 @@ export default {
            this.dform = r.data.IAPI;
          }
        })
+    },
+    hoverTitle(item){
+      this.biaoti = item;
     },
     getlight(n,m){
     var ss=this.light;
@@ -202,5 +219,7 @@ export default {
   border: none;
   background: none;text-align: center;
 }
-
+.gaoliang{
+  background-color: yellow!important;
+}
 </style>

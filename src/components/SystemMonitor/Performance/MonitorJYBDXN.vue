@@ -529,6 +529,7 @@ export default {
              tooltip:{
                trigger:'axis',
                formatter:function(params){
+                 console.log(params);
                  for(var i=0;i<params.length;i++){
                    return "监控时间:" + params[i].name+"</br>"+"平均耗时:" + params[i].data
                  }
@@ -631,6 +632,7 @@ export default {
         tooltip:{
           trigger:'axis',
           formatter:function(params){
+            console.log(params);
             for(var i=0;i<params.length;i++){
               return "监控时间:" + params[i].name+"</br>"+"平均耗时:" + params[i].data
             }

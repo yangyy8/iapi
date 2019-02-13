@@ -795,10 +795,7 @@ export default {
         })
     },
     details(i) {
-
       if (i.type == "1") { //航班备降
-
-
         this.$api.post('/manage-platform/eventManagement/queryFlightInfo', {
             "refserial": i.refserial
           },

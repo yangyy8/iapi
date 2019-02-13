@@ -1,7 +1,10 @@
 <template lang="html">
   <div class="zlbg">
     <div class="middle-top mb-2">
-      <el-row type="flex" class="middle" v-show="page==1" justify="center">
+      <div class="middle">
+        <span class="tubiao hand borderL www" :class="{'checked':page==1}" @click="qq">文件管理</span><span class="tubiao hand borderR wwt" :class="{'checked':page==0}" @click="page=0">通讯录</span>
+      </div>
+      <el-row type="flex" class="middle" v-show="page==1" justify="center" style="padding-top:0px!important">
         <el-col  :sm="24" :md="12" :lg="10">
           <el-input placeholder="请输入内容" size="small" v-model="mcdt.FILENAME"></el-input>
         </el-col>
@@ -11,11 +14,8 @@
           <el-button type="success" size="small" @click="folderDialogVisible = true;fileData=null">文件上传</el-button>
         </el-col>
       </el-row>
-      <el-row type="flex" class="middle" v-show="page==0">
+      <el-row type="flex" class="middle" v-show="page==0" style="padding-top:0px!important">
         <el-col :span="22" class="br">
-          <div class="title-green ">
-            查询条件
-          </div>
           <el-row align="center"   :gutter="2" class="pr-20" type="flex" justify="center">
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">姓名：</span>
@@ -37,7 +37,6 @@
       </el-row>
     </div>
     <div class="middle">
-        <span class="tubiao hand borderL www" :class="{'checked':page==1}" @click="qq">文件管理</span><span class="tubiao hand borderR wwt" :class="{'checked':page==0}" @click="page=0">通讯录</span>
         <div id="div1" v-show="page==0">
           <el-row class="margin-bt">
             <el-button type="primary" size="mini" @click="adds(0,'');form={}">新增</el-button>
@@ -163,7 +162,7 @@
               width="80">
               <template slot-scope="scope">
                 <el-button type="text"  class="a-btn"  title="文件下载" icon="el-icon-download"><a :href="fileLoad = scope.row.FILESERIAL" class="acolor"></a></el-button>
-                <el-button type="text"  class="a-btn"  title="删除" icon="el-icon-tickets" @click="deletes(scope.row)"></el-button>
+                <el-button type="text"  class="a-btn"  title="删除" icon="el-icon-delete" @click="deletes(scope.row)"></el-button>
              </template>
             </el-table-column>
           </el-table>
@@ -252,7 +251,7 @@
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
             <span class="yy-input-text"><font class="yy-color">*</font>航站：</span>
-            <el-select placeholder="请选择" v-model="form.AIRPORT_NAME" filterable clearable @visible-change="terminal" size="small" class="yy-input-input"  v-verify.change.blur ="{regs:'required',submit:'demo2'}">
+            <el-select placeholder="请选择" v-model="form.AIRPORT_CODE" filterable clearable @visible-change="terminal" size="small" class="yy-input-input"  v-verify.change.blur ="{regs:'required',submit:'demo2'}">
               <el-option
               v-for="item in takeOffName"
               :key="item.AIRPORT_CODE"
@@ -500,6 +499,13 @@ export default {
     uploadFile(event){//获取上传的文件
       this.fileData=event.target.files;
     },
+    folderZhuan(item){
+      for(var i =0;i<this.folderName.length;i++){
+        if(item == this.folderName[i].SERIAL){
+          return this.folderName[i].FOLDER
+        }
+      }
+    },
     upload(){//上传文件
       console.log(this.fileData);
       if(this.fileData == null){
@@ -514,7 +520,7 @@ export default {
       for(var i=0;i<arr.length;i++){
         formData.append("file",arr[i]);
       }
-      formData.append("folder",this.folder);
+      formData.append("folder",this.folderZhuan(this.folder));
       let p=formData;
       this.$api.post('/manage-platform/fileAssistant/uploadFile',p,
        r =>{
@@ -696,7 +702,13 @@ export default {
     },
 
 
-
+    hangzhan(item){
+      for(var i=0;i<this.takeOffName.length;i++){
+        if(item == this.takeOffName[i].AIRPORT_CODE){
+          return this.takeOffName[i].AIRPORT_NAME
+        }
+      }
+    },
     addItem(formName) {
       if (this.$validator.listener.demo2) {
         const result = this.$validator.verifyAll('demo2')
@@ -704,7 +716,8 @@ export default {
           return;
         }
       }
-       var url = "/manage-platform/addressManage/save";
+      var url = "/manage-platform/addressManage/save";
+      this.form.AIRPORT_NAME = this.hangzhan(this.form.AIRPORT_CODE);
       this.$api.post(url, this.form,
         r => {
           if (r.success) {
