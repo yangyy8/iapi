@@ -1,6 +1,5 @@
 <template>
   <el-container class="home">
-
     <el-main class="home-main">
       <div class="home-top">
         <div class="home-top-left">

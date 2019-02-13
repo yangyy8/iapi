@@ -772,3 +772,8 @@ this.queryNationality();
   float: left;
 }
 </style>
+<style>
+.el-table th > .cell {
+  padding-right: 15px!important;
+}
+</style>

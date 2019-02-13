@@ -613,3 +613,8 @@ export default {
 .ppie{width:420px; height:400px; float:left}
 .spang{margin-right:30px; background:#EE8E48; padding:3px 8px; border:1px solid #cccccc; border-radius:5px;color:#ffffff }
 </style>
+<style>
+.el-table th > .cell {
+  padding-right: 15px!important;
+}
+</style>

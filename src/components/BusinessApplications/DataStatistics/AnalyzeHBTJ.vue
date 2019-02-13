@@ -747,3 +747,8 @@ export default {
     background: #7A7A7D;
 }
 </style>
+<style>
+.el-table th > .cell {
+  padding-right: 15px!important;
+}
+</style>
