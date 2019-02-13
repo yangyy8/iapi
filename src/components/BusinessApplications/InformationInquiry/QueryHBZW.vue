@@ -306,7 +306,7 @@
         </el-row>
         <el-row type="flex"  class="t-detail">
           <el-col :span="8" class="t-el-content"><div class="t-el-text">流水号：</div><div class="t-el-sub">{{dform.TID}}</div></el-col>
-          <el-col :span="8" class="t-el-content"><div class="t-el-text">ICS记录编号：</div><div class="t-el-sub">{{dform.RECORDLOCATER}}</div></el-col>
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">旅客订票号：</div><div class="t-el-sub">{{dform.RECORDLOCATER}}</div></el-col>
           <el-col :span="8" class="t-el-content"><div class="t-el-text">旅客中间名：</div><div class="t-el-sub">{{dform.MIDDLENAME}}</div></el-col>
         </el-row>
         <el-row type="flex"  class="t-detail">
@@ -521,7 +521,7 @@
       :visible.sync="seatDialogVisible"
       width="1220px"
       >
-      <Seat :flightNumber="flightNumber0" :globalserial="globalserial0"></Seat>
+      <Seat :flightNumber="flightNumber0" :globalserial="globalserial0" :specifigseat="specifigseat0"></Seat>
     </el-dialog>
   </div>
 </template>
@@ -612,6 +612,7 @@ export default {
       nav2Id:null,
       flightNumber0:'',
       globalserial0:'',
+      specifigseat0:'',
     }
   },
   mounted() {
@@ -653,7 +654,8 @@ export default {
       console.log(i)
       this.seatDialogVisible=true;
       this.flightNumber0=i.flightRecordnum;
-      this.globalserial0=i.globalserial;
+      this.globalserial0=i.flightRecordnum;
+      this.specifigseat0=i.specifigseat;
       // this.$router.push({query:{flightNumber:i.flightRecordnum}})
     },
     getHistoryListPnr(hcurrentPage,hshowCount,historyCdt){

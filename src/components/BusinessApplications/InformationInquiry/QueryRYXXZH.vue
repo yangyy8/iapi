@@ -266,7 +266,8 @@
       </el-row>
     </div>
   </div>
-  <!--action="http://192.168.99.248:8080/manage-platform/iapiHead/readNationalAndPassportnoExcel"  -->
+
+  <!-- action="http://192.168.99.206:8080/manage-platform/iapiHead/readNationalAndPassportnoExcel" -->
   <el-dialog title="导入文件" :visible.sync="uploadDialogVisible"   width="640px"
   :before-close="handleClose">
     <el-form :model="releaseform" ref="releaseForm">
@@ -276,7 +277,7 @@
         name="excel"
         :multiple="false"
         accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-        :action="$api.rootUrl+'/manage-platform/iapi/readExcel'"
+        :action="$api.rootUrl+'/manage-platform/iapiHead/readNationalAndPassportnoExcel'"
         :on-success="uploadSuccess"
         :limit="1"
         :on-exceed="handleExceed"
@@ -318,6 +319,7 @@
         highlight-current-row
         @selection-change="handleSelectionChange"
         @header-click="headerClick"
+        @sort-change='sortChange'
         id="printMe">
         <el-table-column
           label="多选"
@@ -325,9 +327,9 @@
           width="55">
         </el-table-column>
         <el-table-column
-          prop="linkName"
+          prop="iapiName"
           label="姓名"
-          sortable
+          sortable='custom'
           width="125"
           v-if="checkList.indexOf(checkItem[0].ITEMNAME)>-1">
           <template slot-scope="scope">
@@ -345,7 +347,7 @@
         <el-table-column
           prop="INTG_CHNNAME"
           label="中文姓名"
-          sortable
+          sortable='custom'
           width="100"
           v-if="checkList.indexOf(checkItem[1].ITEMNAME)>-1">
         </el-table-column>
@@ -353,7 +355,7 @@
           prop="GENDER"
           label="性别"
           width="100"
-          sortable
+          sortable='custom'
           v-if="checkList.indexOf(checkItem[2].ITEMNAME)>-1">
           <template slot-scope="scope">
             <!-- 带 * nameIsEqual=true-->
@@ -371,7 +373,7 @@
           prop="iapiBirthdayName"
           label="出生日期"
           width="130"
-          sortable
+          sortable='custom'
           v-if="checkList.indexOf(checkItem[3].ITEMNAME)>-1">
           <template slot-scope="scope">
             <!-- 带 * nameIsEqual=true-->
@@ -389,7 +391,7 @@
           prop="iapiNationaName"
           label="国籍/地区"
           width="130"
-          sortable
+          sortable='custom'
           v-if="checkList.indexOf(checkItem[4].ITEMNAME)>-1">
           <template slot-scope="scope">
             <!-- 带 * nameIsEqual=true-->
@@ -407,7 +409,7 @@
           prop="iapiCardName"
           label="证件种类"
           width="100"
-          sortable
+          sortable='custom'
           v-if="checkList.indexOf(checkItem[5].ITEMNAME)>-1">
           <template slot-scope="scope">
             <el-popover
@@ -424,7 +426,7 @@
           prop="PASSPORTNO"
           label="证件号码"
           width="130"
-          sortable
+          sortable='custom'
           v-if="checkList.indexOf(checkItem[6].ITEMNAME)>-1">
           <template slot-scope="scope">
             <!-- 带 * nameIsEqual=true-->
@@ -442,14 +444,14 @@
           prop="FLTNO"
           label="航班号"
           width="100"
-          sortable
+          sortable='custom'
           v-if="checkList.indexOf(checkItem[7].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
           prop="FLTDATESTR"
           label="航班日期"
           width="150"
-          sortable
+          sortable='custom'
           v-if="checkList.indexOf(checkItem[8].ITEMNAME)>-1">
           <template slot-scope="scope">
             <!-- 带 * nameIsEqual=true-->
@@ -467,7 +469,7 @@
           prop="CHECKRESULT"
           label="校验结果"
           width="130"
-          sortable
+          sortable='custom'
           v-if="checkList.indexOf(checkItem[9].ITEMNAME)>-1">
           <template slot-scope="scope">
             {{scope.row.CHECKRESULT|fiftercheck}}
@@ -477,7 +479,7 @@
           prop="FLIGHTTYPE"
           label="出入标识"
           width="130"
-          sortable
+          sortable='custom'
           v-if="checkList.indexOf(checkItem[10].ITEMNAME)>-1">
           <template slot-scope="scope">
             <!-- 带 * nameIsEqual=true-->
@@ -495,7 +497,7 @@
           prop="iapiCityfromName"
           label="起飞机场"
           width="150"
-          sortable
+          sortable='custom'
           v-if="checkList.indexOf(checkItem[11].ITEMNAME)>-1">
           <template slot-scope="scope">
             <!-- 带 * nameIsEqual=true-->
@@ -513,14 +515,14 @@
           prop="departdateStr"
           label="预计起飞时间"
           width="150"
-          sortable
+          sortable='custom'
           v-if="checkList.indexOf(checkItem[12].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
           prop="iapiCitytoName"
           label="到达机场"
           width="150"
-          sortable
+          sortable='custom'
           v-if="checkList.indexOf(checkItem[13].ITEMNAME)>-1">
           <template slot-scope="scope">
             <!-- 带 * nameIsEqual=true-->
@@ -538,168 +540,168 @@
           prop="arrivdateStr"
           label="预计到达时间"
           width="150"
-          sortable
+          sortable='custom'
           v-if="checkList.indexOf(checkItem[14].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
           prop="PNR_SPECIFIGSEAT"
           label="航班座位号"
           width="150"
-          sortable
+          sortable='custom'
           v-if="checkList.indexOf(checkItem[15].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
           prop="flightStatusName"
           label="航班状态"
           width="130"
-          sortable
+          sortable='custom'
           v-if="checkList.indexOf(checkItem[16].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
           prop="PASSPORTEXPIREDATE"
           label="证件有效期"
           width="150"
-          sortable
+          sortable='custom'
           v-if="checkList.indexOf(checkItem[17].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
           prop="PASSPORTISSUEDATE"
           label="证件签发日期"
           width="150"
-          sortable
+          sortable='custom'
           v-if="checkList.indexOf(checkItem[18].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
           prop="PASSPORTISSUECOUNTRYNAME"
           label="证件签发国"
           width="150"
-          sortable
+          sortable='custom'
           v-if="checkList.indexOf(checkItem[19].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
           prop="VISANO"
           label="签证号码"
           width="130"
-          sortable
+          sortable='custom'
           v-if="checkList.indexOf(checkItem[20].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
           prop="VISAEXPIREDATE"
           label="签证有效期"
           width="140"
-          sortable
+          sortable='custom'
           v-if="checkList.indexOf(checkItem[21].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
           prop="OTHER_NO"
           label="其他证件号码"
           width="140"
-          sortable
+          sortable='custom'
           v-if="checkList.indexOf(checkItem[22].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
           prop="OTHER_EXPIREDATE"
           label="其他证件有效期"
           width="180"
-          sortable
+          sortable='custom'
           v-if="checkList.indexOf(checkItem[23].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
           prop="OTHERDOCUMENTISSUEDATE"
           label="其他证件签发日期"
           width="180"
-          sortable
+          sortable='custom'
           v-if="checkList.indexOf(checkItem[24].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
           prop="OTHER_ISSUECOUNTRYNAME"
           label="其他证件签发国"
           width="180"
-          sortable
+          sortable='custom'
           v-if="checkList.indexOf(checkItem[25].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
           prop="AIRLINEPHONE"
           label="航空公司联系电话"
           width="180"
-          sortable
+          sortable='custom'
           v-if="checkList.indexOf(checkItem[26].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
           prop="IAPI_RESPONSETIMESTR"
           label="边检回复日期"
           width="150"
-          sortable
+          sortable='custom'
           v-if="checkList.indexOf(checkItem[27].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
           prop="ABONO"
           label="ABO唯一标识"
           width="150"
-          sortable
+          sortable='custom'
           v-if="checkList.indexOf(checkItem[28].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
           prop="TKTNUMBER"
           label="电子客票号"
           width="150"
-          sortable
+          sortable='custom'
           v-if="checkList.indexOf(checkItem[29].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
           prop="ORIGINNAME"
           label="最初上机地"
           width="150"
-          sortable
+          sortable='custom'
           v-if="checkList.indexOf(checkItem[30].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
           prop="DESTINATIONNAME"
           label="最终下机地"
           width="150"
-          sortable
+          sortable='custom'
           v-if="checkList.indexOf(checkItem[31].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
           prop="PNR_CARBINCLASSDESIGNATOR"
           label="舱位"
           width="150"
-          sortable
+          sortable='custom'
           v-if="checkList.indexOf(checkItem[32].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
           prop="PNR_RCI"
           label="旅客订票号"
           width="150"
-          sortable
+          sortable='custom'
           v-if="checkList.indexOf(checkItem[33].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
           prop="APPLICATIONSENDERIDNAME"
           label="航空公司"
           width="150"
-          sortable
+          sortable='custom'
           v-if="checkList.indexOf(checkItem[34].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
           prop="PORTNAME"
           label="口岸"
           width="150"
-          sortable
+          sortable='custom'
           v-if="checkList.indexOf(checkItem[35].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
           prop="IAPI_RECEIVETIMESTR"
           label="值机时间"
           width="150"
-          sortable
+          sortable='custom'
           v-if="checkList.indexOf(checkItem[36].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
           prop="PNRFLAGSTR"
           label="是否订票"
           width="150"
-          sortable
+          sortable='custom'
           v-if="checkList.indexOf(checkItem[37].ITEMNAME)>-1">
           <template slot-scope="scope">
             {{scope.row.PNRFLAGSTR|fifteryn}}
@@ -709,7 +711,7 @@
           prop="CHKFLAGSTR"
           label="是否值机"
           width="150"
-          sortable
+          sortable='custom'
           v-if="checkList.indexOf(checkItem[38].ITEMNAME)>-1">
           <template slot-scope="scope">
             {{scope.row.CHKFLAGSTR|fifteryn}}
@@ -719,7 +721,7 @@
           prop="EEFLAGSTR"
           label="出入境手续"
           width="150"
-          sortable
+          sortable='custom'
           v-if="checkList.indexOf(checkItem[39].ITEMNAME)>-1">
           <template slot-scope="scope">
             {{scope.row.EEFLAGSTR|fifteryn}}
@@ -729,7 +731,7 @@
           prop="CLSFLAGSTR"
           label="航班是否关闭"
           width="150"
-          sortable
+          sortable='custom'
           v-if="checkList.indexOf(checkItem[40].ITEMNAME)>-1">
           <template slot-scope="scope">
             {{scope.row.CLSFLAGSTR|fifteryn}}
@@ -765,7 +767,7 @@
             </el-select>
             条
           </div>
-          <div class="" v-loading="loading" class="loadingtext">
+          <div v-loading="loading" class="loadingtext">
             共{{totalResult}}条
           </div>
         </div>
@@ -809,6 +811,8 @@ export default {
   components: {Detail,Seat,AlarmProcess},
   data(){
     return{
+      orderHc:{},
+      orderState:0,//默认不排序
       loading:false,
       //导出
       tableList:[],
@@ -1185,6 +1189,40 @@ export default {
   },
   methods:{
     //============================洲国籍======================================================================
+    sortChange(column){
+      this.orderState=1;//排序
+      this.orderHc=column;
+      let p={
+        'orders':[this.orderHc.prop],
+        'direction':this.orderHc.order=='ascending'?1:0,
+        'cdt':this.batchFlag==1?this.cdt1:this.cdt,
+        'isBatch':this.batchFlag==1?1:0,
+        'currentPage':this.currentPage,
+        'showCount':this.showCount
+      }
+
+      this.$api.post('/manage-platform/iapiHead/queryListPage',p,
+       r => {
+         if(r.success){
+           if(r.data.nextState==0){
+             console.log(document.getElementsByClassName('btn-next')[0])
+             document.getElementsByClassName('btn-next')[0].disabled=true;
+           }else{
+             document.getElementsByClassName('btn-next')[0].disabled=false;
+           }
+
+           this.tableData=r.data.resultList;//表格数据
+           this.currentPage = r.data.currentPage;
+
+           if(this.batchFlag == 1){
+             this.totalPageM(this.currentPage,this.showCount,this.cdt1,1);
+           }else{
+             this.totalPageM(this.currentPage,this.showCount,this.cdt);
+           }
+         }
+      })
+
+    },
     ftReal(){
       this.$set(this.cdt,'cityfromEqual','');
       this.$set(this.cdt,'citytoEqual','');
@@ -1327,6 +1365,7 @@ export default {
           type: 'success'
         });
         this.batchFlag = 1;
+        this.getList(this.currentPage,this.showCount,this.cdt1,1);
       }else{
         this.$message({
           duration:3000,
@@ -1554,7 +1593,7 @@ export default {
         "currentPage":currentPage,
       	"showCount":showCount,
       	"cdt":cdt,
-        "direction":num
+        "isBatch":num
       }
       this.$api.post2('/manage-platform/iapiHead/queryListPageCount',p,
        r =>{
@@ -1570,6 +1609,7 @@ export default {
       //   });
       //   return false
       // }
+      this.orderState = 0;
       if(this.cdt.startFltdate==null||this.cdt.endFltdate==null||this.cdt.startFltdate==''||this.cdt.endFltdate==''){
         this.$message({
           message: '航班日期不能为空',
@@ -1581,7 +1621,7 @@ export default {
       	"currentPage":currentPage,
       	"showCount":showCount,
       	"cdt":cdt,
-        "direction":num
+        "isBatch":num
       };
       this.$api.post('/manage-platform/iapiHead/queryListPage',pl,
        r => {
@@ -1612,6 +1652,7 @@ export default {
               confirmButtonText: '确定',
               type: 'warning'
             })
+            return
           }
         }
         this.currentPage=1;
@@ -1638,12 +1679,39 @@ export default {
           type: 'success'
         });
       }
+      this.currentPage=1;
+      this.showCount=10;
+      this.getList(this.currentPage,this.showCount,this.cdt);
     },
     pageSizeChange(val) {//显示条数，调用
-      this.getList(this.currentPage,val,this.cdt);
+      if(this.batchFlag == 0){
+        if(this.orderState == 1){//排序
+          this.sortChange(this.orderHc)
+        }else if(this.orderState == 0){
+          this.getList(this.currentPage,val,this.cdt);
+        }
+      }else if(this.batchFlag == 1){//批量导入
+        if(this.orderState == 1){//排序
+          this.sortChange(this.orderHc)
+        }else if(this.orderState == 0){
+          this.getList(this.currentPage,val,this.cdt1,1);
+        }
+      }
     },
     handleCurrentChange(val){
-      this.getList(val,this.showCount,this.cdt);
+      if(this.batchFlag == 0){
+        if(this.orderState == 1){
+          this.sortChange(this.orderHc)
+        }else if(this.orderState == 0){
+          this.getList(val,this.showCount,this.cdt);
+        }
+      }else if(this.batchFlag == 1){
+        if(this.orderState == 1){
+          this.sortChange(this.orderHc)
+        }else if(this.orderState == 0){
+          this.getList(val,this.showCount,this.cdt1,1);
+        }
+      }
     },
     //===========================打印导出================================
     exportZH(){
@@ -1662,7 +1730,7 @@ export default {
          data: {
              "exclTitles": this.checkList,
              "cdt":this.cdt,
-             "direction":num,
+             "isBatch":num,
          },
          responseType: 'blob'
          }).then(response => {
@@ -1676,7 +1744,7 @@ export default {
          data: {
              "exclTitles": this.checkList,
              "resultList":this.tableList,
-             "direction":num,
+             "isBatch":num,
          },
          responseType: 'blob'
          }).then(response => {

@@ -98,7 +98,7 @@
                   <span>反馈描述</span>
                 </div>
               </div>
-              <div class="checkResultInput my-form-group" data-scope="noChi" data-name="visaResponseresult" data-type="textarea"
+              <div class="checkResultInput my-form-group" :data-scope="aa.noChi1" data-name="visaResponseresult" data-type="textarea"
                v-validate-easy="[['required'],['noCinese']]">
                 <el-input type="textarea" maxlength="100" v-model="data.visaResponseresult" class="t-width100" placeholder="请输入描述(必填)"  :autosize="{ minRows: 3, maxRows: 3}" :disabled="isActive"></el-input>
               </div>
@@ -185,7 +185,7 @@
                     <span>反馈描述</span>
                   </div>
                 </div>
-                <div class="checkResultInput my-form-group" data-scope="noChi" data-name="nationalityResponseresult" data-type="textarea"
+                <div class="checkResultInput my-form-group" :data-scope="aa.noChi2" data-name="nationalityResponseresult" data-type="textarea"
                  v-validate-easy="[['required'],['noCinese']]">
                   <el-input type="textarea" maxlength="100" v-model="data.nationalityResponseresult" class="t-width100" placeholder="请输入描述(必填)" :autosize="{ minRows: 3, maxRows: 3}" :disabled="countryIsActive"></el-input>
                 </div>
@@ -271,7 +271,7 @@
                   <span>反馈描述</span>
                 </div>
               </div>
-              <div class="checkResultInput my-form-group" data-scope="noChi" data-name="airportResponseresult" data-type="textarea"
+              <div class="checkResultInput my-form-group" :data-scope="aa.noChi3" data-name="airportResponseresult" data-type="textarea"
                v-validate-easy="[['required'],['noCinese']]">
                 <el-input type="textarea" maxlength="100" v-model="data.airportResponseresult" class="t-width100" placeholder="请输入描述(必填)" :autosize="{ minRows: 3, maxRows: 3}" :disabled="entryIsActive"></el-input>
               </div>
@@ -292,6 +292,11 @@
 export default {
   data(){
     return{
+      aa:{
+        noChi1:'noChi',
+        noChi2:'noChi',
+        noChi3:'noChi',
+      },
       card:'签证有效期',
       data:{
         fieldName:'',
@@ -535,6 +540,8 @@ export default {
       }else if(item == '0'){
         this.countryInactive = "禁用";
         this.countryIsActive = true;
+        this.V.$reset(this.aa.noChi2);
+        this.$set(this.aa,'noChi2','b')
       }
     },
     cardState(item){
@@ -544,6 +551,8 @@ export default {
       }else if(item == '0'){
         this.inactive = "禁用";
         this.isActive = true;
+        this.V.$reset(this.aa.noChi1);
+        this.$set(this.aa,'noChi1','a')
       }
     },
     entryState(item){
@@ -553,6 +562,8 @@ export default {
       }else if(item == '0'){
         this.entryInactive = "禁用";
         this.entryIsActive = true;
+        this.V.$reset(this.aa.noChi3);
+        this.$set(this.aa,'noChi3','c')
       }
     },
     nation(){ //国籍搜索
@@ -591,6 +602,13 @@ export default {
       })
     },
     save(){
+      // if(this.countryIsActive = true&&(this.data.visaResponseresult==''||this.data.visaResponseresult==undefined)){
+      //   this.$message({
+      //     type: 'warning',
+      //     message: '证件规则启用状态下校验结果不能为空'
+      //   });
+      //   return
+      // }
       this.V.$submit('noChi', (canSumit,data) => {
         if(!canSumit) return
         this.$api.post('/manage-platform/visaRule/saveVisaRule',this.data,
@@ -600,6 +618,9 @@ export default {
               type: 'success',
               message: '操作成功!'
             });
+            this.noChi1="noChi";
+            this.noChi2="noChi";
+            this.noChi3="noChi";
           }
         })
       })

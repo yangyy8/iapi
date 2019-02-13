@@ -57,7 +57,7 @@
         </el-row>
         <el-row type="flex"  class="t-detail">
           <el-col :span="8" class="t-el-content"><div class="t-el-text">流水号：</div><div class="t-el-sub">{{dform.TID}}</div></el-col>
-          <el-col :span="8" class="t-el-content"><div class="t-el-text">ICS记录编号：</div><div class="t-el-sub">{{dform.RECORDLOCATER}}</div></el-col>
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">旅客订票号：</div><div class="t-el-sub">{{dform.RECORDLOCATER}}</div></el-col>
           <el-col :span="8" class="t-el-content"><div class="t-el-text">旅客中间名：</div><div class="t-el-sub">{{dform.MIDDLENAME}}</div></el-col>
         </el-row>
         <el-row type="flex"  class="t-detail">
@@ -108,7 +108,7 @@
         <div class="hrtitle-child">基本信息</div>
         <el-row type="flex"  class="t-detail">
           <el-col :span="6" class="t-el-content"><div class="t-el-text">姓名：</div><div class="t-el-sub">{{dpform.pnrName}}</div></el-col>
-          <el-col :span="6" class="t-el-content"><div class="t-el-text">性别：</div><div class="t-el-sub">{{dpform.PNR_GENDER}}</div></el-col>
+          <el-col :span="6" class="t-el-content"><div class="t-el-text">性别：</div><div class="t-el-sub">{{dpform.PNR_GENDER=="F"?"女":dpform.PNR_GENDER=="M"?"男":"全部"}}</div></el-col>
           <el-col :span="6" class="t-el-content"><div class="t-el-text">出生日期：</div><div class="t-el-sub">{{dpform.pnrBirthdayName}}</div></el-col>
           <el-col :span="6" class="t-el-content"><div class="t-el-text">国籍：</div><div class="t-el-sub">{{dpform.pnrNationaName}}</div></el-col>
         </el-row>
@@ -119,7 +119,7 @@
           <el-col :span="6" class="t-el-content"><div class="t-el-text">航班日期：</div><div class="t-el-sub">{{dpform.PNR_FLTDATE1STR}}</div></el-col>
         </el-row>
         <el-row type="flex"  class="t-detail">
-          <el-col :span="6" class="t-el-content"><div class="t-el-text">出入标识：</div><div class="t-el-sub">{{dpform.PNR_FLTTYPE}}</div></el-col>
+          <el-col :span="6" class="t-el-content"><div class="t-el-text">出入标识：</div><div class="t-el-sub">{{dpform.PNR_FLTTYPE=="O"?"出境":dpform.PNR_FLTTYPE=="I"?"入境":"全部"}}</div></el-col>
           <el-col :span="6" class="t-el-content"><div class="t-el-text">起飞城市：</div><div class="t-el-sub">{{dpform.originName}}</div></el-col>
           <el-col :span="6" class="t-el-content"><div class="t-el-text">到达城市：</div><div class="t-el-sub">{{dpform.destinationName}}</div></el-col>
           <el-col :span="6" class="t-el-content"><div class="t-el-text">起飞机场：</div><div class="t-el-sub">{{dpform.pnrCityfromName}}</div></el-col>
