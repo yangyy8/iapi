@@ -2018,18 +2018,44 @@ export default {
     tableDown(){
       if(this.bigBase==5){//导出iapi查询列表
         if(this.batchTableList.length==0){
-          axios({
-           method: 'post',
-           // url: 'http://192.168.99.248:8081/manage-platform/iapiHead/exportFileIo/5/iapi/600',
-           url: this.$api.rootUrl+"/manage-platform/iapiHead/exportFileIo/5/iapi/600",
-           data: {
-               "exclTitles": this.checkList,
-               "cdtList":this.rows
-           },
-           responseType: 'blob'
-           }).then(response => {
-               this.downloadM(response)
-           });
+          if(this.totalResult>10000){
+            this.$confirm('最多只能导出10000条,是否继续?','提示',{
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              type: 'warning'
+            }).then(() => {
+              axios({
+               method: 'post',
+               // url: 'http://192.168.99.206:8080/manage-platform/iapiHead/exportFileIo/5/iapi/10000',
+               url: this.$api.rootUrl+"/manage-platform/iapiHead/exportFileIo/5/iapi/10000",
+               data: {
+                   "exclTitles": this.checkList,
+                   "cdtList":this.rows
+               },
+               responseType: 'blob'
+               }).then(response => {
+                   this.downloadM(response)
+               });
+            }).catch(() => {
+              this.$message({
+                type: 'info',
+                message: '已取消删除'
+              });
+            });
+          }else{
+            axios({
+             method: 'post',
+             // url: 'http://192.168.99.206:8080/manage-platform/iapiHead/exportFileIo/5/iapi/10000',
+             url: this.$api.rootUrl+"/manage-platform/iapiHead/exportFileIo/5/iapi/10000",
+             data: {
+                 "exclTitles": this.checkList,
+                 "cdtList":this.rows
+             },
+             responseType: 'blob'
+             }).then(response => {
+                 this.downloadM(response)
+             });
+          }
         }else if(this.batchTableList.length!=0){
           axios({
            method: 'post',
@@ -2047,18 +2073,45 @@ export default {
 
       }else if(this.bigBase==6){//导出pnr查询列表
         if(this.batchTableListPnr.length==0){
-          axios({
-           method: 'post',
-           // url: 'http://192.168.99.248:8081/manage-platform/iapiHead/exportFileIo/6/pnr/600',
-           url: this.$api.rootUrl+"/manage-platform/iapiHead/exportFileIo/6/pnr/600",
-           data: {
-               "exclTitles": this.checkListPnr,
-               "cdtList":this.rowsPnr
-           },
-           responseType: 'blob'
-           }).then(response => {
-               this.downloadM(response)
-           });
+          if(this.totalResultPnr>10000){
+            this.$confirm('最多只能导出10000条,是否继续?','提示',{
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              type: 'warning'
+            }).then(() => {
+              axios({
+               method: 'post',
+               // url: 'http://192.168.99.248:8081/manage-platform/iapiHead/exportFileIo/6/pnr/600',
+               url: this.$api.rootUrl+"/manage-platform/iapiHead/exportFileIo/6/pnr/10000",
+               data: {
+                   "exclTitles": this.checkListPnr,
+                   "cdtList":this.rowsPnr
+               },
+               responseType: 'blob'
+               }).then(response => {
+                   this.downloadM(response)
+               });
+            }).catch(() => {
+              this.$message({
+                type: 'info',
+                message: '已取消删除'
+              });
+            });
+          }else{
+            axios({
+             method: 'post',
+             // url: 'http://192.168.99.248:8081/manage-platform/iapiHead/exportFileIo/6/pnr/10000',
+             url: this.$api.rootUrl+"/manage-platform/iapiHead/exportFileIo/6/pnr/10000",
+             data: {
+                 "exclTitles": this.checkListPnr,
+                 "cdtList":this.rowsPnr
+             },
+             responseType: 'blob'
+             }).then(response => {
+                 this.downloadM(response)
+             });
+          }
+
         }else if(this.batchTableListPnr.length!=0){
           axios({
            method: 'post',

@@ -651,10 +651,9 @@ export default {
       // }
     },
     seatDetails(i){
-      console.log(i)
       this.seatDialogVisible=true;
       this.flightNumber0=i.flightRecordnum;
-      this.globalserial0=i.flightRecordnum;
+      this.globalserial0=new Date().getTime();
       this.specifigseat0=i.specifigseat;
       // this.$router.push({query:{flightNumber:i.flightRecordnum}})
     },

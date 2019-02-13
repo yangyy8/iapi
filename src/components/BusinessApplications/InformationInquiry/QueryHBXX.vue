@@ -313,7 +313,8 @@ export default {
       },
       form: {},
       flightNumber0:'',
-      globalserial0:''
+      globalserial0:'',
+      specifigseat0:'',
     }
   },
   mounted() {
@@ -456,7 +457,8 @@ export default {
       console.log(i);
       this.seatDialogVisible=true;
       this.flightNumber0 = i.flightRecordnum;
-      this.globalserial0=i.flightRecordnum;
+      this.globalserial0=new Date().getTime();
+      // this.specifigseat0=i.specifigseat;
       // this.$router.push({query:{flightNumber:i.flightRecordnum}})
     },
     takeOff(){//调用起飞机场
