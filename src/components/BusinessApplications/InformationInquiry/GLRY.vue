@@ -11,7 +11,7 @@
           <el-row align="center"   :gutter="2">
             <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
               <span class="input-text"><font color="red">*</font> 航班号：</span>
-                <el-input placeholder="请输入内容" size="small" v-model="pd.fltno" class="input-input"></el-input>
+                <el-input placeholder="请输入内容" size="small" v-model="pd.fltno" class="input-input" @input="selectChange"></el-input>
             </el-col>
             <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
               <span class="input-text">航班日期：</span>
@@ -41,13 +41,13 @@
             </el-col>
             <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
               <span class="input-text">证件号码：</span>
-                <el-input placeholder="请输入内容" size="small" v-model="pd.cardnum" class="input-input"></el-input>
+                <el-input placeholder="请输入内容" size="small" v-model="pd.cardnum" class="input-input" @input="selectChange"></el-input>
              </el-col>
             </el-row>
             <el-row align="center"   :gutter="2" class="yy-line">
               <el-col  :sm="24" :md="12" :lg="11"   class="input-item">
                 <span class="input-text">姓名：</span>
-                <el-input placeholder="请输入内容" size="small" v-model="pd.name"   class="input-input"></el-input>
+                <el-input placeholder="请输入内容" size="small" v-model="pd.name"   class="input-input" @input="selectChange"></el-input>
               </el-col>
               <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
                   <span class="input-text">性别：</span>
@@ -73,7 +73,7 @@
 
             <el-col  :sm="24" :md="12" :lg="11"   class="input-item">
               <span class="input-text">值机间隔参数：</span>
-              <el-input placeholder="10" size="small" v-model="pd.intervel"   class="input-input"></el-input>
+              <el-input placeholder="10" size="small" v-model="pd.intervel"  class="input-input"></el-input>
             </el-col>
         </el-row>
 
@@ -447,7 +447,7 @@ export default {
     this.pd.fltdate = this.$route.query.row.FLTDATESTR;
     this.pd.nationality = this.$route.query.row.NATIONALITY;
     this.pd.cardnum = this.$route.query.row.PASSPORTNO;
-    this.pd.name = this.$route.query.row.iapiName;
+    this.pd.name = this.$route.query.row.linkName;
     this.pd.gender = this.$route.query.row.GENDER;
     this.pd.birthday = this.$route.query.row.iapiBirthdayName;
   },

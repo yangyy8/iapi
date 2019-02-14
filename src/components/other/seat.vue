@@ -49,7 +49,11 @@
                       <el-col :span="8" class="t-el-content"><div class="t-el-text">校验结果：</div><div class="t-el-sub">{{dform.CHECKRESULTNAME}}</div></el-col>
                     </el-row>
                   </el-form>
-                  <div :class="{'gaoliang':specifigseat==i+j}" @click="enter(i+j)" @mouseenter="hoverTitle(i+j)" slot="reference"><img src="../../assets/img/ren.png" :title="biaoti"/></div>
+                  <div :class="{'gaoliang':specifigseat==i+j}" @click="enter(i+j)" @mouseenter="hoverTitle(i+j)" slot="reference">
+                    <img src="../../assets/img/renB.png" :title="biaoti" v-if="specifigseat==i+j"/>
+                    <img src="../../assets/img/ren.png" :title="biaoti" v-else/>
+                  </div>
+
                 </el-popover>
 
               </span>
@@ -221,6 +225,6 @@ export default {
   background: none;text-align: center;
 }
 .gaoliang{
-  background-color: yellow!important;
+  background-color: #EBAD6F!important;
 }
 </style>
