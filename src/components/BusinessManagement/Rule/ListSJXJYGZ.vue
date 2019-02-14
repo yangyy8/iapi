@@ -320,6 +320,9 @@ export default {
     this.V.$reset('demo1');
     // this.getList(this.pd);
   },
+  destroyed(){
+    // this.V.$reset('demo1');
+  },
   methods:{
     headerClick(column,event){
       event.target.title=column.label
@@ -468,7 +471,6 @@ export default {
         r => {
           if(r.success){
             this.code = r.data
-
           }
        })
 

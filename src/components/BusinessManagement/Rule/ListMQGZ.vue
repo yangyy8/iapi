@@ -602,17 +602,10 @@ export default {
       })
     },
     save(){
-      // if(this.countryIsActive = true&&(this.data.visaResponseresult==''||this.data.visaResponseresult==undefined)){
-      //   this.$message({
-      //     type: 'warning',
-      //     message: '证件规则启用状态下校验结果不能为空'
-      //   });
-      //   return
-      // }
       this.V.$submit('noChi', (canSumit,data) => {
         if(!canSumit) return
         this.$api.post('/manage-platform/visaRule/saveVisaRule',this.data,
-        r =>{
+        r => {
           if(r.success){
             this.$message({
               type: 'success',
@@ -621,6 +614,11 @@ export default {
             this.noChi1="noChi";
             this.noChi2="noChi";
             this.noChi3="noChi";
+          }else{
+            this.$message({
+              type: 'warning',
+              message: r.message
+            });
           }
         })
       })

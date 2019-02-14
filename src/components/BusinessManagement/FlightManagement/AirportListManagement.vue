@@ -13,7 +13,7 @@
                 <el-option
                   v-for="(item,index) in chauName"
                   :key="index"
-                  :value="item.code"
+                  :value="item.codeNumber"
                   :label="item.code+' - '+item.name"
                 ></el-option>
               </el-select>
@@ -163,14 +163,6 @@
           <el-col :span="24" class="input-item">
             <span class="yy-input-text"><font class="yy-color">*</font>机场三位码：</span>
             <el-input placeholder="请输入内容" size="small"  v-model="form.airportCode"  maxlength="3" class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}" :disabled="airCodeAble"></el-input>
-            <!-- <el-select placeholder="请选择" v-model="form.airportCode" filterable clearable @visible-change="takeOff(1)" size="small" class="yy-input-input" @change="takeOffReal(form.airportCode)">
-              <el-option
-              v-for="(item,index) in addTakeOffName"
-              :key="index"
-              :value="item.AIRPORT_CODE"
-              :label="item.AIRPORT_CODE">
-              </el-option>
-            </el-select> -->
           </el-col>
         </el-row>
 
@@ -188,7 +180,7 @@
               <el-option
                 v-for="(item,index) in addChauName"
                 :key="index"
-                :value="item.code"
+                :value="item.codeNumber"
                 :label="item.code+' - '+item.name"
               ></el-option>
              </el-select>
@@ -497,7 +489,7 @@ export default {
         let arr=this.chauName;
         let that=this;
         for(var i=0;i<arr.length;i++){
-          if(arr[i].code == data){
+          if(arr[i].codeNumber == data){
             that.selection=arr[i].countryList;
           }
         }
@@ -508,7 +500,7 @@ export default {
         let arr=this.addChauName;
         let that=this;
         for(var i=0;i<arr.length;i++){
-          if(arr[i].code == data){
+          if(arr[i].codeNumber == data){
             that.addSelection=arr[i].countryList;
             this.form.continentsName = arr[i].name;
           }
