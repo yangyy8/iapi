@@ -742,9 +742,9 @@
           width="150">
           <template slot-scope="scope">
             <el-button type="text"  class="a-btn" title="详情" size="mini" icon="el-icon-tickets" @click="details(scope.row)"></el-button>
-            <el-button type="text"  class="a-btn" title="同值机人员" icon="el-icon-news" @click="$router.push({name:'GLRY',query:{row:scope.row,page:1}})"></el-button>
-            <el-button type="text"  class="a-btn" title="同订票人员" icon="el-icon-mobile-phone" @click="$router.push({name:'GLRY',query:{row:scope.row,page:0}})"></el-button>
-            <el-button type="text"  class="a-btn" title="临近座位" icon="el-icon-rank" @click="$router.push({name:'GLRY',query:{row:scope.row,page:3}})"></el-button>
+            <el-button type="text"  class="a-btn" title="同值机人员" icon="el-icon-news" @click="$router.push({name:'QueryGLRY',query:{row:scope.row,page:1,title:'关联人员查询'}})"></el-button>
+            <el-button type="text"  class="a-btn" title="同订票人员" icon="el-icon-mobile-phone" @click="$router.push({name:'QueryGLRY',query:{row:scope.row,page:0,title:'关联人员查询'}})"></el-button>
+            <el-button type="text"  class="a-btn" title="临近座位" icon="el-icon-rank" @click="$router.push({name:'QueryGLRY',query:{row:scope.row,page:3,title:'关联人员查询'}})"></el-button>
             <el-button type="text"  class="a-btn" title="航班座位" icon="el-icon-document" @click="seat(scope.row)"></el-button>
          </template>
         </el-table-column>
