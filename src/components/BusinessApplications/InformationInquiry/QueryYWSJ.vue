@@ -460,7 +460,7 @@
             width="160">
           </el-table-column>
           <el-table-column
-            prop="CHANGETYPESTR"
+            prop="UPDATEDESC"
             label="修改描述"
             width="100">
           </el-table-column>

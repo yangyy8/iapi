@@ -742,9 +742,9 @@
           width="150">
           <template slot-scope="scope">
             <el-button type="text"  class="a-btn" title="详情" size="mini" icon="el-icon-tickets" @click="details(scope.row)"></el-button>
-            <el-button type="text"  class="a-btn" title="同值机人员" icon="el-icon-news" @click="$router.push({name:'GLRY',query:{row:scope.row,page:1}})"></el-button>
-            <el-button type="text"  class="a-btn" title="同订票人员" icon="el-icon-mobile-phone" @click="$router.push({name:'GLRY',query:{row:scope.row,page:0}})"></el-button>
-            <el-button type="text"  class="a-btn" title="临近座位" icon="el-icon-rank" @click="$router.push({name:'GLRY',query:{row:scope.row,page:3}})"></el-button>
+            <el-button type="text"  class="a-btn" title="同值机人员" icon="el-icon-news" @click="$router.push({name:'QueryGLRY',query:{row:scope.row,page:1,title:'关联人员查询'}})"></el-button>
+            <el-button type="text"  class="a-btn" title="同订票人员" icon="el-icon-mobile-phone" @click="$router.push({name:'QueryGLRY',query:{row:scope.row,page:0,title:'关联人员查询'}})"></el-button>
+            <el-button type="text"  class="a-btn" title="临近座位" icon="el-icon-rank" @click="$router.push({name:'QueryGLRY',query:{row:scope.row,page:3,title:'关联人员查询'}})"></el-button>
             <el-button type="text"  class="a-btn" title="航班座位" icon="el-icon-document" @click="seat(scope.row)"></el-button>
          </template>
         </el-table-column>
@@ -1319,7 +1319,7 @@ export default {
     seat(i){
       this.seatDialogVisible = true;
       this.flightNumber0 = i.FLIGHT_RECORDNUM;
-      this.globalserial0=i.SERIAL;
+      this.globalserial0=new Date().getTime();
     },
     openCheck(){
       this.openCheckbox = !this.openCheckbox
@@ -1723,19 +1723,47 @@ export default {
     },
     tableDown(num){
       if(this.tableList.length==0){
-        axios({
-         method: 'post',
-         // url: 'http://192.168.99.248:8081/manage-platform/iapiHead/exportFileIo/4/iapiHead/600',
-         url: this.$api.rootUrl+"/manage-platform/iapiHead/exportFileIo/4/iapiHead/600",
-         data: {
-             "exclTitles": this.checkList,
-             "cdt":this.cdt,
-             "isBatch":num,
-         },
-         responseType: 'blob'
-         }).then(response => {
-             this.downloadM(response)
-         });
+        if(this.totalResult>10000){
+          this.$confirm('最多只能导出10000条,是否继续?','提示',{
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+          }).then(() => {
+            axios({
+             method: 'post',
+             // url: 'http://192.168.99.248:8081/manage-platform/iapiHead/exportFileIo/4/iapiHead/10000',
+             url: this.$api.rootUrl+"/manage-platform/iapiHead/exportFileIo/4/iapiHead/10000",
+             data: {
+                 "exclTitles": this.checkList,
+                 "cdt":this.cdt,
+                 "isBatch":num,
+             },
+             responseType: 'blob'
+             }).then(response => {
+                 this.downloadM(response)
+             });
+          }).catch(() => {
+            this.$message({
+              type: 'info',
+              message: '已取消删除'
+            });
+          });
+        }else{
+          axios({
+           method: 'post',
+           // url: 'http://192.168.99.248:8081/manage-platform/iapiHead/exportFileIo/4/iapiHead/10000',
+           url: this.$api.rootUrl+"/manage-platform/iapiHead/exportFileIo/4/iapiHead/10000",
+           data: {
+               "exclTitles": this.checkList,
+               "cdt":this.cdt,
+               "isBatch":num,
+           },
+           responseType: 'blob'
+           }).then(response => {
+               console.log(response);
+               this.downloadM(response)
+           });
+        }
       }else if(this.tableList.length!=0){
         axios({
          method: 'post',
@@ -1748,6 +1776,7 @@ export default {
          },
          responseType: 'blob'
          }).then(response => {
+             console.log(response);
              this.downloadM(response)
          });
       }

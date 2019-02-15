@@ -37,7 +37,7 @@
             </el-row>
           </el-col>
           <el-col :span="2" class="down-btn-area">
-            <el-button type="success" class="mt-26" size="small" @click="getList(pd)">查询</el-button>
+            <el-button type="success" class="mt-26" size="small" @click="getList(pd);V.$reset('demo1');">查询</el-button>
           </el-col>
         </el-row>
     </div>
@@ -52,7 +52,7 @@
         :data="tableData"
         border
         style="width: 100%;"
-        class="tableSj o-table3"
+        class="tableSj o-table3 tableJY"
         @sort-change='sortChange'
         @header-click="headerClick">
         <el-table-column
@@ -61,11 +61,14 @@
           label="出入境方向"
           width="120">
           <template slot-scope="scope">
-            <el-select v-model="scope.row.IODIR" placeholder="请选择" filterable clearable size="mini" class="table-select">
-              <el-option label="I - 入境" value="I"></el-option>
-              <el-option label="O - 出境" value="O"></el-option>
-              <el-option label="A - 入出境" value="A"></el-option>
-            </el-select>
+            <div class="my-form-group" data-scope="demo1" :data-name="scope.row.IODIR" data-type="select"
+              v-validate-easy="[['required']]">
+              <el-select v-model="scope.row.IODIR" placeholder="请选择" filterable clearable size="mini" class="table-select">
+                <el-option label="I - 入境" value="I"></el-option>
+                <el-option label="O - 出境" value="O"></el-option>
+                <el-option label="A - 入出境" value="A"></el-option>
+              </el-select>
+            </div>
          </template>
         </el-table-column>
         <el-table-column
@@ -74,26 +77,32 @@
           sortable='custom'
           width="150">
           <template slot-scope="scope">
-            <el-select v-model="scope.row.PERSONNELTYPE" placeholder="请选择" v-verify.input.blur="{regs:'required',submit:'demo'}" filterable clearable size="mini" class="table-select">
-              <el-option label="0 - 中国内地人" value="0"></el-option>
-              <el-option label="1 - 中国港澳台" value="1"></el-option>
-              <el-option label="2 - 外国人" value="2"></el-option>
-              <el-option label="3 - 全部" value="3"></el-option>
-            </el-select>
+            <div class="my-form-group" data-scope="demo1" :data-name="scope.row.PERSONNELTYPE" data-type="select"
+              v-validate-easy="[['required']]">
+              <el-select v-model="scope.row.PERSONNELTYPE" placeholder="请选择" filterable clearable size="mini" class="table-select">
+                <el-option label="0 - 中国内地人" value="0"></el-option>
+                <el-option label="1 - 中国港澳台" value="1"></el-option>
+                <el-option label="2 - 外国人" value="2"></el-option>
+                <el-option label="3 - 全部" value="3"></el-option>
+              </el-select>
+            </div>
          </template>
         </el-table-column>
         <el-table-column
           label="字段名称"
           width="170">
           <template slot-scope="scope">
-            <el-select v-model="scope.row.FIELDNAME" v-verify.input.blur="{regs:'required',submit:'demo'}" filterable clearable @visible-change="codeName(scope.row.FIELDNAME)" placeholder="请选择"  size="mini" class="table-select">
-              <el-option
-              v-for="item in code"
-              :key="item.FIELDNAME"
-              :value="item.FIELDNAME"
-              :label="item.FIELDDES">
-              </el-option>
-            </el-select>
+            <div class="my-form-group" data-scope="demo1" :data-name="scope.row.FIELDNAME" data-type="select"
+              v-validate-easy="[['required']]">
+              <el-select v-model="scope.row.FIELDNAME" filterable clearable @visible-change="codeName(scope.row.FIELDNAME)" placeholder="请选择"  size="mini" class="table-select">
+                <el-option
+                v-for="item in code"
+                :key="item.FIELDNAME"
+                :value="item.FIELDNAME"
+                :label="item.FIELDDES">
+                </el-option>
+              </el-select>
+            </div>
          </template>
         </el-table-column>
         <el-table-column
@@ -120,18 +129,24 @@
           width="120"
           sortable='custom'>
           <template slot-scope="scope">
-            <el-select v-model="scope.row.CHECKRESULT" v-verify.input.blur="{regs:'required',submit:'demo'}" filterable clearable placeholder="请选择"  size="mini" class="table-select" @change="inschange(scope.row)">
-              <el-option label="1Z" value="1Z"></el-option>
-              <el-option label="2Z" value="2Z"></el-option>
-              <el-option label="4Z" value="4Z"></el-option>
-            </el-select>
+            <div class="my-form-group" data-scope="demo1" :data-name="scope.row.CHECKRESULT" data-type="select"
+              v-validate-easy="[['required']]">
+              <el-select v-model="scope.row.CHECKRESULT" filterable clearable placeholder="请选择"  size="mini" class="table-select" @change="inschange(scope.row)">
+                <el-option label="1Z" value="1Z"></el-option>
+                <el-option label="2Z" value="2Z"></el-option>
+                <el-option label="4Z" value="4Z"></el-option>
+              </el-select>
+            </div>
          </template>
         </el-table-column>
         <el-table-column
           label="反馈结果描述"
           width="280">
           <template slot-scope="scope">
-            <el-input type="textarea" v-verify.input.blur="{regs:'required',submit:'demo'}" :autosize="{ minRows: 1, maxRows: 2}" placeholder="请输入内容" size="small" class="table-select" v-model="scope.row.CHECKREMARK" maxlength="100"></el-input>
+            <div class="my-form-group" data-scope="demo1" :data-name="scope.row.CHECKREMARK" data-type="textarea"
+              v-validate-easy="[['required']]">
+              <el-input type="textarea" :autosize="{ minRows: 1, maxRows: 2}" placeholder="请输入内容" size="small" class="table-select" v-model="scope.row.CHECKREMARK" maxlength="100"></el-input>
+            </div>
          </template>
         </el-table-column>
         <el-table-column
@@ -140,10 +155,13 @@
           width="130"
           sortable='custom'>
           <template slot-scope="scope">
-            <el-select v-model="scope.row.INPUT" v-verify.input.blur="{regs:'required',submit:'demo'}" placeholder="请选择" filterable clearable  size="mini" class="table-select">
-              <el-option label="0 - 必填项" value="0"></el-option>
-              <el-option label="1 - 选录项" value="1"></el-option>
-            </el-select>
+            <div class="my-form-group" data-scope="demo1" :data-name="scope.row.INPUT" data-type="select"
+              v-validate-easy="[['required']]">
+              <el-select v-model="scope.row.INPUT" placeholder="请选择" filterable clearable  size="mini" class="table-select">
+                <el-option label="0 - 必填项" value="0"></el-option>
+                <el-option label="1 - 选录项" value="1"></el-option>
+              </el-select>
+            </div>
          </template>
         </el-table-column>
         <el-table-column
@@ -152,10 +170,13 @@
           width="120"
           sortable='custom'>
           <template slot-scope="scope">
-            <el-select v-model="scope.row.STATUS" v-verify.input.blur="{regs:'required',submit:'demo'}" placeholder="请选择" filterable clearable size="mini" class="table-select">
-              <el-option label="0 - 停用" value="0"></el-option>
-              <el-option label="1 - 启用" value="1"></el-option>
-            </el-select>
+            <div class="my-form-group" data-scope="demo1" :data-name="scope.row.STATUS" data-type="select"
+              v-validate-easy="[['required']]">
+              <el-select v-model="scope.row.STATUS" placeholder="请选择" filterable clearable size="mini" class="table-select">
+                <el-option label="0 - 停用" value="0"></el-option>
+                <el-option label="1 - 启用" value="1"></el-option>
+              </el-select>
+            </div>
          </template>
         </el-table-column>
         <el-table-column
@@ -163,7 +184,10 @@
           width="100"
           v-if="false">
           <template slot-scope="scope">
-            <el-input v-model="scope.row.REGULAR" v-verify.input.blur="{regs:'required',submit:'demo'}" size="small" class="table-select"></el-input>
+            <div class="my-form-group" data-scope="demo1" :data-name="scope.row.REGULAR" data-type="input"
+              v-validate-easy="[['required']]">
+              <el-input v-model="scope.row.REGULAR" size="small" class="table-select"></el-input>
+            </div>
          </template>
         </el-table-column>
         <el-table-column
@@ -171,7 +195,10 @@
           width="100"
           v-if="false">
           <template slot-scope="scope">
-            <el-input v-model="scope.row.VALIDTIME" v-verify.input.blur="{regs:'required',submit:'demo'}" size="small" class="table-select"></el-input>
+            <div class="my-form-group" data-scope="demo1" :data-name="scope.row.VALIDTIME" data-type="input"
+              v-validate-easy="[['required']]">
+              <el-input v-model="scope.row.VALIDTIME" size="small" class="table-select"></el-input>
+            </div>
          </template>
         </el-table-column>
         <el-table-column
@@ -287,9 +314,14 @@ export default {
   mounted() {
     // this.getList(this.pd);
     this.codeName();
+    this.V.$reset('demo1');
   },
   activated(){
+    this.V.$reset('demo1');
     // this.getList(this.pd);
+  },
+  destroyed(){
+    // this.V.$reset('demo1');
   },
   methods:{
     headerClick(column,event){
@@ -374,6 +406,7 @@ export default {
        })
      },
      addTableList(){//新增
+       this.V.$reset('demo1');
        this.count++;
        this.modelTable={
          "IODIR": "",
@@ -398,6 +431,7 @@ export default {
          cancelButtonText: '取消',
          type: 'warning'
        }).then(() => {
+         this.V.$reset('demo1');
          this.count--;
          item.CTLTYPE='D';
          let d = item;
@@ -413,35 +447,30 @@ export default {
 
      },
      save(){
-       if(this.$validator.listener.demo){
-         const result = this.$validator.verifyAll('demo')
-          if (result.indexOf(false) > -1) {
-            return
-          }
-       }
-       let p = this.tableData.concat(this.operatorData);
-       this.$api.post('/manage-platform/dataCheck/addDataCheck',p,
-        r => {
-          console.log(r);
-          if(r.success == false){
-            this.$message.error(r.message);
-          }else{
-            this.operatorData = [];
-            this.$message({
-              type: 'success',
-              message: '操作成功!'
-            });
-            this.getList(this.pd);
-          }
+       this.V.$submit('demo1', (canSumit,data) => {
+         if(!canSumit) return
+         let p = this.tableData.concat(this.operatorData);
+         this.$api.post('/manage-platform/dataCheck/addDataCheck',p,
+          r => {
+            console.log(r);
+            if(r.success == false){
+              this.$message.error(r.message);
+            }else{
+              this.operatorData = [];
+              this.$message({
+                type: 'success',
+                message: '操作成功!'
+              });
+              this.getList(this.pd);
+            }
+         })
        })
-
      },
      codeName(name){//字段名称的接口
        this.$api.post('/manage-platform/dataCheck/getDataCheckFieldNameList',{},
         r => {
           if(r.success){
             this.code = r.data
-
           }
        })
 
@@ -500,5 +529,9 @@ export default {
 }
 .example-error{
   padding: 9px!important;
+}
+.tableJY .err__msg{
+  top: 20px!important;
+  z-index: 999;
 }
 </style>

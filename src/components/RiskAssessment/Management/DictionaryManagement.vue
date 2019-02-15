@@ -491,6 +491,7 @@ export default {
       let url = window.URL.createObjectURL(new Blob([data.data], {
         type: "application/octet-stream"
       }))
+      console.log(url)
       let link = document.createElement('a')
       link.style.display = 'none'
       link.href = url

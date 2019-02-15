@@ -36,13 +36,13 @@ export default {
     let that = this;
     setTimeout(function(){
       that.$router.push({name:'QueryRYXXZH'})
-    },1500)
+    },500)
   },
   activated(){
     let that = this;
     setTimeout(function(){
       that.$router.push({name:that.url})
-    },1000)
+    },500)
   },
   methods:{
     tiaozhuan(page,url){

@@ -227,7 +227,7 @@ export default {
       navId:null,
       nav1Id: null,
       nav1List: [],
-      nav2Id: 1,
+      nav2Id: null,
       nav2List: [],
 
       tabList: [],
@@ -280,11 +280,14 @@ export default {
       console.log("nav1Id:",val.query.nav1Id);
       console.log("nav2Id:",val.query.nav2Id);
       console.log("val===",val)
-
+      // if(val.name=="QueryGLRY"){
+      //
+      // }
       // this.navId=val.params.navId;
       // this.nav1Id=val.query.nav1Id;
       // this.nav2Id=val.query.nav2Id;
       if(val.query.nav2Id){
+        console.log(11111)
         // this.navId=val.params.navId;
         // this.nav1Id=val.query.nav1Id;
         this.nav2Id=val.query.nav2Id;
@@ -294,20 +297,23 @@ export default {
           }
         }
         this.tabList.push(val);
+      }else if(val.query.title){
+        console.log("this.nav2List",this.nav2List)
+        for(var i=0;i<this.nav2List.length;i++){
+          if(val.name==this.nav2List[i].url){
+            val.query.nav2Id=this.nav2List[i].SERIAL
+            val.query.nav1Id=this.nav2List[i].parentId
+            this.$router.push({query:{nav1Id:val.query.nav1Id,nav2Id:val.query.nav2Id,title:val.query.title}})
+            for(var j=0;j<this.tabList.length;j++){
+              if(this.tabList[j].query.nav2Id==val.query.nav2Id){
+                return
+              }
+            }
+            this.tabList.push(val);
+          }
+        }
       }
     },
-    // navId:function(val){
-    //   console.log("navId",val);
-    //   this.$router.push(params:{navId:val})
-    // },
-    // nav1Id:function(val){
-    //   console.log("nav1Id",val);
-    //   this.$router.push(query:{nav1Id:val})
-    // },
-    // nav2Id:function(val){
-    //   console.log("nav2Id",val);
-    //   this.$router.push(query:{nav2Id:val})
-    // },
 
   },
   methods: {
@@ -417,11 +423,16 @@ export default {
     nav2(navId,nav1Id,nav2Id) {
       console.log("二级菜单",navId,nav1Id,nav2Id)
       this.nav2Id = nav2Id;
+      console.log(this.nav2List)
       for(var i=0;i<this.nav2List.length;i++){
         if(this.nav2List[i].SERIAL==nav2Id){
+          console.log(this.nav2List[i].SERIAL,nav2Id)
           this.checkItem=this.nav2List[i];
           let _this=this;
+          // setTimeout(function(){
             _this.$router.push({name: _this.checkItem.url, params:{navId:navId},query:{nav1Id:nav1Id,nav2Id:nav2Id,title:_this.checkItem.name}})
+
+          // },400)
         }
       }
     },

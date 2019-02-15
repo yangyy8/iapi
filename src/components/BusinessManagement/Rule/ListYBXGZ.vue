@@ -38,7 +38,7 @@
             </el-row>
           </el-col>
           <el-col :span="2" class="down-btn-area">
-            <el-button type="success" class="mt-26" size="small" @click="getList(pd)">查询</el-button>
+            <el-button type="success" class="mt-26" size="small" @click="getList(pd);V.$reset('demo')">查询</el-button>
           </el-col>
         </el-row>
     </div>
@@ -54,7 +54,7 @@
         border
         style="width: 100%"
         max-height="466"
-        class="tableYbxgz o-table3"
+        class="tableYbxgz o-table3 tableJY"
         @sort-change='sortChange'
         @header-click="headerClick">
         <el-table-column
@@ -63,11 +63,14 @@
           sortable='custom'
           width="130">
           <template slot-scope="scope">
-            <el-select v-model="scope.row.IODIR" placeholder="请选择" v-verify.change.blur="{regs:'required',submit:'demo'}" size="mini" filterable clearable class="table-select">
-              <el-option label="I - 入境" value="I"></el-option>
-              <el-option label="O - 出境" value="O"></el-option>
-              <el-option label="A - 入出境" value="A"></el-option>
-            </el-select>
+            <div class="my-form-group" data-scope="demo" :data-name="scope.row.IODIR" data-type="select"
+              v-validate-easy="[['required']]">
+              <el-select v-model="scope.row.IODIR" placeholder="请选择" size="mini" filterable clearable class="table-select">
+                <el-option label="I - 入境" value="I"></el-option>
+                <el-option label="O - 出境" value="O"></el-option>
+                <el-option label="A - 入出境" value="A"></el-option>
+              </el-select>
+            </div>
          </template>
         </el-table-column>
         <el-table-column
@@ -76,33 +79,42 @@
           width="150"
           sortable='custom'>
           <template slot-scope="scope">
-            <el-select v-model="scope.row.PERSONNELTYPE" placeholder="请选择" v-verify.input.blur="{regs:'required',submit:'demo'}" size="mini" filterable clearable class="table-select">
-              <el-option label="0 - 中国内地人" value="0"></el-option>
-              <el-option label="1 - 中国港澳台" value="1"></el-option>
-              <el-option label="2 - 外国人" value="2"></el-option>
-              <el-option label="3 - 全部" value="3"></el-option>
-            </el-select>
+            <div class="my-form-group" data-scope="demo" :data-name="scope.row.PERSONNELTYPE" data-type="select"
+              v-validate-easy="[['required']]">
+              <el-select v-model="scope.row.PERSONNELTYPE" placeholder="请选择" size="mini" filterable clearable class="table-select">
+                <el-option label="0 - 中国内地人" value="0"></el-option>
+                <el-option label="1 - 中国港澳台" value="1"></el-option>
+                <el-option label="2 - 外国人" value="2"></el-option>
+                <el-option label="3 - 全部" value="3"></el-option>
+              </el-select>
+            </div>
          </template>
         </el-table-column>
         <el-table-column
           label="规则名称"
           width="160">
           <template slot-scope="scope">
-            <el-input v-model="scope.row.RULEDESC" v-verify.input.blur="{regs:'required',submit:'demo'}" size="mini" class="table-select"></el-input>
+            <div class="my-form-group" data-scope="demo" :data-name="scope.row.RULEDESC" data-type="input"
+              v-validate-easy="[['required']]">
+              <el-input v-model="scope.row.RULEDESC" size="mini" class="table-select"></el-input>
+            </div>
          </template>
         </el-table-column>
         <el-table-column
           label="字段名称"
           width="140">
           <template slot-scope="scope">
-            <el-select v-model="scope.row.FIELDNAME" v-verify.input.blur="{regs:'required',submit:'demo'}" filterable clearable @visible-change="codeName(scope.row.FIELDNAME,scope.row)" @change="inputMode(scope.row.FIELDNAME,scope.row)" placeholder="请选择"  size="mini" class="table-select">
-              <el-option
-              v-for="item in code"
-              :key="item.FIELDNAME"
-              :value="item.FIELDNAME"
-              :label="item.FIELDDES">
-              </el-option>
-            </el-select>
+            <div class="my-form-group" data-scope="demo" :data-name="scope.row.FIELDNAME" data-type="select"
+              v-validate-easy="[['required']]">
+              <el-select v-model="scope.row.FIELDNAME" filterable clearable @visible-change="codeName(scope.row.FIELDNAME,scope.row)" @change="inputMode(scope.row.FIELDNAME,scope.row)" placeholder="请选择"  size="mini" class="table-select">
+                <el-option
+                v-for="item in code"
+                :key="item.FIELDNAME"
+                :value="item.FIELDNAME"
+                :label="item.FIELDDES">
+                </el-option>
+              </el-select>
+            </div>
          </template>
         </el-table-column>
         <el-table-column
@@ -111,32 +123,41 @@
           width="120"
           sortable='custom'>
           <template slot-scope="scope">
-            <el-select v-model="scope.row.OPERATORCHARACTER" v-verify.input.blur="{regs:'required',submit:'demo'}" placeholder="请选择" filterable clearable size="mini" class="table-select" v-show="dateShow==1">
-              <el-option label="等于" value="0"></el-option>
-              <el-option label="大于" value="1"></el-option>
-              <el-option label="小于" value="2"></el-option>
-              <el-option label="包含" value="3"></el-option>
-              <el-option label="不包含" value="4"></el-option>
-            </el-select>
-            <el-select v-model="scope.row.OPERATORCHARACTER" v-verify.input.blur="{regs:'required',submit:'demo'}" placeholder="请选择" filterable clearable size="mini" class="table-select" v-show="dateShow==2">
-              <el-option label="等于" value="0"></el-option>
-            </el-select>
+            <div class="my-form-group" data-scope="demo" :data-name="scope.row.OPERATORCHARACTER" data-type="select"
+              v-validate-easy="[['required']]">
+              <el-select v-model="scope.row.OPERATORCHARACTER" placeholder="请选择" filterable clearable size="mini" class="table-select" v-show="dateShow==1">
+                <el-option label="等于" value="0"></el-option>
+                <el-option label="大于" value="1"></el-option>
+                <el-option label="小于" value="2"></el-option>
+                <el-option label="包含" value="3"></el-option>
+                <el-option label="不包含" value="4"></el-option>
+              </el-select>
+              <el-select v-model="scope.row.OPERATORCHARACTER" placeholder="请选择" filterable clearable size="mini" class="table-select" v-show="dateShow==2">
+                <el-option label="等于" value="0"></el-option>
+              </el-select>
+            </div>
          </template>
         </el-table-column>
         <el-table-column
           label="取值"
           width="150">
           <template slot-scope="scope">
-            <el-select v-model="scope.row.VALUE" placeholder="请选择" v-verify.input.blur="{regs:'required',submit:'demo'}" size="mini" filterable clearable class="table-select" v-show="show==1">
-              <el-option label="当前系统时间" value="sysdate"></el-option>
-              <el-option label="一个月" value="sysdate+30"></el-option>
-              <el-option label="两个月" value="sysdate+60"></el-option>
-              <el-option label="三个月" value="sysdate+90"></el-option>
-              <el-option label="六个月" value="sysdate+180"></el-option>
-              <el-option label="九个月" value="sysdate+270"></el-option>
-              <el-option label="一年" value="sysdate+360"></el-option>
-            </el-select>
-            <el-input placeholder="请输入内容" size="small" class="table-select" v-verify.input.blur="{regs:'required',submit:'demo'}" v-model="scope.row.VALUE" v-show="show==2"></el-input>
+            <div class="my-form-group" data-scope="demo" :data-name="scope.row.VALUE" data-type="select"
+              v-validate-easy="[['required']]" v-show="show==1">
+              <el-select v-model="scope.row.VALUE" placeholder="请选择" size="mini" filterable clearable class="table-select">
+                <el-option label="当前系统时间" value="sysdate"></el-option>
+                <el-option label="一个月" value="sysdate+30"></el-option>
+                <el-option label="两个月" value="sysdate+60"></el-option>
+                <el-option label="三个月" value="sysdate+90"></el-option>
+                <el-option label="六个月" value="sysdate+180"></el-option>
+                <el-option label="九个月" value="sysdate+270"></el-option>
+                <el-option label="一年" value="sysdate+360"></el-option>
+              </el-select>
+            </div>
+            <div class="my-form-group" data-scope="demo" :data-name="scope.row.VALUE" data-type="input"
+              v-validate-easy="[['required']]" v-show="show==2">
+              <el-input placeholder="请输入内容" size="small" class="table-select" v-model="scope.row.VALUE" ></el-input>
+            </div>
          </template>
         </el-table-column>
         <el-table-column
@@ -145,28 +166,37 @@
           width="180"
           sortable='custom'>
           <template slot-scope="scope">
-            <el-select v-model="scope.row.CHECKRESULT" v-verify.input.blur="{regs:'required',submit:'demo'}" placeholder="请选择" filterable clearable size="mini" class="table-select" @change="inschange(scope.row)">
-              <el-option label="1Z - 禁止打印登机牌" value="1Z"></el-option>
-              <el-option label="2Z - 请再次核对" value="2Z"></el-option>
-              <el-option label="4Z - 数据错误" value="4Z"></el-option>
-            </el-select>
+            <div class="my-form-group" data-scope="demo" :data-name="scope.row.CHECKRESULT" data-type="select"
+              v-validate-easy="[['required']]">
+              <el-select v-model="scope.row.CHECKRESULT" placeholder="请选择" filterable clearable size="mini" class="table-select" @change="inschange(scope.row)">
+                <el-option label="1Z - 禁止打印登机牌" value="1Z"></el-option>
+                <el-option label="2Z - 请再次核对" value="2Z"></el-option>
+                <el-option label="4Z - 数据错误" value="4Z"></el-option>
+              </el-select>
+            </div>
          </template>
         </el-table-column>
         <el-table-column
           label="反馈结果描述"
           width="300">
           <template slot-scope="scope">
-            <el-input type="textarea" :autosize="{ minRows: 1, maxRows: 2}" v-verify.input.blur="{regs:'required',submit:'demo'}" placeholder="请输入内容" size="small" class="table-select" v-model="scope.row.RESPONSERESULT" maxlength="100"></el-input>
+            <div class="my-form-group" data-scope="demo" :data-name="scope.row.RESPONSERESULT" data-type="textarea"
+              v-validate-easy="[['required']]">
+              <el-input type="textarea" :autosize="{ minRows: 1, maxRows: 2}" placeholder="请输入内容" size="small" class="table-select" v-model="scope.row.RESPONSERESULT" maxlength="100"></el-input>
+            </div>
          </template>
         </el-table-column>
         <el-table-column
           label="状态"
           width="130">
           <template slot-scope="scope">
-            <el-select v-model="scope.row.STATUS" v-verify.input.blur="{regs:'required',submit:'demo'}" placeholder="请选择" filterable clearable size="mini" class="table-select">
-              <el-option label="0 - 停用" value="0"></el-option>
-              <el-option label="1 - 启用" value="1"></el-option>
-            </el-select>
+            <div class="my-form-group" data-scope="demo" :data-name="scope.row.STATUS" data-type="select"
+              v-validate-easy="[['required']]">
+              <el-select v-model="scope.row.STATUS" placeholder="请选择" filterable clearable size="mini" class="table-select">
+                <el-option label="0 - 停用" value="0"></el-option>
+                <el-option label="1 - 启用" value="1"></el-option>
+              </el-select>
+            </div>
          </template>
         </el-table-column>
         <el-table-column
@@ -283,9 +313,11 @@ export default {
   },
   mounted() {
     this.codeName();
+    this.V.$reset('demo');
     // this.getList(this.pd);
   },
   activated(){
+    this.V.$reset('demo');
     // this.getList(this.pd);
   },
   methods:{
@@ -341,6 +373,7 @@ export default {
        })
      },
      addTableList(){//新增
+       this.V.$reset('demo');
        this.count++;
        this.modelTable={
          "IODIR": "",
@@ -364,6 +397,7 @@ export default {
          cancelButtonText: '取消',
          type: 'warning'
        }).then(() => {
+         this.V.$reset('demo1');
          this.count--;
          item.CTLTYPE='D';
          let d = item;
@@ -391,28 +425,24 @@ export default {
 
      },
      save(){
-       if(this.$validator.listener.demo){
-         const result = this.$validator.verifyAll('demo')
-          if (result.indexOf(false) > -1) {
-            return
-          }
-       }
-       let p = this.tableData.concat(this.operatorData);
-       this.$api.post('/manage-platform/ruleConfig/addRuleConfigAll',p,
-        r => {
-          console.log(r);
-          if(r.success == false){
-            this.$message.error(r.message);
-          }else{
-            this.operatorData = [];
-            this.$message({
-              type: 'success',
-              message: '操作成功!'
-            });
-            this.getList(this.pd);
-          }
+       this.V.$submit('demo', (canSumit,data) => {
+         if(!canSumit) return
+         let p = this.tableData.concat(this.operatorData);
+         this.$api.post('/manage-platform/ruleConfig/addRuleConfigAll',p,
+          r => {
+            console.log(r);
+            if(r.success == false){
+              this.$message.error(r.message);
+            }else{
+              this.operatorData = [];
+              this.$message({
+                type: 'success',
+                message: '操作成功!'
+              });
+              this.getList(this.pd);
+            }
+         })
        })
-
      },
      codeName(name,codeRow){//字段名称的接口
 
@@ -461,5 +491,9 @@ export default {
 }
 .tableYbxgz .cell{
   overflow: visible!important;
+}
+.tableJY .err__msg{
+  top: 20px!important;
+  z-index: 999;
 }
 </style>

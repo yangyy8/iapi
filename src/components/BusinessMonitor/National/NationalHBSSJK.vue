@@ -1624,7 +1624,7 @@ export default {
   },
   activated(){
     this.initChart(this.series);
-    // this.getNewData();
+    this.getNewData0();
 
   },
   created(){
@@ -1955,6 +1955,18 @@ export default {
             color: '#ffffff'
           }
         },
+        label:{
+          show:true,
+          normal: {
+             formatter: '{b}',
+             position: 'bottom',
+             show: true,
+             color:'#fea92c',
+           },
+          emphasis: {
+             show: true
+          }
+        },
         tooltip:{
           trigger: 'item',
           // formatter: '{b}<br/>{c}',
@@ -1969,10 +1981,11 @@ export default {
                r => {
                  let data=r.data.flights;
                   let html ='';
-                  let table='<table cellspacing="0" style="background:#09679d;font-size:12px;width:690px">\
+                  let table='<table cellspacing="0" style="background:#09679d;font-size:12px;width:810px">\
                                   <thead style="display: table;table-layout: fixed;width:100%;">\
                                     <tr style="height:20px;display: table;table-layout: fixed;width:100%;">\
                                       <td style="height:20px!important;padding:0 5px!important;width:50px">航班号</td>\
+                                      <td style="height:20px!important;padding:0 5px!important;width:110px;">出发地</td>\
                                       <td style="height:20px!important;padding:0 5px!important;width:110px;">到达地</td>\
                                       <td style="height:20px!important;padding:0 5px!important;width:115px;">预计起飞时间</td>\
                                       <td style="height:20px!important;padding:0 5px!important;width:115px;">预计到达时间</td>\
@@ -1988,6 +2001,7 @@ export default {
                     let data2={};
                         data2.fltno=data[i].fltno||'-';
                         data2.preDepartTime=data[i].preDepartTime||'-';
+                        data2.from=data[i].from||'-';
                         data2.to=data[i].to||'-';
                         data2.preArriveTime=data[i].preArriveTime||'-';
                         data2.statusName=data[i].statusName||'-';
@@ -1999,6 +2013,7 @@ export default {
                         console.log(data2)
                     table+='<tr style="background:#112b42;height:20px;display: table;table-layout: fixed;width:100%;">\
                               <td style="border:1px #143652 solid;height:20px!important;padding:0 5px!important;width:50px">'+data2.fltno+'</td>\
+                              <td style="border:1px #143652 solid;height:20px!important;padding:0 5px!important;width:110px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;">'+data2.from+'</td>\
                               <td style="border:1px #143652 solid;height:20px!important;padding:0 5px!important;width:110px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;">'+data2.to+'</td>\
                               <td style="border:1px #143652 solid;height:20px!important;padding:0 5px!important;width:115px;">'+data2.preDepartTime+'</td>\
                               <td style="border:1px #143652 solid;height:20px!important;padding:0 5px!important;width:115px;">'+data2.preArriveTime+'</td>\
@@ -2026,7 +2041,8 @@ export default {
         console.log(val)
         let a={
           name:val.portName,
-          value:[val.jd,val.wd,val.port]
+          value:[val.jd,val.wd,val.port],
+
         }
 
         f.data.push(a)
@@ -2386,6 +2402,18 @@ export default {
               color: '#ffffff'
             }
           },
+          label:{
+            show:true,
+            normal: {
+               formatter: '{b}',
+               position: 'bottom',
+               show: true,
+               color:'#fea92c',
+             },
+            emphasis: {
+               show: true
+            }
+          },
           tooltip:{
             trigger: 'item',
             // formatter: '{b}<br/>{c}',
@@ -2467,6 +2495,18 @@ export default {
           itemStyle: {
             normal: {
               color: '#ffffff'
+            }
+          },
+          label:{
+            show:true,
+            normal: {
+               formatter: '{b}',
+               position: 'bottom',
+               show: true,
+               color:'#fea92c',
+             },
+            emphasis: {
+               show: true
             }
           },
           symbolSize: 10,
@@ -2726,6 +2766,18 @@ export default {
               color: '#ffffff'
             }
           },
+          label:{
+            show:true,
+            normal: {
+               formatter: '{b}',
+               position: 'bottom',
+               show: true,
+               color:'#fea92c',
+             },
+            emphasis: {
+               show: true
+            }
+          },
           tooltip:{
             trigger: 'item',
             // formatter: '{b}<br/>{c}',
@@ -2809,6 +2861,18 @@ export default {
           itemStyle: {
             normal: {
               color: '#ffffff'
+            }
+          },
+          label:{
+            show:true,
+            normal: {
+               formatter: '{b}',
+               position: 'bottom',
+               show: true,
+               color:'#fea92c',
+             },
+            emphasis: {
+               show: true
             }
           },
           symbolSize: 10,
@@ -3286,7 +3350,7 @@ export default {
           roam: true, // 禁止缩放平移
           scaleLimit:{
             min:0.8,
-            max:3
+            max:8
           },
           nameMap:{
             // 'China':'中国'

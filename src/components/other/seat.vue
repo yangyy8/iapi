@@ -49,7 +49,11 @@
                       <el-col :span="8" class="t-el-content"><div class="t-el-text">校验结果：</div><div class="t-el-sub">{{dform.CHECKRESULTNAME}}</div></el-col>
                     </el-row>
                   </el-form>
-                  <div :class="{'gaoliang':panduan}" @click="enter(i+j)" @mouseenter="hoverTitle(i+j)" slot="reference"><img src="../../assets/img/ren.png" :title="biaoti"/></div>
+                  <div :class="{'gaoliang':specifigseat==i+j}" @click="enter(i+j)" @mouseenter="hoverTitle(i+j)" slot="reference">
+                    <img src="../../assets/img/renB.png" :title="biaoti" v-if="specifigseat==i+j"/>
+                    <img src="../../assets/img/ren.png" :title="biaoti" v-else/>
+                  </div>
+
                 </el-popover>
 
               </span>
@@ -85,8 +89,8 @@ export default {
       list1:[],
       list2:[],
       light:[],
-      isgao:'',
-      panduan:false,
+      // isgao:'',
+      // panduan:false,
       tableBody:[],
       serialList:{},
       serial:'',
@@ -127,6 +131,7 @@ export default {
       };
       this.$api.post('/manage-platform/statusUpdate/seat/queryListPagesSeat', p,
         r => {
+          this.panduan=true;
           if(r.success){
             this.list1 = r.data.list123;
             this.list2 = r.data.listabc;
@@ -138,9 +143,9 @@ export default {
             for(var j=0;j<this.list2.length;j++){
               if(this.getlight(this.list1[i],this.list2[j])){
                 this.biaoti = this.list1[i]+this.list2[j];
-                this.isgao = this.list1[i]+this.list2[j];
-                this.panduan = (this.isgao == this.specifigseat);
-                console.log(this.panduan)
+                // this.isgao = this.list1[i]+this.list2[j];
+                // this.panduan = this.specifigseat;
+                // console.log(this.panduan)
               }
             }
           }
@@ -220,6 +225,6 @@ export default {
   background: none;text-align: center;
 }
 .gaoliang{
-  background-color: yellow!important;
+  background-color: #EBAD6F!important;
 }
 </style>

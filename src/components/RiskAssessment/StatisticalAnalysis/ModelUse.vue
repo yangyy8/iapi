@@ -151,7 +151,8 @@
     </div>
     <div class="middle mb-2" v-for="(x,ind) in chartList" :key="ind">
       <div class="map-title">{{x.titleText}}</div>
-      <span class="tubiao hand borderL wwm" :class="{'checked':x.censusParamBean.queryType==0,'xuanzeLiang':isLiang}" :style="{display:qq}" @click="getType(x,ind,0);">量</span><span class="tubiao hand borderR wwm" :style="{display:qq}" :class="{'checked':x.censusParamBean.queryType==1,'xuanzeLv':isLv}" @click="getType(x,ind,1);">率</span>
+      <span class="tubiao hand borderL wwm" :class="{'checked':x.censusParamBean.queryType==0,'xuanzeLiang':isLiang}" :style="{display:qq}" @click="getType(x,ind,0);">量</span
+      ><span class="tubiao hand borderR wwm" :style="{display:qq}" :class="{'checked':x.censusParamBean.queryType==1,'xuanzeLv':isLv}" @click="getType(x,ind,1);">率</span>
       <div class="" style="position:relative;">
         <el-button class="table-btn dz-btn" plain @click="customized(x.censusParamBean)">定制</el-button>
 

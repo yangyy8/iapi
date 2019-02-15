@@ -235,18 +235,33 @@
     <el-dialog
       title="详情"
       :visible.sync="numberDialogVisible"
-      width="600px">
-      <el-form v-for="(i,ind) in tableInfo" :key="ind">
-        <el-row type="flex"  class="t-detail">
-          <el-col :span="8" class="t-el-content"><div class="t-el-text">姓名：</div><div class="t-el-sub">{{i.CNAME}}</div></el-col>
-          <el-col :span="8" class="t-el-content"><div class="t-el-text">性别：</div><div class="t-el-sub">{{i.GENDERNAME}}</div></el-col>
-          <el-col :span="8" class="t-el-content"><div class="t-el-text">出生日期：</div><div class="t-el-sub">{{i.BIRTHDAYSTR}}</div></el-col>
-        </el-row>
-        <el-row type="flex"  class="t-detail">
-          <el-col :span="8" class="t-el-content"><div class="t-el-text">国籍/地区：</div><div class="t-el-sub">{{i.NATIONALITYNAME}}</div></el-col>
-          <el-col :span="8" class="t-el-content"><div class="t-el-text">证件号码：</div><div class="t-el-sub">{{i.PASSPORTNO}}</div></el-col>
-        </el-row>
-      </el-form>
+      width="1000px">
+      <el-button  plain class="table-btn mb-9" size="small" @click="daochu">导出</el-button>
+      <el-table
+        :data="tableInfo"
+        border
+        style="width: 100%;">
+        <el-table-column
+          prop="CNAME"
+          label="姓名">
+        </el-table-column>
+        <el-table-column
+          prop="GENDERNAME"
+          label="性别">
+        </el-table-column>
+        <el-table-column
+          prop="BIRTHDAYSTR"
+          label="出生日期">
+        </el-table-column>
+        <el-table-column
+          prop="NATIONALITYNAME"
+          label="国籍/地区">
+        </el-table-column>
+        <el-table-column
+          prop="PASSPORTNO"
+          label="证件号码">
+        </el-table-column>
+      </el-table>
       <div slot="footer" class="dialog-footer">
         <el-button @click="numberDialogVisible = false" size="small">取消</el-button>
       </div>
@@ -257,8 +272,9 @@
 
 <script>
 import Seat from '../../other/seat'
-import {formatDate} from '@/assets/js/date.js'
+import {formatDate,format} from '@/assets/js/date.js'
 import {dayGap} from '@/assets/js/date.js'
+import axios from 'axios'
 export default {
   components: {Seat},
   data() {
@@ -271,6 +287,14 @@ export default {
       pd: {
         schedulearrivetime:'',
         scheduledeparturetime:''
+      },
+      checkList:['CNAME','GENDERNAME','BIRTHDAYSTR','NATIONALITYNAME','PASSPORTNO'],
+      propertiesKeyAndName:{
+        "CNAME":'姓名',
+        'GENDERNAME':'性别',
+        'BIRTHDAYSTR':'出生日期',
+        'NATIONALITYNAME':'国籍/地区',
+        'PASSPORTNO':'证件号码'
       },
       nation: [],
       company:[],
@@ -313,7 +337,8 @@ export default {
       },
       form: {},
       flightNumber0:'',
-      globalserial0:''
+      globalserial0:'',
+      specifigseat0:'',
     }
   },
   mounted() {
@@ -334,6 +359,37 @@ export default {
     // this.pd.schedulearrivetime=formatDate(end,'yyyyMMddhhmm');
   },
   methods: {
+    daochu(){
+      axios({
+       method: 'post',
+       // url: 'http://192.168.99.248:8081/manage-platform/iapiHead/exportGlobalDataIo',
+       url: this.$api.rootUrl+"/manage-platform/iapiHead/exportGlobalDataIo",
+       data: {
+           "exclTitles": this.checkList,
+           "propertiesKeyAndName":this.propertiesKeyAndName,
+           "resultList":this.tableInfo,
+       },
+       responseType: 'blob'
+       }).then(response => {
+           this.downloadM(response)
+       });
+    },
+    downloadM (data,type) {
+        if (!data) {
+            return
+        }
+        let url = window.URL.createObjectURL(new Blob([data.data],{type:"application/octet-stream"}))
+        let link = document.createElement('a')
+        link.style.display = 'none'
+        link.href = url
+        if(type==1){
+          link.setAttribute('download', 'template.xlsx')
+        }else{
+          link.setAttribute('download', format(new Date(),'yyyy-MM-dd hh:mm:ss')+'.xlsx')
+        }
+        document.body.appendChild(link)
+        link.click()
+    },
     headerClick(column,event){
       console.log(column,event)
       event.target.title=column.label
@@ -456,7 +512,8 @@ export default {
       console.log(i);
       this.seatDialogVisible=true;
       this.flightNumber0 = i.flightRecordnum;
-      this.globalserial0=i.flightRecordnum;
+      this.globalserial0=new Date().getTime();
+      // this.specifigseat0=i.specifigseat;
       // this.$router.push({query:{flightNumber:i.flightRecordnum}})
     },
     takeOff(){//调用起飞机场
