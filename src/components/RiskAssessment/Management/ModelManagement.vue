@@ -585,8 +585,13 @@ export default {
     },
 
     adds(n, i) {
+      if(i.STATUS=="0"){
+          this.$message.error('启用后不能修改!');
+          return ;
+      }else{
+          this.addDialogVisible = true;
+      }
 
-      this.addDialogVisible = true;
 
       if (n != 0) {
         this.tp = 1;
@@ -738,7 +743,7 @@ export default {
         "modelCode":i.MODEL_CODE,
         "modelRules":i.MODEL_RULES,
         "modelVersion":i.MODEL_VERSION,
-        "status": type
+        "status": type+""
 
       };
       this.$api.post('/manage-platform/model/updateStatus', p,
