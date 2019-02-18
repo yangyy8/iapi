@@ -297,7 +297,7 @@ export default {
         }
         this.tabList.push(val);
       }else if(val.query.title){
-        console.log("this.nav1List",this.nav1List)
+        // console.log("this.nav1List",this.nav1List)
         if(val.query.name){
           for(var i=0;i<this.nav1List.length;i++){
             if(val.query.name==this.nav1List[i].name){
