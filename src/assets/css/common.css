@@ -516,6 +516,9 @@ button{
   font-weight: bold;
 
 }
+.title-blue{
+  color: #409eff;
+}
 .el-table{
   margin:0 0 15px 0;
 }

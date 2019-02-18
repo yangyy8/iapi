@@ -88,7 +88,7 @@
       </el-aside>
       <el-main class="right-main" :class="{'nobg':tabList.length==0}">
         <ul class="tabList">
-          <li class="tabList-item hand" :style="{width:tabliwidth}" :class="{'tabList-checked':nav2Id==i.query.nav2Id}" @click.right="closeRight(index)"  v-for="(i, index) in tabList">
+          <li class="tabList-item hand" :title="i.query.title" :style="{width:tabliwidth}" :class="{'tabList-checked':nav2Id==i.query.nav2Id}" @click.right="closeRight(index)"  v-for="(i, index) in tabList">
             <!-- <el-tooltip class="item" effect="dark" :content="i.name" placement="top"> -->
               <span  @click="tabNav2(i)">{{i.query.title}}</span>
             <!-- </el-tooltip> -->
@@ -287,7 +287,6 @@ export default {
       // this.nav1Id=val.query.nav1Id;
       // this.nav2Id=val.query.nav2Id;
       if(val.query.nav2Id){
-        console.log(11111)
         // this.navId=val.params.navId;
         // this.nav1Id=val.query.nav1Id;
         this.nav2Id=val.query.nav2Id;
@@ -298,20 +297,47 @@ export default {
         }
         this.tabList.push(val);
       }else if(val.query.title){
-        console.log("this.nav2List",this.nav2List)
-        for(var i=0;i<this.nav2List.length;i++){
-          if(val.name==this.nav2List[i].url){
-            val.query.nav2Id=this.nav2List[i].SERIAL
-            val.query.nav1Id=this.nav2List[i].parentId
-            this.$router.push({query:{nav1Id:val.query.nav1Id,nav2Id:val.query.nav2Id,title:val.query.title}})
-            for(var j=0;j<this.tabList.length;j++){
-              if(this.tabList[j].query.nav2Id==val.query.nav2Id){
-                return
+        console.log("this.nav1List",this.nav1List)
+        if(val.query.name){
+          for(var i=0;i<this.nav1List.length;i++){
+            if(val.query.name==this.nav1List[i].name){
+              val.query.nav1Id=this.nav1List[i].SERIAL
+              this.nav2List=this.nav1List[i].menuList
+              for(var j=0;j<this.nav2List.length;j++){
+                if(val.name==this.nav2List[j].url){
+                  val.query.nav2Id=this.nav2List[j].SERIAL
+                  this.nav1Id=val.query.nav1Id
+                  this.nav2Id=val.query.nav2Id
+                  this.$router.push({query:{nav1Id:val.query.nav1Id,nav2Id:val.query.nav2Id,title:this.nav2List[j].name}})
+                  for(var k=0;k<this.tabList.length;k++){
+                    if(this.tabList[k].query.nav2Id==val.query.nav2Id){
+                      return
+                    }
+                  }
+                  this.tabList.push(val);
+                }
               }
+
+
             }
-            this.tabList.push(val);
+          }
+        }else{
+          console.log("this.nav2List",this.nav2List)
+          for(var i=0;i<this.nav2List.length;i++){
+            if(val.name==this.nav2List[i].url){
+              val.query.nav2Id=this.nav2List[i].SERIAL
+              val.query.nav1Id=this.nav2List[i].parentId
+              this.$router.push({query:{nav1Id:val.query.nav1Id,nav2Id:val.query.nav2Id,title:this.nav2List[i].name}})
+              for(var j=0;j<this.tabList.length;j++){
+                if(this.tabList[j].query.nav2Id==val.query.nav2Id){
+                  return
+                }
+              }
+              this.tabList.push(val);
+            }
           }
         }
+
       }
     },
 
