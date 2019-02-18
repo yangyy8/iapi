@@ -258,6 +258,8 @@
           </el-col>
           <el-col :span="5" class="tjcon">
                    <el-select v-model="rr.calculation" class="memoa"  filterable clearable placeholder="请选择"   size="small" >
+                    <el-option value="开始" label="开始">
+                    </el-option>
                     <el-option value="等于" label="等于">
                     </el-option>
                     <el-option value="不等于" label="不等于">
@@ -275,6 +277,8 @@
                     <el-option value="属于" label="属于">
                     </el-option>
                     <el-option value="不属于" label="不属于">
+                    </el-option>
+                    <el-option value="结束" label="结束">
                     </el-option>
                    </el-select>
           </el-col>
@@ -731,6 +735,9 @@ export default {
     starts(i, type) {
       let p = {
         "modelId": i.MODEL_ID,
+        "modelCode":i.MODEL_CODE,
+        "modelRules":i.MODEL_RULES,
+        "modelVersion":i.MODEL_VERSION,
         "status": type
 
       };
