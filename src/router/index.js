@@ -737,13 +737,19 @@ export default new Router({
           name: "FileDZDA",
           component: resolve => require(['@/components/RiskAssessment/RiskEvent/FileDZDACX'], resolve),
         },
+        // 批量导出
+        {
+          path: "PLDC",
+          name: "PLDC",
+          component: resolve => require(['@/components/RiskAssessment/RiskEvent/PLDC'], resolve),
+        },
         // 电子档案
         {
           path: "DZDA",
           name: "DZDA",
           component: resolve => require(['@/components/RiskAssessment/RiskEvent/DZDA'], resolve),
         },
-        // 电子档案
+        // 风险报警事件查询
         {
           path: "BJCLCX",
           name: "BJCLCX",

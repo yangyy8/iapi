@@ -560,6 +560,7 @@
             <span>出入标识：</span>
             <a v-if="detailsData.IN_OUT=='I'">入境</a>
             <a v-if="detailsData.IN_OUT=='O'">出境</a>
+            <a v-if="detailsData.IN_OUT=='A'">入出境</a>
 
           </el-col>
 

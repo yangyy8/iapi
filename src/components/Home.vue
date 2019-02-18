@@ -31,7 +31,6 @@
         </span>
       </div>
       <div :class="className" :id="id" :style="{height:height,width:width}" ref="myEchart" class="canvas"></div>
-
       <div class="nav-left" v-if="isLogin">
         <svg class="svg-nav" data-name="d" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 178 422.26" >
           <path class="cls-1" :class="{'clss':left==1}" d="M126.5,142.19a131.62,131.62,0,0,1,50.24-47L127.43.2A239.16,239.16,0,0,0,35,86.68Z" fill="#032552" transform="translate(0 -0.2)" @mouseover="leftOver(1)"/>
@@ -39,7 +38,6 @@
           <path class="cls-1" :class="{'clss':left==3}" d="M126.47,279.75A130.32,130.32,0,0,1,107,212H0A236.89,236.89,0,0,0,35.81,336.6Z" fill="#032552" transform="translate(0 -0.2)" @mouseover="leftOver(3)"/>
           <path class="cls-1" :class="{'clss':left==4}" d="M178,327.48a131.56,131.56,0,0,1-50.47-46L36.87,338.29a239,239,0,0,0,91.82,84.17Z" fill="#032552" transform="translate(0 -0.2)" @mouseover="leftOver(4)"/>
         </svg>
-
         <router-link :to="{ name: 'Content', params: {navId:val.SERIAL} }" class="nav-item" :class='"nav-item"+parseInt(ind)' v-for="(val,ind) in muneListOne" :key="val.SERIAL" v-if="ind<4&&(val.name!='常用菜单')">
           <img :src='"../assets/img/navIcon/"+val.MENU_ICON+".png"' alt="">
           <span>{{val.name}}</span>
@@ -52,7 +50,6 @@
           <img :src='"../assets/img/navIcon/"+val.MENU_ICON+".png"' alt="">
           <span>{{val.name}}</span>
         </a>
-
       </div>
       <div class="nav-left-0" v-if="isLogin">
         <img :src='"../assets/img/home/left_"+left+".png"'>
@@ -67,8 +64,6 @@
           <path class="cls-1" :class="{'clss':right==3}" d="M51.53,279.75A130.32,130.32,0,0,0,71,212H178a236.89,236.89,0,0,1-35.81,124.6Z" transform="translate(0 -0.2)" fill="#032552" @mouseover="rightOver(3)"/>
           <path class="cls-1" :class="{'clss':right==4}" d="M0,327.48a131.56,131.56,0,0,0,50.47-46l90.66,56.84a239,239,0,0,1-91.82,84.17Z" transform="translate(0 -0.2)" fill="#032552" @mouseover="rightOver(4)"/>
         </svg>
-
-
         <router-link :to="{ name: 'Content', params: {navId:val.SERIAL} }" class="nav-item" :class='"nav-item"+parseInt(ind)' v-for="(val,ind) in muneListOne" :key="val.SERIAL" v-if="ind>3&&(val.name!='常用菜单')">
           <img :src='"../assets/img/navIcon/"+val.MENU_ICON+".png"' alt="">
           <span>{{val.name}}</span>
@@ -106,17 +101,15 @@
       <div class="login-box" v-if="!isLogin">
         <div class="login-item ">
           <el-input  placeholder="用户名" v-model="user.userName"  style="display:none"></el-input>
-
           <el-input  placeholder="用户名" v-model="user.userName" v-verify.input.blur ="{regs:'required',submit:'demo2'}" @keyup.enter.native="keyLogin">
             <i slot="prefix" class="el-input__icon"><img src="../assets/img/home/login_06.png"></i>
           </el-input>
         </div>
-        <div class="login-item ">
+        <div class="login-item">
           <el-input
             placeholder="密码"
             type="password" v-model="user.password" v-verify.input.blur ="{regs:'required',submit:'demo2'}"  @keyup.enter.native="keyLogin">
             <i slot="prefix" class="el-input__icon"><img src="../assets/img/home/login_03.png"></i>
-
           </el-input>
         </div>
         <div class="login-item2">
@@ -124,7 +117,6 @@
           <!-- <a class="login-a">忘记密码</a> -->
         </div>
         <button class="login-btn" @click="login">登录</button>
-
       </div>
       <div class="home-foot">
         <div class="foot1">
@@ -140,16 +132,12 @@
         </div>
       </div>
     </el-main>
-
-
   </el-container>
 </template>
-
 <script>
 import echarts from 'echarts/lib/echarts';
 import 'echarts/map/js/world.js';
 // import RightMenu from './other/rightMenu'
-
 export default {
   name: "echarts",
   // components:{RightMenu},
@@ -262,14 +250,12 @@ export default {
           value: 60
         }],
       ],
-
       planePath: 'path://M1705.06,1318.313v-89.254l-319.9-221.799l0.073-208.063c0.521-84.662-26.629-121.796-63.961-121.491c-37.332-0.305-64.482,36.829-63.961,121.491l0.073,208.063l-319.9,221.799v89.254l330.343-157.288l12.238,241.308l-134.449,92.931l0.531,42.034l175.125-42.917l175.125,42.917l0.531-42.034l-134.449-92.931l12.238-241.308L1705.06,1318.313z',
       color: ['#11fb44', '#dcbf71'], // 自定义图中要用到的颜色
       series:[], // 用来存储地图数据
       timer:null,
     };
   },
-
   mounted() {
     this.fn();
     var _this=this;
@@ -292,7 +278,6 @@ export default {
     }
     this.chart.dispose();
     this.chart = null;
-
   },
   computed:{
     sortarr:function(){
@@ -326,29 +311,23 @@ export default {
       this.dateData.year=myDate.getFullYear();
       this.dateData.mm=parseInt(myDate.getMonth()+1)+'月';
       this.dateData.dd=myDate.getDate()+'日';
-
       let week = myDate.getDay();
       this.dateData.xx = '星期'+a[week];
-
       this.$api.post('/manage-platform/homePage/iapiSize',{},
        r => {
         this.isWan=r.data.isShow;
         this.rcList=r.data.number.toString().split('')
         console.log(this.rcList)
       })
-
     },
     leftOver(i){
       this.left=i;
       this.right=0;
-
     },
     rightOver(i){
       this.right=i;
       this.left=0;
-
     },
-
     cdHover(i){
       this.ccd=i;
     },
@@ -366,7 +345,6 @@ export default {
            console.log("==============",this.isLogin)
            this.$router.push({name:"Home"})
          }
-
       })
     },
     getUers(){
@@ -399,7 +377,6 @@ export default {
           });
           this.getNav0();
           this.getUers();
-
           let _this=this;
           setTimeout(function(){
               _this.isLogin=true;
@@ -424,7 +401,6 @@ export default {
           this.$router.go(0)
         }
       })
-
       // this.$router.go(0)
     },
     getNav0(){
@@ -448,10 +424,8 @@ export default {
           if(r.success){
             this.navIdCCdata=r.data.menuChild[0].menuList;
             // console.log(this.navIdCCdata)
-
           }
         })
-
     },
     getcc(){
       this.cyccShow=true,

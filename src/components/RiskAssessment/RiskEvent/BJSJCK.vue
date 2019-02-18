@@ -12,7 +12,7 @@
             <img :src="imgURL" alt="" style="width:100%;">
             <span class="mb-2">综合风险等级</span>
             <el-rate :value="parseInt($route.query.grade)" disabled class="mb-9"></el-rate>
-            <el-button type="primary" size="small" class="mb-9" style="width:100%" @click="$router.push({name:'DZDA',query:{nationality:page0Data.nationality,passportno:page0Data.passportno,grade:$route.query.grade,type:1,nav2Id:page0Data.passportno+page0Data.nationality,title:'电子档案'}})">电子档案</el-button>
+            <el-button type="primary" size="small" class="mb-9" style="width:100%" @click="$router.push({name:'DZDA',query:{nationality:page0Data.nationality,passportno:page0Data.passportno,grade:$route.query.grade,type:1,nav2Id:page0Data.passportno+page0Data.nationality,title:page0Data.name+'电子档案'}})">电子档案</el-button>
             <el-button type="primary" size="small" class="mb-9" style="width:100%">综合查询</el-button>
             <el-button type="primary" size="small" class="mb-9" style="width:100%">照片比对</el-button>
             <el-button type="success" size="small" style="width:100%" :disabled="!operation_type" @click="openGdTc(page0Data)">事件归档</el-button>
@@ -375,8 +375,8 @@
                   <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                     <span class="redx">*</span><span  class="mr-5">核查结果 </span>
                     <el-select :disabled="!operation_type" v-model="box4Data.riskDescRecordEntity.check_result" filterable clearable placeholder="请选择"  size="small" class="input-input">
-                      <el-option label="1 - 完全排除嫌疑" value="1"></el-option>
-                      <el-option label="2 - 未能排除嫌疑，待进一步核查" value="2"></el-option>
+                      <el-option label="1 - 排除嫌疑" value="1"></el-option>
+                      <el-option label="2 - 未能排除嫌疑" value="2"></el-option>
                       <el-option label="3 - 推送梅沙" value="3" v-if="box4Data.riskDescRecordEntity.check_stage!=2"></el-option>
 
                     </el-select>
