@@ -300,6 +300,7 @@ export default {
       }else if(val.query.title){
         console.log("this.nav2List",this.nav2List)
         for(var i=0;i<this.nav2List.length;i++){
+          console.log("val.name",val.name,this.nav2List[i].url)
           if(val.name==this.nav2List[i].url){
             val.query.nav2Id=this.nav2List[i].SERIAL
             val.query.nav1Id=this.nav2List[i].parentId

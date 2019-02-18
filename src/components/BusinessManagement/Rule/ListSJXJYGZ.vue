@@ -126,15 +126,15 @@
         <el-table-column
           prop="CHECKRESULT"
           label="反馈结果"
-          width="120"
+          width="150"
           sortable='custom'>
           <template slot-scope="scope">
             <div class="my-form-group" data-scope="demo1" :data-name="scope.row.CHECKRESULT" data-type="select"
               v-validate-easy="[['required']]">
               <el-select v-model="scope.row.CHECKRESULT" filterable clearable placeholder="请选择"  size="mini" class="table-select" @change="inschange(scope.row)">
-                <el-option label="1Z" value="1Z"></el-option>
-                <el-option label="2Z" value="2Z"></el-option>
-                <el-option label="4Z" value="4Z"></el-option>
+                <el-option label="1Z-禁止打印登机牌" value="1Z"></el-option>
+                <el-option label="2Z-请再次核对" value="2Z"></el-option>
+                <el-option label="4Z-数据错误" value="4Z"></el-option>
               </el-select>
             </div>
          </template>

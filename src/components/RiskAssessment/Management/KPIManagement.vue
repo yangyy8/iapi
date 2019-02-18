@@ -130,11 +130,13 @@
           label="参数">
         </el-table-column>
         <el-table-column
-          label="操作" width="120">
+          label="操作" width="160">
           <template slot-scope="scope">
               <el-button type="text" class="a-btn"   title="详情"  icon="el-icon-tickets" @click="details(scope.row)"></el-button>
               <el-button type="text" class="a-btn" title="编辑" icon="el-icon-edit" @click="adds(1,scope.row)"></el-button>
               <el-button type="text" class="a-btn" title="删除" icon="el-icon-delete" @click="deletes(scope.row)"></el-button>
+              <el-button type="text" class="a-btn" title="启用"  icon="el-icon-setting" v-if="scope.row.STATUS==0" @click="starts(scope.row,1)"></el-button>
+              <el-button type="text" class="a-btn" title="停用"  icon="el-icon-setting" v-else  @click="starts(scope.row,0)"></el-button>
          </template>
         </el-table-column>
       </el-table>
@@ -168,7 +170,7 @@
         </el-pagination>
       </div>
     </div>
-    <el-dialog :title="dialogText" :visible.sync="addDialogVisible" width="500px" >
+    <el-dialog :title="dialogText" :visible.sync="addDialogVisible" width="600px" >
       <el-form :model="form" ref="addForm">
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item my-form-group" data-scope="demo2" data-name="targetSign" data-type="input"
@@ -258,7 +260,18 @@
              </el-select>
           </el-col>
         </el-row>
-
+        <el-row type="flex"  class="mb-6">
+        <el-col :span="24" class="input-item my-form-group" data-scope="demo2" data-name="status" data-type="select"
+         v-validate-easy="[['required']]">
+         <span class="yy-input-text"><font class="yy-color">*</font> 是否启用：</span>
+         <el-select v-model="form.status" class="yy-input-input"  filterable clearable placeholder="请选择"   size="small">
+           <el-option value="0" label="0 - 禁用">
+           </el-option>
+           <el-option value="1" label="1 - 启用">
+           </el-option>
+          </el-select>
+       </el-col>
+  </el-row>
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
             <span class="yy-input-text">计算方式：</span>
@@ -573,6 +586,29 @@ export default {
           message: '已取消删除'
         });
       });
+    },
+    starts(i, type) {
+      let p = {
+        "targetId": i.TARGET_ID,
+        "script":i.SCRIPT,
+        "targetSign":i.TARGET_SIGN,
+        "status": type
+
+      };
+      this.$api.post('manage-platform/target/updateStatus', p,
+        r => {
+          if (r.success) {
+            this.$message({
+              message: '修改成功！',
+              type: 'success'
+            });
+            this.getList(this.CurrentPage, this.pageSize, this.pd);
+          } else {
+            this.$message.error(r.Message);
+          }
+        });
+
+
     },
     menus(i) {
       this.menuDialogVisible = true;

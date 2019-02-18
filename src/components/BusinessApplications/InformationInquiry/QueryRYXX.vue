@@ -34,15 +34,15 @@ export default {
   mounted(){
     console.log(1)
     let that = this;
-    setTimeout(function(){
-      that.$router.push({name:'QueryRYXXZH'})
-    },500)
+    // setTimeout(function(){
+    //   that.$router.push({name:'QueryRYXXZH'})
+    // },500)
   },
   activated(){
     let that = this;
-    setTimeout(function(){
-      that.$router.push({name:that.url})
-    },500)
+    // setTimeout(function(){
+    //   that.$router.push({name:that.url})
+    // },500)
   },
   methods:{
     tiaozhuan(page,url){

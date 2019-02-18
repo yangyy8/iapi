@@ -358,8 +358,10 @@
           border
           style="width: 100%;">
           <el-table-column
-            prop="IODIRSTR"
             label="出入境方向">
+            <template slot-scope="scope">
+              {{scope.row.IODIRSTR | fifterfx}}
+            </template>
           </el-table-column>
           <el-table-column
             prop="PERSONNELTYPESTR"
@@ -383,12 +385,15 @@
             label="取值">
           </el-table-column>
           <el-table-column
-            prop="CHECKRESULTFATHER"
             label="反馈结果">
+            <template slot-scope="scope">
+              {{scope.row.CHECKRESULTFATHER | fiftecr}}
+            </template>
           </el-table-column>
           <el-table-column
             prop="RESPONSERESULTFATHER"
             label="反馈结果描述">
+
           </el-table-column>
           <el-table-column
             prop="STATUSFATHERSTR"
@@ -420,9 +425,11 @@
           style="width: 100%;"
           >
           <el-table-column
-            prop="IODIRSTR"
             label="出入境方向"
             width="100">
+            <template slot-scope="scope">
+              {{scope.row.IODIRSTR | fifterfx}}
+            </template>
           </el-table-column>
           <el-table-column
             prop="PERSONNELTYPESTR"
@@ -442,8 +449,10 @@
             label="最小长度">
           </el-table-column>
           <el-table-column
-            prop="CHECKRESULT"
             label="反馈结果">
+            <template slot-scope="scope">
+              {{scope.row.CHECKRESULT | fiftecr}}
+            </template>
           </el-table-column>
           <el-table-column
             prop="CHECKREMARK"
@@ -479,8 +488,10 @@
           border
           style="width: 100%;">
           <el-table-column
-            prop="IODIRSTR"
             label="出入境方向">
+            <template slot-scope="scope">
+              {{scope.row.IODIRSTR | fifterfx}}
+            </template>
           </el-table-column>
           <el-table-column
             prop="PERSONNELTYPESTR"
@@ -506,8 +517,10 @@
             label="取值">
           </el-table-column>
           <el-table-column
-            prop="CHECKRESULTFATHER"
             label="反馈结果">
+            <template slot-scope="scope">
+              {{scope.row.CHECKRESULTFATHER | fiftecr}}
+            </template>
           </el-table-column>
           <el-table-column
             prop="RESPONSERESULTFATHER"
@@ -552,8 +565,10 @@
             label="状态">
           </el-table-column>
           <el-table-column
-            prop="CHECKRESULT"
             label="反馈结果">
+            <template slot-scope="scope">
+              {{scope.row.CHECKRESULT | fiftecr}}
+            </template>
           </el-table-column>
           <el-table-column
             prop="RESPONSERESULT"
@@ -596,8 +611,10 @@
             label="状态">
           </el-table-column>
           <el-table-column
-            prop="CHECKRESULT"
             label="反馈结果">
+            <template slot-scope="scope">
+              {{scope.row.CHECKRESUL | fiftecr}}
+            </template>
           </el-table-column>
           <el-table-column
             prop="RESPONSERESULT"
@@ -897,7 +914,30 @@ export default {
         }
       })
     }
-  }
+  },
+    filters: {
+      fiftecr(val) {
+        if (val == "0Z") {
+          return "0Z-允许打印登机牌";
+        } else if (val == "1Z") {
+          return "1Z-禁止打印登机牌";
+        } else if (val == "2Z") {
+          return "2Z-请再次核对";
+        } else if (val == "4Z"){
+          return "4Z-数据错误";
+        }else {
+          return  val;
+        }
+      },
+      fifterfx(val)
+      {
+        if(val=="全部"){
+          return  "入出境";
+        }else {
+          return  val;
+        }
+      }
+    },
 }
 </script>
 
