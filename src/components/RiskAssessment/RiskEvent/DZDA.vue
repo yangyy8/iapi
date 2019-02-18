@@ -1946,7 +1946,9 @@
                 </div>
               </div>
             </div>
-
+            <div style="text-align: center;margin-top:25px;">
+              <el-button type="primary" size="small" @click="exportFn(0)">导出</el-button>
+            </div>
           </div>
 
         </el-col>
@@ -2180,7 +2182,7 @@ export default {
     this.getUsers();
     this.getUserBaseInfo();
     this.getUserTagInfo();
-    this.init();
+    // this.init();
 
     this.moreShow=false;
     this.box1=false;

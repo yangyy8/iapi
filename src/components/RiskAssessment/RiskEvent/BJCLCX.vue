@@ -11,7 +11,7 @@
             <img :src="imgURL" alt="" style="width:100%;">
             <span class="mb-2">综合风险等级</span>
             <el-rate :value="parseInt($route.query.grade||box2Data[0].grade)" disabled class="mb-9"></el-rate>
-            <el-button type="primary" size="small" class="mb-9" style="width:100%" @click="$router.push({name:'DZDA',query:{nationality:page0Data.nationality,passportno:page0Data.passportno,grade:$route.query.grade||box2Data[0].grade,type:2,nav2Id:page0Data.passportno+page0Data.nationality,title:'电子档案'}})">电子档案</el-button>
+            <el-button type="primary" size="small" class="mb-9" style="width:100%" @click="$router.push({name:'DZDA',query:{nationality:page0Data.nationality,passportno:page0Data.passportno,grade:$route.query.grade||box2Data[0].grade,type:2,nav2Id:page0Data.passportno+page0Data.nationality,title:page0Data.name+'电子档案'}})">电子档案</el-button>
             <el-button type="primary" size="small" class="mb-9" style="width:100%">综合查询</el-button>
             <el-button type="primary" size="small" class="mb-9" style="width:100%">照片比对</el-button>
             <el-button type="success" size="small" style="width:100%"  @click="openGdTc(page0Data)">事件追加</el-button>

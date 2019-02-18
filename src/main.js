@@ -14,8 +14,16 @@ import vverify from 'v-verify'
 import vueValidateEasy from './assets/js/vue-validate-easy'
 var validators ={
    cname(val){
-     var p = /^[a-zA-Z0-9]{0,35}$|^[\u4e00-\u9fa5]{0,11}$/.test(val)
-     if(!p) return '姓名不能超过11个汉字，35个字母或数字'
+     var len = 0;
+      for (var i=0; i<val.length; i++) {
+          if (val.charCodeAt(i)>127 || val.charCodeAt(i)==94) {
+               len += 3;
+           } else {
+               len ++;
+           }
+       }
+     // var p = /^[a-zA-Z0-9]{0,35}$|^[\u4e00-\u9fa5]{0,11}$/.test(val)
+     if(len>35) return '字符不能超过35位'
    },
    noCinese(val){
      var p = /[\u4E00-\u9FA5]/g.test(val)

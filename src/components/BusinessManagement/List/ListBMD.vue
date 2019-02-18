@@ -559,6 +559,7 @@
             <span>出入标识：</span>
             <a v-if="detailsData.IN_OUT=='I'">入境</a>
             <a v-if="detailsData.IN_OUT=='O'">出境</a>
+            <a v-if="detailsData.IN_OUT=='A'">入出境</a>
 
           </el-col>
 
@@ -1051,7 +1052,7 @@ export default {
 
       this.V.$reset(scope);
       this.V.$reset('other')
-      
+
     },
     // 保存0  确认授权1
     addItem(formName,synStatus){
