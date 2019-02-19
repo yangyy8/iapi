@@ -500,10 +500,14 @@ export default {
       this.fileData=event.target.files;
     },
     folderZhuan(item){
-      for(var i =0;i<this.folderName.length;i++){
-        if(item == this.folderName[i].SERIAL){
-          return this.folderName[i].FOLDER
+      if(item!=''){
+        for(var i =0;i<this.folderName.length;i++){
+          if(item == this.folderName[i].SERIAL){
+            return this.folderName[i].FOLDER
+          }
         }
+      }else{
+        return ''
       }
     },
     upload(){//上传文件
