@@ -245,7 +245,8 @@
         <el-row type="flex" v-for="(rr,inds) in rows" :key="inds">
           <el-col :span="3" class="tjcon tjconr" >
              <!-- C{{rr.id}}： -->
-             <el-input placeholder="" size="small" style="width:80px;text-align:right;"  v-model="rr.targetSign" :readonly="true"></el-input>：
+             <el-input placeholder="" size="small" style="width:80px;text-align:right;"  v-model="rr.targetName"></el-input>：
+             <el-input placeholder="" size="small" style="width:80px;text-align:right;display:none"  v-model="rr.targetSign"></el-input>
           </el-col>
           <el-col :span="5" class="tjcon">
            <el-select v-model="rr.targetId"  class="memoa" @change="changeTarget(rr.targetId)" filterable clearable placeholder="请选择"   size="small" >
@@ -491,14 +492,16 @@ export default {
         targetId: '',
         calculation: '',
         targetValue: '',
-        targetSign: ''
+        targetSign: '',
+          targetName: ''
       }],
       modelrow: [{
         id: 1,
         targetId: '',
         calculation: '',
         targetValue: '',
-        targetSign: ''
+        targetSign: '',
+          targetName: ''
       }],
       erows: [{
         id: 1,
@@ -542,6 +545,7 @@ export default {
             return item.TARGET_ID === value; //筛选出匹配数据
           });
           arr[i].targetSign = obj.TARGET_SIGN;
+          arr[i].targetName = obj.TARGET_SIGN;
         }
       }
 
@@ -620,7 +624,8 @@ export default {
                   targetId: '',
                   calculation: '',
                   targetValue: '',
-                  targetSign: ''
+                  targetSign: '',
+                  targetName: ''
                 }];
               }
               if (r.data.ruleList.length > 0) {
@@ -650,7 +655,8 @@ export default {
           targetId: '',
           calculation: '',
           targetValue: '',
-          targetSign: ''
+          targetSign: '',
+            targetName: ''
         }];
         this.erows = [{
           id: 1,
@@ -908,7 +914,8 @@ export default {
         targetId: '',
         calculation: '',
         targetValue: '',
-        targetSign: ''
+        targetSign: '',
+          targetName: ''
       };
       this.modelrow.id = this.count;
       this.rows.push(this.modelrow);
