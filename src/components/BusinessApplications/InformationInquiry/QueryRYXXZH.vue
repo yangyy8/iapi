@@ -1136,10 +1136,20 @@ export default {
     // this.takeOff();
     // this.landing();
     document.getElementsByClassName('btn-next')[0].disabled=true;
+    this.cdt.passportnoEqual = this.$route.query.row.passportno;
+    this.cdt.fltnoEqual = this.$route.query.row.fltno;
+    this.cdt.familyname = this.$route.query.row.name;
+    this.cdt.genderEqual = this.sexZhuan(this.$route.query.row.gender);
+    this.cdt.dateofbirthEqual = this.zhuanhuan(this.$route.query.row.birthday)
   },
   activated(){
     this.nav1Id=this.$route.query.nav1Id
     this.nav2Id=this.$route.query.nav2Id
+    this.cdt.passportnoEqual = this.$route.query.row.passportno;
+    this.cdt.fltnoEqual = this.$route.query.row.fltno;
+    this.cdt.familyname = this.$route.query.row.name;
+    this.cdt.genderEqual = this.sexZhuan(this.$route.query.row.gender);
+    this.cdt.dateofbirthEqual = this.zhuanhuan(this.$route.query.row.birthday)
   },
   filters: {
     fiftersex(val) {
@@ -1189,6 +1199,18 @@ export default {
   },
   methods:{
     //============================洲国籍======================================================================
+    zhuanhuan(val){
+      return val.split('-').join('');
+    },
+    sexZhuan(val){
+      if(val == '女'){
+        return 'F'
+      }else if(val == '男'){
+        return 'M'
+      }else if(val == '未知'){
+        return 'U'
+      }
+    },
     sortChange(column){
       this.orderState=1;//排序
       this.orderHc=column;
