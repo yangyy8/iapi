@@ -542,6 +542,7 @@ export default {
       this.$api.post('/manage-platform/cardAndVisaTypeController/queryDmDocCodeAndDmDocCodes', {},
         r => {
           //console.log(r);
+
           if (r.success) {
             this.docCode = r.data;
           }

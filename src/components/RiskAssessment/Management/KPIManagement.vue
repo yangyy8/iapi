@@ -300,7 +300,7 @@
         <el-row type="flex" class="mb-6" >
           <el-col :span="24" class="input-item">
             <span class="yy-input-text">脚本：</span>
-           <el-input type="textarea" placeholder="请输入内容" maxlength="250" :autosize="{ minRows: 3, maxRows: 6}" v-model="form.script" class="yy-input-input"></el-input>
+           <el-input type="textarea" placeholder="请输入内容"  :autosize="{ minRows: 3, maxRows: 6}" v-model="form.script" class="yy-input-input"></el-input>
           </el-col>
         </el-row>
       </el-form>

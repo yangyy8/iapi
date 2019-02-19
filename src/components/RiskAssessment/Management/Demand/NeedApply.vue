@@ -3,14 +3,11 @@
     <div class="middle mb-6">
       <el-row type="flex" >
         <el-col :span="22" class="br pr-20">
-
           <el-row align="center"   :gutter="2" >
-
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">申请标题：</span>
               <el-input placeholder="请输入内容" size="small" v-model="pd.APPLY_TITLE"  class="input-input"></el-input>
             </el-col>
-
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">申请类型：</span>
               <el-select v-model="pd.APPLY_TYPE" class="input-input"  filterable clearable placeholder="请选择"   size="small">
@@ -37,7 +34,6 @@
                 </el-option>
                 <el-option value="12" label="12 - 撤回">
                 </el-option>
-
                 <el-option value="21" label="21 - 确认">
                 </el-option>
                 <el-option value="22" label="22 - 退回">
@@ -286,7 +282,7 @@ export default {
       pd: {},
       company: [],
       fileData: [],
-        fileinfo: {},
+      fileinfo: {},
       sertail: "",
       dialogText: "申请",
       addDialogVisible: false,
