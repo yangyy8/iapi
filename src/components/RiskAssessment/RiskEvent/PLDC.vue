@@ -48,7 +48,7 @@
         </el-col>
         <el-col :span="21" class="pr-20" v-if="select1==2">
           <el-row align="center" :gutter="2" v-for="(j,ind2) in list2" :key="ind2" style="position:relative">
-            <el-col :sm="24" :md="12"  :lg="6" class="input-item my-form-group" data-scope="demo1" data-name="nationality" data-type="multiple"
+            <el-col :sm="24" :md="12"  :lg="6" class="input-item my-form-group" data-scope="demo2" data-name="nationality" data-type="multiple"
               v-validate-easy="[['required']]">
               <span class="input-text">国籍/地区：</span>
               <el-select v-model="j.nationality" placeholder="请选择" size="small" multiple collapse-tags
@@ -61,13 +61,13 @@
                 </el-option>
               </el-select>
             </el-col>
-            <el-col :sm="24" :md="12" :lg="6" class="input-item my-form-group" data-scope="demo1" data-name="lkname" data-type="input"
+            <el-col :sm="24" :md="12" :lg="6" class="input-item my-form-group" data-scope="demo2" data-name="lkname" data-type="input"
               v-validate-easy="[['required'],['cname']]">
               <span class="input-text">姓名：</span>
               <el-input v-model="j.lkname" placeholder="请输入内容" size="small" clearable class="input-input"></el-input>
             </el-col>
 
-            <el-col :sm="24" :md="12"  :lg="6" class="input-item my-form-group" data-scope="demo1" data-name="gender" data-type="select"
+            <el-col :sm="24" :md="12"  :lg="6" class="input-item my-form-group" data-scope="demo2" data-name="gender" data-type="select"
               v-validate-easy="[['required']]">
               <span class="input-text">性別：</span>
               <el-select v-model="j.gender" placeholder="请选择"  size="small" clearable filterable class="input-input">
@@ -76,7 +76,7 @@
                 <el-option label="3 - 未知" value="3"></el-option>
               </el-select>
             </el-col>
-            <el-col :sm="24" :md="12" :lg="6"  class="input-item my-form-group" data-scope="demo1" data-name="dateofbirth" data-type="select"
+            <el-col :sm="24" :md="12" :lg="6"  class="input-item my-form-group" data-scope="demo2" data-name="dateofbirth" data-type="select"
               v-validate-easy="[['required']]">
               <span class="input-text">出生日期：</span>
               <el-date-picker
@@ -222,9 +222,9 @@ export default {
       ],
       m1:{nationality:[],passportno:''},
       list2:[
-        {nationality:[],lkname:'',gender:'1',dateofbirth:''},
+        {nationality:[],lkname:'',gender:'',dateofbirth:''},
       ],
-      m2:{nationality:[],lkname:'',gender:'1',dateofbirth:''},
+      m2:{nationality:[],lkname:'',gender:'',dateofbirth:''},
       nationAlone:null,
     }
   },
@@ -240,7 +240,7 @@ export default {
         {nationality:[],passportno:''},
       ];
       this.list2=[
-        {nationality:[],lkname:'',gender:'1',dateofbirth:''},
+        {nationality:[],lkname:'',gender:'',dateofbirth:''},
       ];
     },
     handleCheckAllChange(val) {
@@ -289,7 +289,10 @@ export default {
              message: '恭喜你，上传成功！',
              type: 'success'
            });
-           return true;
+
+         }else{
+           this.fileData=null;
+
          }
       },e => {
 
@@ -310,55 +313,82 @@ export default {
       }
     },
     batchExport(){
-      this.V.$submit('demo1', (canSumit,data) => {
-        // canSumit为true时，则所有该scope的所有表单验证通过
-        if(!canSumit) return
-        // 只有验证全部通过才会执行
-        console.log('验证通过的数据'+data);
-        if(this.checkedModel.length==0){
-          this.$message.error('请选择要导出的模块！');
+      if(this.radio==1){
+        if(this.select1==1){
+          this.V.$submit('demo1', (canSumit,data) => {
+            if(!canSumit) return
+            this.exportFn()
+          })
+        }else {
+          this.V.$submit('demo2', (canSumit,data) => {
+            if(!canSumit) return
+            this.exportFn()
+          })
         }
-        let p={
-          exportType:this.radio,
-          fileType:this.select1,
-          type:this.checkedModel
+
+      }else {
+        console.log("this.fileData",this.fileData)
+        if(!this.fileData){
+          this.$message.error('请先上传文件！');
+          return
         }
-        if(this.radio==1){
-          if(this.select1==1){
-            p.list=this.list1
-          }else{
-            p.list=this.list2
+        this.exportFn()
 
-          }
-        }
-        this.$api.post('/manage-platform/excelController/batchExport',p,
-         r => {
-           console.log("data",r)
-           if (!r) {
-               return
-           }
-           let url = window.URL.createObjectURL(new Blob([r.data],{type:"application/octet-stream"}))
+      }
 
-           let link = document.createElement('a')
-           link.style.display = 'none'
-           link.href = url;
-           link.setAttribute('download', 'batchExport.xlsx')
-           document.body.appendChild(link)
-           link.click();
-
-         },e=>{},'','blob')
-      })
 
     },
-    chaxun(){
-      this.V.$submit('demo1', (canSumit,data) => {
-        if(!canSumit) return
+    exportFn(){
+      if(this.checkedModel.length==0){
+        this.$message.error('请选择要导出的模块！');
+        return
+      }
+      let p={
+        exportType:this.radio,
+        fileType:this.select1,
+        type:this.checkedModel
+      }
+      if(this.radio==1){
         if(this.select1==1){
-          this.$router.push({name:"FileDZDA",query:{list:this.list1[0],title:'人员电子档案'}})
+          p.list=this.list1
         }else{
-          this.$router.push({name:"FileDZDA",query:{list:this.list2[0],title:'人员电子档案'}})
+          p.list=this.list2
+
         }
-      })
+      }
+      this.$api.post('/manage-platform/excelController/batchExport',p,
+       r => {
+         console.log("data",r)
+         if (!r) {
+             return
+         }
+         let url = window.URL.createObjectURL(new Blob([r.data],{type:"application/octet-stream"}))
+
+         let link = document.createElement('a')
+         link.style.display = 'none'
+         link.href = url;
+         link.setAttribute('download', 'batchExport.xlsx')
+         document.body.appendChild(link)
+         link.click();
+
+       },e=>{},'','blob')
+    },
+    chaxun(){
+      if(this.select1==1){
+        this.V.$submit('demo1', (canSumit,data) => {
+          console.log("canSumit",canSumit,data)
+          if(!canSumit) return
+          this.$router.push({name:"FileDZDA",query:{list:this.list1[0],title:'人员电子档案'}})
+        })
+      }else{
+        this.V.$submit('demo2', (canSumit,data) => {
+          console.log("canSumit",canSumit,data)
+          if(!canSumit) return
+          console.log(this.list2[0])
+          this.$router.push({name:"FileDZDA",query:{list:this.list2[0],title:'人员电子档案'}})
+        })
+      }
+
     }
   }
 }
