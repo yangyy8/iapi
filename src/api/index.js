@@ -1,16 +1,11 @@
 // 配置API接口地址
-
- var root="http://192.168.99.206:8080"
+var root="http://192.168.99.206:8080"
 // var root=""
-
-
-
 // var root="http://192.168.99.234:8080"
-
-//var root="http://192.168.99.242:8081"
-// var root = 'http://192.168.99.248:8081'
+// var root="http://192.168.99.242:8081"
+// var root ='http://192.168.99.248:8081'
 // var root="http://192.168.99.247:8080"
-//var root = 'http://192.168.99.244:8080'
+//var root ='http://192.168.99.244:8080'
 // var root="http://192.168.99.213:8080"   //服务器电脑
 // var root="http://192.168.99.228:8080"
 // var root="http://10.6.126.138:8088" //正式环境
@@ -39,7 +34,6 @@ function filterNull(o) {
   }
   return o
 }
-
 function isLOGIN(){
   let a;
   axios({
@@ -60,13 +54,11 @@ function isLOGIN(){
         window.location.reload();
         return;
       }})
-
     }
   })
   .catch(function (error) {
     console.log(error);
   });
-
 }
 function apiAxios(method, url, params, success, failure,header,responseType) {
   if(!(url=='/manage-platform/isLanding'||url=='/manage-platform/homePage/iapiSize'||url=='/manage-platform/landing')){
@@ -81,12 +73,10 @@ function apiAxios(method, url, params, success, failure,header,responseType) {
   //     return;
   //   }
   // }
-
   let loadingInstance1=null;
   if(!(url=='/manage-platform/nationwide/getPortDetail'||url=='/manage-platform/nationwide/getFlightDetail'||url=='/manage-platform/nameList/getNameListDataAnalysis'||url=='/manage-platform/riskRecordExtInterfaceController/getRecordOtherInfo'||url=='/manage-platform/iapiHead/queryListPageCount')){
     loadingInstance1 = Loading.service({ fullscreen: true, spinner: 'el-icon-loading',text:'拼命加载中',background:'rgba(0,0,0,0.6)',customClass:'loadingClass'});
   }
-
   axios({
       method: method,
       url: url,
@@ -101,7 +91,7 @@ function apiAxios(method, url, params, success, failure,header,responseType) {
     .then(function(res) {
       // console.log(res.status,success)
       if (res.status == 200) {
-        // console.log("res",res)
+        console.log("res",res)
         if(responseType){
           if(loadingInstance1){
             loadingInstance1.close();
@@ -119,8 +109,7 @@ function apiAxios(method, url, params, success, failure,header,responseType) {
                 Message.error(res.data.message);
               }
             }
-
-              success(res.data)
+        success(res.data)
         }
       } else {
         if (failure) {

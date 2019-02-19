@@ -210,8 +210,26 @@ export default {
   mounted(){
     this.queryNationalityAlone();
     this.getRiskUserLabelInfo();
+    if(this.$route.query.list){
+      let data=this.$route.query.list;
+      this.pd.nationality=data.nationality[0];
+      this.pd.passportno=data.passportno;
+      this.pd.name=data.lkname;
+      this.pd.birthdayStart=data.dateofbirth;
+      this.pd.birthdayEnd=data.dateofbirth;
+      console.log(this.pd)
+    }
   },
   activated(){
+    if(this.$route.query.list){
+      let data=this.$route.query.list;
+      this.pd.nationality=data.nationality[0];
+      this.pd.passportno=data.passportno;
+      this.pd.name=data.lkname;
+      this.pd.birthdayStart=data.dateofbirth;
+      this.pd.birthdayEnd=data.dateofbirth;
+      console.log(this.pd)
+    }
     // this.getList(this.CurrentPage,this.pageSize,this.pd);
   },
   methods:{
