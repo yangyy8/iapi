@@ -201,8 +201,10 @@
                 label="计划起飞时间" sortable>
               </el-table-column>
               <el-table-column
-                prop="passportno"
                 label="证件号码" sortable>
+                <template slot-scope="scope">
+                   <el-button type="text" size="small" @click="$router.push({name:'QueryRYXX',query:{row:scope.row,page:1,title:'人员信息查询',name:'信息查询'}})">{{scope.row.passportno}}</el-button>
+                </template>
               </el-table-column>
               <el-table-column
                 prop="name"
@@ -311,8 +313,10 @@
                 label="计划起飞时间" sortable>
               </el-table-column>
               <el-table-column
-                prop="passportno"
                 label="证件号码" sortable>
+                <template slot-scope="scope">
+                   <el-button type="text" size="small" @click="$router.push({name:'QueryRYXX',query:{row:scope.row,page:1,title:'人员信息查询',name:'信息查询'}})">{{scope.row.passportno}}</el-button>
+                </template>
               </el-table-column>
               <el-table-column
                 prop="name"
@@ -423,9 +427,10 @@
                 label="计划起飞时间" sortable>
               </el-table-column>
               <el-table-column
-                prop="passportno"
                 label="证件号码" sortable>
-
+                <template slot-scope="scope">
+                   <el-button type="text" size="small" @click="$router.push({name:'QueryRYXX',query:{row:scope.row,page:1,title:'人员信息查询',name:'信息查询'}})">{{scope.row.passportno}}</el-button>
+                </template>
               </el-table-column>
               <el-table-column
                 prop="name"
