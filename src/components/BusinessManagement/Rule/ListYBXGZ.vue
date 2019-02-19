@@ -63,7 +63,7 @@
           sortable='custom'
           width="130">
           <template slot-scope="scope">
-            <div class="my-form-group" data-scope="demo" :data-name="scope.row.IODIR" data-type="select"
+            <div class="my-form-group" data-scope="demo" data-name="IODIR" data-type="select"
               v-validate-easy="[['required']]">
               <el-select v-model="scope.row.IODIR" placeholder="请选择" size="mini" filterable clearable class="table-select">
                 <el-option label="I - 入境" value="I"></el-option>
@@ -79,7 +79,7 @@
           width="150"
           sortable='custom'>
           <template slot-scope="scope">
-            <div class="my-form-group" data-scope="demo" :data-name="scope.row.PERSONNELTYPE" data-type="select"
+            <div class="my-form-group" data-scope="demo" data-name="PERSONNELTYPE" data-type="select"
               v-validate-easy="[['required']]">
               <el-select v-model="scope.row.PERSONNELTYPE" placeholder="请选择" size="mini" filterable clearable class="table-select">
                 <el-option label="0 - 中国内地人" value="0"></el-option>
@@ -94,7 +94,7 @@
           label="规则名称"
           width="160">
           <template slot-scope="scope">
-            <div class="my-form-group" data-scope="demo" :data-name="scope.row.RULEDESC" data-type="input"
+            <div class="my-form-group" data-scope="demo" data-name="RULEDESC" data-type="input"
               v-validate-easy="[['required']]">
               <el-input v-model="scope.row.RULEDESC" size="mini" class="table-select"></el-input>
             </div>
@@ -104,7 +104,7 @@
           label="字段名称"
           width="140">
           <template slot-scope="scope">
-            <div class="my-form-group" data-scope="demo" :data-name="scope.row.FIELDNAME" data-type="select"
+            <div class="my-form-group" data-scope="demo" data-name="FIELDNAME" data-type="select"
               v-validate-easy="[['required']]">
               <el-select v-model="scope.row.FIELDNAME" filterable clearable @visible-change="codeName(scope.row.FIELDNAME,scope.row)" @change="inputMode(scope.row.FIELDNAME,scope.row)" placeholder="请选择"  size="mini" class="table-select">
                 <el-option
@@ -123,7 +123,7 @@
           width="120"
           sortable='custom'>
           <template slot-scope="scope">
-            <div class="my-form-group" data-scope="demo" :data-name="scope.row.OPERATORCHARACTER" data-type="select"
+            <div class="my-form-group" data-scope="demo" data-name="OPERATORCHARACTER" data-type="select"
               v-validate-easy="[['required']]">
               <el-select v-model="scope.row.OPERATORCHARACTER" placeholder="请选择" filterable clearable size="mini" class="table-select" v-show="dateShow==1">
                 <el-option label="等于" value="0"></el-option>
@@ -142,7 +142,7 @@
           label="取值"
           width="150">
           <template slot-scope="scope">
-            <div class="my-form-group" data-scope="demo" :data-name="scope.row.VALUE" data-type="select"
+            <div class="my-form-group" data-scope="demo" data-name="VALUE" data-type="select"
               v-validate-easy="[['required']]" v-show="show==1">
               <el-select v-model="scope.row.VALUE" placeholder="请选择" size="mini" filterable clearable class="table-select">
                 <el-option label="当前系统时间" value="sysdate"></el-option>
@@ -154,7 +154,7 @@
                 <el-option label="一年" value="sysdate+360"></el-option>
               </el-select>
             </div>
-            <div class="my-form-group" data-scope="demo" :data-name="scope.row.VALUE" data-type="input"
+            <div class="my-form-group" data-scope="demo" data-name="VALUE" data-type="input"
               v-validate-easy="[['required']]" v-show="show==2">
               <el-input placeholder="请输入内容" size="small" class="table-select" v-model="scope.row.VALUE" ></el-input>
             </div>
@@ -166,7 +166,7 @@
           width="180"
           sortable='custom'>
           <template slot-scope="scope">
-            <div class="my-form-group" data-scope="demo" :data-name="scope.row.CHECKRESULT" data-type="select"
+            <div class="my-form-group" data-scope="demo" data-name="CHECKRESULT" data-type="select"
               v-validate-easy="[['required']]">
               <el-select v-model="scope.row.CHECKRESULT" placeholder="请选择" filterable clearable size="mini" class="table-select" @change="inschange(scope.row)">
                 <el-option label="1Z - 禁止打印登机牌" value="1Z"></el-option>
@@ -180,7 +180,7 @@
           label="反馈结果描述"
           width="300">
           <template slot-scope="scope">
-            <div class="my-form-group" data-scope="demo" :data-name="scope.row.RESPONSERESULT" data-type="textarea"
+            <div class="my-form-group" data-scope="demo" data-name="RESPONSERESULT" data-type="textarea"
               v-validate-easy="[['required']]">
               <el-input type="textarea" :autosize="{ minRows: 1, maxRows: 2}" placeholder="请输入内容" size="small" class="table-select" v-model="scope.row.RESPONSERESULT" maxlength="100"></el-input>
             </div>
@@ -190,7 +190,7 @@
           label="状态"
           width="130">
           <template slot-scope="scope">
-            <div class="my-form-group" data-scope="demo" :data-name="scope.row.STATUS" data-type="select"
+            <div class="my-form-group" data-scope="demo" data-name="STATUS" data-type="select"
               v-validate-easy="[['required']]">
               <el-select v-model="scope.row.STATUS" placeholder="请选择" filterable clearable size="mini" class="table-select">
                 <el-option label="0 - 停用" value="0"></el-option>
@@ -201,8 +201,7 @@
         </el-table-column>
         <el-table-column
           label="操作"
-          width="70"
-          fixed="right">
+          width="70">
           <template slot-scope="scope">
             <div>
              <el-button type="text"  class="a-btn"  title="删除"  icon="el-icon-delete" @click="deleteTableList(scope.$index,scope.row)"></el-button>
@@ -280,29 +279,29 @@ export default {
       ],
       modelTable:{
         "IODIR": "",
-        "PERSONNELTYPE": "",
-        "RULEDESC": '',
-        "FIELDNAME": "",
-        "OPERATORCHARACTER": "",
-        "VALUE": '',
-        "CHECKRESULT": "2Z",
-        "RESPONSERESULT":'',
-        "STATUS": "1",
-        "FIELDTYPE":'',
-        "CTLTYPE":'U'
+        // "PERSONNELTYPE": "",
+        // "RULEDESC": '',
+        // "FIELDNAME": "",
+        // "OPERATORCHARACTER": "",
+        // "VALUE": '',
+        // "CHECKRESULT": "2Z",
+        // "RESPONSERESULT":'',
+        // "STATUS": "1",
+        // "FIELDTYPE":'',
+        // "CTLTYPE":'U'
       },
       cleanTable:{
         "IODIR": "",
-        "PERSONNELTYPE": "",
-        "RULEDESC": '',
-        "FIELDNAME": "",
-        "OPERATORCHARACTER": "",
-        "VALUE": '',
-        "CHECKRESULT": "2Z",
-        "RESPONSERESULT":'',
-        "STATUS": "1",
-        "FIELDTYPE":'',
-        "CTLTYPE":'U'
+        // "PERSONNELTYPE": "",
+        // "RULEDESC": '',
+        // "FIELDNAME": "",
+        // "OPERATORCHARACTER": "",
+        // "VALUE": '',
+        // "CHECKRESULT": "2Z",
+        // "RESPONSERESULT":'',
+        // "STATUS": "1",
+        // "FIELDTYPE":'',
+        // "CTLTYPE":'U'
       },
       multipleSelection:[],
       code:[],
@@ -363,13 +362,16 @@ export default {
     //    console.log(`当前页: ${val}`);
     //  },
      getList(pd){
-
        this.$api.post('/manage-platform/ruleConfig/getRuleConfigList',pd,
         r => {
-          this.tableData=r.data;
-          // this.TotalResult=r.data.totalResult;
-          this.count = this.tableData.length;
-          // this.allData = this.tableData;
+          if(r.success){
+            this.tableData=r.data;
+            // this.TotalResult=r.data.totalResult;
+            this.count = this.tableData.length;
+            // this.allData = this.tableData;
+            console.log(this.tableData)
+          }
+
        })
      },
      addTableList(){//新增
@@ -377,19 +379,20 @@ export default {
        this.count++;
        this.modelTable={
          "IODIR": "",
-         "PERSONNELTYPE": "",
-         "RULEDESC": '',
-         "FIELDNAME": "",
-         "OPERATORCHARACTER": "",
-         "VALUE": '',
-         "CHECKRESULT": "2Z",
-         "RESPONSERESULT":'',
-         "STATUS": "1",
-         "FIELDTYPE":'',
-         "CTLTYPE":'U'
+         // "PERSONNELTYPE": "",
+         // "RULEDESC": '',
+         // "FIELDNAME": "",
+         // "OPERATORCHARACTER": "",
+         // "VALUE": '',
+         // "CHECKRESULT": "2Z",
+         // "RESPONSERESULT":'',
+         // "STATUS": "1",
+         // "FIELDTYPE":'',
+         // "CTLTYPE":'U'
        }
        this.modelTable.CTLTYPE='I';
        this.tableData.unshift(this.modelTable);
+       console.log(this.tableData)
      },
      deleteTableList(id,item){//删除本行
        this.$confirm('删除操作将删除本条数据,保存并发布后将同步更新至校验比对区内存数据库, 是否继续?', '提示', {
@@ -430,7 +433,6 @@ export default {
          let p = this.tableData.concat(this.operatorData);
          this.$api.post('/manage-platform/ruleConfig/addRuleConfigAll',p,
           r => {
-            console.log(r);
             if(r.success == false){
               this.$message.error(r.message);
             }else{
@@ -460,7 +462,6 @@ export default {
        })
      },
      inputMode(item,rowBase){
-       console.log(item);
        this.$set(rowBase,'VALUE','');
        this.$set(rowBase,'OPERATORCHARACTER','');
        for(var i=0;i<this.code.length;i++){
@@ -493,7 +494,7 @@ export default {
   overflow: visible!important;
 }
 .tableJY .err__msg{
-  top: 20px!important;
+  top: 17px!important;
   z-index: 999;
 }
 </style>

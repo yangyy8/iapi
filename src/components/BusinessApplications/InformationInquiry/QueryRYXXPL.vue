@@ -660,7 +660,7 @@
           :page-size="showCount"
           prev-text="上一页"
           next-text="下一页"
-          layout="prev,next"
+          layout="prev,next,jumper"
           >
         </el-pagination>
       </div>
