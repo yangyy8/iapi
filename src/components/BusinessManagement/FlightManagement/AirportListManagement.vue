@@ -160,23 +160,26 @@
     <el-dialog :title="dialogText" :visible.sync="addDialogVisible" width="500px" >
       <el-form :model="form" ref="addForm">
         <el-row type="flex"  class="mb-6">
-          <el-col :span="24" class="input-item">
+          <el-col :span="24" class="input-item my-form-group" data-scope="demo2" data-name="airportCode" data-type="input"
+            v-validate-easy="[['required']]">
             <span class="yy-input-text"><font class="yy-color">*</font>机场三位码：</span>
-            <el-input placeholder="请输入内容" size="small"  v-model="form.airportCode"  maxlength="3" class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}" :disabled="airCodeAble"></el-input>
+            <el-input placeholder="请输入内容" size="small"  v-model="form.airportCode"  maxlength="3" class="yy-input-input" :disabled="airCodeAble"></el-input>
           </el-col>
         </el-row>
 
         <el-row type="flex"  class="mb-6">
-          <el-col :span="24" class="input-item">
+          <el-col :span="24" class="input-item my-form-group" data-scope="demo2" data-name="airportName" data-type="input"
+            v-validate-easy="[['required']]">
             <span class="yy-input-text"><font class="yy-color">*</font>机场名称：</span>
-            <el-input placeholder="请输入内容" size="small"  v-model="form.airportName"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}" :disabled="airCodeAble"></el-input>
+            <el-input placeholder="请输入内容" size="small"  v-model="form.airportName"  class="yy-input-input" :disabled="airCodeAble"></el-input>
           </el-col>
         </el-row>
 
         <el-row type="flex" class="mb-6" >
-          <el-col :span="24" class="input-item">
+          <el-col :span="24" class="input-item my-form-group" data-scope="demo2" data-name="continentsCode" data-type="select"
+            v-validate-easy="[['required']]">
             <span class="yy-input-text"><font class="yy-color">*</font>洲：</span>
-            <el-select v-model="form.continentsCode"  filterable clearable placeholder="请选择" size="small" class="yy-input-input" @visible-change="chau(1)" @change="nationality(form.continentsCode,1)" v-verify.change.blur ="{regs:'required',submit:'demo2'}">
+            <el-select v-model="form.continentsCode"  filterable clearable placeholder="请选择" size="small" class="yy-input-input" @visible-change="chau(1)" @change="nationality(form.continentsCode,1)">
               <el-option
                 v-for="(item,index) in addChauName"
                 :key="index"
@@ -188,9 +191,10 @@
         </el-row>
 
         <el-row type="flex" class="mb-6" >
-          <el-col :span="24" class="input-item">
+          <el-col :span="24" class="input-item my-form-group" data-scope="demo2" data-name="countryCode" data-type="select"
+            v-validate-easy="[['required']]">
             <span class="yy-input-text"><font class="yy-color">*</font>国籍/地区：</span>
-            <el-select v-model="form.countryCode"  filterable clearable placeholder="请选择" size="small" class="yy-input-input" @visible-change="baseNation(1)" @change="cityAble(form.countryCode,1)" v-verify.change.blur ="{regs:'required',submit:'demo2'}">
+            <el-select v-model="form.countryCode"  filterable clearable placeholder="请选择" size="small" class="yy-input-input" @visible-change="baseNation(1)" @change="cityAble(form.countryCode,1)">
               <el-option
                 v-for="(item,index) in addSelection"
                 :key="index"
@@ -202,9 +206,10 @@
         </el-row>
 
         <el-row type="flex" class="mb-6" >
-          <el-col :span="24" class="input-item">
+          <el-col :span="24" class="input-item my-form-group" data-scope="demo2" data-name="cityCode" data-type="select"
+            v-validate-easy="[['required']]">
             <span class="yy-input-text"><font class="yy-color">*</font>城市：</span>
-            <el-select v-model="form.cityCode"  filterable clearable placeholder="请选择" size="small" class="yy-input-input" @visible-change="city(1)" :disabled="addAble" @change="cityReal(form.cityCode)" v-verify.change.blur ="{regs:'required',submit:'demo2'}">
+            <el-select v-model="form.cityCode"  filterable clearable placeholder="请选择" size="small" class="yy-input-input" @visible-change="city(1)" :disabled="addAble" @change="cityReal(form.cityCode)">
               <el-option
                 v-for="(item,index) in addCityName"
                 :key="index"
@@ -216,23 +221,26 @@
         </el-row>
 
         <el-row type="flex"  class="mb-6">
-          <el-col :span="24" class="input-item">
+          <el-col :span="24" class="input-item my-form-group" data-scope="demo2" data-name="jingdu" data-type="input"
+            v-validate-easy="[['required'],['number']]">
             <span class="yy-input-text"><font class="yy-color">*</font>经度：</span>
-            <el-input placeholder="请输入内容" size="small" v-model="form.jingdu"  class="yy-input-input" v-verify.change.blur ="{regs:'required|number',submit:'demo2'}"></el-input>
+            <el-input placeholder="请输入内容" size="small" v-model="form.jingdu"  class="yy-input-input"></el-input>
           </el-col>
         </el-row>
 
         <el-row type="flex"  class="mb-6">
-          <el-col :span="24" class="input-item">
+          <el-col :span="24" class="input-item my-form-group" data-scope="demo2" data-name="weidu" data-type="input"
+            v-validate-easy="[['required'],['number']]">
             <span class="yy-input-text"><font class="yy-color">*</font>纬度：</span>
-            <el-input placeholder="请输入内容" size="small" v-model="form.weidu"  class="yy-input-input" v-verify.change.blur ="{regs:'required|number',submit:'demo2'}"></el-input>
+            <el-input placeholder="请输入内容" size="small" v-model="form.weidu"  class="yy-input-input"></el-input>
           </el-col>
         </el-row>
 
         <el-row type="flex"  class="mb-6">
-          <el-col :span="24" class="input-item">
+          <el-col :span="24" class="input-item my-form-group" data-scope="demo2" data-name="airportDesc" data-type="textarea"
+            v-validate-easy="[['required']]">
             <span class="yy-input-text"><font class="yy-color">*</font>机场描述：</span>
-            <el-input placeholder="请输入内容" size="small" type="textarea" v-model="form.airportDesc"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
+            <el-input placeholder="请输入内容" size="small" type="textarea" v-model="form.airportDesc"  class="yy-input-input"></el-input>
           </el-col>
         </el-row>
 
@@ -636,31 +644,27 @@ export default {
         this.cityAble(this.form.countryCode,1);
         this.form.type=this.tp;
       }
-
+      this.V.$reset('demo2')
     },
     addItem() {//新增完成
-      console.log(this.$validator)
-      if (this.$validator.listener.demo2) {
-        const result = this.$validator.verifyAll('demo2')
-        if (result.indexOf(false) > -1) {
-          return;
-        }
-      }
-      this.$api.post('/manage-platform/airportManage/changFlightManage', this.form,
-        r => {
-          console.log(r);
-          if (r.success) {
-            this.$message({
-              message: '保存成功！',
-              type: 'success'
-            });
-            this.addDialogVisible = false;
-          }
-          this.getList(this.CurrentPage, this.pageSize, this.cdt);
-          // this.tableData=r.Data.ResultList;
-        }, e => {
-          this.$message.error('失败了');
-        })
+      this.V.$submit('demo2', (canSumit,data) => {
+        if(!canSumit) return
+        this.$api.post('/manage-platform/airportManage/changFlightManage', this.form,
+          r => {
+            console.log(r);
+            if (r.success) {
+              this.$message({
+                message: '保存成功！',
+                type: 'success'
+              });
+              this.addDialogVisible = false;
+            }
+            this.getList(this.CurrentPage, this.pageSize, this.cdt);
+            // this.tableData=r.Data.ResultList;
+          }, e => {
+            this.$message.error('失败了');
+          })
+      })
     },
 
     deletes(i) {

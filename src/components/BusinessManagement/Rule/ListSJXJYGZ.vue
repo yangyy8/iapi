@@ -61,7 +61,7 @@
           label="出入境方向"
           width="120">
           <template slot-scope="scope">
-            <div class="my-form-group" data-scope="demo1" :data-name="scope.row.IODIR" data-type="select"
+            <div class="my-form-group" data-scope="demo1" data-name="IODIR" data-type="select"
               v-validate-easy="[['required']]">
               <el-select v-model="scope.row.IODIR" placeholder="请选择" filterable clearable size="mini" class="table-select">
                 <el-option label="I - 入境" value="I"></el-option>
@@ -77,7 +77,7 @@
           sortable='custom'
           width="150">
           <template slot-scope="scope">
-            <div class="my-form-group" data-scope="demo1" :data-name="scope.row.PERSONNELTYPE" data-type="select"
+            <div class="my-form-group" data-scope="demo1" data-name="PERSONNELTYPE" data-type="select"
               v-validate-easy="[['required']]">
               <el-select v-model="scope.row.PERSONNELTYPE" placeholder="请选择" filterable clearable size="mini" class="table-select">
                 <el-option label="0 - 中国内地人" value="0"></el-option>
@@ -92,7 +92,7 @@
           label="字段名称"
           width="170">
           <template slot-scope="scope">
-            <div class="my-form-group" data-scope="demo1" :data-name="scope.row.FIELDNAME" data-type="select"
+            <div class="my-form-group" data-scope="demo1" data-name="FIELDNAME" data-type="select"
               v-validate-easy="[['required']]">
               <el-select v-model="scope.row.FIELDNAME" filterable clearable @visible-change="codeName(scope.row.FIELDNAME)" placeholder="请选择"  size="mini" class="table-select">
                 <el-option
@@ -129,7 +129,7 @@
           width="150"
           sortable='custom'>
           <template slot-scope="scope">
-            <div class="my-form-group" data-scope="demo1" :data-name="scope.row.CHECKRESULT" data-type="select"
+            <div class="my-form-group" data-scope="demo1" data-name="CHECKRESULT" data-type="select"
               v-validate-easy="[['required']]">
               <el-select v-model="scope.row.CHECKRESULT" filterable clearable placeholder="请选择"  size="mini" class="table-select" @change="inschange(scope.row)">
                 <el-option label="1Z-禁止打印登机牌" value="1Z"></el-option>
@@ -143,7 +143,7 @@
           label="反馈结果描述"
           width="280">
           <template slot-scope="scope">
-            <div class="my-form-group" data-scope="demo1" :data-name="scope.row.CHECKREMARK" data-type="textarea"
+            <div class="my-form-group" data-scope="demo1" data-name="CHECKREMARK" data-type="textarea"
               v-validate-easy="[['required']]">
               <el-input type="textarea" :autosize="{ minRows: 1, maxRows: 2}" placeholder="请输入内容" size="small" class="table-select" v-model="scope.row.CHECKREMARK" maxlength="100"></el-input>
             </div>
@@ -155,7 +155,7 @@
           width="130"
           sortable='custom'>
           <template slot-scope="scope">
-            <div class="my-form-group" data-scope="demo1" :data-name="scope.row.INPUT" data-type="select"
+            <div class="my-form-group" data-scope="demo1" data-name="INPUT" data-type="select"
               v-validate-easy="[['required']]">
               <el-select v-model="scope.row.INPUT" placeholder="请选择" filterable clearable  size="mini" class="table-select">
                 <el-option label="0 - 必填项" value="0"></el-option>
@@ -170,7 +170,7 @@
           width="120"
           sortable='custom'>
           <template slot-scope="scope">
-            <div class="my-form-group" data-scope="demo1" :data-name="scope.row.STATUS" data-type="select"
+            <div class="my-form-group" data-scope="demo1" data-name="STATUS" data-type="select"
               v-validate-easy="[['required']]">
               <el-select v-model="scope.row.STATUS" placeholder="请选择" filterable clearable size="mini" class="table-select">
                 <el-option label="0 - 停用" value="0"></el-option>
@@ -184,7 +184,7 @@
           width="100"
           v-if="false">
           <template slot-scope="scope">
-            <div class="my-form-group" data-scope="demo1" :data-name="scope.row.REGULAR" data-type="input"
+            <div class="my-form-group" data-scope="demo1" data-name="REGULAR" data-type="input"
               v-validate-easy="[['required']]">
               <el-input v-model="scope.row.REGULAR" size="small" class="table-select"></el-input>
             </div>
@@ -195,7 +195,7 @@
           width="100"
           v-if="false">
           <template slot-scope="scope">
-            <div class="my-form-group" data-scope="demo1" :data-name="scope.row.VALIDTIME" data-type="input"
+            <div class="my-form-group" data-scope="demo1" data-name="VALIDTIME" data-type="input"
               v-validate-easy="[['required']]">
               <el-input v-model="scope.row.VALIDTIME" size="small" class="table-select"></el-input>
             </div>
@@ -415,7 +415,7 @@ export default {
          "MAXLENGTH":'',
          "MINLENGTH":'',
          "CHECKRESULT": "4Z",
-         "CHECKREMARK": '',
+         "CHECKREMARK": 'DATA ENTRY ERROR',
          "INPUT": "0",
          "STATUS":'1',
          "CTLTYPE":'U',
@@ -531,7 +531,7 @@ export default {
   padding: 9px!important;
 }
 .tableJY .err__msg{
-  top: 20px!important;
+  top: 17px!important;
   z-index: 999;
 }
 </style>

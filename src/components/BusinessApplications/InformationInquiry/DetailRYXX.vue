@@ -148,8 +148,10 @@
           <el-col :span="6" class="t-el-content"><div class="t-el-text">乘机人行李数量：</div><div class="t-el-sub">{{dpform.NUMBEROFPIECES}}</div></el-col>
         </el-row>
         <el-row type="flex"  class="t-detail">
-          <el-col :span="6" class="t-el-content"><div class="t-el-text">代理人IATAID号或虚拟IATA号：</div><div class="t-el-sub">{{dpform.TRAVEL_AGENT_IDENTIFICATION}}</div></el-col>
-          <el-col :span="6" class="t-el-content"><div class="t-el-text">PNR报文发送方：</div><div class="t-el-sub">{{dpform.pnrFsf}}</div></el-col>
+          <el-col :span="12" class="t-el-content"><div class="t-el-text">代理人IATAID号或虚拟IATA号：</div><div class="t-el-sub">{{dpform.TRAVEL_AGENT_IDENTIFICATION}}</div></el-col>
+          <el-col :span="12" class="t-el-content"><div class="t-el-text">PNR报文发送方：</div><div class="t-el-sub">{{dpform.pnrFsf}}</div></el-col>
+        </el-row>
+        <el-row type="flex"  class="t-detail">
           <el-col :span="6" class="t-el-content"><div class="t-el-text">订座系统分配给某个代理或Office的ID号：</div><div class="t-el-sub">{{dpform.IN_HOUSE_IDENTIFICATION}}</div></el-col>
         </el-row>
         <div class="hrtitle-child" @click="box1=!box1">订票人住址<i class="el-icon-d-caret"></i></div>

@@ -267,7 +267,7 @@
     </div>
   </div>
 
-  <!-- action="http://192.168.99.206:8080/manage-platform/iapiHead/readNationalAndPassportnoExcel" -->
+  <!--action="http://192.168.99.248:8081/manage-platform/iapiHead/readNationalAndPassportnoExcel"  -->
   <el-dialog title="导入文件" :visible.sync="uploadDialogVisible"   width="640px"
   :before-close="handleClose">
     <el-form :model="releaseform" ref="releaseForm">
@@ -779,7 +779,7 @@
           :page-size="showCount"
           prev-text="上一页"
           next-text="下一页"
-          layout="prev,next"
+          layout="prev,next,jumper"
           >
         </el-pagination>
       </div>
@@ -1136,10 +1136,20 @@ export default {
     // this.takeOff();
     // this.landing();
     document.getElementsByClassName('btn-next')[0].disabled=true;
+    this.cdt.passportnoEqual = this.$route.query.row.passportno;
+    this.cdt.fltnoEqual = this.$route.query.row.fltno;
+    this.cdt.familyname = this.$route.query.row.name;
+    this.cdt.genderEqual = this.sexZhuan(this.$route.query.row.gender);
+    this.cdt.dateofbirthEqual = this.zhuanhuan(this.$route.query.row.birthday)
   },
   activated(){
     this.nav1Id=this.$route.query.nav1Id
     this.nav2Id=this.$route.query.nav2Id
+    this.cdt.passportnoEqual = this.$route.query.row.passportno;
+    this.cdt.fltnoEqual = this.$route.query.row.fltno;
+    this.cdt.familyname = this.$route.query.row.name;
+    this.cdt.genderEqual = this.sexZhuan(this.$route.query.row.gender);
+    this.cdt.dateofbirthEqual = this.zhuanhuan(this.$route.query.row.birthday)
   },
   filters: {
     fiftersex(val) {
@@ -1189,6 +1199,18 @@ export default {
   },
   methods:{
     //============================洲国籍======================================================================
+    zhuanhuan(val){
+      return val.split('-').join('');
+    },
+    sexZhuan(val){
+      if(val == '女'){
+        return 'F'
+      }else if(val == '男'){
+        return 'M'
+      }else if(val == '未知'){
+        return 'U'
+      }
+    },
     sortChange(column){
       this.orderState=1;//排序
       this.orderHc=column;
@@ -1196,11 +1218,11 @@ export default {
         'orders':[this.orderHc.prop],
         'direction':this.orderHc.order=='ascending'?1:0,
         'cdt':this.batchFlag==1?this.cdt1:this.cdt,
-        'isBatch':this.batchFlag==1?1:0,
+        // 'isBatch':this.batchFlag==1?1:0,
         'currentPage':this.currentPage,
         'showCount':this.showCount
       }
-
+      p.cdt.isBatch = (this.batchFlag==1?1:0),
       this.$api.post('/manage-platform/iapiHead/queryListPage',p,
        r => {
          if(r.success){
@@ -1593,8 +1615,9 @@ export default {
         "currentPage":currentPage,
       	"showCount":showCount,
       	"cdt":cdt,
-        "isBatch":num
+        // "isBatch":num
       }
+      p.cdt.isBatch = num;
       this.$api.post2('/manage-platform/iapiHead/queryListPageCount',p,
        r =>{
          if(r.success){
@@ -1621,8 +1644,9 @@ export default {
       	"currentPage":currentPage,
       	"showCount":showCount,
       	"cdt":cdt,
-        "isBatch":num
+        // "isBatch":num
       };
+      pl.cdt.isBatch = num;
       this.$api.post('/manage-platform/iapiHead/queryListPage',pl,
        r => {
          if(r.success){
@@ -1722,6 +1746,7 @@ export default {
       }
     },
     tableDown(num){
+      this.cdt.isBatch = num;
       if(this.tableList.length==0){
         if(this.totalResult>10000){
           this.$confirm('最多只能导出10000条,是否继续?','提示',{
@@ -1735,8 +1760,8 @@ export default {
              url: this.$api.rootUrl+"/manage-platform/iapiHead/exportFileIo/4/iapiHead/10000",
              data: {
                  "exclTitles": this.checkList,
-                 "cdt":this.cdt,
-                 "isBatch":num,
+                 "cdt":this.batchFlag==1?this.cdt1:this.cdt,
+                 // "isBatch":num,
              },
              responseType: 'blob'
              }).then(response => {
@@ -1755,8 +1780,8 @@ export default {
            url: this.$api.rootUrl+"/manage-platform/iapiHead/exportFileIo/4/iapiHead/10000",
            data: {
                "exclTitles": this.checkList,
-               "cdt":this.cdt,
-               "isBatch":num,
+               "cdt":this.batchFlag==1?this.cdt1:this.cdt,
+               // "isBatch":num,
            },
            responseType: 'blob'
            }).then(response => {
@@ -1772,7 +1797,7 @@ export default {
          data: {
              "exclTitles": this.checkList,
              "resultList":this.tableList,
-             "isBatch":num,
+             // "isBatch":num,
          },
          responseType: 'blob'
          }).then(response => {

@@ -6,7 +6,7 @@
     <div class="middle mb-2" v-for="(i,ind) in dataArr" :key="ind">
       <div class="map-title">{{i.titleText}}</div>
       <div style="position:relative">
-        <el-button class="table-btn dz-btn" plain @click="cancel(i.version)">取消定制</el-button>
+        <el-button class="table-btn dz-btn" plain @click="cancel(i.censusParamBean.version)">取消定制</el-button>
         <Vecharts :chartDatas="i" v-if="i.version" :chartsId="ind"></Vecharts>
         <el-table
           :data="i.tableData"

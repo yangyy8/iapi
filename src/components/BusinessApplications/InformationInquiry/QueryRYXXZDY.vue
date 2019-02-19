@@ -508,7 +508,7 @@
           :page-size="showCount"
           prev-text="上一页"
           next-text="下一页"
-          layout="prev,next"
+          layout="prev,next,jumper"
           >
         </el-pagination>
       </div>
@@ -3133,7 +3133,7 @@ export default {
           {id:1,attribute:'PNR_FLTDATE1STR',operator:'大于等于',type:31,relation:'',atype:formatDate(new Date(new Date() - 1000 * 60 * 60 * 24 * 7),'yyyyMMdd'),dataSort:'',isA:true},
           {id:2,attribute:'PNR_FLTDATE1STR',operator:'小于等于',type:31,relation:'and',atype:formatDate(new Date(),'yyyyMMdd'),dataSort:'',isA:false},
         ];
-        this.strPnr = '';
+        this.strPnr = '(航班日期>=20190211)and(航班日期<=20190218)';
         this.nnnn='';
         this.currentPagePnr=1;
         this.showCountPnr=10;

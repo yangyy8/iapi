@@ -161,7 +161,7 @@
               label="操作"
               width="80">
               <template slot-scope="scope">
-                <el-button type="text"  class="a-btn"  title="文件下载" icon="el-icon-download"><a :href="fileLoad = scope.row.FILESERIAL" class="acolor"></a></el-button>
+                <el-button type="text"  class="a-btn"  title="文件下载" icon="el-icon-download"><a :href="scope.row.FILESERIAL" class="acolor"></a></el-button>
                 <el-button type="text"  class="a-btn"  title="删除" icon="el-icon-delete" @click="deletes(scope.row)"></el-button>
              </template>
             </el-table-column>
@@ -500,10 +500,14 @@ export default {
       this.fileData=event.target.files;
     },
     folderZhuan(item){
-      for(var i =0;i<this.folderName.length;i++){
-        if(item == this.folderName[i].SERIAL){
-          return this.folderName[i].FOLDER
+      if(item!=''){
+        for(var i =0;i<this.folderName.length;i++){
+          if(item == this.folderName[i].SERIAL){
+            return this.folderName[i].FOLDER
+          }
         }
+      }else{
+        return ''
       }
     },
     upload(){//上传文件

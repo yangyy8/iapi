@@ -125,20 +125,35 @@
             <el-col :sm="24" :md="12"  :lg="8" class="input-item" style="position:relative">
               <span class="input-text">量选择：</span>
               <el-select  placeholder="请选择"  size="small" v-model="pd.number" multiple clearable filterable class="block input-input" collapse-tags>
-                <el-option label="0 - 使用量" value="0"></el-option>
-                <el-option label="1 - 报警量" value="1"></el-option>
-                <el-option label="2 - 命中量" value="2"></el-option>
+                <el-option label="使用量" value="0"></el-option>
+                <el-option label="报警量" value="1"></el-option>
+                <el-option label="命中量" value="2"></el-option>
+                <el-option label="查获量" value="6"></el-option>
               </el-select>
               <span class="el-icon-warning t-tip" @click="warnOpen"></span>
             </el-col>
             <el-col :sm="24" :md="12"  :lg="8" class="input-item" style="position:relative">
               <span class="input-text">率选择：</span>
               <el-select  placeholder="请选择"  size="small" v-model="pd.percent" multiple clearable filterable class="block input-input" collapse-tags>
-                <el-option label="3 - 报警率" value="3"></el-option>
-                <el-option label="4 - 模型命中率" value="4"></el-option>
-                <el-option label="5 - 报警命中率" value="5"></el-option>
+                <el-option label="报警率" value="3"></el-option>
+                <el-option label="模型命中率" value="4"></el-option>
+                <el-option label="报警命中率" value="5"></el-option>
+                <el-option label="查获率" value="7"></el-option>
               </el-select>
               <span class="el-icon-warning t-tip" @click="warnOpenLv"></span>
+            </el-col>
+            <el-col :sm="24" :md="12"  :lg="8" class="input-item">
+              <span class="input-text widthT">排行榜：</span>
+              <el-select  placeholder="请选择"  size="small" v-model="pd.rank" clearable filterable class="block input-input widthTT">
+                <el-option label="使用量" value="0"></el-option>
+                <el-option label="报警量" value="1"></el-option>
+                <el-option label="命中量" value="2"></el-option>
+                <el-option label="查获量" value="6"></el-option>
+                <el-option label="报警率" value="3"></el-option>
+                <el-option label="模型命中率" value="4"></el-option>
+                <el-option label="报警命中率" value="5"></el-option>
+                <el-option label="查获率" value="7"></el-option>
+              </el-select>
             </el-col>
           </el-row>
         </el-col>
@@ -152,7 +167,12 @@
     <div class="middle mb-2" v-for="(x,ind) in chartList" :key="ind">
       <div class="map-title">{{x.titleText}}</div>
       <span class="tubiao hand borderL wwm" :class="{'checked':x.censusParamBean.queryType==0,'xuanzeLiang':isLiang}" :style="{display:qq}" @click="getType(x,ind,0);">量</span
-      ><span class="tubiao hand borderR wwm" :style="{display:qq}" :class="{'checked':x.censusParamBean.queryType==1,'xuanzeLv':isLv}" @click="getType(x,ind,1);">率</span>
+      ><span class="tubiao hand borderR wwm" :style="{display:qq}" :class="{'checked':x.censusParamBean.queryType==1,'xuanzeLv':isLv}" @click="getType(x,ind,1);">率</span
+      ><span class="tubiao hand borderR phb" :style="{display:qq}" :class="{'checked':x.censusParamBean.queryType==2,'xuanzeLv':isPai}" @click="getType(x,ind,2);">排行榜</span>
+
+      <!-- <span class="tubiao hand borderL wwm" :class="{'checked':x.censusParamBean.queryType==0}" @click="getType(x,ind,0);" v-show="isLiang">量</span
+      ><span class="tubiao hand borderR wwm" :class="{'checked':x.censusParamBean.queryType==1}" @click="getType(x,ind,1);" v-show="isLv">率</span
+      ><span class="tubiao hand borderR phb" :class="{'checked':x.censusParamBean.queryType==2}" @click="getType(x,ind,2);" v-show="isPai">排行榜</span> -->
       <div class="" style="position:relative;">
         <el-button class="table-btn dz-btn" plain @click="customized(x.censusParamBean)">定制</el-button>
 
@@ -187,6 +207,7 @@ export default {
     return{
       isLiang:true,
       isLv:true,
+      isPai:true,
       qq:'none',
       modelDialogVisible:false,
       seeModelDialogVisible:false,
@@ -329,8 +350,8 @@ export default {
         });
         return false
       }
-      if((this.pd.number==''||this.pd.number==undefined)&&(this.pd.percent==''||this.pd.percent==undefined)){
-        this.$alert('量选择和率选择二者必选其一', '提示', {
+      if((this.pd.number==''||this.pd.number==undefined)&&(this.pd.percent==''||this.pd.percent==undefined)&&(this.pd.rank==''||this.pd.rank==undefined)){
+        this.$alert('量选择,率选择和排行榜三者必选其一', '提示', {
           confirmButtonText: '确定',
         });
         return false
@@ -349,11 +370,31 @@ export default {
         this.isLv=true;
         this.qq='none'
       }
-      if(this.pd.number!=''&&this.pd.percent!=''){
-        this.isLiang=false;
-        this.isLv=false;
-        this.qq='inline-block'
+      if(this.pd.rank==null||this.pd.rank==''||this.pd.rank==undefined){
+        this.isPai=false;
+        this.qq='none'
+      }else{
+        this.isPai=true;
+        this.qq='none'
       }
+      // if(this.pd.number!=''&&this.pd.percent!=''&&this.pd.rank!=null){
+      //   this.isLiang=false;
+      //   this.isLv=false;
+      //   this.isPai=false;
+      //   this.qq='inline-block'
+      // }
+      if(this.pd.number.length!=0){
+        this.pd.queryType='0'
+      }else{
+        if(this.pd.percent.length!=0){
+          this.pd.queryType='1'
+        }else{
+          if(this.pd.rank!=''){
+            this.pd.queryType='2'
+          }
+        }
+      }
+      this.pd.ranking=[this.pd.rank];
       this.$api.post('/manage-platform/census/queryCensus',this.pd,
        r => {
          this.chartList=r.data;
@@ -365,6 +406,7 @@ export default {
       this.$api.post('/manage-platform/census/queryCensusByQueryType',item.censusParamBean,
        r => {
          this.chartList.splice(index,1,r.data);
+         console.log(this.chartList)
       })
     },
     queryNationalityAlone(){
@@ -468,20 +510,29 @@ export default {
   border-top-right-radius: 3px;
   border-bottom-right-radius: 3px;
   display: inline-block!important;
-  background:#56A8FE;
-  color:#ffffff;
+  /* background:#56A8FE;
+  color:#ffffff; */
 }
 .xuanzeLv{
   border-top-left-radius: 3px;
   border-bottom-left-radius: 3px;
   display: inline-block!important;
-  background:#56A8FE;
-  color:#ffffff;
+  /* background:#56A8FE;
+  color:#ffffff; */
 }
 .dd{
   display: none;
 }
 .wwm{
   width: 14px;
+}
+.phb{
+  width: 36px;
+}
+.widthT{
+  width: 20%!important;
+}
+.widthTT{
+  width: 80%!important;
 }
 </style>

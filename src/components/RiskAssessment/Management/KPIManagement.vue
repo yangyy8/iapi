@@ -79,7 +79,7 @@
           </el-row>
         </el-col>
         <el-col :span="2" class="down-btn-area">
-          <el-button type="success" size="small" @click="getList(CurrentPage,pageSize,pd)">查询</el-button>
+          <el-button type="success" size="small" @click="CurrentPage=1;getList(CurrentPage,pageSize,pd)">查询</el-button>
         </el-col>
       </el-row>
     </div>
@@ -130,6 +130,12 @@
           label="参数">
         </el-table-column>
         <el-table-column
+          label="是否启用" sortable>
+          <template slot-scope="scope">
+              <span :class="{'yyred':scope.row.STATUS == '0','yygreen':scope.row.STATUS == '1'}">  {{scope.row.STATUS | fifterstatus}}</span>
+            </template>
+        </el-table-column>
+        <el-table-column
           label="操作" width="160">
           <template slot-scope="scope">
               <el-button type="text" class="a-btn"   title="详情"  icon="el-icon-tickets" @click="details(scope.row)"></el-button>
@@ -164,6 +170,7 @@
         <el-pagination
           background
           @current-change="handleCurrentChange"
+          :current-page.sync ="CurrentPage"
           :page-size="pageSize"
           layout="prev, pager, next"
           :total="TotalResult">
@@ -293,7 +300,7 @@
         <el-row type="flex" class="mb-6" >
           <el-col :span="24" class="input-item">
             <span class="yy-input-text">脚本：</span>
-           <el-input type="textarea" placeholder="请输入内容" maxlength="250" :autosize="{ minRows: 3, maxRows: 6}" v-model="form.script" class="yy-input-input"></el-input>
+           <el-input type="textarea" placeholder="请输入内容"  :autosize="{ minRows: 3, maxRows: 6}" v-model="form.script" class="yy-input-input"></el-input>
           </el-col>
         </el-row>
       </el-form>
@@ -469,6 +476,7 @@ export default {
       console.log(`当前页: ${val}`);
     },
     getList(currentPage, showCount, pd) {
+
       let p = {
         "currentPage": currentPage,
         "showCount": showCount,
@@ -490,10 +498,15 @@ export default {
         })
     },
     adds(n, i) {
-
-      this.addDialogVisible = true;
+      if(i.STATUS=="1"){
+          this.$message.error('启用后不能修改!');
+          return ;
+      }else{
+        this.addDialogVisible = true;
+      }
         this.V.$reset("demo2");
       if (n != 0) {
+
         this.tp = 1;
         // this.form = i;
         // this.form=Object.assign({}, i);
@@ -592,10 +605,10 @@ export default {
         "targetId": i.TARGET_ID,
         "script":i.SCRIPT,
         "targetSign":i.TARGET_SIGN,
-        "status": type
+        "status": type+""
 
       };
-      this.$api.post('manage-platform/target/updateStatus', p,
+      this.$api.post('/manage-platform/target/updateStatus', p,
         r => {
           if (r.success) {
             this.$message({
@@ -666,7 +679,16 @@ menuItem(){
         return "其他"
       }
 
-    }
+    },
+    fifterstatus(val) {
+      if (val == 0) {
+
+        return "停用"
+
+      } else {
+        return "启用"
+      }
+    },
   },
 }
 </script>
@@ -689,5 +711,12 @@ menuItem(){
 }
 .yy-input-input {
   width: 68% !important;
+}
+.yyred {
+  color: red
+}
+
+.yygreen {
+  color: blue
 }
 </style>

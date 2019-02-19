@@ -850,6 +850,14 @@ export default {
           r => {
             if (r.success) {
               this.sjxjyDialogVisible = true;
+              for(var i=0;i<r.data.length;i++){
+                if(r.data[i].MAXLENGTH == -1){
+                  r.data[i].MAXLENGTH = ''
+                }
+                if(r.data[i].MINLENGTH == -1){
+                  r.data[i].MINLENGTH = ''
+                }
+              }
               this.tableDatas = r.data;
             }
           });

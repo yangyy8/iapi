@@ -130,7 +130,7 @@
           width="100px">
         </el-table-column>
         <el-table-column
-          prop="fltDate"
+          prop="fltDateStr"
           sortable
           label="航班日期">
         </el-table-column>
