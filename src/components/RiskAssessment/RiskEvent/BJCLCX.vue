@@ -349,27 +349,34 @@
                 </el-table-column>
                 <el-table-column
                   label="核查时间"
+                  width="200"
                   prop="createTime">
                 </el-table-column>
                 <el-table-column
                   label="核查人"
+                  width="150"
                   prop="userName">
                 </el-table-column>
                 <el-table-column
                   label="操作类型"
+                  width="150"
                   prop="operation_typeName">
                 </el-table-column>
-                <el-table-column
+                <!-- <el-table-column
                   label="核查过程"
                   prop="course_typeName">
-                </el-table-column>
+                </el-table-column> -->
                 <el-table-column
                   label="核查阶段"
-                  prop="check_stageName">
+                  width="150"
+                  prop="check_stageName"
+                  :show-overflow-tooltip="true">
                 </el-table-column>
                 <el-table-column
                   label="核查结果"
-                  prop="check_resultName">
+                  width="150"
+                  prop="check_resultName"
+                  :show-overflow-tooltip="true">
                 </el-table-column>
                 <el-table-column
                   label="详情"
