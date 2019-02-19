@@ -497,7 +497,7 @@ export default {
         })
     },
     adds(n, i) {
-      if(i.STATUS=="0"){
+      if(i.STATUS=="1"){
           this.$message.error('启用后不能修改!');
           return ;
       }else{

@@ -145,7 +145,7 @@
           label="国籍/地区">
         </el-table-column>
         <el-table-column
-        prop="CARDTYPENAME" sortable
+         prop="CARDTYPENAME" sortable
           label="证件种类">
 
         </el-table-column>
