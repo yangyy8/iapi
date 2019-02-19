@@ -607,7 +607,7 @@ export default {
         "status": type+""
 
       };
-      this.$api.post('manage-platform/target/updateStatus', p,
+      this.$api.post('/manage-platform/target/updateStatus', p,
         r => {
           if (r.success) {
             this.$message({
