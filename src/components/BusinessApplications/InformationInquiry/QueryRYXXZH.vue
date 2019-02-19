@@ -928,6 +928,7 @@ export default {
       dutyName:[],
       flagCZ:0,
       flagQX:0,
+      historyModel:null,
       //展示项
       checkList: ['iapiName','INTG_CHNNAME','GENDER','iapiBirthdayName','iapiNationaName','PASSPORTNO','FLTNO','FLTDATESTR','CHECKRESULT','FLIGHTTYPE'],
       checkItem:[
@@ -1289,20 +1290,19 @@ export default {
       if(this.flagCZ==1&&this.flagQX==1){
         this.keys = this.keysExample
         this.$refs.tree.setCheckedKeys(this.keys);
-        console.log(this.keys);
       }
       this.flagCZ = 0;
       this.flagQX = 0;
-      // if(this.cdt.nationalityList == undefined||this.cdt.nationalityList.length==0){
       this.$api.post('/manage-platform/codeTable/queryContinentsCountry',{},
        r => {
          if(r.success){
            this.treeData=r.data;
          }
       })
-      this.keys = this.$refs.tree.getCheckedKeys(true);
-      this.$refs.tree.setCheckedKeys(this.keys);
-      // }
+      if(this.keys.length!=0){
+        this.keys = this.$refs.tree.getCheckedKeys(true);
+        this.$refs.tree.setCheckedKeys(this.keys);
+      }
     },
     resetModel(){//重置
       this.flagCZ=1;
