@@ -184,7 +184,7 @@ export default {
       CurrentPage:1,
       pageSize:10,
       TotalResult:0,
-      pd:{},
+      pd:{nationality:'',name:'',passportno:'',birthdayStart:'',birthdayEnd:''},
       nationAlone:null,
       docCode:null,
       tagList:[],
@@ -212,7 +212,16 @@ export default {
     this.getRiskUserLabelInfo();
   },
   activated(){
-    // this.getList(this.CurrentPage,this.pageSize,this.pd);
+    if(this.$route.query.list){
+      let data=this.$route.query.list;
+      this.pd.nationality=data.nationality[0];
+      this.pd.passportno=data.passportno;
+      this.pd.name=data.lkname;
+      this.pd.birthdayStart=data.dateofbirth;
+      this.pd.birthdayEnd=data.dateofbirth;
+      console.log(this.pd)
+      this.getList(this.CurrentPage,this.pageSize,this.pd);
+    }
   },
   methods:{
     handleSelectionChange(val) {

@@ -198,9 +198,13 @@
               <input type="file" name="" multiple="multiple" @change="uploadFile">
             </label>
 
-            <div class="" v-for="(ff,ind) in fileinfo" :key="ind">
+            <!-- <div class="" v-for="(ff,ind) in fileinfo" :key="ind">
               <span class="ml-50">{{ff.ACCESSORYNAME}}</span>
               <el-button type="text" class="redx" @click="delFileInfo(ff.SERIAL)">删除</el-button>
+            </div> -->
+            <div class="" v-if="fileinfos!=''">
+              <!-- {{fileinfos}} -->
+              <p v-html="fileinfos">{{fileinfos}}</p>
             </div>
             <div class="">
               <div class="" v-for="(x,ind) in fileData" :key="ind">
@@ -283,6 +287,7 @@ export default {
       company: [],
       fileData: [],
       fileinfo: {},
+      fileinfos:"",
       sertail: "",
       dialogText: "申请",
       addDialogVisible: false,
@@ -362,6 +367,7 @@ export default {
       this.V.$reset("demo2");
       this.fileData=null;
       this.fileinfo=null;
+      this.fileinfos="";
       if (n != 0) {
         this.tp = 1;
         let p = {
@@ -372,7 +378,8 @@ export default {
             console.log(r);
             if (r.success) {
               this.form = r.data;
-              this.fileinfo=r.data.FILE_NAME;
+            //  this.fileinfo=r.data.FILE_NAME;
+              this.fileinfos="<a href='"+(this.$api.rootUrl+r.data.FILE_PATH+r.data.FILE_NAME)+"'>"+r.data.FILE_NAME+"</a>";
             }
           })
           this.appid=i.APPLY_ID;

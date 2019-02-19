@@ -1,14 +1,26 @@
 // 配置API接口地址
+<<<<<<< HEAD
 // var root="http://192.168.99.206:8080"
 //var root=""
 var root="http://192.168.99.234:8080"
 //var root="http://192.168.99.242:8081"
 // var root ='http://192.168.99.248:8081'
+=======
+
+ var root="http://192.168.99.206:8080"
+// var root=""
+
+//var root="http://192.168.99.234:8080"
+//var root="http://192.168.99.242:8081"
+ //var root ='http://192.168.99.248:8081'
+
+>>>>>>> 0b76458ead7057a8ea6ebdcf771171c9ee4006f4
 // var root="http://192.168.99.247:8080"
 //var root ='http://192.168.99.244:8080'
 // var root="http://192.168.99.213:8080"   //服务器电脑
 // var root="http://192.168.99.228:8080"
 // var root="http://10.6.126.138:8088" //正式环境
+
 // 引用axios
 var axios = require('axios')
 import { Loading } from 'element-ui';
@@ -91,7 +103,7 @@ function apiAxios(method, url, params, success, failure,header,responseType) {
     .then(function(res) {
       // console.log(res.status,success)
       if (res.status == 200) {
-        // console.log("res",res)
+        console.log("res",res)
         if(responseType){
           if(loadingInstance1){
             loadingInstance1.close();

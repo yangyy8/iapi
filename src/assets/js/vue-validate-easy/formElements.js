@@ -3,7 +3,7 @@ import validate from './validate'
 var formElements = {
   input: {
     condition(directiveEl) {
-      console.log(directiveEl.type_)
+      //console.log(directiveEl.type_)
       if (directiveEl.type_ == 'input' || directiveEl.type_ == 'textarea') {
         directiveEl.eventEl_ = directiveEl.querySelector(directiveEl.type_)
         return true
@@ -24,7 +24,7 @@ var formElements = {
       // ie10 11 使用placeholder时，进入页面会主动触发一次input事件
       // 这里采用延时绑定规避这一情况
       eventEl.onfocus = () => {
-        console.log("value1",directiveEl.eventEl_.value)
+        //console.log("value1",directiveEl.eventEl_.value)
         eventEl.onfocus = null;
         eventEl.onchange = eventEl.onblur = eventEl.oninput = (e) => {
 
@@ -41,8 +41,8 @@ var formElements = {
             }, delay);
           }
           var value = this.getValue(directiveEl)||e.target.value
-          console.log("e.target.value",e.target.value)
-          console.log("value2",value)
+          //console.log("e.target.value",e.target.value)
+          //console.log("value2",value)
           validate(directiveEl, value)
         }
       }
@@ -110,7 +110,7 @@ var formElements = {
     getValue(directiveEl) {
       var eventEl = directiveEl.eventEl_ || directiveEl
       var value = directiveEl.eventEl_.value
-      console.log('value',value)
+      //console.log('value',value)
       return value
     },
     resetValue(directiveEl) {
@@ -122,12 +122,12 @@ var formElements = {
     condition(directiveEl) {
       if (directiveEl.type_ == 'multiple') {
         directiveEl.eventEl_ = directiveEl.querySelector('input')
-        console.log("directiveEl.eventEl_",directiveEl.eventEl_)
+        //console.log("directiveEl.eventEl_",directiveEl.eventEl_)
         return true
       }
     },
     bindEvent(directiveEl, binding) {
-      console.log("directiveEl",directiveEl)
+      //console.log("directiveEl",directiveEl)
       // directiveEl.eventEl_ = directiveEl.querySelector('input')
       var eventEl = directiveEl.querySelector('input')
       eventEl.onchange = (e) => {
@@ -137,14 +137,14 @@ var formElements = {
     },
     getValue(directiveEl) {
       var eventEl = directiveEl.querySelector('.el-select__tags-text')
-      console.log("eventEl",eventEl)
+      //console.log("eventEl",eventEl)
       var value;
       if(eventEl){
         value= eventEl.innerText||'';
       }else{
         value= '';
       }
-      console.log('value',value)
+      //console.log('value',value)
       return value
     },
     resetValue(directiveEl) {

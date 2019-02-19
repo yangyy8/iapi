@@ -344,19 +344,17 @@
             width="50"
             prop="eachevent">
             <template slot-scope="scope">
-              <div v-if="eachData.length!=0">
+              <div>
                 <el-popover
                   ref="popover"
                   placement="top"
                   width="400"
                   trigger="click">
-                  <ul>
-                    <li v-for="i in eachData" class="hand" style="line-height:32px" title="查看" @click="$router.push({name:'BJCLCX',query:{serial:i.SERIAL,grade:i.GRADE,nav2Id:i.SERIAL+2,title:scope.row.name+'已归档查询'}})">
-                      <span>  创建时间：{{i.CREATETIME}}</span>
-                      <span>  口岸名称：{{i.PORT_NAME}}</span>
-                      <span>  处理结果：{{i.PROCESSORRESULT}}</span>
-                    </li>
-                  </ul>
+                  <el-table :data="eachData" max-height="400" @row-click="clickEach">
+                    <el-table-column width="150" property="CREATETIME" label="创建时间"></el-table-column>
+                    <el-table-column width="110" property="PORT_NAME" label="口岸名称" :show-overflow-tooltip="true"></el-table-column>
+                    <el-table-column width="140" property="PROCESSORRESULT" label="处理结果" :show-overflow-tooltip="true"></el-table-column>
+                  </el-table>
                 </el-popover>
               </div>
 
@@ -770,6 +768,9 @@ export default {
        r => {
          this.eachData=r.data
       })
+    },
+    clickEach(row,event,column){
+      this.$router.push({name:'BJCLCX',query:{serial:row.SERIAL,grade:row.GRADE,nav2Id:row.SERIAL+2,title:'已归档查询'}})
     },
     openCzTc(){
       this.czform={};
