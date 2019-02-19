@@ -1056,160 +1056,168 @@ export default {
     },
     // 保存0  确认授权1
     addItem(formName,synStatus){
-      this.V.$submit('demo1', (canSumit,data) => {
-        // canSumit为true时，则所有该scope的所有表单验证通过
-        if(!canSumit) return
-        // 只有验证全部通过才会执行
-        console.log('验证通过的数据'+data)
+      if(this.dialogType=="add"||this.dialogType=="update"){
+        this.V.$submit('demo1', (canSumit,data) => {
+          // canSumit为true时，则所有该scope的所有表单验证通过
+          if(!canSumit) return
+          // 只有验证全部通过才会执行
+          console.log('验证通过的数据'+data)
 
-        if(synStatus==0){
-          switch (this.dialogType) {
-            case "add":
-              console.log(this.form)
-              this.$api.post('/manage-platform/nameList/addNameList',this.form,
-               r => {
-                 if(r.success){
-                   this.$message({
-                     message: '恭喜你，添加成功！',
-                     type: 'success'
-                   });
-                   this.addDialogVisible=false;
-                   this.getList(this.CurrentPage,this.pageSize,this.pd);
-                   this.$refs[formName].resetFields();
-                 }
-              })
-              break;
-            case "update":
-              console.log(this.form)
+          if(synStatus==0){
+            switch (this.dialogType) {
+              case "add":
+                console.log(this.form)
+                this.$api.post('/manage-platform/nameList/addNameList',this.form,
+                 r => {
+                   if(r.success){
+                     this.$message({
+                       message: '恭喜你，添加成功！',
+                       type: 'success'
+                     });
+                     this.addDialogVisible=false;
+                     this.getList(this.CurrentPage,this.pageSize,this.pd);
+                     this.$refs[formName].resetFields();
+                   }
+                })
+                break;
+              case "update":
+                console.log(this.form)
 
-              this.$api.post('/manage-platform/nameList/updateNameList',this.form,
-               r => {
-                 if(r.success){
-                   this.$message({
-                     message: '恭喜你，修改成功！',
-                     type: 'success'
-                   });
-                   this.addDialogVisible=false;
-                   this.getList(this.CurrentPage,this.pageSize,this.pd);
-                   this.$refs[formName].resetFields();
-                 }
-              })
-              break;
+                this.$api.post('/manage-platform/nameList/updateNameList',this.form,
+                 r => {
+                   if(r.success){
+                     this.$message({
+                       message: '恭喜你，修改成功！',
+                       type: 'success'
+                     });
+                     this.addDialogVisible=false;
+                     this.getList(this.CurrentPage,this.pageSize,this.pd);
+                     this.$refs[formName].resetFields();
+                   }
+                })
+                break;
+            }
+          }else {
+            switch (this.dialogType) {
+              case "add":
+                this.form.synStatus=synStatus;
+                this.form.AUTHORIZEDUSER=this.releaseform.user;
+                this.form.AUTHORIZEDPASSWORD=this.releaseform.pwd;
+                this.$api.post('/manage-platform/nameList/addNameList',this.form,
+                 r => {
+                   //console.log(r);
+                   if(r.success){
+                     this.$message({
+                       message: '恭喜你，添加成功！',
+                       type: 'success'
+                     });
+                     this.releaseDialogVisible=false;
+                     this.addDialogVisible=false;
+                     this.getList(this.CurrentPage,this.pageSize,this.pd);
+                     this.$refs[formName].resetFields();
+                   }
+                })
+                break;
+              case "update":
+                this.form.synStatus=synStatus;
+                this.form.AUTHORIZEDUSER=this.releaseform.user;
+                this.form.AUTHORIZEDPASSWORD=this.releaseform.pwd;
+                this.$api.post('/manage-platform/nameList/updateNameList',this.form,
+                 r => {
+                   //console.log(r);
+                   if(r.success){
+                     this.$message({
+                       message: '恭喜你，修改成功！',
+                       type: 'success'
+                     });
+                     this.releaseDialogVisible=false;
+                     this.addDialogVisible=false;
+                     this.getList(this.CurrentPage,this.pageSize,this.pd);
+                     this.$refs[formName].resetFields();
+                   }
+                })
+                break;
+
+
+            }
           }
-        }else {
-          switch (this.dialogType) {
-            case "add":
-              this.form.synStatus=synStatus;
-              this.form.AUTHORIZEDUSER=this.releaseform.user;
-              this.form.AUTHORIZEDPASSWORD=this.releaseform.pwd;
-              this.$api.post('/manage-platform/nameList/addNameList',this.form,
-               r => {
-                 //console.log(r);
-                 if(r.success){
-                   this.$message({
-                     message: '恭喜你，添加成功！',
-                     type: 'success'
-                   });
-                   this.releaseDialogVisible=false;
-                   this.addDialogVisible=false;
-                   this.getList(this.CurrentPage,this.pageSize,this.pd);
-                   this.$refs[formName].resetFields();
-                 }
-              })
-              break;
-            case "update":
-              this.form.synStatus=synStatus;
-              this.form.AUTHORIZEDUSER=this.releaseform.user;
-              this.form.AUTHORIZEDPASSWORD=this.releaseform.pwd;
-              this.$api.post('/manage-platform/nameList/updateNameList',this.form,
-               r => {
-                 //console.log(r);
-                 if(r.success){
-                   this.$message({
-                     message: '恭喜你，修改成功！',
-                     type: 'success'
-                   });
-                   this.releaseDialogVisible=false;
-                   this.addDialogVisible=false;
-                   this.getList(this.CurrentPage,this.pageSize,this.pd);
-                   this.$refs[formName].resetFields();
-                 }
-              })
-              break;
-            case "del":
-              let p={
-                LIST_TYPE : "1",
-                SERIAL:this.delId,
+        })
+      }else{
+        switch (this.dialogType) {
+          case "del":
+            let p={
+              LIST_TYPE : "1",
+              SERIAL:this.delId,
+              AUTHORIZEDUSER:this.releaseform.user,
+              AUTHORIZEDPASSWORD:this.releaseform.pwd,
+              synStatus:synStatus
+            }
+            this.$api.post('/manage-platform/nameList/deleteNameList',p,
+             r => {
+               if(r.success){
+                 this.$message({
+                   message: '删除成功',
+                   type: 'success'
+                 });
+                 this.releaseDialogVisible=false;
+                 this.getList(this.CurrentPage,this.pageSize,this.pd);
+                 this.$refs[formName].resetFields();
+               }
+            })
+            break;
+          case "dels":
+            var p = {
+              pd:{
+                SYN_STATUS: synStatus,
                 AUTHORIZEDUSER:this.releaseform.user,
                 AUTHORIZEDPASSWORD:this.releaseform.pwd,
-                synStatus:synStatus
-              }
-              this.$api.post('/manage-platform/nameList/deleteNameList',p,
-               r => {
-                 if(r.success){
-                   this.$message({
-                     message: '删除成功',
-                     type: 'success'
-                   });
-                   this.releaseDialogVisible=false;
-                   this.getList(this.CurrentPage,this.pageSize,this.pd);
-                   this.$refs[formName].resetFields();
-                 }
-              })
+                LIST_TYPE : "1"
+              },
+              cdtList:this.multipleSelection.map(function(val){
+                return val.SERIAL
+              },this)
+            };
+            this.$api.post('/manage-platform/nameList/deleteNameListAll',p,
+             r => {
+               if(r.success){
+                 this.$message({
+                   message: '删除成功',
+                   type: 'success'
+                 });
+                 this.releaseDialogVisible=false;
+                 this.getList(this.CurrentPage,this.pageSize,this.pd);
+                 this.$refs[formName].resetFields();
+               }
+            })
               break;
-            case "dels":
-              var p = {
-                pd:{
-                  SYN_STATUS: synStatus,
-                  AUTHORIZEDUSER:this.releaseform.user,
-                  AUTHORIZEDPASSWORD:this.releaseform.pwd,
-                  LIST_TYPE : "1"
-                },
-                cdtList:this.multipleSelection.map(function(val){
-                  return val.SERIAL
-                },this)
-              };
-              this.$api.post('/manage-platform/nameList/deleteNameListAll',p,
-               r => {
-                 if(r.success){
-                   this.$message({
-                     message: '删除成功',
-                     type: 'success'
-                   });
-                   this.releaseDialogVisible=false;
-                   this.getList(this.CurrentPage,this.pageSize,this.pd);
-                   this.$refs[formName].resetFields();
-                 }
-              })
-                break;
-            case "syn":
-              var p ={
-                pd:{
-                  AUTHORIZEDUSER:this.releaseform.user,
-                  AUTHORIZEDPASSWORD:this.releaseform.pwd,
-                  LIST_TYPE : "1"
-                },
-                cdtList:this.multipleSelection.map(function(val){
-                  return val.SERIAL
-                },this)
-              }
-              console.log(p)
-              this.$api.post('/manage-platform/nameList/synNameListAll',p,
-               r => {
-                 if(r.success){
-                   this.$message({
-                     message: '生效发布成功',
-                     type: 'success'
-                   });
-                   this.releaseDialogVisible=false;
-                   this.getList(this.CurrentPage,this.pageSize,this.pd);
-                 }
-              })
-              break;
+          case "syn":
+            var p ={
+              pd:{
+                AUTHORIZEDUSER:this.releaseform.user,
+                AUTHORIZEDPASSWORD:this.releaseform.pwd,
+                LIST_TYPE : "1"
+              },
+              cdtList:this.multipleSelection.map(function(val){
+                return val.SERIAL
+              },this)
+            }
+            console.log(p)
+            this.$api.post('/manage-platform/nameList/synNameListAll',p,
+             r => {
+               if(r.success){
+                 this.$message({
+                   message: '生效发布成功',
+                   type: 'success'
+                 });
+                 this.releaseDialogVisible=false;
+                 this.getList(this.CurrentPage,this.pageSize,this.pd);
+               }
+            })
+            break;
 
-          }
         }
-      })
+      }
+
 
     },
 
