@@ -167,7 +167,7 @@
       <el-form :model="form" ref="addForm">
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
-            <span class="yy-input-text"><font class="yy-color">*</font>姓名：</span>
+            <span class="yy-input-text">姓名：</span>
             <el-input placeholder="请输入姓名" size="small" v-model="form.NAME"  class="yy-input-input" :disabled="true"></el-input>
 
           </el-col>

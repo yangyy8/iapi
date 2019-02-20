@@ -167,9 +167,9 @@
                     <span>反馈结果</span>
                   </div>
                 </div>
-                <div class="checkResultInput">
+                <div class="checkResultInput my-form-group" :data-scope="aa.noChi2" data-name="nationalityCheckResult" data-type="select"
+                  v-validate-easy="[['required']]">
                   <el-select placeholder="请选择反馈结果" v-model="data.nationalityCheckResult" filterable clearable size="mini" class="t-width100" :disabled="countryIsActive" @change="inschange(data.nationalityCheckResult,1)">
-                    <el-option label="请选择" value=""></el-option>
                     <el-option label="1Z - 禁止登机" value="1Z"></el-option>
                     <el-option label="2Z - 再次核对" value="2Z"></el-option>
                     <el-option label="4Z - 数据错误" value="4Z"></el-option>
@@ -310,8 +310,8 @@ export default {
         nationalityRuleSerial:'',//国家规则id
         nationalityStatus:'1',//国家开关
         nationalityMapList:[],//已加入的国家代码集合
-        nationalityCheckResult:'',//国家规则校验结果
-        nationalityResponseresult:'',//国家规则反馈结果
+        nationalityCheckResult:'4Z',//国家规则校验结果
+        nationalityResponseresult:'DATA ENTRY ERROR',//国家规则反馈结果
 
         airportRuleSerial:'',//口岸规则id
         airportStatus:'1',//入境口岸开关
@@ -602,8 +602,7 @@ export default {
       })
     },
     save(){
-      this.V.$submit('noChi', (canSumit,data) => {
-        if(!canSumit) return
+      if(this.aa.noChi1!='noChi'&&this.aa.noChi2!='noChi'&&this.aa.noChi3!='noChi'){
         this.$api.post('/manage-platform/visaRule/saveVisaRule',this.data,
         r => {
           if(r.success){
@@ -611,9 +610,6 @@ export default {
               type: 'success',
               message: '操作成功!'
             });
-            this.noChi1="noChi";
-            this.noChi2="noChi";
-            this.noChi3="noChi";
           }else{
             this.$message({
               type: 'warning',
@@ -621,7 +617,29 @@ export default {
             });
           }
         })
-      })
+      }else{
+        this.V.$submit('noChi', (canSumit,data) => {
+          if(!canSumit) return
+          this.$api.post('/manage-platform/visaRule/saveVisaRule',this.data,
+          r => {
+            if(r.success){
+              this.$message({
+                type: 'success',
+                message: '操作成功!'
+              });
+              this.noChi1="noChi";
+              this.noChi2="noChi";
+              this.noChi3="noChi";
+            }else{
+              this.$message({
+                type: 'warning',
+                message: r.message
+              });
+            }
+          })
+        })
+      }
+
     },
     codeName(){//字段名称的接口
       this.$api.post('/manage-platform/ruleConfig/getRuleConfigFieldNameList/1',{},

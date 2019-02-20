@@ -286,7 +286,7 @@
       <el-row :gutter="2">
         <el-col :span="24" class="input-item">
           <span class="yy-input-text tt-width">问题详情：</span>
-          <el-input type="textarea" class="height80" v-model="DETAILS" disabled="true"></el-input>
+          <el-input type="textarea" class="height80" v-model="DETAILS" :disabled="true"></el-input>
         </el-col>
       </el-row>
     </el-dialog>

@@ -180,7 +180,7 @@
     </el-dialog>
 
     <el-dialog title="详情" :visible.sync="detailsDialogVisible" width="500px">
-      <el-form :model="form" ref="addForm">
+      <el-form :model="form" ref="addForm" id="printMe">
         <el-row type="flex"  class="mb-6">
           <el-col :span="20" class="input-item">
             <span class="yy-input-text">标题：</span>
@@ -206,6 +206,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="detailsDialogVisible = false" size="small">返 回</el-button>
+        <el-button @click="getPdf(0)" size="small" type="primary">打 印</el-button>
       </div>
     </el-dialog>
   </div>
@@ -220,6 +221,7 @@ export default {
 
   data() {
     return {
+      htmlTitle: '页面导出PDF文件名',
       CurrentPage: 1,
       pageSize: 10,
       TotalResult: 0,

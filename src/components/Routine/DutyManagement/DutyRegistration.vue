@@ -180,9 +180,10 @@
     <el-dialog :title="dialogText" :visible.sync="addDialogVisible" width="500px" >
       <el-form :model="form" ref="addForm">
         <el-row type="flex"  class="mb-6">
-          <el-col :span="24" class="input-item">
+          <el-col :span="24" class="input-item my-form-group" data-scope="demo2" data-name="NAME" data-type="select"
+            v-validate-easy="[['required']]">
             <span class="yy-input-text"><font class="yy-color">*</font>姓名：</span>
-            <el-select placeholder="请选择" v-model="form.NAME" filterable clearable @visible-change="nameMethod(0)" size="small" class="yy-input-input" @change="nameMethodReal(form.NAME)" v-verify.change.blur ="{regs:'required',submit:'demo2'}">
+            <el-select placeholder="请选择" v-model="form.NAME" filterable clearable @visible-change="nameMethod(0)" size="small" class="yy-input-input" @change="nameMethodReal(form.NAME)">
               <el-option
               v-for="item in dutyName"
               :key="item.SERIAL"
@@ -215,9 +216,10 @@
         </el-row>
 
         <el-row type="flex"  class="mb-6">
-          <el-col :span="24" class="input-item">
+          <el-col :span="24" class="input-item my-form-group" data-scope="demo2" data-name="LEADERNAME" data-type="select"
+            v-validate-easy="[['required']]">
             <span class="yy-input-text"><font class="yy-color">*</font>值班领导：</span>
-            <el-select placeholder="请选择" v-model="form.LEADERNAME" filterable clearable @visible-change="nameMethod(1)" size="small" class="yy-input-input" @change="leaderNameReal(form.LEADERNAME)" v-verify.change.blur ="{regs:'required',submit:'demo2'}">
+            <el-select placeholder="请选择" v-model="form.LEADERNAME" filterable clearable @visible-change="nameMethod(1)" size="small" class="yy-input-input" @change="leaderNameReal(form.LEADERNAME)">
               <el-option
               v-for="item in leaderName"
               :key="item.SERIAL"
@@ -229,11 +231,11 @@
         </el-row>
 
         <el-row type="flex"  class="mb-6">
-          <el-col :span="24" class="input-item">
+          <el-col :span="24" class="input-item my-form-group" data-scope="demo2" data-name="STARTTIMESTR" data-type="select"
+            v-validate-easy="[['required']]">
             <span class="yy-input-text"><font class="yy-color">*</font>值班开始时间：</span>
               <el-date-picker
               v-model="form.STARTTIMESTR"
-              v-verify.input.blur ="{regs:'required',submit:'demo2'}"
               type="datetime" size="mini"
               placeholder="请选择值班开始时间"
               class="yy-input-input"
@@ -246,11 +248,11 @@
         </el-row>
 
         <el-row type="flex"  class="mb-6">
-          <el-col :span="24" class="input-item">
+          <el-col :span="24" class="input-item my-form-group" data-scope="demo2" data-name="ENDTIMESTR" data-type="select"
+            v-validate-easy="[['required']]">
             <span class="yy-input-text"><font class="yy-color">*</font>值班结束时间：</span>
               <el-date-picker
               v-model="form.ENDTIMESTR"
-              v-verify.input.blur ="{regs:'required',submit:'demo2'}"
               type="datetime" size="mini"
               placeholder="请选择值班结束时间"
               class="yy-input-input"
@@ -517,33 +519,30 @@ export default {
         this.tp = 0;
         this.dialogText="新增";
       }
-
+      this.V.$reset('demo2')
     },
     addItem(formName) {//新增&编辑保存
-      if (this.$validator.listener.demo2) {
-        const result = this.$validator.verifyAll('demo2')
-        if (result.indexOf(false) > -1) {
-          return;
-        }
-      }
-      this.$api.post('/manage-platform/watch/saveWatch', this.form,
-        r => {
-          console.log(r);
-          if (r.success) {
-            this.$message({
-              message: '保存成功！',
-              type: 'success'
-            });
-          } else {
-            this.$message.error('保存失败！');
-          }
-          // this.$refs[formName].resetFields();
-          this.addDialogVisible = false;
-          this.getList(this.CurrentPage, this.pageSize, this.cdt);
-          // this.tableData=r.Data.ResultList;
-        }, e => {
-          this.$message.error('失败了');
-        })
+      this.V.$submit('demo2', (canSumit,data) => {
+        if(!canSumit) return
+        this.$api.post('/manage-platform/watch/saveWatch', this.form,
+          r => {
+            console.log(r);
+            if (r.success) {
+              this.$message({
+                message: '保存成功！',
+                type: 'success'
+              });
+            } else {
+              this.$message.error('保存失败！');
+            }
+            // this.$refs[formName].resetFields();
+            this.addDialogVisible = false;
+            this.getList(this.CurrentPage, this.pageSize, this.cdt);
+            // this.tableData=r.Data.ResultList;
+          }, e => {
+            this.$message.error('失败了');
+          })
+      })
     },
 
     deletes(i) {

@@ -902,6 +902,11 @@ export default {
         isBlurred:false,
         startFltdate:'',
         endFltdate:'',
+        passportnoEqual:'',
+        fltnoEqual:'',
+        familyname:'',
+        genderEqual:'',
+        dateofbirthEqual:'',
       },
       airport:[],
       takeOffName:[],
@@ -1126,8 +1131,6 @@ export default {
      }
   },
   mounted(){
-    this.nav1Id=this.$route.query.nav1Id
-    this.nav2Id=this.$route.query.nav2Id
     let time = new Date();
     let end = new Date();
     let begin =new Date(time - 1000 * 60 * 60 * 24 * 30);
@@ -1137,20 +1140,21 @@ export default {
     // this.takeOff();
     // this.landing();
     document.getElementsByClassName('btn-next')[0].disabled=true;
-    this.cdt.passportnoEqual = this.$route.query.row.passportno;
-    this.cdt.fltnoEqual = this.$route.query.row.fltno;
-    this.cdt.familyname = this.$route.query.row.name;
-    this.cdt.genderEqual = this.sexZhuan(this.$route.query.row.gender);
-    this.cdt.dateofbirthEqual = this.zhuanhuan(this.$route.query.row.birthday)
+    // this.cdt.passportnoEqual = this.$route.query.row.passportno;
+    // this.cdt.fltnoEqual = this.$route.query.row.fltno;
+    // this.cdt.familyname = this.$route.query.row.name;
+    // this.cdt.genderEqual = this.sexZhuan(this.$route.query.row.gender);
+    // this.cdt.dateofbirthEqual = this.zhuanhuan(this.$route.query.row.birthday)
   },
   activated(){
-    this.nav1Id=this.$route.query.nav1Id
-    this.nav2Id=this.$route.query.nav2Id
+    console.log('RYXXZH',this.$route.query.row);
     this.cdt.passportnoEqual = this.$route.query.row.passportno;
     this.cdt.fltnoEqual = this.$route.query.row.fltno;
     this.cdt.familyname = this.$route.query.row.name;
     this.cdt.genderEqual = this.sexZhuan(this.$route.query.row.gender);
     this.cdt.dateofbirthEqual = this.zhuanhuan(this.$route.query.row.birthday)
+
+
   },
   filters: {
     fiftersex(val) {
