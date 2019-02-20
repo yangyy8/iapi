@@ -161,7 +161,7 @@
               label="操作"
               width="80">
               <template slot-scope="scope">
-                <el-button type="text"  class="a-btn"  title="文件下载" icon="el-icon-download"><a :href="scope.row.FILESERIAL" class="acolor"></a></el-button>
+                <a :href="scope.row.FILESERIAL" class="acolor"><el-button type="text"  class="a-btn"  title="文件下载" icon="el-icon-download" @click="a(scope.row.FILESERIAL)"></el-button></a>
                 <el-button type="text"  class="a-btn"  title="删除" icon="el-icon-delete" @click="deletes(scope.row)"></el-button>
              </template>
             </el-table-column>
@@ -433,6 +433,9 @@ export default {
 
   },
   methods: {
+    a(item){
+      console.log(item)
+    },
     headerClick(column,event){
       event.target.title=column.label
     },

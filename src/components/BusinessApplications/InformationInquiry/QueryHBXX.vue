@@ -262,6 +262,9 @@
           label="证件号码">
         </el-table-column>
       </el-table>
+      <div class="">
+        共{{numberTotal}}条
+      </div>
       <div slot="footer" class="dialog-footer">
         <el-button @click="numberDialogVisible = false" size="small">取消</el-button>
       </div>
@@ -279,6 +282,7 @@ export default {
   components: {Seat},
   data() {
     return {
+      numberTotal:0,
       numberDialogVisible:false,
       tableInfo:[],
       CurrentPage: 1,
@@ -394,18 +398,29 @@ export default {
       console.log(column,event)
       event.target.title=column.label
     },
+    zhuanhuan(item){
+      if(item == 'checkincount'){
+        return 'CHECKINCOUNT'
+      }else if(item == 'boardingcount'){
+        return 'BOARDINGCOUNT'
+      }else if(item == 'chkNobrd'){
+        return 'CHK_NOBRD'
+      }
+    },
     rowClick(row, column, cell, event){
       console.log(row.flightRecordnum)
       console.log(column.property);
       if(column.property=='checkincount'||column.property=='boardingcount'||column.property=='boardingcount'||column.property=='chkNobrd'){
         let p = {
           'flightRecordnum':row.flightRecordnum,
-          'otherStr':column.property
+          'otherStr':this.zhuanhuan(column.property)
         }
-        this.$api.post('/manage-platform/iapi/queryIapiTableInfo',p,
+
+        this.$api.post('/manage-platform/iapi/queryIapiTableInfoObject',p,
          r =>{
            if(r.success){
-             this.tableInfo = r.data;
+             this.tableInfo = r.data.iapiList;
+             this.numberTotal = r.data.count;
              if(this.tableInfo.length==0){
                this.$message('没有检索到详情');
              }else{

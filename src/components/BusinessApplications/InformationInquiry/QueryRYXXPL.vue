@@ -3,7 +3,7 @@
     <!-- 查询条件 -->
     <div class="ak-tab-pane">
       <div class="">
-        <el-row type="flex" style="height:100%">
+        <el-row type="flex">
           <el-col :span="22" class="bd0">
             <div class="akcheck2top boder1">
               <el-button type="primary" plain size="mini" @click="addRow">添加</el-button>
@@ -17,7 +17,7 @@
                 :data="rows"
                 border
                 style="width: 100%;"
-                max-height="140"
+                max-height="245"
                 id="out-table"
                 v-if="bigBase==5">
                 <el-table-column
@@ -140,7 +140,7 @@
                 :data="rowsPnr"
                 border
                 style="width: 100%;"
-                max-height="140"
+                max-height="245"
                 id="out-tablePnr"
                 v-if="bigBase==6">
                 <el-table-column
