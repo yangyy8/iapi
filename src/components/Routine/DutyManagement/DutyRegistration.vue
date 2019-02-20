@@ -35,7 +35,7 @@
                 </el-date-picker>
               </div>
             </el-col>
-            <el-col :sm="24" :md="12" :lg="8" class="input-item">
+            <!-- <el-col :sm="24" :md="12" :lg="8" class="input-item">
               <span class="input-text">部门：</span>
                 <el-cascader
                   @visible-change="bumenMethod"
@@ -48,7 +48,41 @@
                   class="input-input"
                   clearable
                 ></el-cascader>
+            </el-col> -->
+            <el-col :sm="24" :md="12" :lg="8" class="input-item">
+              <span class="input-text">部门：</span>
+              <el-button type="success" size="small" plain @click="getmodel">点击选择</el-button>&nbsp;&nbsp;&nbsp;&nbsp;
+              <el-button type="primary" size="small" plain @click="seeModel">点击查看</el-button>
             </el-col>
+            <el-dialog title="单位选择" :visible.sync="modelDialogVisible" width="640px" :before-close="cancelModel">
+              <el-input
+                placeholder="输入模型关键字进行过滤"
+                v-model="filterText">
+              </el-input>
+              <el-tree
+                class="filter-tree"
+                ref="tree"
+                :data="treeData"
+                show-checkbox
+                node-key="DEPT_CODE"
+                :filter-node-method="filterNode"
+                :props="defaultProps"
+                :default-checked-keys='keys'>
+              </el-tree>
+              <div slot="footer" class="dialog-footer">
+                <el-button type="primary" @click="getCheckedNodes" size="small">确认</el-button>
+                <el-button type="primary" @click="resetModel" size="small" plain>重置</el-button>
+                <el-button type="warning" @click="cancelModel" size="small">取消</el-button>
+              </div>
+            </el-dialog>
+            <el-dialog title="单位选择详情" :visible.sync="seeModelDialogVisible" width="800px">
+              <el-row align="center" style="width:100%">
+                <span v-for="(item,ind) in dutyName" :key="ind" style="width:25%;margin-bottom: 7px;display:inline-block;line-height: 20px;">{{item.DEPT_NAME}}</span>
+              </el-row>
+              <div slot="footer" class="dialog-footer">
+                <el-button @click="seeModelDialogVisible = false" size="small">取 消</el-button>
+              </div>
+            </el-dialog>
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">账号：</span>
               <el-input placeholder="请输入内容" size="small" v-model="cdt.USERNAME"  class="input-input"></el-input>
@@ -241,17 +275,33 @@ import {formatDate,format} from '@/assets/js/date.js'
 export default {
   data() {
     return {
+      modelDialogVisible:false,
+      seeModelDialogVisible:false,
+      filterText:'',
+      treeData: [],
+      defaultProps: {
+        children: 'childDeptList',
+        label: 'DEPT_NAME',
+      },
+      keys:[],
+      keysExample:[],
+      keyCode:[],
+      dutyName:[],
+      flagCZ:0,
+      flagQX:0,
+      historyModel:null,
+
       bumen:[],
       tp: 0,
       CurrentPage: 1,
       pageSize: 10,
       TotalResult: 0,
       cdt:{},
-      props:{
-        label:'DEPT_QC',
-        value:'DEPT_CODE',
-        children:'childDeptList'
-      },
+      // props:{
+      //   label:'DEPT_QC',
+      //   value:'DEPT_CODE',
+      //   children:'childDeptList'
+      // },
       pd: {},
       nation: [],
       company: [],
@@ -324,7 +374,67 @@ export default {
   activated() {
     // this.getList(this.CurrentPage, this.pageSize, this.cdt);
   },
+  watch:{
+     filterText(val) {
+       this.$refs.tree.filter(val);
+     }
+  },
   methods: {
+    getmodel(){//点击选择
+      this.filterText='';
+      this.modelDialogVisible=true;
+      if(this.flagCZ==1&&this.flagQX==1){
+        this.keys = this.keysExample
+        this.$refs.tree.setCheckedKeys(this.keys);
+      }
+      this.flagCZ = 0;
+      this.flagQX = 0;
+      this.$api.post('/manage-platform/watch/queryDeptLv2And3',{},
+       r => {
+         if(r.success){
+           this.treeData=r.data;
+         }
+      })
+      if(this.keys.length!=0){
+        this.keys = this.$refs.tree.getCheckedKeys(true);
+        this.$refs.tree.setCheckedKeys(this.keys);
+      }
+    },
+    resetModel(){//重置
+      this.flagCZ=1;
+      if(this.cdt.deptList == undefined||this.cdt.deptList.length==0){//没有值的时候
+        this.historyModel = [];
+        this.keysExample = [];
+      }else{
+        this.historyModel = this.$refs.tree.getCheckedNodes(true,true);;//存入清空前的值
+        this.keysExample = this.$refs.tree.getCheckedKeys(true);//先存值再清空
+      }
+      this.$refs.tree.setCheckedKeys([]);
+    },
+    cancelModel(){//取消
+      this.flagQX=1;
+      if(this.flagCZ == 1){
+        this.cdt.deptList=this.historyModel;
+      }
+      this.modelDialogVisible=false
+    },
+    getCheckedNodes() {//确认
+      this.cdt.deptList=this.$refs.tree.getCheckedNodes(true,true);
+      this.keys = this.$refs.tree.getCheckedKeys(true);//先存值再清空
+      this.modelDialogVisible=false;
+    },
+    seeModel(){
+      this.dutyName = this.cdt.deptList;
+      if(this.dutyName == undefined || this.dutyName.length == 0){
+        this.$message('您还未选择单位');
+      }else{
+        this.seeModelDialogVisible = true;
+      }
+    },
+    filterNode(value, data) {
+      if (!value) return true;
+      return data.DEPT_NAME.indexOf(value) !== -1;
+    },
     bumenMethod(){
       this.$api.post('/manage-platform/watch/queryDeptLv2And3',{},
        r =>{
