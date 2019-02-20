@@ -27,27 +27,34 @@ export default {
   data(){
     return{
       page:4,
-      url:'QueryRYXXZH'
+      url:'QueryRYXXZH',
+      row:this.$route.query.row
     }
   },
   mounted(){
-    console.log(1)
-    let that = this;
-    setTimeout(function(){
-      that.$router.push({name:'QueryRYXXZH'})
-    },500)
+    // let that = this;
+    // setTimeout(function(){
+    //   that.tiaozhuan(4,that.url)
+    //
+    //   // that.$router.push({name:'QueryRYXXZH'})
+    // },500)
   },
   activated(){
+    this.row = this.$route.query.row
+    console.log('this.row1',this.row)
     let that = this;
     setTimeout(function(){
-      that.$router.push({name:that.url})
+      that.tiaozhuan(4,that.url)
+      // that.$router.push({name:that.url})
     },500)
   },
   methods:{
     tiaozhuan(page,url){
       this.page=page;
       this.url=url;
-      this.$router.push({name:url})
+      // this.row=row;
+      console.log('this.row2',this.row)
+      this.$router.push({name:url,query:{row:this.row}})
     }
   }
 }

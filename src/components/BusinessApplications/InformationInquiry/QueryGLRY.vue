@@ -80,7 +80,6 @@
         </el-col>
         <el-col :span="2" class="down-btn-area">
           <el-button type="success" size="small" @click="getList(CurrentPage,pageSize,pd)" class="mb-15">查询</el-button>
-          <el-button type="primary" size="small" @click=""><a href="javascript:history.go(-1)" style="color:#fff">返回</a></el-button>
         </el-col>
       </el-row>
     </div>

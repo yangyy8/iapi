@@ -9,22 +9,22 @@
     </div>
     <div class="middle mb-2" id="printMe">
       <el-row type="flex"  class="mb-6">
-        <el-col :span="20" class="input-item">
+        <el-col :span="8" class="input-item padL">
           <span class="yy-input-text"><font class="yy-color">*</font>登记人姓名：</span>
           <el-input placeholder="请输入姓名" size="small" v-model="userName"  class="yy-input-input" :disabled="true"></el-input>
         </el-col>
       </el-row>
       <el-row type="flex"  class="mb-6">
-        <el-col :span="20" class="input-item">
+        <el-col :span="8" class="input-item padL">
           <span class="yy-input-text"><font class="yy-color">*</font>登记人账号：</span>
           <el-input placeholder="请输入账号" size="small" v-model="userId"  class="yy-input-input" :disabled="true"></el-input>
         </el-col>
       </el-row>
       <el-row type="flex"  class="mb-6">
-        <el-col :span="20" class="input-item">
+        <el-col :span="8" class="input-item my-form-group padL" data-scope="demo1" data-name="RECORDTIMESTR" data-type="select"
+          v-validate-easy="[['required']]">
           <span class="yy-input-text"><font class="yy-color">*</font>事件登记时间：</span>
             <el-date-picker
-            v-verify.change.blur ="{regs:'required',submit:'demo2'}"
             v-model="form.RECORDTIMESTR"
             type="datetime" size="mini"
             placeholder="请输入时间"
@@ -37,40 +37,44 @@
       </el-row>
 
       <el-row type="flex"  class="mb-6">
-        <el-col :span="20" class="input-item">
+        <el-col :span="8" class="input-item my-form-group padL" data-scope="demo1" data-name="TYPE" data-type="select"
+          v-validate-easy="[['required']]">
           <span class="yy-input-text"><font class="yy-color">*</font>事件来源：</span>
-          <el-select placeholder="请选择" v-model="form.TYPE" filterable clearable  size="small" class="yy-input-input"  v-verify.change.blur ="{regs:'required',submit:'demo2'}" @change="TypeReal">
+          <el-select placeholder="请选择" v-model="form.TYPE" filterable clearable  size="small" class="yy-input-input" @change="TypeReal">
             <el-option  value="1" label="上级通知"></el-option>
             <el-option  value="2" label="电话来电"></el-option>
-            <el-option  value="3" label="信件"></el-option>
+            <el-option  value="3" label="信函/传真"></el-option>
           </el-select>
         </el-col>
       </el-row>
 
-      <el-row type="flex"  class="mb-6" v-show="form.TYPE==2||form.TYPE==3">
-        <el-col :span="20" class="input-item">
+      <el-row type="flex"  class="mb-6" v-if="form.TYPE==2||form.TYPE==3">
+        <el-col :span="8" class="input-item my-form-group padL" data-scope="demo1" data-name="SOURCENAME" data-type="input"
+          v-validate-easy="[['required']]">
           <span class="yy-input-text" v-if="form.TYPE==2"><font class="yy-color">*</font>来电人姓名：</span>
-          <span class="yy-input-text" v-else-if="form.TYPE==3"><font class="yy-color">*</font>信访人姓名：</span>
-          <el-input placeholder="请输入姓名" size="small" v-model="form.SOURCENAME"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo1'}"></el-input>
+          <span class="yy-input-text" v-else-if="form.TYPE==3"><font class="yy-color">*</font>来函人姓名：</span>
+          <el-input placeholder="请输入姓名" size="small" v-model="form.SOURCENAME"  class="yy-input-input"></el-input>
         </el-col>
       </el-row>
-      <el-row type="flex"  class="mb-6" v-show="form.TYPE==2||form.TYPE==3">
-        <el-col :span="20" class="input-item">
+      <el-row type="flex"  class="mb-6" v-if="form.TYPE==2||form.TYPE==3">
+        <el-col :span="8" class="input-item my-form-group padL" data-scope="demo1" data-name="SOURCEPHONE" data-type="input"
+          v-validate-easy="[['required']]">
           <span class="yy-input-text" v-if="form.TYPE==2"><font class="yy-color">*</font>来电人电话：</span>
-          <span class="yy-input-text" v-else-if="form.TYPE==3"><font class="yy-color">*</font>信访人电话：</span>
-          <el-input placeholder="请输入账号" size="small" v-model="form.SOURCEPHONE"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo1'}"></el-input>
+          <span class="yy-input-text" v-else-if="form.TYPE==3"><font class="yy-color">*</font>来函人电话：</span>
+          <el-input placeholder="请输入账号" size="small" v-model="form.SOURCEPHONE"  class="yy-input-input"></el-input>
         </el-col>
       </el-row>
 
       <el-row type="flex"  class="mb-6">
-        <el-col :span="20" class="input-item">
+        <el-col :span="8" class="input-item my-form-group padL" data-scope="demo1" data-name="TITLE" data-type="input"
+          v-validate-easy="[['required']]">
           <span class="yy-input-text"><font class="yy-color">*</font>标题：</span>
-          <el-input placeholder="请输入标题" size="small" v-model="form.TITLE"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
+          <el-input placeholder="请输入标题" size="small" v-model="form.TITLE"  class="yy-input-input"></el-input>
         </el-col>
       </el-row>
       <el-row type="flex"  class="mb-6">
-        <el-col :span="20" class="input-item">
-          <span class="yy-input-text" style="width: 20.7%!important;">附件：</span>
+        <el-col :span="8" class="input-item padL">
+          <span class="yy-input-text" style="width: 34.7%!important;">附件：</span>
           <el-col :span="20" class="input-item">
             <label class="file">
               上传附件
@@ -86,9 +90,10 @@
         </el-col>
       </el-row>
       <el-row type="flex" class="mb-6">
-        <el-col :span="20" class="input-item">
-          <span class="yy-input-text"><font class="yy-color">*</font>事件描述：</span>
-         <el-input type="textarea" placeholder="请输入内容" :autosize="{ minRows: 3, maxRows: 6}" v-model="form.INCIDENTDESC" class="yy-input-input widthts" v-verify.change.blur ="{regs:'required',submit:'demo2'}"></el-input>
+        <el-col :span="16" class="input-item my-form-group padL" data-scope="demo1" data-name="INCIDENTDESC" data-type="textarea"
+          v-validate-easy="[['required']]">
+          <span class="yy-input-text  widthts"><font class="yy-color">*</font>事件描述：</span>
+         <el-input type="textarea" placeholder="请输入内容" :autosize="{ minRows: 3, maxRows: 6}" v-model="form.INCIDENTDESC" class="yy-input-input widthtex"></el-input>
         </el-col>
       </el-row>
     </div>
@@ -172,45 +177,47 @@ export default {
        this.fileData = null;
      },
      save(){
-
-       if(this.form.TYPE==1){
-         console.log(this.form.TYPE);
-         console.log(this.$validator);
-         if (this.$validator.listener.demo2) {
-           const result = this.$validator.verifyAll('demo2')
-           console.log(result);
-           if (result.indexOf(false) > -1) {
-             return;
-           }
-         }
-       }else{
-         if (this.$validator.listener.demo2&&this.$validator.listener.demo1) {
-           const result = this.$validator.verifyAll('demo2');
-           const result1 = this.$validator.verifyAll('demo1');
-           if (result.indexOf(false) > -1 && result1.indexOf(false) > -1) {
-             return;
-           }
-         }
-       }
-
-       this.$api.post('/manage-platform/incident/save',this.form,
-         r => {
-           if (r.success) {
-             if(this.fileData.length){
-               this.upload(r.data);
-             }else{
-               this.$message({
-                 message: '恭喜你，保存成功！',
-                 type: 'success'
-               });
-               this.form={};
+       // if(this.form.TYPE==1){
+       //   console.log(this.form.TYPE);
+       //   console.log(this.$validator);
+       //   if (this.$validator.listener.demo2) {
+       //     const result = this.$validator.verifyAll('demo2')
+       //     console.log(result);
+       //     if (result.indexOf(false) > -1) {
+       //       return;
+       //     }
+       //   }
+       // }else{
+       //   if (this.$validator.listener.demo2&&this.$validator.listener.demo1) {
+       //     const result = this.$validator.verifyAll('demo2');
+       //     const result1 = this.$validator.verifyAll('demo1');
+       //     if (result.indexOf(false) > -1 && result1.indexOf(false) > -1) {
+       //       return;
+       //     }
+       //   }
+       // }
+       this.V.$submit('demo1', (canSumit,data) => {
+         if(!canSumit) return
+         this.$api.post('/manage-platform/incident/save',this.form,
+           r => {
+             if (r.success) {
+               if(this.fileData.length){
+                 this.upload(r.data);
+               }else{
+                 this.$message({
+                   message: '恭喜你，保存成功！',
+                   type: 'success'
+                 });
+                 this.form={};
+               }
+             } else {
+               this.$message.error('保存失败！');
              }
-           } else {
-             this.$message.error('保存失败！');
-           }
-         },e => {
-           this.$message.error('失败了');
-         })
+           },e => {
+             this.$message.error('失败了');
+           })
+       })
+
      },
      reset(){
        this.form={FILESERIAL:''}
@@ -222,14 +229,17 @@ export default {
 </script>
 <style scoped>
 .yy-input-text {
-  width: 20% !important;
+  width: 30% !important;
 }
 
 .yy-input-input {
-  width: 20% !important;
+  width: 70% !important;
 }
 .widthts{
-  width: 70%!important
+  width: 12.8%!important
+}
+.widthtex{
+  width: 86.6%!important
 }
 .file {
     position: relative;
@@ -256,5 +266,8 @@ export default {
     background: #409EFF;
     border-color: #409EFF;
     color: #ffffff;
+}
+.padL{
+  padding-left: 7%;
 }
 </style>
