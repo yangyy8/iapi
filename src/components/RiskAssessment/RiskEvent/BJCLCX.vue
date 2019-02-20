@@ -37,7 +37,7 @@
                   {{page0Data.flightTypeName}}
                 </el-col>
                 <el-col :span="6">
-                  <span>初始上机地：</span>
+                  <span>上机地：</span>
                   {{page0Data.origin}}
                 </el-col>
                 <el-col :span="6">
@@ -53,7 +53,7 @@
                   {{page0Data.fltno}}
                 </el-col>
                 <el-col :span="6">
-                  <span>最终下机地：</span>
+                  <span>下机地：</span>
                   {{page0Data.destination}}
                 </el-col>
                 <el-col :span="6">

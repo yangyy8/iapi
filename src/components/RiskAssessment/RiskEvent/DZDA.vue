@@ -178,7 +178,7 @@
                     :show-overflow-tooltip="true"
                     label="操作">
                     <template slot-scope="scope">
-                      <el-button type="text" class="a-btn" icon="el-icon-view" title="事件处理查看"  @click="$router.push({name:'BJCLCX',query:{serial:scope.row.EVENTSERIAL}})"></el-button>
+                      <el-button type="text" class="a-btn" icon="el-icon-view" title="事件处理查看"  @click="$router.push({name:'BJCLCX',query:{serial:scope.row.EVENTSERIAL,grade:scope.row.grade,nav2Id:scope.row.EVENTSERIAL+2,title:scope.row.NAME+'已归档查询'}})"></el-button>
                     </template>
                   </el-table-column>
                 </el-table>
@@ -2625,35 +2625,35 @@ export default {
   },
   watch:{
     $route:function(val){
-      console.log("=======================",val)
-      this.nationality=val.query.nationality;
-      this.passportno=val.query.passportno;
-      this.getUsers();
-      this.getUserBaseInfo();
-      this.getUserTagInfo();
-      this.init();
+      if(val.query.nationality&&val.query.passportno){
+        this.nationality=val.query.nationality;
+        this.passportno=val.query.passportno;
+        this.getUsers();
+        this.getUserBaseInfo();
+        this.getUserTagInfo();
+        this.moreShow=false;
+        this.box1=false;
+        this.box2=false;
+        this.box3=false;
+        this.box4=false;
+        this.box5=false;
+        this.box6=false;
+        this.box7=false;
+        this.box8=false;
+        this.box9=false;
+        this.box10=false;
+        this.box11=false;
+        this.box12=false;
+        this.box13=false;
+        this.box14=false;
+        this.box15=false;
+        this.box16=false;
+        this.box17=false;
+        this.box18=false;
+        this.box19=false;
+        this.box20=false;
+      }
 
-      this.moreShow=false;
-      this.box1=false;
-      this.box2=false;
-      this.box3=false;
-      this.box4=false;
-      this.box5=false;
-      this.box6=false;
-      this.box7=false;
-      this.box8=false;
-      this.box9=false;
-      this.box10=false;
-      this.box11=false;
-      this.box12=false;
-      this.box13=false;
-      this.box14=false;
-      this.box15=false;
-      this.box16=false;
-      this.box17=false;
-      this.box18=false;
-      this.box19=false;
-      this.box20=false;
     },
     box1:function(val){
       if(val){

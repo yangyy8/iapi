@@ -368,7 +368,9 @@
             width="70">
             <template slot-scope="scope">
               <el-button type="text" class="a-btn" icon="el-icon-view" title="查看" @click="$router.push({name:'BJSJCK',query:{serial:scope.row.serial,grade:scope.row.grade,page:0,nav2Id:scope.row.serial,title:scope.row.name+'事件查看'}})"></el-button>
-              <el-button type="text" class="a-btn" icon="el-icon-edit-outline"  title="处理" @click="$router.push({name:'BJSJCK',query:{serial:scope.row.serial,grade:scope.row.grade,status:scope.row.status,page:1,operation_type:1,nav2Id:scope.row.serial+1,title:scope.row.name+'事件处理'}})"></el-button>
+              <el-button type="text" class="a-btn" icon="el-icon-edit-outline" v-if="pd.type!=4" title="处理" @click="$router.push({name:'BJSJCK',query:{serial:scope.row.serial,grade:scope.row.grade,status:scope.row.status,page:1,operation_type:1,nav2Id:scope.row.serial+1,title:scope.row.name+'事件处理'}})"></el-button>
+              <el-button type="text" class="a-btn" icon="el-icon-edit-outline" v-if="pd.type==4" title="归档追加" @click="openGdTc(scope.row)"></el-button>
+
             </template>
           </el-table-column>
         </el-table>
@@ -461,6 +463,8 @@
       </div>
     </el-dialog>
     <GDTC :gtitle="'批量归档'" :gvisible="gdDialogVisible" :garr="multipleSelection" :gtype="'1'" @gclose="gclose"></GDTC>
+    <GDTC :gtitle="'归档追加'" :gvisible="gdDialogVisible2" :garr="checkeditem" :gtype="'3'" @gclose="gclose"></GDTC>
+
   </div>
 </template>
 
@@ -614,7 +618,10 @@ export default {
       czDialogVisible:false,
       czform:{},
       gdDialogVisible:false,
-      hash:''
+      gdDialogVisible2:false,
+      hash:'',
+      checkeditem:null,
+
     }
   },
   mounted(){
@@ -819,12 +826,18 @@ export default {
          }
       })
     },
-    openGdTc(){
-      this.gdDialogVisible=true;
+    openGdTc(item){
+      if(item){
+        this.checkeditem=item;
+        this.gdDialogVisible2=true
+      }else{
+        this.gdDialogVisible=true;
+      }
     },
     gclose(data){
       console.log(data)
       this.gdDialogVisible=data;
+      this.gdDialogVisible2=data;
       this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
 
 
