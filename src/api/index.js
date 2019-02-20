@@ -1,9 +1,9 @@
 // 配置API接口地址
 
-// var root="http://192.168.99.206:8080"
+var root="http://192.168.99.206:8080"
 // var root=""
 
-var root="http://192.168.99.234:8080"
+// var root="http://192.168.99.234:8080"
 //var root="http://192.168.99.242:8081"
  //var root ='http://192.168.99.248:8081'
 
@@ -94,7 +94,7 @@ function apiAxios(method, url, params, success, failure,header,responseType) {
     .then(function(res) {
       // console.log(res.status,success)
       if (res.status == 200) {
-        console.log("res",res)
+        // console.log("res",res)
         if(responseType){
           if(loadingInstance1){
             loadingInstance1.close();
