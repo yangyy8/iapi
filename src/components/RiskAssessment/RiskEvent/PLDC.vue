@@ -27,7 +27,7 @@
               v-validate-easy="[['required']]">
               <span class="input-text">国籍/地区：</span>
               <el-select v-model="i.nationality" placeholder="请选择" size="small" multiple collapse-tags
-                style="margin-left: 20px;" clearable filterable class="block input-input">
+               clearable filterable class="block input-input">
                 <el-option
                   v-for="item in nationAlone"
                   :key="item.CODE"
@@ -52,7 +52,7 @@
               v-validate-easy="[['required']]">
               <span class="input-text">国籍/地区：</span>
               <el-select v-model="j.nationality" placeholder="请选择" size="small" multiple collapse-tags
-                style="margin-left: 20px;" clearable filterable class="block input-input">
+              clearable filterable class="block input-input">
                 <el-option
                   v-for="item in nationAlone"
                   :key="item.CODE"
@@ -300,15 +300,24 @@ export default {
     },
     addRow(){
       if(this.select1==1){
-        this.list1.push(this.m1)
+        // console.log("this.m1",this.m1)
+        // this.form=Object.assign({}, item);
+        let m1 =Object.assign({}, this.m1);
+        this.list1.push(m1)
       }else if(this.select1==2){
+        let m2 =Object.assign({}, this.m2);
+
         this.list2.push(this.m2)
       }
     },
     delRow(ind){
       if(this.select1==1){
+        this.V.$reset('demo1');
+
         this.list1.splice(ind,1)
       }else if(this.select1==2){
+        this.V.$reset('demo2');
+
         this.list2.splice(ind,1)
       }
     },

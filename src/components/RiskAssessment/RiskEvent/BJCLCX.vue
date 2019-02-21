@@ -159,12 +159,52 @@
                   <div class="gc-box">
                     <span>模型描述：</span>{{b.modelDesc}}
                   </div>
-                  <div class="gc-box">
-                    <span>指标描述：</span>
-                    <div class="">
-                      {{b.targetDesc}}
+                  <div class="gc-box" style="justify-content:space-between">
+                    <div class=" msg-t2">
+                      <span> 规则名称：</span>
+                      <el-tooltip effect="light" :content="b.ruleName" placement="top-start" v-if="b.ruleName">
+                        <span>{{b.ruleName}}</span>
+                      </el-tooltip>
+                    </div>
+                    <div class="msg-t2">
+                      <span>规则描述：</span>
+                      <el-tooltip effect="light" :content="b.ruleDesc" placement="top-start" v-if="b.ruleDesc">
+                        <span>{{b.ruleDesc}}</span>
+                      </el-tooltip>
+                    </div>
+                    <div class="msg-t2">
+                      <span>规则等级：</span>
+                      <el-tooltip effect="light" :content="b.ruleGrade" placement="top-start" v-if="b.ruleGrade">
+                        <span>{{b.ruleGrade}}</span>
+                      </el-tooltip>
                     </div>
                   </div>
+                  <el-table
+                    v-if="b.ruleIndexList.length>0"
+                    :data="b.ruleIndexList"
+                    class="ak-table1"
+                    style="width: 100%">
+                    <el-table-column
+                      :show-overflow-tooltip="true"
+                      label="指标项"
+                      prop="indexCode">
+                    </el-table-column>
+                    <el-table-column
+                      :show-overflow-tooltip="true"
+                      label="指标运算"
+                      prop="indexYS">
+                    </el-table-column>
+                    <el-table-column
+                      :show-overflow-tooltip="true"
+                      label="指标范围"
+                      prop="indexFW">
+                    </el-table-column>
+                    <el-table-column
+                      :show-overflow-tooltip="true"
+                      label="指标值"
+                      prop="indexValue">
+                    </el-table-column>
+                  </el-table>
                 </div>
 
                 <div class="box1-more">
