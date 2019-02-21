@@ -395,6 +395,7 @@ export default {
         fltdate:'',
         birthday:'',
         intervel:10,
+        nationality:'',
       },
       pd1: {},
       pd2: {},

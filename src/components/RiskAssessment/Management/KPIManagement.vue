@@ -48,7 +48,7 @@
                 </el-option>
                 <el-option value="2" label="2 - 证件信息">
                 </el-option>
-                <el-option value="3" label="3 - 航班信息"
+                <el-option value="3" label="3 - 航班信息">
                 </el-option>
                 <el-option value="4" label="4 - 在华情况">
                 </el-option>
