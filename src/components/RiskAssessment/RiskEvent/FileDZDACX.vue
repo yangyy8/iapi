@@ -71,7 +71,7 @@
         </el-col>
       </el-row>
     </div>
-    <div class="middle">
+    <div class="middle" @mouseover="mouseHeader">
       <div class="">
         <el-table
           class="mt-10"

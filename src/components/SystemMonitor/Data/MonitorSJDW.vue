@@ -126,7 +126,7 @@
         </div>
         <span style="font-size:14px; color:red">注："双击"一条数据图表即可展示进度</span>
       </div>
-      <div class="ak-tab-pane">
+      <div class="ak-tab-pane" @mouseover="mouseHeader">
           <div v-show="page==0" >
             <el-table
                   :data="tableData"

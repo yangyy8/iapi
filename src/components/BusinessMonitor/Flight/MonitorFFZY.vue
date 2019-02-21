@@ -35,7 +35,7 @@
           </el-col>
         </el-row>
     </div>
-    <div class="middle mb-6">
+    <div class="middle mb-6" @mouseover="mouseHeader">
       <el-checkbox v-model="checked" class="mr-15">自动刷新</el-checkbox>
       <el-table
         ref="multipleTable"
@@ -154,7 +154,7 @@
         </el-pagination>
       </div>
     </div>
-    <div class="middle">
+    <div class="middle" >
       <el-table
         :data="tableData2"
         border

@@ -185,7 +185,7 @@
 
         </div>
       </div>
-      <div class="ak-tab-pane" >
+      <div class="ak-tab-pane" @mouseover="mouseHeader">
         <el-button type="primary" class="mr-5" plain size="small" @click="openGdTc" :disabled="isdisable" v-if="pd.type!=4">批量归档</el-button>
         <el-button type="primary" plain size="small" @click="openCzTc" :disabled="isdisable" v-if="pd.type!=4">批量事件处理</el-button>
 

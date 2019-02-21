@@ -103,7 +103,7 @@
           同行程人员
         </div> -->
       </div>
-    <div class="ak-tab-pane" >
+    <div class="ak-tab-pane" @mouseover="mouseHeader">
         <div v-show="page==0">
 
 

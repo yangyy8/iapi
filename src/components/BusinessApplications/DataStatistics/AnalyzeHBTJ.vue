@@ -95,7 +95,7 @@
         </div>
       </div>
 
-      <div class="ak-tab-pane" >
+      <div class="ak-tab-pane" @mouseover="mouseHeader">
           <div v-show="page==0" >
             <div id="myChart" class="ppie">暂无数据</div>
             <div id="myChart2" class="ppie"></div>

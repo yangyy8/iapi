@@ -21,7 +21,7 @@
           有出入境记录无登机信息
         </div>
       </div>
-    <div class="ak-tab-pane" >
+    <div class="ak-tab-pane" @mouseover="mouseHeader">
         <div v-show="page==0">
           <el-row type="flex" class="middle">
             <el-col :span="22" class="br pr-20">

@@ -116,7 +116,7 @@
     </div>
     <div class="middle">
         <!-- <span class="tubiao hand borderL" :class="{'checked':page==0}" @click="page=0;getList(CurrentPage,pageSize,pd)">列表</span><span class="tubiao hand borderR" :class="{'checked':page==1}" @click="qq">图表</span> -->
-    <div id="div1">
+    <div id="div1" @mouseover="mouseHeader">
       <el-table
         :data="tableData"
         class="o-table3"

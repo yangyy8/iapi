@@ -39,7 +39,7 @@
           </el-col>
         </el-row>
     </div>
-    <div class="middle">
+    <div class="middle" @mouseover="mouseHeader">
       <el-checkbox v-model="checked" class="mr-15">自动刷新</el-checkbox>
       <span class="tc-999 f-14">注：点击每行可查看航班详情</span>
 

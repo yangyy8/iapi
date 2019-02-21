@@ -9,7 +9,7 @@
         </el-col>
       </el-row>
     </div>
-    <div class="middle" style="padding-top:0px!important">
+    <div class="middle" style="padding-top:0px!important" @mouseover="mouseHeader">
       <el-row class="mb-15">
         <el-button type="primary" size="small" @click="adds(0,'');form={};">新增</el-button>
         </el-row>

@@ -26,7 +26,7 @@
        </div>
   <div class="middle">
     <el-row>
- <el-col :span="24">
+ <el-col :span="24" @mouseover="mouseHeader">
     <div class="yy-title">实例状态监控</div>
    <el-table
      :data="tableData"

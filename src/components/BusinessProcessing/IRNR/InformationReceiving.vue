@@ -64,7 +64,7 @@
         </el-col>
       </el-row>
     </div>
-    <div class="middle">
+    <div class="middle" @mouseover="mouseHeader">
 
       <div class="tableWrap" v-show="page==0">
         <el-table

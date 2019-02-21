@@ -264,7 +264,7 @@
                   <el-button type="primary" plain size="mini" @click="batchI">批量导入</el-button>
                   <el-button type="primary" plain size="mini" @click="download">下载模板</el-button>
                 </div>
-                <div class="akUl">
+                <div class="akUl" @mouseover="mouseHeader">
                   <el-table
                     ref="multipleTable"
                     :data="rows"

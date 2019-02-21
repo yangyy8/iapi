@@ -28,7 +28,7 @@
       </el-row>
 
     </div>
-    <div class="middle">
+    <div class="middle" @mouseover="mouseHeader">
       <div class="title-green">
         甄别信息列表
       </div>

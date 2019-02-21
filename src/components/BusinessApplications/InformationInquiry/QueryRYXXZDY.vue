@@ -1,7 +1,7 @@
 <template lang="html">
   <div class="">
     <!-- 查询条件 -->
-    <div class="ak-tab-pane">
+    <div class="ak-tab-pane" >
       <el-row type="flex" style="height:100%">
         <el-col :span="22" class="br" type="flex">
           <el-row type="flex" justify="start">
@@ -441,7 +441,7 @@
       <button type="button" name="button" :class="{'pitchOn':bigBase==8}"  @click="bigBase=8;showArr()">PNR数据</button>
     </div>
     <!-- 表格 -->
-    <div class="middle">
+    <div class="middle" @mouseover="mouseHeader">
       <!-- <el-button  plain class="table-btn mb-9" size="small" @click="seat">航班座位图</el-button> -->
       <el-button  plain class="table-btn mb-9" size="small" @click="tableDown">导出</el-button>
       <el-button  plain class="table-btn mb-9" size="small" v-print="'#printMe'">打印</el-button>

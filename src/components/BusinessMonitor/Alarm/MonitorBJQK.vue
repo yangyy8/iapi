@@ -39,7 +39,7 @@
 
 
     </div>
-    <div class="middle">
+    <div class="middle" @mouseover="mouseHeader">
       <!-- <el-button type="success"  icon="el-icon-refresh" size="small" class="mb-9 mr-15">刷新</el-button>-->
       <el-checkbox v-model="checked">自动刷新</el-checkbox>
       <el-table

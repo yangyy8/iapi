@@ -122,7 +122,7 @@
 
       </el-row>
     </div>
-    <div class="middle">
+    <div class="middle" @mouseover="mouseHeader">
       <el-row class="mb-15">
         <el-button type="info" size="small" @click="batchs">批量变更</el-button>
         </el-row>

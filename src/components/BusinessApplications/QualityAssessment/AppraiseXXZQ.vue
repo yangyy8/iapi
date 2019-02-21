@@ -94,7 +94,7 @@
     </div>
 
 
-    <div class="middle">
+    <div class="middle" @mouseover="mouseHeader">
       <el-row class="mb-15 yr">
 
         <el-button type="primary" size="small" @click="download(0)">统计数据导出</el-button>

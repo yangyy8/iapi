@@ -9,7 +9,7 @@
         </el-col>
       </el-row>
     </div>
-    <div class="middle" style="border-bottom:2px solid #38628C" v-show="this.$route.query.flag==0">
+    <div class="middle"  @mouseover="mouseHeader" style="border-bottom:2px solid #38628C" v-show="this.$route.query.flag==0">
       <span>报送信息</span>
       <el-table
         :data="tableData"

@@ -84,7 +84,7 @@
         </el-row>
     </div>
 
-    <div class="middle">
+    <div class="middle" @mouseover="mouseHeader">
       <el-table
         class="o-table3"
         :data="tableData"

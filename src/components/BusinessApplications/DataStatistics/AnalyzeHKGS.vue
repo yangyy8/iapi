@@ -89,7 +89,7 @@
             <div id="myChart3" class="ppie"></div>
             <div style="clear:both"></div>
           </div>
-          <div v-show="page==1">
+          <div v-show="page==1" @mouseover="mouseHeader">
             <el-row class="mb-15 yr">
               <el-button type="primary" size="small" @click="download()">Excel导出</el-button>
               </el-row>

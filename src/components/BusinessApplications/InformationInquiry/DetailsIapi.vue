@@ -124,7 +124,7 @@
         </el-row>
       </div>
       <!-- 业务规则校验不通过 -->
-      <div class="" v-show="isRules">
+      <div class="" v-show="isRules" @mouseover="mouseHeader">
         <div class="hrtitle">业务规则校验不通过</div>
         <el-row type="flex"  class="t-detail">
           <el-col :span="6" class="t-el-content"><div class="t-el-text">规则名称：</div><div class="t-el-sub">{{rules.MATCHRRULE}}</div></el-col>

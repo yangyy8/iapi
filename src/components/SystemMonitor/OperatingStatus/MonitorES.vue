@@ -9,7 +9,7 @@
       </el-row>
     </div>
 
-<div class="middle">
+<div class="middle" @mouseover="mouseHeader">
   <div class="yy-title">集群</div>
   <el-table
     :data="tableData"
