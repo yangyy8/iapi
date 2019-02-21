@@ -8,7 +8,6 @@
             查询条件
           </div>
           <el-row align="center"   :gutter="2" >
-
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">航班号：</span>
               <el-input placeholder="请输入内容" size="small" v-model="pd.fltno"  class="input-input"></el-input>
@@ -166,18 +165,18 @@
           prop="boardingcount"
           label="登机人数"
           sortable>
+            <el-table-column
+            prop="boardingcount"
+            label="已登机"
+            width="120"
+            sortable>
+          </el-table-column>
           <el-table-column
-          prop="boardingcount"
-          label="已登机"
-          width="120"
-          sortable>
-        </el-table-column>
-        <el-table-column
-          prop="chkNobrd"
-          label="未登机"
-          width="120"
-          sortable>
-        </el-table-column>
+            prop="chkNobrd"
+            label="未登机"
+            width="120"
+            sortable>
+          </el-table-column>
         </el-table-column>
         <el-table-column
           prop="closetime"
@@ -408,8 +407,8 @@ export default {
       }
     },
     rowClick(row, column, cell, event){
-      console.log(row.flightRecordnum)
-      console.log(column.property);
+      console.log("------------"+row.flightRecordnum)
+      console.log("------------++"+column.property);
       if(column.property=='checkincount'||column.property=='boardingcount'||column.property=='boardingcount'||column.property=='chkNobrd'){
         let p = {
           'flightRecordnum':row.flightRecordnum,
