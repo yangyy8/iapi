@@ -22,7 +22,7 @@
         </el-col>
       </el-row>
     </div>
-    <div class="middle">
+    <div class="middle" @mouseover="mouseHeader">
       <el-row class="mb-15">
         <el-button type="primary" size="small" @click="adds(0,'');">新增</el-button>
       </el-row>

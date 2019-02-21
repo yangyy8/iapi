@@ -18,7 +18,7 @@
           出入境高频
         </div>
       </div>
-    <div class="ak-tab-pane" >
+    <div class="ak-tab-pane" @mouseover="mouseHeader">
         <div v-show="page==0">
           <el-row type="flex" class="middle" style="border-bottom:2px solid #DEF0FC;">
             <el-col :span="22" class="br pr-20">

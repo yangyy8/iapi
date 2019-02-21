@@ -113,7 +113,7 @@
               </div>
 
             </div>
-            <div class="co-tab-pane" >
+            <div class="co-tab-pane" @mouseover="mouseHeader">
               <el-row type="flex" style="height:100%" v-if="(controlChecked==1) && (coCheckId==1)">
                 <div class = "chart" style="width:100%">
                   <div id = "echarts" style = "width: 100%;height: 400px"></div>

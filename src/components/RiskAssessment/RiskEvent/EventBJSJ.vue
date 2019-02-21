@@ -16,7 +16,8 @@
               </el-col>
               <el-col :sm="24" :md="12"  :lg="8" class="input-item">
                 <span class="input-text">国籍/地区：</span>
-                <el-select v-model="pd.nationality" placeholder="请选择"  size="small" clearable filterable class="block input-input">
+                <el-select v-model="pd.nationality" placeholder="请选择" size="small" multiple collapse-tags
+                   clearable filterable class="block input-input">
                   <el-option
                     v-for="(item,ind) in nationAlone"
                     :key="ind"
@@ -70,7 +71,8 @@
               </el-col>
               <el-col :sm="24" :md="12"  :lg="8" class="input-item">
                 <span class="input-text">证件类型：</span>
-                <el-select v-model="pd.passportType" placeholder="请选择"  size="small" clearable filterable class="block input-input">
+                <el-select v-model="pd.passportType" placeholder="请选择" size="small" multiple collapse-tags
+                    clearable filterable class="block input-input">
                   <el-option
                     v-for="(item,ind) in docCode"
                     :key="ind"
@@ -116,7 +118,8 @@
               </el-col>
               <el-col :sm="24" :md="12"  :lg="8" class="input-item">
                 <span class="input-text">口岸：</span>
-                <el-select v-model="pd.port_name" placeholder="请选择"  size="small" clearable filterable class="block input-input">
+                <el-select v-model="pd.port_name" placeholder="请选择" size="small" multiple collapse-tags
+                   clearable filterable class="block input-input">
                   <el-option
                     v-for="(item,ind) in airport"
                     v-if="item.DEPT_CODE"
@@ -182,7 +185,7 @@
 
         </div>
       </div>
-      <div class="ak-tab-pane" >
+      <div class="ak-tab-pane" @mouseover="mouseHeader">
         <el-button type="primary" class="mr-5" plain size="small" @click="openGdTc" :disabled="isdisable" v-if="pd.type!=4">批量归档</el-button>
         <el-button type="primary" plain size="small" @click="openCzTc" :disabled="isdisable" v-if="pd.type!=4">批量事件处理</el-button>
 
@@ -204,13 +207,13 @@
           <!-- <el-table-column
             label="事件编号"
             prop="serial"
-            sortable
+            sortable="custom"
             width="101">
           </el-table-column> -->
           <el-table-column
             label="姓名"
             prop="name"
-            sortable
+            sortable="custom"
             width="60"
             :show-overflow-tooltip="true">
           </el-table-column>
@@ -228,13 +231,13 @@
           <el-table-column
             label="出生日期"
             prop="birthday"
-            sortable
+            sortable="custom"
             width="101"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="国籍地区"
-            sortable
+            sortable="custom"
             prop="nationality"
             width="50"
             :show-overflow-tooltip="true">
@@ -251,7 +254,7 @@
           <el-table-column
             label="证件号"
             prop="passportno"
-            sortable
+            sortable="custom"
             width="90"
             :show-overflow-tooltip="true">
             <template slot-scope="scope">
@@ -261,14 +264,14 @@
           <el-table-column
             label="航班号"
             prop="fltno"
-            sortable
+            sortable="custom"
             width="70"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="航班日期"
             prop="fltnoDate"
-            sortable
+            sortable="custom"
             width="101"
             :show-overflow-tooltip="true">
           </el-table-column>
@@ -276,33 +279,33 @@
           <el-table-column
             label="命中模型"
             prop="hit_mode_gc"
-            sortable
+            sortable="custom"
             width="70"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="命中规则"
             prop="hit_rule_name"
-            sortable
+            sortable="custom"
             width="70"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="口岸"
             prop="port_name"
-            sortable
+            sortable="custom"
             width="60"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="事件来源"
             width="55"
-            sortable
+            sortable="custom"
             prop="centre_port">
           </el-table-column>
           <el-table-column
             label="风险等级"
-            sortable
+            sortable="custom"
             width="145"
             prop="grade">
             <template slot-scope="scope">
@@ -318,7 +321,7 @@
           <el-table-column
             label="当前状态"
             prop="status"
-            sortable
+            sortable="custom"
             width="50"
             :show-overflow-tooltip="true">
             <template slot-scope="scope">
@@ -328,7 +331,7 @@
           <el-table-column
             label="核查次数"
             prop="checknumber"
-            sortable
+            sortable="custom"
             width="50"
             :show-overflow-tooltip="true">
           </el-table-column>
@@ -340,7 +343,7 @@
           </el-table-column>
           <el-table-column
             label="历次风评"
-            sortable
+            sortable="custom"
             width="50"
             prop="eachevent">
             <template slot-scope="scope">

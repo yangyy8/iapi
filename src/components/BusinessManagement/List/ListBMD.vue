@@ -168,7 +168,7 @@
         </el-col>
       </el-row>
     </div>
-    <div class="middle">
+    <div class="middle" @mouseover="mouseHeader">
       <el-row class="mb-15" v-if="!backShow">
         <el-button type="primary" size="small" @click="xinzeng">新增</el-button>
         <el-button type="success" size="small" @click="showUpload">批量导入</el-button>

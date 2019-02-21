@@ -9,7 +9,7 @@
       </el-row>
     </div>
 
-<div class="middle">
+<div class="middle" @mouseover="mouseHeader">
   <div class="yy-title">DMZ区</div>
   <el-table
     :data="tableData"
@@ -88,7 +88,7 @@
     </el-table-column>
   </el-table>
 </div>
- <div class="middle">
+ <div class="middle" @mouseover="mouseHeader">
    <div class="yy-title">业务平台区</div>
    <el-table
      :data="tableData1"

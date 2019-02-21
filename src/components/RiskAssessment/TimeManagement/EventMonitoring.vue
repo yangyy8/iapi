@@ -78,7 +78,7 @@
 
       </el-row>
     </div>
-    <div class="middle">
+    <div class="middle" @mouseover="mouseHeader">
       <el-row>
         <el-button  size="small"  class="mb-15 table-btn" @click="tableDown">导出</el-button>
         <el-button  size="small"  class="mb-15 table-btn" @click="colorSet">色彩设置</el-button>

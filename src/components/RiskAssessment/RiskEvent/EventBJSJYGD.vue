@@ -172,7 +172,7 @@
 
         </div>
       </div> -->
-      <div class="" >
+      <div class="" @mouseover="mouseHeader">
         <!-- <el-button type="primary" class="mr-5" plain size="small" @click="openGdTc" :disabled="isdisable">批量归档</el-button>
         <el-button type="primary" plain size="small" @click="openCzTc" :disabled="isdisable">批量事件处理</el-button> -->
 
@@ -188,25 +188,25 @@
           <!-- <el-table-column
             label="唯一编号"
             prop="serial"
-            sortable
+            sortable="custom"
             width="101">
           </el-table-column> -->
           <el-table-column
             label="姓名"
             prop="name"
-            sortable
+            sortable="custom"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="出生日期"
             prop="birthday"
-            sortable
+            sortable="custom"
             width="101">
           </el-table-column>
           <el-table-column
             label="国籍地区"
             prop="nationality"
-            sortable
+            sortable="custom"
             width="60"
             :show-overflow-tooltip="true">
             <template slot-scope="scope">
@@ -227,7 +227,7 @@
           <el-table-column
             label="证件号"
             prop="passportno"
-            sortable
+            sortable="custom"
             width="90"
             :show-overflow-tooltip="true">
             <template slot-scope="scope">
@@ -237,42 +237,42 @@
           <el-table-column
             label="航班号"
             prop="fltno"
-            sortable
+            sortable="custom"
             width="70"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="航班日期"
             prop="fltnoDate"
-            sortable
+            sortable="custom"
             width="101"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="口岸"
             prop="port_name"
-            sortable
+            sortable="custom"
             width="60"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="命中模型"
             prop="hit_mode_gc"
-            sortable
+            sortable="custom"
             width="70"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="命中规则"
             prop="hit_rule_name"
-            sortable
+            sortable="custom"
             width="70"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="风险等级"
             prop="grade"
-            sortable
+            sortable="custom"
             width="145">
             <template slot-scope="scope">
               <el-rate :value="scope.row.grade" size="mini" disabled></el-rate>
@@ -281,7 +281,7 @@
           <el-table-column
             label="风评结果"
             prop="newcheckresult"
-            sortable
+            sortable="custom"
             width="60"
             :show-overflow-tooltip="true">
             <template slot-scope="scope">
@@ -291,7 +291,7 @@
           <el-table-column
             label="事件来源"
             width="60"
-            sortable
+            sortable="custom"
             prop="centre_port">
           </el-table-column>
           <el-table-column
@@ -315,7 +315,7 @@
           <el-table-column
             label="归档时间"
             prop="archive_time"
-            sortable
+            sortable="custom"
             width="101"
             :show-overflow-tooltip="true">
           </el-table-column>

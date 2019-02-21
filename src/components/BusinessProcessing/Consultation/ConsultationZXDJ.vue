@@ -90,7 +90,7 @@
         </el-col>
       </el-row>
     </div>
-    <div class="middle">
+    <div class="middle" @mouseover="mouseHeader">
       <el-row type="flex"  style="padding-top:0px!important">
         <el-col :span="22" class="pr-20" :class="{'br':CONSULTTYPE==0}">
           <span class="title-green">

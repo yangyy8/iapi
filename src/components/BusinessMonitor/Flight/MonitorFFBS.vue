@@ -20,7 +20,7 @@
           </div>
         </div>
       </div>
-      <div class="ak-tab-pane" v-show="tabId==0">
+      <div class="ak-tab-pane" v-show="tabId==0" @mouseover="mouseHeader">
 
         <el-row class="mb-9">
           <el-col :span="20" class="br pr-20">
@@ -168,7 +168,7 @@
           </el-table-column>
         </el-table>
       </div>
-      <div class="ak-tab-pane" v-show="tabId!=0">
+      <div class="ak-tab-pane" v-show="tabId!=0" @mouseover="mouseHeader">
 
         <el-row class="mb-9">
           <el-col :span="20" class="br pr-20">

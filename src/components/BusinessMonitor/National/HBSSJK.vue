@@ -93,7 +93,7 @@
 
       </el-row>
     </div>
-    <div class="middle">
+    <div class="middle" @mouseover="mouseHeader">
       <el-button type="success"  icon="el-icon-refresh" size="small" class="mb-9 mr-15" @click="getList(CurrentPage,pageSize,pd,orders,direction)">刷新</el-button>
       <el-checkbox v-model="checked" class="mr-15">自动刷新</el-checkbox>
       <span class="tc-999 f-14">注：点击每行可查看航班详情</span>

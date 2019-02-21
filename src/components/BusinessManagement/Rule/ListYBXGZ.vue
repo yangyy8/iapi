@@ -43,7 +43,7 @@
         </el-row>
     </div>
 
-    <div class="middle t-table">
+    <div class="middle t-table" @mouseover="mouseHeader">
       <el-row class="mb-15">
         <el-button type="primary" size="small" @click="addTableList">新增</el-button>
         <el-button type="success" size="small" @click="save">保存并发布</el-button>

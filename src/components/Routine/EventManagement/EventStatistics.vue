@@ -64,7 +64,7 @@
 
       </el-row>
     </div>
-    <div class="middle">
+    <div class="middle" @mouseover="mouseHeader">
       <el-button type="success"  class="mb-9" size="small" @click="tableDown">导出</el-button>
       <el-table
         :data="tableData"

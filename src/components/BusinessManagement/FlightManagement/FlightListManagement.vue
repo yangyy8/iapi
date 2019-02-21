@@ -110,7 +110,7 @@
         </el-col>
       </el-row>
     </div>
-    <div class="middle">
+    <div class="middle" @mouseover="mouseHeader">
       <el-row class="mb-15">
         <el-button type="primary" size="small" @click="adds(0,'');form={}">新增</el-button>
         <el-button type="success" size="small" @click="batchI">批量导入</el-button>

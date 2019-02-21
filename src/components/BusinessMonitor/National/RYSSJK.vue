@@ -89,7 +89,7 @@
           重点人员
         </div>
       </div> -->
-      <div class="ak-tab-pane">
+      <div class="ak-tab-pane"  @mouseover="mouseHeader">
         <el-row type="flex">
           <el-col :span="22" class="br">
             <el-row :gutter="2" class="pr-20 top-row">
@@ -156,7 +156,6 @@
           :data="tableData"
           border
           @row-click="rowClick"
-          @header-click="headerClick"
           style="width: 100%;">
           <el-table-column
             label="姓名"
@@ -318,7 +317,6 @@
           :data="tableData"
           border
           @row-click="rowClick"
-          @header-click="headerClick"
           style="width: 100%;">
           <el-table-column
             label="订票姓名"
@@ -481,7 +479,6 @@
           :data="tableData"
           border
           @row-click="rowClick"
-          @header-click="headerClick"
           style="width: 100%;">
           <el-table-column
             label="姓"
@@ -992,7 +989,7 @@
 </template>
 
 <script>
-import { formatDate } from '@/assets/js/date.js'
+import { formatDate} from '@/assets/js/date.js'
 import AlarmProcess from '../../BusinessProcessing/Alarm/alarmProcess'
 export default {
   components: {AlarmProcess},
@@ -1282,10 +1279,7 @@ export default {
          }
        })
     },
-    headerClick(column,event){
-      console.log(column,event)
-      event.target.title=column.label
-    },
+
     rowClick(item){
       this.historyCdt.NATIONALITY = item.nationality;
       this.historyCdt.PASSPORTNO = item.passportNo;

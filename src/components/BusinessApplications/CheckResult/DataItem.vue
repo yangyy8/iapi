@@ -186,7 +186,7 @@
   <el-col :span="9"></el-col>
   </el-row>
 </div>
-    <div class="middle">
+    <div class="middle" @mouseover="mouseHeader">
       <el-table
         :data="tableData"
         border

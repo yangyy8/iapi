@@ -173,7 +173,7 @@
       <!-- <span class="tubiao hand borderL wwm" :class="{'checked':x.censusParamBean.queryType==0}" @click="getType(x,ind,0);" v-show="isLiang">量</span
       ><span class="tubiao hand borderR wwm" :class="{'checked':x.censusParamBean.queryType==1}" @click="getType(x,ind,1);" v-show="isLv">率</span
       ><span class="tubiao hand borderR phb" :class="{'checked':x.censusParamBean.queryType==2}" @click="getType(x,ind,2);" v-show="isPai">排行榜</span> -->
-      <div class="" style="position:relative;">
+      <div class="" style="position:relative;" @mouseover="mouseHeader">
         <el-button class="table-btn dz-btn" plain @click="customized(x.censusParamBean)">定制</el-button>
 
         <Vecharts :chartDatas="x" v-if="x.titleText" :chartsId="ind"></Vecharts>

@@ -103,7 +103,7 @@
             </el-col>
           </el-row>
   </div> -->
-    <div class="middle">
+    <div class="middle" @mouseover="mouseHeader">
       <el-row class="mb-15 yr">
         <el-button type="primary" size="small" @click="download(0)">Excel导出</el-button>
         </el-row>

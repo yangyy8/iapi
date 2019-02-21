@@ -105,7 +105,7 @@
                   <div id = "echarts" style = "width: 100%;height: 400px"></div>
                 </div>
               </el-row>
-              <div v-if="(controlChecked==1) && (coCheckId==2)">
+              <div v-if="(controlChecked==1) && (coCheckId==2)" @mouseover="mouseHeader">
                 <el-row type="flex" justify="end">
                   <el-checkbox v-model="checked">自动刷新</el-checkbox>
                 </el-row>
@@ -210,7 +210,7 @@
                 </div>
               </el-row>
 
-              <div v-show="(controlChecked==2) && (coCheckId==2)">
+              <div v-show="(controlChecked==2) && (coCheckId==2)" @mouseover="mouseHeader">
                   <el-table
                     :data="htableData"
                     border

@@ -10,7 +10,7 @@
               <el-button type="primary" plain size="mini" @click="batchI">批量导入</el-button>
               <el-button type="primary" plain size="mini" @click="download">下载模板</el-button>
             </div>
-            <div class="akUl">
+            <div class="akUl" @mouseover="mouseHeader">
               <!-- iapi查询条件 -->
               <el-table
                 ref="multipleTable"
@@ -334,7 +334,7 @@
        </el-checkbox-group>
     </div>
     <!-- 表格 -->
-    <div class="middle">
+    <div class="middle" @mouseover="mouseHeader">
       <!-- <el-button  plain class="table-btn mb-9" size="small" @click="seat">航班座位图</el-button> -->
       <!-- <el-button  plain class="table-btn mb-9" size="small" @click="$router.push({name:'QueryGLRY'})">关联人员查询</el-button> -->
       <el-button  plain class="table-btn mb-9" size="small" @click="tableDown">导出</el-button>

@@ -87,7 +87,12 @@ Vue.use(vverify, {
  })
 // Vue.use(vva)
 Vue.prototype.$api = api;
-
+Vue.prototype.mouseHeader=function(event){
+  if(event.target.parentNode.nodeName=="TH"){
+    let div=event.target
+    event.target.title=div.innerText
+  }
+}
 console.log(vueValidateEasy)
 router.beforeResolve((to, from, next) => {
 

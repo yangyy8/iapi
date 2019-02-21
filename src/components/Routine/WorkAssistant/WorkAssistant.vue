@@ -36,7 +36,7 @@
         </el-col>
       </el-row>
     </div>
-    <div class="middle">
+    <div class="middle" @mouseover="mouseHeader">
         <div id="div1" v-show="page==0">
           <el-row class="margin-bt">
             <el-button type="primary" size="mini" @click="adds(0,'');form={}">新增</el-button>
