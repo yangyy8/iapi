@@ -80,9 +80,9 @@
                   <span>反馈结果</span>
                 </div>
               </div>
-              <div class="checkResultInput">
+              <div class="checkResultInput my-form-group" :data-scope="aa.noChi1" data-name="visaCheckResult" data-type="select"
+               v-validate-easy="[['required']]">
                 <el-select placeholder="请选择反馈结果" v-model="data.visaCheckResult" filterable clearable size="mini" class="t-width100" :disabled="isActive" @change="inschange(data.visaCheckResult,0)">
-                  <el-option label="请选择" value=""></el-option>
                   <el-option label="1Z - 禁止登机" value="1Z"></el-option>
                   <el-option label="2Z - 再次核对" value="2Z"></el-option>
                   <el-option label="4Z - 数据错误" value="4Z"></el-option>
@@ -253,9 +253,9 @@
                   <span>反馈结果</span>
                 </div>
               </div>
-              <div class="checkResultInput">
+              <div class="checkResultInput my-form-group" :data-scope="aa.noChi3" data-name="airportCheckResult" data-type="select"
+               v-validate-easy="[['required']]">
                 <el-select placeholder="请选择反馈结果" v-model="data.airportCheckResult" filterable clearable size="mini" class="t-width100" :disabled="entryIsActive" @change="inschange(data.airportCheckResult,2)">
-                  <el-option label="请选择" value=""></el-option>
                   <el-option label="1Z - 禁止登机" value="1Z"></el-option>
                   <el-option label="2Z - 再次核对" value="2Z"></el-option>
                   <el-option label="4Z - 数据错误" value="4Z"></el-option>
@@ -303,9 +303,9 @@ export default {
         visaRuleSerial:'',//证件规则id
         visaOperator:'2',
         visaTime:'',//证件有效期
-        visaCheckResult:'',//证件校验结果
+        visaCheckResult:'4Z',//证件校验结果
         visaStatus:'1',//证件开关
-        visaResponseresult:'',//证件规则描述
+        visaResponseresult:'DATA ENTRY ERROR',//证件规则描述
 
         nationalityRuleSerial:'',//国家规则id
         nationalityStatus:'1',//国家开关
@@ -316,8 +316,8 @@ export default {
         airportRuleSerial:'',//口岸规则id
         airportStatus:'1',//入境口岸开关
         airportMapList:[],//已加入的口岸代码集合
-        airportCheckResult:'',//口岸规则校验结果
-        airportResponseresult:''//口岸规则反馈结果
+        airportCheckResult:'4Z',//口岸规则校验结果
+        airportResponseresult:'DATA ENTRY ERROR'//口岸规则反馈结果
       },
       // 不需要传的参
       nationName:[],//国家接口list

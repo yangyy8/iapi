@@ -161,7 +161,7 @@
               label="操作"
               width="80">
               <template slot-scope="scope">
-                <el-button type="text"  class="a-btn"  title="文件下载" icon="el-icon-download"><a :href="scope.row.FILESERIAL" class="acolor"></a></el-button>
+                <a :href="scope.row.FILESERIAL" class="acolor"><el-button type="text"  class="a-btn"  title="文件下载" icon="el-icon-download" @click="a(scope.row.FILESERIAL)"></el-button></a>
                 <el-button type="text"  class="a-btn"  title="删除" icon="el-icon-delete" @click="deletes(scope.row)"></el-button>
              </template>
             </el-table-column>
@@ -200,9 +200,10 @@
     <el-dialog :title="dialogText" :visible.sync="addDialogVisible" width="500px" >
       <el-form :model="form" ref="addForm">
         <el-row type="flex"  class="mb-6">
-          <el-col :span="24" class="input-item">
+          <el-col :span="24" class="input-item my-form-group" data-scope="demo2" data-name="NAME" data-type="select"
+            v-validate-easy="[['required']]">
             <span class="yy-input-text"><font class="yy-color">*</font>姓名：</span>
-            <el-select placeholder="请选择" v-model="form.NAME" filterable clearable @visible-change="nameMethod(0)" size="small" class="yy-input-input" @change="nameMethodReal(form.NAME)" v-verify.change.blur ="{regs:'required',submit:'demo2'}">
+            <el-select placeholder="请选择" v-model="form.NAME" filterable clearable @visible-change="nameMethod(0)" size="small" class="yy-input-input" @change="nameMethodReal(form.NAME)">
               <el-option
               v-for="item in dutyName"
               :key="item.SERIAL"
@@ -242,16 +243,18 @@
         </el-row>
 
         <el-row type="flex"  class="mb-6">
-          <el-col :span="24" class="input-item">
+          <el-col :span="24" class="input-item my-form-group" data-scope="demo2" data-name="MAIL" data-type="input"
+            v-validate-easy="[['required']]">
             <span class="yy-input-text"><font class="yy-color">*</font>邮箱：</span>
             <el-input placeholder="请输入账号" size="small" v-model="form.MAIL"  class="yy-input-input"></el-input>
           </el-col>
         </el-row>
 
         <el-row type="flex"  class="mb-6">
-          <el-col :span="24" class="input-item">
+          <el-col :span="24" class="input-item my-form-group" data-scope="demo2" data-name="AIRPORT_CODE" data-type="select"
+            v-validate-easy="[['required']]">
             <span class="yy-input-text"><font class="yy-color">*</font>航站：</span>
-            <el-select placeholder="请选择" v-model="form.AIRPORT_CODE" filterable clearable @visible-change="terminal" size="small" class="yy-input-input"  v-verify.change.blur ="{regs:'required',submit:'demo2'}">
+            <el-select placeholder="请选择" v-model="form.AIRPORT_CODE" filterable clearable @visible-change="terminal" size="small" class="yy-input-input">
               <el-option
               v-for="item in takeOffName"
               :key="item.AIRPORT_CODE"
@@ -384,7 +387,7 @@ export default {
       uploadDialogVisible:false,//批量导入
       folderDialogVisible:false,//文件上传
       folderdialogVisible:false,//文件夹名
-      page:0,
+      page:1,
       fileLoad:'',
 
       mcdt:{},
@@ -433,6 +436,9 @@ export default {
 
   },
   methods: {
+    a(item){
+      console.log(item)
+    },
     headerClick(column,event){
       event.target.title=column.label
     },
@@ -692,7 +698,6 @@ export default {
     },
     adds(n, i) {
       this.addDialogVisible = true;
-
       if (n != 0) {
         this.tp = 1;
         // this.form = i;
@@ -702,7 +707,7 @@ export default {
         this.tp = 0;
         this.dialogText="新增";
       }
-
+      this.V.$reset('demo2')
     },
 
 
@@ -714,28 +719,25 @@ export default {
       }
     },
     addItem(formName) {
-      if (this.$validator.listener.demo2) {
-        const result = this.$validator.verifyAll('demo2')
-        if (result.indexOf(false) > -1) {
-          return;
-        }
-      }
-      var url = "/manage-platform/addressManage/save";
-      this.form.AIRPORT_NAME = this.hangzhan(this.form.AIRPORT_CODE);
-      this.$api.post(url, this.form,
-        r => {
-          if (r.success) {
-            this.$message({
-              message: '保存成功！',
-              type: 'success'
-            });
-            this.addDialogVisible = false;
-            this.getList(this.CurrentPage, this.pageSize, this.cdt);
-          }
-          this.$refs[formName].resetFields();
-        }, e => {
-          this.$message.error('失败了');
-        })
+      this.V.$submit('demo2', (canSumit,data) => {
+        if(!canSumit) return
+        var url = "/manage-platform/addressManage/save";
+        this.form.AIRPORT_NAME = this.hangzhan(this.form.AIRPORT_CODE);
+        this.$api.post(url, this.form,
+          r => {
+            if (r.success) {
+              this.$message({
+                message: '保存成功！',
+                type: 'success'
+              });
+              this.addDialogVisible = false;
+              this.getList(this.CurrentPage, this.pageSize, this.cdt);
+            }
+            this.$refs[formName].resetFields();
+          }, e => {
+            this.$message.error('失败了');
+          })
+      })
     },
 
     deletes(i) {
