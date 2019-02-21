@@ -216,7 +216,7 @@ export default {
 }
 .planLifirst div{
   width: 20px;
-  height: 20px;
+  height: 22.5px;
   text-align: center;
 
 }

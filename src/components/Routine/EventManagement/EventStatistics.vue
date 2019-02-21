@@ -184,7 +184,7 @@
         <el-row type="flex"  class="mb-6">
           <el-col :span="20" class="input-item">
             <span class="yy-input-text">标题：</span>
-            <el-input placeholder="请输入姓名" size="small" v-model="form.title"  class="yy-input-input" v-verify.change.blur ="{regs:'required',submit:'demo2'}" :disabled="true"></el-input>
+            <el-input placeholder="请输入姓名" size="small" v-model="form.title"  class="yy-input-input" :disabled="true"></el-input>
           </el-col>
         </el-row>
 

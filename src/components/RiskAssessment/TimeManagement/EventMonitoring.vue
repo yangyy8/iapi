@@ -88,6 +88,7 @@
         border
         style="width:100%;"
         class="o-table3"
+        @sort-change='sortChange'
         @header-click="headerClick">
         <!-- <el-table-column
           type="index"
@@ -109,7 +110,6 @@
         <el-table-column
           prop="ARRIVDATESTR"
           label="到达时间"
-          sortable
           width="140">
         </el-table-column>
         <el-table-column
@@ -124,20 +124,17 @@
         <el-table-column
           prop="CITYFROMSTR"
           label="起飞机场"
-          width="150"
-          sortable>
+          width="150">
         </el-table-column>
         <el-table-column
           prop="CITYTOSTR"
           width="150"
-          label="到达机场"
-          sortable>
+          label="到达机场">
         </el-table-column>
         <el-table-column
           prop="MODELNAMES"
           width="150"
-          label="参与运算模型"
-          sortable>
+          label="参与运算模型">
           <template slot-scope="scope">
             <el-popover
               placement="top-start"
@@ -156,67 +153,56 @@
         <el-table-column
           prop="CHECKINCOUNT"
           label="预报旅客"
-          width="120"
-          sortable>
+          width="120">
         </el-table-column>
         <el-table-column
           prop="CHINACOUNT"
           label="预报中国旅客"
-          width="130"
-          sortable>
+          width="130">
         </el-table-column>
         <el-table-column
           prop="NOTCHINACOUNT"
           label="预报外籍旅客"
-          width="130"
-          sortable>
+          width="130">
         </el-table-column>
         <el-table-column
           prop="ONEEVENT"
           label="一级预警人数"
-          width="130"
-          sortable>
+          width="130">
         </el-table-column>
         <el-table-column
           prop="TWOEVENT"
           label="二级预警人数"
-          width="130"
-          sortable>
+          width="130">
         </el-table-column>
         <el-table-column
           prop="THREEEVENT"
           label="三级预警人数"
-          width="130"
-          sortable>
+          width="130">
         </el-table-column>
         <el-table-column
           prop="FOUREVENT"
           label="四级预警人数"
-          width="130"
-          sortable>
+          width="130">
         </el-table-column>
         <el-table-column
           prop="FIVEEVENT"
           label="五级预警人数"
-          width="130"
-          sortable>
+          width="130">
         </el-table-column>
         <el-table-column
           prop="DOWN_HIT"
           label="未查获人数"
-          width="130"
-          sortable>
+          width="130">
         </el-table-column>
         <el-table-column
           prop="UP_HIT"
           label="已查获人数"
-          width="130"
-          sortable>
+          width="130">
         </el-table-column>
         <el-table-column
           label="报警率"
-          width="100"
-          sortable>
+          width="100">
           <template slot-scope="scope">
             <span :style="{color:color1}" v-if="scope.row.PERCENT < high1&&scope.row.PERCENT >=low1">{{scope.row.PERCENT}}</span>
             <span :style="{color:color2}" v-else-if="scope.row.PERCENT < high2&&scope.row.PERCENT >=low2">{{scope.row.PERCENT}}</span>
@@ -363,16 +349,58 @@ export default {
     this.getList(this.CurrentPage,this.pageSize,this.cdt);
   },
   methods:{
+    sortChange(column, prop, order){
+      let p={
+        'order':column.prop,
+        'direction':column.order=='ascending'?1:0,
+        "currentPage":this.CurrentPage,
+        "showCount":this.pageSize,
+        "cdt":this.cdt
+      }
+      this.$api.post('/manage-platform/eventMonitor/queryFlightMonitor',p,
+       r => {
+         if(r.success){
+           if(r.data.nextState==0){
+             document.getElementsByClassName('btn-next')[0].disabled=true;
+           }else{
+             document.getElementsByClassName('btn-next')[0].disabled=false;
+           }
+           this.tableData=r.data.resultList;
+           this.CurrentPage = r.data.currentPage;
+           this.colorList = r.data.pd.useColour;
+           for(var j=0;j<this.colorList.length;j++){
+             if(this.colorList[j].COL_NUMBER == 1){
+               this.color1=this.colorList[j].COL_VALUE;
+               this.low1 = this.colorList[j].LOW_VALUE;
+               this.high1 = this.colorList[j].HIGH_VALUE;
+             }else if(this.colorList[j].COL_NUMBER == 2){
+               this.color2=this.colorList[j].COL_VALUE;
+               this.low2 = this.colorList[j].LOW_VALUE;
+               this.high2 = this.colorList[j].HIGH_VALUE;
+             }else if(this.colorList[j].COL_NUMBER == 3){
+               this.color3=this.colorList[j].COL_VALUE;
+               this.low3 = this.colorList[j].LOW_VALUE;
+               this.high3 = this.colorList[j].HIGH_VALUE;
+             }else if(this.colorList[j].COL_NUMBER == 4){
+               this.color4=this.colorList[j].COL_VALUE;
+               this.low4 = this.colorList[j].LOW_VALUE;
+               this.high4 = this.colorList[j].HIGH_VALUE;
+             }
+           }
+           this.totalPageM(p)
+         }
+      })
+    },
     headerClick(column,event){
       event.target.title=column.label
     },
-    totalPageM(){
-      let p={
-      	"currentPage":this.CurrentPage,
-      	"showCount":this.pageSize,
-      	"cdt":this.cdt
-      };
-      this.$api.post('/manage-platform/eventMonitor/queryFlightMonitorCount',p,
+    totalPageM(i){
+      // let p={
+      // 	"currentPage":this.CurrentPage,
+      // 	"showCount":this.pageSize,
+      // 	"cdt":this.cdt
+      // };
+      this.$api.post('/manage-platform/eventMonitor/queryFlightMonitorCount',i,
       r =>{
         if(r.success){
           this.TotalResult = r.data;
@@ -556,7 +584,7 @@ export default {
                    this.high4 = this.colorList[j].HIGH_VALUE;
                  }
                }
-               this.totalPageM()
+               this.totalPageM(p)
              }
           })
       })
