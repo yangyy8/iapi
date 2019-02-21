@@ -1,7 +1,6 @@
 // 配置API接口地址
 
-
- // var root="http://192.168.99.206:8080"
+// var root="http://192.168.99.206:8080"
 //var root=""
 // var root="http://192.168.99.234:8080"
 //var root="http://192.168.99.242:8081"
@@ -22,6 +21,8 @@ import { MessageBox } from 'element-ui';
 function toType(obj) {
   return ({}).toString.call(obj).match(/\s([a-zA-Z]+)/)[1].toLowerCase()
 }
+
+
 // 参数过滤函数
 function filterNull(o) {
   for (var key in o) {
