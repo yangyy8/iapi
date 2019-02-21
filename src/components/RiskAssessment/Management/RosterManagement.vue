@@ -371,7 +371,7 @@
         <el-row type="flex" class="mb-6" >
           <el-col :span="24" class="input-item">
             <span class="input-text" style="width:12.5%;">事件描述：</span>
-          <span class="detailinput" style="width:84% !important;border: 1px solid #eeeeee; background: #F5F7FA;">  {{mapForm.EVENTCOUNT}}</span>
+             <span class="detailinput" style="width:84% !important;border: 1px solid #eeeeee; background: #F5F7FA;">  {{mapForm.EVENTCOUNT}}</span>
           </el-col>
         </el-row>
         <el-row type="flex" class="mb-6" >

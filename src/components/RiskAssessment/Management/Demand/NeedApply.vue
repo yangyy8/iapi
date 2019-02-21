@@ -585,7 +585,7 @@ export default {
           return "指标";
           break;
         case "2":
-          return " 字典";
+          return "字典";
           break;
         case "3":
           return "名单";
@@ -606,17 +606,17 @@ export default {
     },
     fifterstatus(val) {
       switch (val) {
-        case "11":
-          return "申请";
+        case "10":
+          return "暂存";
           break;
-        case "13":
+        case "11":
+          return "提交";
+          break;
+        case "12":
           return "撤回";
           break;
-        case "13":
-          return "删除";
-          break;
         case "21":
-          return " 确认";
+          return "确认";
           break;
         case "22":
           return "退回";
@@ -625,7 +625,7 @@ export default {
           return "处理完成";
           break;
         default:
-          return "";
+          return "暂存";
       }
     }
   },

@@ -130,7 +130,7 @@
       <el-table-column
           label="操作" width="160">
           <template slot-scope="scope">
-            <el-button type="text" class="a-btn" title="编辑"   icon="el-icon-edit" @click="adds(1,scope.row)"></el-button>
+            <el-button type="text" class="a-btn" title="编辑/详情"   icon="el-icon-edit-outline" @click="adds(1,scope.row)"></el-button>
             <el-button type="text" class="a-btn" title="删除"  icon="el-icon-delete" @click="deletes(scope.row)"></el-button>
             <!-- <el-button type="text" class="a-btn"  icon="el-icon-tickets" title="版本查看" @click="details(scope.row)"></el-button> -->
             <el-button type="text" class="a-btn" title="关联问题"  icon="el-icon-share" @click="relates(scope.row)"></el-button>
@@ -365,11 +365,12 @@
       </el-col>
     </el-row>
   </div>
-      </el-form>
+    </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="addItem('addForm')" size="small">确 定</el-button>
+        <el-button type="primary"  v-if="edits=='0'" @click="addItem('addForm')" size="small">确 定</el-button>
         <el-button @click="addDialogVisible = false" size="small">取 消</el-button>
       </div>
+
     </el-dialog>
     <el-dialog title="详情" :visible.sync="detailsDialogVisible">
       <el-form  ref="mapForm">
@@ -402,7 +403,7 @@
     :data="data2">
        </el-transfer>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="addUse()" size="small">保 存</el-button>
+        <el-button type="primary"  @click="addUse()" size="small">保 存</el-button>
         <el-button @click="useDialogVisible = false" size="small">取 消</el-button>
       </div>
     </el-dialog>
@@ -485,6 +486,7 @@ export default {
       multipleSelection: [],
       tem: {},
       form: {},
+      edits:'0',
       mapForm: {},
       Airport: [],
       rows: [{
@@ -591,13 +593,11 @@ export default {
 
     adds(n, i) {
       if(i.STATUS=="1"){
-          this.$message.error('启用后不能修改!');
-          return ;
-      }else{
-          this.addDialogVisible = true;
+        this.edits="1";
+      }else {
+          this.edits="0";
       }
-
-
+      this.addDialogVisible = true;
       if (n != 0) {
         this.tp = 1;
         // this.form = i;
