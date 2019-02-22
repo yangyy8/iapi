@@ -314,10 +314,10 @@ export default {
   mounted() {
     // this.getList(this.pd);
     this.codeName();
-    this.V.$reset('demo1');
+    // this.V.$reset('demo1');
   },
   activated(){
-    this.V.$reset('demo1');
+    // this.V.$reset('demo1');
     // this.getList(this.pd);
   },
   destroyed(){
