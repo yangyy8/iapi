@@ -92,7 +92,7 @@
                   </el-col>
                   <el-col :sm="24" :md="12"  :lg="6" class="input-item">
                     <span class="input-text">分析维度：</span>
-                    <el-select  placeholder="请选择"  size="mini"  class="input-input" v-model="cdt.type" filterable clearable>
+                    <el-select  placeholder="请选择"  size="mini"  class="input-input" v-model="cdt.type" filterable clearable @change="timeCollect(cdt.type)">
                       <el-option label="5 - 按5分钟分析" value="5"></el-option>
                       <el-option label="0 - 按小时分析" value="0"></el-option>
                       <el-option label="1 - 按天分析" value="1"></el-option>
@@ -460,15 +460,10 @@ export default {
       this.drawLine();
       this.checkRealTime();
       let begin=new Date();
-      // let beginOne=new Date();
-      let aaaa = new Date(begin.setMonth((new Date().getMonth()-1)));
-      // let cccc = new Date(beginOne.getTime()-6*60*60*1000);
+      let aaaa = new Date(begin.getTime()-2*24*60*60*1000);
       let bbbb = new Date();
       this.cdt.begin=formatDate(aaaa,'yyyyMMddhhmmss');
       this.cdt.end=formatDate(bbbb,'yyyyMMddhhmmss');
-      // this.cdt1.begin=formatDate(cccc,'yyyyMMddhhmmss');
-      // this.cdt1.end=formatDate(bbbb,'yyyyMMddhhmmss');
-      // this.getList(this.CurrentPage,this.pageSize,this.cdt1);
   },
   activated() {
       this.drawLine();
@@ -516,6 +511,24 @@ export default {
     }
   },
   methods:{
+    timeCollect(val){
+      if(val == '5'){
+        let aaaa = new Date(new Date().getTime()-2*24*60*60*1000);
+        let bbbb = new Date();
+        this.cdt.begin=formatDate(aaaa,'yyyyMMddhhmmss');
+        this.cdt.end=formatDate(bbbb,'yyyyMMddhhmmss');
+      }else if(val == '0'){
+        let aaaa = new Date(new Date().getTime()-31*24*60*60*1000);
+        let bbbb = new Date();
+        this.cdt.begin=formatDate(aaaa,'yyyyMMddhhmmss');
+        this.cdt.end=formatDate(bbbb,'yyyyMMddhhmmss');
+      }else if(val == '1'){
+        let aaaa = new Date(new Date().getTime()-365*24*60*60*1000);
+        let bbbb = new Date();
+        this.cdt.begin=formatDate(aaaa,'yyyyMMddhhmmss');
+        this.cdt.end=formatDate(bbbb,'yyyyMMddhhmmss');
+      }
+    },
     headerClick(column,event){
       event.target.title=column.label
     },
@@ -595,7 +608,7 @@ export default {
                trigger:'axis',
                formatter:function(params){
                  for(var i=0;i<params.length;i++){
-                   return "监控时间:" + params[i].name+"</br>"+"平均耗时:" + params[i].data
+                   return "监控时间:" + params[i].name+"</br>"+"平均耗时:" + params[i].data.value + "</br>"+"口岸分发总量:" + params[i].data.label
                  }
                },
                axisPointer:{
@@ -697,7 +710,7 @@ export default {
           trigger:'axis',
           formatter:function(params){
             for(var i=0;i<params.length;i++){
-              return "监控时间:" + params[i].name+"</br>"+"平均耗时:" + params[i].data
+              return "监控时间:" + params[i].name+"</br>"+"平均耗时:" + params[i].data.value + "</br>"+"口岸分发总量:" + params[i].data.label
             }
           },
           axisPointer:{
@@ -791,7 +804,7 @@ export default {
           console.log(arr);
         }
         this.lineX = arr;
-        this.lineY = r.data.pd.Y;
+        this.lineY = r.data.pd.yz;
         this.drawLine()
       })
     },
@@ -805,7 +818,7 @@ export default {
       this.$api.post('/manage-platform/disPerLog/queryListPageHisMin',t,
       r =>{
         this.barX = r.data.pd.X;
-        this.barY = r.data.pd.Y;
+        this.barY = r.data.pd.yz;
         this.drawBar();
       })
     },
