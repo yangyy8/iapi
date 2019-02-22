@@ -1,10 +1,12 @@
 // 配置API接口地址
 
-// var root="http://192.168.99.206:8080"
+
+ // var root="http://192.168.99.206:8080"
+
 //var root=""
 var root="http://192.168.99.234:8080"
 //var root="http://192.168.99.242:8081"
-
+// var root="http://192.168.99.248:8081"
 // var root="http://192.168.99.247:8080"
 
 //var root ='http://192.168.99.244:8080'
@@ -41,6 +43,7 @@ function filterNull(o) {
 }
 function isLOGIN(){
   let a;
+
   axios({
       method: 'post',
       url: '/manage-platform/isLanding',
