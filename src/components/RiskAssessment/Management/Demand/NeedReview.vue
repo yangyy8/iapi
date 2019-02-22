@@ -163,7 +163,7 @@
           <el-col :span="24" class="input-item my-form-group" data-scope="demo2" data-name="targetType" data-type="select"
             v-validate-easy="[['required']]">
             <span class="yy-input-text"><font class="yy-color">*</font> 申请类型：</span>
-            <el-select v-model="form.targetType" class="yy-input-input"  filterable clearable placeholder="请选择" @change="selectChange"  size="small" >
+            <el-select v-model="form.targetType" class="yy-input-input"  filterable clearable placeholder="请选择"   size="small" >
               <el-option value="指标" label="1 - 指标">
               </el-option>
               <el-option value="字典" label="2 - 字典">
@@ -181,7 +181,7 @@
           <el-col :span="24" class="input-item my-form-group" data-scope="demo2" data-name="showDistrick" data-type="select"
             v-validate-easy="[['required']]">
             <span class="yy-input-text"><font class="yy-color">*</font> 处理状态：</span>
-            <el-select v-model="form.showDistrick" class="yy-input-input"  filterable clearable placeholder="请选择" @change="selectChange"  size="small" >
+            <el-select v-model="form.showDistrick" class="yy-input-input"  filterable clearable placeholder="请选择"   size="small" >
               <el-option value="1" label="1 - 申请">
               </el-option>
               <el-option value="2" label="2 - 确认">
@@ -323,7 +323,7 @@ export default {
   },
   methods: {
     selectChange() {
-      this.$forceUpdate();
+    //  this.$forceUpdate();
     },
     headerClick(column, event) {
       event.target.title = column.label

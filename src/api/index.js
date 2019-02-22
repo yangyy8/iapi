@@ -43,6 +43,7 @@ function filterNull(o) {
 }
 function isLOGIN(){
   let a;
+
   axios({
       method: 'post',
       url: '/manage-platform/isLanding',

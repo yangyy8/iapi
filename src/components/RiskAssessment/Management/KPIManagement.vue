@@ -203,7 +203,7 @@
           <el-col :span="24" class="input-item my-form-group" data-scope="demo2" data-name="targetType" data-type="select"
             v-validate-easy="[['required']]">
             <span class="yy-input-text"><font class="yy-color">*</font> 指标类型：</span>
-            <el-select v-model="form.targetType" class="yy-input-input"  filterable clearable placeholder="请选择" @change="selectChange"  size="small" >
+            <el-select v-model="form.targetType" class="yy-input-input" @change="selectChange"    filterable clearable placeholder="请选择" size="small" >
               <el-option value="名单" label="1 - 名单">
               </el-option>
               <el-option value="地域" label="2 - 地域">
@@ -241,7 +241,7 @@
           <el-col :span="24" class="input-item my-form-group" data-scope="demo2" data-name="showDistrick" data-type="select"
             v-validate-easy="[['required']]">
             <span class="yy-input-text"><font class="yy-color">*</font> 显示类型：</span>
-            <el-select v-model="form.showDistrick" class="yy-input-input"  filterable clearable placeholder="请选择" @change="selectChange"  size="small" >
+            <el-select v-model="form.showDistrick" class="yy-input-input"  filterable clearable placeholder="请选择"   size="small" >
               <el-option value="1" label="1 - 人员基本信息">
               </el-option>
               <el-option value="2" label="2 - 证件信息">
@@ -259,7 +259,7 @@
           <el-col :span="24" class="input-item my-form-group" data-scope="demo2" data-name="targetSource" data-type="select"
             v-validate-easy="[['required']]">
             <span class="yy-input-text"><font class="yy-color">*</font> 指标来源：</span>
-            <el-select v-model="form.targetSource" class="yy-input-input"  filterable clearable placeholder="请选择" @change="selectChange"   size="small" >
+            <el-select v-model="form.targetSource" class="yy-input-input"  filterable clearable placeholder="请选择"  size="small" >
               <el-option value="1" label="1 - 自动计算">
               </el-option>
               <el-option value="2" label="2 - 手工录入">
@@ -439,7 +439,7 @@ export default {
         //   }
         // }]
       },
-      form: {},
+      form: {targetId:'',targetSign:'',targetName:'',targetDescribe:'',targetType:'',targetSource:'',calculation:'',className:'',para:'',script:'',showDistrick:''},
       mapForm: {},
       Airport: [],
       isshow:false,
@@ -454,7 +454,7 @@ export default {
   },
   methods: {
     selectChange(){
-      this.$forceUpdate();
+      // this.$forceUpdate();
       if(this.form.targetType=="其他"){
         this.isshow=true;
       }else {
@@ -515,12 +515,18 @@ export default {
         this.form.targetName=i.TARGET_NAME;
         this.form.targetDescribe=i.TARGET_DESCRIBE;
         this.form.targetType=i.TARGET_TYPE;
+        this.form.otherType=i.OTHER_TYPE;
         this.form.targetSource=i.TARGET_SOURCE;
         this.form.calculation=i.CALCULATION;
         this.form.className=i.CLASS_NAME;
         this.form.para=i.PARA;
         this.form.script=i.SCRIPT;
         this.form.showDistrick=i.SHOW_DISTRICK;
+        if(this.form.targetType=="其他"){
+          this.isshow=true;
+        }else {
+          this.isshow=false;
+        }
         this.dialogText="编辑";
       }else {
         this.tp = 0;
