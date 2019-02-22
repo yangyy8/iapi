@@ -77,12 +77,12 @@
            </template>
        </el-table-column>
          <el-table-column
-          prop="PORT" sortable
+          prop="PORT_NANE" sortable
           label="申请口岸"
           >
         </el-table-column>
         <el-table-column
-          prop="CALCULATION" sortable
+          prop="USER_NAME" sortable
           label="申请人">
         </el-table-column>
         <el-table-column
@@ -474,17 +474,17 @@ export default {
     },
     fifterstatus(val) {
       switch (val) {
-        case "11":
-          return "申请";
+        case "10":
+          return "暂存";
           break;
-        case "13":
+        case "11":
+          return "提交";
+          break;
+        case "12":
           return "撤回";
           break;
-        case "13":
-          return "删除";
-          break;
         case "21":
-          return " 确认";
+          return "确认";
           break;
         case "22":
           return "退回";
@@ -493,7 +493,7 @@ export default {
           return "处理完成";
           break;
         default:
-          return "";
+          return "暂存";
       }
     }
   },

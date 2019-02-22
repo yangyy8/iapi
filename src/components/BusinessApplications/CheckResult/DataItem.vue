@@ -477,6 +477,7 @@ export default {
         });
         return false
       }
+      console.log("------------------------------------");
       this.getsum(pd);
       this.getnum(pd);
       let p = {

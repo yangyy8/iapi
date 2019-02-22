@@ -194,8 +194,8 @@
           <el-col :span="24" style="">
 
             <label class="file">
-              <img src="../../../../assets/img/fujian.png" />
-              <input type="file" name="" multiple="multiple" @change="uploadFile">
+              <img src="../../../../assets/img/fujian1.png" />
+              <input type="file" name=""  @change="uploadFile">
             </label>
 
             <!-- <div class="" v-for="(ff,ind) in fileinfo" :key="ind">
@@ -208,15 +208,15 @@
             </div>
             <div class="">
               <div class="" v-for="(x,ind) in fileData" :key="ind">
-                <span class="ml-50">{{x.name}}</span>
-                <el-button type="text" class="redx" @click="deletesF(ind)">删除</el-button>
+                <span class="mr-20">{{x.name}}</span>
+                <!-- <el-button type="text" class="redx" @click="deletesF(ind)">删除</el-button> -->
               </div>
             </div>
           </el-col>
             </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="addItem('addForm',10)" size="small">保 存</el-button>
+        <!-- <el-button type="primary" @click="addItem('addForm',10)" size="small">保 存</el-button> -->
         <el-button type="primary" @click="addItem('addForm',11)" size="small">提 交</el-button>
         <el-button @click="addDialogVisible = false" size="small">取 消</el-button>
       </div>
@@ -328,7 +328,7 @@ export default {
   methods: {
     selectChange(i) {
       // this.$forceUpdate();
-      console.log("i---", i);
+
       if (i == "99") {
         this.isshow = true;
       } else {
@@ -379,7 +379,11 @@ export default {
             if (r.success) {
               this.form = r.data;
             //  this.fileinfo=r.data.FILE_NAME;
+            console.log('r.data.FILE_NAME',r.data.FILE_NAME);
+            if(r.data.FILE_NAME!=undefined && r.data.FILE_NAME!=""){
               this.fileinfos="<a href='"+(this.$api.rootUrl+r.data.FILE_PATH+r.data.FILE_NAME)+"'>"+r.data.FILE_NAME+"</a>";
+            }
+
             }
           })
           this.appid=i.APPLY_ID;
@@ -411,6 +415,7 @@ export default {
         formData.append("APPLY_TITLE", this.form.APPLY_TITLE);
         formData.append("APPLY_DESCRIBE", this.form.APPLY_DESCRIBE);
         formData.append("APPLY_TYPE", this.form.APPLY_TYPE);
+        formData.append("TYPE_DESC", this.form.TYPE_DESC);
         formData.append("PHONE", this.form.PHONE);
         formData.append("APPLY_STATUS", status);
 
@@ -444,35 +449,38 @@ export default {
     },
     uploadFile(event) {
 
-      if(!this.fileData){
-        console.log("this.fileData",event)
+      // if(!this.fileData){
+      //   console.log("this.fileData",event)
+      //
+      //   this.fileData = event.target.files;
+      //   this.fileData = [...this.fileData];
+      //   console.log("this.fileData",event)
+      // }else{
+      //   let arr=[...event.target.files];
+      //   console.log(arr)
+      //   let _this=this;
+      //   let arr0=this.fileData;
+      //   for (var i = 0; i < arr0.length; i++) {
+      //     for(var j=0;j<arr.length;j++){
+      //       if(arr0[i].name==arr[j].name){
+      //         console.log(arr0[i].name,arr[j].name)
+      //         arr.splice(j,1);
+      //       }
+      //     }
+      //   }
+      //   this.fileData=this.fileData.concat(arr);
+      //   console.log(this.fileData)
+      // }
 
-        this.fileData = event.target.files;
-        this.fileData = [...this.fileData];
-        console.log("this.fileData",event)
-      }else{
-        let arr=[...event.target.files];
-        console.log(arr)
-        let _this=this;
-        let arr0=this.fileData;
-        for (var i = 0; i < arr0.length; i++) {
-          for(var j=0;j<arr.length;j++){
-            if(arr0[i].name==arr[j].name){
-              console.log(arr0[i].name,arr[j].name)
-              arr.splice(j,1);
-            }
-          }
-        }
-        this.fileData=this.fileData.concat(arr);
-        console.log(this.fileData)
-      }
+      this.fileData = event.target.files;
     },
     deletesF(t) {
-      this.fileData.splice(t,1);
-      if(this.fileData.length==0){
-        this.fileData=null
-      }
-      console.log(this.fileData);
+      // this.fileData.splice(t,1);
+      // if(this.fileData.length==0){
+      //   this.fileData=null
+      // }
+      // console.log(this.fileData);
+      this.fileData=null;
     },
     delFileInfo(id) {
       let p = {
