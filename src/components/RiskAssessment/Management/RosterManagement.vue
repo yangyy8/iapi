@@ -322,7 +322,7 @@
     </el-dialog>
 
 
-    <el-dialog title="详情" :visible.sync="detailsDialogVisible" >
+    <el-dialog title="详情" :visible.sync="detailsDialogVisible">
       <el-form :model="map" ref="mapForm">
         <el-row type="flex"  class="mb-6">
           <el-col :span="12" class="input-item">
