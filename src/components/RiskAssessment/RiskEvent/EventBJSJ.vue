@@ -186,8 +186,8 @@
         </div>
       </div>
       <div class="ak-tab-pane" @mouseover="mouseHeader">
-        <el-button type="primary" class="mr-5" plain size="small" @click="openGdTc" :disabled="isdisable" v-if="pd.type!=4">批量归档</el-button>
-        <el-button type="primary" plain size="small" @click="openCzTc" :disabled="isdisable" v-if="pd.type!=4">批量事件处理</el-button>
+        <el-button type="primary" class="mr-5" plain size="small" @click="openGdTc('')" :disabled="isdisable" v-if="pd.type!=4&&pd.type!=1">批量归档</el-button>
+        <el-button type="primary" plain size="small" @click="openCzTc" :disabled="isdisable" v-if="pd.type!=4&&pd.type!=2">批量事件处理</el-button>
 
         <el-table
           class="mt-10 o-table3"
@@ -660,6 +660,7 @@ export default {
     },
     handleSelectionChange(val) {
       this.multipleSelection = val;
+      console.log("multipleSelection",val)
       if(this.multipleSelection.length==0){
         this.isdisable=true;
       }else{
@@ -830,6 +831,7 @@ export default {
       })
     },
     openGdTc(item){
+      console.log(item)
       if(item){
         this.checkeditem=item;
         this.gdDialogVisible2=true

@@ -122,12 +122,16 @@ function apiAxios(method, url, params, success, failure,header,responseType) {
       } else {
         if (failure) {
           failure(res.data)
+          if(loadingInstance1){
+            loadingInstance1.close();
+          }
         } else {
+          if(loadingInstance1){
+            loadingInstance1.close();
+          }
           console.log('error: ' + JSON.stringify(res.data));
         }
-        if(loadingInstance1){
-          loadingInstance1.close();
-        }
+
       }
     })
     .catch(function(err) {

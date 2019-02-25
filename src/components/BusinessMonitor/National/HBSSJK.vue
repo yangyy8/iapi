@@ -108,26 +108,26 @@
         <el-table-column
           label="航班号"
           prop="fltNo"
-          sortable
+          sortable="custom"
           width="90">
         </el-table-column>
         <el-table-column
           label="出发站"
           prop="portFrom"
-          sortable
+          sortable="custom"
           width="87"
           :show-overflow-tooltip="true">
         </el-table-column>
         <el-table-column
           label="目的站"
           prop="portTo"
-          sortable
+          sortable="custom"
           width="87"
           :show-overflow-tooltip="true">
         </el-table-column>
         <el-table-column
           label="出入标识"
-          sortable
+          sortable="custom"
           width="90"
           prop="FLIGHTTYPE"
           :show-overflow-tooltip="true">
@@ -142,7 +142,7 @@
         <el-table-column
           label="航班日期"
           prop="SCHEDULEDATIME"
-          sortable
+          sortable="custom"
           width="101"
           :show-overflow-tooltip="true">
           <template slot-scope="scope">
@@ -152,7 +152,7 @@
         <el-table-column
           label="航班状态"
           prop="status"
-          sortable
+          sortable="custom"
           width="101"
           :show-overflow-tooltip="true">
           <template slot-scope="scope">
@@ -184,21 +184,21 @@
         <el-table-column
           label="值机时间"
           prop="checkInTime"
-          sortable
+          sortable="custom"
           width="110"
           :show-overflow-tooltip="true">
         </el-table-column>
         <el-table-column
           label="计划起降时间"
           prop="scheduleDaTime"
-          sortable
+          sortable="custom"
           width="120"
           :show-overflow-tooltip="true">
         </el-table-column>
         <el-table-column
           label="实际起降时间"
           prop="daTime"
-          sortable
+          sortable="custom"
           width="120"
           :show-overflow-tooltip="true">
         </el-table-column>

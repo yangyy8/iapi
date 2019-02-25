@@ -193,6 +193,7 @@ export default {
   },
   watch:{
     gvisible:function(val){
+      console.log("gvisible",val)
       this.gdDialogVisible2=val;
       if(val){
         this.gdform={hit:'0'};
@@ -202,9 +203,11 @@ export default {
       }
     },
     garr:function(val){
+      console.log("garr",val)
       this.listData=val
     },
     gtype:function(val){
+      console.log("gtype",val)
       this.gt=val
     }
   },
@@ -250,11 +253,13 @@ export default {
         return
       }
       let arr1=this.listData;
+      console.log("arr1",arr1)
       let p={
         list:[],
         userId:this.user.userId,
         "hit":this.gdform.hit
       };
+      console.log("arr1.length",arr1.length)
       if(arr1.length){
         let that=this;
         for(var i=0;i<arr1.length;i++){
