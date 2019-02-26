@@ -242,7 +242,7 @@
       <div style="float:right;padding-right:10px;">  <el-button @click="addrows()" size="small">添 加</el-button></div>
           </el-col>
         </el-row>
-        <el-row type="flex" v-for="(rr,indes) in rows" :key="indes">
+        <el-row type="flex" v-for="(rr,indes) in rows"  :key="indes">
           <el-col :span="3" class="tjcon tjconr my-form-group" data-scope="demo2" data-name="targetName" data-type="input"
             v-validate-easy="[['required']]">
             <font class="yy-color">*</font>
@@ -252,7 +252,7 @@
           </el-col>
           <el-col :span="5" class="tjcon my-form-group" data-scope="demo2" data-name="targetId" data-type="select"
             v-validate-easy="[['required']]">
-           <el-select v-model="rr.targetId"  class="memoa" @change="changeTarget(rr.targetId)" filterable clearable placeholder="请选择"   size="small" >
+           <el-select v-model="rr.targetId"  class="memoa" @change="changeTarget(rr.targetId,indes)" filterable clearable placeholder="请选择"   size="small" >
              <el-option
                v-for="(item,ind) in target"
                :key="ind"
@@ -540,23 +540,29 @@ export default {
   },
   activated() {
   //  this.getList(this.CurrentPage, this.pageSize, this.pd);
-    this.queryNationality();
   },
   methods: {
-    changeTarget(value) {
-      console.log(value);
+    changeTarget(value,key) {
+      console.log(key)
       let arr = this.rows;
+      let arr1 = this.target;
       let that = this;
       for (var i = 0; i < arr.length; i++) {
-        if (arr[i].targetId == value) {
-
-          let obj = {};
-          obj = that.target.find((item) => { //这里的userList就是上面遍历的数据源
-            return item.TARGET_ID === value; //筛选出匹配数据
-          });
-          arr[i].targetSign = obj.TARGET_SIGN;
-          arr[i].targetName = obj.TARGET_SIGN;
+        for(var j = 0;j < arr1.length; j++){
+          if(arr1[j].TARGET_ID == value){
+            arr[key].targetSign = arr1[j].TARGET_SIGN;
+            arr[key].targetName = arr1[j].TARGET_SIGN;
+          }
         }
+        // if (arr[i].targetId == value) {
+        //
+        //   let obj = {};
+        //   obj = that.target.find((item) => { //这里的userList就是上面遍历的数据源
+        //     return item.TARGET_ID === value; //筛选出匹配数据
+        //   });
+        //   arr[i].targetSign = obj.TARGET_SIGN;
+        //   arr[i].targetName = obj.TARGET_SIGN;
+        // }
       }
 
       // console.log(obj.TARGET_SIGN);//我这边的name就是对应label的
@@ -924,6 +930,7 @@ export default {
       };
       this.modelrow.id = this.count;
       this.rows.push(this.modelrow);
+      console.log(this.rows)
     },
     deleterows(index) {
 console.log('index---',index);
