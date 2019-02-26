@@ -1150,13 +1150,13 @@ export default {
   },
   activated(){
     console.log('RYXXZH',this.$route.query.row);
-    this.cdt.passportnoEqual = this.$route.query.row.passportno;
-    this.cdt.fltnoEqual = this.$route.query.row.fltno;
-    this.cdt.familyname = this.$route.query.row.name;
-    this.cdt.genderEqual = this.sexZhuan(this.$route.query.row.gender);
-    this.cdt.dateofbirthEqual = this.zhuanhuan(this.$route.query.row.birthday)
-
-
+    if(this.$route.query.row){
+      this.cdt.passportnoEqual = this.$route.query.row.passportno;
+      this.cdt.fltnoEqual = this.$route.query.row.fltno;
+      this.cdt.familyname = this.$route.query.row.name;
+      this.cdt.genderEqual = this.sexZhuan(this.$route.query.row.gender);
+      this.cdt.dateofbirthEqual = this.zhuanhuan(this.$route.query.row.birthday)
+    }
   },
   filters: {
     fiftersex(val) {
