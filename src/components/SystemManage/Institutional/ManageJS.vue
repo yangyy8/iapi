@@ -209,6 +209,7 @@
 <el-dialog title="权限" :visible.sync="menuDialogVisible" width="500px">
   <el-tree
     :data="menudata"
+    :check-strictly="true"
     show-checkbox
     default-expand-all
     node-key="SERIAL"
@@ -348,37 +349,37 @@ export default {
       }else {
         this.dialogText="新增";
       }
-  this.V.$reset("demo");
+      this.V.$reset("demo");
     },
     addItem(formName) {
 
-this.V.$submit('demo', (canSumit,data) => {
-  // canSumit为true时，则所有该scope的所有表单验证通过
-   if(!canSumit) return;
-   // 只有验证全部通过才会执行
-      var url = "/manage-platform/roleSys/save";
-      if (this.tp == 1) {
-        url = "/manage-platform/roleSys/edit";
-      }
-      this.$api.post(url, this.form,
-        r => {
-          console.log(r);
-          if (r.success) {
-            this.$message({
-              message: '保存成功！',
-              type: 'success'
-            });
+      this.V.$submit('demo', (canSumit,data) => {
+        // canSumit为true时，则所有该scope的所有表单验证通过
+        if(!canSumit) return;
+        // 只有验证全部通过才会执行
+        var url = "/manage-platform/roleSys/save";
+        if (this.tp == 1) {
+          url = "/manage-platform/roleSys/edit";
+        }
+        this.$api.post(url, this.form,
+          r => {
+            console.log(r);
+            if (r.success) {
+              this.$message({
+                message: '保存成功！',
+                type: 'success'
+              });
             this.addDialogVisible = false;
-          } else {
-            this.$message.error(r.Message);
-          }
+            } else {
+              this.$message.error(r.Message);
+            }
 
-          this.$refs[formName].resetFields();
-          this.getList(this.CurrentPage, this.pageSize, this.pd);
-          // this.tableData=r.Data.ResultList;
-        }, e => {
-          this.$message.error('失败了');
-        })
+            this.$refs[formName].resetFields();
+            this.getList(this.CurrentPage, this.pageSize, this.pd);
+            // this.tableData=r.Data.ResultList;
+          }, e => {
+            this.$message.error('失败了');
+          })
         })
     },
     details(i) {
@@ -434,37 +435,36 @@ this.V.$submit('demo', (canSumit,data) => {
           if (r.success) {
             this.menudata = r.data.userTreeOne;
             let arr=r.data.userTreeOne,that=this;
-          this.defaultChecked=r.data.checkList;
+            this.defaultChecked=r.data.checkList;
           }
         })
 
 
     },
-menuItem(){
+    menuItem(){
 
-  let checkList=this.$refs.tree.getCheckedNodes();
-  //let checkList=this.$refs.tree.getCheckedKeys();
-  let p={
-    // menuList:this.menudata,
-   "ROLE_ID":this.sertail,
-    checkList:checkList
-  }
-  this.$api.post('/manage-platform/roleSys/editJuri', p,
-    r => {
-      console.log(r);
-      if (r.success) {
-        this.$message({
-          type: 'success',
-          message: '保存成功'
-        });
-      }else{
-
-  this.$message.error('保存失败');
+      let checkList=this.$refs.tree.getCheckedNodes();
+      console.log("checkList",checkList)
+      let p={
+        // menuList:this.menudata,
+       "ROLE_ID":this.sertail,
+        checkList:checkList
       }
-    })
-        this.menuDialogVisible = false;
+      this.$api.post('/manage-platform/roleSys/editJuri', p,
+        r => {
+          if (r.success) {
+            this.$message({
+              type: 'success',
+              message: '保存成功'
+            });
+          }else{
 
-},
+            this.$message.error('保存失败');
+          }
+        })
+            this.menuDialogVisible = false;
+
+    },
   },
   filters: {
 
