@@ -313,23 +313,13 @@ export default {
   },
   mounted() {
     this.codeName();
-<<<<<<< HEAD
     this.V.$reset('demo1');
     this.getList(this.pd);
   },
   activated(){
     this.V.$reset('demo1');
     this.getList(this.pd);
-=======
-    // this.V.$reset('demo1');
-  },
-  activated(){
-    // this.V.$reset('demo1');
-    // this.getList(this.pd);
-  },
-  destroyed(){
-    // this.V.$reset('demo1');
->>>>>>> 5f71f6208d289a2e48b8e9705d54e32e2ed83552
+
   },
   methods:{
     headerClick(column,event){
