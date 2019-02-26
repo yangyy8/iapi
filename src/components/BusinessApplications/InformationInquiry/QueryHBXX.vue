@@ -145,7 +145,20 @@
         <el-table-column
           prop="airwayMessage"
           sortable
-          label="航线">
+          label="航线"
+          width="150px">
+        </el-table-column>
+        <el-table-column
+          prop="departuretimeStr"
+          sortable
+          label="计划起飞时间"
+          width="150px">
+        </el-table-column>
+        <el-table-column
+          prop="arrivetimeStr"
+          sortable
+          label="计划降落时间"
+          width="150px">
         </el-table-column>
         <el-table-column
           prop="status"

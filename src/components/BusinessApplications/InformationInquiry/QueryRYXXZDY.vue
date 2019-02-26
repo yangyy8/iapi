@@ -491,7 +491,7 @@
         </el-table-column>
         <el-table-column
           label="操作"
-          width="100">
+          min-width="100">
           <template slot-scope="scope">
             <el-button type="text" class="a-btn" title="详情" icon="el-icon-tickets" @click="detailsIapi(scope.row)"></el-button>
          </template>
@@ -553,13 +553,13 @@
           prop="pnrName"
           label="姓名"
           sortable='custom'
-          width="130"
+          min-width="130"
           v-if="checkListPnrHc.indexOf('pnrName')>-1">
         </el-table-column>
         <el-table-column
           prop="PNR_GENDER"
           label="性别"
-          width="100"
+          min-width="100"
           sortable='custom'
           v-if="checkListPnrHc.indexOf('PNR_GENDER')>-1">
           <template slot-scope="scope">
@@ -569,49 +569,49 @@
         <el-table-column
           prop="pnrBirthdayName"
           label="出生日期"
-          width="130"
+          min-width="130"
           sortable='custom'
           v-if="checkListPnrHc.indexOf('pnrBirthdayName')>-1">
         </el-table-column>
         <el-table-column
           prop="pnrNationaName"
           label="国籍/地区"
-          width="130"
+          min-width="130"
           sortable='custom'
           v-if="checkListPnrHc.indexOf('pnrNationaName')>-1">
         </el-table-column>
         <el-table-column
           prop="PNR_PASSPORTNO"
           label="证件号码"
-          width="130"
+          min-width="130"
           sortable='custom'
           v-if="checkListPnrHc.indexOf('PNR_PASSPORTNO')>-1">
         </el-table-column>
         <el-table-column
           prop="PNR_CARDEXPIREDATESTR"
           label="证件有效期"
-          width="140"
+          min-width="140"
           sortable='custom'
           v-if="checkListPnrHc.indexOf('PNR_CARDEXPIREDATESTR')>-1">
         </el-table-column>
         <el-table-column
           prop="PNR_FLTNO"
           label="航班号"
-          width="100"
+          min-width="100"
           sortable='custom'
           v-if="checkListPnrHc.indexOf('PNR_FLTNO')>-1">
         </el-table-column>
         <el-table-column
           prop="PNR_FLTDATE1STR"
           label="航班日期"
-          width="150"
+          min-width="150"
           sortable='custom'
           v-if="checkListPnrHc.indexOf('PNR_FLTDATE1STR')>-1">
         </el-table-column>
         <el-table-column
           prop="PNR_FLTTYPE"
           label="出入标识"
-          width="100"
+          min-width="100"
           sortable='custom'
           v-if="checkListPnrHc.indexOf('PNR_FLTTYPE')>-1">
           <template slot-scope="scope">
@@ -621,63 +621,63 @@
         <el-table-column
           prop="pnrCityfromName"
           label="起飞机场"
-          width="130"
+          min-width="130"
           sortable='custom'
           v-if="checkListPnrHc.indexOf('pnrCityfromName')>-1">
         </el-table-column>
         <el-table-column
           prop="pnrCitytoName"
           label="到达机场"
-          width="150"
+          min-width="150"
           sortable='custom'
           v-if="checkListPnrHc.indexOf('pnrCitytoName')>-1">
         </el-table-column>
         <el-table-column
           prop="PNR_DEPARTDATESTR"
           label="预计起飞时间"
-          width="130"
+          min-width="130"
           sortable='custom'
           v-if="checkListPnrHc.indexOf('PNR_DEPARTDATESTR')>-1">
         </el-table-column>
         <el-table-column
           prop="PNR_ARRIVDATESTR"
           label="预计到达时间"
-          width="180"
+          min-width="180"
           sortable='custom'
           v-if="checkListPnrHc.indexOf('PNR_ARRIVDATESTR')>-1">
         </el-table-column>
         <el-table-column
           prop="PNR_TKTNUMBER"
           label="电子客票号"
-          width="150"
+          min-width="150"
           sortable='custom'
           v-if="checkListPnrHc.indexOf('PNR_TKTNUMBER')>-1">
         </el-table-column>
         <el-table-column
           prop="PNR_RCI"
           label="旅客订票号"
-          width="150"
+          min-width="150"
           sortable='custom'
           v-if="checkListPnrHc.indexOf('PNR_RCI')>-1">
         </el-table-column>
         <el-table-column
           prop="PNR_RCIDATE"
           label="订票时间"
-          width="150"
+          min-width="150"
           sortable='custom'
           v-if="checkListPnrHc.indexOf('PNR_RCIDATE')>-1">
         </el-table-column>
         <el-table-column
           prop="PNR_SPECIFIGSEAT"
           label="座位号"
-          width="150"
+          min-width="150"
           sortable='custom'
           v-if="checkListPnrHc.indexOf('PNR_SPECIFIGSEAT')>-1">
         </el-table-column>
         <el-table-column
           prop="PNR_CARBINCLASSDESIGNATOR"
           label="舱位"
-          width="130"
+          min-width="130"
           sortable='custom'
           v-if="checkListPnrHc.indexOf('PNR_CARBINCLASSDESIGNATOR')>-1">
         </el-table-column>
@@ -685,49 +685,49 @@
         <el-table-column
           prop="tifgr2_Other_names"
           label="旅客其他姓名"
-          width="140"
+          min-width="140"
 
           v-if="checkListPnrHc.indexOf('tifgr2_Other_names')>-1">
         </el-table-column>
         <el-table-column
           prop="tifgr2_T_A_by_Infant_Indicator"
           label="携带婴儿标志"
-          width="140"
+          min-width="140"
 
           v-if="checkListPnrHc.indexOf('tifgr2_T_A_by_Infant_Indicator')>-1">
         </el-table-column>
         <el-table-column
           prop="orglv2_Travel_Agent_Identification"
           label="代理人IATA ID号"
-          width="140"
+          min-width="140"
 
           v-if="checkListPnrHc.indexOf('orglv2_Travel_Agent_Identification')>-1">
         </el-table-column>
         <el-table-column
           prop="orglv2_In_House_Identification"
           label="系统内部分配给代理的ID号"
-          width="140"
+          min-width="140"
 
           v-if="checkListPnrHc.indexOf('orglv2_In_House_Identification')>-1">
         </el-table-column>
         <el-table-column
           prop="orglv2_Location_identification"
           label="发送请求的代理所在城市"
-          width="140"
+          min-width="140"
 
           v-if="checkListPnrHc.indexOf('orglv2_Location_identification')>-1">
         </el-table-column>
         <el-table-column
           prop="orglv2_Company_Identification"
           label="PNR报文发送方"
-          width="140"
+          min-width="140"
 
           v-if="checkListPnrHc.indexOf('orglv2_Company_Identification')>-1">
         </el-table-column>
         <el-table-column
           prop="addlv2_Country_Coded"
           label="订票人住址所在国家"
-          width="140"
+          min-width="140"
 
           v-if="checkListPnrHc.indexOf('addlv2_Country_Coded')>-1">
           <template slot-scope="scope">
@@ -748,7 +748,7 @@
         <el-table-column
           prop="addlv2_City_Name"
           label="订票人住址所在城市"
-          width="140"
+          min-width="140"
 
           v-if="checkListPnrHc.indexOf('addlv2_City_Name')>-1">
           <template slot-scope="scope">
@@ -770,7 +770,7 @@
         <el-table-column
           prop="addlv2_STREET_AND_NUMBER"
           label="订票人住址所在街道"
-          width="140"
+          min-width="140"
 
           v-if="checkListPnrHc.indexOf('addlv2_STREET_AND_NUMBER')>-1">
           <template slot-scope="scope">
@@ -791,7 +791,7 @@
         <el-table-column
           prop="iftlv2_content"
           label="订票人联系方式"
-          width="140"
+          min-width="140"
 
           v-if="checkListPnrHc.indexOf('iftlv2_content')>-1">
           <template slot-scope="scope">
@@ -812,7 +812,7 @@
         <el-table-column
           prop="foplv4_PAYMENT_TYPE"
           label="订票人付款方式"
-          width="140"
+          min-width="140"
 
           v-if="checkListPnrHc.indexOf('foplv4_PAYMENT_TYPE')>-1">
           <template slot-scope="scope">
@@ -833,7 +833,7 @@
         <el-table-column
           prop="foplv4_AccountNumber"
           label="订票人付款帐号"
-          width="140"
+          min-width="140"
 
           v-if="checkListPnrHc.indexOf('foplv4_AccountNumber')>-1">
           <template slot-scope="scope">
@@ -854,7 +854,7 @@
         <el-table-column
           prop="msglv2_GR9SERIAL"
           label="订票人是否同时预定租车、酒店服务"
-          width="140"
+          min-width="140"
 
           v-if="checkListPnrHc.indexOf('msglv2_GR9SERIAL')>-1">
           <template slot-scope="scope">
@@ -875,7 +875,7 @@
         <el-table-column
           prop="iftlv3_content"
           label="旅客联系方式"
-          width="140"
+          min-width="140"
 
           v-if="checkListPnrHc.indexOf('iftlv3_content')>-1">
           <template slot-scope="scope">
@@ -896,21 +896,21 @@
         <el-table-column
           prop="tifgr2other_tifcount"
           label="订单旅客数量"
-          width="140"
+          min-width="140"
 
           v-if="checkListPnrHc.indexOf('tifgr2other_tifcount')>-1">
         </el-table-column>
         <el-table-column
           prop="tbdgr7_NUMBEROFPIECES"
           label="旅客行李数量"
-          width="140"
+          min-width="140"
           sortable='custom'
           v-if="checkListPnrHc.indexOf('tbdgr7_NUMBEROFPIECES')>-1">
         </el-table-column>
         <el-table-column
           prop="tbddetailgr7_BAG_LICENSE_PLATE"
           label="旅客行李条码"
-          width="140"
+          min-width="140"
 
           v-if="checkListPnrHc.indexOf('tbddetailgr7_BAG_LICENSE_PLATE')>-1">
           <template slot-scope="scope">
@@ -931,7 +931,7 @@
         <el-table-column
           prop="tbddetailgr7_CONSECUTIVE_TAGS_SERIAL_NUM"
           label="旅客行李连续条码数量"
-          width="140"
+          min-width="140"
 
           v-if="checkListPnrHc.indexOf('tbddetailgr7_CONSECUTIVE_TAGS_SERIAL_NUM')>-1">
           <template slot-scope="scope">
@@ -952,7 +952,7 @@
         <el-table-column
           prop="tbddetailgr7_PLACE_OF_DESTINATION"
           label="旅客行李目的地"
-          width="140"
+          min-width="140"
 
           v-if="checkListPnrHc.indexOf('tbddetailgr7_PLACE_OF_DESTINATION')>-1">
           <template slot-scope="scope">
@@ -973,14 +973,14 @@
         <el-table-column
           prop="ebddetaillv3_QUANTITY"
           label="旅客超重行李件数"
-          width="140"
+          min-width="140"
 
           v-if="checkListPnrHc.indexOf('ebddetaillv3_QUANTITY')>-1">
         </el-table-column>
         <el-table-column
           prop="ftilv2_Frequent_T_Idenification"
           label="常客ID号码"
-          width="140"
+          min-width="140"
 
           v-if="checkListPnrHc.indexOf('ftilv2_Frequent_T_Idenification')>-1">
           <template slot-scope="scope">
@@ -1001,7 +1001,7 @@
         <el-table-column
           prop="ftilv2_Membership_Level"
           label="常客级别"
-          width="140"
+          min-width="140"
 
           v-if="checkListPnrHc.indexOf('ftilv2_Membership_Level')>-1">
           <template slot-scope="scope">
@@ -1022,7 +1022,7 @@
         <el-table-column
           prop="monlv4_Monetary_amount_type"
           label="客票金额类型"
-          width="140"
+          min-width="140"
 
           v-if="checkListPnrHc.indexOf('monlv4_Monetary_amount_type')>-1">
           <template slot-scope="scope">
@@ -1043,7 +1043,7 @@
         <el-table-column
           prop="monlv4_Amount"
           label="客票金额"
-          width="140"
+          min-width="140"
 
           v-if="checkListPnrHc.indexOf('monlv4_Amount')>-1">
           <template slot-scope="scope">
@@ -1064,7 +1064,7 @@
         <el-table-column
           prop="monlv4_Currency"
           label="客票货币类型代码"
-          width="140"
+          min-width="140"
 
           v-if="checkListPnrHc.indexOf('monlv4_Currency')>-1">
           <template slot-scope="scope">
@@ -1085,7 +1085,7 @@
         <el-table-column
           prop="txdlv4_Tax_Amount"
           label="税金额"
-          width="120"
+          min-width="120"
 
           v-if="checkListPnrHc.indexOf('txdlv4_Tax_Amount')>-1">
           <template slot-scope="scope">
@@ -1106,7 +1106,7 @@
         <el-table-column
           prop="txdlv4_Currency"
           label="税货币类型代码"
-          width="140"
+          min-width="140"
 
           v-if="checkListPnrHc.indexOf('txdlv4_Currency')>-1">
           <template slot-scope="scope">
@@ -1127,7 +1127,7 @@
         <el-table-column
           prop="txdlv4_Tax_Type"
           label="税类型"
-          width="120"
+          min-width="120"
 
           v-if="checkListPnrHc.indexOf('txdlv4_Tax_Type')>-1">
           <template slot-scope="scope">
@@ -1148,14 +1148,14 @@
         <el-table-column
           prop="ssrlv3_FREETXT_is"
           label="旅客有无特殊需求"
-          width="140"
+          min-width="140"
 
           v-if="checkListPnrHc.indexOf('ssrlv3_FREETXT_is')>-1">
         </el-table-column>
         <el-table-column
           prop="ssrlv3_SPECIAL_REQUIREMENT_TYPE"
           label="旅客特殊需求类型"
-          width="140"
+          min-width="140"
 
           v-if="checkListPnrHc.indexOf('ssrlv3_SPECIAL_REQUIREMENT_TYPE')>-1">
           <template slot-scope="scope">
@@ -1176,7 +1176,7 @@
         <el-table-column
           prop="ssrlv3_FREETXT"
           label="旅客特殊需求描述"
-          width="140"
+          min-width="140"
 
           v-if="checkListPnrHc.indexOf('ssrlv3_FREETXT')>-1">
           <template slot-scope="scope">
@@ -1197,14 +1197,14 @@
         <el-table-column
           prop="ssrlv2_FREETXT_is"
           label="订单有无特殊需求"
-          width="140"
+          min-width="140"
 
           v-if="checkListPnrHc.indexOf('ssrlv2_FREETXT_is')>-1">
         </el-table-column>
         <el-table-column
           prop="ssrlv2_SPECIAL_REQUIREMENT_TYPE"
           label="订单特殊需求类型"
-          width="140"
+          min-width="140"
           sortable='custom'
           v-if="checkListPnrHc.indexOf('ssrlv2_SPECIAL_REQUIREMENT_TYPE')>-1">
           <template slot-scope="scope">
@@ -1225,7 +1225,7 @@
         <el-table-column
           prop="ssrlv2_FREETXT"
           label="订单特殊需求描述"
-          width="140"
+          min-width="140"
 
           v-if="checkListPnrHc.indexOf('ssrlv2_FREETXT')>-1">
           <template slot-scope="scope">
@@ -1246,14 +1246,14 @@
         <el-table-column
           prop="tvlgr5_TYPE_OF_AIRCRAFT"
           label="航班飞机型号"
-          width="140"
+          min-width="140"
 
           v-if="checkListPnrHc.indexOf('tvlgr5_TYPE_OF_AIRCRAFT')>-1">
         </el-table-column>
         <el-table-column
           prop="tifchangegr11_Passenger_type"
           label="变更旅客类型"
-          width="140"
+          min-width="140"
 
           v-if="checkListPnrHc.indexOf('tifchangegr11_Passenger_type')>-1">
           <template slot-scope="scope">
@@ -1274,14 +1274,14 @@
         <el-table-column
           prop="CHANGE_NAME"
           label="变更旅客姓名"
-          width="140"
+          min-width="140"
 
           v-if="checkListPnrHc.indexOf('CHANGE_NAME')>-1">
         </el-table-column>
         <el-table-column
           prop="tifchangegr11_OTHER_NAMES"
           label="变更旅客其他姓名"
-          width="140"
+          min-width="140"
 
           v-if="checkListPnrHc.indexOf('tifchangegr11_OTHER_NAMES')>-1">
           <template slot-scope="scope">
@@ -1302,7 +1302,7 @@
         <el-table-column
           prop="tifchangegr11_TRAVELLER_A_BY_INFANT_ID"
           label="变更旅客携带婴儿标志"
-          width="140"
+          min-width="140"
 
           v-if="checkListPnrHc.indexOf('tifchangegr11_TRAVELLER_A_BY_INFANT_ID')>-1">
           <template slot-scope="scope">
@@ -1323,7 +1323,7 @@
         <el-table-column
           prop="tifchangegr11_SPECIAL_REQUIREMENT_TYPE"
           label="变更旅客特殊需求类型"
-          width="140"
+          min-width="140"
 
           v-if="checkListPnrHc.indexOf('tifchangegr11_SPECIAL_REQUIREMENT_TYPE')>-1">
           <template slot-scope="scope">
@@ -1344,7 +1344,7 @@
         <el-table-column
           prop="tifchangegr11_ssrfreetxt"
           label="变更旅客特殊需求描述"
-          width="140"
+          min-width="140"
 
           v-if="checkListPnrHc.indexOf('tifchangegr11_ssrfreetxt')>-1">
           <template slot-scope="scope">
@@ -1365,7 +1365,7 @@
         <el-table-column
           prop="tifchangegr11_Status_Code"
           label="变更状态代码"
-          width="140"
+          min-width="140"
 
           v-if="checkListPnrHc.indexOf('tifchangegr11_Status_Code')>-1">
           <template slot-scope="scope">
@@ -1386,14 +1386,14 @@
         <el-table-column
           prop="tbdgr11_NUMBEROFPIECES"
           label="变更行李数量"
-          width="140"
+          min-width="140"
 
           v-if="checkListPnrHc.indexOf('tbdgr11_NUMBEROFPIECES')>-1">
         </el-table-column>
         <el-table-column
           prop="tvlgr12_MARKETING_FLIGHT_NUMBER"
           label="变更航班号"
-          width="140"
+          min-width="140"
 
           v-if="checkListPnrHc.indexOf('tvlgr12_MARKETING_FLIGHT_NUMBER')>-1">
           <template slot-scope="scope">
@@ -1414,7 +1414,7 @@
         <el-table-column
           prop="tvlgr12_MARKETING_AIRLINE_CODE"
           label="变更航空公司"
-          width="140"
+          min-width="140"
 
           v-if="checkListPnrHc.indexOf('tvlgr12_MARKETING_AIRLINE_CODE')>-1">
           <template slot-scope="scope">
@@ -1435,7 +1435,7 @@
         <el-table-column
           prop="tvlgr12_DEPARTURE_DATE"
           label="变更起飞时间"
-          width="140"
+          min-width="140"
 
           v-if="checkListPnrHc.indexOf('tvlgr12_DEPARTURE_DATE')>-1">
           <template slot-scope="scope">
@@ -1456,7 +1456,7 @@
         <el-table-column
           prop="tvlgr12_ARRIVAL_DATE"
           label="变更到达时间"
-          width="140"
+          min-width="140"
 
           v-if="checkListPnrHc.indexOf('tvlgr12_ARRIVAL_DATE')>-1">
           <template slot-scope="scope">
@@ -1477,7 +1477,7 @@
         <el-table-column
           prop="tvlgr12_THE_LAST_DEPARTURE_AIRPORT"
           label="变更起飞机场"
-          width="140"
+          min-width="140"
 
           v-if="checkListPnrHc.indexOf('tvlgr12_THE_LAST_DEPARTURE_AIRPORT')>-1">
           <template slot-scope="scope">
@@ -1498,7 +1498,7 @@
         <el-table-column
           prop="tvlgr12_THE_FIRST_ARRIVAL_AIRPORT"
           label="变更降落机场"
-          width="140"
+          min-width="140"
 
           v-if="checkListPnrHc.indexOf('tvlgr12_THE_FIRST_ARRIVAL_AIRPORT')>-1">
           <template slot-scope="scope">
@@ -1519,7 +1519,7 @@
         <el-table-column
           prop="abigr10_TRAVEL_AGENT_IDENTIFICATION"
           label="变更操作者的ID信息"
-          width="140"
+          min-width="140"
 
           v-if="checkListPnrHc.indexOf('abigr10_TRAVEL_AGENT_IDENTIFICATION')>-1">
           <template slot-scope="scope">
@@ -1540,7 +1540,7 @@
         <el-table-column
           prop="abigr10_PLACE"
           label="变更者的城市代码"
-          width="140"
+          min-width="140"
 
           v-if="checkListPnrHc.indexOf('abigr10_PLACE')>-1">
           <template slot-scope="scope">
@@ -1561,7 +1561,7 @@
         <el-table-column
           prop="abigr10_COMPANY_IDENTIFICATION"
           label="变更者的所属航司或GDS"
-          width="140"
+          min-width="140"
 
           v-if="checkListPnrHc.indexOf('abigr10_COMPANY_IDENTIFICATION')>-1">
           <template slot-scope="scope">
@@ -1582,7 +1582,7 @@
         <el-table-column
           prop="eqngr8_NUMBER_OF_UNITS"
           label="分离的人数"
-          width="140"
+          min-width="140"
 
           v-if="checkListPnrHc.indexOf('eqngr8_NUMBER_OF_UNITS')>-1">
           <template slot-scope="scope">
@@ -1603,7 +1603,7 @@
         <el-table-column
           prop="rcigr8_COMPANY_IDENTIFICATION"
           label="分离后的编号所属的航空公司"
-          width="140"
+          min-width="140"
 
           v-if="checkListPnrHc.indexOf('rcigr8_COMPANY_IDENTIFICATION')>-1">
           <template slot-scope="scope">
@@ -1624,7 +1624,7 @@
         <el-table-column
           prop="rcigr8_RESERVATION_CONTROL_NUMBER"
           label="分离后的记录编号"
-          width="140"
+          min-width="140"
 
           v-if="checkListPnrHc.indexOf('rcigr8_RESERVATION_CONTROL_NUMBER')>-1">
           <template slot-scope="scope">
@@ -1645,34 +1645,34 @@
         <el-table-column
           prop="datgr6_FIRST_DATE"
           label="航班check-in时间"
-          width="140"
+          min-width="140"
 
           v-if="checkListPnrHc.indexOf('datgr6_FIRST_DATE')>-1">
         </el-table-column>
         <el-table-column
           prop="tifgr7_Other_names"
           label="值机旅客其他姓名"
-          width="140"
+          min-width="140"
 
           v-if="checkListPnrHc.indexOf('tifgr7_Other_names')>-1">
         </el-table-column>
         <el-table-column
           prop="tifgr7_T_A_by_Infant_Indicator"
           label="值机旅客携带婴儿标志"
-          width="140"
+          min-width="140"
 
           v-if="checkListPnrHc.indexOf('tifgr7_T_A_by_Infant_Indicator')>-1">
         </el-table-column>
         <el-table-column
           prop="tifgr7_boardingsequence"
           label="旅客的登机序号"
-          width="140"
+          min-width="140"
 
           v-if="checkListPnrHc.indexOf('tifgr7_boardingsequence')>-1">
         </el-table-column>
         <el-table-column
           label="操作"
-          width="100">
+          min-width="100">
           <template slot-scope="scope">
             <el-button type="text" class="a-btn" title="详情" icon="el-icon-tickets" @click="detailsPnr(scope.row)"></el-button>
          </template>
