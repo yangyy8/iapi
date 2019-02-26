@@ -244,11 +244,11 @@
         </el-row>
         <el-row type="flex" v-for="(rr,indes) in rows" :key="indes">
           <el-col :span="3" class="tjcon tjconr my-form-group" data-scope="demo2" data-name="targetName" data-type="input"
-            v-validate-easy="[['required']]" >
+            v-validate-easy="[['required']]">
             <font class="yy-color">*</font>
              <!-- C{{rr.id}}： -->
-             <el-input placeholder="" size="small" style="width:80px;text-align:right;"  v-model="rr.targetName"></el-input>：
-             <el-input placeholder="" size="small" style="width:80px;text-align:right;display:none"  v-model="rr.targetSign"></el-input>
+             <el-input placeholder="" size="small" style="width:75%;text-align:right;"  v-model="rr.targetName"></el-input>：
+             <el-input placeholder="" size="small" style="width:75%;text-align:right;display:none"  v-model="rr.targetSign"></el-input>
           </el-col>
           <el-col :span="5" class="tjcon my-form-group" data-scope="demo2" data-name="targetId" data-type="select"
             v-validate-easy="[['required']]">

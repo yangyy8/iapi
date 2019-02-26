@@ -319,6 +319,7 @@ export default {
   activated(){
     this.V.$reset('demo1');
     this.getList(this.pd);
+    
   },
   methods:{
     headerClick(column,event){
