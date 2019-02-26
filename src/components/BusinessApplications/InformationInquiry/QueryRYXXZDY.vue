@@ -2,7 +2,7 @@
   <div class="">
     <!-- 查询条件 -->
     <div class="ak-tab-pane" >
-      <el-row type="flex" style="height:100%">
+      <el-row type="flex">
         <el-col :span="22" class="br" type="flex">
           <el-row type="flex" justify="start">
             <el-col :sm="24" :md="12" :lg="12" class="selfAdd">
@@ -18,7 +18,7 @@
                  :data="selfRows"
                  border
                  style="width: 100%;"
-                 max-height="140">
+                 max-height="245">
                  <el-table-column
                    label="属性"
                    width="150">
@@ -161,13 +161,43 @@
                </el-table>
              </el-col>
 
-
               <!-- 右边表达式 -->
               <el-col :lg="10" class="queryRight">
                 <el-row type="flex" align="center" :gutter="10" style="width:100%">
                   <span class="input-text expression-text">表达式：</span>
-                  <el-input type="textarea" class="expression" v-model="aaa" v-if="isa"></el-input>
-                  <el-input type="textarea" class="expression" v-model="str2" v-if="iss"></el-input>
+                  <el-input type="textarea" class="expression" v-model="aaa" v-if="isa" @focus="isa=false"></el-input>
+                  <el-input type="textarea" class="expression" v-model="str2" v-if="!isa"></el-input>
+                  <!-- <el-input type="textarea" class="expression" v-model="str2" v-if="iss"></el-input> -->
+                </el-row>
+                <!-- 方案保存 -->
+                <el-row type="flex" style="width:100%;margin-top:10px">
+                  <div class="t-save">
+                    <el-select  filterable v-model="ffff" @visible-change="selfSavePlanShow" filterable clearable @change="selfPlanQuery(ffff)" placeholder="方案选择" size="small" class="mr-15">
+                      <el-option
+                        v-for="item in selfSaveName"
+                        :label="item"
+                        :value="item"
+                        :key="item"
+                        >
+                        <span class="planItem">{{item}}</span>
+                        <span class="planDelete el-icon-circle-close" @click.stop="selfDeleteItem(item)"></span>
+                      </el-option>
+                    </el-select>
+                    <!-- <el-select  filterable v-model="nnnn" v-if="bigBase==8" @visible-change="selfSavePlanShow" filterable clearable @change="selfPlanQuery(nnnn)" placeholder="方案选择" size="small" class="mr-15">
+                      <el-option
+                        v-for="item in selfSaveNamePnr"
+                        :label="item"
+                        :value="item"
+                        :key="item"
+                        >
+                        <span class="planItem">{{item}}</span>
+                        <span class="planDelete el-icon-circle-close" @click.stop="selfDeleteItem(item)"></span>
+                      </el-option>
+                    </el-select> -->
+                    <button type="button" name="button" @click="selfDialogVisible = true;fff=''">保存方案</button>
+                  </div>
+
+
                 </el-row>
               </el-col>
           </el-row>
@@ -180,7 +210,7 @@
                  :data="selfRowsPnr"
                  border
                  style="width: 100%;"
-                 max-height="140">
+                 max-height="245">
                  <el-table-column
                    label="属性"
                    width="150">
@@ -362,7 +392,38 @@
               <el-col :lg="10" class="queryRight">
                 <el-row type="flex" align="center" :gutter="10" style="width:100%">
                   <span class="input-text expression-text">表达式：</span>
-                  <el-input type="textarea" class="expression" v-model="bbb" @input="ii()"></el-input>
+                  <el-input type="textarea" class="expression" v-model="bbb" v-if="isaPnr" @focus="isaPnr=false"></el-input>
+                  <el-input type="textarea" class="expression" v-model="str1" v-if="!isaPnr"></el-input>
+                </el-row>
+                <!-- 方案保存 -->
+                <el-row type="flex" style="width:100%;margin-top:10px">
+                  <!-- <el-col :span="22"> -->
+                    <div class="t-save">
+                      <!-- <el-select  filterable v-model="ffff" v-if="bigBase==7" @visible-change="selfSavePlanShow" filterable clearable @change="selfPlanQuery(ffff)" placeholder="方案选择" size="small" class="mr-15">
+                        <el-option
+                          v-for="item in selfSaveName"
+                          :label="item"
+                          :value="item"
+                          :key="item"
+                          >
+                          <span class="planItem">{{item}}</span>
+                          <span class="planDelete el-icon-circle-close" @click.stop="selfDeleteItem(item)"></span>
+                        </el-option>
+                      </el-select> -->
+                      <el-select  filterable v-model="nnnn" @visible-change="selfSavePlanShow" filterable clearable @change="selfPlanQuery(nnnn)" placeholder="方案选择" size="small" class="mr-15">
+                        <el-option
+                          v-for="item in selfSaveNamePnr"
+                          :label="item"
+                          :value="item"
+                          :key="item"
+                          >
+                          <span class="planItem">{{item}}</span>
+                          <span class="planDelete el-icon-circle-close" @click.stop="selfDeleteItem(item)"></span>
+                        </el-option>
+                      </el-select>
+                      <button type="button" name="button" @click="selfDialogVisible = true;fff=''">保存方案</button>
+                    </div>
+                  <!-- </el-col> -->
                 </el-row>
               </el-col>
           </el-row>
@@ -372,50 +433,7 @@
           <el-button type="primary" plain size="small" @click="selfReset">重置</el-button>
         </el-col>
       </el-row>
-      <!-- 方案保存 -->
-      <el-row type="flex" style="height:100%">
-        <el-col :span="22">
-          <div class="t-save">
-            <el-select  filterable v-model="ffff" v-if="bigBase==7" @visible-change="selfSavePlanShow" filterable clearable @change="selfPlanQuery(ffff)" placeholder="方案选择" size="small" class="mr-15">
-              <el-option
-                v-for="item in selfSaveName"
-                :label="item"
-                :value="item"
-                :key="item"
-                >
-                <span class="planItem">{{item}}</span>
-                <span class="planDelete el-icon-circle-close" @click.stop="selfDeleteItem(item)"></span>
-              </el-option>
-            </el-select>
-            <el-select  filterable v-model="nnnn" v-if="bigBase==8" @visible-change="selfSavePlanShow" filterable clearable @change="selfPlanQuery(nnnn)" placeholder="方案选择" size="small" class="mr-15">
-              <el-option
-                v-for="item in selfSaveNamePnr"
-                :label="item"
-                :value="item"
-                :key="item"
-                >
-                <span class="planItem">{{item}}</span>
-                <span class="planDelete el-icon-circle-close" @click.stop="selfDeleteItem(item)"></span>
-              </el-option>
-            </el-select>
-            <button type="button" name="button" @click="selfDialogVisible = true;fff=''">保存方案</button>
-          </div>
 
-          <el-dialog
-            title="方案名称"
-            :visible.sync="selfDialogVisible"
-            width="30%">
-            <el-form  class="plan">
-              <el-form-item label="方案名称:" :label-width="formLabelWidth">
-                <el-input v-model="fff" auto-complete="off"></el-input>
-              </el-form-item>
-            </el-form>
-            <span slot="footer" class="dialog-footer">
-              <el-button type="primary" @click="selfPlanSave">保存</el-button>
-            </span>
-          </el-dialog>
-        </el-col>
-      </el-row>
     </div>
     <div class="middle-btn-g middle relative">
       <div class="dingwei">
@@ -496,7 +514,7 @@
             </el-select>
             条
           </div>
-          <div class="" class="loadingtext">
+          <div class="loadingtext">
             共{{totalResult}}条
           </div>
         </div>
@@ -1946,6 +1964,20 @@
       width="1220px">
       <AlarmProcess></AlarmProcess>
     </el-dialog>
+
+    <el-dialog
+      title="方案名称"
+      :visible.sync="selfDialogVisible"
+      width="30%">
+      <el-form  class="plan">
+        <el-form-item label="方案名称:" :label-width="formLabelWidth">
+          <el-input v-model="fff" auto-complete="off"></el-input>
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="selfPlanSave">保存</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -1961,8 +1993,9 @@ export default {
   data(){
     return{
       isa:true,
-      iss:false,
       str2:'',
+      isaPnr:true,
+      str1:'',
       orderIapiStateZDY:0,//未排序
       orderIapiHcZDY:{},
       orderPnrStateZDY:0,//未排序
@@ -2004,8 +2037,7 @@ export default {
       sortSet:[],//排序
       selfCdt:{AAAAA:''},//自定义查询表达式信息
       str:'',
-      str1:'',
-      typeG:0,
+
       selfD:{},
       selfRows:[
         {
@@ -2042,8 +2074,6 @@ export default {
       passengerPnr:[],
       changeStatePnr:[],
       strPnr:'',
-      strPnr1:'',
-      typePnrG:0,
       selfPnrD:{},
       selfRowsPnr:[
         {
@@ -2193,7 +2223,6 @@ export default {
       //方案保存pnr
       nnnn:'',//方案渲染
       selfSaveNamePnr:[],//方案名称集合
-      // aaa:""
     }
   },
   mounted(){
@@ -2246,59 +2275,50 @@ export default {
           };
         }
         this.selfCdt.AAAAA = this.str;
-        // console.log("this.str===",this.str)
+        this.str2=this.str
         return  this.str;
       },
       set:function(newVal){
-        this.aaa2 = newVal;
-        // console.log("newVal===",newVal)
+        this.str = newVal;
       }
     },
     bbb:{
       get:function(){
         let switchArr='';
         let arr = this.selfRowsPnr;
-        if(this.selfRowsPnr[0].attribute!=''){
-            this.strPnr='';
-            for(var i=0;i<arr.length;i++){
-              if(arr[i].operator=='等于'){
-                switchArr='='
-              }else if(arr[i].operator=='小于'){
-                switchArr='<'
-              }else if(arr[i].operator=='大于'){
-                switchArr='>'
-              }else if(arr[i].operator=='大于等于'){
-                switchArr='>='
-              }else if(arr[i].operator=='小于等于'){
-                switchArr='<='
-              }else if(arr[i].operator=='不包含'){
-                switchArr='<>'
-              }else if(arr[i].operator=='模糊'){
-                switchArr='like'
-              }
-              if(arr[i].attribute==''){
-                 this.strPnr+='';
-              }else{
-                if(arr[i].atype == null){
-                  arr[i].atype ='';
-                }
-                if(i == 0){
-                  this.strPnr += '('+this.nameChange(arr[i].attribute,this.selfNaturePnr)+switchArr+arr[i].atype+')'
-                }else{
-                    this.strPnr += arr[i].relation+'('+this.nameChange(arr[i].attribute,this.selfNaturePnr)+switchArr+arr[i].atype+')';
-                    switchArr='';
-                }
-            };
+        this.strPnr='';
+        for(var i=0;i<arr.length;i++){
+          if(arr[i].operator=='等于'){
+            switchArr='='
+          }else if(arr[i].operator=='小于'){
+            switchArr='<'
+          }else if(arr[i].operator=='大于'){
+            switchArr='>'
+          }else if(arr[i].operator=='大于等于'){
+            switchArr='>='
+          }else if(arr[i].operator=='小于等于'){
+            switchArr='<='
+          }else if(arr[i].operator=='不包含'){
+            switchArr='<>'
+          }else if(arr[i].operator=='模糊'){
+            switchArr='like'
           }
+          if(arr[i].attribute==''){
+             this.strPnr+='';
+          }else{
+            if(arr[i].atype == null){
+              arr[i].atype ='';
+            }
+            this.strPnr += arr[i].relation+'('+this.nameChange(arr[i].attribute,this.selfNaturePnr)+switchArr+arr[i].atype+')';
+            switchArr='';
+          };
         }
-
-      this.selfCdtPnr.AAAAA = this.strPnr;
-      console.log(this.selfCdtPnr.AAAAA);
-      return  this.strPnr;
+        this.selfCdtPnr.AAAAA = this.strPnr;
+        this.str1 = this.strPnr;
+        return  this.strPnr;
       },
       set:function(newVal){
-        this.aaa3 = newVal;
-        console.log("newVal===",newVal)
+        this.strPnr = newVal;
       }
     }
   },
@@ -2401,13 +2421,12 @@ export default {
         'currentPage':this.currentPage,
         'showCount':this.showCount
       }
-      if(this.typePnrG == 0){
-        p.cdt = this.strPnr
-        this.selfPnrD.cdt = this.strPnr;//导出自定义表格数据的传参
-      }else if(this.typePnrG == 1){
-        p.cdt = this.strPnr1;
-        this.selfPnrD.cdt = this.strPnr1;
-        this.typePnrG = 0;
+      if(this.isaPnr == false){
+        p.cdt = this.str1
+        this.selfPnrD.cdt = this.str1;//导出自定义表格数据的传参
+      }else{
+        p.cdt = this.strPnr;
+        this.selfPnrD.cdt = this.strPnr;
       }
       this.$api.post('/manage-platform/iapiHead/customPnrQuery',p,
        r =>{
@@ -2425,7 +2444,7 @@ export default {
            let arrTable=[];
            if(r.data.pd.isTwoInface){
              for(var i=0;i<twoArr.length;i++){
-               let p={
+               let pp={
                  'SERIAL':twoArr[i].SERIAL,
                  'PNR_TID':twoArr[i].PNR_TID,
                  'PNR_TKTNUMBER':twoArr[i].PNR_TKTNUMBER,
@@ -2440,7 +2459,7 @@ export default {
                  'resultChildList':twoArr[i]
                }
                var obj={};
-               that.$api.post('/manage-platform/iapiHead/customPnrColData',p,
+               that.$api.post('/manage-platform/iapiHead/customPnrColData',pp,
                 r =>{
                   if(r.success){
                     obj = r.data;
@@ -2689,8 +2708,11 @@ export default {
       }
     },
     attributeOperator(item){//属性联动
-      this.isa=true;
-      this.iss=false;
+      if(this.bigBase==7){
+        this.isa=true;
+      }else if(this.bigBase==8){
+        this.isaPnr=true;
+      }
       if(item.attribute==''||item.attribute==undefined){
         this.$set(item,'operator','');
         this.$set(item,'atype','');
@@ -2777,7 +2799,6 @@ export default {
         return count
     },
     selfDeleteRow(id,row){//自定义查询 删除操作
-      console.log(this.selfRows.length);
       let count = this.repeatLong(row.attribute,this.selfRows);
       for(var i in this.checkList){
         if((row.attribute == this.checkList[i])&&count<=1){
@@ -2827,16 +2848,6 @@ export default {
            this.changeStatePnr = r.data;
          }
        })
-    },
-
-    ii(){
-      if(this.bigBase==7){
-        this.typeG = 1;
-        this.str1 = this.aaa2;
-      }else if(this.bigBase==8){
-        this.typePnrG = 1;
-        this.strPnr1 = this.aaa3;
-      }
     },
     //===========================================展示项==========================================
     showArr(){
@@ -2911,7 +2922,6 @@ export default {
     },
     //============================================查询=================================================
     selfQueryList(currentPage,showCount){//自定义查询列表
-      console.log(this.iss);
       this.orderIapiStateZDY=0;
       this.showTableConfig();
       let dataSelf = [];
@@ -2923,22 +2933,11 @@ export default {
       	"showCount":showCount,
         "orders":dataSelf,//排序
       }
-      if(this.iss==true){
-        console.log("iss===",this.iss);
-        console.log("str2",this.str2)
+      if(this.isa==false){
         sql.cdt=this.str2;
-      }else if(this.isa==true){
-        console.log("isa===",this.isa);
+      }else{
         sql.cdt=this.str;
       }
-      // if(this.typeG == 0){
-      //   sql.cdt = this.str;
-      //   this.selfD.cdt = this.str;//导出自定义表格数据的传参
-      // }else if(this.typeG == 1){
-      //   sql.cdt = this.str1;
-      //   this.selfD.cdt = this.str1;
-      //   this.typeG = 0;
-      // }
       this.$api.post('/manage-platform/iapiHead/customIapiQuery',sql,
        r =>{
          if(r.success){
@@ -2972,13 +2971,12 @@ export default {
         "orders":dataSelfPnr,
         "pd":{'queryColList':this.checkListPnr},
       }
-      if(this.typePnrG == 0){
-        sqlp.cdt = this.strPnr
-        this.selfPnrD.cdt = this.strPnr;//导出自定义表格数据的传参
-      }else if(this.typePnrG == 1){
-        sqlp.cdt = this.strPnr1;
-        this.selfPnrD.cdt = this.strPnr1;
-        this.typePnrG = 0;
+      if(this.isaPnr == false){
+        sqlp.cdt = this.str1
+        this.selfPnrD.cdt = this.str1;//导出自定义表格数据的传参
+      }else{
+        sqlp.cdt = this.strPnr;
+        this.selfPnrD.cdt = this.strPnr;
       }
       this.$api.post('/manage-platform/iapiHead/customPnrQuery',sqlp,
        r =>{
@@ -3123,21 +3121,27 @@ export default {
           {id:1,attribute:'FLTDATESTR',operator:'大于等于',type:31,relation:'',atype:formatDate(new Date(new Date() - 1000 * 60 * 60 * 24 * 7),'yyyyMMdd'),dataSort:'',isA:true},
           {id:2,attribute:'FLTDATESTR',operator:'小于等于',type:31,relation:'and',atype:formatDate(new Date(),'yyyyMMdd'),dataSort:'',isA:false},
         ];
-        this.str = '';
+        this.isa = true;
+        // this.str = '';
         this.ffff='';
         this.currentPage=1;
         this.showCount=10;
-        this.selfQueryList(this.currentPage,this.showCount);
+        this.tableData=[];
+        this.totalResult=0;
+        // this.selfQueryList(this.currentPage,this.showCount);
       }else if(this.bigBase == 8){
         this.selfRowsPnr=[
           {id:1,attribute:'PNR_FLTDATE1STR',operator:'大于等于',type:31,relation:'',atype:formatDate(new Date(new Date() - 1000 * 60 * 60 * 24 * 7),'yyyyMMdd'),dataSort:'',isA:true},
           {id:2,attribute:'PNR_FLTDATE1STR',operator:'小于等于',type:31,relation:'and',atype:formatDate(new Date(),'yyyyMMdd'),dataSort:'',isA:false},
         ];
-        this.strPnr = '(航班日期>=20190211)and(航班日期<=20190218)';
+        // this.strPnr = '';
+        this.isaPnr = true;
         this.nnnn='';
         this.currentPagePnr=1;
         this.showCountPnr=10;
-        this.selfQueryListPnr(this.currentPagePnr,this.showCountPnr);
+        this.tableDataPnr=[];
+        this.totalResultPnr=0;
+        // this.selfQueryListPnr(this.currentPagePnr,this.showCountPnr);
       }
     },
     checkRow(row){//列表单选操作
@@ -3302,18 +3306,18 @@ export default {
           let arr1=[];
           if(this.bigBase==7){
             this.isa=false;
-            this.iss=true;
             this.selfRows=[
               {id:1,attribute:'FLTDATESTR',operator:'大于等于',type:31,relation:'',atype:formatDate(new Date(new Date() - 1000 * 60 * 60 * 24 * 7),'yyyyMMdd'),dataSort:'',isA:true},
               {id:2,attribute:'FLTDATESTR',operator:'小于等于',type:31,relation:'and',atype:formatDate(new Date(),'yyyyMMdd'),dataSort:'',isA:false},
             ];
             this.str2 = r.data.config.AAAAA; //渲染
           }else if(this.bigBase==8){
+            this.isaPnr=false;
             this.selfRowsPnr=[
               {id:1,attribute:'PNR_FLTDATE1STR',operator:'大于等于',type:31,relation:'',atype:formatDate(new Date(new Date() - 1000 * 60 * 60 * 24 * 7),'yyyyMMdd'),dataSort:'',isA:true},
               {id:2,attribute:'PNR_FLTDATE1STR',operator:'小于等于',type:31,relation:'and',atype:formatDate(new Date(),'yyyyMMdd'),dataSort:'',isA:false},
             ];
-            this.strPnr = r.data.config.AAAAA;
+            this.str1 = r.data.config.AAAAA;
           }
           if(arr.length == 0){
             if(this.bigBase==7){
@@ -3396,7 +3400,7 @@ export default {
    width: 20px!important;
  }
  .expression .el-textarea__inner{
-   height: 135px;
+   height: 110px;
    overflow-y: auto;
  }
  .akUl button{

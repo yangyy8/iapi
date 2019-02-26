@@ -156,7 +156,7 @@
             </div>
             <div class="my-form-group" data-scope="demo" data-name="VALUE" data-type="input"
               v-validate-easy="[['required']]" v-show="show==2">
-              <el-input placeholder="请输入内容" size="small" class="table-select" v-model="scope.row.VALUE" ></el-input>
+              <el-input placeholder="请输入内容" size="small" class="table-select" v-model="scope.row.VALUE"></el-input>
             </div>
          </template>
         </el-table-column>
@@ -182,7 +182,7 @@
           <template slot-scope="scope">
             <div class="my-form-group" data-scope="demo" data-name="RESPONSERESULT" data-type="textarea"
               v-validate-easy="[['required']]">
-              <el-input type="textarea" :autosize="{ minRows: 1, maxRows: 2}" placeholder="请输入内容" size="small" class="table-select" v-model="scope.row.RESPONSERESULT" maxlength="100"></el-input>
+              <input type="textarea" :autosize="{ minRows: 1, maxRows: 2}" placeholder="请输入内容" size="small" class="table-select" v-model="scope.row.RESPONSERESULT" maxlength="100"></input>
             </div>
          </template>
         </el-table-column>
@@ -279,29 +279,29 @@ export default {
       ],
       modelTable:{
         "IODIR": "",
-        // "PERSONNELTYPE": "",
-        // "RULEDESC": '',
-        // "FIELDNAME": "",
-        // "OPERATORCHARACTER": "",
-        // "VALUE": '',
-        // "CHECKRESULT": "2Z",
-        // "RESPONSERESULT":'',
-        // "STATUS": "1",
-        // "FIELDTYPE":'',
-        // "CTLTYPE":'U'
+        "PERSONNELTYPE": "",
+        "RULEDESC": '',
+        "FIELDNAME": "",
+        "OPERATORCHARACTER": "",
+        "VALUE": '',
+        "CHECKRESULT": "2Z",
+        "RESPONSERESULT":'',
+        "STATUS": "1",
+        "FIELDTYPE":'',
+        "CTLTYPE":'U'
       },
       cleanTable:{
         "IODIR": "",
-        // "PERSONNELTYPE": "",
-        // "RULEDESC": '',
-        // "FIELDNAME": "",
-        // "OPERATORCHARACTER": "",
-        // "VALUE": '',
-        // "CHECKRESULT": "2Z",
-        // "RESPONSERESULT":'',
-        // "STATUS": "1",
-        // "FIELDTYPE":'',
-        // "CTLTYPE":'U'
+        "PERSONNELTYPE": "",
+        "RULEDESC": '',
+        "FIELDNAME": "",
+        "OPERATORCHARACTER": "",
+        "VALUE": '',
+        "CHECKRESULT": "2Z",
+        "RESPONSERESULT":'',
+        "STATUS": "1",
+        "FIELDTYPE":'',
+        "CTLTYPE":'U'
       },
       multipleSelection:[],
       code:[],
@@ -313,20 +313,20 @@ export default {
   mounted() {
     this.codeName();
     this.V.$reset('demo');
-    // this.getList(this.pd);
+    this.getList(this.pd);
   },
   activated(){
     this.V.$reset('demo');
-    // this.getList(this.pd);
+    this.getList(this.pd);
   },
   methods:{
     headerClick(column,event){
       event.target.title=column.label
     },
     sortChange(column, prop, order){
-      console.log(column);
-      console.log(column.order);
-      console.log(column.prop);
+      // console.log(column);
+      // console.log(column.order);
+      // console.log(column.prop);
       let p={
         'order':column.prop,
         'orderIo':column.order
@@ -379,16 +379,16 @@ export default {
        this.count++;
        this.modelTable={
          "IODIR": "",
-         // "PERSONNELTYPE": "",
-         // "RULEDESC": '',
-         // "FIELDNAME": "",
-         // "OPERATORCHARACTER": "",
-         // "VALUE": '',
-         // "CHECKRESULT": "2Z",
-         // "RESPONSERESULT":'',
-         // "STATUS": "1",
-         // "FIELDTYPE":'',
-         // "CTLTYPE":'U'
+         "PERSONNELTYPE": "",
+         "RULEDESC": '',
+         "FIELDNAME": "",
+         "OPERATORCHARACTER": "",
+         "VALUE": '',
+         "CHECKRESULT": "2Z",
+         "RESPONSERESULT":'',
+         "STATUS": "1",
+         "FIELDTYPE":'',
+         "CTLTYPE":'U'
        }
        this.modelTable.CTLTYPE='I';
        this.tableData.unshift(this.modelTable);

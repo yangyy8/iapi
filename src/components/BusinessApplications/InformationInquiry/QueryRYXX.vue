@@ -43,10 +43,10 @@ export default {
     this.row = this.$route.query.row
     console.log('this.row1',this.row)
     let that = this;
-    setTimeout(function(){
-      that.tiaozhuan(4,that.url)
+    // setTimeout(function(){
+      that.tiaozhuan(that.page,that.url)
       // that.$router.push({name:that.url})
-    },500)
+    // },500)
   },
   methods:{
     tiaozhuan(page,url){
