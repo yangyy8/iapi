@@ -115,7 +115,7 @@
         <el-row type="flex"  class="t-detail">
           <el-col :span="6" class="t-el-content"><div class="t-el-text">证件号码：</div><div class="t-el-sub">{{dpform.PNR_PASSPORTNO}}</div></el-col>
           <el-col :span="6" class="t-el-content"><div class="t-el-text">证件有效期：</div><div class="t-el-sub">{{dpform.PNR_CARDEXPIREDATESTR}}</div></el-col>
-          <el-col :span="6" class="t-el-content"><div class="t-el-text">航班号：</div><div class="t-el-sub">{{dpform.FLTNO}}</div></el-col>
+          <el-col :span="6" class="t-el-content"><div class="t-el-text">航班号：</div><div class="t-el-sub">{{dpform.PNR_FLTNO}}</div></el-col>
           <el-col :span="6" class="t-el-content"><div class="t-el-text">航班日期：</div><div class="t-el-sub">{{dpform.PNR_FLTDATE1STR}}</div></el-col>
         </el-row>
         <el-row type="flex"  class="t-detail">

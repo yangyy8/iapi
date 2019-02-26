@@ -427,22 +427,23 @@ export default {
 
   mounted() {
     this.queryNationality();
-    if(this.$route.query.page==undefined){
-      this.page=0
-    }else{
-      this.page = this.$route.query.page;
-    }
-    this.page = this.$route.query.page;
-    this.pd.fltno = this.$route.query.row.FLTNO;
-    this.pd.fltdate = this.zhuanhuan(this.$route.query.row.FLTDATESTR);
-    this.pd.nationality = this.$route.query.row.NATIONALITY;
-    this.pd.cardnum = this.$route.query.row.PASSPORTNO;
-    this.pd.name = this.$route.query.row.linkName;
-    this.pd.gender = this.sexZhuan(this.$route.query.row.GENDER);
-    this.pd.birthday = this.zhuanhuan(this.$route.query.row.iapiBirthdayName);
+    // if(this.$route.query.page==undefined){
+    //   this.page=0
+    // }else{
+    //   this.page = this.$route.query.page;
+    // }
+    // this.page = this.$route.query.page;
+    // this.pd.fltno = this.$route.query.row.FLTNO;
+    // this.pd.fltdate = this.zhuanhuan(this.$route.query.row.FLTDATESTR);
+    // this.pd.nationality = this.$route.query.row.NATIONALITY;
+    // this.pd.cardnum = this.$route.query.row.PASSPORTNO;
+    // this.pd.name = this.$route.query.row.linkName;
+    // this.pd.gender = this.sexZhuan(this.$route.query.row.GENDER);
+    // this.pd.birthday = this.zhuanhuan(this.$route.query.row.iapiBirthdayName);
   },
   activated() {
     this.queryNationality();
+    console.log(this.$route.query.row)
     if(this.$route.query.page==undefined){
       this.page=0
     }else{
@@ -455,6 +456,7 @@ export default {
     this.pd.name = this.$route.query.row.linkName;
     this.pd.gender = this.sexZhuan(this.$route.query.row.GENDER);
     this.pd.birthday = this.zhuanhuan(this.$route.query.row.iapiBirthdayName);
+    console.log(this.$route.query.row.NATIONALITY)
   },
   methods: {
     zhuanhuan(val){

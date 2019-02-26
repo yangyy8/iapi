@@ -1348,6 +1348,7 @@ export default {
       this.flightNumber0 = i.FLIGHT_RECORDNUM;
       this.specifigseat0=i.PNR_SPECIFIGSEAT;
       this.globalserial0=new Date().getTime();
+      console.log(this.specifigseat0)
     },
     openCheck(){
       this.openCheckbox = !this.openCheckbox

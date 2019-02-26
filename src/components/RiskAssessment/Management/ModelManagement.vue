@@ -243,12 +243,15 @@
           </el-col>
         </el-row>
         <el-row type="flex" v-for="(rr,indes) in rows" :key="indes">
-          <el-col :span="3" class="tjcon tjconr" >
+          <el-col :span="3" class="tjcon tjconr my-form-group" data-scope="demo2" data-name="targetName" data-type="input"
+            v-validate-easy="[['required']]">
+            <font class="yy-color">*</font>
              <!-- C{{rr.id}}： -->
-             <el-input placeholder="" size="small" style="width:80px;text-align:right;"  v-model="rr.targetName"></el-input>：
-             <el-input placeholder="" size="small" style="width:80px;text-align:right;display:none"  v-model="rr.targetSign"></el-input>
+             <el-input placeholder="" size="small" style="width:75%;text-align:right;"  v-model="rr.targetName"></el-input>：
+             <el-input placeholder="" size="small" style="width:75%;text-align:right;display:none"  v-model="rr.targetSign"></el-input>
           </el-col>
-          <el-col :span="5" class="tjcon">
+          <el-col :span="5" class="tjcon my-form-group" data-scope="demo2" data-name="targetId" data-type="select"
+            v-validate-easy="[['required']]">
            <el-select v-model="rr.targetId"  class="memoa" @change="changeTarget(rr.targetId)" filterable clearable placeholder="请选择"   size="small" >
              <el-option
                v-for="(item,ind) in target"
@@ -258,7 +261,8 @@
              </el-option>
            </el-select>
           </el-col>
-          <el-col :span="5" class="tjcon">
+          <el-col :span="5" class="tjcon my-form-group" data-scope="demo2" data-name="calculation" data-type="select"
+            v-validate-easy="[['required']]">
                    <el-select v-model="rr.calculation" class="memoa"  filterable clearable placeholder="请选择"   size="small" >
                     <el-option value="开始" label="开始">
                     </el-option>
@@ -284,7 +288,8 @@
                     </el-option>
                    </el-select>
           </el-col>
-          <el-col :span="10" class="tjcon">
+          <el-col :span="10" class="tjcon my-form-group" data-scope="demo2" data-name="targetValue" data-type="input"
+            v-validate-easy="[['required']]">
             <el-input placeholder="请输入内容" size="small" style="width:96%"   v-model="rr.targetValue" ></el-input>
           </el-col>
           <el-col :span="1" class="tjcon" style="padding-top:10px;">
@@ -322,24 +327,27 @@
 </el-row>
     <el-row type="flex">
       <el-col :span="3" class="tjcon tjconr" >
-        规则名称：
+      <font class="yy-color">*</font>  规则名称：
       </el-col>
-      <el-col :span="6" class="tjcon">
+      <el-col :span="6" class="tjcon my-form-group" data-scope="demo2" data-name="ruleName" data-type="input"
+        v-validate-easy="[['required']]">
         <el-input type="text" placeholder="请输入内容" size="small"  v-model="ee.ruleName"  class="memoa"></el-input>
       </el-col>
       <el-col :span="3" class="tjcon tjconr">
-        触发条件：
+        <font class="yy-color">*</font>  触发条件：
       </el-col>
-      <el-col :span="10" class="tjcon">
+      <el-col :span="10" class="tjcon my-form-group" data-scope="demo2" data-name="ruleRules" data-type="input"
+        v-validate-easy="[['required']]">
         <el-input type="text" placeholder="请输入内容" size="small"  v-model="ee.ruleRules"  class="memoa"></el-input>
 
       </el-col>
     </el-row>
     <el-row type="flex" >
       <el-col :span="3" class="tjcon tjconr" >
-        风险等级：
+        <font class="yy-color">*</font>  风险等级：
       </el-col>
-      <el-col :span="6" class="tjcon">
+      <el-col :span="6" class="tjcon my-form-group" data-scope="demo2" data-name="ruleGrade" data-type="input"
+        v-validate-easy="[['required']]">
         <el-select v-model="ee.ruleGrade"  class="memoa" filterable clearable placeholder="请选择"   size="small" >
          <el-option value="1" label="1">
          </el-option>
