@@ -96,7 +96,8 @@ Vue.prototype.mouseHeader=function(event){
     let div=event.target
     event.target.title=div.innerText
   }
-}
+};
+
 console.log(vueValidateEasy)
 router.beforeResolve((to, from, next) => {
 
