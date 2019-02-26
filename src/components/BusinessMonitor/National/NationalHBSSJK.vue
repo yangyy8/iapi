@@ -25,7 +25,7 @@
   </div>
   <transition name="el-zoom-in-left">
     <div class="left-list" v-if="showLeft">
-      <img src="../../../assets/img/qgjk/list1.png" alt="" @click="getLeftData">
+      <img src="../../../assets/img/qgjk/list1.png" alt="" @click="showLeft=false">
     </div>
   </transition>
   <transition name="el-zoom-in-left">
@@ -295,7 +295,7 @@
   </transition>
   <transition name="el-zoom-in-right">
     <div class="right-list" v-show="showRight">
-      <img src="../../../assets/img/qgjk/list2.png" alt="" @click="getRightData">
+      <img src="../../../assets/img/qgjk/list2.png" alt="" @click="showRight=false">
     </div>
   </transition>
   <transition name="el-zoom-in-right">
@@ -1494,8 +1494,8 @@ export default {
       },
       kary:{},
       newHbData:[],
-      showLeft: true,
-      showRight: true,
+      showLeft: false,
+      showRight: false,
       HzList:[],
       HgList:[],
       GjList:[],
@@ -1646,6 +1646,18 @@ export default {
     }
     this.chart.dispose();
     this.chart = null;
+  },
+  watch:{
+    showLeft:function (val) {
+      if(!val){
+        this.getLeftData()
+      }
+    },
+    showRight:function (val) {
+      if(!val){
+        this.getRightData()
+      }
+    },
   },
   methods: {
     searchPort0(){
@@ -1856,7 +1868,7 @@ export default {
       },500)
     },
     getLeftData(){
-      this.showLeft=false;
+      // this.showLeft=false;
       this.$api.post('/manage-platform/nationwide/getFlightCountToday',{},
        r => {
          //console.log(r);
@@ -1871,7 +1883,7 @@ export default {
       })
     },
     getRightData(){
-      this.showRight=false;
+      // this.showRight=false;
       this.$api.post('/manage-platform/nationwide/getTravelerCountToday',{},
        r => {
          //console.log(r);

@@ -454,11 +454,23 @@ export default {
         if(this.nav2List[i].SERIAL==nav2Id){
           console.log(this.nav2List[i].SERIAL,nav2Id)
           this.checkItem=this.nav2List[i];
+
           let _this=this;
           // setTimeout(function(){
             _this.$router.push({name: _this.checkItem.url, params:{navId:navId},query:{nav1Id:nav1Id,nav2Id:nav2Id,title:_this.checkItem.name}})
 
           // },400)
+          if(this.checkItem.menuList){
+            let list4=this.checkItem.menuList;
+            for(var x=0;x<list4.length;x++){
+              if(list4[x].choose){
+                document.getElementById(list4[x].url).style.display='inline-block'
+              }else{
+                document.getElementById(list4[x].url).style.display='none'
+
+              }
+            }
+          }
         }
       }
     },
