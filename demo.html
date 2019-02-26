@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+
+</head>
+<body>
+  <div id="app">
+    <input id="wang" type="text" v-model="m.a" >
+    {{m.a}}
+    <br>
+   <input type="text" v-model = "wangNum2">
+    {{wangNum2}}
+
+  </div>
+</body>
+
+<script src="https://sv-source.zt-express.com/gongdan/js/vue.min.js"></script>
+
+  <script>
+
+  console.log(new Date())
+    new Vue({
+      el: '#app',
+      data: function() {
+        return {
+          m:{a:"m"},
+          // n:0
+         }
+      },
+      methods: {
+
+        },
+        computed:{
+          wangNum1(){//没有重写时
+            return this.m.a
+          },
+          wangNum2:{//重写方法
+            get(){
+                return this.m.a
+            },
+            set(val){
+                console.log(val)
+                this.m.a = val
+            }
+          }
+        }
+
+    })
+  </script>
+</html>

@@ -28,6 +28,10 @@ var validators ={
    noCinese(val){
      var p = /[\u4E00-\u9FA5]/g.test(val)
      if(p) return '不可以输入中文'
+   },
+   number(val){
+     var p = !(/^-?\d+(\.\d{1,5})?$/.test(val))
+     if(p) return '请输入数字aaa'
    }
 }
 Vue.use(vueValidateEasy,{validators})
