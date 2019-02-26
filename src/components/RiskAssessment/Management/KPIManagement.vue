@@ -521,6 +521,7 @@ export default {
         this.form.className=i.CLASS_NAME;
         this.form.para=i.PARA;
         this.form.script=i.SCRIPT;
+        this.form.status=i.STATUS;
         this.form.showDistrick=i.SHOW_DISTRICK;
         if(this.form.targetType=="其他"){
           this.isshow=true;
@@ -687,11 +688,11 @@ menuItem(){
 
     },
     fifterstatus(val) {
-      if (val == 0) {
+      if (val == '0') {
 
         return "停用"
 
-      } else {
+      } else if(val == '1')  {
         return "启用"
       }
     },
