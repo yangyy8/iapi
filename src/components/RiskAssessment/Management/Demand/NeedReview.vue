@@ -77,12 +77,12 @@
            </template>
        </el-table-column>
          <el-table-column
-          prop="PORT" sortable
+          prop="PORT_NANE" sortable
           label="申请口岸"
           >
         </el-table-column>
         <el-table-column
-          prop="CALCULATION" sortable
+          prop="USER_NAME" sortable
           label="申请人">
         </el-table-column>
         <el-table-column
@@ -163,7 +163,7 @@
           <el-col :span="24" class="input-item my-form-group" data-scope="demo2" data-name="targetType" data-type="select"
             v-validate-easy="[['required']]">
             <span class="yy-input-text"><font class="yy-color">*</font> 申请类型：</span>
-            <el-select v-model="form.targetType" class="yy-input-input"  filterable clearable placeholder="请选择" @change="selectChange"  size="small" >
+            <el-select v-model="form.targetType" class="yy-input-input"  filterable clearable placeholder="请选择"   size="small" >
               <el-option value="指标" label="1 - 指标">
               </el-option>
               <el-option value="字典" label="2 - 字典">
@@ -181,7 +181,7 @@
           <el-col :span="24" class="input-item my-form-group" data-scope="demo2" data-name="showDistrick" data-type="select"
             v-validate-easy="[['required']]">
             <span class="yy-input-text"><font class="yy-color">*</font> 处理状态：</span>
-            <el-select v-model="form.showDistrick" class="yy-input-input"  filterable clearable placeholder="请选择" @change="selectChange"  size="small" >
+            <el-select v-model="form.showDistrick" class="yy-input-input"  filterable clearable placeholder="请选择"   size="small" >
               <el-option value="1" label="1 - 申请">
               </el-option>
               <el-option value="2" label="2 - 确认">
@@ -323,7 +323,7 @@ export default {
   },
   methods: {
     selectChange() {
-      this.$forceUpdate();
+    //  this.$forceUpdate();
     },
     headerClick(column, event) {
       event.target.title = column.label
@@ -474,17 +474,17 @@ export default {
     },
     fifterstatus(val) {
       switch (val) {
-        case "11":
-          return "申请";
+        case "10":
+          return "暂存";
           break;
-        case "13":
+        case "11":
+          return "提交";
+          break;
+        case "12":
           return "撤回";
           break;
-        case "13":
-          return "删除";
-          break;
         case "21":
-          return " 确认";
+          return "确认";
           break;
         case "22":
           return "退回";
@@ -493,7 +493,7 @@ export default {
           return "处理完成";
           break;
         default:
-          return "";
+          return "暂存";
       }
     }
   },

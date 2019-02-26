@@ -242,13 +242,16 @@
       <div style="float:right;padding-right:10px;">  <el-button @click="addrows()" size="small">添 加</el-button></div>
           </el-col>
         </el-row>
-        <el-row type="flex" v-for="(rr,inds) in rows" :key="inds">
-          <el-col :span="3" class="tjcon tjconr" >
+        <el-row type="flex" v-for="(rr,indes) in rows" :key="indes">
+          <el-col :span="3" class="tjcon tjconr my-form-group" data-scope="demo2" data-name="targetName" data-type="input"
+            v-validate-easy="[['required']]" >
+            <font class="yy-color">*</font>
              <!-- C{{rr.id}}： -->
              <el-input placeholder="" size="small" style="width:80px;text-align:right;"  v-model="rr.targetName"></el-input>：
              <el-input placeholder="" size="small" style="width:80px;text-align:right;display:none"  v-model="rr.targetSign"></el-input>
           </el-col>
-          <el-col :span="5" class="tjcon">
+          <el-col :span="5" class="tjcon my-form-group" data-scope="demo2" data-name="targetId" data-type="select"
+            v-validate-easy="[['required']]">
            <el-select v-model="rr.targetId"  class="memoa" @change="changeTarget(rr.targetId)" filterable clearable placeholder="请选择"   size="small" >
              <el-option
                v-for="(item,ind) in target"
@@ -258,7 +261,8 @@
              </el-option>
            </el-select>
           </el-col>
-          <el-col :span="5" class="tjcon">
+          <el-col :span="5" class="tjcon my-form-group" data-scope="demo2" data-name="calculation" data-type="select"
+            v-validate-easy="[['required']]">
                    <el-select v-model="rr.calculation" class="memoa"  filterable clearable placeholder="请选择"   size="small" >
                     <el-option value="开始" label="开始">
                     </el-option>
@@ -284,11 +288,12 @@
                     </el-option>
                    </el-select>
           </el-col>
-          <el-col :span="10" class="tjcon">
+          <el-col :span="10" class="tjcon my-form-group" data-scope="demo2" data-name="targetValue" data-type="input"
+            v-validate-easy="[['required']]">
             <el-input placeholder="请输入内容" size="small" style="width:96%"   v-model="rr.targetValue" ></el-input>
           </el-col>
           <el-col :span="1" class="tjcon" style="padding-top:10px;">
-            <i class="el-icon-remove-outline iconc" @click="deleterows(ind)"></i>
+            <i class="el-icon-remove-outline iconc" @click="deleterows(indes)"></i>
           </el-col>
         </el-row>
         <el-row type="flex" class="my-form-group" data-scope="demo2" data-name="enterRule" data-type="textarea"
@@ -314,7 +319,7 @@
             <div style="float:right;padding-right:10px;">  <el-button @click="adderows()" size="small">添 加</el-button></div>
           </el-col>
         </el-row>
-<div  v-for="(ee,ind) in erows" :key="ind" style="border-bottom:1px solid #93C4F9; padding-top:10px; " >
+<div  v-for="(ee,index) in erows" :key="index" style="border-bottom:1px solid #93C4F9; padding-top:10px; " >
   <el-row type="flex" style="display:none">
     <el-col :span="12" class="tjcon tjconr" >
     <el-input type="text" placeholder="请输入内容" size="small"  v-model="ee.ruleCode"  class="memoa"></el-input>
@@ -322,24 +327,27 @@
 </el-row>
     <el-row type="flex">
       <el-col :span="3" class="tjcon tjconr" >
-        规则名称：
+      <font class="yy-color">*</font>  规则名称：
       </el-col>
-      <el-col :span="6" class="tjcon">
+      <el-col :span="6" class="tjcon my-form-group" data-scope="demo2" data-name="ruleName" data-type="input"
+        v-validate-easy="[['required']]">
         <el-input type="text" placeholder="请输入内容" size="small"  v-model="ee.ruleName"  class="memoa"></el-input>
       </el-col>
       <el-col :span="3" class="tjcon tjconr">
-        触发条件：
+        <font class="yy-color">*</font>  触发条件：
       </el-col>
-      <el-col :span="10" class="tjcon">
+      <el-col :span="10" class="tjcon my-form-group" data-scope="demo2" data-name="ruleRules" data-type="input"
+        v-validate-easy="[['required']]">
         <el-input type="text" placeholder="请输入内容" size="small"  v-model="ee.ruleRules"  class="memoa"></el-input>
 
       </el-col>
     </el-row>
     <el-row type="flex" >
       <el-col :span="3" class="tjcon tjconr" >
-        风险等级：
+        <font class="yy-color">*</font>  风险等级：
       </el-col>
-      <el-col :span="6" class="tjcon">
+      <el-col :span="6" class="tjcon my-form-group" data-scope="demo2" data-name="ruleGrade" data-type="input"
+        v-validate-easy="[['required']]">
         <el-select v-model="ee.ruleGrade"  class="memoa" filterable clearable placeholder="请选择"   size="small" >
          <el-option value="1" label="1">
          </el-option>
@@ -361,7 +369,7 @@
 
       </el-col>
       <el-col :span="2" class="tjcon" style="padding-top:10px;">
-        <i class="el-icon-remove-outline iconc" @click="deleteerows(ind)"></i>
+        <i class="el-icon-remove-outline iconc" @click="deleteerows(index)"></i>
       </el-col>
     </el-row>
   </div>
@@ -495,7 +503,7 @@ export default {
         calculation: '',
         targetValue: '',
         targetSign: '',
-          targetName: ''
+        targetName: ''
       }],
       modelrow: [{
         id: 1,
@@ -503,7 +511,7 @@ export default {
         calculation: '',
         targetValue: '',
         targetSign: '',
-          targetName: ''
+        targetName: ''
       }],
       erows: [{
         id: 1,
@@ -611,14 +619,11 @@ export default {
         };
         this.$api.post('/manage-platform/model/goEdit', p,
           r => {
-
             if (r.success) {
               this.form = r.data;
-
               if (r.data.targetList.length > 0) {
                 this.rows = r.data.targetList;
               } else {
-
                 this.rows = [{
                   id: 1,
                   targetId: '',
@@ -656,7 +661,7 @@ export default {
           calculation: '',
           targetValue: '',
           targetSign: '',
-            targetName: ''
+          targetName: ''
         }];
         this.erows = [{
           id: 1,
@@ -712,7 +717,7 @@ export default {
           "lifeSpan": this.form.lifeSpan,
           "targetList": this.rows,
           "enterRule": {
-            "ruleRules": this.form.enterRule
+          "ruleRules": this.form.enterRule
           },
           "filterRule": {
             "ruleRules": this.form.filterRule
@@ -915,13 +920,13 @@ export default {
         calculation: '',
         targetValue: '',
         targetSign: '',
-          targetName: ''
+        targetName: ''
       };
       this.modelrow.id = this.count;
       this.rows.push(this.modelrow);
     },
     deleterows(index) {
-
+console.log('index---',index);
       this.rows.splice(index, 1);
 
     },

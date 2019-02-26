@@ -55,7 +55,7 @@
                 <el-option
                   v-for="item in tagList"
                   :key="item.SERIAL"
-                  :label="item.LABELTYPE_CODE+' - '+item.LABELNAME"
+                  :label="item.LABELNAME"
                   :value="item.LABELTYPE_CODE">
                 </el-option>
               </el-select>

@@ -101,7 +101,7 @@
       <span class="title-blue">文件导入：</span>
       <label class="file mr-10">
         添加附件
-        <input type="file" name="" @change="uploadFile">
+        <input type="file" name="" @change="uploadFile" ref="uploadExcelId">
 
       </label>
       <span v-if="fileData" class="mr-10">{{fileData.name}}</span>
@@ -289,9 +289,11 @@ export default {
              message: '恭喜你，上传成功！',
              type: 'success'
            });
+           this.$refs.uploadExcelId.value=null;
 
          }else{
            this.fileData=null;
+           this.$refs.uploadExcelId.value=null;
 
          }
       },e => {
