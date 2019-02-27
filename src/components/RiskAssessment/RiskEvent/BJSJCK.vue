@@ -12,7 +12,7 @@
             <img :src="imgURL" alt="" style="width:100%;">
             <span class="mb-2">综合风险等级</span>
             <el-rate :value="parseInt($route.query.grade)" disabled class="mb-9"></el-rate>
-            <el-button type="primary" size="small" class="mb-9" style="width:100%" @click="$router.push({name:'DZDA',query:{nationality:page0Data.nationality,passportno:page0Data.passportno,grade:$route.query.grade,type:1,nav2Id:page0Data.passportno+page0Data.nationality,title:page0Data.name+'电子档案'}})">电子档案</el-button>
+            <el-button type="primary" size="small" class="mb-9" style="width:100%" @click="$router.push({name:'DZDA',query:{idcard:$route.query.idcard,nationality:page0Data.nationality,passportno:page0Data.passportno,grade:$route.query.grade,type:1,nav2Id:page0Data.passportno+page0Data.nationality,title:page0Data.name+'电子档案'}})">电子档案</el-button>
             <el-button type="primary" size="small" class="mb-9" style="width:100%">综合查询</el-button>
             <el-button type="primary" size="small" class="mb-9" style="width:100%">照片比对</el-button>
             <el-button type="success" size="small" style="width:100%" :disabled="!operation_type" @click="openGdTc(page0Data)">事件归档</el-button>
@@ -210,7 +210,7 @@
                     <el-table-column
                       :show-overflow-tooltip="true"
                       label="指标范围"
-                      prop="indexFW">
+                      prop="indexFw">
                     </el-table-column>
                     <el-table-column
                       :show-overflow-tooltip="true"

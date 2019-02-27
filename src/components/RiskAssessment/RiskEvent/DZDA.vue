@@ -710,7 +710,7 @@
             </div>
             <div class="boder1" ref="box6">
               <div class="title-green hand mt-10" @click="box6=!box6">
-                出入境信息 <i class="el-icon-d-caret"></i><span>({{data6.length||0}})</span>
+                出入境信息 <i class="el-icon-d-caret"></i><span>({{num.imm||0}})</span>
               </div>
               <div v-if="box6">
                 <el-table
@@ -803,7 +803,7 @@
             </div>
             <div class="boder1" ref="box7">
               <div class="title-green hand mt-10" @click="box7=!box7">
-                出入境证件信息 <i class="el-icon-d-caret"></i><span>({{data7.length||0}})</span>
+                出入境证件信息 <i class="el-icon-d-caret"></i><span>({{num.immcardNum||0}})</span>
               </div>
               <div v-if="box7">
                 <el-table
@@ -889,7 +889,7 @@
             </div>
             <div class="boder1" ref="box8">
               <div class="title-green hand mt-10" @click="box8=!box8">
-                签证(居留)签发信息 <i class="el-icon-d-caret"></i><span>({{data8.length||0}})</span>
+                签证(居留)签发信息 <i class="el-icon-d-caret"></i><span>({{num.visa||0}})</span>
               </div>
               <div v-if="box8">
                 <el-table
@@ -1006,7 +1006,7 @@
             </div>
             <div class="boder1" ref="box9">
               <div class="title-green hand mt-10" @click="box9=!box9">
-                边检违法违规信息 <i class="el-icon-d-caret"></i><span>({{data9.length||0}})</span>
+                边检违法违规信息 <i class="el-icon-d-caret"></i><span>({{num.illegal||0}})</span>
               </div>
               <div v-if="box9">
                 <el-table
@@ -1115,7 +1115,7 @@
             </div>
             <div class="boder1" ref="box10">
               <div class="title-green hand mt-10" @click="box10=!box10">
-                遣返遣送信息 <i class="el-icon-d-caret"></i><span>({{data10.length||0}})</span>
+                遣返遣送信息 <i class="el-icon-d-caret"></i><span>({{num.repat||0}})</span>
               </div>
               <div v-if="box10">
                 <el-table
@@ -1192,7 +1192,7 @@
             </div>
             <div class="boder1"  ref="box11">
               <div class="title-green hand mt-10" @click="box11=!box11">
-                外管常住/临住信息 <i class="el-icon-d-caret"></i><span>({{(data11_1.length||0)+(data11_2.length||0)}})</span>
+                外管常住/临住信息 <i class="el-icon-d-caret"></i><span>({{(num.resident||0)+(num.temp||0)}})</span>
               </div>
               <div v-if="box11">
                 <div class="box2-t-box">
@@ -1340,7 +1340,7 @@
             </div>
             <div class="boder1" ref="box12">
               <div class="title-green hand mt-10" @click="box12=!box12">
-                 出入境管理案事件信息 <i class="el-icon-d-caret"></i><span>({{data12.length||0}})</span>
+                 出入境管理案事件信息 <i class="el-icon-d-caret"></i><span>({{num.fgncas||0}})</span>
               </div>
               <div v-if="box12">
                 <el-table
@@ -1382,7 +1382,7 @@
             </div>
             <div class="boder1" ref="box13">
               <div class="title-green hand mt-10" @click="box13=!box13">
-                收缴证件/物品信息 <i class="el-icon-d-caret"></i><span>({{(data13_1.length||0)+(data13_2.length||0)}})</span>
+                收缴证件/物品信息 <i class="el-icon-d-caret"></i><span>({{(num.cert||0)+(num.res||0)}})</span>
               </div>
               <div v-if="box13">
                 <div class="box2-t-box">
@@ -1489,7 +1489,7 @@
             </div>
             <div class="boder1" ref="box14">
               <div class="title-green hand mt-10" @click="box14=!box14">
-                 携带枪支弹药信息 <i class="el-icon-d-caret"></i><span>({{data14.length||0}})</span>
+                 携带枪支弹药信息 <i class="el-icon-d-caret"></i><span>({{num.act||0}})</span>
               </div>
               <div v-if="box14">
                 <el-table
@@ -1568,7 +1568,7 @@
             </div>
             <div class="boder1" ref="box15">
               <div class="title-green hand mt-10" @click="box15=!box15">
-                 自助备案信息 <i class="el-icon-d-caret"></i><span>({{data15.length||0}})</span>
+                 自助备案信息 <i class="el-icon-d-caret"></i><span>({{num.self||0}})</span>
               </div>
               <div v-if="box15">
                 <el-table
@@ -1610,7 +1610,7 @@
             </div>
             <div class="boder1" ref="box16">
               <div class="title-green hand mt-10" @click="box16=!box16">
-                 API信息 <i class="el-icon-d-caret"></i><span>({{data16.length||0}})</span>
+                 API信息 <i class="el-icon-d-caret"></i><span>({{num.api||0}})</span>
               </div>
               <div v-if="box16">
                 <el-table
@@ -2020,6 +2020,9 @@ import Detail from '../../BusinessApplications/InformationInquiry/DetailRYXX'
 export default {
   data(){
     return{
+      nationality:'',
+      passportno:'',
+      idcard:'',
       user:{},
       moreShow:false,
       box1:false,
@@ -2168,6 +2171,7 @@ export default {
       tobox:'box0',
       toboxShow:false,
       imgURL:imgUrl,
+      num:{"imm": 0,"immcardNum": 0,"visa":0,"res": 0,"act": 0,"fgncas": 0,"repat": 0,"resident":0,"temp":0,"self": 0,"cert": 0,"api": 0,"illegal": 0}
     }
   },
   components:{
@@ -2179,9 +2183,11 @@ export default {
   activated(){
     this.nationality=this.$route.query.nationality;
     this.passportno=this.$route.query.passportno;
+    this.idcard=this.$route.query.idcard;
     this.getUsers();
     this.getUserBaseInfo();
     this.getUserTagInfo();
+
     // this.init();
 
     this.moreShow=false;
@@ -2300,7 +2306,7 @@ export default {
          this.data0=r.data;
          this.getPhotoInf(r.data.PASSPORTNO,r.data.NATIONALITY,r.data.BIRTHDAY,r.data.NAME);
          this.getRiskPersonnelForecasInfo();
-
+         this.getRecordOtherInfo('num')
        })
     },
     getPhotoInf(passportno,nationality,birthday,name){
@@ -2476,6 +2482,7 @@ export default {
       let p={
         "nationality":this.nationality,
         "passportno":this.passportno,
+        "idcard":this.idcard
       }
       this.$api.post('/manage-platform/riskRecordExtInterfaceController/getCensusInfo',p,
        r => {
@@ -2488,6 +2495,7 @@ export default {
         "nationality":this.nationality,
         "passportno":this.passportno,
         "birth":this.data0.BIRTHDAY,
+        "ename":this.data0.ENAME,
         "type":type
       }
       this.$api.post('/manage-platform/riskRecordExtInterfaceController/getRecordOtherInfo',p,
@@ -2566,10 +2574,25 @@ export default {
                this.data16=r.data.data.dcap_f_per_pred_api_psr_info;
              }
              break;
+           case 'num':
+              this.num=r.data.data
+             break;
            default:
 
          }
 
+       })
+    },
+    // 民航订票
+    getCivilAviationInfo(){
+      let p={
+        "nationality":this.nationality,
+        "passportno":this.passportno,
+        "idcard":this.idcard
+      }
+      this.$api.post('/manage-platform/riskRecordExtInterfaceController/getCivilAviationInfo',p,
+       r => {
+         this.data19=r.data
        })
     },
     exportFn(type){
@@ -2749,6 +2772,12 @@ export default {
         this.getRecordOtherInfo('api');
       }
     },
+    // 民航
+    box19:function(val){
+      if(val){
+        this.getCivilAviationInfo();
+      }
+    }
   }
 }
 </script>
