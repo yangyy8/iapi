@@ -350,6 +350,12 @@ export default {
         });
         return false
       }
+      if(this.pd.type!='0'&&this.pd.typeValue.length==0){
+        this.$alert('请选择类型', '提示', {
+          confirmButtonText: '确定',
+        });
+        return false
+      }
       if((this.pd.number==''||this.pd.number==undefined)&&(this.pd.percent==''||this.pd.percent==undefined)&&(this.pd.rank==''||this.pd.rank==undefined)){
         this.$alert('量选择,率选择和排行榜三者必选其一', '提示', {
           confirmButtonText: '确定',

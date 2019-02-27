@@ -64,7 +64,7 @@ export default {
             }
         },
         calculable : true,
-        grid: {x:40,y: 70, y2:30, x2:20},
+        grid: {x:80,y: 70, y2:30, x2:20},
         color:color,
         xAxis : [
             {
