@@ -10,7 +10,7 @@
               <el-button type="primary" plain size="mini" @click="batchI">批量导入</el-button>
               <el-button type="primary" plain size="mini" @click="download">下载模板</el-button>
             </div>
-            <div class="akUl" @mouseover="mouseHeader">
+            <div class="akUl">
               <!-- iapi查询条件 -->
               <el-table
                 ref="multipleTable"
@@ -334,7 +334,7 @@
        </el-checkbox-group>
     </div>
     <!-- 表格 -->
-    <div class="middle" @mouseover="mouseHeader">
+    <div class="middle">
       <!-- <el-button  plain class="table-btn mb-9" size="small" @click="seat">航班座位图</el-button> -->
       <!-- <el-button  plain class="table-btn mb-9" size="small" @click="$router.push({name:'QueryGLRY'})">关联人员查询</el-button> -->
       <el-button  plain class="table-btn mb-9" size="small" @click="tableDown">导出</el-button>
@@ -362,20 +362,20 @@
           prop="iapiName"
           label="姓名"
           sortable='custom'
-          width="130"
+          min-width="130"
           v-if="checkList.indexOf(checkItem[0].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
           prop="INTG_CHNNAME"
           label="中文姓名"
           sortable='custom'
-          width="100"
+          min-width="100"
           v-if="checkList.indexOf(checkItem[1].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
           prop="GENDER"
           label="性别"
-          width="100"
+          min-width="100"
           sortable='custom'
           v-if="checkList.indexOf(checkItem[2].ITEMNAME)>-1">
           <template slot-scope="scope">
@@ -385,49 +385,49 @@
         <el-table-column
           prop="iapiBirthdayName"
           label="出生日期"
-          width="130"
+          min-width="130"
           sortable='custom'
           v-if="checkList.indexOf(checkItem[3].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
           prop="iapiNationaName"
           label="国籍/地区"
-          width="130"
+          min-width="130"
           sortable='custom'
           v-if="checkList.indexOf(checkItem[4].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
           prop="iapiCardName"
           label="证件种类"
-          width="100"
+          min-width="100"
           sortable='custom'
           v-if="checkList.indexOf(checkItem[5].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
           prop="PASSPORTNO"
           label="证件号码"
-          width="130"
+          min-width="130"
           sortable='custom'
           v-if="checkList.indexOf(checkItem[6].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
           prop="FLTNO"
           label="航班号"
-          width="100"
+          min-width="100"
           sortable='custom'
           v-if="checkList.indexOf(checkItem[7].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
           prop="FLTDATESTR"
           label="航班日期"
-          width="150"
+          min-width="150"
           sortable='custom'
           v-if="checkList.indexOf(checkItem[8].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
           prop="CHECKRESULT"
           label="校验结果"
-          width="130"
+          min-width="130"
           sortable='custom'
           v-if="checkList.indexOf(checkItem[9].ITEMNAME)>-1">
           <template slot-scope="scope">{{ scope.row.CHECKRESULT | fiftercheck}}</template>
@@ -435,7 +435,7 @@
         <el-table-column
           prop="FLIGHTTYPE"
           label="出入标识"
-          width="100"
+          min-width="100"
           sortable='custom'
           v-if="checkList.indexOf(checkItem[10].ITEMNAME)>-1">
           <template slot-scope="scope">
@@ -446,147 +446,147 @@
         <el-table-column
           prop="iapiCityfromName"
           label="起飞机场"
-          width="150"
+          min-width="150"
           sortable='custom'
           v-if="checkList.indexOf(checkItem[11].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
           prop="departdateStr"
           label="预计起飞时间"
-          width="150"
+          min-width="150"
           sortable='custom'
           v-if="checkList.indexOf(checkItem[12].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
           prop="iapiCitytoName"
           label="到达机场"
-          width="150"
+          min-width="150"
           sortable='custom'
           v-if="checkList.indexOf(checkItem[13].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
           prop="arrivdateStr"
           label="预计降落时间"
-          width="150"
+          min-width="150"
           sortable='custom'
           v-if="checkList.indexOf(checkItem[14].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
           prop="PNR_SPECIFIGSEAT"
           label="航班座位号"
-          width="150"
+          min-width="150"
           sortable='custom'
           v-if="checkList.indexOf(checkItem[15].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
           prop="flightStatusName"
           label="航班状态"
-          width="130"
+          min-width="130"
           sortable='custom'
           v-if="checkList.indexOf(checkItem[16].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
           prop="PASSPORTEXPIREDATE"
           label="证件有效期"
-          width="150"
+          min-width="150"
           sortable='custom'
           v-if="checkList.indexOf(checkItem[17].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
           prop="PASSPORTISSUEDATE"
           label="证件签发日期"
-          width="150"
+          min-width="150"
           sortable='custom'
           v-if="checkList.indexOf(checkItem[18].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
           prop="PASSPORTISSUECOUNTRYNAME"
           label="证件签发国"
-          width="150"
+          min-width="150"
           sortable='custom'
           v-if="checkList.indexOf(checkItem[19].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
           prop="VISANO"
           label="签证号码"
-          width="130"
+          min-width="130"
           sortable='custom'
           v-if="checkList.indexOf(checkItem[20].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
           prop="VISAEXPIREDATE"
           label="签证有效期"
-          width="140"
+          min-width="140"
           sortable='custom'
           v-if="checkList.indexOf(checkItem[21].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
           prop="OTHER_NO"
           label="其他证件号码"
-          width="140"
+          min-width="140"
           sortable='custom'
           v-if="checkList.indexOf(checkItem[22].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
           prop="OTHER_EXPIREDATE"
           label="其他证件有效期"
-          width="180"
+          min-width="180"
           sortable='custom'
           v-if="checkList.indexOf(checkItem[23].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
           prop="OTHERDOCUMENTISSUEDATE"
           label="其他证件签发日期"
-          width="180"
+          min-width="180"
           sortable='custom'
           v-if="checkList.indexOf(checkItem[24].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
           prop="OTHER_ISSUECOUNTRYNAME"
           label="其他证件签发国"
-          width="180"
+          min-width="180"
           sortable='custom'
           v-if="checkList.indexOf(checkItem[25].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
           prop="AIRLINEPHONE"
           label="航空公司联系电话"
-          width="180"
+          min-width="180"
           sortable='custom'
           v-if="checkList.indexOf(checkItem[26].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
           prop="IAPI_RESPONSETIMESTR"
           label="边检回复日期"
-          width="150"
+          min-width="150"
           sortable='custom'
           v-if="checkList.indexOf(checkItem[27].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
           prop="ABONO"
           label="ABO唯一标识"
-          width="150"
+          min-width="150"
           sortable='custom'
           v-if="checkList.indexOf(checkItem[28].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
           prop="ORIGINNAME"
           label="最初上机地"
-          width="150"
+          min-width="150"
           sortable='custom'
           v-if="checkList.indexOf(checkItem[29].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
           prop="DESTINATIONNAME"
           label="最终下机地"
-          width="150"
+          min-width="150"
           sortable='custom'
           v-if="checkList.indexOf(checkItem[30].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
           prop="PNRFLAGSTR"
           label="是否订票"
-          width="150"
+          min-width="150"
           sortable='custom'
           v-if="checkList.indexOf(checkItem[31].ITEMNAME)>-1">
           <template slot-scope="scope">
@@ -596,7 +596,7 @@
         <el-table-column
           prop="CHKFLAGSTR"
           label="是否值机"
-          width="150"
+          min-width="150"
           sortable='custom'
           v-if="checkList.indexOf(checkItem[32].ITEMNAME)>-1">
           <template slot-scope="scope">
@@ -606,7 +606,7 @@
         <el-table-column
           prop="EEFLAGSTR"
           label="出入境手续"
-          width="150"
+          min-width="150"
           sortable='custom'
           v-if="checkList.indexOf(checkItem[33].ITEMNAME)>-1">
           <template slot-scope="scope">
@@ -616,7 +616,7 @@
         <el-table-column
           prop="CLSFLAGSTR"
           label="航班是否关闭"
-          width="150"
+          min-width="150"
           sortable='custom'
           v-if="checkList.indexOf(checkItem[34].ITEMNAME)>-1">
           <template slot-scope="scope">
@@ -625,7 +625,7 @@
         </el-table-column>
         <el-table-column
           label="操作"
-          width="100">
+          min-width="100">
           <template slot-scope="scope">
             <el-button type="text" class="a-btn" title="详情" icon="el-icon-tickets" @click="detailsIapi(scope.row)"></el-button>
          </template>
@@ -688,13 +688,13 @@
           prop="pnrName"
           label="姓名"
           sortable='custom'
-          width="130"
+          min-width="130"
           v-if="checkListPnr.indexOf(checkItemPnr[0].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
           prop="PNR_GENDER"
           label="性别"
-          width="100"
+          min-width="100"
           sortable='custom'
           v-if="checkListPnr.indexOf(checkItemPnr[1].ITEMNAME)>-1">
           <template slot-scope="scope">
@@ -704,42 +704,42 @@
         <el-table-column
           prop="pnrBirthdayName"
           label="出生日期"
-          width="130"
+          min-width="130"
           sortable='custom'
           v-if="checkListPnr.indexOf(checkItemPnr[2].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
           prop="pnrNationaName"
           label="国籍/地区"
-          width="130"
+          min-width="130"
           sortable='custom'
           v-if="checkListPnr.indexOf(checkItemPnr[3].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
           prop="PNR_PASSPORTNO"
           label="证件号码"
-          width="130"
+          min-width="130"
           sortable='custom'
           v-if="checkListPnr.indexOf(checkItemPnr[4].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
           prop="PNR_FLTNO"
           label="航班号"
-          width="100"
+          min-width="100"
           sortable='custom'
           v-if="checkListPnr.indexOf(checkItemPnr[5].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
           prop="PNR_FLTDATE1STR"
           label="航班日期"
-          width="150"
+          min-width="150"
           sortable='custom'
           v-if="checkListPnr.indexOf(checkItemPnr[6].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
           prop="PNR_FLTTYPE"
           label="出入标识"
-          width="100"
+          min-width="100"
           sortable='custom'
           v-if="checkListPnr.indexOf(checkItemPnr[7].ITEMNAME)>-1">
           <template slot-scope="scope">{{ scope.row.PNR_FLTTYPE|fiftertype}}</template>
@@ -747,90 +747,90 @@
         <el-table-column
           prop="pnrCityfromName"
           label="起飞机场"
-          width="130"
+          min-width="130"
           sortable='custom'
           v-if="checkListPnr.indexOf(checkItemPnr[8].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
           prop="pnrCitytoName"
           label="到达机场"
-          width="150"
+          min-width="150"
           sortable='custom'
           v-if="checkListPnr.indexOf(checkItemPnr[9].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
           prop="PNR_DEPARTDATESTR"
           label="预计起飞时间"
-          width="130"
+          min-width="130"
           sortable='custom'
           v-if="checkListPnr.indexOf(checkItemPnr[10].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
           prop="PNR_ARRIVDATESTR"
           label="预计到达时间"
-          width="180"
+          min-width="180"
           sortable='custom'
           v-if="checkListPnr.indexOf(checkItemPnr[11].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
           prop="PNR_TKTNUMBER"
           label="电子客票号"
-          width="150"
+          min-width="150"
           sortable='custom'
           v-if="checkListPnr.indexOf(checkItemPnr[12].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
           prop="PNR_CARDEXPIREDATESTR"
           label="证件有效期"
-          width="130"
+          min-width="130"
           sortable='custom'
           v-if="checkListPnr.indexOf(checkItemPnr[13].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
           prop="PNR_RCIDATE"
           label="订票时间"
-          width="150"
+          min-width="150"
           sortable='custom'
           v-if="checkListPnr.indexOf(checkItemPnr[14].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
           prop="pnrCardName"
           label="证件种类"
-          width="150"
+          min-width="150"
           sortable='custom'
           v-if="checkListPnr.indexOf(checkItemPnr[15].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
           prop="PNR_PASSPORTISSUECOUNTRYNAME"
           label="证件签发国"
-          width="150"
+          min-width="150"
           sortable='custom'
           v-if="checkListPnr.indexOf(checkItemPnr[16].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
           prop="PNR_RCI"
           label="旅客订票号"
-          width="130"
+          min-width="130"
           sortable='custom'
           v-if="checkListPnr.indexOf(checkItemPnr[17].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
           prop="PNR_SPECIFIGSEAT"
           label="座位号"
-          width="140"
+          min-width="140"
           sortable='custom'
           v-if="checkListPnr.indexOf(checkItemPnr[18].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
           prop="PNR_CARBINCLASSDESIGNATOR"
           label="舱位"
-          width="140"
+          min-width="140"
           sortable='custom'
           v-if="checkListPnr.indexOf(checkItemPnr[19].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
           label="操作"
-          width="100">
+          min-width="100">
           <template slot-scope="scope">
             <el-button type="text" class="a-btn" title="详情" icon="el-icon-tickets" @click="detailsPnr(scope.row)"></el-button>
          </template>

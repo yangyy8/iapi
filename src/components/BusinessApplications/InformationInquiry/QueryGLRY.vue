@@ -6,52 +6,46 @@
         <el-col :span="22" class="br pr-20">
           <div class="title-green">
             查询条件   <span class="gg">注：证件号码或者姓名性别出生日期条件二选一</span>
-
           </div>
           <el-row align="center"   :gutter="2">
             <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
               <span class="input-text"><font color="red">*</font> 航班号：</span>
-                <el-input placeholder="请输入内容" size="small" v-model="pd.fltno" class="input-input" @input="selectChange"></el-input>
+                <el-input placeholder="请输入内容" size="small" v-model="pd.fltno" class="input-input"></el-input>
             </el-col>
             <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
               <span class="input-text">航班日期：</span>
-
                <el-date-picker
                v-model="pd.fltdate" format="yyyy-MM-dd" class="input-input"
                type="date" size="small" value-format="yyyyMMdd"
-               placeholder="选择时间"
-               @change="selectChange">
+               placeholder="选择时间">
              </el-date-picker>
-
             </el-col>
            </el-row>
-              <el-row align="center"   :gutter="2" class="yy-line">
-
-
-            <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
-                <span class="input-text"><font color="red">*</font> 国籍/地区：</span>
-                <el-select v-model="pd.nationality" filterable clearable  placeholder="请选择"  size="small" class="input-input" @change="selectChange">
-                  <el-option
-                    v-for="item in nation"
-                    :key="item.CODE"
-                    :label="item.CODE+' - '+item.CNAME"
-                    :value="item.CODE">
-                  </el-option>
-                </el-select>
-            </el-col>
-            <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
-              <span class="input-text">证件号码：</span>
-                <el-input placeholder="请输入内容" size="small" v-model="pd.cardnum" class="input-input" @input="selectChange"></el-input>
-             </el-col>
+            <el-row align="center"   :gutter="2" class="yy-line">
+              <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
+                  <span class="input-text"><font color="red">*</font> 国籍/地区：</span>
+                  <el-select v-model="pd.nationality" filterable clearable  placeholder="请选择"  size="small" class="input-input">
+                    <el-option
+                      v-for="item in nation"
+                      :key="item.CODE"
+                      :label="item.CODE+' - '+item.CNAME"
+                      :value="item.CODE">
+                    </el-option>
+                  </el-select>
+              </el-col>
+              <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
+                <span class="input-text">证件号码：</span>
+                  <el-input placeholder="请输入内容" size="small" v-model="pd.cardnum" class="input-input"></el-input>
+               </el-col>
             </el-row>
             <el-row align="center"   :gutter="2" class="yy-line">
               <el-col  :sm="24" :md="12" :lg="11"   class="input-item">
                 <span class="input-text">姓名：</span>
-                <el-input placeholder="请输入内容" size="small" v-model="pd.name"   class="input-input" @input="selectChange"></el-input>
+                <el-input placeholder="请输入内容" size="small" v-model="pd.name"   class="input-input"></el-input>
               </el-col>
               <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
                   <span class="input-text">性别：</span>
-                  <el-select v-model="pd.gender"  class="input-input"   filterable clearable  placeholder="请选择"  size="small" @change="selectChange">
+                  <el-select v-model="pd.gender"  class="input-input"   filterable clearable  placeholder="请选择"  size="small">
                     <el-option value="U" label="U - 未知">
                     </el-option>
                     <el-option value="M" label="M - 男">
@@ -65,21 +59,18 @@
               <el-date-picker
               v-model="pd.birthday"
               type="date" size="small" format="yyyy-MM-dd" value-format="yyyyMMdd" class="input-input"
-              placeholder="选择时间"
-              @change="selectChange">
+              placeholder="选择时间">
             </el-date-picker>
-
             </el-col>
-
             <el-col  :sm="24" :md="12" :lg="11"   class="input-item">
               <span class="input-text">值机间隔参数：</span>
               <el-input placeholder="10" size="small" v-model="pd.intervel"  class="input-input"></el-input>
             </el-col>
         </el-row>
-
         </el-col>
         <el-col :span="2" class="down-btn-area">
           <el-button type="success" size="small" @click="getList(CurrentPage,pageSize,pd)" class="mb-15">查询</el-button>
+          <el-button type="success" size="small" @click="reset" class="mb-15">重置</el-button>
         </el-col>
       </el-row>
     </div>
@@ -392,7 +383,11 @@ export default {
       pageSize4: 10,
       TotalResult4: 0,
       pd: {
+        fltno:'',
         fltdate:'',
+        cardnum:'',
+        name:'',
+        gender:'',
         birthday:'',
         intervel:10,
         nationality:'',
@@ -444,21 +439,41 @@ export default {
   activated() {
     this.queryNationality();
     console.log(this.$route.query.row)
-    if(this.$route.query.page==undefined){
-      this.page=0
-    }else{
+    // if(this.$route.query.page==undefined){
+    //   this.page=0
+    // }else{
+    // }
+    if(this.$route.query.row){
       this.page = this.$route.query.page;
+      this.pd.fltno = this.$route.query.row.FLTNO;
+      this.pd.fltdate = this.zhuanhuan(this.$route.query.row.FLTDATESTR);
+      this.pd.nationality = this.$route.query.row.NATIONALITY;
+      this.pd.cardnum = this.$route.query.row.PASSPORTNO;
+      this.pd.name = this.$route.query.row.linkName;
+      this.pd.gender = this.sexZhuan(this.$route.query.row.GENDER);
+      this.pd.birthday = this.zhuanhuan(this.$route.query.row.iapiBirthdayName);
     }
-    this.pd.fltno = this.$route.query.row.FLTNO;
-    this.pd.fltdate = this.zhuanhuan(this.$route.query.row.FLTDATESTR);
-    this.pd.nationality = this.$route.query.row.NATIONALITY;
-    this.pd.cardnum = this.$route.query.row.PASSPORTNO;
-    this.pd.name = this.$route.query.row.linkName;
-    this.pd.gender = this.sexZhuan(this.$route.query.row.GENDER);
-    this.pd.birthday = this.zhuanhuan(this.$route.query.row.iapiBirthdayName);
-    console.log(this.$route.query.row.NATIONALITY)
+    // console.log(this.$route.query.row.NATIONALITY)
   },
   methods: {
+    reset(){
+      this.pd = {
+        fltno:'',
+        fltdate:'',
+        cardnum:'',
+        name:'',
+        gender:'',
+        birthday:'',
+        intervel:10,
+        nationality:'',
+      }
+      this.tableData=[];
+      this.tableData1=[];
+      this.tableData2=[];
+      this.tableData3=[];
+      this.TotalResult2=0;
+      this.currentPage2=1;
+    },
     zhuanhuan(val){
       return val.split('-').join('');
     },

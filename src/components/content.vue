@@ -99,7 +99,7 @@
             <img src="../assets/img/add_tab.png" class="hand">
           </li> -->
         </ul>
-        <div class="tab-content">
+        <div class="tab-content" @click="chaxunbtn">
             <!-- <transition name="fade"  mode="out-in"> -->
               <keep-alive>
                 <router-view></router-view>
@@ -360,6 +360,15 @@ export default {
          this.userName=r.data.userName;
       })
     },
+    chaxunbtn(event){
+      if(event.target.innerText=="查询"){
+        let that =this;
+        setTimeout(function () {
+          that.btnctlFn();
+        },100)
+
+      }
+    },
     // 弹窗信息=============================
     msg(){
       this.$api.post('/manage-platform/MessageBounced/getMessageInfo ',{type:'bjcl'},
@@ -449,26 +458,36 @@ export default {
     nav2(navId,nav1Id,nav2Id) {
       console.log("二级菜单",navId,nav1Id,nav2Id)
       this.nav2Id = nav2Id;
-      console.log(this.nav2List)
+
       for(var i=0;i<this.nav2List.length;i++){
         if(this.nav2List[i].SERIAL==nav2Id){
           console.log(this.nav2List[i].SERIAL,nav2Id)
           this.checkItem=this.nav2List[i];
-
           let _this=this;
           // setTimeout(function(){
             _this.$router.push({name: _this.checkItem.url, params:{navId:navId},query:{nav1Id:nav1Id,nav2Id:nav2Id,title:_this.checkItem.name}})
 
           // },400)
-          if(this.checkItem.menuList){
-            let list4=this.checkItem.menuList;
-            for(var x=0;x<list4.length;x++){
-              if(list4[x].choose){
-                document.getElementById(list4[x].url).style.display='inline-block'
-              }else{
-                document.getElementById(list4[x].url).style.display='none'
+          setTimeout(function () {
+            _this.btnctlFn();
+          },200)
+        }
+      }
+    },
+    btnctlFn(){
+      // console.log("checkItem",this.checkItem)
+      if(this.checkItem.menuList){
+        let list4=this.checkItem.menuList;
+        for(var x=0;x<list4.length;x++){
+          let arr=document.getElementsByName(list4[x].url);
 
-              }
+          if(list4[x].choose){
+            for(var i=0;i<arr.length;i++){
+                arr[i].style.display='inline-block'
+            }
+          }else{
+            for(var i=0;i<arr.length;i++){
+                arr[i].style.display='none'
             }
           }
         }

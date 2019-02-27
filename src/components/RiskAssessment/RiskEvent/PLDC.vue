@@ -10,13 +10,13 @@
           </el-select>
         </el-col>
         <el-col :sm="24" :md="12":lg="6">
-          <el-radio v-model="radio" label="1">手动输入</el-radio>
-          <el-radio v-model="radio" label="2" class="mr-10">批量导入</el-radio>
-          <el-button size="small" v-if="radio==2" @click="downloadM">下载模板</el-button>
+          <el-radio v-model="radio1" label="1">手动输入</el-radio>
+          <el-radio v-model="radio1" label="2" class="mr-10">批量导入</el-radio>
+          <el-button size="small" v-if="radio1==2" @click="downloadM">下载模板</el-button>
         </el-col>
       </el-row>
     </div>
-    <div class="top mb-6" v-if="radio==1">
+    <div class="top mb-6" v-if="radio1==1">
       <el-row type="flex">
         <el-col :span="2">
           <span class="title-blue">手动输入：</span>
@@ -97,7 +97,7 @@
         </el-col>
       </el-row>
     </div>
-    <div class="middle mb-6" v-if="radio==2">
+    <div class="middle mb-6" v-if="radio1==2">
       <span class="title-blue">文件导入：</span>
       <label class="file mr-10">
         添加附件
@@ -116,7 +116,7 @@
     </div>
     <div class="middle" style="justify-content: center;">
       <el-button type="warning" size="small" class="mr-5" @click="batchExport">导出</el-button>
-      <el-button type="success" size="small" v-if="radio==1&&list1.length==1&&list2.length==1" @click="chaxun">查询</el-button>
+      <el-button type="success" size="small" v-if="radio1==1&&list1.length==1&&list2.length==1" @click="chaxun">查询</el-button>
     </div>
   </div>
 
@@ -210,7 +210,7 @@ export default {
   data(){
     return{
       select1:'1',
-      radio:'2',
+      radio1:'2',
       fileData:null,
       fileText:'',
       isIndeterminate: false,
@@ -234,6 +234,12 @@ export default {
   activated(){
 
   },
+  watch:{
+    radio1:function(a,b){
+      console.log(a,b)
+        this.selectFn();
+    }
+  },
   methods:{
     selectFn(){
       this.list1=[
@@ -242,6 +248,12 @@ export default {
       this.list2=[
         {nationality:[],lkname:'',gender:'',dateofbirth:''},
       ];
+      this.isIndeterminate=false;
+      this.checkedModel=[];
+      this.fileText=''
+      this.fileData=null;
+      this.$refs.uploadExcelId.value=null;
+
     },
     handleCheckAllChange(val) {
       console.log(val)
@@ -253,7 +265,6 @@ export default {
     },
     handleCheckedModelChange(value) {
       console.log(value)
-
       console.log(this.checkedModel)
       let checkedCount = value.length;
       this.checkAll = checkedCount === this.models.length;
@@ -269,9 +280,9 @@ export default {
     },
     downloadM(){
       if(this.select1==1){
-        window.location.href='http://192.168.99.247:8080/manage-platform/dzdaExport/erecordExcelOne.xls'
+        window.location.href=this.$api.rootUrl+'/manage-platform/dzdaExport/erecordExcelOne.xls'
       }else if(this.select1==2){
-        window.location.href='http://192.168.99.247:8080/manage-platform/dzdaExport/erecordExcelTwo.xls'
+        window.location.href=this.$api.rootUrl+'/manage-platform/dzdaExport/erecordExcelTwo.xls'
       }
     },
     // 获取要上传的文件
@@ -292,6 +303,7 @@ export default {
            this.$refs.uploadExcelId.value=null;
 
          }else{
+           this.fileText=''
            this.fileData=null;
            this.$refs.uploadExcelId.value=null;
 
@@ -324,7 +336,7 @@ export default {
       }
     },
     batchExport(){
-      if(this.radio==1){
+      if(this.radio1==1){
         if(this.select1==1){
           this.V.$submit('demo1', (canSumit,data) => {
             if(!canSumit) return
@@ -355,11 +367,11 @@ export default {
         return
       }
       let p={
-        exportType:this.radio,
+        exportType:this.radio1,
         fileType:this.select1,
         type:this.checkedModel
       }
-      if(this.radio==1){
+      if(this.radio1==1){
         if(this.select1==1){
           p.list=this.list1
         }else{
