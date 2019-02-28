@@ -122,47 +122,48 @@
         class="o-table3"
         border
         @header-click="headerClick"
+        @sort-change='sortChange'
         style="width: 100%;">
        <el-table-column
           prop="intgChnname"
           label="中文姓名"
-          sortable>
+          sortable='custom'>
         </el-table-column>
         <el-table-column
           prop="tsname"
           label="姓名"
           width="140"
-          sortable>
+          sortable='custom'>
         </el-table-column>
         <el-table-column
           prop="gender"
           label="性别"
-          sortable>
+          sortable='custom'>
         </el-table-column>
         <el-table-column
           prop="birthdate"
           label="出生日期"
-          sortable>
+          sortable='custom'>
         </el-table-column>
         <el-table-column
           prop="nationalityStr"
           label="国籍/地区"
-          sortable>
+          sortable='custom'>
         </el-table-column>
         <el-table-column
           prop="cardnum"
           label="证件号码"
-          sortable>
+          sortable='custom'>
         </el-table-column>
         <el-table-column
           prop="flightNumber"
           label="航班号"
-          sortable>
+          sortable='custom'>
         </el-table-column>
         <el-table-column
           prop="departdate"
           label="航班日期"
-          sortable
+          sortable='custom'
           width="150">
             <template slot-scope="scope">
               {{scope.row.departdate}}
@@ -171,17 +172,17 @@
         <el-table-column
           prop="cityfrom"
           label="起飞机场"
-          sortable>
+          sortable='custom'>
         </el-table-column>
         <el-table-column
           prop="specifigseat"
           label="座位号"
-          sortable>
+          sortable='custom'>
         </el-table-column>
         <el-table-column
           prop="passengerstatus"
           label="人员状态"
-          sortable>
+          sortable='custom'>
         </el-table-column>
         <el-table-column
           label="操作"
@@ -632,6 +633,36 @@ export default {
     this.nav2Id=this.$route.query.nav2Id
   },
   methods: {
+    sortChange(column, prop, order){
+      let p={
+        'order':column.prop,
+        'direction':column.order=='ascending'?1:0,
+        "currentPage":this.CurrentPage,
+        "showCount":this.pageSize,
+        "cdt":this.pd
+      }
+      if(this.pd.departdateBegin==''||this.pd.departdateEnd==''||this.pd.departdateBegin==null||this.pd.departdateEnd==null){
+        this.$message({
+          message: '航班日期不能为空！',
+          type: 'warning'
+        });
+        return false
+      }
+      if(dayGap(this.pd.departdateBegin,this.pd.departdateEnd,0)>30){
+        this.$alert('查询时间间隔不能超过一个月', '提示', {
+          confirmButtonText: '确定',
+        });
+        return false
+      }
+      this.$api.post('/manage-platform/statusUpdate/seat/queryListPages', p,
+        r => {
+          if(r.success){
+            this.globalserial0='';
+            this.tableData = r.data.resultList;
+            this.TotalResult = r.data.totalResult;
+          }
+        })
+    },
     headerClick(column,event){
       event.target.title=column.label
     },

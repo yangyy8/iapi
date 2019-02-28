@@ -98,12 +98,12 @@
         <el-table-column
           prop="FLTNO"
           label="航班号"
-          sortable
+          sortable='custom'
           width="100">
         </el-table-column>
         <el-table-column
           prop="FLIGHTDATESTR"
-          sortable
+          sortable='custom'
           label="航班日期"
           width="140">
         </el-table-column>
@@ -116,7 +116,7 @@
           prop="FLIGHTTYPE"
           label="出入标识"
           width="120"
-          sortable>
+          sortable='custom'>
           <template slot-scope="scope">
             {{ scope.row.FLIGHTTYPE | fifterInOut}}
           </template>

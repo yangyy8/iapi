@@ -120,49 +120,48 @@
         class="o-table3"
         border
         @header-click="headerClick"
+        @sort-change='sortChange'
         style="width: 100%;"
         @cell-click="rowClick">
         <el-table-column
-          sortable
+          sortable='custom'
           prop="fltno"
           label="航班号"
           width="100px">
         </el-table-column>
         <el-table-column
           prop="fltDateStr"
-          sortable
+          sortable='custom'
           label="航班日期">
         </el-table-column>
         <el-table-column
           prop="flighttype"
           label="出入标识"
           width="100px"
-          sortable>
+          sortable='custom'>
           <template slot-scope="scope">
             {{scope.row.flighttype | fifter1}}
           </template>
         </el-table-column>
         <el-table-column
           prop="airwayMessage"
-          sortable
           label="航线"
           width="150px">
         </el-table-column>
         <el-table-column
           prop="departuretimeStr"
-          sortable
+          sortable='custom'
           label="计划起飞时间"
           width="150px">
         </el-table-column>
         <el-table-column
           prop="arrivetimeStr"
-          sortable
+          sortable='custom'
           label="计划降落时间"
           width="150px">
         </el-table-column>
         <el-table-column
           prop="status"
-          sortable
           label="航班状态"
           width="120px">
           <template slot-scope="scope">
@@ -171,29 +170,24 @@
         </el-table-column>
         <el-table-column
           prop="checkincount"
-          label="值机人数"
-          sortable>
+          label="值机人数">
         </el-table-column>
         <el-table-column
           prop="boardingcount"
-          label="登机人数"
-          sortable>
+          label="登机人数">
             <el-table-column
             prop="boardingcount"
             label="已登机"
-            width="120"
-            sortable>
+            width="120">
           </el-table-column>
           <el-table-column
             prop="chkNobrd"
             label="未登机"
-            width="120"
-            sortable>
+            width="120">
           </el-table-column>
         </el-table-column>
         <el-table-column
           prop="closetime"
-          sortable
           label="关闭报文">
           <template slot-scope="scope">
             {{scope.row.closetime|fifter3}}
@@ -375,6 +369,36 @@ export default {
     // this.pd.schedulearrivetime=formatDate(end,'yyyyMMddhhmm');
   },
   methods: {
+    sortChange(column, prop, order){
+      let p={
+        'order':column.prop,
+        'direction':column.order=='ascending'?1:0,
+        "currentPage":this.CurrentPage,
+        "showCount":this.pageSize,
+        "cdt":this.pd
+      }
+      if(this.pd.scheduledeparturetime==''||this.pd.schedulearrivetime==''||this.pd.scheduledeparturetime==null||this.pd.schedulearrivetime==null){
+        this.$message({
+         message: '航班日期不能为空',
+         type: 'warning'
+       });
+       return
+      }
+      if(dayGap(this.pd.scheduledeparturetime,this.pd.schedulearrivetime,0)>30){
+        this.$alert('查询时间间隔不能超过一个月', '提示', {
+          confirmButtonText: '确定',
+        });
+        return false
+      }
+      this.$api.post('/manage-platform/statusUpdate/flight/queryListPagesNew', p,
+        r => {
+          if(r.success){
+            this.globalserial0 = '';
+            this.tableData = r.data.resultList;
+            this.TotalResult = r.data.totalResult;
+          }
+        })
+    },
     daochu(){
       axios({
        method: 'post',
@@ -420,8 +444,6 @@ export default {
       }
     },
     rowClick(row, column, cell, event){
-      console.log("------------"+row.flightRecordnum)
-      console.log("------------++"+column.property);
       if(column.property=='checkincount'||column.property=='boardingcount'||column.property=='boardingcount'||column.property=='chkNobrd'){
         let p = {
           'flightRecordnum':row.flightRecordnum,
