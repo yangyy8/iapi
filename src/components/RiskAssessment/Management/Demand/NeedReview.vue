@@ -77,7 +77,7 @@
            </template>
        </el-table-column>
          <el-table-column
-          prop="PORT_NANE" sortable
+          prop="PORT_NAME" sortable
           label="申请口岸"
           >
         </el-table-column>

@@ -320,7 +320,7 @@
                   </div>
                   <div class="">
                     <div class="" v-for="(d2,ind) in box4Data.listRiskCustom" :key="d2.serial">
-                      {{d2.content}} <el-button type="text" class="redx" @click="delListCustom1(d2.serial)">删除</el-button>
+                      {{d2.content}} <el-button v-if="operation_type" type="text" class="redx" @click="delListCustom1(d2.serial)">删除</el-button>
                     </div>
                     <div class="" v-for="(x,ind2) in listRiskCustom" :key="ind2">
                       {{x.content}} <el-button type="text" class="redx" @click="delListCustom(ind2)">删除</el-button>

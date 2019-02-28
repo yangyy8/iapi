@@ -178,7 +178,7 @@
                     :show-overflow-tooltip="true"
                     label="操作">
                     <template slot-scope="scope">
-                      <el-button type="text" class="a-btn" icon="el-icon-view" title="事件处理查看"  @click="$router.push({name:'BJCLCX',query:{serial:scope.row.EVENTSERIAL,grade:scope.row.grade,nav2Id:scope.row.EVENTSERIAL+2,title:scope.row.NAME+'已归档查询'}})"></el-button>
+                      <el-button type="text" class="a-btn" icon="el-icon-view" title="事件处理查看"  @click="$router.push({name:'BJCLCX',query:{serial:scope.row.EVENTSERIAL,grade:scope.row.grade,nav2Id:scope.row.EVENTSERIAL+2,title:data0.NAME+'已归档查询'}})"></el-button>
                     </template>
                   </el-table-column>
                 </el-table>
@@ -656,7 +656,7 @@
             </div>
             <div class="boder1" ref="box5">
               <div class="title-green hand mt-10" @click="box5=!box5">
-                户籍信息 <i class="el-icon-d-caret"></i><span>({{data5.length||0}})</span>
+                户籍信息 <i class="el-icon-d-caret"></i><span>({{num2.hjnum||0}})</span>
               </div>
               <div v-if="box5">
                 <el-table
@@ -667,31 +667,38 @@
                   style="width: 100%">
                   <el-table-column
                     :show-overflow-tooltip="true"
-                    label="姓名">
+                    label="姓名"
+                    prop="XM">
                   </el-table-column>
                   <el-table-column
                     :show-overflow-tooltip="true"
-                    label="身份证号">
+                    label="身份证号"
+                    prop="SFZH">
                   </el-table-column>
                   <el-table-column
                     :show-overflow-tooltip="true"
-                    label="性别">
+                    label="性别"
+                    prop="XB">
                   </el-table-column>
                   <el-table-column
                     :show-overflow-tooltip="true"
-                    label="出生日期">
+                    label="出生日期"
+                    prop="CSRQ">
                   </el-table-column>
                   <el-table-column
                     :show-overflow-tooltip="true"
-                    label="民族">
+                    label="民族"
+                    prop="MZ">
                   </el-table-column>
                   <el-table-column
                     :show-overflow-tooltip="true"
-                    label="住址详情">
+                    label="住址详情"
+                    prop="ZZXZ">
                   </el-table-column>
                   <el-table-column
                     :show-overflow-tooltip="true"
-                    label="服务住所">
+                    label="服务住所"
+                    prop="FWCS">
                   </el-table-column>
                   <el-table-column
                     :show-overflow-tooltip="true"
@@ -1719,7 +1726,7 @@
             </div>
             <div class="boder1" ref="box18">
               <div class="title-green hand mt-10" @click="box18=!box18">
-                 铁路订票信息 <i class="el-icon-d-caret"></i><span>({{data18.length||0}})</span>
+                 铁路订票信息 <i class="el-icon-d-caret"></i><span>({{num2.tlnum||0}})</span>
               </div>
               <div v-if="box18">
                 <el-table
@@ -1730,39 +1737,48 @@
                   style="width: 100%">
                   <el-table-column
                     :show-overflow-tooltip="true"
-                    label="姓名">
+                    label="姓名"
+                    prop="XM">
                   </el-table-column>
                   <el-table-column
                     :show-overflow-tooltip="true"
-                    label="证件号码">
+                    label="证件号码"
+                    prop="ZJHM">
                   </el-table-column>
                   <el-table-column
                     :show-overflow-tooltip="true"
-                    label="票号">
+                    label="票号"
+                    prop="PH">
                   </el-table-column>
                   <el-table-column
                     :show-overflow-tooltip="true"
-                    label="车次">
+                    label="车次"
+                    prop="CC">
                   </el-table-column>
                   <el-table-column
                     :show-overflow-tooltip="true"
-                    label="乘车日期">
+                    label="乘车日期"
+                    prop="CCRQ">
                   </el-table-column>
                   <el-table-column
                     :show-overflow-tooltip="true"
-                    label="发站">
+                    label="发站"
+                    prop="FZ">
                   </el-table-column>
                   <el-table-column
                     :show-overflow-tooltip="true"
-                    label="到站">
+                    label="到站"
+                    prop="DZ">
                   </el-table-column>
                   <el-table-column
                     :show-overflow-tooltip="true"
-                    label="序号">
+                    label="序号"
+                    prop="XH">
                   </el-table-column>
                   <el-table-column
                     :show-overflow-tooltip="true"
-                    label="状态">
+                    label="状态"
+                    prop="ZT">
                   </el-table-column>
                 </el-table>
                 <div class="box1-more" v-if="data18.length>0">
@@ -1774,7 +1790,7 @@
             </div>
             <div class="boder1" ref="box19">
               <div class="title-green hand mt-10" @click="box19=!box19">
-                 民航订票信息 <i class="el-icon-d-caret"></i><span>({{data19.length||0}})</span>
+                 民航订票信息 <i class="el-icon-d-caret"></i><span>({{num2.mhdpnum||0}})</span>
               </div>
               <div v-if="box19">
                 <el-table
@@ -1785,71 +1801,91 @@
                   style="width: 100%">
                   <el-table-column
                     :show-overflow-tooltip="true"
-                    label="订票记录编号">
+                    label="订票记录编号"
+                    prop="">
                   </el-table-column>
                   <el-table-column
                     :show-overflow-tooltip="true"
-                    label="旅客中文姓名">
+                    label="旅客中文姓名"
+                    prop="LKZWXM">
                   </el-table-column>
                   <el-table-column
                     :show-overflow-tooltip="true"
-                    label="旅客英文姓名">
+                    label="旅客英文姓名"
+                    prop="LKYWX">
+                    <template slot-scope="scope">
+                      <span>{{scope.row.LKYWM+scope.row.LKYWX}}</span>
+                    </template>
                   </el-table-column>
                   <el-table-column
                     :show-overflow-tooltip="true"
-                    label="身份证件类型">
+                    label="身份证件类型"
+                    prop="SFZJLX">
                   </el-table-column>
                   <el-table-column
                     :show-overflow-tooltip="true"
-                    label="身份证件号码">
+                    label="身份证件号码"
+                    prop="SFZJHM">
                   </el-table-column>
                   <el-table-column
                     :show-overflow-tooltip="true"
-                    label="航班号">
+                    label="航班号"
+                    prop="HBH">
                   </el-table-column>
                   <el-table-column
                     :show-overflow-tooltip="true"
-                    label="起飞航站">
+                    label="起飞航站"
+                    prop="">
                   </el-table-column>
                   <el-table-column
                     :show-overflow-tooltip="true"
-                    label="当前出发日期">
+                    label="当前出发日期"
+                    prop="DDCFRQ">
                   </el-table-column>
                   <el-table-column
                     :show-overflow-tooltip="true"
-                    label="类型">
+                    label="类型"
+                    prop="">
                   </el-table-column>
                   <el-table-column
                     :show-overflow-tooltip="true"
-                    label="当前出发时间">
+                    label="当前出发时间"
+                    prop="DDCFSJ">
                   </el-table-column>
                   <el-table-column
                     :show-overflow-tooltip="true"
-                    label="到达航站">
+                    label="到达航站"
+                    prop="">
                   </el-table-column>
                   <el-table-column
                     :show-overflow-tooltip="true"
-                    label="当地到达日期">
+                    label="当地到达日期"
+                    prop="DDDDRQ">
                   </el-table-column>
                   <el-table-column
                     :show-overflow-tooltip="true"
-                    label="当地到达时间">
+                    label="当地到达时间"
+                    prop="DDDDSJ">
                   </el-table-column>
                   <el-table-column
                     :show-overflow-tooltip="true"
-                    label="操作代理人代码">
+                    label="操作代理人代码"
+                    prop="CZDLRDM">
                   </el-table-column>
                   <el-table-column
                     :show-overflow-tooltip="true"
-                    label="团体标识">
+                    label="团体标识"
+                    prop="">
                   </el-table-column>
                   <el-table-column
                     :show-overflow-tooltip="true"
-                    label="团体名称">
+                    label="团体名称"
+                    prop="TTMC">
                   </el-table-column>
                   <el-table-column
                     :show-overflow-tooltip="true"
-                    label="操作日期">
+                    label="操作日期"
+                    prop="CZSJ">
                   </el-table-column>
                 </el-table>
                 <div class="box1-more" v-if="data19.length>0">
@@ -1861,7 +1897,7 @@
             </div>
             <div class="boder1" ref="box20">
               <div class="title-green hand mt-10" @click="box20=!box20">
-                 民航离港信息 <i class="el-icon-d-caret"></i><span>({{data20.length||0}})</span>
+                 民航离港信息 <i class="el-icon-d-caret"></i><span>({{num2.mhlgnum||0}})</span>
               </div>
               <div v-if="box20">
                 <el-table
@@ -1872,71 +1908,88 @@
                   style="width: 100%">
                   <el-table-column
                     :show-overflow-tooltip="true"
-                    label="订票记录编号">
+                    label="订票记录编号"
+                    prop="DPJLBH">
                   </el-table-column>
                   <el-table-column
                     :show-overflow-tooltip="true"
-                    label="旅客中文姓名">
+                    label="旅客中文姓名"
+                    prop="LKZWXM">
                   </el-table-column>
                   <el-table-column
                     :show-overflow-tooltip="true"
-                    label="旅客英文姓名">
+                    label="旅客英文姓名"
+                    prop="LKYWXM">
                   </el-table-column>
                   <el-table-column
                     :show-overflow-tooltip="true"
-                    label="身份证件类型">
+                    label="身份证件类型"
+                    prop="SFZJLX">
                   </el-table-column>
                   <el-table-column
                     :show-overflow-tooltip="true"
-                    label="身份证件号码">
+                    label="身份证件号码"
+                    prop="SFZHM">
                   </el-table-column>
                   <el-table-column
                     :show-overflow-tooltip="true"
-                    label="航班号">
+                    label="航班号"
+                    prop="HBH">
                   </el-table-column>
                   <el-table-column
                     :show-overflow-tooltip="true"
-                    label="起飞航站">
+                    label="起飞航站"
+                    prop="QFHZ">
                   </el-table-column>
                   <el-table-column
                     :show-overflow-tooltip="true"
-                    label="当前出发日期">
+                    label="当前出发日期"
+                    prop="DQCFRQ">
                   </el-table-column>
                   <el-table-column
                     :show-overflow-tooltip="true"
-                    label="类型">
+                    label="类型"
+                    prop="LX">
                   </el-table-column>
                   <el-table-column
                     :show-overflow-tooltip="true"
-                    label="当前出发时间">
+                    label="当前出发时间"
+                    prop="DQCFSJ">
                   </el-table-column>
                   <el-table-column
                     :show-overflow-tooltip="true"
-                    label="到达航站">
+                    label="到达航站"
+                    prop="DDHZ">
                   </el-table-column>
                   <el-table-column
                     :show-overflow-tooltip="true"
-                    label="当地到达日期">
+                    label="当地到达日期"
+                    prop="DDDDRQ">
                   </el-table-column>
                   <el-table-column
                     :show-overflow-tooltip="true"
-                    label="当地到达时间">
+                    label="当地到达时间"
+                    prop="DDDDSJ">
                   </el-table-column>
                   <el-table-column
                     :show-overflow-tooltip="true"
-                    label="操作代理人代码">
+                    label="操作代理人代码"
+                    prop="CZDLRDM">
                   </el-table-column>
                   <el-table-column
                     :show-overflow-tooltip="true"
-                    label="团体标识">
+                    label="团体标识"
+                    prop="TTBS">
                   </el-table-column>
                   <el-table-column
                     :show-overflow-tooltip="true"
-                    label="团体名称">
+                    label="团体名称"
+                    prop="TTMM">
                   </el-table-column>
                   <el-table-column
                     :show-overflow-tooltip="true"
-                    label="操作日期">
+                    label="操作日期"
+                    prop="CZRQ">
                   </el-table-column>
                 </el-table>
                 <div class="box1-more" v-if="data20.length>0">
@@ -2171,7 +2224,8 @@ export default {
       tobox:'box0',
       toboxShow:false,
       imgURL:imgUrl,
-      num:{"imm": 0,"immcardNum": 0,"visa":0,"res": 0,"act": 0,"fgncas": 0,"repat": 0,"resident":0,"temp":0,"self": 0,"cert": 0,"api": 0,"illegal": 0}
+      num:{"imm": 0,"immcardNum": 0,"visa":0,"res": 0,"act": 0,"fgncas": 0,"repat": 0,"resident":0,"temp":0,"self": 0,"cert": 0,"api": 0,"illegal": 0},
+      num2:{hjnum:0,tlnum:0,mhdpnum:0,mhlgnum:0}
     }
   },
   components:{
@@ -2306,7 +2360,18 @@ export default {
          this.data0=r.data;
          this.getPhotoInf(r.data.PASSPORTNO,r.data.NATIONALITY,r.data.BIRTHDAY,r.data.NAME);
          this.getRiskPersonnelForecasInfo();
-         this.getRecordOtherInfo('num')
+         this.getRecordOtherInfo('num');
+         this.getCRCCNumInfo();
+       })
+    },
+    getCRCCNumInfo(){
+      let p={
+        // "nationality":this.nationality,
+        "passportno":this.idcard,
+      }
+      this.$api.post('/manage-platform/riskRecordExtInterfaceController/getCRCCNumInfo',p,
+       r => {
+         this.num2=r.data
        })
     },
     getPhotoInf(passportno,nationality,birthday,name){
@@ -2480,9 +2545,9 @@ export default {
     // 户籍信息接口
     getCensusInfo(){
       let p={
-        "nationality":this.nationality,
-        "passportno":this.passportno,
-        "idcard":this.idcard
+        // "nationality":this.nationality,
+        // "passportno":this.passportno,
+        "passportno":this.idcard
       }
       this.$api.post('/manage-platform/riskRecordExtInterfaceController/getCensusInfo',p,
        r => {
@@ -2583,16 +2648,40 @@ export default {
 
        })
     },
+    // 铁路订票
+    getRailwayInfo(){
+      let p={
+        // "nationality":this.nationality,
+        // "passportno":this.passportno,
+        "passportno":this.idcard
+      }
+      this.$api.post('/manage-platform/riskRecordExtInterfaceController/getRailwayInfo',p,
+       r => {
+         this.data18=r.data
+       })
+    },
     // 民航订票
     getCivilAviationInfo(){
       let p={
-        "nationality":this.nationality,
-        "passportno":this.passportno,
-        "idcard":this.idcard
+        // "nationality":this.nationality,
+        // "passportno":this.passportno,
+        "passportno":this.idcard
       }
       this.$api.post('/manage-platform/riskRecordExtInterfaceController/getCivilAviationInfo',p,
        r => {
          this.data19=r.data
+       })
+    },
+    // 民航离港
+    getCivilAviationAbsencesInfo(){
+      let p={
+        // "nationality":this.nationality,
+        // "passportno":this.passportno,
+        "passportno":this.idcard
+      }
+      this.$api.post('/manage-platform/riskRecordExtInterfaceController/getCivilAviationAbsencesInfo',p,
+       r => {
+         this.data20=r.data
        })
     },
     exportFn(type){
@@ -2772,10 +2861,22 @@ export default {
         this.getRecordOtherInfo('api');
       }
     },
-    // 民航
+    // 铁路订票
+    box18:function(val){
+      if(val){
+        this.getRailwayInfo();
+      }
+    },
+    // 民航订票
     box19:function(val){
       if(val){
         this.getCivilAviationInfo();
+      }
+    },
+    // 民航离港
+    box20:function(val){
+      if(val){
+        this.getCivilAviationAbsencesInfo();
       }
     }
   }

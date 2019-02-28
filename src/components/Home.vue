@@ -279,12 +279,19 @@ export default {
     this.chart.dispose();
     this.chart = null;
   },
+
   computed:{
     sortarr:function(){
       return this.sortByKey(this.muneListOne,'SERIAL')
     }
   },
-
+  watch:{
+    $route(val){
+      if(!val.query.isLogin){
+        this.$router.go(0)
+      }
+    }
+  },
   methods: {
     initJzmm(){
       if(sessionStorage.getItem('jzmm')==1){
@@ -342,7 +349,7 @@ export default {
            this.getUers();
            this.getNav0();
          }else{
-           console.log("==============",this.isLogin)
+           // console.log("==============",this.isLogin)
            this.$router.push({name:"Home"})
          }
       })
