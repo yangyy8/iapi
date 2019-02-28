@@ -399,7 +399,7 @@ export default {
       controlChecked:1,
       coCheckId:1,
       detailsDialogVisible:false,
-      checked:true,
+      checked:false,
       // 实时显示条数
       options:[
         {
@@ -468,6 +468,10 @@ export default {
   activated() {
       this.drawLine();
       this.checkRealTime();
+      let _this = this;
+      setInterval(function(){
+        _this.checkRealTime();
+      },300000)
       if(this.checked==true){
         let that = this;
         that.timer=setInterval(function(){
@@ -695,6 +699,7 @@ export default {
              // that.pdc.realX = params.name.split(':').join('');
              that.controlChecked=1;
              that.coCheckId=2;
+             that.pdc.port = that.cdt1.port;
              // 表格数据渲染
              that.getList(that.CurrentPage,that.pageSize,that.pdc);
            });
@@ -795,13 +800,11 @@ export default {
       r =>{
         if(r.success){
           this.lineXreal = r.data.pd.X;
-          console.log(this.lineXreal);
           var num = r.data.pd.X;
           var arr = [];
           for(var i=0;i<num.length;i++){
             arr.push(this.transform(num[i]));
           }
-          console.log(arr);
         }
         this.lineX = arr;
         this.lineY = r.data.pd.yz;
@@ -874,6 +877,7 @@ export default {
       if(this.coCheckId==1){
         this.checkRealTime();
       }else if(this.coCheckId==2){
+        this.checked = true;
         this.getList(this.CurrentPage,this.pageSize,this.cdt1);
       }
     },

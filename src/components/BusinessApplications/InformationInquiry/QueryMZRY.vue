@@ -140,88 +140,89 @@
         fit
         style="width: 100%;"
         class="mt-10 o-table3"
-        @header-click="headerClick">
+        @header-click="headerClick"
+        @sort-change='sortChange'>
         <el-table-column
           prop="NAME"
           width="100"
-          sortable
+          sortable='custom'
           label="姓名">
         </el-table-column>
         <el-table-column
           prop="INTG_CHNNAME"
-          sortable
+          sortable='custom'
           width="110"
           label="中文姓名">
         </el-table-column>
         <el-table-column
           prop="CITYFROMNAME"
           label="出发地"
-          sortable
+          sortable='custom'
           width="150">
         </el-table-column>
         <el-table-column
           prop="CITYTONAME"
           label="目的地"
-          sortable
+          sortable='custom'
           width="150">
         </el-table-column>
         <el-table-column
           prop="GENDERNAME"
           label="性别"
-          sortable>
+          sortable='custom'>
         </el-table-column>
         <el-table-column
           prop="BIRTHDAY"
           label="出生日期"
           width="110"
-          sortable>
+          sortable='custom'>
         </el-table-column>
         <el-table-column
           prop="NATIONALITYNAME"
           label="国籍/地区"
           width="110"
-          sortable>
+          sortable='custom'>
         </el-table-column>
         <el-table-column
           prop="PASSPORTNO"
           label="证件号码"
           width="110"
-          sortable>
+          sortable='custom'>
         </el-table-column>
         <el-table-column
           prop="FLTNO"
           label="航班号"
           width="100"
-          sortable>
+          sortable='custom'>
         </el-table-column>
         <el-table-column
           prop="DEPARTDATESTRING"
           label="航班日期"
           width="150"
-          sortable>
+          sortable='custom'>
         </el-table-column>
         <el-table-column
           prop="CREATETIMESTR"
           label="命中时间"
           width="160"
-          sortable>
+          sortable='custom'>
         </el-table-column>
         <el-table-column
           prop="INSTRUCT_NEW"
           label="反馈结果"
           width="110"
-          sortable>
+          sortable='custom'>
         </el-table-column>
         <el-table-column
           prop="TYPE"
           label="命中人员类别"
           width="130"
-          sortable>
+          sortable='custom'>
         </el-table-column>
         <el-table-column
           fixed="right"
           label="操作"
-          sortable
+          sortable='custom'
           width="80">
           <template slot-scope="scope">
             <el-button type="text"  class="a-btn" title="报表" icon="el-icon-document" @click="details(scope.row)"></el-button>
@@ -662,6 +663,46 @@ export default {
     },
   },
   methods: {
+    sortChange(column, prop, order){
+      let p={
+        'order':column.prop,
+        'direction':column.order=='ascending'?1:0,
+        "currentPage":this.CurrentPage,
+        "showCount":this.pageSize,
+        "cdt":this.pd
+      }
+      if((this.pd.startFlightDepartdate!=undefined && this.pd.startFlightDepartdate!=null)
+         && (this.pd.endFlightDepartdate!=undefined && this.pd.endFlightDepartdate!=null))
+      {
+        if(dayGap(this.pd.startFlightDepartdate,this.pd.endFlightDepartdate,1)>30){
+          this.$alert('查询时间间隔不能超过一个月', '提示', {
+            confirmButtonText: '确定',
+          });
+          return false
+        }
+      }else if((this.pd.startCreatetime!=undefined && this.pd.startCreatetime!=null)
+             && (this.pd.endCreatetime!=undefined && this.pd.endCreatetime!=null)) {
+
+               if(dayGap(this.pd.startCreatetime,this.pd.endCreatetime,1)>30){
+                 this.$alert('查询时间间隔不能超过一个月', '提示', {
+                   confirmButtonText: '确定',
+                 });
+                 return false
+               }
+      }else {
+        this.$alert('航班日期和命中日期至少其中一项不能为空', '提示', {
+          confirmButtonText: '确定',
+        });
+        return false
+      }
+        // pd.saveflag=1;
+        // pd.instructNew="1Z";
+        this.$api.post('/manage-platform/event/queryEventHisListPage',p,
+          r => {
+            this.tableData = r.data.resultList;
+            this.TotalResult = r.data.totalResult;
+          })
+    },
     headerClick(column,event){
         event.target.title=column.label
       },
