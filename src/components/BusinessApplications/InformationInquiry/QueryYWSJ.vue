@@ -90,31 +90,31 @@
         :data="tableData"
         border
         @header-click="headerClick"
+        @sort-change='sortChange'
         style="width: 100%;">
         <el-table-column
           prop="typeStr"
           label="事件类型"
-          sortable>
+          sortable='custom'>
         </el-table-column>
         <el-table-column
           prop="createtimeStr"
           label="事件产生时间"
-          sortable>
+          sortable='custom'>
         </el-table-column>
         <el-table-column
           prop="name"
           label="处理人"
-          sortable>
+          sortable='custom'>
         </el-table-column>
         <el-table-column
           prop="dealtimeStr"
           label="处理时间"
-          sortable>
+          sortable='custom'>
         </el-table-column>
         <el-table-column
           prop="content"
-          label="事件描述"
-          sortable>
+          label="事件描述">
         </el-table-column>
 
         <el-table-column
@@ -751,6 +751,49 @@ export default {
     // this.pd.endDealtime=formatDate(end,'yyyyMMddhhmmss');
   },
   methods: {
+    sortChange(column, prop, order){
+      let p = {
+        'order':column.prop,
+        'direction':column.order=='ascending'?1:0,
+        "currentPage":this.CurrentPage,
+        "showCount":this.pageSize,
+        "cdt":this.pd
+      }
+      if(this.pd.startCreatetime==''||this.pd.endCreatetime==''||this.pd.startCreatetime==null||this.pd.endCreatetime==null){
+        this.$message({
+          message: '事件产生时间不能为空',
+          type: 'warning'
+        });
+        return
+      }
+      if(this.pd.startDealtime==''||this.pd.endDealtime==''||this.pd.startDealtime==null||this.pd.endDealtime==null){
+        this.$message({
+          message: '处理时间不能为空',
+          type: 'warning'
+        });
+        return
+      }
+      if(dayGap(this.pd.startCreatetime,this.pd.endCreatetime,1)>30){
+        this.$alert('事件产生时间查询时间间隔不能超过一个月', '提示', {
+          confirmButtonText: '确定',
+        });
+        return false
+      };
+      if(dayGap(this.pd.startDealtime,this.pd.endDealtime,1)>30){
+        this.$alert('处理时间查询时间间隔不能超过一个月', '提示', {
+          confirmButtonText: '确定',
+        });
+        return false
+      };
+      this.$api.post('/manage-platform/eventManagement/queryListPage', p,
+        r => {
+          console.log(r);
+          if (r.success) {
+            this.tableData = r.data.resultList;
+            this.TotalResult = r.data.totalResult;
+          }
+        })
+    },
     headerClick(column,event){
       event.target.title=column.label
     },

@@ -1621,10 +1621,13 @@ export default {
     this.getHz();
     this.getGj();
     this.getHkGs();
+    this.getLeftData();
+
   },
   activated(){
     this.initChart(this.series);
     this.getNewData0();
+    this.getRightData()
 
   },
   created(){
@@ -1649,12 +1652,17 @@ export default {
   },
   watch:{
     showLeft:function (val) {
+      console.log(!val)
       if(!val){
+
         this.getLeftData()
       }
     },
     showRight:function (val) {
+      console.log(!val)
+
       if(!val){
+
         this.getRightData()
       }
     },
