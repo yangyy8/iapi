@@ -183,21 +183,21 @@
         </el-table-column>
         <el-table-column
           label="值机时间"
-          prop="checkInTime"
+          prop="checkInTimeSecond"
           sortable="custom"
           width="105"
           :show-overflow-tooltip="true">
         </el-table-column>
         <el-table-column
           label="计划起降时间"
-          prop="scheduleDaTime"
+          prop="scheduleDaTimeSecond"
           sortable="custom"
           width="110"
           :show-overflow-tooltip="true">
         </el-table-column>
         <el-table-column
           label="实际起降时间"
-          prop="daTime"
+          prop="daTimeSecond"
           sortable="custom"
           width="110"
           :show-overflow-tooltip="true">

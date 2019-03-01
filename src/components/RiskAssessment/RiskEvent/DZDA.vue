@@ -1802,7 +1802,7 @@
                   <el-table-column
                     :show-overflow-tooltip="true"
                     label="订票记录编号"
-                    prop="">
+                    prop="DPJLBH">
                   </el-table-column>
                   <el-table-column
                     :show-overflow-tooltip="true"
@@ -1835,7 +1835,7 @@
                   <el-table-column
                     :show-overflow-tooltip="true"
                     label="起飞航站"
-                    prop="">
+                    prop="QFHZ">
                   </el-table-column>
                   <el-table-column
                     :show-overflow-tooltip="true"
@@ -1855,7 +1855,7 @@
                   <el-table-column
                     :show-overflow-tooltip="true"
                     label="到达航站"
-                    prop="">
+                    prop="DDHZ">
                   </el-table-column>
                   <el-table-column
                     :show-overflow-tooltip="true"
@@ -1875,7 +1875,7 @@
                   <el-table-column
                     :show-overflow-tooltip="true"
                     label="团体标识"
-                    prop="">
+                    prop="TTBZ">
                   </el-table-column>
                   <el-table-column
                     :show-overflow-tooltip="true"
@@ -2238,6 +2238,9 @@ export default {
     this.nationality=this.$route.query.nationality;
     this.passportno=this.$route.query.passportno;
     this.idcard=this.$route.query.idcard;
+    if(!this.idcard){
+      this.getRecordOtherInfo('immcard');
+    }
     this.getUsers();
     this.getUserBaseInfo();
     this.getUserTagInfo();
@@ -2575,6 +2578,9 @@ export default {
            case 'immcard':
              if(r.data.data.immcard){
                this.data7=r.data.data.immcard;
+               if(!this.idcard){
+                 this.idcard=this.data7[0].pers_card_id
+               }
              }
              break;
            case 'visa':

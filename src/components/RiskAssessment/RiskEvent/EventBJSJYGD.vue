@@ -292,7 +292,8 @@
             label="事件来源"
             width="60"
             sortable="custom"
-            prop="centre_port">
+            prop="centre_port"
+            :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="推送人"

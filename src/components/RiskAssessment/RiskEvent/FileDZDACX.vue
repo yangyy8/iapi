@@ -264,6 +264,7 @@ export default {
     getList(CurrentPage,showCount,pd){
       if(!this.pd.nationality){
         this.$message.error('请先填写国籍地区！');
+        return
       }
       if(this.pd.birthdayStart||this.pd.birthdayEnd){
         if(!(this.pd.birthdayEnd&&this.pd.birthdayStart)){
