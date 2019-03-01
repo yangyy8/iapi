@@ -148,6 +148,13 @@
                 label="订单时间" sortable>
               </el-table-column>
             </el-table>
+            <div class="middle-foot">
+              <div class="page-msg">
+                <div class="">
+                共{{TotalResult}}条
+                </div>
+              </div>
+            </div>
         </div>
         <div v-show="page==1">
           <el-table
@@ -205,7 +212,13 @@
               label="座位号" sortable>
             </el-table-column>
           </el-table>
-
+          <div class="middle-foot">
+            <div class="page-msg">
+              <div class="">
+              共{{TotalResult1}}条
+              </div>
+            </div>
+          </div>
         </div>
 
         <div v-show="page==2">
@@ -354,8 +367,13 @@
               label="座位号" sortable>
             </el-table-column>
           </el-table>
-
-
+          <div class="middle-foot">
+            <div class="page-msg">
+              <div class="">
+              共{{TotalResult3}}条
+              </div>
+            </div>
+          </div>
         </div>
 
       </div>
@@ -593,6 +611,7 @@ export default {
       r => {
         console.log(r);
         this.tableData = r.data;
+        this.TotalResult=r.data.length;
       });
 
     this.getList1(currentPage, showCount, pd);
@@ -614,6 +633,7 @@ export default {
         r => {
           console.log(r);
           this.tableData1 = r.data;
+          this.TotalResult1=r.data.length;
         })
     },
     selectChange(){
@@ -650,6 +670,7 @@ export default {
         r => {
           console.log(r);
           this.tableData3 = r.data;
+            this.TotalResult3=r.data.length;
         })
     },
 

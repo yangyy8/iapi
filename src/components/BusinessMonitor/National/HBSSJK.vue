@@ -109,26 +109,26 @@
           label="航班号"
           prop="fltNo"
           sortable="custom"
-          width="90">
+          width="70">
         </el-table-column>
         <el-table-column
           label="出发站"
           prop="portFrom"
           sortable="custom"
-          width="87"
+          width="75"
           :show-overflow-tooltip="true">
         </el-table-column>
         <el-table-column
           label="目的站"
           prop="portTo"
           sortable="custom"
-          width="87"
+          width="75"
           :show-overflow-tooltip="true">
         </el-table-column>
         <el-table-column
           label="出入标识"
           sortable="custom"
-          width="90"
+          width="60"
           prop="FLIGHTTYPE"
           :show-overflow-tooltip="true">
           <template slot-scope="scope">
@@ -143,7 +143,7 @@
           label="航班日期"
           prop="SCHEDULEDATIME"
           sortable="custom"
-          width="101"
+          width="88"
           :show-overflow-tooltip="true">
           <template slot-scope="scope">
             <span>{{scope.row.fltDate}}</span>
@@ -153,18 +153,18 @@
           label="航班状态"
           prop="status"
           sortable="custom"
-          width="101"
+          width="88"
           :show-overflow-tooltip="true">
           <template slot-scope="scope">
             <div>
-              <span v-if="scope.row.status==0">计划</span>
-              <span v-if="scope.row.status==1">已预检</span>
-              <span v-if="scope.row.status==2">已起飞</span>
-              <span v-if="scope.row.status==3">已到达</span>
-              <span v-if="scope.row.status==4">已办理入境手续</span>
-              <span v-if="scope.row.status==5">已取消</span>
-              <span v-if="scope.row.status==6">无关闭报文</span>
-              <span v-if="scope.row.status==7">无值机报文</span>
+              <span v-if="scope.row.status==0" class="s0">计划</span>
+              <span v-if="scope.row.status==1" class="s1">已预检</span>
+              <span v-if="scope.row.status==2" class="s2">已起飞</span>
+              <span v-if="scope.row.status==3" class="s3">已到达</span>
+              <span v-if="scope.row.status==4" class="s4">已办理入境手续</span>
+              <span v-if="scope.row.status==5" class="s5">已取消</span>
+              <span v-if="scope.row.status==6" class="s6">无关闭报文</span>
+              <span v-if="scope.row.status==7" class="s7">无值机报文</span>
             </div>
           </template>
 
@@ -183,23 +183,23 @@
         </el-table-column>
         <el-table-column
           label="值机时间"
-          prop="checkInTime"
+          prop="checkInTimeSecond"
+          sortable="custom"
+          width="105"
+          :show-overflow-tooltip="true">
+        </el-table-column>
+        <el-table-column
+          label="计划起降时间"
+          prop="scheduleDaTimeSecond"
           sortable="custom"
           width="110"
           :show-overflow-tooltip="true">
         </el-table-column>
         <el-table-column
-          label="计划起降时间"
-          prop="scheduleDaTime"
-          sortable="custom"
-          width="120"
-          :show-overflow-tooltip="true">
-        </el-table-column>
-        <el-table-column
           label="实际起降时间"
-          prop="daTime"
+          prop="daTimeSecond"
           sortable="custom"
-          width="120"
+          width="110"
           :show-overflow-tooltip="true">
         </el-table-column>
         <el-table-column
@@ -207,17 +207,17 @@
           <el-table-column
             label="中国内地"
             prop="inlandNum"
-            width="50">
+            width="80">
           </el-table-column>
           <el-table-column
             label="港澳台"
             prop="gatNum"
-            width="50">
+            width="65">
           </el-table-column>
           <el-table-column
             label="外国人"
             prop="foreignNum"
-            width="50">
+            width="65">
           </el-table-column>
         </el-table-column>
         <el-table-column
@@ -225,22 +225,22 @@
           <el-table-column
             label="实际登机"
             prop="boarding"
-            width="50">
+            width="80">
           </el-table-column>
           <el-table-column
             label="允许登机"
             prop="chk0Z"
-            width="50">
+            width="80">
           </el-table-column>
           <el-table-column
             label="禁止登机"
             prop="chk1Z"
-            width="50">
+            width="80">
           </el-table-column>
           <el-table-column
             label="非法载运"
             prop="illegalBoarding"
-            width="50">
+            width="80">
           </el-table-column>
         </el-table-column>
 

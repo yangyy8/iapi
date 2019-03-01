@@ -621,14 +621,14 @@
                     <div class="td2-div">
                       <div class="td2-pop-div b-r">
                         <span>入境</span>
-                        <span class="td2-pop-num1">{{i.inLand}}</span>
+                        <span class="td2-pop-num1">{{i.chk_in_chn||0}}</span>
                       </div>
                       <div class="td2-pop-div">
                         <span>出境</span>
-                        <span class="td2-pop-num2">{{i.outLand}}</span>
+                        <span class="td2-pop-num2">{{i.chk_out_chn||0}}</span>
                       </div>
                     </div>
-                    <span slot="reference" class="hand">{{i.inLand+i.outLand||0}}</span>
+                    <span slot="reference" class="hand">{{i.chk_in_chn+i.chk_out_chn||0}}</span>
                   </el-popover>
                 </div>
 
@@ -641,14 +641,14 @@
                     <div class="td2-div">
                       <div class="td2-pop-div b-r">
                         <span>入境</span>
-                        <span class="td2-pop-num1">{{i.inGat}}</span>
+                        <span class="td2-pop-num1">{{i.chk_in_gat||0}}</span>
                       </div>
                       <div class="td2-pop-div">
                         <span>出境</span>
-                        <span class="td2-pop-num2">{{i.outGat}}</span>
+                        <span class="td2-pop-num2">{{i.chk_out_gat||0}}</span>
                       </div>
                     </div>
-                    <span slot="reference" class="hand">{{i.inGat+i.outGat||0}}</span>
+                    <span slot="reference" class="hand">{{i.chk_in_gat+i.chk_out_gat||0}}</span>
                   </el-popover>
                 </div>
                 <div class="td2">
@@ -660,14 +660,14 @@
                     <div class="td2-div">
                       <div class="td2-pop-div b-r">
                         <span>入境</span>
-                        <span class="td2-pop-num1">{{i.inFrn}}</span>
+                        <span class="td2-pop-num1">{{i.chk_in_frn||0}}</span>
                       </div>
                       <div class="td2-pop-div">
                         <span>出境</span>
-                        <span class="td2-pop-num2">{{i.outFrn}}</span>
+                        <span class="td2-pop-num2">{{i.chk_out_frn||0}}</span>
                       </div>
                     </div>
-                    <span slot="reference" class="hand">{{i.inFrn+i.outFrn||0}}</span>
+                    <span slot="reference" class="hand">{{i.chk_in_frn+i.chk_out_frn||0}}</span>
                   </el-popover>
                   <!-- {{i.inFrn+i.outFrn}} -->
                 </div>
@@ -680,11 +680,11 @@
                     <div class="td2-div">
                       <div class="td2-pop-div b-r">
                         <span>入境</span>
-                        <span class="td2-pop-num1">{{i.matchIn}}</span>
+                        <span class="td2-pop-num1">{{i.matchIn||0}}</span>
                       </div>
                       <div class="td2-pop-div">
                         <span>出境</span>
-                        <span class="td2-pop-num2">{{i.matchOut}}</span>
+                        <span class="td2-pop-num2">{{i.matchOut||0}}</span>
                       </div>
                     </div>
                     <span slot="reference" class="hand">{{i.matchIn+i.matchOut||0}}</span>
@@ -700,17 +700,15 @@
                     <div class="td2-div">
                       <div class="td2-pop-div b-r">
                         <span>入境</span>
-                        <span class="td2-pop-num1">{{i.matchIn+i.inLand+i.inGat+i.inFrn}}</span>
+                        <span class="td2-pop-num1">{{i.matchIn+i.chk_in_frn+i.chk_in_gat+i.chk_in_chn||0}}</span>
                       </div>
                       <div class="td2-pop-div">
                         <span>出境</span>
-                        <span class="td2-pop-num2">{{i.matchOut+i.outLand+i.outGat+i.outFrn}}</span>
+                        <span class="td2-pop-num2">{{i.matchOut+i.chk_out_frn+i.chk_out_gat+i.chk_out_chn||0}}</span>
                       </div>
                     </div>
-                    <span slot="reference" class="hand">{{i.inLand+i.outLand+i.inGat+i.outGat+i.inFrn+i.outFrn+i.matchIn+i.matchOut||0}}</span>
+                    <span slot="reference" class="hand">{{i.matchIn+i.chk_in_frn+i.chk_in_gat+i.chk_in_chn+i.matchOut+i.chk_out_frn+i.chk_out_gat+i.chk_out_chn||0}}</span>
                   </el-popover>
-
-
                 </div>
               </li>
             </ul>
@@ -1113,7 +1111,7 @@
             width="45">
             <template slot-scope="scope">
               <div class="flex-r">
-                <div class="ta-btn hand" @click="addJkHb(scope.row.fltKey)">添加</div>
+                <div class="ta-btn hand" @click="addJkHb(scope.row)">添加</div>
               </div>
            </template>
           </el-table-column>
@@ -1614,17 +1612,19 @@ export default {
 
     };
   },
-
   mounted() {
     this.initChart(this.series);
     // this.getNewData();
     this.getHz();
     this.getGj();
     this.getHkGs();
+    this.getLeftData();
+
   },
   activated(){
     this.initChart(this.series);
     this.getNewData0();
+    this.getRightData()
 
   },
   created(){
@@ -1646,18 +1646,6 @@ export default {
     }
     this.chart.dispose();
     this.chart = null;
-  },
-  watch:{
-    showLeft:function (val) {
-      if(!val){
-        this.getLeftData()
-      }
-    },
-    showRight:function (val) {
-      if(!val){
-        this.getRightData()
-      }
-    },
   },
   methods: {
     searchPort0(){
@@ -1945,7 +1933,7 @@ export default {
        r => {
          //console.log(r);
          // this.newHbData=r.data;
-         console.log("newHbData",r.data)
+         // console.log("newHbData",r.data)
          this.createM0(r.data)
       })
     },
@@ -2048,19 +2036,18 @@ export default {
         symbolSize: 10,
         data: [],
       }
-      console.log(data)
+      // console.log(data)
       data.forEach(function(val,index,arr){
-        console.log(val)
+        // console.log(val)
         let a={
           name:val.portName,
           value:[val.jd,val.wd,val.port],
-
         }
-
         f.data.push(a)
       })
+
       this.series.push(f);
-      console.log(this.series)
+      console.log("this.series1======",this.series)
       this.initChart(this.series);
 
     },
@@ -2981,6 +2968,8 @@ export default {
         this.series.push(t)
         this.series.push(x)
       }
+      console.log("this.series2======",this.series)
+
       this.initChart(this.series);
 
     },
@@ -3253,7 +3242,11 @@ export default {
     },
     // 添加监控航班addMonitorFlight
     addJkHb(fk){
-      this.$api.get('/manage-platform/flightMonitor/addMonitorFlight',{fltKey:fk},
+      if(fk.to=="null"){
+        this.$message.error('该条数据不完整无法添加');
+        return
+      }
+      this.$api.get('/manage-platform/flightMonitor/addMonitorFlight',{fltKey:fk.fltKey},
        r => {
          //console.log(r);
          if(r.success){
@@ -3441,6 +3434,16 @@ export default {
       if(val.length==0){
         this.checkList4=[];
         this.checkShow4=false;
+      }
+    },
+    showLeft:function (val) {
+      if(!val){
+        this.getLeftData()
+      }
+    },
+    showRight:function (val) {
+      if(!val){
+        this.getRightData()
       }
     },
 

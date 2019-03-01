@@ -292,6 +292,26 @@
             <span>非法运载人数：</span>
             {{detailsData.illegalBoarding}}
           </el-col>
+          <el-col :sm="24" :md="12" :lg="8" >
+            <span>72小时报送时间：</span>
+            {{detailsData.t72}}
+          </el-col>
+          <el-col :sm="24" :md="12" :lg="8" >
+            <span>24小时报送时间：</span>
+            {{detailsData.t24}}
+          </el-col>
+          <el-col :sm="24" :md="12" :lg="8" >
+            <span>2小时报送时间：</span>
+            {{detailsData.t2}}
+          </el-col>
+          <el-col :sm="24" :md="12" :lg="8" >
+            <span>1小时报送时间：</span>
+            {{detailsData.t1}}
+          </el-col>
+          <el-col :sm="24" :md="12" :lg="8" >
+            <span>航班关闭报送时间：</span>
+            {{detailsData.t0}}
+          </el-col>
 
         </el-row>
       </div>
@@ -391,9 +411,11 @@ export default {
       })
     },
     rowClick(row,event,column){
+      // console.log("row",row)
       let p={
         flightRecordnum:row.fltKey,
-        portto:row.portto
+        portto:row.portto,
+        ioflag:row.ioType
       }
       this.$api.post('/manage-platform/flightRealTime/queryFightDetail',p,
        r => {

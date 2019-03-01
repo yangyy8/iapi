@@ -5,7 +5,7 @@
         <el-col :span="22" class="pr-20">
           <el-row align="center" :gutter="2">
             <el-col :sm="24" :md="12"  :lg="8" class="input-item">
-              <span class="input-text">国籍/地区：</span>
+              <span class="input-text"><span class="redx">*</span>国籍/地区：</span>
               <el-select v-model="pd.nationality" placeholder="请选择"  size="small" clearable filterable class="block input-input">
                 <el-option
                   v-for="item in nationAlone"
@@ -56,7 +56,7 @@
                   v-for="item in tagList"
                   :key="item.SERIAL"
                   :label="item.LABELNAME"
-                  :value="item.LABELTYPE_CODE">
+                  :value="item.SERIAL">
                 </el-option>
               </el-select>
             </el-col>
@@ -106,7 +106,6 @@
           </el-table-column>
           <el-table-column
             label="标签"
-            sortable
             prop="TAG_CODE"
             :show-overflow-tooltip="true">
           </el-table-column>
@@ -147,6 +146,7 @@
             <div class="">
               共{{TotalResult}}条
             </div>
+            <span style="color:#e4a50e;font-size:14px;">{{msg}}</span>
           </div>
           <el-pagination
             background
@@ -205,6 +205,8 @@ export default {
       checkeditem:{},
       imgURL:imgUrl,
       czDialogVisible:false,
+      msg:'',
+      tlist:[]
     }
   },
   mounted(){
@@ -233,12 +235,31 @@ export default {
       }
     },
     pageSizeChange(val) {
-      this.getList(this.CurrentPage,val,this.pd);
+      this.pageSize=val
+      this.tableData=this.tlist.slice(this.pageSize*(this.CurrentPage-1),this.pageSize*(this.CurrentPage-1)+this.pageSize);
+      // this.getList(this.CurrentPage,val,this.pd);
       console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
-      this.getList(val,this.pageSize,this.pd);
+      this.CurrentPage=val
+      this.tableData=this.tlist.slice(this.pageSize*(this.CurrentPage-1),this.pageSize*(this.CurrentPage-1)+this.pageSize);
+      // this.getList(val,this.pageSize,this.pd);
       console.log(`当前页: ${val}`);
+    },
+    sortChange(data){
+      console.log(data)
+      this.orders=[data.prop];
+      if(data.order=='descending'){
+        this.direction=0
+      }else{
+        this.direction=1
+      }
+      console.log(this.orders,this.direction)
+
+      // this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
+    },
+    sortMethod(a,b){
+      console.log(a,b)
     },
     handleClose(done) {
       // this.czform={};
@@ -262,9 +283,10 @@ export default {
     },
 
     getList(CurrentPage,showCount,pd){
-      // if(!this.pd.nationality||!this.pd.passportno){
-      //   this.$message.error('请先填写国籍地区和证件号！');
-      // }
+      if(!this.pd.nationality){
+        this.$message.error('请先填写国籍地区！');
+        return
+      }
       if(this.pd.birthdayStart||this.pd.birthdayEnd){
         if(!(this.pd.birthdayEnd&&this.pd.birthdayStart)){
           this.$message.error('请输入完整的出生日期区间！');
@@ -279,8 +301,15 @@ export default {
       this.$api.post('/manage-platform/riskRecordController/getRecordInfo',p,
        r => {
          console.log(r)
-         this.tableData=r.data.resultList;
-         this.TotalResult=r.data.totalResult;
+         // if(r.data.resultList[0].message){
+         //   this.$message.error(r.data.resultList[0].message);
+         // }else{
+           this.tlist=r.data.list;
+           this.tableData=r.data.list.slice(showCount*(CurrentPage-1),showCount*(CurrentPage-1)+showCount);
+           this.TotalResult=r.data.list.length;
+           this.msg=r.data.message
+         // }
+
       })
     },
     getPhotoInf(passportno,nationality,birthday,name){
