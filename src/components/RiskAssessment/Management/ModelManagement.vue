@@ -395,7 +395,7 @@
     v-model="value1"
     :titles="['备选', '已选']"
     :data="data">
-       </el-transfer>
+   </el-transfer>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="addRelates()" size="small">保 存</el-button>
         <el-button @click="menuDialogVisible = false" size="small">取 消</el-button>
