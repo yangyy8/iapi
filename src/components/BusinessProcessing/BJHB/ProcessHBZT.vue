@@ -257,7 +257,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="caddItem('addForm')" size="small">提 交</el-button>
-        <el-button @click="cancelDialogVisible = false" size="small">取 消</el-button>
+        <el-button @click="cancelDialogVisible = false;cform.desc=''" size="small">取 消</el-button>
 
       </div>
     </el-dialog>
@@ -317,8 +317,12 @@ export default {
             return endT < this.pd.departdateBegin;
         }
       },
-      form: {},
-      cform:{},
+      form: {
+        desc:''
+      },
+      cform:{
+        desc:''
+      },
       Airport:[],
     }
   },
@@ -390,11 +394,7 @@ export default {
           this.TotalResult = r.data.totalResult;
         })
     },
-    cancel(i){
-      this.cancelDialogVisible = true;
-      this.cform = i;
-      this.cform.desc='';
-    },
+
     queryNationality() {
       this.$api.post('/manage-platform/codeTable/queryAircompanyList', {},
         r => {
@@ -463,15 +463,24 @@ export default {
     },
     details(i) {
       if(i.status!=3){
-        this.$confirm(i.flightMessage, '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        })
+        // this.$alert(i.flightMessage, '提示', {
+        //   confirmButtonText: '确定',
+        // });
       }else{
         this.addDialogVisible = true;
         this.form = i;
-        this.getList(this.CurrentPage, this.pageSize, this.pd)
+        // this.getList(this.CurrentPage, this.pageSize, this.pd)
+      }
+    },
+    cancel(i){
+      if(i.status==5){
+        // this.$alert(i.flightMessage, '提示', {
+        //   confirmButtonText: '确定',
+        // });
+      }else{
+        this.cancelDialogVisible = true;
+        this.cform = i;
+        // this.getList(this.CurrentPage, this.pageSize, this.pd)
       }
     },
   }

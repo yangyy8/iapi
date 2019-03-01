@@ -120,7 +120,7 @@
                 </div>
               </el-row>
               <div v-if="(controlChecked==1) && (coCheckId==2)">
-                <el-row type="flex" justify="end">
+                <el-row type="flex" justify="end" v-if="isRefreshZH">
                   <el-checkbox v-model="checked">自动刷新</el-checkbox>
                 </el-row>
 
@@ -350,6 +350,7 @@ export default {
       selection:[],
       detailsDialogVisible:false,
       checked:false,
+      isRefreshZH:false,
       // 实时显示条数
       options:[
         {
@@ -644,6 +645,7 @@ export default {
            // 点击折点渲染表格
             this.lineChart.on('click', function (params) {
              that.checked=false;
+             that.isRefreshZH=false;
              that.typeT=1;
              var arrX=that.lineX;
              var arrXreal = that.lineXreal;
@@ -840,6 +842,7 @@ export default {
         this.checkRealTime();
       }else if(this.coCheckId==2){
         this.checked = true;
+        this.isRefreshZH = true;
         this.getList(this.CurrentPage,this.pageSize,this.cdt1);
       }
     },

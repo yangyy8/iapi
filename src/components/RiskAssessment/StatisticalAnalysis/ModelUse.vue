@@ -166,9 +166,9 @@
     </div>
     <div class="middle mb-2" v-for="(x,ind) in chartList" :key="ind">
       <div class="map-title">{{x.titleText}}</div>
-      <span class="tubiao hand borderL wwm" :class="{'checked':x.censusParamBean.queryType==0,'xuanzeLiang':isLiang}" :style="{display:qq}" @click="getType(x,ind,0);">量</span
-      ><span class="tubiao hand borderR wwm" :style="{display:qq}" :class="{'checked':x.censusParamBean.queryType==1,'xuanzeLv':isLv}" @click="getType(x,ind,1);">率</span
-      ><span class="tubiao hand borderR phb" :style="{display:qq}" :class="{'checked':x.censusParamBean.queryType==2,'xuanzeLv':isPai}" @click="getType(x,ind,2);">排行榜</span>
+      <span class="tubiao hand wwm" :class="{'checked':x.censusParamBean.queryType==0,'xuanzeLiang':isLiang}" :style="{display:qq}" @click="getType(x,ind,0);">量</span
+      ><span class="tubiao hand wwm" :style="{display:qq}" :class="{'checked':x.censusParamBean.queryType==1,'xuanzeLv':isLv}" @click="getType(x,ind,1);">率</span
+      ><span class="tubiao hand phb" :style="{display:qq}" :class="{'checked':x.censusParamBean.queryType==2,'xuanzeLv':isPai}" @click="getType(x,ind,2);">排行榜</span>
 
       <!-- <span class="tubiao hand borderL wwm" :class="{'checked':x.censusParamBean.queryType==0}" @click="getType(x,ind,0);" v-show="isLiang">量</span
       ><span class="tubiao hand borderR wwm" :class="{'checked':x.censusParamBean.queryType==1}" @click="getType(x,ind,1);" v-show="isLv">率</span
@@ -326,7 +326,17 @@ export default {
     },
 
     reset(){
-      this.pd={}
+      this.pd={
+        type:'0',
+        typeValue:[],
+        queryType:'0',
+        number:[],
+        percent:[],
+        rank:'',
+        startCreatetime:formatDate(new Date(new Date() - 1000 * 60 * 60 * 24 * 30),'yyyyMMdd'),
+        endCreatetime:formatDate(new Date(),'yyyyMMdd')
+      }
+      this.chartList=[];
     },
     getList(){
       console.log(this.pd.startCreatetime);
@@ -513,15 +523,15 @@ export default {
   z-index: 100;
 }
 .xuanzeLiang{
-  border-top-right-radius: 3px;
-  border-bottom-right-radius: 3px;
+  /* border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px; */
   display: inline-block!important;
   /* background:#56A8FE;
   color:#ffffff; */
 }
 .xuanzeLv{
-  border-top-left-radius: 3px;
-  border-bottom-left-radius: 3px;
+  /* border-top-left-radius: 3px;
+  border-bottom-left-radius: 3px; */
   display: inline-block!important;
   /* background:#56A8FE;
   color:#ffffff; */

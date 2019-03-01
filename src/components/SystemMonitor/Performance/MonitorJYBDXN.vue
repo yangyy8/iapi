@@ -380,20 +380,6 @@ export default {
       lineChart:null,
       barChart:null,
       timer:null,
-      // dddd:[
-      //   {
-      //     value:60,
-      //     label:'十条'
-      //   },
-      //   {
-      //     value:30,
-      //     label:'三条'
-      //   },
-      //   {
-      //     value:'-',
-      //     label:'三条'
-      //   }
-      // ]
     }
   },
   mounted() {
@@ -562,7 +548,6 @@ export default {
              tooltip:{
                trigger:'axis',
                formatter:function(params){
-                 console.log(params);
                  for(var i=0;i<params.length;i++){
                    return "监控时间:" + params[i].name+"</br>"+"平均耗时:" + params[i].data.value + "</br>"+"校验数据量:" + params[i].data.label
                  }
@@ -636,8 +621,8 @@ export default {
            })
            // 点击折点渲染表格
            this.lineChart.on('click', function (params) {
-             that.isRefresh=false;
              that.checked=false;
+             that.isRefresh=false;
              that.typeT=1;
              var arrX=that.lineX;
              var arrXreal = that.lineXreal;
