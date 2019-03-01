@@ -31,6 +31,19 @@
                 </el-date-picker>
 
               </el-col>
+              <el-col :sm="24" :md="12"  :lg="8" class="input-item">
+                <span class="input-text">航班状态：</span>
+                <el-select v-model="pd.status" placeholder="请选择"  size="small" clearable filterable class="block input-input">
+                  <el-option label="0 - 计划" value="0"></el-option>
+                  <el-option label="1 - 已预检" value="1"></el-option>
+                  <el-option label="2 - 已起飞" value="2"></el-option>
+                  <el-option label="3 - 已到达" value="3"></el-option>
+                  <el-option label="4 - 已办理入境手续" value="4"></el-option>
+                  <el-option label="5 - 已取消" value="5"></el-option>
+                  <!-- <el-option label="6 - 无关闭报文" value="6"></el-option>
+                  <el-option label="7 - 无值机报文" value="7"></el-option> -->
+                </el-select>
+              </el-col>
               <!-- <el-col :sm="24" :md="12" :lg="8" class="input-item" style="justify-content: flex-end">
                 <el-button type="success" class="mr-20" size="small" >查询</el-button>
                 <el-button type="primary"  plain size="small" >重置</el-button>

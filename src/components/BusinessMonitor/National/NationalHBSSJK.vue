@@ -621,11 +621,11 @@
                     <div class="td2-div">
                       <div class="td2-pop-div b-r">
                         <span>入境</span>
-                        <span class="td2-pop-num1">{{i.chk_in_chn}}</span>
+                        <span class="td2-pop-num1">{{i.chk_in_chn||0}}</span>
                       </div>
                       <div class="td2-pop-div">
                         <span>出境</span>
-                        <span class="td2-pop-num2">{{i.chk_out_chn}}</span>
+                        <span class="td2-pop-num2">{{i.chk_out_chn||0}}</span>
                       </div>
                     </div>
                     <span slot="reference" class="hand">{{i.chk_in_chn+i.chk_out_chn||0}}</span>
@@ -641,11 +641,11 @@
                     <div class="td2-div">
                       <div class="td2-pop-div b-r">
                         <span>入境</span>
-                        <span class="td2-pop-num1">{{i.chk_in_gat}}</span>
+                        <span class="td2-pop-num1">{{i.chk_in_gat||0}}</span>
                       </div>
                       <div class="td2-pop-div">
                         <span>出境</span>
-                        <span class="td2-pop-num2">{{i.chk_out_gat}}</span>
+                        <span class="td2-pop-num2">{{i.chk_out_gat||0}}</span>
                       </div>
                     </div>
                     <span slot="reference" class="hand">{{i.chk_in_gat+i.chk_out_gat||0}}</span>
@@ -660,11 +660,11 @@
                     <div class="td2-div">
                       <div class="td2-pop-div b-r">
                         <span>入境</span>
-                        <span class="td2-pop-num1">{{i.chk_in_frn}}</span>
+                        <span class="td2-pop-num1">{{i.chk_in_frn||0}}</span>
                       </div>
                       <div class="td2-pop-div">
                         <span>出境</span>
-                        <span class="td2-pop-num2">{{i.chk_out_frn}}</span>
+                        <span class="td2-pop-num2">{{i.chk_out_frn||0}}</span>
                       </div>
                     </div>
                     <span slot="reference" class="hand">{{i.chk_in_frn+i.chk_out_frn||0}}</span>
@@ -680,14 +680,14 @@
                     <div class="td2-div">
                       <div class="td2-pop-div b-r">
                         <span>入境</span>
-                        <span class="td2-pop-num1">{{i.match_in}}</span>
+                        <span class="td2-pop-num1">{{i.matchIn||0}}</span>
                       </div>
                       <div class="td2-pop-div">
                         <span>出境</span>
-                        <span class="td2-pop-num2">{{i.match_out}}</span>
+                        <span class="td2-pop-num2">{{i.matchOut||0}}</span>
                       </div>
                     </div>
-                    <span slot="reference" class="hand">{{i.match_in+i.match_out||0}}</span>
+                    <span slot="reference" class="hand">{{i.matchIn+i.matchOut||0}}</span>
                   </el-popover>
                   <!-- {{i.matchIn+i.matchOut}} -->
                 </div>
@@ -700,14 +700,14 @@
                     <div class="td2-div">
                       <div class="td2-pop-div b-r">
                         <span>入境</span>
-                        <span class="td2-pop-num1">{{i.match_in+i.chk_in_frn+i.chk_in_gat+i.chk_in_chn}}</span>
+                        <span class="td2-pop-num1">{{i.matchIn+i.chk_in_frn+i.chk_in_gat+i.chk_in_chn||0}}</span>
                       </div>
                       <div class="td2-pop-div">
                         <span>出境</span>
-                        <span class="td2-pop-num2">{{i.match_out+i.chk_out_frn+i.chk_out_gat+i.chk_out_chn}}</span>
+                        <span class="td2-pop-num2">{{i.matchOut+i.chk_out_frn+i.chk_out_gat+i.chk_out_chn||0}}</span>
                       </div>
                     </div>
-                    <span slot="reference" class="hand">{{i.match_in+i.chk_in_frn+i.chk_in_gat+i.chk_in_chn+i.match_out+i.chk_out_frn+i.chk_out_gat+i.chk_out_chn||0}}</span>
+                    <span slot="reference" class="hand">{{i.matchIn+i.chk_in_frn+i.chk_in_gat+i.chk_in_chn+i.matchOut+i.chk_out_frn+i.chk_out_gat+i.chk_out_chn||0}}</span>
                   </el-popover>
                 </div>
               </li>
