@@ -6,11 +6,11 @@
           <el-row align="center"   :gutter="2" >
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">模型名称：</span>
-              <el-input placeholder="请输入内容" size="small" v-model="pd.MODEL_NAME"  class="input-input"></el-input>
+              <el-input placeholder="请输入内容" size="small" v-model="pd.modelName"  class="input-input"></el-input>
             </el-col>
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">是否启用：</span>
-              <el-select v-model="pd.STATUS" class="input-input"  filterable clearable placeholder="请选择"   size="small" >
+              <el-select v-model="pd.status" class="input-input"  filterable clearable placeholder="请选择"   size="small" >
                 <el-option value="1" label="1 - 启用">
                 </el-option>
                 <el-option value="0" label="0 - 停用">
@@ -19,7 +19,7 @@
             </el-col>
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">模型状态：</span>
-              <el-select v-model="pd.MODEL_PHASES" class="input-input"  filterable clearable placeholder="请选择"   size="small" >
+              <el-select v-model="pd.modelPhases" class="input-input"  filterable clearable placeholder="请选择"   size="small" >
                 <el-option value="1" label="1 - 编辑">
                 </el-option>
                 <el-option value="2" label="2 - 提交测试">
@@ -395,7 +395,7 @@
     v-model="value1"
     :titles="['备选', '已选']"
     :data="data">
-       </el-transfer>
+   </el-transfer>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="addRelates()" size="small">保 存</el-button>
         <el-button @click="menuDialogVisible = false" size="small">取 消</el-button>

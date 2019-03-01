@@ -257,11 +257,11 @@
         </el-row>
         <el-row type="flex" class="mb-6" >
           <el-col :span="12" class="input-item">
-            <span class="yy-input-text">操作人：</span>
-          <span class="yy-input-input detailinput">  {{mapForm.USER_NAME}}</span>
+            <span class="yy-input-text">审核人：</span>
+          <span class="yy-input-input detailinput">  {{mapForm.CHECK_USER}}</span>
           </el-col>
           <el-col :span="12" class="input-item">
-            <span class="yy-input-text">操作时间：</span>
+            <span class="yy-input-text">审核时间：</span>
           <span class="yy-input-input detailinput">  {{mapForm.UPDATE_TIME }}</span>
           </el-col>
         </el-row>
