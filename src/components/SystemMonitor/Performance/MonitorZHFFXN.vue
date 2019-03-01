@@ -349,7 +349,7 @@ export default {
       coCheckId:1,
       selection:[],
       detailsDialogVisible:false,
-      checked:true,
+      checked:false,
       // 实时显示条数
       options:[
         {
@@ -415,6 +415,10 @@ export default {
   },
   activated() {
       this.checkRealTime();
+      let _this = this;
+      setInterval(function(){
+        _this.checkRealTime();
+      },300000)
       if(this.checked==true){
         let that = this;
         that.timer=setInterval(function(){
@@ -835,6 +839,7 @@ export default {
       if(this.coCheckId==1){
         this.checkRealTime();
       }else if(this.coCheckId==2){
+        this.checked = true;
         this.getList(this.CurrentPage,this.pageSize,this.cdt1);
       }
     },

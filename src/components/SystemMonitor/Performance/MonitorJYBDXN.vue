@@ -106,7 +106,7 @@
                 </div>
               </el-row>
               <div v-if="(controlChecked==1) && (coCheckId==2)" @mouseover="mouseHeader">
-                <el-row type="flex" justify="end">
+                <el-row type="flex" justify="end" v-if="isRefresh">
                   <el-checkbox v-model="checked">自动刷新</el-checkbox>
                 </el-row>
 
@@ -325,7 +325,8 @@ export default {
       controlChecked:1,
       coCheckId:1,
       detailsDialogVisible:false,
-      checked:true,
+      checked:false,
+      isRefresh:true,
       // 实时显示条数
       options:[
         {
@@ -406,6 +407,10 @@ export default {
   },
   activated(){
     this.checkRealTime();
+    let _this = this;
+    setInterval(function(){
+      _this.checkRealTime();
+    },300000)
     if(this.checked==true){
       let that = this;
       that.timer=setInterval(function(){
@@ -631,6 +636,7 @@ export default {
            })
            // 点击折点渲染表格
            this.lineChart.on('click', function (params) {
+             that.isRefresh=false;
              that.checked=false;
              that.typeT=1;
              var arrX=that.lineX;
@@ -804,7 +810,6 @@ export default {
       this.coCheckId=1;
       if(this.controlChecked == 1){//判断实时图形
         this.typeT=0;
-        console.log(this.typeT);
         this.checkRealTime();
       }else if(this.controlChecked == 2){//判断历史图形
         this.checkHistoryTime();
@@ -814,7 +819,6 @@ export default {
       this.coCheckId=2;
       if(this.controlChecked == 1){//判断实时列表
         this.typeT=0;
-        console.log(this.typeT);
         // this.getList(this.CurrentPage,this.pageSize,this.cdt1);
       }else if(this.controlChecked == 2){//判断历史列表
         // this.hgetList(this.hCurrentPage,this.hpageSize,this.cdt);
@@ -832,6 +836,8 @@ export default {
       if(this.coCheckId==1){
         this.checkRealTime();
       }else if(this.coCheckId==2){
+        this.checked = true;
+        this.isRefresh=true;
         this.getList(this.CurrentPage,this.pageSize,this.cdt1);
       }
     }
