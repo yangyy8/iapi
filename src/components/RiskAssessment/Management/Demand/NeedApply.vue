@@ -334,6 +334,9 @@ export default {
       } else {
         this.isshow = false;
       }
+
+      if(this.form.TYPE_DESC==undefined){
+      this.form.TYPE_DESC="";}
     },
     headerClick(column, event) {
       event.target.title = column.label

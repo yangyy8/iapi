@@ -393,7 +393,7 @@
     <el-dialog title="关联问题" :visible.sync="menuDialogVisible" width="700px">
   <el-transfer
     v-model="value1"
-    :titles="['备选', '已选']"
+    :titles="['未选', '已选']"
     :data="data">
    </el-transfer>
       <div slot="footer" class="dialog-footer">
@@ -404,12 +404,11 @@
 
     <el-dialog title="使用口岸" :visible.sync="useDialogVisible" width="700px">
 
-
   <el-transfer
     v-model="value2"
     :titles="['备选', '已选']"
     :data="data2">
-       </el-transfer>
+  </el-transfer>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary"  @click="addUse()" size="small">保 存</el-button>
         <el-button @click="useDialogVisible = false" size="small">取 消</el-button>
@@ -745,7 +744,6 @@ export default {
           } else {
             this.$message.error(r.Message);
           }
-
           this.$refs[formName].resetFields();
           this.addDialogVisible = false;
           this.getList(this.CurrentPage, this.pageSize, this.pd);
@@ -1066,12 +1064,16 @@ console.log('index---',index);
 .yygreen {
   color: blue
 }
+
+
 </style>
 <style>
 .el-transfer-panel {
   max-height: 500px !important
 }
-
+.el-transfer-panel .el-transfer-panel__header {
+     display: block!important;
+}
 .el-transfer__buttons {
   width: 4% !important
 }
