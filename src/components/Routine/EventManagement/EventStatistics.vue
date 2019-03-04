@@ -179,28 +179,27 @@
       </div>
     </el-dialog>
 
-    <el-dialog title="详情" :visible.sync="detailsDialogVisible" width="500px">
+    <el-dialog title="详情" :visible.sync="detailsDialogVisible" width="800px">
       <el-form :model="form" ref="addForm" id="printMe">
         <el-row type="flex"  class="mb-6">
-          <el-col :span="20" class="input-item">
-            <span class="yy-input-text">标题：</span>
+          <el-col :span="12" class="input-item">
+            <span class="yy-input-text" style="width:27%!important">标题：</span>
             <el-input placeholder="请输入姓名" size="small" v-model="form.title"  class="yy-input-input" :disabled="true"></el-input>
           </el-col>
-        </el-row>
-
-        <el-row type="flex"  class="mb-6">
-          <el-col :span="20" class="input-item">
-            <span class="yy-input-text">附件：</span>
-
+          <el-col :span="12" class="input-item">
+            <span class="yy-input-text" style="width:27%!important">附件：</span>
             <el-button size="small" class="table-btn"><a :href="fitAdress" class="acolor">附件下载</a></el-button>
-            <!-- <button type="button" class="table-btn" name="button">附件下载</button> -->
           </el-col>
         </el-row>
 
+        <!-- <el-row type="flex"  class="mb-6">
+
+        </el-row> -->
+
         <el-row type="flex" class="mb-6" >
-          <el-col :span="20" class="input-item">
-            <span class="yy-input-text">事件描述：</span>
-            <el-input type="textarea" placeholder="请输入内容" :autosize="{ minRows: 3, maxRows: 6}" v-model="form.content" class="yy-input-input" :disabled="true"></el-input>
+          <el-col :span="24" class="input-item">
+            <span class="yy-input-text widthText">事件描述：</span>
+            <el-input type="textarea" placeholder="请输入内容" :autosize="{ minRows: 3, maxRows: 6}" v-model="form.content" class="yy-input-input widthContent" :disabled="true"></el-input>
           </el-col>
         </el-row>
       </el-form>
@@ -434,5 +433,11 @@ export default {
   color: #333;
   display: inline-block;
   width: 60px;
+}
+.widthText{
+  width: 14%!important;
+}
+.widthContent{
+  width: 80%!important;
 }
 </style>
