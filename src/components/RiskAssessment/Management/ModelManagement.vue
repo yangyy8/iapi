@@ -130,7 +130,7 @@
       <el-table-column
           label="操作" width="160">
           <template slot-scope="scope">
-            <el-button type="text" class="a-btn" title="编辑/详情"   icon="el-icon-edit-outline" @click="adds(1,scope.row)"></el-button>
+            <el-button type="text" class="a-btn" title="编辑/详情"   icon="el-icon-edit" @click="adds(1,scope.row)"></el-button>
             <el-button type="text" class="a-btn" title="删除"  icon="el-icon-delete" @click="deletes(scope.row)"></el-button>
             <!-- <el-button type="text" class="a-btn"  icon="el-icon-tickets" title="版本查看" @click="details(scope.row)"></el-button> -->
             <el-button type="text" class="a-btn" title="关联问题"  icon="el-icon-share" @click="relates(scope.row)"></el-button>
@@ -796,9 +796,10 @@ export default {
             this.data.push({
               key: rr.SERIAL,
               label: rr.NAME,
-              disabled: rr.check
+              disabled: false
             });
           }
+         this.value1=r.data.checkQue;
         });
 
     },
@@ -835,9 +836,10 @@ export default {
             this.data2.push({
               key: rr.DEPT_CODE,
               label: rr.DEPT_JC,
-              disabled: rr.check
+              disabled: false
             });
           }
+          this.value2=r.data.checkPort;
         });
 
     },
@@ -931,7 +933,7 @@ export default {
       console.log(this.rows)
     },
     deleterows(index) {
-console.log('index---',index);
+// console.log('index---',index);
       this.rows.splice(index, 1);
 
     },
