@@ -393,7 +393,7 @@
     <el-dialog title="关联问题" :visible.sync="menuDialogVisible" width="700px">
   <el-transfer
     v-model="value1"
-    :titles="['未选', '已选']"
+    :titles="['全选', '全选']"
     :data="data">
    </el-transfer>
       <div slot="footer" class="dialog-footer">
@@ -406,7 +406,7 @@
 
   <el-transfer
     v-model="value2"
-    :titles="['备选', '已选']"
+    :titles="['全选', '全选']"
     :data="data2">
   </el-transfer>
       <div slot="footer" class="dialog-footer">
