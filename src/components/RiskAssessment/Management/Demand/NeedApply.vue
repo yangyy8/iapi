@@ -205,11 +205,12 @@
             <div class="" v-if="fileinfos!=''">
               <!-- {{fileinfos}} -->
               <p v-html="fileinfos">{{fileinfos}}</p>
+              <el-button type="text" v-show='delbnt'  @click="delFileInfo(fileinfovalue)">删除附件</el-button>
             </div>
             <div class="">
               <div class="" v-for="(x,ind) in fileData" :key="ind">
                 <span class="mr-20">{{x.name}}</span>
-                <!-- <el-button type="text" class="redx" @click="deletesF(ind)">删除</el-button> -->
+                <el-button type="text" class="redx" @click="deletesF(ind)">清空附件</el-button>
               </div>
             </div>
           </el-col>
@@ -233,13 +234,11 @@
             <span class="yy-input-input detailinput">  {{mapForm.APPLY_TYPE | fiftertype}}</span>
             </el-col>
         </el-row>
-
         <el-row type="flex" class="mb-6" v-if="mapForm.APPLY_TYPE=='99'">
           <el-col :span="12" class="input-item">
             <span class="yy-input-text">类型内容：</span>
           <span class="yy-input-input detailinput">  {{mapForm.TYPE_DESC}}</span>
           </el-col>
-
           <el-col :span="12" class="input-item">
             <span class="yy-input-text">申请描述：</span>
           <span class="yy-input-input detailinput">  {{mapForm.APPLY_DESCRIBE}}</span>
@@ -271,7 +270,6 @@
         <el-button @click="detailsDialogVisible = false" size="small">取 消</el-button>
       </div>
     </el-dialog>
-
   </div>
   </div>
 </template>
@@ -288,11 +286,13 @@ export default {
       fileData: [],
       fileinfo: {},
       fileinfos:"",
+      fileinfovalue:"",
       sertail: "",
       dialogText: "申请",
       addDialogVisible: false,
       detailsDialogVisible: false,
       menuDialogVisible: false,
+      delbnt:true,
       options: [{
           value: 10,
           label: "10"
@@ -308,15 +308,14 @@ export default {
       ],
       tableData: [],
       menudata: [],
-
       defaultChecked: [],
       multipleSelection: [],
-
       form: {},
       mapForm: {},
       Airport: [],
       isshow: false,
       appid:"",
+
     }
   },
   mounted() {
@@ -371,6 +370,7 @@ export default {
       this.fileData=null;
       this.fileinfo=null;
       this.fileinfos="";
+      this.fileinfovalue="";
       if (n != 0) {
         this.tp = 1;
         let p = {
@@ -384,9 +384,11 @@ export default {
             //  this.fileinfo=r.data.FILE_NAME;
             console.log('r.data.FILE_NAME',r.data.FILE_NAME);
             if(r.data.FILE_NAME!=undefined && r.data.FILE_NAME!=""){
-              this.fileinfos="<a href='"+(this.$api.rootUrl+r.data.FILE_PATH+r.data.FILE_NAME)+"'>"+r.data.FILE_NAME+"</a>";
-            }
 
+              this.fileinfos="<a href='"+(this.$api.rootUrl+r.data.FILE_PATH+r.data.FILE_NAME)+"'>"+r.data.FILE_NAME+"</a>";
+              this.fileinfovalue=r.data.APPLY_ID+","+r.data.FILE_NAME+","+r.data.FILE_PATH;
+
+            }
             }
           })
           this.appid=i.APPLY_ID;
@@ -485,9 +487,12 @@ export default {
       // console.log(this.fileData);
       this.fileData=null;
     },
-    delFileInfo(id) {
+    delFileInfo(value) {
+      var arr=value.split(',');
       let p = {
-        "APPLY_ID": id
+        "APPLY_ID": arr[0],
+        "FILE_NAME":arr[1],
+        "FILE_PATH":arr[2]
       };
       this.$confirm('您是否确认删除？', '提示', {
         confirmButtonText: '确定',
@@ -499,13 +504,18 @@ export default {
             console.log("===" + r);
             if (r.success) {
               this.$message({
-                message: '删除成功！',
+                message: '附件删除成功！',
                 type: 'success'
               });
-              this.getList();
+
+            this.delbnt=false;
+            this.fileinfos=null;
+            this.fileinfovalue=null;
             } else {
               this.$message.error(r.Message);
             }
+
+
           }, e => {
             this.$message.error('失败了');
           });
