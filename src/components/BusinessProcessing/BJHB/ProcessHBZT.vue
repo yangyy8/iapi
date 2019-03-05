@@ -153,7 +153,7 @@
     </div>
 
 
-    <el-dialog title="航班处理" :visible.sync="addDialogVisible">
+    <el-dialog title="航班处理" :visible.sync="addDialogVisible" @close="closeForm">
       <el-form :model="form" ref="addForm">
         <el-row type="flex"  class="mb-6">
           <el-col :span="12" class="input-item">
@@ -188,7 +188,8 @@
         </el-row>
   <hr/>
         <el-row type="flex" class="mb-6" >
-          <el-col :span="24" class="input-item">
+          <el-col :span="24" class="input-item my-form-group" data-scope="demo2" data-name="changeport" data-type="select"
+          v-validate-easy="[['required']]">
             <span class="yy-input-text" style="width:15%">备降机场：</span>
             <el-select v-model="form.changeport"  filterable clearable  @visible-change="queryAirport" placeholder="请选择" size="small" style="width:80%;">
                <el-option
@@ -209,8 +210,28 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="addItem('addForm')" size="small">提 交</el-button>
-        <el-button @click="addDialogVisible = false" size="small">取 消</el-button>
+        <el-button @click="closeForm" size="small">取 消</el-button>
 
+      </div>
+    </el-dialog>
+
+
+    <el-dialog  title="权限校验" :visible.sync="AuthDialogVisible"  width="500px" @close="closeAp">
+      <el-row  type="flex"  class="mb-15">
+        <el-col :span="20" class="my-form-group" data-scope="demo1" data-name="userName" data-type="input"
+        v-validate-easy="[['required']]">
+        <span class="yy-input-text">用户名：</span>
+        <el-input placeholder="请输入内容" size="small" v-model="ap.userName"  class="yy-input-input"></el-input></el-col>
+      </el-row>
+      <el-row  type="flex"  class="mb-15">
+        <el-col :span="20" class="my-form-group" data-scope="demo1" data-name="password" data-type="input"
+        v-validate-easy="[['required']]">
+        <span class="yy-input-text">密  码：</span>
+        <el-input placeholder="请输入内容" type="password" size="small" v-model="ap.password"  class="yy-input-input"></el-input></el-col>
+      </el-row>
+      <div slot="footer" class="dialog-footer">
+       <el-button type="primary" @click="Authorization('addForm')" size="small">确认</el-button>
+        <el-button @click="AuthDialogVisible = false" size="small">取消</el-button>
       </div>
     </el-dialog>
 
@@ -273,6 +294,9 @@ import {dayGap} from '@/assets/js/date.js'
 export default {
   data() {
     return {
+      AuthDialogVisible:false,
+      authFlag:0,//变更
+      ap:{},
       CurrentPage: 1,
       pageSize: 10,
       TotalResult: 0,
@@ -347,6 +371,66 @@ export default {
   },
 
   methods: {
+    closeAp(){
+      this.V.$reset('demo1');
+      this.AuthDialogVisible = false;
+    },
+    Authorization(formName) {
+      this.V.$submit('demo1', (canSumit,data) => {
+          if(!canSumit) return;
+          if(this.authFlag==0){
+            this.form.userName = this.ap.userName;
+            this.form.password = this.ap.password
+            this.$api.post('/manage-platform/statusUpdate/flight/saveChangePort', this.form,
+              r => {
+                if (r.success) {
+                  this.$message({
+                    message: '变更成功！',
+                    type: 'success'
+                  });
+                } else {
+                  this.addDialogVisible = false;
+                  this.AuthDialogVisible = false;
+                  this.$message.error(r.Message);
+                }
+                this.$refs[formName].resetFields();
+                this.addDialogVisible = false;
+                this.AuthDialogVisible = false;
+                this.getList(this.CurrentPage, this.pageSize, this.pd);
+                // this.tableData=r.Data.ResultList;
+              }, e => {
+                this.$message.error('失败了');
+              })
+          }else if(this.authFlag==1){
+            let p={
+              'flightRecordnum':this.cform.flightRecordnum,
+              'desc':this.cform.desc,
+              'userName':this.ap.userName,
+              'password':this.ap.password
+            }
+            this.$api.post('/manage-platform/statusUpdate/flight/changeFlightCancel',p,
+              r => {
+                if (r.success) {
+                  this.$message({
+                    message: '航班取消成功！',
+                    type: 'success'
+                  });
+                } else {
+                  this.cancelDialogVisible = false;
+                  this.AuthDialogVisible = false;
+                  this.$message.error(r.Message);
+                }
+                this.$refs[formName].resetFields();
+                this.cancelDialogVisible = false;
+                this.AuthDialogVisible = false;
+                this.getList(this.CurrentPage, this.pageSize, this.pd);
+                // this.tableData=r.Data.ResultList;
+              }, e => {
+                this.$message.error('失败了');
+              })
+          }
+        });
+    },
     headerClick(column,event){
      event.target.title=column.label
    },
@@ -414,52 +498,21 @@ export default {
         })
     },
     addItem(formName) {
-      this.$api.post('/manage-platform/statusUpdate/flight/saveChangePort', this.form,
-        r => {
-          console.log(r);
-          if (r.success) {
-            this.$message({
-              message: '变更成功！',
-              type: 'success'
-            });
-
-          } else {
-            this.addDialogVisible = false;
-            this.$message.error(r.Message);
-          }
-          this.$refs[formName].resetFields();
-          this.addDialogVisible = false;
-          this.getList(this.CurrentPage, this.pageSize, this.pd);
-          // this.tableData=r.Data.ResultList;
-        }, e => {
-          this.$message.error('失败了');
-        })
+      this.authFlag=0;
+      this.ap={};
+      this.V.$submit('demo2', (canSumit,data) => {
+        if(!canSumit) return;
+        this.AuthDialogVisible = true;
+      })
+    },
+    closeForm(){
+      this.V.$reset('demo2');
+      this.addDialogVisible = false;
     },
     caddItem(formName) {
-      let p={
-        'flightRecordnum':this.cform.flightRecordnum,
-        'desc':this.cform.desc
-      }
-      this.$api.post('/manage-platform/statusUpdate/flight/changeFlightCancel',p,
-        r => {
-          console.log(r);
-          if (r.success) {
-            this.$message({
-              message: '航班取消成功！',
-              type: 'success'
-            });
-
-          } else {
-            this.cancelDialogVisible = false;
-            this.$message.error(r.Message);
-          }
-          this.$refs[formName].resetFields();
-          this.cancelDialogVisible = false;
-          this.getList(this.CurrentPage, this.pageSize, this.pd);
-          // this.tableData=r.Data.ResultList;
-        }, e => {
-          this.$message.error('失败了');
-        })
+      this.authFlag=1;
+      this.ap={};
+      this.AuthDialogVisible = true;
     },
     details(i) {
       if(i.status!=3){
@@ -467,6 +520,8 @@ export default {
         //   confirmButtonText: '确定',
         // });
       }else{
+        this.form.changeport='';
+        this.form.desc='';
         this.addDialogVisible = true;
         this.form = i;
         // this.getList(this.CurrentPage, this.pageSize, this.pd)
@@ -478,6 +533,7 @@ export default {
         //   confirmButtonText: '确定',
         // });
       }else{
+        this.cform.desc = '';
         this.cancelDialogVisible = true;
         this.cform = i;
         // this.getList(this.CurrentPage, this.pageSize, this.pd)

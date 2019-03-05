@@ -11,15 +11,34 @@ export default {
   name:"Vecharts",
   data(){
     return {
-        chartdata: this.chartDatas,
+        chartdatas: this.chartDatas,
+        liangChart:null,
     }
   },
   watch: {
-    chartDatas:function(newVal,oldVal){
+    chartDatas:{
+      handler:function(newVal,oldVal){
         console.log(newVal,oldVal)
-        this.chartdata = newVal;  //newVal即是chartData
+        this.chartdatas = newVal;  //newVal即是chartData
+        if (!this.liangChart) {
+          return;
+        }
+        this.liangChart.dispose();
+        this.liangChart = null;
         this.drawLiang();
+      },
+      deep:true
     }
+    // chartDatas:function(newVal,oldVal){
+    //     console.log(newVal,oldVal)
+    //     this.chartdatas = newVal;  //newVal即是chartData
+    //     if (!this.liangChart) {
+    //       return;
+    //     }
+    //     this.liangChart.dispose();
+    //     this.liangChart = null;
+    //     this.drawLiang();
+    // }
   },
   props:{
     'chartDatas':{
@@ -36,14 +55,15 @@ export default {
   },
   methods:{
     drawLiang(){
-      console.log(this.chartdata)
-      let liangChart = echarts.init(document.getElementById(this.chartsId));
+      // console.log(this.chartdatas);
+      // console.log(this.chartsId);
+      this.liangChart = echarts.init(document.getElementById(this.chartsId));
       window.onresize = echarts.init(document.getElementById(this.chartsId)).resize;
       let _this=this
-      let color=['rgba(110,180,252,1)', 'rgba(244,173,57,1)', 'rgba(52,182,180,1)']
-      let arr=this.chartdata.series
+      let color=['rgba(110,180,252,0.7)', 'rgba(244,173,57,0.7)', 'rgba(52,182,180,0.7)']
+      // let arr=_this.chartdatas.series
 
-      liangChart.setOption({
+      _this.liangChart.setOption({
         tooltip : {
             trigger: 'axis'
         },
@@ -51,14 +71,14 @@ export default {
             type:'scroll',
             width:480,
             pageButtonGap:40,
-            data: _this.chartdata.legendData
+            data: _this.chartdatas.legendData
         },
         toolbox: {
             show : true,
             feature : {
                 saveAsImage : {show: true},
                 mark : {show: true},
-                dataView : {show: true, readOnly: false},
+                // dataView : {show: true, readOnly: false},
                 magicType : {show: true, type: ['line', 'bar']},
                 restore : {show: true},
             }
@@ -69,7 +89,7 @@ export default {
         xAxis : [
             {
                 type : 'category',
-                data : _this.chartdata.xAxisData
+                data : _this.chartdatas.xAxisData
             },
             {
                 type : 'category',
@@ -78,7 +98,7 @@ export default {
                 axisLabel: {show:false},
                 splitArea: {show:false},
                 splitLine: {show:false},
-                data : _this.chartdata.xAxisData
+                data : _this.chartdatas.xAxisData
             },
             {
                 type : 'category',
@@ -87,7 +107,7 @@ export default {
                 axisLabel: {show:false},
                 splitArea: {show:false},
                 splitLine: {show:false},
-                data : _this.chartdata.xAxisData
+                data : _this.chartdatas.xAxisData
             }
 
         ],
@@ -97,7 +117,7 @@ export default {
                 axisLabel:{formatter:'{value}'}
             }
         ],
-        series:_this.chartdata.series
+        series:_this.chartdatas.series
       })
 
     },
