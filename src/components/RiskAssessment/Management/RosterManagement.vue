@@ -102,6 +102,7 @@
      </el-col>
         <el-col :span="2" class="down-btn-area">
           <el-button type="success" size="small" @click="CurrentPage=1;getList(CurrentPage,pageSize,pd)">查询</el-button>
+          <el-button type="primary" plain size="small"  class="mt-15" @click="reset">重置</el-button>
         </el-col>
       </el-row>
     </div>
@@ -118,7 +119,8 @@
         border
         style="width: 100%;"
         class="mt-10 o-table3"
-@header-click="headerClick"
+        @header-click="headerClick"
+        @sort-change="sortChange"
         @selection-change="handleSelectionChange">
         <el-table-column
          type="selection"
@@ -130,6 +132,7 @@
         </el-table-column>
 
          <el-table-column
+           prop="GENDER"
           label="性别" sortable
           >
           <template slot-scope="scope">
@@ -138,16 +141,15 @@
         </el-table-column>
         <el-table-column
           prop="DATEOFBIRTH"
-          label="出生日期">
+          label="出生日期" sortable>
         </el-table-column>
         <el-table-column
           prop="NATIONALITYNAME"
-          label="国籍/地区">
+          label="国籍/地区" sortable>
         </el-table-column>
         <el-table-column
          prop="CARDTYPENAME" sortable
           label="证件种类">
-
         </el-table-column>
         <el-table-column
           prop="CARDNO" sortable
@@ -158,13 +160,11 @@
           label="有效日期">
         </el-table-column>
         <el-table-column
+          prop="STATUS"
           sortable
           label="有效状态">
-
             <template slot-scope="scope">
-
                <span :class="{'yycolor':scope.row.STATUS==1,'yycolory':scope.row.STATUS==0}">   {{scope.row.STATUS | fiftertt}}</span>
-
             </template>
         </el-table-column>
         <el-table-column
@@ -437,6 +437,8 @@ export default {
       CurrentPage: 1,
       pageSize: 10,
       TotalResult: 0,
+      orders:[],
+      direction:0,
       typemd: "",
       pd: {},
       map:{},
@@ -494,17 +496,19 @@ export default {
   },
   methods: {
     headerClick(column,event){
-  event.target.title=column.label
-},
+     event.target.title=column.label
+    },
     handleSelectionChange(val) {
       this.multipleSelection = val;
     },
     pageSizeChange(val) {
-      this.getList(this.CurrentPage, val, this.pd);
+      // this.getList(this.CurrentPage, val, this.pd);
+      this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
       console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
-      this.getList(val, this.pageSize, this.pd);
+      // this.getList(val, this.pageSize, this.pd);
+      this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
       console.log(`当前页: ${val}`);
     },
     open(content) {
@@ -513,11 +517,33 @@ export default {
         type: 'warning'
       });
     },
-    getList(currentPage, showCount, pd) {
+    sortChange(data){
+      console.log(data)
+      this.orders=[data.prop];
+      if(data.order=='descending'){
+        this.direction=0
+      }else{
+        this.direction=1
+      }
+      console.log(this.orders,this.direction)
+      this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
+    },
+    reset(){
+      this.CurrentPage=1;
+      this.pageSize=10;
+      this.pd={};
+      this.orders=[];
+      this.direction=0;
+      this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
+
+    },
+    getList(currentPage,showCount,pd,orders,direction){
       let p = {
         "currentPage": currentPage,
         "showCount": showCount,
-        "pd": pd
+        "pd": pd,
+        "orders":orders,
+        "direction":direction
       };
       this.$api.post('/manage-platform/riskNameList/getRiskNameListPage', p,
         r => {
@@ -587,7 +613,7 @@ export default {
         if ((this.form.NATIONALITY == undefined || this.form.NATIONALITY == "") &&
           (this.form.CARDNO == undefined || this.form.CARDNO == ""))
           {
-console.log("-----1");
+
           if ((this.form.FAMILYNAME == undefined || this.form.FAMILYNAME == "") ||
             (this.form.GENDER == undefined || this.form.GENDER == "") ||
             (this.form.DATEOFBIRTH == undefined || this.form.DATEOFBIRTH == "")) {
@@ -634,7 +660,7 @@ console.log("-----1");
             }
             //  this.$refs[formName].resetFields();
             this.addDialogVisible = false;
-            this.getList(this.CurrentPage, this.pageSize, this.pd);
+              this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
             // this.tableData=r.Data.ResultList;
           }, e => {
             this.$message.error('失败了');
@@ -663,7 +689,7 @@ console.log("-----1");
                 message: '删除成功！',
                 type: 'success'
               });
-              this.getList(this.CurrentPage, this.pageSize, this.pd);
+                this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
             } else {
               this.$message.error(r.Message);
             }
@@ -699,7 +725,7 @@ console.log("-----1");
         this.$message.error(r.message);
       }
       this.uploadDialogVisible = false;
-      this.getList(this.CurrentPage, this.pageSize, this.pd);
+        this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
     },
     beforeAvatarUpload(file) {
       console.log(file.type)
@@ -758,7 +784,7 @@ console.log("-----1");
                 message: '删除成功！',
                 type: 'success'
               });
-              this.getList(this.CurrentPage, this.pageSize, this.pd);
+                this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
             } else {
               this.$message.error(r.Message);
             }

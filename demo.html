@@ -2,50 +2,87 @@
 <html>
 <head>
   <meta charset="UTF-8">
-
 </head>
 <body>
-  <div id="app">
-    <input id="wang" type="text" v-model="m.a" >
-    {{m.a}}
-    <br>
-   <input type="text" v-model = "wangNum2">
-    {{wangNum2}}
 
-  </div>
 </body>
 
-<script src="https://sv-source.zt-express.com/gongdan/js/vue.min.js"></script>
+
 
   <script>
 
-  console.log(new Date())
+
     new Vue({
       el: '#app',
       data: function() {
         return {
-          m:{a:"m"},
-          // n:0
-         }
-      },
+          treeData:[{
+              "name": "案件信息",
+              "href": ""
+              "children":[
+                {"children":
+                  [
+                    {"children":[],"name":"诉讼标的:","href":""},
+                    {"children":[],"name":"诉讼标的行为:","href":""},
+                    {"children":[],"name":"诉讼标的物:","href":""},
+                    {"children":[],"name":"案件类别:民事起诉","href":""},
+                    {"children":[],"name":"诉讼请求:","href":""},
+                    {"children":[],"name":"事实与理由:","href":""},
+                    {"children":[],"name":"案由名称:","href":""},
+                    {"children":[],"name":"诉状题目:裁决书","href":""},
+                    {"children":[],"name":"执行依据:","href":""},
+                    {"children":[],"name":"主张不是本人所签。本委认为，申请人对《2017年8月员工薪资单签收单》上签名的真实性不予认可，但并不申请笔迹鉴定，依法应承担不利后果，本委据此采信被申请人提交的《2017年8月员工薪资单签收单》。《2017年8月员工薪资单签收单》所记载的加班时间与申请人提交的2017年8月薪资单上所载明的加班时间一致，本委认定被申请人已足额支付了申请人2017年8月的休息日加班工资。故申请人的第3项仲裁请求，无事实依据，本委不予支持。裁决结果依照《中华人民共和国劳动争议调解仲裁法》第四十七条、第四十八条的规定，裁决如下：驳回申请人的全部仲裁请求。本仲裁裁决为终局裁决，自作出之日起发生法律效力。申请人不服上述裁决事项的，可自收到仲裁裁决书之日起十五日内向人民法院起诉；被申请人有证据证明上述裁决事项有《中华人民共和国劳动争议调解仲裁法》第四十九条第一款规定情形之一的，可自收到仲裁裁决书之日起三十日内向深圳市中级人民法院申请撤销。仲裁员：陈云辉二O一七年十月二十三日书记员：赖丽君1","href":""}
+                  ],
+                  "name":"案件基本信息",
+                  "href":""
+                },
+                {"children":
+                  [
+                    {"children":[],"name":"诉讼地位:申请人","href":""},
+                    {"children":[],"name":"当事人名称:肖爱波","href":""},
+                    {"children":[],"name":"性别:男","href":""},
+                    {"children":[],"name":"民族:汉族","href":""},
+                    {"children":[],"name":"联系电话:","href":""},
+                    {"children":[],"name":"地址:湖南省宁乡县横市镇利民村石山组14号","href":""},
+                    {"children":[],"name":"出生日期:","href":""},
+                    {"children":[],"name":"国籍:","href":""},
+                    {"children":[],"name":"文化程度:","href":""},
+                    {"children":[],"name":"户籍所在地:","href":""},
+                    {"children":[],"name":"年龄:","href":""},
+                    {"children":[],"name":"证件种类:1","href":""},
+                    {"children":[],"name":"证件号码:43012419890103173X","href":""}
+                  ],
+                  "name":"当事人",
+                  "href":""
+                },
+                {"children":
+                  [
+                    {"children":[],"name":"诉讼地位:被申请人","href":""},
+                    {"children":[],"name":"当事人名称:深圳）有限公司","href":""},
+                    {"children":[],"name":"联系电话:","href":""}
+                  ],
+                  "name":"当事人",
+                  "href":""
+                },
+                {"children":
+                  [
+                    {"children":[],"name":"姓名:党凤玲","href":""},
+                    {"children":[],"name":"代理人类型:委托代理人","href":""},
+                    {"children":[],"name":"地位:该公司","href":""},
+                    {"children":[],"name":"职务:","href":""},
+                    {"children":[],"name":"证件种类:255","href":""},
+                    {"children":[],"name":"证件号码:","href":""},
+                    {"children":[],"name":"联系方法:","href":""}
+                  ],
+                  "name":"当事人代理人:",
+                  "href":""
+                }],
+            }]
+       }
+    },
       methods: {
 
         },
-        computed:{
-          wangNum1(){//没有重写时
-            return this.m.a
-          },
-          wangNum2:{//重写方法
-            get(){
-                return this.m.a
-            },
-            set(val){
-                console.log(val)
-                this.m.a = val
-            }
-          }
-        }
-
     })
   </script>
 </html>

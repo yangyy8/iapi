@@ -14,7 +14,7 @@
               <span class="input-text">指标项名称：</span>
               <el-input placeholder="请输入内容" size="small" v-model="pd.targetName"  class="input-input"></el-input>
             </el-col>
-            <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+            <!-- <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">指标类型：</span>
               <el-select v-model="pd.targetType" class="input-input"  filterable clearable placeholder="请选择"   size="small">
                 <el-option value="名单" label="1 - 名单">
@@ -40,9 +40,9 @@
                 <el-option value="证件类别" label="11 - 证件类别">
                 </el-option>
                </el-select>
-            </el-col>
+            </el-col> -->
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
-              <span class="input-text">显示类型：</span>
+              <span class="input-text">指标类型：</span>
               <el-select v-model="pd.showDistrick" class="input-input"  filterable clearable placeholder="请选择"   size="small">
                 <el-option value="1" label="1 - 人员基本信息">
                 </el-option>
@@ -107,12 +107,12 @@
           prop="TARGET_DESCRIBE" sortable
           label="指标项描述">
         </el-table-column>
-        <el-table-column
+        <!-- <el-table-column
           prop="TARGET_TYPE" sortable
           label="指标类型">
-        </el-table-column>
+        </el-table-column> -->
         <el-table-column
-          label="显示类型" sortable>
+          label="指标类型" sortable>
           <template slot-scope="scope">
               {{scope.row.SHOW_DISTRICK | fiftertype}}
             </template>
@@ -199,7 +199,7 @@
            <el-input type="textarea" placeholder="请输入内容" maxlength="250" :autosize="{ minRows: 3, maxRows: 6}" v-model="form.targetDescribe" class="yy-input-input"></el-input>
           </el-col>
         </el-row>
-        <el-row type="flex"  class="mb-6">
+        <!-- <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item my-form-group" data-scope="demo2" data-name="targetType" data-type="select"
             v-validate-easy="[['required']]">
             <span class="yy-input-text"><font class="yy-color">*</font> 指标类型：</span>
@@ -230,17 +230,12 @@
               </el-option>
              </el-select>
           </el-col>
-        </el-row>
-        <el-row type="flex" v-if="form.targetType=='其他'" v-show="isshow">
-          <el-col :span="24" class="input-item">
-            <span class="yy-input-text">数据结构：</span>
-            <el-input placeholder="请输入内容" size="small"  v-model="form.otherType"  class="yy-input-input" ></el-input>
-          </el-col>
-        </el-row>
+        </el-row>-->
+
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item my-form-group" data-scope="demo2" data-name="showDistrick" data-type="select"
             v-validate-easy="[['required']]">
-            <span class="yy-input-text"><font class="yy-color">*</font> 显示类型：</span>
+            <span class="yy-input-text"><font class="yy-color">*</font> 指标类型：</span>
             <el-select v-model="form.showDistrick" class="yy-input-input"  filterable clearable placeholder="请选择"   size="small" >
               <el-option value="1" label="1 - 人员基本信息">
               </el-option>
@@ -255,6 +250,12 @@
             </el-select>
           </el-col>
         </el-row>
+        <!-- <el-row type="flex" v-if="form.targetType=='其他'" v-show="isshow">
+          <el-col :span="24" class="input-item">
+            <span class="yy-input-text">数据结构：</span>
+            <el-input placeholder="请输入内容" size="small"  v-model="form.otherType"  class="yy-input-input" ></el-input>
+          </el-col>
+        </el-row> -->
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item my-form-group" data-scope="demo2" data-name="targetSource" data-type="select"
             v-validate-easy="[['required']]">
@@ -333,7 +334,7 @@
         <el-row type="flex" class="mb-6" >
           <el-col :span="24" class="input-item">
             <span class="yy-input-text">指标类型：</span>
-          <span class="yy-input-input detailinput">  {{mapForm.TARGET_TYPE}}</span>
+          <span class="yy-input-input detailinput">  {{mapForm.SHOW_DISTRICK | fiftertype}}</span>
           </el-col>
         </el-row>
         <el-row type="flex" class="mb-6" v-if="mapForm.TARGET_TYPE=='其他'">

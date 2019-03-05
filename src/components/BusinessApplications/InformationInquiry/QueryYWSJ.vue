@@ -12,13 +12,11 @@
                 <span class="input-text">事件类型：</span>
                 <el-select v-model="pd.type" placeholder="请选择"  filterable clearable  size="small" class="input-input">
 
-                  <el-option value="0" label="0 - 指令变更">
-                  </el-option>
-                  <el-option value="1" label="1 - 航班备降">
-                  </el-option>
-                  <el-option value="2" label="2 - 业务规则修改">
-                  </el-option>
-                  <el-option value="4" label="4 - 报警事件"></el-option>
+                  <el-option value="0" label="指令变更"></el-option>
+                  <el-option value="1" label="航班备降"></el-option>
+                  <el-option value="-1" label="航班取消"></el-option>
+                  <el-option value="2" label="业务规则修改"></el-option>
+                  <el-option value="4" label="报警事件"></el-option>
                 </el-select>
               </el-col>
 

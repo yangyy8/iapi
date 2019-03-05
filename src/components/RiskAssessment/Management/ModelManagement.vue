@@ -130,7 +130,7 @@
       <el-table-column
           label="操作" width="160">
           <template slot-scope="scope">
-            <el-button type="text" class="a-btn" title="编辑/详情"   icon="el-icon-edit-outline" @click="adds(1,scope.row)"></el-button>
+            <el-button type="text" class="a-btn" title="编辑/详情"   icon="el-icon-edit" @click="adds(1,scope.row)"></el-button>
             <el-button type="text" class="a-btn" title="删除"  icon="el-icon-delete" @click="deletes(scope.row)"></el-button>
             <!-- <el-button type="text" class="a-btn"  icon="el-icon-tickets" title="版本查看" @click="details(scope.row)"></el-button> -->
             <el-button type="text" class="a-btn" title="关联问题"  icon="el-icon-share" @click="relates(scope.row)"></el-button>
@@ -393,7 +393,7 @@
     <el-dialog title="关联问题" :visible.sync="menuDialogVisible" width="700px">
   <el-transfer
     v-model="value1"
-    :titles="['备选', '已选']"
+    :titles="['全选', '全选']"
     :data="data">
    </el-transfer>
       <div slot="footer" class="dialog-footer">
@@ -404,12 +404,11 @@
 
     <el-dialog title="使用口岸" :visible.sync="useDialogVisible" width="700px">
 
-
   <el-transfer
     v-model="value2"
-    :titles="['备选', '已选']"
+    :titles="['全选', '全选']"
     :data="data2">
-       </el-transfer>
+  </el-transfer>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary"  @click="addUse()" size="small">保 存</el-button>
         <el-button @click="useDialogVisible = false" size="small">取 消</el-button>
@@ -745,7 +744,6 @@ export default {
           } else {
             this.$message.error(r.Message);
           }
-
           this.$refs[formName].resetFields();
           this.addDialogVisible = false;
           this.getList(this.CurrentPage, this.pageSize, this.pd);
@@ -798,9 +796,10 @@ export default {
             this.data.push({
               key: rr.SERIAL,
               label: rr.NAME,
-              disabled: rr.check
+              disabled: false
             });
           }
+         this.value1=r.data.checkQue;
         });
 
     },
@@ -837,9 +836,10 @@ export default {
             this.data2.push({
               key: rr.DEPT_CODE,
               label: rr.DEPT_JC,
-              disabled: rr.check
+              disabled: false
             });
           }
+          this.value2=r.data.checkPort;
         });
 
     },
@@ -933,7 +933,7 @@ export default {
       console.log(this.rows)
     },
     deleterows(index) {
-console.log('index---',index);
+// console.log('index---',index);
       this.rows.splice(index, 1);
 
     },
@@ -1066,12 +1066,16 @@ console.log('index---',index);
 .yygreen {
   color: blue
 }
+
+
 </style>
 <style>
 .el-transfer-panel {
   max-height: 500px !important
 }
-
+.el-transfer-panel .el-transfer-panel__header {
+     display: block!important;
+}
 .el-transfer__buttons {
   width: 4% !important
 }

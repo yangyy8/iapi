@@ -320,6 +320,7 @@
         @selection-change="handleSelectionChange"
         @header-click="headerClick"
         @sort-change='sortChange'
+        :row-class-name="tableRowClassName"
         id="printMe">
         <el-table-column
           label="多选"
@@ -783,6 +784,22 @@
           >
         </el-pagination>
       </div>
+      <div class="tishi">
+        <ul>
+          <li>
+            <span class="title">有值机，有订票</span>
+            <span class="color color1"></span>
+          </li>
+          <li>
+            <span class="title">无值机，有订票</span>
+            <span class="color color2"></span>
+          </li>
+          <li>
+            <span class="title">有值机，无订票</span>
+            <span class="color color3"></span>
+          </li>
+        </ul>
+      </div>
     </div>
     <el-dialog
       title="座位详情"
@@ -1206,6 +1223,20 @@ export default {
   },
   methods:{
     //============================洲国籍======================================================================
+
+    tableRowClassName({row, rowIndex}) {
+      console.log(row.PNRFLAGSTR);
+      console.log(row.CHKFLAGSTR);
+      if (row.PNRFLAGSTR == '是'&&row.CHKFLAGSTR == '是') {//订票&值机
+        return 'warning-row';
+      } else if (row.PNRFLAGSTR == '是'&&row.CHKFLAGSTR == '否') {//订票
+        return 'success-row';
+      } else if (row.PNRFLAGSTR == '否'&&row.CHKFLAGSTR == '是') {//值机
+        return 'gray-row'
+      }
+      return '';
+    },
+
     timePlace(val){
       let y = val.substring(0,4);
       let m = val.substring(4,6);
@@ -1848,9 +1879,44 @@ export default {
 </script>
 
 <style scoped>
-
+.tishi ul li{
+  float: left;
+  padding: 0px 10px 0px 0px;
+}
+.tishi .title{
+  font-size: 12px;
+  color: #767676;
+  display: inline-block;
+}
+.tishi .color{
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  vertical-align: -5px;
+}
+.color1{
+  background: #f0f9eb;
+}
+.color2{
+  background:oldlace;
+}
+.color3{
+  background: #fef0f0;
+}
 </style>
 <style media="screen">
+.tableRy .warning-row {
+  background:#f0f9eb;
+}
+
+.tableRy .success-row {
+  background:oldlace ;
+}
+
+.tableRy .gray-row {
+  background: #fef0f0;
+}
+
   .t-save .el-select{
     width: 127px;
   }
