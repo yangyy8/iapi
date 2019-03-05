@@ -605,7 +605,8 @@ export default {
     this.queryAirport();
   },
   activated(){
-
+    this.page0Data={};
+    this.imgURL=imgUrl;
     this.getUers();
     this.page=this.$route.query.page;
     this.operation_type=this.$route.query.operation_type;

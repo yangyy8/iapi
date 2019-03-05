@@ -494,6 +494,8 @@ export default {
     }
   },
   activated(){
+    this.page0Data={};
+    this.imgURL=imgUrl;
     this.serial=this.$route.query.serial;
     this.getRiskIapiInfo();
     this.getHisModelInfo();

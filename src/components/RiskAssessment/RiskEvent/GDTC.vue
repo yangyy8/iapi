@@ -175,7 +175,7 @@ export default {
       tagData:{},
       taged:0,
       checkedtag:[],
-      gdform:{hit:'0'},
+      gdform:{hit:'0',processorResult:[]},
       gdDialogVisible2:this.gvisible,
       listData:this.garr,
       gt:this.gtype
@@ -244,11 +244,11 @@ export default {
       })
     },
     gdSave(){
-      console.log("checkedtag",this.checkedtag)
+      console.log("gtitle",this.gtitle)
       if(!this.gdform.describe){
         this.$message.error('请先填写归档描述！');
         return
-      }else if(!this.gdform.processorResult){
+      }else if((!this.gdform.processorResult)&&this.gtitle=='事件归档'){
         this.$message.error('请选择处理结果！');
         return
       }
@@ -271,9 +271,9 @@ export default {
             "passportno":arr1[i].passportno,
             "describe":that.gdform.describe,
             "type":this.gt,
-            "IOType":that.gdform.processorResult[0],
-            "firstType":that.gdform.processorResult[1],
-            "secondType":that.gdform.processorResult[2],
+            "IOType":that.gdform.processorResult[0]||'',
+            "firstType":that.gdform.processorResult[1]||'',
+            "secondType":that.gdform.processorResult[2]||'',
             "operation_type":1,
             "tag_type":2,
             "tagList":that.checkedtag,
@@ -292,9 +292,9 @@ export default {
            "passportno":arr1.passportno,
            "describe":this.gdform.describe,
            "type":this.gt,
-           "IOType":this.gdform.processorResult[0],
-           "firstType":this.gdform.processorResult[1],
-           "secondType":this.gdform.processorResult[2],
+           "IOType":this.gdform.processorResult[0]||'',
+           "firstType":this.gdform.processorResult[1]||'',
+           "secondType":this.gdform.processorResult[2]||'',
            "operation_type":1,
            "tag_type":2,
            "tagList":this.checkedtag,

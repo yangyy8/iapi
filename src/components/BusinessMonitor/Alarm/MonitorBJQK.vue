@@ -60,7 +60,14 @@
           <el-table-column
             label="黑名单"
             sortable
+            width="100"
             prop="outBlkList">
+          </el-table-column>
+          <el-table-column
+            label="白名单"
+            width="100"
+            sortable
+            prop="outwhtlist">
           </el-table-column>
           <el-table-column
             label="临控名单"
@@ -78,7 +85,14 @@
           <el-table-column
             label="黑名单"
             sortable
+            width="100"
             prop="blkList">
+          </el-table-column>
+          <el-table-column
+            label="白名单"
+            sortable
+            width="100"
+            prop="whtlist">
           </el-table-column>
           <el-table-column
             label="临控名单"
@@ -93,7 +107,8 @@
         </el-table-column>
         <el-table-column
           sortable
-          label="合计">
+          label="合计"
+          width="100">
           <template slot-scope="scope">
             <div>{{scope.row.outBlkList+scope.row.outTctlList+scope.row.outFocus+scope.row.blkList+scope.row.tctlList+scope.row.focus}}</div>
           </template>
@@ -131,9 +146,9 @@
         </el-pagination>
       </div> -->
     </div>
-    <el-dialog title="口岸柱状图" :visible.sync="kaDialogVisible" width="800px">
+    <el-dialog title="口岸柱状图" :visible.sync="kaDialogVisible" width="940px">
       <div slot="footer" class="dialog-">
-        <div ref= "echart1" id="echart1" style = "width:760px;height: 400px"></div>
+        <div ref= "echart1" id="echart1" style = "width:900px;height: 400px"></div>
         <el-button type="warning" @click="kaDialogVisible=false" size="small">取消</el-button>
       </div>
     </el-dialog>
@@ -279,7 +294,7 @@ export default {
          // color:['#c23531','#2f4554', '#61a0a8', '#d48265', '#91c7ae','#749f83'],
          xAxis:{
            type : 'category',
-           data:["黑名单(入境)","临控名单(入境)","重点关注(入境)","黑名单(出境)","临控名单(出境)","重点关注(出境)"],
+           data:["黑名单(入境)","白名单(入境)","临控名单(入境)","重点关注(入境)","黑名单(出境)","白名单(出境)","临控名单(出境)","重点关注(出境)"],
            boundaryGap : true,
            axisLine:{
              lineStyle:{
