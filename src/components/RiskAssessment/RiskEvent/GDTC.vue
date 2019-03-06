@@ -244,13 +244,17 @@ export default {
       })
     },
     gdSave(){
-      console.log("gtitle",this.gtitle)
+
       if(!this.gdform.describe){
         this.$message.error('请先填写归档描述！');
         return
-      }else if((!this.gdform.processorResult)&&this.gtitle=='事件归档'){
-        this.$message.error('请选择处理结果！');
-        return
+      }else if(!this.gdform.processorResult){
+        this.gdform.processorResult=[]
+        if(this.gtitle=='事件归档'){
+          this.$message.error('请选择处理结果！');
+          return
+        }
+
       }
       let arr1=this.listData;
       console.log("arr1",arr1)
@@ -261,6 +265,7 @@ export default {
       };
       console.log("arr1.length",arr1.length)
       if(arr1.length){
+        console.log("gtitle1",this.gtitle,this.gdform.processorResult)
         let that=this;
         for(var i=0;i<arr1.length;i++){
           let a={
@@ -283,6 +288,7 @@ export default {
         }
 
       }else{
+        console.log("gtitle2",this.gtitle,this.gdform.processorResult)
        p.list=[
          {
            "eventSerial":arr1.serial,
