@@ -661,11 +661,11 @@
           v-if="checkListPnrHc.indexOf('PNR_RCI')>-1">
         </el-table-column>
         <el-table-column
-          prop="PNR_RCIDATE"
+          prop="PNR_RCIDATESTR"
           label="订票时间"
           min-width="150"
           sortable='custom'
-          v-if="checkListPnrHc.indexOf('PNR_RCIDATE')>-1">
+          v-if="checkListPnrHc.indexOf('PNR_RCIDATESTR')>-1">
         </el-table-column>
         <el-table-column
           prop="PNR_SPECIFIGSEAT"
@@ -2125,8 +2125,8 @@ export default {
       itemHis:'',
       showConfiglist:[],
       //pnr展示
-      checkListPnr:['pnrName','PNR_GENDER','pnrBirthdayName','pnrNationaName','PNR_PASSPORTNO','PNR_CARDEXPIREDATESTR','PNR_FLTNO','PNR_FLTDATE1STR','PNR_FLTTYPE','pnrCityfromName','pnrCitytoName','PNR_DEPARTDATESTR','PNR_ARRIVDATESTR','PNR_TKTNUMBER','PNR_RCI','PNR_RCIDATE','PNR_SPECIFIGSEAT'],
-      checkListPnrHc:['pnrName','PNR_GENDER','pnrBirthdayName','pnrNationaName','PNR_PASSPORTNO','PNR_CARDEXPIREDATESTR','PNR_FLTNO','PNR_FLTDATE1STR','PNR_FLTTYPE','pnrCityfromName','pnrCitytoName','PNR_DEPARTDATESTR','PNR_ARRIVDATESTR','PNR_TKTNUMBER','PNR_RCI','PNR_RCIDATE','PNR_SPECIFIGSEAT'],
+      checkListPnr:['pnrName','PNR_GENDER','pnrBirthdayName','pnrNationaName','PNR_PASSPORTNO','PNR_CARDEXPIREDATESTR','PNR_FLTNO','PNR_FLTDATE1STR','PNR_FLTTYPE','pnrCityfromName','pnrCitytoName','PNR_DEPARTDATESTR','PNR_ARRIVDATESTR','PNR_TKTNUMBER','PNR_RCI','PNR_RCIDATESTR','PNR_SPECIFIGSEAT'],
+      checkListPnrHc:['pnrName','PNR_GENDER','pnrBirthdayName','pnrNationaName','PNR_PASSPORTNO','PNR_CARDEXPIREDATESTR','PNR_FLTNO','PNR_FLTDATE1STR','PNR_FLTTYPE','pnrCityfromName','pnrCitytoName','PNR_DEPARTDATESTR','PNR_ARRIVDATESTR','PNR_TKTNUMBER','PNR_RCI','PNR_RCIDATESTR','PNR_SPECIFIGSEAT'],
       showConfigPnr:[],
       showConfiglistPnr:[],
       //iapi表格数据
@@ -3323,7 +3323,7 @@ export default {
             if(this.bigBase==7){
               this.checkList = ['iapiName','INTG_CHNNAME','GENDER','iapiBirthdayName','iapiNationaName','PASSPORTNO','FLTNO','FLTDATESTR','FLIGHTTYPE'];
             }else if(this.bigBase==8){
-              this.checkListPnr = ['pnrName','PNR_GENDER','pnrBirthdayName','pnrNationaName','PNR_PASSPORTNO','PNR_CARDEXPIREDATESTR','PNR_FLTNO','PNR_FLTDATE1STR','PNR_FLTTYPE','pnrCityfromName','pnrCitytoName','PNR_DEPARTDATESTR','PNR_ARRIVDATESTR','PNR_TKTNUMBER','PNR_RCI','PNR_RCIDATE','PNR_SPECIFIGSEAT']
+              this.checkListPnr = ['pnrName','PNR_GENDER','pnrBirthdayName','pnrNationaName','PNR_PASSPORTNO','PNR_CARDEXPIREDATESTR','PNR_FLTNO','PNR_FLTDATE1STR','PNR_FLTTYPE','pnrCityfromName','pnrCitytoName','PNR_DEPARTDATESTR','PNR_ARRIVDATESTR','PNR_TKTNUMBER','PNR_RCI','PNR_RCIDATESTR','PNR_SPECIFIGSEAT']
             }
           }else{
             for(var i=0;i<arr.length;i++){
