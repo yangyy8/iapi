@@ -66,7 +66,7 @@
         </el-col>
 
         <el-col :span="2" class="down-btn-area">
-          <el-button type="success" size="small" @click="getList(CurrentPage,pageSize,pd)">查询</el-button>
+          <el-button type="success" size="small" @click="getList(CurrentPage,pageSize,pd,order,direction)">查询</el-button>
           <!-- <el-button type="primary" plain size="small" >重置</el-button> -->
         </el-col>
       </el-row>
@@ -77,32 +77,38 @@
           class="mt-10"
           ref="multipleTable"
           :data="tableData"
+          @sort-change="sortChange"
           border
           style="width: 100%;">
           <el-table-column
             label="姓名"
-            sortable
-            prop="NAME">
+            sortable="custom"
+            prop="NAME"
+            :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="性别"
-            sortable
-            prop="GENDERNAME">
+            sortable="custom"
+            prop="GENDERNAME"
+            :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="出生日期"
-            sortable
-            prop="BIRTHDAY">
+            sortable="custom"
+            prop="BIRTHDAY"
+            :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="国籍/地区"
-            sortable
-            prop="NATIONALITYNAME">
+            sortable="custom"
+            prop="NATIONALITYNAME"
+            :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="证件号"
-            sortable
-            prop="PASSPORTNO">
+            sortable="custom"
+            prop="PASSPORTNO"
+            :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="标签"
@@ -184,6 +190,8 @@ export default {
       CurrentPage:1,
       pageSize:10,
       TotalResult:0,
+      order:'',
+      direction:0,
       pd:{nationality:'',name:'',passportno:'',birthdayStart:'',birthdayEnd:''},
       nationAlone:null,
       docCode:null,
@@ -222,7 +230,7 @@ export default {
       this.pd.birthdayStart=data.dateofbirth;
       this.pd.birthdayEnd=data.dateofbirth;
       console.log(this.pd)
-      this.getList(this.CurrentPage,this.pageSize,this.pd);
+      this.getList(this.CurrentPage,this.pageSize,this.pd,this.order,this.direction);
     }
   },
   methods:{
@@ -236,27 +244,27 @@ export default {
     },
     pageSizeChange(val) {
       this.pageSize=val
-      this.tableData=this.tlist.slice(this.pageSize*(this.CurrentPage-1),this.pageSize*(this.CurrentPage-1)+this.pageSize);
-      // this.getList(this.CurrentPage,val,this.pd);
+      // this.tableData=this.tlist.slice(this.pageSize*(this.CurrentPage-1),this.pageSize*(this.CurrentPage-1)+this.pageSize);
+      this.getList(this.CurrentPage,val,this.pd,this.order,this.direction);
       console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
       this.CurrentPage=val
-      this.tableData=this.tlist.slice(this.pageSize*(this.CurrentPage-1),this.pageSize*(this.CurrentPage-1)+this.pageSize);
-      // this.getList(val,this.pageSize,this.pd);
+      // this.tableData=this.tlist.slice(this.pageSize*(this.CurrentPage-1),this.pageSize*(this.CurrentPage-1)+this.pageSize);
+      this.getList(val,this.pageSize,this.pd,this.order,this.direction);
       console.log(`当前页: ${val}`);
     },
     sortChange(data){
       console.log(data)
-      this.orders=[data.prop];
+      this.order=data.prop;
       if(data.order=='descending'){
         this.direction=0
       }else{
         this.direction=1
       }
-      console.log(this.orders,this.direction)
+      console.log(this.order,this.direction)
 
-      // this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
+      this.getList(this.CurrentPage,this.pageSize,this.pd,this.order,this.direction);
     },
     sortMethod(a,b){
       console.log(a,b)
@@ -282,7 +290,7 @@ export default {
       })
     },
 
-    getList(CurrentPage,showCount,pd){
+    getList(CurrentPage,showCount,pd,order,direction){
       if(!this.pd.nationality){
         this.$message.error('请先填写国籍地区！');
         return
@@ -296,7 +304,9 @@ export default {
       let p={
         "showCount": showCount,
         "currentPage": CurrentPage,
-        "pd": pd
+        "pd": pd,
+        "order":order,
+	      "direction":direction
       }
       this.$api.post('/manage-platform/riskRecordController/getRecordInfo',p,
        r => {
@@ -305,8 +315,10 @@ export default {
          //   this.$message.error(r.data.resultList[0].message);
          // }else{
            this.tlist=r.data.list;
-           this.tableData=r.data.list.slice(showCount*(CurrentPage-1),showCount*(CurrentPage-1)+showCount);
-           this.TotalResult=r.data.list.length;
+           this.tableData=r.data.list;
+
+           // this.tableData=r.data.list.slice(showCount*(CurrentPage-1),showCount*(CurrentPage-1)+showCount);
+           this.TotalResult=parseInt(r.data.total) ;
            this.msg=r.data.message
          // }
 
