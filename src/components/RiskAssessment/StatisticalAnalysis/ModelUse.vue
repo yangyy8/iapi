@@ -414,6 +414,7 @@ export default {
       this.$api.post('/manage-platform/census/queryCensus',this.pd,
        r => {
          this.chartList=r.data;
+         console.log(this.chartList[0].tableData);
       })
 
     },
