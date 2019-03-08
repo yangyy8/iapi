@@ -1127,7 +1127,7 @@ export default {
       pickerOptions: {
         disabledDate: (time) => {
             if (this.cdt.endFltdate != null) {
-              let startT = formatDate(new Date(time.getTime()),'yyyyMMddhhmm');
+              let startT = formatDate(new Date(time.getTime()),'yyyyMMdd');
               return startT > this.cdt.endFltdate;
             }else if(this.cdt.endFltdate == null){
               return false
@@ -1136,9 +1136,9 @@ export default {
       },
       pickerOptions1: {
         disabledDate: (time) => {
-            let endT = formatDate(new Date(time.getTime()),'yyyyMMddhhmm');
-            let a = new Date(this.timePlace(this.cdt.startFltdate))-1*24*60*60*1000;
-            return endT < formatDate(new Date(a),'yyyyMMddhhmm');
+            let endT = formatDate(new Date(time.getTime()),'yyyyMMdd');
+            let a = new Date(this.timePlace(this.cdt.startFltdate));
+            return endT < formatDate(new Date(a),'yyyyMMdd');
         }
       },
       pd:{},

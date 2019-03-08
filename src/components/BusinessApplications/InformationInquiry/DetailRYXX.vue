@@ -134,7 +134,7 @@
           <el-col :span="6" class="t-el-content"><div class="t-el-text">旅客订票号：</div><div class="t-el-sub">{{dpform.PNR_RCI}}</div></el-col>
           <el-col :span="6" class="t-el-content"><div class="t-el-text">代理所在城市：</div><div class="t-el-sub">{{dpform.LOCATION_IDENTIFICATION_NAME}}</div></el-col>
           <el-col :span="6" class="t-el-content"><div class="t-el-text">航班飞机型号：</div><div class="t-el-sub">{{dpform.MAXLENGTH}}</div></el-col>
-          <el-col :span="6" class="t-el-content"><div class="t-el-text">订票时间：</div><div class="t-el-sub">{{dpform.PNR_RCITIME_STR}}</div></el-col>
+          <el-col :span="6" class="t-el-content"><div class="t-el-text">订票时间：</div><div class="t-el-sub">{{dpform.PNR_RCIDATESTR}}</div></el-col>
         </el-row>
         <el-row type="flex"  class="t-detail">
           <el-col :span="6" class="t-el-content"><div class="t-el-text">旅客登机序号：</div><div class="t-el-sub">{{dpform.BOARDINGSEQUENCE}}</div></el-col>

@@ -6,6 +6,92 @@
           <span class="title-green">
             咨询回复
           </span>
+          <el-row align="center" :gutter="2" style="margin-top:10px">
+            <el-col  :sm="24" :md="12" :lg="8"  class="input-item my-form-group" data-scope="txl" data-name="CONSULTFROM" data-type="select"
+            v-validate-easy="[['required']]">
+              <span class="input-text"><i class="t-must">*</i>咨询来源：</span>
+              <el-select v-model="pd.CONSULTFROM" filterable clearable placeholder="请选择" size="small" class="input-input">
+                <el-option label="0 - 航空公司" value="0"></el-option>
+                <el-option label="1 - 乘客" value="1"></el-option>
+                <el-option label="2 - 其他" value="2"></el-option>
+              </el-select>
+            </el-col>
+            <el-col  :sm="24" :md="12" :lg="8"  class="input-item my-form-group" data-scope="txl" data-name="AIRLINE_CODE" data-type="select"
+            v-validate-easy="[['required']]" v-if="pd.CONSULTFROM=='0'">
+              <span class="input-text"><i class="t-must">*</i>航空公司：</span>
+              <el-select v-model="pd.AIRLINE_CODE" filterable clearable placeholder="请选择" size="small" class="input-input" @visible-change="applicationMethod">
+                <el-option
+                v-for="item in application"
+                :key="item.AIRLINE_CODE"
+                :value="item.AIRLINE_CODE"
+                :label="item.AIRLINE_CODE+' - '+item.AIRLINE_CHN_NAME">
+                </el-option>
+              </el-select>
+            </el-col>
+            <el-col  :sm="24" :md="12" :lg="8"  class="input-item my-form-group" v-if="pd.CONSULTFROM == '0'||pd.CONSULTFROM == ''||pd.CONSULTFROM == undefined"
+            data-scope="txl" data-name="TERMINAL" data-type="select"
+            v-validate-easy="[['required']]">
+              <span class="input-text"><i class="t-must">*</i>航站：</span>
+              <el-select v-model="pd.TERMINAL" filterable clearable placeholder="请选择" size="small" class="input-input" @visible-change="terminal">
+                <el-option
+                v-for="item in takeOffName"
+                :key="item.AIRPORT_CODE"
+                :value="item.AIRPORT_NAME"
+                :label="item.AIRPORT_CODE+' - '+item.AIRPORT_NAME">
+                </el-option>
+              </el-select>
+            </el-col>
+            <el-col  :sm="24" :md="12" :lg="8"  class="input-item my-form-group"
+            data-scope="txl" data-name="CONSULTNAME" data-type="input"
+            v-validate-easy="[['required']]">
+              <span class="input-text"><i class="t-must">*</i>咨询人：</span>
+              <el-input placeholder="请输入内容" size="small" v-model="pd.CONSULTNAME"  class="input-input"></el-input>
+            </el-col>
+
+            <el-col  :sm="24" :md="12" :lg="8"  class="input-item my-form-group"
+            data-scope="txl" data-name="CONSULTFROMTYPE" data-type="select"
+            v-validate-easy="[['required']]">
+              <span class="input-text"><i class="t-must">*</i>咨询方式：</span>
+              <el-select v-model="pd.CONSULTFROMTYPE" filterable clearable placeholder="请选择" size="small" class="input-input">
+                <el-option label="0 - 移动电话" value="0"></el-option>
+                <el-option label="1 - 传真" value="1"></el-option>
+                <el-option label="2 - 邮箱" value="2"></el-option>
+                <el-option label="3 - 固定电话" value="3"></el-option>
+                <el-option label="4 - 其他" value="4"></el-option>
+              </el-select>
+            </el-col>
+
+            <el-col  :sm="24" :md="12" :lg="8"  class="input-item my-form-group" v-if="pd.CONSULTFROMTYPE=='0'"
+            data-scope="txl" data-name="PHONE" data-type="input"
+            v-validate-easy="[['required']]">
+              <span class="input-text"><i class="t-must">*</i>移动电话：</span>
+              <el-input placeholder="请输入内容" size="small" v-model="pd.PHONE"  class="input-input" maxlength="25"></el-input>
+            </el-col>
+            <el-col  :sm="24" :md="12" :lg="8"  class="input-item my-form-group" v-if="pd.CONSULTFROMTYPE=='1'"
+            data-scope="txl" data-name="CONSULTFAX" data-type="input"
+            v-validate-easy="[['required']]">
+              <span class="input-text"><i class="t-must">*</i>传真：</span>
+              <el-input placeholder="请输入内容" size="small" v-model="pd.CONSULTFAX"  class="input-input" maxlength="25"></el-input>
+            </el-col>
+            <el-col  :sm="24" :md="12" :lg="8"  class="input-item my-form-group" v-if="pd.CONSULTFROMTYPE=='2'"
+            data-scope="txl" data-name="CONSULTEMAIL" data-type="input"
+            v-validate-easy="[['required']]">
+              <span class="input-text"><i class="t-must">*</i>邮箱：</span>
+              <el-input placeholder="请输入内容" size="small" v-model="pd.CONSULTEMAIL"  class="input-input" maxlength="50"></el-input>
+            </el-col>
+            <el-col  :sm="24" :md="12" :lg="8"  class="input-item my-form-group" v-if="pd.CONSULTFROMTYPE=='3'"
+            data-scope="txl" data-name="INCOMINGPHONE" data-type="input"
+            v-validate-easy="[['required']]">
+              <span class="input-text"><i class="t-must">*</i>固定电话：</span>
+              <el-input placeholder="请输入内容" size="small" v-model="pd.INCOMINGPHONE"  class="input-input" maxlength="25"></el-input>
+            </el-col>
+            <el-col  :sm="24" :md="12" :lg="8"  class="input-item my-form-group" v-if="pd.CONSULTFROMTYPE=='4'"
+            data-scope="txl" data-name="CONSULTFROMOTHERREMARK" data-type="input"
+            v-validate-easy="[['required']]">
+              <span class="input-text"><i class="t-must">*</i>其他：</span>
+              <el-input placeholder="请输入内容" size="small" v-model="pd.CONSULTFROMOTHERREMARK"  class="input-input"></el-input>
+            </el-col>
+          </el-row>
         </el-col>
       </el-row>
     </div>
@@ -66,7 +152,7 @@
       </el-table>
       <el-row align="center" :gutter="2" type="flex">
         <el-col :span="24" class="input-item">
-          <span class="yy-input-text width-lef">预检结果：</span>
+          <span class="yy-input-text width-lef">问题详情：</span>
           <el-input type="textarea" v-model="pretestResults" maxlength="300" :autosize="{ minRows: 3, maxRows: 3}"></el-input>
         </el-col>
       </el-row>
@@ -253,6 +339,8 @@
 export default {
   data() {
     return {
+      application:[],
+      takeOffName:[],
       pd: {},
       nation: [],
       company: [],
@@ -267,7 +355,6 @@ export default {
       value1: "",
       tableData: [],
       multipleSelection: [],
-
       dform: {},
     }
   },
@@ -277,9 +364,26 @@ export default {
   activated() {
     this.tableData=[];
     this.tableData.push(this.$route.query.review);
+    this.pd=this.$route.query.review;
     this.pretestResults = this.$route.query.details;
   },
   methods: {
+    applicationMethod(){
+      this.$api.post('/manage-platform/codeTable/queryAircompanyList',{},
+       r =>{
+         if(r.success){
+           this.application = r.data;
+         }
+       })
+    },
+    terminal(){//航站
+      this.$api.post('/manage-platform/codeTable/queryAirport',{},
+       r =>{
+         if(r.success){
+           this.takeOffName = r.data;
+         }
+       })
+    },
      added(){
        this.addedDialogVisible = true;
      },
@@ -379,36 +483,38 @@ export default {
        },1500);
     },
     saveT(){//变更
-      if(this.pd.RESULTOFHANDING == 1||this.pd.RESULTOFHANDING == 2){
-        this.handlesDialogVisible = true;
-        this.form.NAME = this.$route.query.review.INTG_CHNNAME;
-        this.form.GENDER = this.$route.query.review.GENDER;
-        this.form.DATEOFBIRTH = this.$route.query.review.DATEOFBIRTH;
-        this.form.NATIONALITYC = this.$route.query.review.NATIONALITY;
-        this.form.PASSPORTNO = this.$route.query.review.PASSPORTNO;
-        this.form.INTG_VISANO = this.$route.query.review.VISANO;
-        this.form.LASTCHECKRESULT = this.$route.query.review.LASTCHECKRESULT;
-        this.form.LASTCHECKRESULTC = this.$route.query.review.LASTCHECKRESULT;
-      }else{
-        var objN = this.pd;
-        objN.DEALRESULT = 0;//不变更
-        // objN.serial = this.$route.query.serial
-        objN.serial = this.$route.query.serial;
-        this.$api.post('/manage-platform/consult/saveConsultReply',objN,
-         r => {
-           if(r.success){
-             this.$message({
-               message: '恭喜你，保存成功',
-               type: 'success'
-             });
-           }
-         })
-         setTimeout(function(){
-           window.history.go(-1);
-         },1500);
-      }
+      this.V.$submit('txl', (canSumit,data) => {
+        if(!canSumit) return
+        if(this.pd.RESULTOFHANDING == 1||this.pd.RESULTOFHANDING == 2){
+          this.handlesDialogVisible = true;
+          this.form.NAME = this.$route.query.review.INTG_CHNNAME;
+          this.form.GENDER = this.$route.query.review.GENDER;
+          this.form.DATEOFBIRTH = this.$route.query.review.DATEOFBIRTH;
+          this.form.NATIONALITYC = this.$route.query.review.NATIONALITY;
+          this.form.PASSPORTNO = this.$route.query.review.PASSPORTNO;
+          this.form.INTG_VISANO = this.$route.query.review.VISANO;
+          this.form.LASTCHECKRESULT = this.$route.query.review.LASTCHECKRESULT;
+          this.form.LASTCHECKRESULTC = this.$route.query.review.LASTCHECKRESULT;
+        }else{
+          var objN = this.pd;
+          objN.DEALRESULT = 0;//不变更
+          // objN.serial = this.$route.query.serial
+          objN.serial = this.$route.query.serial;
+          this.$api.post('/manage-platform/consult/saveConsultReply',objN,
+           r => {
+             if(r.success){
+               this.$message({
+                 message: '恭喜你，保存成功',
+                 type: 'success'
+               });
+             }
+           })
+           setTimeout(function(){
+             window.history.go(-1);
+           },1500);
+        }
+      })
     }
-
   },
 
 }

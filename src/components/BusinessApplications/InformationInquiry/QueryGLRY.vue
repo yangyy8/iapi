@@ -467,7 +467,7 @@ export default {
       this.pd.fltdate = this.zhuanhuan(this.$route.query.row.FLTDATESTR);
       this.pd.nationality = this.$route.query.row.NATIONALITY;
       this.pd.cardnum = this.$route.query.row.PASSPORTNO;
-      this.pd.name = this.$route.query.row.linkName;
+      // this.pd.name = this.$route.query.row.linkName;
       this.pd.gender = this.sexZhuan(this.$route.query.row.GENDER);
       this.pd.birthday = this.zhuanhuan(this.$route.query.row.iapiBirthdayName);
     }

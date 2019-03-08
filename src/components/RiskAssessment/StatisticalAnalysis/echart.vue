@@ -16,20 +16,8 @@ export default {
     }
   },
   watch: {
-    chartDatas:{
-      handler:function(newVal,oldVal){
-        console.log(newVal,oldVal)
-        this.chartdatas = newVal;  //newVal即是chartData
-        if (!this.liangChart) {
-          return;
-        }
-        this.liangChart.dispose();
-        this.liangChart = null;
-        this.drawLiang();
-      },
-      deep:true
-    }
-    // chartDatas:function(newVal,oldVal){
+    // chartDatas:{
+    //   handler:function(newVal,oldVal){
     //     console.log(newVal,oldVal)
     //     this.chartdatas = newVal;  //newVal即是chartData
     //     if (!this.liangChart) {
@@ -38,7 +26,19 @@ export default {
     //     this.liangChart.dispose();
     //     this.liangChart = null;
     //     this.drawLiang();
+    //   },
+    //   deep:true
     // }
+    chartDatas:function(newVal,oldVal){
+        console.log(newVal,oldVal)
+        this.chartdatas = newVal;  //newVal即是chartData
+        if (!this.liangChart) {
+          return;
+        }
+        this.liangChart.dispose();
+        this.liangChart = null;
+        this.drawLiang();
+    }
   },
   props:{
     'chartDatas':{
@@ -76,10 +76,10 @@ export default {
         toolbox: {
             show : true,
             feature : {
-                saveAsImage : {show: true},
                 mark : {show: true},
+                saveAsImage : {show: true},
                 // dataView : {show: true, readOnly: false},
-                magicType : {show: true, type: ['line', 'bar']},
+                magicType : {show: true, type: ['bar', 'line']},
                 restore : {show: true},
             }
         },
@@ -98,6 +98,9 @@ export default {
                 axisLabel: {show:false},
                 splitArea: {show:false},
                 splitLine: {show:false},
+                axisPointer: {
+                  type: 'none'
+                },
                 data : _this.chartdatas.xAxisData
             },
             {
@@ -107,6 +110,21 @@ export default {
                 axisLabel: {show:false},
                 splitArea: {show:false},
                 splitLine: {show:false},
+                axisPointer: {
+                  type: 'none'
+                },
+                data : _this.chartdatas.xAxisData
+            },
+            {
+                type : 'category',
+                axisLine: {show:false},
+                axisTick: {show:false},
+                axisLabel: {show:false},
+                splitArea: {show:false},
+                splitLine: {show:false},
+                axisPointer: {
+                  type: 'none'
+                },
                 data : _this.chartdatas.xAxisData
             }
 

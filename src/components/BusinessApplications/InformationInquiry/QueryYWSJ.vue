@@ -298,7 +298,7 @@
       </div>
     </el-dialog>
 
-    <el-dialog title="航班备降详情" :visible.sync="hbbjDialogVisible">
+    <el-dialog :title="beijiangText" :visible.sync="hbbjDialogVisible">
       <el-form :model="hform" ref="hbbjForm">
         <el-row type="flex"  class="mb-6">
           <el-col :span="12" class="input-item">
@@ -327,7 +327,7 @@
             <span class="yy-input-text">原计划到达口岸：</span>
               <el-input placeholder="请输入内容" size="small" v-model="hform.portto+' - '+hform.stationtoName" :disabled="true" class="yy-input-input"></el-input>
           </el-col>
-          <el-col :span="12" class="input-item">
+          <el-col :span="12" class="input-item" v-if="jihua">
             <span class="yy-input-text">现计划到达口岸：</span>
               <el-input placeholder="请输入内容" size="small" v-model="hform.changeport+' - '+hform.changeportName" :disabled="true" class="yy-input-input"></el-input>
           </el-col>
@@ -650,6 +650,8 @@ export default {
   components: {AlarmProcess},
   data() {
     return {
+      beijiangText:'航班备降详情',
+      jihua:true,
       CurrentPage: 1,
       pageSize: 10,
       TotalResult: 0,
@@ -859,11 +861,26 @@ export default {
           },
           r => {
             if (r.success) {
+              this.beijiangText='航班备降详情';
+              this.jihua = true;
               this.hbbjDialogVisible = true;
               this.hform = r.data;
             }
           });
-      } else if (i.type == "0") { //指令变更
+      } else if(i.type == '-1'){//航班取消
+        this.$api.post('/manage-platform/eventManagement/queryFlightInfo', {
+            "refserial": i.refserial
+          },
+          r => {
+            if (r.success) {
+              this.beijiangText = '航班取消详情';
+              this.jihua = false;
+              this.hbbjDialogVisible = true;
+              this.hform = r.data;
+            }
+          });
+      }
+      else if (i.type == "0") { //指令变更
         this.$api.post('/manage-platform/eventManagement/queryIapiChangeInfo', {
             "refserial": i.refserial
           },

@@ -1359,25 +1359,27 @@
                   <el-table-column
                     :show-overflow-tooltip="true"
                     label="案件名"
-                    prop="">
+                    prop="case_name">
                   </el-table-column>
                   <el-table-column
                     :show-overflow-tooltip="true"
                     label="案事件性质"
-                    prop="">
+                    prop="case_nature_na">
                   </el-table-column>
                   <el-table-column
                     :show-overflow-tooltip="true"
                     label="涉案事件类别"
+                    prop="case_type_ext">
+                  </el-table-column>
+                  <el-table-column
+                    :show-overflow-tooltip="true"
+                    label="立(受)案时间"
+                    prop="case_reg_dt">
+                  </el-table-column>
+                  <el-table-column
+                    :show-overflow-tooltip="true"
+                    label="案件数据来源"
                     prop="">
-                  </el-table-column>
-                  <el-table-column
-                    :show-overflow-tooltip="true"
-                    label="立(受)案时间">
-                  </el-table-column>
-                  <el-table-column
-                    :show-overflow-tooltip="true"
-                    label="案件数据来源">
                   </el-table-column>
                 </el-table>
                 <div class="box1-more" v-if="data12.length>0">
@@ -2235,12 +2237,12 @@ export default {
 
   },
   activated(){
+    this.data0={};
+    this.imgURL=imgUrl;
     this.nationality=this.$route.query.nationality;
     this.passportno=this.$route.query.passportno;
     this.idcard=this.$route.query.idcard;
-    if(!this.idcard){
-      this.getRecordOtherInfo('immcard');
-    }
+
     this.getUsers();
     this.getUserBaseInfo();
     this.getUserTagInfo();
@@ -2365,6 +2367,9 @@ export default {
          this.getRiskPersonnelForecasInfo();
          this.getRecordOtherInfo('num');
          this.getCRCCNumInfo();
+         if(!this.idcard){
+           this.getRecordOtherInfo('immcard');
+         }
        })
     },
     getCRCCNumInfo(){
@@ -2581,7 +2586,7 @@ export default {
                if(!this.idcard){
                  this.idcard=this.data7[0].pers_card_id
                }
-             }
+             }else{}
              break;
            case 'visa':
              if(r.data.data.dcap_f_per_cert_fgn_visa){
