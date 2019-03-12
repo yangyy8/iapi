@@ -444,7 +444,12 @@ export default {
       }
     },
     rowClick(row, column, cell, event){
-      if(column.property=='checkincount'||column.property=='boardingcount'||column.property=='boardingcount'||column.property=='chkNobrd'){
+      console.log(row);
+      if(column.property=='checkincount'||column.property=='boardingcount'||column.property=='chkNobrd'){
+        if(row.checkincount==undefined||row.boardingcount==undefined||row.chkNobrd==undefined){
+          this.$message('没有检索到详情');
+          return false
+        }
         let p = {
           'flightRecordnum':row.flightRecordnum,
           'otherStr':this.zhuanhuan(column.property)
@@ -455,11 +460,7 @@ export default {
            if(r.success){
              this.tableInfo = r.data.iapiList;
              this.numberTotal = r.data.count;
-             if(this.tableInfo.length==0){
-               this.$message('没有检索到详情');
-             }else{
-               this.numberDialogVisible = true;
-             }
+             this.numberDialogVisible = true;
            }
          })
       }

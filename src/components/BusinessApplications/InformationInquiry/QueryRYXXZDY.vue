@@ -661,11 +661,11 @@
           v-if="checkListPnrHc.indexOf('PNR_RCI')>-1">
         </el-table-column>
         <el-table-column
-          prop="PNR_RCIDATE"
+          prop="PNR_RCIDATESTR"
           label="订票时间"
           min-width="150"
           sortable='custom'
-          v-if="checkListPnrHc.indexOf('PNR_RCIDATE')>-1">
+          v-if="checkListPnrHc.indexOf('PNR_RCIDATESTR')>-1">
         </el-table-column>
         <el-table-column
           prop="PNR_SPECIFIGSEAT"
@@ -741,7 +741,7 @@
                   <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
                 </el-row>
               </div>
-              <span slot="reference">{{scope.row.addlv2_Country_Coded[0]}}<span v-if="scope.row.is_addlv2_Country_Coded==1" class="cellColor">*</span></span>
+              <span slot="reference">{{(scope.row.addlv2_Country_Coded==undefined||scope.row.addlv2_Country_Coded.length==0)?'':scope.row.addlv2_Country_Coded[0]}}<span v-if="scope.row.is_addlv2_Country_Coded==1" class="cellColor">*</span></span>
             </el-popover>
           </template>
         </el-table-column>
@@ -763,7 +763,7 @@
                   <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
                 </el-row>
               </div>
-              <span slot="reference">{{scope.row.addlv2_City_Name[0]}}<span v-if="scope.row.is_addlv2_City_Name==1" class="cellColor">*</span></span>
+              <span slot="reference">{{(scope.row.addlv2_City_Name==undefined||scope.row.addlv2_City_Name.length==0)?'':scope.row.addlv2_City_Name[0]}}<span v-if="scope.row.is_addlv2_City_Name==1" class="cellColor">*</span></span>
             </el-popover>
           </template>
         </el-table-column>
@@ -784,7 +784,7 @@
                   <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
                 </el-row>
               </div>
-              <span slot="reference">{{scope.row.addlv2_STREET_AND_NUMBER[0]}}<span v-if="scope.row.is_addlv2_STREET_AND_NUMBER==1" class="cellColor">*</span></span>
+              <span slot="reference">{{(scope.row.addlv2_STREET_AND_NUMBER==undefined||scope.row.addlv2_STREET_AND_NUMBER.length==0)?'':scope.row.addlv2_STREET_AND_NUMBER[0]}}<span v-if="scope.row.is_addlv2_STREET_AND_NUMBER==1" class="cellColor">*</span></span>
             </el-popover>
           </template>
         </el-table-column>
@@ -805,7 +805,7 @@
                   <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
                 </el-row>
               </div>
-              <span slot="reference">{{scope.row.iftlv2_content[0]}}<span v-if="scope.row.is_iftlv2_content==1" class="cellColor">*</span></span>
+              <span slot="reference">{{(scope.row.iftlv2_content==undefined||scope.row.iftlv2_content.length==0)?'':scope.row.iftlv2_content[0]}}<span v-if="scope.row.is_iftlv2_content==1" class="cellColor">*</span></span>
             </el-popover>
           </template>
         </el-table-column>
@@ -826,7 +826,7 @@
                   <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
                 </el-row>
               </div>
-              <span slot="reference">{{scope.row.foplv4_PAYMENT_TYPE[0]}}<span v-if="scope.row.is_foplv4_PAYMENT_TYPE==1" class="cellColor">*</span></span>
+              <span slot="reference">{{(scope.row.foplv4_PAYMENT_TYPE==undefined||scope.row.foplv4_PAYMENT_TYPE.length==0)?'':scope.row.foplv4_PAYMENT_TYPE[0]}}<span v-if="scope.row.is_foplv4_PAYMENT_TYPE==1" class="cellColor">*</span></span>
             </el-popover>
           </template>
         </el-table-column>
@@ -847,7 +847,7 @@
                   <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
                 </el-row>
               </div>
-              <span slot="reference">{{scope.row.foplv4_AccountNumber[0]}}<span v-if="scope.row.is_foplv4_AccountNumber==1" class="cellColor">*</span></span>
+              <span slot="reference">{{(scope.row.foplv4_AccountNumber==undefined||scope.row.foplv4_AccountNumber.length==0)?'':scope.row.foplv4_AccountNumber[0]}}<span v-if="scope.row.is_foplv4_AccountNumber==1" class="cellColor">*</span></span>
             </el-popover>
           </template>
         </el-table-column>
@@ -868,7 +868,7 @@
                   <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
                 </el-row>
               </div>
-              <span slot="reference">{{scope.row.msglv2_GR9SERIAL[0]}}<span v-if="scope.row.is_msglv2_GR9SERIAL==1" class="cellColor">*</span></span>
+              <span slot="reference">{{(scope.row.msglv2_GR9SERIAL==undefined||scope.row.msglv2_GR9SERIAL.length==0)?'':scope.row.msglv2_GR9SERIAL[0]}}<span v-if="scope.row.is_msglv2_GR9SERIAL==1" class="cellColor">*</span></span>
             </el-popover>
           </template>
         </el-table-column>
@@ -889,7 +889,7 @@
                   <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
                 </el-row>
               </div>
-              <span slot="reference">{{scope.row.iftlv3_content[0]}}<span v-if="scope.row.is_iftlv3_content==1" class="cellColor">*</span></span>
+              <span slot="reference">{{(scope.row.iftlv3_content==undefined||scope.row.iftlv3_content.length==0)?'':scope.row.iftlv3_content[0]}}<span v-if="scope.row.is_iftlv3_content==1" class="cellColor">*</span></span>
             </el-popover>
           </template>
         </el-table-column>
@@ -924,7 +924,7 @@
                   <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
                 </el-row>
               </div>
-              <span slot="reference">{{scope.row.tbddetailgr7_BAG_LICENSE_PLATE[0]}}<span v-if="scope.row.is_tbddetailgr7_BAG_LICENSE_PLATE==1" class="cellColor">*</span></span>
+              <span slot="reference">{{(scope.row.tbddetailgr7_BAG_LICENSE_PLATE==undefined||scope.row.tbddetailgr7_BAG_LICENSE_PLATE.length==0)?'':scope.row.tbddetailgr7_BAG_LICENSE_PLATE[0]}}<span v-if="scope.row.is_tbddetailgr7_BAG_LICENSE_PLATE==1" class="cellColor">*</span></span>
             </el-popover>
           </template>
         </el-table-column>
@@ -945,7 +945,7 @@
                   <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
                 </el-row>
               </div>
-              <span slot="reference">{{scope.row.tbddetailgr7_CONSECUTIVE_TAGS_SERIAL_NUM[0]}}<span v-if="scope.row.is_tbddetailgr7_CONSECUTIVE_TAGS_SERIAL_NUM==1" class="cellColor">*</span></span>
+              <span slot="reference">{{(scope.row.tbddetailgr7_CONSECUTIVE_TAGS_SERIAL_NUM==undefined||scope.row.tbddetailgr7_CONSECUTIVE_TAGS_SERIAL_NUM.length==0)?'':scope.row.tbddetailgr7_CONSECUTIVE_TAGS_SERIAL_NUM[0]}}<span v-if="scope.row.is_tbddetailgr7_CONSECUTIVE_TAGS_SERIAL_NUM==1" class="cellColor">*</span></span>
             </el-popover>
           </template>
         </el-table-column>
@@ -966,7 +966,7 @@
                   <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
                 </el-row>
               </div>
-              <span slot="reference">{{scope.row.tbddetailgr7_PLACE_OF_DESTINATION[0]}}<span v-if="scope.row.is_tbddetailgr7_PLACE_OF_DESTINATION==1" class="cellColor">*</span></span>
+              <span slot="reference">{{(scope.row.tbddetailgr7_PLACE_OF_DESTINATION==undefined||scope.row.tbddetailgr7_PLACE_OF_DESTINATION.length==0)?'':scope.row.tbddetailgr7_PLACE_OF_DESTINATION[0]}}<span v-if="scope.row.is_tbddetailgr7_PLACE_OF_DESTINATION==1" class="cellColor">*</span></span>
             </el-popover>
           </template>
         </el-table-column>
@@ -994,7 +994,7 @@
                   <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
                 </el-row>
               </div>
-              <span slot="reference">{{scope.row.ftilv2_Frequent_T_Idenification[0]}}<span v-if="scope.row.is_ftilv2_Frequent_T_Idenification==1" class="cellColor">*</span></span>
+              <span slot="reference">{{(scope.row.ftilv2_Frequent_T_Idenification==undefined||scope.row.ftilv2_Frequent_T_Idenification.length==0)?'':scope.row.ftilv2_Frequent_T_Idenification[0]}}<span v-if="scope.row.is_ftilv2_Frequent_T_Idenification==1" class="cellColor">*</span></span>
             </el-popover>
           </template>
         </el-table-column>
@@ -1015,7 +1015,7 @@
                   <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
                 </el-row>
               </div>
-              <span slot="reference">{{scope.row.ftilv2_Membership_Level[0]}}<span v-if="scope.row.is_ftilv2_Membership_Level==1" class="cellColor">*</span></span>
+              <span slot="reference">{{(scope.row.ftilv2_Membership_Level==undefined||scope.row.ftilv2_Membership_Level.length==0)?'':scope.row.ftilv2_Membership_Level[0]}}<span v-if="scope.row.is_ftilv2_Membership_Level==1" class="cellColor">*</span></span>
             </el-popover>
           </template>
         </el-table-column>
@@ -1036,7 +1036,7 @@
                   <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
                 </el-row>
               </div>
-              <span slot="reference">{{scope.row.monlv4_Monetary_amount_type[0]}}<span v-if="scope.row.is_monlv4_Monetary_amount_type==1" class="cellColor">*</span></span>
+              <span slot="reference">{{(scope.row.monlv4_Monetary_amount_type==undefined||scope.row.monlv4_Monetary_amount_type.length==0)?'':scope.row.monlv4_Monetary_amount_type[0]}}<span v-if="scope.row.is_monlv4_Monetary_amount_type==1" class="cellColor">*</span></span>
             </el-popover>
           </template>
         </el-table-column>
@@ -1057,7 +1057,7 @@
                   <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
                 </el-row>
               </div>
-              <span slot="reference">{{scope.row.monlv4_Amount[0]}}<span v-if="scope.row.is_monlv4_Amount==1" class="cellColor">*</span></span>
+              <span slot="reference">{{(scope.row.monlv4_Amount==undefined||scope.row.monlv4_Amount.length==0)?'':scope.row.monlv4_Amount[0]}}<span v-if="scope.row.is_monlv4_Amount==1" class="cellColor">*</span></span>
             </el-popover>
           </template>
         </el-table-column>
@@ -1078,7 +1078,7 @@
                   <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
                 </el-row>
               </div>
-              <span slot="reference">{{scope.row.monlv4_Currency[0]}}<span v-if="scope.row.is_monlv4_Currency==1" class="cellColor">*</span></span>
+              <span slot="reference">{{(scope.row.monlv4_Currency==undefined||scope.row.monlv4_Currency.length==0)?'':scope.row.monlv4_Currency[0]}}<span v-if="scope.row.is_monlv4_Currency==1" class="cellColor">*</span></span>
             </el-popover>
           </template>
         </el-table-column>
@@ -1099,7 +1099,7 @@
                   <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
                 </el-row>
               </div>
-              <span slot="reference">{{scope.row.txdlv4_Tax_Amount[0]}}<span v-if="scope.row.is_txdlv4_Tax_Amount==1" class="cellColor">*</span></span>
+              <span slot="reference">{{(scope.row.txdlv4_Tax_Amount==undefined||scope.row.txdlv4_Tax_Amount.length==0)?'':scope.row.txdlv4_Tax_Amount[0]}}<span v-if="scope.row.is_txdlv4_Tax_Amount==1" class="cellColor">*</span></span>
             </el-popover>
           </template>
         </el-table-column>
@@ -1120,7 +1120,7 @@
                   <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
                 </el-row>
               </div>
-              <span slot="reference">{{scope.row.txdlv4_Currency[0]}}<span v-if="scope.row.is_txdlv4_Currency==1" class="cellColor">*</span></span>
+              <span slot="reference">{{(scope.row.txdlv4_Currency==undefined||scope.row.txdlv4_Currency.length==0)?'':scope.row.txdlv4_Currency[0]}}<span v-if="scope.row.is_txdlv4_Currency==1" class="cellColor">*</span></span>
             </el-popover>
           </template>
         </el-table-column>
@@ -1141,7 +1141,7 @@
                   <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
                 </el-row>
               </div>
-              <span slot="reference">{{scope.row.txdlv4_Tax_Type[0]}}<span v-if="scope.row.is_txdlv4_Tax_Type==1" class="cellColor">*</span></span>
+              <span slot="reference">{{(scope.row.txdlv4_Tax_Type==undefined||scope.row.txdlv4_Tax_Type.length==0)?'':scope.row.txdlv4_Tax_Type[0]}}<span v-if="scope.row.is_txdlv4_Tax_Type==1" class="cellColor">*</span></span>
             </el-popover>
           </template>
         </el-table-column>
@@ -1169,7 +1169,7 @@
                   <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
                 </el-row>
               </div>
-              <span slot="reference">{{scope.row.ssrlv3_SPECIAL_REQUIREMENT_TYPE[0]}}<span v-if="scope.row.is_ssrlv3_SPECIAL_REQUIREMENT_TYPE==1" class="cellColor">*</span></span>
+              <span slot="reference">{{(scope.row.ssrlv3_SPECIAL_REQUIREMENT_TYPE==undefined||scope.row.ssrlv3_SPECIAL_REQUIREMENT_TYPE.length==0)?'':scope.row.ssrlv3_SPECIAL_REQUIREMENT_TYPE[0]}}<span v-if="scope.row.is_ssrlv3_SPECIAL_REQUIREMENT_TYPE==1" class="cellColor">*</span></span>
             </el-popover>
           </template>
         </el-table-column>
@@ -1190,7 +1190,7 @@
                   <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
                 </el-row>
               </div>
-              <span slot="reference">{{scope.row.ssrlv3_FREETXT[0]}}<span v-if="scope.row.is_ssrlv3_FREETXT==1" class="cellColor">*</span></span>
+              <span slot="reference">{{(scope.row.ssrlv3_FREETXT==undefined||scope.row.ssrlv3_FREETXT.length==0)?'':scope.row.ssrlv3_FREETXT[0]}}<span v-if="scope.row.is_ssrlv3_FREETXT==1" class="cellColor">*</span></span>
             </el-popover>
           </template>
         </el-table-column>
@@ -1218,7 +1218,7 @@
                   <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
                 </el-row>
               </div>
-              <span slot="reference">{{scope.row.ssrlv2_SPECIAL_REQUIREMENT_TYPE[0]}}<span v-if="scope.row.is_ssrlv2_SPECIAL_REQUIREMENT_TYPE==1" class="cellColor">*</span></span>
+              <span slot="reference">{{(scope.row.ssrlv2_SPECIAL_REQUIREMENT_TYPE==undefined||scope.row.ssrlv2_SPECIAL_REQUIREMENT_TYPE.length==0)?'':scope.row.ssrlv2_SPECIAL_REQUIREMENT_TYPE[0]}}<span v-if="scope.row.is_ssrlv2_SPECIAL_REQUIREMENT_TYPE==1" class="cellColor">*</span></span>
             </el-popover>
           </template>
         </el-table-column>
@@ -1239,7 +1239,7 @@
                   <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
                 </el-row>
               </div>
-              <span slot="reference">{{scope.row.ssrlv2_FREETXT[0]}}<span v-if="scope.row.is_ssrlv2_FREETXT==1" class="cellColor">*</span></span>
+              <span slot="reference">{{(scope.row.ssrlv2_FREETXT==undefined||scope.row.ssrlv2_FREETXT.length==0)?'':scope.row.ssrlv2_FREETXT[0]}}<span v-if="scope.row.is_ssrlv2_FREETXT==1" class="cellColor">*</span></span>
             </el-popover>
           </template>
         </el-table-column>
@@ -1267,7 +1267,7 @@
                   <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
                 </el-row>
               </div>
-              <span slot="reference">{{scope.row.tifchangegr11_Passenger_type[0]}}<span v-if="scope.row.is_tifchangegr11_Passenger_type==1" class="cellColor">*</span></span>
+              <span slot="reference">{{(scope.row.tifchangegr11_Passenger_type==undefined||scope.row.tifchangegr11_Passenger_type.length==0)?'':scope.row.tifchangegr11_Passenger_type[0]}}<span v-if="scope.row.is_tifchangegr11_Passenger_type==1" class="cellColor">*</span></span>
             </el-popover>
           </template>
         </el-table-column>
@@ -1295,7 +1295,7 @@
                   <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
                 </el-row>
               </div>
-              <span slot="reference">{{scope.row.tifchangegr11_OTHER_NAMES[0]}}<span v-if="scope.row.is_tifchangegr11_OTHER_NAMES==1" class="cellColor">*</span></span>
+              <span slot="reference">{{(scope.row.tifchangegr11_OTHER_NAMES==undefined||scope.row.tifchangegr11_OTHER_NAMES.length==0)?'':scope.row.tifchangegr11_OTHER_NAMES[0]}}<span v-if="scope.row.is_tifchangegr11_OTHER_NAMES==1" class="cellColor">*</span></span>
             </el-popover>
           </template>
         </el-table-column>
@@ -1316,7 +1316,7 @@
                   <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
                 </el-row>
               </div>
-              <span slot="reference">{{scope.row.tifchangegr11_TRAVELLER_A_BY_INFANT_ID[0]}}<span v-if="scope.row.is_tifchangegr11_TRAVELLER_A_BY_INFANT_ID==1" class="cellColor">*</span></span>
+              <span slot="reference">{{(scope.row.tifchangegr11_TRAVELLER_A_BY_INFANT_ID==undefined||scope.row.tifchangegr11_TRAVELLER_A_BY_INFANT_ID.length==0)?'':scope.row.tifchangegr11_TRAVELLER_A_BY_INFANT_ID[0]}}<span v-if="scope.row.is_tifchangegr11_TRAVELLER_A_BY_INFANT_ID==1" class="cellColor">*</span></span>
             </el-popover>
           </template>
         </el-table-column>
@@ -1337,7 +1337,7 @@
                   <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
                 </el-row>
               </div>
-              <span slot="reference">{{scope.row.tifchangegr11_SPECIAL_REQUIREMENT_TYPE[0]}}<span v-if="scope.row.is_tifchangegr11_SPECIAL_REQUIREMENT_TYPE==1" class="cellColor">*</span></span>
+              <span slot="reference">{{(scope.row.tifchangegr11_SPECIAL_REQUIREMENT_TYPE==undefined||scope.row.tifchangegr11_SPECIAL_REQUIREMENT_TYPE.length==0)?'':scope.row.tifchangegr11_SPECIAL_REQUIREMENT_TYPE[0]}}<span v-if="scope.row.is_tifchangegr11_SPECIAL_REQUIREMENT_TYPE==1" class="cellColor">*</span></span>
             </el-popover>
           </template>
         </el-table-column>
@@ -1358,7 +1358,7 @@
                   <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
                 </el-row>
               </div>
-              <span slot="reference">{{scope.row.tifchangegr11_ssrfreetxt[0]}}<span v-if="scope.row.is_tifchangegr11_ssrfreetxt==1" class="cellColor">*</span></span>
+              <span slot="reference">{{(scope.row.tifchangegr11_ssrfreetxt==undefined||scope.row.tifchangegr11_ssrfreetxt.length==0)?'':scope.row.tifchangegr11_ssrfreetxt[0]}}<span v-if="scope.row.is_tifchangegr11_ssrfreetxt==1" class="cellColor">*</span></span>
             </el-popover>
           </template>
         </el-table-column>
@@ -1379,7 +1379,7 @@
                   <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
                 </el-row>
               </div>
-              <span slot="reference">{{scope.row.tifchangegr11_Status_Code[0]}}<span v-if="scope.row.is_tifchangegr11_Status_Code==1" class="cellColor">*</span></span>
+              <span slot="reference">{{(scope.row.tifchangegr11_Status_Code==undefined||scope.row.tifchangegr11_Status_Code.length==0)?'':scope.row.tifchangegr11_Status_Code[0]}}<span v-if="scope.row.is_tifchangegr11_Status_Code==1" class="cellColor">*</span></span>
             </el-popover>
           </template>
         </el-table-column>
@@ -1407,7 +1407,7 @@
                   <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
                 </el-row>
               </div>
-              <span slot="reference">{{scope.row.tvlgr12_MARKETING_FLIGHT_NUMBER[0]}}<span v-if="scope.row.is_tvlgr12_MARKETING_FLIGHT_NUMBER==1" class="cellColor">*</span></span>
+              <span slot="reference">{{(scope.row.tvlgr12_MARKETING_FLIGHT_NUMBER==undefined||scope.row.tvlgr12_MARKETING_FLIGHT_NUMBER.length==0)?'':scope.row.tvlgr12_MARKETING_FLIGHT_NUMBER[0]}}<span v-if="scope.row.is_tvlgr12_MARKETING_FLIGHT_NUMBER==1" class="cellColor">*</span></span>
             </el-popover>
           </template>
         </el-table-column>
@@ -1428,7 +1428,7 @@
                   <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
                 </el-row>
               </div>
-              <span slot="reference">{{scope.row.tvlgr12_MARKETING_AIRLINE_CODE[0]}}<span v-if="scope.row.is_tvlgr12_MARKETING_AIRLINE_CODE==1" class="cellColor">*</span></span>
+              <span slot="reference">{{(scope.row.tvlgr12_MARKETING_AIRLINE_CODE==undefined||scope.row.tvlgr12_MARKETING_AIRLINE_CODE.length==0)?'':scope.row.tvlgr12_MARKETING_AIRLINE_CODE[0]}}<span v-if="scope.row.is_tvlgr12_MARKETING_AIRLINE_CODE==1" class="cellColor">*</span></span>
             </el-popover>
           </template>
         </el-table-column>
@@ -1449,7 +1449,7 @@
                   <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
                 </el-row>
               </div>
-              <span slot="reference">{{scope.row.tvlgr12_DEPARTURE_DATE[0]}}<span v-if="scope.row.is_tvlgr12_DEPARTURE_DATE==1" class="cellColor">*</span></span>
+              <span slot="reference">{{(scope.row.tvlgr12_DEPARTURE_DATE==undefined||scope.row.tvlgr12_DEPARTURE_DATE.length==0)?'':scope.row.tvlgr12_DEPARTURE_DATE[0]}}<span v-if="scope.row.is_tvlgr12_DEPARTURE_DATE==1" class="cellColor">*</span></span>
             </el-popover>
           </template>
         </el-table-column>
@@ -1470,7 +1470,7 @@
                   <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
                 </el-row>
               </div>
-              <span slot="reference">{{scope.row.tvlgr12_ARRIVAL_DATE[0]}}<span v-if="scope.row.is_tvlgr12_ARRIVAL_DATE==1" class="cellColor">*</span></span>
+              <span slot="reference">{{(scope.row.tvlgr12_ARRIVAL_DATE==undefined||scope.row.tvlgr12_ARRIVAL_DATE.length==0)?'':scope.row.tvlgr12_ARRIVAL_DATE[0]}}<span v-if="scope.row.is_tvlgr12_ARRIVAL_DATE==1" class="cellColor">*</span></span>
             </el-popover>
           </template>
         </el-table-column>
@@ -1491,7 +1491,7 @@
                   <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
                 </el-row>
               </div>
-              <span slot="reference">{{scope.row.tvlgr12_THE_LAST_DEPARTURE_AIRPORT[0]}}<span v-if="scope.row.is_tvlgr12_THE_LAST_DEPARTURE_AIRPORT==1" class="cellColor">*</span></span>
+              <span slot="reference">{{(scope.row.tvlgr12_THE_LAST_DEPARTURE_AIRPORT==undefined||scope.row.tvlgr12_THE_LAST_DEPARTURE_AIRPORT.length==0)?'':scope.row.tvlgr12_THE_LAST_DEPARTURE_AIRPORT[0]}}<span v-if="scope.row.is_tvlgr12_THE_LAST_DEPARTURE_AIRPORT==1" class="cellColor">*</span></span>
             </el-popover>
           </template>
         </el-table-column>
@@ -1512,7 +1512,7 @@
                   <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
                 </el-row>
               </div>
-              <span slot="reference">{{scope.row.tvlgr12_THE_FIRST_ARRIVAL_AIRPORT[0]}}<span v-if="scope.row.is_tvlgr12_THE_FIRST_ARRIVAL_AIRPORT==1" class="cellColor">*</span></span>
+              <span slot="reference">{{(scope.row.tvlgr12_THE_FIRST_ARRIVAL_AIRPORT==undefined||scope.row.tvlgr12_THE_FIRST_ARRIVAL_AIRPORT.length==0)?'':scope.row.tvlgr12_THE_FIRST_ARRIVAL_AIRPORT[0]}}<span v-if="scope.row.is_tvlgr12_THE_FIRST_ARRIVAL_AIRPORT==1" class="cellColor">*</span></span>
             </el-popover>
           </template>
         </el-table-column>
@@ -1533,7 +1533,7 @@
                   <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
                 </el-row>
               </div>
-              <span slot="reference">{{scope.row.abigr10_TRAVEL_AGENT_IDENTIFICATION[0]}}<span v-if="scope.row.is_abigr10_TRAVEL_AGENT_IDENTIFICATION==1" class="cellColor">*</span></span>
+              <span slot="reference">{{(scope.row.abigr10_TRAVEL_AGENT_IDENTIFICATION==undefined||scope.row.abigr10_TRAVEL_AGENT_IDENTIFICATION.length==0)?'':scope.row.abigr10_TRAVEL_AGENT_IDENTIFICATION[0]}}<span v-if="scope.row.is_abigr10_TRAVEL_AGENT_IDENTIFICATION==1" class="cellColor">*</span></span>
             </el-popover>
           </template>
         </el-table-column>
@@ -1554,7 +1554,7 @@
                   <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
                 </el-row>
               </div>
-              <span slot="reference">{{scope.row.abigr10_PLACE[0]}}<span v-if="scope.row.is_abigr10_PLACE==1" class="cellColor">*</span></span>
+              <span slot="reference">{{(scope.row.abigr10_PLACE==undefined||scope.row.abigr10_PLACE.length==0)?'':scope.row.abigr10_PLACE[0]}}<span v-if="scope.row.is_abigr10_PLACE==1" class="cellColor">*</span></span>
             </el-popover>
           </template>
         </el-table-column>
@@ -1575,7 +1575,7 @@
                   <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
                 </el-row>
               </div>
-              <span slot="reference">{{scope.row.abigr10_COMPANY_IDENTIFICATION[0]}}<span v-if="scope.row.is_abigr10_COMPANY_IDENTIFICATION==1" class="cellColor">*</span></span>
+              <span slot="reference">{{(scope.row.abigr10_COMPANY_IDENTIFICATION==undefined||scope.row.abigr10_COMPANY_IDENTIFICATION.length==0)?'':scope.row.abigr10_COMPANY_IDENTIFICATION[0]}}<span v-if="scope.row.is_abigr10_COMPANY_IDENTIFICATION==1" class="cellColor">*</span></span>
             </el-popover>
           </template>
         </el-table-column>
@@ -1596,7 +1596,7 @@
                   <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
                 </el-row>
               </div>
-              <span slot="reference">{{scope.row.eqngr8_NUMBER_OF_UNITS[0]}}<span v-if="scope.row.is_eqngr8_NUMBER_OF_UNITS==1" class="cellColor">*</span></span>
+              <span slot="reference">{{(scope.row.eqngr8_NUMBER_OF_UNITS==undefined||scope.row.eqngr8_NUMBER_OF_UNITS.length==0)?'':scope.row.eqngr8_NUMBER_OF_UNITS[0]}}<span v-if="scope.row.is_eqngr8_NUMBER_OF_UNITS==1" class="cellColor">*</span></span>
             </el-popover>
           </template>
         </el-table-column>
@@ -1617,7 +1617,7 @@
                   <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
                 </el-row>
               </div>
-              <span slot="reference">{{scope.row.rcigr8_COMPANY_IDENTIFICATION[0]}}<span v-if="scope.row.is_rcigr8_COMPANY_IDENTIFICATION==1" class="cellColor">*</span></span>
+              <span slot="reference">{{(scope.row.rcigr8_COMPANY_IDENTIFICATION==undefined||scope.row.rcigr8_COMPANY_IDENTIFICATION.length==0)?'':scope.row.rcigr8_COMPANY_IDENTIFICATION[0]}}<span v-if="scope.row.is_rcigr8_COMPANY_IDENTIFICATION==1" class="cellColor">*</span></span>
             </el-popover>
           </template>
         </el-table-column>
@@ -1638,7 +1638,7 @@
                   <el-col :span="24"><div class="tipDetail">{{i}}</div></el-col>
                 </el-row>
               </div>
-              <span slot="reference">{{scope.row.rcigr8_RESERVATION_CONTROL_NUMBER[0]}}<span v-if="scope.row.is_rcigr8_RESERVATION_CONTROL_NUMBER==1" class="cellColor">*</span></span>
+              <span slot="reference">{{(scope.row.rcigr8_RESERVATION_CONTROL_NUMBER==undefined||scope.row.rcigr8_RESERVATION_CONTROL_NUMBER.length==0)?'':scope.row.rcigr8_RESERVATION_CONTROL_NUMBER[0]}}<span v-if="scope.row.is_rcigr8_RESERVATION_CONTROL_NUMBER==1" class="cellColor">*</span></span>
             </el-popover>
           </template>
         </el-table-column>
@@ -2125,8 +2125,8 @@ export default {
       itemHis:'',
       showConfiglist:[],
       //pnr展示
-      checkListPnr:['pnrName','PNR_GENDER','pnrBirthdayName','pnrNationaName','PNR_PASSPORTNO','PNR_CARDEXPIREDATESTR','PNR_FLTNO','PNR_FLTDATE1STR','PNR_FLTTYPE','pnrCityfromName','pnrCitytoName','PNR_DEPARTDATESTR','PNR_ARRIVDATESTR','PNR_TKTNUMBER','PNR_RCI','PNR_RCIDATE','PNR_SPECIFIGSEAT'],
-      checkListPnrHc:['pnrName','PNR_GENDER','pnrBirthdayName','pnrNationaName','PNR_PASSPORTNO','PNR_CARDEXPIREDATESTR','PNR_FLTNO','PNR_FLTDATE1STR','PNR_FLTTYPE','pnrCityfromName','pnrCitytoName','PNR_DEPARTDATESTR','PNR_ARRIVDATESTR','PNR_TKTNUMBER','PNR_RCI','PNR_RCIDATE','PNR_SPECIFIGSEAT'],
+      checkListPnr:['pnrName','PNR_GENDER','pnrBirthdayName','pnrNationaName','PNR_PASSPORTNO','PNR_CARDEXPIREDATESTR','PNR_FLTNO','PNR_FLTDATE1STR','PNR_FLTTYPE','pnrCityfromName','pnrCitytoName','PNR_DEPARTDATESTR','PNR_ARRIVDATESTR','PNR_TKTNUMBER','PNR_RCI','PNR_RCIDATESTR','PNR_SPECIFIGSEAT'],
+      checkListPnrHc:['pnrName','PNR_GENDER','pnrBirthdayName','pnrNationaName','PNR_PASSPORTNO','PNR_CARDEXPIREDATESTR','PNR_FLTNO','PNR_FLTDATE1STR','PNR_FLTTYPE','pnrCityfromName','pnrCitytoName','PNR_DEPARTDATESTR','PNR_ARRIVDATESTR','PNR_TKTNUMBER','PNR_RCI','PNR_RCIDATESTR','PNR_SPECIFIGSEAT'],
       showConfigPnr:[],
       showConfiglistPnr:[],
       //iapi表格数据
@@ -3018,6 +3018,7 @@ export default {
                 })
              }
              this.tableDataPnr = arrTable;
+             console.log(this.tableDataPnr);
            }
            this.$api.post2('/manage-platform/iapiHead/customPnrQueryCount',sqlp,
             r =>{
@@ -3323,7 +3324,7 @@ export default {
             if(this.bigBase==7){
               this.checkList = ['iapiName','INTG_CHNNAME','GENDER','iapiBirthdayName','iapiNationaName','PASSPORTNO','FLTNO','FLTDATESTR','FLIGHTTYPE'];
             }else if(this.bigBase==8){
-              this.checkListPnr = ['pnrName','PNR_GENDER','pnrBirthdayName','pnrNationaName','PNR_PASSPORTNO','PNR_CARDEXPIREDATESTR','PNR_FLTNO','PNR_FLTDATE1STR','PNR_FLTTYPE','pnrCityfromName','pnrCitytoName','PNR_DEPARTDATESTR','PNR_ARRIVDATESTR','PNR_TKTNUMBER','PNR_RCI','PNR_RCIDATE','PNR_SPECIFIGSEAT']
+              this.checkListPnr = ['pnrName','PNR_GENDER','pnrBirthdayName','pnrNationaName','PNR_PASSPORTNO','PNR_CARDEXPIREDATESTR','PNR_FLTNO','PNR_FLTDATE1STR','PNR_FLTTYPE','pnrCityfromName','pnrCitytoName','PNR_DEPARTDATESTR','PNR_ARRIVDATESTR','PNR_TKTNUMBER','PNR_RCI','PNR_RCIDATESTR','PNR_SPECIFIGSEAT']
             }
           }else{
             for(var i=0;i<arr.length;i++){

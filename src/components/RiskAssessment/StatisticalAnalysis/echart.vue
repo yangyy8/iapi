@@ -16,20 +16,8 @@ export default {
     }
   },
   watch: {
-    chartDatas:{
-      handler:function(newVal,oldVal){
-        console.log(newVal,oldVal)
-        this.chartdatas = newVal;  //newVal即是chartData
-        if (!this.liangChart) {
-          return;
-        }
-        this.liangChart.dispose();
-        this.liangChart = null;
-        this.drawLiang();
-      },
-      deep:true
-    }
-    // chartDatas:function(newVal,oldVal){
+    // chartDatas:{
+    //   handler:function(newVal,oldVal){
     //     console.log(newVal,oldVal)
     //     this.chartdatas = newVal;  //newVal即是chartData
     //     if (!this.liangChart) {
@@ -38,7 +26,19 @@ export default {
     //     this.liangChart.dispose();
     //     this.liangChart = null;
     //     this.drawLiang();
+    //   },
+    //   deep:true
     // }
+    chartDatas:function(newVal,oldVal){
+        console.log(newVal,oldVal)
+        this.chartdatas = newVal;  //newVal即是chartData
+        if (!this.liangChart) {
+          return;
+        }
+        this.liangChart.dispose();
+        this.liangChart = null;
+        this.drawLiang();
+    }
   },
   props:{
     'chartDatas':{
@@ -59,6 +59,9 @@ export default {
       // console.log(this.chartsId);
       this.liangChart = echarts.init(document.getElementById(this.chartsId));
       window.onresize = echarts.init(document.getElementById(this.chartsId)).resize;
+      // window.addEventListener("resize",function(){
+      // 	 this.liangChart.resize();
+      // });
       let _this=this
       let color=['rgba(110,180,252,0.7)', 'rgba(244,173,57,0.7)', 'rgba(52,182,180,0.7)']
       // let arr=_this.chartdatas.series
@@ -76,10 +79,10 @@ export default {
         toolbox: {
             show : true,
             feature : {
-                saveAsImage : {show: true},
                 mark : {show: true},
+                saveAsImage : {show: true},
                 // dataView : {show: true, readOnly: false},
-                magicType : {show: true, type: ['line', 'bar']},
+                magicType : {show: true, type: ['bar', 'line']},
                 restore : {show: true},
             }
         },
@@ -89,24 +92,46 @@ export default {
         xAxis : [
             {
                 type : 'category',
+                boundaryGap: true,
                 data : _this.chartdatas.xAxisData
             },
             {
                 type : 'category',
+                boundaryGap: false,
                 axisLine: {show:false},
                 axisTick: {show:false},
                 axisLabel: {show:false},
                 splitArea: {show:false},
                 splitLine: {show:false},
+                axisPointer: {
+                  type: 'none'
+                },
                 data : _this.chartdatas.xAxisData
             },
             {
                 type : 'category',
+                boundaryGap: false,
                 axisLine: {show:false},
                 axisTick: {show:false},
                 axisLabel: {show:false},
                 splitArea: {show:false},
                 splitLine: {show:false},
+                axisPointer: {
+                  type: 'none'
+                },
+                data : _this.chartdatas.xAxisData
+            },
+            {
+                type : 'category',
+                boundaryGap: false,
+                axisLine: {show:false},
+                axisTick: {show:false},
+                axisLabel: {show:false},
+                splitArea: {show:false},
+                splitLine: {show:false},
+                axisPointer: {
+                  type: 'none'
+                },
                 data : _this.chartdatas.xAxisData
             }
 

@@ -17,6 +17,18 @@
                 <el-option label="2 - 其他" value="2"></el-option>
               </el-select>
             </el-col>
+            <el-col  :sm="24" :md="12" :lg="8"  class="input-item my-form-group" data-scope="txl" data-name="AIRLINE_CODE" data-type="select"
+            v-validate-easy="[['required']]" v-if="entity.CONSULTFROM=='0'">
+              <span class="input-text"><i class="t-must">*</i>航空公司：</span>
+              <el-select v-model="entity.AIRLINE_CODE" filterable clearable placeholder="请选择" size="small" class="input-input" @visible-change="applicationMethod">
+                <el-option
+                v-for="item in application"
+                :key="item.AIRLINE_CODE"
+                :value="item.AIRLINE_CODE"
+                :label="item.AIRLINE_CODE+' - '+item.AIRLINE_CHN_NAME">
+                </el-option>
+              </el-select>
+            </el-col>
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item my-form-group" v-if="entity.CONSULTFROM == '0'||entity.CONSULTFROM == ''||entity.CONSULTFROM == undefined"
             data-scope="txl" data-name="TERMINAL" data-type="select"
             v-validate-easy="[['required']]">
@@ -129,11 +141,11 @@
               <span class="input-text">航班日期：</span>
               <el-date-picker
                 v-model="pd.DEPARTDATE"
-                type="datetime" size="small"
+                type="date" size="small"
                 placeholder="航班日期"
-                format="yyyy-MM-dd HH:mm"
+                format="yyyy-MM-dd"
                 class="input-input"
-                value-format="yyyyMMddHHmm">
+                value-format="yyyyMMdd">
             </el-date-picker>
             </el-col>
           </el-row>
@@ -306,9 +318,12 @@ export default {
       pageSize: 10,
       TotalResult: 0,
 
+      application:[],
       entity:{},
       takeOffName:[],
-      pd: {},
+      pd: {
+        DEPARTDATE:''
+      },
       selection:[],
       CONSULTTYPE:0,//咨询问题类型
       detailsRow:{},//旅客校验录入详情本行数据
@@ -355,15 +370,22 @@ export default {
     }
   },
   mounted() {
-    this.V.$reset('txl');
     this.baseNation();
+    this.pd.DEPARTDATE = formatDate(new Date(),'yyyyMMdd');
     this.currentDate=formatDate(new Date(),'yyyy-MM-dd');
   },
   activated() {
-    this.V.$reset('txl');
     this.currentDate=formatDate(new Date(),'yyyy-MM-dd');
   },
   methods: {
+    applicationMethod(){
+      this.$api.post('/manage-platform/codeTable/queryAircompanyList',{},
+       r =>{
+         if(r.success){
+           this.application = r.data;
+         }
+       })
+    },
     headerClick(column,event){
       event.target.title=column.label
     },
@@ -438,6 +460,17 @@ export default {
          };
        })
     },
+    appZhuan(item){
+      if(this.application.length!=0){
+        for(var i=0;i<this.application.length;i++){
+          if(item == this.application[i].AIRLINE_CODE){
+            return this.application[i].AIRLINE_CHN_NAME+'-'+this.application[i].AIRLINE_ENG_NAME
+          }
+        }
+      }else{
+        return ''
+      }
+    },
     guestSave(){
       if(this.enterText == '回复'){
         this.detailsDialogVisible = false;
@@ -474,6 +507,14 @@ export default {
            this.detailsRow.CONSULTFAX = this.entity.CONSULTFAX;
            this.detailsRow.CONSULTEMAIL= this.entity.CONSULTEMAIL;
            this.detailsRow.CONSULTFROMOTHERREMARK = this.entity.CONSULTFROMOTHERREMARK;
+           this.detailsRow.AIRLINE_CODE = this.entity.AIRLINE_CODE;
+           if(this.entity.AIRLINE_CODE!=''){
+             this.detailsRow.AIRLINE_CHN_NAME = this.appZhuan(this.entity.AIRLINE_CODE).split('-')[0];
+             this.detailsRow.AIRLINE_ENG_NAME = this.appZhuan(this.entity.AIRLINE_CODE).split('-')[1];
+           }else{
+             this.detailsRow.AIRLINE_CHN_NAME='';
+             this.detailsRow.AIRLINE_ENG_NAME='';
+           }
            this.$api.post('/manage-platform/consult/saveConsult',this.detailsRow,
              r => {
                if(r.success){
@@ -492,16 +533,12 @@ export default {
       }
     },
     entryDetails(row){//列表录入详情
-     this.V.$submit('txl', (canSumit,data) => {
-       // canSumit为true时，则所有该scope的所有表单验证通过
-       if(!canSumit) return
        this.enterText = '保存';
        this.detailText = '录入详情';
        this.DETAILS="";
        this.detailsDialogVisible = true;
        this.detailsRow = row;
        this.detailsRow1 = row;
-     })
     },
     // reviewTohis(row){//列表回复
     //   console.log(this.tableData);

@@ -787,7 +787,7 @@
           v-if="checkListPnr.indexOf(checkItemPnr[13].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
-          prop="PNR_RCIDATE"
+          prop="PNR_RCIDATESTR"
           label="订票时间"
           min-width="150"
           sortable='custom'
@@ -1553,7 +1553,7 @@ export default {
           LABEL:'证件有效期',
         },
         {
-          ITEMNAME:'PNR_RCIDATE',
+          ITEMNAME:'PNR_RCIDATESTR',
           LABEL:'订票时间',
         },
         {
