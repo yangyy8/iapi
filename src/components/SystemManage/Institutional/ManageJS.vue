@@ -438,8 +438,6 @@ export default {
             this.defaultChecked=r.data.checkList;
           }
         })
-
-
     },
     menuItem(){
 
