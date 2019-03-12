@@ -10,7 +10,10 @@
         <el-row align="center"   :gutter="2" class="pr-20">
           <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
             <span class="input-text">航班号：</span>
-            <el-input placeholder="请输入内容"  size="small" v-model="pd.flightNumberLike"   class="input-input"></el-input>
+            <div class="input-input t-fuzzy t-flex">
+              <el-input placeholder="请输入内容"  size="small" v-model="pd.flightNumberLike"   class="input-input"></el-input>
+              <el-checkbox v-model="pd.isFltnoLike">模糊查询</el-checkbox>
+            </div>
           </el-col>
           <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
           <span class="input-text"><font style="color:red">*</font> 航班日期：</span>
@@ -543,6 +546,7 @@ export default {
       page:0,
       pd: {
         "isBlurred":false,
+        isFltnoLike:false,
         departdateBegin:'',
         departdateEnd:'',
       },

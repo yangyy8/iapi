@@ -59,6 +59,9 @@ export default {
       // console.log(this.chartsId);
       this.liangChart = echarts.init(document.getElementById(this.chartsId));
       window.onresize = echarts.init(document.getElementById(this.chartsId)).resize;
+      // window.addEventListener("resize",function(){
+      // 	 this.liangChart.resize();
+      // });
       let _this=this
       let color=['rgba(110,180,252,0.7)', 'rgba(244,173,57,0.7)', 'rgba(52,182,180,0.7)']
       // let arr=_this.chartdatas.series
@@ -89,10 +92,12 @@ export default {
         xAxis : [
             {
                 type : 'category',
+                boundaryGap: true,
                 data : _this.chartdatas.xAxisData
             },
             {
                 type : 'category',
+                boundaryGap: false,
                 axisLine: {show:false},
                 axisTick: {show:false},
                 axisLabel: {show:false},
@@ -105,6 +110,7 @@ export default {
             },
             {
                 type : 'category',
+                boundaryGap: false,
                 axisLine: {show:false},
                 axisTick: {show:false},
                 axisLabel: {show:false},
@@ -117,6 +123,7 @@ export default {
             },
             {
                 type : 'category',
+                boundaryGap: false,
                 axisLine: {show:false},
                 axisTick: {show:false},
                 axisLabel: {show:false},

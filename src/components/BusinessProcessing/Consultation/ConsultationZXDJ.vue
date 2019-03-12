@@ -8,7 +8,7 @@
           </span>&nbsp;|&nbsp;
           <span>时间：{{currentDate}}</span>
           <el-row align="center" :gutter="2" style="margin-top:10px">
-            <el-col  :sm="24" :md="12" :lg="8"  class="input-item" data-scope="txl" data-name="CONSULTFROM" data-type="select"
+            <el-col  :sm="24" :md="12" :lg="8"  class="input-item my-form-group" data-scope="txl" data-name="CONSULTFROM" data-type="select"
             v-validate-easy="[['required']]">
               <span class="input-text"><i class="t-must">*</i>咨询来源：</span>
               <el-select v-model="entity.CONSULTFROM" filterable clearable placeholder="请选择" size="small" class="input-input">
