@@ -1036,6 +1036,9 @@
                     :show-overflow-tooltip="true"
                     label="证件号码"
                     prop="cert_no">
+                    <template slot-scope="scope">
+                      <span class="tc-b hand" @click="moreFn('box9',scope.row)">{{scope.row.cert_no}}</span>
+                    </template>
                   </el-table-column>
                   <el-table-column
                     :show-overflow-tooltip="true"
@@ -1045,7 +1048,7 @@
                   <el-table-column
                     :show-overflow-tooltip="true"
                     label="国籍/地区"
-                    prop="pers_name">
+                    prop="country_na">
                   </el-table-column>
                   <el-table-column
                     :show-overflow-tooltip="true"
@@ -2029,7 +2032,7 @@
         <el-button type="warning" @click="tagDialogVisible=false;tagCheckList=[];tagRemark=''" size="small">取消</el-button>
       </div>
     </el-dialog>
-    <el-dialog title="详情" :visible.sync="moreDialogVisible" width="640px">
+    <el-dialog title="详情" :visible.sync="moreDialogVisible" width="700px">
       <MoreDialog :more-data="moredata" :more-type="moreType"></MoreDialog>
       <!-- <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="TagSave" size="small">确认</el-button>
@@ -2109,7 +2112,7 @@ export default {
       data1:{particularsList:[]},
       data2:[],
       data3:[],
-      data4:[],
+      data4:{IAPI:{}},
       data4Show:false,
       data5:[],
       data6:[],
@@ -2242,7 +2245,7 @@ export default {
     this.nationality=this.$route.query.nationality;
     this.passportno=this.$route.query.passportno;
     this.idcard=this.$route.query.idcard;
-
+    this.gender=0;
     this.getUsers();
     this.getUserBaseInfo();
     this.getUserTagInfo();
@@ -2335,13 +2338,13 @@ export default {
       this.$api.post('/manage-platform/sysUserInfoController/querySysUserInfo',{},
        r => {
         this.user=r.data;
-        console.log(this.user.userId)
+        // console.log(this.user.userId)
         this.saveRiskQueryRecordLogInfo();
 
       })
     },
     saveRiskQueryRecordLogInfo(){
-      console.log(this.user.userId)
+      // console.log(this.user.userId)
       let p={
       	"nationality":this.nationality,
       	"passportno":this.passportno,
@@ -2363,8 +2366,15 @@ export default {
       this.$api.post('/manage-platform/riskRecordController/getUserBaseInfo',p,
        r => {
          this.data0=r.data;
+         if(r.data.GENDER=='M'){
+           this.gender=1
+         }else if(r.data.GENDER=='F'){
+           this.gender=2
+         }else{
+           this.gender=0
+         }
          this.getPhotoInf(r.data.PASSPORTNO,r.data.NATIONALITY,r.data.BIRTHDAY,r.data.NAME);
-         this.getRiskPersonnelForecasInfo();
+         // this.getRiskPersonnelForecasInfo();
          this.getRecordOtherInfo('num');
          this.getCRCCNumInfo();
          if(!this.idcard){
@@ -2401,7 +2411,7 @@ export default {
       }
       this.$api.post('/manage-platform/riskRecordController/getPhotoInf',p,
        r => {
-         console.log(r)
+         // console.log(r)
          this.imgURL=r.data.url||imgUrl;
       })
     },
@@ -2528,6 +2538,7 @@ export default {
     },
     // 人员预报信息
     getRiskPersonnelForecasInfo(){
+      console.log("---",this.data0.iapiHeadSerial)
       if(!this.data0.iapiHeadSerial){
         return
       }
@@ -2565,6 +2576,7 @@ export default {
     // 综合信息展示内容
     getRecordOtherInfo(type){
       let p={
+        "gender":this.gender,
         "nationality":this.nationality,
         "passportno":this.passportno,
         "birth":this.data0.BIRTHDAY,

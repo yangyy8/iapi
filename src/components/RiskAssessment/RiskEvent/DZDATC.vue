@@ -343,10 +343,98 @@
 
       </el-row>
     </div>
+    <div class="" v-if="moreType=='box9'">
+      <el-row style="line-height:32px;">
+        <el-col :span="12">
+          违法违规事件编号：{{moreData.evt_id}}
+        </el-col>
+        <el-col :span="12">
+          姓名：{{moreData.pers_name}}
+        </el-col>
+        <el-col :span="12">
+          性别：{{moreData.gender_na}}
+        </el-col>
+        <el-col :span="12">
+          出生日期：{{moreData.birth_date}}
+        </el-col>
+        <el-col :span="12">
+          国籍/地区：{{moreData.country_na}}
+        </el-col>
+        <el-col :span="12">
+          证件类型：{{moreData.cert_type_na}}
+        </el-col>
+        <el-col :span="12">
+          证件号码：{{moreData.cert_no}}
+        </el-col>
+        <el-col :span="12">
+          居住地行政区划：{{moreData.curr_region_na}}
+        </el-col>
+        <el-col :span="12">
+          人员类别：{{moreData.pers_imm_type_na}}
+        </el-col>
+        <el-col :span="12">
+          发证地行政区划：{{moreData.cert_region_na}}
+        </el-col>
+        <el-col :span="12">
+          原出入境日期：{{moreData.orig_imm_date}}
+        </el-col>
+        <el-col :span="12">
+          原出入口岸：{{moreData.orig_imm_port_na}}
+        </el-col>
+        <el-col :span="12">
+          出入境目的：{{moreData.imm_purpose}}
+        </el-col>
+        <el-col :span="12">
+          遣返遣送国家：{{moreData.repat_country_na}}
+        </el-col>
+        <el-col :span="12">
+          处理部门：{{moreData.deal_dept_na}}
+        </el-col>
+        <el-col :span="12">
+          查中标志：{{moreData.catch_flag}}
+        </el-col>
+        <el-col :span="12">
+          业务类型：{{moreData.repat_type}}
+        </el-col>
+        <el-col :span="12">
+          遣返遣送备注：{{moreData.repat_remarks}}
+        </el-col>
+        <el-col :span="12">
+          录入人：{{moreData.edit_oper}}
+        </el-col>
+        <el-col :span="12">
+          录入时间：{{moreData.edit_dt}}
+        </el-col>
+        <el-col :span="12">
+          交通标识：{{moreData.trs_id}}
+        </el-col>
+        <el-col :span="12">
+          处理结果描述：{{moreData.deal_rslt_desc}}
+        </el-col>
+        <el-col :span="12">
+          查获时间：{{moreData.seize_dt}}
+        </el-col>
+        <el-col :span="12">
+          第二姓名：{{moreData.second_name}}
+        </el-col>
+        <el-col :span="12">
+          第二出生日期：{{moreData.sec_birth_date}}
+        </el-col>
+        <el-col :span="12">
+          第二证件类型：{{moreData.sec_cert_type}}
+        </el-col>
+        <el-col :span="12">
+          第二证件号码：{{moreData.sec_cert_no}}
+        </el-col>
+        <el-col :span="12">
+          第二证类名称：{{moreData.sec_cert_type_na}}
+        </el-col>
+      </el-row>
+    </div>
     <div class="" v-if="moreType=='box10'">
       <el-row style="line-height:32px;">
         <el-col :span="12">
-          违法违规事件编号：{{moreData.ill_evt_id}}
+          事件编号：{{moreData.ill_evt_id}}
         </el-col>
         <el-col :span="12">
           姓名：{{moreData.name}}
