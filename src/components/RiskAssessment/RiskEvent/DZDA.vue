@@ -2081,6 +2081,7 @@ export default {
       nationality:'',
       passportno:'',
       idcard:'',
+      gender:'0',
       user:{},
       moreShow:false,
       box1:false,
@@ -2245,7 +2246,7 @@ export default {
     this.nationality=this.$route.query.nationality;
     this.passportno=this.$route.query.passportno;
     this.idcard=this.$route.query.idcard;
-    this.gender=0;
+    this.gender='0';
     this.getUsers();
     this.getUserBaseInfo();
     this.getUserTagInfo();
@@ -2366,12 +2367,12 @@ export default {
       this.$api.post('/manage-platform/riskRecordController/getUserBaseInfo',p,
        r => {
          this.data0=r.data;
-         if(r.data.GENDER=='M'){
-           this.gender=1
-         }else if(r.data.GENDER=='F'){
-           this.gender=2
+         if(r.data.GENDER_NAME=='男'){
+           this.gender='1'
+         }else if(r.data.GENDER_NAME=='女'){
+           this.gender='2'
          }else{
-           this.gender=0
+           this.gender='0'
          }
          this.getPhotoInf(r.data.PASSPORTNO,r.data.NATIONALITY,r.data.BIRTHDAY,r.data.NAME);
          // this.getRiskPersonnelForecasInfo();
