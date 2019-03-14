@@ -65,8 +65,9 @@
      border
      style="width: 100%;"
      class="mt-10 o-table3"
-@header-click="headerClick"
-  >
+     @header-click="headerClick"
+     :default-sort = "{prop: 'createtime', order: 'descending'}"
+      >
              <el-table-column
                label="区域" sortable
              >

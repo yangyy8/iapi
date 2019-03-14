@@ -1,10 +1,10 @@
 // 配置API接口地址
 
-// var root="http://192.168.99.206:8080"
+var root="http://192.168.99.206:8080"
 
  // var root=""
 
-var root="http://192.168.99.234:8080"
+// var root="http://192.168.99.234:8080"
 
 
 // var root="http://192.168.99.206:8080"
@@ -15,7 +15,7 @@ var root="http://192.168.99.234:8080"
 // var root="http://192.168.99.248:8081"
 // var root="http://192.168.99.247:8080"
 //var root="http://192.168.99.213:8080"   //服务器电脑
-//var root="http://192.168.99.228:8080"
+// var root="http://192.168.99.228:8080"
 // var root="http://10.6.126.138:8088" //正式环境
 // 引用axios
 var axios = require('axios')

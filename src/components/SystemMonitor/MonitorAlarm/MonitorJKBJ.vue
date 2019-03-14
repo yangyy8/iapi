@@ -82,7 +82,8 @@
      border
      style="width: 100%;"
      class="mt-10 o-table3"
- @header-click="headerClick">
+     @header-click="headerClick"
+     :default-sort = "{prop: 'CREATETIME', order: 'descending'}">
      <el-table-column
        label="所属系统"
        sortable>
@@ -380,7 +381,7 @@ export default {
 
         })
     },
-    
+
   },
 
   filters: {
