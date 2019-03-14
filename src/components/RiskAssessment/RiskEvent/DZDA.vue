@@ -944,7 +944,7 @@
                     :show-overflow-tooltip="true"
                     label="国籍/地区">
                     <template slot-scope="scope">
-                      <span>{{nationalityName}}</span>
+                      <span>{{scope.row.country_na}}</span>
                     </template>
                   </el-table-column>
                   <el-table-column
