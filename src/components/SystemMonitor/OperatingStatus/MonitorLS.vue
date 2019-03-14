@@ -4,7 +4,7 @@
     <div class="middle-top mb-2">
       <el-row type="flex" class="middle">
         <el-col :span="10" >
-          <el-button type="success" size="small" @click="getList(pd)">查询</el-button>
+          <el-button type="success" size="small" @click="getList()">查询</el-button>
         </el-col>
       </el-row>
     </div>
@@ -16,7 +16,7 @@
     border
     style="width: 100%;"
     class="mt-10 o-table3"
-@header-click="headerClick">
+    @header-click="headerClick">
     <el-table-column
       type="index"
       label="序号"
@@ -28,39 +28,41 @@
     </el-table-column>
 
     <el-table-column
-      prop="HOSTADDRESS"
+      prop="host"
       label="IP地址"
       sortable>
     </el-table-column>
     <el-table-column
-      prop="CPU"
+      prop="version"
       label="运行版本"
       sortable>
     </el-table-column>
     <el-table-column
-      prop="mPercent"
+      prop="heapMaxFormat"
       label="内存大小"
       sortable>
     </el-table-column>
     <el-table-column
-      prop="diskPercent"
+      prop="heapUsedFormat"
       label="已用内存"
       sortable>
     </el-table-column>
     <el-table-column
-      prop="netIn"
+      prop="heapUsedPercent"
       label="内存使用率"
       sortable>
     </el-table-column>
     <el-table-column
-      prop="netOut"
+      prop="cpuPercent"
       label="CPU使用率"
       sortable>
    </el-table-column>
     <el-table-column
-     label="是否运行" width="80" sortable>
+     prop="status"
+     label="是否运行"
+     sortable>
      <template slot-scope="scope">
-         <span :class="{'yycolor':scope.row.netStat=='0','yycolory':scope.row.netStat=='1'}">  {{scope.row.netStat | fiftersate }}</span>
+         <span>{{scope.row.status | fiftersate }}</span>
      </template>
     </el-table-column>
   </el-table>
@@ -72,8 +74,7 @@
      border
      style="width: 100%;"
      class="mt-10 o-table3"
-@header-click="headerClick">
-
+     @header-click="headerClick">
      <el-table-column
        type="index"
        label="序号"
@@ -84,51 +85,17 @@
        label="名称">
      </el-table-column>
      <el-table-column
-       prop="HOSTADDRESS"
+       prop="nodeName"
        label="所属节点"
        sortable>
      </el-table-column>
      <el-table-column
-       prop="CPU"
+       prop="typeName"
        label="类型"
        sortable>
      </el-table-column>
    </el-table>
     </div>
-
-    <el-dialog
-      title="详情"
-      :visible.sync="detailsDialogVisible"
-      >
-
-      <el-row  v-if="filesytem!=null" class="filearr">
-
-      <el-col :span="4" class="fileline">文件系统名称</el-col>
-      <el-col :span="4" class="fileline">挂载位置</el-col>
-      <el-col :span="4" class="fileline">该系统空间大小</el-col>
-      <el-col :span="4" class="fileline">已经使用的空间</el-col>
-        <el-col :span="4" class="fileline">剩余可用空间</el-col>
-      <el-col :span="4">使用率</el-col>
-     </el-row>
-     <el-row v-else class="filearrk">
-     <el-col :span="24">暂无数据</el-col>
-    </el-row>
-      <el-row v-for='(i,index) in filesytem' :key="index" class="filearr1">
-
-        <el-col :span="4" >{{i.fileSystem}}</el-col>
-        <el-col :span="4" >{{i.mount}}</el-col>
-        <el-col :span="4" >{{i.size}}</el-col>
-        <el-col :span="4" >{{i.used}}</el-col>
-          <el-col :span="4" >{{i.avail}}</el-col>
-        <el-col :span="4">{{i.usedPer}}</el-col>
-      </el-row>
-
-      <div slot="footer" class="dialog-footer">
-
-        <el-button @click="detailsDialogVisible = false" size="small">取消</el-button>
-
-      </div>
-    </el-dialog>
   </div>
 
 </template>
@@ -140,84 +107,37 @@ export default {
       pd: {},
       tableData: [],
       tableData1: [],
-      tableData2: [],
-      filesytem: "",
       title: [],
-      tableTitle: [],
-      detailsDialogVisible: false,
     }
   },
   mounted() {
-  //  this.getList();
+
   },
   created() {
-  //  this.getList();
-  },
 
-  // computed:{
-  //   ss:function(val){
-  //     console.log(JSON.parse(val))
-  //     return JSON.parse(val)
-  //   }
-  // },
+  },
   methods: {
     headerClick(column,event){
       event.target.title=column.label
     },
-    getList(pd) {
-
-      this.$api.post('/manage-platform/monitorServer/queryMonitorServer', pd,
+    getList() {
+      this.$api.post('/manage-platform/logstash/queryMonitor',{},
         r => {
-          console.log(r);
-          this.tableData = r.data.dmz;
-          this.tableData1 = r.data.business.concat(r.data.risk);
-          // for(var i=0;i<r.data.dmz.length;i++){
-          //   this.tableTitle = JSON.parse(r.data.dmz[0].FILESYSTEM);
-          //
-          // }
-          // console.log(this.tableTitle)
+          this.tableData = r.data.nodes;
+          this.tableData1 = r.data.pipelines;
         })
     },
-    details(i) {
-      this.detailsDialogVisible = true;
-      this.filesytem = i;
-    },
-
-
   },
 
-
   filters: {
-
-    fifter2(val) {
-      if (val == "172.16.1.101" || val == "172.16.1.102" || val == "172.16.1.103") {
-        return "网站应用服务器"
-      } else if (val == "172.16.1.104" || val == "172.16.1.105") {
-        return "负载均衡服务器"
-      } else if (val == "172.16.1.106") {
-        return "后台任务服务器"
-      } else if (val == "172.16.1.107") {
-        return "监控运维服务器"
-      } else if (val == "172.16.1.108" || val == "172.16.1.109" || val == "172.16.1.110") {
-        return "整合分发服务器"
-      } else if (val == "172.16.1.111" || val == "172.16.1.112") {
-        return "队列服务器"
-      }else if(val!=""){
-          return "其他服务器"
-      }
-    },
     fiftersate(val){
       if(val=="0"){
-
-        return "正常"
+        return "正在运行"
       }else {
-
-        return "异常"
+        return "未运行"
       }
     }
-
   }
-
 }
 </script>
 
