@@ -429,16 +429,16 @@
                 <el-button type="text" @click="size.size8=true" v-if="!size.size8">收起 ︿</el-button>
               </div>
             </div>
-            <div class=" pb-10">
-              <div class="hc-btn">
-                <el-button type="info" size="small" class="mr-20" @click="$router.go(-1)">返回</el-button>
 
-                <el-button type="primary" size="small"  @click="getPdf(1)">导出</el-button>
-              </div>
-
-            </div>
           </div>
+          <div class=" pb-10">
+            <div class="hc-btn">
+              <el-button type="info" size="small" class="mr-20" @click="$router.go(-1)">返回</el-button>
 
+              <el-button type="primary" size="small"  @click="getPdf(1)">导出</el-button>
+            </div>
+
+          </div>
         </el-col>
       </el-row>
     </div>

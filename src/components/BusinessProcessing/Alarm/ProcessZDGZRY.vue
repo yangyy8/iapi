@@ -22,7 +22,7 @@
 
          </el-select>
 
-         <el-button type="success" size="small" @click="getList(CurrentPage,pageSize,pd)">查询</el-button>
+         <el-button type="success" size="small" @click="getList(CurrentPage,pageSize,pd,orders,direction)">查询</el-button>
         </el-col>
 
       </el-row>
@@ -35,50 +35,54 @@
       <el-table
         :data="tableData"
         border
+        @sort-change="sortChange"
         style="width: 100%;">
         <el-table-column
           prop="eventSerial"
           label="事件编号"
-          sortable
+          sortable="custom"
           width="180"
           :show-overflow-tooltip="true">
         </el-table-column>
         <el-table-column
           prop="alarmType"
           label="报警类型"
-          sortable
           width="160"
           :show-overflow-tooltip="true">
         </el-table-column>
         <el-table-column
           prop="name"
           label="人员姓名"
-          sortable
           :show-overflow-tooltip="true">
         </el-table-column>
         <el-table-column
-          prop="cname"
+          prop="INTG_CHNNAME"
           label="中文姓名"
-          sortable
           :show-overflow-tooltip="true">
+          <template slot-scope="scope">
+            <span>{{scope.row.cname}}</span>
+          </template>
         </el-table-column>
         <el-table-column
-          prop="nationality"
+          prop="VISAISSUECOUNTRY"
           width="110"
           label="国籍/地区"
-          sortable
+          sortable="custom"
           :show-overflow-tooltip="true">
+          <template slot-scope="scope">
+            <span>{{scope.row.nationality}}</span>
+          </template>
         </el-table-column>
         <el-table-column
           prop="passportno"
           label="证件号码"
-          sortable
+          sortable="custom"
           :show-overflow-tooltip="true">
         </el-table-column>
         <el-table-column
           prop="flightType"
           label="出入标识"
-          sortable
+          sortable="custom"
           width="110"
           :show-overflow-tooltip="true">
           <template slot-scope="scope">
@@ -90,20 +94,21 @@
           prop="fltno"
           width="90"
           label="航班号"
-          sortable
+          sortable="custom"
           :show-overflow-tooltip="true">
         </el-table-column>
         <el-table-column
           prop="createtime"
           width="160"
           label="报警时间"
-          sortable
+          sortable="custom"
           :show-overflow-tooltip="true">
         </el-table-column>
         <el-table-column
           width="110"
           label="当前状态"
-          sortable
+          prop="SAVEFLAG"
+          sortable="custom"
           :show-overflow-tooltip="true">
           <template slot-scope="scope">
             <span v-if="scope.row.status==0">未甄别</span>
@@ -162,6 +167,8 @@ export default {
       CurrentPage:1,
       pageSize:10,
       TotalResult:0,
+      orders:[],
+      direction:0,
       pd:{
         flighttype:""
       },
@@ -228,11 +235,13 @@ export default {
       this.TotalResult=0;
       // this.getList(this.CurrentPage,this.pageSize,this.pd);
     },
-    getList(CurrentPage,showCount,pd){
+    getList(CurrentPage,showCount,pd,orders,direction){
       let p={
         "currentPage":CurrentPage,
         "showCount":showCount,
-        "pd":pd
+        "pd":pd,
+        "orders":orders,
+        "direction":direction
       };
 
       this.$api.post('/manage-platform/pnrAlarmEvent/getPnrAlarmEventPassInfo',p,
@@ -243,12 +252,25 @@ export default {
       })
     },
     pageSizeChange(val) {
-      this.getList(this.CurrentPage,val,this.pd);
+      this.pageSize=val;
+      this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
       console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
-      this.getList(val,this.pageSize,this.pd);
+      this.CurrentPage=val;
+      this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
       console.log(`当前页: ${val}`);
+    },
+    sortChange(data){
+      console.log(data)
+      this.orders=[data.prop];
+      if(data.order=='descending'){
+        this.direction=0
+      }else{
+        this.direction=1
+      }
+      console.log(this.orders,this.direction)
+      this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
     },
   },
 }
