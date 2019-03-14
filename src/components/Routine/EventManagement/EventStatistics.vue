@@ -180,7 +180,7 @@
     </el-dialog>
 
     <el-dialog title="详情" :visible.sync="detailsDialogVisible" width="800px">
-      <el-form :model="form" ref="addForm" id="printMe">
+      <el-form :model="form" ref="addForm" id="printMe" style="height:400px">
         <el-row type="flex"  class="mb-6">
           <el-col :span="12" class="input-item">
             <span class="yy-input-text" style="width:27%!important">标题：</span>
@@ -199,7 +199,7 @@
         <el-row type="flex" class="mb-6" >
           <el-col :span="24" class="input-item">
             <span class="yy-input-text widthText">事件描述：</span>
-            <el-input type="textarea" placeholder="请输入内容" :autosize="{ minRows: 3, maxRows: 6}" v-model="form.content" class="yy-input-input widthContent" :disabled="true"></el-input>
+            <el-input type="textarea" placeholder="请输入内容" :autosize="{ minRows: 6, maxRows: 12}" v-model="form.content" class="yy-input-input widthContent" :disabled="true"></el-input>
           </el-col>
         </el-row>
       </el-form>

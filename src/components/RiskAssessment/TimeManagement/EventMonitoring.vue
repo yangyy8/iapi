@@ -72,7 +72,7 @@
           </el-row>
         </el-col>
         <el-col :span="3" class="down-btn-area">
-          <el-button type="success" size="small"  class="mt-15" @click="CurrentPage=1;getList(CurrentPage,pageSize,cdt)">查询</el-button>
+          <el-button type="success" size="small"  class="mt-15" @click="CurrentPage=1;getList(CurrentPage,pageSize,cdt,order,direction)">查询</el-button>
           <el-button type="primary" class="mt-15" plain size="small" @click="reset">重置</el-button>
         </el-col>
 
@@ -287,6 +287,8 @@ import axios from 'axios'
 export default {
   data(){
     return{
+      order:'',
+      direction:0,
       airport:[],
       CurrentPage:1,
       pageSize:10,
@@ -339,67 +341,25 @@ export default {
     this.cdt.endFlightDate=formatDate(end,'yyyyMMddhhmm');
     let that = this
     setTimeout(function(){
-      that.getList(this.CurrentPage,this.pageSize,this.cdt);
+      that.getList(this.CurrentPage,this.pageSize,this.cdt,this.order,this.direction);
     },100)
     this.queryNationalityAlone();
     this.queryAirport();
     document.getElementsByClassName('btn-next')[0].disabled=true;
   },
   activated(){
-    this.getList(this.CurrentPage,this.pageSize,this.cdt);
+    this.getList(this.CurrentPage,this.pageSize,this.cdt,this.order,this.direction);
   },
   methods:{
     sortChange(column, prop, order){
-      let p={
-        'order':column.prop,
-        'direction':column.order=='ascending'?1:0,
-        "currentPage":this.CurrentPage,
-        "showCount":this.pageSize,
-        "cdt":this.cdt
-      }
-      this.$api.post('/manage-platform/eventMonitor/queryFlightMonitor',p,
-       r => {
-         if(r.success){
-           if(r.data.nextState==0){
-             document.getElementsByClassName('btn-next')[0].disabled=true;
-           }else{
-             document.getElementsByClassName('btn-next')[0].disabled=false;
-           }
-           this.tableData=r.data.resultList;
-           this.CurrentPage = r.data.currentPage;
-           this.colorList = r.data.pd.useColour;
-           for(var j=0;j<this.colorList.length;j++){
-             if(this.colorList[j].COL_NUMBER == 1){
-               this.color1=this.colorList[j].COL_VALUE;
-               this.low1 = this.colorList[j].LOW_VALUE;
-               this.high1 = this.colorList[j].HIGH_VALUE;
-             }else if(this.colorList[j].COL_NUMBER == 2){
-               this.color2=this.colorList[j].COL_VALUE;
-               this.low2 = this.colorList[j].LOW_VALUE;
-               this.high2 = this.colorList[j].HIGH_VALUE;
-             }else if(this.colorList[j].COL_NUMBER == 3){
-               this.color3=this.colorList[j].COL_VALUE;
-               this.low3 = this.colorList[j].LOW_VALUE;
-               this.high3 = this.colorList[j].HIGH_VALUE;
-             }else if(this.colorList[j].COL_NUMBER == 4){
-               this.color4=this.colorList[j].COL_VALUE;
-               this.low4 = this.colorList[j].LOW_VALUE;
-               this.high4 = this.colorList[j].HIGH_VALUE;
-             }
-           }
-           this.totalPageM(p)
-         }
-      })
+      column.order=='ascending'?this.direction=1:this.direction=0;
+      this.order=column.prop;
+      this.getList(this.CurrentPage,this.pageSize,this.cdt,this.order,this.direction);
     },
     headerClick(column,event){
       event.target.title=column.label
     },
     totalPageM(i){
-      // let p={
-      // 	"currentPage":this.CurrentPage,
-      // 	"showCount":this.pageSize,
-      // 	"cdt":this.cdt
-      // };
       this.$api.post('/manage-platform/eventMonitor/queryFlightMonitorCount',i,
       r =>{
         if(r.success){
@@ -527,18 +487,18 @@ export default {
       };
       this.cdt.startFlightDate=formatDate(begin,'yyyyMMddhhmm');
       this.cdt.endFlightDate=formatDate(end,'yyyyMMddhhmm');
-      this.getList(this.CurrentPage,this.pageSize,this.cdt);
+      this.getList(this.CurrentPage,this.pageSize,this.cdt,this.order,this.direction);
     },
     pageSizeChange(val) {
-      this.getList(this.CurrentPage,val,this.cdt);
+      this.getList(this.CurrentPage,val,this.cdt,this.order,this.direction);
       console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
-      this.getList(val,this.pageSize,this.cdt);
+      this.getList(val,this.pageSize,this.cdt,this.order,this.direction);
       console.log(`当前页: ${val}`);
     },
 
-    getList(currentPage,showCount,pd){
+    getList(currentPage,showCount,pd,order,direction){
       if(this.cdt.startFlightDate==''||this.cdt.endFlightDate==''||this.cdt.startFlightDate==null||this.cdt.endFlightDate==null){
         this.$message({
           message: '航班日期不能为空',
@@ -552,7 +512,9 @@ export default {
         let p={
           "currentPage":currentPage,
           "showCount":showCount,
-          "cdt":pd
+          "cdt":pd,
+          "order":order,
+          "direction":direction
         };
           this.$api.post('/manage-platform/eventMonitor/queryFlightMonitor',p,
            r => {

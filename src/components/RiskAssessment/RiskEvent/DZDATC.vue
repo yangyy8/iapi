@@ -215,138 +215,226 @@
           出生日期：{{moreData.pers_birth_date||moreData.birth_date||'-'}}
         </el-col>
         <el-col :span="12">
-          国籍/地区：{{moreData.to_country_code||'-'}}
+          国籍/地区：{{moreData.country_na||'-'}}
         </el-col>
         <el-col :span="12">
-          身份：{{moreData.profession_code_na||'-'}}
+          身份：{{moreData.fgn_sts||'-'}}
         </el-col>
         <el-col :span="12">
-          申请事由：{{moreData.birth_date}}
+          申请事由：{{moreData.apply_rsn_na||'-'}}
         </el-col>
         <el-col :span="12">
-          证件类型：{{moreData.cert_type_na||moreData.passport_type}}
+          证件类型：{{moreData.cert_type_na||moreData.passport_type||'-'}}
+        </el-col>
+        <el-col :span="12">
+          证件号码：{{moreData.cert_no||'-'}}
+        </el-col>
+        <el-col :span="12">
+          证件有效期：{{moreData.visas_type_na||'-'}}
+        </el-col>
+        <el-col :span="12">
+          偕行人员：{{moreData.accompany_nbr||'-'}}
+        </el-col>
+        <el-col :span="12">
+          境外人员类别：{{moreData.fgn_type||'-'}}
+        </el-col>
+        <el-col :span="12">
+          人员地域类别：{{moreData.pers_reg_catg_na||'-'}}
+        </el-col>
+        <el-col :span="12">
+          境外人员身份证号码：{{moreData.fgn_card_id||'-'}}
+        </el-col>
+        <el-col :span="12">
+          原签证/居留许可种类：{{moreData.orig_visa_type_na||'-'}}
+        </el-col>
+        <el-col :span="12">
+          原签证/居留许可号码：{{moreData.orig_visa_no||'-'}}
+        </el-col>
+        <el-col :span="12">
+          原签证/居留许可停留期至：{{moreData.orig_visa_vld||'-'}}
+        </el-col>
+        <el-col :span="12">
+          签证种类：{{moreData.visa_type_na||'-'}}
+        </el-col>
+        <el-col :span="12">
+          签证号码：{{moreData.visa_no||'-'}}
+        </el-col>
+        <el-col :span="12">
+          签证发放机关：{{moreData.visa_assign_dept_na||'-'}}
+        </el-col>
+        <el-col :span="12">
+          制证单位：{{moreData.accept_organ||'-'}}
+        </el-col>
+        <el-col :span="12">
+          签证有效次数：{{moreData.visa_eff_nbr||'-'}}
+        </el-col>
+        <el-col :span="12">
+          团队号：{{moreData.group_no||'-'}}
+        </el-col>
+        <el-col :span="12">
+          团队人数：{{moreData.group_nbr||'-'}}
+        </el-col>
+        <el-col :span="12">
+          签证签发日期：{{moreData.visa_date||'-'}}
+        </el-col>
+        <el-col :span="12">
+          签证有效期：{{moreData.visa_vld||'-'}}
+        </el-col>
+        <el-col :span="12">
+          签证停留期：{{moreData.visa_period||'-'}}
+        </el-col>
+        <el-col :span="12">
+          签证/居留许可事由：{{moreData.visa_rstd_rsn||'-'}}
+        </el-col>
+        <el-col :span="12">
+          邀请单位名称：{{moreData.invt_unit_name||'-'}}
+        </el-col>
+        <el-col :span="12">
+          邀请人中文姓名：{{moreData.invt_chn_name||'-'}}
+        </el-col>
+        <el-col :span="12">
+          邀请人性别：{{moreData.invt_gender||'-'}}
+        </el-col>
+        <el-col :span="12">
+          邀请人出生日期：{{moreData.invt_birth_date||'-'}}
+        </el-col>
+        <el-col :span="12">
+          邀请人身份证号码：{{moreData.invt_card_id||'-'}}
+        </el-col>
+        <el-col :span="12">
+          邀请人证件号码：{{moreData.invt_cert_no||'-'}}
+        </el-col>
+        <el-col :span="12">
+          邀请人详细地址：{{moreData.invt_address||'-'}}
+        </el-col>
+        <el-col :span="12">
+          邀请人联系电话：{{moreData.invt_tel||'-'}}
+        </el-col>
+        <el-col :span="12">
+          受理单位：{{moreData.accept_organ_na||'-'}}
+        </el-col>
+        <el-col :span="12">
+          受理时间：{{moreData.accept_dt||'-'}}
+        </el-col>
+        <el-col :span="12">
+          居住地行政区划：{{moreData.curr_region_code||'-'}}
+        </el-col>
+        <el-col :span="12">
+          居住地派出所名称：{{moreData.curr_lps_name||'-'}}
+        </el-col>
+        <el-col :span="12">
+          居住地详细地址：{{moreData.curr_address||'-'}}
+        </el-col>
+        <el-col :span="12">
+          工作单位行政区划：{{moreData.unit_region_code||'-'}}
+        </el-col>
+        <el-col :span="12">
+          工作(学习)单位所在派出所名称：{{moreData.unit_lps_name||'-'}}
+        </el-col>
+        <el-col :span="12">
+          工作单位组织机构名称：{{moreData.unit_org_name||'-'}}
+        </el-col>
+        <el-col :span="12">
+          常住标识：{{moreData.resident_flag||'-'}}
+        </el-col>
+        <el-col :span="12">
+          联系电话：{{moreData.domestic_tel||'-'}}
+        </el-col>
+
+      </el-row>
+    </div>
+    <div class="" v-if="moreType=='box9'">
+      <el-row style="line-height:32px;">
+        <el-col :span="12">
+          违法违规事件编号：{{moreData.evt_id}}
+        </el-col>
+        <el-col :span="12">
+          姓名：{{moreData.pers_name}}
+        </el-col>
+        <el-col :span="12">
+          性别：{{moreData.gender_na}}
+        </el-col>
+        <el-col :span="12">
+          出生日期：{{moreData.birth_date}}
+        </el-col>
+        <el-col :span="12">
+          国籍/地区：{{moreData.country_na}}
+        </el-col>
+        <el-col :span="12">
+          证件类型：{{moreData.cert_type_na}}
         </el-col>
         <el-col :span="12">
           证件号码：{{moreData.cert_no}}
         </el-col>
         <el-col :span="12">
-          证件有效期：{{moreData.visas_type_na}}
+          居住地行政区划：{{moreData.curr_region_na}}
         </el-col>
         <el-col :span="12">
-          偕行人员：{{moreData.visas_no}}
+          人员类别：{{moreData.pers_imm_type_na}}
         </el-col>
         <el-col :span="12">
-          境外人员类别：{{moreData.entry_period}}
+          发证地行政区划：{{moreData.cert_region_na}}
         </el-col>
         <el-col :span="12">
-          人员地域类别：{{moreData.pers_reg_catg_na}}
+          原出入境日期：{{moreData.orig_imm_date}}
         </el-col>
         <el-col :span="12">
-          境外人员身份证号码：{{moreData.fgn_card_id}}
+          原出入口岸：{{moreData.orig_imm_port_na}}
         </el-col>
         <el-col :span="12">
-          原签证/居留许可种类：{{moreData.orig_visa_type_na}}
+          出入境目的：{{moreData.imm_purpose}}
         </el-col>
         <el-col :span="12">
-          原签证/居留许可号码：{{moreData.orig_visa_no}}
+          遣返遣送国家：{{moreData.repat_country_na}}
         </el-col>
         <el-col :span="12">
-          原签证/居留许可停留期至：{{moreData.inspector_name}}
+          处理部门：{{moreData.deal_dept_na}}
         </el-col>
         <el-col :span="12">
-          签证种类：{{moreData.trs_mode_na}}
+          查中标志：{{moreData.catch_flag}}
         </el-col>
         <el-col :span="12">
-          签证号码：{{moreData.trs_id}}
+          业务类型：{{moreData.repat_type}}
         </el-col>
         <el-col :span="12">
-          签证发放机关：{{moreData.to_country_code}}
+          遣返遣送备注：{{moreData.repat_remarks}}
         </el-col>
         <el-col :span="12">
-          制定单位：{{moreData.issuing_unit_na}}
+          录入人：{{moreData.edit_oper}}
         </el-col>
         <el-col :span="12">
-          签证有效期次数：{{moreData.channel_no}}
+          录入时间：{{moreData.edit_dt}}
         </el-col>
         <el-col :span="12">
-          团队号：{{moreData.tour_grp_no}}
+          交通标识：{{moreData.trs_id}}
         </el-col>
         <el-col :span="12">
-          团队人数：{{moreData.dept_name}}
+          处理结果描述：{{moreData.deal_rslt_desc}}
         </el-col>
         <el-col :span="12">
-          签证签发日期：{{moreData.in_out_flag}}
+          查获时间：{{moreData.seize_dt}}
         </el-col>
         <el-col :span="12">
-          签证有效期限：{{moreData.self_channel_flag}}
+          第二姓名：{{moreData.second_name}}
         </el-col>
         <el-col :span="12">
-          签证停留期：{{moreData.back_flag}}
+          第二出生日期：{{moreData.sec_birth_date}}
         </el-col>
         <el-col :span="12">
-          签证/居留许可事由：{{moreData.second_pers_name}}
+          第二证件类型：{{moreData.sec_cert_type}}
         </el-col>
         <el-col :span="12">
-          邀请单位名称：{{moreData.sec_cert_type_na}}
+          第二证件号码：{{moreData.sec_cert_no}}
         </el-col>
         <el-col :span="12">
-          邀请人中文姓名：{{moreData.sec_cert_no}}
+          第二证类名称：{{moreData.sec_cert_type_na}}
         </el-col>
-        <el-col :span="12">
-          邀请人性别：{{moreData.sec_birth_date}}
-        </el-col>
-        <el-col :span="12">
-          邀请人出生日期：{{moreData.sec_birth_date}}
-        </el-col>
-        <el-col :span="12">
-          邀请人身份证号码：{{moreData.sec_birth_date}}
-        </el-col>
-        <el-col :span="12">
-          邀请人证件号码：{{moreData.sec_birth_date}}
-        </el-col>
-        <el-col :span="12">
-          邀请人详细地址：{{moreData.sec_birth_date}}
-        </el-col>
-        <el-col :span="12">
-          邀请人联系电话：{{moreData.sec_birth_date}}
-        </el-col>
-        <el-col :span="12">
-          受理单位：{{moreData.sec_birth_date}}
-        </el-col>
-        <el-col :span="12">
-          受理时间：{{moreData.sec_birth_date}}
-        </el-col>
-        <el-col :span="12">
-          居住地行政区划：{{moreData.sec_birth_date}}
-        </el-col>
-        <el-col :span="12">
-          居住地派出所名称：{{moreData.sec_birth_date}}
-        </el-col>
-        <el-col :span="12">
-          居住地详细地址：{{moreData.sec_birth_date}}
-        </el-col>
-        <el-col :span="12">
-          工作单位行政区划：{{moreData.sec_birth_date}}
-        </el-col>
-        <el-col :span="12">
-          工作(学习)单位所在派出所名称：{{moreData.sec_birth_date}}
-        </el-col>
-        <el-col :span="12">
-          工作单位组织机构名称：{{moreData.sec_birth_date}}
-        </el-col>
-        <el-col :span="12">
-          常住标识：{{moreData.sec_birth_date}}
-        </el-col>
-        <el-col :span="12">
-          联系电话：{{moreData.sec_birth_date}}
-        </el-col>
-
       </el-row>
     </div>
     <div class="" v-if="moreType=='box10'">
       <el-row style="line-height:32px;">
         <el-col :span="12">
-          违法违规事件编号：{{moreData.ill_evt_id}}
+          事件编号：{{moreData.ill_evt_id}}
         </el-col>
         <el-col :span="12">
           姓名：{{moreData.name}}

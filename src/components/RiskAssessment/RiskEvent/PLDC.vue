@@ -249,6 +249,7 @@ export default {
         {nationality:[],lkname:'',gender:'',dateofbirth:''},
       ];
       this.isIndeterminate=false;
+      this.checkAll=false;
       this.checkedModel=[];
       this.fileText=''
       this.fileData=null;

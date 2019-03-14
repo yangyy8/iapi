@@ -4,7 +4,7 @@ import JsPDF from 'jspdf'
 export default{
   install (Vue, options) {
     Vue.prototype.getPdf = function (type) {
-      // var title = this.htmlTitle
+      var title = this.htmlTitle
       // var w = document.querySelector('#printMe').clientWidth;    // 获得该容器的宽
       // var h = document.querySelector('#printMe').clientHeight;    // 获得该容器的高
       // var canvas = document.createElement("canvas");
