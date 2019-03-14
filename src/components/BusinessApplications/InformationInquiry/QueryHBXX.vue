@@ -107,7 +107,7 @@
           </el-row>
         </el-col>
         <el-col :span="2" class="down-btn-area" >
-          <el-button type="success" size="small" @click="getList(CurrentPage,pageSize,pd)">查询</el-button>
+          <el-button type="success" size="small" @click="getList(CurrentPage,pageSize,pd,order,direction)">查询</el-button>
 
         </el-col>
 
@@ -288,6 +288,8 @@ export default {
   components: {Seat},
   data() {
     return {
+      order:'',
+      direction:0,
       numberTotal:0,
       numberDialogVisible:false,
       tableInfo:[],
@@ -370,34 +372,9 @@ export default {
   },
   methods: {
     sortChange(column, prop, order){
-      let p={
-        'order':column.prop,
-        'direction':column.order=='ascending'?1:0,
-        "currentPage":this.CurrentPage,
-        "showCount":this.pageSize,
-        "cdt":this.pd
-      }
-      if(this.pd.scheduledeparturetime==''||this.pd.schedulearrivetime==''||this.pd.scheduledeparturetime==null||this.pd.schedulearrivetime==null){
-        this.$message({
-         message: '航班日期不能为空',
-         type: 'warning'
-       });
-       return
-      }
-      if(dayGap(this.pd.scheduledeparturetime,this.pd.schedulearrivetime,0)>30){
-        this.$alert('查询时间间隔不能超过一个月', '提示', {
-          confirmButtonText: '确定',
-        });
-        return false
-      }
-      this.$api.post('/manage-platform/statusUpdate/flight/queryListPagesNew', p,
-        r => {
-          if(r.success){
-            this.globalserial0 = '';
-            this.tableData = r.data.resultList;
-            this.TotalResult = r.data.totalResult;
-          }
-        })
+      column.order=='ascending'?this.direction=1:this.direction=0;
+      this.order=column.prop;
+      this.getList(this.CurrentPage,this.pageSize,this.pd,this.order,this.direction);
     },
     daochu(){
       axios({
@@ -469,14 +446,14 @@ export default {
       this.multipleSelection = val;
     },
     pageSizeChange(val) {
-      this.getList(this.CurrentPage, val, this.pd);
+      this.getList(this.CurrentPage, val, this.pd,this.order,this.direction);
       console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
-      this.getList(val, this.pageSize, this.pd);
+      this.getList(val, this.pageSize, this.pd,this.order,this.direction);
       console.log(`当前页: ${val}`);
     },
-    getList(currentPage, showCount, pd) {
+    getList(currentPage, showCount, pd,order,direction) {
       if(this.pd.scheduledeparturetime==''||this.pd.schedulearrivetime==''||this.pd.scheduledeparturetime==null||this.pd.schedulearrivetime==null){
         this.$message({
          message: '航班日期不能为空',
@@ -493,7 +470,9 @@ export default {
       let p = {
         "currentPage": currentPage,
         "showCount": showCount,
-        "cdt": pd
+        "cdt": pd,
+        "order":order,
+        "direction":direction
       };
       this.$api.post('/manage-platform/statusUpdate/flight/queryListPagesNew', p,
         r => {
@@ -552,8 +531,7 @@ export default {
           }
           this.$refs[formName].resetFields();
           this.addDialogVisible = false;
-          this.getList();
-          // this.tableData=r.Data.ResultList;
+          this.getList(this.CurrentPage,this.pageSize,this.pd,this.order,this.direction);
         }, e => {
           this.$message.error('失败了');
         })

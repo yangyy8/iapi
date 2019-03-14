@@ -47,7 +47,7 @@
 
           <el-col :sm="24" :md="12" :lg="8" class="input-item">
             <span class="input-text">机场：</span>
-            <el-select  v-model="pd.port" @change="getList(CurrentPage,pageSize,pd)" placeholder="请选择" filterable clearable size="small" class="input-input">
+            <el-select  v-model="pd.port" @change="getList(CurrentPage,pageSize,pd,order,direction)" placeholder="请选择" filterable clearable size="small" class="input-input">
               <el-option
                 v-for="item in airport"
                 v-if="item.JCDM"
@@ -540,6 +540,8 @@ export default {
   components: {Seat},
   data() {
     return {
+      order:'',
+      direction:0,
       CurrentPage: 1,
       pageSize: 10,
       TotalResult: 0,
@@ -638,34 +640,9 @@ export default {
   },
   methods: {
     sortChange(column, prop, order){
-      let p={
-        'order':column.prop,
-        'direction':column.order=='ascending'?1:0,
-        "currentPage":this.CurrentPage,
-        "showCount":this.pageSize,
-        "cdt":this.pd
-      }
-      if(this.pd.departdateBegin==''||this.pd.departdateEnd==''||this.pd.departdateBegin==null||this.pd.departdateEnd==null){
-        this.$message({
-          message: '航班日期不能为空！',
-          type: 'warning'
-        });
-        return false
-      }
-      if(dayGap(this.pd.departdateBegin,this.pd.departdateEnd,0)>30){
-        this.$alert('查询时间间隔不能超过一个月', '提示', {
-          confirmButtonText: '确定',
-        });
-        return false
-      }
-      this.$api.post('/manage-platform/statusUpdate/seat/queryListPages', p,
-        r => {
-          if(r.success){
-            this.globalserial0='';
-            this.tableData = r.data.resultList;
-            this.TotalResult = r.data.totalResult;
-          }
-        })
+      column.order=='ascending'?this.direction=1:this.direction=0;
+      this.order=column.prop;
+      this.getList(this.CurrentPage,this.pageSize,this.pd,this.order,this.direction);
     },
     headerClick(column,event){
       event.target.title=column.label
@@ -680,7 +657,7 @@ export default {
     },
     querySeat(){
       // if(this.page==0){
-        this.getList(this.CurrentPage,this.pageSize,this.pd)
+        this.getList(this.CurrentPage,this.pageSize,this.pd,this.order,this.direction)
       // }else if(this.page==1){
       //   this.getimgtable(0,10,this.pd);
       // }
@@ -724,15 +701,15 @@ export default {
       this.pd.NATIONALITY=msg;
     },
     pageSizeChange(val) {
-      this.getList(this.CurrentPage, val, this.pd);
+      this.getList(this.CurrentPage, val, this.pd,this.order,this.direction);
       console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
-      this.getList(val, this.pageSize, this.pd);
+      this.getList(val, this.pageSize, this.pd,this.order,this.direction);
 
       console.log(`当前页: ${val}`);
     },
-    getList(currentPage, showCount, pd) {
+    getList(currentPage, showCount, pd,order,direction) {
       if(this.pd.departdateBegin==''||this.pd.departdateEnd==''||this.pd.departdateBegin==null||this.pd.departdateEnd==null){
         this.$message({
           message: '航班日期不能为空！',
@@ -749,7 +726,9 @@ export default {
       let p = {
         "currentPage": currentPage,
         "showCount": showCount,
-        "cdt": pd
+        "cdt": pd,
+        "order":order,
+        "direction":direction
       };
       this.$api.post('/manage-platform/statusUpdate/seat/queryListPages', p,
         r => {
