@@ -503,7 +503,7 @@ export default {
       };
       this.$api.post('/manage-platform/target/selectNew', p,
         r => {
-          this.tableData = r.data.pdList;
+          this.tableData = r.data.resultList;
           this.TotalResult = r.data.totalResult;
         })
     },
