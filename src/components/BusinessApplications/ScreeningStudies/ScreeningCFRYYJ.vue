@@ -99,7 +99,7 @@
                 label="出生日期" sortable>
               </el-table-column>
               <el-table-column
-                prop="departdate"
+                prop="fltdate"
                 label="航班日期" sortable>
               </el-table-column>
 

@@ -501,7 +501,7 @@ export default {
         "orders":orders,
         "direction":direction
       };
-      this.$api.post('/manage-platform/target/select', p,
+      this.$api.post('/manage-platform/target/selectNew', p,
         r => {
           this.tableData = r.data.pdList;
           this.TotalResult = r.data.totalResult;
