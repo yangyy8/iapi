@@ -2374,7 +2374,7 @@ export default {
          }else{
            this.gender='0'
          }
-         this.getPhotoInf(r.data.PASSPORTNO,r.data.NATIONALITY,r.data.BIRTHDAY,r.data.NAME);
+         this.getPhotoInf(r.data.PASSPORTNO,r.data.NATIONALITY,r.data.BIRTHDAY,r.data.NAME,r.data.GENDER_NAME);
          // this.getRiskPersonnelForecasInfo();
          this.getRecordOtherInfo('num');
          this.getCRCCNumInfo();
@@ -2393,7 +2393,7 @@ export default {
          this.num2=r.data
        })
     },
-    getPhotoInf(passportno,nationality,birthday,name){
+    getPhotoInf(passportno,nationality,birthday,name,gender){
       let p={}
       if(nationality=="CHN"){
         p={
@@ -2407,6 +2407,7 @@ export default {
           "nationality": nationality,
           "birthday": birthday,
           "name": name,
+          "gender":gender=="男"?'1':gender=="女"?'2':'0',
           "type": 'photo',
         }
       }
@@ -2424,7 +2425,18 @@ export default {
       }
       this.$api.post('/manage-platform/riskRecordController/getUserTagInfo',p,
        r => {
-         this.dataTag=r.data
+         if(r.success){
+           var arrAfter=[];
+           var arrReal=[];
+           for(var i=0;i<r.data.validList.length;i++){
+             if(arrAfter.indexOf(r.data.validList[i].TAG_NAME)==-1){
+               arrAfter.push(r.data.validList[i].TAG_NAME);
+               arrReal.push(r.data.validList[i])
+             }
+           }
+           r.data.validList = arrReal;
+           this.dataTag=r.data
+         }
        })
     },
     // 添加、删除标签

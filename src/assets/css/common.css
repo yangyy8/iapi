@@ -305,8 +305,8 @@ button{
 }
 .o-checkbox-g2 .el-checkbox {
   margin-left: 0!important;
-  margin-right: 20px!important;
-  /* width:136px !important; */
+  margin-right: 60px!important;
+  width:136px !important;
 }
 .o-date-box1 input{
   width: 30%!important;

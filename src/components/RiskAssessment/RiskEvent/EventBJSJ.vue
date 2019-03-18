@@ -679,8 +679,12 @@ export default {
       console.log(`当前页: ${val}`);
     },
     sortChange(data){
-      console.log(data)
-      this.orders=[data.prop];
+
+      // if(data.prop=="name"){
+      //   this.orders=[data.prop,"ename"];
+      // }else{
+        this.orders=[data.prop];
+      // }
       if(data.order=='descending'){
         this.direction=0
       }else{

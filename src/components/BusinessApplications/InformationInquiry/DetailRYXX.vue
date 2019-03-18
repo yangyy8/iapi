@@ -209,6 +209,7 @@
         <el-row class="t-detail" v-for="(i,ind) in messageThr" v-if="box10" :key="ind">
           <el-col :span="8" class="t-el-content"><div class="t-el-text">变更操作者的ID信息：</div><div class="t-el-sub">{{i.abi.TRAVEL_AGENT_IDENTIFICATION}}</div></el-col>
           <el-col :span="8" class="t-el-content"><div class="t-el-text">变更者的城市代码：</div><div class="t-el-sub">{{i.abi.PLACE}}</div></el-col>
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">变更时间：</div><div class="t-el-sub">{{i.abi.DATDATESTR}}</div></el-col>
           <el-col :span="8" class="t-el-content"><div class="t-el-text">变更者的所属航司或GDS：</div><div class="t-el-sub">{{i.abi.COMPANY_IDENTIFICATION}}</div></el-col>
           <el-col style="width:100%" v-for="(j,ind) in i.hisGr11List" :key="ind">
             <div class="t-detail">
