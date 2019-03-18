@@ -599,6 +599,7 @@ export default {
       let p = {
         "targetId": i.TARGET_ID,
         "targetSign": i.TARGET_SIGN,
+        "status":i.STATUS
       };
       this.$confirm('您是否确认删除？', '提示', {
         confirmButtonText: '确定',
