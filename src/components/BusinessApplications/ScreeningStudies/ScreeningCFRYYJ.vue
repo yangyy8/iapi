@@ -83,7 +83,7 @@
                 label="国籍/地区" sortable>
               </el-table-column>
               <el-table-column
-                prop="passportnopassportno"
+                prop="passportno"
                 label="证件号码" sortable>
               </el-table-column>
               <el-table-column
@@ -169,7 +169,7 @@
                           label="国籍/地区" sortable>
                         </el-table-column>
                         <el-table-column
-                          prop="passportnopassportno"
+                          prop="passportno"
                           label="证件号码" sortable>
                         </el-table-column>
                         <el-table-column
@@ -185,7 +185,7 @@
                           label="出生日期" sortable>
                         </el-table-column>
                         <el-table-column
-                          prop="fltdate"
+                          prop="departdate"
                           label="航班日期" sortable>
                         </el-table-column>
 

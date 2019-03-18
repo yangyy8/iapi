@@ -445,7 +445,7 @@
                 label="出生日期" sortable>
               </el-table-column>
               <el-table-column
-                prop="eetime"
+                prop="clstime"
                 label="入出境时间" sortable>
               </el-table-column>
               <!-- <el-table-column
