@@ -77,7 +77,7 @@
             </el-row>
           </el-col>
           <el-col :span="2" class="down-btn-area" style="margin-top:35px;">
-            <el-button type="success" class="mb-15" size="small"  @click="getList(CurrentPage,pageSize,pd)">查询</el-button>
+            <el-button type="success" class="mb-15" size="small"  @click="getList(CurrentPage,pageSize,pd,order,direction)">查询</el-button>
           </el-col>
         </el-row>
     </div>
@@ -650,6 +650,8 @@ export default {
   components: {AlarmProcess},
   data() {
     return {
+      order:'',
+      direction:0,
       beijiangText:'航班备降详情',
       jihua:true,
       CurrentPage: 1,
@@ -752,47 +754,9 @@ export default {
   },
   methods: {
     sortChange(column, prop, order){
-      let p = {
-        'order':column.prop,
-        'direction':column.order=='ascending'?1:0,
-        "currentPage":this.CurrentPage,
-        "showCount":this.pageSize,
-        "cdt":this.pd
-      }
-      if(this.pd.startCreatetime==''||this.pd.endCreatetime==''||this.pd.startCreatetime==null||this.pd.endCreatetime==null){
-        this.$message({
-          message: '事件产生时间不能为空',
-          type: 'warning'
-        });
-        return
-      }
-      if(this.pd.startDealtime==''||this.pd.endDealtime==''||this.pd.startDealtime==null||this.pd.endDealtime==null){
-        this.$message({
-          message: '处理时间不能为空',
-          type: 'warning'
-        });
-        return
-      }
-      if(dayGap(this.pd.startCreatetime,this.pd.endCreatetime,1)>30){
-        this.$alert('事件产生时间查询时间间隔不能超过一个月', '提示', {
-          confirmButtonText: '确定',
-        });
-        return false
-      };
-      if(dayGap(this.pd.startDealtime,this.pd.endDealtime,1)>30){
-        this.$alert('处理时间查询时间间隔不能超过一个月', '提示', {
-          confirmButtonText: '确定',
-        });
-        return false
-      };
-      this.$api.post('/manage-platform/eventManagement/queryListPage', p,
-        r => {
-          console.log(r);
-          if (r.success) {
-            this.tableData = r.data.resultList;
-            this.TotalResult = r.data.totalResult;
-          }
-        })
+      column.order=='ascending'?this.direction=1:this.direction=0;
+      this.order=column.prop;
+      this.getList(this.CurrentPage,this.pageSize,this.pd,this.order,this.direction);
     },
     headerClick(column,event){
       event.target.title=column.label
@@ -804,16 +768,15 @@ export default {
       this.pd.NATIONALITY = msg;
     },
     pageSizeChange(val) {
-      this.getList(this.CurrentPage, val, this.pd);
+      this.getList(this.CurrentPage, val, this.pd,this.order,this.direction);
       console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
-      this.getList(val, this.pageSize, this.pd);
+      this.getList(val, this.pageSize, this.pd,this.order,this.direction);
 
       console.log(`当前页: ${val}`);
     },
-    getList(currentPage, showCount, pd) {
-      console.log(this.pd.startCreatetime);
+    getList(currentPage, showCount, pd,order,direction) {
       if(this.pd.startCreatetime==''||this.pd.endCreatetime==''||this.pd.startCreatetime==null||this.pd.endCreatetime==null){
         this.$message({
           message: '事件产生时间不能为空',
@@ -843,7 +806,9 @@ export default {
       let p = {
         "currentPage": currentPage,
         "showCount": showCount,
-        "cdt": pd
+        "cdt": pd,
+        "order":order,
+        "direction":direction
       };
       this.$api.post('/manage-platform/eventManagement/queryListPage', p,
         r => {

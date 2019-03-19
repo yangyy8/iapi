@@ -10,7 +10,7 @@
         </el-col>
         <el-col  :sm="24" :md="12" :lg="4"  class="input-item">
           &nbsp;&nbsp;&nbsp;
-          <el-button type="success" size="small" @click="mgetList(mCurrentPage,mpageSize,mcdt)">搜索</el-button>&nbsp;&nbsp;&nbsp;
+          <el-button type="success" size="small" @click="mgetList(mCurrentPage,mpageSize,mcdt,morder,mdirection)">搜索</el-button>&nbsp;&nbsp;&nbsp;
           <el-button type="success" size="small" @click="folderDialogVisible = true;fileData=null">文件上传</el-button>
         </el-col>
       </el-row>
@@ -32,7 +32,7 @@
           </el-row>
         </el-col>
         <el-col :span="2" class="down-btn-area">
-          <el-button type="success" size="small" @click="getList(CurrentPage,pageSize,cdt)">查询</el-button>
+          <el-button type="success" size="small" @click="getList(CurrentPage,pageSize,cdt,order,direction)">查询</el-button>
         </el-col>
       </el-row>
     </div>
@@ -48,43 +48,52 @@
             border
             style="width: 100%;"
             class="o-table3"
-            @header-click="headerClick">
+            @header-click="headerClick"
+            @sort-change='sortChange'>
             <el-table-column
               label="序号"
               type="index"
-              width="50">
+              width="50"
+              sortable='custom'>
             </el-table-column>
             <el-table-column
               prop="NAME"
-              label="姓名" sortable
+              label="姓名"
+              sortable='custom'
               width="140">
             </el-table-column>
             <el-table-column
               prop="SEX"
-              label="性别" sortable>
+              label="性别"
+              sortable='custom'>
               <template slot-scope="scope">
                 {{ scope.row.SEX | fiftersex }}
               </template>
             </el-table-column>
             <el-table-column
               prop="USERNAME"
-              label="账号" sortable>
+              label="账号"
+              sortable='custom'>
             </el-table-column>
             <el-table-column
               prop="DEPT_QC"
-              label="部门" sortable>
+              label="部门"
+              sortable='custom'>
             </el-table-column>
             <el-table-column
               prop="PHONE"
-              label="电话" sortable>
+              label="电话"
+              sortable='custom'>
             </el-table-column>
             <el-table-column
               prop="MAIL"
-              label="邮箱" sortable>
+              label="邮箱"
+              sortable='custom'>
             </el-table-column>
             <el-table-column
               prop="AIRPORT_NAME"
-              label="航站名称" sortable>
+              label="航站名称"
+              sortable='custom'>
             </el-table-column>
             <el-table-column
               label="操作" width="80">
@@ -130,7 +139,8 @@
             border
             style="width: 100%;"
             class="o-table3"
-            @header-click="headerClick">
+            @header-click="headerClick"
+            @sort-change='sortChange'>
             <el-table-column
               label="序号"
               type="index"
@@ -138,7 +148,8 @@
             </el-table-column>
             <el-table-column
               prop="FOLDER"
-              label="文件夹名称" sortable
+              label="文件夹名称"
+              sortable
               width="140">
             </el-table-column>
             <el-table-column
@@ -372,6 +383,11 @@ export default {
 
   data() {
     return {
+      order:'',
+      direction:0,
+
+      morder:'',
+      mdirection:0,
       delIndex:'',
       tp: 0,
       CurrentPage: 1,
@@ -429,13 +445,24 @@ export default {
     }
   },
   mounted() {
-    // this.getList(this.CurrentPage, this.pageSize, this.cdt)
-    // this.mgetList(this.mCurrentPage,this.mpageSize,this.mcdt)
+    // this.getList(this.CurrentPage, this.pageSize, this.cdt,this.order,this.direction)
+    // this.mgetList(this.mCurrentPage,this.mpageSize,this.mcdt,this.morder,this.mdirection)
   },
   activated(){
 
   },
   methods: {
+    sortChange(column, prop, order){
+      if(this.page==0){
+        column.order=='ascending'?this.direction=1:this.direction=0;
+        this.order=column.prop;
+        this.getList(this.CurrentPage,this.pageSize,this.cdt,this.order,this.direction);
+      }else if(this.page==1){
+        column.order=='ascending'?this.mdirection=1:this.mdirection=0;
+        this.morder=column.prop;
+        this.mgetList(this.mCurrentPage,this.mpageSize,this.mcdt,this.morder,this.mdirection);
+      }
+    },
     a(item){
       console.log(item)
     },
@@ -444,32 +471,34 @@ export default {
     },
     qq(){
       this.page=1;
-      // this.mgetList(this.mCurrentPage,this.mpageSize,this.mcdt);
+      // this.mgetList(this.mCurrentPage,this.mpageSize,this.mcdt,this.morder,this.mdirection);
     },
     handleSelectionChange(val) {
     this.multipleSelection = val;
     },
     pageSizeChange(val) {
       if(this.page==0){
-        this.getList(this.CurrentPage, val, this.cdt);
+        this.getList(this.CurrentPage, val, this.cdt,this.order,this.direction);
       }else if(this.page==1){
-        this.mgetList(this.mCurrentPage,val,this.mcdt);
+        this.mgetList(this.mCurrentPage,val,this.mcdt,this.morder,this.mdirection);
       }
       console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
       if(this.page==0){
-        this.getList(val, this.pageSize, this.cdt);
+        this.getList(val, this.pageSize, this.cdt,this.order,this.direction);
       }else if(this.page==1){
-        this.mgetList(val,this.mpageSize,this.mcdt);
+        this.mgetList(val,this.mpageSize,this.mcdt,this.morder,this.mdirection);
       }
       console.log(`当前页: ${val}`);
     },
-    getList(currentPage, showCount, pd) {
+    getList(currentPage, showCount, pd,order,direction) {
       let p = {
         "currentPage": currentPage,
         "showCount": showCount,
-        "cdt": pd
+        "cdt": pd,
+        "order":order,
+        "direction":direction
       };
       this.$api.post('/manage-platform/addressManage/queryListPage', p,
         r => {
@@ -477,11 +506,13 @@ export default {
           this.TotalResult = r.data.totalResult;
         })
     },
-    mgetList(currentPage, showCount, pd){
+    mgetList(currentPage, showCount, pd,order,direction){
       let p = {
         "currentPage": currentPage,
         "showCount": showCount,
-        "cdt": pd
+        "cdt": pd,
+        "order":order,
+        "direction":direction
       };
       this.$api.post('/manage-platform/fileAssistant/queryListPage', p,
         r => {
@@ -540,7 +571,7 @@ export default {
              type: 'success'
            });
            this.folderDialogVisible=false;
-           this.mgetList(this.mCurrentPage,this.mpageSize,this.mcdt);
+           this.mgetList(this.mCurrentPage,this.mpageSize,this.mcdt,this.morder,this.mdirection);
            this.fileData=null;
          }else {
            this.fileData=null;
@@ -569,7 +600,7 @@ export default {
           message: '恭喜你，导入成功！',
           type: 'success'
         });
-        this.getList(this.CurrentPage, this.pageSize, this.cdt)
+        this.getList(this.CurrentPage, this.pageSize, this.cdt,this.order,this.direction)
       }else{
         this.$message({
           duration:3000,
@@ -731,7 +762,7 @@ export default {
                 type: 'success'
               });
               this.addDialogVisible = false;
-              this.getList(this.CurrentPage, this.pageSize, this.cdt);
+              this.getList(this.CurrentPage, this.pageSize, this.cdt,this.order,this.direction);
             }
             this.$refs[formName].resetFields();
           }, e => {
@@ -757,7 +788,7 @@ export default {
                   message: '删除成功！',
                   type: 'success'
                 });
-                this.mgetList(this.mCurrentPage,this.mpageSize,this.mcdt);
+                this.mgetList(this.mCurrentPage,this.mpageSize,this.mcdt,this.morder,this.mdirection);
               } else {
                 this.$message.error(r.Message);
               }
@@ -773,7 +804,7 @@ export default {
                   type: 'success'
                 });
 
-                this.getList(this.CurrentPage,this.pageSize, this.cdt);
+                this.getList(this.CurrentPage,this.pageSize, this.cdt,this.order,this.direction);
               } else {
                 this.$message.error(r.Message);
               }

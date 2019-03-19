@@ -31,7 +31,7 @@ hr {
   border-top: 1px solid #73BFF2;
 }
 
-.detailinput{width: 60%!important; min-height: 28px;line-height: 28px;border: 1px solid #eeeeee; background: #F5F7FA; border-radius: 3px; padding-left: 10px; color: #999999;}
+.detailinput{width: 60%!important; min-height: 28px;line-height: 28px;border: 1px solid #eeeeee; background: #F5F7FA; border-radius: 3px; padding-left: 10px;word-wrap: break-word; color: #999999;}
 .yy-color{color: red;}
 
 .yy-font{font-family:黑体;font-size: 23px;}

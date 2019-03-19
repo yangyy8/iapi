@@ -505,6 +505,13 @@ export default new Router({
           component: resolve => require(['@/components/SystemMonitor/OperatingStatus/MonitorFWQ'], resolve),
 
         },
+        //Logstash监控
+        {
+          path: "MonitorLS",
+          name: "MonitorLS",
+          component: resolve => require(['@/components/SystemMonitor/OperatingStatus/MonitorLS'], resolve),
+
+        },
         //mongodb监控
         {
           path: "MonitorDB",

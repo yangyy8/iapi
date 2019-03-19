@@ -106,7 +106,7 @@
           </el-row>
         </el-col>
         <el-col :span="2" class="down-btn-area" style="padding-top:30px;">
-          <el-button type="success" size="small" @click="getList(CurrentPage,pageSize,cdt)">查询</el-button>
+          <el-button type="success" size="small" @click="getList(CurrentPage,pageSize,cdt,order,direction)">查询</el-button>
         </el-col>
       </el-row>
     </div>
@@ -121,6 +121,7 @@
         border
         style="width: 100%;"
         class="o-table3"
+        @sort-change='sortChange'
         @header-click="headerClick">
         <el-table-column
           label="序号"
@@ -326,6 +327,8 @@ import {dayGap} from '@/assets/js/date.js'
 export default {
   data() {
     return {
+      order:'',
+      direction:0,
       props: {
           value: 'CODE',
           label:'ENAME',
@@ -420,12 +423,17 @@ export default {
     let flightStart = new Date(new Date().setHours(0,0,0,0));
     this.cdt.SCHEDULEDEPARTURETIMESTR=formatDate(flightStart,'yyyyMMddhhmm');
     this.cdt.SCHEDULEARRIVETIMESTR=formatDate(end,'yyyyMMddhhmm');
-    // this.getList(this.CurrentPage, this.pageSize, this.cdt);
+    // this.getList(this.CurrentPage, this.pageSize, this.cdt,this.order,this.direction);
   },
   activated() {
-    // this.getList(this.CurrentPage, this.pageSize, this.cdt);
+    // this.getList(this.CurrentPage, this.pageSize, this.cdt,this.order,this.direction);
   },
   methods: {
+    sortChange(column, prop, order){
+      column.order=='ascending'?this.direction=1:this.direction=0;
+      this.order=column.prop;
+      this.getList(this.CurrentPage,this.pageSize,this.cdt,this.order,this.direction);
+    },
     //时间转换
     timePlace(val){
       let y = val.substring(0,4);
@@ -455,15 +463,15 @@ export default {
       this.multipleSelection = val;
     },
     pageSizeChange(val) {
-      this.getList(this.CurrentPage, val, this.cdt);
+      this.getList(this.CurrentPage, val, this.cdt,this.order,this.direction);
       console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
-      this.getList(val, this.pageSize, this.cdt);
+      this.getList(val, this.pageSize, this.cdt,this.order,this.direction);
 
       console.log(`当前页: ${val}`);
     },
-    getList(currentPage, showCount, pd) {
+    getList(currentPage, showCount, pd,order,direction) {
       console.log(this.cdt.FLTDEPT)
       if(this.cdt.SCHEDULEDEPARTURETIMESTR==''||this.cdt.SCHEDULEARRIVETIMESTR==''||this.cdt.SCHEDULEDEPARTURETIMESTR==null||this.cdt.SCHEDULEARRIVETIMESTR==null){
         this.$message({
@@ -475,14 +483,14 @@ export default {
       let p = {
         "currentPage": currentPage,
         "showCount": showCount,
-        "cdt": pd
+        "cdt": pd,
+        "order":order,
+        "direction":direction
       };
       this.$api.post('/manage-platform/flightManage/queryListPage', p,
         r => {
-          console.log(r);
           this.tableData = r.data.resultList;
           this.TotalResult = r.data.totalResult;
-          console.log(this.tableData);
         })
     },
     takeLine(){//航线
@@ -517,7 +525,7 @@ export default {
           message: response.data,
           type: 'success'
         });
-        this.getList(this.CurrentPage, this.pageSize, this.cdt);
+        this.getList(this.CurrentPage, this.pageSize, this.cdt,this.order,this.direction);
       }else{
         this.$message({
           duration:6000,
@@ -607,6 +615,8 @@ export default {
         this.tp = 1;
         // this.form = i;
         this.form=Object.assign({}, i);
+        delete this.form.FLTDEPT;
+        delete this.form.FLTDEST;
         this.form.SCHEDULEDEPARTURETIMESTR=formatDate(new Date(this.form.SCHEDULEDEPARTURETIMESTR),'yyyyMMddhhmm');
         this.form.SCHEDULEARRIVETIMESTR=formatDate(new Date(this.form.SCHEDULEARRIVETIMESTR),'yyyyMMddhhmm');
         this.dialogText="编辑";
@@ -632,7 +642,7 @@ export default {
               this.addDialogVisible = false;
             }
             this.$refs[formName].resetFields();
-            this.getList(this.CurrentPage, this.pageSize, this.cdt);
+            this.getList(this.CurrentPage, this.pageSize, this.cdt,this.order,this.direction);
             // this.tableData=r.Data.ResultList;
           }, e => {
             this.$message.error('失败了');
@@ -656,7 +666,7 @@ export default {
                 message: '删除成功！',
                 type: 'success'
               });
-              this.getList(this.CurrentPage, this.pageSize, this.cdt);
+              this.getList(this.CurrentPage, this.pageSize, this.cdt,this.order,this.direction);
             } else {
               this.$message.error(r.Message);
             }

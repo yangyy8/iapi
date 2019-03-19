@@ -63,7 +63,7 @@
             </el-col>
             <el-col :sm="24" :md="12" :lg="8" class="input-item">
               <span class="input-text">机场：</span>
-              <el-select  v-model="pd.port" @change="getList(CurrentPage,pageSize,pd)" placeholder="请选择" filterable clearable size="small" class="input-input">
+              <el-select  v-model="pd.port" @change="getList(CurrentPage,pageSize,pd,order,direction)" placeholder="请选择" filterable clearable size="small" class="input-input">
                 <el-option
                   v-for="item in airport"
                   v-if="item.JCDM"
@@ -129,7 +129,7 @@
           </el-row>
         </el-col>
         <el-col :span="2" class="down-btn-area">
-          <el-button type="success" size="small" @click="getList(CurrentPage,pageSize,pd)">查询</el-button>
+          <el-button type="success" size="small" @click="getList(CurrentPage,pageSize,pd,order,direction)">查询</el-button>
         </el-col>
       </el-row>
     </div>
@@ -536,6 +536,8 @@ export default {
   components: {AlarmProcess},
   data(){
     return{
+      order:'',
+      direction:0,
       CurrentPage: 1,
       pageSize: 10,
       TotalResult: 0,
@@ -664,44 +666,9 @@ export default {
   },
   methods: {
     sortChange(column, prop, order){
-      let p={
-        'order':column.prop,
-        'direction':column.order=='ascending'?1:0,
-        "currentPage":this.CurrentPage,
-        "showCount":this.pageSize,
-        "cdt":this.pd
-      }
-      if((this.pd.startFlightDepartdate!=undefined && this.pd.startFlightDepartdate!=null)
-         && (this.pd.endFlightDepartdate!=undefined && this.pd.endFlightDepartdate!=null))
-      {
-        if(dayGap(this.pd.startFlightDepartdate,this.pd.endFlightDepartdate,1)>30){
-          this.$alert('查询时间间隔不能超过一个月', '提示', {
-            confirmButtonText: '确定',
-          });
-          return false
-        }
-      }else if((this.pd.startCreatetime!=undefined && this.pd.startCreatetime!=null)
-             && (this.pd.endCreatetime!=undefined && this.pd.endCreatetime!=null)) {
-
-               if(dayGap(this.pd.startCreatetime,this.pd.endCreatetime,1)>30){
-                 this.$alert('查询时间间隔不能超过一个月', '提示', {
-                   confirmButtonText: '确定',
-                 });
-                 return false
-               }
-      }else {
-        this.$alert('航班日期和命中日期至少其中一项不能为空', '提示', {
-          confirmButtonText: '确定',
-        });
-        return false
-      }
-        // pd.saveflag=1;
-        // pd.instructNew="1Z";
-        this.$api.post('/manage-platform/event/queryEventHisListPage',p,
-          r => {
-            this.tableData = r.data.resultList;
-            this.TotalResult = r.data.totalResult;
-          })
+      column.order=='ascending'?this.direction=1:this.direction=0;
+      this.order=column.prop;
+      this.getList(this.CurrentPage,this.pageSize,this.pd,this.order,this.direction);
     },
     headerClick(column,event){
         event.target.title=column.label
@@ -716,17 +683,17 @@ export default {
       this.pd.nationalityEqual=msg;
     },
     pageSizeChange(val) {
-      this.getList(this.CurrentPage, val, this.pd);
+      this.getList(this.CurrentPage, val, this.pd,this.order,this.direction);
       console.log(`每页 ${val} 条`);
     },
     hhandleCurrentChange(val){ //历次数据
       this.getHistoryList(val,this.hshowCount,this.historyCdt);
     },
     handleCurrentChange(val) {
-      this.getList(val, this.pageSize, this.pd);
+      this.getList(val, this.pageSize, this.pd,this.order,this.direction);
       console.log(`当前页: ${val}`);
     },
-    getList(currentPage, showCount, pd) {
+    getList(currentPage, showCount, pd,order,direction) {
     if((this.pd.startFlightDepartdate!=undefined && this.pd.startFlightDepartdate!=null)
        && (this.pd.endFlightDepartdate!=undefined && this.pd.endFlightDepartdate!=null))
     {
@@ -756,7 +723,9 @@ export default {
       let p = {
         "currentPage": currentPage,
         "showCount": showCount,
-        "cdt": pd
+        "cdt": pd,
+        "order":order,
+        "direction":direction
       };
       this.$api.post('/manage-platform/event/queryEventHisListPage', p,
         r => {

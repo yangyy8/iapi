@@ -221,7 +221,7 @@
                             label="内地居民" sortable>
                           </el-table-column>
                           <el-table-column
-                            prop="inland"
+                            prop="gat"
                             label="港澳台" sortable>
                           </el-table-column>
                   </el-table-column>

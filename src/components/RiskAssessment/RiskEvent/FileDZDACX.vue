@@ -118,7 +118,7 @@
           <el-table-column
             label="照片">
             <template slot-scope="scope">
-              <span class="tc-b hand" @click="getPhotoInf(scope.row.PASSPORTNO,scope.row.NATIONALITY,scope.row.BIRTHDAY,scope.row.ENAME)">查看</span>
+              <span class="tc-b hand" @click="getPhotoInf(scope.row.PASSPORTNO,scope.row.NATIONALITY,scope.row.BIRTHDAY,scope.row.ENAME,scope.row.GENDERNAME)">查看</span>
             </template>
           </el-table-column>
           <el-table-column
@@ -324,7 +324,7 @@ export default {
 
       })
     },
-    getPhotoInf(passportno,nationality,birthday,name){
+    getPhotoInf(passportno,nationality,birthday,name,gender){
       this.czDialogVisible=true;
       let p={}
       if(nationality=="CHN"){
@@ -340,6 +340,7 @@ export default {
           "birthday": birthday,
           "name": name,
           "type": 'photo',
+          "gender":gender=="男"?'1':gender=="女"?'2':'0',
         }
       }
 

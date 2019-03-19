@@ -93,6 +93,7 @@
         style="width: 100%;"
         class="mt-10 o-table3"
         @header-click="headerClick"
+        @sort-change="sortChange"
         >
         <el-table-column
           prop="TARGET_SIGN" sortable
@@ -392,6 +393,8 @@ export default {
       TotalResult: 0,
       pd: {},
       company: [],
+      orders:[],
+      direction:0,
       sertail:"",
       dialogText:"新增",
       addDialogVisible: false,
@@ -469,23 +472,38 @@ export default {
       this.multipleSelection = val;
     },
     pageSizeChange(val) {
-      this.getList(this.CurrentPage, val, this.pd);
+      // this.getList(this.CurrentPage, val, this.pd);
+        this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
       console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
-      this.getList(val, this.pageSize, this.pd);
+      // this.getList(val, this.pageSize, this.pd);
+        this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
       console.log(`当前页: ${val}`);
     },
-    getList(currentPage, showCount, pd) {
+    sortChange(data){
+      console.log('----------',data)
+      this.orders=[data.prop];
+      if(data.order=='descending'){
+        this.direction=0
+      }else{
+        this.direction=1
+      }
+      console.log(this.orders,this.direction)
+      this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
+    },
+    getList(currentPage, showCount, pd,orders,direction) {
 
       let p = {
         "currentPage": currentPage,
         "showCount": showCount,
-        "pd": pd
+        "pd": pd,
+        "orders":orders,
+        "direction":direction
       };
-      this.$api.post('/manage-platform/target/select', p,
+      this.$api.post('/manage-platform/target/selectNew', p,
         r => {
-          this.tableData = r.data.pdList;
+          this.tableData = r.data.resultList;
           this.TotalResult = r.data.totalResult;
         })
     },
@@ -559,7 +577,7 @@ export default {
           }
           this.$refs[formName].resetFields();
           this.addDialogVisible = false;
-          this.getList(this.CurrentPage, this.pageSize, this.pd);
+          this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
           // this.tableData=r.Data.ResultList;
         }, e => {
           this.$message.error('失败了');
@@ -577,10 +595,11 @@ export default {
         })
     },
     deletes(i) {
-      console.log("----"+i.TARGET_ID+"==="+ i.TARGET_SIGN);
+      // console.log("----"+i.TARGET_ID+"==="+ i.TARGET_SIGN);
       let p = {
         "targetId": i.TARGET_ID,
         "targetSign": i.TARGET_SIGN,
+        "status":i.STATUS
       };
       this.$confirm('您是否确认删除？', '提示', {
         confirmButtonText: '确定',
@@ -594,7 +613,7 @@ export default {
                 message: '删除成功！',
                 type: 'success'
               });
-              this.getList(this.CurrentPage, this.pageSize, this.pd);
+              this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
             } else {
               this.$message.error(r.Message);
             }
@@ -623,7 +642,7 @@ export default {
               message: '修改成功！',
               type: 'success'
             });
-            this.getList(this.CurrentPage, this.pageSize, this.pd);
+            this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
           } else {
             this.$message.error(r.Message);
           }

@@ -651,7 +651,7 @@ export default {
       this.$api.post('/manage-platform/sysUserInfoController/querySysUserInfo',{},
        r => {
         this.user=r.data;
-        console.log(this.user.dept_code)
+        // console.log(this.user.dept_code)
 
       })
     },
@@ -672,7 +672,7 @@ export default {
        r => {
          this.page0Data=r.data;
          this.getRiskEventTagInfo(this.page0Data.passportno,this.page0Data.nationality)
-         this.getPhotoInf(r.data.passportno,r.data.nationality,r.data.birthday,r.data.name);
+         this.getPhotoInf(r.data.passportno,r.data.nationality,r.data.birthday,r.data.name,r.data.genderName);
       })
     },
     // 当前事件标签及标签详情信息
@@ -683,8 +683,28 @@ export default {
       }
       this.$api.post('/manage-platform/riskEventWarningController/getRiskEventTagInfo',p,
        r => {
-         this.box1Data=r.data;
+         if(r.success){
+           var arrAfter=[];
+           var arrReal=[];
+           for(var i=0;i<r.data.validList.length;i++){
+             if(arrAfter.indexOf(r.data.validList[i].TAG_NAME)==-1){
+               arrAfter.push(r.data.validList[i].TAG_NAME);
+               arrReal.push(r.data.validList[i])
+             }
+           }
+           r.data.validList = arrReal;
+           this.box1Data=r.data;
+         }
       })
+    },
+    quchong(arr){
+      var hash=[];
+      for(var i=0;i<arr.length;i++){
+        if(hash.indexOf(arr[i])==-1){
+          hash.push(arr[i])
+        }
+      }
+      return hash
     },
     // 命中模型信息
     getHisModelInfo(){
@@ -1001,7 +1021,7 @@ export default {
          this.modeldec=r.data
       })
     },
-    getPhotoInf(passportno,nationality,birthday,name){
+    getPhotoInf(passportno,nationality,birthday,name,gender){
       let p={}
       if(nationality=="CHN"){
         p={
@@ -1015,6 +1035,7 @@ export default {
           "nationality": nationality,
           "birthday": birthday,
           "name": name,
+          "gender":gender=="男"?'1':gender=="女"?'2':'0',
           "type": 'photo',
         }
       }

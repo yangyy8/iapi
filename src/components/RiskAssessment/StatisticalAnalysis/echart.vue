@@ -37,6 +37,7 @@ export default {
         }
         this.liangChart.dispose();
         this.liangChart = null;
+
         this.drawLiang();
     }
   },
@@ -82,7 +83,7 @@ export default {
                 mark : {show: true},
                 saveAsImage : {show: true},
                 // dataView : {show: true, readOnly: false},
-                magicType : {show: true, type: ['bar', 'line']},
+                magicType : {show: true, type: ['line', 'bar']},
                 restore : {show: true},
             }
         },
@@ -92,7 +93,7 @@ export default {
         xAxis : [
             {
                 type : 'category',
-                boundaryGap: true,
+                // boundaryGap: true,
                 data : _this.chartdatas.xAxisData
             },
             {
@@ -144,7 +145,7 @@ export default {
         ],
         series:_this.chartdatas.series
       })
-
+      this.liangChart.resize();
     },
   }
 
