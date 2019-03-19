@@ -116,7 +116,7 @@
             <div class="co-tab-pane" @mouseover="mouseHeader">
               <el-row type="flex" style="height:100%" v-if="(controlChecked==1) && (coCheckId==1)">
                 <div class = "chart" style="width:100%">
-                  <div id = "echarts" style = "width: 100%;height: 400px"></div>
+                  <div id = "echartsZH" style = "width: 100%;height: 400px"></div>
                 </div>
               </el-row>
               <div v-if="(controlChecked==1) && (coCheckId==2)">
@@ -401,7 +401,7 @@ export default {
       barX:[],
       barY:[],
       realX:'',
-      lineChart:null,
+      lineChartZH:null,
       barChart:null,
       timer:null
     }
@@ -446,15 +446,15 @@ export default {
   },
   beforeDestroy() {
     clearInterval(this.timer);
-    if (!this.lineChart) {
+    if (!this.lineChartZH) {
       return;
     }
     if(!this.barChart){
       return;
     }
-    this.lineChart.dispose();
+    this.lineChartZH.dispose();
     this.barChart.dispose();
-    this.lineChart = null;
+    this.lineChartZH = null;
     this.barChart = null;
   },
   filters: {
@@ -564,11 +564,11 @@ export default {
       })
     },
     drawLine() {
-           this.lineChart = echarts.init(document.getElementById('echarts'));
-           window.onresize = echarts.init(document.getElementById('echarts')).resize;
+           this.lineChartZH = echarts.init(document.getElementById('echartsZH'));
+           window.onresize = echarts.init(document.getElementById('echartsZH')).resize;
            let that = this;
            // 折线图初始化
-           this.lineChart.setOption({
+           this.lineChartZH.setOption({
              tooltip:{
                trigger:'axis',
                formatter:function(params){
@@ -643,7 +643,7 @@ export default {
              }]
            })
            // 点击折点渲染表格
-            this.lineChart.on('click', function (params) {
+            this.lineChartZH.on('click', function (params) {
              that.checked=false;
              that.isRefreshZH=false;
              that.typeT=1;

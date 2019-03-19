@@ -62,7 +62,7 @@
      label="是否运行"
      sortable>
      <template slot-scope="scope">
-         <span>{{scope.row.status | fiftersate }}</span>
+         <span :class="{'green':scope.row.status=='0','red':scope.row.status=='1'}">{{scope.row.status | fiftersate }}</span>
      </template>
     </el-table-column>
   </el-table>
@@ -181,8 +181,8 @@ export default {
 .fileline {
   border-right: 1px solid #ffffff;
 }
-.yycolor{ background: green; padding: 3px 8px; color: #ffffff;}
-.yycolory{  background: red;padding: 3px 8px; color: #ffffff;}
+.green{ background: green; padding: 3px 8px; color: #ffffff;}
+.red{  background: red;padding: 3px 8px; color: #ffffff;}
 </style>
 <style media="screen">
 .el-table_1_column_9 .cell {
