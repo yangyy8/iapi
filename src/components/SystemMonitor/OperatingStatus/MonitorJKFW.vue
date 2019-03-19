@@ -103,7 +103,7 @@ export default {
         return '业务平台子系统'
       }else if(val == 2){
         return '整合分发子系统'
-      }else if(val == 3){
+      }else if(val == 3||val == 4||val == 5){
         return '风险评估子系统'
       }
     },
