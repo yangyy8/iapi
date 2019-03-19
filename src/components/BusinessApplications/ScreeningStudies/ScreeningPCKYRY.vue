@@ -81,6 +81,7 @@
                 label="国籍/地区" sortable>
               </el-table-column>
               <el-table-column
+                prop="passportno"
                 label="证件号码" sortable>
                 <template slot-scope="scope">
                    <el-button type="text" size="small" @click="$router.push({name:'QueryRYXX',query:{row:scope.row,page:1,title:'人员信息查询',name:'信息查询'}})">{{scope.row.passportno}}</el-button>
@@ -195,6 +196,7 @@
                 label="国籍/地区" sortable>
               </el-table-column>
               <el-table-column
+                prop="passportno"
                 label="证件号码" sortable>
                 <template slot-scope="scope">
                    <el-button type="text" size="small" @click="$router.push({name:'QueryRYXX',query:{row:scope.row,page:1,title:'人员信息查询',name:'信息查询'}})">{{scope.row.passportno}}</el-button>
@@ -309,6 +311,7 @@
                 label="国籍/地区" sortable>
               </el-table-column>
               <el-table-column
+                prop="passportno"
                 label="证件号码" sortable>
                 <template slot-scope="scope">
                    <el-button type="text" size="small" @click="$router.push({name:'QueryRYXX',query:{row:scope.row,page:1,title:'人员信息查询',name:'信息查询'}})">{{scope.row.passportno}}</el-button>
@@ -389,15 +392,18 @@ export default {
 
       pd: {
         begintime: '',
-        endtime: ''
+        endtime: '',
+        times:''
       },
       pd1: {
         begintime: '',
-        endtime: ''
+        endtime: '',
+        times:''
       },
       pd2: {
         begintime: '',
-        endtime: ''
+        endtime: '',
+        times:''
       },
 
       page: 0,
@@ -488,17 +494,17 @@ export default {
 
   },
   activated() {
-    this.getTimes();
-    this.getHz();
-    let time = new Date();
-    let endz = new Date();
-    let beginz = new Date(time - 1000 * 60 * 60 * 24 * 30);
-    this.pd.begintime = formatDate(endz, 'yyyyMMdd');
-    this.pd.endtime = formatDate(endz, 'yyyyMMdd');
-    this.pd1.begintime = formatDate(endz, 'yyyyMMdd');
-    this.pd1.endtime = formatDate(endz, 'yyyyMMdd');
-    this.pd2.begintime = formatDate(endz, 'yyyyMMdd');
-    this.pd2.endtime = formatDate(endz, 'yyyyMMdd');
+    // this.getTimes();
+    // this.getHz();
+    // let time = new Date();
+    // let endz = new Date();
+    // let beginz = new Date(time - 1000 * 60 * 60 * 24 * 30);
+    // this.pd.begintime = formatDate(endz, 'yyyyMMdd');
+    // this.pd.endtime = formatDate(endz, 'yyyyMMdd');
+    // this.pd1.begintime = formatDate(endz, 'yyyyMMdd');
+    // this.pd1.endtime = formatDate(endz, 'yyyyMMdd');
+    // this.pd2.begintime = formatDate(endz, 'yyyyMMdd');
+    // this.pd2.endtime = formatDate(endz, 'yyyyMMdd');
 
   },
   methods: {
