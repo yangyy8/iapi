@@ -151,9 +151,31 @@
             <div class="middle-foot">
               <div class="page-msg">
                 <div class="">
-                共{{TotalResult}}条
+                  共{{Math.ceil(TotalResult/pageSize)}}页
+                </div>
+                <div class="">
+                  每页
+                  <el-select v-model="pageSize" @change="pageSizeChange(pageSize)" placeholder="10" size="mini" class="page-select">
+                    <el-option
+                      v-for="item in options"
+                      :key="item.value"
+                      :label="item.label"
+                      :value="item.value">
+                    </el-option>
+                  </el-select>
+                  条
+                </div>
+                <div class="">
+                  共{{TotalResult}}条
                 </div>
               </div>
+              <el-pagination
+                background
+                @current-change="handleCurrentChange"
+                :page-size="pageSize"
+                layout="prev, pager, next"
+                :total="TotalResult">
+              </el-pagination>
             </div>
         </div>
         <div v-show="page==1">
@@ -215,9 +237,31 @@
           <div class="middle-foot">
             <div class="page-msg">
               <div class="">
-              共{{TotalResult1}}条
+                共{{Math.ceil(TotalResult1/pageSize1)}}页
+              </div>
+              <div class="">
+                每页
+                <el-select v-model="pageSize1" @change="pageSizeChange1(pageSize1)" placeholder="10" size="mini" class="page-select">
+                  <el-option
+                    v-for="item in options"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                  </el-option>
+                </el-select>
+                条
+              </div>
+              <div class="">
+                共{{TotalResult1}}条
               </div>
             </div>
+            <el-pagination
+              background
+              @current-change="handleCurrentChange1"
+              :page-size="pageSize1"
+              layout="prev, pager, next"
+              :total="TotalResult1">
+            </el-pagination>
           </div>
         </div>
 
@@ -370,9 +414,31 @@
           <div class="middle-foot">
             <div class="page-msg">
               <div class="">
-              共{{TotalResult3}}条
+                共{{Math.ceil(TotalResult3/pageSize3)}}页
+              </div>
+              <div class="">
+                每页
+                <el-select v-model="pageSize3" @change="pageSizeChange3(pageSize3)" placeholder="10" size="mini" class="page-select">
+                  <el-option
+                    v-for="item in options"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                  </el-option>
+                </el-select>
+                条
+              </div>
+              <div class="">
+                共{{TotalResult3}}条
               </div>
             </div>
+            <el-pagination
+              background
+              @current-change="handleCurrentChange3"
+              :page-size="pageSize3"
+              layout="prev, pager, next"
+              :total="TotalResult3">
+            </el-pagination>
           </div>
         </div>
 
@@ -597,22 +663,25 @@ export default {
         }
       }
     let p = {
-      "fltno":pd.fltno,
-      "fltdate":pd.fltdate,
-      "nationality":pd.nationality,
-      "cardnum":pd.cardnum,
-      "name":pd.name,
-      "birthday":pd.birthday,
-      "birthday":pd.birthday,
-      "birthday":pd.birthday
+      // "fltno":pd.fltno,
+      // "fltdate":pd.fltdate,
+      // "nationality":pd.nationality,
+      // "cardnum":pd.cardnum,
+      // "name":pd.name,
+      // "birthday":pd.birthday,
+      // "birthday":pd.birthday,
+      // "birthday":pd.birthday
+      "currentPage": currentPage,
+      "showCount": showCount,
+      "cdt": pd
     };
 
     var url="/manage-platform/relatedperson/get_related_book";
     this.$api.post(url, p,
       r => {
         console.log(r);
-        this.tableData = r.data;
-        this.TotalResult=r.data.length;
+        this.tableData = r.data.resultList;
+        this.TotalResult=r.data.totalResult;
       });
 
     this.getList1(currentPage, showCount, pd);
@@ -621,20 +690,24 @@ export default {
     },
     getList1(currentPage1, showCount1, pd1) {
       let p = {
-        "fltno":pd1.fltno,
-        "fltdate":pd1.fltdate,
-        "nationality":pd1.nationality,
-        "cardnum":pd1.cardnum,
-        "name":pd1.name,
-        "birthday":pd1.birthday,
-        "intervel":pd1.intervel
+        // "fltno":pd1.fltno,
+        // "fltdate":pd1.fltdate,
+        // "nationality":pd1.nationality,
+        // "cardnum":pd1.cardnum,
+        // "name":pd1.name,
+        // "birthday":pd1.birthday,
+        // "intervel":pd1.intervel
+
+        "currentPage": currentPage1,
+        "showCount": showCount1,
+        "cdt": pd1
       };
      var url="/manage-platform/relatedperson/get_related_check";
       this.$api.post(url, p,
         r => {
           console.log(r);
-          this.tableData1 = r.data;
-          this.TotalResult1=r.data.length;
+          this.tableData1 = r.data.resultList;
+          this.TotalResult1=r.data.totalResult;
         })
     },
     selectChange(){
@@ -658,20 +731,24 @@ export default {
 
         let p = {
 
-          "fltno":pd3.fltno,
-          "fltdate":pd3.fltdate,
-          "nationality":pd3.nationality,
-          "cardnum":pd3.cardnum,
-          "name":pd3.name,
-          "birthday":pd3.birthday
+          // "fltno":pd3.fltno,
+          // "fltdate":pd3.fltdate,
+          // "nationality":pd3.nationality,
+          // "cardnum":pd3.cardnum,
+          // "name":pd3.name,
+          // "birthday":pd3.birthday
+          "currentPage": currentPage3,
+          "showCount": showCount3,
+          "cdt": pd3
+
         };
 
      var url="/manage-platform/relatedperson/get_related_seat";
       this.$api.post(url, p,
         r => {
           console.log(r);
-          this.tableData3 = r.data;
-            this.TotalResult3=r.data.length;
+          this.tableData3 = r.data.resultList;
+            this.TotalResult3=r.data.totalResult;
         })
     },
 
