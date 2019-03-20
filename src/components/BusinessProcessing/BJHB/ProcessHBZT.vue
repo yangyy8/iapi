@@ -70,7 +70,7 @@
           </el-row>
         </el-col>
         <el-col :span="2" class="down-btn-area" >
-          <el-button type="success" size="small" @click="getList(CurrentPage,pageSize,pd)">查询</el-button>
+          <el-button type="success" size="small" @click="getList(CurrentPage,pageSize,pd,order,direction)">查询</el-button>
         </el-col>
       </el-row>
     </div>
@@ -80,8 +80,8 @@
         border
         style="width: 100%;"
         class="mt-10 o-table3"
-@header-click="headerClick"
-
+        @header-click="headerClick"
+        @sort-change='sortChange'
         >
         <el-table-column
           prop="fltno"
@@ -294,6 +294,8 @@ import {dayGap} from '@/assets/js/date.js'
 export default {
   data() {
     return {
+      order:'',
+      direction:0,
       AuthDialogVisible:false,
       authFlag:0,//变更
       ap:{},
@@ -351,7 +353,7 @@ export default {
     }
   },
   mounted() {
-  //  this.getList(this.CurrentPage, this.pageSize, this.pd);
+  //  this.getList(this.CurrentPage, this.pageSize, this.pd,this.order,this.direction);
     this.queryNationality();
     this.queryAirport();
 
@@ -371,6 +373,11 @@ export default {
   },
 
   methods: {
+    sortChange(column, prop, order){
+      column.order=='ascending'?this.direction=1:this.direction=0;
+      this.order=column.prop;
+      this.getList(this.CurrentPage,this.pageSize,this.pd,this.order,this.direction);
+    },
     closeAp(){
       this.V.$reset('demo1');
       this.AuthDialogVisible = false;
@@ -396,7 +403,7 @@ export default {
                 this.$refs[formName].resetFields();
                 this.addDialogVisible = false;
                 this.AuthDialogVisible = false;
-                this.getList(this.CurrentPage, this.pageSize, this.pd);
+                this.getList(this.CurrentPage, this.pageSize, this.pd,this.order,this.direction);
                 // this.tableData=r.Data.ResultList;
               }, e => {
                 this.$message.error('失败了');
@@ -423,7 +430,7 @@ export default {
                 this.$refs[formName].resetFields();
                 this.cancelDialogVisible = false;
                 this.AuthDialogVisible = false;
-                this.getList(this.CurrentPage, this.pageSize, this.pd);
+                this.getList(this.CurrentPage, this.pageSize, this.pd,this.order,this.direction);
                 // this.tableData=r.Data.ResultList;
               }, e => {
                 this.$message.error('失败了');
@@ -438,15 +445,14 @@ export default {
       this.multipleSelection = val;
     },
     pageSizeChange(val) {
-      this.getList(this.CurrentPage, val, this.pd);
+      this.getList(this.CurrentPage, val, this.pd,this.order,this.direction);
       console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
-      this.getList(val, this.pageSize, this.pd);
-
+      this.getList(val, this.pageSize, this.pd,this.order,this.direction);
       console.log(`当前页: ${val}`);
     },
-    getList(currentPage, showCount, pd) {
+    getList(currentPage, showCount, pd,order,direction) {
   // if(pd.startScheduledeparturetime!= undefined){
   //   pd.startScheduledeparturetime= formatDate(pd.startScheduledeparturetime, "yyyy-MM-dd");
   // }
@@ -469,7 +475,9 @@ export default {
       let p = {
         "currentPage": currentPage,
         "showCount": showCount,
-        "cdt": pd
+        "cdt": pd,
+        "order":order,
+        "direction":direction
       };
       this.$api.post('/manage-platform/statusUpdate/flight/queryListPage', p,
         r => {
@@ -524,7 +532,7 @@ export default {
         this.form.desc='';
         this.addDialogVisible = true;
         this.form = i;
-        // this.getList(this.CurrentPage, this.pageSize, this.pd)
+        // this.getList(this.CurrentPage, this.pageSize, this.pd,this.order,this.direction)
       }
     },
     cancel(i){
@@ -536,7 +544,7 @@ export default {
         this.cform.desc = '';
         this.cancelDialogVisible = true;
         this.cform = i;
-        // this.getList(this.CurrentPage, this.pageSize, this.pd)
+        // this.getList(this.CurrentPage, this.pageSize, this.pd,this.order,this.direction)
       }
     },
   }

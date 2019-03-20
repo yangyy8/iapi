@@ -59,7 +59,7 @@
           </el-row>
         </el-col>
         <el-col :span="2" class="down-btn-area" >
-          <el-button type="success" size="small" @click="getList(CurrentPage,pageSize,cdt)">查询</el-button>
+          <el-button type="success" size="small" @click="getList(CurrentPage,pageSize,cdt,order,direction)">查询</el-button>
         </el-col>
 
       </el-row>
@@ -71,7 +71,8 @@
         border
         style="width: 100%;"
         class="o-table3"
-        @header-click="headerClick">
+        @header-click="headerClick"
+        @sort-change='sortChange'>
       <el-table-column
         label="序号"
         type="index"
@@ -81,43 +82,43 @@
           prop="TITLE"
           label="标题"
           width="80px"
-          sortable>
+          sortable='custom'>
         </el-table-column>
         <el-table-column
           prop="NAME"
           label="登记人姓名"
-          sortable>
+          sortable='custom'>
         </el-table-column>
         <el-table-column
           prop="USERNAME"
           label="登记人账号"
           width="100px"
-          sortable>
+          sortable='custom'>
         </el-table-column>
         <el-table-column
           prop="SOURCENAME"
           label="来源人姓名"
-          sortable>
+          sortable='custom'>
         </el-table-column>
         <el-table-column
           prop="SOURCEPHONE"
           label="来源人电话"
-          sortable>
+          sortable='custom'>
         </el-table-column>
         <el-table-column
           prop="HANDOVERNAME"
           label="交接人姓名"
-          sortable>
+          sortable='custom'>
         </el-table-column>
         <el-table-column
           prop="RECORDTIMESTR"
           label="事件时间"
-          sortable>
+          sortable='custom'>
         </el-table-column>
         <el-table-column
           prop="TYPE"
           label="事件来源"
-          sortable>
+          sortable='custom'>
           <template slot-scope="scope">
             {{scope.row.TYPE|fifter1}}
           </template>
@@ -220,6 +221,8 @@ export default {
 
   data() {
     return {
+      order:'',
+      direction:0,
       htmlTitle: '页面导出PDF文件名',
       CurrentPage: 1,
       pageSize: 10,
@@ -253,13 +256,18 @@ export default {
     }
   },
   mounted() {
-    // this.getList(this.CurrentPage,this.pageSize,this.cdt);
+    // this.getList(this.CurrentPage,this.pageSize,this.cdt,this.order,this.direction);
     this.queryNationality();
   },
   activated(){
-    // this.getList(this.CurrentPage,this.pageSize,this.cdt);
+    // this.getList(this.CurrentPage,this.pageSize,this.cdt,this.order,this.direction);
   },
   methods: {
+    sortChange(column, prop, order){
+      column.order=='ascending'?this.direction=1:this.direction=0;
+      this.order=column.prop;
+      this.getList(this.CurrentPage,this.pageSize,this.cdt,this.order,this.direction);
+    },
     headerClick(column,event){
       event.target.title=column.label
     },
@@ -267,15 +275,15 @@ export default {
       this.multipleSelection = val;
     },
     pageSizeChange(val) {
-      this.getList(this.CurrentPage, val, this.cdt);
+      this.getList(this.CurrentPage, val, this.cdt,this.order,this.direction);
       console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
-      this.getList(val, this.pageSize, this.cdt);
+      this.getList(val, this.pageSize, this.cdt,this.order,this.direction);
       this.CurrentPage = val;
       console.log(`当前页: ${val}`);
     },
-    getList(currentPage, showCount, pd) {
+    getList(currentPage, showCount, pd,order,direction) {
       // const result = this.$validator.verifyAll('timeDemo')
       //  if (result.indexOf(false) > -1) {
       //    return
@@ -283,7 +291,9 @@ export default {
       let p = {
         "currentPage": currentPage,
         "showCount": showCount,
-        "cdt": pd
+        "cdt": pd,
+        "order":order,
+        "direction":direction
       };
       this.$api.post('/manage-platform/incident/queryListPage', p,
         r => {
@@ -336,7 +346,7 @@ export default {
           }
           this.changeDialogVisible = false;
           console.log(this.CurrentPage);
-          this.getList(this.CurrentPage,this.pageSize,this.cdt);
+          this.getList(this.CurrentPage,this.pageSize,this.cdt,this.order,this.direction);
         })
     },
 
@@ -389,7 +399,7 @@ export default {
                 message: '删除成功！',
                 type: 'success'
               });
-              this.getList(this.CurrentPage, this.pageSize, this.cdt);
+              this.getList(this.CurrentPage, this.pageSize, this.cdt,this.order,this.direction);
             } else {
               this.$message.error(r.Message);
             }

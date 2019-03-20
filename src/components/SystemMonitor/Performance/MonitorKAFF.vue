@@ -124,7 +124,7 @@
             <div class="co-tab-pane" @mouseover="mouseHeader">
               <el-row type="flex" style="height:100%" v-show="(controlChecked==1) && (coCheckId==1)">
                 <div class = "chart" style="width:100%">
-                  <div id = "echarts" style = "width: 100%;height: 400px"></div>
+                  <div id = "echartsKA" style = "width: 100%;height: 400px"></div>
                 </div>
               </el-row>
               <div v-if="(controlChecked==1) && (coCheckId==2)">
@@ -603,8 +603,8 @@ export default {
       })
     },
     drawLine() {
-           this.lineChart = echarts.init(document.getElementById('echarts'));
-           window.onresize = echarts.init(document.getElementById('echarts')).resize;
+           this.lineChart = echarts.init(document.getElementById('echartsKA'));
+           window.onresize = echarts.init(document.getElementById('echartsKA')).resize;
            let that = this;
            // 折线图初始化
            // this.lineChart.clear();

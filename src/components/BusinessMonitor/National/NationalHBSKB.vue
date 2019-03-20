@@ -52,7 +52,7 @@
             </el-row>
           </el-col>
           <el-col :span="4" class="down-btn-area">
-            <el-button type="success" class="" size="small" @click="getList(CurrentPage,pageSize,pd)">查询</el-button>
+            <el-button type="success" class="" size="small" @click="getList(CurrentPage,pageSize,pd,orders,direction)">查询</el-button>
             <!-- <el-button type="primary" class="mb-15" plain size="small" >重置</el-button> -->
           </el-col>
         </el-row>
@@ -60,6 +60,8 @@
     <div class="middle">
       <el-table
         ref="multipleTable"
+        class="o-table3"
+        @sort-change="sortChange"
         :data="tableData"
         border
         style="width: 100%;">
@@ -67,22 +69,31 @@
           label="出境">
           <el-table-column
             label="航班号"
-            sortable
-            prop="out.fltNo">
+            sortable="custom"
+            prop="out.fltNo"
+            :show-overflow-tooltip="true">
+            <!-- <template slot-scope="scope" v-if="scope.row.out!=null">
+              <span>{{}}</span>
+            </template> -->
           </el-table-column>
           <el-table-column
             label="目的站"
-            prop="out.portTo">
+            sortable="custom"
+            prop="out.portTo"
+            :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="计划起飞时间"
-            sortable
+            sortable="custom"
             width="130"
-            prop="out.daDate">
+            prop="out.daDate"
+            :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="航班状态"
-            width="150">
+            sortable="custom"
+            width="150"
+            :show-overflow-tooltip="true">
             <template slot-scope="scope" v-if="scope.row.out!=null">
               <div>
                 <span v-if="scope.row.out.status==0">计划</span>
@@ -98,33 +109,42 @@
           </el-table-column>
           <el-table-column
             label="机型备注"
-            prop="out.airCode">
+            prop="out.airCode"
+            :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="出发站"
-            prop="out.portFrom">
+            sortable="custom"
+            prop="out.portFrom"
+            :show-overflow-tooltip="true">
           </el-table-column>
         </el-table-column>
         <el-table-column
           label="入境">
           <el-table-column
             label="航班号"
-            sortable
-            prop="in.fltNo">
+            sortable="custom"
+            prop="in.fltNo"
+            :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="出发站"
-            prop="in.portFrom">
+            sortable="custom"
+            prop="in.portFrom"
+            :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="计划到达时间"
-            sortable
+            sortable="custom"
             width="130"
-            prop="in.daDate">
+            prop="in.daDate"
+            :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="航班状态"
-            width="150">
+            sortable="custom"
+            width="150"
+            :show-overflow-tooltip="true">
             <template slot-scope="scope" v-if="scope.row.in!=null">
               <div >
                 <span v-if="scope.row.in.status==0">计划</span>
@@ -140,11 +160,14 @@
           </el-table-column>
           <el-table-column
             label="机型备注"
-            prop="in.airCode">
+            prop="in.airCode"
+            :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="目的站"
-            prop="in.portTo">
+            sortable="custom"
+            prop="in.portTo"
+            :show-overflow-tooltip="true">
           </el-table-column>
         </el-table-column>
 
@@ -193,6 +216,8 @@ export default {
       CurrentPage:1,
       pageSize:10,
       TotalResult:0,
+      orders:"",
+      direction:0,
       pd:{fltDate:''},
       airport:null,
       options:[
@@ -224,11 +249,13 @@ export default {
 
   methods:{
     pageSizeChange(val) {
-      this.getList(this.CurrentPage,val,this.pd);
+      this.pageSize=val;
+      this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
       console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
-      this.getList(val,this.pageSize,this.pd);
+      this.CurrentPage=val;
+      this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
       console.log(`当前页: ${val}`);
     },
     queryAirport(){
@@ -239,12 +266,14 @@ export default {
          }
       })
     },
-    getList(CurrentPage,showCount,pd){
+    getList(CurrentPage,showCount,pd,orders,direction){
       let p={
     		"showCount": showCount,
     		"currentPage": CurrentPage,
         "totalResult": this.TotalResult,
-    		"pd": pd
+    		"pd": pd,
+        "order":orders,
+	      "direction":direction
       }
       this.$api.post('/manage-platform/flightRealTime/querySchedulePage',p,
        r => {
@@ -252,6 +281,17 @@ export default {
          this.tableData=r.data.pdList;
          this.TotalResult=r.data.totalResult;
       })
+    },
+    sortChange(data){
+      console.log(data)
+      this.orders=data.prop.replace('.','_');
+      if(data.order=='descending'){
+        this.direction=0
+      }else{
+        this.direction=1
+      }
+      console.log(this.orders,this.direction)
+      this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
     },
   }
 }
