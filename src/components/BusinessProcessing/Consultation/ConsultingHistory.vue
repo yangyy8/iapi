@@ -174,7 +174,7 @@
           fixed="right">
           <template slot-scope="scope">
             <el-button type="text"  class="a-btn"  title="详情"  icon="el-icon-tickets" @click="details(scope.row)"></el-button>
-            <el-button type="text"  class="a-btn"  title="回复"  icon="el-icon-edit-outline" :class="{'gray':scope.row.CONSULTSTATUS==0}"  @click="review(scope.row)"></el-button>
+            <!-- <el-button type="text"  class="a-btn"  title="回复"  icon="el-icon-edit-outline" :class="{'gray':scope.row.CONSULTSTATUS==0}"  @click="review(scope.row)"></el-button> -->
          </template>
         </el-table-column>
       </el-table>
@@ -289,6 +289,37 @@
           <el-input type="textarea" class="height80" v-model="DETAILS" :disabled="true"></el-input>
         </el-col>
       </el-row>
+
+      <el-row style="padding-top:10px">
+        <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+          <span class="input-text input-text-ts">回复口径：</span>
+          <el-input size="small" v-model="REPLYTYPE"  class="input-input" :disabled="true"></el-input>
+        </el-col>
+        <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+          <span class="input-text input-text-ts">中文：</span>
+          <el-input size="small" v-model="CHNREPLY"  class="input-input" :disabled="true"></el-input>
+        </el-col>
+        <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+          <span class="input-text input-text-ts">英文：</span>
+          <el-input size="small" v-model="ENGREPLY"  class="input-input" :disabled="true"></el-input>
+        </el-col>
+      </el-row>
+      <el-row style="padding-top:10px" v-if="RESULTOFHANDING">
+        <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+          <span class="input-text input-text-ts">处理结果：</span>
+          <el-select v-model="RESULTOFHANDING" filterable clearable placeholder="请选择" size="small" class="input-input" :disabled="true">
+            <el-option label="0-不做处理" value="0"></el-option>
+            <el-option label="1-变更指令(允许登机)" value="1"></el-option>
+            <el-option label="2-变更指令(不准登机)" value="2"></el-option>
+           </el-select>
+        </el-col>
+      </el-row>
+      <el-row :gutter="2" style="padding-top:10px" v-if="REMARKOFHANDING">
+        <el-col :span="24" class="input-item">
+          <span class="input-text  tt-width">备注：</span>
+          <el-input type="textarea" class="height80" v-model="REMARKOFHANDING" :disabled="true"></el-input>
+        </el-col>
+      </el-row>
     </el-dialog>
   </div>
 </template>
@@ -300,6 +331,11 @@ export default {
 
   data() {
     return {
+      REPLYTYPE:'',
+      CHNREPLY:'',
+      ENGREPLY:'',
+      REMARKOFHANDING:'',
+      RESULTOFHANDING:'',
       CurrentPage: 1,
       pageSize: 10,
       TotalResult: 0,
@@ -431,13 +467,13 @@ export default {
           }
         })
     },
-    review(i){
-      if(i.CONSULTTYPE!=0){
-        this.$router.push({name:'ConsultationZXHG',query:{serial:i.SERIAL,details:i.DETAILS,flag:i.CONSULTTYPE}})
-      }else if(i.CONSULTTYPE == 0){
-        this.$router.push({name:'ConsultationZXHG',query:{review:i,details:i.DETAILS,serial:i.SERIAL,flag:i.CONSULTTYPE}})
-      }
-    },
+    // review(i){
+    //   if(i.CONSULTTYPE!=0){
+    //     this.$router.push({name:'ConsultationZXHG',query:{serial:i.SERIAL,details:i.DETAILS,flag:i.CONSULTTYPE}})
+    //   }else if(i.CONSULTTYPE == 0){
+    //     this.$router.push({name:'ConsultationZXHG',query:{review:i,details:i.DETAILS,serial:i.SERIAL,flag:i.CONSULTTYPE}})
+    //   }
+    // },
     terminal(){//航站
       this.$api.post('/manage-platform/codeTable/queryAirport',{},
        r =>{
@@ -456,7 +492,22 @@ export default {
       this.$api.post('/manage-platform/consult/queryConsultBySerial',p,
        r =>{
          this.tableDataD.push(r.data);
-         this.DETAILS = r.data.DETAILS
+         this.DETAILS = r.data.DETAILS;
+         this.REPLYTYPE = r.data.REPLYTYPE;
+         this.CHNREPLY = r.data.CHNREPLY;
+         this.ENGREPLY = r.data.ENGREPLY;
+         this.RESULTOFHANDING = r.data.RESULTOFHANDING;
+         console.log(this.RESULTOFHANDING)
+         if(r.data.hasOwnProperty('REMARKOFHANDING')){
+           this.REMARKOFHANDING = r.data.REMARKOFHANDING;
+         }else{
+           this.REMARKOFHANDING = '';
+         }
+         if(r.data.hasOwnProperty('RESULTOFHANDING')){
+           this.RESULTOFHANDING = r.data.RESULTOFHANDING
+         }else{
+           this.RESULTOFHANDING = '';
+         }
        })
     }
   }
@@ -471,5 +522,11 @@ export default {
   background-color: #F4F4F4!important;
   border:1px solid #ccc!important;
   color:#bbb!important;
+}
+.input-text-ts{
+  width: 25%!important;
+}
+.t-width-bz{
+  width: 5%!important;
 }
 </style>

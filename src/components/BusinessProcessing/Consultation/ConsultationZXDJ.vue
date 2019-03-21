@@ -7,8 +7,8 @@
             咨询来源
           </span>&nbsp;|&nbsp;
           <span>时间：{{currentDate}}</span>
-          <el-row align="center" :gutter="2" style="margin-top:10px">
-            <el-col  :sm="24" :md="12" :lg="8"  class="input-item my-form-group" data-scope="txl" data-name="CONSULTFROM" data-type="select"
+          <el-row align="center" :gutter="2" style="margin-top:10px" id="form1">
+            <el-col  :sm="24" :md="12" :lg="8"  class="input-item my-form-group" :data-scope="aa.ts" data-name="CONSULTFROM" data-type="select"
             v-validate-easy="[['required']]">
               <span class="input-text"><i class="t-must">*</i>咨询来源：</span>
               <el-select v-model="entity.CONSULTFROM" filterable clearable placeholder="请选择" size="small" class="input-input">
@@ -17,7 +17,7 @@
                 <el-option label="2 - 其他" value="2"></el-option>
               </el-select>
             </el-col>
-            <el-col  :sm="24" :md="12" :lg="8"  class="input-item my-form-group" data-scope="txl" data-name="AIRLINE_CODE" data-type="select"
+            <el-col  :sm="24" :md="12" :lg="8"  class="input-item my-form-group" :data-scope="aa.ts" data-name="AIRLINE_CODE" data-type="select"
             v-validate-easy="[['required']]" v-if="entity.CONSULTFROM=='0'">
               <span class="input-text"><i class="t-must">*</i>航空公司：</span>
               <el-select v-model="entity.AIRLINE_CODE" filterable clearable placeholder="请选择" size="small" class="input-input" @visible-change="applicationMethod">
@@ -30,7 +30,7 @@
               </el-select>
             </el-col>
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item my-form-group" v-if="entity.CONSULTFROM == '0'||entity.CONSULTFROM == ''||entity.CONSULTFROM == undefined"
-            data-scope="txl" data-name="TERMINAL" data-type="select"
+            :data-scope="aa.ts" data-name="TERMINAL" data-type="select"
             v-validate-easy="[['required']]">
               <span class="input-text"><i class="t-must">*</i>航站：</span>
               <el-select v-model="entity.TERMINAL" filterable clearable placeholder="请选择" size="small" class="input-input" @visible-change="terminal">
@@ -43,14 +43,14 @@
               </el-select>
             </el-col>
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item my-form-group"
-            data-scope="txl" data-name="CONSULTNAME" data-type="input"
+            :data-scope="aa.ts" data-name="CONSULTNAME" data-type="input"
             v-validate-easy="[['required']]">
               <span class="input-text"><i class="t-must">*</i>咨询人：</span>
               <el-input placeholder="请输入内容" size="small" v-model="entity.CONSULTNAME"  class="input-input"></el-input>
             </el-col>
 
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item my-form-group"
-            data-scope="txl" data-name="CONSULTFROMTYPE" data-type="select"
+            :data-scope="aa.ts" data-name="CONSULTFROMTYPE" data-type="select"
             v-validate-easy="[['required']]">
               <span class="input-text"><i class="t-must">*</i>咨询方式：</span>
               <el-select v-model="entity.CONSULTFROMTYPE" filterable clearable placeholder="请选择" size="small" class="input-input">
@@ -63,31 +63,31 @@
             </el-col>
 
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item my-form-group" v-if="entity.CONSULTFROMTYPE=='0'"
-            data-scope="txl" data-name="PHONE" data-type="input"
+            :data-scope="aa.ts" data-name="PHONE" data-type="input"
             v-validate-easy="[['required']]">
               <span class="input-text"><i class="t-must">*</i>移动电话：</span>
               <el-input placeholder="请输入内容" size="small" v-model="entity.PHONE"  class="input-input" maxlength="25"></el-input>
             </el-col>
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item my-form-group" v-if="entity.CONSULTFROMTYPE=='1'"
-            data-scope="txl" data-name="CONSULTFAX" data-type="input"
+            :data-scope="aa.ts" data-name="CONSULTFAX" data-type="input"
             v-validate-easy="[['required']]">
               <span class="input-text"><i class="t-must">*</i>传真：</span>
               <el-input placeholder="请输入内容" size="small" v-model="entity.CONSULTFAX"  class="input-input" maxlength="25"></el-input>
             </el-col>
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item my-form-group" v-if="entity.CONSULTFROMTYPE=='2'"
-            data-scope="txl" data-name="CONSULTEMAIL" data-type="input"
+            :data-scope="aa.ts" data-name="CONSULTEMAIL" data-type="input"
             v-validate-easy="[['required']]">
               <span class="input-text"><i class="t-must">*</i>邮箱：</span>
               <el-input placeholder="请输入内容" size="small" v-model="entity.CONSULTEMAIL"  class="input-input" maxlength="50"></el-input>
             </el-col>
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item my-form-group" v-if="entity.CONSULTFROMTYPE=='3'"
-            data-scope="txl" data-name="INCOMINGPHONE" data-type="input"
+            :data-scope="aa.ts" data-name="INCOMINGPHONE" data-type="input"
             v-validate-easy="[['required']]">
               <span class="input-text"><i class="t-must">*</i>固定电话：</span>
               <el-input placeholder="请输入内容" size="small" v-model="entity.INCOMINGPHONE"  class="input-input" maxlength="25"></el-input>
             </el-col>
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item my-form-group" v-if="entity.CONSULTFROMTYPE=='4'"
-            data-scope="txl" data-name="CONSULTFROMOTHERREMARK" data-type="input"
+            :data-scope="aa.ts" data-name="CONSULTFROMOTHERREMARK" data-type="input"
             v-validate-easy="[['required']]">
               <span class="input-text"><i class="t-must">*</i>其他：</span>
               <el-input placeholder="请输入内容" size="small" v-model="entity.CONSULTFROMOTHERREMARK"  class="input-input"></el-input>
@@ -96,21 +96,21 @@
         </el-col>
         <el-col :span="2" class="down-btn-area" style="margin-top:35px;">
           <!-- <el-row align="center" :gutter="2" type="flex" justify="center" style="margin-top:10px;padding-bottom:20px;border-bottom:1px dotted #ccc"> -->
-            <el-button type="success" size="small" class="mb-15" @click="addToBook">添加至通讯录</el-button>
-            <el-button type="primary" size="small" plain @click="entity = {}">重置</el-button>
+            <el-button type="success" size="small" class="mb-15" @click="addToBook()">添加至通讯录</el-button>
+            <el-button type="primary" size="small" plain @click="entity = {};V.$reset('txljiao')">重置</el-button>
           <!-- </el-row> -->
         </el-col>
       </el-row>
     </div>
     <div class="middle" @mouseover="mouseHeader">
-      <el-row type="flex"  style="padding-top:0px!important">
+      <el-row type="flex"  style="padding-top:0px!important;padding-bottom:10px">
         <el-col :span="22" class="pr-20" :class="{'br':CONSULTTYPE==0}">
           <span class="title-green">
             咨询问题
           </span>&nbsp;|&nbsp;
           <div style="display:inline-block" class="problem-type">
             <span>问题类型</span>
-            <el-radio-group v-model="CONSULTTYPE">
+            <el-radio-group v-model="CONSULTTYPE" @change="changeType(CONSULTTYPE)">
               <el-radio :label="0">旅客校验</el-radio>
               <el-radio :label="1">业务咨询</el-radio>
               <el-radio :label="2">其他</el-radio>
@@ -230,8 +230,6 @@
           width="70"
           fixed="right">
           <template slot-scope="scope">
-            <!-- <el-button class="table-btn" size="mini" plain icon="el-icon-delete" v-if="scope.row.CONSULTSERIAL" @click="reviewTohis(scope.row)">回复</el-button>
-            <el-button class="table-btn" size="mini" plain icon="el-icon-delete" @click="entryDetails(scope.row)" v-else>录入</el-button> -->
             <el-button type="text"  class="a-btn"  title="录入"  icon="el-icon-edit" @click="entryDetails(scope.row)"></el-button>
          </template>
         </el-table-column>
@@ -266,46 +264,86 @@
           v-if="CONSULTTYPE==0">
         </el-pagination>
       </div>
-      <el-row align="center" :gutter="2" type="flex" v-if="CONSULTTYPE==1">
-        <el-col :span="24" class="input-item my-form-group" data-scope="txl" data-name="DETAILS" data-type="textarea"
+
+      <el-row align="center" :gutter="2" type="flex" v-if="CONSULTTYPE==1||CONSULTTYPE==2">
+        <el-col :span="24" class="input-item my-form-group" :data-scope="aa.all" data-name="DETAILS" data-type="textarea"
         v-validate-easy="[['required']]">
           <span class="yy-input-text width-lef">问题详情：</span>
-          <el-input type="textarea" v-model="businessDETAILS" maxlength="300" :autosize="{ minRows: 3, maxRows: 6}" placeholder="请输入描述(不能超过300字)"></el-input>
+          <el-input type="textarea" v-model="huifu.DETAILS" maxlength="300" :autosize="{ minRows: 3, maxRows: 6}" placeholder="请输入描述(不能超过300字)"></el-input>
         </el-col>
       </el-row>
-      <el-row align="center" :gutter="2" type="flex" justify="center" style="margin-top:10px;padding-bottom:20px;border-bottom:1px dotted #ccc" v-show="CONSULTTYPE==1">
-        <el-button type="primary" size="small" @click="businessSave">{{businessText}}</el-button>
-        <el-button type="primary" size="small" @click="businessDETAILS=''" style="margin-left:20px!important">清空</el-button>
-      </el-row>
 
-      <el-row align="center" :gutter="2" type="flex" v-if="CONSULTTYPE==2">
+      <!-- <el-row align="center" :gutter="2" type="flex" v-if="CONSULTTYPE==2">
         <el-col :span="24" class="input-item my-form-group" data-scope="txl" data-name="DETAILS" data-type="textarea"
         v-validate-easy="[['required']]">
           <span class="yy-input-text width-lef">问题详情：</span>
           <el-input type="textarea" v-model="otherDETAILS" :autosize="{ minRows: 3, maxRows: 3}" placeholder="请输入描述(不能超过300字)"></el-input>
         </el-col>
-      </el-row>
-      <el-row align="center" :gutter="2" type="flex" justify="center" style="margin-top:10px;padding-bottom:20px;border-bottom:1px dotted #ccc" v-show="CONSULTTYPE==2">
+      </el-row> -->
+      <!-- <el-row align="center" :gutter="2" type="flex" justify="center" style="margin-top:10px;padding-bottom:20px;border-bottom:1px dotted #ccc" v-show="CONSULTTYPE==2">
         <el-button type="primary" size="small" @click="otherSave">{{otherText}}</el-button>
         <el-button type="primary" size="small" @click="otherDETAILS=''" style="margin-left:20px!important">清空</el-button>
+      </el-row> -->
+    </div>
+
+    <div class="middle mb-2" v-if="CONSULTTYPE==1||CONSULTTYPE==2">
+      <el-row type="flex" class="middle">
+        <el-col :span="12" class="br pr-20">
+            <el-row align="center" :gutter="2" type="flex">
+              <el-col  :sm="20" :md="20" :lg="20"  class="input-item my-form-group" :data-scope="aa.all" data-name="REPLYTYPE" data-type="select"
+              v-validate-easy="[['required']]">
+                <span class="input-text"><i class="t-must">*</i>回复口径：</span>
+                <el-select v-model="huifu.REPLYTYPE" filterable clearable placeholder="请选择" size="small" class="input-input" @visible-change="replyCaliber" @change="replayC(huifu.REPLYTYPE)">
+                  <el-option
+                   v-for="(item,ind) in caliber"
+                   :key="ind"
+                   :value="item.TYPE"
+                   :label="item.DESCRIBE">
+                  </el-option>
+                 </el-select>
+              </el-col>
+            </el-row>
+            <el-row align="center" :gutter="2" type="flex">
+              <el-col  :sm="20" :md="20" :lg="20"  class="input-item my-form-group" :data-scope="aa.all" data-name="CHNREPLY" data-type="input"
+              v-validate-easy="[['required']]">
+                <span class="input-text"><i class="t-must">*</i>中文：</span>
+                <el-input placeholder="请输入内容" size="small" v-model="huifu.CHNREPLY"  class="input-input"></el-input>
+              </el-col>
+            </el-row>
+            <el-row align="center" :gutter="2" type="flex">
+              <el-col  :sm="20" :md="20" :lg="20"  class="input-item my-form-group" :data-scope="aa.all" data-name="ENGREPLY" data-type="input"
+              v-validate-easy="[['required']]">
+                <span class="input-text"><i class="t-must">*</i>英文：</span>
+                <el-input placeholder="请输入内容" size="small" v-model="huifu.ENGREPLY"  class="input-input"></el-input>
+              </el-col>
+            </el-row>
+          </el-col>
+          <el-col :span="12" class="down-btn-area" v-show="false">
+            <el-row align="center" type="flex">
+              <el-button type="primary" class="width-btn" @click="">咨询辅助</el-button>
+            </el-row>
+            <el-row align="center" type="flex" style="margin-top:10px">
+              <el-button type="warning" class="width-btn" @click="">生成法律文书</el-button>
+            </el-row>
+          </el-col>
+        </el-row>
+    </div>
+
+    <div class="middle mb-2" v-if="CONSULTTYPE==1||CONSULTTYPE==2">
+      <el-row :gutter="2" type="flex" justify="left">
+        <el-col  :sm="24" :md="12" :lg="18"  class="input-item">
+          <span class="input-text  t-width-bz">备注：</span>
+          <el-input placeholder="请输入内容" size="small" v-model="huifu.REMARKOFHANDING"  class="input-input"></el-input>
+        </el-col>
       </el-row>
     </div>
 
-    <el-dialog :title="detailText"  :visible.sync="detailsDialogVisible" width="400px;" class="oneD" :before-close="handleClose">
-      <!-- <el-form :model="dform" ref="detailsForm"> -->
-        <el-row :gutter="2" class="middle">
-          <el-col :span="24" class="input-item my-form-group" data-scope="oneDetail" data-name="DETAILS" data-type="textarea"
-          v-validate-easy="[['required']]">
-            <span class="yy-input-text tt-width"><i class="t-must">*</i>问题详情：</span>
-            <el-input type="textarea" class="height80" v-model="DETAILS" :autosize="{ minRows: 3, maxRows: 3}" placeholder="请输入描述(不能超过300字)"></el-input>
-          </el-col>
-        </el-row>
-      <!-- </el-form> -->
-      <div slot="footer" class="dialog-footer">
-        <el-button type="primary" size="small" @click="guestSave">{{enterText}}</el-button>
-        <el-button type="primary" size="small" @click="DETAILS=''" style="margin-left:20px!important">清空</el-button>
-      </div>
-    </el-dialog>
+    <div class="middle mb-2" v-if="CONSULTTYPE==1||CONSULTTYPE==2">
+      <el-row align="center" :gutter="2" type="flex" justify="center" style="margin-top:10px;padding-bottom:20px;">
+        <el-button type="primary" size="small" @click="businessSave">保存</el-button>
+        <el-button type="primary" size="small" @click="businessDETAILS=''" style="margin-left:20px!important">清空</el-button>
+      </el-row>
+    </div>
   </div>
 </template>
 
@@ -314,6 +352,14 @@ import {formatDate} from '@/assets/js/date.js'
 export default {
   data() {
     return {
+      aa:{
+        ts:'txl',
+        all:'txl'
+      },
+      huifu:{},
+      businessHuifu:{},
+      otherHuifu:{},
+      caliber:[],
       CurrentPage: 1,
       pageSize: 10,
       TotalResult: 0,
@@ -327,17 +373,14 @@ export default {
       selection:[],
       CONSULTTYPE:0,//咨询问题类型
       detailsRow:{},//旅客校验录入详情本行数据
-      detailsRow1:{},
       detailsTotal:{},//旅客校验录入详情总传参
       DETAILS:'',
-      businessText:'保存',
       businessDETAILS:'',
       otherDETAILS:'',
       otherText:'保存',
-      enterText:'保存',
-      detailText:'录入详情',
       currentDate:"",
-
+      businessEnti:{},
+      otherEnti:{},
       phone:'5',
       fix:'5',
       email:'5',
@@ -349,7 +392,6 @@ export default {
       value: '',
       value1: "",
       addedDialogVisible:false,
-      detailsDialogVisible: false,
       options: [{
           value: 10,
           label: "10"
@@ -376,8 +418,33 @@ export default {
   },
   activated() {
     this.currentDate=formatDate(new Date(),'yyyy-MM-dd');
+    this.entity={};
+    this.huifu={};
+    this.V.$reset('txl');
+    this.V.$reset('txljiao');
   },
   methods: {
+    changeType(val){
+      if(val==1||val==2){
+        this.huifu = {}
+      }
+    },
+    replyCaliber(){//回复口径
+      this.$api.post('/manage-platform/consult/queryReplyList',{},
+       r => {
+         this.caliber = r.data
+       })
+    },
+    replayC(val){
+      this.$set(this.huifu,'CHNREPLY','');
+      this.$set(this.huifu,'ENGREPLY','');
+      for(var i=0;i<this.caliber.length;i++){
+        if(this.caliber[i].TYPE == val){
+          this.huifu.CHNREPLY = this.caliber[i].CHN;
+          this.huifu.ENGREPLY = this.caliber[i].EN;
+        }
+      }
+    },
     applicationMethod(){
       this.$api.post('/manage-platform/codeTable/queryAircompanyList',{},
        r =>{
@@ -388,10 +455,6 @@ export default {
     },
     headerClick(column,event){
       event.target.title=column.label
-    },
-    handleClose(done){
-      done();
-      this.V.$reset('oneDetail');
     },
      added(){
        this.addedDialogVisible = true;
@@ -429,7 +492,13 @@ export default {
        })
     },
     addToBook(){//添加至通讯录
-      this.V.$submit('txl', (canSumit,data) => {
+      this.aa.ts='txljiao'
+      let a=document.getElementById('form1');
+      for(var i=0;i<a.children.length;i++){
+        a.children[i].dataset.scope="txljiao"
+      }
+      this.V.$submit('txljiao', (canSumit,data) => {
+        console.log("wwww",data)
         if(!canSumit) return
         var obj={};
         obj.CONSULTFROM = this.entity.CONSULTFROM;
@@ -440,6 +509,14 @@ export default {
         obj.FAX = this.entity.CONSULTFAX;
         obj.EMAIL= this.entity.CONSULTEMAIL;
         obj.OTHER = this.entity.CONSULTFROMOTHERREMARK;
+        obj.AIRLINE_CODE = this.entity.AIRLINE_CODE;
+        if(this.entity.AIRLINE_CODE!=''){
+          obj.AIRLINE_CHN_NAME = this.appZhuan(this.entity.AIRLINE_CODE).split('-')[0];
+          obj.AIRLINE_ENG_NAME = this.appZhuan(this.entity.AIRLINE_CODE).split('-')[1];
+        }else{
+          obj.AIRLINE_CHN_NAME='';
+          obj.AIRLINE_ENG_NAME='';
+        }
         this.$api.post('/manage-platform/consult/saveConsultAddress',obj,
           r => {
             console.log(r);
@@ -471,133 +548,81 @@ export default {
         return ''
       }
     },
-    guestSave(){
-      if(this.enterText == '回复'){
-        this.detailsDialogVisible = false;
-        this.$router.push({name:'ConsultationZXHG',query:{review:this.detailsRow,details:this.detailsRow.DETAILS,serial:this.detailsRow.serial,flag:this.CONSULTTYPE}})
-      }else{
-          this.V.$submit('oneDetail', (canSumit,data) => {
-            // canSumit为true时，则所有该scope的所有表单验证通过
-            if(!canSumit) return
-            if(this.entity.CONSULTFROM == '0'||this.entity.CONSULTFROM == ''||this.entity.CONSULTFROM == undefined){
-              this.detailsRow.TERMINAL = this.entity.TERMINAL;
-            }else{
-              this.detailsRow.TERMINAL = '';
-            }
-           this.detailsRow.CONSULTTYPE = this.CONSULTTYPE;//类型
-           this.detailsRow.DETAILS = this.DETAILS;//详情
-
-           this.detailsRow.IAPISERIAL = this.detailsRow.SERIAL;//通讯录一批
-           if(this.detailsRow.INTG_CHNNAME){
-             this.detailsRow.NAME = this.detailsRow.INTG_CHNNAME;//姓名
-           }else if(this.detailsRow.PNAME){
-             this.detailsRow.NAME = this.detailsRow.PNAME;//姓名
-           }
-           this.detailsRow.CARDNUM = this.detailsRow.PASSPORTNO;//证件号码
-           this.detailsRow.EXPIREDATE = this.detailsRow.PASSPORTEXPIREDATESTR;//证件有效期
-           this.detailsRow.DATEOFBIRTH = this.detailsRow.BIRTHDAYSTR;//出生日期
-           this.detailsRow.VISANUMBER = this.detailsRow.VISANO;//签证号码
-           this.detailsRow.INSTRUCT_OLD = this.detailsRow.LASTCHECKRESULT;//反馈状态
-
-           this.detailsRow.CONSULTFROMTYPE = this.entity.CONSULTFROMTYPE;
-           this.detailsRow.CONSULTFROM = this.entity.CONSULTFROM;
-           this.detailsRow.CONSULTNAME = this.entity.CONSULTNAME;
-           this.detailsRow.INCOMINGPHONE = this.entity.INCOMINGPHONE;
-           this.detailsRow.PHONE = this.entity.PHONE;
-           this.detailsRow.CONSULTFAX = this.entity.CONSULTFAX;
-           this.detailsRow.CONSULTEMAIL= this.entity.CONSULTEMAIL;
-           this.detailsRow.CONSULTFROMOTHERREMARK = this.entity.CONSULTFROMOTHERREMARK;
-           this.detailsRow.AIRLINE_CODE = this.entity.AIRLINE_CODE;
-           if(this.entity.AIRLINE_CODE!=''){
-             this.detailsRow.AIRLINE_CHN_NAME = this.appZhuan(this.entity.AIRLINE_CODE).split('-')[0];
-             this.detailsRow.AIRLINE_ENG_NAME = this.appZhuan(this.entity.AIRLINE_CODE).split('-')[1];
-           }else{
-             this.detailsRow.AIRLINE_CHN_NAME='';
-             this.detailsRow.AIRLINE_ENG_NAME='';
-           }
-           this.$api.post('/manage-platform/consult/saveConsult',this.detailsRow,
-             r => {
-               if(r.success){
-                 console.log(r);
-                 this.$message({
-                   message: '恭喜你，保存成功',
-                   type: 'success'
-                 });
-                 this.entity={}
-                 this.detailsRow.serial = r.data.serial;
-                 this.enterText = '回复';
-                 this.detailText = '回复';
-               }
-             })
-          })
-      }
-    },
     entryDetails(row){//列表录入详情
-       this.enterText = '保存';
-       this.detailText = '录入详情';
-       this.DETAILS="";
-       this.detailsDialogVisible = true;
        this.detailsRow = row;
-       this.detailsRow1 = row;
-    },
-    // reviewTohis(row){//列表回复
-    //   console.log(this.tableData);
-    //   console.log(row);
-    //   this.$router.push({name:'ConsultationZXHG',query:{review:row,details:row.DETAILS,serial:row.serial,flag:this.CONSULTTYPE}})
-    // },
-    businessSave(){
-      this.V.$submit('txl', (canSumit,data) => {
-        if(!canSumit) return
-        var enti = {};
-        var enti = this.entity;
-        enti.CONSULTTYPE = this.CONSULTTYPE;
-        enti.DETAILS = this.businessDETAILS;
-        if(this.businessText == "保存"){
-          this.$api.post('/manage-platform/consult/saveConsult',enti,
-           r =>{
-             if(r.success){
-               console.log(r);
-               this.$message({
-                 message: '恭喜你，保存成功',
-                 type: 'success'
-               });
-               enti.serial = r.data.serial;
-               this.businessText = "回复"
+       if(this.entity.CONSULTFROM == '0'||this.entity.CONSULTFROM == ''||this.entity.CONSULTFROM == undefined){
+         this.detailsRow.TERMINAL = this.entity.TERMINAL;
+       }else{
+         this.detailsRow.TERMINAL = '';
+       }
+      this.detailsRow.CONSULTTYPE = this.CONSULTTYPE;//类型
+      this.detailsRow.DETAILS = this.DETAILS;//详情
 
-             }
-           })
-        }else if(this.businessText == "回复"){
-          this.businessDETAILS="";
-          this.$router.push({name:'ConsultationZXHG',query:{serial:enti.serial,details:enti.DETAILS,flag:enti.CONSULTTYPE}})
-        }
-      })
+      this.detailsRow.IAPISERIAL = this.detailsRow.SERIAL;//通讯录一批
+      if(this.detailsRow.INTG_CHNNAME){
+        this.detailsRow.NAME = this.detailsRow.INTG_CHNNAME;//姓名
+      }else if(this.detailsRow.PNAME){
+        this.detailsRow.NAME = this.detailsRow.PNAME;//姓名
+      }
+      this.detailsRow.CARDNUM = this.detailsRow.PASSPORTNO;//证件号码
+      this.detailsRow.EXPIREDATE = this.detailsRow.PASSPORTEXPIREDATESTR;//证件有效期
+      this.detailsRow.DATEOFBIRTH = this.detailsRow.BIRTHDAYSTR;//出生日期
+      this.detailsRow.VISANUMBER = this.detailsRow.VISANO;//签证号码
+      this.detailsRow.INSTRUCT_OLD = this.detailsRow.LASTCHECKRESULT;//反馈状态
+
+      this.detailsRow.CONSULTFROMTYPE = this.entity.CONSULTFROMTYPE;
+      this.detailsRow.CONSULTFROM = this.entity.CONSULTFROM;
+      this.detailsRow.CONSULTNAME = this.entity.CONSULTNAME;
+      this.detailsRow.INCOMINGPHONE = this.entity.INCOMINGPHONE;
+      this.detailsRow.PHONE = this.entity.PHONE;
+      this.detailsRow.CONSULTFAX = this.entity.CONSULTFAX;
+      this.detailsRow.CONSULTEMAIL= this.entity.CONSULTEMAIL;
+      this.detailsRow.CONSULTFROMOTHERREMARK = this.entity.CONSULTFROMOTHERREMARK;
+      this.detailsRow.AIRLINE_CODE = this.entity.AIRLINE_CODE;
+      if(this.entity.AIRLINE_CODE!=''){
+        this.detailsRow.AIRLINE_CHN_NAME = this.appZhuan(this.entity.AIRLINE_CODE).split('-')[0];
+        this.detailsRow.AIRLINE_ENG_NAME = this.appZhuan(this.entity.AIRLINE_CODE).split('-')[1];
+      }else{
+        this.detailsRow.AIRLINE_CHN_NAME='';
+        this.detailsRow.AIRLINE_ENG_NAME='';
+      }
+      this.$router.push({name:'ConsultationZXHG',query:{review:this.detailsRow}})
     },
-    otherSave(){
+    businessSave(){
+      this.aa.ts='txl';
+      this.aa.all='txl';
+      let a=document.getElementById('form1');
+      for(var i=0;i<a.children.length;i++){
+        a.children[i].dataset.scope="txl"
+      }
       this.V.$submit('txl', (canSumit,data) => {
         if(!canSumit) return
-        var enti = {};
-        var enti = this.entity;
-        enti.CONSULTTYPE = this.CONSULTTYPE;
-        enti.DETAILS = this.otherDETAILS;
-        if(this.otherText == "保存"){
-          this.$api.post('/manage-platform/consult/saveConsult',enti,
-           r =>{
-             if(r.success){
-               console.log(r);
-               this.$message({
-                 message: '恭喜你，保存成功',
-                 type: 'success'
-               });
-               enti.serial = r.data.serial;
-               this.otherText = '回复';
-             }
-           })
-        }else if(this.otherText == "回复"){
-          this.otherDETAILS="";
-          this.$router.push({name:'ConsultationZXHG',query:{serial:enti.serial,details:enti.DETAILS,flag:enti.CONSULTTYPE}})
-        }
-      })
-    }
+        var a = this.entity;
+        this.businessEnti.CONSULTTYPE = this.CONSULTTYPE;
+        var b = this.huifu;
+        this.businessEnti = Object.assign({}, a,b)
+        // if(this.CONSULTTYPE==1){
+        //   this.businessHuifu = this.huifu;
+        //   var b = this.businessHuifu;
+        //   this.businessEnti = Object.assign({}, a,b)
+        // }else if(this.CONSULTTYPE==2){
+        //   this.otherHuifu = this.huifu;
+        //   var c = this.otherHuifu;
+        //   this.businessEnti = Object.assign({}, a,c)
+        // }
+        this.$api.post('/manage-platform/consult/saveConsult',this.businessEnti,
+         r =>{
+           if(r.success){
+             this.$message({
+               message: '恭喜你，保存成功',
+               type: 'success'
+             });
+             this.entity={};
+             this.huifu={};
+           }
+         })
+       })
+    },
   },
 }
 
@@ -630,6 +655,9 @@ export default {
 }
 .height80{
   height: 80px;
+}
+.t-width-bz{
+  width: 5%!important;
 }
 </style>
 <style media="screen">

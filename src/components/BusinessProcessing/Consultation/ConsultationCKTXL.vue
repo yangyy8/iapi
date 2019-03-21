@@ -17,6 +17,17 @@
                 </el-select>
               </el-col>
               <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+                <span class="input-text">航空公司：</span>
+                <el-select v-model="pd.AIRLINE_CODE" filterable clearable placeholder="请选择" size="small" class="input-input" @visible-change="applicationMethod">
+                  <el-option
+                  v-for="item in application"
+                  :key="item.AIRLINE_CODE"
+                  :value="item.AIRLINE_CODE"
+                  :label="item.AIRLINE_CODE+' - '+item.AIRLINE_CHN_NAME">
+                  </el-option>
+                </el-select>
+              </el-col>
+              <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                 <span class="input-text">航站：</span>
                 <el-select v-model="pd.STATIONFROM" filterable clearable placeholder="请选择" size="small" class="input-input" @visible-change="terminal">
                   <el-option
@@ -81,6 +92,11 @@
           <template slot-scope="scope">
             {{scope.row.CONSULTFROM|fifterFrom}}
           </template>
+        </el-table-column>
+        <el-table-column
+          prop="AIRLINE_CODE"
+          label="航空公司"
+          sortable>
         </el-table-column>
         <el-table-column
           prop="STATIONFROM"
@@ -169,6 +185,21 @@
               :key="item.AIRPORT_CODE"
               :value="item.AIRPORT_CODE"
               :label="item.AIRPORT_CODE+' - '+item.AIRPORT_NAME">
+              </el-option>
+            </el-select>
+          </el-col>
+        </el-row>
+
+        <el-row type="flex"  class="mb-6" v-if="form.AIRLINE_CODE">
+          <el-col :span="24" class="input-item my-form-group" data-scope="txl" data-name="AIRLINE_CODE" data-type="select"
+          v-validate-easy="[['required']]">
+            <span class="yy-input-text"><font class="yy-color">*</font>航空公司：</span>
+            <el-select v-model="form.AIRLINE_CODE" filterable clearable placeholder="请选择" size="small" class="yy-input-input" @visible-change="applicationMethod">
+              <el-option
+              v-for="item in application"
+              :key="item.AIRLINE_CODE"
+              :value="item.AIRLINE_CODE"
+              :label="item.AIRLINE_CODE+' - '+item.AIRLINE_CHN_NAME">
               </el-option>
             </el-select>
           </el-col>

@@ -126,7 +126,7 @@
        label="报警内容">
      </el-table-column>
      <el-table-column
-       prop="DEALUSER" sortable
+       prop="USERNAMECHN" sortable
        label="处理人"
        sortable>
      </el-table-column>
@@ -191,7 +191,7 @@
      </el-row>
        <hr/>
     <el-row type="flex"  class="mb-15">
-      <el-col :span="12" class="ppding">处理人：{{this.username}}</el-col>
+      <el-col :span="12" class="ppding">处理人：{{this.USERNAMECHN}}</el-col>
       <el-col :span="12" class="ppding">处理时间：{{form.DEALTIME | fifter4}}</el-col>
     </el-row>
 
@@ -231,7 +231,7 @@
      </el-row>
     <hr/>
     <el-row type="flex"  class="mb-15">
-        <el-col :span="8" class="ppding">处理人：{{dform.DEALUSER}}</el-col>
+        <el-col :span="8" class="ppding">处理人：{{dform.USERNAMECHN}}</el-col>
         <el-col :span="8" class="ppding">处理时间：{{dform.DEALTIME}}</el-col>
 
     </el-row>

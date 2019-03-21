@@ -528,8 +528,8 @@ export default {
         //   confirmButtonText: '确定',
         // });
       }else{
-        this.form.changeport='';
-        this.form.desc='';
+        // this.form.changeport='';
+        // this.form.desc='';
         this.addDialogVisible = true;
         this.form = i;
         // this.getList(this.CurrentPage, this.pageSize, this.pd,this.order,this.direction)

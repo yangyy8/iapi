@@ -262,11 +262,11 @@
           </el-col>
           <el-col :span="8" class="input-item">
             <span class="yy-input-text">发送人：</span>
-            <span class="review-span">{{form.informationSend.SENDERNAME}}</span>
+            <span class="review-span">{{form.informationSend.SENDERNAMECHN}}</span>
           </el-col>
           <el-col :span="8" class="input-item">
             <span class="yy-input-text">发送时间：</span>
-            <span class="review-span">{{form.informationSend.SENDTIME}}</span>
+            <span class="review-span">{{form.informationSend.SENDTIMESTR}}</span>
           </el-col>
         </el-row>
 
@@ -310,17 +310,18 @@
           </el-col>
         </el-row>
         <el-row type="flex"  class="mb-6">
-          <el-col :span="12" class="input-item">
-            <span class="yy-input-text">回复时间：</span>
-            <span class="yy-input-input detailinput">  {{dform.REPLYTIMESTR}}</span>
-          </el-col>
-        </el-row>
-        <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
             <span class="tt-input">发送内容：</span>
             <span class="yy-input-input detailInp">  {{dform.informationSend.DETAILS}}</span>
           </el-col>
         </el-row>
+        <el-row type="flex"  class="mb-6">
+          <el-col :span="12" class="input-item">
+            <span class="yy-input-text">回复时间：</span>
+            <span class="yy-input-input detailinput">  {{dform.REPLYTIMESTR}}</span>
+          </el-col>
+        </el-row>
+
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
             <span class="tt-input">回复内容：</span>
@@ -339,7 +340,7 @@
         </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="detailsDialogVisible = false" size="small" type="warning">取消</el-button>
+        <el-button @click="inDetailsDialogVisible = false" size="small" type="warning">取消</el-button>
       </div>
     </el-dialog>
     <el-dialog title="发件详情"  :visible.sync="outDetailsDialogVisible" width="400px;">
@@ -369,7 +370,7 @@
       <el-row class="mb-6">
         <div class="infiledd" v-for="(d4,ind) in files" :key="ind">
           <span class="mr-30 avgerName">{{d4.FILENAME}}</span>
-          <span class="mr-30 tc-999 avgera">上传时间：{{d4.CREATETIME}}</span>
+          <span class="mr-30 tc-999 avgera">上传时间：{{d4.CREATETIMESTR}}</span>
           <!-- <el-button type="text" class="redx" @click="delFileInfo(d4.SERIAL)">删除</el-button> -->
           <el-button type="text" class="avgera"><a :href="d4.FILEURL" class="green" download="">下载</a></el-button>
         </div>
@@ -650,7 +651,7 @@ export default {
       this.$api.post('/manage-platform/information/queryInformationReceive',p,
         r =>{
           this.dform = r.data;
-          this.inFiles = r.data.files;
+          this.inFiles = r.data.informationSend.files;
         })
     },
     inReply(row){//点击回复
@@ -674,7 +675,8 @@ export default {
       this.$api.post('/manage-platform/information/saveInformationReceive',p,
         r =>{
           if(r.success){
-            if(this.reviewFile.length){
+            console.log(this.reviewFile)
+            if(this.reviewFile){
               this.upload(r.data.serial,this.reviewFile);
             }else{
               this.$message({
@@ -682,12 +684,13 @@ export default {
                 type: 'success'
               });
             }
+            this.addDialogVisible = false;
           }
-          this.addDialogVisible = false;
+
         })
     },
     queryNationality(type) {//口岸
-      this.$api.post('/manage-platform/userSys/deptListSmall', {},
+      this.$api.post('/manage-platform/userSys/deptList', {},
         r => {
           console.log(r);
           if (r.success) {
@@ -846,7 +849,7 @@ function checkRate(nubmer) {　　
   padding: 3px 0px;
 }
 .avgera{
-  width: 20%;
+  width: 24%;
   display: inline-block;
 }
 .avgerName{

@@ -95,7 +95,7 @@
         </el-col>
       </el-row>
     </div>
-    <div class="middle"  @mouseover="mouseHeader" style="border-bottom:2px solid #38628C" v-show="this.$route.query.flag==0">
+    <div class="middle"  @mouseover="mouseHeader" style="border-bottom:2px solid #38628C">
       <span>报送信息</span>
       <el-table
         :data="tableData"
@@ -151,9 +151,10 @@
         </el-table-column>
       </el-table>
       <el-row align="center" :gutter="2" type="flex">
-        <el-col :span="24" class="input-item">
-          <span class="yy-input-text width-lef">问题详情：</span>
-          <el-input type="textarea" v-model="pretestResults" maxlength="300" :autosize="{ minRows: 3, maxRows: 3}"></el-input>
+        <el-col :span="24" class="input-item my-form-group" data-scope="txl" data-name="DETAILS" data-type="textarea"
+        v-validate-easy="[['required']]">
+          <span class="yy-input-text width-lef"><i class="t-must">*</i>问题详情：</span>
+          <el-input type="textarea" v-model="pd.DETAILS" maxlength="300" :autosize="{ minRows: 3, maxRows: 3}"></el-input>
         </el-col>
       </el-row>
     </div>
@@ -162,8 +163,9 @@
       <el-row type="flex" class="middle">
         <el-col :span="12" class="br pr-20">
             <el-row align="center" :gutter="2" type="flex">
-              <el-col  :sm="20" :md="20" :lg="20"  class="input-item">
-                <span class="input-text">回复口径：</span>
+              <el-col  :sm="20" :md="20" :lg="20"  class="input-item my-form-group" data-scope="txl" data-name="REPLYTYPE" data-type="select"
+              v-validate-easy="[['required']]">
+                <span class="input-text"><i class="t-must">*</i>回复口径：</span>
                 <el-select v-model="pd.REPLYTYPE" filterable clearable placeholder="请选择" size="small" class="input-input" @visible-change="replyCaliber" @change="replayC(pd.REPLYTYPE)">
                   <el-option
                    v-for="(item,ind) in caliber"
@@ -175,14 +177,16 @@
               </el-col>
             </el-row>
             <el-row align="center" :gutter="2" type="flex">
-              <el-col  :sm="20" :md="20" :lg="20"  class="input-item">
-                <span class="input-text">中文：</span>
+              <el-col  :sm="20" :md="20" :lg="20"  class="input-item my-form-group" data-scope="txl" data-name="CHNREPLY" data-type="input"
+              v-validate-easy="[['required']]">
+                <span class="input-text"><i class="t-must">*</i>中文：</span>
                 <el-input placeholder="请输入内容" size="small" v-model="pd.CHNREPLY"  class="input-input"></el-input>
               </el-col>
             </el-row>
             <el-row align="center" :gutter="2" type="flex">
-              <el-col  :sm="20" :md="20" :lg="20"  class="input-item">
-                <span class="input-text">英文：</span>
+              <el-col  :sm="20" :md="20" :lg="20"  class="input-item my-form-group" data-scope="txl" data-name="ENGREPLY" data-type="input"
+              v-validate-easy="[['required']]">
+                <span class="input-text"><i class="t-must">*</i>英文：</span>
                 <el-input placeholder="请输入内容" size="small" v-model="pd.ENGREPLY"  class="input-input"></el-input>
               </el-col>
             </el-row>
@@ -199,8 +203,9 @@
     </div>
     <div class="middle mb-2">
       <el-row align="center" :gutter="2" type="flex" justify="left">
-        <el-col  :sm="24" :md="12" :lg="6"  class="input-item" v-show="this.$route.query.flag==0">
-          <span class="input-text t-width-inp">处理结果：</span>
+        <el-col  :sm="24" :md="12" :lg="6"  class="input-item my-form-group" data-scope="txl" data-name="RESULTOFHANDING" data-type="select"
+        v-validate-easy="[['required']]">
+          <span class="input-text t-width-inp"><i class="t-must">*</i>处理结果：</span>
           <el-select v-model="pd.RESULTOFHANDING" filterable clearable placeholder="请选择" size="small" class="input-input">
             <el-option label="0-不做处理" value="0"></el-option>
             <el-option label="1-变更指令(允许登机)" value="1"></el-option>
@@ -345,7 +350,6 @@ export default {
       nation: [],
       company: [],
       caliber: [],
-      pretestResults:'',
       handlesDialogVisible:false,
       AuthDialogVisible:false,
       form: {},
@@ -365,7 +369,7 @@ export default {
     this.tableData=[];
     this.tableData.push(this.$route.query.review);
     this.pd=this.$route.query.review;
-    this.pretestResults = this.$route.query.details;
+    // this.pretestResults = this.$route.query.details;
   },
   methods: {
     applicationMethod(){
@@ -468,8 +472,8 @@ export default {
       reply.INSTRUCT_NEW = this.form.INSTRUCT;//最终指令
       reply.DEALRESULT = 1;//变更
       reply.CHANGESERIAL = val;
-      reply.serial = this.$route.query.serial
-      this.$api.post('/manage-platform/consult/saveConsultReply',reply,
+      // reply.serial = this.$route.query.serial
+      this.$api.post('/manage-platform/consult/saveConsult',reply,
        r => {
          if(r.success){
            this.$message({
@@ -499,8 +503,8 @@ export default {
           var objN = this.pd;
           objN.DEALRESULT = 0;//不变更
           // objN.serial = this.$route.query.serial
-          objN.serial = this.$route.query.serial;
-          this.$api.post('/manage-platform/consult/saveConsultReply',objN,
+          // objN.serial = this.$route.query.serial;
+          this.$api.post('/manage-platform/consult/saveConsult',objN,
            r => {
              if(r.success){
                this.$message({
@@ -551,6 +555,6 @@ export default {
   width: 18%!important;
 }
 .t-width-bz{
-  width: 5%!important;
+  width: 6%!important;
 }
 </style>
