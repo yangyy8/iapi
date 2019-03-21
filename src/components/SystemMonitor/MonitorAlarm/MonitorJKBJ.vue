@@ -76,7 +76,6 @@
         </el-row>
        </div>
   <div class="middle">
-
    <el-table
      :data="tableData"
      border

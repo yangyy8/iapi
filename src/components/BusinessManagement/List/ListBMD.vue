@@ -159,11 +159,11 @@
           </el-row>
         </el-col>
         <el-col :span="3" class="down-btn-area">
-          <el-button type="success" class="mb-15" size="small" v-if="!backShow" @click="CurrentPage=1;getList(CurrentPage,pageSize,pd)">查询</el-button>
-          <el-button type="success" class="mb-15" size="small" v-if="backShow" @click="CurrentPage=1;getHisFn(CurrentPage,pageSize,pd)">查询</el-button>
+          <el-button type="success" class="mb-15" size="small" v-if="!backShow" @click="CurrentPage=1;getList(CurrentPage,pageSize,pd,orders,direction)">查询</el-button>
+          <el-button type="success" class="mb-15" size="small" v-if="backShow" @click="CurrentPage=1;getHisFn(CurrentPage,pageSize,pd,orders,direction)">查询</el-button>
 
           <el-button type="primary" class="mb-15" plain size="small" @click="reset">重置</el-button>
-          <el-button type="warning" size="small" @click="CurrentPage=1;getList(CurrentPage,pageSize,pd)" v-if="backShow">返回</el-button>
+          <el-button type="warning" size="small" @click="CurrentPage=1;getList(CurrentPage,pageSize,pd,orders,direction)" v-if="backShow">返回</el-button>
 
         </el-col>
       </el-row>
@@ -175,14 +175,15 @@
 
         <el-button type="warning" size="small" @click="piliangdel" :disabled="isdisable">批量删除</el-button>
         <el-button type="warning" size="small" @click="shengxiao" :disabled="isdisable">生效发布</el-button>
-        <el-button type="info" size="small" @click="getHisFn(CurrentPage,pageSize,pd)">历史资料</el-button>
+        <el-button type="info" size="small" @click="getHisFn(CurrentPage,pageSize,pd,orders,direction)">历史资料</el-button>
         <el-button type="success" size="small" @click="download">模板下载</el-button>
       </el-row>
       <el-table
+        class="mt-10 o-table3"
         :data="tableData"
         border
-        empty-text=""
         style="width:100%;"
+        @sort-change="sortChange"
         @selection-change="handleSelectionChange">
         <el-table-column
          fixed
@@ -198,12 +199,12 @@
         <el-table-column
           prop="RECORDNUM"
           label="档号"
-          sortable
+          sortable="custom"
           :show-overflow-tooltip="true">
         </el-table-column>
         <el-table-column
           prop="NATIONALITYNAME"
-          sortable
+          sortable="custom"
           label="国籍/地区"
           :show-overflow-tooltip="true">
 
@@ -213,27 +214,30 @@
           label="证件种类">
         </el-table-column> -->
         <el-table-column
-          prop="CARDTYPENAME"
+          prop="CARDTYPE"
           label="证件种类"
-          sortable
+          sortable="custom"
           :show-overflow-tooltip="true">
+          <template slot-scope="scope">
+            <span>{{scope.row.CARDTYPENAME}}</span>
+          </template>
         </el-table-column>
         <el-table-column
           prop="CARDNO"
-          sortable
+          sortable="custom"
           label="证件号码"
           :show-overflow-tooltip="true">
         </el-table-column>
         <el-table-column
           prop="FAMILYNAME"
-          sortable
+          sortable="custom"
           label="姓名"
           :show-overflow-tooltip="true">
         </el-table-column>
         <el-table-column
           prop="GENDER"
           width="80"
-          sortable
+          sortable="custom"
           label="性别"
           :show-overflow-tooltip="true">
           <template slot-scope="scope">
@@ -244,19 +248,19 @@
         </el-table-column>
         <el-table-column
           prop="BIRTHDATE"
-          sortable
+          sortable="custom"
           label="出生日期"
           :show-overflow-tooltip="true">
         </el-table-column>
         <el-table-column
           prop="CTL_EXPIREDATE"
-          sortable
+          sortable="custom"
           label="失效日期"
           :show-overflow-tooltip="true">
         </el-table-column>
         <el-table-column
           prop="SYN_STATUS"
-          sortable
+          sortable="custom"
           label="名单状态"
           :show-overflow-tooltip="true">
           <template slot-scope="scope">
@@ -395,9 +399,8 @@
             </el-date-picker>
           </el-col>
 
-          <el-col :sm="24" :md="12" :lg="8" class="input-item my-form-group" data-scope="demo1" data-name="CTL_REASONLEVEL" data-type="select"
-            v-validate-easy="[['required']]">
-            <span class="input-text"><span class="redx">*</span>原因严重性：</span>
+          <el-col :sm="24" :md="12" :lg="8" class="input-item my-form-group">
+            <span class="input-text">原因严重性：</span>
             <el-select v-model="form.CTL_REASONLEVEL" placeholder="请选择"  size="small"  class="input-input">
               <el-option label="1" value="1"></el-option>
               <el-option label="2" value="2"></el-option>
@@ -474,7 +477,6 @@
           <el-col :sm="24" :md="12" :lg="8"  class="input-item my-form-group" data-scope="other" data-name="FLTNO" data-type="input"
             v-validate-easy="[['maxLength',[7]]]">
             <span class="input-text">航班号：</span>
-            <!-- <input type="text" v-model="form.FLTNO" class="input-input"  > -->
             <el-input placeholder="请输入内容" size="small" v-model="form.FLTNO" class="input-input"></el-input>
           </el-col>
 
@@ -490,13 +492,36 @@
             <span class="input-text">联系电话：</span>
             <el-input placeholder="请输入内容" size="small" v-model="form.SUBORG_CONN" class="input-input"></el-input>
           </el-col>
-
-          <el-col :sm="24" :md="12" :lg="8" class="input-item my-form-group" data-scope="other" data-name="CTL_REASON" data-type="input"
-            v-validate-easy="[['maxLength',[1300]]]">
-            <span class="input-text">处理依据：</span>
-            <el-input placeholder="请输入内容" size="small" max="35" class="input-input" v-model="form.CTL_REASON"></el-input>
+          <el-col :sm="24" :md="12" :lg="8" class="input-item my-form-group" data-scope="other" data-name="SUBORG_CONN" data-type="input"
+            v-validate-easy="[['maxLength',[3000]]]">
+            <span class="input-text">处理要求：</span>
+            <el-select v-model="form.DEALTYPE" placeholder="请选择" size="small" class="input-input">
+              <el-option label="1 - 允许登机" value="1"></el-option>
+              <el-option label="2 - 不准登机" value="2"></el-option>
+            </el-select>
           </el-col>
-
+          <el-col :sm="24" :md="12" :lg="8" class="input-item my-form-group" data-scope="other" data-name="CTL_REASON" data-type="textarea"
+            v-validate-easy="[['maxLength',[1300]]]">
+            <span class="input-text">布控依据：</span>
+            <el-input
+              class="input-input"
+              type="textarea"
+              v-model="form.CTL_REASON"
+              :rows="3"
+              placeholder="请输入布控依据">
+            </el-input>
+          </el-col>
+          <el-col :sm="24" :md="12" :lg="8" class="input-item my-form-group" data-scope="other" data-name="CONTENT" data-type="textarea"
+            v-validate-easy="[['maxLength',[1300]]]">
+            <span class="input-text">备注：</span>
+            <el-input
+              class="input-input"
+              type="textarea"
+              v-model="form.CONTENT"
+              :rows="3"
+              placeholder="请输入备注">
+            </el-input>
+          </el-col>
         </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -597,7 +622,7 @@
             {{detailsData.SUBORG_NAME}}
           </el-col>
         </el-row>
-        <el-row type="flex" class="detail-msg-row mb-20">
+        <el-row type="flex" class="detail-msg-row">
           <el-col :sm="24" :md="12" :lg="8" >
             <span>联系电话：</span>
             {{detailsData.SUBORG_CONN}}
@@ -608,9 +633,24 @@
             <a v-if="detailsData.PERSON_TYPE=='1'">中国人</a>
           </el-col>
           <el-col :sm="24" :md="12" :lg="8" >
-            <span>处理依据：</span>
+            <span>处理要求：</span>
+            <a v-if="detailsData.DEALTYPE=='1'">允许登机</a>
+            <a v-if="detailsData.DEALTYPE=='2'">不准登机</a>
+          </el-col>
+        </el-row>
+        <el-row type="flex" class="detail-msg-row">
+          <el-col :sm="24" :md="24" :lg="24" >
+            <span>布控依据：</span>
             {{detailsData.CTL_REASON}}
           </el-col>
+
+        </el-row>
+        <el-row type="flex" class="detail-msg-row mb-20">
+          <el-col :sm="24" :md="24" :lg="24" >
+            <span>在控性质描述：</span>
+            {{detailsData.PERSON_TYPE_NAME}}
+          </el-col>
+
         </el-row>
         <el-row type="flex" class="detail-msg-row">
           <el-col :span="5">
@@ -677,8 +717,7 @@ import {formatDate,dayGap} from '@/assets/js/date.js'
 export default {
   data(){
     return{
-      renode1:null,
-      renode2:null,
+
       dialogVisible:false,
       backShow:false,
       nationAlone:[],
@@ -687,6 +726,8 @@ export default {
       CurrentPage:1,
       pageSize:10,
       TotalResult:0,
+      orders:"",
+      direction:0,
       isdisable:true,
       detailsData:{},
       pd:{"LIST_TYPE":"1",NAMELIKE:'0'},
@@ -748,14 +789,14 @@ export default {
     }
   },
   mounted(){
-    // this.getList(this.CurrentPage,this.pageSize,this.pd);
+    // this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
     this.queryNationalityAlone();
     this.queryAirport();
     this.queryDocCode();
   },
   activated(){
     // this.backShow=false;
-    // this.getList(this.CurrentPage,this.pageSize,this.pd);
+    // this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
   },
   // directives:{
   //   input:{
@@ -825,10 +866,10 @@ export default {
       this.pageSize=10;
       this.pd={"LIST_TYPE":"1","NAMELIKE":'0'};
       if(this.backShow){
-        this.getHisFn(this.CurrentPage,this.pageSize,this.pd);
+        this.getHisFn(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
       }else{
         console.log("this.CurrentPage:",this.CurrentPage)
-        this.getList(this.CurrentPage,this.pageSize,this.pd);
+        this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
       }
     },
     resetForm(formName) {
@@ -849,32 +890,36 @@ export default {
       }
     },
     pageSizeChange(val) {
+      this.pageSize=val
       if(this.backShow){
-        this.getHisFn(this.CurrentPage,val,this.pd);
-
+        this.getHisFn(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
       }else{
-        this.getList(this.CurrentPage,val,this.pd);
+
+        this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
       }
       console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
+      this.CurrentPage=val
       if(this.backShow){
-        this.getHisFn(val,this.pageSize,this.pd);
+        this.getHisFn(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
       }else{
-        this.getList(val,this.pageSize,this.pd);
+        this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
 
       }
       console.log(`当前页: ${val}`);
     },
 
-    getList(currentPage,showCount,pd){
+    getList(currentPage,showCount,pd,orders,direction){
       // if (this.dialogType=="his") {
       //   this.getHisFn(currentPage,showCount,pd);
       // }else {
         let p={
         	"currentPage":currentPage,
         	"showCount":showCount,
-        	"pd":pd
+        	"pd":pd,
+          "order":orders,
+  	      "direction":direction
         };
         this.$api.post('/manage-platform/nameList/getNameListPage',p,
          r => {
@@ -885,11 +930,13 @@ export default {
         })
       // }
     },
-    getHisFn(currentPage,showCount,pd){
+    getHisFn(currentPage,showCount,pd,orders,direction){
       let p={
         "currentPage":currentPage,
         "showCount":showCount,
-        "pd":pd
+        "pd":pd,
+        "order":orders,
+	      "direction":direction
       };
       console.log(pd)
       this.$api.post('/manage-platform/nameListHis/getNameListHisPage',p,
@@ -945,7 +992,7 @@ export default {
                 message: '删除成功',
                 type: 'success'
               });
-              this.getList(this.CurrentPage,this.pageSize,this.pd);
+              this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
             }
          })
        })
@@ -1003,9 +1050,7 @@ export default {
          r => {
            //console.log(r);
            if(r.data){
-
              this.detailsData=r.data;
-
            }
         })
       }
@@ -1033,7 +1078,7 @@ export default {
                   message: '删除成功',
                   type: 'success'
                 });
-                this.getList(this.CurrentPage,this.pageSize,this.pd);
+                this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
               }
            })
          })
@@ -1075,7 +1120,7 @@ export default {
                        type: 'success'
                      });
                      this.addDialogVisible=false;
-                     this.getList(this.CurrentPage,this.pageSize,this.pd);
+                     this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
                      this.$refs[formName].resetFields();
                    }
                 })
@@ -1091,7 +1136,7 @@ export default {
                        type: 'success'
                      });
                      this.addDialogVisible=false;
-                     this.getList(this.CurrentPage,this.pageSize,this.pd);
+                     this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
                      this.$refs[formName].resetFields();
                    }
                 })
@@ -1113,7 +1158,7 @@ export default {
                      });
                      this.releaseDialogVisible=false;
                      this.addDialogVisible=false;
-                     this.getList(this.CurrentPage,this.pageSize,this.pd);
+                     this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
                      this.$refs[formName].resetFields();
                    }
                 })
@@ -1132,7 +1177,7 @@ export default {
                      });
                      this.releaseDialogVisible=false;
                      this.addDialogVisible=false;
-                     this.getList(this.CurrentPage,this.pageSize,this.pd);
+                     this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
                      this.$refs[formName].resetFields();
                    }
                 })
@@ -1160,7 +1205,7 @@ export default {
                    type: 'success'
                  });
                  this.releaseDialogVisible=false;
-                 this.getList(this.CurrentPage,this.pageSize,this.pd);
+                 this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
                  this.$refs[formName].resetFields();
                }
             })
@@ -1185,7 +1230,7 @@ export default {
                    type: 'success'
                  });
                  this.releaseDialogVisible=false;
-                 this.getList(this.CurrentPage,this.pageSize,this.pd);
+                 this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
                  this.$refs[formName].resetFields();
                }
             })
@@ -1210,7 +1255,7 @@ export default {
                    type: 'success'
                  });
                  this.releaseDialogVisible=false;
-                 this.getList(this.CurrentPage,this.pageSize,this.pd);
+                 this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
                }
             })
             break;
@@ -1219,6 +1264,21 @@ export default {
       }
 
 
+    },
+    sortChange(data){
+      console.log(data)
+      this.orders=data.prop;
+      if(data.order=='descending'){
+        this.direction=0
+      }else{
+        this.direction=1
+      }
+      console.log(this.orders,this.direction)
+      if(this.backShow){
+        this.getHisFn(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
+      }else{
+        this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
+      }
     },
 
     beforeAvatarUpload(file){
@@ -1258,7 +1318,7 @@ export default {
        });
       this.uploadDialogVisible=false ;
 
-      this.getList(this.CurrentPage,this.pageSize,this.pd);
+      this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
      }
     }
   }

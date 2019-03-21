@@ -322,7 +322,7 @@ export default {
       }else if(this.select1==2){
         let m2 =Object.assign({}, this.m2);
 
-        this.list2.push(this.m2)
+        this.list2.push(m2)
       }
     },
     delRow(ind){

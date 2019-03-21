@@ -723,9 +723,10 @@
                 <el-table
                   :data="data6"
                   class="ak-table2"
-                  :class="{'ak-t1':pageSize.page3==true,'ak-t2':pageSize.page3==false}"
+                  :class="{'ak-t1':data6.length<5,'ak-t2':pageSize.page2==false}"
                   border
-                  style="width: 100%">
+                  style="width: 100%"
+                  :style="{height:240*pageSize.page3+'px'}">
                   <el-table-column
                     :show-overflow-tooltip="true"
                     label="姓名"
@@ -802,8 +803,8 @@
                   </el-table-column>
                 </el-table>
                 <div class="box1-more" v-if="data6.length>0">
-                  <el-button type="text" class="mr-15" @click="pageSize.page3=false" v-if="pageSize.page3&&data6.length>5">展开更多 ﹀</el-button>
-                  <el-button type="text" class="mr-15" @click="pageSize.page3=true" v-if="!pageSize.page3">收起 ︿</el-button>
+                  <el-button type="text" class="mr-15" @click="pageSize.page3=pageSize.page3+1" v-if="pageSize.page3+2<=data6.length/5&&data6.length>5">展开更多 ﹀</el-button>
+                  <el-button type="text" class="mr-15" @click="pageSize.page3=1" v-if="data6.length/5<pageSize.page3+2">收起 ︿</el-button>
                   <el-button type="text" @click="exportFn(5)">导出</el-button>
                 </div>
               </div>
@@ -2105,7 +2106,7 @@ export default {
       box19:false,
       box20:false,
       size:{size0:8,size1:3,size2:3,size301:16,size302:16,size4:3,size8:3},
-      pageSize:{page1:true,page2:true,page3:true,page4:true,page5:true,page6:true,page7:true,page8:true,page9:true,page10:true,page11:true,page12:true,page13:true,page14:true,page15:true,page16:true,page17:true,page18:true,page19:true},
+      pageSize:{page1:true,page2:true,page3:1,page4:true,page5:true,page6:true,page7:true,page8:true,page9:true,page10:true,page11:true,page12:true,page13:true,page14:true,page15:true,page16:true,page17:true,page18:true,page19:true},
       nationalityName:'',
       tagRemark:'',
       data0:{},

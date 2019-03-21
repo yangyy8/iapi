@@ -137,6 +137,10 @@ body{
   max-height: 240px;
   overflow: hidden;
 }
+.ak-t3{
+  /* max-height: 240px; */
+  overflow: hidden;
+}
 .ak-t2{
   height: inherit;
   overflow: visible;

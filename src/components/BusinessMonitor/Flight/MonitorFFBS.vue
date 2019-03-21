@@ -76,7 +76,8 @@
           <el-table-column
             label="出入标识"
             prop="ioType"
-            width="77"
+            sortable
+            width="110"
             :show-overflow-tooltip="true">
             <template slot-scope="scope">
               <div>
@@ -119,7 +120,8 @@
           </el-table-column>
           <el-table-column
             label="航班状态"
-            width="119"
+            width="110"
+            sortable
             :show-overflow-tooltip="true">
             <template slot-scope="scope">
               <div>
@@ -229,6 +231,7 @@
           <el-table-column
             label="出入标识"
             prop="ioType"
+            sortable
             width="101"
             :show-overflow-tooltip="true">
             <template slot-scope="scope">
@@ -273,6 +276,8 @@
           </el-table-column>
           <el-table-column
             label="航班状态"
+            prop="status"
+            sortable
             :show-overflow-tooltip="true">
             <template slot-scope="scope">
               <div>
@@ -290,6 +295,7 @@
           <el-table-column
             label="非法报送数"
             prop="closeEx"
+            sortable
             :show-overflow-tooltip="true">
             <template slot-scope="scope">
               <div>
