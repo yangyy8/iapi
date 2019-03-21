@@ -34,7 +34,7 @@
             </el-row>
           </el-col>
           <el-col :span="4" class="down-btn-area">
-            <el-button type="success" class="" size="small" @click="getList(CurrentPage,pageSize,pd)">查询</el-button>
+            <el-button type="success" class="" size="small" @click="getList(CurrentPage,pageSize,pd,orders,direction)">查询</el-button>
             <!-- <el-button type="primary" class="mb-15" plain size="small" >重置</el-button> -->
           </el-col>
         </el-row>
@@ -44,27 +44,30 @@
       <span class="tc-999 f-14">注：点击每行可查看航班详情</span>
 
       <el-table
+        class="mt-10 o-table3"
         :data="tableData"
         border
+        @sort-change="sortChange"
         @row-click="rowClick"
         style="width: 100%;">
         <el-table-column
           label="航班号"
           prop="fltno"
-          sortable
+          sortable="custom"
           width="90"
           :show-overflow-tooltip="true">
         </el-table-column>
         <el-table-column
           label="航班日期"
           prop="fltDate"
-          sortable
+          sortable="custom"
           width="101"
           :show-overflow-tooltip="true">
         </el-table-column>
         <el-table-column
           label="出入标识"
           prop="ioType"
+          sortable="custom"
           width="90"
           :show-overflow-tooltip="true">
           <template slot-scope="scope">
@@ -77,29 +80,32 @@
         <el-table-column
           label="计划起飞时间"
           prop="preDepartTime"
-          sortable
+          sortable="custom"
           width="135"
           :show-overflow-tooltip="true">
         </el-table-column>
         <el-table-column
           label="计划到达时间"
           prop="preArriveTime"
-          sortable
+          sortable="custom"
           width="135"
           :show-overflow-tooltip="true">
         </el-table-column>
         <el-table-column
           label="出发站"
+          sortable="custom"
           prop="from"
           :show-overflow-tooltip="true">
         </el-table-column>
         <el-table-column
           label="目的站"
+          sortable="custom"
           prop="to"
           :show-overflow-tooltip="true">
         </el-table-column>
         <el-table-column
           label="航空公司"
+          sortable="custom"
           prop="aircompanyName"
           :show-overflow-tooltip="true">
         </el-table-column>
@@ -331,6 +337,8 @@ export default {
       CurrentPage:1,
       pageSize:10,
       TotalResult:0,
+      orders:"",
+      direction:0,
       pd:{fltDate:''},
       airport:null,
       checked:true,
@@ -354,17 +362,16 @@ export default {
     }
   },
   mounted(){
-    // this.getList(this.CurrentPage,this.pageSize,this.pd);
     let end = new Date();
     this.pd.fltDate= formatDate(end, 'yyyyMMdd');
   },
   activated(){
-    this.getList(this.CurrentPage,this.pageSize,this.pd);
+    this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
 
     if(this.checked){
       let that=this;
       this.timer=setInterval(function(){
-        that.getList(that.CurrentPage,that.pageSize,that.pd);
+        that.getList(that.CurrentPage,that.pageSize,that.pd,that.orders,that.direction);
       },180000)
     }
 
@@ -378,7 +385,7 @@ export default {
       if(val){
         let that=this;
         this.timer=setInterval(function(){
-          that.getList(that.CurrentPage,that.pageSize,that.pd);
+          that.getList(that.CurrentPage,that.pageSize,that.pd,that.orders,that.direction);
         },180000)
       }else{
         clearInterval(this.timer);
@@ -388,20 +395,22 @@ export default {
   methods:{
     pageSizeChange(val) {
       this.pageSize=val;
-      this.getList(this.CurrentPage,this.pageSize,this.pd);
+      this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
       console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
       this.CurrentPage=val
-      this.getList(this.CurrentPage,this.pageSize,this.pd);
+      this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
       console.log(`当前页: ${val}`);
     },
-    getList(CurrentPage,showCount,pd){
+    getList(CurrentPage,showCount,pd,orders,direction){
       let p={
         "showCount": showCount,
         "currentPage": CurrentPage,
         "totalResult": this.TotalResult,
-        "pd": pd
+        "pd": pd,
+        "order":orders,
+	      "direction":direction
       }
       this.$api.post('/manage-platform/flightMonitor/queryPnrMessageCountPage',p,
        r => {
@@ -423,6 +432,17 @@ export default {
          this.detailsDialogVisible=true;
          this.detailsData=r.data
       })
+    },
+    sortChange(data){
+      console.log(data)
+      this.orders=data.prop;
+      if(data.order=='descending'){
+        this.direction=0
+      }else{
+        this.direction=1
+      }
+      console.log(this.orders,this.direction)
+      this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
     },
   }
 }

@@ -92,6 +92,7 @@
           <el-table-column
             label="航班状态"
             sortable="custom"
+            prop="out.status"
             width="150"
             :show-overflow-tooltip="true">
             <template slot-scope="scope" v-if="scope.row.out!=null">
@@ -143,6 +144,7 @@
           <el-table-column
             label="航班状态"
             sortable="custom"
+            prop="in.status"
             width="150"
             :show-overflow-tooltip="true">
             <template slot-scope="scope" v-if="scope.row.in!=null">
@@ -284,7 +286,7 @@ export default {
     },
     sortChange(data){
       console.log(data)
-      this.orders=data.prop.replace('.','_');
+      this.orders=data.prop&&data.prop.replace('.','_');
       if(data.order=='descending'){
         this.direction=0
       }else{

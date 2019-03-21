@@ -143,7 +143,7 @@
             </el-row>
           </el-col>
           <el-col :span="2" class="down-btn-area">
-            <el-button type="success" class="" size="small" @click="getList(CurrentPage,pageSize,pd)">查询</el-button>
+            <el-button type="success" class="" size="small" @click="getList(CurrentPage,pageSize,pd,orders,direction)">查询</el-button>
             <!-- <el-button type="primary" class="mb-15" plain size="small" >重置</el-button> -->
           </el-col>
         </el-row>
@@ -156,11 +156,12 @@
           :data="tableData"
           border
           @row-click="rowClick"
+          @sort-change="sortChange"
           style="width: 100%;">
           <el-table-column
             label="姓名"
             prop="name"
-            sortable
+            sortable="custom"
             width="90"
             :show-overflow-tooltip="true">
           </el-table-column>
@@ -168,7 +169,7 @@
             label="性别"
             prop="gender"
             width="70"
-            sortable
+            sortable="custom"
             :show-overflow-tooltip="true">
             <template slot-scope="scope">
               <div>
@@ -181,21 +182,21 @@
           <el-table-column
             label="出生日期"
             prop="birthDay"
-            sortable
+            sortable="custom"
             width="101"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="国籍/地区"
             prop="nationalityName"
-            sortable
+            sortable="custom"
             width="106"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="出入标识"
             width="99"
-            sortable
+            sortable="custom"
             :show-overflow-tooltip="true">
             <template slot-scope="scope">
               <div>
@@ -222,27 +223,27 @@
           <!-- <el-table-column
             label="证件种类"
             prop="cardTypeName"
-            sortable
+            sortable="custom"
             width="110"
             :show-overflow-tooltip="true">
           </el-table-column> -->
           <el-table-column
             label="证件号码"
             prop="passportNo"
-            sortable
+            sortable="custom"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="签证种类"
             prop="visaTypeName"
-            sortable
+            sortable="custom"
             width="110"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="航班号"
             prop="fltno"
-            sortable
+            sortable="custom"
             width="90"
             :show-overflow-tooltip="true">
           </el-table-column>
@@ -250,27 +251,27 @@
             label="航班日期"
             prop="fltDate"
             width="101"
-            sortable
+            sortable="custom"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="值机日期"
             prop="createTime"
             width="101"
-            sortable
+            sortable="custom"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="出发站"
             prop="cityfrom"
-            sortable
+            sortable="custom"
             width="90"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="目的站"
             prop="cityto"
-            sortable
+            sortable="custom"
             width="90"
             :show-overflow-tooltip="true">
           </el-table-column>
@@ -317,11 +318,12 @@
           :data="tableData"
           border
           @row-click="rowClick"
+          @sort-change="sortChange"
           style="width: 100%;">
           <el-table-column
             label="订票姓名"
             prop="bkname"
-            sortable
+            sortable="custom"
             width="105"
             :show-overflow-tooltip="true">
           </el-table-column>
@@ -329,7 +331,7 @@
             label="订票性别"
             prop="bkbirthday"
             width="65"
-            sortable
+            sortable="custom"
             :show-overflow-tooltip="true">
             <template slot-scope="scope">
               <div>
@@ -342,56 +344,56 @@
           <el-table-column
             label="订票证号"
             prop="bkcardnum"
-            sortable
+            sortable="custom"
             width="105"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="订票国籍/地区"
             prop="bknationality"
-            sortable
+            sortable="custom"
             width="106"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="订票出生日期"
             prop="bkgender"
-            sortable
+            sortable="custom"
             width="101"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="订票航班"
             prop="bkfltno"
-            sortable
+            sortable="custom"
             width="101"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="订票航班日期"
             prop="bkfltdate"
-            sortable
+            sortable="custom"
             width="101"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="订票电子客票号"
             prop="rci"
-            sortable
+            sortable="custom"
             width="101"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="订单创建时间"
             prop="rcitime"
-            sortable
+            sortable="custom"
             width="101"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="值机姓名"
             prop="chkname"
-            sortable
+            sortable="custom"
             width="105"
             :show-overflow-tooltip="true">
           </el-table-column>
@@ -399,7 +401,7 @@
             label="值机性别"
             prop="chkgender"
             width="65"
-            sortable
+            sortable="custom"
             :show-overflow-tooltip="true">
             <template slot-scope="scope">
               <div>
@@ -412,63 +414,63 @@
           <el-table-column
             label="值机证号"
             prop="chkcardnum"
-            sortable
+            sortable="custom"
             width="105"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="值机国籍/地区"
             prop="chknationality"
-            sortable
+            sortable="custom"
             width="106"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="值机出生日期"
             prop="chkbirthday"
-            sortable
+            sortable="custom"
             width="101"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="值机航班"
             prop="chkfltno"
-            sortable
+            sortable="custom"
             width="101"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="值机航班日期"
             prop="chkfltdate"
-            sortable
+            sortable="custom"
             width="101"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="值机电子客票号"
             prop="tktnumber"
-            sortable
+            sortable="custom"
             width="101"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="值机时间"
             prop="chktime"
-            sortable
+            sortable="custom"
             width="101"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="登机时间"
             prop="clstime"
-            sortable
+            sortable="custom"
             width="101"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="入出境时间"
             prop="eetime"
-            sortable
+            sortable="custom"
             width="101"
             :show-overflow-tooltip="true">
           </el-table-column>
@@ -479,18 +481,19 @@
           :data="tableData"
           border
           @row-click="rowClick"
+          @sort-change="sortChange"
           style="width: 100%;">
           <el-table-column
             label="姓"
             prop="traveller_surname_tkt"
-            sortable
+            sortable="custom"
             width="70"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="名"
             prop="traveller_given_name_tkt"
-            sortable
+            sortable="custom"
             width="70"
             :show-overflow-tooltip="true">
           </el-table-column>
@@ -498,7 +501,7 @@
             label="性别"
             prop="gender"
             width="65"
-            sortable
+            sortable="custom"
             :show-overflow-tooltip="true">
             <template slot-scope="scope">
               <div>
@@ -511,42 +514,42 @@
           <el-table-column
             label="出生日期"
             prop="birthdate"
-            sortable
+            sortable="custom"
             width="101"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="国籍/地区"
             prop="passportissuecountry"
-            sortable
+            sortable="custom"
             width="106"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="证号"
             prop="passportno"
-            sortable
+            sortable="custom"
             width="105"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="电子客票号"
             prop="tktnumber"
-            sortable
+            sortable="custom"
             width="101"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="航班号"
             prop="fltno"
-            sortable
+            sortable="custom"
             width="101"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="计划起飞时间"
             prop="departdate"
-            sortable
+            sortable="custom"
             width="101"
             :show-overflow-tooltip="true">
           </el-table-column>
@@ -554,14 +557,14 @@
           <el-table-column
             label="计划到达时间"
             prop="arrivdate"
-            sortable
+            sortable="custom"
             width="101"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="出发地"
             prop="last_departure_airport"
-            sortable
+            sortable="custom"
             width="100"
             :show-overflow-tooltip="true">
           </el-table-column>
@@ -569,26 +572,26 @@
             label="目的地"
             prop="first_arrival_airport"
             width="100"
-            sortable
+            sortable="custom"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="订单时间"
             prop="rcitime"
-            sortable
+            sortable="custom"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="座位号"
             prop="specifigseat"
-            sortable
+            sortable="custom"
             width="106"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="舱位"
             prop="carbinclassdesignator"
-            sortable
+            sortable="custom"
             width="101"
             :show-overflow-tooltip="true">
           </el-table-column>
@@ -873,11 +876,11 @@
             prop="NAME"
             label="姓名"
             width="100"
-            sortable>
+            sortable="custom">
           </el-table-column>
           <el-table-column
             label="性别"
-            sortable
+            sortable="custom"
             width="80">
           <template slot-scope="scope">
             {{scope.row.GENDER | fiftersex}}
@@ -886,19 +889,19 @@
           <el-table-column
             prop="DATEOFBIRTH"
             label="出生日期"
-            sortable
+            sortable="custom"
             width="130">
           </el-table-column>
           <el-table-column
             prop="NATIONALITYC"
             label="国籍/地区"
-            sortable>
+            sortable="custom">
           </el-table-column>
 
           <el-table-column
             prop="PASSPORTNO"
             label="证件号码"
-            sortable
+            sortable="custom"
             width="130">
           </el-table-column>
 
@@ -906,18 +909,18 @@
             prop="FLTNO"
             label="航班号"
             width="120"
-            sortable>
+            sortable="custom">
           </el-table-column>
           <el-table-column
             prop="SCHEDULEDEPARTURETIME"
             label="航班日期"
-            sortable
+            sortable="custom"
             width="140">
           </el-table-column>
 
           <el-table-column
             label="预检结果"
-            sortable
+            sortable="custom"
             width="120">
             <template slot-scope="scope">
               {{scope.row.CHECKRESULT | fiftecr}}
@@ -925,7 +928,7 @@
           </el-table-column>
           <el-table-column
             label="报警信息"
-            sortable
+            sortable="custom"
             width="120">
             <template slot-scope="scope">
               {{scope.row.STATUS | fifterbj}}
@@ -1000,7 +1003,8 @@ export default {
       CurrentPage:1,
       pageSize:10,
       TotalResult:0,
-
+      orders:"",
+      direction:0,
       hcurrentPage:1,//当前页数
       hpageSize:10, //每页显示个数选择器的选项设置
       hshowCount:10,//每页显示的记录数
@@ -1048,7 +1052,6 @@ export default {
     }
   },
   mounted(){
-    // this.getList(this.CurrentPage,this.pageSize,this.pd);
     this.queryAirport();
     this.nav1Id=this.$route.query.nav1Id
     this.nav2Id=this.$route.query.nav2Id
@@ -1062,12 +1065,12 @@ export default {
     this.nav1Id=this.$route.query.nav1Id
     this.nav2Id=this.$route.query.nav2Id
     this.getList2();
-    this.getList(this.CurrentPage,this.pageSize,this.pd);
+    this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
 
     if(this.checked){
       let that=this;
       this.timer=setInterval(function(){
-        that.getList(that.CurrentPage,that.pageSize,that.pd);
+        that.getList(that.CurrentPage,that.pageSize,that.pd,that.orders,that.direction);
       },60000)
     }
 
@@ -1081,7 +1084,7 @@ export default {
       if(val){
         let that=this;
         this.timer=setInterval(function(){
-          that.getList(that.CurrentPage,that.pageSize,that.pd);
+          that.getList(that.CurrentPage,that.pageSize,that.pd,that.orders,that.direction);
         },60000)
       }else{
         clearInterval(this.timer);
@@ -1124,17 +1127,17 @@ export default {
       this.CurrentPage=1;
       this.pageSize=10;
       this.TotalResult=0;
-      this.getList(this.CurrentPage,this.pageSize,this.pd);
+      this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
 
     },
     pageSizeChange(val) {
       this.pageSize=val;
-      this.getList(this.CurrentPage,this.pageSize,this.pd);
+      this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
       console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
       this.CurrentPage=val
-      this.getList(this.CurrentPage,this.pageSize,this.pd);
+      this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
       console.log(`当前页: ${val}`);
     },
 
@@ -1182,12 +1185,25 @@ export default {
       this.$refs['addForm'].resetFields();
       done();
     },
-    getList(CurrentPage,showCount,pd){
+    sortChange(data){
+      console.log(data)
+      this.orders=data.prop;
+      if(data.order=='descending'){
+        this.direction=0
+      }else{
+        this.direction=1
+      }
+      console.log(this.orders,this.direction)
+      this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
+    },
+    getList(CurrentPage,showCount,pd,orders,direction){
       let p={
         "showCount": showCount,
         "currentPage": CurrentPage,
         "totalResult": this.TotalResult,
-        "pd": pd
+        "pd": pd,
+        "order":orders,
+	      "direction":direction
       }
       this.$api.post('/manage-platform/travelerRealTime/queryRealTimePage',p,
        r => {
@@ -1200,7 +1216,7 @@ export default {
       this.$api.post('/manage-platform/travelerRealTime/queryMonitorPerson',{},
        r => {
          this.tableData2=r.data;
-         this.getList(this.CurrentPage,this.pageSize,this.pd);
+        this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
 
       })
     },

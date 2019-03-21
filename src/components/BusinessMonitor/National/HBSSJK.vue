@@ -185,7 +185,7 @@
           label="值机时间"
           prop="checkInTimeSecond"
           sortable="custom"
-          width="105"
+          width="90"
           :show-overflow-tooltip="true">
         </el-table-column>
         <el-table-column
@@ -207,16 +207,19 @@
           <el-table-column
             label="中国内地"
             prop="inlandNum"
+            sortable="custom"
             width="80">
           </el-table-column>
           <el-table-column
             label="港澳台"
             prop="gatNum"
+            sortable="custom"
             width="65">
           </el-table-column>
           <el-table-column
             label="外国人"
             prop="foreignNum"
+            sortable="custom"
             width="65">
           </el-table-column>
         </el-table-column>
@@ -225,20 +228,24 @@
           <el-table-column
             label="实际登机"
             prop="boarding"
+            sortable="custom"
             width="80">
           </el-table-column>
           <el-table-column
             label="允许登机"
             prop="chk0Z"
+            sortable="custom"
             width="80">
           </el-table-column>
           <el-table-column
             label="禁止登机"
+            sortable="custom"
             prop="chk1Z"
             width="80">
           </el-table-column>
           <el-table-column
             label="非法载运"
+            sortable="custom"
             prop="illegalBoarding"
             width="80">
           </el-table-column>

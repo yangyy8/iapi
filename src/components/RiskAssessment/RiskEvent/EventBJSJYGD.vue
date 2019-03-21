@@ -92,7 +92,7 @@
                     v-for="(item,ind) in ModelHis"
                     v-if="item.MODEL_CODE"
                     :key="ind"
-                    :label="item.MODEL_CODE+' - '+item.MODEL_JC"
+                    :label="item.MODEL_JC"
                     :value="item.MODEL_CODE">
                   </el-option>
                 </el-select>

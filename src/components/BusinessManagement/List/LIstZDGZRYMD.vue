@@ -114,11 +114,11 @@
           </el-row>
         </el-col>
         <el-col :span="3" class="down-btn-area">
-          <el-button type="success" size="small" v-if="!backShow" class="mb-15" @click="CurrentPage=1;getList(CurrentPage,pageSize,pd)">查询</el-button>
+          <el-button type="success" size="small" v-if="!backShow" class="mb-15" @click="CurrentPage=1;getList(CurrentPage,pageSize,pd,orders,direction)">查询</el-button>
 
-          <el-button type="success" size="small" v-if="backShow" class="mb-15" @click="CurrentPage=1;getHisFn(CurrentPage,pageSize,pd)">查询</el-button>
+          <el-button type="success" size="small" v-if="backShow" class="mb-15" @click="CurrentPage=1;getHisFn(CurrentPage,pageSize,pd,orders,direction)">查询</el-button>
           <el-button type="primary" class="mb-15" plain size="small" @click="reset">重置</el-button>
-          <el-button type="warning" size="small" @click="CurrentPage=1;getList(CurrentPage,pageSize,pd)" v-if="backShow">返回</el-button>
+          <el-button type="warning" size="small" @click="CurrentPage=1;getList(CurrentPage,pageSize,pd,orders,direction)" v-if="backShow">返回</el-button>
 
         </el-col>
 
@@ -130,13 +130,15 @@
         <el-button type="success" size="small" @click="showUpload">批量导入</el-button>
         <el-button type="warning" size="small" @click="deleteItems()" :disabled="isdisable">批量删除</el-button>
         <!-- <el-button type="warning" size="small" @click="releaseDialogVisible=true">生效发布</el-button> -->
-        <el-button type="info" size="small" @click="getHisFn(CurrentPage,pageSize,pd)">历史资料</el-button>
+        <el-button type="info" size="small" @click="getHisFn(CurrentPage,pageSize,pd,orders,direction)">历史资料</el-button>
         <el-button type="success" size="small" @click="download">模板下载</el-button>
       </el-row>
       <el-table
+        class="mt-10 o-table3"
         :data="tableData"
         border
         style="width:100%;"
+        @sort-change="sortChange"
         @selection-change="handleSelectionChange">
         <el-table-column
          fixed
@@ -152,38 +154,41 @@
         <el-table-column
           prop="RECORDNUM"
           label="档号"
-          sortable
+          sortable="custom"
           :show-overflow-tooltip="true">
         </el-table-column>
         <el-table-column
           prop="NATIONALITYNAME"
-          sortable
+          sortable="custom"
           label="国籍/地区"
           :show-overflow-tooltip="true">
 
         </el-table-column>
         <el-table-column
-          prop="CARDTYPENAME"
-          sortable
+          prop="CARDTYPE"
           label="证件种类"
+          sortable="custom"
           :show-overflow-tooltip="true">
+          <template slot-scope="scope">
+            <span>{{scope.row.CARDTYPENAME}}</span>
+          </template>
         </el-table-column>
         <el-table-column
           prop="CARDNO"
-          sortable
+          sortable="custom"
           label="证件号码"
           :show-overflow-tooltip="true">
         </el-table-column>
         <el-table-column
           prop="FAMILYNAME"
-          sortable
+          sortable="custom"
           label="姓名"
           :show-overflow-tooltip="true">
         </el-table-column>
         <el-table-column
           prop="GENDER"
           width="80"
-          sortable
+          sortable="custom"
           label="性别"
           :show-overflow-tooltip="true">
           <template slot-scope="scope">
@@ -194,19 +199,19 @@
         </el-table-column>
         <el-table-column
           prop="DATEOFBIRTH"
-          sortable
+          sortable="custom"
           label="出生日期"
           :show-overflow-tooltip="true">
         </el-table-column>
         <el-table-column
           prop="BEGINDATE"
-          sortable
+          sortable="custom"
           label="开始日期"
           :show-overflow-tooltip="true">
         </el-table-column>
         <el-table-column
           prop="ENDDATE"
-          sortable
+          sortable="custom"
           label="失效日期"
           :show-overflow-tooltip="true">
         </el-table-column>
@@ -626,6 +631,8 @@ export default {
       CurrentPage:1,
       pageSize:10,
       TotalResult:0,
+      orders:"",
+      direction:0,
       isdisable:true,
       detailsData:{},
       pd:{NAMELIKE:'0'},
@@ -667,7 +674,7 @@ export default {
     }
   },
   mounted(){
-    // this.getList(this.CurrentPage,this.pageSize,this.pd);
+    // this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
     this.queryNationalityAlone();
     this.queryDocCode();
     this.queryInOutReason();
@@ -675,7 +682,7 @@ export default {
   },
   activated(){
     // this.backShow=false;
-    // this.getList(this.CurrentPage,this.pageSize,this.pd);
+    // this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
   },
   methods:{
     download(){
@@ -687,10 +694,10 @@ export default {
       this.pd={NAMELIKE:'0'};
       if(this.backShow){
 
-        this.getHisFn(this.CurrentPage,this.pageSize,this.pd);
+        this.getHisFn(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
 
       }else{
-        this.getList(this.CurrentPage,this.pageSize,this.pd);
+        this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
 
       }
 
@@ -706,29 +713,33 @@ export default {
       console.log(val)
     },
     pageSizeChange(val) {
+      this.pageSize=val
       if(this.backShow){
-        this.getHisFn(this.CurrentPage,val,this.pd);
-
+        this.getHisFn(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
       }else{
-        this.getList(this.CurrentPage,val,this.pd);
+
+        this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
       }
       console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
+      this.CurrentPage=val
       if(this.backShow){
-        this.getHisFn(val,this.pageSize,this.pd);
+        this.getHisFn(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
       }else{
-        this.getList(val,this.pageSize,this.pd);
+        this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
 
       }
       console.log(`当前页: ${val}`);
     },
 
-    getList(currentPage,showCount,pd){
+    getList(currentPage,showCount,pd,orders,direction){
       let p={
       	"currentPage":currentPage,
       	"showCount":showCount,
-      	"pd":pd
+      	"pd":pd,
+        "order":orders,
+        "direction":direction
       };
       console.log(pd)
 
@@ -742,11 +753,13 @@ export default {
         })
 
     },
-    getHisFn(currentPage,showCount,pd){
+    getHisFn(currentPage,showCount,pd,orders,direction){
       let p={
         "currentPage":currentPage,
         "showCount":showCount,
-        "pd":pd
+        "pd":pd,
+        "order":orders,
+        "direction":direction
       };
       console.log(pd)
       this.$api.post('/manage-platform/nameListHis/getNameListFocusListHisPage',p,
@@ -801,7 +814,7 @@ export default {
                  type: 'success'
                });
                this.releaseDialogVisible=false;
-               this.getList(this.CurrentPage,this.pageSize,this.pd);
+               this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
              }
           })
         }).catch(() => {
@@ -833,7 +846,7 @@ export default {
                      type: 'success'
                    });
                    this.releaseDialogVisible=false;
-                   this.getList(this.CurrentPage,this.pageSize,this.pd);
+                   this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
                  }
               })
             })
@@ -895,7 +908,7 @@ export default {
                });
              }
             this.addDialogVisible=false;
-            this.getList(this.CurrentPage,this.pageSize,this.pd);
+            this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
             this.$refs[formName].resetFields();
 
           })
@@ -911,12 +924,27 @@ export default {
 
              }
             this.addDialogVisible=false;
-            this.getList(this.CurrentPage,this.pageSize,this.pd);
+            this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
             this.$refs[formName].resetFields();
 
           })
         }
       })
+    },
+    sortChange(data){
+      console.log(data)
+      this.orders=data.prop;
+      if(data.order=='descending'){
+        this.direction=0
+      }else{
+        this.direction=1
+      }
+      console.log(this.orders,this.direction)
+      if(this.backShow){
+        this.getHisFn(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
+      }else{
+        this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
+      }
     },
     beforeAvatarUpload(file){
       console.log(file.type)
@@ -952,7 +980,7 @@ export default {
           type: 'success'
         });
        this.uploadDialogVisible=false ;
-       this.getList(this.CurrentPage,this.pageSize,this.pd);
+       this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
       }
     }
 
