@@ -41,7 +41,7 @@
                 <el-option
                   v-for="item in inCompany"
                   :key="item.SERIAL"
-                  :label="item.DEPT_JC"
+                  :label="item.DEPT_CODE+' - '+item.DEPT_JC"
                   :value="item.SERIAL">
                 </el-option>
                </el-select>
@@ -262,7 +262,7 @@
           </el-col>
           <el-col :span="8" class="input-item">
             <span class="yy-input-text">发送人：</span>
-            <span class="review-span">{{form.informationSend.SENDERNAMECHN}}</span>
+            <span class="review-span">{{form.informationSend.SENDERNAME}}</span>
           </el-col>
           <el-col :span="8" class="input-item">
             <span class="yy-input-text">发送时间：</span>
@@ -364,6 +364,18 @@
           label="读取状态">
           <template slot-scope="scope">
             {{scope.row.READSTATUS | fiftertype}}
+          </template>
+        </el-table-column>
+        <el-table-column
+          width="280"
+          label="附件">
+          <template slot-scope="scope">
+            <el-row class="mb-6">
+              <div class="infiledd" v-for="(d4,ind) in scope.row.files" :key="ind">
+                <span class="avgerTsName">{{d4.FILENAME}}</span>
+                <el-button type="text" class="avgera"><a :href="d4.FILEURL" class="green" download="">下载</a></el-button>
+              </div>
+            </el-row>
           </template>
         </el-table-column>
       </el-table>
@@ -640,6 +652,7 @@ export default {
       this.$api.post('/manage-platform/information/queryInformationSend',p,
         r =>{
           this.outTableDataDetail = r.data.receiveList;
+
           this.files = r.data.files;
         })
     },
@@ -690,7 +703,7 @@ export default {
         })
     },
     queryNationality(type) {//口岸
-      this.$api.post('/manage-platform/userSys/deptList', {},
+      this.$api.post('/manage-platform/userSys/selectAllDepts', {},
         r => {
           console.log(r);
           if (r.success) {

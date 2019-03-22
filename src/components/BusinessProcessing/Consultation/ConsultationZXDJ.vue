@@ -341,7 +341,7 @@
     <div class="middle mb-2" v-if="CONSULTTYPE==1||CONSULTTYPE==2">
       <el-row align="center" :gutter="2" type="flex" justify="center" style="margin-top:10px;padding-bottom:20px;">
         <el-button type="primary" size="small" @click="businessSave">保存</el-button>
-        <el-button type="primary" size="small" @click="businessDETAILS=''" style="margin-left:20px!important">清空</el-button>
+        <el-button type="primary" size="small" @click="entity={};huifu={};V.$reset('txl');V.$reset('txljiao')" style="margin-left:20px!important">清空</el-button>
       </el-row>
     </div>
   </div>
@@ -425,6 +425,8 @@ export default {
   },
   methods: {
     changeType(val){
+      this.V.$reset('txl');
+      this.V.$reset('txljiao');
       if(val==1||val==2){
         this.huifu = {}
       }

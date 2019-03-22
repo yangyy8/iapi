@@ -18,7 +18,7 @@
           </el-row>
         </el-col>
         <el-col :span="2" class="down-btn-area" style="padding-top:30px;">
-          <el-button type="success" size="small" @click="getList(CurrentPage,pageSize,pd)">查询</el-button>
+          <el-button type="success" size="small" @click="getList(CurrentPage,pageSize,pd,order,direction)">查询</el-button>
         </el-col>
       </el-row>
     </div>
@@ -31,7 +31,8 @@
         border
         style="width: 100%;"
         class="o-table3"
-        @header-click="headerClick">
+        @header-click="headerClick"
+        @sort-change='sortChange'>
         <el-table-column
           label="序号"
           type="index"
@@ -169,6 +170,8 @@ import {formatDate,format} from '@/assets/js/date.js'
 export default {
   data() {
     return {
+      order:'',
+      direction:0,
       tp: 0,
       CurrentPage: 1,
       pageSize: 10,
@@ -212,13 +215,18 @@ export default {
   },
   mounted() {
     this.range()
-    // this.getList(this.CurrentPage, this.pageSize, this.pd);
+    // this.getList(this.CurrentPage, this.pageSize, this.pd,this.order,this.direction);
   },
   activated() {
 
-    // this.getList(this.CurrentPage, this.pageSize, this.pd);
+    // this.getList(this.CurrentPage, this.pageSize, this.pd,this.order,this.direction);
   },
   methods: {
+    sortChange(column, prop, order){
+      column.order=='ascending'?this.direction=1:this.direction=0;
+      this.order=column.prop;
+      this.getList(this.CurrentPage,this.pageSize,this.pd,this.order,this.direction);
+    },
     headerClick(column,event){
       event.target.title=column.label
     },
@@ -226,23 +234,21 @@ export default {
       this.multipleSelection = val;
     },
     pageSizeChange(val) {
-      this.getList(this.CurrentPage, val, this.pd);
-      console.log(`每页 ${val} 条`);
+      this.getList(this.CurrentPage, val, this.pd,this.order,this.direction);
     },
     handleCurrentChange(val) {
-      this.getList(val, this.pageSize, this.pd);
-
-      console.log(`当前页: ${val}`);
+      this.getList(val, this.pageSize, this.pd,this.order,this.direction);
     },
-    getList(currentPage, showCount, pd) {
+    getList(currentPage, showCount, pd,order,direction) {
       let p = {
         "currentPage": currentPage,
         "showCount": showCount,
-        "pd": pd
+        "pd": pd,
+        "order":order,
+        "direction":direction
       };
       this.$api.post('/manage-platform/promptManage/queryPromptList', p,
         r => {
-          console.log(r);
           this.tableData = r.data.resultList;
           this.TotalResult = r.data.totalResult;
         })
@@ -305,8 +311,7 @@ export default {
             }
             this.$refs[formName].resetFields();
             this.addDialogVisible = false;
-            this.getList(this.CurrentPage, this.pageSize, this.pd);
-            // this.tableData=r.Data.ResultList;
+            this.getList(this.CurrentPage, this.pageSize, this.pd,this.order,this.direction);
           }, e => {
             this.$message.error('失败了');
           })
@@ -329,7 +334,7 @@ export default {
                 message: '删除成功！',
                 type: 'success'
               });
-              this.getList(this.CurrentPage, this.pageSize, this.pd);
+              this.getList(this.CurrentPage, this.pageSize, this.pd,this.order,this.direction);
             } else {
               this.$message.error(r.Message);
             }

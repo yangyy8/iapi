@@ -94,7 +94,7 @@
           </template>
         </el-table-column>
         <el-table-column
-          prop="AIRLINE_CODE"
+          prop="AIRLINE_CHN_NAME"
           label="航空公司"
           sortable>
         </el-table-column>
@@ -454,6 +454,17 @@ export default {
       }
       this.V.$reset('txl')
     },
+    appZhuan(item){
+      if(this.application.length!=0){
+        for(var i=0;i<this.application.length;i++){
+          if(item == this.application[i].AIRLINE_CODE){
+            return this.application[i].AIRLINE_CHN_NAME+'-'+this.application[i].AIRLINE_ENG_NAME
+          }
+        }
+      }else{
+        return ''
+      }
+    },
     addItem(formName,scope) {
       this.V.$submit(scope, (canSumit,data) => {
         // canSumit为true时，则所有该scope的所有表单验证通过
@@ -461,8 +472,22 @@ export default {
         var url='';
         if(this.tp==1){
           url = '/manage-platform/consult/editConsultAddress';
+          if(this.form.AIRLINE_CODE!=''){
+            this.form.AIRLINE_CHN_NAME = this.appZhuan(this.form.AIRLINE_CODE).split('-')[0];
+            this.form.AIRLINE_ENG_NAME = this.appZhuan(this.form.AIRLINE_CODE).split('-')[1];
+          }else{
+            this.form.AIRLINE_CHN_NAME='';
+            this.form.AIRLINE_ENG_NAME='';
+          }
         }else if(this.tp==0){
           url = '/manage-platform/consult/saveConsultAddress';
+          if(this.form.AIRLINE_CODE!=''){
+            this.form.AIRLINE_CHN_NAME = this.appZhuan(this.form.AIRLINE_CODE).split('-')[0];
+            this.form.AIRLINE_ENG_NAME = this.appZhuan(this.form.AIRLINE_CODE).split('-')[1];
+          }else{
+            this.form.AIRLINE_CHN_NAME='';
+            this.form.AIRLINE_ENG_NAME='';
+          }
         }
         this.$api.post(url, this.form,
           r => {

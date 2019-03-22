@@ -325,3 +325,7 @@
 .el-scrollbar__wrap{
   max-width: 500px;
 }
+.avgerTsName{
+  width: 70%;
+  display: inline-block;
+}
