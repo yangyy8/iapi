@@ -95,6 +95,7 @@
             label="操作" width="70">
             <template slot-scope="scope">
               <el-button type="text"  class="a-btn"  title="详情" icon="el-icon-tickets" @click="outDetails(scope.row)"></el-button>
+              <el-button type="text"  class="a-btn"  title="删除" icon="el-icon-delete" @click="deleteOut(scope.row)"></el-button>
            </template>
           </el-table-column>
         </el-table>
@@ -477,6 +478,33 @@ export default {
     // this.startOut(this.CurrentPage, this.pageSize);
   },
   methods: {
+    deleteOut(val){
+      this.$confirm('您是否确认删除本条数据？','提示',{
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$api.post('/manage-platform/information/deleteSendInforBySerialserial',{'serial':row.SERIAL},
+        r =>{
+          if(r.success){
+            this.$message({
+              message: '删除成功！',
+              type: 'success'
+            });
+            this.getList(this.CurrentPage, this.pageSize, this.pd);
+          }else {
+            this.$message.error(r.Message);
+          }
+        },e => {
+          this.$message.error('失败了');
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        });
+      })
+    },
     headerClick(column,event){
       event.target.title=column.label
     },
