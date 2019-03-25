@@ -130,7 +130,8 @@
                     style="width: 100%;"
                     @selection-change="handleSelectionChange"
                     class="o-table3"
-                    @header-click="headerClick">
+                    @header-click="headerClick"
+                    @sort-change='sortChange'>
                     <el-table-column
                       prop="number"
                       type="index"
@@ -139,13 +140,11 @@
                     </el-table-column>
                     <el-table-column
                       prop="nationality"
-                      label="国籍/地区"
-                      sortable>
+                      label="国籍/地区">
                     </el-table-column>
                     <el-table-column
                       prop="fltno"
-                      label="航班号"
-                      sortable>
+                      label="航班号">
                     </el-table-column>
                     <el-table-column
                       prop="begintime"
@@ -170,16 +169,14 @@
                     </el-table-column>
                     <el-table-column
                       prop="average"
-                      label="耗时(毫秒)"
-                      sortable>
+                      label="耗时(毫秒)">
                       <template  slot-scope="scope">
                         <span :class="{'color':scope.row.average>=1000}">{{scope.row.average}}</span>
                       </template>
                     </el-table-column>
                     <el-table-column
                       prop="tid"
-                      label="报文号"
-                      sortable>
+                      label="报文号">
                     </el-table-column>
                     <!-- <el-table-column
                       label="监控状态"
@@ -242,7 +239,8 @@
                     style="width: 100%;"
                     @selection-change="handleSelectionChange"
                     class="o-table3"
-                    @header-click="headerClick">
+                    @header-click="headerClick"
+                    @sort-change='sortChange'>
                     <el-table-column
                     type="index"
                       prop="number"
@@ -335,11 +333,15 @@ import {formatDate} from '@/assets/js/date.js'
 export default {
   data(){
     return{
+      order:'',
+      direction:0,
       // 实时分页
       CurrentPage:1,
       pageSize:10,
       TotalResult:0,
       // 历史分页
+      horder:'',
+      hdirection:0,
       hCurrentPage:1,
       hpageSize:10,
       hTotalResult:0,
@@ -423,7 +425,7 @@ export default {
       if(this.checked==true){
         let that = this;
         that.timer=setInterval(function(){
-          that.getList(that.CurrentPage,that.pageSize,that.cdt1);
+          that.getList(that.CurrentPage,that.pageSize,that.cdt1,that.order,that.direction);
         },300000)
       }
   },
@@ -436,7 +438,7 @@ export default {
       if(val){
         let that=this;
         that.timer=setInterval(function(){
-          that.getList(that.CurrentPage,that.pageSize,that.cdt1);
+          that.getList(that.CurrentPage,that.pageSize,that.cdt1,that.order,that.direction);
         },300000)
       }else{
 
@@ -484,6 +486,21 @@ export default {
     }
   },
   methods:{
+    sortChange(column, prop, order){
+      if(this.controlChecked==1){
+        column.order=='ascending'?this.direction=1:this.direction=0;
+        this.order=column.prop;
+        if(this.typeT==1){
+          this.getList(this.CurrentPage,this.pageSize,this.pdc,this.order,this.direction);
+        }else{
+          this.getList(this.CurrentPage,this.pageSize,this.cdt1,this.order,this.direction);
+        }
+      }else if(this.controlChecked==2){
+        column.order=='ascending'?this.hdirection=1:this.hdirection=0;
+        this.horder=column.prop;
+        this.hgetList(this.hCurrentPage,this.hpageSize,this.cdt,this.horder,this.hdirection);
+      }
+    },
     timeCollect(val){
       if(val == '5'){
         let aaaa = new Date(new Date().getTime()-2*24*60*60*1000);
@@ -510,36 +527,38 @@ export default {
     // 实时监控分页
     pageSizeChange(val) {
       if(this.typeT==1){
-        this.getList(this.CurrentPage,val,this.pdc);
+        this.getList(this.CurrentPage,val,this.pdc,this.order,this.direction);
       }else{
-        this.getList(this.CurrentPage,val,this.cdt1);
+        this.getList(this.CurrentPage,val,this.cdt1,this.order,this.direction);
       }
       console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
       if(this.typeT==1){
-        this.getList(val,this.pageSize,this.pdc);
+        this.getList(val,this.pageSize,this.pdc,this.order,this.direction);
       }else{
-        this.getList(val,this.pageSize,this.cdt1);
+        this.getList(val,this.pageSize,this.cdt1,this.order,this.direction);
       }
       console.log(`当前页: ${val}`);
     },
     // 历史监控分页
     hpageSizeChange(val) {
-      this.hgetList(this.hCurrentPage,val,this.cdt);
+      this.hgetList(this.hCurrentPage,val,this.cdt,this.horder,this.hdirection);
       console.log(`每页 ${val} 条`);
     },
 
     hhandleCurrentChange(val) {
-      this.hgetList(val,this.hpageSize,this.cdt);
+      this.hgetList(val,this.hpageSize,this.cdt,this.horder,this.hdirection);
       console.log(`当前页: ${val}`);
     },
     // 实时监控表格/分页
-    getList(currentPage,showCount,pd){
+    getList(currentPage,showCount,pd,order,direction){
       let p={
         "currentPage":currentPage,
         "showCount":showCount,
-        "cdt":pd
+        "cdt":pd,
+        "order":order,
+        "direction":direction
       };
       this.$api.post('/manage-platform/conformity/queryListPageReal',p,
        r => {
@@ -549,13 +568,14 @@ export default {
       })
     },
     //历史监控表格/分页
-    hgetList(hcurrentPage,hshowCount,cdt){
+    hgetList(hcurrentPage,hshowCount,cdt,order,direction){
 
       let p={
         "currentPage":hcurrentPage,
         "showCount":hshowCount,
-        "cdt":cdt
-      }
+        "cdt":cdt,
+        "order":order,
+        "direction":direction      }
       this.$api.post('/manage-platform/conformity/queryMatchListPageHisOther',p,
        r => {
          console.log(r);
@@ -662,7 +682,7 @@ export default {
              that.controlChecked=1;
              that.coCheckId=2;
              // 表格数据渲染
-             that.getList(that.CurrentPage,that.pageSize,that.pdc);
+             that.getList(that.CurrentPage,that.pageSize,that.pdc,that.order,that.direction);
            });
          },
 
@@ -739,7 +759,7 @@ export default {
       //   that.controlChecked=2;
       //   that.coCheckId=2;
       //   // 表格数据渲染
-      //   this.hgetList(this.hCurrentPage,this.hpageSize,this.cdt);
+      //   this.hgetList(this.hCurrentPage,this.hpageSize,this.cdt,this.horder,this.hdirection);
       // })
     },
     transform(val){
@@ -797,9 +817,9 @@ export default {
         this.checkRealTime();
       }else if(this.coCheckId == 2){//如果当前显示列表
         if(this.typeT==1){
-          // this.getList(this.CurrentPage,this.pageSize,this.pdc);
+          // this.getList(this.CurrentPage,this.pageSize,this.pdc,this.order,this.direction);
         }else{
-          // this.getList(this.CurrentPage,this.pageSize,this.cdt1);
+          // this.getList(this.CurrentPage,this.pageSize,this.cdt1,this.order,this.direction);
         }
       }
     },
@@ -808,7 +828,7 @@ export default {
       if(this.coCheckId == 1){//如果当前显示图形
         this.checkHistoryTime();
       }else if(this.coCheckId == 2){//如果当前显示列表
-        // this.hgetList(this.hCurrentPage,this.hpageSize,this.cdt);
+        // this.hgetList(this.hCurrentPage,this.hpageSize,this.cdt,this.horder,this.hdirection);
       }
     },
     judgeChart(){ //点击图形查询
@@ -824,16 +844,16 @@ export default {
       this.coCheckId=2;
       if(this.controlChecked == 1){//判断实时列表
         this.typeT=0;
-        // this.getList(this.CurrentPage,this.pageSize,this.cdt1);
+        // this.getList(this.CurrentPage,this.pageSize,this.cdt1,this.order,this.direction);
       }else if(this.controlChecked == 2){//判断历史列表
-        // this.hgetList(this.hCurrentPage,this.hpageSize,this.cdt);
+        // this.hgetList(this.hCurrentPage,this.hpageSize,this.cdt,this.horder,this.hdirection);
       }
     },
     search(){ //历史监控的查询
       if(this.coCheckId==1){
         this.checkHistoryTime();
       }else if(this.coCheckId==2){
-        this.hgetList(this.hCurrentPage,this.hpageSize,this.cdt);
+        this.hgetList(this.hCurrentPage,this.hpageSize,this.cdt,this.horder,this.hdirection);
       }
     },
     searchReal(){  //实时监控的查询
@@ -843,7 +863,7 @@ export default {
       }else if(this.coCheckId==2){
         this.checked = true;
         this.isRefreshZH = true;
-        this.getList(this.CurrentPage,this.pageSize,this.cdt1);
+        this.getList(this.CurrentPage,this.pageSize,this.cdt1,this.order,this.direction);
       }
     },
     baseNation(){

@@ -115,7 +115,8 @@
                     border
                     style="width: 100%;"
                     class="o-table3"
-                    @header-click="headerClick">
+                    @header-click="headerClick"
+                    @sort-change='sortChange'>
                     <el-table-column
                       prop="number"
                       type="index"
@@ -152,8 +153,7 @@
                     </el-table-column>
                     <el-table-column
                       prop="average"
-                      label="耗时(毫秒)"
-                      sortable>
+                      label="耗时(毫秒)">
                       <template  slot-scope="scope">
                         <span :class="{'color':scope.row.average>=1000}">{{scope.row.average}}</span>
                       </template>
@@ -216,7 +216,8 @@
                     border
                     style="width: 100%;"
                     class="o-table3"
-                    @header-click="headerClick">
+                    @header-click="headerClick"
+                    @sort-change='sortChange'>
                     <el-table-column
                     type="index"
                       prop="number"
@@ -311,6 +312,8 @@ export default {
   data(){
     return{
       // 实时分页
+      order:'',
+      direction:0,
       CurrentPage:1,
       pageSize:10,
       TotalResult:0,
@@ -343,6 +346,8 @@ export default {
         }
       ],
       // 历史显示条数
+      horder:'',
+      hdirection:0,
       hoptions:[
         {
           value:10,
@@ -400,7 +405,7 @@ export default {
     if(this.checked==true){
       let that = this;
       that.timer=setInterval(function(){
-        that.getList(that.CurrentPage,that.pageSize,that.cdt1);
+        that.getList(that.CurrentPage,that.pageSize,that.cdt1,that.order,that.direction);
       },300000)
     }
   },
@@ -410,7 +415,7 @@ export default {
       if(val){
         let that=this;
         that.timer=setInterval(function(){
-          that.getList(that.CurrentPage,that.pageSize,that.cdt1);
+          that.getList(that.CurrentPage,that.pageSize,that.cdt1,that.order,that.direction);
         },300000)
       }else{
         clearInterval(this.timer);
@@ -462,6 +467,21 @@ export default {
     }
   },
   methods:{
+    sortChange(column, prop, order){
+      if(this.controlChecked==1){
+        column.order=='ascending'?this.direction=1:this.direction=0;
+        this.order=column.prop;
+        if(this.typeT==1){
+          this.getList(this.CurrentPage,this.pageSize,this.pdc,this.order,this.direction);
+        }else{
+          this.getList(this.CurrentPage,this.pageSize,this.cdt1,this.order,this.direction);
+        }
+      }else if(this.controlChecked==2){
+        column.order=='ascending'?this.hdirection=1:this.hdirection=0;
+        this.horder=column.prop;
+        this.hgetList(this.hCurrentPage,this.hpageSize,this.cdt,this.horder,this.hdirection);
+      }
+    },
     timeCollect(val){
       if(val == '5'){
         let aaaa = new Date(new Date().getTime()-2*24*60*60*1000);
@@ -486,51 +506,54 @@ export default {
     // 实时监控分页
     pageSizeChange(val) {
       if(this.typeT==1){
-        this.getList(this.CurrentPage,val,this.pdc);
+        this.getList(this.CurrentPage,val,this.pdc,this.order,this.direction);
       }else{
-        this.getList(this.CurrentPage,val,this.cdt1);
+        this.getList(this.CurrentPage,val,this.cdt1,this.order,this.direction);
       }
       console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
       if(this.typeT==1){
-        this.getList(val,this.pageSize,this.pdc);
+        this.getList(val,this.pageSize,this.pdc,this.order,this.direction);
       }else{
-        this.getList(val,this.pageSize,this.cdt1);
+        this.getList(val,this.pageSize,this.cdt1,this.order,this.direction);
       }
       console.log(`当前页: ${val}`);
     },
     // 历史监控分页
     hpageSizeChange(val) {
-      this.hgetList(this.hCurrentPage,val,this.cdt);
+      this.hgetList(this.hCurrentPage,val,this.cdt,this.horder,this.hdirection);
       console.log(`每页 ${val} 条`);
     },
 
     hhandleCurrentChange(val) {
-      this.hgetList(val,this.hpageSize,this.cdt);
+      this.hgetList(val,this.hpageSize,this.cdt,this.horder,this.hdirection);
       console.log(`当前页: ${val}`);
     },
     // 实时监控表格/分页
-    getList(currentPage,showCount,pd){
+    getList(currentPage,showCount,pd,order,direction){
       let p={
         "currentPage":currentPage,
         "showCount":showCount,
-        "cdt":pd
+        "cdt":pd,
+        "order":order,
+        "direction":direction
       };
       this.$api.post('/manage-platform/match/queryListPageReal',p,
        r => {
-         console.log(r);
          this.tableData=r.data.resultList;
          this.TotalResult=r.data.totalResult;
       })
     },
     //历史监控表格/分页
-    hgetList(hcurrentPage,hshowCount,cdt){
+    hgetList(hcurrentPage,hshowCount,cdt,order,direction){
 
       let p={
         "currentPage":hcurrentPage,
         "showCount":hshowCount,
-        "cdt":cdt
+        "cdt":cdt,
+        "order":order,
+        "direction":direction
       }
       this.$api.post('/manage-platform/match/queryMatchListPageHisOther',p,
        r => {
@@ -639,7 +662,7 @@ export default {
              that.controlChecked=1;
              that.coCheckId=2;
              // 表格数据渲染
-             that.getList(that.CurrentPage,that.pageSize,that.pdc);
+             that.getList(that.CurrentPage,that.pageSize,that.pdc,that.order,that.direction);
            });
          },
 
@@ -718,7 +741,7 @@ export default {
       //   that.controlChecked=2;
       //   that.coCheckId=2;
       //   // 表格数据渲染
-      //   this.hgetList(this.hCurrentPage,this.hpageSize,this.cdt);
+      //   this.hgetList(this.hCurrentPage,this.hpageSize,this.cdt,this.horder,this.hdirection);
       // })
     },
     transform(val){
@@ -777,9 +800,9 @@ export default {
         this.checkRealTime();
       }else if(this.coCheckId == 2){//如果当前显示列表
         if(this.typeT==1){
-          // this.getList(this.CurrentPage,this.pageSize,this.pdc);
+          // this.getList(this.CurrentPage,this.pageSize,this.pdc,this.order,this.direction);
         }else{
-          // this.getList(this.CurrentPage,this.pageSize,this.cdt1);
+          // this.getList(this.CurrentPage,this.pageSize,this.cdt1,this.order,this.direction);
         }
       }
     },
@@ -788,7 +811,7 @@ export default {
       if(this.coCheckId == 1){//如果当前显示图形
         this.checkHistoryTime();
       }else if(this.coCheckId == 2){//如果当前显示列表
-        // this.hgetList(this.hCurrentPage,this.hpageSize,this.cdt);
+        // this.hgetList(this.hCurrentPage,this.hpageSize,this.cdt,this.horder,this.hdirection);
       }
     },
     judgeChart(){//点击图形
@@ -804,16 +827,16 @@ export default {
       this.coCheckId=2;
       if(this.controlChecked == 1){//判断实时列表
         this.typeT=0;
-        // this.getList(this.CurrentPage,this.pageSize,this.cdt1);
+        // this.getList(this.CurrentPage,this.pageSize,this.cdt1,this.order,this.direction);
       }else if(this.controlChecked == 2){//判断历史列表
-        // this.hgetList(this.hCurrentPage,this.hpageSize,this.cdt);
+        // this.hgetList(this.hCurrentPage,this.hpageSize,this.cdt,this.horder,this.hdirection);
       }
     },
     search(){  //历史监控的查看
       if(this.coCheckId==1){
         this.checkHistoryTime();
       }else if(this.coCheckId==2){
-        this.hgetList(this.hCurrentPage,this.hpageSize,this.cdt);
+        this.hgetList(this.hCurrentPage,this.hpageSize,this.cdt,this.horder,this.hdirection);
       }
     },
     searchReal(){  //实时监控的查询
@@ -823,7 +846,7 @@ export default {
       }else if(this.coCheckId==2){
         this.checked = true;
         this.isRefresh=true;
-        this.getList(this.CurrentPage,this.pageSize,this.cdt1);
+        this.getList(this.CurrentPage,this.pageSize,this.cdt1,this.order,this.direction);
       }
     }
   },
