@@ -662,7 +662,11 @@ export default {
              that.controlChecked=1;
              that.coCheckId=2;
              // 表格数据渲染
+<<<<<<< HEAD
+             that.getList(that.CurrentPage,that.pageSize,that.pdc,this.order,this.direction);
+=======
              that.getList(that.CurrentPage,that.pageSize,that.pdc,that.order,that.direction);
+>>>>>>> f18b16f53e2f9c9c1b74f9708df98408206cc591
            });
          },
 
