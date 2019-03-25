@@ -30,7 +30,6 @@
                 </el-option>
               </el-select>
             </el-col>
-
             <el-col :sm="24" :md="12"  :lg="8" class="input-item">
               <span class="input-text">证件号码：</span>
               <el-input placeholder="请输入内容" size="small" v-model="pd.CARDNO" clearable class="input-input"></el-input>
