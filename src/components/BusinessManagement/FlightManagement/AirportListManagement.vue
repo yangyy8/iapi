@@ -395,10 +395,12 @@ export default {
       this.multipleSelection = val;
     },
     pageSizeChange(val) {
+      this.pageSize=val;
       this.getList(this.CurrentPage, val, this.cdt,this.order,this.direction);
       console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
+      this.CurrentPage=val
       this.getList(val, this.pageSize, this.cdt,this.order,this.direction);
 
       console.log(`当前页: ${val}`);
@@ -413,7 +415,6 @@ export default {
       };
       this.$api.post('/manage-platform/airportManage/queryListPage', p,
         r => {
-          console.log(r);
           this.tableData = r.data.resultList;
           this.TotalResult = r.data.totalResult;
         })

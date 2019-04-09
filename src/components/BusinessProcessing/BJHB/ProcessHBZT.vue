@@ -359,7 +359,7 @@ export default {
 
     let time = new Date();
     let end = new Date();
-    let begin =new Date(time - 1000 * 60 * 60 * 24 * 14);
+    let begin =new Date(time - 1000 * 60 * 60 * 24 * 1);
     this.pd.startScheduledeparturetime=formatDate(begin,'yyyyMMddhhmm');
     this.datenow=formatDate(begin,'yyyy-MM-dd');
     this.pd.endScheduledeparturetime=formatDate(end,'yyyyMMddhhmm');
@@ -445,10 +445,12 @@ export default {
       this.multipleSelection = val;
     },
     pageSizeChange(val) {
+      this.pageSize = val;
       this.getList(this.CurrentPage, val, this.pd,this.order,this.direction);
       console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
+      this.CurrentPage = val;
       this.getList(val, this.pageSize, this.pd,this.order,this.direction);
       console.log(`当前页: ${val}`);
     },

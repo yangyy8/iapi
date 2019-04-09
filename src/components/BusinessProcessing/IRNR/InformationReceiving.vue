@@ -72,19 +72,18 @@
           border
           style="width: 100%;"
           class="o-table3"
-          @header-click="headerClick">
+          @header-click="headerClick"
+          @sort-change="sortChange">
           <el-table-column
             prop="receiveStrList"
-            label="收件人"
-            sortable>
+            label="收件人">
             <template slot-scope="scope">
               {{scope.row.receiveStrList|sendRange}}
             </template>
           </el-table-column>
           <el-table-column
             prop="DETAILS"
-            label="消息内容"
-            sortable>
+            label="消息内容">
           </el-table-column>
           <el-table-column
             prop="SENDTIMESTR"
@@ -137,16 +136,15 @@
           border
           style="width: 100%;"
           class="o-table3"
-          @header-click="headerClick">
+          @header-click="headerClick"
+          @sort-change="sortChange">
           <el-table-column
-            prop="informationSend.SENDERNAME"
-            label="发送人"
-            sortable>
+            prop="informationSend.SENDERNAMECHN"
+            label="发送人">
           </el-table-column>
           <el-table-column
             prop="informationSend.DETAILS"
-            label="发送内容"
-            sortable>
+            label="发送内容">
           </el-table-column>
           <el-table-column
             prop="informationSend.SENDTIMESTR"
@@ -155,8 +153,7 @@
           </el-table-column>
           <el-table-column
             prop="READSTATUS"
-            label="读取状态"
-            sortable>
+            label="读取状态">
             <template slot-scope="scope">
               {{scope.row.READSTATUS | fiftertype}}
             </template>
@@ -252,7 +249,7 @@
         </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="sendMesssageReal" size="small">发送</el-button>
+        <el-button type="primary" @click="sendMesssageReal(0)" size="small">发送</el-button>
         <el-button @click="sform={RECEIVEID:[]};fileData=null;sendBu=''" size="small" type="warning">清空</el-button>
       </div>
     </el-dialog>
@@ -305,7 +302,7 @@
         <el-row type="flex"  class="mb-6">
           <el-col :span="12" class="input-item">
             <span class="yy-input-text">发送人：</span>
-            <span class="yy-input-input detailinput">{{dform.informationSend.SENDERNAME}}</span>
+            <span class="yy-input-input detailinput">{{dform.informationSend.SENDERNAMECHN}}</span>
           </el-col>
           <el-col :span="12" class="input-item">
             <span class="yy-input-text">发送时间：</span>
@@ -335,7 +332,7 @@
           <el-col :span="24" class="infile">
             <div v-for="(d4,ind) in inFiles" :key="ind" class="infiledd">
               <span class="mr-30 avgerName">{{d4.FILENAME}}</span>
-              <span class="mr-30 tc-999 avgera">上传时间：{{d4.CREATETIME}}</span>
+              <span class="mr-30 tc-999 avgera">上传时间：{{d4.CREATETIMESTR}}</span>
               <!-- <el-button type="text" class="redx" @click="delFileInfo(d4.SERIAL)">删除</el-button> -->
               <el-button type="text" class="avgera"><a :href="d4.FILEURL" class="green" download="">下载</a></el-button>
             </div>
@@ -399,7 +396,7 @@
         <el-row type="flex"  class="mb-6" style="margin-left:85px">
           <el-col :span="10" class="input-item">
             <span class="yy-input-text">口岸/部门：</span>
-            <el-select  placeholder="请选择"  size="mini"  class="input-input" v-model="shareBu" filterable clearable @visible-change="queryNationality(3)" @change="nameId(sendBu,3)">
+            <el-select  placeholder="请选择"  size="mini"  class="input-input" v-model="shareBu" filterable clearable @visible-change="queryNationality(3)" @change="nameId(shareBu,3)">
               <el-option
               v-for="item in shareCompany"
               :key="item.SERIAL"
@@ -426,10 +423,15 @@
             <span class="yy-input-text" style="width: 10.3%!important;">附件：</span>
             <label class="file">
               上传附件
-              <input type="file" name=""  @change="uploadFile" multiple>
+              <input type="file" name=""  @change="shareUpload" multiple>
             </label>
-            <div class="fileColl" v-if="fileData">
-              <div class="" v-for="(x,ind) in fileData" :key="ind">
+            <div class="fileColl" v-if="shareFileOld">
+              <div class="" v-for="(x,ind) in shareFileOld" :key="ind">
+                <span class="mr-30">{{x.FILENAME}}</span>
+              </div>
+            </div>
+            <div class="fileColl" v-if="shareFile">
+              <div class="" v-for="(x,ind) in shareFile" :key="ind">
                 <span class="mr-30">{{x.name}}</span>
               </div>
             </div>
@@ -444,8 +446,8 @@
         </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="sendMesssageReal" size="small">发送</el-button>
-        <el-button @click="shareform={RECEIVEID:[]};fileData=null;shareBu=''" size="small" type="warning">清空</el-button>
+        <el-button type="primary" @click="sendMesssageReal(1)" size="small">发送</el-button>
+        <el-button @click="shareform={RECEIVEID:[]};shareFile=null;shareBu=''" size="small" type="warning">清空</el-button>
       </div>
     </el-dialog>
   </div>
@@ -455,8 +457,14 @@
 export default {
   data() {
     return {
+      order:'',
+      direction:0,
+      inOrder:'',
+      inDirection:0,
       shareDialogVisible:false,
-      shareform:{},
+      shareform:{
+        DETAILS:''
+      },
       CurrentPage: 1,
       pageSize: 10,
       TotalResult: 0,
@@ -496,6 +504,8 @@ export default {
       sform:{},
       fileData:{},
       reviewFile:{},
+      shareFile:null,
+      shareFileOld:[],
       fitAdress:'',
       sendAdress:'',
       files:[],
@@ -522,6 +532,7 @@ export default {
         }
       ],
       tableData: [],
+      beforeFiles:[],
       multipleSelection: [],
       form: {
         informationSend:{}
@@ -540,8 +551,25 @@ export default {
     // this.startOut(this.CurrentPage, this.pageSize);
   },
   methods: {
+    sortChange(column, prop, order){
+      if(this.page==0){
+        column.order=='ascending'?this.direction=1:this.direction=0;
+        this.order=column.prop;
+        this.getList(this.CurrentPage,this.pageSize,this.pd,this.order,this.direction);
+      }else if(this.page==1){
+        column.order=='ascending'?this.inDirection=1:this.inDirection=0;
+        this.inOrder=column.prop;
+        this.inGetList(this.inCurrentPage, this.inPageSize, this.pd1,this.inOrder,this.inDirection);
+      }
+    },
     share(val){
-
+      this.shareDialogVisible = true;
+      this.shareform.DETAILS = val.DETAILS;
+      this.shareFileOld = val.files;
+      this.beforeFiles=[];
+      for(var i=0;i<this.shareFileOld.length;i++){
+        this.beforeFiles.push(this.shareFileOld[i].SERIAL);
+      }
     },
     deleteIn(val){
       this.$confirm('您是否确认删除本条数据？','提示',{
@@ -556,7 +584,7 @@ export default {
               message: '删除成功！',
               type: 'success'
             });
-            this.inGetList(this.inCurrentPage, this.inPageSize, this.pd1);
+            this.inGetList(this.inCurrentPage, this.inPageSize, this.pd1,this.inOrder,this.inDirection);
           }else {
             this.$message.error(r.Message);
           }
@@ -583,7 +611,7 @@ export default {
               message: '删除成功！',
               type: 'success'
             });
-            this.getList(this.CurrentPage, this.pageSize, this.pd);
+            this.getList(this.CurrentPage, this.pageSize, this.pd,this.order,this.direction);
           }else {
             this.$message.error(r.Message);
           }
@@ -612,13 +640,13 @@ export default {
      },
      search(){
        if(this.page==0){
-         this.getList(this.CurrentPage, this.pageSize, this.pd);
+         this.getList(this.CurrentPage, this.pageSize, this.pd,this.order,this.direction);
        }else if(this.page==1){
-         this.inGetList(this.inCurrentPage, this.inPageSize, this.pd1);
+         this.inGetList(this.inCurrentPage, this.inPageSize, this.pd1,this.inOrder,this.inDirection);
        }
      },
      sendMesssageReal(type){
-       console.log(this.sform.RECEIVEID.length)
+
        if(type==0){
          if(this.sform.RECEIVEID.length==0){
            this.$message({
@@ -653,8 +681,9 @@ export default {
          this.$api.post('/manage-platform/information/saveInformationSend',this.sform,
            r =>{
              if(r.success){
+               console.log('发送消息',this.fileData)
                if(this.fileData){
-                 this.upload(r.data.serial,this.fileData);
+                 this.upload(r.data.serial,this.fileData,0);//消息发送
                }else{
                  this.$message({
                    message: '恭喜你，发送成功',
@@ -674,7 +703,7 @@ export default {
           });
           return
          }
-         if((this.shareform.DETAILS == ''||this.shareform.DETAILS == undefined)&&this.fileData == null){
+         if((this.shareform.DETAILS == ''||this.shareform.DETAILS == undefined)&&this.shareFile == null){
            this.$message({
             message: '请上传附件或者填写发送内容',
             type: 'error',
@@ -696,11 +725,14 @@ export default {
            console.log(arr);
          }
          this.shareform.receiveList = arr;
+         this.shareform.beforeFiles = this.beforeFiles
+         console.log(this.shareform)
          this.$api.post('/manage-platform/information/saveInformationSend',this.shareform,
            r =>{
              if(r.success){
-               if(this.fileData){
-                 this.upload(r.data.serial,this.fileData);
+               console.log('转发发送',this.shareFile);
+               if(this.shareFile){
+                 this.upload(r.data.serial,this.shareFile,1);//转发消息
                }else{
                  this.$message({
                    message: '恭喜你，发送成功',
@@ -719,18 +751,35 @@ export default {
     },
     pageSizeChange(val) {
       if(this.page==0){
-        this.getList(this.CurrentPage, val, this.pd);
+        this.pageSize = val;
+        this.getList(this.CurrentPage, val, this.pd,this.order,this.direction);
       }else if(this.page==1){
-        this.inGetList(this.inCurrentPage, val, this.pd1);
+        this.inPageSize = val;
+        this.inGetList(this.inCurrentPage, val, this.pd1,this.inOrder,this.inDirection);
       }
     },
-    reviewUpload(event){
+    handleCurrentChange(val) {
+      if(this.page==0){
+        this.CurrentPage = val;
+        this.getList(val, this.pageSize, this.pd,this.order,this.direction);
+      }else if(this.page==1){
+        this.inCurrentPage = val;
+        this.inGetList(val, this.inPageSize, this.pd1,this.inOrder,this.inDirection);
+      }
+      console.log(`当前页: ${val}`);
+    },
+    reviewUpload(event){//消息回复的附件
       this.reviewFile=event.target.files;
     },
-    uploadFile(event){//获取上传的文件
+    uploadFile(event){//发件详情的附件
       this.fileData=event.target.files;
+      console.log(this.fileData)
     },
-    upload(val,arr){//上传文件
+    shareUpload(event){//发件详情的附件
+      this.shareFile=event.target.files;
+      console.log(this.shareFile)
+    },
+    upload(val,arr,t){//上传文件
       var formData = new FormData();
       // let arr=this.fileData;
       for(var i=0;i<arr.length;i++){
@@ -744,6 +793,7 @@ export default {
       }
 
       let p=formData;
+      console.log('formData',formData)
       this.$api.post('/manage-platform/information/uploadFile',p,
        r =>{
          if(r.success){
@@ -751,22 +801,28 @@ export default {
              message: '恭喜你，保存成功！',
              type: 'success'
            });
-           this.fileData=null;
+           if(t==0){
+             this.fileData=null;
+           }else if(t==1){
+             this.shareFile=null
+           }else if(t==2){
+             this.reviewFile=null;
+           }
+
          }else {
-           this.fileData=null;
+           if(t==0){
+             this.fileData=null;
+           }else if(t==1){
+             this.shareFile=null
+           }else if(t==2){
+             this.reviewFile=null;
+           }
            return
          }
        },e => {
        },{'Content-Type': 'multipart/form-data'})
     },
-    handleCurrentChange(val) {
-      if(this.page==0){
-        this.getList(val, this.pageSize, this.pd);
-      }else if(this.page==1){
-        this.inGetList(val, this.inPageSize, this.pd1);
-      }
-      console.log(`当前页: ${val}`);
-    },
+
     startOut(currentPage, showCount){
       let p = {
         "currentPage": currentPage,
@@ -789,11 +845,13 @@ export default {
          this.inTotalResult = r.data.totalResult;
        })
     },
-    getList(currentPage, showCount, pd) {
+    getList(currentPage, showCount, pd,order,direction) {
       let p = {
         "currentPage": currentPage,
         "showCount": showCount,
-        "pd": pd
+        "pd": pd,
+        "order":order,
+        "direction":direction
       };
       this.$api.post('/manage-platform/information/queryInformationSendListByReceiveId',p,
         r => {
@@ -801,11 +859,13 @@ export default {
           this.TotalResult = r.data.totalResult;
         })
     },
-    inGetList(currentPage, showCount, pd){
+    inGetList(currentPage, showCount, pd,order,direction){
       let p = {
         "currentPage": currentPage,
         "showCount": showCount,
-        "pd": pd
+        "pd": pd,
+        "order":order,
+        "direction":direction
       };
       this.$api.post('/manage-platform/information/queryInformationReceiveListBySendId',p,
        r => {
@@ -859,7 +919,7 @@ export default {
           if(r.success){
             console.log(this.reviewFile)
             if(this.reviewFile){
-              this.upload(r.data.serial,this.reviewFile);
+              this.upload(r.data.serial,this.reviewFile,3);//回复发送
             }else{
               this.$message({
                 message: '恭喜你，回复成功',

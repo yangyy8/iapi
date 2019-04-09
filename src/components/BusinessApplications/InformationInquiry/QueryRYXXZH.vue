@@ -1173,6 +1173,7 @@ export default {
       this.cdt.familyname = this.$route.query.row.name;
       this.cdt.genderEqual = this.sexZhuan(this.$route.query.row.gender);
       this.cdt.dateofbirthEqual = this.zhuanhuan(this.$route.query.row.birthday)
+      this.getList(this.currentPage,this.showCount,this.cdt);
     }
   },
   filters: {

@@ -701,10 +701,12 @@ export default {
       this.pd.NATIONALITY=msg;
     },
     pageSizeChange(val) {
+      this.pageSize = val;
       this.getList(this.CurrentPage, val, this.pd,this.order,this.direction);
       console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
+      this.CurrentPage=val;
       this.getList(val, this.pageSize, this.pd,this.order,this.direction);
 
       console.log(`当前页: ${val}`);

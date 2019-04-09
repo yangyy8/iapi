@@ -100,7 +100,7 @@
             </el-row>
           </el-col>
           <el-col :span="2" class="down-btn-area" style="margin-top:35px;">
-            <el-button type="success" class="mb-15" size="small"  @click="getList(CurrentPage,pageSize,cdt)">查询</el-button>
+            <el-button type="success" class="mb-15" size="small"  @click="getList(CurrentPage,pageSize,cdt,order,direction)">查询</el-button>
           </el-col>
         </el-row>
     </div>
@@ -111,7 +111,8 @@
         border
         style="width: 100%;"
         class="o-table3"
-        @header-click="headerClick">
+        @header-click="headerClick"
+        @sort-change='sortChange'>
         <el-table-column
           prop="CONSULTFROM"
           label="咨询来源"
@@ -331,6 +332,8 @@ export default {
 
   data() {
     return {
+      order:'',
+      direction:0,
       REPLYTYPE:'',
       CHNREPLY:'',
       ENGREPLY:'',
@@ -431,6 +434,11 @@ export default {
     }
   },
   methods: {
+    sortChange(column, prop, order){
+      column.order=='ascending'?this.direction=1:this.direction=0;
+      this.order=column.prop;
+      this.getList(this.CurrentPage,this.pageSize,this.pd,this.order,this.direction);
+    },
     headerClick(column,event){
       event.target.title=column.label
     },
@@ -438,14 +446,16 @@ export default {
       this.multipleSelection = val;
     },
     pageSizeChange(val) {
-      this.getList(this.CurrentPage, val, this.pd);
+      this.pageSize = val;
+      this.getList(this.CurrentPage, val, this.pd,this.order,this.direction);
       console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
-      this.getList(val, this.pageSize, this.pd);
+      this.CurrentPage = val;
+      this.getList(val, this.pageSize, this.pd,this.order,this.direction);
       console.log(`当前页: ${val}`);
     },
-    getList(currentPage, showCount, pd) {
+    getList(currentPage, showCount, pd,order,direction) {
 
       if(dayGap(this.cdt.STARTTIME,this.cdt.ENDTIME,1)>30){
         this.$alert('事件产生时间查询时间间隔不能超过一个月', '提示', {
@@ -456,7 +466,9 @@ export default {
       let p = {
         "currentPage": currentPage,
         "showCount": showCount,
-        "cdt": pd
+        "cdt": pd,
+        "order":order,
+        "direction":direction
       };
       this.$api.post('/manage-platform/consult/queryConsultHistory', p,
         r => {

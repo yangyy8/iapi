@@ -32,16 +32,15 @@ export default {
     }
   },
   mounted(){
-    // let that = this;
-    // setTimeout(function(){
-    //   that.tiaozhuan(4,that.url)
-    //
-    //   // that.$router.push({name:'QueryRYXXZH'})
-    // },500)
+    console.log(1);
+    let that = this;
+    setTimeout(function(){
+      that.tiaozhuan(that.page,that.url)
+    },500)
   },
   activated(){
+    console.log(2)
     this.row = this.$route.query.row
-    console.log('this.row1',this.row)
     if(this.row){
       this.tiaozhuan(4,'QueryRYXXZH');
     }else{

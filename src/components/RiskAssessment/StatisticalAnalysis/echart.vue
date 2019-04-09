@@ -13,6 +13,7 @@ export default {
     return {
         chartdatas: this.chartDatas,
         liangChart:null,
+        zuobiao:true,
     }
   },
   watch: {
@@ -32,6 +33,11 @@ export default {
     chartDatas:function(newVal,oldVal){
         console.log(newVal,oldVal)
         this.chartdatas = newVal;  //newVal即是chartData
+        if(this.chartdatas.censusParamBean.queryType == 0||this.chartdatas.censusParamBean.queryType == 2){
+          this.zuobiao = true;
+        }else if(this.chartdatas.censusParamBean.queryType == 1){
+          this.zuobiao = false;
+        }
         if (!this.liangChart) {
           return;
         }
@@ -93,12 +99,12 @@ export default {
         xAxis : [
             {
                 type : 'category',
-                // boundaryGap: true,
+                boundaryGap: this.zuobiao,
                 data : _this.chartdatas.xAxisData
             },
             {
                 type : 'category',
-                boundaryGap: false,
+                boundaryGap: this.zuobiao,
                 axisLine: {show:false},
                 axisTick: {show:false},
                 axisLabel: {show:false},
@@ -111,7 +117,7 @@ export default {
             },
             {
                 type : 'category',
-                boundaryGap: false,
+                boundaryGap: this.zuobiao,
                 axisLine: {show:false},
                 axisTick: {show:false},
                 axisLabel: {show:false},
@@ -124,7 +130,7 @@ export default {
             },
             {
                 type : 'category',
-                boundaryGap: false,
+                boundaryGap: this.zuobiao,
                 axisLine: {show:false},
                 axisTick: {show:false},
                 axisLabel: {show:false},

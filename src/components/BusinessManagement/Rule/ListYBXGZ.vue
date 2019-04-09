@@ -182,7 +182,7 @@
           <template slot-scope="scope">
             <div class="my-form-group" data-scope="demo" data-name="RESPONSERESULT" data-type="textarea"
               v-validate-easy="[['required']]">
-              <input type="textarea" :autosize="{ minRows: 1, maxRows: 2}" placeholder="请输入内容" size="small" class="table-select" v-model="scope.row.RESPONSERESULT" maxlength="100"></input>
+              <el-input type="textarea" :autosize="{ minRows: 1, maxRows: 2}" placeholder="请输入内容" size="small" class="table-select" v-model="scope.row.RESPONSERESULT" maxlength="100"></el-input>
             </div>
          </template>
         </el-table-column>

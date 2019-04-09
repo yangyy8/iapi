@@ -32,6 +32,13 @@ export default new Router({
           name: "alarmProcess",
           component: resolve => require(['@/components/BusinessProcessing/Alarm/alarmProcess'], resolve),
         },
+        //应急校验码管理
+        {
+          path: "CodeYJJYM",
+          name: "CodeYJJYM",
+          component: resolve => require(['@/components/BusinessProcessing/Ccode/CodeYJJYM'], resolve),
+
+        },
         {
           path: "infoComparison",
           name: "infoComparison",
@@ -110,6 +117,12 @@ export default new Router({
           name: "QueryRYXX",
           component: resolve => require(['@/components/BusinessApplications/InformationInquiry/QueryRYXX'], resolve),
           children:[
+            //综合查询
+            // {
+            //   path: "/",
+            //   name: "QueryRYXX",
+            //   redirect: resolve => require(['@/components/BusinessApplications/InformationInquiry/QueryRYXXZH'], resolve),
+            // },
             //综合查询
             {
               path: "QueryRYXXZH",

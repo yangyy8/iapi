@@ -196,6 +196,7 @@
                     </div>
                     <el-pagination
                       background
+                      :current-page.sync ="CurrentPage"
                       @current-change="handleCurrentChange"
                       :page-size="pageSize"
                       layout="prev, pager, next"
@@ -506,27 +507,33 @@ export default {
     // 实时监控分页
     pageSizeChange(val) {
       if(this.typeT==1){
+        this.pageSize=val;
         this.getList(this.CurrentPage,val,this.pdc,this.order,this.direction);
       }else{
+        this.pageSize=val;
         this.getList(this.CurrentPage,val,this.cdt1,this.order,this.direction);
       }
       console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
       if(this.typeT==1){
+        this.CurrentPage=val;
         this.getList(val,this.pageSize,this.pdc,this.order,this.direction);
       }else{
+        this.CurrentPage=val;
         this.getList(val,this.pageSize,this.cdt1,this.order,this.direction);
       }
       console.log(`当前页: ${val}`);
     },
     // 历史监控分页
     hpageSizeChange(val) {
+      this.hpageSize=val;
       this.hgetList(this.hCurrentPage,val,this.cdt,this.horder,this.hdirection);
       console.log(`每页 ${val} 条`);
     },
 
     hhandleCurrentChange(val) {
+      this.hCurrentPage = val;
       this.hgetList(val,this.hpageSize,this.cdt,this.horder,this.hdirection);
       console.log(`当前页: ${val}`);
     },
@@ -662,6 +669,8 @@ export default {
              that.controlChecked=1;
              that.coCheckId=2;
              // 表格数据渲染
+             that.CurrentPage=1;
+             that.pageSize=10;
              that.getList(that.CurrentPage,that.pageSize,that.pdc,that.order,that.direction);
            });
          },
@@ -846,6 +855,8 @@ export default {
       }else if(this.coCheckId==2){
         this.checked = true;
         this.isRefresh=true;
+        this.CurrentPage=1;
+        this.pageSize=10;
         this.getList(this.CurrentPage,this.pageSize,this.cdt1,this.order,this.direction);
       }
     }
