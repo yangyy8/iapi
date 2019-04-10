@@ -5,7 +5,7 @@
       <el-button type="success"   size="small" class="mb-9" @click="getData">查询</el-button>
       <table class="o-table2" cellspacing="0">
         <tr class="th1">
-          <th align="center"></th>
+          <th align="center">名单类型</th>
           <th align="center">内存数据(MD5值)</th>
           <th align="center">业务平台(MD5值)</th>
           <th align="center">查询同步时间</th>
