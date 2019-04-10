@@ -77,7 +77,7 @@
             </el-row>
           </el-col>
           <el-col :span="2" class="down-btn-area" style="margin-top:35px;">
-            <el-button type="success" class="mb-15" size="small"  @click="getList(CurrentPage,pageSize,pd,order,direction)">查询</el-button>
+            <el-button type="success" class="mb-15" size="small"  @click="CurrentPage=1;getList(CurrentPage,pageSize,pd,order,direction)">查询</el-button>
           </el-col>
         </el-row>
     </div>
@@ -148,6 +148,7 @@
         <el-pagination
           background
           @current-change="handleCurrentChange"
+          :current-page.sync ="CurrentPage"
           :page-size="pageSize"
           layout="prev, pager, next"
           :total="TotalResult">
