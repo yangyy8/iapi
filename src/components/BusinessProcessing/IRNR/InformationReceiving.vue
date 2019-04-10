@@ -94,7 +94,7 @@
             label="操作" width="100">
             <template slot-scope="scope">
               <el-button type="text"  class="a-btn"  title="详情" icon="el-icon-tickets" @click="outDetails(scope.row)"></el-button>
-              <!-- <el-button type="text"  class="a-btn"  title="转发" icon="el-icon-share" @click="share(scope.row)"></el-button> -->
+              <el-button type="text"  class="a-btn"  title="转发" icon="el-icon-share" @click="share(scope.row)"></el-button>
               <el-button type="text"  class="a-btn"  title="删除" icon="el-icon-delete" @click="deleteOut(scope.row)"></el-button>
            </template>
           </el-table-column>
@@ -447,7 +447,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="sendMesssageReal(1)" size="small">发送</el-button>
-        <el-button @click="shareform={RECEIVEID:[]};shareFile=null;shareBu=''" size="small" type="warning">清空</el-button>
+        <el-button @click="shareform={RECEIVEID:[]};shareFile=null;shareBu='';shareFileOld=[]" size="small" type="warning">清空</el-button>
       </div>
     </el-dialog>
   </div>
@@ -563,6 +563,8 @@ export default {
       }
     },
     share(val){
+      this.shareform={RECEIVEID:[]};
+      this.shareBu='';
       this.shareDialogVisible = true;
       this.shareform.DETAILS = val.DETAILS;
       this.shareFileOld = val.files;
