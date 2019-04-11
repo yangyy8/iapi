@@ -317,7 +317,7 @@
 
     <el-dialog :title="dialogText" :visible.sync="addDialogVisible" style="line-height:32px;"  width="60%" id="xinzeng">
       <el-form :model="form" ref="addForm">
-        <el-row  class="mb-6" align="center">
+        <el-row  align="center">
           <el-col :sm="24" :md="12" :lg="8"  class="input-item my-form-group" data-scope="demo1" data-name="NATIONALITY" data-type="select"
             v-validate-easy="[['required']]">
             <span class="input-text"><span class="redx">*</span>国籍/地区：</span>
@@ -345,10 +345,14 @@
 
           <el-col :sm="24" :md="12" :lg="8"  class="input-item my-form-group" data-scope="demo1" data-name="PERSON_TYPE" data-type="select"
             v-validate-easy="[['required']]">
-            <span class="input-text"><span class="redx">*</span>控制类型：</span>
+            <span class="input-text"><span class="redx">*</span>在控性质：</span>
             <el-select v-model="form.PERSON_TYPE" placeholder="请选择"  size="small" clearable class="input-input">
-              <el-option label="0 - 外国人" value="0"></el-option>
-              <el-option label="1 - 中国人" value="1"></el-option>
+              <el-option
+                v-for="item in ctlType"
+                :key="item.CODE"
+                :label="item.CODE+' - '+item.NAME"
+                :value="item.CODE">
+              </el-option>
             </el-select>
           </el-col>
 
@@ -398,7 +402,7 @@
             </el-date-picker>
           </el-col>
 
-          <el-col :sm="24" :md="12" :lg="8" class="input-item my-form-group">
+          <!-- <el-col :sm="24" :md="12" :lg="8" class="input-item my-form-group">
             <span class="input-text">原因严重性：</span>
             <el-select v-model="form.CTL_REASONLEVEL" placeholder="请选择"  size="small"  class="input-input">
               <el-option label="1" value="1"></el-option>
@@ -407,7 +411,7 @@
               <el-option label="4" value="4"></el-option>
               <el-option label="5" value="5"></el-option>
             </el-select>
-          </el-col>
+          </el-col> -->
 
           <el-col :sm="24" :md="12" :lg="8" class="input-item my-form-group" data-scope="demo1" data-name="IN_OUT" data-type="select"
             v-validate-easy="[['required']]">
@@ -499,6 +503,9 @@
               <el-option label="2 - 不准登机" value="2"></el-option>
             </el-select>
           </el-col>
+        </el-row>
+        <el-row  class="mb-6" align="center">
+
           <el-col :sm="24" :md="12" :lg="8" class="input-item my-form-group" data-scope="other" data-name="CTL_REASON" data-type="textarea"
             v-validate-easy="[['maxLength',[1300]]]">
             <span class="input-text">布控依据：</span>
@@ -574,11 +581,11 @@
             <span>证件有效期：</span>
             {{detailsData.CARDEXPIREDATE}}
           </el-col>
-          <el-col :sm="24" :md="12" :lg="8" >
+          <!-- <el-col :sm="24" :md="12" :lg="8" >
             <span>原因严重性：</span>
             {{detailsData.CTL_REASONLEVEL}} <span>级</span>
 
-          </el-col>
+          </el-col> -->
           <el-col :sm="24" :md="12" :lg="8" >
             <span>出入标识：</span>
             <a v-if="detailsData.IN_OUT=='I'">入境</a>
@@ -626,11 +633,11 @@
             <span>联系电话：</span>
             {{detailsData.SUBORG_CONN}}
           </el-col>
-          <el-col :sm="24" :md="12" :lg="8" >
-            <span>控制类型：</span>
-            <a v-if="detailsData.PERSON_TYPE=='0'">外国人</a>
-            <a v-if="detailsData.PERSON_TYPE=='1'">中国人</a>
-          </el-col>
+          <!-- <el-col :sm="24" :md="12" :lg="8" >
+            <span>在控性质：</span>
+            {{detailsData.PERSON_TYPE_NAME}}
+
+          </el-col> -->
           <el-col :sm="24" :md="12" :lg="8" >
             <span>处理要求：</span>
             <a v-if="detailsData.DEALTYPE=='1'">允许登机</a>
@@ -722,6 +729,7 @@ export default {
       nationAlone:[],
       airport:[],
       docCode:[],
+      ctlType:[],
       CurrentPage:1,
       pageSize:10,
       TotalResult:0,
@@ -792,42 +800,12 @@ export default {
     this.queryNationalityAlone();
     this.queryAirport();
     this.queryDocCode();
+    this.queryControlTypes();
   },
   activated(){
     // this.backShow=false;
     // this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
   },
-  // directives:{
-  //   input:{
-  //     inserted:function(el){
-  //      el.style.width = "300px";
-  //      el.style.height = "35px";
-  //      el.style.lineHeight = "35px";
-  //      el.style.background = "#ddd";
-  //      el.style.fontSize = "16px";
-  //      el.style.border = "1px solid #eee";
-  //      el.style.textIndent = "5px";
-  //      el.style.textIndent = "8px";
-  //      el.style.borderRadius = "5px";
-  //     }
-  //   },
-  //   focus:{
-  //     inserted:function(el){
-  //       el.focus();
-  //     }
-  //   },
-  //   require:{
-  //     inserted:function(el){
-  //       el.addEventListener('input',function(event){
-  //         // console.log(el,event)
-  //         if(event.target.value == '' || event.target.value == null){
-  //           // el.style.border = "1px solid red";
-  //           console.log('我不能为空');
-  //         };
-  //       });
-  //     }
-  //   },
-  // },
   methods:{
     download(){
       window.location.href=this.$api.rootUrl+'/manage-platform/templateFile/nameListDataFile.xlsx'
@@ -857,6 +835,15 @@ export default {
          //console.log(r);
          if(r.success){
            this.docCode=r.data;
+         }
+      })
+    },
+    queryControlTypes(){
+      this.$api.post('/manage-platform/codeTable/queryControlTypes',{},
+       r => {
+         console.log(r);
+         if(r.success){
+           this.ctlType=r.data;
          }
       })
     },

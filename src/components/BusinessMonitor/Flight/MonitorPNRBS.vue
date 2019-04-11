@@ -18,6 +18,7 @@
                   v-model="pd.fltDate"
                   :editable="false"
                   :clearable="false"
+                  :picker-options="pickerOptions"
                   type="date" size="small" value-format="yyyyMMdd"
                   placeholder="选择时间"  >
                 </el-date-picker>
@@ -359,6 +360,11 @@ export default {
       ],
       detailsDialogVisible:false,
       detailsData:{},
+      pickerOptions: {
+        disabledDate: (time) => {
+          return time.getTime() < (Date.now() - 3600 * 1000 * 24*2)
+        }
+      },
     }
   },
   mounted(){
