@@ -6,7 +6,7 @@
           出入标识：{{moreData.in_out_flag}}
         </el-col>
         <el-col :span="12">
-          人员类别：{{moreData.pers_imm_type}}
+          人员类别：{{moreData.pers_imm_type_na}}
         </el-col>
         <el-col :span="12">
           姓名：{{moreData.pers_name}}
@@ -15,7 +15,7 @@
           国籍/地区：{{moreData.to_country_code}}
         </el-col>
         <el-col :span="12">
-          性别：{{moreData.pers_gender}}
+          性别：{{moreData.pers_gender_na}}
         </el-col>
         <el-col :span="12">
           出生日期：{{moreData.birth_date}}
@@ -263,7 +263,7 @@
           签证发放机关：{{moreData.visa_assign_dept_na||'-'}}
         </el-col>
         <el-col :span="12">
-          制证单位：{{moreData.accept_organ||'-'}}
+          制证单位：{{moreData.accred_unit_na||'-'}}
         </el-col>
         <el-col :span="12">
           签证有效次数：{{moreData.visa_eff_nbr||'-'}}
@@ -281,10 +281,10 @@
           签证有效期：{{moreData.visa_vld||'-'}}
         </el-col>
         <el-col :span="12">
-          签证停留期：{{moreData.visa_period||'-'}}
+          签证停留期：{{moreData.visa_valid_na||'-'}}
         </el-col>
         <el-col :span="12">
-          签证/居留许可事由：{{moreData.visa_rstd_rsn||'-'}}
+          签证/居留许可事由：{{moreData.visa_rstd_rsn_na||'-'}}
         </el-col>
         <el-col :span="12">
           邀请单位名称：{{moreData.invt_unit_name||'-'}}
@@ -293,7 +293,7 @@
           邀请人中文姓名：{{moreData.invt_chn_name||'-'}}
         </el-col>
         <el-col :span="12">
-          邀请人性别：{{moreData.invt_gender||'-'}}
+          邀请人性别：{{moreData.invt_gender_na||'-'}}
         </el-col>
         <el-col :span="12">
           邀请人出生日期：{{moreData.invt_birth_date||'-'}}
@@ -317,7 +317,7 @@
           受理时间：{{moreData.accept_dt||'-'}}
         </el-col>
         <el-col :span="12">
-          居住地行政区划：{{moreData.curr_region_code||'-'}}
+          居住地行政区划：{{moreData.curr_region_na||'-'}}
         </el-col>
         <el-col :span="12">
           居住地派出所名称：{{moreData.curr_lps_name||'-'}}
@@ -326,7 +326,7 @@
           居住地详细地址：{{moreData.curr_address||'-'}}
         </el-col>
         <el-col :span="12">
-          工作单位行政区划：{{moreData.unit_region_code||'-'}}
+          工作单位行政区划：{{moreData.unit_region_na||'-'}}
         </el-col>
         <el-col :span="12">
           工作(学习)单位所在派出所名称：{{moreData.unit_lps_name||'-'}}

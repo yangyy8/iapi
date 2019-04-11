@@ -503,6 +503,7 @@ export default {
       })
     },
     rowClick(row,event,column){
+      this.detailsDialogVisible=true;
       let p={
         flightRecordnum:row.flightRecordnum,
         portto:row.portto
@@ -510,7 +511,6 @@ export default {
       this.$api.post('/manage-platform/flightRealTime/queryFightDetail',p,
        r => {
          console.log(r)
-         this.detailsDialogVisible=true;
          this.detailsData=r.data
       })
     },

@@ -329,7 +329,7 @@
           </el-table-column>
           <el-table-column
             label="订票性别"
-            prop="bkbirthday"
+            prop="bkgender"
             width="65"
             sortable="custom"
             :show-overflow-tooltip="true">
@@ -357,7 +357,7 @@
           </el-table-column>
           <el-table-column
             label="订票出生日期"
-            prop="bkgender"
+            prop="bkbirthday"
             sortable="custom"
             width="101"
             :show-overflow-tooltip="true">
@@ -1030,7 +1030,11 @@ export default {
       ],
       checked:true,
       addDialogVisible:false,
-      addform:{},
+      addform:{
+        name:'',
+        passno:'',
+        nationality:''
+      },
 
       historyCdt:{},
       queryDialogVisible: false,
@@ -1056,8 +1060,9 @@ export default {
     this.nav1Id=this.$route.query.nav1Id
     this.nav2Id=this.$route.query.nav2Id
     let end = new Date();
-    let begin = new Date(end - 24*60*60*1000);
-    this.pd.fltDateFr= formatDate(begin, 'yyyyMMdd');
+    // let begin = new Date(end - 24*60*60*1000);
+    // this.pd.fltDateFr= formatDate(begin, 'yyyyMMdd');
+    this.pd.fltDateFr= formatDate(end, 'yyyyMMdd');
     this.pd.fltDateTo= formatDate(end, 'yyyyMMdd');
     this.queryNationalityAlone();
   },
