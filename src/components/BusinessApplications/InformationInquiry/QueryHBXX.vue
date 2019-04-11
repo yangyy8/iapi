@@ -240,10 +240,21 @@
     </el-dialog>
 
     <el-dialog
-      title="详情"
+      :title="detailsTitle"
       :visible.sync="numberDialogVisible"
       width="1000px">
       <el-button  plain class="table-btn mb-9" size="small" @click="daochu">导出</el-button>
+      <el-row type="flex"  class="mb-6">
+        <el-col :span="12" class="input-item">
+          <span class="yy-input-text width-dq">航班号：</span>
+          <el-input placeholder="请输入内容" size="small" v-model="detailForm.fight" class="yy-input-input" :disabled="true"></el-input>
+
+        </el-col>
+        <el-col :span="12" class="input-item">
+          <span class="yy-input-text width-dqd">航班日期：</span>
+            <el-input placeholder="请输入内容" size="small" v-model="detailForm.fightDate" class="yy-input-input" :disabled="true"></el-input>
+        </el-col>
+      </el-row>
       <el-table
         :data="tableInfo"
         border
@@ -289,6 +300,8 @@ export default {
   components: {Seat},
   data() {
     return {
+      detailsTitle:'值机人员详情',
+      detailForm:{},
       order:'',
       direction:0,
       numberTotal:0,
@@ -423,16 +436,23 @@ export default {
     },
     rowClick(row, column, cell, event){
       console.log(row);
+
+      this.detailForm.fight = row.fltno;
+      this.detailForm.fightDate = row.fltDateStr;
       if(column.property=='checkincount'||column.property=='boardingcount'||column.property=='chkNobrd'){
-        if(row.checkincount==undefined||row.boardingcount==undefined||row.chkNobrd==undefined){
+        if((column.property=='checkincount'&&row.checkincount==undefined)||(column.property=='boardingcount'&&row.boardingcount==undefined)||(column.property=='chkNobrd'&&row.chkNobrd==undefined)){
           this.$message('没有检索到详情');
           return false
+        }
+        if(column.property=='checkincount'){
+          this.detailsTitle = '值机人员详情'
+        }else{
+          this.detailsTitle = '登机人员详情'
         }
         let p = {
           'flightRecordnum':row.flightRecordnum,
           'otherStr':this.zhuanhuan(column.property)
         }
-
         this.$api.post('/manage-platform/iapi/queryIapiTableInfoObject',p,
          r =>{
            if(r.success){
@@ -645,5 +665,11 @@ export default {
   color: #333;
   display: inline-block;
   width: 60px;
+}
+.width-dq{
+  width: 12%!important;
+}
+.width-dqd{
+  width: 18%!important;
 }
 </style>
