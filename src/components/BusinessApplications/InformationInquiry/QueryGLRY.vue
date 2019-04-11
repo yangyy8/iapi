@@ -536,8 +536,10 @@ export default {
       // this.pd.name = this.$route.query.row.linkName;
       this.pd.gender = this.sexZhuan(this.$route.query.row.GENDER);
       this.pd.birthday = this.zhuanhuan(this.$route.query.row.iapiBirthdayName);
-    }
+
       this.getList(this.CurrentPage, this.pageSize, this.pd);
+    }
+
     // console.log(this.$route.query.row.NATIONALITY)
   },
   methods: {

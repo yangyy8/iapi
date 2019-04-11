@@ -271,12 +271,11 @@
                     关闭时间：{{rst4.departdate}}<br/>
                   </span>
                 </div>
-                <div style="width:18%; margin-left:73%;  margin-top:75px;  line-height:25px; font-size:14px;height:55px;" v-if='rj'>
+                <div style="width:18%; margin-left:73%;  margin-top:75px;  line-height:25px; font-size:14px;height:55px;">
                   <span v-if='rj'>
                     入境时间：{{rst5.steptime}}<br/>
-                   入境口岸：{{rst5.cityto}}<br/>
+                    入境口岸：{{rst5.cityto}}<br/>
                   </span>
-
                 </div>
            </div>
 

@@ -213,12 +213,14 @@
                 <el-table-column
                   label="操作" width="70">
                   <template slot-scope="scope">
-  <span v-if="scope.row.FLIGHTSTATUS==0 || scope.row.FLIGHTSTATUS==1 ">
+  <!-- <span v-if="scope.row.FLIGHTSTATUS==0 || scope.row.FLIGHTSTATUS==1 ">
   <el-button   type="text"  class="a-btn"  title="变更" icon="el-icon-edit" :disabled="true"></el-button>
 </span>
 <span v-else>
     <el-button  type="text"  class="a-btn"  title="变更" icon="el-icon-edit" @click="handles(scope.row);"></el-button>
-  </span>
+  </span> -->
+
+      <el-button  type="text"  class="a-btn"  title="变更" icon="el-icon-edit" @click="handles(scope.row);"></el-button>
 
       <el-button type="text"  class="a-btn"  title="详情" icon="el-icon-tickets" @click="details(scope.row)"></el-button>
                  </template>
@@ -816,7 +818,8 @@ export default {
     let time = new Date();
     let end = new Date();
     let begin = new Date(time - 1000 * 60 * 60 * 24 * 14);
-    this.pd.STARTTIME = formatDate(begin, 'yyyyMMddhhmm');
+    let flightStart = new Date(new Date().setHours(0,0,0,0));
+    this.pd.STARTTIME = formatDate(flightStart, 'yyyyMMddhhmm');
     this.datenow = formatDate(begin, 'yyyy-MM-dd');
     this.pd.ENDTIME = formatDate(end, 'yyyyMMddhhmm');
   },
