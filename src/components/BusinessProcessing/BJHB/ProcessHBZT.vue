@@ -191,12 +191,12 @@
           <el-col :span="24" class="input-item my-form-group" data-scope="demo2" data-name="changeport" data-type="select"
           v-validate-easy="[['required']]">
             <span class="yy-input-text" style="width:15%">备降机场：</span>
-            <el-select v-model="form.changeport"  filterable clearable  @visible-change="queryAirport" placeholder="请选择" size="small" style="width:80%;">
+            <el-select v-model="form.changeport"  filterable clearable  @visible-change="queryAirportBJ" placeholder="请选择" size="small" style="width:80%;">
                <el-option
-                 v-for="item in Airport"
-                 :key="item.AIRPORT_CODE"
-                 :label="item.AIRPORT_CODE+' - '+item.AIRPORT_NAME"
-                 :value="item.AIRPORT_CODE" >
+                 v-for="item in AirportBJ"
+                 :key="item.AIRLINE_CODE"
+                 :label="item.AIRLINE_CODE+' - '+item.AIRLINE_CHN_NAME"
+                 :value="item.AIRLINE_CODE" >
                </el-option>
              </el-select>
           </el-col>
@@ -294,6 +294,7 @@ import {dayGap} from '@/assets/js/date.js'
 export default {
   data() {
     return {
+      AirportBJ:[],
       order:'',
       direction:0,
       AuthDialogVisible:false,
@@ -505,6 +506,15 @@ export default {
       this.$api.post('/manage-platform/codeTable/queryAirport', {},
         r => {
             this.Airport = r.data;
+        })
+    },
+    queryAirportBJ() {
+      // if(this.AirportBJ.length!=0){
+      //   return;
+      // };
+      this.$api.post('/manage-platform/codeTable/queryAircompanyListByFlttype', {"flighttype":"O"},
+        r => {
+            this.AirportBJ = r.data;
         })
     },
     addItem(formName) {
