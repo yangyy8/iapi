@@ -368,7 +368,7 @@
         </el-table-column>
         <el-table-column
           width="280"
-          label="附件">
+          label="回复附件">
           <template slot-scope="scope">
             <el-row class="mb-6">
               <div class="infiledd" v-for="(d4,ind) in scope.row.files" :key="ind">
