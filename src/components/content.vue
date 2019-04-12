@@ -129,9 +129,9 @@
           <div class="rb-closeBtn el-icon-close" @click="msgIrShow=false"></div>
           <div class="rb-content">
             <div class="rb-msg-item" v-for="(i,ind) in msgIrList" :key="ind">
-              <span>发送人：{{i.informationSend.SENDERNAME}}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+              <span>发送人：{{i.informationSend.SENDERNAMECHN}}</span>&nbsp;&nbsp;&nbsp;&nbsp;
               <span class="t-noWrap">内容：{{i.informationSend.DETAILS}}</span>&nbsp;&nbsp;&nbsp;&nbsp;
-              <a  @click="msgIr(i)">点击查看</a>
+              <a  @click="msgIr(i,ind)">点击查看</a>
             </div>
           </div>
         </div>
@@ -205,6 +205,7 @@
 export default {
   data() {
     return {
+      sendS:'',
       PmInfo:{},
       IrInfo:{},
       inFiles:[],
@@ -253,6 +254,7 @@ export default {
     this.tablistinitFn();
     // setTimeout(this.msgI(),100)
     this.msgP();
+    this.msgI();
     let _this=this;
     // this.msg()
     // setInterval(function() {
@@ -604,15 +606,21 @@ export default {
       this.getNav();
       this.msgShow=false;
     },
-    msgIr(x){
+    msgIr(x,i){
       // this.$router.push({params:{navId:x.menuId.rootId},query:{nav1Id:x.menuId.parentId,nav2Id:x.menuId.urlId}})
       // this.getNav(x.menuId.rootId);
       this.numberIrDialogVisible = true;
+      this.sendS = x.informationSend.SERIAL;
       this.IrInfo=x.informationSend;
       this.inFiles=x.informationSend.files;
       this.$api.post('/manage-platform/information/updateInformationReceiveInf',{SERIAL:x.SERIAL},
        r =>{
-         this.msgIrShow=false;
+         if(r.success){
+           this.msgIrList.splice(i,1);
+           if(this.msgIrList.length==0){
+             this.msgIrShow=false;
+           }
+         }
        })
 
     },
@@ -675,6 +683,9 @@ export default {
 </script>
 
 <style scoped>
+.isDisplay{
+  display: none
+}
 .rb-msg{
   display: -webkit-box;
   display: -ms-flexbox;

@@ -262,7 +262,7 @@
           </el-col>
           <el-col :span="8" class="input-item">
             <span class="yy-input-text">发送人：</span>
-            <span class="review-span">{{form.informationSend.SENDERNAME}}</span>
+            <span class="review-span">{{form.informationSend.SENDERNAMECHN}}</span>
           </el-col>
           <el-col :span="8" class="input-item">
             <span class="yy-input-text">发送时间：</span>
@@ -368,7 +368,7 @@
         </el-table-column>
         <el-table-column
           width="280"
-          label="附件">
+          label="回复附件">
           <template slot-scope="scope">
             <el-row class="mb-6">
               <div class="infiledd" v-for="(d4,ind) in scope.row.files" :key="ind">
@@ -569,9 +569,12 @@ export default {
       this.shareform.DETAILS = val.DETAILS;
       this.shareFileOld = val.files;
       this.beforeFiles=[];
-      for(var i=0;i<this.shareFileOld.length;i++){
-        this.beforeFiles.push(this.shareFileOld[i].SERIAL);
+      if(this.shareFileOld.length!=0){
+        for(var i=0;i<this.shareFileOld.length;i++){
+          this.beforeFiles.push(this.shareFileOld[i].SERIAL);
+        }
       }
+
     },
     deleteIn(val){
       this.$confirm('您是否确认删除本条数据？','提示',{
