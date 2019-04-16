@@ -512,7 +512,11 @@ export default {
       // if(this.AirportBJ.length!=0){
       //   return;
       // };
-      this.$api.post('/manage-platform/codeTable/queryAircompanyListByFlttype', {"flighttype":"O"},
+      let p={
+        "flighttype":"O",
+        "type":"0"
+      }
+      this.$api.post('/manage-platform/codeTable/queryAirportByPortAndFlighttype', p,
         r => {
             this.AirportBJ = r.data;
         })
