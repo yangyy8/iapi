@@ -479,9 +479,17 @@ this.$api.post("/manage-platform/PersonLocation/get_person_status", p,
            this.rj=true;
            this.rst5=arr[i];
          }
+        if(arr[i].step=="出入境"){
+           if(arr[i].flttype=="出境"){
 
+            this.cj=true;
+            this.rst3=arr[i];
+           }else if(arr[i].flttype=="入境"){
+             this.rj=true;
+             this.rst5=arr[i];
+           }
+        }
       }
-
 
     });
   },

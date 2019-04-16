@@ -564,7 +564,6 @@ export default {
            }else if(type==1){
              this.addCityName = r.data;
            }
-
          }
        })
     },
