@@ -973,7 +973,7 @@
                     :show-overflow-tooltip="true"
                     label="审批机关">
                     <template slot-scope="scope">
-                      <span>{{scope.row.assign.dept_na||'-'}}</span>
+                      <span>{{scope.row.visa_assign_dept_na||'-'}}</span>
                     </template>
                   </el-table-column>
                   <el-table-column
@@ -1637,7 +1637,7 @@
                     label="姓名"
                     prop="psrchnname">
                     <template slot-scope="scope">
-                      <span v-if="scope.row.psrchnname||scope.row.psrchnname!='-'">{{scope.row.psrchnname}}</span>
+                      <span v-if="scope.row.psrchnname!='-'">{{scope.row.psrchnname}}</span>
                       <span v-else>{{scope.row.psrname}}</span>
                     </template>
                   </el-table-column>
