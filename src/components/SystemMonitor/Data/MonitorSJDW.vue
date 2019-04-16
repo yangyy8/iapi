@@ -489,10 +489,7 @@ this.$api.post("/manage-platform/PersonLocation/get_person_status", p,
              this.rst5=arr[i];
            }
         }
-
-
       }
-
 
     });
   },
