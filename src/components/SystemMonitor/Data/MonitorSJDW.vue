@@ -480,6 +480,7 @@ this.$api.post("/manage-platform/PersonLocation/get_person_status", p,
            this.rst5=arr[i];
          }
         if(arr[i].step=="出入境"){
+          console.log(arr[i].step+'--------------');
            if(arr[i].flttype=="出境"){
 
             this.cj=true;

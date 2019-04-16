@@ -50,10 +50,10 @@
                 <el-select placeholder="请选择" v-model="pd.portto" filterable clearable size="small" @visible-change="getjc(pd.cityto,0)"  class="input-input">
                   <el-option
               v-for="item in airportn"
-              v-if="item.JCDM"
-              :key="item.JCDM"
-              :label="item.JCDM+' - '+item.KAMC"
-              :value="item.JCDM">
+              v-if="item.AIRPORT_CODE"
+              :key="item.AIRPORT_CODE"
+              :label="item.AIRPORT_CODE+' - '+item.AIRPORT_NAME"
+              :value="item.AIRPORT_CODE">
             </el-option>
                 </el-select>
             </el-col>
@@ -535,9 +535,10 @@ export default {
     getjc(n, t) {
       if (t == 0) {
         let pp = {
+          "COUNTRY_CODE": "CHN",
           'CITY_CODE': n,
         }
-        this.$api.post('/manage-platform/codeTable/queryAirportMatch', pp,
+        this.$api.post('/manage-platform/codeTable/queryAirportByParam', pp,
           r => {
             if (r.success) {
               this.airportn = r.data;
@@ -547,7 +548,7 @@ export default {
         let pe = {
           'CITY_CODE': n,
         }
-        this.$api.post('/manage-platform/codeTable/queryAirportMatch', pe,
+        this.$api.post('/manage-platform/codeTable/queryAirportByParam', pe,
           r => {
             if (r.success) {
               this.airportw = r.data;

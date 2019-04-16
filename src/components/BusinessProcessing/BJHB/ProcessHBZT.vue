@@ -194,9 +194,9 @@
             <el-select v-model="form.changeport"  filterable clearable  @visible-change="queryAirportBJ" placeholder="请选择" size="small" style="width:80%;">
                <el-option
                  v-for="item in AirportBJ"
-                 :key="item.AIRLINE_CODE"
-                 :label="item.AIRLINE_CODE+' - '+item.AIRLINE_CHN_NAME"
-                 :value="item.AIRLINE_CODE" >
+                 :key="item.AIRPORT_CODE"
+                 :label="item.AIRPORT_CODE+' - '+item.AIRPORT_NAME"
+                 :value="item.AIRPORT_CODE" >
                </el-option>
              </el-select>
           </el-col>
