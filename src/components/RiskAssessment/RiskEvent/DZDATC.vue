@@ -3,7 +3,9 @@
     <div class="" v-if="moreType=='box6'">
       <el-row style="line-height:32px;">
         <el-col :span="12">
-          出入标识：{{moreData.in_out_flag}}
+          出入标识:
+          <span v-if="moreData.in_out_flag==1">入境</span>
+          <span v-if="moreData.in_out_flag==2">出境</span>
         </el-col>
         <el-col :span="12">
           人员类别：{{moreData.pers_imm_type_na}}
@@ -12,7 +14,7 @@
           姓名：{{moreData.pers_name}}
         </el-col>
         <el-col :span="12">
-          国籍/地区：{{moreData.to_country_code}}
+          国籍/地区：{{moreData.country_na}}
         </el-col>
         <el-col :span="12">
           性别：{{moreData.pers_gender_na}}
@@ -57,7 +59,7 @@
           交通工具：{{moreData.trs_id}}
         </el-col>
         <el-col :span="12">
-          前往地/出发地：{{moreData.to_country_code}}
+          前往地/出发地：{{moreData.to_country}}
         </el-col>
         <el-col :span="12">
           发证机关：{{moreData.issuing_unit_na}}
@@ -106,7 +108,7 @@
           别名/曾用名：{{moreData.pers_name_sec}}
         </el-col>
         <el-col :span="12">
-          性别：{{moreData.pers_gender}}
+          性别：{{moreData.pers_gender_na}}
         </el-col>
         <el-col :span="12">
           出生日期：{{moreData.pers_birth_date}}
@@ -145,7 +147,7 @@
           职业：{{moreData.profession_code}}
         </el-col>
         <el-col :span="12">
-          证件类型：{{moreData.cert_type}}
+          证件类型：{{moreData.cert_type_na}}
         </el-col>
         <el-col :span="12">
           证件号码：{{moreData.cert_no}}
@@ -217,9 +219,9 @@
         <el-col :span="12">
           国籍/地区：{{moreData.country_na||'-'}}
         </el-col>
-        <el-col :span="12">
+        <!--<el-col :span="12">
           身份：{{moreData.fgn_sts||'-'}}
-        </el-col>
+        </el-col>-->
         <el-col :span="12">
           申请事由：{{moreData.apply_rsn_na||'-'}}
         </el-col>
@@ -230,20 +232,20 @@
           证件号码：{{moreData.cert_no||'-'}}
         </el-col>
         <el-col :span="12">
-          证件有效期：{{moreData.visas_type_na||'-'}}
+          证件有效期：{{moreData.visa_type_na||'-'}}
         </el-col>
         <el-col :span="12">
           偕行人员：{{moreData.accompany_nbr||'-'}}
         </el-col>
-        <el-col :span="12">
+        <!--<el-col :span="12">
           境外人员类别：{{moreData.fgn_type||'-'}}
-        </el-col>
+        </el-col>-->
         <el-col :span="12">
           人员地域类别：{{moreData.pers_reg_catg_na||'-'}}
         </el-col>
-        <el-col :span="12">
+        <!--<el-col :span="12">
           境外人员身份证号码：{{moreData.fgn_card_id||'-'}}
-        </el-col>
+        </el-col>-->
         <el-col :span="12">
           原签证/居留许可种类：{{moreData.orig_visa_type_na||'-'}}
         </el-col>
@@ -641,22 +643,22 @@
           出生日期：{{moreData.birth_date}}
         </el-col>
         <el-col :span="12">
-          国籍/地区：{{moreData.pers_country||moreData.country_na}}
+          国籍/地区：{{moreData.country_na}}
         </el-col>
         <el-col :span="12">
-          证件类型：{{moreData.cert_type_na||moreData.hold_cert_type}}
+          证件类型：{{moreData.hold_cert_type_na}}
         </el-col>
         <el-col :span="12">
-          证件号码：{{moreData.cert_no||moreData.hold_cert_no}}
+          证件号码：{{moreData.hold_cert_no}}
         </el-col>
         <el-col :span="12">
           签证(注)种类：{{moreData.visas_type_na||'-'}}
         </el-col>
         <el-col :span="12">
-          签证(注)号码：{{moreData.prmt_no||moreData.visas_no}}
+          签证(注)号码：{{moreData.visas_no}}
         </el-col>
         <el-col :span="12">
-          签证(注)有效期：{{moreData.prmt_vld||moreData.visas_vld}}
+          签证(注)有效期：{{moreData.visas_vld}}
         </el-col>
         <el-col :span="12">
           住宿日期：{{moreData.stay_date||'-'}}
@@ -914,7 +916,9 @@
     <div class="" v-if="moreType=='box16'">
       <el-row style="line-height:32px;">
         <el-col :span="12">
-          姓名：{{moreData.psrchnname}}
+          姓名：
+            <span v-if="moreData.psrchnname!='-'">{{moreData.psrchnname}}</span>
+            <span v-else>{{moreData.psrname}}</span>
         </el-col>
         <el-col :span="12">
           消息发送时间：{{moreData.dttm}}
