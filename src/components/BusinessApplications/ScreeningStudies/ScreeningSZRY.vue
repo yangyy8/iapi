@@ -538,7 +538,7 @@ export default {
       pickerOptions1: {
         disabledDate: (time) => {
           if (this.pd.endtime != null) {
-            let startT = formatDate(new Date(time.getTime()), 'yyyyMMddhhmmss');
+            let startT = formatDate(new Date(time.getTime()-1), 'yyyyMMddhhmmss');
             return startT > this.pd.endtime;
           } else if (this.pd.endtime == null) {
             return false
@@ -554,7 +554,7 @@ export default {
       pickerOptions3: {
         disabledDate: (time) => {
           if (this.pd1.endtime != null) {
-            let startT = formatDate(new Date(time.getTime()), 'yyyyMMddhhmmss');
+            let startT = formatDate(new Date(time.getTime()-1), 'yyyyMMddhhmmss');
             return startT > this.pd1.endtime;
           } else if (this.pd1.endtime == null) {
             return false
@@ -570,7 +570,7 @@ export default {
       pickerOptions5: {
         disabledDate: (time) => {
           if (this.pd2.endtime != null) {
-            let startT = formatDate(new Date(time.getTime()), 'yyyyMMddhhmmss');
+            let startT = formatDate(new Date(time.getTime()-1), 'yyyyMMddhhmmss');
             return startT > this.pd2.endtime;
           } else if (this.pd2.endtime == null) {
             return false
@@ -586,7 +586,7 @@ export default {
       pickerOptions7: {
         disabledDate: (time) => {
           if (this.pd3.endtime != null) {
-            let startT = formatDate(new Date(time.getTime()), 'yyyyMMddhhmmss');
+            let startT = formatDate(new Date(time.getTime()-1), 'yyyyMMddhhmmss');
             return startT > this.pd3.endtime;
           } else if (this.pd3.endtime == null) {
             return false

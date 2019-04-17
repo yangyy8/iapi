@@ -63,10 +63,10 @@
       <div class="ak-tab mb-20">
       <div class="ak-tabs">
         <div class="ak-tab-item hand" :class="{'ak-checked':page==0}" @click="base">
-          重复订票
+        重复值机
         </div>
         <div class="ak-tab-item hand" :class="{'ak-checked':page==1}" @click="batch">
-          重复值机
+        重复订票
         </div>
       </div>
 
@@ -120,10 +120,10 @@
                 prop="port"
                 label="口岸" sortable>
               </el-table-column>
-              <el-table-column
+              <!-- <el-table-column
                 prop="average"
                 label="操作">
-              </el-table-column>
+              </el-table-column> -->
             </el-table>
             <div class="middle-foot">
               <div class="page-msg">
@@ -206,10 +206,10 @@
                           prop="port"
                           label="口岸" sortable>
                         </el-table-column>
-                        <el-table-column
+                        <!-- <el-table-column
                           prop="average"
                           label="操作">
-                        </el-table-column>
+                        </el-table-column> -->
                       </el-table>
                       <div class="middle-foot">
                         <div class="page-msg">
@@ -285,7 +285,7 @@ export default {
       pickerOptions0: {
         disabledDate: (time) => {
             if (this.pd.endtime != null) {
-              let startT = formatDate(new Date(time.getTime()),'yyyyMMddhhmmss');
+              let startT = formatDate(new Date(time.getTime()-1),'yyyyMMddhhmmss');
               return startT > this.pd.endtime;
             }else if(this.pd.endtime == null){
               return false
@@ -296,7 +296,7 @@ export default {
         disabledDate: (time) => {
             let endT = formatDate(new Date(time.getTime()),'yyyyMMddhhmmss');
             return endT < this.pd.begintime;
-        }
+         }
       },
           form: {},
 
