@@ -312,6 +312,9 @@
 .maxWidth{
   max-width:400px;
 }
+.YymmaxWidth{
+    max-width:800px;
+}
 .local{
   font-size:14px;
 }
@@ -328,4 +331,11 @@
 .avgerTsName{
   width: 70%;
   display: inline-block;
+}
+.tt-noWrap{
+    width: 100%;
+    display: inline-block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }

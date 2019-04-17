@@ -146,16 +146,46 @@
         </el-table-column>
         <el-table-column
           prop="flighttypeStr"
-          label="出入类型"
+          label="出入标识"
           sortable>
         </el-table-column>
         <el-table-column
+          width="200"
           prop="aircompanyNameStr"
           label="适用航空公司">
+          <template slot-scope="scope">
+            <el-popover
+              placement="top-start"
+              trigger="hover"
+              :disabled="scope.row.aircompanyList==undefined||scope.row.aircompanyList.length==1"
+              popper-class="YymmaxWidth">
+              <div class="">
+                <el-row class="detailFat" :gutter="10">
+                  <el-col :span="8" v-for="(i,ind) in scope.row.aircompanyList" :key="ind"><div class="tipDetail">{{i}}</div></el-col>
+                </el-row>
+              </div>
+              <span class="tt-noWrap" slot="reference">{{(scope.row.aircompanyNameStr==undefined||scope.row.aircompanyNameStr=='null')?'':scope.row.aircompanyNameStr}}</span>
+            </el-popover>
+          </template>
           </el-table-column>
           <el-table-column
+            width="200"
             prop="airportNameStr"
             label="适用机场">
+            <template slot-scope="scope">
+              <el-popover
+                placement="top-start"
+                trigger="hover"
+                :disabled="scope.row.airportList==undefined||scope.row.airportList.length==1"
+                popper-class="YymmaxWidth">
+                <div class="">
+                  <el-row class="detailFat" :gutter="10">
+                    <el-col :span="8" v-for="(i,ind) in scope.row.airportList" :key="ind"><div class="tipDetail">{{i}}</div></el-col>
+                  </el-row>
+                </div>
+                <span class="tt-noWrap" slot="reference">{{(scope.row.airportNameStr==undefined||scope.row.airportNameStr=='null')?'':scope.row.airportNameStr}}</span>
+              </el-popover>
+            </template>
           </el-table-column>
           <el-table-column
             prop="operateUserName"
@@ -613,7 +643,7 @@ export default {
         }
       }
       let p={
-        'flighttype':flighttype,
+        'flighttype':flighttype=='I'?1:2,
         'citytype':'cityfrom'
       }
       this.$api.post('/manage-platform/codeTable/queryAirportCascade',p,
@@ -720,7 +750,7 @@ export default {
         this.dutyName = this.eform.airportMapList;
       }
       if(this.dutyName == undefined || this.dutyName.length == 0){
-        this.$message('您还未选择机场');
+        this.$message('未选择机场');
       }else{
         this.seeModelDialogVisible = true;
       }
@@ -832,17 +862,20 @@ export default {
              this.eform.typeStr = r.data.typeStr;
              this.eform.flighttype = r.data.flighttype;
              this.eform.createtimeStr = r.data.createtimeStr;
+
              if(r.data.hasOwnProperty('aircompanyList')){
                this.eform.aircompanyList = r.data.aircompanyList;
              }else{
                this.eform.aircompanyList=[];
              }
              if(r.data.hasOwnProperty('airportMapList')){
+               this.eform.airportMapList = r.data.airportMapList
                var arr=[];
                for(var i=0;i<r.data.airportMapList.length;i++){
                  arr.push(r.data.airportMapList[i].CODE)
                }
-               this.editkeys = arr;
+               this.editkeys = arr;//树
+               // this.eform.airportNameStr = r.data.airportNameStr;
              }else{
                this.editkeys = [];
              }
