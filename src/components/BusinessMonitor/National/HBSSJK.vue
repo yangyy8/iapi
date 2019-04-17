@@ -506,7 +506,8 @@ export default {
       this.detailsDialogVisible=true;
       let p={
         flightRecordnum:row.flightRecordnum,
-        portto:row.portto
+        portto:row.portto,
+        ioflag:row.ioType
       }
       this.$api.post('/manage-platform/flightRealTime/queryFightDetail',p,
        r => {

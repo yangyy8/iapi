@@ -166,7 +166,7 @@
               <div v-if="">
 
               </div>
-              <li class="middleLi2" v-for="(i, index ) in kahb">
+              <li class="middleLi2" v-for="(i, index ) in sortkahb">
                 <div class="td1">
                   {{i.portName||'xx'}}
                 </div>
@@ -606,7 +606,7 @@
             </div>
             <ul class="middleUl ulover2">
 
-              <li class="middleLi4" v-for="i in kary">
+              <li class="middleLi4" v-for="i in sortkary">
                 <div class="td1">
                   {{i.portName}}
 
@@ -1490,7 +1490,7 @@ export default {
         outRealCount:0,
         passRealCount:0
       },
-      kary:{},
+      kary:[],
       newHbData:[],
       showLeft: false,
       showRight: false,
@@ -1647,7 +1647,23 @@ export default {
     this.chart.dispose();
     this.chart = null;
   },
+  computed:{
+    sortkahb:function(){
+        return this.sortByKey(this.kahb,'outScheduleCount');
+    },
+    sortkary:function(){
+        return this.sortByKey(this.kary,'chk_out_chn');
+    }
+
+  },
   methods: {
+    sortByKey(array,key){  //(数组、排序的列)
+          return array.sort(function(a,b){
+          var x=a[key];
+          var y=b[key];
+          return ((x<y)?((x>y)?0:1):-1);
+      })
+    },
     searchPort0(){
       this.searchP0list=[];
       if(this.port0){

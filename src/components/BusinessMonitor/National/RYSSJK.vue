@@ -131,12 +131,19 @@
               <el-col :sm="24" :md="12" :lg="8" class="input-item">
                 <span class="input-text">航站：</span>
                 <el-select  v-model="pd.port" placeholder="请选择" filterable clearable size="small" class="input-input">
-                  <el-option
+                  <!-- <el-option
                     v-for="item in airport"
                     v-if="item.JCDM"
                     :key="item.JCDM"
                     :label="item.JCDM+' - '+item.KAMC"
                     :value="item.JCDM">
+                  </el-option> -->
+                  <el-option
+                    v-for="(item,ind) in airport"
+                    v-if="item.DEPT_CODE"
+                    :key="ind"
+                    :label="item.DEPT_CODE+' - '+item.DEPT_JC"
+                    :value="item.DEPT_CODE">
                   </el-option>
                 </el-select>
               </el-col>
@@ -1167,7 +1174,13 @@ export default {
     },
 
     queryAirport(){
-      this.$api.post('/manage-platform/codeTable/queryAirportMatch',{},
+      // this.$api.post('/manage-platform/codeTable/queryAirportMatch',{},
+      //  r => {
+      //    if(r.success){
+      //      this.airport=r.data;
+      //    }
+      // })
+      this.$api.post('/manage-platform/riskEventController/getDeptInfo',{},
        r => {
          if(r.success){
            this.airport=r.data;
