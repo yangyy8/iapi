@@ -2703,7 +2703,7 @@ export default {
       let p={
         // "nationality":this.nationality,
         // "passportno":this.passportno,
-        "passportno":this.idcard
+        "passportno":this.idcard||this.data0.PASSPORTNO
       }
       this.$api.post('/manage-platform/riskRecordExtInterfaceController/getCivilAviationInfo',p,
        r => {
@@ -2715,7 +2715,7 @@ export default {
       let p={
         // "nationality":this.nationality,
         // "passportno":this.passportno,
-        "passportno":this.idcard
+        "passportno":this.idcard||this.data0.PASSPORTNO
       }
       this.$api.post('/manage-platform/riskRecordExtInterfaceController/getCivilAviationAbsencesInfo',p,
        r => {
