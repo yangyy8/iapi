@@ -108,7 +108,10 @@
             </el-col>
             <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
               <span class="input-text">证件号码：</span>
-              <el-input placeholder="请输入内容" size="small" v-model="pd.cardnumlike"   class="input-input"></el-input>
+              <div class="input-input t-fuzzy t-flex">
+                  <el-input placeholder="请输入内容" size="small" v-model="pd.cardnumlike"></el-input>
+                <el-checkbox v-model="pd.isCardnumlike">模糊查询</el-checkbox>
+              </div>
             </el-col>
           </el-row>
         </el-col>
@@ -537,8 +540,7 @@ import AlarmProcess from '../../BusinessProcessing/Alarm/alarmProcess'
 import {formatDate} from '@/assets/js/date.js'
 import {dayGap} from '@/assets/js/date.js'
 export default {
-  components: {AlarmProcess},
-  components: {Seat},
+  components: {AlarmProcess,Seat},
   data() {
     return {
       order:'',
@@ -550,6 +552,7 @@ export default {
       pd: {
         "isBlurred":false,
         isFltnoLike:false,
+        isCardnumlike:false,
         departdateBegin:'',
         departdateEnd:'',
       },

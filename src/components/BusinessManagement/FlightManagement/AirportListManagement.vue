@@ -79,32 +79,32 @@
         <el-table-column
           prop="airportCode"
           label="机场三位码"
-          sortable>
+          sortable="custom">
         </el-table-column>
         <el-table-column
           prop="airportName"
           label="机场名称"
-          sortable>
+          sortable="custom">
         </el-table-column>
         <el-table-column
           prop="continentsName"
           label="洲"
-          sortable>
+          sortable="custom">
         </el-table-column>
         <el-table-column
           prop="countryName"
           label="国籍/地区"
-          sortable>
+          sortable="custom">
         </el-table-column>
         <el-table-column
           prop="cityName"
           label="城市"
-          sortable>
+          sortable="custom">
         </el-table-column>
         <el-table-column
           prop="jingdu"
           label="经度"
-          sortable>
+          sortable="custom">
           <template slot-scope="scope">
             <span v-if="scope.row.jingdu">{{scope.row.jingdu + '°'}}</span>
           </template>
@@ -112,7 +112,7 @@
         <el-table-column
           prop="weidu"
           label="纬度"
-          sortable>
+          sortable="custom">
           <template slot-scope="scope">
             <span v-if="scope.row.weidu">{{scope.row.weidu + '°'}}</span>
           </template>

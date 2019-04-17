@@ -120,44 +120,81 @@ export default {
   //     default:''
   //   }
   // },
-  props:['globalserial','flightNumber','specifigseat'],
+  props:['globalserial','flightNumber','specifigseat','FLTNO','FLTDATE','seatType'],
   mounted(){
     this.getimgtable()
   },
   methods: {
     getimgtable(){
-      let p = {
-        "flightRecordnum": this.flightNumber,
-      };
-      this.$api.post('/manage-platform/statusUpdate/seat/queryListPagesSeat', p,
-        r => {
-          this.panduan=true;
-          if(r.success){
-            this.list1 = r.data.list123;
-            this.list2 = r.data.listabc;
-            this.light=r.data.highlight;
-            this.tableBody = r.data.portList;
-            this.serialList = r.data.seatAndIdMap;
-          }
-          for(var i=0;i<this.list1.length;i++){
-            for(var j=0;j<this.list2.length;j++){
-              if(this.getlight(this.list1[i],this.list2[j])){
-                this.biaoti = this.list1[i]+this.list2[j];
-                // this.isgao = this.list1[i]+this.list2[j];
-                // this.panduan = this.specifigseat;
-                // console.log(this.panduan)
+      if(this.seatType==1){
+        let p={
+          "flightRecordnum": this.flightNumber,
+          "fltno":this.FLTNO,
+          "fltdate":this.FLTDATE
+        }
+
+        this.$api.post('/manage-platform/statusUpdate/seat/queryListPagesSeatInfoSearch', p,
+          r => {
+            this.panduan=true;
+            if(r.success){
+              this.list1 = r.data.list123;
+              this.list2 = r.data.listabc;
+              this.light=r.data.highlight;
+              this.tableBody = r.data.portList;
+              this.serialList = r.data.seatAndIdMap;
+            }
+            for(var i=0;i<this.list1.length;i++){
+              for(var j=0;j<this.list2.length;j++){
+                if(this.getlight(this.list1[i],this.list2[j])){
+                  this.biaoti = this.list1[i]+this.list2[j];
+                }
               }
             }
-          }
-        })
+          })
+      }else{
+        let p = {
+          "flightRecordnum": this.flightNumber,
+        };
+        this.$api.post('/manage-platform/statusUpdate/seat/queryListPagesSeat', p,
+          r => {
+            this.panduan=true;
+            if(r.success){
+              this.list1 = r.data.list123;
+              this.list2 = r.data.listabc;
+              this.light=r.data.highlight;
+              this.tableBody = r.data.portList;
+              this.serialList = r.data.seatAndIdMap;
+            }
+            for(var i=0;i<this.list1.length;i++){
+              for(var j=0;j<this.list2.length;j++){
+                if(this.getlight(this.list1[i],this.list2[j])){
+                  this.biaoti = this.list1[i]+this.list2[j];
+                }
+              }
+            }
+          })
+      }
+
     },
     enter(item){
-      this.$api.post('/manage-platform/iapi/queryIapiInfo',{serial:this.serialList[item]},
-       r =>{
-         if(r.success){
-           this.dform = r.data.IAPI;
-         }
-       })
+
+      if(this.seatType==1){
+        console.log(this.seatType,'========')
+        this.$api.post('/manage-platform/iapiHead/queryIapiHead',{serial:this.serialList[item]},
+         r =>{
+           if(r.success){
+             this.dform = r.data.IAPI;
+           }
+         })
+      }else{
+        this.$api.post('/manage-platform/iapi/queryIapiInfo',{serial:this.serialList[item]},
+         r =>{
+           if(r.success){
+             this.dform = r.data.IAPI;
+           }
+         })
+      }
+
     },
     hoverTitle(item){
       this.biaoti = item;

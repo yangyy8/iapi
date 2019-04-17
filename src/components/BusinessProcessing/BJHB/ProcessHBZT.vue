@@ -90,7 +90,7 @@
 
         <el-table-column
           prop="airlineCompanyName"
-          label="航空公司代码" sortable>
+          label="航空公司" sortable>
         </el-table-column>
 
         <el-table-column
