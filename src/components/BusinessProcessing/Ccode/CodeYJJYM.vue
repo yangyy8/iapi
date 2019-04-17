@@ -725,10 +725,27 @@ export default {
         this.seeModelDialogVisible = true;
       }
     },
-    filterNode(value, data) {
+    filterNode(value, data,node) {
       if (!value) return true;
-      return data.ENAME.indexOf(value) !== -1;
+      let level = node.level;
+      let _array = [];
+      this.getReturnNode(node,_array,value);
+      let result = false;
+      _array.forEach((item)=>{
+        result = result||item;
+      });
+      return result;
+      // return data.ENAME.indexOf(value) !== -1;
     },
+    getReturnNode(node,_array,value){
+     let isPass = node.data &&  node.data.ENAME && node.data.ENAME.indexOf(value) !== -1;
+     isPass?_array.push(isPass):'';
+     this.index++;
+     console.log(this.index)
+     if(!isPass && node.level!=1 && node.parent){
+      this.getReturnNode(node.parent,_array,value);
+     }
+   },
     bumenMethod(){
       this.$api.post('/manage-platform/watch/queryDeptLv2And3',{},
        r =>{
