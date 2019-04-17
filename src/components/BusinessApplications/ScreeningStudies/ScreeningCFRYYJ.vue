@@ -63,10 +63,10 @@
       <div class="ak-tab mb-20">
       <div class="ak-tabs">
         <div class="ak-tab-item hand" :class="{'ak-checked':page==0}" @click="base">
-          重复订票
+        重复值机
         </div>
         <div class="ak-tab-item hand" :class="{'ak-checked':page==1}" @click="batch">
-          重复值机
+        重复订票
         </div>
       </div>
 
@@ -120,10 +120,10 @@
                 prop="port"
                 label="口岸" sortable>
               </el-table-column>
-              <el-table-column
+              <!-- <el-table-column
                 prop="average"
                 label="操作">
-              </el-table-column>
+              </el-table-column> -->
             </el-table>
             <div class="middle-foot">
               <div class="page-msg">
@@ -206,10 +206,10 @@
                           prop="port"
                           label="口岸" sortable>
                         </el-table-column>
-                        <el-table-column
+                        <!-- <el-table-column
                           prop="average"
                           label="操作">
-                        </el-table-column>
+                        </el-table-column> -->
                       </el-table>
                       <div class="middle-foot">
                         <div class="page-msg">
