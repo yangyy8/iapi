@@ -314,11 +314,11 @@
       <el-row type="flex"  class="mb-15">
         <el-col :span="8">国籍/地区：{{dform.nationalityDesc}}</el-col>
         <el-col :span="8">证件号码：{{dform.passportNo}}</el-col>
-        <el-col :span="8">证件有效期：{{dform.passportExpireDate}}</el-col>
+        <el-col :span="8">{{form.thanFieldNameDesc}}：{{dform.passportExpireDate}}</el-col>
       </el-row>
       <el-row type="flex"  class="mb-15">
         <el-col :span="8">航班号：{{dform.flightNo}}</el-col>
-        <el-col :span="8">错误校验项：{{dform.thanFieldName}}</el-col>
+        <el-col :span="8">错误校验项：{{dform.thanFieldNameDesc}}</el-col>
         <el-col :span="8">不通过原因：{{dform.thanTypeDesc}}</el-col>
       </el-row>
       <el-row type="flex"  class="mb-15">
@@ -416,12 +416,12 @@ export default {
   activated() {
     this.queryAirport("","A");
     this.queryCountry("A");
-    let time = new Date();
-    let end = new Date();
-    let begin = new Date(time - 1000 * 60 * 60 * 24 * 30);
-    let flightStart = new Date(new Date().setHours(0,0,0,0));
-    this.pd.dataCheckBeginTime = formatDate(flightStart, 'yyyyMMddhhssmm');
-    this.pd.dataCheckEndTime = formatDate(end, 'yyyyMMddhhssmm');
+    // let time = new Date();
+    // let end = new Date();
+    // let begin = new Date(time - 1000 * 60 * 60 * 24 * 30);
+    // let flightStart = new Date(new Date().setHours(0,0,0,0));
+    // this.pd.dataCheckBeginTime = formatDate(flightStart, 'yyyyMMddhhssmm');
+    // this.pd.dataCheckEndTime = formatDate(end, 'yyyyMMddhhssmm');
   },
   methods: {
     handleSelectionChange(val) {

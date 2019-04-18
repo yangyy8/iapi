@@ -184,7 +184,7 @@
 
       <div class="ak-tabs">
         <div class="ak-tab-item abehgt hand" :class="{'ak-checked':page==0}" @click="base">
-          关闭报未报航班
+          值机未订票人员
         </div>
       </div>
 
@@ -346,11 +346,11 @@ export default {
   },
   activated(){
     this.queryNationality();
-    let time = new Date();
-    let endz = new Date();
-    let beginz = new Date(time - 1000 * 60 * 60 * 24 * 1);
-    this.pd.begintime = formatDate(beginz, 'yyyyMMdd');
-    this.pd.endtime = formatDate(endz, 'yyyyMMdd');
+    // let time = new Date();
+    // let endz = new Date();
+    // let beginz = new Date(time - 1000 * 60 * 60 * 24 * 1);
+    // this.pd.begintime = formatDate(beginz, 'yyyyMMdd');
+    // this.pd.endtime = formatDate(endz, 'yyyyMMdd');
 
   },
   methods: {
@@ -413,7 +413,7 @@ export default {
           this.tableData = r.data;
         })
     },
-    //无关闭报航班
+    //值机未订票人员
      getList1(currentPage, showCount, pd) {
 
        let p = {
