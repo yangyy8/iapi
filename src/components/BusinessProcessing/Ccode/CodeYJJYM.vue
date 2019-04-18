@@ -397,7 +397,7 @@
     <el-dialog title="机场选择" :visible.sync="addmodelDialogVisible" width="640px" :before-close="cancelModel">
       <el-input
         placeholder="输入模型关键字进行过滤"
-        v-model="filterText">
+        v-model="addfilterText">
       </el-input>
       <el-tree
         class="filter-tree"
@@ -418,7 +418,7 @@
     <el-dialog title="机场选择" :visible.sync="editmodelDialogVisible" width="640px" :before-close="cancelModel">
       <el-input
         placeholder="输入模型关键字进行过滤"
-        v-model="filterText">
+        v-model="editfilterText">
       </el-input>
       <el-tree
         class="filter-tree"
@@ -470,6 +470,8 @@ export default {
       modelDialogVisible:false,
       seeModelDialogVisible:false,
       filterText:'',
+      addfilterText:'',
+      editfilterText:'',
       treeData: [],
       defaultProps: {
         children: 'childList',
@@ -572,6 +574,12 @@ export default {
   watch:{
      filterText(val) {
        this.$refs.tree.filter(val);
+     },
+     addfilterText(val) {
+       this.$refs.addtree.filter(val);
+     },
+     editfilterText(val) {
+       this.$refs.edittree.filter(val);
      }
   },
   methods: {
@@ -616,16 +624,18 @@ export default {
     },
     getmodel(flighttype,type){//点击选择
       this.queryOrAdd = type;
-      this.filterText='';
+
       if(this.queryOrAdd==0){
+        this.filterText='';
         this.modelDialogVisible=true;
-        if(this.flagCZ==1&&this.flagQX==1){
+        if(this.flagCZ==1&&this.flagQX==1){//既点了重置又点了取消
           this.keys = this.keysExample
           this.$refs.tree.setCheckedKeys(this.keys);
           this.flagCZ = 0;
           this.flagQX = 0;
         }
       }else if(this.queryOrAdd==1){
+        this.addfilterText='';
         this.addmodelDialogVisible=true;
         if(this.addflagCZ==1&&this.addflagQX==1){//有值得时候
           this.addkeys = this.addkeysExample
@@ -634,6 +644,7 @@ export default {
           this.addflagQX = 0;
         }
       }else if(this.queryOrAdd==2){
+        this.editfilterText='';
         this.editmodelDialogVisible=true;
         if(this.editflagCZ==1&&this.editflagQX==1){
           this.editkeys = this.editkeysExample
@@ -643,7 +654,7 @@ export default {
         }
       }
       let p={
-        'flighttype':flighttype=='I'?1:2,
+        'flighttype':flighttype=='I'?1:flighttype=='O'?2:'',
         'citytype':'cityfrom'
       }
       this.$api.post('/manage-platform/codeTable/queryAirportCascade',p,
@@ -654,7 +665,7 @@ export default {
       })
       if(this.queryOrAdd==0){
         if(this.keys.length!=0){
-          console.log(this.$refs.tree.getCheckedKeys(true))
+          // console.log(this.$refs.tree.getCheckedKeys(true))
           // this.keys = this.$refs.tree.getCheckedKeys(true);
           this.$refs.tree.setCheckedKeys(this.keys);
         }
@@ -671,14 +682,13 @@ export default {
       }
     },
     resetModel(){//重置
-
       if(this.queryOrAdd==0){
         this.flagCZ=1;
         if(this.cdt.airportMapList == undefined||this.cdt.airportMapList.length==0){//没有值的时候
           this.historyModel = [];
           this.keysExample = [];
         }else{
-          this.historyModel = this.$refs.tree.getCheckedNodes(true,true);;//存入清空前的值
+          this.historyModel = this.$refs.tree.getCheckedNodes(true,true);//存入清空前的值
           this.keysExample = this.$refs.tree.getCheckedKeys(true);//先存值再清空
         }
         this.$refs.tree.setCheckedKeys([]);
@@ -688,7 +698,7 @@ export default {
           this.addhistoryModel = [];
           this.addkeysExample = [];
         }else{
-          this.addhistoryModel = this.$refs.addtree.getCheckedNodes(true,true);;//存入清空前的值
+          this.addhistoryModel = this.$refs.addtree.getCheckedNodes(true,true);//存入清空前的值
           this.addkeysExample = this.$refs.addtree.getCheckedKeys(true);//先存值再清空
         }
         this.$refs.addtree.setCheckedKeys([]);
@@ -698,7 +708,7 @@ export default {
           this.edithistoryModel = [];
           this.editkeysExample = [];
         }else{
-          this.edithistoryModel = this.$refs.edittree.getCheckedNodes(true,true);;//存入清空前的值
+          this.edithistoryModel = this.$refs.edittree.getCheckedNodes(true,true);//存入清空前的值
           this.editkeysExample = this.$refs.edittree.getCheckedKeys(true);//先存值再清空
         }
         this.$refs.edittree.setCheckedKeys([]);
@@ -709,18 +719,24 @@ export default {
         this.flagQX=1;
         if(this.flagCZ == 1){
           this.cdt.airportMapList=this.historyModel;
+        }else{
+          this.cdt.airportMapList=this.$refs.tree.getCheckedNodes(true,true);
         }
         this.modelDialogVisible=false
       }else if(this.queryOrAdd==1){
         this.addflagQX=1;
         if(this.addflagCZ == 1){
           this.form.airportMapList=this.addhistoryModel;
+        }else{
+          this.form.airportMapList=this.$refs.addtree.getCheckedNodes(true,true);
         }
         this.addmodelDialogVisible=false
       }else if(this.queryOrAdd==2){
         this.editflagQX=1;
         if(this.editflagCZ == 1){
           this.eform.airportMapList=this.edithistoryModel;
+        }else{
+          this.eform.airportMapList=this.$refs.edittree.getCheckedNodes(true,true);
         }
         this.editmodelDialogVisible=false
       }
@@ -729,14 +745,17 @@ export default {
       if(this.queryOrAdd==0){
         this.cdt.airportMapList=this.$refs.tree.getCheckedNodes(true,true);
         this.keys = this.$refs.tree.getCheckedKeys(true);//先存值再清空
+        if(this.flagCZ==1){this.flagCZ=0}
         this.modelDialogVisible=false;
       }else if(this.queryOrAdd==1){
         this.form.airportMapList=this.$refs.addtree.getCheckedNodes(true,true);
         this.addkeys = this.$refs.addtree.getCheckedKeys(true);//先存值再清空
+        if(this.addflagCZ==1){this.addflagCZ=0}
         this.addmodelDialogVisible=false;
       }else if(this.queryOrAdd==2){
         this.eform.airportMapList=this.$refs.edittree.getCheckedNodes(true,true);
         this.editkeys = this.$refs.edittree.getCheckedKeys(true);//先存值再清空
+        if(this.editflagCZ==1){this.editflagCZ=0}
         this.editmodelDialogVisible=false;
       }
 
@@ -771,7 +790,7 @@ export default {
      let isPass = node.data &&  node.data.ENAME && node.data.ENAME.indexOf(value) !== -1;
      isPass?_array.push(isPass):'';
      this.index++;
-     console.log(this.index)
+     // console.log(this.index)
      if(!isPass && node.level!=1 && node.parent){
       this.getReturnNode(node.parent,_array,value);
      }
@@ -865,6 +884,7 @@ export default {
 
              if(r.data.hasOwnProperty('aircompanyList')){
                this.eform.aircompanyList = r.data.aircompanyList;
+               console.log()
              }else{
                this.eform.aircompanyList=[];
              }
@@ -877,6 +897,7 @@ export default {
                this.editkeys = arr;//树
                // this.eform.airportNameStr = r.data.airportNameStr;
              }else{
+               this.eform.airportMapList=[];
                this.editkeys = [];
              }
 
