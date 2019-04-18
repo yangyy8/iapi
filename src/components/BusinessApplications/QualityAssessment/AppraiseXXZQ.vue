@@ -183,13 +183,16 @@
 
         <div class="ak-tabs">
           <div class="ak-tab-item abehgt hand" :class="{'ak-checked':page==0}" @click="base">
-            漏报人员
+            <!-- 漏报人员 -->
+            有出入境记录无登机信息
           </div>
           <div class="ak-tab-item abehgt hand" :class="{'ak-checked':page==1}" @click="base1">
-            多报人员
+            <!-- 多报人员 -->
+            有登机信息无出入境记录
           </div>
           <div class="ak-tab-item abehgt hand" :class="{'ak-checked':page==2}" @click="base2">
-            误报人员
+            <!-- 误报人员 -->
+            国籍证号比对，航班号不一致
           </div>
           <div class="ak-tab-item abehgt hand" :class="{'ak-checked':page==3}" @click="base3">
             信息不完整人员
