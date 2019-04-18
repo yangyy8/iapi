@@ -720,11 +720,11 @@ export default {
   },
   activated(){
       this.queryNationality();
-      let time = new Date();
-      let endz = new Date();
-      let beginz = new Date(time - 1000 * 60 * 60 * 24 * 1);
-      this.pd.begintime = formatDate(beginz, 'yyyyMMdd');
-      this.pd.endtime = formatDate(endz, 'yyyyMMdd');
+      // let time = new Date();
+      // let endz = new Date();
+      // let beginz = new Date(time - 1000 * 60 * 60 * 24 * 1);
+      // this.pd.begintime = formatDate(beginz, 'yyyyMMdd');
+      // this.pd.endtime = formatDate(endz, 'yyyyMMdd');
   },
   methods: {
     headerClick(column,event){
