@@ -677,7 +677,7 @@ export default {
       let ghl = {
         "currentPage":hcurrentPage,
       	"showCount":hshowCount,
-      	"cdt":historyCdt
+      	"pd":historyCdt
       };
       // this.historyBased();
       this.$api.post('/manage-platform/iapiUnscolicited/queryHistory',ghl,
@@ -771,6 +771,8 @@ export default {
     // },
     details(i) {
       this.detailsDialogVisible = true;
+      this.historyCdt.NATIONALITY = i.nationality;
+      this.historyCdt.PASSPORTNO = i.cardnum;
       this.historyCdt.nationalityEqual = i.nationality;
       this.historyCdt.passportnoEqual = i.cardnum;
       console.log(i);
