@@ -151,6 +151,11 @@ export default new Router({
           component: resolve => require(['@/components/BusinessApplications/InformationInquiry/QueryYWSJ'], resolve),
 
         },
+        // {
+        //   path: "QueryYWSJD",
+        //   name: "QueryYWSJD",
+        //   component: resolve => require(['@/components/BusinessApplications/InformationInquiry/QueryYWSJD'], resolve),
+        // },
         // 航班信息查询
         {
           path: "QueryHBXX",
@@ -167,9 +172,9 @@ export default new Router({
         },
         // 关联人员路由
         {
-          path: "GLRY",
-          name: "GLRY",
-          component: resolve => require(['@/components/BusinessApplications/InformationInquiry/GLRY'], resolve),
+          path: "QueryYWSJD",
+          name: "QueryYWSJD",
+          component: resolve => require(['@/components/BusinessApplications/InformationInquiry/QueryYWSJD'], resolve),
 
         },
         // 关联人员查询

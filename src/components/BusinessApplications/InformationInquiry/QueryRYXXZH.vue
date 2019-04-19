@@ -5,7 +5,9 @@
       <el-row type="flex" style="height:100%">
         <el-col :span="22" class="br flex-c pr-20">
           <div style="display:flex;justify-content: flex-end;width:100%;margin-bottom:15px">
-            <el-button type="primary" plain name="button" @click="openL" size="mini">{{listText}}</el-button>
+            <!-- <el-button type="primary" plain name="button" @click="openL" size="mini">{{listText}}</el-button> -->
+            <el-button type="text" size="small" @click="openList=false" v-if="openList">展开 ﹀</el-button>
+            <el-button type="text" size="small" @click="openList=true" v-if="!openList">收起 ︿</el-button>
           </div>
           <el-row align="center" :gutter="2">
             <el-col :sm="24" :md="12" :lg="6" class="input-item">
@@ -293,12 +295,15 @@
   </el-dialog>
     <!-- 展示项 -->
     <div class="middle middle-top mb-2 mt-20">
-      <div class="title-green">
+      <div class="title-green ckeck-item">
         <span style="float:left">结果显示项</span>
-        <el-button style="float:right" type="primary" plain @click="openCheck" size="mini">{{text}}</el-button>
+        <!-- <el-button style="float:right" type="primary" plain @click="openCheck" size="mini">{{text}}</el-button> -->
+        <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange" class="check-list" v-if="openCheckbox">全选</el-checkbox>
+        <el-button style="float:right" type="text" size="small" @click="openCheckbox=false" v-if="openCheckbox">展开 ﹀</el-button>
+        <el-button style="float:right" type="text" size="small" @click="openCheckbox=true" v-if="!openCheckbox">收起 ︿</el-button>
         <div style="clear:both"></div>
       </div>
-       <el-checkbox-group v-model="checkList" class="o-checkbox-g" v-show="openCheckbox">
+       <el-checkbox-group v-model="checkList" class="o-checkbox-g" v-show="openCheckbox" @change="handleCheckedCitiesChange">
          <el-checkbox v-for="item in checkItem" :label="item.ITEMNAME" :key="item.ITEMNAME">{{item.LABEL}}</el-checkbox>
        </el-checkbox-group>
     </div>
@@ -447,6 +452,17 @@
           min-width="100"
           sortable='custom'
           v-if="checkList.indexOf(checkItem[7].ITEMNAME)>-1">
+          <template slot-scope="scope">
+            <!-- 带 * nameIsEqual=true-->
+            <el-popover
+              placement="top-start"
+              trigger="hover"
+              :content="scope.row.PNR_FLTNO==undefined||scope.row.PNR_FLTNO==''?'暂无数据':''+scope.row.PNR_FLTNO"
+              :disabled="!scope.row.fltnoIsEqual"
+              popper-class="maxWidth">
+              <span slot="reference">{{scope.row.FLTNO}}<span v-if="scope.row.fltnoIsEqual" class="cellColor">*</span></span>
+            </el-popover>
+          </template>
         </el-table-column>
         <el-table-column
           prop="FLTDATESTR"
@@ -730,7 +746,7 @@
         </el-table-column>
         <el-table-column
           prop="CLSFLAGSTR"
-          label="航班是否关闭"
+          label="是否登机"
           min-width="150"
           sortable='custom'
           v-if="checkList.indexOf(checkItem[40].ITEMNAME)>-1">
@@ -1120,9 +1136,10 @@ export default {
         },
         {
           ITEMNAME:'CLSFLAGSTR',
-          LABEL:'航班是否关闭',
+          LABEL:'是否登机',
         },
       ],
+      checkItemProp:[],
       nav1Id:null,
       nav2Id:null,
       showConfiglist:[],//展示项数组
@@ -1144,6 +1161,8 @@ export default {
         }
       },
       pd:{},
+      isIndeterminate: true,
+      checkAll: false,
     }
   },
   watch:{
@@ -1161,6 +1180,7 @@ export default {
     // this.takeOff();
     // this.landing();
     document.getElementsByClassName('btn-next')[0].disabled=true;
+    this.checkItemP();
     // this.cdt.passportnoEqual = this.$route.query.row.passportno;
     // this.cdt.fltnoEqual = this.$route.query.row.fltno;
     // this.cdt.familyname = this.$route.query.row.name;
@@ -1172,7 +1192,7 @@ export default {
     if(this.$route.query.row){
       this.cdt.passportnoEqual = this.$route.query.row.passportno;
       this.cdt.fltnoEqual = this.$route.query.row.fltno;
-      this.cdt.familyname = this.$route.query.row.name;
+      // this.cdt.familyname = this.$route.query.row.name;
       this.cdt.genderEqual = this.sexZhuan(this.$route.query.row.gender);
       this.cdt.dateofbirthEqual = this.zhuanhuan(this.$route.query.row.birthday)
       this.getList(this.currentPage,this.showCount,this.cdt);
@@ -1225,6 +1245,21 @@ export default {
     }
   },
   methods:{
+    checkItemP(){
+      for(var i=0;i<this.checkItem.length;i++){
+        this.checkItemProp.push(this.checkItem[i].ITEMNAME)
+      }
+    },
+    handleCheckAllChange(val) {
+       this.checkList = val ? this.checkItemProp : ['iapiName','INTG_CHNNAME','GENDER','iapiBirthdayName','iapiNationaName','PASSPORTNO','FLTNO','FLTDATESTR','CHECKRESULT','FLIGHTTYPE'];
+       let checkedCount = this.checkList.length;
+       this.isIndeterminate = checkedCount > 0 && checkedCount < this.checkItemProp.length;
+     },
+     handleCheckedCitiesChange(value) {
+        let checkedCount = value.length;
+        this.checkAll = checkedCount === this.checkItemProp.length;
+        this.isIndeterminate = checkedCount > 0 && checkedCount < this.checkItemProp.length;
+      },
     //============================洲国籍======================================================================
 
     tableRowClassName({row, rowIndex}) {
@@ -1799,6 +1834,13 @@ export default {
     },
     tableDown(num){
       this.cdt.isBatch = num;
+      if(this.tableData.length==0){
+        this.$message({
+          message: '表格数据为空！',
+          type: 'warning'
+        });
+        return;
+      }
       if(this.tableList.length==0){
         if(this.totalResult>10000){
           this.$confirm('最多只能导出10000条,是否继续?','提示',{
@@ -1808,7 +1850,7 @@ export default {
           }).then(() => {
             axios({
              method: 'post',
-             // url: 'http://192.168.99.248:8081/manage-platform/iapiHead/exportFileIo/4/iapiHead/10000',
+             // url: 'http://192.168.99.234:8080/manage-platform/iapiHead/exportFileIo/4/iapiHead/10000',
              url: this.$api.rootUrl+"/manage-platform/iapiHead/exportFileIo/4/iapiHead/10000",
              data: {
                  "exclTitles": this.checkList,
@@ -1828,7 +1870,7 @@ export default {
         }else{
           axios({
            method: 'post',
-           // url: 'http://192.168.99.248:8081/manage-platform/iapiHead/exportFileIo/4/iapiHead/10000',
+           // url: 'http://192.168.99.234:8080/manage-platform/iapiHead/exportFileIo/4/iapiHead/10000',
            url: this.$api.rootUrl+"/manage-platform/iapiHead/exportFileIo/4/iapiHead/10000",
            data: {
                "exclTitles": this.checkList,
@@ -1844,7 +1886,7 @@ export default {
       }else if(this.tableList.length!=0){
         axios({
          method: 'post',
-         // url: 'http://192.168.99.248:8081/manage-platform/iapiHead/exportCheckColDataIo/4',
+         // url: 'http://192.168.99.234:8080/manage-platform/iapiHead/exportCheckColDataIo/4',
          url: this.$api.rootUrl+"/manage-platform/iapiHead/exportCheckColDataIo/4",
          data: {
              "exclTitles": this.checkList,
@@ -1900,26 +1942,26 @@ export default {
   vertical-align: -5px;
 }
 .color1{
-  background: #f0f9eb;
+  background: #e2f9d6;
 }
 .color2{
-  background:oldlace;
+  background:#f9edd7;
 }
 .color3{
-  background: #fef0f0;
+  background: #f9dede;
 }
 </style>
 <style media="screen">
 .tableRy .warning-row {
-  background:#f0f9eb;
+  background:#e2f9d6;
 }
 
 .tableRy .success-row {
-  background:oldlace ;
+  background:#f9edd7 ;
 }
 
 .tableRy .gray-row {
-  background: #fef0f0;
+  background: #f9dede;
 }
 
   .t-save .el-select{

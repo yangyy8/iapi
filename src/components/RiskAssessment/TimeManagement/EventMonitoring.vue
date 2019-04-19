@@ -463,8 +463,8 @@ export default {
     tableDown(){
       axios({
        method: 'post',
-       // url: 'http://192.168.99.245:8080/manage-platform/eventMonitor/exportFileIo/600',
-       url: this.$api.rootUrl+"/manage-platform/eventMonitor/exportFileIo/600",
+       // url: 'http://192.168.99.245:8080/manage-platform/eventMonitor/exportFileIo/10000',
+       url: this.$api.rootUrl+"/manage-platform/eventMonitor/exportFileIo/10000",
        data: {
          "currentPage": 1,
          "showCount": 600,

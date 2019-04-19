@@ -680,7 +680,7 @@ export default {
       	"cdt":historyCdt
       };
       // this.historyBased();
-      this.$api.post('/manage-platform/pnr/queryPnrHistory',ghl,
+      this.$api.post('/manage-platform/iapiUnscolicited/queryHistory',ghl,
       r =>{
         this.detailstableData = r.data.resultList;
         this.htotalResult = r.data.totalResult;
