@@ -265,9 +265,9 @@ export default {
       type:"1",
       flag:"1",
       company: [],
-      orders:[],
+      orders:'',
       direction:0,
-      orders1:[],
+      orders1:'',
       direction1:0,
       page:0,
       addDialogVisible: false,
@@ -360,16 +360,11 @@ export default {
       this.getList1(this.CurrentPage1,this.pageSize1,this.pd1,this.orders1,this.direction1);
       console.log(`当前页: ${val}`);
     },
-    sortChange(data){
-      console.log(data)
-      this.orders=[data.prop];
-      if(data.order=='descending'){
-        this.direction=0
-      }else{
-        this.direction=1
-      }
-      console.log(this.orders,this.direction)
-      this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
+
+    sortChange(column, prop, order){
+      column.order=='ascending'?this.direction=1:this.direction=0;
+      this.order=column.prop;
+      this.getList(this.CurrentPage,this.pageSize,this.pd,this.order,this.direction);
       this.getList1(this.CurrentPage1,this.pageSize1,this.pd1,this.orders1,this.direction1);
     },
     getList(currentPage, showCount, pd,orders,direction) {
@@ -379,12 +374,13 @@ export default {
         });
         return false
       };
+      pd.order=orders;
+      pd.direction=direction;
+      console.log('order',pd.order);
       let p = {
         "currentPage": currentPage,
         "showCount": showCount,
         "cdt": pd,
-        "orders":orders,
-        "direction":direction
       };
       var url="/manage-platform/SuspectPerson/getduppsnbycard_offdes";
 
@@ -423,12 +419,12 @@ export default {
         });
         return false
       };
+      pd.order=orders;
+      pd.direction=direction
       let pp = {
         "currentPage": currentPage1,
         "showCount": showCount1,
         "cdt": pd,
-        "orders":orders,
-        "direction":direction
       };
       var url="/manage-platform/SuspectPerson/getduppsnbycard_offdes";
 

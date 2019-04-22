@@ -400,7 +400,6 @@ export default {
   },
   mounted() {
     //  this.getList(this.CurrentPage, this.pageSize, this.pd);
-
     this.queryAirport("","A");
     this.queryCountry("A");
     let time = new Date();
@@ -409,7 +408,6 @@ export default {
     let flightStart = new Date(new Date().setHours(0,0,0,0));
     this.pd.dataCheckBeginTime = formatDate(flightStart, 'yyyyMMddhhssmm');
     this.pd.dataCheckEndTime = formatDate(end, 'yyyyMMddhhssmm');
-
   },
   activated() {
     this.queryAirport("","A");
@@ -440,11 +438,9 @@ export default {
     },
     handleCurrentChange(val) {
       this.getList(val, this.pageSize, this.pd);
-
       console.log(`当前页: ${val}`);
     },
     getsum(pd) {
-
       let p = {
         "cdt": pd
       };
@@ -455,8 +451,6 @@ export default {
         })
     },
     getnum(pd) {
-
-
       let p = {
         "cdt": pd
       };
@@ -464,7 +458,6 @@ export default {
         r => {
           console.log(r);
           this.num = r.data.crCounter;
-
         })
     },
     getList(currentPage, showCount, pd) {
