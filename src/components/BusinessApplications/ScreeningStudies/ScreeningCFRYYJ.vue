@@ -382,7 +382,9 @@ export default {
       let p = {
         "currentPage": currentPage,
         "showCount": showCount,
-        "cdt": pd
+        "cdt": pd,
+        "orders":orders,
+        "direction":direction
       };
       var url="/manage-platform/SuspectPerson/getduppsnbycard_offdes";
 
@@ -424,7 +426,9 @@ export default {
       let pp = {
         "currentPage": currentPage1,
         "showCount": showCount1,
-        "cdt": pd
+        "cdt": pd,
+        "orders":orders,
+        "direction":direction
       };
       var url="/manage-platform/SuspectPerson/getduppsnbycard_offdes";
 
