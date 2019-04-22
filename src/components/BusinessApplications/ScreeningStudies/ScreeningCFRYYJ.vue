@@ -369,7 +369,7 @@ export default {
     sortChange1(column, prop, order){
       column.order=='ascending'?this.direction1=1:this.direction1=0;
       this.order1=column.prop;
-      this.getList1(this.CurrentPage1,this.pageSize1,this.pd1,this.order1,this.direction1);
+      this.getList1(this.CurrentPage1,this.pageSize1,this.pd,this.order1,this.direction1);
     },
     getList(currentPage, showCount, pd,order,direction) {
       if (this.pd.begintime== null || this.pd.endtime == null) {
@@ -378,8 +378,10 @@ export default {
         });
         return false
       };
+      if(order!=''){
       pd.order=order;
       pd.direction=direction;
+       }
       console.log('order',pd.order);
       let p = {
         "currentPage": currentPage,
@@ -412,23 +414,23 @@ export default {
           this.TotalResult = r.data.totalResult;
         })
 
-      this.getList1(this.CurrentPage1,this.pageSize1,this.pd1,this.order1,this.direction1);
+      this.getList1(this.CurrentPage1,this.pageSize1,this.pd,this.order1,this.direction1);
     },
-
-    getList1(currentPage1, showCount1, pd1,order1,direction1) {
-
+    getList1(currentPage1, showCount1, pd,order1,direction1) {
       if (this.pd.begintime== null || this.pd.endtime == null) {
         this.$alert('时间范围不能为空', '提示', {
           confirmButtonText: '确定',
         });
         return false
       };
-      pd1.order=order1;
-      pd1.direction=direction1;
+      if(order1!=''){
+        pd.order=order1;
+        pd.direction=direction1;
+      }
       let pp = {
         "currentPage": currentPage1,
         "showCount": showCount1,
-        "cdt": pd1,
+        "cdt": pd,
       };
       var url="/manage-platform/SuspectPerson/getduppsnbycard_offdes";
 
