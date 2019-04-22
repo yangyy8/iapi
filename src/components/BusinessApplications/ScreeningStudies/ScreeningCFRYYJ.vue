@@ -162,7 +162,7 @@
                         border
                         style="width: 100%;"
                         class="mt-10 o-table3"
-                        @sort-change="sortChange"
+                        @sort-change="sortChange1"
                         @header-click="headerClick"
                         @selection-change="handleSelectionChange">
                         <el-table-column
@@ -415,7 +415,7 @@ export default {
       this.getList1(this.CurrentPage1,this.pageSize1,this.pd1,this.order1,this.direction1);
     },
 
-    getList1(currentPage1, showCount1, pd,order,direction) {
+    getList1(currentPage1, showCount1, pd1,order1,direction1) {
 
       if (this.pd.begintime== null || this.pd.endtime == null) {
         this.$alert('时间范围不能为空', '提示', {
@@ -423,12 +423,12 @@ export default {
         });
         return false
       };
-      pd.order=order;
-      pd.direction=direction
+      pd1.order=order1;
+      pd1.direction=direction1;
       let pp = {
         "currentPage": currentPage1,
         "showCount": showCount1,
-        "cdt": pd,
+        "cdt": pd1,
       };
       var url="/manage-platform/SuspectPerson/getduppsnbycard_offdes";
 
@@ -456,7 +456,6 @@ export default {
           this.TotalResult1 = r.data.totalResult;
         })
     },
-
     details(i) {
       this.detailsDialogVisible = true;
       console.log(i);

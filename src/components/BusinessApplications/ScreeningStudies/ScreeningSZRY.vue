@@ -197,7 +197,8 @@
               @header-click="headerClick">
               <el-table-column
                 prop="fltno"
-                label="航班号" sortable>
+                label="航班号"
+                sortable="custom">
               </el-table-column>
               <el-table-column
                 prop="departdate"
@@ -423,7 +424,7 @@
               border
               style="width: 100%;"
               class="mt-10 o-table3"
-              @sort-change="sortChange"
+              @sort-change="sortChange3"
               @header-click="headerClick">
               <el-table-column
                 prop="fltno"
@@ -528,10 +529,22 @@ export default {
       direction2: 0,
       order3: '',
       direction3: 0,
-      pd: {begintime:'',endtime:''},
-      pd1: {begintime:'',endtime:''},
-      pd2: {begintime:'',endtime:''},
-      pd3: {begintime:'',endtime:''},
+      pd: {
+        begintime: '',
+        endtime: ''
+      },
+      pd1: {
+        begintime: '',
+        endtime: ''
+      },
+      pd2: {
+        begintime: '',
+        endtime: ''
+      },
+      pd3: {
+        begintime: '',
+        endtime: ''
+      },
       page: 0,
       options: [{
           value: 10,
@@ -546,7 +559,7 @@ export default {
           label: "30"
         }
       ],
-      pport:[],
+      pport: [],
       tableData: [],
       tableData1: [],
       tableData2: [],
@@ -554,7 +567,7 @@ export default {
       pickerOptions1: {
         disabledDate: (time) => {
           if (this.pd.endtime != null) {
-            let startT = formatDate(new Date(time.getTime()-1), 'yyyyMMddhhmmss');
+            let startT = formatDate(new Date(time.getTime() - 1), 'yyyyMMddhhmmss');
             return startT > this.pd.endtime;
           } else if (this.pd.endtime == null) {
             return false
@@ -570,7 +583,7 @@ export default {
       pickerOptions3: {
         disabledDate: (time) => {
           if (this.pd1.endtime != null) {
-            let startT = formatDate(new Date(time.getTime()-1), 'yyyyMMddhhmmss');
+            let startT = formatDate(new Date(time.getTime() - 1), 'yyyyMMddhhmmss');
             return startT > this.pd1.endtime;
           } else if (this.pd1.endtime == null) {
             return false
@@ -586,7 +599,7 @@ export default {
       pickerOptions5: {
         disabledDate: (time) => {
           if (this.pd2.endtime != null) {
-            let startT = formatDate(new Date(time.getTime()-1), 'yyyyMMddhhmmss');
+            let startT = formatDate(new Date(time.getTime() - 1), 'yyyyMMddhhmmss');
             return startT > this.pd2.endtime;
           } else if (this.pd2.endtime == null) {
             return false
@@ -602,7 +615,7 @@ export default {
       pickerOptions7: {
         disabledDate: (time) => {
           if (this.pd3.endtime != null) {
-            let startT = formatDate(new Date(time.getTime()-1), 'yyyyMMddhhmmss');
+            let startT = formatDate(new Date(time.getTime() - 1), 'yyyyMMddhhmmss');
             return startT > this.pd3.endtime;
           } else if (this.pd3.endtime == null) {
             return false
@@ -618,7 +631,7 @@ export default {
     }
   },
   mounted() {
-  this.getHz();
+    this.getHz();
     let time = new Date();
     let endz = new Date();
     let beginz = new Date(time - 1000 * 60 * 60 * 24 * 30);
@@ -644,12 +657,11 @@ export default {
     // this.pd2.endtime = formatDate(endz, 'yyyyMMdd');
     // this.pd3.begintime = formatDate(endz, 'yyyyMMdd');
     // this.pd3.endtime = formatDate(endz, 'yyyyMMdd')
-
   },
   methods: {
-    headerClick(column,event){
-       event.target.title=column.label
-     },
+    headerClick(column, event) {
+      event.target.title = column.label
+    },
     base() {
       this.page = 0;
     },
@@ -664,99 +676,99 @@ export default {
     },
     pageSizeChange(val) {
       // this.getList(this.CurrentPage, val, this.pd);
-    this.getList(this.CurrentPage, this.pageSize, this.pd, this.order, this.direction);
+      this.getList(this.CurrentPage, this.pageSize, this.pd, this.order, this.direction);
       console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
       // this.getList(val, this.pageSize, this.pd);
-        this.getList(this.CurrentPage, this.pageSize, this.pd, this.order, this.direction);
+      this.getList(this.CurrentPage, this.pageSize, this.pd, this.order, this.direction);
       console.log(`当前页: ${val}`);
     },
     pageSizeChange1(val) {
       // this.getList1(this.CurrentPage1, val, this.pd1);
-            this.getList1(this.CurrentPage1, this.pageSize1, this.pd1, this.order1, this.direction1);
+      this.getList1(this.CurrentPage1, this.pageSize1, this.pd1, this.order1, this.direction1);
       console.log(`1每页 ${val} 条`);
     },
     handleCurrentChange1(val) {
       // this.getList1(val, this.pageSize1, this.pd1);
-            this.getList1(this.CurrentPage1, this.pageSize1, this.pd1, this.order1, this.direction1);
+      this.getList1(this.CurrentPage1, this.pageSize1, this.pd1, this.order1, this.direction1);
       console.log(`1当前页: ${val}`);
     },
     pageSizeChange2(val) {
       // this.getList2(this.CurrentPage2, val, this.pd2);
-            this.getList2(this.CurrentPage2, this.pageSize2, this.pd2, this.order2, this.direction2);
+      this.getList2(this.CurrentPage2, this.pageSize2, this.pd2, this.order2, this.direction2);
       console.log(`2每页 ${val} 条`);
     },
     handleCurrentChange2(val) {
       // this.getList2(val, this.pageSize2, this.pd2);
-            this.getList2(this.CurrentPage2, this.pageSize2, this.pd2, this.order2, this.direction2);
+      this.getList2(this.CurrentPage2, this.pageSize2, this.pd2, this.order2, this.direction2);
       console.log(`2当前页: ${val}`);
     },
     pageSizeChange3(val) {
       // this.getList3(this.CurrentPage3, val, this.pd3);
-            this.getList3(this.CurrentPage3, this.pageSize3, this.pd3, this.order3, this.direction3);
+      this.getList3(this.CurrentPage3, this.pageSize3, this.pd3, this.order3, this.direction3);
       console.log(`3每页 ${val} 条`);
     },
     handleCurrentChange3(val) {
       // this.getList3(val, this.pageSize3, this.pd3);
-            this.getList3(this.CurrentPage3, this.pageSize3, this.pd3, this.order3, this.direction3);
+      this.getList3(this.CurrentPage3, this.pageSize3, this.pd3, this.order3, this.direction3);
       console.log(`3当前页: ${val}`);
     },
     // 获取口岸航站
-    getHz(){
-      if(this.pport.length==0){
-        this.$api.post('/manage-platform/codeTable/queryAirportMatch',{},
-        r => {
-          this.pport=r.data
-        })
+    getHz() {
+      if (this.pport.length == 0) {
+        this.$api.post('/manage-platform/codeTable/queryAirportMatch', {},
+          r => {
+            this.pport = r.data
+          })
       }
     },
     sortChange(column, prop, order) {
-  column.order == 'ascending' ? this.direction = 1 : this.direction = 0;
-  this.order = column.prop;
-  this.getList(this.CurrentPage, this.pageSize, this.pd, this.order, this.direction);
-},
-sortChange1(column, prop, order) {
-  column.order == 'ascending' ? this.direction1 = 1 : this.direction1 = 0;
-  this.order1 = column.prop;
-  this.getList1(this.CurrentPage1, this.pageSize1, this.pd1, this.order1, this.direction1);
-},
-sortChange2(column, prop, order) {
-  column.order == 'ascending' ? this.direction2 = 1 : this.direction2 = 0;
-  this.order2 = column.prop;
-  this.getList2(this.CurrentPage2, this.pageSize2, this.pd2, this.order2, this.direction2);
-},
-sortChange3(column, prop, order) {
-  column.order == 'ascending' ? this.direction3 = 1 : this.direction3 = 0;
-  this.order3 = column.prop;
-  this.getList3(this.CurrentPage3, this.pageSize3, this.pd3, this.order3, this.direction3);
-},
+      column.order == 'ascending' ? this.direction = 1 : this.direction = 0;
+      this.order = column.prop;
+      this.getList(this.CurrentPage, this.pageSize, this.pd, this.order, this.direction);
+    },
+    sortChange1(column, prop, order) {
+      column.order == 'ascending' ? this.direction1 = 1 : this.direction1 = 0;
+      this.order1 = column.prop;
+      this.getList1(this.CurrentPage1, this.pageSize1, this.pd1, this.order1, this.direction1);
+    },
+    sortChange2(column, prop, order) {
+      column.order == 'ascending' ? this.direction2 = 1 : this.direction2 = 0;
+      this.order2 = column.prop;
+      this.getList2(this.CurrentPage2, this.pageSize2, this.pd2, this.order2, this.direction2);
+    },
+    sortChange3(column, prop, order) {
+      column.order == 'ascending' ? this.direction3 = 1 : this.direction3 = 0;
+      this.order3 = column.prop;
+      this.getList3(this.CurrentPage3, this.pageSize3, this.pd3, this.order3, this.direction3);
+    },
 
-    getList(currentPage, showCount, pd,order,direction) {
+    getList(currentPage, showCount, pd, order, direction) {
       const result = this.$validator.verifyAll('timeDemo')
-       if (result.indexOf(false) > -1) {
-         return
-       }
+      if (result.indexOf(false) > -1) {
+        return
+      }
       // if (this.pd.fltno==undefined || this.pd.fltno.trim() == "") {
       //   this.$alert('航班号不能为空', '提示', {
       //     confirmButtonText: '确定',
       //   });
       //   return false
       // };
-      if (this.pd.begintime.trim()== "" || this.pd.endtime.trim() == "") {
+      if (this.pd.begintime.trim() == "" || this.pd.endtime.trim() == "") {
         this.$alert('时间范围不能为空', '提示', {
           confirmButtonText: '确定',
         });
         return false
       };
-      pd.order=order;
-      pd.direction-direction;
+      pd.order = order;
+      pd.direction = direction;
       let p = {
         "currentPage": currentPage,
         "showCount": showCount,
         "cdt": pd
       };
-     var url="/manage-platform/SuspectPerson/get_bk_nochk";
+      var url = "/manage-platform/SuspectPerson/get_bk_nochk";
       this.$api.post(url, p,
         r => {
           console.log(r);
@@ -767,31 +779,31 @@ sortChange3(column, prop, order) {
 
     },
 
-    getList1(currentPage1, showCount1, pd1,order1,direction1) {
+    getList1(currentPage1, showCount1, pd1, order1, direction1) {
       const result = this.$validator.verifyAll('timeDemo1')
-       if (result.indexOf(false) > -1) {
-         return
-       }
+      if (result.indexOf(false) > -1) {
+        return
+      }
       // if (this.pd1.fltno==undefined || this.pd1.fltno.trim() == "") {
       //   this.$alert('航班号不能为空', '提示', {
       //     confirmButtonText: '确定',
       //   });
       //   return false
       // };
-      if (this.pd1.begintime.trim()== "" || this.pd1.endtime.trim() == "") {
+      if (this.pd1.begintime.trim() == "" || this.pd1.endtime.trim() == "") {
         this.$alert('时间范围不能为空', '提示', {
           confirmButtonText: '确定',
         });
         return false
       };
-      pd1.order=order1;
-      pd1.direction-direction1;
+      pd1.order = order1;
+      pd1.direction = direction1;
       let p = {
         "currentPage": currentPage1,
         "showCount": showCount1,
         "cdt": pd1
       };
-     var url="/manage-platform/SuspectPerson/get_chk_nobrd";
+      var url = "/manage-platform/SuspectPerson/get_chk_nobrd";
       this.$api.post(url, p,
         r => {
           console.log(r);
@@ -799,31 +811,31 @@ sortChange3(column, prop, order) {
           this.TotalResult1 = r.data.totalResult;
         })
     },
-    getList2(currentPage2, showCount2, pd2,order2,direction2) {
+    getList2(currentPage2, showCount2, pd2, order2, direction2) {
       const result = this.$validator.verifyAll('timeDemo2')
-       if (result.indexOf(false) > -1) {
-         return
-       }
+      if (result.indexOf(false) > -1) {
+        return
+      }
       // if (this.pd2.fltno==undefined || this.pd2.fltno.trim() == "") {
       //   this.$alert('航班号不能为空', '提示', {
       //     confirmButtonText: '确定',
       //   });
       //   return false
       // };
-      if (this.pd2.begintime.trim()== "" || this.pd2.endtime.trim() == "") {
+      if (this.pd2.begintime.trim() == "" || this.pd2.endtime.trim() == "") {
         this.$alert('时间范围不能为空', '提示', {
           confirmButtonText: '确定',
         });
         return false
       };
-      pd2.order=order2;
-      pd2.direction-direction2;
+      pd2.order = order2;
+      pd2.direction = direction2;
       let p = {
         "currentPage": currentPage2,
         "showCount": showCount2,
         "cdt": pd2
       };
-     var url="/manage-platform/SuspectPerson/get_brd_noee";
+      var url = "/manage-platform/SuspectPerson/get_brd_noee";
       this.$api.post(url, p,
         r => {
           console.log(r);
@@ -831,31 +843,31 @@ sortChange3(column, prop, order) {
           this.TotalResult2 = r.data.totalResult;
         })
     },
-    getList3(currentPage3, showCount3, pd3,order3,direction3) {
+    getList3(currentPage3, showCount3, pd3, order3, direction3) {
       const result = this.$validator.verifyAll('timeDemo3')
-       if (result.indexOf(false) > -1) {
-         return
-       }
+      if (result.indexOf(false) > -1) {
+        return
+      }
       // if (this.pd3.fltno==undefined || this.pd3.fltno.trim() == "") {
       //   this.$alert('航班号不能为空', '提示', {
       //     confirmButtonText: '确定',
       //   });
       //   return false
       // };
-      if (this.pd3.begintime.trim()== "" || this.pd3.endtime.trim() == "") {
+      if (this.pd3.begintime.trim() == "" || this.pd3.endtime.trim() == "") {
         this.$alert('时间范围不能为空', '提示', {
           confirmButtonText: '确定',
         });
         return false
       };
-      pd3.order=order3;
-      pd3.direction-direction3;
+      pd3.order = order3;
+      pd3.direction = direction3;
       let p = {
         "currentPage": currentPage3,
         "showCount": showCount3,
         "cdt": pd3
       };
-     var url="/manage-platform/SuspectPerson/get_ee_nobrd";
+      var url = "/manage-platform/SuspectPerson/get_ee_nobrd";
       this.$api.post(url, p,
         r => {
           console.log(r);
@@ -872,6 +884,7 @@ sortChange3(column, prop, order) {
   background: #ffffff;
   min-height: 750px;
 }
+
 .ak-tab-item {
   background: #399bfe;
   color: #fff;
