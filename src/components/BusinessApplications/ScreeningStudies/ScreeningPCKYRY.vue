@@ -65,7 +65,7 @@
               </el-row>
             </el-col>
             <el-col :span="2" class="down-btn-area" style="margin-top:25px;">
-              <el-button type="success" size="small" @click="CurrentPage=1;getList(CurrentPage,pageSize,pd)">查询</el-button>
+              <el-button type="success" size="small" @click="getList(CurrentPage,pageSize,pd)">查询</el-button>
             </el-col>
           </el-row>
 
@@ -75,7 +75,6 @@
               border
               style="width: 100%;"
               class="mt-10 o-table3"
-                @sort-change="sortChange"
               @header-click="headerClick">
               <el-table-column
                 prop="nationality"
@@ -129,7 +128,6 @@
               <el-pagination
                 background
                 @current-change="handleCurrentChange"
-                :current-page.sync ="CurrentPage"
                 :page-size="pageSize"
                 layout="prev, pager, next"
                 :total="TotalResult">
@@ -182,7 +180,7 @@
               </el-row>
             </el-col>
             <el-col :span="2" class="down-btn-area" style="margin-top:25px;">
-              <el-button type="success" size="small" @click="CurrentPage1=1;getList1(CurrentPage1,pageSize1,pd1)">查询</el-button>
+              <el-button type="success" size="small" @click="getList1(CurrentPage1,pageSize1,pd1)">查询</el-button>
             </el-col>
           </el-row>
 
@@ -192,7 +190,6 @@
               border
               style="width: 100%;"
               class="mt-10 o-table3"
-              @sort-change="sortChange1"
               @header-click="headerClick">
               <el-table-column
                 prop="nationality"
@@ -246,7 +243,6 @@
               <el-pagination
                 background
                 @current-change="handleCurrentChange1"
-                :current-page.sync ="CurrentPage1"
                 :page-size="pageSize1"
                 layout="prev, pager, next"
                 :total="TotalResult1">
@@ -299,7 +295,7 @@
               </el-row>
             </el-col>
             <el-col :span="2" class="down-btn-area" style="margin-top:25px;">
-              <el-button type="success" size="small" @click="CurrentPage2=1;getList2(CurrentPage2,pageSize2,pd2)">查询</el-button>
+              <el-button type="success" size="small" @click="getList2(CurrentPage2,pageSize2,pd2)">查询</el-button>
             </el-col>
           </el-row>
 
@@ -309,7 +305,6 @@
               border
               style="width: 100%;"
               class="mt-10 o-table3"
-              @sort-change="sortChange2"
               @header-click="headerClick">
               <el-table-column
                 prop="nationality"
@@ -363,7 +358,6 @@
               <el-pagination
                 background
                 @current-change="handleCurrentChange2"
-                :current-page.sync ="CurrentPage2"
                 :page-size="pageSize2"
                 layout="prev, pager, next"
                 :total="TotalResult2">
@@ -395,37 +389,44 @@ export default {
       CurrentPage2: 1,
       pageSize2: 10,
       TotalResult2: 0,
-      order: '',
-      direction: 0,
-      order1: '',
-      direction1: 0,
-      order2: '',
-      direction2: 0,
+
       pd: {
         begintime: '',
         endtime: '',
-        times: ''
+        times:''
       },
       pd1: {
         begintime: '',
         endtime: '',
-        times: ''
+        times:''
       },
       pd2: {
         begintime: '',
         endtime: '',
-        times: ''
+        times:''
       },
 
       page: 0,
-      options: this.pl.options,
+      options: [{
+          value: 10,
+          label: "10"
+        },
+        {
+          value: 20,
+          label: "20"
+        },
+        {
+          value: 30,
+          label: "30"
+        }
+      ],
       tableData: [],
       tableData1: [],
       tableData2: [],
       pickerOptions1: {
         disabledDate: (time) => {
           if (this.pd.endtime != null) {
-            let startT = formatDate(new Date(time.getTime() - 1), 'yyyyMMddhhmmss');
+            let startT = formatDate(new Date(time.getTime()-1), 'yyyyMMddhhmmss');
             return startT > this.pd.endtime;
           } else if (this.pd.endtime == null) {
             return false
@@ -474,8 +475,8 @@ export default {
       checktimes: 0, //值机频次阈值
       booktimes: 0, //订票频次阈值
       eetimes: 0, //出入境频次阈值
-      times: 0,
-      pport: [],
+      times:0,
+      pport:[],
     }
   },
   mounted() {
@@ -507,9 +508,9 @@ export default {
 
   },
   methods: {
-    headerClick(column, event) {
-      event.target.title = column.label
-    },
+    headerClick(column,event){
+         event.target.title=column.label
+       },
     base() {
       this.page = 0;
     },
@@ -521,58 +522,37 @@ export default {
     },
 
     pageSizeChange(val) {
-      // this.getList(this.CurrentPage, val, this.pd);
-      this.getList(this.CurrentPage, this.pageSize, this.pd, this.order, this.direction);
+      this.getList(this.CurrentPage, val, this.pd);
       console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
-      // this.getList(val, this.pageSize, this.pd);
-      this.getList(this.CurrentPage, this.pageSize, this.pd, this.order, this.direction);
+      this.getList(val, this.pageSize, this.pd);
       console.log(`当前页: ${val}`);
     },
     pageSizeChange1(val) {
-      // this.getList1(this.CurrentPage1, val, this.pd1);
-      this.getList1(this.CurrentPage1, this.pageSize1, this.pd1, this.order1, this.direction1);
+      this.getList1(this.CurrentPage1, val, this.pd1);
       console.log(`1每页 ${val} 条`);
     },
     handleCurrentChange1(val) {
-      // this.getList1(val, this.pageSize1, this.pd1);
-      this.getList1(this.CurrentPage1, this.pageSize1, this.pd1, this.order1, this.direction1);
+      this.getList1(val, this.pageSize1, this.pd1);
       console.log(`1当前页: ${val}`);
     },
     pageSizeChange2(val) {
-      // this.getList2(this.CurrentPage2, val, this.pd2);
-      this.getList2(this.CurrentPage2, this.pageSize2, this.pd2, this.order2, this.direction2);
+      this.getList2(this.CurrentPage2, val, this.pd2);
       console.log(`2每页 ${val} 条`);
     },
     handleCurrentChange2(val) {
-      // this.getList2(val, this.pageSize2, this.pd2);
-      this.getList2(this.CurrentPage2, this.pageSize2, this.pd2, this.order2, this.direction2);
+      this.getList2(val, this.pageSize2, this.pd2);
       console.log(`2当前页: ${val}`);
     },
-    sortChange(column, prop, order) {
-      column.order == 'ascending' ? this.direction = 1 : this.direction = 0;
-      this.order = column.prop;
-      this.getList(this.CurrentPage, this.pageSize, this.pd, this.order, this.direction);
-    },
-    sortChange1(column, prop, order) {
-      column.order == 'ascending' ? this.direction1 = 1 : this.direction1 = 0;
-      this.order1 = column.prop;
-      this.getList1(this.CurrentPage1, this.pageSize1, this.pd1, this.order1, this.direction1);
-    },
-    sortChange2(column, prop, order) {
-      column.order == 'ascending' ? this.direction2 = 1 : this.direction2 = 0;
-      this.order2 = column.prop;
-      this.getList2(this.CurrentPage2, this.pageSize2, this.pd2, this.order2, this.direction2);
-    },
     // 获取口岸航站
-    getHz() {
-      if (this.pport.length == 0) {
-        this.$api.post('/manage-platform/codeTable/queryAirportMatch', {},
-          r => {
+    getHz(){
+      if(this.pport.length==0){
+        this.$api.post('/manage-platform/codeTable/queryAirportMatch',{},
+        r => {
 
-            this.pport = r.data
-          })
+          this.pport=r.data
+        })
       }
     },
 
@@ -595,11 +575,11 @@ export default {
         })
 
     },
-    getList(currentPage, showCount, pd, order, direction) {
+    getList(currentPage, showCount, pd) {
       const result = this.$validator.verifyAll('timeDemo')
-      if (result.indexOf(false) > -1) {
-        return
-      }
+       if (result.indexOf(false) > -1) {
+         return
+       }
       if (this.pd.begintime.trim() == "" || this.pd.endtime.trim() == "") {
         this.$alert('时间范围不能为空', '提示', {
           confirmButtonText: '确定',
@@ -607,8 +587,7 @@ export default {
         return false
       };
 
-      pd.order=order;
-      pd.direction=direction;
+
       let p = {
         "currentPage": currentPage,
         "showCount": showCount,
@@ -624,19 +603,17 @@ export default {
         })
 
     },
-    getList1(currentPage1, showCount1, pd1, order1, direction1) {
+    getList1(currentPage1, showCount1, pd1) {
       const result = this.$validator.verifyAll('timeDemo1')
-      if (result.indexOf(false) > -1) {
-        return
-      }
+       if (result.indexOf(false) > -1) {
+         return
+       }
       if (this.pd1.begintime.trim() == "" || this.pd1.endtime.trim() == "") {
         this.$alert('时间范围不能为空', '提示', {
           confirmButtonText: '确定',
         });
         return false
       };
-      pd1.order=order1;
-      pd1.direction=direction1;
       let p = {
         "currentPage": currentPage1,
         "showCount": showCount1,
@@ -652,19 +629,17 @@ export default {
 
         })
     },
-    getList2(currentPage2, showCount2, pd2, order2, direction2) {
+    getList2(currentPage2, showCount2, pd2) {
       const result = this.$validator.verifyAll('timeDemo2')
-      if (result.indexOf(false) > -1) {
-        return
-      }
+       if (result.indexOf(false) > -1) {
+         return
+       }
       if (this.pd2.begintime.trim() == "" || this.pd2.endtime.trim() == "") {
         this.$alert('时间范围不能为空', '提示', {
           confirmButtonText: '确定',
         });
         return false
       };
-      pd2.order=order2;
-      pd2.direction=direction2;
       let p = {
         "currentPage": currentPage2,
         "showCount": showCount2,
@@ -675,7 +650,7 @@ export default {
         r => {
           console.log(r);
           this.tableData2 = r.data.resultList;
-          this.TotalResult2 = r.data.totalResult;
+          this.TotalResult2 =r.data.totalResult ;
         })
     },
 
@@ -688,7 +663,6 @@ export default {
   background: #ffffff;
   min-height: 750px;
 }
-
 .ak-tab-item {
   background: #399bfe;
   color: #fff;
