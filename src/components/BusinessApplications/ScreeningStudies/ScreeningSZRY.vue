@@ -67,7 +67,7 @@
               </el-row>
             </el-col>
             <el-col :span="2" class="down-btn-area" style="margin-top:25px;">
-              <el-button type="success" size="small" @click="getList(CurrentPage,pageSize,pd)">查询</el-button>
+              <el-button type="success" size="small" @click="CurrentPage=1;getList(CurrentPage,pageSize,pd)">查询</el-button>
             </el-col>
           </el-row>
 
@@ -77,6 +77,7 @@
               border
               style="width: 100%;"
               class="mt-10 o-table3"
+              @sort-change="sortChange"
               @header-click="headerClick">
               <el-table-column
                 prop="fltno"
@@ -129,6 +130,7 @@
               <el-pagination
                 background
                 @current-change="handleCurrentChange"
+                :current-page.sync ="CurrentPage"
                 :page-size="pageSize"
                 layout="prev, pager, next"
                 :total="TotalResult">
@@ -181,7 +183,7 @@
               </el-row>
             </el-col>
             <el-col :span="2" class="down-btn-area" style="margin-top:25px;">
-              <el-button type="success" size="small" @click="getList1(CurrentPage1,pageSize1,pd1)">查询</el-button>
+              <el-button type="success" size="small" @click="CurrentPage1=1;getList1(CurrentPage1,pageSize1,pd1)">查询</el-button>
             </el-col>
           </el-row>
 
@@ -191,6 +193,7 @@
               border
               style="width: 100%;"
               class="mt-10 o-table3"
+              @sort-change="sortChange1"
               @header-click="headerClick">
               <el-table-column
                 prop="fltno"
@@ -243,6 +246,7 @@
               <el-pagination
                 background
                 @current-change="handleCurrentChange1"
+                :current-page.sync ="CurrentPage1"
                 :page-size="pageSize1"
                 layout="prev, pager, next"
                 :total="TotalResult1">
@@ -295,7 +299,7 @@
               </el-row>
             </el-col>
             <el-col :span="2" class="down-btn-area" style="margin-top:25px;">
-              <el-button type="success" size="small" @click="getList2(CurrentPage2,pageSize2,pd2)">查询</el-button>
+              <el-button type="success" size="small" @click="CurrentPage2=1;getList2(CurrentPage2,pageSize2,pd2)">查询</el-button>
             </el-col>
           </el-row>
             <el-table
@@ -303,6 +307,7 @@
               border
               style="width: 100%;"
               class="mt-10 o-table3"
+              @sort-change="sortChange2"
               @header-click="headerClick">
               <el-table-column
                 prop="fltno"
@@ -355,6 +360,7 @@
               <el-pagination
                 background
                 @current-change="handleCurrentChange2"
+                :current-page.sync ="CurrentPage2"
                 :page-size="pageSize2"
                 layout="prev, pager, next"
                 :total="TotalResult2">
@@ -407,7 +413,7 @@
               </el-row>
             </el-col>
             <el-col :span="2" class="down-btn-area" style="margin-top:25px;">
-              <el-button type="success" size="small" @click="getList3(CurrentPage3,pageSize3,pd3)">查询</el-button>
+              <el-button type="success" size="small" @click="CurrentPage3=1;getList3(CurrentPage3,pageSize3,pd3)">查询</el-button>
             </el-col>
           </el-row>
 
@@ -417,6 +423,7 @@
               border
               style="width: 100%;"
               class="mt-10 o-table3"
+              @sort-change="sortChange"
               @header-click="headerClick">
               <el-table-column
                 prop="fltno"
@@ -477,6 +484,7 @@
               <el-pagination
                 background
                 @current-change="handleCurrentChange3"
+                :current-page.sync ="CurrentPage3"
                 :page-size="pageSize3"
                 layout="prev, pager, next"
                 :total="TotalResult3">
@@ -512,6 +520,14 @@ export default {
       CurrentPage3: 1,
       pageSize3: 10,
       TotalResult3: 0,
+      order: '',
+      direction: 0,
+      order1: '',
+      direction1: 0,
+      order2: '',
+      direction2: 0,
+      order3: '',
+      direction3: 0,
       pd: {begintime:'',endtime:''},
       pd1: {begintime:'',endtime:''},
       pd2: {begintime:'',endtime:''},
@@ -603,31 +619,31 @@ export default {
   },
   mounted() {
   this.getHz();
-    // let time = new Date();
-    // let endz = new Date();
-    // let beginz = new Date(time - 1000 * 60 * 60 * 24 * 30);
-    // this.pd.begintime = formatDate(endz, 'yyyyMMdd');
-    // this.pd.endtime = formatDate(endz, 'yyyyMMdd');
-    // this.pd1.begintime = formatDate(beginz, 'yyyyMMdd');
-    // this.pd1.endtime = formatDate(endz, 'yyyyMMdd');
-    // this.pd2.begintime = formatDate(beginz, 'yyyyMMdd');
-    // this.pd2.endtime = formatDate(endz, 'yyyyMMdd');
-    // this.pd3.begintime = formatDate(beginz, 'yyyyMMdd');
-    // this.pd3.endtime = formatDate(endz, 'yyyyMMdd');
-  },
-  activated() {
-    this.getHz();
     let time = new Date();
     let endz = new Date();
     let beginz = new Date(time - 1000 * 60 * 60 * 24 * 30);
     this.pd.begintime = formatDate(endz, 'yyyyMMdd');
     this.pd.endtime = formatDate(endz, 'yyyyMMdd');
-    this.pd1.begintime = formatDate(endz, 'yyyyMMdd');
+    this.pd1.begintime = formatDate(beginz, 'yyyyMMdd');
     this.pd1.endtime = formatDate(endz, 'yyyyMMdd');
-    this.pd2.begintime = formatDate(endz, 'yyyyMMdd');
+    this.pd2.begintime = formatDate(beginz, 'yyyyMMdd');
     this.pd2.endtime = formatDate(endz, 'yyyyMMdd');
-    this.pd3.begintime = formatDate(endz, 'yyyyMMdd');
-    this.pd3.endtime = formatDate(endz, 'yyyyMMdd')
+    this.pd3.begintime = formatDate(beginz, 'yyyyMMdd');
+    this.pd3.endtime = formatDate(endz, 'yyyyMMdd');
+  },
+  activated() {
+    this.getHz();
+    // let time = new Date();
+    // let endz = new Date();
+    // let beginz = new Date(time - 1000 * 60 * 60 * 24 * 30);
+    // this.pd.begintime = formatDate(endz, 'yyyyMMdd');
+    // this.pd.endtime = formatDate(endz, 'yyyyMMdd');
+    // this.pd1.begintime = formatDate(endz, 'yyyyMMdd');
+    // this.pd1.endtime = formatDate(endz, 'yyyyMMdd');
+    // this.pd2.begintime = formatDate(endz, 'yyyyMMdd');
+    // this.pd2.endtime = formatDate(endz, 'yyyyMMdd');
+    // this.pd3.begintime = formatDate(endz, 'yyyyMMdd');
+    // this.pd3.endtime = formatDate(endz, 'yyyyMMdd')
 
   },
   methods: {
@@ -647,35 +663,43 @@ export default {
       this.page = 3;
     },
     pageSizeChange(val) {
-      this.getList(this.CurrentPage, val, this.pd);
+      // this.getList(this.CurrentPage, val, this.pd);
+    this.getList(this.CurrentPage, this.pageSize, this.pd, this.order, this.direction);
       console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
-      this.getList(val, this.pageSize, this.pd);
+      // this.getList(val, this.pageSize, this.pd);
+        this.getList(this.CurrentPage, this.pageSize, this.pd, this.order, this.direction);
       console.log(`当前页: ${val}`);
     },
     pageSizeChange1(val) {
-      this.getList1(this.CurrentPage1, val, this.pd1);
+      // this.getList1(this.CurrentPage1, val, this.pd1);
+            this.getList1(this.CurrentPage1, this.pageSize1, this.pd1, this.order1, this.direction1);
       console.log(`1每页 ${val} 条`);
     },
     handleCurrentChange1(val) {
-      this.getList1(val, this.pageSize1, this.pd1);
+      // this.getList1(val, this.pageSize1, this.pd1);
+            this.getList1(this.CurrentPage1, this.pageSize1, this.pd1, this.order1, this.direction1);
       console.log(`1当前页: ${val}`);
     },
     pageSizeChange2(val) {
-      this.getList2(this.CurrentPage2, val, this.pd2);
+      // this.getList2(this.CurrentPage2, val, this.pd2);
+            this.getList2(this.CurrentPage2, this.pageSize2, this.pd2, this.order2, this.direction2);
       console.log(`2每页 ${val} 条`);
     },
     handleCurrentChange2(val) {
-      this.getList2(val, this.pageSize2, this.pd2);
+      // this.getList2(val, this.pageSize2, this.pd2);
+            this.getList2(this.CurrentPage2, this.pageSize2, this.pd2, this.order2, this.direction2);
       console.log(`2当前页: ${val}`);
     },
     pageSizeChange3(val) {
-      this.getList3(this.CurrentPage3, val, this.pd3);
+      // this.getList3(this.CurrentPage3, val, this.pd3);
+            this.getList3(this.CurrentPage3, this.pageSize3, this.pd3, this.order3, this.direction3);
       console.log(`3每页 ${val} 条`);
     },
     handleCurrentChange3(val) {
-      this.getList3(val, this.pageSize3, this.pd3);
+      // this.getList3(val, this.pageSize3, this.pd3);
+            this.getList3(this.CurrentPage3, this.pageSize3, this.pd3, this.order3, this.direction3);
       console.log(`3当前页: ${val}`);
     },
     // 获取口岸航站
@@ -687,7 +711,28 @@ export default {
         })
       }
     },
-    getList(currentPage, showCount, pd) {
+    sortChange(column, prop, order) {
+  column.order == 'ascending' ? this.direction = 1 : this.direction = 0;
+  this.order = column.prop;
+  this.getList(this.CurrentPage, this.pageSize, this.pd, this.order, this.direction);
+},
+sortChange1(column, prop, order) {
+  column.order == 'ascending' ? this.direction1 = 1 : this.direction1 = 0;
+  this.order1 = column.prop;
+  this.getList1(this.CurrentPage1, this.pageSize1, this.pd1, this.order1, this.direction1);
+},
+sortChange2(column, prop, order) {
+  column.order == 'ascending' ? this.direction2 = 1 : this.direction2 = 0;
+  this.order2 = column.prop;
+  this.getList2(this.CurrentPage2, this.pageSize2, this.pd2, this.order2, this.direction2);
+},
+sortChange3(column, prop, order) {
+  column.order == 'ascending' ? this.direction3 = 1 : this.direction3 = 0;
+  this.order3 = column.prop;
+  this.getList3(this.CurrentPage3, this.pageSize3, this.pd3, this.order3, this.direction3);
+},
+
+    getList(currentPage, showCount, pd,order,direction) {
       const result = this.$validator.verifyAll('timeDemo')
        if (result.indexOf(false) > -1) {
          return
@@ -704,6 +749,8 @@ export default {
         });
         return false
       };
+      pd.order=order;
+      pd.direction-direction;
       let p = {
         "currentPage": currentPage,
         "showCount": showCount,
@@ -720,7 +767,7 @@ export default {
 
     },
 
-    getList1(currentPage1, showCount1, pd1) {
+    getList1(currentPage1, showCount1, pd1,order1,direction1) {
       const result = this.$validator.verifyAll('timeDemo1')
        if (result.indexOf(false) > -1) {
          return
@@ -737,6 +784,8 @@ export default {
         });
         return false
       };
+      pd1.order=order1;
+      pd1.direction-direction1;
       let p = {
         "currentPage": currentPage1,
         "showCount": showCount1,
@@ -747,12 +796,10 @@ export default {
         r => {
           console.log(r);
           this.tableData1 = r.data.resultList;
-
           this.TotalResult1 = r.data.totalResult;
-
         })
     },
-    getList2(currentPage2, showCount2, pd2) {
+    getList2(currentPage2, showCount2, pd2,order2,direction2) {
       const result = this.$validator.verifyAll('timeDemo2')
        if (result.indexOf(false) > -1) {
          return
@@ -769,6 +816,8 @@ export default {
         });
         return false
       };
+      pd2.order=order2;
+      pd2.direction-direction2;
       let p = {
         "currentPage": currentPage2,
         "showCount": showCount2,
@@ -779,12 +828,10 @@ export default {
         r => {
           console.log(r);
           this.tableData2 = r.data.resultList;
-
           this.TotalResult2 = r.data.totalResult;
-
         })
     },
-    getList3(currentPage3, showCount3, pd3) {
+    getList3(currentPage3, showCount3, pd3,order3,direction3) {
       const result = this.$validator.verifyAll('timeDemo3')
        if (result.indexOf(false) > -1) {
          return
@@ -801,6 +848,8 @@ export default {
         });
         return false
       };
+      pd3.order=order3;
+      pd3.direction-direction3;
       let p = {
         "currentPage": currentPage3,
         "showCount": showCount3,
@@ -811,9 +860,7 @@ export default {
         r => {
           console.log(r);
           this.tableData3 = r.data.resultList;
-
           this.TotalResult3 = r.data.totalResult;
-
         })
     },
   }
