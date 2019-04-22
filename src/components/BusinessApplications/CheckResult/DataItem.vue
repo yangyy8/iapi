@@ -241,6 +241,9 @@
                 <el-table-column
                   prop="thanFieldNameDesc"
                   label="错误校验项" sortable>
+                  <template slot-scope="scope">
+                     <span class="yy-color">   {{scope.row.thanFieldNameDesc}}</span>
+                  </template>
                 </el-table-column>
                 <el-table-column
                   prop="thanFieldName"
@@ -249,6 +252,9 @@
                 <el-table-column
                   prop="thanTypeDesc"
                   label="不通过原因" sortable>
+                  <template slot-scope="scope">
+                     <span class="yy-color">   {{scope.row.thanTypeDesc}}</span>
+                  </template>
                 </el-table-column>
                 <!-- <el-table-column
                   prop="checkResultDesc"
@@ -303,25 +309,32 @@
       :visible.sync="detailsDialogVisible"
       width="800px"
       >
-        <el-form :model="dform" ref="detailsForm">
+      <el-form :model="dform" ref="detailsForm">
+        <el-row type="flex"  class="mb-15">
+            <el-col :span="8">英文姓：{{dform.famililyName}}</el-col>
+            <el-col :span="8">英文名：{{dform.firstName}}</el-col>
+            <el-col :span="8">姓名：{{dform.travellerName}}</el-col>
+        </el-row>
       <el-row type="flex"  class="mb-15">
-        <el-col :span="8">姓名：{{dform.travellerName}}</el-col>
         <el-col :span="8">性别：{{dform.genderDesc}}</el-col>
         <el-col :span="8">出生日期：{{dform.birthday}}</el-col>
-      </el-row>
-      <el-row type="flex"  class="mb-15">
         <el-col :span="8">国籍/地区：{{dform.nationalityDesc}}</el-col>
-        <el-col :span="8">证件号码：{{dform.passportNo}}</el-col>
-        <el-col :span="8">{{form.thanFieldNameDesc}}：{{dform.passportExpireDate}}</el-col>
       </el-row>
       <el-row type="flex"  class="mb-15">
+        <el-col :span="8">证件号码：{{dform.passportNo}}</el-col>
         <el-col :span="8">航班号：{{dform.flightNo}}</el-col>
+        <el-col :span="8">{{form.thanFieldNameDesc}}：{{dform.passportExpireDate}}</el-col>
+
+      </el-row>
+      <el-row type="flex"  class="mb-15">
         <el-col :span="8">错误校验项：{{dform.thanFieldNameDesc}}</el-col>
         <el-col :span="8">不通过原因：{{dform.thanTypeDesc}}</el-col>
+        <el-col :span="8">校验比对时间：{{dform.CheckTimeStr}}</el-col>
       </el-row>
       <el-row type="flex"  class="mb-15">
         <el-col :span="8">反馈结果：{{dform.checkResultDesc}}</el-col>
         <el-col :span="8">反馈描述：{{dform.thanTypeDesc}}</el-col>
+        <el-col :span="8">{{dform.errorMsgStr}}</el-col>
       </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">

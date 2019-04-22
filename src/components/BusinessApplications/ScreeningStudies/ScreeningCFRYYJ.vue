@@ -265,9 +265,9 @@ export default {
       type:"1",
       flag:"1",
       company: [],
-      orders:'',
+      order:'',
       direction:0,
-      orders1:'',
+      order1:'',
       direction1:0,
       page:0,
       addDialogVisible: false,
@@ -342,22 +342,22 @@ export default {
     },
     pageSizeChange(val) {
       // this.getList(this.CurrentPage, val, this.pd);
-      this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
+      this.getList(this.CurrentPage,this.pageSize,this.pd,this.order,this.direction);
       console.log(`每页 ${val} 条`);
     },
     pageSizeChange1(val) {
       // this.getList1(this.CurrentPage1, val, this.pd);
-      this.getList1(this.CurrentPage1,this.pageSize1,this.pd1,this.orders1,this.direction1);
+      this.getList1(this.CurrentPage1,this.pageSize1,this.pd1,this.order1,this.direction1);
       console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
       // this.getList(val, this.pageSize, this.pd);
-      this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
+      this.getList(this.CurrentPage,this.pageSize,this.pd,this.order,this.direction);
       console.log(`当前页: ${val}`);
     },
     handleCurrentChange1(val) {
       // this.getList1(val, this.pageSize1, this.pd);
-      this.getList1(this.CurrentPage1,this.pageSize1,this.pd1,this.orders1,this.direction1);
+      this.getList1(this.CurrentPage1,this.pageSize1,this.pd1,this.order1,this.direction1);
       console.log(`当前页: ${val}`);
     },
 
@@ -365,16 +365,20 @@ export default {
       column.order=='ascending'?this.direction=1:this.direction=0;
       this.order=column.prop;
       this.getList(this.CurrentPage,this.pageSize,this.pd,this.order,this.direction);
-      this.getList1(this.CurrentPage1,this.pageSize1,this.pd1,this.orders1,this.direction1);
     },
-    getList(currentPage, showCount, pd,orders,direction) {
+    sortChange1(column, prop, order){
+      column.order=='ascending'?this.direction1=1:this.direction1=0;
+      this.order1=column.prop;
+      this.getList1(this.CurrentPage1,this.pageSize1,this.pd1,this.order1,this.direction1);
+    },
+    getList(currentPage, showCount, pd,order,direction) {
       if (this.pd.begintime== null || this.pd.endtime == null) {
         this.$alert('时间范围不能为空', '提示', {
           confirmButtonText: '确定',
         });
         return false
       };
-      pd.order=orders;
+      pd.order=order;
       pd.direction=direction;
       console.log('order',pd.order);
       let p = {
@@ -408,10 +412,10 @@ export default {
           this.TotalResult = r.data.totalResult;
         })
 
-      this.getList1(this.CurrentPage1,this.pageSize1,this.pd1,this.orders1,this.direction1);
+      this.getList1(this.CurrentPage1,this.pageSize1,this.pd1,this.order1,this.direction1);
     },
 
-    getList1(currentPage1, showCount1, pd,orders,direction) {
+    getList1(currentPage1, showCount1, pd,order,direction) {
 
       if (this.pd.begintime== null || this.pd.endtime == null) {
         this.$alert('时间范围不能为空', '提示', {
@@ -419,7 +423,7 @@ export default {
         });
         return false
       };
-      pd.order=orders;
+      pd.order=order;
       pd.direction=direction
       let pp = {
         "currentPage": currentPage1,
