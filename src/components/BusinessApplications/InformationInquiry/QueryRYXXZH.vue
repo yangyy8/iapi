@@ -1832,6 +1832,23 @@ export default {
         this.tableDown()
       }
     },
+    forTable(tableCurrent){
+      axios({
+       method: 'post',
+       url: 'http://192.168.99.234:8080/manage-platform/iapiHead/exportFileIo/4/iapiHead/10000',
+       // url: this.$api.rootUrl+"/manage-platform/iapiHead/exportFileIo/4/iapiHead/10000",
+       data: {
+           "exclTitles": this.checkList,
+           "cdt":this.batchFlag==1?this.cdt1:this.cdt,
+           "currentPage":tableCurrent
+           // "isBatch":num,
+       },
+       responseType: 'blob'
+       }).then(response => {
+           this.downloadM(response)
+       });
+
+    },
     tableDown(num){
       this.cdt.isBatch = num;
       if(this.tableData.length==0){
@@ -1900,6 +1917,126 @@ export default {
          });
       }
     },
+    // tableDown(num){
+    //   this.cdt.isBatch = num;
+    //
+    //   if(this.tableData.length==0){
+    //     this.$message({
+    //       message: '表格数据为空！',
+    //       type: 'warning'
+    //     });
+    //     return;
+    //   }
+    //
+    //     if(this.tableList.length==0){//全部导出
+    //       if(this.totalResult>10000){//总数大于10000条
+    //         var tableCurrent = 1;
+    //         var time;
+    //         let that = this;
+    //         while(10000*tableCurrent<that.totalResult){
+    //           tableCurrent++;
+    //           // console.log('currentPage',tableCurrent);
+    //           if(tableCurrent==1){
+    //             // console.log('currentPage1',tableCurrent);
+    //             time=setTimeout(function(){
+    //               that.$confirm('最多只能导出10000条,是否继续?','提示',{
+    //                 confirmButtonText: '确定',
+    //                 cancelButtonText: '取消',
+    //                 type: 'warning'
+    //               }).then(() => {
+    //                   console.log('currentPage1',tableCurrent);
+    //                   axios({
+    //                      method: 'post',
+    //                      url: 'http://192.168.99.234:8080/manage-platform/iapiHead/exportFileIo/4/iapiHead/10000',
+    //                      // url: that.$api.rootUrl+"/manage-platform/iapiHead/exportFileIo/4/iapiHead/10000",
+    //                      data: {
+    //                          "exclTitles": that.checkList,
+    //                          "cdt":that.batchFlag==1?that.cdt1:that.cdt,
+    //                          "currentPage":tableCurrent
+    //                          // "isBatch":num,
+    //                      },
+    //                      responseType: 'blob'
+    //                      }).then(response => {
+    //                          that.downloadM(response);
+    //                      });
+    //               }).catch(() => {
+    //                 that.$message({
+    //                   type: 'info',
+    //                   message: '已取消删除'
+    //                 });
+    //               });
+    //             },10)
+    //
+    //           }
+    //           else{
+    //             time=setTimeout(function(){
+    //               that.$confirm('数据还未导完,是否继续?','提示',{
+    //                 confirmButtonText: '确定',
+    //                 cancelButtonText: '取消',
+    //                 type: 'warning'
+    //               }).then(() => {
+    //                   console.log('currentPage',tableCurrent);
+    //                   axios({
+    //                    method: 'post',
+    //                    url: 'http://192.168.99.234:8080/manage-platform/iapiHead/exportFileIo/4/iapiHead/10000',
+    //                    // url: that.$api.rootUrl+"/manage-platform/iapiHead/exportFileIo/4/iapiHead/10000",
+    //                    data: {
+    //                        "exclTitles": that.checkList,
+    //                        "cdt":that.batchFlag==1?that.cdt1:that.cdt,
+    //                        "currentPage":tableCurrent
+    //                        // "isBatch":num,
+    //                    },
+    //                    responseType: 'blob'
+    //                    }).then(response => {
+    //                        that.downloadM(response)
+    //                    });
+    //               }).catch(() => {
+    //                 that.$message({
+    //                   type: 'info',
+    //                   message: '已取消删除'
+    //                 });
+    //
+    //               });
+    //             },20)
+    //
+    //           }
+    //
+    //         }
+    //       }else{//总数小于10000条
+    //         axios({
+    //          method: 'post',
+    //          // url: 'http://192.168.99.234:8080/manage-platform/iapiHead/exportFileIo/4/iapiHead/10000',
+    //          url: this.$api.rootUrl+"/manage-platform/iapiHead/exportFileIo/4/iapiHead/10000",
+    //          data: {
+    //              "exclTitles": this.checkList,
+    //              "cdt":this.batchFlag==1?this.cdt1:this.cdt,
+    //              // "isBatch":num,
+    //          },
+    //          responseType: 'blob'
+    //          }).then(response => {
+    //              console.log(response);
+    //              this.downloadM(response)
+    //          });
+    //       }
+    //     }else if(this.tableList.length!=0){//选择性导出
+    //       axios({
+    //        method: 'post',
+    //        // url: 'http://192.168.99.234:8080/manage-platform/iapiHead/exportCheckColDataIo/4',
+    //        url: this.$api.rootUrl+"/manage-platform/iapiHead/exportCheckColDataIo/4",
+    //        data: {
+    //            "exclTitles": this.checkList,
+    //            "resultList":this.tableList,
+    //            // "isBatch":num,
+    //        },
+    //        responseType: 'blob'
+    //        }).then(response => {
+    //            console.log(response);
+    //            this.downloadM(response)
+    //        });
+    //     }
+    //
+    //
+    // },
     downloadM (data,type) {
         if (!data) {
             return

@@ -589,7 +589,7 @@ export default {
       this.getList(this.CurrentPage,this.pageSize,this.cdt,this.order,this.direction);
     },
     applicationMethod(val){//航空公司
-      this.$api.post('/manage-platform/codeTable/queryAircompanyListByFlttype',{'flighttype':val},
+      this.$api.post('/manage-platform/codeTable/queryAircompanyListByFlttype',{},
        r =>{
          if(r.success){
            this.application = r.data;
@@ -881,7 +881,7 @@ export default {
              this.eform.typeStr = r.data.typeStr;
              this.eform.flighttype = r.data.flighttype;
              this.eform.createtimeStr = r.data.createtimeStr;
-
+             this.eform.content = r.data.content;
              if(r.data.hasOwnProperty('aircompanyList')){
                this.eform.aircompanyList = r.data.aircompanyList;
                console.log()
