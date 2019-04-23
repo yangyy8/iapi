@@ -774,7 +774,7 @@
                     prop="cert_no">
                     <template slot-scope="scope">
                       <!--<span class="tc-b hand" @click="moreFn('box6',scope.row)">{{scope.row.cert_no}}</span>-->
-                      <span class="tc-b hand" @click="moreFn('box6',scope.row)">123456</span>
+                      <span class="tc-b hand" @click="moreFn('box6',scope.row)">{{scope.row.cert_no}}</span>
                     </template>
                   </el-table-column>
                   <el-table-column
