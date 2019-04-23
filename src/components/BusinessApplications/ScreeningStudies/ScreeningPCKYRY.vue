@@ -584,8 +584,6 @@ export default {
         });
         return false
       };
-
-
       let p = {
         "currentPage": currentPage,
         "showCount": showCount,
