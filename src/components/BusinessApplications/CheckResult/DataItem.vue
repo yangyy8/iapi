@@ -323,7 +323,7 @@
       <el-row type="flex"  class="mb-15">
         <el-col :span="8">证件号码：{{dform.passportNo}}</el-col>
         <el-col :span="8">航班号：{{dform.flightNo}}</el-col>
-        <el-col :span="8">{{form.thanFieldNameDesc}}：{{dform.passportExpireDate}}</el-col>
+        <el-col :span="8">证件有效期：{{dform.passportExpireDate}}</el-col>
 
       </el-row>
       <el-row type="flex"  class="mb-15">
