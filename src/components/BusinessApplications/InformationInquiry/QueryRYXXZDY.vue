@@ -1787,7 +1787,7 @@
         <el-row type="flex"  class="t-detail">
           <el-col :span="8" class="t-el-content"><div class="t-el-text">是否订票：</div><div class="t-el-sub">{{dform.PNRFLAG==1?'是':'否'}}</div></el-col>
           <el-col :span="8" class="t-el-content"><div class="t-el-text">是否值机：</div><div class="t-el-sub">{{dform.CHKFLAG==1?'是':'否'}}</div></el-col>
-          <el-col :span="8" class="t-el-content"><div class="t-el-text">航班是否关闭：</div><div class="t-el-sub">{{dform.CLSFLAG==1?'是':'否'}}</div></el-col>
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">是否登机：</div><div class="t-el-sub">{{dform.CLSFLAG==1?'是':'否'}}</div></el-col>
         </el-row>
         <el-row type="flex"  class="t-detail">
           <el-col :span="8" class="t-el-content"><div class="t-el-text">是否报警：</div><div class="t-el-sub">{{dform.ISEVENT}}</div></el-col>
@@ -2374,7 +2374,7 @@ export default {
         return '是'
       }else {
         return val
-      }
+      }tab
     }
   },
   methods:{
@@ -3154,12 +3154,19 @@ export default {
     },
     tableDown(){
       if(this.bigBase==7){
+        if(this.tableData.length==0){
+          this.$message({
+            message: '表格数据为空！',
+            type: 'warning'
+          });
+          return;
+        }
         if(this.selfTableList.length==0){
           this.selfD.exclTitles = this.checkList;
           axios({
            method: 'post',
-           // url: 'http://192.168.99.248:8081/manage-platform/iapiHead/exportCustomFileIo/7/600',
-           url: this.$api.rootUrl+"/manage-platform/iapiHead/exportCustomFileIo/7/600",
+           // url: 'http://192.168.99.234:8080/manage-platform/iapiHead/exportCustomFileIo/7/10000',
+           url: this.$api.rootUrl+"/manage-platform/iapiHead/exportCustomFileIo/7/10000",
            data: {
              'exclTitles':this.checkList,
              'cdt':this.str,
@@ -3171,7 +3178,7 @@ export default {
         }else if(this.selfTableList.length!=0){
           axios({
            method: 'post',
-           // url: 'http://192.168.99.248:8081/manage-platform/iapiHead/exportCheckColDataIo/7',
+           // url: 'http://192.168.99.234:8080/manage-platform/iapiHead/exportCheckColDataIo/7',
            url: this.$api.rootUrl+"/manage-platform/iapiHead/exportCheckColDataIo/7",
            data: {
              'exclTitles':this.checkList,
@@ -3184,6 +3191,13 @@ export default {
         }
 
       }else if(this.bigBase==8){
+        if(this.tableDataPnr.length==0){
+          this.$message({
+            message: '表格数据为空！',
+            type: 'warning'
+          });
+          return;
+        }
         if(this.selfTableListPnr.length!=0){
           axios({
            method: 'post',

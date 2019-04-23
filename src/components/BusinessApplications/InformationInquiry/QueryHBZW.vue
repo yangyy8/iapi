@@ -677,10 +677,10 @@ export default {
       let ghl = {
         "currentPage":hcurrentPage,
       	"showCount":hshowCount,
-      	"cdt":historyCdt
+      	"pd":historyCdt
       };
       // this.historyBased();
-      this.$api.post('/manage-platform/pnr/queryPnrHistory',ghl,
+      this.$api.post('/manage-platform/iapiUnscolicited/queryHistory',ghl,
       r =>{
         this.detailstableData = r.data.resultList;
         this.htotalResult = r.data.totalResult;
@@ -771,6 +771,8 @@ export default {
     // },
     details(i) {
       this.detailsDialogVisible = true;
+      this.historyCdt.NATIONALITY = i.nationality;
+      this.historyCdt.PASSPORTNO = i.cardnum;
       this.historyCdt.nationalityEqual = i.nationality;
       this.historyCdt.passportnoEqual = i.cardnum;
       console.log(i);
