@@ -819,9 +819,10 @@ export default {
     let end = new Date();
     let begin = new Date(time - 1000 * 60 * 60 * 24 * 14);
     let flightStart = new Date(new Date().setHours(0,0,0,0));
+    let flightEnd = new Date(new Date(new Date().toLocaleDateString()).getTime()+24*60*60*1000-1);
     this.pd.STARTTIME = formatDate(flightStart, 'yyyyMMddhhmm');
     this.datenow = formatDate(begin, 'yyyy-MM-dd');
-    this.pd.ENDTIME = formatDate(end, 'yyyyMMddhhmm');
+    this.pd.ENDTIME = formatDate(flightEnd, 'yyyyMMddhhmm');
   },
   activated() {
     this.nav1Id=this.$route.query.nav1Id;
