@@ -2388,7 +2388,7 @@ export default {
     getCRCCNumInfo(){
       let p={
         // "nationality":this.nationality,
-        "passportno":this.idcard,
+        "passportno":this.idcard||this.data0.PASSPORTNO,
       }
       this.$api.post('/manage-platform/riskRecordExtInterfaceController/getCRCCNumInfo',p,
        r => {
