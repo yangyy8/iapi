@@ -88,6 +88,7 @@
                 label="计划起飞时间" sortable>
               </el-table-column>
               <el-table-column
+                prop="passportno"
                 label="证件号码" sortable>
                 <template slot-scope="scope">
                    <el-button type="text" size="small" @click="$router.push({name:'QueryRYXX',query:{row:scope.row,page:1,title:'人员信息查询',name:'信息查询'}})">{{scope.row.passportno}}</el-button>
@@ -205,6 +206,7 @@
                 label="计划起飞时间" sortable>
               </el-table-column>
               <el-table-column
+                prop="passportno"
                 label="证件号码" sortable>
                 <template slot-scope="scope">
                    <el-button type="text" size="small" @click="$router.push({name:'QueryRYXX',query:{row:scope.row,page:1,title:'人员信息查询',name:'信息查询'}})">{{scope.row.passportno}}</el-button>
@@ -319,6 +321,7 @@
                 label="计划起飞时间" sortable>
               </el-table-column>
               <el-table-column
+                 prop="passportno"
                 label="证件号码" sortable>
                 <template slot-scope="scope">
                    <el-button type="text" size="small" @click="$router.push({name:'QueryRYXX',query:{row:scope.row,page:1,title:'人员信息查询',name:'信息查询'}})">{{scope.row.passportno}}</el-button>
@@ -435,6 +438,7 @@
                 label="计划起飞时间" sortable>
               </el-table-column>
               <el-table-column
+                prop="passportno"
                 label="证件号码" sortable>
                 <template slot-scope="scope">
                    <el-button type="text" size="small" @click="$router.push({name:'QueryRYXX',query:{row:scope.row,page:1,title:'人员信息查询',name:'信息查询'}})">{{scope.row.passportno}}</el-button>
@@ -741,6 +745,7 @@ export default {
     sortChange3(column, prop, order) {
       column.order == 'ascending' ? this.direction3 = 1 : this.direction3 = 0;
       this.order3 = column.prop;
+      console.log('this.order3',this.order3);
       this.getList3(this.CurrentPage3, this.pageSize3, this.pd3, this.order3, this.direction3);
     },
 
