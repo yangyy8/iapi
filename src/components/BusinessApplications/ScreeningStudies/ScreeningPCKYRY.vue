@@ -68,8 +68,6 @@
               <el-button type="success" size="small" @click="getList(CurrentPage,pageSize,pd)">查询</el-button>
             </el-col>
           </el-row>
-
-
             <el-table
               :data="tableData"
               border
