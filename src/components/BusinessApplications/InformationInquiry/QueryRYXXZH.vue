@@ -22,7 +22,7 @@
             </el-col>
             <el-dialog title="国籍选择" :visible.sync="modelDialogVisible" width="640px" :before-close="cancelModel">
               <el-input
-                placeholder="输入模型关键字进行过滤"
+                placeholder="输入国籍关键字进行过滤"
                 v-model="filterText">
               </el-input>
               <el-tree
@@ -687,11 +687,22 @@
           v-if="checkList.indexOf(checkItem[32].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
-          prop="PNR_RCI"
+          prop="RECORDLOCATER"
           label="旅客订票号"
           min-width="150"
           sortable='custom'
           v-if="checkList.indexOf(checkItem[33].ITEMNAME)>-1">
+          <template slot-scope="scope">
+            <!-- 带 * nameIsEqual=true-->
+            <el-popover
+              placement="top-start"
+              trigger="hover"
+              :content="scope.row.PNR_RCI ==undefined||scope.row.PNR_RCI==''?'暂无数据':''+scope.row.PNR_RCI"
+              :disabled="!scope.row.pnrRciIsEqual"
+              popper-class="maxWidth">
+              <span slot="reference">{{scope.row.RECORDLOCATER}}<span v-if="scope.row.pnrRciIsEqual" class="cellColor">*</span></span>
+            </el-popover>
+          </template>
         </el-table-column>
         <el-table-column
           prop="APPLICATIONSENDERIDNAME"
@@ -1107,7 +1118,7 @@ export default {
           LABEL:'舱位',
         },
         {
-          ITEMNAME:'PNR_RCI',
+          ITEMNAME:'RECORDLOCATER',
           LABEL:'旅客订票号',
         },
         {
@@ -1163,6 +1174,7 @@ export default {
       pd:{},
       isIndeterminate: true,
       checkAll: false,
+      tableCurrent:0,
     }
   },
   watch:{
@@ -1500,6 +1512,7 @@ export default {
          return
        }
       this.$refs.upload.submit();
+      this.tableCurrent = 0;
      // this.uploadDialogVisible=false;
     },
     //==============================================详情=========================================================
@@ -1774,6 +1787,7 @@ export default {
       }
     },
     reset(){
+      this.tableCurrent = 0;
       this.cdt={isBlurred:false,startFltdate:'',endFltdate:'',};
       this.ssss='';
       this.tableData=[];
@@ -1832,94 +1846,8 @@ export default {
         this.tableDown()
       }
     },
-    forTable(tableCurrent){
-      axios({
-       method: 'post',
-       url: 'http://192.168.99.234:8080/manage-platform/iapiHead/exportFileIo/4/iapiHead/10000',
-       // url: this.$api.rootUrl+"/manage-platform/iapiHead/exportFileIo/4/iapiHead/10000",
-       data: {
-           "exclTitles": this.checkList,
-           "cdt":this.batchFlag==1?this.cdt1:this.cdt,
-           "currentPage":tableCurrent
-           // "isBatch":num,
-       },
-       responseType: 'blob'
-       }).then(response => {
-           this.downloadM(response)
-       });
-
-    },
-    tableDown(num){
-      this.cdt.isBatch = num;
-      if(this.tableData.length==0){
-        this.$message({
-          message: '表格数据为空！',
-          type: 'warning'
-        });
-        return;
-      }
-      if(this.tableList.length==0){
-        if(this.totalResult>10000){
-          this.$confirm('最多只能导出10000条,是否继续?','提示',{
-            confirmButtonText: '确定',
-            cancelButtonText: '取消',
-            type: 'warning'
-          }).then(() => {
-            axios({
-             method: 'post',
-             // url: 'http://192.168.99.234:8080/manage-platform/iapiHead/exportFileIo/4/iapiHead/10000',
-             url: this.$api.rootUrl+"/manage-platform/iapiHead/exportFileIo/4/iapiHead/10000",
-             data: {
-                 "exclTitles": this.checkList,
-                 "cdt":this.batchFlag==1?this.cdt1:this.cdt,
-                 // "isBatch":num,
-             },
-             responseType: 'blob'
-             }).then(response => {
-                 this.downloadM(response)
-             });
-          }).catch(() => {
-            this.$message({
-              type: 'info',
-              message: '已取消删除'
-            });
-          });
-        }else{
-          axios({
-           method: 'post',
-           // url: 'http://192.168.99.234:8080/manage-platform/iapiHead/exportFileIo/4/iapiHead/10000',
-           url: this.$api.rootUrl+"/manage-platform/iapiHead/exportFileIo/4/iapiHead/10000",
-           data: {
-               "exclTitles": this.checkList,
-               "cdt":this.batchFlag==1?this.cdt1:this.cdt,
-               // "isBatch":num,
-           },
-           responseType: 'blob'
-           }).then(response => {
-               console.log(response);
-               this.downloadM(response)
-           });
-        }
-      }else if(this.tableList.length!=0){
-        axios({
-         method: 'post',
-         // url: 'http://192.168.99.234:8080/manage-platform/iapiHead/exportCheckColDataIo/4',
-         url: this.$api.rootUrl+"/manage-platform/iapiHead/exportCheckColDataIo/4",
-         data: {
-             "exclTitles": this.checkList,
-             "resultList":this.tableList,
-             // "isBatch":num,
-         },
-         responseType: 'blob'
-         }).then(response => {
-             console.log(response);
-             this.downloadM(response)
-         });
-      }
-    },
     // tableDown(num){
     //   this.cdt.isBatch = num;
-    //
     //   if(this.tableData.length==0){
     //     this.$message({
     //       message: '表格数据为空！',
@@ -1927,82 +1855,13 @@ export default {
     //     });
     //     return;
     //   }
-    //
-    //     if(this.tableList.length==0){//全部导出
-    //       if(this.totalResult>10000){//总数大于10000条
-    //         var tableCurrent = 1;
-    //         var time;
-    //         let that = this;
-    //         while(10000*tableCurrent<that.totalResult){
-    //           tableCurrent++;
-    //           // console.log('currentPage',tableCurrent);
-    //           if(tableCurrent==1){
-    //             // console.log('currentPage1',tableCurrent);
-    //             time=setTimeout(function(){
-    //               that.$confirm('最多只能导出10000条,是否继续?','提示',{
-    //                 confirmButtonText: '确定',
-    //                 cancelButtonText: '取消',
-    //                 type: 'warning'
-    //               }).then(() => {
-    //                   console.log('currentPage1',tableCurrent);
-    //                   axios({
-    //                      method: 'post',
-    //                      url: 'http://192.168.99.234:8080/manage-platform/iapiHead/exportFileIo/4/iapiHead/10000',
-    //                      // url: that.$api.rootUrl+"/manage-platform/iapiHead/exportFileIo/4/iapiHead/10000",
-    //                      data: {
-    //                          "exclTitles": that.checkList,
-    //                          "cdt":that.batchFlag==1?that.cdt1:that.cdt,
-    //                          "currentPage":tableCurrent
-    //                          // "isBatch":num,
-    //                      },
-    //                      responseType: 'blob'
-    //                      }).then(response => {
-    //                          that.downloadM(response);
-    //                      });
-    //               }).catch(() => {
-    //                 that.$message({
-    //                   type: 'info',
-    //                   message: '已取消删除'
-    //                 });
-    //               });
-    //             },10)
-    //
-    //           }
-    //           else{
-    //             time=setTimeout(function(){
-    //               that.$confirm('数据还未导完,是否继续?','提示',{
-    //                 confirmButtonText: '确定',
-    //                 cancelButtonText: '取消',
-    //                 type: 'warning'
-    //               }).then(() => {
-    //                   console.log('currentPage',tableCurrent);
-    //                   axios({
-    //                    method: 'post',
-    //                    url: 'http://192.168.99.234:8080/manage-platform/iapiHead/exportFileIo/4/iapiHead/10000',
-    //                    // url: that.$api.rootUrl+"/manage-platform/iapiHead/exportFileIo/4/iapiHead/10000",
-    //                    data: {
-    //                        "exclTitles": that.checkList,
-    //                        "cdt":that.batchFlag==1?that.cdt1:that.cdt,
-    //                        "currentPage":tableCurrent
-    //                        // "isBatch":num,
-    //                    },
-    //                    responseType: 'blob'
-    //                    }).then(response => {
-    //                        that.downloadM(response)
-    //                    });
-    //               }).catch(() => {
-    //                 that.$message({
-    //                   type: 'info',
-    //                   message: '已取消删除'
-    //                 });
-    //
-    //               });
-    //             },20)
-    //
-    //           }
-    //
-    //         }
-    //       }else{//总数小于10000条
+    //   if(this.tableList.length==0){
+    //     if(this.totalResult>10000){
+    //       this.$confirm('最多只能导出10000条,是否继续?','提示',{
+    //         confirmButtonText: '确定',
+    //         cancelButtonText: '取消',
+    //         type: 'warning'
+    //       }).then(() => {
     //         axios({
     //          method: 'post',
     //          // url: 'http://192.168.99.234:8080/manage-platform/iapiHead/exportFileIo/4/iapiHead/10000',
@@ -2014,18 +1873,22 @@ export default {
     //          },
     //          responseType: 'blob'
     //          }).then(response => {
-    //              console.log(response);
     //              this.downloadM(response)
     //          });
-    //       }
-    //     }else if(this.tableList.length!=0){//选择性导出
+    //       }).catch(() => {
+    //         this.$message({
+    //           type: 'info',
+    //           message: '已取消删除'
+    //         });
+    //       });
+    //     }else{
     //       axios({
     //        method: 'post',
-    //        // url: 'http://192.168.99.234:8080/manage-platform/iapiHead/exportCheckColDataIo/4',
-    //        url: this.$api.rootUrl+"/manage-platform/iapiHead/exportCheckColDataIo/4",
+    //        // url: 'http://192.168.99.234:8080/manage-platform/iapiHead/exportFileIo/4/iapiHead/10000',
+    //        url: this.$api.rootUrl+"/manage-platform/iapiHead/exportFileIo/4/iapiHead/10000",
     //        data: {
     //            "exclTitles": this.checkList,
-    //            "resultList":this.tableList,
+    //            "cdt":this.batchFlag==1?this.cdt1:this.cdt,
     //            // "isBatch":num,
     //        },
     //        responseType: 'blob'
@@ -2034,9 +1897,112 @@ export default {
     //            this.downloadM(response)
     //        });
     //     }
-    //
-    //
+    //   }else if(this.tableList.length!=0){
+    //     axios({
+    //      method: 'post',
+    //      // url: 'http://192.168.99.234:8080/manage-platform/iapiHead/exportCheckColDataIo/4',
+    //      url: this.$api.rootUrl+"/manage-platform/iapiHead/exportCheckColDataIo/4",
+    //      data: {
+    //          "exclTitles": this.checkList,
+    //          "resultList":this.tableList,
+    //          // "isBatch":num,
+    //      },
+    //      responseType: 'blob'
+    //      }).then(response => {
+    //          console.log(response);
+    //          this.downloadM(response)
+    //      });
+    //   }
     // },
+    tableDown(num){
+      this.cdt.isBatch = num;
+      if(this.tableData.length==0){
+        this.$message({
+          message: '表格数据为空！',
+          type: 'warning'
+        });
+        return;
+      }
+
+      if(this.tableList.length==0){//全部导出
+        if(this.totalResult>10000){//总数大于10000条
+          if(10000*this.tableCurrent<this.totalResult){
+            this.tableCurrent++;
+          }else{
+            this.$alert('已导出全部数据', '提示', {
+              confirmButtonText: '确定',
+              callback: action => {
+                this.tableCurrent = 0;
+              }
+            });
+            return
+          }
+          let that = this;
+          if(that.tableCurrent==1){
+            that.$confirm('最多只能导出10000条,是否继续?','提示',{
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              type: 'warning'
+            }).then(() => {
+                let p={
+                  "exclTitles": that.checkList,
+                  "cdt":that.batchFlag==1?that.cdt1:that.cdt,
+                  "currentPage":that.tableCurrent
+                }
+                that.$api.post('/manage-platform/iapiHead/exportFileIo/4/iapiHead/10000',p,
+                 r =>{
+                   that.downloadM(r);
+                   setTimeout(function(){
+                     that.$alert('点击导出按钮可继续导出数据', '提示', {
+                       confirmButtonText: '确定',
+                     });
+                   },1000)
+                 },e=>{},'','blob')
+            }).catch(() => {
+              that.$message({
+                type: 'info',
+                message: '已取消导出'
+              });
+            });
+          }else{
+            let pp={
+              "exclTitles": that.checkList,
+              "cdt":that.batchFlag==1?that.cdt1:that.cdt,
+              "currentPage":that.tableCurrent
+            }
+            that.$api.post('/manage-platform/iapiHead/exportFileIo/4/iapiHead/10000',pp,
+             r =>{
+               that.downloadM(r);
+               setTimeout(function(){
+                 that.$alert('点击按钮可继续导出数据', '提示', {
+                   confirmButtonText: '确定',
+                 });
+               },1000)
+             },e=>{},'','blob')
+          }
+        }else{//总数小于10000条
+          let p={
+            "exclTitles": this.checkList,
+            "cdt":this.batchFlag==1?this.cdt1:this.cdt,
+            "currentPage":1
+          }
+          this.$api.post('/manage-platform/iapiHead/exportFileIo/4/iapiHead/10000',p,
+          r =>{
+            this.downloadM(r)
+          },e=>{},'','blob')
+        }
+      }else if(this.tableList.length!=0){//选择性导出
+        let p={
+          "exclTitles": this.checkList,
+          "resultList":this.tableList,
+          "currentPage":1
+        }
+        this.$api.post('/manage-platform/iapiHead/exportCheckColDataIo/4',p,
+        r =>{
+          this.downloadM(r)
+        },e=>{},'','blob')
+      }
+    },
     downloadM (data,type) {
         if (!data) {
             return
