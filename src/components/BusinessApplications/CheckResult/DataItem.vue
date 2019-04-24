@@ -323,7 +323,7 @@
       <el-row type="flex"  class="mb-15">
         <el-col :span="8">证件号码：{{dform.passportNo}}</el-col>
         <el-col :span="8">航班号：{{dform.flightNo}}</el-col>
-        <el-col :span="8">{{form.thanFieldNameDesc}}：{{dform.passportExpireDate}}</el-col>
+        <el-col :span="8">证件有效期：{{dform.passportExpireDate}}</el-col>
 
       </el-row>
       <el-row type="flex"  class="mb-15">
@@ -419,8 +419,9 @@ export default {
     let end = new Date();
     let begin = new Date(time - 1000 * 60 * 60 * 24 * 30);
     let flightStart = new Date(new Date().setHours(0,0,0,0));
+    let flightEnd = new Date(new Date(new Date().toLocaleDateString()).getTime()+24*60*60*1000-1);
     this.pd.dataCheckBeginTime = formatDate(flightStart, 'yyyyMMddhhssmm');
-    this.pd.dataCheckEndTime = formatDate(end, 'yyyyMMddhhssmm');
+    this.pd.dataCheckEndTime = formatDate(flightEnd, 'yyyyMMddhhssmm');
   },
   activated() {
     this.queryAirport("","A");

@@ -236,11 +236,11 @@
                     <span>自动计算信息</span>
                   </div>
                   <el-row class="middle-msg-row2" :gutter="2">
-                    <el-col :span="6" v-for="(c1,ind) in box3Data.autoTargetInfo" :key="ind" v-if="ind<size.size301">
-                      <el-tooltip effect="light" :content="c1.TARGET_NAME" placement="top-start" v-if="c1.TARGET_NAME">
+                    <el-col :span="12" v-for="(c1,ind) in box3Data.autoTargetInfo" :key="ind" v-if="ind<size.size301">
+                      <!-- <el-tooltip effect="light" :content="c1.TARGET_NAME" placement="top-start" v-if="c1.TARGET_NAME">
                         <span class="msg-t" :class="{'tc-999':!c1.TARGET_VALUE,'redx':c1.ISHIT==1}">{{c1.TARGET_NAME}}</span>
-                      </el-tooltip>
-                      <span class="msg-t" :class="{'tc-999':!c1.TARGET_VALUE,'redx':c1.ISHIT==1}" v-else>{{c1.TARGET_NAME}}</span>
+                      </el-tooltip> -->
+                      <span class="msg-t" :class="{'tc-999':!c1.TARGET_VALUE,'redx':c1.ISHIT==1}">{{c1.TARGET_NAME}}</span>
                       :
                       <el-tooltip effect="light" :content="c1.TARGET_VALUE" placement="top-start" v-if="c1.TARGET_VALUE">
                         <span class="msg-text" :class="{'tc-999':!c1.TARGET_VALUE,'redx':c1.ISHIT==1}">{{c1.TARGET_VALUE}}</span>
@@ -260,11 +260,11 @@
                     <span>手动计算信息</span>
                   </div>
                   <el-row class="middle-msg-row2" :gutter="2">
-                    <el-col :span="6" v-for="(c2,ind) in box3Data.manualTargetInfo" :key="ind"  v-if="ind<size.size302">
-                      <el-tooltip effect="light" :content="c2.TARGET_NAME" placement="top-start" v-if="c2.TARGET_NAME">
+                    <el-col :span="12" v-for="(c2,ind) in box3Data.manualTargetInfo" :key="ind"  v-if="ind<size.size302">
+                      <!-- <el-tooltip effect="light" :content="c2.TARGET_NAME" placement="top-start" v-if="c2.TARGET_NAME">
                         <span class="msg-t" :class="{'tc-999':!c2.TARGET_VALUE,'redx':c2.ISHIT==1}">{{c2.TARGET_NAME}}</span>
-                      </el-tooltip>
-                      <span class="msg-t" :class="{'tc-999':!c2.TARGET_VALUE,'redx':c2.ISHIT==1}" v-else>{{c2.TARGET_NAME}}</span>
+                      </el-tooltip> -->
+                      <span class="msg-t" :class="{'tc-999':!c2.TARGET_VALUE,'redx':c2.ISHIT==1}">{{c2.TARGET_NAME}}</span>
                       :
                       <el-tooltip effect="light" :content="c2.TARGET_VALUE" placement="top-start" v-if="c2.TARGET_VALUE">
                         <span class="msg-text" :class="{'tc-999':!c2.TARGET_VALUE,'redx':c2.ISHIT==1}">{{c2.TARGET_VALUE}}</span>
@@ -1071,7 +1071,7 @@ export default {
 
   display: inline-block;
   vertical-align: middle;
-  max-width: 35%;
+  /* max-width: 35%; */
   overflow:hidden;
   text-overflow:ellipsis;
   white-space:nowrap
