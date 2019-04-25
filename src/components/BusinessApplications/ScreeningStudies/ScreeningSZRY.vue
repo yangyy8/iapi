@@ -66,12 +66,11 @@
                  </el-col>
               </el-row>
             </el-col>
-            <el-col :span="2" class="down-btn-area" style="margin-top:25px;">
+            <el-col :span="2" class="down-btn-area">
               <el-button type="success" size="small" @click="CurrentPage=1;getList(CurrentPage,pageSize,pd)">查询</el-button>
+              <el-button type="primary" size="small" class="mt-10" @click="download(1)">导出</el-button>
             </el-col>
           </el-row>
-
-
             <el-table
               :data="tableData"
               border
@@ -88,6 +87,7 @@
                 label="计划起飞时间" sortable>
               </el-table-column>
               <el-table-column
+                prop="passportno"
                 label="证件号码" sortable>
                 <template slot-scope="scope">
                    <el-button type="text" size="small" @click="$router.push({name:'QueryRYXX',query:{row:scope.row,page:1,title:'人员信息查询',name:'信息查询'}})">{{scope.row.passportno}}</el-button>
@@ -182,8 +182,9 @@
                  </el-col>
               </el-row>
             </el-col>
-            <el-col :span="2" class="down-btn-area" style="margin-top:25px;">
+            <el-col :span="2" class="down-btn-area">
               <el-button type="success" size="small" @click="CurrentPage1=1;getList1(CurrentPage1,pageSize1,pd1)">查询</el-button>
+              <el-button type="primary" size="small" class="mt-10" @click="download(2)">导出</el-button>
             </el-col>
           </el-row>
 
@@ -205,6 +206,7 @@
                 label="计划起飞时间" sortable>
               </el-table-column>
               <el-table-column
+                prop="passportno"
                 label="证件号码" sortable>
                 <template slot-scope="scope">
                    <el-button type="text" size="small" @click="$router.push({name:'QueryRYXX',query:{row:scope.row,page:1,title:'人员信息查询',name:'信息查询'}})">{{scope.row.passportno}}</el-button>
@@ -299,8 +301,9 @@
                  </el-col>
               </el-row>
             </el-col>
-            <el-col :span="2" class="down-btn-area" style="margin-top:25px;">
+            <el-col :span="2" class="down-btn-area" >
               <el-button type="success" size="small" @click="CurrentPage2=1;getList2(CurrentPage2,pageSize2,pd2)">查询</el-button>
+              <el-button type="primary" size="small" class="mt-10" @click="download(3)">导出</el-button>
             </el-col>
           </el-row>
             <el-table
@@ -319,6 +322,7 @@
                 label="计划起飞时间" sortable>
               </el-table-column>
               <el-table-column
+                 prop="passportno"
                 label="证件号码" sortable>
                 <template slot-scope="scope">
                    <el-button type="text" size="small" @click="$router.push({name:'QueryRYXX',query:{row:scope.row,page:1,title:'人员信息查询',name:'信息查询'}})">{{scope.row.passportno}}</el-button>
@@ -413,8 +417,9 @@
                  </el-col>
               </el-row>
             </el-col>
-            <el-col :span="2" class="down-btn-area" style="margin-top:25px;">
+            <el-col :span="2" class="down-btn-area">
               <el-button type="success" size="small" @click="CurrentPage3=1;getList3(CurrentPage3,pageSize3,pd3)">查询</el-button>
+              <el-button type="primary" size="small" class="mt-10" @click="download(4)">导出</el-button>
             </el-col>
           </el-row>
 
@@ -435,6 +440,7 @@
                 label="计划起飞时间" sortable>
               </el-table-column>
               <el-table-column
+                prop="passportno"
                 label="证件号码" sortable>
                 <template slot-scope="scope">
                    <el-button type="text" size="small" @click="$router.push({name:'QueryRYXX',query:{row:scope.row,page:1,title:'人员信息查询',name:'信息查询'}})">{{scope.row.passportno}}</el-button>
@@ -501,7 +507,7 @@
 </template>
 <script>
 import {
-  formatDate
+  formatDate,format
 } from '@/assets/js/date.js'
 import {
   dayGap
@@ -567,7 +573,7 @@ export default {
       pickerOptions1: {
         disabledDate: (time) => {
           if (this.pd.endtime != null) {
-            let startT = formatDate(new Date(time.getTime() - 1), 'yyyyMMddhhmmss');
+            let startT = formatDate(new Date(time.getTime()-1), 'yyyyMMddhhmmss');
             return startT > this.pd.endtime;
           } else if (this.pd.endtime == null) {
             return false
@@ -583,7 +589,7 @@ export default {
       pickerOptions3: {
         disabledDate: (time) => {
           if (this.pd1.endtime != null) {
-            let startT = formatDate(new Date(time.getTime() - 1), 'yyyyMMddhhmmss');
+            let startT = formatDate(new Date(time.getTime()-1), 'yyyyMMddhhmmss');
             return startT > this.pd1.endtime;
           } else if (this.pd1.endtime == null) {
             return false
@@ -599,7 +605,7 @@ export default {
       pickerOptions5: {
         disabledDate: (time) => {
           if (this.pd2.endtime != null) {
-            let startT = formatDate(new Date(time.getTime() - 1), 'yyyyMMddhhmmss');
+            let startT = formatDate(new Date(time.getTime()-1), 'yyyyMMddhhmmss');
             return startT > this.pd2.endtime;
           } else if (this.pd2.endtime == null) {
             return false
@@ -615,7 +621,7 @@ export default {
       pickerOptions7: {
         disabledDate: (time) => {
           if (this.pd3.endtime != null) {
-            let startT = formatDate(new Date(time.getTime() - 1), 'yyyyMMddhhmmss');
+            let startT = formatDate(new Date(time.getTime()-1), 'yyyyMMddhhmmss');
             return startT > this.pd3.endtime;
           } else if (this.pd3.endtime == null) {
             return false
@@ -637,11 +643,11 @@ export default {
     let beginz = new Date(time - 1000 * 60 * 60 * 24 * 30);
     this.pd.begintime = formatDate(endz, 'yyyyMMdd');
     this.pd.endtime = formatDate(endz, 'yyyyMMdd');
-    this.pd1.begintime = formatDate(beginz, 'yyyyMMdd');
+    this.pd1.begintime = formatDate(endz, 'yyyyMMdd');
     this.pd1.endtime = formatDate(endz, 'yyyyMMdd');
-    this.pd2.begintime = formatDate(beginz, 'yyyyMMdd');
+    this.pd2.begintime = formatDate(endz, 'yyyyMMdd');
     this.pd2.endtime = formatDate(endz, 'yyyyMMdd');
-    this.pd3.begintime = formatDate(beginz, 'yyyyMMdd');
+    this.pd3.begintime = formatDate(endz, 'yyyyMMdd');
     this.pd3.endtime = formatDate(endz, 'yyyyMMdd');
   },
   activated() {
@@ -741,6 +747,7 @@ export default {
     sortChange3(column, prop, order) {
       column.order == 'ascending' ? this.direction3 = 1 : this.direction3 = 0;
       this.order3 = column.prop;
+      console.log('this.order3',this.order3);
       this.getList3(this.CurrentPage3, this.pageSize3, this.pd3, this.order3, this.direction3);
     },
 
@@ -874,6 +881,48 @@ export default {
           this.tableData3 = r.data.resultList;
           this.TotalResult3 = r.data.totalResult;
         })
+    },
+    download(t) {
+  var url ="";
+  if(t==1){
+    url = this.$api.rootUrl + "/manage-platform/SuspectPerson/exp_bk_nochk";
+  }else if(t==2){
+    url = this.$api.rootUrl + "/manage-platform/SuspectPerson/exp_chk_nobrd";
+  }
+  else if(t==3){
+    url = this.$api.rootUrl + "/manage-platform/SuspectPerson/exp_brd_noee";
+  }
+  else if(t==4){
+    url = this.$api.rootUrl + "/manage-platform/SuspectPerson/exp_ee_nobrd";
+  }
+
+
+      axios({
+        method: 'post',
+        url: url,
+        data: {
+          "begintime": this.pd.begintime,
+          "endtime": this.pd.endtime,
+        },
+        responseType: 'blob'
+      }).then(response => {
+        this.downloadM(response)
+      });
+    },
+    downloadM(data) {
+      if (!data) {
+        return
+      }
+
+      let url = window.URL.createObjectURL(new Blob([data.data], {
+        type: "application/octet-stream"
+      }))
+      let link = document.createElement('a')
+      link.style.display = 'none'
+      link.href = url
+      link.setAttribute('download', 'szry' + format(new Date(), 'yyyyMMddhhmmss') + '.xlsx')
+      document.body.appendChild(link)
+      link.click()
     },
   }
 }

@@ -64,12 +64,11 @@
                   </el-col>
               </el-row>
             </el-col>
-            <el-col :span="2" class="down-btn-area" style="margin-top:25px;">
+            <el-col :span="2" class="down-btn-area">
               <el-button type="success" size="small" @click="getList(CurrentPage,pageSize,pd)">查询</el-button>
+              <el-button type="primary" size="small" class="mt-10" @click="download(1)">导出</el-button>
             </el-col>
           </el-row>
-
-
             <el-table
               :data="tableData"
               border
@@ -179,8 +178,9 @@
                   </el-col>
               </el-row>
             </el-col>
-            <el-col :span="2" class="down-btn-area" style="margin-top:25px;">
+            <el-col :span="2" class="down-btn-area">
               <el-button type="success" size="small" @click="getList1(CurrentPage1,pageSize1,pd1)">查询</el-button>
+              <el-button type="primary" size="small" class="mt-10" @click="download(2)">导出</el-button>
             </el-col>
           </el-row>
 
@@ -294,8 +294,9 @@
                   </el-col>
               </el-row>
             </el-col>
-            <el-col :span="2" class="down-btn-area" style="margin-top:25px;">
+            <el-col :span="2" class="down-btn-area">
               <el-button type="success" size="small" @click="getList2(CurrentPage2,pageSize2,pd2)">查询</el-button>
+              <el-button type="primary" size="small" class="mt-10" @click="download(3)">导出</el-button>
             </el-col>
           </el-row>
 
@@ -586,8 +587,6 @@ export default {
         });
         return false
       };
-
-
       let p = {
         "currentPage": currentPage,
         "showCount": showCount,
@@ -652,6 +651,45 @@ export default {
           this.tableData2 = r.data.resultList;
           this.TotalResult2 =r.data.totalResult ;
         })
+    },
+    download(t) {
+        var url ="";
+        if(t==1){
+          url = this.$api.rootUrl + "/manage-platform/SuspectPerson/exp_bk_count";
+        }else if(t==2){
+          url = this.$api.rootUrl + "/manage-platform/SuspectPerson/exp_chk_count";
+        }
+        else if(t==3){
+          url = this.$api.rootUrl + "/manage-platform/SuspectPerson/exp_ee_count";
+        }
+
+
+      axios({
+        method: 'post',
+        url: url,
+        data: {
+          "begintime": this.pd.begintime,
+          "endtime": this.pd.endtime,
+        },
+        responseType: 'blob'
+      }).then(response => {
+        this.downloadM(response)
+      });
+    },
+    downloadM(data) {
+      if (!data) {
+        return
+      }
+
+      let url = window.URL.createObjectURL(new Blob([data.data], {
+        type: "application/octet-stream"
+      }))
+      let link = document.createElement('a')
+      link.style.display = 'none'
+      link.href = url
+      link.setAttribute('download', 'szry' + format(new Date(), 'yyyyMMddhhmmss') + '.xlsx')
+      document.body.appendChild(link)
+      link.click()
     },
 
   }

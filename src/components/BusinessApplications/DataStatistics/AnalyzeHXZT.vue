@@ -28,12 +28,8 @@
              </el-date-picker>
           </div>
             </el-col>
-
-
           </el-row>
-
           <el-row align="center"   :gutter="2" class="yy-line">
-
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                 <span class="input-text"> <span class="spang">境内</span> 城市：</span>
                 <el-select placeholder="请选择" v-model="pd.cityto" filterable clearable size="small"  class="input-input">
@@ -63,18 +59,18 @@
          <el-row align="center"   :gutter="2" class="yy-line">
                        <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                            <span class="input-text"><span class="spang">境外</span>  &emsp;洲：</span>
-                           <el-select placeholder="请选择" v-model="pd.continentfrom" filterable clearable size="small"  class="input-input">
+                           <el-select placeholder="请选择" v-model="pd.continentfrom" filterable clearable size="small" @change="nationality(pd.continentfrom)"  class="input-input">
                              <el-option
                                v-for="(item,ind) in zhouName"
                                :key="ind"
-                               :value="item.code"
+                               :value="item.codeNumber"
                                :label="item.code+' - '+item.name"
                              ></el-option>
                            </el-select>
                        </el-col>
                        <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                            <span class="input-text">国家：</span>
-                           <el-select placeholder="请选择" v-model="pd.countryfrom" filterable clearable size="small"  class="input-input">
+                           <el-select placeholder="请选择" v-model="pd.countryfrom" filterable clearable size="small" @change="cityAble(pd.countryfrom)"  class="input-input">
                              <el-option
                                v-for="(item,ind)  in nation"
                                :key="ind"
@@ -151,7 +147,7 @@
               </el-row>
             <el-table
                   :data="tableData"
-                  :summary-method="getSummaries"
+
                   show-summary
                   border
                   max-height="600"
@@ -271,7 +267,7 @@ export default {
       pickerOptions0: {
         disabledDate: (time) => {
           if (this.pd.endtime != null) {
-            let startT = formatDate(new Date(time.getTime()), 'yyyyMMddhhmmss');
+            let startT = formatDate(new Date(time.getTime()-1), 'yyyyMMddhhmmss');
             return startT > this.pd.endtime;
           } else if (this.pd.endtime == null) {
             return false
@@ -496,6 +492,7 @@ export default {
         r => {
           if (r.success) {
             this.zhouName = r.data;
+
           };
         })
     },
@@ -555,6 +552,37 @@ export default {
             };
           })
       }
+    },
+    nationality(data){//基础查询国籍与洲二级联动
+       this.$set(this.pd,'countryfrom','');
+       this.$set(this.pd,'cityfrom','');
+       this.$set(this.pd,'portfrom','');
+        let arr=this.zhouName;
+        let that=this;
+        for(var i=0;i<arr.length;i++){
+          if(arr[i].codeNumber == data){
+            that.nation=arr[i].countryList;
+          }
+        }
+
+
+    },
+    cityAble(val){
+
+      this.$set(this.pd,'cityfrom','');
+      this.$set(this.pd,'portfrom','');
+          let p = {
+            'countryCode':val
+          }
+          this.$api.post('/manage-platform/codeTable/queryCity',p,
+           r =>{
+             if(r.success){
+
+                 this.gwName = r.data;
+
+             }
+           })
+
     },
     queryNationality() {
       this.$api.post('/manage-platform/codeTable/queryNationality', {},

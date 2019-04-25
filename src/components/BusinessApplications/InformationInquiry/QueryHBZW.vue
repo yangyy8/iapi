@@ -124,9 +124,9 @@
         <!-- <span class="tubiao hand borderL" :class="{'checked':page==0}" @click="page=0;getList(CurrentPage,pageSize,pd)">列表</span><span class="tubiao hand borderR" :class="{'checked':page==1}" @click="qq">图表</span> -->
     <div id="div1" @mouseover="mouseHeader">
       <el-table
+        border
         :data="tableData"
         class="o-table3"
-        border
         @header-click="headerClick"
         @sort-change='sortChange'
         style="width: 100%;">
@@ -401,7 +401,9 @@
         <el-table
           :data="detailstableData"
           border
-          style="width: 100%;">
+          class="o-table3"
+          style="width: 100%;"
+          @header-click="headerClick">
           <el-table-column
             prop="NAME"
             label="姓名" sortable
@@ -682,7 +684,7 @@ export default {
       // this.historyBased();
       this.$api.post('/manage-platform/iapiUnscolicited/queryHistory',ghl,
       r =>{
-        this.detailstableData = r.data.resultList;
+        this.detailstableData = r.data.pdList;
         this.htotalResult = r.data.totalResult;
         this.htotalPage = r.data.totalPage;
       })

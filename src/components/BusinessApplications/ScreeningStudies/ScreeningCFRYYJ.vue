@@ -70,7 +70,11 @@
       </div>
 
     <div class="ak-tab-pane" @mouseover="mouseHeader">
+
         <div v-show="page==0">
+          <el-row class="mb-15 yr">
+            <el-button type="primary" size="small" @click="download(1)">导出</el-button>
+            </el-row>
             <el-table
               :data="tableData"
               border
@@ -157,6 +161,9 @@
             </div>
         </div>
         <div v-show="page==1">
+          <el-row class="mb-15 yr">
+            <el-button type="primary" size="small" @click="download(2)">导出</el-button>
+            </el-row>
                       <el-table
                         :data="tableData1"
                         border
@@ -250,7 +257,7 @@
   </div>
 </template>
 <script>
-import {formatDate} from '@/assets/js/date.js'
+import {formatDate,format} from '@/assets/js/date.js'
 import {dayGap} from '@/assets/js/date.js'
 export default {
   data() {
@@ -462,6 +469,73 @@ export default {
       this.detailsDialogVisible = true;
       console.log(i);
       this.form=i;
+    },
+    download(t) {
+          var url = "";
+          if(t==1){
+            if(this.type=="1" && this.flag=="1"){
+               url = this.$api.rootUrl + "/manage-platform/SuspectPerson/exp_duppsnbycard_offdes";
+            }else if(this.type=="2" && this.flag=="1"){
+               url = this.$api.rootUrl + "/manage-platform/SuspectPerson/exp_duppsnbycard_offsrc";
+            }
+            else if(this.type=="3" && this.flag=="1"){
+              url = this.$api.rootUrl + "/manage-platform/SuspectPerson/exp_duppsnbycard_both";
+            }
+            else if(this.type=="1" && this.flag=="2"){
+            url = this.$api.rootUrl + "/manage-platform/SuspectPerson/exp_duppsnbyname_offdes";
+            }
+            else if(this.type=="2" && this.flag=="2" ){
+               url = this.$api.rootUrl + "/manage-platform/SuspectPerson/exp_duppsnbyname_offsrc";
+            }
+            else if(this.type=="3" && this.flag=="2" ){
+               url = this.$api.rootUrl + "/manage-platform/SuspectPerson/exp_duppsnbyname_both";
+            }
+
+          }else if(t==2){
+            if(this.type=="1" && this.flag=="1"){
+               url = this.$api.rootUrl + "/manage-platform/SuspectPerson/exp_duppsnpnrbycard_offdes";
+            }else if(this.type=="2" && this.flag=="1"){
+               url = this.$api.rootUrl + "/manage-platform/SuspectPerson/exp_duppsnpnrbycard_offsrc";
+            }
+            else if(this.type=="3" && this.flag=="1"){
+              url = this.$api.rootUrl + "/manage-platform/SuspectPerson/exp_duppsnpnrbycard_both";
+            }
+            else if(this.type=="1" && this.flag=="2"){
+            url = this.$api.rootUrl + "/manage-platform/SuspectPerson/exp_duppsnpnrbyname_offdes";
+            }
+            else if(this.type=="2" && this.flag=="2" ){
+               url = this.$api.rootUrl + "/manage-platform/SuspectPerson/exp_duppsnpnrbyname_offsrc";
+            }
+            else if(this.type=="3" && this.flag=="2" ){
+               url = this.$api.rootUrl + "/manage-platform/SuspectPerson/exp_duppsnpnrbyname_both";
+            }
+          }
+      axios({
+        method: 'post',
+        url: url,
+        data: {
+          "begintime": this.pd.begintime,
+          "endtime": this.pd.endtime,
+        },
+        responseType: 'blob'
+      }).then(response => {
+        this.downloadM(response)
+      });
+    },
+    downloadM(data) {
+      if (!data) {
+        return
+      }
+
+      let url = window.URL.createObjectURL(new Blob([data.data], {
+        type: "application/octet-stream"
+      }))
+      let link = document.createElement('a')
+      link.style.display = 'none'
+      link.href = url
+      link.setAttribute('download', 'cfryyj' + format(new Date(), 'yyyyMMddhhmmss') + '.xlsx')
+      document.body.appendChild(link)
+      link.click()
     },
   }
 }
