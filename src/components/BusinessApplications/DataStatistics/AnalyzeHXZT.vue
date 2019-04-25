@@ -67,7 +67,7 @@
                              <el-option
                                v-for="(item,ind) in zhouName"
                                :key="ind"
-                               :value="item.code"
+                               :value="item.codeNumber"
                                :label="item.code+' - '+item.name"
                              ></el-option>
                            </el-select>
@@ -496,6 +496,7 @@ export default {
         r => {
           if (r.success) {
             this.zhouName = r.data;
+
           };
         })
     },
