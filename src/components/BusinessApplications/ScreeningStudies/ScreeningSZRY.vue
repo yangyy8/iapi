@@ -66,12 +66,11 @@
                  </el-col>
               </el-row>
             </el-col>
-            <el-col :span="2" class="down-btn-area" style="margin-top:25px;">
+            <el-col :span="2" class="down-btn-area">
               <el-button type="success" size="small" @click="CurrentPage=1;getList(CurrentPage,pageSize,pd)">查询</el-button>
+              <el-button type="primary" size="small" class="mt-10" @click="download(1)">导出</el-button>
             </el-col>
           </el-row>
-
-
             <el-table
               :data="tableData"
               border
@@ -183,8 +182,9 @@
                  </el-col>
               </el-row>
             </el-col>
-            <el-col :span="2" class="down-btn-area" style="margin-top:25px;">
+            <el-col :span="2" class="down-btn-area">
               <el-button type="success" size="small" @click="CurrentPage1=1;getList1(CurrentPage1,pageSize1,pd1)">查询</el-button>
+              <el-button type="primary" size="small" class="mt-10" @click="download(2)">导出</el-button>
             </el-col>
           </el-row>
 
@@ -301,8 +301,9 @@
                  </el-col>
               </el-row>
             </el-col>
-            <el-col :span="2" class="down-btn-area" style="margin-top:25px;">
+            <el-col :span="2" class="down-btn-area" >
               <el-button type="success" size="small" @click="CurrentPage2=1;getList2(CurrentPage2,pageSize2,pd2)">查询</el-button>
+              <el-button type="primary" size="small" class="mt-10" @click="download(3)">导出</el-button>
             </el-col>
           </el-row>
             <el-table
@@ -416,8 +417,9 @@
                  </el-col>
               </el-row>
             </el-col>
-            <el-col :span="2" class="down-btn-area" style="margin-top:25px;">
+            <el-col :span="2" class="down-btn-area">
               <el-button type="success" size="small" @click="CurrentPage3=1;getList3(CurrentPage3,pageSize3,pd3)">查询</el-button>
+              <el-button type="primary" size="small" class="mt-10" @click="download(4)">导出</el-button>
             </el-col>
           </el-row>
 
@@ -505,7 +507,7 @@
 </template>
 <script>
 import {
-  formatDate
+  formatDate,format
 } from '@/assets/js/date.js'
 import {
   dayGap
@@ -879,6 +881,48 @@ export default {
           this.tableData3 = r.data.resultList;
           this.TotalResult3 = r.data.totalResult;
         })
+    },
+    download(t) {
+  var url ="";
+  if(t==1){
+    url = this.$api.rootUrl + "/manage-platform/SuspectPerson/exp_bk_nochk";
+  }else if(t==2){
+    url = this.$api.rootUrl + "/manage-platform/SuspectPerson/exp_chk_nobrd";
+  }
+  else if(t==3){
+    url = this.$api.rootUrl + "/manage-platform/SuspectPerson/exp_brd_noee";
+  }
+  else if(t==4){
+    url = this.$api.rootUrl + "/manage-platform/SuspectPerson/exp_ee_nobrd";
+  }
+
+
+      axios({
+        method: 'post',
+        url: url,
+        data: {
+          "begintime": this.pd.begintime,
+          "endtime": this.pd.endtime,
+        },
+        responseType: 'blob'
+      }).then(response => {
+        this.downloadM(response)
+      });
+    },
+    downloadM(data) {
+      if (!data) {
+        return
+      }
+
+      let url = window.URL.createObjectURL(new Blob([data.data], {
+        type: "application/octet-stream"
+      }))
+      let link = document.createElement('a')
+      link.style.display = 'none'
+      link.href = url
+      link.setAttribute('download', 'szry' + format(new Date(), 'yyyyMMddhhmmss') + '.xlsx')
+      document.body.appendChild(link)
+      link.click()
     },
   }
 }
