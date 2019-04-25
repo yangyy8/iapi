@@ -118,15 +118,15 @@
         </el-table-column>
         <el-table-column
           prop="ee_noboarding"
-          label="漏报人数" sortable>
+          label="有出入境记录无登机信息" sortable>
         </el-table-column>
         <el-table-column
           prop="brd_noee"
-          label="多报人数" sortable>
+          label="有登机信息无出入境记录" sortable>
         </el-table-column>
         <el-table-column
           prop="error"
-          label="误报人数" sortable
+          label="国籍证号比对，航班号不一致" sortable
           >
         </el-table-column>
         <el-table-column

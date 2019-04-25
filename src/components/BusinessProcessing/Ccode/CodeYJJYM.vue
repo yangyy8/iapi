@@ -375,7 +375,7 @@
     </el-dialog>
     <el-dialog title="机场选择" :visible.sync="modelDialogVisible" width="640px" :before-close="cancelModel">
       <el-input
-        placeholder="输入模型关键字进行过滤"
+        placeholder="输入机场关键字进行过滤"
         v-model="filterText">
       </el-input>
       <el-tree
@@ -396,7 +396,7 @@
     </el-dialog>
     <el-dialog title="机场选择" :visible.sync="addmodelDialogVisible" width="640px" :before-close="cancelModel">
       <el-input
-        placeholder="输入模型关键字进行过滤"
+        placeholder="输入机场关键字进行过滤"
         v-model="addfilterText">
       </el-input>
       <el-tree
@@ -417,7 +417,7 @@
     </el-dialog>
     <el-dialog title="机场选择" :visible.sync="editmodelDialogVisible" width="640px" :before-close="cancelModel">
       <el-input
-        placeholder="输入模型关键字进行过滤"
+        placeholder="输入机场关键字进行过滤"
         v-model="editfilterText">
       </el-input>
       <el-tree
@@ -461,6 +461,7 @@ export default {
       editmodelDialogVisible:false,
       eform:{
         createtimeStr:'',
+        content:'',
       },
 
 
@@ -655,7 +656,8 @@ export default {
       }
       let p={
         'flighttype':flighttype=='I'?1:flighttype=='O'?2:'',
-        'citytype':'cityfrom'
+        'citytype':'cityfrom',
+        'type':0
       }
       this.$api.post('/manage-platform/codeTable/queryAirportCascade',p,
        r => {
@@ -881,10 +883,13 @@ export default {
              this.eform.typeStr = r.data.typeStr;
              this.eform.flighttype = r.data.flighttype;
              this.eform.createtimeStr = r.data.createtimeStr;
-             this.eform.content = r.data.content;
+             if(r.data.hasOwnProperty('content')){
+                this.eform.content = r.data.content;
+             }else{
+               this.eform.content=''
+             }
              if(r.data.hasOwnProperty('aircompanyList')){
                this.eform.aircompanyList = r.data.aircompanyList;
-               console.log()
              }else{
                this.eform.aircompanyList=[];
              }
