@@ -5,7 +5,7 @@
 
 // var root="http://192.168.99.206:8080"
 // var root="http://192.168.99.201:8080"
-// var root=""
+var root=""
 // var root="http://192.168.99.234:8080"
 // var root="http://192.168.99.242:8081"
 // var root="http://192.168.99.248:8081"
@@ -82,6 +82,7 @@ function apiAxios(method, url, params, success, failure,header,responseType) {
   let loadingInstance1=null;
   if(!(url=='/manage-platform/riskRecordController/getPhotoInf'||url=='/manage-platform/nationwide/getPortDetail'||url=='/manage-platform/nationwide/getFlightDetail'||url=='/manage-platform/nameList/getNameListDataAnalysis'||url=='/manage-platform/riskRecordExtInterfaceController/getRecordOtherInfo'||url=='/manage-platform/iapiHead/queryListPageCount')){
     loadingInstance1 = Loading.service({ fullscreen: true, spinner: 'el-icon-loading',text:'正在加载中',background:'rgba(0,0,0,0.6)',customClass:'loadingClass'});
+    console.log('url',url,loadingInstance1);
   }
   axios({
       method: method,
@@ -100,12 +101,16 @@ function apiAxios(method, url, params, success, failure,header,responseType) {
         // console.log("res",res)
         if(responseType){
           if(loadingInstance1){
-            loadingInstance1.close();
+            // nextTick(()=>{
+              loadingInstance1.close();
+            // })
           }
           success(res)
         }else if (success) {
-            if(loadingInstance1){
-              loadingInstance1.close();
+            if(loadingInstance1&&url!=''){
+              // nextTick(()=>{
+                loadingInstance1.close();
+              // })
             }
             if(!res.data.success){
               if(res.data.message=="获取登录信息失败！"){
@@ -124,7 +129,7 @@ function apiAxios(method, url, params, success, failure,header,responseType) {
           console.log('error: ' + JSON.stringify(res.data));
         }
         if(loadingInstance1){
-          loadingInstance1.close();
+          // loadingInstance1.close();
         }
       }
     })
@@ -134,7 +139,7 @@ function apiAxios(method, url, params, success, failure,header,responseType) {
         // console.log('api error, HTTP CODE: ' + res.status)
       }
       if(loadingInstance1){
-        loadingInstance1.close();
+        // loadingInstance1.close();
       }
     })
 }

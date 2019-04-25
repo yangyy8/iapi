@@ -28,7 +28,9 @@ export default {
     return{
       page:4,
       url:'QueryRYXXZH',
-      row:this.$route.query.row
+      row:this.$route.query.row,
+      begintime:this.$route.query.begintime,
+      endtime:this.$route.query.endtime,
     }
   },
   mounted(){
@@ -40,7 +42,9 @@ export default {
   },
   activated(){
     console.log(2)
-    this.row = this.$route.query.row
+    this.row = this.$route.query.row;
+    this.begintime = this.$route.query.begintime;
+    this.endtime = this.$route.query.endtime;
     if(this.row){
       this.tiaozhuan(4,'QueryRYXXZH');
     }else{
@@ -57,7 +61,7 @@ export default {
       this.page=page;
       this.url=url;
       console.log('this.row2',this.row)
-      this.$router.push({name:url,query:{row:this.row}})
+      this.$router.push({name:url,query:{row:this.row,begintime:this.begintime,endtime:this.endtime}})
     }
   }
 }

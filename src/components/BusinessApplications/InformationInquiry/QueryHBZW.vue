@@ -531,7 +531,7 @@
       :visible.sync="seatDialogVisible"
       width="1220px"
       >
-      <Seat :flightNumber="flightNumber0" :globalserial="globalserial0" :specifigseat="specifigseat0"></Seat>
+      <Seat :flightNumber="flightNumber0" :globalserial="globalserial0" :specifigseat="specifigseat0" :FLTNO="FLTNO0" :FLTDATE="FLTDATE0" :seatType="1"></Seat>
     </el-dialog>
   </div>
 </template>
@@ -626,6 +626,8 @@ export default {
       flightNumber0:'',
       globalserial0:'',
       specifigseat0:'',
+      FLTNO0:'',
+      FLTDATE0:''
     }
   },
   mounted() {
@@ -673,6 +675,8 @@ export default {
       this.flightNumber0=i.flightRecordnum;
       this.globalserial0=new Date().getTime();
       this.specifigseat0=i.specifigseat;
+      this.FLTNO0=i.flightNumber;
+      this.FLTDATE0=i.fltdate;
       // this.$router.push({query:{flightNumber:i.flightRecordnum}})
     },
     getHistoryListPnr(hcurrentPage,hshowCount,historyCdt){

@@ -3180,7 +3180,7 @@ export default {
               return
             }
             if(this.tableCurrent==1){
-              this.$confirm('最多只能导出10000条,是否继续?','提示',{
+              this.$confirm('最多只能导出 10000 条,是否继续?','提示',{
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',
                 type: 'warning'
@@ -3195,7 +3195,7 @@ export default {
                    this.downloadM(r);
                    let that = this;
                    setTimeout(function(){
-                     that.$alert('点击导出按钮可继续导出数据', '提示', {
+                     that.$alert('点击 导出按钮 可继续导出数据', '提示', {
                        confirmButtonText: '确定',
                      });
                    },1000)
@@ -3217,7 +3217,7 @@ export default {
                  this.downloadM(r);
                  let that = this;
                  setTimeout(function(){
-                   that.$alert('点击导出按钮可继续导出数据', '提示', {
+                   that.$alert('点击 导出按钮 可继续导出数据', '提示', {
                      confirmButtonText: '确定',
                    });
                  },1000)
@@ -3234,19 +3234,6 @@ export default {
                this.downloadM(r);
              },e=>{},'','blob')
           }
-          // this.selfD.exclTitles = this.checkList;
-          // axios({
-          //  method: 'post',
-          //  // url: 'http://192.168.99.234:8080/manage-platform/iapiHead/exportCustomFileIo/7/10000',
-          //  url: this.$api.rootUrl+"/manage-platform/iapiHead/exportCustomFileIo/7/10000",
-          //  data: {
-          //    'exclTitles':this.checkList,
-          //    'cdt':this.str,
-          //  },
-          //  responseType: 'blob'
-          //  }).then(response => {
-          //      this.downloadM(response)
-          //  });
         }else if(this.selfTableList.length!=0){//选择性导出
           let p={
             'exclTitles':this.checkList,
@@ -3257,18 +3244,6 @@ export default {
            r =>{
              this.downloadM(r);
            },e=>{},'','blob')
-          // axios({
-          //  method: 'post',
-          //  // url: 'http://192.168.99.234:8080/manage-platform/iapiHead/exportCheckColDataIo/7',
-          //  url: this.$api.rootUrl+"/manage-platform/iapiHead/exportCheckColDataIo/7",
-          //  data: {
-          //    'exclTitles':this.checkList,
-          //    'resultList':this.selfTableList
-          //  },
-          //  responseType: 'blob'
-          //  }).then(response => {
-          //      this.downloadM(response)
-          //  });
         }
 
       }else if(this.bigBase==8){
@@ -3286,22 +3261,8 @@ export default {
           }
           this.$api.post('/manage-platform/iapiHead/exportCheckColDataIo/8',p,
            r =>{
-             // if(r.success){
-               this.downloadM(r)
-             // }
+              this.downloadM(r)
            },e=>{},'','blob')
-          // axios({
-          //  method: 'post',
-          //  // url: 'http://192.168.99.248:8081/manage-platform/iapiHead/exportCheckColDataIo/8',
-          //  url: this.$api.rootUrl+"/manage-platform/iapiHead/exportCheckColDataIo/8",
-          //  data: {
-          //    'exclTitles':this.checkListPnr,
-          //    'resultList':this.selfTableListPnr
-          //  },
-          //  responseType: 'blob'
-          //  }).then(response => {
-          //      this.downloadM(response)
-          //  });
         }else if(this.selfTableListPnr.length==0){
           let p={
             'exclTitles':this.checkListPnr,
@@ -3309,22 +3270,8 @@ export default {
           }
           this.$api.post('/manage-platform/iapiHead/exportCustomPnrFileIo',p,
            r =>{
-             // if(r.success){
-               this.downloadM(r)
-             // }
+              this.downloadM(r)
            },e=>{},'','blob')
-          // axios({
-          //  method: 'post',
-          //  // url: 'http://192.168.99.248:8081/manage-platform/iapiHead/exportCustomPnrFileIo',
-          //  url: this.$api.rootUrl+"/manage-platform/iapiHead/exportCustomPnrFileIo",
-          //  data: {
-          //    'exclTitles':this.checkListPnr,
-          //    'resultList':this.tableDataPnr
-          //  },
-          //  responseType: 'blob'
-          //  }).then(response => {
-          //      this.downloadM(response)
-          //  });
         }
       }
     },

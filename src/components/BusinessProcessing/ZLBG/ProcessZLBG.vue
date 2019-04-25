@@ -40,7 +40,7 @@
               <span class="input-text">姓名：</span>
                 <div class="input-input t-fuzzy t-flex">
               <el-input placeholder="请输入内容" size="small" v-model="pd.NAME"   class="input-input"></el-input>
-              &nbsp;<el-checkbox v-model="pd.ISBLURRED">模糊查询</el-checkbox>
+              <el-checkbox v-model="pd.ISBLURRED">模糊查询</el-checkbox>
             </div>
             </el-col>
                   <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
@@ -71,9 +71,9 @@
          </div>
             </el-col>
             <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
-                <span class="input-text">航班号：</span>
-                <el-input placeholder="请输入内容" size="small" v-model="pd.FLTNO" class="input-input"></el-input>
-              </el-col>
+              <span class="input-text">航班号：</span>
+              <el-input placeholder="请输入内容" size="small" v-model="pd.FLTNO" class="input-input"></el-input>
+            </el-col>
                 <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
                 <span class="input-text"><font color="red">*</font> 航班日期：</span>
                   <div class="input-input t-flex t-date">
@@ -755,7 +755,10 @@ export default {
       ap: {},
       pd: {
         STARTTIME: '',
-        ENDTIME: ''
+        ENDTIME: '',
+        PASSPORTNO:'',
+        NAME:'',
+        FLTNO:''
       },
       tp: 0,
       nation: [],

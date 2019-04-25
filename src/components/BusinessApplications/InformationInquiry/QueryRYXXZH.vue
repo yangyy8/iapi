@@ -1204,9 +1204,11 @@ export default {
     if(this.$route.query.row){
       this.cdt.passportnoEqual = this.$route.query.row.passportno;
       this.cdt.fltnoEqual = this.$route.query.row.fltno;
+      this.cdt.startFltdate = this.zhuanhuan(this.$route.query.begintime);
+      this.cdt.endFltdate = this.zhuanhuan(this.$route.query.endtime);
       // this.cdt.familyname = this.$route.query.row.name;
-      this.cdt.genderEqual = this.sexZhuan(this.$route.query.row.gender);
-      this.cdt.dateofbirthEqual = this.zhuanhuan(this.$route.query.row.birthday)
+      // this.cdt.genderEqual = this.sexZhuan(this.$route.query.row.gender);
+      // this.cdt.dateofbirthEqual = this.zhuanhuan(this.$route.query.row.birthday)
       this.getList(this.currentPage,this.showCount,this.cdt);
     }
   },
@@ -1939,7 +1941,7 @@ export default {
           }
           let that = this;
           if(that.tableCurrent==1){
-            that.$confirm('最多只能导出10000条,是否继续?','提示',{
+            that.$confirm('最多只能导出 10000 条,是否继续?','提示',{
               confirmButtonText: '确定',
               cancelButtonText: '取消',
               type: 'warning'
@@ -1953,7 +1955,7 @@ export default {
                  r =>{
                    that.downloadM(r);
                    setTimeout(function(){
-                     that.$alert('点击导出按钮可继续导出数据', '提示', {
+                     that.$alert('点击 导出按钮 可继续导出数据', '提示', {
                        confirmButtonText: '确定',
                      });
                    },1000)
@@ -1974,7 +1976,7 @@ export default {
              r =>{
                that.downloadM(r);
                setTimeout(function(){
-                 that.$alert('点击按钮可继续导出数据', '提示', {
+                 that.$alert('点击 导出按钮 可继续导出数据', '提示', {
                    confirmButtonText: '确定',
                  });
                },1000)

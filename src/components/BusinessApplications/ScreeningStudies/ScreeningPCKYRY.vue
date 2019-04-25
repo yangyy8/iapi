@@ -82,7 +82,7 @@
                 prop="passportno"
                 label="证件号码" sortable>
                 <template slot-scope="scope">
-                   <el-button type="text" size="small" @click="$router.push({name:'QueryRYXX',query:{row:scope.row,page:1,title:'人员信息查询',name:'信息查询'}})">{{scope.row.passportno}}</el-button>
+                   <el-button type="text" size="small" @click="$router.push({name:'QueryRYXX',query:{row:scope.row,begintime:pd.begintime,endtime:pd.endtime,page:1,title:'人员信息查询',name:'信息查询'}})">{{scope.row.passportno}}</el-button>
                 </template>
               </el-table-column>
               <el-table-column
@@ -197,7 +197,7 @@
                 prop="passportno"
                 label="证件号码" sortable>
                 <template slot-scope="scope">
-                   <el-button type="text" size="small" @click="$router.push({name:'QueryRYXX',query:{row:scope.row,page:1,title:'人员信息查询',name:'信息查询'}})">{{scope.row.passportno}}</el-button>
+                   <el-button type="text" size="small" @click="$router.push({name:'QueryRYXX',query:{row:scope.row,begintime:pd1.begintime,endtime:pd1.endtime,page:1,title:'人员信息查询',name:'信息查询'}})">{{scope.row.passportno}}</el-button>
                 </template>
               </el-table-column>
               <el-table-column
@@ -312,7 +312,7 @@
                 prop="passportno"
                 label="证件号码" sortable>
                 <template slot-scope="scope">
-                   <el-button type="text" size="small" @click="$router.push({name:'QueryRYXX',query:{row:scope.row,page:1,title:'人员信息查询',name:'信息查询'}})">{{scope.row.passportno}}</el-button>
+                   <el-button type="text" size="small" @click="$router.push({name:'QueryRYXX',query:{row:scope.row,begintime:pd2.begintime,endtime:pd2.endtime,page:1,title:'人员信息查询',name:'信息查询'}})">{{scope.row.passportno}}</el-button>
                 </template>
               </el-table-column>
               <el-table-column
