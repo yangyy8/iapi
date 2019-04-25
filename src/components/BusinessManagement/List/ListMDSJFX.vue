@@ -54,14 +54,14 @@
           <td class="tc2">-</td>
         </tr>
         <tr>
-          <td colspan="2" class="th3">临控名单</td>
+          <td colspan="2" class="th3">临时禁制登记名单</td>
           <td class="tc1">{{tableData.EFFECTIVE_TCTLNAMELIST}}</td>
           <td class="tc2">{{tableData.INVALID_TCTLNAMELIST}}</td>
           <td class="tc1">-</td>
           <td class="tc2">-</td>
         </tr>
         <tr>
-          <td colspan="2" class="th3">重点关注人员</td>
+          <td colspan="2" class="th3">关注人员</td>
           <td class="tc1">{{tableData.EFFECTIVE_FOCUSLIST}}</td>
           <td class="tc2">{{tableData.INVALID_FOCUSLIST}}</td>
           <td class="tc1">-</td>

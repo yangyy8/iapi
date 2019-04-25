@@ -460,7 +460,7 @@ export default {
 
     if(this.checked){
       let that=this;
-      console.log(that.CurrentPage,that.pageSize,that.pd)
+      // console.log(that.CurrentPage,that.pageSize,that.pd)
       this.timer=setInterval(function(){
         that.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
       },60000)
@@ -543,7 +543,7 @@ export default {
         "order":orders,
 	      "direction":direction
       }
-      console.log(CurrentPage,showCount,pd)
+      // console.log(CurrentPage,showCount,pd)
       this.$api.post('/manage-platform/flightRealTime/queryRealTimePage',p,
        r => {
          console.log(r)
