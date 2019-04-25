@@ -340,13 +340,13 @@
             width="65"
             sortable="custom"
             :show-overflow-tooltip="true">
-            <template slot-scope="scope">
+            <!-- <template slot-scope="scope">
               <div>
                 <span v-if="scope.row.bkgender=='F'">女</span>
                 <span v-if="scope.row.bkgender=='M'">男</span>
                 <span v-if="scope.row.bkgender=='U'">未知</span>
               </div>
-            </template>
+            </template> -->
           </el-table-column>
           <el-table-column
             label="订票证号"
