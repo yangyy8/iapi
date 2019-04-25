@@ -1708,7 +1708,7 @@
           :page-size="showCountPnr"
           prev-text="上一页"
           next-text="下一页"
-          layout="prev,next"
+          layout="prev,next,jumper"
           >
         </el-pagination>
       </div>
@@ -1859,6 +1859,8 @@
         <el-table
           :data="detailstableData"
           border
+          class="o-table3"
+          @header-click="headerClick"
           style="width: 100%;">
           <el-table-column
             prop="NAME"
@@ -2223,6 +2225,7 @@ export default {
       //方案保存pnr
       nnnn:'',//方案渲染
       selfSaveNamePnr:[],//方案名称集合
+      tableCurrent:0,
     }
   },
   mounted(){
@@ -3086,6 +3089,7 @@ export default {
             }
           }
         }
+        this.currentPage=1;
         this.selfQueryList(this.currentPage,this.showCount);
       }else if(this.bigBase == 8){
         for(var i=0;i<this.selfRowsPnr.length;i++){
@@ -3113,6 +3117,7 @@ export default {
             }
           }
         }
+        this.currentPagePnr=1;
         this.selfQueryListPnr(this.currentPagePnr,this.showCountPnr);
       }
     },
@@ -3161,33 +3166,109 @@ export default {
           });
           return;
         }
-        if(this.selfTableList.length==0){
-          this.selfD.exclTitles = this.checkList;
-          axios({
-           method: 'post',
-           // url: 'http://192.168.99.234:8080/manage-platform/iapiHead/exportCustomFileIo/7/10000',
-           url: this.$api.rootUrl+"/manage-platform/iapiHead/exportCustomFileIo/7/10000",
-           data: {
-             'exclTitles':this.checkList,
-             'cdt':this.str,
-           },
-           responseType: 'blob'
-           }).then(response => {
-               this.downloadM(response)
-           });
-        }else if(this.selfTableList.length!=0){
-          axios({
-           method: 'post',
-           // url: 'http://192.168.99.234:8080/manage-platform/iapiHead/exportCheckColDataIo/7',
-           url: this.$api.rootUrl+"/manage-platform/iapiHead/exportCheckColDataIo/7",
-           data: {
-             'exclTitles':this.checkList,
-             'resultList':this.selfTableList
-           },
-           responseType: 'blob'
-           }).then(response => {
-               this.downloadM(response)
-           });
+        if(this.selfTableList.length==0){//全部导出
+          if(this.totalResult>10000){//总数大于10000条
+            if(10000*this.tableCurrent<this.totalResult){
+              this.tableCurrent++;
+            }else{
+              this.$alert('已导出全部数据', '提示', {
+                confirmButtonText: '确定',
+                callback: action => {
+                  this.tableCurrent = 0;
+                }
+              });
+              return
+            }
+            if(this.tableCurrent==1){
+              this.$confirm('最多只能导出10000条,是否继续?','提示',{
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+              }).then(() => {
+                let p={
+                  'exclTitles':this.checkList,
+                  'cdt':this.str,
+                  'currentPage':this.tableCurrent
+                }
+                this.$api.post('/manage-platform/iapiHead/exportCustomFileIo/7/10000',p,
+                 r =>{
+                   this.downloadM(r);
+                   let that = this;
+                   setTimeout(function(){
+                     that.$alert('点击导出按钮可继续导出数据', '提示', {
+                       confirmButtonText: '确定',
+                     });
+                   },1000)
+                 },e=>{},'','blob')
+              }).catch(() => {
+                this.$message({
+                  type: 'info',
+                  message: '已取消导出'
+                });
+              });
+            }else{
+              let p={
+                'exclTitles':this.checkList,
+                'cdt':this.str,
+                'currentPage':this.tableCurrent
+              }
+              this.$api.post('/manage-platform/iapiHead/exportCustomFileIo/7/10000',p,
+               r =>{
+                 this.downloadM(r);
+                 let that = this;
+                 setTimeout(function(){
+                   that.$alert('点击导出按钮可继续导出数据', '提示', {
+                     confirmButtonText: '确定',
+                   });
+                 },1000)
+               },e=>{},'','blob')
+            }
+          }else{//总数小于10000条
+            let p={
+              'exclTitles':this.checkList,
+              'cdt':this.str,
+              'currentPage':1
+            }
+            this.$api.post('/manage-platform/iapiHead/exportCustomFileIo/7/10000',p,
+             r =>{
+               this.downloadM(r);
+             },e=>{},'','blob')
+          }
+          // this.selfD.exclTitles = this.checkList;
+          // axios({
+          //  method: 'post',
+          //  // url: 'http://192.168.99.234:8080/manage-platform/iapiHead/exportCustomFileIo/7/10000',
+          //  url: this.$api.rootUrl+"/manage-platform/iapiHead/exportCustomFileIo/7/10000",
+          //  data: {
+          //    'exclTitles':this.checkList,
+          //    'cdt':this.str,
+          //  },
+          //  responseType: 'blob'
+          //  }).then(response => {
+          //      this.downloadM(response)
+          //  });
+        }else if(this.selfTableList.length!=0){//选择性导出
+          let p={
+            'exclTitles':this.checkList,
+            'resultList':this.selfTableList,
+            'currentPage':1
+          }
+          this.$api.post('/manage-platform/iapiHead/exportCheckColDataIo/7',p,
+           r =>{
+             this.downloadM(r);
+           },e=>{},'','blob')
+          // axios({
+          //  method: 'post',
+          //  // url: 'http://192.168.99.234:8080/manage-platform/iapiHead/exportCheckColDataIo/7',
+          //  url: this.$api.rootUrl+"/manage-platform/iapiHead/exportCheckColDataIo/7",
+          //  data: {
+          //    'exclTitles':this.checkList,
+          //    'resultList':this.selfTableList
+          //  },
+          //  responseType: 'blob'
+          //  }).then(response => {
+          //      this.downloadM(response)
+          //  });
         }
 
       }else if(this.bigBase==8){
@@ -3199,32 +3280,51 @@ export default {
           return;
         }
         if(this.selfTableListPnr.length!=0){
-          axios({
-           method: 'post',
-           // url: 'http://192.168.99.248:8081/manage-platform/iapiHead/exportCheckColDataIo/8',
-           url: this.$api.rootUrl+"/manage-platform/iapiHead/exportCheckColDataIo/8",
-           data: {
-             'exclTitles':this.checkListPnr,
-             'resultList':this.selfTableListPnr
-           },
-           responseType: 'blob'
-           }).then(response => {
-               this.downloadM(response)
-           });
+          let p={
+            'exclTitles':this.checkListPnr,
+            'resultList':this.selfTableListPnr
+          }
+          this.$api.post('/manage-platform/iapiHead/exportCheckColDataIo/8',p,
+           r =>{
+             // if(r.success){
+               this.downloadM(r)
+             // }
+           },e=>{},'','blob')
+          // axios({
+          //  method: 'post',
+          //  // url: 'http://192.168.99.248:8081/manage-platform/iapiHead/exportCheckColDataIo/8',
+          //  url: this.$api.rootUrl+"/manage-platform/iapiHead/exportCheckColDataIo/8",
+          //  data: {
+          //    'exclTitles':this.checkListPnr,
+          //    'resultList':this.selfTableListPnr
+          //  },
+          //  responseType: 'blob'
+          //  }).then(response => {
+          //      this.downloadM(response)
+          //  });
         }else if(this.selfTableListPnr.length==0){
-          console.log(this.selfTableListPnr)
-          axios({
-           method: 'post',
-           // url: 'http://192.168.99.248:8081/manage-platform/iapiHead/exportCustomPnrFileIo',
-           url: this.$api.rootUrl+"/manage-platform/iapiHead/exportCustomPnrFileIo",
-           data: {
-             'exclTitles':this.checkListPnr,
-             'resultList':this.tableDataPnr
-           },
-           responseType: 'blob'
-           }).then(response => {
-               this.downloadM(response)
-           });
+          let p={
+            'exclTitles':this.checkListPnr,
+            'resultList':this.tableDataPnr
+          }
+          this.$api.post('/manage-platform/iapiHead/exportCustomPnrFileIo',p,
+           r =>{
+             // if(r.success){
+               this.downloadM(r)
+             // }
+           },e=>{},'','blob')
+          // axios({
+          //  method: 'post',
+          //  // url: 'http://192.168.99.248:8081/manage-platform/iapiHead/exportCustomPnrFileIo',
+          //  url: this.$api.rootUrl+"/manage-platform/iapiHead/exportCustomPnrFileIo",
+          //  data: {
+          //    'exclTitles':this.checkListPnr,
+          //    'resultList':this.tableDataPnr
+          //  },
+          //  responseType: 'blob'
+          //  }).then(response => {
+          //      this.downloadM(response)
+          //  });
         }
       }
     },

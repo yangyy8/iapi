@@ -56,7 +56,7 @@
             </el-col>
             <el-dialog title="单位选择" :visible.sync="modelDialogVisible" width="640px" :before-close="cancelModel">
               <el-input
-                placeholder="输入模型关键字进行过滤"
+                placeholder="输入单位关键字进行过滤"
                 v-model="filterText">
               </el-input>
               <el-tree
