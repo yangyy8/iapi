@@ -378,6 +378,7 @@ export default {
         "cityto": pd.cityto,
         "portto": pd.portto,
         "portfrom": pd.portfrom,
+        "flighttype":pd.flighttype
       };
 
       var url = "/manage-platform/dataStatistics/get_fltline_bycontinent";
@@ -477,6 +478,7 @@ export default {
           "rowproperty": this.typerow,
           "portto": this.pd.portto,
           "portfrom": this.pd.portfrom,
+          "flighttype":this.pd.flighttype
         },
         responseType: 'blob'
       }).then(response => {

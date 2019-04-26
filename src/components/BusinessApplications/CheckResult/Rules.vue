@@ -372,8 +372,17 @@ export default {
       },
       pickerOptions1: {
         disabledDate: (time) => {
-            let endT = formatDate(new Date(time.getTime()),'yyyyMMddhhmmss');
-            return endT < this.pd.dataCheckBeginTime;
+            // let endT = formatDate(new Date(time.getTime()),'yyyyMMddhhmmss');
+            // return endT < this.pd.dataCheckBeginTime;
+
+            let todayS =  (this.pd.dataCheckBeginTime).slice(0,8);
+            let currentTime = formatDate(new Date(time.getTime()),'yyyyMMdd');
+            let endT = formatDate(new Date(time.getTime()),'yyyyMMddhhmm');
+            if((todayS==currentTime)){
+              return this.pd.dataCheckBeginTime>this.pd.dataCheckBeginTime
+            }else{
+             return endT < this.pd.dataCheckBeginTime;
+            }
         }
       },
       form: {},
