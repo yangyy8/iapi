@@ -43,7 +43,7 @@
           <el-row align="center"   :gutter="2" class="yy-line">
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                 <span class="input-text"> <span class="spang">境内</span> 城市：</span>
-                <el-select placeholder="请选择" v-model="pd.cityto" filterable clearable size="small"  class="input-input">
+                <el-select placeholder="请选择" v-model="pd.cityto" filterable clearable size="small" @change="portAble(0)"  class="input-input">
                   <el-option
                     v-for="(item,ind) in gnName"
                     :key="ind"
@@ -92,7 +92,7 @@
                        </el-col>
            <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                <span class="input-text">城市：</span>
-               <el-select placeholder="请选择" v-model="pd.cityfrom" filterable clearable size="small"  class="input-input">
+               <el-select placeholder="请选择" v-model="pd.cityfrom" filterable clearable size="small" @change="portAble(1)"   class="input-input">
                  <el-option
                    v-for="(item,ind) in gwName"
                    :key="ind"
@@ -576,6 +576,14 @@ export default {
           }
         }
 
+
+    },
+    portAble(t){
+      if(t==0){
+          this.$set(this.pd,'portto','');
+      }else {
+          this.$set(this.pd,'portfrom','');
+      }
 
     },
     cityAble(val){

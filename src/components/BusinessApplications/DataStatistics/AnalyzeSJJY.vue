@@ -148,7 +148,7 @@
     </div>
   </div>
 
-  <el-dialog title="详情" :visible.sync="detailsDialogVisible">
+  <el-dialog :title="dialogtitle" :visible.sync="detailsDialogVisible">
     <el-row class="mb-15 yr">
       <el-button type="primary" size="small" @click="download(1)">Excel导出</el-button>
       </el-row>
@@ -157,14 +157,20 @@
       border
       style="width: 100%;"
       class="mt-10 o-table3"
+      @sort-change="sortChange"
       @header-click="headerClick">
       <el-table-column
         prop="fltno"
         label="航班号" sortable>
       </el-table-column>
       <el-table-column
-        prop="departdate"
+        prop="scheduledeparturetime"
         label="计划起飞时间" sortable>
+      </el-table-column>
+      <el-table-column
+        prop="country"
+        label="国籍" sortable>
+
       </el-table-column>
       <el-table-column
         prop="passportno"
@@ -172,16 +178,22 @@
 
       </el-table-column>
       <el-table-column
-        prop="name"
-        label="姓名" sortable>
+        prop="thanfieldname"
+        label="比对字段名" sortable>
       </el-table-column>
       <el-table-column
-        prop="gender"
-        label="性别" sortable>
+        prop="thantype"
+        label="错误类型" sortable>
       </el-table-column>
+      <!-- <template slot-scope="scope">
+        <span v-if="scope.row.thantype=='1'">必录项缺失</span>
+        <span v-if="scope.row.thantype=='2'">长度不符合</span>
+        <span v-if="scope.row.thantype=='3'">格式错误</span>
+        <span v-if="scope.row.thantype=='4'">不符合当前时间</span>
+      </template> -->
       <el-table-column
-        prop="birthday"
-        label="出生日期" sortable>
+        prop="thanfieldvalue"
+        label="字段值" sortable>
       </el-table-column>
     </el-table>
     <div class="middle-foot">
@@ -233,6 +245,8 @@ export default {
       pd: {
       begintime:'',endtime:''
       },
+      order:'',
+      direction:0,
       nation: [],
       company: [],
       addDialogVisible: false,
@@ -276,6 +290,7 @@ export default {
       sData1:[],
       sData2:[],
       sData3:[],
+      dialogtitle:'详情',
       mapForm:{},
       thantype:1,
     }
@@ -284,6 +299,8 @@ export default {
     let time = new Date();
     let endz = new Date();
     let beginz = new Date(time - 1000 * 60 * 60 * 24 * 30);
+    let monthz=time.setDate(1);
+    console.log('monthz',monthz);
     this.pd.begintime = formatDate(beginz, 'yyyyMMdd');
     this.pd.endtime = formatDate(endz, 'yyyyMMdd');
 
@@ -310,12 +327,13 @@ export default {
       this.multipleSelection = val;
     },
     pageSizeChange(val) {
-      this.getList(this.CurrentPage, val, this.pd);
+    //  this.getList(this.CurrentPage, val, this.pd);
+     this.details(this.thantype,);
       console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
-      this.getList(val, this.pageSize, this.pd);
-
+      //this.getList(val, this.pageSize, this.pd);
+    this.details(this.thantype);
       console.log(`当前页: ${val}`);
     },
     getSummaries(param) {
@@ -345,7 +363,12 @@ export default {
 
          return sums;
        },
-    getList(currentPage, showCount, pd) {
+       sortChange(column, prop, order){
+         column.order=='ascending'?this.direction=1:this.direction=0;
+         this.order=column.prop;
+         this.details(this.thantype);
+       },
+    getList(currentPage, showCount, pd,order,direction) {
       const result = this.$validator.verifyAll('timeDemo')
        if (result.indexOf(false) > -1) {
          return
@@ -393,13 +416,13 @@ export default {
 
          var url="";
             let p={};
-        if(n==1){
+        if(n==0){
          url= this.$api.rootUrl+"/manage-platform/dataStatistics/export_datacheck";
           p={
             "begintime":this.pd.begintime,
             "endtime":this.pd.endtime
           }
-       }else {
+       }else if(n==1) {
          url=this.$api.rootUrl+"/manage-platform/dataStatistics/expdatackdetail";
            p={
              "begintime":this.pd.begintime,
@@ -439,12 +462,25 @@ export default {
         })
     },
     details(t) {
+    console.log('-----',t);
+    if(t==1){
+      this.dialogtitle="必录项缺失详情";
+    }else if(t==2){
+      this.dialogtitle="长度不符合详情";
+    }else if(t==3){
+      this.dialogtitle="格式错误详情";
+    }else if(t==4){
+      this.dialogtitle="不符合当前时间详情";
+    }
       this.pd.thantype=t;
       this.thantype=t;
+      this.pd.order=this.order;
+      this.pd.direction=this.direction;
       let p = {
         "currentPage":this.currentPage,
         "showCount": this.pageSize,
-        "cdt": pd
+        "cdt": this.pd
+
       };
       var url = "/manage-platform/dataStatistics/getdatackdetail";
       this.$api.post(url, p,
@@ -553,7 +589,7 @@ export default {
   border-radius: 0 5px 5px 5px;
 }
 .ppie{width:420px; height:400px; float:left}
-.bluecolor{color: blue;}
+.bluecolor{color: blue; cursor: pointer;}
 </style>
 <style>
 .el-table th > .cell {
