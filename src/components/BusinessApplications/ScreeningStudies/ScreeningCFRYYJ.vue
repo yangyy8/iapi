@@ -259,6 +259,7 @@
 <script>
 import {formatDate,format} from '@/assets/js/date.js'
 import {dayGap} from '@/assets/js/date.js'
+import axios from 'axios'
 export default {
   data() {
     return {
@@ -440,7 +441,6 @@ export default {
         "cdt": pd,
       };
       var url="/manage-platform/SuspectPerson/getduppsnbycard_offdes";
-
       if(this.type=="1" && this.flag=="1"){
        url="/manage-platform/SuspectPerson/getduppsnpnrbycard_offdes";
       }else if(this.type=="2" && this.flag=="1"){
