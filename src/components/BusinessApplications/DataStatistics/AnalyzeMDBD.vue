@@ -307,7 +307,8 @@ export default {
     let time = new Date();
     let endz = new Date();
     let beginz = new Date(time - 1000 * 60 * 60 * 24 * 30);
-    this.pd.begintime = formatDate(beginz, 'yyyyMMdd');
+      time.setDate(1);
+    this.pd.begintime = formatDate(time, 'yyyyMMdd');
     this.pd.endtime = formatDate(endz, 'yyyyMMdd');
 
   },
