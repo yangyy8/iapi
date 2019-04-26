@@ -258,14 +258,20 @@
           :show-overflow-tooltip="true">
         </el-table-column>
         <el-table-column
-          prop="SYN_STATUS"
+          prop="NAMELISTSTATUS"
           sortable="custom"
           label="名单状态"
           :show-overflow-tooltip="true">
-          <template slot-scope="scope">
+          <!-- <template slot-scope="scope">
             <span v-if="scope.row.SYN_STATUS==0">未发布</span>
             <span v-if="scope.row.SYN_STATUS==1">已发布</span>
-          </template>
+          </template> -->
+        </el-table-column>
+        <el-table-column
+          prop="UPDATEUSER"
+          sortable="custom"
+          label="操作人"
+          :show-overflow-tooltip="true">
         </el-table-column>
         <el-table-column
           label="操作"

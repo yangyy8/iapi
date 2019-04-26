@@ -88,7 +88,7 @@
           </div>
           <div v-show="page==1">
             <el-row class="mb-15 yr">
-              <el-button type="primary" size="small" @click="download()">Excel导出</el-button>
+              <el-button type="primary" size="small" @click="download(0)">Excel导出</el-button>
               </el-row>
                        <el-table
                              :data="tableData"
@@ -115,28 +115,108 @@
                                    <el-table-column
                                      prop="rst_1"
                                      label="缺失" sortable>
+                                     <template slot-scope="scope">
+                                      <a class="bluecolor"  @click="details(1)" > {{scope.row.rst_1}} </a>
+                                    </template>
                                    </el-table-column>
                                    <el-table-column
                                      prop="rst_2"
                                      label="长度不符合" sortable>
+                                     <template slot-scope="scope">
+                                      <a class="bluecolor"  @click="details(2)" > {{scope.row.rst_2}} </a>
+                                    </template>
                                    </el-table-column>
                                    <el-table-column
                                      prop="rst_3"
                                      label="格式错误" sortable>
+                                     <template slot-scope="scope">
+                                      <a class="bluecolor"  @click="details(3)" > {{scope.row.rst_3}} </a>
+                                     </template>
                                    </el-table-column>
                                    <el-table-column
                                      prop="rst_4"
                                      label="不符合当前时间" sortable>
+                                     <template slot-scope="scope">
+                                      <a class="bluecolor"  @click="details(4)" > {{scope.row.rst_4}} </a>
+                                     </template>
                                    </el-table-column>
                               </el-table-column>
-
-
                            </el-table>
 
           </div>
         </div>
     </div>
   </div>
+
+  <el-dialog title="详情" :visible.sync="detailsDialogVisible">
+    <el-row class="mb-15 yr">
+      <el-button type="primary" size="small" @click="download(1)">Excel导出</el-button>
+      </el-row>
+    <el-table
+      :data="tableData1"
+      border
+      style="width: 100%;"
+      class="mt-10 o-table3"
+      @header-click="headerClick">
+      <el-table-column
+        prop="fltno"
+        label="航班号" sortable>
+      </el-table-column>
+      <el-table-column
+        prop="departdate"
+        label="计划起飞时间" sortable>
+      </el-table-column>
+      <el-table-column
+        prop="passportno"
+        label="证件号码" sortable>
+
+      </el-table-column>
+      <el-table-column
+        prop="name"
+        label="姓名" sortable>
+      </el-table-column>
+      <el-table-column
+        prop="gender"
+        label="性别" sortable>
+      </el-table-column>
+      <el-table-column
+        prop="birthday"
+        label="出生日期" sortable>
+      </el-table-column>
+    </el-table>
+    <div class="middle-foot">
+      <div class="page-msg">
+        <div class="">
+          共{{Math.ceil(TotalResult/pageSize)}}页
+        </div>
+        <div class="">
+          每页
+          <el-select v-model="pageSize" @change="pageSizeChange(pageSize)" placeholder="10" size="mini" class="page-select">
+            <el-option
+              v-for="item in options"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
+          条
+        </div>
+        <div class="">
+          共{{TotalResult}}条
+        </div>
+      </div>
+      <el-pagination
+        background
+        @current-change="handleCurrentChange"
+        :current-page.sync ="CurrentPage"
+        :page-size="pageSize"
+        layout="prev, pager, next"
+        :total="TotalResult">
+      </el-pagination>
+    </div>
+
+   </el-dialog>
+
   </div>
 </template>
 <script>
@@ -172,6 +252,7 @@ export default {
       ],
       page: 0,
       tableData: [],
+      tableData1:[],
       multipleSelection: [],
       pickerOptions0: {
         disabledDate: (time) => {
@@ -195,6 +276,8 @@ export default {
       sData1:[],
       sData2:[],
       sData3:[],
+      mapForm:{},
+      thantype:1,
     }
   },
   mounted() {
@@ -306,20 +389,28 @@ export default {
           //this.drawLine3();
         })
     },
-    download(){
-       //  var url="http://192.168.99.213:8080/manage-platform/dataStatistics/export_datacheck";
-      var url= this.$api.rootUrl+"/manage-platform/dataStatistics/export_datacheck";
+    download(n){
 
+         var url="";
+            let p={};
+        if(n==1){
+         url= this.$api.rootUrl+"/manage-platform/dataStatistics/export_datacheck";
+          p={
+            "begintime":this.pd.begintime,
+            "endtime":this.pd.endtime
+          }
+       }else {
+         url=this.$api.rootUrl+"/manage-platform/dataStatistics/expdatackdetail";
+           p={
+             "begintime":this.pd.begintime,
+             "endtime":this.pd.endtime,
+             "thantype":this.thantype,
+           }
+       }
       axios({
        method: 'post',
        url: url,
-      // url:'http://192.168.99.206:8080/manage-platform/iapi/exportFileIo/0/600',
-      // url: this.$api.rootUrl+"/manage-platform/iapi/exportFileIo/0/600",
-       data: {
-         "begintime":this.pd.begintime,
-         "endtime":this.pd.endtime
-
-       },
+       data: p,
        responseType: 'blob'
        }).then(response => {
            this.downloadM(response)
@@ -347,10 +438,25 @@ export default {
           }
         })
     },
-    details(i) {
+    details(t) {
+      this.pd.thantype=t;
+      this.thantype=t;
+      let p = {
+        "currentPage":this.currentPage,
+        "showCount": this.pageSize,
+        "cdt": pd
+      };
+      var url = "/manage-platform/dataStatistics/getdatackdetail";
+      this.$api.post(url, p,
+        r => {
+          if(r.success){
+          this.tableData1 = r.data.resultList;
+          this.TotalResult = r.data.totalResult;
+
+          }
+        })
       this.detailsDialogVisible = true;
-      console.log(i);
-      this.form = i;
+
     },
     drawLine() {
       this.lineChart = echarts.init(document.getElementById('myChart'), 'light');
@@ -447,7 +553,7 @@ export default {
   border-radius: 0 5px 5px 5px;
 }
 .ppie{width:420px; height:400px; float:left}
-
+.bluecolor{color: blue;}
 </style>
 <style>
 .el-table th > .cell {
