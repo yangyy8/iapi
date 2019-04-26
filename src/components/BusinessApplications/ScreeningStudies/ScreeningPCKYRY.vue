@@ -378,6 +378,7 @@ import {
 import {
   dayGap
 } from '@/assets/js/date.js'
+import axios from 'axios'
 export default {
   data() {
     return {

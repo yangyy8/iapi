@@ -259,6 +259,7 @@
 <script>
 import {formatDate,format} from '@/assets/js/date.js'
 import {dayGap} from '@/assets/js/date.js'
+import axios from 'axios'
 export default {
   data() {
     return {
