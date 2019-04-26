@@ -726,7 +726,7 @@ export default {
       pickerOptions3: {
         disabledDate: (time) => {
             let endT = formatDate(new Date(time.getTime()),'yyyyMMddhhmmss');
-            return endT < this.pd.startDealtime;
+            return endT <= this.pd.startDealtime;
         }
       },
       nav1Id:null,
@@ -737,7 +737,7 @@ export default {
     this.nav1Id=this.$route.query.nav1Id
     this.nav2Id=this.$route.query.nav2Id
     let time = new Date();
-    let end = new Date();
+    let end = new Date(new Date(new Date().toLocaleDateString()).getTime()+24*60*60*1000-1);
     let begin = new Date(new Date().setHours(0,0,0,0));
     this.pd.startCreatetime=formatDate(begin,'yyyyMMddhhmmss');
     this.pd.endCreatetime=formatDate(end,'yyyyMMddhhmmss');

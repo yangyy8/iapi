@@ -20,17 +20,17 @@
           <div class="input-input t-flex t-date">
                <el-date-picker
                v-model="pd.departdateBegin"
-               type="datetime" size="small"
+               type="date" size="small"
                placeholder="开始时间"  :picker-options="pickerOptions"
-               format="yyyy-MM-dd HH:mm"
-               value-format="yyyyMMddHHmm">
+               format="yyyy-MM-dd"
+               value-format="yyyyMMdd">
              </el-date-picker>
                <span class="septum">-</span>
              <el-date-picker
                 v-model="pd.departdateEnd"
-                type="datetime" size="small"
-                format="yyyy-MM-dd HH:mm"
-                value-format="yyyyMMddHHmm"
+                type="date" size="small"
+                format="yyyy-MM-dd"
+                value-format="yyyyMMdd"
                 placeholder="结束时间" :picker-options="pickerOptions1">
              </el-date-picker>
              </div>
@@ -47,7 +47,7 @@
 
           <el-col :sm="24" :md="12" :lg="8" class="input-item">
             <span class="input-text">机场：</span>
-            <el-select  v-model="pd.port" @change="getList(CurrentPage,pageSize,pd,order,direction)" placeholder="请选择" filterable clearable size="small" class="input-input">
+            <el-select  v-model="pd.port"  placeholder="请选择" filterable clearable size="small" class="input-input">
               <el-option
                 v-for="item in airport"
                 v-if="item.JCDM"
@@ -162,7 +162,7 @@
           sortable='custom'>
         </el-table-column>
         <el-table-column
-          prop="flightNumber"
+          prop="fltno"
           label="航班号"
           sortable='custom'>
         </el-table-column>
@@ -607,7 +607,7 @@ export default {
       pickerOptions: {
         disabledDate: (time) => {
             if (this.pd.departdateEnd != null) {
-              let startT = formatDate(new Date(time.getTime()),'yyyyMMddhhmm');
+              let startT = formatDate(new Date(time.getTime()),'yyyyMMdd');
               return startT > this.pd.departdateEnd;
             }else if(this.pd.departdateEnd == null){
               return false
@@ -616,7 +616,7 @@ export default {
       },
       pickerOptions1: {
         disabledDate: (time) => {
-            let endT = formatDate(new Date(time.getTime()),'yyyyMMddhhmm');
+            let endT = formatDate(new Date(time.getTime()),'yyyyMMdd');
             return endT < this.pd.departdateBegin;
         }
       },
@@ -637,9 +637,9 @@ export default {
 
   let time = new Date();
   let end = new Date();
-  let flightStart = new Date(new Date().setHours(0,0,0,0));
-  this.pd.departdateBegin=formatDate(flightStart,'yyyyMMddhhmm');
-  this.pd.departdateEnd=formatDate(end,'yyyyMMddhhmm');
+  // let flightStart = new Date(new Date().setHours(0,0,0,0));
+  this.pd.departdateBegin=formatDate(time,'yyyyMMdd');
+  this.pd.departdateEnd=formatDate(end,'yyyyMMdd');
   this.queryAirport();
   },
   activated(){
@@ -675,7 +675,7 @@ export default {
       this.flightNumber0=i.flightRecordnum;
       this.globalserial0=new Date().getTime();
       this.specifigseat0=i.specifigseat;
-      this.FLTNO0=i.flightNumber;
+      this.FLTNO0=i.fltno;
       this.FLTDATE0=i.fltdate;
       // this.$router.push({query:{flightNumber:i.flightRecordnum}})
     },

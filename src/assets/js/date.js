@@ -42,7 +42,7 @@ function padLeftZero(str) {
     return ('00' + str).substr(str.length);
 }
 
-function timestampToTime(timestamp,type) {//type为0，精确到分；为1，精确到秒
+export function timestampToTime(timestamp,type) {//type为0，精确到分；为1，精确到秒
   let timeS='';
   let year = timestamp.slice(0,4);
   let month = timestamp.slice(4,6);
@@ -54,6 +54,8 @@ function timestampToTime(timestamp,type) {//type为0，精确到分；为1，精
   }else if(type == 1){
     let seconed = timestamp.slice(12,14);
     timeS = year +'/'+month +'/'+day+' '+hour+':'+min+':'+seconed;
+  }else if(type == 2){
+    timeS = year +'/'+month +'/'+day;
   }
   return  timeS;
 }

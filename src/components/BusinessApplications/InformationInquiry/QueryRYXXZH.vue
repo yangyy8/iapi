@@ -1206,6 +1206,9 @@ export default {
       this.cdt.fltnoEqual = this.$route.query.row.fltno;
       this.cdt.startFltdate = this.zhuanhuan(this.$route.query.begintime);
       this.cdt.endFltdate = this.zhuanhuan(this.$route.query.endtime);
+      this.keys = [this.$route.query.row.nationality_code];
+
+      // this.$refs.tree.setCheckedKeys(this.keys);
       // this.cdt.familyname = this.$route.query.row.name;
       // this.cdt.genderEqual = this.sexZhuan(this.$route.query.row.gender);
       // this.cdt.dateofbirthEqual = this.zhuanhuan(this.$route.query.row.birthday)
@@ -1397,7 +1400,7 @@ export default {
          }
       })
       if(this.keys.length!=0){
-        this.keys = this.$refs.tree.getCheckedKeys(true);
+        // this.keys = this.$refs.tree.getCheckedKeys(true);
         this.$refs.tree.setCheckedKeys(this.keys);
       }
     },
@@ -1420,8 +1423,14 @@ export default {
       this.modelDialogVisible=false
     },
     seeModel(){
-
       this.dutyName = this.cdt.nationalityList;
+      if(this.$route.query.row){
+        this.dutyName=[{
+          'CNAME':this.$route.query.row.nationality,
+          'CODE':this.$route.query.row.nationality_code
+        }]
+      }
+      console.log(this.dutyName)
       if(this.dutyName == undefined || this.dutyName.length == 0){
         // this.modelCheck = true
         this.$message('您还未选择国籍');
@@ -2047,26 +2056,29 @@ export default {
   vertical-align: -5px;
 }
 .color1{
-  background: #e2f9d6;
+  background: #EEE9BF;
 }
 .color2{
-  background:#f9edd7;
+  background:#CDC673;
 }
 .color3{
-  background: #f9dede;
+  background: #F4A460;
 }
 </style>
 <style media="screen">
 .tableRy .warning-row {
-  background:#e2f9d6;
+  background: #EEE9BF;
+  /* 有值机，有订票 */
 }
 
 .tableRy .success-row {
-  background:#f9edd7 ;
+  background:#CDC673;
+  /*无值机，有订票 */
 }
 
 .tableRy .gray-row {
-  background: #f9dede;
+  background: #F4A460;
+  /*有值机，无订票 */
 }
 
   .t-save .el-select{

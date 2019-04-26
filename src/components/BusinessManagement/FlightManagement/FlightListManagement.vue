@@ -322,7 +322,7 @@
 </template>
 
 <script>
-import {formatDate,format} from '@/assets/js/date.js'
+import {formatDate,format,timestampToTime} from '@/assets/js/date.js'
 import {dayGap} from '@/assets/js/date.js'
 export default {
   data() {
@@ -387,8 +387,14 @@ export default {
       },
       pickerOptions1: {
         disabledDate: (time) => {
-            let endT = formatDate(new Date(time.getTime()),'yyyyMMddhhmm');
-            return endT < this.cdt.SCHEDULEDEPARTURETIMESTR;
+          let todayS =  (this.cdt.SCHEDULEDEPARTURETIMESTR).slice(0,8);
+          let currentTime = formatDate(new Date(time.getTime()),'yyyyMMdd');
+          let endT = formatDate(new Date(time.getTime()),'yyyyMMddhhmm');
+          if((todayS==currentTime)){
+            return this.cdt.SCHEDULEDEPARTURETIMESTR>this.cdt.SCHEDULEARRIVETIMESTR
+          }else{
+           return endT < this.cdt.SCHEDULEDEPARTURETIMESTR;
+          }
         }
       },
       pickerOptions2: {
@@ -403,8 +409,9 @@ export default {
       },
       pickerOptions3: {
         disabledDate: (time) => {
+          console.log(time);
             let endT = formatDate(new Date(time.getTime()),'yyyyMMddhhmm');
-            let a = new Date(this.timePlace(this.form.SCHEDULEDEPARTURETIMESTR))-1*24*60*60*1000;
+            let a = new Date(timestampToTime(this.form.SCHEDULEDEPARTURETIMESTR,0));
             return endT < formatDate(new Date(a),'yyyyMMddhhmm');
         }
       },
@@ -423,6 +430,11 @@ export default {
     let flightStart = new Date(new Date().setHours(0,0,0,0));
     this.cdt.SCHEDULEDEPARTURETIMESTR=formatDate(flightStart,'yyyyMMddhhmm');
     this.cdt.SCHEDULEARRIVETIMESTR=formatDate(end,'yyyyMMddhhmm');
+
+    // if(this.cdt.SCHEDULEDEPARTURETIMESTR.slice(0,8)=this.cdt.SCHEDULEARRIVETIMESTR.splice(0,8) = formatDate(newDate(),'yyyyMMdd'){
+    //   return this.cdt.SCHEDULEDEPARTURETIMESTR<this.cdt.SCHEDULEARRIVETIMESTR
+    // }
+    // console.log()
     // this.getList(this.CurrentPage, this.pageSize, this.cdt,this.order,this.direction);
   },
   activated() {

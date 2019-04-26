@@ -618,12 +618,13 @@ export default {
     this.nav1Id=this.$route.query.nav1Id
     this.nav2Id=this.$route.query.nav2Id
     let time = new Date();
-    let end = new Date();
+    let endTos = new Date(new Date(new Date().toLocaleDateString()).getTime()+24*60*60*1000-1);
     let createStar = new Date(new Date().setHours(0,0,0,0));
     this.pd.startCreatetime=formatDate(createStar,'yyyyMMddhhmmss');
-    this.pd.endCreatetime=formatDate(end,'yyyyMMddhhmmss');
+    this.pd.endCreatetime=formatDate(endTos,'yyyyMMddhhmmss');
 
     let flightStart = new Date(new Date().setHours(0,0,0,0));
+    let end = new Date();
     this.pd.startFlightDepartdate=formatDate(flightStart,'yyyyMMdd');
     this.pd.endFlightDepartdate=formatDate(end,'yyyyMMdd');
     this.queryAirport();

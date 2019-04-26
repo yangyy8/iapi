@@ -17,19 +17,19 @@
               <div class="input-input t-flex t-date">
                <el-date-picker
                v-model="pd.scheduledeparturetime"
-               type="datetime" size="small"
+               type="date" size="small"
                placeholder="开始时间"
-               format="yyyy-MM-dd HH:mm"
-               value-format="yyyyMMddHHmm"
+               format="yyyy-MM-dd"
+               value-format="yyyyMMdd"
                :picker-options="pickerOptions">
              </el-date-picker>
                <span class="septum">-</span>
              <el-date-picker
                 v-model="pd.schedulearrivetime"
-                type="datetime" size="small"
+                type="date" size="small"
                 placeholder="结束时间"
-                format="yyyy-MM-dd HH:mm"
-                value-format="yyyyMMddHHmm"
+                format="yyyy-MM-dd"
+                value-format="yyyyMMdd"
                 :picker-options="pickerOptions1">
             </el-date-picker>
           </div>
@@ -348,7 +348,7 @@ export default {
       pickerOptions: {
         disabledDate: (time) => {
             if (this.pd.schedulearrivetime != null) {
-              let startT = formatDate(new Date(time.getTime()),'yyyyMMddhhmm');
+              let startT = formatDate(new Date(time.getTime()),'yyyyMMdd');
               return startT > this.pd.schedulearrivetime;
             }else if(this.pd.schedulearrivetime == null){
               return false
@@ -357,7 +357,7 @@ export default {
       },
       pickerOptions1: {
         disabledDate: (time) => {
-            let endT = formatDate(new Date(time.getTime()),'yyyyMMddhhmm');
+            let endT = formatDate(new Date(time.getTime()),'yyyyMMdd');
             return endT < this.pd.scheduledeparturetime;
         }
       },
@@ -373,9 +373,9 @@ export default {
     let time = new Date();
     let end = new Date();
     let begin =new Date(time - 1000 * 60 * 60 * 24 * 30);
-    let flightStart = new Date(new Date().setHours(0,0,0,0));
-    this.pd.scheduledeparturetime=formatDate(flightStart,'yyyyMMddhhmm');
-    this.pd.schedulearrivetime=formatDate(end,'yyyyMMddhhmm');
+    // let flightStart = new Date(new Date().setHours(0,0,0,0));
+    this.pd.scheduledeparturetime=formatDate(begin,'yyyyMMdd');
+    this.pd.schedulearrivetime=formatDate(end,'yyyyMMdd');
     this.queryNationality();
     // this.queryAirport();
   },
@@ -486,7 +486,7 @@ export default {
        });
        return
       }
-      if(dayGap(this.pd.scheduledeparturetime,this.pd.schedulearrivetime,0)>30){
+      if(dayGap(this.pd.scheduledeparturetime,this.pd.schedulearrivetime,2)>30){
         this.$alert('查询时间间隔不能超过一个月', '提示', {
           confirmButtonText: '确定',
         });

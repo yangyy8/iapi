@@ -48,6 +48,9 @@
                       <el-col :span="8" class="t-el-content"><div class="t-el-text">到达机场：</div><div class="t-el-sub">{{dform.CITYTONAME}}</div></el-col>
                       <el-col :span="8" class="t-el-content"><div class="t-el-text">校验结果：</div><div class="t-el-sub">{{dform.CHECKRESULTNAME}}</div></el-col>
                     </el-row>
+                    <el-row type="flex"  class="t-detail">
+                      <el-col :span="8" class="t-el-content"><div class="t-el-text">座位号：</div><div class="t-el-sub">{{dform.PNR_SPECIFIGSEAT}}</div></el-col>
+                    </el-row>
                   </el-form>
                   <div :class="{'gaoliang':specifigseat==i+j}" @click="enter(i+j)" @mouseenter="hoverTitle(i+j)" slot="reference">
                     <img src="../../assets/img/renB.png" :title="biaoti" v-if="specifigseat==i+j"/>
