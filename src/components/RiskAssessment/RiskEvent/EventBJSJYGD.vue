@@ -80,9 +80,9 @@
               <el-col :sm="24" :md="12" :lg="8" class="input-item">
                 <span class="input-text">历次风评：</span>
                 <div class="input-input t-flex t-date">
-                  <el-input-number size="small" v-model="pd.eachEvent_start"></el-input-number>
+                  <el-input-number size="small" v-model="pd.eachEvent_start" :min="0"></el-input-number>
                   <span class="septum">-</span>
-                  <el-input-number size="small" v-model="pd.eachEvent_end"></el-input-number>
+                  <el-input-number size="small" v-model="pd.eachEvent_end" :min="0"></el-input-number>
                 </div>
               </el-col>
               <el-col :sm="24" :md="12"  :lg="8" class="input-item">

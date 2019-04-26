@@ -84,9 +84,9 @@
               <el-col :sm="24" :md="12" :lg="8" class="input-item">
                 <span class="input-text">历次风评：</span>
                 <div class="input-input t-flex t-date">
-                  <el-input-number size="small" v-model="pd.eachEvent_start"></el-input-number>
+                  <el-input-number size="small" v-model="pd.eachEvent_start" :min="0"></el-input-number>
                   <span class="septum">-</span>
-                  <el-input-number size="small" v-model="pd.eachEvent_end"></el-input-number>
+                  <el-input-number size="small" v-model="pd.eachEvent_end" :min="0"></el-input-number>
                 </div>
               </el-col>
               <el-col :sm="24" :md="12"  :lg="8" class="input-item">
@@ -357,7 +357,11 @@
                   <el-table :data="eachData" max-height="400" @row-click="clickEach">
                     <el-table-column width="150" property="CREATETIME" label="创建时间"></el-table-column>
                     <el-table-column width="110" property="PORT_NAME" label="口岸名称" :show-overflow-tooltip="true"></el-table-column>
-                    <el-table-column width="140" property="PROCESSORRESULT" label="处理结果" :show-overflow-tooltip="true"></el-table-column>
+                    <el-table-column width="140" property="PROCESSORRESULT" label="处理结果" :show-overflow-tooltip="true">
+                      <template slot-scope="scope">
+                        <span>{{scope.row.PROCESSORRESULT||'未审核'}}</span>
+                      </template>
+                    </el-table-column>
                   </el-table>
                 </el-popover>
               </div>
@@ -786,6 +790,9 @@ export default {
       })
     },
     clickEach(row,event,column){
+      if(!row.PROCESSORRESULT){
+        return
+      }
       this.$router.push({name:'BJCLCX',query:{serial:row.SERIAL,grade:row.GRADE,nav2Id:row.SERIAL+2,title:'已归档查询'}})
     },
     openCzTc(){

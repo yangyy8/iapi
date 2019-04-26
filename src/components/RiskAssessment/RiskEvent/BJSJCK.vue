@@ -624,14 +624,27 @@ export default {
     }
   },
   watch:{
-    $route:function(val){
+    $route:function(val,old){
       this.page=val.query.page
-      this.getUers();
-
       this.operation_type=this.$route.query.operation_type;
       this.serial=this.$route.query.serial;
       this.delIndex='';
-      this.getRiskIapiInfo();
+      if(val.name=='BJSJCK'&&val.query.nav2Id!=old.query.nav2Id){
+        console.log("val----",val,old)
+        
+        this.getUers();
+        this.getRiskIapiInfo();
+        if(this.page==0){
+          this.getHisModelInfo();
+          this.getOperationalTargetInfo();
+        }else if(this.page==1){
+          this.getRiskDescRecordInfo();
+          this.checkList=[];
+          this.fileData=[];
+          this.listRiskCustom=[];
+        }
+      }
+
 
     },
     page:function(val){
