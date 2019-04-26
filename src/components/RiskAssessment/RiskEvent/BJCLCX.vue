@@ -497,18 +497,23 @@ export default {
     this.page0Data={};
     this.imgURL=imgUrl;
     this.serial=this.$route.query.serial;
+    console.log(1111111)
     this.getRiskIapiInfo();
     this.getHisModelInfo();
     this.getRiskDescRecordInfo();
     this.getOperationalTargetInfo();
   },
   watch:{
-    $route:function(val){
-      this.serial=val.query.serial;
-      this.getRiskIapiInfo();
-      this.getHisModelInfo();
-      this.getRiskDescRecordInfo();
-      this.getOperationalTargetInfo();
+    $route:function(val,old){
+      if(val.name=='BJCLCX'&&val.query.nav2Id!=old.query.nav2Id){
+        this.serial=val.query.serial;
+        // console.log("val1111",val,old)
+        this.getRiskIapiInfo();
+        this.getHisModelInfo();
+        this.getRiskDescRecordInfo();
+        this.getOperationalTargetInfo();
+      }
+
     }
   },
   methods:{

@@ -528,7 +528,7 @@ export default {
     },
     // 航班实时查询
     getList(CurrentPage,showCount,pd,orders,direction){
-      // console.log(this.bjsj,pd)
+      console.log(this.bjsj,pd)
       let arr =this.bjsj;
       pd.whtSel='0';pd.blkSel='0';pd.ctlSel='0';pd.fcsSel='0';
       for(var i=0;i<arr.length;i++){
