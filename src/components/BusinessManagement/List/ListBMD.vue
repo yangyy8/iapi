@@ -258,20 +258,26 @@
           :show-overflow-tooltip="true">
         </el-table-column>
         <el-table-column
+          prop="SYN_STATUS"
+          sortable="custom"
+          label="名单状态"
+          :show-overflow-tooltip="true"  v-if="qz" :key="Math.random()">
+          <template slot-scope="scope">
+            <span v-if="scope.row.SYN_STATUS==0">未发布</span>
+            <span v-if="scope.row.SYN_STATUS==1">已发布</span>
+          </template>
+        </el-table-column>
+        <el-table-column
           prop="NAMELISTSTATUS"
           sortable="custom"
           label="名单状态"
-          :show-overflow-tooltip="true">
-          <!-- <template slot-scope="scope">
-            <span v-if="scope.row.SYN_STATUS==0">未发布</span>
-            <span v-if="scope.row.SYN_STATUS==1">已发布</span>
-          </template> -->
+          :show-overflow-tooltip="true" v-if="hj" :key="Math.random()">
         </el-table-column>
         <el-table-column
           prop="UPDATEUSER"
           sortable="custom"
           label="操作人"
-          :show-overflow-tooltip="true">
+          :show-overflow-tooltip="true" v-if="hj" :key="Math.random()">
         </el-table-column>
         <el-table-column
           label="操作"
@@ -798,6 +804,8 @@ export default {
           return endT < this.form.CTL_BEGINDATE;
         }
       },
+      qz:true,
+      hj:false,
 
     }
   },
@@ -906,6 +914,8 @@ export default {
       // if (this.dialogType=="his") {
       //   this.getHisFn(currentPage,showCount,pd);
       // }else {
+      this.hj=false;
+      this.qz=true;
         let p={
         	"currentPage":currentPage,
         	"showCount":showCount,
@@ -923,6 +933,8 @@ export default {
       // }
     },
     getHisFn(currentPage,showCount,pd,orders,direction){
+      this.hj=true;
+      this.qz=false;
       let p={
         "currentPage":currentPage,
         "showCount":showCount,
