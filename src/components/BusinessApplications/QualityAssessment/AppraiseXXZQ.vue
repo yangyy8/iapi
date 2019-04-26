@@ -118,15 +118,15 @@
         </el-table-column>
         <el-table-column
           prop="ee_noboarding"
-          label="漏报人数" sortable>
+          label="有出入境记录无登机信息" sortable>
         </el-table-column>
         <el-table-column
           prop="brd_noee"
-          label="多报人数" sortable>
+          label="有登机信息无出入境记录" sortable>
         </el-table-column>
         <el-table-column
           prop="error"
-          label="误报人数" sortable
+          label="国籍证号比对，航班号不一致" sortable
           >
         </el-table-column>
         <el-table-column
@@ -183,16 +183,22 @@
 
         <div class="ak-tabs">
           <div class="ak-tab-item abehgt hand" :class="{'ak-checked':page==0}" @click="base">
-            漏报人员
+            <!-- 漏报人员 -->
+            有出入境记录无登机信息
           </div>
           <div class="ak-tab-item abehgt hand" :class="{'ak-checked':page==1}" @click="base1">
-            多报人员
+            <!-- 多报人员 -->
+            有登机信息无出入境记录
           </div>
           <div class="ak-tab-item abehgt hand" :class="{'ak-checked':page==2}" @click="base2">
-            误报人员
+            <!-- 误报人员 -->
+            国籍证号比对，航班号不一致
           </div>
           <div class="ak-tab-item abehgt hand" :class="{'ak-checked':page==3}" @click="base3">
             信息不完整人员
+          </div>
+          <div class="ak-tab-item abehgt hand" :class="{'ak-checked':page==4}" @click="base4">
+            值机未订票人员
           </div>
         </div>
         <div class="ak-tab-pane" >
@@ -541,6 +547,86 @@
                         </el-pagination>
                       </div>
             </div>
+
+            <div v-show="page==4">
+              <el-row class="mb-15 yr">
+                <el-button type="primary" size="small" @click="download(6)">Excel导出</el-button>
+                </el-row>
+                      <el-table
+                        :data="tableData5"
+                        border
+                        style="width: 100%;"
+                        class="mt-10 o-table3"
+                        @header-click="headerClick">
+                        <el-table-column
+                          prop="fltno"
+                          label="航班号" sortable>
+                        </el-table-column>
+                        <el-table-column
+                          prop="fltdate"
+                          label="航班日期" sortable
+                          >
+                        </el-table-column>
+                        <el-table-column
+                          prop="passportissuecountry"
+                          label="国籍" sortable
+                          >
+                        </el-table-column>
+                        <el-table-column
+                          prop="passportno"
+                          label="证号" sortable
+                          >
+                        </el-table-column>
+
+                        <el-table-column
+                          prop="flttype"
+                          label="类型" sortable>
+                        </el-table-column>
+                        <el-table-column
+                          prop="name"
+                          label="姓名" sortable>
+                        </el-table-column>
+                        <el-table-column
+                          prop="gender"
+                          label="性别" sortable
+                          >
+                        </el-table-column>
+                        <el-table-column
+                          prop="dateofbirth"
+                          label="出生日期" sortable
+                          >
+                        </el-table-column>
+                      </el-table>
+                      <div class="middle-foot">
+                        <div class="page-msg">
+                          <div class="">
+                            共{{Math.ceil(TotalResult5/pageSize5)}}页
+                          </div>
+                          <div class="">
+                            每页
+                            <el-select v-model="pageSize5" @change="pageSizeChange4(pageSize5)" placeholder="10" size="mini" class="page-select">
+                              <el-option
+                                v-for="item in options"
+                                :key="item.value"
+                                :label="item.label"
+                                :value="item.value">
+                              </el-option>
+                            </el-select>
+                            条
+                          </div>
+                          <div class="">
+                            共{{TotalResult5}}条
+                          </div>
+                        </div>
+                        <el-pagination
+                          background
+                          @current-change="handleCurrentChange5"
+                          :page-size="pageSize5"
+                          layout="prev, pager, next"
+                          :total="TotalResult5">
+                        </el-pagination>
+                      </div>
+            </div>
         </div>
 
 
@@ -571,6 +657,9 @@ export default {
       CurrentPage4: 1,
       pageSize4: 10,
       TotalResult4: 0,
+      CurrentPage5: 1,
+      pageSize5: 10,
+      TotalResult5: 0,
       pd: {begintime:'',endtime:''},
       pd0:{},
       nation: [],
@@ -597,11 +686,12 @@ export default {
       tableData2: [],
       tableData3: [],
       tableData4: [],
+      tableData5:[],
       multipleSelection: [],
       pickerOptions0: {
         disabledDate: (time) => {
           if (this.pd.endtime != null) {
-            let startT = formatDate(new Date(time.getTime()), 'yyyyMMddhhmmss');
+            let startT = formatDate(new Date(time.getTime()-1), 'yyyyMMddhhmmss');
             return startT > this.pd.endtime;
           } else if (this.pd.endtime == null) {
             return false
@@ -625,16 +715,16 @@ export default {
     let time = new Date();
     let endz = new Date();
     let beginz = new Date(time - 1000 * 60 * 60 * 24 * 1);
-    this.pd.begintime = formatDate(beginz, 'yyyyMMdd');
+    this.pd.begintime = formatDate(endz, 'yyyyMMdd');
     this.pd.endtime = formatDate(endz, 'yyyyMMdd');
   },
   activated(){
       this.queryNationality();
-      let time = new Date();
-      let endz = new Date();
-      let beginz = new Date(time - 1000 * 60 * 60 * 24 * 1);
-      this.pd.begintime = formatDate(beginz, 'yyyyMMdd');
-      this.pd.endtime = formatDate(endz, 'yyyyMMdd');
+      // let time = new Date();
+      // let endz = new Date();
+      // let beginz = new Date(time - 1000 * 60 * 60 * 24 * 1);
+      // this.pd.begintime = formatDate(beginz, 'yyyyMMdd');
+      // this.pd.endtime = formatDate(endz, 'yyyyMMdd');
   },
   methods: {
     headerClick(column,event){
@@ -651,6 +741,9 @@ export default {
     },
     base3() {
       this.page = 3;
+    },
+    base4() {
+      this.page = 4;
     },
     handleSelectionChange(val) {
       this.multipleSelection = val;
@@ -694,6 +787,14 @@ export default {
     },
     handleCurrentChange4(val) {
       this.getList4(val, this.pageSize4, this.pd);
+      console.log(`当前页: ${val}`);
+    },
+    pageSizeChange5(val) {
+      this.getList5(this.CurrentPage5, val, this.pd);
+      console.log(`每页 ${val} 条`);
+    },
+    handleCurrentChange5(val) {
+      this.getList5(val, this.pageSize5, this.pd);
       console.log(`当前页: ${val}`);
     },
     getList(currentPage, showCount, pd) {
@@ -802,6 +903,25 @@ export default {
                }
              });
          },
+         //值机未订票人员
+         getList5(currentPage, showCount, pd) {
+
+           let p = {
+             "currentPage": currentPage,
+             "showCount": showCount,
+             "cdt": pd
+           };
+
+           this.$api.post('/manage-platform/forecastEva/get_chk_nopnr_person', p,
+             r => {
+               console.log(r);
+               if (r.success) {
+                 this.tableData5 = r.data.resultList;
+                 this.TotalResult5 = r.data.totalResult;
+               }
+             });
+         },
+
     details(i) {
       this.detailsDialogVisible = true;
       console.log("i.fltno",i.fltno);
@@ -812,6 +932,7 @@ export default {
       this.getList2(this.CurrentPage2, this.pageSize2, this.pd0);
       this.getList3(this.CurrentPage3, this.pageSize3, this.pd0);
       this.getList4(this.CurrentPage4, this.pageSize4, this.pd0);
+      this.getList5(this.CurrentPage5, this.pageSize5, this.pd0);
     },
 
     download(n){
@@ -830,6 +951,8 @@ export default {
        url=actions+"/manage-platform/forecastEva/exp_incomplete_person";
      }else if(n==5){
        url=actions+"/manage-platform/forecastEva/exp_fccrt_all";
+     }else if(n==6){
+       url=actions+"/manage-platform/forecastEva/exp_chk_nopnr_person";
      }
 
       axios({

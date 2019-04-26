@@ -131,12 +131,19 @@
               <el-col :sm="24" :md="12" :lg="8" class="input-item">
                 <span class="input-text">航站：</span>
                 <el-select  v-model="pd.port" placeholder="请选择" filterable clearable size="small" class="input-input">
-                  <el-option
+                  <!-- <el-option
                     v-for="item in airport"
                     v-if="item.JCDM"
                     :key="item.JCDM"
                     :label="item.JCDM+' - '+item.KAMC"
                     :value="item.JCDM">
+                  </el-option> -->
+                  <el-option
+                    v-for="(item,ind) in airport"
+                    v-if="item.DEPT_CODE"
+                    :key="ind"
+                    :label="item.DEPT_CODE+' - '+item.DEPT_JC"
+                    :value="item.DEPT_CODE">
                   </el-option>
                 </el-select>
               </el-col>
@@ -329,17 +336,17 @@
           </el-table-column>
           <el-table-column
             label="订票性别"
-            prop="bkbirthday"
+            prop="bkgender"
             width="65"
             sortable="custom"
             :show-overflow-tooltip="true">
-            <template slot-scope="scope">
+            <!-- <template slot-scope="scope">
               <div>
                 <span v-if="scope.row.bkgender=='F'">女</span>
                 <span v-if="scope.row.bkgender=='M'">男</span>
                 <span v-if="scope.row.bkgender=='U'">未知</span>
               </div>
-            </template>
+            </template> -->
           </el-table-column>
           <el-table-column
             label="订票证号"
@@ -357,7 +364,7 @@
           </el-table-column>
           <el-table-column
             label="订票出生日期"
-            prop="bkgender"
+            prop="bkbirthday"
             sortable="custom"
             width="101"
             :show-overflow-tooltip="true">
@@ -1030,7 +1037,11 @@ export default {
       ],
       checked:true,
       addDialogVisible:false,
-      addform:{},
+      addform:{
+        name:'',
+        passno:'',
+        nationality:''
+      },
 
       historyCdt:{},
       queryDialogVisible: false,
@@ -1056,8 +1067,9 @@ export default {
     this.nav1Id=this.$route.query.nav1Id
     this.nav2Id=this.$route.query.nav2Id
     let end = new Date();
-    let begin = new Date(end - 24*60*60*1000);
-    this.pd.fltDateFr= formatDate(begin, 'yyyyMMdd');
+    // let begin = new Date(end - 24*60*60*1000);
+    // this.pd.fltDateFr= formatDate(begin, 'yyyyMMdd');
+    this.pd.fltDateFr= formatDate(end, 'yyyyMMdd');
     this.pd.fltDateTo= formatDate(end, 'yyyyMMdd');
     this.queryNationalityAlone();
   },
@@ -1162,7 +1174,13 @@ export default {
     },
 
     queryAirport(){
-      this.$api.post('/manage-platform/codeTable/queryAirportMatch',{},
+      // this.$api.post('/manage-platform/codeTable/queryAirportMatch',{},
+      //  r => {
+      //    if(r.success){
+      //      this.airport=r.data;
+      //    }
+      // })
+      this.$api.post('/manage-platform/riskEventController/getDeptInfo',{},
        r => {
          if(r.success){
            this.airport=r.data;

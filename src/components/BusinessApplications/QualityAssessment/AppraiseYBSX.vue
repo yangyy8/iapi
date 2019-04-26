@@ -230,16 +230,16 @@
       :visible.sync="detailsDialogVisible">
         <div class="ak-tabs">
           <div class="ak-tab-item abehgt hand" :class="{'ak-checked':page==0}" @click="base">
-            未关闭报航班
+            关闭报未报航班
           </div>
           <div class="ak-tab-item abehgt hand" :class="{'ak-checked':page==1}" @click="base1">
-            晚报关闭报航班
+            关闭报晚报航班
           </div>
           <div class="ak-tab-item abehgt hand" :class="{'ak-checked':page==2}" @click="base2">
             值机报晚报人员
           </div>
           <div class="ak-tab-item abehgt hand" :class="{'ak-checked':page==3}" @click="base3">
-            无值机报晚报人员
+            值机报未报人员
           </div>
         </div>
         <div class="ak-tab-pane" >
@@ -620,7 +620,7 @@ export default {
       pickerOptions0: {
         disabledDate: (time) => {
           if (this.pd.endtime != null) {
-            let startT = formatDate(new Date(time.getTime()), 'yyyyMMddhhmmss');
+            let startT = formatDate(new Date(time.getTime()-1), 'yyyyMMddhhmmss');
             return startT > this.pd.endtime;
           } else if (this.pd.endtime == null) {
             return false
@@ -644,16 +644,16 @@ export default {
     let time = new Date();
     let endz = new Date();
     let beginz = new Date(time - 1000 * 60 * 60 * 24 * 1);
-    this.pd.begintime = formatDate(beginz, 'yyyyMMdd');
+    this.pd.begintime = formatDate(endz, 'yyyyMMdd');
     this.pd.endtime = formatDate(endz, 'yyyyMMdd');
   },
   activated(){
       this.queryNationality();
-      let time = new Date();
-      let endz = new Date();
-      let beginz = new Date(time - 1000 * 60 * 60 * 24 * 1);
-      this.pd.begintime = formatDate(beginz, 'yyyyMMdd');
-      this.pd.endtime = formatDate(endz, 'yyyyMMdd');
+      // let time = new Date();
+      // let endz = new Date();
+      // let beginz = new Date(time - 1000 * 60 * 60 * 24 * 1);
+      // this.pd.begintime = formatDate(beginz, 'yyyyMMdd');
+      // this.pd.endtime = formatDate(endz, 'yyyyMMdd');
   },
   methods: {
     headerClick(column,event){

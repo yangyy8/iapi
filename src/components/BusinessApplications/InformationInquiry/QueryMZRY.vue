@@ -683,6 +683,7 @@ export default {
       this.pd.nationalityEqual=msg;
     },
     pageSizeChange(val) {
+      this.pageSize = val;
       this.getList(this.CurrentPage, val, this.pd,this.order,this.direction);
       console.log(`每页 ${val} 条`);
     },
@@ -690,6 +691,7 @@ export default {
       this.getHistoryList(val,this.hshowCount,this.historyCdt);
     },
     handleCurrentChange(val) {
+      this.CurrentPage = val;
       this.getList(val, this.pageSize, this.pd,this.order,this.direction);
       console.log(`当前页: ${val}`);
     },

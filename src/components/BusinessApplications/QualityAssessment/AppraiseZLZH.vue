@@ -181,6 +181,15 @@
     <el-dialog
       title="详情"
       :visible.sync="detailsDialogVisible">
+
+      <div class="ak-tabs">
+        <div class="ak-tab-item abehgt hand" :class="{'ak-checked':page==0}" @click="base">
+          值机未订票人员
+        </div>
+      </div>
+
+      <div class="ak-tab-pane" >
+          <div v-show="page==0">
       <el-row class="mb-15 yr">
         <el-button type="primary" size="small" @click="download(1)">Excel导出</el-button>
         </el-row>
@@ -259,10 +268,12 @@
               :total="TotalResult1">
             </el-pagination>
           </div>
-
+      </div>
+    </div>
       <span slot="footer" class="dialog-footer">
         <el-button  @click="detailsDialogVisible = false" size="small">取消</el-button>
       </span>
+
     </el-dialog>
   </div>
 </template>
@@ -299,13 +310,14 @@ export default {
           label: "30"
         }
       ],
+      page:0,
       tableData: [],
       tableData1:[],
       multipleSelection: [],
       pickerOptions0: {
         disabledDate: (time) => {
             if (this.pd.endtime != null) {
-              let startT = formatDate(new Date(time.getTime()),'yyyyMMddhhmmss');
+              let startT = formatDate(new Date(time.getTime()-1),'yyyyMMddhhmmss');
               return startT > this.pd.endtime;
             }else if(this.pd.endtime == null){
               return false
@@ -329,19 +341,22 @@ export default {
     let time = new Date();
     let endz = new Date();
     let beginz = new Date(time - 1000 * 60 * 60 * 24 * 1);
-    this.pd.begintime = formatDate(beginz, 'yyyyMMdd');
+    this.pd.begintime = formatDate(endz, 'yyyyMMdd');
     this.pd.endtime = formatDate(endz, 'yyyyMMdd');
   },
   activated(){
     this.queryNationality();
-    let time = new Date();
-    let endz = new Date();
-    let beginz = new Date(time - 1000 * 60 * 60 * 24 * 1);
-    this.pd.begintime = formatDate(beginz, 'yyyyMMdd');
-    this.pd.endtime = formatDate(endz, 'yyyyMMdd');
+    // let time = new Date();
+    // let endz = new Date();
+    // let beginz = new Date(time - 1000 * 60 * 60 * 24 * 1);
+    // this.pd.begintime = formatDate(beginz, 'yyyyMMdd');
+    // this.pd.endtime = formatDate(endz, 'yyyyMMdd');
 
   },
   methods: {
+    base() {
+      this.page = 0;
+    },
     headerClick(column,event){
      event.target.title=column.label
    },
@@ -398,7 +413,7 @@ export default {
           this.tableData = r.data;
         })
     },
-    //无关闭报航班
+    //值机未订票人员
      getList1(currentPage, showCount, pd) {
 
        let p = {

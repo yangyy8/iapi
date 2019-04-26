@@ -535,7 +535,6 @@ export default {
       this.orders=[];
       this.direction=0;
       this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
-
     },
     getList(currentPage,showCount,pd,orders,direction){
       let p = {
@@ -568,7 +567,6 @@ export default {
       this.$api.post('/manage-platform/cardAndVisaTypeController/queryDmDocCodeAndDmDocCodes', {},
         r => {
           //console.log(r);
-
           if (r.success) {
             this.docCode = r.data;
           }
@@ -593,7 +591,6 @@ export default {
         this.form.FAMILYNAME = i.RISKDICTIONARIES;
         this.dialogText = "编辑";
       } else {
-
         this.tp = 0;
         this.dialogText = "新增";
       }

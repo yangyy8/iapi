@@ -271,12 +271,11 @@
                     关闭时间：{{rst4.departdate}}<br/>
                   </span>
                 </div>
-                <div style="width:18%; margin-left:73%;  margin-top:75px;  line-height:25px; font-size:14px;height:55px;" v-if='rj'>
+                <div style="width:18%; margin-left:73%;  margin-top:75px;  line-height:25px; font-size:14px;height:55px;">
                   <span v-if='rj'>
                     入境时间：{{rst5.steptime}}<br/>
-                   入境口岸：{{rst5.cityto}}<br/>
+                    入境口岸：{{rst5.cityto}}<br/>
                   </span>
-
                 </div>
            </div>
 
@@ -480,9 +479,18 @@ this.$api.post("/manage-platform/PersonLocation/get_person_status", p,
            this.rj=true;
            this.rst5=arr[i];
          }
+        if(arr[i].step=="出入境"){
+          console.log(arr[i].step+'--------------');
+           if(arr[i].flttype=="出境"){
 
+            this.cj=true;
+            this.rst3=arr[i];
+           }else if(arr[i].flttype=="入境"){
+             this.rj=true;
+             this.rst5=arr[i];
+           }
+        }
       }
-
 
     });
   },

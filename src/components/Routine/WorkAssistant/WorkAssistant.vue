@@ -478,16 +478,20 @@ export default {
     },
     pageSizeChange(val) {
       if(this.page==0){
+        this.pageSize=val;
         this.getList(this.CurrentPage, val, this.cdt,this.order,this.direction);
       }else if(this.page==1){
+        this.mpageSize = val;
         this.mgetList(this.mCurrentPage,val,this.mcdt,this.morder,this.mdirection);
       }
       console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
       if(this.page==0){
+        this.CurrentPage = val;
         this.getList(val, this.pageSize, this.cdt,this.order,this.direction);
       }else if(this.page==1){
+        this.mCurrentPage = val;
         this.mgetList(val,this.mpageSize,this.mcdt,this.morder,this.mdirection);
       }
       console.log(`当前页: ${val}`);

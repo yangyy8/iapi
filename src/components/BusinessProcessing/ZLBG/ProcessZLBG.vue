@@ -40,7 +40,7 @@
               <span class="input-text">姓名：</span>
                 <div class="input-input t-fuzzy t-flex">
               <el-input placeholder="请输入内容" size="small" v-model="pd.NAME"   class="input-input"></el-input>
-              &nbsp;<el-checkbox v-model="pd.ISBLURRED">模糊查询</el-checkbox>
+              <el-checkbox v-model="pd.ISBLURRED">模糊查询</el-checkbox>
             </div>
             </el-col>
                   <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
@@ -71,9 +71,9 @@
          </div>
             </el-col>
             <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
-                <span class="input-text">航班号：</span>
-                <el-input placeholder="请输入内容" size="small" v-model="pd.FLTNO" class="input-input"></el-input>
-              </el-col>
+              <span class="input-text">航班号：</span>
+              <el-input placeholder="请输入内容" size="small" v-model="pd.FLTNO" class="input-input"></el-input>
+            </el-col>
                 <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
                 <span class="input-text"><font color="red">*</font> 航班日期：</span>
                   <div class="input-input t-flex t-date">
@@ -117,7 +117,7 @@
           </el-row>
         </el-col>
         <el-col :span="2" class="down-btn-area">
-          <el-button type="success" size="small" @click="CurrentPage=1;getList(CurrentPage,pageSize,pd)">查询</el-button>
+          <el-button type="success" size="small" @click="CurrentPage=1;getList(CurrentPage,pageSize,pd,orders,direction)">查询</el-button>
         </el-col>
 
       </el-row>
@@ -132,80 +132,82 @@
         style="width: 100%;"
         class="mt-10 o-table3"
         @header-click="headerClick"
-        @selection-change="handleSelectionChange">
+        @selection-change="handleSelectionChange"
+        @sort-change='sortChange'>
         <el-table-column
          type="selection"
          width="40">
         </el-table-column>
                 <el-table-column
                   prop="NATIONALITYC"
-                  label="国籍/地区" sortable
-                >
+                  label="国籍/地区"
+                  sortable>
                 </el-table-column>
                 <el-table-column
-                  label="证件种类" sortable
+                  prop="PASSPORTTYPE"
+                  label="证件种类"
                   width="120"
-                >
-                <template slot-scope="scope">
+                  sortable>
+                  <template slot-scope="scope">
                     {{scope.row.PASSPORTTYPE | fiftertype}}
                   </template>
-
                 </el-table-column>
                 <el-table-column
                   prop="PASSPORTNO"
-                  label="证件号码" sortable
+                  label="证件号码"
                   width="120"
-                >
+                  sortable>
                 </el-table-column>
                 <el-table-column
                   prop="NAME"
-                  label="姓名" sortable
-                >
+                  label="姓名">
                 </el-table-column>
                 <el-table-column
                   prop="INTG_CHNNAME"
                   label="中文姓名"
-                  width="120" sortable
-                >
+                  width="120">
                 </el-table-column>
                 <el-table-column
-                  label="性别" sortable
-                >
-                <template slot-scope="scope">
-                  {{scope.row.GENDER | fiftersex}}
-                </template>
+                  prop="GENDER"
+                  label="性别"
+                  sortable>
+                  <template slot-scope="scope">
+                    {{scope.row.GENDER | fiftersex}}
+                  </template>
                 </el-table-column>
                 <el-table-column
                   prop="DATEOFBIRTH"
-                  label="出生日期" sortable
+                  label="出生日期"
                   width="110"
-                  >
+                  sortable>
                 </el-table-column>
                 <el-table-column
                   prop="FLTNO"
-                  label="航班号" sortable
+                  label="航班号"
                   width="100"
-                >
+                  sortable>
                 </el-table-column>
                 <el-table-column
                   prop="DEPARTDATE"
-                  label="航班日期" sortable
+                  label="航班日期"
                   width="120"
-                  >
+                  sortable>
                 </el-table-column>
 
                 <el-table-column
+                  prop="PASSENGERSTATUS"
                   label="值机状态"
-                  width="120" sortable
-                  >
+                  width="120"
+                  sortable>
                   <template slot-scope="scope">
                     {{scope.row.PASSENGERSTATUS | fifterstate}}
                   </template>
                 </el-table-column>
                 <el-table-column
+                  prop="LASTCHECKRESULT"
                   label="反馈状态"
-                  width="120" sortable
-                  >
+                  width="120"
+                  sortable>
                   <template slot-scope="scope">
                     {{scope.row.LASTCHECKRESULT | fiftecr}}
                   </template>
@@ -213,12 +215,14 @@
                 <el-table-column
                   label="操作" width="70">
                   <template slot-scope="scope">
-  <span v-if="scope.row.FLIGHTSTATUS==0 || scope.row.FLIGHTSTATUS==1 ">
+  <!-- <span v-if="scope.row.FLIGHTSTATUS==0 || scope.row.FLIGHTSTATUS==1 ">
   <el-button   type="text"  class="a-btn"  title="变更" icon="el-icon-edit" :disabled="true"></el-button>
 </span>
 <span v-else>
     <el-button  type="text"  class="a-btn"  title="变更" icon="el-icon-edit" @click="handles(scope.row);"></el-button>
-  </span>
+  </span> -->
+
+      <el-button  type="text"  class="a-btn"  title="变更" icon="el-icon-edit" @click="handles(scope.row);"></el-button>
 
       <el-button type="text"  class="a-btn"  title="详情" icon="el-icon-tickets" @click="details(scope.row)"></el-button>
                  </template>
@@ -740,6 +744,8 @@ export default {
   // },
   data() {
     return {
+      direction:0,
+      orders:[],
       CurrentPage: 1,
       pageSize: 10,
       TotalResult: 0,
@@ -749,7 +755,10 @@ export default {
       ap: {},
       pd: {
         STARTTIME: '',
-        ENDTIME: ''
+        ENDTIME: '',
+        PASSPORTNO:'',
+        NAME:'',
+        FLTNO:''
       },
       tp: 0,
       nation: [],
@@ -816,9 +825,11 @@ export default {
     let time = new Date();
     let end = new Date();
     let begin = new Date(time - 1000 * 60 * 60 * 24 * 14);
-    this.pd.STARTTIME = formatDate(begin, 'yyyyMMddhhmm');
+    let flightStart = new Date(new Date().setHours(0,0,0,0));
+    let flightEnd = new Date(new Date(new Date().toLocaleDateString()).getTime()+24*60*60*1000-1);
+    this.pd.STARTTIME = formatDate(flightStart, 'yyyyMMddhhmm');
     this.datenow = formatDate(begin, 'yyyy-MM-dd');
-    this.pd.ENDTIME = formatDate(end, 'yyyyMMddhhmm');
+    this.pd.ENDTIME = formatDate(flightEnd, 'yyyyMMddhhmm');
   },
   activated() {
     this.nav1Id=this.$route.query.nav1Id;
@@ -832,6 +843,13 @@ export default {
     // this.pd.ENDTIME = formatDate(end, 'yyyyMMddhhmm');
   },
   methods: {
+    sortChange(column, prop, order){
+      column.order=='ascending'?this.direction=1:this.direction=0;
+      this.orders=[column.prop];
+      if(column.prop=='DATEOFBIRTH'){this.orders = [' BIRTHDAY']}
+      if(column.prop=='NATIONALITYC'){this.orders = ['NATIONALITY']}
+      this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
+    },
     headerClick(column,event){
       event.target.title=column.label
     },
@@ -881,11 +899,11 @@ export default {
       });
     },
     pageSizeChange(val) {
-      this.getList(this.CurrentPage, val, this.pd);
+      this.getList(this.CurrentPage, val, this.pd,this.orders,this.direction);
       console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
-      this.getList(val, this.pageSize, this.pd);
+      this.getList(val, this.pageSize, this.pd,this.orders,this.direction);
 
       console.log(`当前页: ${val}`);
     },
@@ -897,7 +915,7 @@ export default {
       this.detailgetlist(val, this.pageSize1, this.dform);
       console.log(`当前页: ${val}`);
     },
-    getList(currentPage, showCount, pd) {
+    getList(currentPage, showCount, pd,orders,direction) {
       if(this.pd.STARTTIME==''||this.pd.ENDTIME==''||this.pd.STARTTIME==null||this.pd.ENDTIME==null){
         this.$message({
          message: '航班日期不能为空',
@@ -912,12 +930,14 @@ export default {
       let p = {
         "currentPage": currentPage,
         "showCount": showCount,
-        "pd": pd
+        "pd": pd,
+        "orders":orders,
+        "direction":direction
       };
       this.$api.post('/manage-platform/iapiUnscolicited/search', p,
         r => {
           console.log(r);
-          this.tableData = r.data.pdList;
+          this.tableData = r.data.resultList;
           this.TotalResult = r.data.totalResult;
         })
     },
@@ -987,7 +1007,7 @@ export default {
           this.$refs[formName].resetFields();
           this.batchDialogVisible = false;
           this.AuthDialogVisible = false;
-          this.getList(this.CurrentPage, this.pageSize, this.pd);
+          this.getList(this.CurrentPage, this.pageSize, this.pd,this.orders,this.direction);
         }, e => {
           this.$message.error('失败了');
         })
@@ -1016,7 +1036,7 @@ export default {
           this.$refs[formName].resetFields();
           this.handlesDialogVisible = false;
           this.AuthDialogVisible = false;
-          this.getList(this.CurrentPage, this.pageSize, this.pd);
+          this.getList(this.CurrentPage, this.pageSize, this.pd,this.orders,this.direction);
         }, e => {
           this.$message.error('失败了');
         })

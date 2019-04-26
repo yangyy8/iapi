@@ -56,7 +56,7 @@
             </el-col>
             <el-dialog title="单位选择" :visible.sync="modelDialogVisible" width="640px" :before-close="cancelModel">
               <el-input
-                placeholder="输入模型关键字进行过滤"
+                placeholder="输入单位关键字进行过滤"
                 v-model="filterText">
               </el-input>
               <el-tree
@@ -460,10 +460,12 @@ export default {
       this.multipleSelection = val;
     },
     pageSizeChange(val) {
+      this.pageSize = val;
       this.getList(this.CurrentPage, val, this.cdt,this.order,this.direction);
       console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
+      this.CurrentPage = val;
       this.getList(val, this.pageSize, this.cdt,this.order,this.direction);
       console.log(`当前页: ${val}`);
     },

@@ -308,25 +308,31 @@
       </div>
     </div>
     <div class="middle-btn-g middle">
-      <button type="button" name="button" class="mr-15" :class="{'pitchOn':bigBase==5}" @click="bigBase=5">IAPI数据</button>
-      <button type="button" name="button" :class="{'pitchOn':bigBase==6}"  @click="bigBase=6;">PNR数据</button>
+      <button type="button" name="button" class="mr-15" :class="{'pitchOn':bigBase==5}" @click="bigBase=5;toggleSelection(batchTableList)">IAPI数据</button>
+      <button type="button" name="button" :class="{'pitchOn':bigBase==6}"  @click="bigBase=6;toggleSelection(batchTableListPnr)">PNR数据</button>
     </div>
     <!-- 展示项 -->
     <div class="middle middle-top mb-2" v-if="bigBase==5">
-      <div class="title-green">
+      <div class="title-green ckeck-item">
         <span style="float:left">结果显示项</span>
-        <el-button style="float:right" type="primary" plain @click="openCheck" size="mini">{{text}}</el-button>
+        <!-- <el-button style="float:right" type="primary" plain @click="openCheck" size="mini">{{text}}</el-button> -->
+        <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange" class="check-list" v-if="openCheckbox">全选</el-checkbox>
+        <el-button style="float:right" type="text" size="small" @click="openCheckbox=false" v-if="openCheckbox">展开 ﹀</el-button>
+        <el-button style="float:right" type="text" size="small" @click="openCheckbox=true" v-if="!openCheckbox">收起 ︿</el-button>
         <div style="clear:both"></div>
       </div>
-       <el-checkbox-group v-model="checkList" class="o-checkbox-g" v-show="openCheckbox">
+       <el-checkbox-group v-model="checkList" class="o-checkbox-g" v-show="openCheckbox" @change="handleCheckedCitiesChange">
          <el-checkbox v-for="item in checkItem" :label="item.ITEMNAME" :key="item.ITEMNAME">{{item.LABEL}}</el-checkbox>
        </el-checkbox-group>
     </div>
     <!-- 展示项 -->
     <div class="middle middle-top mb-2" v-if="bigBase==6">
-      <div class="title-green">
+      <div class="title-green ckeck-item">
         <span style="float:left">结果显示项</span>
-        <el-button style="float:right" type="primary" plain @click="openCheck" size="mini">{{textPnr}}</el-button>
+        <!-- <el-button style="float:right" type="primary" plain @click="openCheck" size="mini">{{textPnr}}</el-button> -->
+        <el-checkbox :indeterminate="isIndeterminatePnr" v-model="checkAllPnr" @change="handleCheckAllChange" class="check-list" v-if="openCheckboxPnr">全选</el-checkbox>
+        <el-button style="float:right" type="text" size="small" @click="openCheckboxPnr=false" v-if="openCheckboxPnr">展开 ﹀</el-button>
+        <el-button style="float:right" type="text" size="small" @click="openCheckboxPnr=true" v-if="!openCheckboxPnr">收起 ︿</el-button>
         <div style="clear:both"></div>
       </div>
        <el-checkbox-group v-model="checkListPnr" class="o-checkbox-g" v-show="openCheckboxPnr">
@@ -344,6 +350,7 @@
         ref="singleTable"
         class="tableRy o-table3"
         :data="tableData"
+        :reserve-selection="true"
         fit
         border
         style="width: 100%;"
@@ -615,7 +622,7 @@
         </el-table-column>
         <el-table-column
           prop="CLSFLAGSTR"
-          label="航班是否关闭"
+          label="是否登机"
           min-width="150"
           sortable='custom'
           v-if="checkList.indexOf(checkItem[34].ITEMNAME)>-1">
@@ -669,6 +676,7 @@
         ref="singleTablePnr"
         class="tableRy o-table3"
         :data="tableDataPnr"
+        :reserve-selection="true"
         fit
         border
         style="width: 100%;"
@@ -854,7 +862,7 @@
             </el-select>
             条
           </div>
-          <div class="loadingtext">
+          <div class="" class="loadingtext">
             共{{totalResultPnr}}条
           </div>
         </div>
@@ -862,11 +870,10 @@
           background
           :current-page.sync ="currentPagePnr"
           @current-change="handleCurrentChange"
-
           :page-size="showCountPnr"
           prev-text="上一页"
           next-text="下一页"
-          layout="prev,next"
+          layout="prev,next,jumper"
           >
         </el-pagination>
       </div>
@@ -976,7 +983,7 @@
         <el-row type="flex"  class="t-detail">
           <el-col :span="8" class="t-el-content"><div class="t-el-text">是否订票：</div><div class="t-el-sub">{{dform.PNRFLAG==1?'是':'否'}}</div></el-col>
           <el-col :span="8" class="t-el-content"><div class="t-el-text">是否值机：</div><div class="t-el-sub">{{dform.CHKFLAG==1?'是':'否'}}</div></el-col>
-          <el-col :span="8" class="t-el-content"><div class="t-el-text">航班是否关闭：</div><div class="t-el-sub">{{dform.CLSFLAG==1?'是':'否'}}</div></el-col>
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">是否登机：</div><div class="t-el-sub">{{dform.CLSFLAG==1?'是':'否'}}</div></el-col>
         </el-row>
         <el-row type="flex"  class="t-detail">
           <el-col :span="8" class="t-el-content"><div class="t-el-text">是否报警：</div><div class="t-el-sub">{{dform.ISEVENT}}</div></el-col>
@@ -1048,6 +1055,8 @@
         <el-table
           :data="detailstableData"
           border
+          class="o-table3"
+          @header-click="headerClick"
           style="width: 100%;">
           <el-table-column
             prop="NAME"
@@ -1484,7 +1493,7 @@ export default {
         },
         {
           ITEMNAME:'CLSFLAGSTR',
-          LABEL:'航班是否关闭',
+          LABEL:'是否登机',
         }
       ],
       checkItemPnr:[
@@ -1579,12 +1588,22 @@ export default {
       ],
       showConfiglist:[],//展示项数组
       showConfiglistPnr:[],
+      checkItemProp:[],
+      checkItemPropPnr:[],
+      isIndeterminate: true,
+      checkAll: false,
+      isIndeterminatePnr: true,
+      checkAllPnr: false,
+      tableCurrent:0,
+      tableCurrentPnr:0,
     }
   },
   mounted(){
     this.nav1Id=this.$route.query.nav1Id
     this.nav2Id=this.$route.query.nav2Id
     document.getElementsByClassName('btn-next')[0].disabled=true;
+    this.checkItemP();
+    this.pnrCheck();
   },
   activated(){
     this.nav1Id=this.$route.query.nav1Id
@@ -1659,6 +1678,40 @@ export default {
     }
   },
   methods:{
+    checkItemP(){
+      for(var i=0;i<this.checkItem.length;i++){
+        this.checkItemProp.push(this.checkItem[i].ITEMNAME)
+      }
+    },
+    pnrCheck(){
+      for(var i=0;i<this.checkItemPnr.length;i++){
+        this.checkItemPropPnr.push(this.checkItemPnr[i].ITEMNAME);
+      }
+    },
+    handleCheckAllChange(val) {
+      if(this.bigBase==5){
+        this.checkList = val ? this.checkItemProp : ['iapiName','INTG_CHNNAME','GENDER','iapiBirthdayName','iapiNationaName','iapiCardName','PASSPORTNO','FLTNO','FLTDATESTR','CHECKRESULT','FLIGHTTYPE','iapiCityfromName'];
+        let checkedCount = this.checkList.length;
+        this.isIndeterminate = checkedCount > 0 && checkedCount < this.checkItemProp.length;
+      }else if(this.bigBase==6){
+        this.checkListPnr = val ? this.checkItemPropPnr : ['pnrName','PNR_GENDER','pnrBirthdayName','pnrNationaName','PNR_PASSPORTNO','PNR_FLTNO','PNR_FLTDATE1STR','PNR_FLTTYPE','pnrCityfromName','pnrCitytoName','PNR_DEPARTDATESTR','PNR_ARRIVDATESTR'];
+        let checkedCount = this.checkListPnr.length;
+        this.isIndeterminatePnr = checkedCount > 0 && checkedCount < this.checkItemPropPnr.length;
+      }
+
+     },
+     handleCheckedCitiesChange(value) {
+       if(this.bigBase==5){
+         let checkedCount = value.length;
+         this.checkAll = checkedCount === this.checkItemProp.length;
+         this.isIndeterminate = checkedCount > 0 && checkedCount < this.checkItemProp.length;
+       }else if(this.bigBase==6){
+         let checkedCount = value.length;
+         this.checkAllPnr = checkedCount === this.checkItemPropPnr.length;
+         this.isIndeterminatePnr = checkedCount > 0 && checkedCount < this.checkItemPropPnr.length;
+       }
+
+      },
     //------------------------------------------------全局代码项-------------------------------------------------
     sortChange(column){//iapi排序
       this.orderIapiState=1;//排序
@@ -1725,11 +1778,37 @@ export default {
       event.target.title=column.label
     },
     handleSelectionChange(val){
+      console.log(val)
       if(this.bigBase==5){
         this.batchTableList = val;
       }else if(this.bigBase==6){
         this.batchTableListPnr = val;
       }
+    },
+    // tt(){
+    //   this.bigBase=5;
+    //   this.toggleSelection(this.batchTableList)
+    // },
+    toggleSelection(rows) {
+      this.$nextTick(() => {
+        if (rows) {
+          rows.forEach(row => {
+            if(this.bigBase==5){
+              this.$refs.singleTable.toggleRowSelection(row);
+            }else if(this.bigBase==6){
+              this.$refs.singleTablePnr.toggleRowSelection(row);
+            }
+
+          });
+        }else {
+          if(this.bigBase==5){
+            this.$refs.singleTable.clearSelection();
+          }else if(this.bigBase==6){
+            this.$refs.singleTablePnr.clearSelection();
+          }
+
+        }
+     })
     },
     detailsPnr(i){
       this.SERIALPnr0 = i.SERIAL;
@@ -1904,8 +1983,10 @@ export default {
     },
     batchSearch(){
       if(this.bigBase==5){
+        this.currentPage=1;
         this.batchQueryList(this.currentPage,this.showCount,this.rows)
       }else if(this.bigBase==6){
+        this.currentPagePnr=1;
         this.batchQueryListPnr(this.currentPagePnr,this.showCountPnr,this.rowsPnr);
       }
     },
@@ -1970,7 +2051,7 @@ export default {
       if(this.bigBase==5){//导出iapi
         axios({
          method: 'post',
-         // url: 'http://192.168.99.248:8080/manage-platform/iapi/export/three',
+         // url: 'http://192.168.99.234:8080/manage-platform/iapi/export/three',
          url: this.$api.rootUrl+"/manage-platform/iapi/export/three",
          data: {
              "name": 'Fred',
@@ -1985,7 +2066,7 @@ export default {
       }else if(this.bigBase==6){//导出pnr
         axios({
          method: 'post',
-         // url: 'http://192.168.99.248:8080/manage-platform/iapi/export/three',
+         // url: 'http://192.168.99.234:8080/manage-platform/iapi/export/three',
          url: this.$api.rootUrl+"/manage-platform/iapi/export/three",
          data: {
              "name": 'Fred',
@@ -2017,114 +2098,180 @@ export default {
     },
     tableDown(){
       if(this.bigBase==5){//导出iapi查询列表
-        if(this.batchTableList.length==0){
-          if(this.totalResult>10000){
-            this.$confirm('最多只能导出10000条,是否继续?','提示',{
-              confirmButtonText: '确定',
-              cancelButtonText: '取消',
-              type: 'warning'
-            }).then(() => {
-              axios({
-               method: 'post',
-               // url: 'http://192.168.99.206:8080/manage-platform/iapiHead/exportFileIo/5/iapi/10000',
-               url: this.$api.rootUrl+"/manage-platform/iapiHead/exportFileIo/5/iapi/10000",
-               data: {
-                   "exclTitles": this.checkList,
-                   "cdtList":this.rows
-               },
-               responseType: 'blob'
-               }).then(response => {
-                   this.downloadM(response)
-               });
-            }).catch(() => {
-              this.$message({
-                type: 'info',
-                message: '已取消删除'
+        if(this.tableData.length==0){
+          this.$message({
+            message: '表格数据为空！',
+            type: 'warning'
+          });
+          return;
+        }
+        if(this.batchTableList.length==0){//全部导出
+          if(this.totalResult>10000){//总数大于10000条
+            if(10000*this.tableCurrent<this.totalResult){
+              this.tableCurrent++;
+            }else{
+              this.$alert('已导出全部数据', '提示', {
+                confirmButtonText: '确定',
+                callback: action => {
+                  this.tableCurrent = 0;
+                }
               });
-            });
-          }else{
-            axios({
-             method: 'post',
-             // url: 'http://192.168.99.206:8080/manage-platform/iapiHead/exportFileIo/5/iapi/10000',
-             url: this.$api.rootUrl+"/manage-platform/iapiHead/exportFileIo/5/iapi/10000",
-             data: {
-                 "exclTitles": this.checkList,
-                 "cdtList":this.rows
-             },
-             responseType: 'blob'
-             }).then(response => {
-                 this.downloadM(response)
-             });
+              return
+            }
+            if(this.tableCurrent==1){
+              this.$confirm('最多只能导出 10000 条,是否继续?','提示',{
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+              }).then(() => {
+                let p={
+                  "exclTitles": this.checkList,
+                  "cdtList":this.rows,
+                  "currentPage":this.tableCurrent,
+                }
+                this.$api.post('/manage-platform/iapiHead/exportFileIo/5/iapi/10000',p,
+                 r =>{
+                   this.downloadM(r);
+                   let that = this;
+                   setTimeout(function(){
+                     that.$alert('点击 导出按钮 可继续导出数据', '提示', {
+                       confirmButtonText: '确定',
+                     });
+                   },1000)
+                 },e=>{},'','blob')
+              }).catch(() => {
+                this.$message({
+                  type: 'info',
+                  message: '已取消导出'
+                });
+              });
+            }else{
+              let pp={
+                "exclTitles": this.checkList,
+                "cdtList":this.rows,
+                "currentPage":this.tableCurrent,
+              }
+              this.$api.post('/manage-platform/iapiHead/exportFileIo/5/iapi/10000',pp,
+               r =>{
+                 this.downloadM(r);
+                 let that = this;
+                 setTimeout(function(){
+                   that.$alert('点击 导出按钮 可继续导出数据', '提示', {
+                     confirmButtonText: '确定',
+                   });
+                 },1000)
+               },e=>{},'','blob')
+            }
+          }else{//总数小于10000
+            let p={
+              "exclTitles": this.checkList,
+              "cdtList":this.rows,
+              "currentPage":1
+            }
+            this.$api.post('/manage-platform/iapiHead/exportFileIo/5/iapi/10000',p,
+              r =>{
+                this.downloadM(r);
+              },e=>{},'','blob')
           }
-        }else if(this.batchTableList.length!=0){
-          axios({
-           method: 'post',
-           // url: 'http://192.168.99.248:8081/manage-platform/iapiHead/exportCheckColDataIo/5',
-           url: this.$api.rootUrl+"/manage-platform/iapiHead/exportCheckColDataIo/5",
-           data: {
-               "exclTitles": this.checkList,
-               "resultList":this.batchTableList
-           },
-           responseType: 'blob'
-           }).then(response => {
-               this.downloadM(response)
-           });
+        }else if(this.batchTableList.length!=0){//选择性导出
+          let p={
+            "exclTitles": this.checkList,
+            "resultList":this.batchTableList,
+            "currentPage":1
+          }
+          this.$api.post('/manage-platform/iapiHead/exportCheckColDataIo/5',p,
+           r =>{
+             this.downloadM(r);
+           },e=>{},'','blob')
         }
 
       }else if(this.bigBase==6){//导出pnr查询列表
-        if(this.batchTableListPnr.length==0){
-          if(this.totalResultPnr>10000){
-            this.$confirm('最多只能导出10000条,是否继续?','提示',{
-              confirmButtonText: '确定',
-              cancelButtonText: '取消',
-              type: 'warning'
-            }).then(() => {
-              axios({
-               method: 'post',
-               // url: 'http://192.168.99.248:8081/manage-platform/iapiHead/exportFileIo/6/pnr/600',
-               url: this.$api.rootUrl+"/manage-platform/iapiHead/exportFileIo/6/pnr/10000",
-               data: {
-                   "exclTitles": this.checkListPnr,
-                   "cdtList":this.rowsPnr
-               },
-               responseType: 'blob'
-               }).then(response => {
-                   this.downloadM(response)
-               });
-            }).catch(() => {
-              this.$message({
-                type: 'info',
-                message: '已取消删除'
+        if(this.tableDataPnr.length==0){
+          this.$message({
+            message: '表格数据为空！',
+            type: 'warning'
+          });
+          return;
+        }
+        if(this.batchTableListPnr.length==0){//pnr全部导出
+          if(this.totalResultPnr>10000){//总数大于10000条
+            if(10000*this.tableCurrentPnr<this.totalResultPnr){
+              this.tableCurrentPnr++;
+            }else{
+              this.$alert('已导出全部数据', '提示', {
+                confirmButtonText: '确定',
+                callback: action => {
+                  this.tableCurrentPnr = 0;
+                }
               });
-            });
-          }else{
-            axios({
-             method: 'post',
-             // url: 'http://192.168.99.248:8081/manage-platform/iapiHead/exportFileIo/6/pnr/10000',
-             url: this.$api.rootUrl+"/manage-platform/iapiHead/exportFileIo/6/pnr/10000",
-             data: {
-                 "exclTitles": this.checkListPnr,
-                 "cdtList":this.rowsPnr
-             },
-             responseType: 'blob'
-             }).then(response => {
-                 this.downloadM(response)
-             });
+              return
+            }
+            if(this.tableCurrentPnr==1){
+              this.$confirm('最多只能导出 10000 条,是否继续?','提示',{
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+              }).then(() => {
+                let p={
+                  "exclTitles": this.checkListPnr,
+                  "cdtList":this.rowsPnr,
+                  "currentPage":this.tableCurrentPnr
+                }
+                this.$api.post('/manage-platform/iapiHead/exportFileIo/6/pnr/10000',p,
+                 r =>{
+                   this.downloadM(r);
+                   let that = this;
+                   setTimeout(function(){
+                     that.$alert('点击 导出按钮 可继续导出数据', '提示', {
+                       confirmButtonText: '确定',
+                     });
+                   },1000)
+                 },e=>{},'','blob')
+              }).catch(() => {
+                this.$message({
+                  type: 'info',
+                  message: '已取消导出'
+                });
+              });
+            }else{
+              let p={
+                "exclTitles": this.checkListPnr,
+                "cdtList":this.rowsPnr,
+                "currentPage":this.tableCurrentPnr
+              }
+              this.$api.post('/manage-platform/iapiHead/exportFileIo/6/pnr/10000',p,
+               r =>{
+                 this.downloadM(r);
+                 let that = this;
+                 setTimeout(function(){
+                   that.$alert('点击 导出按钮 可继续导出数据', '提示', {
+                     confirmButtonText: '确定',
+                   });
+                 },1000)
+               },e=>{},'','blob')
+            }
+          }else{//总数小于10000条
+            let p={
+              "exclTitles": this.checkListPnr,
+              "cdtList":this.rowsPnr,
+              "currentPage":1,
+            }
+            this.$api.post('/manage-platform/iapiHead/exportFileIo/6/pnr/10000',p,
+             r =>{
+               this.downloadM(r);
+             },e=>{},'','blob')
           }
 
-        }else if(this.batchTableListPnr.length!=0){
-          axios({
-           method: 'post',
-           // url: 'http://192.168.99.248:8081/manage-platform/iapiHead/exportCheckColDataIo/6',
-           url: this.$api.rootUrl+"/manage-platform/iapiHead/exportCheckColDataIo/6",
-           data: {
-               "exclTitles": this.checkListPnr,
-               "resultList":this.batchTableListPnr
-           },
-           responseType: 'blob'
-           }).then(response => {
-               this.downloadM(response)
-           });
+        }else if(this.batchTableListPnr.length!=0){//选择性导出
+          let p={
+            "exclTitles": this.checkListPnr,
+            "resultList":this.batchTableListPnr,
+            "currentPage":1
+          }
+          this.$api.post('/manage-platform/iapiHead/exportCheckColDataIo/6',p,
+           r =>{
+             this.downloadM(r);
+           },e=>{},'','blob')
         }
 
       }

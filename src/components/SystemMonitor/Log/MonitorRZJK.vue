@@ -49,7 +49,7 @@
           </el-row>
         </el-col>
         <el-col :span="2" class="down-btn-area" style="margin-top:25px;">
-          <el-button type="success" size="small" @click="getList(CurrentPage,pageSize,pd)">查询</el-button>
+          <el-button type="success" size="small" @click="getList(CurrentPage,pageSize,pd,order,direction)">查询</el-button>
         </el-col>
       </el-row>
     </div>
@@ -57,24 +57,28 @@
       <el-table
         :data="tableData"
         border
-        style="width: 100%;">
+        style="width: 100%;"
+        class="o-table3"
+        @sort-change='sortChange'
+        @header-click="headerClick">
         <el-table-column
           prop="synFlag"
-          label="监控区域"  sortable>
+          label="监控区域"
+          sortable>
         </el-table-column>
         <el-table-column
           prop="rzlx"
-          label="日志类型"  sortable
-          >
+          label="日志类型">
         </el-table-column>
         <el-table-column
           prop="timestmp"
-          label="生成时间" sortable>
+          label="生成时间"
+          sortable>
         </el-table-column>
         <el-table-column
           prop="levelString"
-          label="日志内容类型" sortable
-          >
+          label="日志内容类型"
+          sortable>
         </el-table-column>
         <el-table-column
           width="70"
@@ -150,6 +154,8 @@ import {dayGap} from '@/assets/js/date.js'
 export default {
   data() {
     return {
+      order:'',
+      direction:0,
       CurrentPage: 1,
       pageSize: 10,
       TotalResult: 0,
@@ -200,24 +206,34 @@ export default {
     let beginz = new Date(time - 1000 * 60 * 60 * 24 * 1);
     this.pd.begin = formatDate(beginz, 'yyyyMMddhhmmss');
     this.pd.end = formatDate(endz, 'yyyyMMddhhmmss');
-  //  this.getList(this.CurrentPage, this.pageSize, this.pd);
+  //  this.getList(this.CurrentPage, this.pageSize, this.pd,this.order,this.direction);
   },
   activated(){
-  //  this.getList(this.CurrentPage,this.pageSize,this.pd);
+  //  this.getList(this.CurrentPage,this.pageSize,this.pd,this.order,this.direction);
   },
   methods: {
+    sortChange(column, prop, order){
+      column.order=='ascending'?this.direction=1:this.direction=0;
+      this.order=column.prop;
+      this.getList(this.CurrentPage,this.pageSize,this.pd,this.order,this.direction);
+    },
+    headerClick(column,event){
+     event.target.title=column.label
+   },
     handleSelectionChange(val) {
       this.multipleSelection = val;
     },
     pageSizeChange(val) {
-      this.getList(this.CurrentPage, val, this.pd);
+      this.pageSize=val;
+      this.getList(this.CurrentPage, val, this.pd,this.order,this.direction);
       console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
-      this.getList(val, this.pageSize, this.pd);
+      this.CurrentPage=val;
+      this.getList(val, this.pageSize, this.pd,this.order,this.direction);
       console.log(`当前页: ${val}`);
     },
-    getList(currentPage, showCount, pd) {
+    getList(currentPage, showCount, pd,order,direction) {
       if(dayGap(this.pd.begin,this.pd.end,0)>1){
         this.$alert('只能查询某一天的日期', '提示', {
           confirmButtonText: '确定',
@@ -227,7 +243,9 @@ export default {
       let p = {
         "currentPage": currentPage,
         "showCount": showCount,
-        "cdt": pd
+        "cdt": pd,
+        "order":order,
+        "direction":direction
       };
       this.$api.post("/manage-platform/log_event/queryListPageAll", p,
         r => {

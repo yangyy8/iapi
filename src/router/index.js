@@ -32,6 +32,13 @@ export default new Router({
           name: "alarmProcess",
           component: resolve => require(['@/components/BusinessProcessing/Alarm/alarmProcess'], resolve),
         },
+        //应急校验码管理
+        {
+          path: "CodeYJJYM",
+          name: "CodeYJJYM",
+          component: resolve => require(['@/components/BusinessProcessing/Ccode/CodeYJJYM'], resolve),
+
+        },
         {
           path: "infoComparison",
           name: "infoComparison",
@@ -111,6 +118,12 @@ export default new Router({
           component: resolve => require(['@/components/BusinessApplications/InformationInquiry/QueryRYXX'], resolve),
           children:[
             //综合查询
+            // {
+            //   path: "/",
+            //   name: "QueryRYXX",
+            //   redirect: resolve => require(['@/components/BusinessApplications/InformationInquiry/QueryRYXXZH'], resolve),
+            // },
+            //综合查询
             {
               path: "QueryRYXXZH",
               name: "QueryRYXXZH",
@@ -138,6 +151,11 @@ export default new Router({
           component: resolve => require(['@/components/BusinessApplications/InformationInquiry/QueryYWSJ'], resolve),
 
         },
+        // {
+        //   path: "QueryYWSJD",
+        //   name: "QueryYWSJD",
+        //   component: resolve => require(['@/components/BusinessApplications/InformationInquiry/QueryYWSJD'], resolve),
+        // },
         // 航班信息查询
         {
           path: "QueryHBXX",
@@ -154,9 +172,9 @@ export default new Router({
         },
         // 关联人员路由
         {
-          path: "GLRY",
-          name: "GLRY",
-          component: resolve => require(['@/components/BusinessApplications/InformationInquiry/GLRY'], resolve),
+          path: "QueryYWSJD",
+          name: "QueryYWSJD",
+          component: resolve => require(['@/components/BusinessApplications/InformationInquiry/QueryYWSJD'], resolve),
 
         },
         // 关联人员查询

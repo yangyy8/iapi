@@ -460,7 +460,7 @@ export default {
 
     if(this.checked){
       let that=this;
-      console.log(that.CurrentPage,that.pageSize,that.pd)
+      // console.log(that.CurrentPage,that.pageSize,that.pd)
       this.timer=setInterval(function(){
         that.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
       },60000)
@@ -503,14 +503,15 @@ export default {
       })
     },
     rowClick(row,event,column){
+      this.detailsDialogVisible=true;
       let p={
         flightRecordnum:row.flightRecordnum,
-        portto:row.portto
+        portto:row.portto,
+        ioflag:row.ioType
       }
       this.$api.post('/manage-platform/flightRealTime/queryFightDetail',p,
        r => {
          console.log(r)
-         this.detailsDialogVisible=true;
          this.detailsData=r.data
       })
     },
@@ -542,7 +543,7 @@ export default {
         "order":orders,
 	      "direction":direction
       }
-      console.log(CurrentPage,showCount,pd)
+      // console.log(CurrentPage,showCount,pd)
       this.$api.post('/manage-platform/flightRealTime/queryRealTimePage',p,
        r => {
          console.log(r)

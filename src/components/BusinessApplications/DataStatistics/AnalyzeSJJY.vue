@@ -176,7 +176,7 @@ export default {
       pickerOptions0: {
         disabledDate: (time) => {
           if (this.pd.endtime != null) {
-            let startT = formatDate(new Date(time.getTime()), 'yyyyMMddhhmmss');
+            let startT = formatDate(new Date(time.getTime()-1), 'yyyyMMddhhmmss');
             return startT > this.pd.endtime;
           } else if (this.pd.endtime == null) {
             return false
@@ -206,11 +206,11 @@ export default {
 
   },
   activated() {
-    let time = new Date();
-    let endz = new Date();
-    let beginz = new Date(time - 1000 * 60 * 60 * 24 * 30);
-    this.pd.begintime = formatDate(beginz, 'yyyyMMdd');
-    this.pd.endtime = formatDate(endz, 'yyyyMMdd');
+    // let time = new Date();
+    // let endz = new Date();
+    // let beginz = new Date(time - 1000 * 60 * 60 * 24 * 30);
+    // this.pd.begintime = formatDate(beginz, 'yyyyMMdd');
+    // this.pd.endtime = formatDate(endz, 'yyyyMMdd');
 
   },
   methods: {

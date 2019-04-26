@@ -69,7 +69,7 @@
         </el-row>
         </el-col>
         <el-col :span="2" class="down-btn-area">
-          <el-button type="success" size="small" @click="getList(CurrentPage,pageSize,pd)" class="mb-15">查询</el-button>
+          <el-button type="success" size="small" @click="search" class="mb-15">查询</el-button>
           <el-button type="success" size="small" @click="reset" class="mb-15">重置</el-button>
         </el-col>
       </el-row>
@@ -536,11 +536,22 @@ export default {
       // this.pd.name = this.$route.query.row.linkName;
       this.pd.gender = this.sexZhuan(this.$route.query.row.GENDER);
       this.pd.birthday = this.zhuanhuan(this.$route.query.row.iapiBirthdayName);
-    }
+
       this.getList(this.CurrentPage, this.pageSize, this.pd);
+      this.getList1(this.CurrentPage1, this.pageSize1, this.pd);
+      this.getList2(this.CurrentPage2, this.pageSize2, this.pd);
+      this.getList3(this.CurrentPage3, this.pageSize3, this.pd);
+    }
+
     // console.log(this.$route.query.row.NATIONALITY)
   },
   methods: {
+    search(){
+      this.getList(this.CurrentPage, this.pageSize, this.pd);
+      this.getList1(this.CurrentPage1, this.pageSize1, this.pd);
+      this.getList2(this.CurrentPage2, this.pageSize2, this.pd);
+      this.getList3(this.CurrentPage3, this.pageSize3, this.pd);
+    },
     reset(){
       this.pd = {
         fltno:'',
@@ -679,14 +690,11 @@ export default {
     var url="/manage-platform/relatedperson/get_related_book";
     this.$api.post(url, p,
       r => {
-        console.log(r);
-        this.tableData = r.data.resultList;
-        this.TotalResult=r.data.totalResult;
+        if(r.success){
+          this.tableData = r.data.resultList;
+          this.TotalResult=r.data.totalResult;
+        }
       });
-
-    this.getList1(currentPage, showCount, pd);
-    this.getList2(currentPage, showCount, pd);
-    this.getList3(currentPage, showCount, pd);
     },
     getList1(currentPage1, showCount1, pd1) {
       let p = {
@@ -705,9 +713,10 @@ export default {
      var url="/manage-platform/relatedperson/get_related_check";
       this.$api.post(url, p,
         r => {
-          console.log(r);
-          this.tableData1 = r.data.resultList;
-          this.TotalResult1=r.data.totalResult;
+          if(r.success){
+            this.tableData1 = r.data.resultList;
+            this.TotalResult1=r.data.totalResult;
+          }
         })
     },
     selectChange(){
@@ -722,9 +731,10 @@ export default {
      var url="/manage-platform/relatedperson/get_related_flt";
       this.$api.post(url, p,
         r => {
-          console.log(r);
+        if(r.success){
           this.tableData2 = r.data.resultList;
           this.TotalResult2 = r.data.totalResult;
+        }
         })
     },
     getList3(currentPage3, showCount3, pd3) {
@@ -746,9 +756,10 @@ export default {
      var url="/manage-platform/relatedperson/get_related_seat";
       this.$api.post(url, p,
         r => {
-          console.log(r);
-          this.tableData3 = r.data.resultList;
-            this.TotalResult3=r.data.totalResult;
+          if(r.success){
+            this.tableData3 = r.data.resultList;
+              this.TotalResult3=r.data.totalResult;
+          }
         })
     },
 

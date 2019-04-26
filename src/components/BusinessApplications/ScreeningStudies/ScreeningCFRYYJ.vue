@@ -49,11 +49,10 @@
           </el-row>
         </el-col>
         <el-col :span="2" class="down-btn-area" style="margin-top:25px;">
-          <el-button type="success" size="small" @click="getList(CurrentPage,pageSize,pd)">查询</el-button>
+          <el-button type="success" size="small" @click="CurrentPage=1;CurrentPage1=1;getList(CurrentPage,pageSize,pd)">查询</el-button>
         </el-col>
       </el-row>
     </div>
-
 
     <div class="middle">
       <!-- <el-row class="yr" style="margin-bottom:-20px;">
@@ -63,21 +62,27 @@
       <div class="ak-tab mb-20">
       <div class="ak-tabs">
         <div class="ak-tab-item hand" :class="{'ak-checked':page==0}" @click="base">
-          重复订票
+        重复值机
         </div>
         <div class="ak-tab-item hand" :class="{'ak-checked':page==1}" @click="batch">
-          重复值机
+        重复订票
         </div>
       </div>
 
     <div class="ak-tab-pane" @mouseover="mouseHeader">
+
         <div v-show="page==0">
+          <el-row class="mb-15 yr">
+            <el-button type="primary" size="small" @click="download(1)">导出</el-button>
+            </el-row>
             <el-table
               :data="tableData"
               border
               style="width: 100%;"
+              @sort-change="sortChange"
               class="mt-10 o-table3"
-              @header-click="headerClick">
+              @header-click="headerClick"
+              @selection-change="handleSelectionChange">
               <el-table-column
                 prop="nationality"
                 label="国籍/地区" sortable>
@@ -107,7 +112,6 @@
                 prop="fltno"
                 label="航班号" sortable>
               </el-table-column>
-
               <el-table-column
                 prop="cityfrom"
                 label="出发地" sortable>
@@ -120,10 +124,10 @@
                 prop="port"
                 label="口岸" sortable>
               </el-table-column>
-              <el-table-column
+              <!-- <el-table-column
                 prop="average"
                 label="操作">
-              </el-table-column>
+              </el-table-column> -->
             </el-table>
             <div class="middle-foot">
               <div class="page-msg">
@@ -149,21 +153,25 @@
               <el-pagination
                 background
                 @current-change="handleCurrentChange"
+                :current-page.sync ="CurrentPage"
                 :page-size="pageSize"
                 layout="prev, pager, next"
                 :total="TotalResult">
               </el-pagination>
             </div>
-
         </div>
         <div v-show="page==1">
-
+          <el-row class="mb-15 yr">
+            <el-button type="primary" size="small" @click="download(2)">导出</el-button>
+            </el-row>
                       <el-table
                         :data="tableData1"
                         border
                         style="width: 100%;"
                         class="mt-10 o-table3"
-                        @header-click="headerClick">
+                        @sort-change="sortChange1"
+                        @header-click="headerClick"
+                        @selection-change="handleSelectionChange">
                         <el-table-column
                           prop="nationality"
                           label="国籍/地区" sortable>
@@ -206,10 +214,10 @@
                           prop="port"
                           label="口岸" sortable>
                         </el-table-column>
-                        <el-table-column
+                        <!-- <el-table-column
                           prop="average"
                           label="操作">
-                        </el-table-column>
+                        </el-table-column> -->
                       </el-table>
                       <div class="middle-foot">
                         <div class="page-msg">
@@ -235,6 +243,7 @@
                         <el-pagination
                           background
                           @current-change="handleCurrentChange1"
+                          :current-page.sync ="CurrentPage1"
                           :page-size="pageSize1"
                           layout="prev, pager, next"
                           :total="TotalResult1">
@@ -248,7 +257,7 @@
   </div>
 </template>
 <script>
-import {formatDate} from '@/assets/js/date.js'
+import {formatDate,format} from '@/assets/js/date.js'
 import {dayGap} from '@/assets/js/date.js'
 export default {
   data() {
@@ -263,6 +272,10 @@ export default {
       type:"1",
       flag:"1",
       company: [],
+      order:'',
+      direction:0,
+      order1:'',
+      direction1:0,
       page:0,
       addDialogVisible: false,
       detailsDialogVisible: false,
@@ -285,7 +298,7 @@ export default {
       pickerOptions0: {
         disabledDate: (time) => {
             if (this.pd.endtime != null) {
-              let startT = formatDate(new Date(time.getTime()),'yyyyMMddhhmmss');
+              let startT = formatDate(new Date(time.getTime()-1),'yyyyMMddhhmmss');
               return startT > this.pd.endtime;
             }else if(this.pd.endtime == null){
               return false
@@ -296,7 +309,7 @@ export default {
         disabledDate: (time) => {
             let endT = formatDate(new Date(time.getTime()),'yyyyMMddhhmmss');
             return endT < this.pd.begintime;
-        }
+         }
       },
           form: {},
 
@@ -313,11 +326,11 @@ export default {
   },
   activated(){
 
-    let time = new Date();
-    let endz = new Date();
-    let beginz = new Date(time - 1000 * 60 * 60 * 24 * 1);
-    this.pd.begintime = formatDate(beginz, 'yyyyMMdd');
-    this.pd.endtime = formatDate(endz, 'yyyyMMdd');
+    // let time = new Date();
+    // let endz = new Date();
+    // let beginz = new Date(time - 1000 * 60 * 60 * 24 * 1);
+    // this.pd.begintime = formatDate(beginz, 'yyyyMMdd');
+    // this.pd.endtime = formatDate(endz, 'yyyyMMdd');
     //this.getList(this.CurrentPage,this.pageSize,this.pd);
   },
   methods: {
@@ -330,38 +343,57 @@ export default {
     batch()
     {
     this.page=1;
-
     },
     handleSelectionChange(val) {
       this.multipleSelection = val;
     },
     pageSizeChange(val) {
-      this.getList(this.CurrentPage, val, this.pd);
+      // this.getList(this.CurrentPage, val, this.pd);
+      this.getList(this.CurrentPage,this.pageSize,this.pd,this.order,this.direction);
       console.log(`每页 ${val} 条`);
     },
     pageSizeChange1(val) {
-      this.getList1(this.CurrentPage1, val, this.pd);
+      // this.getList1(this.CurrentPage1, val, this.pd);
+      this.getList1(this.CurrentPage1,this.pageSize1,this.pd1,this.order1,this.direction1);
       console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
-      this.getList(val, this.pageSize, this.pd);
+      // this.getList(val, this.pageSize, this.pd);
+      this.getList(this.CurrentPage,this.pageSize,this.pd,this.order,this.direction);
       console.log(`当前页: ${val}`);
     },
     handleCurrentChange1(val) {
-      this.getList1(val, this.pageSize1, this.pd);
+      // this.getList1(val, this.pageSize1, this.pd);
+      this.getList1(this.CurrentPage1,this.pageSize1,this.pd1,this.order1,this.direction1);
       console.log(`当前页: ${val}`);
     },
-    getList(currentPage, showCount, pd) {
+
+    sortChange(column, prop, order){
+      column.order=='ascending'?this.direction=1:this.direction=0;
+      this.order=column.prop;
+      this.getList(this.CurrentPage,this.pageSize,this.pd,this.order,this.direction);
+    },
+    sortChange1(column, prop, order){
+      column.order=='ascending'?this.direction1=1:this.direction1=0;
+      this.order1=column.prop;
+      this.getList1(this.CurrentPage1,this.pageSize1,this.pd,this.order1,this.direction1);
+    },
+    getList(currentPage, showCount, pd,order,direction) {
       if (this.pd.begintime== null || this.pd.endtime == null) {
         this.$alert('时间范围不能为空', '提示', {
           confirmButtonText: '确定',
         });
         return false
       };
+      if(order!=''){
+      pd.order=order;
+      pd.direction=direction;
+       }
+      console.log('order',pd.order);
       let p = {
         "currentPage": currentPage,
         "showCount": showCount,
-        "cdt": pd
+        "cdt": pd,
       };
       var url="/manage-platform/SuspectPerson/getduppsnbycard_offdes";
 
@@ -389,21 +421,23 @@ export default {
           this.TotalResult = r.data.totalResult;
         })
 
-        this.getList1(this.currentPage1,this.showCount1,this.pd);
+      this.getList1(this.CurrentPage1,this.pageSize1,this.pd,this.order1,this.direction1);
     },
-
-    getList1(currentPage1, showCount1, pd) {
-
+    getList1(currentPage1, showCount1, pd,order1,direction1) {
       if (this.pd.begintime== null || this.pd.endtime == null) {
         this.$alert('时间范围不能为空', '提示', {
           confirmButtonText: '确定',
         });
         return false
       };
+      if(order1!=''){
+        pd.order=order1;
+        pd.direction=direction1;
+      }
       let pp = {
         "currentPage": currentPage1,
         "showCount": showCount1,
-        "cdt": pd
+        "cdt": pd,
       };
       var url="/manage-platform/SuspectPerson/getduppsnbycard_offdes";
 
@@ -431,11 +465,77 @@ export default {
           this.TotalResult1 = r.data.totalResult;
         })
     },
-
     details(i) {
       this.detailsDialogVisible = true;
       console.log(i);
       this.form=i;
+    },
+    download(t) {
+          var url = "";
+          if(t==1){
+            if(this.type=="1" && this.flag=="1"){
+               url = this.$api.rootUrl + "/manage-platform/SuspectPerson/exp_duppsnbycard_offdes";
+            }else if(this.type=="2" && this.flag=="1"){
+               url = this.$api.rootUrl + "/manage-platform/SuspectPerson/exp_duppsnbycard_offsrc";
+            }
+            else if(this.type=="3" && this.flag=="1"){
+              url = this.$api.rootUrl + "/manage-platform/SuspectPerson/exp_duppsnbycard_both";
+            }
+            else if(this.type=="1" && this.flag=="2"){
+            url = this.$api.rootUrl + "/manage-platform/SuspectPerson/exp_duppsnbyname_offdes";
+            }
+            else if(this.type=="2" && this.flag=="2" ){
+               url = this.$api.rootUrl + "/manage-platform/SuspectPerson/exp_duppsnbyname_offsrc";
+            }
+            else if(this.type=="3" && this.flag=="2" ){
+               url = this.$api.rootUrl + "/manage-platform/SuspectPerson/exp_duppsnbyname_both";
+            }
+
+          }else if(t==2){
+            if(this.type=="1" && this.flag=="1"){
+               url = this.$api.rootUrl + "/manage-platform/SuspectPerson/exp_duppsnpnrbycard_offdes";
+            }else if(this.type=="2" && this.flag=="1"){
+               url = this.$api.rootUrl + "/manage-platform/SuspectPerson/exp_duppsnpnrbycard_offsrc";
+            }
+            else if(this.type=="3" && this.flag=="1"){
+              url = this.$api.rootUrl + "/manage-platform/SuspectPerson/exp_duppsnpnrbycard_both";
+            }
+            else if(this.type=="1" && this.flag=="2"){
+            url = this.$api.rootUrl + "/manage-platform/SuspectPerson/exp_duppsnpnrbyname_offdes";
+            }
+            else if(this.type=="2" && this.flag=="2" ){
+               url = this.$api.rootUrl + "/manage-platform/SuspectPerson/exp_duppsnpnrbyname_offsrc";
+            }
+            else if(this.type=="3" && this.flag=="2" ){
+               url = this.$api.rootUrl + "/manage-platform/SuspectPerson/exp_duppsnpnrbyname_both";
+            }
+          }
+      axios({
+        method: 'post',
+        url: url,
+        data: {
+          "begintime": this.pd.begintime,
+          "endtime": this.pd.endtime,
+        },
+        responseType: 'blob'
+      }).then(response => {
+        this.downloadM(response)
+      });
+    },
+    downloadM(data) {
+      if (!data) {
+        return
+      }
+
+      let url = window.URL.createObjectURL(new Blob([data.data], {
+        type: "application/octet-stream"
+      }))
+      let link = document.createElement('a')
+      link.style.display = 'none'
+      link.href = url
+      link.setAttribute('download', 'cfryyj' + format(new Date(), 'yyyyMMddhhmmss') + '.xlsx')
+      document.body.appendChild(link)
+      link.click()
     },
   }
 }

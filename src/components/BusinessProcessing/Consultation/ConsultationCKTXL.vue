@@ -65,7 +65,7 @@
             </el-row>
           </el-col>
           <el-col :span="2" class="down-btn-area" style="padding-top:30px;">
-            <el-button type="success" size="small" @click="getList(CurrentPage,pageSize,pd)">查询</el-button>
+            <el-button type="success" size="small" @click="getList(CurrentPage,pageSize,pd,order,direction)">查询</el-button>
           </el-col>
         </el-row>
     </div>
@@ -79,7 +79,8 @@
         border
         style="width: 100%;"
         class="o-table3"
-        @header-click="headerClick">
+        @header-click="headerClick"
+        @sort-change='sortChange'>
         <el-table-column
           label="序号"
           type="index"
@@ -94,7 +95,7 @@
           </template>
         </el-table-column>
         <el-table-column
-          prop="AIRLINE_CODE"
+          prop="AIRLINE_CHN_NAME"
           label="航空公司"
           sortable>
         </el-table-column>
@@ -383,6 +384,8 @@ export default {
 
   data() {
     return {
+      order:'',
+      direction:0,
       tp:0,
       addDialogVisible: false,//新增
       editDialogVisible: false,//编辑
@@ -419,6 +422,11 @@ export default {
     // this.getList(this.CurrentPage, this.pageSize, this.pd);
   },
   methods: {
+    sortChange(column, prop, order){
+      column.order=='ascending'?this.direction=1:this.direction=0;
+      this.order=column.prop;
+      this.getList(this.CurrentPage,this.pageSize,this.pd,this.order,this.direction);
+    },
     applicationMethod(){
       this.$api.post('/manage-platform/codeTable/queryAircompanyList',{},
        r =>{
@@ -434,11 +442,13 @@ export default {
       this.multipleSelection = val;
     },
     pageSizeChange(val) {
-      this.getList(this.CurrentPage, val,this.pd);
+      this.pageSize = val;
+      this.getList(this.CurrentPage, val,this.pd,this.order,this.direction);
       console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
-      this.getList(val, this.pageSize,this.pd);
+      this.CurrentPage = val;
+      this.getList(val, this.pageSize,this.pd,this.order,this.direction);
       console.log(`当前页: ${val}`);
     },
     adds(n, i) {
@@ -454,6 +464,17 @@ export default {
       }
       this.V.$reset('txl')
     },
+    appZhuan(item){
+      if(this.application.length!=0){
+        for(var i=0;i<this.application.length;i++){
+          if(item == this.application[i].AIRLINE_CODE){
+            return this.application[i].AIRLINE_CHN_NAME+'-'+this.application[i].AIRLINE_ENG_NAME
+          }
+        }
+      }else{
+        return ''
+      }
+    },
     addItem(formName,scope) {
       this.V.$submit(scope, (canSumit,data) => {
         // canSumit为true时，则所有该scope的所有表单验证通过
@@ -461,8 +482,22 @@ export default {
         var url='';
         if(this.tp==1){
           url = '/manage-platform/consult/editConsultAddress';
+          if(this.form.AIRLINE_CODE!=''){
+            this.form.AIRLINE_CHN_NAME = this.appZhuan(this.form.AIRLINE_CODE).split('-')[0];
+            this.form.AIRLINE_ENG_NAME = this.appZhuan(this.form.AIRLINE_CODE).split('-')[1];
+          }else{
+            this.form.AIRLINE_CHN_NAME='';
+            this.form.AIRLINE_ENG_NAME='';
+          }
         }else if(this.tp==0){
           url = '/manage-platform/consult/saveConsultAddress';
+          if(this.form.AIRLINE_CODE!=''){
+            this.form.AIRLINE_CHN_NAME = this.appZhuan(this.form.AIRLINE_CODE).split('-')[0];
+            this.form.AIRLINE_ENG_NAME = this.appZhuan(this.form.AIRLINE_CODE).split('-')[1];
+          }else{
+            this.form.AIRLINE_CHN_NAME='';
+            this.form.AIRLINE_ENG_NAME='';
+          }
         }
         this.$api.post(url, this.form,
           r => {
@@ -481,7 +516,7 @@ export default {
             }else if(this.tp==1){
               this.editDialogVisible = false;
             }
-            this.getList(this.CurrentPage, this.pageSize, this.pd);
+            this.getList(this.CurrentPage, this.pageSize, this.pd,this.order,this.direction);
           }, e => {
             this.$message.error('失败了');
           })
@@ -504,7 +539,7 @@ export default {
                 message: '删除成功！',
                 type: 'success'
               });
-              this.getList(this.CurrentPage, this.pageSize, this.pd);
+              this.getList(this.CurrentPage, this.pageSize, this.pd,this.order,this.direction);
             } else {
               this.$message.error(r.Message);
             }
@@ -518,11 +553,13 @@ export default {
         });
       });
     },
-    getList(currentPage,showCount,pd) {
+    getList(currentPage,showCount,pd,order,direction) {
       let p = {
         "currentPage": currentPage,
         "showCount": showCount,
-        "cdt": pd
+        "cdt": pd,
+        "order":order,
+        "direction":direction
       };
       this.$api.post('/manage-platform/consult/queryConsultAddressList',p,
         r => {

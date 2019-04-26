@@ -2,12 +2,12 @@
   <div class="zlbg">
     <div class="middle-top mb-2">
       <el-row type="flex" class="middle">
-        <el-col :span="24" class="br pr-20">
+        <el-col :span="22" class="br pr-20">
           <span class="title-green">
             咨询回复
           </span>
-          <el-row align="center" :gutter="2" style="margin-top:10px">
-            <el-col  :sm="24" :md="12" :lg="8"  class="input-item my-form-group" data-scope="txl" data-name="CONSULTFROM" data-type="select"
+          <el-row align="center" :gutter="2" style="margin-top:10px" id="form1">
+            <el-col  :sm="24" :md="12" :lg="8"  class="input-item my-form-group" :data-scope="aa.ts" data-name="CONSULTFROM" data-type="select"
             v-validate-easy="[['required']]">
               <span class="input-text"><i class="t-must">*</i>咨询来源：</span>
               <el-select v-model="pd.CONSULTFROM" filterable clearable placeholder="请选择" size="small" class="input-input">
@@ -16,7 +16,7 @@
                 <el-option label="2 - 其他" value="2"></el-option>
               </el-select>
             </el-col>
-            <el-col  :sm="24" :md="12" :lg="8"  class="input-item my-form-group" data-scope="txl" data-name="AIRLINE_CODE" data-type="select"
+            <el-col  :sm="24" :md="12" :lg="8"  class="input-item my-form-group" :data-scope="aa.ts" data-name="AIRLINE_CODE" data-type="select"
             v-validate-easy="[['required']]" v-if="pd.CONSULTFROM=='0'">
               <span class="input-text"><i class="t-must">*</i>航空公司：</span>
               <el-select v-model="pd.AIRLINE_CODE" filterable clearable placeholder="请选择" size="small" class="input-input" @visible-change="applicationMethod">
@@ -29,7 +29,7 @@
               </el-select>
             </el-col>
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item my-form-group" v-if="pd.CONSULTFROM == '0'||pd.CONSULTFROM == ''||pd.CONSULTFROM == undefined"
-            data-scope="txl" data-name="TERMINAL" data-type="select"
+            :data-scope="aa.ts" data-name="TERMINAL" data-type="select"
             v-validate-easy="[['required']]">
               <span class="input-text"><i class="t-must">*</i>航站：</span>
               <el-select v-model="pd.TERMINAL" filterable clearable placeholder="请选择" size="small" class="input-input" @visible-change="terminal">
@@ -42,14 +42,14 @@
               </el-select>
             </el-col>
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item my-form-group"
-            data-scope="txl" data-name="CONSULTNAME" data-type="input"
+            :data-scope="aa.ts" data-name="CONSULTNAME" data-type="input"
             v-validate-easy="[['required']]">
               <span class="input-text"><i class="t-must">*</i>咨询人：</span>
               <el-input placeholder="请输入内容" size="small" v-model="pd.CONSULTNAME"  class="input-input"></el-input>
             </el-col>
 
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item my-form-group"
-            data-scope="txl" data-name="CONSULTFROMTYPE" data-type="select"
+            :data-scope="aa.ts" data-name="CONSULTFROMTYPE" data-type="select"
             v-validate-easy="[['required']]">
               <span class="input-text"><i class="t-must">*</i>咨询方式：</span>
               <el-select v-model="pd.CONSULTFROMTYPE" filterable clearable placeholder="请选择" size="small" class="input-input">
@@ -62,36 +62,40 @@
             </el-col>
 
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item my-form-group" v-if="pd.CONSULTFROMTYPE=='0'"
-            data-scope="txl" data-name="PHONE" data-type="input"
+            :data-scope="aa.ts" data-name="PHONE" data-type="input"
             v-validate-easy="[['required']]">
               <span class="input-text"><i class="t-must">*</i>移动电话：</span>
               <el-input placeholder="请输入内容" size="small" v-model="pd.PHONE"  class="input-input" maxlength="25"></el-input>
             </el-col>
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item my-form-group" v-if="pd.CONSULTFROMTYPE=='1'"
-            data-scope="txl" data-name="CONSULTFAX" data-type="input"
+            :data-scope="aa.ts" data-name="CONSULTFAX" data-type="input"
             v-validate-easy="[['required']]">
               <span class="input-text"><i class="t-must">*</i>传真：</span>
               <el-input placeholder="请输入内容" size="small" v-model="pd.CONSULTFAX"  class="input-input" maxlength="25"></el-input>
             </el-col>
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item my-form-group" v-if="pd.CONSULTFROMTYPE=='2'"
-            data-scope="txl" data-name="CONSULTEMAIL" data-type="input"
+            :data-scope="aa.ts" data-name="CONSULTEMAIL" data-type="input"
             v-validate-easy="[['required']]">
               <span class="input-text"><i class="t-must">*</i>邮箱：</span>
               <el-input placeholder="请输入内容" size="small" v-model="pd.CONSULTEMAIL"  class="input-input" maxlength="50"></el-input>
             </el-col>
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item my-form-group" v-if="pd.CONSULTFROMTYPE=='3'"
-            data-scope="txl" data-name="INCOMINGPHONE" data-type="input"
+            :data-scope="aa.ts" data-name="INCOMINGPHONE" data-type="input"
             v-validate-easy="[['required']]">
               <span class="input-text"><i class="t-must">*</i>固定电话：</span>
               <el-input placeholder="请输入内容" size="small" v-model="pd.INCOMINGPHONE"  class="input-input" maxlength="25"></el-input>
             </el-col>
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item my-form-group" v-if="pd.CONSULTFROMTYPE=='4'"
-            data-scope="txl" data-name="CONSULTFROMOTHERREMARK" data-type="input"
+            :data-scope="aa.ts" data-name="CONSULTFROMOTHERREMARK" data-type="input"
             v-validate-easy="[['required']]">
               <span class="input-text"><i class="t-must">*</i>其他：</span>
               <el-input placeholder="请输入内容" size="small" v-model="pd.CONSULTFROMOTHERREMARK"  class="input-input"></el-input>
             </el-col>
           </el-row>
+        </el-col>
+        <el-col :span="2" class="down-btn-area" style="margin-top:35px;">
+          <el-button type="success" size="small" class="mb-15" @click="addToBook()">添加至通讯录</el-button>
+          <el-button type="primary" size="small" plain @click="pd={CONSULTFROM:'',AIRLINE_CODE:'',TERMINAL:'',CONSULTNAME:'',CONSULTFROMTYPE:'',PHONE:'',CONSULTFAX:'',CONSULTEMAIL:'',INCOMINGPHONE:'',CONSULTFROMOTHERREMARK:''};V.$reset('txljiao')">重置</el-button>
         </el-col>
       </el-row>
     </div>
@@ -151,7 +155,7 @@
         </el-table-column>
       </el-table>
       <el-row align="center" :gutter="2" type="flex">
-        <el-col :span="24" class="input-item my-form-group" data-scope="txl" data-name="DETAILS" data-type="textarea"
+        <el-col :span="24" class="input-item my-form-group" :data-scope="aa.all" data-name="DETAILS" data-type="textarea"
         v-validate-easy="[['required']]">
           <span class="yy-input-text width-lef"><i class="t-must">*</i>问题详情：</span>
           <el-input type="textarea" v-model="pd.DETAILS" maxlength="300" :autosize="{ minRows: 3, maxRows: 3}"></el-input>
@@ -163,7 +167,7 @@
       <el-row type="flex" class="middle">
         <el-col :span="12" class="br pr-20">
             <el-row align="center" :gutter="2" type="flex">
-              <el-col  :sm="20" :md="20" :lg="20"  class="input-item my-form-group" data-scope="txl" data-name="REPLYTYPE" data-type="select"
+              <el-col  :sm="20" :md="20" :lg="20"  class="input-item my-form-group" :data-scope="aa.all" data-name="REPLYTYPE" data-type="select"
               v-validate-easy="[['required']]">
                 <span class="input-text"><i class="t-must">*</i>回复口径：</span>
                 <el-select v-model="pd.REPLYTYPE" filterable clearable placeholder="请选择" size="small" class="input-input" @visible-change="replyCaliber" @change="replayC(pd.REPLYTYPE)">
@@ -177,14 +181,14 @@
               </el-col>
             </el-row>
             <el-row align="center" :gutter="2" type="flex">
-              <el-col  :sm="20" :md="20" :lg="20"  class="input-item my-form-group" data-scope="txl" data-name="CHNREPLY" data-type="input"
+              <el-col  :sm="20" :md="20" :lg="20"  class="input-item my-form-group" :data-scope="aa.all" data-name="CHNREPLY" data-type="input"
               v-validate-easy="[['required']]">
                 <span class="input-text"><i class="t-must">*</i>中文：</span>
                 <el-input placeholder="请输入内容" size="small" v-model="pd.CHNREPLY"  class="input-input"></el-input>
               </el-col>
             </el-row>
             <el-row align="center" :gutter="2" type="flex">
-              <el-col  :sm="20" :md="20" :lg="20"  class="input-item my-form-group" data-scope="txl" data-name="ENGREPLY" data-type="input"
+              <el-col  :sm="20" :md="20" :lg="20"  class="input-item my-form-group" :data-scope="aa.all" data-name="ENGREPLY" data-type="input"
               v-validate-easy="[['required']]">
                 <span class="input-text"><i class="t-must">*</i>英文：</span>
                 <el-input placeholder="请输入内容" size="small" v-model="pd.ENGREPLY"  class="input-input"></el-input>
@@ -203,7 +207,7 @@
     </div>
     <div class="middle mb-2">
       <el-row align="center" :gutter="2" type="flex" justify="left">
-        <el-col  :sm="24" :md="12" :lg="6"  class="input-item my-form-group" data-scope="txl" data-name="RESULTOFHANDING" data-type="select"
+        <el-col  :sm="24" :md="12" :lg="6"  class="input-item my-form-group" :data-scope="aa.all" data-name="RESULTOFHANDING" data-type="select"
         v-validate-easy="[['required']]">
           <span class="input-text t-width-inp"><i class="t-must">*</i>处理结果：</span>
           <el-select v-model="pd.RESULTOFHANDING" filterable clearable placeholder="请选择" size="small" class="input-input">
@@ -222,6 +226,7 @@
       <el-row align="center" :gutter="2" type="flex" justify="center">
         <el-button type="primary" size="small" style="margin-left:20px!important" @click="saveT">保存</el-button>
         <el-button type="primary" size="small" style="margin-left:20px!important"><a href="javascript:history.back(-1)" style="color:#fff">返回</a></el-button>
+        <el-button type="primary" size="small" style="margin-left:20px!important" @click="pd={};V.$reset('txl');V.$reset('txljiao')">清空</el-button>
       </el-row>
     </div>
     <el-dialog title="指令变更" :visible.sync="handlesDialogVisible" width="900px">
@@ -344,6 +349,10 @@
 export default {
   data() {
     return {
+      aa:{
+        ts:'txl',
+        all:'txl'
+      },
       application:[],
       takeOffName:[],
       pd: {},
@@ -369,9 +378,58 @@ export default {
     this.tableData=[];
     this.tableData.push(this.$route.query.review);
     this.pd=this.$route.query.review;
+    this.V.$reset('txl');
+    this.V.$reset('txljiao');
     // this.pretestResults = this.$route.query.details;
   },
   methods: {
+    addToBook(){//添加至通讯录
+      this.aa.ts='txljiao'
+      let a=document.getElementById('form1');
+      for(var i=0;i<a.children.length;i++){
+        a.children[i].dataset.scope="txljiao"
+      }
+      this.V.$submit('txljiao', (canSumit,data) => {
+        if(!canSumit) return
+        var obj={};
+        obj.CONSULTFROM = this.pd.CONSULTFROM;
+        obj.STATIONFROM = this.pd.TERMINAL;
+        obj.NAME = this.pd.CONSULTNAME;
+        obj.TELEPHONE = this.pd.INCOMINGPHONE;
+        obj.CELLPHONE = this.pd.PHONE;
+        obj.FAX = this.pd.CONSULTFAX;
+        obj.EMAIL= this.pd.CONSULTEMAIL;
+        obj.OTHER = this.pd.CONSULTFROMOTHERREMARK;
+        obj.AIRLINE_CODE = this.pd.AIRLINE_CODE;
+        if(this.pd.AIRLINE_CODE!=''){
+          obj.AIRLINE_CHN_NAME = this.appZhuan(this.pd.AIRLINE_CODE).split('-')[0];
+          obj.AIRLINE_ENG_NAME = this.appZhuan(this.pd.AIRLINE_CODE).split('-')[1];
+        }else{
+          obj.AIRLINE_CHN_NAME='';
+          obj.AIRLINE_ENG_NAME='';
+        }
+        this.$api.post('/manage-platform/consult/saveConsultAddress',obj,
+          r => {
+            if(r.success){
+              this.$message({
+                message: '恭喜你，添加成功',
+                type: 'success'
+              });
+            }
+          })
+      })
+    },
+    appZhuan(item){
+      if(this.application.length!=0){
+        for(var i=0;i<this.application.length;i++){
+          if(item == this.application[i].AIRLINE_CODE){
+            return this.application[i].AIRLINE_CHN_NAME+'-'+this.application[i].AIRLINE_ENG_NAME
+          }
+        }
+      }else{
+        return ''
+      }
+    },
     applicationMethod(){
       this.$api.post('/manage-platform/codeTable/queryAircompanyList',{},
        r =>{
@@ -487,6 +545,12 @@ export default {
        },1500);
     },
     saveT(){//变更
+      this.aa.ts='txl';
+      this.aa.all='txl';
+      let a=document.getElementById('form1');
+      for(var i=0;i<a.children.length;i++){
+        a.children[i].dataset.scope="txl"
+      }
       this.V.$submit('txl', (canSumit,data) => {
         if(!canSumit) return
         if(this.pd.RESULTOFHANDING == 1||this.pd.RESULTOFHANDING == 2){

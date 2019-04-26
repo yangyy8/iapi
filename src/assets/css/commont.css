@@ -312,6 +312,9 @@
 .maxWidth{
   max-width:400px;
 }
+.YymmaxWidth{
+    max-width:800px;
+}
 .local{
   font-size:14px;
 }
@@ -323,5 +326,25 @@
   left: 100%!important;
 }
 .el-scrollbar__wrap{
-  max-width: 500px;
+  max-width: 721px;
+}
+.avgerTsName{
+  width: 70%;
+  display: inline-block;
+}
+.tt-noWrap{
+    width: 100%;
+    display: inline-block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.ckeck-item{
+  position: relative;
+}
+.check-list{
+  position: absolute;
+  /* right: 5%; */
+  top: -4%;
+  left: 7%;
 }

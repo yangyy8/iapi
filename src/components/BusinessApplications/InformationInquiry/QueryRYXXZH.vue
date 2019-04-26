@@ -5,7 +5,9 @@
       <el-row type="flex" style="height:100%">
         <el-col :span="22" class="br flex-c pr-20">
           <div style="display:flex;justify-content: flex-end;width:100%;margin-bottom:15px">
-            <el-button type="primary" plain name="button" @click="openL" size="mini">{{listText}}</el-button>
+            <!-- <el-button type="primary" plain name="button" @click="openL" size="mini">{{listText}}</el-button> -->
+            <el-button type="text" size="small" @click="openList=false" v-if="openList">展开 ﹀</el-button>
+            <el-button type="text" size="small" @click="openList=true" v-if="!openList">收起 ︿</el-button>
           </div>
           <el-row align="center" :gutter="2">
             <el-col :sm="24" :md="12" :lg="6" class="input-item">
@@ -20,7 +22,7 @@
             </el-col>
             <el-dialog title="国籍选择" :visible.sync="modelDialogVisible" width="640px" :before-close="cancelModel">
               <el-input
-                placeholder="输入模型关键字进行过滤"
+                placeholder="输入国籍关键字进行过滤"
                 v-model="filterText">
               </el-input>
               <el-tree
@@ -293,12 +295,15 @@
   </el-dialog>
     <!-- 展示项 -->
     <div class="middle middle-top mb-2 mt-20">
-      <div class="title-green">
+      <div class="title-green ckeck-item">
         <span style="float:left">结果显示项</span>
-        <el-button style="float:right" type="primary" plain @click="openCheck" size="mini">{{text}}</el-button>
+        <!-- <el-button style="float:right" type="primary" plain @click="openCheck" size="mini">{{text}}</el-button> -->
+        <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange" class="check-list" v-if="openCheckbox">全选</el-checkbox>
+        <el-button style="float:right" type="text" size="small" @click="openCheckbox=false" v-if="openCheckbox">展开 ﹀</el-button>
+        <el-button style="float:right" type="text" size="small" @click="openCheckbox=true" v-if="!openCheckbox">收起 ︿</el-button>
         <div style="clear:both"></div>
       </div>
-       <el-checkbox-group v-model="checkList" class="o-checkbox-g" v-show="openCheckbox">
+       <el-checkbox-group v-model="checkList" class="o-checkbox-g" v-show="openCheckbox" @change="handleCheckedCitiesChange">
          <el-checkbox v-for="item in checkItem" :label="item.ITEMNAME" :key="item.ITEMNAME">{{item.LABEL}}</el-checkbox>
        </el-checkbox-group>
     </div>
@@ -447,6 +452,17 @@
           min-width="100"
           sortable='custom'
           v-if="checkList.indexOf(checkItem[7].ITEMNAME)>-1">
+          <template slot-scope="scope">
+            <!-- 带 * nameIsEqual=true-->
+            <el-popover
+              placement="top-start"
+              trigger="hover"
+              :content="scope.row.PNR_FLTNO==undefined||scope.row.PNR_FLTNO==''?'暂无数据':''+scope.row.PNR_FLTNO"
+              :disabled="!scope.row.fltnoIsEqual"
+              popper-class="maxWidth">
+              <span slot="reference">{{scope.row.FLTNO}}<span v-if="scope.row.fltnoIsEqual" class="cellColor">*</span></span>
+            </el-popover>
+          </template>
         </el-table-column>
         <el-table-column
           prop="FLTDATESTR"
@@ -671,11 +687,22 @@
           v-if="checkList.indexOf(checkItem[32].ITEMNAME)>-1">
         </el-table-column>
         <el-table-column
-          prop="PNR_RCI"
+          prop="RECORDLOCATER"
           label="旅客订票号"
           min-width="150"
           sortable='custom'
           v-if="checkList.indexOf(checkItem[33].ITEMNAME)>-1">
+          <template slot-scope="scope">
+            <!-- 带 * nameIsEqual=true-->
+            <el-popover
+              placement="top-start"
+              trigger="hover"
+              :content="scope.row.PNR_RCI ==undefined||scope.row.PNR_RCI==''?'暂无数据':''+scope.row.PNR_RCI"
+              :disabled="!scope.row.pnrRciIsEqual"
+              popper-class="maxWidth">
+              <span slot="reference">{{scope.row.RECORDLOCATER}}<span v-if="scope.row.pnrRciIsEqual" class="cellColor">*</span></span>
+            </el-popover>
+          </template>
         </el-table-column>
         <el-table-column
           prop="APPLICATIONSENDERIDNAME"
@@ -730,7 +757,7 @@
         </el-table-column>
         <el-table-column
           prop="CLSFLAGSTR"
-          label="航班是否关闭"
+          label="是否登机"
           min-width="150"
           sortable='custom'
           v-if="checkList.indexOf(checkItem[40].ITEMNAME)>-1">
@@ -805,7 +832,7 @@
       title="座位详情"
       :visible.sync="seatDialogVisible"
       width="1220px">
-      <Seat :flightNumber="flightNumber0" :globalserial="globalserial0" :specifigseat="specifigseat0"></Seat>
+      <Seat :flightNumber="flightNumber0" :globalserial="globalserial0" :specifigseat="specifigseat0" :FLTNO="FLTNO0" :FLTDATE="FLTDATE0" :seatType="1"></Seat>
     </el-dialog>
     <el-dialog title="查看详情" :visible.sync="detailsDialogVisible">
       <Detail :detailType="0" :SERIAL="SERIAL0" :CHK_SERIAL="CHK_SERIAL0" :PNR_TID="PNR_TID0" :PNR_TKTNUMBER="PNR_TKTNUMBER0" :PNR_TRAVELLER_SURNAME_TIF="PNR_TRAVELLER_SURNAME_TIF0" :PNR_TRAVELLER_GIVEN_NAME_TIF="PNR_TRAVELLER_GIVEN_NAME_TIF0"></Detail>
@@ -857,6 +884,8 @@ export default {
       flightNumber0:'',
       globalserial0:'',
       specifigseat0:'',
+      FLTNO0:'',
+      FLTDATE0:'',
       options:[
         {
           value:10,
@@ -1089,7 +1118,7 @@ export default {
           LABEL:'舱位',
         },
         {
-          ITEMNAME:'PNR_RCI',
+          ITEMNAME:'RECORDLOCATER',
           LABEL:'旅客订票号',
         },
         {
@@ -1118,9 +1147,10 @@ export default {
         },
         {
           ITEMNAME:'CLSFLAGSTR',
-          LABEL:'航班是否关闭',
+          LABEL:'是否登机',
         },
       ],
+      checkItemProp:[],
       nav1Id:null,
       nav2Id:null,
       showConfiglist:[],//展示项数组
@@ -1142,6 +1172,9 @@ export default {
         }
       },
       pd:{},
+      isIndeterminate: true,
+      checkAll: false,
+      tableCurrent:0,
     }
   },
   watch:{
@@ -1159,6 +1192,7 @@ export default {
     // this.takeOff();
     // this.landing();
     document.getElementsByClassName('btn-next')[0].disabled=true;
+    this.checkItemP();
     // this.cdt.passportnoEqual = this.$route.query.row.passportno;
     // this.cdt.fltnoEqual = this.$route.query.row.fltno;
     // this.cdt.familyname = this.$route.query.row.name;
@@ -1170,9 +1204,12 @@ export default {
     if(this.$route.query.row){
       this.cdt.passportnoEqual = this.$route.query.row.passportno;
       this.cdt.fltnoEqual = this.$route.query.row.fltno;
-      this.cdt.familyname = this.$route.query.row.name;
-      this.cdt.genderEqual = this.sexZhuan(this.$route.query.row.gender);
-      this.cdt.dateofbirthEqual = this.zhuanhuan(this.$route.query.row.birthday)
+      this.cdt.startFltdate = this.zhuanhuan(this.$route.query.begintime);
+      this.cdt.endFltdate = this.zhuanhuan(this.$route.query.endtime);
+      // this.cdt.familyname = this.$route.query.row.name;
+      // this.cdt.genderEqual = this.sexZhuan(this.$route.query.row.gender);
+      // this.cdt.dateofbirthEqual = this.zhuanhuan(this.$route.query.row.birthday)
+      this.getList(this.currentPage,this.showCount,this.cdt);
     }
   },
   filters: {
@@ -1222,6 +1259,21 @@ export default {
     }
   },
   methods:{
+    checkItemP(){
+      for(var i=0;i<this.checkItem.length;i++){
+        this.checkItemProp.push(this.checkItem[i].ITEMNAME)
+      }
+    },
+    handleCheckAllChange(val) {
+       this.checkList = val ? this.checkItemProp : ['iapiName','INTG_CHNNAME','GENDER','iapiBirthdayName','iapiNationaName','PASSPORTNO','FLTNO','FLTDATESTR','CHECKRESULT','FLIGHTTYPE'];
+       let checkedCount = this.checkList.length;
+       this.isIndeterminate = checkedCount > 0 && checkedCount < this.checkItemProp.length;
+     },
+     handleCheckedCitiesChange(value) {
+        let checkedCount = value.length;
+        this.checkAll = checkedCount === this.checkItemProp.length;
+        this.isIndeterminate = checkedCount > 0 && checkedCount < this.checkItemProp.length;
+      },
     //============================洲国籍======================================================================
 
     tableRowClassName({row, rowIndex}) {
@@ -1387,6 +1439,8 @@ export default {
       this.seatDialogVisible = true;
       this.flightNumber0 = i.FLIGHT_RECORDNUM;
       this.specifigseat0=i.PNR_SPECIFIGSEAT;
+      this.FLTNO0 = i.FLTNO;
+      this.FLTDATE0 = i.FLTDATE;
       this.globalserial0=new Date().getTime();
       console.log(this.specifigseat0)
     },
@@ -1460,6 +1514,7 @@ export default {
          return
        }
       this.$refs.upload.submit();
+      this.tableCurrent = 0;
      // this.uploadDialogVisible=false;
     },
     //==============================================详情=========================================================
@@ -1734,6 +1789,7 @@ export default {
       }
     },
     reset(){
+      this.tableCurrent = 0;
       this.cdt={isBlurred:false,startFltdate:'',endFltdate:'',};
       this.ssss='';
       this.tableData=[];
@@ -1792,65 +1848,161 @@ export default {
         this.tableDown()
       }
     },
+    // tableDown(num){
+    //   this.cdt.isBatch = num;
+    //   if(this.tableData.length==0){
+    //     this.$message({
+    //       message: '表格数据为空！',
+    //       type: 'warning'
+    //     });
+    //     return;
+    //   }
+    //   if(this.tableList.length==0){
+    //     if(this.totalResult>10000){
+    //       this.$confirm('最多只能导出10000条,是否继续?','提示',{
+    //         confirmButtonText: '确定',
+    //         cancelButtonText: '取消',
+    //         type: 'warning'
+    //       }).then(() => {
+    //         axios({
+    //          method: 'post',
+    //          // url: 'http://192.168.99.234:8080/manage-platform/iapiHead/exportFileIo/4/iapiHead/10000',
+    //          url: this.$api.rootUrl+"/manage-platform/iapiHead/exportFileIo/4/iapiHead/10000",
+    //          data: {
+    //              "exclTitles": this.checkList,
+    //              "cdt":this.batchFlag==1?this.cdt1:this.cdt,
+    //              // "isBatch":num,
+    //          },
+    //          responseType: 'blob'
+    //          }).then(response => {
+    //              this.downloadM(response)
+    //          });
+    //       }).catch(() => {
+    //         this.$message({
+    //           type: 'info',
+    //           message: '已取消删除'
+    //         });
+    //       });
+    //     }else{
+    //       axios({
+    //        method: 'post',
+    //        // url: 'http://192.168.99.234:8080/manage-platform/iapiHead/exportFileIo/4/iapiHead/10000',
+    //        url: this.$api.rootUrl+"/manage-platform/iapiHead/exportFileIo/4/iapiHead/10000",
+    //        data: {
+    //            "exclTitles": this.checkList,
+    //            "cdt":this.batchFlag==1?this.cdt1:this.cdt,
+    //            // "isBatch":num,
+    //        },
+    //        responseType: 'blob'
+    //        }).then(response => {
+    //            console.log(response);
+    //            this.downloadM(response)
+    //        });
+    //     }
+    //   }else if(this.tableList.length!=0){
+    //     axios({
+    //      method: 'post',
+    //      // url: 'http://192.168.99.234:8080/manage-platform/iapiHead/exportCheckColDataIo/4',
+    //      url: this.$api.rootUrl+"/manage-platform/iapiHead/exportCheckColDataIo/4",
+    //      data: {
+    //          "exclTitles": this.checkList,
+    //          "resultList":this.tableList,
+    //          // "isBatch":num,
+    //      },
+    //      responseType: 'blob'
+    //      }).then(response => {
+    //          console.log(response);
+    //          this.downloadM(response)
+    //      });
+    //   }
+    // },
     tableDown(num){
       this.cdt.isBatch = num;
-      if(this.tableList.length==0){
-        if(this.totalResult>10000){
-          this.$confirm('最多只能导出10000条,是否继续?','提示',{
-            confirmButtonText: '确定',
-            cancelButtonText: '取消',
-            type: 'warning'
-          }).then(() => {
-            axios({
-             method: 'post',
-             // url: 'http://192.168.99.248:8081/manage-platform/iapiHead/exportFileIo/4/iapiHead/10000',
-             url: this.$api.rootUrl+"/manage-platform/iapiHead/exportFileIo/4/iapiHead/10000",
-             data: {
-                 "exclTitles": this.checkList,
-                 "cdt":this.batchFlag==1?this.cdt1:this.cdt,
-                 // "isBatch":num,
-             },
-             responseType: 'blob'
-             }).then(response => {
-                 this.downloadM(response)
-             });
-          }).catch(() => {
-            this.$message({
-              type: 'info',
-              message: '已取消删除'
+      if(this.tableData.length==0){
+        this.$message({
+          message: '表格数据为空！',
+          type: 'warning'
+        });
+        return;
+      }
+
+      if(this.tableList.length==0){//全部导出
+        if(this.totalResult>10000){//总数大于10000条
+          if(10000*this.tableCurrent<this.totalResult){
+            this.tableCurrent++;
+          }else{
+            this.$alert('已导出全部数据', '提示', {
+              confirmButtonText: '确定',
+              callback: action => {
+                this.tableCurrent = 0;
+              }
             });
-          });
-        }else{
-          axios({
-           method: 'post',
-           // url: 'http://192.168.99.248:8081/manage-platform/iapiHead/exportFileIo/4/iapiHead/10000',
-           url: this.$api.rootUrl+"/manage-platform/iapiHead/exportFileIo/4/iapiHead/10000",
-           data: {
-               "exclTitles": this.checkList,
-               "cdt":this.batchFlag==1?this.cdt1:this.cdt,
-               // "isBatch":num,
-           },
-           responseType: 'blob'
-           }).then(response => {
-               console.log(response);
-               this.downloadM(response)
-           });
+            return
+          }
+          let that = this;
+          if(that.tableCurrent==1){
+            that.$confirm('最多只能导出 10000 条,是否继续?','提示',{
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              type: 'warning'
+            }).then(() => {
+                let p={
+                  "exclTitles": that.checkList,
+                  "cdt":that.batchFlag==1?that.cdt1:that.cdt,
+                  "currentPage":that.tableCurrent
+                }
+                that.$api.post('/manage-platform/iapiHead/exportFileIo/4/iapiHead/10000',p,
+                 r =>{
+                   that.downloadM(r);
+                   setTimeout(function(){
+                     that.$alert('点击 导出按钮 可继续导出数据', '提示', {
+                       confirmButtonText: '确定',
+                     });
+                   },1000)
+                 },e=>{},'','blob')
+            }).catch(() => {
+              that.$message({
+                type: 'info',
+                message: '已取消导出'
+              });
+            });
+          }else{
+            let pp={
+              "exclTitles": that.checkList,
+              "cdt":that.batchFlag==1?that.cdt1:that.cdt,
+              "currentPage":that.tableCurrent
+            }
+            that.$api.post('/manage-platform/iapiHead/exportFileIo/4/iapiHead/10000',pp,
+             r =>{
+               that.downloadM(r);
+               setTimeout(function(){
+                 that.$alert('点击 导出按钮 可继续导出数据', '提示', {
+                   confirmButtonText: '确定',
+                 });
+               },1000)
+             },e=>{},'','blob')
+          }
+        }else{//总数小于10000条
+          let p={
+            "exclTitles": this.checkList,
+            "cdt":this.batchFlag==1?this.cdt1:this.cdt,
+            "currentPage":1
+          }
+          this.$api.post('/manage-platform/iapiHead/exportFileIo/4/iapiHead/10000',p,
+          r =>{
+            this.downloadM(r)
+          },e=>{},'','blob')
         }
-      }else if(this.tableList.length!=0){
-        axios({
-         method: 'post',
-         // url: 'http://192.168.99.248:8081/manage-platform/iapiHead/exportCheckColDataIo/4',
-         url: this.$api.rootUrl+"/manage-platform/iapiHead/exportCheckColDataIo/4",
-         data: {
-             "exclTitles": this.checkList,
-             "resultList":this.tableList,
-             // "isBatch":num,
-         },
-         responseType: 'blob'
-         }).then(response => {
-             console.log(response);
-             this.downloadM(response)
-         });
+      }else if(this.tableList.length!=0){//选择性导出
+        let p={
+          "exclTitles": this.checkList,
+          "resultList":this.tableList,
+          "currentPage":1
+        }
+        this.$api.post('/manage-platform/iapiHead/exportCheckColDataIo/4',p,
+        r =>{
+          this.downloadM(r)
+        },e=>{},'','blob')
       }
     },
     downloadM (data,type) {
@@ -1895,26 +2047,26 @@ export default {
   vertical-align: -5px;
 }
 .color1{
-  background: #f0f9eb;
+  background: #e2f9d6;
 }
 .color2{
-  background:oldlace;
+  background:#f9edd7;
 }
 .color3{
-  background: #fef0f0;
+  background: #f9dede;
 }
 </style>
 <style media="screen">
 .tableRy .warning-row {
-  background:#f0f9eb;
+  background:#e2f9d6;
 }
 
 .tableRy .success-row {
-  background:oldlace ;
+  background:#f9edd7 ;
 }
 
 .tableRy .gray-row {
-  background: #fef0f0;
+  background: #f9dede;
 }
 
   .t-save .el-select{

@@ -121,7 +121,6 @@
                 </el-select>
               </div>
             </el-col>
-
             <el-col :sm="24" :md="12"  :lg="8" class="input-item" style="position:relative">
               <span class="input-text">量选择：</span>
               <el-select  placeholder="请选择"  size="small" v-model="pd.number" multiple clearable filterable class="block input-input" collapse-tags>

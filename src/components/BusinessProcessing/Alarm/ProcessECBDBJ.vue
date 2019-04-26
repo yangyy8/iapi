@@ -186,7 +186,7 @@ export default {
         },
         {
           value: "1",
-          label: '临控名单'
+          label: '临控禁制登记名单'
         },
         {
           value: "2",

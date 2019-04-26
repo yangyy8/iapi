@@ -28,12 +28,8 @@
              </el-date-picker>
           </div>
             </el-col>
-
-
           </el-row>
-
           <el-row align="center"   :gutter="2" class="yy-line">
-
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                 <span class="input-text"> <span class="spang">境内</span> 城市：</span>
                 <el-select placeholder="请选择" v-model="pd.cityto" filterable clearable size="small"  class="input-input">
@@ -47,13 +43,13 @@
             </el-col>
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                 <span class="input-text">机场：</span>
-                <el-select placeholder="请选择" v-model="pd.portto" filterable clearable size="small"  class="input-input">
+                <el-select placeholder="请选择" v-model="pd.portto" filterable clearable size="small" @visible-change="getjc(pd.cityto,0)"  class="input-input">
                   <el-option
               v-for="item in airportn"
-              v-if="item.JCDM"
-              :key="item.JCDM"
-              :label="item.JCDM+' - '+item.KAMC"
-              :value="item.JCDM">
+              v-if="item.AIRPORT_CODE"
+              :key="item.AIRPORT_CODE"
+              :label="item.AIRPORT_CODE+' - '+item.AIRPORT_NAME"
+              :value="item.AIRPORT_CODE">
             </el-option>
                 </el-select>
             </el-col>
@@ -63,18 +59,18 @@
          <el-row align="center"   :gutter="2" class="yy-line">
                        <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                            <span class="input-text"><span class="spang">境外</span>  &emsp;洲：</span>
-                           <el-select placeholder="请选择" v-model="pd.continentfrom" filterable clearable size="small"  class="input-input">
+                           <el-select placeholder="请选择" v-model="pd.continentfrom" filterable clearable size="small" @change="nationality(pd.continentfrom)"  class="input-input">
                              <el-option
                                v-for="(item,ind) in zhouName"
                                :key="ind"
-                               :value="item.code"
+                               :value="item.codeNumber"
                                :label="item.code+' - '+item.name"
                              ></el-option>
                            </el-select>
                        </el-col>
                        <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                            <span class="input-text">国家：</span>
-                           <el-select placeholder="请选择" v-model="pd.countryfrom" filterable clearable size="small"  class="input-input">
+                           <el-select placeholder="请选择" v-model="pd.countryfrom" filterable clearable size="small" @change="cityAble(pd.countryfrom)"  class="input-input">
                              <el-option
                                v-for="(item,ind)  in nation"
                                :key="ind"
@@ -96,7 +92,7 @@
            </el-col>
            <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                <span class="input-text">机场：</span>
-               <el-select placeholder="请选择" v-model="pd.portfrom" filterable clearable size="small"  class="input-input">
+               <el-select placeholder="请选择" v-model="pd.portfrom" filterable clearable size="small" @visible-change="getjc(pd.cityfrom,1)"  class="input-input">
                  <el-option
                   v-for="item in airportw"
                   :key="item.AIRPORT_CODE"
@@ -151,7 +147,7 @@
               </el-row>
             <el-table
                   :data="tableData"
-                  :summary-method="getSummaries"
+
                   show-summary
                   border
                   max-height="600"
@@ -228,8 +224,13 @@
 </template>
 <script>
 import echarts from 'echarts'
-import {formatDate,format} from '@/assets/js/date.js'
-import {dayGap} from '@/assets/js/date.js'
+import {
+  formatDate,
+  format
+} from '@/assets/js/date.js'
+import {
+  dayGap
+} from '@/assets/js/date.js'
 import axios from 'axios'
 export default {
   data() {
@@ -238,12 +239,13 @@ export default {
       pageSize: 10,
       TotalResult: 0,
       pd: {
-      begintime:'',endtime:''
+        begintime: '',
+        endtime: ''
       },
       nation: [],
       company: [],
-      airportn:[],
-      airportw:[],
+      airportn: [],
+      airportw: [],
       addDialogVisible: false,
       detailsDialogVisible: false,
       options: [{
@@ -265,7 +267,7 @@ export default {
       pickerOptions0: {
         disabledDate: (time) => {
           if (this.pd.endtime != null) {
-            let startT = formatDate(new Date(time.getTime()), 'yyyyMMddhhmmss');
+            let startT = formatDate(new Date(time.getTime()-1), 'yyyyMMddhhmmss');
             return startT > this.pd.endtime;
           } else if (this.pd.endtime == null) {
             return false
@@ -284,13 +286,13 @@ export default {
       gwName: [],
       gnName: [],
       typerow: 'continent',
-      sData1:[],
-      sData2:[],
-      sData3:[],
-      showz:true,
-      showg:true,
-      showk:true,
-      showc:true,
+      sData1: [],
+      sData2: [],
+      sData3: [],
+      showz: true,
+      showg: true,
+      showk: true,
+      showc: true,
     }
   },
   mounted() {
@@ -314,17 +316,17 @@ export default {
     this.gn();
     this.gwart();
     this.gnart();
-    let time = new Date();
-    let endz = new Date();
-    let beginz = new Date(time - 1000 * 60 * 60 * 24 * 30);
-    this.pd.begintime = formatDate(beginz, 'yyyyMMdd');
-    this.pd.endtime = formatDate(endz, 'yyyyMMdd');
+    // let time = new Date();
+    // let endz = new Date();
+    // let beginz = new Date(time - 1000 * 60 * 60 * 24 * 30);
+    // this.pd.begintime = formatDate(beginz, 'yyyyMMdd');
+    // this.pd.endtime = formatDate(endz, 'yyyyMMdd');
 
   },
   methods: {
-    headerClick(column,event){
-    event.target.title=column.label
-  },
+    headerClick(column, event) {
+      event.target.title = column.label
+    },
     base() {
       this.page = 0;
     },
@@ -346,7 +348,7 @@ export default {
     getList(currentPage, showCount, pd) {
 
 
-      if (this.pd.begintime== null|| this.pd.endtime == null) {
+      if (this.pd.begintime == null || this.pd.endtime == null) {
         this.$alert('时间范围不能为空', '提示', {
           confirmButtonText: '确定',
         });
@@ -356,40 +358,40 @@ export default {
 
       let p = {
 
-        "begintime":pd.begintime,
-        "endtime":pd.endtime,
-        "continentfrom":pd.continentfrom,
-        "countryfrom":pd.countryfrom,
-        "cityfrom":pd.cityfrom,
-        "cityto":pd.cityto,
-        "portto":pd.portto,
-        "portfrom":pd.portfrom,
+        "begintime": pd.begintime,
+        "endtime": pd.endtime,
+        "continentfrom": pd.continentfrom,
+        "countryfrom": pd.countryfrom,
+        "cityfrom": pd.cityfrom,
+        "cityto": pd.cityto,
+        "portto": pd.portto,
+        "portfrom": pd.portfrom,
       };
 
       var url = "/manage-platform/dataStatistics/get_fltline_bycontinent";
-      this.showz=true;
-      this.showg=false;
-      this.showc=false;
-      this.showk=false;
+      this.showz = true;
+      this.showg = false;
+      this.showc = false;
+      this.showk = false;
       if (this.typerow == "country") {
 
-        url="/manage-platform/dataStatistics/get_fltline_bycountry";
-        this.showz=false;
-        this.showg=true;
-        this.showc=false;
-        this.showk=false;
+        url = "/manage-platform/dataStatistics/get_fltline_bycountry";
+        this.showz = false;
+        this.showg = true;
+        this.showc = false;
+        this.showk = false;
       } else if (this.typerow == "city") {
-        url="/manage-platform/dataStatistics/get_fltline_bycity";
-        this.showz=false;
-        this.showg=false;
-        this.showc=true;
-        this.showk=false;
+        url = "/manage-platform/dataStatistics/get_fltline_bycity";
+        this.showz = false;
+        this.showg = false;
+        this.showc = true;
+        this.showk = false;
       } else if (this.typerow == "port") {
-        url="/manage-platform/dataStatistics/get_fltline_byport";
-        this.showz=false;
-        this.showg=false;
-        this.showc=false;
-        this.showk=true;
+        url = "/manage-platform/dataStatistics/get_fltline_byport";
+        this.showz = false;
+        this.showg = false;
+        this.showc = false;
+        this.showk = true;
       }
 
       this.$api.post(url, p,
@@ -397,63 +399,92 @@ export default {
           console.log(r);
           this.tableData = r.data;
 
-          let arr=this.tableData;
-          var sum1=0,sum01=0;
-          var sum2=0,sum02=0;
-          var sum3=0,sum03=0,sum003=0;
-          for(var i=0;i<arr.length;i++){
-            sum1+=parseInt(arr[i].boardingcount);
-            sum01+=parseInt(arr[i].chk_1z);
-            sum2+=parseInt(arr[i].chk_gender_m);
-            sum02+=parseInt(arr[i].chk_gender_f);
-            sum3+=parseInt(arr[i].foreign);
-            sum03+=parseInt(arr[i].inland);
-            sum003+=parseInt(arr[i].gat);
+          let arr = this.tableData;
+          var sum1 = 0,
+            sum01 = 0;
+          var sum2 = 0,
+            sum02 = 0;
+          var sum3 = 0,
+            sum03 = 0,
+            sum003 = 0;
+          for (var i = 0; i < arr.length; i++) {
+            sum1 += parseInt(arr[i].boardingcount);
+            sum01 += parseInt(arr[i].chk_1z);
+            sum2 += parseInt(arr[i].chk_gender_m);
+            sum02 += parseInt(arr[i].chk_gender_f);
+            sum3 += parseInt(arr[i].foreign);
+            sum03 += parseInt(arr[i].inland);
+            sum003 += parseInt(arr[i].gat);
           }
-          this.sData1=[{value:sum1, name:'总数'},{value:sum01, name:'不准登机人数'}];
-          this.sData2=[{value:sum2, name:'男'},{value:sum02, name:'女'}];
-          this.sData3=[{value:sum3, name:'外国人'},{value:sum03, name:'内地居民'},{value:sum003, name:'港澳台'}];
-          this.drawLine();this.drawLine2();this.drawLine3();
+          this.sData1 = [{
+            value: sum1,
+            name: '总数'
+          }, {
+            value: sum01,
+            name: '不准登机人数'
+          }];
+          this.sData2 = [{
+            value: sum2,
+            name: '男'
+          }, {
+            value: sum02,
+            name: '女'
+          }];
+          this.sData3 = [{
+            value: sum3,
+            name: '外国人'
+          }, {
+            value: sum03,
+            name: '内地居民'
+          }, {
+            value: sum003,
+            name: '港澳台'
+          }];
+          this.drawLine();
+          this.drawLine2();
+          this.drawLine3();
         })
     },
 
-    download(){
-    //  var url="http://192.168.99.213:8080/manage-platform/dataStatistics/export_fltline";
-      var url= this.$api.rootUrl+"/manage-platform/dataStatistics/export_fltline";
+    download() {
+      //  var url="http://192.168.99.213:8080/manage-platform/dataStatistics/export_fltline";
+      var url = this.$api.rootUrl + "/manage-platform/dataStatistics/export_fltline";
 
       axios({
-       method: 'post',
-       url: url,
-      // url:'http://192.168.99.206:8080/manage-platform/iapi/exportFileIo/0/600',
-      // url: this.$api.rootUrl+"/manage-platform/iapi/exportFileIo/0/600",
-       data: {
-         "begintime":this.pd.begintime,
-         "endtime":this.pd.endtime,
-         "continentfrom":this.pd.continentfrom,
-         "countryfrom":this.pd.countryfrom,
-         "cityfrom":this.pd.cityfrom,
-         "cityto":this.pd.cityto,
-         "rowproperty":this.typerow,
-         "portto":this.pd.portto,
-         "portfrom":this.pd.portfrom,
-       },
-       responseType: 'blob'
-       }).then(response => {
-           this.downloadM(response)
-       });
+        method: 'post',
+        url: url,
+        // url:'http://192.168.99.206:8080/manage-platform/iapi/exportFileIo/0/600',
+        // url: this.$api.rootUrl+"/manage-platform/iapi/exportFileIo/0/600",
+        data: {
+          "begintime": this.pd.begintime,
+          "endtime": this.pd.endtime,
+          "continentfrom": this.pd.continentfrom,
+          "countryfrom": this.pd.countryfrom,
+          "cityfrom": this.pd.cityfrom,
+          "cityto": this.pd.cityto,
+          "rowproperty": this.typerow,
+          "portto": this.pd.portto,
+          "portfrom": this.pd.portfrom,
+        },
+        responseType: 'blob'
+      }).then(response => {
+        this.downloadM(response)
+      });
     },
-    downloadM (data) {
-        if (!data) {
-            return
-        }
+    downloadM(data) {
+      if (!data) {
+        return
+      }
 
-        let url = window.URL.createObjectURL(new Blob([data.data],{type:"application/octet-stream"}))
-        let link = document.createElement('a')
-        link.style.display = 'none'
-        link.href = url
-        link.setAttribute('download', 'hxzt'+format(new Date(),'yyyyMMddhhmmss')+'.xlsx')
-        document.body.appendChild(link)
-        link.click()
+      let url = window.URL.createObjectURL(new Blob([data.data], {
+        type: "application/octet-stream"
+      }))
+      let link = document.createElement('a')
+      link.style.display = 'none'
+      link.href = url
+      link.setAttribute('download', 'hxzt' + format(new Date(), 'yyyyMMddhhmmss') + '.xlsx')
+      document.body.appendChild(link)
+      link.click()
     },
 
     zhou() { //调用洲
@@ -461,6 +492,7 @@ export default {
         r => {
           if (r.success) {
             this.zhouName = r.data;
+
           };
         })
     },
@@ -489,12 +521,68 @@ export default {
         })
     },
     gnart() { //国内机场
+
       this.$api.post('/manage-platform/codeTable/queryAirportMatch', {},
         r => {
           if (r.success) {
             this.airportn = r.data;
           };
         })
+    },
+    getjc(n, t) {
+      if (t == 0) {
+        let pp = {
+          "COUNTRY_CODE": "CHN",
+          'CITY_CODE': n,
+        }
+        this.$api.post('/manage-platform/codeTable/queryAirportByParam', pp,
+          r => {
+            if (r.success) {
+              this.airportn = r.data;
+            };
+          })
+      } else if (t == 1) {
+        let pe = {
+          'CITY_CODE': n,
+        }
+        this.$api.post('/manage-platform/codeTable/queryAirportByParam', pe,
+          r => {
+            if (r.success) {
+              this.airportw = r.data;
+            };
+          })
+      }
+    },
+    nationality(data){//基础查询国籍与洲二级联动
+       this.$set(this.pd,'countryfrom','');
+       this.$set(this.pd,'cityfrom','');
+       this.$set(this.pd,'portfrom','');
+        let arr=this.zhouName;
+        let that=this;
+        for(var i=0;i<arr.length;i++){
+          if(arr[i].codeNumber == data){
+            that.nation=arr[i].countryList;
+          }
+        }
+
+
+    },
+    cityAble(val){
+
+      this.$set(this.pd,'cityfrom','');
+      this.$set(this.pd,'portfrom','');
+          let p = {
+            'countryCode':val
+          }
+          this.$api.post('/manage-platform/codeTable/queryCity',p,
+           r =>{
+             if(r.success){
+
+                 this.gwName = r.data;
+
+             }
+           })
+
     },
     queryNationality() {
       this.$api.post('/manage-platform/codeTable/queryNationality', {},
@@ -532,48 +620,48 @@ export default {
       });
 
     },
-      drawLine2() {
+    drawLine2() {
 
-        this.lineChart = echarts.init(document.getElementById('myChart2'), 'light');
-        window.onresize = echarts.init(document.getElementById('myChart2')).resize;
-        let that = this;
+      this.lineChart = echarts.init(document.getElementById('myChart2'), 'light');
+      window.onresize = echarts.init(document.getElementById('myChart2')).resize;
+      let that = this;
 
-        this.lineChart.setOption({
-          tooltip: {
-            trigger: 'item',
-            formatter: "{a} <br/>{b}: {c} ({d}%)"
-          },
-          series: [{
-            name: '性别构成',
-            type: 'pie',
-            radius: ['30%', '50%'],
-            center: ['50%', '50%'], //调整位置
-            data: this.sData2,
+      this.lineChart.setOption({
+        tooltip: {
+          trigger: 'item',
+          formatter: "{a} <br/>{b}: {c} ({d}%)"
+        },
+        series: [{
+          name: '性别构成',
+          type: 'pie',
+          radius: ['30%', '50%'],
+          center: ['50%', '50%'], //调整位置
+          data: this.sData2,
 
-          }]
-        });
-      },
-        drawLine3() {
+        }]
+      });
+    },
+    drawLine3() {
 
-          this.lineChart = echarts.init(document.getElementById('myChart3'), 'light');
-          window.onresize = echarts.init(document.getElementById('myChart3')).resize;
-          let that = this;
+      this.lineChart = echarts.init(document.getElementById('myChart3'), 'light');
+      window.onresize = echarts.init(document.getElementById('myChart3')).resize;
+      let that = this;
 
-          this.lineChart.setOption({
-            tooltip: {
-              trigger: 'item',
-              formatter: "{a} <br/>{b}: {c} ({d}%)"
-            },
-            series: [{
-              name: '国家构成',
-              type: 'pie',
-              radius: ['30%', '50%'],
-              center: ['50%', '50%'], //调整位置
-              data: this.sData3,
+      this.lineChart.setOption({
+        tooltip: {
+          trigger: 'item',
+          formatter: "{a} <br/>{b}: {c} ({d}%)"
+        },
+        series: [{
+          name: '国家构成',
+          type: 'pie',
+          radius: ['30%', '50%'],
+          center: ['50%', '50%'], //调整位置
+          data: this.sData3,
 
-            }]
-          });
-}
+        }]
+      });
+    }
 
 
   }
@@ -610,11 +698,24 @@ export default {
   padding: 20px;
   border-radius: 0 5px 5px 5px;
 }
-.ppie{width:420px; height:400px; float:left}
-.spang{margin-right:30px; background:#EE8E48; padding:3px 8px; border:1px solid #cccccc; border-radius:5px;color:#ffffff }
+
+.ppie {
+  width: 420px;
+  height: 400px;
+  float: left
+}
+
+.spang {
+  margin-right: 30px;
+  background: #EE8E48;
+  padding: 3px 8px;
+  border: 1px solid #cccccc;
+  border-radius: 5px;
+  color: #ffffff
+}
 </style>
 <style>
-.el-table th > .cell {
-  padding-right: 15px!important;
+.el-table th>.cell {
+  padding-right: 15px !important;
 }
 </style>

@@ -190,13 +190,14 @@
      </el-row>
        <hr/>
     <el-row type="flex"  class="mb-15">
-      <el-col :span="12" class="ppding">处理人：{{this.USERNAMECHN}}</el-col>
+      <!-- <el-col :span="12" class="ppding">处理人：{{this.USERNAMECHN}}</el-col> -->
       <el-col :span="12" class="ppding">处理时间：{{form.DEALTIME | fifter4}}</el-col>
     </el-row>
 
     <el-row type="flex"  class="mb-15">
-     <el-col :span="24" class="ppding" style="vertical-align: top">处理详情：
-     <el-input type="textarea" v-model="form.DEALCONTENT" maxlength="250"  placeholder="请输入处理详情(不超过250字)" :autosize="{ minRows: 3, maxRows: 6}" style="width:80%;" ></el-input>
+     <el-col :span="24" class="ppding input-item">
+     <span class="yy-input-text widthText">处理详情：</span>
+     <el-input class="yy-input-input widthContent" type="textarea" v-model="form.DEALCONTENT" maxlength="250"  placeholder="请输入处理详情(不超过250字)" :autosize="{ minRows: 3, maxRows: 6}" style="width:80%;" ></el-input>
      </el-col>
     </el-row>
 
@@ -456,5 +457,11 @@ export default {
   padding-right: 10px;
 }
 .ppding{padding-left:15px;}
-
+.widthText{
+  width: 9%!important;
+}
+.widthContent{
+  width: 80%!important;
+  margin-left: 4px;
+}
 </style>

@@ -108,12 +108,15 @@
             </el-col>
             <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
               <span class="input-text">证件号码：</span>
-              <el-input placeholder="请输入内容" size="small" v-model="pd.cardnumlike"   class="input-input"></el-input>
+              <div class="input-input t-fuzzy t-flex">
+                  <el-input placeholder="请输入内容" size="small" v-model="pd.cardnumlike"></el-input>
+                <el-checkbox v-model="pd.isCardnumlike">模糊查询</el-checkbox>
+              </div>
             </el-col>
           </el-row>
         </el-col>
         <el-col :span="2" class="down-btn-area">
-          <el-button type="success" size="small" @click="querySeat">查询</el-button>
+          <el-button type="success" size="small" @click="CurrentPage=1;querySeat()">查询</el-button>
         </el-col>
       </el-row>
     </div>
@@ -121,9 +124,9 @@
         <!-- <span class="tubiao hand borderL" :class="{'checked':page==0}" @click="page=0;getList(CurrentPage,pageSize,pd)">列表</span><span class="tubiao hand borderR" :class="{'checked':page==1}" @click="qq">图表</span> -->
     <div id="div1" @mouseover="mouseHeader">
       <el-table
+        border
         :data="tableData"
         class="o-table3"
-        border
         @header-click="headerClick"
         @sort-change='sortChange'
         style="width: 100%;">
@@ -220,6 +223,7 @@
         <el-pagination
           background
           @current-change="handleCurrentChange"
+          :current-page.sync ="CurrentPage"
           :page-size="pageSize"
           layout="prev, pager, next"
           :total="TotalResult">
@@ -397,7 +401,9 @@
         <el-table
           :data="detailstableData"
           border
-          style="width: 100%;">
+          class="o-table3"
+          style="width: 100%;"
+          @header-click="headerClick">
           <el-table-column
             prop="NAME"
             label="姓名" sortable
@@ -525,7 +531,7 @@
       :visible.sync="seatDialogVisible"
       width="1220px"
       >
-      <Seat :flightNumber="flightNumber0" :globalserial="globalserial0" :specifigseat="specifigseat0"></Seat>
+      <Seat :flightNumber="flightNumber0" :globalserial="globalserial0" :specifigseat="specifigseat0" :FLTNO="FLTNO0" :FLTDATE="FLTDATE0" :seatType="1"></Seat>
     </el-dialog>
   </div>
 </template>
@@ -536,8 +542,7 @@ import AlarmProcess from '../../BusinessProcessing/Alarm/alarmProcess'
 import {formatDate} from '@/assets/js/date.js'
 import {dayGap} from '@/assets/js/date.js'
 export default {
-  components: {AlarmProcess},
-  components: {Seat},
+  components: {AlarmProcess,Seat},
   data() {
     return {
       order:'',
@@ -549,6 +554,7 @@ export default {
       pd: {
         "isBlurred":false,
         isFltnoLike:false,
+        isCardnumlike:false,
         departdateBegin:'',
         departdateEnd:'',
       },
@@ -620,6 +626,8 @@ export default {
       flightNumber0:'',
       globalserial0:'',
       specifigseat0:'',
+      FLTNO0:'',
+      FLTDATE0:''
     }
   },
   mounted() {
@@ -667,18 +675,20 @@ export default {
       this.flightNumber0=i.flightRecordnum;
       this.globalserial0=new Date().getTime();
       this.specifigseat0=i.specifigseat;
+      this.FLTNO0=i.flightNumber;
+      this.FLTDATE0=i.fltdate;
       // this.$router.push({query:{flightNumber:i.flightRecordnum}})
     },
     getHistoryListPnr(hcurrentPage,hshowCount,historyCdt){
       let ghl = {
         "currentPage":hcurrentPage,
       	"showCount":hshowCount,
-      	"cdt":historyCdt
+      	"pd":historyCdt
       };
       // this.historyBased();
-      this.$api.post('/manage-platform/pnr/queryPnrHistory',ghl,
+      this.$api.post('/manage-platform/iapiUnscolicited/queryHistory',ghl,
       r =>{
-        this.detailstableData = r.data.resultList;
+        this.detailstableData = r.data.pdList;
         this.htotalResult = r.data.totalResult;
         this.htotalPage = r.data.totalPage;
       })
@@ -701,10 +711,12 @@ export default {
       this.pd.NATIONALITY=msg;
     },
     pageSizeChange(val) {
+      this.pageSize = val;
       this.getList(this.CurrentPage, val, this.pd,this.order,this.direction);
       console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
+      this.CurrentPage=val;
       this.getList(val, this.pageSize, this.pd,this.order,this.direction);
 
       console.log(`当前页: ${val}`);
@@ -765,6 +777,8 @@ export default {
     // },
     details(i) {
       this.detailsDialogVisible = true;
+      this.historyCdt.NATIONALITY = i.nationality;
+      this.historyCdt.PASSPORTNO = i.cardnum;
       this.historyCdt.nationalityEqual = i.nationality;
       this.historyCdt.passportnoEqual = i.cardnum;
       console.log(i);

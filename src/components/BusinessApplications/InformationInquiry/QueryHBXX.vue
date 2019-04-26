@@ -107,7 +107,7 @@
           </el-row>
         </el-col>
         <el-col :span="2" class="down-btn-area" >
-          <el-button type="success" size="small" @click="getList(CurrentPage,pageSize,pd,order,direction)">查询</el-button>
+          <el-button type="success" size="small" @click="CurrentPage=1;getList(CurrentPage,pageSize,pd,order,direction)">查询</el-button>
 
         </el-col>
 
@@ -194,7 +194,7 @@
           </template>
         </el-table-column>
         <el-table-column
-          label="操作" width="70">
+          label="座位" width="70">
           <template slot-scope="scope">
               <el-button type="text"  class="a-btn"  title="座位详情" icon="el-icon-tickets" @click="details(scope.row)"></el-button>
          </template>
@@ -224,6 +224,7 @@
         <el-pagination
           background
           @current-change="handleCurrentChange"
+          :current-page.sync ="CurrentPage"
           :page-size="pageSize"
           layout="prev, pager, next"
           :total="TotalResult">
@@ -235,14 +236,25 @@
       :visible.sync="seatDialogVisible"
       width="1220px"
       >
-      <Seat :flightNumber="flightNumber0" :globalserial="globalserial0"></Seat>
+      <Seat :flightNumber="flightNumber0" :globalserial="globalserial0" :FLTNO="FLTNO0" :FLTDATE="FLTDATE0" :seatType="1"></Seat>
     </el-dialog>
 
     <el-dialog
-      title="详情"
+      :title="detailsTitle"
       :visible.sync="numberDialogVisible"
       width="1000px">
       <el-button  plain class="table-btn mb-9" size="small" @click="daochu">导出</el-button>
+      <el-row type="flex"  class="mb-6">
+        <el-col :span="12" class="input-item">
+          <span class="yy-input-text width-dq">航班号：</span>
+          <el-input placeholder="请输入内容" size="small" v-model="detailForm.fight" class="yy-input-input" :disabled="true"></el-input>
+
+        </el-col>
+        <el-col :span="12" class="input-item">
+          <span class="yy-input-text width-dqd">航班日期：</span>
+            <el-input placeholder="请输入内容" size="small" v-model="detailForm.fightDate" class="yy-input-input" :disabled="true"></el-input>
+        </el-col>
+      </el-row>
       <el-table
         :data="tableInfo"
         border
@@ -288,6 +300,8 @@ export default {
   components: {Seat},
   data() {
     return {
+      detailsTitle:'值机人员详情',
+      detailForm:{},
       order:'',
       direction:0,
       numberTotal:0,
@@ -351,6 +365,8 @@ export default {
       flightNumber0:'',
       globalserial0:'',
       specifigseat0:'',
+      FLTNO0:'',
+      FLTDATE0:'',
     }
   },
   mounted() {
@@ -422,16 +438,23 @@ export default {
     },
     rowClick(row, column, cell, event){
       console.log(row);
+
+      this.detailForm.fight = row.fltno;
+      this.detailForm.fightDate = row.fltDateStr;
       if(column.property=='checkincount'||column.property=='boardingcount'||column.property=='chkNobrd'){
-        if(row.checkincount==undefined||row.boardingcount==undefined||row.chkNobrd==undefined){
+        if((column.property=='checkincount'&&row.checkincount==undefined)||(column.property=='boardingcount'&&row.boardingcount==undefined)||(column.property=='chkNobrd'&&row.chkNobrd==undefined)){
           this.$message('没有检索到详情');
           return false
+        }
+        if(column.property=='checkincount'){
+          this.detailsTitle = '值机人员详情'
+        }else{
+          this.detailsTitle = '登机人员详情'
         }
         let p = {
           'flightRecordnum':row.flightRecordnum,
           'otherStr':this.zhuanhuan(column.property)
         }
-
         this.$api.post('/manage-platform/iapi/queryIapiTableInfoObject',p,
          r =>{
            if(r.success){
@@ -446,10 +469,12 @@ export default {
       this.multipleSelection = val;
     },
     pageSizeChange(val) {
+      this.pageSize = val;
       this.getList(this.CurrentPage, val, this.pd,this.order,this.direction);
       console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
+      this.CurrentPage = val;
       this.getList(val, this.pageSize, this.pd,this.order,this.direction);
       console.log(`当前页: ${val}`);
     },
@@ -541,6 +566,8 @@ export default {
       this.seatDialogVisible=true;
       this.flightNumber0 = i.flightRecordnum;
       this.globalserial0=new Date().getTime();
+      this.FLTNO0=i.fltno;
+      this.FLTDATE0=i.fltDate;
       // this.specifigseat0=i.specifigseat;
       // this.$router.push({query:{flightNumber:i.flightRecordnum}})
     },
@@ -642,5 +669,11 @@ export default {
   color: #333;
   display: inline-block;
   width: 60px;
+}
+.width-dq{
+  width: 12%!important;
+}
+.width-dqd{
+  width: 18%!important;
 }
 </style>

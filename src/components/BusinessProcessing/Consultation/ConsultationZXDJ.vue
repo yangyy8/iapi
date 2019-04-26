@@ -151,7 +151,7 @@
           </el-row>
         </el-col>
         <el-col :span="2" class="down-btn-area" style="margin-top:35px;" v-if="CONSULTTYPE==0">
-          <el-button type="success" class="mb-15" size="small"  @click="getList(CurrentPage,pageSize,pd);">查询</el-button>
+          <el-button type="success" class="mb-15" size="small"  @click="getList(CurrentPage,pageSize,pd,order,direction);">查询</el-button>
         </el-col>
       </el-row>
       <el-table
@@ -160,6 +160,7 @@
         border
         style="width: 100%;"
         @header-click="headerClick"
+        @sort-change='sortChange'
         v-if="CONSULTTYPE==0">
         <el-table-column
           prop="INTG_CHNNAME"
@@ -341,7 +342,7 @@
     <div class="middle mb-2" v-if="CONSULTTYPE==1||CONSULTTYPE==2">
       <el-row align="center" :gutter="2" type="flex" justify="center" style="margin-top:10px;padding-bottom:20px;">
         <el-button type="primary" size="small" @click="businessSave">保存</el-button>
-        <el-button type="primary" size="small" @click="businessDETAILS=''" style="margin-left:20px!important">清空</el-button>
+        <el-button type="primary" size="small" @click="entity={};huifu={};V.$reset('txl');V.$reset('txljiao')" style="margin-left:20px!important">清空</el-button>
       </el-row>
     </div>
   </div>
@@ -352,6 +353,8 @@ import {formatDate} from '@/assets/js/date.js'
 export default {
   data() {
     return {
+      direction:0,
+      order:'',
       aa:{
         ts:'txl',
         all:'txl'
@@ -424,7 +427,14 @@ export default {
     this.V.$reset('txljiao');
   },
   methods: {
+    sortChange(column, prop, order){
+      column.order=='ascending'?this.direction=1:this.direction=0;
+      this.order=column.prop;
+      this.getList(this.CurrentPage,this.pageSize,this.pd,this.order,this.direction);
+    },
     changeType(val){
+      this.V.$reset('txl');
+      this.V.$reset('txljiao');
       if(val==1||val==2){
         this.huifu = {}
       }
@@ -463,18 +473,22 @@ export default {
       this.multipleSelection = val;
     },
     pageSizeChange(val) {
-      this.getList(this.CurrentPage, val, this.pd);
+      this.pageSize=val;
+      this.getList(this.CurrentPage, val, this.pd,this.order,this.direction);
       console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
-      this.getList(val, this.pageSize, this.pd);
+      this.CurrentPage=val;
+      this.getList(val, this.pageSize, this.pd,this.order,this.direction);
       console.log(`当前页: ${val}`);
     },
-    getList(currentPage, showCount, pd) {
+    getList(currentPage, showCount, pd,order,direction) {
       let p = {
         "currentPage": currentPage,
         "showCount": showCount,
-        "pd": pd
+        "pd": pd,
+        "order":order,
+        "direction":direction
       };
       this.$api.post('/manage-platform/consult/queryConsultIapiInfo', p,
         r => {

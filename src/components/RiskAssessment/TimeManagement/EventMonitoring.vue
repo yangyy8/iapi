@@ -463,8 +463,8 @@ export default {
     tableDown(){
       axios({
        method: 'post',
-       // url: 'http://192.168.99.245:8080/manage-platform/eventMonitor/exportFileIo/600',
-       url: this.$api.rootUrl+"/manage-platform/eventMonitor/exportFileIo/600",
+       // url: 'http://192.168.99.245:8080/manage-platform/eventMonitor/exportFileIo/10000',
+       url: this.$api.rootUrl+"/manage-platform/eventMonitor/exportFileIo/10000",
        data: {
          "currentPage": 1,
          "showCount": 600,
@@ -490,10 +490,12 @@ export default {
       this.getList(this.CurrentPage,this.pageSize,this.cdt,this.order,this.direction);
     },
     pageSizeChange(val) {
+      this.pageSize = val;
       this.getList(this.CurrentPage,val,this.cdt,this.order,this.direction);
       console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
+      this.CurrentPage = val;
       this.getList(val,this.pageSize,this.cdt,this.order,this.direction);
       console.log(`当前页: ${val}`);
     },

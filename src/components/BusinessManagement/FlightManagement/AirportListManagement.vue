@@ -79,32 +79,32 @@
         <el-table-column
           prop="airportCode"
           label="机场三位码"
-          sortable>
+          sortable="custom">
         </el-table-column>
         <el-table-column
           prop="airportName"
           label="机场名称"
-          sortable>
+          sortable="custom">
         </el-table-column>
         <el-table-column
           prop="continentsName"
           label="洲"
-          sortable>
+          sortable="custom">
         </el-table-column>
         <el-table-column
           prop="countryName"
           label="国籍/地区"
-          sortable>
+          sortable="custom">
         </el-table-column>
         <el-table-column
           prop="cityName"
           label="城市"
-          sortable>
+          sortable="custom">
         </el-table-column>
         <el-table-column
           prop="jingdu"
           label="经度"
-          sortable>
+          sortable="custom">
           <template slot-scope="scope">
             <span v-if="scope.row.jingdu">{{scope.row.jingdu + '°'}}</span>
           </template>
@@ -112,7 +112,7 @@
         <el-table-column
           prop="weidu"
           label="纬度"
-          sortable>
+          sortable="custom">
           <template slot-scope="scope">
             <span v-if="scope.row.weidu">{{scope.row.weidu + '°'}}</span>
           </template>
@@ -395,10 +395,12 @@ export default {
       this.multipleSelection = val;
     },
     pageSizeChange(val) {
+      this.pageSize=val;
       this.getList(this.CurrentPage, val, this.cdt,this.order,this.direction);
       console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
+      this.CurrentPage=val
       this.getList(val, this.pageSize, this.cdt,this.order,this.direction);
 
       console.log(`当前页: ${val}`);
@@ -413,7 +415,6 @@ export default {
       };
       this.$api.post('/manage-platform/airportManage/queryListPage', p,
         r => {
-          console.log(r);
           this.tableData = r.data.resultList;
           this.TotalResult = r.data.totalResult;
         })
@@ -563,7 +564,6 @@ export default {
            }else if(type==1){
              this.addCityName = r.data;
            }
-
          }
        })
     },

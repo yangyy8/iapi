@@ -41,7 +41,7 @@
                 <el-option
                   v-for="item in inCompany"
                   :key="item.SERIAL"
-                  :label="item.DEPT_JC"
+                  :label="item.DEPT_CODE+' - '+item.DEPT_JC"
                   :value="item.SERIAL">
                 </el-option>
                </el-select>
@@ -72,19 +72,18 @@
           border
           style="width: 100%;"
           class="o-table3"
-          @header-click="headerClick">
+          @header-click="headerClick"
+          @sort-change="sortChange">
           <el-table-column
             prop="receiveStrList"
-            label="收件人"
-            sortable>
+            label="收件人">
             <template slot-scope="scope">
               {{scope.row.receiveStrList|sendRange}}
             </template>
           </el-table-column>
           <el-table-column
             prop="DETAILS"
-            label="消息内容"
-            sortable>
+            label="消息内容">
           </el-table-column>
           <el-table-column
             prop="SENDTIMESTR"
@@ -92,9 +91,11 @@
             sortable>
           </el-table-column>
           <el-table-column
-            label="操作" width="70">
+            label="操作" width="100">
             <template slot-scope="scope">
               <el-button type="text"  class="a-btn"  title="详情" icon="el-icon-tickets" @click="outDetails(scope.row)"></el-button>
+              <el-button type="text"  class="a-btn"  title="转发" icon="el-icon-share" @click="share(scope.row)"></el-button>
+              <el-button type="text"  class="a-btn"  title="删除" icon="el-icon-delete" @click="deleteOut(scope.row)"></el-button>
            </template>
           </el-table-column>
         </el-table>
@@ -135,16 +136,15 @@
           border
           style="width: 100%;"
           class="o-table3"
-          @header-click="headerClick">
+          @header-click="headerClick"
+          @sort-change="sortChange">
           <el-table-column
-            prop="informationSend.SENDERNAME"
-            label="发送人"
-            sortable>
+            prop="informationSend.SENDERNAMECHN"
+            label="发送人">
           </el-table-column>
           <el-table-column
             prop="informationSend.DETAILS"
-            label="发送内容"
-            sortable>
+            label="发送内容">
           </el-table-column>
           <el-table-column
             prop="informationSend.SENDTIMESTR"
@@ -153,18 +153,18 @@
           </el-table-column>
           <el-table-column
             prop="READSTATUS"
-            label="读取状态"
-            sortable>
+            label="读取状态">
             <template slot-scope="scope">
               {{scope.row.READSTATUS | fiftertype}}
             </template>
           </el-table-column>
 
           <el-table-column
-            label="操作" width="80">
+            label="操作" width="100">
             <template slot-scope="scope">
                 <el-button type="text"  class="a-btn"  title="回复" icon="el-icon-edit" @click="inReply(scope.row)"></el-button>
                 <el-button type="text"  class="a-btn"  title="详情" icon="el-icon-tickets" @click="inDetails(scope.row)"></el-button>
+                <el-button type="text"  class="a-btn"  title="删除" icon="el-icon-delete" @click="deleteIn(scope.row)"></el-button>
            </template>
           </el-table-column>
         </el-table>
@@ -249,7 +249,7 @@
         </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="sendMesssageReal" size="small">发送</el-button>
+        <el-button type="primary" @click="sendMesssageReal(0)" size="small">发送</el-button>
         <el-button @click="sform={RECEIVEID:[]};fileData=null;sendBu=''" size="small" type="warning">清空</el-button>
       </div>
     </el-dialog>
@@ -302,7 +302,7 @@
         <el-row type="flex"  class="mb-6">
           <el-col :span="12" class="input-item">
             <span class="yy-input-text">发送人：</span>
-            <span class="yy-input-input detailinput">{{dform.informationSend.SENDERNAME}}</span>
+            <span class="yy-input-input detailinput">{{dform.informationSend.SENDERNAMECHN}}</span>
           </el-col>
           <el-col :span="12" class="input-item">
             <span class="yy-input-text">发送时间：</span>
@@ -332,7 +332,7 @@
           <el-col :span="24" class="infile">
             <div v-for="(d4,ind) in inFiles" :key="ind" class="infiledd">
               <span class="mr-30 avgerName">{{d4.FILENAME}}</span>
-              <span class="mr-30 tc-999 avgera">上传时间：{{d4.CREATETIME}}</span>
+              <span class="mr-30 tc-999 avgera">上传时间：{{d4.CREATETIMESTR}}</span>
               <!-- <el-button type="text" class="redx" @click="delFileInfo(d4.SERIAL)">删除</el-button> -->
               <el-button type="text" class="avgera"><a :href="d4.FILEURL" class="green" download="">下载</a></el-button>
             </div>
@@ -366,6 +366,18 @@
             {{scope.row.READSTATUS | fiftertype}}
           </template>
         </el-table-column>
+        <el-table-column
+          width="280"
+          label="回复附件">
+          <template slot-scope="scope">
+            <el-row class="mb-6">
+              <div class="infiledd" v-for="(d4,ind) in scope.row.files" :key="ind">
+                <span class="avgerTsName">{{d4.FILENAME}}</span>
+                <el-button type="text" class="avgera"><a :href="d4.FILEURL" class="green" download="">下载</a></el-button>
+              </div>
+            </el-row>
+          </template>
+        </el-table-column>
       </el-table>
       <el-row class="mb-6">
         <div class="infiledd" v-for="(d4,ind) in files" :key="ind">
@@ -379,6 +391,65 @@
         <el-button @click="outDetailsDialogVisible = false" size="small">取消</el-button>
       </div>
     </el-dialog>
+    <el-dialog title="转发消息"  :visible.sync="shareDialogVisible" width="400px;">
+      <el-form :model="shareform" ref="addForm">
+        <el-row type="flex"  class="mb-6" style="margin-left:85px">
+          <el-col :span="10" class="input-item">
+            <span class="yy-input-text">口岸/部门：</span>
+            <el-select  placeholder="请选择"  size="mini"  class="input-input" v-model="shareBu" filterable clearable @visible-change="queryNationality(3)" @change="nameId(shareBu,3)">
+              <el-option
+              v-for="item in shareCompany"
+              :key="item.SERIAL"
+              :value="item.SERIAL"
+              :label="item.DEPT_CODE+' - '+item.DEPT_JC">
+              </el-option>
+            </el-select>
+          </el-col>
+          <el-col :span="10" class="input-item">
+            <span class="yy-input-text">接收人：</span>
+            <el-select v-model="shareform.RECEIVEID" filterable clearable  multiple placeholder="请选择" size="small" class="input-input"  :disabled="shareAble">
+              <el-option
+                v-for="item in shareNameCllo"
+                :key="item.SERIAL"
+                :label="item.NAME"
+                :value="item.SERIAL">
+              </el-option>
+             </el-select>
+          </el-col>
+        </el-row>
+
+        <el-row type="flex"  class="mb-6" style="margin-left:85px">
+          <el-col :span="24" class="input-item">
+            <span class="yy-input-text" style="width: 10.3%!important;">附件：</span>
+            <label class="file">
+              上传附件
+              <input type="file" name=""  @change="shareUpload" multiple>
+            </label>
+            <div class="fileColl" v-if="shareFileOld">
+              <div class="" v-for="(x,ind) in shareFileOld" :key="ind">
+                <span class="mr-30">{{x.FILENAME}}</span>
+              </div>
+            </div>
+            <div class="fileColl" v-if="shareFile">
+              <div class="" v-for="(x,ind) in shareFile" :key="ind">
+                <span class="mr-30">{{x.name}}</span>
+              </div>
+            </div>
+          </el-col>
+        </el-row>
+
+        <el-row type="flex"  class="mb-6">
+          <el-col :span="24" class="input-item">
+            <span class="yy-input-text width-ts">发送内容：</span>
+            <el-input type="textarea" v-model="shareform.DETAILS"></el-input>
+          </el-col>
+        </el-row>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="sendMesssageReal(1)" size="small">发送</el-button>
+        <el-button @click="shareform={RECEIVEID:[]};shareFile=null;shareBu='';shareFileOld=[]" size="small" type="warning">清空</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -386,6 +457,14 @@
 export default {
   data() {
     return {
+      order:'',
+      direction:0,
+      inOrder:'',
+      inDirection:0,
+      shareDialogVisible:false,
+      shareform:{
+        DETAILS:''
+      },
       CurrentPage: 1,
       pageSize: 10,
       TotalResult: 0,
@@ -402,6 +481,7 @@ export default {
       outBu:'',
       inBu:'',
       sendBu:'',
+      shareBu:'',
       inCompany:[],
 
       pd: {},
@@ -409,18 +489,23 @@ export default {
       able:true,
       outAble:true,
       sendAble:true,
+      shareAble:true,
       nation: [],
       company: [],
       sendCompany:[],
+      shareCompany:[],
       page:0,
       replyContent:'',//回复内容
       serialImp:'',
       nameCllo:[],
       sendNameCllo:[],
       outNameCllo:[],
+      shareNameCllo:[],
       sform:{},
       fileData:{},
       reviewFile:{},
+      shareFile:null,
+      shareFileOld:[],
       fitAdress:'',
       sendAdress:'',
       files:[],
@@ -447,6 +532,7 @@ export default {
         }
       ],
       tableData: [],
+      beforeFiles:[],
       multipleSelection: [],
       form: {
         informationSend:{}
@@ -465,6 +551,85 @@ export default {
     // this.startOut(this.CurrentPage, this.pageSize);
   },
   methods: {
+    sortChange(column, prop, order){
+      if(this.page==0){
+        column.order=='ascending'?this.direction=1:this.direction=0;
+        this.order=column.prop;
+        this.getList(this.CurrentPage,this.pageSize,this.pd,this.order,this.direction);
+      }else if(this.page==1){
+        column.order=='ascending'?this.inDirection=1:this.inDirection=0;
+        this.inOrder=column.prop;
+        this.inGetList(this.inCurrentPage, this.inPageSize, this.pd1,this.inOrder,this.inDirection);
+      }
+    },
+    share(val){
+      this.shareform={RECEIVEID:[]};
+      this.shareBu='';
+      this.shareDialogVisible = true;
+      this.shareform.DETAILS = val.DETAILS;
+      this.shareFileOld = val.files;
+      this.beforeFiles=[];
+      if(this.shareFileOld.length!=0){
+        for(var i=0;i<this.shareFileOld.length;i++){
+          this.beforeFiles.push(this.shareFileOld[i].SERIAL);
+        }
+      }
+
+    },
+    deleteIn(val){
+      this.$confirm('您是否确认删除本条数据？','提示',{
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$api.post('/manage-platform/information/deleteReceiveInforBySerial',{'serial':val.SERIAL},
+        r =>{
+          if(r.success){
+            this.$message({
+              message: '删除成功！',
+              type: 'success'
+            });
+            this.inGetList(this.inCurrentPage, this.inPageSize, this.pd1,this.inOrder,this.inDirection);
+          }else {
+            this.$message.error(r.Message);
+          }
+        },e => {
+          this.$message.error('失败了');
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        });
+      })
+    },
+    deleteOut(val){
+      this.$confirm('您是否确认删除本条数据？','提示',{
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$api.post('/manage-platform/information/deleteSendInforBySerial',{'serial':val.SERIAL},
+        r =>{
+          if(r.success){
+            this.$message({
+              message: '删除成功！',
+              type: 'success'
+            });
+            this.getList(this.CurrentPage, this.pageSize, this.pd,this.order,this.direction);
+          }else {
+            this.$message.error(r.Message);
+          }
+        },e => {
+          this.$message.error('失败了');
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        });
+      })
+    },
     headerClick(column,event){
       event.target.title=column.label
     },
@@ -480,76 +645,146 @@ export default {
      },
      search(){
        if(this.page==0){
-         this.getList(this.CurrentPage, this.pageSize, this.pd);
+         this.getList(this.CurrentPage, this.pageSize, this.pd,this.order,this.direction);
        }else if(this.page==1){
-         this.inGetList(this.inCurrentPage, this.inPageSize, this.pd1);
+         this.inGetList(this.inCurrentPage, this.inPageSize, this.pd1,this.inOrder,this.inDirection);
        }
      },
-     sendMesssageReal(){
-       console.log(this.sform.RECEIVEID.length)
-       if(this.sform.RECEIVEID.length==0){
-         this.$message({
-          message: '接收人为必填项',
-          type: 'error',
-          duration:6000
-        });
-        return
-       }
-       if((this.sform.DETAILS == ''||this.sform.DETAILS == undefined)&&this.fileData == null){
-         this.$message({
-          message: '请上传附件或者填写发送内容',
-          type: 'error',
-          duration:6000
-        });
-        return
-       }
-       let arr = [];
-       for(var i=0;i<this.sform.RECEIVEID.length;i++){
-         let obj={};
-         for(var j=0;j<this.sendNameCllo.length;j++){
-           if(this.sform.RECEIVEID[i] == this.sendNameCllo[j].SERIAL){
-             obj.RECEIVEID = this.sendNameCllo[j].SERIAL
-             obj.RECEIVECODE = this.sendNameCllo[j].USERNAME
-             obj.RECEIVENAME = this.sendNameCllo[j].NAME
-           }
+     sendMesssageReal(type){
+
+       if(type==0){
+         if(this.sform.RECEIVEID.length==0){
+           this.$message({
+            message: '接收人为必填项',
+            type: 'error',
+            duration:6000
+          });
+          return
          }
-         arr.push(obj);
-         console.log(arr);
-       }
-       this.sform.receiveList = arr;
-       this.$api.post('/manage-platform/information/saveInformationSend',this.sform,
-         r =>{
-           if(r.success){
-             if(this.fileData){
-               this.upload(r.data.serial,this.fileData);
-             }else{
-               this.$message({
-                 message: '恭喜你，发送成功',
-                 type: 'success'
-               });
+         if((this.sform.DETAILS == ''||this.sform.DETAILS == undefined)&&this.fileData == null){
+           this.$message({
+            message: '请上传附件或者填写发送内容',
+            type: 'error',
+            duration:6000
+          });
+          return
+         }
+         let arr = [];
+         for(var i=0;i<this.sform.RECEIVEID.length;i++){
+           let obj={};
+           for(var j=0;j<this.sendNameCllo.length;j++){
+             if(this.sform.RECEIVEID[i] == this.sendNameCllo[j].SERIAL){
+               obj.RECEIVEID = this.sendNameCllo[j].SERIAL
+               obj.RECEIVECODE = this.sendNameCllo[j].USERNAME
+               obj.RECEIVENAME = this.sendNameCllo[j].NAME
              }
-             this.startOut(this.CurrentPage, this.pageSize);
-             this.sendDialogVisible = false;
            }
-         })
+           arr.push(obj);
+           console.log(arr);
+         }
+         this.sform.receiveList = arr;
+         this.$api.post('/manage-platform/information/saveInformationSend',this.sform,
+           r =>{
+             if(r.success){
+               console.log('发送消息',this.fileData)
+               if(this.fileData){
+                 this.upload(r.data.serial,this.fileData,0);//消息发送
+               }else{
+                 this.$message({
+                   message: '恭喜你，发送成功',
+                   type: 'success'
+                 });
+               }
+               this.startOut(this.CurrentPage, this.pageSize);
+               this.sendDialogVisible = false;
+             }
+          })
+       }else if(type==1){
+         if(this.shareform.RECEIVEID.length==0){
+           this.$message({
+            message: '接收人为必填项',
+            type: 'error',
+            duration:6000
+          });
+          return
+         }
+         if((this.shareform.DETAILS == ''||this.shareform.DETAILS == undefined)&&this.shareFile == null){
+           this.$message({
+            message: '请上传附件或者填写发送内容',
+            type: 'error',
+            duration:6000
+          });
+          return
+         }
+         let arr = [];
+         for(var i=0;i<this.shareform.RECEIVEID.length;i++){
+           let obj={};
+           for(var j=0;j<this.shareNameCllo.length;j++){
+             if(this.shareform.RECEIVEID[i] == this.shareNameCllo[j].SERIAL){
+               obj.RECEIVEID = this.shareNameCllo[j].SERIAL
+               obj.RECEIVECODE = this.shareNameCllo[j].USERNAME
+               obj.RECEIVENAME = this.shareNameCllo[j].NAME
+             }
+           }
+           arr.push(obj);
+           console.log(arr);
+         }
+         this.shareform.receiveList = arr;
+         this.shareform.beforeFiles = this.beforeFiles
+         console.log(this.shareform)
+         this.$api.post('/manage-platform/information/saveInformationSend',this.shareform,
+           r =>{
+             if(r.success){
+               console.log('转发发送',this.shareFile);
+               if(this.shareFile){
+                 this.upload(r.data.serial,this.shareFile,1);//转发消息
+               }else{
+                 this.$message({
+                   message: '恭喜你，发送成功',
+                   type: 'success'
+                 });
+               }
+               this.startOut(this.CurrentPage, this.pageSize);
+               this.shareDialogVisible = false;
+             }
+           })
+       }
+
      },
     handleSelectionChange(val) {
       this.multipleSelection = val;
     },
     pageSizeChange(val) {
       if(this.page==0){
-        this.getList(this.CurrentPage, val, this.pd);
+        this.pageSize = val;
+        this.getList(this.CurrentPage, val, this.pd,this.order,this.direction);
       }else if(this.page==1){
-        this.inGetList(this.inCurrentPage, val, this.pd1);
+        this.inPageSize = val;
+        this.inGetList(this.inCurrentPage, val, this.pd1,this.inOrder,this.inDirection);
       }
     },
-    reviewUpload(event){
+    handleCurrentChange(val) {
+      if(this.page==0){
+        this.CurrentPage = val;
+        this.getList(val, this.pageSize, this.pd,this.order,this.direction);
+      }else if(this.page==1){
+        this.inCurrentPage = val;
+        this.inGetList(val, this.inPageSize, this.pd1,this.inOrder,this.inDirection);
+      }
+      console.log(`当前页: ${val}`);
+    },
+    reviewUpload(event){//消息回复的附件
       this.reviewFile=event.target.files;
     },
-    uploadFile(event){//获取上传的文件
+    uploadFile(event){//发件详情的附件
       this.fileData=event.target.files;
+      console.log(this.fileData)
     },
-    upload(val,arr){//上传文件
+    shareUpload(event){//发件详情的附件
+      this.shareFile=event.target.files;
+      console.log(this.shareFile)
+    },
+    upload(val,arr,t){//上传文件
       var formData = new FormData();
       // let arr=this.fileData;
       for(var i=0;i<arr.length;i++){
@@ -563,6 +798,7 @@ export default {
       }
 
       let p=formData;
+      console.log('formData',formData)
       this.$api.post('/manage-platform/information/uploadFile',p,
        r =>{
          if(r.success){
@@ -570,22 +806,28 @@ export default {
              message: '恭喜你，保存成功！',
              type: 'success'
            });
-           this.fileData=null;
+           if(t==0){
+             this.fileData=null;
+           }else if(t==1){
+             this.shareFile=null
+           }else if(t==2){
+             this.reviewFile=null;
+           }
+
          }else {
-           this.fileData=null;
+           if(t==0){
+             this.fileData=null;
+           }else if(t==1){
+             this.shareFile=null
+           }else if(t==2){
+             this.reviewFile=null;
+           }
            return
          }
        },e => {
        },{'Content-Type': 'multipart/form-data'})
     },
-    handleCurrentChange(val) {
-      if(this.page==0){
-        this.getList(val, this.pageSize, this.pd);
-      }else if(this.page==1){
-        this.inGetList(val, this.inPageSize, this.pd1);
-      }
-      console.log(`当前页: ${val}`);
-    },
+
     startOut(currentPage, showCount){
       let p = {
         "currentPage": currentPage,
@@ -608,11 +850,13 @@ export default {
          this.inTotalResult = r.data.totalResult;
        })
     },
-    getList(currentPage, showCount, pd) {
+    getList(currentPage, showCount, pd,order,direction) {
       let p = {
         "currentPage": currentPage,
         "showCount": showCount,
-        "pd": pd
+        "pd": pd,
+        "order":order,
+        "direction":direction
       };
       this.$api.post('/manage-platform/information/queryInformationSendListByReceiveId',p,
         r => {
@@ -620,11 +864,13 @@ export default {
           this.TotalResult = r.data.totalResult;
         })
     },
-    inGetList(currentPage, showCount, pd){
+    inGetList(currentPage, showCount, pd,order,direction){
       let p = {
         "currentPage": currentPage,
         "showCount": showCount,
-        "pd": pd
+        "pd": pd,
+        "order":order,
+        "direction":direction
       };
       this.$api.post('/manage-platform/information/queryInformationReceiveListBySendId',p,
        r => {
@@ -640,6 +886,7 @@ export default {
       this.$api.post('/manage-platform/information/queryInformationSend',p,
         r =>{
           this.outTableDataDetail = r.data.receiveList;
+
           this.files = r.data.files;
         })
     },
@@ -677,7 +924,7 @@ export default {
           if(r.success){
             console.log(this.reviewFile)
             if(this.reviewFile){
-              this.upload(r.data.serial,this.reviewFile);
+              this.upload(r.data.serial,this.reviewFile,3);//回复发送
             }else{
               this.$message({
                 message: '恭喜你，回复成功',
@@ -690,7 +937,7 @@ export default {
         })
     },
     queryNationality(type) {//口岸
-      this.$api.post('/manage-platform/userSys/deptList', {},
+      this.$api.post('/manage-platform/userSys/selectAllDepts', {},
         r => {
           console.log(r);
           if (r.success) {
@@ -700,6 +947,8 @@ export default {
               this.sendCompany = r.data.deptList;
             }else if(type==2){
               this.inCompany = r.data.deptList;
+            }else if(type==3){
+              this.shareCompany = r.data.deptList;
             }
             console.log(this.company);
           }
@@ -741,6 +990,14 @@ export default {
             }else{
               this.outAble=false;
               this.outNameCllo = r.data.userList.pdList;
+            }
+          }else if(type==3){
+            this.$set(this.shareform,'RECEIVEID',[]);
+            if(val==''){
+              this.shareAble=true;
+            }else{
+              this.shareAble=false;
+              this.shareNameCllo = r.data.userList.pdList;
             }
           }
         })

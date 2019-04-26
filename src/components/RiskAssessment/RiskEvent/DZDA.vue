@@ -773,6 +773,7 @@
                     label="证件号码"
                     prop="cert_no">
                     <template slot-scope="scope">
+                      <!--<span class="tc-b hand" @click="moreFn('box6',scope.row)">{{scope.row.cert_no}}</span>-->
                       <span class="tc-b hand" @click="moreFn('box6',scope.row)">{{scope.row.cert_no}}</span>
                     </template>
                   </el-table-column>
@@ -973,7 +974,7 @@
                     :show-overflow-tooltip="true"
                     label="审批机关">
                     <template slot-scope="scope">
-                      <span>{{scope.row.accept_organ_na||'-'}}</span>
+                      <span>{{scope.row.visa_assign_dept_na||'-'}}</span>
                     </template>
                   </el-table-column>
                   <el-table-column
@@ -1637,7 +1638,7 @@
                     label="姓名"
                     prop="psrchnname">
                     <template slot-scope="scope">
-                      <span v-if="scope.row.psrchnname||scope.row.psrchnname!='-'">{{scope.row.psrchnname}}</span>
+                      <span v-if="scope.row.psrchnname!='-'">{{scope.row.psrchnname}}</span>
                       <span v-else>{{scope.row.psrname}}</span>
                     </template>
                   </el-table-column>
@@ -2387,7 +2388,7 @@ export default {
     getCRCCNumInfo(){
       let p={
         // "nationality":this.nationality,
-        "passportno":this.idcard,
+        "passportno":this.idcard||this.data0.PASSPORTNO,
       }
       this.$api.post('/manage-platform/riskRecordExtInterfaceController/getCRCCNumInfo',p,
        r => {
@@ -2702,7 +2703,7 @@ export default {
       let p={
         // "nationality":this.nationality,
         // "passportno":this.passportno,
-        "passportno":this.idcard
+        "passportno":this.idcard||this.data0.PASSPORTNO
       }
       this.$api.post('/manage-platform/riskRecordExtInterfaceController/getCivilAviationInfo',p,
        r => {
@@ -2714,7 +2715,7 @@ export default {
       let p={
         // "nationality":this.nationality,
         // "passportno":this.passportno,
-        "passportno":this.idcard
+        "passportno":this.idcard||this.data0.PASSPORTNO
       }
       this.$api.post('/manage-platform/riskRecordExtInterfaceController/getCivilAviationAbsencesInfo',p,
        r => {

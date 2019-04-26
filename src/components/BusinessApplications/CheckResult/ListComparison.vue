@@ -402,18 +402,19 @@ export default {
     let end = new Date();
     let begin =new Date(time - 1000 * 60 * 60 * 24 * 30);
     let flightStart = new Date(new Date().setHours(0,0,0,0));
+    let flightEnd = new Date(new Date(new Date().toLocaleDateString()).getTime()+24*60*60*1000-1);
     this.pd.compareBeginDate=formatDate(flightStart,'yyyyMMddhhssmm');
-    this.pd.compareEndDate=formatDate(end,'yyyyMMddhhssmm');
+    this.pd.compareEndDate=formatDate(flightEnd,'yyyyMMddhhssmm');
   },
   activated(){
     this.queryAirport("","A");
     this.queryCountry("A");
-    let time = new Date();
-    let end = new Date();
-    let begin =new Date(time - 1000 * 60 * 60 * 24 * 30);
-    let flightStart = new Date(new Date().setHours(0,0,0,0));
-    this.pd.compareBeginDate=formatDate(flightStart,'yyyyMMddhhssmm');
-    this.pd.compareEndDate=formatDate(end,'yyyyMMddhhssmm');
+    // let time = new Date();
+    // let end = new Date();
+    // let begin =new Date(time - 1000 * 60 * 60 * 24 * 30);
+    // let flightStart = new Date(new Date().setHours(0,0,0,0));
+    // this.pd.compareBeginDate=formatDate(flightStart,'yyyyMMddhhssmm');
+    // this.pd.compareEndDate=formatDate(end,'yyyyMMddhhssmm');
   },
   methods: {
     handleSelectionChange(val) {

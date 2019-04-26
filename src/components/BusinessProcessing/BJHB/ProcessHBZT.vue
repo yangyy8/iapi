@@ -90,7 +90,7 @@
 
         <el-table-column
           prop="airlineCompanyName"
-          label="航空公司代码" sortable>
+          label="航空公司" sortable>
         </el-table-column>
 
         <el-table-column
@@ -191,9 +191,9 @@
           <el-col :span="24" class="input-item my-form-group" data-scope="demo2" data-name="changeport" data-type="select"
           v-validate-easy="[['required']]">
             <span class="yy-input-text" style="width:15%">备降机场：</span>
-            <el-select v-model="form.changeport"  filterable clearable  @visible-change="queryAirport" placeholder="请选择" size="small" style="width:80%;">
+            <el-select v-model="form.changeport"  filterable clearable  @visible-change="queryAirportBJ" placeholder="请选择" size="small" style="width:80%;">
                <el-option
-                 v-for="item in Airport"
+                 v-for="item in AirportBJ"
                  :key="item.AIRPORT_CODE"
                  :label="item.AIRPORT_CODE+' - '+item.AIRPORT_NAME"
                  :value="item.AIRPORT_CODE" >
@@ -294,6 +294,7 @@ import {dayGap} from '@/assets/js/date.js'
 export default {
   data() {
     return {
+      AirportBJ:[],
       order:'',
       direction:0,
       AuthDialogVisible:false,
@@ -359,7 +360,7 @@ export default {
 
     let time = new Date();
     let end = new Date();
-    let begin =new Date(time - 1000 * 60 * 60 * 24 * 14);
+    let begin =new Date(time - 1000 * 60 * 60 * 24 * 1);
     this.pd.startScheduledeparturetime=formatDate(begin,'yyyyMMddhhmm');
     this.datenow=formatDate(begin,'yyyy-MM-dd');
     this.pd.endScheduledeparturetime=formatDate(end,'yyyyMMddhhmm');
@@ -445,10 +446,12 @@ export default {
       this.multipleSelection = val;
     },
     pageSizeChange(val) {
+      this.pageSize = val;
       this.getList(this.CurrentPage, val, this.pd,this.order,this.direction);
       console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
+      this.CurrentPage = val;
       this.getList(val, this.pageSize, this.pd,this.order,this.direction);
       console.log(`当前页: ${val}`);
     },
@@ -503,6 +506,19 @@ export default {
       this.$api.post('/manage-platform/codeTable/queryAirport', {},
         r => {
             this.Airport = r.data;
+        })
+    },
+    queryAirportBJ() {
+      // if(this.AirportBJ.length!=0){
+      //   return;
+      // };
+      let p={
+        "flighttype":"O",
+        "type":"0"
+      }
+      this.$api.post('/manage-platform/codeTable/queryAirportByPortAndFlighttype', p,
+        r => {
+            this.AirportBJ = r.data;
         })
     },
     addItem(formName) {

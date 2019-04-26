@@ -134,6 +134,7 @@ export default {
      },
      uploadFile(event){//获取上传的文件
        this.fileData=event.target.files;
+       console.log(this.fileData);
      },
      upload(val){//上传文件
        var formData = new FormData();
@@ -143,6 +144,7 @@ export default {
        }
        formData.append("eventSerial",val);
        let p=formData;
+       console.log('formData',formData)
        this.$api.post('/manage-platform/incident/upload',p,
         r =>{
           if(r.success){
