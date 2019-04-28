@@ -809,8 +809,14 @@ export default {
       },
       pickerOptions1: {
         disabledDate: (time) => {
+          let todayS =  (this.pd.STARTTIME).slice(0,8);
+          let currentTime = formatDate(new Date(time.getTime()),'yyyyMMdd');
           let endT = formatDate(new Date(time.getTime()), 'yyyyMMddhhmm');
-          return endT < this.pd.STARTTIME;
+          if(todayS==currentTime){
+            this.pd.STARTTIME>this.pd.ENDTIME
+          }else{
+            return endT < this.pd.STARTTIME;
+          }
         }
       },
       nav1Id:null,

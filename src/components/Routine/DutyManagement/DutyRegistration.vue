@@ -346,8 +346,14 @@ export default {
       },
       pickerOptions1: {
         disabledDate: (time) => {
-            let endT = formatDate(new Date(time.getTime()),'yyyyMMddhhmm');
+          let todayS =  (this.cdt.STARTTIME).slice(0,8);
+          let currentTime = formatDate(new Date(time.getTime()),'yyyyMMdd');
+          let endT = formatDate(new Date(time.getTime()),'yyyyMMddhhmm');
+          if(todayS==currentTime){
+            this.cdt.STARTTIME>this.cdt.ENDTIME
+          }else{
             return endT < this.cdt.STARTTIME;
+          }
         }
       },
       pickerOptions2: {
@@ -362,8 +368,14 @@ export default {
       },
       pickerOptions3: {
         disabledDate: (time) => {
-            let endT = formatDate(new Date(time.getTime()),'yyyyMMddhhmm');
+          let todayS =  (this.form.STARTTIMESTR).slice(0,8);
+          let currentTime = formatDate(new Date(time.getTime()),'yyyyMMdd');
+          let endT = formatDate(new Date(time.getTime()),'yyyyMMddhhmm');
+          if(todayS==currentTime){
+            this.form.STARTTIMESTR>this.form.ENDTIMESTR
+          }else{
             return endT < this.form.STARTTIMESTR;
+          }    
         }
       },
       form: {

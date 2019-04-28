@@ -304,8 +304,10 @@ export default {
       pageSize: 10,
       TotalResult: 0,
       datenow:'',
-      pd: {  startScheduledeparturetime:'',
-        endScheduledeparturetime:'',},
+      pd: {
+        startScheduledeparturetime:'',
+        endScheduledeparturetime:''
+      },
       nation: [],
       company: [],
       value: '',
@@ -330,18 +332,24 @@ export default {
       multipleSelection: [],
       pickerOptions: {
         disabledDate: (time) => {
-            if (this.pd.departdateEnd != null) {
+            if (this.pd.endScheduledeparturetime != null) {
               let startT = formatDate(new Date(time.getTime()),'yyyyMMddhhmm');
-              return startT > this.pd.departdateEnd;
-            }else if(this.pd.departdateEnd == null){
+              return startT > this.pd.endScheduledeparturetime;
+            }else if(this.pd.endScheduledeparturetime == null){
               return false
             }
         }
       },
       pickerOptions1: {
         disabledDate: (time) => {
-            let endT = formatDate(new Date(time.getTime()),'yyyyMMddhhmm');
-            return endT < this.pd.departdateBegin;
+          let todayS =  (this.pd.startScheduledeparturetime).slice(0,8);
+          let currentTime = formatDate(new Date(time.getTime()),'yyyyMMdd');
+          let endT = formatDate(new Date(time.getTime()),'yyyyMMddhhmm');
+          if(todayS==currentTime){
+            this.pd.startScheduledeparturetime>this.pd.endScheduledeparturetime
+          }else{
+            return endT < this.pd.startScheduledeparturetime;
+          }      
         }
       },
       form: {

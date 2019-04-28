@@ -40,7 +40,7 @@
                     <el-row type="flex"  class="t-detail">
                       <el-col :span="8" class="t-el-content"><div class="t-el-text">航班日期：</div><div class="t-el-sub">{{dform.FLIGHTDATESTR}}</div></el-col>
                       <el-col :span="8" class="t-el-content"><div class="t-el-text">起飞机场：</div><div class="t-el-sub">{{dform.CITYFROMNAME}}</div></el-col>
-                      <el-col :span="8" class="t-el-content"><div class="t-el-text">航空公司：</div><div class="t-el-sub">{{dform.APPLICATIONSENDERNAME}}</div></el-col>
+                      <el-col :span="8" class="t-el-content"><div class="t-el-text">座位号：</div><div class="t-el-sub">{{dform.PNR_SPECIFIGSEAT}}</div></el-col>
                     </el-row>
 
                     <el-row type="flex"  class="t-detail">
@@ -49,7 +49,7 @@
                       <el-col :span="8" class="t-el-content"><div class="t-el-text">校验结果：</div><div class="t-el-sub">{{dform.CHECKRESULTNAME}}</div></el-col>
                     </el-row>
                     <el-row type="flex"  class="t-detail">
-                      <el-col :span="8" class="t-el-content"><div class="t-el-text">座位号：</div><div class="t-el-sub">{{dform.PNR_SPECIFIGSEAT}}</div></el-col>
+                      <el-col :span="8" class="t-el-content"><div class="t-el-text">航空公司：</div><div class="t-el-sub">{{dform.APPLICATIONSENDERNAME}}</div></el-col>
                     </el-row>
                   </el-form>
                   <div :class="{'gaoliang':specifigseat==i+j}" @click="enter(i+j)" @mouseenter="hoverTitle(i+j)" slot="reference">
