@@ -531,7 +531,7 @@
       :visible.sync="seatDialogVisible"
       width="1220px"
       >
-      <Seat :flightNumber="flightNumber0" :globalserial="globalserial0" :specifigseat="specifigseat0" :FLTNO="FLTNO0" :FLTDATE="FLTDATE0" :seatType="1"></Seat>
+      <Seat :flightNumber="flightNumber0" :globalserial="globalserial0" :specifigseat="specifigseat0" :FLTNO="FLTNO0" :FLTDATE="FLTDATE0" :seatType="1" :CHK_SERIAL="CHK_SERIAL0"></Seat>
     </el-dialog>
   </div>
 </template>
@@ -627,7 +627,8 @@ export default {
       globalserial0:'',
       specifigseat0:'',
       FLTNO0:'',
-      FLTDATE0:''
+      FLTDATE0:'',
+      CHK_SERIAL0:'',
     }
   },
   mounted() {
@@ -677,6 +678,7 @@ export default {
       this.specifigseat0=i.specifigseat;
       this.FLTNO0=i.fltno;
       this.FLTDATE0=i.fltdate;
+      this.CHK_SERIAL0=i.serial
       // this.$router.push({query:{flightNumber:i.flightRecordnum}})
     },
     getHistoryListPnr(hcurrentPage,hshowCount,historyCdt){
@@ -783,7 +785,7 @@ export default {
       this.historyCdt.passportnoEqual = i.cardnum;
       console.log(i);
       this.getHistoryListPnr(this.hcurrentPage,this.hshowCount,this.historyCdt);
-      this.$api.post('/manage-platform/iapi/queryIapiInfo',{serial:i.serial},
+      this.$api.post('/manage-platform/iapi/queryIapiInfo',{serial:i.chkSerial},
        r =>{
          if(r.success){
            this.dform = r.data.IAPI;

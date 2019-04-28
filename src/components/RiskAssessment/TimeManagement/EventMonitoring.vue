@@ -335,20 +335,20 @@ export default {
   },
   mounted(){
     let time = new Date();
-    let end = new Date();
-    let begin =new Date(time - 1000 * 60 * 60 * 24 * 30);
+    let end = new Date(new Date(new Date().toLocaleDateString()).getTime()+24*60*60*1000-1);
+    let begin =new Date(new Date().setHours(0,0,0,0));
     this.cdt.startFlightDate=formatDate(begin,'yyyyMMddhhmm');
     this.cdt.endFlightDate=formatDate(end,'yyyyMMddhhmm');
     let that = this
-    setTimeout(function(){
-      that.getList(this.CurrentPage,this.pageSize,this.cdt,this.order,this.direction);
-    },100)
+    // setTimeout(function(){
+    //   that.getList(this.CurrentPage,this.pageSize,this.cdt,this.order,this.direction);
+    // },100)
     this.queryNationalityAlone();
     this.queryAirport();
     document.getElementsByClassName('btn-next')[0].disabled=true;
   },
   activated(){
-    this.getList(this.CurrentPage,this.pageSize,this.cdt,this.order,this.direction);
+    // this.getList(this.CurrentPage,this.pageSize,this.cdt,this.order,this.direction);
   },
   methods:{
     sortChange(column, prop, order){

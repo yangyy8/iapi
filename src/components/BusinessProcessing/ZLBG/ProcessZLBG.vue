@@ -141,22 +141,22 @@
                 <el-table-column
                   prop="NATIONALITYC"
                   label="国籍/地区"
-                  sortable>
+                  sortable="custom">
                 </el-table-column>
                 <el-table-column
                   prop="PASSPORTTYPE"
                   label="证件种类"
                   width="120"
-                  sortable>
+                  sortable="custom">
                   <template slot-scope="scope">
-                    {{scope.row.PASSPORTTYPE | fiftertype}}
+                    {{zhuan(scope.row.PASSPORTTYPE)}}
                   </template>
                 </el-table-column>
                 <el-table-column
                   prop="PASSPORTNO"
                   label="证件号码"
                   width="120"
-                  sortable>
+                  sortable="custom">
                 </el-table-column>
                 <el-table-column
                   prop="NAME"
@@ -170,7 +170,7 @@
                 <el-table-column
                   prop="GENDER"
                   label="性别"
-                  sortable>
+                  sortable="custom">
                   <template slot-scope="scope">
                     {{scope.row.GENDER | fiftersex}}
                   </template>
@@ -179,26 +179,26 @@
                   prop="DATEOFBIRTH"
                   label="出生日期"
                   width="110"
-                  sortable>
+                  sortable="custom">
                 </el-table-column>
                 <el-table-column
                   prop="FLTNO"
                   label="航班号"
                   width="100"
-                  sortable>
+                  sortable="custom">
                 </el-table-column>
                 <el-table-column
                   prop="DEPARTDATE"
                   label="航班日期"
                   width="120"
-                  sortable>
+                  sortable="custom">
                 </el-table-column>
 
                 <el-table-column
                   prop="PASSENGERSTATUS"
                   label="值机状态"
                   width="120"
-                  sortable>
+                  sortable="custom">
                   <template slot-scope="scope">
                     {{scope.row.PASSENGERSTATUS | fifterstate}}
                   </template>
@@ -207,7 +207,7 @@
                   prop="LASTCHECKRESULT"
                   label="反馈状态"
                   width="120"
-                  sortable>
+                  sortable="custom">
                   <template slot-scope="scope">
                     {{scope.row.LASTCHECKRESULT | fiftecr}}
                   </template>
@@ -1205,7 +1205,13 @@ export default {
           }
         })
     },
-
+    zhuan(val){
+      for(var i=0;i<this.docCode.length;i++){
+        if(val == this.docCode[i].CODE){
+          return this.docCode[i].NAME
+        }
+      }
+    }
   },
 
   filters: {
@@ -1251,6 +1257,7 @@ export default {
       }
     },
     fiftertype(val) {
+
       // if (val == "11") {
       //   return "外交护照";
       // } else if (val == "12") {

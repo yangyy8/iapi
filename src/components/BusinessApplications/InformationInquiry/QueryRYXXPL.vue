@@ -2339,6 +2339,7 @@ export default {
           endArrivdate:''
         }];
         this.pppp='';
+        this.tableCurrent=0;
         this.currentPage=1;
         this.showCount=10;
         this.batchQueryList(this.currentPage,this.showCount,this.rows);
@@ -2358,6 +2359,7 @@ export default {
           endArrivdate:''
         }];
         this.rrrr='';
+        this.tableCurrentPnr=0;
         this.currentPagePnr=1;
         this.showCountPnr=10;
         this.batchQueryListPnr(this.currentPagePnr,this.showCountPnr,this.rowsPnr);

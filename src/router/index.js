@@ -119,8 +119,8 @@ export default new Router({
           children:[
             //综合查询
             // {
-            //   path: "/",
-            //   name: "QueryRYXX",
+            //   path: "QueryRYXXZH",
+            //   name: "QueryRYXXZH",
             //   redirect: resolve => require(['@/components/BusinessApplications/InformationInquiry/QueryRYXXZH'], resolve),
             // },
             //综合查询

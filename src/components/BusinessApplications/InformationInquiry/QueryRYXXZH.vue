@@ -832,7 +832,7 @@
       title="座位详情"
       :visible.sync="seatDialogVisible"
       width="1220px">
-      <Seat :flightNumber="flightNumber0" :globalserial="globalserial0" :specifigseat="specifigseat0" :FLTNO="FLTNO0" :FLTDATE="FLTDATE0" :seatType="1"></Seat>
+      <Seat :flightNumber="flightNumber0" :globalserial="globalserial0" :specifigseat="specifigseat0" :FLTNO="FLTNO0" :FLTDATE="FLTDATE0" :seatType="1" :CHK_SERIAL='CHK_SERIAL0'></Seat>
     </el-dialog>
     <el-dialog title="查看详情" :visible.sync="detailsDialogVisible">
       <Detail :detailType="0" :SERIAL="SERIAL0" :CHK_SERIAL="CHK_SERIAL0" :PNR_TID="PNR_TID0" :PNR_TKTNUMBER="PNR_TKTNUMBER0" :PNR_TRAVELLER_SURNAME_TIF="PNR_TRAVELLER_SURNAME_TIF0" :PNR_TRAVELLER_GIVEN_NAME_TIF="PNR_TRAVELLER_GIVEN_NAME_TIF0"></Detail>
@@ -886,6 +886,7 @@ export default {
       specifigseat0:'',
       FLTNO0:'',
       FLTDATE0:'',
+      CHK_SERIAL0:'',
       options:[
         {
           value:10,
@@ -1450,6 +1451,7 @@ export default {
       this.specifigseat0=i.PNR_SPECIFIGSEAT;
       this.FLTNO0 = i.FLTNO;
       this.FLTDATE0 = i.FLTDATE;
+      this.CHK_SERIAL0 = i.SERIAL
       this.globalserial0=new Date().getTime();
       console.log(this.specifigseat0)
     },
