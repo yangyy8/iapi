@@ -1174,7 +1174,10 @@
           </el-table-column>
         </el-table>
         <div class="tan-btn-g">
+
           <el-button type="success"  class="mr-10" size="small" @click="getNewData(2)">确定</el-button>
+          <el-button type="primary" size="small" class="mr-10" @click="delJkHbALL">清空</el-button>
+
           <el-button type="warning" size="small"  @click="tabId=0">关闭</el-button>
         </div>
       </div>
@@ -1413,7 +1416,7 @@
         </el-table>
         <div class="tan-btn-g">
           <el-button type="success"  class="mr-10" size="small" @click="getNewData(3)">确定</el-button>
-
+          <el-button type="primary" size="small" class="mr-10" @click="delRyALL">清空</el-button>
           <el-button type="warning" size="small" @click="tabId=0">关闭</el-button>
         </div>
       </div>
@@ -3252,7 +3255,17 @@ export default {
       this.$api.post('/manage-platform/flightMonitor/queryFlightPage',this.p1,
        r => {
          //console.log(r);
-         this.HBList=r.data.pdList
+         this.HBList=r.data.pdList;
+         let arr1=this.HBList;
+         let arr2=this.DqJkHb;
+         for(var i=0;i<arr1.length;i++){
+           for(var j=0;j<arr2.length;j++){
+             if(arr1[i].fltKey==arr2[j].fltKey){
+              arr1.splice(i,1)
+             }
+           }
+         }
+
 
       })
     },
@@ -3264,13 +3277,21 @@ export default {
       }
       this.$api.get('/manage-platform/flightMonitor/addMonitorFlight',{fltKey:fk.fltKey},
        r => {
-         //console.log(r);
+         console.log(r);
+         let arr=this.HBList
+         for(var i=0;i<arr.length;i++){
+           if(arr[i].fltKey==fk.fltKey){
+             arr.splice(i,1)
+           }
+         }
          if(r.success){
            this.$message({
              message: '恭喜你，添加成功！',
              type: 'success'
            });
-           this.getDqJkHb(2)
+           this.getDqJkHb(2);
+           // this.getJkHb();
+
          }
       })
     },
@@ -3285,8 +3306,16 @@ export default {
              type: 'success'
            });
            this.getDqJkHb(2)
+           this.getJkHb();
          }
       })
+    },
+    delJkHbALL(){
+      let arr=this.DqJkHb.map(function(val){
+           return val.fltKey
+         },this)
+         console.log(arr)
+       this.delJkHb(arr)
     },
     // 当前监控航班取得
     getDqJkHb(type){
@@ -3294,9 +3323,9 @@ export default {
        r => {
          //console.log(r);
          this.DqJkHb=r.data;
-         if(type==2){
-           this.getNewData(2)
-         }
+         // if(type==2){
+         //   this.getNewData(2)
+         // }
       })
     },
 
@@ -3315,6 +3344,15 @@ export default {
        r => {
          //console.log(r);
          this.RyList=r.data.pdList;
+         let arr1=this.RyList;
+         let arr2=this.DqRy;
+         for(var i=0;i<arr1.length;i++){
+           for(var j=0;j<arr2.length;j++){
+             if(arr1[i].trvKey==arr2[j].trvKey){
+              arr1.splice(i,1)
+             }
+           }
+         }
 
 
       })
@@ -3324,6 +3362,12 @@ export default {
       this.$api.get('/manage-platform/travelerMonitor/addMonitorTraveler',{trvKey:tk},
        r => {
          //console.log(r);
+         let arr=this.RyList
+         for(var i=0;i<arr.length;i++){
+           if(arr[i].trvKey==tk){
+             arr.splice(i,1)
+           }
+         }
          if(r.success){
            this.$message({
              message: '恭喜你，添加成功！',
@@ -3343,9 +3387,17 @@ export default {
              message: '恭喜你，删除成功！',
              type: 'success'
            });
-           this.getDqRy(2)
+           this.getDqRy(2);
+           this.getRy()
          }
       })
+    },
+    delRyALL(){
+      let arr=this.DqRy.map(function(val){
+           return val.trvKey
+         },this)
+         console.log(arr)
+       this.delRy(arr)
     },
     // 当前监控人员取得
     getDqRy(type){
@@ -3353,9 +3405,9 @@ export default {
        r => {
          //console.log(r);
          this.DqRy=r.data;
-         if(type==2){
-           this.getNewData(3)
-         }
+         // if(type==2){
+         //   this.getNewData(3)
+         // }
 
       })
     },

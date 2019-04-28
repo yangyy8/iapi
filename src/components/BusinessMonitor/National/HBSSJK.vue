@@ -109,7 +109,8 @@
           label="航班号"
           prop="fltNo"
           sortable="custom"
-          width="70">
+          width="70"
+          :show-overflow-tooltip="true">
         </el-table-column>
         <el-table-column
           label="出发站"

@@ -408,11 +408,16 @@ export default {
         }
       },
       pickerOptions3: {
-        disabledDate: (time) => {
-          console.log(time);
+          disabledDate: (time) => {
+            let todayS =  (this.form.SCHEDULEDEPARTURETIMESTR).slice(0,8);
+            let currentTime = formatDate(new Date(time.getTime()),'yyyyMMdd');
             let endT = formatDate(new Date(time.getTime()),'yyyyMMddhhmm');
-            let a = new Date(timestampToTime(this.form.SCHEDULEDEPARTURETIMESTR,0));
-            return endT < formatDate(new Date(a),'yyyyMMddhhmm');
+            if(todayS==currentTime){
+              return this.form.SCHEDULEDEPARTURETIMESTR>this.form.SCHEDULEARRIVETIMESTR
+            }else{
+              return endT < this.form.SCHEDULEDEPARTURETIMESTR;
+            }
+
         }
       },
       form: {

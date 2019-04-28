@@ -1,7 +1,7 @@
 // 配置API接口地址
-var root="http://192.168.3.72:8081"
+// var root="http://192.168.3.72:8081"
   // var root=""
-// var root="http://192.168.99.234:8080"
+var root="http://192.168.99.234:8080"
 
 // var root="http://192.168.99.206:8080"
 // var root="http://192.168.99.201:8080"
@@ -129,7 +129,7 @@ function apiAxios(method, url, params, success, failure,header,responseType) {
           console.log('error: ' + JSON.stringify(res.data));
         }
         if(loadingInstance1){
-          // loadingInstance1.close();
+          loadingInstance1.close();
         }
       }
     })
@@ -139,7 +139,7 @@ function apiAxios(method, url, params, success, failure,header,responseType) {
         // console.log('api error, HTTP CODE: ' + res.status)
       }
       if(loadingInstance1){
-        // loadingInstance1.close();
+        loadingInstance1.close();
       }
     })
 }

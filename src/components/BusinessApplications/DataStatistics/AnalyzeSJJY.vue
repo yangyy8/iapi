@@ -116,28 +116,28 @@
                                      prop="rst_1"
                                      label="缺失" sortable>
                                      <template slot-scope="scope">
-                                      <a class="bluecolor"  @click="details(1)" > {{scope.row.rst_1}} </a>
+                                      <a class="bluecolor"  @click="details(1,scope.row.rst_1)" > {{scope.row.rst_1}} </a>
                                     </template>
                                    </el-table-column>
                                    <el-table-column
                                      prop="rst_2"
                                      label="长度不符合" sortable>
                                      <template slot-scope="scope">
-                                      <a class="bluecolor"  @click="details(2)" > {{scope.row.rst_2}} </a>
+                                      <a class="bluecolor"  @click="details(2,scope.row.rst_2)" > {{scope.row.rst_2}} </a>
                                     </template>
                                    </el-table-column>
                                    <el-table-column
                                      prop="rst_3"
                                      label="格式错误" sortable>
                                      <template slot-scope="scope">
-                                      <a class="bluecolor"  @click="details(3)" > {{scope.row.rst_3}} </a>
+                                      <a class="bluecolor"  @click="details(3,scope.row.rst_3)" > {{scope.row.rst_3}} </a>
                                      </template>
                                    </el-table-column>
                                    <el-table-column
                                      prop="rst_4"
                                      label="不符合当前时间" sortable>
                                      <template slot-scope="scope">
-                                      <a class="bluecolor"  @click="details(4)" > {{scope.row.rst_4}} </a>
+                                      <a class="bluecolor"  @click="details(4,'5')" > {{scope.row.rst_4}} </a>
                                      </template>
                                    </el-table-column>
                               </el-table-column>
@@ -327,12 +327,12 @@ export default {
     },
     pageSizeChange(val) {
     //  this.getList(this.CurrentPage, val, this.pd);
-     this.details(this.thantype,);
+     //this.details(this.thantype);
       console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
       //this.getList(val, this.pageSize, this.pd);
-    this.details(this.thantype);
+  //  this.details(this.thantype);
       console.log(`当前页: ${val}`);
     },
     getSummaries(param) {
@@ -367,7 +367,7 @@ export default {
          this.order=column.prop;
          this.details(this.thantype);
        },
-    getList(currentPage, showCount, pd,order,direction) {
+    getList(currentPage, showCount, pd) {
       const result = this.$validator.verifyAll('timeDemo')
        if (result.indexOf(false) > -1) {
          return
@@ -460,8 +460,14 @@ export default {
           }
         })
     },
-    details(t) {
-    console.log('-----',t);
+    details(t,n) {
+    if(n=="0")
+    {
+      this.$alert('没有数据!', '提示', {
+        confirmButtonText: '确定',
+      });
+      return ;
+    }
     if(t==1){
       this.dialogtitle="必录项缺失详情";
     }else if(t==2){
@@ -473,8 +479,10 @@ export default {
     }
       this.pd.thantype=t;
       this.thantype=t;
+      if(this.order!=""){
       this.pd.order=this.order;
       this.pd.direction=this.direction;
+      }
       let p = {
         "currentPage":this.currentPage,
         "showCount": this.pageSize,

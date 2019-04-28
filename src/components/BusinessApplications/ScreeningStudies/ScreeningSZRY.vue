@@ -769,8 +769,9 @@ export default {
         });
         return false
       };
+      if(order!=""){
       pd.order = order;
-      pd.direction = direction;
+      pd.direction = direction;}
       let p = {
         "currentPage": currentPage,
         "showCount": showCount,
@@ -804,8 +805,9 @@ export default {
         });
         return false
       };
+      if(order1!=""){
       pd1.order = order1;
-      pd1.direction = direction1;
+      pd1.direction = direction1;}
       let p = {
         "currentPage": currentPage1,
         "showCount": showCount1,
@@ -836,8 +838,10 @@ export default {
         });
         return false
       };
+      if(order2!=""){
       pd2.order = order2;
       pd2.direction = direction2;
+      }
       let p = {
         "currentPage": currentPage2,
         "showCount": showCount2,
@@ -868,8 +872,10 @@ export default {
         });
         return false
       };
+      if(order3!=""){
       pd3.order = order3;
       pd3.direction = direction3;
+      }
       let p = {
         "currentPage": currentPage3,
         "showCount": showCount3,
