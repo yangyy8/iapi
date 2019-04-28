@@ -708,8 +708,14 @@ export default {
       },
       pickerOptions1: {
         disabledDate: (time) => {
-            let endT = formatDate(new Date(time.getTime()),'yyyyMMddhhmmss');
+          let todayS =  (this.pd.startCreatetime).slice(0,8);
+          let currentTime = formatDate(new Date(time.getTime()),'yyyyMMdd');
+          let endT = formatDate(new Date(time.getTime()),'yyyyMMddhhmmss');
+          if(todayS==currentTime){
+            return this.pd.startCreatetime>this.pd.endCreatetime;
+          }else{
             return endT < this.pd.startCreatetime;
+          }
         }
       },
 
@@ -725,8 +731,14 @@ export default {
       },
       pickerOptions3: {
         disabledDate: (time) => {
+            let todayS =  (this.pd.startDealtime).slice(0,8);
+            let currentTime = formatDate(new Date(time.getTime()),'yyyyMMdd');
             let endT = formatDate(new Date(time.getTime()),'yyyyMMddhhmmss');
-            return endT <= this.pd.startDealtime;
+            if(todayS==currentTime){
+              return this.pd.startDealtime>this.pd.endDealtime
+            }else{
+              return endT <= this.pd.startDealtime;
+            }      
         }
       },
       nav1Id:null,

@@ -309,7 +309,8 @@ export default {
       let p = {
         "port":pd.port,
         "begintime":pd.begintime,
-        "endtime":pd.endtime
+        "endtime":pd.endtime,
+        "flighttype":pd.flighttype
       };
 
       this.$api.post("/manage-platform/dataStatistics/get_port", p,
@@ -348,7 +349,8 @@ export default {
        data: {
          "begintime":this.pd.begintime,
          "endtime":this.pd.endtime,
-         "port":this.pd.port
+         "port":this.pd.port,
+         "flighttype":this.pd.flighttype
        },
        responseType: 'blob'
        }).then(response => {

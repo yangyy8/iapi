@@ -179,8 +179,14 @@ export default {
       },
       pickerOptions1: {
         disabledDate: (time) => {
-            let endT = formatDate(new Date(time.getTime()),'yyyyMMddhhmmss');
+          let todayS =  (this.pd.begin).slice(0,8);
+          let currentTime = formatDate(new Date(time.getTime()),'yyyyMMdd');
+          let endT = formatDate(new Date(time.getTime()),'yyyyMMddhhmmss');
+          if(todayS==currentTime){
+            this.pd.begin>this.pd.end
+          }else{
             return endT < this.pd.begin;
+          }
         }
       },
       form: {},

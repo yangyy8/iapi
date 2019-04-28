@@ -327,6 +327,7 @@ export default {
         "begintime": pd.begintime,
         "endtime": pd.endtime,
         "airline_company_id": pd.airline_company_id,
+        "flighttype":pd.flighttype
       };
 
       this.$api.post("/manage-platform/dataStatistics/get_flightCompany", p,
@@ -393,6 +394,7 @@ export default {
           "endtime": this.pd.endtime,
           "airline_company_id": this.pd.airline_company_id,
           "airline_company_name": this.companyname,
+          "flighttype":this.pd.flighttype
         },
         responseType: 'blob'
       }).then(response => {

@@ -380,8 +380,17 @@ export default {
       },
       pickerOptions1: {
         disabledDate: (time) => {
-            let endT = formatDate(new Date(time.getTime()),'yyyyMMddhhmmss');
-            return endT < this.pd.compareBeginDate;
+            // let endT = formatDate(new Date(time.getTime()),'yyyyMMddhhmmss');
+            // return endT < this.pd.compareBeginDate;
+            
+            let todayS =  (this.pd.compareBeginDate).slice(0,8);
+            let currentTime = formatDate(new Date(time.getTime()),'yyyyMMdd');
+            let endT = formatDate(new Date(time.getTime()),'yyyyMMddhhmm');
+            if((todayS==currentTime)){
+              return this.pd.compareBeginDate>this.pd.compareBeginDate
+            }else{
+             return endT < this.pd.compareBeginDate;
+            }
         }
       },
       form: {},
