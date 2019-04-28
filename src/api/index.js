@@ -129,7 +129,7 @@ function apiAxios(method, url, params, success, failure,header,responseType) {
           console.log('error: ' + JSON.stringify(res.data));
         }
         if(loadingInstance1){
-          // loadingInstance1.close();
+          loadingInstance1.close();
         }
       }
     })
@@ -139,7 +139,7 @@ function apiAxios(method, url, params, success, failure,header,responseType) {
         // console.log('api error, HTTP CODE: ' + res.status)
       }
       if(loadingInstance1){
-        // loadingInstance1.close();
+        loadingInstance1.close();
       }
     })
 }

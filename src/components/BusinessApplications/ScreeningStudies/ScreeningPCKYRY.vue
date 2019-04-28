@@ -688,7 +688,7 @@ export default {
       let link = document.createElement('a')
       link.style.display = 'none'
       link.href = url
-      link.setAttribute('download', 'szry' + format(new Date(), 'yyyyMMddhhmmss') + '.xlsx')
+      link.setAttribute('download', 'pckyry' + format(new Date(), 'yyyyMMddhhmmss') + '.xlsx')
       document.body.appendChild(link)
       link.click()
     },
