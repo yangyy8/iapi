@@ -123,7 +123,7 @@ export default {
   //     default:''
   //   }
   // },
-  props:['globalserial','flightNumber','specifigseat','FLTNO','FLTDATE','seatType'],
+  props:['globalserial','flightNumber','specifigseat','FLTNO','FLTDATE','seatType','CHK_SERIAL'],
   mounted(){
     this.getimgtable()
   },
@@ -133,7 +133,9 @@ export default {
         let p={
           "flightRecordnum": this.flightNumber,
           "fltno":this.FLTNO,
-          "fltdate":this.FLTDATE
+          "fltdate":this.FLTDATE,
+          'CHK_SERIAL':this.CHK_SERIAL,
+          'SPECIFIGSEAT':this.specifigseat
         }
 
         this.$api.post('/manage-platform/statusUpdate/seat/queryListPagesSeatInfoSearch', p,

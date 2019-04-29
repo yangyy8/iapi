@@ -403,7 +403,7 @@ export default {
   //  this.getList(this.CurrentPage, this.pageSize, this.pd);
   },
   activated() {
-    his.queryNationality();
+    this.queryNationality();
   //  this.drawLine();
     // let time = new Date();
     // let endz = new Date();

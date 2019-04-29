@@ -12,20 +12,20 @@
                 <div class="input-input t-flex t-date">
                    <el-date-picker
                      v-model="cdt.startFlightDate"
-                     type="datetime"
+                     type="date"
                      size="small"
-                     format="yyyy-MM-dd HH:mm"
-                     value-format="yyyyMMddHHmm"
+                     format="yyyy-MM-dd"
+                     value-format="yyyyMMdd"
                      placeholder="开始时间">
                    </el-date-picker>
                    <span class="septum">-</span>
                    <el-date-picker
                       v-model="cdt.endFlightDate"
-                      type="datetime"
+                      type="date"
                       size="small"
                       align="right"
-                      format="yyyy-MM-dd HH:mm"
-                      value-format="yyyyMMddHHmm"
+                      format="yyyy-MM-dd"
+                      value-format="yyyyMMdd"
                       placeholder="结束时间">
                   </el-date-picker>
               </div>
@@ -335,20 +335,20 @@ export default {
   },
   mounted(){
     let time = new Date();
-    let end = new Date();
-    let begin =new Date(time - 1000 * 60 * 60 * 24 * 30);
-    this.cdt.startFlightDate=formatDate(begin,'yyyyMMddhhmm');
-    this.cdt.endFlightDate=formatDate(end,'yyyyMMddhhmm');
+    let end = new Date(new Date(new Date().toLocaleDateString()).getTime()+24*60*60*1000-1);
+    let begin =new Date(new Date().setHours(0,0,0,0));
+    this.cdt.startFlightDate=formatDate(begin,'yyyyMMdd');
+    this.cdt.endFlightDate=formatDate(end,'yyyyMMdd');
     let that = this
-    setTimeout(function(){
-      that.getList(this.CurrentPage,this.pageSize,this.cdt,this.order,this.direction);
-    },100)
+    // setTimeout(function(){
+    //   that.getList(this.CurrentPage,this.pageSize,this.cdt,this.order,this.direction);
+    // },100)
     this.queryNationalityAlone();
     this.queryAirport();
     document.getElementsByClassName('btn-next')[0].disabled=true;
   },
   activated(){
-    this.getList(this.CurrentPage,this.pageSize,this.cdt,this.order,this.direction);
+    // this.getList(this.CurrentPage,this.pageSize,this.cdt,this.order,this.direction);
   },
   methods:{
     sortChange(column, prop, order){
@@ -485,8 +485,8 @@ export default {
         startFlightDate:'',
         endFlightDate:''
       };
-      this.cdt.startFlightDate=formatDate(begin,'yyyyMMddhhmm');
-      this.cdt.endFlightDate=formatDate(end,'yyyyMMddhhmm');
+      this.cdt.startFlightDate=formatDate(begin,'yyyyMMdd');
+      this.cdt.endFlightDate=formatDate(end,'yyyyMMdd');
       this.getList(this.CurrentPage,this.pageSize,this.cdt,this.order,this.direction);
     },
     pageSizeChange(val) {

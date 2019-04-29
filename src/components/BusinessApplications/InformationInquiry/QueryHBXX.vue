@@ -236,7 +236,7 @@
       :visible.sync="seatDialogVisible"
       width="1220px"
       >
-      <Seat :flightNumber="flightNumber0" :globalserial="globalserial0" :FLTNO="FLTNO0" :FLTDATE="FLTDATE0" :seatType="1"></Seat>
+      <Seat :flightNumber="flightNumber0" :globalserial="globalserial0" :FLTNO="FLTNO0" :FLTDATE="FLTDATE0" :seatType="1" :specifigseat="specifigseat0" :CHK_SERIAL="CHK_SERIAL0"></Seat>
     </el-dialog>
 
     <el-dialog
@@ -367,14 +367,16 @@ export default {
       specifigseat0:'',
       FLTNO0:'',
       FLTDATE0:'',
+      specifigseat0:'',
+      CHK_SERIAL0:''
     }
   },
   mounted() {
     let time = new Date();
     let end = new Date();
-    let begin =new Date(time - 1000 * 60 * 60 * 24 * 30);
+    // let begin =new Date(time - 1000 * 60 * 60 * 24 * 30);
     // let flightStart = new Date(new Date().setHours(0,0,0,0));
-    this.pd.scheduledeparturetime=formatDate(begin,'yyyyMMdd');
+    this.pd.scheduledeparturetime=formatDate(time,'yyyyMMdd');
     this.pd.schedulearrivetime=formatDate(end,'yyyyMMdd');
     this.queryNationality();
     // this.queryAirport();
