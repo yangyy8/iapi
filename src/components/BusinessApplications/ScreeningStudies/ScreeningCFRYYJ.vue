@@ -344,6 +344,7 @@ export default {
     batch()
     {
     this.page=1;
+     this.getList1(this.CurrentPage1,this.pageSize1,this.pd,this.order1,this.direction1);
     },
     handleSelectionChange(val) {
       this.multipleSelection = val;
@@ -422,7 +423,7 @@ export default {
           this.TotalResult = r.data.totalResult;
         })
 
-      this.getList1(this.CurrentPage1,this.pageSize1,this.pd,this.order1,this.direction1);
+
     },
     getList1(currentPage1, showCount1, pd,order1,direction1) {
       if (this.pd.begintime== null || this.pd.endtime == null) {

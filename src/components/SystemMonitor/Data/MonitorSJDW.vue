@@ -263,7 +263,7 @@
                 <div style="width:18%; margin-left:30%;  margin-top:78px;  line-height:25px; font-size:14px; height:55px;" >
                    <span v-if='cj'>
                       出境时间：{{rst3.steptime}}<br/>
-                      出境口岸：{{rst3.cityfrom}}
+                      出境口岸：{{rst2.cityfrom}}
                     </span>
                 </div>
                 <div style="width:18%; margin-left:50%;  margin-top:-168px;  line-height:25px; font-size:14px; height:30px;">
@@ -320,7 +320,7 @@ export default {
       pickerOptions1: {
         disabledDate: (time) => {
           if (this.pd.endtime != null) {
-            let startT = formatDate(new Date(time.getTime()), 'yyyyMMddhhmmss');
+            let startT = formatDate(new Date(time.getTime()-1), 'yyyyMMddhhmmss');
             return startT > this.pd.endtime;
           } else if (this.pd.endtime == null) {
             return false
