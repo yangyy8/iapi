@@ -25,7 +25,6 @@
               <div class="title-green">
                 查询条件
               </div>
-
               <el-row align="center"   :gutter="2">
                 <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                   <span class="input-text"><font class="yy-color">*</font> 时间范围：</span>
@@ -655,12 +654,28 @@ export default {
     },
     download(t) {
         var url ="";
+        let p={};
         if(t==1){
+          p={
+              "begintime": this.pd.begintime,
+              "endtime": this.pd.endtime,
+               "times":this.pd.times
+          };
           url = this.$api.rootUrl + "/manage-platform/SuspectPerson/exp_bk_count";
         }else if(t==2){
+          p={
+              "begintime": this.pd1.begintime,
+              "endtime": this.pd1.endtime,
+               "times":this.pd1.times
+          };
           url = this.$api.rootUrl + "/manage-platform/SuspectPerson/exp_chk_count";
         }
         else if(t==3){
+          p={
+              "begintime": this.pd2.begintime,
+              "endtime": this.pd2.endtime,
+               "times":this.pd2.times
+          };
           url = this.$api.rootUrl + "/manage-platform/SuspectPerson/exp_ee_count";
         }
 
@@ -668,10 +683,7 @@ export default {
       axios({
         method: 'post',
         url: url,
-        data: {
-          "begintime": this.pd.begintime,
-          "endtime": this.pd.endtime,
-        },
+        data: p,
         responseType: 'blob'
       }).then(response => {
         this.downloadM(response)
