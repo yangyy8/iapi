@@ -717,7 +717,8 @@
           <el-form-item label="证件号码：" prop="passno">
             <el-input placeholder="请输入内容" size="small" v-model="addform.passno" auto-complete="off"></el-input>
           </el-form-item>
-          <el-form-item label="国籍/地区：" prop="nationality">
+          <el-form-item label="国籍/地区：" prop="nationality" style="position:relative">
+            <span class="redx" style="position: absolute;top: 0;left: -95px;">*</span>
             <!-- <el-input placeholder="请输入内容" size="small" v-model="addform.nationality" auto-complete="off"></el-input> -->
             <el-select v-model="addform.nationality" placeholder="请选择"  size="small" clearable filterable style="width:100%">
               <el-option
@@ -1239,6 +1240,10 @@ export default {
       })
     },
     addMonitorPerson(){
+      if(!this.addform.nationality){
+        this.$message.error('请先选择国籍/地区');
+        return
+      }
       this.$api.post('/manage-platform/travelerRealTime/addMonitorPerson',this.addform,
        r => {
          if(r.success){

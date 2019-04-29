@@ -6,7 +6,7 @@
           <el-row align="center" :gutter="2">
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">航空公司：</span>
-              <el-select v-model="pd.airlineCompanyId" placeholder="请选择" filterable clearable size="small" class="input-input">
+              <el-select v-model="pd.fltnoTopTwo" placeholder="请选择" filterable clearable size="small" class="input-input">
                 <el-option
                   v-for="(item,ind) in company"
                   :key="ind"
@@ -19,7 +19,7 @@
               <span class="input-text">航班号：</span>
               <el-input placeholder="请输入内容" size="small" v-model="pd.fltno"  class="input-input"></el-input>
             </el-col>
-            <el-col :sm="24" :md="12" :lg="8" class="input-item">
+            <!-- <el-col :sm="24" :md="12" :lg="8" class="input-item">
               <span class="input-text">航班日期：</span>
               <div class="input-input t-flex t-date">
                 <el-date-picker
@@ -36,7 +36,7 @@
                   placeholder="结束时间">
                 </el-date-picker>
               </div>
-            </el-col>
+            </el-col> -->
             <el-col :sm="24" :md="12"  :lg="8" class="input-item">
               <span class="input-text">国籍/地区：</span>
               <el-select v-model="pd.nationality" placeholder="请选择"  size="small" clearable filterable class="block input-input">
@@ -57,14 +57,14 @@
               <div class="input-input t-flex t-date">
                 <el-date-picker
                  type="date" size="small" format="yyyy-MM-dd"
-                 v-model="pd.birthdayStart"
+                 v-model="pd.birthday_start"
                  value-format="yyyyMMdd"
                  placeholder="开始时间" >
                 </el-date-picker>
                 <span class="septum">-</span>
                 <el-date-picker
                   type="date" size="small" format="yyyy-MM-dd"
-                  v-model="pd.birthdayEnd"
+                  v-model="pd.birthday_end"
                   value-format="yyyyMMdd"
                   placeholder="结束时间">
                 </el-date-picker>
@@ -106,31 +106,30 @@
           <el-table-column
             label="国籍/地区"
             sortable="custom"
-            prop="NATIONALITYNAME"
+            prop="nationality"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="证件号"
             sortable="custom"
-            prop="PASSPORTNO"
+            prop="passportno"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="姓名"
-            sortable="custom"
-            prop="NAME"
+            prop="chnName"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="性别"
             sortable="custom"
-            prop="GENDERNAME"
+            prop="gender"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="出生日期"
             sortable="custom"
-            prop="BIRTHDAY"
+            prop="birthday"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
@@ -139,23 +138,23 @@
             sortable="custom"
             :show-overflow-tooltip="true">
           </el-table-column>
-          <el-table-column
+          <!-- <el-table-column
             label="航班日期"
             prop="fltnoDate"
             sortable="custom"
             width="101"
             :show-overflow-tooltip="true">
-          </el-table-column>
+          </el-table-column> -->
           <el-table-column
             label="是否风评"
             sortable="custom"
-            prop="BIRTHDAY"
+            prop="risk_status"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="风评时间"
             sortable="custom"
-            prop="BIRTHDAY"
+            prop="risk_end_time"
             :show-overflow-tooltip="true">
           </el-table-column>
 
@@ -163,7 +162,7 @@
             label="操作"
             width="80">
             <template slot-scope="scope">
-              <el-button type="text" class="a-btn" icon="el-icon-view" title="查看" @click="$router.push({name:'DZDA',query:{nationality:scope.row.NATIONALITY,passportno:scope.row.PASSPORTNO,nav2Id:scope.row.PASSPORTNO+scope.row.NATIONALITY,title:scope.row.NAME+'电子档案'}})"></el-button>
+              <el-button type="text" class="a-btn" icon="el-icon-view" title="查看" @click="$router.push({name:'RYZBCXXQ',query:{nationality:scope.row.nationality,passportno:scope.row.passportno,flight_recordnum:scope.row.flight_recordnum,nav2Id:scope.row.passportno+scope.row.nationality,title:scope.row.chnName+'详情'}})"></el-button>
               <!-- <el-button type="text" class="a-btn" icon="el-icon-edit-outline"  title="事件追加" @click="openGdTc(scope.row)"></el-button> -->
 
             </template>
@@ -204,13 +203,13 @@
 
     </div>
     <!-- <GDTC :gtitle="'事件追加'" :gvisible="gdDialogVisible" :garr="checkeditem"  @gclose="gclose"></GDTC> -->
-    <el-dialog title="照片" :visible.sync="czDialogVisible" width="500px" :show-close="false">
+    <!-- <el-dialog title="照片" :visible.sync="czDialogVisible" width="500px" :show-close="false">
       <div class="img-div">
       </div>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="czDialogVisible=false" size="small">确认</el-button>
       </div>
-    </el-dialog>
+    </el-dialog> -->
   </div>
 </template>
 
@@ -225,9 +224,9 @@ export default {
       CurrentPage:1,
       pageSize:10,
       TotalResult:0,
-      order:'',
+      order:[],
       direction:0,
-      pd:{nationality:'',name:'',passportno:'',birthdayStart:'',birthdayEnd:'',fltnoDate_start:'',fltnoDate_end:''},
+      pd:{nationality:'',name:'',passportno:'',birthdayStart:'',birthdayEnd:''},
       nationAlone:[],
       company:[],
 
@@ -253,12 +252,12 @@ export default {
   mounted(){
     this.queryNationalityAlone();
     this.queryAircompanyList();
-    let begin = new Date();
-    // console.log(begin+24*60*60*1000)
-    let end = new Date(begin.getTime()+24*60*60*1000);
-
-    this.pd.fltnoDate_start= formatDate(begin, 'yyyyMMdd')+'000000';
-    this.pd.fltnoDate_end= formatDate(end, 'yyyyMMdd')+'000000';
+    // let begin = new Date();
+    // // console.log(begin+24*60*60*1000)
+    // let end = new Date(begin.getTime()+24*60*60*1000);
+    //
+    // this.pd.fltnoDate_start= formatDate(begin, 'yyyyMMdd')+'000000';
+    // this.pd.fltnoDate_end= formatDate(end, 'yyyyMMdd')+'000000';
   },
   activated(){
 
@@ -279,7 +278,7 @@ export default {
     },
     sortChange(data){
       console.log(data)
-      this.order=data.prop;
+      this.order=[data.prop];
       if(data.order=='descending'){
         this.direction=0
       }else{
@@ -309,24 +308,24 @@ export default {
 
 
     getList(CurrentPage,showCount,pd,order,direction){
-      if(!this.pd.nationality){
-        this.$message.error('请先填写国籍地区！');
-        return
-      }
-      if(this.pd.birthdayStart||this.pd.birthdayEnd){
-        if(!(this.pd.birthdayEnd&&this.pd.birthdayStart)){
-          this.$message.error('请输入完整的出生日期区间！');
-          return
-        }
-      }
+      // if(!this.pd.nationality){
+      //   this.$message.error('请先填写国籍地区！');
+      //   return
+      // }
+      // if(this.pd.birthdayStart||this.pd.birthdayEnd){
+      //   if(!(this.pd.birthdayEnd&&this.pd.birthdayStart)){
+      //     this.$message.error('请输入完整的出生日期区间！');
+      //     return
+      //   }
+      // }
       let p={
         "showCount": showCount,
         "currentPage": CurrentPage,
         "pd": pd,
-        "order":order,
+        "orders":order,
 	      "direction":direction
       }
-      this.$api.post('/manage-platform/riskRecordController/getRecordInfo',p,
+      this.$api.post('/manage-platform/riskIndexController/getIndexQueryInfo',p,
        r => {
 
          this.tableData=r.data.resultList;
