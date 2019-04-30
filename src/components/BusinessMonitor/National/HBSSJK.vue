@@ -449,7 +449,7 @@ export default {
     // this.getTimePage();
     let end = new Date();
     let begin = new Date(end - 24*60*60*1000);
-    this.pd.fltDateFr= formatDate(begin, 'yyyyMMdd');
+    this.pd.fltDateFr= formatDate(end, 'yyyyMMdd');
     this.pd.fltDateTo= formatDate(end, 'yyyyMMdd');
     this.queryAirport();
 

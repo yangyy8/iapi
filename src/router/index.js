@@ -756,6 +756,12 @@ export default new Router({
           name: "RYZBCX",
           component: resolve => require(['@/components/RiskAssessment/RiskEvent/RYZBCX'], resolve),
         },
+        // 人员指标查询详情
+        {
+          path: "RYZBCXXQ",
+          name: "RYZBCXXQ",
+          component: resolve => require(['@/components/RiskAssessment/RiskEvent/RYZBCXXQ'], resolve),
+        },
         // 风险报警事件查看
         {
           path: "BJSJCK",
