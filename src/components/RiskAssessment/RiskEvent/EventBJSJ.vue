@@ -705,6 +705,12 @@ export default {
       this.CurrentPage=1;
       this.pageSize=10;
       this.pd={type:'0'};
+      let begin = new Date();
+      // console.log(begin+24*60*60*1000)
+      let end = new Date(begin.getTime()+24*60*60*1000);
+
+      this.pd.fltnoDate_start= formatDate(begin, 'yyyyMMdd')+'000000';
+      this.pd.fltnoDate_end= formatDate(end, 'yyyyMMdd')+'000000';
       this.orders=[];
       this.direction=0;
       this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);

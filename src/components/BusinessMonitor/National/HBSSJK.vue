@@ -88,7 +88,7 @@
 
         <el-col :span="2" class="down-btn-area">
           <el-button type="success" class="" size="small" @click="getList(CurrentPage,pageSize,pd,orders,direction)">查询</el-button>
-          <!-- <el-button type="primary" class="mb-15" plain size="small" >重置</el-button> -->
+          <el-button type="primary" plain size="small"  class="mt-10" @click="reset">重置</el-button>
         </el-col>
 
       </el-row>
@@ -485,6 +485,18 @@ export default {
     }
   },
   methods:{
+    reset(){
+      this.CurrentPage=1;
+      this.pageSize=10;
+      this.pd={};
+      let end = new Date();
+      this.pd.fltDateFr= formatDate(end, 'yyyyMMdd');
+      this.pd.fltDateTo= formatDate(end, 'yyyyMMdd');
+      this.orders='';
+      this.direction=0;
+      this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
+
+    },
     pageSizeChange(val) {
       this.pageSize=val;
       this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
