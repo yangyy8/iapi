@@ -67,7 +67,7 @@
 
         <el-col :span="2" class="down-btn-area">
           <el-button type="success" size="small" @click="getList(CurrentPage,pageSize,pd,order,direction)">查询</el-button>
-          <!-- <el-button type="primary" plain size="small" >重置</el-button> -->
+            <el-button type="primary" plain size="small"  class="mt-10" @click="reset">重置</el-button>
         </el-col>
       </el-row>
     </div>
@@ -234,6 +234,15 @@ export default {
     }
   },
   methods:{
+    reset(){
+      this.CurrentPage=1;
+      this.pageSize=10;
+      this.pd={};
+      this.order='';
+      this.direction=0;
+      // this.getList(this.CurrentPage,this.pageSize,this.pd,this.order,this.direction);
+
+    },
     handleSelectionChange(val) {
       this.multipleSelection = val;
       if(this.multipleSelection.length==0){
