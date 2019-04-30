@@ -116,7 +116,8 @@
           </el-row>
         </el-col>
         <el-col :span="2" class="down-btn-area">
-          <el-button type="success" size="small" @click="CurrentPage=1;querySeat()">查询</el-button>
+          <el-button type="success" size="small" @click="CurrentPage=1;querySeat()" class="mb-15">查询</el-button>
+          <el-button type="primary" plain size="small" @click="reset">重置</el-button>
         </el-col>
       </el-row>
     </div>
@@ -124,7 +125,8 @@
         <!-- <span class="tubiao hand borderL" :class="{'checked':page==0}" @click="page=0;getList(CurrentPage,pageSize,pd)">列表</span><span class="tubiao hand borderR" :class="{'checked':page==1}" @click="qq">图表</span> -->
     <div id="div1" @mouseover="mouseHeader">
       <el-table
-        border
+         ref="sort"
+         border
         :data="tableData"
         class="o-table3"
         @header-click="headerClick"
@@ -651,6 +653,34 @@ export default {
     sortChange(column, prop, order){
       column.order=='ascending'?this.direction=1:this.direction=0;
       this.order=column.prop;
+      this.getList(this.CurrentPage,this.pageSize,this.pd,this.order,this.direction);
+    },
+    reset(){
+      this.pd={
+        "isBlurred":false,
+        isFltnoLike:false,
+        isCardnumlike:false,
+        departdateBegin:'',
+        departdateEnd:'',
+      };
+      let time = new Date();
+      let end = new Date();
+      this.pd.departdateBegin=formatDate(time,'yyyyMMdd');
+      this.pd.departdateEnd=formatDate(end,'yyyyMMdd');
+
+      this.$nextTick(()=>{
+        let sortArr = this.$refs.sort.$children
+        for(var i=0;i<sortArr.length;i++){
+          if(sortArr[i].columnConfig&&sortArr[i].columnConfig.order){
+            sortArr[i].columnConfig.order = ''
+            return false
+          }
+        }
+      })
+      this.direction=0;
+      this.order='';
+      this.CurrentPage=1;
+      this.pageSize=10;
       this.getList(this.CurrentPage,this.pageSize,this.pd,this.order,this.direction);
     },
     headerClick(column,event){

@@ -107,8 +107,8 @@
           </el-row>
         </el-col>
         <el-col :span="2" class="down-btn-area" >
-          <el-button type="success" size="small" @click="CurrentPage=1;getList(CurrentPage,pageSize,pd,order,direction)">查询</el-button>
-
+          <el-button type="success" size="small" @click="CurrentPage=1;getList(CurrentPage,pageSize,pd,order,direction)" class="mb-15">查询</el-button>
+          <el-button type="primary" class="mb-15" plain size="small" @click="reset">重置</el-button>
         </el-col>
 
       </el-row>
@@ -116,6 +116,7 @@
     <div class="middle">
 
       <el-table
+         ref="sort"
         :data="tableData"
         class="o-table3"
         border
@@ -194,7 +195,8 @@
           </template>
         </el-table-column>
         <el-table-column
-          label="座位" width="70">
+          label="座位"
+          width="70">
           <template slot-scope="scope">
               <el-button type="text"  class="a-btn"  title="座位详情" icon="el-icon-tickets" @click="details(scope.row)"></el-button>
          </template>
@@ -392,6 +394,28 @@ export default {
     sortChange(column, prop, order){
       column.order=='ascending'?this.direction=1:this.direction=0;
       this.order=column.prop;
+      this.getList(this.CurrentPage,this.pageSize,this.pd,this.order,this.direction);
+    },
+    reset(){
+      this.pd={schedulearrivetime:'',scheduledeparturetime:''};
+      let time = new Date();
+      let end = new Date();
+      this.pd.scheduledeparturetime=formatDate(time,'yyyyMMdd');
+      this.pd.schedulearrivetime=formatDate(end,'yyyyMMdd');
+
+      this.$nextTick(()=>{
+        let sortArr = this.$refs.sort.$children
+        for(var i=0;i<sortArr.length;i++){
+          if(sortArr[i].columnConfig&&sortArr[i].columnConfig.order){
+            sortArr[i].columnConfig.order = ''
+            return false
+          }
+        }
+      })
+      this.direction=0;
+      this.order='';
+      this.CurrentPage=1;
+      this.pageSize=10;
       this.getList(this.CurrentPage,this.pageSize,this.pd,this.order,this.direction);
     },
     daochu(){

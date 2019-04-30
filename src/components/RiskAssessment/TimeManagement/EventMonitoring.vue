@@ -84,6 +84,7 @@
         <el-button  size="small"  class="mb-15 table-btn" @click="colorSet">色彩设置</el-button>
       </el-row>
       <el-table
+        ref="sort"
         :data="tableData"
         border
         style="width:100%;"
@@ -478,15 +479,23 @@ export default {
     reset(){
       this.CurrentPage=1;
       this.pageSize=10;
-      let time = new Date();
-      let end = new Date();
-      let begin =new Date(time - 1000 * 60 * 60 * 24 * 30);
       this.cdt={
         startFlightDate:'',
         endFlightDate:''
       };
+      let end = new Date(new Date(new Date().toLocaleDateString()).getTime()+24*60*60*1000-1);
+      let begin =new Date(new Date().setHours(0,0,0,0));
       this.cdt.startFlightDate=formatDate(begin,'yyyyMMdd');
       this.cdt.endFlightDate=formatDate(end,'yyyyMMdd');
+      this.$nextTick(()=>{
+        let sortArr = this.$refs.sort.$children
+        for(var i=0;i<sortArr.length;i++){
+          if(sortArr[i].columnConfig&&sortArr[i].columnConfig.order){
+            sortArr[i].columnConfig.order = ''
+            return false
+          }
+        }
+      })
       this.getList(this.CurrentPage,this.pageSize,this.cdt,this.order,this.direction);
     },
     pageSizeChange(val) {

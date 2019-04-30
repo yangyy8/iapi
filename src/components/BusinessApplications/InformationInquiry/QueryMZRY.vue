@@ -129,12 +129,14 @@
           </el-row>
         </el-col>
         <el-col :span="2" class="down-btn-area">
-          <el-button type="success" size="small" @click="getList(CurrentPage,pageSize,pd,order,direction)">查询</el-button>
+          <el-button type="success" size="small" @click="getList(CurrentPage,pageSize,pd,order,direction)" class="mb-15">查询</el-button>
+          <el-button type="primary" plain size="small" @click="reset">重置</el-button>
         </el-col>
       </el-row>
     </div>
     <div class="middle" @mouseover="mouseHeader">
       <el-table
+        ref="sort"
         :data="tableData"
         border
         fit
@@ -675,6 +677,40 @@ export default {
     sortChange(column, prop, order){
       column.order=='ascending'?this.direction=1:this.direction=0;
       this.order=column.prop;
+      this.getList(this.CurrentPage,this.pageSize,this.pd,this.order,this.direction);
+    },
+    reset(){
+      this.pd={
+        "isBlurred":false,
+        startCreatetime:'',
+        endCreatetime:'',
+        startFlightDepartdate:'',
+        endFlightDepartdate:''
+      };
+      let time = new Date();
+      let endTos = new Date(new Date(new Date().toLocaleDateString()).getTime()+24*60*60*1000-1);
+      let createStar = new Date(new Date().setHours(0,0,0,0));
+      this.pd.startCreatetime=formatDate(createStar,'yyyyMMddhhmmss');
+      this.pd.endCreatetime=formatDate(endTos,'yyyyMMddhhmmss');
+
+      let flightStart = new Date(new Date().setHours(0,0,0,0));
+      let end = new Date();
+      this.pd.startFlightDepartdate=formatDate(flightStart,'yyyyMMdd');
+      this.pd.endFlightDepartdate=formatDate(end,'yyyyMMdd');
+
+      this.$nextTick(()=>{
+        let sortArr = this.$refs.sort.$children
+        for(var i=0;i<sortArr.length;i++){
+          if(sortArr[i].columnConfig&&sortArr[i].columnConfig.order){
+            sortArr[i].columnConfig.order = ''
+            return false
+          }
+        }
+      })
+      this.direction=0;
+      this.order='';
+      this.CurrentPage=1;
+      this.pageSize=10;
       this.getList(this.CurrentPage,this.pageSize,this.pd,this.order,this.direction);
     },
     headerClick(column,event){

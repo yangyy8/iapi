@@ -463,6 +463,8 @@ export default {
         r => {
           console.log(r);
           this.tableData1 = r.data.resultList;
+          console.log('r.data.resultList',r.data.resultList)
+          console.log('this.tableData1',this.tableData1)
           this.TotalResult1 = r.data.totalResult;
         })
     },
