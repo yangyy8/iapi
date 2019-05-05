@@ -168,7 +168,8 @@
           </el-row>
         </el-col>
         <el-col :span="2" class="down-btn-area">
-          <el-button type="success" size="small" @click="getList(CurrentPage,pageSize,pd)">查询</el-button>
+          <el-button type="success" size="small" @click="getList(CurrentPage,pageSize,pd)" class="mb-15">查询</el-button>
+          <el-button type="primary" plain size="small" @click="reset">重置</el-button>
         </el-col>
       </el-row>
     </div>
@@ -463,6 +464,19 @@ export default {
     handleCurrentChange(val) {
       this.getList(val, this.pageSize, this.pd);
       console.log(`当前页: ${val}`);
+    },
+    reset(){
+      this.pd={
+        dataCheckBeginTime: "",
+        dataCheckEndTime: ""
+      }
+      let flightStart = new Date(new Date().setHours(0,0,0,0));
+      let flightEnd = new Date(new Date(new Date().toLocaleDateString()).getTime()+24*60*60*1000-1);
+      this.pd.dataCheckBeginTime = formatDate(flightStart, 'yyyyMMddhhssmm');
+      this.pd.dataCheckEndTime = formatDate(flightEnd, 'yyyyMMddhhssmm');
+      this.CurrentPage=1;
+      this.pageSize=10;
+      this.getList(this.CurrentPage,this.pageSize,this.pd)
     },
     getsum(pd) {
       let p = {

@@ -98,7 +98,8 @@
           </el-row>
         </el-col>
         <el-col :span="2" class="down-btn-area" style="margin-top:25px;">
-          <el-button type="success" size="small" @click="getList(CurrentPage,pageSize,pd)">统计</el-button>
+          <el-button type="success" size="small" @click="getList(CurrentPage,pageSize,pd)" class="mb-15">统计</el-button>
+          <el-button type="primary" plain size="small" @click="reset">重置</el-button>
         </el-col>
       </el-row>
     </div>
@@ -297,7 +298,7 @@ export default {
       sh2: true,
       sh3: true,
       sh4: true,
-
+      gwName:[],
     }
   },
   mounted() {
@@ -324,7 +325,29 @@ export default {
 
   },
   methods: {
-
+    reset(){
+      this.pd={
+        begintime: '',
+        endtime: '',
+        colproperty1:false,
+        colproperty2:false,
+        colproperty3:false,
+        colproperty4:false,
+        rowproperty_fltno:false,
+        rowproperty_cityto:false,
+        rowproperty_country:false,
+        rowproperty_flttype:false,
+      }
+      let time = new Date();
+      let endz = new Date();
+      let beginz = new Date(time - 1000 * 60 * 60 * 24 * 30);
+        time.setDate(1);
+      this.pd.begintime = formatDate(time, 'yyyyMMdd');
+      this.pd.endtime = formatDate(endz, 'yyyyMMdd');
+      this.CurrentPage=1;
+      this.pageSize=10;
+      this.getList(this.CurrentPage, this.pageSize, this.pd);
+    },
     headerClick(column,event){
       event.target.title=column.label
     },
@@ -409,10 +432,10 @@ export default {
 
       };
       var url = "/manage-platform/dataStatistics/get_namelistcmp_fix";
-      if ((this.pd.rowproperty_country != undefined || this.pd.rowproperty_country == true) ||
-        (this.pd.rowproperty_cityto != undefined || this.pd.rowproperty_cityto == true) ||
-        (this.pd.rowproperty_fltno != undefined || this.pd.rowproperty_fltno == true) ||
-        (this.pd.rowproperty_flttype != undefined || this.pd.rowproperty_flttype == true)) {
+      if ((this.pd.rowproperty_country != undefined && this.pd.rowproperty_country == true) ||
+        (this.pd.rowproperty_cityto != undefined && this.pd.rowproperty_cityto == true) ||
+        (this.pd.rowproperty_fltno != undefined && this.pd.rowproperty_fltno == true) ||
+        (this.pd.rowproperty_flttype != undefined && this.pd.rowproperty_flttype == true)) {
 
 
         this.sh1 = false;
@@ -420,48 +443,48 @@ export default {
         this.sh3 = false;
         this.sh4 = false;
 
-        if (this.pd.rowproperty_country != undefined || this.pd.rowproperty_country == true) {
+        if (this.pd.rowproperty_country != undefined && this.pd.rowproperty_country == true) {
           this.sh1 = true;
         }
-        if (this.pd.rowproperty_cityto != undefined || this.pd.rowproperty_cityto == true) {
+        if (this.pd.rowproperty_cityto != undefined && this.pd.rowproperty_cityto == true) {
           this.sh2 = true;
         }
-        if (this.pd.rowproperty_fltno != undefined || this.pd.rowproperty_fltno == true) {
+        if (this.pd.rowproperty_fltno != undefined && this.pd.rowproperty_fltno == true) {
           this.sh3 = true;
         }
-        if (this.pd.rowproperty_flttype != undefined || this.pd.rowproperty_flttype == true) {
+        if (this.pd.rowproperty_flttype != undefined && this.pd.rowproperty_flttype == true) {
           this.sh4 = true;
         }
       }
 
-      if ((this.pd.colproperty1 != undefined || this.pd.colproperty1 == true) ||
-        (this.pd.colproperty2 != undefined || this.pd.colproperty2 == true) ||
-        (this.pd.colproperty3 != undefined || this.pd.colproperty3 == true) ||
-        (this.pd.colproperty4 != undefined || this.pd.colproperty4 == true)) {
-
+      if ((this.pd.colproperty1 != undefined && this.pd.colproperty1 == true) ||
+        (this.pd.colproperty2 != undefined && this.pd.colproperty2 == true) ||
+        (this.pd.colproperty3 != undefined && this.pd.colproperty3 == true) ||
+        (this.pd.colproperty4 != undefined && this.pd.colproperty4 == true)) {
+          url = "/manage-platform/dataStatistics/get_namelistcmp_dynamic_noplt";
         this.showdmz = false;
         this.showyw = false;
         this.showcljg = false;
         this.showzbjg = false;
 
-       if ((this.pd.colproperty2 != undefined || this.pd.colproperty2 == true) ||
-       (this.pd.colproperty3 != undefined || this.pd.colproperty3 == true) ||
-       (this.pd.colproperty4 != undefined || this.pd.colproperty4 == true)) {
-          url = "/manage-platform/dataStatistics/get_namelistcmp_dynamic_noplt";
+       // if ((this.pd.colproperty2 != undefined || this.pd.colproperty2 == true) ||
+       // (this.pd.colproperty3 != undefined || this.pd.colproperty3 == true) ||
+       // (this.pd.colproperty4 != undefined || this.pd.colproperty4 == true)) {
+       //
+       //
+       //  }
 
-        }
-
-        if (this.pd.colproperty1 != undefined || this.pd.colproperty1 == true) {
+        if (this.pd.colproperty1 != undefined && this.pd.colproperty1 == true) {
           this.showdmz = true;
         }
-        if (this.pd.colproperty2 != undefined || this.pd.colproperty2 == true) {
-          url = "/manage-platform/dataStatistics/get_namelistcmp_dynamic";
+        if (this.pd.colproperty2 != undefined && this.pd.colproperty2 == true) {
+          // url = "/manage-platform/dataStatistics/get_namelistcmp_dynamic";
           this.showyw = true;
         }
-        if (this.pd.colproperty3 != undefined || this.pd.colproperty3 == true) {
+        if (this.pd.colproperty3 != undefined && this.pd.colproperty3 == true) {
           this.showcljg = true;
         }
-        if (this.pd.colproperty4 != undefined || this.pd.colproperty4 == true) {
+        if (this.pd.colproperty4 != undefined && this.pd.colproperty4 == true) {
           this.showzbjg = true;
         }
 

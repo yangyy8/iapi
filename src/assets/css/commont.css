@@ -1,7 +1,9 @@
 .el-icon-loading{
   font-size: 40px;
 }
-
+.tContent .err__msg{
+  right: 20%!important;
+}
 .table-select{
   width: 100%!important;
 }

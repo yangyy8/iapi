@@ -325,9 +325,8 @@
             <el-input placeholder="请输入内容" size="small" max="35" v-model="form.CARDNO" clearable class="input-input"></el-input>
           </el-col>
 
-          <el-col :sm="24" :md="12" :lg="8" class="input-item my-form-group" data-scope="demo3" data-name="VISANO" data-type="input"
-            v-validate-easy="[['required']]">
-            <span class="input-text"><span class="redx">*</span>签证号码：</span>
+          <el-col :sm="24" :md="12" :lg="8" class="input-item">
+            <span class="input-text">签证号码：</span>
             <el-input placeholder="请输入内容" size="small" v-model="form.VISANO" clearable class="input-input"></el-input>
           </el-col>
 
@@ -373,9 +372,8 @@
             <el-input placeholder="请输入内容" size="small" clearable v-model="form.FLTNO" class="input-input"></el-input>
           </el-col>
 
-          <el-col :sm="24" :md="12" :lg="8" class="input-item my-form-group" data-scope="demo3" data-name="REASON" data-type="select"
-            v-validate-easy="[['required']]">
-            <span class="input-text"><span class="redx">*</span>出入事由：</span>
+          <el-col :sm="24" :md="12" :lg="8" class="input-item">
+            <span class="input-text">出入事由：</span>
             <el-select v-model="form.REASON"  filterable clearable  placeholder="请选择"  size="small" class="input-input">
               <el-option
                 v-for="item in inOutReason"
@@ -398,8 +396,9 @@
             <el-input placeholder="请输入内容" size="small" max="25" class="input-input" v-model="form.TEL"></el-input>
           </el-col>
 
-          <el-col :sm="24" :md="12" :lg="8"  class="input-item">
-            <span class="input-text">关注类别：</span>
+          <el-col :sm="24" :md="12" :lg="8"  class="input-item my-form-group" data-scope="demo3" data-name="TYPE" data-type="select"
+            v-validate-easy="[['required']]">
+            <span class="input-text"><span class="redx">*</span>关注类别：</span>
             <el-select v-model="form.TYPE" clearable filterable placeholder="请选择"  size="small"  class="input-input">
               <el-option label="1 - 风评高风险人员" value="1"></el-option>
               <el-option label="2 - 特殊关注对象" value="2"></el-option>
@@ -418,17 +417,18 @@
             </el-select>
           </el-col>
 
-          <el-col :sm="24" :md="12" :lg="8" class="input-item">
-            <span class="input-text">处理依据：</span>
+          <el-col :sm="24" :md="12" :lg="8" class="input-item my-form-group" data-scope="demo3" data-name="TYPE" data-type="select"
+            v-validate-easy="[['required']]">
+            <span class="input-text"><span class="redx">*</span>处理要求：</span>
             <el-select v-model="form.DEALTYPE" placeholder="请选择" clearable filterable size="small"  class="input-input">
               <el-option label="1 - 允许登机" value="1"></el-option>
               <el-option label="2 - 不准登机" value="2"></el-option>
             </el-select>
           </el-col>
 
-          <el-col :span="24" class="input-item my-form-group" data-scope="other" data-name="CONTENT" data-type="input"
-            v-validate-easy="[['maxLength',[1300]]]">
-            <span style="line-height:32px;width:110px;text-align:right">关注内容：</span>
+          <el-col :span="24" class="input-item my-form-group tContent" data-scope="demo3" data-name="CONTENT" data-type="input"
+            v-validate-easy="[['required'],['maxLength',[1300]]]">
+            <span style="line-height:32px;width:110px;text-align:right"><span class="redx">*</span>关注内容：</span>
             <el-input placeholder="请输入内容" size="small" class="input-input" v-model="form.CONTENT"></el-input>
           </el-col>
 
@@ -1001,4 +1001,5 @@ export default {
   display: inline-block;
   width: 90px;
 }
+
 </style>

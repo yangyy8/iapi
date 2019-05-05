@@ -109,7 +109,8 @@
 
         </el-col>
         <el-col :span="2" class="down-btn-area" style="margin-top:25px;">
-          <el-button type="success" size="small" @click="getList(CurrentPage,pageSize,pd)">查询</el-button>
+          <el-button type="success" size="small" @click="getList(CurrentPage,pageSize,pd)" class="mb-15">查询</el-button>
+          <el-button type="primary" plain size="small" @click="reset">重置</el-button>
         </el-col>
       </el-row>
     </div>
@@ -129,62 +130,78 @@
       <div class="ak-tab-pane" @mouseover="mouseHeader">
           <div v-show="page==0" >
             <el-table
+                  ref="sort"
                   :data="tableData"
                   @row-dblclick="rowClick"
                   border
-                  >
+                  @sort-change='sortChange'>
                   <el-table-column
                     prop="fltno"
-                    label="航班号" sortable>
+                    label="航班号"
+                    sortable="custom">
                   </el-table-column>
                   <el-table-column
                     prop="fltdate_show"
-                    label="航班日期" sortable>
+                    label="航班日期"
+                    sortable="custom">
                   </el-table-column>
                   <el-table-column
                     prop="passportissuecountry_show"
-                    label="国籍/地区" sortable>
+                    label="国籍/地区"
+                    sortable="custom">
                   </el-table-column>
                   <el-table-column
                     prop="passportno"
-                    label="证件号码" sortable>
+                    label="证件号码"
+                    sortable="custom">
                   </el-table-column>
                   <el-table-column
                     prop="name"
-                    label="姓名" sortable>
+                    label="姓名"
+                    sortable="custom">
                   </el-table-column>
                   <el-table-column
                   prop="gender_show"
-                    label="性别" sortable >
+                    label="性别"
+                    sortable="custom" >
                     <!-- <template slot-scope="scope">
                         {{scope.row.gender | fiftersex}}
                       </template> -->
                   </el-table-column>
                   <el-table-column
                     prop="birthday_show"
-                    label="出生日期" sortable>
+                    label="出生日期"
+                    sortable="custom">
 
                   </el-table-column>
                   <el-table-column
-                    label="订票状态" sortable>
+                    prop="pnrflag"
+                    label="订票状态"
+                    sortable="custom">
                     <template slot-scope="scope">
                         {{scope.row.pnrflag,1 | fifterstatus}}
                       </template>
                   </el-table-column>
                   <el-table-column
-                    label="值机状态" sortable>
+                    prop="chkflag"
+                    label="值机状态"
+                    sortable="custom">
                     <template slot-scope="scope">
                         {{scope.row.chkflag,2 | fifterstatus}}
                       </template>
                   </el-table-column>
                   <el-table-column
-                    label="登机状态" sortable>
+                    prop="clsflag"
+                    label="登机状态"
+                    sortable="custom">
                     <template slot-scope="scope">
                         {{scope.row.clsflag,3 | fifterstatus}}
                       </template>
                   </el-table-column>
                   <el-table-column
-                    label="入出境状态" sortable>
+                    prop="eeflag"
+                    label="入出境状态"
+                    sortable="custom">
                     <template slot-scope="scope">
                         {{scope.row.eeflag,4 | fifterstatus}}
                     </template>
@@ -293,6 +310,8 @@ import {dayGap} from '@/assets/js/date.js'
 export default {
   data() {
     return {
+      order:'',
+      direction:0,
       CurrentPage: 1,
       pageSize: 10,
       TotalResult: 0,
@@ -357,13 +376,40 @@ export default {
   },
   activated() {
     this.queryNationality();
-    let time = new Date();
-    let endz = new Date();
-    let beginz = new Date(time - 1000 * 60 * 60 * 24 * 30);
-    this.pd.begintime = formatDate(endz, 'yyyyMMdd');
-    this.pd.endtime = formatDate(endz, 'yyyyMMdd');
+    // let time = new Date();
+    // let endz = new Date();
+    // let beginz = new Date(time - 1000 * 60 * 60 * 24 * 30);
+    // this.pd.begintime = formatDate(endz, 'yyyyMMdd');
+    // this.pd.endtime = formatDate(endz, 'yyyyMMdd');
   },
   methods: {
+    sortChange(column, prop, order){
+      column.order=='ascending'?this.direction=1:this.direction=0;
+      this.order=column.prop;
+      this.getList(this.CurrentPage,this.pageSize,this.pd,this.order,this.direction);
+    },
+    reset(){
+      this.pd={begintime:'',endtime:''};
+      let time = new Date();
+      let endz = new Date();
+      let beginz = new Date(time - 1000 * 60 * 60 * 24 * 30);
+      this.pd.begintime = formatDate(endz, 'yyyyMMdd');
+      this.pd.endtime = formatDate(endz, 'yyyyMMdd');
+      this.$nextTick(()=>{
+        let sortArr = this.$refs.sort.$children
+        for(var i=0;i<sortArr.length;i++){
+          if(sortArr[i].columnConfig&&sortArr[i].columnConfig.order){
+            sortArr[i].columnConfig.order = ''
+            return false
+          }
+        }
+      })
+      this.direction=0;
+      this.order='';
+      this.CurrentPage=1;
+      this.pageSize=10;
+      this.getList(this.CurrentPage,this.pageSize,this.pd,this.order,this.direction);
+    },
     base() {
       this.page = 0;
     },
@@ -374,15 +420,15 @@ export default {
       this.multipleSelection = val;
     },
     pageSizeChange(val) {
-      this.getList(this.CurrentPage, val, this.pd);
+      this.getList(this.CurrentPage, val, this.pd,this.order,this.direction);
       console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
-      this.getList(val, this.pageSize, this.pd);
+      this.getList(val, this.pageSize, this.pd,this.order,this.direction);
 
       console.log(`当前页: ${val}`);
     },
-    getList(currentPage, showCount, pd) {
+    getList(currentPage, showCount, pd,order,direction) {
 
 if(this.pd.begintime==undefined || this.pd.begintime==""){
     this.$alert('航班开始时间不能为空！', '提示', {
@@ -412,7 +458,10 @@ if(this.pd.endtime==undefined || this.pd.endtime==""){
 //     return false
 //   }
 // }
-
+if(order!=''){
+  pd.order=order;
+  pd.direction=direction;
+}
 let p = {
 
   "currentPage": currentPage,

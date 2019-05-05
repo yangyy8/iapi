@@ -171,7 +171,8 @@
           </el-row>
         </el-col>
         <el-col :span="2" class="down-btn-area">
-          <el-button type="success" size="small" @click="getList(CurrentPage,pageSize,pd)">查询</el-button>
+          <el-button type="success" size="small" @click="getList(CurrentPage,pageSize,pd)" class="mb-15">查询</el-button>
+          <el-button type="primary" plain size="small" @click="reset">重置</el-button>
         </el-col>
       </el-row>
     </div>
@@ -382,7 +383,7 @@ export default {
         disabledDate: (time) => {
             // let endT = formatDate(new Date(time.getTime()),'yyyyMMddhhmmss');
             // return endT < this.pd.compareBeginDate;
-            
+
             let todayS =  (this.pd.compareBeginDate).slice(0,8);
             let currentTime = formatDate(new Date(time.getTime()),'yyyyMMdd');
             let endT = formatDate(new Date(time.getTime()),'yyyyMMddhhmm');
@@ -446,6 +447,19 @@ export default {
       this.getList(val, this.pageSize, this.pd);
 
       console.log(`当前页: ${val}`);
+    },
+    reset(){
+      this.pd={
+        compareBeginDate:"",
+        compareEndDate:"",
+      }
+      let flightStart = new Date(new Date().setHours(0,0,0,0));
+      let flightEnd = new Date(new Date(new Date().toLocaleDateString()).getTime()+24*60*60*1000-1);
+      this.pd.compareBeginDate=formatDate(flightStart,'yyyyMMddhhssmm');
+      this.pd.compareEndDate=formatDate(flightEnd,'yyyyMMddhhssmm');
+      this.CurrentPage=1;
+      this.pageSize=10;
+      this.getList(this.CurrentPage,this.pageSize,this.pd)
     },
     getsum(pd) {
       let p = {

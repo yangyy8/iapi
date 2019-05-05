@@ -125,7 +125,8 @@
           </el-row>
         </el-col>
         <el-col :span="2" class="down-btn-area" style="margin-top:25px;">
-          <el-button type="success" size="small" @click="getList(CurrentPage,pageSize,pd)">查询</el-button>
+          <el-button type="success" size="small" @click="getList(CurrentPage,pageSize,pd)" class="mb-15">查询</el-button>
+          <el-button type="primary" plain size="small" @click="reset">重置</el-button>
         </el-col>
       </el-row>
     </div>
@@ -376,6 +377,30 @@ export default {
       this.getList(val, this.pageSize, this.pd);
       console.log(`当前页: ${val}`);
     },
+    reset(){
+      this.pd={
+          begintime:"",
+          colproperty1:true,
+          colproperty2:true,
+          colproperty3:true,
+          colproperty4:true,
+          colproperty5:true,
+          endtime:"",
+          rowproperty_cityfrom:false,
+          rowproperty_cityto:false,
+          rowproperty_country:false,
+          rowproperty_flttype:true,
+      }
+      let time = new Date();
+      let endz = new Date();
+      let beginz = new Date(time - 1000 * 60 * 60 * 24 * 30);
+      time.setDate(1);
+      this.pd.begintime = formatDate(time, 'yyyyMMdd');
+      this.pd.endtime = formatDate(endz, 'yyyyMMdd');
+      this.CurrentPage=1;
+      this.pageSize=10;
+      this.getList(this.CurrentPage, this.pageSize, this.pd);
+    },
     gw() { //国外城市
       this.$api.post('/manage-platform/dataStatistics/get_city', {},
         r => {
@@ -423,7 +448,7 @@ export default {
       return sums;
     },
     getList(currentPage, showCount, pd) {
-
+      console.log("this.pd0",this.pd);
       const result = this.$validator.verifyAll('timeDemo')
       if (result.indexOf(false) > -1) {
         return

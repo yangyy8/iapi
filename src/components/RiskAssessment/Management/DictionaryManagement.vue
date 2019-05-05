@@ -52,25 +52,30 @@
          width="40">
         </el-table-column>
         <el-table-column
-          prop="NAME" sortable
+          prop="NAME"
+          sortable="custom"
           label="字典名称">
         </el-table-column>
          <el-table-column
-          prop="DESCRIBE" sortable
+          prop="DESCRIBE"
+          sortable="custom"
           label="字典描述"
           >
         </el-table-column>
         <el-table-column
-          prop="DETAILSCOUNT" sortable
+          prop="DETAILSCOUNT"
+          sortable="custom"
           label="指标数量">
         </el-table-column>
         <el-table-column
           prop="CREATEUSERNAME"
-          label="创建人" sortable>
+          label="创建人"
+          sortable="custom">
         </el-table-column>
         <el-table-column
           prop="CREATETIME"
-          label="创建时间" sortable>
+          label="创建时间"
+          sortable="custom">
         </el-table-column>
         <el-table-column
           label="操作" width="150">
@@ -236,7 +241,7 @@ export default {
       CurrentPage: 1,
       pageSize: 10,
       TotalResult: 0,
-      orders:[],
+      order:'',
       direction:0,
       actions: "",
       pd: {},
@@ -316,12 +321,12 @@ export default {
     },
     pageSizeChange(val) {
       // this.getList(this.CurrentPage, val, this.pd);
-        this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
+        this.getList(this.CurrentPage,this.pageSize,this.pd,this.order,this.direction);
       console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
       // this.getList(val, this.pageSize, this.pd);
-        this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
+        this.getList(this.CurrentPage,this.pageSize,this.pd,this.order,this.direction);
       console.log(`当前页: ${val}`);
     },
     open(content) {
@@ -333,21 +338,21 @@ export default {
     },
     sortChange(data){
   console.log(data)
-  this.orders=[data.prop];
+  this.order=data.prop;
   if(data.order=='descending'){
     this.direction=0
   }else{
     this.direction=1
   }
-  console.log(this.orders,this.direction)
-  this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
+  console.log(this.order,this.direction)
+  this.getList(this.CurrentPage,this.pageSize,this.pd,this.order,this.direction);
 },
-    getList(currentPage,showCount,pd,orders,direction){
+    getList(currentPage,showCount,pd,order,direction){
       let p = {
         "currentPage": currentPage,
         "showCount": showCount,
         "pd": pd,
-        "orders":orders,
+        "order":order,
         "direction":direction
       };
       this.$api.post('/manage-platform/riskDictionaries/getRiskDictionariesPage', p,
@@ -401,7 +406,7 @@ export default {
             }
             this.$refs[formName].resetFields();
             this.addDialogVisible = false;
-            this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
+            this.getList(this.CurrentPage,this.pageSize,this.pd,this.order,this.direction);
             // this.tableData=r.Data.ResultList;
           }, e => {
             this.$message.error('失败了');
@@ -429,7 +434,7 @@ export default {
                 message: '删除成功！',
                 type: 'success'
               });
-              this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
+              this.getList(this.CurrentPage,this.pageSize,this.pd,this.order,this.direction);
             } else {
               this.$message.error(r.Message);
             }
@@ -488,7 +493,7 @@ export default {
         this.$message.error(r.message);
       }
       this.uploadDialogVisible = false;
-      this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
+      this.getList(this.CurrentPage,this.pageSize,this.pd,this.order,this.direction);
     },
     tableDown(i) {
       console.log(this.$api.rootUrl)
@@ -544,7 +549,7 @@ export default {
                 message: '删除成功！',
                 type: 'success'
               });
-              this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
+              this.getList(this.CurrentPage,this.pageSize,this.pd,this.order,this.direction);
             } else {
               this.$message.error(r.Message);
             }
