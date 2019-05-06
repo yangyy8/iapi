@@ -370,7 +370,7 @@
       </span>
     </el-dialog>
 
-    <!-- :action="$api.rootUrl+'/manage-platform/addressManage/readExcel'" -->
+    <!-- action="http://192.168.99.201:8080/manage-platform/addressManage/readExcel" -->
     <el-dialog title="批量导入" :visible.sync="uploadDialogVisible"   width="640px"
     :before-close="handleClose">
       <el-form :model="importform" ref="importForm">
@@ -379,9 +379,8 @@
           ref="upload"
           name="excel"
           :multiple="false"
-          accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-          action="http://192.168.99.201:8080/manage-platform/addressManage/readExcel"
-
+          accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"  
+          :action="$api.rootUrl+'/manage-platform/addressManage/readExcel'"
           :on-success="uploadSuccess"
           :limit="1"
           :on-exceed="handleExceed"
@@ -614,8 +613,8 @@ export default {
       this.uploadDialogVisible = true;
     },
     download(){
-      // window.location.href=this.$api.rootUrl+'/manage-platform/templateFile/address_temple.xlsx'
-      window.location.href='http://192.168.99.201:8080/manage-platform/templateFile/address_temple.xlsx'
+      window.location.href=this.$api.rootUrl+'/manage-platform/templateFile/address_temple.xlsx'
+      // window.location.href='http://192.168.99.201:8080/manage-platform/templateFile/address_temple.xlsx'
     },
     uploadSuccess(response, file, fileList){
       console.log(response);
