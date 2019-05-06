@@ -1,6 +1,17 @@
 .el-icon-loading{
   font-size: 40px;
 }
+.tt-title{
+  text-align: center;
+  font-size: 29px;
+  font-family: 方正小标宋简体
+}
+.t-w{
+  width: 80%!important;
+}
+.mb-20{
+  margin-bottom: 20px!important;
+}
 .tContent .err__msg{
   right: 20%!important;
 }

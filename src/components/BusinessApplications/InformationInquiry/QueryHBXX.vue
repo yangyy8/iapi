@@ -34,6 +34,15 @@
             </el-date-picker>
           </div>
             </el-col>
+
+            <!-- <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+              <span class="input-text">查询范围：</span>
+              <el-select v-model="pd.type" placeholder="请选择" filterable clearable size="small" class="input-input" @change="fightDate">
+                 <el-option value="0" label="当前查询"></el-option>
+                 <el-option value="1" label="历史查询"></el-option>
+               </el-select>
+            </el-col> -->
+
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">出入标识：</span>
               <el-select v-model="pd.flighttype" placeholder="请选择" filterable clearable size="small" class="input-input" @change="ftReal">
@@ -391,6 +400,20 @@ export default {
     // this.pd.schedulearrivetime=formatDate(end,'yyyyMMddhhmm');
   },
   methods: {
+    // fightDate(){
+    //   if(this.pd.type==0){//当前
+    //     let time = new Date();
+    //     let end = new Date();
+    //     this.pd.scheduledeparturetime=formatDate(time,'yyyyMMdd');
+    //     this.pd.schedulearrivetime=formatDate(end,'yyyyMMdd');
+    //   }else if(this.pd.type==1){//历史
+    //     let begin = new Date(new Date() - 1000 * 60 * 60 * 24 * 30);
+    //     let end =new Date(new Date() - 1000 * 60 * 60 * 24 * 30);
+    //     this.pd.scheduledeparturetime=formatDate(begin,'yyyyMMdd');
+    //     this.pd.schedulearrivetime=formatDate(end,'yyyyMMdd');
+    //   }
+    // },
+
     sortChange(column, prop, order){
       column.order=='ascending'?this.direction=1:this.direction=0;
       this.order=column.prop;
@@ -512,12 +535,27 @@ export default {
        });
        return
       }
+      // let end = new Date(new Date() - 1000 * 60 * 60 * 24 * 30);
+      // let endTime = formatDate(end,'yyyy-MM-dd')
+      // if(this.pd.type==0&&(this.pd.scheduledeparturetime<formatDate(end,'yyyyMMdd'))){//当前
+      //   this.$alert('查询开始时间不能小于'+endTime+'', '提示', {
+      //     confirmButtonText: '确定',
+      //   });
+      //   return false
+      // }
+      // if(this.pd.type==1&&(this.pd.schedulearrivetime>formatDate(end,'yyyyMMdd'))){
+      //   this.$alert('查询结束时间不能大于'+endTime+'', '提示', {
+      //     confirmButtonText: '确定',
+      //   });
+      //   return false
+      // }
       if(dayGap(this.pd.scheduledeparturetime,this.pd.schedulearrivetime,2)>30){
         this.$alert('查询时间间隔不能超过一个月', '提示', {
           confirmButtonText: '确定',
         });
         return false
       }
+
       let p = {
         "currentPage": currentPage,
         "showCount": showCount,

@@ -1,13 +1,14 @@
 <template lang="html">
   <div class="zlbg">
     <div class="middle-top">
+
+    </div>
+    <div id="printMe" class="middle height1000" style="position:relative">
       <el-row type="flex" class="middle" justify="center">
         <el-col :span="24" style="text-align:center;font-size:24px">
             事件登记
         </el-col>
       </el-row>
-    </div>
-    <div id="printMe" class="middle height1000">
       <el-row  class="middle" style="padding: 2% 17% 2% 13%;">
         <el-col :sm="24" :md="12" :lg="12" class="input-item">
           <span class="yy-input-text"><font class="yy-color">*</font>登记人姓名：</span>
@@ -80,15 +81,21 @@
           <span class="yy-input-text  widthts"><font class="yy-color">*</font>事件描述：</span>
          <el-input type="textarea" placeholder="请输入内容" :autosize="{ minRows: 3, maxRows: 6}" v-model="form.INCIDENTDESC" class="yy-input-input widthtex"></el-input>
         </el-col>
+
+        <el-col :sm="24" :md="12" :lg="12" type="flex" justify="center" style="position:absolute;bottom:-25px;left:45%">
+          <el-button type="primary" @click="save" size="small">保存</el-button>&nbsp;&nbsp;&nbsp;&nbsp;
+          <el-button @click="getPdf(0)" size="small">打印</el-button>&nbsp;&nbsp;&nbsp;&nbsp;
+          <el-button type="primary" @click="reset" size="small">重置</el-button>
+        </el-col>
+
       </el-row>
+      <!-- <el-row type="flex" justify="center" style="position:absolute;bottom:0px;left:50%">
+
+      </el-row> -->
     </div>
 
     <!-- <div class="middle"> -->
-      <el-row type="flex" justify="center" style="position:relative;top:-519px;left:0">
-        <el-button type="primary" @click="save" size="small">保存</el-button>&nbsp;&nbsp;&nbsp;&nbsp;
-        <el-button @click="getPdf(0)" size="small">打印</el-button>&nbsp;&nbsp;&nbsp;&nbsp;
-        <el-button type="primary" @click="reset" size="small">重置</el-button>
-      </el-row>
+
     <!-- </div> -->
   </div>
 </template>

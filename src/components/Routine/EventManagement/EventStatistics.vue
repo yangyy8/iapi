@@ -182,27 +182,38 @@
       </div>
     </el-dialog>
 
-    <el-dialog title="详情" :visible.sync="detailsDialogVisible" width="800px">
-      <el-form :model="form" ref="addForm" id="printMe" style="height:400px">
-        <el-row type="flex"  class="mb-6">
-          <el-col :span="12" class="input-item">
-            <span class="yy-input-text" style="width:27%!important">标题：</span>
-            <el-input placeholder="请输入姓名" size="small" v-model="form.title"  class="yy-input-input" :disabled="true"></el-input>
-          </el-col>
-          <el-col :span="12" class="input-item">
-            <span class="yy-input-text" style="width:27%!important">附件：</span>
-            <el-button size="small" class="table-btn"><a :href="fitAdress" class="acolor">附件下载</a></el-button>
-          </el-col>
-        </el-row>
+    <el-dialog title="详情" :visible.sync="detailsDialogVisible" width="700px">
+      <el-form :model="form" ref="addForm" style="height:400px">
+        <div id="printMe">
+          <el-row type="flex"  class="mb-20" justify="center">
+            <el-col :span="24"><div class="tt-title">{{form.title}}</div></el-col>
+          </el-row>
+          <el-row class="mb-6" style="padding: 0px 10px 0px 5.5%;">
+            <el-col :span="12" class="t-el-content mb-6"><div class="t-el-text">登记人姓名：</div><div class="t-el-sub">{{form.NAME}}</div></el-col>
+            <el-col :span="12" class="t-el-content mb-6"><div class="t-el-text">登记人账号：</div><div class="t-el-sub">{{form.USERNAME}}</div></el-col>
+            <el-col :span="12" class="t-el-content mb-6"><div class="t-el-text">来源人姓名：</div><div class="t-el-sub">{{form.SOURCENAME}}</div></el-col>
+            <el-col :span="12" class="t-el-content mb-6"><div class="t-el-text">来源人电话：</div><div class="t-el-sub">{{form.SOURCEPHONE}}</div></el-col>
+            <el-col :span="12" class="t-el-content mb-6"><div class="t-el-text">交接人姓名：</div><div class="t-el-sub">{{form.HANDOVERNAME}}</div></el-col>
+            <el-col :span="12" class="t-el-content mb-6"><div class="t-el-text">事件时间：</div><div class="t-el-sub">{{form.RECORDTIMESTR}}</div></el-col>
+            <el-col :span="12" class="t-el-content mb-6"><div class="t-el-text">事件来源：</div><div class="t-el-sub">{{form.TYPE}}</div></el-col>
+            <el-col :span="22" class="t-el-content mb-6"><div class="t-el-text">事件描述：</div><div class="t-el-sub t-w">{{form.content}}</div></el-col>
+            <!-- <el-col :span="12" class="input-item">
+              <span class="yy-input-text" style="width:27%!important">标题：</span>
+              <el-input placeholder="请输入姓名" size="small" v-model="form.title"  class="yy-input-input" :disabled="true"></el-input>
+            </el-col> -->
+          </el-row>
+        </div>
 
-        <!-- <el-row type="flex"  class="mb-6">
-
-        </el-row> -->
-
-        <el-row type="flex" class="mb-6" >
+        <!-- <el-row type="flex" class="mb-6" >
           <el-col :span="24" class="input-item">
             <span class="yy-input-text widthText">事件描述：</span>
             <el-input type="textarea" placeholder="请输入内容" :autosize="{ minRows: 6, maxRows: 12}" v-model="form.content" class="yy-input-input widthContent" :disabled="true"></el-input>
+          </el-col>
+        </el-row> -->
+        <el-row class="mb-6">
+          <el-col :span="12" class="input-item">
+            <span class="yy-input-text" style="width:27%!important">附件：</span>
+            <el-button size="mini" class="table-btn"><a :href="fitAdress" class="acolor">附件下载</a></el-button>
           </el-col>
         </el-row>
       </el-form>
@@ -376,6 +387,13 @@ export default {
       this.form.title=i.TITLE;
       this.form.content=i.INCIDENTDESC;
       this.fitAdress = i.FILESERIAL;
+      this.form.NAME=i.NAME;
+      this.form.USERNAME=i.USERNAME;
+      this.form.SOURCENAME=i.SOURCENAME;
+      this.form.SOURCEPHONE=i.SOURCEPHONE;
+      this.form.HANDOVERNAME=i.HANDOVERNAME;
+      this.form.RECORDTIMESTR=i.RECORDTIMESTR;
+      this.form.TYPE=this.fifterZ(i.TYPE);
     },
     downloadM (data) {
         if (!data) {
@@ -434,6 +452,15 @@ export default {
         });
       });
     },
+    fifterZ(val){
+      if (val == 1) {
+        return "上级通知";
+      } else if(val == 2){
+        return "电话来电";
+      } else if(val == 3){
+        return "信件"
+      }
+    }
   },
 
     filters: {

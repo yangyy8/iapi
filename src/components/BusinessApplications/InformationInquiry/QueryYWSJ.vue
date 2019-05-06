@@ -52,7 +52,7 @@
                 </el-select>
               </el-col>
               <el-col :sm="24" :md="12" :lg="8" class="input-item">
-                <span class="input-text"><i class="t-must">*</i>处理时间：</span>
+                <span class="input-text">处理时间：</span>
                 <div class="input-input t-flex t-date">
                  <el-date-picker
                  v-model="pd.startDealtime"
@@ -662,8 +662,7 @@ export default {
       pd: {
         startCreatetime:'',
         endCreatetime:'',
-        startDealtime:'',
-        endDealtime:''
+
       },
       dform: {},
       hform: {},
@@ -719,28 +718,31 @@ export default {
         }
       },
 
-      pickerOptions2: {
-        disabledDate: (time) => {
-            if (this.pd.endDealtime != null) {
-              let startT = formatDate(new Date(time.getTime()),'yyyyMMddhhmmss');
-              return startT > this.pd.endDealtime;
-            }else if(this.pd.endDealtime == null){
-              return false
-            }
-        }
-      },
-      pickerOptions3: {
-        disabledDate: (time) => {
-            let todayS =  (this.pd.startDealtime).slice(0,8);
-            let currentTime = formatDate(new Date(time.getTime()),'yyyyMMdd');
-            let endT = formatDate(new Date(time.getTime()),'yyyyMMddhhmmss');
-            if(todayS==currentTime){
-              return this.pd.startDealtime>this.pd.endDealtime
-            }else{
-              return endT <= this.pd.startDealtime;
-            }      
-        }
-      },
+      // pickerOptions2: {
+      //   disabledDate: (time) => {
+      //     // console.log(typeOf(this.pd.endDealtime))
+      //
+      //       if (this.pd.endDealtime != null) {
+      //         let startT = formatDate(new Date(time.getTime()),'yyyyMMddhhmmss');
+      //         return startT > this.pd.endDealtime;
+      //       }else if(this.pd.endDealtime == null){
+      //         let startT = formatDate(new Date(time.getTime()),'yyyyMMddhhmmss');
+      //         return startT > 0
+      //       }
+      //   }
+      // },
+      // pickerOptions3: {
+      //   disabledDate: (time) => {
+      //       let todayS =  (this.pd.startDealtime).slice(0,8);
+      //       let currentTime = formatDate(new Date(time.getTime()),'yyyyMMdd');
+      //       let endT = formatDate(new Date(time.getTime()),'yyyyMMddhhmmss');
+      //       if(todayS==currentTime){
+      //         return this.pd.startDealtime>this.pd.endDealtime
+      //       }else{
+      //         return endT <= this.pd.startDealtime;
+      //       }
+      //   }
+      // },
       nav1Id:null,
       nav2Id:null
     }
@@ -753,8 +755,8 @@ export default {
     let begin = new Date(new Date().setHours(0,0,0,0));
     this.pd.startCreatetime=formatDate(begin,'yyyyMMddhhmmss');
     this.pd.endCreatetime=formatDate(end,'yyyyMMddhhmmss');
-    this.pd.startDealtime=formatDate(begin,'yyyyMMddhhmmss');
-    this.pd.endDealtime=formatDate(end,'yyyyMMddhhmmss');
+    // this.pd.startDealtime=formatDate(begin,'yyyyMMddhhmmss');
+    // this.pd.endDealtime=formatDate(end,'yyyyMMddhhmmss');
   },
   activated(){
     // let time = new Date();
@@ -799,25 +801,25 @@ export default {
         });
         return
       }
-      if(this.pd.startDealtime==''||this.pd.endDealtime==''||this.pd.startDealtime==null||this.pd.endDealtime==null){
-        this.$message({
-          message: '处理时间不能为空',
-          type: 'warning'
-        });
-        return
-      }
+      // if(this.pd.startDealtime==''||this.pd.endDealtime==''||this.pd.startDealtime==null||this.pd.endDealtime==null){
+      //   this.$message({
+      //     message: '处理时间不能为空',
+      //     type: 'warning'
+      //   });
+      //   return
+      // }
       if(dayGap(this.pd.startCreatetime,this.pd.endCreatetime,1)>30){
         this.$alert('事件产生时间查询时间间隔不能超过一个月', '提示', {
           confirmButtonText: '确定',
         });
         return false
       };
-      if(dayGap(this.pd.startDealtime,this.pd.endDealtime,1)>30){
-        this.$alert('处理时间查询时间间隔不能超过一个月', '提示', {
-          confirmButtonText: '确定',
-        });
-        return false
-      };
+      // if(dayGap(this.pd.startDealtime,this.pd.endDealtime,1)>30){
+      //   this.$alert('处理时间查询时间间隔不能超过一个月', '提示', {
+      //     confirmButtonText: '确定',
+      //   });
+      //   return false
+      // };
       let p = {
         "currentPage": currentPage,
         "showCount": showCount,
