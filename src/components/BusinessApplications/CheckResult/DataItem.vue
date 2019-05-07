@@ -308,34 +308,80 @@
     <el-dialog
       title="详情"
       :visible.sync="detailsDialogVisible"
-      width="800px"
+      width="1000px"
       >
       <el-form :model="dform" ref="detailsForm">
         <el-row type="flex"  class="mb-15">
-            <el-col :span="8">英文姓：{{dform.famililyName}}</el-col>
-            <el-col :span="8">英文名：{{dform.firstName}}</el-col>
-            <el-col :span="8">姓名：{{dform.travellerName}}</el-col>
+            <el-col :span="8" class="t-el-content"><div class="t-el-text">英文姓：</div><div class="t-el-sub">{{dform.famililyName}}</div></el-col>
+            <el-col :span="8" class="t-el-content"><div class="t-el-text">英文名：</div><div class="t-el-sub">{{dform.firstName}}</div></el-col>
+            <el-col :span="8" class="t-el-content"><div class="t-el-text">姓名：</div><div class="t-el-sub">{{dform.travellerName}}</div></el-col>
         </el-row>
       <el-row type="flex"  class="mb-15">
-        <el-col :span="8">性别：{{dform.genderDesc}}</el-col>
-        <el-col :span="8">出生日期：{{dform.birthday}}</el-col>
-        <el-col :span="8">国籍/地区：{{dform.nationalityDesc}}</el-col>
+        <el-col :span="8" class="t-el-content"><div class="t-el-text">性别：</div><div class="t-el-sub">{{dform.genderDesc}}</div></el-col>
+        <el-col :span="8" class="t-el-content"><div class="t-el-text">出生日期：</div><div class="t-el-sub">{{dform.birthday}}</div></el-col>
+        <el-col :span="8" class="t-el-content"><div class="t-el-text">国籍/地区：</div><div class="t-el-sub">{{dform.nationalityDesc}}</div></el-col>
       </el-row>
       <el-row type="flex"  class="mb-15">
-        <el-col :span="8">证件号码：{{dform.passportNo}}</el-col>
-        <el-col :span="8">航班号：{{dform.flightNo}}</el-col>
-        <el-col :span="8">证件有效期：{{dform.passportExpireDate}}</el-col>
+        <el-col :span="8" class="t-el-content"><div class="t-el-text">证件号码：</div><div class="t-el-sub">{{dform.passportNo}}</div></el-col>
+        <el-col :span="8" class="t-el-content"><div class="t-el-text">航班号：</div><div class="t-el-sub">{{dform.flightNo}}</div></el-col>
+        <el-col :span="8" class="t-el-content"><div class="t-el-text">证件有效期：</div><div class="t-el-sub">{{dform.passportExpireDate}}</div></el-col>
 
       </el-row>
       <el-row type="flex"  class="mb-15">
-        <el-col :span="8">错误校验项：{{dform.thanFieldNameDesc}}</el-col>
-        <el-col :span="8">不通过原因：{{dform.thanTypeDesc}}</el-col>
-        <el-col :span="8">校验比对时间：{{dform.CheckTimeStr}}</el-col>
+        <el-col :span="8" class="t-el-content"><div class="t-el-text">错误校验项：</div><div class="t-el-sub">{{dform.thanFieldNameDesc}}</div></el-col>
+        <el-col :span="8" class="t-el-content"><div class="t-el-text">不通过原因：</div><div class="t-el-sub">{{dform.thanTypeDesc}}</div></el-col>
+        <el-col :span="8" class="t-el-content"><div class="t-el-text">校验比对时间：</div><div class="t-el-sub">{{dform.checkTimeStr}}</div></el-col>
       </el-row>
       <el-row type="flex"  class="mb-15">
-        <el-col :span="8">反馈结果：{{dform.checkResultDesc}}</el-col>
-        <el-col :span="8">反馈描述：{{dform.thanTypeDesc}}</el-col>
-        <el-col :span="8">{{dform.errorMsgStr}}</el-col>
+        <el-col :span="8" class="t-el-content"><div class="t-el-text">反馈结果：</div><div class="t-el-sub">{{dform.checkResultDesc}}</div></el-col>
+        <el-col :span="8" class="t-el-content"><div class="t-el-text">反馈描述：</div><div class="t-el-sub">{{dform.thanTypeDesc}}</div></el-col>
+        <el-col :span="8" class="t-el-content"><div class="t-el-text"></div><div class="t-el-sub">{{dform.errorMsgStr}}</div></el-col>
+      </el-row>
+
+      <el-row type="flex"  class="mb-15">
+        <el-col :span="8" class="t-el-content"><div class="t-el-text">报文标识：</div><div class="t-el-sub">{{ddform.OPERATION}}</div></el-col>
+        <el-col :span="8" class="t-el-content"><div class="t-el-text">旅客类型：</div><div class="t-el-sub">{{ddform.PASSENGERTYPE}}</div></el-col>
+        <el-col :span="8" class="t-el-content"><div class="t-el-text">旅客值机渠道：</div><div class="t-el-sub">{{ddform.VID}}</div></el-col>
+      </el-row>
+      <el-row type="flex"  class="mb-15">
+        <el-col :span="8" class="t-el-content"><div class="t-el-text">旅客起飞城市：</div><div class="t-el-sub">{{ddform.ORIGIN}}</div></el-col>
+        <el-col :span="8" class="t-el-content"><div class="t-el-text">邮编：</div><div class="t-el-sub">{{ddform.DESTPOSTALCODE}}</div></el-col>
+        <el-col :span="8" class="t-el-content"><div class="t-el-text">旅客出生国家：</div><div class="t-el-sub">{{ddform.BIRTHCOUNTRY}}</div></el-col>
+      </el-row>
+      <el-row type="flex"  class="mb-15">
+        <el-col :span="8" class="t-el-content"><div class="t-el-text">旅客目的地城市：</div><div class="t-el-sub">{{ddform.DESTINATION}}</div></el-col>
+        <el-col :span="8" class="t-el-content"><div class="t-el-text">旅客目的地国家：</div><div class="t-el-sub">{{ddform.DESTCOUNTRY}}</div></el-col>
+        <el-col :span="8" class="t-el-content"><div class="t-el-text">旅客目的地所在州：</div><div class="t-el-sub">{{ddform.DESTSTATE}}</div></el-col>
+      </el-row>
+      <el-row type="flex"  class="mb-15">
+        <el-col :span="8" class="t-el-content"><div class="t-el-text">旅客记录编号：</div><div class="t-el-sub">{{ddform.RECORDLOCATER}}</div></el-col>
+        <el-col :span="8" class="t-el-content"><div class="t-el-text">旅客ABO唯一标识：</div><div class="t-el-sub">{{ddform.ABONO}}</div></el-col>
+        <el-col :span="8" class="t-el-content"><div class="t-el-text">电子客票号+序号：</div><div class="t-el-sub">{{ddform.TICKETNO}}</div></el-col>
+      </el-row>
+      <el-row type="flex"  class="mb-15">
+        <el-col :span="8" class="t-el-content"><div class="t-el-text">旅客居住国：</div><div class="t-el-sub">{{ddform.RESIDENCE}}</div></el-col>
+        <el-col :span="8" class="t-el-content"><div class="t-el-text">旅客护照类型：</div><div class="t-el-sub">{{ddform.PASSPORTTYPE}}</div></el-col>
+        <el-col :span="8" class="t-el-content"><div class="t-el-text">旅客护照签发日期：</div><div class="t-el-sub">{{ddform.PASSPORTISSUEDATE}}</div></el-col>
+      </el-row>
+      <el-row type="flex"  class="mb-15">
+        <el-col :span="8" class="t-el-content"><div class="t-el-text">旅客护照颁发国：</div><div class="t-el-sub">{{ddform.PASSPORTISSUECOUNTRY}}</div></el-col>
+        <el-col :span="8" class="t-el-content"><div class="t-el-text">其它证件类型：</div><div class="t-el-sub">{{ddform.OTHERDOCUMENTTYPE}}</div></el-col>
+        <el-col :span="8" class="t-el-content"><div class="t-el-text">其它证件号码：</div><div class="t-el-sub">{{ddform.OTHERDOCUMENTNO}}</div></el-col>
+      </el-row>
+      <el-row type="flex"  class="mb-15">
+        <el-col :span="8" class="t-el-content"><div class="t-el-text">其它证件过期日：</div><div class="t-el-sub">{{ddform.OTHERDOCUMENTEXPIREDATE}}</div></el-col>
+        <el-col :span="8" class="t-el-content"><div class="t-el-text">其它证件签发日期：</div><div class="t-el-sub">{{ddform.OTHERDOCUMENTISSUEDATE}}</div></el-col>
+        <el-col :span="8" class="t-el-content"><div class="t-el-text">其它证件颁发国：</div><div class="t-el-sub">{{ddform.OTHERDOCUMENTISSUECOUNTRY}}</div></el-col>
+      </el-row>
+      <el-row type="flex"  class="mb-15">
+        <el-col :span="8" class="t-el-content"><div class="t-el-text">旅客VISA类型：</div><div class="t-el-sub">{{ddform.VISATYPE}}</div></el-col>
+        <el-col :span="8" class="t-el-content"><div class="t-el-text">旅客VISA号码：</div><div class="t-el-sub">{{ddform.VISANO}}</div></el-col>
+        <el-col :span="8" class="t-el-content"><div class="t-el-text">旅客VISA过期日：</div><div class="t-el-sub">{{ddform.VISAEXPIREDATE}}</div></el-col>
+      </el-row>
+      <el-row type="flex"  class="mb-15">
+        <el-col :span="8" class="t-el-content"><div class="t-el-text">旅客VISA签发日期：</div><div class="t-el-sub">{{ddform.VISAISSUEDATE}}</div></el-col>
+        <el-col :span="8" class="t-el-content"><div class="t-el-text">旅客VISA颁发国：</div><div class="t-el-sub">{{ddform.VISAISSUECOUNTRY}}</div></el-col>
+        <el-col :span="8" class="t-el-content"><div class="t-el-text">旅客目的地地址：</div><div class="t-el-sub">{{ddform.DESTADDRESS}}</div></el-col>
       </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -418,6 +464,7 @@ export default {
       },
       form: {},
       dform: {},
+      ddform:{},
       countryI:{},
       countryO:{}
     }
@@ -616,6 +663,7 @@ export default {
       this.detailsDialogVisible = true;
       console.log(i);
       this.dform = i;
+      this.ddform = i.comIapiEntity;
     },
 
   }

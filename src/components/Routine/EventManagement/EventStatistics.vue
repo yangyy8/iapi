@@ -7,6 +7,7 @@
           <div class="title-green">
             查询条件
           </div>
+          <!-- <section></section> -->
           <el-row align="center"   :gutter="2" >
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">登记人姓名：</span>
@@ -183,20 +184,21 @@
     </el-dialog>
 
     <el-dialog title="详情" :visible.sync="detailsDialogVisible" width="700px">
-      <el-form :model="form" ref="addForm" style="height:400px">
+      <el-form :model="form" ref="addForm" style="font-size:16px">
         <div id="printMe">
-          <el-row type="flex"  class="mb-20" justify="center">
+          <el-row type="flex"  class="mb-30" justify="center">
             <el-col :span="24"><div class="tt-title">{{form.title}}</div></el-col>
           </el-row>
-          <el-row class="mb-6" style="padding: 0px 10px 0px 5.5%;">
-            <el-col :span="12" class="t-el-content mb-6"><div class="t-el-text">登记人姓名：</div><div class="t-el-sub">{{form.NAME}}</div></el-col>
-            <el-col :span="12" class="t-el-content mb-6"><div class="t-el-text">登记人账号：</div><div class="t-el-sub">{{form.USERNAME}}</div></el-col>
-            <el-col :span="12" class="t-el-content mb-6"><div class="t-el-text">来源人姓名：</div><div class="t-el-sub">{{form.SOURCENAME}}</div></el-col>
-            <el-col :span="12" class="t-el-content mb-6"><div class="t-el-text">来源人电话：</div><div class="t-el-sub">{{form.SOURCEPHONE}}</div></el-col>
-            <el-col :span="12" class="t-el-content mb-6"><div class="t-el-text">交接人姓名：</div><div class="t-el-sub">{{form.HANDOVERNAME}}</div></el-col>
-            <el-col :span="12" class="t-el-content mb-6"><div class="t-el-text">事件时间：</div><div class="t-el-sub">{{form.RECORDTIMESTR}}</div></el-col>
-            <el-col :span="12" class="t-el-content mb-6"><div class="t-el-text">事件来源：</div><div class="t-el-sub">{{form.TYPE}}</div></el-col>
-            <el-col :span="22" class="t-el-content mb-6"><div class="t-el-text">事件描述：</div><div class="t-el-sub t-w">{{form.content}}</div></el-col>
+          <el-row class="mb-6 fz-16" style="padding: 0px 10px 0px 5.5%;">
+            <el-col :span="12" class="t-el-content mb-9"><div class="t-el-text">登记人姓名：</div><div class="t-el-sub">{{form.NAME}}</div></el-col>
+            <el-col :span="12" class="t-el-content mb-9"><div class="t-el-text">登记人账号：</div><div class="t-el-sub">{{form.USERNAME}}</div></el-col>
+            <el-col :span="12" class="t-el-content mb-9"><div class="t-el-text">来源人姓名：</div><div class="t-el-sub">{{form.SOURCENAME}}</div></el-col>
+            <el-col :span="12" class="t-el-content mb-9"><div class="t-el-text">来源人电话：</div><div class="t-el-sub">{{form.SOURCEPHONE}}</div></el-col>
+            <el-col :span="12" class="t-el-content mb-9"><div class="t-el-text">交接人姓名：</div><div class="t-el-sub">{{form.HANDOVERNAME}}</div></el-col>
+            <el-col :span="12" class="t-el-content mb-9"><div class="t-el-text">交接时间：</div><div class="t-el-sub">{{form.HANDOVERTIMESTR}}</div></el-col>
+            <el-col :span="12" class="t-el-content mb-9"><div class="t-el-text">事件时间：</div><div class="t-el-sub">{{form.RECORDTIMESTR}}</div></el-col>
+            <el-col :span="12" class="t-el-content mb-9"><div class="t-el-text">事件来源：</div><div class="t-el-sub">{{form.TYPE}}</div></el-col>
+            <el-col :span="22" class="t-el-content mb-9"><div class="t-el-text">事件描述：</div><div class="t-el-sub t-w" style="text-align:justify">{{form.content}}</div></el-col>
             <!-- <el-col :span="12" class="input-item">
               <span class="yy-input-text" style="width:27%!important">标题：</span>
               <el-input placeholder="请输入姓名" size="small" v-model="form.title"  class="yy-input-input" :disabled="true"></el-input>
@@ -212,14 +214,15 @@
         </el-row> -->
         <el-row class="mb-6">
           <el-col :span="12" class="input-item">
-            <span class="yy-input-text" style="width:27%!important">附件：</span>
-            <el-button size="mini" class="table-btn"><a :href="fitAdress" class="acolor">附件下载</a></el-button>
+            <span class="yy-input-text fz-16" style="width:24%!important;">附件：</span>
+            <el-button size="mini" class="table-btn fz-16"><a :href="fitAdress" class="acolor">附件下载</a></el-button>
           </el-col>
         </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="detailsDialogVisible = false" size="small">返 回</el-button>
-        <el-button @click="getPdf(0)" size="small" type="primary">打 印</el-button>
+        <el-button v-print="'#printMe'" size="small" type="primary">打 印</el-button>
+        <!-- <el-button @click="getPdf(0)" size="small" type="primary">打 印</el-button> -->
       </div>
     </el-dialog>
   </div>
@@ -393,6 +396,7 @@ export default {
       this.form.SOURCEPHONE=i.SOURCEPHONE;
       this.form.HANDOVERNAME=i.HANDOVERNAME;
       this.form.RECORDTIMESTR=i.RECORDTIMESTR;
+      this.form.HANDOVERTIMESTR=i.HANDOVERTIMESTR;
       this.form.TYPE=this.fifterZ(i.TYPE);
     },
     downloadM (data) {

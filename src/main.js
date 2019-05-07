@@ -7,6 +7,7 @@ import ElementUI from 'element-ui';
 import './assets/css/normalize.css'
 // import 'element-ui/lib/theme-chalk/index.css';
 import Print from 'vue-print-nb'
+import Prints from '@/components/other/print'
 import htmlToPdf from '@/components/other/htmlToPdf'
 import vverify from 'v-verify'
 // import Validator from './assets/js/va.js'
@@ -49,6 +50,7 @@ Vue.config.productionTip = false
 Vue.use(ElementUI);
 Vue.use(Print);
 Vue.use(htmlToPdf);
+Vue.use(Prints);
 // Vue.use(VueValidator)
 Vue.use(vverify, {
   lang: 'zh_cn', // 提示语言 默认 中文
