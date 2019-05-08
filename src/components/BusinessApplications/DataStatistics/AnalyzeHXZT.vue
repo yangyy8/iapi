@@ -35,8 +35,8 @@
                   </el-option>
                   <el-option value="O" label="O - 出境">
                   </el-option>
-                  <el-option value="A" label="A - 入出境">
-                  </el-option>
+                  <!-- <el-option value="A" label="A - 入出境">
+                  </el-option> -->
                 </el-select>
               </el-col>
           </el-row>
@@ -131,7 +131,8 @@
           </el-row>
         </el-col>
         <el-col :span="2" class="down-btn-area" style="margin-top:25px;">
-          <el-button type="success" size="small" @click="getList(CurrentPage,pageSize,pd)">统计</el-button>
+          <el-button type="success" size="small" @click="getList(CurrentPage,pageSize,pd)" class="mb-15">统计</el-button>
+          <el-button type="primary" plain size="small" @click="reset">重置</el-button>
         </el-col>
       </el-row>
     </div>
@@ -339,6 +340,20 @@ export default {
     headerClick(column, event) {
       event.target.title = column.label
     },
+    reset(){
+      this.pd={
+        begintime: '',
+        endtime: ''
+      }
+      let time = new Date();
+      let endz = new Date();
+      let beginz = new Date(time - 1000 * 60 * 60 * 24 * 30);
+      time.setDate(1);
+      this.pd.begintime = formatDate(time, 'yyyyMMdd');
+      this.pd.endtime = formatDate(endz, 'yyyyMMdd');
+      this.typerow='continent';
+      this.getList(this.CurrentPage,this.pageSize, this.pd);
+    },
     base() {
       this.page = 0;
     },
@@ -354,7 +369,6 @@ export default {
     },
     handleCurrentChange(val) {
       this.getList(val, this.pageSize, this.pd);
-
       console.log(`当前页: ${val}`);
     },
     getList(currentPage, showCount, pd) {
@@ -429,6 +443,7 @@ export default {
             sum03 += parseInt(arr[i].inland);
             sum003 += parseInt(arr[i].gat);
           }
+
           this.sData1 = [{
             value: sum1,
             name: '总数'
@@ -436,6 +451,7 @@ export default {
             value: sum01,
             name: '不准登机人数'
           }];
+            console.log('this.sData1',this.sData1)
           this.sData2 = [{
             value: sum2,
             name: '男'

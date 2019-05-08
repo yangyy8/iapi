@@ -65,7 +65,8 @@
             </el-row>
           </el-col>
           <el-col :span="2" class="down-btn-area" style="padding-top:30px;">
-            <el-button type="success" size="small" @click="getList(CurrentPage,pageSize,pd,order,direction)">查询</el-button>
+            <el-button type="success" size="small" @click="getList(CurrentPage,pageSize,pd,order,direction)" class="mb-15">查询</el-button>
+            <el-button type="primary" plain size="small" @click="reset">重置</el-button>
           </el-col>
         </el-row>
     </div>
@@ -75,6 +76,7 @@
         <el-button type="primary" size="small" @click="adds(0,'');">新增</el-button>
       </el-row>
       <el-table
+        ref="sort"
         :data="tableData"
         border
         style="width: 100%;"
@@ -425,6 +427,23 @@ export default {
     sortChange(column, prop, order){
       column.order=='ascending'?this.direction=1:this.direction=0;
       this.order=column.prop;
+      this.getList(this.CurrentPage,this.pageSize,this.pd,this.order,this.direction);
+    },
+    reset(){
+      this.pd={};
+      this.$nextTick(()=>{
+        let sortArr = this.$refs.sort.$children
+        for(var i=0;i<sortArr.length;i++){
+          if(sortArr[i].columnConfig&&sortArr[i].columnConfig.order){
+            sortArr[i].columnConfig.order = ''
+            return false
+          }
+        }
+      })
+      this.direction=0;
+      this.orders="";
+      this.CurrentPage=1;
+      this.pageSize=10;
       this.getList(this.CurrentPage,this.pageSize,this.pd,this.order,this.direction);
     },
     applicationMethod(){

@@ -45,8 +45,8 @@
                   </el-option>
                   <el-option value="O" label="O - 出境">
                   </el-option>
-                  <el-option value="A" label="A - 入出境">
-                  </el-option>
+                  <!-- <el-option value="A" label="A - 入出境">
+                  </el-option> -->
                 </el-select>
               </el-col>
             <!-- <el-col  :sm="24" :md="12" :lg="8"  class="input-item">

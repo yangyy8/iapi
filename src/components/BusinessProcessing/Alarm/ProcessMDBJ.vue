@@ -193,7 +193,7 @@ export default {
         },
         {
           value: "1",
-          label: '临控禁制登记名单'
+          label: '临时禁止登机名单'
         },
         {
           value: "2",

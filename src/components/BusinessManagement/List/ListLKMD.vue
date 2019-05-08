@@ -512,7 +512,6 @@
             v-validate-easy="[['maxLength',[3000]]]">
             <span class="input-text">处理要求：</span>
             <el-select v-model="form.DEALTYPE" placeholder="请选择" size="small" class="input-input">
-              <el-option label="1 - 允许登机" value="1"></el-option>
               <el-option label="2 - 不准登机" value="2"></el-option>
             </el-select>
           </el-col>
@@ -711,7 +710,7 @@
         <el-upload
           class="upload-demo"
           ref="upload"
-          :action='$api.rootUrl+"/manage-platform/nameList/readExcel/1"'
+          :action='$api.rootUrl+"/manage-platform/nameList/readExcel/2"'
           :file-list="fileList"
           multiple
           :on-success="upSuccess"
@@ -777,6 +776,7 @@ export default {
       form: {
         "synStatus":"0",
     	  "LIST_TYPE":"2",
+        "DEALTYPE":2
       },
       releaseform:{
         user:"",
@@ -989,7 +989,7 @@ export default {
 
       this.dialogText='新增';
       this.dialogType='add';
-      this.form={};
+      this.form={"DEALTYPE":"2"};
       this.form.synStatus="0";
       this.form.LIST_TYPE="2";
       this.V.$reset('demo2');

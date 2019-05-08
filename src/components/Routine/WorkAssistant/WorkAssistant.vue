@@ -65,7 +65,8 @@
             <el-table-column
               prop="SEX"
               label="性别"
-              sortable='custom'>
+              sortable='custom'
+              v-if="false">
               <template slot-scope="scope">
                 {{ scope.row.SEX | fiftersex }}
               </template>
@@ -81,6 +82,11 @@
               sortable='custom'>
             </el-table-column>
             <el-table-column
+              prop="JOBDESC"
+              label="职务"
+              sortable='custom'>
+            </el-table-column>
+            <el-table-column
               prop="PHONE"
               label="电话"
               sortable='custom'>
@@ -88,6 +94,11 @@
             <el-table-column
               prop="MAIL"
               label="邮箱"
+              sortable='custom'>
+            </el-table-column>
+            <el-table-column
+              prop="FAX"
+              label="传真"
               sortable='custom'>
             </el-table-column>
             <el-table-column
@@ -211,9 +222,8 @@
     <el-dialog :title="dialogText" :visible.sync="addDialogVisible" width="500px" >
       <el-form :model="form" ref="addForm">
         <el-row type="flex"  class="mb-6">
-          <el-col :span="24" class="input-item my-form-group" data-scope="demo2" data-name="NAME" data-type="select"
-            v-validate-easy="[['required']]">
-            <span class="yy-input-text"><font class="yy-color">*</font>姓名：</span>
+          <el-col :span="24" class="input-item">
+            <span class="yy-input-text">姓名：</span>
             <el-select placeholder="请选择" v-model="form.NAME" filterable clearable @visible-change="nameMethod(0)" size="small" class="yy-input-input" @change="nameMethodReal(form.NAME)">
               <el-option
               v-for="item in dutyName"
@@ -225,46 +235,58 @@
           </el-col>
         </el-row>
 
-        <el-row type="flex"  class="mb-6">
+        <el-row type="flex"  class="mb-6" v-show="false">
           <el-col :span="24" class="input-item">
-            <span class="yy-input-text"><font class="yy-color">*</font>性别：</span>
+            <span class="yy-input-text">性别：</span>
             <el-input size="small" v-model="form.SEXNAME"  class="yy-input-input" :disabled="true"></el-input>
           </el-col>
         </el-row>
 
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
-            <span class="yy-input-text"><font class="yy-color">*</font>账号：</span>
-            <el-input size="small" v-model="form.USERNAME"  class="yy-input-input" :disabled="true"></el-input>
+            <span class="yy-input-text">账号：</span>
+            <el-input placeholder="请输入账号" size="small" v-model="form.USERNAME"  class="yy-input-input"></el-input>
           </el-col>
         </el-row>
 
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
-            <span class="yy-input-text"><font class="yy-color">*</font>部门：</span>
-            <el-input size="small" v-model="form.DEPT_QC"  class="yy-input-input" :disabled="true"></el-input>
+            <span class="yy-input-text">部门：</span>
+            <el-input placeholder="请输入部门" size="small" v-model="form.DEPT_QC"  class="yy-input-input"></el-input>
           </el-col>
         </el-row>
 
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
-            <span class="yy-input-text"><font class="yy-color">*</font>电话：</span>
-            <el-input size="small" v-model="form.PHONE"  class="yy-input-input" :disabled="true"></el-input>
+            <span class="yy-input-text">电话：</span>
+            <el-input placeholder="可输入三个电话，用分号隔开" size="small" v-model="form.PHONE"  class="yy-input-input"></el-input>
           </el-col>
         </el-row>
 
         <el-row type="flex"  class="mb-6">
-          <el-col :span="24" class="input-item my-form-group" data-scope="demo2" data-name="MAIL" data-type="input"
-            v-validate-easy="[['required']]">
-            <span class="yy-input-text"><font class="yy-color">*</font>邮箱：</span>
-            <el-input placeholder="请输入账号" size="small" v-model="form.MAIL"  class="yy-input-input"></el-input>
+          <el-col :span="24" class="input-item">
+            <span class="yy-input-text">职务：</span>
+            <el-input placeholder="请输入职务" size="small" v-model="form.JOBDESC"  class="yy-input-input"></el-input>
           </el-col>
         </el-row>
 
         <el-row type="flex"  class="mb-6">
-          <el-col :span="24" class="input-item my-form-group" data-scope="demo2" data-name="AIRPORT_CODE" data-type="select"
-            v-validate-easy="[['required']]">
-            <span class="yy-input-text"><font class="yy-color">*</font>航站：</span>
+          <el-col :span="24" class="input-item">
+            <span class="yy-input-text">邮箱：</span>
+            <el-input placeholder="请输入邮箱" size="small" v-model="form.MAIL"  class="yy-input-input"></el-input>
+          </el-col>
+        </el-row>
+
+        <el-row type="flex"  class="mb-6">
+          <el-col :span="24" class="input-item">
+            <span class="yy-input-text">传真：</span>
+            <el-input placeholder="请输入传真" size="small" v-model="form.FAX"  class="yy-input-input"></el-input>
+          </el-col>
+        </el-row>
+
+        <el-row type="flex"  class="mb-6">
+          <el-col :span="24" class="input-item">
+            <span class="yy-input-text">航站：</span>
             <el-select placeholder="请选择" v-model="form.AIRPORT_CODE" filterable clearable @visible-change="terminal" size="small" class="yy-input-input">
               <el-option
               v-for="item in takeOffName"
@@ -348,7 +370,7 @@
       </span>
     </el-dialog>
 
-    <!--action="http://192.168.99.248:8081/manage-platform/addressManage/readExcel"  -->
+    <!-- action="http://192.168.99.201:8080/manage-platform/addressManage/readExcel" -->
     <el-dialog title="批量导入" :visible.sync="uploadDialogVisible"   width="640px"
     :before-close="handleClose">
       <el-form :model="importform" ref="importForm">
@@ -357,7 +379,7 @@
           ref="upload"
           name="excel"
           :multiple="false"
-          accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+          accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"  
           :action="$api.rootUrl+'/manage-platform/addressManage/readExcel'"
           :on-success="uploadSuccess"
           :limit="1"
@@ -592,6 +614,7 @@ export default {
     },
     download(){
       window.location.href=this.$api.rootUrl+'/manage-platform/templateFile/address_temple.xlsx'
+      // window.location.href='http://192.168.99.201:8080/manage-platform/templateFile/address_temple.xlsx'
     },
     uploadSuccess(response, file, fileList){
       console.log(response);
@@ -742,7 +765,7 @@ export default {
         this.tp = 0;
         this.dialogText="新增";
       }
-      this.V.$reset('demo2')
+      // this.V.$reset('demo2')
     },
 
 
@@ -754,8 +777,8 @@ export default {
       }
     },
     addItem(formName) {
-      this.V.$submit('demo2', (canSumit,data) => {
-        if(!canSumit) return
+      // this.V.$submit('demo2', (canSumit,data) => {
+      //   if(!canSumit) return
         var url = "/manage-platform/addressManage/save";
         this.form.AIRPORT_NAME = this.hangzhan(this.form.AIRPORT_CODE);
         this.$api.post(url, this.form,
@@ -772,7 +795,7 @@ export default {
           }, e => {
             this.$message.error('失败了');
           })
-      })
+      // })
     },
 
     deletes(i) {

@@ -298,7 +298,7 @@
                   <el-option
                    v-for="(item,ind) in caliber"
                    :key="ind"
-                   :value="item.TYPE"
+                   :value="item.DESCRIBE"
                    :label="item.DESCRIBE">
                   </el-option>
                  </el-select>
@@ -449,7 +449,7 @@ export default {
       this.$set(this.huifu,'CHNREPLY','');
       this.$set(this.huifu,'ENGREPLY','');
       for(var i=0;i<this.caliber.length;i++){
-        if(this.caliber[i].TYPE == val){
+        if(this.caliber[i].DESCRIBE == val){
           this.huifu.CHNREPLY = this.caliber[i].CHN;
           this.huifu.ENGREPLY = this.caliber[i].EN;
         }

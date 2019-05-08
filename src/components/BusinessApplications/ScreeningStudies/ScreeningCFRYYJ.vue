@@ -49,7 +49,7 @@
           </el-row>
         </el-col>
         <el-col :span="2" class="down-btn-area" style="margin-top:25px;">
-          <el-button type="success" size="small" @click="CurrentPage=1;CurrentPage1=1;getList(CurrentPage,pageSize,pd)">查询</el-button>
+          <el-button type="success" size="small" @click="search">查询</el-button>
         </el-col>
       </el-row>
     </div>
@@ -339,33 +339,41 @@ export default {
         event.target.title=column.label
     },
     base(){
-    this.page=0;
+      this.page=0;
+      this.getList(this.CurrentPage,this.pageSize,this.pd,this.order,this.direction);
+    },
+    search(){
+      if(this.page==0){
+        this.CurrentPage=1;
+        this.getList(this.CurrentPage,this.pageSize,this.pd,this.order,this.direction);
+      }else if(this.page==1){
+        this.CurrentPage1=1;
+        this.getList1(this.CurrentPage1,this.pageSize1,this.pd,this.order1,this.direction1);
+      }
+
     },
     batch()
     {
-    this.page=1;
+     this.page=1;
+     this.getList1(this.CurrentPage1,this.pageSize1,this.pd,this.order1,this.direction1);
     },
     handleSelectionChange(val) {
       this.multipleSelection = val;
     },
     pageSizeChange(val) {
-      // this.getList(this.CurrentPage, val, this.pd);
-      this.getList(this.CurrentPage,this.pageSize,this.pd,this.order,this.direction);
+      this.getList(this.CurrentPage,val,this.pd,this.order,this.direction);
       console.log(`每页 ${val} 条`);
     },
     pageSizeChange1(val) {
-      // this.getList1(this.CurrentPage1, val, this.pd);
-      this.getList1(this.CurrentPage1,this.pageSize1,this.pd1,this.order1,this.direction1);
+      this.getList1(this.CurrentPage1,val,this.pd,this.order1,this.direction1);
       console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
-      // this.getList(val, this.pageSize, this.pd);
-      this.getList(this.CurrentPage,this.pageSize,this.pd,this.order,this.direction);
+      this.getList(val,this.pageSize,this.pd,this.order,this.direction);
       console.log(`当前页: ${val}`);
     },
     handleCurrentChange1(val) {
-      // this.getList1(val, this.pageSize1, this.pd);
-      this.getList1(this.CurrentPage1,this.pageSize1,this.pd1,this.order1,this.direction1);
+      this.getList1(val,this.pageSize1,this.pd,this.order1,this.direction1);
       console.log(`当前页: ${val}`);
     },
 
@@ -422,7 +430,7 @@ export default {
           this.TotalResult = r.data.totalResult;
         })
 
-      this.getList1(this.CurrentPage1,this.pageSize1,this.pd,this.order1,this.direction1);
+
     },
     getList1(currentPage1, showCount1, pd,order1,direction1) {
       if (this.pd.begintime== null || this.pd.endtime == null) {
@@ -462,6 +470,8 @@ export default {
         r => {
           console.log(r);
           this.tableData1 = r.data.resultList;
+          console.log('r.data.resultList',r.data.resultList)
+          console.log('this.tableData1',this.tableData1)
           this.TotalResult1 = r.data.totalResult;
         })
     },

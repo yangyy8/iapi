@@ -117,7 +117,8 @@
           </el-row>
         </el-col>
         <el-col :span="2" class="down-btn-area">
-          <el-button type="success" size="small" @click="CurrentPage=1;getList(CurrentPage,pageSize,pd,orders,direction)">查询</el-button>
+          <el-button type="success" size="small" @click="CurrentPage=1;getList(CurrentPage,pageSize,pd,orders,direction)" class="mb-15">查询</el-button>
+          <el-button type="primary" plain size="small" @click="reset">重置</el-button>
         </el-col>
 
       </el-row>
@@ -127,6 +128,7 @@
         <el-button type="info" size="small" @click="batchs">批量变更</el-button>
         </el-row>
       <el-table
+        ref="sort"
         :data="tableData"
         border
         style="width: 100%;"
@@ -141,22 +143,22 @@
                 <el-table-column
                   prop="NATIONALITYC"
                   label="国籍/地区"
-                  sortable>
+                  sortable="custom">
                 </el-table-column>
                 <el-table-column
                   prop="PASSPORTTYPE"
                   label="证件种类"
                   width="120"
-                  sortable>
+                  sortable="custom">
                   <template slot-scope="scope">
-                    {{scope.row.PASSPORTTYPE | fiftertype}}
+                    {{scope.row.PASSPORTTYPE |fiftertype}}
                   </template>
                 </el-table-column>
                 <el-table-column
                   prop="PASSPORTNO"
                   label="证件号码"
                   width="120"
-                  sortable>
+                  sortable="custom">
                 </el-table-column>
                 <el-table-column
                   prop="NAME"
@@ -170,7 +172,7 @@
                 <el-table-column
                   prop="GENDER"
                   label="性别"
-                  sortable>
+                  sortable="custom">
                   <template slot-scope="scope">
                     {{scope.row.GENDER | fiftersex}}
                   </template>
@@ -179,26 +181,26 @@
                   prop="DATEOFBIRTH"
                   label="出生日期"
                   width="110"
-                  sortable>
+                  sortable="custom">
                 </el-table-column>
                 <el-table-column
                   prop="FLTNO"
                   label="航班号"
                   width="100"
-                  sortable>
+                  sortable="custom">
                 </el-table-column>
                 <el-table-column
                   prop="DEPARTDATE"
                   label="航班日期"
                   width="120"
-                  sortable>
+                  sortable="custom">
                 </el-table-column>
 
                 <el-table-column
                   prop="PASSENGERSTATUS"
                   label="值机状态"
                   width="120"
-                  sortable>
+                  sortable="custom">
                   <template slot-scope="scope">
                     {{scope.row.PASSENGERSTATUS | fifterstate}}
                   </template>
@@ -207,7 +209,7 @@
                   prop="LASTCHECKRESULT"
                   label="反馈状态"
                   width="120"
-                  sortable>
+                  sortable="custom">
                   <template slot-scope="scope">
                     {{scope.row.LASTCHECKRESULT | fiftecr}}
                   </template>
@@ -758,13 +760,13 @@ export default {
         ENDTIME: '',
         PASSPORTNO:'',
         NAME:'',
-        FLTNO:''
+        FLTNO:'',
+        ISBLURRED:false,
       },
       tp: 0,
       nation: [],
       value: '',
       value1: "",
-      datenow: '',
       isCheck: false,
       isName: false,
       isRules: false,
@@ -828,13 +830,9 @@ export default {
     this.nav2Id=this.$route.query.nav2Id;
     //this.getList(this.CurrentPage, this.pageSize, this.pd);
     this.queryDocCode();
-    let time = new Date();
-    let end = new Date();
-    let begin = new Date(time - 1000 * 60 * 60 * 24 * 14);
     let flightStart = new Date(new Date().setHours(0,0,0,0));
     let flightEnd = new Date(new Date(new Date().toLocaleDateString()).getTime()+24*60*60*1000-1);
     this.pd.STARTTIME = formatDate(flightStart, 'yyyyMMddhhmm');
-    this.datenow = formatDate(begin, 'yyyy-MM-dd');
     this.pd.ENDTIME = formatDate(flightEnd, 'yyyyMMddhhmm');
   },
   activated() {
@@ -855,6 +853,35 @@ export default {
       if(column.prop=='DATEOFBIRTH'){this.orders = [' BIRTHDAY']}
       if(column.prop=='NATIONALITYC'){this.orders = ['NATIONALITY']}
       this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
+    },
+    reset(){
+      this.pd={
+        STARTTIME: '',
+        ENDTIME: '',
+        PASSPORTNO:'',
+        NAME:'',
+        FLTNO:'',
+        ISBLURRED:false,
+      };
+      let flightStart = new Date(new Date().setHours(0,0,0,0));
+      let flightEnd = new Date(new Date(new Date().toLocaleDateString()).getTime()+24*60*60*1000-1);
+      this.pd.STARTTIME = formatDate(flightStart, 'yyyyMMddhhmm');
+      this.pd.ENDTIME = formatDate(flightEnd, 'yyyyMMddhhmm');
+
+      this.$nextTick(()=>{
+        let sortArr = this.$refs.sort.$children
+        for(var i=0;i<sortArr.length;i++){
+          if(sortArr[i].columnConfig&&sortArr[i].columnConfig.order){
+            sortArr[i].columnConfig.order = ''
+            return false
+          }
+        }
+      })
+      this.direction=0;
+      this.orders=[];
+      this.CurrentPage=1;
+      this.pageSize=10;
+      this.getList(this.CurrentPage,this.pageSize,this.pd,this.order,this.direction);
     },
     headerClick(column,event){
       event.target.title=column.label
@@ -1001,14 +1028,13 @@ export default {
       };
       this.$api.post('/manage-platform/iapiUnscolicited/instructChangeTab', p,
         r => {
-          console.log(r);
-          if (r.success) {
+          if (r.data.success) {
             this.$message({
               message: '变更成功！',
               type: 'success'
             });
           } else {
-            this.$message.error('变更失败');
+            this.$message.error(r.data.msg);
           }
           this.$refs[formName].resetFields();
           this.batchDialogVisible = false;
@@ -1205,7 +1231,13 @@ export default {
           }
         })
     },
-
+    zhuan(val){
+      for(var i=0;i<this.docCode.length;i++){
+        if(val == this.docCode[i].CODE){
+          return this.docCode[i].NAME
+        }
+      }
+    }
   },
 
   filters: {
@@ -1251,6 +1283,7 @@ export default {
       }
     },
     fiftertype(val) {
+
       // if (val == "11") {
       //   return "外交护照";
       // } else if (val == "12") {
@@ -1265,6 +1298,8 @@ export default {
         return "区域证件";
       } else if (val == "P") {
         return "护照";
+      }else{
+        return val
       }
     },
   }

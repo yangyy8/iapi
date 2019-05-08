@@ -315,11 +315,11 @@ export default {
       box13:true,
       box14:true,
       box15:true,
-      SERIAL:this.SERIAL,
-      detailType:this.detailType,//0:综查，1：pnr
-      pnrType:this.pnrType,//6:批量pnr,8:自定义pnr
-      SERIALPnr:this.SERIALPnr,
-      SERIALSelf:this.SERIALSelf,
+      // SERIAL:this.SERIAL,
+      // detailType:this.detailType,//0:综查，1：pnr
+      // pnrType:this.pnrType,//6:批量pnr,8:自定义pnr
+      // SERIALPnr:this.SERIALPnr,
+      // SERIALSelf:this.SERIALSelf,
     }
   },
   props:['detailType','SERIAL','CHK_SERIAL','PNR_TID','PNR_TKTNUMBER','PNR_TRAVELLER_SURNAME_TIF','PNR_TRAVELLER_GIVEN_NAME_TIF','SERIALPnr','PNR_TIDPnr','PNR_TKTNUMBERPnr','SERIALSelf','PNR_TIDSelf','PNR_TKTNUMBERSelf','pnrType'],

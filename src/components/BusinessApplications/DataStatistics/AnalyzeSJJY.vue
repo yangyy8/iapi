@@ -137,7 +137,7 @@
                                      prop="rst_4"
                                      label="不符合当前时间" sortable>
                                      <template slot-scope="scope">
-                                      <a class="bluecolor"  @click="details(4,'5')" > {{scope.row.rst_4}} </a>
+                                      <a class="bluecolor"  @click="details(4,scope.row.rst_4)" > {{scope.row.rst_4}} </a>
                                      </template>
                                    </el-table-column>
                               </el-table-column>

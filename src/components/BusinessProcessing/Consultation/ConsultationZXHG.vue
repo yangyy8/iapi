@@ -174,7 +174,7 @@
                   <el-option
                    v-for="(item,ind) in caliber"
                    :key="ind"
-                   :value="item.TYPE"
+                   :value="item.DESCRIBE"
                    :label="item.DESCRIBE">
                   </el-option>
                  </el-select>
@@ -460,7 +460,7 @@ export default {
       this.$set(this.pd,'CHNREPLY','');
       this.$set(this.pd,'ENGREPLY','');
       for(var i=0;i<this.caliber.length;i++){
-        if(this.caliber[i].TYPE == val){
+        if(this.caliber[i].DESCRIBE == val){
           this.pd.CHNREPLY = this.caliber[i].CHN;
           this.pd.ENGREPLY = this.caliber[i].EN;
         }
@@ -566,6 +566,7 @@ export default {
         }else{
           var objN = this.pd;
           objN.DEALRESULT = 0;//不变更
+
           // objN.serial = this.$route.query.serial
           // objN.serial = this.$route.query.serial;
           this.$api.post('/manage-platform/consult/saveConsult',objN,

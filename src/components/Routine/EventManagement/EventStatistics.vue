@@ -7,6 +7,7 @@
           <div class="title-green">
             查询条件
           </div>
+          <!-- <section></section> -->
           <el-row align="center"   :gutter="2" >
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">登记人姓名：</span>
@@ -59,7 +60,8 @@
           </el-row>
         </el-col>
         <el-col :span="2" class="down-btn-area" >
-          <el-button type="success" size="small" @click="getList(CurrentPage,pageSize,cdt,order,direction)">查询</el-button>
+          <el-button type="success" size="small" @click="getList(CurrentPage,pageSize,cdt,order,direction)" class="mb-15">查询</el-button>
+          <el-button type="primary" plain size="small" @click="reset">重置</el-button>
         </el-col>
 
       </el-row>
@@ -67,6 +69,7 @@
     <div class="middle" @mouseover="mouseHeader">
       <el-button type="success"  class="mb-9" size="small" @click="tableDown">导出</el-button>
       <el-table
+        ref="sort"
         :data="tableData"
         border
         style="width: 100%;"
@@ -180,33 +183,46 @@
       </div>
     </el-dialog>
 
-    <el-dialog title="详情" :visible.sync="detailsDialogVisible" width="800px">
-      <el-form :model="form" ref="addForm" id="printMe" style="height:400px">
-        <el-row type="flex"  class="mb-6">
-          <el-col :span="12" class="input-item">
-            <span class="yy-input-text" style="width:27%!important">标题：</span>
-            <el-input placeholder="请输入姓名" size="small" v-model="form.title"  class="yy-input-input" :disabled="true"></el-input>
-          </el-col>
-          <el-col :span="12" class="input-item">
-            <span class="yy-input-text" style="width:27%!important">附件：</span>
-            <el-button size="small" class="table-btn"><a :href="fitAdress" class="acolor">附件下载</a></el-button>
-          </el-col>
-        </el-row>
+    <el-dialog title="详情" :visible.sync="detailsDialogVisible" width="700px">
+      <el-form :model="form" ref="addForm" style="font-size:16px">
+        <div id="printMe">
+          <el-row type="flex"  class="mb-30" justify="center">
+            <el-col :span="24"><div class="tt-title">{{form.title}}</div></el-col>
+          </el-row>
+          <el-row class="mb-6 fz-16" style="padding: 0px 10px 0px 5.5%;">
+            <el-col :span="12" class="t-el-content mb-9"><div class="t-el-text">登记人姓名：</div><div class="t-el-sub">{{form.NAME}}</div></el-col>
+            <el-col :span="12" class="t-el-content mb-9"><div class="t-el-text">登记人账号：</div><div class="t-el-sub">{{form.USERNAME}}</div></el-col>
+            <el-col :span="12" class="t-el-content mb-9"><div class="t-el-text">来源人姓名：</div><div class="t-el-sub">{{form.SOURCENAME}}</div></el-col>
+            <el-col :span="12" class="t-el-content mb-9"><div class="t-el-text">来源人电话：</div><div class="t-el-sub">{{form.SOURCEPHONE}}</div></el-col>
+            <el-col :span="12" class="t-el-content mb-9"><div class="t-el-text">交接人姓名：</div><div class="t-el-sub">{{form.HANDOVERNAME}}</div></el-col>
+            <el-col :span="12" class="t-el-content mb-9"><div class="t-el-text">交接时间：</div><div class="t-el-sub">{{form.HANDOVERTIMESTR}}</div></el-col>
+            <el-col :span="12" class="t-el-content mb-9"><div class="t-el-text">事件时间：</div><div class="t-el-sub">{{form.RECORDTIMESTR}}</div></el-col>
+            <el-col :span="12" class="t-el-content mb-9"><div class="t-el-text">事件来源：</div><div class="t-el-sub">{{form.TYPE}}</div></el-col>
+            <el-col :span="22" class="t-el-content mb-9"><div class="t-el-text">事件描述：</div><div class="t-el-sub t-w" style="text-align:justify">{{form.content}}</div></el-col>
+            <!-- <el-col :span="12" class="input-item">
+              <span class="yy-input-text" style="width:27%!important">标题：</span>
+              <el-input placeholder="请输入姓名" size="small" v-model="form.title"  class="yy-input-input" :disabled="true"></el-input>
+            </el-col> -->
+          </el-row>
+        </div>
 
-        <!-- <el-row type="flex"  class="mb-6">
-
-        </el-row> -->
-
-        <el-row type="flex" class="mb-6" >
+        <!-- <el-row type="flex" class="mb-6" >
           <el-col :span="24" class="input-item">
             <span class="yy-input-text widthText">事件描述：</span>
             <el-input type="textarea" placeholder="请输入内容" :autosize="{ minRows: 6, maxRows: 12}" v-model="form.content" class="yy-input-input widthContent" :disabled="true"></el-input>
+          </el-col>
+        </el-row> -->
+        <el-row class="mb-6">
+          <el-col :span="12" class="input-item">
+            <span class="yy-input-text fz-16" style="width:24%!important;">附件：</span>
+            <el-button size="mini" class="table-btn fz-16"><a :href="fitAdress" class="acolor">附件下载</a></el-button>
           </el-col>
         </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="detailsDialogVisible = false" size="small">返 回</el-button>
-        <el-button @click="getPdf(0)" size="small" type="primary">打 印</el-button>
+        <el-button v-print="'#printMe'" size="small" type="primary">打 印</el-button>
+        <!-- <el-button @click="getPdf(0)" size="small" type="primary">打 印</el-button> -->
       </div>
     </el-dialog>
   </div>
@@ -266,6 +282,23 @@ export default {
     sortChange(column, prop, order){
       column.order=='ascending'?this.direction=1:this.direction=0;
       this.order=column.prop;
+      this.getList(this.CurrentPage,this.pageSize,this.cdt,this.order,this.direction);
+    },
+    reset(){
+      this.cdt={};
+      this.$nextTick(()=>{
+        let sortArr = this.$refs.sort.$children
+        for(var i=0;i<sortArr.length;i++){
+          if(sortArr[i].columnConfig&&sortArr[i].columnConfig.order){
+            sortArr[i].columnConfig.order = ''
+            return false
+          }
+        }
+      })
+      this.direction=0;
+      this.orders="";
+      this.CurrentPage=1;
+      this.pageSize=10;
       this.getList(this.CurrentPage,this.pageSize,this.cdt,this.order,this.direction);
     },
     headerClick(column,event){
@@ -357,6 +390,14 @@ export default {
       this.form.title=i.TITLE;
       this.form.content=i.INCIDENTDESC;
       this.fitAdress = i.FILESERIAL;
+      this.form.NAME=i.NAME;
+      this.form.USERNAME=i.USERNAME;
+      this.form.SOURCENAME=i.SOURCENAME;
+      this.form.SOURCEPHONE=i.SOURCEPHONE;
+      this.form.HANDOVERNAME=i.HANDOVERNAME;
+      this.form.RECORDTIMESTR=i.RECORDTIMESTR;
+      this.form.HANDOVERTIMESTR=i.HANDOVERTIMESTR;
+      this.form.TYPE=this.fifterZ(i.TYPE);
     },
     downloadM (data) {
         if (!data) {
@@ -415,6 +456,15 @@ export default {
         });
       });
     },
+    fifterZ(val){
+      if (val == 1) {
+        return "上级通知";
+      } else if(val == 2){
+        return "电话来电";
+      } else if(val == 3){
+        return "信件"
+      }
+    }
   },
 
     filters: {

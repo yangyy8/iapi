@@ -55,32 +55,33 @@
         @sort-change="sortChange"
         >
         <el-table-column
-          prop="LABELTYPE_NAME" sortable
+          prop="LABELTYPE_NAME"
+          sortable="custom"
           label="标签分类">
         </el-table-column>
          <el-table-column
-          prop="LABELNAME" sortable
+          prop="LABELNAME" sortable="custom"
           label="标签名称"
           >
         </el-table-column>
         <el-table-column
-          prop="LABELREASON" sortable
+          prop="LABELREASON" sortable="custom"
           label="标签描述">
         </el-table-column>
         <el-table-column
-          prop="CREATEUSERNAME" sortable
+          prop="CREATEUSERNAME" sortable="custom"
           label="创建人">
         </el-table-column>
         <el-table-column
-          prop="CREATETIME" sortable
+          prop="CREATETIME" sortable="custom"
           label="创建时间">
         </el-table-column>
         <el-table-column
-          prop="UPDATEUSERNAME" sortable
+          prop="UPDATEUSERNAME" sortable="custom"
           label="最后更新人">
         </el-table-column>
         <el-table-column
-          prop="UPDATETIME" sortable
+          prop="UPDATETIME" sortable="custom"
           label="最后更新时间">
         </el-table-column>
         <el-table-column
@@ -222,7 +223,7 @@ export default {
       CurrentPage: 1,
       pageSize: 10,
       TotalResult: 0,
-      orders:[],
+      order:"",
       direction:0,
       pd: {},
       company: [],
@@ -276,31 +277,31 @@ export default {
     },
     pageSizeChange(val) {
       // this.getList(this.CurrentPage, val, this.pd);
-        this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
+        this.getList(this.CurrentPage,this.pageSize,this.pd,this.order,this.direction);
       console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
       // this.getList(val, this.pageSize, this.pd);
-        this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
+        this.getList(this.CurrentPage,this.pageSize,this.pd,this.order,this.direction);
       console.log(`当前页: ${val}`);
     },
     sortChange(data){
-   this.orders=[data.prop];
+   this.order=data.prop;
    if(data.order=='descending'){
      this.direction=0
    }else{
      this.direction=1
    }
-   console.log(this.orders,this.direction)
-   this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
+   console.log(this.order,this.direction)
+   this.getList(this.CurrentPage,this.pageSize,this.pd,this.order,this.direction);
  },
 
-    getList(currentPage,showCount,pd,orders,direction){
+    getList(currentPage,showCount,pd,order,direction){
       let p = {
         "currentPage": currentPage,
         "showCount": showCount,
         "pd": pd,
-        "orders":orders,
+        "order":order,
         "direction":direction
       };
       this.$api.post('/manage-platform/userLabel/getUserLabelPage', p,
@@ -368,7 +369,7 @@ export default {
 
           this.$refs[formName].resetFields();
           this.addDialogVisible = false;
-          this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
+          this.getList(this.CurrentPage,this.pageSize,this.pd,this.order,this.direction);
           // this.tableData=r.Data.ResultList;
         }, e => {
           this.$message.error('失败了');
@@ -398,7 +399,7 @@ export default {
                 message: '删除成功！',
                 type: 'success'
               });
-             this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
+             this.getList(this.CurrentPage,this.pageSize,this.pd,this.order,this.direction);
             } else {
               this.$message.error(r.Message);
             }

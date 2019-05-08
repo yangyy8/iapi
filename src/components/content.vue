@@ -172,7 +172,7 @@
             <div class="rb-msg-item" v-for="(i,ind) in msgPmList" :key="ind">
               <span>发送人：{{i.prompt.REGISTRATIONNAME}}</span>&nbsp;&nbsp;&nbsp;&nbsp;
               <span class="t-noWrap">内容：{{i.prompt.CONTENT}}</span>&nbsp;&nbsp;&nbsp;&nbsp;
-              <a  @click="msgPm(i)">点击查看</a>
+              <a  @click="msgPm(i,ind)">点击查看</a>
             </div>
           </div>
         </div>
@@ -624,12 +624,17 @@ export default {
        })
 
     },
-    msgPm(x){
+    msgPm(x,i){
       this.numberDialogVisible=true;
       this.PmInfo = x.prompt;
       this.$api.post('/manage-platform/promptManage/updatePrompt ',{SERIAL:x.SERIAL},
        r =>{
-         this.msgPmShow = false;
+         if(r.success){
+           this.msgPmList.splice(i,1);
+           if(this.msgPmList.length==0){
+             this.msgPmShow = false;
+           }
+         }
        })
     },
 

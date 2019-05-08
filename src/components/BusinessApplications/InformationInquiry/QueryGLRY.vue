@@ -98,7 +98,12 @@
               border
               style="width: 100%;"
               class="mt-10 o-table3"
-              @header-click="headerClick">
+              @header-click="headerClick"
+              element-loading-text="正在加载中"
+              element-loading-spinner="el-icon-loading"
+              element-loading-background="rgba(0, 0, 0, 0.2)"
+              element-loading-customClass="loadingClass"
+              v-loading.fullscreen.lock="fullscreenLoading">
               <el-table-column
                 prop="fltno"
                 label="航班号" sortable>
@@ -184,7 +189,12 @@
             border
             style="width: 100%;"
             class="mt-10 o-table3"
-            @header-click="headerClick">
+            @header-click="headerClick"
+            element-loading-text="正在加载中"
+            element-loading-spinner="el-icon-loading"
+            element-loading-background="rgba(0, 0, 0, 0.2)"
+            element-loading-customClass="loadingClass"
+            v-loading.fullscreen.lock="fullscreenLoading1">
             <el-table-column
               prop="fltno"
               label="航班号" sortable>
@@ -272,7 +282,12 @@
             border
             style="width: 100%;"
             class="mt-10 o-table3"
-            @header-click="headerClick">
+            @header-click="headerClick"
+            element-loading-text="正在加载中"
+            element-loading-spinner="el-icon-loading"
+            element-loading-background="rgba(0, 0, 0, 0.2)"
+            element-loading-customClass="loadingClass"
+            v-loading.fullscreen.lock="fullscreenLoading2">
             <el-table-column
               prop="fltno"
               label="航班号" sortable>
@@ -361,7 +376,12 @@
             border
             style="width: 100%;"
             class="mt-10 o-table3"
-            @header-click="headerClick">
+            @header-click="headerClick"
+            element-loading-text="正在加载中"
+            element-loading-spinner="el-icon-loading"
+            element-loading-background="rgba(0, 0, 0, 0.2)"
+            element-loading-customClass="loadingClass"
+            v-loading.fullscreen.lock="fullscreenLoading3">
             <el-table-column
               prop="fltno"
               label="航班号" sortable>
@@ -448,9 +468,11 @@
   </div>
 </template>
 <script>
+import { Loading } from 'element-ui';
 export default {
   data() {
     return {
+      fullscreenLoading:false,
       CurrentPage: 1,
       pageSize: 10,
       TotalResult: 0,
@@ -506,19 +528,6 @@ export default {
 
   mounted() {
     this.queryNationality();
-    // if(this.$route.query.page==undefined){
-    //   this.page=0
-    // }else{
-    //   this.page = this.$route.query.page;
-    // }
-    // this.page = this.$route.query.page;
-    // this.pd.fltno = this.$route.query.row.FLTNO;
-    // this.pd.fltdate = this.zhuanhuan(this.$route.query.row.FLTDATESTR);
-    // this.pd.nationality = this.$route.query.row.NATIONALITY;
-    // this.pd.cardnum = this.$route.query.row.PASSPORTNO;
-    // this.pd.name = this.$route.query.row.linkName;
-    // this.pd.gender = this.sexZhuan(this.$route.query.row.GENDER);
-    // this.pd.birthday = this.zhuanhuan(this.$route.query.row.iapiBirthdayName);
   },
   activated() {
     this.queryNationality();
@@ -686,13 +695,16 @@ export default {
       "showCount": showCount,
       "cdt": pd
     };
-
+    if(this.$route.query.row){
+      this.fullscreenLoading=true;
+    }
     var url="/manage-platform/relatedperson/get_related_book";
     this.$api.post(url, p,
       r => {
         if(r.success){
           this.tableData = r.data.resultList;
           this.TotalResult=r.data.totalResult;
+          this.fullscreenLoading = false;
         }
       });
     },
@@ -710,12 +722,16 @@ export default {
         "showCount": showCount1,
         "cdt": pd1
       };
+      if(this.$route.query.row){
+        this.fullscreenLoading1=true;
+      }
      var url="/manage-platform/relatedperson/get_related_check";
       this.$api.post(url, p,
         r => {
           if(r.success){
             this.tableData1 = r.data.resultList;
             this.TotalResult1=r.data.totalResult;
+            this.fullscreenLoading1 = false;
           }
         })
     },
@@ -728,12 +744,16 @@ export default {
         "showCount": showCount2,
         "cdt": pd2
       };
+      if(this.$route.query.row){
+        this.fullscreenLoading2=true;
+      }
      var url="/manage-platform/relatedperson/get_related_flt";
       this.$api.post(url, p,
         r => {
         if(r.success){
           this.tableData2 = r.data.resultList;
           this.TotalResult2 = r.data.totalResult;
+          this.fullscreenLoading2 = false;
         }
         })
     },
@@ -752,13 +772,16 @@ export default {
           "cdt": pd3
 
         };
-
+        if(this.$route.query.row){
+          this.fullscreenLoading3=true;
+        }
      var url="/manage-platform/relatedperson/get_related_seat";
       this.$api.post(url, p,
         r => {
           if(r.success){
             this.tableData3 = r.data.resultList;
-              this.TotalResult3=r.data.totalResult;
+            this.TotalResult3=r.data.totalResult;
+            this.fullscreenLoading3 = false;
           }
         })
     },

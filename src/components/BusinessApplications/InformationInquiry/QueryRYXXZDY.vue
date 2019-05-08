@@ -3130,6 +3130,7 @@ export default {
         this.isa = true;
         // this.str = '';
         this.ffff='';
+        this.tableCurrent=0;
         this.currentPage=1;
         this.showCount=10;
         this.tableData=[];

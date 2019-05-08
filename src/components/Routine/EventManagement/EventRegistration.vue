@@ -1,95 +1,103 @@
 <template lang="html">
   <div class="zlbg">
     <div class="middle-top">
-      <el-row type="flex" class="middle" justify="center">
-        <el-col :span="24" style="text-align:center;font-size:24px">
-            事件登记
-        </el-col>
-      </el-row>
+
     </div>
-    <div id="printMe" class="middle height1000">
-      <el-row  class="middle" style="padding: 2% 17% 2% 13%;">
-        <el-col :sm="24" :md="12" :lg="12" class="input-item">
-          <span class="yy-input-text"><font class="yy-color">*</font>登记人姓名：</span>
-          <el-input placeholder="请输入姓名" size="small" v-model="userName"  class="yy-input-input" :disabled="true"></el-input>
-        </el-col>
-        <el-col :sm="24" :md="12" :lg="12" class="input-item">
-          <span class="yy-input-text"><font class="yy-color">*</font>登记人账号：</span>
-          <el-input placeholder="请输入账号" size="small" v-model="userId"  class="yy-input-input" :disabled="true"></el-input>
-        </el-col>
-
-        <el-col :sm="24" :md="12" :lg="12" class="input-item my-form-group" data-scope="demo1" data-name="RECORDTIMESTR" data-type="select"
-          v-validate-easy="[['required']]">
-          <span class="yy-input-text"><font class="yy-color">*</font>事件登记时间：</span>
-            <el-date-picker
-            v-model="form.RECORDTIMESTR"
-            type="datetime" size="mini"
-            placeholder="请输入时间"
-            class="yy-input-input"
-            format="yyyy-MM-dd HH:mm:ss"
-            value-format="yyyyMMddHHmmss"
-            :clearable="false">
-          </el-date-picker>
-        </el-col>
-        <el-col :sm="24" :md="12" :lg="12" class="input-item my-form-group" data-scope="demo1" data-name="TYPE" data-type="select"
-          v-validate-easy="[['required']]">
-          <span class="yy-input-text"><font class="yy-color">*</font>事件来源：</span>
-          <el-select placeholder="请选择" v-model="form.TYPE" filterable clearable  size="small" class="yy-input-input" @change="TypeReal">
-            <el-option  value="1" label="上级通知"></el-option>
-            <el-option  value="2" label="电话来电"></el-option>
-            <el-option  value="3" label="信函/传真"></el-option>
-          </el-select>
-        </el-col>
-
-        <el-col :sm="24" :md="12" :lg="12" class="input-item my-form-group" data-scope="demo1" data-name="SOURCENAME" data-type="input"
-          v-validate-easy="[['required']]" v-if="form.TYPE==2||form.TYPE==3">
-          <span class="yy-input-text" v-if="form.TYPE==2"><font class="yy-color">*</font>来电人姓名：</span>
-          <span class="yy-input-text" v-else-if="form.TYPE==3"><font class="yy-color">*</font>来函人姓名：</span>
-          <el-input placeholder="请输入姓名" size="small" v-model="form.SOURCENAME"  class="yy-input-input"></el-input>
-        </el-col>
-        <el-col :sm="24" :md="12" :lg="12" class="input-item my-form-group" data-scope="demo1" data-name="SOURCEPHONE" data-type="input"
-          v-validate-easy="[['required']]" v-if="form.TYPE==2||form.TYPE==3">
-          <span class="yy-input-text" v-if="form.TYPE==2"><font class="yy-color">*</font>来电人电话：</span>
-          <span class="yy-input-text" v-else-if="form.TYPE==3"><font class="yy-color">*</font>来函人电话：</span>
-          <el-input placeholder="请输入账号" size="small" v-model="form.SOURCEPHONE"  class="yy-input-input"></el-input>
-        </el-col>
-
-        <el-col :sm="24" :md="12" :lg="12" class="input-item my-form-group" data-scope="demo1" data-name="TITLE" data-type="input"
-          v-validate-easy="[['required']]">
-          <span class="yy-input-text"><font class="yy-color">*</font>标题：</span>
-          <el-input placeholder="请输入标题" size="small" v-model="form.TITLE"  class="yy-input-input"></el-input>
-        </el-col>
-        <el-col :sm="24" :md="12" :lg="12" class="input-item">
-          <span class="yy-input-text" style="width: 35.7%!important;">附件：</span>
-          <el-col :span="20" class="input-item">
-            <label class="file">
-              上传附件
-              <input type="file" name=""  @change="uploadFile">
-            </label>
-            <div class="" v-if="fileData">
-              <div class="" v-for="(x,ind) in fileData" :key="ind">
-                <span class="mr-30">{{x.name}}</span>
-                <span @click="deleteFile" class="hand redx">删除</span>
-              </div>
-            </div>
+    <div class="middle height1000" style="position:relative">
+      <section ref="print">
+        <el-row type="flex" class="middle mb-20" justify="center">
+          <el-col :span="24" style="text-align:center;font-size:29px;font-family: 方正小标宋简体">
+              事件登记
           </el-col>
-        </el-col>
-
-        <el-col :sm="24" :md="24" :lg="24" class="input-item my-form-group" data-scope="demo1" data-name="INCIDENTDESC" data-type="textarea"
-          v-validate-easy="[['required']]">
-          <span class="yy-input-text  widthts"><font class="yy-color">*</font>事件描述：</span>
-         <el-input type="textarea" placeholder="请输入内容" :autosize="{ minRows: 3, maxRows: 6}" v-model="form.INCIDENTDESC" class="yy-input-input widthtex"></el-input>
+        </el-row>
+        <el-row  type="flex" justify="center">
+          <el-col :sm="24" :md="12" :lg="8" class="input-item">
+            <span class="yy-input-text fz-16"><font class="yy-color no-print fz-14">*</font>登记人姓名：</span>
+            <el-input placeholder="请输入姓名" size="small" v-model="userName"  class="yy-input-input fz-16" :disabled="true"></el-input>
+          </el-col>
+          <el-col :sm="24" :md="12" :lg="8" class="input-item">
+            <span class="yy-input-text fz-16"><font class="yy-color no-print fz-14">*</font>登记人账号：</span>
+            <el-input placeholder="请输入账号" size="small" v-model="userId"  class="yy-input-input fz-16" :disabled="true"></el-input>
+          </el-col>
+        </el-row>
+        <el-row  type="flex" justify="center">
+          <el-col :sm="24" :md="12" :lg="8" class="input-item my-form-group fz-16" data-scope="demo1" data-name="RECORDTIMESTR" data-type="select"
+            v-validate-easy="[['required']]">
+            <span class="yy-input-text fz-16"><font class="yy-color no-print fz-14">*</font>事件登记时间：</span>
+              <el-date-picker
+              v-model="form.RECORDTIMESTR"
+              type="datetime" size="mini"
+              placeholder="请输入时间"
+              class="yy-input-input fz-16"
+              format="yyyy-MM-dd HH:mm:ss"
+              value-format="yyyyMMddHHmmss"
+              :clearable="false">
+            </el-date-picker>
+          </el-col>
+          <el-col :sm="24" :md="12" :lg="8" class="input-item my-form-group" data-scope="demo1" data-name="TYPE" data-type="select"
+            v-validate-easy="[['required']]">
+            <span class="yy-input-text fz-16"><font class="yy-color no-print fz-14">*</font>事件来源：</span>
+            <el-select placeholder="请选择" v-model="form.TYPE" filterable clearable  size="small" class="yy-input-input fz-16" @change="TypeReal">
+              <el-option  value="1" label="上级通知"></el-option>
+              <el-option  value="2" label="电话来电"></el-option>
+              <el-option  value="3" label="信函/传真"></el-option>
+            </el-select>
+          </el-col>
+        </el-row>
+        <el-row  type="flex" justify="center">
+          <el-col :sm="24" :md="12" :lg="8" class="input-item my-form-group" data-scope="demo1" data-name="SOURCENAME" data-type="input"
+            v-validate-easy="[['required']]" v-if="form.TYPE==2||form.TYPE==3">
+            <span class="yy-input-text fz-16" v-if="form.TYPE==2"><font class="yy-color no-print fz-14">*</font>来电人姓名：</span>
+            <span class="yy-input-text fz-16" v-else-if="form.TYPE==3"><font class="yy-color no-print fz-14">*</font>来函人姓名：</span>
+            <el-input placeholder="请输入姓名" size="small" v-model="form.SOURCENAME"  class="yy-input-input fz-16"></el-input>
+          </el-col>
+          <el-col :sm="24" :md="12" :lg="8" class="input-item my-form-group" data-scope="demo1" data-name="SOURCEPHONE" data-type="input"
+            v-validate-easy="[['required']]" v-if="form.TYPE==2||form.TYPE==3">
+            <span class="yy-input-text fz-16" v-if="form.TYPE==2"><font class="yy-color no-print fz-14">*</font>来电人电话：</span>
+            <span class="yy-input-text fz-16" v-else-if="form.TYPE==3"><font class="yy-color no-print fz-14">*</font>来函人电话：</span>
+            <el-input placeholder="请输入账号" size="small" v-model="form.SOURCEPHONE"  class="yy-input-input fz-16"></el-input>
+          </el-col>
+        </el-row>
+        <el-row  type="flex" justify="center">
+          <el-col :sm="24" :md="12" :lg="8" class="input-item my-form-group" data-scope="demo1" data-name="TITLE" data-type="input"
+            v-validate-easy="[['required']]">
+            <span class="yy-input-text fz-16"><font class="yy-color no-print fz-14">*</font>标题：</span>
+            <el-input placeholder="请输入标题" size="small" v-model="form.TITLE"  class="yy-input-input fz-16"></el-input>
+          </el-col>
+          <el-col :sm="24" :md="12" :lg="8" class="input-item no-print">
+            <span class="yy-input-text fz-16" style="width: 35.7%!important;">附件：</span>
+            <el-col :span="20" class="input-item fz-16">
+              <label class="file">
+                上传附件
+                <input type="file" name=""  @change="uploadFile">
+              </label>
+              <div class="" v-if="fileData">
+                <div class="" v-for="(x,ind) in fileData" :key="ind">
+                  <span class="mr-30">{{x.name}}</span>
+                  <span @click="deleteFile" class="hand redx">删除</span>
+                </div>
+              </div>
+            </el-col>
+          </el-col>
+          <!-- <el-col :sm="24" :md="12" :lg="8" class="input-item" v-if="tttt">
+          </el-col> -->
+       </el-row>
+       <el-row  type="flex" justify="center">
+          <el-col :sm="24" :md="24" :lg="16" class="input-item my-form-group" data-scope="demo1" data-name="INCIDENTDESC" data-type="textarea"
+            v-validate-easy="[['required']]">
+            <span class="yy-input-text  widthts fz-16"><font class="yy-color no-print fz-14">*</font>事件描述：</span>
+           <el-input type="textarea" placeholder="请输入内容" :autosize="{ minRows: 3, maxRows: 6}" v-model="form.INCIDENTDESC" class="yy-input-input widthtex fz-16"></el-input>
+          </el-col>
+        </el-row>
+      </section>
+      <el-row>
+        <el-col :sm="24" :md="12" :lg="12" type="flex" justify="center" style="position:absolute;bottom:-50px;left:45%">
+          <el-button type="primary" @click="save" size="small">保存</el-button>&nbsp;&nbsp;&nbsp;&nbsp;
+          <el-button @click="dayin()" size="small">打印</el-button>&nbsp;&nbsp;&nbsp;&nbsp;
+          <el-button type="primary" @click="reset" size="small">重置</el-button>
         </el-col>
       </el-row>
     </div>
-
-    <!-- <div class="middle"> -->
-      <el-row type="flex" justify="center" style="position:relative;top:-519px;left:0">
-        <el-button type="primary" @click="save" size="small">保存</el-button>&nbsp;&nbsp;&nbsp;&nbsp;
-        <el-button @click="getPdf(0)" size="small">打印</el-button>&nbsp;&nbsp;&nbsp;&nbsp;
-        <el-button type="primary" @click="reset" size="small">重置</el-button>
-      </el-row>
-    <!-- </div> -->
   </div>
 </template>
 <script>
@@ -100,9 +108,10 @@ export default {
 
   data() {
     return {
+      tttt:false,
       userName:'',
       userId:'',
-      htmlTitle: '页面导出PDF文件名',
+      htmlTitle: '事件登记',
       page:0,
       detailsDialogVisible: false,
       fileData:{},
@@ -121,6 +130,9 @@ export default {
     this.getUser();
   },
   methods: {
+     dayin(){
+       this.$print(this.$refs.print)
+     },
      TypeReal(){
        this.$set(this.form,'SOURCENAME','');
        this.$set(this.form,'SOURCEPHONE','')
@@ -221,7 +233,7 @@ export default {
 }
 
 .yy-input-input {
-  width: 70% !important;
+  width: 50% !important;
 }
 .widthts{
   width: 15.3%!important

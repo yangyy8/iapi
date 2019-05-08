@@ -49,10 +49,10 @@ export default {
       this.tiaozhuan(4,'QueryRYXXZH');
     }else{
       let that = this;
-      // setTimeout(function(){
+      setTimeout(function(){
         that.tiaozhuan(that.page,that.url)
         // that.$router.push({name:that.url})
-      // },500)
+      },100)
     }
 
   },

@@ -1611,8 +1611,8 @@ export default {
       planePath: 'path://M1705.06,1318.313v-89.254l-319.9-221.799l0.073-208.063c0.521-84.662-26.629-121.796-63.961-121.491c-37.332-0.305-64.482,36.829-63.961,121.491l0.073,208.063l-319.9,221.799v89.254l330.343-157.288l12.238,241.308l-134.449,92.931l0.531,42.034l175.125-42.917l175.125,42.917l0.531-42.034l-134.449-92.931l12.238-241.308L1705.06,1318.313z',
       planePath2:`data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAOCAYAAADwikbvAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNi1jMTM4IDc5LjE1OTgyNCwgMjAxNi8wOS8xNC0wMTowOTowMSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIDIwMTcgKFdpbmRvd3MpIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOjdBMTk5Qzc2ODBDRTExRThCREI0OUYyQ0VFQkJEMzA0IiB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOjdBMTk5Qzc3ODBDRTExRThCREI0OUYyQ0VFQkJEMzA0Ij4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6N0ExOTlDNzQ4MENFMTFFOEJEQjQ5RjJDRUVCQkQzMDQiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6N0ExOTlDNzU4MENFMTFFOEJEQjQ5RjJDRUVCQkQzMDQiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz7TGjsIAAAAs0lEQVR42mL4//8/AxZsDMRHgfgbEJ8HYnts6rBp5ATiN/9RwUcg5kdXy8SACbSBWBhNjA+I1dAVYtP8jwE7+EeMZhUcmpUxRLD4WQKIH6P5+TFUnKCfXwDxCjSxFVBxgjaDsCKazYrY1GGzmQ2IPdDE/IGYA5fNTEDsCMQTgfjZf+zgNRBPB2IvqHqwZlDkH/tPGgCp5wdp7v9PHuhnBBL3ga5XYCAdPAAFGCMDeYARIMAATRp4jXDkrA0AAAAASUVORK5CYII=`,
       XqKa:{},
-      series: []
-
+      series: [],
+      userId:''
     };
   },
   mounted() {
@@ -1622,7 +1622,7 @@ export default {
     this.getGj();
     this.getHkGs();
     this.getLeftData();
-
+    this.getUers();
   },
   activated(){
     this.initChart(this.series);
@@ -3392,12 +3392,31 @@ export default {
          }
       })
     },
+    getUers(){
+      this.$api.post('/manage-platform/sysUserInfoController/querySysUserInfo',{},
+       r => {
+        console.log(r)
+        this.userId=r.data.userId;
+      })
+    },
     delRyALL(){
-      let arr=this.DqRy.map(function(val){
-           return val.trvKey
-         },this)
-         console.log(arr)
-       this.delRy(arr)
+      this.$api.get('/manage-platform/travelerRealTime/clrMonitorPerson',{userid:this.userId},
+       r => {
+         //console.log(r);
+         if(r.success){
+           this.$message({
+             message: '恭喜你，删除成功！',
+             type: 'success'
+           });
+           this.getDqRy(2);
+           this.getRy()
+         }
+      })
+      // let arr=this.DqRy.map(function(val){
+      //      return val.trvKey
+      //    },this)
+      //    console.log(arr)
+      //  this.delRy(arr)
     },
     // 当前监控人员取得
     getDqRy(type){

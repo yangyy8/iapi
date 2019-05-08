@@ -116,7 +116,8 @@
           </el-row>
         </el-col>
         <el-col :span="2" class="down-btn-area">
-          <el-button type="success" size="small" @click="CurrentPage=1;querySeat()">查询</el-button>
+          <el-button type="success" size="small" @click="CurrentPage=1;querySeat()" class="mb-15">查询</el-button>
+          <el-button type="primary" plain size="small" @click="reset">重置</el-button>
         </el-col>
       </el-row>
     </div>
@@ -124,7 +125,8 @@
         <!-- <span class="tubiao hand borderL" :class="{'checked':page==0}" @click="page=0;getList(CurrentPage,pageSize,pd)">列表</span><span class="tubiao hand borderR" :class="{'checked':page==1}" @click="qq">图表</span> -->
     <div id="div1" @mouseover="mouseHeader">
       <el-table
-        border
+         ref="sort"
+         border
         :data="tableData"
         class="o-table3"
         @header-click="headerClick"
@@ -531,7 +533,7 @@
       :visible.sync="seatDialogVisible"
       width="1220px"
       >
-      <Seat :flightNumber="flightNumber0" :globalserial="globalserial0" :specifigseat="specifigseat0" :FLTNO="FLTNO0" :FLTDATE="FLTDATE0" :seatType="1"></Seat>
+      <Seat :flightNumber="flightNumber0" :globalserial="globalserial0" :specifigseat="specifigseat0" :FLTNO="FLTNO0" :FLTDATE="FLTDATE0" :seatType="1" :CHK_SERIAL="CHK_SERIAL0"></Seat>
     </el-dialog>
   </div>
 </template>
@@ -627,7 +629,8 @@ export default {
       globalserial0:'',
       specifigseat0:'',
       FLTNO0:'',
-      FLTDATE0:''
+      FLTDATE0:'',
+      CHK_SERIAL0:'',
     }
   },
   mounted() {
@@ -650,6 +653,34 @@ export default {
     sortChange(column, prop, order){
       column.order=='ascending'?this.direction=1:this.direction=0;
       this.order=column.prop;
+      this.getList(this.CurrentPage,this.pageSize,this.pd,this.order,this.direction);
+    },
+    reset(){
+      this.pd={
+        "isBlurred":false,
+        isFltnoLike:false,
+        isCardnumlike:false,
+        departdateBegin:'',
+        departdateEnd:'',
+      };
+      let time = new Date();
+      let end = new Date();
+      this.pd.departdateBegin=formatDate(time,'yyyyMMdd');
+      this.pd.departdateEnd=formatDate(end,'yyyyMMdd');
+
+      this.$nextTick(()=>{
+        let sortArr = this.$refs.sort.$children
+        for(var i=0;i<sortArr.length;i++){
+          if(sortArr[i].columnConfig&&sortArr[i].columnConfig.order){
+            sortArr[i].columnConfig.order = ''
+            return false
+          }
+        }
+      })
+      this.direction=0;
+      this.order='';
+      this.CurrentPage=1;
+      this.pageSize=10;
       this.getList(this.CurrentPage,this.pageSize,this.pd,this.order,this.direction);
     },
     headerClick(column,event){
@@ -677,6 +708,7 @@ export default {
       this.specifigseat0=i.specifigseat;
       this.FLTNO0=i.fltno;
       this.FLTDATE0=i.fltdate;
+      this.CHK_SERIAL0=i.serial
       // this.$router.push({query:{flightNumber:i.flightRecordnum}})
     },
     getHistoryListPnr(hcurrentPage,hshowCount,historyCdt){
@@ -783,7 +815,7 @@ export default {
       this.historyCdt.passportnoEqual = i.cardnum;
       console.log(i);
       this.getHistoryListPnr(this.hcurrentPage,this.hshowCount,this.historyCdt);
-      this.$api.post('/manage-platform/iapi/queryIapiInfo',{serial:i.serial},
+      this.$api.post('/manage-platform/iapi/queryIapiInfo',{serial:i.chkSerial},
        r =>{
          if(r.success){
            this.dform = r.data.IAPI;

@@ -127,7 +127,7 @@
         </el-table-column>
         <el-table-column
           prop="LEADERNAME"
-          label="值班领导"
+          label="值班角色"
           sortable>
           </el-table-column>
           <el-table-column
@@ -184,7 +184,7 @@
           <el-col :span="24" class="input-item my-form-group" data-scope="demo2" data-name="NAME" data-type="select"
             v-validate-easy="[['required']]">
             <span class="yy-input-text"><font class="yy-color">*</font>姓名：</span>
-            <el-select placeholder="请选择" v-model="form.NAME" filterable clearable @visible-change="nameMethod(0)" size="small" class="yy-input-input" @change="nameMethodReal(form.NAME)">
+            <el-select placeholder="请选择" v-model="form.NAME" filterable clearable @visible-change="nameMethod()" size="small" class="yy-input-input" @change="nameMethodReal(form.NAME)">
               <el-option
               v-for="item in dutyName"
               :key="item.SERIAL"
@@ -219,14 +219,16 @@
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item my-form-group" data-scope="demo2" data-name="LEADERNAME" data-type="select"
             v-validate-easy="[['required']]">
-            <span class="yy-input-text"><font class="yy-color">*</font>值班领导：</span>
-            <el-select placeholder="请选择" v-model="form.LEADERNAME" filterable clearable @visible-change="nameMethod(1)" size="small" class="yy-input-input" @change="leaderNameReal(form.LEADERNAME)">
-              <el-option
+            <span class="yy-input-text"><font class="yy-color">*</font>值班角色：</span>
+            <el-select placeholder="请选择" v-model="form.LEADERNAME" filterable clearable size="small" class="yy-input-input" @change="leaderNameReal(form.LEADERNAME)">
+              <el-option label="值班领导" value="值班领导"></el-option>
+              <el-option label="值班员" value="值班员"></el-option>
+              <!-- <el-option
               v-for="item in leaderName"
               :key="item.SERIAL"
               :value="item.NAME"
               :label="item.NAME">
-              </el-option>
+              </el-option> -->
             </el-select>
           </el-col>
         </el-row>
@@ -375,7 +377,7 @@ export default {
             this.form.STARTTIMESTR>this.form.ENDTIMESTR
           }else{
             return endT < this.form.STARTTIMESTR;
-          }    
+          }
         }
       },
       form: {
@@ -496,24 +498,20 @@ export default {
           this.TotalResult = r.data.totalResult;
         })
     },
-    nameMethod(type){
+    nameMethod(){
       this.$api.post('/manage-platform/watch/queryUserAll',{},
         r => {
-          if(type==0){
-            this.dutyName = r.data;
-          }else if(type==1){
-            this.leaderName = r.data;
-          }
+          this.dutyName = r.data;
         })
     },
     leaderNameReal(val){
-      console.log(val);
-      let arr = this.leaderName;
-      for(var i=0;i<arr.length;i++){
-        if(arr[i].NAME == val){
-          this.form.LEADERSERIAL = arr[i].SERIAL;
-        }
-      }
+      val=="值班领导"?this.form.LEADERSERIAL='0':this.form.LEADERSERIAL='1';
+      // let arr = this.leaderName;
+      // for(var i=0;i<arr.length;i++){
+      //   if(arr[i].NAME == val){
+      //     this.form.LEADERSERIAL = arr[i].SERIAL;
+      //   }
+      // }
     },
     nameMethodReal(val){//新增添值&编辑修改
       this.$set(this.form,'PHONE','');
