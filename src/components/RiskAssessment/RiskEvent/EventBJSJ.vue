@@ -214,7 +214,7 @@
             label="姓名"
             prop="name"
             sortable="custom"
-            width="60"
+          
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
