@@ -232,12 +232,12 @@
             <!-- {{detailsData.status}} -->
             <a v-if="detailsData.status==0">计划</a>
             <a v-if="detailsData.status==1">已预检</a>
-            <a v-if="detailsData.status==2">已起飞</a>
-            <a v-if="detailsData.status==3">已到达</a>
+            <a v-if="detailsData.status==3">已起飞</a>
+            <a v-if="detailsData.status==6">已到达</a>
             <a v-if="detailsData.status==4">已办理入境手续</a>
             <a v-if="detailsData.status==5">已取消</a>
-            <a v-if="detailsData.status==6">无关闭报文</a>
-            <a v-if="detailsData.status==7">无值机报文</a>
+            <a v-if="detailsData.status==7">无关闭报文</a>
+            <a v-if="detailsData.status==8">无值机报文</a>
           </el-col>
           <el-col :sm="24" :md="12" :lg="8" >
             <span>实际起飞时间：</span>

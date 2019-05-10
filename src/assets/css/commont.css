@@ -1,6 +1,10 @@
 .el-icon-loading{
   font-size: 40px;
 }
+.teshuW{
+  width: 38%!important;
+  margin-left: -8%;
+}
 .tt-title{
   text-align: center;
   font-size: 29px;
@@ -248,11 +252,17 @@
   padding: 20px;
   border-radius: 0 5px 5px 5px;
 }
+.textZdy{
+  width: 40%!important
+}
+.contentZdy{
+  width: 65%!important
+}
 /* 保存按钮 */
 .t-save{
   display: flex;
   justify-content: flex-end!important;
-  width:100%;
+  width:273px;
 }
 .t-save button{
   font-size: 14px;
@@ -264,7 +274,9 @@
   color: #fff;
   margin-top: 2px;
 }
-
+.t-save .el-select{
+  width: 62%
+}
 .middle-btn-g {
   display: flex;
   justify-content: center;

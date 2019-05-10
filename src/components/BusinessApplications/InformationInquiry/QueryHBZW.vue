@@ -113,6 +113,13 @@
                 <el-checkbox v-model="pd.isCardnumlike">模糊查询</el-checkbox>
               </div>
             </el-col>
+            <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+              <span class="input-text"><i class="t-must">*</i>查询范围：</span>
+              <el-select v-model="searchType" placeholder="请选择" filterable  size="small" class="input-input" @change="fightDate">
+                 <el-option value="0" label="当前查询"></el-option>
+                 <el-option value="1" label="历史查询"></el-option>
+               </el-select>
+            </el-col>
           </el-row>
         </el-col>
         <el-col :span="2" class="down-btn-area">
@@ -547,6 +554,7 @@ export default {
   components: {AlarmProcess,Seat},
   data() {
     return {
+      searchType:"0",
       order:'',
       direction:0,
       CurrentPage: 1,
@@ -650,6 +658,27 @@ export default {
     this.nav2Id=this.$route.query.nav2Id
   },
   methods: {
+    fightDate(){
+      if(this.searchType==0){//当前
+        let time = new Date();
+        let end = new Date();
+        this.pd.departdateBegin=formatDate(time,'yyyyMMdd');
+        this.pd.departdateEnd=formatDate(end,'yyyyMMdd');
+        this.$message({
+          message: '仅能查询近期1个月以内的数据',
+          type: 'warning'
+        });
+      }else if(this.searchType==1){//历史
+        let begin = new Date(new Date() - 1000 * 60 * 60 * 24 * 30);
+        let end =new Date(new Date() - 1000 * 60 * 60 * 24 * 30);
+        this.pd.departdateBegin=formatDate(begin,'yyyyMMdd');
+        this.pd.departdateEnd=formatDate(end,'yyyyMMdd');
+        this.$message({
+          message: '仅能查询1个月以前的数据',
+          type: 'warning'
+        });
+      }
+    },
     sortChange(column, prop, order){
       column.order=='ascending'?this.direction=1:this.direction=0;
       this.order=column.prop;
@@ -663,6 +692,7 @@ export default {
         departdateBegin:'',
         departdateEnd:'',
       };
+      this.searchType='0';
       let time = new Date();
       let end = new Date();
       this.pd.departdateBegin=formatDate(time,'yyyyMMdd');
@@ -761,6 +791,20 @@ export default {
         });
         return false
       }
+      let end = new Date(new Date() - 1000 * 60 * 60 * 24 * 30);
+      let endTime = formatDate(end,'yyyy-MM-dd')
+      if(this.searchType==0&&(this.pd.departdateBegin<formatDate(end,'yyyyMMdd'))){//当前
+        this.$alert('查询开始时间不能小于'+endTime+'', '提示', {
+          confirmButtonText: '确定',
+        });
+        return false
+      }
+      if(this.searchType==1&&(this.pd.departdateEnd>formatDate(end,'yyyyMMdd'))){
+        this.$alert('查询结束时间不能大于'+endTime+'', '提示', {
+          confirmButtonText: '确定',
+        });
+        return false
+      }
       if(dayGap(this.pd.departdateBegin,this.pd.departdateEnd,0)>30){
         this.$alert('查询时间间隔不能超过一个月', '提示', {
           confirmButtonText: '确定',
@@ -772,7 +816,8 @@ export default {
         "showCount": showCount,
         "cdt": pd,
         "order":order,
-        "direction":direction
+        "direction":direction,
+        "searchType":this.searchType
       };
       this.$api.post('/manage-platform/statusUpdate/seat/queryListPages', p,
         r => {

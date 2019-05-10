@@ -264,31 +264,52 @@
         </el-row>
         <el-row type="flex" style="height:100%">
           <el-col :span="22" style="margin-top: 15px;">
-            <!-- 保存方案 -->
-            <div class="t-save">
-              <el-select  v-if="bigBase==5" filterable clearable v-model="pppp"  @visible-change="batchSavePlanShow" @change="batchPlanQuery(pppp)" placeholder="方案选择" size="small" class="mr-15">
-                <el-option
-                  v-for="item in batchSaveName"
-                  :label="item"
-                  :value="item"
-                  :key="item"
-                  >
-                  <span class="planItem">{{item}}</span>
-                  <span class="planDelete el-icon-circle-close" @click.stop="batchDeleteItem(item)"></span>
-                </el-option>
-              </el-select>
-              <el-select  v-if="bigBase==6" filterable clearable v-model="rrrr"  @visible-change="batchSavePlanShow" @change="batchPlanQuery(rrrr)" placeholder="方案选择" size="small" class="mr-15">
-                <el-option
-                  v-for="item in batchSaveNamePnr"
-                  :label="item"
-                  :value="item"
-                  :key="item">
-                  <span class="planItem">{{item}}</span>
-                  <span class="planDelete el-icon-circle-close" @click.stop="batchDeleteItem(item)"></span>
-                </el-option>
-              </el-select>
-              <button type="button" name="button" @click="batchDialogVisible = true;ppp=''">保存方案</button>
-            </div>
+            <el-row type="flex" justify="end" :gutter="10">
+              <el-col  :sm="24" :md="12" :lg="6"  class="input-item" v-if="bigBase==5">
+                <span class="input-text"><i class="t-must">*</i>查询范围：</span>
+                <el-select v-model="rangeIapi" placeholder="请选择" filterable  size="small" class="input-input" @change="fightDate">
+                   <el-option value="0" label="当前查询"></el-option>
+                   <el-option value="1" label="历史查询"></el-option>
+                 </el-select>
+              </el-col>
+              <el-col  :sm="24" :md="12" :lg="6"  class="input-item" v-if="bigBase==6">
+                <span class="input-text"><i class="t-must">*</i>查询范围：</span>
+                <el-select v-model="rangePnr" placeholder="请选择" filterable  size="small" class="input-input" @change="fightDate">
+                   <el-option value="0" label="当前查询"></el-option>
+                   <el-option value="1" label="历史查询"></el-option>
+                 </el-select>
+              </el-col>
+                <!-- 保存方案 -->
+              <el-col  class="t-save" type="flex" justify="end">
+                <el-select  v-if="bigBase==5" filterable clearable v-model="pppp"  @visible-change="batchSavePlanShow" @change="batchPlanQuery(pppp)" placeholder="方案选择" size="small" class="mr-15">
+                  <el-option
+                    v-for="item in batchSaveName"
+                    :label="item"
+                    :value="item"
+                    :key="item"
+                    >
+                    <span class="planItem">{{item}}</span>
+                    <span class="planDelete el-icon-circle-close" @click.stop="batchDeleteItem(item)"></span>
+                  </el-option>
+                </el-select>
+                <el-select  v-if="bigBase==6" filterable clearable v-model="rrrr"  @visible-change="batchSavePlanShow" @change="batchPlanQuery(rrrr)" placeholder="方案选择" size="small" class="mr-15">
+                  <el-option
+                    v-for="item in batchSaveNamePnr"
+                    :label="item"
+                    :value="item"
+                    :key="item">
+                    <span class="planItem">{{item}}</span>
+                    <span class="planDelete el-icon-circle-close" @click.stop="batchDeleteItem(item)"></span>
+                  </el-option>
+                </el-select>
+                <button type="button" name="button" @click="saveProject">保存方案</button>
+              </el-col>
+            </el-row>
+
+            <!-- <div class="t-save">
+
+
+            </div> -->
             <!-- 写入方案名称 -->
             <el-dialog
               title="方案名称"
@@ -1178,6 +1199,8 @@ export default {
   components: {AlarmProcess,Seat,Detail,DetailIapi},
   data(){
     return{
+      rangeIapi:'0',
+      rangePnr:'0',
       orderIapiHc:{},
       orderIapiState:0,//默认iapi未排序
       orderPnrHc:{},
@@ -1227,49 +1250,48 @@ export default {
       rows:[
         {
           version:1,
-          nationalityEqual:'',
-          nationalityNameEqual:'',
-          passportnoEqual:'',
-          fltnoEqual:'',
-          familyname:'',
-          genderEqual:'',
-          startDateofbirth:'',
-          startFlightDepartdate:'',
-          cityfromEqual:'',
-          startDepartdate:'',
-          citytoEqual:'',
-          endArrivdate:'',
-          cityfromNameEqual:'',
-          citytoNameEqual:''
+          nationalityEqual:'',//国籍
+          passportnoEqual:'',//证件号码
+          fltnoEqual:'',//航班号
+          familyname:'',//姓名
+          genderEqual:'',//性别
+          dateofbirth:'',//出生日期
+          flightDepartdate:'',//航班日期
+          cityfromEqual:'',//起飞机场
+          citytoEqual:'',//到达机场
+
+          // nationalityNameEqual:'',
+          // cityfromNameEqual:'',
+          // citytoNameEqual:''
+          // startDepartdate:'',
+          // endArrivdate:'',
+          // startDateofbirth:'',
+          // startFlightDepartdate:'',
         }
       ],
       modelrow:{
         version:0,
-        nationalityEqual:'',
-        passportnoEqual:'',
-        fltnoEqual:'',
-        familyname:'',
-        genderEqual:'',
-        startDateofbirth:'',
-        startFlightDepartdate:'',
-        cityfromEqual:'',
-        startDepartdate:'',
-        citytoEqual:'',
-        endArrivdate:''
+        nationalityEqual:'',//国籍
+        passportnoEqual:'',//证件号码
+        fltnoEqual:'',//航班号
+        familyname:'',//姓名
+        genderEqual:'',//性别
+        dateofbirth:'',//出生日期
+        flightDepartdate:'',//航班日期
+        cityfromEqual:'',//起飞机场
+        citytoEqual:'',//到达机场
       },
       cleanRow:{
         version:0,
-        nationalityEqual:'',
-        passportnoEqual:'',
-        fltnoEqual:'',
-        familyname:'',
-        genderEqual:'',
-        startDateofbirth:'',
-        startFlightDepartdate:'',
-        cityfromEqual:'',
-        startDepartdate:'',
-        citytoEqual:'',
-        endArrivdate:''
+        nationalityEqual:'',//国籍
+        passportnoEqual:'',//证件号码
+        fltnoEqual:'',//航班号
+        familyname:'',//姓名
+        genderEqual:'',//性别
+        dateofbirth:'',//出生日期
+        flightDepartdate:'',//航班日期
+        cityfromEqual:'',//起飞机场
+        citytoEqual:'',//到达机场
       },
       count:1,
       nationName:[],//国籍
@@ -1279,20 +1301,15 @@ export default {
       //pnr查询条件
       rowsPnr:[{
         version:1,
-        nationalityEqual:'',
-        nationalityNameEqual:'',
-        passportnoEqual:'',
-        fltnoEqual:'',
-        familyname:'',
-        genderEqual:'',
-        startDateofbirth:'',
-        startFlightDepartdate:'',
-        cityfromEqual:'',
-        startDepartdate:'',
-        citytoEqual:'',
-        endArrivdate:'',
-        cityfromNameEqual:'',
-        citytoNameEqual:''
+        nationalityEqual:'',//国籍
+        passportnoEqual:'',//证件号码
+        fltnoEqual:'',//航班号
+        familyname:'',//姓名
+        genderEqual:'',//性别
+        dateofbirth:'',//出生日期
+        flightDepartdate:'',//航班日期
+        cityfromEqual:'',//起飞机场
+        citytoEqual:'',//到达机场
       }],
       countPnr:1,
       nationNamePnr:[],//国籍
@@ -1678,6 +1695,46 @@ export default {
     }
   },
   methods:{
+    fightDate(){
+      if((this.bigBase==5&&this.rangeIapi==0)||(this.bigBase==6&&this.rangePnr==0)){
+        if(this.bigBase==5){
+          for(var i=0;i<this.rows.length;i++){
+            if(this.rows[i].flightDepartdate!=''){
+              this.rows[i].flightDepartdate=formatDate(new Date(),'yyyyMMdd');
+            }
+          }
+        }else if(this.bigBase==6){
+          for(var i=0;i<this.rowsPnr.length;i++){
+            if(this.rowsPnr[i].flightDepartdate!=''){
+              this.rowsPnr[i].flightDepartdate=formatDate(new Date(),'yyyyMMdd');
+            }
+          }
+        }
+        this.$message({
+          message: '仅能查询近期1个月以内的数据',
+          type: 'warning'
+        });
+      }else if((this.bigBase==5&&this.rangeIapi==1)||(this.bigBase==6&&this.rangePnr==1)){
+        let time = new Date(new Date() - 1000 * 60 * 60 * 24 * 30);
+        if(this.bigBase==5){
+          for(var i=0;i<this.rows.length;i++){
+            if(this.rows[i].flightDepartdate!=''){
+              this.rows[i].flightDepartdate=formatDate(time,'yyyyMMdd')
+            }
+          }
+        }else if(this.bigBase==6){
+          for(var i=0;i<this.rowsPnr.length;i++){
+            if(this.rowsPnr[i].flightDepartdate!=''){
+              this.rowsPnr[i].flightDepartdate=formatDate(time,'yyyyMMdd')
+            }
+          }
+        }
+        this.$message({
+          message: '仅能查询1个月以前的数据',
+          type: 'warning'
+        });
+      }
+    },
     checkItemP(){
       for(var i=0;i<this.checkItem.length;i++){
         this.checkItemProp.push(this.checkItem[i].ITEMNAME)
@@ -1721,7 +1778,8 @@ export default {
         'direction':this.orderIapiHc.order=='ascending'?1:0,
         'cdtList':this.rows,
         'currentPage':this.currentPage,
-        'showCount':this.showCount
+        'showCount':this.showCount,
+        'searchType':this.rangeIapi
       }
       this.$api.post('/manage-platform/iapiHead/queryIapiBatch',p,
       r =>{
@@ -1751,7 +1809,8 @@ export default {
         'direction':this.orderPnrHc.order=='ascending'?1:0,
         'cdtList':this.rowsPnr,
         'currentPage':this.currentPage,
-        'showCount':this.showCount
+        'showCount':this.showCount,
+        'searchType':this.rangePnr
       }
       this.$api.post('/manage-platform/iapiHead/queryPnrBatch',p,
       r =>{
@@ -1991,11 +2050,28 @@ export default {
       }
     },
     batchQueryList(currentPage,showCount,rows){//iapi查询列表
+      let end = new Date(new Date() - 1000 * 60 * 60 * 24 * 30);
+      let endTime = formatDate(end,'yyyy-MM-dd')
+      for(var i=0;i<rows.length;i++){
+        if((this.rangeIapi==0)&&(rows[i].flightDepartdate<formatDate(end,'yyyyMMdd'))){
+          this.$alert('航班日期查询时间不能小于'+endTime+'', '提示', {
+            confirmButtonText: '确定',
+          });
+          return false
+        }
+        if((this.rangeIapi==1)&&(rows[i].flightDepartdate>formatDate(end,'yyyyMMdd'))){
+          this.$alert('航班日期查询时间不能大于'+endTime+'', '提示', {
+            confirmButtonText: '确定',
+          });
+          return false
+        }
+      }
       this.orderIapiState=0;
       let bql = {
         "currentPage":currentPage,
       	"showCount":showCount,
-      	"cdtList":rows
+      	"cdtList":rows,
+        "searchType":this.rangeIapi
       }
       this.$api.post('/manage-platform/iapiHead/queryIapiBatch',bql,
       r =>{
@@ -2018,11 +2094,28 @@ export default {
       })
     },
     batchQueryListPnr(currentPage,showCount,rows){//批量查询pnr
+      let end = new Date(new Date() - 1000 * 60 * 60 * 24 * 30);
+      let endTime = formatDate(end,'yyyy-MM-dd')
+      for(var i=0;i<rows.length;i++){
+        if((this.rangePnr==0)&&(rows[i].flightDepartdate<formatDate(end,'yyyyMMdd'))){
+          this.$alert('航班日期查询时间不能小于'+endTime+'', '提示', {
+            confirmButtonText: '确定',
+          });
+          return false
+        }
+        if((this.rangePnr==1)&&(rows[i].flightDepartdate>formatDate(end,'yyyyMMdd'))){
+          this.$alert('航班日期查询时间不能大于'+endTime+'', '提示', {
+            confirmButtonText: '确定',
+          });
+          return false
+        }
+      }
       this.orderPnrState=0;
       let bqlp = {
         "currentPage":currentPage,
       	"showCount":showCount,
-      	"cdtList":rows
+      	"cdtList":rows,
+        "searchType":this.rangePnr
       }
       this.$api.post('/manage-platform/iapiHead/queryPnrBatch',bqlp,
       r =>{
@@ -2282,17 +2375,15 @@ export default {
         this.count++;
         this.modelrow = {
           version:0,
-          nationalityEqual:'',
-          passportnoEqual:'',
-          fltnoEqual:'',
-          familyname:'',
-          genderEqual:'',
-          startDateofbirth:'',
-          startFlightDepartdate:'',
-          cityfromEqual:'',
-          startDepartdate:'',
-          citytoEqual:'',
-          endArrivdate:''
+          nationalityEqual:'',//国籍
+          passportnoEqual:'',//证件号码
+          fltnoEqual:'',//航班号
+          familyname:'',//姓名
+          genderEqual:'',//性别
+          dateofbirth:'',//出生日期
+          flightDepartdate:'',//航班日期
+          cityfromEqual:'',//起飞机场
+          citytoEqual:'',//到达机场
         };
         this.modelrow.version=this.count;
         this.rows.push(this.modelrow);
@@ -2300,17 +2391,15 @@ export default {
         this.countPnr++;
         this.modelrow = {
           version:0,
-          nationalityEqual:'',
-          passportnoEqual:'',
-          fltnoEqual:'',
-          familyname:'',
-          genderEqual:'',
-          startDateofbirth:'',
-          startFlightDepartdate:'',
-          cityfromEqual:'',
-          startDepartdate:'',
-          citytoEqual:'',
-          endArrivdate:''
+          nationalityEqual:'',//国籍
+          passportnoEqual:'',//证件号码
+          fltnoEqual:'',//航班号
+          familyname:'',//姓名
+          genderEqual:'',//性别
+          dateofbirth:'',//出生日期
+          flightDepartdate:'',//航班日期
+          cityfromEqual:'',//起飞机场
+          citytoEqual:'',//到达机场
         };
         this.modelrow.version=this.countPnr;
         this.rowsPnr.push(this.modelrow);
@@ -2326,17 +2415,15 @@ export default {
       if(this.bigBase == 5){
         this.rows = [{
           version:1,
-          nationalityEqual:'',
-          passportnoEqual:'',
-          fltnoEqual:'',
-          familyname:'',
-          genderEqual:'',
-          startDateofbirth:'',
-          startFlightDepartdate:'',
-          cityfromEqual:'',
-          startDepartdate:'',
-          citytoEqual:'',
-          endArrivdate:''
+          nationalityEqual:'',//国籍
+          passportnoEqual:'',//证件号码
+          fltnoEqual:'',//航班号
+          familyname:'',//姓名
+          genderEqual:'',//性别
+          dateofbirth:'',//出生日期
+          flightDepartdate:'',//航班日期
+          cityfromEqual:'',//起飞机场
+          citytoEqual:'',//到达机场
         }];
         this.pppp='';
         this.tableCurrent=0;
@@ -2346,17 +2433,15 @@ export default {
       }else if(this.bigBase == 6){
         this.rowsPnr = [{
           version:1,
-          nationalityEqual:'',
-          passportnoEqual:'',
-          fltnoEqual:'',
-          familyname:'',
-          genderEqual:'',
-          startDateofbirth:'',
-          startFlightDepartdate:'',
-          cityfromEqual:'',
-          startDepartdate:'',
-          citytoEqual:'',
-          endArrivdate:''
+          nationalityEqual:'',//国籍
+          passportnoEqual:'',//证件号码
+          fltnoEqual:'',//航班号
+          familyname:'',//姓名
+          genderEqual:'',//性别
+          dateofbirth:'',//出生日期
+          flightDepartdate:'',//航班日期
+          cityfromEqual:'',//起飞机场
+          citytoEqual:'',//到达机场
         }];
         this.rrrr='';
         this.tableCurrentPnr=0;
@@ -2422,6 +2507,45 @@ export default {
      // this.uploadDialogVisible=false;
     },
     //==============================方案保存=======================================================
+    saveProject(){
+      if(this.bigBase==5){
+        let end = new Date(new Date() - 1000 * 60 * 60 * 24 * 30);
+        let endTime = formatDate(end,'yyyy-MM-dd')
+        for(var i=0;i<this.rows.length;i++){
+          if((this.rangeIapi==0)&&(this.rows[i].flightDepartdate<formatDate(end,'yyyyMMdd'))){
+            this.$alert('航班日期查询时间不能小于'+endTime+'', '提示', {
+              confirmButtonText: '确定',
+            });
+            return false
+          }
+          if((this.rangeIapi==1)&&(this.rows[i].flightDepartdate>formatDate(end,'yyyyMMdd'))){
+            this.$alert('航班日期查询时间不能大于'+endTime+'', '提示', {
+              confirmButtonText: '确定',
+            });
+            return false
+          }
+        }
+      }else if(this.bigBase==6){
+        let end = new Date(new Date() - 1000 * 60 * 60 * 24 * 30);
+        let endTime = formatDate(end,'yyyy-MM-dd')
+        for(var i=0;i<this.rowsPnr.length;i++){
+          if((this.rangePnr==0)&&(this.rowsPnr[i].flightDepartdate<formatDate(end,'yyyyMMdd'))){
+            this.$alert('航班日期查询时间不能小于'+endTime+'', '提示', {
+              confirmButtonText: '确定',
+            });
+            return false
+          }
+          if((this.rangePnr==1)&&(this.rowsPnr[i].flightDepartdate>formatDate(end,'yyyyMMdd'))){
+            this.$alert('航班日期查询时间不能大于'+endTime+'', '提示', {
+              confirmButtonText: '确定',
+            });
+            return false
+          }
+        }
+      }
+      this.batchDialogVisible = true;
+      this.ppp=''
+    },
     batchSavePlanShow(){//批量查询方案名称列表
       let bsp = {
         page : this.bigBase
@@ -2452,45 +2576,37 @@ export default {
             if(this.bigBase==5){
               this.rows=[{
                 version:1,
-                nationalityEqual:'',
-                nationalityNameEqual:'',
-                passportnoEqual:'',
-                fltnoEqual:'',
-                familyname:'',
-                genderEqual:'',
-                startDateofbirth:'',
-                startFlightDepartdate:'',
-                cityfromEqual:'',
-                startDepartdate:'',
-                citytoEqual:'',
-                endArrivdate:'',
-                cityfromNameEqual:'',
-                citytoNameEqual:''
+                nationalityEqual:'',//国籍
+                passportnoEqual:'',//证件号码
+                fltnoEqual:'',//航班号
+                familyname:'',//姓名
+                genderEqual:'',//性别
+                dateofbirth:'',//出生日期
+                flightDepartdate:'',//航班日期
+                cityfromEqual:'',//起飞机场
+                citytoEqual:'',//到达机场
               }]
             }else if(this.bigBase==6){
               this.rowsPnr=[{
                 version:1,
-                nationalityEqual:'',
-                nationalityNameEqual:'',
-                passportnoEqual:'',
-                fltnoEqual:'',
-                familyname:'',
-                genderEqual:'',
-                startDateofbirth:'',
-                startFlightDepartdate:'',
-                cityfromEqual:'',
-                startDepartdate:'',
-                citytoEqual:'',
-                endArrivdate:'',
-                cityfromNameEqual:'',
-                citytoNameEqual:''
+                nationalityEqual:'',//国籍
+                passportnoEqual:'',//证件号码
+                fltnoEqual:'',//航班号
+                familyname:'',//姓名
+                genderEqual:'',//性别
+                dateofbirth:'',//出生日期
+                flightDepartdate:'',//航班日期
+                cityfromEqual:'',//起飞机场
+                citytoEqual:'',//到达机场
               }]
             }
           }else{
             if(this.bigBase==5){
               this.rows = r.data.configList;
+              this.rangeIapi = r.data.searchTypeStr;
             }else if(this.bigBase==6){
               this.rowsPnr = r.data.configList;
+              this.rangePnr = r.data.searchTypeStr;
             }
           }
           //展示项渲染
@@ -2535,17 +2651,15 @@ export default {
                  this.pppp='';
                  this.rows = [{
                    version:1,
-                   nationalityEqual:'',
-                   passportnoEqual:'',
-                   fltnoEqual:'',
-                   familyname:'',
-                   genderEqual:'',
-                   startDateofbirth:'',
-                   startFlightDepartdate:'',
-                   cityfromEqual:'',
-                   startDepartdate:'',
-                   citytoEqual:'',
-                   endArrivdate:''
+                   nationalityEqual:'',//国籍
+                   passportnoEqual:'',//证件号码
+                   fltnoEqual:'',//航班号
+                   familyname:'',//姓名
+                   genderEqual:'',//性别
+                   dateofbirth:'',//出生日期
+                   flightDepartdate:'',//航班日期
+                   cityfromEqual:'',//起飞机场
+                   citytoEqual:'',//到达机场
                  }];
                }else{
                  this.batchSavePlanShow();
@@ -2555,17 +2669,15 @@ export default {
                  this.rrrr='';
                  this.rowsPnr = [{
                    version:1,
-                   nationalityEqual:'',
-                   passportnoEqual:'',
-                   fltnoEqual:'',
-                   familyname:'',
-                   genderEqual:'',
-                   startDateofbirth:'',
-                   startFlightDepartdate:'',
-                   cityfromEqual:'',
-                   startDepartdate:'',
-                   citytoEqual:'',
-                   endArrivdate:''
+                   nationalityEqual:'',//国籍
+                   passportnoEqual:'',//证件号码
+                   fltnoEqual:'',//航班号
+                   familyname:'',//姓名
+                   genderEqual:'',//性别
+                   dateofbirth:'',//出生日期
+                   flightDepartdate:'',//航班日期
+                   cityfromEqual:'',//起飞机场
+                   citytoEqual:'',//到达机场
                  }];
                }else{
                  this.batchSavePlanShow();
@@ -2601,9 +2713,9 @@ export default {
            if(r.data == false){
              this.showConfiglistArr();//展示项数组
              if(this.bigBase==5){
-               this.batchSavePlan(this.showConfiglist,this.rows);
+               this.batchSavePlan(this.showConfiglist,this.rows,this.rangeIapi);
              }else if(this.bigBase==6){
-               this.batchSavePlan(this.showConfiglistPnr,this.rowsPnr);
+               this.batchSavePlan(this.showConfiglistPnr,this.rowsPnr,this.rangePnr);
              }
              this.batchDialogVisible = false;
            }else{
@@ -2615,12 +2727,13 @@ export default {
          }
        })
     },
-    batchSavePlan(item,row){//批量查询 保存方案
+    batchSavePlan(item,row,type){//批量查询 保存方案
       let batchSP = {
         "name" : this.ppp,
         "page" : this.bigBase,
         "showConfigList":item,
-        "configList":row
+        "configList":row,
+        "searchType":type,
       }
       this.$api.post('/manage-platform/queryShow/save',batchSP,
        r =>{
@@ -2675,9 +2788,6 @@ export default {
 </script>
 
 <style media="screen">
-  .t-save .el-select{
-    width: 127px;
-  }
  .plan .el-input{
    width:75%!important;
  }

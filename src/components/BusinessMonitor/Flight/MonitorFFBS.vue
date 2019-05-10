@@ -127,12 +127,12 @@
               <div>
                 <span v-if="scope.row.status==0">计划</span>
                 <span v-if="scope.row.status==1">已预检</span>
-                <span v-if="scope.row.status==2">已起飞</span>
-                <span v-if="scope.row.status==3">已到达</span>
+                <span v-if="scope.row.status==3">已起飞</span>
+                <span v-if="scope.row.status==6">已到达</span>
                 <span v-if="scope.row.status==4">已办理入境手续</span>
                 <span v-if="scope.row.status==5">已取消</span>
-                <span v-if="scope.row.status==6">无关闭报文</span>
-                <span v-if="scope.row.status==7">无值机报文</span>
+                <span v-if="scope.row.status==7">无关闭报文</span>
+                <span v-if="scope.row.status==8">无值机报文</span>
               </div>
             </template>
           </el-table-column>
@@ -283,12 +283,12 @@
               <div>
                 <span v-if="scope.row.status==0">计划</span>
                 <span v-if="scope.row.status==1">已预检</span>
-                <span v-if="scope.row.status==2">已起飞</span>
-                <span v-if="scope.row.status==3">已到达</span>
+                <span v-if="scope.row.status==3">已起飞</span>
+                <span v-if="scope.row.status==6">已到达</span>
                 <span v-if="scope.row.status==4">已办理入境手续</span>
                 <span v-if="scope.row.status==5">已取消</span>
-                <span v-if="scope.row.status==6">无关闭报文</span>
-                <span v-if="scope.row.status==7">无值机报文</span>
+                <span v-if="scope.row.status==7">无关闭报文</span>
+                <span v-if="scope.row.status==8">无值机报文</span>
               </div>
             </template>
           </el-table-column>

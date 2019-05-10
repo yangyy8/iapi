@@ -229,6 +229,19 @@
                 <el-option label="4Z - 数据错误" value="4Z"></el-option>
               </el-select>
             </el-col>
+
+            <el-col  :sm="24" :md="12" :lg="6"  class="input-item">
+              <span class="input-text"><i class="t-must">*</i>查询范围：</span>
+              <el-select v-model="searchType" placeholder="请选择" filterable  size="small" class="input-input" @change="fightDate">
+                 <el-option value="0" label="当前查询"></el-option>
+                 <el-option value="1" label="历史查询"></el-option>
+               </el-select>
+            </el-col>
+
+            <el-col :sm="24" :md="12" :lg="6" class="input-item">
+              <span class="input-text teshuW">ABO唯一标识：</span>
+              <el-input placeholder="请输入内容" v-model="cdt.aboNoEqual" size="small" class="input-input"></el-input>
+            </el-col>
             </div>
           </el-row>
           <!-- 保存方案 -->
@@ -855,6 +868,9 @@ export default {
   components: {Detail,Seat,AlarmProcess},
   data(){
     return{
+      order:'',
+      direction:0,
+      searchType:'0',
       orderHc:{},
       orderState:0,//默认不排序
       loading:false,
@@ -1184,21 +1200,12 @@ export default {
      }
   },
   mounted(){
-    let time = new Date();
     let end = new Date();
-    let begin =new Date(time - 1000 * 60 * 60 * 24 * 30);
     let flightStart = new Date(new Date().setHours(0,0,0,0));
     this.cdt.startFltdate=formatDate(flightStart,'yyyyMMdd');
     this.cdt.endFltdate=formatDate(end,'yyyyMMdd');
-    // this.takeOff();
-    // this.landing();
     document.getElementsByClassName('btn-next')[0].disabled=true;
     this.checkItemP();
-    // this.cdt.passportnoEqual = this.$route.query.row.passportno;
-    // this.cdt.fltnoEqual = this.$route.query.row.fltno;
-    // this.cdt.familyname = this.$route.query.row.name;
-    // this.cdt.genderEqual = this.sexZhuan(this.$route.query.row.gender);
-    // this.cdt.dateofbirthEqual = this.zhuanhuan(this.$route.query.row.birthday)
   },
   activated(){
     console.log('RYXXZH',this.$route.query.row);
@@ -1208,7 +1215,6 @@ export default {
       this.cdt.startFltdate = this.zhuanhuan(this.$route.query.begintime);
       this.cdt.endFltdate = this.zhuanhuan(this.$route.query.endtime);
       this.keys = [this.$route.query.row.nationality_code];
-
       // this.$refs.tree.setCheckedKeys(this.keys);
       // this.cdt.familyname = this.$route.query.row.name;
       // this.cdt.genderEqual = this.sexZhuan(this.$route.query.row.gender);
@@ -1263,6 +1269,28 @@ export default {
     }
   },
   methods:{
+    fightDate(){
+      if(this.searchType==0){//当前
+        let end = new Date();
+        let flightStart = new Date(new Date().setHours(0,0,0,0));
+        this.cdt.startFltdate=formatDate(flightStart,'yyyyMMdd');
+        this.cdt.endFltdate=formatDate(end,'yyyyMMdd');
+        this.$message({
+          message: '仅能查询近期1个月以内的数据',
+          type: 'warning'
+        });
+      }else if(this.searchType==1){//历史
+        let begin = new Date(new Date() - 1000 * 60 * 60 * 24 * 30);
+        let end =new Date(new Date() - 1000 * 60 * 60 * 24 * 30);
+        this.cdt.startFltdate=formatDate(begin,'yyyyMMdd');
+        this.cdt.endFltdate=formatDate(end,'yyyyMMdd');
+        this.$message({
+          message: '仅能查询1个月以前的数据',
+          type: 'warning'
+        });
+      }
+    },
+
     checkItemP(){
       for(var i=0;i<this.checkItem.length;i++){
         this.checkItemProp.push(this.checkItem[i].ITEMNAME)
@@ -1322,7 +1350,8 @@ export default {
         'cdt':this.batchFlag==1?this.cdt1:this.cdt,
         // 'isBatch':this.batchFlag==1?1:0,
         'currentPage':this.currentPage,
-        'showCount':this.showCount
+        'showCount':this.showCount,
+        'searchType':this.searchType
       }
       p.cdt.isBatch = (this.batchFlag==1?1:0),
       this.$api.post('/manage-platform/iapiHead/queryListPage',p,
@@ -1728,6 +1757,7 @@ export default {
         "currentPage":currentPage,
       	"showCount":showCount,
       	"cdt":cdt,
+        "searchType":this.searchType
         // "isBatch":num
       }
       p.cdt.isBatch = num;
@@ -1753,10 +1783,25 @@ export default {
         });
         return
       }
+      let end = new Date(new Date() - 1000 * 60 * 60 * 24 * 30);
+      let endTime = formatDate(end,'yyyy-MM-dd')
+      if(this.searchType==0&&(this.cdt.startFltdate<formatDate(end,'yyyyMMdd'))){//当前
+        this.$alert('查询开始时间不能小于'+endTime+'', '提示', {
+          confirmButtonText: '确定',
+        });
+        return false
+      }
+      if(this.searchType==1&&(this.cdt.endFltdate>formatDate(end,'yyyyMMdd'))){
+        this.$alert('查询结束时间不能大于'+endTime+'', '提示', {
+          confirmButtonText: '确定',
+        });
+        return false
+      }
       let pl={
       	"currentPage":currentPage,
       	"showCount":showCount,
       	"cdt":cdt,
+        "searchType":this.searchType
         // "isBatch":num
       };
       pl.cdt.isBatch = num;
@@ -1801,7 +1846,7 @@ export default {
     },
     reset(){
       this.tableCurrent = 0;
-      this.cdt={isBlurred:false,startFltdate:'',endFltdate:'',};
+      this.cdt={isBlurred:false,startFltdate:'',endFltdate:'',type:'0',};
       this.ssss='';
       this.tableData=[];
       let time = new Date();
@@ -2082,10 +2127,6 @@ export default {
   background: #F4A460;
   /*有值机，无订票 */
 }
-
-  .t-save .el-select{
-    width: 127px;
-  }
  .plan .el-input{
    width:75%!important;
  }

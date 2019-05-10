@@ -130,27 +130,33 @@
         </el-table-column> -->
         <el-table-column
           prop="noreport" sortable
-          label="关闭报文未报数量" >
+          label="关闭报文未报数量"
+          >
         </el-table-column>
         <el-table-column
           prop="ontime" sortable
-          label="关闭报文准时预报数量" >
+          label="关闭报文准时预报数量"
+          >
         </el-table-column>
         <el-table-column
           prop="later" sortable
-          label="关闭报文晚报数量">
+          label="关闭报文晚报数量"
+          >
         </el-table-column>
         <el-table-column
           prop="msg_ontime" sortable
-          label="值机报文准时预报数量" >
+          label="值机报文准时预报数量(未去除重复数据)"
+          >
         </el-table-column>
         <el-table-column
           prop="msg_noreport" sortable
-          label="值机报文未报数量" >
+          label="值机报文未报数量"
+          >
         </el-table-column>
         <el-table-column
           prop="msg_later" sortable
-          label="值机报文晚报数量" >
+          label="值机报文晚报数量"
+          >
         </el-table-column>
         <!-- <el-table-column
           prop="levelString"

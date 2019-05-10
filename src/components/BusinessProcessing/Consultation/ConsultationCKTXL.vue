@@ -74,6 +74,7 @@
     <div class="middle" @mouseover="mouseHeader">
       <el-row class="mb-15">
         <el-button type="primary" size="small" @click="adds(0,'');">新增</el-button>
+        <el-button type="success" size="small" @click="exportT">导出</el-button>
       </el-row>
       <el-table
         ref="sort"
@@ -82,11 +83,11 @@
         style="width: 100%;"
         class="o-table3"
         @header-click="headerClick"
-        @sort-change='sortChange'>
+        @sort-change='sortChange'
+        @selection-change="handleSelectionChange">
         <el-table-column
-          label="序号"
-          type="index"
-          width="50">
+          type="selection"
+          width="55">
         </el-table-column>
         <el-table-column
           prop="CONSULTFROM"
@@ -178,7 +179,7 @@
     </div>
     <el-dialog title="编辑" :visible.sync="editDialogVisible" width="500px">
       <el-form :model="form" ref="addForm">
-        <el-row type="flex"  class="mb-6" v-if="form.STATIONFROM">
+        <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item my-form-group" data-scope="txl" data-name="STATIONFROM" data-type="select"
           v-validate-easy="[['required']]">
             <span class="yy-input-text"><font class="yy-color">*</font>航站：</span>
@@ -193,7 +194,7 @@
           </el-col>
         </el-row>
 
-        <el-row type="flex"  class="mb-6" v-if="form.AIRLINE_CODE">
+        <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item my-form-group" data-scope="txl" data-name="AIRLINE_CODE" data-type="select"
           v-validate-easy="[['required']]">
             <span class="yy-input-text"><font class="yy-color">*</font>航空公司：</span>
@@ -212,47 +213,47 @@
           <el-col :span="24" class="input-item my-form-group" data-scope="txl" data-name="NAME" data-type="input"
           v-validate-easy="[['required']]">
             <span class="yy-input-text"><font class="yy-color">*</font>咨询人：</span>
-            <el-input placeholder="请输入账号" size="small" v-model="form.NAME"  class="yy-input-input"></el-input>
+            <el-input placeholder="请输入内容" size="small" v-model="form.NAME"  class="yy-input-input"></el-input>
           </el-col>
         </el-row>
 
-        <el-row type="flex"  class="mb-6" v-if="form.TELEPHONE">
+        <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item my-form-group" data-scope="txl" data-name="TELEPHONE" data-type="input"
           v-validate-easy="[['required']]">
             <span class="yy-input-text"><font class="yy-color">*</font>固定电话：</span>
-            <el-input placeholder="请输入账号" size="small" v-model="form.TELEPHONE"  class="yy-input-input"></el-input>
+            <el-input placeholder="请输入内容" size="small" v-model="form.TELEPHONE"  class="yy-input-input"></el-input>
           </el-col>
         </el-row>
 
-        <el-row type="flex"  class="mb-6" v-if="form.CELLPHONE">
+        <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item my-form-group" data-scope="txl" data-name="CELLPHONE" data-type="input"
           v-validate-easy="[['required']]">
             <span class="yy-input-text"><font class="yy-color">*</font>移动电话：</span>
-            <el-input placeholder="请输入账号" size="small" v-model="form.CELLPHONE"  class="yy-input-input"></el-input>
+            <el-input placeholder="请输入内容" size="small" v-model="form.CELLPHONE"  class="yy-input-input"></el-input>
           </el-col>
         </el-row>
 
-        <el-row type="flex"  class="mb-6" v-if="form.FAX">
+        <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item my-form-group" data-scope="txl" data-name="FAX" data-type="input"
           v-validate-easy="[['required']]">
             <span class="yy-input-text"><font class="yy-color">*</font>传真：</span>
-            <el-input placeholder="请输入账号" size="small" v-model="form.FAX"  class="yy-input-input"></el-input>
+            <el-input placeholder="请输入内容" size="small" v-model="form.FAX"  class="yy-input-input"></el-input>
           </el-col>
         </el-row>
 
-        <el-row type="flex"  class="mb-6" v-if="form.EMAIL">
+        <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item my-form-group" data-scope="txl" data-name="EMAIL" data-type="input"
           v-validate-easy="[['required']]">
             <span class="yy-input-text"><font class="yy-color">*</font>邮箱：</span>
-            <el-input placeholder="请输入账号" size="small" v-model="form.EMAIL"  class="yy-input-input"></el-input>
+            <el-input placeholder="请输入内容" size="small" v-model="form.EMAIL"  class="yy-input-input"></el-input>
           </el-col>
         </el-row>
 
-        <el-row type="flex"  class="mb-6" v-if="form.OTHER">
+        <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item my-form-group" data-scope="txl" data-name="OTHER" data-type="input"
           v-validate-easy="[['required']]">
             <span class="yy-input-text"><font class="yy-color">*</font>其他：</span>
-            <el-input placeholder="请输入账号" size="small" v-model="form.OTHER"  class="yy-input-input"></el-input>
+            <el-input placeholder="请输入内容" size="small" v-model="form.OTHER"  class="yy-input-input"></el-input>
           </el-col>
         </el-row>
 
@@ -380,7 +381,7 @@
 
 <script>
 
-import {formatDate} from '@/assets/js/date.js'
+import {formatDate,format} from '@/assets/js/date.js'
 import {dayGap} from '@/assets/js/date.js'
 export default {
 
@@ -413,6 +414,19 @@ export default {
         }
       ],
       tableData: [],
+      multipleTable:[],
+      checkList:['CONSULTFROM','AIRLINE_CHN_NAME','STATIONFROM','NAME','TELEPHONE','CELLPHONE','FAX','EMAIL','OTHER'],
+      propertiesKeyAndName:{
+        "CONSULTFROM":'咨询来源',
+        "AIRLINE_CHN_NAME":'航空公司',
+        "STATIONFROM":'航站',
+        "NAME":'咨询人',
+        "TELEPHONE":'固定电话',
+        "CELLPHONE":'移动电话',
+        "FAX":'传真',
+        "EMAIL":'邮箱',
+        "OTHER":'其他',
+      },
     }
   },
   mounted() {
@@ -424,6 +438,46 @@ export default {
     // this.getList(this.CurrentPage, this.pageSize, this.pd);
   },
   methods: {
+    exportT(){
+      if(this.multipleTable.length!=0){
+        let p={
+          "exclTitles": this.checkList,
+          "propertiesKeyAndName":this.propertiesKeyAndName,
+          "resultList":this.multipleTable,
+        }
+        this.$api.post('/manage-platform/iapiHead/exportGlobalDataIo',p,
+         r =>{
+           this.downloadM(r)
+         },e=>{},'','blob')
+      }else if(this.multipleTable.length==0){//全部导出
+        let p={
+          "exclTitles":this.checkList,
+          "cdt":this.pd,
+          "CurrentPage":1,
+          "pageSize":10
+        }
+        this.$api.post('/manage-platform/consult/exportFileIo/10000',p,
+         r =>{
+           this.downloadM(r)
+         },e=>{},'','blob')
+      }
+    },
+    downloadM (data,type) {
+        if (!data) {
+            return
+        }
+        let url = window.URL.createObjectURL(new Blob([data.data],{type:"application/octet-stream"}))
+        let link = document.createElement('a')
+        link.style.display = 'none'
+        link.href = url
+        if(type==1){
+          link.setAttribute('download', 'template.xlsx')
+        }else{
+          link.setAttribute('download', format(new Date(),'yyyy-MM-dd hh:mm:ss')+'.xlsx')
+        }
+        document.body.appendChild(link)
+        link.click()
+    },
     sortChange(column, prop, order){
       column.order=='ascending'?this.direction=1:this.direction=0;
       this.order=column.prop;
@@ -458,7 +512,7 @@ export default {
       event.target.title=column.label
     },
     handleSelectionChange(val) {
-      this.multipleSelection = val;
+      this.multipleTable = val;
     },
     pageSizeChange(val) {
       this.pageSize = val;
