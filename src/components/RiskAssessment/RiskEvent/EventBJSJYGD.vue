@@ -177,7 +177,7 @@
         <el-button type="primary" plain size="small" @click="openCzTc" :disabled="isdisable">批量事件处理</el-button> -->
 
         <el-table
-          class="mt-10 o-table3"
+          class="mt-10 o-table3 t-gutter"
           ref="multipleTable"
           :data="tableData"
           border
@@ -201,7 +201,7 @@
             label="出生日期"
             prop="birthday"
             sortable="custom"
-            width="101">
+            width="90">
           </el-table-column>
           <el-table-column
             label="国籍地区"
@@ -230,9 +230,9 @@
             sortable="custom"
             width="90"
             :show-overflow-tooltip="true">
-            <template slot-scope="scope">
+            <!-- <template slot-scope="scope">
               <span class="tc-b hand" @click="$router.push({name:'DZDA',query:{idcard:scope.row.idcard,nationality:scope.row.nationality,passportno:scope.row.passportno,grade:scope.row.grade,type:2,nav2Id:scope.row.passportno+scope.row.nationality,title:scope.row.name+'电子档案'}})">{{scope.row.passportno}}</span>
-            </template>
+            </template> -->
           </el-table-column>
           <el-table-column
             label="航班号"
@@ -245,7 +245,7 @@
             label="航班日期"
             prop="fltnoDate"
             sortable="custom"
-            width="101"
+            width="151"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
@@ -273,7 +273,7 @@
             label="风险等级"
             prop="grade"
             sortable="custom"
-            width="145">
+            width="120">
             <template slot-scope="scope">
               <el-rate :value="scope.row.grade" size="mini" disabled></el-rate>
             </template>
@@ -324,8 +324,8 @@
             label="操作"
             width="70">
             <template slot-scope="scope">
-              <el-button type="text" class="a-btn" icon="el-icon-view" title="查看" @click="$router.push({name:'BJCLCX',query:{idcard:scope.row.idcard,serial:scope.row.serial,grade:scope.row.grade,nav2Id:scope.row.serial+2,title:scope.row.name+'已归档查询'}})"></el-button>
-              <el-button type="text" class="a-btn" icon="el-icon-edit-outline"  title="归档追加" @click="openGdTc(scope.row)"></el-button>
+              <el-button type="text" class="t-btn mr-5" icon="el-icon-view" title="查看" @click="$router.push({name:'BJCLCX',query:{idcard:scope.row.idcard,serial:scope.row.serial,grade:scope.row.grade,nav2Id:scope.row.serial+2,title:scope.row.name+'已归档查询'}})"></el-button>
+              <el-button type="text" class="t-btn" icon="el-icon-edit-outline"  title="归档追加" @click="openGdTc(scope.row)"></el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -382,7 +382,7 @@ export default {
       tableData:[],
       eachData:[],
       CurrentPage:1,
-      pageSize:10,
+      pageSize:50,
       orders:[],
       direction:0,
       TotalResult:0,
@@ -404,6 +404,10 @@ export default {
         {
           value:30,
           label:"30"
+        },
+        {
+          value:50,
+          label:"50"
         }
       ],
 
@@ -472,7 +476,7 @@ export default {
     },
     reset(){
       this.CurrentPage=1;
-      this.pageSize=10;
+      this.pageSize=50;
       this.pd={};
       this.orders=[];
       this.direction=0;

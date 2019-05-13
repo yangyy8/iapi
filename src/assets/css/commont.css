@@ -10,6 +10,28 @@
   font-size: 29px;
   font-family: 方正小标宋简体
 }
+.t-gutter .cell{
+  padding-left: 3px!important;
+  padding-right: 3px!important;
+}
+.t-gutter .el-rate__icon{
+  font-size: 16px!important;
+  margin-right: 4px!important;
+}
+.t-gutter td{
+  height: 31px !important;
+  padding: 0px !important;
+}
+.mr-5{
+  margin-right: 5px!important;
+}
+.title-gray{
+  color: #ddd;
+  font-weight: bold;
+}
+.pt-10{
+  padding-top: 10px!important;
+}
 .t-w{
   width: 87%!important;
 }

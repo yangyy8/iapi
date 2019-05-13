@@ -1309,8 +1309,6 @@ export default {
     //============================洲国籍======================================================================
 
     tableRowClassName({row, rowIndex}) {
-      console.log(row.PNRFLAGSTR);
-      console.log(row.CHKFLAGSTR);
       if (row.PNRFLAGSTR == '是'&&row.CHKFLAGSTR == '是') {//订票&值机
         return 'warning-row';
       } else if (row.PNRFLAGSTR == '是'&&row.CHKFLAGSTR == '否') {//订票

@@ -155,17 +155,17 @@
           <el-col :span="6" class="t-el-content"><div class="t-el-text">订座系统分配给某个代理或Office的ID号：</div><div class="t-el-sub">{{dpform.IN_HOUSE_IDENTIFICATION}}</div></el-col>
         </el-row>
         <div class="hrtitle-child" @click="box1=!box1">订票人住址<i class="el-icon-d-caret"></i></div>
-        <el-row type="flex"  class="t-detail" v-for="(i,ind) in addList" v-if="box1" :key="ind">
+        <el-row type="flex"  class="t-detail" v-for="(i,ind) in addList" v-if="box1" :key="'inda'+ind">
           <el-col :span="6" class="t-el-content"><div class="t-el-text">城市：</div><div class="t-el-sub">{{i.CITY_NAME}}</div></el-col>
           <el-col :span="6" class="t-el-content"><div class="t-el-text">国家：</div><div class="t-el-sub">{{i.COUNTRY_NAME}}</div></el-col>
           <el-col :span="6" class="t-el-content"><div class="t-el-text">街道号和街道名称：</div><div class="t-el-sub">{{i.STREET_AND_NUMBER}}</div></el-col>
         </el-row>
         <div class="hrtitle-child" @click="box2=!box2">订票人联系方式<i class="el-icon-d-caret"></i></div>
-        <el-row type="flex"  class="t-detail" v-for="(i,ind) in lftList" v-if="box2" :key="ind">
+        <el-row type="flex"  class="t-detail" v-for="(i,ind) in lftList" v-if="box2" :key="'indl'+ind">
           <el-col :span="24" class="t-el-content"><div class="t-el-text">订票人联系方式：</div><div class="t-el-sub">{{i.CONTENT}}</div></el-col>
         </el-row>
         <div class="hrtitle-child" @click="box3=!box3">非航空服务（汽车，旅馆）<i class="el-icon-d-caret"></i></div>
-        <el-row type="flex"  class="t-detail" v-for="(i,ind) in msgList" v-if="box3" :key="ind">
+        <el-row type="flex"  class="t-detail" v-for="(i,ind) in msgList" v-if="box3" :key="'indm'+ind">
           <div class="" v-for="j in i.tvlLv3List" style="width: 100%;">
             <el-col :span="8" class="t-el-content"><div class="t-el-text">服务的类型：</div><div class="t-el-sub">{{i.RESPONSE_TYPE}}</div></el-col>
             <el-col :span="8" class="t-el-content"><div class="t-el-text">服务提供者姓名：</div><div class="t-el-sub">{{j.PLACE_NAME}}</div></el-col>
@@ -173,45 +173,45 @@
           </div>
         </el-row>
         <div class="hrtitle-child" @click="box4=!box4">订单特殊需求<i class="el-icon-d-caret"></i></div>
-        <el-row type="flex"  class="t-detail" v-for="(i,ind) in ssrList" v-if="box4" :key="ind">
+        <el-row type="flex"  class="t-detail" v-for="(i,ind) in ssrList" v-if="box4" :key="'inds'+ind">
           <el-col :span="6" class="t-el-content"><div class="t-el-text">订票人特殊请求类型：</div><div class="t-el-sub">{{i.SPECIAL_REQUIREMENT_TYPE}}</div></el-col>
           <el-col :span="18" class="t-el-content"><div class="t-el-text">订票人特殊请求描述：</div><div class="t-el-sub">{{i.FREETXT}}</div></el-col>
         </el-row>
         <div class="hrtitle-child" @click="box5=!box5">分离旅客信息<i class="el-icon-d-caret"></i></div>
-        <el-row class="t-detail" v-for="(i,ind) in eqnList" v-if="box5" :key="ind">
+        <el-row class="t-detail" v-for="(i,eqn) in eqnList" v-if="box5" :key="eqn">
           <el-col :span="24" class="t-el-content"><div class="t-el-text">分离的人数：</div><div class="t-el-sub">{{i.eqnCount}}</div></el-col>
-          <el-row type="flex"  v-for="(j,ind) in i.rciList" style="width:100%" :key="ind">
+          <el-row type="flex"  v-for="(j,rci) in i.rciList" style="width:100%" :key="rci">
             <el-col :span="12" class="t-el-content"><div class="t-el-text">记录分离后的编号所属的航空公司代码：</div><div class="t-el-sub">{{j.COMPANY_IDENTIFICATION}}</div></el-col>
             <el-col :span="12" class="t-el-content"><div class="t-el-text">分离后的记录编号：</div><div class="t-el-sub">{{j.RESERVATION_CONTROL_NUMBER}}</div></el-col>
           </el-row>
         </el-row>
         <div class="hrtitle-child" @click="box6=!box6">旅客联系方式<i class="el-icon-d-caret"></i></div>
-        <el-row type="flex"  class="t-detail" v-for="(i,ind) in lftListTwo" v-if="box6" :key="ind">
+        <el-row type="flex"  class="t-detail" v-for="(i,ind) in lftListTwo" v-if="box6" :key="'lft'+ind">
           <el-col :span="24" class="t-el-content"><div class="t-el-text">旅客联系方式：</div><div class="t-el-sub">{{i.CONTENT}}</div></el-col>
         </el-row>
         <div class="hrtitle-child" @click="box7=!box7">旅客住址<i class="el-icon-d-caret"></i></div>
-        <el-row type="flex"  class="t-detail" v-for="(i,ind) in addListTwo" v-if="box7" :key="ind">
+        <el-row type="flex"  class="t-detail" v-for="(i,ind) in addListTwo" v-if="box7" :key="'add'+ind">
           <el-col :span="6" class="t-el-content"><div class="t-el-text">城市：</div><div class="t-el-sub">{{i.CITY_NAME}}</div></el-col>
           <el-col :span="6" class="t-el-content"><div class="t-el-text">国家：</div><div class="t-el-sub">{{i.COUNTRY_NAME}}</div></el-col>
           <el-col :span="6" class="t-el-content"><div class="t-el-text">街道号和街道名称：</div><div class="t-el-sub">{{i.STREET_AND_NUMBER}}</div></el-col>
         </el-row>
         <div class="hrtitle-child" @click="box8=!box8">常旅客信息<i class="el-icon-d-caret"></i></div>
-        <el-row type="flex"  class="t-detail" v-for="(i,ind) in ftiListTwo" v-if="box8" :key="ind">
+        <el-row type="flex"  class="t-detail" v-for="(i,ind) in ftiListTwo" v-if="box8" :key="'fti'+ind">
           <el-col :span="6" class="t-el-content"><div class="t-el-text">常旅客ID：</div><div class="t-el-sub">{{i.FREQUENT_T_IDENIFICATION}}</div></el-col>
           <el-col :span="6" class="t-el-content"><div class="t-el-text">常旅客登机：</div><div class="t-el-sub">{{i.MEMBERSHIP_LEVEL}}</div></el-col>
         </el-row>
         <div class="hrtitle-child" @click="box9=!box9">旅客特殊需求<i class="el-icon-d-caret"></i></div>
-        <el-row type="flex"  class="t-detail" v-for="(i,ind) in ssrListTwo" v-if="box9" :key="ind">
+        <el-row type="flex"  class="t-detail" v-for="(i,ind) in ssrListTwo" v-if="box9" :key="'ssr'+ind">
           <el-col :span="6" class="t-el-content"><div class="t-el-text">旅客特殊服务请求类型：</div><div class="t-el-sub">{{i.SPECIAL_REQUIREMENT_TYPE}}</div></el-col>
           <el-col :span="18" class="t-el-content"><div class="t-el-text">旅客特殊服务内容：</div><div class="t-el-sub">{{i.FREETXT}}</div></el-col>
         </el-row>
         <div class="hrtitle-child" @click="box10=!box10">订票人机票更改记录<i class="el-icon-d-caret"></i></div>
-        <el-row class="t-detail" v-for="(i,ind) in messageThr" v-if="box10" :key="ind">
+        <el-row class="t-detail" v-for="(i,thr) in messageThr" v-if="box10" :key="thr">
           <el-col :span="8" class="t-el-content"><div class="t-el-text">变更操作者的ID信息：</div><div class="t-el-sub">{{i.abi.TRAVEL_AGENT_IDENTIFICATION}}</div></el-col>
           <el-col :span="8" class="t-el-content"><div class="t-el-text">变更者的城市代码：</div><div class="t-el-sub">{{i.abi.PLACE}}</div></el-col>
           <el-col :span="8" class="t-el-content"><div class="t-el-text">变更时间：</div><div class="t-el-sub">{{i.abi.DATDATESTR}}</div></el-col>
           <el-col :span="8" class="t-el-content"><div class="t-el-text">变更者的所属航司或GDS：</div><div class="t-el-sub">{{i.abi.COMPANY_IDENTIFICATION}}</div></el-col>
-          <el-col style="width:100%" v-for="(j,ind) in i.hisGr11List" :key="ind">
+          <el-col style="width:100%" v-for="(j,his) in i.hisGr11List" :key="his">
             <div class="t-detail">
               <el-row>
                 <el-col :span="8" class="t-el-content"><div class="t-el-text">旅客类型：</div><div class="t-el-sub">{{j.hisGr11.NAME_TYPE}}</div></el-col>
@@ -244,24 +244,24 @@
           </el-col>
         </el-row>
         <div class="hrtitle-child" @click="box11=!box11">订票人付款信息<i class="el-icon-d-caret"></i></div>
-        <el-row type="flex"  class="t-detail" v-for="(i,ind) in fopList" v-if="box11" :key="ind">
+        <el-row type="flex"  class="t-detail" v-for="(i,ind) in fopList" v-if="box11" :key="'fop'+ind">
           <el-col :span="12" class="t-el-content"><div class="t-el-text">订票人付款方式：</div><div class="t-el-sub">{{i.PAYMENT_TYPE}}</div></el-col>
           <el-col :span="12" class="t-el-content"><div class="t-el-text">订票人付款账号：</div><div class="t-el-sub">{{i.ACCOUNT_NUMBER}}</div></el-col>
         </el-row>
         <div class="hrtitle-child" @click="box12=!box12">票价信息<i class="el-icon-d-caret"></i></div>
-        <el-row type="flex"  class="t-detail" v-for="(i,ind) in monList" v-if="box12" :key="ind">
+        <el-row type="flex"  class="t-detail" v-for="(i,ind) in monList" v-if="box12" :key="'mon'+ind">
           <el-col :span="8" class="t-el-content"><div class="t-el-text">客票金额类型：</div><div class="t-el-sub">{{i.MONETARY_AMOUNT_TYPE}}</div></el-col>
           <el-col :span="8" class="t-el-content"><div class="t-el-text">金额：</div><div class="t-el-sub">{{i.AMOUNT}}</div></el-col>
           <el-col :span="8" class="t-el-content"><div class="t-el-text">货币代码：</div><div class="t-el-sub">{{i.CURRENCY}}</div></el-col>
         </el-row>
         <div class="hrtitle-child" @click="box13=!box13">票税信息<i class="el-icon-d-caret"></i></div>
-        <el-row type="flex"  class="t-detail" v-for="(i,ind) in txdList" v-if="box13" :key="ind">
+        <el-row type="flex"  class="t-detail" v-for="(i,ind) in txdList" v-if="box13" :key="'txd'+ind">
           <el-col :span="8" class="t-el-content"><div class="t-el-text">税金额：</div><div class="t-el-sub">{{i.TAX_AMOUNT}}</div></el-col>
           <el-col :span="8" class="t-el-content"><div class="t-el-text">货币类型：</div><div class="t-el-sub">{{i.CURRENCY}}</div></el-col>
           <el-col :span="8" class="t-el-content"><div class="t-el-text">税类型：</div><div class="t-el-sub">{{i.TAX_TYPE}}</div></el-col>
         </el-row>
         <div class="hrtitle-child" @click="box14=!box14">旅客行李情况<i class="el-icon-d-caret"></i></div>
-        <el-row type="flex"  class="t-detail" v-for="(i,ind) in messageFive" v-if="box14" :key="ind">
+        <el-row type="flex"  class="t-detail" v-for="(i,ind) in messageFive" v-if="box14" :key="'mes'+ind">
           <el-col :span="8" class="t-el-content"><div class="t-el-text">乘机人行李条码：</div><div class="t-el-sub">{{i.BAG_LICENSE_PLATE}}</div></el-col>
           <el-col :span="8" class="t-el-content"><div class="t-el-text">乘机人连续条码数量：</div><div class="t-el-sub">{{i.CONSECUTIVE_TAGS_SERIAL_NUM}}</div></el-col>
           <el-col :span="8" class="t-el-content"><div class="t-el-text">乘机人行李目的地：</div><div class="t-el-sub">{{i.PLACE_OF_DESTINATION_NAME}}</div></el-col>

@@ -71,13 +71,13 @@
                     <el-button type="success" size="mini" plain @click="addTagFn('1')">添加</el-button>
                     <el-button type="danger" size="mini" plain @click="addTagFn('2')">删除</el-button>
                     <el-button type="text" size="small" @click="moreShow=true;size.size0=dataTag.validList.length" v-if="!moreShow&&dataTag.validList.length>8">查看更多 ></el-button>
-                    <el-button type="text" size="small" @click="moreShow=false;size.size0=8" v-if="moreShow">收起<</el-button>
+                    <el-button type="text" size="small" @click="moreShow=false;size.size0=8" v-if="moreShow">收起</el-button>
                   </div>
                 </el-col>
               </el-row>
             </div>
             <div class="boder1 " ref="box1">
-              <div class="title-green hand mt-10" @click="box1=!box1">
+              <div class="hand mt-10" @click="box1=!box1" :class="[(data1.particularsList.length||0)==0?'title-gray':'title-green']">
                 标签详细信息 <i class="el-icon-d-caret"></i><span>({{data1.particularsList.length||0}})</span>
               </div>
               <div v-if="box1">
@@ -124,7 +124,7 @@
               </div>
             </div>
             <div class="boder1 " ref="box2">
-              <div class="title-green hand mt-10" @click="box2=!box2">
+              <div class="hand mt-10" @click="box2=!box2" :class="[(data2.length||0)==0?'title-gray':'title-green']">
                 风险评估信息 <i class="el-icon-d-caret"></i><span>({{data2.length||0}})</span>
               </div>
               <div v-if="box2">
@@ -190,7 +190,7 @@
               </div>
             </div>
             <div class="boder1 " ref="box3">
-              <div class="title-green hand mt-10" @click="box3=!box3">
+              <div class="hand mt-10" @click="box3=!box3" :class="[(data3.length||0)==0?'title-gray':'title-green']">
                 电子档案查询记录 <i class="el-icon-d-caret"></i><span>({{data3.length||0}})</span>
               </div>
               <div v-if="box3">
@@ -655,7 +655,7 @@
               </div>
             </div>
             <div class="boder1" ref="box5">
-              <div class="title-green hand mt-10" @click="box5=!box5">
+              <div class="hand mt-10" @click="box5=!box5" :class="[(num2.hjnum||0)==0?'title-gray':'title-green']">
                 户籍信息 <i class="el-icon-d-caret"></i><span>({{num2.hjnum||0}})</span>
               </div>
               <div v-if="box5">
@@ -716,7 +716,7 @@
               </div>
             </div>
             <div class="boder1" ref="box6">
-              <div class="title-green hand mt-10" @click="box6=!box6">
+              <div class="hand mt-10" @click="box6=!box6" :class="[(num.imm||0)==0?'title-gray':'title-green']">
                 出入境信息 <i class="el-icon-d-caret"></i><span>({{num.imm||0}})</span>
               </div>
               <div v-if="box6">
@@ -811,7 +811,7 @@
               </div>
             </div>
             <div class="boder1" ref="box7">
-              <div class="title-green hand mt-10" @click="box7=!box7">
+              <div class="hand mt-10" @click="box7=!box7" :class="[(num.immcardNum||0)==0?'title-gray':'title-green']">
                 出入境证件信息 <i class="el-icon-d-caret"></i><span>({{num.immcardNum||0}})</span>
               </div>
               <div v-if="box7">
@@ -897,7 +897,7 @@
               </div>
             </div>
             <div class="boder1" ref="box8">
-              <div class="title-green hand mt-10" @click="box8=!box8">
+              <div class="hand mt-10" @click="box8=!box8" :class="[(num.visa||0)==0?'title-gray':'title-green']">
                 签证(居留)签发信息 <i class="el-icon-d-caret"></i><span>({{num.visa||0}})</span>
               </div>
               <div v-if="box8">
@@ -1014,7 +1014,7 @@
               </div>
             </div>
             <div class="boder1" ref="box9">
-              <div class="title-green hand mt-10" @click="box9=!box9">
+              <div class="hand mt-10" @click="box9=!box9" :class="[(num.illegal||0)==0?'title-gray':'title-green']">
                 边检违法违规信息 <i class="el-icon-d-caret"></i><span>({{num.illegal||0}})</span>
               </div>
               <div v-if="box9">
@@ -1126,7 +1126,7 @@
               </div>
             </div>
             <div class="boder1" ref="box10">
-              <div class="title-green hand mt-10" @click="box10=!box10">
+              <div class="hand mt-10" @click="box10=!box10" :class="[(num.repat||0)==0?'title-gray':'title-green']">
                 遣返遣送信息 <i class="el-icon-d-caret"></i><span>({{num.repat||0}})</span>
               </div>
               <div v-if="box10">
@@ -1203,7 +1203,7 @@
               </div>
             </div>
             <div class="boder1"  ref="box11">
-              <div class="title-green hand mt-10" @click="box11=!box11">
+              <div class="hand mt-10" @click="box11=!box11" :class="[((num.resident||0)+(num.temp||0))==0?'title-gray':'title-green']">
                 外管常住/临住信息 <i class="el-icon-d-caret"></i><span>({{(num.resident||0)+(num.temp||0)}})</span>
               </div>
               <div v-if="box11">
@@ -1351,7 +1351,7 @@
               </div>
             </div>
             <div class="boder1" ref="box12">
-              <div class="title-green hand mt-10" @click="box12=!box12">
+              <div class="hand mt-10" @click="box12=!box12" :class="[(num.fgncas||0)==0?'title-gray':'title-green']">
                  出入境管理案事件信息 <i class="el-icon-d-caret"></i><span>({{num.fgncas||0}})</span>
               </div>
               <div v-if="box12">
@@ -1395,7 +1395,7 @@
               </div>
             </div>
             <div class="boder1" ref="box13">
-              <div class="title-green hand mt-10" @click="box13=!box13">
+              <div class="hand mt-10" @click="box13=!box13" :class="[((num.cert||0)+(num.res||0))==0?'title-gray':'title-green']">
                 收缴证件/物品信息 <i class="el-icon-d-caret"></i><span>({{(num.cert||0)+(num.res||0)}})</span>
               </div>
               <div v-if="box13">
@@ -1502,7 +1502,7 @@
               </div>
             </div>
             <div class="boder1" ref="box14">
-              <div class="title-green hand mt-10" @click="box14=!box14">
+              <div class="hand mt-10" @click="box14=!box14" :class="[(num.act||0)==0?'title-gray':'title-green']">
                  携带枪支弹药信息 <i class="el-icon-d-caret"></i><span>({{num.act||0}})</span>
               </div>
               <div v-if="box14">
@@ -1581,7 +1581,7 @@
               </div>
             </div>
             <div class="boder1" ref="box15">
-              <div class="title-green hand mt-10" @click="box15=!box15">
+              <div class="hand mt-10" @click="box15=!box15" :class="[(num.self||0)==0?'title-gray':'title-green']">
                  自助备案信息 <i class="el-icon-d-caret"></i><span>({{num.self||0}})</span>
               </div>
               <div v-if="box15">
@@ -1623,7 +1623,7 @@
               </div>
             </div>
             <div class="boder1" ref="box16">
-              <div class="title-green hand mt-10" @click="box16=!box16">
+              <div class="hand mt-10" @click="box16=!box16" :class="[(num.api||0)==0?'title-gray':'title-green']">
                  API信息 <i class="el-icon-d-caret"></i><span>({{num.api||0}})</span>
               </div>
               <div v-if="box16">
@@ -1689,7 +1689,7 @@
               </div>
             </div>
             <div class="boder1" ref="box17">
-              <div class="title-green hand mt-10" @click="box17=!box17">
+              <div class="hand mt-10" @click="box17=!box17" :class="[(data17.length||0)==0?'title-gray':'title-green']">
                  工作单位信息 <i class="el-icon-d-caret"></i><span>({{data17.length||0}})</span>
               </div>
               <div v-if="box17">
@@ -1732,7 +1732,7 @@
               </div>
             </div>
             <div class="boder1" ref="box18">
-              <div class="title-green hand mt-10" @click="box18=!box18">
+              <div class="hand mt-10" @click="box18=!box18" :class="[(num2.tlnum||0)==0?'title-gray':'title-green']">
                  铁路订票信息 <i class="el-icon-d-caret"></i><span>({{num2.tlnum||0}})</span>
               </div>
               <div v-if="box18">
@@ -1796,7 +1796,7 @@
               </div>
             </div>
             <div class="boder1" ref="box19">
-              <div class="title-green hand mt-10" @click="box19=!box19">
+              <div class="hand mt-10" @click="box19=!box19" :class="[(num2.mhdpnum||0)==0?'title-gray':'title-green']">
                  民航订票信息 <i class="el-icon-d-caret"></i><span>({{num2.mhdpnum||0}})</span>
               </div>
               <div v-if="box19">
@@ -1903,7 +1903,7 @@
               </div>
             </div>
             <div class="boder1" ref="box20">
-              <div class="title-green hand mt-10" @click="box20=!box20">
+              <div class="title-green hand mt-10" @click="box20=!box20" :class="[(num2.mhlgnum||0)==0?'title-gray':'title-green']">
                  民航离港信息 <i class="el-icon-d-caret"></i><span>({{num2.mhlgnum||0}})</span>
               </div>
               <div v-if="box20">
