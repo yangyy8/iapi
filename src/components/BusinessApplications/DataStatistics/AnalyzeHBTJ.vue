@@ -61,9 +61,7 @@
               <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                   <span class="input-text">行属性：</span>
                   <el-select v-model="typerow"   placeholder="请选择" size="small" class="input-input">
-
-                     <el-option  value="1" label="航班号" >
-                     </el-option>
+                     <el-option  value="1" label="航班号" ></el-option>
                    </el-select>
                 </el-col>
                 <!-- <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
@@ -228,12 +226,42 @@
                      label="数据错误">
                    </el-table-column>
                </el-table-column>
+               <!-- <el-table-column
+                 label="操作"
+                 min-width="50">
+                 <template slot-scope="scope">
+                   <el-button type="text"  class="a-btn" title="详情" size="mini" icon="el-icon-tickets" @click="nationDetails(scope.row)"></el-button>
+                </template>
+               </el-table-column> -->
                </el-table>
 
           </div>
         </div>
     </div>
   </div>
+  <el-dialog title="详情" :visible.sync="detailsDialogVisible" width="400px">
+    <el-button  plain class="table-btn mb-9" size="small" @click="daochu">导出</el-button>
+    <el-table
+      :data="detailstableData"
+      border
+      class="o-table3"
+      @header-click="headerClick"
+      style="width: 100%;">
+      <el-table-column
+        prop="country"
+        label="国籍/地区"
+        sortable>
+      </el-table-column>
+      <el-table-column
+        prop="chkcount"
+        label="值机数"
+        sortable>
+      </el-table-column>
+    </el-table>
+    <div slot="footer" class="dialog-footer">
+      <el-button @click="detailsDialogVisible = false" size="small">返 回</el-button>
+    </div>
+  </el-dialog>
   </div>
 </template>
 <script>
@@ -244,6 +272,8 @@ import axios from 'axios'
 export default {
   data() {
     return {
+      detailstableData:[],
+      fltnoChange:'',
       CurrentPage: 1,
       pageSize: 10,
       TotalResult: 0,
@@ -413,6 +443,46 @@ export default {
     //this.getList(this.CurrentPage, this.pageSize, this.pd);
   },
   methods: {
+    nationDetails(i){
+      this.detailsDialogVisible = true;
+      this.fltnoChange = i.fltno;
+      let p={
+        "begintime":this.pd.begintime,
+        "endtime":this.pd.endtime,
+        "fltno":i.fltno,
+        "flighttype":this.pd.flighttype
+      }
+      this.$api.post('/manage-platform/dataStatistics/get_country_detail',p,
+       r =>{
+         if(r.success){
+           this.detailstableData=r.data;
+         }
+       })
+    },
+    daochu(){
+      let p={
+        "begintime":this.pd.begintime,
+        "endtime":this.pd.endtime,
+        "fltno":this.fltnoChange,
+        "flighttype":this.pd.flighttype
+      }
+      this.$api.post('/manage-platform/dataStatistics/exp_country_detail',p,
+       r =>{
+          this.downloadM(r);
+       },e=>{},'','blob')
+    },
+    downloadM (data) {
+        if (!data) {
+            return
+        }
+        let url = window.URL.createObjectURL(new Blob([data.data],{type:"application/octet-stream"}))
+        let link = document.createElement('a')
+        link.style.display = 'none'
+        link.href = url
+        link.setAttribute('download', format(new Date(),'yyyy-MM-dd hh:mm:ss')+'.xlsx')
+        document.body.appendChild(link)
+        link.click()
+    },
     // 获取表格选中时的数据
    // selectArInfo (val) {
    //   this.selectArr = val
@@ -613,11 +683,11 @@ export default {
         link.click()
     },
 
-    details(i) {
-      this.detailsDialogVisible = true;
-      console.log(i);
-      this.form = i;
-    },
+    // details(i) {
+    //   this.detailsDialogVisible = true;
+    //   console.log(i);
+    //   this.form = i;
+    // },
     drawLine() {
       this.lineChart = echarts.init(document.getElementById('myChart'), 'light');
       window.onresize = echarts.init(document.getElementById('myChart')).resize;

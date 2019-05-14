@@ -586,6 +586,16 @@
           min-width="130"
           sortable='custom'
           v-if="checkList.indexOf(checkItem[16].ITEMNAME)>-1">
+          <template slot-scope="scope">
+            <div>
+              <!-- <span v-if="scope.row.FLIGHTSTATUS==2" class="s1">已预检</span>
+              <span v-if="scope.row.FLIGHTSTATUS==1" class="s2">已起飞</span>
+              <span v-if="scope.row.FLIGHTSTATUS==0" class="s5">已取消</span>-->
+              <span v-if="scope.row.FLIGHTSTATUS==2" class="s1">正在值机</span>
+              <span v-if="scope.row.FLIGHTSTATUS==1" class="s2">关闭</span>
+              <span v-if="scope.row.FLIGHTSTATUS==0" class="s5">取消</span>
+            </div>
+          </template>
         </el-table-column>
         <el-table-column
           prop="PASSPORTEXPIREDATE"
@@ -1784,13 +1794,21 @@ export default {
       let end = new Date(new Date() - 1000 * 60 * 60 * 24 * 30);
       let endTime = formatDate(end,'yyyy-MM-dd')
       if(this.searchType==0&&(this.cdt.startFltdate<formatDate(end,'yyyyMMdd'))){//当前
-        this.$alert('查询开始时间不能小于'+endTime+'', '提示', {
+        // this.$alert('查询开始时间不能小于'+endTime+'', '提示', {
+        //   confirmButtonText: '确定',
+        // });
+        // return false
+        this.$alert('“当前查询”的查询日期只能选择一个月内，如需查询一个月前的数据，请在“查询范围”选择“历史查询”！', '提示', {
           confirmButtonText: '确定',
         });
         return false
       }
       if(this.searchType==1&&(this.cdt.endFltdate>formatDate(end,'yyyyMMdd'))){
-        this.$alert('查询结束时间不能大于'+endTime+'', '提示', {
+        // this.$alert('查询结束时间不能大于'+endTime+'', '提示', {
+        //   confirmButtonText: '确定',
+        // });
+        // return false
+        this.$alert('“历史查询”的查询日期只能选择一个月前，如需查询一个月内的数据，请在“查询范围”选择“当前查询”！', '提示', {
           confirmButtonText: '确定',
         });
         return false
@@ -1862,6 +1880,7 @@ export default {
       }
       this.currentPage=1;
       this.showCount=10;
+      this.searchType='0';
       this.getList(this.currentPage,this.showCount,this.cdt);
     },
     pageSizeChange(val) {//显示条数，调用

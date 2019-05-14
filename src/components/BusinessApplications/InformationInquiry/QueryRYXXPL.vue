@@ -124,6 +124,13 @@
                  </template>
                 </el-table-column>
                 <el-table-column
+                  label="ABO唯一标识"
+                  width="180">
+                  <template slot-scope="scope">
+                    <el-input placeholder="请输入标识" v-model="scope.row.aboNoEqual" size="mini" class="input-inp"></el-input>
+                 </template>
+                </el-table-column>
+                <el-table-column
                   label="操作"
                   width="120"
                   fixed="right">
@@ -512,6 +519,13 @@
           min-width="130"
           sortable='custom'
           v-if="checkList.indexOf(checkItem[16].ITEMNAME)>-1">
+          <template slot-scope="scope">
+            <div>
+              <span v-if="scope.row.FLIGHTSTATUS==2" class="s1">正在值机</span>
+              <span v-if="scope.row.FLIGHTSTATUS==1" class="s2">关闭</span>
+              <span v-if="scope.row.FLIGHTSTATUS==0" class="s5">取消</span>
+            </div>
+          </template>
         </el-table-column>
         <el-table-column
           prop="PASSPORTEXPIREDATE"
@@ -899,7 +913,8 @@
         </el-pagination>
       </div>
     </div>
-    <!-- action="http://192.168.99.248:8080/manage-platform/iapi/readExcel" -->
+    <!-- :action="$api.rootUrl+'/manage-platform/iapi/readExcel'" -->
+
     <el-dialog title="上传模板" :visible.sync="uploadDialogVisible"   width="640px"
     :before-close="handleClose">
       <el-form :model="releaseform" ref="releaseForm">
@@ -909,7 +924,7 @@
           name="excel"
           :multiple="false"
           accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-          :action="$api.rootUrl+'/manage-platform/iapi/readExcel'"
+          :action="uploadUrl"
           :on-success="uploadSuccess"
           :limit="1"
           :on-exceed="handleExceed"
@@ -1199,6 +1214,7 @@ export default {
   components: {AlarmProcess,Seat,Detail,DetailIapi},
   data(){
     return{
+      uploadUrl:'',
       rangeIapi:'0',
       rangePnr:'0',
       orderIapiHc:{},
@@ -1259,6 +1275,7 @@ export default {
           flightDepartdate:'',//航班日期
           cityfromEqual:'',//起飞机场
           citytoEqual:'',//到达机场
+          aboNoEqual:'',//ABO唯一标识
 
           // nationalityNameEqual:'',
           // cityfromNameEqual:'',
@@ -1280,6 +1297,7 @@ export default {
         flightDepartdate:'',//航班日期
         cityfromEqual:'',//起飞机场
         citytoEqual:'',//到达机场
+        aboNoEqual:'',//ABO唯一标识
       },
       cleanRow:{
         version:0,
@@ -1292,6 +1310,7 @@ export default {
         flightDepartdate:'',//航班日期
         cityfromEqual:'',//起飞机场
         citytoEqual:'',//到达机场
+        aboNoEqual:'',//ABO唯一标识
       },
       count:1,
       nationName:[],//国籍
@@ -2053,14 +2072,14 @@ export default {
       let end = new Date(new Date() - 1000 * 60 * 60 * 24 * 30);
       let endTime = formatDate(end,'yyyy-MM-dd')
       for(var i=0;i<rows.length;i++){
-        if((this.rangeIapi==0)&&(rows[i].flightDepartdate<formatDate(end,'yyyyMMdd'))){
-          this.$alert('航班日期查询时间不能小于'+endTime+'', '提示', {
+        if((this.rangeIapi==0)&&(rows[i].flightDepartdate!='')&&(rows[i].flightDepartdate<formatDate(end,'yyyyMMdd'))){
+          this.$alert('“当前查询”的查询日期只能选择一个月内，如需查询一个月前的数据，请在“查询范围”选择“历史查询”！', '提示', {
             confirmButtonText: '确定',
           });
           return false
         }
-        if((this.rangeIapi==1)&&(rows[i].flightDepartdate>formatDate(end,'yyyyMMdd'))){
-          this.$alert('航班日期查询时间不能大于'+endTime+'', '提示', {
+        if((this.rangeIapi==1)&&(rows[i].flightDepartdate!='')&&(rows[i].flightDepartdate>formatDate(end,'yyyyMMdd'))){
+          this.$alert('“历史查询”的查询日期只能选择一个月前，如需查询一个月内的数据，请在“查询范围”选择“当前查询”！', '提示', {
             confirmButtonText: '确定',
           });
           return false
@@ -2097,14 +2116,14 @@ export default {
       let end = new Date(new Date() - 1000 * 60 * 60 * 24 * 30);
       let endTime = formatDate(end,'yyyy-MM-dd')
       for(var i=0;i<rows.length;i++){
-        if((this.rangePnr==0)&&(rows[i].flightDepartdate<formatDate(end,'yyyyMMdd'))){
-          this.$alert('航班日期查询时间不能小于'+endTime+'', '提示', {
+        if((this.rangePnr==0)&&(rows[i].flightDepartdate!='')&&(rows[i].flightDepartdate<formatDate(end,'yyyyMMdd'))){
+          this.$alert('“当前查询”的查询日期只能选择一个月内，如需查询一个月前的数据，请在“查询范围”选择“历史查询”！', '提示', {
             confirmButtonText: '确定',
           });
           return false
         }
-        if((this.rangePnr==1)&&(rows[i].flightDepartdate>formatDate(end,'yyyyMMdd'))){
-          this.$alert('航班日期查询时间不能大于'+endTime+'', '提示', {
+        if((this.rangePnr==1)&&(rows[i].flightDepartdate!='')&&(rows[i].flightDepartdate>formatDate(end,'yyyyMMdd'))){
+          this.$alert('“历史查询”的查询日期只能选择一个月前，如需查询一个月内的数据，请在“查询范围”选择“当前查询”！', '提示', {
             confirmButtonText: '确定',
           });
           return false
@@ -2144,8 +2163,8 @@ export default {
       if(this.bigBase==5){//导出iapi
         axios({
          method: 'post',
-         // url: 'http://192.168.99.234:8080/manage-platform/iapi/export/three',
-         url: this.$api.rootUrl+"/manage-platform/iapi/export/three",
+         // url: 'http://192.168.99.201:8081/manage-platform/iapi/export/iapi',
+         url: this.$api.rootUrl+"/manage-platform/iapi/export/iapi",
          data: {
              "name": 'Fred',
              "cdtList":this.rows
@@ -2159,8 +2178,8 @@ export default {
       }else if(this.bigBase==6){//导出pnr
         axios({
          method: 'post',
-         // url: 'http://192.168.99.234:8080/manage-platform/iapi/export/three',
-         url: this.$api.rootUrl+"/manage-platform/iapi/export/three",
+         // url: 'http://192.168.99.201:8081/manage-platform/iapi/export/pnr',
+         url: this.$api.rootUrl+"/manage-platform/iapi/export/pnr",
          data: {
              "name": 'Fred',
              "cdtList":this.rowsPnr
@@ -2384,6 +2403,7 @@ export default {
           flightDepartdate:'',//航班日期
           cityfromEqual:'',//起飞机场
           citytoEqual:'',//到达机场
+          aboNoEqual:'',//ABO唯一标识
         };
         this.modelrow.version=this.count;
         this.rows.push(this.modelrow);
@@ -2424,12 +2444,17 @@ export default {
           flightDepartdate:'',//航班日期
           cityfromEqual:'',//起飞机场
           citytoEqual:'',//到达机场
+          aboNoEqual:'',//ABO唯一标识
         }];
         this.pppp='';
         this.tableCurrent=0;
         this.currentPage=1;
         this.showCount=10;
-        this.batchQueryList(this.currentPage,this.showCount,this.rows);
+        this.rangeIapi='0';
+        // this.batchQueryList(this.currentPage,this.showCount,this.rows);
+        this.tableData=[];
+        this.totalResult=0;
+        document.getElementsByClassName('btn-next')[0].disabled=true;
       }else if(this.bigBase == 6){
         this.rowsPnr = [{
           version:1,
@@ -2447,10 +2472,20 @@ export default {
         this.tableCurrentPnr=0;
         this.currentPagePnr=1;
         this.showCountPnr=10;
-        this.batchQueryListPnr(this.currentPagePnr,this.showCountPnr,this.rowsPnr);
+        this.rangePnr='0';
+        // this.batchQueryListPnr(this.currentPagePnr,this.showCountPnr,this.rowsPnr);
+        this.tableDataPnr=[];
+        this.totalResultPnr=0;
+        document.getElementsByClassName('btn-next')[0].disabled=true;
       }
     },
     batchI(){
+      if(this.bigBase==5){
+        this.uploadUrl=this.$api.rootUrl+"/manage-platform/iapi/readExcel/iapi"
+      }else if(this.bigBase==6){
+        // this.uploadUrl="http://192.168.99.201:8081/manage-platform/iapi/readExcel/pnr"
+        this.uploadUrl=this.$api.rootUrl+"/manage-platform/iapi/readExcel/pnr"
+      }
       if(this.$refs.upload){
         this.$refs.upload.clearFiles();
       }
@@ -2513,13 +2548,13 @@ export default {
         let endTime = formatDate(end,'yyyy-MM-dd')
         for(var i=0;i<this.rows.length;i++){
           if((this.rangeIapi==0)&&(this.rows[i].flightDepartdate<formatDate(end,'yyyyMMdd'))){
-            this.$alert('航班日期查询时间不能小于'+endTime+'', '提示', {
+            this.$alert('“当前查询”的查询日期只能选择一个月内，如需查询一个月前的数据，请在“查询范围”选择“历史查询”！', '提示', {
               confirmButtonText: '确定',
             });
             return false
           }
           if((this.rangeIapi==1)&&(this.rows[i].flightDepartdate>formatDate(end,'yyyyMMdd'))){
-            this.$alert('航班日期查询时间不能大于'+endTime+'', '提示', {
+            this.$alert('“历史查询”的查询日期只能选择一个月前，如需查询一个月内的数据，请在“查询范围”选择“当前查询”！', '提示', {
               confirmButtonText: '确定',
             });
             return false
@@ -2530,13 +2565,13 @@ export default {
         let endTime = formatDate(end,'yyyy-MM-dd')
         for(var i=0;i<this.rowsPnr.length;i++){
           if((this.rangePnr==0)&&(this.rowsPnr[i].flightDepartdate<formatDate(end,'yyyyMMdd'))){
-            this.$alert('航班日期查询时间不能小于'+endTime+'', '提示', {
+            this.$alert('“当前查询”的查询日期只能选择一个月内，如需查询一个月前的数据，请在“查询范围”选择“历史查询”！', '提示', {
               confirmButtonText: '确定',
             });
             return false
           }
           if((this.rangePnr==1)&&(this.rowsPnr[i].flightDepartdate>formatDate(end,'yyyyMMdd'))){
-            this.$alert('航班日期查询时间不能大于'+endTime+'', '提示', {
+            this.$alert('“历史查询”的查询日期只能选择一个月前，如需查询一个月内的数据，请在“查询范围”选择“当前查询”！', '提示', {
               confirmButtonText: '确定',
             });
             return false
@@ -2585,6 +2620,7 @@ export default {
                 flightDepartdate:'',//航班日期
                 cityfromEqual:'',//起飞机场
                 citytoEqual:'',//到达机场
+                aboNoEqual:'',//ABO唯一标识
               }]
             }else if(this.bigBase==6){
               this.rowsPnr=[{
@@ -2660,6 +2696,7 @@ export default {
                    flightDepartdate:'',//航班日期
                    cityfromEqual:'',//起飞机场
                    citytoEqual:'',//到达机场
+                   aboNoEqual:'',//ABO唯一标识
                  }];
                }else{
                  this.batchSavePlanShow();
