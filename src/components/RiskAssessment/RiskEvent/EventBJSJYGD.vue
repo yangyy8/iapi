@@ -201,13 +201,13 @@
             label="出生日期"
             prop="birthday"
             sortable="custom"
-            width="90">
+            min-width="90">
           </el-table-column>
           <el-table-column
             label="国籍地区"
             prop="nationality"
             sortable="custom"
-            width="60"
+            min-width="60"
             :show-overflow-tooltip="true">
             <template slot-scope="scope">
               <span>{{scope.row.nationalityName}}</span>
@@ -216,19 +216,19 @@
           <el-table-column
             label="出入标识"
             prop="flightTypeName"
-            width="60">
+            min-width="60">
           </el-table-column>
           <el-table-column
             label="证件类型"
             prop="passportTypeName"
-            width="60"
+            min-width="60"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="证件号"
             prop="passportno"
             sortable="custom"
-            width="90"
+            min-width="90"
             :show-overflow-tooltip="true">
             <!-- <template slot-scope="scope">
               <span class="tc-b hand" @click="$router.push({name:'DZDA',query:{idcard:scope.row.idcard,nationality:scope.row.nationality,passportno:scope.row.passportno,grade:scope.row.grade,type:2,nav2Id:scope.row.passportno+scope.row.nationality,title:scope.row.name+'电子档案'}})">{{scope.row.passportno}}</span>
@@ -238,42 +238,42 @@
             label="航班号"
             prop="fltno"
             sortable="custom"
-            width="70"
+            min-width="70"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="航班日期"
             prop="fltnoDate"
             sortable="custom"
-            width="151"
+            min-width="151"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="口岸"
             prop="port_name"
             sortable="custom"
-            width="60"
+            min-width="60"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="命中模型"
             prop="hit_mode_gc"
             sortable="custom"
-            width="70"
+            min-width="70"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="命中规则"
             prop="hit_rule_name"
             sortable="custom"
-            width="70"
+            min-width="70"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="风险等级"
             prop="grade"
             sortable="custom"
-            width="120">
+            min-width="120">
             <template slot-scope="scope">
               <el-rate :value="scope.row.grade" size="mini" disabled></el-rate>
             </template>
@@ -282,7 +282,7 @@
             label="风评结果"
             prop="newcheckresult"
             sortable="custom"
-            width="60"
+            min-width="60"
             :show-overflow-tooltip="true">
             <template slot-scope="scope">
               <span>{{scope.row.newcheckresultName}}</span>
@@ -290,7 +290,7 @@
           </el-table-column>
           <el-table-column
             label="事件来源"
-            width="60"
+            min-width="60"
             sortable="custom"
             prop="centre_port"
             :show-overflow-tooltip="true">
@@ -298,31 +298,31 @@
           <el-table-column
             label="推送人"
             prop="change_peopleName"
-            width="60"
+            min-width="60"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="处理人"
             prop="processor_peopleName"
-            width="60"
+            min-width="60"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="归档人"
             prop="processor_peopleName"
-            width="60"
+            min-width="60"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="归档时间"
             prop="archive_time"
             sortable="custom"
-            width="101"
+            min-width="101"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="操作"
-            width="70">
+            min-width="70">
             <template slot-scope="scope">
               <el-button type="text" class="t-btn mr-5" icon="el-icon-view" title="查看" @click="$router.push({name:'BJCLCX',query:{idcard:scope.row.idcard,serial:scope.row.serial,grade:scope.row.grade,nav2Id:scope.row.serial+2,title:scope.row.name+'已归档查询'}})"></el-button>
               <el-button type="text" class="t-btn" icon="el-icon-edit-outline"  title="归档追加" @click="openGdTc(scope.row)"></el-button>

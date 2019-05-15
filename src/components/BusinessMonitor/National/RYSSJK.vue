@@ -715,6 +715,7 @@
             <el-input placeholder="请输入内容" size="small" v-model="addform.name" auto-complete="off"></el-input>
           </el-form-item>
           <el-form-item label="证件号码：" prop="passno">
+            <span class="redx" style="position: absolute;top: 0;left: -90px;">*</span>
             <el-input placeholder="请输入内容" size="small" v-model="addform.passno" auto-complete="off"></el-input>
           </el-form-item>
           <el-form-item label="国籍/地区：" prop="nationality" style="position:relative">
@@ -798,7 +799,12 @@
         <el-row type="flex"  class="t-detail">
           <el-col :span="8" class="t-el-content"><div class="t-el-text">旅客类型：</div><div class="t-el-sub">{{dform.PASSENGERTYPESTR}}</div></el-col>
           <el-col :span="8" class="t-el-content"><div class="t-el-text">旅客值机方式：</div><div class="t-el-sub">{{dform.VIDSTR}}</div></el-col>
-          <el-col :span="8" class="t-el-content"><div class="t-el-text">旅客状态：</div><div class="t-el-sub">{{dform.PASSENGERSTATUSSTR}}</div></el-col>
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">出入境手续：</div><div class="t-el-sub">{{dform.EEFLAG==1?'是':'否'}}</div></el-col>
+        </el-row>
+        <el-row type="flex"  class="t-detail">
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">是否订票：</div><div class="t-el-sub">{{dform.PNRFLAG==1?'是':'否'}}</div></el-col>
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">是否值机：</div><div class="t-el-sub">{{dform.CHKFLAG==1?'是':'否'}}</div></el-col>
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">是否登机：</div><div class="t-el-sub">{{dform.CLSFLAG==1?'是':'否'}}</div></el-col>
         </el-row>
         <el-row type="flex"  class="t-detail">
           <el-col :span="8" class="t-el-content"><div class="t-el-text">是否报警：</div><div class="t-el-sub">{{dform.ISEVENT}}</div></el-col>
@@ -1145,12 +1151,12 @@ export default {
     },
     pageSizeChange(val) {
       this.pageSize=val;
-      this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
+      this.getList(this.CurrentPage,val,this.pd,this.orders,this.direction);
       console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
       this.CurrentPage=val
-      this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
+      this.getList(val,this.pageSize,this.pd,this.orders,this.direction);
       console.log(`当前页: ${val}`);
     },
 
@@ -1240,6 +1246,10 @@ export default {
       })
     },
     addMonitorPerson(){
+      if(!this.addform.passno){
+        this.$message.error('请先选择证件号码');
+        return
+      }
       if(!this.addform.nationality){
         this.$message.error('请先选择国籍/地区');
         return

@@ -53,7 +53,7 @@
               </el-col>
 
           </el-row>
-          <el-row align="center"   :gutter="2" class="yy-line">
+          <!-- <el-row align="center"   :gutter="2" class="yy-line">
 
                 <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
                   <span class="input-text">行属性：</span>
@@ -62,7 +62,7 @@
                      </el-option>
 
                    </el-select>
-                </el-col>
+                </el-col> -->
                 <!-- <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
                   <span class="input-text">列属性：</span>
                   <el-select v-model="pd.aircol" filterable clearable  placeholder="请选择" size="small" class="input-input">
@@ -72,7 +72,7 @@
                      </el-option>
                    </el-select>
                 </el-col> -->
-              </el-row>
+              <!-- </el-row> -->
         </el-col>
         <el-col :span="2" class="down-btn-area" style="margin-top:25px;">
           <el-button type="success" size="small" @click="getList(CurrentPage,pageSize,pd)">统计</el-button>
@@ -157,7 +157,13 @@
                                        label="港澳台">
                                      </el-table-column>
                                 </el-table-column>
-
+                                <el-table-column
+                                  label="操作"
+                                  min-width="50">
+                                  <template slot-scope="scope">
+                                    <el-button type="text"  class="a-btn" title="详情" size="mini" icon="el-icon-tickets" @click="nationDetails(scope.row)"></el-button>
+                                 </template>
+                                </el-table-column>
 
                            </el-table>
 
@@ -165,6 +171,29 @@
         </div>
     </div>
   </div>
+  <el-dialog title="详情" :visible.sync="detailsDialogVisible" width="600px">
+    <el-button  plain class="table-btn mb-9" size="small" @click="daochu">导出</el-button>
+    <el-table
+      :data="detailstableData"
+      border
+      class="o-table3"
+      @header-click="headerClick"
+      style="width: 100%;">
+      <el-table-column
+        prop="country"
+        label="国籍/地区"
+        sortable>
+      </el-table-column>
+      <el-table-column
+        prop="chkcount"
+        label="值机数"
+        sortable>
+      </el-table-column>
+    </el-table>
+    <div slot="footer" class="dialog-footer">
+      <el-button @click="detailsDialogVisible = false" size="small">返 回</el-button>
+    </div>
+  </el-dialog>
   </div>
 </template>
 <script>
@@ -180,6 +209,8 @@ import axios from 'axios'
 export default {
   data() {
     return {
+      myidChange:'',
+      detailstableData:[],
       CurrentPage: 1,
       pageSize: 10,
       TotalResult: 0,
@@ -252,6 +283,34 @@ export default {
 
   },
   methods: {
+    nationDetails(i){
+      this.detailsDialogVisible=true;
+      this.myidChange=i.myid;
+      let p={
+        "begintime":this.pd.begintime,
+        "endtime":this.pd.endtime,
+        "airline_company_id":i.myid,
+        "flighttype":this.pd.flighttype,
+      }
+      this.$api.post('/manage-platform/dataStatistics/get_country_detail',p,
+       r =>{
+         if(r.success){
+           this.detailstableData=r.data
+         }
+       })
+    },
+    daochu(){
+      let p={
+        "begintime":this.pd.begintime,
+        "endtime":this.pd.endtime,
+        "airline_company_id":this.myidChange,
+        "flighttype":this.pd.flighttype,
+      }
+      this.$api.post('/manage-platform/dataStatistics/exp_country_detail',p,
+       r =>{
+          this.downloadM(r,1);
+       },e=>{},'','blob')
+    },
     changeValue(value) {
       console.log(value);
       let obj = {};
@@ -401,7 +460,7 @@ export default {
         this.downloadM(response)
       });
     },
-    downloadM(data) {
+    downloadM(data,type) {
       if (!data) {
         return
       }
@@ -411,7 +470,11 @@ export default {
       let link = document.createElement('a')
       link.style.display = 'none'
       link.href = url
-      link.setAttribute('download', 'hkgs' + format(new Date(), 'yyyyMMddhhmmss') + '.xlsx')
+      if(type==1){
+        link.setAttribute('download', '航空专题分析，国籍地区分布.xlsx')
+      }else{
+        link.setAttribute('download', 'hkgs' + format(new Date(), 'yyyyMMddhhmmss') + '.xlsx')
+      }
       document.body.appendChild(link)
       link.click()
     },

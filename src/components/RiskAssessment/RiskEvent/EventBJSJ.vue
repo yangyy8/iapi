@@ -159,7 +159,7 @@
             <el-button type="text" size="small" @click="moreShow=false" v-if="moreShow">收起 ︿</el-button>
           </el-col>
           <el-col :span="2" class="down-btn-area">
-            <el-button type="success" size="small" @click="getList(CurrentPage,pageSize,pd,orders,direction)">查询</el-button>
+            <el-button type="success" size="small" @click="CurrentPage=1;getList(CurrentPage,pageSize,pd,orders,direction)">查询</el-button>
             <el-button type="primary" plain size="small"  class="mt-15" @click="reset" v-if="moreShow">重置</el-button>
           </el-col>
         </el-row>
@@ -220,26 +220,26 @@
           <el-table-column
             label="出入标识"
             prop="flightTypeName"
-            width="50">
+            min-width="50">
           </el-table-column>
           <el-table-column
             label="性别"
             prop="genderName"
-            width="50"
+            min-width="50"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="出生日期"
             prop="birthday"
             sortable="custom"
-            width="90"
+            min-width="90"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="国籍地区"
             sortable="custom"
             prop="nationality"
-            width="50"
+            min-width="50"
             :show-overflow-tooltip="true">
             <template slot-scope="scope">
               <span>{{scope.row.nationalityName}}</span>
@@ -248,14 +248,14 @@
           <el-table-column
             label="证件类型"
             prop="passportTypeName"
-            width="50"
+            min-width="50"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="证件号"
             prop="passportno"
             sortable="custom"
-            width="90"
+            min-width="90"
             :show-overflow-tooltip="true">
             <!-- <template slot-scope="scope">
               <span class="tc-b hand" @click="$router.push({name:'DZDA',query:{idcard:scope.row.idcard,nationality:scope.row.nationality,passportno:scope.row.passportno,grade:scope.row.grade,type:1,nav2Id:scope.row.passportno+scope.row.nationality,title:scope.row.name+'电子档案'}})">{{scope.row.passportno}}</span>
@@ -265,14 +265,14 @@
             label="航班号"
             prop="fltno"
             sortable="custom"
-            width="65"
+            min-width="65"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="航班日期"
             prop="fltnoDate"
             sortable="custom"
-            width="151"
+            min-width="151"
             :show-overflow-tooltip="true">
           </el-table-column>
 
@@ -280,26 +280,26 @@
             label="命中模型"
             prop="hit_mode_gc"
             sortable="custom"
-            width="70"
+            min-width="70"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="命中规则"
             prop="hit_rule_name"
             sortable="custom"
-            width="70"
+            min-width="70"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="口岸"
             prop="port_name"
             sortable="custom"
-            width="60"
+            min-width="60"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="事件来源"
-            width="50"
+            min-width="50"
             sortable="custom"
             prop="centre_port"
             :show-overflow-tooltip="true">
@@ -307,7 +307,7 @@
           <el-table-column
             label="风险等级"
             sortable="custom"
-            width="120"
+            min-width="120"
             prop="grade">
             <template slot-scope="scope">
               <el-rate :value="scope.row.grade" size="mini" disabled class="mb-9"></el-rate>
@@ -316,14 +316,14 @@
           <el-table-column
             label="处理人"
             prop="processor_peopleName"
-            width="60"
+            min-width="60"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="当前状态"
             prop="status"
             sortable="custom"
-            width="50"
+            min-width="50"
             :show-overflow-tooltip="true">
             <template slot-scope="scope">
               <span>{{scope.row.statusName}}</span>
@@ -333,19 +333,19 @@
             label="核查次数"
             prop="checknumber"
             sortable="custom"
-            width="50"
+            min-width="50"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="最新核查结果"
-            width="50"
+            min-width="50"
             prop="checkResult"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="历次风评"
             sortable="custom"
-            width="50"
+            min-width="50"
             prop="eachevent">
             <template slot-scope="scope">
               <div>
@@ -373,7 +373,7 @@
           <el-table-column
             label="操作"
             fixed="right"
-            width="70">
+            min-width="70">
             <template slot-scope="scope">
               <el-button type="text" class="t-btn mr-5" icon="el-icon-view" title="查看" @click="$router.push({name:'BJSJCK',query:{idcard:scope.row.idcard,serial:scope.row.serial,grade:scope.row.grade,page:0,nav2Id:scope.row.serial,title:scope.row.name+'事件查看'}})"></el-button>
               <el-button type="text" class="t-btn" icon="el-icon-edit-outline" v-if="pd.type!=4" title="处理" @click="$router.push({name:'BJSJCK',query:{idcard:scope.row.idcard,serial:scope.row.serial,grade:scope.row.grade,status:scope.row.status,page:1,operation_type:1,nav2Id:scope.row.serial+1,title:scope.row.name+'事件处理'}})"></el-button>
@@ -407,6 +407,7 @@
           <el-pagination
             background
             @current-change="handleCurrentChange"
+            :current-page.sync ="CurrentPage"
             :page-size="pageSize"
             layout="prev, pager, next"
             :total="TotalResult">

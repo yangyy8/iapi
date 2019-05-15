@@ -57,13 +57,13 @@
               </el-col>
           </el-row>
 
-          <el-row type="flex" class="yy-line">
+          <!-- <el-row type="flex" class="yy-line">
               <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                   <span class="input-text">行属性：</span>
                   <el-select v-model="typerow"   placeholder="请选择" size="small" class="input-input">
                      <el-option  value="1" label="航班号" ></el-option>
                    </el-select>
-                </el-col>
+                </el-col> -->
                 <!-- <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
                   <span class="input-text">列属性：</span>
                   <el-select v-model="typecol" filterable clearable  placeholder="请选择" size="small" class="input-input">
@@ -82,7 +82,7 @@
                      </el-option>
                    </el-select>
                 </el-col> -->
-              </el-row>
+              <!-- </el-row> -->
 
         </el-col>
         <el-col :span="2" class="down-btn-area" style="margin-top:25px;">
@@ -226,20 +226,20 @@
                      label="数据错误">
                    </el-table-column>
                </el-table-column>
-               <!-- <el-table-column
+               <el-table-column
                  label="操作"
                  min-width="50">
                  <template slot-scope="scope">
                    <el-button type="text"  class="a-btn" title="详情" size="mini" icon="el-icon-tickets" @click="nationDetails(scope.row)"></el-button>
                 </template>
-               </el-table-column> -->
+               </el-table-column>
                </el-table>
 
           </div>
         </div>
     </div>
   </div>
-  <el-dialog title="详情" :visible.sync="detailsDialogVisible" width="400px">
+  <el-dialog title="详情" :visible.sync="detailsDialogVisible" width="600px">
     <el-button  plain class="table-btn mb-9" size="small" @click="daochu">导出</el-button>
     <el-table
       :data="detailstableData"
@@ -468,20 +468,8 @@ export default {
       }
       this.$api.post('/manage-platform/dataStatistics/exp_country_detail',p,
        r =>{
-          this.downloadM(r);
+          this.downloadM(r,1);
        },e=>{},'','blob')
-    },
-    downloadM (data) {
-        if (!data) {
-            return
-        }
-        let url = window.URL.createObjectURL(new Blob([data.data],{type:"application/octet-stream"}))
-        let link = document.createElement('a')
-        link.style.display = 'none'
-        link.href = url
-        link.setAttribute('download', format(new Date(),'yyyy-MM-dd hh:mm:ss')+'.xlsx')
-        document.body.appendChild(link)
-        link.click()
     },
     // 获取表格选中时的数据
    // selectArInfo (val) {
@@ -669,7 +657,7 @@ export default {
            this.downloadM(response)
        });
     },
-    downloadM (data) {
+    downloadM (data,type) {
         if (!data) {
             return
         }
@@ -678,7 +666,11 @@ export default {
         let link = document.createElement('a')
         link.style.display = 'none'
         link.href = url
-        link.setAttribute('download', 'hbtj'+format(new Date(),'yyyyMMddhhmmss')+'.xlsx')
+        if(type==1){
+          link.setAttribute('download', '航空专题分析，国籍地区分布.xlsx')
+        }else{
+          link.setAttribute('download', 'hbtj'+format(new Date(),'yyyyMMddhhmmss')+'.xlsx')
+        }
         document.body.appendChild(link)
         link.click()
     },
