@@ -263,6 +263,7 @@
             <el-pagination
               background
               @current-change="handleCurrentChange1"
+              :current-page.sync ="CurrentPage1"
               :page-size="pageSize1"
               layout="prev, pager, next"
               :total="TotalResult1">
@@ -341,8 +342,8 @@ export default {
     let time = new Date();
     let endz = new Date();
     let beginz = new Date(time - 1000 * 60 * 60 * 24 * 1);
-    this.pd.begintime = formatDate(endz, 'yyyyMMdd');
-    this.pd.endtime = formatDate(endz, 'yyyyMMdd');
+    this.pd.begintime = formatDate(beginz, 'yyyyMMdd');
+    this.pd.endtime = formatDate(beginz, 'yyyyMMdd');
   },
   activated(){
     this.queryNationality();
@@ -373,11 +374,11 @@ export default {
       console.log(`当前页: ${val}`);
     },
     pageSizeChange1(val) {
-      this.getList1(this.CurrentPage1, val, this.pd);
+      this.getList1(this.CurrentPage1, val, this.pd0);
       console.log(`每页 ${val} 条`);
     },
     handleCurrentChange1(val) {
-      this.getList1(val, this.pageSize1, this.pd);
+      this.getList1(val, this.pageSize1, this.pd0);
       console.log(`当前页: ${val}`);
     },
     getList(currentPage, showCount, pd) {
@@ -441,6 +442,7 @@ export default {
         })
     },
     details(i) {
+      this.CurrentPage1=1;
       this.detailsDialogVisible = true;
       // console.log(i);
       // this.form=i;

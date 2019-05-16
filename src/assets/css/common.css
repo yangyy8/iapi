@@ -172,6 +172,17 @@ table td,thead th{
   /* height: 100%!important; */
 
 }
+.tableCell{
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+  white-space:nowrap!important;
+  position: relative!important;
+}
+.tableCell .caret-wrapper{
+  position: absolute;
+  right: 0px;
+  top:-4px;
+}
 .caozuo tr td:last-child .cell{
   /* display: flex; */
   text-align: right!important;

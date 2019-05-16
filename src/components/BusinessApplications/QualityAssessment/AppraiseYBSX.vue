@@ -99,7 +99,7 @@
       <el-table
         :data="tableData"
         border
-        class="mt-10 o-table3"
+        class="mt-10"
         @header-click="headerClick"
         max-height="600"
         style="width: 100%;">
@@ -107,13 +107,13 @@
 
         <el-table-column
           prop="airline_company_id" sortable
-          label="航空公司名称" width="200">
-
+          label="航空公司名称" width="200"
+          label-class-name="tableCell">
         </el-table-column>
         <el-table-column
           prop="fltno" sortable
           label="航班号"
-          >
+          label-class-name="tableCell">
         </el-table-column>
 
         <!-- <el-table-column
@@ -131,32 +131,33 @@
         <el-table-column
           prop="noreport" sortable
           label="关闭报文未报数量"
-          >
+          label-class-name="tableCell">
         </el-table-column>
         <el-table-column
           prop="ontime" sortable
           label="关闭报文准时预报数量"
-          >
+          label-class-name="tableCell">
         </el-table-column>
         <el-table-column
           prop="later" sortable
           label="关闭报文晚报数量"
-          >
+          label-class-name="tableCell">
         </el-table-column>
         <el-table-column
           prop="msg_ontime" sortable
           label="值机报文准时预报数量(未去除重复数据)"
+          min-width="110"
           >
         </el-table-column>
         <el-table-column
           prop="msg_noreport" sortable
           label="值机报文未报数量"
-          >
+          label-class-name="tableCell">
         </el-table-column>
         <el-table-column
           prop="msg_later" sortable
           label="值机报文晚报数量"
-          >
+          label-class-name="tableCell">
         </el-table-column>
         <!-- <el-table-column
           prop="levelString"
@@ -650,8 +651,8 @@ export default {
     let time = new Date();
     let endz = new Date();
     let beginz = new Date(time - 1000 * 60 * 60 * 24 * 1);
-    this.pd.begintime = formatDate(endz, 'yyyyMMdd');
-    this.pd.endtime = formatDate(endz, 'yyyyMMdd');
+    this.pd.begintime = formatDate(beginz, 'yyyyMMdd');
+    this.pd.endtime = formatDate(beginz, 'yyyyMMdd');
   },
   activated(){
       this.queryNationality();

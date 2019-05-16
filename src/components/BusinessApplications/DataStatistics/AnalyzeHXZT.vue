@@ -305,7 +305,7 @@ export default {
           label: "30"
         }
       ],
-      page: 0,
+      page: 1,
       tableData: [],
       multipleSelection: [],
       pickerOptions0: {
@@ -672,8 +672,6 @@ export default {
             that.nation=arr[i].countryList;
           }
         }
-
-
     },
     portAble(t){
       if(t==0){

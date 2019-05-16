@@ -179,7 +179,7 @@
     </div>
     <el-dialog
       title="详情"
-      :visible.sync="detailsDialogVisible">
+      :visible.sync="detailsDialogVisible"   width="60%">
 
         <div class="ak-tabs">
           <div class="ak-tab-item abehgt hand" :class="{'ak-checked':page==0}" @click="base">
@@ -604,7 +604,7 @@
                           </div>
                           <div class="">
                             每页
-                            <el-select v-model="pageSize5" @change="pageSizeChange4(pageSize5)" placeholder="10" size="mini" class="page-select">
+                            <el-select v-model="pageSize5" @change="pageSizeChange5(pageSize5)" placeholder="10" size="mini" class="page-select">
                               <el-option
                                 v-for="item in options"
                                 :key="item.value"
@@ -715,8 +715,8 @@ export default {
     let time = new Date();
     let endz = new Date();
     let beginz = new Date(time - 1000 * 60 * 60 * 24 * 1);
-    this.pd.begintime = formatDate(endz, 'yyyyMMdd');
-    this.pd.endtime = formatDate(endz, 'yyyyMMdd');
+    this.pd.begintime = formatDate(beginz, 'yyyyMMdd');
+    this.pd.endtime = formatDate(beginz, 'yyyyMMdd');
   },
   activated(){
       this.queryNationality();
@@ -758,43 +758,43 @@ export default {
       console.log(`当前页: ${val}`);
     },
     pageSizeChange1(val) {
-      this.getList1(this.CurrentPage1, val, this.pd);
+      this.getList1(this.CurrentPage1, val, this.pd0);
       console.log(`每页 ${val} 条`);
     },
     handleCurrentChange1(val) {
-      this.getList1(val, this.pageSize1, this.pd);
+      this.getList1(val, this.pageSize1, this.pd0);
       console.log(`当前页: ${val}`);
     },
     pageSizeChange2(val) {
-      this.getList2(this.CurrentPage2, val, this.pd);
+      this.getList2(this.CurrentPage2, val, this.pd0);
       console.log(`每页 ${val} 条`);
     },
     handleCurrentChange2(val) {
-      this.getList2(val, this.pageSize2, this.pd);
+      this.getList2(val, this.pageSize2, this.pd0);
       console.log(`当前页: ${val}`);
     },
     pageSizeChange3(val) {
-      this.getList3(this.CurrentPage3, val, this.pd);
+      this.getList3(this.CurrentPage3, val, this.pd0);
       console.log(`每页 ${val} 条`);
     },
     handleCurrentChange3(val) {
-      this.getList3(val, this.pageSize3, this.pd);
+      this.getList3(val, this.pageSize3, this.pd0);
       console.log(`当前页: ${val}`);
     },
     pageSizeChange4(val) {
-      this.getList4(this.CurrentPage4, val, this.pd);
+      this.getList4(this.CurrentPage4, val, this.pd0);
       console.log(`每页 ${val} 条`);
     },
     handleCurrentChange4(val) {
-      this.getList4(val, this.pageSize4, this.pd);
+      this.getList4(val, this.pageSize4, this.pd0);
       console.log(`当前页: ${val}`);
     },
     pageSizeChange5(val) {
-      this.getList5(this.CurrentPage5, val, this.pd);
+      this.getList5(this.CurrentPage5, val, this.pd0);
       console.log(`每页 ${val} 条`);
     },
     handleCurrentChange5(val) {
-      this.getList5(val, this.pageSize5, this.pd);
+      this.getList5(val, this.pageSize5, this.pd0);
       console.log(`当前页: ${val}`);
     },
     getList(currentPage, showCount, pd) {
