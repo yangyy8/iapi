@@ -237,7 +237,7 @@
           prop="closetime"
           label="关闭报文">
           <template slot-scope="scope">
-            {{scope.row.closetime|fifter3}}
+            {{scope.row.closetimeStr}}
           </template>
         </el-table-column>
         <el-table-column

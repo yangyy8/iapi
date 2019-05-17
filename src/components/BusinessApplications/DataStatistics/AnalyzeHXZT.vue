@@ -446,16 +446,25 @@ export default {
       console.log(`当前页: ${val}`);
     },
     getList(currentPage, showCount, pd) {
-
-
+      console.log('this.pd.cityto',this.pd.cityto)
       if (this.pd.begintime == null || this.pd.endtime == null) {
         this.$alert('时间范围不能为空', '提示', {
           confirmButtonText: '确定',
         });
         return false
       };
-
-
+      if((this.pd.cityto==undefined||this.pd.cityto=='')&&(this.pd.portto==undefined||this.pd.portto=='')){
+        this.$alert('境内城市和机场至少选一个', '提示', {
+          confirmButtonText: '确定',
+        });
+        return false
+      }
+      if((this.pd.continentfrom==undefined||this.pd.continentfrom=='')&&(this.pd.countryfrom==undefined||this.pd.countryfrom=='')&&(this.pd.cityfrom==undefined||this.pd.cityfrom=='')&&(this.pd.portfrom==undefined||this.pd.portfrom=='')){
+        this.$alert('境外洲、国家、城市和机场至少选一个', '提示', {
+          confirmButtonText: '确定',
+        });
+        return false
+      }
       let p = {
 
         "begintime": pd.begintime,
