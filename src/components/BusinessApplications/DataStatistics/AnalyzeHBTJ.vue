@@ -55,6 +55,28 @@
                   </el-option> -->
                 </el-select>
               </el-col>
+              <el-col :sm="24" :md="12" :lg="8" class="input-item">
+                <span class="input-text">起飞机场：</span>
+                <el-select placeholder="请选择" v-model="pd.portfrom" filterable clearable @visible-change="takeOff" size="small" class="input-input">
+                  <el-option
+                  v-for="item in takeOffName"
+                  :key="item.AIRPORT_CODE"
+                  :value="item.AIRPORT_CODE"
+                  :label="item.AIRPORT_CODE+' - '+item.AIRPORT_NAME">
+                  </el-option>
+                </el-select>
+              </el-col>
+              <el-col :sm="24" :md="12" :lg="8" class="input-item">
+                <span class="input-text">到达机场：</span>
+                <el-select placeholder="请选择" v-model="pd.portto" filterable clearable @visible-change="landing" size="small" class="input-input">
+                  <el-option
+                  v-for="item in landingName"
+                  :key="item.AIRPORT_CODE"
+                  :value="item.AIRPORT_CODE"
+                  :label="item.AIRPORT_CODE+' - '+item.AIRPORT_NAME">
+                  </el-option>
+                </el-select>
+              </el-col>
           </el-row>
 
           <!-- <el-row type="flex" class="yy-line">
@@ -273,6 +295,8 @@ export default {
   data() {
     return {
       detailstableData:[],
+      takeOffName:[],
+      landingName:[],
       fltnoChange:'',
       CurrentPage: 1,
       pageSize: 10,
@@ -443,6 +467,30 @@ export default {
     //this.getList(this.CurrentPage, this.pageSize, this.pd);
   },
   methods: {
+    takeOff(){//调用起飞机场
+      let p={
+        "flighttype":this.pd.flighttype,
+        "type":0
+      }
+      this.$api.post('/manage-platform/codeTable/queryAirportByPortAndFlighttype',p,
+       r =>{
+         if(r.success){
+           this.takeOffName = r.data;
+         }
+       })
+    },
+    landing(){//调用降落机场
+      let p={
+        "flighttype":this.pd.flighttype,
+        "type":1
+      }
+      this.$api.post('/manage-platform/codeTable/queryAirportByPortAndFlighttype',p,
+       r =>{
+         if(r.success){
+           this.landingName = r.data;
+         }
+       })
+    },
     nationDetails(i){
       this.detailsDialogVisible = true;
       this.fltnoChange = i.fltno;
@@ -590,18 +638,20 @@ export default {
        }
 
 
-             if (this.pd.begintime== null|| this.pd.endtime == null) {
-               this.$alert('时间范围不能为空', '提示', {
-                 confirmButtonText: '确定',
-               });
-               return false
-             };
+       if (this.pd.begintime== null|| this.pd.endtime == null) {
+         this.$alert('时间范围不能为空', '提示', {
+           confirmButtonText: '确定',
+         });
+         return false
+       };
       let p = {
         "begintime": pd.begintime,
         "endtime": pd.endtime,
         "fltno": pd.fltno,
         "airline_company_id":pd.airline_company_id,
-        "flighttype":pd.flighttype
+        "flighttype":pd.flighttype,
+        "portfrom":pd.portfrom,
+        "portto":pd.portto
       };
 
       this.$api.post("/manage-platform/dataStatistics/get_flt", p,

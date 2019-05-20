@@ -729,7 +729,13 @@ export default {
        if (result.indexOf(false) > -1) {
          return
        }
-
+       let time = formatDate(new Date(), 'yyyyMMdd');
+       if((this.pd.begintime>=time)||(this.pd.endtime>=time)){
+         this.$alert('当前及以后的日期不可查询', '提示', {
+           confirmButtonText: '确定',
+         });
+         return false
+       }
       let p = {
 
         "begintime":pd.begintime,

@@ -151,6 +151,13 @@
                 <span class="input-text">本事件核查次数：</span>
                 <el-input v-model="pd.checkNumber" placeholder="请输入内容" size="small" clearable class="input-input"></el-input>
               </el-col>
+              <el-col :sm="24" :md="12"  :lg="8" class="input-item">
+                <span class="input-text">是否推送至梅沙：</span>
+                <el-select v-model="pd.yl_two" placeholder="请选择"  size="small" clearable filterable class="block input-input">
+                  <el-option label="是" value="1"></el-option>
+                  <el-option label="否" value="0"></el-option>
+                </el-select>
+              </el-col>
             </el-row>
             </el-collapse-transition>
           </el-col>
@@ -214,7 +221,7 @@
             label="姓名"
             prop="name"
             sortable="custom"
-
+            min-width="50"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
@@ -280,14 +287,14 @@
             label="命中模型"
             prop="hit_mode_gc"
             sortable="custom"
-            min-width="70"
+            min-width="50"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="命中规则"
             prop="hit_rule_name"
             sortable="custom"
-            min-width="70"
+            min-width="50"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
@@ -371,14 +378,23 @@
             </template>
           </el-table-column>
           <el-table-column
+            label="是否推送至梅沙"
+            min-width="50"
+            prop="yl_two"
+            :show-overflow-tooltip="true">
+          </el-table-column>
+          <el-table-column
             label="操作"
             fixed="right"
-            min-width="70">
+            min-width="85">
             <template slot-scope="scope">
               <el-button type="text" class="t-btn mr-5" icon="el-icon-view" title="查看" @click="$router.push({name:'BJSJCK',query:{idcard:scope.row.idcard,serial:scope.row.serial,grade:scope.row.grade,page:0,nav2Id:scope.row.serial,title:scope.row.name+'事件查看'}})"></el-button>
-              <el-button type="text" class="t-btn" icon="el-icon-edit-outline" v-if="pd.type!=4" title="处理" @click="$router.push({name:'BJSJCK',query:{idcard:scope.row.idcard,serial:scope.row.serial,grade:scope.row.grade,status:scope.row.status,page:1,operation_type:1,nav2Id:scope.row.serial+1,title:scope.row.name+'事件处理'}})"></el-button>
-              <el-button type="text" class="t-btn" icon="el-icon-edit-outline" v-if="pd.type==4" title="归档追加" @click="openGdTc(scope.row)"></el-button>
-
+              <el-button type="text" class="t-btn mr-5" icon="el-icon-edit-outline" v-if="pd.type!=4" title="处理" @click="$router.push({name:'BJSJCK',query:{idcard:scope.row.idcard,serial:scope.row.serial,grade:scope.row.grade,status:scope.row.status,page:1,operation_type:1,nav2Id:scope.row.serial+1,title:scope.row.name+'事件处理'}})"></el-button>
+              <el-button type="text" class="t-btn mr-5" icon="el-icon-edit-outline" v-if="pd.type==4" title="归档追加" @click="openGdTc(scope.row)"></el-button>
+              <!-- <el-button type="text" class="t-btn" icon="el-icon-success" v-if="scope.row.yl_two==0" title="推送梅沙" @click="pushMeisha(scope.row)"></el-button>
+              <el-button type="text" class="t-btn" icon="el-icon-error" v-if="scope.row.yl_two==1" title="撤销推送" @click="cancelMeisha(scope.row)"></el-button> -->
+              <el-button type="text" class="t-btn" icon="el-icon-success" title="推送梅沙" @click="pushMeisha(scope.row)"></el-button>
+              <!-- <el-button type="text" class="t-btn" icon="el-icon-error" v-if="scope.row.yl_two==1" title="撤销推送" @click="cancelMeisha(scope.row)"></el-button> -->
             </template>
           </el-table-column>
         </el-table>
@@ -473,7 +489,55 @@
     </el-dialog>
     <GDTC :gtitle="'批量归档'" :gvisible="gdDialogVisible" :garr="multipleSelection" :gtype="'1'" @gclose="gclose"></GDTC>
     <GDTC :gtitle="'归档追加'" :gvisible="gdDialogVisible2" :garr="checkeditem" :gtype="'3'" @gclose="gclose"></GDTC>
+    <el-dialog title="推送梅沙" :visible.sync="pushMaddDialogVisible" width="500px" >
+      <el-form :model="pushMform" ref="addForm">
+        <el-row type="flex"  class="mb-6">
+          <el-col :span="24" class="input-item">
+            <span class="yy-input-text"><font class="yy-color">*</font>处理人：</span>
+            <el-input size="small" v-model="pushMform.userid"  class="yy-input-input" :disabled="true"></el-input>
+          </el-col>
+        </el-row>
 
+        <el-row type="flex"  class="mb-6">
+          <el-col :span="24" class="input-item my-form-group" data-scope="demo2" data-name="type" data-type="select"
+            v-validate-easy="[['required']]">
+            <span class="yy-input-text"><font class="yy-color">*</font>处理类型：</span>
+            <el-select placeholder="请选择" v-model="pushMform.type" filterable clearable size="small" class="yy-input-input">
+              <el-option label="移交台外" value="移交台外"></el-option>
+              <el-option label="前台提示信息" value="前台提示信息"></el-option>
+              <el-option label="自定义前台提示信息" value="自定义前台提示信息"></el-option>
+            </el-select>
+          </el-col>
+        </el-row>
+
+        <el-row type="flex"  class="mb-6" v-if="pushMform.type=='前台提示信息'">
+          <el-col :span="24" class="input-item my-form-group" data-scope="demo2" data-name="strategy" data-type="select"
+            v-validate-easy="[['required']]">
+            <span class="yy-input-text"><font class="yy-color">*</font>处理策略：</span>
+            <el-select placeholder="请选择" v-model="pushMform.strategy" filterable clearable size="small" class="yy-input-input">
+              <el-option label="正常办理手续后移交后台" value="正常办理手续后移交后台"></el-option>
+              <el-option label="请多页采集后移交台外" value="请多页采集后移交台外"></el-option>
+              <el-option label="请多页采集后正常放行" value="请多页采集后正常放行"></el-option>
+              <el-option label="正常办理手续后移交后台" value="正常办理手续后移交后台"></el-option>
+              <el-option label="严把“三关”并核查有无涉恐国轨迹，如无异常正常放行" value="严把“三关”并核查有无涉恐国轨迹，如无异常正常放行"></el-option>
+              <el-option label="严把“三关”查验证件真伪，如无异常正常放行" value="严把“三关”查验证件真伪，如无异常正常放行"></el-option>
+              <el-option label="请查验出生地是否为新疆或中国" value="请查验出生地是否为新疆或中国"></el-option>
+            </el-select>
+          </el-col>
+        </el-row>
+        <el-row type="flex" class="mb-6" v-if="pushMform.type=='自定义前台提示信息'">
+          <el-col :span="24" class="input-item my-form-group" data-scope="demo2" data-name="message" data-type="select"
+            v-validate-easy="[['required']]">
+            <span class="yy-input-text">自定义提示信息：</span>
+            <el-input type="textarea" placeholder="请输入内容" :autosize="{ minRows: 3, maxRows: 6}" v-model="pushMform.message" class="yy-input-input"></el-input>
+          </el-col>
+        </el-row>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="addItem()" size="small">确 定</el-button>
+        <el-button @click="pushMaddDialogVisible = false" size="small">取 消</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -485,6 +549,8 @@ export default {
   components:{GDTC},
   data(){
     return{
+      pushMaddDialogVisible:false,
+      pushMform:{},
       user:{},
       tagData:{},
       moreShow:false,
@@ -657,6 +723,13 @@ export default {
     // this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
   },
   methods:{
+    pushMeisha(){
+      this.pushMaddDialogVisible=true;
+
+    },
+    cancelMeisha(){
+
+    },
     headerClick(column,event){
       console.log(column,event)
       event.target.title=column.label
@@ -881,5 +954,7 @@ export default {
   text-overflow:ellipsis;
   overflow: hidden;
 }
-
+.yy-input-text {
+  width: 25% !important;
+}
 </style>

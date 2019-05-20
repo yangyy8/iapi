@@ -2775,6 +2775,7 @@ export default {
   },
   watch:{
     $route:function(val){
+      console.log("==================",val);
       if(val.query.nationality&&val.query.passportno){
         this.nationality=val.query.nationality;
         this.passportno=val.query.passportno;

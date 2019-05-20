@@ -92,7 +92,7 @@
           </div>
             </el-col>
             <el-col :sm="24" :md="12" :lg="8" class="input-item">
-              <span class="input-text"><i class="t-must">*</i>命中时间：</span>
+              <span class="input-text">命中时间：</span>
               <div class="input-input t-flex t-date">
                <el-date-picker
                v-model="pd.startCreatetime"
@@ -609,26 +609,26 @@ export default {
       detailsDialogVisible:false,
       lazyQuery:'',
       pickerOptions: {
-        disabledDate: (time) => {
-            if (this.pd.endCreatetime != null) {
-              let startT = formatDate(new Date(time.getTime()),'yyyyMMddhhmmss');
-              return startT > this.pd.endCreatetime;
-            }else if(this.pd.endCreatetime == null){
-              return false
-            }
-        }
+        // disabledDate: (time) => {
+        //     if (this.pd.endCreatetime != null) {
+        //       let startT = formatDate(new Date(time.getTime()),'yyyyMMddhhmmss');
+        //       return startT > this.pd.endCreatetime;
+        //     }else if(this.pd.endCreatetime == null){
+        //       return false
+        //     }
+        // }
       },
       pickerOptions1: {
-        disabledDate: (time) => {
-          let todayS =  (this.pd.startCreatetime).slice(0,8);
-          let currentTime = formatDate(new Date(time.getTime()),'yyyyMMdd');
-          let endT = formatDate(new Date(time.getTime()),'yyyyMMddhhmmss');
-          if(todayS==currentTime){
-            return this.pd.startCreatetime>this.pd.endCreatetime
-          }else{
-            return endT < this.pd.startCreatetime;
-          }
-        }
+        // disabledDate: (time) => {
+        //   let todayS =  (this.pd.startCreatetime).slice(0,8);
+        //   let currentTime = formatDate(new Date(time.getTime()),'yyyyMMdd');
+        //   let endT = formatDate(new Date(time.getTime()),'yyyyMMddhhmmss');
+        //   if(todayS==currentTime){
+        //     return this.pd.startCreatetime>this.pd.endCreatetime
+        //   }else{
+        //     return endT < this.pd.startCreatetime;
+        //   }
+        // }
       },
       form: {},
       nav1Id:null,
@@ -638,11 +638,11 @@ export default {
   mounted() {
     this.nav1Id=this.$route.query.nav1Id
     this.nav2Id=this.$route.query.nav2Id
-    let time = new Date();
-    let endTos = new Date(new Date(new Date().toLocaleDateString()).getTime()+24*60*60*1000-1);
-    let createStar = new Date(new Date().setHours(0,0,0,0));
-    this.pd.startCreatetime=formatDate(createStar,'yyyyMMddhhmmss');
-    this.pd.endCreatetime=formatDate(endTos,'yyyyMMddhhmmss');
+    // let time = new Date();
+    // let endTos = new Date(new Date(new Date().toLocaleDateString()).getTime()+24*60*60*1000-1);
+    // let createStar = new Date(new Date().setHours(0,0,0,0));
+    // this.pd.startCreatetime=formatDate(createStar,'yyyyMMddhhmmss');
+    // this.pd.endCreatetime=formatDate(endTos,'yyyyMMddhhmmss');
 
     let flightStart = new Date(new Date().setHours(0,0,0,0));
     let end = new Date();
@@ -723,11 +723,11 @@ export default {
         endFlightDepartdate:'',
       };
       this.searchType='0';
-      let time = new Date();
-      let endTos = new Date(new Date(new Date().toLocaleDateString()).getTime()+24*60*60*1000-1);
-      let createStar = new Date(new Date().setHours(0,0,0,0));
-      this.pd.startCreatetime=formatDate(createStar,'yyyyMMddhhmmss');
-      this.pd.endCreatetime=formatDate(endTos,'yyyyMMddhhmmss');
+      // let time = new Date();
+      // let endTos = new Date(new Date(new Date().toLocaleDateString()).getTime()+24*60*60*1000-1);
+      // let createStar = new Date(new Date().setHours(0,0,0,0));
+      // this.pd.startCreatetime=formatDate(createStar,'yyyyMMddhhmmss');
+      // this.pd.endCreatetime=formatDate(endTos,'yyyyMMddhhmmss');
 
       let flightStart = new Date(new Date().setHours(0,0,0,0));
       let end = new Date();
@@ -775,8 +775,8 @@ export default {
       console.log(`当前页: ${val}`);
     },
     getList(currentPage, showCount, pd,order,direction) {
-    if((this.pd.startFlightDepartdate!=undefined && this.pd.startFlightDepartdate!=null)
-       && (this.pd.endFlightDepartdate!=undefined && this.pd.endFlightDepartdate!=null))
+    if((this.pd.startFlightDepartdate!=undefined || this.pd.startFlightDepartdate!=null)
+       && (this.pd.endFlightDepartdate!=undefined || this.pd.endFlightDepartdate!=null))
     {
       let end = new Date(new Date() - 1000 * 60 * 60 * 24 * 30);
       let endTime = formatDate(end,'yyyy-MM-dd')
@@ -799,8 +799,14 @@ export default {
         });
         return false
       }
-    }else if((this.pd.startCreatetime!=undefined && this.pd.startCreatetime!=null)
-           && (this.pd.endCreatetime!=undefined && this.pd.endCreatetime!=null)) {
+    }else {
+      this.$alert('航班日期不能为空', '提示', {
+        confirmButtonText: '确定',
+      });
+      return false
+    }
+    if((this.pd.startCreatetime!=undefined || this.pd.startCreatetime!=null)
+           && (this.pd.endCreatetime!=undefined || this.pd.endCreatetime!=null)) {
 
              if(dayGap(this.pd.startCreatetime,this.pd.endCreatetime,1)>30){
                this.$alert('命中时间查询间隔不能超过一个月', '提示', {
@@ -808,11 +814,6 @@ export default {
                });
                return false
              }
-    }else {
-      this.$alert('航班日期和命中时间至少其中一项不能为空', '提示', {
-        confirmButtonText: '确定',
-      });
-      return false
     }
       pd.saveflag=1;
       pd.instructNew="1Z";
