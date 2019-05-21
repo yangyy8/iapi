@@ -120,14 +120,14 @@
         </el-row>
         <el-row type="flex"  class="t-detail">
           <el-col :span="6" class="t-el-content"><div class="t-el-text">出入标识：</div><div class="t-el-sub">{{dpform.PNR_FLTTYPE=="O"?"出境":dpform.PNR_FLTTYPE=="I"?"入境":"全部"}}</div></el-col>
-          <el-col :span="6" class="t-el-content"><div class="t-el-text">起飞城市：</div><div class="t-el-sub">{{dpform.originName}}</div></el-col>
-          <el-col :span="6" class="t-el-content"><div class="t-el-text">到达城市：</div><div class="t-el-sub">{{dpform.destinationName}}</div></el-col>
+          <el-col :span="6" class="t-el-content"><div class="t-el-text">起飞城市：</div><div class="t-el-sub">{{dpform.pnrCityNamefrom}}</div></el-col>
+          <el-col :span="6" class="t-el-content"><div class="t-el-text">到达城市：</div><div class="t-el-sub">{{dpform.pnrCityNameto}}</div></el-col>
           <el-col :span="6" class="t-el-content"><div class="t-el-text">起飞机场：</div><div class="t-el-sub">{{dpform.pnrCityfromName}}</div></el-col>
         </el-row>
         <el-row type="flex"  class="t-detail">
           <el-col :span="6" class="t-el-content"><div class="t-el-text">到达机场：</div><div class="t-el-sub">{{dpform.pnrCitytoName}}</div></el-col>
-          <el-col :span="6" class="t-el-content"><div class="t-el-text">计划起飞时间：</div><div class="t-el-sub">{{dpform.departdateStr}}</div></el-col>
-          <el-col :span="6" class="t-el-content"><div class="t-el-text">计划到达时间：</div><div class="t-el-sub">{{dpform.arrivdateStr}}</div></el-col>
+          <el-col :span="6" class="t-el-content"><div class="t-el-text">计划起飞时间：</div><div class="t-el-sub">{{dpform.PNR_DEPARTDATESTR }}</div></el-col>
+          <el-col :span="6" class="t-el-content"><div class="t-el-text">计划到达时间：</div><div class="t-el-sub">{{dpform.PNR_ARRIVDATESTR}}</div></el-col>
           <el-col :span="6" class="t-el-content"><div class="t-el-text">电子客票号：</div><div class="t-el-sub">{{dpform.TKTNUMBER}}</div></el-col>
         </el-row>
         <el-row type="flex"  class="t-detail">

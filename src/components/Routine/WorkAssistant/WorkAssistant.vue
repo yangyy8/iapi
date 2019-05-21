@@ -87,9 +87,12 @@
               sortable='custom'>
             </el-table-column>
             <el-table-column
-              prop="PHONE"
+              prop="PHONEARRAY"
               label="电话"
               sortable='custom'>
+              <template slot-scope="scope">
+                <div class="" v-for="(i,ind) in scope.row.PHONEARRAY">{{i}}</div>
+              </template>
             </el-table-column>
             <el-table-column
               prop="MAIL"
@@ -221,7 +224,7 @@
     </div>
     <el-dialog :title="dialogText" :visible.sync="addDialogVisible" width="500px" >
       <el-form :model="form" ref="addForm">
-        <el-row type="flex"  class="mb-6">
+        <!-- <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
             <span class="yy-input-text">姓名：</span>
             <el-select placeholder="请选择" v-model="form.NAME" filterable clearable @visible-change="nameMethod(0)" size="small" class="yy-input-input" @change="nameMethodReal(form.NAME)">
@@ -232,6 +235,12 @@
               :label="item.NAME">
               </el-option>
             </el-select>
+          </el-col>
+        </el-row> -->
+        <el-row type="flex"  class="mb-6">
+          <el-col :span="24" class="input-item">
+            <span class="yy-input-text">姓名：</span>
+            <el-input placeholder="请输入姓名" size="small" v-model="form.NAME"  class="yy-input-input"></el-input>
           </el-col>
         </el-row>
 
@@ -258,15 +267,15 @@
 
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
-            <span class="yy-input-text">电话：</span>
-            <el-input placeholder="可输入三个电话，用分号隔开" size="small" v-model="form.PHONE"  class="yy-input-input"></el-input>
+            <span class="yy-input-text">职务：</span>
+            <el-input placeholder="请输入职务" size="small" v-model="form.JOBDESC"  class="yy-input-input"></el-input>
           </el-col>
         </el-row>
 
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
-            <span class="yy-input-text">职务：</span>
-            <el-input placeholder="请输入职务" size="small" v-model="form.JOBDESC"  class="yy-input-input"></el-input>
+            <span class="yy-input-text">电话：</span>
+            <el-input placeholder="可输入三个电话，用分号隔开" size="small" v-model="form.PHONE"  class="yy-input-input"></el-input>
           </el-col>
         </el-row>
 
@@ -379,7 +388,7 @@
           ref="upload"
           name="excel"
           :multiple="false"
-          accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"  
+          accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
           :action="$api.rootUrl+'/manage-platform/addressManage/readExcel'"
           :on-success="uploadSuccess"
           :limit="1"
@@ -407,6 +416,7 @@ export default {
     return {
       order:'',
       direction:0,
+      arrone:['111111','2222222','3333333'],
 
       morder:'',
       mdirection:0,
@@ -728,32 +738,32 @@ export default {
          }
        })
     },
-    nameMethod(){//姓名
-      this.$api.post('/manage-platform/watch/queryUserAll',{},
-        r => {
-            if(r.success){
-              this.dutyName = r.data;
-            }
-        })
-    },
-    nameMethodReal(val){//新增添值&编辑修改
-      this.$set(this.form,'PHONE','');
-      this.$set(this.form,'DEPT_QC','');
-      this.$set(this.form,'USERNAME','');
-      this.$set(this.form,'SEX','');
-      let arr = this.dutyName;
-      for(var i=0;i<arr.length;i++){
-        if(arr[i].NAME == val){
-          this.form.PHONE = arr[i].PHONE;//电话
-          this.form.USERNAME = arr[i].USERNAME;//账号
-          this.form.SEXNAME = arr[i].SEXNAME;
-          this.form.SEX = arr[i].SEX;
-          this.form.DEPT_QC = arr[i].DEPT_QC;
-          this.form.DEPT_ID = arr[i].DEPT_ID;//部门id
-          this.form.USERSERIAL = arr[i].SERIAL;//姓名
-        }
-      }
-    },
+    // nameMethod(){//姓名
+    //   this.$api.post('/manage-platform/watch/queryUserAll',{},
+    //     r => {
+    //         if(r.success){
+    //           this.dutyName = r.data;
+    //         }
+    //     })
+    // },
+    // nameMethodReal(val){//新增添值&编辑修改
+    //   this.$set(this.form,'PHONE','');
+    //   this.$set(this.form,'DEPT_QC','');
+    //   this.$set(this.form,'USERNAME','');
+    //   this.$set(this.form,'SEX','');
+    //   let arr = this.dutyName;
+    //   for(var i=0;i<arr.length;i++){
+    //     if(arr[i].NAME == val){
+    //       this.form.PHONE = arr[i].PHONE;//电话
+    //       this.form.USERNAME = arr[i].USERNAME;//账号
+    //       this.form.SEXNAME = arr[i].SEXNAME;
+    //       this.form.SEX = arr[i].SEX;
+    //       this.form.DEPT_QC = arr[i].DEPT_QC;
+    //       this.form.DEPT_ID = arr[i].DEPT_ID;//部门id
+    //       this.form.USERSERIAL = arr[i].SERIAL;//姓名
+    //     }
+    //   }
+    // },
     adds(n, i) {
       this.addDialogVisible = true;
       if (n != 0) {

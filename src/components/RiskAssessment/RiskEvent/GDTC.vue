@@ -1,6 +1,15 @@
 <template >
+  <div class="">
+
+
   <el-dialog :title="gtitle" :visible.sync="gdDialogVisible2" width="640px" :before-close="handleClose">
     <el-form :model="gdform" ref="gdForm">
+      <div class="mb-15">
+        <span class="f-bold mb-9 t-meisha">
+          梅沙事件描述
+        </span>
+        <el-button type="primary" size="mini" @click="viewMeisha">查 看</el-button>
+      </div>
       <div class="mb-15">
         <div class="f-bold mb-9">
           归档描述
@@ -56,6 +65,10 @@
 
     </div>
   </el-dialog>
+  <el-dialog title="梅沙事件描述详情" :visible.sync="viewMDialogVisible" width="640px">
+
+  </el-dialog>
+</div>
 </template>
 
 <script>
@@ -65,6 +78,7 @@ export default {
   data(){
     return{
       user:{},
+      viewMDialogVisible:false,
       options2:[
         {
           value: '1',
@@ -212,6 +226,24 @@ export default {
     }
   },
   methods:{
+    zhuanhuan(val){
+      return val.split('-').join('');
+    },
+    viewMeisha(){
+      this.viewMDialogVisible=true;
+      let p={
+        "gender":this.listData.gender=="M"?'1':this.listData.gender=="F"?'2':'',
+        "nationality":this.listData.nationality,
+        "passportno":this.listData.passportno,
+        "birth":this.listData.birthday,
+        "ename":this.listData.name,
+        "type":'opinion'
+      }
+      this.$api.post('/manage-platform/riskRecordExtInterfaceController/getRecordOtherInfo',p,
+        r =>{
+
+        })
+    },
     handleClose(done) {
       this.gdDialogVisible2=false;
 

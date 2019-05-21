@@ -35,6 +35,10 @@
 .t-w{
   width: 87%!important;
 }
+.t-meisha{
+  display: inline-block;
+  margin-right: 10px;
+}
 .fz-16{
   font-size: 16px!important;
   font-family: 仿宋

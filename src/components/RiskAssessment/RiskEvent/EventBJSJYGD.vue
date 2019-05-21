@@ -137,6 +137,13 @@
                 <span class="input-text">归档人：</span>
                 <el-input v-model="pd.archive_pepole" placeholder="请输入内容" size="small" clearable class="input-input"></el-input>
               </el-col>
+              <el-col :sm="24" :md="12"  :lg="8" class="input-item">
+                <span class="input-text">是否推送至梅沙：</span>
+                <el-select v-model="pd.yl_two" placeholder="请选择"  size="small" clearable filterable class="block input-input">
+                  <el-option label="是" value="1"></el-option>
+                  <el-option label="否" value="0"></el-option>
+                </el-select>
+              </el-col>
             </el-row>
             </el-collapse-transition>
           </el-col>
@@ -259,14 +266,14 @@
             label="命中模型"
             prop="hit_mode_gc"
             sortable="custom"
-            min-width="70"
+            min-width="50"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="命中规则"
             prop="hit_rule_name"
             sortable="custom"
-            min-width="70"
+            min-width="50"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
@@ -318,6 +325,12 @@
             prop="archive_time"
             sortable="custom"
             min-width="101"
+            :show-overflow-tooltip="true">
+          </el-table-column>
+          <el-table-column
+            label="是否推送至梅沙"
+            min-width="50"
+            prop="yl_two"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column

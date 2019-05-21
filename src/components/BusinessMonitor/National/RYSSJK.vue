@@ -40,7 +40,7 @@
               </div>
             </el-col>
             <el-col :sm="24" :md="12" :lg="8" class="input-item">
-              <span class="input-text">航站：</span>
+              <span class="input-text">口岸：</span>
               <el-select  v-model="pd.port" placeholder="请选择" filterable clearable size="small" class="input-input">
                 <el-option
                   v-for="item in airport"
@@ -129,7 +129,7 @@
                 </div>
               </el-col>
               <el-col :sm="24" :md="12" :lg="8" class="input-item">
-                <span class="input-text">航站：</span>
+                <span class="input-text">口岸：</span>
                 <el-select  v-model="pd.port" placeholder="请选择" filterable clearable size="small" class="input-input">
                   <!-- <el-option
                     v-for="item in airport"

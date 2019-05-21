@@ -388,13 +388,13 @@
             fixed="right"
             min-width="85">
             <template slot-scope="scope">
-              <el-button type="text" class="t-btn mr-5" icon="el-icon-view" title="查看" @click="$router.push({name:'BJSJCK',query:{idcard:scope.row.idcard,serial:scope.row.serial,grade:scope.row.grade,page:0,nav2Id:scope.row.serial,title:scope.row.name+'事件查看'}})"></el-button>
-              <el-button type="text" class="t-btn mr-5" icon="el-icon-edit-outline" v-if="pd.type!=4" title="处理" @click="$router.push({name:'BJSJCK',query:{idcard:scope.row.idcard,serial:scope.row.serial,grade:scope.row.grade,status:scope.row.status,page:1,operation_type:1,nav2Id:scope.row.serial+1,title:scope.row.name+'事件处理'}})"></el-button>
+              <el-button type="text" class="t-btn mr-5" icon="el-icon-view" title="查看" @click="$router.push({name:'BJSJCK',query:{row:scope.row,idcard:scope.row.idcard,serial:scope.row.serial,grade:scope.row.grade,yl_two:scope.row.yl_two,page:0,nav2Id:scope.row.serial,title:scope.row.name+'事件查看'}})"></el-button>
+              <el-button type="text" class="t-btn mr-5" icon="el-icon-edit-outline" v-if="pd.type!=4" title="处理" @click="handel(scope.row)"></el-button>
               <el-button type="text" class="t-btn mr-5" icon="el-icon-edit-outline" v-if="pd.type==4" title="归档追加" @click="openGdTc(scope.row)"></el-button>
-              <!-- <el-button type="text" class="t-btn" icon="el-icon-success" v-if="scope.row.yl_two==0" title="推送梅沙" @click="pushMeisha(scope.row)"></el-button>
-              <el-button type="text" class="t-btn" icon="el-icon-error" v-if="scope.row.yl_two==1" title="撤销推送" @click="cancelMeisha(scope.row)"></el-button> -->
-              <el-button type="text" class="t-btn" icon="el-icon-success" title="推送梅沙" @click="pushMeisha(scope.row)"></el-button>
-              <!-- <el-button type="text" class="t-btn" icon="el-icon-error" v-if="scope.row.yl_two==1" title="撤销推送" @click="cancelMeisha(scope.row)"></el-button> -->
+              <el-button type="text" class="t-btn" icon="el-icon-success" v-if="scope.row.yl_two=='否'" title="推送梅沙" @click="pushMeisha(scope.row)"></el-button>
+              <el-button type="text" class="t-btn" icon="el-icon-error" v-if="scope.row.yl_two=='是'" title="撤销推送" @click="cancelMeisha(scope.row)"></el-button>
+              <!-- <el-button type="text" class="t-btn" icon="el-icon-success" title="推送梅沙" @click="pushMeisha(scope.row)"></el-button> -->
+              <!-- <el-button type="text" class="t-btn" icon="el-icon-error" title="撤销推送" @click="cancelMeisha(scope.row)"></el-button> -->
             </template>
           </el-table-column>
         </el-table>
@@ -462,7 +462,7 @@
             <el-select v-model="czform.processorResult" filterable clearable placeholder="请选择"  size="small" class="input-input">
               <el-option label="1 - 排除嫌疑" value="1"></el-option>
               <el-option label="2 -  未能排除嫌疑，待进一步核查" value="2"></el-option>
-              <el-option label="3 -  推送梅沙 " value="3"></el-option>
+              <!-- <el-option label="3 -  推送梅沙 " value="3"></el-option> -->
 
             </el-select>
           </el-col>
@@ -489,12 +489,13 @@
     </el-dialog>
     <GDTC :gtitle="'批量归档'" :gvisible="gdDialogVisible" :garr="multipleSelection" :gtype="'1'" @gclose="gclose"></GDTC>
     <GDTC :gtitle="'归档追加'" :gvisible="gdDialogVisible2" :garr="checkeditem" :gtype="'3'" @gclose="gclose"></GDTC>
+
     <el-dialog title="推送梅沙" :visible.sync="pushMaddDialogVisible" width="500px" >
       <el-form :model="pushMform" ref="addForm">
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
-            <span class="yy-input-text"><font class="yy-color">*</font>处理人：</span>
-            <el-input size="small" v-model="pushMform.userid"  class="yy-input-input" :disabled="true"></el-input>
+            <span class="yy-input-text">处理人：</span>
+            <el-input size="small" v-model="pushMform.userName"  class="yy-input-input" :disabled="true"></el-input>
           </el-col>
         </el-row>
 
@@ -526,10 +527,21 @@
           </el-col>
         </el-row>
         <el-row type="flex" class="mb-6" v-if="pushMform.type=='自定义前台提示信息'">
-          <el-col :span="24" class="input-item my-form-group" data-scope="demo2" data-name="message" data-type="select"
+          <el-col :span="24" class="input-item my-form-group" data-scope="demo2" data-name="message" data-type="textarea"
             v-validate-easy="[['required']]">
             <span class="yy-input-text">自定义提示信息：</span>
             <el-input type="textarea" placeholder="请输入内容" :autosize="{ minRows: 3, maxRows: 6}" v-model="pushMform.message" class="yy-input-input"></el-input>
+          </el-col>
+        </el-row>
+
+        <el-row type="flex"  class="mb-6">
+          <el-col :span="24" class="input-item my-form-group" data-scope="demo2" data-name="fbkadm" data-type="select"
+            v-validate-easy="[['required']]">
+            <span class="yy-input-text"><font class="yy-color" v-if="user.dept_code=='B06'">*</font>推送至口岸：</span>
+            <el-select placeholder="请选择" v-model="pushMform.fbkadm" filterable clearable size="small" class="yy-input-input" :disabled="user.dept_code!='B06'">
+              <el-option label="全国" value="000" v-if="user.dept_code=='B06'"></el-option>
+              <el-option :label="portLabel" :value="portValue"></el-option>
+            </el-select>
           </el-col>
         </el-row>
       </el-form>
@@ -538,6 +550,7 @@
         <el-button @click="pushMaddDialogVisible = false" size="small">取 消</el-button>
       </div>
     </el-dialog>
+
   </div>
 </template>
 
@@ -550,7 +563,9 @@ export default {
   data(){
     return{
       pushMaddDialogVisible:false,
-      pushMform:{},
+      pushMform:{
+        userName:''
+      },
       user:{},
       tagData:{},
       moreShow:false,
@@ -700,6 +715,9 @@ export default {
       gdDialogVisible2:false,
       hash:'',
       checkeditem:null,
+      eventSerial:'',
+      portLabel:'',
+      portValue:'',
 
     }
   },
@@ -723,12 +741,95 @@ export default {
     // this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
   },
   methods:{
-    pushMeisha(){
-      this.pushMaddDialogVisible=true;
+    pushMeisha(i){
+      this.eventSerial = i.serial;
+      console.log('1111',this.user.dept_code);
+      if(i.change_portCode==undefined||i.change_portCode==''){
+        this.portLabel=i.port_name;
+        this.portValue=i.port_code;
+      }else{
+        this.portLabel=i.change_portName;
+        this.portValue=i.change_portCode;
+      }
+      if(this.user.dept_code!="B06"){
+        this.pushMform.fbkadm=this.portValue
+      }
+      this.$api.post('/manage-platform/sysUserInfoController/querySysUserInfo',{},
+        r => {
+          this.pushMform.userName = r.data.name;
+        })
+        this.pushMaddDialogVisible=true;
+        this.V.$reset('demo2')
+    },
+    addItem(){//推送梅沙
+      this.V.$submit('demo2', (canSumit,data) => {
+        if(!canSumit) return
+        let p={
+          "eventSerial":this.eventSerial,
+          "operation_type":"6",
+          "course_type":'4',
+          "one":(new Date()).getTime(),
+          "gznr":this.pushMform.type=="前台提示信息"?this.pushMform.strategy:this.pushMform.type=="自定义前台提示信息"?this.pushMform.message:"移交台外",
+          "fbkadm":this.pushMform.fbkadm
+        }
+        this.$api.post('/manage-platform/riskEventPushMXController/insertBJAPIZDGZRYInfo',p,
+         r =>{
+           if(r.success){
+             this.$message({
+               message: '恭喜你，保存成功！',
+               type: 'success'
+             });
+             this.pushMaddDialogVisible=false;
+             this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
+             this.pushMform={};
+           }
+         })
+      })
 
     },
-    cancelMeisha(){
-
+    cancelMeisha(i){
+      let p = {
+        "eventSerial": i.serial
+      };
+      this.$confirm('您是否确认撤销推送？', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$api.post('/manage-platform/riskEventPushMXController/deleteBJAPIZDGZRYInfo', p,
+          r => {
+            if (r.success) {
+              this.$message({
+                message: '撤销成功！',
+                type: 'success'
+              });
+              this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
+            } else {
+              this.$message.error(r.Message);
+            }
+          }, e => {
+            this.$message.error('失败了');
+          });
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消撤销'
+        });
+      });
+    },
+    handel(i){//处理
+      let p={
+        "serial":i.serial
+      }
+      this.$api.post('/manage-platform/riskEventWarningController/getRiskEventStatusInfo',p,
+        r =>{
+          if(r.success){
+            this.$router.push({name:'BJSJCK',query:{row:i,idcard:i.idcard,serial:i.serial,grade:i.grade,status:i.status,yl_two:i.yl_two,page:1,operation_type:1,nav2Id:i.serial+1,title:i.name+'事件处理'}})
+          }
+          // else{
+          //   this.$message.error(r.data.message);
+          // }
+        })
     },
     headerClick(column,event){
       console.log(column,event)
