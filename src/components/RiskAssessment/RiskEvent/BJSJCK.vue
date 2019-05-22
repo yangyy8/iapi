@@ -5,7 +5,7 @@
 
       事件编号：{{serial}}
     </div>
-    <div class="middle">
+    <div class="middle" ref="box0">
       <el-row :gutter="10">
         <el-col :span="3">
           <div class="bjsj-l">
@@ -614,6 +614,12 @@
         <el-button @click="pushMaddDialogVisible = false" size="small">取 消</el-button>
       </div>
     </el-dialog>
+    <div class="gototop">
+      <div class="backtop" @click="backtop()">
+        <i class="el-icon-upload2"></i>
+        返回顶部
+      </div>
+    </div>
   </div>
 </template>
 
@@ -626,6 +632,8 @@ export default {
 
   data(){
     return{
+      ccTimer:null,
+      tobox:'box0',
       pushMaddDialogVisible:false,
       pushMform:{userName:''},
       portLabel:'',
@@ -731,6 +739,25 @@ export default {
     }
   },
   methods:{
+    backtop(x){
+      this.tobox;
+      let box;
+      this.tobox='box0';
+      box=this.$refs.box0
+
+      let that=this;
+      let t = document.documentElement.scrollTop||document.body.scrollTop;
+      let num=t,step=100;
+      console.log(box.offsetTop,t);
+      this.ccTimer=setInterval(function () {
+        num=num+step;
+        window.scrollTo(0,num);
+        if(num>=box.offsetTop){
+          window.scrollTo(0,box.offsetTop);
+          clearInterval(that.ccTimer)
+        }
+      },100)
+    },
     meishaChange(){
       if(this.meishaText=="推送前台"){
         if(this.$route.query.row.change_portCode==undefined||this.$route.query.row.change_portCode==''){
@@ -1209,6 +1236,37 @@ export default {
 </script>
 
 <style scoped>
+.gototop{
+    position: fixed;
+    right:30px;
+    bottom: 50px;
+    width: 100px;
+    line-height: 20px;
+    background-color: #ffffff;
+    box-shadow: 0 1px 4px 0 rgba(0,0,0,0.26);
+    overflow: hidden;
+    color: #666666;
+
+}
+.gototop > div {
+    font-size: 12px;
+    padding: 0 5px 0 8px;
+
+    cursor:pointer;
+}
+.backtop{
+  color: #1a77c4;
+  background-color: rgba(37,130,220,0.3);
+  line-height: 28px;
+
+}
+.tobox{
+  padding-left: 8px;
+  white-space: nowrap;
+  text-overflow:ellipsis;
+  overflow: hidden;
+  margin: 8px 0;
+}
 .yy-input-text {
   width: 25% !important;
 }

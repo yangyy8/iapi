@@ -9,7 +9,7 @@
             <el-row align="center" :gutter="2">
               <el-col :sm="24" :md="12" :lg="8" class="input-item">
                 <span class="input-text">航班号：</span>
-                <el-input  v-model="pd.fltNo" placeholder="请输入内容" size="small" clearable class="input-input"></el-input>
+                <el-input  v-model="pd.fltNo" placeholder="请输入" size="small" clearable class="input-input"></el-input>
               </el-col>
               <el-col :sm="24" :md="12" :lg="8" class="input-item">
                 <span class="input-text">航班日期：</span>
@@ -31,7 +31,17 @@
                   <el-option label="A - 入出境" value=""></el-option>
                 </el-select>
               </el-col>
-
+              <el-col :sm="24" :md="12"  :lg="8" class="input-item">
+                <span class="input-text">口岸：</span>
+                <el-select  placeholder="请选择"  size="mini"  class="input-input" v-model="pd.port" filterable clearable @visible-change="portMethod">
+                  <el-option
+                  v-for="item in portName"
+                  :key="item.KADM"
+                  :value="item.KADM"
+                  :label="item.KADM+' - '+item.KAMC"
+                  ></el-option>
+                </el-select>
+              </el-col>
             </el-row>
           </el-col>
           <el-col :span="4" class="down-btn-area">
@@ -41,9 +51,15 @@
         </el-row>
     </div>
     <div class="middle" @mouseover="mouseHeader">
-      <el-checkbox v-model="checked" class="mr-15">自动刷新</el-checkbox>
-      <span class="tc-999 f-14">注：点击每行可查看航班详情</span>
-
+      <el-row class="mb-15" type="flex" justify="space-between">
+        <div class="">
+          <el-checkbox v-model="checked" class="mr-15">自动刷新</el-checkbox>
+          <span class="tc-999 f-14">注：点击每行可查看航班详情</span>
+        </div>
+        <div class="">
+          <el-button type="text" class="a-btn" title="帮助" @click="help">帮助</el-button>
+        </div>
+      </el-row>
       <el-table
         class="mt-10 o-table3"
         :data="tableData"
@@ -326,6 +342,20 @@
         <el-button type="warning" @click="detailsDialogVisible = false" size="small">关闭页面</el-button>
       </span>
     </el-dialog>
+    <el-dialog  title="名词解释"  :visible.sync="helpDialogVisible" width="750px">
+      <div class="helpBody">
+        <div>1、72小时：计划起飞时间72小时前发送视为“正常”，72小时之内发送</div>
+        <div>2、24小时：计划起飞时间24小时之前、72小时之内发送</div>
+        <div>3、2小时：距计划起飞时间2小时之前、24小时之内发送</div>
+        <div>4、1小时：距计划起飞时间1小时之前、2小时之内发送</div>
+        <div>5、航班关闭：距计划起飞时间之前、1小时之内发送</div>
+        <div>6、“正常” 指报文接收解析成功</div>
+        <div>7、“异常” 指报文接收解析失败</div>
+      </div>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="helpDialogVisible=false" size="small">返回</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -334,6 +364,8 @@ import { formatDate } from '@/assets/js/date.js'
 export default {
   data(){
     return{
+      helpDialogVisible:false,
+      portName:[],
       tableData:[],
       CurrentPage:1,
       pageSize:10,
@@ -399,6 +431,17 @@ export default {
     }
   },
   methods:{
+    portMethod(){
+      this.$api.post('/manage-platform/codeTable/queryAirportMatch1',{},
+      r =>{
+        if(r.success){
+          this.portName = r.data
+        }
+      })
+    },
+    help(){
+      this.helpDialogVisible=true;
+    },
     pageSizeChange(val) {
       this.pageSize=val;
       this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);

@@ -59,6 +59,17 @@
               <span class="input-text">航班号：</span>
                 <el-input placeholder="请输入内容" size="small" v-model="pd.fltno" class="input-input"></el-input>
             </el-col>
+            <el-col :sm="24" :md="12"  :lg="8" class="input-item">
+              <span class="input-text">口岸：</span>
+              <el-select  placeholder="请选择"  size="mini"  class="input-input" v-model="pd.port" filterable clearable @visible-change="portMethod">
+                <el-option
+                v-for="item in portName"
+                :key="item.KADM"
+                :value="item.KADM"
+                :label="item.KADM+' - '+item.KAMC"
+                ></el-option>
+              </el-select>
+            </el-col>
             <!-- <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
               <span class="input-text">航班日期：</span>
               <el-date-picker
@@ -91,11 +102,15 @@
 
 
     <div class="middle" @mouseover="mouseHeader">
-      <el-row class="mb-15 yr">
-
-        <el-button type="primary" size="small" @click="download(0)">统计数据导出</el-button>
-        <el-button type="warning" size="small" @click="download(5)">明细导出</el-button>
-        </el-row>
+      <el-row class="mb-15" type="flex" justify="space-between">
+        <div class="">
+          <el-button type="text" class="a-btn" title="帮助" @click="help">帮助</el-button>
+        </div>
+        <div class="">
+          <el-button type="primary" size="small" @click="download(0)">统计数据导出</el-button>
+          <el-button type="warning" size="small" @click="download(5)">明细导出</el-button>
+        </div>
+      </el-row>
       <el-table
         :data="tableData"
         border
@@ -569,6 +584,19 @@
             </div>
         </div>
     </el-dialog>
+    <el-dialog  title="名词解释"  :visible.sync="helpDialogVisible" width="750px">
+      <div class="helpBody">
+        <div>1、关闭报文未报：入境航班至计划降落时间、出境航班至航班计划起飞时间后30分钟内未收到报文</div>
+        <div>2、关闭报文准时预报：航班计划起飞时间前收到报文</div>
+        <div>3、关闭报文晚报：晚于航班计划起飞时间收到报文</div>
+        <div>4、值机报文准时预报：入境旅客至航班计划起飞时间、出境旅客至旅客实际办理出境手续时间前收到报文</div>
+        <div>5、值机报文未报：航班关闭报文中无对应旅客值机报文</div>
+        <div>6、值机报文晚报：入境旅客晚于航班计划起飞时间、出境旅客晚于实际办理出境手续时间报送报文</div>
+      </div>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="helpDialogVisible=false" size="small">返回</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 <script>
@@ -581,6 +609,8 @@ import axios from 'axios'
 export default {
   data() {
     return {
+      helpDialogVisible:false,
+      portName:[],
       CurrentPage: 1,
       pageSize: 10,
       TotalResult: 0,
@@ -663,6 +693,17 @@ export default {
       // this.pd.endtime = formatDate(endz, 'yyyyMMdd');
   },
   methods: {
+    help(){
+      this.helpDialogVisible=true
+    },
+    portMethod(){
+      this.$api.post('/manage-platform/codeTable/queryAirportMatch1',{},
+      r =>{
+        if(r.success){
+          this.portName = r.data
+        }
+      })
+    },
     headerClick(column,event){
       console.log(column,event)
       event.target.title=column.label
@@ -737,12 +778,12 @@ export default {
          return false
        }
       let p = {
-
         "begintime":pd.begintime,
         "endtime":pd.endtime,
         "fltno":pd.fltno,
         "fltdate":pd.fltdate,
-        "airline_company_id":pd.airline_company_id
+        "airline_company_id":pd.airline_company_id,
+        "port":pd.port,
       };
       var url="/manage-platform/forecastEva/get_fctime_bycompanyid";
 

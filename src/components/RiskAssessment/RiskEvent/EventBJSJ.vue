@@ -195,7 +195,7 @@
       <div class="ak-tab-pane pt-10" @mouseover="mouseHeader">
         <el-button type="primary" class="mr-5" plain size="small" @click="openGdTc('')" :disabled="isdisable" v-if="pd.type!=4&&pd.type!=1">批量归档</el-button>
         <el-button type="primary" plain size="small" @click="openCzTc" :disabled="isdisable" v-if="pd.type!=4&&pd.type!=2">批量事件处理</el-button>
-
+        <el-button type="primary" plain size="small" @click="daochu">导出</el-button>
         <el-table
           class="mt-10 o-table3 t-gutter"
           ref="multipleTable"
@@ -741,6 +741,31 @@ export default {
     // this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
   },
   methods:{
+    daochu(){
+        let p={
+          "showCount": this.pageSize,
+          "currentPage":this.CurrentPage,
+          "pd": this.pd,
+          "orders":this.orders,
+  	      "direction":this.direction
+        }
+        this.$api.post('/manage-platform/riskEventController/getRiskEventToExcelInfo',p,
+         r =>{
+           this.downloadM(r);
+         },e=>{},'','blob')
+    },
+    downloadM (data,type) {
+        if (!data) {
+            return
+        }
+        let url = window.URL.createObjectURL(new Blob([data.data],{type:"application/octet-stream"}))
+        let link = document.createElement('a')
+        link.style.display = 'none'
+        link.href = url
+        link.setAttribute('download', '风评事件.xlsx')
+        document.body.appendChild(link)
+        link.click()
+    },
     pushMeisha(i){
       this.eventSerial = i.serial;
       console.log('1111',this.user.dept_code);
@@ -824,7 +849,7 @@ export default {
       this.$api.post('/manage-platform/riskEventWarningController/getRiskEventStatusInfo',p,
         r =>{
           if(r.success){
-            this.$router.push({name:'BJSJCK',query:{row:i,idcard:i.idcard,serial:i.serial,grade:i.grade,status:i.status,yl_two:i.yl_two,page:1,operation_type:1,nav2Id:i.serial+1,title:i.name+'事件处理'}})
+            this.$router.push({name:'BJSJCK',query:{row:i,idcard:i.idcard,serial:i.serial,grade:i.grade,status:i.status,yl_two:i.yl_two,page:0,operation_type:1,nav2Id:i.serial+1,title:i.name+'事件处理'}})
           }
           // else{
           //   this.$message.error(r.data.message);

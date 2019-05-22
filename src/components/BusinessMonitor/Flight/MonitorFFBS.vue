@@ -58,8 +58,14 @@
           </el-col>
         </el-row>
         <!-- <el-button type="success"  icon="el-icon-refresh" size="small" class="mb-9 mr-15" @click="getList2(CurrentPage,pageSize,pd2)">刷新</el-button> -->
-        <el-checkbox v-model="checked">自动刷新</el-checkbox>
-
+        <el-row  type="flex" justify="space-between">
+          <div class="">
+            <el-checkbox v-model="checked">自动刷新</el-checkbox>
+          </div>
+          <div class="">
+           <el-button type="text" class="a-btn" title="帮助" @click="help">帮助</el-button>
+          </div>
+        </el-row>
         <el-table
           :data="tableData2"
           class="mt-10 o-table3"
@@ -213,8 +219,14 @@
             <!-- <el-button type="primary" class="mb-15" plain size="small" >重置</el-button> -->
           </el-col>
         </el-row>
-        <el-checkbox v-model="checked2" class="mr-15">自动刷新</el-checkbox>
-
+        <el-row type="flex" justify="space-between">
+          <div class="">
+            <el-checkbox v-model="checked2" class="mr-15">自动刷新</el-checkbox>
+          </div>
+          <div class="">
+            <el-button type="text" class="a-btn" title="帮助" @click="help">帮助</el-button>
+          </div>
+        </el-row>
         <el-table
           class="mt-10 o-table3"
           :data="tableData"
@@ -379,6 +391,18 @@
         </el-pagination>
       </div>
     </div> -->
+    <el-dialog  title="名词解释"  :visible.sync="helpDialogVisible" width="600px">
+      <div class="helpBody" v-if="tabId==0">
+        <div>1、正常：已接收并正常解析报文数</div>
+        <div>2、异常：已接收但解析异常报文数</div>
+      </div>
+      <div class="helpBody" v-if="tabId!=0">
+        <div>非法报送数：报文接收数量多于“非法报送阈值”的航班的报文数</div>
+      </div>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="helpDialogVisible=false" size="small">返回</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -388,6 +412,7 @@ import { formatDate } from '@/assets/js/date.js'
 export default {
   data(){
     return{
+      helpDialogVisible:false,
       tabId:0,
       yuzhi:null,
       tableData:null,
@@ -500,6 +525,9 @@ export default {
     }
   },
   methods:{
+    help(){
+      this.helpDialogVisible=true;
+    },
     pageSizeChange(val) {
       this.getList2(this.CurrentPage,val,this.pd2);
       console.log(`每页 ${val} 条`);

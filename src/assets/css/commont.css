@@ -414,3 +414,10 @@
   top: -4%;
   left: 7%;
 }
+.helpBody{
+  padding: 0px 40px
+}
+.helpBody div{
+  margin: 8px 0px;
+  line-height: 25px;
+}
