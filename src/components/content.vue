@@ -545,18 +545,44 @@ export default {
     },
     // 关闭tab页面==========================
     close1(index,item) {
-      this.tabList.splice(index, 1);
-      if (index > 0) {
-        this.tabNav2(this.tabList[index - 1])
-      }if(index==0){
-        if(this.tabList.length!=0){
-          this.tabNav2(this.tabList[index])
-        }else {
-          this.nav2Id=null;
-          this.$router.push({name: 'Content',query:{nav1Id:this.nav1Id}})
+      console.log('this.$route.query.serial',this.$route.query.serial)
+      console.log('this.tabList',this.tabList)
+      if(this.$route.query.risk){//关闭风评详情页面，改变状态
+        let p={
+          "serial":this.$route.query.serial,
         }
-
+        this.$api.post('/manage-platform/riskEventWarningController/updateRiskEventStatusInfo',p,
+         r =>{
+           if(r.success){
+             console.log('11111')
+             this.tabList.splice(index, 1);
+             if (index > 0) {
+               this.tabNav2(this.tabList[index - 1])
+             }if(index==0){
+               if(this.tabList.length!=0){
+                 this.tabNav2(this.tabList[index])
+               }else {
+                 this.nav2Id=null;
+                 this.$router.push({name: 'Content',query:{nav1Id:this.nav1Id}})
+               }
+             }
+           }
+         })
+      }else{
+        console.log('2222')
+        this.tabList.splice(index, 1);
+        if (index > 0) {
+          this.tabNav2(this.tabList[index - 1])
+        }if(index==0){
+          if(this.tabList.length!=0){
+            this.tabNav2(this.tabList[index])
+          }else {
+            this.nav2Id=null;
+            this.$router.push({name: 'Content',query:{nav1Id:this.nav1Id}})
+          }
+        }
       }
+
     },
     // 顶部菜单获取=================================
     openNav() {

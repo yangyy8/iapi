@@ -12,7 +12,7 @@
             <img :src="imgURL" alt="" style="width:100%;">
             <span class="mb-2">综合风险等级</span>
             <el-rate :value="parseInt($route.query.grade)" disabled class="mb-9"></el-rate>
-            <el-button type="primary" size="small" class="mb-9" style="width:100%" @click="$router.push({name:'DZDA',query:{idcard:$route.query.idcard,nationality:page0Data.nationality,passportno:page0Data.passportno,grade:$route.query.grade,type:1,nav2Id:page0Data.passportno+page0Data.nationality,title:page0Data.name+'电子档案'}})">电子档案</el-button>
+            <el-button type="primary" size="small" class="mb-9" style="width:100%" @click="$router.push({name:'DZDA',query:{gender:$route.query.row.gender,ename:$route.query.row.name,birth:$route.query.row.birthday,idcard:$route.query.idcard,nationality:page0Data.nationality,passportno:page0Data.passportno,grade:$route.query.grade,type:1,nav2Id:page0Data.passportno+page0Data.nationality,title:page0Data.name+'电子档案'}})">电子档案</el-button>
             <el-button type="primary" size="small" class="mb-9" style="width:100%">综合查询</el-button>
             <el-button type="primary" size="small" class="mb-9" style="width:100%">照片比对</el-button>
             <el-button type="success" size="small" style="width:100%" :disabled="!operation_type" @click="openGdTc(page0Data)">事件归档</el-button>
@@ -393,6 +393,10 @@
               </div>
             </div>
             <div class="boder1 pb-10">
+              <span class="title-green hand mt-10 t-meisha">梅沙事件描述</span>
+              <el-button type="primary" size="mini" @click="viewMeisha">查 看</el-button>
+            </div>
+            <div class="boder1 pb-10">
               <div class="title-green hand mt-10" @click="box7=!box7">
                 <span class="redx">*</span>简要描述 <i class="el-icon-d-caret"></i>
               </div>
@@ -440,7 +444,7 @@
             </div>
             <div class="boder1 pb-10" v-if="operation_type">
               <div class="hc-btn">
-                <el-button type="info" size="small" class="mr-20" @click="$router.go(-1)">返回</el-button>
+                <el-button type="info" size="small" class="mr-20" @click="detailGoBack">返回</el-button>
 
                 <el-button type="success" size="small" @click="saveRiskDescRecordInfo">确定</el-button>
               </div>
@@ -620,6 +624,45 @@
         返回顶部
       </div>
     </div>
+    <el-dialog title="梅沙事件描述详情" :visible.sync="viewMDialogVisible" width="640px">
+      <el-row style="line-height:32px;">
+        <el-col :span="12">
+          事件编号：{{descData.evt_id||'-'}}
+        </el-col>
+        <el-col :span="12">
+          事件类别：{{descData.evt_types||'-'}}
+        </el-col>
+        <el-col :span="12">
+          事件性质：{{descData.evt_char_code||'-'}}
+        </el-col>
+        <el-col :span="12">
+          公文种类：{{descData.docs_type_na||'-'}}
+        </el-col>
+        <el-col :span="12">
+          审批人：{{descData.approver||'-'}}
+        </el-col>
+        <el-col :span="12">
+          处理结果：{{descData.ill_deal_rsn_na||'-'}}
+        </el-col>
+        <el-col :span="24">
+          事件主题：{{descData.evt_theme||'-'}}
+        </el-col>
+        <el-col :span="24">
+          事件描述：{{descData.evt_desc||'-'}}
+        </el-col>
+      </el-row>
+      <div class="title-green mt-10">
+        处理意见
+      </div>
+      <el-row style="line-height:32px;">
+        <el-col :span="24">
+          {{descData.deal_opinion||'-'}}
+        </el-col>
+     </el-row>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="warning" @click="viewMDialogVisible=false" size="small">返回</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -632,6 +675,8 @@ export default {
 
   data(){
     return{
+      viewMDialogVisible:false,
+      descData:{},
       ccTimer:null,
       tobox:'box0',
       pushMaddDialogVisible:false,
@@ -739,6 +784,34 @@ export default {
     }
   },
   methods:{
+    detailGoBack(){
+      let p={
+        "serial":this.serial,
+      }
+      this.$api.post('/manage-platform/riskEventWarningController/updateRiskEventStatusInfo',p,
+       r =>{
+         if(r.success){
+           this.$router.go(-1)
+         }
+       })
+    },
+    viewMeisha(){
+      this.viewMDialogVisible=true;
+      let p={
+        "gender":this.$route.query.row.gender=="M"?'1':this.$route.query.row.gender=="F"?'2':'',
+        "nationality":this.$route.query.row.nationality,
+        "passportno":this.$route.query.row.passportno,
+        "birth":this.$route.query.row.birthday,
+        "ename":this.$route.query.row.name,
+        "type":'opinion'
+      }
+      this.$api.post('/manage-platform/riskRecordExtInterfaceController/getRecordOtherInfo',p,
+        r =>{
+          if(r.success){
+            this.descData = r.data;
+          }
+        })
+    },
     backtop(x){
       this.tobox;
       let box;
@@ -852,6 +925,9 @@ export default {
     getRiskIapiInfo(){
       let p={
         "eventSerial": this.serial
+      }
+      if(!this.operation_type){
+        p.check="check";
       }
       this.$api.post('/manage-platform/riskEventWarningController/getRiskIapiInfo',p,
        r => {
@@ -1093,8 +1169,9 @@ export default {
         this.$message.error('请选择核查结果！');
         return
       }
-      console.log(this.fileData)
-      if(this.fileData.length!=0){
+      console.log(this.fileData);
+      console.log(this.fileData!=null)
+      if(this.fileData!=null){
         console.log("this.fileData",this.delIndex)
         var formData = new FormData();
         let arr=this.fileData;

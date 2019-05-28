@@ -276,7 +276,7 @@
       <el-row align="center" :gutter="2" type="flex" v-if="CONSULTTYPE==1||CONSULTTYPE==2">
         <el-col :span="24" class="input-item my-form-group" :data-scope="aa.all" data-name="DETAILS" data-type="textarea"
         v-validate-easy="[['required']]">
-          <span class="yy-input-text width-lef">问题详情：</span>
+          <span class="yy-input-text width-lef"><i class="t-must">*</i>问题详情：</span>
           <el-input type="textarea" v-model="huifu.DETAILS" maxlength="300" :autosize="{ minRows: 3, maxRows: 6}" placeholder="请输入描述(不能超过300字)"></el-input>
         </el-col>
       </el-row>
@@ -298,9 +298,8 @@
       <el-row type="flex" class="middle">
         <el-col :span="12" class="br pr-20">
             <el-row align="center" :gutter="2" type="flex">
-              <el-col  :sm="20" :md="20" :lg="20"  class="input-item my-form-group" :data-scope="aa.all" data-name="REPLYTYPE" data-type="select"
-              v-validate-easy="[['required']]">
-                <span class="input-text"><i class="t-must">*</i>回复口径：</span>
+              <el-col  :sm="20" :md="20" :lg="20"  class="input-item">
+                <span class="input-text">回复意见：</span>
                 <el-select v-model="huifu.REPLYTYPE" filterable clearable placeholder="请选择" size="small" class="input-input" @visible-change="replyCaliber" @change="replayC(huifu.REPLYTYPE)">
                   <el-option
                    v-for="(item,ind) in caliber"
@@ -312,17 +311,15 @@
               </el-col>
             </el-row>
             <el-row align="center" :gutter="2" type="flex">
-              <el-col  :sm="20" :md="20" :lg="20"  class="input-item my-form-group" :data-scope="aa.all" data-name="CHNREPLY" data-type="input"
-              v-validate-easy="[['required']]">
-                <span class="input-text"><i class="t-must">*</i>中文：</span>
-                <el-input placeholder="请输入内容" size="small" v-model="huifu.CHNREPLY"  class="input-input"></el-input>
+              <el-col  :sm="20" :md="20" :lg="20"  class="input-item">
+                <span class="input-text">中文：</span>
+                <el-input type="textarea" placeholder="请输入内容" size="small" v-model="huifu.CHNREPLY"  class="input-input"></el-input>
               </el-col>
             </el-row>
             <el-row align="center" :gutter="2" type="flex">
-              <el-col  :sm="20" :md="20" :lg="20"  class="input-item my-form-group" :data-scope="aa.all" data-name="ENGREPLY" data-type="input"
-              v-validate-easy="[['required']]">
-                <span class="input-text"><i class="t-must">*</i>英文：</span>
-                <el-input placeholder="请输入内容" size="small" v-model="huifu.ENGREPLY"  class="input-input"></el-input>
+              <el-col  :sm="20" :md="20" :lg="20"  class="input-item">
+                <span class="input-text">英文：</span>
+                <el-input type="textarea" placeholder="请输入内容" size="small" v-model="huifu.ENGREPLY"  class="input-input"></el-input>
               </el-col>
             </el-row>
           </el-col>
@@ -632,6 +629,7 @@ export default {
       this.detailsRow.CONSULTEMAIL= this.entity.CONSULTEMAIL;
       this.detailsRow.CONSULTFROMOTHERREMARK = this.entity.CONSULTFROMOTHERREMARK;
       this.detailsRow.AIRLINE_CODE = this.entity.AIRLINE_CODE;
+      console.log(this.entity.AIRLINE_CODE)
       if(this.entity.AIRLINE_CODE!=''){
         this.detailsRow.AIRLINE_CHN_NAME = this.appZhuan(this.entity.AIRLINE_CODE).split('-')[0];
         this.detailsRow.AIRLINE_ENG_NAME = this.appZhuan(this.entity.AIRLINE_CODE).split('-')[1];
@@ -651,9 +649,9 @@ export default {
       this.V.$submit('txl', (canSumit,data) => {
         if(!canSumit) return
         var a = this.entity;
-        this.businessEnti.CONSULTTYPE = this.CONSULTTYPE;
         var b = this.huifu;
-        this.businessEnti = Object.assign({}, a,b)
+        this.businessEnti = Object.assign({}, a,b);
+        this.businessEnti.CONSULTTYPE = this.CONSULTTYPE;
         // if(this.CONSULTTYPE==1){
         //   this.businessHuifu = this.huifu;
         //   var b = this.businessHuifu;
@@ -702,6 +700,7 @@ export default {
 }
 .width-lef{
   width: 5%!important;
+  margin-right: 1%;
 }
 .tt-width{
   width: 15%!important;

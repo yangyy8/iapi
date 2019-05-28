@@ -100,6 +100,9 @@
           <el-col :span="8" class="t-el-content"><div class="t-el-text">边检接收时间：</div><div class="t-el-sub">{{dform.IAPI_RECEIVETIMESTR}}</div></el-col>
           <el-col :span="8" class="t-el-content"><div class="t-el-text">边检回复时间：</div><div class="t-el-sub">{{dform.IAPI_RESPONSETIMESTR}}</div></el-col>
         </el-row>
+        <el-row type="flex"  class="t-detail">
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">电子客票号：</div><div class="t-el-sub">{{dform.TKTNUMBER}}</div></el-col>
+        </el-row>
       </div>
       <!-- 订票信息 -->
       <div class="redx" v-show="!isPnr">暂无订票信息</div>
@@ -152,7 +155,8 @@
           <el-col :span="12" class="t-el-content"><div class="t-el-text">PNR报文发送方：</div><div class="t-el-sub">{{dpform.pnrFsf}}</div></el-col>
         </el-row>
         <el-row type="flex"  class="t-detail">
-          <el-col :span="6" class="t-el-content"><div class="t-el-text">订座系统分配给某个代理或Office的ID号：</div><div class="t-el-sub">{{dpform.IN_HOUSE_IDENTIFICATION}}</div></el-col>
+          <el-col :span="12" class="t-el-content"><div class="t-el-text">订座系统分配给某个代理或Office的ID号：</div><div class="t-el-sub">{{dpform.IN_HOUSE_IDENTIFICATION}}</div></el-col>
+          <el-col :span="12" class="t-el-content"><div class="t-el-text">电子客票号：</div><div class="t-el-sub">{{dpform.TKTNUMBER}}</div></el-col>
         </el-row>
         <div class="hrtitle-child" @click="box1=!box1">订票人住址<i class="el-icon-d-caret"></i></div>
         <el-row type="flex"  class="t-detail" v-for="(i,ind) in addList" v-if="box1" :key="'inda'+ind">
@@ -322,11 +326,11 @@ export default {
       // SERIALSelf:this.SERIALSelf,
     }
   },
-  props:['detailType','SERIAL','CHK_SERIAL','PNR_TID','PNR_TKTNUMBER','PNR_TRAVELLER_SURNAME_TIF','PNR_TRAVELLER_GIVEN_NAME_TIF','SERIALPnr','PNR_TIDPnr','PNR_TKTNUMBERPnr','SERIALSelf','PNR_TIDSelf','PNR_TKTNUMBERSelf','pnrType'],
+  props:['detailType','globalserialZH','SERIAL','CHK_SERIAL','PNR_TID','PNR_TKTNUMBER','PNR_TRAVELLER_SURNAME_TIF','PNR_TRAVELLER_GIVEN_NAME_TIF','SERIALPnr','PNR_TIDPnr','PNR_TKTNUMBERPnr','SERIALSelf','PNR_TIDSelf','PNR_TKTNUMBERSelf','pnrType'],
   watch:{
-    SERIAL:function(newVal,oldVal){
+    globalserialZH:function(newVal,oldVal){
       console.log(newVal,oldVal);
-      this.SERIAL = newVal;
+      this.globalserialZH = newVal;
       this.detailShow();
     },
     detailType:function(newVal,oldVal){

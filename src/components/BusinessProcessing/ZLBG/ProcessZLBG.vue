@@ -229,7 +229,7 @@
     <el-button  type="text"  class="a-btn"  title="变更" icon="el-icon-edit" @click="handles(scope.row);"></el-button>
   </span> -->
 
-      <el-button  type="text"  class="a-btn"  title="变更" icon="el-icon-edit" @click="handles(scope.row);"></el-button>
+      <el-button  type="text"  class="a-btn" :class="{'gray':scope.row.PASSENGERSTATUS!='0'}" title="变更" icon="el-icon-edit" @click="handles(scope.row);"></el-button>
 
       <el-button type="text"  class="a-btn"  title="详情" icon="el-icon-tickets" @click="details(scope.row)"></el-button>
                  </template>
@@ -992,14 +992,15 @@ export default {
         })
     },
     handles(i) {
-      this.handlesDialogVisible = true;
-      this.form.INSTRUCT="";
-      this.form.INSTRUCTC="";
-      this.form.CHANGERESON="";
-      i.LASTCHECKRESULTC = this.fiftezjsm(i.LASTCHECKRESULT);
-      console.log(i);
-      this.form = i;
-
+      if(i.PASSENGERSTATUS=='0'){
+        this.handlesDialogVisible = true;
+        this.form.INSTRUCT="";
+        this.form.INSTRUCTC="";
+        this.form.CHANGERESON="";
+        i.LASTCHECKRESULTC = this.fiftezjsm(i.LASTCHECKRESULT);
+        console.log(i);
+        this.form = i;
+      }
     },
     handlessys(i) {
       this.AuthDialogVisible = true;
@@ -1332,6 +1333,11 @@ function getreplace(name) {
 </script>
 
 <style scoped>
+.gray{
+  background-color: #F4F4F4!important;
+  border:1px solid #ccc!important;
+  color:#bbb!important;
+}
 .add-dialog {
   /* padding-left:40px; */
 }

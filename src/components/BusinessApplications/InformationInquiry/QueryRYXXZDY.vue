@@ -1809,6 +1809,9 @@
           <el-col :span="8" class="t-el-content"><div class="t-el-text">边检接收时间：</div><div class="t-el-sub">{{dform.IAPI_RECEIVETIMESTR}}</div></el-col>
           <el-col :span="8" class="t-el-content"><div class="t-el-text">边检回复时间：</div><div class="t-el-sub">{{dform.IAPI_RESPONSETIMESTR}}</div></el-col>
         </el-row>
+        <el-row type="flex"  class="t-detail">
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">电子客票号：</div><div class="t-el-sub">{{dform.TKTNUMBER}}</div></el-col>
+        </el-row>
         <!-- 数据有效性 -->
         <div class="" v-show="isCheck">
           <div class="hrtitle">数据有效性</div>

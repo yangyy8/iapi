@@ -180,9 +180,8 @@
     <el-dialog title="编辑" :visible.sync="editDialogVisible" width="500px">
       <el-form :model="form" ref="addForm">
         <el-row type="flex"  class="mb-6">
-          <el-col :span="24" class="input-item my-form-group" data-scope="txl" data-name="STATIONFROM" data-type="select"
-          v-validate-easy="[['required']]">
-            <span class="yy-input-text"><font class="yy-color">*</font>航站：</span>
+          <el-col :span="24" class="input-item">
+            <span class="yy-input-text">航站：</span>
             <el-select v-model="form.STATIONFROM" filterable clearable placeholder="请选择" size="small" class="yy-input-input" @visible-change="terminal">
               <el-option
               v-for="item in takeOffName"
@@ -195,9 +194,8 @@
         </el-row>
 
         <el-row type="flex"  class="mb-6">
-          <el-col :span="24" class="input-item my-form-group" data-scope="txl" data-name="AIRLINE_CODE" data-type="select"
-          v-validate-easy="[['required']]">
-            <span class="yy-input-text"><font class="yy-color">*</font>航空公司：</span>
+          <el-col :span="24" class="input-item">
+            <span class="yy-input-text">航空公司：</span>
             <el-select v-model="form.AIRLINE_CODE" filterable clearable placeholder="请选择" size="small" class="yy-input-input" @visible-change="applicationMethod">
               <el-option
               v-for="item in application"
@@ -210,49 +208,43 @@
         </el-row>
 
         <el-row type="flex"  class="mb-6">
-          <el-col :span="24" class="input-item my-form-group" data-scope="txl" data-name="NAME" data-type="input"
-          v-validate-easy="[['required']]">
-            <span class="yy-input-text"><font class="yy-color">*</font>咨询人：</span>
+          <el-col :span="24" class="input-item">
+            <span class="yy-input-text">咨询人：</span>
             <el-input placeholder="请输入内容" size="small" v-model="form.NAME"  class="yy-input-input"></el-input>
           </el-col>
         </el-row>
 
         <el-row type="flex"  class="mb-6">
-          <el-col :span="24" class="input-item my-form-group" data-scope="txl" data-name="TELEPHONE" data-type="input"
-          v-validate-easy="[['required']]">
-            <span class="yy-input-text"><font class="yy-color">*</font>固定电话：</span>
+          <el-col :span="24" class="input-item">
+            <span class="yy-input-text">固定电话：</span>
             <el-input placeholder="请输入内容" size="small" v-model="form.TELEPHONE"  class="yy-input-input"></el-input>
           </el-col>
         </el-row>
 
         <el-row type="flex"  class="mb-6">
-          <el-col :span="24" class="input-item my-form-group" data-scope="txl" data-name="CELLPHONE" data-type="input"
-          v-validate-easy="[['required']]">
-            <span class="yy-input-text"><font class="yy-color">*</font>移动电话：</span>
+          <el-col :span="24" class="input-item">
+            <span class="yy-input-text">移动电话：</span>
             <el-input placeholder="请输入内容" size="small" v-model="form.CELLPHONE"  class="yy-input-input"></el-input>
           </el-col>
         </el-row>
 
         <el-row type="flex"  class="mb-6">
-          <el-col :span="24" class="input-item my-form-group" data-scope="txl" data-name="FAX" data-type="input"
-          v-validate-easy="[['required']]">
-            <span class="yy-input-text"><font class="yy-color">*</font>传真：</span>
+          <el-col :span="24" class="input-item">
+            <span class="yy-input-text">传真：</span>
             <el-input placeholder="请输入内容" size="small" v-model="form.FAX"  class="yy-input-input"></el-input>
           </el-col>
         </el-row>
 
         <el-row type="flex"  class="mb-6">
-          <el-col :span="24" class="input-item my-form-group" data-scope="txl" data-name="EMAIL" data-type="input"
-          v-validate-easy="[['required']]">
-            <span class="yy-input-text"><font class="yy-color">*</font>邮箱：</span>
+          <el-col :span="24" class="input-item">
+            <span class="yy-input-text">邮箱：</span>
             <el-input placeholder="请输入内容" size="small" v-model="form.EMAIL"  class="yy-input-input"></el-input>
           </el-col>
         </el-row>
 
         <el-row type="flex"  class="mb-6">
-          <el-col :span="24" class="input-item my-form-group" data-scope="txl" data-name="OTHER" data-type="input"
-          v-validate-easy="[['required']]">
-            <span class="yy-input-text"><font class="yy-color">*</font>其他：</span>
+          <el-col :span="24" class="input-item">
+            <span class="yy-input-text">其他：</span>
             <el-input placeholder="请输入内容" size="small" v-model="form.OTHER"  class="yy-input-input"></el-input>
           </el-col>
         </el-row>
@@ -278,7 +270,7 @@
           </el-col>
         </el-row>
 
-        <el-row type="flex"  class="mb-6" v-if="form.CONSULTFROM=='0'">
+        <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item my-form-group" data-scope="addtxl" data-name="AIRLINE_CODE" data-type="select"
           v-validate-easy="[['required']]">
             <span class="yy-input-text"><font class="yy-color">*</font>航空公司：</span>
@@ -293,7 +285,7 @@
           </el-col>
         </el-row>
 
-        <el-row type="flex"  class="mb-6" v-if="form.CONSULTFROM == '0'||form.CONSULTFROM == ''||form.CONSULTFROM == undefined">
+        <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item my-form-group" data-scope="addtxl" data-name="STATIONFROM" data-type="select"
           v-validate-easy="[['required']]">
             <span class="yy-input-text"><font class="yy-color">*</font>航站：</span>
@@ -330,7 +322,7 @@
           </el-col>
         </el-row>
 
-        <el-row type="flex"  class="mb-6" v-if="form.CONSULTFROMTYPE=='3'">
+        <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item my-form-group" data-scope="addtxl" data-name="TELEPHONE" data-type="input"
           v-validate-easy="[['required']]">
             <span class="yy-input-text"><font class="yy-color">*</font>固定电话：</span>
@@ -338,7 +330,7 @@
           </el-col>
         </el-row>
 
-        <el-row type="flex"  class="mb-6" v-if="form.CONSULTFROMTYPE=='0'">
+        <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item my-form-group" data-scope="addtxl" data-name="CELLPHONE" data-type="input"
           v-validate-easy="[['required']]">
             <span class="yy-input-text"><font class="yy-color">*</font>移动电话：</span>
@@ -346,7 +338,7 @@
           </el-col>
         </el-row>
 
-        <el-row type="flex"  class="mb-6" v-if="form.CONSULTFROMTYPE=='1'">
+        <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item my-form-group" data-scope="addtxl" data-name="FAX" data-type="input"
           v-validate-easy="[['required']]">
             <span class="yy-input-text"><font class="yy-color">*</font>传真：</span>
@@ -354,7 +346,7 @@
           </el-col>
         </el-row>
 
-        <el-row type="flex"  class="mb-6" v-if="form.CONSULTFROMTYPE=='2'">
+        <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item my-form-group" data-scope="addtxl" data-name="EMAIL" data-type="input"
           v-validate-easy="[['required']]">
             <span class="yy-input-text"><font class="yy-color">*</font>邮箱：</span>
@@ -362,7 +354,7 @@
           </el-col>
         </el-row>
 
-        <el-row type="flex"  class="mb-6" v-if="form.CONSULTFROMTYPE=='4'">
+        <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item my-form-group" data-scope="addtxl" data-name="OTHER" data-type="input"
           v-validate-easy="[['required']]">
             <span class="yy-input-text"><font class="yy-color">*</font>其他：</span>

@@ -66,7 +66,43 @@
     </div>
   </el-dialog>
   <el-dialog title="梅沙事件描述详情" :visible.sync="viewMDialogVisible" width="640px">
-
+    <el-row style="line-height:32px;">
+      <el-col :span="12">
+        事件编号：{{descData.evt_id||'-'}}
+      </el-col>
+      <el-col :span="12">
+        事件类别：{{descData.evt_types||'-'}}
+      </el-col>
+      <el-col :span="12">
+        事件性质：{{descData.evt_char_code||'-'}}
+      </el-col>
+      <el-col :span="12">
+        公文种类：{{descData.docs_type_na||'-'}}
+      </el-col>
+      <el-col :span="12">
+        审批人：{{descData.approver||'-'}}
+      </el-col>
+      <el-col :span="12">
+        处理结果：{{descData.ill_deal_rsn_na||'-'}}
+      </el-col>
+      <el-col :span="24">
+        事件主题：{{descData.evt_theme||'-'}}
+      </el-col>
+      <el-col :span="24">
+        事件描述：{{descData.evt_desc||'-'}}
+      </el-col>
+    </el-row>
+    <div class="title-green mt-10">
+      处理意见
+    </div>
+    <el-row style="line-height:32px;">
+      <el-col :span="24">
+        {{descData.deal_opinion||'-'}}
+      </el-col>
+   </el-row>
+    <div slot="footer" class="dialog-footer">
+      <el-button type="warning" @click="viewMDialogVisible=false" size="small">返回</el-button>
+    </div>
   </el-dialog>
 </div>
 </template>
@@ -192,7 +228,8 @@ export default {
       gdform:{hit:'0',processorResult:[]},
       gdDialogVisible2:this.gvisible,
       listData:this.garr,
-      gt:this.gtype
+      gt:this.gtype,
+      descData:{},
     }
   },
   mounted(){
@@ -241,7 +278,9 @@ export default {
       }
       this.$api.post('/manage-platform/riskRecordExtInterfaceController/getRecordOtherInfo',p,
         r =>{
-
+          if(r.success){
+            this.descData = r.data;
+          }
         })
     },
     handleClose(done) {

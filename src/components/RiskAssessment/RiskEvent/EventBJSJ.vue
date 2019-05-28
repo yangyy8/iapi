@@ -388,7 +388,7 @@
             fixed="right"
             min-width="85">
             <template slot-scope="scope">
-              <el-button type="text" class="t-btn mr-5" icon="el-icon-view" title="查看" @click="$router.push({name:'BJSJCK',query:{row:scope.row,idcard:scope.row.idcard,serial:scope.row.serial,grade:scope.row.grade,yl_two:scope.row.yl_two,page:0,nav2Id:scope.row.serial,title:scope.row.name+'事件查看'}})"></el-button>
+              <el-button type="text" class="t-btn mr-5" icon="el-icon-view" title="查看" @click="$router.push({name:'BJSJCK',query:{row:scope.row,idcard:scope.row.idcard,serial:scope.row.serial,grade:scope.row.grade,yl_two:scope.row.yl_two,page:0,nav2Id:scope.row.serial,risk:1,title:scope.row.name+'事件查看'}})"></el-button>
               <el-button type="text" class="t-btn mr-5" icon="el-icon-edit-outline" v-if="pd.type!=4" title="处理" @click="handel(scope.row)"></el-button>
               <el-button type="text" class="t-btn mr-5" icon="el-icon-edit-outline" v-if="pd.type==4" title="归档追加" @click="openGdTc(scope.row)"></el-button>
               <el-button type="text" class="t-btn" icon="el-icon-success" v-if="scope.row.yl_two=='否'" title="推送梅沙" @click="pushMeisha(scope.row)"></el-button>
@@ -849,7 +849,7 @@ export default {
       this.$api.post('/manage-platform/riskEventWarningController/getRiskEventStatusInfo',p,
         r =>{
           if(r.success){
-            this.$router.push({name:'BJSJCK',query:{row:i,idcard:i.idcard,serial:i.serial,grade:i.grade,status:i.status,yl_two:i.yl_two,page:0,operation_type:1,nav2Id:i.serial+1,title:i.name+'事件处理'}})
+            this.$router.push({name:'BJSJCK',query:{row:i,idcard:i.idcard,serial:i.serial,grade:i.grade,status:i.status,yl_two:i.yl_two,page:0,operation_type:1,risk:1,nav2Id:i.serial+1,title:i.name+'事件处理'}})
           }
           // else{
           //   this.$message.error(r.data.message);

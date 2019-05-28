@@ -858,7 +858,7 @@
       <Seat :flightNumber="flightNumber0" :globalserial="globalserial0" :specifigseat="specifigseat0" :FLTNO="FLTNO0" :FLTDATE="FLTDATE0" :seatType="1" :CHK_SERIAL='CHK_SERIAL0'></Seat>
     </el-dialog>
     <el-dialog title="查看详情" :visible.sync="detailsDialogVisible">
-      <Detail :detailType="0" :SERIAL="SERIAL0" :CHK_SERIAL="CHK_SERIAL0" :PNR_TID="PNR_TID0" :PNR_TKTNUMBER="PNR_TKTNUMBER0" :PNR_TRAVELLER_SURNAME_TIF="PNR_TRAVELLER_SURNAME_TIF0" :PNR_TRAVELLER_GIVEN_NAME_TIF="PNR_TRAVELLER_GIVEN_NAME_TIF0"></Detail>
+      <Detail :detailType="0" :SERIAL="SERIAL0" :globalserialZH="globalserialZH" :CHK_SERIAL="CHK_SERIAL0" :PNR_TID="PNR_TID0" :PNR_TKTNUMBER="PNR_TKTNUMBER0" :PNR_TRAVELLER_SURNAME_TIF="PNR_TRAVELLER_SURNAME_TIF0" :PNR_TRAVELLER_GIVEN_NAME_TIF="PNR_TRAVELLER_GIVEN_NAME_TIF0"></Detail>
       <div slot="footer" class="dialog-footer">
         <el-button @click="detailsDialogVisible = false" size="small">取消</el-button>
       </div>
@@ -878,6 +878,7 @@ export default {
   components: {Detail,Seat,AlarmProcess},
   data(){
     return{
+      globalserialZH:'',
       order:'',
       direction:0,
       searchType:'0',
@@ -1573,6 +1574,7 @@ export default {
       this.PNR_TKTNUMBER0 = i.PNR_TKTNUMBER;
       this.PNR_TRAVELLER_SURNAME_TIF0 = i.PNR_TRAVELLER_SURNAME_TIF;
       this.PNR_TRAVELLER_GIVEN_NAME_TIF0 = i.PNR_TRAVELLER_GIVEN_NAME_TIF;
+      this.globalserialZH=new Date().getTime();
       this.detailsDialogVisible = true;
     },
     //------------------------------------------------全局代码项-------------------------------------------------

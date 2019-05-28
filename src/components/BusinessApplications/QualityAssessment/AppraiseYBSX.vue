@@ -70,6 +70,17 @@
                 ></el-option>
               </el-select>
             </el-col>
+            <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+                <span class="input-text">出入标识：</span>
+                <el-select v-model="pd.flighttype"  filterable clearable  class="input-input"  placeholder="请选择"  size="small">
+                  <el-option value="I" label="I - 入境">
+                  </el-option>
+                  <el-option value="O" label="O - 出境">
+                  </el-option>
+                  <!-- <el-option value="A" label="A - 入出境">
+                  </el-option> -->
+                </el-select>
+              </el-col>
             <!-- <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
               <span class="input-text">航班日期：</span>
               <el-date-picker
@@ -784,6 +795,7 @@ export default {
         "fltdate":pd.fltdate,
         "airline_company_id":pd.airline_company_id,
         "port":pd.port,
+        "flighttype":pd.flighttype
       };
       var url="/manage-platform/forecastEva/get_fctime_bycompanyid";
 

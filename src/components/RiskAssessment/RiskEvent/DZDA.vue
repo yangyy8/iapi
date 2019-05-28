@@ -648,7 +648,7 @@
                   </el-row> -->
                 </div>
                 <div class="box1-more">
-                  <el-button type="text" @click="detailsDialogVisible=true">展开更多 ﹀</el-button>
+                  <el-button type="text" @click="data4Detail">展开更多 ﹀</el-button>
                   <!-- <el-button type="text" @click="data4Show=false" v-if="data4Show">收起 ︿</el-button> -->
 
                 </div>
@@ -700,13 +700,13 @@
                     label="服务住所"
                     prop="FWCS">
                   </el-table-column>
-                  <el-table-column
+                  <!-- <el-table-column
                     :show-overflow-tooltip="true"
                     label="操作">
                     <template slot-scope="scope">
                       <el-button type="text" class="a-btn" icon="el-icon-view" title="查看" @click="moreFn('box5',scope.row)"></el-button>
                     </template>
-                  </el-table-column>
+                  </el-table-column> -->
                 </el-table>
                 <div class="box1-more" v-if="data5.length>0">
                   <el-button type="text" class="mr-15" @click="pageSize.page2=false" v-if="pageSize.page2&&data5.length>5">展开更多 ﹀</el-button>
@@ -866,12 +866,12 @@
                   <el-table-column
                     :show-overflow-tooltip="true"
                     label="户籍"
-                    prop="rsdt_region_code">
+                    prop="rsdt_region_code_na">
                   </el-table-column>
                   <el-table-column
                     :show-overflow-tooltip="true"
                     label="审批机关"
-                    prop="issuing_unit">
+                    prop="issuing_unit_na">
                   </el-table-column>
                   <el-table-column
                     :show-overflow-tooltip="true"
@@ -1115,7 +1115,7 @@
                   <el-table-column
                     :show-overflow-tooltip="true"
                     label="查获口岸"
-                    prop="">
+                    prop="imm_port_na">
                   </el-table-column>
                 </el-table>
                 <div class="box1-more" v-if="data9.length>0">
@@ -1384,7 +1384,10 @@
                   <el-table-column
                     :show-overflow-tooltip="true"
                     label="案件数据来源"
-                    prop="">
+                    prop="cas_src_flag">
+                    <template slot-scope="scope">
+                      {{flagfif(scope.row.cas_src_flag)}}
+                    </template>
                   </el-table-column>
                 </el-table>
                 <div class="box1-more" v-if="data12.length>0">
@@ -2035,7 +2038,7 @@
       </div>
     </el-dialog>
     <el-dialog title="详情" :visible.sync="moreDialogVisible" width="700px">
-      <MoreDialog :more-data="moredata" :more-type="moreType"></MoreDialog>
+      <MoreDialog :more-data="moredata" :more-type="moreType" :desc-detail="descDetail"></MoreDialog>
       <!-- <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="TagSave" size="small">确认</el-button>
         <el-button type="warning" @click="tagDialogVisible=false" size="small">取消</el-button>
@@ -2141,6 +2144,7 @@ export default {
       moreDialogVisible:false,
       detailsDialogVisible:false,
       moredata:{},
+      descDetail:{},
       moreType:'',
       rightList:[
         {
@@ -2252,7 +2256,7 @@ export default {
     this.getUsers();
     this.getUserBaseInfo();
     this.getUserTagInfo();
-
+    this.initLater();
     // this.init();
 
     this.moreShow=false;
@@ -2278,6 +2282,11 @@ export default {
     this.box20=false;
   },
   methods:{
+    initLater(){
+      this.getRecordTagInfo();
+      this.getRiskEventInfo();
+      this.getQueryRiskRecordUserInfo();
+    },
     init(){
       // if(this.data0&&this.data1.particularsList.length==0){
         this.getRecordTagInfo();
@@ -2329,6 +2338,23 @@ export default {
         this.getRecordOtherInfo('api');
       // };
     },
+    flagfif(val){
+      if(val=="1"){
+        return "出入境"
+      }else if(val=="2"){
+        return "边检"
+      }
+    },
+    data4Detail(){
+      if(!this.data0.iapiHeadSerial){
+        this.$message({
+          message: '没有人员预报信息！',
+          type: 'warning'
+        });
+        return
+      }
+      this.detailsDialogVisible=true
+    },
     pageSizeChange(val) {
       this.pageSize.page1=val;
       console.log(`每页 ${val} 条`);
@@ -2379,10 +2405,10 @@ export default {
          this.getPhotoInf(r.data.PASSPORTNO,r.data.NATIONALITY,r.data.BIRTHDAY,r.data.NAME,r.data.GENDER_NAME);
          // this.getRiskPersonnelForecasInfo();
          this.getRecordOtherInfo('num');
-         this.getCRCCNumInfo();
          if(!this.idcard){
            this.getRecordOtherInfo('immcard');
          }
+         this.getCRCCNumInfo();   
        })
     },
     getCRCCNumInfo(){
@@ -2554,7 +2580,9 @@ export default {
     // 人员预报信息
     getRiskPersonnelForecasInfo(){
       console.log("---",this.data0.iapiHeadSerial)
+
       if(!this.data0.iapiHeadSerial){
+        this.data4={IAPI:{}};
         return
       }
       let p={
@@ -2581,7 +2609,7 @@ export default {
       let p={
         // "nationality":this.nationality,
         // "passportno":this.passportno,
-        "passportno":this.idcard
+        "passportno":this.idcard||this.data0.PASSPORTNO,
       }
       this.$api.post('/manage-platform/riskRecordExtInterfaceController/getCensusInfo',p,
        r => {
@@ -2748,6 +2776,13 @@ export default {
       this.moreDialogVisible=true;
       this.moreType=type;
       this.moredata=item;
+      this.descDetail={
+        'gender':this.$route.query.gender,
+        'ename':this.$route.query.ename,
+        'birth':this.$route.query.birth,
+        'nationality':this.$route.query.nationality,
+        'passportno':this.$route.query.passportno
+      };
     },
     backtop(x){
       this.tobox;
@@ -2782,6 +2817,7 @@ export default {
         this.getUsers();
         this.getUserBaseInfo();
         this.getUserTagInfo();
+        this.initLater();
         this.moreShow=false;
         this.box1=false;
         this.box2=false;

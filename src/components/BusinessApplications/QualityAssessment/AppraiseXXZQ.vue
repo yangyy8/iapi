@@ -58,6 +58,28 @@
               <span class="input-text">航班号：</span>
                 <el-input placeholder="请输入内容" size="small" v-model="pd.fltno" class="input-input"></el-input>
             </el-col>
+            <el-col :sm="24" :md="12"  :lg="8" class="input-item">
+              <span class="input-text">口岸：</span>
+              <el-select  placeholder="请选择"  size="mini"  class="input-input" v-model="pd.port" filterable clearable @visible-change="portMethod">
+                <el-option
+                v-for="item in portName"
+                :key="item.KADM"
+                :value="item.KADM"
+                :label="item.KADM+' - '+item.KAMC"
+                ></el-option>
+              </el-select>
+            </el-col>
+            <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+                <span class="input-text">出入标识：</span>
+                <el-select v-model="pd.flighttype"  filterable clearable  class="input-input"  placeholder="请选择"  size="small">
+                  <el-option value="I" label="I - 入境">
+                  </el-option>
+                  <el-option value="O" label="O - 出境">
+                  </el-option>
+                  <!-- <el-option value="A" label="A - 入出境">
+                  </el-option> -->
+                </el-select>
+              </el-col>
             <!-- <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
               <span class="input-text">航班日期：</span>
               <el-date-picker
@@ -642,6 +664,7 @@ import axios from 'axios'
 export default {
   data() {
     return {
+      portName:[],
       CurrentPage: 1,
       pageSize: 10,
       TotalResult: 0,
@@ -727,6 +750,14 @@ export default {
       // this.pd.endtime = formatDate(endz, 'yyyyMMdd');
   },
   methods: {
+    portMethod(){
+      this.$api.post('/manage-platform/codeTable/queryAirportMatch1',{},
+      r =>{
+        if(r.success){
+          this.portName = r.data
+        }
+      })
+    },
     headerClick(column,event){
      event.target.title=column.label
    },
@@ -814,7 +845,9 @@ export default {
         "endtime":pd.endtime,
         "fltno":pd.fltno,
         "fltdate":pd.fltdate,
-        "airline_company_id":pd.airline_company_id
+        "airline_company_id":pd.airline_company_id,
+        "port":pd.port,
+        "flighttype":pd.flighttype
       };
        var url="/manage-platform/forecastEva/get_fccrt_bycompanyid";
       // if(this.typerow=="2"){
