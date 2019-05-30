@@ -68,7 +68,7 @@
             不准登机人员
           </div>
           <div class="ak-tab-item hand" :class="{'ak-checked':pd.type==2}" @click="checkTab(2)">
-            重点关注人员
+            关注人员
           </div>
           <div class="ak-tab-item hand" :class="{'ak-checked':pd.type==3}" @click="checkTab(3)">
             人员全业务监控

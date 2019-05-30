@@ -656,7 +656,7 @@
             </div>
             <div class="boder1" ref="box5">
               <div class="hand mt-10" @click="box5=!box5" :class="[(num2.hjnum||0)==0?'title-gray':'title-green']">
-                户籍信息 <i class="el-icon-d-caret"></i><span>({{num2.hjnum||0}})</span>
+                户籍信息 <i class="el-icon-d-caret"></i><span class="loadingtext">({{num2.hjnum||0}})</span>
               </div>
               <div v-if="box5">
                 <el-table
@@ -726,7 +726,7 @@
                   :class="{'ak-t1':data6.length<5,'ak-t2':pageSize.page2==false}"
                   border
                   style="width: 100%"
-                  :style="{height:240*pageSize.page3+'px'}">
+                  :style="{height:heightC()}">
                   <el-table-column
                     :show-overflow-tooltip="true"
                     label="姓名"
@@ -804,8 +804,8 @@
                   </el-table-column>
                 </el-table>
                 <div class="box1-more" v-if="data6.length>0">
-                  <el-button type="text" class="mr-15" @click="pageSize.page3=pageSize.page3+1" v-if="pageSize.page3+2<=data6.length/5&&data6.length>5">展开更多 ﹀</el-button>
-                  <el-button type="text" class="mr-15" @click="pageSize.page3=1" v-if="data6.length/5<pageSize.page3+2">收起 ︿</el-button>
+                  <el-button type="text" class="mr-15" @click="pageSize.page3=pageSize.page3+1;" v-if="(Math.ceil(data6.length/5)>pageSize.page3)&&data6.length>5">展开更多 ﹀</el-button>
+                  <el-button type="text" class="mr-15" @click="pageSize.page3=1;" v-else>收起 ︿</el-button>
                   <el-button type="text" @click="exportFn(5)">导出</el-button>
                 </div>
               </div>
@@ -1681,7 +1681,7 @@
                   <el-table-column
                     :show-overflow-tooltip="true"
                     label="航次"
-                    prop="fltnumber">
+                    prop="trs_id">
                   </el-table-column>
                 </el-table>
                 <div class="box1-more" v-if="data16.length>0">
@@ -1736,7 +1736,7 @@
             </div>
             <div class="boder1" ref="box18">
               <div class="hand mt-10" @click="box18=!box18" :class="[(num2.tlnum||0)==0?'title-gray':'title-green']">
-                 铁路订票信息 <i class="el-icon-d-caret"></i><span>({{num2.tlnum||0}})</span>
+                 铁路订票信息 <i class="el-icon-d-caret"></i><span class="loadingtext">({{num2.tlnum||0}})</span>
               </div>
               <div v-if="box18">
                 <el-table
@@ -1800,7 +1800,7 @@
             </div>
             <div class="boder1" ref="box19">
               <div class="hand mt-10" @click="box19=!box19" :class="[(num2.mhdpnum||0)==0?'title-gray':'title-green']">
-                 民航订票信息 <i class="el-icon-d-caret"></i><span>({{num2.mhdpnum||0}})</span>
+                 民航订票信息 <i class="el-icon-d-caret"></i><span class="loadingtext">({{num2.mhdpnum||0}})</span>
               </div>
               <div v-if="box19">
                 <el-table
@@ -1907,7 +1907,7 @@
             </div>
             <div class="boder1" ref="box20">
               <div class="title-green hand mt-10" @click="box20=!box20" :class="[(num2.mhlgnum||0)==0?'title-gray':'title-green']">
-                 民航离港信息 <i class="el-icon-d-caret"></i><span>({{num2.mhlgnum||0}})</span>
+                 民航离港信息 <i class="el-icon-d-caret"></i><span class="loadingtext">({{num2.mhlgnum||0}})</span>
               </div>
               <div v-if="box20">
                 <el-table
@@ -2282,6 +2282,15 @@ export default {
     this.box20=false;
   },
   methods:{
+    heightC(){
+      if(this.data6.length<=5||this.pageSize.page3==1){
+        return '240px'
+      }else if((this.pageSize.page3<=parseInt(this.data6.length/5))&&(this.data6.length>5)&&(this.pageSize.page3>1)){
+        return 240+200*(this.pageSize.page3-1)+'px'
+      }else{
+        return 240+200*(this.pageSize.page3-2)+40*(this.data6.length%5)+'px'
+      }
+    },
     initLater(){
       this.getRecordTagInfo();
       this.getRiskEventInfo();
@@ -2408,7 +2417,7 @@ export default {
          if(!this.idcard){
            this.getRecordOtherInfo('immcard');
          }
-         this.getCRCCNumInfo();   
+         this.getCRCCNumInfo();
        })
     },
     getCRCCNumInfo(){
@@ -2416,9 +2425,11 @@ export default {
         // "nationality":this.nationality,
         "passportno":this.idcard||this.data0.PASSPORTNO,
       }
-      this.$api.post('/manage-platform/riskRecordExtInterfaceController/getCRCCNumInfo',p,
+      this.$api.post2('/manage-platform/riskRecordExtInterfaceController/getCRCCNumInfo',p,
        r => {
-         this.num2=r.data
+         if(r.success){
+           this.num2=r.data
+         }
        })
     },
     getPhotoInf(passportno,nationality,birthday,name,gender){
@@ -2633,6 +2644,7 @@ export default {
            case 'imm':
              if(r.data.data.dcap_f_per_act_psr_imm){
                this.data6=r.data.data.dcap_f_per_act_psr_imm;
+               this.heightC();
              }
              break;
            case 'immcard':

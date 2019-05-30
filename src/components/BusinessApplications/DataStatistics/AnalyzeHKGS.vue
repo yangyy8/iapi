@@ -198,6 +198,7 @@
 </template>
 <script>
 import echarts from 'echarts'
+import $ from 'jquery'
 import {
   formatDate,
   format
@@ -273,6 +274,10 @@ export default {
     this.pd.endtime = formatDate(endz, 'yyyyMMdd');
 
   },
+  created(){
+    let that = this;
+    window.sumDetails= that.sumDetails
+  },
   activated() {
     this.queryNationality();
     // let time = new Date();
@@ -310,6 +315,15 @@ export default {
        r =>{
           this.downloadM(r,1);
        },e=>{},'','blob')
+    },
+    sumDetails(){
+      this.detailsDialogVisible = true;
+      this.$api.post('/manage-platform/dataStatistics/get_country_detail',this.pd,
+       r =>{
+         if(r.success){
+           this.detailstableData=r.data;
+         }
+       })
     },
     changeValue(value) {
       console.log(value);
@@ -393,6 +407,7 @@ export default {
         r => {
           console.log(r);
           this.tableData = r.data;
+          $('.el-table__footer .has-gutter').find("td").last().children('.cell').append('<button type="text"  class="el-button a-btn el-button--text el-button--mini" title="详情" size="mini" onclick="sumDetails()"><i class="el-icon-tickets"></i></button>')
           let arr = this.tableData;
           var sum1 = 0,
             sum01 = 0;

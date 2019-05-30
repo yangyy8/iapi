@@ -144,6 +144,9 @@ body{
   /* max-height: 240px; */
   overflow: hidden;
 }
+.ak-t4{
+  height: 240px!important;
+}
 .ak-t2{
   height: inherit;
   overflow: visible;

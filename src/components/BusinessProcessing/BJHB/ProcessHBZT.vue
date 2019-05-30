@@ -117,7 +117,7 @@
           label="操作">
           <template slot-scope="scope">
               <el-button type="text"  class="a-btn"  title="处理"  :class="{'gray':scope.row.status!=3}"  icon="el-icon-edit" @click="details(scope.row)"></el-button>
-              <el-button type="text"  class="a-btn"  title="取消"  :class="{'gray':scope.row.status==5||scope.row.status==3}"  icon="el-icon-close" @click="cancel(scope.row)"></el-button>
+              <el-button type="text"  class="a-btn"  title="取消"  :class="{'gray':scope.row.status>=3}"  icon="el-icon-close" @click="cancel(scope.row)"></el-button>
          </template>
         </el-table-column>
       </el-table>
@@ -561,7 +561,7 @@ export default {
       }
     },
     cancel(i){
-      if(i.status==5||i.status==3){
+      if(i.status>=3){
         // this.$alert(i.flightMessage, '提示', {
         //   confirmButtonText: '确定',
         // });

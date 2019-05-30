@@ -182,7 +182,7 @@
       <div class="" @mouseover="mouseHeader">
         <!-- <el-button type="primary" class="mr-5" plain size="small" @click="openGdTc" :disabled="isdisable">批量归档</el-button>
         <el-button type="primary" plain size="small" @click="openCzTc" :disabled="isdisable">批量事件处理</el-button> -->
-
+        <el-button type="primary" plain size="small" @click="daochu">导出</el-button>
         <el-table
           class="mt-10 o-table3 t-gutter"
           ref="multipleTable"
@@ -205,6 +205,11 @@
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
+            label="出入标识"
+            prop="flightTypeName"
+            min-width="60">
+          </el-table-column>
+          <el-table-column
             label="出生日期"
             prop="birthday"
             sortable="custom"
@@ -220,11 +225,7 @@
               <span>{{scope.row.nationalityName}}</span>
             </template>
           </el-table-column>
-          <el-table-column
-            label="出入标识"
-            prop="flightTypeName"
-            min-width="60">
-          </el-table-column>
+
           <el-table-column
             label="证件类型"
             prop="passportTypeName"
@@ -448,6 +449,31 @@ export default {
 
   },
   methods:{
+    daochu(){
+      let p={
+        "showCount": this.pageSize,
+        "currentPage":this.CurrentPage,
+        "pd": this.pd,
+        "orders":this.orders,
+        "direction":this.direction
+      }
+      this.$api.post('/manage-platform/riskEventController/getGdRiskEventToExcelInfo',p,
+       r =>{
+         this.downloadM(r);
+       },e=>{},'','blob')
+    },
+    downloadM (data,type) {
+        if (!data) {
+            return
+        }
+        let url = window.URL.createObjectURL(new Blob([data.data],{type:"application/octet-stream"}))
+        let link = document.createElement('a')
+        link.style.display = 'none'
+        link.href = url
+        link.setAttribute('download', '归档事件.xlsx')
+        document.body.appendChild(link)
+        link.click()
+    },
     headerClick(column,event){
       console.log(column,event)
       event.target.title=column.label

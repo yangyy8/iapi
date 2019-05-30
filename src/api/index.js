@@ -19,6 +19,7 @@ var axios = require('axios')
 import { Loading } from 'element-ui';
 import { Message } from 'element-ui';
 import { MessageBox } from 'element-ui';
+
 // 自定义判断元素类型JS
 function toType(obj) {
   return ({}).toString.call(obj).match(/\s([a-zA-Z]+)/)[1].toLowerCase()
@@ -80,7 +81,7 @@ function apiAxios(method, url, params, success, failure,header,responseType) {
   //   }
   // }
   let loadingInstance1=null;
-  if(!(url=='/manage-platform/riskRecordController/getPhotoInf'||url=='/manage-platform/nationwide/getPortDetail'||url=='/manage-platform/nationwide/getFlightDetail'||url=='/manage-platform/nameList/getNameListDataAnalysis'||url=='/manage-platform/riskRecordExtInterfaceController/getRecordOtherInfo'||url=='/manage-platform/iapiHead/queryListPageCount')){
+  if(!(url=='/manage-platform/riskRecordController/getPhotoInf'||url=='/manage-platform/nationwide/getPortDetail'||url=='/manage-platform/nationwide/getFlightDetail'||url=='/manage-platform/nameList/getNameListDataAnalysis'||url=='/manage-platform/riskRecordExtInterfaceController/getRecordOtherInfo'||url=='/manage-platform/iapiHead/queryListPageCount'||url=='/manage-platform/riskRecordExtInterfaceController/getCRCCNumInfo'||url=='/manage-platform/sysUserInfoController/querySysUserInfo'||url=='/manage-platform/riskRecordController/getUserBaseInfo'||url=='/manage-platform/riskRecordController/getUserTagInfo'||url=='/manage-platform/riskRecordController/getRecordTagInfo'||url=='/manage-platform/riskRecordController/getRiskEventInfo'||url=='/manage-platform/riskRecordController/getQueryRiskRecordUserInfo'||url=='/manage-platform/riskRecordController/saveRiskQueryRecordLogInfo')){
     loadingInstance1 = Loading.service({ fullscreen: true, spinner: 'el-icon-loading',text:'正在加载中',background:'rgba(0,0,0,0.6)',customClass:'loadingClass'});
     // console.log('url',url,loadingInstance1);
   }
