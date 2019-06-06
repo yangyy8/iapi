@@ -212,6 +212,13 @@
             <span v-else>{{scope.row.PERCENT}}</span>
           </template>
         </el-table-column>
+        <!-- <el-table-column
+          label="操作"
+          min-width="50">
+          <template slot-scope="scope">
+            <el-button type="text"  class="a-btn" title="详情" size="mini" icon="el-icon-tickets" @click="modelDetails(scope.row)"></el-button>
+         </template>
+        </el-table-column> -->
       </el-table>
 
       <div class="middle-foot">
@@ -277,6 +284,39 @@
         <el-button type="primary" @click="colorReal" size="small">确定</el-button>
       </div>
     </el-dialog>
+    <el-dialog title="详情" :visible.sync="modelsDialogVisible" width="600px">
+      <el-table
+        :data="modeltableData"
+        border
+        class="o-table3"
+        @header-click="headerClick"
+        :span-method="objectSpanMethod"
+        style="width: 100%;">
+        <el-table-column
+          prop="sheetType"
+          label="国籍/地区"
+          sortable>
+        </el-table-column>
+        <el-table-column
+          prop="taskKey"
+          label="值机数"
+          sortable>
+        </el-table-column>
+        <el-table-column
+          prop="templateUrl"
+          label="值机数"
+          sortable>
+        </el-table-column>
+        <!-- <el-table-column
+          prop="taskKey"
+          label="值机数"
+          sortable>
+        </el-table-column> -->
+      </el-table>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="modelsDialogVisible = false" size="small">返 回</el-button>
+      </div>
+    </el-dialog>
   </div>
 
 </template>
@@ -288,6 +328,8 @@ import axios from 'axios'
 export default {
   data(){
     return{
+      modelsDialogVisible:false,
+      modeltableData:[],
       order:'',
       direction:0,
       airport:[],
@@ -331,7 +373,48 @@ export default {
           label:"30"
         }
       ],
+      modeltableData:[
+        {
+          type:1,
+          sheetType: "事件单",
+          taskKey: "shijian_01",
+          templateUrl: "/shijian_01"
+        },
+        {
+          type:1,
+          sheetType: "事件单",
+          taskKey: "shijian_02",
+          templateUrl: "/shijian_02"
+        },
+        {
+          type:1,
+          sheetType: "事件单",
+          taskKey: "shijian_03",
+          templateUrl: "/shijian_04"
+        },
+        {
+          type:2,
+          sheetType: "问题单",
+          taskKey: "wenti_01",
+          templateUrl: "/wenti_01"
+        },
+        {
+          type:2,
+          sheetType: "问题单",
+          taskKey: "wenti_02",
+          templateUrl: "/wenti_02"
+        },
+        {
+          type:2,
+          sheetType: "问题单",
+          taskKey: "wenti_03",
+          templateUrl: "/wenti_03"
+        }
+      ],
       tableData: [],
+      rowList: [],
+      spanArr: [],
+      position: 0,
     }
   },
   mounted(){
@@ -352,6 +435,45 @@ export default {
     // this.getList(this.CurrentPage,this.pageSize,this.cdt,this.order,this.direction);
   },
   methods:{
+    rowspan() {
+  		this.modeltableData.forEach((item,index) => {
+	    	if( index === 0){
+	    		this.spanArr.push(1);
+	    		this.position = 0;
+	    	}else{
+	    		if(this.modeltableData[index].type === this.modeltableData[index-1].type ){
+	    			this.spanArr[this.position] += 1;
+	    			this.spanArr.push(0);
+	    		}else{
+	    			this.spanArr.push(1);
+	    			this.position = index;
+	    		}
+	    	}
+	    })
+  	},
+    objectSpanMethod({ row, column, rowIndex, columnIndex }) {  //表格合并行
+    	if (columnIndex === 0) {
+    		const _row = this.spanArr[rowIndex];
+    		const _col = _row>0 ? 1 : 0;
+    		return {
+    			rowspan: _row,
+    			colspan: _col
+    		}
+    	}
+    	if(columnIndex === 1){
+    		const _row = this.spanArr[rowIndex];
+    		const _col = _row>0 ? 1 : 0;
+    		return {
+    			rowspan: _row,
+    			colspan: _col
+    		}
+    	}
+    },
+
+    modelDetails(){
+      this.modelsDialogVisible=true;
+      this.rowspan();
+    },
     sortChange(column, prop, order){
       column.order=='ascending'?this.direction=1:this.direction=0;
       this.order=column.prop;

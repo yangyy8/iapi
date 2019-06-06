@@ -261,7 +261,8 @@ export default {
       sData1: [],
       sData2: [],
       sData3: [],
-      companyname: ""
+      companyname: "",
+      daochuFlag:0,
     }
   },
   mounted() {
@@ -290,6 +291,7 @@ export default {
   methods: {
     nationDetails(i){
       this.detailsDialogVisible=true;
+      this.daochuFlag=0;
       this.myidChange=i.myid;
       let p={
         "begintime":this.pd.begintime,
@@ -305,11 +307,16 @@ export default {
        })
     },
     daochu(){
-      let p={
-        "begintime":this.pd.begintime,
-        "endtime":this.pd.endtime,
-        "airline_company_id":this.myidChange,
-        "flighttype":this.pd.flighttype,
+      let p={}
+      if(this.daochuFlag==0){
+        p={
+           "begintime":this.pd.begintime,
+           "endtime":this.pd.endtime,
+           "airline_company_id":this.myidChange,
+           "flighttype":this.pd.flighttype,
+         }
+      }else if(this.daochuFlag==1){
+        p=this.pd
       }
       this.$api.post('/manage-platform/dataStatistics/exp_country_detail',p,
        r =>{
@@ -318,6 +325,7 @@ export default {
     },
     sumDetails(){
       this.detailsDialogVisible = true;
+      this.daochuFlag=1;
       this.$api.post('/manage-platform/dataStatistics/get_country_detail',this.pd,
        r =>{
          if(r.success){
@@ -407,7 +415,9 @@ export default {
         r => {
           console.log(r);
           this.tableData = r.data;
-          $('.el-table__footer .has-gutter').find("td").last().children('.cell').append('<button type="text"  class="el-button a-btn el-button--text el-button--mini" title="详情" size="mini" onclick="sumDetails()"><i class="el-icon-tickets"></i></button>')
+          if($('.t-hkgsBtn').length==0){
+            $('.el-table__footer .has-gutter').find("td").last().children('.cell').append('<button type="text"  class="el-button a-btn el-button--text el-button--mini t-hkgsBtn" title="详情" size="mini" onclick="sumDetails()"><i class="el-icon-tickets"></i></button>')
+          }          
           let arr = this.tableData;
           var sum1 = 0,
             sum01 = 0;

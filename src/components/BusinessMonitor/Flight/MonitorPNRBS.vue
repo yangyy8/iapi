@@ -344,7 +344,7 @@
     </el-dialog>
     <el-dialog  title="名词解释"  :visible.sync="helpDialogVisible" width="750px">
       <div class="helpBody">
-        <div>1、72小时：计划起飞时间72小时前发送视为“正常”，72小时之内发送</div>
+        <div>1、72小时：计划起飞时间72小时前发送</div>
         <div>2、24小时：计划起飞时间24小时之前、72小时之内发送</div>
         <div>3、2小时：距计划起飞时间2小时之前、24小时之内发送</div>
         <div>4、1小时：距计划起飞时间1小时之前、2小时之内发送</div>

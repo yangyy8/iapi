@@ -3299,7 +3299,7 @@ export default {
     delJkHb(fk){
       this.$api.get('/manage-platform/flightMonitor/delMonitorFlight',{fltKey:fk},
        r => {
-         //console.log(r);
+         console.log(r);
          if(r.success){
            this.$message({
              message: '恭喜你，删除成功！',
@@ -3311,11 +3311,20 @@ export default {
       })
     },
     delJkHbALL(){
-      let arr=this.DqJkHb.map(function(val){
-           return val.fltKey
-         },this)
-         console.log(arr)
-       this.delJkHb(arr)
+      this.$api.get('/manage-platform/flightMonitor/clearMonitorFlight',{},
+       r => {
+         console.log(r);
+         if(r.success){
+           this.$message({
+             message: '恭喜你，清空成功！',
+             type: 'success'
+           });
+           this.getDqJkHb(2)
+           this.getJkHb();
+         }
+      })
+      this.getDqJkHb(2)
+      this.getJkHb();
     },
     // 当前监控航班取得
     getDqJkHb(type){
@@ -3400,18 +3409,20 @@ export default {
       })
     },
     delRyALL(){
-      this.$api.get('/manage-platform/travelerRealTime/clrMonitorPerson',{userid:this.userId},
+      this.$api.post('/manage-platform/travelerRealTime/clrMonitorPerson',{userid:this.userId},
        r => {
          //console.log(r);
          if(r.success){
            this.$message({
-             message: '恭喜你，删除成功！',
+             message: '恭喜你，清空成功！',
              type: 'success'
            });
            this.getDqRy(2);
            this.getRy()
          }
       })
+      this.getDqRy(2);
+      this.getRy()
       // let arr=this.DqRy.map(function(val){
       //      return val.trvKey
       //    },this)

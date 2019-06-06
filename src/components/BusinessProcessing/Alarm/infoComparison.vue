@@ -632,7 +632,7 @@
               判断结果
             </div>
             <div class="radio-g">
-              <el-radio-group v-model="distinguishResult" class="radio-g-area" :disabled="isdisabled||$route.query.instructNew">
+              <el-radio-group v-model="distinguishResult" class="radio-g-area" :disabled="!($route.query.instructNew==''||$route.query.instructNew==undefined)">
                 <el-radio :label="1">是名单人员</el-radio>
                 <el-radio :label="2">不是名单人员</el-radio>
                 <el-radio :label="3">不确定</el-radio>
@@ -644,7 +644,7 @@
               是否符合口岸条件
             </div>
             <div class="radio-g">
-              <el-radio-group v-model="martchPort" class="radio-g-area" :disabled="isdisabled||$route.query.instructNew">
+              <el-radio-group v-model="martchPort" class="radio-g-area" :disabled="!($route.query.instructNew==''||$route.query.instructNew==undefined)">
                 <el-radio :label="1">是</el-radio>
                 <el-radio :label="0">否</el-radio>
               </el-radio-group>
@@ -656,7 +656,7 @@
               <div class="textarea-text">甄别说明:</div>
               <el-input
                 type="textarea"
-                :disabled="isdisabled||$route.query.instructNew"
+                :disabled="!($route.query.instructNew==''||$route.query.instructNew==undefined)"
                 :autosize="{ minRows: 5, maxRows: 5}"
                 placeholder="请输入内容"
                 v-model="distinguishNote"
@@ -665,7 +665,7 @@
             </div>
           </div>
           <div  class="down-btn-area down3">
-            <el-button   v-if="$route.query.instructNew==null&&!isdisabled" type="primary" size="small" class="mb-15" @click="queding" >确定</el-button>
+            <el-button   v-if="!$route.query.instructNew&&!isdisabled" type="primary" size="small" class="mb-15" @click="queding">确定</el-button>
             <el-button type="warning" size="small" @click="$router.go(-1)">返回</el-button>
           </div>
 
@@ -762,7 +762,8 @@ export default {
        invalidCardList:{},
        invalidVisaList:{},
        WnameListList:{},
-       LKNameListList:{}
+       LKNameListList:{},
+       NameListFocusEntity:{},
      },
      travellerInfo:{},
      compareList:{},
@@ -786,6 +787,8 @@ export default {
    // this.getData();
  },
  activated(){
+   console.log(this.$route.query.instructNew==false)
+
    this.pd1.NameListType=parseInt(this.$route.query.NameListType);
    this.pd1.eventserial=this.$route.query.eventserial;
    this.pd1.iapiSerial=this.$route.query.iapiSerial;

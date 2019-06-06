@@ -373,6 +373,7 @@ export default {
       showc: true,
       startPark:[],
       endPark:[],
+      daochuFlag:0,
     }
   },
   mounted() {
@@ -431,6 +432,7 @@ export default {
     },
     nationDetails(i){
       this.detailsDialogVisible = true;
+      this.daochuFlag=0;
       this.myidChange = i.myid;
       let p={
         "begintime":this.pd.begintime,
@@ -454,6 +456,7 @@ export default {
     },
     sumDetails(){
       this.detailsDialogVisible = true;
+      this.daochuFlag=1;
       this.$api.post('/manage-platform/dataStatistics/get_country_detail',this.pd,
        r =>{
          if(r.success){
@@ -462,18 +465,23 @@ export default {
        })
     },
     daochu(){
-      let p={
-        "begintime":this.pd.begintime,
-        "endtime":this.pd.endtime,
-        "flighttype":this.pd.flighttype,
-        "continentfrom":this.pd.continentfrom,
-        "countryfrom":this.pd.countryfrom,
-        "cityfrom":this.pd.cityfrom,
-        "portfrom":this.pd.portfrom,
-        "cityto":this.pd.cityto,
-        "portto":this.pd.portto,
-        "colproperty":this.typerow=='continent'?1:this.typerow=='country'?2:this.typerow=='city'?3:4,
-        "myid":this.myidChange
+      let p={}
+      if(this.daochuFlag==0){
+         p={
+          "begintime":this.pd.begintime,
+          "endtime":this.pd.endtime,
+          "flighttype":this.pd.flighttype,
+          "continentfrom":this.pd.continentfrom,
+          "countryfrom":this.pd.countryfrom,
+          "cityfrom":this.pd.cityfrom,
+          "portfrom":this.pd.portfrom,
+          "cityto":this.pd.cityto,
+          "portto":this.pd.portto,
+          "colproperty":this.typerow=='continent'?1:this.typerow=='country'?2:this.typerow=='city'?3:4,
+          "myid":this.myidChange
+        }
+      }else if(this.daochuFlag==1){
+        p=this.pd
       }
       this.$api.post('/manage-platform/dataStatistics/exp_country_detail',p,
        r =>{
@@ -591,9 +599,10 @@ export default {
 
       this.$api.post(url, p,
         r => {
-          console.log(r);
           this.tableData = r.data;
-          $('.el-table__footer .has-gutter').find("td").last().children('.cell').append('<button type="text"  class="el-button a-btn el-button--text el-button--mini" title="详情" size="mini" onclick="sumDetails()"><i class="el-icon-tickets"></i></button>')
+          if($('.t-detailbtn').length==0){
+            $('.el-table__footer .has-gutter').find("td").last().children('.cell').append('<button type="text" id="addBtn" class="el-button a-btn el-button--text el-button--mini t-detailbtn" title="详情" size="mini" onclick="sumDetails()"><i class="el-icon-tickets"></i></button>')
+          }
           let arr = this.tableData;
           var sum1 = 0,
             sum01 = 0;

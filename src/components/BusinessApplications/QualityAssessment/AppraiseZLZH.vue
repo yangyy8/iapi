@@ -495,25 +495,25 @@ export default {
 
     },
     download(n){
-      //var url="http://192.168.99.213:8080/manage-platform/forecastEva/export_pnr_fccrt_bycompanyid";
-       var url= this.$api.rootUrl+"/manage-platform/forecastEva/export_pnr_fccrt_bycompanyid";
-      if(n==1){
-      url= this.$api.rootUrl+"/manage-platform/forecastEva/exp_chk_nopnr_person";
+      if(n==0){
+        let p={
+          "begintime":this.pd.begintime,
+          "endtime":this.pd.endtime,
+          "fltno":this.pd.fltno,
+         // "fltdate":this.pd.fltdate,
+          "airline_company_id":this.pd.airline_company_id
+        }
+        this.$api.post('/manage-platform/forecastEva/export_pnr_fccrt_bycompanyid',p,
+        r =>{
+          this.downloadM(r)
+        },e=>{},'','blob')
+      }else if(n==1){
+        let p=this.pd0;
+        this.$api.post('/manage-platform/forecastEva/exp_chk_nopnr_person',p,
+        r =>{
+          this.downloadM(r)
+        },e=>{},'','blob')
       }
-      axios({
-       method: 'post',
-       url: url,
-       data: {
-           "begintime":this.pd.begintime,
-           "endtime":this.pd.endtime,
-           "fltno":this.pd.fltno,
-          // "fltdate":this.pd.fltdate,
-           "airline_company_id":this.pd.airline_company_id
-       },
-       responseType: 'blob'
-       }).then(response => {
-           this.downloadM(response)
-       });
     },
     downloadM (data) {
         if (!data) {

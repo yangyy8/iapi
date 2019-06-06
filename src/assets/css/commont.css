@@ -4,9 +4,41 @@
 .el-icon-loading{
   font-size: 40px;
 }
+.tt-descBtn{
+  display:flex;
+  justify-content:flex-end;
+}
+.stepContent .el-step__head.is-process{
+  color: #409EFF;
+  border-color:#409EFF;
+}
+.stepContent .el-step__description.is-process{
+  color: #409EFF;
+}
+.stepContent .el-step__head.is-wait{
+  color: #409EFF;
+  border-color:#409EFF;
+}
+.stepContent .el-step__description.is-wait{
+  color: #409EFF;
+}
+.fz14{
+  font-size: 14px;
+}
+.photoCon{
+  display: flex;
+  flex-wrap:wrap;
+}
 .teshuW{
   width: 38%!important;
   margin-left: -8%;
+}
+.el-step__description{
+  padding-right: 0px
+}
+.photoItem{
+  width: 22%;
+  margin: 5px 5px
 }
 .tt-title{
   text-align: center;

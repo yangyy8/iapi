@@ -117,13 +117,13 @@
               <span class="input-text">命中人员类别：</span>
               <el-select v-model='pd.eventtype' placeholder="请选择" size="small" filterable clearable class="input-input">
                   <el-option value="0" label="0 - 白名单"></el-option>
-                    <el-option value="1" label="1 - 临控名单"></el-option>
+                    <el-option value="1" label="1 - 临时禁止登机名单"></el-option>
                     <el-option value="2" label="2 - 黑名单 - 不准入境"></el-option>
                     <el-option value="3" label="3 - 黑名单 - 失效证件"></el-option>
                     <el-option value="4" label="4 - 黑名单 - 失效签证"></el-option>
                     <el-option value="5" label="5 - 风险评估人员"></el-option>
-                    <el-option value="6" label="6 - 特殊关注对象"></el-option>
-                    <el-option value="7" label="7 - 二次查控对象"></el-option>
+                    <el-option value="6" label="6 - 关注人员"></el-option>
+                    <el-option value="7" label="7 - 复核报警对象"></el-option>
               </el-select>
             </el-col>
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">

@@ -393,7 +393,7 @@
           </el-input>
         </el-col>
         <el-col :span="4" class="down-btn-area">
-          <el-button type="primary" class="mb-15" size="small" @click="handeles()" v-show="iapiMap.instructNew==null">确定</el-button>
+          <el-button type="primary" class="mb-15" size="small" @click="handeles()" v-show="!iapiMap.instructNew">确定</el-button>
           <el-button type="info" class="mb-15" size="small" @click="archive" v-show="iapiMap.instructNew">归档</el-button>
           <el-button type="warning" size="small" @click="$router.go(-1);">返回</el-button>
         </el-col>
@@ -611,6 +611,7 @@ export default {
           eventserial: this.eventserial
         }
       };
+      console.log(this.$route.query.isZDGZ)
       if (this.$route.query.isZDGZ) {
         this.$api.post('/manage-platform/pnrAlarmEvent/queryPnrAlarmPassInfo', p,
           r => {
@@ -619,7 +620,7 @@ export default {
             this.listMap = r.data.listMap;
             this.userMap = r.data.userMap;
             var arr = this.listMap
-            var thar = this;
+            // var thar = this;
             this.pd.CHANGE_RESON = "";
             for (var i in arr) {
               if (arr[i].status == 0) {
@@ -647,7 +648,7 @@ export default {
             }
             this.userMap = r.data.userMap;
             var arr = this.listMap;
-            var thar = this;
+            // var thar = this;
             this.pd.CHANGE_RESON = "";
             let tt="";
             for (var i=0;i<arr.length;i++) {

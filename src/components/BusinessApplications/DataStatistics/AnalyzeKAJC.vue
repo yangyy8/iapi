@@ -283,7 +283,8 @@ export default {
       lineChart: null,
       sData1:[],
       sData2:[],
-      sData3:[]
+      sData3:[],
+      daochuFlag:0,
 
     }
   },
@@ -315,6 +316,7 @@ export default {
   methods: {
     nationDetails(i){
       this.detailsDialogVisible=true;
+      this.daochuFlag=0;
       this.myidChange=i.myid;
       let p={
         "begintime":this.pd.begintime,
@@ -331,6 +333,7 @@ export default {
     },
     sumDetails(){
       this.detailsDialogVisible = true;
+      this.daochuFlag=1;
       this.$api.post('/manage-platform/dataStatistics/get_country_detail',this.pd,
        r =>{
          if(r.success){
@@ -339,12 +342,18 @@ export default {
        })
     },
     daochu(){
-      let p={
-        "begintime":this.pd.begintime,
-        "endtime":this.pd.endtime,
-        "flighttype":this.pd.flighttype,
-        "port":this.myidChange
+      let p={}
+      if(this.daochuFlag==0){
+         p={
+          "begintime":this.pd.begintime,
+          "endtime":this.pd.endtime,
+          "flighttype":this.pd.flighttype,
+          "port":this.myidChange
+        }
+      }else if(this.daochuFlag==1){
+        p=this.pd
       }
+
       this.$api.post('/manage-platform/dataStatistics/exp_country_detail',p,
        r =>{
           this.downloadM(r,1);
@@ -391,7 +400,9 @@ export default {
         r => {
           console.log(r);
           this.tableData = r.data;
-          $('.el-table__footer .has-gutter').find("td").last().children('.cell').append('<button type="text"  class="el-button a-btn el-button--text el-button--mini" title="详情" size="mini" onclick="sumDetails()"><i class="el-icon-tickets"></i></button>')
+          if($('.t-kajcBtn').length==0){
+            $('.el-table__footer .has-gutter').find("td").last().children('.cell').append('<button type="text"  class="el-button a-btn el-button--text el-button--mini t-kajcBtn" title="详情" size="mini" onclick="sumDetails()"><i class="el-icon-tickets"></i></button>')
+          }
           let arr=this.tableData;
           var sum1=0,sum01=0;
           var sum2=0,sum02=0;

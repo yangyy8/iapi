@@ -103,7 +103,7 @@
               @header-click="headerClick"
               element-loading-text="正在加载中"
               element-loading-spinner="el-icon-loading"
-              element-loading-background="rgba(0, 0, 0, 0.2)"
+              element-loading-background="transparent"
               element-loading-customClass="loadingClass"
               v-loading.fullscreen.lock="fullscreenLoading"
               @sort-change='sortChange'>
@@ -195,7 +195,7 @@
             @header-click="headerClick"
             element-loading-text="正在加载中"
             element-loading-spinner="el-icon-loading"
-            element-loading-background="rgba(0, 0, 0, 0.2)"
+            element-loading-background="transparent"
             element-loading-customClass="loadingClass"
             v-loading.fullscreen.lock="fullscreenLoading1"
             @sort-change='sortChange'>
@@ -289,7 +289,7 @@
             @header-click="headerClick"
             element-loading-text="正在加载中"
             element-loading-spinner="el-icon-loading"
-            element-loading-background="rgba(0, 0, 0, 0.2)"
+            element-loading-background="transparent"
             element-loading-customClass="loadingClass"
             v-loading.fullscreen.lock="fullscreenLoading2"
             @sort-change='sortChange'>
@@ -384,7 +384,7 @@
             @header-click="headerClick"
             element-loading-text="正在加载中"
             element-loading-spinner="el-icon-loading"
-            element-loading-background="rgba(0, 0, 0, 0.2)"
+            element-loading-background="transparent"
             element-loading-customClass="loadingClass"
             v-loading.fullscreen.lock="fullscreenLoading3"
             @sort-change='sortChange'>
