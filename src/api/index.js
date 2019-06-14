@@ -4,12 +4,12 @@
 // var root="http://192.168.99.234:8080"
 
 // var root="http://192.168.99.206:8080"
-// var root="http://192.168.99.201:8081"
-// var root=""
+// var root="http://192.168.99.201:8080"
+var root=""
 // var root="http://192.168.99.234:8080"
 // var root="http://192.168.99.242:8081"
 // var root="http://192.168.99.248:8081"
-var root="http://192.168.99.247:8080"
+// var root="http://192.168.99.247:8080"
 // var root="http://192.168.99.244:8080"
 // var root="http://192.168.99.213:8080"   //服务器电脑
 // var root="http://192.168.99.228:8080"
@@ -82,7 +82,7 @@ function apiAxios(method, url, params, success, failure,header,responseType) {
   // }
   let loadingInstance1=null;
   if(!(url=='/manage-platform/riskRecordController/getPhotoInf'||url=='/manage-platform/nationwide/getPortDetail'||url=='/manage-platform/nationwide/getFlightDetail'||url=='/manage-platform/nameList/getNameListDataAnalysis'||url=='/manage-platform/riskRecordExtInterfaceController/getRecordOtherInfo'||url=='/manage-platform/iapiHead/queryListPageCount'||url=='/manage-platform/riskRecordExtInterfaceController/getCRCCNumInfo'||url=='/manage-platform/sysUserInfoController/querySysUserInfo'||url=='/manage-platform/riskRecordController/getUserBaseInfo'||url=='/manage-platform/riskRecordController/getUserTagInfo'||url=='/manage-platform/riskRecordController/getRecordTagInfo'||url=='/manage-platform/riskRecordController/getRiskEventInfo'||url=='/manage-platform/riskRecordController/getQueryRiskRecordUserInfo'||url=='/manage-platform/riskRecordController/saveRiskQueryRecordLogInfo')){
-    loadingInstance1 = Loading.service({ fullscreen: true, spinner: 'el-icon-loading',background:'transparent',customClass:'loadingClass'});
+    loadingInstance1 = Loading.service({spinner: 'el-icon-loading',background:'transparent',customClass:'loadingClass'});
     // console.log('url',url,loadingInstance1);
   }
   axios({
@@ -171,15 +171,10 @@ function apiAxios2(method, url, params, success, failure,header) {
       console.log(res)
       if (res.status == 200) {
         if (success) {
-          // console.log(res.data);
-          // setTimeout(function(){
             if(loadingInstance1){
-              console.log(1);
               loadingInstance1.close();
-              console.log(2);
             }
             success(res.data)
-          // },1000)
         }
       } else if(res.status == 504){
         Message.error('请求超时！');

@@ -212,13 +212,13 @@
             <span v-else>{{scope.row.PERCENT}}</span>
           </template>
         </el-table-column>
-        <!-- <el-table-column
+        <el-table-column
           label="操作"
           min-width="50">
           <template slot-scope="scope">
             <el-button type="text"  class="a-btn" title="详情" size="mini" icon="el-icon-tickets" @click="modelDetails(scope.row)"></el-button>
          </template>
-        </el-table-column> -->
+        </el-table-column>
       </el-table>
 
       <div class="middle-foot">
@@ -293,25 +293,25 @@
         :span-method="objectSpanMethod"
         style="width: 100%;">
         <el-table-column
-          prop="sheetType"
-          label="国籍/地区"
+          prop="modelName"
+          label="模型"
           sortable>
         </el-table-column>
         <el-table-column
-          prop="taskKey"
-          label="值机数"
+          prop="count"
+          label="命中人数"
           sortable>
         </el-table-column>
         <el-table-column
-          prop="templateUrl"
-          label="值机数"
+          prop="nationality"
+          label="国籍地区"
           sortable>
         </el-table-column>
-        <!-- <el-table-column
-          prop="taskKey"
-          label="值机数"
+        <el-table-column
+          prop="passportno"
+          label="证件号码"
           sortable>
-        </el-table-column> -->
+        </el-table-column>
       </el-table>
       <div slot="footer" class="dialog-footer">
         <el-button @click="modelsDialogVisible = false" size="small">返 回</el-button>
@@ -374,42 +374,88 @@ export default {
         }
       ],
       modeltableData:[
-        {
-          type:1,
-          sheetType: "事件单",
-          taskKey: "shijian_01",
-          templateUrl: "/shijian_01"
-        },
-        {
-          type:1,
-          sheetType: "事件单",
-          taskKey: "shijian_02",
-          templateUrl: "/shijian_02"
-        },
-        {
-          type:1,
-          sheetType: "事件单",
-          taskKey: "shijian_03",
-          templateUrl: "/shijian_04"
-        },
-        {
-          type:2,
-          sheetType: "问题单",
-          taskKey: "wenti_01",
-          templateUrl: "/wenti_01"
-        },
-        {
-          type:2,
-          sheetType: "问题单",
-          taskKey: "wenti_02",
-          templateUrl: "/wenti_02"
-        },
-        {
-          type:2,
-          sheetType: "问题单",
-          taskKey: "wenti_03",
-          templateUrl: "/wenti_03"
-        }
+        // {
+        //   count:2,
+        //   type:1,
+        //   modelName: "事件单",
+        //   nationality: "shijian_01",
+        //   passportno: "/shijian_01"
+        // },
+        // {
+        //   count:2,
+        //   type:1,
+        //   modelName: "事件单",
+        //   nationality: "shijian_02",
+        //   passportno: "/shijian_02"
+        // },
+        // {
+        //   count:2,
+        //   type:1,
+        //   modelName: "事件单",
+        //   nationality: "shijian_03",
+        //   passportno: "/shijian_04"
+        // },
+        // {
+        //   count:1,
+        //   type:2,
+        //   modelName: "问题单",
+        //   nationality: "wenti_01",
+        //   passportno: "/wenti_01"
+        // },
+//         {
+//         count:  2,
+// modelCode
+// :
+// "275bd0f5b8414906b547a6615d49199c",
+// modelName
+// :
+// "外籍涉疆重点人员",
+// nationality
+// :
+// "马来西亚",
+// passportno
+// :
+// "A34644812",
+// type
+// :
+// 1
+//         },
+//         {
+//           count:2,
+// modelCode
+// :
+// "275bd0f5b8414906b547a6615d49199c",
+// modelName
+// :
+// "外籍涉疆重点人员",
+// nationality
+// :
+// "马来西亚",
+// passportno
+// :
+// "A40677465",
+// type
+// :
+// 1
+// },
+// {
+//   count:1,
+// modelCode
+// :
+// "39495b89d5254eb584d94a93f1f48d7f",
+// modelName
+// :
+// "疑似变换身份人员",
+// nationality
+// :
+// "马来西亚",
+// passportno
+// :
+// "A39815584",
+// type
+// :
+// 2
+// }
       ],
       tableData: [],
       rowList: [],
@@ -436,6 +482,8 @@ export default {
   },
   methods:{
     rowspan() {
+      this.spanArr=[];
+      this.position=0;
   		this.modeltableData.forEach((item,index) => {
 	    	if( index === 0){
 	    		this.spanArr.push(1);
@@ -470,9 +518,22 @@ export default {
     	}
     },
 
-    modelDetails(){
-      this.modelsDialogVisible=true;
-      this.rowspan();
+    modelDetails(i){
+
+      this.$api.post('/manage-platform/eventMonitor/queryEventInfo/'+i.FLIGHT_RECORDNUM,{},
+        r =>{
+          if(r.success){
+            this.modeltableData=[];
+            this.modeltableData=r.data;
+            this.rowspan();
+            let that = this;
+            // setTimeout(function(){
+              that.modelsDialogVisible=true;
+            // },1000)
+
+          }
+        })
+
     },
     sortChange(column, prop, order){
       column.order=='ascending'?this.direction=1:this.direction=0;

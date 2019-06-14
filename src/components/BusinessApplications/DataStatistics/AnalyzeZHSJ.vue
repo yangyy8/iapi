@@ -717,48 +717,33 @@ export default {
         })
     },
     download(){
-         //var url="http://192.168.99.213:8080/manage-platform/dataStatistics/export_flt";
-      var url= this.$api.rootUrl+"/manage-platform/dataStatistics/export_comp";
-      axios({
-       method: 'post',
-       url: url,
+      let p={
+        "stationfromList": this.pd.stationfromList,
+        "stationtoList": this.pd.stationtoList,
+        "begintime": this.pd.begintime,
+        "endtime": this.pd.endtime,
+        "country": this.pd.country,
+        "fltno": this.pd.fltno,
+        "flighttype": this.pd.flighttype,
+        "passengertype": this.pd.passengertype,
+        "vid": this.pd.vid,
+        "lastcheckresult": this.pd.lastcheckresult,
+        "rowproperty_country": this.pd.rowproperty_country,
+        "rowproperty_cityto": this.pd.rowproperty_cityto,
+        "rowproperty_cityfrom":this.pd.rowproperty_cityfrom,
+        "rowproperty_fltno": this.pd.rowproperty_fltno,
+        "rowproperty_flttype": this.pd.rowproperty_flttype,
 
-       data: {
-         // "begintime":this.pd.begintime,
-         // "endtime":this.pd.endtime,
-         // "continentfrom":this.pd.continentfrom,
-         // "countryfrom":this.pd.countryfrom,
-         // "cityfrom":this.pd.cityfrom,
-         // "cityto":this.pd.cityto,
-
-
-         "begintime": this.pd.begintime,
-         "endtime": this.pd.endtime,
-         "country": this.pd.country,
-         "cityfrom": this.pd.cityfrom,
-         "cityto": this.pd.cityto,
-         "fltno": this.pd.fltno,
-         "flighttype": this.pd.flighttype,
-         "passengertype": this.pd.passengertype,
-         "vid": this.pd.vid,
-         "lastcheckresult": this.pd.lastcheckresult,
-         "rowproperty_country": this.pd.rowproperty_country,
-         "rowproperty_cityto": this.pd.rowproperty_cityto,
-         "rowproperty_cityfrom":this.pd.rowproperty_cityfrom,
-         "rowproperty_fltno": this.pd.rowproperty_fltno,
-         "rowproperty_flttype": this.pd.rowproperty_flttype,
-
-         "colproperty1": this.pd.colproperty1,
-         "colproperty2": this.pd.colproperty2,
-         "colproperty3": this.pd.colproperty3,
-         "colproperty4": this.pd.colproperty4,
-         "colproperty5": this.pd.colproperty5,
-
-       },
-       responseType: 'blob'
-       }).then(response => {
-           this.downloadM(response)
-       });
+        "colproperty1": this.pd.colproperty1,
+        "colproperty2": this.pd.colproperty2,
+        "colproperty3": this.pd.colproperty3,
+        "colproperty4": this.pd.colproperty4,
+        "colproperty5": this.pd.colproperty5,
+      }
+      this.$api.post('/manage-platform/dataStatistics/export_comp',p,
+        r=>{
+          this.downloadM(r)
+        },e=>{},'','blob')
     },
     downloadM (data) {
         if (!data) {

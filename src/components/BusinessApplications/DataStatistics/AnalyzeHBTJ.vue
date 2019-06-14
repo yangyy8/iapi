@@ -716,24 +716,10 @@ export default {
     },
 
     download(){
-    //  var url="http://192.168.99.213:8080/manage-platform/dataStatistics/export_flt";
-     var url= this.$api.rootUrl+"/manage-platform/dataStatistics/export_flt";
-      axios({
-       method: 'post',
-       url: url,
-      // url:'http://192.168.99.206:8080/manage-platform/iapi/exportFileIo/0/600',
-      // url: this.$api.rootUrl+"/manage-platform/iapi/exportFileIo/0/600",
-       data: {
-         "begintime": this.pd.begintime,
-         "endtime": this.pd.endtime,
-         "fltno": this.pd.fltno,
-         "airline_company_id":this.pd.airline_company_id,
-         "flighttype":this.pd.flighttype
-       },
-       responseType: 'blob'
-       }).then(response => {
-           this.downloadM(response)
-       });
+      this.$api.post('/manage-platform/dataStatistics/export_flt',this.pd,
+       r =>{
+         this.downloadM(r)
+       },e=>{},'','blob')
     },
     downloadM (data,type) {
         if (!data) {

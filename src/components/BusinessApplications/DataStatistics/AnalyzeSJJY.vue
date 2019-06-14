@@ -416,27 +416,23 @@ export default {
          var url="";
             let p={};
         if(n==0){
-         url= this.$api.rootUrl+"/manage-platform/dataStatistics/export_datacheck";
+         url= "/manage-platform/dataStatistics/export_datacheck";
           p={
             "begintime":this.pd.begintime,
             "endtime":this.pd.endtime
           }
        }else if(n==1) {
-         url=this.$api.rootUrl+"/manage-platform/dataStatistics/expdatackdetail";
+         url="/manage-platform/dataStatistics/expdatackdetail";
            p={
              "begintime":this.pd.begintime,
              "endtime":this.pd.endtime,
              "thantype":this.thantype,
            }
        }
-      axios({
-       method: 'post',
-       url: url,
-       data: p,
-       responseType: 'blob'
-       }).then(response => {
-           this.downloadM(response)
-       });
+       this.$api.post(url,p,
+         r =>{
+           this.downloadM(r)
+         },e=>{},'','blob')
     },
     downloadM (data) {
         if (!data) {

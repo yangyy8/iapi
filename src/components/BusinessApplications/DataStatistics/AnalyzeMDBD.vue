@@ -603,39 +603,34 @@ this.queryNationality();
     },
     download() {
       //  var url="http://192.168.99.213:8080/manage-platform/dataStatistics/export_namelistfix";
-      var url = this.$api.rootUrl + "/manage-platform/dataStatistics/export_namelistfix";
+      var url = "/manage-platform/dataStatistics/export_namelistfix";
 
       if (this.pd.colproperty2) {
-        url = this.$api.rootUrl + "/manage-platform/dataStatistics/export_namelist_dynamic";
+        url =  "/manage-platform/dataStatistics/export_namelist_dynamic";
       }
-      axios({
-        method: 'post',
-        url: url,
-        // url:'http://192.168.99.206:8080/manage-platform/iapi/exportFileIo/0/600',
-        // url: this.$api.rootUrl+"/manage-platform/iapi/exportFileIo/0/600",
-        data: {
-          "begintime": this.pd.begintime,
-          "endtime": this.pd.endtime,
-          "country": this.pd.country,
-          "cityfrom": this.pd.cityfrom,
-          "cityto": this.pd.cityto,
-          "fltno": this.pd.fltno,
-          "flttype": this.pd.flttype,
+      let p={
+        "begintime": this.pd.begintime,
+        "endtime": this.pd.endtime,
+        "country": this.pd.country,
+        "cityfrom": this.pd.cityfrom,
+        "cityto": this.pd.cityto,
+        "fltno": this.pd.fltno,
+        "flttype": this.pd.flttype,
 
-          "rowproperty_country": this.pd.rowproperty_country,
-          "rowproperty_cityto": this.pd.rowproperty_cityto,
-          "rowproperty_fltno": this.pd.rowproperty_fltno,
-          "rowproperty_flttype": this.pd.rowproperty_flttype,
+        "rowproperty_country": this.pd.rowproperty_country,
+        "rowproperty_cityto": this.pd.rowproperty_cityto,
+        "rowproperty_fltno": this.pd.rowproperty_fltno,
+        "rowproperty_flttype": this.pd.rowproperty_flttype,
 
-          "colproperty1": this.pd.colproperty1,
-          "colproperty2": this.pd.colproperty2,
-          "colproperty3": this.pd.colproperty3,
-          "colproperty4": this.pd.colproperty4,
-        },
-        responseType: 'blob'
-      }).then(response => {
-        this.downloadM(response)
-      });
+        "colproperty1": this.pd.colproperty1,
+        "colproperty2": this.pd.colproperty2,
+        "colproperty3": this.pd.colproperty3,
+        "colproperty4": this.pd.colproperty4,
+      }
+      this.$api.post(url,p,
+        r =>{
+          this.downloadM(r)
+        },e=>{},'','blob')
     },
     downloadM(data) {
       if (!data) {

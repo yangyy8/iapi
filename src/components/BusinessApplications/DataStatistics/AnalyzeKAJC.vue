@@ -425,23 +425,10 @@ export default {
         })
     },
     download(){
-      //var url="http://192.168.99.213:8080/manage-platform/dataStatistics/export_port";
-      var url= this.$api.rootUrl+"/manage-platform/dataStatistics/export_port";
-      axios({
-       method: 'post',
-       url: url,
-      // url:'http://192.168.99.206:8080/manage-platform/iapi/exportFileIo/0/600',
-      // url: this.$api.rootUrl+"/manage-platform/iapi/exportFileIo/0/600",
-       data: {
-         "begintime":this.pd.begintime,
-         "endtime":this.pd.endtime,
-         "port":this.pd.port,
-         "flighttype":this.pd.flighttype
-       },
-       responseType: 'blob'
-       }).then(response => {
-           this.downloadM(response)
-       });
+      this.$api.post('/manage-platform/dataStatistics/export_port',this.pd,
+       r =>{
+         this.downloadM(r)
+       },e=>{},'','blob')
     },
     downloadM (data,type) {
         if (!data) {

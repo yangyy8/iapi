@@ -345,7 +345,7 @@ export default {
         "showCount": showCount,
         "pd": pd
       };
-      this.$api.post('/manage-platform/apply/select', p,
+      this.$api.post('/manage-platform/apply/auditSelect', p,
         r => {
           this.tableData = r.data.pdList;
           this.TotalResult = r.data.totalResult;

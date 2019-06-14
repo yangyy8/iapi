@@ -7,11 +7,9 @@
               查询条件
             </div>
             <el-row align="center" :gutter="2">
-
               <el-col :sm="24" :md="12" :lg="8" class="input-item">
-                <span class="input-text">事件类型：</span>
-                <el-select v-model="pd.type" placeholder="请选择"  filterable clearable  size="small" class="input-input">
-
+                <span class="input-text"><i class="t-must">*</i>事件类型：</span>
+                <el-select v-model="pd.type" placeholder="请选择"  filterable  size="small" class="input-input" @change="eventType(pd.type)">
                   <el-option value="0" label="指令变更"></el-option>
                   <el-option value="1" label="航班备降"></el-option>
                   <el-option value="-1" label="航班取消"></el-option>
@@ -40,9 +38,7 @@
                     placeholder="结束时间"
                     :picker-options="pickerOptions1">
                   </el-date-picker>
-
                 </div>
-
               </el-col>
 
               <el-col :sm="24" :md="12" :lg="8" class="input-item">
@@ -51,33 +47,176 @@
                   <el-option v-for="(item,key) in dealer" :value="key" :label="item" :key="key"></el-option>
                 </el-select>
               </el-col>
+
               <el-col :sm="24" :md="12" :lg="8" class="input-item">
                 <span class="input-text">处理时间：</span>
                 <div class="input-input t-flex t-date">
-                 <el-date-picker
-                 v-model="pd.startDealtime"
-                 type="datetime"
-                 size="small"
-                 value-format="yyyyMMddHHmmss"
-                 placeholder="开始时间"
-                 :picker-options="pickerOptions2">
-               </el-date-picker>
-                 <span class="septum">-</span>
-               <el-date-picker
-                  v-model="pd.endDealtime"
-                  type="datetime"
-                  size="small"
-                  value-format="yyyyMMddHHmmss"
-                  placeholder="结束时间"
-                  :picker-options="pickerOptions3">
-              </el-date-picker>
-            </div>
+                   <el-date-picker
+                     v-model="pd.startDealtime"
+                     type="datetime"
+                     size="small"
+                     value-format="yyyyMMddHHmmss"
+                     placeholder="开始时间"
+                     :picker-options="pickerOptions2">
+                   </el-date-picker>
+                   <span class="septum">-</span>
+                   <el-date-picker
+                      v-model="pd.endDealtime"
+                      type="datetime"
+                      size="small"
+                      value-format="yyyyMMddHHmmss"
+                      placeholder="结束时间"
+                      :picker-options="pickerOptions3">
+                   </el-date-picker>
+                </div>
               </el-col>
+              <div class="" >
+                <el-col :sm="24" :md="12" :lg="8" class="input-item" v-if="pd.type==0||pd.type==4">
+                  <span class="input-text">姓名：</span>
+                  <el-input placeholder="请输入内容" v-model="pd.familyname" size="small" class="input-input"></el-input>
+                </el-col>
+                <el-col :sm="24" :md="12" :lg="8" class="input-item" v-if="pd.type==0||pd.type==4">
+                  <span class="input-text">性别：</span>
+                  <el-select placeholder="请选择" v-model="pd.genderEqual" size="small" filterable clearable class="input-input">
+                    <el-option label="M - 男" value="M"></el-option>
+                    <el-option label="F - 女" value="F"></el-option>
+                    <el-option label="U - 未知" value="U"></el-option>
+                  </el-select>
+                </el-col>
+                <el-col :sm="24" :md="12" :lg="8" class="input-item" v-if="pd.type==0||pd.type==4">
+                   <span class="input-text">出生日期：</span>
+                   <el-date-picker
+                   v-model="pd.dateofbirthEqual"
+                   type="date"
+                   size="small"
+                   value-format="yyyyMMdd"
+                   placeholder="请选择"
+                   class="input-input">
+                  </el-date-picker>
+                </el-col>
+                <el-col :sm="24" :md="12" :lg="8" class="input-item" v-if="pd.type==0||pd.type==4">
+                  <span class="input-text">证件号码：</span>
+                  <el-input placeholder="请输入内容" v-model="pd.passportnoEqual" size="small" class="input-input"></el-input>
+                </el-col>
+                <el-col  :sm="24" :md="12" :lg="8"   class="input-item" v-if="pd.type==0||pd.type==4">
+                  <span class="input-text">国籍/地区：</span>
+                  <el-select v-model="pd.nationalityEqual" filterable clearable @visible-change="queryNationality" placeholder="请选择"  size="small" class="input-input">
+                    <el-option
+                      v-for="item in nation"
+                      :key="item.CODE"
+                      :label="item.CODE+' - '+item.CNAME"
+                      :value="item.CODE">
+                    </el-option>
+                  </el-select>
+                </el-col>
+                <el-col  :sm="24" :md="12" :lg="8"  class="input-item" v-if="pd.type==0||pd.type==1||pd.type==-1||pd.type==4">
+                  <span class="input-text">出入标识：</span>
+                  <el-select v-model="pd.flighttypeEqual"  class="input-input"   filterable clearable  placeholder="请选择"  size="small">
+                    <el-option value="I" label="I - 入境"></el-option>
+                    <el-option value="O" label="O - 出境"></el-option>
+                  </el-select>
+                </el-col>
+                <el-col :sm="24" :md="12" :lg="8" class="input-item" v-if="pd.type==0||pd.type==1||pd.type==-1||pd.type==4">
+                  <span class="input-text">航班号：</span>
+                  <el-input placeholder="请输入内容" v-model="pd.fltnoEqual" size="small" class="input-input"></el-input>
+                </el-col>
+                <el-col :sm="24" :md="12" :lg="8" class="input-item " v-if="pd.type==0||pd.type==1||pd.type==-1||pd.type==4">
+                  <span class="input-text">航班日期：</span>
+                  <div class="input-input t-flex t-date">
+                      <el-date-picker
+                      v-model="pd.startFltdate"
+                      type="date" size="small"
+                      placeholder="开始日期"
+                      format="yyyy-MM-dd"
+                      value-format="yyyyMMdd"
+                      :picker-options="pickerOptions6">
+                    </el-date-picker>
+                    <span class="septum">-</span>
+                    <el-date-picker
+                       v-model="pd.endFltdate"
+                       type="date" size="small"
+                       placeholder="结束日期"
+                       format="yyyy-MM-dd"
+                       value-format="yyyyMMdd"
+                       :picker-options="pickerOptions7">
+                   </el-date-picker>
+                  </div>
+                </el-col>
+                <el-col :sm="24" :md="12" :lg="8" class="input-item" v-if="pd.type==1||pd.type==-1">
+                  <span class="input-text">计划起飞机场：</span>
+                  <el-select placeholder="请选择" v-model="pd.stationfromEqual" filterable clearable @visible-change="takeOff" size="small" class="input-input">
+                    <el-option
+                    v-for="item in takeOffName"
+                    :key="item.AIRPORT_CODE"
+                    :value="item.AIRPORT_CODE"
+                    :label="item.AIRPORT_CODE+' - '+item.AIRPORT_NAME">
+                    </el-option>
+                  </el-select>
+                </el-col>
 
+                <el-col :sm="24" :md="12" :lg="8" class="input-item" v-if="pd.type==1||pd.type==-1">
+                  <span class="input-text">计划到达机场：</span>
+                  <el-select placeholder="请选择" v-model="pd.stationtoEqual" filterable clearable @visible-change="landing" size="small" class="input-input">
+                    <el-option
+                    v-for="item in landingName"
+                    :key="item.AIRPORT_CODE"
+                    :value="item.AIRPORT_CODE"
+                    :label="item.AIRPORT_CODE+' - '+item.AIRPORT_NAME">
+                    </el-option>
+                  </el-select>
+                </el-col>
+
+                <el-col :sm="24" :md="12" :lg="8" class="input-item" v-if="pd.type==1||pd.type==-1">
+                  <span class="input-text">实际到达机场：</span>
+                  <el-select placeholder="请选择" v-model="pd.changeportEqual" filterable clearable @visible-change="landing" size="small" class="input-input">
+                    <el-option
+                    v-for="item in landingName"
+                    :key="item.AIRPORT_CODE"
+                    :value="item.AIRPORT_CODE"
+                    :label="item.AIRPORT_CODE+' - '+item.AIRPORT_NAME">
+                    </el-option>
+                  </el-select>
+                </el-col>
+                <el-col :sm="24" :md="12" :lg="8" class="input-item" v-if="pd.type==4">
+                  <span class="input-text">命中类别：</span>
+                  <el-select v-model='pd.eventtype' placeholder="请选择" size="small" filterable clearable class="input-input">
+                      <el-option value="1" label="1 - 名单报警事件"></el-option>
+                      <el-option value="2" label="2 - 复核报警事件"></el-option>
+                      <el-option value="3" label="3 - 关注人员预警事件"></el-option>
+                  </el-select>
+                </el-col>
+                <el-col :sm="24" :md="12" :lg="8" class="input-item" v-if="pd.type==4">
+                  <span class="input-text">处理结果：</span>
+                  <el-select v-model='pd.dealresult' placeholder="请选择" size="small" filterable clearable class="input-input">
+                      <el-option value="0" label="0 - 不做变更处理"></el-option>
+                      <el-option value="1" label="1 - 变更处理"></el-option>
+                      <el-option value="2" label="2 - 数据推送"></el-option>
+                  </el-select>
+                </el-col>
+                <el-col :sm="24" :md="12" :lg="8" class="input-item" v-if="pd.type==0">
+                  <span class="input-text">原预检指令：</span>
+                  <el-select v-model="pd.checkResult"  placeholder="请选择"  filterable clearable  size="small" class="input-input">
+                    <el-option value="0Z" label="0Z - 允许打印登机牌"></el-option>
+                    <el-option value="1Z" label="1Z - 禁止打印登机牌"></el-option>
+                    <el-option value="2Z" label="2Z - 请再次核对"></el-option>
+                    <el-option value="4Z" label="4Z - 数据错误"></el-option>
+                   </el-select>
+                </el-col>
+                <el-col :sm="24" :md="12" :lg="8" class="input-item" v-if="pd.type==0">
+                  <span class="input-text">变更后指令：</span>
+                  <el-select v-model="pd.lastcheckresult"  placeholder="请选择"  filterable clearable  size="small" class="input-input">
+                    <el-option value="0Z" label="0Z - 允许打印登机牌"></el-option>
+                    <el-option value="1Z" label="1Z - 禁止打印登机牌"></el-option>
+                    <el-option value="2Z" label="2Z - 请再次核对"></el-option>
+                    <el-option value="4Z" label="4Z - 数据错误"></el-option>
+                   </el-select>
+                </el-col>
+              </div>
             </el-row>
           </el-col>
           <el-col :span="2" class="down-btn-area" style="margin-top:35px;">
             <el-button type="success" class="mb-15" size="small"  @click="CurrentPage=1;getList(CurrentPage,pageSize,pd,order,direction)">查询</el-button>
+            <el-button type="primary" size="small"  @click="reset" plain>重置</el-button>
           </el-col>
         </el-row>
     </div>
@@ -91,30 +230,139 @@
         @sort-change='sortChange'
         style="width: 100%;">
         <el-table-column
+          :show-overflow-tooltip="true"
           prop="typeStr"
           label="事件类型"
           sortable='custom'>
         </el-table-column>
         <el-table-column
+          :show-overflow-tooltip="true"
           prop="createtimeStr"
           label="事件产生时间"
           sortable='custom'>
         </el-table-column>
         <el-table-column
+          :show-overflow-tooltip="true"
           prop="name"
           label="处理人"
           sortable='custom'>
         </el-table-column>
         <el-table-column
+          :show-overflow-tooltip="true"
           prop="dealtimeStr"
           label="处理时间"
           sortable='custom'>
         </el-table-column>
         <el-table-column
+          :show-overflow-tooltip="true"
+          prop="xm"
+          label="姓名"
+          sortable='custom'
+          v-if="pd.type==0||pd.type==4">
+        </el-table-column>
+        <el-table-column
+          :show-overflow-tooltip="true"
+          prop="genderStr"
+          label="性别"
+          sortable='custom'
+          v-if="pd.type==0||pd.type==4">
+        </el-table-column>
+        <el-table-column
+          :show-overflow-tooltip="true"
+          prop="birthdayStr"
+          label="出生日期"
+          sortable='custom'
+          v-if="pd.type==0||pd.type==4">
+        </el-table-column>
+        <el-table-column
+          :show-overflow-tooltip="true"
+          prop="passportno"
+          label="证件号码"
+          sortable='custom'
+          v-if="pd.type==0||pd.type==4">
+        </el-table-column>
+        <el-table-column
+          :show-overflow-tooltip="true"
+          prop="nationalityStr"
+          label="国籍地区"
+          sortable='custom'
+          v-if="pd.type==0||pd.type==4">
+        </el-table-column>
+        <el-table-column
+          :show-overflow-tooltip="true"
+          prop="flighttypeStr"
+          label="出入标识"
+          sortable='custom'
+          v-if="pd.type==0||pd.type==1||pd.type==-1||pd.type==4">
+        </el-table-column>
+        <el-table-column
+          :show-overflow-tooltip="true"
+          prop="fltno"
+          label="航班号"
+          sortable='custom'
+          v-if="pd.type==0||pd.type==1||pd.type==-1||pd.type==4">
+        </el-table-column>
+        <el-table-column
+          :show-overflow-tooltip="true"
+          prop="fltdateStr"
+          label="航班日期"
+          sortable='custom'
+          v-if="pd.type==0||pd.type==1||pd.type==-1||pd.type==4">
+        </el-table-column>
+        <el-table-column
+          :show-overflow-tooltip="true"
+          prop="portfromStr"
+          label="计划起飞机场"
+          sortable='custom'
+          v-if="pd.type==1||pd.type==-1">
+        </el-table-column>
+        <el-table-column
+          :show-overflow-tooltip="true"
+          prop="stationtoStr"
+          label="计划到达机场"
+          sortable='custom'
+          v-if="pd.type==1||pd.type==-1">
+        </el-table-column>
+        <el-table-column
+         :show-overflow-tooltip="true"
+          prop="changeportStr"
+          label="实际到达机场"
+          sortable='custom'
+          v-if="pd.type==1||pd.type==-1">
+        </el-table-column>
+        <el-table-column
+         :show-overflow-tooltip="true"
+          prop="eventtypeStr"
+          label="命中类别"
+          sortable='custom'
+          v-if="pd.type==4">
+        </el-table-column>
+        <el-table-column
+         :show-overflow-tooltip="true"
+          prop="dealresultStr"
+          label="处理结果"
+          sortable='custom'
+          v-if="pd.type==4">
+        </el-table-column>
+        <el-table-column
+          :show-overflow-tooltip="true"
+          prop="checkresult"
+          label="原预检指令"
+          sortable='custom'
+          v-if="pd.type==0">
+        </el-table-column>
+        <el-table-column
+          :show-overflow-tooltip="true"
+          prop="lastcheckresult"
+          label="变更后指令"
+          sortable='custom'
+          v-if="pd.type==0">
+        </el-table-column>
+        <el-table-column
+        :show-overflow-tooltip="true"
           prop="content"
           label="事件描述">
         </el-table-column>
-
         <el-table-column
           width="70"
           label="操作">
@@ -651,6 +899,12 @@ export default {
   components: {AlarmProcess},
   data() {
     return {
+      //指令变更
+      nation:[],
+      takeOffName:[],
+      takeOffNameReal:[],
+      landingName:[],
+      landingNameReal:[],
       order:'',
       direction:0,
       beijiangText:'航班备降详情',
@@ -660,10 +914,11 @@ export default {
       TotalResult: 0,
       dealer:{},
       pd: {
+        type:'0',
         startCreatetime:'',
         endCreatetime:'',
-
       },
+      cdt:{},
       dform: {},
       hform: {},
       zform: {},
@@ -727,54 +982,113 @@ export default {
 
       pickerOptions2: {
         // disabledDate: (time) => {
-        //   // console.log(typeOf(this.pd.endDealtime))
-        //
         //     if (this.pd.endDealtime != null) {
         //       let startT = formatDate(new Date(time.getTime()),'yyyyMMddhhmmss');
         //       return startT > this.pd.endDealtime;
         //     }else if(this.pd.endDealtime == null){
-        //       let startT = formatDate(new Date(time.getTime()),'yyyyMMddhhmmss');
-        //       return startT > 0
+        //       return false
         //     }
         // }
       },
       pickerOptions3: {
         // disabledDate: (time) => {
-        //     let todayS =  (this.pd.startDealtime).slice(0,8);
-        //     let currentTime = formatDate(new Date(time.getTime()),'yyyyMMdd');
         //     let endT = formatDate(new Date(time.getTime()),'yyyyMMddhhmmss');
-        //     if(todayS==currentTime){
-        //       return this.pd.startDealtime>this.pd.endDealtime
-        //     }else{
-        //       return endT <= this.pd.startDealtime;
+        //     return endT < this.pd.startDealtime;
+        // }
+      },
+      pickerOptions6: {//航班日期
+        // disabledDate: (time) => {
+        //     if (this.cdt.endFltdate != null) {
+        //       let startT = formatDate(new Date(time.getTime()),'yyyyMMddhhmm');
+        //       return startT > this.cdt.endFltdate;
+        //     }else if(this.cdt.endFltdate == null){
+        //       return false
         //     }
         // }
       },
+      pickerOptions7: {
+        // disabledDate: (time) => {
+        //     let endT = formatDate(new Date(time.getTime()),'yyyyMMddhhmm');
+        //     let a = new Date(this.timePlace(this.cdt.startFltdate));
+        //     return endT < formatDate(new Date(a),'yyyyMMddhhmm');
+        // }
+      },
       nav1Id:null,
-      nav2Id:null
+      nav2Id:null,
+      cdt:{},
     }
   },
   mounted() {
     this.nav1Id=this.$route.query.nav1Id
     this.nav2Id=this.$route.query.nav2Id
     let time = new Date();
-    let end = new Date(new Date(new Date().toLocaleDateString()).getTime()+24*60*60*1000-1);
+    let end = new Date();
     let begin = new Date(new Date().setHours(0,0,0,0));
     this.pd.startCreatetime=formatDate(begin,'yyyyMMddhhmmss');
     this.pd.endCreatetime=formatDate(end,'yyyyMMddhhmmss');
-    // this.pd.startDealtime=formatDate(begin,'yyyyMMddhhmmss');
-    // this.pd.endDealtime=formatDate(end,'yyyyMMddhhmmss');
   },
   activated(){
-    // let time = new Date();
-    // let end = new Date();
-    // let begin =new Date(time - 1000 * 60 * 60 * 24 * 30);
-    // this.pd.startCreatetime=formatDate(begin,'yyyyMMddhhmmss');
-    // this.pd.endCreatetime=formatDate(end,'yyyyMMddhhmmss');
-    // this.pd.startDealtime=formatDate(begin,'yyyyMMddhhmmss');
-    // this.pd.endDealtime=formatDate(end,'yyyyMMddhhmmss');
+
   },
   methods: {
+    reset(){
+      let time = new Date();
+      let end = new Date();
+      let begin = new Date(new Date().setHours(0,0,0,0));
+      this.pd={
+        type:'0',
+        startCreatetime:formatDate(begin,'yyyyMMddhhmmss'),
+        endCreatetime:formatDate(end,'yyyyMMddhhmmss'),
+      };
+      this.order='';
+      this.direction=0;
+      this.getList(this.CurrentPage, this.pageSize, this.pd,this.order,this.direction);
+    },
+    eventType(i){
+      let time = new Date();
+      let end = new Date();
+      let begin = new Date(new Date().setHours(0,0,0,0));
+      this.pd={
+        type:i,
+        startCreatetime:formatDate(begin,'yyyyMMddhhmmss'),
+        endCreatetime:formatDate(end,'yyyyMMddhhmmss'),
+      }
+      this.getList(this.CurrentPage, this.pageSize, this.pd,this.order,this.direction);
+    },
+    takeOff(){//调用起飞机场
+      let p={
+        "flighttype":this.pd.flighttypeEqual,
+        "type":0
+      }
+      this.$api.post('/manage-platform/codeTable/queryAirportByPortAndFlighttype',p,
+       r =>{
+         if(r.success){
+           this.takeOffName = r.data;
+         }
+       })
+    },
+    landing(){//调用降落机场
+      let p={
+        "flighttype":this.pd.flighttypeEqual,
+        "type":1
+      }
+      this.$api.post('/manage-platform/codeTable/queryAirportByPortAndFlighttype',p,
+       r =>{
+         if(r.success){
+           this.landingName = r.data;
+         }
+       })
+    },
+    // ================================================指令变更===============================================
+    queryNationality() {
+      this.$api.post('/manage-platform/codeTable/queryNationality', {},
+        r => {
+          if (r.success) {
+            this.nation = r.data;
+          }
+        })
+    },
+
     sortChange(column, prop, order){
       column.order=='ascending'?this.direction=1:this.direction=0;
       this.order=column.prop;
@@ -808,25 +1122,14 @@ export default {
         });
         return
       }
-      // if(this.pd.startDealtime==''||this.pd.endDealtime==''||this.pd.startDealtime==null||this.pd.endDealtime==null){
-      //   this.$message({
-      //     message: '处理时间不能为空',
-      //     type: 'warning'
-      //   });
-      //   return
-      // }
-      if(dayGap(this.pd.startCreatetime,this.pd.endCreatetime,1)>30){
-        this.$alert('事件产生时间查询时间间隔不能超过一个月', '提示', {
-          confirmButtonText: '确定',
-        });
-        return false
-      };
-      // if(dayGap(this.pd.startDealtime,this.pd.endDealtime,1)>30){
-      //   this.$alert('处理时间查询时间间隔不能超过一个月', '提示', {
+
+      // if(dayGap(this.pd.startCreatetime,this.pd.endCreatetime,1)>30){
+      //   this.$alert('事件产生时间查询时间间隔不能超过一个月', '提示', {
       //     confirmButtonText: '确定',
       //   });
       //   return false
       // };
+
       let p = {
         "currentPage": currentPage,
         "showCount": showCount,

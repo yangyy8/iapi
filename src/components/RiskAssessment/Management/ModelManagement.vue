@@ -62,7 +62,7 @@
           </el-row>
         </el-col>
         <el-col :span="2" class="down-btn-area" >
-          <el-button type="success" size="small" @click="CurrentPage=1;getList(CurrentPage,pageSize,pd)">查询</el-button>
+          <el-button type="success" size="small" @click="CurrentPage=1;getList(CurrentPage,pageSize,pd,orders,direction)">查询</el-button>
         </el-col>
       </el-row>
     </div>
@@ -76,10 +76,11 @@
         style="width: 100%;"
         class="mt-10 o-table3"
         @header-click="headerClick"
-        >
+        @sort-change='sortChange'>
         <el-table-column
           type="index"
-          label="序号" width="60">
+          label="序号"
+          width="60">
         </el-table-column>
         <!-- <el-table-column
           prop="MODEL_NAME"
@@ -87,8 +88,8 @@
         </el-table-column> -->
          <el-table-column
           prop="MODEL_JC"
-          label="模型简称" sortable
-          >
+          label="模型简称"
+          sortable="custom">
         </el-table-column>
         <!-- <el-table-column
           prop="MODEL_DESCRIBE"
@@ -96,7 +97,8 @@
         </el-table-column> -->
         <el-table-column
           prop="CREATE_PERSION"
-          label="创建人" sortable>
+          label="创建人"
+          sortable="custom">
         </el-table-column>
         <!-- <el-table-column
           prop="PORT_NAME"
@@ -104,21 +106,27 @@
         </el-table-column> -->
 
         <el-table-column
-          prop="UPDATE_TIME" sortable
+          prop="UPDATE_TIME"
+          sortable="custom"
           label="最后更新日期">
         </el-table-column>
         <el-table-column
-          prop="LIFE_SPAN" sortable
+          prop="LIFE_SPAN"
+          sortable="custom"
           label="有效日期">
         </el-table-column>
         <el-table-column
-          label="是否启用" sortable>
+          prop="STATUS"
+          label="是否启用"
+          sortable="custom">
           <template slot-scope="scope">
               <span :class="{'yyred':scope.row.STATUS == '0','yygreen':scope.row.STATUS == '1'}">  {{scope.row.STATUS | fifterstatus}}</span>
-            </template>
+          </template>
         </el-table-column>
         <el-table-column
-          label="模型状态" sortable>
+          prop="MODEL_PHASES"
+          label="模型状态"
+          sortable="custom">
           <template slot-scope="scope">
               {{scope.row.MODEL_PHASES | fiftermodel}}
             </template>
@@ -456,6 +464,8 @@ export default {
       return data;
     };
     return {
+      orders:['CREATE_TIME'],
+      direction:0,
       tp: 0,
       ap: {},
       data: generateData(),
@@ -567,6 +577,11 @@ export default {
       // console.log(obj.TARGET_SIGN);//我这边的name就是对应label的
 
     },
+    sortChange(column, prop, order){
+      column.order=='ascending'?this.direction=1:this.direction=0;
+      this.orders=[column.prop];
+      this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
+    },
     headerClick(column,event){
       event.target.title=column.label
     },
@@ -574,20 +589,20 @@ export default {
       this.multipleSelection = val;
     },
     pageSizeChange(val) {
-      this.getList(this.CurrentPage, val, this.pd);
-      console.log(`每页 ${val} 条`);
+      this.getList(this.CurrentPage, val, this.pd,this.orders,this.direction);
     },
     handleCurrentChange(val) {
-      this.getList(val, this.pageSize, this.pd);
-      console.log(`当前页: ${val}`);
+      this.getList(val, this.pageSize, this.pd,this.orders,this.direction);
     },
-    getList(currentPage, showCount, pd) {
+    getList(currentPage, showCount, pd,order,direction) {
       let p = {
         "currentPage": currentPage,
         "showCount": showCount,
-        "pd": pd
+        "pd": pd,
+        "orders":order,
+        "direction":direction
       };
-      this.$api.post('/manage-platform/model/select', p,
+      this.$api.post('/manage-platform/model/selectNew', p,
         r => {
 
           this.tableData = r.data.pdList;
@@ -746,7 +761,7 @@ export default {
           }
           this.$refs[formName].resetFields();
           this.addDialogVisible = false;
-          this.getList(this.CurrentPage, this.pageSize, this.pd);
+          this.getList(this.CurrentPage, this.pageSize, this.pd,this.orders,this.direction);
 
         }, e => {
           this.$message.error('失败了');
@@ -769,7 +784,7 @@ export default {
               message: '修改成功！',
               type: 'success'
             });
-            this.getList(this.CurrentPage, this.pageSize, this.pd);
+            this.getList(this.CurrentPage, this.pageSize, this.pd,this.orders,this.direction);
           } else {
             this.$message.error(r.Message);
           }
@@ -898,7 +913,7 @@ export default {
                 type: 'success'
               });
               this.AuthDialogVisible = false;
-              this.getList(this.CurrentPage, this.pageSize, this.pd);
+              this.getList(this.CurrentPage, this.pageSize, this.pd,this.orders,this.direction);
             } else {
               this.$message.error(r.Message);
             }
