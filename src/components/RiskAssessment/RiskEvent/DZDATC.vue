@@ -479,7 +479,7 @@
           <div class="stepContent" v-for="(j,key) in descStep" style="margin-bottom:20px;">
            <div style="color:#409EFF" @click="j.bon=!j.bon" class='hand'>{{j.year}}年<i :class="j.bon?'el-icon-caret-bottom':'el-icon-caret-right'"></i></div>
             <el-steps direction="vertical" :active="1" :style="{height:60*j.message.length+'px'}" style="margin-left: 47px;margin-top: 10px;" v-if="j.bon">
-              <el-step title="" v-for="(item,index) in j.message">
+              <el-step title="" v-for="(item,index) in j.message" :key="index">
                 <template slot="description">
                   <div class="" style="backgroundColor:#eee;padding: 3px;box-sizing: border-box;margin-top: -12px;border-radius: 3px;">
                     <div class="fz14">
