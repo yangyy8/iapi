@@ -438,12 +438,8 @@ export default {
         "begintime":this.pd.begintime,
         "endtime":this.pd.endtime,
         "flighttype":this.pd.flighttype,
-        "continentfrom":this.pd.continentfrom,
-        "countryfrom":this.pd.countryfrom,
-        "cityfrom":this.pd.cityfrom,
-        "portfrom":this.pd.portfrom,
-        "cityto":this.pd.cityto,
-        "portto":this.pd.portto,
+        "stationfromList":this.pd.stationfromList,
+        "stationtoList":this.pd.stationtoList,
         "colproperty":this.typerow=='continent'?1:this.typerow=='country'?2:this.typerow=='city'?3:4,
         "myid":i.myid
       }
@@ -471,14 +467,16 @@ export default {
           "begintime":this.pd.begintime,
           "endtime":this.pd.endtime,
           "flighttype":this.pd.flighttype,
-          "continentfrom":this.pd.continentfrom,
-          "countryfrom":this.pd.countryfrom,
-          "cityfrom":this.pd.cityfrom,
-          "portfrom":this.pd.portfrom,
-          "cityto":this.pd.cityto,
-          "portto":this.pd.portto,
+          // "continentfrom":this.pd.continentfrom,
+          // "countryfrom":this.pd.countryfrom,
+          // "cityfrom":this.pd.cityfrom,
+          // "portfrom":this.pd.portfrom,
+          // "cityto":this.pd.cityto,
+          // "portto":this.pd.portto,
           "colproperty":this.typerow=='continent'?1:this.typerow=='country'?2:this.typerow=='city'?3:4,
-          "myid":this.myidChange
+          "myid":this.myidChange,
+          "stationfromList":this.pd.stationfromList,
+          "stationtoList":this.pd.stationtoList,
         }
       }else if(this.daochuFlag==1){
         p=this.pd
@@ -523,7 +521,6 @@ export default {
       console.log(`当前页: ${val}`);
     },
     getList(currentPage, showCount, pd) {
-      console.log('this.pd.cityto',this.pd.cityto)
       if (this.pd.begintime == null || this.pd.endtime == null) {
         this.$alert('时间范围不能为空', '提示', {
           confirmButtonText: '确定',
@@ -560,12 +557,6 @@ export default {
 
         "begintime": pd.begintime,
         "endtime": pd.endtime,
-        // "continentfrom": pd.continentfrom,
-        // "countryfrom": pd.countryfrom,
-        // "cityfrom": pd.cityfrom,
-        // "cityto": pd.cityto,
-        // "portto": pd.portto,
-        // "portfrom": pd.portfrom,
         "flighttype":pd.flighttype,
         "stationfromList":pd.stationfromList,
         "stationtoList":pd.stationtoList
@@ -653,30 +644,18 @@ export default {
     },
 
     download() {
-      //  var url="http://192.168.99.213:8080/manage-platform/dataStatistics/export_fltline";
-      var url = this.$api.rootUrl + "/manage-platform/dataStatistics/export_fltline";
-
-      axios({
-        method: 'post',
-        url: url,
-        // url:'http://192.168.99.206:8080/manage-platform/iapi/exportFileIo/0/600',
-        // url: this.$api.rootUrl+"/manage-platform/iapi/exportFileIo/0/600",
-        data: {
-          "begintime": this.pd.begintime,
-          "endtime": this.pd.endtime,
-          "continentfrom": this.pd.continentfrom,
-          "countryfrom": this.pd.countryfrom,
-          "cityfrom": this.pd.cityfrom,
-          "cityto": this.pd.cityto,
-          "rowproperty": this.typerow,
-          "portto": this.pd.portto,
-          "portfrom": this.pd.portfrom,
-          "flighttype":this.pd.flighttype
-        },
-        responseType: 'blob'
-      }).then(response => {
-        this.downloadM(response)
-      });
+      let p={
+        "begintime": this.pd.begintime,
+        "endtime": this.pd.endtime,
+        "rowproperty": this.typerow,
+        "flighttype":this.pd.flighttype,
+        "stationfromList":this.pd.stationfromList,
+        "stationtoList":this.pd.stationtoList,
+      }
+      this.$api.post('/manage-platform/dataStatistics/export_fltline',p,
+       r =>{
+         this.downloadM(r)
+       },e=>{},'','blob')
     },
     downloadM(data,type) {
       if (!data) {

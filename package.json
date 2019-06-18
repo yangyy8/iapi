@@ -23,7 +23,9 @@
     "jquery": "^3.4.1",
     "jspdf": "^1.4.1",
     "lib-flexible": "^0.3.2",
+    "location": "0.0.1",
     "multi-cascader": "^1.1.0",
+    "navigator": "^1.0.1",
     "px2rem-loader": "^0.1.9",
     "v-verify": "^1.1.1",
     "vue": "^2.5.2",
@@ -33,7 +35,8 @@
     "vue-router": "^3.0.1",
     "vue-verify-pop": "^0.1.5",
     "wangeditor": "^3.1.1",
-    "xlsx": "^0.13.3"
+    "xlsx": "^0.13.3",
+    "xmlhttprequest": "^1.8.0"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",

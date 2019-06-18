@@ -1314,17 +1314,17 @@
                   <el-table-column
                     :show-overflow-tooltip="true"
                     label="登记单位"
-                    prop="">
+                    prop="curr_lps_name">
                   </el-table-column>
                   <el-table-column
                     :show-overflow-tooltip="true"
                     label="登记时间"
-                    prop="">
+                    prop="rsdt_start_date">
                   </el-table-column>
                   <el-table-column
                     :show-overflow-tooltip="true"
                     label="住宿地点"
-                    prop="">
+                    prop="curr_address">
                   </el-table-column>
                 </el-table>
                 <div class="box1-more" v-if="data11_1.length>0">
@@ -2955,6 +2955,8 @@ export default {
       if(val.query.nationality&&val.query.passportno){
         this.nationality=val.query.nationality;
         this.passportno=val.query.passportno;
+        this.personId=this.$route.query.personId;
+        this.idcard=this.$route.query.idcard;
         this.getUsers();
         this.getUserBaseInfo();
         this.getUserTagInfo();
