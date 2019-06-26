@@ -325,58 +325,62 @@ export default {
           this.$message.error('请选择处理结果！');
           return
         }
-
       }
       let arr1=this.listData;
       console.log("arr1",arr1)
       let p={
         list:[],
         userId:this.user.userId,
-        "hit":this.gdform.hit
+        "hit":this.gdform.hit,
       };
       console.log("arr1.length",arr1.length)
       if(arr1.length){
         console.log("gtitle1",this.gtitle,this.gdform.processorResult)
         let that=this;
         for(var i=0;i<arr1.length;i++){
-          let a={
-            "eventSerial":arr1[i].serial,
-            "newcheckresult":arr1[i].newcheckresult,
-            "archive_pepole":arr1[i].archive_pepole,
-            "nationality":arr1[i].nationality,
-            "passportno":arr1[i].passportno,
-            "describe":that.gdform.describe,
-            "type":this.gt,
-            "IOType":that.gdform.processorResult[0]||'',
-            "firstType":that.gdform.processorResult[1]||'',
-            "secondType":that.gdform.processorResult[2]||'',
-            "operation_type":1,
-            "tag_type":2,
-            "tagList":that.checkedtag,
-
+          if(arr1[i].serial){
+            let a={
+              "eventSerial":arr1[i].serial,
+              "newcheckresult":arr1[i].newcheckresult,
+              "archive_pepole":arr1[i].archive_pepole,
+              "nationality":arr1[i].nationality,
+              "passportno":arr1[i].passportno,
+              "describe":that.gdform.describe,
+              "type":this.gt,
+              "IOType":that.gdform.processorResult[0]||'',
+              "firstType":that.gdform.processorResult[1]||'',
+              "secondType":that.gdform.processorResult[2]||'',
+              "operation_type":1,
+              "tag_type":2,
+              "tagList":that.checkedtag,
+            }
+            p.list.push(a)
           }
-          p.list.push(a)
+
         }
 
       }else{
         console.log("gtitle2",this.gtitle,this.gdform.processorResult)
-       p.list=[
-         {
-           "eventSerial":arr1.serial,
-           "newcheckresult":arr1.newcheckresult,
-           "archive_pepole":arr1.archive_pepole,
-           "nationality":arr1.nationality,
-           "passportno":arr1.passportno,
-           "describe":this.gdform.describe,
-           "type":this.gt,
-           "IOType":this.gdform.processorResult[0]||'',
-           "firstType":this.gdform.processorResult[1]||'',
-           "secondType":this.gdform.processorResult[2]||'',
-           "operation_type":1,
-           "tag_type":2,
-           "tagList":this.checkedtag,
-         }
-       ]
+        if(arr1.serial){
+          p.list=[
+            {
+              "eventSerial":arr1.serial,
+              "newcheckresult":arr1.newcheckresult,
+              "archive_pepole":arr1.archive_pepole,
+              "nationality":arr1.nationality,
+              "passportno":arr1.passportno,
+              "describe":this.gdform.describe,
+              "type":this.gt,
+              "IOType":this.gdform.processorResult[0]||'',
+              "firstType":this.gdform.processorResult[1]||'',
+              "secondType":this.gdform.processorResult[2]||'',
+              "operation_type":1,
+              "tag_type":2,
+              "tagList":this.checkedtag,
+            }
+          ]
+        }
+
       }
 
       this.$api.post('/manage-platform/riskEventController/saveBatchEventArchiveInfo',p,

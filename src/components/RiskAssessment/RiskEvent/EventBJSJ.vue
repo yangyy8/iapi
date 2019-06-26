@@ -1115,15 +1115,18 @@ export default {
       };
       let that=this;
       for(var i=0;i<arr1.length;i++){
-        let a={
-          "processorResult":that.czform.processorResult,
-    			"change_port":that.czform.change_port,
-    			"processor_desc":that.czform.processor_desc,
-        	"processor_people":this.user.userId,
-          "check_stage":that.czform.check_stage,
-    			"serial":arr1[i].serial
+        if(arr1[i].serial){
+          let a={
+            "processorResult":that.czform.processorResult,
+            "change_port":that.czform.change_port,
+            "processor_desc":that.czform.processor_desc,
+            "processor_people":this.user.userId,
+            "check_stage":that.czform.check_stage,
+            "serial":arr1[i].serial
+          }
+          p.list.push(a)
         }
-        p.list.push(a)
+
       }
 
       this.$api.post('/manage-platform/riskEventController/updateBatchDisposeEventInfo',p,
