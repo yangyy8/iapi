@@ -176,6 +176,10 @@
           label="操作时间"  width="170">
         </el-table-column>
         <el-table-column
+          prop="APPROVER" sortable
+          label="审批人"  width="170">
+        </el-table-column>
+        <el-table-column
           label="操作" width="120">
           <template slot-scope="scope">
               <el-button type="text"  class="a-btn"  title="详情"  icon="el-icon-tickets" @click="details(scope.row)"></el-button>
@@ -305,14 +309,18 @@
           </el-col>
         </el-row>
         <el-row type="flex" class="mb-6">
+          <el-col :span="12" class="input-item my-form-group" data-scope="demo1" data-name="APPROVER"
+          data-type="select"  v-validate-easy="[['required']]">
+            <span class="yy-input-text" style="width:18%"><font class="yy-color">*</font> 审批人：</span>
+            <el-input placeholder="请输入内容" size="small" v-model="form.APPROVER"   maxlength="20" class="yy-input-input"></el-input>
+          </el-col>
+        </el-row>
+        <el-row type="flex" class="mb-6">
           <el-col :span="24" class="input-item">
             <span class="input-text" style="width:12.5%">事件描述：</span>
             <el-input type="textarea"  placeholder="请输入内容" maxlength="600" :autosize="{ minRows: 3, maxRows: 6}" v-model="form.EVENTCOUNT" style="width:84%;"></el-input>
-
           </el-col>
-
         </el-row>
-
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="addItem('addForm')" size="small">确 定</el-button>
@@ -384,6 +392,12 @@
           <span class="yy-input-input detailinput">  {{mapForm.CREATETIME}}</span>
           </el-col>
         </el-row>
+        <el-row type="flex" class="mb-6" >
+          <el-col :span="12" class="input-item">
+            <span class="yy-input-text">申请人：</span>
+          <span class="yy-input-input detailinput">  {{mapForm.APPROVER}}</span>
+          </el-col>
+          </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="detailsDialogVisible = false" size="small">取 消</el-button>
@@ -476,7 +490,7 @@ export default {
       multipleSelection: [],
       mdtype: [],
 
-      form: {},
+      form: {FAMILYNAME:''},
       mapForm: {},
       Airport: [],
       typecode: ""
@@ -587,8 +601,10 @@ export default {
       if (n != 0) {
         this.tp = 1;
         // this.form = i;
+
         this.form = Object.assign({}, i);
-        this.form.FAMILYNAME = i.RISKDICTIONARIES;
+        this.$set(this.form,'FAMILYNAME',i.RISKDICTIONARIES)
+        // this.form.FAMILYNAME = i.RISKDICTIONARIES;
         this.dialogText = "编辑";
       } else {
         this.tp = 0;

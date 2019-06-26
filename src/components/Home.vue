@@ -161,6 +161,7 @@ export default {
   },
   data() {
     return {
+      loginType:0,//第三方登录
       dateData:{
         year:'',
         mm:"",
@@ -254,15 +255,20 @@ export default {
       color: ['#11fb44', '#dcbf71'], // 自定义图中要用到的颜色
       series:[], // 用来存储地图数据
       timer:null,
+      loginId:'1',
+      dlType:0,
+      dlState:'',
+      dlmessage:'',
     };
   },
   mounted() {
     this.fn();
     var _this=this;
-    _this.getSatus();
+    // _this.getdlType(); //第三方
+    _this.getSatus()
     this.timer=setInterval(function(){
-      _this.getSatus();
-
+      // _this.getdlType();//第三方
+        _this.getSatus()
     },1200000)
 
     this.getTime();
@@ -341,18 +347,87 @@ export default {
     cdOut(){
       this.ccd = "0"
     },
+    window_close(){
+      // if (navigator.userAgent.indexOf("Firefox") != -1 || navigator.userAgent.indexOf("Chrome") !=-1) {
+      //       // window.location.href="http://localhost/fastflow/winform/cn/myprocessform.aspx";
+      //       window.location.href = "about:blank";
+      //       window.close();
+      //   } else {
+            //window.opener = null;
+
+
+     //        window.opener = window;
+     //         var win = window.open("","_self");
+     //         win.close();
+
+            // var href = window.location.href;  
+            // window.open(href,"_self","");  
+            // window.close();  
+
+            window.location.href="about:blank";
+            window.close()
+            sessionStorage.setItem('thirdLogin','');
+            sessionStorage.setItem('sessionUser','');
+
+            alert('任智强++++')
+            //window.close();
+        // }
+    },
+    getdlType(){
+      this.$api.post('/manage-platform/landingMessage',{},
+        r =>{
+          this.dlType = r.code;
+          this.dlState = r.success;
+          this.dlmessage = r.message;
+          this.getSatus()
+        })
+    },
     getSatus(){
       this.$api.post('/manage-platform/isLanding',{},
-       r => {
-         this.isLogin=r.data;
-         if(this.isLogin){
-           this.getUers();
-           this.getNav0();
-         }else{
-           // console.log("==============",this.isLogin)
-           this.$router.push({name:"Home"})
-         }
-      })
+        r => {
+          this.isLogin=r.data;
+          if(this.isLogin){
+            this.getUers();
+            this.getNav0();
+          }else{
+            this.$router.push({name:"Home"})
+          }
+       })
+
+
+
+     //  console.log('this.dlType',this.dlType);
+     //  console.log(window.location.href.indexOf('login')!=-1);
+     //  if(!(window.location.href.indexOf('/login')!=-1)&&(this.dlType==1)){
+     //    this.$alert('无效登录', '温馨提示', {
+     //    confirmButtonText: '确定',
+     //    type: 'warning',
+     //    callback: action => {
+     //      this.window_close();
+     //      this.dlType = null;
+     //      return;
+     //    }})}else if(this.dlType==2){
+     //    this.$api.post('/manage-platform/isLanding',{},
+     //      r =>{
+     //       this.isLogin=r.data;
+     //       if(this.isLogin){
+     //          if(this.dlState){
+     //            this.getUers();
+     //            this.getNav0();
+     //          }else{
+     //            this.$confirm(this.dlmessage, '提示', {
+     //               confirmButtonText: '确定',
+     //               type: 'warning'
+     //             }).then(() => {
+     //               this.window_close();
+     //               this.dlType = null;
+     //             }).catch(() => {
+     //
+     //             });
+     //          }
+     //        }
+     //     })
+     // }
     },
     getUers(){
       this.$api.post('/manage-platform/homePage/userInfo',{},
@@ -403,12 +478,9 @@ export default {
             message: '退出成功',
             type: 'success'
           });
-          // this.isLogin=false;
-          // this.$router.push({path:'/',query:{isLogin:false}})
           this.$router.go(0)
         }
       })
-      // this.$router.go(0)
     },
     getNav0(){
       this.$api.post('/manage-platform/muneSys/selectMenuOne',{},

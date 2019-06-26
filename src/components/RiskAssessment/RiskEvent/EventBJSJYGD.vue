@@ -317,7 +317,7 @@
           </el-table-column>
           <el-table-column
             label="归档人"
-            prop="processor_peopleName"
+            prop="archive_pepoleName"
             min-width="60"
             :show-overflow-tooltip="true">
           </el-table-column>

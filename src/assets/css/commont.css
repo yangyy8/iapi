@@ -222,6 +222,9 @@
   color: red;
   padding: 2px;
 }
+.error-btn .el-icon-error{
+  color:#68bf45
+}
 .detailInp{
   width: 80%!important;
   border: 1px solid #eeeeee;

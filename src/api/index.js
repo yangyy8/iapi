@@ -5,8 +5,9 @@
 
 // var root="http://192.168.99.206:8080"
 // var root="http://192.168.99.201:8080"
-var root=""
-// var root="http://192.168.99.234:8080"
+// var root=""
+var root="http://192.168.99.234:8080"
+// var root="http://192.168.99.244:8080"
 // var root="http://192.168.99.242:8081"
 // var root="http://192.168.99.248:8081"
 // var root="http://192.168.99.247:8080"
@@ -40,6 +41,19 @@ function filterNull(o) {
   }
   return o
 }
+function window_close(){
+  // if (navigator.userAgent.indexOf("Firefox") != -1 || navigator.userAgent.indexOf("Chrome") !=-1) {
+  //       window.location.href="http://localhost/fastflow/winform/cn/myprocessform.aspx";
+  //       window.close();
+  //   } else {
+         // window.opener = null;
+         // window.open("", "_self","");
+         // window.close();
+         window.location.href="about:blank";
+         window.close()
+         alert('任智强')
+    // }
+}
 function isLOGIN(){
   let a;
 
@@ -59,6 +73,7 @@ function isLOGIN(){
       callback: action => {
         // window.location.href ="#/";
         window.location.reload();
+        // window_close()
         return;
       }})
     }

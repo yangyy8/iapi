@@ -392,7 +392,7 @@
               <el-button type="text" class="t-btn mr-5" icon="el-icon-edit-outline" v-if="pd.type!=4" title="处理" @click="handel(scope.row)"></el-button>
               <el-button type="text" class="t-btn mr-5" icon="el-icon-edit-outline" v-if="pd.type==4" title="归档追加" @click="openGdTc(scope.row)"></el-button>
               <el-button type="text" class="t-btn" icon="el-icon-success" v-if="scope.row.yl_two=='否'" title="推送梅沙" @click="pushMeisha(scope.row)"></el-button>
-              <el-button type="text" class="t-btn" icon="el-icon-error" v-if="scope.row.yl_two=='是'" title="撤销推送" @click="cancelMeisha(scope.row)"></el-button>
+              <el-button type="text" class="t-btn error-btn" icon="el-icon-error" v-if="scope.row.yl_two=='是'" title="撤销推送" @click="cancelMeisha(scope.row)"></el-button>
               <!-- <el-button type="text" class="t-btn" icon="el-icon-success" title="推送梅沙" @click="pushMeisha(scope.row)"></el-button> -->
               <!-- <el-button type="text" class="t-btn" icon="el-icon-error" title="撤销推送" @click="cancelMeisha(scope.row)"></el-button> -->
             </template>

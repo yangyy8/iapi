@@ -476,12 +476,13 @@
           <div class="title-green mt-10 mb-15">
             处理意见
           </div>
+          <span>{{descData.deal_opinion}}</span>
           <div class="stepContent" v-for="(j,key) in descStep" style="margin-bottom:20px;">
            <div style="color:#409EFF" @click="j.bon=!j.bon" class='hand'>{{j.year}}年<i :class="j.bon?'el-icon-caret-bottom':'el-icon-caret-right'"></i></div>
-            <el-steps direction="vertical" :active="1" :style="{height:60*j.message.length+'px'}" style="margin-left: 47px;margin-top: 10px;" v-if="j.bon">
-              <el-step title="" v-for="(item,index) in j.message" :key="index">
+            <el-steps direction="vertical" :active="1"  style="margin-left: 47px;margin-top: 10px;" v-if="j.bon">
+              <el-step title="" v-for="(item,index) in j.message" :key="index" style="min-height:60px;">
                 <template slot="description">
-                  <div class="" style="backgroundColor:#eee;padding: 3px;box-sizing: border-box;margin-top: -12px;border-radius: 3px;">
+                  <div class="" style="backgroundColor:#eee;padding: 3px;box-sizing: border-box;margin-top: -12px;border-radius: 3px;margin-bottom:10px">
                     <div class="fz14">
                       <span>{{item.pers_deal_flag}}</span>
                       <span> | 处理时间：{{item.deal_dt}}</span>
@@ -490,7 +491,7 @@
                     </div>
                     <div class="fz14" style="color:#000">
                       <span>人员姓名：{{item.confess_name}}</span>
-                      <span> | 处理结果：{{item.ill_deal_rsn_na}}</span>
+                      <span> | 处理结果：{{item.deal_opinion}}</span>
                     </div>
                   </div>
                 </template>
