@@ -825,7 +825,14 @@ export default {
     },
     //无关闭报航班
      getList1(currentPage, showCount, pd) {
-
+       this.tableData1=[];
+       this.TotalResult1=0;
+       this.tableData2=[];
+       this.TotalResult2=0;
+       this.tableData3=[];
+       this.TotalResult3=0;
+       this.tableData4=[];
+       this.TotalResult4=0;
        let p = {
          "currentPage": currentPage,
          "showCount": showCount,
@@ -838,11 +845,13 @@ export default {
            if (r.success) {
              this.tableData1 = r.data.resultList;
              this.TotalResult1 = r.data.totalResult;
+            this.getList2(this.CurrentPage2, this.pageSize2, pd);
            }
          });
      },
      //晚报关闭报航班
       getList2(currentPage, showCount, pd) {
+
         let p = {
           "currentPage": currentPage,
           "showCount": showCount,
@@ -854,6 +863,7 @@ export default {
             if (r.success) {
               this.tableData2 = r.data.resultList;
               this.TotalResult2 = r.data.totalResult;
+              this.getList3(this.CurrentPage3, this.pageSize3, pd);
             }
           });
       },
@@ -871,6 +881,7 @@ export default {
              if (r.success) {
                this.tableData3 = r.data.resultList;
                this.TotalResult3= r.data.totalResult;
+               this.getList4(this.CurrentPage4, this.pageSize4,pd);
              }
            });
        },
@@ -900,9 +911,9 @@ export default {
      this.pd0.endtime=this.pd.endtime;
      console.log(i.fltno+"---------");
      this.getList1(this.CurrentPage1, this.pageSize1, this.pd0);
-     this.getList2(this.CurrentPage2, this.pageSize2, this.pd0);
-     this.getList3(this.CurrentPage3, this.pageSize3, this.pd0);
-     this.getList4(this.CurrentPage4, this.pageSize4, this.pd0);
+     // this.getList2(this.CurrentPage2, this.pageSize2, this.pd0);
+     // this.getList3(this.CurrentPage3, this.pageSize3, this.pd0);
+     // this.getList4(this.CurrentPage4, this.pageSize4, this.pd0);
    },
 
     download(n){

@@ -751,6 +751,12 @@ export default new Router({
 
           ]
         },
+        //特殊中国人
+        {
+          path: "TSZGR",
+          name: "TSZGR",
+          component: resolve => require(['@/components/RiskAssessment/RiskEvent/TSZGR'], resolve),
+        },
         // 已归档风险报警事件
         {
           path: "EventBJSJYGD",

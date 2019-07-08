@@ -18,7 +18,7 @@
       <div class="top-right">
         <div class="top-nav">
           <ul class="top-nav-ul" v-if="navUlShow">
-            <li class="top-nav-li hand" @click="$router.push('/')">
+            <li class="top-nav-li hand" @click="$router.push('/login')">
               首页
             </li>
             <li class="top-nav-li hand" v-for="i in muneListOne" :class="{'topCheckLi':navId==i.SERIAL}" @click="topNavTo(i.SERIAL)">

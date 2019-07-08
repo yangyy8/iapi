@@ -189,7 +189,9 @@
           <div class="ak-tab-item hand" :class="{'ak-checked':pd.type=='4'}" @click="pd.type='4';getList(CurrentPage,pageSize,pd,orders,direction)">
             已归档
           </div>
-
+          <div class="ak-tab-item hand" :class="{'ak-checked':pd.type=='6'}" @click="pd.type='6';getList(CurrentPage,pageSize,pd,orders,direction)">
+            处理中
+          </div>
         </div>
       </div>
       <div class="ak-tab-pane pt-10" @mouseover="mouseHeader">
@@ -329,7 +331,7 @@
           <el-table-column
             label="当前状态"
             prop="status"
-            sortable="custom"
+
             min-width="50"
             :show-overflow-tooltip="true">
             <template slot-scope="scope">
@@ -389,8 +391,8 @@
             min-width="85">
             <template slot-scope="scope">
               <el-button type="text" class="t-btn mr-5" icon="el-icon-view" title="查看" @click="$router.push({name:'BJSJCK',query:{row:scope.row,idcard:scope.row.idcard,serial:scope.row.serial,grade:scope.row.grade,yl_two:scope.row.yl_two,page:0,nav2Id:scope.row.serial,risk:1,title:scope.row.name+'事件查看'}})"></el-button>
-              <el-button type="text" class="t-btn mr-5" icon="el-icon-edit-outline" v-if="pd.type!=4" title="处理" @click="handel(scope.row)"></el-button>
-              <el-button type="text" class="t-btn mr-5" icon="el-icon-edit-outline" v-if="pd.type==4" title="归档追加" @click="openGdTc(scope.row)"></el-button>
+              <el-button type="text" class="t-btn mr-5" icon="el-icon-edit-outline" v-if="pd.type!=4&&scope.row.status!=4" title="处理" @click="handel(scope.row)"></el-button>
+              <el-button type="text" class="t-btn mr-5" icon="el-icon-edit-outline" v-if="pd.type==4||scope.row.status==4" title="归档追加" @click="openGdTc(scope.row)"></el-button>
               <el-button type="text" class="t-btn" icon="el-icon-success" v-if="scope.row.yl_two=='否'" title="推送梅沙" @click="pushMeisha(scope.row)"></el-button>
               <el-button type="text" class="t-btn error-btn" icon="el-icon-error" v-if="scope.row.yl_two=='是'" title="撤销推送" @click="cancelMeisha(scope.row)"></el-button>
               <!-- <el-button type="text" class="t-btn" icon="el-icon-success" title="推送梅沙" @click="pushMeisha(scope.row)"></el-button> -->

@@ -144,6 +144,13 @@
                   <el-option label="否" value="0"></el-option>
                 </el-select>
               </el-col>
+              <el-col :sm="24" :md="12"  :lg="8" class="input-item">
+                <span class="input-text">是否查获：</span>
+                <el-select v-model="pd.hit" placeholder="请选择"  size="small" clearable filterable class="block input-input">
+                  <el-option label="已查获" value="1"></el-option>
+                  <el-option label="未查获" value="0"></el-option>
+                </el-select>
+              </el-col>
             </el-row>
             </el-collapse-transition>
           </el-col>

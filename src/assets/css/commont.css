@@ -196,7 +196,9 @@
  .t-fuzzy .el-input{
    width: 59%!important;
  }
-
+.t-radioClass{
+  margin-bottom: 10px
+}
  .el-dialog__wrapper{
    overflow: visible!important;
  }

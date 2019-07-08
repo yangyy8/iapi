@@ -264,11 +264,11 @@ export default {
   mounted() {
     this.fn();
     var _this=this;
-    // _this.getdlType(); //第三方
-    _this.getSatus()
+    _this.getdlType(); //第三方
+    // _this.getSatus()
     this.timer=setInterval(function(){
-      // _this.getdlType();//第三方
-        _this.getSatus()
+      _this.getdlType();//第三方
+        // _this.getSatus()
     },1200000)
 
     this.getTime();
@@ -365,11 +365,7 @@ export default {
             // window.close();  
 
             window.location.href="about:blank";
-            window.close()
-            sessionStorage.setItem('thirdLogin','');
-            sessionStorage.setItem('sessionUser','');
-
-            alert('任智强++++')
+            window.close();
             //window.close();
         // }
     },
@@ -383,51 +379,51 @@ export default {
         })
     },
     getSatus(){
-      this.$api.post('/manage-platform/isLanding',{},
-        r => {
-          this.isLogin=r.data;
-          if(this.isLogin){
-            this.getUers();
-            this.getNav0();
-          }else{
-            this.$router.push({name:"Home"})
-          }
-       })
+      // this.$api.post('/manage-platform/isLanding',{},
+      //   r => {
+      //     this.isLogin=r.data;
+      //     if(this.isLogin){
+      //       this.getUers();
+      //       this.getNav0();
+      //     }else{
+      //       this.$router.push({name:"Home"})
+      //     }
+      //  })
 
 
 
-     //  console.log('this.dlType',this.dlType);
-     //  console.log(window.location.href.indexOf('login')!=-1);
-     //  if(!(window.location.href.indexOf('/login')!=-1)&&(this.dlType==1)){
-     //    this.$alert('无效登录', '温馨提示', {
-     //    confirmButtonText: '确定',
-     //    type: 'warning',
-     //    callback: action => {
-     //      this.window_close();
-     //      this.dlType = null;
-     //      return;
-     //    }})}else if(this.dlType==2){
-     //    this.$api.post('/manage-platform/isLanding',{},
-     //      r =>{
-     //       this.isLogin=r.data;
-     //       if(this.isLogin){
-     //          if(this.dlState){
-     //            this.getUers();
-     //            this.getNav0();
-     //          }else{
-     //            this.$confirm(this.dlmessage, '提示', {
-     //               confirmButtonText: '确定',
-     //               type: 'warning'
-     //             }).then(() => {
-     //               this.window_close();
-     //               this.dlType = null;
-     //             }).catch(() => {
-     //
-     //             });
-     //          }
-     //        }
-     //     })
-     // }
+      console.log('this.dlType',this.dlType);
+      console.log(window.location.href.indexOf('login')!=-1);
+      if(!(window.location.href.indexOf('/login')!=-1)&&(this.dlType==1)){
+        this.$alert('无效登录', '温馨提示', {
+        confirmButtonText: '确定',
+        type: 'warning',
+        callback: action => {
+          this.window_close();
+          this.dlType = null;
+          return;
+        }})}else if(this.dlType==2){
+        this.$api.post('/manage-platform/isLanding',{},
+          r =>{
+           this.isLogin=r.data;
+           if(this.isLogin){
+              if(this.dlState){
+                this.getUers();
+                this.getNav0();
+              }else{
+                this.$confirm(this.dlmessage, '提示', {
+                   confirmButtonText: '确定',
+                   type: 'warning'
+                 }).then(() => {
+                   this.window_close();
+                   this.dlType = null;
+                 }).catch(() => {
+
+                 });
+              }
+            }
+         })
+     }
     },
     getUers(){
       this.$api.post('/manage-platform/homePage/userInfo',{},

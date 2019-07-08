@@ -152,7 +152,7 @@
             </el-table-column>
             <el-table-column
               prop="boardingcount" sortable
-              label="出入境人员数量"
+              label="实际出入境人员数量"
               >
             </el-table-column>
             <el-table-column

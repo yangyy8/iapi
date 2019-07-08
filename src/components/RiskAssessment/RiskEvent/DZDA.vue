@@ -29,10 +29,11 @@
                       <span>国籍/地区：</span>
                       {{data0.NATIONALITY_NAME}}
                     </el-col>
-                    <el-col :span="8">
-                      <span>出入类型：</span>
-                      {{data0.FLIGHTTYPE_NAME}}
-                    </el-col>
+                    <!-- <el-col :span="8">
+                      <span>在逃人员：</span>
+                      {{data0.NATIONALITY_NAME}}
+                    </el-col> -->
+
                     <el-col :span="8">
                       <span>性别：</span>
                       {{data0.GENDER_NAME}}
@@ -41,14 +42,35 @@
                       <span>证件号码：</span>
                       {{data0.PASSPORTNO}}
                     </el-col>
-                    <el-col :span="8">
-                      <span>风评结果：</span>
-                      {{data0.NEWCHECKRESULT}}
-                    </el-col>
+                    <!-- <el-col :span="8">
+                      <span>重点关注：</span>
+                      {{data0.NATIONALITY_NAME}}
+                    </el-col> -->
+
                     <el-col :span="8">
                       <span>出生日期：</span>
                       {{data0.BIRTHDAY}}
                     </el-col>
+                    <el-col :span="8">
+                      <span>出入类型：</span>
+                      {{data0.FLIGHTTYPE_NAME}}
+                    </el-col>
+                    <!-- <el-col :span="8">
+                      <span>宣布作废证件：</span>
+                      {{data0.FLIGHTTYPE_NAME}}
+                    </el-col> -->
+                    <!-- <el-col :span="8">
+                      <span>电话号码：</span>
+                      {{data0.FLIGHTTYPE_NAME}}
+                    </el-col> -->
+                    <el-col :span="8">
+                      <span>风评结果：</span>
+                      {{data0.NEWCHECKRESULT}}
+                    </el-col>
+                    <!-- <el-col :span="8">
+                      <span>重点信息采集：</span>
+                      {{data0.NEWCHECKRESULT}}
+                    </el-col> -->
                   </el-row>
                   <div class="ak-tip">
                     注：
@@ -2101,7 +2123,7 @@
       </div> -->
     </el-dialog>
     <el-dialog title="查看详情" :visible.sync="detailsDialogVisible">
-      <Detail :detailType="0" :SERIAL="data0.iapiHeadSerial" :CHK_SERIAL="''" :PNR_TID="''" :PNR_TKTNUMBER="''" :PNR_TRAVELLER_SURNAME_TIF="''" :PNR_TRAVELLER_GIVEN_NAME_TIF="''"></Detail>
+      <Detail :detailType="0" :SERIAL="data0.iapiHeadSerial" :globalserialZH="globalserialZH" :CHK_SERIAL="''" :PNR_TID="''" :PNR_TKTNUMBER="''" :PNR_TRAVELLER_SURNAME_TIF="''" :PNR_TRAVELLER_GIVEN_NAME_TIF="''"></Detail>
       <div slot="footer" class="dialog-footer">
         <el-button @click="detailsDialogVisible = false" size="small">取消</el-button>
       </div>
@@ -2151,6 +2173,7 @@ import Detail from '../../BusinessApplications/InformationInquiry/DetailRYXX'
 export default {
   data(){
     return{
+      globalserialZH:'',
       changeType:'',
       photoDialogVisible:false,
       nationality:'',
@@ -2475,6 +2498,7 @@ export default {
         });
         return
       }
+      this.globalserialZH=new Date().getTime();
       this.detailsDialogVisible=true
     },
     pageSizeChange(val) {

@@ -411,12 +411,22 @@
     </el-dialog>
 
     <el-dialog title="使用口岸" :visible.sync="useDialogVisible" width="700px">
-
-  <el-transfer
-    v-model="value2"
-    :titles="['全选', '全选']"
-    :data="data2">
-  </el-transfer>
+       <el-radio-group v-model="radio" @change="radioChange" class="t-radioClass">
+        <el-radio  :label="1">中心</el-radio>
+        <el-radio  :label="2">口岸</el-radio>
+      </el-radio-group>
+      <el-transfer
+        v-model="value2"
+        :titles="['全选', '全选']"
+        :data="data2"
+        v-show="radio==1">
+      </el-transfer>
+      <el-transfer
+        v-model="value3"
+        :titles="['全选', '全选']"
+        :data="data3"
+        v-show="radio==2">
+      </el-transfer>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary"  @click="addUse()" size="small">保 存</el-button>
         <el-button @click="useDialogVisible = false" size="small">取 消</el-button>
@@ -464,14 +474,17 @@ export default {
       return data;
     };
     return {
+      radio:1,
       orders:['CREATE_TIME'],
       direction:0,
       tp: 0,
       ap: {},
       data: generateData(),
       value1: [],
-      data2: generateData(),
+      data2: [],
       value2: [],
+      data3: [],
+      value3: [],
       CurrentPage: 1,
       pageSize: 10,
       TotalResult: 0,
@@ -837,31 +850,61 @@ export default {
         });
       this.menuDialogVisible = false;
     },
+    radioChange(){
+
+    },
     auses(i) {
       this.useDialogVisible = true;
-      this.data2 = [];
-      this.value2 = [];
-      let p = {
-        "MODEL_CODE": i.MODEL_CODE
-      };
-      this.mocode = i.MODEL_CODE;
-      this.$api.post('/manage-platform/model/portAll', p,
-        r => {
-          for (let rr of r.data.portList) {
-            this.data2.push({
-              key: rr.DEPT_CODE,
-              label: rr.DEPT_JC,
-              disabled: false
-            });
-          }
-          this.value2=r.data.checkPort;
-        });
+      // if(this.radio=='1'){
+        this.data2 = [];
+        this.value2 = [];
+        let p = {
+          "MODEL_CODE": i.MODEL_CODE
+        };
+        this.mocode = i.MODEL_CODE;
+        this.$api.post('/manage-platform/model/portAll', p,
+          r => {
+            for (let rr of r.data.portList) {
+              this.data2.push({
+                key: rr.DEPT_CODE,
+                label: rr.DEPT_JC,
+                disabled: false
+              });
+            }
+            this.value2=r.data.checkPort;
+          });
+      // }else if(this.radio=='2'){
+        this.data3 = [];
+        this.value3 = [];
+        this.$api.post('/manage-platform/model/portAllAdd', p,
+          r => {
+            this.value3=r.data.checkPort;
+            for (let j=0;j<r.data.portList.length;j++) {
+              let obj={disabled:false};
+              obj.key=r.data.portList[j].DEPT_CODE;
+              obj.label=r.data.portList[j].DEPT_JC;
+              for(let i=0;i<r.data.checkPort.length;i++){
+                if(r.data.portList[j].DEPT_CODE==r.data.checkPort[i]){
+                  obj.disabled=true;
+                }
+              }
+              this.data3.push(obj)
+           };
+           console.log('this.data3',this.data3)
+         })
+
 
     },
     addUse() {
       let p = {
-        "MODEL_CODE": this.mocode,
-        "checkPort": this.value2
+        usePort:{
+          "MODEL_CODE": this.mocode,
+          "checkPort": this.value2
+        },
+        bakPort:{
+          "MODEL_CODE": this.mocode,
+          "checkPort": this.value3
+        }
       };
       this.$api.post('/manage-platform/model/savePort', p,
         r => {
@@ -1093,5 +1136,8 @@ export default {
 }
 .el-transfer__buttons {
   width: 4% !important
+}
+.t-radioClass .el-radio+.el-radio {
+    margin-left: 30px!important;
 }
 </style>

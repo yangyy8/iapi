@@ -777,6 +777,7 @@ export default {
       form: {
         "synStatus":"0",
     	  "LIST_TYPE":"1",
+        "DEALTYPE":'1'
       },
       releaseform:{
         user:"",
@@ -957,7 +958,7 @@ export default {
 
       this.dialogText='新增';
       this.dialogType='add';
-      this.form={};
+      this.form={"DEALTYPE":'1'};
       this.form.synStatus="0";
       this.form.LIST_TYPE="1";
       this.V.$reset('demo1');

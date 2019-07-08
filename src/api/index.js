@@ -5,8 +5,8 @@
 
 // var root="http://192.168.99.206:8080"
 // var root="http://192.168.99.201:8080"
-// var root=""
-var root="http://192.168.99.234:8080"
+var root=""
+// var root="http://192.168.99.234:8080"
 // var root="http://192.168.99.244:8080"
 // var root="http://192.168.99.242:8081"
 // var root="http://192.168.99.248:8081"
@@ -51,7 +51,6 @@ function window_close(){
          // window.close();
          window.location.href="about:blank";
          window.close()
-         alert('任智强')
     // }
 }
 function isLOGIN(){
@@ -72,8 +71,8 @@ function isLOGIN(){
       type: 'warning',
       callback: action => {
         // window.location.href ="#/";
-        window.location.reload();
-        // window_close()
+        // window.location.reload();
+        window_close();
         return;
       }})
     }
