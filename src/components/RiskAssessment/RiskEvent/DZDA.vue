@@ -29,10 +29,10 @@
                       <span>国籍/地区：</span>
                       {{data0.NATIONALITY_NAME}}
                     </el-col>
-                    <!-- <el-col :span="8">
+                    <el-col :span="8">
                       <span>在逃人员：</span>
-                      {{data0.NATIONALITY_NAME}}
-                    </el-col> -->
+                      {{escapeFlag}}
+                    </el-col>
 
                     <el-col :span="8">
                       <span>性别：</span>
@@ -42,10 +42,10 @@
                       <span>证件号码：</span>
                       {{data0.PASSPORTNO}}
                     </el-col>
-                    <!-- <el-col :span="8">
+                    <el-col :span="8">
                       <span>重点关注：</span>
-                      {{data0.NATIONALITY_NAME}}
-                    </el-col> -->
+                      {{emphFlag}}
+                    </el-col>
 
                     <el-col :span="8">
                       <span>出生日期：</span>
@@ -55,22 +55,22 @@
                       <span>出入类型：</span>
                       {{data0.FLIGHTTYPE_NAME}}
                     </el-col>
-                    <!-- <el-col :span="8">
+                    <el-col :span="8">
                       <span>宣布作废证件：</span>
-                      {{data0.FLIGHTTYPE_NAME}}
-                    </el-col> -->
-                    <!-- <el-col :span="8">
+                      {{invalidFlag}}
+                    </el-col>
+                    <el-col :span="8">
                       <span>电话号码：</span>
-                      {{data0.FLIGHTTYPE_NAME}}
-                    </el-col> -->
+                      {{phoneFlag}}
+                    </el-col>
                     <el-col :span="8">
                       <span>风评结果：</span>
                       {{data0.NEWCHECKRESULT}}
                     </el-col>
-                    <!-- <el-col :span="8">
+                    <el-col :span="8">
                       <span>重点信息采集：</span>
-                      {{data0.NEWCHECKRESULT}}
-                    </el-col> -->
+                      {{gatherFlag}}
+                    </el-col>
                   </el-row>
                   <div class="ak-tip">
                     注：
@@ -2173,6 +2173,11 @@ import Detail from '../../BusinessApplications/InformationInquiry/DetailRYXX'
 export default {
   data(){
     return{
+      escapeFlag:'',//在逃
+      invalidFlag:'',//作废
+      emphFlag:'',//重点关注
+      gatherFlag:'',//采集
+      phoneFlag:'',
       globalserialZH:'',
       changeType:'',
       photoDialogVisible:false,
@@ -2351,8 +2356,14 @@ export default {
     this.gender='0';
     this.getUsers();
     this.getUserBaseInfo();
+    this.getRecordOtherInfo('escape');
+    this.getRecordOtherInfo('invalid');
+    this.getRecordOtherInfo('emph');
+    this.getRecordOtherInfo('gather');
+    this.getRecordOtherInfo('phone');
     this.getUserTagInfo();
     this.initLater();
+
     // this.init();
 
     this.moreShow=false;
@@ -2779,6 +2790,37 @@ export default {
        r => {
          this.nationalityName=r.data.nationalityName;
          switch (type) {
+           case 'escape':
+              if(r.data.dcap_f_per_rec_escape_info_view.length==0){
+                this.escapeFlag='否'
+              }else{
+                this.escapeFlag='是'
+              }
+              break;
+            case 'invalid':
+               if(r.data.dcap_f_per_cert_invalid_info_view.length==0){
+                 this.invalidFlag='否'
+               }else{
+                 this.invalidFlag='是'
+               }
+               break;
+            case 'emph':
+               if(r.data.dcap_f_per_rec_emph_persons.length==0){
+                 this.emphFlag='否'
+               }else{
+                 this.emphFlag='是'
+               }
+               break;
+            case 'gather':
+               if(r.data.gather.length==0){
+                 this.gatherFlag='否'
+               }else{
+                 this.gatherFlag='是'
+               }
+               break;
+             case 'phone':
+                this.phoneFlag=r.data.phone;
+                break;
            case 'imm':
              if(r.data.data.dcap_f_per_act_psr_imm){
                this.data6=r.data.data.dcap_f_per_act_psr_imm;

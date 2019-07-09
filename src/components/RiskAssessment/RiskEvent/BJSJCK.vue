@@ -15,7 +15,8 @@
             <el-button type="primary" size="small" class="mb-9" style="width:100%" @click="$router.push({name:'DZDA',query:{gender:$route.query.row.gender,personId:page0Data.personId,ename:$route.query.row.name,birth:$route.query.row.birthday,idcard:$route.query.idcard,nationality:page0Data.nationality,passportno:page0Data.passportno,grade:$route.query.grade,type:1,nav2Id:page0Data.passportno+page0Data.nationality,title:page0Data.name+'电子档案'}})">电子档案</el-button>
             <el-button type="primary" size="small" class="mb-9" style="width:100%">综合查询</el-button>
             <el-button type="primary" size="small" class="mb-9" style="width:100%">照片比对</el-button>
-            <el-button type="success" size="small" style="width:100%" :disabled="!operation_type" @click="openGdTc(page0Data)">事件归档</el-button>
+            <el-button type="success" size="small" class="mb-9" style="width:100%" :disabled="!operation_type" @click="openGdTc(page0Data)">事件归档</el-button>
+            <el-button type="primary" size="small" style="width:100%" @click="suspected">疑似关联人</el-button>
           </div>
         </el-col>
         <el-col :span="21">
@@ -727,6 +728,54 @@
         <el-button type="warning" @click="viewMDialogVisible=false" size="small">返回</el-button>
       </div>
     </el-dialog>
+    <el-dialog title="疑似关联人" :visible.sync="susMDialogVisible" width="1000px">
+      <el-table
+        :data="tableDataSus"
+        class="ak-table2"
+        border
+        style="width: 100%">
+        <el-table-column
+          :show-overflow-tooltip="true"
+          label="姓名"
+          prop="ENAME">
+        </el-table-column>
+        <el-table-column
+          :show-overflow-tooltip="true"
+          label="性别"
+          prop="GENDER_NAME">
+        </el-table-column>
+        <el-table-column
+          :show-overflow-tooltip="true"
+          label="出生日期"
+          prop="BIRTHDAY">
+        </el-table-column>
+        <el-table-column
+          :show-overflow-tooltip="true"
+          label="国籍地区"
+          prop="NATIONALITY_NAME">
+        </el-table-column>
+        <el-table-column
+          :show-overflow-tooltip="true"
+          label="证件号码"
+          prop="PASSPORTNO">
+        </el-table-column>
+        <el-table-column
+          :show-overflow-tooltip="true"
+          label="证件类型"
+          prop="INTG_CARDTYPE_NAME">
+        </el-table-column>
+        <el-table-column
+          :show-overflow-tooltip="true"
+          label="航班号"
+          prop="FLTNO">
+        </el-table-column>
+        <el-table-column
+          :show-overflow-tooltip="true"
+          label="到达时间"
+          prop="ARRIVDATE">
+        </el-table-column>
+      </el-table>
+    </el-dialog>
   </div>
 </template>
 
@@ -739,6 +788,8 @@ export default {
 
   data(){
     return{
+      tableDataSus:[],
+      susMDialogVisible:false,
       viewMDialogVisible:false,
       descData:{},
       ccTimer:null,
@@ -786,6 +837,7 @@ export default {
       modelDialogVisible:false,
       modeldec:null,
       imgURL:imgUrl,
+      iapi_id:'',
     }
   },
   mounted(){
@@ -852,6 +904,15 @@ export default {
     }
   },
   methods:{
+    suspected(){//疑似关联人
+      this.susMDialogVisible=true;
+      this.$api.post('/manage-platform/riskEventWarningController/getSuspectedAssociatedPerson',{iapi_id:this.iapi_id},
+       r =>{
+         if(r.success){
+           this.tableDataSus=r.data.list;
+         }
+       })
+    },
     typeChange(){
       this.$set(this.pushMform,'strategy','');
       this.$set(this.pushMform,'message','');
@@ -1021,8 +1082,8 @@ export default {
       this.$api.post('/manage-platform/riskEventWarningController/getRiskIapiInfo',p,
        r => {
          if(r.success){
-
            this.page0Data=r.data;
+           this.iapi_id=r.data.iapi_id;
            this.getRiskEventTagInfo(this.page0Data.passportno,this.page0Data.nationality)
            this.getPhotoInf(r.data.passportno,r.data.nationality,r.data.birthday,r.data.name,r.data.genderName);
            console.log('r.data.personId')
