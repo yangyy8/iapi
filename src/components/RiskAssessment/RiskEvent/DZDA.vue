@@ -56,7 +56,7 @@
                       {{data0.FLIGHTTYPE_NAME}}
                     </el-col>
                     <el-col :span="8">
-                      <span>宣布作废证件：</span>
+                      <span style="width:113px">宣布作废证件：</span>
                       {{invalidFlag}}
                     </el-col>
                     <el-col :span="8">
@@ -68,7 +68,7 @@
                       {{data0.NEWCHECKRESULT}}
                     </el-col>
                     <el-col :span="8">
-                      <span>重点信息采集：</span>
+                      <span style="width:113px">重点信息采集：</span>
                       {{gatherFlag}}
                     </el-col>
                   </el-row>
@@ -2791,35 +2791,35 @@ export default {
          this.nationalityName=r.data.nationalityName;
          switch (type) {
            case 'escape':
-              if(r.data.dcap_f_per_rec_escape_info_view.length==0){
+              if(r.data.data.dcap_f_per_rec_escape_info_view.length==0){
                 this.escapeFlag='否'
               }else{
                 this.escapeFlag='是'
               }
               break;
             case 'invalid':
-               if(r.data.dcap_f_per_cert_invalid_info_view.length==0){
+               if(r.data.data.dcap_f_per_cert_invalid_info_view.length==0){
                  this.invalidFlag='否'
                }else{
                  this.invalidFlag='是'
                }
                break;
             case 'emph':
-               if(r.data.dcap_f_per_rec_emph_persons.length==0){
+               if(r.data.data.dcap_f_per_rec_emph_persons.length==0){
                  this.emphFlag='否'
                }else{
                  this.emphFlag='是'
                }
                break;
             case 'gather':
-               if(r.data.gather.length==0){
+               if(r.data.data.gather.length==0){
                  this.gatherFlag='否'
                }else{
                  this.gatherFlag='是'
                }
                break;
              case 'phone':
-                this.phoneFlag=r.data.phone;
+                this.phoneFlag=r.data.data.phone;
                 break;
            case 'imm':
              if(r.data.data.dcap_f_per_act_psr_imm){
@@ -3025,8 +3025,14 @@ export default {
         this.idcard=this.$route.query.idcard;
         this.getUsers();
         this.getUserBaseInfo();
+        this.getRecordOtherInfo('escape');
+        this.getRecordOtherInfo('invalid');
+        this.getRecordOtherInfo('emph');
+        this.getRecordOtherInfo('gather');
+        this.getRecordOtherInfo('phone');
         this.getUserTagInfo();
         this.initLater();
+
         this.moreShow=false;
         this.box1=false;
         this.box2=false;
