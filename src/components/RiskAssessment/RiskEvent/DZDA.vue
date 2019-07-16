@@ -3,7 +3,6 @@
 
     <div class="middle">
       <!-- <el-button type="warning" size="small" class="mr-20" @click="$router.go(-1)">返回</el-button> -->
-
       <el-row :gutter="10">
         <el-col :span="24">
           <div class="middle">
