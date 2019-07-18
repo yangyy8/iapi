@@ -88,7 +88,7 @@
           </div>
           <div v-show="page==1">
             <el-row class="mb-15 yr">
-              <el-button type="primary" size="small" @click="download(0)">Excel导出</el-button>
+              <el-button type="primary" size="small" name="sjjyztfx_export" @click="download(0)">Excel导出</el-button>
               </el-row>
                        <el-table
                              :data="tableData"

@@ -42,7 +42,7 @@
     </div>
     <div class="middle" @mouseover="mouseHeader">
       <el-row class="mb-15">
-        <el-button type="primary" size="small" @click="adds(0,'');form={};">新增</el-button>
+        <el-button type="primary" size="small" name="kapzgl_add"  @click="adds(0,'');form={};">新增</el-button>
         </el-row>
       <el-table
         :data="tableData"
@@ -88,9 +88,9 @@
           label="操作">
           <template slot-scope="scope">
               <!-- <el-button class="table-btn" size="mini" plain icon="el-icon-tickets" @click="details(scope.row)">详情</el-button> -->
-              <el-button type="text"  class="a-btn"  title="编辑" icon="el-icon-edit" @click="adds(1,scope.row)"></el-button>
-              <el-button type="text"  class="a-btn"  title="删除" icon="el-icon-delete" @click="deletes(scope.row)"></el-button>
-              <el-button type="text"  class="a-btn"  title="关闭" icon="el-icon-close" v-if="scope.row.status=='1'" @click="sets(scope.row.portcode,0)"></el-button>
+              <el-button type="text" name="kapzgl_edit" class="a-btn"  title="编辑" icon="el-icon-edit" @click="adds(1,scope.row)"></el-button>
+              <el-button type="text" name="kapzgl_del" class="a-btn"  title="删除" icon="el-icon-delete" @click="deletes(scope.row)"></el-button>
+              <el-button type="text" name="kapzgl_close" class="a-btn"  title="关闭" icon="el-icon-close" v-if="scope.row.status=='1'" @click="sets(scope.row.portcode,0)"></el-button>
               <el-button type="text"  class="a-btn"  title="开启" icon="el-icon-check" v-if="scope.row.status=='0'" @click="sets(scope.row.portcode,1)"></el-button>
          </template>
         </el-table-column>

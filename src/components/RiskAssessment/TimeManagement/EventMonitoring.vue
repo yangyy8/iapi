@@ -217,7 +217,7 @@
           fixed="right"
           min-width="50">
           <template slot-scope="scope">
-            <el-button type="text"  class="a-btn" title="详情" size="mini" icon="el-icon-tickets" @click="modelDetails(scope.row)"></el-button>
+            <el-button type="text"  class="a-btn" title="详情" size="mini" icon="el-icon-tickets" name="fpsjjk_detail" @click="modelDetails(scope.row)"></el-button>
          </template>
         </el-table-column>
       </el-table>

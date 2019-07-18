@@ -238,7 +238,7 @@
           width="70"
           fixed="right">
           <template slot-scope="scope">
-            <el-button type="text"  class="a-btn"  title="录入"  icon="el-icon-edit" @click="entryDetails(scope.row)"></el-button>
+            <el-button type="text"  class="a-btn"  title="录入"  icon="el-icon-edit" name="zxcl_detail" @click="entryDetails(scope.row)"></el-button>
          </template>
         </el-table-column>
       </el-table>

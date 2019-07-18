@@ -52,7 +52,7 @@
     <div class="middle" @mouseover="mouseHeader">
       <el-row class="mb-15">
 
-        <el-button type="primary" size="small" @click="adds(0,'');">新增</el-button>
+        <el-button type="primary" size="small" name="yhgl_add" @click="adds(0,'');">新增</el-button>
         </el-row>
       <el-table
         :data="tableData"
@@ -102,9 +102,9 @@
         <el-table-column
           label="操作" width="120">
           <template slot-scope="scope">
-              <el-button  type="text"  class="a-btn" size="mini" title="详情" icon="el-icon-tickets" @click="details(scope.row.SERIAL)"></el-button>
-              <el-button  type="text"  class="a-btn" size="mini" title="编辑" icon="el-icon-edit" @click="adds(1,scope.row.SERIAL)"></el-button>
-              <el-button  type="text"  class="a-btn" size="mini" title="删除" icon="el-icon-delete" @click="deletes(scope.row)"></el-button>
+              <el-button  type="text"  class="a-btn" size="mini" title="详情" icon="el-icon-tickets" name="yhgl_detail" @click="details(scope.row.SERIAL)"></el-button>
+              <el-button  type="text"  class="a-btn" size="mini" title="编辑" icon="el-icon-edit" name="yhgl_edit" @click="adds(1,scope.row.SERIAL)"></el-button>
+              <el-button  type="text"  class="a-btn" size="mini" title="删除" icon="el-icon-delete" name="yhgl_del" @click="deletes(scope.row)"></el-button>
          </template>
         </el-table-column>
       </el-table>

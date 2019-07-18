@@ -106,10 +106,10 @@
         <el-table-column
           label="操作" width="160">
           <template slot-scope="scope">
-              <el-button type="text" class="a-btn" title="确认" icon="el-icon-check" @click="withdraws(scope.row,21)"></el-button>
-              <el-button type="text" class="a-btn" title="退回" icon="el-icon-sold-out" @click="withdraws(scope.row,22)"></el-button>
-              <el-button type="text" class="a-btn" title="处理完成" icon="el-icon-edit-outline" @click="withdraws(scope.row,31)"></el-button>
-              <el-button type="text" class="a-btn"   title="状态详情"  icon="el-icon-tickets" @click="details(scope.row)"></el-button>
+              <el-button type="text" class="a-btn" title="确认" icon="el-icon-check" name="xqsh_ok" @click="withdraws(scope.row,21)"></el-button>
+              <el-button type="text" class="a-btn" title="退回" icon="el-icon-sold-out" name="xqsh_back" @click="withdraws(scope.row,22)"></el-button>
+              <el-button type="text" class="a-btn" title="处理完成" icon="el-icon-edit-outline" name="xqsh_process" @click="withdraws(scope.row,31)"></el-button>
+              <el-button type="text" class="a-btn"   title="状态详情"  icon="el-icon-tickets" name="xqsh_status_detail" @click="details(scope.row)"></el-button>
          </template>
         </el-table-column>
       </el-table>

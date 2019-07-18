@@ -189,7 +189,7 @@
       <div class="" @mouseover="mouseHeader">
         <!-- <el-button type="primary" class="mr-5" plain size="small" @click="openGdTc" :disabled="isdisable">批量归档</el-button>
         <el-button type="primary" plain size="small" @click="openCzTc" :disabled="isdisable">批量事件处理</el-button> -->
-        <el-button type="primary" plain size="small" @click="daochu">导出</el-button>
+        <el-button type="primary" plain size="small" name="gdsjcx_export" @click="daochu">导出</el-button>
         <el-table
           class="mt-10 o-table3 t-gutter"
           ref="multipleTable"
@@ -345,8 +345,8 @@
             label="操作"
             min-width="70">
             <template slot-scope="scope">
-              <el-button type="text" class="t-btn mr-5" icon="el-icon-view" title="查看" @click="$router.push({name:'BJCLCX',query:{idcard:scope.row.idcard,serial:scope.row.serial,grade:scope.row.grade,nav2Id:scope.row.serial+2,title:scope.row.name+'已归档查询'}})"></el-button>
-              <el-button type="text" class="t-btn" icon="el-icon-edit-outline"  title="归档追加" @click="openGdTc(scope.row)"></el-button>
+              <el-button type="text" class="t-btn mr-5" icon="el-icon-view" title="查看" name="gdsjcx_show" @click="$router.push({name:'BJCLCX',query:{idcard:scope.row.idcard,serial:scope.row.serial,grade:scope.row.grade,nav2Id:scope.row.serial+2,title:scope.row.name+'已归档查询'}})"></el-button>
+              <el-button type="text" class="t-btn" icon="el-icon-edit-outline"  title="归档追加" name="gdsjcx_archived_add" @click="openGdTc(scope.row)"></el-button>
             </template>
           </el-table-column>
         </el-table>

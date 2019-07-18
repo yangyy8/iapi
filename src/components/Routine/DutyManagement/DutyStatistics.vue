@@ -61,7 +61,7 @@
     </div>
     <div class="middle" @mouseover="mouseHeader">
         <span class="tubiao hand borderL wwd" :class="{'checked':page==0}" @click="qq">日历</span><span class="tubiao hand borderR wwd" :class="{'checked':page==1}" @click="page=1">列表</span>
-        <el-button type="success" size="mini" @click="tableDown">导出</el-button>
+        <el-button type="success" size="mini" name="zbtj_export" @click="tableDown">导出</el-button>
         <div id="div1" v-show="page==1" class="mt-10">
           <el-table
             :data="tableData"

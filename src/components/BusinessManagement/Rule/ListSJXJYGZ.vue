@@ -44,8 +44,8 @@
 
     <div class="middle t-table">
       <el-row class="mb-15">
-        <el-button type="primary" size="small" @click="addTableList">新增</el-button>
-        <el-button type="success" size="small" @click="save">保存并发布</el-button>
+        <el-button type="primary" size="small" name="sjxjygzgl_add" @click="addTableList">新增</el-button>
+        <el-button type="success" size="small" name="sjxjygzgl_save" @click="save">保存并发布</el-button>
       </el-row>
       <el-table
         ref="multipleTable"
@@ -205,7 +205,7 @@
           label="操作" width="70">
           <template slot-scope="scope">
             <div>
-              <el-button type="text"  class="a-btn"  title="删除"  icon="el-icon-delete" @click="deleteTableList(scope.$index,scope.row)"></el-button>
+              <el-button type="text"  class="a-btn"  title="删除"  icon="el-icon-delete" name="sjxjygzgl_del" @click="deleteTableList(scope.$index,scope.row)"></el-button>
             </div>
          </template>
         </el-table-column>

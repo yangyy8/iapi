@@ -395,6 +395,7 @@ export default {
       console.log('this.dlType',this.dlType);
       console.log(window.location.href.indexOf('login')!=-1);
       if(!(window.location.href.indexOf('/login')!=-1)&&(this.dlType==1)){
+        alert('无效')
         this.$alert('无效登录', '温馨提示', {
         confirmButtonText: '确定',
         type: 'warning',

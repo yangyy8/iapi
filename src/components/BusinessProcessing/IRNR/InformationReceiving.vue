@@ -93,9 +93,9 @@
           <el-table-column
             label="操作" width="100">
             <template slot-scope="scope">
-              <el-button type="text"  class="a-btn"  title="详情" icon="el-icon-tickets" @click="outDetails(scope.row)"></el-button>
-              <el-button type="text"  class="a-btn"  title="转发" icon="el-icon-share" @click="share(scope.row)"></el-button>
-              <el-button type="text"  class="a-btn"  title="删除" icon="el-icon-delete" @click="deleteOut(scope.row)"></el-button>
+              <el-button type="text"  class="a-btn"  title="详情" icon="el-icon-tickets" name="nbxxsf_detail" @click="outDetails(scope.row)"></el-button>
+              <el-button type="text"  class="a-btn"  title="转发" icon="el-icon-share" name="nbxxsf_dispatch" @click="share(scope.row)"></el-button>
+              <el-button type="text"  class="a-btn"  title="删除" icon="el-icon-delete" name="nbxxsf_del" @click="deleteOut(scope.row)"></el-button>
            </template>
           </el-table-column>
         </el-table>

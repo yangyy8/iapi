@@ -67,7 +67,7 @@
       </el-row>
     </div>
     <div class="middle" @mouseover="mouseHeader">
-      <el-button type="success"  class="mb-9" size="small" @click="tableDown">导出</el-button>
+      <el-button type="success"  class="mb-9" size="small" name="sjlb_export" @click="tableDown">导出</el-button>
       <el-table
         ref="sort"
         :data="tableData"
@@ -130,9 +130,9 @@
           label="操作"
           width="120">
           <template slot-scope="scope">
-            <el-button type="text"  class="a-btn"  title="交接"  icon="el-icon-edit-outline" @click="change(scope.row.SERIAL)"></el-button>
-            <el-button type="text"  class="a-btn"  title="详情"  icon="el-icon-tickets" @click="details(scope.row)"></el-button>
-            <el-button type="text"  class="a-btn"  title="删除"  icon="el-icon-delete" @click="deletes(scope.row)"></el-button>
+            <el-button type="text"  class="a-btn"  title="交接"  icon="el-icon-edit-outline" name="sjlb_duty" @click="change(scope.row.SERIAL)"></el-button>
+            <el-button type="text"  class="a-btn"  title="详情"  icon="el-icon-tickets" name="sjlb_detail" @click="details(scope.row)"></el-button>
+            <el-button type="text"  class="a-btn"  title="删除"  icon="el-icon-delete" name="sjlb_del" @click="deletes(scope.row)"></el-button>
          </template>
         </el-table-column>
       </el-table>

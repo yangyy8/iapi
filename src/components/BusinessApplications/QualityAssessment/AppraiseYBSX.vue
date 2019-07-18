@@ -118,8 +118,8 @@
           <el-button type="text" class="a-btn" title="帮助" @click="help">帮助</el-button>
         </div>
         <div class="">
-          <el-button type="primary" size="small" @click="download(0)">统计数据导出</el-button>
-          <el-button type="warning" size="small" @click="download(5)">明细导出</el-button>
+          <el-button type="primary" size="small" name="ybsxxpj_data_export" @click="download(0)">统计数据导出</el-button>
+          <el-button type="warning" size="small" name="ybsxxpj_detail_export" @click="download(5)">明细导出</el-button>
         </div>
       </el-row>
       <el-table
@@ -224,7 +224,7 @@
           width="70"
           label="操作">
           <template slot-scope="scope">
-              <el-button  type="text"  class="a-btn"  title="详情"  icon="el-icon-tickets" @click="details(scope.row)"></el-button>
+              <el-button  type="text"  class="a-btn"  title="详情"  icon="el-icon-tickets" name="ybsxxpj_detail" @click="details(scope.row)"></el-button>
          </template>
         </el-table-column>
       </el-table>

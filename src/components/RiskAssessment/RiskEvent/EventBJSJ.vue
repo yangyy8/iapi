@@ -195,9 +195,9 @@
         </div>
       </div>
       <div class="ak-tab-pane pt-10" @mouseover="mouseHeader">
-        <el-button type="primary" class="mr-5" plain size="small" @click="openGdTc('')" :disabled="isdisable" v-if="pd.type!=4&&pd.type!=1">批量归档</el-button>
-        <el-button type="primary" plain size="small" @click="openCzTc" :disabled="isdisable" v-if="pd.type!=4&&pd.type!=2">批量事件处理</el-button>
-        <el-button type="primary" plain size="small" @click="daochu">导出</el-button>
+        <el-button type="primary" class="mr-5" plain size="small" name="fpsjcl_plgd" @click="openGdTc('')" :disabled="isdisable" v-if="pd.type!=4&&pd.type!=1">批量归档</el-button>
+        <el-button type="primary" plain size="small" name="fpsjcl_plsjcl" @click="openCzTc" :disabled="isdisable" v-if="pd.type!=4&&pd.type!=2">批量事件处理</el-button>
+        <el-button type="primary" plain size="small" name="fpsjcl_show" @click="daochu">导出</el-button>
         <el-table
           class="mt-10 o-table3 t-gutter"
           ref="multipleTable"
@@ -206,6 +206,7 @@
           @selection-change="handleSelectionChange"
           @sort-change="sortChange"
           @header-click="headerClick"
+          :cell-class-name="changeCellStyle"
           style="width: 100%;">
           <el-table-column
            v-if="pd.type!=4"
@@ -388,13 +389,14 @@
           <el-table-column
             label="操作"
             fixed="right"
-            min-width="85">
+            min-width="85"
+            >
             <template slot-scope="scope">
-              <el-button type="text" class="t-btn mr-5" icon="el-icon-view" title="查看" @click="$router.push({name:'BJSJCK',query:{row:scope.row,idcard:scope.row.idcard,serial:scope.row.serial,grade:scope.row.grade,yl_two:scope.row.yl_two,page:0,nav2Id:scope.row.serial,risk:1,title:scope.row.name+'事件查看'}})"></el-button>
-              <el-button type="text" class="t-btn mr-5" icon="el-icon-edit-outline" v-if="pd.type!=4&&scope.row.status!=4" title="处理" @click="handel(scope.row)"></el-button>
-              <el-button type="text" class="t-btn mr-5" icon="el-icon-edit-outline" v-if="pd.type==4||scope.row.status==4" title="归档追加" @click="openGdTc(scope.row)"></el-button>
-              <el-button type="text" class="t-btn" icon="el-icon-success" v-if="scope.row.yl_two=='否'" title="推送梅沙" @click="pushMeisha(scope.row)"></el-button>
-              <el-button type="text" class="t-btn error-btn" icon="el-icon-error" v-if="scope.row.yl_two=='是'" title="撤销推送" @click="cancelMeisha(scope.row)"></el-button>
+              <el-button type="text" class="t-btn mr-5" icon="el-icon-view" title="查看" name="fpsjcl_show" @click="$router.push({name:'BJSJCK',query:{row:scope.row,idcard:scope.row.idcard,serial:scope.row.serial,grade:scope.row.grade,yl_two:scope.row.yl_two,page:0,nav2Id:scope.row.serial,risk:1,title:scope.row.name+'事件查看'}})"></el-button>
+              <el-button type="text" class="t-btn mr-5" icon="el-icon-edit-outline" v-if="pd.type!=4&&scope.row.status!=4" title="处理" name="fpsjcl_process" @click="handel(scope.row)"></el-button>
+              <el-button type="text" class="t-btn mr-5" icon="el-icon-edit-outline" v-if="pd.type==4||scope.row.status==4" title="归档追加" name="fpsjcl_archived_add" @click="openGdTc(scope.row)"></el-button>
+              <el-button type="text" class="t-btn" :class="{'gray':scope.row.status==4}" :disabled="scope.row.status==4" icon="el-icon-success" v-if="scope.row.yl_two=='否'" title="推送梅沙" name="fpsjcl_dispatch_meisha" @click="pushMeisha(scope.row)"></el-button>
+              <el-button type="text" class="t-btn error-btn" :class="{'gray':scope.row.status==4}" :disabled="scope.row.status==4" icon="el-icon-error" v-if="scope.row.yl_two=='是'&&scope.row.status!=4" title="撤销推送" name="fpsjcl_cancel_dispatch" @click="cancelMeisha(scope.row)"></el-button>
               <!-- <el-button type="text" class="t-btn" icon="el-icon-success" title="推送梅沙" @click="pushMeisha(scope.row)"></el-button> -->
               <!-- <el-button type="text" class="t-btn" icon="el-icon-error" title="撤销推送" @click="cancelMeisha(scope.row)"></el-button> -->
             </template>
@@ -810,6 +812,11 @@ export default {
     // this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
   },
   methods:{
+    changeCellStyle({row, column, rowIndex, columnIndex}){
+      if(column.label=="操作"){
+        return 'cell-btn'
+      }
+    },
     typeChange(){
       this.$set(this.pushMform,'strategy','');
       this.$set(this.pushMform,'message','');
@@ -1167,6 +1174,11 @@ export default {
 </script>
 
 <style scoped>
+.gray{
+  /* background-color: #F4F4F4!important;
+  border:1px solid #ccc!important; */
+  color:#bbb!important;
+}
 .cellClass{
   height: 32px;
   white-space:nowrap;
@@ -1176,4 +1188,11 @@ export default {
 .yy-input-text {
   width: 25% !important;
 }
+
+</style>
+<style>
+/* .cell-btn .cell{
+  display: flex;
+  justify-content: left
+} */
 </style>

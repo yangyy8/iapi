@@ -121,7 +121,7 @@
           </div>
           <div v-show="page==1" @mouseover="mouseHeader">
             <el-row class="mb-15 yr">
-              <el-button type="primary" size="small" @click="download()">Excel导出</el-button>
+              <el-button type="primary" size="small" name="khjcztfx_export" @click="download()">Excel导出</el-button>
               </el-row>
             <el-table
               :data="tableData"

@@ -68,7 +68,7 @@
     </div>
     <div class="middle" @mouseover="mouseHeader">
       <el-row class="mb-15">
-        <el-button type="primary" size="small" @click="adds(0,'');form={};">新增模型</el-button>
+        <el-button type="primary" size="small" name="ywmxgl_add" @click="adds(0,'');form={};">新增模型</el-button>
         </el-row>
       <el-table
         :data="tableData"
@@ -138,13 +138,13 @@
       <el-table-column
           label="操作" width="160">
           <template slot-scope="scope">
-            <el-button type="text" class="a-btn" title="编辑/详情"   icon="el-icon-edit" @click="adds(1,scope.row)"></el-button>
-            <el-button type="text" class="a-btn" title="删除"  icon="el-icon-delete" @click="deletes(scope.row)"></el-button>
+            <el-button type="text" class="a-btn" title="编辑/详情" name="ywmxgl_edit_detail"  icon="el-icon-edit" @click="adds(1,scope.row)"></el-button>
+            <el-button type="text" class="a-btn" title="删除" name="ywmxgl_del" icon="el-icon-delete" @click="deletes(scope.row)"></el-button>
             <!-- <el-button type="text" class="a-btn"  icon="el-icon-tickets" title="版本查看" @click="details(scope.row)"></el-button> -->
-            <el-button type="text" class="a-btn" title="关联问题"  icon="el-icon-share" @click="relates(scope.row)"></el-button>
-            <el-button type="text" class="a-btn" title="使用口岸"  icon="el-icon-edit-outline" @click="auses(scope.row)"></el-button>
-            <el-button type="text" class="a-btn" title="启用"  icon="el-icon-setting" v-if="scope.row.STATUS==0" @click="starts(scope.row,1)"></el-button>
-            <el-button type="text" class="a-btn" title="停用"  icon="el-icon-setting" v-else  @click="starts(scope.row,0)"></el-button>
+            <el-button type="text" class="a-btn" title="关联问题" name="ywmxgl_problem" icon="el-icon-share" @click="relates(scope.row)"></el-button>
+            <el-button type="text" class="a-btn" title="使用口岸" name="ywmxgl_useport" icon="el-icon-edit-outline" @click="auses(scope.row)"></el-button>
+            <el-button type="text" class="a-btn" title="启用" name="ywmxgl_start" icon="el-icon-setting" v-if="scope.row.STATUS==0" @click="starts(scope.row,1)"></el-button>
+            <el-button type="text" class="a-btn" title="停用" name="ywmxgl_stop" icon="el-icon-setting" v-else  @click="starts(scope.row,0)"></el-button>
             <!-- <el-button type="text" class="a-btn" icon="el-icon-tickets" title="推送测试" @click="details(scope.row)"></el-button> -->
          </template>
         </el-table-column>
@@ -411,10 +411,17 @@
     </el-dialog>
 
     <el-dialog title="使用口岸" :visible.sync="useDialogVisible" width="700px">
-       <el-radio-group v-model="radio" @change="radioChange" class="t-radioClass">
-        <el-radio  :label="1">中心</el-radio>
-        <el-radio  :label="2">口岸</el-radio>
-      </el-radio-group>
+      <el-row class="" type="flex" justify="space-between">
+        <div class="">
+          <el-radio-group v-model="radio" @change="radioChange" class="t-radioClass">
+           <el-radio  :label="1">中心模型</el-radio>
+           <el-radio  :label="2">口岸模型</el-radio>
+         </el-radio-group>
+        </div>
+       <div class="" style="margin-right: 12px;">
+         <el-button type="text" class="a-btn" title="帮助" @click="help">帮助</el-button>
+       </div>
+      </el-row>
       <el-transfer
         v-model="value2"
         :titles="['全选', '全选']"
@@ -433,7 +440,14 @@
       </div>
     </el-dialog>
 
-
+    <el-dialog  title="名词解释"  :visible.sync="helpDialogVisible" width="750px">
+      <div class="helpBody">
+        <div>中心模型跑口岸数据，风评事件返回给中心，口岸不能看到事件和模型；口岸模型是中心部署在口岸的模型，选择的口岸用户登录后可以看到该模型，风评事件返回给口岸，事件中心也可以看。</div>
+      </div>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="helpDialogVisible=false" size="small">返回</el-button>
+      </div>
+    </el-dialog>
     <el-dialog  title="权限校验" :visible.sync="AuthDialogVisible"  width="500px">
 
       <el-row  type="flex"  class="mb-15">
@@ -474,6 +488,7 @@ export default {
       return data;
     };
     return {
+      helpDialogVisible:false,
       radio:1,
       orders:['CREATE_TIME'],
       direction:0,
@@ -564,6 +579,9 @@ export default {
   //  this.getList(this.CurrentPage, this.pageSize, this.pd);
   },
   methods: {
+    help(){
+      this.helpDialogVisible=true;
+    },
     changeTarget(value,key) {
       console.log(key)
       let arr = this.rows;

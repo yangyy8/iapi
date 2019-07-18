@@ -108,11 +108,11 @@
     </div>
     <div class="middle" @mouseover="mouseHeader">
       <el-row class="mb-15">
-        <el-button type="primary" size="small" @click="adds(0,'');form={};">新增</el-button>
-        <el-button type="warning"  size="small" @click="showUpload">批量导入</el-button>
-        <el-button type="success" size="small" @click="download">模板下载</el-button>
-        <el-button type="info" size="small" @click="batchsdelete">批量删除</el-button>
-        <el-button type="warning" size="small" @click="exportdata">批量导出</el-button>
+        <el-button type="primary" size="small" name="fpmdgl_add" @click="adds(0,'');form={};">新增</el-button>
+        <el-button type="warning"  size="small" name="fpmdgl_batch_import" @click="showUpload">批量导入</el-button>
+        <el-button type="success" size="small" name="fpmdgl_template_download" @click="download">模板下载</el-button>
+        <el-button type="info" size="small" name="fpmdgl_batch_del" @click="batchsdelete">批量删除</el-button>
+        <el-button type="warning" size="small" name="fpmdgl_batch_export" @click="exportdata">批量导出</el-button>
         </el-row>
       <el-table
         :data="tableData"
@@ -182,9 +182,9 @@
         <el-table-column
           label="操作" width="120">
           <template slot-scope="scope">
-              <el-button type="text"  class="a-btn"  title="详情"  icon="el-icon-tickets" @click="details(scope.row)"></el-button>
-              <el-button type="text"  class="a-btn"  title="编辑"   icon="el-icon-edit" @click="adds(1,scope.row)"></el-button>
-              <el-button type="text"  class="a-btn"   title="删除"  icon="el-icon-delete" @click="deletes(scope.row)"></el-button>
+              <el-button type="text"  class="a-btn"  title="详情"  icon="el-icon-tickets" name="fpmdgl_detail" @click="details(scope.row)"></el-button>
+              <el-button type="text"  class="a-btn"  title="编辑"   icon="el-icon-edit" name="fpmdgl_edit" @click="adds(1,scope.row)"></el-button>
+              <el-button type="text"  class="a-btn"   title="删除"  icon="el-icon-delete" name="fpmdgl_del" @click="deletes(scope.row)"></el-button>
          </template>
         </el-table-column>
       </el-table>

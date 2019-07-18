@@ -119,8 +119,8 @@
     <div class="middle" @mouseover="mouseHeader">
       <el-row class="mb-15 yr">
 
-        <el-button type="primary" size="small" @click="download(0)">统计数据导出</el-button>
-        <el-button type="warning" size="small" @click="download(5)">明细导出</el-button>
+        <el-button type="primary" size="small" name="xxzqxpj_data_export" @click="download(0)">统计数据导出</el-button>
+        <el-button type="warning" size="small" name="xxzqxpj_detail_export" @click="download(5)">明细导出</el-button>
         </el-row>
       <el-table
         :data="tableData"
@@ -165,7 +165,7 @@
           width="80"
           label="操作">
           <template slot-scope="scope">
-              <el-button class="a-btn"  type="text" title="详情" icon="el-icon-tickets" @click="details(scope.row)"></el-button>
+              <el-button class="a-btn"  type="text" title="详情" icon="el-icon-tickets" name="xxzqxpj_detail" @click="details(scope.row)"></el-button>
          </template>
         </el-table-column>
       </el-table>

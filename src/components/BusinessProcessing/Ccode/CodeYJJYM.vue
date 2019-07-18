@@ -112,8 +112,8 @@
     </div>
     <div class="middle" @mouseover="mouseHeader">
       <el-row class="mb-15">
-        <el-button type="primary" size="small" @click="adds(0,'')">新增</el-button>
-        <el-button type="success" size="small" @click="exportFile()">导出</el-button>
+        <el-button type="primary" size="small" @click="adds(0,'')" name="yjjymgl_add">新增</el-button>
+        <el-button type="success" size="small" @click="exportFile()" name="yjjymgl_export">导出</el-button>
         <el-button type="primary" size="small" plain v-print="'#printMe'">打印</el-button>
         </el-row>
       <el-table
@@ -199,8 +199,8 @@
           <el-table-column
             label="操作" width="80">
             <template slot-scope="scope">
-                <el-button  type="text"  class="a-btn"  title="编辑" icon="el-icon-edit" @click="adds(1,scope.row)"></el-button>
-                <el-button  type="text"  class="a-btn"  title="删除" icon="el-icon-delete" @click="deletes(scope.row)"></el-button>
+                <el-button  type="text"  class="a-btn"  title="编辑" icon="el-icon-edit" name="yjjymgl_edit" @click="adds(1,scope.row)"></el-button>
+                <el-button  type="text"  class="a-btn"  title="删除" icon="el-icon-delete" name="yjjymgl_del" @click="deletes(scope.row)"></el-button>
            </template>
           </el-table-column>
       </el-table>
