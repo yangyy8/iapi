@@ -1,13 +1,78 @@
+.local .el-icon-loading{
+  font-size: 20px;
+}
 .el-icon-loading{
   font-size: 40px;
+}
+.tt-descBtn{
+  display:flex;
+  justify-content:flex-end;
+}
+.stepContent .el-step__head.is-process{
+  color: #409EFF;
+  border-color:#409EFF;
+}
+.stepContent .el-step__description.is-process{
+  color: #409EFF;
+}
+.stepContent .el-step__head.is-wait{
+  color: #409EFF;
+  border-color:#409EFF;
+}
+.stepContent .el-step__description.is-wait{
+  color: #409EFF;
+}
+.fz14{
+  font-size: 14px;
+}
+.photoCon{
+  display: flex;
+  flex-wrap:wrap;
+}
+.teshuW{
+  width: 38%!important;
+  margin-left: -8%;
+}
+.el-step__description{
+  padding-right: 0px
+}
+.photoItem{
+  width: 22%;
+  margin: 5px 5px
 }
 .tt-title{
   text-align: center;
   font-size: 29px;
   font-family: 方正小标宋简体
 }
+.t-gutter .cell{
+  padding-left: 3px!important;
+  padding-right: 3px!important;
+}
+.t-gutter .el-rate__icon{
+  font-size: 16px!important;
+  margin-right: 4px!important;
+}
+.t-gutter td{
+  height: 31px !important;
+  padding: 0px !important;
+}
+.mr-5{
+  margin-right: 5px!important;
+}
+.title-gray{
+  color: #ddd;
+  font-weight: bold;
+}
+.pt-10{
+  padding-top: 10px!important;
+}
 .t-w{
   width: 87%!important;
+}
+.t-meisha{
+  display: inline-block;
+  margin-right: 10px;
 }
 .fz-16{
   font-size: 16px!important;
@@ -248,11 +313,17 @@
   padding: 20px;
   border-radius: 0 5px 5px 5px;
 }
+.textZdy{
+  width: 40%!important
+}
+.contentZdy{
+  width: 65%!important
+}
 /* 保存按钮 */
 .t-save{
   display: flex;
   justify-content: flex-end!important;
-  width:100%;
+  width:273px;
 }
 .t-save button{
   font-size: 14px;
@@ -264,7 +335,9 @@
   color: #fff;
   margin-top: 2px;
 }
-
+.t-save .el-select{
+  width: 62%
+}
 .middle-btn-g {
   display: flex;
   justify-content: center;
@@ -375,4 +448,11 @@
   /* right: 5%; */
   top: -4%;
   left: 7%;
+}
+.helpBody{
+  padding: 0px 40px
+}
+.helpBody div{
+  margin: 8px 0px;
+  line-height: 25px;
 }

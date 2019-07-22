@@ -346,92 +346,235 @@
       </el-row>
     </div>
     <div class="" v-if="moreType=='box9'">
-      <el-row style="line-height:32px;">
-        <el-col :span="12">
-          违法违规事件编号：{{moreData.evt_id}}
-        </el-col>
-        <el-col :span="12">
-          姓名：{{moreData.pers_name}}
-        </el-col>
-        <el-col :span="12">
-          性别：{{moreData.gender_na}}
-        </el-col>
-        <el-col :span="12">
-          出生日期：{{moreData.birth_date}}
-        </el-col>
-        <el-col :span="12">
-          国籍/地区：{{moreData.country_na}}
-        </el-col>
-        <el-col :span="12">
-          证件类型：{{moreData.cert_type_na}}
-        </el-col>
-        <el-col :span="12">
-          证件号码：{{moreData.cert_no}}
-        </el-col>
-        <el-col :span="12">
-          居住地行政区划：{{moreData.curr_region_na}}
-        </el-col>
-        <el-col :span="12">
-          人员类别：{{moreData.pers_imm_type_na}}
-        </el-col>
-        <el-col :span="12">
-          发证地行政区划：{{moreData.cert_region_na}}
-        </el-col>
-        <el-col :span="12">
-          原出入境日期：{{moreData.orig_imm_date}}
-        </el-col>
-        <el-col :span="12">
-          原出入口岸：{{moreData.orig_imm_port_na}}
-        </el-col>
-        <el-col :span="12">
-          出入境目的：{{moreData.imm_purpose}}
-        </el-col>
-        <el-col :span="12">
-          遣返遣送国家：{{moreData.repat_country_na}}
-        </el-col>
-        <el-col :span="12">
-          处理部门：{{moreData.deal_dept_na}}
-        </el-col>
-        <el-col :span="12">
-          查中标志：{{moreData.catch_flag}}
-        </el-col>
-        <el-col :span="12">
-          业务类型：{{moreData.repat_type}}
-        </el-col>
-        <el-col :span="12">
-          遣返遣送备注：{{moreData.repat_remarks}}
-        </el-col>
-        <el-col :span="12">
-          录入人：{{moreData.edit_oper}}
-        </el-col>
-        <el-col :span="12">
-          录入时间：{{moreData.edit_dt}}
-        </el-col>
-        <el-col :span="12">
-          交通标识：{{moreData.trs_id}}
-        </el-col>
-        <el-col :span="12">
-          处理结果描述：{{moreData.deal_rslt_desc}}
-        </el-col>
-        <el-col :span="12">
-          查获时间：{{moreData.seize_dt}}
-        </el-col>
-        <el-col :span="12">
-          第二姓名：{{moreData.second_name}}
-        </el-col>
-        <el-col :span="12">
-          第二出生日期：{{moreData.sec_birth_date}}
-        </el-col>
-        <el-col :span="12">
-          第二证件类型：{{moreData.sec_cert_type}}
-        </el-col>
-        <el-col :span="12">
-          第二证件号码：{{moreData.sec_cert_no}}
-        </el-col>
-        <el-col :span="12">
-          第二证类名称：{{moreData.sec_cert_type_na}}
-        </el-col>
-      </el-row>
+      <div class="ak-tab">
+        <div class="ak-tabs">
+          <div class="ak-tab-item hand" :class="{'ak-checked':desctype==0}" @click="desctype=0">
+            违法违规人员信息
+          </div>
+          <div class="ak-tab-item hand" :class="{'ak-checked':desctype==1}" @click="desctype=1;descMeth()">
+            案事件和处理结果
+          </div>
+          <div class="ak-tab-item hand" :class="{'ak-checked':desctype==2}" @click="desctype=2;descMeth()">
+            收缴证件及物品信息
+          </div>
+        </div>
+      </div>
+      <div class="ak-tab-pane pt-10" @mouseover="mouseHeader">
+        <el-row style="line-height:32px;" v-if="desctype==0">
+          <el-col :span="12">
+            违法违规事件编号：{{moreData.evt_id}}
+          </el-col>
+          <el-col :span="12">
+            姓名：{{moreData.pers_name}}
+          </el-col>
+          <el-col :span="12">
+            性别：{{moreData.gender_na}}
+          </el-col>
+          <el-col :span="12">
+            出生日期：{{moreData.birth_date}}
+          </el-col>
+          <el-col :span="12">
+            国籍/地区：{{moreData.country_na}}
+          </el-col>
+          <el-col :span="12">
+            证件类型：{{moreData.cert_type_na}}
+          </el-col>
+          <el-col :span="12">
+            证件号码：{{moreData.cert_no}}
+          </el-col>
+          <el-col :span="12">
+            居住地行政区划：{{moreData.curr_region_na}}
+          </el-col>
+          <el-col :span="12">
+            人员类别：{{moreData.pers_imm_type_na}}
+          </el-col>
+          <el-col :span="12">
+            发证地行政区划：{{moreData.cert_region_na}}
+          </el-col>
+          <el-col :span="12">
+            原出入境日期：{{moreData.orig_imm_date}}
+          </el-col>
+          <el-col :span="12">
+            原出入口岸：{{moreData.orig_imm_port_na}}
+          </el-col>
+          <el-col :span="12">
+            出入境目的：{{moreData.imm_purpose}}
+          </el-col>
+          <el-col :span="12">
+            遣返遣送国家：{{moreData.repat_country_na}}
+          </el-col>
+          <el-col :span="12">
+            处理部门：{{moreData.deal_dept_na}}
+          </el-col>
+          <el-col :span="12">
+            查中标志：{{moreData.catch_flag}}
+          </el-col>
+          <el-col :span="12">
+            业务类型：{{moreData.repat_type}}
+          </el-col>
+          <el-col :span="12">
+            遣返遣送备注：{{moreData.repat_remarks}}
+          </el-col>
+          <el-col :span="12">
+            录入人：{{moreData.edit_oper}}
+          </el-col>
+          <el-col :span="12">
+            录入时间：{{moreData.edit_dt}}
+          </el-col>
+          <el-col :span="12">
+            交通标识：{{moreData.trs_id}}
+          </el-col>
+          <el-col :span="12">
+            处理结果描述：{{moreData.deal_rslt_desc}}
+          </el-col>
+          <el-col :span="12">
+            查获时间：{{moreData.seize_dt}}
+          </el-col>
+          <el-col :span="12">
+            第二姓名：{{moreData.second_name}}
+          </el-col>
+          <el-col :span="12">
+            第二出生日期：{{moreData.sec_birth_date}}
+          </el-col>
+          <el-col :span="12">
+            第二证件类型：{{moreData.sec_cert_type}}
+          </el-col>
+          <el-col :span="12">
+            第二证件号码：{{moreData.sec_cert_no}}
+          </el-col>
+          <el-col :span="12">
+            第二证类名称：{{moreData.sec_cert_type_na}}
+          </el-col>
+        </el-row>
+        <el-row v-if="desctype==1">
+          <el-row style="line-height:32px;">
+            <el-col :span="12">
+              事件编号：{{descData.evt_id||'-'}}
+            </el-col>
+            <el-col :span="12">
+              事件类别：{{descData.evt_types||'-'}}
+            </el-col>
+            <el-col :span="12">
+              事件性质：{{descData.evt_char_code||'-'}}
+            </el-col>
+            <el-col :span="12">
+              公文种类：{{descData.docs_type_na||'-'}}
+            </el-col>
+            <el-col :span="12">
+              审批人：{{descData.approver||'-'}}
+            </el-col>
+            <el-col :span="12">
+              处理结果：{{descData.ill_deal_rsn_na||'-'}}
+            </el-col>
+            <el-col :span="24">
+              事件主题：{{descData.evt_theme||'-'}}
+            </el-col>
+            <el-col :span="24">
+              事件描述：{{descData.evt_desc||'-'}}
+            </el-col>
+          </el-row>
+          <div class="title-green mt-10 mb-15">
+            处理意见
+          </div>
+          <div class="stepContent" v-for="(j,key) in descStep">
+           <div style="color:#409EFF" @click="j.bon=!j.bon" class='hand'>{{j.year}}年<i :class="j.bon?'el-icon-caret-bottom':'el-icon-caret-right'"></i></div>
+            <el-steps direction="vertical" :active="1" :style="{height:60*j.message.length+'px'}" style="margin-bottom:40px;margin-left: 47px;margin-top: 10px;" v-if="j.bon">
+              <el-step title="" v-for="(item,index) in j.message">
+                <template slot="description">
+                  <div class="" style="backgroundColor:#eee;padding: 3px;box-sizing: border-box;margin-top: -12px;border-radius: 3px;">
+                    <div class="fz14">
+                      <span>{{item.pers_deal_flag}}</span>
+                      <span> | 处理时间：{{item.deal_dt}}</span>
+                      <span> | 处理人：{{item.tgt_oper}}</span>
+                      <span> | 处理部门：{{item.tgt_dept}}</span>
+                    </div>
+                    <div class="fz14" style="color:#000">
+                      <span>人员姓名：{{item.confess_name}}</span>
+                      <span> | 处理结果：{{item.ill_deal_rsn_na}}</span>
+                    </div>
+                  </div>
+                </template>
+              </el-step>
+            </el-steps>
+          </div>
+        </el-row>
+        <div class="" v-if="desctype==2">
+          <div class="box2-t-box">
+            <span>收缴证件信息</span>
+          </div>
+          <el-table
+            :data="certData_1"
+            class="ak-table2"
+            border
+            style="width: 100%">
+            <el-table-column
+              :show-overflow-tooltip="true"
+              label="证件姓名"
+              prop="cert_name">
+            </el-table-column>
+            <el-table-column
+              :show-overflow-tooltip="true"
+              label="国籍"
+              prop="country_na">
+            </el-table-column>
+            <el-table-column
+              :show-overflow-tooltip="true"
+              label="证件类别"
+              prop="cert_type_na">
+            </el-table-column>
+            <el-table-column
+              :show-overflow-tooltip="true"
+              label="证件号码"
+              prop="cert_no">
+            </el-table-column>
+            <el-table-column
+              :show-overflow-tooltip="true"
+              label="出生日期"
+              prop="birth_date">
+            </el-table-column>
+            <el-table-column
+              :show-overflow-tooltip="true"
+              label="收缴原因"
+              prop="capt_rsn_na">
+            </el-table-column>
+            <el-table-column
+              :show-overflow-tooltip="true"
+              label="收缴证件备注"
+              prop="capt_cert_remarks">
+            </el-table-column>
+          </el-table>
+          <div class="box2-t-box">
+            <span>收缴物品信息</span>
+          </div>
+          <el-table
+            :data="certData_2"
+            class="ak-table2"
+            border
+            style="width: 100%">
+            <el-table-column
+              :show-overflow-tooltip="true"
+              label="种类"
+              prop="res_name">
+            </el-table-column>
+            <el-table-column
+              :show-overflow-tooltip="true"
+              label="名称"
+              prop="res_name">
+            </el-table-column>
+            <el-table-column
+              :show-overflow-tooltip="true"
+              label="查获日期"
+              prop="seize_date">
+            </el-table-column>
+            <el-table-column
+              :show-overflow-tooltip="true"
+              label="处理口岸"
+              prop="port_na">
+            </el-table-column>
+          </el-table>
+        </div>
+      </div>
+
     </div>
     <div class="" v-if="moreType=='box10'">
       <el-row style="line-height:32px;">
@@ -690,68 +833,368 @@
       </el-row>
     </div>
     <div class="" v-if="moreType=='box12'">
-      <el-row style="line-height:32px;">
-        <el-col :span="12">
-          英文姓名：{{moreData.eng_name}}
-        </el-col>
-        <el-col :span="12">
-          中文姓名：{{moreData.chn_name}}
-        </el-col>
-        <el-col :span="12">
-          数据来源：{{moreData.data_src_flag||'-'}}
-        </el-col>
-        <el-col :span="12">
-          性别：{{moreData.gender_na}}
-        </el-col>
-        <el-col :span="12">
-          出生日期：{{moreData.birth_date}}
-        </el-col>
-        <el-col :span="12">
-          国籍/地区：{{moreData.pers_country||moreData.country_na}}
-        </el-col>
-        <el-col :span="12">
-          证件类型：{{moreData.cert_type_na||moreData.hold_cert_type}}
-        </el-col>
-        <el-col :span="12">
-          证件号码：{{moreData.cert_no||moreData.hold_cert_no}}
-        </el-col>
-        <el-col :span="12">
-          签证(注)类型：{{moreData.visas_type_na||'-'}}
-        </el-col>
-        <el-col :span="12">
-          签证(注)号码：{{moreData.prmt_no||moreData.visas_no}}
-        </el-col>
-        <el-col :span="12">
-          签证(注)有效期：{{moreData.prmt_vld||moreData.visas_vld}}
-        </el-col>
-        <el-col :span="12">
-          住宿日期：{{moreData.stay_date||'-'}}
-        </el-col>
-        <el-col :span="12">
-          留宿单位地址：{{moreData.stay_address||'-'}}
-        </el-col>
-        <el-col :span="12">
-          离开日期：{{moreData.leave_date||'-'}}
-        </el-col>
-        <el-col :span="12">
-          接待单位：{{moreData.rcpt_unit||'-'}}
-        </el-col>
-        <el-col :span="12">
-          登记单位行政区划：{{moreData.tsu_region_na||'-'}}
-        </el-col>
-        <el-col :span="12">
-          登记单位：{{moreData.tsu_name||'-'}}
-        </el-col>
-        <el-col :span="12">
-          上报省份：{{moreData.rpt_prov_na||'-'}}
-        </el-col>
-        <el-col :span="12">
-          上报城市：{{moreData.sjsbcs_na||'-'}}
-        </el-col>
-        <el-col :span="12">
-          备注：{{moreData.remakrs||'-'}}
-        </el-col>
-      </el-row>
+      <div class="ak-tab">
+        <div class="ak-tabs">
+          <div class="ak-tab-item hand" :class="{'ak-checked':desctype==0}" @click="desctype=0">
+            出入境管理案事件人员信息
+          </div>
+          <div class="ak-tab-item hand" :class="{'ak-checked':desctype==1}" @click="desctype=1;descMeth12()">
+            案事件和处理结果
+          </div>
+          <div class="ak-tab-item hand" :class="{'ak-checked':desctype==2}" @click="desctype=2;descMeth12()">
+            出入境管理案事件人员证件
+          </div>
+        </div>
+      </div>
+      <div class="ak-tab-pane pt-10" @mouseover="mouseHeader">
+        <div class="" v-if="desctype==0">
+          <el-table
+            :data="desc12_1"
+            class="ak-table2"
+            border
+            style="width: 100%"
+            v-show="!mmdescTypeOne">
+            <el-table-column
+              :show-overflow-tooltip="true"
+              label="姓名"
+              prop="pers_name">
+            </el-table-column>
+            <el-table-column
+              :show-overflow-tooltip="true"
+              label="性别"
+              prop="gender_na">
+            </el-table-column>
+            <el-table-column
+              :show-overflow-tooltip="true"
+              label="国家地区"
+              prop="country_na">
+            </el-table-column>
+            <el-table-column
+              :show-overflow-tooltip="true"
+              label="出生日期"
+              prop="birth_date">
+            </el-table-column>
+            <el-table-column
+              :show-overflow-tooltip="true"
+              label="案件名"
+              prop="case_name">
+            </el-table-column>
+            <el-table-column
+              :show-overflow-tooltip="true"
+              label="案事件性质"
+              prop="case_nature_na">
+            </el-table-column>
+            <el-table-column
+              :show-overflow-tooltip="true"
+              label="案发地区"
+              prop="case_reg_code_na">
+            </el-table-column>
+            <el-table-column
+              :show-overflow-tooltip="true"
+              label="立（受）案时间"
+              prop="case_reg_dt">
+              <template slot-scope="scope">
+                <span class="tc-b hand" @click="mmdescTypeOne=!mmdescTypeOne">{{scope.row.case_reg_dt}}</span>
+              </template>
+            </el-table-column>
+            <el-table-column
+              :show-overflow-tooltip="true"
+              label="案件数据来源"
+              prop="cas_src_flag">
+              <template slot-scope="scope">
+                {{scope.row.cas_src_flag==1?'出入境':'边检'}}
+              </template>
+            </el-table-column>
+            <el-table-column
+              :show-overflow-tooltip="true"
+              label="涉案人数"
+              prop="per_count">
+            </el-table-column>
+          </el-table>
+          <el-row style="line-height:32px;" v-show="mmdescTypeOne">
+            <div class="tt-descBtn">
+              <el-button type="primary" size="small" @click="mmdescTypeOne=!mmdescTypeOne">返回</el-button>
+            </div>
+            <el-col :span="12">
+              上报省份：{{moreData.rpt_prov_na||'-'}}
+            </el-col>
+            <el-col :span="12">
+              涉案（事）件角色：{{(moreData.cas_roles_code==1?'主体':moreData.cas_roles_code==2?'被害人':'其它')||'-'}}
+            </el-col>
+            <el-col :span="12">
+              侵害人：{{moreData.infringer_na||'-'}}
+            </el-col>
+            <el-col :span="12">
+              被侵害对象类型：{{moreData.infringed_type_na||'-'}}
+            </el-col>
+            <el-col :span="12">
+              侵害对象：{{moreData.infringer_na||'-'}}
+            </el-col>
+            <el-col :span="12">
+              人身伤害程度：{{moreData.pers_inj_deg||'-'}}
+            </el-col>
+            <el-col :span="12">
+              英文姓名：{{moreData.eng_name||'-'}}
+            </el-col>
+            <el-col :span="12">
+              中文姓名：{{moreData.chn_name||'-'}}
+            </el-col>
+            <el-col :span="12">
+              性别：{{moreData.gender_na||'-'}}
+            </el-col>
+            <el-col :span="12">
+              出生日期：{{moreData.birth_date||'-'}}
+            </el-col>
+            <el-col :span="12">
+              当前工作身份：{{moreData.curr_work_id_na||'-'}}
+            </el-col>
+            <el-col :span="12">
+              国家地区：{{moreData.country_na||'-'}}
+            </el-col>
+            <el-col :span="12">
+              户口所在地区：{{moreData.rsdt_region_na||'-'}}
+            </el-col>
+            <el-col :span="12">
+              身份证号码：{{moreData.pers_card_id||'-'}}
+            </el-col>
+            <el-col :span="12">
+              现住地：{{moreData.curr_address||'-'}}
+            </el-col>
+            <el-col :span="12">
+              居住地派出所代码：{{moreData.curr_lps_code||'-'}}
+            </el-col>
+            <el-col :span="12">
+              联系电话：{{moreData.contact_tel||'-'}}
+            </el-col>
+            <el-col :span="12">
+              服务处所组织机构：{{moreData.srv_unit_org||'-'}}
+            </el-col>
+            <el-col :span="12">
+              服务处所：{{moreData.srv_unit_name||'-'}}
+            </el-col>
+            <el-col :span="12">
+              单位联系电话：{{moreData.srv_unit_tel||'-'}}
+            </el-col>
+            <el-col :span="12">
+              邀请单位：{{moreData.invt_unit_code||'-'}}
+            </el-col>
+            <el-col :span="12">
+              备注：{{moreData.remakrs||'-'}}
+            </el-col>
+            <el-col :span="12">
+              通知使领馆全称：{{moreData.note_embassy_name||'-'}}
+            </el-col>
+            <el-col :span="12">
+              通知使领馆时间：{{moreData.note_embassy_date||'-'}}
+            </el-col>
+            <el-col :span="12">
+              登记日期：{{moreData.reg_date||'-'}}
+            </el-col>
+            <el-col :span="12">
+              案件名：{{moreData.case_name||'-'}}
+            </el-col>
+            <el-col :span="12">
+              姓名：{{moreData.pers_name||'-'}}
+            </el-col>
+            <el-col :span="12">
+              立（受）案时间：{{moreData.case_reg_dt||'-'}}
+            </el-col>
+            <el-col :span="12">
+              案件数据来源：{{(moreData.cas_src_flag==1?'出入境':'边检')||'-'}}
+            </el-col>
+            <el-col :span="12">
+              案件承办单位：{{moreData.cntr_unit_name||'-'}}
+            </el-col>
+            <el-col :span="12">
+              涉案人数：{{moreData.per_count||'-'}}
+            </el-col>
+          </el-row>
+        </div>
+        <div class="" v-if="desctype==1">
+          <el-row style="line-height:32px;">
+            <el-col :span="12">
+              案件名称：{{descData.case_name||'-'}}
+            </el-col>
+            <el-col :span="12">
+              案事件类型：{{descData.case_nature_na||'-'}}
+            </el-col>
+            <el-col :span="12">
+              案事件类别：{{descData.case_type_na||'-'}}
+            </el-col>
+            <el-col :span="12">
+              被侵害对象类别：{{descData.infringe_rlat_na||'-'}}
+            </el-col>
+            <el-col :span="12">
+              案发地区：{{descData.cas_reg_code_na||'-'}}
+            </el-col>
+            <el-col :span="12">
+              立（受）案时间：{{descData.case_reg_dt||'-'}}
+            </el-col>
+            <el-col :span="12">
+              对外说辞：{{descData.extr_words||'-'}}
+            </el-col>
+            <el-col :span="12">
+              案发具体位置：{{descData.cas_loc||'-'}}
+            </el-col>
+            <el-col :span="24">
+              承办单位名称：{{descData.cntr_unit_name||'-'}}
+            </el-col>
+            <el-col :span="24">
+              基本案情：{{descData.case_desc||'-'}}
+            </el-col>
+          </el-row>
+          <div class="title-green mt-10 mb-15">
+            处理结果
+          </div>
+          <div class="stepContent" v-for="(j,key) in descStep">
+           <div style="color:#409EFF" @click="j.bon=!j.bon" class='hand'>{{j.year}}年<i :class="j.bon?'el-icon-caret-bottom':'el-icon-caret-right'"></i></div>
+            <el-steps direction="vertical" :active="1" :style="{height:60*j.message.length+'px'}" style="margin-bottom:40px;margin-left: 47px;margin-top: 10px;" v-if="j.bon">
+              <el-step title="" v-for="(item,ind) in j.message">
+                <template slot="description">
+                  <div class="" style="backgroundColor:#eee;padding: 3px;box-sizing: border-box;margin-top: -12px;border-radius: 3px;">
+                    <div class="fz14">
+                      <span>{{item.pers_deal_flag}}</span>
+                      <span> | 处理时间：{{item.deal_dt}}</span>
+                      <span> | 处理人：{{item.tgt_oper}}</span>
+                      <span> | 处理部门：{{item.tgt_dept}}</span>
+                    </div>
+                    <div class="fz14" style="color:#000">
+                      <span>人员姓名：{{item.confess_name}}</span>
+                      <span> | 处理结果：{{item.ill_deal_rsn_na}}</span>
+                    </div>
+                  </div>
+                </template>
+              </el-step>
+            </el-steps>
+          </div>
+        </div>
+        <div class="" v-if="desctype==2">
+          <el-table
+            :data="desc12_2"
+            class="ak-table2"
+            border
+            style="width: 100%"
+            v-show="!mmdescTypeTwo">
+            <el-table-column
+              :show-overflow-tooltip="true"
+              label="涉案证件编号"
+              prop="cas_cert_no">
+            </el-table-column>
+            <el-table-column
+              :show-overflow-tooltip="true"
+              label="中文姓名"
+              prop="chn_name">
+            </el-table-column>
+            <el-table-column
+              :show-overflow-tooltip="true"
+              label="性别"
+              prop="gender_na">
+            </el-table-column>
+            <el-table-column
+              :show-overflow-tooltip="true"
+              label="出生日期"
+              prop="birth_date">
+            </el-table-column>
+            <el-table-column
+              :show-overflow-tooltip="true"
+              label="国籍"
+              prop="country_na">
+            </el-table-column>
+            <el-table-column
+              :show-overflow-tooltip="true"
+              label="证件种类"
+              prop="cert_type_na">
+            </el-table-column>
+            <el-table-column
+              :show-overflow-tooltip="true"
+              label="证件号码"
+              prop="cert_no">
+              <template slot-scope="scope">
+                <span class="tc-b hand" @click="mmdescTypeTwo=!mmdescTypeTwo">{{scope.row.cert_no}}</span>
+              </template>
+            </el-table-column>
+            <el-table-column
+              :show-overflow-tooltip="true"
+              label="签发机关"
+              prop="issuing_organ_na">
+            </el-table-column>
+          </el-table>
+          <el-row style="line-height:32px;" v-show="mmdescTypeTwo">
+            <div class="tt-descBtn">
+              <el-button type="primary" size="small" @click="mmdescTypeTwo=!mmdescTypeTwo">返回</el-button>
+            </div>
+            <el-col :span="12">
+              上报省份：{{moreData.rpt_prov_na||'-'}}
+            </el-col>
+            <el-col :span="12">
+              英文姓名：{{moreData.eng_name||'-'}}
+            </el-col>
+            <el-col :span="12">
+              中文姓名：{{moreData.chn_name||'-'}}
+            </el-col>
+            <el-col :span="12">
+              性别：{{moreData.gender_na||'-'}}
+            </el-col>
+            <el-col :span="12">
+              出生日期：{{moreData.birth_date||'-'}}
+            </el-col>
+            <el-col :span="12">
+              身份证号码：{{moreData.pers_card_id||'-'}}
+            </el-col>
+            <el-col :span="12">
+              国籍：{{moreData.country_na||'-'}}
+            </el-col>
+            <el-col :span="12">
+              证件种类：{{moreData.cert_type_na||'-'}}
+            </el-col>
+            <el-col :span="12">
+              证件号码：{{moreData.cert_no||'-'}}
+            </el-col>
+            <el-col :span="12">
+              证件有效期至：{{moreData.cert_vld||'-'}}
+            </el-col>
+            <el-col :span="12">
+              本次入境证件标识：{{moreData.curr_entry_cert_flag||'-'}}
+            </el-col>
+            <el-col :span="12">
+              居留事由：{{moreData.rsdt_rsn_na||'-'}}
+            </el-col>
+            <el-col :span="12">
+              签证种类：{{moreData.visa_type_na||'-'}}
+            </el-col>
+            <el-col :span="12">
+              居留证许可号码：{{moreData.prmt_no||'-'}}
+            </el-col>
+            <el-col :span="12">
+              居留许可发证日期：{{moreData.prmt_issuing_date||'-'}}
+            </el-col>
+            <el-col :span="12">
+              居留许可有效期至：{{moreData.prmt_vld||'-'}}
+            </el-col>
+            <el-col :span="12">
+              停留期限：{{moreData.period||'-'}}
+            </el-col>
+            <el-col :span="12">
+              签发机关：{{moreData.issuing_organ_na||'-'}}
+            </el-col>
+            <el-col :span="12">
+              入境口岸：{{moreData.entry_port_na||'-'}}
+            </el-col>
+            <el-col :span="12">
+              入境日期：{{moreData.entry_date||'-'}}
+            </el-col>
+            <el-col :span="12">
+              签证注销单位：{{moreData.visa_cancel_unit_na||'-'}}
+            </el-col>
+            <el-col :span="12">
+              签证注销人：{{moreData.visa_canceler||'-'}}
+            </el-col>
+            <el-col :span="12">
+              签证注销时间：{{moreData.visa_cancel_date||'-'}}
+            </el-col>
+          </el-row>
+        </div>
+      </div>
     </div>
     <div class="" v-if="moreType=='box14'">
       <el-row style="line-height:32px;" class="boder1">
@@ -968,17 +1411,86 @@
 <script>
 export default {
   name:"MoreDialog",
-  props: ['moreData','moreType'],
+  props: ['moreData','moreType','descDetail'],
   data(){
     return{
-
+      desctype:0,
+      descData:{},
+      certData_1:[],
+      certData_2:[],
+      desc12_1:[],
+      desc12_2:[],
+      descStep:[],
+      mmdescTypeOne:false,
+      mmdescTypeTwo:false,
     }
   },
   mounted(){
-    console.log(this.moreData)
+    console.log(this.moreData);
+    this.initial12();
   },
   methods: {
+    initial12(){
+      if(this.moreType=='box12'){
+        this.desc12_1=[this.moreData]
+      }
+    },
+    descMeth12(){
 
+    },
+    descMeth(){
+      if(this.desctype==1){
+        let p={
+          "gender":(this.descDetail.gender=="M"||this.descDetail.gender=='1')?'1':(this.descDetail.gender=="F"||this.descDetail.gender=='2')?'2':'',
+          "nationality":this.descDetail.nationality,
+          "passportno":this.descDetail.passportno,
+          "birth":this.descDetail.birthday,
+          "ename":this.descDetail.name,
+          "personId":this.descDetail.personId,
+          "type":'opinion'
+        }
+        this.$api.post('/manage-platform/riskRecordExtInterfaceController/getRecordOtherInfo',p,
+          r =>{
+            if(r.success){
+              let lasted = r.data.data.dcap_f_evt_opinion[0].message
+              this.descData = lasted[lasted.length-1];
+              this.descStep = r.data.data.dcap_f_evt_opinion
+
+            }
+          })
+      }else if(this.desctype==2){
+        let p={
+          "gender":(this.descDetail.gender=="M"||this.descDetail.gender=='1')?'1':(this.descDetail.gender=="F"||this.descDetail.gender=='2')?'2':'',
+          "nationality":this.descDetail.nationality,
+          "passportno":this.descDetail.passportno,
+          "birth":this.descDetail.birthday,
+          "ename":this.descDetail.name,
+          "personId":this.descDetail.personId,
+          "type":'cert'
+        }
+        this.$api.post('/manage-platform/riskRecordExtInterfaceController/getRecordOtherInfo',p,
+          r =>{
+            if(r.success){
+              this.certData_1 = r.data.data.dcap_f_evt_capt_cert;
+            }
+          })
+          let pl={
+            "gender":(this.descDetail.gender=="M"||this.descDetail.gender=='1')?'1':(this.descDetail.gender=="F"||this.descDetail.gender=='2')?'2':'',
+            "nationality":this.descDetail.nationality,
+            "passportno":this.descDetail.passportno,
+            "birth":this.descDetail.birthday,
+            "ename":this.descDetail.name,
+            "personId":this.descDetail.personId,
+            "type":'res'
+          }
+          this.$api.post('/manage-platform/riskRecordExtInterfaceController/getRecordOtherInfo',pl,
+            r =>{
+              if(r.success){
+                this.certData_2 = r.data.data.dcap_f_evt_capt_res;
+              }
+            })
+      }
+    },
   }
 }
 </script>

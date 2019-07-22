@@ -66,7 +66,7 @@
                </el-select>
             </el-col>
 
-            <el-col :sm="24" :md="12" :lg="8" class="input-item">
+            <!-- <el-col :sm="24" :md="12" :lg="8" class="input-item">
               <span class="input-text">起飞机场：</span>
               <el-select placeholder="请选择" v-model="pd.stationfrom" filterable clearable @visible-change="takeOff" size="small" class="input-input">
                 <el-option
@@ -88,6 +88,34 @@
                 :label="item.AIRPORT_CODE+' - '+item.AIRPORT_NAME">
                 </el-option>
               </el-select>
+            </el-col> -->
+            <el-col :sm="24" :md="12" :lg="8" class="input-item">
+              <span class="input-text">起飞机场：</span>
+                <el-cascader
+                  @visible-change="handleChange"
+                  :options="startPark"
+                  :props="props"
+                  size="small"
+                  v-model="pd.stationfromList"
+                  filterable
+                  change-on-select
+                  class="input-input"
+                  clearable
+                ></el-cascader>
+            </el-col>
+            <el-col :sm="24" :md="12" :lg="8" class="input-item">
+              <span class="input-text">到达机场：</span>
+              <el-cascader
+                @visible-change="landing"
+                :options="endPark"
+                :props="props"
+                size="small"
+                v-model="pd.stationtoList"
+                filterable
+                change-on-select
+                class="input-input"
+                clearable
+              ></el-cascader>
             </el-col>
 
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
@@ -175,7 +203,16 @@
           label="航班状态"
           width="120px">
           <template slot-scope="scope">
-            {{scope.row.status | fifter2}}
+            <div>
+              <span v-if="scope.row.status==0" class="s0">计划</span>
+              <span v-if="scope.row.status==1" class="s1">已预检</span>
+              <span v-if="scope.row.status==3" class="s2">已起飞</span>
+              <span v-if="scope.row.status==6" class="s3">已到达</span>
+              <span v-if="scope.row.status==4" class="s4">已办理入境手续</span>
+              <span v-if="scope.row.status==5" class="s5">已取消</span>
+              <span v-if="scope.row.status==7" class="s6">无关闭报文</span>
+              <span v-if="scope.row.status==8" class="s7">无值机报文</span>
+            </div>
           </template>
         </el-table-column>
         <el-table-column
@@ -200,7 +237,7 @@
           prop="closetime"
           label="关闭报文">
           <template slot-scope="scope">
-            {{scope.row.closetime|fifter3}}
+            {{scope.row.closetimeStr}}
           </template>
         </el-table-column>
         <el-table-column
@@ -379,7 +416,14 @@ export default {
       FLTNO0:'',
       FLTDATE0:'',
       specifigseat0:'',
-      CHK_SERIAL0:''
+      CHK_SERIAL0:'',
+      props: {
+          value: 'CODE',
+          label:'ENAME',
+          children: 'childList'
+        },
+      startPark:[],
+      endPark:[],
     }
   },
   mounted() {
@@ -413,7 +457,30 @@ export default {
     //     this.pd.schedulearrivetime=formatDate(end,'yyyyMMdd');
     //   }
     // },
-
+    handleChange(value){//调用起飞机场
+      let p={
+        'flighttype':this.pd.flighttype=="I"?'1':this.pd.flighttype=="O"?'2':'3',
+        'citytype':'cityfrom'
+      }
+      this.$api.post('/manage-platform/codeTable/queryAirportCascade',p,
+       r =>{
+         if(r.success){
+           this.startPark = r.data;
+         }
+       })
+    },
+    landing(){//调用降落机场
+      let p={
+        'flighttype':this.pd.flighttype=="I"?'1':this.pd.flighttype=="O"?'2':'3',
+        'citytype':'cityto'
+      }
+      this.$api.post('/manage-platform/codeTable/queryAirportCascade',p,
+       r =>{
+         if(r.success){
+           this.endPark = r.data;
+         }
+       })
+    },
     sortChange(column, prop, order){
       column.order=='ascending'?this.direction=1:this.direction=0;
       this.order=column.prop;
@@ -502,9 +569,11 @@ export default {
         }
         let p = {
           'flightRecordnum':row.flightRecordnum,
-          'otherStr':this.zhuanhuan(column.property)
+          'otherStr':this.zhuanhuan(column.property),
+          'fltDate':row.fltDate,
+          'fltno':row.fltno,
         }
-        this.$api.post('/manage-platform/iapi/queryIapiTableInfoObject',p,
+        this.$api.post('/manage-platform/iapiHead/queryIapiTableInfoObject',p,
          r =>{
            if(r.success){
              this.tableInfo = r.data.iapiList;
@@ -635,32 +704,32 @@ export default {
       // this.specifigseat0=i.specifigseat;
       // this.$router.push({query:{flightNumber:i.flightRecordnum}})
     },
-    takeOff(){//调用起飞机场
-      let p={
-        "port":this.pd.port,
-        "flighttype":this.pd.flighttype,
-        "type":0
-      }
-      this.$api.post('/manage-platform/codeTable/queryAirportByPortAndFlighttype',p,
-       r =>{
-         if(r.success){
-           this.takeOffName = r.data;
-         }
-       })
-    },
-    landing(){//调用降落机场
-      let p={
-        "port":this.pd.port,
-        "flighttype":this.pd.flighttype,
-        "type":1
-      }
-      this.$api.post('/manage-platform/codeTable/queryAirportByPortAndFlighttype',p,
-       r =>{
-         if(r.success){
-           this.landingName = r.data;
-         }
-       })
-    },
+    // takeOff(){//调用起飞机场
+    //   let p={
+    //     "port":this.pd.port,
+    //     "flighttype":this.pd.flighttype,
+    //     "type":0
+    //   }
+    //   this.$api.post('/manage-platform/codeTable/queryAirportByPortAndFlighttype',p,
+    //    r =>{
+    //      if(r.success){
+    //        this.takeOffName = r.data;
+    //      }
+    //    })
+    // },
+    // landing(){//调用降落机场
+    //   let p={
+    //     "port":this.pd.port,
+    //     "flighttype":this.pd.flighttype,
+    //     "type":1
+    //   }
+    //   this.$api.post('/manage-platform/codeTable/queryAirportByPortAndFlighttype',p,
+    //    r =>{
+    //      if(r.success){
+    //        this.landingName = r.data;
+    //      }
+    //    })
+    // },
 
   },
 

@@ -1,6 +1,15 @@
 <template >
+  <div class="">
+
+
   <el-dialog :title="gtitle" :visible.sync="gdDialogVisible2" width="640px" :before-close="handleClose">
     <el-form :model="gdform" ref="gdForm">
+      <div class="mb-15">
+        <span class="f-bold mb-9 t-meisha">
+          梅沙事件描述
+        </span>
+        <el-button type="primary" size="mini" @click="viewMeisha">查 看</el-button>
+      </div>
       <div class="mb-15">
         <div class="f-bold mb-9">
           归档描述
@@ -56,6 +65,46 @@
 
     </div>
   </el-dialog>
+  <el-dialog title="梅沙事件描述详情" :visible.sync="viewMDialogVisible" width="640px">
+    <el-row style="line-height:32px;">
+      <el-col :span="12">
+        事件编号：{{descData.evt_id||'-'}}
+      </el-col>
+      <el-col :span="12">
+        事件类别：{{descData.evt_types||'-'}}
+      </el-col>
+      <el-col :span="12">
+        事件性质：{{descData.evt_char_code||'-'}}
+      </el-col>
+      <el-col :span="12">
+        公文种类：{{descData.docs_type_na||'-'}}
+      </el-col>
+      <el-col :span="12">
+        审批人：{{descData.approver||'-'}}
+      </el-col>
+      <el-col :span="12">
+        处理结果：{{descData.ill_deal_rsn_na||'-'}}
+      </el-col>
+      <el-col :span="24">
+        事件主题：{{descData.evt_theme||'-'}}
+      </el-col>
+      <el-col :span="24">
+        事件描述：{{descData.evt_desc||'-'}}
+      </el-col>
+    </el-row>
+    <div class="title-green mt-10">
+      处理意见
+    </div>
+    <el-row style="line-height:32px;">
+      <el-col :span="24">
+        {{descData.deal_opinion||'-'}}
+      </el-col>
+   </el-row>
+    <div slot="footer" class="dialog-footer">
+      <el-button type="warning" @click="viewMDialogVisible=false" size="small">返回</el-button>
+    </div>
+  </el-dialog>
+</div>
 </template>
 
 <script>
@@ -65,6 +114,7 @@ export default {
   data(){
     return{
       user:{},
+      viewMDialogVisible:false,
       options2:[
         {
           value: '1',
@@ -178,7 +228,8 @@ export default {
       gdform:{hit:'0',processorResult:[]},
       gdDialogVisible2:this.gvisible,
       listData:this.garr,
-      gt:this.gtype
+      gt:this.gtype,
+      descData:{},
     }
   },
   mounted(){
@@ -212,6 +263,26 @@ export default {
     }
   },
   methods:{
+    zhuanhuan(val){
+      return val.split('-').join('');
+    },
+    viewMeisha(){
+      this.viewMDialogVisible=true;
+      let p={
+        "gender":this.listData.gender=="M"?'1':this.listData.gender=="F"?'2':'',
+        "nationality":this.listData.nationality,
+        "passportno":this.listData.passportno,
+        "birth":this.listData.birthday,
+        "ename":this.listData.name,
+        "type":'opinion'
+      }
+      this.$api.post('/manage-platform/riskRecordExtInterfaceController/getRecordOtherInfo',p,
+        r =>{
+          if(r.success){
+            this.descData = r.data;
+          }
+        })
+    },
     handleClose(done) {
       this.gdDialogVisible2=false;
 

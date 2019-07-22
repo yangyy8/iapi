@@ -151,6 +151,13 @@
                 <span class="input-text">本事件核查次数：</span>
                 <el-input v-model="pd.checkNumber" placeholder="请输入内容" size="small" clearable class="input-input"></el-input>
               </el-col>
+              <el-col :sm="24" :md="12"  :lg="8" class="input-item">
+                <span class="input-text">是否推送至梅沙：</span>
+                <el-select v-model="pd.yl_two" placeholder="请选择"  size="small" clearable filterable class="block input-input">
+                  <el-option label="是" value="1"></el-option>
+                  <el-option label="否" value="0"></el-option>
+                </el-select>
+              </el-col>
             </el-row>
             </el-collapse-transition>
           </el-col>
@@ -159,7 +166,7 @@
             <el-button type="text" size="small" @click="moreShow=false" v-if="moreShow">收起 ︿</el-button>
           </el-col>
           <el-col :span="2" class="down-btn-area">
-            <el-button type="success" size="small" @click="getList(CurrentPage,pageSize,pd,orders,direction)">查询</el-button>
+            <el-button type="success" size="small" @click="CurrentPage=1;getList(CurrentPage,pageSize,pd,orders,direction)">查询</el-button>
             <el-button type="primary" plain size="small"  class="mt-15" @click="reset" v-if="moreShow">重置</el-button>
           </el-col>
         </el-row>
@@ -185,12 +192,12 @@
 
         </div>
       </div>
-      <div class="ak-tab-pane" @mouseover="mouseHeader">
+      <div class="ak-tab-pane pt-10" @mouseover="mouseHeader">
         <el-button type="primary" class="mr-5" plain size="small" @click="openGdTc('')" :disabled="isdisable" v-if="pd.type!=4&&pd.type!=1">批量归档</el-button>
         <el-button type="primary" plain size="small" @click="openCzTc" :disabled="isdisable" v-if="pd.type!=4&&pd.type!=2">批量事件处理</el-button>
-
+        <el-button type="primary" plain size="small" @click="daochu">导出</el-button>
         <el-table
-          class="mt-10 o-table3"
+          class="mt-10 o-table3 t-gutter"
           ref="multipleTable"
           :data="tableData"
           border
@@ -214,32 +221,32 @@
             label="姓名"
             prop="name"
             sortable="custom"
-          
+            min-width="50"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="出入标识"
             prop="flightTypeName"
-            width="50">
+            min-width="50">
           </el-table-column>
           <el-table-column
             label="性别"
             prop="genderName"
-            width="50"
+            min-width="50"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="出生日期"
             prop="birthday"
             sortable="custom"
-            width="101"
+            min-width="90"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="国籍地区"
             sortable="custom"
             prop="nationality"
-            width="50"
+            min-width="50"
             :show-overflow-tooltip="true">
             <template slot-scope="scope">
               <span>{{scope.row.nationalityName}}</span>
@@ -248,31 +255,31 @@
           <el-table-column
             label="证件类型"
             prop="passportTypeName"
-            width="50"
+            min-width="50"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="证件号"
             prop="passportno"
             sortable="custom"
-            width="90"
+            min-width="90"
             :show-overflow-tooltip="true">
-            <template slot-scope="scope">
+            <!-- <template slot-scope="scope">
               <span class="tc-b hand" @click="$router.push({name:'DZDA',query:{idcard:scope.row.idcard,nationality:scope.row.nationality,passportno:scope.row.passportno,grade:scope.row.grade,type:1,nav2Id:scope.row.passportno+scope.row.nationality,title:scope.row.name+'电子档案'}})">{{scope.row.passportno}}</span>
-            </template>
+            </template> -->
           </el-table-column>
           <el-table-column
             label="航班号"
             prop="fltno"
             sortable="custom"
-            width="70"
+            min-width="65"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="航班日期"
             prop="fltnoDate"
             sortable="custom"
-            width="101"
+            min-width="151"
             :show-overflow-tooltip="true">
           </el-table-column>
 
@@ -280,26 +287,26 @@
             label="命中模型"
             prop="hit_mode_gc"
             sortable="custom"
-            width="70"
+            min-width="50"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="命中规则"
             prop="hit_rule_name"
             sortable="custom"
-            width="70"
+            min-width="50"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="口岸"
             prop="port_name"
             sortable="custom"
-            width="60"
+            min-width="60"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="事件来源"
-            width="55"
+            min-width="50"
             sortable="custom"
             prop="centre_port"
             :show-overflow-tooltip="true">
@@ -307,7 +314,7 @@
           <el-table-column
             label="风险等级"
             sortable="custom"
-            width="145"
+            min-width="120"
             prop="grade">
             <template slot-scope="scope">
               <el-rate :value="scope.row.grade" size="mini" disabled class="mb-9"></el-rate>
@@ -316,14 +323,14 @@
           <el-table-column
             label="处理人"
             prop="processor_peopleName"
-            width="60"
+            min-width="60"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="当前状态"
             prop="status"
             sortable="custom"
-            width="50"
+            min-width="50"
             :show-overflow-tooltip="true">
             <template slot-scope="scope">
               <span>{{scope.row.statusName}}</span>
@@ -333,19 +340,19 @@
             label="核查次数"
             prop="checknumber"
             sortable="custom"
-            width="50"
+            min-width="50"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="最新核查结果"
-            width="70"
+            min-width="50"
             prop="checkResult"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="历次风评"
             sortable="custom"
-            width="50"
+            min-width="50"
             prop="eachevent">
             <template slot-scope="scope">
               <div>
@@ -371,14 +378,23 @@
             </template>
           </el-table-column>
           <el-table-column
+            label="是否推送至梅沙"
+            min-width="50"
+            prop="yl_two"
+            :show-overflow-tooltip="true">
+          </el-table-column>
+          <el-table-column
             label="操作"
             fixed="right"
-            width="70">
+            min-width="85">
             <template slot-scope="scope">
-              <el-button type="text" class="a-btn" icon="el-icon-view" title="查看" @click="$router.push({name:'BJSJCK',query:{idcard:scope.row.idcard,serial:scope.row.serial,grade:scope.row.grade,page:0,nav2Id:scope.row.serial,title:scope.row.name+'事件查看'}})"></el-button>
-              <el-button type="text" class="a-btn" icon="el-icon-edit-outline" v-if="pd.type!=4" title="处理" @click="$router.push({name:'BJSJCK',query:{idcard:scope.row.idcard,serial:scope.row.serial,grade:scope.row.grade,status:scope.row.status,page:1,operation_type:1,nav2Id:scope.row.serial+1,title:scope.row.name+'事件处理'}})"></el-button>
-              <el-button type="text" class="a-btn" icon="el-icon-edit-outline" v-if="pd.type==4" title="归档追加" @click="openGdTc(scope.row)"></el-button>
-
+              <el-button type="text" class="t-btn mr-5" icon="el-icon-view" title="查看" @click="$router.push({name:'BJSJCK',query:{row:scope.row,idcard:scope.row.idcard,serial:scope.row.serial,grade:scope.row.grade,yl_two:scope.row.yl_two,page:0,nav2Id:scope.row.serial,risk:1,title:scope.row.name+'事件查看'}})"></el-button>
+              <el-button type="text" class="t-btn mr-5" icon="el-icon-edit-outline" v-if="pd.type!=4" title="处理" @click="handel(scope.row)"></el-button>
+              <el-button type="text" class="t-btn mr-5" icon="el-icon-edit-outline" v-if="pd.type==4" title="归档追加" @click="openGdTc(scope.row)"></el-button>
+              <el-button type="text" class="t-btn" icon="el-icon-success" v-if="scope.row.yl_two=='否'" title="推送梅沙" @click="pushMeisha(scope.row)"></el-button>
+              <el-button type="text" class="t-btn" icon="el-icon-error" v-if="scope.row.yl_two=='是'" title="撤销推送" @click="cancelMeisha(scope.row)"></el-button>
+              <!-- <el-button type="text" class="t-btn" icon="el-icon-success" title="推送梅沙" @click="pushMeisha(scope.row)"></el-button> -->
+              <!-- <el-button type="text" class="t-btn" icon="el-icon-error" title="撤销推送" @click="cancelMeisha(scope.row)"></el-button> -->
             </template>
           </el-table-column>
         </el-table>
@@ -407,6 +423,7 @@
           <el-pagination
             background
             @current-change="handleCurrentChange"
+            :current-page.sync ="CurrentPage"
             :page-size="pageSize"
             layout="prev, pager, next"
             :total="TotalResult">
@@ -445,7 +462,7 @@
             <el-select v-model="czform.processorResult" filterable clearable placeholder="请选择"  size="small" class="input-input">
               <el-option label="1 - 排除嫌疑" value="1"></el-option>
               <el-option label="2 -  未能排除嫌疑，待进一步核查" value="2"></el-option>
-              <el-option label="3 -  推送梅沙 " value="3"></el-option>
+              <!-- <el-option label="3 -  推送梅沙 " value="3"></el-option> -->
 
             </el-select>
           </el-col>
@@ -473,6 +490,67 @@
     <GDTC :gtitle="'批量归档'" :gvisible="gdDialogVisible" :garr="multipleSelection" :gtype="'1'" @gclose="gclose"></GDTC>
     <GDTC :gtitle="'归档追加'" :gvisible="gdDialogVisible2" :garr="checkeditem" :gtype="'3'" @gclose="gclose"></GDTC>
 
+    <el-dialog title="推送梅沙" :visible.sync="pushMaddDialogVisible" width="500px" >
+      <el-form :model="pushMform" ref="addForm">
+        <el-row type="flex"  class="mb-6">
+          <el-col :span="24" class="input-item">
+            <span class="yy-input-text">处理人：</span>
+            <el-input size="small" v-model="pushMform.userName"  class="yy-input-input" :disabled="true"></el-input>
+          </el-col>
+        </el-row>
+
+        <el-row type="flex"  class="mb-6">
+          <el-col :span="24" class="input-item my-form-group" data-scope="demo2" data-name="type" data-type="select"
+            v-validate-easy="[['required']]">
+            <span class="yy-input-text"><font class="yy-color">*</font>处理类型：</span>
+            <el-select placeholder="请选择" v-model="pushMform.type" filterable clearable size="small" class="yy-input-input">
+              <el-option label="移交台外" value="移交台外"></el-option>
+              <el-option label="前台提示信息" value="前台提示信息"></el-option>
+              <el-option label="自定义前台提示信息" value="自定义前台提示信息"></el-option>
+            </el-select>
+          </el-col>
+        </el-row>
+
+        <el-row type="flex"  class="mb-6" v-if="pushMform.type=='前台提示信息'">
+          <el-col :span="24" class="input-item my-form-group" data-scope="demo2" data-name="strategy" data-type="select"
+            v-validate-easy="[['required']]">
+            <span class="yy-input-text"><font class="yy-color">*</font>处理策略：</span>
+            <el-select placeholder="请选择" v-model="pushMform.strategy" filterable clearable size="small" class="yy-input-input">
+              <el-option label="正常办理手续后移交后台" value="正常办理手续后移交后台"></el-option>
+              <el-option label="请多页采集后移交台外" value="请多页采集后移交台外"></el-option>
+              <el-option label="请多页采集后正常放行" value="请多页采集后正常放行"></el-option>
+              <el-option label="正常办理手续后移交后台" value="正常办理手续后移交后台"></el-option>
+              <el-option label="严把“三关”并核查有无涉恐国轨迹，如无异常正常放行" value="严把“三关”并核查有无涉恐国轨迹，如无异常正常放行"></el-option>
+              <el-option label="严把“三关”查验证件真伪，如无异常正常放行" value="严把“三关”查验证件真伪，如无异常正常放行"></el-option>
+              <el-option label="请查验出生地是否为新疆或中国" value="请查验出生地是否为新疆或中国"></el-option>
+            </el-select>
+          </el-col>
+        </el-row>
+        <el-row type="flex" class="mb-6" v-if="pushMform.type=='自定义前台提示信息'">
+          <el-col :span="24" class="input-item my-form-group" data-scope="demo2" data-name="message" data-type="textarea"
+            v-validate-easy="[['required']]">
+            <span class="yy-input-text">自定义提示信息：</span>
+            <el-input type="textarea" placeholder="请输入内容" :autosize="{ minRows: 3, maxRows: 6}" v-model="pushMform.message" class="yy-input-input"></el-input>
+          </el-col>
+        </el-row>
+
+        <el-row type="flex"  class="mb-6">
+          <el-col :span="24" class="input-item my-form-group" data-scope="demo2" data-name="fbkadm" data-type="select"
+            v-validate-easy="[['required']]">
+            <span class="yy-input-text"><font class="yy-color" v-if="user.dept_code=='B06'">*</font>推送至口岸：</span>
+            <el-select placeholder="请选择" v-model="pushMform.fbkadm" filterable clearable size="small" class="yy-input-input" :disabled="user.dept_code!='B06'">
+              <el-option label="全国" value="000" v-if="user.dept_code=='B06'"></el-option>
+              <el-option :label="portLabel" :value="portValue"></el-option>
+            </el-select>
+          </el-col>
+        </el-row>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="addItem()" size="small">确 定</el-button>
+        <el-button @click="pushMaddDialogVisible = false" size="small">取 消</el-button>
+      </div>
+    </el-dialog>
+
   </div>
 </template>
 
@@ -484,6 +562,10 @@ export default {
   components:{GDTC},
   data(){
     return{
+      pushMaddDialogVisible:false,
+      pushMform:{
+        userName:''
+      },
       user:{},
       tagData:{},
       moreShow:false,
@@ -492,11 +574,11 @@ export default {
       tableData:[],
       eachData:[],
       CurrentPage:1,
-      pageSize:10,
+      pageSize:50,
       orders:[],
       direction:0,
       TotalResult:0,
-      pd:{type:'0',fltnoDate_start:'',fltnoDate_end:''},
+      pd:{type:'1',fltnoDate_start:'',fltnoDate_end:''},
       airport:null,
       docCode:null,
       nationAlone:null,
@@ -514,6 +596,10 @@ export default {
         {
           value:30,
           label:"30"
+        },
+        {
+          value:50,
+          label:"50"
         }
       ],
       options2:[
@@ -629,6 +715,9 @@ export default {
       gdDialogVisible2:false,
       hash:'',
       checkeditem:null,
+      eventSerial:'',
+      portLabel:'',
+      portValue:'',
 
     }
   },
@@ -652,6 +741,121 @@ export default {
     // this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
   },
   methods:{
+    daochu(){
+        let p={
+          "showCount": this.pageSize,
+          "currentPage":this.CurrentPage,
+          "pd": this.pd,
+          "orders":this.orders,
+  	      "direction":this.direction
+        }
+        this.$api.post('/manage-platform/riskEventController/getRiskEventToExcelInfo',p,
+         r =>{
+           this.downloadM(r);
+         },e=>{},'','blob')
+    },
+    downloadM (data,type) {
+        if (!data) {
+            return
+        }
+        let url = window.URL.createObjectURL(new Blob([data.data],{type:"application/octet-stream"}))
+        let link = document.createElement('a')
+        link.style.display = 'none'
+        link.href = url
+        link.setAttribute('download', '风评事件.xlsx')
+        document.body.appendChild(link)
+        link.click()
+    },
+    pushMeisha(i){
+      this.eventSerial = i.serial;
+      console.log('1111',this.user.dept_code);
+      if(i.change_portCode==undefined||i.change_portCode==''){
+        this.portLabel=i.port_name;
+        this.portValue=i.port_code;
+      }else{
+        this.portLabel=i.change_portName;
+        this.portValue=i.change_portCode;
+      }
+      if(this.user.dept_code!="B06"){
+        this.pushMform.fbkadm=this.portValue
+      }
+      this.$api.post('/manage-platform/sysUserInfoController/querySysUserInfo',{},
+        r => {
+          this.pushMform.userName = r.data.name;
+        })
+        this.pushMaddDialogVisible=true;
+        this.V.$reset('demo2')
+    },
+    addItem(){//推送梅沙
+      this.V.$submit('demo2', (canSumit,data) => {
+        if(!canSumit) return
+        let p={
+          "eventSerial":this.eventSerial,
+          "operation_type":"6",
+          "course_type":'4',
+          "one":(new Date()).getTime(),
+          "gznr":this.pushMform.type=="前台提示信息"?this.pushMform.strategy:this.pushMform.type=="自定义前台提示信息"?this.pushMform.message:"移交台外",
+          "fbkadm":this.pushMform.fbkadm
+        }
+        this.$api.post('/manage-platform/riskEventPushMXController/insertBJAPIZDGZRYInfo',p,
+         r =>{
+           if(r.success){
+             this.$message({
+               message: '恭喜你，保存成功！',
+               type: 'success'
+             });
+             this.pushMaddDialogVisible=false;
+             this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
+             this.pushMform={};
+           }
+         })
+      })
+
+    },
+    cancelMeisha(i){
+      let p = {
+        "eventSerial": i.serial
+      };
+      this.$confirm('您是否确认撤销推送？', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$api.post('/manage-platform/riskEventPushMXController/deleteBJAPIZDGZRYInfo', p,
+          r => {
+            if (r.success) {
+              this.$message({
+                message: '撤销成功！',
+                type: 'success'
+              });
+              this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
+            } else {
+              this.$message.error(r.Message);
+            }
+          }, e => {
+            this.$message.error('失败了');
+          });
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消撤销'
+        });
+      });
+    },
+    handel(i){//处理
+      let p={
+        "serial":i.serial
+      }
+      this.$api.post('/manage-platform/riskEventWarningController/getRiskEventStatusInfo',p,
+        r =>{
+          if(r.success){
+            this.$router.push({name:'BJSJCK',query:{row:i,idcard:i.idcard,serial:i.serial,grade:i.grade,status:i.status,yl_two:i.yl_two,page:0,operation_type:1,risk:1,nav2Id:i.serial+1,title:i.name+'事件处理'}})
+          }
+          // else{
+          //   this.$message.error(r.data.message);
+          // }
+        })
+    },
     headerClick(column,event){
       console.log(column,event)
       event.target.title=column.label
@@ -703,8 +907,8 @@ export default {
     },
     reset(){
       this.CurrentPage=1;
-      this.pageSize=10;
-      this.pd={type:'0'};
+      this.pageSize=50;
+      this.pd={type:'1'};
       let begin = new Date();
       // console.log(begin+24*60*60*1000)
       let end = new Date(begin.getTime()+24*60*60*1000);
@@ -876,5 +1080,7 @@ export default {
   text-overflow:ellipsis;
   overflow: hidden;
 }
-
+.yy-input-text {
+  width: 25% !important;
+}
 </style>

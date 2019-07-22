@@ -11,7 +11,7 @@
 
           <el-row align="center"   :gutter="2">
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
-              <span class="input-text"><font class="yy-color">*</font>  时间范围：</span>
+              <span class="input-text"><font class="yy-color">*</font>时间范围：</span>
               <div class="input-input t-flex t-date">
                 <el-date-picker
                 v-model="pd.begintime" format="yyyy-MM-dd"
@@ -41,7 +41,7 @@
               </el-col>
           </el-row>
           <el-row align="center"   :gutter="2" class="yy-line">
-            <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+            <!-- <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                 <span class="input-text"> <span class="spang">境内</span> 城市：</span>
                 <el-select placeholder="请选择" v-model="pd.cityto" filterable clearable size="small" @change="portAble(0)"  class="input-input">
                   <el-option
@@ -64,11 +64,25 @@
             </el-option>
                 </el-select>
             </el-col>
-           <font class="yy-color">  （注：城市、机场二选一）</font>
+           <font class="yy-color">  （注：城市、机场二选一）</font> -->
+           <el-col :sm="24" :md="12" :lg="8" class="input-item">
+             <span class="input-text"><font class="yy-color">*</font>境内机场：</span>
+               <el-cascader
+                 @visible-change="landing"
+                 :options="endPark"
+                 :props="props"
+                 size="small"
+                 v-model="pd.stationfromList"
+                 filterable
+                 change-on-select
+                 class="input-input"
+                 clearable
+               ></el-cascader>
+           </el-col>
          </el-row>
 
          <el-row align="center"   :gutter="2" class="yy-line">
-                       <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+                       <!-- <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                            <span class="input-text"><span class="spang">境外</span>  &emsp;洲：</span>
                            <el-select placeholder="请选择" v-model="pd.continentfrom" filterable clearable size="small" @change="nationality(pd.continentfrom)"  class="input-input">
                              <el-option
@@ -90,29 +104,43 @@
                              </el-option>
                            </el-select>
                        </el-col>
-           <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
-               <span class="input-text">城市：</span>
-               <el-select placeholder="请选择" v-model="pd.cityfrom" filterable clearable size="small" @change="portAble(1)"   class="input-input">
-                 <el-option
-                   v-for="(item,ind) in gwName"
-                   :key="ind"
-                   :value="item.citycode"
-                   :label="item.citycode+' - '+item.cityname"
-                 ></el-option>
-               </el-select>
-           </el-col>
-           <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
-               <span class="input-text">机场：</span>
-               <el-select placeholder="请选择" v-model="pd.portfrom" filterable clearable size="small" @visible-change="getjc(pd.cityfrom,1)"  class="input-input">
-                 <el-option
-                  v-for="item in airportw"
-                  :key="item.AIRPORT_CODE"
-                  :label="item.AIRPORT_CODE+' - '+item.AIRPORT_NAME"
-                  :value="item.AIRPORT_CODE">
-                </el-option>
-               </el-select>
-           </el-col>
-           <font class="yy-color">（注：洲、国家、城市、机场四选一）</font>
+                       <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+                           <span class="input-text">城市：</span>
+                           <el-select placeholder="请选择" v-model="pd.cityfrom" filterable clearable size="small" @change="portAble(1)"   class="input-input">
+                             <el-option
+                               v-for="(item,ind) in gwName"
+                               :key="ind"
+                               :value="item.citycode"
+                               :label="item.citycode+' - '+item.cityname"
+                             ></el-option>
+                           </el-select>
+                       </el-col>
+                       <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+                           <span class="input-text">机场：</span>
+                           <el-select placeholder="请选择" v-model="pd.portfrom" filterable clearable size="small" @visible-change="getjc(pd.cityfrom,1)"  class="input-input">
+                             <el-option
+                              v-for="item in airportw"
+                              :key="item.AIRPORT_CODE"
+                              :label="item.AIRPORT_CODE+' - '+item.AIRPORT_NAME"
+                              :value="item.AIRPORT_CODE">
+                            </el-option>
+                           </el-select>
+                       </el-col>
+                       <font class="yy-color">（注：洲、国家、城市、机场四选一）</font> -->
+             <el-col :sm="24" :md="12" :lg="8" class="input-item">
+               <span class="input-text"><font class="yy-color">*</font>境外机场：</span>
+                 <el-cascader
+                   @visible-change="handleChange"
+                   :options="startPark"
+                   :props="props"
+                   size="small"
+                   v-model="pd.stationtoList"
+                   filterable
+                   change-on-select
+                   class="input-input"
+                   clearable
+                 ></el-cascader>
+             </el-col>
         </el-row>
           <el-row align="center"   :gutter="2" class="yy-line">
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
@@ -227,15 +255,46 @@
                        label="港澳台">
                      </el-table-column>
                  </el-table-column>
+                 <el-table-column
+                   label="操作"
+                   min-width="50">
+                   <template slot-scope="scope">
+                     <el-button type="text"  class="a-btn" title="详情" size="mini" icon="el-icon-tickets" @click="nationDetails(scope.row)"></el-button>
+                  </template>
+                 </el-table-column>
                 </el-table>
           </div>
         </div>
     </div>
   </div>
+  <el-dialog title="详情" :visible.sync="detailsDialogVisible" width="600px">
+    <el-button  plain class="table-btn mb-9" size="small" @click="daochu">导出</el-button>
+    <el-table
+      :data="detailstableData"
+      border
+      class="o-table3"
+      @header-click="headerClick"
+      style="width: 100%;">
+      <el-table-column
+        prop="country"
+        label="国籍/地区"
+        sortable>
+      </el-table-column>
+      <el-table-column
+        prop="chkcount"
+        label="值机数"
+        sortable>
+      </el-table-column>
+    </el-table>
+    <div slot="footer" class="dialog-footer">
+      <el-button @click="detailsDialogVisible = false" size="small">返 回</el-button>
+    </div>
+  </el-dialog>
   </div>
 </template>
 <script>
 import echarts from 'echarts'
+import $ from 'jquery'
 import {
   formatDate,
   format
@@ -247,6 +306,13 @@ import axios from 'axios'
 export default {
   data() {
     return {
+      props: {
+          value: 'CODE',
+          label:'ENAME',
+          children: 'childList'
+        },
+      detailstableData:[],
+      myidChange:'',
       CurrentPage: 1,
       pageSize: 10,
       TotalResult: 0,
@@ -273,7 +339,7 @@ export default {
           label: "30"
         }
       ],
-      page: 0,
+      page: 1,
       tableData: [],
       multipleSelection: [],
       pickerOptions0: {
@@ -305,6 +371,9 @@ export default {
       showg: true,
       showk: true,
       showc: true,
+      startPark:[],
+      endPark:[],
+      daochuFlag:0,
     }
   },
   mounted() {
@@ -322,6 +391,10 @@ export default {
     this.pd.endtime = formatDate(endz, 'yyyyMMdd');
 
   },
+  created(){
+    let that = this;
+    window.sumDetails= that.sumDetails
+  },
   activated() {
     this.queryNationality();
     this.zhou();
@@ -337,6 +410,84 @@ export default {
 
   },
   methods: {
+    handleChange(value){//境外
+      // let p={
+      //   'flighttype':'2',
+      //   'citytype':'cityto'
+      // }
+      this.$api.post('/manage-platform/codeTable/queryFrnAirportCascade',{},
+       r =>{
+         if(r.success){
+           this.startPark = r.data;
+         }
+       })
+    },
+    landing(){//境内
+      this.$api.post('/manage-platform/codeTable/queryCityCascade',{},
+       r =>{
+         if(r.success){
+           this.endPark = r.data;
+         }
+       })
+    },
+    nationDetails(i){
+      this.detailsDialogVisible = true;
+      this.daochuFlag=0;
+      this.myidChange = i.myid;
+      let p={
+        "begintime":this.pd.begintime,
+        "endtime":this.pd.endtime,
+        "flighttype":this.pd.flighttype,
+        "continentfrom":this.pd.continentfrom,
+        "countryfrom":this.pd.countryfrom,
+        "cityfrom":this.pd.cityfrom,
+        "portfrom":this.pd.portfrom,
+        "cityto":this.pd.cityto,
+        "portto":this.pd.portto,
+        "colproperty":this.typerow=='continent'?1:this.typerow=='country'?2:this.typerow=='city'?3:4,
+        "myid":i.myid
+      }
+      this.$api.post('/manage-platform/dataStatistics/get_country_detail',p,
+       r =>{
+         if(r.success){
+           this.detailstableData=r.data;
+         }
+       })
+    },
+    sumDetails(){
+      this.detailsDialogVisible = true;
+      this.daochuFlag=1;
+      this.$api.post('/manage-platform/dataStatistics/get_country_detail',this.pd,
+       r =>{
+         if(r.success){
+           this.detailstableData=r.data;
+         }
+       })
+    },
+    daochu(){
+      let p={}
+      if(this.daochuFlag==0){
+         p={
+          "begintime":this.pd.begintime,
+          "endtime":this.pd.endtime,
+          "flighttype":this.pd.flighttype,
+          "continentfrom":this.pd.continentfrom,
+          "countryfrom":this.pd.countryfrom,
+          "cityfrom":this.pd.cityfrom,
+          "portfrom":this.pd.portfrom,
+          "cityto":this.pd.cityto,
+          "portto":this.pd.portto,
+          "colproperty":this.typerow=='continent'?1:this.typerow=='country'?2:this.typerow=='city'?3:4,
+          "myid":this.myidChange
+        }
+      }else if(this.daochuFlag==1){
+        p=this.pd
+      }
+      this.$api.post('/manage-platform/dataStatistics/exp_country_detail',p,
+       r =>{
+          this.downloadM(r,1);
+       },e=>{},'','blob')
+    },
     headerClick(column, event) {
       event.target.title = column.label
     },
@@ -372,27 +523,52 @@ export default {
       console.log(`当前页: ${val}`);
     },
     getList(currentPage, showCount, pd) {
-
-
+      console.log('this.pd.cityto',this.pd.cityto)
       if (this.pd.begintime == null || this.pd.endtime == null) {
         this.$alert('时间范围不能为空', '提示', {
           confirmButtonText: '确定',
         });
         return false
       };
-
-
+      if(this.pd.stationfromList==undefined||this.pd.stationfromList.length==0){
+        this.$message({
+          message: '境内城市不能为空！',
+          type: 'warning'
+        });
+        return false
+      }
+      if(this.pd.stationtoList==undefined||this.pd.stationtoList.length==0){
+        this.$message({
+          message: '境外城市不能为空！',
+          type: 'warning'
+        });
+        return false
+      }
+      // if((this.pd.cityto==undefined||this.pd.cityto=='')&&(this.pd.portto==undefined||this.pd.portto=='')){
+      //   this.$alert('境内城市和机场至少选一个', '提示', {
+      //     confirmButtonText: '确定',
+      //   });
+      //   return false
+      // }
+      // if((this.pd.continentfrom==undefined||this.pd.continentfrom=='')&&(this.pd.countryfrom==undefined||this.pd.countryfrom=='')&&(this.pd.cityfrom==undefined||this.pd.cityfrom=='')&&(this.pd.portfrom==undefined||this.pd.portfrom=='')){
+      //   this.$alert('境外洲、国家、城市和机场至少选一个', '提示', {
+      //     confirmButtonText: '确定',
+      //   });
+      //   return false
+      // }
       let p = {
 
         "begintime": pd.begintime,
         "endtime": pd.endtime,
-        "continentfrom": pd.continentfrom,
-        "countryfrom": pd.countryfrom,
-        "cityfrom": pd.cityfrom,
-        "cityto": pd.cityto,
-        "portto": pd.portto,
-        "portfrom": pd.portfrom,
-        "flighttype":pd.flighttype
+        // "continentfrom": pd.continentfrom,
+        // "countryfrom": pd.countryfrom,
+        // "cityfrom": pd.cityfrom,
+        // "cityto": pd.cityto,
+        // "portto": pd.portto,
+        // "portfrom": pd.portfrom,
+        "flighttype":pd.flighttype,
+        "stationfromList":pd.stationfromList,
+        "stationtoList":pd.stationtoList
       };
 
       var url = "/manage-platform/dataStatistics/get_fltline_bycontinent";
@@ -423,9 +599,10 @@ export default {
 
       this.$api.post(url, p,
         r => {
-          console.log(r);
           this.tableData = r.data;
-
+          if($('.t-detailbtn').length==0){
+            $('.el-table__footer .has-gutter').find("td").last().children('.cell').append('<button type="text" id="addBtn" class="el-button a-btn el-button--text el-button--mini t-detailbtn" title="详情" size="mini" onclick="sumDetails()"><i class="el-icon-tickets"></i></button>')
+          }
           let arr = this.tableData;
           var sum1 = 0,
             sum01 = 0;
@@ -501,7 +678,7 @@ export default {
         this.downloadM(response)
       });
     },
-    downloadM(data) {
+    downloadM(data,type) {
       if (!data) {
         return
       }
@@ -512,7 +689,11 @@ export default {
       let link = document.createElement('a')
       link.style.display = 'none'
       link.href = url
-      link.setAttribute('download', 'hxzt' + format(new Date(), 'yyyyMMddhhmmss') + '.xlsx')
+      if(type==1){
+        link.setAttribute('download', '航空专题分析，国籍地区分布.xlsx')
+      }else{
+        link.setAttribute('download', 'hxzt' + format(new Date(), 'yyyyMMddhhmmss') + '.xlsx')
+      }
       document.body.appendChild(link)
       link.click()
     },
@@ -594,8 +775,6 @@ export default {
             that.nation=arr[i].countryList;
           }
         }
-
-
     },
     portAble(t){
       if(t==0){
@@ -631,11 +810,11 @@ export default {
           }
         })
     },
-    details(i) {
-      this.detailsDialogVisible = true;
-      console.log(i);
-      this.form = i;
-    },
+    // details(i) {
+    //   this.detailsDialogVisible = true;
+    //   console.log(i);
+    //   this.form = i;
+    // },
     drawLine() {
 
       this.lineChart = echarts.init(document.getElementById('myChart'), 'light');

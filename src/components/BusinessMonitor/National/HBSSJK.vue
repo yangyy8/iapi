@@ -34,12 +34,12 @@
               <el-select v-model="pd.status" placeholder="请选择"  size="small" clearable filterable class="block input-input">
                 <el-option label="0 - 计划" value="0"></el-option>
                 <el-option label="1 - 已预检" value="1"></el-option>
-                <el-option label="2 - 已起飞" value="2"></el-option>
-                <el-option label="3 - 已到达" value="3"></el-option>
+                <el-option label="2 - 已起飞" value="3"></el-option>
+                <el-option label="3 - 已到达" value="6"></el-option>
                 <el-option label="4 - 已办理入境手续" value="4"></el-option>
                 <el-option label="5 - 已取消" value="5"></el-option>
-                <el-option label="6 - 无关闭报文" value="6"></el-option>
-                <el-option label="7 - 无值机报文" value="7"></el-option>
+                <el-option label="6 - 无关闭报文" value="7"></el-option>
+                <el-option label="7 - 无值机报文" value="8"></el-option>
               </el-select>
             </el-col>
             <el-col :sm="24" :md="12"  :lg="8" class="input-item">
@@ -160,12 +160,12 @@
             <div>
               <span v-if="scope.row.status==0" class="s0">计划</span>
               <span v-if="scope.row.status==1" class="s1">已预检</span>
-              <span v-if="scope.row.status==2" class="s2">已起飞</span>
-              <span v-if="scope.row.status==3" class="s3">已到达</span>
+              <span v-if="scope.row.status==3" class="s2">已起飞</span>
+              <span v-if="scope.row.status==6" class="s3">已到达</span>
               <span v-if="scope.row.status==4" class="s4">已办理入境手续</span>
               <span v-if="scope.row.status==5" class="s5">已取消</span>
-              <span v-if="scope.row.status==6" class="s6">无关闭报文</span>
-              <span v-if="scope.row.status==7" class="s7">无值机报文</span>
+              <span v-if="scope.row.status==7" class="s6">无关闭报文</span>
+              <span v-if="scope.row.status==8" class="s7">无值机报文</span>
             </div>
           </template>
 
@@ -334,12 +334,12 @@
             <!-- {{detailsData.status}} -->
             <a v-if="detailsData.status==0">计划</a>
             <a v-if="detailsData.status==1">已预检</a>
-            <a v-if="detailsData.status==2">已起飞</a>
-            <a v-if="detailsData.status==3">已到达</a>
+            <a v-if="detailsData.status==3">已起飞</a>
+            <a v-if="detailsData.status==6">已到达</a>
             <a v-if="detailsData.status==4">已办理入境手续</a>
             <a v-if="detailsData.status==5">已取消</a>
-            <a v-if="detailsData.status==6">无关闭报文</a>
-            <a v-if="detailsData.status==7">无值机报文</a>
+            <a v-if="detailsData.status==7">无关闭报文</a>
+            <a v-if="detailsData.status==8">无值机报文</a>
           </el-col>
           <el-col :sm="24" :md="12" :lg="8" >
             <span>实际起飞时间：</span>

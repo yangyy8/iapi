@@ -148,6 +148,13 @@
                 value-format="yyyyMMdd">
             </el-date-picker>
             </el-col>
+            <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+              <span class="input-text"><i class="t-must">*</i>查询范围：</span>
+              <el-select v-model="searchType" placeholder="请选择" filterable  size="small" class="input-input" @change="fightDate">
+                 <el-option value="0" label="当前查询"></el-option>
+                 <el-option value="1" label="历史查询"></el-option>
+               </el-select>
+            </el-col>
           </el-row>
         </el-col>
         <el-col :span="2" class="down-btn-area" style="margin-top:35px;" v-if="CONSULTTYPE==0">
@@ -269,7 +276,7 @@
       <el-row align="center" :gutter="2" type="flex" v-if="CONSULTTYPE==1||CONSULTTYPE==2">
         <el-col :span="24" class="input-item my-form-group" :data-scope="aa.all" data-name="DETAILS" data-type="textarea"
         v-validate-easy="[['required']]">
-          <span class="yy-input-text width-lef">问题详情：</span>
+          <span class="yy-input-text width-lef"><i class="t-must">*</i>问题详情：</span>
           <el-input type="textarea" v-model="huifu.DETAILS" maxlength="300" :autosize="{ minRows: 3, maxRows: 6}" placeholder="请输入描述(不能超过300字)"></el-input>
         </el-col>
       </el-row>
@@ -291,9 +298,8 @@
       <el-row type="flex" class="middle">
         <el-col :span="12" class="br pr-20">
             <el-row align="center" :gutter="2" type="flex">
-              <el-col  :sm="20" :md="20" :lg="20"  class="input-item my-form-group" :data-scope="aa.all" data-name="REPLYTYPE" data-type="select"
-              v-validate-easy="[['required']]">
-                <span class="input-text"><i class="t-must">*</i>回复口径：</span>
+              <el-col  :sm="20" :md="20" :lg="20"  class="input-item">
+                <span class="input-text">回复意见：</span>
                 <el-select v-model="huifu.REPLYTYPE" filterable clearable placeholder="请选择" size="small" class="input-input" @visible-change="replyCaliber" @change="replayC(huifu.REPLYTYPE)">
                   <el-option
                    v-for="(item,ind) in caliber"
@@ -305,17 +311,15 @@
               </el-col>
             </el-row>
             <el-row align="center" :gutter="2" type="flex">
-              <el-col  :sm="20" :md="20" :lg="20"  class="input-item my-form-group" :data-scope="aa.all" data-name="CHNREPLY" data-type="input"
-              v-validate-easy="[['required']]">
-                <span class="input-text"><i class="t-must">*</i>中文：</span>
-                <el-input placeholder="请输入内容" size="small" v-model="huifu.CHNREPLY"  class="input-input"></el-input>
+              <el-col  :sm="20" :md="20" :lg="20"  class="input-item">
+                <span class="input-text">中文：</span>
+                <el-input type="textarea" placeholder="请输入内容" size="small" v-model="huifu.CHNREPLY"  class="input-input"></el-input>
               </el-col>
             </el-row>
             <el-row align="center" :gutter="2" type="flex">
-              <el-col  :sm="20" :md="20" :lg="20"  class="input-item my-form-group" :data-scope="aa.all" data-name="ENGREPLY" data-type="input"
-              v-validate-easy="[['required']]">
-                <span class="input-text"><i class="t-must">*</i>英文：</span>
-                <el-input placeholder="请输入内容" size="small" v-model="huifu.ENGREPLY"  class="input-input"></el-input>
+              <el-col  :sm="20" :md="20" :lg="20"  class="input-item">
+                <span class="input-text">英文：</span>
+                <el-input type="textarea" placeholder="请输入内容" size="small" v-model="huifu.ENGREPLY"  class="input-input"></el-input>
               </el-col>
             </el-row>
           </el-col>
@@ -371,8 +375,9 @@ export default {
       entity:{},
       takeOffName:[],
       pd: {
-        DEPARTDATE:''
+        DEPARTDATE:'',
       },
+      searchType:'0',
       selection:[],
       CONSULTTYPE:0,//咨询问题类型
       detailsRow:{},//旅客校验录入详情本行数据
@@ -427,6 +432,22 @@ export default {
     this.V.$reset('txljiao');
   },
   methods: {
+    fightDate(){
+      if(this.searchType==0){//当前
+        this.pd.DEPARTDATE = formatDate(new Date(),'yyyyMMdd');
+        this.$message({
+          message: '仅能查询近期1个月以内的数据',
+          type: 'warning'
+        });
+      }else if(this.searchType==1){//历史
+        let end = new Date(new Date() - 1000 * 60 * 60 * 24 * 30);
+        this.pd.DEPARTDATE = formatDate(end,'yyyyMMdd');
+        this.$message({
+          message: '仅能查询1个月以前的数据',
+          type: 'warning'
+        });
+      }
+    },
     sortChange(column, prop, order){
       column.order=='ascending'?this.direction=1:this.direction=0;
       this.order=column.prop;
@@ -483,12 +504,27 @@ export default {
       console.log(`当前页: ${val}`);
     },
     getList(currentPage, showCount, pd,order,direction) {
+      let end = new Date(new Date() - 1000 * 60 * 60 * 24 * 30);
+      let endTime = formatDate(end,'yyyy-MM-dd')
+      if(this.searchType==0&&(this.pd.DEPARTDATE<formatDate(end,'yyyyMMdd'))){//当前
+        this.$alert('“当前查询”的查询日期只能选择一个月内，如需查询一个月前的数据，请在“查询范围”选择“历史查询”！', '提示', {
+          confirmButtonText: '确定',
+        });
+        return false
+      }
+      if(this.searchType==1&&(this.pd.DEPARTDATE>formatDate(end,'yyyyMMdd'))){
+        this.$alert('“历史查询”的查询日期只能选择一个月前，如需查询一个月内的数据，请在“查询范围”选择“当前查询”！', '提示', {
+          confirmButtonText: '确定',
+        });
+        return false
+      }
       let p = {
         "currentPage": currentPage,
         "showCount": showCount,
         "pd": pd,
         "order":order,
-        "direction":direction
+        "direction":direction,
+        "searchType":this.searchType
       };
       this.$api.post('/manage-platform/consult/queryConsultIapiInfo', p,
         r => {
@@ -593,6 +629,7 @@ export default {
       this.detailsRow.CONSULTEMAIL= this.entity.CONSULTEMAIL;
       this.detailsRow.CONSULTFROMOTHERREMARK = this.entity.CONSULTFROMOTHERREMARK;
       this.detailsRow.AIRLINE_CODE = this.entity.AIRLINE_CODE;
+      console.log(this.entity.AIRLINE_CODE)
       if(this.entity.AIRLINE_CODE!=''){
         this.detailsRow.AIRLINE_CHN_NAME = this.appZhuan(this.entity.AIRLINE_CODE).split('-')[0];
         this.detailsRow.AIRLINE_ENG_NAME = this.appZhuan(this.entity.AIRLINE_CODE).split('-')[1];
@@ -612,9 +649,9 @@ export default {
       this.V.$submit('txl', (canSumit,data) => {
         if(!canSumit) return
         var a = this.entity;
-        this.businessEnti.CONSULTTYPE = this.CONSULTTYPE;
         var b = this.huifu;
-        this.businessEnti = Object.assign({}, a,b)
+        this.businessEnti = Object.assign({}, a,b);
+        this.businessEnti.CONSULTTYPE = this.CONSULTTYPE;
         // if(this.CONSULTTYPE==1){
         //   this.businessHuifu = this.huifu;
         //   var b = this.businessHuifu;
@@ -663,6 +700,7 @@ export default {
 }
 .width-lef{
   width: 5%!important;
+  margin-right: 1%;
 }
 .tt-width{
   width: 15%!important;

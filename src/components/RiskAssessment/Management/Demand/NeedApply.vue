@@ -171,6 +171,8 @@
               </el-option>
               <el-option value="5" label="5 - 前台提问">
               </el-option>
+              <el-option value="6" label="6 - 模型">
+              </el-option>
               <el-option value="99" label="99 - 其它">
               </el-option>
              </el-select>

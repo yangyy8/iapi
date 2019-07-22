@@ -1,17 +1,17 @@
 // 配置API接口地址
-var root="http://192.168.3.72:8081"
+// var root="http://192.168.3.72:8081"
   // var root=""
 // var root="http://192.168.99.234:8080"
 
 // var root="http://192.168.99.206:8080"
-// var root="http://192.168.99.201:8080"
+// var root="http://192.168.99.201:8081"
 // var root=""
 // var root="http://192.168.99.234:8080"
 // var root="http://192.168.99.242:8081"
 // var root="http://192.168.99.248:8081"
-// var root="http://192.168.99.247:8080"
+var root="http://192.168.99.247:8080"
 // var root="http://192.168.99.244:8080"
-//var root="http://192.168.99.213:8080"   //服务器电脑
+// var root="http://192.168.99.213:8080"   //服务器电脑
 // var root="http://192.168.99.228:8080"
 // var root="http://10.6.126.138:8088" //正式环境
 // 引用axios
@@ -19,6 +19,7 @@ var axios = require('axios')
 import { Loading } from 'element-ui';
 import { Message } from 'element-ui';
 import { MessageBox } from 'element-ui';
+
 // 自定义判断元素类型JS
 function toType(obj) {
   return ({}).toString.call(obj).match(/\s([a-zA-Z]+)/)[1].toLowerCase()
@@ -80,8 +81,8 @@ function apiAxios(method, url, params, success, failure,header,responseType) {
   //   }
   // }
   let loadingInstance1=null;
-  if(!(url=='/manage-platform/riskRecordController/getPhotoInf'||url=='/manage-platform/nationwide/getPortDetail'||url=='/manage-platform/nationwide/getFlightDetail'||url=='/manage-platform/nameList/getNameListDataAnalysis'||url=='/manage-platform/riskRecordExtInterfaceController/getRecordOtherInfo'||url=='/manage-platform/iapiHead/queryListPageCount')){
-    loadingInstance1 = Loading.service({ fullscreen: true, spinner: 'el-icon-loading',text:'正在加载中',background:'rgba(0,0,0,0.6)',customClass:'loadingClass'});
+  if(!(url=='/manage-platform/riskRecordController/getPhotoInf'||url=='/manage-platform/nationwide/getPortDetail'||url=='/manage-platform/nationwide/getFlightDetail'||url=='/manage-platform/nameList/getNameListDataAnalysis'||url=='/manage-platform/riskRecordExtInterfaceController/getRecordOtherInfo'||url=='/manage-platform/iapiHead/queryListPageCount'||url=='/manage-platform/riskRecordExtInterfaceController/getCRCCNumInfo'||url=='/manage-platform/sysUserInfoController/querySysUserInfo'||url=='/manage-platform/riskRecordController/getUserBaseInfo'||url=='/manage-platform/riskRecordController/getUserTagInfo'||url=='/manage-platform/riskRecordController/getRecordTagInfo'||url=='/manage-platform/riskRecordController/getRiskEventInfo'||url=='/manage-platform/riskRecordController/getQueryRiskRecordUserInfo'||url=='/manage-platform/riskRecordController/saveRiskQueryRecordLogInfo')){
+    loadingInstance1 = Loading.service({ fullscreen: true, spinner: 'el-icon-loading',background:'transparent',customClass:'loadingClass'});
     // console.log('url',url,loadingInstance1);
   }
   axios({

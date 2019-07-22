@@ -58,6 +58,28 @@
               <span class="input-text">航班号：</span>
                 <el-input placeholder="请输入内容" size="small" v-model="pd.fltno" class="input-input"></el-input>
             </el-col>
+            <el-col :sm="24" :md="12"  :lg="8" class="input-item">
+              <span class="input-text">口岸：</span>
+              <el-select  placeholder="请选择"  size="mini"  class="input-input" v-model="pd.port" filterable clearable @visible-change="portMethod">
+                <el-option
+                v-for="item in portName"
+                :key="item.KADM"
+                :value="item.KADM"
+                :label="item.KADM+' - '+item.KAMC"
+                ></el-option>
+              </el-select>
+            </el-col>
+            <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+                <span class="input-text">出入标识：</span>
+                <el-select v-model="pd.flighttype"  filterable clearable  class="input-input"  placeholder="请选择"  size="small">
+                  <el-option value="I" label="I - 入境">
+                  </el-option>
+                  <el-option value="O" label="O - 出境">
+                  </el-option>
+                  <!-- <el-option value="A" label="A - 入出境">
+                  </el-option> -->
+                </el-select>
+              </el-col>
             <!-- <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
               <span class="input-text">航班日期：</span>
               <el-date-picker
@@ -179,7 +201,7 @@
     </div>
     <el-dialog
       title="详情"
-      :visible.sync="detailsDialogVisible">
+      :visible.sync="detailsDialogVisible"   width="60%">
 
         <div class="ak-tabs">
           <div class="ak-tab-item abehgt hand" :class="{'ak-checked':page==0}" @click="base">
@@ -604,7 +626,7 @@
                           </div>
                           <div class="">
                             每页
-                            <el-select v-model="pageSize5" @change="pageSizeChange4(pageSize5)" placeholder="10" size="mini" class="page-select">
+                            <el-select v-model="pageSize5" @change="pageSizeChange5(pageSize5)" placeholder="10" size="mini" class="page-select">
                               <el-option
                                 v-for="item in options"
                                 :key="item.value"
@@ -642,6 +664,7 @@ import axios from 'axios'
 export default {
   data() {
     return {
+      portName:[],
       CurrentPage: 1,
       pageSize: 10,
       TotalResult: 0,
@@ -715,8 +738,8 @@ export default {
     let time = new Date();
     let endz = new Date();
     let beginz = new Date(time - 1000 * 60 * 60 * 24 * 1);
-    this.pd.begintime = formatDate(endz, 'yyyyMMdd');
-    this.pd.endtime = formatDate(endz, 'yyyyMMdd');
+    this.pd.begintime = formatDate(beginz, 'yyyyMMdd');
+    this.pd.endtime = formatDate(beginz, 'yyyyMMdd');
   },
   activated(){
       this.queryNationality();
@@ -727,6 +750,14 @@ export default {
       // this.pd.endtime = formatDate(endz, 'yyyyMMdd');
   },
   methods: {
+    portMethod(){
+      this.$api.post('/manage-platform/codeTable/queryAirportMatch1',{},
+      r =>{
+        if(r.success){
+          this.portName = r.data
+        }
+      })
+    },
     headerClick(column,event){
      event.target.title=column.label
    },
@@ -758,43 +789,43 @@ export default {
       console.log(`当前页: ${val}`);
     },
     pageSizeChange1(val) {
-      this.getList1(this.CurrentPage1, val, this.pd);
+      this.getList1(this.CurrentPage1, val, this.pd0);
       console.log(`每页 ${val} 条`);
     },
     handleCurrentChange1(val) {
-      this.getList1(val, this.pageSize1, this.pd);
+      this.getList1(val, this.pageSize1, this.pd0);
       console.log(`当前页: ${val}`);
     },
     pageSizeChange2(val) {
-      this.getList2(this.CurrentPage2, val, this.pd);
+      this.getList2(this.CurrentPage2, val, this.pd0);
       console.log(`每页 ${val} 条`);
     },
     handleCurrentChange2(val) {
-      this.getList2(val, this.pageSize2, this.pd);
+      this.getList2(val, this.pageSize2, this.pd0);
       console.log(`当前页: ${val}`);
     },
     pageSizeChange3(val) {
-      this.getList3(this.CurrentPage3, val, this.pd);
+      this.getList3(this.CurrentPage3, val, this.pd0);
       console.log(`每页 ${val} 条`);
     },
     handleCurrentChange3(val) {
-      this.getList3(val, this.pageSize3, this.pd);
+      this.getList3(val, this.pageSize3, this.pd0);
       console.log(`当前页: ${val}`);
     },
     pageSizeChange4(val) {
-      this.getList4(this.CurrentPage4, val, this.pd);
+      this.getList4(this.CurrentPage4, val, this.pd0);
       console.log(`每页 ${val} 条`);
     },
     handleCurrentChange4(val) {
-      this.getList4(val, this.pageSize4, this.pd);
+      this.getList4(val, this.pageSize4, this.pd0);
       console.log(`当前页: ${val}`);
     },
     pageSizeChange5(val) {
-      this.getList5(this.CurrentPage5, val, this.pd);
+      this.getList5(this.CurrentPage5, val, this.pd0);
       console.log(`每页 ${val} 条`);
     },
     handleCurrentChange5(val) {
-      this.getList5(val, this.pageSize5, this.pd);
+      this.getList5(val, this.pageSize5, this.pd0);
       console.log(`当前页: ${val}`);
     },
     getList(currentPage, showCount, pd) {
@@ -802,12 +833,21 @@ export default {
        if (result.indexOf(false) > -1) {
          return
        }
+       let time = formatDate(new Date(), 'yyyyMMdd');
+       if((this.pd.begintime>=time)||(this.pd.endtime>=time)){
+         this.$alert('当前及以后的日期不可查询', '提示', {
+           confirmButtonText: '确定',
+         });
+         return false
+       }
       let p = {
         "begintime":pd.begintime,
         "endtime":pd.endtime,
         "fltno":pd.fltno,
         "fltdate":pd.fltdate,
-        "airline_company_id":pd.airline_company_id
+        "airline_company_id":pd.airline_company_id,
+        "port":pd.port,
+        "flighttype":pd.flighttype
       };
        var url="/manage-platform/forecastEva/get_fccrt_bycompanyid";
       // if(this.typerow=="2"){

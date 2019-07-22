@@ -29,7 +29,6 @@
                 <span class="input-text">咨询时间：</span>
                 <div class="input-input t-flex t-date">
                    <el-date-picker
-
                    v-model="cdt.STARTTIME"
                    type="datetime"
                    size="small"
@@ -39,7 +38,6 @@
                   </el-date-picker>
                    <span class="septum">-</span>
                    <el-date-picker
-
                     v-model="cdt.ENDTIME"
                     type="datetime"
                     size="small"
@@ -135,6 +133,9 @@
           prop="NAME"
           label="被咨询人"
           sortable>
+          <template slot-scope="scope">
+            {{scope.row.NAME||loadUser}}
+          </template>
         </el-table-column>
         <el-table-column
           prop="CONSULTFROMTYPE"
@@ -332,6 +333,7 @@ export default {
 
   data() {
     return {
+      loadUser:'',
       order:'',
       direction:0,
       REPLYTYPE:'',
@@ -373,20 +375,27 @@ export default {
       tableData: [],
       tableDataD:[],
       pickerOptions: {
-        disabledDate: (time) => {
-            if (this.cdt.ENDTIME != null) {
-              let startT = formatDate(new Date(time.getTime()),'yyyyMMddhhmmss');
-              return startT > this.cdt.ENDTIME;
-            }else if(this.cdt.ENDTIME == null){
-              return false
-            }
-        }
+        // disabledDate: (time) => {
+        //     let startT = formatDate(new Date(time.getTime()),'yyyyMMddhhmmss');
+        //     if(this.cdt.ENDTIME == null||this.cdt.ENDTIME==''){
+        //       console.log(startT > 0)
+        //       return startT < 0
+        //     }else{
+        //       return startT > this.cdt.ENDTIME;
+        //     }
+        // }
       },
       pickerOptions1: {
-        disabledDate: (time) => {
-            let endT = formatDate(new Date(time.getTime()),'yyyyMMddhhmmss');
-            return endT < this.cdt.STARTTIME;
-        }
+        // disabledDate: (time) => {
+        //   let todayS =  (this.cdt.STARTTIME).slice(0,8);
+        //   let currentTime = formatDate(new Date(time.getTime()),'yyyyMMdd');
+        //   let endT = formatDate(new Date(time.getTime()),'yyyyMMddhhmmss');
+        //   if(todayS==currentTime){
+        //     return this.cdt.STARTTIME>this.cdt.ENDTIME;
+        //   }else{
+        //     return endT < this.cdt.STARTTIME;
+        //   }
+        // }
       },
     }
   },
@@ -398,6 +407,7 @@ export default {
     // this.cdt.ENDTIME=formatDate(end,'yyyyMMddhhmmss');
   },
   activated(){
+    console.log(this.cdt.ENDTIME);
     // this.getList(this.CurrentPage, this.pageSize, this.pd);
   },
   filters: {
@@ -434,6 +444,14 @@ export default {
     }
   },
   methods: {
+    getUsers(){
+      this.$api.post('/manage-platform/sysUserInfoController/querySysUserInfo',{},
+       r => {
+        if(r.success){
+          this.loadUser=r.data.name
+        }
+      })
+    },
     sortChange(column, prop, order){
       column.order=='ascending'?this.direction=1:this.direction=0;
       this.order=column.prop;
@@ -463,6 +481,7 @@ export default {
         });
         return false
       };
+      this.getUsers()
       let p = {
         "currentPage": currentPage,
         "showCount": showCount,

@@ -13,9 +13,11 @@
                 <el-input placeholder="请输入内容" size="small" v-model="pd.fltno" class="input-input"></el-input>
             </el-col>
             <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
-              <span class="input-text">航班日期：</span>
+              <span class="input-text"><font color="red">*</font>航班日期：</span>
                <el-date-picker
-               v-model="pd.fltdate" format="yyyy-MM-dd" class="input-input"
+               v-model="pd.fltdate"
+               format="yyyy-MM-dd"
+               class="input-input"
                type="date" size="small" value-format="yyyyMMdd"
                placeholder="选择时间">
              </el-date-picker>
@@ -101,56 +103,57 @@
               @header-click="headerClick"
               element-loading-text="正在加载中"
               element-loading-spinner="el-icon-loading"
-              element-loading-background="rgba(0, 0, 0, 0.2)"
+              element-loading-background="transparent"
               element-loading-customClass="loadingClass"
-              v-loading.fullscreen.lock="fullscreenLoading">
+              v-loading.fullscreen.lock="fullscreenLoading"
+              @sort-change='sortChange'>
               <el-table-column
                 prop="fltno"
-                label="航班号" sortable>
+                label="航班号" sortable="custom">
               </el-table-column>
               <el-table-column
                 prop="departdate"
-                label="计划起飞时间" width="130"  sortable>
+                label="计划起飞时间" width="130"  sortable="custom">
               </el-table-column>
               <el-table-column
                 prop="arrivdate"
-                label="计划到达时间" width="130"  sortable>
+                label="计划到达时间" width="130"  sortable="custom">
               </el-table-column>
               <el-table-column
                 prop="citfrom"
-                label="出发地" sortable>
+                label="出发地" sortable="custom">
               </el-table-column>
               <el-table-column
                 prop="cityto"
-                label="到达地" sortable>
+                label="到达地" sortable="custom">
               </el-table-column>
               <el-table-column
                 prop="nationality"
-                label="国籍/地区" sortable>
+                label="国籍/地区" sortable="custom">
               </el-table-column>
               <el-table-column
                 prop="cardnum"
-                label="证件号码" sortable>
+                label="证件号码" sortable="custom">
               </el-table-column>
               <el-table-column
                 prop="name"
-                label="姓名" sortable>
+                label="姓名" sortable="custom">
               </el-table-column>
               <el-table-column
                 prop="gender"
-                label="性别" sortable>
+                label="性别" sortable="custom">
               </el-table-column>
               <el-table-column
                 prop="birthday"
-                label="出生日期" sortable>
+                label="出生日期" sortable="custom">
               </el-table-column>
               <el-table-column
                 prop="rci"
-                label="订单号" sortable>
+                label="订单号" sortable="custom">
               </el-table-column>
               <el-table-column
                 prop="rcitime"
-                label="订单时间" sortable>
+                label="订单时间" sortable="custom">
               </el-table-column>
             </el-table>
             <div class="middle-foot">
@@ -192,56 +195,57 @@
             @header-click="headerClick"
             element-loading-text="正在加载中"
             element-loading-spinner="el-icon-loading"
-            element-loading-background="rgba(0, 0, 0, 0.2)"
+            element-loading-background="transparent"
             element-loading-customClass="loadingClass"
-            v-loading.fullscreen.lock="fullscreenLoading1">
+            v-loading.fullscreen.lock="fullscreenLoading1"
+            @sort-change='sortChange'>
             <el-table-column
               prop="fltno"
-              label="航班号" sortable>
+              label="航班号" sortable="custom">
             </el-table-column>
             <el-table-column
               prop="departdate"
-              label="计划起飞时间" width="130"  sortable>
+              label="计划起飞时间" width="130"  sortable="custom">
             </el-table-column>
             <el-table-column
               prop="arrivdate"
-              label="计划到达时间" width="130"  sortable>
+              label="计划到达时间" width="130"  sortable="custom">
             </el-table-column>
             <el-table-column
               prop="citfrom"
-              label="出发地" sortable>
+              label="出发地" sortable="custom">
             </el-table-column>
             <el-table-column
               prop="cityto"
-              label="到达地" sortable>
+              label="到达地" sortable="custom">
             </el-table-column>
             <el-table-column
               prop="nationality"
-              label="国籍/地区" sortable>
+              label="国籍/地区" sortable="custom">
             </el-table-column>
             <el-table-column
               prop="cardnum"
-              label="证件号码" sortable>
+              label="证件号码" sortable="custom">
             </el-table-column>
             <el-table-column
               prop="name"
-              label="姓名" sortable>
+              label="姓名" sortable="custom">
             </el-table-column>
             <el-table-column
               prop="gender"
-              label="性别" sortable>
+              label="性别" sortable="custom">
             </el-table-column>
             <el-table-column
               prop="birthday"
-              label="出生日期" sortable>
+              label="出生日期" sortable="custom">
             </el-table-column>
             <el-table-column
               prop="chktime"
-              label="值机时间" sortable>
+              label="值机时间" sortable="custom">
             </el-table-column>
             <el-table-column
               prop="specifigseat"
-              label="座位号" sortable>
+              label="座位号" sortable="custom">
             </el-table-column>
           </el-table>
           <div class="middle-foot">
@@ -285,56 +289,57 @@
             @header-click="headerClick"
             element-loading-text="正在加载中"
             element-loading-spinner="el-icon-loading"
-            element-loading-background="rgba(0, 0, 0, 0.2)"
+            element-loading-background="transparent"
             element-loading-customClass="loadingClass"
-            v-loading.fullscreen.lock="fullscreenLoading2">
+            v-loading.fullscreen.lock="fullscreenLoading2"
+            @sort-change='sortChange'>
             <el-table-column
               prop="fltno"
-              label="航班号" sortable>
+              label="航班号" sortable="custom">
             </el-table-column>
             <el-table-column
               prop="departdate"
-              label="计划起飞时间" width="130"  sortable>
+              label="计划起飞时间" width="130"  sortable="custom">
             </el-table-column>
             <el-table-column
               prop="arrivdate"
-              label="计划到达时间" width="130"  sortable>
+              label="计划到达时间" width="130"  sortable="custom">
             </el-table-column>
             <el-table-column
               prop="citfrom"
-              label="出发地" sortable>
+              label="出发地" sortable="custom">
             </el-table-column>
             <el-table-column
               prop="cityto"
-              label="到达地" sortable>
+              label="到达地" sortable="custom">
             </el-table-column>
             <el-table-column
               prop="nationality"
-              label="国籍/地区" sortable>
+              label="国籍/地区" sortable="custom">
             </el-table-column>
             <el-table-column
               prop="cardnum"
-              label="证件号码" sortable>
+              label="证件号码" sortable="custom">
             </el-table-column>
             <el-table-column
               prop="name"
-              label="姓名" sortable>
+              label="姓名" sortable="custom">
             </el-table-column>
             <el-table-column
               prop="gender"
-              label="性别" sortable>
+              label="性别" sortable="custom">
             </el-table-column>
             <el-table-column
               prop="birthday"
-              label="出生日期" sortable>
+              label="出生日期" sortable="custom">
             </el-table-column>
             <el-table-column
               prop="chktime"
-              label="值机时间" sortable>
+              label="值机时间" sortable="custom">
             </el-table-column>
             <el-table-column
               prop="specifigseat"
-              label="座位号" sortable>
+              label="座位号" sortable="custom">
             </el-table-column>
           </el-table>
 
@@ -379,56 +384,57 @@
             @header-click="headerClick"
             element-loading-text="正在加载中"
             element-loading-spinner="el-icon-loading"
-            element-loading-background="rgba(0, 0, 0, 0.2)"
+            element-loading-background="transparent"
             element-loading-customClass="loadingClass"
-            v-loading.fullscreen.lock="fullscreenLoading3">
+            v-loading.fullscreen.lock="fullscreenLoading3"
+            @sort-change='sortChange'>
             <el-table-column
               prop="fltno"
-              label="航班号" sortable>
+              label="航班号" sortable="custom">
             </el-table-column>
             <el-table-column
               prop="departdate"
-              label="计划起飞时间" width="130" sortable>
+              label="计划起飞时间" width="130" sortable="custom">
             </el-table-column>
             <el-table-column
               prop="arrivdate"
-              label="计划到达时间" width="130"  sortable>
+              label="计划到达时间" width="130"  sortable="custom">
             </el-table-column>
             <el-table-column
               prop="citfrom"
-              label="出发地" sortable>
+              label="出发地" sortable="custom">
             </el-table-column>
             <el-table-column
               prop="cityto"
-              label="到达地" sortable>
+              label="到达地" sortable="custom">
             </el-table-column>
             <el-table-column
               prop="nationality"
-              label="国籍/地区" sortable>
+              label="国籍/地区" sortable="custom">
             </el-table-column>
             <el-table-column
               prop="cardnum"
-              label="证件号码" sortable>
+              label="证件号码" sortable="custom">
             </el-table-column>
             <el-table-column
               prop="name"
-              label="姓名" sortable>
+              label="姓名" sortable="custom">
             </el-table-column>
             <el-table-column
               prop="gender"
-              label="性别" sortable>
+              label="性别" sortable="custom">
             </el-table-column>
             <el-table-column
               prop="birthday"
-              label="出生日期" sortable>
+              label="出生日期" sortable="custom">
             </el-table-column>
             <el-table-column
               prop="chktime"
-              label="值机时间" sortable>
+              label="值机时间" sortable="custom">
             </el-table-column>
             <el-table-column
               prop="specifigseat"
-              label="座位号" sortable>
+              label="座位号" sortable="custom">
             </el-table-column>
           </el-table>
           <div class="middle-foot">
@@ -472,7 +478,18 @@ import { Loading } from 'element-ui';
 export default {
   data() {
     return {
+      order:'',
+      direction:0,
+      order1:'',
+      direction1:0,
+      order2:'',
+      direction2:0,
+      order3:'',
+      direction3:0,
       fullscreenLoading:false,
+      fullscreenLoading1:false,
+      fullscreenLoading2:false,
+      fullscreenLoading3:false,
       CurrentPage: 1,
       pageSize: 10,
       TotalResult: 0,
@@ -546,20 +563,39 @@ export default {
       this.pd.gender = this.sexZhuan(this.$route.query.row.GENDER);
       this.pd.birthday = this.zhuanhuan(this.$route.query.row.iapiBirthdayName);
 
-      this.getList(this.CurrentPage, this.pageSize, this.pd);
-      this.getList1(this.CurrentPage1, this.pageSize1, this.pd);
-      this.getList2(this.CurrentPage2, this.pageSize2, this.pd);
-      this.getList3(this.CurrentPage3, this.pageSize3, this.pd);
+      this.getList(this.CurrentPage, this.pageSize, this.pd,this.order,this.direction);
+      this.getList1(this.CurrentPage1, this.pageSize1, this.pd,this.order1,this.direction1);
+      this.getList2(this.CurrentPage2, this.pageSize2, this.pd,this.order2,this.direction2);
+      this.getList3(this.CurrentPage3, this.pageSize3, this.pd,this.order3,this.direction3);
     }
 
     // console.log(this.$route.query.row.NATIONALITY)
   },
   methods: {
+    sortChange(column, prop, order){
+      if(this.page==0){
+        column.order=='ascending'?this.direction=1:this.direction=0;
+        this.order=column.prop;
+        this.getList(this.CurrentPage,this.pageSize,this.pd,this.order,this.direction);
+      }else if(this.page==1){
+        column.order=='ascending'?this.direction1=1:this.direction1=0;
+        this.order1=column.prop;
+        this.getList1(this.CurrentPage1,this.pageSize1,this.pd,this.order1,this.direction1);
+      }else if(this.page==2){
+        column.order=='ascending'?this.direction2=1:this.direction2=0;
+        this.order2=column.prop;
+        this.getList2(this.CurrentPage2,this.pageSize2,this.pd,this.order2,this.direction2);
+      }else if(this.page==3){
+        column.order=='ascending'?this.direction3=1:this.direction3=0;
+        this.order3=column.prop;
+        this.getList3(this.CurrentPage3,this.pageSize3,this.pd,this.order3,this.direction3);
+      }
+    },
     search(){
-      this.getList(this.CurrentPage, this.pageSize, this.pd);
-      this.getList1(this.CurrentPage1, this.pageSize1, this.pd);
-      this.getList2(this.CurrentPage2, this.pageSize2, this.pd);
-      this.getList3(this.CurrentPage3, this.pageSize3, this.pd);
+      this.getList(this.CurrentPage, this.pageSize, this.pd,this.order,this.direction);
+      this.getList1(this.CurrentPage1, this.pageSize1, this.pd,this.order1,this.direction1);
+      this.getList2(this.CurrentPage2, this.pageSize2, this.pd,this.order2,this.direction2);
+      this.getList3(this.CurrentPage3, this.pageSize3, this.pd,this.order3,this.direction3);
     },
     reset(){
       this.pd = {
@@ -611,56 +647,46 @@ export default {
     },
 
     pageSizeChange(val) {
-      this.getList(this.CurrentPage, val, this.pd);
+      this.getList(this.CurrentPage, val, this.pd,this.order,this.direction);
       console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
-      this.getList(val, this.pageSize, this.pd);
+      this.getList(val, this.pageSize, this.pd,this.order,this.direction);
       console.log(`当前页: ${val}`);
     },
     pageSizeChange1(val) {
-      this.getList1(this.CurrentPage1, val, this.pd);
+      this.getList1(this.CurrentPage1, val, this.pd,this.order1,this.direction1);
       console.log(`1每页 ${val} 条`);
     },
     handleCurrentChange1(val) {
-      this.getList1(val, this.pageSize1, this.pd);
+      this.getList1(val, this.pageSize1, this.pd,this.order1,this.direction1);
       console.log(`1当前页: ${val}`);
     },
     pageSizeChange2(val) {
-      this.getList2(this.CurrentPage2, val, this.pd);
+      this.getList2(this.CurrentPage2, val, this.pd,this.order2,this.direction2);
       console.log(`2每页 ${val} 条`);
     },
     handleCurrentChange2(val) {
-      this.getList2(val, this.pageSize2, this.pd);
+      this.getList2(val, this.pageSize2, this.pd,this.order2,this.direction2);
       console.log(`2当前页: ${val}`);
     },
     pageSizeChange3(val) {
-      this.getList3(this.CurrentPage3, val, this.pd);
+      this.getList3(this.CurrentPage3, val, this.pd,this.order3,this.direction3);
       console.log(`3每页 ${val} 条`);
     },
     handleCurrentChange3(val) {
-      this.getList3(val, this.pageSize3, this.pd);
+      this.getList3(val, this.pageSize3, this.pd,this.order3,this.direction3);
       console.log(`3当前页: ${val}`);
-    },
-    pageSizeChange4(val) {
-      this.getList4(this.CurrentPage4, val, this.pd);
-      console.log(`4每页 ${val} 条`);
-    },
-    handleCurrentChange4(val) {
-      this.getList4(val, this.pageSize4, this.pd);
-      console.log(`4当前页: ${val}`);
     },
     queryNationality() {
       this.$api.post('/manage-platform/codeTable/queryNationality', {},
         r => {
           console.log(r);
-
             this.nation = r.data;
-
         })
     },
-    getList(currentPage, showCount, pd) {
 
+    getList(currentPage, showCount, pd,order,direction) {
       if(this.pd.fltno==undefined || this.pd.fltno.trim()==""){
           this.$alert('航班号不能为空！', '提示', {
             confirmButtonText: '确定',
@@ -673,7 +699,12 @@ export default {
           });
           return false
       }
-
+      if(this.pd.fltdate==undefined || this.pd.fltdate==null|| this.pd.fltdate==""){
+          this.$alert('航班日期不能为空！', '提示', {
+            confirmButtonText: '确定',
+          });
+          return false
+      }
       if(this.pd.cardnum==undefined || this.pd.cardnum.trim()==""){
         if(this.pd.name==undefined || this.pd.gender==undefined || this.pd.birthday==undefined || this.pd.name.trim()==""  || this.pd.birthday.trim()==""){
           this.$alert('证件号码或者姓名性别出生日期二选一！', '提示', {
@@ -681,6 +712,10 @@ export default {
           });
           return false
         }
+      }
+      if(order!=''){
+        pd.order=order;
+        pd.direction=direction
       }
     let p = {
       // "fltno":pd.fltno,
@@ -708,7 +743,37 @@ export default {
         }
       });
     },
-    getList1(currentPage1, showCount1, pd1) {
+    getList1(currentPage1, showCount1, pd1,order,direction) {
+      if(this.pd.fltno==undefined || this.pd.fltno.trim()==""){
+          this.$alert('航班号不能为空！', '提示', {
+            confirmButtonText: '确定',
+          });
+          return false
+      }
+      if(this.pd.nationality==undefined || this.pd.nationality==""){
+          this.$alert('国籍/地区不能为空！', '提示', {
+            confirmButtonText: '确定',
+          });
+          return false
+      }
+      if(this.pd.fltdate==undefined || this.pd.fltdate==null|| this.pd.fltdate==""){
+          this.$alert('航班日期不能为空！', '提示', {
+            confirmButtonText: '确定',
+          });
+          return false
+      }
+      if(this.pd.cardnum==undefined || this.pd.cardnum.trim()==""){
+        if(this.pd.name==undefined || this.pd.gender==undefined || this.pd.birthday==undefined || this.pd.name.trim()==""  || this.pd.birthday.trim()==""){
+          this.$alert('证件号码或者姓名性别出生日期二选一！', '提示', {
+            confirmButtonText: '确定',
+          });
+          return false
+        }
+      }
+      if(order!=''){
+        pd1.order=order;
+        pd1.direction=direction
+      }
       let p = {
         // "fltno":pd1.fltno,
         // "fltdate":pd1.fltdate,
@@ -738,7 +803,37 @@ export default {
     selectChange(){
       this.$forceUpdate();
     },
-    getList2(currentPage2, showCount2, pd2) {
+    getList2(currentPage2, showCount2, pd2,order,direction) {
+      if(this.pd.fltno==undefined || this.pd.fltno.trim()==""){
+          this.$alert('航班号不能为空！', '提示', {
+            confirmButtonText: '确定',
+          });
+          return false
+      }
+      if(this.pd.nationality==undefined || this.pd.nationality==""){
+          this.$alert('国籍/地区不能为空！', '提示', {
+            confirmButtonText: '确定',
+          });
+          return false
+      }
+      if(this.pd.fltdate==undefined || this.pd.fltdate==null|| this.pd.fltdate==""){
+          this.$alert('航班日期不能为空！', '提示', {
+            confirmButtonText: '确定',
+          });
+          return false
+      }
+      if(this.pd.cardnum==undefined || this.pd.cardnum.trim()==""){
+        if(this.pd.name==undefined || this.pd.gender==undefined || this.pd.birthday==undefined || this.pd.name.trim()==""  || this.pd.birthday.trim()==""){
+          this.$alert('证件号码或者姓名性别出生日期二选一！', '提示', {
+            confirmButtonText: '确定',
+          });
+          return false
+        }
+      }
+      if(order!=''){
+        pd2.order=order;
+        pd2.direction=direction
+      }
       let p = {
         "currentPage": currentPage2,
         "showCount": showCount2,
@@ -757,8 +852,37 @@ export default {
         }
         })
     },
-    getList3(currentPage3, showCount3, pd3) {
-
+    getList3(currentPage3, showCount3, pd3,order,direction) {
+      if(this.pd.fltno==undefined || this.pd.fltno.trim()==""){
+          this.$alert('航班号不能为空！', '提示', {
+            confirmButtonText: '确定',
+          });
+          return false
+      }
+      if(this.pd.nationality==undefined || this.pd.nationality==""){
+          this.$alert('国籍/地区不能为空！', '提示', {
+            confirmButtonText: '确定',
+          });
+          return false
+      }
+      if(this.pd.fltdate==undefined || this.pd.fltdate==null|| this.pd.fltdate==""){
+          this.$alert('航班日期不能为空！', '提示', {
+            confirmButtonText: '确定',
+          });
+          return false
+      }
+      if(this.pd.cardnum==undefined || this.pd.cardnum.trim()==""){
+        if(this.pd.name==undefined || this.pd.gender==undefined || this.pd.birthday==undefined || this.pd.name.trim()==""  || this.pd.birthday.trim()==""){
+          this.$alert('证件号码或者姓名性别出生日期二选一！', '提示', {
+            confirmButtonText: '确定',
+          });
+          return false
+        }
+      }
+      if(order!=''){
+        pd3.order=order;
+        pd3.direction=direction
+      }
         let p = {
 
           // "fltno":pd3.fltno,

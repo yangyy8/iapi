@@ -167,9 +167,8 @@
       <el-row type="flex" class="middle">
         <el-col :span="12" class="br pr-20">
             <el-row align="center" :gutter="2" type="flex">
-              <el-col  :sm="20" :md="20" :lg="20"  class="input-item my-form-group" :data-scope="aa.all" data-name="REPLYTYPE" data-type="select"
-              v-validate-easy="[['required']]">
-                <span class="input-text"><i class="t-must">*</i>回复口径：</span>
+              <el-col  :sm="20" :md="20" :lg="20"  class="input-item">
+                <span class="input-text">回复意见：</span>
                 <el-select v-model="pd.REPLYTYPE" filterable clearable placeholder="请选择" size="small" class="input-input" @visible-change="replyCaliber" @change="replayC(pd.REPLYTYPE)">
                   <el-option
                    v-for="(item,ind) in caliber"
@@ -181,17 +180,15 @@
               </el-col>
             </el-row>
             <el-row align="center" :gutter="2" type="flex">
-              <el-col  :sm="20" :md="20" :lg="20"  class="input-item my-form-group" :data-scope="aa.all" data-name="CHNREPLY" data-type="input"
-              v-validate-easy="[['required']]">
-                <span class="input-text"><i class="t-must">*</i>中文：</span>
-                <el-input placeholder="请输入内容" size="small" v-model="pd.CHNREPLY"  class="input-input"></el-input>
+              <el-col  :sm="20" :md="20" :lg="20"  class="input-item">
+                <span class="input-text">中文：</span>
+                <el-input type="textarea" placeholder="请输入内容" size="small" v-model="pd.CHNREPLY"  class="input-input"></el-input>
               </el-col>
             </el-row>
             <el-row align="center" :gutter="2" type="flex">
-              <el-col  :sm="20" :md="20" :lg="20"  class="input-item my-form-group" :data-scope="aa.all" data-name="ENGREPLY" data-type="input"
-              v-validate-easy="[['required']]">
-                <span class="input-text"><i class="t-must">*</i>英文：</span>
-                <el-input placeholder="请输入内容" size="small" v-model="pd.ENGREPLY"  class="input-input"></el-input>
+              <el-col  :sm="20" :md="20" :lg="20"  class="input-item">
+                <span class="input-text">英文：</span>
+                <el-input type="textarea" placeholder="请输入内容" size="small" v-model="pd.ENGREPLY"  class="input-input"></el-input>
               </el-col>
             </el-row>
           </el-col>
@@ -607,6 +604,7 @@ export default {
 }
 .width-lef{
   width: 5%!important;
+  margin-right: 0.5%;
 }
 .title-blue{
   color: #38628C

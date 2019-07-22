@@ -70,12 +70,12 @@
             prop="outwhtlist">
           </el-table-column>
           <el-table-column
-            label="临控名单"
+            label="临时禁止登机名单"
             sortable
             prop="outTctlList">
           </el-table-column>
           <el-table-column
-            label="重点关注名单"
+            label="关注人员名单"
             sortable
             prop="outFocus">
           </el-table-column>
@@ -95,12 +95,12 @@
             prop="whtlist">
           </el-table-column>
           <el-table-column
-            label="临控名单"
+            label="临时禁止登机名单"
             sortable
             prop="tctlList">
           </el-table-column>
           <el-table-column
-            label="重点关注名单"
+            label="关注人员名单"
             sortable
             prop="focus">
           </el-table-column>
@@ -291,10 +291,11 @@ export default {
              }
            }
          },
+         grid: {y2:100},
          // color:['#c23531','#2f4554', '#61a0a8', '#d48265', '#91c7ae','#749f83'],
          xAxis:{
            type : 'category',
-           data:["黑名单(入境)","白名单(入境)","临控名单(入境)","重点关注(入境)","黑名单(出境)","白名单(出境)","临控名单(出境)","重点关注(出境)"],
+           data:["黑名单(入境)","白名单(入境)","临时禁止登机名单(入境)","关注人员名单(入境)","黑名单(出境)","白名单(出境)","临时禁止登机名单(出境)","关注人员名单(出境)"],
            boundaryGap : true,
            axisLine:{
              lineStyle:{
@@ -304,6 +305,7 @@ export default {
            },
            axisLabel:{
             interval:0,
+            rotate: 45,
             textStyle: {
                 color: '#000'
             }

@@ -1,4 +1,4 @@
-<template lang="html">
+ <template lang="html">
   <div class="zlbg">
     <div class="middle-top mb-2">
 
@@ -79,20 +79,20 @@
                   <div class="input-input t-flex t-date">
                    <el-date-picker
                    v-model="pd.STARTTIME"
-                   type="datetime"
+                   type="date"
                    size="small"
-                   format="yyyy-MM-dd HH:mm"
-                    value-format="yyyyMMddHHmm"
+                   format="yyyy-MM-dd"
+                    value-format="yyyyMMdd"
                    placeholder="开始时间"
                    :picker-options="pickerOptions">
                  </el-date-picker>
                    <span class="septum">-</span>
                  <el-date-picker
                     v-model="pd.ENDTIME"
-                    type="datetime"
+                    type="date"
                     size="small"
-                    format="yyyy-MM-dd HH:mm"
-                    value-format="yyyyMMddHHmm"
+                    format="yyyy-MM-dd"
+                    value-format="yyyyMMdd"
                     placeholder="结束时间"
                     :picker-options="pickerOptions1">
                 </el-date-picker>
@@ -190,12 +190,17 @@
                   sortable="custom">
                 </el-table-column>
                 <el-table-column
-                  prop="DEPARTDATE"
+                  prop="FLTDATE"
                   label="航班日期"
                   width="120"
                   sortable="custom">
                 </el-table-column>
-
+                <el-table-column
+                  prop="DEPARTDATE"
+                  label="预计起飞时间"
+                  width="120"
+                  sortable="custom">
+                </el-table-column>
                 <el-table-column
                   prop="PASSENGERSTATUS"
                   label="值机状态"
@@ -224,7 +229,7 @@
     <el-button  type="text"  class="a-btn"  title="变更" icon="el-icon-edit" @click="handles(scope.row);"></el-button>
   </span> -->
 
-      <el-button  type="text"  class="a-btn"  title="变更" icon="el-icon-edit" @click="handles(scope.row);"></el-button>
+      <el-button  type="text"  class="a-btn" :class="{'gray':scope.row.PASSENGERSTATUS!='0'}" title="变更" icon="el-icon-edit" @click="handles(scope.row);"></el-button>
 
       <el-button type="text"  class="a-btn"  title="详情" icon="el-icon-tickets" @click="details(scope.row)"></el-button>
                  </template>
@@ -545,7 +550,12 @@
       <el-row type="flex"  class="t-detail">
         <el-col :span="8" class="t-el-content"><div class="t-el-text">旅客类型：</div><div class="t-el-sub">{{dform.PASSENGERTYPESTR}}</div></el-col>
         <el-col :span="8" class="t-el-content"><div class="t-el-text">旅客值机方式：</div><div class="t-el-sub">{{dform.VIDSTR}}</div></el-col>
-        <el-col :span="8" class="t-el-content"><div class="t-el-text">旅客状态：</div><div class="t-el-sub">{{dform.PASSENGERSTATUSSTR}}</div></el-col>
+        <el-col :span="8" class="t-el-content"><div class="t-el-text">出入境手续：</div><div class="t-el-sub">{{dform.EEFLAG==1?'是':'否'}}</div></el-col>
+      </el-row>
+      <el-row type="flex"  class="t-detail">
+        <el-col :span="8" class="t-el-content"><div class="t-el-text">是否订票：</div><div class="t-el-sub">{{dform.PNRFLAG==1?'是':'否'}}</div></el-col>
+        <el-col :span="8" class="t-el-content"><div class="t-el-text">是否值机：</div><div class="t-el-sub">{{dform.CHKFLAG==1?'是':'否'}}</div></el-col>
+        <el-col :span="8" class="t-el-content"><div class="t-el-text">是否登机：</div><div class="t-el-sub">{{dform.CLSFLAG==1?'是':'否'}}</div></el-col>
       </el-row>
       <el-row type="flex"  class="t-detail">
         <el-col :span="8" class="t-el-content"><div class="t-el-text">是否报警：</div><div class="t-el-sub">{{dform.ISEVENT}}</div></el-col>
@@ -802,7 +812,7 @@ export default {
       pickerOptions: {
         disabledDate: (time) => {
           if (this.pd.ENDTIME != null) {
-            let startT = formatDate(new Date(time.getTime()), 'yyyyMMddhhmm');
+            let startT = formatDate(new Date(time.getTime()), 'yyyyMMdd');
             return startT > this.pd.ENDTIME;
           } else if (this.pd.ENDTIME == null) {
             return false
@@ -813,7 +823,7 @@ export default {
         disabledDate: (time) => {
           let todayS =  (this.pd.STARTTIME).slice(0,8);
           let currentTime = formatDate(new Date(time.getTime()),'yyyyMMdd');
-          let endT = formatDate(new Date(time.getTime()), 'yyyyMMddhhmm');
+          let endT = formatDate(new Date(time.getTime()), 'yyyyMMdd');
           if(todayS==currentTime){
             this.pd.STARTTIME>this.pd.ENDTIME
           }else{
@@ -830,10 +840,10 @@ export default {
     this.nav2Id=this.$route.query.nav2Id;
     //this.getList(this.CurrentPage, this.pageSize, this.pd);
     this.queryDocCode();
-    let flightStart = new Date(new Date().setHours(0,0,0,0));
-    let flightEnd = new Date(new Date(new Date().toLocaleDateString()).getTime()+24*60*60*1000-1);
-    this.pd.STARTTIME = formatDate(flightStart, 'yyyyMMddhhmm');
-    this.pd.ENDTIME = formatDate(flightEnd, 'yyyyMMddhhmm');
+    let flightStart = new Date();
+    let flightEnd = new Date();
+    this.pd.STARTTIME = formatDate(flightStart, 'yyyyMMdd');
+    this.pd.ENDTIME = formatDate(flightEnd, 'yyyyMMdd');
   },
   activated() {
     this.nav1Id=this.$route.query.nav1Id;
@@ -863,10 +873,10 @@ export default {
         FLTNO:'',
         ISBLURRED:false,
       };
-      let flightStart = new Date(new Date().setHours(0,0,0,0));
-      let flightEnd = new Date(new Date(new Date().toLocaleDateString()).getTime()+24*60*60*1000-1);
-      this.pd.STARTTIME = formatDate(flightStart, 'yyyyMMddhhmm');
-      this.pd.ENDTIME = formatDate(flightEnd, 'yyyyMMddhhmm');
+      let flightStart = new Date();
+      let flightEnd = new Date();
+      this.pd.STARTTIME = formatDate(flightStart, 'yyyyMMdd');
+      this.pd.ENDTIME = formatDate(flightEnd, 'yyyyMMdd');
 
       this.$nextTick(()=>{
         let sortArr = this.$refs.sort.$children
@@ -956,7 +966,14 @@ export default {
        });
        return
       }
-
+      let end = new Date(new Date() - 1000 * 60 * 60 * 24 * 30);
+      let endTime = formatDate(end,'yyyy-MM-dd');
+      if(this.pd.STARTTIME<formatDate(end,'yyyyMMdd')){
+        this.$alert('只能查询一个月之内的数据！一个月之前的数据不允许变更！','提示',{
+          confirmButtonText: '确定',
+       });
+       return false
+      }
       this.pd.NAME = getreplace(this.pd.NAME);
       this.pd.PASSPORTNO = getreplace(this.pd.PASSPORTNO);
       this.pd.FLTNO = getreplace(this.pd.FLTNO);
@@ -975,14 +992,15 @@ export default {
         })
     },
     handles(i) {
-      this.handlesDialogVisible = true;
-      this.form.INSTRUCT="";
-      this.form.INSTRUCTC="";
-      this.form.CHANGERESON="";
-      i.LASTCHECKRESULTC = this.fiftezjsm(i.LASTCHECKRESULT);
-      console.log(i);
-      this.form = i;
-
+      if(i.PASSENGERSTATUS=='0'){
+        this.handlesDialogVisible = true;
+        this.form.INSTRUCT="";
+        this.form.INSTRUCTC="";
+        this.form.CHANGERESON="";
+        i.LASTCHECKRESULTC = this.fiftezjsm(i.LASTCHECKRESULT);
+        console.log(i);
+        this.form = i;
+      }
     },
     handlessys(i) {
       this.AuthDialogVisible = true;
@@ -1315,6 +1333,11 @@ function getreplace(name) {
 </script>
 
 <style scoped>
+.gray{
+  background-color: #F4F4F4!important;
+  border:1px solid #ccc!important;
+  color:#bbb!important;
+}
 .add-dialog {
   /* padding-left:40px; */
 }

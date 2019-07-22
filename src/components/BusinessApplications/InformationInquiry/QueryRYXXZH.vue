@@ -229,6 +229,19 @@
                 <el-option label="4Z - 数据错误" value="4Z"></el-option>
               </el-select>
             </el-col>
+
+            <el-col  :sm="24" :md="12" :lg="6"  class="input-item">
+              <span class="input-text"><i class="t-must">*</i>查询范围：</span>
+              <el-select v-model="searchType" placeholder="请选择" filterable  size="small" class="input-input" @change="fightDate">
+                 <el-option value="0" label="当前查询"></el-option>
+                 <el-option value="1" label="历史查询"></el-option>
+               </el-select>
+            </el-col>
+
+            <el-col :sm="24" :md="12" :lg="6" class="input-item">
+              <span class="input-text teshuW">ABO唯一标识：</span>
+              <el-input placeholder="请输入内容" v-model="cdt.aboNoEqual" size="small" class="input-input"></el-input>
+            </el-col>
             </div>
           </el-row>
           <!-- 保存方案 -->
@@ -573,6 +586,16 @@
           min-width="130"
           sortable='custom'
           v-if="checkList.indexOf(checkItem[16].ITEMNAME)>-1">
+          <template slot-scope="scope">
+            <div>
+              <!-- <span v-if="scope.row.FLIGHTSTATUS==2" class="s1">已预检</span>
+              <span v-if="scope.row.FLIGHTSTATUS==1" class="s2">已起飞</span>
+              <span v-if="scope.row.FLIGHTSTATUS==0" class="s5">已取消</span>-->
+              <span v-if="scope.row.FLIGHTSTATUS==2" class="s1">正在值机</span>
+              <span v-if="scope.row.FLIGHTSTATUS==1" class="s2">关闭</span>
+              <span v-if="scope.row.FLIGHTSTATUS==0" class="s5">取消</span>
+            </div>
+          </template>
         </el-table-column>
         <el-table-column
           prop="PASSPORTEXPIREDATE"
@@ -835,7 +858,7 @@
       <Seat :flightNumber="flightNumber0" :globalserial="globalserial0" :specifigseat="specifigseat0" :FLTNO="FLTNO0" :FLTDATE="FLTDATE0" :seatType="1" :CHK_SERIAL='CHK_SERIAL0'></Seat>
     </el-dialog>
     <el-dialog title="查看详情" :visible.sync="detailsDialogVisible">
-      <Detail :detailType="0" :SERIAL="SERIAL0" :CHK_SERIAL="CHK_SERIAL0" :PNR_TID="PNR_TID0" :PNR_TKTNUMBER="PNR_TKTNUMBER0" :PNR_TRAVELLER_SURNAME_TIF="PNR_TRAVELLER_SURNAME_TIF0" :PNR_TRAVELLER_GIVEN_NAME_TIF="PNR_TRAVELLER_GIVEN_NAME_TIF0"></Detail>
+      <Detail :detailType="0" :SERIAL="SERIAL0" :globalserialZH="globalserialZH" :CHK_SERIAL="CHK_SERIAL0" :PNR_TID="PNR_TID0" :PNR_TKTNUMBER="PNR_TKTNUMBER0" :PNR_TRAVELLER_SURNAME_TIF="PNR_TRAVELLER_SURNAME_TIF0" :PNR_TRAVELLER_GIVEN_NAME_TIF="PNR_TRAVELLER_GIVEN_NAME_TIF0"></Detail>
       <div slot="footer" class="dialog-footer">
         <el-button @click="detailsDialogVisible = false" size="small">取消</el-button>
       </div>
@@ -855,6 +878,10 @@ export default {
   components: {Detail,Seat,AlarmProcess},
   data(){
     return{
+      globalserialZH:'',
+      order:'',
+      direction:0,
+      searchType:'0',
       orderHc:{},
       orderState:0,//默认不排序
       loading:false,
@@ -1184,21 +1211,12 @@ export default {
      }
   },
   mounted(){
-    let time = new Date();
     let end = new Date();
-    let begin =new Date(time - 1000 * 60 * 60 * 24 * 30);
     let flightStart = new Date(new Date().setHours(0,0,0,0));
     this.cdt.startFltdate=formatDate(flightStart,'yyyyMMdd');
     this.cdt.endFltdate=formatDate(end,'yyyyMMdd');
-    // this.takeOff();
-    // this.landing();
     document.getElementsByClassName('btn-next')[0].disabled=true;
     this.checkItemP();
-    // this.cdt.passportnoEqual = this.$route.query.row.passportno;
-    // this.cdt.fltnoEqual = this.$route.query.row.fltno;
-    // this.cdt.familyname = this.$route.query.row.name;
-    // this.cdt.genderEqual = this.sexZhuan(this.$route.query.row.gender);
-    // this.cdt.dateofbirthEqual = this.zhuanhuan(this.$route.query.row.birthday)
   },
   activated(){
     console.log('RYXXZH',this.$route.query.row);
@@ -1208,7 +1226,6 @@ export default {
       this.cdt.startFltdate = this.zhuanhuan(this.$route.query.begintime);
       this.cdt.endFltdate = this.zhuanhuan(this.$route.query.endtime);
       this.keys = [this.$route.query.row.nationality_code];
-
       // this.$refs.tree.setCheckedKeys(this.keys);
       // this.cdt.familyname = this.$route.query.row.name;
       // this.cdt.genderEqual = this.sexZhuan(this.$route.query.row.gender);
@@ -1263,6 +1280,28 @@ export default {
     }
   },
   methods:{
+    fightDate(){
+      if(this.searchType==0){//当前
+        let end = new Date();
+        let flightStart = new Date(new Date().setHours(0,0,0,0));
+        this.cdt.startFltdate=formatDate(flightStart,'yyyyMMdd');
+        this.cdt.endFltdate=formatDate(end,'yyyyMMdd');
+        this.$message({
+          message: '仅能查询近期1个月以内的数据',
+          type: 'warning'
+        });
+      }else if(this.searchType==1){//历史
+        let begin = new Date(new Date() - 1000 * 60 * 60 * 24 * 30);
+        let end =new Date(new Date() - 1000 * 60 * 60 * 24 * 30);
+        this.cdt.startFltdate=formatDate(begin,'yyyyMMdd');
+        this.cdt.endFltdate=formatDate(end,'yyyyMMdd');
+        this.$message({
+          message: '仅能查询1个月以前的数据',
+          type: 'warning'
+        });
+      }
+    },
+
     checkItemP(){
       for(var i=0;i<this.checkItem.length;i++){
         this.checkItemProp.push(this.checkItem[i].ITEMNAME)
@@ -1281,8 +1320,6 @@ export default {
     //============================洲国籍======================================================================
 
     tableRowClassName({row, rowIndex}) {
-      console.log(row.PNRFLAGSTR);
-      console.log(row.CHKFLAGSTR);
       if (row.PNRFLAGSTR == '是'&&row.CHKFLAGSTR == '是') {//订票&值机
         return 'warning-row';
       } else if (row.PNRFLAGSTR == '是'&&row.CHKFLAGSTR == '否') {//订票
@@ -1322,7 +1359,8 @@ export default {
         'cdt':this.batchFlag==1?this.cdt1:this.cdt,
         // 'isBatch':this.batchFlag==1?1:0,
         'currentPage':this.currentPage,
-        'showCount':this.showCount
+        'showCount':this.showCount,
+        'searchType':this.searchType
       }
       p.cdt.isBatch = (this.batchFlag==1?1:0),
       this.$api.post('/manage-platform/iapiHead/queryListPage',p,
@@ -1536,6 +1574,7 @@ export default {
       this.PNR_TKTNUMBER0 = i.PNR_TKTNUMBER;
       this.PNR_TRAVELLER_SURNAME_TIF0 = i.PNR_TRAVELLER_SURNAME_TIF;
       this.PNR_TRAVELLER_GIVEN_NAME_TIF0 = i.PNR_TRAVELLER_GIVEN_NAME_TIF;
+      this.globalserialZH=new Date().getTime();
       this.detailsDialogVisible = true;
     },
     //------------------------------------------------全局代码项-------------------------------------------------
@@ -1728,6 +1767,7 @@ export default {
         "currentPage":currentPage,
       	"showCount":showCount,
       	"cdt":cdt,
+        "searchType":this.searchType
         // "isBatch":num
       }
       p.cdt.isBatch = num;
@@ -1753,10 +1793,33 @@ export default {
         });
         return
       }
+      let end = new Date(new Date() - 1000 * 60 * 60 * 24 * 30);
+      let endTime = formatDate(end,'yyyy-MM-dd')
+      if(this.searchType==0&&(this.cdt.startFltdate<formatDate(end,'yyyyMMdd'))){//当前
+        // this.$alert('查询开始时间不能小于'+endTime+'', '提示', {
+        //   confirmButtonText: '确定',
+        // });
+        // return false
+        this.$alert('“当前查询”的查询日期只能选择一个月内，如需查询一个月前的数据，请在“查询范围”选择“历史查询”！', '提示', {
+          confirmButtonText: '确定',
+        });
+        return false
+      }
+      if(this.searchType==1&&(this.cdt.endFltdate>formatDate(end,'yyyyMMdd'))){
+        // this.$alert('查询结束时间不能大于'+endTime+'', '提示', {
+        //   confirmButtonText: '确定',
+        // });
+        // return false
+        this.$alert('“历史查询”的查询日期只能选择一个月前，如需查询一个月内的数据，请在“查询范围”选择“当前查询”！', '提示', {
+          confirmButtonText: '确定',
+        });
+        return false
+      }
       let pl={
       	"currentPage":currentPage,
       	"showCount":showCount,
       	"cdt":cdt,
+        "searchType":this.searchType
         // "isBatch":num
       };
       pl.cdt.isBatch = num;
@@ -1801,7 +1864,7 @@ export default {
     },
     reset(){
       this.tableCurrent = 0;
-      this.cdt={isBlurred:false,startFltdate:'',endFltdate:'',};
+      this.cdt={isBlurred:false,startFltdate:'',endFltdate:'',type:'0',};
       this.ssss='';
       this.tableData=[];
       let time = new Date();
@@ -1819,6 +1882,7 @@ export default {
       }
       this.currentPage=1;
       this.showCount=10;
+      this.searchType='0';
       this.getList(this.currentPage,this.showCount,this.cdt);
     },
     pageSizeChange(val) {//显示条数，调用
@@ -2082,10 +2146,6 @@ export default {
   background: #F4A460;
   /*有值机，无订票 */
 }
-
-  .t-save .el-select{
-    width: 127px;
-  }
  .plan .el-input{
    width:75%!important;
  }

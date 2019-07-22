@@ -170,8 +170,15 @@
                   <!-- <el-input type="textarea" class="expression" v-model="str2" v-if="iss"></el-input> -->
                 </el-row>
                 <!-- 方案保存 -->
-                <el-row type="flex" style="width:100%;margin-top:10px">
-                  <div class="t-save">
+                <el-row type="flex" style="width:100%;margin-top:10px" justify="end" :gutter="10">
+                  <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
+                    <span class="input-text textZdy"><i class="t-must">*</i>查询范围：</span>
+                    <el-select v-model="rangeIapi" placeholder="请选择" filterable  size="small" class="input-input contentZdy" @change="fightDate">
+                       <el-option value="0" label="当前查询"></el-option>
+                       <el-option value="1" label="历史查询"></el-option>
+                     </el-select>
+                  </el-col>
+                  <el-col  class="t-save" type="flex" justify="end" style="width:230px">
                     <el-select  filterable v-model="ffff" @visible-change="selfSavePlanShow" filterable clearable @change="selfPlanQuery(ffff)" placeholder="方案选择" size="small" class="mr-15">
                       <el-option
                         v-for="item in selfSaveName"
@@ -183,21 +190,8 @@
                         <span class="planDelete el-icon-circle-close" @click.stop="selfDeleteItem(item)"></span>
                       </el-option>
                     </el-select>
-                    <!-- <el-select  filterable v-model="nnnn" v-if="bigBase==8" @visible-change="selfSavePlanShow" filterable clearable @change="selfPlanQuery(nnnn)" placeholder="方案选择" size="small" class="mr-15">
-                      <el-option
-                        v-for="item in selfSaveNamePnr"
-                        :label="item"
-                        :value="item"
-                        :key="item"
-                        >
-                        <span class="planItem">{{item}}</span>
-                        <span class="planDelete el-icon-circle-close" @click.stop="selfDeleteItem(item)"></span>
-                      </el-option>
-                    </el-select> -->
-                    <button type="button" name="button" @click="selfDialogVisible = true;fff=''">保存方案</button>
-                  </div>
-
-
+                    <button type="button" name="button" @click="saveProject">保存方案</button>
+                  </el-col>
                 </el-row>
               </el-col>
           </el-row>
@@ -396,20 +390,16 @@
                   <el-input type="textarea" class="expression" v-model="str1" v-if="!isaPnr"></el-input>
                 </el-row>
                 <!-- 方案保存 -->
-                <el-row type="flex" style="width:100%;margin-top:10px">
-                  <!-- <el-col :span="22"> -->
+                <el-row type="flex" style="width:100%;margin-top:10px" justify="end" :gutter="10">
+                  <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
+                    <span class="input-text textZdy"><i class="t-must">*</i>查询范围：</span>
+                    <el-select v-model="rangePnr" placeholder="请选择" filterable  size="small" class="input-input contentZdy" @change="fightDate">
+                       <el-option value="0" label="当前查询"></el-option>
+                       <el-option value="1" label="历史查询"></el-option>
+                     </el-select>
+                  </el-col>
+                  <el-col  class="t-save" type="flex" justify="end" style="width:230px">
                     <div class="t-save">
-                      <!-- <el-select  filterable v-model="ffff" v-if="bigBase==7" @visible-change="selfSavePlanShow" filterable clearable @change="selfPlanQuery(ffff)" placeholder="方案选择" size="small" class="mr-15">
-                        <el-option
-                          v-for="item in selfSaveName"
-                          :label="item"
-                          :value="item"
-                          :key="item"
-                          >
-                          <span class="planItem">{{item}}</span>
-                          <span class="planDelete el-icon-circle-close" @click.stop="selfDeleteItem(item)"></span>
-                        </el-option>
-                      </el-select> -->
                       <el-select  filterable v-model="nnnn" @visible-change="selfSavePlanShow" filterable clearable @change="selfPlanQuery(nnnn)" placeholder="方案选择" size="small" class="mr-15">
                         <el-option
                           v-for="item in selfSaveNamePnr"
@@ -421,9 +411,9 @@
                           <span class="planDelete el-icon-circle-close" @click.stop="selfDeleteItem(item)"></span>
                         </el-option>
                       </el-select>
-                      <button type="button" name="button" @click="selfDialogVisible = true;fff=''">保存方案</button>
+                      <button type="button" name="button" @click="saveProject">保存方案</button>
                     </div>
-                  <!-- </el-col> -->
+                  </el-col>
                 </el-row>
               </el-col>
           </el-row>
@@ -1819,6 +1809,9 @@
           <el-col :span="8" class="t-el-content"><div class="t-el-text">边检接收时间：</div><div class="t-el-sub">{{dform.IAPI_RECEIVETIMESTR}}</div></el-col>
           <el-col :span="8" class="t-el-content"><div class="t-el-text">边检回复时间：</div><div class="t-el-sub">{{dform.IAPI_RESPONSETIMESTR}}</div></el-col>
         </el-row>
+        <el-row type="flex"  class="t-detail">
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">电子客票号：</div><div class="t-el-sub">{{dform.TKTNUMBER}}</div></el-col>
+        </el-row>
         <!-- 数据有效性 -->
         <div class="" v-show="isCheck">
           <div class="hrtitle">数据有效性</div>
@@ -1994,6 +1987,8 @@ export default {
   components: {AlarmProcess,Seat,Detail},
   data(){
     return{
+      rangeIapi:'0',
+      rangePnr:'0',
       isa:true,
       str2:'',
       isaPnr:true,
@@ -2382,6 +2377,41 @@ export default {
   },
   methods:{
     //==========================================================全局代码=========================================================
+    fightDate(){
+      if((this.bigBase==7&&this.rangeIapi==0)||(this.bigBase==8&&this.rangePnr==0)){
+        if(this.bigBase==7){
+          let arr = this.selfRows;
+          for(var i=0;i<arr.length;i++){
+            this.rangeCurrent(arr[i])
+          }
+        }else if(this.bigBase==8){
+          let arr = this.selfRowsPnr;
+          for(var i=0;i<arr.length;i++){
+            this.rangeCurrent(arr[i])
+          }
+        }
+        this.$message({
+          message: '仅能查询近期1个月以内的数据',
+          type: 'warning'
+        });
+      }else if((this.bigBase==7&&this.rangeIapi==1)||(this.bigBase==8&&this.rangePnr==1)){
+        if(this.bigBase==7){
+          let arr = this.selfRows;
+          for(var i=0;i<arr.length;i++){
+            this.rangeHistory(arr[i])
+          }
+        }else if(this.bigBase==8){
+          let arr = this.selfRowsPnr;
+          for(var i=0;i<arr.length;i++){
+            this.rangeHistory(arr[i])
+          }
+        }
+        this.$message({
+          message: '仅能查询1个月以前的数据',
+          type: 'warning'
+        });
+      }
+    },
     sortChange(column){
       this.showTableConfig();
       this.orderIapiStateZDY=1;
@@ -2391,7 +2421,8 @@ export default {
         'direction':this.orderIapiHcZDY.order=='ascending'?1:0,
         'cdt':this.str,
         'currentPage':this.currentPage,
-        'showCount':this.showCount
+        'showCount':this.showCount,
+        'searchType':this.rangeIapi
       }
       this.$api.post('/manage-platform/iapiHead/customIapiQuery',p,
        r =>{
@@ -2422,7 +2453,8 @@ export default {
         'direction':this.orderPnrHcZDY.order=='ascending'?1:0,
         "pd":{'queryColList':this.checkListPnr},
         'currentPage':this.currentPage,
-        'showCount':this.showCount
+        'showCount':this.showCount,
+        'searchType':this.rangePnr
       }
       if(this.isaPnr == false){
         p.cdt = this.str1
@@ -2764,6 +2796,8 @@ export default {
         this.$set(val,'operator','');
         this.$set(val,'relation','');
       }
+    },
+    rangeCurrent(val){
       if(val.type==31){
         if(val.operator=='小于'||val.operator=='小于等于'||val.operator=='等于'){
           let end=new Date();
@@ -2771,6 +2805,19 @@ export default {
         }else if(val.operator=='大于'||val.operator=='大于等于'){
           let time=new Date();
           let begin = new Date(time - 1000 * 60 * 60 * 24 * 7);
+          val.atype=formatDate(begin,'yyyyMMdd');
+        }
+      }
+    },
+    rangeHistory(val){
+      if(val.type==31){
+        if(val.operator=='小于'||val.operator=='小于等于'||val.operator=='等于'){
+          let time=new Date();
+          let end=new Date(time - 1000 * 60 * 60 * 24 * 30);
+          val.atype=formatDate(end,'yyyyMMdd');
+        }else if(val.operator=='大于'||val.operator=='大于等于'){
+          let time=new Date();
+          let begin = new Date(time - 1000 * 60 * 60 * 24 * 37);
           val.atype=formatDate(begin,'yyyyMMdd');
         }
       }
@@ -2925,6 +2972,23 @@ export default {
     },
     //============================================查询=================================================
     selfQueryList(currentPage,showCount){//自定义查询列表
+      console.log(this.selfRows);
+      let end = new Date(new Date() - 1000 * 60 * 60 * 24 * 30);
+      let endTime = formatDate(end,'yyyy-MM-dd')
+      for(var i=0;i<this.selfRows.length;i++){
+        if((this.rangeIapi==0)&&(this.selfRows[i].type==31)&&(this.selfRows[i].atype<formatDate(end,'yyyyMMdd'))){
+          this.$alert('“当前查询”的查询日期只能选择一个月内，如需查询一个月前的数据，请在“查询范围”选择“历史查询”！', '提示', {
+            confirmButtonText: '确定',
+          });
+          return false
+        }
+        if((this.rangeIapi==1)&&(this.selfRows[i].type==31)&&(this.selfRows[i].atype>formatDate(end,'yyyyMMdd'))){
+          this.$alert('“历史查询”的查询日期只能选择一个月前，如需查询一个月内的数据，请在“查询范围”选择“当前查询”！', '提示', {
+            confirmButtonText: '确定',
+          });
+          return false
+        }
+      }
       this.orderIapiStateZDY=0;
       this.showTableConfig();
       let dataSelf = [];
@@ -2935,6 +2999,7 @@ export default {
         "currentPage":currentPage,
       	"showCount":showCount,
         "orders":dataSelf,//排序
+        "searchType":this.rangeIapi
       }
       if(this.isa==false){
         sql.cdt=this.str2;
@@ -2962,6 +3027,22 @@ export default {
        })
     },
     selfQueryListPnr(currentPage,showCount){
+      let end = new Date(new Date() - 1000 * 60 * 60 * 24 * 30);
+      let endTime = formatDate(end,'yyyy-MM-dd')
+      for(var i=0;i<this.selfRowsPnr.length;i++){
+        if((this.rangePnr==0)&&(this.selfRowsPnr[i].type==31)&&(this.selfRowsPnr[i].atype<formatDate(end,'yyyyMMdd'))){
+          this.$alert('“当前查询”的查询日期只能选择一个月内，如需查询一个月前的数据，请在“查询范围”选择“历史查询”！', '提示', {
+            confirmButtonText: '确定',
+          });
+          return false
+        }
+        if((this.rangePnr==1)&&(this.selfRowsPnr[i].type==31)&&(this.selfRowsPnr[i].atype>formatDate(end,'yyyyMMdd'))){
+          this.$alert('“历史查询”的查询日期只能选择一个月前，如需查询一个月内的数据，请在“查询范围”选择“当前查询”！', '提示', {
+            confirmButtonText: '确定',
+          });
+          return false
+        }
+      }
       this.orderPnrStateZDY=0;
       this.checkListPnrHc=Object.assign([], this.checkListPnr);
       let dataSelfPnr = [];
@@ -2973,6 +3054,7 @@ export default {
       	"showCount":showCount,
         "orders":dataSelfPnr,
         "pd":{'queryColList':this.checkListPnr},
+        "searchType":this.rangePnr
       }
       if(this.isaPnr == false){
         sqlp.cdt = this.str1
@@ -3293,6 +3375,47 @@ export default {
         link.click()
     },
     //==============================================方案保存========================================================
+    saveProject(){
+      if(this.bigBase==7){
+        let end = new Date(new Date() - 1000 * 60 * 60 * 24 * 30);
+        let endTime = formatDate(end,'yyyy-MM-dd')
+        for(var i=0;i<this.selfRows.length;i++){
+          if((this.rangeIapi==0)&&(this.selfRows[i].type==31)&&(this.selfRows[i].atype<formatDate(end,'yyyyMMdd'))){
+            this.$alert('“当前查询”的查询日期只能选择一个月内，如需查询一个月前的数据，请在“查询范围”选择“历史查询”！', '提示', {
+              confirmButtonText: '确定',
+            });
+            return false
+          }
+          if((this.rangeIapi==1)&&(this.selfRows[i].type==31)&&(this.selfRows[i].atype>formatDate(end,'yyyyMMdd'))){
+            this.$alert('“历史查询”的查询日期只能选择一个月前，如需查询一个月内的数据，请在“查询范围”选择“当前查询”！', '提示', {
+              confirmButtonText: '确定',
+            });
+            return false
+          }
+        }
+        this.selfDialogVisible = true;
+        this.fff='';
+      }else if(this.bigBase==8){
+        let end = new Date(new Date() - 1000 * 60 * 60 * 24 * 30);
+        let endTime = formatDate(end,'yyyy-MM-dd')
+        for(var i=0;i<this.selfRowsPnr.length;i++){
+          if((this.rangePnr==0)&&(this.selfRowsPnr[i].type==31)&&(this.selfRowsPnr[i].atype<formatDate(end,'yyyyMMdd'))){
+            this.$alert('“当前查询”的查询日期只能选择一个月内，如需查询一个月前的数据，请在“查询范围”选择“历史查询”！', '提示', {
+              confirmButtonText: '确定',
+            });
+            return false
+          }
+          if((this.rangePnr==1)&&(this.selfRowsPnr[i].type==31)&&(this.selfRowsPnr[i].atype>formatDate(end,'yyyyMMdd'))){
+            this.$alert('“历史查询”的查询日期只能选择一个月前，如需查询一个月内的数据，请在“查询范围”选择“当前查询”！', '提示', {
+              confirmButtonText: '确定',
+            });
+            return false
+          }
+        }
+        this.selfDialogVisible = true;
+        this.fff=''
+      }
+    },
     selfPlanSave(){//自定义 方案保存是否重名
       if(this.fff==''){
         this.$alert('方案名称不能为空', '提示', {
@@ -3310,9 +3433,9 @@ export default {
            this.showConfiglistArr();//展示项数组
            if(r.data == false){
              if(this.bigBase==7){
-               this.selfSavePlan(this.showConfiglist,this.selfCdt);
+               this.selfSavePlan(this.showConfiglist,this.selfCdt,this.rangeIapi);
              }else if(this.bigBase==8){
-               this.selfSavePlan(this.showConfiglistPnr,this.selfCdtPnr);
+               this.selfSavePlan(this.showConfiglistPnr,this.selfCdtPnr,this.rangePnr);
              }
              this.selfDialogVisible = false;
            }else{
@@ -3323,12 +3446,13 @@ export default {
          }
        })
     },
-    selfSavePlan(item,row){//自定义查询 保存方案
+    selfSavePlan(item,row,type){//自定义查询 保存方案
       let selfSP = {
         "name" : this.fff,
         "page" : this.bigBase,
         "showConfigList":item,
-        "config":row
+        "config":row,
+        "searchType":type
       }
       this.$api.post('/manage-platform/queryShow/save',selfSP,
       r =>{
@@ -3369,17 +3493,33 @@ export default {
           let arr1=[];
           if(this.bigBase==7){
             this.isa=false;
-            this.selfRows=[
-              {id:1,attribute:'FLTDATESTR',operator:'大于等于',type:31,relation:'',atype:formatDate(new Date(new Date() - 1000 * 60 * 60 * 24 * 7),'yyyyMMdd'),dataSort:'',isA:true},
-              {id:2,attribute:'FLTDATESTR',operator:'小于等于',type:31,relation:'and',atype:formatDate(new Date(),'yyyyMMdd'),dataSort:'',isA:false},
-            ];
+            this.rangeIapi=r.data.searchTypeStr;
+            if(this.rangeIapi=='0'){
+              this.selfRows=[
+                {id:1,attribute:'FLTDATESTR',operator:'大于等于',type:31,relation:'',atype:formatDate(new Date(new Date() - 1000 * 60 * 60 * 24 * 7),'yyyyMMdd'),dataSort:'',isA:true},
+                {id:2,attribute:'FLTDATESTR',operator:'小于等于',type:31,relation:'and',atype:formatDate(new Date(),'yyyyMMdd'),dataSort:'',isA:false},
+              ];
+            }else if(this.rangeIapi=='1'){
+              this.selfRows=[
+                {id:1,attribute:'FLTDATESTR',operator:'大于等于',type:31,relation:'',atype:formatDate(new Date(new Date() - 1000 * 60 * 60 * 24 * 37),'yyyyMMdd'),dataSort:'',isA:true},
+                {id:2,attribute:'FLTDATESTR',operator:'小于等于',type:31,relation:'and',atype:formatDate(new Date(new Date() - 1000 * 60 * 60 * 24 * 30),'yyyyMMdd'),dataSort:'',isA:false},
+              ];
+            }
             this.str2 = r.data.config.AAAAA; //渲染
           }else if(this.bigBase==8){
             this.isaPnr=false;
-            this.selfRowsPnr=[
-              {id:1,attribute:'PNR_FLTDATE1STR',operator:'大于等于',type:31,relation:'',atype:formatDate(new Date(new Date() - 1000 * 60 * 60 * 24 * 7),'yyyyMMdd'),dataSort:'',isA:true},
-              {id:2,attribute:'PNR_FLTDATE1STR',operator:'小于等于',type:31,relation:'and',atype:formatDate(new Date(),'yyyyMMdd'),dataSort:'',isA:false},
-            ];
+            this.rangePnr=r.data.searchTypeStr;
+            if(this.rangePnr=='0'){
+              this.selfRowsPnr=[
+                {id:1,attribute:'PNR_FLTDATE1STR',operator:'大于等于',type:31,relation:'',atype:formatDate(new Date(new Date() - 1000 * 60 * 60 * 24 * 7),'yyyyMMdd'),dataSort:'',isA:true},
+                {id:2,attribute:'PNR_FLTDATE1STR',operator:'小于等于',type:31,relation:'and',atype:formatDate(new Date(),'yyyyMMdd'),dataSort:'',isA:false},
+              ];
+            }else if(this.rangePnr=='1'){
+              this.selfRowsPnr=[
+                {id:1,attribute:'PNR_FLTDATE1STR',operator:'大于等于',type:31,relation:'',atype:formatDate(new Date(new Date() - 1000 * 60 * 60 * 24 * 37),'yyyyMMdd'),dataSort:'',isA:true},
+                {id:2,attribute:'PNR_FLTDATE1STR',operator:'小于等于',type:31,relation:'and',atype:formatDate(new Date(new Date() - 1000 * 60 * 60 * 24 * 30),'yyyyMMdd'),dataSort:'',isA:false},
+              ];
+            }
             this.str1 = r.data.config.AAAAA;
           }
           if(arr.length == 0){
@@ -3453,9 +3593,9 @@ export default {
 </script>
 
 <style media="screen">
-  .t-save .el-select{
+  /* .t-save .el-select{
     width: 127px;
-  }
+  } */
  .plan .el-input{
    width:75%!important;
  }

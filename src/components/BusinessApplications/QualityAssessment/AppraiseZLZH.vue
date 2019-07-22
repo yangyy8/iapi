@@ -42,6 +42,28 @@
               <span class="input-text">航班号：</span>
                 <el-input placeholder="请输入内容" size="small" v-model="pd.fltno" class="input-input"></el-input>
             </el-col>
+            <el-col :sm="24" :md="12"  :lg="8" class="input-item">
+              <span class="input-text">口岸：</span>
+              <el-select  placeholder="请选择"  size="mini"  class="input-input" v-model="pd.port" filterable clearable @visible-change="portMethod">
+                <el-option
+                v-for="item in portName"
+                :key="item.KADM"
+                :value="item.KADM"
+                :label="item.KADM+' - '+item.KAMC"
+                ></el-option>
+              </el-select>
+            </el-col>
+            <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+                <span class="input-text">出入标识：</span>
+                <el-select v-model="pd.flighttype"  filterable clearable  class="input-input"  placeholder="请选择"  size="small">
+                  <el-option value="I" label="I - 入境">
+                  </el-option>
+                  <el-option value="O" label="O - 出境">
+                  </el-option>
+                  <!-- <el-option value="A" label="A - 入出境">
+                  </el-option> -->
+                </el-select>
+              </el-col>
             <!-- <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
               <span class="input-text">航班日期：</span>
               <el-date-picker
@@ -50,6 +72,7 @@
               placeholder="航班日期" >
             </el-date-picker>
             </el-col> -->
+
           </el-row>
           <!-- <el-row align="center"   :gutter="2" class="yy-line">
 
@@ -263,6 +286,7 @@
             <el-pagination
               background
               @current-change="handleCurrentChange1"
+              :current-page.sync ="CurrentPage1"
               :page-size="pageSize1"
               layout="prev, pager, next"
               :total="TotalResult1">
@@ -285,6 +309,7 @@ import axios from 'axios'
 export default {
   data() {
     return {
+      portName:[],
       CurrentPage: 1,
       pageSize: 10,
       TotalResult: 0,
@@ -341,8 +366,8 @@ export default {
     let time = new Date();
     let endz = new Date();
     let beginz = new Date(time - 1000 * 60 * 60 * 24 * 1);
-    this.pd.begintime = formatDate(endz, 'yyyyMMdd');
-    this.pd.endtime = formatDate(endz, 'yyyyMMdd');
+    this.pd.begintime = formatDate(beginz, 'yyyyMMdd');
+    this.pd.endtime = formatDate(beginz, 'yyyyMMdd');
   },
   activated(){
     this.queryNationality();
@@ -354,6 +379,14 @@ export default {
 
   },
   methods: {
+    portMethod(){
+      this.$api.post('/manage-platform/codeTable/queryAirportMatch1',{},
+      r =>{
+        if(r.success){
+          this.portName = r.data
+        }
+      })
+    },
     base() {
       this.page = 0;
     },
@@ -373,11 +406,11 @@ export default {
       console.log(`当前页: ${val}`);
     },
     pageSizeChange1(val) {
-      this.getList1(this.CurrentPage1, val, this.pd);
+      this.getList1(this.CurrentPage1, val, this.pd0);
       console.log(`每页 ${val} 条`);
     },
     handleCurrentChange1(val) {
-      this.getList1(val, this.pageSize1, this.pd);
+      this.getList1(val, this.pageSize1, this.pd0);
       console.log(`当前页: ${val}`);
     },
     getList(currentPage, showCount, pd) {
@@ -385,7 +418,13 @@ export default {
        if (result.indexOf(false) > -1) {
          return
        }
-
+       let time = formatDate(new Date(), 'yyyyMMdd');
+       if((this.pd.begintime>=time)||(this.pd.endtime>=time)){
+         this.$alert('当前及以后的日期不可查询', '提示', {
+           confirmButtonText: '确定',
+         });
+         return false
+       }
       let p = {
         // "currentPage": currentPage,
         // "showCount": showCount,
@@ -395,7 +434,9 @@ export default {
       "endtime":pd.endtime,
       "fltno":pd.fltno,
       "fltdate":pd.fltdate,
-      "airline_company_id":pd.airline_company_id
+      "airline_company_id":pd.airline_company_id,
+      "port":pd.port,
+      "flighttype":pd.flighttype
 
       };
       var url="/manage-platform/forecastEva/get_pnr_fccrt_bycompanyid";
@@ -441,6 +482,7 @@ export default {
         })
     },
     details(i) {
+      this.CurrentPage1=1;
       this.detailsDialogVisible = true;
       // console.log(i);
       // this.form=i;
@@ -453,25 +495,25 @@ export default {
 
     },
     download(n){
-      //var url="http://192.168.99.213:8080/manage-platform/forecastEva/export_pnr_fccrt_bycompanyid";
-       var url= this.$api.rootUrl+"/manage-platform/forecastEva/export_pnr_fccrt_bycompanyid";
-      if(n==1){
-      url= this.$api.rootUrl+"/manage-platform/forecastEva/exp_chk_nopnr_person";
+      if(n==0){
+        let p={
+          "begintime":this.pd.begintime,
+          "endtime":this.pd.endtime,
+          "fltno":this.pd.fltno,
+         // "fltdate":this.pd.fltdate,
+          "airline_company_id":this.pd.airline_company_id
+        }
+        this.$api.post('/manage-platform/forecastEva/export_pnr_fccrt_bycompanyid',p,
+        r =>{
+          this.downloadM(r)
+        },e=>{},'','blob')
+      }else if(n==1){
+        let p=this.pd0;
+        this.$api.post('/manage-platform/forecastEva/exp_chk_nopnr_person',p,
+        r =>{
+          this.downloadM(r)
+        },e=>{},'','blob')
       }
-      axios({
-       method: 'post',
-       url: url,
-       data: {
-           "begintime":this.pd.begintime,
-           "endtime":this.pd.endtime,
-           "fltno":this.pd.fltno,
-          // "fltdate":this.pd.fltdate,
-           "airline_company_id":this.pd.airline_company_id
-       },
-       responseType: 'blob'
-       }).then(response => {
-           this.downloadM(response)
-       });
     },
     downloadM (data) {
         if (!data) {

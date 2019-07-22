@@ -92,7 +92,7 @@
           </div>
             </el-col>
             <el-col :sm="24" :md="12" :lg="8" class="input-item">
-              <span class="input-text"><i class="t-must">*</i>命中时间：</span>
+              <span class="input-text">命中时间：</span>
               <div class="input-input t-flex t-date">
                <el-date-picker
                v-model="pd.startCreatetime"
@@ -117,14 +117,21 @@
               <span class="input-text">命中人员类别：</span>
               <el-select v-model='pd.eventtype' placeholder="请选择" size="small" filterable clearable class="input-input">
                   <el-option value="0" label="0 - 白名单"></el-option>
-                    <el-option value="1" label="1 - 临控名单"></el-option>
+                    <el-option value="1" label="1 - 临时禁止登机名单"></el-option>
                     <el-option value="2" label="2 - 黑名单 - 不准入境"></el-option>
                     <el-option value="3" label="3 - 黑名单 - 失效证件"></el-option>
                     <el-option value="4" label="4 - 黑名单 - 失效签证"></el-option>
                     <el-option value="5" label="5 - 风险评估人员"></el-option>
-                    <el-option value="6" label="6 - 特殊关注对象"></el-option>
-                    <el-option value="7" label="7 - 二次查控对象"></el-option>
+                    <el-option value="6" label="6 - 关注人员"></el-option>
+                    <el-option value="7" label="7 - 复核报警对象"></el-option>
               </el-select>
+            </el-col>
+            <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+              <span class="input-text"><i class="t-must">*</i>查询范围：</span>
+              <el-select v-model="searchType" placeholder="请选择" filterable  size="small" class="input-input" @change="fightDate">
+                 <el-option value="0" label="当前查询"></el-option>
+                 <el-option value="1" label="历史查询"></el-option>
+               </el-select>
             </el-col>
           </el-row>
         </el-col>
@@ -337,7 +344,12 @@
         <el-row type="flex"  class="t-detail">
           <el-col :span="8" class="t-el-content"><div class="t-el-text">旅客类型：</div><div class="t-el-sub">{{dform.PASSENGERTYPESTR}}</div></el-col>
           <el-col :span="8" class="t-el-content"><div class="t-el-text">旅客值机方式：</div><div class="t-el-sub">{{dform.VIDSTR}}</div></el-col>
-          <el-col :span="8" class="t-el-content"><div class="t-el-text">旅客状态：</div><div class="t-el-sub">{{dform.PASSENGERSTATUSSTR}}</div></el-col>
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">出入境手续：</div><div class="t-el-sub">{{dform.EEFLAG==1?'是':'否'}}</div></el-col>
+        </el-row>
+        <el-row type="flex"  class="t-detail">
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">是否订票：</div><div class="t-el-sub">{{dform.PNRFLAG==1?'是':'否'}}</div></el-col>
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">是否值机：</div><div class="t-el-sub">{{dform.CHKFLAG==1?'是':'否'}}</div></el-col>
+          <el-col :span="8" class="t-el-content"><div class="t-el-text">是否登机：</div><div class="t-el-sub">{{dform.CLSFLAG==1?'是':'否'}}</div></el-col>
         </el-row>
         <el-row type="flex"  class="t-detail">
           <el-col :span="8" class="t-el-content"><div class="t-el-text">是否报警：</div><div class="t-el-sub">{{dform.ISEVENT}}</div></el-col>
@@ -538,6 +550,7 @@ export default {
   components: {AlarmProcess},
   data(){
     return{
+      searchType:'0',
       order:'',
       direction:0,
       CurrentPage: 1,
@@ -564,7 +577,7 @@ export default {
         startCreatetime:'',
         endCreatetime:'',
         startFlightDepartdate:'',
-        endFlightDepartdate:''
+        endFlightDepartdate:'',
       },
       queryDialogVisible: false,
       pnrDialogVisible:false,
@@ -596,26 +609,26 @@ export default {
       detailsDialogVisible:false,
       lazyQuery:'',
       pickerOptions: {
-        disabledDate: (time) => {
-            if (this.pd.endCreatetime != null) {
-              let startT = formatDate(new Date(time.getTime()),'yyyyMMddhhmmss');
-              return startT > this.pd.endCreatetime;
-            }else if(this.pd.endCreatetime == null){
-              return false
-            }
-        }
+        // disabledDate: (time) => {
+        //     if (this.pd.endCreatetime != null) {
+        //       let startT = formatDate(new Date(time.getTime()),'yyyyMMddhhmmss');
+        //       return startT > this.pd.endCreatetime;
+        //     }else if(this.pd.endCreatetime == null){
+        //       return false
+        //     }
+        // }
       },
       pickerOptions1: {
-        disabledDate: (time) => {
-          let todayS =  (this.pd.startCreatetime).slice(0,8);
-          let currentTime = formatDate(new Date(time.getTime()),'yyyyMMdd');
-          let endT = formatDate(new Date(time.getTime()),'yyyyMMddhhmmss');
-          if(todayS==currentTime){
-            return this.pd.startCreatetime>this.pd.endCreatetime
-          }else{
-            return endT < this.pd.startCreatetime;
-          }
-        }
+        // disabledDate: (time) => {
+        //   let todayS =  (this.pd.startCreatetime).slice(0,8);
+        //   let currentTime = formatDate(new Date(time.getTime()),'yyyyMMdd');
+        //   let endT = formatDate(new Date(time.getTime()),'yyyyMMddhhmmss');
+        //   if(todayS==currentTime){
+        //     return this.pd.startCreatetime>this.pd.endCreatetime
+        //   }else{
+        //     return endT < this.pd.startCreatetime;
+        //   }
+        // }
       },
       form: {},
       nav1Id:null,
@@ -625,11 +638,11 @@ export default {
   mounted() {
     this.nav1Id=this.$route.query.nav1Id
     this.nav2Id=this.$route.query.nav2Id
-    let time = new Date();
-    let endTos = new Date(new Date(new Date().toLocaleDateString()).getTime()+24*60*60*1000-1);
-    let createStar = new Date(new Date().setHours(0,0,0,0));
-    this.pd.startCreatetime=formatDate(createStar,'yyyyMMddhhmmss');
-    this.pd.endCreatetime=formatDate(endTos,'yyyyMMddhhmmss');
+    // let time = new Date();
+    // let endTos = new Date(new Date(new Date().toLocaleDateString()).getTime()+24*60*60*1000-1);
+    // let createStar = new Date(new Date().setHours(0,0,0,0));
+    // this.pd.startCreatetime=formatDate(createStar,'yyyyMMddhhmmss');
+    // this.pd.endCreatetime=formatDate(endTos,'yyyyMMddhhmmss');
 
     let flightStart = new Date(new Date().setHours(0,0,0,0));
     let end = new Date();
@@ -674,6 +687,28 @@ export default {
     },
   },
   methods: {
+    fightDate(){
+      if(this.searchType==0){//当前
+        let flightStart = new Date(new Date().setHours(0,0,0,0));
+        let end = new Date();
+        this.pd.startFlightDepartdate=formatDate(flightStart,'yyyyMMdd');
+        this.pd.endFlightDepartdate=formatDate(end,'yyyyMMdd');
+        this.$message({
+          message: '仅能查询近期1个月以内的数据',
+          type: 'warning'
+        });
+      }else if(this.searchType==1){//历史
+        let begin = new Date(new Date() - 1000 * 60 * 60 * 24 * 30);
+        let end =new Date(new Date() - 1000 * 60 * 60 * 24 * 30);
+        this.pd.startFlightDepartdate=formatDate(begin,'yyyyMMdd');
+        this.pd.endFlightDepartdate=formatDate(end,'yyyyMMdd');
+        this.$message({
+          message: '仅能查询1个月以前的数据',
+          type: 'warning'
+        });
+      }
+    },
+
     sortChange(column, prop, order){
       column.order=='ascending'?this.direction=1:this.direction=0;
       this.order=column.prop;
@@ -685,13 +720,14 @@ export default {
         startCreatetime:'',
         endCreatetime:'',
         startFlightDepartdate:'',
-        endFlightDepartdate:''
+        endFlightDepartdate:'',
       };
-      let time = new Date();
-      let endTos = new Date(new Date(new Date().toLocaleDateString()).getTime()+24*60*60*1000-1);
-      let createStar = new Date(new Date().setHours(0,0,0,0));
-      this.pd.startCreatetime=formatDate(createStar,'yyyyMMddhhmmss');
-      this.pd.endCreatetime=formatDate(endTos,'yyyyMMddhhmmss');
+      this.searchType='0';
+      // let time = new Date();
+      // let endTos = new Date(new Date(new Date().toLocaleDateString()).getTime()+24*60*60*1000-1);
+      // let createStar = new Date(new Date().setHours(0,0,0,0));
+      // this.pd.startCreatetime=formatDate(createStar,'yyyyMMddhhmmss');
+      // this.pd.endCreatetime=formatDate(endTos,'yyyyMMddhhmmss');
 
       let flightStart = new Date(new Date().setHours(0,0,0,0));
       let end = new Date();
@@ -739,29 +775,45 @@ export default {
       console.log(`当前页: ${val}`);
     },
     getList(currentPage, showCount, pd,order,direction) {
-    if((this.pd.startFlightDepartdate!=undefined && this.pd.startFlightDepartdate!=null)
-       && (this.pd.endFlightDepartdate!=undefined && this.pd.endFlightDepartdate!=null))
+    if((this.pd.startFlightDepartdate!=undefined || this.pd.startFlightDepartdate!=null)
+       && (this.pd.endFlightDepartdate!=undefined || this.pd.endFlightDepartdate!=null))
     {
-      if(dayGap(this.pd.startFlightDepartdate,this.pd.endFlightDepartdate,1)>30){
-        this.$alert('查询时间间隔不能超过一个月', '提示', {
+      let end = new Date(new Date() - 1000 * 60 * 60 * 24 * 30);
+      let endTime = formatDate(end,'yyyy-MM-dd')
+      if(this.searchType==0&&(this.pd.startFlightDepartdate<formatDate(end,'yyyyMMdd'))){//当前
+        this.$alert('“当前查询”的查询日期只能选择一个月内，如需查询一个月前的数据，请在“查询范围”选择“历史查询”！', '提示', {
           confirmButtonText: '确定',
         });
         return false
       }
-    }else if((this.pd.startCreatetime!=undefined && this.pd.startCreatetime!=null)
-           && (this.pd.endCreatetime!=undefined && this.pd.endCreatetime!=null)) {
+      if(this.searchType==1&&(this.pd.endFlightDepartdate>formatDate(end,'yyyyMMdd'))){
+        this.$alert('“历史查询”的查询日期只能选择一个月前，如需查询一个月内的数据，请在“查询范围”选择“当前查询”！', '提示', {
+          confirmButtonText: '确定',
+        });
+        return false
+      }
+
+      if(dayGap(this.pd.startFlightDepartdate,this.pd.endFlightDepartdate,1)>30){
+        this.$alert('航班日期查询时间间隔不能超过一个月', '提示', {
+          confirmButtonText: '确定',
+        });
+        return false
+      }
+    }else {
+      this.$alert('航班日期不能为空', '提示', {
+        confirmButtonText: '确定',
+      });
+      return false
+    }
+    if((this.pd.startCreatetime!=undefined || this.pd.startCreatetime!=null)
+           && (this.pd.endCreatetime!=undefined || this.pd.endCreatetime!=null)) {
 
              if(dayGap(this.pd.startCreatetime,this.pd.endCreatetime,1)>30){
-               this.$alert('查询时间间隔不能超过一个月', '提示', {
+               this.$alert('命中时间查询间隔不能超过一个月', '提示', {
                  confirmButtonText: '确定',
                });
                return false
              }
-    }else {
-      this.$alert('航班日期和命中日期至少其中一项不能为空', '提示', {
-        confirmButtonText: '确定',
-      });
-      return false
     }
       pd.saveflag=1;
       pd.instructNew="1Z";
@@ -770,7 +822,8 @@ export default {
         "showCount": showCount,
         "cdt": pd,
         "order":order,
-        "direction":direction
+        "direction":direction,
+        "searchType":this.searchType
       };
       this.$api.post('/manage-platform/event/queryEventHisListPage', p,
         r => {

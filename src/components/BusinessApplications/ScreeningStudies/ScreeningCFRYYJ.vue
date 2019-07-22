@@ -46,6 +46,17 @@
                   </el-option>
                 </el-select>
             </el-col>
+            <el-col :sm="24" :md="12"  :lg="8" class="input-item">
+              <span class="input-text">口岸：</span>
+              <el-select  placeholder="请选择"  size="mini"  class="input-input" v-model="pd.port" filterable clearable @visible-change="portMethod">
+                <el-option
+                v-for="item in portName"
+                :key="item.KADM"
+                :value="item.KADM"
+                :label="item.KADM+' - '+item.KAMC"
+                ></el-option>
+              </el-select>
+            </el-col>
           </el-row>
         </el-col>
         <el-col :span="2" class="down-btn-area" style="margin-top:25px;">
@@ -263,6 +274,7 @@ import axios from 'axios'
 export default {
   data() {
     return {
+      portName:[],
       CurrentPage: 1,
       pageSize: 10,
       TotalResult: 0,
@@ -335,6 +347,14 @@ export default {
     //this.getList(this.CurrentPage,this.pageSize,this.pd);
   },
   methods: {
+    portMethod(){
+      this.$api.post('/manage-platform/codeTable/queryAirportMatch1',{},
+      r =>{
+        if(r.success){
+          this.portName = r.data
+        }
+      })
+    },
     headerClick(column,event){
         event.target.title=column.label
     },

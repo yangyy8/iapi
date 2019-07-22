@@ -189,11 +189,41 @@
             >
           </el-table-column>
             </el-table-column>
+            <el-table-column
+              label="操作"
+              min-width="50">
+              <template slot-scope="scope">
+                <el-button type="text"  class="a-btn" title="详情" size="mini" icon="el-icon-tickets" @click="nationDetails(scope.row)"></el-button>
+             </template>
+            </el-table-column>
           </el-table>
           </div>
         </div>
     </div>
   </div>
+  <el-dialog title="详情" :visible.sync="detailsDialogVisible" width="600px">
+    <el-button  plain class="table-btn mb-9" size="small" @click="daochu">导出</el-button>
+    <el-table
+      :data="detailstableData"
+      border
+      class="o-table3"
+      @header-click="headerClick"
+      style="width: 100%;">
+      <el-table-column
+        prop="country"
+        label="国籍/地区"
+        sortable>
+      </el-table-column>
+      <el-table-column
+        prop="chkcount"
+        label="值机数"
+        sortable>
+      </el-table-column>
+    </el-table>
+    <div slot="footer" class="dialog-footer">
+      <el-button @click="detailsDialogVisible = false" size="small">返 回</el-button>
+    </div>
+  </el-dialog>
   </div>
 </template>
 <script>
@@ -201,9 +231,12 @@ import echarts from 'echarts'
 import {formatDate,format} from '@/assets/js/date.js'
 import {dayGap} from '@/assets/js/date.js'
 import axios from 'axios'
+import $ from 'jquery'
 export default {
   data() {
     return {
+      myidChange:'',
+      detailstableData:[],
       CurrentPage: 1,
       pageSize: 10,
       TotalResult: 0,
@@ -227,7 +260,7 @@ export default {
           label: "30"
         }
       ],
-      page: 0,
+      page: 1,
       tableData: [],
       multipleSelection: [],
       pickerOptions0: {
@@ -250,7 +283,8 @@ export default {
       lineChart: null,
       sData1:[],
       sData2:[],
-      sData3:[]
+      sData3:[],
+      daochuFlag:0,
 
     }
   },
@@ -265,6 +299,10 @@ export default {
     this.pd.endtime = formatDate(endz, 'yyyyMMdd');
 
   },
+  created(){
+    let that = this;
+    window.sumDetails= that.sumDetails
+  },
   activated() {
 
       this.queryNationality();
@@ -276,6 +314,51 @@ export default {
 
   },
   methods: {
+    nationDetails(i){
+      this.detailsDialogVisible=true;
+      this.daochuFlag=0;
+      this.myidChange=i.myid;
+      let p={
+        "begintime":this.pd.begintime,
+        "endtime":this.pd.endtime,
+        "flighttype":this.pd.flighttype,
+        "port":i.myid
+      }
+      this.$api.post('/manage-platform/dataStatistics/get_country_detail',p,
+       r =>{
+         if(r.success){
+           this.detailstableData=r.data
+         }
+       })
+    },
+    sumDetails(){
+      this.detailsDialogVisible = true;
+      this.daochuFlag=1;
+      this.$api.post('/manage-platform/dataStatistics/get_country_detail',this.pd,
+       r =>{
+         if(r.success){
+           this.detailstableData=r.data;
+         }
+       })
+    },
+    daochu(){
+      let p={}
+      if(this.daochuFlag==0){
+         p={
+          "begintime":this.pd.begintime,
+          "endtime":this.pd.endtime,
+          "flighttype":this.pd.flighttype,
+          "port":this.myidChange
+        }
+      }else if(this.daochuFlag==1){
+        p=this.pd
+      }
+
+      this.$api.post('/manage-platform/dataStatistics/exp_country_detail',p,
+       r =>{
+          this.downloadM(r,1);
+       },e=>{},'','blob')
+    },
     headerClick(column,event){
     event.target.title=column.label
   },
@@ -317,6 +400,9 @@ export default {
         r => {
           console.log(r);
           this.tableData = r.data;
+          if($('.t-kajcBtn').length==0){
+            $('.el-table__footer .has-gutter').find("td").last().children('.cell').append('<button type="text"  class="el-button a-btn el-button--text el-button--mini t-kajcBtn" title="详情" size="mini" onclick="sumDetails()"><i class="el-icon-tickets"></i></button>')
+          }
           let arr=this.tableData;
           var sum1=0,sum01=0;
           var sum2=0,sum02=0;
@@ -357,7 +443,7 @@ export default {
            this.downloadM(response)
        });
     },
-    downloadM (data) {
+    downloadM (data,type) {
         if (!data) {
             return
         }
@@ -366,7 +452,12 @@ export default {
         let link = document.createElement('a')
         link.style.display = 'none'
         link.href = url
-        link.setAttribute('download', 'kajc'+format(new Date(),'yyyyMMddhhmmss')+'.xlsx')
+        if(type==1){
+          link.setAttribute('download', '航空专题分析，国籍地区分布.xlsx')
+        }else{
+          link.setAttribute('download', 'kajc'+format(new Date(),'yyyyMMddhhmmss')+'.xlsx')
+        }
+
         document.body.appendChild(link)
         link.click()
     },

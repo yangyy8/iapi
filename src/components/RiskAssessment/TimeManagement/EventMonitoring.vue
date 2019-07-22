@@ -12,20 +12,20 @@
                 <div class="input-input t-flex t-date">
                    <el-date-picker
                      v-model="cdt.startFlightDate"
-                     type="date"
+                     type="datetime"
                      size="small"
-                     format="yyyy-MM-dd"
-                     value-format="yyyyMMdd"
+                     format="yyyy-MM-dd HH:mm:ss"
+                     value-format="yyyyMMddHHmmss"
                      placeholder="开始时间">
                    </el-date-picker>
                    <span class="septum">-</span>
                    <el-date-picker
                       v-model="cdt.endFlightDate"
-                      type="date"
+                      type="datetime"
                       size="small"
                       align="right"
-                      format="yyyy-MM-dd"
-                      value-format="yyyyMMdd"
+                      format="yyyy-MM-dd HH:mm:ss"
+                      value-format="yyyyMMddHHmmss"
                       placeholder="结束时间">
                   </el-date-picker>
               </div>
@@ -212,6 +212,13 @@
             <span v-else>{{scope.row.PERCENT}}</span>
           </template>
         </el-table-column>
+        <!-- <el-table-column
+          label="操作"
+          min-width="50">
+          <template slot-scope="scope">
+            <el-button type="text"  class="a-btn" title="详情" size="mini" icon="el-icon-tickets" @click="modelDetails(scope.row)"></el-button>
+         </template>
+        </el-table-column> -->
       </el-table>
 
       <div class="middle-foot">
@@ -277,6 +284,39 @@
         <el-button type="primary" @click="colorReal" size="small">确定</el-button>
       </div>
     </el-dialog>
+    <el-dialog title="详情" :visible.sync="modelsDialogVisible" width="600px">
+      <el-table
+        :data="modeltableData"
+        border
+        class="o-table3"
+        @header-click="headerClick"
+        :span-method="objectSpanMethod"
+        style="width: 100%;">
+        <el-table-column
+          prop="sheetType"
+          label="国籍/地区"
+          sortable>
+        </el-table-column>
+        <el-table-column
+          prop="taskKey"
+          label="值机数"
+          sortable>
+        </el-table-column>
+        <el-table-column
+          prop="templateUrl"
+          label="值机数"
+          sortable>
+        </el-table-column>
+        <!-- <el-table-column
+          prop="taskKey"
+          label="值机数"
+          sortable>
+        </el-table-column> -->
+      </el-table>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="modelsDialogVisible = false" size="small">返 回</el-button>
+      </div>
+    </el-dialog>
   </div>
 
 </template>
@@ -288,6 +328,8 @@ import axios from 'axios'
 export default {
   data(){
     return{
+      modelsDialogVisible:false,
+      modeltableData:[],
       order:'',
       direction:0,
       airport:[],
@@ -331,15 +373,56 @@ export default {
           label:"30"
         }
       ],
+      modeltableData:[
+        {
+          type:1,
+          sheetType: "事件单",
+          taskKey: "shijian_01",
+          templateUrl: "/shijian_01"
+        },
+        {
+          type:1,
+          sheetType: "事件单",
+          taskKey: "shijian_02",
+          templateUrl: "/shijian_02"
+        },
+        {
+          type:1,
+          sheetType: "事件单",
+          taskKey: "shijian_03",
+          templateUrl: "/shijian_04"
+        },
+        {
+          type:2,
+          sheetType: "问题单",
+          taskKey: "wenti_01",
+          templateUrl: "/wenti_01"
+        },
+        {
+          type:2,
+          sheetType: "问题单",
+          taskKey: "wenti_02",
+          templateUrl: "/wenti_02"
+        },
+        {
+          type:2,
+          sheetType: "问题单",
+          taskKey: "wenti_03",
+          templateUrl: "/wenti_03"
+        }
+      ],
       tableData: [],
+      rowList: [],
+      spanArr: [],
+      position: 0,
     }
   },
   mounted(){
     let time = new Date();
     let end = new Date(new Date(new Date().toLocaleDateString()).getTime()+24*60*60*1000-1);
     let begin =new Date(new Date().setHours(0,0,0,0));
-    this.cdt.startFlightDate=formatDate(begin,'yyyyMMdd');
-    this.cdt.endFlightDate=formatDate(end,'yyyyMMdd');
+    this.cdt.startFlightDate=formatDate(begin,'yyyyMMddhhmmss');
+    this.cdt.endFlightDate=formatDate(end,'yyyyMMddhhmmss');
     let that = this
     // setTimeout(function(){
     //   that.getList(this.CurrentPage,this.pageSize,this.cdt,this.order,this.direction);
@@ -352,6 +435,45 @@ export default {
     // this.getList(this.CurrentPage,this.pageSize,this.cdt,this.order,this.direction);
   },
   methods:{
+    rowspan() {
+  		this.modeltableData.forEach((item,index) => {
+	    	if( index === 0){
+	    		this.spanArr.push(1);
+	    		this.position = 0;
+	    	}else{
+	    		if(this.modeltableData[index].type === this.modeltableData[index-1].type ){
+	    			this.spanArr[this.position] += 1;
+	    			this.spanArr.push(0);
+	    		}else{
+	    			this.spanArr.push(1);
+	    			this.position = index;
+	    		}
+	    	}
+	    })
+  	},
+    objectSpanMethod({ row, column, rowIndex, columnIndex }) {  //表格合并行
+    	if (columnIndex === 0) {
+    		const _row = this.spanArr[rowIndex];
+    		const _col = _row>0 ? 1 : 0;
+    		return {
+    			rowspan: _row,
+    			colspan: _col
+    		}
+    	}
+    	if(columnIndex === 1){
+    		const _row = this.spanArr[rowIndex];
+    		const _col = _row>0 ? 1 : 0;
+    		return {
+    			rowspan: _row,
+    			colspan: _col
+    		}
+    	}
+    },
+
+    modelDetails(){
+      this.modelsDialogVisible=true;
+      this.rowspan();
+    },
     sortChange(column, prop, order){
       column.order=='ascending'?this.direction=1:this.direction=0;
       this.order=column.prop;
@@ -485,8 +607,8 @@ export default {
       };
       let end = new Date(new Date(new Date().toLocaleDateString()).getTime()+24*60*60*1000-1);
       let begin =new Date(new Date().setHours(0,0,0,0));
-      this.cdt.startFlightDate=formatDate(begin,'yyyyMMdd');
-      this.cdt.endFlightDate=formatDate(end,'yyyyMMdd');
+      this.cdt.startFlightDate=formatDate(begin,'yyyyMMddhhmmss');
+      this.cdt.endFlightDate=formatDate(end,'yyyyMMddhhmmss');
       this.$nextTick(()=>{
         let sortArr = this.$refs.sort.$children
         for(var i=0;i<sortArr.length;i++){
@@ -515,8 +637,17 @@ export default {
           message: '航班日期不能为空',
           type: 'warning'
         });
-        return
+        return false
       }
+      let start = new Date(new Date(new Date().toLocaleDateString()).getTime()-24*60*60*1000*90)
+      if(this.cdt.startFlightDate<formatDate(start,'yyyyMMddhhmmss')){
+        this.$message({
+          message: '仅能查询3个月以内的数据',
+          type: 'warning'
+        });
+        return false
+      }
+
       this.V.$submit('demo', (canSumit,data) => {
         // canSumit为true时，则所有该scope的所有表单验证通过
         if(!canSumit) return
@@ -527,41 +658,58 @@ export default {
           "order":order,
           "direction":direction
         };
-          this.$api.post('/manage-platform/eventMonitor/queryFlightMonitor',p,
-           r => {
-             if(r.success){
-               if(r.data.nextState==0){
-                 document.getElementsByClassName('btn-next')[0].disabled=true;
-               }else{
-                 document.getElementsByClassName('btn-next')[0].disabled=false;
-               }
-               this.tableData=r.data.resultList;
-               this.CurrentPage = r.data.currentPage;
-               this.colorList = r.data.pd.useColour;
-               for(var j=0;j<this.colorList.length;j++){
-                 if(this.colorList[j].COL_NUMBER == 1){
-                   this.color1=this.colorList[j].COL_VALUE;
-                   this.low1 = this.colorList[j].LOW_VALUE;
-                   this.high1 = this.colorList[j].HIGH_VALUE;
-                 }else if(this.colorList[j].COL_NUMBER == 2){
-                   this.color2=this.colorList[j].COL_VALUE;
-                   this.low2 = this.colorList[j].LOW_VALUE;
-                   this.high2 = this.colorList[j].HIGH_VALUE;
-                 }else if(this.colorList[j].COL_NUMBER == 3){
-                   this.color3=this.colorList[j].COL_VALUE;
-                   this.low3 = this.colorList[j].LOW_VALUE;
-                   this.high3 = this.colorList[j].HIGH_VALUE;
-                 }else if(this.colorList[j].COL_NUMBER == 4){
-                   this.color4=this.colorList[j].COL_VALUE;
-                   this.low4 = this.colorList[j].LOW_VALUE;
-                   this.high4 = this.colorList[j].HIGH_VALUE;
-                 }
-               }
-               this.totalPageM(p)
-             }
-          })
+        if(dayGap(this.cdt.startFlightDate,this.cdt.endFlightDate,1)>7){
+          this.$confirm('查询时间周期长，需要等待', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+          }).then(() =>{
+            this.getListTrue(p);
+          }).catch(() =>{
+            this.$message({
+              type: 'info',
+              message: '已取消查询'
+            });
+          });
+        }else{
+          this.getListTrue(p);
+        }
       })
-
+    },
+    getListTrue(p){
+        this.$api.post('/manage-platform/eventMonitor/queryFlightMonitor',p,
+         r => {
+           if(r.success){
+             if(r.data.nextState==0){
+               document.getElementsByClassName('btn-next')[0].disabled=true;
+             }else{
+               document.getElementsByClassName('btn-next')[0].disabled=false;
+             }
+             this.tableData=r.data.resultList;
+             this.CurrentPage = r.data.currentPage;
+             this.colorList = r.data.pd.useColour;
+             for(var j=0;j<this.colorList.length;j++){
+               if(this.colorList[j].COL_NUMBER == 1){
+                 this.color1=this.colorList[j].COL_VALUE;
+                 this.low1 = this.colorList[j].LOW_VALUE;
+                 this.high1 = this.colorList[j].HIGH_VALUE;
+               }else if(this.colorList[j].COL_NUMBER == 2){
+                 this.color2=this.colorList[j].COL_VALUE;
+                 this.low2 = this.colorList[j].LOW_VALUE;
+                 this.high2 = this.colorList[j].HIGH_VALUE;
+               }else if(this.colorList[j].COL_NUMBER == 3){
+                 this.color3=this.colorList[j].COL_VALUE;
+                 this.low3 = this.colorList[j].LOW_VALUE;
+                 this.high3 = this.colorList[j].HIGH_VALUE;
+               }else if(this.colorList[j].COL_NUMBER == 4){
+                 this.color4=this.colorList[j].COL_VALUE;
+                 this.low4 = this.colorList[j].LOW_VALUE;
+                 this.high4 = this.colorList[j].HIGH_VALUE;
+               }
+             }
+             this.totalPageM(p)
+           }
+        })
     },
     queryNationalityAlone(){
       this.$api.post('/manage-platform/codeTable/queryNationality',{},

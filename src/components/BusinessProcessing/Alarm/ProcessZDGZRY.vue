@@ -13,6 +13,8 @@
            </el-option>
            <el-option value="2" label="2 - 特殊关注对象">
            </el-option>
+           <el-option value="3" label="3 - IAPI人员预警">
+           </el-option>
           </el-select>
          &nbsp;&nbsp;&nbsp; 出入标识:
          <el-select v-model="pd.flighttype" placeholder="请选择" filterable clearable size="small">
@@ -120,7 +122,7 @@
           label="操作"
           width="70">
           <template slot-scope="scope">
-            <el-button type="text" class="a-btn" icon="el-icon-edit-outline" title="报警处理" @click="$router.push({name:'alarmProcess',query:{eventserial:scope.row.eventSerial,AlarmType:scope.row.alarmTypeNum}})"></el-button>
+            <el-button type="text" class="a-btn" icon="el-icon-edit-outline" title="报警处理" @click="$router.push({name:'alarmProcess',query:{eventserial:scope.row.eventSerial,AlarmType:scope.row.alarmTypeNum,isZDGZ:1}})"></el-button>
             <!-- <el-button class="table-btn" icon="el-icon-edit" size="mini" plain @click="$router.push({name:'alarmProcess',query:{eventserial:scope.row.eventSerial,AlarmType:scope.row.alarmTypeNum}})">报警处理</el-button> -->
          </template>
         </el-table-column>

@@ -74,6 +74,7 @@
     <div class="middle" @mouseover="mouseHeader">
       <el-row class="mb-15">
         <el-button type="primary" size="small" @click="adds(0,'');">新增</el-button>
+        <el-button type="success" size="small" @click="exportT">导出</el-button>
       </el-row>
       <el-table
         ref="sort"
@@ -82,11 +83,11 @@
         style="width: 100%;"
         class="o-table3"
         @header-click="headerClick"
-        @sort-change='sortChange'>
+        @sort-change='sortChange'
+        @selection-change="handleSelectionChange">
         <el-table-column
-          label="序号"
-          type="index"
-          width="50">
+          type="selection"
+          width="55">
         </el-table-column>
         <el-table-column
           prop="CONSULTFROM"
@@ -178,10 +179,20 @@
     </div>
     <el-dialog title="编辑" :visible.sync="editDialogVisible" width="500px">
       <el-form :model="form" ref="addForm">
-        <el-row type="flex"  class="mb-6" v-if="form.STATIONFROM">
-          <el-col :span="24" class="input-item my-form-group" data-scope="txl" data-name="STATIONFROM" data-type="select"
-          v-validate-easy="[['required']]">
-            <span class="yy-input-text"><font class="yy-color">*</font>航站：</span>
+        <el-row type="flex"  class="mb-6">
+          <el-col :span="24" class="input-item">
+            <span class="yy-input-text">咨询来源：</span>
+            <el-select v-model="form.CONSULTFROM" filterable clearable placeholder="请选择" size="small" class="yy-input-input">
+              <el-option label="0 - 航空公司" value="0"></el-option>
+              <el-option label="1 - 乘客" value="1"></el-option>
+              <el-option label="2 - 其他" value="2"></el-option>
+            </el-select>
+          </el-col>
+        </el-row>
+
+        <el-row type="flex"  class="mb-6">
+          <el-col :span="24" class="input-item">
+            <span class="yy-input-text">航站：</span>
             <el-select v-model="form.STATIONFROM" filterable clearable placeholder="请选择" size="small" class="yy-input-input" @visible-change="terminal">
               <el-option
               v-for="item in takeOffName"
@@ -193,10 +204,9 @@
           </el-col>
         </el-row>
 
-        <el-row type="flex"  class="mb-6" v-if="form.AIRLINE_CODE">
-          <el-col :span="24" class="input-item my-form-group" data-scope="txl" data-name="AIRLINE_CODE" data-type="select"
-          v-validate-easy="[['required']]">
-            <span class="yy-input-text"><font class="yy-color">*</font>航空公司：</span>
+        <el-row type="flex"  class="mb-6">
+          <el-col :span="24" class="input-item">
+            <span class="yy-input-text">航空公司：</span>
             <el-select v-model="form.AIRLINE_CODE" filterable clearable placeholder="请选择" size="small" class="yy-input-input" @visible-change="applicationMethod">
               <el-option
               v-for="item in application"
@@ -209,67 +219,60 @@
         </el-row>
 
         <el-row type="flex"  class="mb-6">
-          <el-col :span="24" class="input-item my-form-group" data-scope="txl" data-name="NAME" data-type="input"
-          v-validate-easy="[['required']]">
-            <span class="yy-input-text"><font class="yy-color">*</font>咨询人：</span>
-            <el-input placeholder="请输入账号" size="small" v-model="form.NAME"  class="yy-input-input"></el-input>
+          <el-col :span="24" class="input-item">
+            <span class="yy-input-text">咨询人：</span>
+            <el-input placeholder="请输入内容" size="small" v-model="form.NAME"  class="yy-input-input"></el-input>
           </el-col>
         </el-row>
 
-        <el-row type="flex"  class="mb-6" v-if="form.TELEPHONE">
-          <el-col :span="24" class="input-item my-form-group" data-scope="txl" data-name="TELEPHONE" data-type="input"
-          v-validate-easy="[['required']]">
-            <span class="yy-input-text"><font class="yy-color">*</font>固定电话：</span>
-            <el-input placeholder="请输入账号" size="small" v-model="form.TELEPHONE"  class="yy-input-input"></el-input>
+        <el-row type="flex"  class="mb-6">
+          <el-col :span="24" class="input-item">
+            <span class="yy-input-text">固定电话：</span>
+            <el-input placeholder="请输入内容" size="small" v-model="form.TELEPHONE"  class="yy-input-input"></el-input>
           </el-col>
         </el-row>
 
-        <el-row type="flex"  class="mb-6" v-if="form.CELLPHONE">
-          <el-col :span="24" class="input-item my-form-group" data-scope="txl" data-name="CELLPHONE" data-type="input"
-          v-validate-easy="[['required']]">
-            <span class="yy-input-text"><font class="yy-color">*</font>移动电话：</span>
-            <el-input placeholder="请输入账号" size="small" v-model="form.CELLPHONE"  class="yy-input-input"></el-input>
+        <el-row type="flex"  class="mb-6">
+          <el-col :span="24" class="input-item">
+            <span class="yy-input-text">移动电话：</span>
+            <el-input placeholder="请输入内容" size="small" v-model="form.CELLPHONE"  class="yy-input-input"></el-input>
           </el-col>
         </el-row>
 
-        <el-row type="flex"  class="mb-6" v-if="form.FAX">
-          <el-col :span="24" class="input-item my-form-group" data-scope="txl" data-name="FAX" data-type="input"
-          v-validate-easy="[['required']]">
-            <span class="yy-input-text"><font class="yy-color">*</font>传真：</span>
-            <el-input placeholder="请输入账号" size="small" v-model="form.FAX"  class="yy-input-input"></el-input>
+        <el-row type="flex"  class="mb-6">
+          <el-col :span="24" class="input-item">
+            <span class="yy-input-text">传真：</span>
+            <el-input placeholder="请输入内容" size="small" v-model="form.FAX"  class="yy-input-input"></el-input>
           </el-col>
         </el-row>
 
-        <el-row type="flex"  class="mb-6" v-if="form.EMAIL">
-          <el-col :span="24" class="input-item my-form-group" data-scope="txl" data-name="EMAIL" data-type="input"
-          v-validate-easy="[['required']]">
-            <span class="yy-input-text"><font class="yy-color">*</font>邮箱：</span>
-            <el-input placeholder="请输入账号" size="small" v-model="form.EMAIL"  class="yy-input-input"></el-input>
+        <el-row type="flex"  class="mb-6">
+          <el-col :span="24" class="input-item">
+            <span class="yy-input-text">邮箱：</span>
+            <el-input placeholder="请输入内容" size="small" v-model="form.EMAIL"  class="yy-input-input"></el-input>
           </el-col>
         </el-row>
 
-        <el-row type="flex"  class="mb-6" v-if="form.OTHER">
-          <el-col :span="24" class="input-item my-form-group" data-scope="txl" data-name="OTHER" data-type="input"
-          v-validate-easy="[['required']]">
-            <span class="yy-input-text"><font class="yy-color">*</font>其他：</span>
-            <el-input placeholder="请输入账号" size="small" v-model="form.OTHER"  class="yy-input-input"></el-input>
+        <el-row type="flex"  class="mb-6">
+          <el-col :span="24" class="input-item">
+            <span class="yy-input-text">其他：</span>
+            <el-input placeholder="请输入内容" size="small" v-model="form.OTHER"  class="yy-input-input"></el-input>
           </el-col>
         </el-row>
 
 
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="addItem('addForm','txl')" size="small">保 存</el-button>
+        <el-button type="primary" @click="addItem('addForm')" size="small">保 存</el-button>
         <el-button @click="editDialogVisible = false" size="small">取 消</el-button>
       </div>
     </el-dialog>
     <el-dialog title="新增" :visible.sync="addDialogVisible" width="500px">
-      <el-form :model="form" ref="addForm">
+      <el-form :model="addForm" ref="addForm">
         <el-row type="flex"  class="mb-6">
-          <el-col :span="24" class="input-item my-form-group" data-scope="addtxl" data-name="CONSULTFROM" data-type="select"
-          v-validate-easy="[['required']]">
-            <span class="yy-input-text"><font class="yy-color">*</font>咨询来源：</span>
-            <el-select v-model="form.CONSULTFROM" filterable clearable placeholder="请选择" size="small" class="yy-input-input">
+          <el-col :span="24" class="input-item">
+            <span class="yy-input-text">咨询来源：</span>
+            <el-select v-model="addForm.CONSULTFROM" filterable clearable placeholder="请选择" size="small" class="yy-input-input">
               <el-option label="0 - 航空公司" value="0"></el-option>
               <el-option label="1 - 乘客" value="1"></el-option>
               <el-option label="2 - 其他" value="2"></el-option>
@@ -277,11 +280,10 @@
           </el-col>
         </el-row>
 
-        <el-row type="flex"  class="mb-6" v-if="form.CONSULTFROM=='0'">
-          <el-col :span="24" class="input-item my-form-group" data-scope="addtxl" data-name="AIRLINE_CODE" data-type="select"
-          v-validate-easy="[['required']]">
-            <span class="yy-input-text"><font class="yy-color">*</font>航空公司：</span>
-            <el-select v-model="form.AIRLINE_CODE" filterable clearable placeholder="请选择" size="small" class="yy-input-input" @visible-change="applicationMethod">>
+        <el-row type="flex"  class="mb-6">
+          <el-col :span="24" class="input-item">
+            <span class="yy-input-text">航空公司：</span>
+            <el-select v-model="addForm.AIRLINE_CODE" filterable clearable placeholder="请选择" size="small" class="yy-input-input" @visible-change="applicationMethod">>
               <el-option
               v-for="item in application"
               :key="item.AIRLINE_CODE"
@@ -292,11 +294,10 @@
           </el-col>
         </el-row>
 
-        <el-row type="flex"  class="mb-6" v-if="form.CONSULTFROM == '0'||form.CONSULTFROM == ''||form.CONSULTFROM == undefined">
-          <el-col :span="24" class="input-item my-form-group" data-scope="addtxl" data-name="STATIONFROM" data-type="select"
-          v-validate-easy="[['required']]">
-            <span class="yy-input-text"><font class="yy-color">*</font>航站：</span>
-            <el-select v-model="form.STATIONFROM" filterable clearable placeholder="请选择" size="small" class="yy-input-input" @visible-change="terminal">
+        <el-row type="flex"  class="mb-6">
+          <el-col :span="24" class="input-item">
+            <span class="yy-input-text">航站：</span>
+            <el-select v-model="addForm.STATIONFROM" filterable clearable placeholder="请选择" size="small" class="yy-input-input" @visible-change="terminal">
               <el-option
               v-for="item in takeOffName"
               :key="item.AIRPORT_CODE"
@@ -308,18 +309,16 @@
         </el-row>
 
         <el-row type="flex"  class="mb-6">
-          <el-col :span="24" class="input-item my-form-group" data-scope="addtxl" data-name="NAME" data-type="input"
-          v-validate-easy="[['required']]">
-            <span class="yy-input-text"><font class="yy-color">*</font>咨询人：</span>
-            <el-input placeholder="请输入账号" size="small" v-model="form.NAME"  class="yy-input-input"></el-input>
+          <el-col :span="24" class="input-item">
+            <span class="yy-input-text">咨询人：</span>
+            <el-input placeholder="请输入内容" size="small" v-model="addForm.NAME"  class="yy-input-input"></el-input>
           </el-col>
         </el-row>
 
         <el-row type="flex"  class="mb-6">
-          <el-col :span="24" class="input-item my-form-group" data-scope="addtxl" data-name="CONSULTFROMTYPE" data-type="select"
-          v-validate-easy="[['required']]">
-            <span class="yy-input-text"><font class="yy-color">*</font>咨询方式：</span>
-            <el-select v-model="form.CONSULTFROMTYPE" filterable clearable placeholder="请选择" size="small" class="yy-input-input">
+          <el-col :span="24" class="input-item">
+            <span class="yy-input-text">咨询方式：</span>
+            <el-select v-model="addForm.CONSULTFROMTYPE" filterable clearable placeholder="请选择" size="small" class="yy-input-input">
               <el-option label="0 - 移动电话" value="0"></el-option>
               <el-option label="1 - 传真" value="1"></el-option>
               <el-option label="2 - 邮箱" value="2"></el-option>
@@ -329,49 +328,44 @@
           </el-col>
         </el-row>
 
-        <el-row type="flex"  class="mb-6" v-if="form.CONSULTFROMTYPE=='3'">
-          <el-col :span="24" class="input-item my-form-group" data-scope="addtxl" data-name="TELEPHONE" data-type="input"
-          v-validate-easy="[['required']]">
-            <span class="yy-input-text"><font class="yy-color">*</font>固定电话：</span>
-            <el-input placeholder="请输入账号" size="small" v-model="form.TELEPHONE"  class="yy-input-input"></el-input>
+        <el-row type="flex"  class="mb-6">
+          <el-col :span="24" class="input-item">
+            <span class="yy-input-text">固定电话：</span>
+            <el-input placeholder="请输入内容" size="small" v-model="addForm.TELEPHONE"  class="yy-input-input"></el-input>
           </el-col>
         </el-row>
 
-        <el-row type="flex"  class="mb-6" v-if="form.CONSULTFROMTYPE=='0'">
-          <el-col :span="24" class="input-item my-form-group" data-scope="addtxl" data-name="CELLPHONE" data-type="input"
-          v-validate-easy="[['required']]">
-            <span class="yy-input-text"><font class="yy-color">*</font>移动电话：</span>
-            <el-input placeholder="请输入账号" size="small" v-model="form.CELLPHONE"  class="yy-input-input"></el-input>
+        <el-row type="flex"  class="mb-6">
+          <el-col :span="24" class="input-item">
+            <span class="yy-input-text">移动电话：</span>
+            <el-input placeholder="请输入内容" size="small" v-model="addForm.CELLPHONE"  class="yy-input-input"></el-input>
           </el-col>
         </el-row>
 
-        <el-row type="flex"  class="mb-6" v-if="form.CONSULTFROMTYPE=='1'">
-          <el-col :span="24" class="input-item my-form-group" data-scope="addtxl" data-name="FAX" data-type="input"
-          v-validate-easy="[['required']]">
-            <span class="yy-input-text"><font class="yy-color">*</font>传真：</span>
-            <el-input placeholder="请输入账号" size="small" v-model="form.FAX"  class="yy-input-input"></el-input>
+        <el-row type="flex"  class="mb-6">
+          <el-col :span="24" class="input-item">
+            <span class="yy-input-text">传真：</span>
+            <el-input placeholder="请输入内容" size="small" v-model="addForm.FAX"  class="yy-input-input"></el-input>
           </el-col>
         </el-row>
 
-        <el-row type="flex"  class="mb-6" v-if="form.CONSULTFROMTYPE=='2'">
-          <el-col :span="24" class="input-item my-form-group" data-scope="addtxl" data-name="EMAIL" data-type="input"
-          v-validate-easy="[['required']]">
-            <span class="yy-input-text"><font class="yy-color">*</font>邮箱：</span>
-            <el-input placeholder="请输入账号" size="small" v-model="form.EMAIL"  class="yy-input-input"></el-input>
+        <el-row type="flex"  class="mb-6">
+          <el-col :span="24" class="input-item">
+            <span class="yy-input-text">邮箱：</span>
+            <el-input placeholder="请输入内容" size="small" v-model="addForm.EMAIL"  class="yy-input-input"></el-input>
           </el-col>
         </el-row>
 
-        <el-row type="flex"  class="mb-6" v-if="form.CONSULTFROMTYPE=='4'">
-          <el-col :span="24" class="input-item my-form-group" data-scope="addtxl" data-name="OTHER" data-type="input"
-          v-validate-easy="[['required']]">
-            <span class="yy-input-text"><font class="yy-color">*</font>其他：</span>
-            <el-input placeholder="请输入账号" size="small" v-model="form.OTHER"  class="yy-input-input"></el-input>
+        <el-row type="flex"  class="mb-6">
+          <el-col :span="24" class="input-item">
+            <span class="yy-input-text">其他：</span>
+            <el-input placeholder="请输入内容" size="small" v-model="addForm.OTHER"  class="yy-input-input"></el-input>
           </el-col>
         </el-row>
 
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="addItem('addForm','addtxl')" size="small">保 存</el-button>
+        <el-button type="primary" @click="addItem('addForm')" size="small">保 存</el-button>
         <el-button @click="addDialogVisible = false" size="small">取 消</el-button>
       </div>
     </el-dialog>
@@ -380,7 +374,7 @@
 
 <script>
 
-import {formatDate} from '@/assets/js/date.js'
+import {formatDate,format} from '@/assets/js/date.js'
 import {dayGap} from '@/assets/js/date.js'
 export default {
 
@@ -393,6 +387,7 @@ export default {
       editDialogVisible: false,//编辑
       application:[],
       form:{},
+      addForm:{},
       CurrentPage: 1,
       pageSize: 10,
       TotalResult: 0,
@@ -413,6 +408,19 @@ export default {
         }
       ],
       tableData: [],
+      multipleTable:[],
+      checkList:['CONSULTFROM','AIRLINE_CHN_NAME','STATIONFROM','NAME','TELEPHONE','CELLPHONE','FAX','EMAIL','OTHER'],
+      propertiesKeyAndName:{
+        "CONSULTFROM":'咨询来源',
+        "AIRLINE_CHN_NAME":'航空公司',
+        "STATIONFROM":'航站',
+        "NAME":'咨询人',
+        "TELEPHONE":'固定电话',
+        "CELLPHONE":'移动电话',
+        "FAX":'传真',
+        "EMAIL":'邮箱',
+        "OTHER":'其他',
+      },
     }
   },
   mounted() {
@@ -424,6 +432,46 @@ export default {
     // this.getList(this.CurrentPage, this.pageSize, this.pd);
   },
   methods: {
+    exportT(){
+      if(this.multipleTable.length!=0){
+        let p={
+          "exclTitles": this.checkList,
+          "propertiesKeyAndName":this.propertiesKeyAndName,
+          "resultList":this.multipleTable,
+        }
+        this.$api.post('/manage-platform/iapiHead/exportGlobalDataIo',p,
+         r =>{
+           this.downloadM(r)
+         },e=>{},'','blob')
+      }else if(this.multipleTable.length==0){//全部导出
+        let p={
+          "exclTitles":this.checkList,
+          "cdt":this.pd,
+          "CurrentPage":1,
+          "pageSize":10
+        }
+        this.$api.post('/manage-platform/consult/exportFileIo/10000',p,
+         r =>{
+           this.downloadM(r)
+         },e=>{},'','blob')
+      }
+    },
+    downloadM (data,type) {
+        if (!data) {
+            return
+        }
+        let url = window.URL.createObjectURL(new Blob([data.data],{type:"application/octet-stream"}))
+        let link = document.createElement('a')
+        link.style.display = 'none'
+        link.href = url
+        if(type==1){
+          link.setAttribute('download', 'template.xlsx')
+        }else{
+          link.setAttribute('download', format(new Date(),'yyyy-MM-dd hh:mm:ss')+'.xlsx')
+        }
+        document.body.appendChild(link)
+        link.click()
+    },
     sortChange(column, prop, order){
       column.order=='ascending'?this.direction=1:this.direction=0;
       this.order=column.prop;
@@ -458,7 +506,7 @@ export default {
       event.target.title=column.label
     },
     handleSelectionChange(val) {
-      this.multipleSelection = val;
+      this.multipleTable = val;
     },
     pageSizeChange(val) {
       this.pageSize = val;
@@ -471,14 +519,14 @@ export default {
       console.log(`当前页: ${val}`);
     },
     adds(n, i) {
-      if (n != 0) {
+      if (n != 0) {//编辑
         this.tp = 1;
         // this.form = i;
         this.form=Object.assign({}, i);
         this.editDialogVisible = true;
-      }else {
+      }else {//新增
         this.tp = 0;
-        this.form={};
+        this.addForm={};
         this.addDialogVisible = true;
       }
       this.V.$reset('txl')
@@ -494,31 +542,37 @@ export default {
         return ''
       }
     },
-    addItem(formName,scope) {
-      this.V.$submit(scope, (canSumit,data) => {
+    addItem(formName) {
+      // this.V.$submit(scope, (canSumit,data) => {
         // canSumit为true时，则所有该scope的所有表单验证通过
-        if(!canSumit) return
+        // if(!canSumit) return
+        let p={};
         var url='';
         if(this.tp==1){
           url = '/manage-platform/consult/editConsultAddress';
-          if(this.form.AIRLINE_CODE!=''){
+          if(this.form.AIRLINE_CODE){
             this.form.AIRLINE_CHN_NAME = this.appZhuan(this.form.AIRLINE_CODE).split('-')[0];
             this.form.AIRLINE_ENG_NAME = this.appZhuan(this.form.AIRLINE_CODE).split('-')[1];
           }else{
             this.form.AIRLINE_CHN_NAME='';
             this.form.AIRLINE_ENG_NAME='';
           }
+          p=this.form;
         }else if(this.tp==0){
           url = '/manage-platform/consult/saveConsultAddress';
-          if(this.form.AIRLINE_CODE!=''){
-            this.form.AIRLINE_CHN_NAME = this.appZhuan(this.form.AIRLINE_CODE).split('-')[0];
-            this.form.AIRLINE_ENG_NAME = this.appZhuan(this.form.AIRLINE_CODE).split('-')[1];
+          // console.log('this.addForm.AIRLINE_CODE',this.addForm.AIRLINE_CODE,this.addForm.AIRLINE_CODE!=undefined)
+          if(this.addForm.AIRLINE_CODE){
+            console.log('aaaaaaa')
+            this.addForm.AIRLINE_CHN_NAME = this.appZhuan(this.addForm.AIRLINE_CODE).split('-')[0];
+            this.addForm.AIRLINE_ENG_NAME = this.appZhuan(this.addForm.AIRLINE_CODE).split('-')[1];
           }else{
-            this.form.AIRLINE_CHN_NAME='';
-            this.form.AIRLINE_ENG_NAME='';
+            console.log('bbbbbbb')
+            this.addForm.AIRLINE_CHN_NAME='';
+            this.addForm.AIRLINE_ENG_NAME='';
           }
+          p=this.addForm;
         }
-        this.$api.post(url, this.form,
+        this.$api.post(url, p,
           r => {
             if (r.success) {
               this.$message({
@@ -539,7 +593,7 @@ export default {
           }, e => {
             this.$message.error('失败了');
           })
-      })
+      // })
     },
 
     deleteItem(i){

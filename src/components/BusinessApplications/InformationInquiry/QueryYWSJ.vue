@@ -710,39 +710,46 @@ export default {
           let todayS =  (this.pd.startCreatetime).slice(0,8);
           let currentTime = formatDate(new Date(time.getTime()),'yyyyMMdd');
           let endT = formatDate(new Date(time.getTime()),'yyyyMMddhhmmss');
+          let endTnull = formatDate(new Date(time.getTime()-24*60*60*1000),'yyyyMMddhhmmss');
           if(todayS==currentTime){
             return this.pd.startCreatetime>this.pd.endCreatetime;
-          }else{
+          }
+          // else if(this.pd.endCreatetime==null){
+          //   console.log(this.pd.startCreatetime,endTnull,this.pd.startCreatetime>=endTnull)
+          //   return this.pd.startCreatetime>=endTnull
+          // }
+          else{
+            console.log(endT)
             return endT < this.pd.startCreatetime;
           }
         }
       },
 
-      // pickerOptions2: {
-      //   disabledDate: (time) => {
-      //     // console.log(typeOf(this.pd.endDealtime))
-      //
-      //       if (this.pd.endDealtime != null) {
-      //         let startT = formatDate(new Date(time.getTime()),'yyyyMMddhhmmss');
-      //         return startT > this.pd.endDealtime;
-      //       }else if(this.pd.endDealtime == null){
-      //         let startT = formatDate(new Date(time.getTime()),'yyyyMMddhhmmss');
-      //         return startT > 0
-      //       }
-      //   }
-      // },
-      // pickerOptions3: {
-      //   disabledDate: (time) => {
-      //       let todayS =  (this.pd.startDealtime).slice(0,8);
-      //       let currentTime = formatDate(new Date(time.getTime()),'yyyyMMdd');
-      //       let endT = formatDate(new Date(time.getTime()),'yyyyMMddhhmmss');
-      //       if(todayS==currentTime){
-      //         return this.pd.startDealtime>this.pd.endDealtime
-      //       }else{
-      //         return endT <= this.pd.startDealtime;
-      //       }
-      //   }
-      // },
+      pickerOptions2: {
+        // disabledDate: (time) => {
+        //   // console.log(typeOf(this.pd.endDealtime))
+        //
+        //     if (this.pd.endDealtime != null) {
+        //       let startT = formatDate(new Date(time.getTime()),'yyyyMMddhhmmss');
+        //       return startT > this.pd.endDealtime;
+        //     }else if(this.pd.endDealtime == null){
+        //       let startT = formatDate(new Date(time.getTime()),'yyyyMMddhhmmss');
+        //       return startT > 0
+        //     }
+        // }
+      },
+      pickerOptions3: {
+        // disabledDate: (time) => {
+        //     let todayS =  (this.pd.startDealtime).slice(0,8);
+        //     let currentTime = formatDate(new Date(time.getTime()),'yyyyMMdd');
+        //     let endT = formatDate(new Date(time.getTime()),'yyyyMMddhhmmss');
+        //     if(todayS==currentTime){
+        //       return this.pd.startDealtime>this.pd.endDealtime
+        //     }else{
+        //       return endT <= this.pd.startDealtime;
+        //     }
+        // }
+      },
       nav1Id:null,
       nav2Id:null
     }

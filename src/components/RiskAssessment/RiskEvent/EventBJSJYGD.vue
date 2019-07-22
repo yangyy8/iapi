@@ -137,6 +137,13 @@
                 <span class="input-text">归档人：</span>
                 <el-input v-model="pd.archive_pepole" placeholder="请输入内容" size="small" clearable class="input-input"></el-input>
               </el-col>
+              <el-col :sm="24" :md="12"  :lg="8" class="input-item">
+                <span class="input-text">是否推送至梅沙：</span>
+                <el-select v-model="pd.yl_two" placeholder="请选择"  size="small" clearable filterable class="block input-input">
+                  <el-option label="是" value="1"></el-option>
+                  <el-option label="否" value="0"></el-option>
+                </el-select>
+              </el-col>
             </el-row>
             </el-collapse-transition>
           </el-col>
@@ -175,9 +182,9 @@
       <div class="" @mouseover="mouseHeader">
         <!-- <el-button type="primary" class="mr-5" plain size="small" @click="openGdTc" :disabled="isdisable">批量归档</el-button>
         <el-button type="primary" plain size="small" @click="openCzTc" :disabled="isdisable">批量事件处理</el-button> -->
-
+        <el-button type="primary" plain size="small" @click="daochu">导出</el-button>
         <el-table
-          class="mt-10 o-table3"
+          class="mt-10 o-table3 t-gutter"
           ref="multipleTable"
           :data="tableData"
           border
@@ -198,82 +205,83 @@
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
+            label="出入标识"
+            prop="flightTypeName"
+            min-width="60">
+          </el-table-column>
+          <el-table-column
             label="出生日期"
             prop="birthday"
             sortable="custom"
-            width="101">
+            min-width="90">
           </el-table-column>
           <el-table-column
             label="国籍地区"
             prop="nationality"
             sortable="custom"
-            width="60"
+            min-width="60"
             :show-overflow-tooltip="true">
             <template slot-scope="scope">
               <span>{{scope.row.nationalityName}}</span>
             </template>
           </el-table-column>
-          <el-table-column
-            label="出入标识"
-            prop="flightTypeName"
-            width="60">
-          </el-table-column>
+
           <el-table-column
             label="证件类型"
             prop="passportTypeName"
-            width="60"
+            min-width="60"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="证件号"
             prop="passportno"
             sortable="custom"
-            width="90"
+            min-width="90"
             :show-overflow-tooltip="true">
-            <template slot-scope="scope">
+            <!-- <template slot-scope="scope">
               <span class="tc-b hand" @click="$router.push({name:'DZDA',query:{idcard:scope.row.idcard,nationality:scope.row.nationality,passportno:scope.row.passportno,grade:scope.row.grade,type:2,nav2Id:scope.row.passportno+scope.row.nationality,title:scope.row.name+'电子档案'}})">{{scope.row.passportno}}</span>
-            </template>
+            </template> -->
           </el-table-column>
           <el-table-column
             label="航班号"
             prop="fltno"
             sortable="custom"
-            width="70"
+            min-width="70"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="航班日期"
             prop="fltnoDate"
             sortable="custom"
-            width="101"
+            min-width="151"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="口岸"
             prop="port_name"
             sortable="custom"
-            width="60"
+            min-width="60"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="命中模型"
             prop="hit_mode_gc"
             sortable="custom"
-            width="70"
+            min-width="50"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="命中规则"
             prop="hit_rule_name"
             sortable="custom"
-            width="70"
+            min-width="50"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="风险等级"
             prop="grade"
             sortable="custom"
-            width="145">
+            min-width="120">
             <template slot-scope="scope">
               <el-rate :value="scope.row.grade" size="mini" disabled></el-rate>
             </template>
@@ -282,7 +290,7 @@
             label="风评结果"
             prop="newcheckresult"
             sortable="custom"
-            width="60"
+            min-width="60"
             :show-overflow-tooltip="true">
             <template slot-scope="scope">
               <span>{{scope.row.newcheckresultName}}</span>
@@ -290,7 +298,7 @@
           </el-table-column>
           <el-table-column
             label="事件来源"
-            width="60"
+            min-width="60"
             sortable="custom"
             prop="centre_port"
             :show-overflow-tooltip="true">
@@ -298,34 +306,40 @@
           <el-table-column
             label="推送人"
             prop="change_peopleName"
-            width="60"
+            min-width="60"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="处理人"
             prop="processor_peopleName"
-            width="60"
+            min-width="60"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="归档人"
             prop="processor_peopleName"
-            width="60"
+            min-width="60"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="归档时间"
             prop="archive_time"
             sortable="custom"
-            width="101"
+            min-width="101"
+            :show-overflow-tooltip="true">
+          </el-table-column>
+          <el-table-column
+            label="是否推送至梅沙"
+            min-width="50"
+            prop="yl_two"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column
             label="操作"
-            width="70">
+            min-width="70">
             <template slot-scope="scope">
-              <el-button type="text" class="a-btn" icon="el-icon-view" title="查看" @click="$router.push({name:'BJCLCX',query:{idcard:scope.row.idcard,serial:scope.row.serial,grade:scope.row.grade,nav2Id:scope.row.serial+2,title:scope.row.name+'已归档查询'}})"></el-button>
-              <el-button type="text" class="a-btn" icon="el-icon-edit-outline"  title="归档追加" @click="openGdTc(scope.row)"></el-button>
+              <el-button type="text" class="t-btn mr-5" icon="el-icon-view" title="查看" @click="$router.push({name:'BJCLCX',query:{idcard:scope.row.idcard,serial:scope.row.serial,grade:scope.row.grade,nav2Id:scope.row.serial+2,title:scope.row.name+'已归档查询'}})"></el-button>
+              <el-button type="text" class="t-btn" icon="el-icon-edit-outline"  title="归档追加" @click="openGdTc(scope.row)"></el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -382,7 +396,7 @@ export default {
       tableData:[],
       eachData:[],
       CurrentPage:1,
-      pageSize:10,
+      pageSize:50,
       orders:[],
       direction:0,
       TotalResult:0,
@@ -404,6 +418,10 @@ export default {
         {
           value:30,
           label:"30"
+        },
+        {
+          value:50,
+          label:"50"
         }
       ],
 
@@ -431,6 +449,31 @@ export default {
 
   },
   methods:{
+    daochu(){
+      let p={
+        "showCount": this.pageSize,
+        "currentPage":this.CurrentPage,
+        "pd": this.pd,
+        "orders":this.orders,
+        "direction":this.direction
+      }
+      this.$api.post('/manage-platform/riskEventController/getGdRiskEventToExcelInfo',p,
+       r =>{
+         this.downloadM(r);
+       },e=>{},'','blob')
+    },
+    downloadM (data,type) {
+        if (!data) {
+            return
+        }
+        let url = window.URL.createObjectURL(new Blob([data.data],{type:"application/octet-stream"}))
+        let link = document.createElement('a')
+        link.style.display = 'none'
+        link.href = url
+        link.setAttribute('download', '归档事件.xlsx')
+        document.body.appendChild(link)
+        link.click()
+    },
     headerClick(column,event){
       console.log(column,event)
       event.target.title=column.label
@@ -472,7 +515,7 @@ export default {
     },
     reset(){
       this.CurrentPage=1;
-      this.pageSize=10;
+      this.pageSize=50;
       this.pd={};
       this.orders=[];
       this.direction=0;

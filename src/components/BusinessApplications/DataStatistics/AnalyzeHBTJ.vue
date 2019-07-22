@@ -55,17 +55,37 @@
                   </el-option> -->
                 </el-select>
               </el-col>
+              <el-col :sm="24" :md="12" :lg="8" class="input-item">
+                <span class="input-text">起飞机场：</span>
+                <el-select placeholder="请选择" v-model="pd.portfrom" filterable clearable @visible-change="takeOff" size="small" class="input-input">
+                  <el-option
+                  v-for="item in takeOffName"
+                  :key="item.AIRPORT_CODE"
+                  :value="item.AIRPORT_CODE"
+                  :label="item.AIRPORT_CODE+' - '+item.AIRPORT_NAME">
+                  </el-option>
+                </el-select>
+              </el-col>
+              <el-col :sm="24" :md="12" :lg="8" class="input-item">
+                <span class="input-text">到达机场：</span>
+                <el-select placeholder="请选择" v-model="pd.portto" filterable clearable @visible-change="landing" size="small" class="input-input">
+                  <el-option
+                  v-for="item in landingName"
+                  :key="item.AIRPORT_CODE"
+                  :value="item.AIRPORT_CODE"
+                  :label="item.AIRPORT_CODE+' - '+item.AIRPORT_NAME">
+                  </el-option>
+                </el-select>
+              </el-col>
           </el-row>
 
-          <el-row type="flex" class="yy-line">
+          <!-- <el-row type="flex" class="yy-line">
               <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                   <span class="input-text">行属性：</span>
                   <el-select v-model="typerow"   placeholder="请选择" size="small" class="input-input">
-
-                     <el-option  value="1" label="航班号" >
-                     </el-option>
+                     <el-option  value="1" label="航班号" ></el-option>
                    </el-select>
-                </el-col>
+                </el-col> -->
                 <!-- <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
                   <span class="input-text">列属性：</span>
                   <el-select v-model="typecol" filterable clearable  placeholder="请选择" size="small" class="input-input">
@@ -84,7 +104,7 @@
                      </el-option>
                    </el-select>
                 </el-col> -->
-              </el-row>
+              <!-- </el-row> -->
 
         </el-col>
         <el-col :span="2" class="down-btn-area" style="margin-top:25px;">
@@ -228,12 +248,42 @@
                      label="数据错误">
                    </el-table-column>
                </el-table-column>
+               <el-table-column
+                 label="操作"
+                 min-width="50">
+                 <template slot-scope="scope">
+                   <el-button type="text"  class="a-btn" title="详情" size="mini" icon="el-icon-tickets" @click="nationDetails(scope.row)"></el-button>
+                </template>
+               </el-table-column>
                </el-table>
 
           </div>
         </div>
     </div>
   </div>
+  <el-dialog title="详情" :visible.sync="detailsDialogVisible" width="600px">
+    <el-button  plain class="table-btn mb-9" size="small" @click="daochu">导出</el-button>
+    <el-table
+      :data="detailstableData"
+      border
+      class="o-table3"
+      @header-click="headerClick"
+      style="width: 100%;">
+      <el-table-column
+        prop="country"
+        label="国籍/地区"
+        sortable>
+      </el-table-column>
+      <el-table-column
+        prop="chkcount"
+        label="值机数"
+        sortable>
+      </el-table-column>
+    </el-table>
+    <div slot="footer" class="dialog-footer">
+      <el-button @click="detailsDialogVisible = false" size="small">返 回</el-button>
+    </div>
+  </el-dialog>
   </div>
 </template>
 <script>
@@ -241,9 +291,14 @@ import echarts from 'echarts'
 import {formatDate,format} from '@/assets/js/date.js'
 import {dayGap} from '@/assets/js/date.js'
 import axios from 'axios'
+import $ from 'jquery'
 export default {
   data() {
     return {
+      detailstableData:[],
+      takeOffName:[],
+      landingName:[],
+      fltnoChange:'',
       CurrentPage: 1,
       pageSize: 10,
       TotalResult: 0,
@@ -266,7 +321,7 @@ export default {
           label: "30"
         }
       ],
-      page: 0,
+      page: 1,
       sData1:[],
       sData2:[],
       sData3:[],
@@ -292,6 +347,7 @@ export default {
       form: {},
       lineChart: null,
       company:"",
+      daochuFlag:0,
       // tables: [{
       //   xiaoxue: '福兰',
       //   chuzhong: '加芳',
@@ -402,8 +458,13 @@ export default {
     this.pd.endtime = formatDate(endz, 'yyyyMMdd');
   //  this.getList(this.CurrentPage, this.pageSize, this.pd);
   },
+  created(){
+    let that = this;
+    window.sumDetails= that.sumDetails
+  },
   activated() {
     this.queryNationality();
+
   //  this.drawLine();
     // let time = new Date();
     // let endz = new Date();
@@ -413,6 +474,75 @@ export default {
     //this.getList(this.CurrentPage, this.pageSize, this.pd);
   },
   methods: {
+    takeOff(){//调用起飞机场
+      let p={
+        "flighttype":this.pd.flighttype,
+        "type":0
+      }
+      this.$api.post('/manage-platform/codeTable/queryAirportByPortAndFlighttype',p,
+       r =>{
+         if(r.success){
+           this.takeOffName = r.data;
+         }
+       })
+    },
+    landing(){//调用降落机场
+      let p={
+        "flighttype":this.pd.flighttype,
+        "type":1
+      }
+      this.$api.post('/manage-platform/codeTable/queryAirportByPortAndFlighttype',p,
+       r =>{
+         if(r.success){
+           this.landingName = r.data;
+         }
+       })
+    },
+    nationDetails(i){
+      this.detailsDialogVisible = true;
+      this.daochuFlag=0;
+      this.fltnoChange = i.fltno;
+      let p={
+        "begintime":this.pd.begintime,
+        "endtime":this.pd.endtime,
+        "fltno":i.fltno,
+        "flighttype":this.pd.flighttype
+      }
+      this.$api.post('/manage-platform/dataStatistics/get_country_detail',p,
+       r =>{
+         if(r.success){
+           this.detailstableData=r.data;
+         }
+       })
+    },
+    sumDetails(){
+      this.detailsDialogVisible = true;
+      this.daochuFlag=1;
+      this.$api.post('/manage-platform/dataStatistics/get_country_detail',this.pd,
+       r =>{
+         if(r.success){
+           this.detailstableData=r.data;
+         }
+       })
+    },
+    daochu(){
+      let p={}
+      if(this.daochuFlag==0){
+         p={
+          "begintime":this.pd.begintime,
+          "endtime":this.pd.endtime,
+          "fltno":this.fltnoChange,
+          "flighttype":this.pd.flighttype
+        }
+      }else if(this.daochuFlag==1){
+        p=this.pd
+      }
+
+      this.$api.post('/manage-platform/dataStatistics/exp_country_detail',p,
+       r =>{
+          this.downloadM(r,1);
+       },e=>{},'','blob')
+    },
     // 获取表格选中时的数据
    // selectArInfo (val) {
    //   this.selectArr = val
@@ -490,7 +620,7 @@ export default {
 
   },
   getSummaries(param) {
-      console.log("合计-------------");
+      console.log("合计-------------",param,columns);
        const { columns, data } = param;
        const sums = [];
        columns.forEach((column, index) => {
@@ -532,24 +662,29 @@ export default {
        }
 
 
-             if (this.pd.begintime== null|| this.pd.endtime == null) {
-               this.$alert('时间范围不能为空', '提示', {
-                 confirmButtonText: '确定',
-               });
-               return false
-             };
+       if (this.pd.begintime== null|| this.pd.endtime == null) {
+         this.$alert('时间范围不能为空', '提示', {
+           confirmButtonText: '确定',
+         });
+         return false
+       };
       let p = {
         "begintime": pd.begintime,
         "endtime": pd.endtime,
         "fltno": pd.fltno,
         "airline_company_id":pd.airline_company_id,
-        "flighttype":pd.flighttype
+        "flighttype":pd.flighttype,
+        "portfrom":pd.portfrom,
+        "portto":pd.portto
       };
 
       this.$api.post("/manage-platform/dataStatistics/get_flt", p,
         r => {
 
           this.tableData = r.data;
+          // console.log($('.el-table__footer '))
+          $('.el-table__footer .has-gutter').find("td").last().children('.cell').empty();
+          $('.el-table__footer .has-gutter').find("td").last().children('.cell').append('<button type="text"  class="el-button a-btn el-button--text el-button--mini" title="详情" size="mini" onclick="sumDetails()"><i class="el-icon-tickets"></i></button>')
           let arr=this.tableData;
           var sum1=0,sum01=0;
           var sum2=0,sum02=0;
@@ -579,6 +714,7 @@ export default {
           this.drawLine();this.drawLine2();this.drawLine3();this.drawLine4();this.drawLine5();
         })
     },
+
     download(){
     //  var url="http://192.168.99.213:8080/manage-platform/dataStatistics/export_flt";
      var url= this.$api.rootUrl+"/manage-platform/dataStatistics/export_flt";
@@ -599,7 +735,7 @@ export default {
            this.downloadM(response)
        });
     },
-    downloadM (data) {
+    downloadM (data,type) {
         if (!data) {
             return
         }
@@ -608,16 +744,20 @@ export default {
         let link = document.createElement('a')
         link.style.display = 'none'
         link.href = url
-        link.setAttribute('download', 'hbtj'+format(new Date(),'yyyyMMddhhmmss')+'.xlsx')
+        if(type==1){
+          link.setAttribute('download', '航空专题分析，国籍地区分布.xlsx')
+        }else{
+          link.setAttribute('download', 'hbtj'+format(new Date(),'yyyyMMddhhmmss')+'.xlsx')
+        }
         document.body.appendChild(link)
         link.click()
     },
 
-    details(i) {
-      this.detailsDialogVisible = true;
-      console.log(i);
-      this.form = i;
-    },
+    // details(i) {
+    //   this.detailsDialogVisible = true;
+    //   console.log(i);
+    //   this.form = i;
+    // },
     drawLine() {
       this.lineChart = echarts.init(document.getElementById('myChart'), 'light');
       window.onresize = echarts.init(document.getElementById('myChart')).resize;

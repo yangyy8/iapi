@@ -27,7 +27,7 @@
              </el-date-picker>
           </div>
             </el-col>
-            <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+            <!-- <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                 <span class="input-text">出发地：</span>
                 <el-select v-model="pd.cityfrom" filterable clearable  placeholder="请选择"  size="small" class="input-input">
                   <el-option
@@ -40,7 +40,8 @@
             </el-col>
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                 <span class="input-text">目的地：</span>
-                <el-select v-model="pd.cityto" filterable clearable placeholder="请选择"  size="small" class="input-input">
+                <el-select v
+                -model="pd.cityto" filterable clearable placeholder="请选择"  size="small" class="input-input">
                   <el-option
                     v-for="(item,ind) in gnName"
                     :key="ind"
@@ -49,6 +50,34 @@
                   ></el-option>
                   </el-option>
                 </el-select>
+            </el-col> -->
+            <el-col :sm="24" :md="12" :lg="8" class="input-item">
+              <span class="input-text">起飞机场：</span>
+                <el-cascader
+                  @visible-change="handleChange"
+                  :options="startPark"
+                  :props="props"
+                  size="small"
+                  v-model="pd.stationfromList"
+                  filterable
+                  change-on-select
+                  class="input-input"
+                  clearable
+                ></el-cascader>
+            </el-col>
+            <el-col :sm="24" :md="12" :lg="8" class="input-item">
+              <span class="input-text">到达机场：</span>
+              <el-cascader
+                @visible-change="landing"
+                :options="endPark"
+                :props="props"
+                size="small"
+                v-model="pd.stationtoList"
+                filterable
+                change-on-select
+                class="input-input"
+                clearable
+              ></el-cascader>
             </el-col>
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                 <span class="input-text">国籍/地区：</span>
@@ -99,8 +128,8 @@
                   </el-option>
                   <el-option value="O" label="O - 出境">
                   </el-option>
-                  <el-option value="A" label="A - 入出境">
-                  </el-option>
+                  <!-- <el-option value="A" label="A - 入出境">
+                  </el-option> -->
                 </el-select>
               </el-col>
           </el-row>
@@ -109,8 +138,8 @@
               <span class="input-text" style="width:12%"><font class="yy-color">*</font> 行属性：</span>
               <el-checkbox label="出入标识" v-model="pd.rowproperty_flttype" checked></el-checkbox>
               <el-checkbox label="国籍/地区" v-model="pd.rowproperty_country" ></el-checkbox>
-              <el-checkbox label="出发地" v-model="pd.rowproperty_cityfrom" ></el-checkbox>
-              <el-checkbox label="目的地" v-model="pd.rowproperty_cityto" ></el-checkbox>
+              <el-checkbox label="起飞机场" v-model="pd.rowproperty_cityfrom" ></el-checkbox>
+              <el-checkbox label="到达机场" v-model="pd.rowproperty_cityto" ></el-checkbox>
             </el-col>
            </el-row>
             <el-row align="center" class="yy-line">
@@ -174,11 +203,11 @@
                   </el-table-column>
                   <el-table-column
                     prop="cityto" sortable
-                    label="目的地" v-if='show2'>
+                    label="到达机场" v-if='show2'>
                   </el-table-column>
                   <el-table-column
                     prop="cityfrom" sortable
-                    label="出发地" v-if='show9'>
+                    label="起飞机场" v-if='show9'>
                   </el-table-column>
                   <el-table-column
                     prop="country" sortable
@@ -331,7 +360,14 @@ export default {
       show6: true,
       show7: true,
       show8: true,
-      show9: true
+      show9: true,
+      props: {
+          value: 'CODE',
+          label:'ENAME',
+          children: 'childList'
+        },
+      startPark:[],
+      endPark:[],
 
     }
   },
@@ -357,6 +393,30 @@ export default {
     this.gw();
   },
   methods: {
+    handleChange(value){//调用起飞机场
+      let p={
+        'flighttype':this.pd.flighttype=="I"?'1':this.pd.flighttype=="O"?'2':'3',
+        'citytype':'cityfrom'
+      }
+      this.$api.post('/manage-platform/codeTable/queryAirportCascade',p,
+       r =>{
+         if(r.success){
+           this.startPark = r.data;
+         }
+       })
+    },
+    landing(){//调用降落机场
+      let p={
+        'flighttype':this.pd.flighttype=="I"?'1':this.pd.flighttype=="O"?'2':'3',
+        'citytype':'cityto'
+      }
+      this.$api.post('/manage-platform/codeTable/queryAirportCascade',p,
+       r =>{
+         if(r.success){
+           this.endPark = r.data;
+         }
+       })
+    },
     headerClick(column,event){
   event.target.title=column.label
 },
@@ -533,8 +593,8 @@ export default {
         "begintime": pd.begintime,
         "endtime": pd.endtime,
         "country": pd.country,
-        "cityfrom": pd.cityfrom,
-        "cityto": pd.cityto,
+        "stationfromList": pd.stationfromList,
+        "stationtoList": pd.stationtoList,
         "fltno": pd.fltno,
         "flighttype": pd.flighttype,
         "passengertype": pd.passengertype,

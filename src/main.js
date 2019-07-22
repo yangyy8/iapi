@@ -10,6 +10,7 @@ import Print from 'vue-print-nb'
 import Prints from '@/components/other/print'
 import htmlToPdf from '@/components/other/htmlToPdf'
 import vverify from 'v-verify'
+
 // import Validator from './assets/js/va.js'
 // Vue.use(Validator)
 import vueValidateEasy from './assets/js/vue-validate-easy'

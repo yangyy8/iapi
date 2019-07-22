@@ -64,7 +64,6 @@
         </el-table-column>
         <el-table-column
           prop="DETAILSCOUNT"
-          sortable="custom"
           label="指标数量">
         </el-table-column>
         <el-table-column
