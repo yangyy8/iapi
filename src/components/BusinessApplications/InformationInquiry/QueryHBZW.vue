@@ -208,8 +208,8 @@
           label="操作"
           width="80">
           <template slot-scope="scope">
-            <el-button type="text"  class="a-btn"  title="详情" icon="el-icon-tickets" @click="details(scope.row)"></el-button>
-            <el-button type="text"  class="a-btn"  title="座位详情"  icon="el-icon-document" @click="seatDetails(scope.row)"></el-button>
+            <el-button type="text"  class="a-btn"  title="详情" icon="el-icon-tickets" name="hbzwcx_detail" @click="details(scope.row)"></el-button>
+            <el-button type="text"  class="a-btn"  title="座位详情"  icon="el-icon-document" name="hbzwcx_seat_detail" @click="seatDetails(scope.row)"></el-button>
          </template>
         </el-table-column>
       </el-table>

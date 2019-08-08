@@ -126,12 +126,12 @@
     </div>
     <div class="middle" @mouseover="mouseHeader">
       <el-row class="mb-15" v-if="!backShow">
-        <el-button type="primary" size="small" @click="addServe()">新增</el-button>
-        <el-button type="success" size="small" @click="showUpload">批量导入</el-button>
-        <el-button type="warning" size="small" @click="deleteItems()" :disabled="isdisable">批量删除</el-button>
+        <el-button type="primary" size="small" name="gzrymd_add" @click="addServe()">新增</el-button>
+        <el-button type="success" size="small" name="gzrymd_batch_import" @click="showUpload">批量导入</el-button>
+        <el-button type="warning" size="small" name="gzrymd_batch_del" @click="deleteItems()" :disabled="isdisable">批量删除</el-button>
         <!-- <el-button type="warning" size="small" @click="releaseDialogVisible=true">生效发布</el-button> -->
-        <el-button type="info" size="small" @click="getHisFn(CurrentPage,pageSize,pd,orders,direction)">历史资料</el-button>
-        <el-button type="success" size="small" @click="download">模板下载</el-button>
+        <el-button type="info" size="small" name="gzrymd_history_info" @click="getHisFn(CurrentPage,pageSize,pd,orders,direction)">历史资料</el-button>
+        <el-button type="success" size="small" name="gzrymd_template_download" @click="download">模板下载</el-button>
       </el-row>
       <el-table
         class="mt-10 o-table3"
@@ -220,9 +220,9 @@
           label="操作"
           width="100">
           <template slot-scope="scope">
-            <el-button type="text" class="a-btn" icon="el-icon-edit" title="编辑" @click="update(scope.row)" :disabled="backShow"></el-button>
-            <el-button type="text" class="a-btn" icon="el-icon-delete"  title="删除" @click="deleteItem(scope.row.SERIAL)" :disabled="backShow"></el-button>
-            <el-button type="text" class="a-btn" icon="el-icon-tickets"  title="详情" @click="details(scope.row)"></el-button>
+            <el-button type="text" class="a-btn" icon="el-icon-edit" title="编辑" name="gzrymd_edit" @click="update(scope.row)" :disabled="backShow"></el-button>
+            <el-button type="text" class="a-btn" icon="el-icon-delete"  title="删除" name="gzrymd_del" @click="deleteItem(scope.row.SERIAL)" :disabled="backShow"></el-button>
+            <el-button type="text" class="a-btn" icon="el-icon-tickets"  title="详情" name="gzrymd_detail" @click="details(scope.row)"></el-button>
 
          </template>
         </el-table-column>

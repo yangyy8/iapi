@@ -60,9 +60,9 @@
     </div>
     <div class="middle" @mouseover="mouseHeader">
       <el-row class="mb-15">
-        <el-button type="primary" size="small" @click="adds(0,'')">新增</el-button>
-        <el-button type="success" size="small" @click="batchI">批量导入</el-button>
-        <el-button type="success" size="small" @click="download">模板下载</el-button>
+        <el-button type="primary" size="small" name="jclbgl_add" @click="adds(0,'')">新增</el-button>
+        <el-button type="success" size="small" name="jclbgl_batch_import" @click="batchI">批量导入</el-button>
+        <el-button type="success" size="small" name="jclbgl_template_download" @click="download">模板下载</el-button>
       </el-row>
       <el-table
         :data="tableData"
@@ -124,9 +124,9 @@
         <el-table-column
           label="操作" width="120">
           <template slot-scope="scope">
-            <el-button type="text"  class="a-btn"  title="详情" icon="el-icon-tickets" @click="detail(scope.row)"></el-button>
-              <el-button type="text"  class="a-btn"  title="编辑" icon="el-icon-edit" @click="adds(1,scope.row)"></el-button>
-              <el-button type="text"  class="a-btn"  title="删除" icon="el-icon-delete" @click="deletes(scope.row)"></el-button>
+            <el-button type="text"  class="a-btn"  title="详情" icon="el-icon-tickets" name="jclbgl_detail" @click="detail(scope.row)"></el-button>
+              <el-button type="text"  class="a-btn"  title="编辑" icon="el-icon-edit" name="jclbgl_edit" @click="adds(1,scope.row)"></el-button>
+              <el-button type="text"  class="a-btn"  title="删除" icon="el-icon-delete" name="jclbgl_del" @click="deletes(scope.row)"></el-button>
          </template>
         </el-table-column>
       </el-table>

@@ -73,8 +73,10 @@
 
     <div class="middle" @mouseover="mouseHeader">
       <el-row class="mb-15">
-        <el-button type="primary" size="small" @click="adds(0,'');">新增</el-button>
-        <el-button type="success" size="small" @click="exportT">导出</el-button>
+
+        <el-button type="primary" size="small" name="txlgl_add" @click="adds(0,'');">新增</el-button>
+        <el-button type="success" size="small" name="txlgl_export" @click="exportT">导出</el-button>
+
       </el-row>
       <el-table
         ref="sort"
@@ -141,8 +143,8 @@
           label="操作"
           min-width="50">
           <template slot-scope="scope">
-            <el-button type="text"  class="a-btn" title="编辑" size="mini" icon="el-icon-edit" @click="adds(1,scope.row)"></el-button>
-            <el-button type="text"  class="a-btn" title="删除" icon="el-icon-delete" @click="deleteItem(scope.row)"></el-button>
+            <el-button type="text"  class="a-btn" title="编辑" size="mini" icon="el-icon-edit" name="txlgl_edit" @click="adds(1,scope.row)"></el-button>
+            <el-button type="text"  class="a-btn" title="删除" icon="el-icon-delete" name="txlgl_del" @click="deleteItem(scope.row)"></el-button>
          </template>
         </el-table-column>
       </el-table>

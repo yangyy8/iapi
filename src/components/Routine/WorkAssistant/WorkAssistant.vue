@@ -39,9 +39,9 @@
     <div class="middle" @mouseover="mouseHeader">
         <div id="div1" v-show="page==0">
           <el-row class="margin-bt">
-            <el-button type="primary" size="mini" @click="adds(0,'');form={}">新增</el-button>
-            <el-button type="success" size="mini" @click="batchI">批量导入</el-button>
-            <el-button type="success" size="mini" @click="download">模板下载</el-button>
+            <el-button type="primary" size="mini" name="gzzs_txl_add" @click="adds(0,'');form={}">新增</el-button>
+            <el-button type="success" size="mini" name="gzzs_txl_batch_import" @click="batchI">批量导入</el-button>
+            <el-button type="success" size="mini" name="gzzs_txl_template_download" @click="download">模板下载</el-button>
           </el-row>
           <el-table
             :data="tableData"
@@ -112,8 +112,8 @@
             <el-table-column
               label="操作" width="80">
               <template slot-scope="scope">
-                <el-button type="text"  class="a-btn"  title="编辑" icon="el-icon-edit" @click="adds(1,scope.row)"></el-button>
-                <el-button type="text"  class="a-btn"  title="删除" icon="el-icon-delete" @click="deletes(scope.row)"></el-button>
+                <el-button type="text"  class="a-btn"  title="编辑" icon="el-icon-edit" name="gzzs_txl_edit" @click="adds(1,scope.row)"></el-button>
+                <el-button type="text"  class="a-btn"  title="删除" icon="el-icon-delete" name="gzzs_txl_del" @click="deletes(scope.row)"></el-button>
              </template>
             </el-table-column>
           </el-table>
@@ -186,8 +186,8 @@
               label="操作"
               width="80">
               <template slot-scope="scope">
-                <a :href="scope.row.FILESERIAL" class="acolor"><el-button type="text"  class="a-btn"  title="文件下载" icon="el-icon-download" @click="a(scope.row.FILESERIAL)"></el-button></a>
-                <el-button type="text"  class="a-btn"  title="删除" icon="el-icon-delete" @click="deletes(scope.row)"></el-button>
+                <a :href="scope.row.FILESERIAL" class="acolor"><el-button type="text"  class="a-btn"  title="文件下载" icon="el-icon-download" name="gzzs_wjgl_edit" @click="a(scope.row.FILESERIAL)"></el-button></a>
+                <el-button type="text"  class="a-btn"  title="删除" icon="el-icon-delete" name="gzzs_wjgl_del" @click="deletes(scope.row)"></el-button>
              </template>
             </el-table-column>
           </el-table>

@@ -175,7 +175,7 @@
           width="80"
           fixed="right">
           <template slot-scope="scope">
-            <el-button type="text"  class="a-btn"  title="详情"  icon="el-icon-tickets" @click="details(scope.row)"></el-button>
+            <el-button type="text"  class="a-btn"  title="详情"  icon="el-icon-tickets" name="zxls_detail" @click="details(scope.row)"></el-button>
             <!-- <el-button type="text"  class="a-btn"  title="回复"  icon="el-icon-edit-outline" :class="{'gray':scope.row.CONSULTSTATUS==0}"  @click="review(scope.row)"></el-button> -->
          </template>
         </el-table-column>

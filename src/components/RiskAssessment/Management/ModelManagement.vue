@@ -62,13 +62,13 @@
           </el-row>
         </el-col>
         <el-col :span="2" class="down-btn-area" >
-          <el-button type="success" size="small" @click="CurrentPage=1;getList(CurrentPage,pageSize,pd)">查询</el-button>
+          <el-button type="success" size="small" @click="CurrentPage=1;getList(CurrentPage,pageSize,pd,orders,direction)">查询</el-button>
         </el-col>
       </el-row>
     </div>
     <div class="middle" @mouseover="mouseHeader">
       <el-row class="mb-15">
-        <el-button type="primary" size="small" @click="adds(0,'');form={};">新增模型</el-button>
+        <el-button type="primary" size="small" name="ywmxgl_add" @click="adds(0,'');form={};">新增模型</el-button>
         </el-row>
       <el-table
         :data="tableData"
@@ -76,10 +76,11 @@
         style="width: 100%;"
         class="mt-10 o-table3"
         @header-click="headerClick"
-        >
+        @sort-change='sortChange'>
         <el-table-column
           type="index"
-          label="序号" width="60">
+          label="序号"
+          width="60">
         </el-table-column>
         <!-- <el-table-column
           prop="MODEL_NAME"
@@ -87,8 +88,8 @@
         </el-table-column> -->
          <el-table-column
           prop="MODEL_JC"
-          label="模型简称" sortable
-          >
+          label="模型简称"
+          sortable="custom">
         </el-table-column>
         <!-- <el-table-column
           prop="MODEL_DESCRIBE"
@@ -96,7 +97,8 @@
         </el-table-column> -->
         <el-table-column
           prop="CREATE_PERSION"
-          label="创建人" sortable>
+          label="创建人"
+          sortable="custom">
         </el-table-column>
         <!-- <el-table-column
           prop="PORT_NAME"
@@ -104,21 +106,27 @@
         </el-table-column> -->
 
         <el-table-column
-          prop="UPDATE_TIME" sortable
+          prop="UPDATE_TIME"
+          sortable="custom"
           label="最后更新日期">
         </el-table-column>
         <el-table-column
-          prop="LIFE_SPAN" sortable
+          prop="LIFE_SPAN"
+          sortable="custom"
           label="有效日期">
         </el-table-column>
         <el-table-column
-          label="是否启用" sortable>
+          prop="STATUS"
+          label="是否启用"
+          sortable="custom">
           <template slot-scope="scope">
               <span :class="{'yyred':scope.row.STATUS == '0','yygreen':scope.row.STATUS == '1'}">  {{scope.row.STATUS | fifterstatus}}</span>
-            </template>
+          </template>
         </el-table-column>
         <el-table-column
-          label="模型状态" sortable>
+          prop="MODEL_PHASES"
+          label="模型状态"
+          sortable="custom">
           <template slot-scope="scope">
               {{scope.row.MODEL_PHASES | fiftermodel}}
             </template>
@@ -130,13 +138,13 @@
       <el-table-column
           label="操作" width="160">
           <template slot-scope="scope">
-            <el-button type="text" class="a-btn" title="编辑/详情"   icon="el-icon-edit" @click="adds(1,scope.row)"></el-button>
-            <el-button type="text" class="a-btn" title="删除"  icon="el-icon-delete" @click="deletes(scope.row)"></el-button>
+            <el-button type="text" class="a-btn" title="编辑/详情" name="ywmxgl_edit_detail"  icon="el-icon-edit" @click="adds(1,scope.row)"></el-button>
+            <el-button type="text" class="a-btn" title="删除" name="ywmxgl_del" icon="el-icon-delete" @click="deletes(scope.row)"></el-button>
             <!-- <el-button type="text" class="a-btn"  icon="el-icon-tickets" title="版本查看" @click="details(scope.row)"></el-button> -->
-            <el-button type="text" class="a-btn" title="关联问题"  icon="el-icon-share" @click="relates(scope.row)"></el-button>
-            <el-button type="text" class="a-btn" title="使用口岸"  icon="el-icon-edit-outline" @click="auses(scope.row)"></el-button>
-            <el-button type="text" class="a-btn" title="启用"  icon="el-icon-setting" v-if="scope.row.STATUS==0" @click="starts(scope.row,1)"></el-button>
-            <el-button type="text" class="a-btn" title="停用"  icon="el-icon-setting" v-else  @click="starts(scope.row,0)"></el-button>
+            <el-button type="text" class="a-btn" title="关联问题" name="ywmxgl_problem" icon="el-icon-share" @click="relates(scope.row)"></el-button>
+            <el-button type="text" class="a-btn" title="使用口岸" name="ywmxgl_useport" icon="el-icon-edit-outline" @click="auses(scope.row)"></el-button>
+            <el-button type="text" class="a-btn" title="启用" name="ywmxgl_start" icon="el-icon-setting" v-if="scope.row.STATUS==0" @click="starts(scope.row,1)"></el-button>
+            <el-button type="text" class="a-btn" title="停用" name="ywmxgl_stop" icon="el-icon-setting" v-else  @click="starts(scope.row,0)"></el-button>
             <!-- <el-button type="text" class="a-btn" icon="el-icon-tickets" title="推送测试" @click="details(scope.row)"></el-button> -->
          </template>
         </el-table-column>
@@ -403,19 +411,43 @@
     </el-dialog>
 
     <el-dialog title="使用口岸" :visible.sync="useDialogVisible" width="700px">
-
-  <el-transfer
-    v-model="value2"
-    :titles="['全选', '全选']"
-    :data="data2">
-  </el-transfer>
+      <el-row class="" type="flex" justify="space-between">
+        <div class="">
+          <el-radio-group v-model="radio" @change="radioChange" class="t-radioClass">
+           <el-radio  :label="1">中心模型</el-radio>
+           <el-radio  :label="2">口岸模型</el-radio>
+         </el-radio-group>
+        </div>
+       <div class="" style="margin-right: 12px;">
+         <el-button type="text" class="a-btn" title="帮助" @click="help">帮助</el-button>
+       </div>
+      </el-row>
+      <el-transfer
+        v-model="value2"
+        :titles="['全选', '全选']"
+        :data="data2"
+        v-show="radio==1">
+      </el-transfer>
+      <el-transfer
+        v-model="value3"
+        :titles="['全选', '全选']"
+        :data="data3"
+        v-show="radio==2">
+      </el-transfer>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary"  @click="addUse()" size="small">保 存</el-button>
         <el-button @click="useDialogVisible = false" size="small">取 消</el-button>
       </div>
     </el-dialog>
 
-
+    <el-dialog  title="名词解释"  :visible.sync="helpDialogVisible" width="750px">
+      <div class="helpBody">
+        <div>中心模型跑口岸数据，风评事件返回给中心，口岸不能看到事件和模型；口岸模型是中心部署在口岸的模型，选择的口岸用户登录后可以看到该模型，风评事件返回给口岸，事件中心也可以看。</div>
+      </div>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="helpDialogVisible=false" size="small">返回</el-button>
+      </div>
+    </el-dialog>
     <el-dialog  title="权限校验" :visible.sync="AuthDialogVisible"  width="500px">
 
       <el-row  type="flex"  class="mb-15">
@@ -456,12 +488,18 @@ export default {
       return data;
     };
     return {
+      helpDialogVisible:false,
+      radio:1,
+      orders:['CREATE_TIME'],
+      direction:0,
       tp: 0,
       ap: {},
       data: generateData(),
       value1: [],
-      data2: generateData(),
+      data2: [],
       value2: [],
+      data3: [],
+      value3: [],
       CurrentPage: 1,
       pageSize: 10,
       TotalResult: 0,
@@ -541,6 +579,9 @@ export default {
   //  this.getList(this.CurrentPage, this.pageSize, this.pd);
   },
   methods: {
+    help(){
+      this.helpDialogVisible=true;
+    },
     changeTarget(value,key) {
       console.log(key)
       let arr = this.rows;
@@ -567,6 +608,11 @@ export default {
       // console.log(obj.TARGET_SIGN);//我这边的name就是对应label的
 
     },
+    sortChange(column, prop, order){
+      column.order=='ascending'?this.direction=1:this.direction=0;
+      this.orders=[column.prop];
+      this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
+    },
     headerClick(column,event){
       event.target.title=column.label
     },
@@ -574,20 +620,20 @@ export default {
       this.multipleSelection = val;
     },
     pageSizeChange(val) {
-      this.getList(this.CurrentPage, val, this.pd);
-      console.log(`每页 ${val} 条`);
+      this.getList(this.CurrentPage, val, this.pd,this.orders,this.direction);
     },
     handleCurrentChange(val) {
-      this.getList(val, this.pageSize, this.pd);
-      console.log(`当前页: ${val}`);
+      this.getList(val, this.pageSize, this.pd,this.orders,this.direction);
     },
-    getList(currentPage, showCount, pd) {
+    getList(currentPage, showCount, pd,order,direction) {
       let p = {
         "currentPage": currentPage,
         "showCount": showCount,
-        "pd": pd
+        "pd": pd,
+        "orders":order,
+        "direction":direction
       };
-      this.$api.post('/manage-platform/model/select', p,
+      this.$api.post('/manage-platform/model/selectNew', p,
         r => {
 
           this.tableData = r.data.pdList;
@@ -746,7 +792,7 @@ export default {
           }
           this.$refs[formName].resetFields();
           this.addDialogVisible = false;
-          this.getList(this.CurrentPage, this.pageSize, this.pd);
+          this.getList(this.CurrentPage, this.pageSize, this.pd,this.orders,this.direction);
 
         }, e => {
           this.$message.error('失败了');
@@ -769,7 +815,7 @@ export default {
               message: '修改成功！',
               type: 'success'
             });
-            this.getList(this.CurrentPage, this.pageSize, this.pd);
+            this.getList(this.CurrentPage, this.pageSize, this.pd,this.orders,this.direction);
           } else {
             this.$message.error(r.Message);
           }
@@ -822,31 +868,61 @@ export default {
         });
       this.menuDialogVisible = false;
     },
+    radioChange(){
+
+    },
     auses(i) {
       this.useDialogVisible = true;
-      this.data2 = [];
-      this.value2 = [];
-      let p = {
-        "MODEL_CODE": i.MODEL_CODE
-      };
-      this.mocode = i.MODEL_CODE;
-      this.$api.post('/manage-platform/model/portAll', p,
-        r => {
-          for (let rr of r.data.portList) {
-            this.data2.push({
-              key: rr.DEPT_CODE,
-              label: rr.DEPT_JC,
-              disabled: false
-            });
-          }
-          this.value2=r.data.checkPort;
-        });
+      // if(this.radio=='1'){
+        this.data2 = [];
+        this.value2 = [];
+        let p = {
+          "MODEL_CODE": i.MODEL_CODE
+        };
+        this.mocode = i.MODEL_CODE;
+        this.$api.post('/manage-platform/model/portAll', p,
+          r => {
+            for (let rr of r.data.portList) {
+              this.data2.push({
+                key: rr.DEPT_CODE,
+                label: rr.DEPT_JC,
+                disabled: false
+              });
+            }
+            this.value2=r.data.checkPort;
+          });
+      // }else if(this.radio=='2'){
+        this.data3 = [];
+        this.value3 = [];
+        this.$api.post('/manage-platform/model/portAllAdd', p,
+          r => {
+            this.value3=r.data.checkPort;
+            for (let j=0;j<r.data.portList.length;j++) {
+              let obj={disabled:false};
+              obj.key=r.data.portList[j].DEPT_CODE;
+              obj.label=r.data.portList[j].DEPT_JC;
+              for(let i=0;i<r.data.checkPort.length;i++){
+                if(r.data.portList[j].DEPT_CODE==r.data.checkPort[i]){
+                  obj.disabled=true;
+                }
+              }
+              this.data3.push(obj)
+           };
+           console.log('this.data3',this.data3)
+         })
+
 
     },
     addUse() {
       let p = {
-        "MODEL_CODE": this.mocode,
-        "checkPort": this.value2
+        usePort:{
+          "MODEL_CODE": this.mocode,
+          "checkPort": this.value2
+        },
+        bakPort:{
+          "MODEL_CODE": this.mocode,
+          "checkPort": this.value3
+        }
       };
       this.$api.post('/manage-platform/model/savePort', p,
         r => {
@@ -898,7 +974,7 @@ export default {
                 type: 'success'
               });
               this.AuthDialogVisible = false;
-              this.getList(this.CurrentPage, this.pageSize, this.pd);
+              this.getList(this.CurrentPage, this.pageSize, this.pd,this.orders,this.direction);
             } else {
               this.$message.error(r.Message);
             }
@@ -1078,5 +1154,8 @@ export default {
 }
 .el-transfer__buttons {
   width: 4% !important
+}
+.t-radioClass .el-radio+.el-radio {
+    margin-left: 30px!important;
 }
 </style>

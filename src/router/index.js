@@ -1,14 +1,21 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '@/components/Home'
+import Home0 from '@/components/Home0'
 
 Vue.use(Router)
 
 export default new Router({
-  routes: [{
+  routes: [
+    {
       path: '/',
       name: 'Home',
       component: Home
+    },
+    {
+        path: '/login',
+        name: 'Home0',
+        component: Home0
     },
     {
       path: '/content/:navId',
@@ -743,6 +750,12 @@ export default new Router({
           children:[
 
           ]
+        },
+        //特殊中国人
+        {
+          path: "TSZGR",
+          name: "TSZGR",
+          component: resolve => require(['@/components/RiskAssessment/RiskEvent/TSZGR'], resolve),
         },
         // 已归档风险报警事件
         {

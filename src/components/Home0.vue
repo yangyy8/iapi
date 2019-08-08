@@ -255,20 +255,20 @@ export default {
       color: ['#11fb44', '#dcbf71'], // 自定义图中要用到的颜色
       series:[], // 用来存储地图数据
       timer:null,
-      loginId:'1',
+      loginId:'',
       dlType:0,
       dlState:'',
       dlmessage:'',
     };
   },
   mounted() {
+
     this.fn();
     var _this=this;
-    _this.getdlType(); //第三方
-    // _this.getSatus()
+    _this.getSatus();
     this.timer=setInterval(function(){
-      _this.getdlType();//第三方
-        // _this.getSatus()
+      _this.getSatus();
+
     },1200000)
 
     this.getTime();
@@ -349,24 +349,12 @@ export default {
     },
     window_close(){
       // if (navigator.userAgent.indexOf("Firefox") != -1 || navigator.userAgent.indexOf("Chrome") !=-1) {
-      //       // window.location.href="http://localhost/fastflow/winform/cn/myprocessform.aspx";
-      //       window.location.href = "about:blank";
+      //       window.location.href="http://localhost/fastflow/winform/cn/myprocessform.aspx";
       //       window.close();
       //   } else {
-            //window.opener = null;
-
-
-     //        window.opener = window;
-     //         var win = window.open("","_self");
-     //         win.close();
-
-            // var href = window.location.href;  
-            // window.open(href,"_self","");  
-            // window.close();  
-
-            window.location.href="about:blank";
+            window.opener = null;
+            window.open(" ", "_self");
             window.close();
-            //window.close();
         // }
     },
     getdlType(){
@@ -374,57 +362,77 @@ export default {
         r =>{
           this.dlType = r.code;
           this.dlState = r.success;
-          this.dlmessage = r.message;
-          this.getSatus()
+          this.dlmessage = r.message
+          // console.log('r.code',r.code)
+          // console.log('r.successbbbbbb',r.success)
         })
     },
     getSatus(){
-      // this.$api.post('/manage-platform/isLanding',{},
-      //   r => {
-      //     this.isLogin=r.data;
-      //     if(this.isLogin){
-      //       this.getUers();
-      //       this.getNav0();
-      //     }else{
-      //       this.$router.push({name:"Home"})
-      //     }
-      //  })
+      this.$api.post('/manage-platform/isLanding',{},
+        r => {
+          this.isLogin=r.data;
+          if(this.isLogin){
+            this.getUers();
+            this.getNav0();
+          }else{
+            this.$router.push({path:"/login"})
+          }
+       })
 
 
+      // console.log(this.$route.params.loginId);
+      // this.getdlType();
+      //
+      // let _this=this;
+      // setTimeout(function(){
+      //   if(_this.$route.params.loginId=="login"){//login登录
+      //     _this.$api.post('/manage-platform/isLanding',{},
+      //      r => {
+      //        _this.isLogin=r.data;
+      //        if(_this.isLogin){
+      //          _this.getUers();
+      //          _this.getNav0();
+      //        }else{
+      //          // _this.$router.push({name:"Home"})
+      //        }
+      //     })
+      //   }else if(_this.dlType==1){//默认路径不显示
+      //     console.log('this.dlType',this.dlType)
+      //     _this.$confirm('非法登录', '提示', {
+      //        confirmButtonText: '确定',
+      //        type: 'warning'
+      //      }).then(() => {
+      //        _this.window_close();
+      //      }).catch(() => {
+      //
+      //      });
+      //   }else if(_this.dlType==2){//第三方登录
+      //     _this.$api.post('/manage-platform/isLanding',{},
+      //      r => {
+      //        _this.isLogin=r.data;
+      //        if(_this.isLogin){
+      //           if(_this.dlState){
+      //             _this.getUers();
+      //             _this.getNav0();
+      //           }else{
+      //
+      //             _this.$confirm(_this.dlmessage, '提示', {
+      //                confirmButtonText: '确定',
+      //                type: 'warning'
+      //              }).then(() => {
+      //                _this.window_close();
+      //              }).catch(() => {
+      //
+      //              });
+      //           }
+      //        }else{
+      //          _this.$router.push({name:"Home"})
+      //        }
+      //     })
+      //   }
+      // },500)
 
-      console.log('this.dlType',this.dlType);
-      console.log(window.location.href.indexOf('login')!=-1);
-      if(!(window.location.href.indexOf('/login')!=-1)&&(this.dlType==1)){
-        alert('无效')
-        this.$alert('无效登录', '温馨提示', {
-        confirmButtonText: '确定',
-        type: 'warning',
-        callback: action => {
-          this.window_close();
-          this.dlType = null;
-          return;
-        }})}else if(this.dlType==2){
-        this.$api.post('/manage-platform/isLanding',{},
-          r =>{
-           this.isLogin=r.data;
-           if(this.isLogin){
-              if(this.dlState){
-                this.getUers();
-                this.getNav0();
-              }else{
-                this.$confirm(this.dlmessage, '提示', {
-                   confirmButtonText: '确定',
-                   type: 'warning'
-                 }).then(() => {
-                   this.window_close();
-                   this.dlType = null;
-                 }).catch(() => {
 
-                 });
-              }
-            }
-         })
-     }
     },
     getUers(){
       this.$api.post('/manage-platform/homePage/userInfo',{},
@@ -478,6 +486,14 @@ export default {
           this.$router.go(0)
         }
       })
+      // this.$confirm('确定要退出？', '提示', {
+      //    confirmButtonText: '确定',
+      //    type: 'warning'
+      //  }).then(() => {
+      //    this.window_close();
+      //  }).catch(() => {
+      //
+      //  });
     },
     getNav0(){
       this.$api.post('/manage-platform/muneSys/selectMenuOne',{},

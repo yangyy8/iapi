@@ -68,7 +68,7 @@
             </el-col>
             <el-col :span="2" class="down-btn-area">
               <el-button type="success" size="small" @click="CurrentPage=1;getList(CurrentPage,pageSize,pd)">查询</el-button>
-              <el-button type="primary" size="small" class="mt-10" @click="download(1)">导出</el-button>
+              <el-button type="primary" size="small" class="mt-10" name="bpprysc_dpwzjry_export" @click="download(1)">导出</el-button>
             </el-col>
           </el-row>
             <el-table
@@ -184,7 +184,7 @@
             </el-col>
             <el-col :span="2" class="down-btn-area">
               <el-button type="success" size="small" @click="CurrentPage1=1;getList1(CurrentPage1,pageSize1,pd1)">查询</el-button>
-              <el-button type="primary" size="small" class="mt-10" @click="download(2)">导出</el-button>
+              <el-button type="primary" size="small" class="mt-10" name="bpprysc_zjwdjry_export" @click="download(2)">导出</el-button>
             </el-col>
           </el-row>
 
@@ -303,7 +303,7 @@
             </el-col>
             <el-col :span="2" class="down-btn-area" >
               <el-button type="success" size="small" @click="CurrentPage2=1;getList2(CurrentPage2,pageSize2,pd2)">查询</el-button>
-              <el-button type="primary" size="small" class="mt-10" @click="download(3)">导出</el-button>
+              <el-button type="primary" size="small" class="mt-10" name="bpprysc_djwcrjjlry_export" @click="download(3)">导出</el-button>
             </el-col>
           </el-row>
             <el-table
@@ -419,7 +419,7 @@
             </el-col>
             <el-col :span="2" class="down-btn-area">
               <el-button type="success" size="small" @click="CurrentPage3=1;getList3(CurrentPage3,pageSize3,pd3)">查询</el-button>
-              <el-button type="primary" size="small" class="mt-10" @click="download(4)">导出</el-button>
+              <el-button type="primary" size="small" class="mt-10" name="bpprysc_yccrjjlwzjxx_export" @click="download(4)">导出</el-button>
             </el-col>
           </el-row>
 

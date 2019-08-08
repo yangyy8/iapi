@@ -65,7 +65,7 @@
             </el-col>
             <el-col :span="2" class="down-btn-area">
               <el-button type="success" size="small" @click="getList(CurrentPage,pageSize,pd)">查询</el-button>
-              <el-button type="primary" size="small" class="mt-10" @click="download(1)">导出</el-button>
+              <el-button type="primary" size="small" class="mt-10" name="pckyrysc_dpgp_export" @click="download(1)">导出</el-button>
             </el-col>
           </el-row>
             <el-table
@@ -179,7 +179,7 @@
             </el-col>
             <el-col :span="2" class="down-btn-area">
               <el-button type="success" size="small" @click="getList1(CurrentPage1,pageSize1,pd1)">查询</el-button>
-              <el-button type="primary" size="small" class="mt-10" @click="download(2)">导出</el-button>
+              <el-button type="primary" size="small" class="mt-10" name="pckyrysc_zjgp_export" @click="download(2)">导出</el-button>
             </el-col>
           </el-row>
 
@@ -295,7 +295,7 @@
             </el-col>
             <el-col :span="2" class="down-btn-area">
               <el-button type="success" size="small" @click="getList2(CurrentPage2,pageSize2,pd2)">查询</el-button>
-              <el-button type="primary" size="small" class="mt-10" @click="download(3)">导出</el-button>
+              <el-button type="primary" size="small" class="mt-10" name="pckyrysc_crjgp_export" @click="download(3)">导出</el-button>
             </el-col>
           </el-row>
 

@@ -476,12 +476,15 @@
           <div class="title-green mt-10 mb-15">
             处理意见
           </div>
-          <div class="stepContent" v-for="(j,key) in descStep">
+
+          <span>{{descData.deal_opinion}}</span>
+          <div class="stepContent" v-for="(j,key) in descStep" style="margin-bottom:20px;">
            <div style="color:#409EFF" @click="j.bon=!j.bon" class='hand'>{{j.year}}年<i :class="j.bon?'el-icon-caret-bottom':'el-icon-caret-right'"></i></div>
-            <el-steps direction="vertical" :active="1" :style="{height:60*j.message.length+'px'}" style="margin-bottom:40px;margin-left: 47px;margin-top: 10px;" v-if="j.bon">
-              <el-step title="" v-for="(item,index) in j.message">
+            <el-steps direction="vertical" :active="1"  style="margin-left: 47px;margin-top: 10px;" v-if="j.bon">
+              <el-step title="" v-for="(item,index) in j.message" :key="index" style="min-height:60px;">
                 <template slot="description">
-                  <div class="" style="backgroundColor:#eee;padding: 3px;box-sizing: border-box;margin-top: -12px;border-radius: 3px;">
+                  <div class="" style="backgroundColor:#eee;padding: 3px;box-sizing: border-box;margin-top: -12px;border-radius: 3px;margin-bottom:10px">
+
                     <div class="fz14">
                       <span>{{item.pers_deal_flag}}</span>
                       <span> | 处理时间：{{item.deal_dt}}</span>
@@ -490,7 +493,9 @@
                     </div>
                     <div class="fz14" style="color:#000">
                       <span>人员姓名：{{item.confess_name}}</span>
-                      <span> | 处理结果：{{item.ill_deal_rsn_na}}</span>
+
+                      <span> | 处理结果：{{item.deal_opinion}}</span>
+
                     </div>
                   </div>
                 </template>
@@ -847,7 +852,9 @@
         </div>
       </div>
       <div class="ak-tab-pane pt-10" @mouseover="mouseHeader">
-        <div class="" v-if="desctype==0">
+
+        <div class="" v-show="desctype==0">
+
           <el-table
             :data="desc12_1"
             class="ak-table2"
@@ -1010,57 +1017,61 @@
             </el-col>
           </el-row>
         </div>
-        <div class="" v-if="desctype==1">
+
+        <div class="" v-show="desctype==1">
           <el-row style="line-height:32px;">
             <el-col :span="12">
-              案件名称：{{descData.case_name||'-'}}
+              案件名称：{{descData12.case_name||'-'}}
             </el-col>
             <el-col :span="12">
-              案事件类型：{{descData.case_nature_na||'-'}}
+              案事件类型：{{descData12.case_nature_na||'-'}}
             </el-col>
             <el-col :span="12">
-              案事件类别：{{descData.case_type_na||'-'}}
+              案事件类别：{{descData12.case_type_na||'-'}}
             </el-col>
             <el-col :span="12">
-              被侵害对象类别：{{descData.infringe_rlat_na||'-'}}
+              被侵害对象类别：{{descData12.infringe_rlat_na||'-'}}
             </el-col>
             <el-col :span="12">
-              案发地区：{{descData.cas_reg_code_na||'-'}}
+              案发地区：{{descData12.cas_reg_code_na||'-'}}
             </el-col>
             <el-col :span="12">
-              立（受）案时间：{{descData.case_reg_dt||'-'}}
+              立（受）案时间：{{descData12.case_reg_dt||'-'}}
             </el-col>
             <el-col :span="12">
-              对外说辞：{{descData.extr_words||'-'}}
+              对外说辞：{{descData12.extr_words||'-'}}
             </el-col>
             <el-col :span="12">
-              案发具体位置：{{descData.cas_loc||'-'}}
+              案发具体位置：{{descData12.cas_loc||'-'}}
             </el-col>
             <el-col :span="24">
-              承办单位名称：{{descData.cntr_unit_name||'-'}}
+              承办单位名称：{{descData12.cntr_unit_name||'-'}}
             </el-col>
             <el-col :span="24">
-              基本案情：{{descData.case_desc||'-'}}
+              基本案情：{{descData12.case_desc||'-'}}
+
             </el-col>
           </el-row>
           <div class="title-green mt-10 mb-15">
             处理结果
           </div>
-          <div class="stepContent" v-for="(j,key) in descStep">
+
+          <div class="stepContent" v-for="(j,key) in descStep12" style="margin-bottom:20px;" :key="key">
            <div style="color:#409EFF" @click="j.bon=!j.bon" class='hand'>{{j.year}}年<i :class="j.bon?'el-icon-caret-bottom':'el-icon-caret-right'"></i></div>
-            <el-steps direction="vertical" :active="1" :style="{height:60*j.message.length+'px'}" style="margin-bottom:40px;margin-left: 47px;margin-top: 10px;" v-if="j.bon">
-              <el-step title="" v-for="(item,ind) in j.message">
+            <el-steps direction="vertical" :active="1" :style="{height:60*j.message.length+'px'}" style="margin-left: 47px;margin-top: 10px;" v-if="j.bon">
+              <el-step title="" v-for="(item,ind) in j.message" :key="ind">
                 <template slot="description">
                   <div class="" style="backgroundColor:#eee;padding: 3px;box-sizing: border-box;margin-top: -12px;border-radius: 3px;">
                     <div class="fz14">
-                      <span>{{item.pers_deal_flag}}</span>
-                      <span> | 处理时间：{{item.deal_dt}}</span>
-                      <span> | 处理人：{{item.tgt_oper}}</span>
-                      <span> | 处理部门：{{item.tgt_dept}}</span>
+                      <span>{{(ind+1)<=9?'0'+(ind+1):(ind+1)}}</span>
+                      <span> | 裁决日期：{{item.adjd_date}}</span>
+                      <span> | 案事件类别：{{item.cas_type_na}}</span>
+                      <span> | 案件承办单位：{{item.cas_cntr_unit}}</span>
                     </div>
                     <div class="fz14" style="color:#000">
-                      <span>人员姓名：{{item.confess_name}}</span>
-                      <span> | 处理结果：{{item.ill_deal_rsn_na}}</span>
+                      <span>人员姓名：{{item.chn_name||item.eng_name}}</span>
+                      <span> | 处理结果：{{item.finding_na}}</span>
+
                     </div>
                   </div>
                 </template>
@@ -1068,7 +1079,9 @@
             </el-steps>
           </div>
         </div>
-        <div class="" v-if="desctype==2">
+
+        <div class="" v-show="desctype==2">
+
           <el-table
             :data="desc12_2"
             class="ak-table2"
@@ -1110,7 +1123,9 @@
               label="证件号码"
               prop="cert_no">
               <template slot-scope="scope">
-                <span class="tc-b hand" @click="mmdescTypeTwo=!mmdescTypeTwo">{{scope.row.cert_no}}</span>
+
+                <span class="tc-b hand" @click="mmdescTypeTwo=!mmdescTypeTwo;mmDate_12=scope.row">{{scope.row.cert_no}}</span>
+
               </template>
             </el-table-column>
             <el-table-column
@@ -1124,73 +1139,75 @@
               <el-button type="primary" size="small" @click="mmdescTypeTwo=!mmdescTypeTwo">返回</el-button>
             </div>
             <el-col :span="12">
-              上报省份：{{moreData.rpt_prov_na||'-'}}
+
+              上报省份：{{mmDate_12.rpt_prov_na||'-'}}
             </el-col>
             <el-col :span="12">
-              英文姓名：{{moreData.eng_name||'-'}}
+              英文姓名：{{mmDate_12.eng_name||'-'}}
             </el-col>
             <el-col :span="12">
-              中文姓名：{{moreData.chn_name||'-'}}
+              中文姓名：{{mmDate_12.chn_name||'-'}}
             </el-col>
             <el-col :span="12">
-              性别：{{moreData.gender_na||'-'}}
+              性别：{{mmDate_12.gender_na||'-'}}
             </el-col>
             <el-col :span="12">
-              出生日期：{{moreData.birth_date||'-'}}
+              出生日期：{{mmDate_12.birth_date||'-'}}
             </el-col>
             <el-col :span="12">
-              身份证号码：{{moreData.pers_card_id||'-'}}
+              身份证号码：{{mmDate_12.pers_card_id||'-'}}
             </el-col>
             <el-col :span="12">
-              国籍：{{moreData.country_na||'-'}}
+              国籍：{{mmDate_12.country_na||'-'}}
             </el-col>
             <el-col :span="12">
-              证件种类：{{moreData.cert_type_na||'-'}}
+              证件种类：{{mmDate_12.cert_type_na||'-'}}
             </el-col>
             <el-col :span="12">
-              证件号码：{{moreData.cert_no||'-'}}
+              证件号码：{{mmDate_12.cert_no||'-'}}
             </el-col>
             <el-col :span="12">
-              证件有效期至：{{moreData.cert_vld||'-'}}
+              证件有效期至：{{mmDate_12.cert_vld||'-'}}
             </el-col>
             <el-col :span="12">
-              本次入境证件标识：{{moreData.curr_entry_cert_flag||'-'}}
+              本次入境证件标识：{{mmDate_12.curr_entry_cert_flag||'-'}}
             </el-col>
             <el-col :span="12">
-              居留事由：{{moreData.rsdt_rsn_na||'-'}}
+              居留事由：{{mmDate_12.rsdt_rsn_na||'-'}}
             </el-col>
             <el-col :span="12">
-              签证种类：{{moreData.visa_type_na||'-'}}
+              签证种类：{{mmDate_12.visa_type_na||'-'}}
             </el-col>
             <el-col :span="12">
-              居留证许可号码：{{moreData.prmt_no||'-'}}
+              居留证许可号码：{{mmDate_12.prmt_no||'-'}}
             </el-col>
             <el-col :span="12">
-              居留许可发证日期：{{moreData.prmt_issuing_date||'-'}}
+              居留许可发证日期：{{mmDate_12.prmt_issuing_date||'-'}}
             </el-col>
             <el-col :span="12">
-              居留许可有效期至：{{moreData.prmt_vld||'-'}}
+              居留许可有效期至：{{mmDate_12.prmt_vld||'-'}}
             </el-col>
             <el-col :span="12">
-              停留期限：{{moreData.period||'-'}}
+              停留期限：{{mmDate_12.period||'-'}}
             </el-col>
             <el-col :span="12">
-              签发机关：{{moreData.issuing_organ_na||'-'}}
+              签发机关：{{mmDate_12.issuing_organ_na||'-'}}
             </el-col>
             <el-col :span="12">
-              入境口岸：{{moreData.entry_port_na||'-'}}
+              入境口岸：{{mmDate_12.entry_port_na||'-'}}
             </el-col>
             <el-col :span="12">
-              入境日期：{{moreData.entry_date||'-'}}
+              入境日期：{{mmDate_12.entry_date||'-'}}
             </el-col>
             <el-col :span="12">
-              签证注销单位：{{moreData.visa_cancel_unit_na||'-'}}
+              签证注销单位：{{mmDate_12.visa_cancel_unit_na||'-'}}
             </el-col>
             <el-col :span="12">
-              签证注销人：{{moreData.visa_canceler||'-'}}
+              签证注销人：{{mmDate_12.visa_canceler||'-'}}
             </el-col>
             <el-col :span="12">
-              签证注销时间：{{moreData.visa_cancel_date||'-'}}
+              签证注销时间：{{mmDate_12.visa_cancel_date||'-'}}
+
             </el-col>
           </el-row>
         </div>
@@ -1411,55 +1428,71 @@
 <script>
 export default {
   name:"MoreDialog",
-  props: ['moreData','moreType','descDetail'],
+
+  props: ['moreData','moreType','descDetail','changeType'],
+
   data(){
     return{
       desctype:0,
       descData:{},
+      descData12:{},
       certData_1:[],
       certData_2:[],
       desc12_1:[],
       desc12_2:[],
       descStep:[],
+
+      descStep12:[],
       mmdescTypeOne:false,
       mmdescTypeTwo:false,
+      mmDate_12:{},
     }
   },
   mounted(){
-    console.log(this.moreData);
     this.initial12();
+    this.desctype=0;
+  },
+  watch:{
+    changeType:function(newVal,oldVal){
+      this.changeType=newVal;
+      this.desctype=0;
+      this.initial12();
+    }
+
   },
   methods: {
     initial12(){
       if(this.moreType=='box12'){
         this.desc12_1=[this.moreData]
+
+        console.log('this.desc12_1',this.desc12_1)
       }
     },
     descMeth12(){
-
-    },
-    descMeth(){
       if(this.desctype==1){
         let p={
-          "gender":(this.descDetail.gender=="M"||this.descDetail.gender=='1')?'1':(this.descDetail.gender=="F"||this.descDetail.gender=='2')?'2':'',
-          "nationality":this.descDetail.nationality,
-          "passportno":this.descDetail.passportno,
-          "birth":this.descDetail.birthday,
-          "ename":this.descDetail.name,
-          "personId":this.descDetail.personId,
-          "type":'opinion'
+          "objectId":this.moreData.case_intr_id,
+          "map":{},
+          "type":'case',
         }
-        this.$api.post('/manage-platform/riskRecordExtInterfaceController/getRecordOtherInfo',p,
+        this.$api.post('/manage-platform/riskRecordExtInterfaceController/getRecordWFWGEventInfo',p,
           r =>{
             if(r.success){
-              let lasted = r.data.data.dcap_f_evt_opinion[0].message
-              this.descData = lasted[lasted.length-1];
-              this.descStep = r.data.data.dcap_f_evt_opinion
+              if(r.data.data.dcap_f_evt_fgn_case.length!=0){
+                let lasted = r.data.data.dcap_f_evt_fgn_case[0].message
+                this.descData12 = lasted[lasted.length-1];
+                this.descStep12 = r.data.data.dcap_f_evt_fgn_case
+              }else{
+                this.descData12={};
+                this.descStep12=[];
+              }
+
 
             }
           })
       }else if(this.desctype==2){
         let p={
+<<<<<<< HEAD
           "gender":(this.descDetail.gender=="M"||this.descDetail.gender=='1')?'1':(this.descDetail.gender=="F"||this.descDetail.gender=='2')?'2':'',
           "nationality":this.descDetail.nationality,
           "passportno":this.descDetail.passportno,
@@ -1474,19 +1507,64 @@ export default {
               this.certData_1 = r.data.data.dcap_f_evt_capt_cert;
             }
           })
+
+          "objectId":this.moreData.case_intr_id,
+          "map":{},
+          "type":'paper',
+        }
+        this.$api.post('/manage-platform/riskRecordExtInterfaceController/getRecordWFWGEventInfo',p,
+          r =>{
+            if(r.success){
+              this.desc12_2=r.data.data.dcap_f_evt_fgn_cas_per_paper
+            }
+          })
+      }
+      // else if(this.desctype==0){
+      //   this.desc12_1=[this.moreData]
+      // }
+    },
+    descMeth(){
+      if(this.desctype==1){
+        let p={
+          "objectId":this.moreData.evt_id,
+          "map":{},
+          "type":'opinion',
+        }
+        this.$api.post('/manage-platform/riskRecordExtInterfaceController/getRecordWFWGEventInfo',p,
+          r =>{
+            if(r.success){
+              if(r.data.data.dcap_f_evt_opinion.length!=0){
+                let lasted = r.data.data.dcap_f_evt_opinion[0].message;
+                this.descData = lasted[lasted.length-1];
+                this.descStep = r.data.data.dcap_f_evt_opinion;
+              }else{
+                this.descData={};
+                this.descStep=[];
+              }
+            }
+          })
+      }else if(this.desctype==2){
+        let p={
+          "objectId":this.moreData.evt_id,
+          "map":{},
+          "type":'illcert',
+        }
+        this.$api.post('/manage-platform/riskRecordExtInterfaceController/getRecordWFWGEventInfo',p,
+          r =>{
+            if(r.success){
+              this.certData_1 = r.data.data.illcert;
+            }
+          })
           let pl={
-            "gender":(this.descDetail.gender=="M"||this.descDetail.gender=='1')?'1':(this.descDetail.gender=="F"||this.descDetail.gender=='2')?'2':'',
-            "nationality":this.descDetail.nationality,
-            "passportno":this.descDetail.passportno,
-            "birth":this.descDetail.birthday,
-            "ename":this.descDetail.name,
-            "personId":this.descDetail.personId,
-            "type":'res'
+            "objectId":this.moreData.evt_id,
+            "map":{},
+            "type":'illres',
           }
-          this.$api.post('/manage-platform/riskRecordExtInterfaceController/getRecordOtherInfo',pl,
+          this.$api.post('/manage-platform/riskRecordExtInterfaceController/getRecordWFWGEventInfo',pl,
             r =>{
               if(r.success){
-                this.certData_2 = r.data.data.dcap_f_evt_capt_res;
+                this.certData_2 = r.data.data.illres;
+
               }
             })
       }

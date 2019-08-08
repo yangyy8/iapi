@@ -84,7 +84,7 @@
 
         <div v-show="page==0">
           <el-row class="mb-15 yr">
-            <el-button type="primary" size="small" @click="download(1)">导出</el-button>
+            <el-button type="primary" size="small" name="cfrysc_cfzj_export" @click="download(1)">导出</el-button>
             </el-row>
             <el-table
               :data="tableData"
@@ -173,7 +173,7 @@
         </div>
         <div v-show="page==1">
           <el-row class="mb-15 yr">
-            <el-button type="primary" size="small" @click="download(2)">导出</el-button>
+            <el-button type="primary" size="small" name="cfrysc_cfdp_export" @click="download(2)">导出</el-button>
             </el-row>
                       <el-table
                         :data="tableData1"

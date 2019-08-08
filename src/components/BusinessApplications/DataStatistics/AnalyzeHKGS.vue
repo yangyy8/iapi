@@ -101,7 +101,7 @@
           </div>
           <div v-show="page==1" @mouseover="mouseHeader">
             <el-row class="mb-15 yr">
-              <el-button type="primary" size="small" @click="download()">Excel导出</el-button>
+              <el-button type="primary" size="small" name="hkgsztfx_export" @click="download()">Excel导出</el-button>
               </el-row>
                        <el-table
                              :data="tableData"
@@ -417,7 +417,11 @@ export default {
           this.tableData = r.data;
           if($('.t-hkgsBtn').length==0){
             $('.el-table__footer .has-gutter').find("td").last().children('.cell').append('<button type="text"  class="el-button a-btn el-button--text el-button--mini t-hkgsBtn" title="详情" size="mini" onclick="sumDetails()"><i class="el-icon-tickets"></i></button>')
+<<<<<<< HEAD
           }          
+=======
+          }
+>>>>>>> 7061b1d1d6cbf4ba1f20f7f51f5f617eacd45b49
           let arr = this.tableData;
           var sum1 = 0,
             sum01 = 0;

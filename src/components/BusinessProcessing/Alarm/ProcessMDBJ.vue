@@ -118,7 +118,7 @@
           label="操作"
           width="70">
           <template slot-scope="scope">
-            <el-button type="text" class="a-btn" icon="el-icon-edit-outline" title="报警处理" @click="$router.push({name:'alarmProcess',query:{eventserial:scope.row.eventSerial,AlarmType:scope.row.alarmTypeNum}})"></el-button>
+            <el-button type="text" class="a-btn" icon="el-icon-edit-outline" title="报警处理" name="mdbjcl_alarm_process" @click="$router.push({name:'alarmProcess',query:{eventserial:scope.row.eventSerial,AlarmType:scope.row.alarmTypeNum}})"></el-button>
             <!-- <el-button class="table-btn" icon="el-icon-edit" size="mini" plain @click="$router.push({name:'alarmProcess',query:{eventserial:scope.row.eventSerial,AlarmType:scope.row.alarmTypeNum}})">报警处理</el-button> -->
          </template>
         </el-table-column>

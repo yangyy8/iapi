@@ -15,7 +15,8 @@
             <el-button type="primary" size="small" class="mb-9" style="width:100%" @click="$router.push({name:'DZDA',query:{gender:$route.query.row.gender,personId:page0Data.personId,ename:$route.query.row.name,birth:$route.query.row.birthday,idcard:$route.query.idcard,nationality:page0Data.nationality,passportno:page0Data.passportno,grade:$route.query.grade,type:1,nav2Id:page0Data.passportno+page0Data.nationality,title:page0Data.name+'电子档案'}})">电子档案</el-button>
             <el-button type="primary" size="small" class="mb-9" style="width:100%">综合查询</el-button>
             <el-button type="primary" size="small" class="mb-9" style="width:100%">照片比对</el-button>
-            <el-button type="success" size="small" style="width:100%" :disabled="!operation_type" @click="openGdTc(page0Data)">事件归档</el-button>
+            <el-button type="success" size="small" class="mb-9" style="width:100%" :disabled="!operation_type" @click="openGdTc(page0Data)">事件归档</el-button>
+            <el-button type="primary" size="small" style="width:100%" @click="suspected">疑似关联人</el-button>
           </div>
         </el-col>
         <el-col :span="21">
@@ -571,7 +572,8 @@
           <el-col :span="24" class="input-item my-form-group" data-scope="demo2" data-name="type" data-type="select"
             v-validate-easy="[['required']]">
             <span class="yy-input-text"><font class="yy-color">*</font>处理类型：</span>
-            <el-select placeholder="请选择" v-model="pushMform.type" filterable clearable size="small" class="yy-input-input">
+
+            <el-select placeholder="请选择" v-model="pushMform.type" filterable clearable size="small" class="yy-input-input" @change='typeChange(pushMform.type)'>
               <el-option label="移交台外" value="移交台外"></el-option>
               <el-option label="前台提示信息" value="前台提示信息"></el-option>
               <el-option label="自定义前台提示信息" value="自定义前台提示信息"></el-option>
@@ -596,9 +598,10 @@
         </el-row>
         <el-row type="flex" class="mb-6" v-if="pushMform.type=='自定义前台提示信息'">
           <el-col :span="24" class="input-item my-form-group" data-scope="demo2" data-name="message" data-type="textarea"
-            v-validate-easy="[['required']]">
+
+            v-validate-easy="[['required'],['maxLength',[100]]]">
             <span class="yy-input-text"><font class="yy-color">*</font>自定义提示信息：</span>
-            <el-input type="textarea" placeholder="最长输入150字" :autosize="{ minRows: 3, maxRows: 6}" v-model="pushMform.message" class="yy-input-input"></el-input>
+            <el-input type="textarea" placeholder="最多输入100字" :autosize="{ minRows: 3, maxRows: 6}" v-model="pushMform.message" class="yy-input-input"></el-input>
           </el-col>
         </el-row>
 
@@ -612,10 +615,75 @@
             </el-select>
           </el-col>
         </el-row>
+
+        <el-row type="flex"  class="mb-6">
+          <el-col :span="24" class="input-item my-form-group" data-scope="demo2" data-name="zdgzrylbdm" data-type="select"
+            v-validate-easy="[['required']]">
+            <span class="yy-input-text"><font class="yy-color">*</font>关注类别：</span>
+            <el-select placeholder="请选择" v-model="pushMform.zdgzrylbdm" filterable clearable size="small" class="yy-input-input">
+              <el-option label="预警内地重点人员" value="11"></el-option>
+              <el-option label="预警外籍涉疆人员" value="12"></el-option>
+              <el-option label="预警偷渡人员" value="13"></el-option>
+              <el-option label="预警三非人员" value="14"></el-option>
+              <el-option label="预警变换身份人员" value="15"></el-option>
+              <el-option label="预警黑名单人员" value="16"></el-option>
+              <el-option label="预警其他人员" value="17"></el-option>
+            </el-select>
+          </el-col>
+        </el-row>
+        <el-row type="flex"  class="mb-6">
+          <el-col :span="24" class="input-item my-form-group" data-scope="demo2" data-name="bjfw" data-type="select"
+            v-validate-easy="[['required']]">
+            <span class="yy-input-text"><font class="yy-color">*</font>报警范围：</span>
+            <el-select placeholder="请选择" v-model="pushMform.bjfw" filterable clearable size="small" class="yy-input-input">
+              <el-option label="入境" value="1"></el-option>
+              <el-option label="出境" value="2"></el-option>
+              <el-option label="入出境" value="3"></el-option>
+            </el-select>
+          </el-col>
+        </el-row>
+        <el-row type="flex"  class="mb-6">
+          <el-col :span="24" class="input-item my-form-group" data-scope="demo2" data-name="zdgzryclfs" data-type="select"
+            v-validate-easy="[['required']]">
+            <span class="yy-input-text"><font class="yy-color">*</font>处理方式：</span>
+            <el-select placeholder="请选择" v-model="pushMform.zdgzryclfs" filterable clearable size="small" class="yy-input-input">
+              <el-option label="移交后台" value="1"></el-option>
+              <el-option label="重点检查" value="2"></el-option>
+            </el-select>
+          </el-col>
+        </el-row>
+        <el-row type="flex"  class="mb-6">
+          <el-col :span="24" class="input-item my-form-group" data-scope="demo2" data-name="qsgzrq" data-type="select"
+            v-validate-easy="[['required']]">
+            <span class="yy-input-text"><font class="yy-color">*</font>起始关注日期：</span>
+              <el-date-picker
+              v-model="pushMform.qsgzrq"
+              type="date" size="mini"
+              placeholder="请选择开始日期"
+              class="yy-input-input"
+              format="yyyy-MM-dd"
+              value-format="yyyyMMdd">
+            </el-date-picker>
+          </el-col>
+        </el-row>
+        <el-row type="flex"  class="mb-6">
+          <el-col :span="24" class="input-item my-form-group" data-scope="demo2" data-name="jsgzrq" data-type="select"
+            v-validate-easy="[['required']]">
+            <span class="yy-input-text"><font class="yy-color">*</font>结束关注日期：</span>
+              <el-date-picker
+              v-model="pushMform.jsgzrq"
+              type="date" size="mini"
+              placeholder="请选择开始日期"
+              class="yy-input-input"
+              format="yyyy-MM-dd"
+              value-format="yyyyMMdd">
+            </el-date-picker>
+          </el-col>
+        </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="addItem()" size="small">确 定</el-button>
-        <el-button @click="pushMform={userName:''};pushMaddDialogVisible = false" size="small">取 消</el-button>
+        <el-button @click="handleClose" size="small">取 消</el-button>
       </div>
     </el-dialog>
     <div class="gototop">
@@ -663,24 +731,81 @@
         <el-button type="warning" @click="viewMDialogVisible=false" size="small">返回</el-button>
       </div>
     </el-dialog>
+
+    <el-dialog title="疑似关联人" :visible.sync="susMDialogVisible" width="1000px">
+      <el-table
+        :data="tableDataSus"
+        class="ak-table2"
+        border
+        style="width: 100%">
+        <el-table-column
+          :show-overflow-tooltip="true"
+          label="姓名"
+          prop="ENAME">
+        </el-table-column>
+        <el-table-column
+          :show-overflow-tooltip="true"
+          label="性别"
+          prop="GENDER_NAME">
+        </el-table-column>
+        <el-table-column
+          :show-overflow-tooltip="true"
+          label="出生日期"
+          prop="BIRTHDAY">
+        </el-table-column>
+        <el-table-column
+          :show-overflow-tooltip="true"
+          label="国籍地区"
+          prop="NATIONALITY_NAME">
+        </el-table-column>
+        <el-table-column
+          :show-overflow-tooltip="true"
+          label="证件号码"
+          prop="PASSPORTNO">
+        </el-table-column>
+        <el-table-column
+          :show-overflow-tooltip="true"
+          label="证件类型"
+          prop="INTG_CARDTYPE_NAME">
+        </el-table-column>
+        <el-table-column
+          :show-overflow-tooltip="true"
+          label="航班号"
+          prop="FLTNO">
+        </el-table-column>
+        <el-table-column
+          :show-overflow-tooltip="true"
+          label="到达时间"
+          prop="ARRIVDATE">
+        </el-table-column>
+      </el-table>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import GDTC from './GDTC'
 import imgUrl from '../../../assets/img/bp_ap/ph_s.png'
-
+import { formatDate,format } from '@/assets/js/date.js'
 export default {
   components:{GDTC},
 
   data(){
     return{
+
+      tableDataSus:[],
+      susMDialogVisible:false,
       viewMDialogVisible:false,
       descData:{},
       ccTimer:null,
       tobox:'box0',
       pushMaddDialogVisible:false,
-      pushMform:{userName:''},
+
+      pushMform:{
+        userName:'',
+        qsgzrq:formatDate(new Date(),'yyyyMMdd'),
+        jsgzrq:formatDate(new Date(new Date(new Date().toLocaleDateString()).getTime()+24*60*60*1000*3),'yyyyMMdd'),
+      },
       portLabel:'',
       portValue:'',
       meishaSerial:'',
@@ -718,6 +843,7 @@ export default {
       modelDialogVisible:false,
       modeldec:null,
       imgURL:imgUrl,
+      iapi_id:'',
     }
   },
   mounted(){
@@ -784,8 +910,26 @@ export default {
     }
   },
   methods:{
+
+    suspected(){//疑似关联人
+      this.susMDialogVisible=true;
+      this.$api.post('/manage-platform/riskEventWarningController/getSuspectedAssociatedPerson',{iapi_id:this.iapi_id},
+       r =>{
+         if(r.success){
+           this.tableDataSus=r.data.list;
+         }
+       })
+    },
+    typeChange(){
+      this.$set(this.pushMform,'strategy','');
+      this.$set(this.pushMform,'message','');
+    },
     handleClose(){
-      this.pushMform={userName:''};
+      this.pushMform={
+        userName:'',
+        qsgzrq:formatDate(new Date(),'yyyyMMdd'),
+        jsgzrq:formatDate(new Date(new Date(new Date().toLocaleDateString()).getTime()+24*60*60*1000*3),'yyyyMMdd'),
+      };
       this.pushMaddDialogVisible=false;
     },
     detailGoBack(){
@@ -893,7 +1037,14 @@ export default {
           "course_type":'4',
           "one":(new Date()).getTime(),
           "gznr":this.pushMform.type=="前台提示信息"?this.pushMform.strategy:this.pushMform.type=="自定义前台提示信息"?this.pushMform.message:"移交台外",
-          "fbkadm":this.pushMform.fbkadm
+
+          "fbkadm":this.pushMform.fbkadm,
+          "zdgzrylbdm":this.pushMform.zdgzrylbdm,
+          "bjfw":this.pushMform.bjfw,
+          "zdgzryclfs":this.pushMform.zdgzryclfs,
+          "qsgzrq":this.pushMform.qsgzrq,
+          "jsgzrq":this.pushMform.jsgzrq
+
         }
         this.$api.post('/manage-platform/riskEventPushMXController/insertBJAPIZDGZRYInfo',p,
          r =>{
@@ -904,7 +1055,13 @@ export default {
              });
              this.pushMaddDialogVisible=false;
              this.meishaText="撤销推送";
-             this.pushMform={userName:''};
+
+             this.pushMform={
+               userName:'',
+               qsgzrq:formatDate(new Date(),'yyyyMMdd'),
+               jsgzrq:formatDate(new Date(new Date(new Date().toLocaleDateString()).getTime()+24*60*60*1000*3),'yyyyMMdd'),
+             };
+
            }
          })
       })
@@ -938,6 +1095,8 @@ export default {
          if(r.success){
 
            this.page0Data=r.data;
+           this.iapi_id=r.data.iapi_id;
+
            this.getRiskEventTagInfo(this.page0Data.passportno,this.page0Data.nationality)
            this.getPhotoInf(r.data.passportno,r.data.nationality,r.data.birthday,r.data.name,r.data.genderName);
            console.log('r.data.personId')

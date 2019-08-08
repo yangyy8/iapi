@@ -121,7 +121,7 @@
           </div>
           <div v-show="page==1" @mouseover="mouseHeader">
             <el-row class="mb-15 yr">
-              <el-button type="primary" size="small" @click="download()">Excel导出</el-button>
+              <el-button type="primary" size="small" name="khjcztfx_export" @click="download()">Excel导出</el-button>
               </el-row>
             <el-table
               :data="tableData"
@@ -152,7 +152,7 @@
             </el-table-column>
             <el-table-column
               prop="boardingcount" sortable
-              label="出入境人员数量"
+              label="实际出入境人员数量"
               >
             </el-table-column>
             <el-table-column
@@ -425,23 +425,10 @@ export default {
         })
     },
     download(){
-      //var url="http://192.168.99.213:8080/manage-platform/dataStatistics/export_port";
-      var url= this.$api.rootUrl+"/manage-platform/dataStatistics/export_port";
-      axios({
-       method: 'post',
-       url: url,
-      // url:'http://192.168.99.206:8080/manage-platform/iapi/exportFileIo/0/600',
-      // url: this.$api.rootUrl+"/manage-platform/iapi/exportFileIo/0/600",
-       data: {
-         "begintime":this.pd.begintime,
-         "endtime":this.pd.endtime,
-         "port":this.pd.port,
-         "flighttype":this.pd.flighttype
-       },
-       responseType: 'blob'
-       }).then(response => {
-           this.downloadM(response)
-       });
+      this.$api.post('/manage-platform/dataStatistics/export_port',this.pd,
+       r =>{
+         this.downloadM(r)
+       },e=>{},'','blob')
     },
     downloadM (data,type) {
         if (!data) {

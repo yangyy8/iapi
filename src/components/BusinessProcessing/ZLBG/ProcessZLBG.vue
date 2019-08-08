@@ -125,7 +125,7 @@
     </div>
     <div class="middle" @mouseover="mouseHeader">
       <el-row class="mb-15">
-        <el-button type="info" size="small" @click="batchs">批量变更</el-button>
+        <el-button type="info" size="small" name="zlbg_batch_change" @click="batchs">批量变更</el-button>
         </el-row>
       <el-table
         ref="sort"
@@ -229,9 +229,9 @@
     <el-button  type="text"  class="a-btn"  title="变更" icon="el-icon-edit" @click="handles(scope.row);"></el-button>
   </span> -->
 
-      <el-button  type="text"  class="a-btn" :class="{'gray':scope.row.PASSENGERSTATUS!='0'}" title="变更" icon="el-icon-edit" @click="handles(scope.row);"></el-button>
+      <el-button  type="text"  class="a-btn" :class="{'gray':scope.row.PASSENGERSTATUS!='0'}" title="变更" name="zlbg_change" icon="el-icon-edit" @click="handles(scope.row);"></el-button>
 
-      <el-button type="text"  class="a-btn"  title="详情" icon="el-icon-tickets" @click="details(scope.row)"></el-button>
+      <el-button type="text"  class="a-btn"  title="详情" icon="el-icon-tickets" name="zlbg_detail" @click="details(scope.row)"></el-button>
                  </template>
                 </el-table-column>
       </el-table>

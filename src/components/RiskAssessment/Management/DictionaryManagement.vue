@@ -35,9 +35,9 @@
     </div>
     <div class="middle" @mouseover="mouseHeader">
       <el-row class="mb-15">
-        <el-button type="primary" name="DictionaryManagement_add" size="small" @click="adds(0,'');form={};">新增</el-button>
-        <el-button type="success" size="small" @click="download">模板下载</el-button>
-        <el-button type="info" size="small" @click="batchsdelete">批量删除</el-button>
+        <el-button type="primary" size="small" name="zdxgl_add" @click="adds(0,'');form={};">新增</el-button>
+        <el-button type="success" size="small" name="zdxgl_template_download" @click="download">模板下载</el-button>
+        <el-button type="info" size="small" name="zdxgl_batch_del" @click="batchsdelete">批量删除</el-button>
         </el-row>
       <el-table
         :data="tableData"
@@ -79,10 +79,10 @@
         <el-table-column
           label="操作" width="150">
           <template slot-scope="scope">
-              <el-button name="DictionaryManagement_edit" type="text" class="a-btn" title="编辑"  icon="el-icon-edit" @click="adds(1,scope.row)"></el-button>
-              <el-button type="text" class="a-btn" title="导入"  icon="el-icon-upload2" @click="showUpload(scope.row)"></el-button>
-              <el-button type="text" class="a-btn" title="导出"   icon="el-icon-download" @click="tableDown(scope.row)"></el-button>
-              <el-button type="text" class="a-btn" title="删除"   icon="el-icon-delete" @click="deletes(scope.row)"></el-button>
+              <el-button type="text" class="a-btn" title="编辑" name="zdxgl_edit" icon="el-icon-edit" @click="adds(1,scope.row)"></el-button>
+              <el-button type="text" class="a-btn" title="导入" name="zdxgl_import" icon="el-icon-upload2" @click="showUpload(scope.row)"></el-button>
+              <el-button type="text" class="a-btn" title="导出" name="zdxgl_export"  icon="el-icon-download" @click="tableDown(scope.row)"></el-button>
+              <el-button type="text" class="a-btn" title="删除" name="zdxgl_del"  icon="el-icon-delete" @click="deletes(scope.row)"></el-button>
          </template>
         </el-table-column>
       </el-table>

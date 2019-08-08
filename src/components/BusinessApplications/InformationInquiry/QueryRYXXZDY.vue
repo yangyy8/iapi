@@ -483,7 +483,7 @@
           label="操作"
           min-width="100">
           <template slot-scope="scope">
-            <el-button type="text" class="a-btn" title="详情" icon="el-icon-tickets" @click="detailsIapi(scope.row)"></el-button>
+            <el-button type="text" class="a-btn" title="详情" icon="el-icon-tickets" name="ryxxcx_zdy_detail_iapi" @click="detailsIapi(scope.row)"></el-button>
          </template>
         </el-table-column>
       </el-table>
@@ -1664,7 +1664,7 @@
           label="操作"
           min-width="100">
           <template slot-scope="scope">
-            <el-button type="text" class="a-btn" title="详情" icon="el-icon-tickets" @click="detailsPnr(scope.row)"></el-button>
+            <el-button type="text" class="a-btn" title="详情" icon="el-icon-tickets" name="ryxxcx_zdy_detail_pnr" @click="detailsPnr(scope.row)"></el-button>
          </template>
         </el-table-column>
       </el-table>
@@ -2452,8 +2452,10 @@ export default {
         'orders':[this.orderPnrHcZDY.prop],
         'direction':this.orderPnrHcZDY.order=='ascending'?1:0,
         "pd":{'queryColList':this.checkListPnr},
-        'currentPage':this.currentPage,
-        'showCount':this.showCount,
+
+        'currentPage':this.currentPagePnr,
+        'showCount':this.showCountPnr,
+
         'searchType':this.rangePnr
       }
       if(this.isaPnr == false){

@@ -212,6 +212,7 @@
             <span v-else>{{scope.row.PERCENT}}</span>
           </template>
         </el-table-column>
+<<<<<<< HEAD
         <!-- <el-table-column
           label="操作"
           min-width="50">
@@ -219,6 +220,16 @@
             <el-button type="text"  class="a-btn" title="详情" size="mini" icon="el-icon-tickets" @click="modelDetails(scope.row)"></el-button>
          </template>
         </el-table-column> -->
+=======
+        <el-table-column
+          label="操作"
+          fixed="right"
+          min-width="50">
+          <template slot-scope="scope">
+            <el-button type="text"  class="a-btn" title="详情" size="mini" icon="el-icon-tickets" name="fpsjjk_detail" @click="modelDetails(scope.row)"></el-button>
+         </template>
+        </el-table-column>
+>>>>>>> 7061b1d1d6cbf4ba1f20f7f51f5f617eacd45b49
       </el-table>
 
       <div class="middle-foot">
@@ -293,6 +304,7 @@
         :span-method="objectSpanMethod"
         style="width: 100%;">
         <el-table-column
+<<<<<<< HEAD
           prop="sheetType"
           label="国籍/地区"
           sortable>
@@ -312,6 +324,27 @@
           label="值机数"
           sortable>
         </el-table-column> -->
+=======
+          prop="modelName"
+          label="模型"
+          sortable>
+        </el-table-column>
+        <el-table-column
+          prop="count"
+          label="命中人数"
+          sortable>
+        </el-table-column>
+        <el-table-column
+          prop="nationality"
+          label="国籍地区"
+          sortable>
+        </el-table-column>
+        <el-table-column
+          prop="passportno"
+          label="证件号码"
+          sortable>
+        </el-table-column>
+>>>>>>> 7061b1d1d6cbf4ba1f20f7f51f5f617eacd45b49
       </el-table>
       <div slot="footer" class="dialog-footer">
         <el-button @click="modelsDialogVisible = false" size="small">返 回</el-button>
@@ -374,6 +407,7 @@ export default {
         }
       ],
       modeltableData:[
+<<<<<<< HEAD
         {
           type:1,
           sheetType: "事件单",
@@ -410,6 +444,90 @@ export default {
           taskKey: "wenti_03",
           templateUrl: "/wenti_03"
         }
+=======
+        // {
+        //   count:2,
+        //   type:1,
+        //   modelName: "事件单",
+        //   nationality: "shijian_01",
+        //   passportno: "/shijian_01"
+        // },
+        // {
+        //   count:2,
+        //   type:1,
+        //   modelName: "事件单",
+        //   nationality: "shijian_02",
+        //   passportno: "/shijian_02"
+        // },
+        // {
+        //   count:2,
+        //   type:1,
+        //   modelName: "事件单",
+        //   nationality: "shijian_03",
+        //   passportno: "/shijian_04"
+        // },
+        // {
+        //   count:1,
+        //   type:2,
+        //   modelName: "问题单",
+        //   nationality: "wenti_01",
+        //   passportno: "/wenti_01"
+        // },
+//         {
+//         count:  2,
+// modelCode
+// :
+// "275bd0f5b8414906b547a6615d49199c",
+// modelName
+// :
+// "外籍涉疆重点人员",
+// nationality
+// :
+// "马来西亚",
+// passportno
+// :
+// "A34644812",
+// type
+// :
+// 1
+//         },
+//         {
+//           count:2,
+// modelCode
+// :
+// "275bd0f5b8414906b547a6615d49199c",
+// modelName
+// :
+// "外籍涉疆重点人员",
+// nationality
+// :
+// "马来西亚",
+// passportno
+// :
+// "A40677465",
+// type
+// :
+// 1
+// },
+// {
+//   count:1,
+// modelCode
+// :
+// "39495b89d5254eb584d94a93f1f48d7f",
+// modelName
+// :
+// "疑似变换身份人员",
+// nationality
+// :
+// "马来西亚",
+// passportno
+// :
+// "A39815584",
+// type
+// :
+// 2
+// }
+>>>>>>> 7061b1d1d6cbf4ba1f20f7f51f5f617eacd45b49
       ],
       tableData: [],
       rowList: [],
@@ -436,6 +554,11 @@ export default {
   },
   methods:{
     rowspan() {
+<<<<<<< HEAD
+=======
+      this.spanArr=[];
+      this.position=0;
+>>>>>>> 7061b1d1d6cbf4ba1f20f7f51f5f617eacd45b49
   		this.modeltableData.forEach((item,index) => {
 	    	if( index === 0){
 	    		this.spanArr.push(1);
@@ -470,9 +593,24 @@ export default {
     	}
     },
 
-    modelDetails(){
-      this.modelsDialogVisible=true;
-      this.rowspan();
+
+    modelDetails(i){
+
+      this.$api.post('/manage-platform/eventMonitor/queryEventInfo/'+i.FLIGHT_RECORDNUM,{},
+        r =>{
+          if(r.success){
+            this.modeltableData=[];
+            this.modeltableData=r.data;
+            this.rowspan();
+            let that = this;
+            // setTimeout(function(){
+              that.modelsDialogVisible=true;
+            // },1000)
+
+          }
+        })
+
+
     },
     sortChange(column, prop, order){
       column.order=='ascending'?this.direction=1:this.direction=0;

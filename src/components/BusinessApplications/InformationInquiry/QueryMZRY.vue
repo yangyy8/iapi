@@ -235,7 +235,7 @@
           width="80">
           <template slot-scope="scope">
             <el-button type="text"  class="a-btn" title="报表" icon="el-icon-document" @click="details(scope.row)"></el-button>
-            <el-button type="text"  class="a-btn" title="详情"  plain icon="el-icon-tickets" @click="getMore(scope.row)"></el-button>
+            <el-button type="text"  class="a-btn" title="详情"  plain icon="el-icon-tickets" name="mzrycx_detail" @click="getMore(scope.row)"></el-button>
          </template>
         </el-table-column>
       </el-table>

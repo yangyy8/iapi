@@ -169,13 +169,13 @@
     </div>
     <div class="middle" @mouseover="mouseHeader">
       <el-row class="mb-15" v-if="!backShow">
-        <el-button type="primary" size="small" @click="xinzeng">新增</el-button>
-        <el-button type="success" size="small" @click="showUpload">批量导入</el-button>
+        <el-button type="primary" size="small" name="bmd_add" @click="xinzeng">新增</el-button>
+        <el-button type="success" size="small" name="bmd_batch_import" @click="showUpload">批量导入</el-button>
 
-        <el-button type="warning" size="small" @click="piliangdel" :disabled="isdisable">批量删除</el-button>
-        <el-button type="warning" size="small" @click="shengxiao" :disabled="isdisable">生效发布</el-button>
-        <el-button type="info" size="small" @click="getHisFn(CurrentPage,pageSize,pd,orders,direction)">历史资料</el-button>
-        <el-button type="success" size="small" @click="download">模板下载</el-button>
+        <el-button type="warning" size="small" name="bmd_batch_del" @click="piliangdel" :disabled="isdisable">批量删除</el-button>
+        <el-button type="warning" size="small" name="bmd_effect_publish" @click="shengxiao" :disabled="isdisable">生效发布</el-button>
+        <el-button type="info" size="small" name="bmd_history_info" @click="getHisFn(CurrentPage,pageSize,pd,orders,direction)">历史资料</el-button>
+        <el-button type="success" size="small" name="bmd_template_download" @click="download">模板下载</el-button>
       </el-row>
       <el-table
         class="mt-10 o-table3"
@@ -284,9 +284,9 @@
           width="100">
           <template slot-scope="scope">
             <!-- <div class="flex-r"> -->
-            <el-button type="text" class="a-btn" icon="el-icon-edit" title="编辑" @click="update(scope.row)" :disabled="scope.row.SYN_STATUS!=0||backShow"></el-button>
-            <el-button type="text" class="a-btn" icon="el-icon-delete"  title="删除" @click="deleteItem(scope.row.SERIAL,scope.row.SYN_STATUS)" :disabled="backShow"></el-button>
-            <el-button type="text" class="a-btn" icon="el-icon-tickets"  title="详情" @click="details(scope.row.SERIAL)"></el-button>
+            <el-button type="text" class="a-btn" icon="el-icon-edit" title="编辑" name="bmd_edit" @click="update(scope.row)" :disabled="scope.row.SYN_STATUS!=0||backShow"></el-button>
+            <el-button type="text" class="a-btn" icon="el-icon-delete"  title="删除" name="bmd_del" @click="deleteItem(scope.row.SERIAL,scope.row.SYN_STATUS)" :disabled="backShow"></el-button>
+            <el-button type="text" class="a-btn" icon="el-icon-tickets"  title="详情" name="bmd_detail" @click="details(scope.row.SERIAL)"></el-button>
 
               <!-- <el-button class="table-btn" size="mini" plain icon="el-icon-edit" @click="update(scope.row)" v-if="scope.row.SYN_STATUS==0&&!backShow">编辑</el-button>
               <el-button class="table-btn" size="mini" plain icon="el-icon-delete" @click="deleteItem(scope.row.SERIAL,scope.row.SYN_STATUS)" v-if="!backShow">删除</el-button>
@@ -777,6 +777,7 @@ export default {
       form: {
         "synStatus":"0",
     	  "LIST_TYPE":"1",
+        "DEALTYPE":'1'
       },
       releaseform:{
         user:"",
@@ -957,7 +958,7 @@ export default {
 
       this.dialogText='新增';
       this.dialogType='add';
-      this.form={};
+      this.form={"DEALTYPE":'1'};
       this.form.synStatus="0";
       this.form.LIST_TYPE="1";
       this.V.$reset('demo1');

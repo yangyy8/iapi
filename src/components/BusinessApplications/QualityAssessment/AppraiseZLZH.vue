@@ -128,7 +128,7 @@
   </div> -->
     <div class="middle" @mouseover="mouseHeader">
       <el-row class="mb-15 yr">
-        <el-button type="primary" size="small" @click="download(0)">Excel导出</el-button>
+        <el-button type="primary" size="small" name="pnryfzlpj_export" @click="download(0)">Excel导出</el-button>
         </el-row>
       <el-table
         :data="tableData"
@@ -167,7 +167,7 @@
           width="70"
           label="操作">
           <template slot-scope="scope">
-              <el-button class="a-btn" type="text" title="详情" icon="el-icon-tickets" @click="details(scope.row)"></el-button>
+              <el-button class="a-btn" type="text" title="详情" icon="el-icon-tickets" name="pnryfzlpj_detail" @click="details(scope.row)"></el-button>
          </template>
         </el-table-column>
       </el-table>

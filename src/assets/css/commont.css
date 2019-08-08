@@ -8,6 +8,11 @@
   display:flex;
   justify-content:flex-end;
 }
+
+.loadingClass{
+  z-index: 2020!important;
+}
+
 .stepContent .el-step__head.is-process{
   color: #409EFF;
   border-color:#409EFF;
@@ -193,7 +198,9 @@
  .t-fuzzy .el-input{
    width: 59%!important;
  }
-
+.t-radioClass{
+  margin-bottom: 10px
+}
  .el-dialog__wrapper{
    overflow: visible!important;
  }
@@ -218,6 +225,9 @@
 .t-must{
   color: red;
   padding: 2px;
+}
+.error-btn .el-icon-error{
+  color:#68bf45
 }
 .detailInp{
   width: 80%!important;

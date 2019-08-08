@@ -11,7 +11,7 @@
     </div>
     <div class="middle" style="padding-top:0px!important" @mouseover="mouseHeader">
       <el-row class="mb-15">
-        <el-button type="primary" size="small" @click="adds(0,'');form={};">新增</el-button>
+        <el-button type="primary" size="small" name="hfkjsz_add" @click="adds(0,'');form={};">新增</el-button>
         </el-row>
       <el-table
         :data="tableData"
@@ -44,9 +44,9 @@
         <el-table-column
           label="操作" width="120">
           <template slot-scope="scope">
-              <el-button  type="text"  class="a-btn" title="详情" icon="el-icon-tickets" @click="details(scope.row)"></el-button>
-              <el-button  type="text"  class="a-btn"  title="编辑"  icon="el-icon-edit" @click="adds(1,scope.row)"></el-button>
-              <el-button  type="text"  class="a-btn"  title="删除"  icon="el-icon-delete" @click="deletes(scope.row)"></el-button>
+              <el-button  type="text"  class="a-btn" title="详情" icon="el-icon-tickets" name="hfkjsz_detail" @click="details(scope.row)"></el-button>
+              <el-button  type="text"  class="a-btn"  title="编辑"  icon="el-icon-edit" name="hfkjsz_edit" @click="adds(1,scope.row)"></el-button>
+              <el-button  type="text"  class="a-btn"  title="删除"  icon="el-icon-delete" name="hfkjsz_del" @click="deletes(scope.row)"></el-button>
          </template>
         </el-table-column>
       </el-table>
