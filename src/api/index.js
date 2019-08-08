@@ -98,11 +98,9 @@ function apiAxios(method, url, params, success, failure,header,responseType) {
   // }
   let loadingInstance1=null;
   if(!(url=='/manage-platform/riskRecordController/getPhotoInf'||url=='/manage-platform/nationwide/getPortDetail'||url=='/manage-platform/nationwide/getFlightDetail'||url=='/manage-platform/nameList/getNameListDataAnalysis'||url=='/manage-platform/riskRecordExtInterfaceController/getRecordOtherInfo'||url=='/manage-platform/iapiHead/queryListPageCount'||url=='/manage-platform/riskRecordExtInterfaceController/getCRCCNumInfo'||url=='/manage-platform/sysUserInfoController/querySysUserInfo'||url=='/manage-platform/riskRecordController/getUserBaseInfo'||url=='/manage-platform/riskRecordController/getUserTagInfo'||url=='/manage-platform/riskRecordController/getRecordTagInfo'||url=='/manage-platform/riskRecordController/getRiskEventInfo'||url=='/manage-platform/riskRecordController/getQueryRiskRecordUserInfo'||url=='/manage-platform/riskRecordController/saveRiskQueryRecordLogInfo')){
-<<<<<<< HEAD
+
     loadingInstance1 = Loading.service({ fullscreen: true, spinner: 'el-icon-loading',background:'transparent',customClass:'loadingClass'});
-=======
-    loadingInstance1 = Loading.service({spinner: 'el-icon-loading',background:'transparent',customClass:'loadingClass'});
->>>>>>> 7061b1d1d6cbf4ba1f20f7f51f5f617eacd45b49
+
     // console.log('url',url,loadingInstance1);
   }
   axios({

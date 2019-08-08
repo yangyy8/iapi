@@ -212,15 +212,7 @@
             <span v-else>{{scope.row.PERCENT}}</span>
           </template>
         </el-table-column>
-<<<<<<< HEAD
-        <!-- <el-table-column
-          label="操作"
-          min-width="50">
-          <template slot-scope="scope">
-            <el-button type="text"  class="a-btn" title="详情" size="mini" icon="el-icon-tickets" @click="modelDetails(scope.row)"></el-button>
-         </template>
-        </el-table-column> -->
-=======
+
         <el-table-column
           label="操作"
           fixed="right"
@@ -229,7 +221,7 @@
             <el-button type="text"  class="a-btn" title="详情" size="mini" icon="el-icon-tickets" name="fpsjjk_detail" @click="modelDetails(scope.row)"></el-button>
          </template>
         </el-table-column>
->>>>>>> 7061b1d1d6cbf4ba1f20f7f51f5f617eacd45b49
+
       </el-table>
 
       <div class="middle-foot">
@@ -304,27 +296,7 @@
         :span-method="objectSpanMethod"
         style="width: 100%;">
         <el-table-column
-<<<<<<< HEAD
-          prop="sheetType"
-          label="国籍/地区"
-          sortable>
-        </el-table-column>
-        <el-table-column
-          prop="taskKey"
-          label="值机数"
-          sortable>
-        </el-table-column>
-        <el-table-column
-          prop="templateUrl"
-          label="值机数"
-          sortable>
-        </el-table-column>
-        <!-- <el-table-column
-          prop="taskKey"
-          label="值机数"
-          sortable>
-        </el-table-column> -->
-=======
+
           prop="modelName"
           label="模型"
           sortable>
@@ -344,7 +316,7 @@
           label="证件号码"
           sortable>
         </el-table-column>
->>>>>>> 7061b1d1d6cbf4ba1f20f7f51f5f617eacd45b49
+
       </el-table>
       <div slot="footer" class="dialog-footer">
         <el-button @click="modelsDialogVisible = false" size="small">返 回</el-button>
@@ -407,44 +379,7 @@ export default {
         }
       ],
       modeltableData:[
-<<<<<<< HEAD
-        {
-          type:1,
-          sheetType: "事件单",
-          taskKey: "shijian_01",
-          templateUrl: "/shijian_01"
-        },
-        {
-          type:1,
-          sheetType: "事件单",
-          taskKey: "shijian_02",
-          templateUrl: "/shijian_02"
-        },
-        {
-          type:1,
-          sheetType: "事件单",
-          taskKey: "shijian_03",
-          templateUrl: "/shijian_04"
-        },
-        {
-          type:2,
-          sheetType: "问题单",
-          taskKey: "wenti_01",
-          templateUrl: "/wenti_01"
-        },
-        {
-          type:2,
-          sheetType: "问题单",
-          taskKey: "wenti_02",
-          templateUrl: "/wenti_02"
-        },
-        {
-          type:2,
-          sheetType: "问题单",
-          taskKey: "wenti_03",
-          templateUrl: "/wenti_03"
-        }
-=======
+
         // {
         //   count:2,
         //   type:1,
@@ -527,7 +462,7 @@ export default {
 // :
 // 2
 // }
->>>>>>> 7061b1d1d6cbf4ba1f20f7f51f5f617eacd45b49
+
       ],
       tableData: [],
       rowList: [],
@@ -554,11 +489,10 @@ export default {
   },
   methods:{
     rowspan() {
-<<<<<<< HEAD
-=======
+
       this.spanArr=[];
       this.position=0;
->>>>>>> 7061b1d1d6cbf4ba1f20f7f51f5f617eacd45b49
+
   		this.modeltableData.forEach((item,index) => {
 	    	if( index === 0){
 	    		this.spanArr.push(1);

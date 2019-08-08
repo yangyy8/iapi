@@ -974,10 +974,7 @@ export default {
           //   return this.pd.startCreatetime>=endTnull
           // }
           else{
-<<<<<<< HEAD
-            console.log(endT)
-=======
->>>>>>> 7061b1d1d6cbf4ba1f20f7f51f5f617eacd45b49
+
             return endT < this.pd.startCreatetime;
           }
         }
@@ -985,38 +982,18 @@ export default {
 
       pickerOptions2: {
         // disabledDate: (time) => {
-<<<<<<< HEAD
-        //   // console.log(typeOf(this.pd.endDealtime))
-        //
-=======
->>>>>>> 7061b1d1d6cbf4ba1f20f7f51f5f617eacd45b49
+
         //     if (this.pd.endDealtime != null) {
         //       let startT = formatDate(new Date(time.getTime()),'yyyyMMddhhmmss');
         //       return startT > this.pd.endDealtime;
         //     }else if(this.pd.endDealtime == null){
-<<<<<<< HEAD
-        //       let startT = formatDate(new Date(time.getTime()),'yyyyMMddhhmmss');
-        //       return startT > 0
-=======
-        //       return false
->>>>>>> 7061b1d1d6cbf4ba1f20f7f51f5f617eacd45b49
+
         //     }
         // }
       },
       pickerOptions3: {
         // disabledDate: (time) => {
-<<<<<<< HEAD
-        //     let todayS =  (this.pd.startDealtime).slice(0,8);
-        //     let currentTime = formatDate(new Date(time.getTime()),'yyyyMMdd');
-        //     let endT = formatDate(new Date(time.getTime()),'yyyyMMddhhmmss');
-        //     if(todayS==currentTime){
-        //       return this.pd.startDealtime>this.pd.endDealtime
-        //     }else{
-        //       return endT <= this.pd.startDealtime;
-        //     }
-        // }
-      },
-=======
+
         //     let endT = formatDate(new Date(time.getTime()),'yyyyMMddhhmmss');
         //     return endT < this.pd.startDealtime;
         // }
@@ -1038,7 +1015,7 @@ export default {
         //     return endT < formatDate(new Date(a),'yyyyMMddhhmm');
         // }
       },
->>>>>>> 7061b1d1d6cbf4ba1f20f7f51f5f617eacd45b49
+
       nav1Id:null,
       nav2Id:null,
       cdt:{},

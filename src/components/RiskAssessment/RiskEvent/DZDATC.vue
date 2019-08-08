@@ -1492,7 +1492,7 @@ export default {
           })
       }else if(this.desctype==2){
         let p={
-<<<<<<< HEAD
+
           "gender":(this.descDetail.gender=="M"||this.descDetail.gender=='1')?'1':(this.descDetail.gender=="F"||this.descDetail.gender=='2')?'2':'',
           "nationality":this.descDetail.nationality,
           "passportno":this.descDetail.passportno,
