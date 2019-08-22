@@ -443,7 +443,7 @@ export default {
     // this.getList(this.CurrentPage, this.pageSize, this.cdt,this.order,this.direction);
   },
   activated() {
-    // this.getList(this.CurrentPage, this.pageSize, this.cdt,this.order,this.direction);
+    this.btnctlFn(this.$root.checkItem);
   },
   methods: {
     sortChange(column, prop, order){
@@ -509,6 +509,9 @@ export default {
         r => {
           this.tableData = r.data.resultList;
           this.TotalResult = r.data.totalResult;
+          this.$nextTick(()=>{
+            this.btnctlFn(this.$root.checkItem);
+          })
         })
     },
     takeLine(){//航线

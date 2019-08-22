@@ -283,6 +283,7 @@ export default {
     this.queryNationality();
   },
   activated() {
+    this.btnctlFn(this.$root.checkItem);
     this.getList(this.CurrentPage, this.pageSize, this.pd);
   },
   methods: {
@@ -313,6 +314,9 @@ export default {
           console.log(r);
           this.tableData = r.data.deptList.pdList;
           this.TotalResult = r.data.deptList.totalResult;
+          this.$nextTick(()=>{
+            this.btnctlFn(this.$root.checkItem);
+          })
         })
     },
     adds(i, n) {

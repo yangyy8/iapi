@@ -202,7 +202,7 @@ export default {
     // this.getList(this.CurrentPage, this.pageSize, this.pd);
   },
   activated(){
-    // this.getList(this.CurrentPage,this.pageSize,this.pd);
+    this.btnctlFn(this.$root.checkItem);
   },
   methods: {
     handleSelectionChange(val) {
@@ -241,6 +241,9 @@ export default {
             }
           }
           this.TotalResult = r.data.totalResult;
+          this.$nextTick(()=>{
+            this.btnctlFn(this.$root.checkItem);
+          })
           console.log(this.tableData);
         })
     },

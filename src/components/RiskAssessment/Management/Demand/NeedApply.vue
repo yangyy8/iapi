@@ -324,7 +324,7 @@ export default {
 
   },
   activated() {
-
+      this.btnctlFn(this.$root.checkItem);
   },
   methods: {
     selectChange(i) {
@@ -363,6 +363,9 @@ export default {
         r => {
           this.tableData = r.data.pdList;
           this.TotalResult = r.data.totalResult;
+          this.$nextTick(()=>{
+            this.btnctlFn(this.$root.checkItem);
+          })
         })
     },
 

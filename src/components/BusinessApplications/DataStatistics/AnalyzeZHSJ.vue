@@ -391,6 +391,7 @@ export default {
     this.queryNationality();
     this.gn();
     this.gw();
+    this.btnctlFn(this.$root.checkItem);
   },
   methods: {
     handleChange(value){//调用起飞机场
@@ -617,7 +618,9 @@ export default {
         r => {
           console.log(r);
           this.tableData = r.data;
-
+          this.$nextTick(()=>{
+            this.btnctlFn(this.$root.checkItem);
+          })
           let arr = this.tableData;
           var sum1 = 0,
             sum01 = 0;

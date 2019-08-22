@@ -652,6 +652,9 @@ export default {
     this.pd3.endtime = formatDate(endz, 'yyyyMMdd');
   },
   activated() {
+    this.$nextTick(()=>{
+      this.btnctlFn(this.$root.checkItem);
+    })
     this.getHz();
     // let time = new Date();
     // let endz = new Date();
@@ -671,15 +674,19 @@ export default {
     },
     base() {
       this.page = 0;
+      this.btnctlFn(this.$root.checkItem);
     },
     base1() {
       this.page = 1;
+      this.btnctlFn(this.$root.checkItem);
     },
     base2() {
       this.page = 2;
+      this.btnctlFn(this.$root.checkItem);
     },
     base3() {
       this.page = 3;
+      this.btnctlFn(this.$root.checkItem);
     },
     pageSizeChange(val) {
       // this.getList(this.CurrentPage, val, this.pd);
@@ -783,7 +790,9 @@ export default {
           console.log(r);
           this.tableData = r.data.resultList;
           this.TotalResult = r.data.totalResult;
-
+          this.$nextTick(()=>{
+            this.btnctlFn(this.$root.checkItem);
+          })
         })
 
     },
@@ -819,6 +828,9 @@ export default {
           console.log(r);
           this.tableData1 = r.data.resultList;
           this.TotalResult1 = r.data.totalResult;
+          this.$nextTick(()=>{
+            this.btnctlFn(this.$root.checkItem);
+          })
         })
     },
     getList2(currentPage2, showCount2, pd2, order2, direction2) {
@@ -853,6 +865,9 @@ export default {
           console.log(r);
           this.tableData2 = r.data.resultList;
           this.TotalResult2 = r.data.totalResult;
+          this.$nextTick(()=>{
+            this.btnctlFn(this.$root.checkItem);
+          })
         })
     },
     getList3(currentPage3, showCount3, pd3, order3, direction3) {
@@ -887,6 +902,9 @@ export default {
           console.log(r);
           this.tableData3 = r.data.resultList;
           this.TotalResult3 = r.data.totalResult;
+          this.$nextTick(()=>{
+            this.btnctlFn(this.$root.checkItem);
+          })
         })
     },
     download(t) {

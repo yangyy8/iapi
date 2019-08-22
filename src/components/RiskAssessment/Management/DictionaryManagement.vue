@@ -306,7 +306,7 @@ export default {
     this.queryNationality();
   },
   activated() {
-    //this.getList(this.CurrentPage, this.pageSize, this.pd);
+    this.btnctlFn(this.$root.checkItem);
   },
   methods: {
     headerClick(column,event){
@@ -358,6 +358,9 @@ export default {
         r => {
           this.tableData = r.data.resultList;
           this.TotalResult = r.data.totalResult;
+          this.$nextTick(()=>{
+            this.btnctlFn(this.$root.checkItem);
+          })
         })
     },
     queryNationality() {

@@ -1027,7 +1027,7 @@ export default {
     this.pd.endCreatetime=formatDate(end,'yyyyMMddhhmmss');
   },
   activated(){
-
+    this.btnctlFn(this.$root.checkItem);
   },
   methods: {
     reset(){
@@ -1142,6 +1142,9 @@ export default {
           if (r.success) {
             this.tableData = r.data.resultList;
             this.TotalResult = r.data.totalResult;
+            this.$nextTick(()=>{
+              this.btnctlFn(this.$root.checkItem);
+            })
           }
         })
     },
@@ -1248,7 +1251,7 @@ export default {
          r =>{
            if(r.data== true){
              this.queryDialogVisible = true;
-              this.$router.push({query:{eventserial:i.refserial,type:0,nav1Id:this.nav1Id,nav2Id:this.nav2Id}})
+              this.$router.push({query:{eventserial:i.refserial,type:0,nav1Id:this.nav1Id,nav2Id:this.nav2Id,ff:"sss"}})
            }else if(r.data == false){
              this.$confirm('报警事件还未处理，请归档后再重试', '提示', {
                confirmButtonText: '确定',

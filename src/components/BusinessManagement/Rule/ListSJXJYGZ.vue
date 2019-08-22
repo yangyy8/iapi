@@ -317,6 +317,7 @@ export default {
     this.getList(this.pd);
   },
   activated(){
+    this.btnctlFn(this.$root.checkItem);
     this.V.$reset('demo1');
     this.getList(this.pd);
   },
@@ -352,6 +353,9 @@ export default {
          this.allData=this.tableData;
          // this.TotalResult=r.data.totalResult;
          this.count = this.tableData.length;
+         this.$nextTick(()=>{
+           this.btnctlFn(this.$root.checkItem);
+         })
       })
     },
     // handleSelectionChange(val) {
@@ -400,6 +404,9 @@ export default {
           this.allData=this.tableData;
           // this.TotalResult=r.data.totalResult;
           this.count = this.tableData.length;
+          this.$nextTick(()=>{
+            this.btnctlFn(this.$root.checkItem);
+          })
        })
      },
      addTableList(){//新增

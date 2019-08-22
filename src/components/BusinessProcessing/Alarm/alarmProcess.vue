@@ -28,50 +28,57 @@
           <el-row type="flex" style="font-size:15px;">
             <el-col :span="20" class="middle-msg-left">
               <el-row type="flex" class="middle-msg-row">
-                <el-col :span="5">
-                  <span>姓名：</span>
-                  {{iapiMap.name}}
+                <el-col :span="5" class="middle-msg-col">
+                  <span class="text">姓名：</span>
+                  <span class="inner" :title="iapiMap.name">
+                    {{iapiMap.name}}
+                  </span>
 
                 </el-col>
                 <el-col :span="5">
-                  <span>性别：</span>
+                  <span class="text">性别：</span>
                   {{iapiMap.gender}}
 
                 </el-col>
                 <el-col :span="5">
-                  <span>出生日期：</span>
+                  <span class="text">出生日期：</span>
                   {{iapiMap.dateofbirth}}
 
                 </el-col>
                 <el-col :span="5">
-                  <span>证件号码：</span>
+                  <span class="text">证件号码：</span>
                   {{iapiMap.passportno}}
 
                 </el-col>
-                <el-col :span="4">
-                  <span>国籍/地区：</span>
-                  {{iapiMap.nationality}}
+                <el-col :span="4"  class="middle-msg-col">
+                  <span class="text" style="width:120px">国籍/地区：</span>
+                  <span class="inner" :title="iapiMap.nationality">
+                    {{iapiMap.nationality}}
+                  </span>
 
                 </el-col>
               </el-row>
               <el-row type="flex" class="middle-msg-row">
-                <el-col :span="5">
-                  <span>签证号码：</span>
-                  {{iapiMap.visano}}
+                <el-col :span="5" class="middle-msg-col">
+                  <span class="text">签证号码：</span>
+                  <span class="inner">
+                    {{iapiMap.visano}}
+                  </span>
+
 
                 </el-col>
                 <el-col :span="5">
-                  <span>出入类型：</span>
+                  <span class="text">出入类型：</span>
                   {{iapiMap.flightType}}
 
                 </el-col>
                 <el-col :span="5">
-                  <span>第二证号：</span>
+                  <span class="text">第二证号：</span>
                   {{iapiMap.otherNo}}
 
                 </el-col>
                 <el-col :span="5">
-                  <span>第二国籍：</span>
+                  <span class="text">第二国籍：</span>
                   {{iapiMap.otherNationality}}
 
                 </el-col>
@@ -79,22 +86,22 @@
               </el-row>
               <el-row type="flex" class="middle-msg-row">
                 <el-col :span="5">
-                  <span>航班号：</span>
+                  <span class="text">航班号：</span>
                   {{iapiMap.fltno}}
 
                 </el-col>
                 <el-col :span="5">
-                  <span>出发地：</span>
+                  <span class="text">出发地：</span>
                   {{iapiMap.origin}}
 
                 </el-col>
                 <el-col :span="5">
-                  <span>目的地：</span>
+                  <span class="text">目的地：</span>
                   {{iapiMap.destination}}
 
                 </el-col>
                 <el-col :span="8">
-                  <span>报警时间：</span>
+                  <span class="text">报警时间：</span>
                   {{iapiMap.createtime}}
 
                 </el-col>
@@ -564,7 +571,7 @@ export default {
       listMap2: [],
       form: {},
       ap: {},
-      pd: {DEALRESULT:"0"},
+      pd: {DEALRESULT:"0",CHANGE_RESON:""},
       AuthDialogVisible: false,
       handlesDialogVisible: false,
       tableData: [],
@@ -574,22 +581,22 @@ export default {
   mounted() {
     this.msgData=0;
 
-    // if(this.$route.query.eventserial){
-    let _this=this;
-    setTimeout(function(){
-      _this.eventserial = _this.$route.query.eventserial;
-      console.log(_this.$route.query,1);
-      if(_this.$route.query.type==0) {
-        _this.shijian();
-      }else{
-        _this.getList();
-      }
-    },400)
+    if(this.$route.query.eventserial){
+      let _this=this;
+      setTimeout(function(){
+        _this.eventserial = _this.$route.query.eventserial;
+        console.log(_this.$route.query,1);
+        if(_this.$route.query.type==0) {
+          _this.shijian();
+        }else{
+          _this.getList();
+        }
+      },400)
+    }
 
   },
   activated(){
     this.msgData=0;
-    console.log(this.$route.query.eventserial,1,this.msgData);
     let _this=this;
     // setTimeout(function(){
       this.eventserial = this.$route.query.eventserial;
@@ -601,6 +608,14 @@ export default {
       }
     // },400)
   },
+  watch:{
+    $route:function(val){
+      if(val.query.type==0){
+        this.eventserial = this.$route.query.eventserial;
+        this.shijian();
+      }
+    }
+  },
   methods: {
     getList() {
       this.tabIsShow=false;
@@ -608,7 +623,7 @@ export default {
         "currentPage": 0,
         "showCount": 3,
         "pd": {
-          eventserial: this.eventserial
+          eventserial: this.eventserial,
         }
       };
       console.log(this.$route.query.isZDGZ)
@@ -622,10 +637,11 @@ export default {
             var arr = this.listMap
             // var thar = this;
             this.pd.CHANGE_RESON = "";
+            this.msgData=0
             for (var i in arr) {
               if (arr[i].status == 0) {
-                console.log(arr[i].status)
                 this.msgData++;
+                console.log(this.msgData)
               }
               if(this.iapiMap.instructNew){
                 this.pd.CHANGE_RESON=this.iapiMap.change_reson+"\n";
@@ -651,10 +667,14 @@ export default {
             // var thar = this;
             this.pd.CHANGE_RESON = "";
             let tt="";
+            this.msgData=0
+
+            console.log("arr",arr)
             for (var i=0;i<arr.length;i++) {
               if (arr[i].status == 0) {
                 console.log(arr[i].status)
                 this.msgData++;
+                console.log(this.msgData)
               }
               if(arr[i].status == 1){
                 tt+= parseInt(i)+ 1 + ". 档号："+arr[i].dh+" 名单类型："+arr[i].alarmType+" 甄别结果："+arr[i].confirmResult+" 甄别说明：" + arr[i].compareDesc + "\n";
@@ -928,7 +948,7 @@ export default {
 }
 
 .middle-msg-left {
-  padding-right: 60px;
+  padding-right: 20px;
   border-right: 1px #eee solid;
 }
 
@@ -943,15 +963,22 @@ export default {
   height: 38px;
   line-height: 38px;
 }
-
+.middle-msg-col{
+  display: flex;
+}
 .middle-msg-row:last-child {
   border: none;
 }
 
-.middle-msg-row span {
+.middle-msg-row .text {
   display: inline-block;
-  width: 80px;
+  width: 100px;
   color: #333;
+}
+.middle-msg-row .inner{
+  overflow: hidden;
+  text-overflow:ellipsis;
+  white-space: nowrap;
 }
 .middle-msg-row2{
   line-height: 32px;

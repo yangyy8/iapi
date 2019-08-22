@@ -304,7 +304,7 @@ export default {
     window.sumDetails= that.sumDetails
   },
   activated() {
-
+      this.btnctlFn(this.$root.checkItem);
       this.queryNationality();
     // let time = new Date();
     // let endz = new Date();
@@ -403,6 +403,9 @@ export default {
           if($('.t-kajcBtn').length==0){
             $('.el-table__footer .has-gutter').find("td").last().children('.cell').append('<button type="text"  class="el-button a-btn el-button--text el-button--mini t-kajcBtn" title="详情" size="mini" onclick="sumDetails()"><i class="el-icon-tickets"></i></button>')
           }
+          this.$nextTick(()=>{
+            this.btnctlFn(this.$root.checkItem);
+          })
           let arr=this.tableData;
           var sum1=0,sum01=0;
           var sum2=0,sum02=0;

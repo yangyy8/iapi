@@ -10,6 +10,7 @@ import Print from 'vue-print-nb'
 import Prints from '@/components/other/print'
 import htmlToPdf from '@/components/other/htmlToPdf'
 import vverify from 'v-verify'
+import './directives.js'
 
 // import Validator from './assets/js/va.js'
 // Vue.use(Validator)
@@ -101,6 +102,33 @@ Vue.prototype.mouseHeader=function(event){
   }
 };
 
+
+
+Vue.prototype.btnctlFn=function(val){
+  console.log("val",val,val.menuList)
+  if(!val.menuList){
+    let sessionItem=sessionStorage.sessionItem
+    val=JSON.parse(sessionItem);
+    console.log('valSess',val);
+  }
+  if(val.menuList){
+    let list4=val.menuList;
+    for(var x=0;x<list4.length;x++){
+      let arr=document.getElementsByName(list4[x].url);
+      for(var i=0;i<arr.length;i++){
+        if(list4[x].choose){
+          arr[i].style.display='inline-block'
+          // console.log('arr['+i+'].style.display '+arr[i].innerText,arr[i].style.display)
+        }else{
+          arr[i].style.display='none'
+          // console.log('arr['+i+'].style.display'+arr[i].innerText,arr[i].style.display)
+        }
+
+      }
+    }
+  }
+};
+
 console.log(vueValidateEasy)
 router.beforeResolve((to, from, next) => {
 
@@ -132,6 +160,12 @@ router.beforeResolve((to, from, next) => {
 new Vue({
   el: '#app',
   router,
+  data() {
+     return {
+       checkItem:{},
+       tabList:null,
+     }
+   },
   components: { App },
   template: '<App/>'
 })

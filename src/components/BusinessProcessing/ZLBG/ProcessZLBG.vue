@@ -848,6 +848,7 @@ export default {
   activated() {
     this.nav1Id=this.$route.query.nav1Id;
     this.nav2Id=this.$route.query.nav2Id;
+    this.btnctlFn(this.$root.checkItem);
     this.queryDocCode();
     //this.getList(this.CurrentPage, this.pageSize, this.pd);
     // let time = new Date();
@@ -989,6 +990,9 @@ export default {
           console.log(r);
           this.tableData = r.data.resultList;
           this.TotalResult = r.data.totalResult;
+          this.$nextTick(()=>{
+            this.btnctlFn(this.$root.checkItem);
+          })
         })
     },
     handles(i) {

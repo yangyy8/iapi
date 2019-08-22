@@ -196,8 +196,9 @@
                   <el-table
                     v-if="b.ruleIndexList.length>0"
                     :data="b.ruleIndexList"
-                    class="ak-table1"
-                    style="width: 100%">
+                    class="ak-table1 tableCk"
+                    style="width: 100%"
+                    :row-class-name="tableRowClassName">
                     <el-table-column
                       :show-overflow-tooltip="true"
                       label="指标项"
@@ -728,7 +729,7 @@
         <el-button type="warning" @click="viewMDialogVisible=false" size="small">返回</el-button>
       </div>
     </el-dialog>
-    <el-dialog title="疑似关联人" :visible.sync="susMDialogVisible" width="1000px">
+    <el-dialog title="疑似关联人" :visible.sync="susMDialogVisible" width="1000px" :lock-scroll="false" v-dialogDrag>
       <el-table
         :data="tableDataSus"
         class="ak-table2"
@@ -771,8 +772,8 @@
         </el-table-column>
         <el-table-column
           :show-overflow-tooltip="true"
-          label="到达时间"
-          prop="ARRIVDATE">
+          label="关联规则"
+          prop="TYPE">
         </el-table-column>
       </el-table>
     </el-dialog>
@@ -838,12 +839,14 @@ export default {
       modeldec:null,
       imgURL:imgUrl,
       iapi_id:'',
+      nav2IdClose:null,
     }
   },
   mounted(){
     this.queryAirport();
   },
   activated(){
+    this.nav2IdClose=this.$route.query.nav2Id;
     this.page0Data={};
     this.imgURL=imgUrl;
     this.getUers();
@@ -904,6 +907,11 @@ export default {
     }
   },
   methods:{
+    tableRowClassName({row, rowIndex}){
+      if(row.isHis=='1'){
+        return 'warning-row'
+      }
+    },
     suspected(){//疑似关联人
       this.susMDialogVisible=true;
       this.$api.post('/manage-platform/riskEventWarningController/getSuspectedAssociatedPerson',{iapi_id:this.iapi_id},
@@ -1085,8 +1093,7 @@ export default {
            this.page0Data=r.data;
            this.iapi_id=r.data.iapi_id;
            this.getRiskEventTagInfo(this.page0Data.passportno,this.page0Data.nationality)
-           this.getPhotoInf(r.data.passportno,r.data.nationality,r.data.birthday,r.data.name,r.data.genderName);
-           console.log('r.data.personId')
+           this.getPhotoInf(r.data.passportno,r.data.nationality,r.data.birthday,r.data.name,r.data.genderName,r.data.personId);
          }
       })
     },
@@ -1306,6 +1313,16 @@ export default {
 
       })
     },
+    closeTab(){
+      console.log(this.$root.tabList)
+      for(var i=0;i<this.$root.tabList.length;i++){
+        console.log(this.$root.tabList[i].query.nav2Id,this.nav2IdClose,this.$root.tabList[i].query.nav2Id==this.nav2IdClose)
+        if(this.$root.tabList[i].query.nav2Id==this.nav2IdClose){
+          console.log('women')
+          this.$root.tabList.splice(i,1);
+        }
+      }
+    },
     // 保存校验描述/核查阶段/结果/流转
     saveRiskDescRecordInfo(){
       let hash= (new Date()).getTime();
@@ -1370,6 +1387,7 @@ export default {
                   this.getRiskDescRecordInfo();
                   this.listRiskCustom=[];
                   this.checkList=[];
+                  // this.closeTab()
                 }
              })
              this.fileData=null;
@@ -1409,6 +1427,7 @@ export default {
              this.getRiskDescRecordInfo();
              this.listRiskCustom=[];
              this.checkList=[];
+             // this.closeTab()
            }
         })
       }
@@ -1437,19 +1456,21 @@ export default {
          this.modeldec=r.data
       })
     },
-    getPhotoInf(passportno,nationality,birthday,name,gender){
+    getPhotoInf(passportno,nationality,birthday,name,gender,personId){
       let p={}
       if(nationality=="CHN"){
         p={
           "type": 'photo',
           "nationality": nationality,
           "passportno": passportno,
+          "personId":personId
         }
       }else{
         p={
           "passportno": passportno,
           "nationality": nationality,
           "birthday": birthday,
+          "personId":personId,
           "name": name,
           "gender":gender=="男"?'1':gender=="女"?'2':'0',
           "type": 'photo',
@@ -1467,6 +1488,7 @@ export default {
 </script>
 
 <style scoped>
+
 .gototop{
     position: fixed;
     right:30px;
@@ -1688,5 +1710,10 @@ export default {
   overflow:hidden;
   text-overflow:ellipsis;
   white-space:nowrap;
+}
+</style>
+<style media="screen">
+.tableCk .warning-row {
+  background: #EEE9BF;
 }
 </style>

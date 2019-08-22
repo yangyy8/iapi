@@ -576,7 +576,7 @@ export default {
     this.queryNationality();
   },
   activated() {
-  //  this.getList(this.CurrentPage, this.pageSize, this.pd);
+     this.btnctlFn(this.$root.checkItem);
   },
   methods: {
     help(){
@@ -635,9 +635,11 @@ export default {
       };
       this.$api.post('/manage-platform/model/selectNew', p,
         r => {
-
           this.tableData = r.data.pdList;
           this.TotalResult = r.data.totalResult;
+          this.$nextTick(()=>{
+            this.btnctlFn(this.$root.checkItem);
+          })
         })
     },
     queryNationality() {
@@ -944,6 +946,7 @@ export default {
       this.ap.MODEL_ID = i.MODEL_ID;
       this.ap.MODEL_CODE = i.MODEL_CODE;
       this.ap.MODEL_VERSION = i.MODEL_VERSION;
+      this.ap.STATUS = i.STATUS;
     },
     Authorization(ap) {
 
@@ -956,6 +959,7 @@ export default {
         "modelId": ap.MODEL_ID,
         "modelCode": ap.MODEL_CODE,
         "modelVersion": ap.MODEL_VERSION,
+        "status":ap.STATUS,
         "userName": ap.userName,
         "password": ap.password
       };

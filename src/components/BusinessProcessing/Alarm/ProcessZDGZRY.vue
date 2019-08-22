@@ -5,30 +5,30 @@
         <el-col :span="12">
           <el-button type="primary"  icon="el-icon-refresh" size="small" @click="refreshFn">刷新</el-button>
         </el-col>
-        <el-col :span="12" class="top-right">
-          报警类型:
-          <el-select v-model="pd.pnrType" placeholder="请选择" filterable clearable size="small">
-
-           <el-option value="1" label="1 - 风评高风险人员">
-           </el-option>
-           <el-option value="2" label="2 - 特殊关注对象">
-           </el-option>
-           <el-option value="3" label="3 - IAPI人员预警">
-           </el-option>
-          </el-select>
-         &nbsp;&nbsp;&nbsp; 出入标识:
-         <el-select v-model="pd.flighttype" placeholder="请选择" filterable clearable size="small">
-           <el-option label="I - 入境" value="I"></el-option>
-           <el-option label="O - 出境" value="O"></el-option>
-           <el-option label="A - 入出境" value="A"></el-option>
-
-         </el-select>
-
-         <el-button type="success" size="small" @click="getList(CurrentPage,pageSize,pd,orders,direction)">查询</el-button>
+        <el-col :span="12">
+          <el-row align="center"  :gutter="2" type="flex" justify="space-between">
+            <el-col  :sm="24" :md="12" :lg="10"  class="input-item">
+              <span class="input-text">报警类型：</span>
+              <el-select v-model="pd.pnrType" placeholder="请选择" filterable clearable size="small" class="input-input">
+               <el-option value="1" label="1 - 风评高风险人员"></el-option>
+               <el-option value="2" label="2 - 特殊关注对象"></el-option>
+               <el-option value="3" label="3 - IAPI人员预警"></el-option>
+              </el-select>
+            </el-col>
+            <el-col  :sm="24" :md="12" :lg="10"  class="input-item">
+              <span class="input-text">出入标识：</span>
+              <el-select v-model="pd.flighttype" placeholder="请选择" filterable clearable size="small" class="input-input">
+                <el-option label="I - 入境" value="I"></el-option>
+                <el-option label="O - 出境" value="O"></el-option>
+                <el-option label="A - 入出境" value="A"></el-option>
+              </el-select>
+            </el-col>
+            <el-col :span="2">
+              <el-button type="success" size="small" @click="getList(CurrentPage,pageSize,pd,orders,direction)">查询</el-button>
+            </el-col>
+          </el-row>
         </el-col>
-
       </el-row>
-
     </div>
     <div class="middle" @mouseover="mouseHeader">
       <div class="title-green">
@@ -38,7 +38,9 @@
         :data="tableData"
         border
         @sort-change="sortChange"
-        style="width: 100%;">
+        @header-click="headerClick"
+        style="width: 100%;"
+        class="o-table3">
         <el-table-column
           prop="eventSerial"
           label="事件编号"
@@ -224,6 +226,7 @@ export default {
     // this.getList(this.CurrentPage,this.pageSize,this.pd);
   },
   activated(){
+    this.btnctlFn(this.$root.checkItem);
     // this.getList(this.CurrentPage,this.pageSize,this.pd);
   },
   methods: {
@@ -236,6 +239,9 @@ export default {
       this.tableData=[];
       this.TotalResult=0;
       // this.getList(this.CurrentPage,this.pageSize,this.pd);
+    },
+    headerClick(column,event){
+      event.target.title=column.label
     },
     getList(CurrentPage,showCount,pd,orders,direction){
       let p={
@@ -251,6 +257,9 @@ export default {
          console.log(r);
          this.tableData=r.data.resultList;
          this.TotalResult=r.data.totalResult;
+         this.$nextTick(()=>{
+           this.btnctlFn(this.$root.checkItem);
+         })
       })
     },
     pageSizeChange(val) {

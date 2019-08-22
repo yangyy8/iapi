@@ -336,8 +336,8 @@
       </div>
     </div>
     <div class="middle-btn-g middle">
-      <button type="button" name="button" class="mr-15" :class="{'pitchOn':bigBase==5}" @click="bigBase=5;toggleSelection(batchTableList)">IAPI数据</button>
-      <button type="button" name="button" :class="{'pitchOn':bigBase==6}"  @click="bigBase=6;toggleSelection(batchTableListPnr)">PNR数据</button>
+      <button type="button" name="button" class="mr-15" :class="{'pitchOn':bigBase==5}" @click="bigBase=5;toggleSelection(batchTableList);btnctlFn($root.checkItem)">IAPI数据</button>
+      <button type="button" name="button" :class="{'pitchOn':bigBase==6}"  @click="bigBase=6;toggleSelection(batchTableListPnr);btnctlFn($root.checkItem)">PNR数据</button>
     </div>
     <!-- 展示项 -->
     <div class="middle middle-top mb-2" v-if="bigBase==5">
@@ -1647,6 +1647,7 @@ export default {
   activated(){
     this.nav1Id=this.$route.query.nav1Id
     this.nav2Id=this.$route.query.nav2Id
+    this.btnctlFn(this.$root.checkItem);
   },
   filters:{
     fiftersex(val) {
@@ -1814,10 +1815,16 @@ export default {
           }
           this.tableData=r.data.resultList;//表格数据
           this.currentPage = r.data.currentPage;
+          this.$nextTick(()=>{
+            this.btnctlFn(this.$root.checkItem);
+          })
           this.$api.post2('/manage-platform/iapiHead/queryIapiBatchCount',p,
            r =>{
              if(r.success){
                this.totalResult = r.data;
+               this.$nextTick(()=>{
+                 this.btnctlFn(this.$root.checkItem);
+               })
              }
            })
         }
@@ -1845,10 +1852,16 @@ export default {
           }
           this.tableDataPnr=r.data.resultList;//表格数据
           this.currentPagePnr = r.data.currentPage;
+          this.$nextTick(()=>{
+            this.btnctlFn(this.$root.checkItem);
+          })
           this.$api.post2('/manage-platform/iapiHead/queryPnrBatchCount',p,
            r =>{
              if(r.success){
                this.totalResultPnr = r.data;
+               this.$nextTick(()=>{
+                 this.btnctlFn(this.$root.checkItem);
+               })
              }
            })
         }
@@ -2106,10 +2119,16 @@ export default {
           }
           this.tableData=r.data.resultList;//表格数据
           this.currentPage = r.data.currentPage;
+          this.$nextTick(()=>{
+            this.btnctlFn(this.$root.checkItem);
+          })
           this.$api.post2('/manage-platform/iapiHead/queryIapiBatchCount',bql,
            r =>{
              if(r.success){
                this.totalResult = r.data;
+               this.$nextTick(()=>{
+                 this.btnctlFn(this.$root.checkItem);
+               })
              }
            })
         }
@@ -2150,10 +2169,16 @@ export default {
           }
           this.tableDataPnr=r.data.resultList;//表格数据
           this.currentPagePnr = r.data.currentPage;
+          this.$nextTick(()=>{
+            this.btnctlFn(this.$root.checkItem);
+          })
           this.$api.post2('/manage-platform/iapiHead/queryPnrBatchCount',bqlp,
            r =>{
              if(r.success){
                this.totalResultPnr = r.data;
+               this.$nextTick(()=>{
+                 this.btnctlFn(this.$root.checkItem);
+               })
              }
            })
         }

@@ -437,6 +437,7 @@ export default {
     // this.queryAirport();
   },
   activated(){
+    this.btnctlFn(this.$root.checkItem);
     // let time = new Date();
     // let end = new Date();
     // let begin =new Date(time - 1000 * 60 * 60 * 24 * 30);
@@ -638,6 +639,9 @@ export default {
             this.globalserial0 = '';
             this.tableData = r.data.resultList;
             this.TotalResult = r.data.totalResult;
+            this.$nextTick(()=>{
+              this.btnctlFn(this.$root.checkItem);
+            })
           }
         })
     },

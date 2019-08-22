@@ -378,61 +378,6 @@ export default {
             this.$router.push({path:"/login"})
           }
        })
-
-
-      // console.log(this.$route.params.loginId);
-      // this.getdlType();
-      //
-      // let _this=this;
-      // setTimeout(function(){
-      //   if(_this.$route.params.loginId=="login"){//login登录
-      //     _this.$api.post('/manage-platform/isLanding',{},
-      //      r => {
-      //        _this.isLogin=r.data;
-      //        if(_this.isLogin){
-      //          _this.getUers();
-      //          _this.getNav0();
-      //        }else{
-      //          // _this.$router.push({name:"Home"})
-      //        }
-      //     })
-      //   }else if(_this.dlType==1){//默认路径不显示
-      //     console.log('this.dlType',this.dlType)
-      //     _this.$confirm('非法登录', '提示', {
-      //        confirmButtonText: '确定',
-      //        type: 'warning'
-      //      }).then(() => {
-      //        _this.window_close();
-      //      }).catch(() => {
-      //
-      //      });
-      //   }else if(_this.dlType==2){//第三方登录
-      //     _this.$api.post('/manage-platform/isLanding',{},
-      //      r => {
-      //        _this.isLogin=r.data;
-      //        if(_this.isLogin){
-      //           if(_this.dlState){
-      //             _this.getUers();
-      //             _this.getNav0();
-      //           }else{
-      //
-      //             _this.$confirm(_this.dlmessage, '提示', {
-      //                confirmButtonText: '确定',
-      //                type: 'warning'
-      //              }).then(() => {
-      //                _this.window_close();
-      //              }).catch(() => {
-      //
-      //              });
-      //           }
-      //        }else{
-      //          _this.$router.push({name:"Home"})
-      //        }
-      //     })
-      //   }
-      // },500)
-
-
     },
     getUers(){
       this.$api.post('/manage-platform/homePage/userInfo',{},
@@ -462,6 +407,7 @@ export default {
             message: '登录成功',
             type: 'success'
           });
+          sessionStorage.setItem('loginType',1)//正常登录
           this.getNav0();
           this.getUers();
           let _this=this;

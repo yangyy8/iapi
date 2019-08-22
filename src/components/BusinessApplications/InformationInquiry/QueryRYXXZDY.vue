@@ -445,8 +445,8 @@
             </el-option>
         </el-select>
       </div>
-      <button type="button" name="button" class="mr-15" :class="{'pitchOn':bigBase==7}" @click="bigBase=7">IAPI数据</button>
-      <button type="button" name="button" :class="{'pitchOn':bigBase==8}"  @click="bigBase=8;showArr()">PNR数据</button>
+      <button type="button" name="button" class="mr-15" :class="{'pitchOn':bigBase==7}" @click="bigBase=7;btnctlFn($root.checkItem)">IAPI数据</button>
+      <button type="button" name="button" :class="{'pitchOn':bigBase==8}"  @click="bigBase=8;showArr();btnctlFn($root.checkItem)">PNR数据</button>
     </div>
     <!-- 表格 -->
     <div class="middle" @mouseover="mouseHeader">
@@ -2435,10 +2435,16 @@ export default {
            }
            this.tableData=r.data.resultList;//表格数据
            this.currentPage = r.data.currentPage;
+           this.$nextTick(()=>{
+             this.btnctlFn(this.$root.checkItem);
+           })
            this.$api.post2('/manage-platform/iapiHead/customIapiQueryCount',p,
             r =>{
               if(r.success){
                 this.totalResult = r.data;
+                this.$nextTick(()=>{
+                  this.btnctlFn(this.$root.checkItem);
+                })
               }
             })
          }
@@ -2504,10 +2510,16 @@ export default {
              }
              this.tableDataPnr = arrTable;
            }
+           this.$nextTick(()=>{
+             this.btnctlFn(this.$root.checkItem);
+           })
            this.$api.post2('/manage-platform/iapiHead/customPnrQueryCount',p,
             r =>{
               if(r.success){
                 this.totalResultPnr = r.data;
+                this.$nextTick(()=>{
+                  this.btnctlFn(this.$root.checkItem);
+                })
               }
             })
          }
@@ -3017,10 +3029,16 @@ export default {
            }
            this.tableData=r.data.resultList;//表格数据
            this.currentPage = r.data.currentPage;
+           this.$nextTick(()=>{
+             this.btnctlFn(this.$root.checkItem);
+           })
            this.$api.post2('/manage-platform/iapiHead/customIapiQueryCount',sql,
             r =>{
               if(r.success){
                 this.totalResult = r.data;
+                this.$nextTick(()=>{
+                  this.btnctlFn(this.$root.checkItem);
+                })
               }
             })
          }
@@ -3105,10 +3123,16 @@ export default {
              this.tableDataPnr = arrTable;
              console.log(this.tableDataPnr);
            }
+           this.$nextTick(()=>{
+             this.btnctlFn(this.$root.checkItem);
+           })
            this.$api.post2('/manage-platform/iapiHead/customPnrQueryCount',sqlp,
             r =>{
               if(r.success){
                 this.totalResultPnr = r.data;
+                this.$nextTick(()=>{
+                  this.btnctlFn(this.$root.checkItem);
+                })
               }
             })
          }

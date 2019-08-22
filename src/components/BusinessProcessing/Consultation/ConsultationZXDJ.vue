@@ -425,6 +425,7 @@ export default {
     this.currentDate=formatDate(new Date(),'yyyy-MM-dd');
   },
   activated() {
+    this.btnctlFn(this.$root.checkItem);
     this.currentDate=formatDate(new Date(),'yyyy-MM-dd');
     this.entity={};
     this.huifu={};
@@ -531,6 +532,9 @@ export default {
           console.log(r);
           this.tableData = r.data.resultList;
           this.TotalResult = r.data.totalResult;
+          this.$nextTick(()=>{
+            this.btnctlFn(this.$root.checkItem);
+          })
         })
     },
     terminal(){//航站

@@ -274,7 +274,7 @@ export default {
       if(val.length>8){
         //console.log(this.tabList.length)
         this.tabliwidth=Math.floor(100/(this.tabList.length+1))+'%'
-        //console.log(this.tabliwidth)
+
       }
     },
     $route:function(val){
@@ -299,7 +299,6 @@ export default {
         }
         this.tabList.push(val);
       }else if(val.query.title){
-
         console.log("this.nav1List",this.nav1List)
         if(val.query.name){
           for(var i=0;i<this.nav1List.length;i++){
@@ -339,10 +338,10 @@ export default {
             }
           }
         }
-
       }
+      this.$root.tabList=this.tabList;
+      console.log('this.$root.tabList',this.$root.tabList)
     },
-
   },
   methods: {
     // 背景动画效果=====================
@@ -363,13 +362,14 @@ export default {
       })
     },
     chaxunbtn(event){
-      if(event.target.innerText=="查询"){
-        let that =this;
-        setTimeout(function () {
-          that.btnctlFn();
-        },100)
-
-      }
+      // console.log(event,event.target.className)
+      // if(event.target.innerText=="查询"||event.target.className=="ak-tab-item hand"||event.target.className=='number'||event.target.className=='ak-tab-item hand ak-checked'){
+      //   let that =this;
+      //   setTimeout(function () {
+      //     that.btnctlFn(that.$root.checkItem);
+      //   },1500)
+      //
+      // }
     },
     // 弹窗信息=============================
     msg(){
@@ -458,43 +458,46 @@ export default {
     },
     // 点击二级菜单======================================
     nav2(navId,nav1Id,nav2Id) {
-      console.log("二级菜单",navId,nav1Id,nav2Id)
+      // console.log("二级菜单",navId,nav1Id,nav2Id)
       this.nav2Id = nav2Id;
 
       for(var i=0;i<this.nav2List.length;i++){
         if(this.nav2List[i].SERIAL==nav2Id){
-          console.log(this.nav2List[i].SERIAL,nav2Id)
+          // console.log(this.nav2List[i].SERIAL,nav2Id)
           this.checkItem=this.nav2List[i];
+          this.$root.checkItem=this.checkItem;
+          sessionStorage.setItem('sessionItem',JSON.stringify(this.checkItem));
+          // console.log('this.$root.checkItem',this.$root.checkItem);
           let _this=this;
           // setTimeout(function(){
             _this.$router.push({name: _this.checkItem.url, params:{navId:navId},query:{nav1Id:nav1Id,nav2Id:nav2Id,title:_this.checkItem.name}})
 
           // },400)
-          setTimeout(function () {
-            _this.btnctlFn();
-          },200)
+          // setTimeout(function () {
+          //   _this.btnctlFn(_this.$root.checkItem);
+          // },200)
         }
       }
     },
-    btnctlFn(){
-      // console.log("checkItem",this.checkItem)
-      if(this.checkItem.menuList){
-        let list4=this.checkItem.menuList;
-        for(var x=0;x<list4.length;x++){
-          let arr=document.getElementsByName(list4[x].url);
-
-          if(list4[x].choose){
-            for(var i=0;i<arr.length;i++){
-                arr[i].style.display='inline-block'
-            }
-          }else{
-            for(var i=0;i<arr.length;i++){
-                arr[i].style.display='none'
-            }
-          }
-        }
-      }
-    },
+    // btnctlFn(){
+    //   console.log("checkItem",this.checkItem,this.checkItem.menuList)
+    //   if(this.checkItem.menuList){
+    //     let list4=this.checkItem.menuList;
+    //     for(var x=0;x<list4.length;x++){
+    //       let arr=document.getElementsByName(list4[x].url);
+    //       for(var i=0;i<arr.length;i++){
+    //         if(list4[x].choose){
+    //           arr[i].style.display='inline-block'
+    //           // console.log('arr['+i+'].style.display '+arr[i].innerText,arr[i].style.display)
+    //         }else{
+    //           arr[i].style.display='none'
+    //           // console.log('arr['+i+'].style.display'+arr[i].innerText,arr[i].style.display)
+    //         }
+    //
+    //       }
+    //     }
+    //   }
+    // },
     tablistinitFn(){
       console.log("======",this.$route)
       let val=this.$route
@@ -665,6 +668,7 @@ export default {
     },
 
     logOut(){
+      let loginType=sessionStorage.getItem('loginType');
       this.$api.post('/manage-platform/landout',{},
        r => {
         if(r.success){
@@ -673,8 +677,11 @@ export default {
             type: 'success'
           });
         }
-        this.$router.push('/')
-
+        if(loginType==0){
+          this.$router.push('/')
+        }else if(loginType==1){
+          this.$router.push('/login')
+        }
       })
     },
     closeRight(index){

@@ -452,8 +452,7 @@ export default {
 
   },
   activated(){
-    // this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
-
+    this.btnctlFn(this.$root.checkItem);
   },
   methods:{
     daochu(){
@@ -593,6 +592,9 @@ export default {
          console.log(r)
          this.tableData=r.data.resultList;
          this.TotalResult=r.data.totalResult;
+         this.$nextTick(()=>{
+           this.btnctlFn(this.$root.checkItem);
+         })
       })
     },
     queryEach(serial,nationality,passportno){

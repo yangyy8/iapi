@@ -143,7 +143,7 @@
               <el-button type="text" class="a-btn" title="编辑" name="zbxgl_edit" icon="el-icon-edit" @click="adds(1,scope.row)"></el-button>
               <el-button type="text" class="a-btn" title="删除" name="zbxgl_del" icon="el-icon-delete" @click="deletes(scope.row)"></el-button>
               <el-button type="text" class="a-btn" title="启用"  name="zbxgl_start" icon="el-icon-setting" v-if="scope.row.STATUS==0" @click="starts(scope.row,1)"></el-button>
-              <el-button type="text" class="a-btn" title="停用" name="KPIManagement" icon="el-icon-setting" v-else  @click="starts(scope.row,0)"></el-button>
+              <el-button type="text" class="a-btn" title="停用" name="zbxgl_stop" icon="el-icon-setting" v-else  @click="starts(scope.row,0)"></el-button>
          </template>
         </el-table-column>
       </el-table>
@@ -454,7 +454,7 @@ export default {
     //this.queryNationality();
   },
   activated(){
-    //getList(this.CurrentPage, this.pageSize, this.pd);
+    this.btnctlFn(this.$root.checkItem);
   },
   methods: {
     selectChange(){
@@ -505,6 +505,9 @@ export default {
         r => {
           this.tableData = r.data.resultList;
           this.TotalResult = r.data.totalResult;
+          this.$nextTick(()=>{
+            this.btnctlFn(this.$root.checkItem);
+          })
         })
     },
     queryNationality() {

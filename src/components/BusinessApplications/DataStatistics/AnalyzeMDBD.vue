@@ -28,7 +28,7 @@
           </div>
             </el-col>
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
-                <span class="input-text">国籍/地区：</span>
+                <span class="input-text">国家/地区：</span>
                 <el-select v-model="pd.country" filterable clearable placeholder="请选择"  size="small" class="input-input">
                   <el-option
                     v-for="item in nation"
@@ -50,7 +50,7 @@
                 </el-select>
             </el-col>
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
-                <span class="input-text">目的地：</span>
+                <span class="input-text">出发地/目的地：</span>
                 <el-select v-model="pd.cityto" filterable clearable placeholder="请选择"  size="small" class="input-input">
                   <el-option
                     v-for="(item,ind) in gnName"
@@ -82,10 +82,10 @@
 
             <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
               <span class="input-text"> 行属性：</span>
-              <el-checkbox label="国籍/地区" v-model="pd.rowproperty_country"></el-checkbox>
+              <el-checkbox label="国家/地区" v-model="pd.rowproperty_country"></el-checkbox>
               <el-checkbox label="目的地" v-model="pd.rowproperty_cityto"></el-checkbox>
               <el-checkbox label="航班" v-model="pd.rowproperty_fltno"></el-checkbox>
-              <el-checkbox label="出入境方向" v-model="pd.rowproperty_flttype"></el-checkbox>
+              <el-checkbox label="出入类型" v-model="pd.rowproperty_flttype"></el-checkbox>
             </el-col>
             <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
               <span class="input-text">列属性：</span>
@@ -136,7 +136,7 @@
               @header-click="headerClick" >
               <el-table-column
                 prop="country" sortable
-                label="国籍/地区" width="120" v-if='sh1'>
+                label="国家/地区" width="120" v-if='sh1'>
               </el-table-column>
             <el-table-column
               prop="cityto" sortable
@@ -148,64 +148,72 @@
             </el-table-column>
             <el-table-column
               prop="flttype" sortable
-              label="出入境方向" width="100" v-if='sh4'>
+              label="出入类型" width="100" v-if='sh4'>
             </el-table-column>
             <el-table-column label="数据校验比对区比中" v-if='showdmz'>
                 <el-table-column
                   prop="blkin" sortable
-                  label="黑名单" >
+                  label="黑名单-不准入境" >
                 </el-table-column>
                 <el-table-column
                   prop="blkinsxzj" sortable
-                  label="失效证" >
+                  label="黑名单-失效证件" >
                 </el-table-column>
                 <el-table-column
                   prop="visablkin" sortable
-                  label="失效签证" >
+                  label="黑名单-失效签证" >
                 </el-table-column>
                 <el-table-column
                   prop="tctlin" sortable
-                  label="临控名单" >
+                  label="临时禁止登机名单" >
                 </el-table-column>
                 <el-table-column
                   prop="whtin" sortable
                   label="白名单" >
                 </el-table-column>
+                <el-table-column
+                  prop="dmz_count"
+                  label="合计" >
+                </el-table-column>
             </el-table-column>
             <el-table-column label="业务平台比中" v-if='showyw'>
                 <el-table-column
                   prop="plt_blkin" sortable
-                  label="黑名单" >
+                  label="黑名单-不准入境" >
                 </el-table-column>
                 <el-table-column
                   prop="plt_blkinsxzj" sortable
-                  label="失效证" >
+                  label="黑名单-失效证件" >
                 </el-table-column>
                 <el-table-column
                   prop="plt_visablkin" sortable
-                  label="失效签证">
+                  label="黑名单-失效签证">
+                </el-table-column>
+                <el-table-column
+                  prop="plt_tcl" sortable
+                  label="临时禁止登机名单" >
                 </el-table-column>
                 <el-table-column
                   prop="focus"
-                  label="重点关注" sortable >
+                  label="关注人员" sortable >
+                </el-table-column>
+                <el-table-column
+                  prop="plt_count"
+                  label="合计">
                 </el-table-column>
             </el-table-column>
             <el-table-column label="处理结果" v-if='showcljg'>
                 <el-table-column
                   prop="Chk_0z"
-                  label="允许值机" sortable>
+                  label="允许登机" sortable>
                 </el-table-column>
                 <el-table-column
                   prop="Chk_1z"
                   label="禁止登机" sortable>
                 </el-table-column>
                 <el-table-column
-                  prop="Chk_2z"
-                  label="再次检查" sortable>
-                </el-table-column>
-                <el-table-column
-                  prop="Chk_4z"
-                  label="数据错误" sortable>
+                  prop="chk_count"
+                  label="合计">
                 </el-table-column>
             </el-table-column>
             <el-table-column label="甄别结果" v-if='showzbjg'>
@@ -217,7 +225,14 @@
                   prop="cancel"
                   label="排除" sortable>
                 </el-table-column>
-
+                <el-table-column
+                  prop="uncertainty"
+                  label="不能确定" sortable>
+                </el-table-column>
+                <el-table-column
+                  prop="deal_count"
+                  label="合计">
+                </el-table-column>
             </el-table-column>
 
           </el-table>
@@ -299,6 +314,7 @@ export default {
       sh3: true,
       sh4: true,
       gwName:[],
+      gnName:[],
     }
   },
   mounted() {
@@ -315,6 +331,7 @@ export default {
   },
   activated() {
   //  this.queryNationality();
+    this.btnctlFn(this.$root.checkItem);
     this.gw();
     this.gn();
     // let time = new Date();
@@ -493,6 +510,9 @@ export default {
       this.$api.post(url, p,
         r => {
           this.tableData = r.data;
+          this.$nextTick(()=>{
+            this.btnctlFn(this.$root.checkItem);
+          })
         })
 
 this.queryNationality();

@@ -46,6 +46,18 @@
               <el-input placeholder="多个航班号请用分号隔开" size="small" v-model="cdt.fltnoStr" clearable class="input-input"></el-input>
             </el-col>
 
+            <!-- <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+              <span class="input-text">中心/口岸：</span>
+              <el-select v-model="cdt.port" filterable clearable placeholder="请选择"  size="small" class="input-input" @visible-change="centerK" @change="centerReal(cdt.port)">
+                <el-option
+                  v-for="item in centerColl"
+                  :key="item.KADM"
+                  :label="item.KADM+' - '+item.KAMC"
+                  :value="item.KADM">
+                </el-option>
+              </el-select>
+            </el-col> -->
+
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
               <span class="input-text">中心/口岸：</span>
               <el-select v-model="cdt.port" filterable clearable placeholder="请选择"  size="small" class="input-input" @visible-change="centerK" @change="centerReal(cdt.port)">
@@ -57,6 +69,7 @@
                 </el-option>
               </el-select>
             </el-col>
+
 
             <el-col :sm="24" :md="12"  :lg="8" class="input-item">
               <span class="input-text">模型：</span>
@@ -374,90 +387,7 @@ export default {
           label:"30"
         }
       ],
-      modeltableData:[
-        // {
-        //   count:2,
-        //   type:1,
-        //   modelName: "事件单",
-        //   nationality: "shijian_01",
-        //   passportno: "/shijian_01"
-        // },
-        // {
-        //   count:2,
-        //   type:1,
-        //   modelName: "事件单",
-        //   nationality: "shijian_02",
-        //   passportno: "/shijian_02"
-        // },
-        // {
-        //   count:2,
-        //   type:1,
-        //   modelName: "事件单",
-        //   nationality: "shijian_03",
-        //   passportno: "/shijian_04"
-        // },
-        // {
-        //   count:1,
-        //   type:2,
-        //   modelName: "问题单",
-        //   nationality: "wenti_01",
-        //   passportno: "/wenti_01"
-        // },
-//         {
-//         count:  2,
-// modelCode
-// :
-// "275bd0f5b8414906b547a6615d49199c",
-// modelName
-// :
-// "外籍涉疆重点人员",
-// nationality
-// :
-// "马来西亚",
-// passportno
-// :
-// "A34644812",
-// type
-// :
-// 1
-//         },
-//         {
-//           count:2,
-// modelCode
-// :
-// "275bd0f5b8414906b547a6615d49199c",
-// modelName
-// :
-// "外籍涉疆重点人员",
-// nationality
-// :
-// "马来西亚",
-// passportno
-// :
-// "A40677465",
-// type
-// :
-// 1
-// },
-// {
-//   count:1,
-// modelCode
-// :
-// "39495b89d5254eb584d94a93f1f48d7f",
-// modelName
-// :
-// "疑似变换身份人员",
-// nationality
-// :
-// "马来西亚",
-// passportno
-// :
-// "A39815584",
-// type
-// :
-// 2
-// }
-      ],
+      modeltableData:[],
       tableData: [],
       rowList: [],
       spanArr: [],
@@ -479,7 +409,7 @@ export default {
     document.getElementsByClassName('btn-next')[0].disabled=true;
   },
   activated(){
-    // this.getList(this.CurrentPage,this.pageSize,this.cdt,this.order,this.direction);
+    this.btnctlFn(this.$root.checkItem);
   },
   methods:{
     rowspan() {
@@ -565,6 +495,7 @@ export default {
       })
     },
     centerK(){
+      // let url="/manage-platform/riskEventController/getAirPortInfo"
       this.$api.post('/manage-platform/census/queryPort',{},
       r => {
         if(r.success){
@@ -749,6 +680,9 @@ export default {
              }
              this.tableData=r.data.resultList;
              this.CurrentPage = r.data.currentPage;
+             this.$nextTick(()=>{
+               this.btnctlFn(this.$root.checkItem);
+             })
              this.colorList = r.data.pd.useColour;
              for(var j=0;j<this.colorList.length;j++){
                if(this.colorList[j].COL_NUMBER == 1){

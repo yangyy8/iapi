@@ -417,6 +417,7 @@ export default {
     this.pd.compareEndDate=formatDate(flightEnd,'yyyyMMddhhssmm');
   },
   activated(){
+    this.btnctlFn(this.$root.checkItem);
     this.queryAirport("","A");
     this.queryCountry("A");
     // let time = new Date();
@@ -504,6 +505,9 @@ export default {
           console.log(r);
           this.tableData = r.data.resultList;
           this.TotalResult = r.data.totalResult;
+          this.$nextTick(()=>{
+            this.btnctlFn(this.$root.checkItem);
+          })
         })
     },
     queryCountry(value) {

@@ -396,6 +396,7 @@ export default {
     window.sumDetails= that.sumDetails
   },
   activated() {
+     this.btnctlFn(this.$root.checkItem);
     this.queryNationality();
     this.zhou();
     this.gw();
@@ -594,6 +595,9 @@ export default {
           if($('.t-detailbtn').length==0){
             $('.el-table__footer .has-gutter').find("td").last().children('.cell').append('<button type="text" id="addBtn" class="el-button a-btn el-button--text el-button--mini t-detailbtn" title="详情" size="mini" onclick="sumDetails()"><i class="el-icon-tickets"></i></button>')
           }
+          this.$nextTick(()=>{
+            this.btnctlFn(this.$root.checkItem);
+          })
           let arr = this.tableData;
           var sum1 = 0,
             sum01 = 0;

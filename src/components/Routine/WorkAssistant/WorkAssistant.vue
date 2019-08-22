@@ -481,7 +481,7 @@ export default {
     // this.mgetList(this.mCurrentPage,this.mpageSize,this.mcdt,this.morder,this.mdirection)
   },
   activated(){
-
+    this.btnctlFn(this.$root.checkItem);
   },
   methods: {
     sortChange(column, prop, order){
@@ -540,6 +540,9 @@ export default {
         r => {
           this.tableData = r.data.resultList;
           this.TotalResult = r.data.totalResult;
+          this.$nextTick(()=>{
+            this.btnctlFn(this.$root.checkItem);
+          })
         })
     },
     mgetList(currentPage, showCount, pd,order,direction){
@@ -554,6 +557,9 @@ export default {
         r => {
           this.mtableData = r.data.resultList;
           this.mTotalResult = r.data.totalResult;
+          this.$nextTick(()=>{
+            this.btnctlFn(this.$root.checkItem);
+          })
         })
     },
     uploadHandleClose(){

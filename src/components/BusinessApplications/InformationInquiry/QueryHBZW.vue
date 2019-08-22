@@ -666,6 +666,7 @@ export default {
   activated(){
     this.nav1Id=this.$route.query.nav1Id
     this.nav2Id=this.$route.query.nav2Id
+    this.btnctlFn(this.$root.checkItem);
   },
   methods: {
     fightDate(){
@@ -835,6 +836,9 @@ export default {
             this.globalserial0='';
             this.tableData = r.data.resultList;
             this.TotalResult = r.data.totalResult;
+            this.$nextTick(()=>{
+              this.btnctlFn(this.$root.checkItem);
+            })
           }
         })
     },

@@ -548,6 +548,7 @@ export default {
     this.queryNationality();
   },
   activated() {
+    this.btnctlFn(this.$root.checkItem);
     // this.startOut(this.CurrentPage, this.pageSize);
   },
   methods: {
@@ -862,6 +863,9 @@ export default {
         r => {
           this.outTableData = r.data.resultList;
           this.TotalResult = r.data.totalResult;
+          this.$nextTick(()=>{
+            this.btnctlFn(this.$root.checkItem);
+          })
         })
     },
     inGetList(currentPage, showCount, pd,order,direction){
@@ -876,6 +880,9 @@ export default {
        r => {
          this.inTableData = r.data.resultList;
          this.inTotalResult = r.data.totalResult;
+         this.$nextTick(()=>{
+           this.btnctlFn(this.$root.checkItem);
+         })
        })
     },
     outDetails(row){

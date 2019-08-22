@@ -38,7 +38,7 @@
     <div class="middle" @mouseover="mouseHeader">
       <el-row class="mb-15">
         <el-button type="primary" size="small" name="mdlxgl_add" @click="adds(0,'');form={};">新增</el-button>
-                <el-button type="info" size="small" name="mdlxgl_detail" @click="batchsdelete">批量删除</el-button>
+        <el-button type="info" size="small" name="mdlxgl_batch_del" @click="batchsdelete">批量删除</el-button>
         </el-row>
       <el-table
         :data="tableData"
@@ -213,6 +213,7 @@ export default {
 
   },
   activated(){
+    this.btnctlFn(this.$root.checkItem);
     //this.getList(this.CurrentPage, this.pageSize, this.pd);
   },
   methods: {
@@ -259,9 +260,11 @@ export default {
       };
       this.$api.post('/manage-platform/riskNamelistType/getnamelistTypePage', p,
         r => {
-          console.log("----" + r);
           this.tableData = r.data.resultList;
           this.TotalResult = r.data.totalResult;
+          this.$nextTick(()=>{
+            this.btnctlFn(this.$root.checkItem);
+          })
         })
     },
     queryNationality() {

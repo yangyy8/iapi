@@ -316,6 +316,7 @@ export default {
     this.getList(this.pd);
   },
   activated(){
+    this.btnctlFn(this.$root.checkItem);
     this.V.$reset('demo');
     this.getList(this.pd);
   },
@@ -335,6 +336,9 @@ export default {
        r => {
          this.tableData=r.data;
          this.count = this.tableData.length;
+         this.$nextTick(()=>{
+           this.btnctlFn(this.$root.checkItem);
+         })
       })
     },
     inschange(n) {
@@ -368,6 +372,9 @@ export default {
             this.tableData=r.data;
             // this.TotalResult=r.data.totalResult;
             this.count = this.tableData.length;
+            this.$nextTick(()=>{
+              this.btnctlFn(this.$root.checkItem);
+            })
             // this.allData = this.tableData;
             console.log(this.tableData)
           }

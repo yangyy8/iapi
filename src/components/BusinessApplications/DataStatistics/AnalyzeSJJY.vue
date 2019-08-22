@@ -310,7 +310,7 @@ export default {
     // let beginz = new Date(time - 1000 * 60 * 60 * 24 * 30);
     // this.pd.begintime = formatDate(beginz, 'yyyyMMdd');
     // this.pd.endtime = formatDate(endz, 'yyyyMMdd');
-
+    this.btnctlFn(this.$root.checkItem);
   },
   methods: {
     headerClick(column,event){
@@ -389,6 +389,9 @@ export default {
         r => {
           console.log(r);
           this.tableData = r.data;
+          this.$nextTick(()=>{
+            this.btnctlFn(this.$root.checkItem);
+          })
           let arr=this.tableData;
           var sum1=0,sum01=0;
           var sum2=0,sum02=0,sum002=0,sum0002=0;

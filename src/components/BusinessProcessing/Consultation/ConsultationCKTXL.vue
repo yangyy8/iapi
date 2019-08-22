@@ -428,6 +428,7 @@ export default {
     // this.getList(this.CurrentPage,this.pageSize,this.pd);
   },
   activated() {
+    this.btnctlFn(this.$root.checkItem);
     this.terminal();
     // this.getList(this.CurrentPage, this.pageSize, this.pd);
   },
@@ -640,6 +641,9 @@ export default {
           if (r.success) {
             this.tableData = r.data.resultList;
             this.TotalResult = r.data.totalResult;
+            this.$nextTick(()=>{
+              this.btnctlFn(this.$root.checkItem);
+            })
           }
         })
     },

@@ -191,7 +191,12 @@
     display: flex;
     justify-content: space-between;
   }
-
+  .t-tip{
+    position:absolute;
+    right: -18px;
+    top: 7px;
+    z-index: 999;
+  }
   /* 模糊查询 */
  .t-fuzzy .el-input{
    width: 59%!important;

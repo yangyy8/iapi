@@ -206,6 +206,7 @@ export default {
 
   },
   activated() {
+    this.btnctlFn(this.$root.checkItem);
     this.getList();
   },
   methods: {
@@ -229,6 +230,9 @@ export default {
       this.$api.post('/manage-platform/consult/queryReplyList',{},
         r => {
           this.tableData = r.data;
+          this.$nextTick(()=>{
+            this.btnctlFn(this.$root.checkItem);
+          })
         })
     },
     queryNationality() {

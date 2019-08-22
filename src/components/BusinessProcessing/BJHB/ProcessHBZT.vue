@@ -375,6 +375,7 @@ export default {
     this.pd.endScheduledeparturetime=formatDate(endStr,'yyyyMMddhhmm');
   },
   activated() {
+    this.btnctlFn(this.$root.checkItem);
     // let time = new Date();
     // let end = new Date();
     // let begin =new Date(time - 1000 * 60 * 60 * 24 * 14);
@@ -496,6 +497,9 @@ export default {
           console.log(r);
           this.tableData = r.data.resultList;
           this.TotalResult = r.data.totalResult;
+          this.$nextTick(()=>{
+            this.btnctlFn(this.$root.checkItem);
+          })
         })
     },
 

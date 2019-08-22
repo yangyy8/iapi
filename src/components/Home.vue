@@ -259,6 +259,7 @@ export default {
       dlType:0,
       dlState:'',
       dlmessage:'',
+      loginType:sessionStorage.getItem('loginType'),
     };
   },
   mounted() {
@@ -375,10 +376,10 @@ export default {
           this.dlType = r.code;
           this.dlState = r.success;
           this.dlmessage = r.message;
-          this.getSatus()
+          this.getSatusD()
         })
     },
-    getSatus(){
+    getSatusD(){
       // this.$api.post('/manage-platform/isLanding',{},
       //   r => {
       //     this.isLogin=r.data;
@@ -394,21 +395,26 @@ export default {
 
       console.log('this.dlType',this.dlType);
       console.log(window.location.href.indexOf('login')!=-1);
-      if(!(window.location.href.indexOf('/login')!=-1)&&(this.dlType==1)){
-        alert('无效')
-        this.$alert('无效登录', '温馨提示', {
+      // this.loginType=sessionStorage.getItem('loginType');
+      console.log(this.loginType)
+      if(!(window.location.href.indexOf('/login')!=-1)&&(this.dlType==1)&&(loginType!=1)){
+        //alert('无效')
+
+        this.$alert('无效登录======1'+window.location.href+this.loginType+this.dlType, '温馨提示', {
         confirmButtonText: '确定',
         type: 'warning',
         callback: action => {
           this.window_close();
           this.dlType = null;
           return;
-        }})}else if(this.dlType==2){
+        }})
+      }else if(this.dlType==2){
         this.$api.post('/manage-platform/isLanding',{},
           r =>{
            this.isLogin=r.data;
            if(this.isLogin){
               if(this.dlState){
+                sessionStorage.setItem('loginType',0)//第三方登录
                 this.getUers();
                 this.getNav0();
               }else{

@@ -237,7 +237,7 @@ export default {
       this.getKAname();
   },
   activated(){
-      //this.getList(this.CurrentPage, this.pageSize, this.pd);
+      this.btnctlFn(this.$root.checkItem);
       this.getKAname();
   },
   methods: {
@@ -282,6 +282,9 @@ export default {
           console.log(r);
           this.tableData = r.data.pdList;
           this.TotalResult = r.data.totalResult;
+          this.$nextTick(()=>{
+            this.btnctlFn(this.$root.checkItem);
+          })
         })
     },
      adds(n, i) {

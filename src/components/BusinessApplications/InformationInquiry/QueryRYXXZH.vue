@@ -1219,6 +1219,7 @@ export default {
     this.checkItemP();
   },
   activated(){
+    this.btnctlFn(this.$root.checkItem);
     console.log('RYXXZH',this.$route.query.row);
     if(this.$route.query.row){
       this.cdt.passportnoEqual = this.$route.query.row.passportno;
@@ -1375,7 +1376,9 @@ export default {
 
            this.tableData=r.data.resultList;//表格数据
            this.currentPage = r.data.currentPage;
-
+           this.$nextTick(()=>{
+             this.btnctlFn(this.$root.checkItem);
+           })
            if(this.batchFlag == 1){
              this.totalPageM(this.currentPage,this.showCount,this.cdt1,1);
            }else{
@@ -1768,23 +1771,19 @@ export default {
       	"showCount":showCount,
       	"cdt":cdt,
         "searchType":this.searchType
-        // "isBatch":num
       }
       p.cdt.isBatch = num;
       this.$api.post2('/manage-platform/iapiHead/queryListPageCount',p,
        r =>{
          if(r.success){
            this.totalResult = r.data;
+           this.$nextTick(()=>{
+             this.btnctlFn(this.$root.checkItem);
+           })
          }
        })
     },
     getList(currentPage,showCount,cdt,num){//基础查询 查询调用
-      // if(dayGap(this.cdt.startFltdate,this.cdt.endFltdate,0)>30){
-      //   this.$alert('航班日期查询时间间隔不能超过一个月，如有需要请分多次查询', '提示', {
-      //     confirmButtonText: '确定',
-      //   });
-      //   return false
-      // }
       this.orderState = 0;
       if(this.cdt.startFltdate==null||this.cdt.endFltdate==null||this.cdt.startFltdate==''||this.cdt.endFltdate==''){
         this.$message({
@@ -1796,20 +1795,12 @@ export default {
       let end = new Date(new Date() - 1000 * 60 * 60 * 24 * 30);
       let endTime = formatDate(end,'yyyy-MM-dd')
       if(this.searchType==0&&(this.cdt.startFltdate<formatDate(end,'yyyyMMdd'))){//当前
-        // this.$alert('查询开始时间不能小于'+endTime+'', '提示', {
-        //   confirmButtonText: '确定',
-        // });
-        // return false
         this.$alert('“当前查询”的查询日期只能选择一个月内，如需查询一个月前的数据，请在“查询范围”选择“历史查询”！', '提示', {
           confirmButtonText: '确定',
         });
         return false
       }
       if(this.searchType==1&&(this.cdt.endFltdate>formatDate(end,'yyyyMMdd'))){
-        // this.$alert('查询结束时间不能大于'+endTime+'', '提示', {
-        //   confirmButtonText: '确定',
-        // });
-        // return false
         this.$alert('“历史查询”的查询日期只能选择一个月前，如需查询一个月内的数据，请在“查询范围”选择“当前查询”！', '提示', {
           confirmButtonText: '确定',
         });
@@ -1820,7 +1811,6 @@ export default {
       	"showCount":showCount,
       	"cdt":cdt,
         "searchType":this.searchType
-        // "isBatch":num
       };
       pl.cdt.isBatch = num;
       this.$api.post('/manage-platform/iapiHead/queryListPage',pl,
@@ -1832,10 +1822,11 @@ export default {
            }else{
              document.getElementsByClassName('btn-next')[0].disabled=false;
            }
-
            this.tableData=r.data.resultList;//表格数据
            this.currentPage = r.data.currentPage;
-
+           this.$nextTick(()=>{
+             this.btnctlFn(this.$root.checkItem);
+           })
            if(num == 1){
              this.totalPageM(this.currentPage,this.showCount,this.cdt1,1);
            }else{

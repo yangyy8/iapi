@@ -818,6 +818,7 @@ export default {
 
   },
   activated(){
+    this.btnctlFn(this.$root.checkItem);
     // this.backShow=false;
     // this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
   },
@@ -961,6 +962,9 @@ export default {
            this.tableData=r.data.resultList;
            this.TotalResult=r.data.totalResult;
            this.backShow=false;
+           this.$nextTick(()=>{
+             this.btnctlFn(this.$root.checkItem);
+           })
         })
       // }
     },
@@ -981,6 +985,9 @@ export default {
          this.tableData=r.data.resultList;
          this.TotalResult=r.data.totalResult;
          this.backShow=true;
+         this.$nextTick(()=>{
+           this.btnctlFn(this.$root.checkItem);
+         })
       })
     },
     xinzeng(){

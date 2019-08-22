@@ -364,7 +364,7 @@ export default {
         // }]
       },
 
-  form: {},
+  form: {UNPASSWORD:''},
     }
   },
   mounted() {
@@ -375,6 +375,7 @@ export default {
 
   },
   activated(){
+    this.btnctlFn(this.$root.checkItem);
     this.getList(this.CurrentPage, this.pageSize, this.pd);
   },
   methods: {
@@ -404,6 +405,9 @@ export default {
           console.log(r);
           this.tableData = r.data.userList.pdList;
           this.TotalResult = r.data.userList.totalResult;
+          this.$nextTick(()=>{
+            this.btnctlFn(this.$root.checkItem);
+          })
         })
     },
 
@@ -443,7 +447,8 @@ export default {
              console.log(r);
              if (r.success) {
                this.form = r.data;
-               this.form.UNPASSWORD=this.form.PASSWORD;
+               this.$set(this.form,'UNPASSWORD',r.data.PASSWORD);
+               // this.form.UNPASSWORD=this.form.PASSWORD;
                let lists=[];
                let arr=r.data.chooseRoleList;
                for(var i in arr){

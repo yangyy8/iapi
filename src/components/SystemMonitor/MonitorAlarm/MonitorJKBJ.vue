@@ -287,6 +287,7 @@ export default {
   //  this.getList(this.CurrentPage, this.pageSize, this.pd);
   },
   activated() {
+    this.btnctlFn(this.$root.checkItem);
   //  this.getList(this.CurrentPage, this.pageSize, this.pd);
   },
   methods: {
@@ -331,7 +332,9 @@ export default {
           this.TotalResult = r.data.totalResult;
           this.userid=r.data.userid;
           this.username=r.data.username;
-
+          this.$nextTick(()=>{
+            this.btnctlFn(this.$root.checkItem);
+          })
         })
     },
     monitor(data) { //监控对象联动

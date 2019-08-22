@@ -245,6 +245,7 @@ export default {
   },
   activated(){
     // this.getGraph(this.cdt);
+    this.btnctlFn(this.$root.checkItem);
   },
   methods: {
     headerClick(column,event){
@@ -292,6 +293,9 @@ export default {
         r => {
           this.tableData = r.data.resultList;
           this.TotalResult = r.data.totalResult;
+          this.$nextTick(()=>{
+            this.btnctlFn(this.$root.checkItem);
+          })
         })
     },
     getGraph(pd){

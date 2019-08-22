@@ -407,7 +407,7 @@ export default {
     // this.cdt.ENDTIME=formatDate(end,'yyyyMMddhhmmss');
   },
   activated(){
-    console.log(this.cdt.ENDTIME);
+    this.btnctlFn(this.$root.checkItem);
     // this.getList(this.CurrentPage, this.pageSize, this.pd);
   },
   filters: {
@@ -495,6 +495,9 @@ export default {
           if (r.success) {
             this.tableData = r.data.resultList;
             this.TotalResult = r.data.totalResult;
+            this.$nextTick(()=>{
+              this.btnctlFn(this.$root.checkItem);
+            })
           }
         })
     },

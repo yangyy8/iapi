@@ -370,6 +370,7 @@ export default {
     this.pd.endtime = formatDate(beginz, 'yyyyMMdd');
   },
   activated(){
+    this.btnctlFn(this.$root.checkItem);
     this.queryNationality();
     // let time = new Date();
     // let endz = new Date();
@@ -452,6 +453,9 @@ export default {
         r => {
           console.log(r);
           this.tableData = r.data;
+          this.$nextTick(()=>{
+            this.btnctlFn(this.$root.checkItem);
+          })
         })
     },
     //值机未订票人员

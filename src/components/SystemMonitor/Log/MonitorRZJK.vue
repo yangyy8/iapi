@@ -215,6 +215,7 @@ export default {
   //  this.getList(this.CurrentPage, this.pageSize, this.pd,this.order,this.direction);
   },
   activated(){
+    this.btnctlFn(this.$root.checkItem);
   //  this.getList(this.CurrentPage,this.pageSize,this.pd,this.order,this.direction);
   },
   methods: {
@@ -258,6 +259,9 @@ export default {
           console.log(r);
           this.tableData = r.data.resultList;
           this.TotalResult = r.data.totalResult;
+          this.$nextTick(()=>{
+            this.btnctlFn(this.$root.checkItem);
+          })
         })
     },
     details(i) {

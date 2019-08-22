@@ -495,6 +495,7 @@ export default {
 
   },
   activated() {
+    this.btnctlFn(this.$root.checkItem);
     // this.getTimes();
     // this.getHz();
     // let time = new Date();
@@ -514,12 +515,15 @@ export default {
        },
     base() {
       this.page = 0;
+      this.btnctlFn(this.$root.checkItem);
     },
     base1() {
       this.page = 1;
+      this.btnctlFn(this.$root.checkItem);
     },
     base2() {
       this.page = 2;
+      this.btnctlFn(this.$root.checkItem);
     },
 
     pageSizeChange(val) {
@@ -598,7 +602,9 @@ export default {
           console.log(r);
           this.tableData = r.data.resultList;
           this.TotalResult = r.data.totalResult;
-
+          this.$nextTick(()=>{
+            this.btnctlFn(this.$root.checkItem);
+          })
         })
 
     },
@@ -623,9 +629,10 @@ export default {
         r => {
           console.log(r);
           this.tableData1 = r.data.resultList;
-
           this.TotalResult1 = r.data.totalResult;
-
+          this.$nextTick(()=>{
+            this.btnctlFn(this.$root.checkItem);
+          })
         })
     },
     getList2(currentPage2, showCount2, pd2) {
@@ -650,6 +657,9 @@ export default {
           console.log(r);
           this.tableData2 = r.data.resultList;
           this.TotalResult2 =r.data.totalResult ;
+          this.$nextTick(()=>{
+            this.btnctlFn(this.$root.checkItem);
+          })
         })
     },
     download(t) {

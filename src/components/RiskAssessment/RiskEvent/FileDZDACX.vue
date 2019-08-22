@@ -221,6 +221,7 @@ export default {
   mounted(){
     this.queryNationalityAlone();
     this.getRiskUserLabelInfo();
+    this.btnctlFn(this.$root.checkItem);
   },
   activated(){
     if(this.$route.query.list){
@@ -232,6 +233,7 @@ export default {
       this.pd.birthdayEnd=data.dateofbirth;
       console.log(this.pd)
       this.getList(this.CurrentPage,this.pageSize,this.pd,this.order,this.direction);
+      this.btnctlFn(this.$root.checkItem);
     }
   },
   methods:{
@@ -330,6 +332,9 @@ export default {
            // this.tableData=r.data.list.slice(showCount*(CurrentPage-1),showCount*(CurrentPage-1)+showCount);
            this.TotalResult=parseInt(r.data.total) ;
            this.msg=r.data.message
+           this.$nextTick(()=>{
+             this.btnctlFn(this.$root.checkItem);
+           })
          // }
 
       })

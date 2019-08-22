@@ -338,7 +338,7 @@ export default {
   //  this.getList(this.CurrentPage, this.pageSize, this.pd);
   },
   activated(){
-
+    this.btnctlFn(this.$root.checkItem);
     // let time = new Date();
     // let endz = new Date();
     // let beginz = new Date(time - 1000 * 60 * 60 * 24 * 1);
@@ -448,6 +448,9 @@ export default {
           console.log(r);
           this.tableData = r.data.resultList;
           this.TotalResult = r.data.totalResult;
+          this.$nextTick(()=>{
+            this.btnctlFn(this.$root.checkItem);
+          })
         })
 
 
@@ -493,6 +496,9 @@ export default {
           console.log('r.data.resultList',r.data.resultList)
           console.log('this.tableData1',this.tableData1)
           this.TotalResult1 = r.data.totalResult;
+          this.$nextTick(()=>{
+            this.btnctlFn(this.$root.checkItem);
+          })
         })
     },
     details(i) {

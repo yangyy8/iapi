@@ -14,10 +14,10 @@
                 <span class="input-text">航班号：</span>
                 <el-input v-model="pd.fltno" placeholder="请输入内容" size="small" clearable class="input-input"></el-input>
               </el-col>
-              <el-col :sm="24" :md="12"  :lg="8" class="input-item">
+              <el-col :sm="24" :md="12"  :lg="8" class="input-item" style="position:relative">
                 <span class="input-text">国籍/地区：</span>
                 <el-select v-model="pd.nationality" placeholder="请选择" size="small" multiple collapse-tags
-                   clearable filterable class="block input-input">
+                   clearable filterable class="block input-input" @change="nationView(pd.nationality)">
                   <el-option
                     v-for="(item,ind) in nationAlone"
                     :key="ind"
@@ -25,6 +25,17 @@
                     :value="item.CODE">
                   </el-option>
                 </el-select>
+                <el-popover
+                  ref="popover1"
+                  placement="top-start"
+                  width="250"
+                  trigger="hover">
+                  <span v-if="nationList.length==0">还未选择国籍</span>
+                  <el-row align="center" style="width:100%;flex-wrap: wrap;" type="flex" v-else>
+                    <span v-for="(i,key) in nationList" :key="key" style="padding-right: 10px;margin-bottom: 7px;display:inline-block;line-height: 20px;">{{i.CODE+' - '+i.CNAME}}</span>
+                  </el-row>
+                </el-popover>
+                <span class="el-icon-view t-tip" v-popover:popover1 title="查看国籍/地区"></span>
               </el-col>
             </el-row>
             <el-collapse-transition>
@@ -116,10 +127,10 @@
                   <el-option label="2 - 口岸" value="2"></el-option>
                 </el-select>
               </el-col>
-              <el-col :sm="24" :md="12"  :lg="8" class="input-item">
+              <el-col :sm="24" :md="12"  :lg="8" class="input-item" style="position:relative">
                 <span class="input-text">口岸：</span>
                 <el-select v-model="pd.port_name" placeholder="请选择" size="small" multiple collapse-tags
-                   clearable filterable class="block input-input">
+                   clearable filterable class="block input-input" @change="portView(pd.port_name)">
                   <el-option
                     v-for="(item,ind) in airport"
                     v-if="item.DEPT_CODE"
@@ -128,6 +139,17 @@
                     :value="item.DEPT_CODE">
                   </el-option>
                 </el-select>
+                <el-popover
+                  ref="popover2"
+                  placement="top-start"
+                  width="250"
+                  trigger="hover">
+                  <span v-if="portList.length==0">还未选择口岸</span>
+                  <el-row align="center" style="width:100%;flex-wrap: wrap;" type="flex" v-else>
+                    <span v-for="(i,key) in portList" :key="key" style="padding-right: 10px;margin-bottom: 7px;display:inline-block;line-height: 20px;">{{i.DEPT_CODE+' - '+i.DEPT_JC}}</span>
+                  </el-row>
+                </el-popover>
+                <span class="el-icon-view t-tip" v-popover:popover2 title="查看口岸"></span>
               </el-col>
               <!-- <el-col :sm="24" :md="12"  :lg="8" class="input-item">
                 <span class="input-text">当前状态：</span>
@@ -197,7 +219,7 @@
       <div class="ak-tab-pane pt-10" @mouseover="mouseHeader">
         <el-button type="primary" class="mr-5" plain size="small" name="fpsjcl_plgd" @click="openGdTc('')" :disabled="isdisable" v-if="pd.type!=4&&pd.type!=1">批量归档</el-button>
         <el-button type="primary" plain size="small" name="fpsjcl_plsjcl" @click="openCzTc" :disabled="isdisable" v-if="pd.type!=4&&pd.type!=2">批量事件处理</el-button>
-        <el-button type="primary" plain size="small" name="fpsjcl_show" @click="daochu">导出</el-button>
+        <el-button type="primary" plain size="small" name="fpsjcl_export" @click="daochu">导出</el-button>
         <el-table
           class="mt-10 o-table3 t-gutter"
           ref="multipleTable"
@@ -392,7 +414,7 @@
             min-width="85"
             >
             <template slot-scope="scope">
-              <el-button type="text" class="t-btn mr-5" icon="el-icon-view" title="查看" name="fpsjcl_show" @click="$router.push({name:'BJSJCK',query:{row:scope.row,idcard:scope.row.idcard,serial:scope.row.serial,grade:scope.row.grade,yl_two:scope.row.yl_two,page:0,nav2Id:scope.row.serial,risk:1,title:scope.row.name+'事件查看'}})"></el-button>
+              <el-button type="text" class="t-btn mr-5" icon="el-icon-view" title="查看" name="fpsjcl_show" @click="reviewSj(scope.row);$router.push({name:'BJSJCK',query:{row:scope.row,idcard:scope.row.idcard,serial:scope.row.serial,grade:scope.row.grade,yl_two:scope.row.yl_two,page:0,nav2Id:scope.row.serial,risk:1,title:scope.row.name+'事件查看'}})"></el-button>
               <el-button type="text" class="t-btn mr-5" icon="el-icon-edit-outline" v-if="pd.type!=4&&scope.row.status!=4" title="处理" name="fpsjcl_process" @click="handel(scope.row)"></el-button>
               <el-button type="text" class="t-btn mr-5" icon="el-icon-edit-outline" v-if="pd.type==4||scope.row.status==4" title="归档追加" name="fpsjcl_archived_add" @click="openGdTc(scope.row)"></el-button>
               <el-button type="text" class="t-btn" :class="{'gray':scope.row.status==4}" :disabled="scope.row.status==4" icon="el-icon-success" v-if="scope.row.yl_two=='否'" title="推送梅沙" name="fpsjcl_dispatch_meisha" @click="pushMeisha(scope.row)"></el-button>
@@ -626,7 +648,6 @@
 <script>
 import GDTC from './GDTC'
 import { formatDate,format } from '@/assets/js/date.js'
-
 export default {
   components:{GDTC},
   data(){
@@ -789,29 +810,60 @@ export default {
       eventSerial:'',
       portLabel:'',
       portValue:'',
-
+      nationList:[],
+      portList:[],
     }
   },
   mounted(){
     let begin = new Date();
-    // console.log(begin+24*60*60*1000)
     let end = new Date(begin.getTime()+24*60*60*1000);
-
     this.pd.fltnoDate_start= formatDate(begin, 'yyyyMMdd')+'000000';
     this.pd.fltnoDate_end= formatDate(end, 'yyyyMMdd')+'000000';
-
     this.queryAirport();
     this.queryNationalityAlone();
     this.queryDocCode();
     this.getRiskModelHisInfo();
     this.getUers();
-
+    // this.btnctlFn(this.$root.checkItem);
   },
   activated(){
-    // this.hash=(new Date()).getTime();
-    // this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
+    this.btnctlFn(this.$root.checkItem);
   },
   methods:{
+    reviewSj(row){
+      this.$refs.multipleTable.toggleRowSelection(row);
+    },
+    nationView(val){
+      this.nationList=[];
+      if(val){
+        for(var i=0;i<this.nationAlone.length;i++){
+          let obj={};
+          for(var j=0;j<val.length;j++){
+            if(this.nationAlone[i].CODE==val[j]){
+              obj.CODE=val[j];
+              obj.CNAME=this.nationAlone[i].CNAME
+              this.nationList.push(obj);
+            }
+          }
+        }
+      }
+      // console.log(this.nationAlone,val,this.nationList)
+    },
+    portView(val){
+      this.portList=[];
+      if(val){
+        for(var i=0;i<this.airport.length;i++){
+          let obj={};
+          for(var j=0;j<val.length;j++){
+            if(this.airport[i].DEPT_CODE==val[j]){
+              obj.DEPT_CODE=val[j];
+              obj.DEPT_JC=this.airport[i].DEPT_JC
+              this.portList.push(obj);
+            }
+          }
+        }
+      }
+    },
     changeCellStyle({row, column, rowIndex, columnIndex}){
       if(column.label=="操作"){
         return 'cell-btn'
@@ -856,7 +908,6 @@ export default {
     },
     pushMeisha(i){
       this.eventSerial = i.serial;
-      console.log('1111',this.user.dept_code);
       if(i.change_portCode==undefined||i.change_portCode==''){
         this.portLabel=i.port_name;
         this.portValue=i.port_code;
@@ -954,7 +1005,6 @@ export default {
         })
     },
     headerClick(column,event){
-      console.log(column,event)
       event.target.title=column.label
     },
     getUers(){
@@ -966,7 +1016,6 @@ export default {
     },
     handleSelectionChange(val) {
       this.multipleSelection = val;
-      console.log("multipleSelection",val)
       if(this.multipleSelection.length==0){
         this.isdisable=true;
       }else{
@@ -976,12 +1025,10 @@ export default {
     pageSizeChange(val) {
       this.pageSize=val;
       this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
-      console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
       this.CurrentPage=val
       this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
-      console.log(`当前页: ${val}`);
     },
     sortChange(data){
 
@@ -1005,11 +1052,11 @@ export default {
     reset(){
       this.CurrentPage=1;
       this.pageSize=50;
-      this.pd={type:'1'};
+      this.pd={type:'1',fltnoDate_start:'',fltnoDate_end:'',nationality:[],port_name:[]};
+      this.nationView(this.pd.nationality);
+      this.portView(this.pd.port_name);
       let begin = new Date();
-      // console.log(begin+24*60*60*1000)
       let end = new Date(begin.getTime()+24*60*60*1000);
-
       this.pd.fltnoDate_start= formatDate(begin, 'yyyyMMdd')+'000000';
       this.pd.fltnoDate_end= formatDate(end, 'yyyyMMdd')+'000000';
       this.orders=[];
@@ -1078,9 +1125,13 @@ export default {
       }
       this.$api.post('/manage-platform/riskEventController/queryRiskEventInfo',p,
        r => {
-         console.log(r)
-         this.tableData=r.data.resultList;
-         this.TotalResult=r.data.totalResult;
+         if(r.success){
+           this.tableData=r.data.resultList;
+           this.TotalResult=r.data.totalResult;
+           this.$nextTick(()=>{
+             this.btnctlFn(this.$root.checkItem);
+           })
+         }
       })
     },
     queryEach(serial,nationality,passportno){
