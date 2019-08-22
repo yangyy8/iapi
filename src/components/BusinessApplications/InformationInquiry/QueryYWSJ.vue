@@ -974,6 +974,7 @@ export default {
           //   return this.pd.startCreatetime>=endTnull
           // }
           else{
+
             return endT < this.pd.startCreatetime;
           }
         }
@@ -981,16 +982,18 @@ export default {
 
       pickerOptions2: {
         // disabledDate: (time) => {
+
         //     if (this.pd.endDealtime != null) {
         //       let startT = formatDate(new Date(time.getTime()),'yyyyMMddhhmmss');
         //       return startT > this.pd.endDealtime;
         //     }else if(this.pd.endDealtime == null){
-        //       return false
+
         //     }
         // }
       },
       pickerOptions3: {
         // disabledDate: (time) => {
+
         //     let endT = formatDate(new Date(time.getTime()),'yyyyMMddhhmmss');
         //     return endT < this.pd.startDealtime;
         // }
@@ -1012,6 +1015,7 @@ export default {
         //     return endT < formatDate(new Date(a),'yyyyMMddhhmm');
         // }
       },
+
       nav1Id:null,
       nav2Id:null,
       cdt:{},

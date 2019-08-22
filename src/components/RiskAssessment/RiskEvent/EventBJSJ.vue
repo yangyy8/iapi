@@ -217,6 +217,7 @@
         </div>
       </div>
       <div class="ak-tab-pane pt-10" @mouseover="mouseHeader">
+
         <el-button type="primary" class="mr-5" plain size="small" name="fpsjcl_plgd" @click="openGdTc('')" :disabled="isdisable" v-if="pd.type!=4&&pd.type!=1">批量归档</el-button>
         <el-button type="primary" plain size="small" name="fpsjcl_plsjcl" @click="openCzTc" :disabled="isdisable" v-if="pd.type!=4&&pd.type!=2">批量事件处理</el-button>
         <el-button type="primary" plain size="small" name="fpsjcl_export" @click="daochu">导出</el-button>
@@ -354,7 +355,7 @@
           <el-table-column
             label="当前状态"
             prop="status"
-
+            sortable="custom"
             min-width="50"
             :show-overflow-tooltip="true">
             <template slot-scope="scope">
@@ -419,6 +420,7 @@
               <el-button type="text" class="t-btn mr-5" icon="el-icon-edit-outline" v-if="pd.type==4||scope.row.status==4" title="归档追加" name="fpsjcl_archived_add" @click="openGdTc(scope.row)"></el-button>
               <el-button type="text" class="t-btn" :class="{'gray':scope.row.status==4}" :disabled="scope.row.status==4" icon="el-icon-success" v-if="scope.row.yl_two=='否'" title="推送梅沙" name="fpsjcl_dispatch_meisha" @click="pushMeisha(scope.row)"></el-button>
               <el-button type="text" class="t-btn error-btn" :class="{'gray':scope.row.status==4}" :disabled="scope.row.status==4" icon="el-icon-error" v-if="scope.row.yl_two=='是'&&scope.row.status!=4" title="撤销推送" name="fpsjcl_cancel_dispatch" @click="cancelMeisha(scope.row)"></el-button>
+
               <!-- <el-button type="text" class="t-btn" icon="el-icon-success" title="推送梅沙" @click="pushMeisha(scope.row)"></el-button> -->
               <!-- <el-button type="text" class="t-btn" icon="el-icon-error" title="撤销推送" @click="cancelMeisha(scope.row)"></el-button> -->
             </template>
@@ -516,7 +518,9 @@
     <GDTC :gtitle="'批量归档'" :gvisible="gdDialogVisible" :garr="multipleSelection" :gtype="'1'" @gclose="gclose"></GDTC>
     <GDTC :gtitle="'归档追加'" :gvisible="gdDialogVisible2" :garr="checkeditem" :gtype="'3'" @gclose="gclose"></GDTC>
 
+
     <el-dialog title="推送梅沙" :visible.sync="pushMaddDialogVisible" width="500px" :before-close="handleCloseM">
+
       <el-form :model="pushMform" ref="addForm">
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
@@ -529,7 +533,9 @@
           <el-col :span="24" class="input-item my-form-group" data-scope="demo2" data-name="type" data-type="select"
             v-validate-easy="[['required']]">
             <span class="yy-input-text"><font class="yy-color">*</font>处理类型：</span>
+
             <el-select placeholder="请选择" v-model="pushMform.type" filterable clearable size="small" class="yy-input-input" @change='typeChange(pushMform.type)'>
+
               <el-option label="移交台外" value="移交台外"></el-option>
               <el-option label="前台提示信息" value="前台提示信息"></el-option>
               <el-option label="自定义前台提示信息" value="自定义前台提示信息"></el-option>
@@ -554,9 +560,11 @@
         </el-row>
         <el-row type="flex" class="mb-6" v-if="pushMform.type=='自定义前台提示信息'">
           <el-col :span="24" class="input-item my-form-group" data-scope="demo2" data-name="message" data-type="textarea"
+
             v-validate-easy="[['required'],['maxLength',[100]]]">
             <span class="yy-input-text"><font class="yy-color">*</font>自定义提示信息：</span>
             <el-input type="textarea" placeholder="最多输入100字" :autosize="{ minRows: 3, maxRows: 6}" v-model="pushMform.message" class="yy-input-input"></el-input>
+
           </el-col>
         </el-row>
 
@@ -570,6 +578,7 @@
             </el-select>
           </el-col>
         </el-row>
+
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item my-form-group" data-scope="demo2" data-name="zdgzrylbdm" data-type="select"
             v-validate-easy="[['required']]">
@@ -639,6 +648,7 @@
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="addItem()" size="small">确 定</el-button>
         <el-button @click="handleCloseM" size="small">取 消</el-button>
+
       </div>
     </el-dialog>
 
@@ -654,9 +664,11 @@ export default {
     return{
       pushMaddDialogVisible:false,
       pushMform:{
+
         userName:'',
         qsgzrq:formatDate(new Date(),'yyyyMMdd'),
         jsgzrq:formatDate(new Date(new Date(new Date().toLocaleDateString()).getTime()+24*60*60*1000*3),'yyyyMMdd'),
+
       },
       user:{},
       tagData:{},
@@ -881,6 +893,7 @@ export default {
       };
       this.pushMaddDialogVisible=false;
     },
+
     daochu(){
         let p={
           "showCount": this.pageSize,
@@ -934,12 +947,14 @@ export default {
           "course_type":'4',
           "one":(new Date()).getTime(),
           "gznr":this.pushMform.type=="前台提示信息"?this.pushMform.strategy:this.pushMform.type=="自定义前台提示信息"?this.pushMform.message:"移交台外",
+
           "fbkadm":this.pushMform.fbkadm,
           "zdgzrylbdm":this.pushMform.zdgzrylbdm,
           "bjfw":this.pushMform.bjfw,
           "zdgzryclfs":this.pushMform.zdgzryclfs,
           "qsgzrq":this.pushMform.qsgzrq,
           "jsgzrq":this.pushMform.jsgzrq
+
         }
         this.$api.post('/manage-platform/riskEventPushMXController/insertBJAPIZDGZRYInfo',p,
          r =>{
@@ -950,11 +965,13 @@ export default {
              });
              this.pushMaddDialogVisible=false;
              this.getList(this.CurrentPage,this.pageSize,this.pd,this.orders,this.direction);
+
              this.pushMform={
                userName:'',
                qsgzrq:formatDate(new Date(),'yyyyMMdd'),
                jsgzrq:formatDate(new Date(new Date(new Date().toLocaleDateString()).getTime()+24*60*60*1000*3),'yyyyMMdd'),
              };
+
            }
          })
       })

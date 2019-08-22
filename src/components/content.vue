@@ -535,7 +535,6 @@ export default {
           _this.getNav();
         // },400)
       }
-
       this.nav1Id = nav2Item.query.nav1Id;
       this.nav2Id = nav2Item.query.nav2Id;
       let _this=this;

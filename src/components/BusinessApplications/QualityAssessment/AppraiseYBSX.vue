@@ -118,8 +118,10 @@
           <el-button type="text" class="a-btn" title="帮助" @click="help">帮助</el-button>
         </div>
         <div class="">
+
           <el-button type="primary" size="small" name="ybsxxpj_data_export" @click="download(0)">统计数据导出</el-button>
           <el-button type="warning" size="small" name="ybsxxpj_detail_export" @click="download(5)">明细导出</el-button>
+
         </div>
       </el-row>
       <el-table

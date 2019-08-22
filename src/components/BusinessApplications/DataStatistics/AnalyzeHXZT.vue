@@ -439,8 +439,16 @@ export default {
         "begintime":this.pd.begintime,
         "endtime":this.pd.endtime,
         "flighttype":this.pd.flighttype,
+        "continentfrom":this.pd.continentfrom,
+        "countryfrom":this.pd.countryfrom,
+        "cityfrom":this.pd.cityfrom,
+        "portfrom":this.pd.portfrom,
+        "cityto":this.pd.cityto,
+        "portto":this.pd.portto,
+
         "stationfromList":this.pd.stationfromList,
         "stationtoList":this.pd.stationtoList,
+
         "colproperty":this.typerow=='continent'?1:this.typerow=='country'?2:this.typerow=='city'?3:4,
         "myid":i.myid
       }
@@ -468,6 +476,16 @@ export default {
           "begintime":this.pd.begintime,
           "endtime":this.pd.endtime,
           "flighttype":this.pd.flighttype,
+
+          "continentfrom":this.pd.continentfrom,
+          "countryfrom":this.pd.countryfrom,
+          "cityfrom":this.pd.cityfrom,
+          "portfrom":this.pd.portfrom,
+          "cityto":this.pd.cityto,
+          "portto":this.pd.portto,
+          "colproperty":this.typerow=='continent'?1:this.typerow=='country'?2:this.typerow=='city'?3:4,
+          "myid":this.myidChange
+
           // "continentfrom":this.pd.continentfrom,
           // "countryfrom":this.pd.countryfrom,
           // "cityfrom":this.pd.cityfrom,
@@ -478,6 +496,7 @@ export default {
           "myid":this.myidChange,
           "stationfromList":this.pd.stationfromList,
           "stationtoList":this.pd.stationtoList,
+
         }
       }else if(this.daochuFlag==1){
         p=this.pd
@@ -522,6 +541,7 @@ export default {
       console.log(`当前页: ${val}`);
     },
     getList(currentPage, showCount, pd) {
+
       if (this.pd.begintime == null || this.pd.endtime == null) {
         this.$alert('时间范围不能为空', '提示', {
           confirmButtonText: '确定',
@@ -558,6 +578,7 @@ export default {
 
         "begintime": pd.begintime,
         "endtime": pd.endtime,
+
         "flighttype":pd.flighttype,
         "stationfromList":pd.stationfromList,
         "stationtoList":pd.stationtoList

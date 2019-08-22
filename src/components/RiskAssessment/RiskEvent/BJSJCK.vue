@@ -573,6 +573,7 @@
           <el-col :span="24" class="input-item my-form-group" data-scope="demo2" data-name="type" data-type="select"
             v-validate-easy="[['required']]">
             <span class="yy-input-text"><font class="yy-color">*</font>处理类型：</span>
+
             <el-select placeholder="请选择" v-model="pushMform.type" filterable clearable size="small" class="yy-input-input" @change='typeChange(pushMform.type)'>
               <el-option label="移交台外" value="移交台外"></el-option>
               <el-option label="前台提示信息" value="前台提示信息"></el-option>
@@ -598,6 +599,7 @@
         </el-row>
         <el-row type="flex" class="mb-6" v-if="pushMform.type=='自定义前台提示信息'">
           <el-col :span="24" class="input-item my-form-group" data-scope="demo2" data-name="message" data-type="textarea"
+
             v-validate-easy="[['required'],['maxLength',[100]]]">
             <span class="yy-input-text"><font class="yy-color">*</font>自定义提示信息：</span>
             <el-input type="textarea" placeholder="最多输入100字" :autosize="{ minRows: 3, maxRows: 6}" v-model="pushMform.message" class="yy-input-input"></el-input>
@@ -614,6 +616,7 @@
             </el-select>
           </el-col>
         </el-row>
+
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item my-form-group" data-scope="demo2" data-name="zdgzrylbdm" data-type="select"
             v-validate-easy="[['required']]">
@@ -789,6 +792,7 @@ export default {
 
   data(){
     return{
+
       tableDataSus:[],
       susMDialogVisible:false,
       viewMDialogVisible:false,
@@ -796,6 +800,7 @@ export default {
       ccTimer:null,
       tobox:'box0',
       pushMaddDialogVisible:false,
+
       pushMform:{
         userName:'',
         qsgzrq:formatDate(new Date(),'yyyyMMdd'),
@@ -1038,12 +1043,14 @@ export default {
           "course_type":'4',
           "one":(new Date()).getTime(),
           "gznr":this.pushMform.type=="前台提示信息"?this.pushMform.strategy:this.pushMform.type=="自定义前台提示信息"?this.pushMform.message:"移交台外",
+
           "fbkadm":this.pushMform.fbkadm,
           "zdgzrylbdm":this.pushMform.zdgzrylbdm,
           "bjfw":this.pushMform.bjfw,
           "zdgzryclfs":this.pushMform.zdgzryclfs,
           "qsgzrq":this.pushMform.qsgzrq,
           "jsgzrq":this.pushMform.jsgzrq
+
         }
         this.$api.post('/manage-platform/riskEventPushMXController/insertBJAPIZDGZRYInfo',p,
          r =>{
@@ -1054,11 +1061,13 @@ export default {
              });
              this.pushMaddDialogVisible=false;
              this.meishaText="撤销推送";
+
              this.pushMform={
                userName:'',
                qsgzrq:formatDate(new Date(),'yyyyMMdd'),
                jsgzrq:formatDate(new Date(new Date(new Date().toLocaleDateString()).getTime()+24*60*60*1000*3),'yyyyMMdd'),
              };
+
            }
          })
       })
@@ -1090,8 +1099,10 @@ export default {
       this.$api.post('/manage-platform/riskEventWarningController/getRiskIapiInfo',p,
        r => {
          if(r.success){
+
            this.page0Data=r.data;
            this.iapi_id=r.data.iapi_id;
+
            this.getRiskEventTagInfo(this.page0Data.passportno,this.page0Data.nationality)
            this.getPhotoInf(r.data.passportno,r.data.nationality,r.data.birthday,r.data.name,r.data.genderName,r.data.personId);
          }

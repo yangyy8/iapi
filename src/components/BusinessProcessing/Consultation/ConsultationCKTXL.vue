@@ -73,8 +73,10 @@
 
     <div class="middle" @mouseover="mouseHeader">
       <el-row class="mb-15">
+
         <el-button type="primary" size="small" name="txlgl_add" @click="adds(0,'');">新增</el-button>
         <el-button type="success" size="small" name="txlgl_export" @click="exportT">导出</el-button>
+
       </el-row>
       <el-table
         ref="sort"

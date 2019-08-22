@@ -2458,8 +2458,10 @@ export default {
         'orders':[this.orderPnrHcZDY.prop],
         'direction':this.orderPnrHcZDY.order=='ascending'?1:0,
         "pd":{'queryColList':this.checkListPnr},
+
         'currentPage':this.currentPagePnr,
         'showCount':this.showCountPnr,
+
         'searchType':this.rangePnr
       }
       if(this.isaPnr == false){

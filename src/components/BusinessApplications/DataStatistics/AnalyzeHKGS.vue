@@ -418,6 +418,7 @@ export default {
           this.tableData = r.data;
           if($('.t-hkgsBtn').length==0){
             $('.el-table__footer .has-gutter').find("td").last().children('.cell').append('<button type="text"  class="el-button a-btn el-button--text el-button--mini t-hkgsBtn" title="详情" size="mini" onclick="sumDetails()"><i class="el-icon-tickets"></i></button>')
+
           }
           this.$nextTick(()=>{
             this.btnctlFn(this.$root.checkItem);

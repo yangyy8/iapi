@@ -8,9 +8,11 @@
   display:flex;
   justify-content:flex-end;
 }
+
 .loadingClass{
   z-index: 2020!important;
 }
+
 .stepContent .el-step__head.is-process{
   color: #409EFF;
   border-color:#409EFF;

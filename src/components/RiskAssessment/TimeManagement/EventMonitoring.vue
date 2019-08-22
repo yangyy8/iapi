@@ -225,6 +225,7 @@
             <span v-else>{{scope.row.PERCENT}}</span>
           </template>
         </el-table-column>
+
         <el-table-column
           label="操作"
           fixed="right"
@@ -233,6 +234,7 @@
             <el-button type="text"  class="a-btn" title="详情" size="mini" icon="el-icon-tickets" name="fpsjjk_detail" @click="modelDetails(scope.row)"></el-button>
          </template>
         </el-table-column>
+
       </el-table>
 
       <div class="middle-foot">
@@ -307,6 +309,7 @@
         :span-method="objectSpanMethod"
         style="width: 100%;">
         <el-table-column
+
           prop="modelName"
           label="模型"
           sortable>
@@ -326,6 +329,7 @@
           label="证件号码"
           sortable>
         </el-table-column>
+
       </el-table>
       <div slot="footer" class="dialog-footer">
         <el-button @click="modelsDialogVisible = false" size="small">返 回</el-button>
@@ -413,8 +417,10 @@ export default {
   },
   methods:{
     rowspan() {
+
       this.spanArr=[];
       this.position=0;
+
   		this.modeltableData.forEach((item,index) => {
 	    	if( index === 0){
 	    		this.spanArr.push(1);
@@ -449,6 +455,7 @@ export default {
     	}
     },
 
+
     modelDetails(i){
 
       this.$api.post('/manage-platform/eventMonitor/queryEventInfo/'+i.FLIGHT_RECORDNUM,{},
@@ -464,6 +471,7 @@ export default {
 
           }
         })
+
 
     },
     sortChange(column, prop, order){

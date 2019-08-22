@@ -2115,7 +2115,9 @@
       </div>
     </el-dialog>
     <el-dialog title="详情" :visible.sync="moreDialogVisible" width="900px">
+
       <MoreDialog :more-data="moredata" :more-type="moreType" :desc-detail="descDetail" :change-type="changeType"></MoreDialog>
+
       <!-- <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="TagSave" size="small">确认</el-button>
         <el-button type="warning" @click="tagDialogVisible=false" size="small">取消</el-button>
@@ -2172,6 +2174,7 @@ import Detail from '../../BusinessApplications/InformationInquiry/DetailRYXX'
 export default {
   data(){
     return{
+
       escapeFlag:'',//在逃
       invalidFlag:'',//作废
       emphFlag:'',//重点关注
@@ -2179,6 +2182,7 @@ export default {
       phoneFlag:'',
       globalserialZH:'',
       changeType:'',
+
       photoDialogVisible:false,
       nationality:'',
       passportno:'',
@@ -2336,7 +2340,9 @@ export default {
       num:{"imm": 0,"immcardNum": 0,"visa":0,"res": 0,"act": 0,"fgncas": 0,"repat": 0,"resident":0,"temp":0,"self": 0,"cert": 0,"api": 0,"illegal": 0},
       num2:{hjnum:0,tlnum:0,mhdpnum:0,mhlgnum:0},
       photosList:[],
+
       countryType:'',
+
     }
   },
   components:{
@@ -2508,7 +2514,9 @@ export default {
         });
         return
       }
+
       this.globalserialZH=new Date().getTime();
+
       this.detailsDialogVisible=true
     },
     pageSizeChange(val) {
@@ -2973,7 +2981,9 @@ export default {
       this.moreDialogVisible=true;
       this.moreType=type;
       this.moredata=item;
+
       this.changeType=change;
+
       this.descDetail={
         'gender':this.$route.query.gender,
         'ename':this.$route.query.ename,

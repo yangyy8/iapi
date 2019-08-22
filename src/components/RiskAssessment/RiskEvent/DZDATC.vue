@@ -476,6 +476,7 @@
           <div class="title-green mt-10 mb-15">
             处理意见
           </div>
+
           <span>{{descData.deal_opinion}}</span>
           <div class="stepContent" v-for="(j,key) in descStep" style="margin-bottom:20px;">
            <div style="color:#409EFF" @click="j.bon=!j.bon" class='hand'>{{j.year}}年<i :class="j.bon?'el-icon-caret-bottom':'el-icon-caret-right'"></i></div>
@@ -483,6 +484,7 @@
               <el-step title="" v-for="(item,index) in j.message" :key="index" style="min-height:60px;">
                 <template slot="description">
                   <div class="" style="backgroundColor:#eee;padding: 3px;box-sizing: border-box;margin-top: -12px;border-radius: 3px;margin-bottom:10px">
+
                     <div class="fz14">
                       <span>{{item.pers_deal_flag}}</span>
                       <span> | 处理时间：{{item.deal_dt}}</span>
@@ -491,7 +493,9 @@
                     </div>
                     <div class="fz14" style="color:#000">
                       <span>人员姓名：{{item.confess_name}}</span>
+
                       <span> | 处理结果：{{item.deal_opinion}}</span>
+
                     </div>
                   </div>
                 </template>
@@ -848,7 +852,9 @@
         </div>
       </div>
       <div class="ak-tab-pane pt-10" @mouseover="mouseHeader">
+
         <div class="" v-show="desctype==0">
+
           <el-table
             :data="desc12_1"
             class="ak-table2"
@@ -1011,6 +1017,7 @@
             </el-col>
           </el-row>
         </div>
+
         <div class="" v-show="desctype==1">
           <el-row style="line-height:32px;">
             <el-col :span="12">
@@ -1042,11 +1049,13 @@
             </el-col>
             <el-col :span="24">
               基本案情：{{descData12.case_desc||'-'}}
+
             </el-col>
           </el-row>
           <div class="title-green mt-10 mb-15">
             处理结果
           </div>
+
           <div class="stepContent" v-for="(j,key) in descStep12" style="margin-bottom:20px;" :key="key">
            <div style="color:#409EFF" @click="j.bon=!j.bon" class='hand'>{{j.year}}年<i :class="j.bon?'el-icon-caret-bottom':'el-icon-caret-right'"></i></div>
             <el-steps direction="vertical" :active="1" :style="{height:60*j.message.length+'px'}" style="margin-left: 47px;margin-top: 10px;" v-if="j.bon">
@@ -1062,6 +1071,7 @@
                     <div class="fz14" style="color:#000">
                       <span>人员姓名：{{item.chn_name||item.eng_name}}</span>
                       <span> | 处理结果：{{item.finding_na}}</span>
+
                     </div>
                   </div>
                 </template>
@@ -1069,7 +1079,9 @@
             </el-steps>
           </div>
         </div>
+
         <div class="" v-show="desctype==2">
+
           <el-table
             :data="desc12_2"
             class="ak-table2"
@@ -1111,7 +1123,9 @@
               label="证件号码"
               prop="cert_no">
               <template slot-scope="scope">
+
                 <span class="tc-b hand" @click="mmdescTypeTwo=!mmdescTypeTwo;mmDate_12=scope.row">{{scope.row.cert_no}}</span>
+
               </template>
             </el-table-column>
             <el-table-column
@@ -1125,6 +1139,7 @@
               <el-button type="primary" size="small" @click="mmdescTypeTwo=!mmdescTypeTwo">返回</el-button>
             </div>
             <el-col :span="12">
+
               上报省份：{{mmDate_12.rpt_prov_na||'-'}}
             </el-col>
             <el-col :span="12">
@@ -1192,6 +1207,7 @@
             </el-col>
             <el-col :span="12">
               签证注销时间：{{mmDate_12.visa_cancel_date||'-'}}
+
             </el-col>
           </el-row>
         </div>
@@ -1412,7 +1428,9 @@
 <script>
 export default {
   name:"MoreDialog",
+
   props: ['moreData','moreType','descDetail','changeType'],
+
   data(){
     return{
       desctype:0,
@@ -1423,6 +1441,7 @@ export default {
       desc12_1:[],
       desc12_2:[],
       descStep:[],
+
       descStep12:[],
       mmdescTypeOne:false,
       mmdescTypeTwo:false,
@@ -1439,11 +1458,13 @@ export default {
       this.desctype=0;
       this.initial12();
     }
+
   },
   methods: {
     initial12(){
       if(this.moreType=='box12'){
         this.desc12_1=[this.moreData]
+
         console.log('this.desc12_1',this.desc12_1)
       }
     },
@@ -1466,10 +1487,27 @@ export default {
                 this.descStep12=[];
               }
 
+
             }
           })
       }else if(this.desctype==2){
         let p={
+
+          "gender":(this.descDetail.gender=="M"||this.descDetail.gender=='1')?'1':(this.descDetail.gender=="F"||this.descDetail.gender=='2')?'2':'',
+          "nationality":this.descDetail.nationality,
+          "passportno":this.descDetail.passportno,
+          "birth":this.descDetail.birthday,
+          "ename":this.descDetail.name,
+          "personId":this.descDetail.personId,
+          "type":'cert'
+        }
+        this.$api.post('/manage-platform/riskRecordExtInterfaceController/getRecordOtherInfo',p,
+          r =>{
+            if(r.success){
+              this.certData_1 = r.data.data.dcap_f_evt_capt_cert;
+            }
+          })
+
           "objectId":this.moreData.case_intr_id,
           "map":{},
           "type":'paper',
@@ -1526,6 +1564,7 @@ export default {
             r =>{
               if(r.success){
                 this.certData_2 = r.data.data.illres;
+
               }
             })
       }
