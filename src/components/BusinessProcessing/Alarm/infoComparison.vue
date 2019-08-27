@@ -745,7 +745,7 @@
           <div class="img-checkbox1 mb-15">
             <div >
               <label for="p1" class="img-checkbox-item">
-                <img src="../../../assets/img/bp_ap/ph_s.png" alt="" :class="{'ch-img':checkedImg==1}">
+                <img :src="imgURLry" alt="" :class="{'ch-img':checkedImg==1}" @click="photoDetailRy">
                 <i class="el-icon-circle-check " :class="{'cheched-img':checkedImg==1}"></i>
               </label>
               <input type="radio" name="pPhoto" value="1"  v-model="checkedImg" id="p1" class="img-checkbox-input" >
@@ -759,7 +759,7 @@
           <div class="img-checkbox1">
             <div >
               <label for="b1" class="img-checkbox-item">
-                <img :src="imgURL" alt="" :class="{'ch-img':checkedImg2==1}">
+                <img :src="imgURL" alt="" :class="{'ch-img':checkedImg2==1}" @click="photoDetail">
                 <i class="el-icon-circle-check " :class="{'cheched-img':checkedImg2==1}"></i>
               </label>
               <input type="radio" name="pPhoto" value="1"  v-model="checkedImg2" id="b1" class="img-checkbox-input">
@@ -770,8 +770,8 @@
         </div>
         <div class="middle mb-2">
           <div class="img-box mb-15">
-            <img src="../../../assets/img/bp_ap/ph_l.png" alt="" class="mr-20">
-            <img src="../../../assets/img/bp_ap/ph_l.png" alt="">
+            <img :src="imgURLry||imgRydb" alt="" class="mr-20">
+            <img :src="imgURL||imgBkdb" alt="">
 
           </div>
           <div class="btn-succ-box">
@@ -804,7 +804,26 @@
       </el-col>
 
     </el-row>
-
+    <el-dialog title="人员照片详情" :visible.sync="photoDialogVisible" width="800px">
+      <div class="photoCon">
+        <div class="photoItem" v-for="(i,ind) in photosList">
+          <img :src="i" alt="" style="width:100%" @click="battleRy(i)">
+        </div>
+      </div>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="photoDialogVisible = false" size="small">取消</el-button>
+      </div>
+    </el-dialog>
+    <el-dialog title="布控照片详情" :visible.sync="bkphotoDialogVisible" width="800px">
+      <div class="photoCon">
+        <div class="photoItem" v-for="(i,ind) in bkphotosList">
+          <img :src="i" alt="" style="width:100%" @click="battleBk(i)">
+        </div>
+      </div>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="bkphotoDialogVisible = false" size="small">取消</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -813,12 +832,19 @@ import imgUrl from '../../../assets/img/bp_ap/ph_s.png'
 export default {
   data() {
    return {
+     photoDialogVisible:false,
+     bkphotoDialogVisible:false,
+     photosList:[],
+     bkphotosList:[],
      textarea3:"",
      value: '223333333333',
      checkedImg:1,
      checkedImg2:1,
      martchPort:1,
      imgURL:imgUrl,
+     imgURLry:imgUrl,
+     imgRydb:imgUrl,
+     imgBkdb:imgUrl,
      pd1:{},
      tableData:{
        nameList:[],
@@ -831,6 +857,10 @@ export default {
      distinguishNote:"",
      isdisabled:false,
      idCard:'',
+     nationality:'',
+     birthday:'',
+     name:'',
+     gender:'',
    }
  },
 
@@ -848,7 +878,13 @@ export default {
  activated(){
    console.log(this.$route.query.instructNew==false)
    this.imgURL = imgUrl;
+   this.imgURLry = imgUrl;
    this.idCard = this.$route.query.row.passportno;
+   this.nationality = this.$route.query.row.nationalityCode;
+   this.birthday = this.$route.query.row.dateofbirth;
+   this.name = this.$route.query.row.name;
+   this.gender = this.$route.query.row.gender;
+
    this.pd1.NameListType=parseInt(this.$route.query.NameListType);
    this.pd1.eventserial=this.$route.query.eventserial;
    this.pd1.iapiSerial=this.$route.query.iapiSerial;
@@ -860,6 +896,7 @@ export default {
    this.tableData.nameList=[];
    this.getData();
    this.getBkPhoto();
+   this.getRyPhoto();
  },
  methods:{
    getBkPhoto(){
@@ -869,6 +906,86 @@ export default {
           this.imgURL = r.data.url||imgUrl;
         }
       })
+   },
+   photoDetail(){
+     this.$api.post('/manage-platform/riskRecordController/getFHCXPhotoListInf',{passportno:this.idCard},
+      r =>{
+        if(r.success){
+          if(r.data.img.length!=0){
+            this.bkphotoDialogVisible=true
+            this.bkphotosList=r.data.img
+          }else{
+            this.$message({
+               message: '没有更多的照片信息！',
+               type: 'warning'
+             });
+          }
+        }
+      })
+   },
+   getRyPhoto(){
+     let p={}
+     if(this.nationality=="CHN"){
+       p={
+         "type": 'photo',
+         "nationality": this.nationality,
+         "passportno": this.idCard,
+       }
+     }else{
+       p={
+         "passportno": this.idCard,
+         "nationality": this.nationality,
+         "birthday": this.birthday,
+         "name": this.name,
+         "gender":this.gender=="男"?'1':this.gender=="女"?'2':'0',
+         "type": 'photo',
+       }
+     }
+     this.$api.post('/manage-platform/riskRecordController/getPhotoInf',p,
+      r => {
+        this.imgURLry=r.data.url||imgUrl;
+     })
+   },
+   photoDetailRy(){
+     let p={}
+     if(this.nationality=="CHN"){
+       p={
+         "type": 'img',
+         "nationality": this.nationality,
+         "passportno": this.idCard,
+         "personId":'',
+       }
+     }else{
+       p={
+         "passportno": this.idCard,
+         "nationality": this.nationality,
+         "birthday": this.birthday,
+         "name": this.name,
+         "gender":this.gender=="男"?'1':this.gender=="女"?'2':'0',
+         "type": 'img',
+         "personId":''
+       }
+     }
+     this.$api.post('/manage-platform/riskRecordController/getPhotoListInfo',p,
+      r => {
+        if(r.success){
+          if(r.data.img.length!=0){
+            this.photoDialogVisible=true
+            this.photosList=r.data.img
+          }else{
+            this.$message({
+               message: '没有更多的照片信息！',
+               type: 'warning'
+             });
+          }
+        }
+     })
+   },
+   battleRy(val){
+     this.imgRydb=val;
+   },
+   battleBk(val){
+     this.imgBkdb=val;
    },
    getData(){
      let p={
