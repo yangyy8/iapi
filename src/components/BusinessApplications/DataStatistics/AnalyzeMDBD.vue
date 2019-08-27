@@ -87,13 +87,13 @@
               <el-checkbox label="航班" v-model="pd.rowproperty_fltno"></el-checkbox>
               <el-checkbox label="出入类型" v-model="pd.rowproperty_flttype"></el-checkbox>
             </el-col>
-            <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
+            <!-- <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
               <span class="input-text">列属性：</span>
               <el-checkbox label="数据校验比对区比中" v-model="pd.colproperty1"></el-checkbox>
               <el-checkbox label="业务平台比中" v-model="pd.colproperty2"></el-checkbox>
               <el-checkbox label="处理结果" v-model="pd.colproperty3"></el-checkbox>
               <el-checkbox label="甄别结果" v-model="pd.colproperty4"></el-checkbox>
-            </el-col>
+            </el-col> -->
 
           </el-row>
         </el-col>
@@ -150,7 +150,7 @@
               prop="flttype" sortable
               label="出入类型" width="100" v-if='sh4'>
             </el-table-column>
-            <el-table-column label="数据校验比对区比中" v-if='showdmz'>
+            <el-table-column label="数据校验比对区比中">
                 <el-table-column
                   prop="blkin" sortable
                   label="黑名单-不准入境" >
@@ -176,7 +176,7 @@
                   label="合计" >
                 </el-table-column>
             </el-table-column>
-            <el-table-column label="业务平台比中" v-if='showyw'>
+            <el-table-column label="业务平台比中">
                 <el-table-column
                   prop="plt_blkin" sortable
                   label="黑名单-不准入境" >
@@ -202,7 +202,7 @@
                   label="合计">
                 </el-table-column>
             </el-table-column>
-            <el-table-column label="处理结果" v-if='showcljg'>
+            <el-table-column label="处理结果">
                 <el-table-column
                   prop="Chk_0z"
                   label="允许登机" sortable>
@@ -216,7 +216,7 @@
                   label="合计">
                 </el-table-column>
             </el-table-column>
-            <el-table-column label="甄别结果" v-if='showzbjg'>
+            <el-table-column label="甄别结果">
                 <el-table-column
                   prop="confirm"
                   label="确认" sortable>
@@ -441,10 +441,10 @@ export default {
         "rowproperty_fltno": pd.rowproperty_fltno,
         "rowproperty_flttype": pd.rowproperty_flttype,
 
-        "colproperty1": pd.colproperty1,
-        "colproperty2": pd.colproperty2,
-        "colproperty3": pd.colproperty3,
-        "colproperty4": pd.colproperty4,
+        // "colproperty1": pd.colproperty1,
+        // "colproperty2": pd.colproperty2,
+        // "colproperty3": pd.colproperty3,
+        // "colproperty4": pd.colproperty4,
 
 
       };
@@ -474,38 +474,38 @@ export default {
         }
       }
 
-      if ((this.pd.colproperty1 != undefined && this.pd.colproperty1 == true) ||
-        (this.pd.colproperty2 != undefined && this.pd.colproperty2 == true) ||
-        (this.pd.colproperty3 != undefined && this.pd.colproperty3 == true) ||
-        (this.pd.colproperty4 != undefined && this.pd.colproperty4 == true)) {
-          url = "/manage-platform/dataStatistics/get_namelistcmp_dynamic_noplt";
-        this.showdmz = false;
-        this.showyw = false;
-        this.showcljg = false;
-        this.showzbjg = false;
-
-       // if ((this.pd.colproperty2 != undefined || this.pd.colproperty2 == true) ||
-       // (this.pd.colproperty3 != undefined || this.pd.colproperty3 == true) ||
-       // (this.pd.colproperty4 != undefined || this.pd.colproperty4 == true)) {
-       //
-       //
-       //  }
-
-        if (this.pd.colproperty1 != undefined && this.pd.colproperty1 == true) {
-          this.showdmz = true;
-        }
-        if (this.pd.colproperty2 != undefined && this.pd.colproperty2 == true) {
-          // url = "/manage-platform/dataStatistics/get_namelistcmp_dynamic";
-          this.showyw = true;
-        }
-        if (this.pd.colproperty3 != undefined && this.pd.colproperty3 == true) {
-          this.showcljg = true;
-        }
-        if (this.pd.colproperty4 != undefined && this.pd.colproperty4 == true) {
-          this.showzbjg = true;
-        }
-
-      }
+      // if ((this.pd.colproperty1 != undefined && this.pd.colproperty1 == true) ||
+      //   (this.pd.colproperty2 != undefined && this.pd.colproperty2 == true) ||
+      //   (this.pd.colproperty3 != undefined && this.pd.colproperty3 == true) ||
+      //   (this.pd.colproperty4 != undefined && this.pd.colproperty4 == true)) {
+      //     url = "/manage-platform/dataStatistics/get_namelistcmp_dynamic_noplt";
+      //   this.showdmz = false;
+      //   this.showyw = false;
+      //   this.showcljg = false;
+      //   this.showzbjg = false;
+      //
+      //  // if ((this.pd.colproperty2 != undefined || this.pd.colproperty2 == true) ||
+      //  // (this.pd.colproperty3 != undefined || this.pd.colproperty3 == true) ||
+      //  // (this.pd.colproperty4 != undefined || this.pd.colproperty4 == true)) {
+      //  //
+      //  //
+      //  //  }
+      //
+      //   if (this.pd.colproperty1 != undefined && this.pd.colproperty1 == true) {
+      //     this.showdmz = true;
+      //   }
+      //   if (this.pd.colproperty2 != undefined && this.pd.colproperty2 == true) {
+      //     // url = "/manage-platform/dataStatistics/get_namelistcmp_dynamic";
+      //     this.showyw = true;
+      //   }
+      //   if (this.pd.colproperty3 != undefined && this.pd.colproperty3 == true) {
+      //     this.showcljg = true;
+      //   }
+      //   if (this.pd.colproperty4 != undefined && this.pd.colproperty4 == true) {
+      //     this.showzbjg = true;
+      //   }
+      //
+      // }
 
       this.$api.post(url, p,
         r => {
@@ -625,9 +625,9 @@ this.queryNationality();
       //  var url="http://192.168.99.213:8080/manage-platform/dataStatistics/export_namelistfix";
       var url = "/manage-platform/dataStatistics/export_namelistfix";
 
-      if (this.pd.colproperty2) {
-        url =  "/manage-platform/dataStatistics/export_namelist_dynamic";
-      }
+      // if (this.pd.colproperty2) {
+      //   url =  "/manage-platform/dataStatistics/export_namelist_dynamic";
+      // }
       let p={
         "begintime": this.pd.begintime,
         "endtime": this.pd.endtime,
@@ -642,10 +642,10 @@ this.queryNationality();
         "rowproperty_fltno": this.pd.rowproperty_fltno,
         "rowproperty_flttype": this.pd.rowproperty_flttype,
 
-        "colproperty1": this.pd.colproperty1,
-        "colproperty2": this.pd.colproperty2,
-        "colproperty3": this.pd.colproperty3,
-        "colproperty4": this.pd.colproperty4,
+        // "colproperty1": this.pd.colproperty1,
+        // "colproperty2": this.pd.colproperty2,
+        // "colproperty3": this.pd.colproperty3,
+        // "colproperty4": this.pd.colproperty4,
       }
       this.$api.post(url,p,
         r =>{

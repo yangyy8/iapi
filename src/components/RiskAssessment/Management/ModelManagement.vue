@@ -414,8 +414,8 @@
       <el-row class="" type="flex" justify="space-between">
         <div class="">
           <el-radio-group v-model="radio" @change="radioChange" class="t-radioClass">
-           <el-radio  :label="1">中心模型</el-radio>
-           <el-radio  :label="2">口岸模型</el-radio>
+           <el-radio  :label="1">数据源</el-radio>
+           <el-radio  :label="2">推送模型</el-radio>
          </el-radio-group>
         </div>
        <div class="" style="margin-right: 12px;">
@@ -442,7 +442,7 @@
 
     <el-dialog  title="名词解释"  :visible.sync="helpDialogVisible" width="750px">
       <div class="helpBody">
-        <div>中心模型跑口岸数据，风评事件返回给中心，口岸不能看到事件和模型；口岸模型是中心部署在口岸的模型，选择的口岸用户登录后可以看到该模型，风评事件返回给口岸，事件中心也可以看。</div>
+        <div>数据源跑口岸数据，风评事件返回给中心，口岸不能看到事件和模型；推送模型是中心部署在口岸的模型，选择的口岸用户登录后可以看到该模型，风评事件返回给口岸，事件中心也可以看。</div>
       </div>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="helpDialogVisible=false" size="small">返回</el-button>

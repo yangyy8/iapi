@@ -476,16 +476,6 @@ export default {
           "begintime":this.pd.begintime,
           "endtime":this.pd.endtime,
           "flighttype":this.pd.flighttype,
-
-          "continentfrom":this.pd.continentfrom,
-          "countryfrom":this.pd.countryfrom,
-          "cityfrom":this.pd.cityfrom,
-          "portfrom":this.pd.portfrom,
-          "cityto":this.pd.cityto,
-          "portto":this.pd.portto,
-          "colproperty":this.typerow=='continent'?1:this.typerow=='country'?2:this.typerow=='city'?3:4,
-          "myid":this.myidChange
-
           // "continentfrom":this.pd.continentfrom,
           // "countryfrom":this.pd.countryfrom,
           // "cityfrom":this.pd.cityfrom,

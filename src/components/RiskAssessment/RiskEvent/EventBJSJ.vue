@@ -180,6 +180,15 @@
                   <el-option label="否" value="0"></el-option>
                 </el-select>
               </el-col>
+              <el-col :sm="24" :md="12"  :lg="8" class="input-item">
+                <span class="input-text">人员类别：</span>
+                <el-select v-model="pd.personnelType" placeholder="请选择"  size="small" clearable filterable class="block input-input">
+                  <el-option label="FL - 旅客" value="FL"></el-option>
+                  <el-option label="DDU - 旅客" value="DDU"></el-option>
+                  <el-option label="FM - 机组" value="FM"></el-option>
+                  <el-option label="DDT - 机组" value="DDT"></el-option>
+                </el-select>
+              </el-col>
             </el-row>
             </el-collapse-transition>
           </el-col>

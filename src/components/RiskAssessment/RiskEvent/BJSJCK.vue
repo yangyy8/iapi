@@ -84,7 +84,10 @@
                   <span>报警时间：</span>
                   {{page0Data.createTime}}
                 </el-col>
-
+                <el-col :span="6">
+                  <span>人员类别：</span>
+                  {{page0Data.passengerType}}
+                </el-col>
               </el-row>
               <div class="ak-tip">
                 注：

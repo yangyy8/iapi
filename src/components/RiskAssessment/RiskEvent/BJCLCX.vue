@@ -562,7 +562,19 @@ export default {
       }
       this.$api.post('/manage-platform/riskEventWarningController/getRiskEventTagInfo',p,
        r => {
-         this.box1Data=r.data;
+         if(r.success){
+           var arrAfter=[];
+           var arrReal=[];
+           for(var i=0;i<r.data.validList.length;i++){
+             if(arrAfter.indexOf(r.data.validList[i].TAG_NAME)==-1){
+               arrAfter.push(r.data.validList[i].TAG_NAME);
+               arrReal.push(r.data.validList[i])
+             }
+           }
+           r.data.validList = arrReal;
+           this.box1Data=r.data;
+         }
+
       })
     },
     // 命中模型信息

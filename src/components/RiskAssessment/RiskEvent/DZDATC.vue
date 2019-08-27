@@ -1492,7 +1492,6 @@ export default {
           })
       }else if(this.desctype==2){
         let p={
-
           "gender":(this.descDetail.gender=="M"||this.descDetail.gender=='1')?'1':(this.descDetail.gender=="F"||this.descDetail.gender=='2')?'2':'',
           "nationality":this.descDetail.nationality,
           "passportno":this.descDetail.passportno,
@@ -1507,18 +1506,18 @@ export default {
               this.certData_1 = r.data.data.dcap_f_evt_capt_cert;
             }
           })
-
-          "objectId":this.moreData.case_intr_id,
-          "map":{},
-          "type":'paper',
+          let pl={
+            "objectId":this.moreData.case_intr_id,
+            "map":{},
+            "type":'paper',
+          }
+          this.$api.post('/manage-platform/riskRecordExtInterfaceController/getRecordWFWGEventInfo',pl,
+            r =>{
+              if(r.success){
+                this.desc12_2=r.data.data.dcap_f_evt_fgn_cas_per_paper
+              }
+            })
         }
-        this.$api.post('/manage-platform/riskRecordExtInterfaceController/getRecordWFWGEventInfo',p,
-          r =>{
-            if(r.success){
-              this.desc12_2=r.data.data.dcap_f_evt_fgn_cas_per_paper
-            }
-          })
-      }
       // else if(this.desctype==0){
       //   this.desc12_1=[this.moreData]
       // }

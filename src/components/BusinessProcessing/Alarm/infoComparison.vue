@@ -21,14 +21,16 @@
       </el-table-column>
       <el-table-column
         label="姓名"
-        :show-overflow-tooltip="true">
+        :show-overflow-tooltip="true"
+        width="250">
         <template slot-scope="scope">
           <span :class="{'green':scope.$index-1>-1&&compareResult[scope.$index-1].pname==1}">{{scope.row.XM||scope.row.NAME||scope.row.pname||'-'}}</span>
         </template>
       </el-table-column>
       <el-table-column
         label="性别"
-        :show-overflow-tooltip="true">
+        :show-overflow-tooltip="true"
+        width="100">
         <template slot-scope="scope">
           <span :class="{'green':scope.$index-1>-1&&compareResult[scope.$index-1].sex==1}">{{scope.row.XBDM||scope.row.GENDER||scope.row.gender||scope.row.sex||'-'}}</span>
         </template>
@@ -757,7 +759,7 @@
           <div class="img-checkbox1">
             <div >
               <label for="b1" class="img-checkbox-item">
-                <img src="../../../assets/img/bp_ap/ph_s.png" alt="" :class="{'ch-img':checkedImg2==1}">
+                <img :src="imgURL" alt="" :class="{'ch-img':checkedImg2==1}">
                 <i class="el-icon-circle-check " :class="{'cheched-img':checkedImg2==1}"></i>
               </label>
               <input type="radio" name="pPhoto" value="1"  v-model="checkedImg2" id="b1" class="img-checkbox-input">
@@ -807,6 +809,7 @@
 </template>
 
 <script>
+import imgUrl from '../../../assets/img/bp_ap/ph_s.png'
 export default {
   data() {
    return {
@@ -815,6 +818,7 @@ export default {
      checkedImg:1,
      checkedImg2:1,
      martchPort:1,
+     imgURL:imgUrl,
      pd1:{},
      tableData:{
        nameList:[],
@@ -826,6 +830,7 @@ export default {
      distinguishResult:1,
      distinguishNote:"",
      isdisabled:false,
+     idCard:'',
    }
  },
 
@@ -842,7 +847,8 @@ export default {
  },
  activated(){
    console.log(this.$route.query.instructNew==false)
-
+   this.imgURL = imgUrl;
+   this.idCard = this.$route.query.row.passportno;
    this.pd1.NameListType=parseInt(this.$route.query.NameListType);
    this.pd1.eventserial=this.$route.query.eventserial;
    this.pd1.iapiSerial=this.$route.query.iapiSerial;
@@ -853,8 +859,17 @@ export default {
    this.pd1.AlarmType=this.$route.query.AlarmType;
    this.tableData.nameList=[];
    this.getData();
+   this.getBkPhoto();
  },
  methods:{
+   getBkPhoto(){
+     this.$api.post('/manage-platform/riskRecordController/getFHCXPhotoInf',{passportno:this.idCard},
+      r =>{
+        if(r.success){
+          this.imgURL = r.data.url||imgUrl;
+        }
+      })
+   },
    getData(){
      let p={
     	"currentPage":0,
