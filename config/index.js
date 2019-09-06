@@ -1,4 +1,4 @@
-'use strict'
+﻿'use strict'
 // Template version: 1.3.1
 // see http://vuejs-templates.github.io/webpack for documentation.
 
@@ -10,10 +10,24 @@ module.exports = {
     // Paths
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
-    proxyTable: {},
+    proxyTable: {
+      '/queue-admin': {  // 使用"/queue-admin"来代替 API头部，可随意命名
+            //target: 'http://192.168.11.12:8080',  // 源地址 本地开发的API头部
+            target: "https://10.6.126.136:8443/datasearch/face/persondetail/ca",  // 配置到服务器后端的API头部
+            pathRewrite: {
+                '^/queue-admin': '/queue-admin'  // 路径重写，第一个与上面相同，第二个/queue-admin 为server.context-path（服务器的上下文）
+            },
+            // 以下解决https 访问问题。上面的可以访问http
+            changeOrigin: true,
+            secure: false,
+            headers: {
+              Referer: 'https://10.6.126.136:8443/datasearch/face/persondetail/ca'
+            }
+        }
+    },
 
     // Various Dev Server settings
-    host: '192.168.99.243', // can be overwritten by process.env.HOST
+    host: 'localhost', // can be overwritten by process.env.HOST
     port: 8080, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
     autoOpenBrowser: false,
     errorOverlay: true,

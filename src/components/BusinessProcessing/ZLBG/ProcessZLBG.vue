@@ -202,6 +202,12 @@
                   sortable="custom">
                 </el-table-column>
                 <el-table-column
+                  prop="SCHEDULEARRIVETIME"
+                  label="计划到达时间"
+                  width="120"
+                  sortable="custom">
+                </el-table-column>
+                <el-table-column
                   prop="PASSENGERSTATUS"
                   label="值机状态"
                   width="120"

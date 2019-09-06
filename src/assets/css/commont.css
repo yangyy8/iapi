@@ -12,7 +12,9 @@
 .loadingClass{
   z-index: 2020!important;
 }
-
+.t-bor{
+  border:1px solid transparent;
+}
 .stepContent .el-step__head.is-process{
   color: #409EFF;
   border-color:#409EFF;

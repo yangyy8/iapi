@@ -13,7 +13,7 @@
             <span class="mb-2">综合风险等级</span>
             <el-rate :value="parseInt($route.query.grade)" disabled class="mb-9"></el-rate>
             <el-button type="primary" size="small" class="mb-9" style="width:100%" @click="$router.push({name:'DZDA',query:{gender:$route.query.row.gender,personId:page0Data.personId,ename:$route.query.row.name,birth:$route.query.row.birthday,idcard:$route.query.idcard,nationality:page0Data.nationality,passportno:page0Data.passportno,grade:$route.query.grade,type:1,nav2Id:page0Data.passportno+page0Data.nationality,title:page0Data.name+'电子档案'}})">电子档案</el-button>
-            <el-button type="primary" size="small" class="mb-9" style="width:100%">综合查询</el-button>
+            <el-button type="primary" size="small" class="mb-9" style="width:100%" @click="queryZH">综合查询</el-button>
             <el-button type="primary" size="small" class="mb-9" style="width:100%">照片比对</el-button>
             <el-button type="success" size="small" class="mb-9" style="width:100%" :disabled="!operation_type" @click="openGdTc(page0Data)">事件归档</el-button>
             <el-button type="primary" size="small" style="width:100%" @click="suspected">疑似关联人</el-button>
@@ -744,38 +744,44 @@
         <el-table-column
           :show-overflow-tooltip="true"
           label="姓名"
-          prop="ENAME">
+          prop="ENAME"
+          width="120">
         </el-table-column>
         <el-table-column
           :show-overflow-tooltip="true"
           label="性别"
-          prop="GENDER_NAME">
+          prop="GENDER_NAME"
+          width="50">
         </el-table-column>
         <el-table-column
           :show-overflow-tooltip="true"
           label="出生日期"
-          prop="BIRTHDAY">
+          prop="BIRTHDAY"
+          width="100">
         </el-table-column>
         <el-table-column
           :show-overflow-tooltip="true"
           label="国籍地区"
-          prop="NATIONALITY_NAME">
+          prop="NATIONALITY_NAME"
+          width="100">
         </el-table-column>
         <el-table-column
           :show-overflow-tooltip="true"
           label="证件号码"
-          prop="PASSPORTNO">
+          prop="PASSPORTNO"
+          width="100">
         </el-table-column>
         <el-table-column
           :show-overflow-tooltip="true"
           label="证件类型"
-          prop="INTG_CARDTYPE_NAME">
+          prop="INTG_CARDTYPE_NAME"
+          width="100">
         </el-table-column>
-        <el-table-column
+        <!-- <el-table-column
           :show-overflow-tooltip="true"
           label="航班号"
           prop="FLTNO">
-        </el-table-column>
+        </el-table-column> -->
         <el-table-column
           :show-overflow-tooltip="true"
           label="关联规则"
@@ -915,6 +921,20 @@ export default {
     }
   },
   methods:{
+    queryZH(){
+      // let p={
+      //   certno:this.page0Data.passportno,
+      //   certtype:this.page0Data.passportType,
+      //   country:this.page0Data.nationality,
+      // }
+      // this.$api.post('/queue-admin',p,
+      //  r =>{
+      //
+      //  })
+      let url="https://10.6.126.136:8443/datasearch/face/persondetail/ca?certno="+this.page0Data.passportno+"&certtype="+this.page0Data.passportType+"&country="+this.page0Data.nationality;
+      console.log('=============',url);
+      window.open(url);
+    },
     tableRowClassName({row, rowIndex}){
       if(row.isHis=='1'){
         return 'warning-row'

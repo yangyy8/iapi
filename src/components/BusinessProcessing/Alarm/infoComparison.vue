@@ -9,11 +9,65 @@
 
 <!-- // 0不准入境名单查询 1失效证件 2失效签证 3白名单 4临空名单 5重点关注
 // nameList[1]   nameList[1]  nameList[1] nameList[1]  nameList[1] -->
+<el-table
+  :data="tableData.nameList"
+  border
+  style="width: 100%;"
+  class="ak-table2"
+  v-if="this.$route.query.isZDGZ"
+  :key='this.$route.query.isZDGZ'>
+  <el-table-column
+    label="类别"
+    :show-overflow-tooltip="true">
+    <template slot-scope="scope">
+      <span>{{'旅客信息'}}</span>
+    </template>
+  </el-table-column>
+  <el-table-column
+    label="姓名"
+    :show-overflow-tooltip="true"
+    width="250">
+    <template slot-scope="scope">
+      <span>{{scope.row.XM||scope.row.NAME||scope.row.pname||'-'}}</span>
+    </template>
+  </el-table-column>
+  <el-table-column
+    label="性别"
+    :show-overflow-tooltip="true"
+    width="100">
+    <template slot-scope="scope">
+      <span>{{scope.row.XBDM||scope.row.GENDER||scope.row.gender||scope.row.sex||'-'}}</span>
+    </template>
+  </el-table-column>
+  <el-table-column
+    label="出生日期"
+    :show-overflow-tooltip="true">
+    <template slot-scope="scope">
+      <span>{{scope.row.CSRQ||scope.row.dateOfBirthDesc||scope.row.birthday||'-'}}</span>
+    </template>
+  </el-table-column>
+  <el-table-column
+    label="证件号码"
+    :show-overflow-tooltip="true">
+    <template slot-scope="scope">
+      <span>{{scope.row.ZJHM||scope.row.CARDNUM||scope.row.cardno||scope.row.cnum||'-'}}</span>
+    </template>
+  </el-table-column>
+  <el-table-column
+    label="国籍/地区"
+    :show-overflow-tooltip="true">
+    <template slot-scope="scope">
+      <span>{{scope.row.GJDQDMDESC||scope.row.GJDQDMDESC||scope.row.nationalityDesc||scope.row.nationality||'-'}}</span>
+    </template>
+  </el-table-column>
+</el-table>
+
     <el-table
       :data="tableData.nameList"
       border
       style="width: 100%;"
-      class="ak-table2">
+      class="ak-table2"
+      v-else>
       <el-table-column
         prop="TYPENAME"
         label="类别"
@@ -24,7 +78,7 @@
         :show-overflow-tooltip="true"
         width="250">
         <template slot-scope="scope">
-          <span :class="{'green':scope.$index-1>-1&&compareResult[scope.$index-1].pname==1}">{{scope.row.XM||scope.row.NAME||scope.row.pname||'-'}}</span>
+          <span :class="{'redx':scope.$index-1>-1&&compareResult[scope.$index-1].pname==0}">{{scope.row.XM||scope.row.NAME||scope.row.pname||'-'}}</span>
         </template>
       </el-table-column>
       <el-table-column
@@ -32,28 +86,28 @@
         :show-overflow-tooltip="true"
         width="100">
         <template slot-scope="scope">
-          <span :class="{'green':scope.$index-1>-1&&compareResult[scope.$index-1].sex==1}">{{scope.row.XBDM||scope.row.GENDER||scope.row.gender||scope.row.sex||'-'}}</span>
+          <span :class="{'redx':scope.$index-1>-1&&compareResult[scope.$index-1].sex==0}">{{scope.row.XBDM||scope.row.GENDER||scope.row.gender||scope.row.sex||'-'}}</span>
         </template>
       </el-table-column>
       <el-table-column
         label="出生日期"
         :show-overflow-tooltip="true">
         <template slot-scope="scope">
-          <span :class="{'green':scope.$index-1>-1&&compareResult[scope.$index-1].birthday==1}">{{scope.row.CSRQ||scope.row.dateOfBirthDesc||scope.row.birthday||'-'}}</span>
+          <span :class="{'redx':scope.$index-1>-1&&compareResult[scope.$index-1].birthday==0}">{{scope.row.CSRQ||scope.row.dateOfBirthDesc||scope.row.birthday||'-'}}</span>
         </template>
       </el-table-column>
       <el-table-column
         label="证件号码"
         :show-overflow-tooltip="true">
         <template slot-scope="scope">
-          <span :class="{'green':scope.$index-1>-1&&compareResult[scope.$index-1].cnum==1}">{{scope.row.ZJHM||scope.row.CARDNUM||scope.row.cardno||scope.row.cnum||'-'}}</span>
+          <span :class="{'redx':scope.$index-1>-1&&compareResult[scope.$index-1].cnum==0}">{{scope.row.ZJHM||scope.row.CARDNUM||scope.row.cardno||scope.row.cnum||'-'}}</span>
         </template>
       </el-table-column>
       <el-table-column
         label="国籍/地区"
         :show-overflow-tooltip="true">
         <template slot-scope="scope">
-          <span :class="{'green':scope.$index-1>-1&&compareResult[scope.$index-1].nationality==1}">{{scope.row.GJDQDMDESC||scope.row.GJDQDMDESC||scope.row.nationalityDesc||scope.row.nationality||'-'}}</span>
+          <span :class="{'redx':scope.$index-1>-1&&compareResult[scope.$index-1].nationality==0}">{{scope.row.GJDQDMDESC||scope.row.GJDQDMDESC||scope.row.nationalityDesc||scope.row.nationality||'-'}}</span>
         </template>
       </el-table-column>
     </el-table>
@@ -643,46 +697,46 @@
             <el-row class="mb-9">
               <el-col :span="8" class="input-item mb-9">
                 <span class="input-text">人员编号：</span>
-                <el-input placeholder="请输入内容" v-model="tableData.nameList[1].recordnum" size="small" :disabled="true" class="input-input"></el-input>
+                <el-input placeholder="请输入内容" v-model="tableData.NameListFocusEntity.recordnum" size="small" :disabled="true" class="input-input"></el-input>
               </el-col>
               <el-col :span="8" class="input-item mb-9">
                 <span class="input-text">联系方式：</span>
-                <el-input placeholder="请输入内容" v-model="tableData.nameList[1].tel" size="small" :disabled="true" class="input-input"></el-input>
+                <el-input placeholder="请输入内容" v-model="tableData.NameListFocusEntity.tel" size="small" :disabled="true" class="input-input"></el-input>
               </el-col>
               <el-col :span="8" class="input-item mb-9">
                 <span class="input-text">出入事由：</span>
-                <el-input placeholder="请输入内容" v-model="tableData.nameList[1].reason" size="small" :disabled="true" class="input-input"></el-input>
+                <el-input placeholder="请输入内容" v-model="tableData.NameListFocusEntity.reason" size="small" :disabled="true" class="input-input"></el-input>
               </el-col>
               <el-col :span="8" class="input-item mb-9">
                 <span class="input-text">生效时间：</span>
-                <el-input placeholder="请输入内容" v-model="tableData.nameList[1].begindate" size="small" :disabled="true" class="input-input"></el-input>
+                <el-input placeholder="请输入内容" v-model="tableData.NameListFocusEntity.begindate" size="small" :disabled="true" class="input-input"></el-input>
               </el-col>
               <el-col :span="8" class="input-item mb-9">
                 <span class="input-text">失效时间：</span>
-                <el-input placeholder="请输入内容" v-model="tableData.nameList[1].enddate" size="small" :disabled="true" class="input-input"></el-input>
+                <el-input placeholder="请输入内容" v-model="tableData.NameListFocusEntity.enddate" size="small" :disabled="true" class="input-input"></el-input>
               </el-col>
               <el-col :span="8" class="input-item mb-9">
                 <span class="input-text">关注类别：</span>
-                <el-input placeholder="请输入内容" v-model="tableData.nameList[1].type" size="small" :disabled="true" class="input-input"></el-input>
+                <el-input placeholder="请输入内容" v-model="tableData.NameListFocusEntity.type" size="small" :disabled="true" class="input-input"></el-input>
               </el-col>
 
               <el-col :span="8" class="input-item mb-9">
                 <span class="input-text">处理要求：</span>
-                <el-input placeholder="请输入内容" v-model="tableData.nameList[1].dealtype" size="small" :disabled="true" class="input-input"></el-input>
+                <el-input placeholder="请输入内容" v-model="tableData.NameListFocusEntity.dealtype" size="small" :disabled="true" class="input-input"></el-input>
               </el-col>
               <el-col :span="8" class="input-item mb-9">
                 <span class="input-text">关注范围：</span>
-                <el-input placeholder="请输入内容" v-model="tableData.nameList[1].scope" size="small" :disabled="true" class="input-input"></el-input>
+                <el-input placeholder="请输入内容" v-model="tableData.NameListFocusEntity.scope" size="small" :disabled="true" class="input-input"></el-input>
               </el-col>
 
               <el-col :span="8" class="input-item mb-9">
                 <span class="input-text">报列单位：</span>
-                <el-input placeholder="请输入内容" v-model="tableData.nameList[1].reportunit" size="small" :disabled="true" class="input-input"></el-input>
+                <el-input placeholder="请输入内容" v-model="tableData.NameListFocusEntity.reportunit" size="small" :disabled="true" class="input-input"></el-input>
               </el-col>
 
               <el-col :span="24" class="input-item mb-9">
                 <span class="input-text2">关注内容：</span>
-                <el-input placeholder="请输入内容" v-model="tableData.nameList[1].content" size="small" :disabled="true" class="input-input2"></el-input>
+                <el-input placeholder="请输入内容" v-model="tableData.NameListFocusEntity.content" size="small" :disabled="true" class="input-input2"></el-input>
               </el-col>
             </el-row>
           </div>
@@ -770,13 +824,12 @@
         </div>
         <div class="middle mb-2">
           <div class="img-box mb-15">
-            <img :src="imgURLry||imgRydb" alt="" class="mr-20">
-            <img :src="imgURL||imgBkdb" alt="">
+            <img :src="imgURLry" alt="" class="mr-20">
+            <img :src="imgURL" alt="">
 
           </div>
           <div class="btn-succ-box">
-            <el-button type="success" plain class="btn-succ" size="small">比对通过</el-button>
-
+            <el-button type="success" plain class="btn-succ" size="small" @click="compare">比对通过</el-button>
           </div>
         </div>
         <div class="middle res-height">
@@ -806,22 +859,22 @@
     </el-row>
     <el-dialog title="人员照片详情" :visible.sync="photoDialogVisible" width="800px">
       <div class="photoCon">
-        <div class="photoItem" v-for="(i,ind) in photosList">
-          <img :src="i" alt="" style="width:100%" @click="battleRy(i)">
+        <div class="photoItem t-bor" v-for="(i,ind) in photosList" :class="{'ch-img':ryind==ind}">
+          <img :src="i" alt="" style="width:100%" @click="battleRy(i,ind)">
         </div>
       </div>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="photoDialogVisible = false" size="small">取消</el-button>
+        <el-button @click="photoDialogVisible = false" size="small">确定</el-button>
       </div>
     </el-dialog>
     <el-dialog title="布控照片详情" :visible.sync="bkphotoDialogVisible" width="800px">
       <div class="photoCon">
-        <div class="photoItem" v-for="(i,ind) in bkphotosList">
-          <img :src="i" alt="" style="width:100%" @click="battleBk(i)">
+        <div class="photoItem t-bor" v-for="(i,ind) in bkphotosList" :class="{'ch-img':bkind==ind}">
+          <img :src="i" alt="" style="width:100%" @click="battleBk(i,ind)">
         </div>
       </div>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="bkphotoDialogVisible = false" size="small">取消</el-button>
+        <el-button @click="bkphotoDialogVisible = false" size="small">确定</el-button>
       </div>
     </el-dialog>
   </div>
@@ -848,7 +901,9 @@ export default {
      pd1:{},
      tableData:{
        nameList:[],
+       NameListFocusEntity:{},
      },
+     // tableDataGDGZ:{}
      travellerInfo:{},
      compareList:{},
      compareResult:{},
@@ -861,6 +916,9 @@ export default {
      birthday:'',
      name:'',
      gender:'',
+     dn:'',
+     bkind:0,
+     ryind:0,
    }
  },
 
@@ -884,6 +942,7 @@ export default {
    this.birthday = this.$route.query.row.dateofbirth;
    this.name = this.$route.query.row.name;
    this.gender = this.$route.query.row.gender;
+   this.dn = this.$route.query.row.dn;
 
    this.pd1.NameListType=parseInt(this.$route.query.NameListType);
    this.pd1.eventserial=this.$route.query.eventserial;
@@ -897,6 +956,8 @@ export default {
    this.getData();
    this.getBkPhoto();
    this.getRyPhoto();
+   this.getPhotoInfo();
+   console.log('this.tableData.nameList',this.tableData.nameList)
  },
  methods:{
    getBkPhoto(){
@@ -906,6 +967,12 @@ export default {
           this.imgURL = r.data.url||imgUrl;
         }
       })
+     // this.$api.post('/manage-platform/riskRecordController/getFHCXPhotoInf',{passportno:'Z01201903004'},
+     //  r =>{
+     //    if(r.success){
+     //      this.imgURL = r.data.url||imgUrl;
+     //    }
+     //  })
    },
    photoDetail(){
      this.$api.post('/manage-platform/riskRecordController/getFHCXPhotoListInf',{passportno:this.idCard},
@@ -981,11 +1048,47 @@ export default {
         }
      })
    },
-   battleRy(val){
-     this.imgRydb=val;
+   battleRy(val,index){
+     // this.imgRydb=val;
+     this.imgURLry=val;
+     this.ryind=index;
+
    },
-   battleBk(val){
-     this.imgBkdb=val;
+   battleBk(val,index){
+     this.imgURL=val;
+     // this.imgBkdb=val;
+     this.bkind=index;
+   },
+   compare(){//保存比对
+     let p={
+       eventSerial:this.pd1.eventserial,
+       dh:this.dn,
+       ryzp:this.imgURLry,
+       bkzp:this.imgURL,
+     }
+     this.$api.post('/manage-platform/alarmEvents/savePhotoCompare',p,
+      r =>{
+        if(r.success){
+          this.$message({
+            message: '保存成功！',
+            type: 'success'
+          });
+        }
+      })
+   },
+   //获取之前的比对结果
+   getPhotoInfo(){
+     let p={
+       eventSerial:this.pd1.eventserial,
+       dh:this.dn,
+     }
+     this.$api.post('/manage-platform/alarmEvents/getPhotoCompare',p,
+      r =>{
+        if(r.success){
+          this.imgURLry=r.data.RYZP;
+          this.imgURL=r.data.BKZP;
+        }
+      })
    },
    getData(){
      let p={
@@ -998,6 +1101,7 @@ export default {
        r => {
          console.log(r);
          this.tableData=r.data;
+         this.tableData.nameList=[r.data.travellerInfo];
          this.travellerInfo=r.data.travellerInfo;
          this.compareResult=r.data.compareResult;
          this.distinguishInfo=r.data.distinguishInfo

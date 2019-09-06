@@ -29,6 +29,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
       ],
     },
     hot: true,
+    //https: true,
     contentBase: false, // since we use CopyWebpackPlugin.
     compress: true,
     host: HOST || config.dev.host,
@@ -39,11 +40,18 @@ const devWebpackConfig = merge(baseWebpackConfig, {
       : false,
     publicPath: config.dev.assetsPublicPath,
     proxy: config.dev.proxyTable,
+    // proxy:{
+    //   "/queue-admin":{
+    //     target: "https://10.6.126.136:8443",
+    //     secure: false,
+    //   }
+    // },
     quiet: true, // necessary for FriendlyErrorsPlugin
     watchOptions: {
       poll: config.dev.poll,
     }
   },
+  console.log(config.dev.proxyTable)
   plugins: [
     new webpack.DefinePlugin({
       'process.env': require('../config/dev.env')

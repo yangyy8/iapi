@@ -300,6 +300,7 @@
               甄别信息
             </div>
             <el-table
+              class="o-table3"
               :data="listMap2"
               border
               style="width: 100%">
@@ -352,6 +353,15 @@
               <el-table-column
                 prop="compareDesc"
                 label="甄别说明">
+                <template slot-scope="scope">
+                  <el-popover
+                    placement="top-start"
+                    trigger="hover"
+                    popper-class="YymmaxWidth"
+                    :content="scope.row.compareDesc">
+                    <span class="tt-noWrap" slot="reference">{{scope.row.compareDesc}}</span>
+                  </el-popover>
+                </template>
               </el-table-column>
             </el-table>
 
