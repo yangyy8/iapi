@@ -823,6 +823,12 @@ export default new Router({
           name: "RosterTypeManagement",
           component: resolve => require(['@/components/RiskAssessment/Management/RosterTypeManagement'], resolve),
         },
+        //偷渡人员名单
+        {
+          path: "SmugglingManagement",
+          name: "SmugglingManagement",
+          component: resolve => require(['@/components/RiskAssessment/Management/SmugglingManagement'], resolve),
+        },
         //违法违规名单
         {
           path: "RosterManagement2",

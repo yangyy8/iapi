@@ -13,7 +13,14 @@
             <span class="mb-2">综合风险等级</span>
             <el-rate :value="parseInt($route.query.grade)" disabled class="mb-9"></el-rate>
             <el-button type="primary" size="small" class="mb-9" style="width:100%" @click="$router.push({name:'DZDA',query:{gender:$route.query.row.gender,personId:page0Data.personId,ename:$route.query.row.name,birth:$route.query.row.birthday,idcard:$route.query.idcard,nationality:page0Data.nationality,passportno:page0Data.passportno,grade:$route.query.grade,type:1,nav2Id:page0Data.passportno+page0Data.nationality,title:page0Data.name+'电子档案'}})">电子档案</el-button>
-            <el-button type="primary" size="small" class="mb-9" style="width:100%" @click="queryZH">综合查询</el-button>
+
+            <form action="https://10.6.126.136:8443/datasearch/face/persondetail/ca" method="post" target="_blank" class="formBtnF">
+               <input type="hidden" name="certno" :value="page0Data.passportno" >
+               <input type="hidden" name="certtype" :value="page0Data.passportType">
+               <input type="hidden" name="country" :value="page0Data.nationality">
+               <input type="submit" value="综合查询" class="formBtn el-button">
+            </form>
+            <!-- <el-button type="primary" size="small" class="mb-9" style="width:100%" @click="queryZH">综合查询</el-button> -->
             <el-button type="primary" size="small" class="mb-9" style="width:100%">照片比对</el-button>
             <el-button type="success" size="small" class="mb-9" style="width:100%" :disabled="!operation_type" @click="openGdTc(page0Data)">事件归档</el-button>
             <el-button type="primary" size="small" style="width:100%" @click="suspected">疑似关联人</el-button>
@@ -651,8 +658,8 @@
             v-validate-easy="[['required']]">
             <span class="yy-input-text"><font class="yy-color">*</font>处理方式：</span>
             <el-select placeholder="请选择" v-model="pushMform.zdgzryclfs" filterable clearable size="small" class="yy-input-input">
-              <el-option label="移交后台" value="1"></el-option>
-              <el-option label="重点检查" value="2"></el-option>
+              <el-option label="移交后台" value="2"></el-option>
+              <el-option label="重点检查" value="1"></el-option>
             </el-select>
           </el-col>
         </el-row>
@@ -789,6 +796,11 @@
         </el-table-column>
       </el-table>
     </el-dialog>
+    <el-dialog title="综合查询" :visible.sync="ZHDialogVisible" width="1000px" :lock-scroll="false" v-dialogDrag>
+      <div id="zhQuery">
+
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -801,7 +813,7 @@ export default {
 
   data(){
     return{
-
+      ZHDialogVisible:false,
       tableDataSus:[],
       susMDialogVisible:false,
       viewMDialogVisible:false,
@@ -927,13 +939,14 @@ export default {
       //   certtype:this.page0Data.passportType,
       //   country:this.page0Data.nationality,
       // }
-      // this.$api.post('/queue-admin',p,
+      // this.$api.post('https://10.6.126.136:8443/datasearch/face/persondetail/ca',p,
       //  r =>{
-      //
+      //    document.getElementById("zhQuery").innerHTML = r.data;
+      //    this.ZHDialogVisible = true;
       //  })
-      let url="https://10.6.126.136:8443/datasearch/face/persondetail/ca?certno="+this.page0Data.passportno+"&certtype="+this.page0Data.passportType+"&country="+this.page0Data.nationality;
-      console.log('=============',url);
-      window.open(url);
+      // let url="https://10.6.126.136:8443/datasearch/face/persondetail/ca?certno="+this.page0Data.passportno+"&certtype="+this.page0Data.passportType+"&country="+this.page0Data.nationality;
+      // console.log('=============',url);
+      // window.open(url);
     },
     tableRowClassName({row, rowIndex}){
       if(row.isHis=='1'){
@@ -1744,6 +1757,20 @@ export default {
   overflow:hidden;
   text-overflow:ellipsis;
   white-space:nowrap;
+}
+.formBtnF{
+  width:100%;
+  margin-bottom: 9px!important;
+}
+.formBtn{
+  width:100%;
+  margin: 0!important;
+  padding: 9px 15px;
+  font-size: 12px;
+  border-radius: 3px;
+  color: #fff;
+  background-color: #409EFF;
+  border-color: #409EFF;
 }
 </style>
 <style media="screen">

@@ -586,16 +586,16 @@
           min-width="130"
           sortable='custom'
           v-if="checkList.indexOf(checkItem[16].ITEMNAME)>-1">
-          <template slot-scope="scope">
-            <div>
+          <!-- <template slot-scope="scope">
+            <div> -->
               <!-- <span v-if="scope.row.FLIGHTSTATUS==2" class="s1">已预检</span>
               <span v-if="scope.row.FLIGHTSTATUS==1" class="s2">已起飞</span>
               <span v-if="scope.row.FLIGHTSTATUS==0" class="s5">已取消</span>-->
-              <span v-if="scope.row.FLIGHTSTATUS==2" class="s1">正在值机</span>
+              <!-- <span v-if="scope.row.FLIGHTSTATUS==2" class="s1">正在值机</span>
               <span v-if="scope.row.FLIGHTSTATUS==1" class="s2">关闭</span>
               <span v-if="scope.row.FLIGHTSTATUS==0" class="s5">取消</span>
             </div>
-          </template>
+          </template> -->
         </el-table-column>
         <el-table-column
           prop="PASSPORTEXPIREDATE"

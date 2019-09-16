@@ -77,14 +77,14 @@
               <span class="input-text"><i class="t-must">*</i>航班日期：</span>
               <div class="input-input t-flex t-date">
                <el-date-picker
-               v-model="pd.startFlightDepartdate"
+               v-model="pd0.startFlightDepartdate"
                type="date" size="small"
                placeholder="开始时间"
                value-format="yyyyMMdd">
              </el-date-picker>
                <span class="septum">-</span>
              <el-date-picker
-                v-model="pd.endFlightDepartdate"
+                v-model="pd0.endFlightDepartdate"
                 type="date" size="small"
                 placeholder="结束时间"
                 value-format="yyyyMMdd">
@@ -579,6 +579,10 @@ export default {
         startFlightDepartdate:'',
         endFlightDepartdate:'',
       },
+      pd0:{
+        startFlightDepartdate:'',
+        endFlightDepartdate:'',
+      },
       queryDialogVisible: false,
       pnrDialogVisible:false,
       options: [{
@@ -646,8 +650,8 @@ export default {
 
     let flightStart = new Date(new Date().setHours(0,0,0,0));
     let end = new Date();
-    this.pd.startFlightDepartdate=formatDate(flightStart,'yyyyMMdd');
-    this.pd.endFlightDepartdate=formatDate(end,'yyyyMMdd');
+    this.pd0.startFlightDepartdate=formatDate(flightStart,'yyyyMMdd');
+    this.pd0.endFlightDepartdate=formatDate(end,'yyyyMMdd');
     this.queryAirport();
   },
   activated(){
@@ -692,8 +696,8 @@ export default {
       if(this.searchType==0){//当前
         let flightStart = new Date(new Date().setHours(0,0,0,0));
         let end = new Date();
-        this.pd.startFlightDepartdate=formatDate(flightStart,'yyyyMMdd');
-        this.pd.endFlightDepartdate=formatDate(end,'yyyyMMdd');
+        this.pd0.startFlightDepartdate=formatDate(flightStart,'yyyyMMdd');
+        this.pd0.endFlightDepartdate=formatDate(end,'yyyyMMdd');
         this.$message({
           message: '仅能查询近期1个月以内的数据',
           type: 'warning'
@@ -701,8 +705,8 @@ export default {
       }else if(this.searchType==1){//历史
         let begin = new Date(new Date() - 1000 * 60 * 60 * 24 * 30);
         let end =new Date(new Date() - 1000 * 60 * 60 * 24 * 30);
-        this.pd.startFlightDepartdate=formatDate(begin,'yyyyMMdd');
-        this.pd.endFlightDepartdate=formatDate(end,'yyyyMMdd');
+        this.pd0.startFlightDepartdate=formatDate(begin,'yyyyMMdd');
+        this.pd0.endFlightDepartdate=formatDate(end,'yyyyMMdd');
         this.$message({
           message: '仅能查询1个月以前的数据',
           type: 'warning'
@@ -723,6 +727,10 @@ export default {
         startFlightDepartdate:'',
         endFlightDepartdate:'',
       };
+      this.pd0={
+        startFlightDepartdate:'',
+        endFlightDepartdate:'',
+      }
       this.searchType='0';
       // let time = new Date();
       // let endTos = new Date(new Date(new Date().toLocaleDateString()).getTime()+24*60*60*1000-1);
@@ -732,8 +740,8 @@ export default {
 
       let flightStart = new Date(new Date().setHours(0,0,0,0));
       let end = new Date();
-      this.pd.startFlightDepartdate=formatDate(flightStart,'yyyyMMdd');
-      this.pd.endFlightDepartdate=formatDate(end,'yyyyMMdd');
+      this.pd0.startFlightDepartdate=formatDate(flightStart,'yyyyMMdd');
+      this.pd0.endFlightDepartdate=formatDate(end,'yyyyMMdd');
 
       this.$nextTick(()=>{
         let sortArr = this.$refs.sort.$children
@@ -776,25 +784,25 @@ export default {
       console.log(`当前页: ${val}`);
     },
     getList(currentPage, showCount, pd,order,direction) {
-    if((this.pd.startFlightDepartdate!=undefined || this.pd.startFlightDepartdate!=null)
-       && (this.pd.endFlightDepartdate!=undefined || this.pd.endFlightDepartdate!=null))
+    if((this.pd0.startFlightDepartdate!=undefined || this.pd0.startFlightDepartdate!=null)
+       && (this.pd0.endFlightDepartdate!=undefined || this.pd0.endFlightDepartdate!=null))
     {
       let end = new Date(new Date() - 1000 * 60 * 60 * 24 * 30);
       let endTime = formatDate(end,'yyyy-MM-dd')
-      if(this.searchType==0&&(this.pd.startFlightDepartdate<formatDate(end,'yyyyMMdd'))){//当前
+      if(this.searchType==0&&(this.pd0.startFlightDepartdate<formatDate(end,'yyyyMMdd'))){//当前
         this.$alert('“当前查询”的查询日期只能选择一个月内，如需查询一个月前的数据，请在“查询范围”选择“历史查询”！', '提示', {
           confirmButtonText: '确定',
         });
         return false
       }
-      if(this.searchType==1&&(this.pd.endFlightDepartdate>formatDate(end,'yyyyMMdd'))){
+      if(this.searchType==1&&(this.pd0.endFlightDepartdate>formatDate(end,'yyyyMMdd'))){
         this.$alert('“历史查询”的查询日期只能选择一个月前，如需查询一个月内的数据，请在“查询范围”选择“当前查询”！', '提示', {
           confirmButtonText: '确定',
         });
         return false
       }
 
-      if(dayGap(this.pd.startFlightDepartdate,this.pd.endFlightDepartdate,1)>30){
+      if(dayGap(this.pd0.startFlightDepartdate,this.pd0.endFlightDepartdate,1)>30){
         this.$alert('航班日期查询时间间隔不能超过一个月', '提示', {
           confirmButtonText: '确定',
         });
@@ -818,6 +826,8 @@ export default {
     }
       pd.saveflag=1;
       pd.instructNew="1Z";
+      pd.startFlightDepartdate = this.pd0.startFlightDepartdate+'000000';
+      pd.endFlightDepartdate = this.pd0.endFlightDepartdate+'235959';
       let p = {
         "currentPage": currentPage,
         "showCount": showCount,

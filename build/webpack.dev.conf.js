@@ -51,7 +51,6 @@ const devWebpackConfig = merge(baseWebpackConfig, {
       poll: config.dev.poll,
     }
   },
-  console.log(config.dev.proxyTable)
   plugins: [
     new webpack.DefinePlugin({
       'process.env': require('../config/dev.env')

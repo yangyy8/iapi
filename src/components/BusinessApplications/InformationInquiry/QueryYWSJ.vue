@@ -15,6 +15,7 @@
                   <el-option value="-1" label="航班取消"></el-option>
                   <el-option value="2" label="业务规则修改"></el-option>
                   <el-option value="4" label="报警事件"></el-option>
+                  <!-- <el-option value="5" label="关注人员预警"></el-option> -->
                 </el-select>
               </el-col>
 
@@ -71,11 +72,11 @@
                 </div>
               </el-col>
               <div class="" >
-                <el-col :sm="24" :md="12" :lg="8" class="input-item" v-if="pd.type==0||pd.type==4">
+                <el-col :sm="24" :md="12" :lg="8" class="input-item" v-if="pd.type==0||pd.type==4||pd.type==5">
                   <span class="input-text">姓名：</span>
                   <el-input placeholder="请输入内容" v-model="pd.familyname" size="small" class="input-input"></el-input>
                 </el-col>
-                <el-col :sm="24" :md="12" :lg="8" class="input-item" v-if="pd.type==0||pd.type==4">
+                <el-col :sm="24" :md="12" :lg="8" class="input-item" v-if="pd.type==0||pd.type==4||pd.type==5">
                   <span class="input-text">性别：</span>
                   <el-select placeholder="请选择" v-model="pd.genderEqual" size="small" filterable clearable class="input-input">
                     <el-option label="M - 男" value="M"></el-option>
@@ -83,7 +84,7 @@
                     <el-option label="U - 未知" value="U"></el-option>
                   </el-select>
                 </el-col>
-                <el-col :sm="24" :md="12" :lg="8" class="input-item" v-if="pd.type==0||pd.type==4">
+                <el-col :sm="24" :md="12" :lg="8" class="input-item" v-if="pd.type==0||pd.type==4||pd.type==5">
                    <span class="input-text">出生日期：</span>
                    <el-date-picker
                    v-model="pd.dateofbirthEqual"
@@ -94,11 +95,11 @@
                    class="input-input">
                   </el-date-picker>
                 </el-col>
-                <el-col :sm="24" :md="12" :lg="8" class="input-item" v-if="pd.type==0||pd.type==4">
+                <el-col :sm="24" :md="12" :lg="8" class="input-item" v-if="pd.type==0||pd.type==4||pd.type==5">
                   <span class="input-text">证件号码：</span>
                   <el-input placeholder="请输入内容" v-model="pd.passportnoEqual" size="small" class="input-input"></el-input>
                 </el-col>
-                <el-col  :sm="24" :md="12" :lg="8"   class="input-item" v-if="pd.type==0||pd.type==4">
+                <el-col  :sm="24" :md="12" :lg="8"   class="input-item" v-if="pd.type==0||pd.type==4||pd.type==5">
                   <span class="input-text">国籍/地区：</span>
                   <el-select v-model="pd.nationalityEqual" filterable clearable @visible-change="queryNationality" placeholder="请选择"  size="small" class="input-input">
                     <el-option
@@ -109,18 +110,18 @@
                     </el-option>
                   </el-select>
                 </el-col>
-                <el-col  :sm="24" :md="12" :lg="8"  class="input-item" v-if="pd.type==0||pd.type==1||pd.type==-1||pd.type==4">
+                <el-col  :sm="24" :md="12" :lg="8"  class="input-item" v-if="pd.type==0||pd.type==1||pd.type==-1||pd.type==4||pd.type==5">
                   <span class="input-text">出入标识：</span>
                   <el-select v-model="pd.flighttypeEqual"  class="input-input"   filterable clearable  placeholder="请选择"  size="small">
                     <el-option value="I" label="I - 入境"></el-option>
                     <el-option value="O" label="O - 出境"></el-option>
                   </el-select>
                 </el-col>
-                <el-col :sm="24" :md="12" :lg="8" class="input-item" v-if="pd.type==0||pd.type==1||pd.type==-1||pd.type==4">
+                <el-col :sm="24" :md="12" :lg="8" class="input-item" v-if="pd.type==0||pd.type==1||pd.type==-1||pd.type==4||pd.type==5">
                   <span class="input-text">航班号：</span>
                   <el-input placeholder="请输入内容" v-model="pd.fltnoEqual" size="small" class="input-input"></el-input>
                 </el-col>
-                <el-col :sm="24" :md="12" :lg="8" class="input-item " v-if="pd.type==0||pd.type==1||pd.type==-1||pd.type==4">
+                <el-col :sm="24" :md="12" :lg="8" class="input-item " v-if="pd.type==0||pd.type==1||pd.type==-1||pd.type==4||pd.type==5">
                   <span class="input-text">航班日期：</span>
                   <div class="input-input t-flex t-date">
                       <el-date-picker
@@ -142,6 +143,9 @@
                    </el-date-picker>
                   </div>
                 </el-col>
+                <!-- 关注类别
+                处理人
+                处理时间 -->
                 <el-col :sm="24" :md="12" :lg="8" class="input-item" v-if="pd.type==1||pd.type==-1">
                   <span class="input-text">计划起飞机场：</span>
                   <el-select placeholder="请选择" v-model="pd.stationfromEqual" filterable clearable @visible-change="takeOff" size="small" class="input-input">
@@ -1185,7 +1189,7 @@ export default {
           r => {
             if (r.success) {
               this.zlbgDialogVisible = true;
-              this.zform = r.data;
+              this.zform = r.data||{};
             }
           });
       } else if (i.type == "2") { //一般性规则修改

@@ -619,8 +619,8 @@
             v-validate-easy="[['required']]">
             <span class="yy-input-text"><font class="yy-color">*</font>处理方式：</span>
             <el-select placeholder="请选择" v-model="pushMform.zdgzryclfs" filterable clearable size="small" class="yy-input-input">
-              <el-option label="移交后台" value="1"></el-option>
-              <el-option label="重点检查" value="2"></el-option>
+              <el-option label="移交后台" value="2"></el-option>
+              <el-option label="重点检查" value="1"></el-option>
             </el-select>
           </el-col>
         </el-row>

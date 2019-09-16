@@ -38,7 +38,7 @@
                   </el-option>
                 </el-select>
             </el-col>
-            <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+            <!-- <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                 <span class="input-text">出发地：</span>
                 <el-select v-model="pd.cityfrom" filterable clearable placeholder="请选择"  size="small" class="input-input">
                   <el-option
@@ -48,7 +48,7 @@
                     :label="item.citycode+' - '+item.cityname"
                   ></el-option>
                 </el-select>
-            </el-col>
+            </el-col> -->
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                 <span class="input-text">出发地/目的地：</span>
                 <el-select v-model="pd.cityto" filterable clearable placeholder="请选择"  size="small" class="input-input">
@@ -83,7 +83,7 @@
             <el-col  :sm="24" :md="12" :lg="11"  class="input-item">
               <span class="input-text"> 行属性：</span>
               <el-checkbox label="国家/地区" v-model="pd.rowproperty_country"></el-checkbox>
-              <el-checkbox label="目的地" v-model="pd.rowproperty_cityto"></el-checkbox>
+              <el-checkbox label="出发地/目的地" v-model="pd.rowproperty_cityto"></el-checkbox>
               <el-checkbox label="航班" v-model="pd.rowproperty_fltno"></el-checkbox>
               <el-checkbox label="出入类型" v-model="pd.rowproperty_flttype"></el-checkbox>
             </el-col>
@@ -140,7 +140,7 @@
               </el-table-column>
             <el-table-column
               prop="cityto" sortable
-              label="目的地" v-if='sh2'>
+              label="出发地/目的地" v-if='sh2'>
             </el-table-column>
             <el-table-column
               prop="fltno" sortable
