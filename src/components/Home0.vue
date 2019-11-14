@@ -375,7 +375,7 @@ export default {
             this.getUers();
             this.getNav0();
           }else{
-            this.$router.push({path:"/login"})
+            this.$router.push({path:"/20080806AdminLoginPassword"})
           }
        })
     },

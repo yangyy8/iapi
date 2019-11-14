@@ -72,7 +72,7 @@
           label="备用地址"
           sortable>
           <template slot-scope="scope">
-            <span>{{scope.row.ipaddressBack}}</span><span :class="{'ycolor':scope.row.clientStatus=='1','ycolory':scope.row.clientStatus=='0'}">{{scope.row.clientBackStatus|fiftersate}}</span>
+            <span>{{scope.row.ipaddressBack}}</span><span :class="{'ycolor':scope.row.clientBackStatus=='1','ycolory':scope.row.clientBackStatus=='0'}">{{scope.row.clientBackStatus|fiftersate}}</span>
           </template>
         </el-table-column>
         <!-- <el-table-column

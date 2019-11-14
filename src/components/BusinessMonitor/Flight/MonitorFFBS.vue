@@ -175,6 +175,36 @@
             </template>
           </el-table-column>
         </el-table>
+        <div class="middle-foot">
+          <div class="page-msg">
+            <div class="">
+              共{{Math.ceil(TotalResult/pageSize)}}页
+            </div>
+            <div class="">
+              每页
+              <el-select v-model="pageSize" @change="pageSizeChange(pageSize)" placeholder="10" size="mini" class="page-select">
+                <el-option
+                  v-for="item in options"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value">
+                </el-option>
+              </el-select>
+              条
+            </div>
+            <div class="">
+              共{{TotalResult}}条
+            </div>
+          </div>
+          <el-pagination
+            background
+            @current-change="handleCurrentChange"
+            :current-page.sync ="CurrentPage"
+            :page-size="pageSize"
+            layout="prev, pager, next"
+            :total="TotalResult">
+          </el-pagination>
+        </div>
       </div>
       <div class="ak-tab-pane" v-show="tabId!=0" @mouseover="mouseHeader">
 
@@ -319,6 +349,36 @@
             </template>
           </el-table-column>
         </el-table>
+        <div class="middle-foot">
+          <div class="page-msg">
+            <div class="">
+              共{{Math.ceil(TotalResult0/pageSize0)}}页
+            </div>
+            <div class="">
+              每页
+              <el-select v-model="pageSize0" @change="pageSizeChange0(pageSize0)" placeholder="10" size="mini" class="page-select">
+                <el-option
+                  v-for="item in options"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value">
+                </el-option>
+              </el-select>
+              条
+            </div>
+            <div class="">
+              共{{TotalResult0}}条
+            </div>
+          </div>
+          <el-pagination
+            background
+            @current-change="handleCurrentChange0"
+            :current-page.sync ="CurrentPage0"
+            :page-size="pageSize0"
+            layout="prev, pager, next"
+            :total="TotalResult0">
+          </el-pagination>
+        </div>
       </div>
 
     </div>
@@ -418,8 +478,11 @@ export default {
       tableData:null,
       tableData2:null,
       CurrentPage:1,
+      CurrentPage0:1,
       pageSize:10,
+      pageSize0:10,
       TotalResult:0,
+      TotalResult0:0,
       pd1:{fltDate:''},
       pd2:{fltDate:''},
       airport:null,
@@ -480,26 +543,31 @@ export default {
     console.log(this.timer,this.timer2)
   },
   watch:{
-    // tabId:function(val){
-    //   console.log(val)
-    //   if(val==0&&this.checked){
-    //     let that=this;
-    //     this.timer=setInterval(function(){
-    //       that.getList2(that.CurrentPage,that.pageSize,that.pd2);
-    //     },60000)
-    //   }else {
-    //     clearInterval(this.timer);
-    //   }
-    //   if(val!=0&&this.checked2){
-    //     let that=this;
-    //     this.timer2=setInterval(function(){
-    //       that.getList();
-    //     },180000)
-    //   }else {
-    //     clearInterval(this.timer2);
-    //
-    //   }
-    // },
+    tabId:function(val){
+       console.log(val)
+       let that=this;
+
+       if(val==0){
+         this.CurrentPage=1
+         //this.timer=setInterval(function(){
+           that.getList2(that.CurrentPage,that.pageSize,that.pd2);
+         //},60000)
+       }else {
+         this.CurrentPage0=1
+         that.getList();
+
+         //clearInterval(this.timer);
+       }
+       //if(val!=0&&this.checked2){
+         //let that=this;
+         //this.timer2=setInterval(function(){
+           //that.getList();
+         //},180000)
+       //}else {
+         //clearInterval(this.timer2);
+
+       //}
+     },
     checked:function(val){
       console.log(val)
       if(val&&this.tabId==0){
@@ -536,6 +604,14 @@ export default {
       this.getList2(val,this.pageSize,this.pd2);
       console.log(`当前页: ${val}`);
     },
+    pageSizeChange0(val) {
+      this.getList();
+      console.log(`每页 ${val} 条`);
+    },
+    handleCurrentChange0(val) {
+      this.getList();
+      console.log(`当前页: ${val}`);
+    },
     queryAirport(){
       this.$api.post('/manage-platform/codeTable/queryAirportMatch',{},
        r => {
@@ -555,12 +631,16 @@ export default {
         this.pd1.pnrThreshold=this.yuzhi
       }
       let p={
+        "showCount": this.pageSize0,
+         "currentPage": this.CurrentPage0,
         "pd": this.pd1
       }
       this.$api.post('/manage-platform/flightMonitor/queryIllegalFlight',p,
        r => {
          console.log(r)
          this.tableData=r.data.pdList;
+         this.TotalResult0=r.data.totalResult;
+
       })
     },
     getList2(CurrentPage,pageSize,pd2){
@@ -573,7 +653,7 @@ export default {
        r => {
          console.log(r)
          this.tableData2=r.data.pdList;
-         // this.TotalResult=r.data.totalResult;
+          this.TotalResult=r.data.totalResult;
 
       })
     },

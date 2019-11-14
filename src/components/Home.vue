@@ -393,14 +393,14 @@ export default {
 
 
 
-      console.log('this.dlType',this.dlType);
-      console.log(window.location.href.indexOf('login')!=-1);
+      // console.log('this.dlType',this.dlType);
+      // console.log(window.location.href.indexOf('login')!=-1);
       // this.loginType=sessionStorage.getItem('loginType');
-      console.log(this.loginType)
-      if(!(window.location.href.indexOf('/login')!=-1)&&(this.dlType==1)&&(loginType!=1)){
+      // console.log(this.loginType)
+      if(!(window.location.href.indexOf('/20080806AdminLoginPassword')!=-1)&&(this.dlType==1)&&(loginType!=1)){
         //alert('无效')
 
-        this.$alert('无效登录======1'+window.location.href+this.loginType+this.dlType, '温馨提示', {
+        this.$alert('无效登录', '温馨提示', {
         confirmButtonText: '确定',
         type: 'warning',
         callback: action => {

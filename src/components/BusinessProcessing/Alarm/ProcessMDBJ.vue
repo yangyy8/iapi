@@ -161,8 +161,8 @@
           :total="TotalResult">
         </el-pagination>
       </div>
-
     </div>
+    <audio src="../../../assets/music.mp3" id="music"></audio>
   </div>
 </template>
 
@@ -227,6 +227,10 @@ export default {
     // this.getList(this.CurrentPage,this.pageSize,this.pd);
   },
   activated(){
+    var audio= document.getElementById('music');
+    // var aa=audio.play();
+    // console.log('audio',audio,aa);
+
     this.btnctlFn(this.$root.checkItem);
     // this.CurrentPage=1,
     // this.pageSize=10,
@@ -239,6 +243,12 @@ export default {
     let _this=this;
     this.timer=setInterval(function(){
       _this.getList(_this.CurrentPage,_this.pageSize,_this.pd,_this.orders,_this.direction);
+      if(_this.tableData.length!=0){
+        // console.log('111111')
+        setTimeout(function(){
+          audio.play();
+        },50000)
+      }
     },5000)
   },
   deactivated(){

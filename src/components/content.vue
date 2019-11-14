@@ -679,7 +679,7 @@ export default {
         if(loginType==0){
           this.$router.push('/')
         }else if(loginType==1){
-          this.$router.push('/login')
+          this.$router.push('/20080806AdminLoginPassword')
         }
       })
     },
